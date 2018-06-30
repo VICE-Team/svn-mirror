@@ -4913,15 +4913,15 @@ static long math_div (long a, long b)
 }
 
 /* Helper */
-void
-VteTerminalPrivate::extend_selection_expand()
+void VteTerminalPrivate::extend_selection_expand()
 {
     long i, j;
     const VteCell *cell;
     VteVisualPosition *sc, *ec;
 
-    if (m_selection_block_mode)
+    if (m_selection_block_mode) {
         return;
+    }
 
     sc = &m_selection_start;
     ec = &m_selection_end;
@@ -4936,25 +4936,26 @@ VteTerminalPrivate::extend_selection_expand()
         /* Find the last non-empty character on the first line. */
         for (i = _vte_row_data_length (rowdata); i > 0; i--) {
             cell = _vte_row_data_get (rowdata, i - 1);
-            if (cell->attr.fragment() || cell->c != 0)
+            if (cell->attr.fragment() || cell->c != 0) {
                 break;
+            }
         }
     } else {
-                i = 0;
+        i = 0;
     }
-        if (sc->col > i) {
-                if (m_selection_type == selection_type_char) {
-                        /* If the start point is neither over the used cells, nor over the first
-                         * unused one, then move it to the next line. This way you can still start
-                         * selecting at the newline character by clicking over the first unused cell.
-                         * See bug 725909. */
-                        sc->col = -1;
-                        sc->row++;
-                } else if (m_selection_type == selection_type_word) {
-                        sc->col = i;
-                }
+    if (sc->col > i) {
+        if (m_selection_type == selection_type_char) {
+           /* If the start point is neither over the used cells, nor over the first
+            * unused one, then move it to the next line. This way you can still start
+            * selecting at the newline character by clicking over the first unused cell.
+            * See bug 725909. */
+            sc->col = -1;
+            sc->row++;
+        } else if (m_selection_type == selection_type_word) {
+            sc->col = i;
         }
-        sc->col = find_start_column(sc->col, sc->row);
+    }
+    sc->col = find_start_column(sc->col, sc->row);
 
     /* Handle end-of-line at the end-cell. */
     rowdata = find_row_data(ec->row);
@@ -4962,8 +4963,9 @@ VteTerminalPrivate::extend_selection_expand()
         /* Find the last non-empty character on the last line. */
         for (i = _vte_row_data_length (rowdata); i > 0; i--) {
             cell = _vte_row_data_get (rowdata, i - 1);
-            if (cell->attr.fragment() || cell->c != 0)
+            if (cell->attr.fragment() || cell->c != 0) {
                 break;
+            }
         }
         /* If the end point is to its right, then extend the
          * endpoint to the beginning of the next row. */
@@ -4983,144 +4985,120 @@ VteTerminalPrivate::extend_selection_expand()
 
     /* Now extend again based on selection type. */
     switch (m_selection_type) {
-    case selection_type_char:
-        /* Nothing more to do. */
-        break;
-    case selection_type_word:
-        /* Keep selecting to the left as long as the next character we
-         * look at is of the same class as the current start point. */
-        i = sc->col;
-        j = sc->row;
-        while (_vte_ring_contains (m_screen->row_data, j)) {
-            /* Get the data for the row we're looking at. */
-            rowdata = _vte_ring_index(m_screen->row_data, j);
-            if (rowdata == NULL) {
-                break;
-            }
-            /* Back up. */
-            for (i = (j == sc->row) ?
-                 sc->col :
-                 m_column_count;
-                 i > 0;
-                 i--) {
-                if (is_same_class(
-                           i - 1,
-                           j,
-                           i,
-                           j)) {
-                    sc->col = i - 1;
-                    sc->row = j;
-                } else {
+        case selection_type_char:
+            /* Nothing more to do. */
+            break;
+        case selection_type_word:
+            /* Keep selecting to the left as long as the next character we
+            * look at is of the same class as the current start point. */
+            i = sc->col;
+            j = sc->row;
+            while (_vte_ring_contains (m_screen->row_data, j)) {
+                /* Get the data for the row we're looking at. */
+                rowdata = _vte_ring_index(m_screen->row_data, j);
+                if (rowdata == NULL) {
                     break;
                 }
-            }
-            if (i > 0) {
-                /* We hit a stopping point, so stop. */
-                break;
-            } else {
-                if (line_is_wrappable(j - 1) &&
-                    is_same_class(
-                           m_column_count - 1,
-                           j - 1,
-                           0,
-                           j)) {
-                    /* Move on to the previous line. */
-                    j--;
-                    sc->col = m_column_count - 1;
-                    sc->row = j;
+                /* Back up. */
+                for (i = (j == sc->row) ? sc->col : m_column_count; i > 0; i--) {
+                    if (is_same_class(i - 1, j, i, j)) {
+                        sc->col = i - 1;
+                        sc->row = j;
+                    } else {
+                        break;
+                    }
+                }
+                if (i > 0) {
+                    /* We hit a stopping point, so stop. */
+                    break;
                 } else {
+                    if (line_is_wrappable(j - 1) && is_same_class(m_column_count - 1,
+                                                                    j - 1,
+                                                                    0,
+                                                                    j)) {
+                        /* Move on to the previous line. */
+                        j--;
+                        sc->col = m_column_count - 1;
+                        sc->row = j;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            /* Keep selecting to the right as long as the next character we
+            * look at is of the same class as the current end point. */
+            i = ec->col;
+            j = ec->row;
+            while (_vte_ring_contains (m_screen->row_data, j)) {
+                /* Get the data for the row we're looking at. */
+                rowdata = _vte_ring_index(m_screen->row_data, j);
+                if (rowdata == NULL) {
                     break;
                 }
-            }
-        }
-        /* Keep selecting to the right as long as the next character we
-         * look at is of the same class as the current end point. */
-        i = ec->col;
-        j = ec->row;
-        while (_vte_ring_contains (m_screen->row_data, j)) {
-            /* Get the data for the row we're looking at. */
-            rowdata = _vte_ring_index(m_screen->row_data, j);
-            if (rowdata == NULL) {
-                break;
-            }
-            /* Move forward. */
-            for (i = (j == ec->row) ?
-                 ec->col :
-                 0;
-                 i < m_column_count - 1;
-                 i++) {
-                if (is_same_class(
-                           i,
-                           j,
-                           i + 1,
-                           j)) {
-                    ec->col = i + 1;
-                    ec->row = j;
-                } else {
+                /* Move forward. */
+                for (i = (j == ec->row) ? ec->col : 0; i < m_column_count - 1; i++) {
+                    if (is_same_class(i, j, i + 1, j)) {
+                        ec->col = i + 1;
+                        ec->row = j;
+                    } else {
+                        break;
+                    }
+                }
+                if (i < m_column_count - 1) {
+                    /* We hit a stopping point, so stop. */
                     break;
-                }
-            }
-            if (i < m_column_count - 1) {
-                /* We hit a stopping point, so stop. */
-                break;
-            } else {
-                if (line_is_wrappable(j) &&
-                    is_same_class(
-                           m_column_count - 1,
-                           j,
-                           0,
-                           j + 1)) {
-                    /* Move on to the next line. */
-                    j++;
-                    ec->col = 0;
-                    ec->row = j;
                 } else {
-                    break;
+                    if (line_is_wrappable(j) && is_same_class(
+                                                                m_column_count - 1,
+                                                                j,
+                                                                0,
+                                                                j + 1)) {
+                        /* Move on to the next line. */
+                        j++;
+                        ec->col = 0;
+                        ec->row = j;
+                    } else {
+                        break;
+                    }
                 }
             }
-        }
-        break;
-    case selection_type_line:
-        /* Extend the selection to the beginning of the start line. */
-        sc->col = 0;
-        /* Now back up as far as we can go. */
-        j = sc->row;
-        while (_vte_ring_contains (m_screen->row_data, j - 1) &&
-               line_is_wrappable(j - 1)) {
-            j--;
-            sc->row = j;
-        }
-        /* And move forward as far as we can go. */
-                if (ec->col < 0) {
-                        /* If triple clicking on an unused area, ec already points
-                         * to the beginning of the next line after the second click.
-                         * Go back to the actual row we're at. See bug 725909. */
-                        ec->row--;
-                }
-        j = ec->row;
-        while (_vte_ring_contains (m_screen->row_data, j) &&
-               line_is_wrappable(j)) {
-            j++;
-            ec->row = j;
-        }
-        /* Make sure we include all of the last line by extending
-         * to the beginning of the next line. */
-        ec->row++;
-        ec->col = -1;
-        break;
+            break;
+        case selection_type_line:
+            /* Extend the selection to the beginning of the start line. */
+            sc->col = 0;
+            /* Now back up as far as we can go. */
+            j = sc->row;
+            while (_vte_ring_contains (m_screen->row_data, j - 1) && line_is_wrappable(j - 1)) {
+                j--;
+                sc->row = j;
+            }
+            /* And move forward as far as we can go. */
+            if (ec->col < 0) {
+               /* If triple clicking on an unused area, ec already points
+                * to the beginning of the next line after the second click.
+                * Go back to the actual row we're at. See bug 725909. */
+                ec->row--;
+            }
+            j = ec->row;
+            while (_vte_ring_contains (m_screen->row_data, j) &&
+                line_is_wrappable(j)) {
+                j++;
+                ec->row = j;
+            }
+            /* Make sure we include all of the last line by extending
+            * to the beginning of the next line. */
+            ec->row++;
+            ec->col = -1;
+            break;
     }
 }
 
 /* Extend selection to include the given event coordinates. */
-void
-VteTerminalPrivate::extend_selection(long x,
-                                     long y,
-                                     bool always_grow,
-                                     bool force)
+void VteTerminalPrivate::extend_selection(long x, long y, bool always_grow, bool force)
 {
     long residual;
     long row;
-        vte::view::coords *origin, *last, *start, *end;
+    vte::view::coords *origin, *last, *start, *end;
     VteVisualPosition old_start, old_end, *sc, *ec, *so, *eo;
     gboolean invalidate_selected = FALSE;
     gboolean had_selection;
@@ -5161,8 +5139,9 @@ VteTerminalPrivate::extend_selection(long x,
         last->y = scroll_delta_pixel() + y;
 
         /* We don't support always_grow in block mode */
-        if (always_grow)
+        if (always_grow) {
             invalidate_selection();
+        }
 
         if (origin->y <= last->y) {
             /* The origin point is "before" the last point. */
@@ -5248,9 +5227,10 @@ VteTerminalPrivate::extend_selection(long x,
 
     if (!invalidate_selected && !force &&
         0 == memcmp (sc, so, sizeof (*sc)) &&
-        0 == memcmp (ec, eo, sizeof (*ec)))
+        0 == memcmp (ec, eo, sizeof (*ec))) {
         /* No change */
         return;
+    }
 
     /* Invalidate */
 
@@ -5291,38 +5271,40 @@ VteTerminalPrivate::extend_selection(long x,
             /* Update the selection area diff in non-block mode. */
 
             /* The before band */
-            if (sc->row < so->row)
+            if (sc->row < so->row) {
                 invalidate_region(
                             sc->col, so->col - 1,
                             sc->row, so->row,
                             false);
-            else if (sc->row > so->row)
+            } else if (sc->row > so->row) {
                 invalidate_region(
                             so->col, sc->col - 1,
                             so->row, sc->row,
                             false);
-            else
+            } else {
                 invalidate_region(
                             MIN(sc->col, so->col), MAX(sc->col, so->col) - 1,
                             sc->row, sc->row,
                             true);
+            }
 
             /* The after band */
-            if (ec->row < eo->row)
+            if (ec->row < eo->row) {
                 invalidate_region(
                             ec->col + 1, eo->col,
                             ec->row, eo->row,
                             false);
-            else if (ec->row > eo->row)
+            } else if (ec->row > eo->row) {
                 invalidate_region(
                             eo->col + 1, ec->col,
                             eo->row, ec->row,
                             false);
-            else
+            } else {
                 invalidate_region(
                             MIN(ec->col, eo->col) + 1, MAX(ec->col, eo->col),
                             ec->row, ec->row,
                             true);
+            }
         }
     }
 
@@ -5342,8 +5324,7 @@ VteTerminalPrivate::extend_selection(long x,
  *
  * Selects all text within the terminal (including the scrollback buffer).
  */
-void
-VteTerminalPrivate::select_all()
+void VteTerminalPrivate::select_all()
 {
     deselect_all();
 
@@ -5358,17 +5339,16 @@ VteTerminalPrivate::select_all()
 
     _vte_debug_print(VTE_DEBUG_SELECTION, "Selecting *all* text.\n");
 
-        widget_copy(VTE_SELECTION_PRIMARY, VTE_FORMAT_TEXT);
+    widget_copy(VTE_SELECTION_PRIMARY, VTE_FORMAT_TEXT);
     emit_selection_changed();
 
     invalidate_all();
 }
 
 /* Autoscroll a bit. */
-static gboolean
-vte_terminal_autoscroll_cb(VteTerminalPrivate *that)
+static gboolean vte_terminal_autoscroll_cb(VteTerminalPrivate *that)
 {
-        return that->autoscroll() ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
+    return that->autoscroll() ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
 }
 
 /*
@@ -5376,8 +5356,7 @@ vte_terminal_autoscroll_cb(VteTerminalPrivate *that)
  *
  * Returns: %true to continue autoscrolling, %false to stop
  */
-bool
-VteTerminalPrivate::autoscroll()
+bool VteTerminalPrivate::autoscroll()
 {
     bool extend = false;
     long x, y, xmax, ymax;
@@ -5403,7 +5382,7 @@ VteTerminalPrivate::autoscroll()
         _vte_debug_print(VTE_DEBUG_EVENTS, "Autoscrolling up.\n");
     }
     if (extend) {
-                // FIXMEchpe use confine_view_coords here
+        /* FIXMEchpe use confine_view_coords here */
         /* Don't select off-screen areas.  That just confuses people. */
         xmax = m_column_count * m_cell_width;
         ymax = m_row_count * m_cell_height;
@@ -5419,7 +5398,7 @@ VteTerminalPrivate::autoscroll()
             x = m_column_count * m_cell_width;
         }
         /* Extend selection to cover the newly-scrolled area. */
-                extend_selection(x, y, false, true);
+        extend_selection(x, y, false, true);
     } else {
         /* Stop autoscrolling. */
         m_mouse_autoscroll_tag = 0;
@@ -5428,39 +5407,38 @@ VteTerminalPrivate::autoscroll()
 }
 
 /* Start autoscroll. */
-void
-VteTerminalPrivate::start_autoscroll()
+void VteTerminalPrivate::start_autoscroll()
 {
-    if (m_mouse_autoscroll_tag != 0)
-                return;
+    if (m_mouse_autoscroll_tag != 0) {
+        return;
+    }
 
-        m_mouse_autoscroll_tag =
-                g_timeout_add_full(G_PRIORITY_LOW,
-                                   666 / m_row_count, // FIXME WTF?
-                                   (GSourceFunc)vte_terminal_autoscroll_cb,
-                                   this,
-                                   NULL);// FIXME make sure m_mouse_autoscroll_tag is nulled!
+    m_mouse_autoscroll_tag =
+            g_timeout_add_full(G_PRIORITY_LOW,
+                                666 / m_row_count, /* FIXME WTF? */
+                                (GSourceFunc)vte_terminal_autoscroll_cb,
+                                this,
+                                NULL);/* FIXME make sure m_mouse_autoscroll_tag is nulled! */
 }
 
 /* Stop autoscroll. */
-void
-VteTerminalPrivate::stop_autoscroll()
+void VteTerminalPrivate::stop_autoscroll()
 {
-    if (m_mouse_autoscroll_tag == 0)
-                return;
+    if (m_mouse_autoscroll_tag == 0) {
+        return;
+    }
 
-        g_source_remove(m_mouse_autoscroll_tag);
-        m_mouse_autoscroll_tag = 0;
+    g_source_remove(m_mouse_autoscroll_tag);
+    m_mouse_autoscroll_tag = 0;
 }
 
-bool
-VteTerminalPrivate::widget_motion_notify(GdkEventMotion *event)
+bool VteTerminalPrivate::widget_motion_notify(GdkEventMotion *event)
 {
     bool handled = false;
 
-        GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
-        auto pos = view_coords_from_event(base_event);
-        auto rowcol = grid_coords_from_view_coords(pos);
+    GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
+    auto pos = view_coords_from_event(base_event);
+    auto rowcol = grid_coords_from_view_coords(pos);
 
     _vte_debug_print(VTE_DEBUG_EVENTS,
                          "Motion notify %s %s\n",
@@ -5469,268 +5447,256 @@ VteTerminalPrivate::widget_motion_notify(GdkEventMotion *event)
     read_modifiers(base_event);
 
     switch (event->type) {
-    case GDK_MOTION_NOTIFY:
-        if (m_selecting_after_threshold) {
-            if (!gtk_drag_check_threshold (m_widget,
-                               m_mouse_last_position.x,
-                               m_mouse_last_position.y,
-                               pos.x, pos.y))
-                return true;
+        case GDK_MOTION_NOTIFY:
+            if (m_selecting_after_threshold) {
+                if (!gtk_drag_check_threshold (m_widget,
+                                m_mouse_last_position.x,
+                                m_mouse_last_position.y,
+                                pos.x, pos.y)) {
+                    return true;
+                }
 
-            start_selection(m_mouse_last_position.x,
-                                        m_mouse_last_position.y,
-                                        selection_type_char);
-        }
-
-        if (m_selecting &&
-                    (m_mouse_handled_buttons & 1) != 0) {
-            _vte_debug_print(VTE_DEBUG_EVENTS, "Mousing drag 1.\n");
-            extend_selection(pos.x, pos.y, false, false);
-
-            /* Start scrolling if we need to. */
-            if (pos.y < 0 || pos.y >= m_view_usable_extents.height()) {
-                /* Give mouse wigglers something. */
-                                stop_autoscroll();
-                autoscroll();
-                /* Start a timed autoscroll if we're not doing it
-                 * already. */
-                start_autoscroll();
+                start_selection(m_mouse_last_position.x, m_mouse_last_position.y,
+                                            selection_type_char);
             }
 
-            handled = true;
-        }
+            if (m_selecting && (m_mouse_handled_buttons & 1) != 0) {
+                _vte_debug_print(VTE_DEBUG_EVENTS, "Mousing drag 1.\n");
+                extend_selection(pos.x, pos.y, false, false);
 
-        if (!handled && m_input_enabled)
-            maybe_send_mouse_drag(rowcol, event->type);
-        break;
-    default:
-        break;
+                /* Start scrolling if we need to. */
+                if (pos.y < 0 || pos.y >= m_view_usable_extents.height()) {
+                    /* Give mouse wigglers something. */
+                    stop_autoscroll();
+                    autoscroll();
+                    /* Start a timed autoscroll if we're not doing it
+                    * already. */
+                    start_autoscroll();
+                }
+
+                handled = true;
+            }
+
+            if (!handled && m_input_enabled) {
+                maybe_send_mouse_drag(rowcol, event->type);
+            }
+            break;
+        default:
+            break;
     }
 
-        if (pos != m_mouse_last_position) {
-                m_mouse_last_position = pos;
+    if (pos != m_mouse_last_position) {
+        m_mouse_last_position = pos;
 
-                set_pointer_autohidden(false);
-                hyperlink_hilite_update();
-#ifndef NO_PCRE
-                match_hilite_update();
-#endif
-        }
+        set_pointer_autohidden(false);
+        hyperlink_hilite_update();
+    }
 
     return handled;
 }
 
-bool
-VteTerminalPrivate::widget_button_press(GdkEventButton *event)
+bool VteTerminalPrivate::widget_button_press(GdkEventButton *event)
 {
     bool handled = false;
     gboolean start_selecting = FALSE, extend_selecting = FALSE;
 
-        GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
-        auto pos = view_coords_from_event(base_event);
-        auto rowcol = grid_coords_from_view_coords(pos);
+    GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
+    auto pos = view_coords_from_event(base_event);
+    auto rowcol = grid_coords_from_view_coords(pos);
 
     read_modifiers(base_event);
 
     switch (event->type) {
-    case GDK_BUTTON_PRESS:
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                                 "Button %d single-click at %s\n",
-                                 event->button,
-                                 rowcol.to_string());
-        /* Handle this event ourselves. */
-        switch (event->button) {
-        case 1:
+        case GDK_BUTTON_PRESS:
             _vte_debug_print(VTE_DEBUG_EVENTS,
-                    "Handling click ourselves.\n");
-            /* Grab focus. */
-            if (!gtk_widget_has_focus(m_widget)) {
-                gtk_widget_grab_focus(m_widget);
-            }
+                                    "Button %d single-click at %s\n",
+                                    event->button,
+                                    rowcol.to_string());
+            /* Handle this event ourselves. */
+            switch (event->button) {
+                case 1:
+                    _vte_debug_print(VTE_DEBUG_EVENTS, "Handling click ourselves.\n");
+                    /* Grab focus. */
+                    if (!gtk_widget_has_focus(m_widget)) {
+                        gtk_widget_grab_focus(m_widget);
+                    }
 
-            /* If we're in event mode, and the user held down the
-             * shift key, we start selecting. */
-            if (m_mouse_tracking_mode) {
-                if (m_modifiers & GDK_SHIFT_MASK) {
-                    start_selecting = TRUE;
-                }
-            } else {
-                /* If the user hit shift, then extend the
-                 * selection instead. */
-                if ((m_modifiers & GDK_SHIFT_MASK) &&
-                    (m_has_selection ||
-                     m_selecting_restart) &&
-                    !cell_is_selected(rowcol.column(),
-                                                      rowcol.row())) {
-                    extend_selecting = TRUE;
+                    /* If we're in event mode, and the user held down the
+                    * shift key, we start selecting. */
+                    if (m_mouse_tracking_mode) {
+                        if (m_modifiers & GDK_SHIFT_MASK) {
+                            start_selecting = TRUE;
+                        }
+                    } else {
+                        /* If the user hit shift, then extend the
+                        * selection instead. */
+                        if ((m_modifiers & GDK_SHIFT_MASK) &&
+                            (m_has_selection ||
+                            m_selecting_restart) &&
+                            !cell_is_selected(rowcol.column(), rowcol.row())) {
+                            extend_selecting = TRUE;
+                        } else {
+                            start_selecting = TRUE;
+                        }
+                    }
+                    if (start_selecting) {
+                        deselect_all();
+                        m_selecting_after_threshold = TRUE;
+                        m_selection_block_mode = !!(m_modifiers & GDK_CONTROL_MASK);
+                        handled = true;
+                    }
+                    if (extend_selecting) {
+                        extend_selection(pos.x, pos.y, !m_selecting_restart, true);
+                        /* The whole selection code needs to be
+                        * rewritten.  For now, put this here to
+                        * fix bug 614658 */
+                        m_selecting = TRUE;
+                        handled = true;
+                    }
+                    break;
+                /* Paste if the user pressed shift or we're not sending events
+                * to the app. */
+                case 2:
+                    if ((m_modifiers & GDK_SHIFT_MASK) ||
+                        !m_mouse_tracking_mode) {
+                        gboolean do_paste;
+
+                        g_object_get (gtk_widget_get_settings(m_widget),
+                                    "gtk-enable-primary-paste",
+                                    &do_paste, nullptr);
+                        if (do_paste) {
+                            widget_paste(GDK_SELECTION_PRIMARY);
+                        }
+                        handled = do_paste;
+                    }
+                    break;
+                case 3:
+                default:
+                    break;
+            }
+            if (event->button >= 1 && event->button <= 3) {
+                if (handled) {
+                    m_mouse_handled_buttons |= (1 << (event->button - 1));
                 } else {
-                    start_selecting = TRUE;
+                    m_mouse_handled_buttons &= ~(1 << (event->button - 1));
                 }
             }
-            if (start_selecting) {
-                deselect_all();
-                m_selecting_after_threshold = TRUE;
-                                m_selection_block_mode = !!(m_modifiers & GDK_CONTROL_MASK);
-                handled = true;
-            }
-            if (extend_selecting) {
-                extend_selection(pos.x, pos.y, !m_selecting_restart, true);
-                /* The whole selection code needs to be
-                 * rewritten.  For now, put this here to
-                 * fix bug 614658 */
-                m_selecting = TRUE;
-                handled = true;
+            /* If we haven't done anything yet, try sending the mouse
+            * event to the app. */
+            if (handled == FALSE) {
+                handled = maybe_send_mouse_button(rowcol, event->type, event->button);
             }
             break;
-        /* Paste if the user pressed shift or we're not sending events
-         * to the app. */
-        case 2:
-            if ((m_modifiers & GDK_SHIFT_MASK) ||
-                !m_mouse_tracking_mode) {
-                                gboolean do_paste;
-
-                                g_object_get (gtk_widget_get_settings(m_widget),
-                                              "gtk-enable-primary-paste",
-                                              &do_paste, nullptr);
-                                if (do_paste)
-                                        widget_paste(GDK_SELECTION_PRIMARY);
-                handled = do_paste;
+        case GDK_2BUTTON_PRESS:
+            _vte_debug_print(VTE_DEBUG_EVENTS,
+                                    "Button %d double-click at %s\n",
+                                    event->button,
+                                    rowcol.to_string());
+            switch (event->button) {
+                case 1:
+                    if (m_selecting_after_threshold) {
+                        start_selection(pos.x, pos.y, selection_type_char);
+                        handled = true;
+                    }
+                    if ((m_mouse_handled_buttons & 1) != 0) {
+                        start_selection(pos.x, pos.y, selection_type_word);
+                        handled = true;
+                    }
+                    break;
+                case 2:
+                case 3:
+                default:
+                    break;
             }
             break;
-        case 3:
+        case GDK_3BUTTON_PRESS:
+            _vte_debug_print(VTE_DEBUG_EVENTS,
+                                    "Button %d triple-click at %s\n",
+                                    event->button,
+                                    rowcol.to_string());
+            switch (event->button) {
+                case 1:
+                    if ((m_mouse_handled_buttons & 1) != 0) {
+                        start_selection(pos.x, pos.y, selection_type_line);
+                        handled = true;
+                    }
+                    break;
+                case 2:
+                case 3:
+                default:
+                    break;
+            }
         default:
             break;
-        }
-                if (event->button >= 1 && event->button <= 3) {
-                        if (handled)
-                                m_mouse_handled_buttons |= (1 << (event->button - 1));
-                        else
-                                m_mouse_handled_buttons &= ~(1 << (event->button - 1));
-                }
-        /* If we haven't done anything yet, try sending the mouse
-         * event to the app. */
-        if (handled == FALSE) {
-            handled = maybe_send_mouse_button(rowcol, event->type, event->button);
-        }
-        break;
-    case GDK_2BUTTON_PRESS:
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                                 "Button %d double-click at %s\n",
-                                 event->button,
-                                 rowcol.to_string());
-        switch (event->button) {
-        case 1:
-            if (m_selecting_after_threshold) {
-                start_selection(pos.x, pos.y,
-                                                selection_type_char);
-                handled = true;
-            }
-                        if ((m_mouse_handled_buttons & 1) != 0) {
-                start_selection(pos.x, pos.y,
-                                                selection_type_word);
-                handled = true;
-            }
-            break;
-        case 2:
-        case 3:
-        default:
-            break;
-        }
-        break;
-    case GDK_3BUTTON_PRESS:
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                                 "Button %d triple-click at %s\n",
-                                 event->button,
-                                 rowcol.to_string());
-        switch (event->button) {
-        case 1:
-                        if ((m_mouse_handled_buttons & 1) != 0) {
-                start_selection(pos.x, pos.y,
-                                                selection_type_line);
-                handled = true;
-            }
-            break;
-        case 2:
-        case 3:
-        default:
-            break;
-        }
-    default:
-        break;
     }
 
     /* Save the pointer state for later use. */
-        if (event->button >= 1 && event->button <= 3)
-                m_mouse_pressed_buttons |= (1 << (event->button - 1));
+    if (event->button >= 1 && event->button <= 3) {
+        m_mouse_pressed_buttons |= (1 << (event->button - 1));
+    }
 
     m_mouse_last_position = pos;
 
-        set_pointer_autohidden(false);
-        hyperlink_hilite_update();
-#ifndef NO_PCRE
-        match_hilite_update();
-#endif
+    set_pointer_autohidden(false);
+    hyperlink_hilite_update();
 
     return handled;
 }
 
-bool
-VteTerminalPrivate::widget_button_release(GdkEventButton *event)
+bool VteTerminalPrivate::widget_button_release(GdkEventButton *event)
 {
     bool handled = false;
 
-        GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
-        auto pos = view_coords_from_event(base_event);
-        auto rowcol = grid_coords_from_view_coords(pos);
+    GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
+    auto pos = view_coords_from_event(base_event);
+    auto rowcol = grid_coords_from_view_coords(pos);
 
     stop_autoscroll();
 
     read_modifiers(base_event);
 
     switch (event->type) {
-    case GDK_BUTTON_RELEASE:
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                                 "Button %d released at %s\n",
-                                 event->button, rowcol.to_string());
-        switch (event->button) {
-        case 1:
-                        if ((m_mouse_handled_buttons & 1) != 0)
-                                handled = maybe_end_selection();
+        case GDK_BUTTON_RELEASE:
+            _vte_debug_print(VTE_DEBUG_EVENTS,
+                                    "Button %d released at %s\n",
+                                    event->button, rowcol.to_string());
+            switch (event->button) {
+                case 1:
+                    if ((m_mouse_handled_buttons & 1) != 0) {
+                            handled = maybe_end_selection();
+                    }
+                    break;
+                case 2:
+                    handled = (m_mouse_handled_buttons & 2) != 0;
+                    m_mouse_handled_buttons &= ~2;
+                    break;
+                case 3:
+                default:
+                    break;
+            }
+            if (!handled && m_input_enabled) {
+                handled = maybe_send_mouse_button(rowcol, event->type, event->button);
+            }
             break;
-        case 2:
-                        handled = (m_mouse_handled_buttons & 2) != 0;
-                        m_mouse_handled_buttons &= ~2;
-            break;
-        case 3:
         default:
             break;
-        }
-        if (!handled && m_input_enabled) {
-            handled = maybe_send_mouse_button(rowcol, event->type, event->button);
-        }
-        break;
-    default:
-        break;
     }
 
     /* Save the pointer state for later use. */
-        if (event->button >= 1 && event->button <= 3)
-                m_mouse_pressed_buttons &= ~(1 << (event->button - 1));
+    if (event->button >= 1 && event->button <= 3) {
+            m_mouse_pressed_buttons &= ~(1 << (event->button - 1));
+    }
 
     m_mouse_last_position = pos;
     m_selecting_after_threshold = false;
 
-        set_pointer_autohidden(false);
-        hyperlink_hilite_update();
-#ifndef NO_PCRE
-        match_hilite_update();
-#endif
+    set_pointer_autohidden(false);
+    hyperlink_hilite_update();
 
     return handled;
 }
 
-void
-VteTerminalPrivate::widget_focus_in(GdkEventFocus *event)
+void VteTerminalPrivate::widget_focus_in(GdkEventFocus *event)
 {
     _vte_debug_print(VTE_DEBUG_EVENTS, "Focus in.\n");
 
@@ -5745,24 +5711,23 @@ VteTerminalPrivate::widget_focus_in(GdkEventFocus *event)
         m_cursor_blink_state = TRUE;
         m_has_focus = TRUE;
 
-                /* If blinking gets enabled now, do a full repaint.
-                 * If blinking gets disabled, only repaint if there's blinking stuff present
-                 * (we could further optimize by checking its current phase). */
-                if (m_text_blink_mode == VTE_TEXT_BLINK_FOCUSED ||
-                    (m_text_blink_mode == VTE_TEXT_BLINK_UNFOCUSED && m_text_blink_tag != 0)) {
-                        invalidate_all();
-                }
+       /* If blinking gets enabled now, do a full repaint.
+        * If blinking gets disabled, only repaint if there's blinking stuff present
+        * (we could further optimize by checking its current phase). */
+        if (m_text_blink_mode == VTE_TEXT_BLINK_FOCUSED ||
+            (m_text_blink_mode == VTE_TEXT_BLINK_UNFOCUSED && m_text_blink_tag != 0)) {
+            invalidate_all();
+        }
 
         check_cursor_blink();
 
         gtk_im_context_focus_in(m_im_context);
         invalidate_cursor_once();
-                maybe_feed_focus_event(true);
+        maybe_feed_focus_event(true);
     }
 }
 
-void
-VteTerminalPrivate::widget_focus_out(GdkEventFocus *event)
+void VteTerminalPrivate::widget_focus_out(GdkEventFocus *event)
 {
     _vte_debug_print(VTE_DEBUG_EVENTS, "Focus out.\n");
 
@@ -5772,70 +5737,61 @@ VteTerminalPrivate::widget_focus_out(GdkEventFocus *event)
     /* We only have an IM context when we're realized, and there's not much
      * point to painting ourselves if we don't have a window. */
     if (widget_realized()) {
-                maybe_feed_focus_event(false);
+        maybe_feed_focus_event(false);
 
         maybe_end_selection();
 
-                /* If blinking gets enabled now, do a full repaint.
-                 * If blinking gets disabled, only repaint if there's blinking stuff present
-                 * (we could further optimize by checking its current phase). */
-                if (m_text_blink_mode == VTE_TEXT_BLINK_UNFOCUSED ||
-                    (m_text_blink_mode == VTE_TEXT_BLINK_FOCUSED && m_text_blink_tag != 0)) {
-                        invalidate_all();
-                }
+        /* If blinking gets enabled now, do a full repaint.
+            * If blinking gets disabled, only repaint if there's blinking stuff present
+            * (we could further optimize by checking its current phase). */
+        if (m_text_blink_mode == VTE_TEXT_BLINK_UNFOCUSED ||
+            (m_text_blink_mode == VTE_TEXT_BLINK_FOCUSED && m_text_blink_tag != 0)) {
+            invalidate_all();
+        }
 
         gtk_im_context_focus_out(m_im_context);
         invalidate_cursor_once();
 
-                m_mouse_pressed_buttons = 0;
-                m_mouse_handled_buttons = 0;
+        m_mouse_pressed_buttons = 0;
+        m_mouse_handled_buttons = 0;
     }
 
     m_has_focus = false;
     check_cursor_blink();
 }
 
-void
-VteTerminalPrivate::widget_enter(GdkEventCrossing *event)
+void VteTerminalPrivate::widget_enter(GdkEventCrossing *event)
 {
-        GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
-        auto pos = view_coords_from_event(base_event);
+    GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
+    auto pos = view_coords_from_event(base_event);
 
     _vte_debug_print(VTE_DEBUG_EVENTS, "Enter at %s\n", pos.to_string());
 
-        m_mouse_cursor_over_widget = TRUE;
-        m_mouse_last_position = pos;
+    m_mouse_cursor_over_widget = TRUE;
+    m_mouse_last_position = pos;
 
-        set_pointer_autohidden(false);
-        hyperlink_hilite_update();
-#ifndef NO_PCRE
-        match_hilite_update();
-#endif
-        apply_mouse_cursor();
+    set_pointer_autohidden(false);
+    hyperlink_hilite_update();
+    apply_mouse_cursor();
 }
 
-void
-VteTerminalPrivate::widget_leave(GdkEventCrossing *event)
+void VteTerminalPrivate::widget_leave(GdkEventCrossing *event)
 {
-        GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
-        auto pos = view_coords_from_event(base_event);
+    GdkEvent* base_event = reinterpret_cast<GdkEvent*>(event);
+    auto pos = view_coords_from_event(base_event);
 
     _vte_debug_print(VTE_DEBUG_EVENTS, "Leave at %s\n", pos.to_string());
 
-        m_mouse_cursor_over_widget = FALSE;
-        m_mouse_last_position = pos;
+    m_mouse_cursor_over_widget = FALSE;
+    m_mouse_last_position = pos;
 
-        hyperlink_hilite_update();
-#ifndef NO_PCRE
-        match_hilite_update();
-#endif
-        apply_mouse_cursor();
+    hyperlink_hilite_update();
+    apply_mouse_cursor();
 }
 
-static G_GNUC_UNUSED inline const char *
-visibility_state_str(GdkVisibilityState state)
+static G_GNUC_UNUSED inline const char *visibility_state_str(GdkVisibilityState state)
 {
-    switch(state){
+    switch(state) {
         case GDK_VISIBILITY_FULLY_OBSCURED:
             return "fully-obscured";
         case GDK_VISIBILITY_UNOBSCURED:
@@ -5855,61 +5811,60 @@ visibility_state_str(GdkVisibilityState state)
  * Extra line spacing is typically 0, beef up cell_height_scale to get actual pixels
  * here. Similarly, increase cell_width_scale to get nonzero char_spacing.{left,right}.
  */
-void
-VteTerminalPrivate::apply_font_metrics(int cell_width,
-                                       int cell_height,
-                                       int char_ascent,
-                                       int char_descent,
-                                       GtkBorder char_spacing)
+void VteTerminalPrivate::apply_font_metrics(int cell_width,
+                                            int cell_height,
+                                            int char_ascent,
+                                            int char_descent,
+                                            GtkBorder char_spacing)
 {
-        int char_height;
+    int char_height;
     bool resize = false, cresize = false;
 
     /* Sanity check for broken font changes. */
-        cell_width = MAX(cell_width, 1);
-        cell_height = MAX(cell_height, 2);
-        char_ascent = MAX(char_ascent, 1);
-        char_descent = MAX(char_descent, 1);
+    cell_width = MAX(cell_width, 1);
+    cell_height = MAX(cell_height, 2);
+    char_ascent = MAX(char_ascent, 1);
+    char_descent = MAX(char_descent, 1);
 
-        /* For convenience only. */
-        char_height = char_ascent + char_descent;
+    /* For convenience only. */
+    char_height = char_ascent + char_descent;
 
     /* Change settings, and keep track of when we've changed anything. */
-        if (cell_width != m_cell_width) {
+    if (cell_width != m_cell_width) {
         resize = cresize = true;
-                m_cell_width = cell_width;
+        m_cell_width = cell_width;
     }
-        if (cell_height != m_cell_height) {
+    if (cell_height != m_cell_height) {
         resize = cresize = true;
-                m_cell_height = cell_height;
+        m_cell_height = cell_height;
     }
-        if (char_ascent != m_char_ascent) {
+    if (char_ascent != m_char_ascent) {
         resize = true;
-                m_char_ascent = char_ascent;
+        m_char_ascent = char_ascent;
     }
-        if (char_descent != m_char_descent) {
+    if (char_descent != m_char_descent) {
         resize = true;
-                m_char_descent = char_descent;
+        m_char_descent = char_descent;
     }
-        if (memcmp(&char_spacing, &m_char_padding, sizeof(GtkBorder)) != 0) {
-                resize = true;
-                m_char_padding = char_spacing;
-        }
-        m_line_thickness = MAX (MIN (char_descent / 2, char_height / 14), 1);
-        /* FIXME take these from pango_font_metrics_get_{underline,strikethrough}_{position,thickness} */
-        m_underline_thickness = m_line_thickness;
-        m_underline_position = MIN (char_spacing.top + char_ascent + m_line_thickness, cell_height - m_underline_thickness);
-        m_double_underline_thickness = m_line_thickness;
-        /* FIXME make sure this doesn't reach the baseline (switch to thinner lines, or one thicker line in that case) */
-        m_double_underline_position = MIN (char_spacing.top + char_ascent + m_line_thickness, cell_height - 3 * m_double_underline_thickness);
-        m_undercurl_thickness = m_line_thickness;
-        m_undercurl_position = MIN (char_spacing.top + char_ascent + m_line_thickness, cell_height - _vte_draw_get_undercurl_height(cell_width, m_undercurl_thickness));
-        m_strikethrough_thickness = m_line_thickness;
-        m_strikethrough_position = char_spacing.top + char_ascent - char_height / 4;
-        m_overline_thickness = m_line_thickness;
-        m_overline_position = char_spacing.top;  /* FIXME */
-        m_regex_underline_thickness = 1;  /* FIXME */
-        m_regex_underline_position = char_spacing.top + char_height - m_regex_underline_thickness;  /* FIXME */
+    if (memcmp(&char_spacing, &m_char_padding, sizeof(GtkBorder)) != 0) {
+        resize = true;
+        m_char_padding = char_spacing;
+    }
+    m_line_thickness = MAX (MIN (char_descent / 2, char_height / 14), 1);
+    /* FIXME take these from pango_font_metrics_get_{underline,strikethrough}_{position,thickness} */
+    m_underline_thickness = m_line_thickness;
+    m_underline_position = MIN (char_spacing.top + char_ascent + m_line_thickness, cell_height - m_underline_thickness);
+    m_double_underline_thickness = m_line_thickness;
+    /* FIXME make sure this doesn't reach the baseline (switch to thinner lines, or one thicker line in that case) */
+    m_double_underline_position = MIN (char_spacing.top + char_ascent + m_line_thickness, cell_height - 3 * m_double_underline_thickness);
+    m_undercurl_thickness = m_line_thickness;
+    m_undercurl_position = MIN (char_spacing.top + char_ascent + m_line_thickness, cell_height - _vte_draw_get_undercurl_height(cell_width, m_undercurl_thickness));
+    m_strikethrough_thickness = m_line_thickness;
+    m_strikethrough_position = char_spacing.top + char_ascent - char_height / 4;
+    m_overline_thickness = m_line_thickness;
+    m_overline_position = char_spacing.top;  /* FIXME */
+    m_regex_underline_thickness = 1;  /* FIXME */
+    m_regex_underline_position = char_spacing.top + char_height - m_regex_underline_thickness;  /* FIXME */
 
     /* Queue a resize if anything's changed. */
     if (resize) {
@@ -5925,8 +5880,7 @@ VteTerminalPrivate::apply_font_metrics(int cell_width,
     invalidate_all();
 }
 
-void
-VteTerminalPrivate::ensure_font()
+void VteTerminalPrivate::ensure_font()
 {
     if (m_draw != NULL) {
         /* Load default fonts, if no fonts have been loaded. */
@@ -5934,54 +5888,51 @@ VteTerminalPrivate::ensure_font()
             set_font_desc(m_unscaled_font_desc);
         }
         if (m_fontdirty) {
-                        int cell_width, cell_height;
-                        int char_ascent, char_descent;
-                        GtkBorder char_spacing;
+            int cell_width, cell_height;
+            int char_ascent, char_descent;
+            GtkBorder char_spacing;
             m_fontdirty = FALSE;
-            _vte_draw_set_text_font (m_draw,
-                                                 m_widget,
-                                                 m_fontdesc,
-                                                 m_cell_width_scale,
-                                                 m_cell_height_scale);
+            _vte_draw_set_text_font (m_draw, m_widget, m_fontdesc, 
+                                     m_cell_width_scale, m_cell_height_scale);
             _vte_draw_get_text_metrics (m_draw,
-                                                    &cell_width, &cell_height,
-                                                    &char_ascent, &char_descent,
-                                                    &char_spacing);
-                        apply_font_metrics(cell_width, cell_height,
-                                           char_ascent, char_descent,
-                                           char_spacing);
+                                        &cell_width, &cell_height,
+                                        &char_ascent, &char_descent,
+                                        &char_spacing);
+            apply_font_metrics(cell_width, cell_height,
+                                char_ascent, char_descent,
+                                char_spacing);
         }
     }
 }
 
-void
-VteTerminalPrivate::update_font()
+void VteTerminalPrivate::update_font()
 {
-        /* We'll get called again later */
-        if (m_unscaled_font_desc == nullptr)
-                return;
+    /* We'll get called again later */
+    if (m_unscaled_font_desc == nullptr) {
+        return;
+    }
 
-        auto desc = pango_font_description_copy(m_unscaled_font_desc);
+    auto desc = pango_font_description_copy(m_unscaled_font_desc);
 
-        double size = pango_font_description_get_size(desc);
-        if (pango_font_description_get_size_is_absolute(desc)) {
-                pango_font_description_set_absolute_size(desc, m_font_scale * size);
-        } else {
-                pango_font_description_set_size(desc, m_font_scale * size);
-        }
+    double size = pango_font_description_get_size(desc);
+    if (pango_font_description_get_size_is_absolute(desc)) {
+        pango_font_description_set_absolute_size(desc, m_font_scale * size);
+    } else {
+        pango_font_description_set_size(desc, m_font_scale * size);
+    }
 
-        if (m_fontdesc) {
-                pango_font_description_free(m_fontdesc);
-        }
-        m_fontdesc = desc;
+    if (m_fontdesc) {
+        pango_font_description_free(m_fontdesc);
+    }
+    m_fontdesc = desc;
 
-        m_fontdirty = TRUE;
-        m_has_fonts = TRUE;
+    m_fontdirty = TRUE;
+    m_has_fonts = TRUE;
 
-        /* Set the drawing font. */
-        if (widget_realized()) {
-                ensure_font();
-        }
+    /* Set the drawing font. */
+    if (widget_realized()) {
+        ensure_font();
+    }
 }
 
 /*
@@ -5994,17 +5945,16 @@ VteTerminalPrivate::update_font()
  * metrics, and attempt to resize itself to keep the same number of rows
  * and columns.  The font scale is applied to the specified font.
  */
-bool
-VteTerminalPrivate::set_font_desc(PangoFontDescription const* font_desc)
+bool VteTerminalPrivate::set_font_desc(PangoFontDescription const* font_desc)
 {
     /* Create an owned font description. */
-        PangoFontDescription *desc;
+    PangoFontDescription *desc;
 
-        auto context = gtk_widget_get_style_context(m_widget);
-        gtk_style_context_save(context);
-        gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
-        gtk_style_context_get(context, GTK_STATE_FLAG_NORMAL, "font", &desc, nullptr);
-        gtk_style_context_restore(context);
+    auto context = gtk_widget_get_style_context(m_widget);
+    gtk_style_context_save(context);
+    gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
+    gtk_style_context_get(context, GTK_STATE_FLAG_NORMAL, "font", &desc, nullptr);
+    gtk_style_context_restore(context);
 
     pango_font_description_set_family_static (desc, "monospace");
     if (font_desc != nullptr) {
@@ -6022,8 +5972,8 @@ VteTerminalPrivate::set_font_desc(PangoFontDescription const* font_desc)
                 "Using default monospace font.\n");
     }
 
-        bool same_desc = m_unscaled_font_desc &&
-                pango_font_description_equal(m_unscaled_font_desc, desc);
+    bool same_desc = m_unscaled_font_desc &&
+            pango_font_description_equal(m_unscaled_font_desc, desc);
 
     /* Note that we proceed to recreating the font even if the description
      * are the same.  This is because maybe screen
@@ -6036,99 +5986,79 @@ VteTerminalPrivate::set_font_desc(PangoFontDescription const* font_desc)
         pango_font_description_free(m_unscaled_font_desc);
     }
 
-        m_unscaled_font_desc = desc /* adopted */;
+    m_unscaled_font_desc = desc /* adopted */;
 
-        update_font();
+    update_font();
 
-        return !same_desc;
+    return !same_desc;
 }
 
-bool
-VteTerminalPrivate::set_font_scale(gdouble scale)
+bool VteTerminalPrivate::set_font_scale(gdouble scale)
 {
-        /* FIXME: compare old and new scale in pixel space */
-        if (_vte_double_equal(scale, m_font_scale))
-                return false;
-
-        m_font_scale = scale;
-        update_font();
-
-        return true;
-}
-
-bool
-VteTerminalPrivate::set_cell_width_scale(double scale)
-{
-        /* FIXME: compare old and new scale in pixel space */
-        if (_vte_double_equal(scale, m_cell_width_scale))
-                return false;
-
-        m_cell_width_scale = scale;
-        /* Set the drawing font. */
-        m_fontdirty = TRUE;
-        if (widget_realized()) {
-                ensure_font();
-        }
-
-        return true;
-}
-
-bool
-VteTerminalPrivate::set_cell_height_scale(double scale)
-{
-        /* FIXME: compare old and new scale in pixel space */
-        if (_vte_double_equal(scale, m_cell_height_scale))
-                return false;
-
-        m_cell_height_scale = scale;
-        /* Set the drawing font. */
-        m_fontdirty = TRUE;
-        if (widget_realized()) {
-                ensure_font();
-        }
-
-        return true;
-}
-
-#if 0
-/* Read and refresh our perception of the size of the PTY. */
-void
-VteTerminalPrivate::refresh_size()
-{
-        if (!m_pty)
-                return;
-
-    int rows, columns;
-        if (vte_pty_get_size(m_pty, &rows, &columns, NULL)) {
-                m_row_count = rows;
-                m_column_count = columns;
-        } else {
-                /* Error reading PTY size, use defaults */
-                m_row_count = VTE_ROWS;
-                m_column_count = VTE_COLUMNS;
+    /* FIXME: compare old and new scale in pixel space */
+    if (_vte_double_equal(scale, m_font_scale)) {
+        return false;
     }
+
+    m_font_scale = scale;
+    update_font();
+
+    return true;
 }
-#endif
+
+bool VteTerminalPrivate::set_cell_width_scale(double scale)
+{
+    /* FIXME: compare old and new scale in pixel space */
+    if (_vte_double_equal(scale, m_cell_width_scale)) {
+        return false;
+    }
+
+    m_cell_width_scale = scale;
+    /* Set the drawing font. */
+    m_fontdirty = TRUE;
+    if (widget_realized()) {
+        ensure_font();
+    }
+
+    return true;
+}
+
+bool VteTerminalPrivate::set_cell_height_scale(double scale)
+{
+    /* FIXME: compare old and new scale in pixel space */
+    if (_vte_double_equal(scale, m_cell_height_scale)) {
+        return false;
+    }
+
+    m_cell_height_scale = scale;
+    /* Set the drawing font. */
+    m_fontdirty = TRUE;
+    if (widget_realized()) {
+        ensure_font();
+    }
+
+    return true;
+}
 
 /* Resize the given screen (normal or alternate) of the terminal. */
-void
-VteTerminalPrivate::screen_set_size(VteScreen *screen_,
-                                    long old_columns,
-                                    long old_rows,
-                                    bool do_rewrap)
+void VteTerminalPrivate::screen_set_size(VteScreen *screen_,
+                                            long old_columns,
+                                            long old_rows,
+                                            bool do_rewrap)
 {
     VteRing *ring = screen_->row_data;
     VteVisualPosition cursor_saved_absolute;
     VteVisualPosition below_viewport;
     VteVisualPosition below_current_paragraph;
     VteVisualPosition *markers[7];
-        gboolean was_scrolled_to_top = ((long) ceil(screen_->scroll_delta) == _vte_ring_delta(ring));
-        gboolean was_scrolled_to_bottom = ((long) screen_->scroll_delta == screen_->insert_delta);
+    gboolean was_scrolled_to_top = ((long) ceil(screen_->scroll_delta) == _vte_ring_delta(ring));
+    gboolean was_scrolled_to_bottom = ((long) screen_->scroll_delta == screen_->insert_delta);
     glong old_top_lines;
     double new_scroll_delta;
 
-        if (m_selection_block_mode && do_rewrap && old_columns != m_column_count)
-                deselect_all();
+    if (m_selection_block_mode && do_rewrap && old_columns != m_column_count) {
+        deselect_all();
+    }
 
     _vte_debug_print(VTE_DEBUG_RESIZE,
             "Resizing %s screen_\n"
@@ -6137,35 +6067,36 @@ VteTerminalPrivate::screen_set_size(VteScreen *screen_,
             "     cursor_saved (relative to insert_delta)  row=%ld  col=%ld\n",
             screen_ == &m_normal_screen ? "normal" : "alternate",
             screen_->insert_delta, screen_->scroll_delta,
-                        screen_->cursor.row, screen_->cursor.col,
-                        screen_->saved.cursor.row, screen_->saved.cursor.col);
+            screen_->cursor.row, screen_->cursor.col,
+            screen_->saved.cursor.row, screen_->saved.cursor.col);
 
-        cursor_saved_absolute.row = screen_->saved.cursor.row + screen_->insert_delta;
-        cursor_saved_absolute.col = screen_->saved.cursor.col;
+    cursor_saved_absolute.row = screen_->saved.cursor.row + screen_->insert_delta;
+    cursor_saved_absolute.col = screen_->saved.cursor.col;
     below_viewport.row = screen_->scroll_delta + old_rows;
     below_viewport.col = 0;
-        below_current_paragraph.row = screen_->cursor.row + 1;
+    below_current_paragraph.row = screen_->cursor.row + 1;
     while (below_current_paragraph.row < _vte_ring_next(ring)
         && _vte_ring_index(ring, below_current_paragraph.row - 1)->attr.soft_wrapped) {
         below_current_paragraph.row++;
     }
     below_current_paragraph.col = 0;
-        memset(&markers, 0, sizeof(markers));
-        markers[0] = &cursor_saved_absolute;
-        markers[1] = &below_viewport;
-        markers[2] = &below_current_paragraph;
-        markers[3] = &screen_->cursor;
-        if (m_has_selection) {
-                /* selection_end is inclusive, make it non-inclusive, see bug 722635. */
-                m_selection_end.col++;
-                markers[4] = &m_selection_start;
-                markers[5] = &m_selection_end;
+    memset(&markers, 0, sizeof(markers));
+    markers[0] = &cursor_saved_absolute;
+    markers[1] = &below_viewport;
+    markers[2] = &below_current_paragraph;
+    markers[3] = &screen_->cursor;
+    if (m_has_selection) {
+        /* selection_end is inclusive, make it non-inclusive, see bug 722635. */
+        m_selection_end.col++;
+        markers[4] = &m_selection_start;
+        markers[5] = &m_selection_end;
     }
 
     old_top_lines = below_current_paragraph.row - screen_->insert_delta;
 
-    if (do_rewrap && old_columns != m_column_count)
+    if (do_rewrap && old_columns != m_column_count) {
         _vte_ring_rewrap(ring, m_column_count, markers);
+    }
 
     if (_vte_ring_length(ring) > m_row_count) {
         /* The content won't fit without scrollbars. Before figuring out the position, we might need to
@@ -6197,21 +6128,18 @@ VteTerminalPrivate::screen_set_size(VteScreen *screen_,
         /* Everything fits without scrollbars. Align at top. */
         screen_->insert_delta = _vte_ring_delta(ring);
         new_scroll_delta = screen_->insert_delta;
-        _vte_debug_print(VTE_DEBUG_RESIZE,
-                "Everything fits without scrollbars\n");
+        _vte_debug_print(VTE_DEBUG_RESIZE, "Everything fits without scrollbars\n");
     } else {
         /* Scrollbar required. Can't afford unused lines at bottom. */
         screen_->insert_delta = _vte_ring_next(ring) - m_row_count;
         if (was_scrolled_to_bottom) {
             /* Was scrolled to bottom, keep this way. */
             new_scroll_delta = screen_->insert_delta;
-            _vte_debug_print(VTE_DEBUG_RESIZE,
-                    "Scroll to bottom\n");
+            _vte_debug_print(VTE_DEBUG_RESIZE, "Scroll to bottom\n");
         } else if (was_scrolled_to_top) {
             /* Was scrolled to top, keep this way. Not sure if this special case is worth it. */
             new_scroll_delta = _vte_ring_delta(ring);
-            _vte_debug_print(VTE_DEBUG_RESIZE,
-                    "Scroll to top\n");
+            _vte_debug_print(VTE_DEBUG_RESIZE, "Scroll to top\n");
         } else {
             /* Try to scroll so that the bottom visible row stays.
                More precisely, the character below the bottom left corner stays in that
@@ -6223,8 +6151,7 @@ VteTerminalPrivate::screen_set_size(VteScreen *screen_,
             new_scroll_delta = below_viewport.row - m_row_count;
             /* Keep the old fractional part. */
             new_scroll_delta += screen_->scroll_delta - floor(screen_->scroll_delta);
-            _vte_debug_print(VTE_DEBUG_RESIZE,
-                    "Scroll so bottom row stays\n");
+            _vte_debug_print(VTE_DEBUG_RESIZE, "Scroll so bottom row stays\n");
         }
     }
 
@@ -6241,15 +6168,14 @@ VteTerminalPrivate::screen_set_size(VteScreen *screen_,
                         screen_->cursor.row, screen_->cursor.col,
                         screen_->saved.cursor.row, screen_->saved.cursor.col);
 
-    if (screen_ == m_screen)
+    if (screen_ == m_screen) {
         queue_adjustment_value_changed(new_scroll_delta);
-    else
+    } else {
         screen_->scroll_delta = new_scroll_delta;
+    }
 }
 
-void
-VteTerminalPrivate::set_size(long columns,
-                             long rows)
+void VteTerminalPrivate::set_size(long columns, long rows)
 {
     glong old_columns, old_rows;
 
@@ -6259,44 +6185,31 @@ VteTerminalPrivate::set_size(long columns,
 
     old_rows = m_row_count;
     old_columns = m_column_count;
-#if 0
-    if (m_pty != NULL) {
-                GError *error = NULL;
-
-        /* Try to set the terminal size, and read it back,
-         * in case something went awry.
-                 */
-        if (!vte_pty_set_size(m_pty, rows, columns, &error)) {
-            g_warning("%s\n", error->message);
-                        g_error_free(error);
-        }
-        refresh_size();
-    } else
-#endif
     {
         m_row_count = rows;
         m_column_count = columns;
     }
     if (old_rows != m_row_count || old_columns != m_column_count) {
-                m_scrolling_restricted = FALSE;
+        m_scrolling_restricted = FALSE;
 
-                _vte_ring_set_visible_rows(m_normal_screen.row_data, m_row_count);
-                _vte_ring_set_visible_rows(m_alternate_screen.row_data, m_row_count);
+        _vte_ring_set_visible_rows(m_normal_screen.row_data, m_row_count);
+        _vte_ring_set_visible_rows(m_alternate_screen.row_data, m_row_count);
 
         /* Resize the normal screen and (if rewrapping is enabled) rewrap it even if the alternate screen is visible: bug 415277 */
         screen_set_size(&m_normal_screen, old_columns, old_rows, m_rewrap_on_resize);
         /* Resize the alternate screen if it's the current one, but never rewrap it: bug 336238 comment 60 */
-        if (m_screen == &m_alternate_screen)
+        if (m_screen == &m_alternate_screen) {
             screen_set_size(&m_alternate_screen, old_columns, old_rows, false);
+        }
 
-                /* Ensure scrollback buffers cover the screen. */
-                set_scrollback_lines(m_scrollback_lines);
+        /* Ensure scrollback buffers cover the screen. */
+        set_scrollback_lines(m_scrollback_lines);
 
-                /* Ensure the cursor is valid */
-                m_screen->cursor.row = CLAMP (m_screen->cursor.row,
-                                              _vte_ring_delta (m_screen->row_data),
-                                              MAX (_vte_ring_delta (m_screen->row_data),
-                                                   _vte_ring_next (m_screen->row_data) - 1));
+        /* Ensure the cursor is valid */
+        m_screen->cursor.row = CLAMP (m_screen->cursor.row,
+                                        _vte_ring_delta (m_screen->row_data),
+                                        MAX (_vte_ring_delta (m_screen->row_data),
+                                            _vte_ring_next (m_screen->row_data) - 1));
 
         adjust_adjustments_full();
         gtk_widget_queue_resize_no_redraw(m_widget);
@@ -6306,14 +6219,12 @@ VteTerminalPrivate::set_size(long columns,
 }
 
 /* Redraw the widget. */
-static void
-vte_terminal_vadjustment_value_changed_cb(VteTerminalPrivate *that)
+static void vte_terminal_vadjustment_value_changed_cb(VteTerminalPrivate *that)
 {
-        that->vadjustment_value_changed();
+    that->vadjustment_value_changed();
 }
 
-void
-VteTerminalPrivate::vadjustment_value_changed()
+void VteTerminalPrivate::vadjustment_value_changed()
 {
     /* Read the new adjustment value and save the difference. */
     double adj = gtk_adjustment_get_value(m_vadjustment);
@@ -6321,8 +6232,9 @@ VteTerminalPrivate::vadjustment_value_changed()
     m_screen->scroll_delta = adj;
 
     /* Sanity checks. */
-        if (G_UNLIKELY(!widget_realized()))
-                return;
+    if (G_UNLIKELY(!widget_realized())) {
+            return;
+    }
 
         /* FIXME: do this check in pixel space */
     if (!_vte_double_equal(dy, 0)) {
@@ -6336,28 +6248,31 @@ VteTerminalPrivate::vadjustment_value_changed()
     }
 }
 
-void
-VteTerminalPrivate::widget_set_hadjustment(GtkAdjustment *adjustment)
+void VteTerminalPrivate::widget_set_hadjustment(GtkAdjustment *adjustment)
 {
-  if (adjustment == m_hadjustment)
-    return;
+    if (adjustment == m_hadjustment) {
+        return;
+    }
 
-  if (m_hadjustment)
-    g_object_unref (m_hadjustment);
+    if (m_hadjustment) {
+        g_object_unref (m_hadjustment);
+    }
 
-  m_hadjustment = adjustment ? (GtkAdjustment *)g_object_ref_sink(adjustment) : nullptr;
+    m_hadjustment = adjustment ? (GtkAdjustment *)g_object_ref_sink(adjustment) : nullptr;
 }
 
-void
-VteTerminalPrivate::widget_set_vadjustment(GtkAdjustment *adjustment)
+void VteTerminalPrivate::widget_set_vadjustment(GtkAdjustment *adjustment)
 {
-    if (adjustment != nullptr && adjustment == m_vadjustment)
+    if (adjustment != nullptr && adjustment == m_vadjustment) {
         return;
-    if (adjustment == nullptr && m_vadjustment != nullptr)
+    }
+    if (adjustment == nullptr && m_vadjustment != nullptr) {
         return;
+    }
 
-    if (adjustment == nullptr)
+    if (adjustment == nullptr) {
         adjustment = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 0, 0, 0, 0));
+    }
 
     /* Add a reference to the new adjustment object. */
     g_object_ref_sink(adjustment);
@@ -6384,10 +6299,10 @@ VteTerminalPrivate::VteTerminalPrivate(VteTerminal *t) :
         m_terminal(t),
         m_widget(&t->widget)
 {
-        /* Inits allocation to 1x1 @ -1,-1 */
-        cairo_rectangle_int_t allocation;
-        gtk_widget_get_allocation(m_widget, &allocation);
-        set_allocated_rect(allocation);
+    /* Inits allocation to 1x1 @ -1,-1 */
+    cairo_rectangle_int_t allocation;
+    gtk_widget_get_allocation(m_widget, &allocation);
+    set_allocated_rect(allocation);
 
     int i;
     GdkDisplay *display;
@@ -6397,24 +6312,24 @@ VteTerminalPrivate::VteTerminalPrivate(VteTerminal *t) :
     gtk_widget_set_can_focus(m_widget, TRUE);
 
     /* We do our own redrawing. */
-        // FIXMEchpe still necessary?
+    /* FIXMEchpe still necessary? */
     gtk_widget_set_redraw_on_allocate(m_widget, FALSE);
 
-        m_invalidated_all = false;
-        m_update_rects = g_array_sized_new(FALSE /* zero terminated */,
-                                           FALSE /* clear */,
-                                           sizeof(cairo_rectangle_int_t),
-                                           32 /* preallocated size */);
+    m_invalidated_all = false;
+    m_update_rects = g_array_sized_new(FALSE /* zero terminated */,
+                                        FALSE /* clear */,
+                                        sizeof(cairo_rectangle_int_t),
+                                        32 /* preallocated size */);
 
     /* Set an adjustment for the application to use to control scrolling. */
-        m_vadjustment = nullptr;
-        m_hadjustment = nullptr;
+    m_vadjustment = nullptr;
+    m_hadjustment = nullptr;
 
-        /* GtkScrollable */
-        m_hscroll_policy = GTK_SCROLL_NATURAL;
-        m_vscroll_policy = GTK_SCROLL_NATURAL;
+    /* GtkScrollable */
+    m_hscroll_policy = GTK_SCROLL_NATURAL;
+    m_vscroll_policy = GTK_SCROLL_NATURAL;
 
-        widget_set_hadjustment(nullptr);
+    widget_set_hadjustment(nullptr);
     widget_set_vadjustment(nullptr);
 
     /* Set up dummy metrics, value != 0 to avoid division by 0 */
@@ -6425,20 +6340,20 @@ VteTerminalPrivate::VteTerminalPrivate(VteTerminal *t) :
     m_char_padding = {0, 0, 0, 0};
     m_line_thickness = 1;
     m_underline_position = 1;
-        m_underline_thickness = 1;
-        m_double_underline_position = 1;
-        m_double_underline_thickness = 1;
-        m_undercurl_position = 1.;
-        m_undercurl_thickness = 1.;
+    m_underline_thickness = 1;
+    m_double_underline_position = 1;
+    m_double_underline_thickness = 1;
+    m_undercurl_position = 1.;
+    m_undercurl_thickness = 1.;
     m_strikethrough_position = 1;
-        m_strikethrough_thickness = 1;
-        m_overline_position = 1;
-        m_overline_thickness = 1;
-        m_regex_underline_position = 1;
-        m_regex_underline_thickness = 1;
+    m_strikethrough_thickness = 1;
+    m_overline_position = 1;
+    m_overline_thickness = 1;
+    m_regex_underline_position = 1;
+    m_regex_underline_thickness = 1;
 
-        m_row_count = VTE_ROWS;
-        m_column_count = VTE_COLUMNS;
+    m_row_count = VTE_ROWS;
+    m_column_count = VTE_COLUMNS;
 
     /* Initialize the screens and histories. */
     _vte_ring_init (m_alternate_screen.row_data, m_row_count, FALSE);
@@ -6446,154 +6361,132 @@ VteTerminalPrivate::VteTerminalPrivate(VteTerminal *t) :
     _vte_ring_init (m_normal_screen.row_data, VTE_SCROLLBACK_INIT, TRUE);
     m_screen = &m_normal_screen;
 
-        reset_default_attributes(true);
+    reset_default_attributes(true);
 
-        /* Initialize charset modes. */
-        m_character_replacements[0] = VTE_CHARACTER_REPLACEMENT_NONE;
-        m_character_replacements[1] = VTE_CHARACTER_REPLACEMENT_NONE;
-        m_character_replacement = &m_character_replacements[0];
+    /* Initialize charset modes. */
+    m_character_replacements[0] = VTE_CHARACTER_REPLACEMENT_NONE;
+    m_character_replacements[1] = VTE_CHARACTER_REPLACEMENT_NONE;
+    m_character_replacement = &m_character_replacements[0];
 
     /* Set up the desired palette. */
     set_colors_default();
-    for (i = 0; i < VTE_PALETTE_SIZE; i++)
+    for (i = 0; i < VTE_PALETTE_SIZE; i++) {
         m_palette[i].sources[VTE_COLOR_SOURCE_ESCAPE].is_set = FALSE;
+    }
 
     /* Set up I/O encodings. */
-        m_utf8_ambiguous_width = VTE_DEFAULT_UTF8_AMBIGUOUS_WIDTH;
-        m_iso2022 = _vte_iso2022_state_new(m_encoding);
+    m_utf8_ambiguous_width = VTE_DEFAULT_UTF8_AMBIGUOUS_WIDTH;
+    m_iso2022 = _vte_iso2022_state_new(m_encoding);
     m_incoming = nullptr;
     m_pending = g_array_new(FALSE, TRUE, sizeof(gunichar));
     m_max_input_bytes = VTE_MAX_INPUT_READ;
     m_cursor_blink_tag = 0;
-        m_text_blink_tag = 0;
+    m_text_blink_tag = 0;
     m_outgoing = _vte_byte_array_new();
     m_outgoing_conv = VTE_INVALID_CONV;
     m_conv_buffer = _vte_byte_array_new();
     set_encoding(nullptr /* UTF-8 */);
     g_assert_cmpstr(m_encoding, ==, "UTF-8");
-        m_last_graphic_character = 0;
+    m_last_graphic_character = 0;
 
         /* Set up the emulation. */
     m_keypad_mode = VTE_KEYMODE_NORMAL;
     m_cursor_mode = VTE_KEYMODE_NORMAL;
-        m_autowrap = TRUE;
-        m_sendrecv_mode = TRUE;
+    m_autowrap = TRUE;
+    m_sendrecv_mode = TRUE;
     m_dec_saved = g_hash_table_new(NULL, NULL);
-        m_matcher = _vte_matcher_new();
-#if 0
-    /* Setting the terminal type and size requires the PTY master to
-     * be set up properly first. */
-        m_pty = nullptr;
-        set_size(VTE_COLUMNS, VTE_ROWS);
-    m_pty_input_source = 0;
-    m_pty_output_source = 0;
-    m_pty_pid = -1;
-#endif
+    m_matcher = _vte_matcher_new();
     /* Scrolling options. */
     m_scroll_on_keystroke = TRUE;
     m_alternate_screen_scroll = TRUE;
-        m_scrollback_lines = -1; /* force update in vte_terminal_set_scrollback_lines */
+    m_scrollback_lines = -1; /* force update in vte_terminal_set_scrollback_lines */
     set_scrollback_lines(VTE_SCROLLBACK_INIT);
 
     /* Selection info. */
     display = gtk_widget_get_display(m_widget);
     m_clipboard[VTE_SELECTION_PRIMARY] = gtk_clipboard_get_for_display(display, GDK_SELECTION_PRIMARY);
     m_clipboard[VTE_SELECTION_CLIPBOARD] = gtk_clipboard_get_for_display(display, GDK_SELECTION_CLIPBOARD);
-        m_selection_owned[VTE_SELECTION_PRIMARY] = false;
-        m_selection_owned[VTE_SELECTION_CLIPBOARD] = false;
+    m_selection_owned[VTE_SELECTION_PRIMARY] = false;
+    m_selection_owned[VTE_SELECTION_CLIPBOARD] = false;
 
     /* Miscellaneous options. */
     set_backspace_binding(VTE_ERASE_AUTO);
     set_delete_binding(VTE_ERASE_AUTO);
     m_meta_sends_escape = TRUE;
     m_audible_bell = TRUE;
-        m_text_blink_mode = VTE_TEXT_BLINK_ALWAYS;
+    m_text_blink_mode = VTE_TEXT_BLINK_ALWAYS;
     m_allow_bold = TRUE;
-        m_bold_is_bright = TRUE;
-        m_deccolm_mode = FALSE;
-        m_rewrap_on_resize = TRUE;
+    m_bold_is_bright = TRUE;
+    m_deccolm_mode = FALSE;
+    m_rewrap_on_resize = TRUE;
     set_default_tabstops();
 
-        m_input_enabled = TRUE;
+    m_input_enabled = TRUE;
 
     /* Cursor shape. */
     m_cursor_shape = VTE_CURSOR_SHAPE_BLOCK;
-        m_cursor_aspect_ratio = 0.04;
+    m_cursor_aspect_ratio = 0.04;
 
     /* Cursor blinking. */
     m_cursor_visible = TRUE;
     m_cursor_blink_timeout = 500;
-        m_cursor_blinks = FALSE;
-        m_cursor_blink_mode = VTE_CURSOR_BLINK_SYSTEM;
+    m_cursor_blinks = FALSE;
+    m_cursor_blink_mode = VTE_CURSOR_BLINK_SYSTEM;
 
-        /* DECSCUSR cursor style (shape and blinking possibly overridden
-         * via escape sequence) */
-        m_cursor_style = VTE_CURSOR_STYLE_TERMINAL_DEFAULT;
+    /* DECSCUSR cursor style (shape and blinking possibly overridden
+     * via escape sequence) */
+    m_cursor_style = VTE_CURSOR_STYLE_TERMINAL_DEFAULT;
 
-        /* Initialize the saved cursor. */
-        save_cursor(&m_normal_screen);
-        save_cursor(&m_alternate_screen);
-
-    /* Matching data. */
-#ifndef NO_PCRE
-    m_match_regexes = g_array_new(FALSE, TRUE,
-                     sizeof(struct vte_match_regex));
-        m_match_tag = -1;
-        m_match_span.clear();
-    match_hilite_clear(); // FIXMEchpe unnecessary
-        /* Search data */
-        m_search_regex.regex = nullptr;
-        m_search_regex.match_flags = 0;
-#endif
+    /* Initialize the saved cursor. */
+    save_cursor(&m_normal_screen);
+    save_cursor(&m_alternate_screen);
 
     /* Rendering data */
     m_draw = _vte_draw_new();
 
     /* Set up background information. */
-        m_background_alpha = 1.;
+    m_background_alpha = 1.;
 
-        /* Word chars */
-        set_word_char_exceptions(WORD_CHAR_EXCEPTIONS_DEFAULT);
+    /* Word chars */
+    set_word_char_exceptions(WORD_CHAR_EXCEPTIONS_DEFAULT);
 
-        /* Selection */
+    /* Selection */
     m_selection_block_mode = FALSE;
-        m_unscaled_font_desc = nullptr;
-        m_fontdesc = nullptr;
-        m_font_scale = 1.;
-        m_cell_width_scale = 1.;
-        m_cell_height_scale = 1.;
+    m_unscaled_font_desc = nullptr;
+    m_fontdesc = nullptr;
+    m_font_scale = 1.;
+    m_cell_width_scale = 1.;
+    m_cell_height_scale = 1.;
     m_has_fonts = FALSE;
 
-        /* Hyperlink */
-        m_allow_hyperlink = FALSE;
-        m_hyperlink_auto_id = 0;
+    /* Hyperlink */
+    m_allow_hyperlink = FALSE;
+    m_hyperlink_auto_id = 0;
 
-        /* Mouse */
-        m_mouse_last_position = vte::view::coords(-1, -1);
+    /* Mouse */
+    m_mouse_last_position = vte::view::coords(-1, -1);
 
-        m_padding = default_padding;
-        update_view_extents();
+    m_padding = default_padding;
+    update_view_extents();
 
 #ifdef VTE_DEBUG
-        if (g_test_mode) {
-                static char const warning[] = "\e[1m\e[31mWARNING:\e[39m Test mode enabled.\e[0m\n\e[G";
-                feed(warning, strlen(warning), false);
-        }
+    if (g_test_mode) {
+        static char const warning[] = "\e[1m\e[31mWARNING:\e[39m Test mode enabled.\e[0m\n\e[G";
+        feed(warning, strlen(warning), false);
+    }
 #endif
 }
 
-void
-VteTerminalPrivate::widget_constructed()
+void VteTerminalPrivate::widget_constructed()
 {
-        /* Set the style as early as possible, before GTK+ starts
-         * invoking various callbacks. This is needed in order to
-         * compute the initial geometry correctly in presence of
-         * non-default padding, see bug 787710. */
-        widget_style_updated();
+   /* Set the style as early as possible, before GTK+ starts
+    * invoking various callbacks. This is needed in order to
+    * compute the initial geometry correctly in presence of
+    * non-default padding, see bug 787710. */
+    widget_style_updated();
 }
 
-void
-VteTerminalPrivate::widget_get_preferred_width(int *minimum_width,
+void VteTerminalPrivate::widget_get_preferred_width(int *minimum_width,
                                                int *natural_width)
 {
     _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_get_preferred_width()\n");
@@ -6601,10 +6494,10 @@ VteTerminalPrivate::widget_get_preferred_width(int *minimum_width,
     ensure_font();
 
 #if 0
-        refresh_size(); /* FIXME */
+    refresh_size(); /* FIXME */
 #endif
     *minimum_width = m_cell_width * 1;
-        *natural_width = m_cell_width * m_column_count;
+    *natural_width = m_cell_width * m_column_count;
 
     *minimum_width += m_padding.left +
                           m_padding.right;
@@ -6613,27 +6506,26 @@ VteTerminalPrivate::widget_get_preferred_width(int *minimum_width,
 
     _vte_debug_print(VTE_DEBUG_WIDGET_SIZE,
             "[Terminal %p] minimum_width=%d, natural_width=%d for %ldx%ld cells (padding %d,%d;%d,%d).\n",
-                        m_terminal,
+            m_terminal,
             *minimum_width, *natural_width,
             m_column_count,
-                         m_row_count,
-                         m_padding.left, m_padding.right, m_padding.top, m_padding.bottom);
+            m_row_count,
+            m_padding.left, m_padding.right, m_padding.top, m_padding.bottom);
 }
 
-void
-VteTerminalPrivate::widget_get_preferred_height(int *minimum_height,
-                                                int *natural_height)
+void VteTerminalPrivate::widget_get_preferred_height(int *minimum_height,
+                                                        int *natural_height)
 {
     _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_get_preferred_height()\n");
 
     ensure_font();
 
 #if 0
-        refresh_size(); /* FIXME */
+    refresh_size(); /* FIXME */
 #endif
 
     *minimum_height = m_cell_height * 1;
-        *natural_height = m_cell_height * m_row_count;
+    *natural_height = m_cell_height * m_row_count;
 
     *minimum_height += m_padding.top +
                m_padding.bottom;
@@ -6642,37 +6534,33 @@ VteTerminalPrivate::widget_get_preferred_height(int *minimum_height,
 
     _vte_debug_print(VTE_DEBUG_WIDGET_SIZE,
             "[Terminal %p] minimum_height=%d, natural_height=%d for %ldx%ld cells (padding %d,%d;%d,%d).\n",
-                        m_terminal,
+            m_terminal,
             *minimum_height, *natural_height,
             m_column_count,
-                         m_row_count,
-                         m_padding.left, m_padding.right, m_padding.top, m_padding.bottom);
+            m_row_count,
+            m_padding.left, m_padding.right, m_padding.top, m_padding.bottom);
 }
 
-void
-VteTerminalPrivate::widget_size_allocate(GtkAllocation *allocation)
+void VteTerminalPrivate::widget_size_allocate(GtkAllocation *allocation)
 {
     glong width, height;
     gboolean repaint, update_scrollback;
 
-    _vte_debug_print(VTE_DEBUG_LIFECYCLE,
-            "vte_terminal_size_allocate()\n");
+    _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_size_allocate()\n");
 
-    width = (allocation->width - (m_padding.left + m_padding.right)) /
-        m_cell_width;
-    height = (allocation->height - (m_padding.top + m_padding.bottom)) /
-         m_cell_height;
+    width = (allocation->width - (m_padding.left + m_padding.right)) / m_cell_width;
+    height = (allocation->height - (m_padding.top + m_padding.bottom)) / m_cell_height;
     width = MAX(width, 1);
     height = MAX(height, 1);
 
     _vte_debug_print(VTE_DEBUG_WIDGET_SIZE,
             "[Terminal %p] Sizing window to %dx%d (%ldx%ld, padding %d,%d;%d,%d).\n",
-                        m_terminal,
+            m_terminal,
             allocation->width, allocation->height,
-                         width, height,
-                         m_padding.left, m_padding.right, m_padding.top, m_padding.bottom);
+            width, height,
+            m_padding.left, m_padding.right, m_padding.top, m_padding.bottom);
 
-        auto current_allocation = get_allocated_rect();
+    auto current_allocation = get_allocated_rect();
 
     repaint = current_allocation.width != allocation->width
             || current_allocation.height != allocation->height;
@@ -6680,12 +6568,11 @@ VteTerminalPrivate::widget_size_allocate(GtkAllocation *allocation)
 
     /* Set our allocation to match the structure. */
     gtk_widget_set_allocation(m_widget, allocation);
-        set_allocated_rect(*allocation);
+    set_allocated_rect(*allocation);
 
     if (width != m_column_count
-            || height != m_row_count
-            || update_scrollback)
-    {
+     || height != m_row_count
+     || update_scrollback) {
         /* Set the size of the pseudo-terminal. */
         set_size(width, height);
 
@@ -6696,10 +6583,10 @@ VteTerminalPrivate::widget_size_allocate(GtkAllocation *allocation)
     /* Resize the GDK window. */
     if (widget_realized()) {
         gdk_window_move_resize(m_event_window,
-                    allocation->x,
-                    allocation->y,
-                    allocation->width,
-                    allocation->height);
+                                allocation->x,
+                                allocation->y,
+                                allocation->width,
+                                allocation->height);
         /* Force a repaint if we were resized. */
         if (repaint) {
             reset_update_rects();
@@ -6708,19 +6595,18 @@ VteTerminalPrivate::widget_size_allocate(GtkAllocation *allocation)
     }
 }
 
-void
-VteTerminalPrivate::widget_unrealize()
+void VteTerminalPrivate::widget_unrealize()
 {
     _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_unrealize()\n");
 
     /* Deallocate the cursors. */
-        m_mouse_cursor_over_widget = FALSE;
+    m_mouse_cursor_over_widget = FALSE;
     g_object_unref(m_mouse_default_cursor);
     m_mouse_default_cursor = NULL;
     g_object_unref(m_mouse_mousing_cursor);
     m_mouse_mousing_cursor = NULL;
-        g_object_unref(m_mouse_hyperlink_cursor);
-        m_mouse_hyperlink_cursor = NULL;
+    g_object_unref(m_mouse_hyperlink_cursor);
+    m_mouse_hyperlink_cursor = NULL;
     g_object_unref(m_mouse_inviso_cursor);
     m_mouse_inviso_cursor = NULL;
 
@@ -6728,12 +6614,10 @@ VteTerminalPrivate::widget_unrealize()
 
     /* Shut down input methods. */
     if (m_im_context != nullptr) {
-            g_signal_handlers_disconnect_matched(m_im_context, G_SIGNAL_MATCH_DATA,
-                                                     0, 0, NULL, NULL,
-                                                     this);
+        g_signal_handlers_disconnect_matched(m_im_context, G_SIGNAL_MATCH_DATA,
+                                                    0, 0, NULL, NULL, this);
         im_reset();
-        gtk_im_context_set_client_window(m_im_context,
-                         NULL);
+        gtk_im_context_set_client_window(m_im_context, NULL);
         g_object_unref(m_im_context);
         m_im_context = nullptr;
     }
@@ -6756,16 +6640,16 @@ VteTerminalPrivate::widget_unrealize()
     m_fontdirty = TRUE;
 
     /* Unmap the widget if it hasn't been already. */
-        // FIXMEchpe this can't happen
+    /* FIXMEchpe this can't happen */
     if (gtk_widget_get_mapped(m_widget)) {
         gtk_widget_unmap(m_widget);
     }
 
-        /* Remove the cursor blink timeout function. */
+    /* Remove the cursor blink timeout function. */
     remove_cursor_timeout();
 
-        /* Remove the contents blink timeout function. */
-        remove_text_blink_timeout();
+    /* Remove the contents blink timeout function. */
+    remove_text_blink_timeout();
 
     /* Cancel any pending redraws. */
     remove_update_timeout(this);
@@ -6780,87 +6664,80 @@ VteTerminalPrivate::widget_unrealize()
     /* Clear modifiers. */
     m_modifiers = 0;
 
-        /* Destroy the even window */
-        gtk_widget_unregister_window(m_widget, m_event_window);
-        gdk_window_destroy(m_event_window);
-        m_event_window = nullptr;
+    /* Destroy the even window */
+    gtk_widget_unregister_window(m_widget, m_event_window);
+    gdk_window_destroy(m_event_window);
+    m_event_window = nullptr;
 }
 
-static void
-vte_terminal_settings_notify_cb (GtkSettings *settings,
-                                 GParamSpec *pspec,
-                                 VteTerminalPrivate *that)
+static void vte_terminal_settings_notify_cb (GtkSettings *settings,
+                                                GParamSpec *pspec,
+                                                VteTerminalPrivate *that)
 {
-        that->widget_settings_notify();
+    that->widget_settings_notify();
 }
 
-void
-VteTerminalPrivate::widget_settings_notify()
+void VteTerminalPrivate::widget_settings_notify()
 {
-        gboolean blink;
-        int blink_time = 1000;
-        int blink_timeout = G_MAXINT;
+    gboolean blink;
+    int blink_time = 1000;
+    int blink_timeout = G_MAXINT;
 
-        g_object_get(gtk_widget_get_settings(m_widget),
-                     "gtk-cursor-blink", &blink,
-                     "gtk-cursor-blink-time", &blink_time,
-                     "gtk-cursor-blink-timeout", &blink_timeout,
-                     nullptr);
+    g_object_get(gtk_widget_get_settings(m_widget),
+                    "gtk-cursor-blink", &blink,
+                    "gtk-cursor-blink-time", &blink_time,
+                    "gtk-cursor-blink-timeout", &blink_timeout,
+                    nullptr);
 
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Cursor blinking settings: blink=%d time=%d timeout=%d\n",
-                         blink, blink_time, blink_timeout);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Cursor blinking settings: blink=%d time=%d timeout=%d\n",
+                        blink, blink_time, blink_timeout);
 
-        m_cursor_blink_cycle = blink_time / 2;
-        m_cursor_blink_timeout = blink_timeout;
+    m_cursor_blink_cycle = blink_time / 2;
+    m_cursor_blink_timeout = blink_timeout;
 
-        update_cursor_blinks();
+    update_cursor_blinks();
 
-        /* Misuse gtk-cursor-blink-time for text blinking as well. This might change in the future. */
-        m_text_blink_cycle = m_cursor_blink_cycle;
-        if (m_text_blink_tag != 0) {
-                /* The current phase might have changed, and an already installed
-                 * timer to blink might fire too late. So remove the timer and
-                 * repaint the contents (which will install a correct new timer). */
-                remove_text_blink_timeout();
-                invalidate_all();
-        }
+    /* Misuse gtk-cursor-blink-time for text blinking as well. This might change in the future. */
+    m_text_blink_cycle = m_cursor_blink_cycle;
+    if (m_text_blink_tag != 0) {
+       /* The current phase might have changed, and an already installed
+        * timer to blink might fire too late. So remove the timer and
+        * repaint the contents (which will install a correct new timer). */
+        remove_text_blink_timeout();
+        invalidate_all();
+    }
 }
 
-void
-VteTerminalPrivate::widget_screen_changed (GdkScreen *previous_screen)
+void VteTerminalPrivate::widget_screen_changed (GdkScreen *previous_screen)
 {
-        GtkSettings *settings;
+    GtkSettings *settings;
 
-        auto gdk_screen = gtk_widget_get_screen (m_widget);
-        if (previous_screen != NULL &&
-            (gdk_screen != previous_screen || gdk_screen == NULL)) {
-                settings = gtk_settings_get_for_screen (previous_screen);
-                g_signal_handlers_disconnect_matched (settings, G_SIGNAL_MATCH_DATA,
-                                                      0, 0, NULL, NULL,
-                                                      this);
-        }
+    auto gdk_screen = gtk_widget_get_screen (m_widget);
+    if (previous_screen != NULL &&
+        (gdk_screen != previous_screen || gdk_screen == NULL)) {
+        settings = gtk_settings_get_for_screen (previous_screen);
+        g_signal_handlers_disconnect_matched (settings, G_SIGNAL_MATCH_DATA,
+                                                0, 0, NULL, NULL, this);
+    }
 
-        if (gdk_screen == previous_screen || gdk_screen == nullptr)
-                return;
+    if (gdk_screen == previous_screen || gdk_screen == nullptr)
+            return;
 
-        widget_settings_notify();
+    widget_settings_notify();
 
-        settings = gtk_widget_get_settings(m_widget);
-        g_signal_connect (settings, "notify::gtk-cursor-blink",
-                          G_CALLBACK (vte_terminal_settings_notify_cb), this);
-        g_signal_connect (settings, "notify::gtk-cursor-blink-time",
-                          G_CALLBACK (vte_terminal_settings_notify_cb), this);
-        g_signal_connect (settings, "notify::gtk-cursor-blink-timeout",
-                          G_CALLBACK (vte_terminal_settings_notify_cb), this);
+    settings = gtk_widget_get_settings(m_widget);
+    g_signal_connect (settings, "notify::gtk-cursor-blink",
+                        G_CALLBACK (vte_terminal_settings_notify_cb), this);
+    g_signal_connect (settings, "notify::gtk-cursor-blink-time",
+                        G_CALLBACK (vte_terminal_settings_notify_cb), this);
+    g_signal_connect (settings, "notify::gtk-cursor-blink-timeout",
+                        G_CALLBACK (vte_terminal_settings_notify_cb), this);
 }
 
 VteTerminalPrivate::~VteTerminalPrivate()
 {
-
-//    struct vte_match_regex *regex;
     int sel;
-//    guint i;
 
     _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_finalize()\n");
 
@@ -6873,9 +6750,9 @@ VteTerminalPrivate::~VteTerminalPrivate()
     _vte_iso2022_state_free(m_iso2022);
 
     /* Free the font description. */
-        if (m_unscaled_font_desc != NULL) {
-                pango_font_description_free(m_unscaled_font_desc);
-        }
+    if (m_unscaled_font_desc != NULL) {
+            pango_font_description_free(m_unscaled_font_desc);
+    }
     if (m_fontdesc != NULL) {
         pango_font_description_free(m_fontdesc);
     }
@@ -6886,24 +6763,9 @@ VteTerminalPrivate::~VteTerminalPrivate()
     }
     g_free(m_match_contents);
 
-#ifndef NO_PCRE
-    if (m_match_regexes != NULL) {
-        for (i = 0; i < m_match_regexes->len; i++) {
-            regex = &g_array_index(m_match_regexes,
-                           struct vte_match_regex,
-                           i);
-            /* Skip holes. */
-            if (regex->tag < 0) {
-                continue;
-            }
-                        regex_match_clear(regex);
-        }
-        g_array_free(m_match_regexes, TRUE);
-    }
-        regex_and_flags_clear(&m_search_regex);
-#endif
-    if (m_search_attrs)
+    if (m_search_attrs) {
         g_array_free (m_search_attrs, TRUE);
+    }
 
     /* Disconnect from autoscroll requests. */
     stop_autoscroll();
@@ -6922,14 +6784,14 @@ VteTerminalPrivate::~VteTerminalPrivate()
     for (sel = VTE_SELECTION_PRIMARY; sel < LAST_VTE_SELECTION; sel++) {
         if (m_selection[sel] != nullptr) {
             if (m_selection_owned[sel]) {
-                                // FIXMEchpe we should check m_selection_format[sel]
-                                // and also put text/html on if it's VTE_FORMAT_HTML
+                /* FIXMEchpe we should check m_selection_format[sel]
+                 * and also put text/html on if it's VTE_FORMAT_HTML */
                 gtk_clipboard_set_text(m_clipboard[sel],
-                               m_selection[sel]->str,
-                               m_selection[sel]->len);
+                                        m_selection[sel]->str,
+                                        m_selection[sel]->len);
             }
             g_string_free(m_selection[sel], TRUE);
-                        m_selection[sel] = nullptr;
+            m_selection[sel] = nullptr;
         }
     }
 
@@ -6942,15 +6804,6 @@ VteTerminalPrivate::~VteTerminalPrivate()
         _vte_conv_close(m_outgoing_conv);
         m_outgoing_conv = VTE_INVALID_CONV;
     }
-#if 0
-        /* Stop listening for child-exited signals. */
-        if (m_reaper) {
-                g_signal_handlers_disconnect_by_func(m_reaper,
-                                                     (gpointer)reaper_child_exited_cb,
-                                                     this);
-                g_object_unref(m_reaper);
-        }
-#endif
     /* Stop processing input. */
     stop_processing(this);
 
@@ -6960,27 +6813,6 @@ VteTerminalPrivate::~VteTerminalPrivate()
     g_array_free(m_pending, TRUE);
     _vte_byte_array_free(m_conv_buffer);
 
-#if 0
-    /* Stop the child and stop watching for input from the child. */
-    if (m_pty_pid != -1) {
-#ifdef HAVE_GETPGID
-        pid_t pgrp;
-        pgrp = getpgid(m_pty_pid);
-        if (pgrp != -1) {
-            kill(-pgrp, SIGHUP);
-        }
-#endif
-        kill(m_pty_pid, SIGHUP);
-    }
-    disconnect_pty_read();
-    disconnect_pty_write();
-    if (m_pty_channel != NULL) {
-        g_io_channel_unref (m_pty_channel);
-    }
-    if (m_pty != NULL) {
-                g_object_unref(m_pty);
-    }
-#endif
     /* Remove hash tables. */
     if (m_dec_saved != NULL) {
         g_hash_table_destroy(m_dec_saved);
@@ -6994,17 +6826,17 @@ VteTerminalPrivate::~VteTerminalPrivate()
     remove_update_timeout(this);
 
     /* discard title updates */
-        g_free(m_window_title);
-        g_free(m_window_title_changed);
+    g_free(m_window_title);
+    g_free(m_window_title_changed);
     g_free(m_icon_title_changed);
-        g_free(m_current_directory_uri_changed);
-        g_free(m_current_directory_uri);
-        g_free(m_current_file_uri_changed);
-        g_free(m_current_file_uri);
+    g_free(m_current_directory_uri_changed);
+    g_free(m_current_directory_uri);
+    g_free(m_current_file_uri_changed);
+    g_free(m_current_file_uri);
 
-        /* Word char exceptions */
-        g_free(m_word_char_exceptions_string);
-        g_free(m_word_char_exceptions);
+    /* Word char exceptions */
+    g_free(m_word_char_exceptions_string);
+    g_free(m_word_char_exceptions);
 
     /* Free public-facing data. */
     g_free(m_icon_title);
@@ -7016,12 +6848,11 @@ VteTerminalPrivate::~VteTerminalPrivate()
         g_object_unref(m_vadjustment);
     }
 
-        g_signal_handlers_disconnect_matched (gtk_widget_get_settings(m_widget), G_SIGNAL_MATCH_DATA,
-                                              0, 0, NULL, NULL,
-                                              this);
+    g_signal_handlers_disconnect_matched (gtk_widget_get_settings(m_widget), G_SIGNAL_MATCH_DATA,
+                                            0, 0, NULL, NULL, this);
 
-        /* Update rects */
-        g_array_free(m_update_rects, TRUE /* free segment */);
+    /* Update rects */
+    g_array_free(m_update_rects, TRUE /* free segment */);
 }
 
 void
