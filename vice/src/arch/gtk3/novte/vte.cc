@@ -8072,8 +8072,9 @@ void VteTerminalPrivate::paint_im_preedit_string()
     long width, height;
     int i, len;
 
-    if (!m_im_preedit)
+    if (!m_im_preedit) {
         return;
+    }
 
     /* Keep local copies of rendering information. */
     width = m_cell_width;
@@ -8085,7 +8086,7 @@ void VteTerminalPrivate::paint_im_preedit_string()
 
     /* If the pre-edit string won't fit on the screen if we start
      * drawing it at the cursor's position, move it left. */
-        col = m_screen->cursor.col;
+    col = m_screen->cursor.col;
     if (col + columns > m_column_count) {
         col = MAX(0, m_column_count - columns);
     }
@@ -8099,31 +8100,30 @@ void VteTerminalPrivate::paint_im_preedit_string()
         items = g_new(struct _vte_draw_text_request, len);
         for (i = columns = 0; i < len; i++) {
             items[i].c = g_utf8_get_char(preedit);
-                        items[i].columns = _vte_unichar_width(items[i].c,
-                                                              m_utf8_ambiguous_width);
+            items[i].columns = _vte_unichar_width(items[i].c, m_utf8_ambiguous_width);
             items[i].x = (col + columns) * width;
             items[i].y = row_to_pixel(m_screen->cursor.row);
             columns += items[i].columns;
             preedit = g_utf8_next_char(preedit);
         }
-                if (G_LIKELY(m_clear_background)) {
-                        _vte_draw_clear(m_draw,
-                                        col * width,
-                                        row_to_pixel(m_screen->cursor.row),
-                                        width * columns,
-                                        height,
-                                        get_color(VTE_DEFAULT_BG), m_background_alpha);
-                }
+        if (G_LIKELY(m_clear_background)) {
+            _vte_draw_clear(m_draw,
+                            col * width,
+                            row_to_pixel(m_screen->cursor.row),
+                            width * columns,
+                            height,
+                            get_color(VTE_DEFAULT_BG), m_background_alpha);
+        }
         draw_cells_with_attributes(
-                            items, len,
-                            m_im_preedit_attrs,
-                            TRUE,
-                            width, height);
+                                    items, len,
+                                    m_im_preedit_attrs,
+                                    TRUE,
+                                    width, height);
         preedit_cursor = m_im_preedit_cursor;
 
         if (preedit_cursor >= 0 && preedit_cursor < len) {
-                        uint32_t fore, back, deco;
-                        vte_color_triple_get(m_color_defaults.attr.colors(), &fore, &back, &deco);
+            uint32_t fore, back, deco;
+            vte_color_triple_get(m_color_defaults.attr.colors(), &fore, &back, &deco);
 
             /* Cursored letter in reverse. */
             draw_cells(
@@ -8140,111 +8140,113 @@ void VteTerminalPrivate::paint_im_preedit_string()
     }
 }
 
-void
-VteTerminalPrivate::widget_draw(cairo_t *cr)
+void VteTerminalPrivate::widget_draw(cairo_t *cr)
 {
-        cairo_rectangle_int_t clip_rect;
-        cairo_region_t *region;
-        int allocated_width, allocated_height;
-        int extra_area_for_cursor;
-        bool text_blink_enabled_now;
-        gint64 now = 0;
+    cairo_rectangle_int_t clip_rect;
+    cairo_region_t *region;
+    int allocated_width, allocated_height;
+    int extra_area_for_cursor;
+    bool text_blink_enabled_now;
+    gint64 now = 0;
 
-        if (!gdk_cairo_get_clip_rectangle (cr, &clip_rect))
-                return;
+    if (!gdk_cairo_get_clip_rectangle (cr, &clip_rect)) {
+        return;
+    }
 
-        _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_draw()\n");
-        _vte_debug_print (VTE_DEBUG_WORK, "+");
-        _vte_debug_print (VTE_DEBUG_UPDATES, "Draw (%d,%d)x(%d,%d)\n",
-                          clip_rect.x, clip_rect.y,
-                          clip_rect.width, clip_rect.height);
+    _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_draw()\n");
+    _vte_debug_print (VTE_DEBUG_WORK, "+");
+    _vte_debug_print (VTE_DEBUG_UPDATES, "Draw (%d,%d)x(%d,%d)\n",
+                        clip_rect.x, clip_rect.y,
+                        clip_rect.width, clip_rect.height);
 
-        region = vte_cairo_get_clip_region (cr);
-        if (region == NULL)
-                return;
+    region = vte_cairo_get_clip_region (cr);
+    if (region == NULL) {
+        return;
+    }
 
-        allocated_width = get_allocated_width();
-        allocated_height = get_allocated_height();
+    allocated_width = get_allocated_width();
+    allocated_height = get_allocated_height();
 
     /* Designate the start of the drawing operation and clear the area. */
     _vte_draw_set_cairo(m_draw, cr);
 
-        if (G_LIKELY(m_clear_background)) {
-                _vte_draw_clear (m_draw, 0, 0,
-                                 allocated_width, allocated_height,
-                                 get_color(VTE_DEFAULT_BG), m_background_alpha);
-        }
+    if (G_LIKELY(m_clear_background)) {
+        _vte_draw_clear (m_draw, 0, 0,
+                            allocated_width, allocated_height,
+                            get_color(VTE_DEFAULT_BG), m_background_alpha);
+    }
 
-        /* Clip vertically, for the sake of smooth scrolling. We want the top and bottom paddings to be unused.
-         * Don't clip horizontally so that antialiasing can legally overflow to the right padding. */
-        cairo_save(cr);
-        cairo_rectangle(cr, 0, m_padding.top, allocated_width, allocated_height - m_padding.top - m_padding.bottom);
-        cairo_clip(cr);
+    /* Clip vertically, for the sake of smooth scrolling. We want the top and bottom paddings to be unused.
+     * Don't clip horizontally so that antialiasing can legally overflow to the right padding. */
+    cairo_save(cr);
+    cairo_rectangle(cr, 0, m_padding.top, allocated_width, allocated_height - m_padding.top - m_padding.bottom);
+    cairo_clip(cr);
 
-        cairo_translate(cr, m_padding.left, m_padding.top);
+    cairo_translate(cr, m_padding.left, m_padding.top);
 
-        /* Transform to view coordinates */
-        cairo_region_translate(region, -m_padding.left, -m_padding.top);
+    /* Transform to view coordinates */
+    cairo_region_translate(region, -m_padding.left, -m_padding.top);
 
-        cairo_rectangle_int_t *rectangles;
-        int n, n_rectangles;
-        n_rectangles = cairo_region_num_rectangles (region);
-        rectangles = g_new(cairo_rectangle_int_t, n_rectangles);
+    cairo_rectangle_int_t *rectangles;
+    int n, n_rectangles;
+    n_rectangles = cairo_region_num_rectangles (region);
+    rectangles = g_new(cairo_rectangle_int_t, n_rectangles);
+    for (n = 0; n < n_rectangles; n++) {
+        cairo_region_get_rectangle (region, n, &rectangles[n]);
+    }
+
+    /* don't bother to enlarge an invalidate all */
+    if (!(n_rectangles == 1
+          && rectangles[0].width == allocated_width
+          && rectangles[0].height == allocated_height)) {
+        cairo_region_t *rr = cairo_region_create ();
+       /* Expand the rectangles so that they cover whole cells,
+        * to avoid overlapping XY bands.
+        */
         for (n = 0; n < n_rectangles; n++) {
-                cairo_region_get_rectangle (region, n, &rectangles[n]);
+            expand_rectangle(rectangles[n]);
+            cairo_region_union_rectangle(rr, &rectangles[n]);
         }
+        g_free(rectangles);
 
-        /* don't bother to enlarge an invalidate all */
-        if (!(n_rectangles == 1
-              && rectangles[0].width == allocated_width
-              && rectangles[0].height == allocated_height)) {
-                cairo_region_t *rr = cairo_region_create ();
-                /* Expand the rectangles so that they cover whole cells,
-                 * to avoid overlapping XY bands.
-                 */
-                for (n = 0; n < n_rectangles; n++) {
-                        expand_rectangle(rectangles[n]);
-                        cairo_region_union_rectangle(rr, &rectangles[n]);
-                }
-                g_free(rectangles);
-
-                n_rectangles = cairo_region_num_rectangles (rr);
-                rectangles = g_new (cairo_rectangle_int_t, n_rectangles);
-                for (n = 0; n < n_rectangles; n++) {
-                        cairo_region_get_rectangle(rr, n, &rectangles[n]);
-                }
-                cairo_region_destroy(rr);
-        }
-
-        /* Whether blinking text should be visible now */
-        m_text_blink_state = true;
-        text_blink_enabled_now = m_text_blink_mode & (m_has_focus ? VTE_TEXT_BLINK_FOCUSED : VTE_TEXT_BLINK_UNFOCUSED);
-        if (text_blink_enabled_now) {
-                now = g_get_monotonic_time() / 1000;
-                if (now % (m_text_blink_cycle * 2) >= m_text_blink_cycle)
-                        m_text_blink_state = false;
-        }
-        /* Painting will flip this if it encounters any cell with blink attribute */
-        m_text_to_blink = false;
-
-        /* and now paint them */
+        n_rectangles = cairo_region_num_rectangles (rr);
+        rectangles = g_new (cairo_rectangle_int_t, n_rectangles);
         for (n = 0; n < n_rectangles; n++) {
-                paint_area(&rectangles[n]);
+            cairo_region_get_rectangle(rr, n, &rectangles[n]);
         }
-        g_free (rectangles);
+        cairo_region_destroy(rr);
+    }
+
+    /* Whether blinking text should be visible now */
+    m_text_blink_state = true;
+    text_blink_enabled_now = m_text_blink_mode & (m_has_focus ? VTE_TEXT_BLINK_FOCUSED : VTE_TEXT_BLINK_UNFOCUSED);
+    if (text_blink_enabled_now) {
+        now = g_get_monotonic_time() / 1000;
+        if (now % (m_text_blink_cycle * 2) >= m_text_blink_cycle) {
+            m_text_blink_state = false;
+        }
+    }
+    /* Painting will flip this if it encounters any cell with blink attribute */
+    m_text_to_blink = false;
+
+    /* and now paint them */
+    for (n = 0; n < n_rectangles; n++) {
+        paint_area(&rectangles[n]);
+    }
+    g_free (rectangles);
 
     paint_im_preedit_string();
 
-        cairo_restore(cr);
+    cairo_restore(cr);
 
-        /* Re-clip, allowing 1 more pixel row for the outline cursor. */
-        /* TODOegmont: It's really ugly to do it here. */
-        cairo_save(cr);
-        extra_area_for_cursor = (decscusr_cursor_shape() == VTE_CURSOR_SHAPE_BLOCK && !m_has_focus) ? 1 : 0;
-        cairo_rectangle(cr, 0, m_padding.top - extra_area_for_cursor, allocated_width, allocated_height - m_padding.top - m_padding.bottom + 2 * extra_area_for_cursor);
-        cairo_clip(cr);
+    /* Re-clip, allowing 1 more pixel row for the outline cursor. */
+    /* TODOegmont: It's really ugly to do it here. */
+    cairo_save(cr);
+    extra_area_for_cursor = (decscusr_cursor_shape() == VTE_CURSOR_SHAPE_BLOCK && !m_has_focus) ? 1 : 0;
+    cairo_rectangle(cr, 0, m_padding.top - extra_area_for_cursor, allocated_width, allocated_height - m_padding.top - m_padding.bottom + 2 * extra_area_for_cursor);
+    cairo_clip(cr);
 
-        cairo_translate(cr, m_padding.left, m_padding.top);
+    cairo_translate(cr, m_padding.left, m_padding.top);
 
     paint_cursor();
 
@@ -8253,118 +8255,120 @@ VteTerminalPrivate::widget_draw(cairo_t *cr)
     /* Done with various structures. */
     _vte_draw_set_cairo(m_draw, NULL);
 
-        cairo_region_destroy (region);
+    cairo_region_destroy (region);
 
-        /* If painting encountered any cell with blink attribute, we might need to set up a timer.
-         * Blinking is implemented using a one-shot (not repeating) timer that keeps getting reinstalled
-         * here as long as blinking cells are encountered during (re)painting. This way there's no need
-         * for an explicit step to stop the timer when blinking cells are no longer present, this happens
-         * implicitly by the timer not getting reinstalled anymore (often after a final unnecessary but
-         * harmless repaint). */
-        if (G_UNLIKELY (m_text_to_blink && text_blink_enabled_now && m_text_blink_tag == 0))
-                m_text_blink_tag = g_timeout_add_full(G_PRIORITY_LOW,
-                                                      m_text_blink_cycle - now % m_text_blink_cycle,
-                                                      (GSourceFunc)invalidate_text_blink_cb,
-                                                      this,
-                                                      NULL);
+   /* If painting encountered any cell with blink attribute, we might need to set up a timer.
+    * Blinking is implemented using a one-shot (not repeating) timer that keeps getting reinstalled
+    * here as long as blinking cells are encountered during (re)painting. This way there's no need
+    * for an explicit step to stop the timer when blinking cells are no longer present, this happens
+    * implicitly by the timer not getting reinstalled anymore (often after a final unnecessary but
+    * harmless repaint). */
+    if (G_UNLIKELY (m_text_to_blink && text_blink_enabled_now && m_text_blink_tag == 0)) {
+        m_text_blink_tag = g_timeout_add_full(G_PRIORITY_LOW,
+                                                m_text_blink_cycle - now % m_text_blink_cycle,
+                                                (GSourceFunc)invalidate_text_blink_cb,
+                                                this,
+                                                NULL);
+    }
 
-        m_invalidated_all = FALSE;
+    m_invalidated_all = FALSE;
 }
 
 /* Handle an expose event by painting the exposed area. */
-static cairo_region_t *
-vte_cairo_get_clip_region (cairo_t *cr)
+static cairo_region_t *vte_cairo_get_clip_region (cairo_t *cr)
 {
-        cairo_rectangle_list_t *list;
-        cairo_region_t *region;
-        int i;
+    cairo_rectangle_list_t *list;
+    cairo_region_t *region;
+    int i;
 
-        list = cairo_copy_clip_rectangle_list (cr);
-        if (list->status == CAIRO_STATUS_CLIP_NOT_REPRESENTABLE) {
-                cairo_rectangle_int_t clip_rect;
-
-                cairo_rectangle_list_destroy (list);
-
-                if (!gdk_cairo_get_clip_rectangle (cr, &clip_rect))
-                        return NULL;
-                return cairo_region_create_rectangle (&clip_rect);
-        }
-
-
-        region = cairo_region_create ();
-        for (i = list->num_rectangles - 1; i >= 0; --i) {
-                cairo_rectangle_t *rect = &list->rectangles[i];
-                cairo_rectangle_int_t clip_rect;
-
-                clip_rect.x = floor (rect->x);
-                clip_rect.y = floor (rect->y);
-                clip_rect.width = ceil (rect->x + rect->width) - clip_rect.x;
-                clip_rect.height = ceil (rect->y + rect->height) - clip_rect.y;
-
-                if (cairo_region_union_rectangle (region, &clip_rect) != CAIRO_STATUS_SUCCESS) {
-                        cairo_region_destroy (region);
-                        region = NULL;
-                        break;
-                }
-        }
+    list = cairo_copy_clip_rectangle_list (cr);
+    if (list->status == CAIRO_STATUS_CLIP_NOT_REPRESENTABLE) {
+        cairo_rectangle_int_t clip_rect;
 
         cairo_rectangle_list_destroy (list);
-        return region;
+
+        if (!gdk_cairo_get_clip_rectangle (cr, &clip_rect)) {
+            return NULL;
+        }
+        return cairo_region_create_rectangle (&clip_rect);
+    }
+
+
+    region = cairo_region_create ();
+    for (i = list->num_rectangles - 1; i >= 0; --i) {
+        cairo_rectangle_t *rect = &list->rectangles[i];
+        cairo_rectangle_int_t clip_rect;
+
+        clip_rect.x = floor (rect->x);
+        clip_rect.y = floor (rect->y);
+        clip_rect.width = ceil (rect->x + rect->width) - clip_rect.x;
+        clip_rect.height = ceil (rect->y + rect->height) - clip_rect.y;
+
+        if (cairo_region_union_rectangle (region, &clip_rect) != CAIRO_STATUS_SUCCESS) {
+            cairo_region_destroy (region);
+            region = NULL;
+            break;
+        }
+    }
+
+    cairo_rectangle_list_destroy (list);
+    return region;
 }
 
-void
-VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
+void VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
 {
     gdouble delta_x, delta_y;
     gdouble v;
     gint cnt, i;
     int button;
 
-        GdkEvent *base_event = reinterpret_cast<GdkEvent*>(event);
-        auto rowcol = confined_grid_coords_from_event(base_event);
+    GdkEvent *base_event = reinterpret_cast<GdkEvent*>(event);
+    auto rowcol = confined_grid_coords_from_event(base_event);
 
     read_modifiers(base_event);
 
     switch (event->direction) {
-    case GDK_SCROLL_UP:
-        m_mouse_smooth_scroll_delta -= 1.;
-        _vte_debug_print(VTE_DEBUG_EVENTS, "Scroll up\n");
-        break;
-    case GDK_SCROLL_DOWN:
-        m_mouse_smooth_scroll_delta += 1.;
-        _vte_debug_print(VTE_DEBUG_EVENTS, "Scroll down\n");
-        break;
-    case GDK_SCROLL_SMOOTH:
-        gdk_event_get_scroll_deltas ((GdkEvent*) event, &delta_x, &delta_y);
-        m_mouse_smooth_scroll_delta += delta_y;
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                "Smooth scroll by %f, delta now at %f\n",
-                delta_y, m_mouse_smooth_scroll_delta);
-        break;
-    default:
-        break;
+        case GDK_SCROLL_UP:
+            m_mouse_smooth_scroll_delta -= 1.;
+            _vte_debug_print(VTE_DEBUG_EVENTS, "Scroll up\n");
+            break;
+        case GDK_SCROLL_DOWN:
+            m_mouse_smooth_scroll_delta += 1.;
+            _vte_debug_print(VTE_DEBUG_EVENTS, "Scroll down\n");
+            break;
+        case GDK_SCROLL_SMOOTH:
+            gdk_event_get_scroll_deltas ((GdkEvent*) event, &delta_x, &delta_y);
+            m_mouse_smooth_scroll_delta += delta_y;
+            _vte_debug_print(VTE_DEBUG_EVENTS,
+                    "Smooth scroll by %f, delta now at %f\n",
+                    delta_y, m_mouse_smooth_scroll_delta);
+            break;
+        default:
+            break;
     }
 
     /* If we're running a mouse-aware application, map the scroll event
      * to a button press on buttons four and five. */
     if (m_mouse_tracking_mode) {
         cnt = m_mouse_smooth_scroll_delta;
-        if (cnt == 0)
+        if (cnt == 0) {
             return;
+        }
         m_mouse_smooth_scroll_delta -= cnt;
         _vte_debug_print(VTE_DEBUG_EVENTS,
                 "Scroll application by %d lines, smooth scroll delta set back to %f\n",
                 cnt, m_mouse_smooth_scroll_delta);
 
         button = cnt > 0 ? 5 : 4;
-        if (cnt < 0)
+        if (cnt < 0) {
             cnt = -cnt;
+        }
         for (i = 0; i < cnt; i++) {
             /* Encode the parameters and send them to the app. */
-                        feed_mouse_event(rowcol,
-                                         button,
-                                         false /* not drag */,
-                                         false /* not release */);
+            feed_mouse_event(rowcol,
+                                button,
+                                false /* not drag */,
+                                false /* not release */);
         }
         return;
     }
@@ -8373,14 +8377,14 @@ VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
     _vte_debug_print(VTE_DEBUG_EVENTS,
             "Scroll speed is %d lines per non-smooth scroll unit\n",
             (int) v);
-    if (m_screen == &m_alternate_screen &&
-            m_alternate_screen_scroll) {
+    if (m_screen == &m_alternate_screen && m_alternate_screen_scroll) {
         char *normal;
         gssize normal_length;
 
         cnt = v * m_mouse_smooth_scroll_delta;
-        if (cnt == 0)
+        if (cnt == 0) {
             return;
+        }
         m_mouse_smooth_scroll_delta -= cnt / v;
         _vte_debug_print(VTE_DEBUG_EVENTS,
                 "Scroll by %d lines, smooth scroll delta set back to %f\n",
@@ -8396,8 +8400,9 @@ VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
                 m_keypad_mode == VTE_KEYMODE_APPLICATION,
                 &normal,
                 &normal_length);
-        if (cnt < 0)
+        if (cnt < 0) {
             cnt = -cnt;
+        }
 #if 0
         for (i = 0; i < cnt; i++) {
             feed_child_using_modes(normal, normal_length);
@@ -8412,168 +8417,168 @@ VteTerminalPrivate::widget_scroll(GdkEventScroll *event)
     }
 }
 
-bool
-VteTerminalPrivate::set_audible_bell(bool setting)
+bool VteTerminalPrivate::set_audible_bell(bool setting)
 {
-        if (setting == m_audible_bell)
-                return false;
+    if (setting == m_audible_bell) {
+        return false;
+    }
 
     m_audible_bell = setting;
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_text_blink_mode(VteTextBlinkMode setting)
+bool VteTerminalPrivate::set_text_blink_mode(VteTextBlinkMode setting)
 {
-        if (setting == m_text_blink_mode)
-                return false;
+    if (setting == m_text_blink_mode) {
+        return false;
+    }
 
-        m_text_blink_mode = setting;
-        invalidate_all();
+    m_text_blink_mode = setting;
+    invalidate_all();
 
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_allow_bold(bool setting)
+bool VteTerminalPrivate::set_allow_bold(bool setting)
 {
-        if (setting == m_allow_bold)
-                return false;
+    if (setting == m_allow_bold) {
+        return false;
+    }
 
     m_allow_bold = setting;
     invalidate_all();
 
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_bold_is_bright(bool setting)
+bool VteTerminalPrivate::set_bold_is_bright(bool setting)
 {
-        if (setting == m_bold_is_bright)
-                return false;
+    if (setting == m_bold_is_bright) {
+        return false;
+    }
 
     m_bold_is_bright = setting;
     invalidate_all();
 
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_allow_hyperlink(bool setting)
+bool VteTerminalPrivate::set_allow_hyperlink(bool setting)
 {
-        if (setting == m_allow_hyperlink)
-                return false;
+    if (setting == m_allow_hyperlink) {
+        return false;
+    }
 
-        if (setting == false) {
-                m_hyperlink_hover_idx = _vte_ring_get_hyperlink_at_position(m_screen->row_data, -1, -1, true, NULL);
-                g_assert (m_hyperlink_hover_idx == 0);
-                m_hyperlink_hover_uri = NULL;
-                emit_hyperlink_hover_uri_changed(NULL);  /* FIXME only emit if really changed */
-                m_defaults.attr.hyperlink_idx = _vte_ring_get_hyperlink_idx(m_screen->row_data, NULL);
-                g_assert (m_defaults.attr.hyperlink_idx == 0);
-        }
+    if (setting == false) {
+        m_hyperlink_hover_idx = _vte_ring_get_hyperlink_at_position(m_screen->row_data, -1, -1, true, NULL);
+        g_assert (m_hyperlink_hover_idx == 0);
+        m_hyperlink_hover_uri = NULL;
+        emit_hyperlink_hover_uri_changed(NULL);  /* FIXME only emit if really changed */
+        m_defaults.attr.hyperlink_idx = _vte_ring_get_hyperlink_idx(m_screen->row_data, NULL);
+        g_assert (m_defaults.attr.hyperlink_idx == 0);
+    }
 
-        m_allow_hyperlink = setting;
-        invalidate_all();
+    m_allow_hyperlink = setting;
+    invalidate_all();
 
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_scroll_on_output(bool scroll)
+bool VteTerminalPrivate::set_scroll_on_output(bool scroll)
 {
-        if (scroll == m_scroll_on_output)
-                return false;
+    if (scroll == m_scroll_on_output) {
+        return false;
+    }
 
-        m_scroll_on_output = scroll;
-        return true;
+    m_scroll_on_output = scroll;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_scroll_on_keystroke(bool scroll)
+bool VteTerminalPrivate::set_scroll_on_keystroke(bool scroll)
 {
-        if (scroll == m_scroll_on_keystroke)
-                return false;
+    if (scroll == m_scroll_on_keystroke) {
+        return false;
+    }
 
-        m_scroll_on_keystroke = scroll;
-        return true;
+    m_scroll_on_keystroke = scroll;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_rewrap_on_resize(bool rewrap)
+bool VteTerminalPrivate::set_rewrap_on_resize(bool rewrap)
 {
-        if (rewrap == m_rewrap_on_resize)
-                return false;
+    if (rewrap == m_rewrap_on_resize) {
+        return false;
+    }
 
-        m_rewrap_on_resize = rewrap;
-        return true;
+    m_rewrap_on_resize = rewrap;
+    return true;
 }
 
-void
-VteTerminalPrivate::update_cursor_blinks()
+void VteTerminalPrivate::update_cursor_blinks()
 {
-        bool blink = false;
+    bool blink = false;
 
-        switch (decscusr_cursor_blink()) {
+    switch (decscusr_cursor_blink()) {
         case VTE_CURSOR_BLINK_SYSTEM:
-                gboolean v;
-                g_object_get(gtk_widget_get_settings(m_widget),
-                                                     "gtk-cursor-blink",
-                                                     &v, nullptr);
-                blink = v != FALSE;
-                break;
+            gboolean v;
+            g_object_get(gtk_widget_get_settings(m_widget),
+                                                    "gtk-cursor-blink",
+                                                    &v, nullptr);
+            blink = v != FALSE;
+            break;
         case VTE_CURSOR_BLINK_ON:
-                blink = true;
-                break;
+            blink = true;
+            break;
         case VTE_CURSOR_BLINK_OFF:
-                blink = false;
-                break;
-        }
+            blink = false;
+            break;
+    }
 
-    if (m_cursor_blinks == blink)
+    if (m_cursor_blinks == blink) {
         return;
+    }
 
     m_cursor_blinks = blink;
     check_cursor_blink();
 }
 
-bool
-VteTerminalPrivate::set_cursor_blink_mode(VteCursorBlinkMode mode)
+bool VteTerminalPrivate::set_cursor_blink_mode(VteCursorBlinkMode mode)
 {
-        if (mode == m_cursor_blink_mode)
-                return false;
+    if (mode == m_cursor_blink_mode) {
+        return false;
+    }
 
-        m_cursor_blink_mode = mode;
-        update_cursor_blinks();
+    m_cursor_blink_mode = mode;
+    update_cursor_blinks();
 
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_cursor_shape(VteCursorShape shape)
+bool VteTerminalPrivate::set_cursor_shape(VteCursorShape shape)
 {
-        if (shape == m_cursor_shape)
-                return false;
+    if (shape == m_cursor_shape) {
+        return false;
+    }
 
-        m_cursor_shape = shape;
+    m_cursor_shape = shape;
     invalidate_cursor_once();
 
-        return true;
+    return true;
 }
 
 /* DECSCUSR set cursor style */
-bool
-VteTerminalPrivate::set_cursor_style(VteCursorStyle style)
+bool VteTerminalPrivate::set_cursor_style(VteCursorStyle style)
 {
-        if (m_cursor_style == style)
-                return false;
+    if (m_cursor_style == style) {
+        return false;
+    }
 
-        m_cursor_style = style;
-        update_cursor_blinks();
-        /* and this will also make cursor shape match the DECSCUSR style */
-        invalidate_cursor_once();
+    m_cursor_style = style;
+    update_cursor_blinks();
+    /* and this will also make cursor shape match the DECSCUSR style */
+    invalidate_cursor_once();
 
-        return true;
+    return true;
 }
 
 /*
@@ -8585,22 +8590,21 @@ VteTerminalPrivate::set_cursor_style(VteCursorStyle style)
  *
  * Return value: cursor blink mode
  */
-VteCursorBlinkMode
-VteTerminalPrivate::decscusr_cursor_blink()
+VteCursorBlinkMode VteTerminalPrivate::decscusr_cursor_blink()
 {
-        switch (m_cursor_style) {
+    switch (m_cursor_style) {
         default:
         case VTE_CURSOR_STYLE_TERMINAL_DEFAULT:
-                return m_cursor_blink_mode;
+            return m_cursor_blink_mode;
         case VTE_CURSOR_STYLE_BLINK_BLOCK:
         case VTE_CURSOR_STYLE_BLINK_UNDERLINE:
         case VTE_CURSOR_STYLE_BLINK_IBEAM:
-                return VTE_CURSOR_BLINK_ON;
+            return VTE_CURSOR_BLINK_ON;
         case VTE_CURSOR_STYLE_STEADY_BLOCK:
         case VTE_CURSOR_STYLE_STEADY_UNDERLINE:
         case VTE_CURSOR_STYLE_STEADY_IBEAM:
-                return VTE_CURSOR_BLINK_OFF;
-        }
+            return VTE_CURSOR_BLINK_OFF;
+    }
 }
 
 /*
@@ -8613,34 +8617,33 @@ VteTerminalPrivate::decscusr_cursor_blink()
  *
  * Return value: cursor shape
  */
-VteCursorShape
-VteTerminalPrivate::decscusr_cursor_shape()
+VteCursorShape VteTerminalPrivate::decscusr_cursor_shape()
 {
-        switch (m_cursor_style) {
+    switch (m_cursor_style) {
         default:
         case VTE_CURSOR_STYLE_TERMINAL_DEFAULT:
-                return m_cursor_shape;
+            return m_cursor_shape;
         case VTE_CURSOR_STYLE_BLINK_BLOCK:
         case VTE_CURSOR_STYLE_STEADY_BLOCK:
-                return VTE_CURSOR_SHAPE_BLOCK;
+            return VTE_CURSOR_SHAPE_BLOCK;
         case VTE_CURSOR_STYLE_BLINK_UNDERLINE:
         case VTE_CURSOR_STYLE_STEADY_UNDERLINE:
-                return VTE_CURSOR_SHAPE_UNDERLINE;
+            return VTE_CURSOR_SHAPE_UNDERLINE;
         case VTE_CURSOR_STYLE_BLINK_IBEAM:
         case VTE_CURSOR_STYLE_STEADY_IBEAM:
-                return VTE_CURSOR_SHAPE_IBEAM;
-        }
+            return VTE_CURSOR_SHAPE_IBEAM;
+    }
 }
 
-bool
-VteTerminalPrivate::set_scrollback_lines(long lines)
+bool VteTerminalPrivate::set_scrollback_lines(long lines)
 {
-        glong low, high, next;
-        double scroll_delta;
+    glong low, high, next;
+    double scroll_delta;
     VteScreen *scrn;
 
-    if (lines < 0)
+    if (lines < 0) {
         lines = G_MAXLONG;
+    }
 
 #if 0
         /* FIXME: this breaks the scrollbar range, bug #562511 */
@@ -8653,77 +8656,74 @@ VteTerminalPrivate::set_scrollback_lines(long lines)
 
     m_scrollback_lines = lines;
 
-        /* The main screen gets the full scrollback buffer. */
-        scrn = &m_normal_screen;
-        lines = MAX (lines, m_row_count);
-        next = MAX (m_screen->cursor.row + 1,
-                    _vte_ring_next (scrn->row_data));
-        _vte_ring_resize (scrn->row_data, lines);
-        low = _vte_ring_delta (scrn->row_data);
-        high = lines + MIN (G_MAXLONG - lines, low - m_row_count + 1);
-        scrn->insert_delta = CLAMP (scrn->insert_delta, low, high);
-        scrn->scroll_delta = CLAMP (scrn->scroll_delta, low, scrn->insert_delta);
-        next = MIN (next, scrn->insert_delta + m_row_count);
-        if (_vte_ring_next (scrn->row_data) > next){
-                _vte_ring_shrink (scrn->row_data, next - low);
-        }
+    /* The main screen gets the full scrollback buffer. */
+    scrn = &m_normal_screen;
+    lines = MAX (lines, m_row_count);
+    next = MAX (m_screen->cursor.row + 1,
+                _vte_ring_next (scrn->row_data));
+    _vte_ring_resize (scrn->row_data, lines);
+    low = _vte_ring_delta (scrn->row_data);
+    high = lines + MIN (G_MAXLONG - lines, low - m_row_count + 1);
+    scrn->insert_delta = CLAMP (scrn->insert_delta, low, high);
+    scrn->scroll_delta = CLAMP (scrn->scroll_delta, low, scrn->insert_delta);
+    next = MIN (next, scrn->insert_delta + m_row_count);
+    if (_vte_ring_next (scrn->row_data) > next){
+        _vte_ring_shrink (scrn->row_data, next - low);
+    }
 
-        /* The alternate scrn isn't allowed to scroll at all. */
-        scrn = &m_alternate_screen;
-        _vte_ring_resize (scrn->row_data, m_row_count);
-        scrn->scroll_delta = _vte_ring_delta (scrn->row_data);
-        scrn->insert_delta = _vte_ring_delta (scrn->row_data);
-        if (_vte_ring_next (scrn->row_data) > scrn->insert_delta + m_row_count){
-                _vte_ring_shrink (scrn->row_data, m_row_count);
-        }
+    /* The alternate scrn isn't allowed to scroll at all. */
+    scrn = &m_alternate_screen;
+    _vte_ring_resize (scrn->row_data, m_row_count);
+    scrn->scroll_delta = _vte_ring_delta (scrn->row_data);
+    scrn->insert_delta = _vte_ring_delta (scrn->row_data);
+    if (_vte_ring_next (scrn->row_data) > scrn->insert_delta + m_row_count){
+        _vte_ring_shrink (scrn->row_data, m_row_count);
+    }
 
     /* Adjust the scrollbar to the new location. */
     /* Hack: force a change in scroll_delta even if the value remains, so that
        vte_term_q_adj_val_changed() doesn't shortcut to no-op, see bug 676075. */
-        scroll_delta = m_screen->scroll_delta;
+    scroll_delta = m_screen->scroll_delta;
     m_screen->scroll_delta = -1;
     queue_adjustment_value_changed(scroll_delta);
     adjust_adjustments_full();
 
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_backspace_binding(VteEraseBinding binding)
+bool VteTerminalPrivate::set_backspace_binding(VteEraseBinding binding)
 {
-        if (binding == m_backspace_binding)
-                return false;
+    if (binding == m_backspace_binding) {
+        return false;
+    }
 
     m_backspace_binding = binding;
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_delete_binding(VteEraseBinding binding)
+bool VteTerminalPrivate::set_delete_binding(VteEraseBinding binding)
 {
-        if (binding == m_delete_binding)
-                return false;
+    if (binding == m_delete_binding) {
+        return false;
+    }
 
     m_delete_binding = binding;
-        return true;
+    return true;
 }
 
-bool
-VteTerminalPrivate::set_mouse_autohide(bool autohide)
+bool VteTerminalPrivate::set_mouse_autohide(bool autohide)
 {
-        if (autohide == m_mouse_autohide)
-                return false;
+    if (autohide == m_mouse_autohide) {
+        return false;
+    }
 
     m_mouse_autohide = autohide;
 
-        if (m_mouse_cursor_autohidden) {
-                hyperlink_hilite_update();
-#ifndef NO_PCRE
-                match_hilite_update();
-#endif
-                apply_mouse_cursor();
-        }
-        return true;
+    if (m_mouse_cursor_autohidden) {
+        hyperlink_hilite_update();
+        apply_mouse_cursor();
+    }
+    return true;
 }
 
 /*
@@ -8737,206 +8737,133 @@ VteTerminalPrivate::set_mouse_autohide(bool autohide)
  * selection state, and encoding.
  *
  */
-void
-VteTerminalPrivate::reset(bool clear_tabstops,
-                          bool clear_history,
-                          bool from_api)
+void VteTerminalPrivate::reset(bool clear_tabstops,
+                                bool clear_history,
+                                bool from_api)
 {
-        if (from_api && !m_input_enabled)
-                return;
+    if (from_api && !m_input_enabled) {
+        return;
+    }
 
-        GObject *object = G_OBJECT(m_terminal);
-        g_object_freeze_notify(object);
+    GObject *object = G_OBJECT(m_terminal);
+    g_object_freeze_notify(object);
 
-        m_bell_pending = false;
+    m_bell_pending = false;
 
     /* Clear the output buffer. */
     _vte_byte_array_clear(m_outgoing);
     /* Reset charset substitution state. */
     _vte_iso2022_state_free(m_iso2022);
-        m_iso2022 = _vte_iso2022_state_new(nullptr);
-    _vte_iso2022_state_set_codeset(m_iso2022,
-                       m_encoding);
-        m_last_graphic_character = 0;
+    m_iso2022 = _vte_iso2022_state_new(nullptr);
+    _vte_iso2022_state_set_codeset(m_iso2022, m_encoding);
+    m_last_graphic_character = 0;
     /* Reset keypad/cursor key modes. */
     m_keypad_mode = VTE_KEYMODE_NORMAL;
     m_cursor_mode = VTE_KEYMODE_NORMAL;
-        /* Enable autowrap. */
-        m_autowrap = TRUE;
+    /* Enable autowrap. */
+    m_autowrap = TRUE;
     /* Enable meta-sends-escape. */
     m_meta_sends_escape = TRUE;
-        /* Disable DECCOLM mode. */
-        m_deccolm_mode = FALSE;
+    /* Disable DECCOLM mode. */
+    m_deccolm_mode = FALSE;
     /* Reset saved settings. */
     if (m_dec_saved != NULL) {
         g_hash_table_destroy(m_dec_saved);
         m_dec_saved = g_hash_table_new(NULL, NULL);
     }
     /* Reset the color palette. Only the 256 indexed colors, not the special ones, as per xterm. */
-    for (int i = 0; i < 256; i++)
+    for (int i = 0; i < 256; i++) {
         m_palette[i].sources[VTE_COLOR_SOURCE_ESCAPE].is_set = FALSE;
+    }
     /* Reset the default attributes.  Reset the alternate attribute because
      * it's not a real attribute, but we need to treat it as one here. */
-        reset_default_attributes(true);
-        /* Reset charset modes. */
-        m_character_replacements[0] = VTE_CHARACTER_REPLACEMENT_NONE;
-        m_character_replacements[1] = VTE_CHARACTER_REPLACEMENT_NONE;
-        m_character_replacement = &m_character_replacements[0];
+    reset_default_attributes(true);
+    /* Reset charset modes. */
+    m_character_replacements[0] = VTE_CHARACTER_REPLACEMENT_NONE;
+    m_character_replacements[1] = VTE_CHARACTER_REPLACEMENT_NONE;
+    m_character_replacement = &m_character_replacements[0];
     /* Clear the scrollback buffers and reset the cursors. Switch to normal screen. */
     if (clear_history) {
-                m_screen = &m_normal_screen;
-                m_normal_screen.scroll_delta = m_normal_screen.insert_delta =
-                        _vte_ring_reset(m_normal_screen.row_data);
-                m_normal_screen.cursor.row = m_normal_screen.insert_delta;
-                m_normal_screen.cursor.col = 0;
-                m_alternate_screen.scroll_delta = m_alternate_screen.insert_delta =
-                        _vte_ring_reset(m_alternate_screen.row_data);
-                m_alternate_screen.cursor.row = m_alternate_screen.insert_delta;
-                m_alternate_screen.cursor.col = 0;
-                /* Adjust the scrollbar to the new location. */
-                /* Hack: force a change in scroll_delta even if the value remains, so that
-                   vte_term_q_adj_val_changed() doesn't shortcut to no-op, see bug 730599. */
-                m_screen->scroll_delta = -1;
-                queue_adjustment_value_changed(m_screen->insert_delta);
+        m_screen = &m_normal_screen;
+        m_normal_screen.scroll_delta = m_normal_screen.insert_delta =
+                _vte_ring_reset(m_normal_screen.row_data);
+        m_normal_screen.cursor.row = m_normal_screen.insert_delta;
+        m_normal_screen.cursor.col = 0;
+        m_alternate_screen.scroll_delta = m_alternate_screen.insert_delta =
+                _vte_ring_reset(m_alternate_screen.row_data);
+        m_alternate_screen.cursor.row = m_alternate_screen.insert_delta;
+        m_alternate_screen.cursor.col = 0;
+        /* Adjust the scrollbar to the new location. */
+        /* Hack: force a change in scroll_delta even if the value remains, so that
+            vte_term_q_adj_val_changed() doesn't shortcut to no-op, see bug 730599. */
+        m_screen->scroll_delta = -1;
+        queue_adjustment_value_changed(m_screen->insert_delta);
         adjust_adjustments_full();
     }
-        /* DECSCUSR cursor style */
-        set_cursor_style(VTE_CURSOR_STYLE_TERMINAL_DEFAULT);
+    /* DECSCUSR cursor style */
+    set_cursor_style(VTE_CURSOR_STYLE_TERMINAL_DEFAULT);
     /* Do more stuff we refer to as a "full" reset. */
     if (clear_tabstops) {
         set_default_tabstops();
     }
     /* Reset restricted scrolling regions, leave insert mode, make
      * the cursor visible again. */
-        m_scrolling_restricted = FALSE;
-        m_sendrecv_mode = TRUE;
-        m_insert_mode = FALSE;
-        m_linefeed_mode = FALSE;
-        m_origin_mode = FALSE;
-        m_reverse_mode = FALSE;
+    m_scrolling_restricted = FALSE;
+    m_sendrecv_mode = TRUE;
+    m_insert_mode = FALSE;
+    m_linefeed_mode = FALSE;
+    m_origin_mode = FALSE;
+    m_reverse_mode = FALSE;
     m_cursor_visible = TRUE;
-        /* For some reason, xterm doesn't reset alternateScroll, but we do. */
-        m_alternate_screen_scroll = TRUE;
-        /* Reset the visual bits of selection on hard reset, see bug 789954. */
-        if (clear_history) {
-                deselect_all();
-                m_has_selection = FALSE;
-                m_selecting = FALSE;
-                m_selecting_restart = FALSE;
-                m_selecting_had_delta = FALSE;
-                memset(&m_selection_origin, 0,
-                       sizeof(m_selection_origin));
-                memset(&m_selection_last, 0,
-                       sizeof(m_selection_last));
-                memset(&m_selection_start, 0,
-                       sizeof(m_selection_start));
-                memset(&m_selection_end, 0,
-                       sizeof(m_selection_end));
-        }
+    /* For some reason, xterm doesn't reset alternateScroll, but we do. */
+    m_alternate_screen_scroll = TRUE;
+    /* Reset the visual bits of selection on hard reset, see bug 789954. */
+    if (clear_history) {
+        deselect_all();
+        m_has_selection = FALSE;
+        m_selecting = FALSE;
+        m_selecting_restart = FALSE;
+        m_selecting_had_delta = FALSE;
+        memset(&m_selection_origin, 0, sizeof(m_selection_origin));
+        memset(&m_selection_last, 0, sizeof(m_selection_last));
+        memset(&m_selection_start, 0, sizeof(m_selection_start));
+        memset(&m_selection_end, 0, sizeof(m_selection_end));
+    }
 
     /* Reset mouse motion events. */
     m_mouse_tracking_mode = MOUSE_TRACKING_NONE;
-        apply_mouse_cursor();
-        m_mouse_pressed_buttons = 0;
-        m_mouse_handled_buttons = 0;
+    apply_mouse_cursor();
+    m_mouse_pressed_buttons = 0;
+    m_mouse_handled_buttons = 0;
     m_mouse_xterm_extension = FALSE;
     m_mouse_urxvt_extension = FALSE;
     m_mouse_smooth_scroll_delta = 0.;
-        /* Reset focus tracking */
-        m_focus_tracking_mode = FALSE;
+    /* Reset focus tracking */
+    m_focus_tracking_mode = FALSE;
     /* Clear modifiers. */
     m_modifiers = 0;
     /* Reset miscellaneous stuff. */
     m_bracketed_paste_mode = FALSE;
-        /* Reset the saved cursor. */
-        save_cursor(&m_normal_screen);
-        save_cursor(&m_alternate_screen);
+    /* Reset the saved cursor. */
+    save_cursor(&m_normal_screen);
+    save_cursor(&m_alternate_screen);
     /* Cause everything to be redrawn (or cleared). */
     invalidate_all();
 
-        g_object_thaw_notify(object);
+    g_object_thaw_notify(object);
 }
-
-#if 0
-bool
-VteTerminalPrivate::set_pty(VtePty *new_pty)
-{
-        if (new_pty == m_pty)
-                return false;
-
-        if (m_pty != NULL) {
-                disconnect_pty_read();
-                disconnect_pty_write();
-
-                if (m_pty_channel != NULL) {
-                        g_io_channel_unref (m_pty_channel);
-                        m_pty_channel = NULL;
-                }
-
-        /* Take one last shot at processing whatever data is pending,
-         * then flush the buffers in case we're about to run a new
-         * command, disconnecting the timeout. */
-        if (m_incoming != NULL) {
-            process_incoming();
-            _vte_incoming_chunks_release (m_incoming);
-            m_incoming = NULL;
-            m_input_bytes = 0;
-        }
-        g_array_set_size(m_pending, 0);
-        stop_processing(this);
-
-        /* Clear the outgoing buffer as well. */
-        _vte_byte_array_clear(m_outgoing);
-
-                g_object_unref(m_pty);
-                m_pty = NULL;
-        }
-
-        if (new_pty == NULL) {
-                m_pty = NULL;
-                return true;
-        }
-
-        m_pty = (VtePty *)g_object_ref(new_pty);
-        int pty_master = vte_pty_get_fd(m_pty);
-
-        /* Ensure the FD is non-blocking */
-        int flags = fcntl(pty_master, F_GETFL);
-        g_warn_if_fail(flags >= 0 && (flags & O_NONBLOCK) == O_NONBLOCK);
-
-        m_pty_channel = g_io_channel_unix_new(pty_master);
-        g_io_channel_set_close_on_unref(m_pty_channel, FALSE);
-
-        set_size(m_column_count, m_row_count);
-
-        GError *error = nullptr;
-        if (!vte_pty_set_utf8(m_pty,
-                              strcmp(m_encoding, "UTF-8") == 0,
-                              &error)) {
-                g_warning ("Failed to set UTF8 mode: %s\n", error->message);
-                g_error_free (error);
-        }
-
-        /* Open channels to listen for input on. */
-        connect_pty_read();
-
-        return true;
-}
-#endif
 
 /* We need this bit of glue to ensure that accessible objects will always
  * get signals. */
-void
-VteTerminalPrivate::subscribe_accessible_events()
+void VteTerminalPrivate::subscribe_accessible_events()
 {
     m_accessible_emit = true;
 }
 
-void
-VteTerminalPrivate::select_text(vte::grid::column_t start_col,
-                                vte::grid::row_t start_row,
-                                vte::grid::column_t end_col,
-                                vte::grid::row_t end_row)
+void VteTerminalPrivate::select_text(vte::grid::column_t start_col,
+                                        vte::grid::row_t start_row,
+                                        vte::grid::column_t end_col,
+                                        vte::grid::row_t end_row)
 {
     deselect_all();
 
@@ -8946,246 +8873,225 @@ VteTerminalPrivate::select_text(vte::grid::column_t start_col,
     m_selection_start.row = start_row;
     m_selection_end.col = end_col;
     m_selection_end.row = end_row;
-        widget_copy(VTE_SELECTION_PRIMARY, VTE_FORMAT_TEXT);
+    widget_copy(VTE_SELECTION_PRIMARY, VTE_FORMAT_TEXT);
     emit_selection_changed();
 
     invalidate_region(MIN (start_col, end_col), MAX (start_col, end_col),
                           MIN (start_row, end_row), MAX (start_row, end_row),
                           false);
-
 }
 
-void
-VteTerminalPrivate::select_empty(vte::grid::column_t col,
-                                 vte::grid::row_t row)
+void VteTerminalPrivate::select_empty(vte::grid::column_t col,
+                                        vte::grid::row_t row)
 {
         select_text(col, row, col - 1, row);
 }
 
-static void
-remove_process_timeout_source(void)
+static void remove_process_timeout_source(void)
 {
-    if (process_timeout_tag == 0)
-                return;
+    if (process_timeout_tag == 0) {
+        return;
+    }
 
-        _vte_debug_print(VTE_DEBUG_TIMEOUT, "Removing process timeout\n");
-        g_source_remove (process_timeout_tag);
-        process_timeout_tag = 0;
+    _vte_debug_print(VTE_DEBUG_TIMEOUT, "Removing process timeout\n");
+    g_source_remove (process_timeout_tag);
+    process_timeout_tag = 0;
 }
 
-static void
-add_update_timeout(VteTerminalPrivate *that)
+static void add_update_timeout(VteTerminalPrivate *that)
 {
     if (update_timeout_tag == 0) {
-        _vte_debug_print (VTE_DEBUG_TIMEOUT,
-                "Starting update timeout\n");
-        update_timeout_tag =
-            g_timeout_add_full (GDK_PRIORITY_REDRAW,
-                    VTE_UPDATE_TIMEOUT,
-                    update_timeout, NULL,
-                    NULL);
+        _vte_debug_print (VTE_DEBUG_TIMEOUT, "Starting update timeout\n");
+        update_timeout_tag = g_timeout_add_full (GDK_PRIORITY_REDRAW,
+                                                    VTE_UPDATE_TIMEOUT,
+                                                    update_timeout, NULL,
+                                                    NULL);
     }
     if (!in_process_timeout) {
                 remove_process_timeout_source();
-        }
+    }
     if (that->m_active_terminals_link == nullptr) {
-        _vte_debug_print (VTE_DEBUG_TIMEOUT,
-                "Adding terminal to active list\n");
+        _vte_debug_print (VTE_DEBUG_TIMEOUT, "Adding terminal to active list\n");
         that->m_active_terminals_link = g_active_terminals =
-            g_list_prepend(g_active_terminals, that);
+                                    g_list_prepend(g_active_terminals, that);
     }
 }
 
-void
-VteTerminalPrivate::reset_update_rects()
+void VteTerminalPrivate::reset_update_rects()
 {
-        g_array_set_size(m_update_rects, 0);
+    g_array_set_size(m_update_rects, 0);
     m_invalidated_all = FALSE;
 }
 
-static bool
-remove_from_active_list(VteTerminalPrivate *that)
+static bool remove_from_active_list(VteTerminalPrivate *that)
 {
-    if (that->m_active_terminals_link == nullptr ||
-            that->m_update_rects->len != 0)
-                return false;
+    if (that->m_active_terminals_link == nullptr || that->m_update_rects->len != 0) {
+        return false;
+    }
 
-        _vte_debug_print(VTE_DEBUG_TIMEOUT, "Removing terminal from active list\n");
-        g_active_terminals = g_list_delete_link(g_active_terminals, that->m_active_terminals_link);
-        that->m_active_terminals_link = nullptr;
-        return true;
+    _vte_debug_print(VTE_DEBUG_TIMEOUT, "Removing terminal from active list\n");
+    g_active_terminals = g_list_delete_link(g_active_terminals, that->m_active_terminals_link);
+    that->m_active_terminals_link = nullptr;
+    return true;
 }
 
-static void
-stop_processing(VteTerminalPrivate *that)
+static void stop_processing(VteTerminalPrivate *that)
 {
-        if (!remove_from_active_list(that))
-                return;
+    if (!remove_from_active_list(that)) {
+        return;
+    }
 
-        if (g_active_terminals != nullptr)
-                return;
+    if (g_active_terminals != nullptr) {
+        return;
+    }
 
-        if (!in_process_timeout) {
-                remove_process_timeout_source();
-        }
-        if (in_update_timeout == FALSE &&
-            update_timeout_tag != 0) {
-                _vte_debug_print(VTE_DEBUG_TIMEOUT, "Removing update timeout\n");
-                g_source_remove (update_timeout_tag);
-                update_timeout_tag = 0;
-        }
-}
-
-static void
-remove_update_timeout(VteTerminalPrivate *that)
-{
-    that->reset_update_rects();
-        stop_processing(that);
-}
-
-static void
-add_process_timeout(VteTerminalPrivate *that)
-{
-    _vte_debug_print(VTE_DEBUG_TIMEOUT,
-            "Adding terminal to active list\n");
-    that->m_active_terminals_link = g_active_terminals =
-        g_list_prepend(g_active_terminals, that);
-    if (update_timeout_tag == 0 &&
-            process_timeout_tag == 0) {
-        _vte_debug_print(VTE_DEBUG_TIMEOUT,
-                "Starting process timeout\n");
-        process_timeout_tag =
-            g_timeout_add (VTE_DISPLAY_TIMEOUT,
-                    process_timeout, NULL);
+    if (!in_process_timeout) {
+        remove_process_timeout_source();
+    }
+    if (in_update_timeout == FALSE && update_timeout_tag != 0) {
+        _vte_debug_print(VTE_DEBUG_TIMEOUT, "Removing update timeout\n");
+        g_source_remove (update_timeout_tag);
+        update_timeout_tag = 0;
     }
 }
 
-void
-VteTerminalPrivate::start_processing()
+static void remove_update_timeout(VteTerminalPrivate *that)
 {
-    if (!is_processing())
-        add_process_timeout(this);
+    that->reset_update_rects();
+    stop_processing(that);
 }
 
-void
-VteTerminalPrivate::emit_pending_signals()
+static void add_process_timeout(VteTerminalPrivate *that)
+{
+    _vte_debug_print(VTE_DEBUG_TIMEOUT, "Adding terminal to active list\n");
+    that->m_active_terminals_link = g_active_terminals =
+                                    g_list_prepend(g_active_terminals, that);
+    if (update_timeout_tag == 0 && process_timeout_tag == 0) {
+        _vte_debug_print(VTE_DEBUG_TIMEOUT, "Starting process timeout\n");
+        process_timeout_tag = g_timeout_add (VTE_DISPLAY_TIMEOUT,
+                                                process_timeout, NULL);
+    }
+}
+
+void VteTerminalPrivate::start_processing()
+{
+    if (!is_processing()) {
+        add_process_timeout(this);
+    }
+}
+
+void VteTerminalPrivate::emit_pending_signals()
 {
     GObject *object = G_OBJECT(m_terminal);
-        g_object_freeze_notify(object);
-        gboolean really_changed;
+    g_object_freeze_notify(object);
+    gboolean really_changed;
 
     emit_adjustment_changed();
 
     if (m_window_title_changed) {
-                really_changed = (g_strcmp0(m_window_title, m_window_title_changed) != 0);
+        really_changed = (g_strcmp0(m_window_title, m_window_title_changed) != 0);
         g_free (m_window_title);
         m_window_title = m_window_title_changed;
         m_window_title_changed = NULL;
 
-                if (really_changed) {
-                        _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                         "Emitting `window-title-changed'.\n");
-                        g_signal_emit(object, signals[SIGNAL_WINDOW_TITLE_CHANGED], 0);
-                        g_object_notify_by_pspec(object, pspecs[PROP_WINDOW_TITLE]);
-                }
+        if (really_changed) {
+            _vte_debug_print(VTE_DEBUG_SIGNALS,
+                                "Emitting `window-title-changed'.\n");
+            g_signal_emit(object, signals[SIGNAL_WINDOW_TITLE_CHANGED], 0);
+            g_object_notify_by_pspec(object, pspecs[PROP_WINDOW_TITLE]);
+        }
     }
 
     if (m_icon_title_changed) {
-                really_changed = (g_strcmp0(m_icon_title, m_icon_title_changed) != 0);
+        really_changed = (g_strcmp0(m_icon_title, m_icon_title_changed) != 0);
         g_free (m_icon_title);
         m_icon_title = m_icon_title_changed;
         m_icon_title_changed = NULL;
 
-                if (really_changed) {
-                        _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                         "Emitting `icon-title-changed'.\n");
-                        g_signal_emit(object, signals[SIGNAL_ICON_TITLE_CHANGED], 0);
-                        g_object_notify_by_pspec(object, pspecs[PROP_ICON_TITLE]);
-                }
+        if (really_changed) {
+            _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `icon-title-changed'.\n");
+            g_signal_emit(object, signals[SIGNAL_ICON_TITLE_CHANGED], 0);
+            g_object_notify_by_pspec(object, pspecs[PROP_ICON_TITLE]);
+        }
     }
 
     if (m_current_directory_uri_changed) {
-                really_changed = (g_strcmp0(m_current_directory_uri, m_current_directory_uri_changed) != 0);
-                g_free (m_current_directory_uri);
-                m_current_directory_uri = m_current_directory_uri_changed;
-                m_current_directory_uri_changed = NULL;
+        really_changed = (g_strcmp0(m_current_directory_uri, m_current_directory_uri_changed) != 0);
+        g_free (m_current_directory_uri);
+        m_current_directory_uri = m_current_directory_uri_changed;
+        m_current_directory_uri_changed = NULL;
 
-                if (really_changed) {
-                        _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                         "Emitting `current-directory-uri-changed'.\n");
-                        g_signal_emit(object, signals[SIGNAL_CURRENT_DIRECTORY_URI_CHANGED], 0);
-                        g_object_notify_by_pspec(object, pspecs[PROP_CURRENT_DIRECTORY_URI]);
-                }
+        if (really_changed) {
+            _vte_debug_print(VTE_DEBUG_SIGNALS,
+                                "Emitting `current-directory-uri-changed'.\n");
+            g_signal_emit(object, signals[SIGNAL_CURRENT_DIRECTORY_URI_CHANGED], 0);
+            g_object_notify_by_pspec(object, pspecs[PROP_CURRENT_DIRECTORY_URI]);
         }
+    }
 
-        if (m_current_file_uri_changed) {
-                really_changed = (g_strcmp0(m_current_file_uri, m_current_file_uri_changed) != 0);
-                g_free (m_current_file_uri);
-                m_current_file_uri = m_current_file_uri_changed;
-                m_current_file_uri_changed = NULL;
+    if (m_current_file_uri_changed) {
+        really_changed = (g_strcmp0(m_current_file_uri, m_current_file_uri_changed) != 0);
+        g_free (m_current_file_uri);
+        m_current_file_uri = m_current_file_uri_changed;
+        m_current_file_uri_changed = NULL;
 
-                if (really_changed) {
-                        _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                         "Emitting `current-file-uri-changed'.\n");
-                        g_signal_emit(object, signals[SIGNAL_CURRENT_FILE_URI_CHANGED], 0);
-                        g_object_notify_by_pspec(object, pspecs[PROP_CURRENT_FILE_URI]);
-                }
+        if (really_changed) {
+            _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `current-file-uri-changed'.\n");
+            g_signal_emit(object, signals[SIGNAL_CURRENT_FILE_URI_CHANGED], 0);
+            g_object_notify_by_pspec(object, pspecs[PROP_CURRENT_FILE_URI]);
         }
+    }
 
     /* Flush any pending "inserted" signals. */
 
-        if (m_cursor_moved_pending) {
-                _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                 "Emitting `cursor-moved'.\n");
-                g_signal_emit(object, signals[SIGNAL_CURSOR_MOVED], 0);
-                m_cursor_moved_pending = false;
-        }
-        if (m_text_modified_flag) {
-                _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                 "Emitting buffered `text-modified'.\n");
-                emit_text_modified();
-                m_text_modified_flag = false;
-        }
-        if (m_text_inserted_flag) {
-                _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                 "Emitting buffered `text-inserted'\n");
-                emit_text_inserted();
-                m_text_inserted_flag = false;
-        }
-        if (m_text_deleted_flag) {
-                _vte_debug_print(VTE_DEBUG_SIGNALS,
-                                 "Emitting buffered `text-deleted'\n");
-                emit_text_deleted();
-                m_text_deleted_flag = false;
+    if (m_cursor_moved_pending) {
+        _vte_debug_print(VTE_DEBUG_SIGNALS,
+                            "Emitting `cursor-moved'.\n");
+        g_signal_emit(object, signals[SIGNAL_CURSOR_MOVED], 0);
+        m_cursor_moved_pending = false;
+    }
+    if (m_text_modified_flag) {
+        _vte_debug_print(VTE_DEBUG_SIGNALS,
+                            "Emitting buffered `text-modified'.\n");
+        emit_text_modified();
+        m_text_modified_flag = false;
+    }
+    if (m_text_inserted_flag) {
+        _vte_debug_print(VTE_DEBUG_SIGNALS,
+                            "Emitting buffered `text-inserted'\n");
+        emit_text_inserted();
+        m_text_inserted_flag = false;
+    }
+    if (m_text_deleted_flag) {
+        _vte_debug_print(VTE_DEBUG_SIGNALS,
+                            "Emitting buffered `text-deleted'\n");
+        emit_text_deleted();
+        m_text_deleted_flag = false;
     }
     if (m_contents_changed_pending) {
-                /* Update hyperlink and dingus match set. */
+        /* Update hyperlink and dingus match set. */
         match_contents_clear();
         if (m_mouse_cursor_over_widget) {
-                        hyperlink_hilite_update();
-#ifndef NO_PCRE
-                        match_hilite_update();
-#endif
+            hyperlink_hilite_update();
         }
 
-        _vte_debug_print(VTE_DEBUG_SIGNALS,
-                "Emitting `contents-changed'.\n");
+        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `contents-changed'.\n");
         g_signal_emit(m_terminal, signals[SIGNAL_CONTENTS_CHANGED], 0);
         m_contents_changed_pending = false;
     }
-        if (m_bell_pending) {
-                auto const timestamp = g_get_monotonic_time();
-                if ((timestamp - m_bell_timestamp) >= VTE_BELL_MINIMUM_TIME_DIFFERENCE) {
-                        beep();
-                        emit_bell();
+    if (m_bell_pending) {
+        auto const timestamp = g_get_monotonic_time();
+        if ((timestamp - m_bell_timestamp) >= VTE_BELL_MINIMUM_TIME_DIFFERENCE) {
+            beep();
+            emit_bell();
 
-                        m_bell_timestamp = timestamp;
-                 }
-
-                m_bell_pending = false;
+            m_bell_timestamp = timestamp;
         }
 
-        g_object_thaw_notify(object);
+        m_bell_pending = false;
+    }
+
+    g_object_thaw_notify(object);
 }
 
 void
