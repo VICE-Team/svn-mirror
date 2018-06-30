@@ -6855,22 +6855,22 @@ VteTerminalPrivate::~VteTerminalPrivate()
     g_array_free(m_update_rects, TRUE /* free segment */);
 }
 
-void
-VteTerminalPrivate::widget_realize()
+void VteTerminalPrivate::widget_realize()
 {
     _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_realize()\n");
 
-        auto allocation = get_allocated_rect();
+    auto allocation = get_allocated_rect();
 
     /* Create the stock cursors. */
-        m_mouse_cursor_over_widget = FALSE;  /* We'll receive an enter_notify_event if the window appears under the cursor. */
+    m_mouse_cursor_over_widget = FALSE;  /* We'll receive an enter_notify_event if the window appears under the cursor. */
     m_mouse_default_cursor = widget_cursor_new(VTE_DEFAULT_CURSOR);
     m_mouse_mousing_cursor = widget_cursor_new(VTE_MOUSING_CURSOR);
-        if (_vte_debug_on(VTE_DEBUG_HYPERLINK))
-                /* Differ from the standard regex match cursor in debug mode. */
-                m_mouse_hyperlink_cursor = widget_cursor_new(VTE_HYPERLINK_CURSOR_DEBUG);
-        else
-                m_mouse_hyperlink_cursor = widget_cursor_new(VTE_HYPERLINK_CURSOR);
+    if (_vte_debug_on(VTE_DEBUG_HYPERLINK)) {
+        /* Differ from the standard regex match cursor in debug mode. */
+        m_mouse_hyperlink_cursor = widget_cursor_new(VTE_HYPERLINK_CURSOR_DEBUG);
+    } else {
+        m_mouse_hyperlink_cursor = widget_cursor_new(VTE_HYPERLINK_CURSOR);
+    }
     m_mouse_inviso_cursor = widget_cursor_new(GDK_BLANK_CURSOR);
 
     /* Create a GDK window for the widget. */
@@ -6883,38 +6883,37 @@ VteTerminalPrivate::widget_realize()
     attributes.wclass = GDK_INPUT_ONLY;
     attributes.visual = gtk_widget_get_visual(m_widget);
     attributes.event_mask = gtk_widget_get_events(m_widget) |
-                GDK_EXPOSURE_MASK |
-                GDK_FOCUS_CHANGE_MASK |
-                GDK_SMOOTH_SCROLL_MASK |
-                GDK_SCROLL_MASK |
-                GDK_BUTTON_PRESS_MASK |
-                GDK_BUTTON_RELEASE_MASK |
-                GDK_POINTER_MOTION_MASK |
-                GDK_BUTTON1_MOTION_MASK |
-                GDK_ENTER_NOTIFY_MASK |
-                GDK_LEAVE_NOTIFY_MASK |
-                GDK_KEY_PRESS_MASK |
-                GDK_KEY_RELEASE_MASK;
+                            GDK_EXPOSURE_MASK |
+                            GDK_FOCUS_CHANGE_MASK |
+                            GDK_SMOOTH_SCROLL_MASK |
+                            GDK_SCROLL_MASK |
+                            GDK_BUTTON_PRESS_MASK |
+                            GDK_BUTTON_RELEASE_MASK |
+                            GDK_POINTER_MOTION_MASK |
+                            GDK_BUTTON1_MOTION_MASK |
+                            GDK_ENTER_NOTIFY_MASK |
+                            GDK_LEAVE_NOTIFY_MASK |
+                            GDK_KEY_PRESS_MASK |
+                            GDK_KEY_RELEASE_MASK;
     attributes.cursor = m_mouse_default_cursor;
     guint attributes_mask = GDK_WA_X |
-                                GDK_WA_Y |
-                                (attributes.visual ? GDK_WA_VISUAL : 0) |
-                                GDK_WA_CURSOR;
+                            GDK_WA_Y |
+                            (attributes.visual ? GDK_WA_VISUAL : 0) |
+                            GDK_WA_CURSOR;
 
     m_event_window = gdk_window_new(gtk_widget_get_parent_window (m_widget),
                                         &attributes, attributes_mask);
-        gtk_widget_register_window(m_widget, m_event_window);
+    gtk_widget_register_window(m_widget, m_event_window);
 
     /* Create rendering data if this is a re-realise */
-        if (m_draw == NULL) {
-                m_draw = _vte_draw_new();
-        }
+    if (m_draw == NULL) {
+        m_draw = _vte_draw_new();
+    }
 
         // FIXMEchpe this shouldn't ever be true:
     if (m_im_context != nullptr) {
-            g_signal_handlers_disconnect_matched(m_im_context, G_SIGNAL_MATCH_DATA,
-                                                     0, 0, NULL, NULL,
-                                                     this);
+        g_signal_handlers_disconnect_matched(m_im_context, G_SIGNAL_MATCH_DATA,
+                                                    0, 0, NULL, NULL, this);
         im_reset();
         gtk_im_context_set_client_window(m_im_context, nullptr);
         g_object_unref(m_im_context);
@@ -6945,68 +6944,68 @@ VteTerminalPrivate::widget_realize()
     ensure_font();
 }
 
-void
-VteTerminalPrivate::widget_map()
+void VteTerminalPrivate::widget_map()
 {
-        if (m_event_window)
-                gdk_window_show_unraised(m_event_window);
+    if (m_event_window) {
+        gdk_window_show_unraised(m_event_window);
+    }
 }
 
-void
-VteTerminalPrivate::widget_unmap()
+void VteTerminalPrivate::widget_unmap()
 {
-        if (m_event_window)
-                gdk_window_hide(m_event_window);
+    if (m_event_window) {
+        gdk_window_hide(m_event_window);
+    }
 }
 
-static inline void
-swap (guint *a, guint *b)
+static inline void swap (guint *a, guint *b)
 {
     guint tmp;
     tmp = *a, *a = *b, *b = tmp;
 }
 
-// FIXMEchpe probably @attr should be passed by ref
-void
-VteTerminalPrivate::determine_colors(VteCellAttr const* attr,
-                                     bool is_selected,
-                                     bool is_cursor,
-                                     guint *pfore,
-                                     guint *pback,
-                                     guint *pdeco) const
+/* FIXMEchpe probably @attr should be passed by ref */
+void VteTerminalPrivate::determine_colors(VteCellAttr const* attr,
+                                            bool is_selected,
+                                            bool is_cursor,
+                                            guint *pfore,
+                                            guint *pback,
+                                            guint *pdeco) const
 {
-        guint fore, back, deco;
+    guint fore, back, deco;
 
-        g_assert(attr);
+    g_assert(attr);
 
     /* Start with cell colors */
-        vte_color_triple_get(attr->colors(), &fore, &back, &deco);
+    vte_color_triple_get(attr->colors(), &fore, &back, &deco);
 
     /* Reverse-mode switches default fore and back colors */
-        if (G_UNLIKELY (m_reverse_mode)) {
-        if (fore == VTE_DEFAULT_FG)
+    if (G_UNLIKELY (m_reverse_mode)) {
+        if (fore == VTE_DEFAULT_FG) {
             fore = VTE_DEFAULT_BG;
-        if (back == VTE_DEFAULT_BG)
+        }
+        if (back == VTE_DEFAULT_BG) {
             back = VTE_DEFAULT_FG;
+        }
     }
 
     /* Handle bold by using set bold color or brightening */
-        if (attr->bold()) {
-                if (fore == VTE_DEFAULT_FG && get_color(VTE_BOLD_FG) != NULL) {
+    if (attr->bold()) {
+        if (fore == VTE_DEFAULT_FG && get_color(VTE_BOLD_FG) != NULL) {
             fore = VTE_BOLD_FG;
-                } else if (m_bold_is_bright &&
-                           fore >= VTE_LEGACY_COLORS_OFFSET &&
-                           fore < VTE_LEGACY_COLORS_OFFSET + VTE_LEGACY_COLOR_SET_SIZE) {
+        } else if (m_bold_is_bright &&
+                    fore >= VTE_LEGACY_COLORS_OFFSET &&
+                    fore < VTE_LEGACY_COLORS_OFFSET + VTE_LEGACY_COLOR_SET_SIZE) {
             fore += VTE_COLOR_BRIGHT_OFFSET;
         }
     }
 
-        /* Handle dim colors.  Only apply to palette colors, dimming direct RGB wouldn't make sense.
-         * Apply to the foreground color only, but do this before handling reverse/highlight so that
-         * those can be used to dim the background instead. */
-        if (attr->dim() && !(fore & VTE_RGB_COLOR_MASK(8, 8, 8))) {
-            fore |= VTE_DIM_COLOR;
-        }
+   /* Handle dim colors.  Only apply to palette colors, dimming direct RGB wouldn't make sense.
+    * Apply to the foreground color only, but do this before handling reverse/highlight so that
+    * those can be used to dim the background instead. */
+    if (attr->dim() && !(fore & VTE_RGB_COLOR_MASK(8, 8, 8))) {
+        fore |= VTE_DIM_COLOR;
+    }
 
     /* Reverse cell? */
     if (attr->reverse()) {
@@ -7025,90 +7024,88 @@ VteTerminalPrivate::determine_colors(VteCellAttr const* attr,
             fore = VTE_HIGHLIGHT_FG;
             do_swap = false;
         }
-        if (do_swap)
+        if (do_swap) {
             swap (&fore, &back);
+        }
     }
 
     /* Cursor: use cursor back, or inverse */
     if (is_cursor) {
         /* XXX what if cursor back is same color as current back? */
-                bool do_swap = true;
-                if (get_color(VTE_CURSOR_BG) != NULL) {
-                        back = VTE_CURSOR_BG;
-                        do_swap = false;
-                }
-                if (get_color(VTE_CURSOR_FG) != NULL) {
-                        fore = VTE_CURSOR_FG;
-                        do_swap = false;
-                }
-                if (do_swap)
-                        swap (&fore, &back);
+        bool do_swap = true;
+        if (get_color(VTE_CURSOR_BG) != NULL) {
+            back = VTE_CURSOR_BG;
+            do_swap = false;
+        }
+        if (get_color(VTE_CURSOR_FG) != NULL) {
+            fore = VTE_CURSOR_FG;
+            do_swap = false;
+        }
+        if (do_swap) {
+            swap (&fore, &back);
+        }
     }
 
-    /* Invisible? */
-        /* FIXME: This is dead code, this is not where we actually handle invisibile.
-         * Instead, draw_cells() is not called from draw_rows().
-         * That is required for the foreground to be transparent if so is the background. */
-        if (attr->invisible()) {
-                fore = back;
-                deco = VTE_DEFAULT_FG;
+   /* Invisible? */
+   /* FIXME: This is dead code, this is not where we actually handle invisibile.
+    * Instead, draw_cells() is not called from draw_rows().
+    * That is required for the foreground to be transparent if so is the background. */
+    if (attr->invisible()) {
+        fore = back;
+        deco = VTE_DEFAULT_FG;
     }
 
     *pfore = fore;
     *pback = back;
-        *pdeco = deco;
+    *pdeco = deco;
 }
 
-void
-VteTerminalPrivate::determine_colors(VteCell const* cell,
-                                     bool highlight,
-                                     guint *fore,
-                                     guint *back,
-                                     guint *deco) const
-{
-    determine_colors(cell ? &cell->attr : &basic_cell.attr,
-                         highlight, false /* not cursor */,
-                         fore, back, deco);
-}
-
-void
-VteTerminalPrivate::determine_cursor_colors(VteCell const* cell,
+void VteTerminalPrivate::determine_colors(VteCell const* cell,
                                             bool highlight,
                                             guint *fore,
                                             guint *back,
                                             guint *deco) const
 {
     determine_colors(cell ? &cell->attr : &basic_cell.attr,
-                         highlight, true /* cursor */,
-                         fore, back, deco);
+                        highlight, false /* not cursor */,
+                        fore, back, deco);
 }
 
-static gboolean
-invalidate_text_blink_cb(VteTerminalPrivate *that)
+void VteTerminalPrivate::determine_cursor_colors(VteCell const* cell,
+                                                    bool highlight,
+                                                    guint *fore,
+                                                    guint *back,
+                                                    guint *deco) const
 {
-        that->m_text_blink_tag = 0;
-        that->invalidate_all();
-        return G_SOURCE_REMOVE;
+    determine_colors(cell ? &cell->attr : &basic_cell.attr,
+                        highlight, true /* cursor */,
+                        fore, back, deco);
+}
+
+static gboolean invalidate_text_blink_cb(VteTerminalPrivate *that)
+{
+    that->m_text_blink_tag = 0;
+    that->invalidate_all();
+    return G_SOURCE_REMOVE;
 }
 
 /* Draw a string of characters with similar attributes. */
-void
-VteTerminalPrivate::draw_cells(struct _vte_draw_text_request *items,
-                               gssize n,
-                               uint32_t fore,
-                               uint32_t back,
-                               uint32_t deco,
-                               bool clear,
-                               bool draw_default_bg,
-                               uint32_t attr,
-                               bool hyperlink,
-                               bool hilite,
-                               int column_width,
-                               int row_height)
+void VteTerminalPrivate::draw_cells(struct _vte_draw_text_request *items,
+                                    gssize n,
+                                    uint32_t fore,
+                                    uint32_t back,
+                                    uint32_t deco,
+                                    bool clear,
+                                    bool draw_default_bg,
+                                    uint32_t attr,
+                                    bool hyperlink,
+                                    bool hilite,
+                                    int column_width,
+                                    int row_height)
 {
     int i, x, y;
     gint columns = 0;
-        vte::color::rgb fg, bg, dc;
+    vte::color::rgb fg, bg, dc;
 
     g_assert(n > 0);
 #if 0
@@ -7130,13 +7127,14 @@ VteTerminalPrivate::draw_cells(struct _vte_draw_text_request *items,
 #endif
 
     auto bold = (attr & VTE_ATTR_BOLD) != 0;
-        rgb_from_index<8, 8, 8>(fore, fg);
-        rgb_from_index<8, 8, 8>(back, bg);
-        // FIXMEchpe defer resolving deco color until we actually need to draw an underline?
-        if (deco == VTE_DEFAULT_FG)
-                dc = fg;
-        else
-                rgb_from_index<4, 5, 4>(deco, dc);
+    rgb_from_index<8, 8, 8>(fore, fg);
+    rgb_from_index<8, 8, 8>(back, bg);
+    /* FIXMEchpe defer resolving deco color until we actually need to draw an underline? */
+    if (deco == VTE_DEFAULT_FG) {
+        dc = fg;
+    } else {
+        rgb_from_index<4, 5, 4>(deco, dc);
+    }
 
     i = 0;
     do {
@@ -7147,39 +7145,38 @@ VteTerminalPrivate::draw_cells(struct _vte_draw_text_request *items,
             columns += items[i].columns;
         }
         if (clear && (draw_default_bg || back != VTE_DEFAULT_BG)) {
-                        gint bold_offset = (bold && !_vte_draw_has_bold(m_draw, VTE_DRAW_BOLD)) ? 1 : 0;
-            _vte_draw_fill_rectangle(m_draw,
-                    x,
-                                        y,
+            gint bold_offset = (bold && !_vte_draw_has_bold(m_draw, VTE_DRAW_BOLD)) ? 1 : 0;
+            _vte_draw_fill_rectangle(m_draw, x, y,
                     columns * column_width + bold_offset, row_height,
                     &bg, VTE_DRAW_OPAQUE);
         }
     } while (i < n);
 
-        if (attr & VTE_ATTR_BLINK) {
-                /* Notify the caller that cells with the "blink" attribute were encountered (regardless of
-                 * whether they're actually painted or skipped now), so that the caller can set up a timer
-                 * to make them blink if it wishes to. */
-                m_text_to_blink = true;
+    if (attr & VTE_ATTR_BLINK) {
+       /* Notify the caller that cells with the "blink" attribute were encountered (regardless of
+        * whether they're actually painted or skipped now), so that the caller can set up a timer
+        * to make them blink if it wishes to. */
+        m_text_to_blink = true;
 
-                /* This is for the "off" state of blinking text. Invisible text could also be handled here,
-                 * but it's not, it's handled outside by not even calling this method.
-                 * Setting fg = bg and painting the text would not work for two reasons: it'd be opaque
-                 * even if the background is translucent, and this method can be called with a continuous
-                 * run of identical fg, yet different bg colored cells. So we simply bail out. */
-                if (!m_text_blink_state)
-                        return;
+       /* This is for the "off" state of blinking text. Invisible text could also be handled here,
+        * but it's not, it's handled outside by not even calling this method.
+        * Setting fg = bg and painting the text would not work for two reasons: it'd be opaque
+        * even if the background is translucent, and this method can be called with a continuous
+        * run of identical fg, yet different bg colored cells. So we simply bail out. */
+        if (!m_text_blink_state) {
+            return;
         }
+    }
 
-        /* Draw whatever SFX are required. Do this before drawing the letters,
-         * so that if the descent of a letter crosses an underline of a different color,
-         * it's the letter's color that wins. Other kinds of decorations always have the
-         * same color as the text, so the order is irrelevant there. */
-        if ((attr & (VTE_ATTR_UNDERLINE_MASK |
-                     VTE_ATTR_STRIKETHROUGH_MASK |
-                     VTE_ATTR_OVERLINE_MASK |
-                     VTE_ATTR_BOXED_MASK)) |
-            hyperlink | hilite) {
+   /* Draw whatever SFX are required. Do this before drawing the letters,
+    * so that if the descent of a letter crosses an underline of a different color,
+    * it's the letter's color that wins. Other kinds of decorations always have the
+    * same color as the text, so the order is irrelevant there. */
+    if ((attr & (VTE_ATTR_UNDERLINE_MASK |
+                    VTE_ATTR_STRIKETHROUGH_MASK |
+                    VTE_ATTR_OVERLINE_MASK |
+                    VTE_ATTR_BOXED_MASK)) |
+         hyperlink | hilite) {
         i = 0;
         do {
             x = items[i].x;
@@ -7187,92 +7184,89 @@ VteTerminalPrivate::draw_cells(struct _vte_draw_text_request *items,
             for (columns = 0; i < n && items[i].y == y; i++) {
                 columns += items[i].columns;
             }
-                        switch (vte_attr_get_value(attr, VTE_ATTR_UNDERLINE_VALUE_MASK, VTE_ATTR_UNDERLINE_SHIFT)) {
-                        case 1:
-                                _vte_draw_draw_line(m_draw,
-                                                    x,
-                                                    y + m_underline_position,
-                                                    x + (columns * column_width) - 1,
-                                                    y + m_underline_position + m_underline_thickness - 1,
-                                                    VTE_LINE_WIDTH,
-                                                    &dc, VTE_DRAW_OPAQUE);
-                                break;
-                        case 2:
-                                _vte_draw_draw_line(m_draw,
-                                                    x,
-                                                    y + m_double_underline_position,
-                                                    x + (columns * column_width) - 1,
-                                                    y + m_double_underline_position + m_double_underline_thickness - 1,
-                                                    VTE_LINE_WIDTH,
-                                                    &dc, VTE_DRAW_OPAQUE);
-                                _vte_draw_draw_line(m_draw,
-                                                    x,
-                                                    y + m_double_underline_position + 2 * m_double_underline_thickness,
-                                                    x + (columns * column_width) - 1,
-                                                    y + m_double_underline_position + 3 * m_double_underline_thickness - 1,
-                                                    VTE_LINE_WIDTH,
-                                                    &dc, VTE_DRAW_OPAQUE);
-                                break;
-                        case 3:
-                                _vte_draw_draw_undercurl(m_draw,
-                                                         x,
-                                                         y + m_undercurl_position,
-                                                         m_undercurl_thickness,
-                                                         columns,
-                                                         &dc, VTE_DRAW_OPAQUE);
-                                break;
+            switch (vte_attr_get_value(attr, VTE_ATTR_UNDERLINE_VALUE_MASK, VTE_ATTR_UNDERLINE_SHIFT)) {
+                case 1:
+                    _vte_draw_draw_line(m_draw,
+                                        x,
+                                        y + m_underline_position,
+                                        x + (columns * column_width) - 1,
+                                        y + m_underline_position + m_underline_thickness - 1,
+                                        VTE_LINE_WIDTH,
+                                        &dc, VTE_DRAW_OPAQUE);
+                    break;
+                case 2:
+                    _vte_draw_draw_line(m_draw,
+                                        x,
+                                        y + m_double_underline_position,
+                                        x + (columns * column_width) - 1,
+                                        y + m_double_underline_position + m_double_underline_thickness - 1,
+                                        VTE_LINE_WIDTH,
+                                        &dc, VTE_DRAW_OPAQUE);
+                    _vte_draw_draw_line(m_draw,
+                                        x,
+                                        y + m_double_underline_position + 2 * m_double_underline_thickness,
+                                        x + (columns * column_width) - 1,
+                                        y + m_double_underline_position + 3 * m_double_underline_thickness - 1,
+                                        VTE_LINE_WIDTH,
+                                        &dc, VTE_DRAW_OPAQUE);
+                    break;
+                case 3:
+                    _vte_draw_draw_undercurl(m_draw,
+                                                x,
+                                                y + m_undercurl_position,
+                                                m_undercurl_thickness,
+                                                columns,
+                                                &dc, VTE_DRAW_OPAQUE);
+                    break;
             }
             if (attr & VTE_ATTR_STRIKETHROUGH) {
-                                _vte_draw_draw_line(m_draw,
-                                                    x,
-                                                    y + m_strikethrough_position,
-                                                    x + (columns * column_width) - 1,
-                                                    y + m_strikethrough_position + m_strikethrough_thickness - 1,
-                                                    VTE_LINE_WIDTH,
-                                                    &fg, VTE_DRAW_OPAQUE);
+                _vte_draw_draw_line(m_draw,
+                                    x,
+                                    y + m_strikethrough_position,
+                                    x + (columns * column_width) - 1,
+                                    y + m_strikethrough_position + m_strikethrough_thickness - 1,
+                                    VTE_LINE_WIDTH,
+                                    &fg, VTE_DRAW_OPAQUE);
             }
-                        if (attr & VTE_ATTR_OVERLINE) {
-                                _vte_draw_draw_line(m_draw,
-                                                    x,
-                                                    y + m_overline_position,
-                                                    x + (columns * column_width) - 1,
-                                                    y + m_overline_position + m_overline_thickness - 1,
-                                                    VTE_LINE_WIDTH,
-                                                    &fg, VTE_DRAW_OPAQUE);
-                        }
+            if (attr & VTE_ATTR_OVERLINE) {
+                _vte_draw_draw_line(m_draw,
+                                    x,
+                                    y + m_overline_position,
+                                    x + (columns * column_width) - 1,
+                                    y + m_overline_position + m_overline_thickness - 1,
+                                    VTE_LINE_WIDTH,
+                                    &fg, VTE_DRAW_OPAQUE);
+            }
             if (hilite) {
-                                _vte_draw_draw_line(m_draw,
-                                                    x,
-                                                    y + m_regex_underline_position,
-                                                    x + (columns * column_width) - 1,
-                                                    y + m_regex_underline_position + m_regex_underline_thickness - 1,
-                                                    VTE_LINE_WIDTH,
-                                                    &fg, VTE_DRAW_OPAQUE);
-                        } else if (hyperlink) {
-                                for (double j = 1.0 / 6.0; j < columns; j += 0.5) {
-                                        _vte_draw_fill_rectangle(m_draw,
-                                                                 x + j * column_width,
-                                                                 y + m_regex_underline_position,
-                                                                 MAX(column_width / 6.0, 1.0),
-                                                                 m_regex_underline_thickness,
-                                                                 &fg, VTE_DRAW_OPAQUE);
-                                }
-                        }
-            if (attr & VTE_ATTR_BOXED) {
-                                _vte_draw_draw_rectangle(m_draw,
-                        x, y,
-                        MAX(0, (columns * column_width)),
-                                                         MAX(0, row_height),
-                                                         &fg, VTE_DRAW_OPAQUE);
+                _vte_draw_draw_line(m_draw,
+                                    x,
+                                    y + m_regex_underline_position,
+                                    x + (columns * column_width) - 1,
+                                    y + m_regex_underline_position + m_regex_underline_thickness - 1,
+                                    VTE_LINE_WIDTH,
+                                    &fg, VTE_DRAW_OPAQUE);
+            } else if (hyperlink) {
+                for (double j = 1.0 / 6.0; j < columns; j += 0.5) {
+                    _vte_draw_fill_rectangle(m_draw,
+                                                x + j * column_width,
+                                                y + m_regex_underline_position,
+                                                MAX(column_width / 6.0, 1.0),
+                                                m_regex_underline_thickness,
+                                                &fg, VTE_DRAW_OPAQUE);
+                }
             }
-                } while (i < n);
+            if (attr & VTE_ATTR_BOXED) {
+                _vte_draw_draw_rectangle(m_draw, x, y,
+                                            MAX(0, (columns * column_width)),
+                                            MAX(0, row_height),
+                                            &fg, VTE_DRAW_OPAQUE);
+            }
+        } while (i < n);
     }
 
-        _vte_draw_text(m_draw,
-                       items, n,
-                       &fg, VTE_DRAW_OPAQUE,
-                       _vte_draw_get_style(attr & VTE_ATTR_BOLD,
-                                           attr & VTE_ATTR_ITALIC));
+    _vte_draw_text(m_draw, items, n, &fg, VTE_DRAW_OPAQUE,
+                    _vte_draw_get_style(attr & VTE_ATTR_BOLD,
+                                        attr & VTE_ATTR_ITALIC));
 }
 
 /* FIXME: we don't have a way to tell GTK+ what the default text attributes
@@ -7280,10 +7274,9 @@ VteTerminalPrivate::draw_cells(struct _vte_draw_text_request *items,
  * is using "black-on-white" to signify "inverse".  Pick up on that state and
  * fix things.  Do this here, so that if we suddenly get red-on-black, we'll do
  * the right thing. */
-void
-VteTerminalPrivate::fudge_pango_colors(GSList *attributes,
-                                       VteCell *cells,
-                                       gsize n)
+void VteTerminalPrivate::fudge_pango_colors(GSList *attributes,
+                                            VteCell *cells,
+                                            gsize n)
 {
     gsize i, sumlen = 0;
     struct _fudge_cell_props{
@@ -7304,149 +7297,148 @@ VteTerminalPrivate::fudge_pango_colors(GSList *attributes,
         PangoAttribute *attr = (PangoAttribute *)attributes->data;
         PangoAttrColor *color;
         switch (attr->klass->type) {
-        case PANGO_ATTR_FOREGROUND:
-            for (i = 0; i < n; i++) {
-                if (props[i].index < attr->start_index) {
-                    continue;
+            case PANGO_ATTR_FOREGROUND:
+                for (i = 0; i < n; i++) {
+                    if (props[i].index < attr->start_index) {
+                        continue;
+                    }
+                    if (props[i].index >= attr->end_index) {
+                        break;
+                    }
+                    props[i].saw_fg = TRUE;
+                    color = (PangoAttrColor*) attr;
+                    props[i].fg = color->color;
                 }
-                if (props[i].index >= attr->end_index) {
-                    break;
+                break;
+            case PANGO_ATTR_BACKGROUND:
+                for (i = 0; i < n; i++) {
+                    if (props[i].index < attr->start_index) {
+                        continue;
+                    }
+                    if (props[i].index >= attr->end_index) {
+                        break;
+                    }
+                    props[i].saw_bg = TRUE;
+                    color = (PangoAttrColor*) attr;
+                    props[i].bg = color->color;
                 }
-                props[i].saw_fg = TRUE;
-                color = (PangoAttrColor*) attr;
-                props[i].fg = color->color;
-            }
-            break;
-        case PANGO_ATTR_BACKGROUND:
-            for (i = 0; i < n; i++) {
-                if (props[i].index < attr->start_index) {
-                    continue;
-                }
-                if (props[i].index >= attr->end_index) {
-                    break;
-                }
-                props[i].saw_bg = TRUE;
-                color = (PangoAttrColor*) attr;
-                props[i].bg = color->color;
-            }
-            break;
-        default:
-            break;
+                break;
+            default:
+                break;
         }
         attributes = g_slist_next(attributes);
     }
 
     for (i = 0; i < n; i++) {
         if (props[i].saw_fg && props[i].saw_bg &&
-                (props[i].fg.red == 0xffff) &&
-                (props[i].fg.green == 0xffff) &&
-                (props[i].fg.blue == 0xffff) &&
-                (props[i].bg.red == 0) &&
-                (props[i].bg.green == 0) &&
-                (props[i].bg.blue == 0)) {
-                        cells[i].attr.copy_colors(m_color_defaults.attr);
+            (props[i].fg.red == 0xffff) &&
+            (props[i].fg.green == 0xffff) &&
+            (props[i].fg.blue == 0xffff) &&
+            (props[i].bg.red == 0) &&
+            (props[i].bg.green == 0) &&
+            (props[i].bg.blue == 0)) {
+            cells[i].attr.copy_colors(m_color_defaults.attr);
             cells[i].attr.set_reverse(true);
         }
     }
 }
 
 /* Apply the attribute given in the PangoAttribute to the list of cells. */
-void
-VteTerminalPrivate::apply_pango_attr(PangoAttribute *attr,
-                                     VteCell *cells,
-                                     gsize n_cells)
+void VteTerminalPrivate::apply_pango_attr(PangoAttribute *attr,
+                                            VteCell *cells,
+                                            gsize n_cells)
 {
     guint i, ival;
     PangoAttrInt *attrint;
     PangoAttrColor *attrcolor;
 
     switch (attr->klass->type) {
-    case PANGO_ATTR_FOREGROUND:
-    case PANGO_ATTR_BACKGROUND:
-        attrcolor = (PangoAttrColor*) attr;
-                ival = VTE_RGB_COLOR(8, 8, 8,
-                                     ((attrcolor->color.red & 0xFF00) >> 8),
-                                     ((attrcolor->color.green & 0xFF00) >> 8),
-                                     ((attrcolor->color.blue & 0xFF00) >> 8));
-        for (i = attr->start_index;
-             i < attr->end_index && i < n_cells;
-             i++) {
-            if (attr->klass->type == PANGO_ATTR_FOREGROUND) {
-                                cells[i].attr.set_fore(ival);
+        case PANGO_ATTR_FOREGROUND:
+        case PANGO_ATTR_BACKGROUND:
+            attrcolor = (PangoAttrColor*) attr;
+            ival = VTE_RGB_COLOR(8, 8, 8,
+                                ((attrcolor->color.red & 0xFF00) >> 8),
+                                ((attrcolor->color.green & 0xFF00) >> 8),
+                                ((attrcolor->color.blue & 0xFF00) >> 8));
+            for (i = attr->start_index;
+                i < attr->end_index && i < n_cells;
+                i++) {
+                if (attr->klass->type == PANGO_ATTR_FOREGROUND) {
+                    cells[i].attr.set_fore(ival);
+                }
+                if (attr->klass->type == PANGO_ATTR_BACKGROUND) {
+                    cells[i].attr.set_back(ival);
+                }
             }
-            if (attr->klass->type == PANGO_ATTR_BACKGROUND) {
-                                cells[i].attr.set_back(ival);
+            break;
+        case PANGO_ATTR_UNDERLINE_COLOR:
+            attrcolor = (PangoAttrColor*) attr;
+            ival = VTE_RGB_COLOR(4, 5, 4,
+                                ((attrcolor->color.red & 0xFF00) >> 8),
+                                ((attrcolor->color.green & 0xFF00) >> 8),
+                                ((attrcolor->color.blue & 0xFF00) >> 8));
+            for (i = attr->start_index;
+                i < attr->end_index && i < n_cells;
+                i++) {
+                if (attr->klass->type == PANGO_ATTR_UNDERLINE) {
+                    cells[i].attr.set_deco(ival);
+                }
             }
-        }
-        break;
-    case PANGO_ATTR_UNDERLINE_COLOR:
-        attrcolor = (PangoAttrColor*) attr;
-                ival = VTE_RGB_COLOR(4, 5, 4,
-                                     ((attrcolor->color.red & 0xFF00) >> 8),
-                                     ((attrcolor->color.green & 0xFF00) >> 8),
-                                     ((attrcolor->color.blue & 0xFF00) >> 8));
-        for (i = attr->start_index;
-             i < attr->end_index && i < n_cells;
-             i++) {
-            if (attr->klass->type == PANGO_ATTR_UNDERLINE) {
-                                cells[i].attr.set_deco(ival);
+            break;
+        case PANGO_ATTR_STRIKETHROUGH:
+            attrint = (PangoAttrInt*) attr;
+            ival = attrint->value;
+            for (i = attr->start_index;
+                (i < attr->end_index) && (i < n_cells);
+                i++) {
+                cells[i].attr.set_strikethrough(ival != FALSE);
             }
-        }
-        break;
-    case PANGO_ATTR_STRIKETHROUGH:
-        attrint = (PangoAttrInt*) attr;
-        ival = attrint->value;
-        for (i = attr->start_index;
-             (i < attr->end_index) && (i < n_cells);
-             i++) {
-            cells[i].attr.set_strikethrough(ival != FALSE);
-        }
-        break;
-    case PANGO_ATTR_UNDERLINE:
-        attrint = (PangoAttrInt*) attr;
-        ival = attrint->value;
-        for (i = attr->start_index;
-             (i < attr->end_index) && (i < n_cells);
-             i++) {
-                        unsigned int underline = 0;
-                        switch (ival) {
-                        case PANGO_UNDERLINE_SINGLE:
-                                underline = 1;
-                                break;
-                        case PANGO_UNDERLINE_DOUBLE:
-                                underline = 2;
-                                break;
-                        case PANGO_UNDERLINE_ERROR:
-                                underline = 3; /* wavy */
-                                break;
-                        case PANGO_UNDERLINE_NONE:
-                        case PANGO_UNDERLINE_LOW: /* FIXME */
-                                underline = 0;
-                                break;
-                        }
-            cells[i].attr.set_underline(underline);
-        }
-        break;
-    case PANGO_ATTR_WEIGHT:
-        attrint = (PangoAttrInt*) attr;
-        ival = attrint->value;
-        for (i = attr->start_index;
-             (i < attr->end_index) && (i < n_cells);
-             i++) {
-            cells[i].attr.set_bold(ival >= PANGO_WEIGHT_BOLD);
-        }
-        break;
-    case PANGO_ATTR_STYLE:
-        attrint = (PangoAttrInt*) attr;
-        ival = attrint->value;
-        for (i = attr->start_index;
-             (i < attr->end_index) && (i < n_cells);
-             i++) {
-            cells[i].attr.set_italic(ival != PANGO_STYLE_NORMAL);
-        }
-        break;
-    default:
-        break;
+            break;
+        case PANGO_ATTR_UNDERLINE:
+            attrint = (PangoAttrInt*) attr;
+            ival = attrint->value;
+            for (i = attr->start_index;
+                (i < attr->end_index) && (i < n_cells);
+                i++) {
+                unsigned int underline = 0;
+                switch (ival) {
+                    case PANGO_UNDERLINE_SINGLE:
+                        underline = 1;
+                        break;
+                    case PANGO_UNDERLINE_DOUBLE:
+                        underline = 2;
+                        break;
+                    case PANGO_UNDERLINE_ERROR:
+                        underline = 3; /* wavy */
+                        break;
+                    case PANGO_UNDERLINE_NONE:
+                    case PANGO_UNDERLINE_LOW: /* FIXME */
+                        underline = 0;
+                        break;
+                }
+                cells[i].attr.set_underline(underline);
+            }
+            break;
+        case PANGO_ATTR_WEIGHT:
+            attrint = (PangoAttrInt*) attr;
+            ival = attrint->value;
+            for (i = attr->start_index;
+                (i < attr->end_index) && (i < n_cells);
+                i++) {
+                cells[i].attr.set_bold(ival >= PANGO_WEIGHT_BOLD);
+            }
+            break;
+        case PANGO_ATTR_STYLE:
+            attrint = (PangoAttrInt*) attr;
+            ival = attrint->value;
+            for (i = attr->start_index;
+                (i < attr->end_index) && (i < n_cells);
+                i++) {
+                cells[i].attr.set_italic(ival != PANGO_STYLE_NORMAL);
+            }
+            break;
+        default:
+            break;
     }
 }
 
@@ -7455,10 +7447,9 @@ VteTerminalPrivate::apply_pango_attr(PangoAttribute *attr,
  * so that all ranges in the attribute list can be mapped into the array, which
  * typically means that the cell array should have the same length as the
  * string (byte-wise) which the attributes describe. */
-void
-VteTerminalPrivate::translate_pango_cells(PangoAttrList *attrs,
-                                          VteCell *cells,
-                                          gsize n_cells)
+void VteTerminalPrivate::translate_pango_cells(PangoAttrList *attrs,
+                                                VteCell *cells,
+                                                gsize n_cells)
 {
     PangoAttribute *attr;
     PangoAttrIterator *attriter;
@@ -7466,7 +7457,7 @@ VteTerminalPrivate::translate_pango_cells(PangoAttrList *attrs,
     guint i;
 
     for (i = 0; i < n_cells; i++) {
-                cells[i] = m_fill_defaults;
+        cells[i] = m_fill_defaults;
     }
 
     attriter = pango_attr_list_get_iterator(attrs);
@@ -7487,9 +7478,7 @@ VteTerminalPrivate::translate_pango_cells(PangoAttrList *attrs,
                                  attr->start_index,
                                  MIN(n_cells, attr->end_index) -
                                  attr->start_index);
-                g_slist_foreach(list,
-                                                (GFunc)pango_attribute_destroy,
-                        nullptr);
+                g_slist_foreach(list, (GFunc)pango_attribute_destroy, nullptr);
                 g_slist_free(list);
             }
         } while (pango_attr_iterator_next(attriter) == TRUE);
@@ -7500,24 +7489,23 @@ VteTerminalPrivate::translate_pango_cells(PangoAttrList *attrs,
 /* Draw the listed items using the given attributes.  Tricky because the
  * attribute string is indexed by byte in the UTF-8 representation of the string
  * of characters.  Because we draw a character at a time, this is slower. */
-void
-VteTerminalPrivate::draw_cells_with_attributes(struct _vte_draw_text_request *items,
-                                               gssize n,
-                                               PangoAttrList *attrs,
-                                               bool draw_default_bg,
-                                               gint column_width,
-                                               gint height)
+void VteTerminalPrivate::draw_cells_with_attributes(struct _vte_draw_text_request *items,
+                                                    gssize n,
+                                                    PangoAttrList *attrs,
+                                                    bool draw_default_bg,
+                                                    gint column_width,
+                                                    gint height)
 {
-        int i, j, cell_count;
+    int i, j, cell_count;
     VteCell *cells;
     char scratch_buf[VTE_UTF8_BPC];
-        guint fore, back, deco;
+    guint fore, back, deco;
 
     /* Note: since this function is only called with the pre-edit text,
      * all the items contain gunichar only, not vteunistr. */
-        // FIXMEchpe is that really true for all input methods?
+    /* FIXMEchpe is that really true for all input methods? */
 
-        uint32_t const attr_mask = m_allow_bold ? ~0 : ~VTE_ATTR_BOLD_MASK;
+    uint32_t const attr_mask = m_allow_bold ? ~0 : ~VTE_ATTR_BOLD_MASK;
 
     for (i = 0, cell_count = 0; i < n; i++) {
         cell_count += g_unichar_to_utf8(items[i].c, scratch_buf);
@@ -7525,14 +7513,14 @@ VteTerminalPrivate::draw_cells_with_attributes(struct _vte_draw_text_request *it
     cells = g_new(VteCell, cell_count);
     translate_pango_cells(attrs, cells, cell_count);
     for (i = 0, j = 0; i < n; i++) {
-                determine_colors(&cells[j], false, &fore, &back, &deco);
+        determine_colors(&cells[j], false, &fore, &back, &deco);
         draw_cells(items + i, 1,
                     fore,
                     back,
-                                        deco,
+                    deco,
                     TRUE, draw_default_bg,
                     cells[j].attr.attr & attr_mask,
-                                        m_allow_hyperlink && cells[j].attr.hyperlink_idx != 0,
+                    m_allow_hyperlink && cells[j].attr.hyperlink_idx != 0,
                     FALSE, column_width, height);
         j += g_unichar_to_utf8(items[i].c, scratch_buf);
     }
@@ -7543,29 +7531,27 @@ VteTerminalPrivate::draw_cells_with_attributes(struct _vte_draw_text_request *it
 /* Paint the contents of a given row at the given location.  Take advantage
  * of multiple-draw APIs by finding runs of characters with identical
  * attributes and bundling them together. */
-void
-VteTerminalPrivate::draw_rows(VteScreen *screen_,
-                              vte::grid::row_t start_row,
-                              vte::grid::row_t end_row,
-                              vte::grid::column_t start_column,
-                              vte::grid::column_t end_column,
-                              gint start_x,
-                              gint start_y,
-                              gint column_width,
-                              gint row_height)
+void VteTerminalPrivate::draw_rows(VteScreen *screen_,
+                                    vte::grid::row_t start_row,
+                                    vte::grid::row_t end_row,
+                                    vte::grid::column_t start_column,
+                                    vte::grid::column_t end_column,
+                                    gint start_x,
+                                    gint start_y,
+                                    gint column_width,
+                                    gint row_height)
 {
     struct _vte_draw_text_request items[4*VTE_DRAW_MAX_LENGTH];
-        vte::grid::row_t row, rows;
-        vte::grid::column_t i, j;
-        long x, y;
-        guint fore, nfore, back, nback, deco, ndeco;
-        gboolean hyperlink, nhyperlink, hilite, nhilite,
-                selected, nselected;
+    vte::grid::row_t row, rows;
+    vte::grid::column_t i, j;
+    long x, y;
+    guint fore, nfore, back, nback, deco, ndeco;
+    gboolean hyperlink, nhyperlink, hilite, nhilite, selected, nselected;
     guint item_count;
     const VteCell *cell;
     VteRowData const* row_data;
 
-        uint32_t const attr_mask = m_allow_bold ? ~0 : ~VTE_ATTR_BOLD_MASK;
+    uint32_t const attr_mask = m_allow_bold ? ~0 : ~VTE_ATTR_BOLD_MASK;
 
     /* adjust for the absolute start of row */
     start_x -= start_column * column_width;
@@ -7593,7 +7579,7 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
                 cell = _vte_row_data_get (row_data, i);
                 /* Find the colors for this cell. */
                 selected = cell_is_selected(i, row);
-                                determine_colors(cell, selected, &fore, &back, &deco);
+                determine_colors(cell, selected, &fore, &back, &deco);
 
                 bool bold = cell && cell->attr.bold();
                 j = i + (cell ? cell->attr.columns() : 1);
@@ -7612,7 +7598,7 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
                      * compare visual attributes to the first character
                      * in this chunk. */
                     selected = cell_is_selected(j, row);
-                                        determine_colors(cell, selected, &nfore, &nback, &ndeco);
+                    determine_colors(cell, selected, &nfore, &nback, &ndeco);
                     if (nback != back) {
                         break;
                     }
@@ -7621,8 +7607,8 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
                 }
                 if (back != VTE_DEFAULT_BG) {
                     vte::color::rgb bg;
-                                        gint bold_offset = (bold && !_vte_draw_has_bold(m_draw, VTE_DRAW_BOLD)) ? 1 : 0;
-                                        rgb_from_index<8, 8, 8>(back, bg);
+                    gint bold_offset = (bold && !_vte_draw_has_bold(m_draw, VTE_DRAW_BOLD)) ? 1 : 0;
+                    rgb_from_index<8, 8, 8>(back, bg);
                     _vte_draw_fill_rectangle (
                             m_draw,
                             x + i * column_width,
@@ -7646,16 +7632,16 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
                     }
                     j++;
                 }
-                                determine_colors(nullptr, selected, &fore, &back, &deco);
+                determine_colors(nullptr, selected, &fore, &back, &deco);
                 if (back != VTE_DEFAULT_BG) {
                     vte::color::rgb bg;
-                                        rgb_from_index<8, 8, 8>(back, bg);
+                    rgb_from_index<8, 8, 8>(back, bg);
                     _vte_draw_fill_rectangle (m_draw,
-                                  x + i *column_width,
-                                  y,
-                                  (j - i)  * column_width,
-                                  row_height,
-                                  &bg, VTE_DRAW_OPAQUE);
+                                                x + i *column_width,
+                                                y,
+                                                (j - i)  * column_width,
+                                                row_height,
+                                                &bg, VTE_DRAW_OPAQUE);
                 }
                 i = j;
             } while (i < end_column);
@@ -7682,8 +7668,9 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
         if (cell == NULL) {
             goto fg_skip_row;
         }
-        while (cell->attr.fragment() && i > 0)
+        while (cell->attr.fragment() && i > 0) {
             cell = _vte_row_data_get (row_data, --i);
+        }
 
         /* Walk the line. */
         do {
@@ -7709,13 +7696,13 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
             }
             /* Find the colors for this cell. */
             selected = cell_is_selected(i, row);
-                        determine_colors(cell, selected, &fore, &back, &deco);
+            determine_colors(cell, selected, &fore, &back, &deco);
 
-                        uint32_t const attr = cell->attr.attr;
+            uint32_t const attr = cell->attr.attr;
 
-                        hyperlink = (m_allow_hyperlink && cell->attr.hyperlink_idx != 0);
-                        hilite = (cell->attr.hyperlink_idx != 0 && cell->attr.hyperlink_idx == m_hyperlink_hover_idx) ||
-                                 (m_hyperlink_hover_idx == 0 && m_match != nullptr && m_match_span.contains(row, i));
+            hyperlink = (m_allow_hyperlink && cell->attr.hyperlink_idx != 0);
+            hilite = (cell->attr.hyperlink_idx != 0 && cell->attr.hyperlink_idx == m_hyperlink_hover_idx) ||
+                        (m_hyperlink_hover_idx == 0 && m_match != nullptr && m_match_span.contains(row, i));
 
             items[0].c = cell->c;
             items[0].columns = cell->attr.columns();
@@ -7725,16 +7712,15 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
 
             /* Now find out how many cells have the same attributes. */
             do {
-                while (j < end_column &&
-                        item_count < G_N_ELEMENTS(items)) {
+                while (j < end_column && item_count < G_N_ELEMENTS(items)) {
                     /* Retrieve the cell. */
                     cell = _vte_row_data_get (row_data, j);
                     if (cell == NULL) {
                         goto fg_next_row;
                     }
-                                        /* Ignore the attributes on a fragment, the attributes
-                                         * of the preceding character cell should apply. */
-                                        if (cell->attr.fragment()) {
+                    /* Ignore the attributes on a fragment, the attributes
+                        * of the preceding character cell should apply. */
+                    if (cell->attr.fragment()) {
                         j++;
                         continue;
                     }
@@ -7742,10 +7728,10 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
                         /* only break the run if we
                          * are drawing attributes
                          */
-                                                if ((attr & (VTE_ATTR_UNDERLINE_MASK |
-                                                             VTE_ATTR_STRIKETHROUGH_MASK |
-                                                             VTE_ATTR_OVERLINE_MASK)) |
-                                                    hyperlink | hilite) {
+                        if ((attr & (VTE_ATTR_UNDERLINE_MASK |
+                                        VTE_ATTR_STRIKETHROUGH_MASK |
+                                        VTE_ATTR_OVERLINE_MASK)) |
+                            hyperlink | hilite) {
                             break;
                         } else {
                             j++;
@@ -7756,34 +7742,35 @@ VteTerminalPrivate::draw_rows(VteScreen *screen_,
                      * compare visual attributes to the first character
                      * in this chunk. */
                     selected = cell_is_selected(j, row);
-                                        determine_colors(cell, selected, &nfore, &nback, &ndeco);
+                    determine_colors(cell, selected, &nfore, &nback, &ndeco);
                     if (nfore != fore) {
                         break;
                     }
-                                        if (ndeco != deco) {
-                                                break;
-                                        }
+                    if (ndeco != deco) {
+                        break;
+                    }
 
-                                        /* Bold, italic, underline, strikethrough,
-                                         * overline, blink, or invisible differ;
-                                         * break the run.
-                                         */
-                                        if ((cell->attr.attr ^ attr) & (VTE_ATTR_BOLD_MASK |
-                                                                        VTE_ATTR_ITALIC_MASK |
-                                                                        VTE_ATTR_UNDERLINE_MASK |
-                                                                        VTE_ATTR_STRIKETHROUGH_MASK |
-                                                                        VTE_ATTR_OVERLINE_MASK |
-                                                                        VTE_ATTR_BLINK_MASK |
-                                                                        VTE_ATTR_INVISIBLE_MASK))
-                                                break;
+                    /* Bold, italic, underline, strikethrough,
+                     * overline, blink, or invisible differ;
+                     * break the run.
+                     */
+                    if ((cell->attr.attr ^ attr) & (VTE_ATTR_BOLD_MASK |
+                                                    VTE_ATTR_ITALIC_MASK |
+                                                    VTE_ATTR_UNDERLINE_MASK |
+                                                    VTE_ATTR_STRIKETHROUGH_MASK |
+                                                    VTE_ATTR_OVERLINE_MASK |
+                                                    VTE_ATTR_BLINK_MASK |
+                                                    VTE_ATTR_INVISIBLE_MASK)) {
+                        break;
+                    }
 
-                                        nhyperlink = (m_allow_hyperlink && cell->attr.hyperlink_idx != 0);
-                                        if (nhyperlink != hyperlink) {
-                                                break;
-                                        }
+                    nhyperlink = (m_allow_hyperlink && cell->attr.hyperlink_idx != 0);
+                    if (nhyperlink != hyperlink) {
+                        break;
+                    }
                     /* Break up matched/not-matched text. */
-                                        nhilite = (cell->attr.hyperlink_idx != 0 && cell->attr.hyperlink_idx == m_hyperlink_hover_idx) ||
-                                                  (m_hyperlink_hover_idx == 0 && m_match != nullptr && m_match_span.contains(row, j));
+                    nhilite = (cell->attr.hyperlink_idx != 0 && cell->attr.hyperlink_idx == m_hyperlink_hover_idx) ||
+                                (m_hyperlink_hover_idx == 0 && m_match != nullptr && m_match_span.contains(row, j));
                     if (nhilite != hilite) {
                         break;
                     }
@@ -7825,13 +7812,8 @@ fg_next_row:
             } while (TRUE);
 fg_draw:
             /* Draw the cells. */
-            draw_cells(
-                    items,
-                    item_count,
-                                        fore, back, deco, FALSE, FALSE,
-                                        attr & attr_mask,
-                                        hyperlink, hilite,
-                    column_width, row_height);
+            draw_cells(items, item_count, fore, back, deco, FALSE, FALSE,
+                        attr & attr_mask, hyperlink, hilite, column_width, row_height);
             item_count = 1;
             /* We'll need to continue at the first cell which didn't
              * match the first one in this set. */
@@ -7848,53 +7830,53 @@ fg_out:
     return;
 }
 
-void
-VteTerminalPrivate::expand_rectangle(cairo_rectangle_int_t& rect) const
+void VteTerminalPrivate::expand_rectangle(cairo_rectangle_int_t& rect) const
 {
     /* increase the paint by one pixel on all sides to force the
      * inclusion of neighbouring cells */
-        vte::grid::row_t row = pixel_to_row(MAX(0, rect.y - 1));
-        /* Both the value given by MIN() and row_stop are exclusive.
-         * _vte_terminal_pixel_to_row expects an actual value corresponding
-         * to the bottom visible pixel, hence the - 1 + 1 magic. */
-        vte::grid::row_t row_stop = pixel_to_row(MIN(rect.height + rect.y + 1, m_view_usable_extents.height()) - 1) + 1;
-        if (row_stop <= row)
-                return;
+    vte::grid::row_t row = pixel_to_row(MAX(0, rect.y - 1));
+    /* Both the value given by MIN() and row_stop are exclusive.
+        * _vte_terminal_pixel_to_row expects an actual value corresponding
+        * to the bottom visible pixel, hence the - 1 + 1 magic. */
+    vte::grid::row_t row_stop = pixel_to_row(MIN(rect.height + rect.y + 1, m_view_usable_extents.height()) - 1) + 1;
+    if (row_stop <= row) {
+            return;
+    }
 
-        vte::grid::column_t col = MAX(0, (rect.x - 1) / m_cell_width);
-        vte::grid::column_t col_stop = MIN(howmany(rect.width + rect.x + 1, m_cell_width), m_column_count);
-        if (col_stop <= col)
-                return;
+    vte::grid::column_t col = MAX(0, (rect.x - 1) / m_cell_width);
+    vte::grid::column_t col_stop = MIN(howmany(rect.width + rect.x + 1, m_cell_width), m_column_count);
+    if (col_stop <= col) {
+            return;
+    }
 #if VTE_DEBUG
-        cairo_rectangle_int_t old_rect = rect;
+    cairo_rectangle_int_t old_rect = rect;
 #endif
-        rect.x = col * m_cell_width;
-        rect.width = (col_stop - col) * m_cell_width;
-        rect.y = row_to_pixel(row);
-        rect.height = (row_stop - row) * m_cell_height;
+    rect.x = col * m_cell_width;
+    rect.width = (col_stop - col) * m_cell_width;
+    rect.y = row_to_pixel(row);
+    rect.height = (row_stop - row) * m_cell_height;
 
-        _vte_debug_print (VTE_DEBUG_UPDATES,
-                          "expand_rectangle"
-                          " (%d,%d)x(%d,%d) pixels,"
-                          " (%ld,%ld)x(%ld,%ld) cells"
-                          " [(%d,%d)x(%d,%d) pixels]\n",
-                          old_rect.x, old_rect.y, old_rect.width, old_rect.height,
-                          col, row, col_stop - col, row_stop - row,
-                          rect.x, rect.y, rect.width, rect.height);
+    _vte_debug_print (VTE_DEBUG_UPDATES,
+                        "expand_rectangle"
+                        " (%d,%d)x(%d,%d) pixels,"
+                        " (%ld,%ld)x(%ld,%ld) cells"
+                        " [(%d,%d)x(%d,%d) pixels]\n",
+                        old_rect.x, old_rect.y, old_rect.width, old_rect.height,
+                        col, row, col_stop - col, row_stop - row,
+                        rect.x, rect.y, rect.width, rect.height);
 }
 
-void
-VteTerminalPrivate::paint_area(GdkRectangle const* area)
+void VteTerminalPrivate::paint_area(GdkRectangle const* area)
 {
-        vte::grid::row_t row, row_stop;
-        vte::grid::column_t col, col_stop;
+    vte::grid::row_t row, row_stop;
+    vte::grid::column_t col, col_stop;
 
-        row = pixel_to_row(MAX(0, area->y));
-        /* Both the value given by MIN() and row_stop are exclusive.
-         * _vte_terminal_pixel_to_row expects an actual value corresponding
-         * to the bottom visible pixel, hence the - 1 + 1 magic. */
-        row_stop = pixel_to_row(MIN(area->height + area->y,
-                                    get_allocated_height() - m_padding.top - m_padding.bottom) - 1) + 1;
+    row = pixel_to_row(MAX(0, area->y));
+    /* Both the value given by MIN() and row_stop are exclusive.
+        * _vte_terminal_pixel_to_row expects an actual value corresponding
+        * to the bottom visible pixel, hence the - 1 + 1 magic. */
+    row_stop = pixel_to_row(MIN(area->height + area->y,
+                                get_allocated_height() - m_padding.top - m_padding.bottom) - 1) + 1;
     if (row_stop <= row) {
         return;
     }
@@ -7919,16 +7901,15 @@ VteTerminalPrivate::paint_area(GdkRectangle const* area)
     /* Now we're ready to draw the text.  Iterate over the rows we
      * need to draw. */
     draw_rows(m_screen,
-                  row, row_stop,
-                  col, col_stop,
-                  col * m_cell_width,
-                  row_to_pixel(row),
-                  m_cell_width,
-                  m_cell_height);
+                row, row_stop,
+                col, col_stop,
+                col * m_cell_width,
+                row_to_pixel(row),
+                m_cell_width,
+                m_cell_height);
 }
 
-void
-VteTerminalPrivate::paint_cursor()
+void VteTerminalPrivate::paint_cursor()
 {
     struct _vte_draw_text_request item;
         vte::grid::row_t drow;
@@ -7965,8 +7946,8 @@ VteTerminalPrivate::paint_cursor()
         return;
     }
 
-        /* Find the first cell of the character "under" the cursor.
-         * This is for CJK.  For TAB, paint the cursor where it really is. */
+   /* Find the first cell of the character "under" the cursor.
+    * This is for CJK.  For TAB, paint the cursor where it really is. */
     auto cell = find_charcell(col, drow);
         while (cell != NULL && cell->attr.fragment() && cell->c != '\t' && col > 0) {
         col--;
@@ -7989,105 +7970,103 @@ VteTerminalPrivate::paint_cursor()
     x = item.x;
     y = item.y;
 
-        switch (decscusr_cursor_shape()) {
+    switch (decscusr_cursor_shape()) {
 
-        case VTE_CURSOR_SHAPE_IBEAM: {
-                        /* Draw at the very left of the cell (before the spacing), even in case of CJK.
-                         * IMO (egmont) not overrunning the letter improves readability, vertical movement
-                         * looks good (no zigzag even when a somewhat wider glyph that starts filling up
-                         * the left spacing, or CJK that begins further to the right is encountered),
-                         * and also this is where it looks good if background colors change, including
-                         * Shift+arrows highlighting experience in some editors. As per the behavior of
-                         * word processors, don't increase the height by the line spacing. */
-                        int stem_width;
+        case VTE_CURSOR_SHAPE_IBEAM: 
+        {
+           /* Draw at the very left of the cell (before the spacing), even in case of CJK.
+            * IMO (egmont) not overrunning the letter improves readability, vertical movement
+            * looks good (no zigzag even when a somewhat wider glyph that starts filling up
+            * the left spacing, or CJK that begins further to the right is encountered),
+            * and also this is where it looks good if background colors change, including
+            * Shift+arrows highlighting experience in some editors. As per the behavior of
+            * word processors, don't increase the height by the line spacing. */
+            int stem_width;
 
-                        stem_width = (int) (((float) (m_char_ascent + m_char_descent)) * m_cursor_aspect_ratio + 0.5);
-                        stem_width = CLAMP (stem_width, VTE_LINE_WIDTH, m_cell_width);
+            stem_width = (int) (((float) (m_char_ascent + m_char_descent)) * m_cursor_aspect_ratio + 0.5);
+            stem_width = CLAMP (stem_width, VTE_LINE_WIDTH, m_cell_width);
 
-                        _vte_draw_fill_rectangle(m_draw,
-                                                 x, y + m_char_padding.top, stem_width, m_char_ascent + m_char_descent,
-                                                 &bg, VTE_DRAW_OPAQUE);
+            _vte_draw_fill_rectangle(m_draw,
+                                        x, y + m_char_padding.top, stem_width, m_char_ascent + m_char_descent,
+                                        &bg, VTE_DRAW_OPAQUE);
             break;
-                }
+        }
 
-        case VTE_CURSOR_SHAPE_UNDERLINE: {
-                        /* The width is at least the overall width of the cell (or two cells) minus the two
-                         * half spacings on the two edges. That is, underlines under a CJK are more than twice
-                         * as wide as narrow characters in case of letter spacing. Plus, if necessary, the width
-                         * is increased to span under the entire glyph. Vertical position is not affected by
-                         * line spacing. */
+        case VTE_CURSOR_SHAPE_UNDERLINE: 
+        {
+           /* The width is at least the overall width of the cell (or two cells) minus the two
+            * half spacings on the two edges. That is, underlines under a CJK are more than twice
+            * as wide as narrow characters in case of letter spacing. Plus, if necessary, the width
+            * is increased to span under the entire glyph. Vertical position is not affected by
+            * line spacing. */
 
-                        int line_height, left, right;
+            int line_height, left, right;
 
             /* use height (not width) so underline and ibeam will
              * be equally visible */
-                        line_height = (int) (((float) (m_char_ascent + m_char_descent)) * m_cursor_aspect_ratio + 0.5);
-                        line_height = CLAMP (line_height, VTE_LINE_WIDTH, m_char_ascent + m_char_descent);
+            line_height = (int) (((float) (m_char_ascent + m_char_descent)) * m_cursor_aspect_ratio + 0.5);
+            line_height = CLAMP (line_height, VTE_LINE_WIDTH, m_char_ascent + m_char_descent);
 
-                        left = m_char_padding.left;
-                        right = item.columns * m_cell_width - m_char_padding.right;
+            left = m_char_padding.left;
+            right = item.columns * m_cell_width - m_char_padding.right;
 
-                        if (cell && cell->c != 0 && cell->c != ' ' && cell->c != '\t') {
-                                int l, r;
-                                _vte_draw_get_char_edges (m_draw, cell->c, cell->attr.columns(), style, &l, &r);
-                                left = MIN(left, l);
-                                right = MAX(right, r);
-                        }
-
-                        _vte_draw_fill_rectangle(m_draw,
-                                                 x + left, y + m_cell_height - m_char_padding.bottom - line_height,
-                                                 right - left, line_height,
-                                                 &bg, VTE_DRAW_OPAQUE);
-            break;
-                }
-
-        case VTE_CURSOR_SHAPE_BLOCK:
-                        /* Include the spacings in the cursor, see bug 781479 comments 39-44.
-                         * Make the cursor even wider if the glyph is wider. */
-
-                        cursor_width = item.columns * width;
-                        if (cell && cell->c != 0 && cell->c != ' ' && cell->c != '\t') {
-                                int r;
-                                _vte_draw_get_char_edges (m_draw, cell->c, cell->attr.columns(), style, NULL, &r);
-                                cursor_width = MAX(cursor_width, r);
+            if (cell && cell->c != 0 && cell->c != ' ' && cell->c != '\t') {
+                int l, r;
+                _vte_draw_get_char_edges (m_draw, cell->c, cell->attr.columns(), style, &l, &r);
+                left = MIN(left, l);
+                right = MAX(right, r);
             }
 
-                        uint32_t const attr_mask = m_allow_bold ? ~0 : ~VTE_ATTR_BOLD_MASK;
+            _vte_draw_fill_rectangle(m_draw,
+                                        x + left, y + m_cell_height - m_char_padding.bottom - line_height,
+                                        right - left, line_height,
+                                        &bg, VTE_DRAW_OPAQUE);
+            break;
+        }
+
+        case VTE_CURSOR_SHAPE_BLOCK:
+           /* Include the spacings in the cursor, see bug 781479 comments 39-44.
+            * Make the cursor even wider if the glyph is wider. */
+
+            cursor_width = item.columns * width;
+            if (cell && cell->c != 0 && cell->c != ' ' && cell->c != '\t') {
+                int r;
+                _vte_draw_get_char_edges (m_draw, cell->c, cell->attr.columns(), style, NULL, &r);
+                cursor_width = MAX(cursor_width, r);
+            }
+
+            uint32_t const attr_mask = m_allow_bold ? ~0 : ~VTE_ATTR_BOLD_MASK;
 
             if (focus) {
                 /* just reverse the character under the cursor */
-                                _vte_draw_fill_rectangle(m_draw,
-                                 x, y,
-                                                         cursor_width, height,
-                                                         &bg, VTE_DRAW_OPAQUE);
+                _vte_draw_fill_rectangle(m_draw, x, y, cursor_width, height,
+                                            &bg, VTE_DRAW_OPAQUE);
 
-                                if (cell && cell->c != 0 && cell->c != ' ' && cell->c != '\t') {
-                                        draw_cells(
-                                                        &item, 1,
-                                                        fore, back, deco, TRUE, FALSE,
-                                                        cell->attr.attr & attr_mask,
-                                                        m_allow_hyperlink && cell->attr.hyperlink_idx != 0,
-                                                        FALSE,
-                                                        width,
-                                                        height);
+                if (cell && cell->c != 0 && cell->c != ' ' && cell->c != '\t') {
+                    draw_cells(&item, 1,
+                                fore, back, deco, TRUE, FALSE,
+                                cell->attr.attr & attr_mask,
+                                m_allow_hyperlink && cell->attr.hyperlink_idx != 0,
+                                FALSE,
+                                width,
+                                height);
                 }
 
             } else {
                 /* draw a box around the character */
-                                _vte_draw_draw_rectangle(m_draw,
-                                 x - VTE_LINE_WIDTH,
-                                 y - VTE_LINE_WIDTH,
-                                 cursor_width + 2*VTE_LINE_WIDTH,
-                                                         height + 2*VTE_LINE_WIDTH,
-                                                         &bg, VTE_DRAW_OPAQUE);
+                _vte_draw_draw_rectangle(m_draw,
+                                            x - VTE_LINE_WIDTH,
+                                            y - VTE_LINE_WIDTH,
+                                            cursor_width + 2*VTE_LINE_WIDTH,
+                                            height + 2*VTE_LINE_WIDTH,
+                                            &bg, VTE_DRAW_OPAQUE);
             }
 
             break;
     }
 }
 
-void
-VteTerminalPrivate::paint_im_preedit_string()
+void VteTerminalPrivate::paint_im_preedit_string()
 {
     int col, columns;
     long width, height;
