@@ -83,11 +83,35 @@ for i in $EXECUTABLES; do
   fi
 done
 
-GTK3NAME="GTK3VICE"
-BUILDPATH="$TOPBUILDDIR/$GTK3NAME-$VICEVERSION-$WINXX"
+# Try to get the SVN revision
+#echo "Trying to get SVN revision"
+SVN_SUFFIX=""
+svnrev=""
+svnrev_string=`svnversion $TOPSRCDIR`
+if test "$?" != "0"; then
+    #echo "No svnversion found"
+    # nop:
+    :
+else
+    svnrev=`echo "$svnrev_string" | cut -d':' -f1`
+    #echo "svnrev string: $svnrev"
+    # remove the 'M' if present
+    svnrev=`echo "$svnrev" | sed 's/M//'`
+    # check if it's a number
+    svnrev=`echo "$svnrev" | grep '^[0-9]\+$'`
+    if test "$?" = "0"; then
+        SVN_SUFFIX="r$svnrev"
+    fi
+fi
 
+
+GTK3NAME="GTK3VICE"
+BUILDPATH="$TOPBUILDDIR/$GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
+
+# This doesn't make sense anymore when using the current SVN revision:
 echo "Removing an old $BUILDPATH ..."
 rm -r -f $BUILDPATH
+
 echo "Generating a $WINXX GTK3 port binary distribution..."
 mkdir $BUILDPATH
 
@@ -156,17 +180,20 @@ cp $TOPSRCDIR/COPYING $TOPSRCDIR/FEEDBACK $TOPSRCDIR/NEWS $TOPSRCDIR/README $BUI
 cp $TOPSRCDIR/doc/readmes/Readme-GTK3.txt $BUILDPATH
 mkdir $BUILDPATH/doc
 cp $TOPSRCDIR/doc/vice.{chm,hlp,pdf} $BUILDPATH/doc
+
+
 if test x"$ZIPKIND" = "xzip"; then
   rm -f $BUILDPATH.zip
   cd $BUILDPATH/..
   if test x"$ZIP" = "x"
-  then zip -r -9 -q $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX
-  else $ZIP $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX
+    then zip -r -9 -q $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX
+    else $ZIP $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX
   fi
   rm -r -f $BUILDPATH
   echo "$WINXX GTK3 port binary distribution archive generated as $BUILDPATH.zip"
 else echo "$WINXX GTK3 port binary distribution directory generated as $BUILDPATH"
 fi
+
 if test x"$ENABLEARCH" = "xyes"; then
   echo ''
   echo 'Warning: The binaries are optimized for your system.'
