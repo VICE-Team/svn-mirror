@@ -57,7 +57,10 @@ TODOs and FIXMEs:
 
 - some files use deprecated GValueArray and should use GArray instead: 
   matcher.cc matcher.hh table.cc table.hh vteinternal.hh
-  
+
+  GLIB_DISABLE_DEPRECATION_WARNINGS has been defined at the top of a couple of
+  files that make use of this.
+
 - there is still a lot of features/functionality that doesnt make a lot of sense 
   for what we are doing here.
 

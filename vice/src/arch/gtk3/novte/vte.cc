@@ -19,7 +19,7 @@
 
 #include <vice.h>
 
-#define NO_PCRE    /* FIXME */
+#define GLIB_DISABLE_DEPRECATION_WARNINGS /* FIXME */
 
 #include <math.h>
 #include <search.h>

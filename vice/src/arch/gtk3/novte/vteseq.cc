@@ -16,6 +16,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#define GLIB_DISABLE_DEPRECATION_WARNINGS /* FIXME */
+
 #include "vice.h"
 
 #include <search.h>

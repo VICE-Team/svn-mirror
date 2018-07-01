@@ -29,6 +29,8 @@
  * #GtkAdjustment returned from gtk_scrollable_get_vadjustment().
  */
 
+#define GLIB_DISABLE_DEPRECATION_WARNINGS /* FIXME */
+
 #include "vice.h"
 
 #include <new> /* placement new */

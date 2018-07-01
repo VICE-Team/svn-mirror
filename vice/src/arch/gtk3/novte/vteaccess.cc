@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#define GLIB_DISABLE_DEPRECATION_WARNINGS /* FIXME */
+
 #include <atk/atk.h>
 #include <gtk/gtk.h>
 #include <gtk/gtk-a11y.h>
