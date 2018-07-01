@@ -497,7 +497,7 @@ static void _vte_table_extract_numbers(GValueArray **array, struct _vte_table_ar
         *array = g_value_array_new(1);
     }
 
-    GValue value = {0,0};
+    GValue value = G_VALUE_INIT;
     g_value_init(&value, G_TYPE_LONG);
     gssize i = 0;
     GValueArray *subarray = nullptr;
@@ -520,7 +520,7 @@ static void _vte_table_extract_numbers(GValueArray **array, struct _vte_table_ar
             } else {
                 g_value_array_append(subarray, &value);
 
-                GValue subvalue = {0,0};
+                GValue subvalue = G_VALUE_INIT;
                 g_value_init(&subvalue, G_TYPE_VALUE_ARRAY);
                 g_value_take_boxed(&subvalue, subarray);
                 g_value_array_append(*array, &subvalue);
@@ -538,7 +538,7 @@ static void _vte_table_extract_numbers(GValueArray **array, struct _vte_table_ar
 
 static void _vte_table_extract_string(GValueArray **array, struct _vte_table_arginfo *arginfo)
 {
-    GValue value = {0,0};
+    GValue value = G_VALUE_INIT;
     gunichar *ptr;
 
     ptr = g_new(gunichar, arginfo->length + 1);
@@ -697,7 +697,8 @@ void _vte_table_print(struct _vte_table *table)
 {
     int count = 0;
     _vte_table_printi(table, "", &count);
-    g_printerr("%d nodes = %ld bytes.\n", count, (long) count * sizeof(struct _vte_table));
+    g_printerr("%d nodes = %lu bytes.\n",
+            count, (unsigned long)(count * sizeof(struct _vte_table)));
 }
 
 const struct _vte_matcher_class _vte_matcher_table = {
