@@ -56,6 +56,7 @@
     Comal80 Cartridge
 
     - 64K ROM (32K mapped to $8000 and 32K mapped to $A000)
+    - free socket for another 64K eprom
 
     The cart has 1 (write-only) bank control register which
     is located at $DE00 and mirrored throughout the $DE00-$DEFF
@@ -66,18 +67,19 @@
     bit 5   : unknown function (used by the software to disable the cartridge)
     bit 4   : unused?
     bit 3   : unused?
-    bit 2   : unknown function (used by the software however)
+    bit 2   : selects user eprom (bank MSB)
     bit 0-1 : selects bank
 */
 
 static int currregval = 0;
+static int extrarom = 0;
 
 static void comal80_io1_store(uint16_t addr, uint8_t value)
 {
     int cmode, currbank;
 
     currregval = value & 0xc7;
-    currbank = value & 3;
+    currbank = value & 7;
 
     switch (value & 0xe0) {
         case 0xe0:
@@ -106,8 +108,9 @@ static uint8_t comal80_io1_peek(uint16_t addr)
 
 static int comal80_dump(void)
 {
-    mon_out("register value: %d\n", currregval);
-    mon_out(" bank: %d\n", currregval & 3);
+    mon_out("extra eprom is installed: %s\n", extrarom ? "yes" : "no");
+    mon_out("register value: $%02x\n", currregval);
+    mon_out(" bank: %d/%d\n", currregval & 7, extrarom ? 8 : 4);
     return 0;
 }
 
@@ -152,6 +155,21 @@ void comal80_config_setup(uint8_t *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
+
+    memset(&roml_banks[0x8000], 0xff, 0x8000);
+    memset(&romh_banks[0x8000], 0xff, 0x8000);
+
+    if (extrarom) {
+        memcpy(&roml_banks[0x8000], &rawcart[0x10000], 0x2000);
+        memcpy(&romh_banks[0x8000], &rawcart[0x12000], 0x2000);
+        memcpy(&roml_banks[0xa000], &rawcart[0x14000], 0x2000);
+        memcpy(&romh_banks[0xa000], &rawcart[0x16000], 0x2000);
+        memcpy(&roml_banks[0xc000], &rawcart[0x18000], 0x2000);
+        memcpy(&romh_banks[0xc000], &rawcart[0x1a000], 0x2000);
+        memcpy(&roml_banks[0xe000], &rawcart[0x1c000], 0x2000);
+        memcpy(&romh_banks[0xe000], &rawcart[0x1e000], 0x2000);
+    }
+
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
 }
 
@@ -167,8 +185,12 @@ static int comal80_common_attach(void)
 
 int comal80_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+    extrarom = 1;
+    if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        extrarom = 0;
+        if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
     }
     return comal80_common_attach();
 }
@@ -177,17 +199,23 @@ int comal80_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
+    extrarom = 0;
+
     while (1) {
         if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 
-        if (chip.start != 0x8000 || chip.size != 0x4000 || chip.bank > 3) {
+        if (chip.start != 0x8000 || chip.size != 0x4000 || chip.bank > 7) {
             return -1;
         }
 
         if (crt_read_chip(rawcart, chip.bank << 14, &chip, fd)) {
             return -1;
+        }
+
+        if (chip.bank > 3) {
+            extrarom = 1;
         }
     }
     return comal80_common_attach();
@@ -207,13 +235,14 @@ void comal80_detach(void)
    type  | name     | description
    ------------------------------
    BYTE  | register | control register
-   ARRAY | ROML     | 32768 BYTES of ROML data
-   ARRAY | ROMH     | 32768 BYTES of ROMH data
+   BYTE  | extra rom| image contains extra eprom
+   ARRAY | ROML     | 32768 or 65536 BYTES of ROML data
+   ARRAY | ROMH     | 32768 or 65536 BYTES of ROMH data
  */
 
 static char snap_module_name[] = "CARTCOMAL";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   0
+#define SNAP_MINOR   1
 
 int comal80_snapshot_write_module(snapshot_t *s)
 {
@@ -227,8 +256,9 @@ int comal80_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_B(m, (uint8_t)currregval) < 0)
-        || (SMW_BA(m, roml_banks, 0x8000) < 0)
-        || (SMW_BA(m, romh_banks, 0x8000) < 0)) {
+        || (SMW_B(m, (uint8_t)extrarom) < 0)
+        || (SMW_BA(m, roml_banks, extrarom ? 0x10000 : 0x8000) < 0)
+        || (SMW_BA(m, romh_banks, extrarom ? 0x10000 : 0x8000) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
@@ -255,8 +285,9 @@ int comal80_snapshot_read_module(snapshot_t *s)
 
     if (0
         || (SMR_B_INT(m, &currregval) < 0)
-        || (SMR_BA(m, roml_banks, 0x8000) < 0)
-        || (SMR_BA(m, romh_banks, 0x8000) < 0)) {
+        || (SMR_B_INT(m, &extrarom) < 0)
+        || (SMR_BA(m, roml_banks, extrarom ? 0x10000 : 0x8000) < 0)
+        || (SMR_BA(m, romh_banks, extrarom ? 0x10000 : 0x8000) < 0)) {
         goto fail;
     }
 
