@@ -86,6 +86,14 @@ marshal.cc: marshal.list
 marshal.h: marshal.list
 	$(AM_V_GEN) $(GLIB_GENMARSHAL) --prefix=_vte_marshal --header --internal $< > $@
 
+vtetypebuiltins.h: stamp-vtetypebuiltins.h
+	@true
+stamp-vtetypebuiltins.h: vtetypebuiltins.h.template vteenums.h vtedeprecated.h
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $< $(filter %.h,$^) > xgen-vtbh \
+	&& (cmp -s xgen-vtbh vtetypebuiltins.h || cp xgen-vtbh vtetypebuiltins.h ) \
+	&& rm -f xgen-vtbh \
+	&& echo timestamp > $(@F)
+	
 vtetypebuiltins.cc: vtetypebuiltins.cc.template vteenums.h vtedeprecated.h
 	$(AM_V_GEN) $(GLIB_MKENUMS) --template $< $(filter %.h,$^) > xgen-vtbc \
 	&& (cmp -s xgen-vtbc vtetypebuiltins.cc || cp xgen-vtbc vtetypebuiltins.cc ) \
