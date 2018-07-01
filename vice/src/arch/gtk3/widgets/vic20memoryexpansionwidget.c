@@ -128,7 +128,8 @@ static void on_ram_block_toggled(GtkWidget *widget, gpointer user_data)
     resources_get_int_sprintf("RamBlock%d", &old_state, block);
     new_state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     if (new_state != old_state) {
-        debug_gtk3("setting RamBlock%d to %s", block, new_state ? "ON" : "OFF");
+        debug_gtk3("setting RamBlock%d to %s\n",
+                block, new_state ? "ON" : "OFF");
         resources_set_int_sprintf("RamBlock%d", new_state, block);
     }
 }
