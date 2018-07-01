@@ -45,6 +45,29 @@ OBJDUMP=$9
 shift
 COMPILER=$9
 
+
+# Try to get the SVN revision
+#echo "Trying to get SVN revision"
+SVN_SUFFIX=""
+svnrev=""
+svnrev_string=`svnversion $TOPSRCDIR`
+if test "$?" != "0"; then
+    # echo "No svnversion found"
+    # nop:
+    :
+else
+    svnrev=`echo "$svnrev_string" | cut -d':' -f1`
+    # echo "svnrev string: $svnrev"
+    # remove the 'M' if present
+    svnrev=`echo "$svnrev" | sed 's/M//'`
+    # check if it's a number
+    svnrev=`echo "$svnrev" | grep '^[0-9]\+$'`
+    if test "$?" = "0"; then
+        SVN_SUFFIX="-r$svnrev"
+    fi
+fi
+
+
 get_dll_deps()
 {
   for j in `find $BUILDPATH -name "*.dll"`
@@ -58,6 +81,7 @@ get_dll_deps()
     done
   done
 }
+
 
 if test x"$CPU" = "xx86_64" -o x"$CPU" = "xamd64"; then
   WINXX="win64"
@@ -83,30 +107,13 @@ for i in $EXECUTABLES; do
   fi
 done
 
-# Try to get the SVN revision
-#echo "Trying to get SVN revision"
-SVN_SUFFIX=""
-svnrev=""
-svnrev_string=`svnversion $TOPSRCDIR`
-if test "$?" != "0"; then
-    #echo "No svnversion found"
-    # nop:
-    :
-else
-    svnrev=`echo "$svnrev_string" | cut -d':' -f1`
-    #echo "svnrev string: $svnrev"
-    # remove the 'M' if present
-    svnrev=`echo "$svnrev" | sed 's/M//'`
-    # check if it's a number
-    svnrev=`echo "$svnrev" | grep '^[0-9]\+$'`
-    if test "$?" = "0"; then
-        SVN_SUFFIX="r$svnrev"
-    fi
-fi
+
 
 
 GTK3NAME="GTK3VICE"
 BUILDPATH="$TOPBUILDDIR/$GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
+echo "BUILDPATH = $BUILDPATH"
+
 
 # This doesn't make sense anymore when using the current SVN revision:
 echo "Removing an old $BUILDPATH ..."
@@ -186,8 +193,8 @@ if test x"$ZIPKIND" = "xzip"; then
   rm -f $BUILDPATH.zip
   cd $BUILDPATH/..
   if test x"$ZIP" = "x"
-    then zip -r -9 -q $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX
-    else $ZIP $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX
+    then zip -r -9 -q $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
+    else $ZIP $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
   fi
   rm -r -f $BUILDPATH
   echo "$WINXX GTK3 port binary distribution archive generated as $BUILDPATH.zip"
