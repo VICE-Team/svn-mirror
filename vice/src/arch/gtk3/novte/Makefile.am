@@ -11,6 +11,7 @@ AM_CPPFLAGS = \
 	@GLIB_CFLAGS@ \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
+	-I$(top_builddir)/src/arch/gtk3/novte \
 	-I$(top_srcdir)/src/arch/gtk3/novte \
 	-I$(top_srcdir)/src
 

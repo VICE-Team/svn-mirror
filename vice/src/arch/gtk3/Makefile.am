@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = data novte widgets 
+SUBDIRS = data novte widgets
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
@@ -23,6 +23,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vdc \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
 	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
+	-I$(top_srcdir)/src/arch/gtk3/novte \
+	-I$(top_builddir)/src/arch/gtk3/novte \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
