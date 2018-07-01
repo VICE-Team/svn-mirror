@@ -63,24 +63,3 @@ TODOs and FIXMEs:
 
 - there is still a lot of features/functionality that doesnt make a lot of sense 
   for what we are doing here.
-
---------------------------------------------------------------------------------
-Warnings:
---------------------------------------------------------------------------------
-  
-table.cc: In function 'void _vte_table_extract_numbers(GValueArray**, _vte_table_arginfo*)':
-table.cc:500:23: warning: missing initializer for member '_GValue::data' [-Wmissing-field-initializers]
-     GValue value = {0,};
-                       ^
-table.cc:523:38: warning: missing initializer for member '_GValue::data' [-Wmissing-field-initializers]
-                 GValue subvalue = {0,};
-                                      ^
-table.cc: In function 'void _vte_table_extract_string(GValueArray**, _vte_table_arginfo*)':
-table.cc:541:23: warning: missing initializer for member '_GValue::data' [-Wmissing-field-initializers]
-     GValue value = {0,};
-                       ^
-vteaccess.cc: In function 'gunichar vte_terminal_accessible_get_character_at_offset(AtkText*, gint)':
-vteaccess.cc:786:5: warning: assuming signed overflow does not occur when assuming that (X + c) < X is always false [-Wstrict-overflow]
-     if (start_offset > end_offset && end_offset != -1) {
-     ^~
-  
