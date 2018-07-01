@@ -25,24 +25,19 @@
  *
  */
 
-/**
- * \brief   Debugging code for the Gtk3 native port - header
- */
+#ifndef VICE_DEBUG_GTK3_H
+# define VICE_DEBUG_GTK3_H
 
-#include <vice.h>
-#include "config.h"
+# include "vice.h"
 
-#include <gtk/gtk.h>
-
-#ifndef HAVE_DEBUG_GTK3_H
-# define HAVE_DEBUG_GTK3_H
-
-/* HAVE_DEBUG_NATIVE_GTK3 comes from configure */
+/* HAVE_DEBUG_GTK3UI comes from configure */
 # ifdef HAVE_DEBUG_GTK3UI
+
+#  include <glib.h>
 
 /** \brief  Print debugging info on stdout
  *
- * Works just like g_print() or printf(), except that every line is prefixed
+ * Works just like g_print() and printf(), except that every line is prefixed
  * with "[debug-gtk3] $FILE:$LINE::$FUNC(): "
  */
 #  define debug_gtk3(...) \
@@ -53,4 +48,4 @@
 #  define debug_gtk3(...)
 # endif /* HAVE DEBUG_GTK3UI */
 
-#endif  /* HAVE_DEBUG_GTK3_H */
+#endif  /* VICE_DEBUG_GTK3_H */
