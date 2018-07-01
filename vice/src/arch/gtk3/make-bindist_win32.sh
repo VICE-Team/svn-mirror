@@ -56,8 +56,8 @@ if test "$?" != "0"; then
     # nop:
     :
 else
-    svnrev=`echo "$svnrev_string" | cut -d':' -f1`
-    # echo "svnrev string: $svnrev"
+    svnrev=`echo "$svnrev_string" | cut -d':' -f2`
+    #echo "svnrev string: $svnrev"
     # remove the 'M' if present
     svnrev=`echo "$svnrev" | sed 's/M//'`
     # check if it's a number
