@@ -497,7 +497,7 @@ static void _vte_table_extract_numbers(GValueArray **array, struct _vte_table_ar
         *array = g_value_array_new(1);
     }
 
-    GValue value = {0,};
+    GValue value = {0,0};
     g_value_init(&value, G_TYPE_LONG);
     gssize i = 0;
     GValueArray *subarray = nullptr;
@@ -520,7 +520,7 @@ static void _vte_table_extract_numbers(GValueArray **array, struct _vte_table_ar
             } else {
                 g_value_array_append(subarray, &value);
 
-                GValue subvalue = {0,};
+                GValue subvalue = {0,0};
                 g_value_init(&subvalue, G_TYPE_VALUE_ARRAY);
                 g_value_take_boxed(&subvalue, subarray);
                 g_value_array_append(*array, &subvalue);
@@ -538,7 +538,7 @@ static void _vte_table_extract_numbers(GValueArray **array, struct _vte_table_ar
 
 static void _vte_table_extract_string(GValueArray **array, struct _vte_table_arginfo *arginfo)
 {
-    GValue value = {0,};
+    GValue value = {0,0};
     gunichar *ptr;
 
     ptr = g_new(gunichar, arginfo->length + 1);
