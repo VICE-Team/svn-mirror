@@ -9094,8 +9094,7 @@ void VteTerminalPrivate::emit_pending_signals()
     g_object_thaw_notify(object);
 }
 
-void
-VteTerminalPrivate::time_process_incoming()
+void VteTerminalPrivate::time_process_incoming()
 {
     g_timer_reset(process_timer);
     process_incoming();
@@ -9104,48 +9103,38 @@ VteTerminalPrivate::time_process_incoming()
     m_max_input_bytes = (m_max_input_bytes + target) / 2;
 }
 
-bool
-VteTerminalPrivate::process(bool emit_adj_changed)
+bool VteTerminalPrivate::process(bool emit_adj_changed)
 {
-        bool is_active;
-#if 0
-        if (m_pty_channel) {
-                if (m_pty_input_active ||
-                    m_pty_input_source == 0) {
-                        m_pty_input_active = false;
-                        pty_io_read(m_pty_channel, G_IO_IN);
-                }
-                connect_pty_read();
+    bool is_active;
+    if (emit_adj_changed) {
+        emit_adjustment_changed();
+    }
+    is_active = _vte_incoming_chunks_length(m_incoming) != 0;
+    if (is_active) {
+        if (VTE_MAX_PROCESS_TIME) {
+            time_process_incoming();
+        } else {
+            process_incoming();
         }
-#endif
-        if (emit_adj_changed)
-                emit_adjustment_changed();
-        is_active = _vte_incoming_chunks_length(m_incoming) != 0;
-        if (is_active) {
-                if (VTE_MAX_PROCESS_TIME) {
-                        time_process_incoming();
-                } else {
-                        process_incoming();
-                }
-                m_input_bytes = 0;
-        } else
-                emit_pending_signals();
+        m_input_bytes = 0;
+    } else {
+        emit_pending_signals();
+    }
 
-        return is_active;
+    return is_active;
 }
 
 /* This function is called after DISPLAY_TIMEOUT ms.
  * It makes sure initial output is never delayed by more than DISPLAY_TIMEOUT
  */
-static gboolean
-process_timeout (gpointer data)
+static gboolean process_timeout (gpointer data)
 {
     GList *l, *next;
     gboolean again;
 
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_enter();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
     in_process_timeout = TRUE;
 
@@ -9164,11 +9153,11 @@ process_timeout (gpointer data)
             _vte_debug_print (VTE_DEBUG_WORK, "T");
         }
 
-                // FIXMEchpe find out why we don't emit_adjustment_changed() here!!
-                active = that->process(false);
+        /* FIXMEchpe find out why we don't emit_adjustment_changed() here!! */
+        active = that->process(false);
 
         if (!active) {
-                        remove_from_active_list(that);
+            remove_from_active_list(that);
         }
     }
 
@@ -9177,17 +9166,16 @@ process_timeout (gpointer data)
     if (g_active_terminals != nullptr && update_timeout_tag == 0) {
         again = TRUE;
     } else {
-        _vte_debug_print(VTE_DEBUG_TIMEOUT,
-                "Stopping process timeout\n");
+        _vte_debug_print(VTE_DEBUG_TIMEOUT, "Stopping process timeout\n");
         process_timeout_tag = 0;
         again = FALSE;
     }
 
     in_process_timeout = FALSE;
 
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_leave();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
     if (again) {
         /* Force us to relinquish the CPU as the child is running
@@ -9202,8 +9190,7 @@ process_timeout (gpointer data)
     return again;
 }
 
-bool
-VteTerminalPrivate::invalidate_dirty_rects_and_process_updates()
+bool VteTerminalPrivate::invalidate_dirty_rects_and_process_updates()
 {
     if (G_UNLIKELY(!widget_realized())) {
         return false;
@@ -9219,30 +9206,29 @@ VteTerminalPrivate::invalidate_dirty_rects_and_process_updates()
         cairo_rectangle_int_t *rect = &g_array_index(m_update_rects, cairo_rectangle_int_t, i);
         cairo_region_union_rectangle(region, rect);
     }
-        g_array_set_size(m_update_rects, 0);
+    g_array_set_size(m_update_rects, 0);
     m_invalidated_all = false;
 
-        auto allocation = get_allocated_rect();
-        cairo_region_translate(region,
-                               allocation.x + m_padding.left,
-                               allocation.y + m_padding.top);
+    auto allocation = get_allocated_rect();
+    cairo_region_translate(region,
+                            allocation.x + m_padding.left,
+                            allocation.y + m_padding.top);
 
     /* and perform the merge with the window visible area */
-        gtk_widget_queue_draw_region(m_widget, region);
+    gtk_widget_queue_draw_region(m_widget, region);
     cairo_region_destroy (region);
 
     return true;
 }
 
-static gboolean
-update_repeat_timeout (gpointer data)
+static gboolean update_repeat_timeout (gpointer data)
 {
     GList *l, *next;
     bool again;
 
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_enter();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
     in_update_timeout = TRUE;
 
@@ -9254,46 +9240,45 @@ update_repeat_timeout (gpointer data)
     for (l = g_active_terminals; l != NULL; l = next) {
         VteTerminalPrivate *that = reinterpret_cast<VteTerminalPrivate*>(l->data);
 
-                next = l->next;
+        next = l->next;
 
         if (l != g_active_terminals) {
             _vte_debug_print (VTE_DEBUG_WORK, "T");
         }
 
-                that->process(true);
+        that->process(true);
 
         again = that->invalidate_dirty_rects_and_process_updates();
         if (!again) {
-                        remove_from_active_list(that);
+            remove_from_active_list(that);
         }
     }
 
     _vte_debug_print (VTE_DEBUG_WORK, "]");
 
-    /* We only stop the timer if no update request was received in this
-         * past cycle.  Technically, always stop this timer object and maybe
-         * reinstall a new one because we need to delay by the amount of time
-         * it took to repaint the screen: bug 730732.
-     */
+   /* We only stop the timer if no update request was received in this
+    * past cycle.  Technically, always stop this timer object and maybe
+    * reinstall a new one because we need to delay by the amount of time
+    * it took to repaint the screen: bug 730732.
+    */
     if (g_active_terminals == nullptr) {
-        _vte_debug_print(VTE_DEBUG_TIMEOUT,
-                "Stopping update timeout\n");
+        _vte_debug_print(VTE_DEBUG_TIMEOUT, "Stopping update timeout\n");
         update_timeout_tag = 0;
         again = false;
-        } else {
-                update_timeout_tag =
-                        g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE,
-                                            VTE_UPDATE_REPEAT_TIMEOUT,
-                                            update_repeat_timeout, NULL,
-                                            NULL);
-                again = true;
+    } else {
+        update_timeout_tag =
+                g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE,
+                                    VTE_UPDATE_REPEAT_TIMEOUT,
+                                    update_repeat_timeout, NULL,
+                                    NULL);
+        again = true;
     }
 
     in_update_timeout = FALSE;
 
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_leave();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
     if (again) {
         /* Force us to relinquish the CPU as the child is running
@@ -9305,17 +9290,16 @@ update_repeat_timeout (gpointer data)
         prune_chunks (10);
     }
 
-        return FALSE;  /* If we need to go again, we already have a new timer for that. */
+    return FALSE;  /* If we need to go again, we already have a new timer for that. */
 }
 
-static gboolean
-update_timeout (gpointer data)
+static gboolean update_timeout (gpointer data)
 {
     GList *l, *next;
 
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_enter();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
     in_update_timeout = TRUE;
 
@@ -9324,20 +9308,20 @@ update_timeout (gpointer data)
                           "Update timeout:  %d active\n",
                           g_list_length(g_active_terminals));
 
-        remove_process_timeout_source();
+    remove_process_timeout_source();
 
     for (l = g_active_terminals; l != NULL; l = next) {
         VteTerminalPrivate *that = reinterpret_cast<VteTerminalPrivate*>(l->data);
 
-                next = l->next;
+        next = l->next;
 
         if (l != g_active_terminals) {
             _vte_debug_print (VTE_DEBUG_WORK, "T");
         }
 
-                that->process(true);
+        that->process(true);
 
-                that->invalidate_dirty_rects_and_process_updates();
+        that->invalidate_dirty_rects_and_process_updates();
     }
 
     _vte_debug_print (VTE_DEBUG_WORK, "}");
@@ -9351,22 +9335,21 @@ update_timeout (gpointer data)
                     NULL);
     in_update_timeout = FALSE;
 
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_leave();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
     return FALSE;
 }
 
-bool
-VteTerminalPrivate::write_contents_sync (GOutputStream *stream,
-                                         VteWriteFlags flags,
-                                         GCancellable *cancellable,
-                                         GError **error)
+bool VteTerminalPrivate::write_contents_sync (GOutputStream *stream,
+                                                VteWriteFlags flags,
+                                                GCancellable *cancellable,
+                                                GError **error)
 {
     return _vte_ring_write_contents (m_screen->row_data,
-                     stream, flags,
-                     cancellable, error);
+                                        stream, flags,
+                                        cancellable, error);
 }
 
 /*
@@ -9375,260 +9358,6 @@ VteTerminalPrivate::write_contents_sync (GOutputStream *stream,
 
 /* TODO Add properties & signals */
 
-#ifndef NO_PCRE
-/*
- * VteTerminalPrivate::search_set_regex:
- * @regex: (allow-none): a #VteRegex, or %nullptr
- * @flags: PCRE2 match flags, or 0
- *
- * Sets the regex to search for. Unsets the search regex when passed %nullptr.
- */
-bool
-VteTerminalPrivate::search_set_regex (VteRegex *regex,
-                                      guint32 flags)
-{
-        struct vte_regex_and_flags *rx;
-
-        rx = &m_search_regex;
-
-        if (rx->regex == regex &&
-            rx->match_flags == flags)
-                return false;
-
-        regex_and_flags_clear(rx);
-
-        if (regex != nullptr) {
-                rx->regex = vte_regex_ref(regex);
-                rx->match_flags = flags;
-        }
-
-    invalidate_all();
-
-        return true;
-}
-
-bool
-VteTerminalPrivate::search_set_wrap_around(bool wrap)
-{
-        if (wrap == m_search_wrap_around)
-                return false;
-
-        m_search_wrap_around = wrap;
-        return true;
-}
-
-bool
-VteTerminalPrivate::search_rows(pcre2_match_context_8 *match_context,
-                                pcre2_match_data_8 *match_data,
-                                vte::grid::row_t start_row,
-                                vte::grid::row_t end_row,
-                                bool backward)
-{
-    int start, end;
-    long start_col, end_col;
-    VteCharAttributes *ca;
-    GArray *attrs;
-    gdouble value, page_size;
-
-    auto row_text = get_text(start_row, 0,
-                                 end_row, -1,
-                                 false /* block */,
-                                 true /* wrap */,
-                                 false /* include trailing whitespace */, /* FIXMEchpe maybe do include it since the match may depend on it? */
-                                 nullptr);
-
-        int (* match_fn) (const pcre2_code_8 *,
-                          PCRE2_SPTR8, PCRE2_SIZE, PCRE2_SIZE, uint32_t,
-                          pcre2_match_data_8 *, pcre2_match_context_8 *);
-        gsize *ovector, so, eo;
-        int r;
-
-        if (_vte_regex_get_jited(m_search_regex.regex))
-                match_fn = pcre2_jit_match_8;
-        else
-                match_fn = pcre2_match_8;
-
-        r = match_fn(_vte_regex_get_pcre(m_search_regex.regex),
-                     (PCRE2_SPTR8)row_text->str, row_text->len , /* subject, length */
-                     0, /* start offset */
-                     m_search_regex.match_flags |
-                     PCRE2_NO_UTF_CHECK | PCRE2_NOTEMPTY | PCRE2_PARTIAL_SOFT /* FIXME: HARD? */,
-                     match_data,
-                     match_context);
-
-        if (r == PCRE2_ERROR_NOMATCH) {
-                g_string_free (row_text, TRUE);
-                return false;
-        }
-        // FIXME: handle partial matches (PCRE2_ERROR_PARTIAL)
-        if (r < 0) {
-                g_string_free (row_text, TRUE);
-                return false;
-        }
-
-        ovector = pcre2_get_ovector_pointer_8(match_data);
-        so = ovector[0];
-        eo = ovector[1];
-        if (G_UNLIKELY(so == PCRE2_UNSET || eo == PCRE2_UNSET)) {
-                g_string_free (row_text, TRUE);
-                return false;
-        }
-
-        start = so;
-        end = eo;
-
-    /* Fetch text again, with attributes */
-    g_string_free(row_text, TRUE);
-    if (!m_search_attrs)
-        m_search_attrs = g_array_new (FALSE, TRUE, sizeof (VteCharAttributes));
-    attrs = m_search_attrs;
-    row_text = get_text(start_row, 0,
-                            end_row, -1,
-                            false /* block */,
-                            true /* wrap */,
-                            false /* include trailing whitespace */, /* FIXMEchpe maybe true? */
-                            attrs);
-
-    ca = &g_array_index (attrs, VteCharAttributes, start);
-    start_row = ca->row;
-    start_col = ca->column;
-    ca = &g_array_index (attrs, VteCharAttributes, end - 1);
-    end_row = ca->row;
-    end_col = ca->column;
-
-    g_string_free (row_text, TRUE);
-
-    select_text(start_col, start_row, end_col, end_row);
-    /* Quite possibly the math here should not access adjustment directly... */
-    value = gtk_adjustment_get_value(m_vadjustment);
-    page_size = gtk_adjustment_get_page_size(m_vadjustment);
-    if (backward) {
-        if (end_row < value || end_row > value + page_size - 1)
-            queue_adjustment_value_changed_clamped(end_row - page_size + 1);
-    } else {
-        if (start_row < value || start_row > value + page_size - 1)
-            queue_adjustment_value_changed_clamped(start_row);
-    }
-
-    return true;
-}
-
-bool
-VteTerminalPrivate::search_rows_iter(pcre2_match_context_8 *match_context,
-                                     pcre2_match_data_8 *match_data,
-                                     vte::grid::row_t start_row,
-                                     vte::grid::row_t end_row,
-                                     bool backward)
-{
-    const VteRowData *row;
-    long iter_start_row, iter_end_row;
-
-    if (backward) {
-        iter_start_row = end_row;
-        while (iter_start_row > start_row) {
-            iter_end_row = iter_start_row;
-
-            do {
-                iter_start_row--;
-                row = find_row_data(iter_start_row);
-            } while (row && row->attr.soft_wrapped);
-
-            if (search_rows(match_context, match_data,
-                                        iter_start_row, iter_end_row, backward))
-                return true;
-        }
-    } else {
-        iter_end_row = start_row;
-        while (iter_end_row < end_row) {
-            iter_start_row = iter_end_row;
-
-            do {
-                row = find_row_data(iter_end_row);
-                iter_end_row++;
-            } while (row && row->attr.soft_wrapped);
-
-            if (search_rows(match_context, match_data,
-                                        iter_start_row, iter_end_row, backward))
-                return true;
-        }
-    }
-
-    return false;
-}
-
-bool
-VteTerminalPrivate::search_find (bool backward)
-{
-        vte::grid::row_t buffer_start_row, buffer_end_row;
-        vte::grid::row_t last_start_row, last_end_row;
-        bool match_found = true;
-
-        if (m_search_regex.regex == nullptr)
-                return false;
-
-    /* TODO
-     * Currently We only find one result per extended line, and ignore columns
-     * Moreover, the whole search thing is implemented very inefficiently.
-     */
-
-        auto match_context = create_match_context();
-        auto match_data = pcre2_match_data_create_8(256 /* should be plenty */, nullptr /* general context */);
-
-    buffer_start_row = _vte_ring_delta (m_screen->row_data);
-    buffer_end_row = _vte_ring_next (m_screen->row_data);
-
-    if (m_has_selection) {
-        last_start_row = m_selection_start.row;
-        last_end_row = m_selection_end.row + 1;
-    } else {
-        last_start_row = m_screen->scroll_delta + m_row_count;
-        last_end_row = m_screen->scroll_delta;
-    }
-    last_start_row = MAX (buffer_start_row, last_start_row);
-    last_end_row = MIN (buffer_end_row, last_end_row);
-
-    /* If search fails, we make an empty selection at the last searched
-     * position... */
-    if (backward) {
-        if (search_rows_iter (match_context, match_data,
-                                      buffer_start_row, last_start_row, backward))
-            goto found;
-        if (m_search_wrap_around &&
-            search_rows_iter (match_context, match_data,
-                                      last_end_row, buffer_end_row, backward))
-            goto found;
-        if (m_has_selection) {
-            if (m_search_wrap_around)
-                select_empty(m_selection_start.col, m_selection_start.row);
-            else
-                select_empty(-1, buffer_start_row - 1);
-        }
-                match_found = false;
-    } else {
-        if (search_rows_iter (match_context, match_data,
-                                      last_end_row, buffer_end_row, backward))
-            goto found;
-        if (m_search_wrap_around &&
-            search_rows_iter (match_context, match_data,
-                                      buffer_start_row, last_start_row, backward))
-            goto found;
-        if (m_has_selection) {
-            if (m_search_wrap_around)
-                                select_empty(m_selection_end.col + 1, m_selection_end.row);
-            else
-                                select_empty(-1, buffer_end_row);
-        }
-                match_found = false;
-    }
-
- found:
-
-        pcre2_match_data_free_8(match_data);
-        pcre2_match_context_free_8(match_context);
-
-    return match_found;
-}
-#endif
 
 /*
  * VteTerminalPrivate::set_input_enabled:
@@ -9640,102 +9369,106 @@ VteTerminalPrivate::search_find (bool backward)
  *
  * Returns: %true iff the setting changed
  */
-bool
-VteTerminalPrivate::set_input_enabled (bool enabled)
+bool VteTerminalPrivate::set_input_enabled (bool enabled)
 {
-        if (enabled == m_input_enabled)
-                return false;
+    if (enabled == m_input_enabled) {
+        return false;
+    }
 
-        m_input_enabled = enabled;
+    m_input_enabled = enabled;
 
-        auto context = gtk_widget_get_style_context(m_widget);
+    auto context = gtk_widget_get_style_context(m_widget);
 
-        /* FIXME: maybe hide cursor when input disabled, too? */
+    /* FIXME: maybe hide cursor when input disabled, too? */
 
-        if (enabled) {
-                if (gtk_widget_has_focus(m_widget))
-                        gtk_im_context_focus_in(m_im_context);
-
-                gtk_style_context_remove_class (context, GTK_STYLE_CLASS_READ_ONLY);
-        } else {
-                im_reset();
-                if (gtk_widget_has_focus(m_widget))
-                        gtk_im_context_focus_out(m_im_context);
-#if 0
-                disconnect_pty_write();
-#endif
-                _vte_byte_array_clear(m_outgoing);
-
-                gtk_style_context_add_class (context, GTK_STYLE_CLASS_READ_ONLY);
+    if (enabled) {
+        if (gtk_widget_has_focus(m_widget)) {
+            gtk_im_context_focus_in(m_im_context);
         }
 
-        return true;
+        gtk_style_context_remove_class (context, GTK_STYLE_CLASS_READ_ONLY);
+    } else {
+        im_reset();
+        if (gtk_widget_has_focus(m_widget)) {
+            gtk_im_context_focus_out(m_im_context);
+        }
+        _vte_byte_array_clear(m_outgoing);
+
+        gtk_style_context_add_class (context, GTK_STYLE_CLASS_READ_ONLY);
+    }
+
+    return true;
 }
 
-bool
-VteTerminalPrivate::process_word_char_exceptions(char const *str,
-                                                 gunichar **arrayp,
-                                                 gsize *lenp)
+bool VteTerminalPrivate::process_word_char_exceptions(char const *str,
+                                                        gunichar **arrayp,
+                                                        gsize *lenp)
 {
-        const char *p;
-        gunichar *array, c;
-        gsize len, i;
+    const char *p;
+    gunichar *array, c;
+    gsize len, i;
 
-        if (str == NULL)
-                str = WORD_CHAR_EXCEPTIONS_DEFAULT;
+    if (str == NULL) {
+        str = WORD_CHAR_EXCEPTIONS_DEFAULT;
+    }
 
-        len = g_utf8_strlen(str, -1);
-        array = g_new(gunichar, len);
-        i = 0;
+    len = g_utf8_strlen(str, -1);
+    array = g_new(gunichar, len);
+    i = 0;
 
-        for (p = str; *p; p = g_utf8_next_char(p)) {
-                c = g_utf8_get_char(p);
+    for (p = str; *p; p = g_utf8_next_char(p)) {
+        c = g_utf8_get_char(p);
 
-                /* For forward compatibility reasons, we skip
-                 * characters that aren't supposed to be here,
-                 * instead of erroring out.
-                 */
-                /* '-' must only be used*  at the start of the string */
-                if (c == (gunichar)'-' && p != str)
-                        continue;
-                if (!g_unichar_isgraph(c))
-                        continue;
-                if (g_unichar_isspace(c))
-                        continue;
-                if (g_unichar_isalnum(c))
-                        continue;
-
-                array[i++] = g_utf8_get_char(p);
+       /* For forward compatibility reasons, we skip
+        * characters that aren't supposed to be here,
+        * instead of erroring out.
+        */
+        /* '-' must only be used*  at the start of the string */
+        if (c == (gunichar)'-' && p != str) {
+            continue;
+        }
+        if (!g_unichar_isgraph(c)) {
+            continue;
+        }
+        if (g_unichar_isspace(c)) {
+            continue;
+        }
+        if (g_unichar_isalnum(c)) {
+            continue;
         }
 
-        g_assert(i <= len);
-        len = i; /* we may have skipped some characters */
+        array[i++] = g_utf8_get_char(p);
+    }
 
-        /* Sort the result since we want to use bsearch on it */
-        qsort(array, len, sizeof(gunichar), compare_unichar_p);
+    g_assert(i <= len);
+    len = i; /* we may have skipped some characters */
 
-        /* Check that no character occurs twice */
-        for (i = 1; i < len; i++) {
-                if (array[i-1] != array[i])
-                        continue;
+    /* Sort the result since we want to use bsearch on it */
+    qsort(array, len, sizeof(gunichar), compare_unichar_p);
 
-                g_free(array);
-                return false;
+    /* Check that no character occurs twice */
+    for (i = 1; i < len; i++) {
+        if (array[i-1] != array[i]) {
+            continue;
         }
+
+        g_free(array);
+        return false;
+    }
 
 #if 0
-        /* Debug */
-        for (i = 0; i < len; i++) {
-                char utf[7];
-                c = array[i];
-                utf[g_unichar_to_utf8(c, utf)] = '\0';
-                g_printerr("Word char exception: U+%04X %s\n", c, utf);
-        }
+    /* Debug */
+    for (i = 0; i < len; i++) {
+        char utf[7];
+        c = array[i];
+        utf[g_unichar_to_utf8(c, utf)] = '\0';
+        g_printerr("Word char exception: U+%04X %s\n", c, utf);
+    }
 #endif
 
-        *lenp = len;
-        *arrayp = array;
-        return true;
+    *lenp = len;
+    *arrayp = array;
+    return true;
 }
 
 /*
@@ -9755,34 +9488,35 @@ VteTerminalPrivate::process_word_char_exceptions(char const *str,
  *
  * Returns: %true if the word char exceptions changed
  */
-bool
-VteTerminalPrivate::set_word_char_exceptions(char const* exceptions)
+bool VteTerminalPrivate::set_word_char_exceptions(char const* exceptions)
 {
-        gunichar *array;
-        gsize len;
+    gunichar *array;
+    gsize len;
 
-        if (g_strcmp0(exceptions, m_word_char_exceptions_string) == 0)
-                return false;
+    if (g_strcmp0(exceptions, m_word_char_exceptions_string) == 0) {
+        return false;
+    }
 
-        if (!process_word_char_exceptions(exceptions, &array, &len))
-                return false;
+    if (!process_word_char_exceptions(exceptions, &array, &len)) {
+        return false;
+    }
 
-        g_free(m_word_char_exceptions_string);
-        m_word_char_exceptions_string = g_strdup(exceptions);
+    g_free(m_word_char_exceptions_string);
+    m_word_char_exceptions_string = g_strdup(exceptions);
 
-        g_free(m_word_char_exceptions);
-        m_word_char_exceptions = array;
-        m_word_char_exceptions_len = len;
+    g_free(m_word_char_exceptions);
+    m_word_char_exceptions = array;
+    m_word_char_exceptions_len = len;
 
-        return true;
+    return true;
 }
 
-void
-VteTerminalPrivate::set_clear_background(bool setting)
+void VteTerminalPrivate::set_clear_background(bool setting)
 {
-        if (m_clear_background == setting)
-                return;
+    if (m_clear_background == setting) {
+        return;
+    }
 
-        m_clear_background = setting;
-        invalidate_all();
+    m_clear_background = setting;
+    invalidate_all();
 }

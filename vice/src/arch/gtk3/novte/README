@@ -55,8 +55,6 @@ TODOs and FIXMEs:
 - a bunch of functions call vte_... in vteterminal.h should get renamed to
   novte_... also some defines should get renamed from VTE_... to NOVTE_...
 
-- some files still need to be codestyle-checked and -fixed: vte.cc
-
 - some files use deprecated GValueArray and should use GArray instead: 
   matcher.cc matcher.hh table.cc table.hh vteinternal.hh
   
