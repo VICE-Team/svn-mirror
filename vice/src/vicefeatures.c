@@ -438,14 +438,6 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #ifdef UNIX /* (unix) */
-    { "HAVE_VTE", "VTE support",
-#ifndef HAVE_VTE
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef UNIX /* (unix) */
     { "HAVE_XVIDEO", "Enable XVideo support.",
 #ifndef HAVE_XVIDEO
         0 },

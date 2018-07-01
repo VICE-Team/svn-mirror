@@ -27,15 +27,9 @@
 
 #include "vice.h"
 
-#define USE_NOVTE       /* FIXME */
-#undef HAVE_VTE
-
 #include <stdlib.h>
 #include <string.h>
-#if defined(HAVE_VTE)
-#include <vte/vte.h>
-#endif
-#if defined(USE_NOVTE)
+
 #include "novte/novte.h"
 
 #define vte_terminal_new novte_terminal_new
@@ -51,7 +45,6 @@
 #define VTE_TERMINAL(x) NOVTE_TERMINAL(x)
 #define VteTerminal NoVteTerminal
 
-#endif
 #include <dirent.h>
 #include <ctype.h>
 #include <unistd.h>
@@ -69,9 +62,7 @@
 #include "resources.h"
 #include "lib.h"
 #include "ui.h"
-#if defined(HAVE_VTE) || defined(USE_NOVTE)
 #include "linenoise.h"
-#endif
 #include "uimon.h"
 #include "uimonarch.h"
 #include "uimon-fallback.h"
@@ -79,8 +70,6 @@
 #include "vsync.h"
 #include "uidata.h"
 
-
-#if defined(HAVE_VTE) || defined(USE_NOVTE)
 struct console_private_s {
     GtkWidget *window;
     GtkWidget *term;
@@ -730,8 +719,6 @@ int console_close_all(void)
     }
     return 0;
 }
-
-#endif
 
 /** \brief  Callback to activate the ML-monitor
  *

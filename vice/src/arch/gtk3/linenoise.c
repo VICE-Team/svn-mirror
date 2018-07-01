@@ -92,12 +92,6 @@
 
 #include "vice.h"
 
-#define USE_NOVTE       /* FIXME */
-#undef HAVE_VTE
-
-#if defined(HAVE_VTE) || defined(USE_NOVTE)
-
-/* #include <termios.h> */
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -105,10 +99,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
-/* #include <sys/ioctl.h> */
 #include <unistd.h>
-/* #include <vte/vte.h> */ /* shouldnt be needed here, needs ifdef HAVE_VTE if so */
 #include <gtk/gtk.h> /* for gtk_main_iteration() */
+
 #include "linenoise.h"
 #include "uimon.h"
 
@@ -535,5 +528,3 @@ int linenoiseHistorySetMaxLen(int len) {
     }
     return 1;
 }
-
-#endif

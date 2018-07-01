@@ -39,8 +39,6 @@
 
 #include "vice.h"
 
-#if defined(HAVE_VTE) || defined(USE_NOVTE)
-
 typedef struct linenoiseCompletions {
   size_t len;
   char **cvec;
@@ -58,7 +56,5 @@ int linenoiseHistorySetMaxLen(int len);
 int linenoiseHistorySave(char *filename);
 int linenoiseHistoryLoad(char *filename);
 void linenoiseClearScreen(struct console_private_s *term);
-
-#endif
 
 #endif /* __LINENOISE_H */
