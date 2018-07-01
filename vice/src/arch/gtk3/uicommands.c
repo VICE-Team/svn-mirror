@@ -258,9 +258,9 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     uri = util_concat("file://", path, "vice.pdf", NULL);
     debug_gtk3("pdf uri: %s\n", uri);
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
-    if (res != NULL && error != NULL) {
+    if (!res && error != NULL) {
         vice_gtk3_message_error("Failed to load PDF",
-                "Some idiot failed to install Latext or something:"
+                "Some idiot failed to install LaTex or something similar:"
                 " %s\n", error->message);
     }
     lib_free(uri);
