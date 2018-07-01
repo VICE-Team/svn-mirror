@@ -3105,7 +3105,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
     gssize normal_length = 0;
     int i;
     gboolean scrolled = FALSE, steal = FALSE, modifier = FALSE, handled,
-         suppress_meta_esc = FALSE, add_modifiers = FALSE;
+         /*suppress_meta_esc = FALSE,*/ add_modifiers = FALSE;
     guint keyval = 0;
     gunichar keychar = 0;
     char keybuf[VTE_UTF8_BPC];
@@ -3242,18 +3242,18 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     case VTE_ERASE_ASCII_BACKSPACE:
                         normal = g_strdup("");
                         normal_length = 1;
-                        suppress_meta_esc = FALSE;
+                        /*suppress_meta_esc = FALSE;*/
                         break;
                     case VTE_ERASE_ASCII_DELETE:
                         normal = g_strdup("");
                         normal_length = 1;
-                        suppress_meta_esc = FALSE;
+                        /*suppress_meta_esc = FALSE;*/
                         break;
                     case VTE_ERASE_DELETE_SEQUENCE:
                         normal = g_strdup("\e[3~");
                         normal_length = 4;
                         add_modifiers = TRUE;
-                        suppress_meta_esc = TRUE;
+                        /*suppress_meta_esc = TRUE;*/
                         break;
                     case VTE_ERASE_TTY:
 #if 0
@@ -3263,8 +3263,8 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                             normal = g_strdup_printf("%c", tio.c_cc[VERASE]);
                             normal_length = 1;
                         }
-#endif
                         suppress_meta_esc = FALSE;
+#endif
                         break;
                     case VTE_ERASE_AUTO:
                     default:
@@ -3285,9 +3285,9 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                         {
                             normal = g_strdup("");
                             normal_length = 1;
-                            suppress_meta_esc = FALSE;
+                            /*suppress_meta_esc = FALSE;*/
                         }
-                        suppress_meta_esc = FALSE;
+                        /*suppress_meta_esc = FALSE;*/
                         break;
                 }
                 /* Toggle ^H vs ^? if Ctrl is pressed */
@@ -3320,7 +3320,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                             normal_length = 1;
                         }
 #endif
-                        suppress_meta_esc = FALSE;
+                        /*suppress_meta_esc = FALSE;*/
                         break;
                     case VTE_ERASE_DELETE_SEQUENCE:
                     case VTE_ERASE_AUTO:
@@ -3332,7 +3332,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                 }
                 handled = TRUE;
                 /* FIXMEchpe: why? this overrides the FALSE set above? */
-                suppress_meta_esc = TRUE;
+                /*suppress_meta_esc = TRUE;*/
                 break;
             case GDK_KEY_KP_Insert:
             case GDK_KEY_Insert:
@@ -3340,16 +3340,16 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     if (m_modifiers & GDK_CONTROL_MASK) {
                         emit_paste_clipboard();
                         handled = TRUE;
-                        suppress_meta_esc = TRUE;
+                        /*suppress_meta_esc = TRUE;*/
                     } else {
                         widget_paste(GDK_SELECTION_PRIMARY);
                         handled = TRUE;
-                        suppress_meta_esc = TRUE;
+                        /*suppress_meta_esc = TRUE;*/
                     }
                 } else if (m_modifiers & GDK_CONTROL_MASK) {
                     emit_copy_clipboard();
                     handled = TRUE;
-                    suppress_meta_esc = TRUE;
+                    /*suppress_meta_esc = TRUE;*/
                 }
                 break;
             /* Keypad/motion keys. */
@@ -3361,7 +3361,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     scroll_lines(-1);
                     scrolled = TRUE;
                     handled = TRUE;
-                    suppress_meta_esc = TRUE;
+                    /*suppress_meta_esc = TRUE;*/
                 }
                 break;
             case GDK_KEY_KP_Down:
@@ -3372,7 +3372,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     scroll_lines(1);
                     scrolled = TRUE;
                     handled = TRUE;
-                    suppress_meta_esc = TRUE;
+                    /*suppress_meta_esc = TRUE;*/
                 }
                 break;
             case GDK_KEY_KP_Page_Up:
@@ -3382,7 +3382,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     scroll_pages(-1);
                     scrolled = TRUE;
                     handled = TRUE;
-                    suppress_meta_esc = TRUE;
+                    /*suppress_meta_esc = TRUE;*/
                 }
                 break;
             case GDK_KEY_KP_Page_Down:
@@ -3392,7 +3392,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     scroll_pages(1);
                     scrolled = TRUE;
                     handled = TRUE;
-                    suppress_meta_esc = TRUE;
+                    /*suppress_meta_esc = TRUE;*/
                 }
                 break;
             case GDK_KEY_KP_Home:
@@ -3421,12 +3421,12 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                         case GDK_KEY_KP_Add:
                             emit_increase_font_size();
                             handled = TRUE;
-                            suppress_meta_esc = TRUE;
+                            /*suppress_meta_esc = TRUE;*/
                             break;
                         case GDK_KEY_KP_Subtract:
                             emit_decrease_font_size();
                             handled = TRUE;
-                            suppress_meta_esc = TRUE;
+                            /*suppress_meta_esc = TRUE;*/
                             break;
                     }
                 }
@@ -3445,7 +3445,7 @@ bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
             /* If we found something this way, suppress
              * escape-on-meta. */
             if (normal != NULL && normal_length > 0) {
-                suppress_meta_esc = TRUE;
+                /*suppress_meta_esc = TRUE;*/
             }
         }
 
@@ -3805,7 +3805,7 @@ bool VteTerminalPrivate::feed_mouse_event(vte::grid::coords const& rowcol /* con
     unsigned char cb = 0;
 
     char buf[LINE_MAX];
-    gint len = 0;
+    /*gint len = 0;*/
 
     /* Don't send events on scrollback contents: bug 755187. */
     if (grid_coords_in_scrollback(rowcol)) {
@@ -3863,13 +3863,13 @@ bool VteTerminalPrivate::feed_mouse_event(vte::grid::coords const& rowcol /* con
     /* Check the extensions in decreasing order of preference. Encoding the release event above assumes that 1006 comes first. */
     if (m_mouse_xterm_extension) {
         /* xterm's extended mode (1006) */
-        len = g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "<%d;%ld;%ld%c", cb, cx, cy, is_release ? 'm' : 'M');
+        /*len =*/ g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "<%d;%ld;%ld%c", cb, cx, cy, is_release ? 'm' : 'M');
     } else if (m_mouse_urxvt_extension) {
         /* urxvt's extended mode (1015) */
-        len = g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "%d;%ld;%ldM", 32 + cb, cx, cy);
+        /*len =*/ g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "%d;%ld;%ldM", 32 + cb, cx, cy);
     } else if (cx <= 231 && cy <= 231) {
         /* legacy mode */
-        len = g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "M%c%c%c", 32 + cb, 32 + (guchar)cx, 32 + (guchar)cy);
+        /*len =*/ g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "M%c%c%c", 32 + cb, 32 + (guchar)cx, 32 + (guchar)cy);
     }
 #if 0
     /* Send event direct to the child, this is binary not text data */

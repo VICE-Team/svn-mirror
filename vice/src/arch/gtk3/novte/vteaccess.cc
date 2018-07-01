@@ -370,8 +370,8 @@ static void vte_terminal_accessible_text_modified(VteTerminal *terminal, gpointe
 {
     VteTerminalAccessible *accessible = (VteTerminalAccessible *)data;
     VteTerminalAccessiblePrivate *priv = (VteTerminalAccessiblePrivate *)_vte_terminal_accessible_get_instance_private(accessible);
-    GString *old_text;
-    GArray *old_characters;
+    GString *old_text = NULL;
+    GArray *old_characters = NULL;
     char *old, *current;
     glong offset, caret_offset, olen, clen;
     gint old_snapshot_caret;

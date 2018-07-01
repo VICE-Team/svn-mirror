@@ -214,19 +214,19 @@ void VteTerminalPrivate::seq_checksum_rectangular_area(vte::parser::Params const
     */
 
     char buf[32];
-    gsize len;
+    /* gsize len; */
 
     int id = params.number_or_default_at(0, 0);
 
 #ifndef VTE_DEBUG
     /* Send a dummy reply */
-    len = g_snprintf(buf, sizeof(buf), "\eP%d!~%04X\e\\", id, 0);
+    /* len = */ g_snprintf(buf, sizeof(buf), "\eP%d!~%04X\e\\", id, 0);
     /* feed_child(buf, len); */ /* FIXME: removed */
 #else
 
     /* Not in test mode? Send a dummy reply */
     if (!g_test_mode) {
-        len = g_snprintf(buf, sizeof(buf), "\eP%d!~%04X\e\\", id, 0);
+        /* len = */ g_snprintf(buf, sizeof(buf), "\eP%d!~%04X\e\\", id, 0);
         /* feed_child(buf, len); */ /* FIXME: removed */
         return;
     }
@@ -260,7 +260,7 @@ void VteTerminalPrivate::seq_checksum_rectangular_area(vte::parser::Params const
                                     right - 1);
     }
 
-    len = g_snprintf(buf, sizeof(buf), "\eP%d!~%04X\e\\", id, checksum);
+    /* len = */ g_snprintf(buf, sizeof(buf), "\eP%d!~%04X\e\\", id, checksum);
     /* feed_child(buf, len); */ /* FIXME: removed */
 #endif /* VTE_DEBUG */
 }

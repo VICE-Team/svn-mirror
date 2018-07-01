@@ -691,8 +691,8 @@ _vte_boa_encrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *da
 /* Decrypt: data is len bytes of data + VTE_CIPHER_TAG_SIZE more bytes of tag. Returns FALSE on tag mismatch. */
 static gboolean _vte_boa_decrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *data, unsigned int len)
 {
-    unsigned char tag[VTE_CIPHER_TAG_SIZE];
-    unsigned int i, j;
+    /* unsigned char tag[VTE_CIPHER_TAG_SIZE];
+    unsigned int i, j; */
     guint8 faulty = 0;
 
 #ifndef VTESTREAM_MAIN

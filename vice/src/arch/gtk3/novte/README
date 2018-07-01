@@ -68,45 +68,19 @@ TODOs and FIXMEs:
 Warnings:
 --------------------------------------------------------------------------------
   
-In file included from /usr/include/glib-2.0/glib-object.h:35:0,
-                 from table.cc:28:
-/usr/include/glib-2.0/gobject/gvaluearray.h:80:14: Anmerkung: hier deklariert
- GValueArray* g_value_array_append      (GValueArray *value_array,
-              ^~~~~~~~~~~~~~~~~~~~
-table.cc:557:54: Warnung: Initialisierung für Element »_GValue::data« fehlt [-Wmissing-field-initializers]
-                                 GValue subvalue = {0,};
-                                                      ^
-
-In file included from /usr/include/glib-2.0/glib-object.h:35:0,
-                 from table.cc:28:
-/usr/include/glib-2.0/gobject/gvaluearray.h:70:7: Anmerkung: hier deklariert
- void  g_value_array_free      (GValueArray *value_array);
-       ^~~~~~~~~~~~~~~~~~
-table.cc: In Funktion »void _vte_table_extract_string(GValueArray**, _vte_table_arginfo*)«:
-table.cc:576:20: Warnung: Initialisierung für Element »_GValue::data« fehlt [-Wmissing-field-initializers]
-  GValue value = {0,};
-                    ^
-
-vte.cc: In Elementfunktion »bool VteTerminalPrivate::widget_key_press(GdkEventKey*)«:
-vte.cc:4693:10: Warnung: Variable »suppress_meta_esc« gesetzt, aber nicht verwendet [-Wunused-but-set-variable]
-          suppress_meta_esc = FALSE, add_modifiers = FALSE;
-          ^~~~~~~~~~~~~~~~~
-vte.cc: In Elementfunktion »bool VteTerminalPrivate::feed_mouse_event(const vte::grid::coords&, int, bool, bool)«:
-vte.cc:5398:10: Warnung: Variable »len« gesetzt, aber nicht verwendet [-Wunused-but-set-variable]
-     gint len = 0;
-          ^~~
-vteaccess.cc: In Funktion »void vte_terminal_accessible_text_modified(VteTerminal*, gpointer)«:
-vteaccess.cc:429:43: Warnung: »old_characters« könnte in dieser Funktion uninitialisiert verwendet werden [-Wmaybe-uninitialized]
-                 priv->snapshot_characters = old_characters;
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-vteaccess.cc:401:13: Warnung: »old_text« könnte in dieser Funktion uninitialisiert verwendet werden [-Wmaybe-uninitialized]
-         old = old_text->str;
-         ~~~~^~~~~~~~~~~~~~~
- 
-vteseq.cc: In Elementfunktion »void VteTerminalPrivate::seq_checksum_rectangular_area(const vte::parser::Params&)«:
-vteseq.cc:229:15: Warnung: Variable »len« gesetzt, aber nicht verwendet [-Wunused-but-set-variable]
-         gsize len;
-               ^~~
-
-
+table.cc: In function 'void _vte_table_extract_numbers(GValueArray**, _vte_table_arginfo*)':
+table.cc:500:23: warning: missing initializer for member '_GValue::data' [-Wmissing-field-initializers]
+     GValue value = {0,};
+                       ^
+table.cc:523:38: warning: missing initializer for member '_GValue::data' [-Wmissing-field-initializers]
+                 GValue subvalue = {0,};
+                                      ^
+table.cc: In function 'void _vte_table_extract_string(GValueArray**, _vte_table_arginfo*)':
+table.cc:541:23: warning: missing initializer for member '_GValue::data' [-Wmissing-field-initializers]
+     GValue value = {0,};
+                       ^
+vteaccess.cc: In function 'gunichar vte_terminal_accessible_get_character_at_offset(AtkText*, gint)':
+vteaccess.cc:786:5: warning: assuming signed overflow does not occur when assuming that (X + c) < X is always false [-Wstrict-overflow]
+     if (start_offset > end_offset && end_offset != -1) {
+     ^~
   
