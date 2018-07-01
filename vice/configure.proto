@@ -67,7 +67,6 @@ dnl register ReSID options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
-VICE_ARG_ENABLE_LIST(vte,         [  --enable-vte            enable the monitor in its own window based on the VTE terminal library [[default=yes]]])
 
 dnl this hack is needed because the default for the auto-tools
 dnl is 'no', and we want the default to be 'yes' unless
@@ -184,7 +183,6 @@ USE_UI_THREADS_SUPPORT="no "
 HAVE_LIBXPM_SUPPORT="no "
 
 dnl this can be removed once Unix' Gtk2/Xaw ports are gone
-HAVE_VTE_SUPPORT="no "
 HAVE_GTK3_MONITOR_SUPPORT="no"
 
 HAVE_CATWEASELMKIII_SUPPORT="no "
@@ -3788,22 +3786,6 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
 
-  dnl Check for VTE
-  have_vte="no"
-  if test x"$enable_vte" != "xno"; then
-    PKG_CHECK_MODULES(VTE, [vte-2.91], [have_vte=yes], [AC_MSG_RESULT(no)])
-    if test x"$have_vte" != "xyes"; then
-      PKG_CHECK_MODULES(VTE, [vte-2.90], [have_vte=yes], [AC_MSG_RESULT(no)])
-    fi
-  fi
-
-  if test x"$have_vte" = "xyes"; then
-    HAVE_VTE_SUPPORT="yes"
-    AC_DEFINE(HAVE_VTE,,[Enable VTE support])
-    CFLAGS="$CFLAGS $VTE_CFLAGS"
-    LIBS="$LIBS $VTE_LIBS"
-  fi
-
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
 else
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)
@@ -4433,7 +4415,6 @@ fi
 if test x"$real_arch" = "xUnix"; then
     echo "Cairo rendering support        : $HAVE_CAIRO_SUPPORT"
     echo "Pango support                  : $HAVE_PANGO_SUPPORT"
-    echo "VTE support                    : $HAVE_VTE_SUPPORT (--enable/disable-vte)"
 fi
 
 echo ""
