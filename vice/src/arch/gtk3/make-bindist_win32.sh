@@ -178,7 +178,8 @@ rm -f `find $BUILDPATH -name "beos_*.vkm"`
 rm -f `find $BUILDPATH -name "sdl_*.v*"`
 rm -f `find $BUILDPATH -name "x11_*.vkm"`
 rm -f `find $BUILDPATH -name "win*.v*"`
-#cp $TOPSRCDIR/data/gtk3-vice-logo.svg $BUILDPATH
+mkdir $BUILDPATH/gui
+cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/gui/
 cp -a $TOPSRCDIR/doc/html $BUILDPATH
 rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html
 rm -f $BUILDPATH/html/robots.txt $BUILDPATH/html/sitemap.xml
