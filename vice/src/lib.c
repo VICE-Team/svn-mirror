@@ -1109,12 +1109,14 @@ repeat:
                 break;
             case 'X':
                 flags |= LARGE;
+                /* FALLTHRU */ /* to lowercase hex */
             case 'x':
                 base = 16;
                 break;
             case 'd':
             case 'i':
                 flags |= SIGN;
+                /* FALLTHRU */ /* to unsigned dec */
             case 'u':
                 break;
 
