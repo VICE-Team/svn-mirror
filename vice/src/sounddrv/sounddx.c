@@ -67,7 +67,7 @@
 
 /* FIXME: each of the following should probably get moved to archdep */
 #if defined(USE_SDLUI) || defined(USE_SDLUI2)
-HWND ui_get_main_hwnd(void)
+static HWND ui_get_main_hwnd(void)
 {
     SDL_SysWMinfo info;
 
@@ -81,20 +81,20 @@ HWND ui_get_main_hwnd(void)
 #include <gdk/gdk.h>
 #include <gdk/gdkwin32.h>
 
-HWND ui_get_main_hwnd(void)
+static HWND ui_get_main_hwnd(void)
 {
+#if 0
     GdkWindow *gdk_window = gdk_screen_get_active_window (NULL);
     HWND hWnd = NULL;
+    printf("gdk_window = %p\n", gdk_window); /* always NULL/0 */
+
     if (gdk_window) {
         if (gdk_window_ensure_native(gdk_window)) {
             hWnd = gdk_win32_window_get_impl_hwnd(gdk_window);
         }
     }
-    if (!hWnd) {
-        hWnd = GetActiveWindow();
-    }
-    /* fprintf(stderr, "ui_get_main_hwnd %08x %08x\n", gdk_window, hWnd); */
-    return hWnd;
+#endif
+    return GetActiveWindow();
 }
 #endif
 
