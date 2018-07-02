@@ -1146,11 +1146,6 @@ fi
 if test x"$enable_arch" = "xno"; then
   march=""
   ENABLE_ARCH=no
-  dnl Without this, --enable-arch=no fails on msys2 (can't find <gtk/gtk.h>),
-  dnl so somewhere further down this script ORIG_CFLAGS is used without
-  dnl actually being set.
-  dnl I'll investigate further --compyx
-  ORIG_CFLAGS="$CFLAGS"
 else
   if test x"$enable_arch" = "xyes"; then
     AC_MSG_CHECKING([if the compiler supports -march=native])
@@ -1737,6 +1732,7 @@ dnl All other UN*X systems
 
   if test -z "$user_cflags" ; then
 
+    ORIG_CFLAGS="$CFLAGS"
     dnl Check for the type of compiler first.
     if test x"$GCC" = "xyes" ; then
 
