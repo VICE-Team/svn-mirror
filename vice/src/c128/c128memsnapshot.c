@@ -68,11 +68,11 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (0
-        || SMW_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
-        || SMW_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
-        || SMW_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE, C128_EDITOR_ROM_SIZE) < 0
-        || SMW_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0) {
+    if (SMW_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
+            || SMW_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
+            || SMW_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE,
+                C128_EDITOR_ROM_SIZE) < 0
+            || SMW_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0) {
         goto fail;
     }
 
@@ -123,11 +123,11 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    if (0
-        || SMR_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
-        || SMR_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
-        || SMR_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE, C128_EDITOR_ROM_SIZE) < 0
-        || SMR_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0) {
+    if (SMR_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
+            || SMR_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
+            || SMR_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE,
+                C128_EDITOR_ROM_SIZE) < 0
+            || SMR_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0) {
         goto fail;
     }
 
@@ -180,8 +180,7 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
         }
     }
 
-    if (0
-        || SMW_BA(m, mem_ram, C128_RAM_SIZE) < 0) {
+    if (SMW_BA(m, mem_ram, C128_RAM_SIZE) < 0) {
         goto fail;
     }
 

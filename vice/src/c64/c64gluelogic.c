@@ -188,10 +188,9 @@ int c64_glue_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (0
-        || SMW_B(m, (uint8_t)glue_logic_type) < 0
-        || SMW_B(m, (uint8_t)old_vbank) < 0
-        || SMW_B(m, (uint8_t)glue_alarm_active) < 0) {
+    if (SMW_B(m, (uint8_t)glue_logic_type) < 0
+            || SMW_B(m, (uint8_t)old_vbank) < 0
+            || SMW_B(m, (uint8_t)glue_alarm_active) < 0) {
         goto fail;
     }
 
@@ -221,10 +220,9 @@ int c64_glue_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (0
-        || SMR_B_INT(m, &snap_type) < 0
-        || SMR_B_INT(m, &old_vbank) < 0
-        || SMR_B_INT(m, &snap_alarm_active) < 0) {
+    if (SMR_B_INT(m, &snap_type) < 0
+            || SMR_B_INT(m, &old_vbank) < 0
+            || SMR_B_INT(m, &snap_alarm_active) < 0) {
         goto fail;
     }
 
