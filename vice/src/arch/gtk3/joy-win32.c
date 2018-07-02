@@ -212,7 +212,7 @@ static void joystick_release_joysticks(void)
 
 int joystick_di_open(int port_idx, int dev)
 {
-#if 1 /* FIXME */
+#if 0 /* FIXME */
     NOT_IMPLEMENTED();
 #else
     JoyInfo *joy = joystick_list;
@@ -288,6 +288,7 @@ int joystick_di_open(int port_idx, int dev)
         i++;
     }
     if (joy) {
+		HINSTANCE ui_active_window = GetModuleHandle(NULL); /* FIXME */
         IDirectInput_CreateDevice(di, &joy->guid, &joystick_di_devices[port_idx], NULL);
         IDirectInputDevice_QueryInterface(joystick_di_devices[port_idx], &IID_IDirectInputDevice2, (LPVOID*)&joystick_di_devices2[port_idx]);
         IDirectInputDevice_SetDataFormat(joystick_di_devices[port_idx], data_format);
@@ -338,7 +339,7 @@ int joy_arch_set_device(int port_idx, int new_dev)
 {
     int old_dev = joystick_port_map[port_idx];
 
-#if 0
+#if 1
     //  FIXME: this assumes there are 2 hardware joysticks when
     //  the real number may be more or less.
     switch (new_dev) {
@@ -565,7 +566,6 @@ static const cmdline_option_t joydev5cmdline_options[] = {
 
 int joy_arch_cmdline_options_init(void)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
 #if 0 /* FIXME */
     if (joyport_get_port_name(JOYPORT_1)) {
         if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -592,6 +592,8 @@ int joy_arch_cmdline_options_init(void)
             return -1;
         }
     }
+#else
+    NOT_IMPLEMENTED_WARN_ONLY();
 #endif /* FIXME */
     return 0;
 }

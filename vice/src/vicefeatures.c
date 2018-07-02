@@ -85,12 +85,13 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-/* (all) */
+#ifdef UNIX /* (unix) */
     { "HAS_JOYSTICK", "Enable joystick emulation.",
 #ifndef HAS_JOYSTICK
         0 },
 #else
         1 },
+#endif
 #endif
 #ifdef UNIX /* (unix) */
     { "HAS_USB_JOYSTICK", "Enable emulation for USB joysticks.",
@@ -119,14 +120,6 @@ static feature_list_t featurelist[] = {
 #if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (amiga/beos/unix/windows) */
     { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
 #ifndef HAVE_CATWEASELMKIII
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef WIN32  /* (windows) */
-    { "HAVE_D3D9_H", "Support for DirectX9.",
-#ifndef HAVE_D3D9_H
         0 },
 #else
         1 },
@@ -201,13 +194,6 @@ static feature_list_t featurelist[] = {
  /* (all) */
     { "STATIC_FFMPEG", "FFMPEG libraries are static",
 #ifndef STATIC_FFMPEG
-        0 },
-#else
-        1 },
-#endif
- /* (all) */
-    { "HAVE_FULLSCREEN", "Enable Fullscreen support.",
-#ifndef HAVE_FULLSCREEN
         0 },
 #else
         1 },
@@ -302,7 +288,7 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) /* (sdl/unix) */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/win32) */
     { "HAVE_OPENGL_SYNC", "Enable openGL synchronization",
 #ifndef HAVE_OPENGL_SYNC
         0 },
@@ -310,13 +296,12 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#ifdef UNIX /* (unix) */
+/* (all) */
     { "HAVE_PANGO", "Enable support for Pango",
 #ifndef HAVE_PANGO
         0 },
 #else
         1 },
-#endif
 #endif
 #if defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (beos/unix/windows) */
     { "HAVE_PARSID", "Support for ParSID.",
@@ -357,14 +342,14 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 /* (all) */
-    { "HAVE_RESID", "This version provides ReSID support.",
+    { "HAVE_RESID", "Enable ReSID support.",
 #ifndef HAVE_RESID
         0 },
 #else
         1 },
 #endif
 /* (all) */
-    { "HAVE_RESID_DTV", "This version provides ReSID-DTV support.",
+    { "HAVE_RESID_DTV", "Enable ReSID-DTV support.",
 #ifndef HAVE_RESID_DTV
         0 },
 #else
@@ -417,7 +402,7 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_RAWNET", "Support for The Final Ethernet",
+    { "HAVE_RAWNET", "Enable raw ethernet emulation.",
 #ifndef HAVE_RAWNET
         0 },
 #else

@@ -404,3 +404,18 @@ void vice_usleep(uint64_t waitTime)
         QueryPerformanceCounter((LARGE_INTEGER *) &time2);
     } while((time2-time1) < waitTime);
 }
+
+int is_windows_nt(void)
+{
+    OSVERSIONINFO os_version_info;
+
+    ZeroMemory(&os_version_info, sizeof(os_version_info));
+    os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
+
+    GetVersionEx(&os_version_info);
+
+    if (os_version_info.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+        return 1;
+    }
+    return 0;
+}

@@ -121,4 +121,6 @@ void archdep_signals_init(int do_coredumps);
 
 void vice_usleep(uint64_t waitTime);
 
+extern int is_windows_nt(void);
+
 #endif

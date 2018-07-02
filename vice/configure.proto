@@ -1459,7 +1459,7 @@ if test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "
     fi
   fi
 
-elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc"; then
+elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc" -o x"$is_win32_gtk3" = "xyes"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
@@ -1475,6 +1475,11 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   HAVE_NETWORK_SUPPORT="yes"
   AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
   HAVE_RS232NET_SUPPORT="yes"
+  if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
+    LIBS="$LIBS -lwinmm -lws2_32 -lntdll"
+  else
+    LIBS="$LIBS -lwinmm -lwsock32 -lntdll"
+  fi
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
     HAVE_CATWEASELMKIII_SUPPORT="yes"
@@ -3773,7 +3778,7 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/gtk3"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a $ARCH_DIR/novte/libnovte.a"
-  if test x"$is_win32" = "xyes"; then
+  if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
@@ -4534,7 +4539,7 @@ if test x"$real_arch" = "xOSX"; then
     fi
 fi
 
-if test x"$real_arch" = "xWin32"; then
+if test x"$real_arch" = "xWin32" -o x"$is_win32_gtk3" = "xyes"; then
     if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
         echo "DirectInput joystick support: $HAVE_DINPUT_SUPPORT"
     fi
