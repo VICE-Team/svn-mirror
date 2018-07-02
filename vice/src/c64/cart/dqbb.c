@@ -407,7 +407,7 @@ int dqbb_enable(void)
  */
 int dqbb_disable(void)
 {
-    if (resources_set_int("DBQQ", 0) < 0) {
+    if (resources_set_int("DQBB", 0) < 0) {
         return -1;
     }
     return 0;
