@@ -1319,19 +1319,19 @@ int cartridge_disable(int type)
             reu_disable();
             break;
         case CARTRIDGE_SFX_SOUND_EXPANDER:
-            sfx_soundexpander_enable();
+            sfx_soundexpander_disable();
             break;
         case CARTRIDGE_SFX_SOUND_SAMPLER:
-            sfx_soundsampler_enable();
+            sfx_soundsampler_disable();
             break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_TFE:
-            ethernetcart_enable();
+            ethernetcart_disable();
             break;
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         case CARTRIDGE_TURBO232:
-            aciacart_enable();
+            aciacart_disable();
             break;
 #endif
         /* "Main Slot" */
