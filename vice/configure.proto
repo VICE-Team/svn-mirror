@@ -391,7 +391,7 @@ if test x"$check_gtk3" = "xyes"; then
       AC_DEFINE(HAVE_GTK3_MONITOR,,[Use native Gtk3 UI monitor interace.])
       HAVE_GTK3_MONITOR_SUPPORT="yes"
     fi
-
+    
     dnl Platform canonical names for Win32-GTK3 have names like "i686-w64-mingw32"
     case "$host_os" in
       *mingw32)
@@ -3110,7 +3110,7 @@ fi
 
 dsound_header_no_lib="no"
 
-if test x"$is_win32" = "xyes"; then
+if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
         AC_MSG_CHECKING(whether we can use directx sound)
@@ -4333,7 +4333,7 @@ dnl compile-command: "autoconf"
 dnl End:
 
 dnl construct show_arch
-if test x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes"; then
+if test x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_win32_gtk3" != "xyes"; then
     show_arch="Unix"
     real_arch="Unix"
 else
@@ -4353,7 +4353,7 @@ else
         show_arch="Mac OS X"
         real_arch="OSX"
     fi
-    if test x"$is_win32" = "xyes"; then
+    if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
         if test x"$enable_native_gtk3ui" = "xyes"; then
             show_arch="Win32-GTK3 (treated as Unix)"
             real_arch="Unix"
@@ -4441,7 +4441,7 @@ if test x"$real_arch" = "xAmiga"; then
     echo "AHI sound support            : $HAVE_DEVICES_AHI_H_SUPPORT (--enable/disable-ahi)"
 fi
 
-if test x"$real_arch" = "xWin32"; then
+if test x"$real_arch" = "xWin32" -o x"$is_win32_gtk3" = "xyes"; then
     echo "DirectX sound support        : $USE_DXSOUND_SUPPORT"
 fi
 
