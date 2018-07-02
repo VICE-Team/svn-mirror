@@ -1316,7 +1316,7 @@ int cartridge_disable(int type)
             break;
 #endif
         case CARTRIDGE_REU:
-            reu_enable();
+            reu_disable();
             break;
         case CARTRIDGE_SFX_SOUND_EXPANDER:
             sfx_soundexpander_enable();
