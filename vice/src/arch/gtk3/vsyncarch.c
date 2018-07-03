@@ -38,6 +38,9 @@
 #ifdef HAS_JOYSTICK
 #include "joy.h"
 #endif
+#ifdef WIN32_COMPILE
+#include "joy-win32.h"
+#endif
 
 #ifdef HAVE_NANOSLEEP
 #include <time.h>
@@ -171,6 +174,9 @@ void vsyncarch_presync(void)
     kbdbuf_flush();
 #ifdef HAS_JOYSTICK
     joystick();
+#endif
+#ifdef WIN32_COMPILE
+    joystick_update();
 #endif
 
 }

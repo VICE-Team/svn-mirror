@@ -57,14 +57,22 @@ typedef struct device_info_s {
     int         id;     /**< device ID (\see joy.h) */
 } device_info_t;
 
+#define MAX_EXTRA_DEVICES 32
 
+/** \brief  List of detected input devices on the host
+ */
+static device_info_t device_list[MAX_EXTRA_DEVICES] = {
+    { NULL, -1 }
+};
 /** \brief  List of available input devices on the host
  */
-static device_info_t device_list[] = {
+static device_info_t predefined_device_list[] = {
     { "None",               JOYDEV_NONE },
     { "Numpad",             JOYDEV_NUMPAD },
     { "Keyset A",           JOYDEV_KEYSET1 },
     { "Keyset B",           JOYDEV_KEYSET2 },
+    /* FIXME: the following should instead be returned by the archdep
+              device query functions */
 #ifdef HAS_JOYSTICK
     { "Analog joystick 0",  JOYDEV_ANALOG_0 },
     { "Analog joystick 1",  JOYDEV_ANALOG_1 },
@@ -119,7 +127,7 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
 {
     GtkWidget *grid;
     GtkWidget *combo;
-    int i;
+    int id, i1, i2;
     int current;
 
     resources_get_int_sprintf("JoyDevice%d", &current, device + 1);
@@ -128,19 +136,38 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
 
     combo = gtk_combo_box_text_new();
     g_object_set(combo, "margin-left", 16, NULL);
-    for (i = 0; device_list[i].name != NULL; i++) {
-        char id[32];
+    /* add predefined standard devices */
+    for (i1 = 0; predefined_device_list[i1].name != NULL; i1++) {
+        char idstr[32];
 
-        g_snprintf(id, 32, "%d", device_list[i].id);
+        g_snprintf(idstr, 32, "%d", predefined_device_list[i1].id);
+        debug_gtk3( "%d %s\n", predefined_device_list[i1].id, predefined_device_list[i1].name);
 
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                id, device_list[i].name);
-        if (device_list[i].id == current) {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), idstr, predefined_device_list[i1].name);
+        if (predefined_device_list[i1].id == current) {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i1);
         }
     }
-    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed),
-           GINT_TO_POINTER(device));
+    /* add more devices (joysticks) */
+    joystick_ui_reset_device_list();
+    for (i2 = 0; (device_list[i2].name = joystick_ui_get_next_device_name(&id)) != NULL; i2++) {
+        char idstr[32];
+
+        if (i2 >= MAX_EXTRA_DEVICES) {
+            break;
+        }
+
+        device_list[i2].id = id;
+        g_snprintf(idstr, 32, "%d", device_list[i2].id);
+        debug_gtk3( "%d %s\n", device_list[i2].id, device_list[i2].name);
+
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), idstr, device_list[i2].name);
+        if (device_list[i2].id == current) {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i1+i2);
+        }
+    }
+    
+    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), GINT_TO_POINTER(device));
 
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
     gtk_widget_show_all(grid);

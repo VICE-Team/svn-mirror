@@ -288,7 +288,7 @@ int joystick_di_open(int port_idx, int dev)
         i++;
     }
     if (joy) {
-		HINSTANCE ui_active_window = GetModuleHandle(NULL); /* FIXME */
+        HINSTANCE ui_active_window = GetModuleHandle(NULL); /* FIXME */
         IDirectInput_CreateDevice(di, &joy->guid, &joystick_di_devices[port_idx], NULL);
         IDirectInputDevice_QueryInterface(joystick_di_devices[port_idx], &IID_IDirectInputDevice2, (LPVOID*)&joystick_di_devices2[port_idx]);
         IDirectInputDevice_SetDataFormat(joystick_di_devices[port_idx], data_format);
@@ -1022,31 +1022,52 @@ void joystick_calibrate(HWND hwnd)
 }
 #endif
 
-void joystick_ui_get_device_list(HWND joy_hwnd)
+static JoyInfo *joydx = NULL;
+static joy_winmm_priv_t* joywmm = NULL;
+static int joystickid = JOYDEV_HW1;
+
+void joystick_ui_reset_device_list(void)
 {
 #ifdef HAVE_DINPUT
     if (joystick_inited == WIN_JOY_DINPUT) {
-        JoyInfo *joy = joystick_list;
-
-        while (joy) {
-            SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)joy->name);
-            joy = joy->next;
-        }
+        joydx = joystick_list;
     } else
 #endif
     if (joystick_inited == WIN_JOY_WINMM) {
-        joy_winmm_priv_t* joy = joy_winmm_list;
-
-        while (joy) {
-            char joyname[1024];
-
-            snprintf(joyname, sizeof(joyname), "PC joystick #%u", joy->uJoyID);
-            SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)joyname);
-            joy = joy->next;
-        }
+        joywmm = joy_winmm_list;
     }
+    joystickid = JOYDEV_HW1;
 }
 
+char *joystick_ui_get_next_device_name(int *id)
+{
+    char *name = NULL;
+#ifdef HAVE_DINPUT
+    if (joystick_inited == WIN_JOY_DINPUT) {
+        if (joydx == NULL) {
+            return NULL;
+        }
+        name = joydx->name;
+        *id = joystickid;
+        joydx = joydx->next;
+        joystickid++;
+    } else
+#endif
+    if (joystick_inited == WIN_JOY_WINMM) {
+        char joyname[1024];
+        if (joywmm == NULL) {
+            return NULL;
+        }
+        snprintf(joyname, sizeof(joyname), "PC joystick #%u", joywmm->uJoyID);
+        name = joyname;
+        *id = joystickid;
+        joywmm = joywmm->next;
+        joystickid++;
+    }
+    return name;
+}
+
+#if 0
 void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device)
 {
 #ifdef HAVE_DINPUT
@@ -1114,8 +1135,9 @@ void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device)
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Button 8");
     }
 }
+#endif
 
-char joystick_uses_direct_input(void)
+int joystick_uses_direct_input(void)
 {
 #ifdef HAVE_DINPUT
     return (joystick_inited == WIN_JOY_DINPUT);

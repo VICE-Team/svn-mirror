@@ -49,6 +49,16 @@
 #include "resources.h"
 #include "types.h"
 
+/* FIXME: implement listing the extra devices here instead of relying
+          on the hardcoded list in joystickdevicewidget.c */
+void joystick_ui_reset_device_list(void)
+{
+}
+char *joystick_ui_get_next_device_name(int *id)
+{
+    return NULL;
+}
+
 int joy_arch_set_device(int port, int new_dev)
 {
     if (new_dev < 0 || new_dev > JOYDEV_MAX) {

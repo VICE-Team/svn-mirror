@@ -46,10 +46,12 @@ void usb_joystick_close(void);
 void usb_joystick(void);
 #endif
 
+/* standard devices */
 #define JOYDEV_NONE      0
 #define JOYDEV_NUMPAD    1
 #define JOYDEV_KEYSET1   2
 #define JOYDEV_KEYSET2   3
+/* extra devices */
 #define JOYDEV_ANALOG_0  4
 #define JOYDEV_ANALOG_1  5
 #define JOYDEV_ANALOG_2  6
@@ -76,5 +78,8 @@ void usb_joystick(void);
 #else
 #  define JOYDEV_MAX            JOYDEV_KEYSET2
 #endif
+
+void joystick_ui_reset_device_list(void);
+char *joystick_ui_get_next_device_name(int *id);
 
 #endif

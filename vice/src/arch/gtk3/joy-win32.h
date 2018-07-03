@@ -30,15 +30,21 @@
 
 typedef int joystick_device_t;
 
+/* standard devices */
 #define JOYDEV_NONE    0
 #define JOYDEV_NUMPAD  1
 #define JOYDEV_KEYSET1 2
 #define JOYDEV_KEYSET2 3
+/* extra devices */
 #define JOYDEV_HW1     4
 #define JOYDEV_HW2     5
 
 int joystick_close(void);
 void joystick_update(void);
-char joystick_uses_direct_input(void);
+
+int joystick_uses_direct_input(void);
+
+void joystick_ui_reset_device_list(void);
+char *joystick_ui_get_next_device_name(int *id);
 
 #endif

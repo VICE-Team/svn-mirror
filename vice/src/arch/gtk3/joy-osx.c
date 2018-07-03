@@ -67,6 +67,16 @@ static void setup_auto_button_mapping(joystick_descriptor_t *joy);
 static void setup_hat_switch_mapping(joystick_descriptor_t *joy);
 static void setup_auto(void);
 
+/* FIXME: implement listing the extra devices here instead of relying
+          on the hardcoded list in joystickdevicewidget.c */
+void joystick_ui_reset_device_list(void)
+{
+}
+char *joystick_ui_get_next_device_name(int *id)
+{
+    return NULL;
+}
+
 /* HID settings */
 
 static int set_joy_a_device_name(const char *val,void *param)
