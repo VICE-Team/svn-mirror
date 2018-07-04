@@ -26,7 +26,7 @@
 #  02111-1307  USA.
 #
 # Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
-#                         $1      $2             $3              $4          $5               $6           $7    $8                $9      $10       $11
+#                         $1      $2             $3              $4          $5               $6           $7    $8                 $9      $10       $11
 #
 
 STRIP=$1
@@ -49,21 +49,18 @@ COMPILER=$9
 # Try to get the SVN revision
 #echo "Trying to get SVN revision"
 SVN_SUFFIX=""
-svnrev=""
 svnrev_string=`svnversion $TOPSRCDIR`
 if test "$?" != "0"; then
-    # echo "No svnversion found"
+    #echo "No svnversion found"
     # nop:
     :
 else
-    svnrev=`echo "$svnrev_string" | cut -d':' -f2`
+    # Choose the second number (usually higher) if it exists; drop letter suffixes.
+    svnrev=`echo "$svnrev_string" | sed 's/^\([0-9]*:\)*\([0-9]*\)*.*/\2/'`
     #echo "svnrev string: $svnrev"
-    # remove the 'M' if present
-    svnrev=`echo "$svnrev" | sed 's/M//'`
-    # check if it's a number
-    svnrev=`echo "$svnrev" | grep '^[0-9]\+$'`
-    if test "$?" = "0"; then
-        SVN_SUFFIX="-r$svnrev"
+    # Only a number is extracted.
+    if test -n "$svnrev"
+        then SVN_SUFFIX="-r$svnrev"
     fi
 fi
 
@@ -72,7 +69,7 @@ get_dll_deps()
 {
   for j in `find $BUILDPATH -name "*.dll"`
   do
-    dlls=`$OBJDUMP -p $j | sed 's| |\n|g' | grep "\.dll"`
+    dlls=`$OBJDUMP -p $j | sed 's| |\n|g' | grep -F ".dll"`
     for i in $dlls
     do
       if test -e $dlldir/$i; then
@@ -98,7 +95,7 @@ fi
 EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
-unset CONSOLE_TOOLS EMULATORS SCFILE
+unset CONSOLE_TOOLS EMULATORS SCFILE X64SCINC CPU svnrev_string
 
 for i in $EXECUTABLES; do
   if [ ! -x $TOPBUILDDIR/src/$i.exe ]; then
@@ -108,14 +105,11 @@ for i in $EXECUTABLES; do
 done
 
 
-
-
 GTK3NAME="GTK3VICE"
 BUILDPATH="$TOPBUILDDIR/$GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
-echo "BUILDPATH = $BUILDPATH"
+#echo "BUILDPATH = $BUILDPATH"
 
 
-# This doesn't make sense anymore when using the current SVN revision:
 echo "Removing an old $BUILDPATH ..."
 rm -r -f $BUILDPATH
 
@@ -132,19 +126,21 @@ if test x"$CROSS" != "xtrue"; then
 # The following lines assume that this script is run by MSYS2.
   cp `ntldd -R $BUILDPATH/x64.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
   cp $MINGW_PREFIX/bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
+  cp $MINGW_PREFIX/bin/gspawn-win??-helper-console.exe $BUILDPATH
   cd $MINGW_PREFIX
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
-  cp --parents share/glib-2.0/schemas/{gschema*,org.gtk.Settings.FileChooser.gschema.xml} $BUILDPATH
+  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp --parents -a share/icons/Adwaita $BUILDPATH
   cd - >/dev/null
 else
 
-# the following lines assume a cross compiler, and the dll's installed in the dll dir of the toolchain
+# The following lines assume a cross compiler,
+# and the DLLs installed in the dll dir. of that toolchain.
   libm=`i686-w64-mingw32-gcc -print-file-name=libm.a`
   location=`dirname $libm`
   loc=`dirname $location`
   dlldir="$loc/dll"
-  dlls=`$OBJDUMP -p src/x64.exe | sed 's| |\n|g' | grep "\.dll"`
+  dlls=`$OBJDUMP -p src/x64.exe | sed 's| |\n|g' | grep -F ".dll"`
   for i in $dlls
   do
     if test -e $dlldir/$i; then
@@ -160,7 +156,7 @@ else
   current=`pwd`
   cd $loc
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
-  cp --parents share/glib-2.0/schemas/{gschema*,org.gtk.Settings.FileChooser.gschema.xml} $BUILDPATH
+  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp --parents -a share/icons/Adwaita $BUILDPATH
   cd $current
 fi
@@ -171,23 +167,19 @@ cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $BUILDPATH
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $BUILDPATH
 cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BUILDPATH
 rm -f `find $BUILDPATH -name "Makefile*"`
-rm -f `find $BUILDPATH -name "amiga_*.vkm"`
-rm -f `find $BUILDPATH -name "dos_*.vkm"`
-rm -f `find $BUILDPATH -name "osx*.vkm"`
-rm -f `find $BUILDPATH -name "beos_*.vkm"`
-rm -f `find $BUILDPATH -name "sdl_*.v*"`
-rm -f `find $BUILDPATH -name "x11_*.vkm"`
-rm -f `find $BUILDPATH -name "win*.v*"`
+rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/gui
-cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/gui/
+cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/gui
 cp -a $TOPSRCDIR/doc/html $BUILDPATH
+cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
 rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html
 rm -f $BUILDPATH/html/robots.txt $BUILDPATH/html/sitemap.xml
 rm -f $BUILDPATH/html/COPYING $BUILDPATH/html/NEWS
 cp $TOPSRCDIR/COPYING $TOPSRCDIR/FEEDBACK $TOPSRCDIR/NEWS $TOPSRCDIR/README $BUILDPATH
 cp $TOPSRCDIR/doc/readmes/Readme-GTK3.txt $BUILDPATH
 mkdir $BUILDPATH/doc
-cp $TOPSRCDIR/doc/vice.{chm,hlp,pdf} $BUILDPATH/doc
+cp $TOPBUILDDIR/doc/vice.pdf $BUILDPATH/doc
+cp $TOPBUILDDIR/doc/vice.{chm,hlp} $BUILDPATH/doc
 
 
 if test x"$ZIPKIND" = "xzip"; then
@@ -199,7 +191,7 @@ if test x"$ZIPKIND" = "xzip"; then
   fi
   rm -r -f $BUILDPATH
   echo "$WINXX GTK3 port binary distribution archive generated as $BUILDPATH.zip"
-else echo "$WINXX GTK3 port binary distribution directory generated as $BUILDPATH"
+else echo "$WINXX GTK3 port binary distribution directory generated as $BUILDPATH/"
 fi
 
 if test x"$ENABLEARCH" = "xyes"; then
