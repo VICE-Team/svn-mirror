@@ -38,6 +38,22 @@
 #include "uicmdline.h"
 
 
+/** \brief  Handler for the 'response' event of the dialog
+ *
+ * \param[in,out]   dialog      dialog triggering the event
+ * \param[in]       response_id response ID
+ * \param[in]       user_data   extra event data (unused)
+ */
+static void on_response(GtkDialog *dialog,
+                        gint response_id,
+                        gpointer user_data)
+{
+    if (response_id == GTK_RESPONSE_CLOSE) {
+        gtk_widget_destroy(GTK_WIDGET(dialog));
+    }
+}
+
+
 /** \brief  Create textview with scrollbars
  *
  * \return  GtkScrolledWindow
@@ -136,14 +152,13 @@ void uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
     dialog = gtk_dialog_new_with_buttons(title,
             ui_get_active_window(),
             GTK_DIALOG_MODAL,
-            "Close", GTK_RESPONSE_ACCEPT,
+            "Close", GTK_RESPONSE_CLOSE,
             NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_box_pack_start(GTK_BOX(content), create_content_widget(),
             TRUE, TRUE, 0);
 
-
-    gtk_dialog_run(GTK_DIALOG(dialog));
-    gtk_widget_destroy(dialog);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    gtk_widget_show_all(dialog);
 }
