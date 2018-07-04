@@ -34,6 +34,7 @@
 #include <stdbool.h>
 
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "machine.h"
 #include "lib.h"
 #include "util.h"
@@ -144,7 +145,7 @@ static gchar *convert_to_utf8(const char *s)
 
     utf8 = g_convert(s, -1, "UTF-8", "ISO-8859-1", NULL, NULL, &err);
     if (err != NULL) {
-        debug_gtk3("GError: %d: %s\n", err->code, err->message);
+        debug_gtk3("GError: %d: %s.", err->code, err->message);
         g_free(utf8);
         utf8 = g_strdup(s);
     }
@@ -674,11 +675,11 @@ bool vsid_tune_info_widget_set_song_lengths(const char *psid)
     char **lstr;
     char *display;
 
-    debug_gtk3("trying to get song lengths for '%s'\n", psid);
+    debug_gtk3("trying to get song lengths for '%s'.", psid);
 
     num = hvsc_sldb_get_lengths(psid, &song_lengths);
     if (num < 0) {
-        debug_gtk3("failed to get song lengths\n");
+        debug_gtk3("failed to get song lengths.");
         gtk_label_set_text(GTK_LABEL(sldb_widget), "Failed to get SLDB info");
         return false;
     }

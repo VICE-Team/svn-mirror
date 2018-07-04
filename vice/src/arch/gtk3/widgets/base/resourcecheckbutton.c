@@ -96,7 +96,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
      * sync for some reason */
     if (state != current) {
 #if 0
-        debug_gtk3("setting %s to %s\n", resource, state ? "True": "False");
+        debug_gtk3("setting %s to %s.", resource, state ? "True": "False");
 #endif
         if (resources_set_int(resource, state ? 1 : 0) < 0) {
             log_error(LOG_ERR,
@@ -244,7 +244,7 @@ gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, &value) < 0) {
-        debug_gtk3("failed to get resource value for %s\n", resource);
+        debug_gtk3("failed to get resource value for %s.", resource);
         *dest = FALSE;
         return FALSE;
     }
@@ -267,7 +267,7 @@ gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget)
         return FALSE;
     }
 #if 0
-    debug_gtk3("resetting %s to factory value %s\n",
+    debug_gtk3("resetting %s to factory value %s.",
             resource, value ? "True" : "False");
 #endif
     return vice_gtk3_resource_check_button_set(widget, (gboolean)value);
@@ -308,7 +308,7 @@ gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget)
     /* get resource state */
     resource_name = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource_name, &resource_val) < 0) {
-        debug_gtk3("failed to get value for resource %s\n", resource_name);
+        debug_gtk3("failed to get value for resource '%s'.", resource_name);
         return FALSE;
     }
 

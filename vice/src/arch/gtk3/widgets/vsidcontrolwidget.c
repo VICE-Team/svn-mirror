@@ -32,6 +32,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "debug.h"
 #include "machine.h"
 #include "lib.h"
@@ -75,7 +76,7 @@ static int tune_default;
  */
 static void fake_callback(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("got callback for '%s;\n", (const char *)data);
+    debug_gtk3("got callback for '%s'.", (const char *)data);
 }
 
 

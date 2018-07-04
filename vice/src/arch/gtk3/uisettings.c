@@ -1487,9 +1487,6 @@ static void on_tree_selection_changed(
         GtkWidget *(*callback)(void *) = NULL;
 
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
-#if 0
-        debug_gtk3("item '%s' clicked\n", name);
-#endif
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
         if (callback != NULL) {
             char *title = lib_msprintf("%s settings :: %s", machine_name, name);
@@ -1563,19 +1560,19 @@ bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter)
     }
 
     /* split the path into elements */
-    debug_gtk3("splitting '%s' into elements ...\n", path);
+    debug_gtk3("splitting '%s' into elements ...", path);
     elements = g_strsplit(path, "/", 0);
     for (curr = elements; *curr != NULL; curr++) {
-        debug_gtk3("element '%s'\n", *curr);
+        debug_gtk3("element '%s'.", *curr);
         do {
             const char *id;
 
             gtk_tree_model_get(model, iter, COLUMN_ID, &id, -1);
-            debug_gtk3("checking ID string '%s'=='%s'\n", id, *curr);
+            debug_gtk3("checking ID string '%s'=='%s'.", id, *curr);
             if (strcmp(id, *curr) == 0) {
                 const char *name;
                 gtk_tree_model_get(model, iter, COLUMN_NAME, &name, -1);
-                debug_gtk3("got the bastard! '%s'\n", name);
+                debug_gtk3("got it: '%s'.", name);
                 /* clean up */
                 g_strfreev(elements);
                 return true;
@@ -1848,9 +1845,6 @@ static void response_callback(GtkWidget *widget, gint response_id,
 
         /* load vicerc from default location */
         case RESPONSE_LOAD:
-#if 0
-            debug_gtk3("loading resources from default file\n");
-#endif
             if(resources_load(NULL) != 0) {
                 vice_gtk3_message_error("VICE core error",
                         "Failed to load default settings file");
@@ -1862,9 +1856,6 @@ static void response_callback(GtkWidget *widget, gint response_id,
             filename = vice_gtk3_open_file_dialog("Load settings file",
                     NULL, NULL, NULL);
             if (filename!= NULL) {
-#if 0
-                debug_gtk3("loading settings from '%s'\n", filename);
-#endif
                 if (resources_load(filename) != 0) {
                     vice_gtk3_message_error("VICE core error",
                             "Failed to load settings from '%s'", filename);
@@ -1874,9 +1865,6 @@ static void response_callback(GtkWidget *widget, gint response_id,
 
         /* save settings to default location */
         case RESPONSE_SAVE:
-#if 0
-            debug_gtk3("saving vicerc to default location\n");
-#endif
             if (resources_save(NULL) != 0) {
                 vice_gtk3_message_error("VICE core error",
                         "Failed to save settings to default file");
@@ -1888,10 +1876,6 @@ static void response_callback(GtkWidget *widget, gint response_id,
             filename = vice_gtk3_save_file_dialog("Save settings as ...",
                     NULL, TRUE, NULL);
             if (filename != NULL) {
-#if 0
-                debug_gtk3("saving setting as '%s'\n",
-                        filename ? filename : "NULL");
-#endif
                 if (resources_save(filename) != 0) {
                     vice_gtk3_message_error("VICE core error",
                             "Failed to save setting as '%s'.", filename);
@@ -1941,7 +1925,7 @@ static gboolean on_dialog_configure_event(
         int width = ((GdkEventConfigure*)event)->width;
         int height = ((GdkEventConfigure*)event)->height;
 
-        /* debug_gtk3("width %d, height %d\n", width, height); */
+        /* debug_gtk3("width %d, height %d.", width, height); */
         if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
             /* uncomment the following to get some 'help' while building
              * new dialogs: */
@@ -1949,7 +1933,7 @@ static gboolean on_dialog_configure_event(
             gtk_window_set_title(GTK_WINDOW(widget),
                     "HELP! --- DIALOG IS TOO BLOODY LARGE -- ERROR!");
 #endif
-            debug_gtk3("Dialog is too large: %dx%d (max: %dx%d)\n",
+            debug_gtk3("Dialog is too large: %dx%d (max: %dx%d).",
                     width, height, DIALOG_WIDTH_MAX, DIALOG_HEIGHT_MAX);
         }
     }

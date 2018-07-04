@@ -204,7 +204,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
     gchar *filename;
 
-    debug_gtk3("got response ID %d\n", response_id);
+    debug_gtk3("got response ID %d.", response_id);
     switch (response_id) {
         case GTK_RESPONSE_DELETE_EVENT:
             gtk_widget_destroy(dialog);
@@ -213,11 +213,11 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             lastdir_update(dialog, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
-                debug_gtk3("attaching '%s'\n", filename);
+                debug_gtk3("attaching '%s'.", filename);
                 /* just do smart-attach for now */
                 if (!attach_cart_image(get_cart_type(), get_cart_id(), filename)) {
                     vice_gtk3_message_error("VICE Error",
-                            "Failed to smart-attach '%s'\n", filename);
+                            "Failed to smart-attach '%s'", filename);
                 }
                 g_free(filename);
             }
@@ -387,7 +387,7 @@ static bool attach_cart_image(int type, int id, const char *path)
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_SCPU64:
-            debug_gtk3("attaching cart type %d, cart ID %d\n", type, id);
+            debug_gtk3("attaching cart type %d, cart ID %d.", type, id);
             switch (type) {
                 case UICART_C64_SMART:
                     return (crt_attach_func(CARTRIDGE_CRT, path) == 0);
@@ -427,7 +427,7 @@ static bool attach_cart_image(int type, int id, const char *path)
             }
 
 
-            debug_gtk3("attaching cart type %d, cart ID %d\n", type, id);
+            debug_gtk3("attaching cart type %d, cart ID %d.", type, id);
             return (crt_attach_func(id, path) == 0);
             break;
     }
@@ -777,7 +777,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
             last_dir);
 
     if (filename != NULL) {
-        debug_gtk3("Got filename '%s'\n", filename);
+        debug_gtk3("Got filename '%s'.", filename);
         lastdir_update(widget, &last_dir);
         if (crt_attach_func != NULL) {
             if (crt_attach_func(CARTRIDGE_CRT, filename) < 0) {
@@ -785,7 +785,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
                         "Failed to attach '%s' as a cartridge image",
                         filename);
             } else {
-                debug_gtk3("Attached '%s' as valid cartridge image\n", filename);
+                debug_gtk3("Attached '%s' as valid cartridge image.", filename);
             }
         }
         g_free(filename);
@@ -805,7 +805,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
 gboolean uicart_trigger_freeze(void)
 {
     if (crt_freeze_func != NULL) {
-        debug_gtk3("triggering cart freeze\n");
+        debug_gtk3("triggering cart freeze.");
         crt_freeze_func();
     }
     return TRUE;
@@ -819,7 +819,7 @@ gboolean uicart_trigger_freeze(void)
 gboolean uicart_detach(void)
 {
     if (crt_detach_func != NULL) {
-        debug_gtk3("detaching latest cartridge image\n");
+        debug_gtk3("detaching latest cartridge image.");
         crt_detach_func(-1);
     }
     return TRUE;

@@ -77,11 +77,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
 
     if (state) {
         if (carthelpers_enable_func(CARTRIDGE_IEEE488) < 0) {
-            debug_gtk3("failed to enable IEEE488 cartridge\n");
+            debug_gtk3("failed to enable IEEE488 cartridge.");
         }
     } else {
         if (carthelpers_disable_func(CARTRIDGE_IEEE488) < 0) {
-            debug_gtk3("failed to disable IEEE488 cartridge\n");
+            debug_gtk3("failed to disable IEEE488 cartridge.");
         }
     }
 }
@@ -103,7 +103,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
             NULL);
     if (filename != NULL) {
         GtkEntry *entry = GTK_ENTRY(user_data);
-        debug_gtk3("setting IEEE488Image to '%s'\n", filename);
+        debug_gtk3("setting IEEE488Image to '%s'.", filename);
         gtk_entry_set_text(entry, filename);
         /* required, since setting the text of the entry doesn't trigger an
          * update of the connected resource (it only responds to focus-out and

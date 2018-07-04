@@ -76,7 +76,7 @@ static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
     filename = vice_gtk3_open_file_dialog("Open symbolic keymap file",
             "Keymaps", filters, NULL);
 
-    debug_gtk3("got file \"%s\"\n", filename);
+    debug_gtk3("got file '%s'.", filename);
     if (filename != NULL) {
         resources_set_string("KeymapSymFile", filename);
         g_free(filename);
@@ -101,7 +101,7 @@ static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
     filename = vice_gtk3_open_file_dialog("Open positional keymap file",
             "Keymaps", filters, NULL);
 
-    debug_gtk3("got file \"%s\"\n", filename);
+    debug_gtk3("got file '%s'.", filename);
     if (filename != NULL) {
         resources_set_string("KeymapPosFile", filename);
         g_free(filename);
@@ -121,7 +121,7 @@ static void on_mapping_changed(GtkWidget *widget, gpointer user_data)
 {
     int index = GPOINTER_TO_INT(user_data);
 
-    debug_gtk3("setting mapping to %d\n", index);
+    debug_gtk3("setting mapping to %d.", index);
     resources_set_int("KeymapIndex", index);
 }
 

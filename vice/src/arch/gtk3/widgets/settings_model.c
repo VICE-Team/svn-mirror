@@ -42,6 +42,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "not_implemented.h"
 #include "machine.h"
 #include "resources.h"
@@ -116,7 +117,7 @@ static GtkWidget *c64dtv_rev_widget = NULL;
  */
 static void dtv_revision_callback(GtkWidget *widget, int revision)
 {
-    debug_gtk3("got revision %d\n", revision);
+    debug_gtk3("got revision %d.", revision);
     machine_model_widget_update(machine_widget);
 }
 
@@ -129,7 +130,7 @@ static void dtv_revision_callback(GtkWidget *widget, int revision)
  */
 static void dtv_video_callback(int model)
 {
-    debug_gtk3("got video model %d\n", model);
+    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
@@ -164,7 +165,7 @@ static void machine_model_handler_c64dtv(int model)
             /* 3: V3 PAL */
             break;
     }
-    debug_gtk3("setting revision to %d and sync to %d\n", rev, sync);
+    debug_gtk3("setting revision to %d and sync to %d.", rev, sync);
 
     /* update revision widget */
     group = gtk_grid_get_child_at(GTK_GRID(c64dtv_rev_widget), 0, 1);
@@ -190,7 +191,7 @@ static void machine_model_handler_c64dtv(int model)
  */
 static void vic20_video_callback(int model)
 {
-    debug_gtk3("got video model %d\n", model);
+    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
@@ -227,7 +228,7 @@ static void machine_model_handler_vic20(int model)
  */
 static void plus4_video_callback(int model)
 {
-    debug_gtk3("got video model %d\n", model);
+    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
@@ -247,7 +248,7 @@ static void plus4_memory_callback(int ram, int hack)
 
 static void machine_model_handler_plus4(int model)
 {
-    debug_gtk3("called with model %d\n", model);
+    debug_gtk3("called with model %d.", model);
     video_model_widget_update(video_widget);
 }
 
@@ -266,21 +267,21 @@ static void machine_model_handler_plus4(int model)
  */
 static void cbm5x0_video_callback(int model)
 {
-    debug_gtk3("got video model %d\n", model);
+    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
 
 static void cbm2_switches_callback(GtkWidget *widget, int model_line)
 {
-    debug_gtk3("called with model_line %d\n", model_line);
+    debug_gtk3("called with model_line %d.", model_line);
     machine_model_widget_update(machine_widget);
 }
 
 
 static void cbm2_memory_size_callback(GtkWidget *widget, int size)
 {
-    debug_gtk3("called with memory size %d\n", size);
+    debug_gtk3("called with memory size %d.", size);
     machine_model_widget_update(machine_widget);
 }
 
@@ -305,7 +306,7 @@ static void machine_model_handler_cbm6x0(int model)
  */
 static void machine_model_callback(int model)
 {
-    debug_gtk3("got model %d\n", model);
+    debug_gtk3("got model %d.", model);
 
     switch (machine_class) {
         case VICE_MACHINE_C64DTV:
@@ -324,7 +325,7 @@ static void machine_model_callback(int model)
             machine_model_handler_cbm6x0(model);
             break;
         default:
-            debug_gtk3("unsupported machine_class %d\n", machine_class);
+            debug_gtk3("unsupported machine_class %d.", machine_class);
             break;
     }
 }
@@ -340,7 +341,7 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
     int glue = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting GlueLogic to %s\n",
+        debug_gtk3("setting GlueLogic to %s.",
                 glue == 0 ? "discrete" : "252535-01");
         resources_set_int("GlueLogic", glue);
     }

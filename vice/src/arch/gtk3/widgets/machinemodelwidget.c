@@ -64,10 +64,10 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 
     if (model_set != NULL &&
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting model to %d\n", model);
+        debug_gtk3("setting model to %d.", model);
         model_set(model);
         if (user_callback != NULL) {
-            debug_gtk3("calling user-callback with model %d\n", model);
+            debug_gtk3("calling user-callback with model %d.", model);
             user_callback(model);
         }
     }
@@ -168,7 +168,7 @@ void machine_model_widget_update(GtkWidget *widget)
             model -= 2; /*adjust since cbm2/cbm5 share defines */
         }
     }
-    debug_gtk3("model ID = %d\n", model);
+    debug_gtk3("model ID = %d.", model);
 
     if (model == 99) {
         /* invalid model, make all radio buttons unselected

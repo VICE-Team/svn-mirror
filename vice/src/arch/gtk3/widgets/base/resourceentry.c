@@ -67,7 +67,7 @@ static void on_entry_changed(GtkWidget *entry, gpointer user_data)
     resource = resource_widget_get_resource_name(entry);
     text = gtk_entry_get_text(GTK_ENTRY(entry));
 #if 0
-    debug_gtk3("setting %s to '%s'\n", resource, text);
+    debug_gtk3("setting %s to '%s'.", resource, text);
 #endif
     if (resources_set_string(resource, text) < 0) {
         log_error(LOG_ERR, "failed to set resource '%s' to '%s'\n",
@@ -151,7 +151,7 @@ gboolean vice_gtk3_resource_entry_get(GtkWidget *widget, const char **dest)
     const char *resource = resource_widget_get_resource_name(widget);
 
     if (resources_get_string(resource, dest) < 0) {
-        debug_gtk3("failed to retrieve value for resource '%s'\n", resource);
+        debug_gtk3("failed to retrieve value for resource '%s'.", resource);
         *dest = NULL;
         return FALSE;
     }
@@ -172,12 +172,12 @@ gboolean vice_gtk3_resource_entry_factory(GtkWidget *entry)
 
     resource = resource_widget_get_resource_name(entry);
     if (resources_get_default_value(resource, &factory) < 0) {
-        debug_gtk3("failed to retrieve factory value for resource '%s'\n",
+        debug_gtk3("failed to retrieve factory value for resource '%s'.",
                 resource);
         return FALSE;
     }
 #if 0
-    debug_gtk3("resetting %s to factory value %s\n", resource, factory);
+    debug_gtk3("resetting %s to factory value %s.", resource, factory);
 #endif
     return vice_gtk3_resource_entry_set(entry, factory);
 }
@@ -196,7 +196,7 @@ gboolean vice_gtk3_resource_entry_reset(GtkWidget *widget)
     resource = resource_widget_get_resource_name(widget);
     orig = resource_widget_get_string(widget, "ResourceOrig");
     if (resources_get_string(resource, &current) < 0) {
-        debug_gtk3("failed to get value of resource '%s'\n", resource);
+        debug_gtk3("failed to get value of resource '%s'.", resource);
         return FALSE;
     }
 
@@ -227,7 +227,7 @@ gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget)
     widget_val = gtk_entry_get_text(GTK_ENTRY(widget));
     resource_name = resource_widget_get_resource_name(widget);
     if (resources_get_string(resource_name, &resource_val) < 0) {
-        debug_gtk3("failed to get retrieve value for '%s'\n", resource_name);
+        debug_gtk3("failed to get retrieve value for '%s'.", resource_name);
         return FALSE;
     }
 
@@ -293,7 +293,7 @@ static gboolean resource_entry_full_update_resource(GtkEntry *entry)
         return FALSE;
     }
     entry_text = gtk_entry_get_text(entry);
-    debug_gtk3("res_name: %s res_val: %s entry_text: %s\n",
+    debug_gtk3("res_name: %s res_val: %s entry_text: %s.",
             res_name, res_val, entry_text);
     if ((res_val == NULL) || (strcmp(entry_text, res_val) != 0)) {
         if (resources_set_string(res_name, entry_text) < 0) {
@@ -484,12 +484,12 @@ gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *entry)
 
     resource = resource_widget_get_resource_name(entry);
     if (resources_get_default_value(resource, &factory) < 0) {
-        debug_gtk3("failed to retrieve factory value for resource '%s'\n",
+        debug_gtk3("failed to retrieve factory value for resource '%s'.",
                 resource);
         return FALSE;
     }
 #if 0
-    debug_gtk3("resetting %s to factory value %s\n", resource, factory);
+    debug_gtk3("resetting %s to factory value %s.", resource, factory);
 #endif
     return vice_gtk3_resource_entry_full_set(entry, factory);
 }

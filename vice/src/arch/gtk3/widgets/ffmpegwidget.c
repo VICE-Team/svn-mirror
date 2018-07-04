@@ -97,7 +97,7 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
         gtk_tree_model_get(model, &iter, 0, &fmt_name, -1);
     }
 
-    debug_gtk3("called, index %d: '%s'\n", fmt_id, fmt_name);
+    debug_gtk3("called, index %d: '%s'.", fmt_id, fmt_name);
     if (fmt_name != NULL && *fmt_name != '\0') {
         resources_set_string("FFMPEGFormat", fmt_name);
     }
@@ -142,7 +142,7 @@ static void on_video_codec_changed(GtkComboBox *combo, gpointer data)
         int codec;
 
         gtk_tree_model_get(model, &iter, 1, &codec, -1);
-        debug_gtk3("setting FFMPEGVideoCodec to %d\n", codec);
+        debug_gtk3("setting FFMPEGVideoCodec to %d.", codec);
         resources_set_int("FFMPEGVideoCodec", codec);
     }
 }
@@ -167,7 +167,7 @@ static void on_audio_codec_changed(GtkComboBox *combo, gpointer data)
         int codec;
 
         gtk_tree_model_get(model, &iter, 1, &codec, -1);
-        debug_gtk3("setting FFMPEGAudioCodec to %d\n", codec);
+        debug_gtk3("setting FFMPEGAudioCodec to %d.", codec);
         resources_set_int("FFMPEGAudioCodec", codec);
     }
 }
@@ -211,7 +211,7 @@ static GtkListStore *create_format_model(void)
     for (i = 0; driver_info->formatlist[i].name != NULL; i++) {
         const char *name = driver_info->formatlist[i].name;
 
-        /*debug_gtk3("adding FFMPEG format '%s'\n", name);*/
+        /*debug_gtk3("adding FFMPEG format '%s'.", name);*/
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter, 0, name, 1, i, -1);
     }
@@ -243,7 +243,7 @@ static GtkListStore *create_video_model(int fmt)
         const char *name = codec_list[i].name;
         int id = codec_list[i].id;
 
-        debug_gtk3("adding FFMPEG video codec '%s' (%d)\n", name, id);
+        debug_gtk3("adding FFMPEG video codec '%s' (%d).", name, id);
         gtk_list_store_append(store, &iter);
         gtk_list_store_set(store, &iter, 0, name, 1, id, -1);
     }
@@ -276,7 +276,7 @@ static GtkListStore *create_audio_model(int fmt)
         const char *name = codec_list[i].name;
         int id = codec_list[i].id;
 
-        /*debug_gtk3("adding FFMPEG audio codec '%s' (%d)\n", name, id);*/
+        /*debug_gtk3("adding FFMPEG audio codec '%s' (%d).", name, id);*/
         gtk_list_store_append(store, &iter);
         gtk_list_store_set(store, &iter, 0, name, 1, id, -1);
     }

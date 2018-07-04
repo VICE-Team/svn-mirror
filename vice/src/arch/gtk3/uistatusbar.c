@@ -1491,7 +1491,7 @@ gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window)
     GtkWidget *check;
     gboolean active;
 
-    debug_gtk3("called\n");
+    debug_gtk3("called.");
     bin = gtk_bin_get_child(GTK_BIN(window));
     if (bin != NULL) {
         bar = gtk_grid_get_child_at(GTK_GRID(bin), 0, 2);  /* FIX */
@@ -1499,19 +1499,19 @@ gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window)
             check = gtk_grid_get_child_at(GTK_GRID(bar), SB_COL_CRT, 0);
             if (check != NULL) {
                 active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-                debug_gtk3("CRT controls enabled = %s\n",
+                debug_gtk3("CRT controls enabled = %s.",
                         active ? "TRUE" : "FALSE");
                 return active;
             } else {
-                debug_gtk3("Couldn't get Checkbox\n");
+                debug_gtk3("Couldn't get Checkbox.");
             }
         } else {
-            debug_gtk3("Couldn't get statusbar\n");
+            debug_gtk3("Couldn't get statusbar.");
         }
     } else {
-        debug_gtk3("Couldn't get BIN\n");
+        debug_gtk3("Couldn't get BIN.");
     }
-    debug_gtk3("OOPS!\n");
+    debug_gtk3("OOPS!");
     return FALSE;
 }
 
@@ -1529,7 +1529,7 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
     GtkWidget *check;
     gboolean active;
 
-    debug_gtk3("called\n");
+    debug_gtk3("called.");
     bin = gtk_bin_get_child(GTK_BIN(window));
     if (bin != NULL) {
         bar = gtk_grid_get_child_at(GTK_GRID(bin), 0, 2);  /* FIX */
@@ -1537,12 +1537,12 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
             check = gtk_grid_get_child_at(GTK_GRID(bar), SB_COL_CRT, 1);
             if (check != NULL) {
                 active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-                debug_gtk3("Mixer controls enabled = %s\n",
+                debug_gtk3("Mixer controls enabled = %s.",
                         active ? "TRUE" : "FALSE");
                 return active;
             }
         }
     }
-    debug_gtk3("OOPS!\n");
+    debug_gtk3("OOPS!");
     return FALSE;
 }

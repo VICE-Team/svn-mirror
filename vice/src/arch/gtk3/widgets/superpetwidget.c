@@ -92,7 +92,7 @@ static void on_superpet_cpu_type_changed(GtkWidget *widget, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
             && new_val != old_val) {
-        debug_gtk3("setting CPUswitch to %d\n", new_val);
+        debug_gtk3("setting CPUswitch to %d.", new_val);
         resources_set_int("CPUswitch", new_val);
     }
 }
@@ -108,7 +108,7 @@ static void on_superpet_rom_changed(GtkWidget *widget, gpointer user_data)
     int rom = GPOINTER_TO_INT(user_data);
     const char *path = gtk_entry_get_text(GTK_ENTRY(widget));
 
-    debug_gtk3("setting H6809Rom%cName to '%s'\n", rom, path);
+    debug_gtk3("setting H6809Rom%cName to '%s'.", rom, path);
     resources_set_string_sprintf("H6809Rom%cName", path, rom);
 }
 

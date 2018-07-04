@@ -128,7 +128,7 @@ static void on_ram_block_toggled(GtkWidget *widget, gpointer user_data)
     resources_get_int_sprintf("RamBlock%d", &old_state, block);
     new_state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     if (new_state != old_state) {
-        debug_gtk3("setting RamBlock%d to %s\n",
+        debug_gtk3("setting RamBlock%d to %s.",
                 block, new_state ? "ON" : "OFF");
         resources_set_int_sprintf("RamBlock%d", new_state, block);
     }
@@ -158,7 +158,7 @@ static void on_common_config_changed(GtkWidget *widget, gpointer user_data)
     config = common_configs[index].blocks;
     for (i = 0; i < 5; i++) {
         GtkWidget *check = gtk_grid_get_child_at(GTK_GRID(blocks_widget), 0, i +1);
-        debug_gtk3("setting RAM block %d to %d\n", i, config[i]);
+        debug_gtk3("setting RAM block %d to %d.", i, config[i]);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), config[i]);
     }
 

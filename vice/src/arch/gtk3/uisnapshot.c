@@ -74,7 +74,7 @@ static char *quicksnap_filename(void)
     cfg = archdep_user_config_path();
     fname = util_concat(cfg, "/", mname, ".vsf", NULL);
     lib_free(cfg);
-    debug_gtk3("quicksnap_filename = %s\n", fname);
+    debug_gtk3("quicksnap_filename = %s.", fname);
     return fname;
 }
 
@@ -117,9 +117,9 @@ static void save_snapshot_dialog(void)
     save_roms = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(roms_widget));
     save_disks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(disks_widget));
 
-    debug_gtk3("response_id = %d\n", response_id);
-    debug_gtk3("save disks = %s\n", save_disks ? "YES" : "NO");
-    debug_gtk3("save ROMs = %s\n", save_roms ? "YES" : "NO");
+    debug_gtk3("response_id = %d.", response_id);
+    debug_gtk3("save disks = %s.", save_disks ? "YES" : "NO");
+    debug_gtk3("save ROMs = %s.", save_roms ? "YES" : "NO");
 
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gchar *filename;
@@ -136,7 +136,7 @@ static void save_snapshot_dialog(void)
                 g_snprintf(buffer, 1024, "Failed to save snapshot '%s'",
                         fname_copy);
             } else {
-                debug_gtk3("Wrote snapshot file '%s'\n", fname_copy);
+                debug_gtk3("Wrote snapshot file '%s'.", fname_copy);
                 g_snprintf(buffer, 1024, "Saved snapshot '%s'", fname_copy);
             }
             ui_display_statustext(buffer, TRUE);
@@ -205,7 +205,7 @@ static void quickload_snapshot_trap(uint16_t addr, void *data)
 
     vsync_suspend_speed_eval();
 
-    debug_gtk3("Quickloading file '%s'\n", filename);
+    debug_gtk3("Quickloading file '%s'.", filename);
     if (machine_read_snapshot(filename, 0) < 0) {
         snapshot_display_error();
         ui_display_statustext("Failed to Quickload snapshot", TRUE);
@@ -227,7 +227,7 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
 
     vsync_suspend_speed_eval();
 
-    debug_gtk3("Quicksaving file '%s'\n", filename);
+    debug_gtk3("Quicksaving file '%s'.", filename);
     if (machine_write_snapshot(filename, TRUE, TRUE, 0) < 0) {
         snapshot_display_error();
         ui_display_statustext("Failed to Quicksave snapshot", TRUE);
@@ -311,14 +311,14 @@ void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
     const char *current;
 
     if (resources_get_string("EventSnapshotDir", &current) < 0) {
-        debug_gtk3("failed to get current history directory, using NULL\n");
+        debug_gtk3("failed to get current history directory, using NULL.");
         current = NULL;
     }
 
     filename = vice_gtk3_select_directory_dialog("Select history directory",
             NULL, TRUE, current);
     if (filename != NULL) {
-        debug_gtk3("Setting EventSnapshotDir to '%s'\n", filename);
+        debug_gtk3("Setting EventSnapshotDir to '%s'.", filename);
         if (resources_set_string("EventSnapshotDir", filename) < 0) {
             vice_gtk3_message_error("VICE core error",
                     "Failed to set history directory.");

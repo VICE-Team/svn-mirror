@@ -38,11 +38,14 @@
 /** \brief  Print debugging info on stdout
  *
  * Works just like g_print() and printf(), except that every line is prefixed
- * with "[debug-gtk3] $FILE:$LINE::$FUNC(): "
+ * with "[debug-gtk3] $FILE:$LINE::$FUNC(): ".
+ * This macro outputs a newline. so the user should not provide one in the
+ * message, unless an extra newline is preferred.
  */
 #  define debug_gtk3(...) \
     g_print("[debug-gtk3] %s:%d::%s(): ", __FILE__, __LINE__, __func__); \
-    g_print(__VA_ARGS__);
+    g_print(__VA_ARGS__); \
+    g_print("\n");
 
 # else  /* HAVE_DEBUG_GTK3UI */
 #  define debug_gtk3(...)

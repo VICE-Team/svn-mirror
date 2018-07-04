@@ -219,16 +219,16 @@ static void archdep_create_user_config_dir(void)
      * cannot use the log here since it hasn't been created yet, not the
      * directory it's supposed to live in
      */
-    debug_gtk3("creating user config dir '%s'\n", path);
+    debug_gtk3("creating user config dir '%s'", path);
 
     /* create config dir, fail silently if it exists */
     if (g_mkdir(path, 0755) == 0) {
-        debug_gtk3("OK: created user config dir\n");
+        debug_gtk3("OK: created user config dir.");
     } else {
         if (errno == EEXIST) {
-            debug_gtk3("OK: directory already existed\n");
+            debug_gtk3("OK: directory already existed.");
         } else {
-            debug_gtk3("Error: %d: %s\n", errno, strerror(errno));
+            debug_gtk3("Error: %d: %s.", errno, strerror(errno));
         }
     }
     lib_free(path);
@@ -402,14 +402,14 @@ int archdep_init(int *argc, char **argv)
     datadir = archdep_get_vice_datadir();
     docsdir = archdep_get_vice_docsdir();
 
-    debug_gtk3("program name    = \"%s\"\n", prg_name);
-    debug_gtk3("user home dir   = \"%s\"\n", archdep_home_path());
-    debug_gtk3("user config dir = \"%s\"\n", cfg_path);
-    debug_gtk3("prg boot path   = \"%s\"\n", archdep_boot_path());
-    debug_gtk3("VICE searchpath = \"%s\"\n", searchpath);
-    debug_gtk3("VICE gui data   = \"%s\"\n", datadir);
-    debug_gtk3("VICE docs path  = \"%s\"\n", docsdir);
-    debug_gtk3("vice.ini path   = \"%s\"\n", vice_ini);
+    debug_gtk3("program name    = \"%s\"", prg_name);
+    debug_gtk3("user home dir   = \"%s\"", archdep_home_path());
+    debug_gtk3("user config dir = \"%s\"", cfg_path);
+    debug_gtk3("prg boot path   = \"%s\"", archdep_boot_path());
+    debug_gtk3("VICE searchpath = \"%s\"", searchpath);
+    debug_gtk3("VICE gui data   = \"%s\"", datadir);
+    debug_gtk3("VICE docs path  = \"%s\"", docsdir);
+    debug_gtk3("vice.ini path   = \"%s\"", vice_ini);
 
     lib_free(searchpath);
     lib_free(vice_ini);

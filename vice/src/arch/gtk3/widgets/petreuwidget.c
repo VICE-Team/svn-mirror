@@ -95,7 +95,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = vice_gtk3_open_file_dialog("Open REU image file", NULL,
             NULL, NULL);
     if (filename != NULL) {
-        debug_gtk3("setting PETREUfilename to '%s'\n", filename);
+        debug_gtk3("setting PETREUfilename to '%s'.", filename);
         vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }

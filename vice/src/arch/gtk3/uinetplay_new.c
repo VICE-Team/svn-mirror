@@ -75,7 +75,7 @@ static GtkWidget *create_indented_label(const char *text)
 static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
-    debug_gtk3("server %s requested\n", state ? "ENABLE" : "DISABLE");
+    debug_gtk3("Server %s requested.", state ? "ENABLE" : "DISABLE");
 
     gtk_widget_set_sensitive(bind_enable, state ? FALSE : TRUE);
     gtk_widget_set_sensitive(server_addr, state ? FALSE : TRUE);
@@ -86,7 +86,7 @@ static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
 static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
-    debug_gtk3("Client %s requested\n", state ? "CONNECT" : "DISCONNECT");
+    debug_gtk3("Client %s requested.", state ? "CONNECT" : "DISCONNECT");
 }
 
 
@@ -129,7 +129,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             gtk_widget_destroy(dialog);
             break;
         default:
-            debug_gtk3("unknown response ID %d, ignoring\n", response_id);
+            debug_gtk3("unknown response ID %d, ignoring.", response_id);
             break;
     }
 }

@@ -93,7 +93,7 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
     if (file != NULL) {
         path = g_file_get_path(file);
         if (path != NULL) {
-            debug_gtk3("called with '%s'\n", path);
+            debug_gtk3("called with '%s'.", path);
             /* TODO: show SID info */
             g_free(path);
         }
@@ -136,7 +136,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
     index = GPOINTER_TO_INT(user_data);
 
-    debug_gtk3("got response ID %d, index %d\n", response_id, index);
+    debug_gtk3("got response ID %d, index %d.", response_id, index);
 
     switch (response_id) {
 
@@ -146,7 +146,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             text = lib_msprintf("Opening '%s'", filename);
             ui_display_statustext(text, TRUE);
-            debug_gtk3("Loading SID file '%s'\n", filename);
+            debug_gtk3("Loading SID file '%s'.", filename);
             load_psid_handler(filename);
 
             vsid_tune_info_widget_set_song_lengths(filename);
@@ -176,8 +176,8 @@ bool load_psid_handler(const char *filename)
     vsync_suspend_speed_eval();
 
     if (machine_autodetect_psid(filename) < 0) {
-        debug_gtk3("'%s' is not a valid PSID file", filename);
-        ui_error("'%s' is not a valid PSID file", filename);
+        debug_gtk3("'%s' is not a valid PSID file.", filename);
+        ui_error("'%s' is not a valid PSID file.", filename);
         return false;
     }
 
@@ -272,7 +272,7 @@ void uisidattach_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
 
-    debug_gtk3("called\n");
+    debug_gtk3("called.");
     dialog = create_sid_attach_dialog(widget);
     gtk_widget_show(dialog);
 

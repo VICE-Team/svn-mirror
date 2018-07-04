@@ -100,7 +100,7 @@ void lastdir_update(GtkWidget *widget, char **last)
     gchar *new_dir;
 
     new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("new dir = '%s'\n", new_dir);
+    debug_gtk3("new dir = '%s'.", new_dir);
     if (new_dir != NULL) {
         /* clean up previous value */
         if (*last != NULL) {

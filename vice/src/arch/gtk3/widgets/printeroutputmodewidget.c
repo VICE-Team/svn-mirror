@@ -80,7 +80,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
         new_val = (const char *)user_data;
 
         if (strcmp(new_val, old_val) == 0) {
-            debug_gtk3("setting %s to '%s'\n", resource, new_val);
+            debug_gtk3("setting %s to '%s'.", resource, new_val);
             resources_set_string(resource, new_val);
         }
     }

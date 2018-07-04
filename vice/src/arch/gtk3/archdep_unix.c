@@ -263,7 +263,8 @@ const char *archdep_boot_path(void)
 char *archdep_get_vice_datadir(void)
 {
 #ifdef MACOSX_BUNDLE
-    debug_gtk3("FIXME: archdep_get_vice_datadir '%s%s'", archdep_boot_path(), "/../gui/");
+    debug_gtk3("FIXME: archdep_get_vice_datadir '%s%s'.",
+            archdep_boot_path(), "/../gui/");
     return util_concat(archdep_boot_path(), "/../gui/", NULL);
 #else
     return util_concat(LIBDIR, "/gui/", NULL);
@@ -277,7 +278,8 @@ char *archdep_get_vice_datadir(void)
 char *archdep_get_vice_docsdir(void)
 {
 #ifdef MACOSX_BUNDLE
-    debug_gtk3("FIXME: archdep_get_vice_docsdir '%s%s'", archdep_boot_path(), "/../doc/");
+    debug_gtk3("FIXME: archdep_get_vice_docsdir '%s%s'.",
+            archdep_boot_path(), "/../doc/");
     util_concat(archdep_boot_path(), "/../doc/", NULL);
 #else
     return util_concat(DOCDIR, "/", NULL);

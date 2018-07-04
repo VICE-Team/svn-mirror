@@ -368,13 +368,13 @@ static void add_sliders(GtkGrid *grid,
     chip = data->chip;
     chip_id = get_chip_id(chip);
     if (chip_id < 0) {
-        debug_gtk3("failed to get chip ID for '%s'\n", chip);
+        debug_gtk3("failed to get chip ID for '%s'.", chip);
         return;
     }
 
     /* get PAL/NTSC mode */
     if (resources_get_int("MachineVideoStandard", &video_standard) < 0) {
-        debug_gtk3("failed to get MachineVideoStandard resource value\n");
+        debug_gtk3("failed to get 'MachineVideoStandard' resource value.");
         return;
     }
 

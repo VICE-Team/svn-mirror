@@ -63,7 +63,7 @@ static void on_crtc_toggled(GtkWidget *widget, gpointer user_data)
     new_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
     if (new_val != old_val) {
-        debug_gtk3("setting Crtc to %s\n", new_val ? "ON" : "OFF");
+        debug_gtk3("setting Crtc to %s.", new_val ? "ON" : "OFF");
         resources_set_int("Crtc", new_val);
     }
 }
@@ -85,7 +85,7 @@ static void on_blank_toggled(GtkWidget *widget, gpointer user_data)
     new_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
     if (new_val != old_val) {
-        debug_gtk3("setting EoiBlank to %s\n", new_val ? "ON" : "OFF");
+        debug_gtk3("setting EoiBlank to %s.", new_val ? "ON" : "OFF");
         resources_set_int("EoiBlank", new_val);
     }
 }

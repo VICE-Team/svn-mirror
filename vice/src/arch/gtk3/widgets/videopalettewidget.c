@@ -90,7 +90,7 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
     int index = gtk_combo_box_get_active(combo);
     const char *id = gtk_combo_box_get_active_id(combo);
 
-    debug_gtk3("got combo index %d, id '%s'\n", index, id);
+    debug_gtk3("got combo index %d, id '%s'.", index, id);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_external), TRUE);
     resources_set_string_sprintf("%sPaletteFile", id, chip_prefix);
     resources_set_int_sprintf("%sExternalPalette", 1, chip_prefix);
@@ -113,7 +113,7 @@ static void on_browse_clicked(GtkButton *button, gpointer user_data)
     filename = vice_gtk3_open_file_dialog("Open palette file",
             "Palette files", flist, NULL);
     if (filename != NULL) {
-        debug_gtk3("got palette file '%s'\n", filename);
+        debug_gtk3("got palette file '%s'.", filename);
         resources_set_string_sprintf("%sPaletteFile", filename, chip_prefix);
 
         /* add to combo box */
@@ -205,7 +205,7 @@ GtkWidget *video_palette_widget_create(const char *chip)
     chip_prefix = chip;
 
     resources_get_int_sprintf("%sExternalPalette", &external, chip);
-    debug_gtk3("%sExternalPalette is %s\n", chip, external ? "ON" : "OFF");
+    debug_gtk3("%sExternalPalette is %s.", chip, external ? "ON" : "OFF");
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Palette settings", 4);
 

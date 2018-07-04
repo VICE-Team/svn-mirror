@@ -71,12 +71,12 @@ bool uidata_init(void)
 
     /* try directory with VICE's data files */
     dir = archdep_get_vice_datadir();
-    debug_gtk3("trying archdep_get_vice_datadir() (%s)\n", dir);
+    debug_gtk3("trying archdep_get_vice_datadir() (%s).", dir);
     path = util_concat(dir, "vice.gresource", NULL);
     lib_free(dir);
     gresource = g_resource_load(path, &err);
     if (gresource == NULL && err != NULL) {
-        debug_gtk3("failed to load resource data '%s': %s\n",
+        debug_gtk3("failed to load resource data '%s': %s.",
                 path, err->message);
         g_clear_error(&err);
         lib_free(path);
@@ -92,13 +92,13 @@ bool uidata_init(void)
             G_RESOURCE_LOOKUP_FLAGS_NONE,
             &err);
     if (files == NULL && err != NULL) {
-        debug_gtk3("couldn't enumerate children: %s\n", err->message);
+        debug_gtk3("couldn't enumerate children: %s.", err->message);
         g_clear_error(&err);
         return false;
     }
-    debug_gtk3("Listing files in the GResource file:\n");
+    debug_gtk3("Listing files in the GResource file:");
     for (i = 0; files[i] != NULL; i++) {
-        debug_gtk3("%d: %s\n", i, files[i]);
+        debug_gtk3("%d: %s.", i, files[i]);
     }
 #endif
     return true;
@@ -109,7 +109,7 @@ bool uidata_init(void)
  */
 void uidata_shutdown(void)
 {
-    debug_gtk3("freeing GResource data\n");
+    debug_gtk3("freeing GResource data.");
     if (gresource != NULL) {
         g_free(gresource);
         gresource = NULL;
@@ -130,11 +130,11 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
     char *path;
 
     path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
-    debug_gtk3("attempting to load resource '%s'\n", path);
+    debug_gtk3("attempting to load resource '%s'.", path);
     buf = gdk_pixbuf_new_from_resource(path, &err);
     lib_free(path);
     if (buf == NULL) {
-        debug_gtk3("failed: %s\n", err->message);
+        debug_gtk3("failed: %s.", err->message);
         /* TODO: log error */
         g_clear_error(&err);
     }

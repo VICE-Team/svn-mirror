@@ -735,9 +735,9 @@ void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
      * base monitor
      */
     if (resources_get_int("NativeMonitor", &native) < 0) {
-        debug_gtk3("failed to get value of resource 'NativeMonitor'\n");
+        debug_gtk3("failed to get value of resource 'NativeMonitor'.");
     }
-    debug_gtk3("called, native monitor = %s\n", native ? "true" : "false");
+    debug_gtk3("called, native monitor = %s.", native ? "true" : "false");
 
     resources_get_int("MonitorServer", &v);
 

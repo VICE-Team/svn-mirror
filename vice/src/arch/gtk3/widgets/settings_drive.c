@@ -40,6 +40,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "not_implemented.h"
 #include "drive.h"
 #include "drive-check.h"
@@ -95,7 +96,7 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
     int unit;
     int type;
 
-    debug_gtk3("called:\n");
+    debug_gtk3("called.");
 
     unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
     resources_get_int_sprintf("Drive%dType", &type, unit);
@@ -140,7 +141,7 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
     int model = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "ModelID"));
     GtkWidget *option;
 
-    debug_gtk3("called, unit is #%d, model ID = %d\n", unit, model);
+    debug_gtk3("called, unit is #%d, model ID = %d.", unit, model);
 
     option = drive_extend[unit - 8];
     if (option != NULL) {

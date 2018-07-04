@@ -99,7 +99,7 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
 
 #if 0
     /* store old pause state */
-    debug_gtk3("OldPauseState = %s\n", pause_state ? "paused" : "unpaused");
+    debug_gtk3("OldPauseState = %s.", pause_state ? "paused" : "unpaused");
     g_object_set_data(G_OBJECT(dialog),
             "OldPauseState", GINT_TO_POINTER(pause_state));
 #endif
@@ -167,7 +167,7 @@ gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...)
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
     gtk_widget_destroy(dialog);
-    debug_gtk3("got response ID %d\n", result);
+    debug_gtk3("got response ID %d.", result);
     if (result == GTK_RESPONSE_OK) {
         return TRUE;
     } else {

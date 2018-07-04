@@ -124,7 +124,7 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
                         __FILE__, __LINE__, __func__, index);
         }
 
-        debug_gtk3("setting RamSize to %d, MemoryHack to %d\n", ram, hack);
+        debug_gtk3("setting RamSize to %d, MemoryHack to %d.", ram, hack);
 
         resources_set_int("RamSize", ram);
         resources_set_int("MemoryHack", hack);

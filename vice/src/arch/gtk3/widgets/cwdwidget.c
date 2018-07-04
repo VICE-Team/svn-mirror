@@ -54,7 +54,7 @@ static void on_entry_changed(GtkWidget *widget, gpointer user_data)
 {
     const char *cwd = gtk_entry_get_text(GTK_ENTRY(widget));
 
-    debug_gtk3("setting cwd to '%s'\n", cwd);
+    debug_gtk3("setting cwd to '%s'.", cwd);
     /* TODO: make the entry background 'red' or so when chdir() fails */
     g_chdir(cwd);
 }

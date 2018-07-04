@@ -130,8 +130,7 @@ static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
     int device = GPOINTER_TO_INT(user_data);
     const gchar *text = gtk_entry_get_text(GTK_ENTRY(widget));
 
-    /* debug_gtk3("got RsDevice %d\n", device); */
-    debug_gtk3("setting RsDevice%d to '%s'\n", device, text);
+    debug_gtk3("setting RsDevice%d to '%s'.", device, text);
     resources_set_string_sprintf("RsDevice%d", text, device);
 }
 
@@ -158,7 +157,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
         GtkWidget *grid;
         GtkWidget *entry;
 
-        debug_gtk3("setting RsDevice%d to '%s'\n", device, filename);
+        debug_gtk3("setting RsDevice%d to '%s'.", device, filename);
         /* resources_set_string_sprintf("RsDevice%d", filename, device); */
 
         /* update text entry box, forces an update of the resource */

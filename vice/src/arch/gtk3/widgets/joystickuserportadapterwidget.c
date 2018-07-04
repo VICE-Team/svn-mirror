@@ -105,7 +105,7 @@ static void on_adapter_changed(GtkComboBoxText *combo, gpointer user_data)
     id_val = (int)strtol(id_str, &endptr, 10);
 
     if (*endptr == '\0') {
-        debug_gtk3("setting UserportJoyType to %d\n", id_val);
+        debug_gtk3("setting UserportJoyType to %d.", id_val);
         resources_set_int("UserportJoyType", id_val);
     }
 }

@@ -71,7 +71,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
 
     filename = vice_gtk3_open_file_dialog("Open ROM file", NULL, NULL, NULL);
     if (filename != NULL) {
-        debug_gtk3("got filename '%s'\n", filename);
+        debug_gtk3("got filename '%s'.", filename);
         vice_gtk3_resource_entry_full_set(GTK_WIDGET(data), filename);
         g_free(filename);
     }

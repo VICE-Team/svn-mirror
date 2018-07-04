@@ -41,6 +41,7 @@
 #include <stdlib.h>
 
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
@@ -83,7 +84,7 @@ static void on_joyport_changed(GtkComboBoxText *combo, gpointer user_data)
     id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
     id = (int)strtol(id_str, &endptr, 10);
 
-    debug_gtk3("changing JoyPort%dDevice to %d\n", port + 1, id);
+    debug_gtk3("changing JoyPort%dDevice to %d.", port + 1, id);
     resources_set_int_sprintf("JoyPort%dDevice", id, port + 1);
 }
 
@@ -170,7 +171,7 @@ static void joyport_devices_list_shutdown(void)
 {
     int i;
 
-    debug_gtk3("called: free memory used by joyport devices list\n");
+    debug_gtk3("called: free memory used by joyport devices list.");
 
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (joyport_devices[i] != NULL) {

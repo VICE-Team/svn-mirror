@@ -118,7 +118,7 @@ GtkWidget *uihelpers_radiogroup_create(
     GSList *group = NULL;
     size_t i;
 
-    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_radiogroup!\n");
+    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_radiogroup!");
     grid = uihelpers_create_grid_with_label(label, 1);
 
     last = NULL;
@@ -188,7 +188,7 @@ void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index)
     int radio_index = 0;
 
 
-    debug_gtk3("Looking for index %d\n", index);
+    debug_gtk3("Looking for index %d.", index);
 
     if (index < 0) {
         return;
@@ -197,7 +197,7 @@ void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index)
     do {
         radio = gtk_grid_get_child_at(GTK_GRID(grid), 0, row);
         if (GTK_IS_TOGGLE_BUTTON(radio)) {
-            debug_gtk3("got toggle button at row %d\n", row);
+            debug_gtk3("got toggle button at row %d.", row);
             if (radio_index == index) {
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
                 return;

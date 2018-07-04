@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "vice-event.h"
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 
 #include "settings_snapshot.h"
 
@@ -67,14 +68,14 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
     const char *current;
 
     if (resources_get_string("EventSnapshotDir", &current) < 0) {
-        debug_gtk3("failed to get current history directory, using NULL\n");
+        debug_gtk3("failed to get current history directory, using NULL.");
         current = NULL;
     }
 
     filename = vice_gtk3_select_directory_dialog(
             "Select history directory", NULL, TRUE, current);
     if (filename != NULL) {
-        debug_gtk3("Setting EventSnapshotDir to '%s'\n", filename);
+        debug_gtk3("Setting EventSnapshotDir to '%s'.", filename);
         vice_gtk3_resource_entry_full_set(histdir_entry, filename);
         g_free(filename);
     }

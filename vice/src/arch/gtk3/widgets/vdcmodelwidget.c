@@ -80,7 +80,7 @@ static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
     int rev = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting VDCRevision to %d\n", rev);
+        debug_gtk3("setting VDCRevision to %d.", rev);
         resources_set_int("VDCRevision", rev);
     }
 }
@@ -139,7 +139,7 @@ void vdc_model_widget_update(GtkWidget *widget)
 
     resources_get_int("VDCRevision", &rev);
     index = vice_gtk3_radiogroup_get_list_index(vdc_revs, rev);
-    debug_gtk3("got VDCRevision %d\n", rev);
+    debug_gtk3("got VDCRevision %d.", rev);
 
     if (index >= 0) {
         int i = 0;

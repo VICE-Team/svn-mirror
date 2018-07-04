@@ -79,7 +79,7 @@ static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
     int rev = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting KERNAL revision to %d\n", rev);
+        debug_gtk3("setting KERNAL revision to %d.", rev);
         resources_set_int("KernalRev", rev);
     }
 }

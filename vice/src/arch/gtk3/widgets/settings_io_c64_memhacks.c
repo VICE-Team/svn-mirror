@@ -160,7 +160,7 @@ static void on_hack_toggled(GtkWidget *widget, gpointer user_data)
     int hack_id = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("hack %d selected\n", hack_id);
+        debug_gtk3("hack %d selected.", hack_id);
 
         switch (hack_id) {
             case MEMORY_HACK_NONE:

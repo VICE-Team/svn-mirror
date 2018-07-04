@@ -163,7 +163,7 @@ static void on_response_trace_mode(GtkDialog *dialog,
                                    gint response_id,
                                    gpointer data)
 {
-    debug_gtk3("got response %d\n", response_id);
+    debug_gtk3("got response %d.", response_id);
     if (response_id == GTK_RESPONSE_CLOSE) {
         gtk_widget_destroy(GTK_WIDGET(dialog));
     }
@@ -180,7 +180,7 @@ static void on_response_playback_frames(GtkDialog *dialog,
                                         gint response_id,
                                         gpointer data)
 {
-    debug_gtk3("got response %d\n", response_id);
+    debug_gtk3("got response %d.", response_id);
     if (response_id == GTK_RESPONSE_CLOSE) {
         gtk_widget_destroy(GTK_WIDGET(dialog));
     }

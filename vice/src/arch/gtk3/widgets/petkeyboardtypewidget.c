@@ -61,7 +61,7 @@ static void on_keyboard_type_toggled(GtkWidget *widget, gpointer user_data)
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
             && old_type != new_type) {
         /* update resource */
-        debug_gtk3("setting KeyboardType to %d\n", new_type);
+        debug_gtk3("setting KeyboardType to %d.", new_type);
         resources_set_int("KeyboardType", new_type);
     }
 }
@@ -105,7 +105,7 @@ GtkWidget * pet_keyboard_type_widget_create(void)
     grid = uihelpers_create_grid_with_label("Keyboard type", 1);
 
     num = get_keyboard_num();
-    debug_gtk3("number of keyboards = %d\n", num);
+    debug_gtk3("number of keyboards = %d.", num);
     if (num > 0) {
         GtkWidget *radio;
         int active, i;

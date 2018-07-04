@@ -210,7 +210,7 @@ static GtkWidget *address_widgets[3];
  */
 static void on_sid_engine_changed(GtkWidget *widget, int engine)
 {
-    debug_gtk3("SID engine changed to %d\n", engine);
+    debug_gtk3("SID engine changed to %d.", engine);
 #ifdef HAVE_RESID
     gtk_widget_set_sensitive(resid_sampling, engine == 1);
 #endif
@@ -225,7 +225,7 @@ static void on_sid_engine_changed(GtkWidget *widget, int engine)
 
 static void on_sid_count_changed(GtkWidget *widget, int count)
 {
-    debug_gtk3("extra SIDs count changed to %d\n", count);
+    debug_gtk3("extra SIDs count changed to %d.", count);
 
     gtk_widget_set_sensitive(address_widgets[0], count > 0);
     gtk_widget_set_sensitive(address_widgets[1], count > 1);

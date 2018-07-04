@@ -32,6 +32,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "resources.h"
 #include "lib.h"
 #include "machine.h"
@@ -81,7 +82,7 @@ GtkWidget *settings_crt_widget_create(GtkWidget *parent)
             chip2 = crt_control_widget_create(NULL, "VDC", FALSE);
             break;
         default:
-            debug_gtk3("shouldn't get here, VSID doesn't support CRTs\n");
+            debug_gtk3("shouldn't get here, VSID doesn't support CRTs.");
             break;
     }
 

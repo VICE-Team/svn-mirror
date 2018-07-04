@@ -138,30 +138,30 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
     const char *bios = gtk_entry_get_text(GTK_ENTRY(bios_filename_widget));
 
-    debug_gtk3("called\n");
+    debug_gtk3("called.");
 
     if (state && (bios == NULL || *bios == '\0')) {
-        debug_gtk3("can't enable MMC64, missing BIOS file\n");
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
         vice_gtk3_message_error("VICE core error",
                 "Cannot enable cartridge due to missing BIOS file");
         return;
     }
 
+    /* TODO: this requires proper logging or error dialogs, not debug_gtk3() */
     if (state && bios != NULL && *bios != '\0') {
         if (carthelpers_enable_func(CARTRIDGE_MMC64) < 0) {
             /* failed to set resource */
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-            debug_gtk3("failed to activate MMC64, please set BIOS file\n");
+            debug_gtk3("failed to activate MMC64, please set BIOS file.");
         }
         /* doesn't work, attaching for example a KCS Power Cart will still
          * return 37 (MMC64) */
         if (!carthelpers_is_enabled_func(CARTRIDGE_MMC64)) {
-            debug_gtk3("failed to attach MMC64\n");
+            debug_gtk3("failed to attach MMC64.");
         }
     } else if (!state) {
         if (carthelpers_disable_func(CARTRIDGE_MMC64) < 0) {
-            debug_gtk3("failed to disable cartridge\n");
+            debug_gtk3("failed to disable cartridge.");
         }
     }
 }
@@ -178,7 +178,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     gchar *filename = vice_gtk3_save_file_dialog("Save Cartridge image",
             NULL, TRUE, NULL);
     if (filename != NULL) {
-        debug_gtk3("saving MMC64 cart image as '%s'\n", filename);
+        debug_gtk3("saving MMC64 cart image as '%s'.", filename);
         if (carthelpers_save_func(CARTRIDGE_MMC64, filename) < 0) {
             vice_gtk3_message_error("Saving failed",
                     "Failed to save cartridge image '%s'",
@@ -197,7 +197,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (carthelpers_flush_func(CARTRIDGE_MMC64) < 0) {
-        debug_gtk3("Flusing MMC64 cart image\n");
+        debug_gtk3("Flusing MMC64 cart image.");
         vice_gtk3_message_error("Flushing failed",
                     "Failed to fush cartridge image");
     }

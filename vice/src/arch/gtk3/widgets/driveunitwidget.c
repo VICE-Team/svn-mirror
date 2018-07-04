@@ -62,7 +62,7 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
     int unit = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting unit to %d\n", unit);
+        debug_gtk3("setting unit to %d.", unit);
         if (unit_target != NULL) {
             *unit_target = unit;
         }

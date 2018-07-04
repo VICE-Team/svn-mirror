@@ -79,7 +79,7 @@ static void on_video_size_toggled(GtkWidget *widget, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
             && (new_val != old_val)) {
-        debug_gtk3("setting VideoSize to %d\n", new_val);
+        debug_gtk3("setting VideoSize to %d.", new_val);
         resources_set_int("VideoSize", new_val);
     }
 }

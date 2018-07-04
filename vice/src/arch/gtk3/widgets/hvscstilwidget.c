@@ -36,6 +36,7 @@
 
 #include "resources.h"
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "hvsc.h"
 
 #include "hvscstilwidget.h"
@@ -105,9 +106,9 @@ bool hvsc_stil_widget_set_psid(const char *psid)
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
     char line[1024];
 
-    debug_gtk3("attempting to load STIL entry for '%s'\n", psid);
+    debug_gtk3("attempting to load STIL entry for '%s'.", psid);
     if (!hvsc_stil_get(&stil, psid)) {
-        debug_gtk3("failed: %d: %s\n", hvsc_errno, hvsc_strerror(hvsc_errno));
+        debug_gtk3("failed: %d: %s.", hvsc_errno, hvsc_strerror(hvsc_errno));
         /* check hvsc error code to see if either loading the STIL failed or
          * there was no STIL entry for the tune requested */
         if (hvsc_errno == HVSC_ERR_NOT_FOUND) {

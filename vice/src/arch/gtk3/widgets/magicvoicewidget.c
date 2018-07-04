@@ -65,7 +65,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
             NULL, NULL);
     if (filename != NULL) {
         GtkWidget *entry = GTK_WIDGET(user_data);
-        debug_gtk3("setting MagicVoiceImage to '%s'\n", filename);
+        debug_gtk3("setting MagicVoiceImage to '%s'.", filename);
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }

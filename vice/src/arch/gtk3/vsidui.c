@@ -265,22 +265,7 @@ int vsid_ui_init(void)
     uisidattach_set_psid_play_func(machine_play_psid);
 
     /* for debugging */
-    debug_gtk3("libhvsc version: %s\n", hvsc_lib_version_str());
-#if 0
-    /* this does not belong here, it should happen in the resource handler */
-    debug_gtk3("getting HSVC root dir from resources\n");
-    if (resources_get_string("HVSCRoot", &root) < 0) {
-        debug_gtk3("failed, defaulting to ~/C64Music\n");
-    } else {
-        debug_gtk3("OK: '%s'\n", root);
-        debug_gtk3("Initializing hvsclib\n");
-        if (!hvsc_init(root)) {
-            debug_gtk3("failed\n");
-        } else {
-            debug_gtk3("OK\n");
-        }
-    }
-#endif
+    debug_gtk3("libhvsc version: %s.", hvsc_lib_version_str());
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

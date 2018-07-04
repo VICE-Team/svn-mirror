@@ -308,7 +308,7 @@ static gboolean on_drag_drop(
         guint time,
         gpointer user_data)
 {
-    debug_gtk3("called\n");
+    debug_gtk3("called.");
     return TRUE;
 }
 
@@ -343,7 +343,7 @@ static void on_drag_data_received(
     guchar *text = NULL;
     int i;
 
-    debug_gtk3("got drag-data, info = %u:\n", info);
+    debug_gtk3("got drag-data, info = %u:", info);
 
     switch (info) {
 
@@ -357,12 +357,12 @@ static void on_drag_data_received(
             uris = gtk_selection_data_get_uris(data);
             if (uris != NULL) {
                 /* dump URI's on stdout */
-                debug_gtk3("got URI's:\n");
+                debug_gtk3("got URI's:");
                 for (i = 0; uris[i] != NULL; i++) {
 
                     debug_gtk3("URI: '%s'\n", uris[i]);
                     filename = g_filename_from_uri(uris[i], NULL, NULL);
-                    debug_gtk3("filename: '%s'\n", filename);
+                    debug_gtk3("filename: '%s'.", filename);
                     if (filename != NULL) {
                         g_free(filename);
                     }
@@ -396,24 +396,24 @@ static void on_drag_data_received(
             /* remove trailing whitespace */
             g_strchomp((gchar *)text);
 
-            debug_gtk3("Got data as text: '%s'\n", text);
+            debug_gtk3("Got data as text: '%s'.", text);
             files = g_strsplit((const gchar *)text, "\n", -1);
             g_free(text);
 
             for (i = 0; files[i] != NULL; i++) {
                 gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
-                debug_gtk3("URI: '%s', filename: '%s'\n",
+                debug_gtk3("URI: '%s', filename: '%s'.",
                         files[i], tmp);
             }
             /* now grab the first file */
             filename = g_filename_from_uri(files[0], NULL, NULL);
             g_strfreev(files);
 
-            debug_gtk3("got filename '%s'\n", filename);
+            debug_gtk3("got filename '%s'.", filename);
             break;
 
         default:
-            debug_gtk3("Warning: unhandled dnd target %u\n", info);
+            debug_gtk3("Warning: unhandled d'n'd target %u.", info);
             filename = NULL;
             break;
     }
@@ -422,11 +422,11 @@ static void on_drag_data_received(
     if (filename != NULL) {
         if (machine_class != VICE_MACHINE_VSID) {
 
-            debug_gtk3("Attempting to autostart '%s'\n", filename);
+            debug_gtk3("Attempting to autostart '%s'.", filename);
             if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
-                debug_gtk3("failed\n");
+                debug_gtk3("failed.");
             } else {
-                debug_gtk3("OK!\n");
+                debug_gtk3("OK!");
             }
         } else {
             /* try to open SID file, reports error itself */
@@ -915,7 +915,7 @@ void ui_set_create_controls_widget_func(GtkWidget *(*func)(int))
 
 static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("destroy triggered on %p\n", (void *)widget);
+    debug_gtk3("destroy triggered on %p.", (void *)widget);
 }
 
 
@@ -1139,13 +1139,13 @@ int ui_init(int *argc, char **argv)
     if (!uidata_init()) {
         log_error(LOG_ERR,
                 "failed to initialize GResource data, don't expected much"
-                " when it comes to icons, fonts or logos\n");
+                " when it comes to icons, fonts or logos.");
     }
 
-    debug_gtk3("Initializing fontapi\n");
+    debug_gtk3("Initializing fontapi.");
     if (!fontapi_register_cbmfont_with_fc()) {
-        debug_gtk3("failed\n");
-        log_error(LOG_ERR, "failed to initialize fontapi\n");
+        debug_gtk3("failed.");
+        log_error(LOG_ERR, "failed to initialize fontapi.");
     }
 
     ui_statusbar_init();
@@ -1498,7 +1498,7 @@ void ui_exit(void)
 
     /* trigger any remaining Gtk/GLib events */
     while (g_main_context_pending(g_main_context_default())) {
-        debug_gtk3("processing pending event\n");
+        debug_gtk3("processing pending event.");
         g_main_context_iteration(g_main_context_default(), TRUE);
     }
 

@@ -72,7 +72,7 @@ static void on_render_filter_toggled(GtkWidget *widget, gpointer user_data)
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         int value = GPOINTER_TO_INT(user_data);
 
-        debug_gtk3("setting %sFilter to %d\n", chip_prefix, value);
+        debug_gtk3("setting '%sFilter' to %d.", chip_prefix, value);
         resources_set_int_sprintf("%sFilter", value, chip_prefix);
     }
 }

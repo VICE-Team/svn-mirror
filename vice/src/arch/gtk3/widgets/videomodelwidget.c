@@ -71,7 +71,7 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
     int model_id = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting %s to %d\n", resource_name, model_id);
+        debug_gtk3("setting '%s' to %d.", resource_name, model_id);
         if (resources_set_int(resource_name, model_id) < 0) {
             log_error(LOG_ERR, "failed to set %s to %d\n",
                     resource_name, model_id);
@@ -83,7 +83,7 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
             if (parent != NULL) {
                 callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
                 if (callback != NULL) {
-                    debug_gtk3("triggering extra callback with %d\n", model_id);
+                    debug_gtk3("triggering extra callback with %d.", model_id);
                     callback(model_id);
                 }
             }
@@ -175,7 +175,7 @@ void video_model_widget_update(GtkWidget *widget)
 
     resources_get_int(resource_name, &model_id);
     index = get_model_index(model_id);
-    debug_gtk3("got resource %d, index %d\n", model_id, index);
+    debug_gtk3("got resource %d, index %d.", model_id, index);
 
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio) && (index == i)) {

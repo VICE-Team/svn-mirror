@@ -32,6 +32,7 @@
 
 #include "resources.h"
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "hvsc.h"
 
 #include "hvscsettingswidget.h"
@@ -66,11 +67,11 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
 
     /* handle input */
     if (path != NULL) {
-        debug_gtk3("Got path '%s'\n", path);
+        debug_gtk3("Got path '%s'.", path);
         gtk_entry_set_text(GTK_ENTRY(hvsc_root_entry), path);
         /* try to update resource */
         if (resources_set_string("HVSCRoot", path) != 0) {
-            debug_gtk3("failed to update HVSCRoot update\n");
+            debug_gtk3("failed to update 'HVSCRoot' resource.");
         }
         g_free(path);
     }
@@ -103,10 +104,10 @@ GtkWidget *hvsc_settings_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), hvsc_root_entry, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 0, 1, 1);
 
-    debug_gtk3("Retrieving HVSCRoot resource value:\n");
+    debug_gtk3("Retrieving HVSCRoot resource value:");
     /* get HSVC root dir */
     if (resources_get_string("HVSCRoot", &root) != 0) {
-        debug_gtk3("could not get resource value, defaulting to empty\n");
+        debug_gtk3("could not get resource value, defaulting to empty.");
         root = "";
     }
     gtk_entry_set_text(GTK_ENTRY(hvsc_root_entry), root);

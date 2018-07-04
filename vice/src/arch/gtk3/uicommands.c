@@ -183,14 +183,14 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *grid;
 
-    debug_gtk3("WINDOW DESTROY called on %p\n", widget);
+    debug_gtk3("WINDOW DESTROY called on %p.", widget);
 
     /*
      * This should not be needed, destroying a GtkWindow should trigger
      * destruction of all widgets it contains.
      */
     debug_gtk3("Manually calling destroy() on the CRT widgets. This should not"
-            " be necesarry, but right now it is\n");
+            " be necesarry, but right now it is.");
     grid = gtk_bin_get_child(GTK_BIN(widget));
     if (grid != NULL) {
         GtkWidget *crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
@@ -219,10 +219,10 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
 
         /* attempt to toggle resource */
         if (resources_toggle(res, &new_state) < 0) {
-            debug_gtk3("toggling resource %s failed\n", res);
+            debug_gtk3("toggling resource %s failed.", res);
             return FALSE;
         }
-        debug_gtk3("resource %s toggled to %s\n",
+        debug_gtk3("resource %s toggled to %s.",
                    res, new_state ? "True" : "False");
         return TRUE;
     }
@@ -252,16 +252,16 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     path = util_subst(tpath, "\\", "/");
     lib_free(tpath);
 #endif
-    debug_gtk3("doc path: %s\n", path);
+    debug_gtk3("doc path: '%s'.", path);
 
     /* first try opening the pdf */
     uri = util_concat("file://", path, "vice.pdf", NULL);
-    debug_gtk3("pdf uri: %s\n", uri);
+    debug_gtk3("pdf uri: '%s'.", uri);
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
     if (!res && error != NULL) {
         vice_gtk3_message_error("Failed to load PDF",
                 "Some idiot failed to install LaTex or something similar:"
-                " %s\n", error->message);
+                " %s.", error->message);
     }
     lib_free(uri);
     g_clear_error(&error);
@@ -276,7 +276,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 #else
     uri = util_concat("file://", path, "vice_toc.html", NULL);
 #endif
-    debug_gtk3("html uri: %s\n", uri);
+    debug_gtk3("html uri: '%s'.", uri);
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
     lib_free(uri);
     g_clear_error(&error);

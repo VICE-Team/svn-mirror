@@ -75,7 +75,7 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
             void (*cb_func)(GtkWidget *, gpointer);
             gpointer cb_data;
 
-            debug_gtk3("setting Drive%dType to %d\n", unit, new_type);
+            debug_gtk3("setting Drive%dType to %d.", unit, new_type);
             resources_set_int_sprintf("Drive%dType", new_type, unit);
 
             /* check for a custom callback */
@@ -210,7 +210,7 @@ void drive_model_widget_update(GtkWidget *widget)
     type = ui_get_drive_type(unit);
 
     list = machine_drive_get_type_info_list();
-    debug_gtk3("updating drive type list\n");
+    debug_gtk3("updating drive type list.");
     for (i = 0; list[i].name != NULL; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {

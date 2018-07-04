@@ -55,10 +55,10 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 
     filename = vice_gtk3_save_file_dialog("Save image as", NULL, TRUE, NULL);
     if (filename != NULL) {
-        debug_gtk3("writing RRNetMk3 image file as '%s'\n", filename);
+        debug_gtk3("writing RRNetMk3 image file as '%s'.", filename);
         if (carthelpers_save_func(CARTRIDGE_RRNETMK3, filename) < 0) {
             vice_gtk3_message_error("VICE core",
-                    "Failed to save RR-Net Mk3 image as '%s;.", filename);
+                    "Failed to save RR-Net Mk3 image as '%s'.", filename);
         }
         g_free(filename);
     }
@@ -72,7 +72,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    debug_gtk3("flushing RRNetMk3 image\n");
+    debug_gtk3("flushing RRNetMk3 image.");
     if (carthelpers_flush_func(CARTRIDGE_RRNETMK3) < 0) {
         vice_gtk3_message_error("VICE core",
                 "Failed to flush RR-Net Mk3 image.");

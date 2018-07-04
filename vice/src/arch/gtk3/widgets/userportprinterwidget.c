@@ -70,7 +70,7 @@ static void on_driver_toggled(GtkRadioButton *radio, gpointer user_data)
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
         const char *driver = (const char *)user_data;
 
-        debug_gtk3("setting PrinterUserportDriver to '%s'\n", driver);
+        debug_gtk3("setting 'PrinterUserportDriver' to '%s'.", driver);
         resources_set_string("PrinterUserportDriver", driver);
     }
 }
@@ -87,7 +87,7 @@ static void on_output_mode_toggled(GtkRadioButton *radio, gpointer user_data)
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
         const char *mode = (const char *)user_data;
 
-        debug_gtk3("setting PrinterUserportOutput to '%s'\n", mode);
+        debug_gtk3("setting 'PrinterUserportOutput' to '%s'.", mode);
         resources_set_string("PrinterUserportOutput", mode);
     }
 }
@@ -104,7 +104,7 @@ static void on_text_device_toggled(GtkWidget *radio, gpointer user_data)
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
         int device = GPOINTER_TO_INT(user_data);
 
-        debug_gtk3("setting PrinterUserportTextDevice to %d\n", device);
+        debug_gtk3("setting 'PrinterUserportTextDevice' to %d.", device);
         resources_set_int("PrinterUserportTextDevice", device);
     }
 }

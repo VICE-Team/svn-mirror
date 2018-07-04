@@ -71,7 +71,7 @@ static void update_last_dir(GtkWidget *widget)
     gchar *new_dir;
 
     new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("new dir = '%s'\n", new_dir);
+    debug_gtk3("new dir = '%s'.", new_dir);
     if (new_dir != NULL) {
         /* clean up previous value */
         if (last_dir != NULL) {
@@ -96,7 +96,7 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
     if (file != NULL) {
         path = g_file_get_path(file);
         if (path != NULL) {
-            debug_gtk3("called with '%s'\n", path);
+            debug_gtk3("called with '%s'.", path);
 
             content_preview_widget_set_image(preview_widget, path);
            g_free(path);
@@ -115,7 +115,7 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("show hidden files: %s\n", state ? "enabled" : "disabled");
+    debug_gtk3("show hidden files: %s.", state ? "enabled" : "disabled");
 
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
@@ -132,7 +132,8 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("preview %s\n", state ? "enabled" : "disabled");
+    debug_gtk3("preview %s.", state ? "enabled" : "disabled");
+    /* TODO: actually disable the preview widget and resize the dialog */
 }
 
 
@@ -152,7 +153,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
 
-    debug_gtk3("got response ID %d\n", response_id);
+    debug_gtk3("got response ID %d.", response_id);
 
     switch (response_id) {
 
@@ -161,7 +162,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
-            debug_gtk3("Opening file '%s'\n", filename);
+            debug_gtk3("Opening file '%s'.", filename);
 
             /* copied from Gtk2: I fail to see how brute-forcing your way
              * through file types is 'smart', but hell, it works */
@@ -170,7 +171,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                     && autostart_snapshot(filename, NULL) < 0
                     && autostart_prg(filename, AUTOSTART_MODE_LOAD) < 0) {
                 /* failed */
-                debug_gtk3("smart attach failed\n");
+                debug_gtk3("smart attach failed.");
             }
 
             g_free(filename);
@@ -181,7 +182,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case VICE_RESPONSE_AUTOSTART:
             update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            debug_gtk3("Autostarting file '%s'\n", filename);
+            debug_gtk3("Autostarting file '%s'.", filename);
             /* if this function exists, why is there no attach_autodetect()
              * or something similar? -- compyx */
             if (autostart_autodetect(
@@ -192,7 +193,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                                    file in an image */
                         AUTOSTART_MODE_RUN) < 0) {
                 /* oeps */
-                debug_gtk3("autostart-smart-attach failed\n");
+                debug_gtk3("autostart-smart-attach failed.");
             }
             g_free(filename);
             gtk_widget_destroy(widget);
@@ -327,7 +328,7 @@ void ui_smart_attach_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
-    debug_gtk3("called\n");
+    debug_gtk3("called.");
 
     dialog = create_smart_attach_dialog(widget);
 

@@ -60,6 +60,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "resources.h"
 #include "machine.h"
 #include "printer.h"
@@ -95,7 +96,7 @@ static void on_real_device7_toggled(GtkCheckButton *check, gpointer user_data)
     } else {
         state = PRINTER_DEVICE_NONE;
     }
-    debug_gtk3("setting Printer7 to '%s'\n", state ? "REAL" : "NONE");
+    debug_gtk3("setting Printer7 to '%s'.", state ? "REAL" : "NONE");
     resources_set_int("Printer7", state);
 }
 
@@ -110,7 +111,7 @@ static void on_text_device_changed(GtkEntry *entry, gpointer user_data)
     int num = GPOINTER_TO_INT(user_data);
     const gchar *text = gtk_entry_get_text(entry);
 
-    debug_gtk3("setting PrinterTextDevice%d to '%s'\n", num, text);
+    debug_gtk3("setting PrinterTextDevice%d to '%s'.", num, text);
     resources_set_string_sprintf("PrinterTextDevice%d", text, num);
 }
 

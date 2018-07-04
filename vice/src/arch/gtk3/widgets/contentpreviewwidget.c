@@ -72,9 +72,9 @@ static void on_row_activated(
         int row;
 
         gtk_tree_model_get(model, &iter, 1, &row, -1);
-        debug_gtk3("got row %d in the image\n", row);
+        debug_gtk3("got row %d in the image.", row);
         if (row < 0) {
-            debug_gtk3("index -1, nope\n");
+            debug_gtk3("index -1, nope.");
             return;
         }
         /* dirty trick: call the "response" event handler with the
@@ -147,7 +147,7 @@ static GtkListStore *create_model(const char *path)
     }
 
     if (content_func == NULL) {
-        debug_gtk3("no content-get function specified, bailing\n");
+        debug_gtk3("no content-get function specified, bailing!");
         return model;
     }
 

@@ -271,7 +271,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
             || machine_class == VICE_MACHINE_PLUS4) {
         /* check for presence of SidCart */
         if (resources_get_int("SidCart", &tmp) < 0) {
-            debug_gtk3("failed to get value for resource SidCart, disabling\n");
+            debug_gtk3("failed to get value for resource SidCart, disabling.");
             sid_present = false;
         } else {
             sid_present = (bool)tmp;

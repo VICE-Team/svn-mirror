@@ -110,7 +110,7 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
     device = GPOINTER_TO_INT(user_data) + 1;
 
     if (*endptr == '\0') {
-        debug_gtk3("setting JoyDevice%d to %d\n", device, id_val);
+        debug_gtk3("setting JoyDevice%d to %d.", device, id_val);
         resources_set_int_sprintf("JoyDevice%d", id_val, device);
     }
 }
@@ -141,9 +141,12 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
         char idstr[32];
 
         g_snprintf(idstr, 32, "%d", predefined_device_list[i1].id);
-        debug_gtk3( "%d %s\n", predefined_device_list[i1].id, predefined_device_list[i1].name);
+        debug_gtk3("%d %s.",
+                predefined_device_list[i1].id,
+                predefined_device_list[i1].name);
 
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), idstr, predefined_device_list[i1].name);
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
+                idstr, predefined_device_list[i1].name);
         if (predefined_device_list[i1].id == current) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i1);
         }
@@ -166,7 +169,7 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
             gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i1+i2);
         }
     }
-    
+
     g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), GINT_TO_POINTER(device));
 
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
@@ -191,7 +194,7 @@ void joystick_device_widget_update(GtkWidget *widget, int id)
     /* get combo box widget */
     combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     if (combo != NULL && GTK_IS_COMBO_BOX_TEXT(combo)) {
-        debug_gtk3("updating widget to %d\n", id);
+        debug_gtk3("updating widget to %d.", id);
         gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), id_str);
     }
 }

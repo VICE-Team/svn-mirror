@@ -62,7 +62,7 @@
 static gboolean on_isepic_switch_state_set(GtkWidget *widget, gboolean state,
         gpointer user_data)
 {
-    debug_gtk3("setting IsepicSwitch to %s\n", state ? "ON" : "OFF");
+    debug_gtk3("setting IsepicSwitch to %s.", state ? "ON" : "OFF");
     resources_set_int("IsepicSwitch", state);
     return FALSE;
 }

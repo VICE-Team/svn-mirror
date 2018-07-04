@@ -108,7 +108,7 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
     filename = vice_gtk3_open_file_dialog(state->browser_title,
             state->pattern_name, (const char **)(state->patterns), NULL);
     if (filename != NULL) {
-        debug_gtk3("got image name '%s'\n", filename);
+        debug_gtk3("got image name '%s'.", filename);
         if (!vice_gtk3_resource_entry_full_set(state->entry, filename)){
             log_error(LOG_ERR,
                     "failed to set resource %s to '%s', reverting\n",
@@ -207,7 +207,7 @@ GtkWidget *vice_gtk3_resource_browser_new(
 
     /* get current value of resource */
     if (resources_get_string(resource, &orig) < 0) {
-        debug_gtk3("failed to retrieve current value for resource '%s'\n",
+        debug_gtk3("failed to retrieve current value for resource '%s'.",
                 resource);
         orig = "";
     } else if (orig == NULL) {

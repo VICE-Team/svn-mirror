@@ -53,7 +53,7 @@ bool fontapi_register_cbmfont_with_fc(void)
     char *datadir;
     char *path;
 
-    debug_gtk3("Initializing FontConfig\n");
+    debug_gtk3("Initializing FontConfig.");
     if (!FcInit()) {
         debug_gtk3("failed\n");
         return false;
@@ -61,10 +61,10 @@ bool fontapi_register_cbmfont_with_fc(void)
     debug_gtk3("OK\n");
 
     fc_version = FcGetVersion();
-    debug_gtk3("fontconfig version = %d.%d.%d\n",
+    debug_gtk3("fontconfig version = %d.%d.%d.",
             fc_version / 10000, (fc_version % 10000) / 100, fc_version % 10);
 
-    debug_gtk3("Loading font file\n");
+    debug_gtk3("Loading font file.");
     fc_config = FcConfigGetCurrent();
 
     datadir = archdep_get_vice_datadir();
@@ -79,14 +79,14 @@ bool fontapi_register_cbmfont_with_fc(void)
 #endif
     lib_free(datadir);
 
-    debug_gtk3("Trying to load font '%s'\n", path);
+    debug_gtk3("Trying to load font '%s'.", path);
 
     if (!FcConfigAppFontAddFile(fc_config, (FcChar8 *)path)) {
-        debug_gtk3("failed\n");
+        debug_gtk3("failed.");
         lib_free(path);
         return false;
     }
-    debug_gtk3("OK, font loaded.\n")
+    debug_gtk3("OK, font loaded.")
 
     lib_free(path);
     return true;
@@ -96,7 +96,7 @@ bool fontapi_register_cbmfont_with_fc(void)
 
 bool fontapi_register_cbmfont_with_fc(void)
 {
-    log_error(LOG_ERR, "no fontconfig support, sorry\n");
+    log_error(LOG_ERR, "no fontconfig support, sorry.");
     return false;
 }
 

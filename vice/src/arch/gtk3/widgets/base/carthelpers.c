@@ -54,7 +54,7 @@ int (*carthelpers_disable_func)(int type);
  */
 static int null_handler(int type)
 {
-    debug_gtk3("warning: not implemented (NULL)\n");
+    debug_gtk3("warning: not implemented (NULL).");
     return -1;
 }
 
@@ -68,7 +68,7 @@ static int null_handler(int type)
  */
 static int null_handler_save(int type, const char *filename)
 {
-    debug_gtk3("warning: not implemented (NULL)\n");
+    debug_gtk3("warning: not implemented (NULL).");
     return -1;
 }
 
@@ -146,17 +146,17 @@ static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
     id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(check), "CartridgeId"));
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
 
-    debug_gtk3("setting to %s '%s' (%d)\n", state ? "enable" : "disable",
+    debug_gtk3("setting to %s '%s' (%d).", state ? "enable" : "disable",
             name, id);
 
     if (state) {
         if (carthelpers_enable_func(id) < 0) {
-            debug_gtk3("failed to enable %s cartridge\n", name);
+            debug_gtk3("failed to enable %s cartridge.", name);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
         }
     } else {
         if (carthelpers_disable_func(id) < 0) {
-            debug_gtk3("failed to disable %s cartridge\n", name);
+            debug_gtk3("failed to disable %s cartridge.", name);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
         }
     }

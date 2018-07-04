@@ -160,7 +160,7 @@ static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
     res = resource_widget_get_resource_name(spin);
     value = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin));
 #if 0
-    debug_gtk3("setting %s to %d\n", res, value);
+    debug_gtk3("setting %s to %d.", res, value);
 #endif
     if (resources_set_int(res, value) < 0) {
         log_error(LOG_ERR, "failed to set resource '%s' to %d\n", res, value);
@@ -231,7 +231,7 @@ GtkWidget *vice_gtk3_resource_spin_int_new(
     /* store current resource value for use in reset() */
     if (resources_get_int(resource, &current) < 0) {
         debug_gtk3("failed to get current value for resource '%s', defaulting"
-                " to 0\n", resource);
+                " to 0.", resource);
         current = 0;
     }
     resource_widget_set_int(spin, "ResourceOrig", current);
@@ -317,7 +317,7 @@ gboolean vice_gtk3_resource_spin_int_get(GtkWidget *widget, int *value)
 {
     const char *resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, value) < 0) {
-        debug_gtk3("failed to get value for resource '%s'\n", resource);
+        debug_gtk3("failed to get value for resource '%s'.", resource);
         *value = 0;
         return FALSE;
     }
@@ -351,7 +351,7 @@ gboolean vice_gtk3_resource_spin_int_factory(GtkWidget *widget)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_default_value(resource, &factory) < 0) {
-        debug_gtk3("failed to get factory value for resource '%s'\n", resource);
+        debug_gtk3("failed to get factory value for resource '%s'.", resource);
         return FALSE;
     }
     return vice_gtk3_resource_spin_int_set(widget, factory);
