@@ -218,13 +218,7 @@ char *archdep_get_vice_docsdir(void)
 {
     const char *boot_path = archdep_boot_path();
 
-    /*
-     * The forward slash is required due to a bug in Gtk3, see bug #1025.
-     * So far this function is only used from the "Show Manual" menu item,
-     * with the ui_open_manual_callback() function. Should other functions use
-     * this, they should pay attention to the weird leading forward slash.
-     */
-    return util_concat("/", boot_path, "\\doc\\", NULL);
+    return util_concat(boot_path, "\\doc\\", NULL);
 }
 
 char *archdep_make_backup_filename(const char *fname)

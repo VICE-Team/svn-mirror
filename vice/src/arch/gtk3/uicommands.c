@@ -46,6 +46,7 @@
 #include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "drive.h"
+#include "log.h"
 #include "machine.h"
 #include "util.h"
 #include "vsync.h"
@@ -240,22 +241,34 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     gboolean res;
     char *uri;
     const char *path;
-#if defined(WIN32_COMPILE)
-    const char *tpath;
-#endif
+    gchar *final_uri;
 
+    /*
+     * Gget arch-dependent documentation dir (doesn't contain the HTML docs
+     * on Windows, but that's an other issue to fix.
+     */
     path = archdep_get_vice_docsdir();
 
-#if defined(WIN32_COMPILE)
-    /* we need forward slashes in the uri */
-    tpath = path;
-    path = util_subst(tpath, "\\", "/");
-    lib_free(tpath);
-#endif
-    debug_gtk3("doc path: '%s'.", path);
-
     /* first try opening the pdf */
-    uri = util_concat("file://", path, "vice.pdf", NULL);
+    uri = util_concat(path, "/vice.pdf", NULL);
+    final_uri = g_filename_to_uri(uri, NULL, &error);
+    debug_gtk3("final URI (pdf): %s", final_uri);
+    if (final_uri == NULL) {
+        /*
+         * This is a fatal error, if a proper URI can't be built something is
+         * wrong and should be looked at. This is different from failing to
+         * load the PDF or not having a program to show the PDF
+         */
+        log_error(LOG_ERR, "failed to construct a proper URI from '%s',"
+                " not trying the HTML fallback, this is an error that"
+                " should not happen.",
+                uri);
+        g_clear_error(&error);
+        lib_free(uri);
+        lib_free(path);
+        return;
+    }
+
     debug_gtk3("pdf uri: '%s'.", uri);
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
     if (!res && error != NULL) {
@@ -264,29 +277,46 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
                 " %s.", error->message);
     }
     lib_free(uri);
+    g_free(final_uri);
     g_clear_error(&error);
-    if (res) {
-        lib_free(path);
-        return;
-    }
+
     /* try opening the html doc */
 #if defined(WIN32_COMPILE)
     /* HACK: on windows the html files are in a separate directory */
-    uri = util_concat("file://", path, "../html/vice_toc.html", NULL);
+    uri = util_concat(path, "../html/vice_toc.html", NULL);
 #else
-    uri = util_concat("file://", path, "vice_toc.html", NULL);
+    uri = util_concat(path, "vice_toc.html", NULL);
 #endif
-    debug_gtk3("html uri: '%s'.", uri);
-    res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
+
+    final_uri = g_filename_to_uri(uri, NULL, &error);
+    if (final_uri == NULL) {
+        /*
+         * This is a fatal error, if a proper URI can't be built something is
+         * wrong and should be looked at. This is different from failing to
+         * load the PDF or not having a program to show the PDF
+         */
+        log_error(LOG_ERR, "failed to construct a proper URI from '%s',"
+                " this is an error that"
+                " should not happen.",
+                uri);
+        g_free(final_uri);
+        lib_free(uri);
+        lib_free(path);
+        return;
+    }
+
+    /*
+     * On Windows this does not respect the user's preferred browser. That is,
+     * it didn't respect my Firefox but decided to use Internet Explorer,
+     * which is an unspeakable act of cruelty.
+     */
+    debug_gtk3("html uri: '%s'.", final_uri);
+    res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
     if (!res && error != NULL) {
         vice_gtk3_message_error("Failed to show URI", error->message);
     }
     lib_free(uri);
+    g_free(final_uri);
     g_clear_error(&error);
-    /* if (res) {
-        lib_free(path);
-        return;
-    } */
     lib_free(path);
-    return;
 }
