@@ -153,6 +153,40 @@ static GtkWidget *create_playback_frames_dialog(void)
 }
 
 
+/** \brief  Handler for the 'response' event of the trace mode dialog
+ *
+ * \param[in,out]   dialog      dialog triggering the event
+ * \param[in]       response_id response ID
+ * \param[in]       extra event data (unused)
+ */
+static void on_response_trace_mode(GtkDialog *dialog,
+                                   gint response_id,
+                                   gpointer data)
+{
+    debug_gtk3("got response %d\n", response_id);
+    if (response_id == GTK_RESPONSE_CLOSE) {
+        gtk_widget_destroy(GTK_WIDGET(dialog));
+    }
+}
+
+
+/** \brief  Handler for the 'response' event of the playback frames dialog
+ *
+ * \param[in,out]   dialog      dialog triggering the event
+ * \param[in]       response_id response ID
+ * \param[in]       extra event data (unused)
+ */
+static void on_response_playback_frames(GtkDialog *dialog,
+                                        gint response_id,
+                                        gpointer data)
+{
+    debug_gtk3("got response %d\n", response_id);
+    if (response_id == GTK_RESPONSE_CLOSE) {
+        gtk_widget_destroy(GTK_WIDGET(dialog));
+    }
+}
+
+
 
 /** \brief  Callback for the 'Debug' -> 'Trace mode' menu item
  *
@@ -162,12 +196,11 @@ static GtkWidget *create_playback_frames_dialog(void)
 void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
-    int response;
 
     dialog = create_trace_mode_dialog();
-    response = gtk_dialog_run(GTK_DIALOG(dialog));
-    debug_gtk3("Got response ID %d\n", response);
-    gtk_widget_destroy(dialog);
+    g_signal_connect(dialog, "response",
+            G_CALLBACK(on_response_trace_mode), NULL);
+    gtk_widget_show_all(dialog);
 }
 
 
@@ -179,10 +212,10 @@ void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
 void uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
-    int response;
 
     dialog = create_playback_frames_dialog();
-    response = gtk_dialog_run(GTK_DIALOG(dialog));
-    debug_gtk3("Got response ID %d\n", response);
-    gtk_widget_destroy(dialog);
+    g_signal_connect(dialog, "response",
+            G_CALLBACK(on_response_playback_frames), NULL);
+    gtk_widget_show_all(dialog);
+
 }
