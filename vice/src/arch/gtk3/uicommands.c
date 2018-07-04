@@ -271,13 +271,16 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     }
     /* try opening the html doc */
 #if defined(WIN32_COMPILE)
-    /* HACK: on windows the html files are in a seperate directory */
+    /* HACK: on windows the html files are in a separate directory */
     uri = util_concat("file://", path, "../html/vice_toc.html", NULL);
 #else
     uri = util_concat("file://", path, "vice_toc.html", NULL);
 #endif
     debug_gtk3("html uri: '%s'.", uri);
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
+    if (!res && error != NULL) {
+        vice_gtk3_message_error("Failed to show URI", error->message);
+    }
     lib_free(uri);
     g_clear_error(&error);
     /* if (res) {
