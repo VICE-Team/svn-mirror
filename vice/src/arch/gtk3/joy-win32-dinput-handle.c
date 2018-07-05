@@ -60,8 +60,10 @@ LPDIRECTINPUT get_directinput_handle(void)
 #endif
 
     if (di == NULL) {
+
+        HINSTANCE winmain_instance = GetModuleHandle(NULL); /* FIXME */
+
 #ifdef HAVE_DINPUT_LIB
-		HINSTANCE winmain_instance = GetModuleHandle(NULL); /* FIXME */
         if (DirectInputCreate(winmain_instance, 0x0500, &di, NULL) != DI_OK) {
             di = NULL;
         }
