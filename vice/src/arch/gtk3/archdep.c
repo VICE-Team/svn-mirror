@@ -282,11 +282,6 @@ FILE *archdep_open_default_log_file(void)
 #endif
 }
 
-void archdep_signals_init(int do_core_dumps)
-{
-    /* NOP: Gtk3 should handle any signals, I think */
-}
-
 
 /** \brief  Sanitize \a name by removing invalid characters for the current OS
  *

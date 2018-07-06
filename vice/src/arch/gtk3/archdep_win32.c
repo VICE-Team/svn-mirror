@@ -420,3 +420,9 @@ int is_windows_nt(void)
     }
     return 0;
 }
+
+
+void archdep_signals_init(int do_core_dumps)
+{
+    /* NOP */
+}
