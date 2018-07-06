@@ -51,6 +51,7 @@
 #include "ui.h"
 #include "winjoy.h"
 
+
 static enum {
     WIN_JOY_UNINIT,
 #ifdef HAVE_DINPUT
@@ -210,7 +211,7 @@ static void joystick_release_joysticks(void)
     }
 }
 
-int joystick_di_open(int port_idx, int dev)
+static int joystick_di_open(int port_idx, int dev)
 {
 #if 0 /* FIXME */
     NOT_IMPLEMENTED();
@@ -292,6 +293,10 @@ int joystick_di_open(int port_idx, int dev)
         IDirectInput_CreateDevice(di, &joy->guid, &joystick_di_devices[port_idx], NULL);
         IDirectInputDevice_QueryInterface(joystick_di_devices[port_idx], &IID_IDirectInputDevice2, (LPVOID*)&joystick_di_devices2[port_idx]);
         IDirectInputDevice_SetDataFormat(joystick_di_devices[port_idx], data_format);
+        /*
+         * FIXME: warning about the `ui_active_window` argument being a HINSTANCE
+         * while the function expects a HWND
+         */
         IDirectInputDevice_SetCooperativeLevel(joystick_di_devices[port_idx], ui_active_window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
         IDirectInputDevice_Acquire(joystick_di_devices[port_idx]);
         if (joy->axes) {
@@ -313,7 +318,7 @@ int joystick_di_open(int port_idx, int dev)
 #endif
 }
 
-void joystick_di_close(int port_idx)
+static void joystick_di_close(int port_idx)
 {
     if (joystick_di_devices[port_idx]) {
         IDirectInputDevice_Unacquire(joystick_di_devices[port_idx]);
@@ -524,6 +529,8 @@ int joy_arch_resources_init(void)
 
 /* FIXME: fix the resource references */
 
+/* These don't appear to used anywhere */
+#if 0
 static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice1", NULL,
@@ -563,6 +570,7 @@ static const cmdline_option_t joydev5cmdline_options[] = {
       NULL, NULL },
     CMDLINE_LIST_END
 };
+#endif
 
 int joy_arch_cmdline_options_init(void)
 {
@@ -1026,6 +1034,9 @@ static JoyInfo *joydx = NULL;
 static joy_winmm_priv_t* joywmm = NULL;
 static int joystickid = JOYDEV_HW1;
 
+static char joyname[1024];
+
+
 void joystick_ui_reset_device_list(void)
 {
 #ifdef HAVE_DINPUT
@@ -1054,7 +1065,6 @@ char *joystick_ui_get_next_device_name(int *id)
     } else
 #endif
     if (joystick_inited == WIN_JOY_WINMM) {
-        char joyname[1024];
         if (joywmm == NULL) {
             return NULL;
         }
