@@ -293,11 +293,8 @@ static int joystick_di_open(int port_idx, int dev)
         IDirectInput_CreateDevice(di, &joy->guid, &joystick_di_devices[port_idx], NULL);
         IDirectInputDevice_QueryInterface(joystick_di_devices[port_idx], &IID_IDirectInputDevice2, (LPVOID*)&joystick_di_devices2[port_idx]);
         IDirectInputDevice_SetDataFormat(joystick_di_devices[port_idx], data_format);
-        /*
-         * FIXME: warning about the `ui_active_window` argument being a HINSTANCE
-         * while the function expects a HWND
-         */
-        IDirectInputDevice_SetCooperativeLevel(joystick_di_devices[port_idx], ui_active_window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+        IDirectInputDevice_SetCooperativeLevel(joystick_di_devices[port_idx],
+                (HWND)ui_active_window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
         IDirectInputDevice_Acquire(joystick_di_devices[port_idx]);
         if (joy->axes) {
             joystick_release_axes(joy->axes);
