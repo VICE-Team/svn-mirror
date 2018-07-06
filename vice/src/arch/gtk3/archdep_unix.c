@@ -446,16 +446,6 @@ char *archdep_tmpnam(void)
 }
 
 
-void archdep_signals_pipe_set(void)
-{
-    NOT_IMPLEMENTED();
-}
-
-void archdep_signals_pipe_unset(void)
-{
-    NOT_IMPLEMENTED();
-}
-
 char *archdep_default_rtc_file_name(void)
 {
     if (archdep_pref_path == NULL) {
@@ -502,7 +492,7 @@ static RETSIGTYPE break64(int sig)
 void archdep_signals_init(int do_core_dumps)
 {
     if (do_core_dumps) {
-        signal(SIGPIPE, break64)
+        signal(SIGPIPE, break64);
     }
 }
 
