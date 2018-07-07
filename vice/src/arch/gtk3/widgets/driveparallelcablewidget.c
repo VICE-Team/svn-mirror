@@ -51,10 +51,10 @@
 /** \brief  List of possible parallel cables for c64
  */
 static const vice_gtk3_combo_entry_int_t parallel_cables_c64[] = {
-    { "None", 0 },
-    { "Standard", 1 },
-    { "Professional DOS", 2 },
-    { "Formel 64", 3 },
+    { "None", DRIVE_PC_NONE },
+    { "Standard", DRIVE_PC_STANDARD },
+    { "Dolphin DOS 3", DRIVE_PC_DD3 },
+    { "Formel 64", DRIVE_PC_FORMEL64 },
     { NULL, -1 }
 };
 
@@ -62,8 +62,8 @@ static const vice_gtk3_combo_entry_int_t parallel_cables_c64[] = {
 /** \brief  List of possible parallel cables for Plus4
  */
 static const vice_gtk3_combo_entry_int_t parallel_cables_plus4[] = {
-    { "None", 0 },
-    { "Standard", 1 },
+    { "None", DRIVE_PC_NONE },
+    { "Standard", DRIVE_PC_STANDARD },
     { NULL, -1 }
 };
 
