@@ -3784,7 +3784,7 @@ Integer specifying whether the RTC data of drive 11 should be saved when changed
 @itemx Drive11ParallelCable
 integers controlling what type of parallel cable is emulated for drives 8 to 11
 (x64, x64sc, xscpu64, x128 and xplus4 only).
-x64, x64sc, xscpu64, x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
+x64, x64sc, xscpu64, x128: (0: None, 1: Standard, 2: Dolphin DOS 3, 3: Formel64)
 xplus4: (0: None, 1: Standard)
 
 @vindex Drive8ProfDOS
