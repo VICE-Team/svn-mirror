@@ -175,6 +175,9 @@ EnvelopeGenerator::EnvelopeGenerator()
   // Counter's odd bits are high on powerup
   envelope_counter = 0xaa;
 
+  // just to avoid uninitialized access with delta clocking
+  next_state = RELEASE;
+
   reset();
 }
 
