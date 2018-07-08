@@ -56,6 +56,7 @@ gchar *vice_gtk3_select_directory_dialog(
     GtkWidget *dialog;
     gint result;
     gchar *filename;
+    GtkFileFilter *filter;
 
     dialog = gtk_file_chooser_dialog_new(
             title,
@@ -76,6 +77,12 @@ gchar *vice_gtk3_select_directory_dialog(
     if (path != NULL && *path != '\0') {
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
+
+    /* create a custom filter for directories. without it all files will still
+       be displayed, which can be irritating */
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_add_mime_type (filter, "inode/directory");
+    gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
 
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     if (result == GTK_RESPONSE_ACCEPT) {
