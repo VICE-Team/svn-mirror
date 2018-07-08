@@ -59,7 +59,17 @@
 #include "uifliplist.h"
 #include "userport/userport_joystick.h"
 
+#include "diskcontents.h"
+#include "drive.h"
+#include "drivetypes.h"
+#include "diskimage.h"
+#include "diskimage/fsimage.h"
+#include "autostart.h"
+
+#include "contentpreviewwidget.h"
+
 #include "uistatusbar.h"
+
 
 /** \brief The maximum number of status bars we will permit to exist
  *         at once. */
@@ -497,6 +507,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
     return grid;
 }
 
+
 /** \brief Respond to mouse clicks on the tape status widget.
  *
  *  This displays the tape control popup menu.
@@ -524,6 +535,117 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
     }
     return TRUE;
 }
+
+
+/** \brief  Disk image to autorun a file from
+ */
+static const char *autostart_diskimage = NULL;
+
+
+/** \brief  Handler for the "response" event of the directory dialog
+ *
+ * \param[in,out]   dialog      dialog triggering the event
+ * \param[in]       response_id response ID
+ * \param[in]       user_data   extra event data (unused)
+ */
+static void on_response_dir_widget(GtkDialog *dialog,
+                                   gint response_id,
+                                   gpointer user_data)
+{
+    debug_gtk3("got response ID = %d.", response_id);
+    switch (response_id) {
+        case GTK_RESPONSE_CLOSE:
+            gtk_widget_destroy(GTK_WIDGET(dialog));
+            break;
+        default:
+            debug_gtk3("unhandled response ID %d,", response_id);
+    }
+}
+
+
+/** \brief  Handler for the double-click event of the directory listing
+ *
+ * \param[in,out]   dialog      dialog triggering the event
+ * \param[in]       autostart   autostart flag (FIXME: unused, this is due to
+ *                              a hack in the other widgets that use the content
+ *                              preview widget)
+ * \param[in]       dir_index   directory index of the file to autosart
+ */
+static void on_dir_widget_selected(GtkWidget *widget,
+                                   gint autostart,
+                                   gpointer dir_index)
+{
+    int index = GPOINTER_TO_INT(dir_index);
+    debug_gtk3("called with file index %d.", index);
+    autostart_disk(autostart_diskimage, NULL, index,
+            AUTOSTART_MODE_RUN);
+    gtk_widget_destroy(widget);
+}
+
+
+/** \brief  Show dialog to run a file of the image attached to \a unit
+ *
+ * Double clicking on a file will autorun that file. Clicking on Cancel or the
+ * 'X' in the Window will cancel the operation.
+ *
+ * \param[in]   dev     drive index (0-3)
+ *
+ * \return  GtkDialog
+ */
+static GtkWidget *ui_statusbar_dir_dialog_create(int dev)
+{
+    GtkWidget *dialog;
+    GtkWidget *content;
+    GtkWidget *preview;
+    struct drive_context_s *drv_ctx;
+    struct drive_s *drv_s;
+    struct disk_image_s *image;
+
+    autostart_diskimage = NULL;
+
+    debug_gtk3("Got drive index #%d", dev);
+    dialog = gtk_dialog_new_with_buttons(
+            "Select file to autostart",
+            ui_get_active_window(),
+            GTK_DIALOG_MODAL,
+            "Cancel", GTK_RESPONSE_CLOSE,
+            NULL);
+
+    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    preview = content_preview_widget_create(GTK_WIDGET(dialog),
+            diskcontents_filesystem_read,
+            on_dir_widget_selected);
+    gtk_widget_set_size_request(preview, 300, 500);
+
+    /*
+     * The following is complete horseshit, this needs to be implemented in a
+     * function in drive/vdrive somehow. This much dereferencing in UI code
+     * is not normal method.
+     */
+    drv_ctx = drive_context[dev];
+    if (drv_ctx != NULL) {
+        drv_s = drv_ctx->drive;
+        if (drv_s != NULL) {
+            image = drv_s->image;
+            if (image != NULL) {
+                /* this assumes fsimage, not real-image */
+                struct fsimage_s *fsimg = image->media.fsimage;
+                if (fsimg != NULL) {
+                    autostart_diskimage = fsimg->name;
+                }
+            }
+        }
+    }
+
+    debug_gtk3("reading dir of '%s'", autostart_diskimage);
+    if (autostart_diskimage != NULL) {
+        content_preview_widget_set_image(preview, autostart_diskimage);
+    }
+
+    gtk_container_add(GTK_CONTAINER(content), preview);
+    return dialog;
+}
+
 
 /** \brief Respond to mouse clicks on a disk drive status widget.
  *
@@ -553,21 +675,25 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
      * released. Since popup handling is the only thing 3.22 requires
      * be done differently than its predecessors, this is the only
      * place we should rely on version checks. */
-#if GTK_CHECK_VERSION(3,22,0)
-    gtk_menu_popup_at_widget(GTK_MENU(drive_menu),
-                             widget,
-                             GDK_GRAVITY_NORTH_EAST,
-                             GDK_GRAVITY_SOUTH_EAST,
-                             event);
-#else
-    {
-        GdkEventButton *buttonEvent = (GdkEventButton *)event;
 
-        gtk_menu_popup(GTK_MENU(drive_menu),
-                       NULL, NULL, NULL, NULL,
-                       buttonEvent->button, buttonEvent->time);
+    if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+        /* show popup for attaching/detaching disk images */
+        gtk_menu_popup_at_widget(GTK_MENU(drive_menu),
+                                 widget,
+                                 GDK_GRAVITY_NORTH_EAST,
+                                 GDK_GRAVITY_SOUTH_EAST,
+                                 event);
+    } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
+        /* show popup to run file in currently attached image */
+        GtkWidget *dialog;
+
+        debug_gtk3("Got secondary button click event");
+        dialog = ui_statusbar_dir_dialog_create(i);
+        g_signal_connect(dialog, "response",
+                G_CALLBACK(on_response_dir_widget), NULL);
+        gtk_widget_show_all(dialog);
     }
-#endif
+
     return TRUE;
 }
 
