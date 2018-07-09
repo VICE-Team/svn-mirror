@@ -777,6 +777,7 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
     { "Mouse settings",
       "mouse",
       settings_mouse_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -798,6 +799,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
+    UI_SETTINGS_TERMINATOR
 };
 
 
