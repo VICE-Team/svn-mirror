@@ -712,67 +712,82 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 };
 
 
-/** \brief  Main tree nodes for x64/x64sc
- */
-static ui_settings_tree_node_t main_nodes_c64[] = {
-    { "CRT settings",
-      "CRT",
-      settings_crt_widget_create, NULL },
-    { "Mixer settings",
-       "mixer",
-       settings_mixer_widget_create, NULL },
+static ui_settings_tree_node_t machine_nodes_c64[] = {
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Keyboard settings",
-      "keyboard",
-      settings_keyboard_widget_create, NULL },
-    { "Sound settings",
-      "sound",
-      settings_sound_create, NULL },
-    { "Sampler settings",
-      "sampler",
-      settings_sampler_widget_create, NULL },
     { "Autostart settings",
       "autostart",
       settings_autostart_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+
+
+static ui_settings_tree_node_t display_nodes_c64[] = {
+    { "VIC-II settings",
+      "vicii",
+      settings_video_create, NULL },
+    { "CRT settings",
+        "crt",
+        settings_crt_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+static ui_settings_tree_node_t audio_nodes_c64[] = {
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+    { "Mixer settings",
+       "mixer",
+       settings_mixer_widget_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+
+
+static ui_settings_tree_node_t input_nodes_c64[] = {
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+};
+
+
+static ui_settings_tree_node_t peripheral_nodes_c64[] = {
+    /* "Output devices? drive is also input */
     { "Drive settings",
       "drive",
       settings_drive_widget_create, NULL },
     { "Printer settings",
       "printer",
       settings_printer_widget_create, NULL },
-    { "Control port settings",
-      "control-port",
-      settings_controlport_widget_create, NULL },
-    { "Joystick settings",
-      "joystick",
-      settings_joystick_widget_create, NULL },
-    { "Mouse settings",
-      "mouse",
-      settings_mouse_widget_create, NULL },
-    { "Model settings",
-      "model",
-      settings_model_widget_create, NULL },
-    { "RAM reset pattern",
-      "ram-reset",
-      settings_ramreset_widget_create, NULL },
-    { "ROM settings",
-      "rom-settings",
-      settings_romset_widget_create, NULL },
-    { "Miscellaneous",
-      "misc",
-      settings_misc_widget_create, NULL },
-    { "VIC-II settings",
-      "vicii",
-      settings_video_create, NULL },
-    { "SID settings",
-      "sid",
-      settings_soundchip_widget_create, NULL },
-
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, c64_io_extensions },
 #ifdef HAVE_RS232DEV
     { "RS232 settings",
       "rs232",
@@ -783,14 +798,39 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
+};
+
+
+/** \brief  Main tree nodes for x64/x64sc
+ */
+static ui_settings_tree_node_t main_nodes_c64[] = {
+
+    { "Machine settings",
+        "machine",
+        NULL, machine_nodes_c64 },
+    { "Display settings",
+        "display",
+        NULL, display_nodes_c64 },
+    { "Audio settings",
+        "audio",
+        NULL, audio_nodes_c64 },
+    { "Input devices",
+        "input",
+        NULL, input_nodes_c64 },
+    { "Peripheral devices",
+        "peripheral", /* I'll misspell this many times */
+        NULL, peripheral_nodes_c64 },
+   { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, c64_io_extensions },
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Monitor settings",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
+
 };
 
 
@@ -1462,6 +1502,33 @@ static GtkTreeStore *settings_model = NULL;
  */
 static GtkWidget *settings_tree = NULL;
 
+
+
+/** \brief  Create the widget that is initially shown in the settings UI
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *ui_settings_inital_widget(GtkWidget *parent)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+
+    grid = vice_gtk3_grid_new_spaced(64, 64);
+    label = gtk_label_new(NULL);
+    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+    gtk_label_set_markup(GTK_LABEL(label),
+            "This is the first widget/dialog shown when people click on the"
+            " settings UI.\n"
+            "So perhaps we could show some instructions or something here.\n\n"
+            "<b>TODO</b>: remember previous settings-tree location");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
 #if 0
 /** \brief  Paused state when popping up the UI
  */
@@ -1658,21 +1725,12 @@ static GtkTreeStore *populate_tree_model(void)
     }
 
     for (i = 0; nodes[i].name != NULL; i++) {
-        char *name;
-
-        if (nodes[i].callback == NULL) {
-            name = lib_msprintf("[TODO] %s", nodes[i].name);
-        } else {
-            name = lib_stralloc(nodes[i].name);
-        }
-
         gtk_tree_store_append(model, &iter, NULL);
         gtk_tree_store_set(model, &iter,
-                COLUMN_NAME, name,
+                COLUMN_NAME, nodes[i].name,
                 COLUMN_ID, nodes[i].id,
                 COLUMN_CALLBACK, nodes[i].callback,
                 -1);
-        lib_free(name);
 
         /* this bit will need proper recursion if we need more than two
          * levels of subitems */
@@ -1784,8 +1842,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(settings_grid), scroll, 0, 0, 1, 1);
 
     /* TODO: remember the previously selected setting/widget and set it here */
-    ui_settings_set_central_widget(settings_speed_widget_create(widget));
-
+    ui_settings_set_central_widget(ui_settings_inital_widget(widget));
     /* create container for generic settings */
     extra = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
