@@ -356,3 +356,39 @@ gboolean vice_gtk3_resource_spin_int_factory(GtkWidget *widget)
     }
     return vice_gtk3_resource_spin_int_set(widget, factory);
 }
+
+
+/** \brief  Synchronize \a widget with its associated resource
+ *
+ * \param[in,out]   widget  integer resource spinbutton
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_spin_int_sync(GtkWidget *widget)
+{
+    const char *resource_name;
+    int widget_val;
+    int resource_val;
+
+    /* get widget state */
+    if (!vice_gtk3_resource_spin_int_get(widget, &widget_val)) {
+        log_error(LOG_ERR, "failed to retrieve current value of widget");
+        return FALSE;
+    }
+    /* get resource value */
+    resource_name = resource_widget_get_resource_name(widget);
+    if (resources_get_int(resource_name, &resource_val) < 0) {
+        log_error(LOG_ERR,
+                "failed to retrieve value for resource '%s'",
+                resource_name);
+    }
+
+    /*
+     * Check current value against resource value to avoid triggering
+     * an event connected to the resource
+     */
+    if (widget_val != resource_val) {
+        return vice_gtk3_resource_spin_int_set(widget, resource_val);
+    }
+    return TRUE;
+}
