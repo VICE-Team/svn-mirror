@@ -260,6 +260,13 @@ GtkWidget *vice_gtk3_resource_browser_new(
     /* store the state object in the widget */
     g_object_set_data(G_OBJECT(grid), "ViceState", (gpointer)state);
 
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            grid,
+            vice_gtk3_resource_browser_reset,
+            vice_gtk3_resource_browser_factory,
+            vice_gtk3_resource_browser_sync);
+
     /* connect signal handlers */
     g_signal_connect(state->button, "clicked",
             G_CALLBACK(on_resource_browser_browse_clicked), NULL);

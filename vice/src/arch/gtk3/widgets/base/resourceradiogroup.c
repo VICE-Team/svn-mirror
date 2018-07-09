@@ -160,6 +160,12 @@ static GtkWidget *resource_radiogroup_new_helper(
         last = GTK_RADIO_BUTTON(radio);
     }
 
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            grid,
+            vice_gtk3_resource_radiogroup_reset,
+            vice_gtk3_resource_radiogroup_factory,
+            vice_gtk3_resource_radiogroup_sync);
     g_signal_connect(grid, "destroy", G_CALLBACK(on_radiogroup_destroy), NULL);
 
     gtk_widget_show_all(grid);

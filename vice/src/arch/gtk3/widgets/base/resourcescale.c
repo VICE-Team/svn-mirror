@@ -118,6 +118,13 @@ static GtkWidget *resource_scale_int_new_helper(GtkWidget *widget)
 
     gtk_range_set_value(GTK_RANGE(widget), (gdouble)value);
 
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            widget,
+            vice_gtk3_resource_scale_int_reset,
+            vice_gtk3_resource_scale_int_factory,
+            vice_gtk3_resource_scale_int_sync);
+
     g_signal_connect(widget, "value-changed", G_CALLBACK(on_scale_int_changed),
             NULL);
     g_signal_connect(widget, "destroy", G_CALLBACK(on_scale_int_destroy), NULL);

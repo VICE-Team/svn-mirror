@@ -195,6 +195,13 @@ static GtkWidget *resource_spin_int_new_helper(GtkWidget *spin)
 
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)current);
 
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            spin,
+            vice_gtk3_resource_spin_int_reset,
+            vice_gtk3_resource_spin_int_factory,
+            vice_gtk3_resource_spin_int_sync);
+
     g_signal_connect(spin, "value-changed",
             G_CALLBACK(on_spin_button_value_changed),NULL);
     g_signal_connect(spin, "destroy",

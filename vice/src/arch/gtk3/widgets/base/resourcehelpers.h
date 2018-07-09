@@ -41,4 +41,22 @@ void resource_widget_set_resource_name(GtkWidget *widget, const char *resource);
 const char *resource_widget_get_resource_name(GtkWidget *widget);
 void resource_widget_free_resource_name(GtkWidget *widget);
 
+void resource_widget_register_methods(
+        GtkWidget *widget,
+        gboolean (*reset)(GtkWidget *),
+        gboolean (*factory)(GtkWidget *),
+        gboolean (*sync)(GtkWidget *));
+
+gboolean resource_widget_get_method_reset(
+        GtkWidget *widget,
+        gboolean *(*reset)(GtkWidget *));
+
+gboolean resource_widget_get_method_factory(
+        GtkWidget *widget,
+        gboolean *(*factory)(GtkWidget *));
+
+gboolean resource_widget_get_method_sync(
+        GtkWidget *widget,
+        gboolean *(*sync)(GtkWidget *));
+
 #endif

@@ -139,3 +139,96 @@ void resource_widget_free_resource_name(GtkWidget *widget)
 {
     resource_widget_free_string(widget, "ResourceName");
 }
+
+
+/** \brief  Register the reset(), factory() and sync() methods for \a widget
+ *
+ * \param[in,out]   widget  vice resource widget
+ * \param[in]       reset   reset() method pointer
+ * \param[in]       factory factory() method pointer
+ * \param[in]       sync    sync() method pointer
+ */
+void resource_widget_register_methods(
+        GtkWidget *widget,
+        gboolean (*reset)(GtkWidget *),
+        gboolean (*factory)(GtkWidget *),
+        gboolean (*sync)(GtkWidget *))
+{
+    g_object_set_data(G_OBJECT(widget), "MethodReset", (gpointer)reset);
+    g_object_set_data(G_OBJECT(widget), "MethodFactory", (gpointer)factory);
+    g_object_set_data(G_OBJECT(widget), "MethodSync", (gpointer)sync);
+}
+
+
+/** \brief  Get the \a method function pointer of \a widget
+ *
+ * Tries to retrieve the \a method from the data in \a widget as set by
+ * resource_widget_register_methods() and stores the function pointer in
+ * \a func.
+ *
+ * On error this function returns FALSE and \a func  is set to `NULL`.
+ *
+ * \param[in]   widget  resource widget to retrieve the \a method from
+ * \param[out]  func    object to store the function pointer
+ * \param[in]   method  name of the method (ie "MethodSync", "MethodReset", etc)
+ *
+ * \return  bool
+ */
+static gboolean resource_widget_get_method_helper(
+        GtkWidget *widget,
+        gboolean *(*func)(GtkWidget *),
+        const char *method)
+{
+    gpointer data = g_object_get_data(G_OBJECT(widget), method);
+    if (data == NULL) {
+        func = NULL;
+        return FALSE;
+    }
+    func = data;
+    return TRUE;
+}
+
+
+/** \brief  Get the reset method of \a widget
+ *
+ * \param[in]   widget  resource widget
+ * \param[out]  reset   object to store the reset() function pointer
+ *
+ * \return bool
+ */
+gboolean resource_widget_get_method_reset(
+        GtkWidget *widget,
+        gboolean *(*reset)(GtkWidget *))
+{
+    return resource_widget_get_method_helper(widget, reset, "MethodReset");
+}
+
+
+/** \brief  Get the factory method of \a widget
+ *
+ * \param[in]   widget  resource widget
+ * \param[out]  factory object to store the factory() function pointer
+ *
+ * \return bool
+ */
+gboolean resource_widget_get_method_factory(
+        GtkWidget *widget,
+        gboolean *(*factory)(GtkWidget *))
+{
+    return resource_widget_get_method_helper(widget, factory, "MethodFactory");
+}
+
+
+/** \brief  Get the sync method of \a widget
+ *
+ * \param[in]   widget  resource widget
+ * \param[out]  sync    object to store the sync() function pointer
+ *
+ * \return bool
+ */
+gboolean resource_widget_get_method_sync(
+        GtkWidget *widget,
+        gboolean *(*sync)(GtkWidget *))
+{
+    return resource_widget_get_method_helper(widget, sync, "MethodReset");
+}

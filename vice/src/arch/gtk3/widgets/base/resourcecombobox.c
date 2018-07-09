@@ -222,6 +222,15 @@ static GtkWidget *resource_combo_box_int_new_helper(
     /* remember original value for reset() */
     resource_widget_set_int(combo, "ResourceOrig", current);
 
+
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            combo,
+            vice_gtk3_resource_combo_box_int_reset,
+            vice_gtk3_resource_combo_box_int_factory,
+            vice_gtk3_resource_combo_box_int_sync);
+
+
     /* connect signal handlers */
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_int_changed), NULL);
     g_signal_connect(combo, "destroy", G_CALLBACK(on_combo_int_destroy), NULL);
@@ -498,6 +507,14 @@ static GtkWidget *resource_combo_box_str_new_helper(
             gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
         }
     }
+
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            combo,
+            vice_gtk3_resource_combo_box_str_reset,
+            vice_gtk3_resource_combo_box_str_factory,
+            vice_gtk3_resource_combo_box_str_sync);
+
 
     /* connect signal handlers */
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_str_changed), NULL);

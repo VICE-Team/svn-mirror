@@ -140,6 +140,13 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
             state ? TRUE : FALSE);
 
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            check,
+            vice_gtk3_resource_check_button_reset,
+            vice_gtk3_resource_check_button_factory,
+            vice_gtk3_resource_check_button_sync);
+
     g_signal_connect(check, "toggled", G_CALLBACK(on_check_button_toggled),
             (gpointer)resource);
     g_signal_connect(check, "destroy", G_CALLBACK(on_check_button_destroy),

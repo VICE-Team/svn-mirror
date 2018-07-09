@@ -112,6 +112,13 @@ GtkWidget *vice_gtk3_resource_entry_new(const char *resource)
     /* make a deep copy of the current resource value */
     resource_widget_set_string(entry, "ResourceOrig", current);
 
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            entry,
+            vice_gtk3_resource_entry_reset,
+            vice_gtk3_resource_entry_factory,
+            vice_gtk3_resource_entry_sync);
+
     g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
     g_signal_connect(entry, "destroy", G_CALLBACK(on_entry_destroy), NULL);
 
