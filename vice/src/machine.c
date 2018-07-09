@@ -292,13 +292,7 @@ void machine_shutdown(void)
 
     autostart_shutdown();
 
-#ifdef WIN32_COMPILE
     joystick_close();
-#else
-# ifdef HAS_JOYSTICK
-    joystick_close();
-# endif
-#endif
 
     sound_close();
 

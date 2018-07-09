@@ -152,6 +152,10 @@ void joy_reset_axis_range(joystick_descriptor_t *joy, int id);
 void joystick_ui_reset_device_list(void);
 char *joystick_ui_get_next_device_name(int *id);
 
-#endif /* HAS_JOYSTICK */
+#else
+
+void joystick_close(void);
+
+#endif  /* HAS_JOYSTICK */
 
 #endif /* VICE_JOY_H */

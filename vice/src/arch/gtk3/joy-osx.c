@@ -1098,6 +1098,13 @@ void joystick(void)
     }
 }
 
+#else
+
+void joystick_close(void)
+{
+    /* NOP */
+}
+
 #endif /* HAS_JOYSTICK */
 
 #endif /* MACOSX_SUPPORT */

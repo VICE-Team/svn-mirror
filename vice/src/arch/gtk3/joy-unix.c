@@ -617,5 +617,12 @@ int joy_arch_init(void)
 {
     return 0;
 }
+
+void joystick_close(void)
+{
+    /* NOP */
+}
+
 #  endif /* HAS_JOYSTICK */
+
 #endif
