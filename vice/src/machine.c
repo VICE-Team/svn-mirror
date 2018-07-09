@@ -72,8 +72,12 @@
 
 /* #define DEBUGMACHINE */
 
-#ifdef HAS_JOYSTICK
-#include "joy.h"
+#ifdef WIN32_COMPILE
+# include "joy.h"
+#else
+# ifdef HAS_JOYSTICK
+#  include "joy.h"
+#  endif
 #endif
 
 #ifndef EXIT_SUCCESS
@@ -288,8 +292,12 @@ void machine_shutdown(void)
 
     autostart_shutdown();
 
-#ifdef HAS_JOYSTICK
+#ifdef WIN32_COMPILE
     joystick_close();
+#else
+# ifdef HAS_JOYSTICK
+    joystick_close();
+# endif
 #endif
 
     sound_close();
