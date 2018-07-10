@@ -87,6 +87,7 @@ static void on_resource_browser_destroy(GtkWidget *widget, gpointer data)
         lib_free(state->browser_title);
     }
     lib_free(state);
+    resource_widget_free_resource_name(widget);
 }
 
 
@@ -204,6 +205,7 @@ GtkWidget *vice_gtk3_resource_browser_new(
 
     /* copy resource name */
     state->res_name = lib_stralloc(resource);
+    resource_widget_set_resource_name(grid, resource);
 
     /* get current value of resource */
     if (resources_get_string(resource, &orig) < 0) {
