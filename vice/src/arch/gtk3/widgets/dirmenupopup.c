@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "imagecontents/diskcontents.h"
 #include "drive.h"
 #include "drivetypes.h"
@@ -48,8 +49,14 @@ static void (*response_func)(const char *, int);
 static const char *disk_image = NULL;
 
 
+static GtkCssProvider *css_provider;
+static GtkStyleContext *css_context;
+
+
 
 /* FIXME: stole this from arch/unix/x11/gnome/x11ui.c
+ *
+ * And I still get warnings from Pango
  */
 static unsigned char *convert_utf8(unsigned char *s)
 {
@@ -88,6 +95,37 @@ static void on_item_activate(GtkWidget *item, gpointer data)
 }
 
 
+static const char *DIRENT_CSS = "label { font-family: \"CBM\"; }";
+
+
+static gboolean setup_label_style(GtkWidget *widget)
+{
+    GError *err = NULL;
+
+    /* instanciate CSS provider */
+    css_provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(css_provider, DIRENT_CSS, -1, &err);
+    if (err != NULL) {
+        log_error(LOG_ERR, "CSS error: %s", err->message);
+        g_error_free(err);
+        return FALSE;
+    }
+
+    css_context = gtk_widget_get_style_context(widget);
+    if (css_context == NULL) {
+        log_error(LOG_ERR, "Couldn't get style context of widget");
+        return FALSE;
+    }
+
+    gtk_style_context_add_provider(css_context,
+            GTK_STYLE_PROVIDER(css_provider),
+            GTK_STYLE_PROVIDER_PRIORITY_USER);
+    return TRUE;
+}
+
+
+
+
 /** \brief  Create a popup menu to select a file to autostart
  *
  * XXX: This is an UNHOLY MESS, and should be refactored
@@ -109,6 +147,7 @@ GtkWidget *content_preview_menu_create(
     char *tmp;
     const char *autostart_diskimage = NULL;
     int index;
+    GtkWidget *label;
 
     /* set callback functions */
     content_func = func;
@@ -154,9 +193,16 @@ GtkWidget *content_preview_menu_create(
             tmp = image_contents_to_string(contents, 0);
             utf8 = (char *)convert_utf8((unsigned char *)tmp);
             item = gtk_menu_item_new_with_label(utf8);
+            label = gtk_bin_get_child(GTK_BIN(item));
+            setup_label_style(label);
+
             gtk_container_add(GTK_CONTAINER(menu), item);
             lib_free(tmp);
             lib_free(utf8);
+
+            /* add separator */
+            item = gtk_separator_menu_item_new();
+            gtk_container_add(GTK_CONTAINER(menu), item);
 
             /* set disk image path (there's gotta be a better way) */
             disk_image = autostart_diskimage;
@@ -169,6 +215,9 @@ GtkWidget *content_preview_menu_create(
                 tmp = image_contents_file_to_string(entry, 0);
                 utf8 = (char *)convert_utf8((unsigned char *)tmp);
                 item = gtk_menu_item_new_with_label(utf8);
+                label = gtk_bin_get_child(GTK_BIN(item));
+                setup_label_style(label);
+
                 gtk_container_add(GTK_CONTAINER(menu), item);
 
                 g_signal_connect(item, "activate",
