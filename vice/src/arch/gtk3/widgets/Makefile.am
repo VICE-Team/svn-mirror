@@ -46,6 +46,7 @@ libwidgets_a_SOURCES = \
 	crtcontrolwidget.c \
 	cwdwidget.c \
 	digimaxwidget.c \
+	dirmenupopup.c \
 	dqbbwidget.c \
 	drivedoswidget.c \
 	driveextendpolicywidget.c \
@@ -184,6 +185,7 @@ EXTRA_DIST = \
 	cpmwidget.h \
 	crtcontrolwidget.h \
 	cwdwidget.h \
+	dirmenupopup.h \
 	digimaxwidget.h \
 	dqbbwidget.h \
 	drivedoswidget.h \

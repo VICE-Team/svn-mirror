@@ -67,6 +67,7 @@
 #include "autostart.h"
 
 #include "contentpreviewwidget.h"
+#include "dirmenupopup.h"
 
 #include "uistatusbar.h"
 
@@ -536,12 +537,13 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
     return TRUE;
 }
 
-
+#if 0
 /** \brief  Disk image to autorun a file from
  */
 static const char *autostart_diskimage = NULL;
+#endif
 
-
+#if 0
 /** \brief  Handler for the "response" event of the directory dialog
  *
  * \param[in,out]   dialog      dialog triggering the event
@@ -561,8 +563,9 @@ static void on_response_dir_widget(GtkDialog *dialog,
             debug_gtk3("unhandled response ID %d,", response_id);
     }
 }
+#endif
 
-
+#if 0
 /** \brief  Handler for the double-click event of the directory listing
  *
  * \param[in,out]   dialog      dialog triggering the event
@@ -581,8 +584,15 @@ static void on_dir_widget_selected(GtkWidget *widget,
             AUTOSTART_MODE_RUN);
     gtk_widget_destroy(widget);
 }
+#endif
 
 
+static void disk_dir_autostart_callback(const char *image, int index)
+{
+    autostart_disk(image, NULL, index + 1, AUTOSTART_MODE_RUN);
+}
+
+#if 0
 /** \brief  Show dialog to run a file of the image attached to \a unit
  *
  * Double clicking on a file will autorun that file. Clicking on Cancel or the
@@ -645,6 +655,7 @@ static GtkWidget *ui_statusbar_dir_dialog_create(int dev)
     gtk_container_add(GTK_CONTAINER(content), preview);
     return dialog;
 }
+#endif 
 
 
 /** \brief Respond to mouse clicks on a disk drive status widget.
@@ -685,6 +696,11 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                                  event);
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         /* show popup to run file in currently attached image */
+        GtkWidget *dir_menu = content_preview_menu_create(
+                i,
+                diskcontents_filesystem_read,
+                disk_dir_autostart_callback);
+#if 0
         GtkWidget *dialog;
 
         debug_gtk3("Got secondary button click event");
@@ -692,6 +708,13 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
         g_signal_connect(dialog, "response",
                 G_CALLBACK(on_response_dir_widget), NULL);
         gtk_widget_show_all(dialog);
+#endif
+        /* show popup for selecting file in currently attached image */
+        gtk_menu_popup_at_widget(GTK_MENU(dir_menu),
+                                 widget,
+                                 GDK_GRAVITY_NORTH_EAST,
+                                 GDK_GRAVITY_SOUTH_EAST,
+                                 event);
     }
 
     return TRUE;
