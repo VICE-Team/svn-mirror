@@ -227,6 +227,9 @@ GtkWidget *content_preview_menu_create(
                 lib_free(utf8);
             }
         }
+        if (contents != NULL) {
+            image_contents_destroy(contents);
+        }
     } else {
         item = gtk_menu_item_new_with_label("NO IMAGE ATTACHED");
         gtk_container_add(GTK_CONTAINER(menu), item);
