@@ -6,6 +6,38 @@
  * state when they were registered, or reset the widgets to the
  * resource's default state.
  *
+ * Example:
+ *
+ * \code{.c}
+ *
+ *  // Resource manager instance
+ *  static resource_manager_t manager;
+ *
+ *  // Initialize manager
+ *  vice_resource_widget_manager_init(&manager);
+ *
+ *  // Create a resource widget ...
+ *  GtkWidget *check = vice_resource_check_button_create("SomeResource");
+ *  // and add it to the manager (we pass NULL for the custom method pointers
+ *  // since the resource check button has its own default reset(), sync() and
+ *  // factory() methods.
+ *  // To override a default method, pass a function pointer instead of NULL.
+ *  vice_resource_widget_manager_add_widget(&manager, check, NULL, NULL, NULL);
+ *
+ *  // To reset the widgets registered with the manager we use:
+ *  // (usually this function will be called from a "Reset" GtkButton)
+ *  if (vice_resource_widget_manager_reset(&manager)) {
+ *      g_print("OK\n");
+ *  } else {
+ *      g_print("oops\n");
+ *  }
+ *
+ *  // And finally, to clean up resources used by the manager we use:
+ *  // (usually this function will be called from a dialog's/containing widget's
+ *  // "destroy" event handler)
+ *  vice_resource_widget_manager_exit(&manager);
+ * \endcode
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -50,6 +82,11 @@
 #define INITIAL_ENTRIES 64
 
 
+
+/** \brief  Initialize \a entry
+ *
+ * \param[in,out]   entry   resource widget entry
+ */
 static void resource_widget_entry_init(resource_widget_entry_t *entry)
 {
     entry->widget = NULL;
@@ -60,6 +97,10 @@ static void resource_widget_entry_init(resource_widget_entry_t *entry)
 }
 
 
+/** \brief  Free members of \a entry
+ *
+ * \param[in]   entry   resource widget entry
+ */
 static void resource_widget_entry_cleanup(resource_widget_entry_t *entry)
 {
     if (entry->resource != NULL) {
@@ -68,6 +109,13 @@ static void resource_widget_entry_cleanup(resource_widget_entry_t *entry)
 }
 
 
+/** \brief  Initialize the resource widget manager
+ *
+ * Initializes \a manager to an empty state. Allocates a list of widget entry
+ * pointers which must be freed by vice_resource_widget_manager_exit().
+ *
+ * \param[in,out]   manager resource widget manager
+ */
 void vice_resource_widget_manager_init(resource_widget_manager_t *manager)
 {
     size_t i;
@@ -137,6 +185,10 @@ void vice_resource_widget_manager_add_widget(
 }
 
 
+/** \brief  Debug hook: dump information on \a manager on stdout
+ *
+ * \param[in]   manager resource widget manager
+ */
 void vice_resource_widget_manager_dump(resource_widget_manager_t *manager)
 {
     size_t i;
@@ -156,6 +208,19 @@ void vice_resource_widget_manager_dump(resource_widget_manager_t *manager)
 }
 
 
+/** \brief  Reset all widgets registered with \a manager
+ *
+ * Iterates the widgets registered with \a manager and executes their reset()
+ * method in order. It first tries to find the default reset() method of the
+ * resource widgets in gtk3/base/widgets, if that fails it tries to invoke the
+ * custom reset() method passed when calling
+ * vice_resource_widget_manager_add_widget(), and when that is NULL, it will
+ * return FALSE to indicate failure.
+ *
+ * \param[in]   manager resource widget manager
+ *
+ * \return  bool
+ */
 gboolean vice_resource_widget_manager_reset(resource_widget_manager_t *manager)
 {
     size_t i;
@@ -189,5 +254,3 @@ gboolean vice_resource_widget_manager_reset(resource_widget_manager_t *manager)
     }
     return TRUE;
 }
-
-
