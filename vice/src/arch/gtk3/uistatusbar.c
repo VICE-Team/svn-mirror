@@ -696,7 +696,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                                  event);
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         /* show popup to run file in currently attached image */
-        GtkWidget *dir_menu = content_preview_menu_create(
+        GtkWidget *dir_menu = dir_menu_popup_create(
                 i,
                 diskcontents_filesystem_read,
                 disk_dir_autostart_callback);

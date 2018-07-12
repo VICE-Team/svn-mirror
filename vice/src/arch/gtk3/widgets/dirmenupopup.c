@@ -41,17 +41,29 @@
 #include "dirmenupopup.h"
 
 
-static read_contents_func_type content_func = NULL;
+/** \brief  Function to read the contents of an image
+ *
+ * FIXME:   Hiding the pointer-ness of a function is NOT a good idea
+ */
+static read_contents_func_type content_func;
 
+/** \brief  Function to call when a file in the directory is selected
+ */
 static void (*response_func)(const char *, int);
 
+/** \brief  Disk image being used
+ *
+ * FIXME:   Somehow pass this via the event handlers
+ */
+static const char *disk_image;
 
-static const char *disk_image = NULL;
+/** \brief  CSS style string to set the CBM font
+ */
+static const char *DIRENT_CSS = "label { font-family: \"CBM\"; }";
 
-
+/** \brief  Reference to the CSS provider used for directory entries
+ */
 static GtkCssProvider *css_provider;
-static GtkStyleContext *css_context;
-
 
 
 /* FIXME: stole this from arch/unix/x11/gnome/x11ui.c
@@ -86,6 +98,11 @@ static unsigned char *convert_utf8(unsigned char *s)
 }
 
 
+/** \brief  Handler for the "activate" event of a menu item
+ *
+ * \param[in]   item    menu item triggering the event
+ * \param[in]   data    index in the directory (0 = header)
+ */
 static void on_item_activate(GtkWidget *item, gpointer data)
 {
     int index = GPOINTER_TO_INT(data);
@@ -95,10 +112,14 @@ static void on_item_activate(GtkWidget *item, gpointer data)
 }
 
 
-static const char *DIRENT_CSS = "label { font-family: \"CBM\"; }";
 
-
-static gboolean setup_label_style(GtkWidget *widget)
+/** \brief  Create CSS style provider for the directory entries
+ *
+ * This way we won't be (re)creating 144 or even 296 style provider
+ *
+ * \return  bool
+ */
+static gboolean create_css_provider(void)
 {
     GError *err = NULL;
 
@@ -110,6 +131,19 @@ static gboolean setup_label_style(GtkWidget *widget)
         g_error_free(err);
         return FALSE;
     }
+    return TRUE;
+}
+
+
+/** \brief  Apply CSS provider to \a widget to set the CBM font
+ *
+ * \param[in,out]   widget  label in a GtkMenuItem
+ *
+ * \return  bool
+ */
+static gboolean apply_css_provider(GtkWidget *widget)
+{
+    GtkStyleContext *css_context;
 
     css_context = gtk_widget_get_style_context(widget);
     if (css_context == NULL) {
@@ -129,8 +163,14 @@ static gboolean setup_label_style(GtkWidget *widget)
 /** \brief  Create a popup menu to select a file to autostart
  *
  * XXX: This is an UNHOLY MESS, and should be refactored
+ *
+ * \param[in]   dev         drive index (0-3)
+ * \param[in]   func        function to read image contents
+ * \param[in]   response    function to call when an item has been selected
+ *
+ * \return  GtkMenu
  */
-GtkWidget *content_preview_menu_create(
+GtkWidget *dir_menu_popup_create(
         int dev,
         read_contents_func_type func,
         void (*response)(const char *, int))
@@ -148,6 +188,12 @@ GtkWidget *content_preview_menu_create(
     const char *autostart_diskimage = NULL;
     int index;
     GtkWidget *label;
+
+    /* create style provider */
+    if (!create_css_provider()) {
+        debug_gtk3("failed to create CSS provider, borking");
+        return NULL;
+    }
 
     /* set callback functions */
     content_func = func;
@@ -194,7 +240,7 @@ GtkWidget *content_preview_menu_create(
             utf8 = (char *)convert_utf8((unsigned char *)tmp);
             item = gtk_menu_item_new_with_label(utf8);
             label = gtk_bin_get_child(GTK_BIN(item));
-            setup_label_style(label);
+            apply_css_provider(label);
 
             gtk_container_add(GTK_CONTAINER(menu), item);
             lib_free(tmp);
@@ -216,7 +262,7 @@ GtkWidget *content_preview_menu_create(
                 utf8 = (char *)convert_utf8((unsigned char *)tmp);
                 item = gtk_menu_item_new_with_label(utf8);
                 label = gtk_bin_get_child(GTK_BIN(item));
-                setup_label_style(label);
+                apply_css_provider(label);
 
                 gtk_container_add(GTK_CONTAINER(menu), item);
 
@@ -231,7 +277,7 @@ GtkWidget *content_preview_menu_create(
             image_contents_destroy(contents);
         }
     } else {
-        item = gtk_menu_item_new_with_label("NO IMAGE ATTACHED");
+        item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
         gtk_container_add(GTK_CONTAINER(menu), item);
     }
     gtk_widget_show_all(GTK_WIDGET(menu));
