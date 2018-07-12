@@ -537,11 +537,9 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
     return TRUE;
 }
 
-#if 0
 /** \brief  Disk image to autorun a file from
  */
 static const char *autostart_diskimage = NULL;
-#endif
 
 #if 0
 /** \brief  Handler for the "response" event of the directory dialog
@@ -591,7 +589,12 @@ static void disk_dir_autostart_callback(const char *image, int index)
 {
     debug_gtk3("Got image '%s', file index %d to autostart",
             image, index);
-    autostart_disk(image, NULL, index + 1, AUTOSTART_MODE_RUN);
+    /* make a copy since autostart will reuse memory for the diskimage name */
+    if (autostart_diskimage != NULL) {
+        lib_free(autostart_diskimage);
+    }
+    autostart_diskimage = lib_stralloc(image);
+    autostart_disk(autostart_diskimage, NULL, index + 1, AUTOSTART_MODE_RUN);
 }
 
 #if 0
@@ -1343,6 +1346,20 @@ void ui_display_statustext(const char *text, int fade_out)
     if (fade_out) {
         g_timeout_add(5000, ui_statustext_fadeout,
                 GINT_TO_POINTER(sb_state.statustext_msgid));
+    }
+
+    /*
+     * Some weirdness: since triggering autostart of a specific file in a
+     * disk image via the dir menu pop on the status bar frees the image name
+     * and allocates a new one, we need to temporarily copy the old image name
+     * so the statusbar will properly display "Attaching <diskimage>".
+     * That is done in disk_dir_autostart_callback().
+     * Once the attaching is done and the message displayed (here), we can free
+     * the diskimage string again for the next time the dir menu popup is used.
+     */
+    if (autostart_diskimage != NULL) {
+        lib_free(autostart_diskimage);
+        autostart_diskimage = NULL;
     }
 }
 
