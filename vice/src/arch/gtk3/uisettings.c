@@ -205,10 +205,9 @@ enum {
  * GtkResponse enum as negative values.
  */
 enum {
-    RESPONSE_LOAD = 1,  /**< "Load" -> load settings from default file */
-    RESPONSE_SAVE,      /**< "Save" -> save settings from default file */
-    RESPONSE_LOAD_FILE, /**< "Load ..." -> load settings via dialog */
-    RESPONSE_SAVE_FILE, /**< "Save ..." -> save settings via dialog */
+    RESPONSE_RESET = 1, /**< reset current central widget */
+    RESPONSE_FACTORY,   /**< set current central widget's resources to their
+                             factory settings */
     RESPONSE_DEFAULT    /**< Restore default settings */
 };
 
@@ -1505,6 +1504,20 @@ static GtkTreeStore *settings_model = NULL;
 static GtkWidget *settings_tree = NULL;
 
 
+static void ui_settings_central_widget_reset(GtkWidget *widget, gpointer data)
+{
+    vice_gtk3_message_info("Settings UI",
+            "Resetting current central widget\n(doesn't work yet :))");
+}
+
+
+static void ui_settings_central_widget_factory(GtkWidget *widget, gpointer data)
+{
+    vice_gtk3_message_info("Settings UI",
+            "Restoring current central widget to factory settings\n"
+            "(doesn't work yet :))");
+}
+
 
 /** \brief  Create the widget that is initially shown in the settings UI
  *
@@ -1903,6 +1916,17 @@ static void response_callback(GtkWidget *widget, gint response_id,
             }
 #endif
             break;
+
+        /* reset resources in current central widget to the state they were
+         * in before entering the (sub)dialog */
+        case RESPONSE_RESET:
+            ui_settings_central_widget_reset(widget, user_data);
+            break;
+
+        /* restore resources in (sub)dialog to factory settings */
+        case RESPONSE_FACTORY:
+            ui_settings_central_widget_factory(widget, user_data);
+            break;
 #if 0
         /* load vicerc from default location */
         case RESPONSE_LOAD:
@@ -2045,8 +2069,10 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
             title,
             ui_get_active_window(),
             GTK_DIALOG_MODAL,
-            "Restore defaults", RESPONSE_DEFAULT,
+            "Undo changes in dialog", RESPONSE_RESET,
+            "Restore factory settings", RESPONSE_FACTORY,
 #if 0
+            "Restore defaults", RESPONSE_DEFAULT,
             "Load", RESPONSE_LOAD,
             "Save", RESPONSE_SAVE,
             "Load file ...", RESPONSE_LOAD_FILE,
