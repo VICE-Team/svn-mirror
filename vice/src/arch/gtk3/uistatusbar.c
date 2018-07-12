@@ -589,7 +589,9 @@ static void on_dir_widget_selected(GtkWidget *widget,
 
 static void disk_dir_autostart_callback(const char *image, int index)
 {
-    autostart_disk(image, NULL, index + 1, AUTOSTART_MODE_RUN);
+    debug_gtk3("Got image '%s', file index %d to autostart",
+            image, index);
+    autostart_disk("foobar", NULL, index + 1, AUTOSTART_MODE_RUN);
 }
 
 #if 0

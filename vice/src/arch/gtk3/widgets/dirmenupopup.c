@@ -55,7 +55,7 @@ static void (*response_func)(const char *, int);
  *
  * FIXME:   Somehow pass this via the event handlers
  */
-static const char *disk_image;
+static const char *autostart_diskimage;
 
 /** \brief  CSS style string to set the CBM font
  */
@@ -108,7 +108,7 @@ static void on_item_activate(GtkWidget *item, gpointer data)
     int index = GPOINTER_TO_INT(data);
 
     debug_gtk3("Got index %d, triggering response function", index);
-    response_func(disk_image, index);
+    response_func(autostart_diskimage, index);
 }
 
 
@@ -185,7 +185,6 @@ GtkWidget *dir_menu_popup_create(
     image_contents_file_list_t *entry;
     char *utf8;
     char *tmp;
-    const char *autostart_diskimage = NULL;
     int index;
     GtkWidget *label;
 
@@ -249,9 +248,6 @@ GtkWidget *dir_menu_popup_create(
             /* add separator */
             item = gtk_separator_menu_item_new();
             gtk_container_add(GTK_CONTAINER(menu), item);
-
-            /* set disk image path (there's gotta be a better way) */
-            disk_image = autostart_diskimage;
 
             /* add files */
             index = 0;
