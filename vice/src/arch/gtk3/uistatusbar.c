@@ -591,7 +591,7 @@ static void disk_dir_autostart_callback(const char *image, int index)
 {
     debug_gtk3("Got image '%s', file index %d to autostart",
             image, index);
-    autostart_disk("foobar", NULL, index + 1, AUTOSTART_MODE_RUN);
+    autostart_disk(image, NULL, index + 1, AUTOSTART_MODE_RUN);
 }
 
 #if 0
@@ -657,7 +657,7 @@ static GtkWidget *ui_statusbar_dir_dialog_create(int dev)
     gtk_container_add(GTK_CONTAINER(content), preview);
     return dialog;
 }
-#endif 
+#endif
 
 
 /** \brief Respond to mouse clicks on a disk drive status widget.
