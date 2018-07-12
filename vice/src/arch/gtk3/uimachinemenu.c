@@ -41,9 +41,12 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
+#include "debug_gtk3.h"
 #include "datasette.h"
 #include "debug.h"
 #include "machine.h"
+#include "resources.h"
 #include "ui.h"
 #include "uiabout.h"
 #include "uicart.h"
@@ -117,6 +120,72 @@ static GtkWidget *debug_submenu = NULL;
 /** \brief  Help submenu
  */
 static GtkWidget *help_submenu = NULL;
+
+
+/** \brief  Load settings from default file
+ *
+ * \param[in]   widget  menu item triggering the event (ignored)
+ * \param[in]   data    extra even data (ignored)
+ */
+static void settings_load_callback(GtkWidget *widget, gpointer data)
+{
+    if (resources_load(NULL) != 0) {
+        vice_gtk3_message_error("VICE core error",
+                "Failed to load default settings file");
+    }
+}
+
+
+/** \brief  Load settings from user-specified file
+ *
+ * \param[in]   widget  menu item triggering the event (ignored)
+ * \param[in]   data    extra even data (ignored)
+ */
+static void settings_load_custom_callback(GtkWidget *widget, gpointer data)
+{
+    gchar *filename = vice_gtk3_open_file_dialog("Load settings file",
+            NULL, NULL, NULL);
+    if (filename!= NULL) {
+        if (resources_load(filename) != 0) {
+            vice_gtk3_message_error("VICE core error",
+                    "Failed to load settings from '%s'", filename);
+        }
+    }
+}
+
+
+/** \brief  Save settings to default file
+ *
+ * \param[in]   widget  menu item triggering the event (ignored)
+ * \param[in]   data    extra even data (ignored)
+ */
+static void settings_save_callback(GtkWidget *widget, gpointer data)
+{
+    if (resources_save(NULL) != 0) {
+        vice_gtk3_message_error("VICE core error",
+                "Failed to save default settings file");
+    }
+}
+
+
+/** \brief  Save settings to user-specified file
+ *
+ * \param[in]   widget  menu item triggering the event (ignored)
+ * \param[in]   data    extra even data (ignored)
+ */
+static void settings_save_custom_callback(GtkWidget *widget, gpointer data)
+{
+    gchar *filename = vice_gtk3_save_file_dialog("Save settings as ...",
+            NULL, TRUE, NULL);
+    if (filename!= NULL) {
+        if (resources_save(filename) != 0) {
+            vice_gtk3_message_error("VICE core error",
+                    "Failed to save settings as '%s'", filename);
+        }
+        g_free(filename);
+    }
+}
+
 
 
 /** \brief  File->Detach disk submenu
@@ -563,6 +632,18 @@ static ui_menu_item_t settings_menu_tail[] = {
     { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
         "settings", (void *)ui_settings_dialog_create, NULL,
         GDK_KEY_O, VICE_MOD_MASK },
+    { "Load settings", UI_MENU_TYPE_ITEM_ACTION,
+        "settings-load", settings_load_callback, NULL,
+        0, 0 },
+    { "Load custom settings ...", UI_MENU_TYPE_ITEM_ACTION,
+        "settings-load-custom", settings_load_custom_callback, NULL,
+        0, 0 },
+    { "Save settings", UI_MENU_TYPE_ITEM_ACTION,
+        "settings-save", settings_save_callback, NULL,
+        0, 0 },
+    { "Save custom settings ...", UI_MENU_TYPE_ITEM_ACTION,
+        "settings-save-custom", settings_save_custom_callback, NULL,
+        0, 0 },
     UI_MENU_TERMINATOR
 };
 

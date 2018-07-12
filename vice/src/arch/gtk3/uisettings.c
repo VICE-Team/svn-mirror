@@ -1886,7 +1886,9 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 static void response_callback(GtkWidget *widget, gint response_id,
                               gpointer user_data)
 {
+#if 0
     gchar *filename;
+#endif
 
     switch (response_id) {
 
@@ -1901,10 +1903,10 @@ static void response_callback(GtkWidget *widget, gint response_id,
             }
 #endif
             break;
-
+#if 0
         /* load vicerc from default location */
         case RESPONSE_LOAD:
-            if(resources_load(NULL) != 0) {
+            if (resources_load(NULL) != 0) {
                 vice_gtk3_message_error("VICE core error",
                         "Failed to load default settings file");
             }
@@ -1919,6 +1921,7 @@ static void response_callback(GtkWidget *widget, gint response_id,
                     vice_gtk3_message_error("VICE core error",
                             "Failed to load settings from '%s'", filename);
                 }
+                g_free(filename);
             }
             break;
 
@@ -1942,7 +1945,7 @@ static void response_callback(GtkWidget *widget, gint response_id,
                 g_free(filename);
             }
             break;
-
+#endif
         case RESPONSE_DEFAULT:
             if (vice_gtk3_message_confirm("Reset to default setting",
                         "Do you wish to reset to default settings?")) {
@@ -2043,10 +2046,12 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
             ui_get_active_window(),
             GTK_DIALOG_MODAL,
             "Restore defaults", RESPONSE_DEFAULT,
+#if 0
             "Load", RESPONSE_LOAD,
             "Save", RESPONSE_SAVE,
             "Load file ...", RESPONSE_LOAD_FILE,
             "Save file ...", RESPONSE_SAVE_FILE,
+#endif
             "Close", GTK_RESPONSE_DELETE_EVENT,
             NULL);
 
