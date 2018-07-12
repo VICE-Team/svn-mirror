@@ -1,6 +1,11 @@
 /** \file   dirmenupopup.c
  *  \brief  Create a menu to show a directory of a drive or tape deck
  *
+ * FIXME: The current code depends way too much on internal/core code. The code
+ *        to retrieve the current disk/tape image should be implemented
+ *        somewhere in the core code, not here.
+ *
+ *
  *  \author Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -37,6 +42,8 @@
 #include "diskimage.h"
 #include "diskimage/fsimage.h"
 #include "autostart.h"
+
+#include "tape.h"
 
 #include "dirmenupopup.h"
 
@@ -158,13 +165,11 @@ static gboolean apply_css_provider(GtkWidget *widget)
 }
 
 
-
-
 /** \brief  Create a popup menu to select a file to autostart
  *
  * XXX: This is an UNHOLY MESS, and should be refactored
  *
- * \param[in]   dev         drive index (0-3)
+ * \param[in]   dev         device index (0-3 for drives, < 0 for tape)
  * \param[in]   func        function to read image contents
  * \param[in]   response    function to call when an item has been selected
  *
@@ -202,28 +207,42 @@ GtkWidget *dir_menu_popup_create(
     menu = gtk_menu_new();
 
     /* create menu header */
-    g_snprintf(buffer, 1024, "Directory of unit %d:", dev + 8);
+    if (dev >= 0) {
+        g_snprintf(buffer, 1024, "Directory of unit %d:", dev + 8);
+    } else {
+        g_snprintf(buffer, 1024, "Directory of attached tape:");
+    }
     item = gtk_menu_item_new_with_label(buffer);
     gtk_container_add(GTK_CONTAINER(menu), item);
 
-    /*
-     * The following is complete horseshit, this needs to be implemented in a
-     * function in drive/vdrive somehow. This much dereferencing in UI code
-     * is not normal method.
-     */
-    drv_ctx = drive_context[dev];
-    if (drv_ctx != NULL) {
-        drv_s = drv_ctx->drive;
-        if (drv_s != NULL) {
-            image = drv_s->image;
-            if (image != NULL) {
-                /* this assumes fsimage, not real-image */
-                struct fsimage_s *fsimg = image->media.fsimage;
-                if (fsimg != NULL) {
-                    autostart_diskimage = fsimg->name;
+    if (dev >= 0) {
+        /*
+         * The following is complete horseshit, this needs to be implemented in a
+         * function in drive/vdrive somehow. This much dereferencing in UI code
+         * is not normal method.
+         */
+        drv_ctx = drive_context[dev];
+        if (drv_ctx != NULL) {
+            drv_s = drv_ctx->drive;
+            if (drv_s != NULL) {
+                image = drv_s->image;
+                if (image != NULL) {
+                    /* this assumes fsimage, not real-image */
+                    struct fsimage_s *fsimg = image->media.fsimage;
+                    if (fsimg != NULL) {
+                        autostart_diskimage = fsimg->name;
+                    }
                 }
             }
         }
+    } else {
+        /* tape image */
+        if (tape_image_dev1 == NULL) {
+            item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
+            gtk_container_add(GTK_CONTAINER(menu), item);
+            return menu;
+        }
+        autostart_diskimage = tape_image_dev1->name;
     }
 
     if (autostart_diskimage != NULL) {

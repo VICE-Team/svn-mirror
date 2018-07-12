@@ -65,6 +65,7 @@
 #include "diskimage.h"
 #include "diskimage/fsimage.h"
 #include "autostart.h"
+#include "tapecontents.h"
 
 #include "contentpreviewwidget.h"
 #include "dirmenupopup.h"
@@ -191,6 +192,11 @@ typedef struct ui_statusbar_s {
  *
  *  Inactive status bars have a NULL pointer for their "bar" field. */
 static ui_statusbar_t allocated_bars[MAX_STATUS_BARS];
+
+
+/* Forward decl. */
+static void tape_dir_autostart_callback(const char *image, int index);
+
 
 /** \brief Initialize the status bar subsystem.
  *
@@ -526,20 +532,36 @@ static GtkWidget *ui_drive_widget_create(int unit)
 static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     int i = GPOINTER_TO_INT(data);
-    if (allocated_bars[i].tape && allocated_bars[i].tape_menu
-            && event->type == GDK_BUTTON_PRESS) {
-        gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
-                                 allocated_bars[i].tape,
+
+    if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+        if (allocated_bars[i].tape && allocated_bars[i].tape_menu
+                && event->type == GDK_BUTTON_PRESS) {
+            gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
+                                     allocated_bars[i].tape,
+                                     GDK_GRAVITY_NORTH_EAST,
+                                     GDK_GRAVITY_SOUTH_EAST,
+                                     event);
+        }
+        return TRUE;
+    } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
+        GtkWidget *dir_menu;
+        debug_gtk3("Got SECONDARY BUTTON");
+
+        dir_menu = dir_menu_popup_create(-1, tapecontents_read,
+                tape_dir_autostart_callback);
+        gtk_menu_popup_at_widget(GTK_MENU(dir_menu),
+                                 widget,
                                  GDK_GRAVITY_NORTH_EAST,
                                  GDK_GRAVITY_SOUTH_EAST,
                                  event);
+        return TRUE;
     }
-    return TRUE;
+    return FALSE;
 }
 
-/** \brief  Disk image to autorun a file from
+/** \brief  Disk/tape image to autorun a file from
  */
-static const char *autostart_diskimage = NULL;
+static const char *autostart_image = NULL;
 
 #if 0
 /** \brief  Handler for the "response" event of the directory dialog
@@ -590,12 +612,27 @@ static void disk_dir_autostart_callback(const char *image, int index)
     debug_gtk3("Got image '%s', file index %d to autostart",
             image, index);
     /* make a copy since autostart will reuse memory for the diskimage name */
-    if (autostart_diskimage != NULL) {
-        lib_free(autostart_diskimage);
+    if (autostart_image != NULL) {
+        lib_free(autostart_image);
     }
-    autostart_diskimage = lib_stralloc(image);
-    autostart_disk(autostart_diskimage, NULL, index + 1, AUTOSTART_MODE_RUN);
+    autostart_image = lib_stralloc(image);
+    autostart_disk(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
 }
+
+
+
+static void tape_dir_autostart_callback(const char *image, int index)
+{
+    debug_gtk3("Got image '%s', file index %d to autostart",
+            image, index);
+    /* make a copy since autostart will reuse memory for the diskimage name */
+    if (autostart_image != NULL) {
+        lib_free(autostart_image);
+    }
+    autostart_image = lib_stralloc(image);
+    autostart_tape(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
+}
+
 
 #if 0
 /** \brief  Show dialog to run a file of the image attached to \a unit
@@ -1357,9 +1394,9 @@ void ui_display_statustext(const char *text, int fade_out)
      * Once the attaching is done and the message displayed (here), we can free
      * the diskimage string again for the next time the dir menu popup is used.
      */
-    if (autostart_diskimage != NULL) {
-        lib_free(autostart_diskimage);
-        autostart_diskimage = NULL;
+    if (autostart_image != NULL) {
+        lib_free(autostart_image);
+        autostart_image = NULL;
     }
 }
 
