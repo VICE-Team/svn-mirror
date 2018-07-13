@@ -1487,6 +1487,8 @@ void ui_exit(void)
         uisidattach_shutdown();
     }
 
+    ui_settings_shutdown();
+
     /* Destroy the main window(s) */
     ui_destroy_main_window(PRIMARY_WINDOW);
     ui_destroy_main_window(SECONDARY_WINDOW);

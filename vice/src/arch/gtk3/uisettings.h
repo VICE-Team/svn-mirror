@@ -29,6 +29,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
+#include "resourcewidgetmanager.h"
 
 
 /** \brief  Settings tree node object
@@ -57,5 +58,9 @@ gboolean ui_settings_dialog_create(GtkWidget *, gpointer user_data);
 bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter);
 bool ui_settings_append_by_xpath(const char *path,
                                  ui_settings_tree_node_t *nodes);
+
+void ui_settings_set_resource_widget_manager(resource_widget_manager_t *ref);
+
+void ui_settings_shutdown(void);
 
 #endif

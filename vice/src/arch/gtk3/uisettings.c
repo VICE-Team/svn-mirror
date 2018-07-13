@@ -1510,6 +1510,18 @@ static GtkWidget *settings_tree = NULL;
 static const char *last_node_xpath = NULL;
 
 
+static GtkTreePath *last_node_path = NULL;
+
+
+static resource_widget_manager_t *resource_manager = NULL;
+
+
+void ui_settings_set_resource_widget_manager(resource_widget_manager_t *ref)
+{
+    resource_manager = ref;
+}
+
+
 
 static void ui_settings_central_widget_reset(GtkWidget *widget, gpointer data)
 {
@@ -1632,6 +1644,13 @@ static void on_tree_selection_changed(
                 lib_free(last_node_xpath);
             }
             last_node_xpath = xpath;
+
+            if (last_node_path != NULL) {
+                gtk_tree_path_free(last_node_path);
+            }
+            last_node_path = gtk_tree_model_get_path(
+                    GTK_TREE_MODEL(settings_model), &iter);
+
             ui_settings_set_central_widget(callback(settings_window));
         }
         g_free(name);
@@ -1916,7 +1935,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 
     /* TODO: remember the previously selected setting/widget and set it here */
 
-
+#if 0
     if (last_node_xpath == NULL) {
         ui_settings_set_central_widget(ui_settings_inital_widget(widget));
     } else {
@@ -1932,11 +1951,41 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
             }
         }
     }
+#endif
 
+    /* do we have a previous settings "page"? */
+    if (last_node_path == NULL) {
+        /* nope, display the default one */
+        ui_settings_set_central_widget(ui_settings_inital_widget(widget));
+    } else {
+        /* try to restore the page last shown */
+        GtkTreeIter iter;
 
+        debug_gtk3("Attempting to get previous settings page");
+        if (!gtk_tree_model_get_iter(GTK_TREE_MODEL(settings_model), &iter,
+                    last_node_path)) {
+            debug_gtk3("Oops");
+        } else {
+            GtkWidget *(*callback)(GtkWidget *) = NULL;
+            gtk_tree_model_get(
+                    GTK_TREE_MODEL(settings_model), &iter,
+                    COLUMN_CALLBACK, &callback, -1);
+            if (callback != NULL) {
 
+                GtkTreeSelection *selection;
 
+                selection = gtk_tree_view_get_selection(
+                        GTK_TREE_VIEW(settings_tree));
 
+                ui_settings_set_central_widget(callback(widget));
+                gtk_tree_view_expand_to_path(
+                        GTK_TREE_VIEW(settings_tree),
+                        last_node_path);
+                gtk_tree_selection_select_path(selection, last_node_path);
+
+            }
+        }
+    }
 
     /* create container for generic settings */
     extra = gtk_grid_new();
@@ -2178,4 +2227,14 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     gtk_widget_show_all(dialog);
 
     return TRUE;
+}
+
+
+/** \brief  Clean up resources used on emu exit
+ */
+void ui_settings_shutdown(void)
+{
+    if (last_node_path != NULL) {
+        gtk_tree_path_free(last_node_path);
+    }
 }
