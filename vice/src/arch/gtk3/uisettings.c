@@ -59,6 +59,7 @@
 #include <stdbool.h>
 
 #include "lib.h"
+#include "util.h"
 #include "machine.h"
 #include "resources.h"
 #include "vsync.h"
@@ -1504,6 +1505,12 @@ static GtkTreeStore *settings_model = NULL;
 static GtkWidget *settings_tree = NULL;
 
 
+/** \brief  xpath expression indicating the last used widget
+ */
+static const char *last_node_xpath = NULL;
+
+
+
 static void ui_settings_central_widget_reset(GtkWidget *widget, gpointer data)
 {
     vice_gtk3_message_info("Settings UI",
@@ -1544,6 +1551,43 @@ static GtkWidget *ui_settings_inital_widget(GtkWidget *parent)
 }
 
 
+/** \brief  Get an xpath string for the current tree node
+ *
+ * \param[in]   model   tree model
+ * \param[in]   iter    tree iterator
+ *
+ * \return  xpath string or `NULL` on error
+ */
+static char *ui_settings_get_node_xpath(GtkTreeModel *model, GtkTreeIter *iter)
+{
+    GtkTreeIter parent;
+    GtkTreeIter curr = *iter;
+    char *id;
+    char *xpath;
+
+    /* first get the current ID */
+    gtk_tree_model_get(model, &curr, COLUMN_ID, &id, -1);
+    debug_gtk3("node: %s", id);
+    xpath = lib_stralloc(id);
+
+    while (gtk_tree_model_iter_parent(model, &parent, &curr)) {
+        char *id;
+        char *tmp;
+        gtk_tree_model_get(model, &parent, COLUMN_ID, &id, -1);
+        debug_gtk3("node: %s", id);
+
+        tmp = util_concat(id, "/", xpath, NULL);
+        lib_free(xpath);
+        xpath = tmp;
+        curr = parent;
+
+    }
+    return xpath;
+}
+
+
+
+
 #if 0
 /** \brief  Paused state when popping up the UI
  */
@@ -1562,14 +1606,19 @@ static void on_tree_selection_changed(
 {
     GtkTreeIter iter;
     GtkTreeModel *model;
+    char *xpath;
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter))
     {
         gchar *name;
         GtkWidget *(*callback)(void *) = NULL;
+        const char *id;
 
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
+        gtk_tree_model_get(model, &iter, COLUMN_ID, &id, -1);
+        debug_gtk3("node name: %s", name);
+        debug_gtk3("node ID: %s", id);
         if (callback != NULL) {
             char *title = lib_msprintf("%s settings :: %s", machine_name, name);
             gtk_window_set_title(GTK_WINDOW(settings_window), title);
@@ -1577,6 +1626,12 @@ static void on_tree_selection_changed(
             /* create new central widget, using settings_window (this dialog)
              * as its parent, this will allow for proper blocking in modal
              * dialogs, while ui_get_active_window() breaks that. */
+            xpath = ui_settings_get_node_xpath(model, &iter);
+            debug_gtk3("xpath of node = '%s'", xpath);
+            if (last_node_xpath != NULL) {
+                lib_free(last_node_xpath);
+            }
+            last_node_xpath = xpath;
             ui_settings_set_central_widget(callback(settings_window));
         }
         g_free(name);
@@ -1654,7 +1709,10 @@ bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter)
             if (strcmp(id, *curr) == 0) {
                 const char *name;
                 gtk_tree_model_get(model, iter, COLUMN_NAME, &name, -1);
-                debug_gtk3("got it: '%s'.", name);
+                debug_gtk3("got element: '%s'.", name);
+
+                /* TODO: iterate into child nodes */
+
                 /* clean up */
                 g_strfreev(elements);
                 return true;
@@ -1857,7 +1915,29 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(settings_grid), scroll, 0, 0, 1, 1);
 
     /* TODO: remember the previously selected setting/widget and set it here */
-    ui_settings_set_central_widget(ui_settings_inital_widget(widget));
+
+
+    if (last_node_xpath == NULL) {
+        ui_settings_set_central_widget(ui_settings_inital_widget(widget));
+    } else {
+        GtkTreeIter iter;
+
+        if (ui_settings_iter_by_xpath(last_node_xpath, &iter)) {
+            GtkWidget *(*callback)(GtkWidget *) = NULL;
+
+            gtk_tree_model_get(GTK_TREE_MODEL(settings_model), &iter,
+                    COLUMN_CALLBACK, &callback, -1);
+            if (callback != NULL) {
+                ui_settings_set_central_widget(callback(widget));
+            }
+        }
+    }
+
+
+
+
+
+
     /* create container for generic settings */
     extra = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
@@ -2088,6 +2168,11 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
+
+    /* check previous selected node, if any */
+    debug_gtk3("last selected node = %s",
+            last_node_xpath == NULL ? "<null>" : last_node_xpath);
+
 
     settings_window = dialog;
     gtk_widget_show_all(dialog);

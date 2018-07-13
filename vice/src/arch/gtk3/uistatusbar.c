@@ -1503,7 +1503,7 @@ void ui_display_tape_motor_status(int motor)
         sb_state.tape_motor_status = motor;
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
             if (allocated_bars[i].tape) {
-                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 4, 0);
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 2, 0);
                 if (widget) {
                     gtk_widget_queue_draw(widget);
                 }
