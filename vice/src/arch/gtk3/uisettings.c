@@ -1505,20 +1505,23 @@ static GtkTreeStore *settings_model = NULL;
 static GtkWidget *settings_tree = NULL;
 
 
-/** \brief  xpath expression indicating the last used widget
+/** \brief  Path to the last used settings page
  */
-static const char *last_node_xpath = NULL;
-
-
 static GtkTreePath *last_node_path = NULL;
 
 
+/** \brief  Reference to the resource widget manager of the current page
+ */
 static resource_widget_manager_t *resource_manager = NULL;
 
 
-void ui_settings_set_resource_widget_manager(resource_widget_manager_t *ref)
+/** \brief  Set reference to the resource widget manager of the current page
+ *
+ * \param[in]   manager resource widget manager reference
+ */
+void ui_settings_set_resource_widget_manager(resource_widget_manager_t *manager)
 {
-    resource_manager = ref;
+    resource_manager = manager;
 }
 
 
@@ -1527,6 +1530,10 @@ static void ui_settings_central_widget_reset(GtkWidget *widget, gpointer data)
 {
     vice_gtk3_message_info("Settings UI",
             "Resetting current central widget\n(doesn't work yet :))");
+    if (resource_manager != NULL) {
+        vice_resource_widget_manager_reset(resource_manager);
+    }
+
 }
 
 
@@ -1563,43 +1570,6 @@ static GtkWidget *ui_settings_inital_widget(GtkWidget *parent)
 }
 
 
-/** \brief  Get an xpath string for the current tree node
- *
- * \param[in]   model   tree model
- * \param[in]   iter    tree iterator
- *
- * \return  xpath string or `NULL` on error
- */
-static char *ui_settings_get_node_xpath(GtkTreeModel *model, GtkTreeIter *iter)
-{
-    GtkTreeIter parent;
-    GtkTreeIter curr = *iter;
-    char *id;
-    char *xpath;
-
-    /* first get the current ID */
-    gtk_tree_model_get(model, &curr, COLUMN_ID, &id, -1);
-    debug_gtk3("node: %s", id);
-    xpath = lib_stralloc(id);
-
-    while (gtk_tree_model_iter_parent(model, &parent, &curr)) {
-        char *id;
-        char *tmp;
-        gtk_tree_model_get(model, &parent, COLUMN_ID, &id, -1);
-        debug_gtk3("node: %s", id);
-
-        tmp = util_concat(id, "/", xpath, NULL);
-        lib_free(xpath);
-        xpath = tmp;
-        curr = parent;
-
-    }
-    return xpath;
-}
-
-
-
-
 #if 0
 /** \brief  Paused state when popping up the UI
  */
@@ -1618,7 +1588,6 @@ static void on_tree_selection_changed(
 {
     GtkTreeIter iter;
     GtkTreeModel *model;
-    char *xpath;
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter))
     {
@@ -1638,19 +1607,14 @@ static void on_tree_selection_changed(
             /* create new central widget, using settings_window (this dialog)
              * as its parent, this will allow for proper blocking in modal
              * dialogs, while ui_get_active_window() breaks that. */
-            xpath = ui_settings_get_node_xpath(model, &iter);
-            debug_gtk3("xpath of node = '%s'", xpath);
-            if (last_node_xpath != NULL) {
-                lib_free(last_node_xpath);
-            }
-            last_node_xpath = xpath;
-
             if (last_node_path != NULL) {
                 gtk_tree_path_free(last_node_path);
             }
             last_node_path = gtk_tree_model_get_path(
                     GTK_TREE_MODEL(settings_model), &iter);
 
+            /* reset widget manager */
+            resource_manager = NULL;
             ui_settings_set_central_widget(callback(settings_window));
         }
         g_free(name);
@@ -1690,75 +1654,6 @@ static void create_tree_model(void)
 {
     settings_model = gtk_tree_store_new(NUM_COLUMNS,
             G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
-}
-
-
-/** \brief  Get iterator into the tree model by \a path, setting \a iter
- *
- * Sets \a iter to the position in the settings tree model as requested by
- * \a path. If \a path is `NULL` or "" an iter to the very first element in
- * the tree model will be set (no idea if this useful).
- *
- * \param[in]   path    xpath-like expression ("foo/bar/huppel" for now)
- * \param[out]  iter    tree model iterator target
- *
- * \return  boolean (probably best not to touch \a iter when `false`)
- */
-bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter)
-{
-    GtkTreeModel *model = GTK_TREE_MODEL(settings_model);
-    gchar **elements;
-    gchar **curr;
-
-    gtk_tree_model_get_iter_first(GTK_TREE_MODEL(settings_model), iter);
-    if (path == NULL || *path == '\0') {
-        return true;
-    }
-
-    /* split the path into elements */
-    debug_gtk3("splitting '%s' into elements ...", path);
-    elements = g_strsplit(path, "/", 0);
-    for (curr = elements; *curr != NULL; curr++) {
-        debug_gtk3("element '%s'.", *curr);
-        do {
-            const char *id;
-
-            gtk_tree_model_get(model, iter, COLUMN_ID, &id, -1);
-            debug_gtk3("checking ID string '%s'=='%s'.", id, *curr);
-            if (strcmp(id, *curr) == 0) {
-                const char *name;
-                gtk_tree_model_get(model, iter, COLUMN_NAME, &name, -1);
-                debug_gtk3("got element: '%s'.", name);
-
-                /* TODO: iterate into child nodes */
-
-                /* clean up */
-                g_strfreev(elements);
-                return true;
-            }
-
-        } while (gtk_tree_model_iter_next(model, iter));
-    }
-    /* TODO: figure out if Gtk supports setting an iter to an invalid state
-     *       that avoids weird behaviour */
-    g_strfreev(elements);
-    return false;
-}
-
-
-bool ui_settings_append_by_xpath(const char *path,
-                                 ui_settings_tree_node_t *nodes)
-{
-#if 0
-    GtkTreeModel *model = GTK_TREE_MODEL(settings_model);
-    GtkTreeIter iter;
-
-    if (ui_settings_iter_by_xpath(path, &iter)) {
-        /* found the proper node, add node */
-        return true;
-    }
-#endif
-    return false;
 }
 
 
@@ -1933,25 +1828,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 
     gtk_grid_attach(GTK_GRID(settings_grid), scroll, 0, 0, 1, 1);
 
-    /* TODO: remember the previously selected setting/widget and set it here */
-
-#if 0
-    if (last_node_xpath == NULL) {
-        ui_settings_set_central_widget(ui_settings_inital_widget(widget));
-    } else {
-        GtkTreeIter iter;
-
-        if (ui_settings_iter_by_xpath(last_node_xpath, &iter)) {
-            GtkWidget *(*callback)(GtkWidget *) = NULL;
-
-            gtk_tree_model_get(GTK_TREE_MODEL(settings_model), &iter,
-                    COLUMN_CALLBACK, &callback, -1);
-            if (callback != NULL) {
-                ui_settings_set_central_widget(callback(widget));
-            }
-        }
-    }
-#endif
+    /* Remember the previously selected setting/widget and set it here */
 
     /* do we have a previous settings "page"? */
     if (last_node_path == NULL) {
@@ -2028,22 +1905,12 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 static void response_callback(GtkWidget *widget, gint response_id,
                               gpointer user_data)
 {
-#if 0
-    gchar *filename;
-#endif
-
     switch (response_id) {
 
         /* close dialog */
         case GTK_RESPONSE_DELETE_EVENT:
             gtk_widget_destroy(widget);
             settings_window = NULL;
-#if 0
-            /* restore old pause state */
-            if (!old_pause_state) {
-                ui_pause_emulation(0);
-            }
-#endif
             break;
 
         /* reset resources in current central widget to the state they were
@@ -2056,49 +1923,7 @@ static void response_callback(GtkWidget *widget, gint response_id,
         case RESPONSE_FACTORY:
             ui_settings_central_widget_factory(widget, user_data);
             break;
-#if 0
-        /* load vicerc from default location */
-        case RESPONSE_LOAD:
-            if (resources_load(NULL) != 0) {
-                vice_gtk3_message_error("VICE core error",
-                        "Failed to load default settings file");
-            }
-            break;
 
-        /* load vicerc from a user-specified location */
-        case RESPONSE_LOAD_FILE:
-            filename = vice_gtk3_open_file_dialog("Load settings file",
-                    NULL, NULL, NULL);
-            if (filename!= NULL) {
-                if (resources_load(filename) != 0) {
-                    vice_gtk3_message_error("VICE core error",
-                            "Failed to load settings from '%s'", filename);
-                }
-                g_free(filename);
-            }
-            break;
-
-        /* save settings to default location */
-        case RESPONSE_SAVE:
-            if (resources_save(NULL) != 0) {
-                vice_gtk3_message_error("VICE core error",
-                        "Failed to save settings to default file");
-            }
-            break;
-
-        /* save settings to a user-specified location */
-        case RESPONSE_SAVE_FILE:
-            filename = vice_gtk3_save_file_dialog("Save settings as ...",
-                    NULL, TRUE, NULL);
-            if (filename != NULL) {
-                if (resources_save(filename) != 0) {
-                    vice_gtk3_message_error("VICE core error",
-                            "Failed to save setting as '%s'.", filename);
-                }
-                g_free(filename);
-            }
-            break;
-#endif
         case RESPONSE_DEFAULT:
             if (vice_gtk3_message_confirm("Reset to default setting",
                         "Do you wish to reset to default settings?")) {
@@ -2176,19 +2001,6 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     GtkWidget *content;
     char title[256];
-#if 0
-    GtkTreeIter iter;
-#endif
-
-#if 0
-    /* remember pause setting */
-    old_pause_state = ui_emulation_is_paused();
-
-    /* pause emulation (required for some settings) */
-    if (!old_pause_state) {
-        ui_pause_emulation(1);
-    }
-#endif
 
     vsync_suspend_speed_eval();
 
@@ -2200,13 +2012,6 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
             GTK_DIALOG_MODAL,
             "Undo changes in dialog", RESPONSE_RESET,
             "Restore factory settings", RESPONSE_FACTORY,
-#if 0
-            "Restore defaults", RESPONSE_DEFAULT,
-            "Load", RESPONSE_LOAD,
-            "Save", RESPONSE_SAVE,
-            "Load file ...", RESPONSE_LOAD_FILE,
-            "Save file ...", RESPONSE_SAVE_FILE,
-#endif
             "Close", GTK_RESPONSE_DELETE_EVENT,
             NULL);
 
@@ -2218,11 +2023,6 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
 
-    /* check previous selected node, if any */
-    debug_gtk3("last selected node = %s",
-            last_node_xpath == NULL ? "<null>" : last_node_xpath);
-
-
     settings_window = dialog;
     gtk_widget_show_all(dialog);
 
@@ -2231,6 +2031,10 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 
 
 /** \brief  Clean up resources used on emu exit
+ *
+ * Do NOT call this when exiting the settings UI, the event handlers will take
+ * care of cleaning up resources used by the UI. This function cleans up the
+ * data used to present the user with the last used settings page.
  */
 void ui_settings_shutdown(void)
 {
