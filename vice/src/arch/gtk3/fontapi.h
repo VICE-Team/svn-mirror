@@ -31,7 +31,8 @@
 #include "vice.h"
 #include <stdbool.h>
 
-bool fontapi_register_cbmfont_with_fc(void);
+bool fontapi_register_cbmfont(void);
+void fontapi_unregister_cbmfont(void);
 
 #endif
 

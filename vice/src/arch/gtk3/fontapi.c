@@ -37,16 +37,19 @@
 
 #include "fontapi.h"
 
-#ifdef HAVE_FONTCONFIG
+#ifdef UNIX_COMPILE
+# ifdef HAVE_FONTCONFIG
 
-#include <fontconfig/fontconfig.h>
+#  include <fontconfig/fontconfig.h>
 
 
-/** \brief    Try to register the CBM font with fontconfig
+/** \brief    Try to register the CBM font with the OS
+ *
+ * This tries to use fontconfig on Unix, and uses GDI on windows.
  *
  * \return    bool
  */
-bool fontapi_register_cbmfont_with_fc(void)
+bool fontapi_register_cbmfont(void)
 {
     FcConfig *fc_config;
     int fc_version;
@@ -68,15 +71,7 @@ bool fontapi_register_cbmfont_with_fc(void)
     fc_config = FcConfigGetCurrent();
 
     datadir = archdep_get_vice_datadir();
-    /*
-     * Work around the fact that Windows' bindist script doesn't create the
-     * fonts dir, nor the gui dir
-     */
-#ifdef WINDOWS_COMPILE
-    path = util_concat(datadir, "\\..\\html\\fonts\\CBM.ttf", NULL);
-#else
     path = util_concat(datadir, "/../fonts/CBM.ttf", NULL);
-#endif
     lib_free(datadir);
 
     debug_gtk3("Trying to load font '%s'.", path);
@@ -92,14 +87,72 @@ bool fontapi_register_cbmfont_with_fc(void)
     return true;
 }
 
-#else
+# else     /* HAVE_FONTCONFIG */
 
-bool fontapi_register_cbmfont_with_fc(void)
+bool fontapi_register_cbmfont(void)
 {
     log_error(LOG_ERR, "no fontconfig support, sorry.");
     return false;
 }
 
+# endif
+
+#else   /* UNIX_COMPILE */
+
+/*
+ * Windows part of the API -
+ */
+# include "windows.h"
+
+
+/** \brief  Attempt to register the CBM font with the OS's font API
+ *
+ *
+ * \return  bool
+ */
+bool fontapi_register_cbmfont(void)
+{
+    char *datadir;
+    char *path;
+    int result;
+
+    debug_gtk3("This is were the Windows font shit should go");
+
+    datadir = archdep_get_vice_datadir();
+    path = util_concat(datadir, "\\CBM.ttf", NULL);
+    lib_free(datadir);
+
+    debug_gtk3("Adding font '%s", path);
+    result = AddFontResourceEx(path, 0, 0);
+    if (result == 0) {
+        debug_gtk3("failed to add font");
+        lib_free(path);
+        return FALSE;
+    }
+    debug_gtk3("added %d fonts", result);
+    lib_free(path);
+    return TRUE;
+}
+
 #endif
 
 
+/** \brief  Unregister the CBM font
+ *
+ * Seems like only on Windows this actually required.
+ */
+void fontapi_unregister_cbmfont(void)
+{
+#ifdef WIN32_COMPILE
+
+    char *datadir;
+    char *path;
+
+    datadir = archdep_get_vice_datadir();
+    path = util_concat(datadir, "/CBM.ttf", NULL);
+    lib_free(datadir);
+
+    RemoveFontResourceEx(path, 0, 0);
+    lib_free(path);
+#endif
+}

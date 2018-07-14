@@ -1143,7 +1143,7 @@ int ui_init(int *argc, char **argv)
     }
 
     debug_gtk3("Initializing fontapi.");
-    if (!fontapi_register_cbmfont_with_fc()) {
+    if (!fontapi_register_cbmfont()) {
         debug_gtk3("failed.");
         log_error(LOG_ERR, "failed to initialize fontapi.");
     }
@@ -1497,6 +1497,9 @@ void ui_exit(void)
     if (soe) {
         resources_save(NULL);
     }
+
+    /* unregister the CBM font */
+    fontapi_unregister_cbmfont();
 
     /* trigger any remaining Gtk/GLib events */
     while (g_main_context_pending(g_main_context_default())) {
