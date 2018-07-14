@@ -484,11 +484,17 @@ static void draw_std_text(void)
     uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
     uint8_t *attr_ptr, *screen_ptr, *char_ptr;
 
-    unsigned int i, d;
+    unsigned int i, d, charwidth;
     unsigned int cpos = 0xffff;
 
     cpos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
 
+    if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
+        charwidth = 2 * (vdc.regs[22] >> 4);
+    } else { /* 80 column mode */
+        charwidth = 1 + (vdc.regs[22] >> 4);
+    }
+    
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
         - (vdc.regs[22] >> 4)
@@ -505,7 +511,7 @@ static void draw_std_text(void)
         table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
         pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
         pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
-        for (i = 0; i < vdc.screen_text_cols; i++, p += ((vdc.regs[25] & 0x10) ? 16 : 8)) {
+        for (i = 0; i < vdc.screen_text_cols; i++, p += charwidth) {
             d = *(char_ptr
                   + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x1000 : 0)
                   + (*(screen_ptr + i) * vdc.bytes_per_char));
@@ -560,7 +566,7 @@ static void draw_std_text(void)
         uint32_t *ptr = hr_table + (vdc.regs[26] << 4);
         uint32_t *pdwl = pdl_table + (vdc.regs[26] << 4);  /* Pointers into the lookup tables */
         uint32_t *pdwh = pdh_table + (vdc.regs[26] << 4);
-        for (i = 0; i < vdc.screen_text_cols; i++, p += ((vdc.regs[25] & 0x10) ? 16 : 8)) {
+        for (i = 0; i < vdc.screen_text_cols; i++, p += charwidth) {
             d = *(char_ptr + (*(screen_ptr + i) * vdc.bytes_per_char));
 
             if (cpos == i) { /* handle cursor if this is the cursor */
@@ -738,8 +744,14 @@ static void draw_std_bitmap(void)
     uint8_t *p;
     uint8_t *attr_ptr, *bitmap_ptr;
 
-    unsigned int i, d, j, fg, bg;
-
+    unsigned int i, d, j, fg, bg; charwidth;
+    
+    if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
+        charwidth = 2 * (vdc.regs[22] >> 4);
+    } else { /* 80 column mode */
+        charwidth = 1 + (vdc.regs[22] >> 4);
+    }
+    
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
         - (vdc.regs[22] >> 4)
@@ -749,7 +761,7 @@ static void draw_std_bitmap(void)
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter + vdc.attribute_offset;
     bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
 
-    for (i = 0; i < vdc.mem_counter_inc; i++, p += ((vdc.regs[25] & 0x10) ? 16 : 8)) {
+    for (i = 0; i < vdc.mem_counter_inc; i++, p += charwidth) {
         uint32_t *ptr, *pdwl, *pdwh;
 
         if (vdc.regs[25] & 0x40) {
