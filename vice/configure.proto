@@ -1650,11 +1650,11 @@ darwin*)
       optimization_c="-O3 $march"
       optimization_cxx="-fno-exceptions $optimization_c"
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
-        CFLAGS="-g $optimization_c $warnings_c"
-        CXXFLAGS="-g $optimization_cxx $warnings_cxx"
+        CFLAGS="$CFLAGS -g $optimization_c $warnings_c"
+        CXXFLAGS="$CXXFLAGS -g $optimization_cxx $warnings_cxx"
       else
-        CFLAGS="$optimization_c $warnings_c"
-        CXXFLAGS="$optimization_cxx $warnings_cxx"
+        CFLAGS="$CFLAGS $optimization_c $warnings_c"
+        CXXFLAGS="$CXXFLAGS $optimization_cxx $warnings_cxx"
       fi 
     fi
   fi
@@ -1705,7 +1705,7 @@ dnl All other UN*X systems
     alpha*-*-linux*)
       if test x"$CC" = "xccc"; then
         echo "Using Compaq C Compiler cflags."
-        CFLAGS="-w0 -g3 -migrate -fast -inline speed -unroll 0 -arch host -tune host"
+        CFLAGS="$CFLAGS -w0 -g3 -migrate -fast -inline speed -unroll 0 -arch host -tune host"
         AC_DEFINE(__DECALPHA__,1,[define when using the alpha compaq compiler])
       fi
       ;;
@@ -1713,21 +1713,21 @@ dnl All other UN*X systems
     sparc-*-sunos4*)
       if test x"$CC" = "xcc"; then
         echo "Using Sun C Compiler cflags."
-        CFLAGS="-O -xCC"
+        CFLAGS="$CFLAGS -O -xCC"
       fi
       ;;
 
     *-sgi-irix*)
       if test x"$CC" = "xcc"; then
         echo "Using SGI C Compiler cflags."
-        CFLAGS="-O2 -woff all"
+        CFLAGS="$CFLAGS -O2 -woff all"
       fi
       ;;
 
     alpha*-dec-osf*)
       if test x"$CC" = "xcc"; then
         echo "Using Tru64 C Compiler cflags."
-        CFLAGS="-fast -O2 -std -g3 -non_shared"
+        CFLAGS="$CFLAGS -fast -O2 -std -g3 -non_shared"
       fi
       ;;
   esac
