@@ -1417,6 +1417,7 @@ vsid-all: \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
+	libhvsc \
 	libhwsiddrv \
 	libiodrv \
 	libviciivsid \
@@ -2434,6 +2435,9 @@ libfsdevice:
 libgfxoutputdrv:
 	@echo "making all in gfxoutputdrv"
 	@(cd gfxoutputdrv && $(MAKE))
+libhvsc:
+	@echo "making all in hvsc"
+	@(cd hvsc && $(MAKE))
 libhwsiddrv:
 	@echo "making all in hwsiddrv"
 	@(cd hwsiddrv && $(MAKE))
