@@ -47,6 +47,7 @@
 #include "resources.h"
 #include "autostart-prg.h"
 #include "resourcewidgetmanager.h"
+#include "uisettings.h"
 
 #include "settings_autostart.h"
 
@@ -82,17 +83,6 @@ static resource_widget_manager_t manager;
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
     vice_resource_widget_manager_exit(&manager);
-}
-
-
-/** \brief  Reset all widgets via the resource widget manager
- *
- * \param[in]   widget  widget triggering the event (unused)
- * \param[in]   data    extra event data (unused)
- */
-static void on_reset_test(GtkWidget *widget, gpointer data)
-{
-    vice_resource_widget_manager_reset(&manager);
 }
 
 
@@ -262,9 +252,10 @@ GtkWidget *settings_autostart_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *tde;
     GtkWidget *warp;
-    GtkWidget *button;
 
+    /* initialize resource widget manager and register with uisettings */
     vice_resource_widget_manager_init(&manager);
+    ui_settings_set_resource_widget_manager(&manager);
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     g_object_set(grid, "margin", 8, NULL);
@@ -286,10 +277,6 @@ GtkWidget *settings_autostart_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), create_prg_widget(),
             0, 3, 1, 1);
 
-
-    button = gtk_button_new_with_label("Test resetting via resource manager");
-    g_signal_connect(button, "clicked", G_CALLBACK(on_reset_test), NULL);
-    gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 1, 1);
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 

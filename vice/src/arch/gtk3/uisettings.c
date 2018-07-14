@@ -1525,23 +1525,45 @@ void ui_settings_set_resource_widget_manager(resource_widget_manager_t *manager)
 }
 
 
-
+/** \brief  Reset widgets in the central widget to their initial state
+ *
+ * Restores all widgets in the central widget to the state they were in when\
+ * the central widget was instanciated. This requires a call from the central
+ * widget registering its "resource manager widget".
+ *
+ * \param[in]   widget  settings dialog
+ * \param[in]   data    extra event data (unused at the moment)
+ */
 static void ui_settings_central_widget_reset(GtkWidget *widget, gpointer data)
 {
-    vice_gtk3_message_info("Settings UI",
-            "Resetting current central widget\n(doesn't work yet :))");
+    debug_gtk3("Resetting current page's widgets to their initial state");
     if (resource_manager != NULL) {
         vice_resource_widget_manager_reset(resource_manager);
+    } else {
+        debug_gtk3("No resource widget manager registered, skipping");
     }
-
 }
 
 
+/** \brief  Reset widgets in the central widget to their factory state
+ *
+ * Restores all widgets in the central widget to the factory state of the
+ * resources they are bound to.
+ * This requires a call from the central widget registering its
+ * "resource manager widget".
+ *
+ * \param[in]   widget  settings dialog
+ * \param[in]   data    extra event data (unused at the moment)
+ */
 static void ui_settings_central_widget_factory(GtkWidget *widget, gpointer data)
 {
-    vice_gtk3_message_info("Settings UI",
-            "Restoring current central widget to factory settings\n"
-            "(doesn't work yet :))");
+    debug_gtk3("Resetting current page's widgets to their factory value");
+    if (resource_manager != NULL) {
+        vice_resource_widget_manager_factory(resource_manager);
+    } else {
+        debug_gtk3("No resource widget manager registered, skipping");
+    }
+
 }
 
 

@@ -208,7 +208,7 @@ void vice_resource_widget_manager_dump(resource_widget_manager_t *manager)
 }
 
 
-/** \brief  Reset all widgets registered with \a manager
+/** \brief  Reset all widgets registered with \a manager to their initial state
  *
  * Iterates the widgets registered with \a manager and executes their reset()
  * method in order. It first tries to find the default reset() method of the
@@ -248,6 +248,55 @@ gboolean vice_resource_widget_manager_reset(resource_widget_manager_t *manager)
                 reset(entry->widget);
             } else {
                 debug_gtk3("failed to find the reset method of the widget");
+                return FALSE;
+            }
+        }
+    }
+    return TRUE;
+}
+
+
+/** \brief  Reset all widgets registered with \a manager to their factory state
+ *
+ * Iterates the widgets registered with \a manager and executes their factory()
+ * method in order. It first tries to find the default factory() method of the
+ * resource widgets in gtk3/base/widgets, if that fails it tries to invoke the
+ * custom factory() method passed when calling
+ * vice_resource_widget_manager_add_widget(), and when that is NULL, it will
+ * return FALSE to indicate failure.
+ *
+ * \param[in]   manager resource widget manager
+ *
+ * \return  bool
+ */
+gboolean vice_resource_widget_manager_factory(resource_widget_manager_t *manager)
+{
+    size_t i;
+
+    printf("Resource Widget Manager: registered resources:\n");
+    for (i = 0; i < manager->widget_num; i++) {
+        resource_widget_entry_t *entry = manager->widget_list[i];
+        const char *resource;
+
+        if (entry->resource == NULL) {
+            resource = resource_widget_get_resource_name(entry->widget);
+        } else {
+            resource = entry->resource;
+        }
+        debug_gtk3("resetting resource '%s' to factory value", resource);
+        /* custom reset func? */
+        if (entry->factory != NULL) {
+            debug_gtk3("calling custom factory function");
+            entry->reset(entry->widget);
+        } else {
+            gboolean (*factory)(GtkWidget *) = NULL;
+            debug_gtk3("calling default factory function");
+            factory = g_object_get_data(G_OBJECT(entry->widget),
+                    "MethodFactory");
+            if (factory != NULL) {
+                factory(entry->widget);
+            } else {
+                debug_gtk3("failed to find the factory method of the widget");
                 return FALSE;
             }
         }
