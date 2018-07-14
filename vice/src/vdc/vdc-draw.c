@@ -744,7 +744,7 @@ static void draw_std_bitmap(void)
     uint8_t *p;
     uint8_t *attr_ptr, *bitmap_ptr;
 
-    unsigned int i, d, j, fg, bg; charwidth;
+    unsigned int i, d, j, fg, bg, charwidth;
     
     if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
         charwidth = 2 * (vdc.regs[22] >> 4);
