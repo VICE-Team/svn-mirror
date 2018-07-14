@@ -662,18 +662,6 @@ static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
 };
 
 
-#if 0
-/** \brief  No I/O extensions (temporary)
- */
-static ui_settings_tree_node_t no_io_extensions[] = {
-    { "NOT IMPLEMENTED",
-       "not-implented",
-       NULL, NULL },
-
-    UI_SETTINGS_TERMINATOR
-};
-#endif
-
 
 /** \brief  Main tree nodes for VSID
  */
@@ -711,6 +699,11 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
     UI_SETTINGS_TERMINATOR
 };
 
+
+
+/*****************************************************************************
+ *                      C64 tree nodes for the settings UI                   *
+ ****************************************************************************/
 
 static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "Model settings",
@@ -911,9 +904,143 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
 };
 
 
+
+/*****************************************************************************
+ *                      C128 tree nodes for the settings UI                  *
+ ****************************************************************************/
+
+/** \brief  Machine subnodes for c128
+ */
+static ui_settings_tree_node_t machine_nodes_c128[] = {
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  C128 Display sub nodes
+ */
+static ui_settings_tree_node_t display_nodes_c128[] = {
+    { "VIC-II/VDC settings",
+      "vicii-vdc",
+      settings_video_create, NULL },
+    { "CRT settings",
+      "crt",
+      settings_crt_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  C128 Audio sub nodes
+ */
+static ui_settings_tree_node_t audio_nodes_c128[] = {
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+    { "Mixer settings",
+       "mixer",
+       settings_mixer_widget_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  C128 Input sub nodes
+ */
+static ui_settings_tree_node_t input_nodes_c128[] = {
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  C128 Peripheral sub nodes
+ */
+static ui_settings_tree_node_t peripheral_nodes_c128[] = {
+    /* "Output devices? drive is also input */
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+#ifdef HAVE_RS232DEV
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+#ifdef HAVE_RAWNET
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
+#endif
+    UI_SETTINGS_TERMINATOR
+};
+
+
+
 /** \brief  Main tree nodes for x128
  */
 static ui_settings_tree_node_t main_nodes_c128[] = {
+    { "Machine settings",
+        "machine",
+        NULL, machine_nodes_c128 },
+    { "Display settings",
+        "display",
+        NULL, display_nodes_c128 },
+    { "Audio settings",
+        "audio",
+        NULL, audio_nodes_c128 },
+    { "Input devices",
+        "input",
+        NULL, input_nodes_c128 },
+    { "Peripheral devices",
+        "peripheral", /* I'll misspell this many times */
+        NULL, peripheral_nodes_c128 },
+   { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, c128_io_extensions },
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+
+#if 0
     { "CRT settings",
       "CRT",
       settings_crt_widget_create, NULL },
@@ -992,7 +1119,7 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
 
     UI_SETTINGS_TERMINATOR
 };
-
+#endif
 
 /** \brief  Main tree nodes for xscpu64
  */
