@@ -3531,7 +3531,7 @@ if test x"$is_unix_x11" = "xyes"; then
       unset ac_cv_lib_readline_readline
       AC_CHECK_LIB(readline, readline,
              [ READLINE="" READLINE_LIBS="-lreadline -lcurses"],
-             [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],
+             [ ],
               [-lcurses],)
     fi
 
