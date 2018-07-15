@@ -550,3 +550,28 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+/** \brief  Custom callback for the resource widget manager
+ *
+ * This calls the reset methods on the various CRT sliders. It assumes the
+ * widget was created for the settings UI ('minimal' argument set to false).
+ *
+ * \param[in]   widget  CRT control widget
+ *
+ * \return  bool
+ */
+gboolean crt_control_widget_reset(GtkWidget *widget)
+{
+    GtkWidget *button;
+
+    /* this assumes the CRT widget was created with 'minimal' set to False */
+    button = gtk_grid_get_child_at(GTK_GRID(widget), 1, 0);
+    if (GTK_IS_BUTTON(button)) {
+        /* abuse event handler to reset widgets */
+        on_reset_clicked(button, NULL);
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
