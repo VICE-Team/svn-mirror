@@ -85,7 +85,7 @@ static void init_lut() {
     }
 }
 
-namespace reSID
+namespace reSID_dtv
 {
 
 // ----------------------------------------------------------------------------
@@ -865,4 +865,4 @@ void SID::enable_filter(bool enable) { }
 void SID::adjust_filter_bias(double bias) { }
 void SID::input(short sample) { }
 
-} // namespace reSID
+} // namespace reSID_dtv

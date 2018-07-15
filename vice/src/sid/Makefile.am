@@ -1,7 +1,9 @@
 if HAVE_RESID
 resid_libadd = resid.o
+resid_dtv_libadd = resid-dtv.o
 else
 resid_libadd =
+resid_dtv_libadd =
 endif
 
 SUFFIXES = .def
@@ -9,11 +11,12 @@ SUFFIXES = .def
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	@RESID_INCLUDES@ \
+	@RESID_DTV_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/joyport
 
-noinst_LIBRARIES = libsid.a
+noinst_LIBRARIES = libsid.a libsid_dtv.a
 
 libsid_a_SOURCES = \
 	catweaselmkiii.c \
@@ -37,8 +40,16 @@ EXTRA_libsid_a_SOURCES = \
 	resid.cc \
 	resid.h
 
-EXTRA_DIST = resid-dtv.cc
-
 libsid_a_LIBADD = $(resid_libadd)
 
 siddir = $(top_srcdir)/src/sid
+
+libsid_dtv_a_SOURCES = $(libsid_a_SOURCES)
+
+EXTRA_libsid_dtv_a_SOURCES = \
+	resid-dtv.cc \
+	resid.h
+
+libsid_dtv_a_LIBADD = $(resid_dtv_libadd)
+
+sid_dtvdir = $(top_srcdir)/src/sid

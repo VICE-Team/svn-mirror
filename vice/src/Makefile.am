@@ -1283,6 +1283,7 @@ rtc_lib = $(top_builddir)/src/rtc/librtc.a
 samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
+sid_dtv_lib = $(top_builddir)/src/sid/libsid_dtv.a
 socketdrv_lib = $(top_builddir)/src/socketdrv/libsocketdrv.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
@@ -1617,7 +1618,7 @@ x64dtv_libs =  \
 	$(userport_lib) \
 	$(diag_lib) \
 	$(vdrive_lib) \
-	$(sid_lib) \
+	$(sid_dtv_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(viciidtv_lib) \
@@ -1656,7 +1657,7 @@ x64dtv-all: \
 	libparallel \
 	libvdrive \
 	libraster \
-	libsid \
+	libsid_dtv \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
