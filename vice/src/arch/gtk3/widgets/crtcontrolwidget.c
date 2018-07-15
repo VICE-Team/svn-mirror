@@ -560,6 +560,11 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
  * \param[in]   widget  CRT control widget
  *
  * \return  bool
+ *
+ * FIXME:   When using the CRT widget in the settings UI and not as a widget
+ *          controlled from the statusbar, the "Reset" shouldn't be there.
+ *          So this code is not quite correct yet. I could hide the button,
+ *          leaving all code intact and working, but that's lame.
  */
 gboolean crt_control_widget_reset(GtkWidget *widget)
 {
