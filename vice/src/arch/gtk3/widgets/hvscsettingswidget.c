@@ -33,12 +33,16 @@
 #include "resources.h"
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
+#include "resourceentry.h"
 #include "hvsc.h"
 
 #include "hvscsettingswidget.h"
 
 
 /** \brief  Reference to the entry box for the HVSC root dir
+ *
+ * This is a "full" resource entry widget, which means the resource is only
+ * updated when the user pushes Enter or the widget looses focus.
  */
 static GtkWidget *hvsc_root_entry;
 
@@ -68,11 +72,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
     /* handle input */
     if (path != NULL) {
         debug_gtk3("Got path '%s'.", path);
-        gtk_entry_set_text(GTK_ENTRY(hvsc_root_entry), path);
-        /* try to update resource */
-        if (resources_set_string("HVSCRoot", path) != 0) {
-            debug_gtk3("failed to update 'HVSCRoot' resource.");
-        }
+        vice_gtk3_resource_entry_full_set(hvsc_root_entry, path);
         g_free(path);
     }
 }
@@ -89,14 +89,12 @@ GtkWidget *hvsc_settings_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *browse;
-    const char *root;
-
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = gtk_label_new("HSVC root directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    hvsc_root_entry = gtk_entry_new();
+    hvsc_root_entry = vice_gtk3_resource_entry_full_new("HVSCRoot");
     gtk_widget_set_hexpand(hvsc_root_entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
@@ -104,18 +102,8 @@ GtkWidget *hvsc_settings_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), hvsc_root_entry, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 0, 1, 1);
 
-    debug_gtk3("Retrieving HVSCRoot resource value:");
-    /* get HSVC root dir */
-    if (resources_get_string("HVSCRoot", &root) != 0) {
-        debug_gtk3("could not get resource value, defaulting to empty.");
-        root = "";
-    }
-    gtk_entry_set_text(GTK_ENTRY(hvsc_root_entry), root);
-
-
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
 
     gtk_widget_show_all(grid);
     return grid;
 }
-
