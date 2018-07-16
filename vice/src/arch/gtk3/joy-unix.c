@@ -328,7 +328,7 @@ void joystick_ui_reset_device_list(void)
 const char *joystick_ui_get_next_device_name(int *id)
 {
     const char *name;
-    static char jname[60];
+    static char jname[0x80];
     int idx;
 
     /* printf("joystick_ui_get_next_device_name  id: %d\n", joystickdeviceidx); */
@@ -342,7 +342,8 @@ const char *joystick_ui_get_next_device_name(int *id)
             if ((*id >= JOYDEV_ANALOG_0) && (*id <= JOYDEV_ANALOG_5)) {
                 idx = *id - JOYDEV_ANALOG_0;
                 if (ajoyfd[idx] >= 0) {
-                    ioctl(ajoyfd[idx], JSIOCGNAME (sizeof (jname)), jname);
+                    sprintf(jname, "%u: ", idx);
+                    ioctl(ajoyfd[idx], JSIOCGNAME (sizeof (jname) - 4), &jname[3]);
                     *id = idx + JOYDEV_ANALOG_0;
                     /* printf("joystick_ui_get_next_device_name  got name: %d: %s: %s\n", *id, name, jname); */
                     return jname;
