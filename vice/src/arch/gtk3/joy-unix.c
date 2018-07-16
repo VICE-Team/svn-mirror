@@ -49,16 +49,6 @@
 #include "resources.h"
 #include "types.h"
 
-/* FIXME: implement listing the extra devices here instead of relying
-          on the hardcoded list in joystickdevicewidget.c */
-void joystick_ui_reset_device_list(void)
-{
-}
-char *joystick_ui_get_next_device_name(int *id)
-{
-    return NULL;
-}
-
 int joy_arch_set_device(int port, int new_dev)
 {
     if (new_dev < 0 || new_dev > JOYDEV_MAX) {
@@ -241,6 +231,8 @@ int use_old_api=1;
 
 #    define ANALOG_JOY_NUM (JOYDEV_ANALOG_5-JOYDEV_ANALOG_0+1)
 
+/* file handles for the joystick device files */
+
 static int ajoyfd[ANALOG_JOY_NUM] = { -1, -1, -1, -1, -1, -1 };
 static int djoyfd[2] = { -1, -1 };
 
@@ -295,6 +287,77 @@ void joystick(void)
 #    ifdef HAS_USB_JOYSTICK
     usb_joystick();
 #    endif
+}
+
+/** \brief  Struct containing device name and id
+ */
+typedef struct device_info_s {
+    const char *name;   /**< device name */
+    int         id;     /**< device ID (\see joy.h) */
+} device_info_t;
+
+static device_info_t predefined_device_list[] = {
+#ifdef HAS_JOYSTICK
+    { "Analog joystick 0",  JOYDEV_ANALOG_0 },
+    { "Analog joystick 1",  JOYDEV_ANALOG_1 },
+    { "Analog joystick 2",  JOYDEV_ANALOG_2 },
+    { "Analog joystick 3",  JOYDEV_ANALOG_3 },
+    { "Analog joystick 4",  JOYDEV_ANALOG_4 },
+    { "Analog joystick 5",  JOYDEV_ANALOG_5 },
+#endif
+#ifdef HAS_DIGITAL_JOYSTICK
+    { "Digital joystick 0", JOYDEV_DIGITAL_0 },
+    { "Digital joystick 1", JOYDEV_DIGITAL_1 },
+#endif
+#ifdef HAS_USB_JOYSTICK
+    { "USB joystick 0",     JOYDEV_USB_0 },
+    { "USB joystick 1",     JOYDEV_USB_1 },
+#endif
+    { NULL, -1 }
+};
+
+static int joystickdeviceidx = 0;
+
+void joystick_ui_reset_device_list(void)
+{
+    joystickdeviceidx = 0;
+}
+
+/* FIXME: proper device names will be returned only when using the "new" API
+          and only for "analog" joysticks. */
+const char *joystick_ui_get_next_device_name(int *id)
+{
+    const char *name;
+    static char jname[60];
+    int idx;
+
+    /* printf("joystick_ui_get_next_device_name  id: %d\n", joystickdeviceidx); */
+
+    if ((name = predefined_device_list[joystickdeviceidx].name)) {
+        *id = predefined_device_list[joystickdeviceidx].id;
+
+        if (!use_old_api) {
+#ifdef HAS_JOYSTICK
+            if ((*id >= JOYDEV_ANALOG_0) && (*id <= JOYDEV_ANALOG_5)) {
+                idx = *id - JOYDEV_ANALOG_0;
+                if (ajoyfd[idx] >= 0) {
+                    ioctl(ajoyfd[idx], JSIOCGNAME (sizeof (jname)), jname);
+                    *id = idx + JOYDEV_ANALOG_0;
+                    /* printf("joystick_ui_get_next_device_name  got name: %d: %s: %s\n", *id, name, jname); */
+                    joystickdeviceidx++;
+                    return jname;
+                } else {
+                    /* no joystick at this port */
+                    return NULL;
+                }
+            }
+#endif
+        }
+        /* return name from the predefined list instead */
+        joystickdeviceidx++;
+        return name;
+    }
+    return NULL;
 }
 
 /**********************************************************

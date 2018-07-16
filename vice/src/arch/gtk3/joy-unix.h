@@ -80,6 +80,6 @@ void usb_joystick(void);
 #endif
 
 void joystick_ui_reset_device_list(void);
-char *joystick_ui_get_next_device_name(int *id);
+const char *joystick_ui_get_next_device_name(int *id);
 
 #endif

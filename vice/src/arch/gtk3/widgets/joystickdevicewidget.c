@@ -71,24 +71,6 @@ static device_info_t predefined_device_list[] = {
     { "Numpad",             JOYDEV_NUMPAD },
     { "Keyset A",           JOYDEV_KEYSET1 },
     { "Keyset B",           JOYDEV_KEYSET2 },
-    /* FIXME: the following should instead be returned by the archdep
-              device query functions */
-#ifdef HAS_JOYSTICK
-    { "Analog joystick 0",  JOYDEV_ANALOG_0 },
-    { "Analog joystick 1",  JOYDEV_ANALOG_1 },
-    { "Analog joystick 2",  JOYDEV_ANALOG_2 },
-    { "Analog joystick 3",  JOYDEV_ANALOG_3 },
-    { "Analog joystick 4",  JOYDEV_ANALOG_4 },
-    { "Analog joystick 5",  JOYDEV_ANALOG_5 },
-#endif
-#ifdef HAS_DIGITAL_JOYSTICK
-    { "Digital joystick 0", JOYDEV_DIGITAL_0 },
-    { "Digital joystick 1", JOYDEV_DIGITAL_1 },
-#endif
-#ifdef HAS_USB_JOYSTICK
-    { "USB joystick 0",     JOYDEV_USB_0 },
-    { "USB joystick 1",     JOYDEV_USB_1 },
-#endif
     { NULL, -1 }
 };
 
