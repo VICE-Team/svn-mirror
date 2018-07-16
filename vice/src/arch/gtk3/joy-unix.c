@@ -335,6 +335,7 @@ const char *joystick_ui_get_next_device_name(int *id)
 
     if ((name = predefined_device_list[joystickdeviceidx].name)) {
         *id = predefined_device_list[joystickdeviceidx].id;
+        joystickdeviceidx++;
 
         if (!use_old_api) {
 #ifdef HAS_JOYSTICK
@@ -344,7 +345,6 @@ const char *joystick_ui_get_next_device_name(int *id)
                     ioctl(ajoyfd[idx], JSIOCGNAME (sizeof (jname)), jname);
                     *id = idx + JOYDEV_ANALOG_0;
                     /* printf("joystick_ui_get_next_device_name  got name: %d: %s: %s\n", *id, name, jname); */
-                    joystickdeviceidx++;
                     return jname;
                 } else {
                     /* no joystick at this port */
@@ -354,7 +354,6 @@ const char *joystick_ui_get_next_device_name(int *id)
 #endif
         }
         /* return name from the predefined list instead */
-        joystickdeviceidx++;
         return name;
     }
     return NULL;
