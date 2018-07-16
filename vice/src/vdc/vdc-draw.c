@@ -136,7 +136,7 @@ index = where in the screen memory we are, to check against the cursor */
     uint8_t data;
     if (a & VDC_ALTCHARSET_ATTR) {
         /* swich to alternate charset if appropriate attribute bit set */
-        char_mem += 0x1000;
+        char_mem += 0x100 * vdc.bytes_per_char; /* 0x1000 or 0x2000, depending on character height */
     }
 
     if (l > (signed)vdc.regs[23]) {
@@ -522,7 +522,7 @@ static void draw_std_text(void)
         pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
         for (i = 0; i < vdc.screen_text_cols; i++, p += charwidth) {
             d = *(char_ptr
-                  + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x1000 : 0)
+                  + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x100 * vdc.bytes_per_char : 0) /* the offset to the alternate character set is either 0x1000 or 0x2000, depending on the character size (16 or 32) */
                   + (*(screen_ptr + i) * vdc.bytes_per_char));
 
             /* set underline if the underline attrib is set for this char */
