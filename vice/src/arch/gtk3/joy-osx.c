@@ -67,13 +67,50 @@ static void setup_auto_button_mapping(joystick_descriptor_t *joy);
 static void setup_hat_switch_mapping(joystick_descriptor_t *joy);
 static void setup_auto(void);
 
-/* FIXME: implement listing the extra devices here instead of relying
-          on the hardcoded list in joystickdevicewidget.c */
+/* FIXME: implement listing the joystick devices here */
+
+/** \brief  Struct containing device name and id
+ */
+typedef struct device_info_s {
+    const char *name;   /**< device name */
+    int         id;     /**< device ID (\see joy.h) */
+} device_info_t;
+
+static device_info_t predefined_device_list[] = {
+#ifdef HAS_JOYSTICK
+    { "Analog joystick 0",  JOYDEV_ANALOG_0 },
+    { "Analog joystick 1",  JOYDEV_ANALOG_1 },
+    { "Analog joystick 2",  JOYDEV_ANALOG_2 },
+    { "Analog joystick 3",  JOYDEV_ANALOG_3 },
+    { "Analog joystick 4",  JOYDEV_ANALOG_4 },
+    { "Analog joystick 5",  JOYDEV_ANALOG_5 },
+#endif
+#ifdef HAS_DIGITAL_JOYSTICK
+    { "Digital joystick 0", JOYDEV_DIGITAL_0 },
+    { "Digital joystick 1", JOYDEV_DIGITAL_1 },
+#endif
+#ifdef HAS_USB_JOYSTICK
+    { "USB joystick 0",     JOYDEV_USB_0 },
+    { "USB joystick 1",     JOYDEV_USB_1 },
+#endif
+    { NULL, -1 }
+};
+
+static int joystickdeviceidx = 0;
+
 void joystick_ui_reset_device_list(void)
 {
+    joystickdeviceidx = 0;
 }
-char *joystick_ui_get_next_device_name(int *id)
+
+const char *joystick_ui_get_next_device_name(int *id)
 {
+    const char *name;
+    if ((name = predefined_device_list[joystickdeviceidx].name)) {
+        *id = predefined_device_list[joystickdeviceidx].id;
+        joystickdeviceidx++;
+        return name;
+    }
     return NULL;
 }
 

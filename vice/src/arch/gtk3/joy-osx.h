@@ -150,7 +150,7 @@ void joy_calc_threshold(int min, int max, int threshold, int *min_t, int *max_t)
 void joy_reset_axis_range(joystick_descriptor_t *joy, int id);
 
 void joystick_ui_reset_device_list(void);
-char *joystick_ui_get_next_device_name(int *id);
+const char *joystick_ui_get_next_device_name(int *id);
 
 #else
 
