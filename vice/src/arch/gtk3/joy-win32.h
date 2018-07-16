@@ -45,6 +45,6 @@ void joystick_update(void);
 int joystick_uses_direct_input(void);
 
 void joystick_ui_reset_device_list(void);
-char *joystick_ui_get_next_device_name(int *id);
+const char *joystick_ui_get_next_device_name(int *id);
 
 #endif

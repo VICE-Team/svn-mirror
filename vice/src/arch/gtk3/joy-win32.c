@@ -1047,7 +1047,7 @@ void joystick_ui_reset_device_list(void)
     joystickid = JOYDEV_HW1;
 }
 
-char *joystick_ui_get_next_device_name(int *id)
+const char *joystick_ui_get_next_device_name(int *id)
 {
     char *name = NULL;
 #ifdef HAVE_DINPUT
