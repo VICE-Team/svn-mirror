@@ -205,15 +205,26 @@ void drive_model_widget_update(GtkWidget *widget)
     size_t i;
     int unit;
     int type;
+    int num;
+    int row;
 
     unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
     type = ui_get_drive_type(unit);
 
     list = machine_drive_get_type_info_list();
     debug_gtk3("updating drive type list.");
+
     for (i = 0; list[i].name != NULL; i++) {
+        /* NOP */
+    }
+    num = i;
+
+
+    for (i = 0; list[i].name != NULL && i < num / 2; i++) {
+
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
+            debug_gtk3("row 0: checking drive ID %d", list[i].id);
             gtk_widget_set_sensitive(radio, drive_check_type(
                         (unsigned int)(list[i].id), (unsigned int)(unit - 8)));
             if (list[i].id == type) {
@@ -221,6 +232,23 @@ void drive_model_widget_update(GtkWidget *widget)
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
             }
         }
+    }
+
+    row = 1;
+    while (list[i].name != NULL) {
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 1, row);
+        if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
+            debug_gtk3("row 1: checking drive ID %d", list[i].id);
+            gtk_widget_set_sensitive(radio, drive_check_type(
+                        (unsigned int)(list[i].id),
+                        (unsigned int)(unit - 8)));
+            if (list[i].id == type) {
+                /* TODO: temporary block the resource-set callback */
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+            }
+        }
+        row++;
+        i++;
     }
 }
 
