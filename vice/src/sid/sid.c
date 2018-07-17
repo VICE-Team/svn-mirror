@@ -367,7 +367,7 @@ static int16_t *getbuf1(int len)
         }
         lib_free(buf1);
     }
-    buf1 = lib_calloc(len, 1);
+    buf1 = lib_calloc(len, sizeof(int16_t));
     blen1 = len;
     return buf1;
 }
@@ -382,7 +382,7 @@ static int16_t *getbuf2(int len)
         }
         lib_free(buf2);
     }
-    buf2 = lib_calloc(len, 1);
+    buf2 = lib_calloc(len, sizeof(int16_t));
     blen2 = len;
     return buf2;
 }
@@ -397,7 +397,7 @@ static int16_t *getbuf3(int len)
         }
         lib_free(buf3);
     }
-    buf3 = lib_calloc(len, 1);
+    buf3 = lib_calloc(len, sizeof(int16_t));
     blen3 = len;
     return buf3;
 }
@@ -419,14 +419,17 @@ void sid_sound_machine_close(sound_t *psid)
     /* free the temp. buffers */
     if (buf1) {
         lib_free(buf1);
+        blen1 = 0;
         buf1 = NULL;
     }
     if (buf2) {
         lib_free(buf2);
+        blen2 = 0;
         buf2 = NULL;
     }
     if (buf3) {
         lib_free(buf3);
+        blen3 = 0;
         buf3 = NULL;
     }
 }
@@ -499,7 +502,10 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
     }
     if (soc == 2 && scc == 1) {
         tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, delta_t);
-        for (i = 0; i < tmp_nr; i++) {
+        /* XXX: if this is supposed to shift the values in pbuf to the right,
+         *      then the code is screwed: right now this just fills the
+         *      pbuf array with the value of its first element  */
+        for (i = 0; i < tmp_nr - 1; i++) {
             pbuf[(i * 2) + 1] = pbuf[i * 2];
         }
         return tmp_nr;
@@ -515,7 +521,7 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
         tmp_delta_t = *delta_t;
         tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, &tmp_delta_t);
         tmp_nr = sid_engine.calculate_samples(psid[1], pbuf + 1, nr, 2, delta_t);
-        for (i = 0; i < tmp_nr; i++) {
+        for (i = 0; i < tmp_nr - 1; i++) {
             pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf1[i]);
             pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[i]);
         }
@@ -528,7 +534,7 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
         tmp_delta_t = *delta_t;
         tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, &tmp_delta_t);
         tmp_nr = sid_engine.calculate_samples(psid[1], pbuf + 1, nr, 2, delta_t);
-        for (i = 0; i < tmp_nr; i++) {
+        for (i = 0; i < tmp_nr - 1; i++) {
             pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf1[i * 2]);
             pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[(i * 2) + 1]);
         }
