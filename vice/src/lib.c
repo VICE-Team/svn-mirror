@@ -732,8 +732,8 @@ void lib_FreeMem(void *ptr, unsigned long size)
 
 /*----------------------------------------------------------------------------*/
 
-/* Malloc enough space for `str', copy `str' into it and return its
-   address.  */
+/* Malloc enough space for `str'; copy `str' into it; then, return its
+   address. */
 #ifdef LIB_DEBUG_PINPOINT
 static
 #endif
@@ -743,7 +743,10 @@ char *lib_stralloc(const char *str)
     char *ptr;
 
     if (str == NULL) {
-        fprintf(stderr, "error: lib_stralloc failed\n");
+#ifdef LIB_DEBUG_PINPOINT
+        fprintf(stderr, "%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
+#endif
+        fprintf(stderr, "error: lib_stralloc(NULL) not allowed.\n");
         exit(-1);
     }
 
