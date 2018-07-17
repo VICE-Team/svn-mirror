@@ -357,41 +357,51 @@ static int blen1 = 0;
 static int blen2 = 0;
 static int blen3 = 0;
 
+
 static int16_t *getbuf1(int len)
 {
-    if ((buf1 == NULL) || (blen1 < len)) {
-        if (buf1) {
-            lib_free(buf1);
+    if (buf1 != NULL) {
+        if (blen1 >= len) {
+            /* large enough */
+            return buf1;
         }
-        blen1 = len;
-        buf1 = lib_calloc(len, 1);
+        lib_free(buf1);
     }
+    buf1 = lib_calloc(len, 1);
+    blen1 = len;
     return buf1;
 }
 
+
 static int16_t *getbuf2(int len)
 {
-    if ((buf2 == NULL) || (blen2 < len)) {
-        if (buf2) {
-            lib_free(buf2);
+    if (buf2 != NULL) {
+        if (blen2 >= len) {
+            /* large enough */
+            return buf2;
         }
-        blen2 = len;
-        buf2 = lib_calloc(len, 1);
+        lib_free(buf2);
     }
+    buf2 = lib_calloc(len, 1);
+    blen2 = len;
     return buf2;
 }
 
+
 static int16_t *getbuf3(int len)
 {
-    if ((buf3 == NULL) || (blen3 < len)) {
-        if (buf3) {
-            lib_free(buf3);
+    if (buf3 != NULL) {
+        if (blen3 >= len) {
+            /* large enough */
+            return buf3;
         }
-        blen3 = len;
-        buf3 = lib_calloc(len, 1);
+        lib_free(buf3);
     }
+    buf3 = lib_calloc(len, 1);
+    blen3 = len;
     return buf3;
 }
+
 
 int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int factor)
 {
