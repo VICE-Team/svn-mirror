@@ -502,9 +502,6 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
     }
     if (soc == 2 && scc == 1) {
         tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, delta_t);
-        /* XXX: if this is supposed to shift the values in pbuf to the right,
-         *      then the code is screwed: right now this just fills the
-         *      pbuf array with the value of its first element  */
         for (i = 0; i < tmp_nr - 1; i++) {
             pbuf[(i * 2) + 1] = pbuf[i * 2];
         }
