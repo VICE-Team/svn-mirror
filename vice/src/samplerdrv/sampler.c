@@ -56,7 +56,10 @@ static int sampler_status = SAMPLER_CLOSED;
 /* sampler gain in % */
 static int sampler_gain = 100;
 
-static sampler_device_t devices[SAMPLER_MAX_DEVICES];
+/* The rest of VICE treats this code such that the list is terminated
+ * by an entry where the name field is NULL. Reserve an extra entry
+ * here to make sure there's room for that terminator. */
+static sampler_device_t devices[SAMPLER_MAX_DEVICES + 1];
 
 sampler_device_t *sampler_get_devices(void)
 {
