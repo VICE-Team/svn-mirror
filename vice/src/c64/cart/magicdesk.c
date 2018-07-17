@@ -62,7 +62,7 @@
 
     - 1 register at io1 / de00:
 
-    bit 0-4   bank number
+    bit 0-6   bank number
     bit 7     exrom (1 = cart disabled)
 */
 
