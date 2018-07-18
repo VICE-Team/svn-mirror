@@ -65,8 +65,9 @@
 #define JOYPORT_ID_SCRIPT64_DONGLE    26
 #define JOYPORT_ID_VIZAWRITE64_DONGLE 27
 #define JOYPORT_ID_WAASOFT_DONGLE     28
+#define JOYPORT_ID_SNESPAD            29
 
-#define JOYPORT_MAX_DEVICES           29
+#define JOYPORT_MAX_DEVICES           30
 
 #define JOYPORT_RES_ID_NONE        0
 #define JOYPORT_RES_ID_MOUSE       1

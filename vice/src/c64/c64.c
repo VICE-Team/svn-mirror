@@ -109,6 +109,7 @@
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
+#include "snespad.h"
 #include "sound.h"
 #include "tape.h"
 #include "tape_diag_586220_harness.h"
@@ -576,6 +577,10 @@ int machine_resources_init(void)
     }
     if (joyport_cardkey_resources_init() < 0) {
         init_resource_fail("joyport cardkey keypad");
+        return -1;
+    }
+    if (joyport_snespad_resources_init() < 0) {
+        init_resource_fail("joyport snespad");
         return -1;
     }
     if (joystick_resources_init() < 0) {
