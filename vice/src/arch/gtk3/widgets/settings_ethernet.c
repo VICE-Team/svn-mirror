@@ -41,12 +41,38 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-
 #ifdef HAVE_RAWNET
 # include "rawnet.h"
 #endif
+#include "resourcewidgetmanager.h"
+#include "uisettings.h"
 
 #include "settings_ethernet.h"
+
+
+#ifdef HAVE_RAWNET
+static void clean_iface_list(void);
+#endif
+
+
+/** \brief  Resource widget manager instance
+ */
+static resource_widget_manager_t manager;
+
+
+/** \brief  Handler for the 'destroy' event of the main widget
+ *
+ * \param[in]   widget  main widget (grid)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_settings_ethernet_destroy(GtkWidget *widget, gpointer data)
+{
+#ifdef HAVE_RAWNET
+    clean_iface_list();
+#endif
+    vice_resource_widget_manager_exit(&manager);
+}
+
 
 
 #ifdef HAVE_RAWNET
@@ -95,6 +121,10 @@ static bool build_iface_list(void)
     num = 0;
     while (rawnet_enumadapter(&if_name, &if_desc)) {
         iface_list[num].id = lib_stralloc(if_name);
+        /*
+         * On Windows, the description string seems to be always present, on
+         * Unix this isn't the case and NULL can be returned.
+         */
         if (if_desc == NULL) {
             iface_list[num].name = lib_stralloc(if_name);
         } else {
@@ -131,16 +161,6 @@ static void clean_iface_list(void)
 }
 
 
-/** \brief  Handler for the 'destroy' event of the main widget
- *
- * \param[in]   widget  main widget (grid)
- * \param[in]   data    extra event data (unused)
- */
-static void on_settings_ethernet_destroy(GtkWidget *widget, gpointer data)
-{
-    clean_iface_list();
-}
-
 
 /** \brief  Create combo box to select the ethernet interface
  *
@@ -173,6 +193,12 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
     char *text;
+    GtkWidget *combo;
+
+    /* initialize and register resource widget manager */
+    vice_resource_widget_manager_init(&manager);
+    ui_settings_set_resource_widget_manager(&manager);
+
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -203,17 +229,20 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     label = gtk_label_new("Ethernet device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
+    combo = create_device_combo();
+    vice_resource_widget_manager_add_widget(&manager, combo, NULL,
+            NULL, NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_device_combo(), 1, 0, 1, 1);
-
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_settings_ethernet_destroy),
-            NULL);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
 
 #else
     label = gtk_label_new("Ethernet not supported, please compile with "
             "--enable-ethernet.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 #endif
+
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_settings_ethernet_destroy),
+            NULL);
 
 
     gtk_widget_show_all(grid);
