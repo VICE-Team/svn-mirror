@@ -74,6 +74,10 @@ static bool build_iface_list(void)
         return false;
     }
     while (rawnet_enumadapter(&if_name, &if_desc)) {
+        lib_free(if_name);
+        if (if_desc != NULL) {
+            lib_free(if_desc);
+        }
         num++;
     }
     rawnet_enumadapter_close();
@@ -96,6 +100,11 @@ static bool build_iface_list(void)
         } else {
             iface_list[num].name = lib_msprintf("%s (%s)", if_name, if_desc);
         }
+        lib_free(if_name);
+        if (if_desc != NULL) {
+            lib_free(if_desc);
+        }
+
         num++;
     }
     iface_list[num].id = NULL;
