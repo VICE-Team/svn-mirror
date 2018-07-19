@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -48,26 +49,87 @@
 #include "settings_ethernet.h"
 
 
-
 #ifdef HAVE_RAWNET
 
-/** \brief  Handler for the 'changed' event of the combo box
+/** \brief  List of available interfaces
  *
- * This function attempts to set the ETHERNET_INTERFACE resource.
+ * This list is dynamically generated and destroyed when the main widget
+ * is destroyed.
+ */
+static vice_gtk3_combo_entry_str_t *iface_list;
+
+
+/** \brief  Build interface list for the combo box
  *
- * \param[in]   widget  combo box
+ * \return  bool
+ */
+static bool build_iface_list(void)
+{
+    int num = 0;
+    char *if_name;
+    char *if_desc;
+
+    /* get number of adapters */
+    if (!rawnet_enumadapter_open()) {
+        return false;
+    }
+    while (rawnet_enumadapter(&if_name, &if_desc)) {
+        num++;
+    }
+    rawnet_enumadapter_close();
+
+    /* allocate memory for list */
+    iface_list = lib_malloc((size_t)(num + 1) * sizeof *iface_list);
+
+    /* now add the list items */
+    if (!rawnet_enumadapter_open()) {
+        lib_free(iface_list);
+        iface_list = NULL;
+        return false;
+    }
+
+    num = 0;
+    while (rawnet_enumadapter(&if_name, &if_desc)) {
+        iface_list[num].id = lib_stralloc(if_name);
+        if (if_desc == NULL) {
+            iface_list[num].name = lib_stralloc(if_name);
+        } else {
+            iface_list[num].name = lib_msprintf("%s (%s)", if_name, if_desc);
+        }
+        num++;
+    }
+    iface_list[num].id = NULL;
+    iface_list[num].name = NULL;
+    rawnet_enumadapter_close();
+    return true;
+}
+
+
+/** \brief  Free memory used by the interface list
+ */
+static void clean_iface_list(void)
+{
+    if (iface_list != NULL) {
+        int num = 0;
+        while (iface_list[num].id != NULL) {
+            lib_free(iface_list[num].id);
+            lib_free(iface_list[num].name);
+            num++;
+        }
+        lib_free(iface_list);
+        iface_list = NULL;
+    }
+}
+
+
+/** \brief  Handler for the 'destroy' event of the main widget
+ *
+ * \param[in]   widget  main widget (grid)
  * \param[in]   data    extra event data (unused)
  */
-static void on_device_combo_changed(GtkWidget *widget, gpointer data)
+static void on_settings_ethernet_destroy(GtkWidget *widget, gpointer data)
 {
-    const char *iface = gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget));
-
-    if (iface != NULL) {
-        if (resources_set_string("ETHERNET_INTERFACE", iface) < 0) {
-            log_error(LOG_ERR, "failed to set ETHERNET_INTERFACE to '%s'\n",
-                    iface);
-        }
-    }
+    clean_iface_list();
 }
 
 
@@ -78,52 +140,13 @@ static void on_device_combo_changed(GtkWidget *widget, gpointer data)
 static GtkWidget *create_device_combo(void)
 {
     GtkWidget *combo;
-    const char *iface = NULL;
 
-    /* get current interface */
-    if (resources_get_string("ETHERNET_INTERFACE", &iface) < 0) {
-        log_error(LOG_ERR, "failed to retrieve ETHERNET_INTERFACE resource, "
-                "defaulting to eth0");
-        iface = "eth0";
+    if (build_iface_list()) {
+        combo = vice_gtk3_resource_combo_box_str_new("ETHERNET_INTERFACE",
+                iface_list);
+    } else {
+        combo = gtk_combo_box_text_new();
     }
-
-    /* build combo box with a list of interfaces */
-    combo = gtk_combo_box_text_new();
-    if (rawnet_enumadapter_open()) {
-        int i = 0;
-
-        char *if_name;
-        char *if_desc;
-
-        while (rawnet_enumadapter(&if_name, &if_desc)) {
-            char *display;
-
-            if (if_desc != NULL) {
-                display = lib_msprintf("%s (%s)", if_name, if_desc);
-            } else {
-                display = lib_stralloc(if_name);
-            }
-
-            gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                    if_name /* ID */, display /* text*/);
-
-            if (strcmp(if_name, iface) == 0) {
-                gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
-            }
-
-            i++;
-
-            lib_free(display);
-            lib_free(if_name);
-            if (if_desc != NULL) {
-                lib_free(if_desc);
-            }
-        }
-        rawnet_enumadapter_close();
-    }
-
-    g_signal_connect(combo, "changed", G_CALLBACK(on_device_combo_changed),
-            NULL);
 
     return combo;
 }
@@ -173,11 +196,16 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_device_combo(), 1, 0, 1, 1);
+
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_settings_ethernet_destroy),
+            NULL);
+
 #else
     label = gtk_label_new("Ethernet not supported, please compile with "
             "--enable-ethernet.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 #endif
+
 
     gtk_widget_show_all(grid);
     return grid;
