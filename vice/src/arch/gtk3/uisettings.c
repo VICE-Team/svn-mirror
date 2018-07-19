@@ -213,6 +213,11 @@ enum {
 };
 
 
+/*
+ * I/O extensions per emulator
+ */
+
+/* {{{ c64_io_extensions */
 /** \brief  List of C64 I/O extensions (x64, x64sc)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -311,8 +316,9 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ scpu64_io_extensions */
 /** \brief  List of SuperCPU64 extensions (xscpu64)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -404,8 +410,9 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
 
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ c128_io_extensions */
 /** \brief  I/O extensions for C128
  */
 static ui_settings_tree_node_t c128_io_extensions[] = {
@@ -505,8 +512,9 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
 
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ vic20_io_extensions */
 /** \brief  List of VIC-20 I/O extensions
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -571,8 +579,9 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
 
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ plus4_io_extensions */
 /** \brief  List of Plus4 I/O extensions
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -600,8 +609,9 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ pet_io_extensions */
 /** \brief  List of PET I/O extensions
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -633,8 +643,9 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
         pet_diagpin_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ cbm5x0_io_extensions */
 /** \brief  List of CBM 5x0 I/O extensions
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -645,8 +656,9 @@ static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
         tapeport_devices_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ cbm6x0_io_extensions */
 /** \brief  List of CBM 6x0 I/O extensions
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -660,9 +672,18 @@ static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
         tapeport_devices_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
 
+/*
+ * Main tree nodes per emulator
+ */
 
+/*****************************************************************************
+ *                  VSID tree nodes for the settings UI                      *
+ ****************************************************************************/
+
+/* {{{ main_nodes_vsid */
 /** \brief  Main tree nodes for VSID
  */
 static ui_settings_tree_node_t main_nodes_vsid[] = {
@@ -698,13 +719,14 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 
     UI_SETTINGS_TERMINATOR
 };
-
+/* }}} */
 
 
 /*****************************************************************************
- *                      C64 tree nodes for the settings UI                   *
+ *                  C64 tree nodes for the settings UI                       *
  ****************************************************************************/
 
+/* {{{ machine_nodes_c64 */
 static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "Model settings",
       "model",
@@ -726,8 +748,9 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ display_nodes_c64 */
 static ui_settings_tree_node_t display_nodes_c64[] = {
     { "VIC-II settings",
       "vicii",
@@ -735,11 +758,11 @@ static ui_settings_tree_node_t display_nodes_c64[] = {
     { "CRT settings",
         "crt",
         settings_crt_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ audio_nodes_c64 */
 static ui_settings_tree_node_t audio_nodes_c64[] = {
     { "Sound settings",
       "sound",
@@ -755,8 +778,9 @@ static ui_settings_tree_node_t audio_nodes_c64[] = {
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ input_nodes_c64 */
 static ui_settings_tree_node_t input_nodes_c64[] = {
     { "Keyboard settings",
       "keyboard",
@@ -772,8 +796,9 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ peripheral_nodes_c64 */
 static ui_settings_tree_node_t peripheral_nodes_c64[] = {
     /* "Output devices? drive is also input */
     { "Drive settings",
@@ -794,8 +819,10 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
 #endif
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
 
+/* {{{ main_nodes_c64 */
 /** \brief  Main tree nodes for x64/x64sc
  */
 static ui_settings_tree_node_t main_nodes_c64[] = {
@@ -825,10 +852,15 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
-
 };
+/* }}} */
 
 
+/*****************************************************************************
+ *                  C64DTV tree nodes for the settings UI                    *
+ ****************************************************************************/
+
+/* {{{ main_nodes_c64dtv */
 /** \brief  Main tree nodes for x64dtv
  */
 static ui_settings_tree_node_t main_nodes_c64dtv[] = {
@@ -902,13 +934,14 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
 
     UI_SETTINGS_TERMINATOR
 };
-
+/* }}} */
 
 
 /*****************************************************************************
  *                      C128 tree nodes for the settings UI                  *
  ****************************************************************************/
 
+/* {{{ machine_nodes_c128 */
 /** \brief  Machine subnodes for c128
  */
 static ui_settings_tree_node_t machine_nodes_c128[] = {
@@ -932,8 +965,9 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ display_nodes_c128 */
 /** \brief  C128 Display sub nodes
  */
 static ui_settings_tree_node_t display_nodes_c128[] = {
@@ -945,8 +979,9 @@ static ui_settings_tree_node_t display_nodes_c128[] = {
       settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ audio_nodes_c128 */
 /** \brief  C128 Audio sub nodes
  */
 static ui_settings_tree_node_t audio_nodes_c128[] = {
@@ -964,8 +999,9 @@ static ui_settings_tree_node_t audio_nodes_c128[] = {
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ input_nodes_c128 */
 /** \brief  C128 Input sub nodes
  */
 static ui_settings_tree_node_t input_nodes_c128[] = {
@@ -983,8 +1019,9 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
-
+/* {{{ peripheral_nodes_c128 */
 /** \brief  C128 Peripheral sub nodes
  */
 static ui_settings_tree_node_t peripheral_nodes_c128[] = {
@@ -1007,9 +1044,10 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
 #endif
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
 
-
+/* {{{ main_nodes_c128 */
 /** \brief  Main tree nodes for x128
  */
 static ui_settings_tree_node_t main_nodes_c128[] = {
@@ -1039,6 +1077,7 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
 #if 0
     { "CRT settings",
