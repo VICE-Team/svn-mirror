@@ -481,9 +481,6 @@ static GtkWidget *resource_combo_box_str_new_helper(
 
     resource = resource_widget_get_resource_name(combo);
 
-    /* store a heap-allocated copy of the resource name in the object */
-    resource_widget_set_resource_name(combo, resource);
-
     /* get current value of resource */
     if (resources_get_string(resource, &current) < 0) {
         current = "";
