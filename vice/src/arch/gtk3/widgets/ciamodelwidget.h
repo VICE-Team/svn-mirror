@@ -33,6 +33,6 @@
 
 
 GtkWidget * cia_model_widget_create(GtkWidget *machine_model_widget, int count);
-void        cia_model_widget_update(GtkWidget *widget);
+void        cia_model_widget_sync(GtkWidget *widget);
 
 #endif

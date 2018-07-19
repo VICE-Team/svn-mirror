@@ -105,6 +105,31 @@ static GtkWidget *c64dtv_rev_widget = NULL;
 
 
 /*
+ * C64(sc) model change handling
+ */
+
+
+static void machine_model_handler_c64(int model)
+{
+    GtkWidget *sid_group;
+
+    debug_gtk3("Got model change for C64: %d", model);
+
+    /* synchronize video chip widget */
+    video_model_widget_update(video_widget);
+
+    /* synchronize SID chip widget */
+    sid_group = gtk_grid_get_child_at(GTK_GRID(sid_widget), 0, 1);
+    if (sid_group != NULL) {
+        vice_gtk3_resource_radiogroup_sync(sid_group);
+    }
+
+    /* synchronize CIA widget */
+    cia_model_widget_sync(cia_widget);
+}
+
+
+/*
  * C64DTV widget glue logic
  */
 
@@ -309,6 +334,10 @@ static void machine_model_callback(int model)
     debug_gtk3("got model %d.", model);
 
     switch (machine_class) {
+        case VICE_MACHINE_C64:  /* fall through */
+        case VICE_MACHINE_C64SC:
+            machine_model_handler_c64(model);
+            break;
         case VICE_MACHINE_C64DTV:
             machine_model_handler_c64dtv(model);
             break;

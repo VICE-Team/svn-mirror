@@ -201,3 +201,16 @@ void sid_model_widget_update(GtkWidget *widget, int model)
 {
     vice_gtk3_radiogroup_set_index(widget, model);
 }
+
+
+
+void sid_model_widget_sync(GtkWidget *widget)
+{
+    int model;
+
+    if (resources_get_int("SidModel", &model) < 0) {
+        debug_gtk3("failed to get SidModel resource");
+        return;
+    }
+    sid_model_widget_update(widget, model);
+}
