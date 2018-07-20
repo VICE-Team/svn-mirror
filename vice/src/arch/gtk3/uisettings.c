@@ -1241,68 +1241,90 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
 /* }}} */
 
 
-/** \brief  Main tree nodes for xvic
- */
-static ui_settings_tree_node_t main_nodes_vic20[] = {
-    { "CRT settings",
-      "CRT",
-      settings_crt_widget_create, NULL },
-    { "Mixer settings",
-       "mixer",
-       settings_mixer_widget_create, NULL },
+/*****************************************************************************
+ *                  VIC-20 tree nodes for the settings UI                    *
+ ****************************************************************************/
+
+/* {{{ machine_nodes_vic20 */
+static ui_settings_tree_node_t machine_nodes_vic20[] = {
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Keyboard settings",
-      "keyboard",
-      settings_keyboard_widget_create, NULL },
-    { "Sound settings",
-      "sound",
-      settings_sound_create, NULL },
-    { "Sampler settings",
-      "sampler",
-      settings_sampler_widget_create, NULL },
     { "Autostart settings",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "Drive settings",
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ display_nodes_vic20 */
+static ui_settings_tree_node_t display_nodes_vic20[] = {
+    { "VIC settings",
+      "vic",
+      settings_video_create, NULL },
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ audio_nodes_vic20 */
+static ui_settings_tree_node_t audio_nodes_vic20[] = {
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+    { "Mixer settings",
+       "mixer",
+       settings_mixer_widget_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ input_nodes_vic20 */
+static ui_settings_tree_node_t input_nodes_vic20[] = {
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ peripheral_nodes_vic20 */
+static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
+   { "Drive settings",
       "drive",
       settings_drive_widget_create, NULL },
     { "Printer settings",
       "printer",
       settings_printer_widget_create, NULL },
-    { "Control port settings",
-      "control-port",
-      settings_controlport_widget_create, NULL },
-    { "Joystick settings",
-      "joystick",
-      settings_joystick_widget_create, NULL },
-    { "Mouse settings",
-      "mouse",
-      settings_mouse_widget_create, NULL },
-    { "Model settings",
-      "model",
-      settings_model_widget_create, NULL },
-    { "RAM reset pattern",
-      "ram-reset",
-      settings_ramreset_widget_create, NULL },
-    { "ROM settings",
-      "rom-settings",
-      settings_romset_widget_create, NULL },
-    { "Miscellaneous",
-      "misc",
-      settings_misc_widget_create, NULL },
-    { "VIC settings",
-      "vic",
-      settings_video_create, NULL },
-    { "SID settings",
-      "sid",
-      settings_soundchip_widget_create, NULL },
-
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, vic20_io_extensions },
-
 #ifdef HAVE_RS232DEV
     { "RS232 settings",
       "rs232",
@@ -1313,16 +1335,32 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
 
+
+/* {{{ main_nodes_vic20 */
+/** \brief  Main tree nodes for xvic
+ */
+static ui_settings_tree_node_t main_nodes_vic20[] = {
+
+    { "Machine", "machine", NULL, machine_nodes_vic20 },
+    { "Display", "display", NULL, display_nodes_vic20 },
+    { "Audio", "audio", NULL, audio_nodes_vic20 },
+    { "Input", "input", NULL, input_nodes_vic20 },
+    { "Peripherals", "peripherals", NULL, peripheral_nodes_vic20 },
+    { "I/O extensions", "io-extensions",
+      settings_io_widget_create, vic20_io_extensions },
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Monitor settings",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
 
 /** \brief  Main tree nodes for xplus4
