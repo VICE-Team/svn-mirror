@@ -95,7 +95,7 @@ static const char *keyset_labels[3][3] = {
  *
  * There can be only one (active)
  */
-static GtkWidget *keyset_buttons[3][3] = { NULL };
+static GtkWidget *keyset_buttons[3][3];
 
 
 /** \brief  Handler for the 'response' event of the dialog
