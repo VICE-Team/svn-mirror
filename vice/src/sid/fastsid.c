@@ -1015,6 +1015,7 @@ static void fastsid_store(sound_t *psid, uint16_t addr, uint8_t byte)
             if ((psid->d[addr] ^ byte) & 1) {
                 psid->v[0].gateflip = 1;
             }
+            /* FALL THROUGH */
         case 0:
         case 1:
         case 2:
@@ -1027,6 +1028,7 @@ static void fastsid_store(sound_t *psid, uint16_t addr, uint8_t byte)
             if ((psid->d[addr] ^ byte) & 1) {
                 psid->v[1].gateflip = 1;
             }
+            /* FALL THROUGH */
         case 7:
         case 8:
         case 9:
@@ -1039,6 +1041,7 @@ static void fastsid_store(sound_t *psid, uint16_t addr, uint8_t byte)
             if ((psid->d[addr] ^ byte) & 1) {
                 psid->v[2].gateflip = 1;
             }
+            /* FALL THROUGH */
         case 14:
         case 15:
         case 16:
