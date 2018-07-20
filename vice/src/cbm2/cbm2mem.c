@@ -481,6 +481,7 @@ static uint8_t read_io(uint16_t addr)
                     break;
                 case 0xd900:
                     last_access = cbm2io_d900_read(addr);
+                    break;
                 case 0xda00:
                     last_access = cbm2io_da00_read(addr);
                     break;
