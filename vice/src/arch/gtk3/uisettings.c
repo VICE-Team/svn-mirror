@@ -860,77 +860,112 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
  *                  C64DTV tree nodes for the settings UI                    *
  ****************************************************************************/
 
-/* {{{ main_nodes_c64dtv */
-/** \brief  Main tree nodes for x64dtv
- */
-static ui_settings_tree_node_t main_nodes_c64dtv[] = {
-    { "CRT settings",
-      "CRT",
-      settings_crt_widget_create, NULL },
-    { "Mixer settings",
-       "mixer",
-       settings_mixer_widget_create, NULL },
+/* {{{ machine_nodes_c64dtv */
+static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Keyboard settings",
-      "keyboard",
-      settings_keyboard_widget_create, NULL },
-    { "Sound settings",
-      "sound",
-      settings_sound_create, NULL },
-    { "Sampler settings",
-      "sampler",
-      settings_sampler_widget_create, NULL },
     { "Autostart settings",
       "autostart",
       settings_autostart_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ display_nodes_c64dtv */
+static ui_settings_tree_node_t display_nodes_c64dtv[] = {
+    { "VIC-II settings",
+      "vicii",
+      settings_video_create, NULL },
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ audio_nodes_c64dtv */
+static ui_settings_tree_node_t audio_nodes_c64dtv[] = {
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+    { "Mixer settings",
+       "mixer",
+       settings_mixer_widget_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ input_nodes_c64dtv */
+static ui_settings_tree_node_t input_nodes_c64dtv[] = {
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+/* {{{ peripheral_nodes_c64dtv */
+static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
     { "Drive settings",
       "drive",
       settings_drive_widget_create, NULL },
     { "Printer settings",
       "printer",
       settings_printer_widget_create, NULL },
-    { "Control port settings",
-      "control-port",
-      settings_controlport_widget_create, NULL },
-    { "Joystick settings",
-      "joystick",
-      settings_joystick_widget_create, NULL },
-    { "Mouse settings",
-      "mouse",
-      settings_mouse_widget_create, NULL },
-    { "Model settings",
-      "model",
-      settings_model_widget_create, NULL },
-    { "RAM reset pattern",
-      "ram-reset",
-      settings_ramreset_widget_create, NULL },
-    { "ROM settings",
-      "rom-settings",
-      settings_romset_widget_create, NULL },
-    { "Miscellaneous",
-      "misc",
-      settings_misc_widget_create, NULL },
-    { "VIC-II settings",
-      "vicii",
-      settings_video_create, NULL },
-    { "SID settings",
-      "sid",
-      settings_soundchip_widget_create, NULL },
-    { "Flash settings",
+};
+/* }}} */
+
+
+/* {{{ main_nodes_c64dtv */
+/** \brief  Main tree nodes for x64dtv
+ */
+static ui_settings_tree_node_t main_nodes_c64dtv[] = {
+    { "Machine",    "machine",  NULL,   machine_nodes_c64dtv },
+    { "Display",    "display",  NULL,   display_nodes_c64dtv },
+    { "Audio",      "audio",    NULL,   audio_nodes_c64dtv },
+    { "Input devices",      "input",    NULL,   input_nodes_c64dtv },
+    { "Peripheral devices", "peripheral", NULL, peripheral_nodes_c64dtv },
+
+    { "Flash",
       "flash",
       c64dtv_flash_settings_widget_create, NULL },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, NULL },
-
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Monitor settings",
-      "monitor",
-      settings_monitor_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
