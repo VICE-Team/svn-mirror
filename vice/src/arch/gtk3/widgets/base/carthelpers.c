@@ -138,11 +138,13 @@ static void on_cart_enable_check_button_destroy(GtkCheckButton *check,
 static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
                                                 gpointer data)
 {
-    const char *name;
     int id;
     int state;
-
+#ifdef HAVE_DEBUG_GTK3UI
+    const char *name;
     name = (const char *)g_object_get_data(G_OBJECT(check), "CartridgeName");
+#endif
+
     id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(check), "CartridgeId"));
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
 

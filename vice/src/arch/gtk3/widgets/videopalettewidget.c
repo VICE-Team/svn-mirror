@@ -87,7 +87,9 @@ static void on_internal_toggled(GtkWidget *radio, gpointer data)
  */
 static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 {
+#ifdef HAVE_DEBUG_GTK3UI
     int index = gtk_combo_box_get_active(combo);
+#endif
     const char *id = gtk_combo_box_get_active_id(combo);
 
     debug_gtk3("got combo index %d, id '%s'.", index, id);

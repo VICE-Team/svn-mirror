@@ -550,11 +550,12 @@ static GtkWidget *create_cbm2_roms_widget(void)
 static void unload_pet_rom(GtkWidget *widget, gpointer data)
 {
     GtkWidget *browser = data;
-    const char *resource;
 
-    resource = resource_widget_get_resource_name(browser);
-
+#ifdef HAVE_DEBUG_GTK3UI
+    const char *resource = resource_widget_get_resource_name(browser);
     debug_gtk3("unloading ROM '%s'.", resource);
+#endif
+
     vice_gtk3_resource_browser_set(browser, NULL);
 
 }

@@ -129,9 +129,9 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
 {
-    int state;
-
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+#ifdef HAVE_DEBUG_GTK3UI
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+#endif
     debug_gtk3("preview %s.", state ? "enabled" : "disabled");
     /* TODO: actually disable the preview widget and resize the dialog */
 }

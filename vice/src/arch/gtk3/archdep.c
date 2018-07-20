@@ -377,18 +377,19 @@ void archdep_startup_log_error(const char *format, ...)
  */
 int archdep_init(int *argc, char **argv)
 {
+#ifdef HAVE_DEBUG_GTK3UI
     char *prg_name;
     char *cfg_path;
     char *searchpath;
     char *vice_ini;
     char *datadir;
     char *docsdir;
-
+#endif
     argv0 = lib_stralloc(argv[0]);
 
     archdep_create_user_config_dir();
 
-#if 1
+#ifdef HAVE_DEBUG_GTK3UI
     /* sanity checks, to remove later: */
     prg_name = archdep_program_name();
     searchpath = archdep_default_sysfile_pathlist(machine_name);

@@ -169,7 +169,6 @@ static void dtv_video_callback(int model)
 static void machine_model_handler_c64dtv(int model)
 {
     int rev = 3;
-    int sync = MACHINE_SYNC_PAL;
     GtkWidget *group;
 
     switch (model) {
@@ -178,19 +177,16 @@ static void machine_model_handler_c64dtv(int model)
             break;
         case 1: /* V2 NTSC */
             rev = 2;
-            sync = MACHINE_SYNC_NTSC;
             break;
         case 3: /* V3 NTSC */
-            sync = MACHINE_SYNC_NTSC;
             break;
         case 4: /* Hummer */
-            sync = MACHINE_SYNC_NTSC;
             break;
         default:
             /* 3: V3 PAL */
             break;
     }
-    debug_gtk3("setting revision to %d and sync to %d.", rev, sync);
+    debug_gtk3("setting revision to %d", rev);
 
     /* update revision widget */
     group = gtk_grid_get_child_at(GTK_GRID(c64dtv_rev_widget), 0, 1);

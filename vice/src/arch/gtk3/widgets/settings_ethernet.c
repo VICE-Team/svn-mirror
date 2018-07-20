@@ -193,7 +193,9 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
     char *text;
+#ifdef HAVE_RAWNET
     GtkWidget *combo;
+#endif
 
     /* initialize and register resource widget manager */
     vice_resource_widget_manager_init(&manager);

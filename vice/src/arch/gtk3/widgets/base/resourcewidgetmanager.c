@@ -228,13 +228,16 @@ gboolean vice_resource_widget_manager_reset(resource_widget_manager_t *manager)
     printf("Resource Widget Manager: registered resources:\n");
     for (i = 0; i < manager->widget_num; i++) {
         resource_widget_entry_t *entry = manager->widget_list[i];
-        const char *resource;
 
+#ifdef HAVE_DEBUG_GTK3UI
+        const char *resource;
         if (entry->resource == NULL) {
             resource = resource_widget_get_resource_name(entry->widget);
         } else {
             resource = entry->resource;
         }
+#endif
+
         debug_gtk3("resetting resource '%s'", resource);
         /* custom reset func? */
         if (entry->reset != NULL) {
@@ -276,13 +279,16 @@ gboolean vice_resource_widget_manager_factory(resource_widget_manager_t *manager
     printf("Resource Widget Manager: registered resources:\n");
     for (i = 0; i < manager->widget_num; i++) {
         resource_widget_entry_t *entry = manager->widget_list[i];
-        const char *resource;
 
+#ifdef HAVE_DEBUG_GTK3UI
+        const char *resource;
         if (entry->resource == NULL) {
             resource = resource_widget_get_resource_name(entry->widget);
         } else {
             resource = entry->resource;
         }
+#endif
+
         debug_gtk3("resetting resource '%s' to factory value", resource);
         /* custom reset func? */
         if (entry->factory != NULL) {

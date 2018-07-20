@@ -85,7 +85,9 @@ static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
 
 static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
 {
+#ifdef HAVE_DEBUG_GTK3UI
     int state = gtk_switch_get_active(widget);
+#endif
     debug_gtk3("Client %s requested.", state ? "CONNECT" : "DISCONNECT");
 }
 

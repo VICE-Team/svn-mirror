@@ -401,7 +401,9 @@ static void on_drag_data_received(
             g_free(text);
 
             for (i = 0; files[i] != NULL; i++) {
+#ifdef HAVE_DEBUG_GTK3UI
                 gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
+#endif
                 debug_gtk3("URI: '%s', filename: '%s'.",
                         files[i], tmp);
             }
