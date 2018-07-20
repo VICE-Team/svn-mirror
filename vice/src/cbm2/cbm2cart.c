@@ -50,7 +50,7 @@
 #endif
 
 /* Expansion port signals. */
-export_t export = { 0, 0 };
+export_t export = { 0, 0, 0, 0 };
 
 /* global options for the cart system */
 static int cbm2cartridge_reset; /* (resource) hardreset system after cart was attached/detached */
