@@ -789,6 +789,9 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
             if (addr >= 0xd000 && addr < 0xe000) {
                 return read_bank_io(addr);
             }
+            /* If we made it here, then despite I/O being available,
+             * we're not looking at it */
+            /* FALL THROUGH */
         case 2:                   /* rom */
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return c64memrom_basic64_rom[addr & 0x1fff];
@@ -799,6 +802,9 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
             if (addr >= 0xe000) {
                 return c64memrom_kernal64_rom[addr & 0x1fff];
             }
+            /* If we made it here, we're looking at a part that's
+             * always RAM */
+            /* FALL THROUGH */
         case 1:                   /* ram */
         case 4:                   /* cart */
             break;
@@ -841,6 +847,8 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 store_bank_io(addr, byte);
                 return;
             }
+            /* Not mapped to I/O, time to check vs ROMs */
+            /* FALL THROUGH */
         case 2:                   /* rom */
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return;
@@ -851,6 +859,8 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
             if (addr >= 0xe000) {
                 return;
             }
+            /* Didn't hit the ROMs */
+            /* FALL THROUGH */
         case 1:                   /* ram */
             break;
     }

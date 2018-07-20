@@ -128,6 +128,8 @@ uint8_t plus4memrom_rom_read(uint16_t addr)
                 case 3:
                     return plus4memrom_extromlo3_read(addr);
             }
+            /* Unreachable */
+            break;
         case 0xc000:
             if ((addr & 0xff00) == 0xfc00) {
                 return plus4memrom_kernal_read(addr);
@@ -143,6 +145,8 @@ uint8_t plus4memrom_rom_read(uint16_t addr)
                         return plus4memrom_extromhi3_read(addr);
                 }
             }
+            /* Unreachable */
+            break;
     }
 
     return 0;

@@ -1602,6 +1602,7 @@ static uint8_t peek_bank_io(uint16_t addr)
             if (petres.crtc) {
                 return crtc_read(addr);
             }
+            /* FALL THROUGH */
         case 0x00:
             return addr >> 8;
         default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
@@ -1683,7 +1684,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
             if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
                 return read_io_e9_ef(addr);
             }
-        /* fallthrough to rom */
+            /* FALL THROUGH */
         case bank_rom:         /* rom */
             if (addr >= 0x9000) {
                 return mem_rom[addr & 0x7fff];
@@ -1743,6 +1744,7 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 store_io_e9_ef(addr, byte);
                 return;
             }
+            /* FALL THROUGH */
         case bank_rom:          /* rom */
             if (addr >= 0x9000) {
                 return;

@@ -635,6 +635,8 @@ void mem_initialize_memory_bank(int i)
                 _mem_read_tab[i][0] = read_zero_tab[i];
                 break;
             }
+            /* If this failed, we'll be handled by the failure case in case 14 */
+            /* FALL THROUGH */
         case 3:
         case 4:
             if (ramsize >= 256) {
@@ -647,6 +649,8 @@ void mem_initialize_memory_bank(int i)
                 _mem_read_tab[i][0] = read_zero_tab[i];
                 break;
             }
+            /* If this failed, we'll be handled by the failure case in case 14 */
+            /* FALL THROUGH */
         case 5:
         case 6:
         case 7:
@@ -660,6 +664,8 @@ void mem_initialize_memory_bank(int i)
                 _mem_read_tab[i][0] = read_zero_tab[i];
                 break;
             }
+            /* If this failed, we'll be handled by the failure case in case 14 */
+            /* FALL THROUGH */
         case 8:
         case 9:
         case 10:
