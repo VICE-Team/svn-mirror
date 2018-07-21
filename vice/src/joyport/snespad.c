@@ -80,10 +80,6 @@ static int joyport_snespad_enable(int port, int value)
 
 static uint8_t snespad_read(int port)
 {
-#if 0
-    log_warning(LOG_DEFAULT, "Reading from SNESPAD");
-#endif
-
     uint8_t retval;
 
     switch (counter) {
@@ -114,10 +110,6 @@ static uint8_t snespad_read(int port)
 
 static void snespad_store(uint8_t val)
 {
-#if 0
-    log_warning(LOG_DEFAULT, "Storing to SNESPAD: %02X", val);
-#endif
-
     uint8_t new_clock = (val & 0x08) >> 3;
     uint8_t new_reset = (val & 0x10) >> 4;
 
@@ -150,6 +142,7 @@ static joyport_t joyport_snespad_device = {
     NULL,               /* no snapshot write */
     NULL                /* no snapshot read */
 };
+
 
 /* ------------------------------------------------------------------------- */
 
