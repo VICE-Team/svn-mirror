@@ -181,7 +181,11 @@ index = where in the screen memory we are, to check against the cursor */
         /* invert anything at all? */
         if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
             /* invert current byte of the character? */
-            if ((l >= (signed)(vdc.regs[10] & 0x1F)) || (l < (signed)(vdc.regs[11] & 0x1F))) {
+            if (
+            ((l >= (vdc.regs[10] & 0x1F)) && (l < (vdc.regs[11] & 0x1F)))
+            || ((l == (vdc.regs[10] & 0x1F)) && (l == (vdc.regs[11] & 0x1F)))
+            || (((vdc.regs[10] & 0x1F) > (vdc.regs[11] & 0x1F)) && ((l >= (vdc.regs[10] & 0x1F)) || (l < (vdc.regs[11] & 0x1F))))
+            ) {
                 /* The VDC cursor reverses the char */
                 data ^= 0xFF;
             }
@@ -556,8 +560,11 @@ static void draw_std_text(void)
             if (cpos == i) { /* handle cursor if this is the cursor */
                 if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
                     /* invert current byte of the character if we are within the cursor area */
-                    if ((vdc.raster.ycounter >= (unsigned)(vdc.regs[10] & 0x1F)) /* top of cursor */
-                    || (vdc.raster.ycounter < (unsigned)(vdc.regs[11] & 0x1F))) { /* bottom of cursor */
+                    if (
+                    ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (vdc.regs[11] & 0x1F)))
+                    || ((vdc.raster.ycounter == (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter == (vdc.regs[11] & 0x1F)))
+                    || (((vdc.regs[10] & 0x1F) > (vdc.regs[11] & 0x1F)) && ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) || (vdc.raster.ycounter < (vdc.regs[11] & 0x1F))))
+                    ) {
                         /* The VDC cursor reverses the char */
                         d ^= 0xFF;
                     }
@@ -631,8 +638,11 @@ static void draw_std_text(void)
             if (cpos == i) { /* handle cursor if this is the cursor */
                 if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
                     /* invert current byte of the character if we are within the cursor area */
-                    if ((vdc.raster.ycounter >= (unsigned)(vdc.regs[10] & 0x1F)) /* top of cursor */
-                    || (vdc.raster.ycounter < (unsigned)(vdc.regs[11] & 0x1F))) { /* bottom of cursor */
+                    if (
+                    ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (vdc.regs[11] & 0x1F)))
+                    || ((vdc.raster.ycounter == (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter == (vdc.regs[11] & 0x1F)))
+                    || (((vdc.regs[10] & 0x1F) > (vdc.regs[11] & 0x1F)) && ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) || (vdc.raster.ycounter < (vdc.regs[11] & 0x1F))))
+                    ) {
                         /* The VDC cursor reverses the char */
                         d ^= 0xFF;
                     }
