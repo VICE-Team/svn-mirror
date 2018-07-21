@@ -539,6 +539,15 @@ static void draw_std_text(void)
                 d = 0x00;
             }
 
+            if (vdc.regs[25] & 0x20) {
+                /* Semi-graphics mode */
+                if (d & semigfxtest[vdc.regs[22] & 0x0F]) {
+                /* if the far right pixel is on.. */
+                    d |= semigfxmask[vdc.regs[22] & 0x0F];
+                    /* .. mask the rest of the right hand side on */
+                }
+            }
+            
             /* reverse if the reverse attribute is set for this char */
             if (*(attr_ptr + i) & VDC_REVERSE_ATTR) {
                 d ^= 0xff;
@@ -609,6 +618,15 @@ static void draw_std_text(void)
             
             /* mask against r[22] - pixels per char mask */
             d &= mask[vdc.regs[22] & 0x0F];
+
+            if (vdc.regs[25] & 0x20) {
+                /* Semi-graphics mode */
+                if (d & semigfxtest[vdc.regs[22] & 0x0F]) {
+                /* if the far right pixel is on.. */
+                    d |= semigfxmask[vdc.regs[22] & 0x0F];
+                    /* .. mask the rest of the right hand side on */
+                }
+            }
             
             if (cpos == i) { /* handle cursor if this is the cursor */
                 if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
