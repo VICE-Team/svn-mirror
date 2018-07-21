@@ -504,8 +504,6 @@ cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
 cp $TOP_DIR/README $BUILD_DIR/README.txt
 mkdir "$BUILD_DIR/doc"
 copy_tree "$TOP_DIR/doc" "$BUILD_DIR/doc"
-mv $BUILD_DIR/doc/readmes/Readme-MacOSX.txt $BUILD_DIR/
-mv $BUILD_DIR/doc/building/MacOSX-Howto.txt $BUILD_DIR/doc/
 (cd $BUILD_DIR/doc && eval "rm -rf $DOC_REMOVE")
 
 # --- copy fonts ---

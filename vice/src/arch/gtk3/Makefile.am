@@ -175,4 +175,8 @@ EXTRA_DIST = \
 	uivsidmenu.h \
 	uivsidwindow.h \
 	videoarch.h \
-	winjoy.h
+	winjoy.h \
+	Info.plist \
+	Resources/VICE.icns \
+	vice-launcher.sh \
+	x11-launcher.sh
