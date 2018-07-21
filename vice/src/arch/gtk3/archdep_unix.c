@@ -280,7 +280,7 @@ char *archdep_get_vice_docsdir(void)
 #ifdef MACOSX_BUNDLE
     debug_gtk3("FIXME: archdep_get_vice_docsdir '%s%s'.",
             archdep_boot_path(), "/../doc/");
-    util_concat(archdep_boot_path(), "/../doc/", NULL);
+    return util_concat(archdep_boot_path(), "/../doc/", NULL);
 #else
     return util_concat(DOCDIR, "/", NULL);
 #endif
