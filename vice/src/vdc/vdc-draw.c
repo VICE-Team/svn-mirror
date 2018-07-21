@@ -524,7 +524,10 @@ static void draw_std_text(void)
             d = *(char_ptr
                   + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x100 * vdc.bytes_per_char : 0) /* the offset to the alternate character set is either 0x1000 or 0x2000, depending on the character size (16 or 32) */
                   + (*(screen_ptr + i) * vdc.bytes_per_char));
-
+                  
+            /* mask against r[22] - pixels per char mask */
+            d &= mask[vdc.regs[22] & 0x0F];
+                  
             /* set underline if the underline attrib is set for this char */
             if ((vdc.raster.ycounter == vdc.regs[29]) && (*(attr_ptr + i) & VDC_UNDERLINE_ATTR)) {
                 /* TODO - figure out if the pixels per char applies to the underline */
@@ -603,7 +606,10 @@ static void draw_std_text(void)
         uint32_t *pdwh = pdh_table + (vdc.regs[26] << 4);
         for (i = 0; i < vdc.screen_text_cols; i++, p += charwidth) {
             d = *(char_ptr + (*(screen_ptr + i) * vdc.bytes_per_char));
-
+            
+            /* mask against r[22] - pixels per char mask */
+            d &= mask[vdc.regs[22] & 0x0F];
+            
             if (cpos == i) { /* handle cursor if this is the cursor */
                 if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
                     /* invert current byte of the character if we are within the cursor area */
