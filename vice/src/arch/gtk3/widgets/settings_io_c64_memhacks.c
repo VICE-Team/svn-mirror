@@ -44,6 +44,8 @@
 #include "widgethelpers.h"
 #include "openfiledialog.h"
 #include "c64-memory-hacks.h"
+#include "resourcewidgetmanager.h"
+#include "uisettings.h"
 
 #include "settings_io_c64_memhacks.h"
 
@@ -86,6 +88,22 @@ static GtkWidget *c64_256k_image = NULL;
 static GtkWidget *plus_60k_base = NULL;
 static GtkWidget *plus_60k_image = NULL;
 static GtkWidget *plus_256k_image = NULL;
+
+
+/** \brief  Resource widget manager instance
+ */
+static resource_widget_manager_t manager;
+
+
+/** \brief  Clean up resources used by the main widget
+ *
+ * \param[in]   widget  main widget (unused)
+ * \param[in]   data    extra event data (unused
+ */
+static void on_main_widget_destroy(GtkWidget *widget, gpointer data)
+{
+    vice_resource_widget_manager_exit(&manager);
+}
 
 
 /** \brief  Handler for the "clicked" event of the browse button for C64_256K
@@ -213,6 +231,9 @@ static GtkWidget *memory_hacks_device_widget_create(void)
             "C64 memory expansion hack device", 1);
     group = vice_gtk3_resource_radiogroup_new("MemoryHack", mem_hack_devices,
             GTK_ORIENTATION_HORIZONTAL);
+    vice_resource_widget_manager_add_widget(&manager, group, NULL,
+            NULL, NULL, NULL);
+
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
@@ -244,8 +265,12 @@ static GtkWidget *c64_256k_base_address_widget_create(void)
 
     grid = uihelpers_create_grid_with_label(
             "C64 256K base addresss", 1);
-    group = vice_gtk3_resource_radiogroup_new("C64_256Kbase", c64_256k_base_addresses,
+    group = vice_gtk3_resource_radiogroup_new("C64_256Kbase",
+            c64_256k_base_addresses,
             GTK_ORIENTATION_HORIZONTAL);
+    vice_resource_widget_manager_add_widget(&manager, group, NULL,
+            NULL, NULL, NULL);
+
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
@@ -268,6 +293,9 @@ static GtkWidget *plus_60k_base_address_widget_create(void)
     group = vice_gtk3_resource_radiogroup_new(
             "PLUS60Kbase", plus_60k_base_addresses,
             GTK_ORIENTATION_HORIZONTAL);
+    vice_resource_widget_manager_add_widget(&manager, group, NULL,
+            NULL, NULL, NULL);
+
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
@@ -294,6 +322,8 @@ static GtkWidget *c64_256k_image_widget_create(void)
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
     entry = vice_gtk3_resource_entry_full_new("C64_256Kfilename");
+    vice_resource_widget_manager_add_widget(&manager, entry, NULL,
+            NULL, NULL, NULL);
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
@@ -326,6 +356,8 @@ static GtkWidget *plus_60k_image_widget_create(void)
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
     entry = vice_gtk3_resource_entry_full_new("PLUS60Kfilename");
+    vice_resource_widget_manager_add_widget(&manager, entry, NULL,
+            NULL, NULL, NULL);
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
@@ -358,6 +390,9 @@ static GtkWidget *plus_256k_image_widget_create(void)
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
     entry = vice_gtk3_resource_entry_full_new("PLUS256Kfilename");
+    vice_resource_widget_manager_add_widget(&manager, entry, NULL,
+            NULL, NULL, NULL);
+
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
@@ -384,6 +419,9 @@ GtkWidget *settings_io_c64_memhacks_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *hack;
     size_t i = 0;
+
+    vice_resource_widget_manager_init(&manager);
+    ui_settings_set_resource_widget_manager(&manager);
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -414,6 +452,9 @@ GtkWidget *settings_io_c64_memhacks_widget_create(GtkWidget *parent)
         }
         i++;
     }
+
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_main_widget_destroy),
+            NULL);
 
     gtk_widget_show_all(grid);
     return grid;

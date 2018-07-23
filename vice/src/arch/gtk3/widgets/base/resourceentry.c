@@ -394,6 +394,12 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
         gtk_entry_set_text(GTK_ENTRY(entry), current);
     }
 
+    /* register methods to be used by the resource widget manager */
+    resource_widget_register_methods(
+            entry,
+            vice_gtk3_resource_entry_full_reset,
+            vice_gtk3_resource_entry_full_factory,
+            vice_gtk3_resource_entry_full_sync);
     g_signal_connect(entry, "destroy",
             G_CALLBACK(on_resource_entry_full_destroy), NULL);
     g_signal_connect(entry, "focus-out-event",
