@@ -392,6 +392,10 @@ if test x"$check_gtk3" = "xyes"; then
       HAVE_GTK3_MONITOR_SUPPORT="yes"
     fi
 
+    dnl Check for C++11 support (for novte) and update CXXFLAGS
+    AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
+    CXXFLAGS="$CXXFLAGS -std=c++11"
+
     dnl Platform canonical names for Win32-GTK3 have names like "i686-w64-mingw32"
     case "$host_os" in
       *mingw32)

@@ -22,6 +22,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* M_PI isn't defined in math.h when using strict standards compliance */
+#ifndef M_PI
+# define M_PI 3.14159265358979323846264338327950288
+#endif
+
 #define howmany(x,y) (((x)+((y)-1))/(y))
 
 #include <glib.h>
