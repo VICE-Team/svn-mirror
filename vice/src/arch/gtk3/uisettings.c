@@ -1872,9 +1872,6 @@ static void on_tree_selection_changed(
             }
             last_node_path = gtk_tree_model_get_path(
                     GTK_TREE_MODEL(settings_model), &iter);
-
-            /* reset widget manager */
-            resource_manager = NULL;
             ui_settings_set_central_widget(callback(settings_window));
         }
         g_free(name);
@@ -2055,6 +2052,7 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
     child = gtk_grid_get_child_at(GTK_GRID(settings_grid), 1, 0);
     if (child != NULL) {
         gtk_widget_destroy(child);
+        resource_manager = NULL;
     }
     gtk_grid_attach(GTK_GRID(settings_grid), widget, 1, 0, 1, 1);
     /* add a little space around the widget */
@@ -2262,6 +2260,8 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     GtkWidget *content;
     char title[256];
 
+    debug_gtk3("CALLED\n");
+
     vsync_suspend_speed_eval();
 
     g_snprintf(title, 256, "%s Settings", machine_name);
@@ -2300,5 +2300,6 @@ void ui_settings_shutdown(void)
 {
     if (last_node_path != NULL) {
         gtk_tree_path_free(last_node_path);
+        last_node_path = NULL;
     }
 }

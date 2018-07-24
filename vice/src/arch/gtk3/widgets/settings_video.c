@@ -111,9 +111,11 @@ static void on_destroy(GtkWidget *widget)
 {
     if (widget_title[0] != NULL) {
         lib_free(widget_title[0]);
+        widget_title[0] = NULL;
     }
     if (widget_title[1] != NULL) {
         lib_free(widget_title[1]);
+        widget_title[1] = NULL;
     }
 }
 
@@ -325,6 +327,8 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
     GtkWidget *grid;
     GtkWidget *hw_scale_widget = NULL;
 
+
+
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Scaling and fullscreen", 3);
 
@@ -433,6 +437,16 @@ GtkWidget *settings_video_create(GtkWidget *parent)
     GtkWidget *grid;
     const char *chip;
 
+    chip_name[0] = NULL;
+    chip_name[1] = NULL;
+    widget_title[0] = NULL;
+    widget_title[1] = NULL;
+    keep_aspect_widget[0] = NULL;
+    keep_aspect_widget[1] = NULL;
+    true_aspect_widget[0] = NULL;
+    true_aspect_widget[1] = NULL;
+
+
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     chip = uivideo_chip_name();
 #if 0
@@ -490,6 +504,15 @@ GtkWidget *settings_video_create(GtkWidget *parent)
 GtkWidget *settings_video_create_vdc(GtkWidget *parent)
 {
     GtkWidget *grid;
+
+    chip_name[0] = NULL;
+    chip_name[1] = NULL;
+    widget_title[0] = NULL;
+    widget_title[1] = NULL;
+    keep_aspect_widget[0] = NULL;
+    keep_aspect_widget[1] = NULL;
+    true_aspect_widget[0] = NULL;
+    true_aspect_widget[1] = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(grid),
