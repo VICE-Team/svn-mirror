@@ -41,6 +41,7 @@
 #include "debug_gtk3.h"
 #include "not_implemented.h"
 
+#include "archdep.h"
 #include "autostart.h"
 #include "cmdline.h"
 #include "drive.h"
@@ -70,7 +71,6 @@
 #include "uisidattach.h"
 #include "mixerwidget.h"
 #include "uidata.h"
-#include "fontapi.h"
 
 #include "ui.h"
 
@@ -1144,10 +1144,10 @@ int ui_init(int *argc, char **argv)
                 " when it comes to icons, fonts or logos.");
     }
 
-    debug_gtk3("Initializing fontapi.");
-    if (!fontapi_register_cbmfont()) {
+    debug_gtk3("Registering CBM font.");
+    if (!archdep_register_cbmfont()) {
         debug_gtk3("failed.");
-        log_error(LOG_ERR, "failed to initialize fontapi.");
+        log_error(LOG_ERR, "failed to rgister CBM font.");
     }
 
     ui_statusbar_init();
@@ -1501,7 +1501,7 @@ void ui_exit(void)
     }
 
     /* unregister the CBM font */
-    fontapi_unregister_cbmfont();
+    archdep_unregister_cbmfont();
 
     /* trigger any remaining Gtk/GLib events */
     while (g_main_context_pending(g_main_context_default())) {

@@ -30,6 +30,8 @@
 
 #include "vice.h"
 
+#include <stdbool.h>
+
 #include "sound.h"
 
 /* Extra functions for SDL UI */
@@ -102,5 +104,9 @@ char *archdep_get_vice_datadir(void);
 /* Get the absolute path to the directory that contains the documentation */
 char *archdep_get_vice_docsdir(void);
 
+/* Register CBM font with the OS without installing */
+bool archdep_register_cbmfont(void);
+/* Unregister CBM font */
+void archdep_unregister_cbmfont(void);
 
 #endif
