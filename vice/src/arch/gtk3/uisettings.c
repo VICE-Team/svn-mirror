@@ -1006,9 +1006,12 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
 /** \brief  C128 Display sub nodes
  */
 static ui_settings_tree_node_t display_nodes_c128[] = {
-    { "VIC-II/VDC settings",
-      "vicii-vdc",
+    { "VIC-II settings",
+      "vicii",
       settings_video_create, NULL },
+    { "VDC settings",
+      "vdc",
+      settings_video_create_vdc, NULL },
     { "CRT settings",
       "crt",
       settings_crt_widget_create, NULL },

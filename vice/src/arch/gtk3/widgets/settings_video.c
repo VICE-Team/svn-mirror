@@ -421,6 +421,9 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 
 /** \brief  Create video settings widget
  *
+ * This will create the VICII widget for x128, for the VDC widget use
+ * settings_video_create_vdc().
+ *
  * \param[in]   parent  parent widget
  *
  * \return  GtkGrid
@@ -432,7 +435,7 @@ GtkWidget *settings_video_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     chip = uivideo_chip_name();
-
+#if 0
     if (machine_class != VICE_MACHINE_C128) {
         gtk_grid_attach(GTK_GRID(grid),
                 create_layout(parent, chip, 0),
@@ -464,7 +467,34 @@ GtkWidget *settings_video_create(GtkWidget *parent)
         gtk_grid_attach(GTK_GRID(grid), switcher, 0, 0, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
     }
+#endif
+    gtk_grid_attach(GTK_GRID(grid),
+            create_layout(parent, chip, 0),
+            0, 0, 1, 1);
 
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
+/** \brief  Create video settings widget for VDC
+ *
+ * This will create the VDC widget for x128, for the VICII widget use
+ * settings_video_create().
+ *
+ * \param[in]   parent  parent widget
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_video_create_vdc(GtkWidget *parent)
+{
+    GtkWidget *grid;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    gtk_grid_attach(GTK_GRID(grid),
+            create_layout(parent, "VDC", 0),
+            0, 0, 1, 1);
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(grid);

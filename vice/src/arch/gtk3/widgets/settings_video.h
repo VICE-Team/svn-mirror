@@ -32,5 +32,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget *settings_video_create(GtkWidget *parent);
+GtkWidget *settings_video_create_vdc(GtkWidget *parent);
 
 #endif
