@@ -434,14 +434,22 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
                                  unsigned int xe)
 /* aka raster_modes_draw_line_cached() in raster */
 {
-    uint8_t *p;
+    uint8_t *p, *q;
     uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
 
     unsigned int i, charwidth;
+    int icsi = -1;  /* Inter Character Spacing Index - used as a combo flag/index as to whether there is any intercharacter gap to render */
+    
     if (vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
         charwidth = 2 * (vdc.regs[22] >> 4);
+        if (charwidth > 16) {   /* Is there inter character spacing to render? */
+            icsi = charwidth / 2 - 8;
+        }
     } else { /* 80 column mode */
         charwidth = 1 + (vdc.regs[22] >> 4);
+        if (charwidth > 8) {    /* Is there inter character spacing to render? */
+            icsi = charwidth - 8;
+        }
     }
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
@@ -462,6 +470,21 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
             *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
             *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
             *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
+            if (icsi >= 0) {    /* if there's inter character spacing, then render it */
+                q = p + 16;
+                if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
+                    d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
+                    *((uint32_t *)q) = *(pdwh + (d >> 4));
+                    *((uint32_t *)q + 1) = *(pdwl + (d & 0x0f));
+                    *((uint32_t *)q + 2) = *(pdwh + (d & 0x0f));
+                    *((uint32_t *)q + 3) = *(pdwl + (d & 0x0f));
+                } else { /* otherwise just draw the background */
+                    *((uint32_t *)q) = *(pdwh);
+                    *((uint32_t *)q + 1) = *(pdwl);
+                    *((uint32_t *)q + 2) = *(pdwh);
+                    *((uint32_t *)q + 3) = *(pdwl);
+                }
+            }
         }
     } else { /* normal text size */
         for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) { /* FIXME rendering in the intercharacter gap when charwidth >8 */
@@ -469,6 +492,17 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
             int d = cache->foreground_data[i];
             *((uint32_t *)p) = *(ptr + (d >> 4));
             *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
+            if (icsi >= 0) {    /* if there's inter character spacing, then render it */
+                q = p + 8;
+                if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
+                    d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
+                    *((uint32_t *)q) = *(ptr + (d >> 4));
+                    *((uint32_t *)q + 1) = *(ptr + (d & 0x0f));
+                } else { /* otherwise just draw the background */
+                    *((uint32_t *)q) = *(ptr);
+                    *((uint32_t *)q + 1) = *(ptr);
+                }
+            }
         }
     }
 
