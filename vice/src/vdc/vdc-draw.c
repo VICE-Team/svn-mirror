@@ -474,16 +474,19 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
                 q = p + 16;
                 if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
                     d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
-                    *((uint32_t *)q) = *(pdwh + (d >> 4));
-                    *((uint32_t *)q + 1) = *(pdwl + (d >> 4));
-                    *((uint32_t *)q + 2) = *(pdwh + (d & 0x0f));
-                    *((uint32_t *)q + 3) = *(pdwl + (d & 0x0f));
                 } else { /* otherwise just draw the background */
-                    *((uint32_t *)q) = *(pdwh);
-                    *((uint32_t *)q + 1) = *(pdwl);
-                    *((uint32_t *)q + 2) = *(pdwh);
-                    *((uint32_t *)q + 3) = *(pdwl);
+                    d = 0;
                 }
+                if (cache->color_data_1[i] & VDC_REVERSE_ATTR) { /* reverse if the reverse attribute is set for this char */
+                    d ^= 0xff;
+                }
+                if (vdc.regs[24] & VDC_REVERSE_ATTR) {  /* whole screen reverse */
+                    d ^= 0xff;
+                }
+                *((uint32_t *)q) = *(pdwh + (d >> 4));
+                *((uint32_t *)q + 1) = *(pdwl + (d >> 4));
+                *((uint32_t *)q + 2) = *(pdwh + (d & 0x0f));
+                *((uint32_t *)q + 3) = *(pdwl + (d & 0x0f));
             }
         }
     } else { /* normal text size */
@@ -496,12 +499,17 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
                 q = p + 8;
                 if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
                     d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
-                    *((uint32_t *)q) = *(ptr + (d >> 4));
-                    *((uint32_t *)q + 1) = *(ptr + (d & 0x0f));
                 } else { /* otherwise just draw the background */
-                    *((uint32_t *)q) = *(ptr);
-                    *((uint32_t *)q + 1) = *(ptr);
+                    d = 0;
                 }
+                if (cache->color_data_1[i] & VDC_REVERSE_ATTR) { /* reverse if the reverse attribute is set for this char */
+                    d ^= 0xff;
+                }
+                if (vdc.regs[24] & VDC_REVERSE_ATTR) {  /* whole screen reverse */
+                    d ^= 0xff;
+                }
+                *((uint32_t *)q) = *(ptr + (d >> 4));
+                *((uint32_t *)q + 1) = *(ptr + (d & 0x0f));
             }
         }
     }
