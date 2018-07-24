@@ -83,7 +83,7 @@
  * These values assume a proper emulator statusbar (ie not VSID).
  */
 enum {
-    SB_COL_MSG = 0,     /**< message widget */
+    SB_COL_SPEED = 0,   /**< message widget */
     SB_COL_SEP_MSG ,    /**< separator between message and ctr/mixer widgets */
     SB_COL_CRT,         /**< crt and mixer widgets */
     SB_COL_SEP_CRT,     /**< separator between crt/mixer and tape widgets */
@@ -164,8 +164,15 @@ typedef struct ui_statusbar_s {
      *  This is the widget the rest of the UI code will store and pack
      *  into windows. */
     GtkWidget *bar;
+#if 0
     /** \brief The status message widget. */
     GtkLabel *msg;
+#endif
+    /** \brief  Widget displaying CPU speed and FPS
+     *
+     * Also used to set refresh rate, CPU speed, pause, warp and adv-frame
+     */
+    GtkWidget *speed;
 
     /** \brief CRT control widget checkbox */
     GtkWidget *crt;
@@ -210,7 +217,7 @@ void ui_statusbar_init(void)
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         allocated_bars[i].bar = NULL;
-        allocated_bars[i].msg = NULL;
+        allocated_bars[i].speed = NULL;
         allocated_bars[i].crt = NULL;
         allocated_bars[i].mixer = NULL;
         allocated_bars[i].tape = NULL;
@@ -1067,10 +1074,17 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == sb) {
             allocated_bars[i].bar = NULL;
+#if 0
             if (allocated_bars[i].msg) {
                 g_object_unref(G_OBJECT(allocated_bars[i].msg));
                 allocated_bars[i].msg = NULL;
             }
+#endif
+            if (allocated_bars[i].speed != NULL) {
+                g_object_unref(G_OBJECT(allocated_bars[i].speed));
+                allocated_bars[i].speed = NULL;
+            }
+
             if (allocated_bars[i].crt != NULL) {
                 g_object_unref(G_OBJECT(allocated_bars[i].crt));
                 allocated_bars[i].crt = NULL;
@@ -1180,7 +1194,7 @@ static GtkWidget *ui_drive_menu_create(int unit)
  */
 GtkWidget *ui_statusbar_create(void)
 {
-    GtkWidget *sb, *msg, *tape, *tape_events, *joysticks;
+    GtkWidget *sb, *speed, *tape, *tape_events, *joysticks;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
     int i, j;
@@ -1203,13 +1217,15 @@ GtkWidget *ui_statusbar_create(void)
      * extra dereference in ui_statusbar_destroy() so nothing should
      * leak. */
     sb = vice_gtk3_grid_new_spaced(8, 0);
-    /* First column: messages */
-    msg = gtk_label_new(NULL);
-    g_object_ref_sink(G_OBJECT(msg));
-    gtk_widget_set_halign(msg, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(msg, TRUE);
-    gtk_label_set_ellipsize(GTK_LABEL(msg), PANGO_ELLIPSIZE_END);
-    g_object_set(msg, "margin-left", 8, NULL);
+
+    /* First column: CPU/FPS */
+
+    speed = gtk_label_new("CPU: 100%, FPS: 50.125");
+    g_object_ref_sink(G_OBJECT(speed));
+    gtk_widget_set_halign(speed, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(speed, TRUE);
+    gtk_label_set_ellipsize(GTK_LABEL(speed), PANGO_ELLIPSIZE_END);
+    g_object_set(speed, "margin-left", 8, NULL);
 
     /* don't add CRT or Mixer controls when VSID */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1228,8 +1244,8 @@ GtkWidget *ui_statusbar_create(void)
 
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
-    allocated_bars[i].msg = GTK_LABEL(msg);
-    gtk_grid_attach(GTK_GRID(sb), msg, SB_COL_MSG, 0, 1, 2);
+    allocated_bars[i].speed = speed;
+    gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
 
     /* Second column: separator */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
@@ -1336,6 +1352,7 @@ void ui_display_recording(int recording_status)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+#if 0
 /** \brief Directly and unconditionally set the status bar message text.
  *
  *  \param text The text to display in the status bar.
@@ -1343,14 +1360,18 @@ void ui_display_recording(int recording_status)
 static void
 display_statustext_internal(const char *text)
 {
+#if 0
     int i;
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].msg) {
             gtk_label_set_text(allocated_bars[i].msg, text);
         }
     }
+#endif
 }
+#endif
 
+#if 0
 /** \brief Timeout callback for messages in the status bar.
  *
  *  If the message ID associated with this callback matches the
@@ -1369,6 +1390,7 @@ static gboolean ui_statustext_fadeout(gpointer data)
     }
     return FALSE;
 }
+#endif
 
 /** \brief Statusbar API function to display a message in the status bar.
  *
@@ -1378,6 +1400,7 @@ static gboolean ui_statustext_fadeout(gpointer data)
  */
 void ui_display_statustext(const char *text, int fade_out)
 {
+#if 0
     ++sb_state.statustext_msgid;
     display_statustext_internal(text);
     if (fade_out) {
@@ -1398,6 +1421,8 @@ void ui_display_statustext(const char *text, int fade_out)
         lib_free(autostart_image);
         autostart_image = NULL;
     }
+#endif
+    debug_gtk3("called, shouldn't happen!");
 }
 
 /** \brief Statusbar API function to display current volume.
