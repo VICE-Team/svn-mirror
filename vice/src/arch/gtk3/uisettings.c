@@ -1763,6 +1763,33 @@ void ui_settings_set_resource_widget_manager(resource_widget_manager_t *manager)
 }
 
 
+/** \brief  Handler for the double click event of a tree node
+ *
+ * Expands or collapses the node and its children (if any)
+ *
+ * \param[in,out]   tree_view   tree view instance
+ * \param[in]       path        tree view path
+ * \param[in]       column      tree view column (unused)
+ * \param[in]       user_data   extra event data (unused)
+ */
+static void on_row_activated(GtkTreeView *tree_view,
+                            GtkTreePath *path,
+                            GtkTreeViewColumn *column,
+                            gpointer user_data)
+{
+    if (gtk_tree_view_row_expanded(tree_view, path)) {
+        gtk_tree_view_collapse_row(tree_view, path);
+    } else {
+        /*
+         * Only expand the immediate children. A no-op at the moment since
+         * we only have two levels of nodes in the tree, but perhaps useful
+         * for later.
+         */
+        gtk_tree_view_expand_row(tree_view, path, FALSE);
+    }
+}
+
+
 /** \brief  Reset widgets in the central widget to their initial state
  *
  * Restores all widgets in the central widget to the state they were in when\
@@ -2147,6 +2174,9 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     g_signal_connect(G_OBJECT(selection), "changed",
             G_CALLBACK(on_tree_selection_changed), NULL);
 
+    /* handler for the double click event on a node */
+    g_signal_connect(settings_tree, "row-activated",
+            G_CALLBACK(on_row_activated), NULL);
 
     return settings_grid;
 }
