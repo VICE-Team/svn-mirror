@@ -559,10 +559,14 @@ static void draw_std_text(void)
         pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
         pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
         for (i = 0; i < vdc.screen_text_cols; i++, p += charwidth) {
-            d = *(char_ptr
+            if (vdc.raster.ycounter > (signed)vdc.regs[23]) {
+                /* Return nothing if > Vertical Character Size */
+                d = 0x00;
+            } else {
+                d = *(char_ptr
                   + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x100 * vdc.bytes_per_char : 0) /* the offset to the alternate character set is either 0x1000 or 0x2000, depending on the character size (16 or 32) */
                   + (*(screen_ptr + i) * vdc.bytes_per_char));
-                  
+            }
             /* mask against r[22] - pixels per char mask */
             d &= mask[vdc.regs[22] & 0x0F];
                   
