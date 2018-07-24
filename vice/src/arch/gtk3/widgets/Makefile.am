@@ -148,6 +148,7 @@ libwidgets_a_SOURCES = \
 	soundsuspendtimewidget.c \
 	soundsyncwidget.c \
 	speedwidget.c \
+	statusbarspeedwidget.c \
 	superpetwidget.c \
 	supersnapshotwidget.c \
 	tapeportdeviceswidget.c \
@@ -288,6 +289,7 @@ EXTRA_DIST = \
 	soundsuspendtimewidget.h \
 	soundsyncwidget.h \
 	speedwidget.h \
+	statusbarspeedwidget.h \
 	superpetwidget.h \
 	supersnapshotwidget.h \
 	tapeportdeviceswidget.h \

@@ -69,6 +69,7 @@
 
 #include "contentpreviewwidget.h"
 #include "dirmenupopup.h"
+#include "statusbarspeedwidget.h"
 
 #include "uistatusbar.h"
 
@@ -1220,7 +1221,7 @@ GtkWidget *ui_statusbar_create(void)
 
     /* First column: CPU/FPS */
 
-    speed = gtk_label_new("CPU: 100%, FPS: 50.125");
+    speed = statusbar_speed_widget_create();
     g_object_ref_sink(G_OBJECT(speed));
     gtk_widget_set_halign(speed, GTK_ALIGN_START);
     gtk_widget_set_hexpand(speed, TRUE);
@@ -1775,4 +1776,19 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
     }
     debug_gtk3("OOPS!");
     return FALSE;
+}
+
+
+void ui_display_speed(float percent, float framerate, int warp_flag)
+{
+    GtkWidget *speed;
+
+    speed = allocated_bars[0].speed;
+    if (speed != NULL) {
+        statusbar_speed_widget_update(speed, percent, framerate, warp_flag);
+    }
+    speed = allocated_bars[1].speed;
+    if (speed != NULL) {
+        statusbar_speed_widget_update(speed, percent, framerate, warp_flag);
+    }
 }

@@ -1350,6 +1350,7 @@ void ui_message(const char *format, ...)
     lib_free(buffer);
 }
 
+#if 0
 /** \brief  Display FPS (and some other stuff) in the title bar of each
  *          window
  *
@@ -1384,6 +1385,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
         }
     }
 }
+#endif
 
 
 /** \brief  Keeps the ui events going while the emulation is paused
