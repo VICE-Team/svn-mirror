@@ -34,6 +34,7 @@
 #include "vice_gtk3.h"
 #include "basedialogs.h"
 #include "resources.h"
+#include "ui.h"
 
 #include "statusbarspeedwidget.h"
 
@@ -41,6 +42,17 @@
 /** \brief  Predefined emulation speeds (taken from vice.texi)
  */
 static int emu_speeds[] = { 200, 100, 50, 20, 10, -1 };
+
+
+/** \brief  Handler for the "activate" event of the "Advance frame" menu item
+ *
+ * \param[in]   widget  menu item (unused)
+ * \param[in]   data    extra event data (unused
+ */
+static void on_advance_frame_activate(GtkWidget *widget, gpointer data)
+{
+    ui_advance_frame();
+}
 
 
 /** \brief  Add separator to \a menu
@@ -53,6 +65,38 @@ static void add_separator(GtkWidget *menu)
 {
     GtkWidget *item = gtk_separator_menu_item_new();
     gtk_container_add(GTK_CONTAINER(menu), item);
+}
+
+
+/** \brief  Handler for the "toggled" event of the Enable warp menu item
+ *
+ * \param[in]   widget  menu item (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_warp_toggled(GtkWidget *widget, gpointer data)
+{
+    int warp;
+
+    if (resources_get_int("WarpMode", &warp) == 0) {
+        if (resources_set_int("WarpMode", !warp) < 0) {
+            debug_gtk3("failed to toggle warp mode.");
+        }
+    }
+}
+
+
+/** \brief  Handler for the "toggled" event of the Pause menu item
+ *
+ * \param[in]   widget  menu item (unused)
+ * \param[in]   data    extra even data (unused)
+ */
+static void on_pause_toggled(GtkWidget *widget, gpointer data)
+{
+    if (ui_emulation_is_paused()) {
+        ui_pause_emulation(0);
+    } else {
+        ui_pause_emulation(1);
+    }
 }
 
 
@@ -285,6 +329,7 @@ GtkWidget *speed_menu_popup_create(void)
     GtkWidget *menu;
     GtkWidget *submenu;
     GtkWidget *item;
+    int warp;
 
     menu = gtk_menu_new();
 
@@ -299,6 +344,34 @@ GtkWidget *speed_menu_popup_create(void)
     gtk_container_add(GTK_CONTAINER(menu), item);
     submenu = emulation_speed_submenu_create();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+
+    add_separator(menu);
+
+    /* pause */
+    item = gtk_check_menu_item_new_with_label("Pause emulation");
+    if (ui_emulation_is_paused()) {
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
+    }
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "toggled", G_CALLBACK(on_pause_toggled), NULL);
+
+    /* advance frame */
+    item = gtk_menu_item_new_with_label("Advance frame");
+    if (!ui_emulation_is_paused()) {
+        gtk_widget_set_sensitive(item, FALSE);
+    }
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "activate", G_CALLBACK(on_advance_frame_activate),
+            NULL);
+
+    /* enable warp mode */
+    item = gtk_check_menu_item_new_with_label("Enable warp mode");
+    if (resources_get_int("WarpMode", &warp) < 0) {
+        warp = 0;
+    }
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)warp);
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "toggled", G_CALLBACK(on_warp_toggled), NULL);
 
     gtk_widget_show_all(menu);
     return menu;
