@@ -202,6 +202,16 @@ gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
 }
 
 
+/** \brief  Try to convert the text in \a entry into an integer value
+ *
+ * \param[in]   entry   GtkTextEntry
+ * \param[out]  value   object to store integer result
+ *
+ * \return  TRUE when conversion succeeded, FALSE otherwise
+ *
+ * \note    When FALSE is returned, the value pointed at by \a value is
+ *          unchanged
+ */
 static gboolean entry_get_int(GtkWidget *entry, int *value)
 {
     const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -217,7 +227,20 @@ static gboolean entry_get_int(GtkWidget *entry, int *value)
 }
 
 
-/* TODO: check input while entering, marking any invalid value red or so? */
+/** \brief  Create a dialog to enter an integer value
+ *
+ * \param[in]   title       dialog title
+ * \param[in]   message     dialog body text
+ * \param[in]   old_value   current value of whatever needs to be changed
+ * \param[out]  new_value   object to store new value on success
+ * \param[in]   min         minimal valid value
+ * \param[in]   max         maximum valid value
+ *
+ * \return  TRUE when a valid value was entered, FALSE otherwise
+ *
+ * TODO: check input while entering (marking any invalid value red or so)
+ * TODO: respond to the user pushing Enter
+ */
 gboolean vice_gtk3_integer_input_box(
         const char *title, const char *message,
         int old_value, int *new_value,

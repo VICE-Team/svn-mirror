@@ -38,6 +38,8 @@
 #include "statusbarspeedwidget.h"
 
 
+/** \brief  Predefined emulation speeds (taken from vice.texi)
+ */
 static int emu_speeds[] = { 200, 100, 50, 20, 10, -1 };
 
 
@@ -82,6 +84,13 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the "custom refresh" menu item
+ *
+ * Pops up a dialog to set a custom refresh rate.
+ *
+ * \param[in]   widget  menu item
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
 {
     int old_val;
@@ -103,6 +112,34 @@ static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the "custom speed" menu item
+ *
+ * Pops up a dialog to set a custom emulation speed.
+ *
+ * \param[in]   widget  menu item
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_speed_custom_toggled(GtkWidget *widget, gpointer data)
+{
+    int old_val;
+    int new_val;
+
+    resources_get_int("Speed", &old_val);
+
+    if (vice_gtk3_integer_input_box(
+                "Set new emulation speed",
+                "Enter a new custom emulation speed",
+                old_val, &new_val,
+                1, 1000)) {
+        /* OK: */
+        debug_gtk3("got new speed %d.", new_val);
+        resources_set_int("Speed", new_val);
+    } else {
+        debug_gtk3("cancelled or invalid value.");
+    }
+}
+
+
 /** \brief  Create emulation speed submenu
  *
  * \return  GtkMenu
@@ -114,6 +151,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
     char buffer[256];
     int curr_speed;
     int i;
+    gboolean found = FALSE;
 
     if (resources_get_int("Speed", &curr_speed) < 0) {
         curr_speed = 100;
@@ -127,22 +165,43 @@ static GtkWidget *emulation_speed_submenu_create(void)
         g_snprintf(buffer, 256, "%d%%", emu_speeds[i]);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
-            (gboolean)(curr_speed == emu_speeds[i]));
+        if (curr_speed == emu_speeds[i]) {
+            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
+            found = TRUE;
+        }
         gtk_container_add(GTK_CONTAINER(menu), item);
 
         g_signal_connect(item, "toggled",
                 G_CALLBACK(on_emulation_speed_toggled),
                 GINT_TO_POINTER(emu_speeds[i]));
     }
+
     /* no limit */
     item = gtk_check_menu_item_new_with_label("Unlimited");
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
-            (gboolean)(curr_speed == 0));
+    if (curr_speed == 0) {
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
+        found = TRUE;
+    }
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "toggled",
             G_CALLBACK(on_emulation_speed_toggled), GINT_TO_POINTER(0));
+
+    add_separator(menu);
+
+    /* custom speed */
+    if (!found) {
+        g_snprintf(buffer, 256, "Custom (%d%%) ...", curr_speed);
+        item = gtk_check_menu_item_new_with_label(buffer);
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
+    } else {
+        item = gtk_check_menu_item_new_with_label("Custom ...");
+    }
+    gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "toggled",
+            G_CALLBACK(on_speed_custom_toggled), GINT_TO_POINTER(curr_speed));
+
 
     gtk_widget_show_all(menu);
     return menu;
