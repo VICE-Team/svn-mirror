@@ -1223,9 +1223,6 @@ GtkWidget *ui_statusbar_create(void)
 
     speed = statusbar_speed_widget_create();
     g_object_ref_sink(G_OBJECT(speed));
-    gtk_widget_set_halign(speed, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(speed, TRUE);
-    gtk_label_set_ellipsize(GTK_LABEL(speed), PANGO_ELLIPSIZE_END);
     g_object_set(speed, "margin-left", 8, NULL);
 
     /* don't add CRT or Mixer controls when VSID */

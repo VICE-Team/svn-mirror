@@ -32,7 +32,11 @@
 
 #include "vice_gtk3.h"
 
+
+GtkWidget *speed_menu_popup_create(void);
+
 GtkWidget *statusbar_speed_widget_create(void);
+
 void statusbar_speed_widget_update(
         GtkWidget *widget,
         float percent,
