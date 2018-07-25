@@ -200,3 +200,93 @@ gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
     gtk_widget_destroy(dialog);
     return TRUE;
 }
+
+
+static gboolean entry_get_int(GtkWidget *entry, int *value)
+{
+    const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
+    char *endptr;
+    long tmp;
+
+    tmp = strtol(text, &endptr, 0);
+    if (*endptr == '\0') {
+        *value = (int)tmp;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
+/* TODO: check input while entering, marking any invalid value red or so? */
+gboolean vice_gtk3_integer_input_box(
+        const char *title, const char *message,
+        int old_value, int *new_value,
+        int min, int max)
+{
+    GtkWidget *dialog;
+    GtkWidget *content;
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *entry;
+    char *text;
+    gint response;
+    char buffer[1024];
+
+    dialog = gtk_dialog_new_with_buttons(title, ui_get_active_window(),
+            GTK_DIALOG_MODAL,
+            "Accept", GTK_RESPONSE_ACCEPT,
+            "Cancel", GTK_RESPONSE_REJECT,
+            NULL);
+    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
+    g_object_set(G_OBJECT(grid), "margin-left", 16, "margin-right", 16, NULL);
+
+    /* add body message text */
+    label = gtk_label_new(message);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_label_set_line_wrap_mode(GTK_LABEL(label), PANGO_WRAP_WORD);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+
+    /* add info on limits */
+    text = lib_msprintf("(enter a number between %d and %d)", min, max);
+    label = gtk_label_new(text);
+    lib_free(text);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 2, 1);
+
+    label = gtk_label_new("Enter new value:");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(label, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+
+    /* add the text entry */
+    entry = gtk_entry_new();
+    g_snprintf(buffer, 1024, "%d", old_value);
+    gtk_entry_set_text(GTK_ENTRY(entry), buffer);
+
+    gtk_widget_set_hexpand(entry, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), entry, 1, 2, 1 ,1);
+
+    gtk_widget_show_all(grid);
+    gtk_box_pack_start(GTK_BOX(content), grid, TRUE, TRUE, 8);
+
+    response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (response == GTK_RESPONSE_ACCEPT) {
+        /* TODO set *new_value */
+        if (entry_get_int(entry, new_value)) {
+            gtk_widget_destroy(dialog);
+            if (*new_value >= min && *new_value <= max) {
+                return TRUE;
+            } else {
+                debug_gtk3("value entered out of bounds (%d-%d): %d.",
+                        min, max, *new_value);
+                return FALSE;
+            }
+        }
+    }
+    gtk_widget_destroy(dialog);
+    return FALSE;
+}
+
