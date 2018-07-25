@@ -295,7 +295,10 @@ static void vdc_update_geometry(void)
     vdc.hsync_shift = hsync;
 
     /* clamp the display within the right edge of the screen */
-    if (vdc.hsync_shift + (vdc.screen_text_cols * charwidth) > VDC_SCREEN_WIDTH ) {
+    if ((vdc.screen_text_cols * charwidth) > VDC_SCREEN_WIDTH ) {
+        /* bounds check so we don't wind up with a "negative unsigned" hsync_shift (i.e. a massive value) which then causes a segfault in vdc-draw.. */
+        vdc.hsync_shift = 0;
+    } else if (vdc.hsync_shift + (vdc.screen_text_cols * charwidth) > VDC_SCREEN_WIDTH ) {
         vdc.hsync_shift = VDC_SCREEN_WIDTH - (vdc.screen_text_cols * charwidth);
     }
     vdc.border_width = vdc.hsync_shift;
