@@ -144,7 +144,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             text = lib_msprintf("Opening '%s'", filename);
-            ui_display_statustext(text, TRUE);
             debug_gtk3("Loading SID file '%s'.", filename);
             load_psid_handler(filename);
 

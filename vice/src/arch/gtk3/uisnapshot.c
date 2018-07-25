@@ -139,7 +139,6 @@ static void save_snapshot_dialog(void)
                 debug_gtk3("Wrote snapshot file '%s'.", fname_copy);
                 g_snprintf(buffer, 1024, "Saved snapshot '%s'", fname_copy);
             }
-            ui_display_statustext(buffer, TRUE);
             lib_free(fname_copy);
             g_free(filename);
         }
@@ -176,7 +175,6 @@ static void load_snapshot_trap(uint16_t addr, void *data)
         } else {
             g_snprintf(buffer, 1024, "Loaded snapshot '%s'", filename);
         }
-        ui_display_statustext(buffer, TRUE);
         g_free(filename);
     }
 }
@@ -208,9 +206,6 @@ static void quickload_snapshot_trap(uint16_t addr, void *data)
     debug_gtk3("Quickloading file '%s'.", filename);
     if (machine_read_snapshot(filename, 0) < 0) {
         snapshot_display_error();
-        ui_display_statustext("Failed to Quickload snapshot", TRUE);
-    } else {
-        ui_display_statustext("Quickloaded snapshot", TRUE);
     }
     lib_free(filename);
 }
@@ -230,9 +225,6 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
     debug_gtk3("Quicksaving file '%s'.", filename);
     if (machine_write_snapshot(filename, TRUE, TRUE, 0) < 0) {
         snapshot_display_error();
-        ui_display_statustext("Failed to Quicksave snapshot", TRUE);
-    } else {
-        ui_display_statustext("Quicksaved snapshot", TRUE);
     }
     lib_free(filename);
 }

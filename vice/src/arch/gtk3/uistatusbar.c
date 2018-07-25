@@ -1401,6 +1401,10 @@ static gboolean ui_statustext_fadeout(gpointer data)
  */
 void ui_display_statustext(const char *text, int fade_out)
 {
+    /*
+     * No longer used, but needs to remain here since it's called from
+     * src/network.c
+     */
 #if 0
     ++sb_state.statustext_msgid;
     display_statustext_internal(text);
@@ -1423,7 +1427,6 @@ void ui_display_statustext(const char *text, int fade_out)
         autostart_image = NULL;
     }
 #endif
-    debug_gtk3("called, shouldn't happen!");
 }
 
 /** \brief Statusbar API function to display current volume.
@@ -1557,6 +1560,7 @@ void ui_set_tape_status(int tape_status)
  */
 void ui_display_tape_current_image(const char *image)
 {
+#if 0
     char buf[256];
     if (image && *image) {
         snprintf(buf, 256, "Attached %s to tape unit", image);
@@ -1566,6 +1570,7 @@ void ui_display_tape_current_image(const char *image)
 
     buf[255]=0;
     ui_display_statustext(buf, 1);
+#endif
 }
 
 /** \brief Statusbar API function to report changes in drive LED
@@ -1698,6 +1703,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
  */
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
+#if 0
     char buf[256];
     if (image && *image) {
         snprintf(buf, 256, "Attached %s to unit %d", image, drive_number+8);
@@ -1706,6 +1712,7 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
     }
     buf[255]=0;
     ui_display_statustext(buf, 1);
+#endif
 }
 
 
