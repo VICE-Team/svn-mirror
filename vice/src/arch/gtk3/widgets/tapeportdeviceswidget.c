@@ -497,8 +497,8 @@ GtkWidget *tapeport_devices_widget_create(GtkWidget *parent)
             || machine_class == VICE_MACHINE_C128) {
 
         gtk_grid_attach(GTK_GRID(grid), create_tapecart_widget(), 0, 5, 1, 1);
-        gtk_widget_show_all(grid);
     }
+    gtk_widget_show_all(grid);
     return grid;
 }
 
