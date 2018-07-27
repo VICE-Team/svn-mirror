@@ -401,6 +401,58 @@ static gboolean on_widget_clicked(GtkWidget *widget,
 }
 
 
+/** \brief  Reference to the alternate "hand" mouse pointer
+ *
+ * FIXME:   Do I need to clean this up somehow? Gdk docs aren't clear at all
+ */
+static GdkCursor *mouse_ptr;
+
+
+/** \brief  Handler for the "enter/leave" events of the event box
+ *
+ * This changes the mouse cursor into a little "hand" when hovering over the
+ * widget, to indicate to the user they can click on the widget.
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   event   event triggered
+ * \param[in]   data    extra event data (unused)
+ */
+static gboolean on_widget_hover(GtkWidget *widget,
+                                GdkEvent *event,
+                                gpointer data)
+{
+    if (event != NULL) {
+
+        GdkDisplay *display;
+
+
+        if (event->type == GDK_ENTER_NOTIFY) {
+            debug_gtk3("ENTERING WIDGET");
+            display = gtk_widget_get_display(widget);
+            if (display != NULL && mouse_ptr == NULL) {
+                mouse_ptr = gdk_cursor_new_from_name(display, "pointer");
+            }
+            if (mouse_ptr != NULL) {
+                GdkWindow *window = gtk_widget_get_window(widget);
+                if (window != NULL) {
+                    gdk_window_set_cursor(window, mouse_ptr);
+                }
+            }
+        } else {
+            GdkWindow *window = gtk_widget_get_window(widget);
+
+            debug_gtk3("LEAVING WIDGET");
+
+            if (window != NULL) {
+                gdk_window_set_cursor(window, NULL);
+            }
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
 /** \brief  Create widget to display CPU/FPS/pause
  *
  * \return  GtkLabel
@@ -422,6 +474,10 @@ GtkWidget *statusbar_speed_widget_create(void)
 
     g_signal_connect(event_box, "button-press-event",
             G_CALLBACK(on_widget_clicked), NULL);
+    g_signal_connect(event_box, "enter-notify-event",
+            G_CALLBACK(on_widget_hover), NULL);
+    g_signal_connect(event_box, "leave-notify-event",
+            G_CALLBACK(on_widget_hover), NULL);
 
     return event_box;
 }
