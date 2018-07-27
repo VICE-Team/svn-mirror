@@ -1726,78 +1726,114 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
 /* }}} */
 
 
-/** \brief  Main tree nodes for xcbm6x0
- */
-static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
-    { "CRT settings",
-      "CRT",
-      settings_crt_widget_create, NULL },
-    { "Mixer settings",
-       "mixer",
-       settings_mixer_widget_create, NULL },
+/* {{{ machine_nodes_cbm6x0 */
+static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Keyboard settings",
-      "keyboard",
-      settings_keyboard_widget_create, NULL },
-    { "Sound settings",
-      "sound",
-      settings_sound_create, NULL },
-    { "Sampler settings",
-      "sampler",
-      settings_sampler_widget_create, NULL },
     { "Autostart settings",
       "autostart",
       settings_autostart_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    ARNIE
+};
+/* }}} */
+
+/* {{{ display_nodes_cbm6x0 (*/
+static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
+    { "CRTC settings",
+      "crtc",
+      settings_video_create, NULL },
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
+    ARNIE
+};
+/* }}} */
+
+/* {{{ audio_nodes_cbm6x0 */
+static ui_settings_tree_node_t audio_nodes_cbm6x0[] = {
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "SID settings",
+       "sid",
+      settings_soundchip_widget_create, NULL },
+    { "Mixer settings",
+       "mixer",
+       settings_mixer_widget_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    ARNIE
+};
+/* }}} */
+
+/* {{{ input_nodes_cbm6x0 */
+static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+
+    ARNIE
+};
+/* }}} */
+
+/* {{{ peripheral nodes_cbm6x0 */
+static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
     { "Drive settings",
       "drive",
       settings_drive_widget_create, NULL },
     { "Printer settings",
       "printer",
       settings_printer_widget_create, NULL },
-    { "Control port settings",
-      "control-port",
-      settings_controlport_widget_create, NULL },
-    { "Joystick settings",
-      "joystick",
-      settings_joystick_widget_create, NULL },
-    { "Mouse settings",
-      "mouse",
-      settings_mouse_widget_create, NULL },
-    { "Model settings",
-      "model",
-      settings_model_widget_create, NULL },
-    { "RAM reset pattern",
-      "ram-reset",
-      settings_ramreset_widget_create, NULL },
-    { "ROM settings",
-      "rom-settings",
-      settings_romset_widget_create, NULL },
-    { "Miscellaneous",
-      "misc",
-      settings_misc_widget_create, NULL },
-    { "CRTC settings",
-      "crtc",
-      settings_video_create, NULL },
-    { "SID settings",
-      "sid",
-      settings_soundchip_widget_create, NULL },
 
+    ARNIE
+};
+/* }}} */
+
+
+/* {{{ main_nodes_cbm6x0 */
+/** \brief  Main tree nodes for xcbm6x0
+ */
+static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
+    { "Machine", "machine", NULL, machine_nodes_cbm6x0 },
+    { "Display", "display", NULL, display_nodes_cbm6x0 },
+    { "Audio", "audio", NULL, audio_nodes_cbm6x0 },
+    { "Input", "input", NULL, input_nodes_cbm6x0 },
+    { "Peripherals", "peripheral", NULL, peripheral_nodes_cbm6x0 },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, cbm6x0_io_extensions },
-
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Monitor settings",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
-
+/* }}} */
 
 
 /** \brief  Reference to the current 'central' widget in the settings dialog
