@@ -502,8 +502,11 @@ void statusbar_speed_widget_update(
     int cpu = (int)(percent + 0.5);
     int fps = (int)(framerate + 0.5);
 
-    g_snprintf(buffer, 1024, "%d%% cpu, %d fps %s",
-            cpu, fps, warp_flag ? " (warp)" : "");
+    g_snprintf(buffer, 1024, "%d%% cpu, %d fps %s%s",
+            cpu,
+            fps,
+            warp_flag ? " (warp)" : "",
+            ui_emulation_is_paused() ? " (paused)" : "");
 
     label = gtk_bin_get_child(GTK_BIN(widget));
 
