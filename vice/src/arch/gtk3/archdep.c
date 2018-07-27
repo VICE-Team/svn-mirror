@@ -66,8 +66,15 @@
  *        the functions using it
  */
 static char *argv0 = NULL;
+
+
+/** \brief  The name of the binary currently running
+ */
 static char *program_name = NULL;
 
+
+/** \brief  Path to the preferences directory of the emu
+ */
 const char *archdep_pref_path = NULL;
 
 
@@ -337,6 +344,13 @@ int archdep_mkdir(const char *pathname, int mode)
     return g_mkdir(pathname, mode); /* mode is ignored on Windows */
 }
 
+
+/** \brief  Remove directory \a pathname
+ *
+ * \param[in]   pathname    directory to remove
+ *
+ * \return  0 on success, -1 on error
+ */
 int archdep_rmdir(const char *pathname)
 {
     return g_rmdir(pathname);
@@ -356,6 +370,10 @@ int archdep_rename(const char *oldpath, const char *newpath)
 }
 
 
+/** \brief  Log an error message
+ *
+ * \param[in]   format  format string
+ */
 void archdep_startup_log_error(const char *format, ...)
 {
     char *tmp;

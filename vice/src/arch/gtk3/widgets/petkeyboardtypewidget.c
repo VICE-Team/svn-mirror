@@ -1,4 +1,4 @@
-/** \file   peykeyboardtypewidget.c
+/** \file   petkeyboardtypewidget.c
  * \brief   PET keyboard type widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

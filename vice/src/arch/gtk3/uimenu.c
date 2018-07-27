@@ -45,11 +45,17 @@
 
 #include "uimenu.h"
 
+
+/** \brief  Menu accelerator object
+ */
 typedef struct ui_accel_data_s {
-    GtkWidget *widget;
-    ui_menu_item_t *item;
+    GtkWidget *widget;      /**< widget connected to the accelerator */
+    ui_menu_item_t *item;   /**< menu item connected to the accelerator */
 } ui_accel_data_t;
 
+
+/** \brief  Reference to the accelerator group
+ */
 static GtkAccelGroup *accel_group = NULL;
 
 

@@ -48,6 +48,7 @@
     g_print("\n");
 
 # else  /* HAVE_DEBUG_GTK3UI */
+/** \brief  Empty placeholder */
 #  define debug_gtk3(...)
 # endif /* HAVE DEBUG_GTK3UI */
 

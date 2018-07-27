@@ -50,6 +50,8 @@
 #ifdef VICEUSERDIR
 # undef VICEUSERDIR
 #endif
+/** \brief  User directory inside ./config
+ */
 #define VICEUSERDIR "vice"
 
 
@@ -286,12 +288,23 @@ char *archdep_get_vice_docsdir(void)
 #endif
 }
 
+
+/** \brief  Create a backup filename of \a fname
+ *
+ * Puts a tilde in front of \a fname
+ *
+ * \param[in]   fname   filename
+ *
+ * \return  heap allocated "backup filename", free with lib_free()
+ */
 char *archdep_make_backup_filename(const char *fname)
 {
     return util_concat(fname, "~", NULL);
 }
 
 
+/** \brief  Architecture-dependent shutdown hanlder
+ */
 void archdep_shutdown(void)
 {
     if (default_path != NULL) {
@@ -316,6 +329,7 @@ void archdep_shutdown(void)
     /* partially implemented */
     INCOMPLETE_IMPLEMENTATION();
 }
+
 
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)
