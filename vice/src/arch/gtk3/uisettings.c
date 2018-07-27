@@ -1697,6 +1697,12 @@ static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
     { "Printer settings",
       "printer",
       settings_printer_widget_create, NULL },
+#ifdef HAVE_RS232DEV
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+
     ARNIE
 };
 /* }}} */
@@ -1807,6 +1813,11 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
     { "Printer settings",
       "printer",
       settings_printer_widget_create, NULL },
+#ifdef HAVE_RS232DEV
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
 
     ARNIE
 };
