@@ -51,14 +51,11 @@ GtkWidget *vice_gtk3_resource_combo_box_int_new_with_label(
         const char *label);
 
 gboolean vice_gtk3_resource_combo_box_int_set(GtkWidget *widget, int id);
-
 gboolean vice_gtk3_resource_combo_box_int_get(GtkWidget *widget, int *dest);
-
 gboolean vice_gtk3_resource_combo_box_int_factory(GtkWidget *widget);
-
 gboolean vice_gtk3_resource_combo_box_int_reset(GtkWidget *widget);
-
 gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget);
+gboolean vice_gtk3_resource_combo_box_int_apply(GtkWidget *widget);
 
 
 /*
@@ -80,13 +77,10 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new_with_label(
         const char *label);
 
 gboolean vice_gtk3_resource_combo_box_str_set(GtkWidget *widget, const char *id);
-
 gboolean vice_gtk3_resource_combo_box_str_get(GtkWidget *widget, const char **dest);
-
 gboolean vice_gtk3_resource_combo_box_str_factory(GtkWidget *widget);
-
 gboolean vice_gtk3_resource_combo_box_str_reset(GtkWidget *widget);
-
 gboolean vice_gtk3_resource_combo_box_str_sync(GtkWidget *widget);
+gboolean vice_gtk3_resource_combo_box_str_apply(GtkWidget *widget);
 
 #endif

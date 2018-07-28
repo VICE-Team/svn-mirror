@@ -54,6 +54,7 @@
 
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
+#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -200,7 +201,8 @@ static GtkWidget *resource_spin_int_new_helper(GtkWidget *spin)
             spin,
             vice_gtk3_resource_spin_int_reset,
             vice_gtk3_resource_spin_int_factory,
-            vice_gtk3_resource_spin_int_sync);
+            vice_gtk3_resource_spin_int_sync,
+            vice_gtk3_resource_spin_int_apply);
 
     g_signal_connect(spin, "value-changed",
             G_CALLBACK(on_spin_button_value_changed),NULL);
@@ -398,4 +400,17 @@ gboolean vice_gtk3_resource_spin_int_sync(GtkWidget *widget)
         return vice_gtk3_resource_spin_int_set(widget, resource_val);
     }
     return TRUE;
+}
+
+
+/** \brief  Set resource to the widget's value
+ *
+ * \param[in,out]   widget  resource integer spin button
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_spin_int_apply(GtkWidget *widget)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
 }

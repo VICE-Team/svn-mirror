@@ -48,4 +48,6 @@ gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget);
 
 gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget);
 
+gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget);
+
 #endif

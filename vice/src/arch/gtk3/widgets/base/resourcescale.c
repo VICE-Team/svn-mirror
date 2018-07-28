@@ -36,6 +36,7 @@
 
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
+#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -123,7 +124,8 @@ static GtkWidget *resource_scale_int_new_helper(GtkWidget *widget)
             widget,
             vice_gtk3_resource_scale_int_reset,
             vice_gtk3_resource_scale_int_factory,
-            vice_gtk3_resource_scale_int_sync);
+            vice_gtk3_resource_scale_int_sync,
+            vice_gtk3_resource_scale_int_apply);
 
     g_signal_connect(widget, "value-changed", G_CALLBACK(on_scale_int_changed),
             NULL);
@@ -276,4 +278,17 @@ gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget)
         return FALSE;
     }
     return vice_gtk3_resource_scale_int_set(widget, current);
+}
+
+
+/** \brief  Set resource to the widget's value
+ *
+ * \param[in,out]   widget  resource int scale widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_scale_int_apply(GtkWidget *widget)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
 }

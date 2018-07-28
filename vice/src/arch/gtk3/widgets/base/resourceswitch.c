@@ -48,6 +48,7 @@
 #include <stdarg.h>
 
 #include "debug_gtk3.h"
+#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -141,7 +142,8 @@ static GtkWidget *resource_switch_new_helper(GtkWidget *widget)
             widget,
             vice_gtk3_resource_switch_reset,
             vice_gtk3_resource_switch_factory,
-            vice_gtk3_resource_switch_sync);
+            vice_gtk3_resource_switch_sync,
+            vice_gtk3_resource_switch_apply);
     g_signal_connect(widget, "state-set", G_CALLBACK(on_switch_state_set),
             (gpointer)resource);
     g_signal_connect(widget, "destroy", G_CALLBACK(on_switch_destroy),
@@ -311,4 +313,17 @@ gboolean vice_gtk3_resource_switch_sync(GtkWidget *widget)
         return vice_gtk3_resource_switch_set(widget, (gboolean)resource_val);
     }
     return TRUE;
+}
+
+
+/** \brief  Set resource to the widget's value
+ *
+ * \param[in,out]   widget  resource switch button widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_switch_apply(GtkWidget *widget)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
 }

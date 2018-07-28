@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "debug_gtk3.h"
+#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -117,7 +118,8 @@ GtkWidget *vice_gtk3_resource_entry_new(const char *resource)
             entry,
             vice_gtk3_resource_entry_reset,
             vice_gtk3_resource_entry_factory,
-            vice_gtk3_resource_entry_sync);
+            vice_gtk3_resource_entry_sync,
+            vice_gtk3_resource_entry_apply);
 
     g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
     g_signal_connect(entry, "destroy", G_CALLBACK(on_entry_destroy), NULL);
@@ -252,6 +254,18 @@ gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget)
 }
 
 
+/** \brief  Update resource with widget's value
+ *
+ * \param[in,out]   widget  resource entry widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_entry_apply(GtkWidget *widget)
+{
+    /* TODO: move logic of signal handlers into here */
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
+}
 
 
 /*
@@ -399,7 +413,8 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
             entry,
             vice_gtk3_resource_entry_full_reset,
             vice_gtk3_resource_entry_full_factory,
-            vice_gtk3_resource_entry_full_sync);
+            vice_gtk3_resource_entry_full_sync,
+            vice_gtk3_resource_entry_full_apply);
     g_signal_connect(entry, "destroy",
             G_CALLBACK(on_resource_entry_full_destroy), NULL);
     g_signal_connect(entry, "focus-out-event",
@@ -505,4 +520,18 @@ gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *entry)
     debug_gtk3("resetting %s to factory value %s.", resource, factory);
 #endif
     return vice_gtk3_resource_entry_full_set(entry, factory);
+}
+
+
+/** \brief  Update resource with widget's value
+ *
+ * \param[in,out]   widget  resource entry widget (full)
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_entry_full_apply(GtkWidget *widget)
+{
+    /* TODO: move logic of signal handlers into here */
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
 }

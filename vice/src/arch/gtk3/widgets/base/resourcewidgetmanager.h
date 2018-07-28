@@ -81,6 +81,7 @@ void vice_resource_widget_manager_dump(resource_widget_manager_t *manager);
 
 gboolean vice_resource_widget_manager_reset(resource_widget_manager_t *manager);
 gboolean vice_resource_widget_manager_factory(resource_widget_manager_t *manager);
+gboolean vice_resource_widget_manager_apply(resource_widget_manager_t *manager);
 
 #endif
 

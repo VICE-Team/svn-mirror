@@ -67,6 +67,7 @@
 
 #include "basewidgets.h"
 #include "debug_gtk3.h"
+#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resourcehelpers.h"
@@ -309,3 +310,17 @@ gboolean vice_resource_widget_manager_factory(resource_widget_manager_t *manager
     }
     return TRUE;
 }
+
+
+/** \brief  Apply all registered widget's values to their resources
+ *
+ * \param[in]   manager resource widget manager
+ *
+ * \return  bool
+ */
+gboolean vice_resource_widget_manager_apply(resource_widget_manager_t *manager)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
+}
+

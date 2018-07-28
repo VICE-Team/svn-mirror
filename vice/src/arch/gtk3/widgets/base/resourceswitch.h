@@ -39,6 +39,7 @@ gboolean    vice_gtk3_resource_switch_get(GtkWidget *widget, gboolean *value);
 gboolean    vice_gtk3_resource_switch_reset(GtkWidget *widget);
 gboolean    vice_gtk3_resource_switch_factory(GtkWidget *widget);
 gboolean    vice_gtk3_resource_switch_sync(GtkWidget *widget);
+gboolean    vice_gtk3_resource_switch_apply(GtkWidget *widget);
 
 
 #endif

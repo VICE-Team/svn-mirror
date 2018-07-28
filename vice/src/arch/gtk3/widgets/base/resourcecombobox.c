@@ -35,6 +35,7 @@
 
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
+#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resourcehelpers.h"
@@ -228,7 +229,8 @@ static GtkWidget *resource_combo_box_int_new_helper(
             combo,
             vice_gtk3_resource_combo_box_int_reset,
             vice_gtk3_resource_combo_box_int_factory,
-            vice_gtk3_resource_combo_box_int_sync);
+            vice_gtk3_resource_combo_box_int_sync,
+            vice_gtk3_resource_combo_box_int_apply);
 
 
     /* connect signal handlers */
@@ -423,6 +425,18 @@ gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget)
 }
 
 
+/** \brief  Update the resource with the widget's value
+ *
+ * \param[in,out]   widget  string resource combo box
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_combo_box_int_apply(GtkWidget *widget)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
+}
+
 
 
 /*
@@ -510,7 +524,8 @@ static GtkWidget *resource_combo_box_str_new_helper(
             combo,
             vice_gtk3_resource_combo_box_str_reset,
             vice_gtk3_resource_combo_box_str_factory,
-            vice_gtk3_resource_combo_box_str_sync);
+            vice_gtk3_resource_combo_box_str_sync,
+            vice_gtk3_resource_combo_box_str_apply);
 
 
     /* connect signal handlers */
@@ -702,4 +717,17 @@ gboolean vice_gtk3_resource_combo_box_str_sync(GtkWidget *widget)
         return FALSE;
     }
     return vice_gtk3_resource_combo_box_str_set(widget, current);
+}
+
+
+/** \brief  Update the resource with the widget's value
+ *
+ * \param[in,out]   widget  string resource combo box
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_combo_box_str_apply(GtkWidget *widget)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
 }

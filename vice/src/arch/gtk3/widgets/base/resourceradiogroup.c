@@ -35,6 +35,7 @@
 
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
+#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -165,7 +166,8 @@ static GtkWidget *resource_radiogroup_new_helper(
             grid,
             vice_gtk3_resource_radiogroup_reset,
             vice_gtk3_resource_radiogroup_factory,
-            vice_gtk3_resource_radiogroup_sync);
+            vice_gtk3_resource_radiogroup_sync,
+            vice_gtk3_resource_radiogroup_apply);
     g_signal_connect(grid, "destroy", G_CALLBACK(on_radiogroup_destroy), NULL);
 
     gtk_widget_show_all(grid);
@@ -358,6 +360,19 @@ gboolean vice_gtk3_resource_radiogroup_reset(GtkWidget *widget)
 {
     int orig = resource_widget_get_int(widget, "ResourceOrig");
     return vice_gtk3_resource_radiogroup_set(widget, orig);
+}
+
+
+/** \brief  Set resource to widget's value
+ *
+ * \param[in,out]   widget  resource radiogroup widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_radiogroup_apply(GtkWidget *widget)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return FALSE;
 }
 
 
