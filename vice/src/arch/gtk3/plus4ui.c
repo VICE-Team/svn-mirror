@@ -74,6 +74,8 @@ static const vice_gtk3_radiogroup_entry_t plus4_ted_models[] = {
 
 /** \brief  Identify the canvas used to create a window
  *
+ * \param[in]   canvas  video canvas
+ *
  * \return  window index on success, -1 on failure
  */
 static int identify_canvas(video_canvas_t *canvas)
@@ -86,6 +88,8 @@ static int identify_canvas(video_canvas_t *canvas)
 }
 
 /** \brief  Create CRT controls widget for \a target window
+ *
+ * \param[in]   target_window   target window index
  *
  * \return  GtkGrid
  */

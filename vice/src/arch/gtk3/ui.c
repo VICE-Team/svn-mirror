@@ -915,6 +915,13 @@ void ui_set_create_controls_widget_func(GtkWidget *(*func)(int))
 }
 
 
+/** \brief  Handler for the "destroy" event of \a widget
+ *
+ * Looks like debug code. But better keep it here to debug the warnings about
+ * GtkEventBox'es getting destroyed prematurely.
+ *
+ * \param[in]   widget  widget
+ */
 static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("destroy triggered on %p.", (void *)widget);
