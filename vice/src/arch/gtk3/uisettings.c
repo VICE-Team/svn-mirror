@@ -1971,6 +1971,7 @@ static GtkWidget *ui_settings_inital_widget(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    int immediate = 0;
 
     grid = vice_gtk3_grid_new_spaced(64, 64);
     label = gtk_label_new(NULL);
@@ -1981,6 +1982,18 @@ static GtkWidget *ui_settings_inital_widget(GtkWidget *parent)
             "So perhaps we could show some instructions or something here.\n\n"
             "<b>TODO</b>: remember previous settings-tree location");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
+    label = gtk_label_new(NULL);
+    resources_get_int("UIApplyImmediately", &immediate);
+    if (immediate) {
+        gtk_label_set_markup(GTK_LABEL(label),
+                "Setting <i>UIApplyImmediate</i> is <b>ON</b>");
+    } else{
+        gtk_label_set_markup(GTK_LABEL(label),
+                "Setting <i>UIApplyImmediate</i> is <b>OFF</b>");
+    }
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+
     gtk_widget_show_all(grid);
     return grid;
 }
