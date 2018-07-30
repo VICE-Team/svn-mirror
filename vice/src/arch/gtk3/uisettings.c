@@ -2536,7 +2536,7 @@ gboolean ui_settings_dialog_activate_node(const char *path)
 
         /* iterate nodes until either 'part' is found or the nodes in the
          * current 'column' run out */
-        do {
+        while (TRUE) {
             gtk_tree_model_get(GTK_TREE_MODEL(settings_model), &iter,
                     COLUMN_ID, &node_id, -1);
             debug_gtk3("got id '%s'.", node_id);
@@ -2587,17 +2587,23 @@ gboolean ui_settings_dialog_activate_node(const char *path)
                         continue;
                     } else {
                         /* oops */
-                        debug_gtk3("error: path continues, but there are no"
-                                " more child nodes.");
+                        debug_gtk3("error: path '%s' continues into '%s' but"
+                                " there are no child nodes.", path, part);
                         g_strfreev(parts);
                         return FALSE;
                     }
                 }
             } else {
-                gtk_tree_model_iter_next(GTK_TREE_MODEL(settings_model),
-                                         &iter);
+                /* is there another node to inspect? */
+                if (!gtk_tree_model_iter_next(GTK_TREE_MODEL(settings_model),
+                                              &iter)) {
+                    /* couldn't find the requested node, exit */
+                    debug_gtk3("failed to find node at path '%s'.", path);
+                    g_strfreev(parts);
+                    return FALSE;
+                }
             }
-        } while (TRUE);
+        }
     }
 
     debug_gtk3("warning: should never get here.");

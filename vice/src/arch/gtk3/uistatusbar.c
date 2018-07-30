@@ -374,6 +374,13 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     return FALSE;
 }
 
+
+static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
+{
+    ui_settings_dialog_create_and_activate_node("peripheral/drive");
+}
+
+
 /** \brief Draw the LED associated with some drive's LED state.
  *
  *  \param widget  The drive LED GtkDrawingArea being drawn to.
@@ -730,8 +737,20 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
 {
     int i = GPOINTER_TO_INT(data);
     GtkWidget *drive_menu = allocated_bars[0].drive_popups[i];
+    GtkWidget *drive_menu_item;
 
     ui_populate_fliplist_menu(drive_menu, i+8, 0);
+
+    /* XXX: this code is a duplicate of the drive_menu creation code, so we
+     *      should probably refactor this a bit
+     */
+    gtk_container_add(GTK_CONTAINER(drive_menu),
+            gtk_separator_menu_item_new());
+    drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
+    g_signal_connect(drive_menu_item, "activate",
+            G_CALLBACK(on_drive_configure_activate), NULL);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+
     gtk_widget_show_all(drive_menu);
     /* 3.22 isn't available on the latest stable version of all
      * distros yet. This is expected to change when Ubuntu 18.04 is
@@ -1259,11 +1278,6 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
-{
-    ui_settings_dialog_create_and_activate_node("peripheral/drive");
-}
-
 
 /** \brief Create a popup menu to attach to a disk drive widget.
  *
@@ -1280,14 +1294,6 @@ static GtkWidget *ui_drive_menu_create(int unit)
     snprintf(buf, 128, "Attach to drive #%d...", unit + 8);
     buf[127] = 0;
 
-    drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
-    g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(on_drive_configure_activate), NULL);
-    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
-
-    gtk_container_add(GTK_CONTAINER(drive_menu),
-            gtk_separator_menu_item_new());
-
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate",
             G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
@@ -1301,6 +1307,15 @@ static GtkWidget *ui_drive_menu_create(int unit)
      * seems excessive or possibly too fine-grained, so skip that for
      * now */
     ui_populate_fliplist_menu(drive_menu, unit+8, 0);
+
+
+    gtk_container_add(GTK_CONTAINER(drive_menu),
+            gtk_separator_menu_item_new());
+    drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
+    g_signal_connect(drive_menu_item, "activate",
+            G_CALLBACK(on_drive_configure_activate), NULL);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+
     gtk_widget_show_all(drive_menu);
     return drive_menu;
 }
