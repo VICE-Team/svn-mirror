@@ -128,8 +128,6 @@ static gboolean userport_joystick_adapter_enabled(void)
 /** \brief  Create joystick menu popup for the statusbar
  *
  * \return  GtkMenu
- *
- * TODO:    "gray out" items when invalid (depends on emulator and settings)
  */
 GtkWidget *joystick_menu_popup_create(void)
 {
