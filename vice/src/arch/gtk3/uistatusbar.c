@@ -1035,6 +1035,9 @@ static GtkWidget *ui_joystick_widget_create(void)
     /* Create all possible joystick displays */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         GtkWidget *joyport = gtk_drawing_area_new();
+        /* add events it should respond to */
+        gtk_widget_add_events(joyport,
+                GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK|GDK_ENTER_NOTIFY_MASK|GDK_LEAVE_NOTIFY_MASK);
         gtk_widget_set_size_request(joyport,20,20);
         gtk_container_add(GTK_CONTAINER(grid), joyport);
         g_signal_connect(joyport, "draw", G_CALLBACK(draw_joyport_cb), GINT_TO_POINTER(i));
@@ -1051,7 +1054,8 @@ static GtkWidget *ui_joystick_widget_create(void)
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
     gtk_container_add(GTK_CONTAINER(event_box), grid);
 
-    /* connect signals (TODO: connect click event handler for the popup) */
+
+
     g_signal_connect(event_box, "button-press-event",
             G_CALLBACK(on_joystick_widget_button_press), NULL);
     g_signal_connect(event_box, "enter-notify-event",
