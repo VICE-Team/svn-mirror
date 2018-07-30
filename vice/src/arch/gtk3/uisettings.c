@@ -1230,7 +1230,7 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
     { "Display",    "display",  NULL,   display_nodes_scpu64 },
     { "Audio",      "audio",    NULL,   audio_nodes_scpu64 },
     { "Input",      "input",    NULL,   input_nodes_scpu64 },
-    { "Peripherals",    "peripherals", NULL,    peripheral_nodes_scpu64 },
+    { "Peripherals",    "peripheral", NULL,    peripheral_nodes_scpu64 },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, scpu64_io_extensions },
@@ -1354,7 +1354,7 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
     { "Display", "display", NULL, display_nodes_vic20 },
     { "Audio", "audio", NULL, audio_nodes_vic20 },
     { "Input", "input", NULL, input_nodes_vic20 },
-    { "Peripherals", "peripherals", NULL, peripheral_nodes_vic20 },
+    { "Peripherals", "peripheral", NULL, peripheral_nodes_vic20 },
     { "I/O extensions", "io-extensions",
       settings_io_widget_create, vic20_io_extensions },
     { "Snaphot/event/media recording",
@@ -1474,7 +1474,7 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "Display", "display", NULL, display_nodes_plus4 },
     { "Audio", "audio", NULL, audio_nodes_plus4 },
     { "Input", "input", NULL, input_nodes_plus4 },
-    { "Peripherals", "peripherals", NULL, peripheral_nodes_plus4 },
+    { "Peripherals", "peripheral", NULL, peripheral_nodes_plus4 },
 
     { "I/O extensions",
       "io-extensions",
@@ -1717,7 +1717,7 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
     { "Display", "display", NULL, display_nodes_cbm5x0 },
     { "Audio", "audio", NULL, audio_nodes_cbm5x0 },
     { "Input", "input", NULL, input_nodes_cbm5x0 },
-    { "Peripherals", "peripherals", NULL, peripheral_nodes_cbm5x0 },
+    { "Peripherals", "peripheral", NULL, peripheral_nodes_cbm5x0 },
     { "I/O extensions", "io-extensions",
       settings_io_widget_create, cbm5x0_io_extensions },
     { "Snaphot/event/media recording",
@@ -2567,6 +2567,7 @@ gboolean ui_settings_dialog_activate_node(const char *path)
                 } else {
                     /* continue searching, dive into the children of the
                      * current node, if there are any */
+                    debug_gtk3("diving into child nodes of %s.", node_id);
                     if (gtk_tree_model_iter_has_child(
                                 GTK_TREE_MODEL(settings_model), &iter)) {
                         /* node has children, iterate those now */
@@ -2583,6 +2584,7 @@ gboolean ui_settings_dialog_activate_node(const char *path)
                          * in the path parts */
                         iter = child;
                         part = parts[++column];
+                        continue;
                     } else {
                         /* oops */
                         debug_gtk3("error: path continues, but there are no"
@@ -2591,12 +2593,14 @@ gboolean ui_settings_dialog_activate_node(const char *path)
                         return FALSE;
                     }
                 }
+            } else {
+                gtk_tree_model_iter_next(GTK_TREE_MODEL(settings_model),
+                                         &iter);
             }
-        } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(settings_model),
-                                          &iter));
+        } while (TRUE);
     }
 
-    debug_gtk3("shouldn't get here I think.");
+    debug_gtk3("warning: should never get here.");
     g_strfreev(parts);
     return FALSE;
 }

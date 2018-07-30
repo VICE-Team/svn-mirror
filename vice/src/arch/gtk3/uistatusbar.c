@@ -57,6 +57,7 @@
 #include "uidatasette.h"
 #include "uidiskattach.h"
 #include "uifliplist.h"
+#include "uisettings.h"
 #include "userport/userport_joystick.h"
 
 #include "diskcontents.h"
@@ -1258,6 +1259,11 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
+{
+    ui_settings_dialog_create_and_activate_node("peripheral/drive");
+}
+
 
 /** \brief Create a popup menu to attach to a disk drive widget.
  *
@@ -1270,10 +1276,21 @@ static GtkWidget *ui_drive_menu_create(int unit)
     char buf[128];
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
+
     snprintf(buf, 128, "Attach to drive #%d...", unit + 8);
     buf[127] = 0;
+
+    drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
+    g_signal_connect(drive_menu_item, "activate",
+            G_CALLBACK(on_drive_configure_activate), NULL);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+
+    gtk_container_add(GTK_CONTAINER(drive_menu),
+            gtk_separator_menu_item_new());
+
     drive_menu_item = gtk_menu_item_new_with_label(buf);
-    g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
+    g_signal_connect(drive_menu_item, "activate",
+            G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     snprintf(buf, 128, "Detach disk from drive #%d", unit + 8);
     buf[127] = 0;
