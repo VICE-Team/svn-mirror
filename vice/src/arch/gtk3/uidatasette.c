@@ -29,8 +29,24 @@
 #include "uidatasette.h"
 #include "datasette.h"
 #include "uitapeattach.h"
+#include "uisettings.h"
 
 #include <stdio.h>
+
+
+/** \brief  Handler for the "activate" event of the "Configure" menu item
+ *
+ * Pop up the settings UI and select "I/O extensions" -> "Tapeport devices"
+ *
+ * \param[in]   widget  menu item triggering the event
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_configure_activate(GtkWidget *widget, gpointer data)
+{
+    ui_settings_dialog_create_and_activate_node(
+            "io-extensions/tapeport-devices");
+}
+
 
 void ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
 {
@@ -66,6 +82,14 @@ GtkWidget *ui_create_datasette_control_menu(void)
         gtk_container_add(GTK_CONTAINER(menu), menu_items[i]);
         g_signal_connect(menu_items[i], "activate", G_CALLBACK(ui_datasette_tape_action_cb), GINT_TO_POINTER(i));
     }
+
+    /* add "configure tapeport devices" */
+    gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
+    item = gtk_menu_item_new_with_label("Configure tapeport devices ...");
+    g_signal_connect(item, "activate", G_CALLBACK(on_configure_activate),
+            NULL);
+    gtk_container_add(GTK_CONTAINER(menu), item);
+
     gtk_widget_show_all(menu);
     return menu;
 }
