@@ -1971,7 +1971,6 @@ static GtkWidget *ui_settings_inital_widget(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    int immediate = 0;
 
     grid = vice_gtk3_grid_new_spaced(64, 64);
     label = gtk_label_new(NULL);
@@ -1979,20 +1978,8 @@ static GtkWidget *ui_settings_inital_widget(GtkWidget *parent)
     gtk_label_set_markup(GTK_LABEL(label),
             "This is the first widget/dialog shown when people click on the"
             " settings UI.\n"
-            "So perhaps we could show some instructions or something here.\n\n"
-            "<b>TODO</b>: remember previous settings-tree location");
+            "So perhaps we could show some instructions or something here.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-
-    label = gtk_label_new(NULL);
-    resources_get_int("UIApplyImmediately", &immediate);
-    if (immediate) {
-        gtk_label_set_markup(GTK_LABEL(label),
-                "Setting <i>UIApplyImmediate</i> is <b>ON</b>");
-    } else{
-        gtk_label_set_markup(GTK_LABEL(label),
-                "Setting <i>UIApplyImmediate</i> is <b>OFF</b>");
-    }
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -2300,7 +2287,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(extra), create_save_on_exit_checkbox(),
             0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(extra), create_confirm_on_exit_checkbox(),
-            1, 0, 1, 1);
+            0, 1, 1, 1);
 
     /* add to main layout */
     gtk_grid_attach(GTK_GRID(settings_grid), extra, 0, 2, 2, 1);
@@ -2442,13 +2429,18 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
             title,
             ui_get_active_window(),
             GTK_DIALOG_MODAL,
-            "Undo changes in dialog", RESPONSE_RESET,
-            "Restore factory settings", RESPONSE_FACTORY,
+            "Revert changes", RESPONSE_RESET,
+            "Factory reset", RESPONSE_FACTORY,
             "Close", GTK_RESPONSE_DELETE_EVENT,
             NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_container_add(GTK_CONTAINER(content), create_content_widget(dialog));
+
+    /* set default response to Close */
+    gtk_dialog_set_default_response(
+            GTK_DIALOG(dialog),
+            GTK_RESPONSE_DELETE_EVENT);
 
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);

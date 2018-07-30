@@ -136,26 +136,11 @@ static int set_window_xpos(int val, void *param);
 static int set_window_ypos(int val, void *param);
 static int set_start_minimized(int val, void *param);
 static int set_native_monitor(int val, void *param);
-static int set_apply_immediately(int val, void *param);
 
 
 /*****************************************************************************
  *                              Static data                                  *
  ****************************************************************************/
-
-/** \brief  Apply resource values immediately through settings widgets
- *
- * This selects the UI behaviour between two states:
- *
- * - TRUE: apply changes immediately
- * - FALSE: apply any changes only when the user clicks a buttom ('Apply')
- *
- * Some widgets will ignore this setting, such as the CRT/Mixer widgets, since
- * waiting for Apply/OK doesn't make sense for those settings.
- */
-static int ui_apply_immediately = 1;
-
-
 
 /** \brief  String type resources list
  */
@@ -171,8 +156,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int_shared[] = {
     { "NativeMonitor", 0, RES_EVENT_NO, NULL,
         &native_monitor_enabled, set_native_monitor, NULL },
-    { "UIApplyImmediately", 1, RES_EVENT_NO, NULL,
-        &ui_apply_immediately, set_apply_immediately, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -253,12 +236,6 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+native-monitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)0,
         NULL, "Do not use Gtk3 native monitor" },
-    { "-ui-apply-immediately", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "UIApplyImmediately", (void *)1,
-        NULL, "Apply settings changed immediately" },
-    { "+ui-apply-immediately", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-        NULL, NULL, "UIApplyImmediately", (void *)0,
-        NULL, "Apply settings changes only when the user clicks 'Apply'" },
     CMDLINE_LIST_END
 };
 
@@ -818,19 +795,6 @@ static int set_native_monitor(int val, void *param)
     return 0;
 }
 
-
-/** \brief  Set UIApplyImmediately resource (bool)
- *
- * \param[in]   val     new value
- * \param[in]   param   extra param (ignored)
- *
- * \return 0
- */
-static int set_apply_immediately(int val, void *param)
-{
-    ui_apply_immediately = val ? 1 : 0;
-    return 0;
-}
 
 
 /** \brief  Set Window[X]Width resource (int)
