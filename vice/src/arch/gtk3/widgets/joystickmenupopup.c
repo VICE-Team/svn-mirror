@@ -35,6 +35,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
+#include "uisettings.h"
 
 #include "joystickmenupopup.h"
 
@@ -125,6 +126,12 @@ static gboolean userport_joystick_adapter_enabled(void)
 }
 
 
+static void on_configure_activate(GtkWidget *widget, gpointer user_data)
+{
+    ui_settings_dialog_create_and_activate_node("input/joystick");
+}
+
+
 /** \brief  Create joystick menu popup for the statusbar
  *
  * \return  GtkMenu
@@ -152,6 +159,15 @@ GtkWidget *joystick_menu_popup_create(void)
                 userport_joystick_adapter_enabled());
 
     }
+
+    item = gtk_separator_menu_item_new();
+    gtk_container_add(GTK_CONTAINER(menu), item);
+
+    item = gtk_menu_item_new_with_label("Configure joysticks ...");
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "activate", G_CALLBACK(on_configure_activate),
+            NULL);
+
     gtk_widget_show_all(menu);
     return menu;
 }

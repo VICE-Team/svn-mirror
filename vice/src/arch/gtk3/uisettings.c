@@ -60,6 +60,7 @@
 #include <stdbool.h>
 
 #include "lib.h"
+#include "log.h"
 #include "util.h"
 #include "machine.h"
 #include "resources.h"
@@ -1892,6 +1893,13 @@ void ui_settings_set_resource_widget_manager(resource_widget_manager_t *manager)
 }
 
 
+
+static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
+{
+    settings_window = NULL;
+}
+
+
 /** \brief  Handler for the double click event of a tree node
  *
  * Expands or collapses the node and its children (if any)
@@ -2399,27 +2407,16 @@ static gboolean on_dialog_configure_event(
 
 
 
-/** \brief  Callback to create the main settings dialog from the menu
+/** \brief  Dialog create helper
  *
- * \param[in]   widget      (direct) parent widget, the menu item
- * \param[in]   user_data   data for the event (unused)
- *
- * \note    The appearance of minimize/maximize buttons seems to depend on
- *          which Window Manager is active:
- *
- *          On MATE (marco, a Metacity fork) both buttons are hidden.
- *          On KDE (KWin) the maximize button is still visible but inactive
- *          On OpenBox both min/max are visible with only minimize working
- *
- * \return  TRUE (avoids the key press getting passed to the emulated machine)
+ * \return  Settings dialog
  */
-gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
+static GtkWidget *dialog_create_helper(void)
 {
     GtkWidget *dialog;
     GtkWidget *content;
     char title[256];
 
-    debug_gtk3("CALLED\n");
 
     vsync_suspend_speed_eval();
 
@@ -2446,10 +2443,36 @@ gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
+    g_signal_connect(dialog, "destroy", G_CALLBACK(on_settings_dialog_destroy),
+            NULL);
 
+    return dialog;
+}
+
+
+/** \brief  Callback to create the main settings dialog from the menu
+ *
+ * \param[in]   widget      (direct) parent widget, the menu item
+ * \param[in]   user_data   data for the event (unused)
+ *
+ * \note    The appearance of minimize/maximize buttons seems to depend on
+ *          which Window Manager is active:
+ *
+ *          On MATE (marco, a Metacity fork) both buttons are hidden.
+ *          On KDE (KWin) the maximize button is still visible but inactive
+ *          On OpenBox both min/max are visible with only minimize working
+ *
+ * \return  TRUE (avoids the key press getting passed to the emulated machine)
+ */
+gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
+{
+    GtkWidget *dialog;
+
+    debug_gtk3("CALLED\n");
+
+    dialog = dialog_create_helper();
     settings_window = dialog;
     gtk_widget_show_all(dialog);
-
     return TRUE;
 }
 
@@ -2466,4 +2489,140 @@ void ui_settings_shutdown(void)
         gtk_tree_path_free(last_node_path);
         last_node_path = NULL;
     }
+}
+
+
+/** \brief  Find and activate node in the tree view via \a path
+ *
+ * The \a path argument is expected to be in the form 'foo/bar/bah', each
+ * path item indicates a node in the tree view/model. For example:
+ * "display/vdc" would select the VDC settings dialog on x128, but would fail
+ * on any other machine.
+ *
+ * \param[in]   path    path to the node
+ *
+ * \return  bool
+ */
+gboolean ui_settings_dialog_activate_node(const char *path)
+{
+    GtkTreeIter iter;
+    gchar **parts;
+    const gchar *part;
+    int column = 0;
+
+    if (settings_window == NULL) {
+        log_error(LOG_ERR, "settings dialog node activation requested without"
+                " the dialog active.");
+        return FALSE;
+    }
+    if (path == NULL || *path == '\0') {
+        log_error(LOG_ERR, "NULL or empty path pased.");
+        return FALSE;
+    }
+
+    /* split path into parts */
+    parts = g_strsplit(path, "/", 0);
+    part = parts[0];
+
+    /* get first item in model */
+    gtk_tree_model_get_iter_first(GTK_TREE_MODEL(settings_model), &iter);
+
+    /* iterate the parts of the path, trying to find to requested node */
+    while (part != NULL) {
+
+        const gchar *node_id = NULL;
+
+        debug_gtk3("checking column %d for '%s'.", column, part);
+
+        /* iterate nodes until either 'part' is found or the nodes in the
+         * current 'column' run out */
+        do {
+            gtk_tree_model_get(GTK_TREE_MODEL(settings_model), &iter,
+                    COLUMN_ID, &node_id, -1);
+            debug_gtk3("got id '%s'.", node_id);
+
+            /* check node ID against currently sought part of the path */
+            if (strcmp(node_id, part) == 0) {
+                /* got the requested node */
+
+                debug_gtk3("FOUND SOMETHING!");
+                if (parts[column + 1] == NULL) {
+                    /* got final item */
+
+                    GtkTreeSelection *selection;
+                    GtkTreePath *tree_path;
+
+                    debug_gtk3("GOT THE ITEM!");
+                    selection = gtk_tree_view_get_selection(
+                            GTK_TREE_VIEW(settings_tree));
+                    tree_path = gtk_tree_model_get_path(
+                            GTK_TREE_MODEL(settings_model), &iter);
+                    gtk_tree_view_expand_to_path(
+                            GTK_TREE_VIEW(settings_tree), tree_path);
+                    gtk_tree_selection_select_path(selection, tree_path);
+
+                    gtk_tree_path_free(tree_path);
+                    g_strfreev(parts);
+                    return TRUE;
+                } else {
+                    /* continue searching, dive into the children of the
+                     * current node, if there are any */
+                    if (gtk_tree_model_iter_has_child(
+                                GTK_TREE_MODEL(settings_model), &iter)) {
+                        /* node has children, iterate those now */
+                        GtkTreeIter child;
+
+                        if (!gtk_tree_model_iter_nth_child(
+                                    GTK_TREE_MODEL(settings_model),
+                                    &child, &iter, 0)) {
+                            debug_gtk3("failed to get first child node.");
+                            g_strfreev(parts);
+                            return FALSE;
+                        }
+                        /* set iterator to first child node, update the index
+                         * in the path parts */
+                        iter = child;
+                        part = parts[++column];
+                    } else {
+                        /* oops */
+                        debug_gtk3("error: path continues, but there are no"
+                                " more child nodes.");
+                        g_strfreev(parts);
+                        return FALSE;
+                    }
+                }
+            }
+        } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(settings_model),
+                                          &iter));
+    }
+
+    debug_gtk3("shouldn't get here I think.");
+    g_strfreev(parts);
+    return FALSE;
+}
+
+
+
+/** \brief  Show settings main dialog and activate a node
+ *
+ * \param[in]   path    path to name ("foo/bar/blah")
+ *
+ * \return  TRUE if node found, false otherwise
+ */
+gboolean ui_settings_dialog_create_and_activate_node(const char *path)
+{
+    GtkWidget *dialog;
+
+    debug_gtk3("CALLED\n");
+
+    dialog = dialog_create_helper();
+    settings_window = dialog;
+
+    /* find and activate the node */
+    if (!ui_settings_dialog_activate_node(path)) {
+        debug_gtk3("failed to locate node, showing dialog anyway for now.");
+    }
+
+    gtk_widget_show_all(dialog);
+    return TRUE;
 }
