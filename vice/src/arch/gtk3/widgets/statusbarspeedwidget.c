@@ -416,6 +416,8 @@ static GdkCursor *mouse_ptr;
  * \param[in]   widget  widget triggering the event
  * \param[in]   event   event triggered
  * \param[in]   data    extra event data (unused)
+ *
+ * \TODO:   refactor, code can be simplified
  */
 static gboolean on_widget_hover(GtkWidget *widget,
                                 GdkEvent *event,

@@ -69,6 +69,7 @@
 
 #include "contentpreviewwidget.h"
 #include "dirmenupopup.h"
+#include "joystickmenupopup.h"
 #include "statusbarspeedwidget.h"
 
 #include "uistatusbar.h"
@@ -885,10 +886,14 @@ static void vice_gtk3_update_joyport_layout(void)
         int j;
         sb_state.joyports_enabled = new_joyport_mask;
         for (j = 0; j < MAX_STATUS_BARS; ++j) {
-            GtkWidget *joyports_grid = allocated_bars[j].joysticks;
-            if (!joyports_grid) {
+            GtkWidget *joyports_grid;
+
+            if (allocated_bars[j].joysticks == NULL) {
                 continue;
             }
+            joyports_grid =  gtk_bin_get_child(
+                    GTK_BIN(allocated_bars[j].joysticks));
+
             /* Hide and show the joystick ports as required */
             for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
                 GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(joyports_grid), 1+i, 0);
@@ -906,6 +911,83 @@ static void vice_gtk3_update_joyport_layout(void)
     }
 }
 
+
+/** \brief  Cursor used when hovering over the joysticks widgets
+ *
+ * TODO:    figure out if I need to clean this up or that Gtk will?
+ */
+static GdkCursor *joywidget_mouse_ptr = NULL;
+
+
+/** \brief  Handler for the enter/leave-notify events of the joysticks widget
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   event       event reference
+ * \param[in]   user_data   extra event data (unused)
+ *
+ * \return  bool    (FALSE = keep propagating event, TRUE = stop)
+ */
+static gboolean on_joystick_widget_hover(GtkWidget *widget, GdkEvent *event,
+                                         gpointer user_data)
+{
+    if (event != NULL) {
+        GdkDisplay *display = gtk_widget_get_display(widget);
+        GdkWindow *window = gtk_widget_get_window(widget);
+        GdkCursor *cursor;
+
+        if (display == NULL) {
+            debug_gtk3("failed to retrieve GdkDisplay.");
+            return FALSE;
+        }
+        if (window == NULL) {
+            debug_gtk3("failed to retrieve GdkWindow.");
+            return FALSE;
+        }
+
+        if (event->type == GDK_ENTER_NOTIFY) {
+            debug_gtk3("Entered joystick widget area.");
+            if (joywidget_mouse_ptr == NULL) {
+                joywidget_mouse_ptr = gdk_cursor_new_from_name(display, "pointer");
+            }
+            cursor = joywidget_mouse_ptr;
+
+        } else {
+            debug_gtk3("Left joystick widget area.");
+            cursor = NULL;
+        }
+        gdk_window_set_cursor(window, cursor);
+    }
+    return FALSE;
+}
+
+
+/** \brief  Handler for button-press events of the joysticks widget
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   event       event reference
+ * \param[in]   user_data   extra event data (unused)
+ *
+ * \return  TRUE to stop other handlers, FALSE to propagate event further
+ */
+static gboolean on_joystick_widget_button_press(GtkWidget *widget,
+                                                GdkEvent *event,
+                                                gpointer user_data)
+{
+    debug_gtk3("Got button click");
+
+    if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+        GtkWidget *menu = joystick_menu_popup_create();
+        gtk_menu_popup_at_widget(GTK_MENU(menu), widget,
+                GDK_GRAVITY_NORTH_WEST, GDK_GRAVITY_SOUTH_WEST,
+                event);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
+
+
 /** \brief Create a master joyport widget for inclusion in the status
  *         bar.
  *
@@ -918,8 +1000,11 @@ static void vice_gtk3_update_joyport_layout(void)
  */
 static GtkWidget *ui_joystick_widget_create(void)
 {
-    GtkWidget *grid, *label;
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *event_box;
     int i;
+
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
@@ -936,7 +1021,25 @@ static GtkWidget *ui_joystick_widget_create(void)
         gtk_widget_set_no_show_all(joyport, TRUE);
         gtk_widget_hide(joyport);
     }
-    return grid;
+
+    /*
+     * Pack the joystick grid into an event box so we can have a popup menu and
+     * also change the cursor shape to indicate to the user the joystick widget
+     * is clickable.
+     */
+    event_box = gtk_event_box_new();
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
+    gtk_container_add(GTK_CONTAINER(event_box), grid);
+
+    /* connect signals (TODO: connect click event handler for the popup) */
+    g_signal_connect(event_box, "button-press-event",
+            G_CALLBACK(on_joystick_widget_button_press), NULL);
+    g_signal_connect(event_box, "enter-notify-event",
+            G_CALLBACK(on_joystick_widget_hover), NULL);
+    g_signal_connect(event_box, "leave-notify-event",
+            G_CALLBACK(on_joystick_widget_hover), NULL);
+
+    return event_box;
 }
 
 /** Event handler for hovering over a clickable part of the status bar.
@@ -1457,7 +1560,11 @@ void ui_display_joyport(uint8_t *joyport)
             sb_state.current_joyports[i] = joyport[i+1];
             for (j = 0; j < MAX_STATUS_BARS; ++j) {
                 if (allocated_bars[j].joysticks) {
-                    GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[j].joysticks), i+1, 0);
+                    GtkWidget *grid;
+                    GtkWidget *widget;
+
+                    grid = gtk_bin_get_child(GTK_BIN(allocated_bars[j].joysticks));
+                    widget = gtk_grid_get_child_at(GTK_GRID(grid), i + 1, 0);
                     if (widget) {
                         gtk_widget_queue_draw(widget);
                     }

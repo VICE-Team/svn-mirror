@@ -74,6 +74,7 @@ libwidgets_a_SOURCES = \
 	jamactionwidget.c \
 	jamdialog.c \
 	joystickdevicewidget.c \
+	joystickmenupopup.c \
 	joystickuserportadapterwidget.c \
 	kbdlayoutwidget.c \
 	kbdmappingwidget.c \
@@ -215,6 +216,7 @@ EXTRA_DIST = \
 	jamactionwidget.h \
 	jamdialog.h \
 	joystickdevicewidget.h \
+	joystickmenupopup.h \
 	joystickuserportadapterwidget.h \
 	kbdlayoutwidget.h \
 	kbdmappingwidget.h \
