@@ -32,6 +32,8 @@
 
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include "debug_gtk3.h"
+#include "ui.h"
 
 /* UNIX-specific; for kbd_arch_get_host_mapping */
 #include <locale.h>
@@ -113,6 +115,13 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             if (key == GDK_KEY_d && report->key.state & GDK_MOD1_MASK) {
                 return TRUE;
             }
+            if ((key == GDK_KEY_p || key == GDK_KEY_P)
+                    && (report->key.state & GDK_MOD1_MASK)) {
+                debug_gtk3("Got Alt+P");
+                ui_toggle_pause();
+                return TRUE;
+            }
+
             keyboard_key_pressed((signed long)key);
             return TRUE;
         case GDK_KEY_RELEASE:
