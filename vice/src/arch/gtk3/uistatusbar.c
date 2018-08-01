@@ -1458,6 +1458,10 @@ GtkWidget *ui_statusbar_create(void)
  *
  *  \todo This function is not implemented and its API is not
  *        understood.
+ *
+ * \note    Since the statusbar message display widget has been removed, we
+ *          have some space to implement a widget to display information
+ *          regarding playback/recording.
  */
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
@@ -1471,6 +1475,10 @@ void ui_display_event_time(unsigned int current, unsigned int total)
  *
  *  \todo This function is not implemented and its API is not
  *        understood.
+ *
+ * \note    Since the statusbar message display widget has been removed, we
+ *          have some space to implement a widget to display information
+ *          regarding playback/recording.
  */
 void ui_display_playback(int playback_status, char *version)
 {
@@ -1483,6 +1491,10 @@ void ui_display_playback(int playback_status, char *version)
  *
  *  \todo This function is not implemented and its API is not
  *        understood.
+ *
+ * \note    Since the statusbar message display widget has been removed, we
+ *          have some space to implement a widget to display information
+ *          regarding playback/recording.
  */
 void ui_display_recording(int recording_status)
 {
@@ -1565,13 +1577,18 @@ void ui_display_statustext(const char *text, int fade_out)
 #endif
 }
 
-/** \brief Statusbar API function to display current volume.
- *  \param vol The new volumen level.
- *  \todo This function is not implemented. */
+/** \brief Statusbar API function to display current volume
+ *
+ * This function is a NOP since the volume can be checked and altered via the
+ * Mixer Controls via the statusbar.
+ *
+ * \param[in]   vol     new volume level
+ */
 void ui_display_volume(int vol)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    /* NOP */
 }
+
 
 /** \brief Statusbar API function to display current joyport inputs.
  *  \param joyport An array of bytes of size at least
