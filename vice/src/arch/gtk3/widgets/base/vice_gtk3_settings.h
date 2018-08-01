@@ -1,4 +1,4 @@
-/**
+/** \file   vice_gtk3_settings.h
  * \brief   Default settings for Gtk3 code
  *
  * This file contains some default values for the Gtk3 UI of VICE.

@@ -1,4 +1,4 @@
-/**
+/** \file   resourcehelpers.h
  * \brief   Helper functions for resource widgets - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

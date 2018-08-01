@@ -1,4 +1,4 @@
-/**
+/** \file   openfiledialog.h
  * \brief   GtkFileChooser wrapper to open or create a file
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

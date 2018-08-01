@@ -1,4 +1,4 @@
-/**
+/** \file   cartimagewidget.h
  * \brief   Widget to control load/save/flush for cart images - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,4 +1,4 @@
-/**
+/** \file   filechooserhelpers.h
  * \brief   GtkFileChooser helper functions - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

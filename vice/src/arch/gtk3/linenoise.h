@@ -1,5 +1,7 @@
-/* linenoise.h -- guerrilla line editing library against the idea that a
- * line editing lib needs to be 20,000 lines of C code.
+/** \file   linenoise.h
+ *
+ * \brief   guerrilla line editing library against the idea that a
+ *          line editing lib needs to be 20,000 lines of C code - header
  *
  * See linenoise.c for more information.
  *

@@ -1,4 +1,4 @@
-/**
+/** \file   uinetplay_new.h
  * \brief   GTK3 Netplay UI - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/**
+/** \file   clockportdevicewidget.c
  * \brief   Widget to select ClockPort device
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

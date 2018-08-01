@@ -1,4 +1,4 @@
-/**
+/** \file   savefiledialog.h
  * \brief   GtkFileChooser wrapper to save/create a file
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

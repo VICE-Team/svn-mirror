@@ -1,4 +1,4 @@
-/**
+/** \file   basewidget_types.h
  * \brief   Types used for the base widgets
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

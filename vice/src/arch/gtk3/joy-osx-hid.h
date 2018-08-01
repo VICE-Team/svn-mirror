@@ -1,4 +1,4 @@
-/** \brief  joy-osx-hid.h
+/** \file   joy-osx-hid.h
  * \brief   Joystick support for Mac OS X using USB HID devices - header
  *
  * \author  Christian Vogelgsang <chris@vogelgsang.org>

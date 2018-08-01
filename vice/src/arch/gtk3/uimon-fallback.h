@@ -1,5 +1,6 @@
-/** \file   uimonarch.h
- * \brief   GTK3 Monitor - header
+/** \file   uimon-fallback.h
+ * \brief   Fallback implementation for the ML-Monitor for when the VTE library
+ *          is not available - header
  *
  * \author  groepaz <groepaz@gmx.net>
  */

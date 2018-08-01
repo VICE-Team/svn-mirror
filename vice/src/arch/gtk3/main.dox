@@ -26,19 +26,19 @@
 
   \subsection   base_widgets_list   Available base widgets
 
-  At the time of writing (2018-02-16), the following 'resource' widgets are availabe:
+  At the time of writing (2018-08-01), the following 'resource' widgets are availabe:
 
   Widget                     | Description
   ---------------------------|---------------
   \ref resourcebrowser.c     | Allows selection of a file, setting a resource
   \ref resourcecheckbutton.c | A GtkCheckButton handling a boolean resource
+  \ref resourcecombobox.c    | A GtkComboBox handling either an integer or a string resource
   \ref resourceentry.c       | Text entry, either updating the resource each key press, or only updating the resource when loosing focus or when Enter is pressed
   \ref resourceradiogroup.c  | A set of radio buttons grouped in a GtkGrid, using a key-value approach
   \ref resourcescale.c       | A GtkScale handling a resource
   \ref resourcespinbutton.c  | A GtkSpinButton handling an integer resource, allows using 'fake digits' to pretend a resource is a fixed-point value
   \ref resourceswitch.c      | A GtkSwitch handling a resource, preferably used when a resource indicates an actual switch
 
-  \note The resourceswitch hasn't been updated to the new API yet (2018-02-16)
 
   \subsection   base_widgets_api    Base widgets API
 
@@ -53,59 +53,14 @@
   reset()   | Reset widget to the state it was when instanciated
   sync()    | Synchronize widget with its resource value, only usufull when the resource value is altered outside the widget's code
   factory() | Reset widget and resource value to its factory value
+  apply()   | Apply the current value of the widget to its resource (in cases where the widget is told *not* to update the resource when the widget's value changes
 
   \subsection   Examples
 
   A very simple example, using a boolean resource:
 
-  \code{.c}
+  // Fuck that example, that was completely wrong
 
-  // Reset widget to inital state
-  static on_reset_clicked(GtkWidget *widget, gpointer data)
-  {
-    GtkWidget *widget = GTK_WIDGET(data);
-    resource_check_button_reset(widget);
-  }
-
-  // reset widget to factory value
-  static on_factory_clicked(GtkWidget *widget, gpointer data)
-  {
-    GtkWidget *widget = GTK_WIDGET(data);
-    resource_check_button_factory(widget)
-  }
-
-
-  // Create widget
-  GtkWidget *create_tde_widget(void)
-  {
-    GtkWidget *grid;
-    GtkWidget *tde;
-    GtkWidget *reset;
-    GtkWidget *factory;
-
-    // create grid
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAUL);
-
-    // TDE
-    //
-    // This theoretically creates a grid with a check button and two buttons
-    // I haven't actually checked this code, so it might be very wrong.
-    //
-    tde = vice_gtk3_resource_check_button("DriveTrueEmulation");
-    gtk_grid_attach(GTK_GRID(grid), tde, 0, 0, 2, 1);
-
-    // add buttons
-    reset = gtk_button_new_with_label("Reset");
-    gtk_grid_attach(GTK_GRID(grid), reset, 0, 1, 1, 1);
-    g_signal_connect(reset, "clicked", G_CALLBACK(on_reset_clicked),
-            (gpointer)tde);
-    factory = gtk_button_new_with_label("Reset");
-    gtk_grid_attach(GTK_GRID(grid), factory, 1, 1, 1, 1);
-    g_signal_connect(factory, "clicked", G_CALLBACK(on_factory_clicked),
-            (gpointer)tde);
-
-    return grid;
-  }
   \endcode
 
  */

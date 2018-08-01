@@ -1,4 +1,4 @@
-/**
+/** \file   selectdirectorydialog.h
  * \brief   GtkFileChooser wrapper to select/create a directory
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
