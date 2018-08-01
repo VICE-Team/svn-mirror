@@ -75,6 +75,20 @@
 #include "ui.h"
 
 
+/* Forward declarations of static functions */
+
+static int set_save_resources_on_exit(int val, void *param);
+static int set_confirm_on_exit(int val, void *param);
+static int set_window_height(int val, void *param);
+static int set_window_width(int val, void *param);
+static int set_window_xpos(int val, void *param);
+static int set_window_ypos(int val, void *param);
+static int set_start_minimized(int val, void *param);
+static int set_native_monitor(int val, void *param);
+
+static void ui_toggle_warp(void);
+
+
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -124,20 +138,25 @@ static ui_resource_t ui_resources;
 static int native_monitor_enabled = 0;
 
 
+/** \brief  Default hotkeys for the UI not connected to a menu item
+ */
+static kbd_gtk3_hotkey_t default_hotkeys[] = {
+    /* Alt+P: toggle pause */
+    { GDK_KEY_p, GDK_MOD1_MASK, (void *)ui_toggle_pause },
+    /* Alt+W: toggle warp mode */
+    { GDK_KEY_w, GDK_MOD1_MASK, ui_toggle_warp },
+    /* Alt+Shift+P: Advance frame (only when paused)
+     *
+     * XXX: seems GDK_KEY_*P* is required here, otherwise the key press isn't
+     *      recognized (only tested on Win10)
+     */
+    { GDK_KEY_P, GDK_MOD1_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
+
+    /* Arnie */
+    { 0, 0, NULL }
+};
 
 
-/* Forward declarations of static functions */
-
-static int set_save_resources_on_exit(int val, void *param);
-static int set_confirm_on_exit(int val, void *param);
-static int set_window_height(int val, void *param);
-static int set_window_width(int val, void *param);
-static int set_window_xpos(int val, void *param);
-static int set_window_ypos(int val, void *param);
-static int set_start_minimized(int val, void *param);
-static int set_native_monitor(int val, void *param);
-
-static void ui_toggle_warp(void);
 
 
 /*****************************************************************************
@@ -1067,11 +1086,10 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* connect keyboard handlers */
     kbd_connect_handlers(new_window, NULL);
 
-    /*
-     * Add hotkeys (TODO: move this somewhere else I think)
-     */
-    kbd_hotkey_add(GDK_KEY_p, GDK_MOD1_MASK, (void *)ui_toggle_pause);
-    kbd_hotkey_add(GDK_KEY_w, GDK_MOD1_MASK, ui_toggle_warp);
+    /* Add default hotkeys that don't have a menu item */
+    if (!kbd_hotkey_add_list(default_hotkeys)) {
+        debug_gtk3("adding hotkeys failed, see the log for details.");
+    }
 }
 
 
@@ -1489,7 +1507,8 @@ static void ui_toggle_warp(void)
  * \return  TRUE (indicates the Alt+SHIFT+P got consumed by Gtk, so it won't be
  *          passed to the emu)
  *
- * \todo    Update UI tickmarks properly if triggered by a keyboard accelerator.
+ * \note    The gboolean return value is no longer required since the 'hotkey'
+ *          handling in kbd.c takes care of passing TRUE to Gtk3.
  */
 gboolean ui_advance_frame(void)
 {

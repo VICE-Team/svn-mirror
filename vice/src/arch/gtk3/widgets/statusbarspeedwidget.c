@@ -356,7 +356,7 @@ GtkWidget *speed_menu_popup_create(void)
     g_signal_connect(item, "toggled", G_CALLBACK(on_pause_toggled), NULL);
 
     /* advance frame */
-    item = gtk_menu_item_new_with_label("Advance frame");
+    item = gtk_menu_item_new_with_label("Advance frame (Alt+Shift+P)");
     if (!ui_emulation_is_paused()) {
         gtk_widget_set_sensitive(item, FALSE);
     }

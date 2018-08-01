@@ -230,21 +230,21 @@ static gboolean kbd_hotkey_handle(GdkEvent *report)
 }
 
 
-void kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
+gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
 {
     if (hotkeys_count == HOTKEYS_MAX) {
         log_error(LOG_ERR,
                 "Error: Hotkeys list exhausted, change the HOTKEYS_MAX define"
                 " to allow for more hotkeys.");
-        return;
+        return FALSE;
     }
     if (callback == NULL) {
         log_error(LOG_ERR, "Error: NULL passed as callback.");
-        return;
+        return FALSE;
     }
     if (kbd_hotkey_get_index(code, mask) >= 0) {
         log_error(LOG_ERR, "Error: hotkey already registered.");
-        return;
+        return FALSE;
     }
 
     /* register hotkey */
@@ -252,4 +252,29 @@ void kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
     hotkeys_list[hotkeys_count].mask = mask;
     hotkeys_list[hotkeys_count].callback = callback;
     hotkeys_count++;
+    return TRUE;
+}
+
+
+/** \brief  Add multiple hotkeys at once
+ *
+ * Adds multiple hotkeys from \a list. Terminate the list with NULL for the
+ * callback value.
+ *
+ * \param[in]   list    list of hotkeys
+ *
+ * \return  TRUE on success, FALSE if the list was exhausted or a hotkey
+ *          was already registered
+ */
+gboolean kbd_hotkey_add_list(kbd_gtk3_hotkey_t *list)
+{
+    int i = 0;
+
+    while (list[i].callback != NULL) {
+        if (!kbd_hotkey_add(list[i].code, list[i].mask, list[i].callback)) {
+            return FALSE;
+        }
+        i++;
+    }
+    return TRUE;
 }
