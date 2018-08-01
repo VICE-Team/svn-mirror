@@ -1,4 +1,4 @@
-/** \file   vsidmainwidget.c
+/** \file   vsidtuneinfowidget.c
  * \brief   GTK3 tune info widget for VSID
  *
  * Displays (sub)tune information of a PSID file

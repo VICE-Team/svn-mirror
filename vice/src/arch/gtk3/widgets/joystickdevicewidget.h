@@ -1,9 +1,10 @@
-/**
+/** \file   joystickdevicewidget.h
  * \brief   Widget to select a joystick device - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * Controls the following resource(s):
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

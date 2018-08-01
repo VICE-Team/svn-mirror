@@ -1,4 +1,4 @@
-/**
+/** \file   settings_romset.h
  * \brief   GTK3 ROM set widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,4 +1,4 @@
-/**
+/** \file   settings_snapshot.h
  * \brief   Snapshot/recording settings widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

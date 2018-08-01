@@ -1,12 +1,10 @@
-/**
- * \brief   KERNAL revision widget - header
+/** \file   kernalrevisionwidget.h
+ * \brief   GTK3 KERNAL revision widget - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  KernalRev - KERNAL revision (c64, c64sc, c64dtv)
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

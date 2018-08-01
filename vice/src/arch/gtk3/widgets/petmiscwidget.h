@@ -1,9 +1,10 @@
-/**
+/** \file   petmiscwidget.h
  * \brief   Widget to set the PET Crtc and EoiBlank resources - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

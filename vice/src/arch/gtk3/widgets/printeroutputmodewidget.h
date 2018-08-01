@@ -1,12 +1,10 @@
-/**
+/** \file   printeroutputmodewidget.h
  * \brief   Widget to control printer output mode settings - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Printer[4-6]Output
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

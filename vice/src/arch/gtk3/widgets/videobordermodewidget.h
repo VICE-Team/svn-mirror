@@ -1,4 +1,4 @@
-/** \file   videobordermodewidget.c
+/** \file   videobordermodewidget.h
  * \brief   GTK3 widget to select border mode
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>**

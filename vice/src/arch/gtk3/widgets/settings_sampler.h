@@ -1,4 +1,4 @@
-/**
+/** \file   settings_sampler.h
  * \brief   Widget to control sampler settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

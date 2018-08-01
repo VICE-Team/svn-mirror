@@ -1,9 +1,10 @@
+/** \file   contentpreviewwidget.h
+ * \brief   GTK3 disk/tape/archive preview widget - header
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * contentpreviewwidget.h - GTK3 disk/tape/archive preview widget - header
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

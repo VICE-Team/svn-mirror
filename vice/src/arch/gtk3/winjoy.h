@@ -3,7 +3,9 @@
  * \brief   Joystick support for Windows
  *
  * \author  Spiro Trikaliotis
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

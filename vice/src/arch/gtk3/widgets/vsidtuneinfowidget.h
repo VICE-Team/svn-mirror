@@ -1,4 +1,4 @@
-/** \file   vsidmainwidget.h
+/** \file   vsidtuneinfowidget.h
  * \brief   GTK3 tune info widget for VSID - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

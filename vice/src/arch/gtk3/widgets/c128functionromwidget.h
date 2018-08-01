@@ -1,11 +1,10 @@
-/**
+/** \file   c128functionromwidget.h
  * \brief   Widget to control C128 function roms - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

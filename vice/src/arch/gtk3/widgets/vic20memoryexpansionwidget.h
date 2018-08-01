@@ -1,9 +1,10 @@
-/**
+/** \file   vic20memoryexpansionwidget.h
  * \brief   VIC20 memory expansion widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
-*
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

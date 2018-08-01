@@ -1,4 +1,4 @@
-/**\ file   ciamodelwidget.h
+/** \file   ciamodelwidget.h
  * \brief   Widget to set the CIA model - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

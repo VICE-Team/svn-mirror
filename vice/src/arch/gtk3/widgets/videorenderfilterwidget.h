@@ -1,4 +1,4 @@
-/** \file   videorenderfilterwidget.c
+/** \file   videorenderfilterwidget.h
  * \brief   GTK3 widget to select renderer filter
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>**
