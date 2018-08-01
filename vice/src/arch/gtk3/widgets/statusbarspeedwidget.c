@@ -348,7 +348,7 @@ GtkWidget *speed_menu_popup_create(void)
     add_separator(menu);
 
     /* pause */
-    item = gtk_check_menu_item_new_with_label("Pause emulation");
+    item = gtk_check_menu_item_new_with_label("Pause emulation (Alt+P)");
     if (ui_emulation_is_paused()) {
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
@@ -365,7 +365,7 @@ GtkWidget *speed_menu_popup_create(void)
             NULL);
 
     /* enable warp mode */
-    item = gtk_check_menu_item_new_with_label("Enable warp mode");
+    item = gtk_check_menu_item_new_with_label("Enable warp mode (Alt+W)");
     if (resources_get_int("WarpMode", &warp) < 0) {
         warp = 0;
     }

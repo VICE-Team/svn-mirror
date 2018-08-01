@@ -137,6 +137,8 @@ static int set_window_ypos(int val, void *param);
 static int set_start_minimized(int val, void *param);
 static int set_native_monitor(int val, void *param);
 
+static void ui_toggle_warp(void);
+
 
 /*****************************************************************************
  *                              Static data                                  *
@@ -1064,7 +1066,14 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     /* connect keyboard handlers */
     kbd_connect_handlers(new_window, NULL);
+
+    /*
+     * Add hotkeys (TODO: move this somewhere else I think)
+     */
+    kbd_hotkey_add(GDK_KEY_p, GDK_MOD1_MASK, (void *)ui_toggle_pause);
+    kbd_hotkey_add(GDK_KEY_w, GDK_MOD1_MASK, ui_toggle_warp);
 }
+
 
 /** \brief  Makes a main window visible once it's been initialized
  *
@@ -1466,6 +1475,14 @@ gboolean ui_toggle_pause(void)
      */
     return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
 }
+
+
+static void ui_toggle_warp(void)
+{
+    ui_toggle_resource(NULL, (gpointer)"WarpMode");
+}
+
+
 
 /** \brief  Advance frame handler
  *

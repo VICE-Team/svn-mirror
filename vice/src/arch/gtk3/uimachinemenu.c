@@ -540,10 +540,11 @@ static ui_menu_item_t settings_menu_head[] = {
 #endif
 
     UI_MENU_SEPARATOR,
-
+#if 0
     { "Toggle warp mode", UI_MENU_TYPE_ITEM_CHECK,
         "warp", (void *)(ui_toggle_resource), (void *)"WarpMode",
         GDK_KEY_W, VICE_MOD_MASK },
+#endif
 #if 0
     { "Pause emulation", UI_MENU_TYPE_ITEM_CHECK,
         "pause", (void *)(ui_toggle_pause), NULL,

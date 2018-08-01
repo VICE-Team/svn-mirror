@@ -33,14 +33,37 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
+#include "log.h"
 #include "ui.h"
 
 /* UNIX-specific; for kbd_arch_get_host_mapping */
 #include <locale.h>
 #include <string.h>
 
+
 #include "keyboard.h"
 #include "kbd.h"
+
+
+static gboolean kbd_hotkey_handle(GdkEvent *report);
+
+
+/** \brief  Maximum number of Gtk3 hotkeys that can be registered
+ */
+#define HOTKEYS_MAX 64
+
+
+/** \brief  List of custom hotkeys
+ */
+static kbd_gtk3_hotkey_t hotkeys_list[HOTKEYS_MAX];
+
+
+/** \brief  Number of registered hotkeys
+ */
+static int hotkeys_count = 0;
+
+
+
 
 int kbd_arch_get_host_mapping(void)
 {
@@ -115,12 +138,20 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             if (key == GDK_KEY_d && report->key.state & GDK_MOD1_MASK) {
                 return TRUE;
             }
+
+            /* check the custom hotkeys */
+            if (kbd_hotkey_handle(report)) {
+                return TRUE;
+            }
+
+#if 0
             if ((key == GDK_KEY_p || key == GDK_KEY_P)
                     && (report->key.state & GDK_MOD1_MASK)) {
                 debug_gtk3("Got Alt+P");
                 ui_toggle_pause();
                 return TRUE;
             }
+#endif
 
             keyboard_key_pressed((signed long)key);
             return TRUE;
@@ -149,4 +180,76 @@ void kbd_connect_handlers(GtkWidget *widget, void *data)
     g_signal_connect(G_OBJECT(widget), "key-release-event", G_CALLBACK(kbd_event_handler), data);
     g_signal_connect(G_OBJECT(widget), "enter-notify-event", G_CALLBACK(kbd_event_handler), data);
     g_signal_connect(G_OBJECT(widget), "leave-notify-event", G_CALLBACK(kbd_event_handler), data);
+}
+
+
+/** \brief  Find hotkey index
+ *
+ * \param[in]   code    key code
+ * \param[in]   mask    key mask
+ *
+ * \return  index in list, -1 when not found
+ */
+static int kbd_hotkey_get_index(guint code, guint mask)
+{
+    int i = 0;
+
+    while (i < hotkeys_count) {
+        if (hotkeys_list[i].code == code && hotkeys_list[i].mask) {
+            return i;
+        }
+        i++;
+    }
+    return -1;
+}
+
+
+/** \brief  Look up the requested hotkey and trigger its callback when found
+ *
+ * \param[in]   report  GDK key press event instance
+ *
+ * \return  TRUE when the key was found and the callback triggered,
+ *          FALSE otherwise
+ */
+static gboolean kbd_hotkey_handle(GdkEvent *report)
+{
+    int i = 0;
+    gint code = report->key.keyval;
+
+    while (i < hotkeys_count) {
+        if ((hotkeys_list[i].code == code)
+                && (report->key.state & hotkeys_list[i].mask)) {
+
+            debug_gtk3("triggering callback of hotkey with index %d.", i);
+            hotkeys_list[i].callback();
+            return TRUE;
+        }
+        i++;
+    }
+    return FALSE;
+}
+
+
+void kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
+{
+    if (hotkeys_count == HOTKEYS_MAX) {
+        log_error(LOG_ERR,
+                "Error: Hotkeys list exhausted, change the HOTKEYS_MAX define"
+                " to allow for more hotkeys.");
+        return;
+    }
+    if (callback == NULL) {
+        log_error(LOG_ERR, "Error: NULL passed as callback.");
+        return;
+    }
+    if (kbd_hotkey_get_index(code, mask) >= 0) {
+        log_error(LOG_ERR, "Error: hotkey already registered.");
+        return;
+    }
+
+    /* register hotkey */
+    hotkeys_list[hotkeys_count].code = code;
+    hotkeys_list[hotkeys_count].mask = mask;
+    hotkeys_list[hotkeys_count].callback = callback;
+    hotkeys_count++;
 }

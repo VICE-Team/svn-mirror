@@ -30,6 +30,21 @@
 
 #include <gtk/gtk.h>
 
+
+/** \brief  Gtk3 keyboard shortcut to be used without Gtk3's accelerators
+ *
+ * In Gtk3 there is no normal method to create a keyboard shortcut without
+ * it being connected to a G(tk)MenuItem. This object "solves" this problem
+ * by having the kbd_event_handler() function scan a list of these objects
+ * and trigger a callback when a specific key press matches.
+ */
+typedef struct kbd_gtk3_hotkey_s {
+    guint code;                 /**< key code */
+    guint mask;                 /**< key mask bits */
+    void (*callback)(void);     /**< function to call when the key matches */
+} kbd_gtk3_hotkey_t;
+
+
 void kbd_arch_init(void);
 int kbd_arch_get_host_mapping(void);
 void kbd_initialize_numpad_joykeys(int *joykeys);
@@ -41,5 +56,8 @@ void kbd_connect_handlers(GtkWidget *widget, void *data);
 
 signed long kbd_arch_keyname_to_keynum(char *keyname);
 const char *kbd_arch_keynum_to_keyname(signed long keynum);
+
+
+void kbd_hotkey_add(guint code, guint mask, void (*callback)(void));
 
 #endif
