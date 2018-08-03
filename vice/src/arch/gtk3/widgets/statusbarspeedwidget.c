@@ -348,7 +348,11 @@ GtkWidget *speed_menu_popup_create(void)
     add_separator(menu);
 
     /* pause */
+#ifdef UNIX_MACOSX_COMPILE
+    item = gtk_check_menu_item_new_with_label("Pause emulation (Bloemkool+P)");
+#else
     item = gtk_check_menu_item_new_with_label("Pause emulation (Alt+P)");
+#endif
     if (ui_emulation_is_paused()) {
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
@@ -356,7 +360,11 @@ GtkWidget *speed_menu_popup_create(void)
     g_signal_connect(item, "toggled", G_CALLBACK(on_pause_toggled), NULL);
 
     /* advance frame */
+#ifdef UNIX_MACOSX_COMPILE
+    item = gtk_menu_item_new_with_label("Advance frame (Bloemkool+Shift+P)");
+#else
     item = gtk_menu_item_new_with_label("Advance frame (Alt+Shift+P)");
+#endif
     if (!ui_emulation_is_paused()) {
         gtk_widget_set_sensitive(item, FALSE);
     }
@@ -365,7 +373,11 @@ GtkWidget *speed_menu_popup_create(void)
             NULL);
 
     /* enable warp mode */
+#ifdef UNIX_MACOSX_COMPILE
+    item = gtk_check_menu_item_new_with_label("Enable warp mode (Bloemkool+W)");
+#else
     item = gtk_check_menu_item_new_with_label("Enable warp mode (Alt+W)");
+#endif
     if (resources_get_int("WarpMode", &warp) < 0) {
         warp = 0;
     }
