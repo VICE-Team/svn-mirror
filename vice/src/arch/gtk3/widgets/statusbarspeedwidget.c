@@ -348,7 +348,7 @@ GtkWidget *speed_menu_popup_create(void)
     add_separator(menu);
 
     /* pause */
-#ifdef UNIX_MACOSX_COMPILE
+#ifdef MACOSX_SUPPORT
     item = gtk_check_menu_item_new_with_label("Pause emulation (Bloemkool+P)");
 #else
     item = gtk_check_menu_item_new_with_label("Pause emulation (Alt+P)");
@@ -360,7 +360,7 @@ GtkWidget *speed_menu_popup_create(void)
     g_signal_connect(item, "toggled", G_CALLBACK(on_pause_toggled), NULL);
 
     /* advance frame */
-#ifdef UNIX_MACOSX_COMPILE
+#ifdef MACOSX_SUPPORT
     item = gtk_menu_item_new_with_label("Advance frame (Bloemkool+Shift+P)");
 #else
     item = gtk_menu_item_new_with_label("Advance frame (Alt+Shift+P)");
@@ -373,7 +373,7 @@ GtkWidget *speed_menu_popup_create(void)
             NULL);
 
     /* enable warp mode */
-#ifdef UNIX_MACOSX_COMPILE
+#ifdef MACOSX_SUPPORT
     item = gtk_check_menu_item_new_with_label("Enable warp mode (Bloemkool+W)");
 #else
     item = gtk_check_menu_item_new_with_label("Enable warp mode (Alt+W)");
