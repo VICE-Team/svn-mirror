@@ -432,11 +432,17 @@ for bundle in $BUNDLES ; do
     # copy any needed "local" libs
     LOCAL_LIBS=`otool -L $APP_BIN/$emu | egrep '^\s+/(opt|usr)/local/'  | awk '{print $1}'`
     for lib in $LOCAL_LIBS; do
-        cp $lib $APP_FRAMEWORKS
+        if [ ! -e "$APP_FRAMEWORKS/`basename $lib`" ]
+        then    
+            cp $lib $APP_FRAMEWORKS
+        fi
         lib_base=`basename $lib`
         LOCAL_LIBS_LIBS=`otool -L $APP_FRAMEWORKS/$lib_base | egrep '^\s+/(opt|usr)/local/' | grep -v $lib_base | awk '{print $1}'`
         for lib_lib in $LOCAL_LIBS_LIBS; do
-            cp $lib_lib $APP_FRAMEWORKS
+            if [ ! -e "$APP_FRAMEWORKS/`basename $lib_lib`" ]
+            then
+                cp $lib_lib $APP_FRAMEWORKS
+            fi
             lib_lib_base=`basename $lib_lib`
             chmod 644 $APP_FRAMEWORKS/$lib_base
             install_name_tool -change $lib_lib @executable_path/../Frameworks/$lib_lib_base $APP_FRAMEWORKS/$lib_base
