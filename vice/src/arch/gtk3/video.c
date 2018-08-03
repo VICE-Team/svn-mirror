@@ -33,7 +33,6 @@
 #include <string.h>
 
 #include "debug_gtk3.h"
-#include "not_implemented.h"
 
 #include "cmdline.h"
 #include "lib.h"

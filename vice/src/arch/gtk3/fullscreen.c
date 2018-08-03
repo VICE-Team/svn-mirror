@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#include "not_implemented.h"
+#include "debug_gtk3.h"
 
 #include "fullscreen.h"
 #include "video.h"

@@ -30,11 +30,11 @@
 
 #include <stdio.h>
 
+#include "debug_gtk3.h"
 #include "cbm2model.h"
 #include "crtc.h"
 #include "crtcontrolwidget.h"
 #include "machinemodelwidget.h"
-#include "not_implemented.h"
 #include "sampler.h"
 #include "ui.h"
 #include "uimachinewindow.h"

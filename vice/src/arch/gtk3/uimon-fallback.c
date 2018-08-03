@@ -30,6 +30,7 @@
 
 #include "vice.h"
 
+#include "debug_gtk3.h"
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
@@ -56,7 +57,6 @@
 #include "uimon.h"
 #include "uimon-fallback.h"
 
-#include "not_implemented.h"
 
 static console_t *console_log_local = NULL;
 

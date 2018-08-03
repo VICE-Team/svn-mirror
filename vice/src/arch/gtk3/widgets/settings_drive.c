@@ -41,7 +41,6 @@
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
-#include "not_implemented.h"
 #include "drive.h"
 #include "drive-check.h"
 #include "machine.h"

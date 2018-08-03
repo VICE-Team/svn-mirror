@@ -39,7 +39,6 @@
 #endif
 
 #include "debug_gtk3.h"
-#include "not_implemented.h"
 
 #include "archdep.h"
 #include "autostart.h"

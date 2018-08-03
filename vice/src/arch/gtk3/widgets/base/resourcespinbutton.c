@@ -54,7 +54,6 @@
 
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
-#include "not_implemented.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"

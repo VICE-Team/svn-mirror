@@ -39,11 +39,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
-#include "not_implemented.h"
 #include "machine.h"
 #include "resources.h"
 #include "resourcecheckbutton.h"

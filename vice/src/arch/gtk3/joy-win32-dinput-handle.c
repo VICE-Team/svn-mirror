@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#include "not_implemented.h"
+#include "debug_gtk3.h"
 
 #ifdef WIN32_COMPILE
 
