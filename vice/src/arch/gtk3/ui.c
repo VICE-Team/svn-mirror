@@ -1174,6 +1174,8 @@ int ui_init(int *argc, char **argv)
 #endif
     gtk_init(argc, &argv);
 
+    kbd_hotkey_init();
+
     if (!uidata_init()) {
         log_error(LOG_ERR,
                 "failed to initialize GResource data, don't expected much"
@@ -1549,6 +1551,9 @@ void ui_exit(void)
 
     /* unregister the CBM font */
     archdep_unregister_cbmfont();
+
+    /* deallocate memory used by the unconnected keyboard shortcuts */
+    kbd_hotkey_shutdown();
 
     /* trigger any remaining Gtk/GLib events */
     while (g_main_context_pending(g_main_context_default())) {

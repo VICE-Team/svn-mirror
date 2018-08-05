@@ -46,6 +46,7 @@ typedef struct kbd_gtk3_hotkey_s {
 
 
 void kbd_arch_init(void);
+void kbd_arch_shutdown(void);
 int kbd_arch_get_host_mapping(void);
 void kbd_initialize_numpad_joykeys(int *joykeys);
 void kbd_connect_handlers(GtkWidget *widget, void *data);
@@ -57,6 +58,8 @@ void kbd_connect_handlers(GtkWidget *widget, void *data);
 signed long kbd_arch_keyname_to_keynum(char *keyname);
 const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
+void kbd_hotkey_init(void);
+void kbd_hotkey_shutdown(void);
 gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void));
 gboolean kbd_hotkey_add_list(kbd_gtk3_hotkey_t *list);
 

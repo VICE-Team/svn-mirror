@@ -5,6 +5,7 @@
  * \author  Michael C. Martin <mcmartin@gmail.com>
  * \author  Oliver Schaertel
  * \author  pottendo <pottendo@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -33,6 +34,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
+#include "lib.h"
 #include "log.h"
 #include "ui.h"
 
@@ -48,14 +50,22 @@
 static gboolean kbd_hotkey_handle(GdkEvent *report);
 
 
-/** \brief  Maximum number of Gtk3 hotkeys that can be registered
+/** \brief  Initial size of the hotkeys array
  */
-#define HOTKEYS_MAX 64
+#define HOTKEYS_SIZE_INIT   2
 
 
 /** \brief  List of custom hotkeys
  */
-static kbd_gtk3_hotkey_t hotkeys_list[HOTKEYS_MAX];
+static kbd_gtk3_hotkey_t *hotkeys_list = NULL;
+
+
+/** \brief  Size of the hotkeys array
+ *
+ * This will be HOTKEYS_SIZE_INIT element after initializing and will grow
+ * by doubling its size when the array is full.
+ */
+static int hotkeys_size = 0;
 
 
 /** \brief  Number of registered hotkeys
@@ -88,9 +98,24 @@ int kbd_arch_get_host_mapping(void)
     return KBD_MAPPING_US;
 }
 
+
+/** \brief  Initialize keyboard handling
+ */
 void kbd_arch_init(void)
 {
+    /* do NOT call kbd_hotkey_init(), keyboard.c calls this function *after*
+     * the UI init stuff is called, allocating the hotkeys array again and thus
+     * causing a memory leak
+     */
 }
+
+
+
+void kbd_arch_shutdown(void)
+{
+    /* Also don't call kbd_hotkey_shutdown() here */
+}
+
 
 signed long kbd_arch_keyname_to_keynum(char *keyname)
 {
@@ -182,6 +207,33 @@ void kbd_connect_handlers(GtkWidget *widget, void *data)
     g_signal_connect(G_OBJECT(widget), "leave-notify-event", G_CALLBACK(kbd_event_handler), data);
 }
 
+/*
+ * Hotkeys (keyboard shortcuts not connected to any GtkMenuItem) handling
+ */
+
+
+/** \brief  Initialize the hotkeys
+ *
+ * This allocates an initial hotkeys array of HOTKEYS_SIZE_INIT elements
+ */
+void kbd_hotkey_init(void)
+{
+    debug_gtk3("initializing hotkeys list.");
+    hotkeys_list = lib_malloc(HOTKEYS_SIZE_INIT * sizeof *hotkeys_list);
+    hotkeys_size = HOTKEYS_SIZE_INIT;
+    hotkeys_count = 0;
+}
+
+
+
+/** \brief  Clean up memory used by the hotkeys array
+ */
+void kbd_hotkey_shutdown(void)
+{
+    debug_gtk3("cleaning up memory used by the hotkeys.");
+    lib_free(hotkeys_list);
+}
+
 
 /** \brief  Find hotkey index
  *
@@ -230,14 +282,16 @@ static gboolean kbd_hotkey_handle(GdkEvent *report)
 }
 
 
+/** \brief  Add hotkey to the list
+ *
+ * \param[in]   code        GDK key code
+ * \param[in]   mask        GDK key modifier bitmask
+ * \param[in]   callback    function to call when hotkey is triggered
+ *
+ * \return  bool
+ */
 gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
 {
-    if (hotkeys_count == HOTKEYS_MAX) {
-        log_error(LOG_ERR,
-                "Error: Hotkeys list exhausted, change the HOTKEYS_MAX define"
-                " to allow for more hotkeys.");
-        return FALSE;
-    }
     if (callback == NULL) {
         log_error(LOG_ERR, "Error: NULL passed as callback.");
         return FALSE;
@@ -246,6 +300,17 @@ gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
         log_error(LOG_ERR, "Error: hotkey already registered.");
         return FALSE;
     }
+
+    /* resize list? */
+    if (hotkeys_count == hotkeys_size) {
+        int new_size = hotkeys_size * 2;
+        debug_gtk3("Resizing hotkeys list to %d items.", new_size);
+        hotkeys_list = lib_realloc(
+                hotkeys_list,
+                (size_t)new_size * sizeof *hotkeys_list);
+        hotkeys_size = new_size;
+    }
+
 
     /* register hotkey */
     hotkeys_list[hotkeys_count].code = code;
