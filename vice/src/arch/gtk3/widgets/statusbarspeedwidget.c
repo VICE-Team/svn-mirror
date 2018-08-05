@@ -401,6 +401,13 @@ static gboolean on_widget_clicked(GtkWidget *widget,
                                   GdkEvent *event,
                                   gpointer data)
 {
+    int mouse;
+
+    if (resources_get_int("Mouse", &mouse) < 0) {
+        mouse = 0;
+    }
+    debug_gtk3("mouse grab is %s.", mouse ? "ON" : "OFF");
+
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
         GtkWidget *menu = speed_menu_popup_create();
         gtk_menu_popup_at_widget(GTK_MENU(menu), widget,
@@ -437,6 +444,12 @@ static gboolean on_widget_hover(GtkWidget *widget,
     if (event != NULL) {
 
         GdkDisplay *display;
+        int mouse;
+
+        if (resources_get_int("Mouse", &mouse) < 0) {
+            mouse = 0;
+        }
+        debug_gtk3("mouse grab is %s.", mouse ? "ON" : "OFF");
 
 
         if (event->type == GDK_ENTER_NOTIFY) {
