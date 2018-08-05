@@ -329,6 +329,7 @@ GtkWidget *speed_menu_popup_create(void)
     GtkWidget *menu;
     GtkWidget *submenu;
     GtkWidget *item;
+    GtkWidget *child;
     int warp;
 
     menu = gtk_menu_new();
@@ -348,11 +349,11 @@ GtkWidget *speed_menu_popup_create(void)
     add_separator(menu);
 
     /* pause */
-#ifdef MACOSX_SUPPORT
-    item = gtk_check_menu_item_new_with_label("Pause emulation (Bloemkool+P)");
-#else
     item = gtk_check_menu_item_new_with_label("Pause emulation (Alt+P)");
-#endif
+    child = gtk_bin_get_child(GTK_BIN(item));
+    gtk_label_set_markup(GTK_LABEL(child),
+            "Pause emulation (" VICE_MOD_MASK_HTML "+P)");
+
     if (ui_emulation_is_paused()) {
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
@@ -360,11 +361,10 @@ GtkWidget *speed_menu_popup_create(void)
     g_signal_connect(item, "toggled", G_CALLBACK(on_pause_toggled), NULL);
 
     /* advance frame */
-#ifdef MACOSX_SUPPORT
-    item = gtk_menu_item_new_with_label("Advance frame (Bloemkool+Shift+P)");
-#else
     item = gtk_menu_item_new_with_label("Advance frame (Alt+Shift+P)");
-#endif
+    child = gtk_bin_get_child(GTK_BIN(item));
+    gtk_label_set_markup(GTK_LABEL(child),
+            "Advance frame (" VICE_MOD_MASK_HTML "+Shift+P)");
     if (!ui_emulation_is_paused()) {
         gtk_widget_set_sensitive(item, FALSE);
     }
@@ -373,11 +373,10 @@ GtkWidget *speed_menu_popup_create(void)
             NULL);
 
     /* enable warp mode */
-#ifdef MACOSX_SUPPORT
-    item = gtk_check_menu_item_new_with_label("Enable warp mode (Bloemkool+W)");
-#else
     item = gtk_check_menu_item_new_with_label("Enable warp mode (Alt+W)");
-#endif
+    child = gtk_bin_get_child(GTK_BIN(item));
+    gtk_label_set_markup(GTK_LABEL(child),
+            "Enable warp mode (" VICE_MOD_MASK_HTML "+Shift+P)");
     if (resources_get_int("WarpMode", &warp) < 0) {
         warp = 0;
     }

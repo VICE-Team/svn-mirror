@@ -141,15 +141,15 @@ static int native_monitor_enabled = 0;
  */
 static kbd_gtk3_hotkey_t default_hotkeys[] = {
     /* Alt+P: toggle pause */
-    { GDK_KEY_p, GDK_MOD1_MASK, (void *)ui_toggle_pause },
+    { GDK_KEY_p, VICE_MOD_MASK, (void *)ui_toggle_pause },
     /* Alt+W: toggle warp mode */
-    { GDK_KEY_w, GDK_MOD1_MASK, ui_toggle_warp },
+    { GDK_KEY_w, VICE_MOD_MASK, ui_toggle_warp },
     /* Alt+Shift+P: Advance frame (only when paused)
      *
      * XXX: seems GDK_KEY_*P* is required here, otherwise the key press isn't
      *      recognized (only tested on Win10)
      */
-    { GDK_KEY_P, GDK_MOD1_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
+    { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
 
     /* Arnie */
     { 0, 0, NULL }
