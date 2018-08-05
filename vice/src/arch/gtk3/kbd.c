@@ -52,7 +52,7 @@ static gboolean kbd_hotkey_handle(GdkEvent *report);
 
 /** \brief  Initial size of the hotkeys array
  */
-#define HOTKEYS_SIZE_INIT   2
+#define HOTKEYS_SIZE_INIT   64
 
 
 /** \brief  List of custom hotkeys
