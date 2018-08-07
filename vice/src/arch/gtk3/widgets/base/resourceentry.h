@@ -53,6 +53,7 @@ gboolean vice_gtk3_resource_entry_apply(GtkWidget *widget);
  */
 
 GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource);
+void vice_gtk3_resource_entry_full_disable_auto_update(GtkWidget *widget);
 
 gboolean vice_gtk3_resource_entry_full_set(GtkWidget *entry, const char *new);
 gboolean vice_gtk3_resource_entry_full_get(GtkWidget *widget, const char **dest);

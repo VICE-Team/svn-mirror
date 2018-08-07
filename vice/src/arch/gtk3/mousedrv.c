@@ -96,6 +96,7 @@ int mousedrv_get_y(void)
 
 void mouse_move(float dx, float dy)
 {
+#if 0
     mouse_x += dx;
     mouse_y -= dy;  /* why ? */
 
@@ -112,6 +113,10 @@ void mouse_move(float dx, float dy)
     while (mouse_y >= 65536.0) {
         mouse_y -= 65536.0;
     }
+#endif
+
+    mouse_x = (float)((int)(mouse_x + dx) % 0xffff);
+    mouse_y = (float)((int)(mouse_y - dy) % 0xffff);
 
     mouse_timestamp = vsyncarch_gettime();
 }

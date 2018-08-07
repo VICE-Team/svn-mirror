@@ -339,7 +339,9 @@ static gboolean on_focus_out_event(
         GdkEvent *event,
         gpointer data)
 {
-    resource_entry_full_update_resource(entry);
+    if (resource_widget_get_int(GTK_WIDGET(entry), "AutoUpdate")) {
+        resource_entry_full_update_resource(entry);
+    }
     return TRUE;
 }
 
@@ -360,8 +362,10 @@ static gboolean on_key_press_event(
 {
     GdkEventKey *keyev = (GdkEventKey *)event;
 
-    if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
-        return resource_entry_full_update_resource(entry);
+    if (resource_widget_get_int(GTK_WIDGET(entry), "AutoUpdate")) {
+        if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
+            return resource_entry_full_update_resource(entry);
+        }
     }
     return FALSE;
 }
@@ -394,6 +398,9 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
         current = NULL;
     }
 
+    /* make the widget update the resource on change */
+    resource_widget_set_int(entry, "AutoUpdate", TRUE);
+
     /* store current resource value, so it can be restored via
      * resource_entry_full_reset() */
     if (current != NULL) {
@@ -423,6 +430,17 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
 
     return entry;
 }
+
+
+/** \brief  Disable the auto updating of the bound resource
+ *
+ * \param[in,out]   widget  resource entry widget
+ */
+void vice_gtk3_resource_entry_full_disable_auto_update(GtkWidget *widget)
+{
+    resource_widget_set_int(widget, "AutoUpdate", FALSE);
+}
+
 
 
 /** \brief  Reset the widget to the original resource value
@@ -530,7 +548,5 @@ gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *entry)
  */
 gboolean vice_gtk3_resource_entry_full_apply(GtkWidget *widget)
 {
-    /* TODO: move logic of signal handlers into here */
-    NOT_IMPLEMENTED_WARN_ONLY();
-    return FALSE;
+    return resource_entry_full_update_resource(GTK_ENTRY(widget));
 }

@@ -54,6 +54,7 @@
   sync()    | Synchronize widget with its resource value, only usufull when the resource value is altered outside the widget's code
   factory() | Reset widget and resource value to its factory value
   apply()   | Apply the current value of the widget to its resource (in cases where the widget is told *not* to update the resource when the widget's value changes
+  disable_auto_update() | Inhibit the widget from auto-updating its bound resource
 
   \subsection   Examples
 
