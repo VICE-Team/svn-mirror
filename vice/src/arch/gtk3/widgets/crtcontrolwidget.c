@@ -319,6 +319,7 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
             chip, resource);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+    vice_gtk3_resource_scale_int_set_marks(scale, step);
 
     /* set up custom CSS to make the scale take up less space */
     if (minimal) {
@@ -338,7 +339,7 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
     }
 
     /* don't draw the value next to the scale */
-    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE);
+    /* gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE); */
 
     return scale;
 }
@@ -380,35 +381,35 @@ static void add_sliders(GtkGrid *grid,
 
     oldrow = row;
 
-    label = create_label("Brightness", minimal);
+    label = create_label("Brightness (skincancer chance)", minimal);
     data->color_brightness = create_slider("ColorBrightness", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_brightness, 1, row, 1, 1);
     row++;
 
-    label = create_label("Contrast", minimal);
+    label = create_label("Contrast (level of blindness)", minimal);
     data->color_contrast = create_slider("ColorContrast", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_contrast, 1, row, 1, 1);
     row++;
 
-    label = create_label("Saturation", minimal);
+    label = create_label("Saturation (never!)", minimal);
     data->color_saturation = create_slider("ColorSaturation", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_saturation, 1, row, 1, 1);
     row++;
 
-    label = create_label("Tint", minimal);
+    label = create_label("Tint (Zombie - Wesley Snipes)", minimal);
     data->color_tint = create_slider("ColorTint", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_tint, 1, row, 1, 1);
     row++;
 
-    label = create_label("Gamma", minimal);
+    label = create_label("Gamma (rays)", minimal);
     data->color_gamma = create_slider("ColorGamma", chip,
             0, 4000, 200, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
@@ -417,7 +418,7 @@ static void add_sliders(GtkGrid *grid,
 
     if (!minimal) {
 
-        label = create_label("Blur", minimal);
+        label = create_label("Blur (drinks#)", minimal);
         data->pal_blur = create_slider("PALBlur", chip,
                 0, 1000, 50, minimal);
         gtk_grid_attach(grid, label, 0, row, 1, 1);
@@ -448,7 +449,7 @@ static void add_sliders(GtkGrid *grid,
         /* minimal display: two rows */
 
         row = oldrow;
-        label = create_label("Blur", minimal);
+        label = create_label("Blur (drinks#)", minimal);
         data->pal_blur = create_slider("PALBlur", chip,
                 0, 1000, 50, minimal);
         gtk_grid_attach(grid, label, 2, row, 1, 1);

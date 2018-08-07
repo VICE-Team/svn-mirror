@@ -173,6 +173,7 @@ static GtkWidget *create_slider(
             GTK_ORIENTATION_HORIZONTAL, low, high, step);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+    vice_gtk3_resource_scale_int_set_marks(scale, step);
 
     if (minimal) {
         provider = gtk_css_provider_new();
@@ -190,7 +191,7 @@ static GtkWidget *create_slider(
         }
     }
 
-    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE);
+    /*    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE); */
 
     return scale;
 }

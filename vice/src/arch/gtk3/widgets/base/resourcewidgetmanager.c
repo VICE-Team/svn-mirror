@@ -319,7 +319,17 @@ gboolean vice_resource_widget_manager_factory(resource_widget_manager_t *manager
  */
 gboolean vice_resource_widget_manager_apply(resource_widget_manager_t *manager)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    size_t i;
+
+    printf("iterating widgets:\n");
+    for (i = 0; i < manager->widget_num; i++) {
+        resource_widget_entry_t *entry = manager->widget_list[i];
+        GtkWidget *widget = entry->widget;
+        if (resource_widget_get_auto_update(widget)) {
+            debug_gtk3("updating resource '%s'.", entry->resource);
+        }
+    }
+
     return FALSE;
 }
 
