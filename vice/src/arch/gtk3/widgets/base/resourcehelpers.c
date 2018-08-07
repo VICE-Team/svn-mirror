@@ -234,3 +234,32 @@ gboolean resource_widget_get_method_sync(
 {
     return resource_widget_get_method_helper(widget, sync, "MethodReset");
 }
+
+
+/** \brief  Set the AutoUpdate property of \a widget to \a state
+ *
+ * The AutoUpdate property decides whether a resource-bound widget updates its
+ * value when it changes. This is TRUE by default.
+ *
+ * \param[in,out]   widget  resource-bound widget
+ * \param[in]       state   do auto-update
+ */
+void resource_widget_set_auto_update(GtkWidget *widget, gboolean state)
+{
+    resource_widget_set_int(widget, "AutoUpdate", (int)state);
+}
+
+
+/** \brief  Get the AutoUpdate property of \a widget to \a state
+ *
+ * The AutoUpdate property decides whether a resource-bound widget updates its
+ * value when it changes. This is TRUE by default.
+ *
+ * \param[in,out]   widget  resource-bound widget
+ *
+ * \return  auto-update state
+ */
+gboolean resource_widget_get_auto_update(GtkWidget *widget)
+{
+    return (gboolean)resource_widget_get_int(widget, "AutoUpdate");
+}

@@ -80,7 +80,9 @@ static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
  */
 static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 {
-    vice_gtk3_resource_check_button_apply(check);
+    if (resource_widget_get_auto_update(check)) {
+        vice_gtk3_resource_check_button_apply(check);
+    }
 }
 
 
@@ -108,6 +110,9 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
     }
     /* remember original state for the reset() method */
     resource_widget_set_int(check, "ResourceOrig", state);
+
+    /* set auto-update to true */
+    resource_widget_set_auto_update(check, TRUE);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
             state ? TRUE : FALSE);
@@ -340,3 +345,14 @@ gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget)
     }
     return TRUE;
 }
+
+
+/** \brief  Disable the auto updating of the bound resource
+ *
+ * \param[in,out]   widget  resource check button widget
+ */
+void vice_gtk3_resource_check_button_disable_auto_update(GtkWidget *widget)
+{
+    resource_widget_set_auto_update(widget, FALSE);
+}
+

@@ -38,6 +38,8 @@ GtkWidget * vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
                                                         const char *label,
                                                         ...);
 
+void vice_gtk3_resource_check_button_disable_auto_update(GtkWidget *widget);
+
 gboolean vice_gtk3_resource_check_button_set(GtkWidget *check, gboolean value);
 
 gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest);

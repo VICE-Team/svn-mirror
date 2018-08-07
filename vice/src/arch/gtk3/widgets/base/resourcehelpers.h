@@ -41,6 +41,9 @@ void resource_widget_set_resource_name(GtkWidget *widget, const char *resource);
 const char *resource_widget_get_resource_name(GtkWidget *widget);
 void resource_widget_free_resource_name(GtkWidget *widget);
 
+void     resource_widget_set_auto_update(GtkWidget *widget, gboolean state);
+gboolean resource_widget_get_auto_update(GtkWidget *widget);
+
 void resource_widget_register_methods(
         GtkWidget *widget,
         gboolean (*reset)(GtkWidget *),
