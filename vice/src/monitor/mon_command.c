@@ -44,7 +44,7 @@
 #undef REG_PC
 #endif
 
-#include "mon_parse.h" /* FIXME ! */
+#include "mon_parse.h"
 #include "mon_util.h"
 #include "uimon.h"
 #include "util.h"

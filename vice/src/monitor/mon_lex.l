@@ -59,7 +59,7 @@
 #include "mon_command.h"
 #include "montypes.h"
 #include "asm.h"
-#include "mon_parse.h" /* FIXME ! */
+#include "mon_parse.h"
 #include "types.h"
 
 
