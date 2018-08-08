@@ -290,8 +290,8 @@ void viacore_reset(via_context_t *via_context)
     alarm_unset(via_context->sr_alarm);
     update_myviairq(via_context);
 
-    via_context->oldpa = 0xff;
-    via_context->oldpb = 0xff;
+    via_context->oldpa = 0;
+    via_context->oldpb = 0;
 
     via_context->ca2_state = 1;
     via_context->cb2_state = 1;
