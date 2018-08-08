@@ -321,8 +321,8 @@ void ciacore_reset(cia_context_t *cia_context)
 
     my_set_int(cia_context, 0, *(cia_context->clk_ptr));
 
-    cia_context->old_pa = 0xff;
-    cia_context->old_pb = 0xff;
+    cia_context->old_pa = 0;
+    cia_context->old_pb = 0;
 
     (cia_context->do_reset_cia)(cia_context);
     cia_context->enabled = 1;
