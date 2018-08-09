@@ -58,7 +58,7 @@
  * Probably will require some testing/tweaking to get this to look acceptable
  * with various themes (and OSes).
  */
-#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -4px; margin-bottom: -4px; } scale value { min-width: 5em; }"
+#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -4px; margin-bottom: -4px; } scale value { min-width: 4em; }"
 
 
 /** \brief  CSS for the labels
@@ -307,7 +307,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
     row++;
 
-    label = create_label("Volume (0 - Slayer fan)", minimal, alignment);
+    label = create_label("Volume", minimal, alignment);
     volume = create_volume_widget(minimal);
     gtk_widget_set_hexpand(volume, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
