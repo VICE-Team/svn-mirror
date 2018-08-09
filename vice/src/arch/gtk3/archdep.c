@@ -369,7 +369,7 @@ int archdep_rename(const char *oldpath, const char *newpath)
     return g_rename(oldpath, newpath);
 }
 
-
+#if 0
 /** \brief  Log an error message
  *
  * \param[in]   format  format string
@@ -386,6 +386,8 @@ void archdep_startup_log_error(const char *format, ...)
     ui_error(tmp);
     lib_free(tmp);
 }
+#endif
+
 
 /** \brief  Arch-dependent init
  *

@@ -404,6 +404,7 @@ int archdep_expand_path(char **return_path, const char *filename)
     return 0;
 }
 
+#if 0
 void archdep_startup_log_error(const char *format, ...)
 {
     char *tmp;
@@ -416,6 +417,8 @@ void archdep_startup_log_error(const char *format, ...)
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, tmp, "SDLVICE/2 Startup Error", 0, MB_OK);
     lib_free(tmp);
 }
+#endif
+
 
 char *archdep_quote_parameter(const char *name)
 {

@@ -507,6 +507,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     return 0;
 }
 
+#if 0
 void archdep_startup_log_error(const char *format, ...)
 {
     char *tmp;
@@ -519,6 +520,7 @@ void archdep_startup_log_error(const char *format, ...)
     ui_error(tmp);
     lib_free(tmp);
 }
+#endif
 
 char *archdep_quote_parameter(const char *name)
 {
