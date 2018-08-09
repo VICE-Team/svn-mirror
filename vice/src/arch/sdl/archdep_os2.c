@@ -111,6 +111,7 @@ static const char *illegal_name_tokens = "/\\?*:|\"<>";
 
 static char *argv0;
 
+#if 0
 static char *program_name = NULL;
 
 char *archdep_program_name(void)
@@ -137,6 +138,7 @@ char *archdep_program_name(void)
 
     return program_name;
 }
+#endif
 
 const char *archdep_boot_path(void)
 {

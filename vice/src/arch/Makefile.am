@@ -6,19 +6,19 @@ endif
 
 if NATIVE_GTK3_COMPILE
 
-SUBDIRS = gtk3
+SUBDIRS = gtk3 shared
 
 else
 
 if SDL_COMPILE
 
-SUBDIRS = sdl
+SUBDIRS = sdl shared
 
 else
 
 if WIN32_COMPILE
 
-SUBDIRS = mingw32-pcap
+SUBDIRS = mingw32-pcap shared
 
 endif
 endif

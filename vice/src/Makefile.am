@@ -1236,6 +1236,7 @@ vic_vice_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/VIC20/vice.vpl vic_vice_vpl.h "unsigned char vic_vice_vpl[]"
 endif
 
+archdep_lib = $(top_builddir)/src/arch/shared/libarchdep.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64sc_lib = $(top_builddir)/src/c64/libc64sc.a
@@ -1383,6 +1384,7 @@ EXTRA_PROGRAMS =
 
 # vsid
 vsid_libs =  \
+	$(archdep_lib) \
 	$(vsid_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
@@ -1428,10 +1430,12 @@ vsid-all: \
 	libserial \
 	libcore \
 	libjoyport \
+	libarchdep \
 	vsid$(EXEEXT)
 
 # x64
 x64_libs =  \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(c64_lib) \
 	$(tapeport_lib) \
@@ -1518,6 +1522,7 @@ x64-all: \
 
 # x64sc
 x64sc_libs =  \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(c64sc_lib) \
 	$(tapeport_lib) \
@@ -1604,6 +1609,7 @@ x64sc-all: \
 
 # x64dtv
 x64dtv_libs =  \
+	$(archdep_lib) \
 	$(c64dtv_lib) \
 	$(c64c64dtv_lib) \
 	$(driveiec_lib) \
@@ -1686,6 +1692,7 @@ x64dtv-all: \
 
 # xscpu64
 xscpu64_libs =  \
+	$(archdep_lib) \
 	$(scpu64_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
@@ -1771,6 +1778,7 @@ xscpu64-all: \
 
 # x128
 x128_libs =  \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(c128_lib) \
 	$(tapeport_lib) \
@@ -1863,6 +1871,7 @@ x128-all: \
 
 # xvic
 xvic_libs =  \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(vic20cart_lib) \
 	$(vic20_lib) \
@@ -1944,6 +1953,7 @@ xvic-all: \
 
 # xpet
 xpet_libs =  \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(pet_lib) \
 	$(diag_lib) \
@@ -2019,6 +2029,7 @@ xpet-all: \
 
 # xplus4
 xplus4_libs =  \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(plus4_lib) \
 	$(diag_lib) \
@@ -2098,6 +2109,7 @@ xplus4-all: \
 
 # xcbm2
 xcbm2_libs = \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(xcbm2_lib) \
 	$(diag_lib) \
@@ -2173,6 +2185,7 @@ xcbm2-all: \
 
 # xcbm5x0
 xcbm5x0_libs = \
+	$(archdep_lib) \
 	$(tapeport_lib) \
 	$(xcbm5x0_lib) \
 	$(diag_lib) \
@@ -2275,6 +2288,7 @@ endif
 # libs too then.
 c1541_LDADD = \
 	$(ARCH_EXTRA_OBJECTS) \
+	$(archdep_lib) \
 	$(p64_lib) \
 	$(blockdev_lib) \
 	$(realdevice_lib) \
@@ -2319,6 +2333,7 @@ petcat_SOURCES = \
 
 petcat_LDADD = \
 	$(ARCH_EXTRA_OBJECTS) \
+	$(archdep_lib) \
 	$(fileio_lib) \
 	$(socketdrv_lib) \
 	@SDL_EXTRA_LIBS@ \
@@ -2344,13 +2359,17 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv \
 	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv \
 	libmididrv libsocketdrv libhwsiddrv libiodrv libdiskimage libfsdevice \
-	libtape libarch libvicii libviciisc libviciidtv libviciivsid libvdc \
-	libsid libcrtc libvideo libserial libparallel libcore libiecbus \
-	libfileio librtc libuserport libtapeport libp64 libscpu64 libdiag \
+	libtape libarch libarchdep libvicii libviciisc libviciidtv \
+	libviciivsid libvdc libsid libcrtc libvideo libserial libparallel \
+	libcore libiecbus libfileio librtc libuserport libtapeport libp64 \
+	libscpu64 libdiag \
 	@RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
 	@(cd arch && $(MAKE))
+libarchdep:
+	@(echo "making libarchdep.a")
+	@(cd arch/shared && $(MAKE))
 libc128:
 	@echo "making all in c128"
 	@(cd c128 && $(MAKE))

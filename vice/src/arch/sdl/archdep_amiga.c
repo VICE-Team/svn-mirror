@@ -236,6 +236,7 @@ static int archdep_init_extra(int *argc, char **argv)
     return 0;
 }
 
+#if 0
 char *archdep_program_name(void)
 {
     static char *program_name = NULL;
@@ -253,6 +254,7 @@ char *archdep_program_name(void)
 
     return program_name;
 }
+#endif
 
 const char *archdep_boot_path(void)
 {

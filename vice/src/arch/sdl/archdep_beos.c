@@ -91,6 +91,7 @@ static int archdep_init_extra(int *argc, char **argv)
     return 0;
 }
 
+#if 0
 static char *program_name = NULL;
 
 char *archdep_program_name(void)
@@ -118,6 +119,7 @@ char *archdep_program_name(void)
 
     return program_name;
 }
+#endif
 
 static char *boot_path = NULL;
 

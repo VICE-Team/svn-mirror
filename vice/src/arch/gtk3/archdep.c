@@ -86,7 +86,7 @@ const char *archdep_pref_path = NULL;
 #include "archdep_win32.c"
 #endif
 
-
+#if 0
 /** \brief  Get the program name
  *
  * This returns the final part of argv[0], as if basename were used.
@@ -100,7 +100,7 @@ char *archdep_program_name(void)
     }
     return program_name;
 }
-
+#endif
 
 /** \brief  Get the user's home directory
  *
