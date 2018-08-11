@@ -55,6 +55,7 @@ SUBDIRS = \
 	pet \
 	plus4 \
 	cbm2 \
+	arch\shared \
 	arch \
 	lib \
 	hvsc
@@ -1425,12 +1426,13 @@ vsid-all: \
 	libiodrv \
 	libviciivsid \
 	libvideo \
+	libarchdep \
 	libarch \
+	libarchdep \
 	libmonitor \
 	libserial \
 	libcore \
 	libjoyport \
-	libarchdep \
 	vsid$(EXEEXT)
 
 # x64
@@ -1505,6 +1507,7 @@ x64-all: \
 	librs232drv \
 	libvicii \
 	libvideo \
+	libarchdep \
 	libarch \
 	libmonitor \
 	libdiskimage \
@@ -1592,6 +1595,7 @@ x64sc-all: \
 	librs232drv \
 	libviciisc \
 	libvideo \
+	libarchdep \
 	libarch \
 	libmonitor \
 	libdiskimage \

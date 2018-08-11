@@ -111,4 +111,8 @@ extern int archdep_rtc_get_centisecond(void);
 /* archdep extra title text */
 extern char *archdep_extra_title_text(void);
 
+
+extern char *archdep_join_paths(const char *path, ...);
+
+
 #endif

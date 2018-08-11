@@ -13,9 +13,12 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libarchdep.a
 
 libarchdep_a_SOURCES = \
+	archdep_join_paths.c \
 	archdep_program_name.c \
 	archdep_startup_log_error.c
 
 EXTRA_DIST = \
+	archdep_defs.h \
+	archdep_join_paths.h \
 	archdep_program_name.h \
 	archdep_startup_log_error.h
