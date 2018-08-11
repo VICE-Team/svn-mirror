@@ -70,6 +70,7 @@
 #include "uisidattach.h"
 #include "mixerwidget.h"
 #include "uidata.h"
+#include "archdep.h"
 
 #include "ui.h"
 
@@ -1560,6 +1561,9 @@ void ui_exit(void)
         debug_gtk3("processing pending event.");
         g_main_context_iteration(g_main_context_default(), TRUE);
     }
+
+    /* clean up program name */
+    archdep_program_name_free();
 
 
     /* FIXME: this has to go */

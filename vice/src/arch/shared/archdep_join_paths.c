@@ -48,7 +48,7 @@
  *
  * \return  heap-allocated string, free with lib_free()
  */
-char *archep_join_paths(const char *path, ...)
+char *archdep_join_paths(const char *path, ...)
 {
     const char *arg;
     char *result;

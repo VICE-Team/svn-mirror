@@ -52,6 +52,8 @@
 # include "windows.h"
 #endif
 
+#include "archdep_join_paths.h"
+
 #include "archdep_program_name.h"
 
 
@@ -80,6 +82,7 @@ static char buffer[4096];
  */
 char *archdep_program_name(void)
 {
+
     /* if we already have found the program name, just return it */
     if (program_name != NULL) {
         return program_name;

@@ -28,6 +28,6 @@
 #ifndef VICE_ARCHDEP_JOIN_PATHS_H
 #define VICE_ARCHDEP_JOIN_PATHS_H
 
-char *archep_join_paths(const char *path, ...);
+char *archdep_join_paths(const char *path, ...);
 
 #endif
