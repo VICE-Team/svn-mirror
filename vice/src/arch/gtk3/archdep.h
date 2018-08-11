@@ -109,6 +109,4 @@ bool archdep_register_cbmfont(void);
 /* Unregister CBM font */
 void archdep_unregister_cbmfont(void);
 
-extern char *archdep_join_paths(const char *path, ...);
-
 #endif

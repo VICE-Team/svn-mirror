@@ -522,6 +522,7 @@ void archdep_startup_log_error(const char *format, ...)
 }
 #endif
 
+#if 0
 char *archdep_quote_parameter(const char *name)
 {
     char *a;
@@ -529,6 +530,7 @@ char *archdep_quote_parameter(const char *name)
     a = util_concat("\"", name, "\"", NULL);
     return a;
 }
+#endif
 
 char *archdep_filename_parameter(const char *name)
 {

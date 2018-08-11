@@ -453,10 +453,12 @@ char *archdep_filename_parameter(const char *name)
     return lib_stralloc(name);
 }
 
+#if 0
 char *archdep_quote_parameter(const char *name)
 {
     return lib_stralloc(name);
 }
+#endif
 
 char *archdep_tmpnam(void)
 {

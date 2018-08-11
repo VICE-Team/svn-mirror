@@ -140,6 +140,7 @@ int archdep_path_is_relative(const char *path)
 }
 
 
+#if 0
 /** \brief  Quote \a name for use as a parameter in exec() etc calls
  *
  * Surounds \a name with double-quotes and replaces brackets with escaped
@@ -165,6 +166,7 @@ char *archdep_quote_parameter(const char *name)
     return lib_stralloc(name);
 #endif
 }
+#endif
 
 
 /** \brief  Quote \a name with double quotes
