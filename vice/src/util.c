@@ -115,7 +115,7 @@ char *util_concat(const char *s, ...)
         strcpy(ptr + 1, ptr + 2);
     }
 #else
-    log_error(LOG_ERR, "%s(): Amiga-specific-hack removed.");
+    log_error(LOG_ERR, "%s(): Amiga-specific-hack removed.", __func__);
 #endif
 
 #endif
