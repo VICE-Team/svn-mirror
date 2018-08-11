@@ -97,6 +97,10 @@ char *util_concat(const char *s, ...)
     *ptr = '\0';
     va_end(ap);
 
+    /* FIXME:   util_concat() is a generic function to join strings together,
+     *          so any Amiga-specific path handling should not be here at all.
+     *          If you need to build paths, use archdep_join_paths() --compyx
+     */
 #ifdef AMIGA_SUPPORT
     /* util_concat is often used to build complete paths, but the AmigaOS paths
      * are a little special as they should look like <device>:<directory>/<file>
@@ -106,10 +110,13 @@ char *util_concat(const char *s, ...)
      *     An alternative would be to override the fopen commands to make it
      * possible to make this change as needed when opening the file.
      */
-
+#if 0
     while ((ptr = strstr(newp, ":/")) != NULL) {
         strcpy(ptr + 1, ptr + 2);
     }
+#else
+    log_error(LOG_ERR, "%s(): Amiga-specific-hack removed.");
+#endif
 
 #endif
     DBG(("util_concat %p - %s\n", newp, newp));
