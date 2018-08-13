@@ -229,17 +229,20 @@ char *archdep_make_backup_filename(const char *fname)
 
 void archdep_shutdown(void)
 {
+    /* free memory used by the exec path */
+    archdep_program_path_free();
+    /* free memory used by the exec name */
+    archdep_program_name_free();
+
     if (default_path != NULL) {
         lib_free(default_path);
     }
+    /* do we need this anymore? argv is guaranteed to exist during the program
+     * lifetime and we already set a reference to argv[0] with
+     * archdep_program_path_set_argv0() */
     if (argv0 != NULL) {
         lib_free(argv0);
         argv0 = NULL;
-    }
-
-    if (program_name != NULL) {
-        lib_free(program_name);
-        program_name = NULL;
     }
 
     /* archdep_network_shutdown(); */

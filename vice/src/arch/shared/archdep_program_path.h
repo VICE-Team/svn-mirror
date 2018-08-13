@@ -1,7 +1,18 @@
-/** \file   archdep_program_name.h
- * \brief   Retrieve name of currently running binary - header
- *
+/** \file   archdep_program_path.h
+ * \brief   Retrieve path of currently running binary - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Get path to running executable.
+ *
+ * OS support:
+ *  - Linux
+ *  - Windows
+ *  - MacOS
+ *  - BeOS/Haiku (untested)
+ *  - AmigaOS (untested)
+ *  - OS/2 (untested)
+ *  - MS-DOS (untested)
+ *
  */
 
 /*
@@ -25,10 +36,13 @@
  *
  */
 
-#ifndef VICE_ARCHDEP_PROGRAM_NAME_H
-#define VICE_ARCHDEP_PROGRAM_NAME_H
+#ifndef VICE_ARCHDEP_PROGRAM_PATH_H
+#define VICE_ARCHDEP_PROGRAM_PATH_H
 
-char *  archdep_program_name(void);
-void    archdep_program_name_free(void);
+#include "vice.h"
+
+void    archdep_program_path_set_argv0(char *argv0);
+char *  archdep_program_path(void);
+void    archdep_program_path_free(void);
 
 #endif

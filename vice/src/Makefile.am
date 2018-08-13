@@ -1310,7 +1310,7 @@ resid_dtv_libs = @RESID_DTV_LIBS@
 ffmpeg_libs = @FFMPEG_LIBS@
 
 # external libraries required for all emulators
-emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@
+emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@ $(archdep_lib)
 
 driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
@@ -1426,7 +1426,6 @@ vsid-all: \
 	libiodrv \
 	libviciivsid \
 	libvideo \
-	libarchdep \
 	libarch \
 	libarchdep \
 	libmonitor \
@@ -1507,7 +1506,6 @@ x64-all: \
 	librs232drv \
 	libvicii \
 	libvideo \
-	libarchdep \
 	libarch \
 	libmonitor \
 	libdiskimage \
@@ -1595,7 +1593,6 @@ x64sc-all: \
 	librs232drv \
 	libviciisc \
 	libvideo \
-	libarchdep \
 	libarch \
 	libmonitor \
 	libdiskimage \

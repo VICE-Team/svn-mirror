@@ -307,21 +307,25 @@ char *archdep_make_backup_filename(const char *fname)
  */
 void archdep_shutdown(void)
 {
+    /* free memory used by the exec path */
+    archdep_program_path_free();
+    /* free memory used by the exec name */
+    archdep_program_name_free();
+
     if (default_path != NULL) {
         lib_free(default_path);
     }
+
+    /* this should be removed soon */
     if (argv0 != NULL) {
         lib_free(argv0);
         argv0 = NULL;
     }
 
+    /* probably has something to do with archdep_program_path() */
     if (boot_path_bin != NULL) {
         lib_free(boot_path_bin);
         boot_path_bin = NULL;
-    }
-    if (program_name != NULL) {
-        lib_free(program_name);
-        program_name = NULL;
     }
 
     archdep_network_shutdown();

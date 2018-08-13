@@ -62,7 +62,7 @@ static void archdep_shutdown_extra(void);
 
 int archdep_init(int *argc, char **argv)
 {
-    archdep_program_name_set_argv0(argv[0]);
+    archdep_program_path_set_argv0(argv[0]);
 
 
     if (SDL_REALINIT(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
@@ -77,6 +77,9 @@ static char *extra_title_text = NULL;
 
 void archdep_shutdown(void)
 {
+    archdep_program_name_free();
+    archdep_program_path_free();
+
     SDL_Quit();
 #ifdef HAVE_NETWORK
     archdep_network_shutdown();

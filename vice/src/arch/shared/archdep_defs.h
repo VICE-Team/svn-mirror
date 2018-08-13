@@ -42,5 +42,9 @@
 # define ARCHDEP_DIR_SEPARATOR  '/'
 #endif
 
+/** \brief  Extension used for autostart disks
+ */
+#define ARCHDEP_AUTOSTART_DICK_EXTENSION    "d64"
+
 
 #endif

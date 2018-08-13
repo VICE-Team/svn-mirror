@@ -68,11 +68,6 @@
 static char *argv0 = NULL;
 
 
-/** \brief  The name of the binary currently running
- */
-static char *program_name = NULL;
-
-
 /** \brief  Path to the preferences directory of the emu
  */
 const char *archdep_pref_path = NULL;
@@ -410,8 +405,8 @@ int archdep_init(int *argc, char **argv)
 #endif
     argv0 = lib_stralloc(argv[0]);
 
-    /* set argv0 for program_name() calls (yes this sucks) */
-    archdep_program_name_set_argv0(argv[0]);
+    /* set argv0 for program_name()/boot_path() calls (yes this sucks) */
+    archdep_program_path_set_argv0(argv[0]);
 
     archdep_create_user_config_dir();
 

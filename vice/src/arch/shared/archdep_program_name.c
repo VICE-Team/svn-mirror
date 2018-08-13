@@ -63,7 +63,7 @@
 # include "windows.h"
 #endif
 
-#include "archdep_join_paths.h"
+#include "archdep_program_path.h"
 
 #include "archdep_program_name.h"
 
@@ -76,35 +76,8 @@
 static char *program_name = NULL;
 
 
-/** \brief  Reference to argv[0], set during init
- *
- * Not all systems have a way to get the binary path, or require C++ code,
- * so this will have to do, for now.
- */
-static char *argv0_ref = NULL;
-
-
-/** \brief  Buffer used to get the (absolute) path to the binary
- */
-static char buffer[4096];
-
-
-/** \brief  Set argv[0] reference
- *
- * No need to copy argv[0], the argv array is guaranteed to exist during a
- * program's lifetime in the C standard.
- *
- * \param[in]   argv0   value of argv[0]
- */
-void archdep_program_name_set_argv0(char *argv0)
-{
-    argv0_ref = argv0;
-}
-
-
 #if defined(WIN32_COMPILE) || defined(OS2_COMPILE) || \
     defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-
 /** \brief  Helper function for Windows and OS/2
  *
  * \param[in]   buf string to parse binary name from
@@ -169,16 +142,24 @@ static char *prg_name_unix(char *buf)
  */
 char *archdep_program_name(void)
 {
+    char *execpath;
+
     /* if we already have found the program name, just return it */
     if (program_name != NULL) {
         return program_name;
     }
 
+
+    execpath = archdep_program_path();
+    if (execpath == NULL) {
+        log_error(LOG_ERR, "bollocks");
+        exit(1);
+    }
+
 #ifdef AMIGA_SUPPORT
     char *p;
 
-    GetProgramName(buffer, 4096);
-    p = FilePart(buffer);
+    p = FilePart(execpath);
     if (p != NULL) {
         program_name = lib_stralloc(p);
     } else {
@@ -199,45 +180,16 @@ char *archdep_program_name(void)
      *      OpenBSD:    ???
      */
 
-# ifdef MACOSX_SUPPORT
-    /* get path via libproc */
-    pid_t pid;
-
-    pid = getpid();
-    if (proc_pidpath(pid, buffer, 4096) <= 0) {
-        log_error(LOG_ERR, "proc_pidpath() failed for PID %d.", (int)pid);
-        exit(1);
-    }
-
-# else
-    /* Linux-specific */
-    if (readlink("/proc/self/exe", buffer, 4096) < 0) {
-        log_error(LOG_ERR, "failed to retrieve program name.");
-        exit(1);
-    }
-# endif
-    program_name = prg_name_unix(buffer);
+    program_name = prg_name_unix(execpath);
 #endif
 
-#ifdef WIN32_COMPILE
-    if (GetModuleFileName(NULL, buffer, 4096) == 4096) {
-        log_error(LOG_ERR, "failed to retrieve program name.");
-        exit(1);
-    }
-    program_name = prg_name_win32_os2(buffer);
-#endif
-
-#ifdef OS2_COMPILE
-    program_name = prg_name_win32_os2(argv0_ref);
-#endif
-
-#if defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-    program_name = prg_name_win32_os2(argv0_ref);
+#if defined(WIN32_COMPILE) || defined(OS2_COMPILE) || \
+    defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
+    program_name = prg_name_win32_os2(execpath);
 #endif
 
 #ifdef BEOS_COMPILE
-    /* this requires the argv0 hack */
-    program_name = prg_name_unix(argv0);
+    program_name = prg_name_unix(execpath);
 #endif
 
     printf("%s: got program name '%s'\n", __func__, program_name);
