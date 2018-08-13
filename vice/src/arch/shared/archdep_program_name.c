@@ -199,8 +199,6 @@ char *archdep_program_name(void)
      *      OpenBSD:    ???
      */
 
-    char *p;
-
 # ifdef MACOSX_SUPPORT
     /* get path via libproc */
     pid_t pid;
