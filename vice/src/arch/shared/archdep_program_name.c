@@ -1,7 +1,18 @@
 /** \file   archdep_program_name.c
  * \brief   Retrieve name of currently running binary
- *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Get name of running executable, stripping path and extension (if present).
+ *
+ * OS support:
+ *  - Linux
+ *  - Windows
+ *  - MacOS
+ *  - BeOS/Haiku (untested)
+ *  - AmigaOS (untested)
+ *  - OS/2 (untested)
+ *  - MS-DOS (untested)
+ *
  */
 
 /*
@@ -91,7 +102,63 @@ void archdep_program_name_set_argv0(char *argv0)
 }
 
 
+#if defined(WIN32_COMPILE) || defined(OS2_COMPILE) || \
+    defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
 
+/** \brief  Helper function for Windows and OS/2
+ *
+ * \param[in]   buf string to parse binary name from
+ *
+ * \return  heap-allocated binary name, free with lib_free()
+ */
+static char *prg_name_win32_os2(char *buf)
+{
+    char *s;
+    char *e;
+    size_t len;
+    char *tmp;
+
+    s = strrchr(buf, '\\');
+    if (s == NULL) {
+        s = buf;
+    } else {
+        s++;
+    }
+    e = strchr(s, '.');
+    if (e == NULL) {
+        e = buf + strlen(buf);
+    }
+    len = (int)(e - s + 1);
+    tmp = lib_malloc(len);
+    memcpy(tmp, s, len - 1);
+    tmp[len - 1] = 0;
+
+    return tmp;
+}
+#endif
+
+
+#ifdef UNIX_COMPILE
+/** \brief  Helper function for Unix-ish systems
+ *
+ * \param[in]   buf string to parse binary name from
+ *
+ * \return  heap-allocated binary name, free with lib_free()
+ */
+static char *prg_name_unix(char *buf)
+{
+    char *p;
+    char *tmp;
+
+    p = strrchr(buffer, '/');
+    if (p == NULL) {
+        tmp = lib_stralloc(buffer);
+    } else {
+        tmp = lib_stralloc(p + 1);
+    }
+    return tmp;
+}
+#endif
 
 /** \brief  Get name of the currently running binary
  *
@@ -151,38 +218,28 @@ char *archdep_program_name(void)
         exit(1);
     }
 # endif
-    p = strrchr(buffer, '/');
-    if (p == NULL) {
-        program_name = lib_stralloc(buffer);
-    } else {
-        program_name = lib_stralloc(p + 1);
-    }
+    program_name = prg_name_unix(buffer);
 #endif
 
 #ifdef WIN32_COMPILE
-    char *s;
-    char *e;
-    int len;
-
     if (GetModuleFileName(NULL, buffer, 4096) == 4096) {
         log_error(LOG_ERR, "failed to retrieve program name.");
         exit(1);
     }
+    program_name = prg_name_win32_os2(buffer);
+#endif
 
-    s = strrchr(buffer, '\\');
-    if (s == NULL) {
-        s = buffer;
-    } else {
-        s++;
-    }
-    e = strchr(s, '.');
-    if (e == NULL) {
-        e = buffer + strlen(buffer);
-    }
-    len = (int)(e - s + 1);
-    program_name = lib_malloc(len);
-    memcpy(program_name, s, len - 1);
-    program_name[len - 1] = 0;
+#ifdef OS2_COMPILE
+    program_name = prg_name_win32_os2(argv0_ref);
+#endif
+
+#if defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
+    program_name = prg_name_win32_os2(argv0_ref);
+#endif
+
+#ifdef BEOS_COMPILE
+    /* this requires the argv0 hack */
+    program_name = prg_name_unix(argv0);
 #endif
 
     printf("%s: got program name '%s'\n", __func__, program_name);
