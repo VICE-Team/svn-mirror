@@ -28,6 +28,7 @@
 #ifndef VICE_ARCHDEP_PROGRAM_NAME_H
 #define VICE_ARCHDEP_PROGRAM_NAME_H
 
+void archdep_program_name_set_argv0(char *argv0);
 char *  archdep_program_name(void);
 void    archdep_program_name_free(void);
 

@@ -43,6 +43,7 @@ extern void archdep_startup_log_error(const char *format, ...);
 
 /* Filesystem related functions.  */
 extern const char *archdep_home_path(void);
+extern void archdep_program_name_set_argv0(char *argv0);
 extern char *archdep_program_name(void);
 extern char *archdep_program_name_free(void);
 extern const char *archdep_boot_path(void);

@@ -64,13 +64,33 @@
  */
 static char *program_name = NULL;
 
-#if 0
-static char *argv0 = "x64sc.exe";
-#endif
+
+/** \brief  Reference to argv[0], set during init
+ *
+ * Not all systems have a way to get the binary path, or require C++ code,
+ * so this will have to do, for now.
+ */
+static char *argv0_ref = NULL;
+
 
 /** \brief  Buffer used to get the (absolute) path to the binary
  */
 static char buffer[4096];
+
+
+/** \brief  Set argv[0] reference
+ *
+ * No need to copy argv[0], the argv array is guaranteed to exist during a
+ * program's lifetime in the C standard.
+ *
+ * \param[in]   argv0   value of argv[0]
+ */
+void archdep_program_name_set_argv0(char *argv0)
+{
+    argv0_ref = argv0;
+}
+
+
 
 
 /** \brief  Get name of the currently running binary
@@ -82,7 +102,6 @@ static char buffer[4096];
  */
 char *archdep_program_name(void)
 {
-
     /* if we already have found the program name, just return it */
     if (program_name != NULL) {
         return program_name;
