@@ -123,9 +123,9 @@ static char *prg_name_unix(char *buf)
     char *p;
     char *tmp;
 
-    p = strrchr(buffer, '/');
+    p = strrchr(buf, '/');
     if (p == NULL) {
-        tmp = lib_stralloc(buffer);
+        tmp = lib_stralloc(buf);
     } else {
         tmp = lib_stralloc(p + 1);
     }
