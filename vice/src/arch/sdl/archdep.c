@@ -79,6 +79,7 @@ void archdep_shutdown(void)
 {
     archdep_program_name_free();
     archdep_program_path_free();
+    archdep_boot_path_free();
 
     SDL_Quit();
 #ifdef HAVE_NETWORK

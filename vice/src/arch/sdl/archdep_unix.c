@@ -79,12 +79,6 @@
 static const char *illegal_name_tokens = "/";
 
 
-static char *argv0 = NULL;
-#if 0
-static char *boot_path = NULL;
-#endif
-static char *program_name = NULL;
-
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
@@ -104,27 +98,7 @@ int archdep_rtc_get_centisecond(void)
 
 static int archdep_init_extra(int *argc, char **argv)
 {
-    ssize_t read;
-#if !defined(USE_PROC_SELF_EXE)
-    /* first try to get exe name from argv[0] */
-    if (argv[0]) {
-        argv0 = lib_stralloc(argv[0]);
-        return 0;
-    }
-#endif
-    argv0 = lib_malloc(ioutil_maxpathlen());
-    read = readlink("/proc/self/exe", argv0, ioutil_maxpathlen() - 1);
-
-    if (read == -1) {
-        return 1;
-    } else {
-        argv0[read] = '\0';
-    }
-    /* FIXME: bad name of define, this probably should not be here either */
-#ifdef USE_PROC_SELF_EXE
-    /* set this up now to remove extra .vice directory */
     archdep_pref_path = archdep_boot_path();
-#endif
     return 0;
 }
 
@@ -676,12 +650,6 @@ int archdep_require_vkbd(void)
 
 static void archdep_shutdown_extra(void)
 {
-    lib_free(argv0);
-    lib_free(boot_path);
-    if (program_name != NULL) {
-        lib_free(program_name);
-        program_name = NULL;
-    }
 }
 
 /******************************************************************************/
