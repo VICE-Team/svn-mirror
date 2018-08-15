@@ -179,6 +179,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     return 0;
 }
 
+#if 0
 /** \brief  Get the absolute path to the VICE dir
  *
  * \return  Path to VICE's directory
@@ -187,6 +188,8 @@ char boot_path[MAX_PATH];
 const char *archdep_boot_path(void)
 {
     char *checkpath;
+
+    printf("%s:%s(): CALLED\n", __FILE__, __func__);
 
     GetModuleFileName(NULL, boot_path, MAX_PATH);
 
@@ -199,6 +202,7 @@ const char *archdep_boot_path(void)
 
     return boot_path;
 }
+#endif
 
 /** \brief  Get the absolute path to the directory that contains resources, icons, etc
  *

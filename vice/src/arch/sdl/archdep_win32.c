@@ -275,6 +275,7 @@ char *archdep_program_name(void)
 }
 #endif
 
+#if 0
 char boot_path[MAX_PATH];
 
 const char *archdep_boot_path(void)
@@ -292,6 +293,7 @@ const char *archdep_boot_path(void)
 
     return boot_path;
 }
+#endif
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {

@@ -75,7 +75,9 @@
 static const char *illegal_name_tokens = "/?*:";
 
 
+#if 0
 static char *boot_path = NULL;
+#endif
 static int run_from_wb = 0;
 
 #ifndef AMIGA_OS4
@@ -256,6 +258,7 @@ char *archdep_program_name(void)
 }
 #endif
 
+#if 0
 const char *archdep_boot_path(void)
 {
     if (boot_path == NULL) {
@@ -273,6 +276,7 @@ const char *archdep_boot_path(void)
 
     return boot_path;
 }
+#endif
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {

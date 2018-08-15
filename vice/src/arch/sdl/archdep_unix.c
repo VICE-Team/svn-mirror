@@ -80,7 +80,9 @@ static const char *illegal_name_tokens = "/";
 
 
 static char *argv0 = NULL;
+#if 0
 static char *boot_path = NULL;
+#endif
 static char *program_name = NULL;
 
 /* alternate storage of preferences */
@@ -144,6 +146,7 @@ char *archdep_program_name(void)
 }
 #endif
 
+#if 0
 const char *archdep_boot_path(void)
 {
     if (boot_path == NULL) {
@@ -161,6 +164,7 @@ const char *archdep_boot_path(void)
 
     return boot_path;
 }
+#endif
 
 const char *archdep_home_path(void)
 {

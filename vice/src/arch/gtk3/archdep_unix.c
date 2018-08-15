@@ -237,6 +237,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 }
 
 
+#if 0
 /** \brief  Get the absolute path to the VICE dir
  *
  * \return  Path to VICE's directory
@@ -257,6 +258,7 @@ const char *archdep_boot_path(void)
 
     return boot_path_bin;
 }
+#endif
 
 /** \brief  Get the absolute path to the directory that contains resources, icons, etc
  *
