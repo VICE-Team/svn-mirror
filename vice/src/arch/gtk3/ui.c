@@ -1185,8 +1185,8 @@ int ui_init(int *argc, char **argv)
 
     debug_gtk3("Registering CBM font.");
     if (!archdep_register_cbmfont()) {
-        debug_gtk3("failed.");
-        log_error(LOG_ERR, "failed to rgister CBM font.");
+        debug_gtk3("failed, continuing");
+        log_error(LOG_ERR, "failed to register CBM font.");
     }
 
     ui_statusbar_init();
