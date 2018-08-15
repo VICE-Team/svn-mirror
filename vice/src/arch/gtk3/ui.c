@@ -1564,6 +1564,8 @@ void ui_exit(void)
 
     /* clean up program name */
     archdep_program_name_free();
+    /* clean up boot path */
+    archdep_boot_path_free();
 
 
     /* FIXME: this has to go */

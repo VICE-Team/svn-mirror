@@ -56,6 +56,7 @@ extern char *archdep_program_name_free(void);
 
 
 extern const char *archdep_boot_path(void);
+void archdep_boot_path_free(void);
 extern char *archdep_default_sysfile_pathlist(const char *emu_id);
 extern int archdep_path_is_relative(const char *path);
 extern int archdep_expand_path(char **return_path, const char *filename);
