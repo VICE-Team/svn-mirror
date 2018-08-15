@@ -191,6 +191,7 @@ void hvsc_text_file_init_handle(hvsc_text_file_t *handle)
  */
 bool hvsc_text_file_open(const char *path, hvsc_text_file_t *handle)
 {
+    printf("%s(): opening '%s'\n", __func__, path);
     hvsc_text_file_init_handle(handle);
 
     handle->fp = fopen(path, "rb");
@@ -489,7 +490,11 @@ char *hvsc_paths_join(const char *p1, const char *p2)
     }
 
     memcpy(result, p1, len1);
+#if defined(_WIN32) || defined(_WIN64)
+    *(result + len1) = '\\';
+#else
     *(result + len1) = '/';
+#endif
     memcpy(result + len1 + 1, p2, len2 + 1);    /* add p2 including '\0' */
 
     return result;
@@ -601,6 +606,25 @@ char *hvsc_path_strip_root(const char *path)
     }
 
     return hvsc_strdup(path);
+}
+
+
+/** \brief  Translate all backslashes into forward slashes
+ *
+ * Since entries in the SLDB, STIL and BUGlist are listed with forward slashes,
+ * on Windows we'll need to fix the directory separators to allow strcmp() to
+ * work.
+ *
+ * \param[in,out]   path    pathname to fix
+ */
+void hvsc_path_fix_separators(char *path)
+{
+    while (*path != '\0') {
+        if (*path == '\\') {
+            *path = '/';
+        }
+        path++;
+    }
 }
 
 

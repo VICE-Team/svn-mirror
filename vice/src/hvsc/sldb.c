@@ -297,6 +297,10 @@ char *hvsc_sldb_get_entry_txt(const char *psid)
 
     /* strip HVSC root from path */
     path = hvsc_path_strip_root(psid);
+#if defined(_WIN32) || defined(_WIN64)
+    /* fix directory separators */
+    hvsc_path_fix_separators(path);
+#endif
     if (path == NULL) {
         return NULL;
     }

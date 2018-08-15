@@ -84,6 +84,7 @@ const char *hvsc_text_file_read(hvsc_text_file_t *handle);
 void        hvsc_text_file_close(hvsc_text_file_t *handle);
 
 char *      hvsc_path_strip_root(const char *path);
+void        hvsc_path_fix_separators(char *path);
 bool        hvsc_string_is_empty(const char *s);
 bool        hvsc_string_is_comment(const char *s);
 long        hvsc_parse_simple_timestamp(char *t, char **endptr);
