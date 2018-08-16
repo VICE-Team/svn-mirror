@@ -53,6 +53,11 @@
 /* some includes */
 #endif
 
+#ifdef UNIX_COMPILE
+# include <unistd.h>
+# include <sys/types.h>
+# include <pwd.h>
+#endif
 
 #ifdef WIN32_COMPILE
 # include "windows.h"
