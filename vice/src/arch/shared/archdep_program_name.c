@@ -86,8 +86,8 @@ static char *program_name = NULL;
  */
 static char *prg_name_win32_os2(const char *buf)
 {
-    char *s;
-    char *e;
+    const char *s;
+    const char *e;
     size_t len;
     char *tmp;
 
@@ -120,7 +120,7 @@ static char *prg_name_win32_os2(const char *buf)
  */
 static char *prg_name_unix(const char *buf)
 {
-    char *p;
+    const char *p;
     char *tmp;
 
     p = strrchr(buf, '/');
