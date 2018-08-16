@@ -85,8 +85,3 @@ char *archdep_user_config_path(void)
     printf("%s(): USER_CONFIG_PATH = '%s'\n", __func__, path);
     return path;
 }
-
-
-
-
-

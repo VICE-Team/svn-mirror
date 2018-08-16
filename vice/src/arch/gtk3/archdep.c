@@ -330,7 +330,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     return fdopen(fd, mode);
 }
 
-
+#if 0
 /** \brief  Create directory \a pathname
  *
  * \param[in]   pathname    path/name of new directory
@@ -342,7 +342,7 @@ int archdep_mkdir(const char *pathname, int mode)
 {
     return g_mkdir(pathname, mode); /* mode is ignored on Windows */
 }
-
+#endif
 
 /** \brief  Remove directory \a pathname
  *

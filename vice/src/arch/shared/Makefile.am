@@ -16,6 +16,7 @@ libarchdep_a_SOURCES = \
 	archdep_boot_path.c \
 	archdep_home_path.c \
 	archdep_join_paths.c \
+	archdep_mkdir.c \
 	archdep_program_name.c \
 	archdep_program_path.c \
 	archdep_quote_parameter.c \
@@ -27,6 +28,7 @@ EXTRA_DIST = \
 	archdep_boot_path.h \
 	archdep_home_path.h \
 	archdep_join_paths.h \
+	archdep_mkdir.h \
 	archdep_program_name.h \
 	archdep_program_path.h \
 	archdep_quote_parameter.h \

@@ -576,6 +576,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 }
 
 
+#if 0
 int archdep_mkdir(const char *pathname, int mode)
 {
 #ifndef __NeXT__
@@ -584,6 +585,7 @@ int archdep_mkdir(const char *pathname, int mode)
     return mkdir(pathname, mode);
 #endif
 }
+#endif
 
 int archdep_rmdir(const char *pathname)
 {

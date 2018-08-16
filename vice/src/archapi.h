@@ -56,13 +56,13 @@ void        archdep_boot_path_free(void);
 const char *archdep_home_path(void);
 void        archdep_home_path_free(void);
 
+int         archdep_mkdir(const char *pathname, int mode);
 
 extern char *archdep_default_sysfile_pathlist(const char *emu_id);
 extern int archdep_path_is_relative(const char *path);
 extern int archdep_expand_path(char **return_path, const char *filename);
 extern void archdep_sanitize_filename(char *name);
 extern char *archdep_make_backup_filename(const char *fname);
-extern int archdep_mkdir(const char *pathname, int mode);
 extern int archdep_rmdir(const char *pathname);
 extern int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir);
 extern int archdep_rename(const char *oldpath, const char *newpath);
