@@ -227,7 +227,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     } else if (*orig_name == '~' && *(orig_name +1) == '/') {
         *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
     } else {
-        static char *cwd;
+        char *cwd;
 
         cwd = ioutil_current_dir();
         *return_path = util_concat(cwd, "/", orig_name, NULL);
