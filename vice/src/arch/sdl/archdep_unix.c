@@ -140,6 +140,7 @@ const char *archdep_boot_path(void)
 }
 #endif
 
+#if 0
 const char *archdep_home_path(void)
 {
     /* FIXME: bad name of define */
@@ -164,7 +165,7 @@ const char *archdep_home_path(void)
     return home;
 #endif
 }
-
+#endif
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     static char *default_path;

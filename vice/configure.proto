@@ -401,6 +401,8 @@ if test x"$check_gtk3" = "xyes"; then
       *mingw32)
           host_os=mingw32-gtk3
           is_win32_gtk3=yes
+          dnl Required for GetUserProfileDirectoryA
+          LIBS="$LIBS -luserenv"
           ;;
     esac
 
@@ -417,7 +419,6 @@ if test x"$check_gtk3" = "xyes"; then
     found_gui=gtk3
 
 
-    LIBS="$LIBS -luserenv"
   fi
 fi
 
@@ -649,6 +650,14 @@ if test x"$check_sdl2" = "xyes"; then
         enable_sdlui=no
         enable_sdlui2=yes
         found_gui=sdl2
+
+        case "$host_os" in
+          *mingw32)
+            dnl Required for GetUserProfileDirectoryA
+            LIBS="$LIBS -luserenv"
+            ;;
+        esac
+
       fi
     fi
   fi

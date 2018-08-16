@@ -2,14 +2,20 @@
  * \brief   Retrieve home directory of current user
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Retrieve the home directory of the current user on systems that have a
+ * concept of a home directory. On systems that don't have a home dir '.' is
+ * returned (PROGDIR: in the case of AmigaOS).
+ * Of course on systems that don't have a home dir, this function simply
+ * shouldn't be used, archdep_boot_path() might be a better function.
+ *
  * OS support:
  *  - Linux
  *  - Windows
  *  - MacOS
- *  - BeOS/Haiku (untested)
- *  - AmigaOS (untested)
- *  - OS/2 (untested)
- *  - MS-DOS (untested)
+ *  - BeOS/Haiku (untested, always returns '/home')
+ *  - AmigaOS (untested, always returns 'PROGDIR:')
+ *  - OS/2 (untested, always returns '.')
+ *  - MS-DOS (untested, always returns '.')
  *
  */
 
@@ -47,24 +53,21 @@
 /* some includes */
 #endif
 
-/* for readlink(2) */
-#ifdef UNIX_COMPILE
-# #include "pwd.h"
-#endif
 
-#ifdef MACOSX_SUPPORT
-# include <libproc.h>
-#endif
-
-/* for GetModuleFileName() */
 #ifdef WIN32_COMPILE
 # include "windows.h"
+/* for GetUserProfileDirectoryA() */
 # include "userenv.h"
 #endif
 
 #include "archdep_home_path.h"
 
 
+/** \brief  home directory reference
+ *
+ * Allocated once in the first call to archdep_home_path(), should be freed
+ * on emulator exit with archdep_home_path_free()
+ */
 static char *home_dir = NULL;
 
 
@@ -103,8 +106,6 @@ char *archdep_home_path(void)
     LPDWORD lpcchSize = &bufsize;
     DWORD err;
 
-
-
     /* get process token handle, whatever the hell that means */
     if (!OpenProcessToken(GetCurrentProcess(),
                           TOKEN_ALL_ACCESS,
@@ -112,23 +113,32 @@ char *archdep_home_path(void)
         err = GetLastError();
         printf("failed to get process token: 0x%lx.\n", err);
         home_dir = lib_stralloc(".");
-        return home_dir;
-    }
+    } else {
 
-    /* now get the user profile directory with more weird garbage */
-    home_dir = lib_calloc(bufsize, 1);
-    if (!GetUserProfileDirectoryA(token_handle,
-                                  home_dir,
-                                  lpcchSize)) {
-        /* error */
-        err = GetLastError();
-        printf("failed to get user profile root directory: 0x%lx.\n");
-        /* set home dir to "." */
-        home_dir[0] = '.';
-        home_dir[1] = '\0';
+        /* now get the user profile directory with more weird garbage */
+        home_dir = lib_calloc(bufsize, 1);
+        if (!GetUserProfileDirectoryA(token_handle,
+                                      home_dir,
+                                      lpcchSize)) {
+            /* error */
+            err = GetLastError();
+            printf("failed to get user profile root directory: 0x%lx.\n", err);
+            /* set home dir to "." */
+            home_dir[0] = '.';
+            home_dir[1] = '\0';
+        }
     }
-    return home_dir;
+#elif defined(BEOS_COMPILE)
+    /* Beos/Haiku is single-user */
+    home_dir = lib_stralloc("/home");
+#elif defined(AMIGA_SUPPORT)
+    /* single user: use the path to the executable as the "home" dir */
+    home_dir = lib_stralloc("PROGDIR:");
+#else
+    /* all others: */
+    home_dir = lib_stralloc(".");
 #endif
+    return home_dir;
 }
 
 
