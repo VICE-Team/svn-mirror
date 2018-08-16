@@ -27,7 +27,7 @@
 #ifndef VICE_ARCHDEP_HOME_PATH
 #define VICE_ARCHDEP_HOME_PATH
 
-char *  archdep_home_path(void);
-void    archdep_home_path_free(void);
+const char *archdep_home_path(void);
+void        archdep_home_path_free(void);
 
 #endif

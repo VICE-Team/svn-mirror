@@ -92,7 +92,7 @@ void archdep_program_path_set_argv0(char *argv0)
  *
  * \return  absolute path to running executable
  */
-char *archdep_program_path(void)
+const char *archdep_program_path(void)
 {
     if (program_path != NULL) {
         /* already got it, return */

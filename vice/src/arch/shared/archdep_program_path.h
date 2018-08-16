@@ -41,8 +41,8 @@
 
 #include "vice.h"
 
-void    archdep_program_path_set_argv0(char *argv0);
-char *  archdep_program_path(void);
-void    archdep_program_path_free(void);
+void        archdep_program_path_set_argv0(char *argv0);
+const char *archdep_program_path(void);
+void        archdep_program_path_free(void);
 
 #endif

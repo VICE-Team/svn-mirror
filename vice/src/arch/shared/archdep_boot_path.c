@@ -81,9 +81,9 @@ static char *boot_path = NULL;
  *
  * \return  directory of running binary
  */
-char *archdep_boot_path(void)
+const char *archdep_boot_path(void)
 {
-    char *full_path;
+    const char *full_path;
     char *p;
 
     printf("%s:%s(): CALLED\n", __FILE__, __func__);

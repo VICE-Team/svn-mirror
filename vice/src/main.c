@@ -100,7 +100,7 @@ static int init_done = 0;
 int main_program(int argc, char **argv)
 {
     int i, n;
-    char *program_name;
+    const char *program_name;
     int ishelp = 0;
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;

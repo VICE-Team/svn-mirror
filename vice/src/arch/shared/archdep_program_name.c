@@ -140,7 +140,7 @@ static char *prg_name_unix(char *buf)
  *
  * \return  program name
  */
-char *archdep_program_name(void)
+const char *archdep_program_name(void)
 {
     char *execpath;
 

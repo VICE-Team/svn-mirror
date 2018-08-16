@@ -27,7 +27,7 @@
 #ifndef VICE_ARCHDEP_BOOT_PATH_H
 #define VICE_ARCHDEP_BOOT_PATH_H
 
-char *  archdep_boot_path(void);
-void    archdep_boot_path_free(void);
+const char *archdep_boot_path(void);
+void        archdep_boot_path_free(void);
 
 #endif

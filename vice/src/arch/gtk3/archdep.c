@@ -398,7 +398,7 @@ void archdep_startup_log_error(const char *format, ...)
 int archdep_init(int *argc, char **argv)
 {
 #ifdef HAVE_DEBUG_GTK3UI
-    char *prg_name;
+    const char *prg_name;
     char *cfg_path;
     char *searchpath;
     char *vice_ini;

@@ -77,7 +77,7 @@ static char *home_dir = NULL;
  *
  * \return  user's home directory
  */
-char *archdep_home_path(void)
+const char *archdep_home_path(void)
 {
 #ifdef UNIX_COMPILE
     char *home;
@@ -151,3 +151,4 @@ void archdep_home_path_free(void)
         home_dir = NULL;
     }
 }
+

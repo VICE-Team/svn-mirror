@@ -28,7 +28,7 @@
 #ifndef VICE_ARCHDEP_PROGRAM_NAME_H
 #define VICE_ARCHDEP_PROGRAM_NAME_H
 
-char *  archdep_program_name(void);
-void    archdep_program_name_free(void);
+const char *archdep_program_name(void);
+void        archdep_program_name_free(void);
 
 #endif
