@@ -67,6 +67,6 @@ void archdep_startup_log_error(const char *format, ...)
             "SDLVICE/2 Startup Error", 0, MB_OK);
 #endif
 
-    fprintf(stderr, tmp);
+    fprintf(stderr, "%s", tmp);
     lib_free(tmp);
 }
