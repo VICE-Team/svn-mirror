@@ -405,6 +405,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
+#if 0
 int archdep_path_is_relative(const char *path)
 {
     if (path == NULL) {
@@ -415,6 +416,7 @@ int archdep_path_is_relative(const char *path)
 
     return !((isalpha(path[0]) && path[1] == ':') || path[0] == '/' || path[0] == '\\');
 }
+#endif
 
 #ifndef WATCOM_COMPILE
 #ifndef _S_IREAD

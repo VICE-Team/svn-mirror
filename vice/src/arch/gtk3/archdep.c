@@ -125,6 +125,7 @@ char *archdep_user_config_path(void)
 }
 #endif
 
+#if 0
 /** \brief  Determine if \a path is an absolute path
  *
  * \param[in]   path    some path
@@ -135,6 +136,7 @@ int archdep_path_is_relative(const char *path)
 {
     return !g_path_is_absolute(path);
 }
+#endif
 
 
 #if 0

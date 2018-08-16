@@ -251,6 +251,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
+#if 0
 int archdep_path_is_relative(const char *path)
 {
     if (path == NULL) {
@@ -259,6 +260,7 @@ int archdep_path_is_relative(const char *path)
 
     return *path != '/';
 }
+#endif
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {

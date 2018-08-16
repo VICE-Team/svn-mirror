@@ -247,10 +247,12 @@ int archdep_default_logger(const char *lvl, const char *txt)
     return 0;
 }
 
+#if 0
 int archdep_path_is_relative(const char *path)
 {
     return !(isalpha(path[0]) && path[1] == ':' && (path[2] == '/' || path[2] == '\\') || (path[0] == '/' || path[0] == '\\'));
 }
+#endif
 
 static int archdep_search_path(const char *name, char *pBuf, int lBuf)
 {
