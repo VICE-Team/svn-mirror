@@ -84,7 +84,7 @@ static char *program_name = NULL;
  *
  * \return  heap-allocated binary name, free with lib_free()
  */
-static char *prg_name_win32_os2(char *buf)
+static char *prg_name_win32_os2(const char *buf)
 {
     char *s;
     char *e;
@@ -118,7 +118,7 @@ static char *prg_name_win32_os2(char *buf)
  *
  * \return  heap-allocated binary name, free with lib_free()
  */
-static char *prg_name_unix(char *buf)
+static char *prg_name_unix(const char *buf)
 {
     char *p;
     char *tmp;
@@ -142,7 +142,7 @@ static char *prg_name_unix(char *buf)
  */
 const char *archdep_program_name(void)
 {
-    char *execpath;
+    const char *execpath;
 
     /* if we already have found the program name, just return it */
     if (program_name != NULL) {

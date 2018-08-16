@@ -97,7 +97,7 @@ const char *archdep_home_path(void)
     if (home == NULL) {
         struct passwd *pwd;
 
-        pwd = getpwduid(getuid());
+        pwd = getpwuid(getuid());
         if (pwd == NULL) {
             home = ".";
         } else {
