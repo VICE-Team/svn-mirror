@@ -415,6 +415,9 @@ if test x"$check_gtk3" = "xyes"; then
     enable_sdlui=no
     enable_sdlui2=no
     found_gui=gtk3
+
+
+    LIBS="$LIBS -luserenv"
   fi
 fi
 

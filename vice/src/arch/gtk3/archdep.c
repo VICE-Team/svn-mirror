@@ -97,6 +97,7 @@ char *archdep_program_name(void)
 }
 #endif
 
+#if 0
 /** \brief  Get the user's home directory
  *
  * \return  current user's home directory
@@ -105,6 +106,7 @@ const char *archdep_home_path(void)
 {
     return g_get_home_dir();
 }
+#endif
 
 
 /** \brief  Get user configuration directory

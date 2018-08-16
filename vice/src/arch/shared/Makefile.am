@@ -14,6 +14,7 @@ noinst_LIBRARIES = libarchdep.a
 
 libarchdep_a_SOURCES = \
 	archdep_boot_path.c \
+	archdep_home_path.c \
 	archdep_join_paths.c \
 	archdep_program_name.c \
 	archdep_program_path.c \
@@ -23,6 +24,7 @@ libarchdep_a_SOURCES = \
 EXTRA_DIST = \
 	archdep_defs.h \
 	archdep_boot_path.h \
+	archdep_home_path.h \
 	archdep_join_paths.h \
 	archdep_program_name.h \
 	archdep_program_path.h \

@@ -43,20 +43,19 @@ extern void archdep_startup_log_error(const char *format, ...);
 
 /* Filesystem related functions.  */
 
-extern const char *archdep_home_path(void);
+const char *archdep_home_path(void);
+void        archdep_home_path_free(void);
 
+void     archdep_program_path_set_argv0(char *argv0);
+char *   archdep_program_path(void);
+void     archdep_program_path_free(void);
 
-extern void     archdep_program_path_set_argv0(char *argv0);
-extern char *   archdep_program_path(void);
-extern void     archdep_program_path_free(void);
+char *  archdep_program_name(void);
+char *  archdep_program_name_free(void);
 
+char *  archdep_boot_path(void);
+void    archdep_boot_path_free(void);
 
-extern char *archdep_program_name(void);
-extern char *archdep_program_name_free(void);
-
-
-extern const char *archdep_boot_path(void);
-void archdep_boot_path_free(void);
 extern char *archdep_default_sysfile_pathlist(const char *emu_id);
 extern int archdep_path_is_relative(const char *path);
 extern int archdep_expand_path(char **return_path, const char *filename);
