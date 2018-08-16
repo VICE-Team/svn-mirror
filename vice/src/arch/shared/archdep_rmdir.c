@@ -35,6 +35,7 @@
 #endif
 
 #ifdef UNIX_COMPILE
+# include <unistd.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 #endif
