@@ -57,9 +57,9 @@ char *archdep_join_paths(const char *path, ...)
     size_t result_len;
     size_t len;
     va_list ap;
-
+#if 0
     printf("%s: first argument: '%s'\n", __func__, path);
-
+#endif
     /* silly way to use a varags function, but lets catch it anyway */
     if (path == NULL) {
         return NULL;
@@ -83,7 +83,9 @@ char *archdep_join_paths(const char *path, ...)
     /* now concatenate arguments into a pathname */
     va_start(ap, path);
     while ((arg = va_arg(ap, const char *)) != NULL) {
+#if 0
         printf("%s: adding '%s' to the result.", __func__, arg);
+#endif
         len = strlen(arg);
         *endptr++ = ARCHDEP_DIR_SEPARATOR;
         memcpy(endptr, arg, len + 1);

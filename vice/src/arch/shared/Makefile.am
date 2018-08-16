@@ -19,7 +19,8 @@ libarchdep_a_SOURCES = \
 	archdep_program_name.c \
 	archdep_program_path.c \
 	archdep_quote_parameter.c \
-	archdep_startup_log_error.c
+	archdep_startup_log_error.c \
+	archdep_user_config_path.c
 
 EXTRA_DIST = \
 	archdep_defs.h \
@@ -29,4 +30,5 @@ EXTRA_DIST = \
 	archdep_program_name.h \
 	archdep_program_path.h \
 	archdep_quote_parameter.h \
-	archdep_startup_log_error.h
+	archdep_startup_log_error.h \
+	archdep_user_config_path.h

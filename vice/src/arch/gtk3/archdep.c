@@ -108,7 +108,7 @@ const char *archdep_home_path(void)
 }
 #endif
 
-
+#if 0
 /** \brief  Get user configuration directory
  *
  * \return  heap-allocated string, free after use with lib_free()
@@ -123,7 +123,7 @@ char *archdep_user_config_path(void)
     g_free(tmp);
     return path;
 }
-
+#endif
 
 /** \brief  Determine if \a path is an absolute path
  *
