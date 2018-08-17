@@ -267,9 +267,11 @@ const char *archdep_boot_path(void)
 char *archdep_get_vice_datadir(void)
 {
 #ifdef MACOSX_BUNDLE
-    debug_gtk3("FIXME: archdep_get_vice_datadir '%s%s'.",
-            archdep_boot_path(), "/../gui/");
-    return util_concat(archdep_boot_path(), "/../gui/", NULL);
+    char *user_config_path = archdep_user_config_path();
+    char *res = util_concat(user_config_path, "/gui/", NULL);
+    debug_gtk3("FIXME: archdep_get_vice_datadir '%s'.", res);
+    lib_free(user_config_path);
+    return res;
 #else
     return util_concat(LIBDIR, "/gui/", NULL);
 #endif
