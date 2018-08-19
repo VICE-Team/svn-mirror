@@ -414,6 +414,7 @@ int archdep_spawn(const char *name, char **argv, char **stdout_redir, const char
     return -1;
 }
 
+#if 0
 /* return malloc'd version of full pathname of orig_name */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
@@ -433,6 +434,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     *return_path = lib_stralloc(orig_name);
     return 0;
 }
+#endif
 
 
 /** \brief  Sanitize \a path by removing invalid characters for the current OS

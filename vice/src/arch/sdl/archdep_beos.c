@@ -311,6 +311,7 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     }
 }
 
+#if 0
 /* return malloced version of full pathname of orig_name */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
@@ -318,6 +319,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     *return_path = lib_stralloc(orig_name);
     return 0;
 }
+#endif
 
 #if 0
 void archdep_startup_log_error(const char *format, ...)

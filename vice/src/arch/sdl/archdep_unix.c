@@ -427,7 +427,7 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     }
 }
 
-
+#if 0
 /** \brief  Return malloc'd version of full pathname of orig_name
  *
  * Returns the absolute path of \a orig_name. Expands '~' to the user's home
@@ -454,7 +454,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     }
     return 0;
 }
-
+#endif
 
 #if 0
 void archdep_startup_log_error(const char *format, ...)

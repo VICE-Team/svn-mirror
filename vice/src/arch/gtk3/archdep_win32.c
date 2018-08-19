@@ -163,6 +163,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 }
 
 
+#if 0
 /** \brief  Generate a heap-allocated absolute path from \a orig_name
  *
  * \param[out]  return_path object to store path in
@@ -178,6 +179,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     *return_path = lib_stralloc(orig_name);
     return 0;
 }
+#endif
 
 #if 0
 /** \brief  Get the absolute path to the VICE dir

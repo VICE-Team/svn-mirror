@@ -43,6 +43,8 @@ extern void archdep_startup_log_error(const char *format, ...);
 
 /* Filesystem related functions.  */
 
+/* XXX: refactored into src/arch/shared/ : */
+
 void        archdep_program_path_set_argv0(char *argv0);
 const char *archdep_program_path(void);
 void        archdep_program_path_free(void);
@@ -59,9 +61,13 @@ void        archdep_home_path_free(void);
 int         archdep_mkdir(const char *pathname, int mode);
 int         archdep_rmdir(const char *pathname);
 
+char    *   archdep_join_paths(const char *path, ...);
+int         archdep_path_is_relative(const char *path);
+int         archdep_expand_path(char **return_path, const char *filename);
+
+/* XXX: still to refactor: */
+
 extern char *archdep_default_sysfile_pathlist(const char *emu_id);
-extern int archdep_path_is_relative(const char *path);
-extern int archdep_expand_path(char **return_path, const char *filename);
 extern void archdep_sanitize_filename(char *name);
 extern char *archdep_make_backup_filename(const char *fname);
 extern int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir);
@@ -122,9 +128,6 @@ extern int archdep_rtc_get_centisecond(void);
 
 /* archdep extra title text */
 extern char *archdep_extra_title_text(void);
-
-
-extern char *archdep_join_paths(const char *path, ...);
 
 
 #endif

@@ -25,10 +25,10 @@
  */
 
 
-#include <stdlib.h>
 #include "vice.h"
-#include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "log.h"
 

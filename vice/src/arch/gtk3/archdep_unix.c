@@ -207,7 +207,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     return lib_stralloc(default_path);
 }
 
-
+#if 0
 /** \brief  Generate heap-allocated full pathname of \a orig_name
  *
  * Returns the absolute path of \a orig_name. Expands '~' to the user's home
@@ -235,6 +235,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     }
     return 0;
 }
+#endif
 
 
 #if 0
