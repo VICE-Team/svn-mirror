@@ -47,7 +47,7 @@
 
 /* <sys/select.h> is required for select(2) and fd_set */
 #if defined(HAVE_SYS_SELECT_H) || \
-    defined(MINIX_SUPPORT) || defined(OPENSERVER6_COMPILE) || \
+    defined(OPENSERVER6_COMPILE) || \
     (defined(__QNX__) && !defined(__QNXNTO__))
 #include <sys/select.h>
 #endif
@@ -199,13 +199,7 @@ static int mididrv_oss_in(uint8_t *b)
     FD_SET(fd_in, &rdset);
     ti.tv_sec = ti.tv_usec = 0;
 
-#ifndef MINIXVMD
-    /* for now this change will break MIDI support on Minix-vmd
-       till I can implement the same functionality using the
-       poll() function */
-
     ret = select(fd_in + 1, &rdset, NULL, NULL, &ti);
-#endif
 
     if (ret && (FD_ISSET(fd_in, &rdset))) {
         n = read(fd_in, b, 1);

@@ -168,11 +168,8 @@ const char *archdep_home_path(void)
 #endif
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
+    /* wrong */
     static char *default_path;
-
-#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
-    static char *default_path_temp;
-#endif
 
     if (default_path == NULL) {
         const char *boot_path;
@@ -184,21 +181,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
            and then in the `boot_path'.  */
 
-#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
-        default_path_temp = util_concat(LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                        home_path, "/", VICEUSERDIR, "/", emu_id, NULL);
-
-        default_path = util_concat(default_path_temp, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/PRINTER", NULL);
-        lib_free(default_path_temp);
-
-#else
 #if defined(MACOSX_BUNDLE)
         /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
         #define MACOSX_ROMDIR "/../Resources/ROM/"
@@ -224,7 +206,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                                    LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    boot_path, "/PRINTER", NULL);
-#endif
 #endif
     }
 

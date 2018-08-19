@@ -53,7 +53,9 @@
 
 #ifdef UNIX_COMPILE
 
-#if !defined(MINIX_SUPPORT) && !defined(OPENSTEP_COMPILE) && !defined(RHAPSODY_COMPILE) && !defined(NEXTSTEP_COMPILE)
+/* to be removed later */
+#if !defined(OPENSTEP_COMPILE) && !defined(RHAPSODY_COMPILE) \
+    && !defined(NEXTSTEP_COMPILE)
 
 #ifdef __svr4__
 #define _POSIX_SOURCE

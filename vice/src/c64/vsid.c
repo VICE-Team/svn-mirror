@@ -37,6 +37,9 @@
  * all iec/drive/printer/cartridge can be removed and replaced by stubs in
  * vsidstubs.c
  */
+#if 0
+#include "vsid-cmdline-options.h"
+#endif
 #include "c64-resources.h"
 #include "c64-snapshot.h"
 #include "c64.h"
@@ -69,6 +72,9 @@
 #include "vsidui.h"
 #include "vsid-debugcart.h"
 #include "vsync.h"
+
+extern int vsid_cmdline_options_init(void);
+
 
 machine_context_t machine_context;
 
@@ -132,6 +138,10 @@ void machine_resources_shutdown(void)
 /* C64-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
+    if (vsid_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("c64");
+        return -1;
+    }
 #if defined(USE_SDLUI) || defined(USE_SDLUI2)
     if (vicii_cmdline_options_init() < 0) {
         init_cmdline_options_fail("vicii");

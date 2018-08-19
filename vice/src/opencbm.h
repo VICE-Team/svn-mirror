@@ -105,7 +105,7 @@ typedef unsigned char __u_char;
 typedef unsigned char __u_char;
 #endif
 
-#if defined(__minix) || defined(OPENSERVER5_COMPILE) || defined(__QNXNTO__)
+#if defined(OPENSERVER5_COMPILE) || defined(__QNXNTO__)
 typedef unsigned char __u_char;
 #endif
 

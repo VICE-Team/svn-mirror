@@ -26,10 +26,6 @@
 
 #define _CRT_SECURE_NO_DEPRECATE
 
-#ifdef _minix_vmd
-#define _MINIX_SOURCE
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,6 +36,7 @@
 #define NEED_STRDUP
 #endif
 
+/* really? */
 #ifdef ultrix
 #define NEED_STRDUP
 #endif
