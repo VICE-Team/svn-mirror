@@ -30,8 +30,10 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
+#include "util.h"
 
 #include "archdep_home_path.h"
 
