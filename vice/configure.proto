@@ -68,6 +68,8 @@ VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of 
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 
+AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
+
 dnl this hack is needed because the default for the auto-tools
 dnl is 'no', and we want the default to be 'yes' unless
 dnl '--disable-option-checking' is used.
@@ -444,32 +446,53 @@ if test x"$check_sdl2" = "xyes"; then
 
   found_sdl2=no
 
-  dnl Check for sdl2-config
-  AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
-  if test x"$sdl2_config" != "x"; then
-    CFLAGS="$CFLAGS `$sdl2_config --cflags`"
-    CXXFLAGS="$CXXFLAGS `$sdl2_config --cflags`"
-    LIBS="$LIBS `$sdl2_config --libs`"
+  dnl Check for SDL2.framework
+  if test x"$FW_DIR" != "x"; then
+    CFLAGS="$CFLAGS -F$FW_DIR"
+    CXXFLAGS="$CXXFLAGS -F$FW_DIR"
+    LIBS="$LIBS -F$FW_DIR -framework SDL2"
 
-    dnl Determine whether we need to add SDL2/ as a prefix.
-    AC_MSG_CHECKING(whether SDL2 requires a prefix on includes)
-    AC_TRY_LINK([#include <SDL2/SDL_render.h>],
+    AC_MSG_CHECKING(for SDL2.framework)
+    AC_TRY_LINK([#include <SDL2/SDL.h>],
                 [SDL_GetNumRenderDrivers()],
                 [AC_MSG_RESULT(yes);
                  use_sdl_prefix=no;
                  use_sdl2_prefix=yes;
                  found_sdl2=yes],
-                [AC_MSG_RESULT(no)])
+                [AC_MSG_RESULT(no);
+                 CFLAGS=$old_cflags;
+                 CXXFLAGS=$old_cxxflags;
+                 LIBS=$old_libs])
+  fi
 
-    if test x"$found_sdl2" != "xyes"; then
-      AC_MSG_CHECKING(whether SDL2 works without a prefix)
-      AC_TRY_LINK([#include <SDL_render.h>],
+  if test x"$found_sdl2" != "xyes"; then
+    dnl Check for sdl2-config
+    AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
+    if test x"$sdl2_config" != "xno"; then
+      CFLAGS="$CFLAGS `$sdl2_config --cflags`"
+      CXXFLAGS="$CXXFLAGS `$sdl2_config --cflags`"
+      LIBS="$LIBS `$sdl2_config --libs`"
+
+      dnl Determine whether we need to add SDL2/ as a prefix.
+      AC_MSG_CHECKING(whether SDL2 requires a prefix on includes)
+      AC_TRY_LINK([#include <SDL2/SDL_render.h>],
                   [SDL_GetNumRenderDrivers()],
                   [AC_MSG_RESULT(yes);
                    use_sdl_prefix=no;
-                   use_sdl2_prefix=no;
+                   use_sdl2_prefix=yes;
                    found_sdl2=yes],
                   [AC_MSG_RESULT(no)])
+
+      if test x"$found_sdl2" != "xyes"; then
+        AC_MSG_CHECKING(whether SDL2 works without a prefix)
+        AC_TRY_LINK([#include <SDL_render.h>],
+                    [SDL_GetNumRenderDrivers()],
+                    [AC_MSG_RESULT(yes);
+                     use_sdl_prefix=no;
+                     use_sdl2_prefix=no;
+                     found_sdl2=yes],
+                    [AC_MSG_RESULT(no)])
+      fi
     fi
   fi
 
@@ -478,8 +501,8 @@ if test x"$check_sdl2" = "xyes"; then
     CFLAGS=$old_cflags
     CXXFLAGS=$old_cxxflags
     LIBS=$old_libs
-  
-    if x"$enable_sdlui2" = "xyes"; then
+
+    if test x"$enable_sdlui2" = "xyes"; then
       AC_MSG_ERROR([SDL2 UI requested, but SDL2 is missing])
     fi
   fi
@@ -509,14 +532,14 @@ if test x"$check_sdl2" = "xyes"; then
                     [AC_MSG_RESULT(yes);
                      USE_SDL_AUDIO_SUPPORT="yes";
                      AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                    [AC_MSG_RESULT(no);])                     
+                    [AC_MSG_RESULT(no);])
       else
         AC_TRY_LINK([#include <SDL_audio.h>],
                     [SDL_OpenAudio(NULL, NULL)],
                     [AC_MSG_RESULT(yes);
                      USE_SDL_AUDIO_SUPPORT="yes";
                      AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                    [AC_MSG_RESULT(no);])                     
+                    [AC_MSG_RESULT(no);])
       fi
 
       dnl fail if --with-sdlsound was given
@@ -1570,7 +1593,7 @@ darwin*)
       else
         CFLAGS="$CFLAGS $optimization_c $warnings_c"
         CXXFLAGS="$CXXFLAGS $optimization_cxx $warnings_cxx"
-      fi 
+      fi
     fi
   fi
 
@@ -1716,7 +1739,7 @@ dnl All other UN*X systems
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
   if test x"$enable_midi" != "xno"; then
-    AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.]) 
+    AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     HAVE_MIDI_SUPPORT="yes"
   fi
   if test x"$enable_rs232" != "xno"; then
@@ -1865,7 +1888,7 @@ AC_CHECK_LIB(iconv, libiconv_open,,)
 dnl Check for a perl interpreter.
 AC_PATH_PROG(PERL, perl)
 AC_SUBST(PERL)
- 
+
 dnl Check if --param inline-unit-growth=60 can be used.
 old_CFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -Werror --param inline-unit-growth=60"
@@ -2234,7 +2257,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
                     [AC_DEFINE(HAVE_LIBUSBHID_H,1,
                       [Define to 1 if you have the <libusbhid.h> header file.])
                     usb_header=yes])
- 
+
     if test x"$usb_header" = "xyes" ; then
       AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
       JOY_LIBS="-lusbhid"
@@ -2262,7 +2285,7 @@ fi
 
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
   dnl --- Mac joystick support ---
-  
+
   dnl check for HID Manager
   if test x"$enable_hidmgr" != "xno" ; then
     AC_CHECK_HEADER(IOKit/hid/IOHIDManager.h,,)
@@ -2287,7 +2310,7 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
       LIBS="${old_LIBS}"
     fi
   fi
-  
+
   dnl check for HID utility library
   if test x"$enable_hidutils" != "xno" ; then
     AC_CHECK_HEADER(HID_Utilities_External.h,,)
@@ -2497,7 +2520,7 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_unix_macosx" = "xyes" ; then
           AC_MSG_RESULT($have_broken_ss_family)
           if test x$have_broken_ss_family = xyes ; then
             AC_DEFINE(NEED_PREFIXED_SS_FAMILY, [],
-            [Whether struct sockaddr::__ss_family exists]) 
+            [Whether struct sockaddr::__ss_family exists])
             AC_DEFINE(ss_family, __ss_family,
             [ss_family is not defined here, use __ss_family instead])
           else
@@ -2641,7 +2664,7 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
 
   if test x"$valid_ffmpeg_platform" = "xyes"; then
     AC_MSG_RESULT([via pkg-config])
-    PKG_CHECK_MODULES(FFMPEG_AV,  [libavcodec libavformat libavutil], 
+    PKG_CHECK_MODULES(FFMPEG_AV,  [libavcodec libavformat libavutil],
       [old_CFLAGS=$CFLAGS
        old_CPPFLAGS=$CPPFLAGS
        CFLAGS="$CFLAGS $FFMPEG_AV_CFLAGS"
@@ -2980,7 +3003,7 @@ dnl --- Lame ---
 if test x"$enable_lame" != "xno" ; then
 
   AC_CHECK_HEADER(lame/lame.h,,)
-  
+
   dnl the header is available!
   if test "$ac_cv_header_lame_lame_h" != "no" ; then
     AC_MSG_CHECKING([for lame lib linking])
@@ -3149,7 +3172,7 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                    AC_DEFINE(USE_COREAUDIO,,[Enable CoreAudio support.])],
                   [AC_MSG_RESULT(no)])
       LIBS=${old_LIBS}
-    
+
       AC_CHECK_HEADER(AudioUnit/AudioUnit.h,,)
       if test x"$ac_cv_header_AudioUnit_AudioUnit_h" = "xyes" ; then
         AC_MSG_CHECKING(whether we can link the AudioUnit framework)
@@ -3163,7 +3186,7 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                      AC_DEFINE(HAVE_AUDIO_UNIT,,[Enable AudioUnit support.])],
                     [AC_MSG_RESULT(no)])
         LIBS=${old_LIBS}
-      fi  
+      fi
     fi
   fi
 
@@ -3524,13 +3547,13 @@ dnl Check for the GIF or UNGIF library.
 if test x"$with_gif" != "xno"; then
   AC_CHECK_HEADER(gif_lib.h,,)
   if test x"$ac_cv_header_gif_lib_h" = "xyes" ; then
-    AC_CHECK_LIB(ungif, EGifPutLine, [ 
+    AC_CHECK_LIB(ungif, EGifPutLine, [
                  GFXOUTPUT_LIBS="-lungif $GFXOUTPUT_LIBS";
                  GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS gifdrv.o";
                  HAVE_GIF_SUPPORT="yes";
                  AC_DEFINE(HAVE_GIF,,[Can we use the GIF or UNGIF library?]) ],,)
     if test "$ac_cv_lib_ungif_EGifPutLine" = "no"; then
-      AC_CHECK_LIB(gif, EGifPutLine, [ 
+      AC_CHECK_LIB(gif, EGifPutLine, [
                    GFXOUTPUT_LIBS="-lgif $GFXOUTPUT_LIBS";
                    GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS gifdrv.o";
                    HAVE_GIF_SUPPORT="yes";
@@ -3547,7 +3570,7 @@ if test x"$with_jpeg" != "xno" ; then
   dnl Check for the JPEG library.
   AC_CHECK_HEADER(jpeglib.h,,)
   if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
-    AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [ 
+    AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [
                  GFXOUTPUT_LIBS="-ljpeg $GFXOUTPUT_LIBS";
                  GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
                  HAVE_JPEG_SUPPORT="yes";
@@ -3621,7 +3644,7 @@ if test x"$enable_realdevice" != "xno"; then
     AC_MSG_RESULT([yes])
   else
     if test x"$dynlib_support" = "xyes"; then
-      if test x"$is_beos" != "xyes"; then 
+      if test x"$is_beos" != "xyes"; then
         AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
         HAVE_OPENCBM_SUPPORT="yes"
         AM_CONDITIONAL(HAVE_REALDEVICE, true)
@@ -3809,7 +3832,7 @@ if test x"$is_unix" = "xyes"; then
       AM_CONDITIONAL(SYLLABLE_COMPILE, true)
       ;;
     *)
-      ;;  
+      ;;
   esac
 
   if test x"$skyoscompile" = "xno"; then
@@ -3988,8 +4011,8 @@ if test x"$GCC" = "xyes" ; then
 fi
 
 dnl Check wether we have gcc and solaris /usr/openwin stuff.
-dnl The headers there give zillions of warnings because of implicit int 
-dnl declarations. gcc's >= 2.6.3 know the `-Wno-implicit-int' option so I 
+dnl The headers there give zillions of warnings because of implicit int
+dnl declarations. gcc's >= 2.6.3 know the `-Wno-implicit-int' option so I
 dnl don't care about checking it out. MP
 
 if test x"$GCC" = "xyes" ; then
@@ -4003,7 +4026,7 @@ if test x"$GCC" = "xyes" ; then
       fi
       ;;
     *)
-      ;;  
+      ;;
   esac
 fi
 
@@ -4067,7 +4090,7 @@ case "$host_os" in
   *)
     VICEDIR="$PREFIX/lib/vice"
     AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
-    ;;  
+    ;;
 esac
 AC_SUBST(VICEDIR)
 AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
