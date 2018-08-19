@@ -74,7 +74,7 @@ void sdl_menu_ethernet_interface_free(void)
     }
 }
 
-UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
+static UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
 {
     char *pname;
     char *pdescription;
