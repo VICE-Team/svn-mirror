@@ -138,7 +138,6 @@ int ioutil_errno(unsigned int check)
     return 0;
 }
 
-#if !defined(VMS) && !defined(__VAX)
 #ifndef HAVE_GETCWD
 char *getcwd (char *buf, size_t len)
 {
@@ -155,7 +154,6 @@ char *getcwd (char *buf, size_t len)
     }
     return buf;
 }
-#endif
 #endif
 
 char *ioutil_getcwd(char *buf, int size)

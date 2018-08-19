@@ -59,11 +59,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#ifndef VMS
 #include <termios.h>
-#else
-#include "vmstermios.h"
-#endif
 
 #include <unistd.h>
 

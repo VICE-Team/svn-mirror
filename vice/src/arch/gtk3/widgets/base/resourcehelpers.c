@@ -181,13 +181,7 @@ static gboolean resource_widget_get_method_helper(
         gboolean *(*func)(GtkWidget *),
         const char *method)
 {
-    gpointer data = g_object_get_data(G_OBJECT(widget), method);
-    if (data == NULL) {
-        func = NULL;
-        return FALSE;
-    }
-    func = data;
-    return TRUE;
+    return FALSE;
 }
 
 
