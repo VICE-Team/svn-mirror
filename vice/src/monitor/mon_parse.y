@@ -30,7 +30,7 @@
 
 #include "vice.h"
 
-#if !defined(__minix_vmd) && !defined(MACOS_COMPILE) && !(defined(__OS2__) && defined(IDE_COMPILE))
+#if !defined(MACOS_COMPILE) && !(defined(__OS2__) && defined(IDE_COMPILE))
 #ifdef __GNUC__
 #undef alloca
 #ifndef ANDROID_COMPILE
@@ -49,7 +49,7 @@ extern char *alloca();
 #endif /* Not AIX and not WINCE.  */
 #endif /* HAVE_ALLOCA_H.  */
 #endif /* GCC.  */
-#endif /* MINIXVMD */
+#endif /* MACOS OS2 */
 
 /* SunOS 4.x specific stuff */
 #if defined(sun) || defined(__sun)
