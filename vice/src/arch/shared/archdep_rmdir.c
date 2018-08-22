@@ -25,6 +25,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,7 +45,6 @@
 # include <direct.h>
 #endif
 
-
 #include "archdep_rmdir.h"
 
 
@@ -56,7 +56,7 @@
  */
 int archdep_rmdir(const char *pathname)
 {
-#ifdef WIN32_COMPILE
+#ifdef ARCHDEP_OS_WINDOWS
     return _rmdir(pathname);
 #else
     return rmdir(pathname);

@@ -38,6 +38,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include <stdio.h>
 #include <stdlib.h>

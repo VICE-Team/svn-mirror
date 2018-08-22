@@ -26,6 +26,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include <stdio.h>
 #include <stddef.h>
@@ -34,7 +35,6 @@
 #include <stdarg.h>
 
 #include "lib.h"
-#include "archdep_defs.h"
 
 
 #include "archdep_join_paths.h"

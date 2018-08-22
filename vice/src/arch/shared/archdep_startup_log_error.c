@@ -26,6 +26,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,10 +39,9 @@
 #endif
 
 /* why do I even bother */
-#ifdef __OS2__
+#ifdef ARCHDEP_OS_OS2
 # include <os2.h>
 #endif
-
 
 #include "archdep_startup_log_error.h"
 

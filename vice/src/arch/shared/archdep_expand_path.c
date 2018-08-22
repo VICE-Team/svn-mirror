@@ -26,6 +26,8 @@
 
 
 #include "vice.h"
+#include "archdep_defs.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -69,6 +71,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         *return_path = util_concat(cwd, "/", orig_name, NULL);
         lib_free(cwd);
     }
+    return 0;
 #elif defined(ARCHEP_OS_WINDOW)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
     *return_path = lib_stralloc(orig_name);

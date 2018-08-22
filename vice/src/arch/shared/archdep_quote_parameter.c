@@ -25,6 +25,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include "lib.h"
 #include "util.h"

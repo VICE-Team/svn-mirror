@@ -37,6 +37,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,7 +45,6 @@
 
 #include "lib.h"
 #include "log.h"
-#include "archdep_defs.h"
 
 #ifdef AMIGA_SUPPORT
 /* some includes */

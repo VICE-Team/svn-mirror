@@ -26,6 +26,8 @@
 
 
 #include "vice.h"
+#include "archdep_defs.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>

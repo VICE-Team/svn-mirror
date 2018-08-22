@@ -25,6 +25,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +46,6 @@
 #endif
 
 #include "log.h"
-
 
 #include "archdep_mkdir.h"
 
