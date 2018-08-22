@@ -2,7 +2,6 @@ SUBDIRS = \
 	android \
 	beos \
 	macosx \
-	minix3 \
 	nextstep \
 	openstep \
 	openwatcom \

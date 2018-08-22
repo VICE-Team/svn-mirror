@@ -13,7 +13,6 @@ COMMON_EXTRA_DIST = \
 	.descr \
 	AUTHORS \
 	autogen.sh \
-	build.minix \
 	config.rpath \
 	configure.proto \
 	ChangeLog \
