@@ -1,7 +1,16 @@
-/** \file   archdep_defs.h
- * \brief   Defines, enums and types used by the archdep functions
- *
+/** \file   archdep_sanitize_filename.h
+ * \brief   Sanitize a filename for writing to the host OS - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * OS support:
+ *  - Linux
+ *  - Windows
+ *  - MacOS
+ *  - BeOS/Haiku (untested)
+ *  - AmigaOS (untested)
+ *  - OS/2 (untested)
+ *  - MS-DOS (untested)
+ *
  */
 
 /*
@@ -25,32 +34,9 @@
  *
  */
 
-#ifndef VICE_ARCHDEP_DEFS_H
-#define VICE_ARCHDEP_DEFS_H
+#ifndef VICE_ARCHDEP_SANITIZE_FILENAME
+#define VICE_ARCHDEP_SANITIZE_FILENAME
 
-#include "vice.h"
-
-
-/** \brief  Helper for MS-DOS enviroment detection
- */
-#if defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-# define ARCHDEP_HAVE_DOS
-#endif
-
-/** \brief  Arch-dependent directory separator used in paths
- */
-#if defined(WIN32_COMPILE) || defined(OS2_COMPILE) || defined(ARCHDEP_HAVE_DOS)
-# define ARCHDEP_DIR_SEPARATOR  '\\'
-#elif defined(macintosh) || defined(Macintosh)
-# define ARCHDEP_DIR_SEPARATOR  ':'
-#else
-# define ARCHDEP_DIR_SEPARATOR  '/'
-#endif
-
-/** \brief  Extension used for autostart disks
- */
-#define ARCHDEP_AUTOSTART_DICK_EXTENSION    "d64"
-
-
+void archdep_sanitize_filename(char *name);
 
 #endif

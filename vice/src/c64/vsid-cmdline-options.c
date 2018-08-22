@@ -1,11 +1,12 @@
+/** \file   vsid-cmdline-options.c
+ * \brief   Handle VSID command line options
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * vsid-cmdline-options.c
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -99,6 +100,11 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
+
+/** \brief  Register VSID-specific command line options
+ *
+ * \return  0 on success, < 0 on failure
+ */
 int vsid_cmdline_options_init(void)
 {
     printf("VSID CMDLINE INIT!\n");

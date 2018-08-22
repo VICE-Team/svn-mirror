@@ -169,11 +169,6 @@
 #endif
 
 
-/** \brief  Tokens that are illegal in a path/filename
- */
-static const char *illegal_name_tokens = "/\\?*:|\"<>";
-
-
 static char *argv0;
 
 #if 0

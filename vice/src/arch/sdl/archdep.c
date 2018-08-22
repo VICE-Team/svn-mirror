@@ -97,7 +97,7 @@ char *archdep_extra_title_text(void)
     return extra_title_text;
 }
 
-
+#if 0
 /** \brief  Sanitize \a name by removing invalid characters for the current OS
  *
  * \param[in,out]   name    0-terminated string
@@ -116,4 +116,5 @@ void archdep_sanitize_filename(char *name)
         name++;
     }
 }
+#endif
 

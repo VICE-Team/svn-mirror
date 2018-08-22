@@ -102,13 +102,6 @@
 #include "vsyncapi.h"
 
 
-/** \brief  Tokens that are illegal in a path/filename
- *
- * FIXME: taken from win32
- */
-static const char *illegal_name_tokens = "/\\?*:|\"<>";
-
-
 static char *argv0;
 
 #if 0

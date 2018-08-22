@@ -69,12 +69,6 @@
 #endif
 
 
-/** \brief  Tokens that are illegal in a path/filename
- *
- */
-static const char *illegal_name_tokens = "/?*:";
-
-
 #if 0
 static char *boot_path = NULL;
 #endif

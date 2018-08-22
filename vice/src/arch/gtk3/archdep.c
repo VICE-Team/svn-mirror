@@ -291,7 +291,7 @@ FILE *archdep_open_default_log_file(void)
 #endif
 }
 
-
+#if 0
 /** \brief  Sanitize \a name by removing invalid characters for the current OS
  *
  * \param[in,out]   name    0-terminated string
@@ -310,7 +310,7 @@ void archdep_sanitize_filename(char *name)
         name++;
     }
 }
-
+#endif
 
 /** \brief  Create and open temp file
  *

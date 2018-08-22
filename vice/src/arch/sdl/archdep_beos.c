@@ -1,4 +1,3 @@
-/*
  * archdep_beos.c - Miscellaneous system-specific stuff.
  *
  * Written by
@@ -71,13 +70,6 @@
 #include "log.h"
 #include "machine.h"
 #include "util.h"
-
-
-/** \brief  Tokens that are illegal in a path/filename
- *
- * FIXME: taken from Unix
- */
-static const char *illegal_name_tokens = "/";
 
 
 static char *orig_workdir;

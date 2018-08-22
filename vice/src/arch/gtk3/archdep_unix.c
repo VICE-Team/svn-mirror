@@ -61,12 +61,6 @@
 static const gchar *path_separator = "/";
 
 
-/** \brief  Tokens that are illegal in a path/filename
- */
-static const char *illegal_name_tokens = "/";
-
-
-
 /** \brief  String containing search paths
  *
  * Allocated in the first call to archdep_default_sysfile_pathlist(),

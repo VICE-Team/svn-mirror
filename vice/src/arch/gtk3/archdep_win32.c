@@ -71,10 +71,6 @@
  */
 static const gchar *path_separator = "\\";
 
-/** \brief  Tokens that are illegal in a path/filename
- */
-static const char *illegal_name_tokens = "/\\?*:|\"<>";
-
 
 /** \brief  String containing search paths
  *

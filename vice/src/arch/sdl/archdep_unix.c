@@ -74,11 +74,6 @@
 #endif
 
 
-/** \brief  Tokens that are illegal in a path/filename
- */
-static const char *illegal_name_tokens = "/";
-
-
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
