@@ -44,6 +44,9 @@
 #include "resources.h"
 #include "vicii.h"
 
+#include "vsid-cmdline-options.h"
+
+
 static int set_video_standard(const char *param, void *extra_param)
 {
     int value = vice_ptr_to_int(extra_param);
