@@ -44,6 +44,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "archdep_defs.h"
 
 #ifdef AMIGA_SUPPORT
 /* some includes */
@@ -96,7 +97,7 @@ const char *archdep_boot_path(void)
     full_path = archdep_program_path();
 
 
-#if defined(WIN32_COMPILE) || (OS2_COMPILE)
+#if defined(ARCHDEP_OS_WINDOWS) || (ARCHDEP_OS_OS2)
     p = strrchr(full_path, '\\');
 #else
     p = strrchr(full_path, '/');

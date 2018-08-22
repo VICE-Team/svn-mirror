@@ -57,7 +57,7 @@
  */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
-#ifdef UNIX_COMPILE
+#ifdef ARCHDEP_OS_UNIX
     if (*orig_name == '/') {
         *return_path = lib_stralloc(orig_name);
     } else if (*orig_name == '~' && *(orig_name +1) == '/') {
@@ -69,10 +69,10 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         *return_path = util_concat(cwd, "/", orig_name, NULL);
         lib_free(cwd);
     }
-#elif defined(WIN32_COMPILE)
+#elif defined(ARCHEP_OS_WINDOW)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
     *return_path = lib_stralloc(orig_name);
-#elif defined(AMGIGA_SUPPORT)
+#elif defined(ARCHDEP_OS_AMIGA)
     /* taken from src/arch/sdl/archdep_amiga.c: */
     BPTR lock;
 
@@ -88,10 +88,10 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         }
     }
     *return_path = lib_stralloc(orig_name);
-#elif define BEOS_COMPILE
+#elif defined(ARCHDEP_OS_BEOS)
     /* taken from src/arch/sdl/archdep_beos.c: */
     *return_path = lib_stralloc(orig_name);
-#elif defined(OS2_COMPILE)
+#elif defined(ARCHDEP_OS_OS2)
     /* the OS/2 code is too terrible to include, so just exit: */
     log_err(LOG_ERR, "OS/2 code is too screwed up, sorry.");
     exit(1);
@@ -112,7 +112,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 
 #else
     /* fallback */
-    log_warning(LOG_WARN, "unsupported OS: just returning input.");
+    log_error(LOG_ERR, "unsupported OS: just returning input.");
 #endif
     return 0;
 }

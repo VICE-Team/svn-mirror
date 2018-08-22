@@ -48,22 +48,25 @@
 
 #include "lib.h"
 #include "log.h"
+#include "archdep_defs.h"
 
-#ifdef AMIGA_SUPPORT
+#ifdef ARCHDEP_OS_AMIGA
 /* some includes */
 #endif
 
-#ifdef UNIX_COMPILE
+#ifdef ARCHDEP_OS_UNIX
 # include <unistd.h>
 # include <sys/types.h>
 # include <pwd.h>
 #endif
 
-#ifdef WIN32_COMPILE
+#ifdef ARCHDEP_OS_WINDOWS
 # include "windows.h"
 /* for GetUserProfileDirectoryA() */
 # include "userenv.h"
 #endif
+
+#include "archdep_defs.h"
 
 #include "archdep_home_path.h"
 
@@ -84,7 +87,8 @@ static char *home_dir = NULL;
  */
 const char *archdep_home_path(void)
 {
-#ifdef UNIX_COMPILE
+    /* stupid vice code rules, only declare vars at the top */
+#ifdef ARCHDEP_OS_UNIX
     char *home;
 #endif
 
@@ -92,7 +96,7 @@ const char *archdep_home_path(void)
         return home_dir;
     }
 
-#ifdef UNIX_COMPILE
+#ifdef ARCHDEP_OS_UNIX
     home = getenv("HOME");
     if (home == NULL) {
         struct passwd *pwd;
@@ -105,7 +109,7 @@ const char *archdep_home_path(void)
         }
     }
     home_dir = lib_stralloc(home);
-#elif defined(WIN32_COMPILE)
+#elif defined(ARCHDEP_OS_WINDOWS)
     HANDLE token_handle;
     DWORD bufsize = 4096;
     LPDWORD lpcchSize = &bufsize;
@@ -133,10 +137,10 @@ const char *archdep_home_path(void)
             home_dir[1] = '\0';
         }
     }
-#elif defined(BEOS_COMPILE)
+#elif defined(ARCHDEP_OS_BEOS)
     /* Beos/Haiku is single-user */
     home_dir = lib_stralloc("/home");
-#elif defined(AMIGA_SUPPORT)
+#elif defined(ARCHDEP_OS_AMIGA)
     /* single user: use the path to the executable as the "home" dir */
     home_dir = lib_stralloc("PROGDIR:");
 #else

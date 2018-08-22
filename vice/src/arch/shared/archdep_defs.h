@@ -31,18 +31,84 @@
 #include "vice.h"
 
 
-/** \brief  Helper for MS-DOS enviroment detection
+/** \brief  Various OS-identification macros
+ *
+ * The question marks indicate ports I have my doubts about they'll even run
+ * VICE at all.
+ *
+ * <pre>
+ *  ARCHDEP_OS_UNIX
+ *    ARCHDEP_OS_OSX
+ *    ARCHDEP_OS_LINUX
+ *    ARCHDEP_OS_BSD
+ *      ARCHDEP_OS_BSD_FREE
+ *      ARCHDEP_OS_BSD_NET
+ *      ARCHDEP_OS_BSD_OPEN
+ *      ARCHDEP_OS_BSD_DRAGON
+ *    ARCHDEP_OS_QNX (?)
+ *    ARCHDEP_OS_SOLARIS (?)
+ *  ARCHDEP_OS_WINDOWS
+ *  ARCHDEP_OS_OS2 (?)
+ *  ARCHDEP_OS_BEOS
+ *  ARCHDEP_OS_MSDOS (?)
+ *  ARCHDEP_OS_AMIGA
+ * </pre>
  */
-#if defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-# define ARCHDEP_HAVE_DOS
+#ifdef UNIX_COMPILE
+/* Generic UNIX */
+# define ARCHDEP_OS_UNIX
+# if defined(MACOSX_SUPPORT)
+/* OSX */
+#  define ARCHDEP_OS_OSX
+# elif defined(__linux__)
+/* Linux */
+#  define ARCHDEP_OS_LINUX
+# elif defined(__FreeBSD__)
+/* FreeBSD */
+#  define ARCHDEP_OS_BSD
+#  define ARCHDEP_OS_BSD_FREE
+/* NetBSD */
+# elif defined(__NetBSD__)
+#  define ARCHDEP_OS_BSD
+#  define ARCHDEP_OS_BSD_NET
+/* OpenBSD */
+# elif defined(__OpenBSD__)
+#  define ARCHDEP_OS_BSD
+#  define ARCHDEP_OS_BSD_OPEN
+/* DragonFly BSD */
+# elif defined(__DragonFly__)
+#  define ARCHDEP_OS_BSD
+#  define ARCHDEP_OS_BSD_DRAGON
+# elif defined(__QNX__)
+/* QNX (do we even support this anymore?) */
+#  define ARCHDEP_OS_QNX
+# elif defined(sun) || defined(__sun)
+/* Solaris (same question) */
+#  define ARCHDEP_OS_SOLARIS
+# endif /* ifdef UNIX_COMPILE */
+#elif defined(WIN32_COMPILE)
+/* Windows */
+# define ARCHDEP_OS_WINDOWS
+#elif defined(OS2_COMPILE)
+/* OS/2 (again: has anyone even tested this?) */
+# define ARCHDEP_OS_OS2
+#elif defined(__BEOS__)
+/* BeOS (maybe Haiku?) */
+# define ARCHDEP_OS_BEOS
+#elif defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
+/* MS-DOS (really?) */
+# define ARCHDEP_OS_DOS
+#elif defined(AMIGA_SUPPORT)
+/* Amiga (may have to split into Aros etc) */
+# define ARCHDEP_OS_AMIGA
 #endif
+
 
 /** \brief  Arch-dependent directory separator used in paths
  */
-#if defined(WIN32_COMPILE) || defined(OS2_COMPILE) || defined(ARCHDEP_HAVE_DOS)
+#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
+    || defined(ARCHDEP_HAVE_DOS)
 # define ARCHDEP_DIR_SEPARATOR  '\\'
-#elif defined(macintosh) || defined(Macintosh)
-# define ARCHDEP_DIR_SEPARATOR  ':'
 #else
 # define ARCHDEP_DIR_SEPARATOR  '/'
 #endif
@@ -50,7 +116,6 @@
 /** \brief  Extension used for autostart disks
  */
 #define ARCHDEP_AUTOSTART_DICK_EXTENSION    "d64"
-
 
 
 #endif
