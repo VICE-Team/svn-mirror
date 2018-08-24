@@ -1679,7 +1679,7 @@ static int p_expand(int version, int addr, int ctrls)
              */
 
             if (!quote && (c == 0x64)) {
-                if ((c = getc(source)) < 0x80) {
+                if (((c = getc(source)) < 0x80) && basic_list[version - 1].tokens) {
                     fprintf(dest, "%s", basic_list[version - 1].tokens[c]);
                     continue;
                 } else {
@@ -1760,7 +1760,7 @@ static int p_expand(int version, int addr, int ctrls)
                     case B_EVE:
                     case B_TT64:
                     case B_HANDY:
-                        if (c >= basic_list[version - 1].token_start && c <= basic_list[version - 1].max_token) {
+                        if (basic_list[version - 1].tokens && c >= basic_list[version - 1].token_start && c <= basic_list[version - 1].max_token) {
                             fprintf(dest, "%s", basic_list[version - 1].tokens[c - basic_list[version - 1].token_start]);
                         }
                         break;
