@@ -47,12 +47,14 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     const char *boot_path = archdep_boot_path();
     const char *config_path = archdep_user_config_path();
 
-    char *lib_machine_roms;
-    char *lib_drive_roms;
-    char *lib_printer_roms;
-    char *usr_machine_roms;
-    char *usr_drive_roms;
-    char *usr_printer_roms;
+    char *lib_root = NULL;
+    char *lib_machine_roms = NULL;
+    char *lib_drive_roms = NULL;
+    char *lib_printer_roms = NULL;
+    char *usr_root = NULL;
+    char *usr_machine_roms = NULL;
+    char *usr_drive_roms = NULL;
+    char *usr_printer_roms = NULL;
 
     char *paths[TOTAL_PATHS + 1];
 
@@ -67,8 +69,21 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     }
 
     /* lib roms */
+#ifdef ARCHDEP_OS_UNIX
+# ifdef ARCHEP_OS_OSX
+
+    lib_root = archdep_join_paths(
+            boot_path, emu_id);
+    lib_machine_roms = archdep_join_paths(
+            boot_path, "..", "ROMS", emu_id, NULL);
+    lib_drive_roms = archdep_join_paths(
+# else
+
+
     lib_machine_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
     lib_drive_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
+# endif
+#endif
 
 
     return NULL;

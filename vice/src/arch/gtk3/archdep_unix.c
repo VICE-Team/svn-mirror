@@ -287,7 +287,7 @@ char *archdep_get_vice_docsdir(void)
 #endif
 }
 
-
+#if 0
 /** \brief  Create a backup filename of \a fname
  *
  * Puts a tilde in front of \a fname
@@ -300,6 +300,7 @@ char *archdep_make_backup_filename(const char *fname)
 {
     return util_concat(fname, "~", NULL);
 }
+#endif
 
 
 /** \brief  Architecture-dependent shutdown hanlder

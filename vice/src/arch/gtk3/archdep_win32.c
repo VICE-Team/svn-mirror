@@ -223,10 +223,12 @@ char *archdep_get_vice_docsdir(void)
     return util_concat(boot_path, "\\doc\\", NULL);
 }
 
+#if 0
 char *archdep_make_backup_filename(const char *fname)
 {
     return util_concat(fname, ".bak", NULL);
 }
+#endif
 
 
 void archdep_shutdown(void)

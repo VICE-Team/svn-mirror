@@ -18,6 +18,7 @@ libarchdep_a_SOURCES = \
 	archdep_expand_path.c \
 	archdep_home_path.c \
 	archdep_join_paths.c \
+	archdep_make_backup_filename.c \
 	archdep_mkdir.c \
 	archdep_path_is_relative.c \
 	archdep_program_name.c \
@@ -35,6 +36,7 @@ EXTRA_DIST = \
 	archdep_expand_path.h \
 	archdep_home_path.h \
 	archdep_join_paths.h \
+	archdep_make_backup_filename.h \
 	archdep_mkdir.h \
 	archdep_path_is_relative.h \
 	archdep_program_name.h \
