@@ -1,4 +1,4 @@
- * archdep_beos.c - Miscellaneous system-specific stuff.
+/* archdep_beos.c - Miscellaneous system-specific stuff.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
