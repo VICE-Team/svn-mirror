@@ -44,7 +44,7 @@
 /** \brief  Determine the size of \a path and whether it's a directory
  *
  * \param[in]   path    pathname
- * \param[out]  len     lenght of file \a pathname
+ * \param[out]  len     length of file \a pathname
  * \param[out]  isdir   pathname is a directory
  *
  * \return  0 on success, -1 on failure
@@ -54,6 +54,8 @@ int archdep_stat(const char *path, unsigned int *len, unsigned int *isdir)
     struct stat statbuf;
 
     if (stat(path, &statbuf) < 0) {
+        *len = -1;
+        *isdir = 0;
         return -1;
     }
     *len = statbuf.st_size;
