@@ -24,6 +24,7 @@ libarchdep_a_SOURCES = \
 	archdep_program_name.c \
 	archdep_program_path.c \
 	archdep_quote_parameter.c \
+	archdep_rename.c \
 	archdep_rmdir.c \
 	archdep_sanitize_filename.c \
 	archdep_startup_log_error.c \
@@ -43,6 +44,7 @@ EXTRA_DIST = \
 	archdep_program_name.h \
 	archdep_program_path.h \
 	archdep_quote_parameter.h \
+	archdep_rename.h \
 	archdep_rmdir.h \
 	archdep_sanitize_filename.h \
 	archdep_startup_log_error.h \

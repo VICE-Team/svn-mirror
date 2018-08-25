@@ -420,10 +420,12 @@ int archdep_require_vkbd(void)
     return 0;
 }
 
+#if 0
 int archdep_rename(const char *oldpath, const char *newpath)
 {
     return rename(oldpath, newpath);
 }
+#endif
 
 static void archdep_shutdown_extra(void)
 {

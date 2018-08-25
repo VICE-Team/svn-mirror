@@ -605,10 +605,12 @@ void archdep_set_current_drive(const char *drive)
     }
 }
 
+#if 0
 int archdep_rename(const char *oldpath, const char *newpath)
 {
     return rename(oldpath, newpath);
 }
+#endif
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good

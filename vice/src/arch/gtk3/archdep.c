@@ -359,7 +359,7 @@ int archdep_rmdir(const char *pathname)
 }
 #endif
 
-
+#if 0
 /** \brief  Rename \a oldpath to \a newpath
  *
  * \param[in]   oldpath old path
@@ -371,6 +371,7 @@ int archdep_rename(const char *oldpath, const char *newpath)
 {
     return g_rename(oldpath, newpath);
 }
+#endif
 
 #if 0
 /** \brief  Log an error message
