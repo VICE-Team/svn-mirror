@@ -409,7 +409,7 @@ int archdep_spawn(const char *name, char **argv,
                            &err);
 #endif
 
-
+#if 0
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;
@@ -425,6 +425,7 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 
     return 0;
 }
+#endif
 
 /** \brief  Create a unique temporary filename
  *

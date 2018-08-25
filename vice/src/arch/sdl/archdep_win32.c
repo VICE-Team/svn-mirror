@@ -596,6 +596,7 @@ int archdep_rmdir(const char *pathname)
 }
 #endif
 
+#if 0
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;
@@ -609,6 +610,7 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 
     return 0;
 }
+#endif
 
 /* set permissions of given file to rw, respecting current umask */
 int archdep_fix_permissions(const char *file_name)

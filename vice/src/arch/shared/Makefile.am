@@ -27,6 +27,7 @@ libarchdep_a_SOURCES = \
 	archdep_rmdir.c \
 	archdep_sanitize_filename.c \
 	archdep_startup_log_error.c \
+	archdep_stat.c \
 	archdep_user_config_path.c
 
 EXTRA_DIST = \
@@ -45,4 +46,5 @@ EXTRA_DIST = \
 	archdep_rmdir.h \
 	archdep_sanitize_filename.h \
 	archdep_startup_log_error.h \
+	archdep_stat.h \
 	archdep_user_config_path.h
