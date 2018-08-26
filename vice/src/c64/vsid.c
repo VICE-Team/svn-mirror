@@ -69,11 +69,10 @@
 #include "viciivsid.h"
 #include "vicii-mem.h"
 #include "video.h"
+#include "vsid-cmdline-options.h"
 #include "vsidui.h"
 #include "vsid-debugcart.h"
 #include "vsync.h"
-
-extern int vsid_cmdline_options_init(void);
 
 
 machine_context_t machine_context;
