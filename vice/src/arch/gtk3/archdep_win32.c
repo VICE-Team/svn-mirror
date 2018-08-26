@@ -136,7 +136,7 @@ char *archdep_default_save_resource_file_name(void)
     return archdep_default_resource_file_name();
 }
 
-
+#if 0
 /** \brief  Build a list of search paths for emulator \a emu_id
  *
  * \param[in]   emu_id  emulator name (without '.exe')
@@ -157,6 +157,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
     return lib_stralloc(default_path);
 }
+#endif
 
 
 #if 0

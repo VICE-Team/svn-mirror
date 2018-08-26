@@ -24,8 +24,15 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <stddef.h>
+
+#include "lib.h"
+#include "log.h"
+#include "util.h"
 
 #include "archdep_boot_path.h"
 #include "archdep_join_paths.h"
@@ -40,27 +47,32 @@
 
 static char *sysfile_path = NULL;
 
-#if 0
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     const char *boot_path = archdep_boot_path();
-    const char *config_path = archdep_user_config_path();
+    const char *home_path = archdep_user_config_path();
 
     char *lib_root = NULL;
     char *lib_machine_roms = NULL;
     char *lib_drive_roms = NULL;
     char *lib_printer_roms = NULL;
-    char *usr_root = NULL;
-    char *usr_machine_roms = NULL;
-    char *usr_drive_roms = NULL;
-    char *usr_printer_roms = NULL;
+    char *boot_root = NULL;
+    char *boot_machine_roms = NULL;
+    char *boot_drive_roms = NULL;
+    char *boot_printer_roms = NULL;
+    char *home_root = NULL;
+    char *home_machine_roms = NULL;
+    char *home_drive_roms = NULL;
+    char *home_printer_roms = NULL;
 
-    char *paths[TOTAL_PATHS + 1];
+    const char *paths[TOTAL_PATHS + 1];
+    int i;
 
 
     if (sysfile_path != NULL) {
-        return sysfile_path;
+        /* sysfile.c appears to free() this */
+        return lib_stralloc(sysfile_path);
     }
 
     /* zero out the array of paths to join later */
@@ -68,24 +80,141 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         paths[i] = NULL;
     }
 
-    /* lib roms */
+
 #ifdef ARCHDEP_OS_UNIX
+
 # ifdef ARCHEP_OS_OSX
 
-    lib_root = archdep_join_paths(
-            boot_path, emu_id);
-    lib_machine_roms = archdep_join_paths(
-            boot_path, "..", "ROMS", emu_id, NULL);
-    lib_drive_roms = archdep_join_paths(
+    /* boot path based paths */
+    boot_root = archdep_join_paths(boot_path, emu_id, NULL);
+    boot_machine_roms = archdep_join_paths(
+            boot_path, "..", "Resources", "ROM", emu_id, NULL);
+    boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
+    boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
+
+    /* home path based paths */
+
 # else
-
-
     lib_machine_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
-    lib_drive_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
+    lib_drive_roms = archdep_join_paths(LIBDIR, "DRIVES", NULL);
+    lib_printer_roms = archep_join_paths(LIBDIR, "PRINTER", NULL);
+
+    boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
+    boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
+    boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
+
+    home_machine_roms = archdep_join_paths(home_path, emu_id, NULL);
+    home_drive_roms = archdep_join_paths(home_path, "DRIVES", NULL);
+    home_printer_roms = archdep_join_paths(home_path, "PRINTER", NULL);
 # endif
+
+#elif defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
+    || defined(ARCHDEP_OS_MSDOS)
+    boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
+    boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
+    boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
+#if 0
+    home_machine_roms = archdep_join_paths(home_path, emu_id, NULL);
+    home_drive_roms = archdep_join_paths(home_path, "DRIVES", NULL);
+    home_printer_roms = archdep_join_paths(home_path, "PRINTER", NULL);
 #endif
+#elif defined(ARCHDEP_OS_AMIGA) || defined(ARCHDEP_OS_BEOS)
+    boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
+    boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
+    boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
+#endif
+    /* now join everything together */
+    i = 0;
 
+    /* LIBDIR paths */
+    if (lib_root != NULL) {
+        paths[i++] = lib_root;
+    }
+    if (lib_machine_roms != NULL) {
+        paths[i++] = lib_machine_roms;
+    }
+    if (lib_drive_roms != NULL) {
+        paths[i++] = lib_drive_roms;
+    }
+    if (lib_printer_roms != NULL) {
+        paths[i++] = lib_printer_roms;
+    }
+    /* boot paths */
+    if (boot_root != NULL) {
+        paths[i++] = boot_root;
+    }
+    if (boot_machine_roms != NULL) {
+        paths[i++] = boot_machine_roms;
+    }
+    if (boot_drive_roms != NULL) {
+        paths[i++] = boot_drive_roms;
+    }
+    if (boot_printer_roms != NULL) {
+        paths[i++] = boot_printer_roms;
+    }
 
-    return NULL;
+    /* home paths */
+    if (home_root != NULL) {
+        paths[i++] = home_root;
+    }
+    if (home_machine_roms != NULL) {
+        paths[i++] = home_machine_roms;
+    }
+    if (home_drive_roms != NULL) {
+        paths[i++] = home_drive_roms;
+    }
+    if (home_printer_roms != NULL) {
+        paths[i++] = home_printer_roms;
+    }
+
+    /* terminate list */
+    paths[i] = NULL;
+    sysfile_path = util_strjoin(paths, ARCHDEP_FINDPATH_SEPARATOR_STRING);
+
+    /* TODO: free intermediate strings */
+    /* LIBDIR paths */
+    if (lib_root != NULL) {
+        lib_free(lib_root);
+    }
+    if (lib_machine_roms != NULL) {
+        lib_free(lib_machine_roms);
+    }
+    if (lib_drive_roms != NULL) {
+        lib_free(lib_drive_roms);
+    }
+    if (lib_printer_roms != NULL) {
+        lib_free(lib_printer_roms);
+    }
+    /* boot paths */
+    if (boot_root != NULL) {
+        lib_free(boot_root);
+    }
+    if (boot_machine_roms != NULL) {
+        lib_free(boot_machine_roms);
+    }
+    if (boot_drive_roms != NULL) {
+        lib_free(boot_drive_roms);
+    }
+    if (boot_printer_roms != NULL) {
+        lib_free(boot_printer_roms);
+    }
+
+    /* home paths */
+    if (home_root != NULL) {
+        lib_free(home_root);
+    }
+    if (home_machine_roms != NULL) {
+        lib_free(home_machine_roms);
+    }
+    if (home_drive_roms != NULL) {
+        lib_free(home_drive_roms);
+    }
+    if (home_printer_roms != NULL) {
+        lib_free(home_printer_roms);
+    }
+
+    log_message(LOG_DEFAULT, "Search path = %s", sysfile_path);
+    printf("%s(): paths = '%s'\n", __func__, sysfile_path);
+    /* sysfile.c appears to free() this (ie TODO: fix sysfile.c) */
+    return lib_stralloc(sysfile_path);
 }
-#endif

@@ -161,6 +161,9 @@ const char *archdep_home_path(void)
 #endif
 }
 #endif
+
+
+#if 0
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     /* wrong */
@@ -206,6 +209,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
     return default_path;
 }
+#endif
 
 #if 0
 /* Return a malloc'ed backup file name for file `fname'.  */

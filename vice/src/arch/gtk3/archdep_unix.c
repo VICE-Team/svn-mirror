@@ -145,7 +145,7 @@ char *archdep_default_save_resource_file_name(void)
     return fname;
 }
 
-
+#if 0
 /** \brief  Build a list of search paths for emulator \a emu_id
  *
  * \param[in]   emu_id  emulator name
@@ -200,6 +200,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
      * places, takes ownership of the result. */
     return lib_stralloc(default_path);
 }
+#endif
 
 #if 0
 /** \brief  Generate heap-allocated full pathname of \a orig_name

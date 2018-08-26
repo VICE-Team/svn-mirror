@@ -118,4 +118,13 @@
 #define ARCHDEP_AUTOSTART_DICK_EXTENSION    "d64"
 
 
+#if defined(ARCHEP_OS_AMIGA) || defined(ARCHDEP_OS_MSDOS) \
+    || defined(ARCHDEP_OS_OS2) || defined(ARCHDEP_OS_WINDOWS)
+# define ARCHDEP_FINDPATH_SEPARATOR_STRING  ";"
+#else
+# define ARCHDEP_FINDPATH_SEPARATOR_STRING  ":"
+#endif
+
+
+
 #endif
