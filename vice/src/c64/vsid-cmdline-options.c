@@ -85,18 +85,6 @@ static int set_video_standard(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pal", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_video_standard, (void *)MACHINE_SYNC_PAL, NULL, NULL,
-      NULL, "Use PAL sync factor" },
-    { "-ntsc", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_video_standard, (void *)MACHINE_SYNC_NTSC, NULL, NULL,
-      NULL, "Use NTSC sync factor" },
-    { "-ntscold", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_video_standard, (void *)MACHINE_SYNC_NTSCOLD, NULL, NULL,
-      NULL, "Use old NTSC sync factor" },
-    { "-paln", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
-      set_video_standard, (void *)MACHINE_SYNC_PALN, NULL, NULL,
-      NULL, "Use PAL-N sync factor" },
     { "-hvsc-root", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
         NULL, NULL, "HVSCRoot", NULL,
         "<path>", "Set path to HVSC root directory" },
