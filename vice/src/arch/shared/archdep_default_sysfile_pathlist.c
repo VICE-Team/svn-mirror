@@ -97,7 +97,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 # else
     lib_machine_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
     lib_drive_roms = archdep_join_paths(LIBDIR, "DRIVES", NULL);
-    lib_printer_roms = archep_join_paths(LIBDIR, "PRINTER", NULL);
+    lib_printer_roms = archdep_join_paths(LIBDIR, "PRINTER", NULL);
 
     boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);

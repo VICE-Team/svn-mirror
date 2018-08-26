@@ -126,5 +126,10 @@
 #endif
 
 
+/* set LIBDIR and DOCDIR */
+#ifdef ARCHDEP_OS_UNIX
+# define LIBDIR VICEDIR
+# define DOCDIR LIBDIR "/doc"
+#endif
 
 #endif

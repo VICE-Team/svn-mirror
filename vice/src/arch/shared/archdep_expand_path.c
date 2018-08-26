@@ -36,6 +36,7 @@
 #include "lib.h"
 #include "log.h"
 #include "util.h"
+#include "archdep_defs.h"
 
 #include "archdep_home_path.h"
 
