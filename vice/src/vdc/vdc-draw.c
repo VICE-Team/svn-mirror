@@ -453,9 +453,9 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
     }
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
-        - (vdc.regs[22] >> 4)
-        + ((vdc.regs[25] & 0x10) ? 1 : 0)
-        + vdc.xsmooth
+        + ((vdc.regs[25] & 0x10) ? 2 : 0)
+        + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
+        - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1)
         + xs * charwidth;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
     pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
@@ -552,9 +552,9 @@ static void draw_std_text(void)
     
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
-        - (vdc.regs[22] >> 4)
-        + ((vdc.regs[25] & 0x10) ? 1 : 0)
-        + vdc.xsmooth;
+        + ((vdc.regs[25] & 0x10) ? 2 : 0)
+        + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
+        - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1);
 
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
     screen_ptr = vdc.ram + vdc.screen_adr + vdc.mem_counter;
@@ -804,9 +804,9 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
     }
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
-        + vdc.xsmooth
-        - (vdc.regs[22] >> 4)
-        + ((vdc.regs[25] & 0x10) ? 1 : 0)
+        + ((vdc.regs[25] & 0x10) ? 2 : 0)
+        + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
+        - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1)
         + xs * charwidth;
 
     /* TODO: See if we even need to split these renderers between attr/mono, because the attr data is filled either way. draw_std_text_cached mode() doesn't differentiate */
@@ -905,9 +905,9 @@ static void draw_std_bitmap(void)
     
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
-        - (vdc.regs[22] >> 4)
-        + ((vdc.regs[25] & 0x10) ? 1 : 0)
-        + vdc.xsmooth;
+        + ((vdc.regs[25] & 0x10) ? 2 : 0)
+        + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
+        - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1);
 
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter + vdc.attribute_offset;
     bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
