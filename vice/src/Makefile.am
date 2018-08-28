@@ -2478,8 +2478,8 @@ libmididrv:
 	@echo "making libmididrv.a in mididrv"
 	@(cd mididrv && $(MAKE) libmididrv.a)
 libmonitor:
-	@echo "making libmonitor.a in monitor"
-	@(cd monitor && $(MAKE) libmonitor.a)
+	@echo "making all in monitor"
+	@(cd monitor && $(MAKE))
 libparallel:
 	@echo "making all in parallel"
 	@(cd parallel && $(MAKE))
@@ -2502,8 +2502,8 @@ librtc:
 	@echo "making librtc.a in rtc"
 	@(cd rtc && $(MAKE) librtc.a)
 libresid:
-	@echo "making libresid.a in resid"
-	@(cd resid && $(MAKE) libresid.a)
+	@echo "making all in resid"
+	@(cd resid && $(MAKE))
 libresiddtv:
 	@echo "making libresiddtv.a in resid-dtv"
 	@(cd resid-dtv && $(MAKE) libresiddtv.a)
@@ -2519,6 +2519,9 @@ libserial:
 libsid:
 	@echo "making libsid.a in sid"
 	@(cd sid && $(MAKE) libsid.a)
+libsid_dtv:
+	@echo "making libsid_dtv.a in sid"
+	@(cd sid && $(MAKE) libsid_dtv.a)
 libsocketdrv:
 	@echo "making libsocketdrv.a in socketdrv"
 	@(cd socketdrv && $(MAKE) libsocketdrv.a)
@@ -2563,7 +2566,7 @@ libvideo:
 	@(cd video && $(MAKE))
 libvsid:
 	@echo "making libvsid.a in c64"
-	@(cd c64 && $(MAKE) libvsid.a)
+	@(cd c64 && $(MAKE) psiddrv.h libvsid.a)
 
 x64ow$(EXEEXT): x64$(EXEEXT)
 	wrc -fe=x64ow$(EXEEXT) arch/win32/resc64.res x64$(EXEEXT)
