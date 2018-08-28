@@ -47,42 +47,6 @@
 #include "vsid-cmdline-options.h"
 
 
-static int set_video_standard(const char *param, void *extra_param)
-{
-    int value = vice_ptr_to_int(extra_param);
-    int vicii_model;
-
-    switch (machine_class) {
-        case VICE_MACHINE_C64SC:
-            resources_get_int("VICIIModel", &vicii_model);
-            switch (value) {
-                case MACHINE_SYNC_PAL:
-                default:
-                    if (vicii_model == VICII_MODEL_8562 || vicii_model == VICII_MODEL_8565) {
-                        return resources_set_int("VICIIModel", VICII_MODEL_8565);
-                    } else if (vicii_model == VICII_MODEL_6567R56A) {
-                        return resources_set_int("VICIIModel", VICII_MODEL_6569R1);
-                    } else {
-                        return resources_set_int("VICIIModel", VICII_MODEL_6569);
-                    }
-                    break;
-                case MACHINE_SYNC_NTSC:
-                    if (vicii_model == VICII_MODEL_8562 || vicii_model == VICII_MODEL_8565) {
-                        return resources_set_int("VICIIModel", VICII_MODEL_8562);
-                    } else {
-                        return resources_set_int("VICIIModel", VICII_MODEL_6567);
-                    }
-                    break;
-                case MACHINE_SYNC_NTSCOLD:
-                        return resources_set_int("VICIIModel", VICII_MODEL_6567R56A);
-                case MACHINE_SYNC_PALN:
-                        return resources_set_int("VICIIModel", VICII_MODEL_6572);
-            }
-        default:
-            return resources_set_int("MachineVideoStandard", value);
-    }
-}
-
 static const cmdline_option_t cmdline_options[] =
 {
     { "-hvsc-root", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,

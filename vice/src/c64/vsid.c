@@ -37,9 +37,6 @@
  * all iec/drive/printer/cartridge can be removed and replaced by stubs in
  * vsidstubs.c
  */
-#if 0
-#include "vsid-cmdline-options.h"
-#endif
 #include "c64-resources.h"
 #include "c64-snapshot.h"
 #include "c64.h"
@@ -62,7 +59,6 @@
 #include "psid.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "serial.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
