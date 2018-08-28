@@ -54,6 +54,7 @@ libvsid_a_SOURCES = \
 	psid.c \
 	psid.h \
 	psiddrv.a65 \
+	psiddrv.h \
 	reloc65.c \
 	vsid.c \
 	vsid-cmdline-options.c \
@@ -131,12 +132,7 @@ libc64_a_SOURCES = \
 	plus256k.c \
 	plus256k.h \
 	plus60k.c \
-	plus60k.h \
-	psid.c \
-	psid.h \
-	psiddrv.a65 \
-	psiddrv.h \
-	reloc65.c
+	plus60k.h
 
 libc64sc_a_SOURCES = \
 	c64-cmdline-options.c \
@@ -199,12 +195,7 @@ libc64sc_a_SOURCES = \
 	plus256k.c \
 	plus256k.h \
 	plus60k.c \
-	plus60k.h \
-	psid.c \
-	psid.h \
-	psiddrv.a65 \
-	psiddrv.h \
-	reloc65.c
+	plus60k.h
 
 libc64c64dtv_a_SOURCES = \
 	c64bus.c \
@@ -282,8 +273,7 @@ libc64scpu64_a_SOURCES = \
 	c64sound.c \
 	c64video.c \
 	patchrom.c \
-	patchrom.h \
-	reloc65.c
+	patchrom.h
 
 BUILT_SOURCES = psiddrv.h
 
