@@ -45,13 +45,26 @@
 #define TOTAL_PATHS 16
 
 
+/** \brief  Reference to the sysfile pathlist
+ *
+ * This keeps a copy of the generated sysfile pathlist so we don't have to
+ * generate it each time it is needed.
+ */
 static char *sysfile_path = NULL;
 
 
+/** \brief  Generate a list of search paths for VICE system files
+ *
+ * \param[in]   emu_id  emulator ID (ie 'C64 or 'VSID')
+ *
+ * \return  heap-allocated string, to be freed by the caller
+ */
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     const char *boot_path = archdep_boot_path();
+#if defined(ARCHDEP_OS_UNIX) && !(defined(ARCHDEP_OS_OSX))
     const char *home_path = archdep_user_config_path();
+#endif
 
     char *lib_root = NULL;
     char *lib_machine_roms = NULL;
@@ -217,4 +230,18 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     printf("%s(): paths = '%s'\n", __func__, sysfile_path);
     /* sysfile.c appears to free() this (ie TODO: fix sysfile.c) */
     return lib_stralloc(sysfile_path);
+}
+
+
+/** \brief  Free the internal copy of the sysfile pathlist
+ *
+ * Call on emulator exit
+ */
+
+void archdep_default_sysfile_pathlist_free(void)
+{
+    if (sysfile_path != NULL) {
+        lib_free(sysfile_path);
+        sysfile_path = NULL;
+    }
 }

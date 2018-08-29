@@ -26,6 +26,7 @@
 #ifndef VICE_ARCHDEP_DEFAULT_SYSFILE_PATHLIST_H
 #define VICE_ARCHDEP_DEFAULT_SYSFILE_PATHLIST_H
 
-char *archdep_default_sysfile_pathlist(const char *emu_id);
+char *  archdep_default_sysfile_pathlist(const char *emu_id);
+void    archdep_default_sysfile_pathlist_free(void);
 
 #endif

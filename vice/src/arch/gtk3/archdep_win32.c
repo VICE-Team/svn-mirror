@@ -242,6 +242,8 @@ void archdep_shutdown(void)
     archdep_boot_path_free();
     /* free memory used by the home path */
     archdep_home_path_free();
+    /* free memory used by the sysfile pathlist */
+    archdep_default_sysfile_pathlist_free();
 
     if (default_path != NULL) {
         lib_free(default_path);

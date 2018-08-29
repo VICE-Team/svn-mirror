@@ -71,9 +71,8 @@ int         archdep_stat(const char *file_name,
                          unsigned int *isdir);
 int         archdep_rename(const char *oldpath, const char *newpath);
 
-
-/* XXX: still to refactor: */
-char *archdep_default_sysfile_pathlist(const char *emu_id);
+char *      archdep_default_sysfile_pathlist(const char *emu_id);
+void        archdep_default_sysfile_pathlist_free(void);
 
 
 /* set permissions of given file to rw, respecting current umask */
