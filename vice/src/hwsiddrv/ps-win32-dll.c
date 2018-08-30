@@ -231,7 +231,7 @@ static int parsid_GetParallelControllerKey(char *parKey)
 static int parsid_GetAddressLptPortInTheRegistry(int myPort)
 {
     HKEY phkResult;
-    char myKey[255], myData[255];
+    char myKey[255], myData[512];
     LONG res;
     DWORD mySize, myType;
 
@@ -257,7 +257,7 @@ static int parsid_GetAddressLptPortInTheRegistry(int myPort)
 
     return (myData[0x14] | myData[0x15] << 8);
 }
-         
+
 typedef BOOL (CALLBACK * PROCTYPE_Toolhelp32ReadProcessMemory)(DWORD, LPCVOID, LPVOID, DWORD, LPDWORD);
 
 static int parsid_GetAddressLptPortInTheMemory(int myPort)
