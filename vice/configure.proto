@@ -1048,7 +1048,7 @@ fi
 
 dnl test for openwatcom CC for library conversion
 if test x"$CC" = "xowcc"; then
-  CFLAGS="$CFLAGS -O2"
+  CFLAGS="$CFLAGS -O3"
   AM_CONDITIONAL(OWCC, true)
   AC_DEFINE(WATCOM_COMPILE,,[owcc is being used.])
   toolchain_check=no
@@ -1635,14 +1635,14 @@ dnl All other UN*X systems
     *-sgi-irix*)
       if test x"$CC" = "xcc"; then
         echo "Using SGI C Compiler cflags."
-        CFLAGS="$CFLAGS -O2 -woff all"
+        CFLAGS="$CFLAGS -O3 -woff all"
       fi
       ;;
 
     alpha*-dec-osf*)
       if test x"$CC" = "xcc"; then
         echo "Using Tru64 C Compiler cflags."
-        CFLAGS="$CFLAGS -fast -O2 -std -g3 -non_shared"
+        CFLAGS="$CFLAGS -fast -O3 -std -g3 -non_shared"
       fi
       ;;
   esac
