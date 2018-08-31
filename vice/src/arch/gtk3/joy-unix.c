@@ -339,6 +339,7 @@ const char *joystick_ui_get_next_device_name(int *id)
 
         if (!use_old_api) {
 #ifdef HAS_JOYSTICK
+#if !defined(__FreeBSD__) && !defined(__OpenBSD__) && !defined(__NetBSD__) && !defined (__DragonflyBSD__)
             if ((*id >= JOYDEV_ANALOG_0) && (*id <= JOYDEV_ANALOG_5)) {
                 idx = *id - JOYDEV_ANALOG_0;
                 if (ajoyfd[idx] >= 0) {
@@ -352,6 +353,7 @@ const char *joystick_ui_get_next_device_name(int *id)
                     return NULL;
                 }
             }
+#endif /* BSD */
 #endif
         }
         /* return name from the predefined list instead */
