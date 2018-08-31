@@ -68,6 +68,7 @@
 #include "uismartattach.h"
 #include "uitapeattach.h"
 #include "uisidattach.h"
+#include "uimachinewindow.h"
 #include "mixerwidget.h"
 #include "uidata.h"
 #include "archdep.h"
@@ -549,6 +550,10 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
 {
     int index = ui_get_window_index(widget);
 
+    /* printf("ui.c:on_focus_in_event\n"); */
+
+    ui_mouse_grab_pointer();
+
     if (index < 0) {
         /* We should never end up here. */
         log_error(LOG_ERR, "focus-in-event: window not found\n");
@@ -563,6 +568,26 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
     return FALSE;
 }
 
+/** \brief  Handler for the "focus-out-event" of a main window
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       window focus details
+ * \param[in]   user_data   extra data for the event (ignored)
+ *
+ * \return  FALSE to continue processing
+ *
+ * \note    We only use this for canvas-window-specific stuff like
+ *          fullscreen mode.
+ */
+static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
+                                  gpointer user_data)
+{
+    /* printf("ui.c:on_focus_out_event\n"); */
+
+    ui_mouse_ungrab_pointer();
+
+    return FALSE;
+}
 
 /** \brief  Create an icon by loading it from the vice.gresource file
  *
@@ -629,6 +654,8 @@ static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *ev
     GdkWindowState win_state = event->new_window_state;
     int index = ui_get_window_index(widget);
 
+    printf("ui.c:on_window_state_event\n");
+    
     if (index < 0) {
         /* We should never end up here. */
         log_error(LOG_ERR, "window-state-event: window not found\n");
@@ -1050,6 +1077,8 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     g_signal_connect(new_window, "focus-in-event",
                      G_CALLBACK(on_focus_in_event), NULL);
+    g_signal_connect(new_window, "focus-out-event",
+                     G_CALLBACK(on_focus_out_event), NULL);
     g_signal_connect(new_window, "window-state-event",
                      G_CALLBACK(on_window_state_event), NULL);
     g_signal_connect(new_window, "delete-event",

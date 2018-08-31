@@ -32,6 +32,8 @@
  */
 #if 1
 
+/* #define DEBUGPOINTER */
+
 #include "vice.h"
 
 #include <gtk/gtk.h>
@@ -46,6 +48,12 @@
 #include "ui.h"
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
+
+#ifdef DEBUGPOINTER
+#define VICE_EMPTY_POINTER  NULL
+#else
+#define VICE_EMPTY_POINTER  canvas->blank_ptr
+#endif
 
 /** \brief Last recoreded X position of the mouse, for computing
  *         relative movement.
@@ -63,6 +71,18 @@ static gdouble last_mouse_y = -1;
  *         mouse driver.
  *  \sa    event_box_motion_cb */
 static int warping = 0;
+
+/** \brief If nonzero, this is a handle for the pointer device
+ *  \sa    event_box_motion_cb */
+static GdkDevice *pointer = NULL;
+
+/** \brief If nonzero, this is a handle for the canvas under the pointer device
+ *  \sa    event_box_motion_cb */
+static video_canvas_t *pointercanvas = NULL;
+
+/** \brief If nonzero, this is a handle for the seat associated with mouse grab
+ *  \sa    event_box_motion_cb */
+static GdkSeat *pointerseat = NULL;
 
 /** \brief Callback for handling mouse motion events over the emulated
  *         screen.
@@ -158,7 +178,10 @@ static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer
         }
         last_mouse_x = pen_x;
         last_mouse_y = pen_y;
+        pointer = motion->device;
+        pointercanvas = canvas;
     }
+
     return FALSE;
 }
 
@@ -323,7 +346,7 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
             GdkWindow *window = gtk_widget_get_window(widget);
 
             if (window) {
-                gdk_window_set_cursor(window, canvas->blank_ptr);
+                gdk_window_set_cursor(window, VICE_EMPTY_POINTER);
             }
         }
     } else {
@@ -339,6 +362,7 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
             }
         }
     }
+
     return G_SOURCE_CONTINUE;
 }
 
@@ -372,7 +396,39 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
          * clicking the canvas altered grab status. */
         return FALSE;
     }
-    
+
+    if (_mouse_enabled) {
+        if (crossing->type == GDK_LEAVE_NOTIFY) {
+            if (pointer) {
+                /* warp the pointer into the center of the window */
+                GdkWindow *window = gtk_widget_get_window(canvas->drawing_area);
+                GdkScreen *screen = gdk_window_get_screen(window);
+                int window_w = gdk_window_get_width(window);
+                int window_h = gdk_window_get_height(window);
+                gdk_device_warp(pointer, screen,
+                                    (window_w / 2) + crossing->x_root - crossing->x,
+                                    (window_h / 2) + crossing->y_root - crossing->y);
+                warping = 1;
+                /* grab the pointer */
+                if (pointerseat == NULL) {
+                    pointerseat = gdk_device_get_seat (pointer);
+                    if (!gdk_seat_grab (pointerseat, window,
+                                        GDK_SEAT_CAPABILITY_ALL_POINTING,
+                                        FALSE, VICE_EMPTY_POINTER, event, NULL, NULL) == GDK_GRAB_SUCCESS) {
+                        pointerseat = NULL;
+                    }
+                    /* printf("event_box_cross_cb pointer grab\n"); */
+                }
+            }
+
+            return FALSE;
+        }
+    } else {
+        /* ungrab the pointer when mouse is not enabled */
+        /* printf("event_box_cross_cb pointer ungrab\n"); */
+        ui_mouse_ungrab_pointer();
+    }
+
     if (crossing->type == GDK_ENTER_NOTIFY) {
         canvas->still_frames = 0;
         if (canvas->still_frame_callback_id == 0) {
@@ -435,6 +491,7 @@ static void machine_window_create(video_canvas_t *canvas)
     gtk_widget_add_events(new_event_box, GDK_BUTTON_PRESS_MASK);
     gtk_widget_add_events(new_event_box, GDK_BUTTON_RELEASE_MASK);
     gtk_widget_add_events(new_event_box, GDK_SCROLL_MASK);
+
     g_signal_connect(new_event_box, "enter-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
@@ -451,6 +508,8 @@ static void machine_window_create(video_canvas_t *canvas)
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(canvas->grid), new_event_box);
 
+    pointercanvas = canvas;
+
     return;
 }
 
@@ -458,6 +517,44 @@ void ui_machine_window_init(void)
 {
     ui_set_create_window_func(machine_window_create);
     return;
+}
+
+/** \brief grab the mouse pointer when mouse emulation is enabled
+ * 
+ *  \todo when the emulator starts up with mouse enabled (eg via command line
+ *        options) then "pointer" will not be known and the mouse pointer can
+ *        not be warped. this needs to be fixed somehow.
+ */
+void ui_mouse_grab_pointer(void)
+{
+    /* printf("ui_mouse_grab_pointer\n"); */
+    if (_mouse_enabled) {
+        /* warp the pointer into the center of the window */
+        /* FIXME: we somehow need to find out how to find out about the GdkDevice
+                  for the pointer here */
+        if ((pointercanvas) && (pointer)) {
+            gint root_x, root_y;
+            GdkWindow *window = gtk_widget_get_window(pointercanvas->drawing_area);
+            GdkScreen *screen = gdk_window_get_screen(window);
+            int window_w = gdk_window_get_width(window);
+            int window_h = gdk_window_get_height(window);
+            gdk_window_get_root_origin (window, &root_x, &root_y);
+            gdk_device_warp(pointer, screen, (window_w / 2) + root_x, (window_h / 2) + root_y);
+            warping = 1;
+        }
+        /* the event handlers will take care of the actual grabbing */
+    }
+}
+
+/** \brief ungrab the mouse pointer when it was grabbed before
+ */
+void ui_mouse_ungrab_pointer(void)
+{
+    /* printf("ui_mouse_ungrab_pointer\n"); */
+    if (pointerseat) {
+        gdk_seat_ungrab (pointerseat);
+        pointerseat = NULL;
+    }
 }
 
 #endif
