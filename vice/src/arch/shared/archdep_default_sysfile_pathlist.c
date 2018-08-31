@@ -62,9 +62,7 @@ static char *sysfile_path = NULL;
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     const char *boot_path = archdep_boot_path();
-#if defined(ARCHDEP_OS_UNIX) && !(defined(ARCHDEP_OS_OSX))
     const char *home_path = archdep_user_config_path();
-#endif
 
     char *lib_root = NULL;
     char *lib_machine_roms = NULL;
@@ -96,16 +94,25 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 #ifdef ARCHDEP_OS_UNIX
 
-# ifdef ARCHEP_OS_OSX
+# ifdef MACOSX_BUNDLE
 
-    /* boot path based paths */
-    boot_root = archdep_join_paths(boot_path, emu_id, NULL);
+    /* ROM paths relative to the Contents/Resources/bin directory 
+       in the bundle */
+    lib_machine_roms = archdep_join_paths(
+            boot_path, "..", "ROM", emu_id, NULL);
+    lib_drive_roms = archdep_join_paths(
+            boot_path, "..", "ROM", "DRIVES", NULL);
+    lib_printer_roms = archdep_join_paths(
+            boot_path, "..", "ROM", "PRINTER", NULL);
+
+    /* ROM paths relative to the Contents/MacOS directory in the bundle
+       (currently unused, but was used by SDL UI in VICE 3.2) */
     boot_machine_roms = archdep_join_paths(
             boot_path, "..", "Resources", "ROM", emu_id, NULL);
-    boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
-    boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
-
-    /* home path based paths */
+    boot_drive_roms = archdep_join_paths(
+            boot_path, "..", "Resources", "ROM", "DRIVES", NULL);
+    boot_printer_roms = archdep_join_paths(
+            boot_path, "..", "Resources", "ROM", "PRINTER", NULL);
 
 # else
     lib_machine_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
@@ -115,11 +122,12 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
     boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
+# endif
 
+    /* home path based paths */
     home_machine_roms = archdep_join_paths(home_path, emu_id, NULL);
     home_drive_roms = archdep_join_paths(home_path, "DRIVES", NULL);
     home_printer_roms = archdep_join_paths(home_path, "PRINTER", NULL);
-# endif
 
 #elif defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
     || defined(ARCHDEP_OS_MSDOS)
