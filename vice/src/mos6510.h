@@ -35,7 +35,9 @@
    are handled within the CPU emulation.  The struct should be accessed using
    the `MOS6510_REGS_*()' macros.  */
 typedef struct mos6510_regs_s {
-    uint16_t pc;
+    /* FIXME: we want this to be uint16, however the drive code relies on it
+              being unsigned int and produces subtle bugs with uint16 */
+    unsigned int pc;
     uint8_t a;
     uint8_t x;
     uint8_t y;
