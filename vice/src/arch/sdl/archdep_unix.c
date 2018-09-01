@@ -679,10 +679,12 @@ void archdep_signals_pipe_unset(void)
     signal(SIGPIPE, old_pipe_handler);
 }
 
+#if 0
 int archdep_rename(const char *oldpath, const char *newpath)
 {
     return rename(oldpath, newpath);
 }
+#endif
 
 /* doesn't seem to be required -- compyx */
 #if 0
