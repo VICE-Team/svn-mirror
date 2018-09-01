@@ -39,6 +39,7 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,7 +53,7 @@
 #endif
 
 /* for readlink(2) */
-#ifdef ARCHDEP_OS_UNIX
+#if defined(ARCHDEP_OS_UNIX) || defined(ACHDEP_OS_BEOS)
 # include <unistd.h>
 # ifdef ARCHDEP_OS_BSD_FREE
 #  include <sys/sysctl.h>
@@ -65,7 +66,11 @@
 /* for GetModuleFileName() */
 #ifdef ARCHDEP_OS_WINDOWS
 # include "windows.h"
+# include <direct.h>
 #endif
+
+#include "archdep_join_paths.h"
+#include "archdep_path_is_relative.h"
 
 #include "archdep_program_path.h"
 
@@ -88,6 +93,68 @@ void archdep_program_path_set_argv0(char *argv0)
 {
     argv0_ref = argv0;
 }
+
+
+/** \brief  Fall back: try to get absolute path to exec via argv[0]
+ *
+ * This is unreliable and should only be used as a last resort.
+ *
+ * \return  bool (if this fails, we have to give up)
+ */
+static bool argv_fallback(void)
+{
+    char cwd_buf[4096];
+    char *result;
+    size_t res_len;
+
+    if (argv0_ref == NULL) {
+        log_error(LOG_ERR, "argv[0] is NULL, giving up.");
+        return false;
+    }
+    if (*argv0_ref == '\0') {
+        log_error(LOG_ERR, "argv[0] is empty, giving up.");
+        return false;
+    }
+
+    /* do we have an absolute path in argv[0]? */
+    if (!archdep_path_is_relative(argv0_ref)) {
+        strcpy(buffer, argv0_ref);
+        return true;
+    }
+
+    /*
+     * Relative path in argv[0], try to get cwd and join it with argv[0]
+     */
+    memset(cwd_buf, 0, 4096);
+
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
+    if (getcwd(cwd_buf, 4096 - 1) == NULL) {
+        log_error(LOG_ERR, "failed to get cwd, giving up.");
+        return false;
+    }
+#elif defined(ARCHDEP_OS_WINDOWS)
+    if (_getcwd(cwd_buf, 4096 -1) == NULL) {
+        log_error(LOG_ERR, "failed to get cwd, giving up.");
+        return false;
+    }
+#else
+    log_eror(LOG_ERR,"no getcwd() support for current OS, giving up.");
+    return false;
+#endif
+
+    result = archdep_join_paths(cwd_buf, argv0_ref, NULL);
+    res_len = strlen(result);
+    if (res_len >= 4096) {
+        /* insufficient space */
+        log_error(LOG_ERR, "insufficient space for path, giving up.");
+        lib_free(result);
+        return false;
+    }
+    memcpy(buffer, result, res_len + 1);
+    lib_free(result);
+    return true;
+}
+
 
 
 /** \brief  Get absolute path to the running executable
@@ -115,8 +182,12 @@ const char *archdep_program_path(void)
 #elif defined(ARCHDEP_OS_WINDOWS)
 
     if (GetModuleFileName(NULL, buffer, PATH_BUFSIZE - 1) == PATH_BUFSIZE - 1) {
-        log_error(LOG_ERR, "failed to retrieve executable path.");
-        exit(1);
+        log_error(LOG_ERR,
+                "failed to retrieve executable path, falling back"
+                " to getcwd() + argv[0]");
+        if (!argv_fallback()) {
+            exit(1);
+        }
     }
 
 #elif defined(ARCHDEP_OS_UNIX)
@@ -136,8 +207,12 @@ const char *archdep_program_path(void)
     /* get path via libproc */
     pid_t pid = getpid();
     if (proc_pidpath(pid, buffer, PATH_BUFSIZE - 1) <= 0) {
-        log_error(LOG_ERR, "failed to retrieve executable path.");
-        exit(1);
+        log_error(LOG_ERR,
+                "failed to retrieve executable path, falling back"
+                " to getcwd() + argv[0]");
+        if (!argv_fallback()) {
+            exit(1);
+        }
     }
 
     /* TODO: other Unices */
@@ -146,8 +221,12 @@ const char *archdep_program_path(void)
 
     /* Linux as a fallback (has it really come to this?) */
     if (readlink("/proc/self/exe", buffer, PATH_BUFSIZE - 1) < 0) {
-        log_error(LOG_ERR, "failed to retrieve executable path.");
-        exit(1);
+        log_error(LOG_ERR,
+                "failed to retrieve executable path, falling back"
+                " to getcwd() + argv[0]");
+        if (!argv_fallback()) {
+            exit(1);
+        }
     }
 
     /* BSD's */
@@ -168,9 +247,12 @@ const char *archdep_program_path(void)
         mib[3] = -1;
 
         if (sysctl(mib, 4, buffer, &bufsize, NULL, 0) < 0) {
-            log_error(LOG_ERR, "sysctl call failed");
-            /* TODO: fall back to using argv[0] and cwd() */
-            exit(1);
+            log_error(LOG_ERR,
+                    "failed to retrieve executable path, falling back"
+                    " to getcwd() + argv[0]");
+            if (!argv_fallback()) {
+                exit(1);
+            }
         }
         printf("SYSCTL: %s\n", buffer);
     }
@@ -189,11 +271,10 @@ const char *archdep_program_path(void)
 
     /*
      * Other systems (BeOS etc)
-     *
-     * Currently incorrect: we need an absolute path
      */
-# warning Incorrect implementation
-    strcpy(buffer, argv0);
+    if (!argv_fallback()) {
+        exit(1);
+    }
 
 #endif
     program_path = lib_stralloc(buffer);
