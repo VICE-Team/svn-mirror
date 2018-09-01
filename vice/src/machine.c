@@ -291,9 +291,9 @@ void machine_shutdown(void)
     machine_specific_shutdown();
 
     autostart_shutdown();
-
+#ifdef HAS_JOYSTICK_SUPPORT
     joystick_close();
-
+#endif
     sound_close();
 
     printer_shutdown();
