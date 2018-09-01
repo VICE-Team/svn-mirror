@@ -47,24 +47,23 @@
 #include "lib.h"
 #include "log.h"
 
-#ifdef AMIGA_SUPPORT
+#ifdef ARCHDEP_OS_AMIGA
 /* some includes */
 #endif
 
 /* for readlink(2) */
-#ifdef UNIX_COMPILE
+#ifdef ARCHDEP_OS_UNIX
 # include <unistd.h>
 # ifdef ARCHDEP_OS_BSD_FREE
 #  include <sys/sysctl.h>
 # endif
-#endif
-
-#ifdef MACOSX_SUPPORT
-# include <libproc.h>
+# ifdef ARCHDEP_OS_OSX
+#  include <libproc.h>
+# endif
 #endif
 
 /* for GetModuleFileName() */
-#ifdef WIN32_COMPILE
+#ifdef ARCHDEP_OS_WINDOWS
 # include "windows.h"
 #endif
 
@@ -107,19 +106,20 @@ const char *archdep_program_path(void)
     /* zero out the buffer since readlink(2) doesn't add a nul character */
     memset(buffer, 0, PATH_BUFSIZE);
 
-#ifdef AMIGA_SUPPORT
+
+#ifdef ARCHDEP_OS_AMIGA
 
     /* do I need a header for this? */
     GetProgramName(buffer, PATH_BUFSIZE - 1);
 
-#elif defined(WIN32_COMPILE)
+#elif defined(ARCHDEP_OS_WINDOWS)
 
     if (GetModuleFileName(NULL, buffer, PATH_BUFSIZE - 1) == PATH_BUFSIZE - 1) {
         log_error(LOG_ERR, "failed to retrieve executable path.");
         exit(1);
     }
 
-#elif defined(UNIX_COMPILE)
+#elif defined(ARCHDEP_OS_UNIX)
 
     /* XXX: Only works on Linux and OSX, support for *BSD etc to be added later
      *
@@ -131,7 +131,7 @@ const char *archdep_program_path(void)
      *      OpenBSD:    ???
      */
 
-# ifdef MACOSX_SUPPORT
+# ifdef ARCHDEP_OS_OSX
 
     /* get path via libproc */
     pid_t pid = getpid();
@@ -175,11 +175,24 @@ const char *archdep_program_path(void)
         printf("SYSCTL: %s\n", buffer);
     }
 
-#  endif    /* TODO: other BSD's */
+#  elif defined(ARCHDEP_OS_BSD_NET
+#   error NetBSD support missing
+#  elif defined(ARCHDEP_OS_BSD_OPEN
+#   error OpenBSD support missing
+#  elif defined(ARCHDEP_OS_BSD_DRAGON
+#   error DragonFly BSD support missing
+
+#  endif    /* end BSD's */
 
 # endif /* end UNIX */
 #else
-    /* other systems (BeOS etc) */
+
+    /*
+     * Other systems (BeOS etc)
+     *
+     * Currently incorrect: we need an absolute path
+     */
+# warning Incorrect implementation
     strcpy(buffer, argv0);
 
 #endif
