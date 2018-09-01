@@ -257,11 +257,20 @@ const char *archdep_program_path(void)
         printf("SYSCTL: %s\n", buffer);
     }
 
-#  elif defined(ARCHDEP_OS_BSD_NET
-#   error NetBSD support missing
-#  elif defined(ARCHDEP_OS_BSD_OPEN
+#  elif defined(ARCHDEP_OS_BSD_NET)
+
+    if (readlink("/proc/curproc/exe", buffer, PATH_BUFSIZE - 1) < 0) {
+        log_error(LOG_ERR,
+                "failed to retrieve executable path, falling back"
+                " to getcwd() + argv[0]");
+        if (!argv_fallback()) {
+            exit(1);
+        }
+    }
+
+#  elif defined(ARCHDEP_OS_BSD_OPEN)
 #   error OpenBSD support missing
-#  elif defined(ARCHDEP_OS_BSD_DRAGON
+#  elif defined(ARCHDEP_OS_BSD_DRAGON)
 #   error DragonFly BSD support missing
 
 #  endif    /* end BSD's */
