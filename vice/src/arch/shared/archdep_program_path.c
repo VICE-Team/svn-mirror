@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "lib.h"
 #include "log.h"
@@ -53,6 +54,9 @@
 /* for readlink(2) */
 #ifdef UNIX_COMPILE
 # include <unistd.h>
+# ifdef ARCHDEP_OS_BSD_FREE
+#  include <sys/sysctl.h>
+# endif
 #endif
 
 #ifdef MACOSX_SUPPORT
@@ -138,15 +142,42 @@ const char *archdep_program_path(void)
 
     /* TODO: other Unices */
 
-# else
+# elif defined(ARCHDEP_OS_LINUX)
 
     /* Linux as a fallback (has it really come to this?) */
     if (readlink("/proc/self/exe", buffer, PATH_BUFSIZE - 1) < 0) {
         log_error(LOG_ERR, "failed to retrieve executable path.");
         exit(1);
     }
-# endif
 
+    /* BSD's */
+# elif defined(ARCHDEP_OS_BSD)
+#  if defined(ARCHDEP_OS_BSD_FREE)
+
+    int mib[4];
+    size_t bufsize = PATH_BUFSIZE;
+
+    /* /proc may not be available on FreeBSD */
+    if (readlink("/proc/curproc/file", buffer, PATH_BUFSIZE - 1) < 0) {
+        printf("%s(): failed to read /proc/curproc/file: %d: %s\n",
+                __func__, errno, strerror(errno));
+        /* try sysctl call */
+        mib[0] = CTL_KERN;
+        mib[1] = KERN_PROC;
+        mib[2] = KERN_PROC_PATHNAME;
+        mib[3] = -1;
+
+        if (sysctl(mib, 4, buffer, &bufsize, NULL, 0) < 0) {
+            log_error(LOG_ERR, "sysctl call failed");
+            /* TODO: fall back to using argv[0] and cwd() */
+            exit(1);
+        }
+        printf("SYSCTL: %s\n", buffer);
+    }
+
+#  endif    /* TODO: other BSD's */
+
+# endif /* end UNIX */
 #else
     /* other systems (BeOS etc) */
     strcpy(buffer, argv0);
