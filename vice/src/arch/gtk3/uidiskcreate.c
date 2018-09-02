@@ -359,7 +359,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     /* add 'set drive type for attached image' checkbox */
     set_drive_type = gtk_check_button_new_with_label(
             "Set proper drive type when attaching image");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(set_drive_type), TRUE);
+    /* disable by default */
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(set_drive_type), FALSE);
     gtk_grid_attach(GTK_GRID(grid), set_drive_type, 0, 1, 4, 1);
 
     gtk_widget_show_all(grid);
