@@ -134,13 +134,8 @@ void cubic_coefficients(double x1, double y1, double x2, double y2,
 {
   double dx = x2 - x1, dy = y2 - y1;
 
-  if (dx == 0.0) {
-    a = 0.0;
-    b = 0.0;
-  } else {
-    a = ((k1 + k2) - 2*dy/dx)/(dx*dx);
-    b = ((k2 - k1)/dx - 3*(x1 + x2)*a)/2;
-  }
+  a = ((k1 + k2) - 2*dy/dx)/(dx*dx);
+  b = ((k2 - k1)/dx - 3*(x1 + x2)*a)/2;
   c = k1 - (3*x1*a + 2*b)*x1;
   d = y1 - ((x1*a + b)*x1 + c)*x1;
 }
