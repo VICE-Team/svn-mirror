@@ -33,21 +33,15 @@
 #include "basedialogs.h"
 #include "filechooserhelpers.h"
 #include "lastdir.h"
-#include "machine.h"
 #include "lib.h"
-#include "psid.h"
 #include "ui.h"
 #include "uiapi.h"
-#include "vsync.h"
+#include "uivsidwindow.h"
 
 #include "hvscstilwidget.h"
 #include "vsidtuneinfowidget.h"
 
 #include "uisidattach.h"
-
-
-/* forward declarations */
-/* static bool load_psid_handler(const char *filename); */
 
 
 /** \brief  File type filters for the dialog
@@ -57,13 +51,6 @@ static ui_file_filter_t filters[] = {
     { "All files", file_chooser_pattern_all },
     { NULL, NULL }
 };
-
-
-/* function pointers to work around the linking differences between VSID and
- * other emulators
- */
-static void (*psid_init_func)(void) = NULL;
-static void (*psid_play_func)(int) = NULL;
 
 
 /** \brief  Last used directory in dialog
@@ -145,7 +132,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             text = lib_msprintf("Opening '%s'", filename);
             debug_gtk3("Loading SID file '%s'.", filename);
-            load_psid_handler(filename);
+            ui_vsid_window_load_psid(filename);
 
             vsid_tune_info_widget_set_song_lengths(filename);
             hvsc_stil_widget_set_psid(filename);
@@ -162,29 +149,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         default:
             break;
     }
-}
-
-
-/** \brief  Load and play PSID/SID file \a filename
- *
- * \param[in]   filename    file to play
- */
-bool load_psid_handler(const char *filename)
-{
-    vsync_suspend_speed_eval();
-
-    if (machine_autodetect_psid(filename) < 0) {
-        debug_gtk3("'%s' is not a valid PSID file.", filename);
-        ui_error("'%s' is not a valid PSID file.", filename);
-        return false;
-    }
-
-    if (psid_init_func != NULL && psid_play_func != NULL) {
-        psid_init_func();
-        psid_play_func(0);
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    }
-    return true;
 }
 
 
@@ -274,26 +238,6 @@ void uisidattach_show_dialog(GtkWidget *widget, gpointer data)
     dialog = create_sid_attach_dialog(widget);
     gtk_widget_show(dialog);
 
-}
-
-
-/** \brief  Set psid init function
- *
- * \param[in]   func    psid_init_driver() function
- */
-void uisidattach_set_psid_init_func(void (*func)(void))
-{
-    psid_init_func = func;
-}
-
-
-/** \brief  Set psid play function
-*
-* \param[in]   func    machine_play_psid() function
-*/
-void uisidattach_set_psid_play_func(void (*func)(int))
-{
-    psid_play_func = func;
 }
 
 
