@@ -31,6 +31,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+int ui_vsid_window_load_psid(const char *filename);
+
 void ui_vsid_window_init(void);
 
 

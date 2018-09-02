@@ -58,6 +58,7 @@ enum {
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 
+void ui_set_handle_dropped_files_func(int (*func)(const char *));
 void ui_set_create_window_func(void (*func)(video_canvas_t *));
 void ui_set_identify_canvas_func(int (*func)(video_canvas_t *));
 void ui_set_create_controls_widget_func(GtkWidget *(*func)(int));

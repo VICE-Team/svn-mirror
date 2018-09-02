@@ -63,6 +63,7 @@ static const vice_gtk3_radiogroup_entry_t vsid_vicii_models[] = {
 void vsid_ui_close(void)
 {
     hvsc_exit();
+    uisidattach_shutdown();
 }
 
 

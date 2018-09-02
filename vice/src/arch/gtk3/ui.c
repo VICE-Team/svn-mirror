@@ -67,7 +67,6 @@
 #include "uidiskattach.h"
 #include "uismartattach.h"
 #include "uitapeattach.h"
-#include "uisidattach.h"
 #include "uimachinewindow.h"
 #include "mixerwidget.h"
 #include "uidata.h"
@@ -301,6 +300,10 @@ static int is_fullscreen = 0;
  */
 static int fullscreen_has_decorations = 0;
 
+/** \brief  Function to handle files dropped on a main window
+ */
+static int (*handle_dropped_files_func)(const char *) = NULL;
+
 /** \brief  Function to help create a main window
  */
 static void (*create_window_func)(video_canvas_t *) = NULL;
@@ -456,7 +459,9 @@ static void on_drag_data_received(
             }
         } else {
             /* try to open SID file, reports error itself */
-            load_psid_handler(filename);
+            if (handle_dropped_files_func != NULL) {
+                handle_dropped_files_func(filename);
+            }
         }
         g_free(filename);
     }
@@ -934,6 +939,20 @@ static int set_start_minimized(int val, void *param)
     return 0;
 }
 
+
+/*
+ * Function pointer setters
+ */
+
+
+/** \brief  Set function to handle files dropped on a main window
+ *
+ * \param[in]   func    handle dropped files function
+ */
+void ui_set_handle_dropped_files_func(int (*func)(const char *))
+{
+    handle_dropped_files_func = func;
+}
 
 
 /** \brief  Set function to help create the main window(s)
@@ -1564,8 +1583,6 @@ void ui_exit(void)
         ui_disk_attach_shutdown();
         ui_tape_attach_shutdown();
         ui_smart_attach_shutdown();
-    } else {
-        uisidattach_shutdown();
     }
 
     ui_settings_shutdown();

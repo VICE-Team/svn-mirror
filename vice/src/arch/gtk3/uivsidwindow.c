@@ -37,9 +37,13 @@
 #include "videoarch.h"
 
 #include "vice_gtk3.h"
+#include "machine.h"
+#include "psid.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uivsidmenu.h"
 #include "vsidmainwidget.h"
+#include "vsync.h"
 
 #include "uivsidwindow.h"
 
@@ -76,11 +80,34 @@ static void vsid_window_create(video_canvas_t *canvas)
 }
 
 
+/** \brief  Load and play PSID/SID file \a filename
+ *
+ * \param[in]   filename    file to play
+ */
+int ui_vsid_window_load_psid(const char *filename)
+{
+    vsync_suspend_speed_eval();
+
+    if (machine_autodetect_psid(filename) < 0) {
+        debug_gtk3("'%s' is not a valid PSID file.", filename);
+        ui_error("'%s' is not a valid PSID file.", filename);
+        return -1;
+    }
+    psid_init_driver();
+    machine_play_psid(0);
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+
+    return 0;
+}
+
+
 /** \brief  Initialize VSID window
  */
 void ui_vsid_window_init(void)
 {
     ui_set_create_window_func(vsid_window_create);
+
+    ui_set_handle_dropped_files_func(ui_vsid_window_load_psid);
 }
 
 #endif
