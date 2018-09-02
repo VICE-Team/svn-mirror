@@ -116,7 +116,7 @@ static void netplay_update_resources(void)
     char p[256];
     long port;
 
-    strncpy(p, gtk_entry_get_text(GTK_ENTRY(np_port)), 256);
+    strncpy(p, gtk_entry_get_text(GTK_ENTRY(np_port)), sizeof(p) - 1);
     server_name = gtk_entry_get_text(GTK_ENTRY(np_server));
     server_bind_address = gtk_entry_get_text(GTK_ENTRY(np_server_bind));
     util_string_to_long(p, NULL, 10, &port);
