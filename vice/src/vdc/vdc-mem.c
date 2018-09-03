@@ -44,6 +44,8 @@
 
 #include "vdc-draw.h"
 
+static CLOCK vdc_status_clear_clock = 0;
+
 /*#define REG_DEBUG*/
 
 /* bitmask to set the unused bits in returned register values */
@@ -51,7 +53,7 @@ static const uint8_t regmask[38] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
     0xFC, 0xE0, 0x80, 0xE0, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x0f, 0xE0, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F
 };
 
@@ -123,7 +125,7 @@ void vdc_store(uint16_t addr, uint8_t value)
     /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
     machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 
-    /* $d600 sets the internal vdc address pointer */
+    /* $d600 sets the internal VDC register pointer */
     if ((addr & 1) == 0) {  /* writing to $d600   */
 #ifdef REG_DEBUG
         /*log_message(vdc.log, "STORE $D600 %02x", value);*/
@@ -304,6 +306,8 @@ void vdc_store(uint16_t addr, uint8_t value)
         case 18:                /* R18/19 Update Address hi/lo */
         case 19:
             vdc.update_adr = ((vdc.regs[18] << 8) | vdc.regs[19]) & vdc.vdc_address_mask;
+            /* writing to 18/19 forces the vdc to go read its memory, which takes a while */
+            vdc_status_clear_clock = maincpu_clk + 37;
             break;
 
         case 20:                /* R20/21 Attribute Start Address hi/lo */
@@ -430,12 +434,16 @@ void vdc_store(uint16_t addr, uint8_t value)
 #endif
             break;
 
-        case 30:                /* Word Count */
+        case 30:                /* Word Count + initiate fill or copy */
             vdc_perform_fillcopy();
+            /* Set the clock for when the vdc status will be clear after this operation */
+            vdc_status_clear_clock = maincpu_clk + (vdc.regs[30]*45/100);
             break;
 
-        case 31:                /* Data */
+        case 31:                /* Data for memory write */
             vdc_write_data();
+            /* Set the clock for when the vdc status will be clear after this operation */
+            vdc_status_clear_clock = maincpu_clk + 15;
             break;
 
         case 32:                /* R32/33 Block Start Address hi/lo */
@@ -485,6 +493,8 @@ uint8_t vdc_read(uint16_t addr)
                   & vdc.vdc_address_mask;
             vdc.regs[18] = (ptr >> 8) & 0xff;
             vdc.regs[19] = ptr & 0xff;
+             /* Set the clock for when the vdc status will be clear after this operation */
+            vdc_status_clear_clock = maincpu_clk + 37;
             return retval;
         }
 
@@ -508,9 +518,17 @@ uint8_t vdc_read(uint16_t addr)
 
         return 0xff; /* return 0xFF for invalid register numbers */
     } else { /* read $d600 (and mirrors $d602/4/6....$d6fe) */
-        /* NOTE - Status ($80) is currently unsupported and always returns 1 (ready) */
-        retval = 0x80 | vdc.revision;
-
+        retval = vdc.revision;
+        
+        /* Status ($80) is set when the VDC is ready for the next register access.
+           we use an (approximate) timer hack to see if it is ready yet. */
+        if (maincpu_clk > vdc_status_clear_clock) {
+            retval |= 0x80;
+        } else if (maincpu_clk + 10000 < vdc_status_clear_clock) {
+            /* safety check in case maincpu_clk overflows */
+            vdc_status_clear_clock = maincpu_clk;
+        }
+        
         /* Emulate lightpen flag. */
         if (vdc.light_pen.triggered) {
             retval |= 0x40;
