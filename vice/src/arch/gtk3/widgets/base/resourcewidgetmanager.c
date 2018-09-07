@@ -103,8 +103,10 @@ static void resource_widget_entry_init(resource_widget_entry_t *entry)
  */
 static void resource_widget_entry_cleanup(resource_widget_entry_t *entry)
 {
-    if (entry->resource != NULL) {
-        lib_free(entry->resource);
+    if (entry != NULL) {
+        if (entry->resource != NULL) {
+            lib_free(entry->resource);
+        }
     }
 }
 
@@ -119,6 +121,7 @@ static void resource_widget_entry_cleanup(resource_widget_entry_t *entry)
 void vice_resource_widget_manager_init(resource_widget_manager_t *manager)
 {
     size_t i;
+    return;
 
     manager->widget_list = lib_malloc(sizeof *(manager->widget_list)
             * INITIAL_ENTRIES);
@@ -139,6 +142,12 @@ void vice_resource_widget_manager_init(resource_widget_manager_t *manager)
 void vice_resource_widget_manager_exit(resource_widget_manager_t *manager)
 {
     size_t i;
+    return;
+
+    if (manager->widget_list == NULL) {
+        debug_gtk3("Got NULL as widget list, shouldn't happen!");
+        return;
+    }
 
     for (i = 0; i < manager->widget_num; i++) {
         resource_widget_entry_cleanup(manager->widget_list[i]);
@@ -161,6 +170,8 @@ void vice_resource_widget_manager_add_widget(
 {
     resource_widget_entry_t *entry;
 
+    return ;
+
     /* do we need to resize the list? */
     if (manager->widget_max == manager->widget_num) {
         /* resize widget array */
@@ -175,6 +186,8 @@ void vice_resource_widget_manager_add_widget(
     entry->widget = widget;
     if (resource != NULL) {
         entry->resource = lib_stralloc(resource);
+    } else {
+        entry->resource = NULL;
     }
     entry->reset = reset;
     entry->factory = factory;
@@ -192,6 +205,7 @@ void vice_resource_widget_manager_add_widget(
 void vice_resource_widget_manager_dump(resource_widget_manager_t *manager)
 {
     size_t i;
+    return;
 
     debug_gtk3("Resource Widget Manager: registered resources:");
     for (i = 0; i < manager->widget_num; i++) {

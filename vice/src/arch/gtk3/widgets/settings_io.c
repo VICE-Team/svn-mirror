@@ -70,6 +70,7 @@ static resource_widget_manager_t manager;
  */
 static void on_settings_io_destroy(GtkWidget *widget, gpointer data)
 {
+    debug_gtk3("calling vice_resource_widget_manager_exit()");
     vice_resource_widget_manager_exit(&manager);
 }
 
@@ -322,6 +323,8 @@ GtkWidget *settings_io_widget_create(GtkWidget *parent)
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_settings_io_destroy),
             NULL);
+
+    vice_resource_widget_manager_dump(&manager);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -82,6 +82,7 @@ static resource_widget_manager_t manager;
  */
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
+    debug_gtk3("calling vice_resource_wiget_manager_exit()");
     vice_resource_widget_manager_exit(&manager);
 }
 
@@ -254,6 +255,8 @@ GtkWidget *settings_autostart_widget_create(GtkWidget *parent)
     GtkWidget *warp;
 
     /* initialize resource widget manager and register with uisettings */
+    debug_gtk3("Initializing resource widget manager and registering it with"
+            " uisettings.c");
     vice_resource_widget_manager_init(&manager);
     ui_settings_set_resource_widget_manager(&manager);
 

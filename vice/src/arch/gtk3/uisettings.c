@@ -1877,11 +1877,11 @@ static GtkWidget *settings_tree = NULL;
  */
 static GtkTreePath *last_node_path = NULL;
 
-
+#if 0
 /** \brief  Reference to the resource widget manager of the current page
  */
 static resource_widget_manager_t *resource_manager = NULL;
-
+#endif
 
 /** \brief  Set reference to the resource widget manager of the current page
  *
@@ -1889,9 +1889,12 @@ static resource_widget_manager_t *resource_manager = NULL;
  */
 void ui_settings_set_resource_widget_manager(resource_widget_manager_t *manager)
 {
+    debug_gtk3("Setting resource-manager-widget reference temporarily"
+            " disabled.");
+#if 0
     resource_manager = manager;
+#endif
 }
-
 
 
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
@@ -1927,6 +1930,7 @@ static void on_row_activated(GtkTreeView *tree_view,
 }
 
 
+#if 0
 /** \brief  Reset widgets in the central widget to their initial state
  *
  * Restores all widgets in the central widget to the state they were in when\
@@ -1945,8 +1949,10 @@ static void ui_settings_central_widget_reset(GtkWidget *widget, gpointer data)
         debug_gtk3("No resource widget manager registered, skipping");
     }
 }
+#endif
 
 
+#if 0
 /** \brief  Reset widgets in the central widget to their factory state
  *
  * Restores all widgets in the central widget to the factory state of the
@@ -1967,7 +1973,7 @@ static void ui_settings_central_widget_factory(GtkWidget *widget, gpointer data)
     }
 
 }
-
+#endif
 
 /** \brief  Create the widget that is initially shown in the settings UI
  *
@@ -2213,10 +2219,15 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
 {
     GtkWidget *child;
 
+    debug_gtk3("checking for child");
     child = gtk_grid_get_child_at(GTK_GRID(settings_grid), 1, 0);
     if (child != NULL) {
+        debug_gtk3("got child widget, calling destroy on child (and setting"
+                " the resource_manager reference to NULL)");
         gtk_widget_destroy(child);
+#if 0
         resource_manager = NULL;
+#endif
     }
     gtk_grid_attach(GTK_GRID(settings_grid), widget, 1, 0, 1, 1);
     /* add a little space around the widget */
@@ -2341,12 +2352,20 @@ static void response_callback(GtkWidget *widget, gint response_id,
         /* reset resources in current central widget to the state they were
          * in before entering the (sub)dialog */
         case RESPONSE_RESET:
+            debug_gtk3("Resetting widgets to their dialog-entry state"
+                    " temporarily disabled.");
+#if 0
             ui_settings_central_widget_reset(widget, user_data);
+#endif
             break;
 
         /* restore resources in (sub)dialog to factory settings */
         case RESPONSE_FACTORY:
+            debug_gtk3("Resetting widgets to their factory value temporarily"
+                    " disabled.");
+#if 0
             ui_settings_central_widget_factory(widget, user_data);
+#endif
             break;
 
         case RESPONSE_DEFAULT:
