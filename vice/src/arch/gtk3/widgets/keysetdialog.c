@@ -112,13 +112,15 @@ static void on_response(GtkDialog *dialog,
         case GTK_RESPONSE_ACCEPT:
             /* update keyset resources */
             set_keyset_resources();
+            /* fall through */
 
-        case GTK_RESPONSE_REJECT:   /* fall through */
+        case GTK_RESPONSE_REJECT:
             gtk_widget_destroy(GTK_WIDGET(dialog));
             break;
 
         default:
             debug_gtk3("Unhandled response ID %d", response_id);
+            break;
     }
 }
 
