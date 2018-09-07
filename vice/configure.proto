@@ -405,6 +405,11 @@ if test x"$check_gtk3" = "xyes"; then
           is_win32_gtk3=yes
           dnl Required for GetUserProfileDirectoryA
           LIBS="$LIBS -luserenv"
+          dnl Needed for cross-building win32, -static makes some CoInitialize
+          dnl check fail, so I had to leave that out. This also works on msys2.
+          dnl Still need libstdc++-6.dll in the bindist, even with that
+          dnl -static-libstdc++.
+          LIBS="$LIBS -static-libgcc -static-libstdc++"
           ;;
     esac
 
