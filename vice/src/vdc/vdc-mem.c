@@ -581,36 +581,51 @@ int vdc_dump(void *context, uint16_t addr)
 {
     unsigned int r, c, regnum=0;
 
-    mon_out("VDC Revision: %d\n", vdc.revision);
-    mon_out("Vertical Blanking Period: ");
-    mon_out(((vdc.raster.current_line <= vdc.border_height) || (vdc.raster.current_line > (vdc.border_height + vdc.screen_ypix))) ? "Yes" : "No");
-    mon_out("\nLight Pen Triggered: ");
-    mon_out(vdc.light_pen.triggered ? "Yes" : "No");
-    mon_out("\nActive Register: %d\n", vdc.update_reg);
-  
     /* Dump the internal VDC registers */
-    mon_out("\nVDC Internal Registers:\n");
-    for (r = 0; r < 5; r++) {
+    mon_out("VDC Internal Registers:\n");
+    for (r = 0; r < 3; r++) {
         mon_out("%02x: ", regnum);
-        for (c = 0; c < 8; c++) {
-            if (regnum <= 37)
-            {
+        for (c = 0; c < 16; c++) {
+            if (regnum <= 37) {
                 mon_out("%02x ", vdc.regs[regnum] | regmask[regnum]);
             }
             regnum++;
-            if (c == 3)
-            {
+            if ((c & 3) == 3) {
                 mon_out(" ");
             }
         }
         mon_out("\n");
     }
-
-    /*
-      TODO:
-      Add STATUS when it's actually supported
-      Expand on VDC internal register settings
-      Current memory address etc.
-    */
+    mon_out("\nVDC Revision   : %d", vdc.revision);
+    mon_out("\nVertical Blanking Period: ");
+    mon_out(((vdc.raster.current_line <= vdc.border_height) || (vdc.raster.current_line > (vdc.border_height + vdc.screen_ypix))) ? "Yes" : "No");
+    mon_out("\nLight Pen Triggered: ");
+    mon_out(vdc.light_pen.triggered ? "Yes" : "No");
+    mon_out("\nStatus         : ");
+    mon_out(maincpu_clk > vdc_status_clear_clock ? "Ready" : "Busy");
+    mon_out("\nActive Register: %d", vdc.update_reg);
+    mon_out("\nMemory Address : $%04x", ((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask);
+    mon_out("\nBlockCopySource: $%04x", ((vdc.regs[32] << 8) + vdc.regs[33]) & vdc.vdc_address_mask);
+    mon_out("\nDisplay Mode   : ");
+    mon_out(vdc.regs[25] & 0x80 ? "Bitmap" : "Text");
+    mon_out(vdc.regs[25] & 0x40 ? " & Attributes" : ", no Attributes");
+    mon_out(vdc.regs[25] & 0x20 ? ", Semigraphic" : "");
+    mon_out(vdc.regs[24] & 0x40 ? ", Reverse" : "");
+    mon_out(vdc.regs[8] & 0x03 ? ", Interlaced" : ", Non-Interlaced");
+    if (vdc.regs[25] & 0x10) { /* double pixel mode aka 40column mode */
+        mon_out(", Double Pixel Mode");
+        mon_out("\nScreen Size    : %d x %d", vdc.regs[1], vdc.regs[6]);
+        mon_out("\nCharacter Size : %d x %d pixels (%d x %d active)", vdc.regs[22] >> 4, vdc.regs[9] + 1, vdc.regs[22] & 0x0f, (vdc.regs[23] & 0x1f) + 1);
+        mon_out("\nActive Pixels  : %d x %d", vdc.regs[1] * (vdc.regs[22] >> 4), vdc.regs[6] * (vdc.regs[9] + 1));
+    } else {
+        mon_out("\nScreen Size    : %d x %d", vdc.regs[1], vdc.regs[6]);
+        mon_out("\nCharacter Size : %d x %d pixels (%d x %d active)", (vdc.regs[22] >> 4) + 1, vdc.regs[9] + 1, vdc.regs[22] & 0x0f, (vdc.regs[23] & 0x1f) + 1);
+        mon_out("\nActive Pixels  : %d x %d", vdc.regs[1] * ((vdc.regs[22] >> 4) + 1), vdc.regs[6] * (vdc.regs[9] + 1));
+    }
+    mon_out("\nScreen Memory  : $%04x", ((vdc.regs[12] << 8) + vdc.regs[13]) & vdc.vdc_address_mask);
+    mon_out("\nAttrib Memory  : $%04x", ((vdc.regs[20] << 8) + vdc.regs[21]) & vdc.vdc_address_mask);
+    mon_out("\nCharset Memory : $%04x", ((vdc.regs[28] & 0xE0) << 8) & vdc.vdc_address_mask);
+    mon_out("\nCursor Address : $%04x", ((vdc.regs[14] << 8) + vdc.regs[15]) & vdc.vdc_address_mask);
+    mon_out("\n");
     return 0;
 }
