@@ -1367,12 +1367,14 @@ GtkWidget *ui_statusbar_create(void)
     /* don't add CRT or Mixer controls when VSID */
     if (machine_class != VICE_MACHINE_VSID) {
         crt = gtk_check_button_new_with_label("CRT controls");
+        gtk_widget_set_can_focus(crt, FALSE);
         g_object_ref_sink(G_OBJECT(crt));
         gtk_widget_set_halign(crt, GTK_ALIGN_START);
         gtk_widget_show_all(crt);
         g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
 
         mixer = gtk_check_button_new_with_label("Mixer controls");
+        gtk_widget_set_can_focus(mixer, FALSE);
         g_object_ref_sink(G_OBJECT(mixer));
         gtk_widget_set_halign(mixer, GTK_ALIGN_START);
         gtk_widget_show_all(mixer);
