@@ -430,6 +430,10 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
        in case relevent registers changed since last call. */
     if (need_increment_memory_pointer) {
         vdc_increment_memory_pointer();
+        /* If interlace we need to skip a line, so we increment again */
+        if ((vdc.regs[8] & 0x03) == 3) {
+            vdc_increment_memory_pointer();
+        }
         need_increment_memory_pointer = 0;
     }
 
@@ -464,6 +468,14 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         /* screen_ystart is the raster line the foreground data actually starts on, which may be above or below the border */
         screen_ystart = vdc.border_height + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical smooth scroll, which interacts with the screen & R9 like this based on experimentation. */
         vdc.border_height = vdc.border_height + (vdc.regs[9] & 0x1f);
+        
+        /* If interlace we need to adjust the borders and screen height because they are twice as big otherwise */
+        if ((vdc.regs[8] & 0x03) == 3)  {
+            vdc.border_height >>= 1;
+            vdc.screen_ypix >>= 1;
+            screen_ystart >>= 1;
+        }
+        
         /* fix to catch the end of the display for the bitmap/character memory pointers */
         if ((vdc.border_height + vdc.screen_ypix + 1) > vdc.last_displayed_line) {
             vdc.screen_ypix = vdc.last_displayed_line - vdc.border_height - 1;
@@ -483,6 +495,12 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         } else {
             vdc.attribute_blink = vdc.frame_counter & 8;
         }
+        
+        /* If interlace we need to skip to the 2nd line on an odd frame so that we render the odd field vs the even */
+        if (((vdc.regs[8] & 0x03) == 3) && (vdc.frame_counter & 1))  {
+            vdc_increment_memory_pointer();
+        }
+        
         if (vdc.update_geometry) {
             vdc_update_geometry();
             vdc.force_resize = 1;
