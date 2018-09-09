@@ -399,7 +399,7 @@ static io_source_t vicii_d200_device = {
     "VIC-IIe $D200-$D2FF mirrors",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0xd100, 0xd1ff, 0x7f,
+    0xd200, 0xd2ff, 0x7f,
     1, /* read is always valid */
     vicii_store,
     vicii_read,
@@ -414,7 +414,7 @@ static io_source_t vicii_d300_device = {
     "VIC-IIe $D300-$D3FF mirrors",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0xd100, 0xd1ff, 0x7f,
+    0xd300, 0xd3ff, 0x7f,
     1, /* read is always valid */
     vicii_store,
     vicii_read,
