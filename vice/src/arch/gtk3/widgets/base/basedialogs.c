@@ -30,6 +30,7 @@
 
 #include "lib.h"
 #include "debug_gtk3.h"
+#include "uimachinewindow.h"
 #include "ui.h"
 
 #include "basedialogs.h"
@@ -44,6 +45,9 @@
  */
 static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 {
+
+    debug_gtk3("RESTORE MOUSE HIDE");
+    ui_set_ignore_mouse_hide(FALSE);
 #if 0
     int pause_state;
 
@@ -83,6 +87,8 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
         ui_pause_emulation(1);
     }
 #endif
+
+    ui_set_ignore_mouse_hide(TRUE);
 
     if (parent == NULL) {
         /* set up a temporary parent to avoid Gtk warnings */
