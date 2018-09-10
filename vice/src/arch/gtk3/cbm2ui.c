@@ -32,11 +32,14 @@
 
 #include "debug_gtk3.h"
 #include "cbm2model.h"
+#include "cartridge.h"
+#include "carthelpers.h"
 #include "crtc.h"
 #include "crtcontrolwidget.h"
 #include "machinemodelwidget.h"
 #include "sampler.h"
 #include "ui.h"
+#include "uicart.h"
 #include "uimachinewindow.h"
 #include "settings_sampler.h"
 
@@ -109,6 +112,12 @@ int cbm2ui_init(void)
 
     settings_sampler_set_devices_getter(sampler_get_devices);
 
+    /* uicart_set_detect_func(cartridge_detect); only cbm2/plus4 */
+    /*uicart_set_list_func(cartridge_get_info_list);*/
+    uicart_set_attach_func(cartridge_attach_image);
+    /*uicart_set_freeze_func(cartridge_trigger_freeze);*/
+    uicart_set_detach_func(cartridge_detach_image);
+    
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
