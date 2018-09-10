@@ -84,6 +84,23 @@ static video_canvas_t *pointercanvas = NULL;
  *  \sa    event_box_motion_cb */
 static GdkSeat *pointerseat = NULL;
 
+/** \brief  Ignore the hide-mouse-cursor event handlers
+ *
+ * Used during dialogs
+ */
+static gboolean ignore_mouse_hide = FALSE;
+
+
+/** \brief  Set mouse-hide-ignore state
+ *
+ * \param[in]   state   enable/disable ignoring the mouse pointer hiding
+ */
+void ui_set_ignore_mouse_hide(gboolean state)
+{
+    ignore_mouse_hide = state;
+}
+
+
 /** \brief Callback for handling mouse motion events over the emulated
  *         screen.
  *
@@ -137,7 +154,8 @@ static GdkSeat *pointerseat = NULL;
  *     logic.
  * \sa event_box_cross_cb More of the hide-idle-mouse-pointer logic.
  */
-static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+static gboolean event_box_motion_cb(GtkWidget *widget,
+                                    GdkEvent *event, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
@@ -223,7 +241,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
         } else if (button == 3) {
             /* Right mouse button */
             canvas->pen_buttons &= ~LP_HOST_BUTTON_2;
-        }        
+        }
         mouse_button(button-1, 0);
     }
     /* Ignore all other mouse button events, though we'll be sent
@@ -276,7 +294,8 @@ static gboolean event_box_scroll_cb(GtkWidget *widget, GdkEvent *event, gpointer
         break;
     }
     return FALSE;
-}    
+}
+
 
 /** \brief Create a reusable cursor that may be used as part of this
  *         widget.
@@ -309,6 +328,7 @@ static GdkCursor *make_cursor(GtkWidget *widget, const char *name)
     return result;
 }
 
+
 /** \brief Frame-advance callback for the hide-mouse-when-idle logic.
  *
  *  This function is called as the "tick callback" whenever the mouse
@@ -338,6 +358,16 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
     ++canvas->still_frames;
+
+    if (ignore_mouse_hide) {
+        GdkWindow *window = gtk_widget_get_window(widget);
+        if (window != NULL) {
+            gdk_window_set_cursor(window, NULL);
+            return TRUE;
+        }
+    }
+
+
     if (_mouse_enabled || (!lightpen_enabled && canvas->still_frames > 60)) {
         if (canvas->blank_ptr == NULL) {
             canvas->blank_ptr = make_cursor(widget, "none");

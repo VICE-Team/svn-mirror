@@ -660,7 +660,7 @@ static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *ev
     int index = ui_get_window_index(widget);
 
     printf("ui.c:on_window_state_event\n");
-    
+
     if (index < 0) {
         /* We should never end up here. */
         log_error(LOG_ERR, "window-state-event: window not found\n");
@@ -1302,9 +1302,13 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     buffer = lib_mvsprintf(format, args);
     va_end(args);
 
+    ui_set_ignore_mouse_hide(TRUE);
+
     /* XXX: this sucks */
     result = jam_dialog(ui_resources.window_widget[PRIMARY_WINDOW], buffer);
     lib_free(buffer);
+
+    ui_set_ignore_mouse_hide(FALSE);
 
     return result;
 }

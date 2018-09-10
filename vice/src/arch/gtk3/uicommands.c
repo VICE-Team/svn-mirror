@@ -53,6 +53,7 @@
 
 #include "ui.h"
 #include "uicommands.h"
+#include "uimachinewindow.h"
 
 
 /** \brief  Swap joysticks
@@ -139,6 +140,7 @@ static gboolean confirm_exit(void)
                                   "Do you really wish to exit VICE?")) {
         return TRUE;
     }
+    ui_set_ignore_mouse_hide(FALSE);
     return FALSE;
 }
 

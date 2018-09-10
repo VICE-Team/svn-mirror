@@ -44,4 +44,6 @@ void ui_mouse_grab_pointer(void);
 /** \brief tell the ui code to ungrab mouse pointer events */
 void ui_mouse_ungrab_pointer(void);
 
+void ui_set_ignore_mouse_hide(gboolean state);
+
 #endif /* VICE_UIMACHINEWINDOW_H */
