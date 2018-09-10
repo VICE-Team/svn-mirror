@@ -1218,6 +1218,10 @@ char *ui_get_file(const char *format, ...)
  */
 int ui_init(int *argc, char **argv)
 {
+
+    GSettings *settings;
+    GVariant *variant;
+
 #if 0
     INCOMPLETE_IMPLEMENTATION();
 #endif
@@ -1236,6 +1240,16 @@ int ui_init(int *argc, char **argv)
         debug_gtk3("failed, continuing");
         log_error(LOG_ERR, "failed to register CBM font.");
     }
+
+    /*
+     * Sort directories before files in GtkFileChooser
+     *
+     * Perhaps turn this into a resource when people start complaining? Though
+     * personally I'm used to having directories sorted before files.
+     */
+    settings = g_settings_new("org.gtk.Settings.FileChooser");
+    variant = g_variant_new("b", TRUE);
+    g_settings_set_value(settings, "sort-directories-first", variant);
 
     ui_statusbar_init();
     return 0;
