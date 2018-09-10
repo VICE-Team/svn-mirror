@@ -871,6 +871,9 @@ static GtkWidget *create_vsid_layout(GtkWidget *grid)
     /* VIC-II model widget */
     video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
+
+    sid_widget = sid_model_widget_create(machine_widget);
+    gtk_grid_attach(GTK_GRID(grid), sid_widget, 0, 0, 1, 1);
     return grid;
 }
 
