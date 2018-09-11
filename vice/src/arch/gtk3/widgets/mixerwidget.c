@@ -430,31 +430,12 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     }
 
 #ifdef HAVE_RESID
-    passband8580label = create_label("ReSID Passband", minimal, alignment);
-    passband8580 = create_passband8580_widget(minimal);
-    gtk_widget_set_sensitive(passband8580, sid_present);
-    gtk_widget_set_hexpand(passband8580, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), passband8580label, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), passband8580, 1, row, 1, 1);
-    row++;
 
-    gain8580label = create_label("ReSID Gain", minimal, alignment);
-    gain8580 = create_gain8580_widget(minimal);
-    gtk_widget_set_sensitive(gain8580, sid_present);
-    gtk_widget_set_hexpand(gain8580, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), gain8580label, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gain8580, 1, row, 1, 1);
-    row++;
+    /*
+     * 6581 ReSID resources
+     */
 
-    bias8580label = create_label("ReSID Filter Bias", minimal, alignment);
-    bias8580 = create_bias8580_widget(minimal);
-    gtk_widget_set_hexpand(bias8580, TRUE);
-    gtk_widget_set_sensitive(bias8580, sid_present);
-    gtk_grid_attach(GTK_GRID(grid), bias8580label, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bias8580, 1, row, 1, 1);
-    row++;
-
-    passbandlabel = create_label("ReSID Passband", minimal, alignment);
+    passbandlabel = create_label("ReSID 6581 Passband", minimal, alignment);
     passband = create_passband_widget(minimal);
     gtk_widget_set_sensitive(passband, sid_present);
     gtk_widget_set_hexpand(passband, TRUE);
@@ -462,7 +443,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     gtk_grid_attach(GTK_GRID(grid), passband, 1, row, 1, 1);
     row++;
 
-    gainlabel = create_label("ReSID Gain", minimal, alignment);
+    gainlabel = create_label("ReSID 6581 Gain", minimal, alignment);
     gain = create_gain_widget(minimal);
     gtk_widget_set_sensitive(gain, sid_present);
     gtk_widget_set_hexpand(gain, TRUE);
@@ -470,13 +451,42 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     gtk_grid_attach(GTK_GRID(grid), gain, 1, row, 1, 1);
     row++;
 
-    biaslabel = create_label("ReSID Filter Bias", minimal, alignment);
+    biaslabel = create_label("ReSID 6581 Filter Bias", minimal, alignment);
     bias = create_bias_widget(minimal);
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_widget_set_sensitive(bias, sid_present);
     gtk_grid_attach(GTK_GRID(grid), biaslabel, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, row, 1, 1);
     row++;
+    passband8580label = create_label("ReSID 8580 Passband", minimal, alignment);
+    passband8580 = create_passband8580_widget(minimal);
+    gtk_widget_set_sensitive(passband8580, sid_present);
+    gtk_widget_set_hexpand(passband8580, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), passband8580label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), passband8580, 1, row, 1, 1);
+    row++;
+
+    /*
+     * 8580 ReSID resources
+     */
+
+    gain8580label = create_label("ReSID 8580 Gain", minimal, alignment);
+    gain8580 = create_gain8580_widget(minimal);
+    gtk_widget_set_sensitive(gain8580, sid_present);
+    gtk_widget_set_hexpand(gain8580, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), gain8580label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain8580, 1, row, 1, 1);
+    row++;
+
+    bias8580label = create_label("ReSID 8580 Filter Bias", minimal, alignment);
+    bias8580 = create_bias8580_widget(minimal);
+    gtk_widget_set_hexpand(bias8580, TRUE);
+    gtk_widget_set_sensitive(bias8580, sid_present);
+    gtk_grid_attach(GTK_GRID(grid), bias8580label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bias8580, 1, row, 1, 1);
+    row++;
+
+
 #endif
 
     gtk_widget_show_all(grid);
