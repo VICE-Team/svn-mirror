@@ -182,6 +182,15 @@ static const cmdline_option_t resid_cmdline_options[] =
     { "-residfilterbias", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResidFilterBias", NULL,
       "<number>", "reSID filter bias setting, which can be used to adjust DAC bias in millivolts.", },
+    { "-resid8580pass", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidResid8580Passband", NULL,
+      "<percent>", "reSID 8580 resampling passband in percentage of total bandwidth (0 - 90)" },
+    { "-resid8580gain", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidResid8580Gain", NULL,
+      "<percent>", "reSID 8580 gain in percent (90 - 100)" },
+    { "-resid8580filterbias", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidResid8580FilterBias", NULL,
+      "<number>", "reSID 8580 filter bias setting, which can be used to adjust DAC bias in millivolts.", },
     CMDLINE_LIST_END
 };
 #endif

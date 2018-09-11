@@ -139,16 +139,32 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
         return 0;
     }
 
-    if (resources_get_int("SidResidPassband", &passband_percentage) < 0) {
-        return 0;
-    }
+    if ((model == 1) || (model == 2)) {
+        /* 8580 */
+        if (resources_get_int("SidResid8580Passband", &passband_percentage) < 0) {
+            return 0;
+        }
 
-    if (resources_get_int("SidResidGain", &gain_percentage) < 0) {
-        return 0;
-    }
+        if (resources_get_int("SidResid8580Gain", &gain_percentage) < 0) {
+            return 0;
+        }
 
-    if (resources_get_int("SidResidFilterBias", &filter_bias_mV) < 0) {
-        return 0;
+        if (resources_get_int("SidResid8580FilterBias", &filter_bias_mV) < 0) {
+            return 0;
+        }
+    } else {
+        /* 6581 */
+        if (resources_get_int("SidResidPassband", &passband_percentage) < 0) {
+            return 0;
+        }
+
+        if (resources_get_int("SidResidGain", &gain_percentage) < 0) {
+            return 0;
+        }
+
+        if (resources_get_int("SidResidFilterBias", &filter_bias_mV) < 0) {
+            return 0;
+        }
     }
 
     passband = speed * passband_percentage / 200.0;
