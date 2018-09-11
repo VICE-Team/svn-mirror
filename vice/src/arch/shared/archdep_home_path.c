@@ -139,7 +139,7 @@ const char *archdep_home_path(void)
     }
 #elif defined(ARCHDEP_OS_BEOS)
     /* Beos/Haiku is single-user */
-    home_dir = lib_stralloc("/home");
+    home_dir = lib_stralloc("/boot/home");
 #elif defined(ARCHDEP_OS_AMIGA)
     /* single user: use the path to the executable as the "home" dir */
     home_dir = lib_stralloc("PROGDIR:");
