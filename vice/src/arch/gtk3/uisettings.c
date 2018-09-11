@@ -146,7 +146,6 @@
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
 #include "settings_crt.h"
-#include "settings_mixer.h"
 
 /* VSID stuff */
 #include "hvscsettingswidget.h"
