@@ -12,6 +12,9 @@
  * $VICERES SidResidPassband            all
  * $VICERES SidResidGain                all
  * $VICERES SidResidFilterBias          all
+ * $VICERES SidResid8580Passband        all
+ * $VICERES SidResid8580Gain            all
+ * $VICERES SidResid8580FilterBias      all
  * $VICERES SidFilters                  all
  * $VICERES SidStereoAddressStart       all
  * $VICERES SidTripleAddressStart       all
@@ -193,6 +196,24 @@ static GtkWidget *resid_gain;
  * Used to enable/disable the widget based on the SidFilters setting
  */
 static GtkWidget *resid_bias;
+
+/** \brief  Reference to the SidResidPassband widget
+ *
+ * Used to enable/disable the widget based on the SidFilters setting
+ */
+static GtkWidget *resid_8580_passband;
+
+/** \brief  Reference to the SidResidGain widget
+ *
+ * Used to enable/disable the widget based on the SidFilters setting
+ */
+static GtkWidget *resid_8580_gain;
+
+/** \brief  Reference to the SidResidFilterBias widget
+ *
+ * Used to enable/disable the widget based on the SidFilters setting
+ */
+static GtkWidget *resid_8580_bias;
 #endif
 
 /** \brief  Reference to the extra SID address widgets
@@ -245,10 +266,21 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
 static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
 {
 #ifdef HAVE_RESID
+    int model;
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    gtk_widget_set_sensitive(resid_passband, state);
-    gtk_widget_set_sensitive(resid_gain, state);
-    gtk_widget_set_sensitive(resid_bias, state);
+    if (resources_get_int("SidModel", &model) < 0) {
+        debug_gtk3("failed to get SidModel resource");
+        return;
+    }
+    if ((model == 1) || (model == 2)) {
+        gtk_widget_set_sensitive(resid_8580_passband, state);
+        gtk_widget_set_sensitive(resid_8580_gain, state);
+        gtk_widget_set_sensitive(resid_8580_bias, state);
+    } else {
+        gtk_widget_set_sensitive(resid_passband, state);
+        gtk_widget_set_sensitive(resid_gain, state);
+        gtk_widget_set_sensitive(resid_bias, state);
+    }
 #endif
 }
 
@@ -293,6 +325,48 @@ static void on_resid_bias_default_clicked(GtkWidget *widget,
                                           gpointer user_data)
 {
     vice_gtk3_resource_scale_int_reset(resid_bias);
+
+}
+
+/** \brief  Handler for "clicked" event of reset-to-default for 8580 passband
+ *
+ * Restores the 8580 ReSID passband slider back to default
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void on_resid_8580_passband_default_clicked(GtkWidget *widget,
+                                              gpointer user_data)
+{
+    vice_gtk3_resource_scale_int_reset(resid_8580_passband);
+}
+
+
+/** \brief  Handler for "clicked" event of reset-to-default for 8580 gain
+ *
+ * Restores the 8580 ReSID gain slider back to default
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void on_resid_8580_gain_default_clicked(GtkWidget *widget,
+                                          gpointer user_data)
+{
+    vice_gtk3_resource_scale_int_reset(resid_8580_gain);
+}
+
+
+/** \brief  Handler for "clicked" event of reset-to-default for 8580 filter bias
+ *
+ * Restores the 8580 ReSID filter bias slider back to default
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
+                                          gpointer user_data)
+{
+    vice_gtk3_resource_scale_int_reset(resid_8580_bias);
 
 }
 #endif
@@ -504,6 +578,50 @@ static GtkWidget *create_resid_bias_widget(void)
     vice_gtk3_resource_scale_int_set_marks(scale, 500);
     return scale;
 }
+
+/** \brief  Create scale to control the "SidResid8580Passband" resource
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_resid_8580_passband_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = vice_gtk3_resource_scale_int_new("SidResid8580Passband",
+            GTK_ORIENTATION_HORIZONTAL, 0, 90, 5);
+    vice_gtk3_resource_scale_int_set_marks(scale, 10);
+    return scale;
+}
+
+
+/** \brief  Create scale to control the "SidResid8580Gain" resource
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_resid_8580_gain_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = vice_gtk3_resource_scale_int_new("SidResid8580Gain",
+            GTK_ORIENTATION_HORIZONTAL, 90, 100, 1);
+    vice_gtk3_resource_scale_int_set_marks(scale, 1);
+    return scale;
+}
+
+
+/** \brief  Create scale to control the "SidResid8580FilterBias" resource
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_resid_8580_bias_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = vice_gtk3_resource_scale_int_new("SidResid8580FilterBias",
+            GTK_ORIENTATION_HORIZONTAL, -5000, 5000, 500);
+    vice_gtk3_resource_scale_int_set_marks(scale, 500);
+    return scale;
+}
 #endif
 
 
@@ -552,6 +670,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     int stereo;
     int row;
     int i;
+    int model;
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
@@ -565,6 +684,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     engine = create_sid_engine_widget();
     gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
 
+    if (resources_get_int("SidModel", &model) < 0) {
+        debug_gtk3("failed to get SidModel resource");
+    }
 #ifdef HAVE_RESID
     resid_sampling = create_resid_sampling_widget();
     gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
@@ -615,32 +737,61 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
 
 #ifdef HAVE_RESID
-    label = gtk_label_new("ReSID passband");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
-    resid_passband = create_resid_passband_widget();
-    button = create_resource_reset_button(on_resid_passband_default_clicked);
-    gtk_grid_attach(GTK_GRID(layout), label, 0, row + 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), resid_passband, 1, row + 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), button, 2, row + 1, 1, 1);
+    if ((model == 1) || (model == 2)) {
+        label = gtk_label_new("ReSID passband");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        resid_8580_passband = create_resid_8580_passband_widget();
+        button = create_resource_reset_button(on_resid_8580_passband_default_clicked);
+        gtk_grid_attach(GTK_GRID(layout), label, 0, row + 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), resid_8580_passband, 1, row + 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), button, 2, row + 1, 1, 1);
 
-    label = gtk_label_new("ReSID gain");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
-    resid_gain = create_resid_gain_widget();
-    button = create_resource_reset_button(on_resid_gain_default_clicked);
-    gtk_grid_attach(GTK_GRID(layout), label, 0, row + 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), resid_gain, 1, row + 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), button, 2, row + 2, 1, 1);
+        label = gtk_label_new("ReSID gain");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        resid_8580_gain = create_resid_8580_gain_widget();
+        button = create_resource_reset_button(on_resid_8580_gain_default_clicked);
+        gtk_grid_attach(GTK_GRID(layout), label, 0, row + 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), resid_8580_gain, 1, row + 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), button, 2, row + 2, 1, 1);
 
-    label = gtk_label_new("ReSID filter bias");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
-    resid_bias = create_resid_bias_widget();
-    button = create_resource_reset_button(on_resid_bias_default_clicked);
-    gtk_grid_attach(GTK_GRID(layout), label, 0, row + 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), resid_bias, 1, row + 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), button, 2, row + 3, 1, 1);
+        label = gtk_label_new("ReSID filter bias");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        resid_8580_bias = create_resid_8580_bias_widget();
+        button = create_resource_reset_button(on_resid_8580_bias_default_clicked);
+        gtk_grid_attach(GTK_GRID(layout), label, 0, row + 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), resid_8580_bias, 1, row + 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), button, 2, row + 3, 1, 1);
+    } else {
+        label = gtk_label_new("ReSID passband");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        resid_passband = create_resid_passband_widget();
+        button = create_resource_reset_button(on_resid_passband_default_clicked);
+        gtk_grid_attach(GTK_GRID(layout), label, 0, row + 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), resid_passband, 1, row + 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), button, 2, row + 1, 1, 1);
+
+        label = gtk_label_new("ReSID gain");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        resid_gain = create_resid_gain_widget();
+        button = create_resource_reset_button(on_resid_gain_default_clicked);
+        gtk_grid_attach(GTK_GRID(layout), label, 0, row + 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), resid_gain, 1, row + 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), button, 2, row + 2, 1, 1);
+
+        label = gtk_label_new("ReSID filter bias");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        resid_bias = create_resid_bias_widget();
+        button = create_resource_reset_button(on_resid_bias_default_clicked);
+        gtk_grid_attach(GTK_GRID(layout), label, 0, row + 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), resid_bias, 1, row + 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), button, 2, row + 3, 1, 1);
+    }
 #endif
 
     if (machine_class != VICE_MACHINE_PLUS4

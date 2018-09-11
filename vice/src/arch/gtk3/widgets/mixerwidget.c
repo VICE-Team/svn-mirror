@@ -5,10 +5,13 @@
  */
 
 /*
- * $VICERES SoundVolume         -vsid
- * $VICERES SidResidPassband    -vsid
- * $VICERES SidResidGain        -vsid
- * $VICERES SidResidFilterBias  -vsid
+ * $VICERES SoundVolume             -vsid
+ * $VICERES SidResidPassband        -vsid
+ * $VICERES SidResidGain            -vsid
+ * $VICERES SidResidFilterBias      -vsid
+ * $VICERES SidResid8580Passband    -vsid
+ * $VICERES SidResid8580Gain        -vsid
+ * $VICERES SidResid8580FilterBias  -vsid
  */
 
 /*
@@ -84,8 +87,73 @@ static GtkWidget *gain;
 /** \brief  ReSID filter bias slider */
 static GtkWidget *bias;
 
+/** \brief  ReSID 8580 passband slider */
+static GtkWidget *passband8580;
+
+/** \brief  ReSID 8580 gain slider */
+static GtkWidget *gain8580;
+
+/** \brief  ReSID 8580 filter bias slider */
+static GtkWidget *bias8580;
+
+/** \brief  ReSID passband label */
+static GtkWidget *passbandlabel;
+
+/** \brief  ReSID gain label */
+static GtkWidget *gainlabel;
+
+/** \brief  ReSID filter bias label */
+static GtkWidget *biaslabel;
+
+/** \brief  ReSID 8580 passband label */
+static GtkWidget *passband8580label;
+
+/** \brief  ReSID 8580 gain label */
+static GtkWidget *gain8580label;
+
+/** \brief  ReSID 8580 filter bias label */
+static GtkWidget *bias8580label;
+
+
 #endif
 
+/* depending on what SID type is being used, show the right widgets */
+void mixer_widget_sid_type_changed(void)
+{
+    int model = 0;
+    if (resources_get_int("SidModel", &model) < 0) {
+        debug_gtk3("failed to get SidModel resource");
+    }
+#ifdef HAVE_RESID
+    if ((model == 1) || (model == 2)) {
+        gtk_widget_hide(passband);
+        gtk_widget_hide(gain);
+        gtk_widget_hide(bias);
+        gtk_widget_show(passband8580);
+        gtk_widget_show(gain8580);
+        gtk_widget_show(bias8580);
+        gtk_widget_hide(passbandlabel);
+        gtk_widget_hide(gainlabel);
+        gtk_widget_hide(biaslabel);
+        gtk_widget_show(passband8580label);
+        gtk_widget_show(gain8580label);
+        gtk_widget_show(bias8580label);
+    } else {
+        gtk_widget_hide(passband8580);
+        gtk_widget_hide(gain8580);
+        gtk_widget_hide(bias8580);
+        gtk_widget_show(passband);
+        gtk_widget_show(gain);
+        gtk_widget_show(bias);
+        gtk_widget_hide(passband8580label);
+        gtk_widget_hide(gain8580label);
+        gtk_widget_hide(bias8580label);
+        gtk_widget_show(passbandlabel);
+        gtk_widget_show(gainlabel);
+        gtk_widget_show(biaslabel);
+    }
+#endif
+}
 
 /** \brief  Handler for the 'clicked' event of the reset button
  *
@@ -98,9 +166,16 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 {
     int value;
 
+    mixer_widget_sid_type_changed();
     resources_get_default_value("SoundVolume", &value);
     gtk_range_set_value(GTK_RANGE(volume), (gdouble)value);
 #ifdef HAVE_RESID
+    resources_get_default_value("SidResid8580Passband", &value);
+    gtk_range_set_value(GTK_RANGE(passband8580), (gdouble)value);
+    resources_get_default_value("SidResid8580Gain", &value);
+    gtk_range_set_value(GTK_RANGE(gain8580), (gdouble)value);
+    resources_get_default_value("SidResid8580FilterBias", &value);
+    gtk_range_set_value(GTK_RANGE(bias8580), (gdouble)value);
     resources_get_default_value("SidResidPassband", &value);
     gtk_range_set_value(GTK_RANGE(passband), (gdouble)value);
     resources_get_default_value("SidResidGain", &value);
@@ -246,6 +321,41 @@ static GtkWidget *create_bias_widget(gboolean minimal)
 {
     return create_slider("SidResidFilterBias", -5000, 5000, 1000, minimal);
 }
+
+/** \brief  Create slider for ReSID 8580 passband
+ *
+ * \param[in]   minimal resize slider to minimal size
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_passband8580_widget(gboolean minimal)
+{
+    return create_slider("SidResid8580PassBand", 0, 90, 5, minimal);
+}
+
+
+/** \brief  Create slider for ReSID 8580 gain
+ *
+ * \param[in]   minimal resize slider to minimal size
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_gain8580_widget(gboolean minimal)
+{
+    return create_slider("SidResid8580Gain", 90, 100, 1, minimal);
+}
+
+
+/** \brief  Create slider for ReSID 8580 filter bias
+ *
+ * \param[in]   minimal resize slider to minimal size
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_bias8580_widget(gboolean minimal)
+{
+    return create_slider("SidResid8580FilterBias", -5000, 5000, 1000, minimal);
+}
 #endif  /* ifdef HAVE_RESID */
 
 
@@ -263,6 +373,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     GtkWidget *label;
     GtkWidget *button;
     int row = 0;
+    int model = 0;
 #ifdef HAVE_RESID
     bool sid_present = true;
     int tmp;
@@ -314,32 +425,61 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     gtk_grid_attach(GTK_GRID(grid), volume, 1,row, 1, 1);
     row++;
 
+    if (resources_get_int("SidModel", &model) < 0) {
+        debug_gtk3("failed to get SidModel resource");
+    }
+
 #ifdef HAVE_RESID
-    label = create_label("ReSID Passband", minimal, alignment);
+    passband8580label = create_label("ReSID Passband", minimal, alignment);
+    passband8580 = create_passband8580_widget(minimal);
+    gtk_widget_set_sensitive(passband8580, sid_present);
+    gtk_widget_set_hexpand(passband8580, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), passband8580label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), passband8580, 1, row, 1, 1);
+    row++;
+
+    gain8580label = create_label("ReSID Gain", minimal, alignment);
+    gain8580 = create_gain8580_widget(minimal);
+    gtk_widget_set_sensitive(gain8580, sid_present);
+    gtk_widget_set_hexpand(gain8580, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), gain8580label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain8580, 1, row, 1, 1);
+    row++;
+
+    bias8580label = create_label("ReSID Filter Bias", minimal, alignment);
+    bias8580 = create_bias8580_widget(minimal);
+    gtk_widget_set_hexpand(bias8580, TRUE);
+    gtk_widget_set_sensitive(bias8580, sid_present);
+    gtk_grid_attach(GTK_GRID(grid), bias8580label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bias8580, 1, row, 1, 1);
+    row++;
+
+    passbandlabel = create_label("ReSID Passband", minimal, alignment);
     passband = create_passband_widget(minimal);
     gtk_widget_set_sensitive(passband, sid_present);
     gtk_widget_set_hexpand(passband, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), passbandlabel, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), passband, 1, row, 1, 1);
     row++;
 
-    label = create_label("ReSID Gain", minimal, alignment);
+    gainlabel = create_label("ReSID Gain", minimal, alignment);
     gain = create_gain_widget(minimal);
     gtk_widget_set_sensitive(gain, sid_present);
     gtk_widget_set_hexpand(gain, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gainlabel, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), gain, 1, row, 1, 1);
     row++;
 
-    label = create_label("ReSID Filter Bias", minimal, alignment);
+    biaslabel = create_label("ReSID Filter Bias", minimal, alignment);
     bias = create_bias_widget(minimal);
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_widget_set_sensitive(bias, sid_present);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), biaslabel, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, row, 1, 1);
     row++;
 #endif
 
-   gtk_widget_show_all(grid);
+    gtk_widget_show_all(grid);
+    mixer_widget_sid_type_changed();
     return grid;
 }

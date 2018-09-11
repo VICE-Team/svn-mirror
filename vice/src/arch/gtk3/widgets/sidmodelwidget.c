@@ -42,6 +42,7 @@
 #include "resources.h"
 #include "machine.h"
 #include "machinemodelwidget.h"
+#include "mixerwidget.h"
 
 #include "sidmodelwidget.h"
 
@@ -97,6 +98,16 @@ static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
     { NULL, -1 }
 };
 
+/** \brief  Handler for the "toggled" event of the SID type radio buttons
+ *
+ * \param[in]   widget      radio button triggering the event
+ * \param[in]   user_data   sid type
+ */
+static void on_sid_model_toggled(GtkWidget *widget, int user_data)
+{
+    /* sync mixer widget */
+    mixer_widget_sid_type_changed();
+}
 
 /** \brief  Reference to the machine model widget
  *
@@ -158,6 +169,7 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             "SidModel", models, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    vice_gtk3_resource_radiogroup_add_callback(group, on_sid_model_toggled);
 
     /* SID cards for the Plus4, PET or VIC20:
      *
@@ -200,6 +212,7 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
 void sid_model_widget_update(GtkWidget *widget, int model)
 {
     vice_gtk3_radiogroup_set_index(widget, model);
+    mixer_widget_sid_type_changed();
 }
 
 
