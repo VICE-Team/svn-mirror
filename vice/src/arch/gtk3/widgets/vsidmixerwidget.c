@@ -1,14 +1,20 @@
 /** \file   vsidmixerwidget.c
  * \brief   GTK3 mixer widget for VSID
  *
+ * Needs some way of switching between SID model to display the proper values.
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
- * $VICERES SoundVolume         vsid
- * $VICERES SidResidPassband    vsid
- * $VICERES SidResidGain        vsid
- * $VICERES SidResidFilterBias  vsid
+ * $VICERES SoundVolume             vsid
+ * $VICERES SidResidPassband        vsid
+ * $VICERES SidResidGain            vsid
+ * $VICERES SidResidFilterBias      vsid
+ * $VICERES SidResid8580Passband    vsid
+ * $VICERES SidResid8580Gain        vsid
+ * $VICERES SidResid8580FilterBias  vsid
+
  */
 
 /*
@@ -97,15 +103,39 @@ static GtkWidget *bias;
 static void on_reset_clicked(GtkWidget *widget, gpointer data)
 {
     int value;
+#ifdef HAVE_RESID
+    int model;
+#endif
+
 
     resources_get_default_value("SoundVolume", &value);
     gtk_range_set_value(GTK_RANGE(volume), (gdouble)value);
 #ifdef HAVE_RESID
-    resources_get_default_value("SidResidPassband", &value);
+
+    if (resources_get_int("SidModel", &model) < 0) {
+        /* assume 6581 */
+        model = 0;
+    }
+
+    if (model == 0) {
+        resources_get_default_value("SidResidPassband", &value);
+    } else {
+        resources_get_default_value("SidResid8580Passband", &value);
+    }
     gtk_range_set_value(GTK_RANGE(passband), (gdouble)value);
-    resources_get_default_value("SidResidGain", &value);
+
+    if (model == 0) {
+        resources_get_default_value("SidResidGain", &value);
+    } else {
+        resources_get_default_value("SidResid8580Gain", &value);
+    }
     gtk_range_set_value(GTK_RANGE(gain), (gdouble)value);
-    resources_get_default_value("SidResidFilterBias", &value);
+
+    if (model == 0) {
+        resources_get_default_value("SidResidFilterBias", &value);
+    } else {
+        resources_get_default_value("SidResid8580FilterBias", &value);
+    }
     gtk_range_set_value(GTK_RANGE(bias), (gdouble)value);
 #endif
 }
@@ -173,9 +203,13 @@ static GtkWidget *create_volume_widget(void)
  *
  * \return  GtkScale
  */
-static GtkWidget *create_passband_widget(void)
+static GtkWidget *create_passband_widget(int model)
 {
-    return create_slider("SidResidPassBand", 0, 90, 5);
+    if (model == 0) {
+        return create_slider("SidResidPassband", 0, 90, 5);
+    } else {
+        return create_slider("SidResid8580Passband", 0, 90, 5);
+    }
 }
 
 
@@ -183,9 +217,13 @@ static GtkWidget *create_passband_widget(void)
  *
  * \return  GtkScale
  */
-static GtkWidget *create_gain_widget(void)
+static GtkWidget *create_gain_widget(int model)
 {
-    return create_slider("SidResidGain", 90, 100, 1);
+    if (model == 0) {
+        return create_slider("SidResidGain", 90, 100, 1);
+    } else {
+        return create_slider("SidResid8580Gain", 90, 100, 1);
+    }
 }
 
 
@@ -193,9 +231,13 @@ static GtkWidget *create_gain_widget(void)
  *
  * \return  GtkScale
  */
-static GtkWidget *create_bias_widget(void)
+static GtkWidget *create_bias_widget(int model)
 {
-    return create_slider("SidResidFilterBias", -5000, 5000, 1000);
+    if (model == 0) {
+        return create_slider("SidResidFilterBias", -5000, 5000, 1000);
+    } else {
+        return create_slider("SidResid8580FilterBias", -5000, 5000, 1000);
+    }
 }
 #endif  /* ifdef HAVE_RESID */
 
@@ -211,6 +253,15 @@ GtkWidget *vsid_mixer_widget_create(void)
     GtkWidget *label;
     GtkWidget *button;
 
+#ifdef HAVE_RESID
+    int model;
+
+    if (resources_get_int("SidModel", &model) < 0) {
+        /* assume 6581 */
+        model = 0;
+    }
+#endif
+
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
     g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
     gtk_widget_set_hexpand(grid, TRUE);
@@ -222,27 +273,37 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), volume, 1, 0, 1, 1);
 
 #ifdef HAVE_RESID
+
+    label = gtk_label_new(NULL);
+    if (model == 0) {
+        gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 6581 settings</b>");
+    } else {
+        gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 8580 settings</b>");
+    }
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 2, 1);
+
+
     label = create_label("ReSID Passband");
-    passband = create_passband_widget();
+    passband = create_passband_widget(model);
     gtk_widget_set_hexpand(passband, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), passband, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), passband, 1, 2, 1, 1);
 
     label = create_label("ReSID Gain");
-    gain = create_gain_widget();
+    gain = create_gain_widget(model);
     gtk_widget_set_hexpand(gain, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gain, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain, 1, 3, 1, 1);
 
     label = create_label("ReSID Filter Bias");
-    bias = create_bias_widget();
+    bias = create_bias_widget(model);
     gtk_widget_set_hexpand(bias, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bias, 1, 4, 1, 1);
 #endif
 
     button = gtk_button_new_with_label("Reset to defaults");
-    gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button, 0, 5, 1, 1);
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
 
     gtk_widget_show_all(grid);
