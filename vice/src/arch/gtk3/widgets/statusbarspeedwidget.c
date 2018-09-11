@@ -309,7 +309,7 @@ static GtkWidget *refreshrate_submenu_create(void)
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     } else {
         /* standard refresh rate */
-        item = gtk_check_menu_item_new_with_label("Custom ..");
+        item = gtk_check_menu_item_new_with_label("Custom ...");
     }
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
     gtk_container_add(GTK_CONTAINER(menu), item);
@@ -376,7 +376,7 @@ GtkWidget *speed_menu_popup_create(void)
     item = gtk_check_menu_item_new_with_label("Enable warp mode (Alt+W)");
     child = gtk_bin_get_child(GTK_BIN(item));
     gtk_label_set_markup(GTK_LABEL(child),
-            "Enable warp mode (" VICE_MOD_MASK_HTML "+Shift+P)");
+            "Enable warp mode (" VICE_MOD_MASK_HTML "+W)");
     if (resources_get_int("WarpMode", &warp) < 0) {
         warp = 0;
     }
