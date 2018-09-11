@@ -72,12 +72,14 @@
 static const gchar *path_separator = "\\";
 
 
+#if 0
 /** \brief  String containing search paths
  *
  * Allocated in the first call to archdep_default_sysfile_pathlist(),
  * deallocated in archdep_shutdown().
  */
 static char *default_path = NULL;
+#endif
 
 #if 0
 char *archdep_default_fliplist_file_name(void)
@@ -122,7 +124,9 @@ char *archdep_default_resource_file_name(void)
     /* transfer ownership to VICE */
     path = lib_stralloc(tmp);
     g_free(tmp);
+#if 0
     lib_free(cfg);
+#endif
     return path;
 }
 
@@ -242,12 +246,16 @@ void archdep_shutdown(void)
     archdep_boot_path_free();
     /* free memory used by the home path */
     archdep_home_path_free();
+    /* free memory used by the config files path */
+    archdep_user_config_path_free();
     /* free memory used by the sysfile pathlist */
     archdep_default_sysfile_pathlist_free();
 
+#if 0
     if (default_path != NULL) {
         lib_free(default_path);
     }
+#endif
     /* do we need this anymore? argv is guaranteed to exist during the program
      * lifetime and we already set a reference to argv[0] with
      * archdep_program_path_set_argv0() */

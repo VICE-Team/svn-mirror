@@ -73,7 +73,9 @@ static char *quicksnap_filename(void)
     mname = machine_class == VICE_MACHINE_C64SC ? "c64sc" : machine_name;
     cfg = archdep_user_config_path();
     fname = util_concat(cfg, "/", mname, ".vsf", NULL);
+#if 0
     lib_free(cfg);
+#endif
     debug_gtk3("quicksnap_filename = %s.", fname);
     return fname;
 }

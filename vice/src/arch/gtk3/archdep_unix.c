@@ -61,6 +61,7 @@
 static const gchar *path_separator = "/";
 
 
+#if 0
 /** \brief  String containing search paths
  *
  * Allocated in the first call to archdep_default_sysfile_pathlist(),
@@ -72,6 +73,7 @@ static char *default_path = NULL;
 /** \brief  Path to the binary
  */
 static char *boot_path_bin = NULL;
+#endif
 
 
 /** \brief  Write log message to stdout
@@ -109,7 +111,9 @@ char *archdep_default_resource_file_name(void)
     /* transfer ownership to VICE */
     path = lib_stralloc(tmp);
     g_free(tmp);
+#if 0
     lib_free(cfg);
+#endif
     return path;
 }
 
@@ -266,7 +270,9 @@ char *archdep_get_vice_datadir(void)
     char *user_config_path = archdep_user_config_path();
     char *res = util_concat(user_config_path, "/gui/", NULL);
     debug_gtk3("FIXME: archdep_get_vice_datadir '%s'.", res);
+# if 0
     lib_free(user_config_path);
+# endif
     return res;
 #else
     return util_concat(LIBDIR, "/gui/", NULL);
@@ -316,12 +322,16 @@ void archdep_shutdown(void)
     archdep_boot_path_free();
     /* free memory used by the home path */
     archdep_home_path_free();
+    /* free memory used by the config files path */
+    archdep_user_config_path_free();
     /* free memory used by the sysfile pathlist */
     archdep_default_sysfile_pathlist_free();
 
+#if 0
     if (default_path != NULL) {
         lib_free(default_path);
     }
+#endif
 
     /* this should be removed soon */
     if (argv0 != NULL) {
@@ -329,11 +339,13 @@ void archdep_shutdown(void)
         argv0 = NULL;
     }
 
+#if 0
     /* probably has something to do with archdep_program_path() */
     if (boot_path_bin != NULL) {
         lib_free(boot_path_bin);
         boot_path_bin = NULL;
     }
+#endif
 
     archdep_network_shutdown();
 

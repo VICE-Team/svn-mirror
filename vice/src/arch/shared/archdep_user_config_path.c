@@ -53,6 +53,14 @@
 #include "archdep_user_config_path.h"
 
 
+/** \brief  User's VICE configuration directory reference
+ *
+ * Allocated once in the first call to archdep_user_config_path(), should be
+ * freed on emulator exit with archdep_user_config_path_free()
+ */
+static char *user_config_dir = NULL;
+
+
 /** \brief  Get path to the user's VICE configuration directory
  *
  * On systems supporting home directories this will return a directory inside
@@ -60,29 +68,45 @@
  *
  * - Windows: $HOME\AppData\Roaming\vice
  * - Unix: $HOME/.config/vice
- * - BeOS: $HOME/.config/vice
+ * - BeOS: $HOME/config/settings/vice
+ *   (Haiku sets $XDG_CONFIG_HOME to '/boot/home/config/settings')
  *
  * On other systems the path to the executable is returned.
  *
- * \return  path to VICE config directory, free with lib_free()
+ * Free memory used on emulator exit with archdep_user_config_path_free()
+ *
+ * \return  path to VICE config directory
  */
 char *archdep_user_config_path(void)
 {
-    char *path;
+    if (user_config_dir != NULL) {
+        printf("%s(): CALLED AGAIN\n", __func__);
+        return user_config_dir;
+    }
 
-#if defined(UNIX_COMPILE) || defined(WIN32_COMPILE) || defined(BEOS_COMPILE)
-    const char *home_path = archdep_home_path();
-
-# ifdef WIN32_COMPILE
-    path = archdep_join_paths(home_path, "AppData", "Roaming", "vice", NULL);
-# else
-    path = archdep_join_paths(home_path, ".config", "vice", NULL);
-# endif
-
+#if defined(ARCHDEP_OS_UNIX)
+    user_config_dir = archdep_join_paths(archdep_home_path(),
+                                         ".config", "vice", NULL);
+#elif defined(ARCHDEP_OS_WINDOWS)
+    user_config_dir = archdep_join_paths(archdep_home_path(),
+                                         "AppData", "Roaming", "vice", NULL);
+#elif defined(ARCHDEP_OS_BEOS)
+    user_config_dir = archdep_join_paths(archdep_home_path(),
+                                         "config", "settings", "vice", NULL);
 #else
-    const char *boot_path = archdep_boot_path();
-    path = lib_stralloc(boot_path);
+    user_config_dir = lib_stralloc(archdep_boot_path());
 #endif
-    printf("%s(): USER_CONFIG_PATH = '%s'\n", __func__, path);
-    return path;
+    printf("%s(): USER_CONFIG_PATH = '%s'\n", __func__, user_config_dir);
+    return user_config_dir;
+}
+
+
+/** \brief  Free memory used by the user's config path
+ */
+void archdep_user_config_path_free(void)
+{
+    if (user_config_dir != NULL) {
+        lib_free(user_config_dir);
+        user_config_dir = NULL;
+    }
 }

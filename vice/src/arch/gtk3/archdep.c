@@ -240,7 +240,9 @@ static void archdep_create_user_config_dir(void)
             debug_gtk3("Error: %d: %s.", errno, strerror(errno));
         }
     }
+#if 0
     lib_free(path);
+#endif
 }
 
 
@@ -263,7 +265,9 @@ char *archdep_default_autostart_disk_image_file_name(void)
             AUTOSTART_FILENAME_SUFFIX, NULL);
     path = g_build_path(path_separator, cfg, name, NULL);
     lib_free(name);
+#if 0
     lib_free(cfg);
+#endif
     /* transfer ownership from non/glib to VICE */
     tmp = lib_stralloc(path);
     g_free(path);
@@ -284,7 +288,9 @@ FILE *archdep_open_default_log_file(void)
     FILE *fp = fopen(fname, "wt");
 
     g_free(fname);
+# if 0
     lib_free(cfg);
+# endif
     return fp;
 #else
     return stdout;
@@ -437,7 +443,9 @@ int archdep_init(int *argc, char **argv)
 
     lib_free(searchpath);
     lib_free(vice_ini);
+# if 0
     lib_free(cfg_path);
+# endif
     lib_free(datadir);
     lib_free(docsdir);
 #endif

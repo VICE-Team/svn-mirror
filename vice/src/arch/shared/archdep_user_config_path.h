@@ -28,6 +28,7 @@
 #define VICE_ARCHDEP_USER_CONFIG_PATH_H
 
 char *archdep_user_config_path(void);
+void  archdep_user_config_path_free(void);
 
 #endif
 

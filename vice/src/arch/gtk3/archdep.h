@@ -98,7 +98,11 @@ int archdep_require_vkbd(void);
  */
 
 /* Get user configuration directory */
+/* FIXME: why does this need to be here as well as in
+ * arch/shared/archdep_user_config_path?
+ */
 char *archdep_user_config_path(void);
+void  archdep_user_config_path_free(void);
 /* Get the absolute path to the directory that contains resources, icons, etc */
 char *archdep_get_vice_datadir(void);
 /* Get the absolute path to the directory that contains the documentation */
