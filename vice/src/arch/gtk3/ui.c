@@ -653,7 +653,8 @@ static void ui_update_fullscreen_decorations(void)
  *
  * \return  FALSE to continue processing
  */
-static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *event,
+static gboolean on_window_state_event(GtkWidget *widget,
+                                      GdkEventWindowState *event,
                                       gpointer user_data)
 {
     GdkWindowState win_state = event->new_window_state;
@@ -998,6 +999,30 @@ static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 }
 
 
+static gboolean on_window_configure_event(GtkWidget *widget,
+                                          GdkEvent *event,
+                                          gpointer data)
+{
+    if (event->type == GDK_CONFIGURE) {
+        GdkEventConfigure *cfg = (GdkEventConfigure *)event;
+
+        /* TODO: determine Window index */
+        int windex = GPOINTER_TO_INT(data);
+
+
+        debug_gtk3("updating window #%d coords and size to (%d,%d) / (%dx*%5d)"
+                " in resources.",
+                0, cfg->x, cfg->y, cfg->width, cfg->height);
+
+        /* set resources, ignore failures */
+        resources_set_int_sprintf("Window%dWidth", windex, cfg->width);
+        resources_set_int_sprintf("Window%dHeight", windex, cfg->height);
+        resources_set_int_sprintf("Window%dXpos", windex, cfg->x);
+        resources_set_int_sprintf("Window%dYpos", windex, cfg->y);
+    }
+    return FALSE;
+}
+
 
 /** \brief  Create a toplevel window to represent a video canvas
  *
@@ -1021,13 +1046,21 @@ static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
  */
 void ui_create_main_window(video_canvas_t *canvas)
 {
-    GtkWidget *new_window, *grid, *status_bar;
+    GtkWidget *new_window;
+    GtkWidget *grid;
+    GtkWidget *status_bar;
     int target_window;
 
     GtkWidget *crt_controls;
     GtkWidget *mixer_controls;
 
     GdkPixbuf *icon;
+
+    int xpos = -1;
+    int ypos = -1;
+    int width = 0;
+    int height = 0;
+
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
@@ -1104,8 +1137,10 @@ void ui_create_main_window(video_canvas_t *canvas)
                      G_CALLBACK(ui_main_window_delete_event), NULL);
     g_signal_connect(new_window, "destroy",
                      G_CALLBACK(ui_main_window_destroy_callback), NULL);
-
-
+    /* can probably use the `user_data` to pass window index */
+    g_signal_connect(new_window, "configure-event",
+                     G_CALLBACK(on_window_configure_event),
+                     GINT_TO_POINTER(target_window));
     /*
      * Set up drag-n-drop handling for files
      */
@@ -1138,6 +1173,26 @@ void ui_create_main_window(video_canvas_t *canvas)
     if (!kbd_hotkey_add_list(default_hotkeys)) {
         debug_gtk3("adding hotkeys failed, see the log for details.");
     }
+
+    /*
+     * Try to restore windows position and size
+     */
+
+    if (resources_get_int_sprintf("Window%dXpos", &xpos, target_window) < 0) {
+        log_error(LOG_ERR, "No!", NULL):
+    }
+    resources_get_int_sprintf("Window%dYpos", &ypos, target_window);
+    resources_get_int_sprintf("Window%dwidth", &width, target_window);
+    resources_get_int_sprintf("Window%dheight", &height, target_window);
+
+    debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
+    if (xpos < 0 || ypos < 0 || width <= 0 || height <= 0) {
+        /* def. not legal */
+        return;
+    }
+
+    gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
+    gtk_window_resize(GTK_WINDOW(new_window), width, height);
 }
 
 

@@ -2378,8 +2378,9 @@ static gboolean on_dialog_configure_event(
         gpointer data)
 {
     if (event->type == GDK_CONFIGURE) {
-        int width = ((GdkEventConfigure*)event)->width;
-        int height = ((GdkEventConfigure*)event)->height;
+        GdkEventConfigure *cfg = (GdkEventConfigure *)event;
+        int width = cfg->width;
+        int height = cfg->height;
 
         /* debug_gtk3("width %d, height %d.", width, height); */
         if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
@@ -2392,6 +2393,9 @@ static gboolean on_dialog_configure_event(
             debug_gtk3("Dialog is too large: %dx%d (max: %dx%d).",
                     width, height, DIALOG_WIDTH_MAX, DIALOG_HEIGHT_MAX);
         }
+#if 0
+        debug_gtk3("XPOS: %d - YPOS: %d", cfg->x, cfg->y);
+#endif
     }
     return FALSE;
 }
