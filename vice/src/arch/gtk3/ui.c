@@ -1006,7 +1006,7 @@ static gboolean on_window_configure_event(GtkWidget *widget,
     if (event->type == GDK_CONFIGURE) {
         GdkEventConfigure *cfg = (GdkEventConfigure *)event;
 
-        /* TODO: determine Window index */
+        /* determine Window index */
         int windex = GPOINTER_TO_INT(data);
 
 
@@ -1015,10 +1015,10 @@ static gboolean on_window_configure_event(GtkWidget *widget,
                 0, cfg->x, cfg->y, cfg->width, cfg->height);
 
         /* set resources, ignore failures */
-        resources_set_int_sprintf("Window%dWidth", windex, cfg->width);
-        resources_set_int_sprintf("Window%dHeight", windex, cfg->height);
-        resources_set_int_sprintf("Window%dXpos", windex, cfg->x);
-        resources_set_int_sprintf("Window%dYpos", windex, cfg->y);
+        resources_set_int_sprintf("Window%dWidth", cfg->width, windex);
+        resources_set_int_sprintf("Window%dHeight", cfg->height, windex);
+        resources_set_int_sprintf("Window%dXpos", cfg->x, windex);
+        resources_set_int_sprintf("Window%dYpos", cfg->y, windex);
     }
     return FALSE;
 }
@@ -1179,7 +1179,7 @@ void ui_create_main_window(video_canvas_t *canvas)
      */
 
     if (resources_get_int_sprintf("Window%dXpos", &xpos, target_window) < 0) {
-        log_error(LOG_ERR, "No!", NULL):
+        log_error(LOG_ERR, "No for Window%dXpos", target_window);
     }
     resources_get_int_sprintf("Window%dYpos", &ypos, target_window);
     resources_get_int_sprintf("Window%dwidth", &width, target_window);
