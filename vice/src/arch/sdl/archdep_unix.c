@@ -607,6 +607,7 @@ int archdep_fix_permissions(const char *file_name)
     return chmod(file_name, mask ^ 0666);
 }
 
+#if 0
 int archdep_file_is_blockdev(const char *name)
 {
     struct stat buf;
@@ -621,6 +622,7 @@ int archdep_file_is_blockdev(const char *name)
 
     return 0;
 }
+#endif
 
 #if 0
 int archdep_file_is_chardev(const char *name)

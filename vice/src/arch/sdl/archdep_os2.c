@@ -502,10 +502,12 @@ int archdep_fix_permissions(const char *file_name)
     return 0;
 }
 
+#if 0
 int archdep_file_is_blockdev(const char *name)
 {
     return 0;
 }
+#endif
 
 #if 0
 int archdep_file_is_chardev(const char *name)

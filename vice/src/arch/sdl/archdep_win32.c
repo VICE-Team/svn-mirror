@@ -622,10 +622,12 @@ int archdep_fix_permissions(const char *file_name)
     return _chmod(file_name, _S_IREAD | _S_IWRITE);
 }
 
+#if 0
 int archdep_file_is_blockdev(const char *name)
 {
     return 0;
 }
+#endif
 
 #if 0
 int archdep_file_is_chardev(const char *name)

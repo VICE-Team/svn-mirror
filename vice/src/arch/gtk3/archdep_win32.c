@@ -407,10 +407,12 @@ int archdep_file_is_chardev(const char *name)
 #endif
 
 
+#if 0
 int archdep_file_is_blockdev(const char *name)
 {
     return 0;
 }
+#endif
 
 int archdep_fix_permissions(const char *file_name)
 {
