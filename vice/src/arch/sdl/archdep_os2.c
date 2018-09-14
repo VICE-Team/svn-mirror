@@ -507,6 +507,7 @@ int archdep_file_is_blockdev(const char *name)
     return 0;
 }
 
+#if 0
 int archdep_file_is_chardev(const char *name)
 {
     if (strcmp(name, "/dev/cbm") == 0) {
@@ -515,6 +516,8 @@ int archdep_file_is_chardev(const char *name)
 
     return 0;
 }
+#endif
+
 
 #ifdef SDL_CHOOSE_DRIVES
 char **archdep_list_drives(void)

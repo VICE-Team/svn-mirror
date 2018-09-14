@@ -398,11 +398,14 @@ char *archdep_default_rtc_file_name(void)
     return util_concat(archdep_boot_path(), "\\vice.rtc", NULL);
 }
 
+#if 0
 int archdep_file_is_chardev(const char *name)
 {
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
+#endif
+
 
 int archdep_file_is_blockdev(const char *name)
 {
