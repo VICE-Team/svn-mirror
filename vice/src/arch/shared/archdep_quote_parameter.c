@@ -45,7 +45,7 @@
  */
 char *archdep_quote_parameter(const char *name)
 {
-#if defined(WIN32_COMPILE) || defined (OS2_COMPILE)
+#if defined(ARCHDEP_OS_WINDOWS) || defined (ARCHDEP_OS_OS2)
     char *a,*b,*c;
 
     a = util_subst(name, "[", "\\[");

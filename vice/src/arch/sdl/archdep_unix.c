@@ -449,11 +449,14 @@ void archdep_startup_log_error(const char *format, ...)
 }
 #endif
 
+#if 0
 char *archdep_filename_parameter(const char *name)
 {
     /* nothing special(?) */
     return lib_stralloc(name);
 }
+#endif
+
 
 #if 0
 char *archdep_quote_parameter(const char *name)

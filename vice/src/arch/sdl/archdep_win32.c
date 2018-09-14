@@ -538,6 +538,7 @@ char *archdep_quote_parameter(const char *name)
 }
 #endif
 
+#if 0
 char *archdep_filename_parameter(const char *name)
 {
     char *exp;
@@ -548,6 +549,7 @@ char *archdep_filename_parameter(const char *name)
     lib_free(exp);
     return a;
 }
+#endif
 
 char *archdep_tmpnam(void)
 {

@@ -167,7 +167,7 @@ char *archdep_quote_parameter(const char *name)
 }
 #endif
 
-
+#if 0
 /** \brief  Quote \a name with double quotes
  *
  * Taken from win32/archdep.c, seems Windows needs this, but it makes unzip etc
@@ -191,6 +191,7 @@ char *archdep_filename_parameter(const char *name)
     return lib_stralloc(name);
 #endif
 }
+#endif
 
 
 /** \brief  Generate path to the default fliplist file
