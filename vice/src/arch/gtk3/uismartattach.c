@@ -1,4 +1,4 @@
-/** \brief  uismartattach.c
+/** \file   uismartattach.c
  * \brief   GTK3 smart-attach dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -39,6 +39,8 @@
 #include "filechooserhelpers.h"
 #include "ui.h"
 
+#include "lastdir.h"
+
 #include "uismartattach.h"
 
 
@@ -59,9 +61,17 @@ static ui_file_filter_t filters[] = {
  */
 static GtkWidget *preview_widget = NULL;
 
+
+/** \brief  Last directory used
+ *
+ * When an image is attached, this is set to the directory of that file. Since
+ * it's heap-allocated by Gtk3, it must be freed with a call to
+ * ui_smart_attach_shutdown() on emulator shutdown.
+ */
 static gchar *last_dir = NULL;
 
 
+#if 0
 /** \brief  Update the last directory reference
  *
  * \param[in]   widget  dialog
@@ -80,6 +90,7 @@ static void update_last_dir(GtkWidget *widget)
         last_dir = new_dir;
     }
 }
+#endif
 
 
 /** \brief  Handler for the "update-preview" event
@@ -152,14 +163,17 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
+    int index;
 
-    debug_gtk3("got response ID %d.", response_id);
+    index = GPOINTER_TO_INT(user_data);
+
+    debug_gtk3("got response ID %d, index %d.", response_id, index);
 
     switch (response_id) {
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
-            update_last_dir(widget);
+            lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Opening file '%s'.", filename);
@@ -180,7 +194,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
-            update_last_dir(widget);
+            lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'.", filename);
             /* if this function exists, why is there no attach_autodetect()
@@ -188,7 +202,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             if (autostart_autodetect(
                         filename,
                         NULL,   /* program name */
-                        0,      /* Program number? Probably used when clicking
+                        index,  /* Program number? Probably used when clicking
                                    in the preview widget to load the proper
                                    file in an image */
                         AUTOSTART_MODE_RUN) < 0) {
@@ -287,9 +301,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             NULL, NULL);
 
     /* set last used directory */
-    if (last_dir != NULL) {
-        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
-    }
+    lastdir_set(dialog, &last_dir);
 
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
@@ -341,7 +353,5 @@ void ui_smart_attach_callback(GtkWidget *widget, gpointer user_data)
  */
 void ui_smart_attach_shutdown(void)
 {
-    if (last_dir != NULL) {
-        g_free(last_dir);
-    }
+    lastdir_shutdown(&last_dir);
 }
