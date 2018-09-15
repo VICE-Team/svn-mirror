@@ -280,6 +280,7 @@ static void vdc_update_geometry(void)
         vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
     }
 
+    /* FIXME: this seems to have semi-randomly selected constants... */
     if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
         charwidth = 2 * (vdc.regs[22] >> 4);
         hsync = 62 * 16            /* 992 */
@@ -289,6 +290,8 @@ static void vdc_update_geometry(void)
         hsync = 116 * 8            /* 928 */
             - vdc.regs[2] * charwidth;       /* default (102) - 816 = 112 */
     }
+    /* FIXME: It's potentially valid for the active display area to start off the left (or right) of the display,
+        because the VDC can put the horizontal sync anywhere. But we can't really emulate that (yet) without things crashing. */
     if (hsync < 0) {
             hsync = 0;
     }
@@ -394,6 +397,7 @@ CLOCK vdc_lightpen_timing(int x, int y)
 /* Set the memory pointers according to the values in the registers. */
 void vdc_update_memory_ptrs(unsigned int cycle)
 {
+    /* FIXME: use it or lose it */
 }
 
 static void vdc_increment_memory_pointer(void)
@@ -407,6 +411,16 @@ static void vdc_increment_memory_pointer(void)
                           % (vdc.raster_ycounter_max + 1);
 
     vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
+}
+
+static void vdc_increment_memory_pointer_interlace_bitmap(void)
+{   /* This is identical to above (and should remain so), we just don't increment the bitmap pointer */
+    vdc.mem_counter_inc = vdc.screen_text_cols;
+    if (vdc.raster.ycounter >= vdc.raster_ycounter_max) {
+        vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
+    }
+    vdc.raster.ycounter = (vdc.raster.ycounter + 1)
+                          % (vdc.raster_ycounter_max + 1);
 }
 
 static void vdc_set_video_mode(void)
@@ -423,16 +437,20 @@ static void vdc_set_video_mode(void)
 /* Redraw the current raster line. */
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
-    int in_idle_state, calculated_border_height;
+    int in_idle_state, calculated_border_height, i;
     static unsigned int old_screen_adr, old_attribute_adr, screen_ystart, need_increment_memory_pointer;
 
     /* Update the memory pointers just before we draw the next line (vs after last line),
-       in case relevent registers changed since last call. */
+       in case relevant registers changed since last call. */
     if (need_increment_memory_pointer) {
         vdc_increment_memory_pointer();
         /* If interlace we need to skip a line, so we increment again */
         if ((vdc.regs[8] & 0x03) == 3) {
-            vdc_increment_memory_pointer();
+            if (vdc.regs[25] & 0x80) {    /* in interlace bitmap mode we want to increment the attribute memory pointer again, but not the bitmap pointer */
+                vdc_increment_memory_pointer_interlace_bitmap();
+            } else {    /* text mode */
+                vdc_increment_memory_pointer();
+            }
         }
         need_increment_memory_pointer = 0;
     }
@@ -451,7 +469,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         }
     }
 
-    if (vdc.raster.current_line == 0) {
+    if (vdc.raster.current_line == 0) { /* We are on the first raster line, so go reset and/or handle everything for a new frame */
         /* The top border position is based on the position of the vertical
            sync pulse [7] in relation to the total height of the screen [4]
            and the width of the sync pulse [3] */
@@ -485,20 +503,47 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         vdc.row_counter = 0;
         vdc.row_counter_y = vdc.raster_ycounter_max;
         vdc.raster.video_mode = VDC_IDLE_MODE;
-        vdc.mem_counter = 0;
-        need_increment_memory_pointer = 0;
-        vdc.bitmap_counter = 0;
-        vdc.raster.ycounter = 0;
-        vdc.frame_counter++;
+        vdc.frame_counter++;    /* Note that as far as the frame counter is concerned, we are now on a new frame */
         if (vdc.regs[24] & 0x20) {
             vdc.attribute_blink = vdc.frame_counter & 16;
         } else {
             vdc.attribute_blink = vdc.frame_counter & 8;
         }
         
-        /* If interlace we need to skip to the 2nd line on an odd frame so that we render the odd field vs the even */
-        if (((vdc.regs[8] & 0x03) == 3) && (vdc.frame_counter & 1))  {
-            vdc_increment_memory_pointer();
+        /* Normally we would reset all the memory pointers etc. on a new frame.
+        BUT, in one particular circumstance we don't - interlace bitmap mode on an even frame -
+        because interlace bitmap is interleaved, we want it to keep reading into the 2nd bank on the even frame
+        (it starts on an odd frame) */
+        if (((vdc.regs[8] & 0x03) == 3)  /* interlace */
+            && (vdc.regs[25] & 0x80)    /* bitmap mode */
+            && !(vdc.frame_counter & 1)) { /* even frame */
+            /* FIXME: this hack fixes VDCModeMania (PAL Interlace ONLY - option 2 at menu)
+               but I'm not completely sure why, it is certainly not correct in general, e.g. doesn't fix the other interlace parts.. */
+            for (i = 0; i < 41; i++) { /* increment the memory pointer a few times based on [WTF?] */
+               vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
+            }
+            for (i = 0; i < 20; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
+               vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
+            }
+        } else {    /* Rest all the internal VDC memory pointers and counters to 0 */
+            vdc.mem_counter = 0;
+            need_increment_memory_pointer = 0;
+            vdc.bitmap_counter = 0;
+            vdc.raster.ycounter = 0;
+        }
+        
+        /* If interlace mode we need to skip to the 2nd line on an odd frame so that we render the odd field vs the even */
+        if (((vdc.regs[8] & 0x03) == 3)     /* interlace and */
+        && (vdc.frame_counter & 1)) {       /* odd frame */
+            if (!(vdc.regs[25] & 0x80)) {   /* text mode */
+                vdc_increment_memory_pointer();
+            } else {                        /* bitmap mode */
+                /* FIXME: this hack fixes VDCModeMania, but I'm not completely sure why, or if it's correct in general.. */
+                /* Add half the number of raster lines in a char * number of characters in a row, to the bitmap pointer only
+                    effectively skips the bitmap pointer over one full (interlace) attribute cell row worth of bitmap data
+                    but why, because we don't increment the attribute pointer?? */
+                vdc.bitmap_counter += (((vdc.regs[9] & 0x1f) + 1) >> 1) * (vdc.mem_counter_inc + vdc.regs[27]);
+            }
         }
         
         if (vdc.update_geometry) {
