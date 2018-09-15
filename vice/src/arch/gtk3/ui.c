@@ -174,12 +174,18 @@ static const resource_string_t resources_string[] = {
 /** \brief  Integer/Boolean type resources list
  */
 
+
+/** 'brief  Integer resources shared between windows
+ */
 static const resource_int_t resources_int_shared[] = {
     { "NativeMonitor", 0, RES_EVENT_NO, NULL,
         &native_monitor_enabled, set_native_monitor, NULL },
     RESOURCE_INT_LIST_END
 };
 
+
+/** \brief  Integer resources for the primary window
+ */
 static const resource_int_t resources_int_primary_window[] = {
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
         &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
@@ -207,6 +213,7 @@ static const resource_int_t resources_int_primary_window[] = {
 
     RESOURCE_INT_LIST_END
 };
+
 
 /** \brief  Integer/Boolean type resources list for VDC window
  */
@@ -326,6 +333,13 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  *
  * Can be used to filter certain drop targets or altering the data before
  * triggering the 'drag-drop-received' event. Currently just returns TRUE
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   context gtk drag context
+ * \param[in]   x       x position of drag event
+ * \param[in]   y       y position of drag event
+ * \param[in]   time    (I don't have a clue)
+ * \param[in]   data    extra event data (unused)
  */ 
 static gboolean on_drag_drop(
         GtkWidget *widget,
@@ -333,7 +347,7 @@ static gboolean on_drag_drop(
         gint x,
         gint y,
         guint time,
-        gpointer user_data)
+        gpointer data)
 {
     debug_gtk3("called.");
     return TRUE;
@@ -999,6 +1013,18 @@ static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Handler for window 'configure' events
+ *
+ * Triggered when a window is moved or changes size. Used currently to update
+ * the Window[01]* resources to allow restoring window size and position on
+ * emulator start.
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   event   event reference
+ * \param[in]   data    extra event data (used to pass window index)
+ *
+ * \return  bool
+ */
 static gboolean on_window_configure_event(GtkWidget *widget,
                                           GdkEvent *event,
                                           gpointer data)
@@ -1618,6 +1644,8 @@ gboolean ui_toggle_pause(void)
 }
 
 
+/** \brief  Toggle warp mode
+ */
 static void ui_toggle_warp(void)
 {
     ui_toggle_resource(NULL, (gpointer)"WarpMode");

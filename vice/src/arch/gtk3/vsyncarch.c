@@ -55,6 +55,10 @@
 #include <mach/mach_time.h>
 #endif
 
+/* for ui_display_speed() */
+#include "uistatusbar.h"
+
+
 /* hook to ui event dispatcher */
 static void_hook_t ui_dispatch_hook;
 static int pause_pending = 0;

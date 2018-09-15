@@ -339,7 +339,7 @@ static GtkWidget *create_driver_info_widget(void)
 }
 
 
-/** \brief  Set a label in the driver info grid at \a row to \addr
+/** \brief  Set a label in the driver info grid at \a row to a \addr
  *
  * \param[in]   row     row in the grid
  * \param[in]   addr    16-bit address

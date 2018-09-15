@@ -37,7 +37,8 @@
 #include "palette.h"
 
 
-/* Number of drives we support in the UI.  */
+/** \brief  Number of drives we support in the UI
+ */
 #define NUM_DRIVES 4
 
 
@@ -67,14 +68,10 @@ void ui_create_main_window(video_canvas_t *canvas);
 void ui_display_main_window(int index);
 void ui_destroy_main_window(int index);
 
-void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
 void ui_dispatch_events(void);
 void ui_exit(void);
 void ui_show_text(const char *title, const char *text, int width, int height);
-
-void ui_autorepeat_on(void);
-void ui_autorepeat_off(void);
 
 void ui_display_paused(int flag);
 void ui_pause_emulation(int flag);
@@ -83,15 +80,6 @@ int  ui_is_fullscreen(void);
 void ui_trigger_resize(void);
 void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
 void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data);
-
-void ui_check_mouse_cursor(void);
-void ui_restore_mouse(void);
-
-void ui_set_application_icon(const char *icon_data[]);
-void ui_set_selected_file(int num);
-
-void ui_common_init(void);
-void ui_common_shutdown(void);
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
