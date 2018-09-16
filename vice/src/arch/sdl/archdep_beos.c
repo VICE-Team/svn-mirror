@@ -403,11 +403,13 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 }
 #endif
 
+#if 0
 /* set permissions of given file to rw, respecting current umask */
 int archdep_fix_permissions(const char *file_name)
 {
     return 0;
 }
+#endif
 
 #if 0
 int archdep_file_is_blockdev(const char *name)
