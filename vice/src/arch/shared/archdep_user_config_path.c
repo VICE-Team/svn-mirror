@@ -66,7 +66,7 @@ static char *user_config_dir = NULL;
  * On systems supporting home directories this will return a directory inside
  * the home directory, depending on OS:
  *
- * - Windows: $HOME\AppData\Roaming\vice
+ * - Windows: $HOME\\AppData\\Roaming\\vice
  * - Unix: $HOME/.config/vice
  * - BeOS: $HOME/config/settings/vice
  *   (Haiku sets $XDG_CONFIG_HOME to '/boot/home/config/settings')

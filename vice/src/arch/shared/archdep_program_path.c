@@ -80,8 +80,31 @@
  */
 #define PATH_BUFSIZE    4096
 
+
+/** \brief  Reference to program path string
+ *
+ * Should be freed on emulator exit with archdep_program_path_free()
+ */
 static char *program_path = NULL;
+
+
+/** \brief  Reference to argv[0]
+ *
+ * Do not free this, the C standard guarantees argv is available during a
+ * program's lifetime, so this will work.
+ */
 static char *argv0_ref = NULL;
+
+
+/** \brief  Buffer used to retrieve pathnames
+ *
+ * Various OS calls use this buffer to store the path to the running binary, if
+ * such a call exists. The buffer should be large enough (I think Linux
+ * defines PATH_MAX as 4096 by default, but that can be changed).
+ * The various function calls guard against writing past this buffer's end, but
+ * should some idiotic OS or user actually need a path larger than 4095 bytes,
+ * tell 'em to fuck off or update PATH_BUFSIZE.
+ */
 static char buffer[PATH_BUFSIZE];
 
 

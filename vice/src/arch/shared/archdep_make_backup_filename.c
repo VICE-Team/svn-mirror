@@ -35,7 +35,7 @@
 
 /** \brief  Generate backup filename for \a fname
  *
- * \param[in]   original filename
+ * \param[in]   fname   original filename
  *
  * \return  backup filename (free with libfree())
  */

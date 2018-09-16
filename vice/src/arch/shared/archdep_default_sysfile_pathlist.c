@@ -41,7 +41,10 @@
 
 #include "archdep_default_sysfile_pathlist.h"
 
-
+/** \brief  Total number of pathnames to store in the pathlist
+ *
+ * 16 seems to be enough, but it can always be increased to support more.
+ */
 #define TOTAL_PATHS 16
 
 

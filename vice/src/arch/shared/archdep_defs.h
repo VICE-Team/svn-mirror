@@ -55,51 +55,85 @@
  * </pre>
  */
 #ifdef UNIX_COMPILE
-/* Generic UNIX */
+
+/** \brief  OS is UNIX */
 # define ARCHDEP_OS_UNIX
+
 # if defined(MACOSX_SUPPORT)
-/* OSX */
+
+/** \brief  OS is Unix and OSX */
 #  define ARCHDEP_OS_OSX
+
 # elif defined(__linux__)
-/* Linux */
+
+/** \brief  OS is Linux (yay!) */
 #  define ARCHDEP_OS_LINUX
+
 # elif defined(__FreeBSD__)
-/* FreeBSD */
+
+/** \brief  OS is BSD */
 #  define ARCHDEP_OS_BSD
+
+/** \brief  OS is FreeBSD */
 #  define ARCHDEP_OS_BSD_FREE
-/* NetBSD */
+
 # elif defined(__NetBSD__)
+
 #  define ARCHDEP_OS_BSD
+/** \brief  OS is NetBSD */
 #  define ARCHDEP_OS_BSD_NET
-/* OpenBSD */
+
 # elif defined(__OpenBSD__)
 #  define ARCHDEP_OS_BSD
+
+/** \brief  OS is OpenBSD */
 #  define ARCHDEP_OS_BSD_OPEN
-/* DragonFly BSD */
+
 # elif defined(__DragonFly__)
 #  define ARCHDEP_OS_BSD
+
+
+/** \brief  OS is DragonFly BSD */
 #  define ARCHDEP_OS_BSD_DRAGON
+
 # elif defined(__QNX__)
-/* QNX (do we even support this anymore?) */
+
+/**\brief   OS is QNX (do we even support this anymore?) */
 #  define ARCHDEP_OS_QNX
+
 # elif defined(sun) || defined(__sun)
-/* Solaris (same question) */
+
+/** \brief  OS is Solaris (same question) */
 #  define ARCHDEP_OS_SOLARIS
+
 # endif /* ifdef UNIX_COMPILE */
+
 #elif defined(WIN32_COMPILE)
-/* Windows */
+
+/** \brief  OS is Windows */
 # define ARCHDEP_OS_WINDOWS
+
 #elif defined(OS2_COMPILE)
-/* OS/2 (again: has anyone even tested this?) */
+
+/** \brief  OS is OS/2 (again: has anyone even tested this?) */
 # define ARCHDEP_OS_OS2
+
 #elif defined(__BEOS__)
-/* BeOS (maybe Haiku?) */
+
+/** \brief  OS is BeOS and perhaps Haiku */
 # define ARCHDEP_OS_BEOS
+
 #elif defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-/* MS-DOS (really?) */
+
+/** \brief  OS is MS-DOS (really?) */
 # define ARCHDEP_OS_DOS
+
 #elif defined(AMIGA_SUPPORT)
-/* Amiga (may have to split into Aros etc) */
+
+/** \brief  OS is AmigaOS
+ *
+ * May have to split/refine this for AROS etc
+ */
 # define ARCHDEP_OS_AMIGA
 #endif
 
@@ -108,6 +142,9 @@
  */
 #if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
     || defined(ARCHDEP_HAVE_DOS)
+
+/** \brief  OS-dependent directory separator
+ */
 # define ARCHDEP_DIR_SEPARATOR  '\\'
 #else
 # define ARCHDEP_DIR_SEPARATOR  '/'
@@ -120,15 +157,30 @@
 
 #if defined(ARCHEP_OS_AMIGA) || defined(ARCHDEP_OS_MSDOS) \
     || defined(ARCHDEP_OS_OS2) || defined(ARCHDEP_OS_WINDOWS)
+/** \brief  Separator used for a pathlist
+ */
 # define ARCHDEP_FINDPATH_SEPARATOR_STRING  ";"
+
 #else
+
+/** \brief  Separator used for a pathlist
+ */
 # define ARCHDEP_FINDPATH_SEPARATOR_STRING  ":"
 #endif
 
 
 /* set LIBDIR and DOCDIR */
 #ifdef ARCHDEP_OS_UNIX
+/** \brief  Set VICE library dir
+ *
+ * This is completely wrong
+ */
 # define LIBDIR VICEDIR
+
+/** 'brief  Set documentation dir
+ *
+ * Equally wrong, we should use XDG
+ */
 # define DOCDIR LIBDIR "/doc"
 #endif
 
