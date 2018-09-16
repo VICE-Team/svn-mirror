@@ -1415,6 +1415,11 @@ int machine_addr_in_ram(unsigned int addr)
 {
     uint8_t mmucfg = mmu_peek(0);
 
+    if ((mmucfg == 0x3e) && (mmu_peek(5) == 0xb7)) {
+        /* c64 mode */
+        return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)));
+    }
+
     if ((addr >= 0xd000) && (addr <= 0xdfff)) { /* d000-dfff */
         if ((mmucfg & 0x02) == 0x02) { /* 00000010 */
             return 1;
