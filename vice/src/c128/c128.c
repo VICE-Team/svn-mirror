@@ -1410,10 +1410,32 @@ uint8_t machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
+/* this is currently only used by the autostart code */
 int machine_addr_in_ram(unsigned int addr)
 {
-    /* TODO check for carts */
-    return (addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) ? 1 : 0;
+    uint8_t mmucfg = mmu_peek(0);
+
+    if ((addr >= 0xd000) && (addr <= 0xdfff)) { /* d000-dfff */
+        if ((mmucfg & 0x02) == 0x02) { /* 00000010 */
+            return 1;
+        }
+    }
+    if (addr >= 0xc000) { /* c000-ffff */
+        if ((mmucfg & 0x60) == 0x60) { /* 01100000 */
+            return 1;
+        }
+    }
+    if (addr >= 0x8000) { /* 8000-bfff */
+        if ((mmucfg & 0x18) == 0x18) { /* 00011000 */
+            return 1;
+        }
+    }
+    if (addr >= 0x4000) { /* 4000-7fff */
+        if ((mmucfg & 0x04) == 0x04) { /* 00000100 */
+            return 1;
+        }
+    }
+    return 0;
 }
 
 const char *machine_get_name(void)
