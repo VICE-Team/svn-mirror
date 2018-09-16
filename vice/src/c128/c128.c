@@ -1425,20 +1425,23 @@ int machine_addr_in_ram(unsigned int addr)
             return 1;
         }
     }
-    if (addr >= 0xc000) { /* c000-ffff */
+    if ((addr >= 0xc000) && (addr <= 0xffff))  { /* c000-ffff */
         if ((mmucfg & 0x60) == 0x60) { /* 01100000 */
             return 1;
         }
     }
-    if (addr >= 0x8000) { /* 8000-bfff */
+    if ((addr >= 0x8000) && (addr <= 0xbfff))  { /* 8000-bfff */
         if ((mmucfg & 0x18) == 0x18) { /* 00011000 */
             return 1;
         }
     }
-    if (addr >= 0x4000) { /* 4000-7fff */
+    if ((addr >= 0x4000) && (addr <= 0x7fff))  { /* 4000-7fff */
         if ((mmucfg & 0x04) == 0x04) { /* 00000100 */
             return 1;
         }
+    }
+    if (/* (addr >= 0x0000) && */ (addr <= 0x3fff)) { /* 0000-3fff */
+        return 1;
     }
     return 0;
 }
