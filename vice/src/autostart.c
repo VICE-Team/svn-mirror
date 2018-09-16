@@ -511,16 +511,7 @@ static void check_rom_area(void)
         /* special case for auto-starters: ROM left. We also consider
          * BASIC area to be ROM, because it's responsible for writing "READY."
          */
-        /* FIXME: C128 is a special beast, as it would execute some stuff in system
-                  RAM - which this special case hack checks. a better check should
-                  check if we are in c64 mode too.    
-                  without this check eg autostarting a prg file with autostartmode=
-                  "disk image" will fail. (exit from ROM at $some RAM address)
-        */
-        if (((machine_class == VICE_MACHINE_C128) && 
-             !((reg_pc >= 0x2a0) && (reg_pc <= 0x3af)) && 
-             machine_addr_in_ram(reg_pc)) ||
-            ((machine_class != VICE_MACHINE_C128) && (machine_addr_in_ram(reg_pc)))) {
+        if (machine_addr_in_ram(reg_pc)) {
             log_message(autostart_log, "Left ROM for $%04x", reg_pc);
             disable_warp_if_was_requested();
             autostart_done();
@@ -874,6 +865,8 @@ static void advance_waitsearchingfor(void)
             autostart_disable();
             break;
         case NOT_YET:
+            /* leave autostart and disable warp if ROM area was left */
+            check_rom_area();
             break;
     }
 }
@@ -897,6 +890,8 @@ static void advance_waitloading(void)
             autostart_disable();
             break;
         case NOT_YET:
+            /* leave autostart and disable warp if ROM area was left */
+            check_rom_area();
             break;
     }
 }

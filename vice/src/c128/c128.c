@@ -1419,6 +1419,16 @@ int machine_addr_in_ram(unsigned int addr)
         /* c64 mode */
         return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)));
     }
+    /* FIXME: C128 is a special beast, as it would execute some stuff in system
+                RAM - which this special case hack checks.
+                without this check eg autostarting a prg file with autostartmode=
+                "disk image" will fail. (exit from ROM at $some RAM address)
+    */
+    if (mmucfg == 0x3f) {
+        if ((addr >= 0x2a0) && (addr <= 0x3af)) {
+            return 0;
+        }
+    }
 
     if ((addr >= 0xd000) && (addr <= 0xdfff)) { /* d000-dfff */
         if ((mmucfg & 0x02) == 0x02) { /* 00000010 */
