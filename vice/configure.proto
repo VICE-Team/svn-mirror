@@ -914,7 +914,14 @@ if test x"$check_sdl1" = "xyes"; then
             AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
           fi
 
-          dnl now that the SDL2 UI support has been detected, define enable_sdlui2 and undefine the others to prevent checks
+          case "$host_os" in
+            *mingw32)
+              dnl Required for GetUserProfileDirectoryA
+              LIBS="$LIBS -luserenv"
+              ;;
+          esac
+          
+          dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
           enable_native_gtk3ui=no
           enable_sdlui=yes
           enable_sdlui2=no
