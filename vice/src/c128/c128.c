@@ -1424,29 +1424,29 @@ int machine_addr_in_ram(unsigned int addr)
                 without this check eg autostarting a prg file with autostartmode=
                 "disk image" will fail. (exit from ROM at $some RAM address)
     */
-    if (mmucfg == 0x3f) {
+    if ((mmucfg & 0xc0) == 0x00) {
         if ((addr >= 0x2a0) && (addr <= 0x3af)) {
             return 0;
         }
     }
 
     if ((addr >= 0xd000) && (addr <= 0xdfff)) { /* d000-dfff */
-        if ((mmucfg & 0x02) == 0x02) { /* 00000010 */
-            return 1;
+        if ((mmucfg & 0x01) == 0x00) { /* 00000001 */
+            return 0; /* else what is selected by bits 4/5 */
         }
     }
     if ((addr >= 0xc000) && (addr <= 0xffff))  { /* c000-ffff */
-        if ((mmucfg & 0x60) == 0x60) { /* 01100000 */
+        if ((mmucfg & 0x30) == 0x30) { /* 00110000 */
             return 1;
         }
     }
     if ((addr >= 0x8000) && (addr <= 0xbfff))  { /* 8000-bfff */
-        if ((mmucfg & 0x18) == 0x18) { /* 00011000 */
+        if ((mmucfg & 0xc0) == 0xc0) { /* 00001100 */
             return 1;
         }
     }
     if ((addr >= 0x4000) && (addr <= 0x7fff))  { /* 4000-7fff */
-        if ((mmucfg & 0x04) == 0x04) { /* 00000100 */
+        if ((mmucfg & 0x02) == 0x02) { /* 00000010 */
             return 1;
         }
     }
