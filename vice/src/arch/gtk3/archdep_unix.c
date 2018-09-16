@@ -518,12 +518,13 @@ int archdep_file_is_blockdev(const char *name)
 }
 #endif
 
-
+#if 0
 int archdep_fix_permissions(const char *file_name)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
+#endif
 
 
 static RETSIGTYPE break64(int sig)

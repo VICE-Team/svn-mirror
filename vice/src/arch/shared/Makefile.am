@@ -19,6 +19,7 @@ libarchdep_a_SOURCES = \
 	archdep_file_is_blockdev.c \
 	archdep_file_is_chardev.c \
 	archdep_filename_parameter.c \
+	archdep_fix_permissions.c \
 	archdep_home_path.c \
 	archdep_join_paths.c \
 	archdep_make_backup_filename.c \
@@ -42,6 +43,7 @@ EXTRA_DIST = \
 	archdep_file_is_blockdev.h \
 	archdep_file_is_chardev.h \
 	archdep_filename_parameter.h \
+	archdep_fix_permissions.h \
 	archdep_home_path.h \
 	archdep_join_paths.h \
 	archdep_make_backup_filename.h \
