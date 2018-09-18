@@ -475,7 +475,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
            and the width of the sync pulse [3] */
         calculated_border_height = (vdc.regs[4] + 1 - vdc.regs[7])  /* # of rows from sync pulse */
                                    * ((vdc.regs[9] & 0x1f) + 1)     /* height of each row (R9) */
-                                   - (vdc.regs[3] >> 4);            /* vertical sync pulse width */
+                                   - (vdc.regs[3] >> 4)             /* vertical sync pulse width */
+                                   + (vdc.regs[5] & 0x1f);          /* vertical total adjust */
 
         if (calculated_border_height >= 0) {
             vdc.border_height = calculated_border_height;
@@ -521,40 +522,40 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                Need to figure out WTF the VDC is doing with its memory pointers that we need this much hackery.. */
             switch (vdc.regs[4]) {
                 case 0x84:  /* Option 1 - NTSC  Interlace */
-                    for (i = 0; i < 21; i++) { /* increment the memory pointer a few times based on [WTF?] */
+                    for (i = 0; i < 20; i++) { /* increment the memory pointer a few times based on [WTF?] */
                         // vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
                         vdc.mem_counter -= vdc.mem_counter_inc + vdc.regs[27];
                     }
-                    for (i = 0; i < 42; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
+                    for (i = 0; i < 40; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
                         vdc.bitmap_counter -= (vdc.mem_counter_inc + vdc.regs[27]);
                     }
                     break;
                 case 0x68:  /* Option 2 - PAL Interlace */
-                    for (i = 0; i < 41; i++) { /* increment the memory pointer a few times based on [WTF?] */
+                    for (i = 0; i < 47; i++) { /* increment the memory pointer a few times based on [WTF?] */
                         vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
                     }
-                    for (i = 0; i < 20; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
+                    for (i = 0; i < 23; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
                         vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
                     }
                     break;
                 case 0x6a:  /* Option 5 - "VDC-IMONO" 720x700 Mono Interlace */
-                    for (i = 0; i < 164; i++) { /* increment the memory pointer a few times based on [WTF?] */
+                    for (i = 0; i < 170; i++) { /* increment the memory pointer a few times based on [WTF?] */
                         vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
                     }
-                    for (i = 0; i < 80; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
+                    for (i = 0; i < 83; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
                         vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
                     }
                     break;
                 case 0x5c:  /* Option 6 - "VDC-IM800" 800x600 Mono Interlace */
-                    for (i = 0; i < 64; i++) { /* increment the memory pointer a few times based on [WTF?] */
+                    for (i = 0; i < 70; i++) { /* increment the memory pointer a few times based on [WTF?] */
                         vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
                     }
-                    for (i = 0; i < 31; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
+                    for (i = 0; i < 34; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
                         vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
                     }
                     break;
             }
-        } else {    /* Rest all the internal VDC memory pointers and counters to 0 */
+        } else {    /* Reset all the internal VDC memory pointers and counters to 0 */
             vdc.mem_counter = 0;
             need_increment_memory_pointer = 0;
             vdc.bitmap_counter = 0;
