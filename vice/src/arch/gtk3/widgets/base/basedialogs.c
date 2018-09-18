@@ -200,6 +200,24 @@ gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
+    size_t len = strlen(buffer);
+    unsigned int x = 0;
+    unsigned int y = 0;
+    for (y = 0; y < 256; y += 16) {
+
+        char textbuf[17];
+
+        printf("%02x:  ", y);
+        memset(textbuf, 0, 17);
+        for (x = 0; x < 16 && x + y < (int)len; x++) {
+            printf("%02x ", buffer[x + y]);
+            textbuf[x] = buffer[x + y];
+        }
+        puts("");
+    }
+
+
+
     dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
@@ -228,6 +246,33 @@ static gboolean entry_get_int(GtkWidget *entry, int *value)
     if (*endptr == '\0') {
         *value = (int)tmp;
         return TRUE;
+    }
+    return FALSE;
+}
+
+
+/** \brief  Handler for the key-press event of the integer input box
+ *
+ * Signals ACCEPT to the dialog.
+ *
+ * \param[in]   entry   entry box
+ * \param[in]   event   event object
+ * \param[in]   data    dialog reference
+ *
+ * \return  TRUE if Enter was pushed, FALSE otherwise (makes the pushed key
+ *          propagate to the entry
+ */
+static gboolean on_integer_key_press_event(GtkEntry *entry,
+                                           GdkEvent *event,
+                                           gpointer data)
+{
+    GtkWidget *dialog = data;
+    GdkEventKey *keyev = (GdkEventKey *)event;
+
+    if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
+        /* got Enter */
+        debug_gtk3("I gots Enter!");
+        g_signal_emit_by_name(dialog, "response", GTK_RESPONSE_ACCEPT, NULL);
     }
     return FALSE;
 }
@@ -300,6 +345,9 @@ gboolean vice_gtk3_integer_input_box(
 
     gtk_widget_show_all(grid);
     gtk_box_pack_start(GTK_BOX(content), grid, TRUE, TRUE, 8);
+
+    g_signal_connect(dialog, "key-press-event",
+            G_CALLBACK(on_integer_key_press_event), (gpointer)dialog);
 
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     if (response == GTK_RESPONSE_ACCEPT) {
