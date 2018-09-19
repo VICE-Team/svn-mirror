@@ -1036,7 +1036,7 @@ static gboolean on_window_configure_event(GtkWidget *widget,
         int windex = GPOINTER_TO_INT(data);
 
 
-        debug_gtk3("updating window #%d coords and size to (%d,%d) / (%dx*%5d)"
+        debug_gtk3("updating window #%d coords and size to (%d,%d)/(%d*%d)"
                 " in resources.",
                 0, cfg->x, cfg->y, cfg->width, cfg->height);
 
