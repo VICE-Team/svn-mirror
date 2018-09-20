@@ -101,7 +101,13 @@ typedef struct ui_resources_s {
     int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
     int confirm_on_exit;        /**< ConfirmOnExit (bool) */
 
+    int start_minimized;        /**< StartMinimized (bool) */
+
+    int use_native_monitor;     /**< NativeMonitor (bool) */
+
+#if 0
     int depth;
+#endif
 
     video_canvas_t *canvas[NUM_WINDOWS];
     GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
@@ -110,9 +116,15 @@ typedef struct ui_resources_s {
     int window_xpos[NUM_WINDOWS];
     int window_ypos[NUM_WINDOWS];
 
-    int start_minimized;        /**< StartMinimized (bool) */
-
 } ui_resource_t;
+
+
+/** \brief  Collection of UI resources
+ *
+ * This needs to stay here, to allow the command line and resources initializers
+ * to reference the UI resources.
+ */
+static ui_resource_t ui_resources;
 
 
 /** \brief  Row numbers of the various widgets packed in a main GtkWindow
@@ -124,18 +136,6 @@ enum {
     ROW_CRT_CONTROLS,   /**< CRT control widgets */
     ROW_MIXER_CONTROLS  /**< mixer control widgets */
 };
-
-
-/** \brief  Collection of UI resources
- *
- * This needs to stay here, to allow the command line and resources initializers
- * to reference the UI resources.
- */
-static ui_resource_t ui_resources;
-
-/** \brief  Use native monitor interface
- */
-static int native_monitor_enabled = 0;
 
 
 /** \brief  Default hotkeys for the UI not connected to a menu item
@@ -171,30 +171,30 @@ static const resource_string_t resources_string[] = {
 };
 #endif
 
-/** \brief  Integer/Boolean type resources list
- */
 
-
-/** 'brief  Integer resources shared between windows
+/** \brief  Boolean resources shared between windows
  */
 static const resource_int_t resources_int_shared[] = {
-    { "NativeMonitor", 0, RES_EVENT_NO, NULL,
-        &native_monitor_enabled, set_native_monitor, NULL },
-    RESOURCE_INT_LIST_END
-};
-
-
-/** \brief  Integer resources for the primary window
- */
-static const resource_int_t resources_int_primary_window[] = {
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
         &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
         &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
 
-    /* Window size and position setters */
+    { "StartMinimized", 0, RES_EVENT_NO, NULL,
+        &ui_resources.start_minimized, set_start_minimized, NULL },
 
-    /* primary window (all emulators) */
+    { "NativeMonitor", 0, RES_EVENT_NO, NULL,
+        &ui_resources.use_native_monitor, set_native_monitor, NULL },
+
+    RESOURCE_INT_LIST_END
+};
+
+
+/** \brief  Window size and position resources for the primary window
+ *
+ * These are used by all emulators.
+ */
+static const resource_int_t resources_int_primary_window[] = {
     { "Window0Height", 0, RES_EVENT_NO, NULL,
         &(ui_resources.window_height[PRIMARY_WINDOW]), set_window_height,
         (void*)PRIMARY_WINDOW },
@@ -208,17 +208,15 @@ static const resource_int_t resources_int_primary_window[] = {
         &(ui_resources.window_ypos[PRIMARY_WINDOW]), set_window_ypos,
         (void*)PRIMARY_WINDOW },
 
-    { "StartMinimized", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.start_minimized), set_start_minimized, NULL },
-
     RESOURCE_INT_LIST_END
 };
 
 
-/** \brief  Integer/Boolean type resources list for VDC window
+/** \brief  Window size and position resources list for the secondary window
+ *
+ * These are only used by x128's VDC window.
  */
 static const resource_int_t resources_int_secondary_window[] = {
-    /* secondary window (C128's VDC display) */
     { "Window1Height", 0, RES_EVENT_NO, NULL,
         &(ui_resources.window_height[SECONDARY_WINDOW]), set_window_height,
         (void*)SECONDARY_WINDOW },
@@ -242,28 +240,28 @@ static const cmdline_option_t cmdline_options_common[] =
 {
     { "-confirmonexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "ConfirmOnExit", (void *)1,
-        NULL, "Never confirm quitting VICE" },
+        NULL, "Confirm quitting VICE" },
     { "+confirmonexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "ConfirmOnExit", (void *)0,
-        NULL, "Don't confirm quitting VICE" },
+        NULL, "Do not confirm quitting VICE" },
     { "-saveres", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "SaveResourcesOnExit", (void *)1,
         NULL, "Save settings on exit" },
     { "+saveres", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "SaveResourcesOnExit", (void *)0,
-        NULL, "Never save settings on exit" },
+        NULL, "Do not save settings on exit" },
     { "-minimized", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "StartMinimized", (void *)1,
-        NULL, "Do start minimized" },
+        NULL, "Start VICE minimized" },
     { "+minimized", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "StartMinimized", (void *)0,
-        NULL, "Do not start minimized" },
+        NULL, "Do not start VICE minimized" },
     { "-native-monitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)1,
-        NULL, "Use native Gtk3 monitor" },
+        NULL, "Use native monitor on OS terminal" },
     { "+native-monitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)0,
-        NULL, "Do not use Gtk3 native monitor" },
+        NULL, "Use VICE Gtk3 monitor terminal" },
     CMDLINE_LIST_END
 };
 
@@ -273,7 +271,7 @@ static const cmdline_option_t cmdline_options_common[] =
 enum {
     DT_TEXT,        /**< simple text (text/plain) */
     DT_URI,         /**< haven't seen this one get triggered (yet) */
-    DT_URI_LIST     /**< used by Windows Explorer */
+    DT_URI_LIST     /**< used by Windows Explorer / macOS Finder */
 };
 
 
@@ -286,8 +284,8 @@ static GtkTargetEntry drag_targets[] = {
     { "text/plain",     0, DT_TEXT },   /* we get this on at least my Linux
                                            box with Mate */
     { "text/uri",       0, DT_URI },
-    { "text/uri-list",  0, DT_URI_LIST }    /* we get this using Winblows
-                                               explorer */
+    { "text/uri-list",  0, DT_URI_LIST }    /* we get this using Windows
+                                               Explorer or macOS Finder */
 };
 
 
@@ -390,8 +388,7 @@ static void on_drag_data_received(
 
         case DT_URI_LIST:
             /*
-             * This branch appears to be only taken on Windows, according to
-             * my limited testing of this code.
+             * This branch appears to be taken on both Windows and macOS.
              */
 
             /* got possible list of URI's */
@@ -539,7 +536,7 @@ video_canvas_t *ui_get_active_canvas(void)
  * \param[in]   widget      window to get the index of
  *
  * \return  window index, or -1 if not a main window
-*/
+ */
 static int ui_get_window_index(GtkWidget *widget)
 {
     if (widget == NULL) {
@@ -850,6 +847,20 @@ static int set_confirm_on_exit(int val, void *param)
 }
 
 
+/** \brief  Set StartMinimized resource (bool)
+ *
+ * \param[in]   val     0: start normal 1: start minimized
+ * \param[in]   param   extra param (ignored)
+ *
+ * \return 0
+ */
+static int set_start_minimized(int val, void *param)
+{
+    ui_resources.start_minimized = val ? 1 : 0;
+    return 0;
+}
+
+
 /** \brief  Set NativeMonitor resource (bool)
  *
  * \param[in]   val     new value
@@ -859,7 +870,14 @@ static int set_confirm_on_exit(int val, void *param)
  */
 static int set_native_monitor(int val, void *param)
 {
-    native_monitor_enabled = val ? 1 : 0;
+    /* FIXME: setting this to 1 should probably fail if either stdin or stdout
+              is not a terminal. */
+#if 0
+    if (!isatty(stdin) || !isatty(stdout)) {
+        return -1;
+    }
+#endif
+    ui_resources.use_native_monitor = val ? 1 : 0;
     return 0;
 }
 
@@ -933,24 +951,6 @@ static int set_window_ypos(int val, void *param)
         return -1;
     }
     ui_resources.window_ypos[index] = val;
-    return 0;
-}
-
-
-/** \brief  Set StartMinimized resource (bool)
- *
- * \param[in]   val     0: start normal 1: start minimized
- * \param[in]   param   window index
- *
- * \return 0
- */
-static int set_start_minimized(int val, void *param)
-{
-    int index = window_index_from_param(param);
-    if (index < 0 || val < 0) {
-        return -1;
-    }
-    ui_resources.start_minimized = val;
     return 0;
 }
 
