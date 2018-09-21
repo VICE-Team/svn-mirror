@@ -43,8 +43,10 @@
 #include "cartridge.h"
 #include "vsync.h"
 #include "ui.h"
+#include "uimachinewindow.h"
 
 #include "uicart.h"
+
 
 /** \brief  Enum with various cart types, independent from cartridge.h
  *
@@ -265,6 +267,8 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             gtk_widget_destroy(dialog);
             break;
     }
+
+    ui_set_ignore_mouse_hide(FALSE);
 }
 
 
@@ -893,9 +897,10 @@ void uicart_set_detach_func(void (*func)(int))
  */
 gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
 {
-    vsync_suspend_speed_eval();
-
     gchar *filename;
+
+    vsync_suspend_speed_eval();
+    ui_set_ignore_mouse_hide(TRUE);
 
     filename = vice_gtk3_open_file_dialog(
             "Smart-attach cartridge image",
@@ -918,6 +923,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
         g_free(filename);
     }
 
+    ui_set_ignore_mouse_hide(FALSE);
     return TRUE;
 }
 
@@ -961,6 +967,8 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
 
+    ui_set_ignore_mouse_hide(TRUE);
+
     dialog = gtk_file_chooser_dialog_new(
             "Attach a cartridge image",
             ui_get_active_window(),
@@ -969,6 +977,9 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
             "Attach", GTK_RESPONSE_ACCEPT,
             "Close", GTK_RESPONSE_DELETE_EVENT,
             NULL, NULL);
+
+    /* set modal so mouse-grab doesn't get triggered */
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     /* set last directory */
     lastdir_set(dialog, &last_dir);

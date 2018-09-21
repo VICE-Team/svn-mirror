@@ -39,7 +39,7 @@
 #include "filechooserhelpers.h"
 #include "driveunitwidget.h"
 #include "ui.h"
-
+#include "uimachinewindow.h"
 #include "lastdir.h"
 
 #include "uidiskattach.h"
@@ -224,6 +224,8 @@ static void on_response(GtkWidget *widget, gint response_id,
         default:
             break;
     }
+
+    ui_set_ignore_mouse_hide(FALSE);
 }
 
 
@@ -280,6 +282,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     GtkWidget *dialog;
     size_t i;
 
+    ui_set_ignore_mouse_hide(TRUE);
+
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
             "Attach a disk image",
@@ -290,6 +294,9 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             "Autostart", VICE_RESPONSE_AUTOSTART,
             "Close", GTK_RESPONSE_REJECT,
             NULL, NULL);
+
+    /* set modal so mouse-grab doesn't get triggered */
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     /* set last directory */
     lastdir_set(dialog, &last_dir);
