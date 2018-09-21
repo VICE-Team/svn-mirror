@@ -146,9 +146,11 @@
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
 #include "settings_crt.h"
+#include "uimachinewindow.h"
 
 /* VSID stuff */
 #include "hvscsettingswidget.h"
+
 
 #include "uisettings.h"
 
@@ -2356,6 +2358,8 @@ static void response_callback(GtkWidget *widget, gint response_id,
         default:
             break;
     }
+
+    ui_set_ignore_mouse_hide(FALSE);
 }
 
 
@@ -2412,8 +2416,8 @@ static GtkWidget *dialog_create_helper(void)
     GtkWidget *content;
     char title[256];
 
-
     vsync_suspend_speed_eval();
+    ui_set_ignore_mouse_hide(TRUE);
 
     g_snprintf(title, 256, "%s Settings", machine_name);
 
@@ -2462,8 +2466,6 @@ static GtkWidget *dialog_create_helper(void)
 gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
-
-    debug_gtk3("CALLED\n");
 
     dialog = dialog_create_helper();
     settings_window = dialog;
@@ -2617,8 +2619,6 @@ gboolean ui_settings_dialog_activate_node(const char *path)
 gboolean ui_settings_dialog_create_and_activate_node(const char *path)
 {
     GtkWidget *dialog;
-
-    debug_gtk3("CALLED\n");
 
     dialog = dialog_create_helper();
     settings_window = dialog;
