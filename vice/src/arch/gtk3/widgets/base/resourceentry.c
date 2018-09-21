@@ -354,7 +354,7 @@ static gboolean on_focus_out_event(
  * \param[in]   data    unused
  *
  * \return  TRUE if Enter was pushed, FALSE otherwise (makes the pushed key
- *          propagate to the entry_
+ *          propagate to the entry)
  */
 static gboolean on_key_press_event(
         GtkEntry *entry,
@@ -365,7 +365,12 @@ static gboolean on_key_press_event(
 
     if (resource_widget_get_auto_update(GTK_WIDGET(entry))) {
         if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
-            return resource_entry_full_update_resource(entry);
+            /*
+             * We handled Enter/Return for Gtk3/GLib, whether or not the
+             * resource actually gets updated is another issue.
+             */
+            resource_entry_full_update_resource(entry);
+            return TRUE;
         }
     }
     return FALSE;

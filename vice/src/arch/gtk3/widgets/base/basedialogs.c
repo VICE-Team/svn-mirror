@@ -200,11 +200,11 @@ gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
-
+#if 0
     size_t len = strlen(buffer);
     unsigned int x = 0;
     unsigned int y = 0;
-    for (y = 0; y < 256; y += 16) {
+    for (y = 0; y < 256 && x + y < (int)len; y += 16) {
 
         char textbuf[17];
 
@@ -216,8 +216,7 @@ gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
         }
         puts("");
     }
-
-
+#endif
 
     dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));
@@ -272,7 +271,6 @@ static gboolean on_integer_key_press_event(GtkEntry *entry,
 
     if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
         /* got Enter */
-        debug_gtk3("I gots Enter!");
         g_signal_emit_by_name(dialog, "response", GTK_RESPONSE_ACCEPT, NULL);
     }
     return FALSE;
@@ -291,7 +289,6 @@ static gboolean on_integer_key_press_event(GtkEntry *entry,
  * \return  TRUE when a valid value was entered, FALSE otherwise
  *
  * TODO: check input while entering (marking any invalid value red or so)
- * TODO: respond to the user pushing Enter
  */
 gboolean vice_gtk3_integer_input_box(
         const char *title, const char *message,

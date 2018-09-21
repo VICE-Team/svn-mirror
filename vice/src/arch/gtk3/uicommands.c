@@ -252,7 +252,9 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     path = archdep_get_vice_docsdir();
 
     /* first try opening the pdf */
-    uri = util_concat(path, "/vice.pdf", NULL);
+    /* This should be implemented with archdep_join_paths() */
+    uri = util_concat(path, "vice.pdf", NULL);
+    debug_gtk3("URI before GTK3: %s", uri);
     final_uri = g_filename_to_uri(uri, NULL, &error);
     debug_gtk3("final URI (pdf): %s", final_uri);
     if (final_uri == NULL) {
@@ -271,12 +273,10 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
         return;
     }
 
-    debug_gtk3("pdf uri: '%s'.", uri);
-    res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
+    debug_gtk3("pdf uri: '%s'.", final_uri);
+    res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
     if (!res && error != NULL) {
-        vice_gtk3_message_error("Failed to load PDF",
-                "Some idiot failed to install LaTex or something similar:"
-                " %s.", error->message);
+        vice_gtk3_message_error("Failed to load PDF: %s.", error->message);
     }
     lib_free(uri);
     g_free(final_uri);
@@ -297,9 +297,9 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
          * wrong and should be looked at. This is different from failing to
          * load the PDF or not having a program to show the PDF
          */
-        log_error(LOG_ERR, "failed to construct a proper URI from '%s',"
-                " this is an error that"
-                " should not happen.",
+        log_error(LOG_ERR,
+                "failed to construct a proper URI from '%s',"
+                " this is an error that should not happen.",
                 uri);
         g_free(final_uri);
         lib_free(uri);
