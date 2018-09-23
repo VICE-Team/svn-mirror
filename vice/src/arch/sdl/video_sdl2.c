@@ -1,5 +1,5 @@
 /*
- * video.c - SDL video
+ * video_sdl2.c - SDL2 video
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
@@ -65,9 +65,6 @@
 #else
 #define DBG(x)
 #endif
-
-typedef GLubyte* (APIENTRY * glGetString_Func)(unsigned int);
-glGetString_Func glGetStringAPI = NULL;
 
 static log_t sdlvideo_log = LOG_ERR;
 
@@ -571,7 +568,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     unsigned int window_w = 0;
     int temp_h = 0;
     int temp_w = 0;
-    SDL_GLContext ctx;
     SDL_RendererInfo info;
 
     DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
@@ -649,7 +645,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     /* Obtain the Window with the corresponding size and behavior based on the flags */
-    new_window = SDL_CreateWindow(canvas->viewport->title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_w, window_h, SDL_WINDOW_OPENGL | flags);
+    new_window = SDL_CreateWindow(canvas->viewport->title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_w, window_h, flags);
     if (new_window == NULL) {
         log_error(sdlvideo_log, "SDL_CreateWindow() failed: %s\n", SDL_GetError());
         return NULL;
@@ -657,9 +653,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     sdl_ui_set_window_icon(new_window);
     
-    ctx = SDL_GL_CreateContext(new_window);
-    SDL_GL_MakeCurrent(new_window, ctx);
-
     /* Allocate renderlist strings */
     renderlist = lib_malloc((renderamount + 1) * sizeof(char *));
 
@@ -738,21 +731,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         log_error(sdlvideo_log, "SDL_CreateWindow failed!");
         return NULL;
     }
-
-    /* here SDL2 knows about what driver is used and has that loaded via dlopen (default behavior), 
-       NOW we can get the proc adress from opengl/es/1/2 functions in there */
-    glGetStringAPI = (glGetString_Func)SDL_GL_GetProcAddress("glGetString");
-
-    gl_string = (char *)glGetStringAPI(GL_VENDOR);
-    log_message(sdlvideo_log, "Vendor     : %s", gl_string != NULL ? gl_string : "Unknown");
-    gl_string = (char *)glGetStringAPI(GL_RENDERER);
-    log_message(sdlvideo_log, "Renderer   : %s", gl_string != NULL ? gl_string : "Unknown");
-    gl_string = (char *)glGetStringAPI(GL_VERSION);
-    log_message(sdlvideo_log, "Version    : %s", gl_string != NULL ? gl_string : "Unknown");
-#ifdef SDL_DEBUG
-    gl_string = (char *)glGetStringAPI(GL_EXTENSIONS);
-    log_message(sdlvideo_log, "Extensions : %s", gl_string != NULL ? gl_string : "Unknown");
-#endif
 
     /* some devices, OS do not provide a windowing system they have always a fixed width/height, 
        check if our desired window size is different from real size, needed by apect ratio */
