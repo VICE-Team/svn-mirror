@@ -66,10 +66,8 @@
 #define DBG(x)
 #endif
 
-#ifdef USE_SDLUI2
 typedef GLubyte* (APIENTRY * glGetString_Func)(unsigned int);
 glGetString_Func glGetStringAPI = NULL;
-#endif
 
 static log_t sdlvideo_log = LOG_ERR;
 
@@ -91,24 +89,6 @@ static int sdl_num_screens = 0;
 static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
 video_canvas_t *sdl_active_canvas = NULL;
 
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
-#ifndef USE_SDLUI2
-static int sdl_gl_mode;
-static GLint screen_texture;
-static int sdl_gl_vertex_base = 0;
-
-static const float sdl_gl_vertex_coord[4 * 4] = {
-    /* Normal */
-    -1.0f, +1.0f, -1.0f, +1.0f,
-    /* Flip X */
-    +1.0f, +1.0f, -1.0f, -1.0f,
-    /* Flip Y */
-    -1.0f, -1.0f, +1.0f, +1.0f,
-    /* Flip X&Y */
-    +1.0f, -1.0f, +1.0f, -1.0f
-};
-#endif
-
 static int sdl_gl_aspect_mode;
 static char *aspect_ratio_s = NULL;
 static double aspect_ratio;
@@ -118,9 +98,7 @@ static int sdl_gl_flipy;
 
 static int sdl_gl_filter_res;
 static int sdl_gl_filter;
-#endif
 
-#ifdef USE_SDLUI2
 static char *sdl2_renderer_name = NULL;
 SDL_RendererFlip flip;
 SDL_Window *new_window = NULL;
@@ -129,7 +107,6 @@ SDL_Texture *new_texture = NULL;
 SDL_Surface *new_screen = NULL;
 static Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
 static int texformat = 0;
-#endif
 
 uint8_t *draw_buffer_vsid = NULL;
 /* ------------------------------------------------------------------------- */
@@ -137,18 +114,6 @@ uint8_t *draw_buffer_vsid = NULL;
 
 static int set_sdl_bitdepth(int d, void *param)
 {
-#ifndef USE_SDLUI2
-    switch (d) {
-        case 0:
-        case 8:
-        case 15:
-        case 16:
-        case 24:
-        case 32:
-            break;
-        default:
-            return -1;
-#else
     switch (d) {
         case 8:
             texformat = SDL_PIXELFORMAT_RGB332;
@@ -175,18 +140,12 @@ static int set_sdl_bitdepth(int d, void *param)
             break;
         default:
             return -1;
-#endif
     }
 
     if (sdl_bitdepth == d) {
         return 0;
     }
     sdl_bitdepth = d;
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
-    if (!((d == 0) || (d == 24) || (d == 32))) {
-        resources_set_int("HwScalePossible", 0);
-    }
-#endif
     /* update */
     return 0;
 }
@@ -261,7 +220,6 @@ static int set_sdl_window_height(int h, void *param)
     return 0;
 }
 
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 static int set_sdl_gl_aspect_mode(int v, void *param)
 {
     int old_v = sdl_gl_aspect_mode;
@@ -280,9 +238,7 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
     if (old_v != v) {
         if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
             video_viewport_resize(sdl_active_canvas, 1);
-#ifdef USE_SDLUI2
             sdl_video_resize_event(sdl_active_canvas->actual_width, sdl_active_canvas->actual_height);
-#endif
         }
     }
 
@@ -317,35 +273,22 @@ static int set_aspect_ratio(const char *val, void *param)
     if (old_aspect != aspect_ratio) {
         if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
             video_viewport_resize(sdl_active_canvas, 1);
-#ifdef USE_SDLUI2
             sdl_video_resize_event(sdl_active_canvas->actual_width, sdl_active_canvas->actual_height);
-#endif
         }
     }
 
     return 0;
 }
 
-#ifndef USE_SDLUI2
-static void update_vertex_base(void)
-{
-    sdl_gl_vertex_base = (sdl_gl_flipx << 2) | (sdl_gl_flipy << 3);
-}
-#endif
-
 static int set_sdl_gl_flipx(int v, void *param)
 {
     sdl_gl_flipx = v ? 1 : 0;
 
-#ifdef USE_SDLUI2
     if (sdl_gl_flipx) {
         flip |= SDL_FLIP_HORIZONTAL;
     } else {
         flip &= ~SDL_FLIP_HORIZONTAL;
     }
-#else
-    update_vertex_base();
-#endif
 
     return 0;
 }
@@ -354,15 +297,11 @@ static int set_sdl_gl_flipy(int v, void *param)
 {
     sdl_gl_flipy = v ? 1 : 0;
 
-#ifdef USE_SDLUI2
     if (sdl_gl_flipy) {
         flip |= SDL_FLIP_VERTICAL;
     } else {
         flip &= ~SDL_FLIP_VERTICAL;
     }
-#else
-    update_vertex_base();
-#endif
 
     return 0;
 }
@@ -385,9 +324,7 @@ static int set_sdl_gl_filter(int v, void *param)
     sdl_gl_filter_res = v;
     return 0;
 }
-#endif /* HAVE_HWSCALE */
 
-#ifdef USE_SDLUI2
 static int set_sdl2_renderer_name(const char *val, void *param)
 {
     if (!val || val[0] == '\0') {
@@ -397,25 +334,16 @@ static int set_sdl2_renderer_name(const char *val, void *param)
     }
     return 0;
 }
-#endif
 
 static const resource_string_t resources_string[] = {
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
-#endif
-#ifdef USE_SDLUI2
     { "SDL2Renderer", "", RES_EVENT_NO, NULL,
       &sdl2_renderer_name, set_sdl2_renderer_name, NULL },
-#endif
     RESOURCE_STRING_LIST_END
 };
 
-#if defined(WATCOM_COMPILE) || defined (USE_SDLUI2)
 #define VICE_DEFAULT_BITDEPTH 32
-#else
-#define VICE_DEFAULT_BITDEPTH 0
-#endif
 
 #ifdef ANDROID_COMPILE
 #define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_MAX
@@ -440,7 +368,6 @@ static const resource_int_t resources_int[] = {
       &sdl_window_width, set_sdl_window_width, NULL },
     { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
@@ -449,7 +376,6 @@ static const resource_int_t resources_int[] = {
       &sdl_gl_flipy, set_sdl_gl_flipy, NULL },
     { "SDLGLFilter", SDL_FILTER_LINEAR, RES_EVENT_NO, NULL,
       &sdl_gl_filter_res, set_sdl_gl_filter, NULL },
-#endif
     RESOURCE_INT_LIST_END
 };
 
@@ -478,14 +404,8 @@ void video_arch_resources_shutdown(void)
         joy_arch_resources_shutdown();
     }
 
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     lib_free(aspect_ratio_s);
-#endif
-
-
-#ifdef USE_SDLUI2
     lib_free(sdl2_renderer_name);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -505,7 +425,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlcustomh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLCustomHeight", NULL,
       "<height>", "Set custom resolution height" },
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     { "-sdlaspectmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLAspectMode", NULL,
       "<mode>", "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)" },
@@ -527,12 +446,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlglfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLFilter", NULL,
       "<mode>", "Set OpenGL filtering mode (0 = nearest, 1 = linear)" },
-#endif
-#ifdef USE_SDLUI2
     { "-sdl2renderer", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDL2Renderer", NULL,
       "<renderer name>", "Set the preferred SDL2 renderer" },
-#endif
     CMDLINE_LIST_END
 };
 
@@ -596,7 +512,6 @@ static int sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, un
     return 0;
 }
 
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned int dest_w, unsigned int dest_h)
 {
     int dest_x = 0, dest_y = 0;
@@ -631,275 +546,9 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
     sdl_lightpen_adjust.scale_x = (double)(src_w) / (double)(dest_w);
     sdl_lightpen_adjust.scale_y = (double)(src_h) / (double)(dest_h);
 
-#ifndef USE_SDLUI2
-    glViewport(dest_x, dest_y, dest_w, dest_h);
-#else
     SDL_RenderSetLogicalSize(sdl_active_canvas->renderer, dest_w, dest_h);
-#endif
 }
-#endif
 
-#ifndef USE_SDLUI2
-static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
-{
-    SDL_Surface *new_screen;
-    unsigned int new_width, new_height;
-    unsigned int actual_width, actual_height;
-    int flags;
-    int fullscreen = 0;
-    int limit = sdl_limit_mode;
-    unsigned int limit_w = (unsigned int)sdl_custom_width;
-    unsigned int limit_h = (unsigned int)sdl_custom_height;
-    int hwscale = 0;
-    int lightpen_updated = 0;
-#ifdef HAVE_HWSCALE
-    int rbits = 0, gbits = 0, bbits = 0;
-    const Uint32
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0xff000000, gmask = 0x00ff0000, bmask = 0x0000ff00, amask = 0x000000ff;
-#else
-    rmask = 0x000000ff, gmask = 0x0000ff00, bmask = 0x00ff0000, amask = 0xff000000;
-#endif
-#endif
-
-    DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
-
-    flags = SDL_SWSURFACE | SDL_RESIZABLE;
-
-    new_width = *width;
-    new_height = *height;
-
-    new_width *= canvas->videoconfig->scalex;
-    new_height *= canvas->videoconfig->scaley;
-
-    if ((canvas == sdl_active_canvas) && (canvas->fullscreenconfig->enable)) {
-        fullscreen = 1;
-    }
-
-#ifdef HAVE_HWSCALE
-    if ((canvas == sdl_active_canvas) && (canvas->videoconfig->hwscale)) {
-        hwscale = 1;
-    }
-#endif
-
-    if (fullscreen) {
-        flags = SDL_FULLSCREEN | SDL_SWSURFACE;
-
-        if (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-            limit = SDL_LIMIT_MODE_FIXED;
-        }
-    }
-
-    if (!sdl_ui_finalized) { /* remember first size */
-        double aspect = 1.0;
-#ifdef HAVE_HWSCALE
-        aspect = aspect_ratio;
-
-        if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
-            aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
-        }
-#endif
-        sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect + 0.5);
-        sdl_active_canvas->real_height = new_height;
-        DBG(("first: %d:%d\n", sdl_active_canvas->real_width, sdl_active_canvas->real_height));
-    }
-
-#ifdef HAVE_HWSCALE
-    if (hwscale) {
-        flags |= SDL_OPENGL;
-
-        if (fullscreen) {
-            limit = SDL_LIMIT_MODE_OFF;
-        } else {
-            double aspect = aspect_ratio;
-
-            if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
-                aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
-            }
-
-            /* if no window geometry given then create one. */
-            if (!sdl_window_width || !sdl_window_height) {
-                limit_w = (unsigned int)((double)new_width * aspect + 0.5);
-                limit_h = new_height;
-            } else { /* full window size remembering when aspect ratio is not important */
-                if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_OFF) {
-                    limit_w = (unsigned int)sdl_window_width;
-                    limit_h = (unsigned int)sdl_window_height;
-                } else { /* only remember height, set width according to that and the aspect ratio */
-                    limit_h = (unsigned int)sdl_window_height;
-                    limit_w = (unsigned int)((double)new_width * (double)sdl_window_height * aspect / (double)new_height + 0.5);
-                }
-            }
-            limit = SDL_LIMIT_MODE_FIXED;
-        }
-
-        switch (sdl_bitdepth) {
-            case 0:
-                log_warning(sdlvideo_log, "bitdepth not set for OpenGL, trying 32...");
-                sdl_bitdepth = 32;
-            /* fall through */
-            case 32:
-                rbits = gbits = bbits = 8;
-                sdl_gl_mode = GL_RGBA;
-                break;
-            case 24:
-                rbits = gbits = bbits = 8;
-                sdl_gl_mode = GL_RGB;
-                break;
-            default:
-                log_error(sdlvideo_log, "%i bpp not supported in OpenGL.", sdl_bitdepth);
-                resources_set_int("HwScalePossible", 0);
-                hwscale = 0;
-                canvas->videoconfig->hwscale = 0;
-                flags = SDL_SWSURFACE;
-                break;
-        }
-
-        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, rbits);
-        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, gbits);
-        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, bbits);
-    }
-#endif
-
-    actual_width = new_width;
-    actual_height = new_height;
-
-    if (canvas == sdl_active_canvas) {
-#ifdef HAVE_HWSCALE
-        if (hwscale) {
-            double aspect = aspect_ratio;
-
-            if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
-                aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
-            }
-
-            actual_width = (unsigned int)((double)actual_width * aspect + 0.5);
-        }
-#endif
-        if (sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit)) {
-            if (!hwscale) {
-                canvas->draw_buffer->canvas_physical_width = actual_width;
-                canvas->draw_buffer->canvas_physical_height = actual_height;
-                video_viewport_resize(sdl_active_canvas, 0);
-                if (sdl_ui_finalized) {
-                    return canvas; /* exit here as video_viewport_resize will recall */
-                }
-            }
-        }
-    }
-
-    if (canvas == sdl_active_canvas) {
-#ifndef ANDROID_COMPILE
-        SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
-#endif
-#ifndef HAVE_HWSCALE
-        new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
-        new_width = new_screen->w;
-        new_height = new_screen->h;
-#else
-        if (hwscale) {
-            /* To get fullscreen resolution, SetVideoMode must be called with the
-               desired fullscreen resolution. If it is called with a smaller resolution,
-               it will display the undesirable black borders around the emulator display. */
-            if ((fullscreen) && (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM)) {
-                new_screen = SDL_SetVideoMode(limit_w, limit_h, sdl_bitdepth, flags);
-            } else {
-                new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags); 
-            }
-            if (!new_screen) { /* Did not work out quite well. Let's try without hwscale */
-                resources_set_int("HwScalePossible", 0);
-                canvas->videoconfig->hwscale = 0;
-                return sdl_canvas_create(canvas, width, height);
-            }
-            actual_width = new_screen->w;
-            actual_height = new_screen->h;
-
-            /* free the old rendering surface when staying in hwscale mode */
-            if ((canvas->hwscale_screen) && (canvas->screen)) {
-                SDL_FreeSurface(canvas->screen);
-            }
-
-            canvas->hwscale_screen = new_screen;
-            new_screen = SDL_CreateRGBSurface(SDL_SWSURFACE, new_width, new_height, sdl_bitdepth, rmask, gmask, bmask, amask);
-            sdl_gl_set_viewport(new_width, new_height, actual_width, actual_height);
-            lightpen_updated = 1;
-        } else {
-            new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
-            new_width = new_screen->w;
-            new_height = new_screen->h;
-
-            /* free the old rendering surface when leaving hwscale mode */
-            if ((canvas->hwscale_screen) && (canvas->screen)) {
-                SDL_FreeSurface(canvas->screen);
-                SDL_FreeSurface(canvas->hwscale_screen);
-                canvas->hwscale_screen = NULL;
-            }
-        }
-#endif
-#ifndef ANDROID_COMPILE
-        SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
-#endif
-    } else {
-#ifdef HAVE_HWSCALE
-        /* free the old hwscale screen when hwscaled screen is switched away */
-        if (canvas->hwscale_screen) {
-            SDL_FreeSurface(canvas->hwscale_screen);
-            canvas->hwscale_screen = NULL;
-        }
-        if (!hwscale) {
-            new_width = actual_width;
-            new_height = actual_height;
-        }
-#else
-        new_width = actual_width;
-        new_height = actual_height;
-#endif
-        if (canvas->screen) {
-            SDL_FreeSurface(canvas->screen);
-        }
-        new_screen = SDL_CreateRGBSurface(SDL_SWSURFACE, new_width, new_height, sdl_bitdepth, 0, 0, 0, 0);
-    }
-
-    if (!new_screen) {
-        log_error(sdlvideo_log, "SDL_SetVideoMode failed!");
-        return NULL;
-    }
-    sdl_bitdepth = new_screen->format->BitsPerPixel;
-
-    canvas->depth = sdl_bitdepth;
-    canvas->width = new_width;
-    canvas->height = new_height;
-    canvas->screen = new_screen;
-    canvas->actual_width = actual_width;
-    canvas->actual_height = actual_height;
-
-    if (canvas == sdl_active_canvas) {
-        if (!fullscreen) {
-            resources_set_int("SDLWindowWidth", actual_width);
-            resources_set_int("SDLWindowHeight", actual_height);
-        }
-    }
-
-    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp %s%s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, hwscale ? "OpenGL " : "", (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
-#ifdef SDL_DEBUG
-    log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
-#endif
-
-    /* Update lightpen adjustment parameters */
-    if (canvas == sdl_active_canvas && !lightpen_updated) {
-        sdl_lightpen_adjust.max_x = actual_width;
-        sdl_lightpen_adjust.max_y = actual_height;
-
-        sdl_lightpen_adjust.scale_x = (double)*width / (double)actual_width;
-        sdl_lightpen_adjust.scale_y = (double)*height / (double)actual_height;
-    }
-
-    video_canvas_set_palette(canvas, canvas->palette);
-
-    return canvas;
-}
-#else
 static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
 {
     unsigned int new_width, new_height;
@@ -1161,7 +810,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     return canvas;
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 /* Main API */
@@ -1207,17 +855,6 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         return;
     }
 
-#ifndef USE_SDLUI2
-    if (SDL_MUSTLOCK(canvas->screen)) {
-        canvas->videoconfig->readable = 0;
-        if (SDL_LockSurface(canvas->screen) < 0) {
-            return;
-        }
-    } else { /* no direct rendering, safe to read */
-        canvas->videoconfig->readable = !(canvas->screen->flags & SDL_HWSURFACE);
-    }
-#endif
-
     if (machine_class == VICE_MACHINE_VSID) {
         canvas->draw_buffer_vsid->draw_buffer_width = canvas->draw_buffer->draw_buffer_width;
         canvas->draw_buffer_vsid->draw_buffer_height = canvas->draw_buffer->draw_buffer_height;
@@ -1237,90 +874,16 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
     }
 
-#ifndef USE_SDLUI2
-    if (SDL_MUSTLOCK(canvas->screen)) {
-        SDL_UnlockSurface(canvas->screen);
-    }
-#else
     SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, canvas->screen->pitch);
     SDL_RenderClear(canvas->renderer);
     SDL_RenderCopyEx(canvas->renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
     SDL_RenderPresent(canvas->renderer);
-#endif
-
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
-    if (canvas->videoconfig->hwscale) {
-        const float *v = &(sdl_gl_vertex_coord[sdl_gl_vertex_base]);
-
-        if (canvas != sdl_active_canvas) {
-            DBG(("%s: not active SDL canvas, ignoring", __func__));
-            return;
-        }
-
-        if (!(canvas->hwscale_screen)) {
-            DBG(("%s: hwscale refresh without hwscale screen, ignoring", __func__));
-            return;
-        }
-
-/* XXX make use of glXBindTexImageEXT aka texture from pixmap extension */
-
-        glClear(GL_COLOR_BUFFER_BIT);
-        glDisable(GL_DEPTH_TEST);
-
-/* GL_TEXTURE_RECTANGLE is standardised as _EXT in OpenGL 1.4. Here's some
- * aliases in the meantime. */
-#ifndef GL_TEXTURE_RECTANGLE_EXT
-    #if defined(GL_TEXTURE_RECTANGLE_NV)
-        #define GL_TEXTURE_RECTANGLE_EXT GL_TEXTURE_RECTANGLE_NV
-    #elif defined(GL_TEXTURE_RECTANGLE_ARB)
-        #define GL_TEXTURE_RECTANGLE_EXT GL_TEXTURE_RECTANGLE_ARB
-    #else
-        #error "Your headers do not supply GL_TEXTURE_RECTANGLE. Disable HWSCALE and try again."
-    #endif
-#endif
-
-        glEnable(GL_TEXTURE_RECTANGLE_EXT);
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, screen_texture);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, sdl_gl_filter);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, sdl_gl_filter);
-        glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, sdl_gl_mode, canvas->width, canvas->height, 0, sdl_gl_mode, GL_UNSIGNED_BYTE, canvas->screen->pixels);
-
-        glBegin(GL_QUADS);
-
-        /* Lower Right Of Texture */
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex2f(v[0], v[1]);
-
-        /* Upper Right Of Texture */
-        glTexCoord2f(0.0f, (float)(canvas->height));
-        glVertex2f(v[0], v[2]);
-
-        /* Upper Left Of Texture */
-        glTexCoord2f((float)(canvas->width), (float)(canvas->height));
-        glVertex2f(v[3], v[2]);
-
-        /* Lower Left Of Texture */
-        glTexCoord2f((float)(canvas->width), 0.0f);
-        glVertex2f(v[3], v[1]);
-
-        glEnd();
-
-        SDL_GL_SwapBuffers();
-    } else
-#endif
-
-#ifndef USE_SDLUI2
-    SDL_UpdateRect(canvas->screen, xi, yi, w, h);
-#endif
 }
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
 {
     unsigned int i, col = 0;
     SDL_PixelFormat *fmt;
-#ifndef USE_SDLUI2
-    SDL_Color colors[256];
-#endif
 
     DBG(("video_canvas_set_palette canvas: %p", canvas));
 
@@ -1339,28 +902,13 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     }
 
     for (i = 0; i < palette->num_entries; i++) {
-#ifndef USE_SDLUI2
-        if (canvas->depth == 8) {
-            colors[i].r = palette->entries[i].red;
-            colors[i].b = palette->entries[i].blue;
-            colors[i].g = palette->entries[i].green;
-            col = i;
-        } else {
-#else
         if (canvas->depth % 8 == 0) {
-#endif
             col = SDL_MapRGB(fmt, palette->entries[i].red, palette->entries[i].green, palette->entries[i].blue);
         }
         video_render_setphysicalcolor(canvas->videoconfig, i, col, canvas->depth);
     }
 
-#ifndef USE_SDLUI2
-    if (canvas->depth == 8) {
-        SDL_SetColors(canvas->screen, colors, 0, palette->num_entries);
-    } else {
-#else
     if (canvas->depth % 8 == 0) {
-#endif
         for (i = 0; i < 256; i++) {
             video_render_setrawrgb(i, SDL_MapRGB(fmt, (Uint8)i, 0, 0), SDL_MapRGB(fmt, 0, (Uint8)i, 0), SDL_MapRGB(fmt, 0, 0, (Uint8)i));
         }
@@ -1413,44 +961,10 @@ static void sdl_video_resize(unsigned int w, unsigned int h)
 
     vsync_suspend_speed_eval();
 
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
-    if (sdl_active_canvas->videoconfig->hwscale && sdl_active_canvas->hwscale_screen) {
-        int flags;
-
-        if (sdl_active_canvas->fullscreenconfig->enable) {
-            flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
-        } else {
-            flags = SDL_OPENGL | SDL_SWSURFACE | SDL_RESIZABLE;
-        }
-
-#ifndef ANDROID_COMPILE
-        SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
-#endif
-        sdl_active_canvas->hwscale_screen = SDL_SetVideoMode((int)w, (int)h, sdl_bitdepth, flags);
-#ifndef ANDROID_COMPILE
-        SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
-#endif
-
-#ifdef SDL_DEBUG
-        if (!sdl_active_canvas->hwscale_screen) {
-            DBG(("%s: setting video mode failed", __func__));
-        }
-#endif
-        sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
-        sdl_active_canvas->actual_width = w;
-        sdl_active_canvas->actual_height = h;
-    } else
-#endif /*  HAVE_HWSCALE */
     {
-#ifdef USE_SDLUI2
         sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
         sdl_active_canvas->actual_width = w;
         sdl_active_canvas->actual_height = h;
-#else
-        sdl_active_canvas->draw_buffer->canvas_physical_width = w;
-        sdl_active_canvas->draw_buffer->canvas_physical_height = h;
-        video_viewport_resize(sdl_active_canvas, 0);
-#endif
     }
 }
 
@@ -1469,8 +983,6 @@ void sdl_video_restore_size(void)
 /* special case handling for the SDL window resize event */
 void sdl_video_resize_event(unsigned int w, unsigned int h)
 {
-#if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
-
     DBG(("%s: %ix%i", __func__, w, h));
     if ((w == 0) || (h == 0)) {
         DBG(("%s: ERROR, ignored!", __func__));
@@ -1481,8 +993,6 @@ void sdl_video_resize_event(unsigned int w, unsigned int h)
         resources_set_int("SDLWindowWidth", sdl_active_canvas->actual_width);
         resources_set_int("SDLWindowHeight", sdl_active_canvas->actual_height);
     }
-
-#endif /*  HAVE_HWSCALE */
 }
 
 void sdl_video_canvas_switch(int index)
@@ -1498,13 +1008,6 @@ void sdl_video_canvas_switch(int index)
     if (index >= sdl_num_screens) {
         return;
     }
-
-#ifndef USE_SDLUI2
-    if (sdl_canvaslist[index]->screen != NULL) {
-        SDL_FreeSurface(sdl_canvaslist[index]->screen);
-        sdl_canvaslist[index]->screen = NULL;
-    }
-#endif
 
     sdl_active_canvas_num = index;
 
@@ -1536,9 +1039,6 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     sdl_canvaslist[sdl_num_screens++] = canvas;
 
     canvas->screen = NULL;
-#if defined(HAVE_HWSCALE) && !defined(USE_SDLUI2)
-    canvas->hwscale_screen = NULL;
-#endif
     canvas->real_width = 0;
     canvas->real_height = 0;
 }
@@ -1553,14 +1053,12 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
         if ((sdl_canvaslist[i] == canvas) && (canvas == sdl_active_canvas)) {
             SDL_FreeSurface(sdl_canvaslist[i]->screen);
             sdl_canvaslist[i]->screen = NULL;
-#ifdef USE_SDLUI2
             SDL_DestroyTexture(sdl_canvaslist[i]->texture);
             sdl_canvaslist[i]->texture = NULL;
             SDL_DestroyRenderer(sdl_canvaslist[i]->renderer);
             sdl_canvaslist[i]->renderer = NULL;
             SDL_DestroyWindow(sdl_canvaslist[i]->window);
             sdl_canvaslist[i]->window = NULL;
-#endif
         }
     }
 
