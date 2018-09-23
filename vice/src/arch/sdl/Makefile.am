@@ -43,6 +43,18 @@ AM_CPPFLAGS = \
 
 noinst_LIBRARIES = libarch.a
 
+if SDL2_COMPILE
+
+libarch_a_VERDEP_SOURCES = \
+	video_sdl2.c
+
+else
+
+libarch_a_VERDEP_SOURCES = \
+	video_sdl1.c
+
+endif
+
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
@@ -186,7 +198,7 @@ libarch_a_SOURCES = \
 	uipoll.h \
 	uistatusbar.c \
 	uistatusbar.h \
-	video.c \
+	$(libarch_a_VERDEP_SOURCES) \
 	videoarch.h \
 	vkbd.c \
 	vkbd.h \
