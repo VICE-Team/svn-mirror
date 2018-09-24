@@ -193,6 +193,8 @@ GtkWidget *dir_menu_popup_create(
     int index;
     GtkWidget *label;
 
+    debug_gtk3("DEVICE = %d.", dev);
+
     /* create style provider */
     if (!create_css_provider()) {
         debug_gtk3("failed to create CSS provider, borking");
@@ -217,23 +219,39 @@ GtkWidget *dir_menu_popup_create(
 
     if (dev >= 0) {
         /*
-         * The following is complete horseshit, this needs to be implemented in a
-         * function in drive/vdrive somehow. This much dereferencing in UI code
-         * is not normal method.
+         * The following is complete horseshit, this needs to be implemented in
+         * a function in drive/vdrive somehow. This much dereferencing in UI
+         * code is not normal method.
          */
+        debug_gtk3("getting drive context for device %d.", dev);
         drv_ctx = drive_context[dev];
         if (drv_ctx != NULL) {
+            debug_gtk3("got context.");
+            debug_gtk3("getting drive_s reference.");
             drv_s = drv_ctx->drive;
             if (drv_s != NULL) {
+                debug_gtk3("got drive_s reference.");
+                debug_gtk3("getting drive_s->image reference.");
                 image = drv_s->image;
                 if (image != NULL) {
+                    debug_gtk3("got drive_s->image reference.");
                     /* this assumes fsimage, not real-image */
                     struct fsimage_s *fsimg = image->media.fsimage;
+                    debug_gtk3("getting image->media.fsimage reference.");
                     if (fsimg != NULL) {
+                        debug_gtk3("GOT fsimage reference.");
                         autostart_diskimage = fsimg->name;
+                    } else {
+                        debug_gtk3("DID NOT GET fsimage reference.");
                     }
+                } else {
+                    debug_gtk3("failed to get drive_s->image reference.");
                 }
+            } else {
+                debug_gtk3("failed to get drive_s reference.");
             }
+        } else {
+            debug_gtk3("failed to get context.");
         }
     } else {
         /* tape image */
