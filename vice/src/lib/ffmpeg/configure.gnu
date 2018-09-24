@@ -163,9 +163,16 @@ fi
 
 cd ../liblame
 cur=`pwd`
+extra_lame_enables=""
+if test x"$hostprefix" != "x"; then
+  if test x"$host" = "xi686-w64-mingw32"; then
+    extra_lame_enables="ac_cv_header_xmmintrin_h=no"
+  fi
+fi
+
 if test x"$shared" = "xyes"; then
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$prefix $extra_generic_enables --host=$host"
+    config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$prefix $extra_generic_enables $extra_lame_enables --host=$host"
   else
     config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$prefix $extra_generic_enables"
   fi
