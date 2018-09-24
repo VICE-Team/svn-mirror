@@ -178,7 +178,7 @@ if test x"$shared" = "xyes"; then
   fi
 else
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables --host=$host"
+    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables $extra_lame_enables --host=$host"
   else
     config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables"
   fi
