@@ -45,6 +45,7 @@
 #include "icon.h"
 #include "joy.h"
 #include "joystick.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "lightpendrv.h"
 #include "log.h"
@@ -1010,6 +1011,10 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
             canvas->real_width = canvas->actual_width;
             canvas->real_height = canvas->actual_height;
         }
+	/* Recreating the video like this sometimes makes us lose the
+	   fact that keys were released or pressed. Reset the keyboard
+	   state. */
+	keyboard_key_clear();
     }
 }
 
