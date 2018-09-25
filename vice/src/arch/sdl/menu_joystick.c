@@ -113,7 +113,7 @@ static UI_MENU_CALLBACK(custom_keyset_callback)
             resources_set_int((const char *)param, (int)SDL2x_to_SDL1x_Keys(e.key.keysym.sym));
         }
     } else {
-        return SDL_GetKeyName(previous);
+        return SDL_GetKeyName(SDL1x_to_SDL2x_Keys(previous));
     }
     return NULL;
 }
