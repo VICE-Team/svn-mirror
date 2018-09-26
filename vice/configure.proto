@@ -1405,7 +1405,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
     LIBS="$LIBS -lwinmm -lws2_32 -lntdll"
   else
-    LIBS="$LIBS -lwinmm -lwsock32 -lntdll"
+    LIBS="$LIBS -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll"
   fi
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
