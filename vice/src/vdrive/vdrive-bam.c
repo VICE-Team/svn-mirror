@@ -810,7 +810,9 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
 
 unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
 {
-    unsigned int blocks, i, j;
+    unsigned int blocks;
+    unsigned int i;
+    unsigned int j; /* FIXME: j looks a lot like i or l */
 
     for (blocks = 0, i = 1; i <= vdrive->num_tracks; i++) {
         switch (vdrive->image_format) {
@@ -838,7 +840,6 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                 break;
             case VDRIVE_IMAGE_FORMAT_8050:
                 if (i != vdrive->Dir_Track) {
-                    int j;
                     for (j = 1; j < 3; j++) {
                         if (i >= vdrive->bam[(j * 0x100) + 4] && i < vdrive->bam[(j * 0x100) + 5]) {
                             blocks += vdrive->bam[(j * 0x100) + BAM_BIT_MAP_8050 + 5 * (i - vdrive->bam[(j * 0x100) + 4])];
@@ -849,7 +850,6 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                 break;
             case VDRIVE_IMAGE_FORMAT_8250:
                 if (i != vdrive->Dir_Track) {
-                    int j;
                     for (j = 1; j < 5; j++) {
                         if (i >= vdrive->bam[(j * 0x100) + 4] && i < vdrive->bam[(j * 0x100) + 5]) {
                             blocks += vdrive->bam[(j * 0x100) + BAM_BIT_MAP_8050 + 5 * (i - vdrive->bam[(j * 0x100) + 4])];
