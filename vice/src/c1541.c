@@ -3926,7 +3926,8 @@ static int tape_cmd(int nargs, char **args)
             uint8_t *buf;
             size_t name_len;
             uint16_t file_size;
-            int i, retval;
+            int i;
+            int retval;
 
             /* Ignore traling spaces and 0xa0's.  */
             name_len = strlen((char *)(rec->name));
@@ -3943,11 +3944,12 @@ static int tape_cmd(int nargs, char **args)
             charset_petconvstring((uint8_t *)dest_name_ascii, 1);
 
             if (nargs > 2) {
-                int i, found;
+                int k;
+                int found;
 
-                for (i = 2, found = 0; i < nargs; i++) {
-                    if (name_len == strlen(args[i])
-                        && memcmp(args[i], dest_name_ascii, name_len) == 0) {
+                for (k = 2, found = 0; k < nargs; k++) {
+                    if (name_len == strlen(args[k])
+                        && memcmp(args[k], dest_name_ascii, name_len) == 0) {
                         found = 1;
                         break;
                     }
