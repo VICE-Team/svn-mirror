@@ -41,6 +41,8 @@
 #include "drivetypes.h"
 #include "diskimage.h"
 #include "diskimage/fsimage.h"
+#include "vdrive/vdrive.h"
+#include "attach.h"
 #include "autostart.h"
 
 #include "tape.h"
@@ -223,37 +225,36 @@ GtkWidget *dir_menu_popup_create(
          * a function in drive/vdrive somehow. This much dereferencing in UI
          * code is not normal method.
          */
-        debug_gtk3("getting drive context for device %d.", dev);
-        drv_ctx = drive_context[dev];
-        if (drv_ctx != NULL) {
-            debug_gtk3("got context.");
-            debug_gtk3("getting drive_s reference.");
-            drv_s = drv_ctx->drive;
-            if (drv_s != NULL) {
-                debug_gtk3("got drive_s reference.");
-                debug_gtk3("getting drive_s->image reference.");
-                image = drv_s->image;
-                if (image != NULL) {
-                    debug_gtk3("got drive_s->image reference.");
-                    /* this assumes fsimage, not real-image */
-                    struct fsimage_s *fsimg = image->media.fsimage;
-                    debug_gtk3("getting image->media.fsimage reference.");
-                    if (fsimg != NULL) {
-                        debug_gtk3("GOT fsimage reference.");
-                        autostart_diskimage = fsimg->name;
-                    } else {
-                        debug_gtk3("DID NOT GET fsimage reference.");
-                    }
-                } else {
-                    debug_gtk3("failed to get drive_s->image reference.");
-                }
-            } else {
-                debug_gtk3("failed to get drive_s reference.");
-            }
+
+        debug_gtk3("DEV = %d.", dev);
+
+        vdrive_t *vdrive = NULL;
+        struct disk_image_s *diskimg = NULL;
+        autostart_diskimage = NULL;
+
+        debug_gtk3("Getting vdrive reference for unit #%d.", dev + 8);
+        vdrive = file_system_get_vdrive(dev + 8);
+        if (vdrive == NULL) {
+            debug_gtk3("failed: got NULL.");
         } else {
-            debug_gtk3("failed to get context.");
+            debug_gtk3("OK, Getting disk image from vdrive instance.");
+            diskimg = vdrive->image;
+            if (diskimg == NULL) {
+                debug_gtk3("failed: got NULL.");
+            } else {
+                debug_gtk3("OK, Getting fsimage from disk image.");
+                autostart_diskimage = diskimg->media.fsimage->name;
+                if (autostart_diskimage == NULL) {
+                    debug_gtk3("failed: got NULL.");
+                } else {
+                    debug_gtk3("Got '%s'.", autostart_diskimage);
+                }
+            }
         }
+
+       debug_gtk3("fsimage is %s.", autostart_diskimage);
     } else {
+        debug_gtk3("Trying tape for some reason.");
         /* tape image */
         if (tape_image_dev1 == NULL) {
             item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
@@ -263,14 +264,17 @@ GtkWidget *dir_menu_popup_create(
         autostart_diskimage = tape_image_dev1->name;
     }
 
+    debug_gtk3("Did we get some image?");
     if (autostart_diskimage != NULL) {
         /* read dir and add them as menu items */
         contents = content_func(autostart_diskimage);
         if (contents == NULL) {
+            debug_gtk3("content reading function failed!");
             item = gtk_menu_item_new_with_label(
                     "Failed to read directory");
             gtk_container_add(GTK_CONTAINER(menu), item);
         } else {
+            debug_gtk3("Getting disk name & ID:");
             /* DISK name & ID */
             tmp = image_contents_to_string(contents, 0);
             utf8 = (char *)convert_utf8((unsigned char *)tmp);
@@ -310,6 +314,7 @@ GtkWidget *dir_menu_popup_create(
             image_contents_destroy(contents);
         }
     } else {
+        debug_gtk3("autostart_diskiamage is NUKLLK");
         item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
         gtk_container_add(GTK_CONTAINER(menu), item);
     }
