@@ -62,7 +62,8 @@ inline static int raster_cache_data_fill_1fff(uint8_t *dest,
         }
         return 1;
     } else {
-        unsigned int x = 0, i = 0;
+        unsigned int x = 0;
+        i = 0;
 
         src = (src_cnt & 0x1000) ? src_base_high : src_base_low;
         src_cnt &= 0xfff;
