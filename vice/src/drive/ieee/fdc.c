@@ -131,7 +131,7 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
  * Format a disk in DOS1 format
  */
 
-static uint8_t fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
+static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int dnr,
                               unsigned int track, unsigned int sector,
                               int buf, uint8_t *header)
 {
@@ -141,7 +141,7 @@ static uint8_t fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr
     disk_addr_t dadr;
     uint8_t sector_data[256];
 
-    if (!memcmp(fdc[fnum].iprom + 0x2040, &fdc[fnum].buffer[0x100], 0x200)) {
+    if (!memcmp(thefdc[fnum].iprom + 0x2040, &thefdc[fnum].buffer[0x100], 0x200)) {
         static const unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
         static const unsigned int nsecs[] = { 21, 20, 18, 17 };
         unsigned int ntracks, nsectors = 0;
@@ -156,7 +156,7 @@ static uint8_t fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr
         log_message(fdc_log, "   id=%02x,%02x (%c%c)",
                     header[0], header[1], header[0], header[1]);
 #endif
-        if (fdc[dnr].image->read_only) {
+        if (thefdc[dnr].image->read_only) {
             rc = FDC_ERR_WPROT;
             return rc;
         }
@@ -176,7 +176,7 @@ static uint8_t fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr
                         dadr.track, nsectors);
 #endif
             for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector++) {
-                ret = disk_image_write_sector(fdc[dnr].image, sector_data, &dadr);
+                ret = disk_image_write_sector(thefdc[dnr].image, sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
@@ -200,7 +200,7 @@ static uint8_t fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr
  * Format a disk in DOS2 format
  */
 
-static uint8_t fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
+static uint8_t fdc_do_format_D40(fdc_t *thefdc, unsigned int fnum, unsigned int dnr,
                               unsigned int track, unsigned int sector,
                               int buf, uint8_t *header)
 {
@@ -210,21 +210,21 @@ static uint8_t fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr
     disk_addr_t dadr;
     uint8_t sector_data[256];
 
-    if (!memcmp(fdc[fnum].iprom + 0x1000, &fdc[fnum].buffer[0x100], 0x200)) {
+    if (!memcmp(thefdc[fnum].iprom + 0x1000, &thefdc[fnum].buffer[0x100], 0x200)) {
         static const unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
         unsigned int ntracks, nsectors = 0;
 
 #ifdef FDC_DEBUG
         log_message(fdc_log, "format code: ");
         log_message(fdc_log, "   secs per track: %d %d %d %d",
-                    fdc[fnum].buffer[0x99], fdc[fnum].buffer[0x9a],
-                    fdc[fnum].buffer[0x9b], fdc[fnum].buffer[0x9c]);
+                    thefdc[fnum].buffer[0x99], thefdc[fnum].buffer[0x9a],
+                    thefdc[fnum].buffer[0x9b], thefdc[fnum].buffer[0x9c]);
         log_message(fdc_log, "   track=%d, sector=%d",
                     track, sector);
         log_message(fdc_log, "   id=%02x,%02x (%c%c)",
                     header[0], header[1], header[0], header[1]);
 #endif
-        if (fdc[dnr].image->read_only) {
+        if (thefdc[dnr].image->read_only) {
             rc = FDC_ERR_WPROT;
             return rc;
         }
@@ -235,7 +235,7 @@ static uint8_t fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr
         for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track++) {
             for (i = 3; i >= 0; i--) {
                 if (dadr.track > sectorchangeat[i]) {
-                    nsectors = fdc[fnum].buffer[0x99 + 3 - i];
+                    nsectors = thefdc[fnum].buffer[0x99 + 3 - i];
                     break;
                 }
             }
@@ -244,7 +244,7 @@ static uint8_t fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr
                         dadr.track, nsectors);
 #endif
             for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector++) {
-                ret = disk_image_write_sector(fdc[dnr].image, sector_data, &dadr);
+                ret = disk_image_write_sector(thefdc[dnr].image, sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
@@ -268,7 +268,7 @@ static uint8_t fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr
  * Format a disk in DOS2/80 track format
  */
 
-static uint8_t fdc_do_format_D80(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
+static uint8_t fdc_do_format_D80(fdc_t *thefdc, unsigned int fnum, unsigned int dnr,
                               unsigned int track, unsigned int sector,
                               int buf, uint8_t *header)
 {
@@ -278,56 +278,56 @@ static uint8_t fdc_do_format_D80(fdc_t *fdc, unsigned int fnum, unsigned int dnr
     disk_addr_t dadr;
     uint8_t sector_data[256];
 
-    if (!memcmp(fdc[fnum].iprom, &fdc[fnum].buffer[0x100], 0x300)) {
+    if (!memcmp(thefdc[fnum].iprom, &thefdc[fnum].buffer[0x100], 0x300)) {
         unsigned int ntracks, nsectors = 0;
         /* detected format code */
 #ifdef FDC_DEBUG
         log_message(fdc_log, "format code: ");
         log_message(fdc_log, "   track for zones side 0: %d %d %d %d",
-                    fdc[fnum].buffer[0xb0], fdc[fnum].buffer[0xb1],
-                    fdc[fnum].buffer[0xb2], fdc[fnum].buffer[0xb3]);
+                    thefdc[fnum].buffer[0xb0], thefdc[fnum].buffer[0xb1],
+                    thefdc[fnum].buffer[0xb2], thefdc[fnum].buffer[0xb3]);
         log_message(fdc_log, "   track for zones side 1: %d %d %d %d",
-                    fdc[fnum].buffer[0xb4], fdc[fnum].buffer[0xb5],
-                    fdc[fnum].buffer[0xb6], fdc[fnum].buffer[0xb7]);
+                    thefdc[fnum].buffer[0xb4], thefdc[fnum].buffer[0xb5],
+                    thefdc[fnum].buffer[0xb6], thefdc[fnum].buffer[0xb7]);
         log_message(fdc_log, "   secs per track: %d %d %d %d",
-                    fdc[fnum].buffer[0x99], fdc[fnum].buffer[0x9a],
-                    fdc[fnum].buffer[0x9b], fdc[fnum].buffer[0x9c]);
+                    thefdc[fnum].buffer[0x99], thefdc[fnum].buffer[0x9a],
+                    thefdc[fnum].buffer[0x9b], thefdc[fnum].buffer[0x9c]);
         log_message(fdc_log, "   vars: 870=%d 873=%d 875=%d",
-                    fdc[fnum].buffer[0x470], fdc[fnum].buffer[0x473],
-                    fdc[fnum].buffer[0x475]);
+                    thefdc[fnum].buffer[0x470], thefdc[fnum].buffer[0x473],
+                    thefdc[fnum].buffer[0x475]);
         log_message(fdc_log, "   track=%d, sector=%d",
                     track, sector);
         log_message(fdc_log, "   id=%02x,%02x (%c%c)",
                     header[0], header[1], header[0], header[1]);
         log_message(fdc_log, "   sides=%d",
-                    fdc[fnum].buffer[0xac]);
+                    thefdc[fnum].buffer[0xac]);
 #endif
-        if (fdc[dnr].image->read_only) {
+        if (thefdc[dnr].image->read_only) {
             rc = FDC_ERR_WPROT;
             return rc;
         }
-        ntracks = (fdc[fnum].buffer[0xac] > 1) ? 154 : 77;
+        ntracks = (thefdc[fnum].buffer[0xac] > 1) ? 154 : 77;
 
         memset(sector_data, 0, 256);
 
         for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track++) {
             if (dadr.track < 78) {
                 for (i = 3; i >= 0; i--) {
-                    if (dadr.track < fdc[fnum].buffer[0xb0 + i]) {
-                        nsectors = fdc[fnum].buffer[0x99 + i];
+                    if (dadr.track < thefdc[fnum].buffer[0xb0 + i]) {
+                        nsectors = thefdc[fnum].buffer[0x99 + i];
                         break;
                     }
                 }
             } else {
                 for (i = 3; i >= 0; i--) {
-                    if (dadr.track < fdc[fnum].buffer[0xb4 + i]) {
-                        nsectors = fdc[fnum].buffer[0x99 + i];
+                    if (dadr.track < thefdc[fnum].buffer[0xb4 + i]) {
+                        nsectors = thefdc[fnum].buffer[0x99 + i];
                         break;
                     }
                 }
             }
             for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector++) {
-                ret = disk_image_write_sector(fdc[dnr].image, sector_data,
+                ret = disk_image_write_sector(thefdc[dnr].image, sector_data,
                                               &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
