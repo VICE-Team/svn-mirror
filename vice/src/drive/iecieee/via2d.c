@@ -76,8 +76,8 @@ static void set_ca2(via_context_t *via_context, int state)
         drv->byte_ready_active &= ~(1 << 1);
         drv->byte_ready_active |= state << 1;
         if (drv->byte_ready_edge) {
-           drive_context_t *drive_context = (drive_context_t *)(via_context->context);
-           drive_cpu_set_overflow(drive_context);
+           drive_context_t *dc = (drive_context_t *)(via_context->context);
+           drive_cpu_set_overflow(dc);
            drv->byte_ready_edge = 0;
         }
     }
@@ -105,20 +105,20 @@ static void set_cb2(via_context_t *via_context, int state)
 static void set_int(via_context_t *via_context, unsigned int int_num,
                     int value, CLOCK rclk)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(via_context->context);
+    dc = (drive_context_t *)(via_context->context);
 
-    interrupt_set_irq(drive_context->cpu->int_status, int_num, value, rclk);
+    interrupt_set_irq(dc->cpu->int_status, int_num, value, rclk);
 }
 
 static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(via_context->context);
+    dc = (drive_context_t *)(via_context->context);
 
-    interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
+    interrupt_restore_irq(dc->cpu->int_status, int_num, value);
 }
 
 void via2d_store(drive_context_t *ctxptr, uint16_t addr, uint8_t data)
@@ -295,8 +295,8 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
             rotation_begins(drv);
         } else {
             if (drv->byte_ready_edge) {
-               drive_context_t *drive_context = (drive_context_t *)(via_context->context);
-               drive_cpu_set_overflow(drive_context);
+               drive_context_t *dc = (drive_context_t *)(via_context->context);
+               drive_cpu_set_overflow(dc);
                drv->byte_ready_edge = 0;
             }
         }

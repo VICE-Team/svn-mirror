@@ -78,20 +78,20 @@ static void store_pra(riot_context_t *riot_context, uint8_t byte)
 
 static void undump_prb(riot_context_t *riot_context, uint8_t byte)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(riot_context->context);
+    dc = (drive_context_t *)(riot_context->context);
 
-    drive_context->func->parallel_set_bus(byte);
+    dc->func->parallel_set_bus(byte);
 }
 
 static void store_prb(riot_context_t *riot_context, uint8_t byte)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(riot_context->context);
+    dc = (drive_context_t *)(riot_context->context);
 
-    drive_context->func->parallel_set_bus((uint8_t)(parallel_atn ? 0xff : byte));
+    dc->func->parallel_set_bus((uint8_t)(parallel_atn ? 0xff : byte));
 }
 
 void riot1_set_pardata(riot_context_t *riot_context)

@@ -91,17 +91,17 @@ static void set_cb2(via_context_t *via_context, int state)
 static void set_int(via_context_t *via_context, unsigned int int_num,
                     int value, CLOCK rclk)
 {
-    drive_context_t *drive_context = (drive_context_t *)(via_context->context);
+    drive_context_t *dc = (drive_context_t *)(via_context->context);
 
-    interrupt_set_irq(drive_context->cpu->int_status, int_num, value, rclk);
+    interrupt_set_irq(dc->cpu->int_status, int_num, value, rclk);
 }
 
 static void restore_int(via_context_t *via_context, unsigned int int_num,
                         int value)
 {
-    drive_context_t *drive_context = (drive_context_t *)(via_context->context);
+    drive_context_t *dc = (drive_context_t *)(via_context->context);
 
-    interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
+    interrupt_restore_irq(dc->cpu->int_status, int_num, value);
 }
 
 static void undump_pra(via_context_t *via_context, uint8_t byte)

@@ -90,35 +90,35 @@ static void set_cb2(via_context_t *via_context, int state)
 static void set_int(via_context_t *via_context, unsigned int int_num,
                     int value, CLOCK rclk)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(via_context->context);
+    dc = (drive_context_t *)(via_context->context);
 
-    interrupt_set_irq(drive_context->cpu->int_status, int_num, value, rclk);
+    interrupt_set_irq(dc->cpu->int_status, int_num, value, rclk);
 }
 
 static void restore_int(via_context_t *via_context, unsigned int int_num,
                         int value)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(via_context->context);
+    dc = (drive_context_t *)(via_context->context);
 
-    interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
+    interrupt_restore_irq(dc->cpu->int_status, int_num, value);
 }
 
 static void undump_pra(via_context_t *via_context, uint8_t byte)
 {
     drivevia1_context_t *via1p;
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
-    drive_context = (drive_context_t *)(via_context->context);
+    dc = (drive_context_t *)(via_context->context);
 
     if (via1p->drive->type == DRIVE_TYPE_1570
         || via1p->drive->type == DRIVE_TYPE_1571
         || via1p->drive->type == DRIVE_TYPE_1571CR) {
-        drivesync_set_1571(byte & 0x20, drive_context);
+        drivesync_set_1571(byte & 0x20, dc);
         glue1571_side_set((byte >> 2) & 1, via1p->drive);
     } else {
         switch (via1p->drive->parallel_cable) {
@@ -139,16 +139,16 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t oldpa_va
                       uint16_t addr)
 {
     drivevia1_context_t *via1p;
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
-    drive_context = (drive_context_t *)(via_context->context);
+    dc = (drive_context_t *)(via_context->context);
 
     if (via1p->drive->type == DRIVE_TYPE_1570
         || via1p->drive->type == DRIVE_TYPE_1571
         || via1p->drive->type == DRIVE_TYPE_1571CR) {
         if ((oldpa_value ^ byte) & 0x20) {
-            drivesync_set_1571(byte & 0x20, drive_context);
+            drivesync_set_1571(byte & 0x20, dc);
         }
         if ((oldpa_value ^ byte) & 0x04) {
             glue1571_side_set((byte >> 2) & 1, via1p->drive);

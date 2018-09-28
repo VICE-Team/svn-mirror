@@ -73,21 +73,21 @@ int cia1581_dump(drive_context_t *ctxptr, uint16_t addr)
 
 static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(cia_context->context);
+    dc = (drive_context_t *)(cia_context->context);
 
-    interrupt_set_irq(drive_context->cpu->int_status, cia_context->int_num,
+    interrupt_set_irq(dc->cpu->int_status, cia_context->int_num,
                       value, clk);
 }
 
 static void cia_restore_int(cia_context_t *cia_context, int value)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(cia_context->context);
+    dc = (drive_context_t *)(cia_context->context);
 
-    interrupt_restore_irq(drive_context->cpu->int_status, (int)(cia_context->int_num), value);
+    interrupt_restore_irq(dc->cpu->int_status, (int)(cia_context->int_num), value);
 }
 
 /*************************************************************************
@@ -183,16 +183,16 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 
 static uint8_t read_ciapa(cia_context_t *cia_context)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
     drivecia1581_context_t *cia1581p;
     uint8_t tmp;
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
-    drive_context = (drive_context_t *)(cia_context->context);
+    dc = (drive_context_t *)(cia_context->context);
 
     tmp = (uint8_t)(8 * (cia1581p->number));
 
-    if (!wd1770_disk_change(drive_context->wd1770)) {
+    if (!wd1770_disk_change(dc->wd1770)) {
         tmp |= 0x80;
     }
 

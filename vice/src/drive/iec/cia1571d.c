@@ -68,21 +68,21 @@ int cia1571_dump(drive_context_t *ctxptr, uint16_t addr)
 
 static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(cia_context->context);
+    dc = (drive_context_t *)(cia_context->context);
 
-    interrupt_set_irq(drive_context->cpu->int_status, cia_context->int_num,
+    interrupt_set_irq(dc->cpu->int_status, cia_context->int_num,
                       value, clk);
 }
 
 static void cia_restore_int(cia_context_t *cia_context, int value)
 {
-    drive_context_t *drive_context;
+    drive_context_t *dc;
 
-    drive_context = (drive_context_t *)(cia_context->context);
+    dc = (drive_context_t *)(cia_context->context);
 
-    interrupt_restore_irq(drive_context->cpu->int_status, (int)(cia_context->int_num), value);
+    interrupt_restore_irq(dc->cpu->int_status, (int)(cia_context->int_num), value);
 }
 
 
