@@ -120,12 +120,12 @@ void debug_iec_drv_read(unsigned int data)
         if (value != oldvalue) {
             unsigned int atn = value & 0x80 ? 1 : 0;
             unsigned int atna = value & 0x10 ? 1 : 0;
-            unsigned int data = value & 0x01 ? 1 : 0;
+            unsigned int ddata = value & 0x01 ? 1 : 0;
 
             oldvalue = value;
 
             if (atn ^ atna) {
-                if (!data) {
+                if (!ddata) {
                     data_correct = " ***** ERROR: ATN, ATNA & DATA! *****";
                 }
             }
