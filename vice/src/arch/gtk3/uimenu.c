@@ -99,7 +99,11 @@ static void ui_accel_data_delete(gpointer data, GClosure *closure)
 
 /** \brief  Callback that forwards accelerator codes.
  */
-static void handle_accelerator(GtkAccelGroup *accel_group, GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer user_data)
+static void handle_accelerator(GtkAccelGroup *accel_grp,
+                               GObject *acceleratable,
+                               guint keyval,
+                               GdkModifierType modifier,
+                               gpointer user_data)
 {
     ui_accel_data_t *accel_data = (ui_accel_data_t *)user_data;
     accel_data->item->callback(accel_data->widget, accel_data->item->data);

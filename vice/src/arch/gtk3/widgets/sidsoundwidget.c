@@ -664,7 +664,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     GtkWidget *button;
 #endif
     GtkWidget *engine;
-    GtkWidget *num_sids = NULL;
+    GtkWidget *sids = NULL;
     GtkWidget *filters;
     int current_engine;
     int stereo;
@@ -697,8 +697,8 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 #endif
 
 
-    num_sids = create_num_sids_widget();
-    gtk_grid_attach(GTK_GRID(layout), num_sids, 2, 1, 1, 1);
+    sids = create_num_sids_widget();
+    gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
     /* Plus4, CBM5x0/CBM6x0, PET, DTV only support a single SID */
     if (machine_class == VICE_MACHINE_PLUS4
             || machine_class == VICE_MACHINE_CBM5x0
@@ -707,7 +707,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
             || machine_class == VICE_MACHINE_PET
             || machine_class == VICE_MACHINE_VIC20)
     {
-        gtk_widget_set_sensitive(num_sids, FALSE);
+        gtk_widget_set_sensitive(sids, FALSE);
     }
 
     /* FIXME; doing two machine_class checks is a little silly */

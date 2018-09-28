@@ -410,7 +410,7 @@ if test x"$check_gtk3" = "xyes"; then
           dnl Still need libstdc++-6.dll in the bindist, even with that
           dnl -static-libstdc++.
           LIBS="$LIBS -static-libgcc -static-libstdc++"
-          ;;
+
     esac
 
     dnl check for fontconfig
@@ -1766,6 +1766,16 @@ dnl check if the compiler supports -Wfatal-errors
 AC_MSG_CHECKING([if the compiler supports -Wfatal-errors])
 ORIG_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Wfatal-errors"
+AC_TRY_COMPILE([],
+               [int test;],
+               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(no)
+                 CFLAGS="$ORIG_CFLAGS" ])
+
+dnl check if the compiler supports -Wshadow
+AC_MSG_CHECKING([if the compiler supports -Wshadow])
+ORIGI_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -Wshadow"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)],

@@ -2,6 +2,26 @@
  * \brief   Text entry with label and browse button connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * This class presents a text entry box and a "Browse ..." button to update
+ * a resource, optionally providing a label before the text entry. It is meant
+ * as a widget to set a resource that represents a file, such as a kernal image.
+ *
+ * Internally this widget is a GtkGrid, so when a dialog/widget needs multiple
+ * instances of this class, the best thing to do is to set the label to `NULL`
+ * and add the labels manually in another GtkGrid or other container to keep
+ * things aligned.
+ *
+ * The constructor is slightly convoluted, but flexible, see
+ * #vice_gtk3_resource_browser_new
+ * (todo: figure out how to get Doxygen to print the functio prototype here)
+ *
+ * The first argument is required, it's the VICE resource we wish to change, for
+ * example "Kernal".
+ * The second argument is a list of strings representing file name globbing
+ * patterns, for example <tt>{"*.bin", "*.rom", NULL}</tt>
+ *
+ *
  */
 
 /*
@@ -45,14 +65,15 @@
 /** \brief  Object keeping track of the state of the widget
  */
 typedef struct resource_browser_state_s {
-    char *res_name; /**< resource name */
-    char *res_orig; /**< resource value at widget creation */
-    char **patterns;    /**< file matching patterns */
-    char *pattern_name; /**< name to display for the file patterns */
-    char *browser_title;    /**< title to display for the file browser */
-    void (*callback)(GtkWidget *, gpointer);    /**< optional callback */
-    GtkWidget *entry;   /**< GtkEntry reference */
-    GtkWidget *button;  /**< GtkButton reference */
+    char *res_name;             /**< resource name */
+    char *res_orig;             /**< resource value at widget creation */
+    char **patterns;            /**< file matching patterns */
+    char *pattern_name;         /**< name to display for the file patterns */
+    char *browser_title;        /**< title to display for the file browser */
+    void (*callback)(GtkWidget *,
+                     gpointer); /**< optional callback */
+    GtkWidget *entry;           /**< GtkEntry reference */
+    GtkWidget *button;          /**< GtkButton reference */
 } resource_browser_state_t;
 
 

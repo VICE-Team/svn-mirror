@@ -185,9 +185,6 @@ GtkWidget *dir_menu_popup_create(
     GtkWidget *menu;
     GtkWidget *item;
     char buffer[1024];
-    struct drive_context_s *drv_ctx;
-    struct drive_s *drv_s;
-    struct disk_image_s *image;
     image_contents_t *contents = NULL;
     image_contents_file_list_t *entry;
     char *utf8;

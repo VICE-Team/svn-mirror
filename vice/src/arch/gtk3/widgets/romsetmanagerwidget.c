@@ -126,7 +126,7 @@ static void on_load_archive(GtkWidget *widget, gpointer data)
                     "Loading rom set '%s' failed", filename);
         } else {
             /* (re)create tree model) */
-            GtkTreeStore *romset_model = create_tree_model();
+            romset_model = create_tree_model();
             gtk_tree_view_set_model(GTK_TREE_VIEW(romset_view),
                     GTK_TREE_MODEL(romset_model));
         }

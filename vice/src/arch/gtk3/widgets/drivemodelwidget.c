@@ -71,7 +71,6 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
         /* prevent drive reset when switching unit number and updating the
          * drive type widget */
         if (new_type != old_type) {
-            GtkWidget *parent;
             void (*cb_func)(GtkWidget *, gpointer);
             gpointer cb_data;
 

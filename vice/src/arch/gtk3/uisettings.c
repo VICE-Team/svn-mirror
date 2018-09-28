@@ -2256,8 +2256,6 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
                     COLUMN_CALLBACK, &callback, -1);
             if (callback != NULL) {
 
-                GtkTreeSelection *selection;
-
                 selection = gtk_tree_view_get_selection(
                         GTK_TREE_VIEW(settings_tree));
 
