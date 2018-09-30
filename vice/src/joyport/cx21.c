@@ -116,7 +116,7 @@ static void handle_keys(int row, int col, int pressed)
 
 /* ------------------------------------------------------------------------- */
 
-static int joyport_cx21_enable(int port, int value)
+static int joyport_cx21_enable(int prt, int value)
 {
     int val = value ? 1 : 0;
 

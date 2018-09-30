@@ -92,7 +92,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     }
 
     /* zero out the array of paths to join later */
-    for (int i = 0; i <= TOTAL_PATHS; i++) {
+    for (i = 0; i <= TOTAL_PATHS; i++) {
         paths[i] = NULL;
     }
 

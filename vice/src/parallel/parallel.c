@@ -461,13 +461,13 @@ void parallel_clr_eoi(uint8_t mask)
     PARALLEL_LINE_DEBUG_CLR(eoi, EOI)
 }
 
-static void parallel_atn_signal(int state)
+static void parallel_atn_signal(int st)
 {
     unsigned int dnr;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if (drive_context[dnr]->drive->enable) {
-            ieee_drive_parallel_set_atn(state, drive_context[dnr]);
+            ieee_drive_parallel_set_atn(st, drive_context[dnr]);
         }
     }
 }

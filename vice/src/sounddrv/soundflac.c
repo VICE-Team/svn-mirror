@@ -43,11 +43,20 @@ static FLAC__StreamEncoder *encoder = NULL;
 static FLAC__StreamMetadata *metadata[2];
 static unsigned int samples = 0;
 
-static void progress_callback(const FLAC__StreamEncoder *encoder, FLAC__uint64 bytes_written, FLAC__uint64 samples_written, unsigned frames_written, unsigned total_frames_estimate, void *client_data)
+static void progress_callback(const FLAC__StreamEncoder *enc,
+                              FLAC__uint64 bytes_written,
+                              FLAC__uint64 samples_written,
+                              unsigned frames_written,
+                              unsigned total_frames_estimate, void *client_data)
 {
+    /* NOP */
 }
 
-static int flac_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
+static int flac_init(const char *param,
+                     int *speed,
+                     int *fragsize,
+                     int *fragnr,
+                     int *channels)
 {
     const char *flacname;
     FLAC__bool ok = true;
