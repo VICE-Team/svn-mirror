@@ -200,7 +200,7 @@ void driver_select_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-void driver_select_register(driver_select_t *driver_select)
+void driver_select_register(driver_select_t *drv_select)
 {
     driver_select_list_t *list, *prev;
 

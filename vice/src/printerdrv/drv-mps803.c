@@ -394,7 +394,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
     print_cbm_char(mps, c);
 }
 
-static int init_charset(uint8_t charset[512][7], const char *name)
+static int init_charset(uint8_t chrset[512][7], const char *name)
 {
     uint8_t romimage[MPS803_ROM_SIZE];
 
@@ -403,7 +403,7 @@ static int init_charset(uint8_t charset[512][7], const char *name)
         return -1;
     }
 
-    memcpy(charset, romimage, MPS803_ROM_SIZE);
+    memcpy(chrset, romimage, MPS803_ROM_SIZE);
 
     return 0;
 }
@@ -495,7 +495,7 @@ int drv_mps803_init_resources(void)
 
 int drv_mps803_init(void)
 {
-    static const char *color_names[2] = {"Black", "White"};
+    const char *color_names[2] = {"Black", "White"};
 
     drv803_log = log_open("MPS-803");
 
