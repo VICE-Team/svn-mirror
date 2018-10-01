@@ -210,7 +210,7 @@ void driver_select_register(driver_select_t *drv_select)
     }
 
     list = lib_malloc(sizeof(driver_select_list_t));
-    memcpy(&(list->driver_select), driver_select, sizeof(driver_select_t));
+    memcpy(&(list->driver_select), drv_select, sizeof(driver_select_t));
     list->next = NULL;
 
     if (driver_select_list != NULL) {
