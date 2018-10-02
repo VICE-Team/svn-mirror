@@ -70,6 +70,17 @@ int archdep_init(int *argc, char **argv)
         return 1;
     }
 
+    /*
+     * Call SDL_Quit() via atexit() to avoid segfaults on exit.
+     * See: https://wiki.libsdl.org/SDL_Quit
+     * I'm not sure this actually registers SDL_Quit() as the last atexit()
+     * call, but it appears to work at least (BW)
+     */
+    if (atexit(SDL_Quit) != 0) {
+        log_error(LOG_ERR, "failed to register SDL_Quit() with atexit().");
+        exit(1);
+    }
+
     return archdep_init_extra(argc, argv);
 }
 
@@ -83,7 +94,6 @@ void archdep_shutdown(void)
     archdep_home_path_free();
     archdep_default_sysfile_pathlist_free();
 
-    SDL_Quit();
 #ifdef HAVE_NETWORK
     archdep_network_shutdown();
 #endif
