@@ -245,13 +245,13 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
         drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, NULL, drv->drive->trap_rom, 0x8000fffd);
         return;
     case DRIVE_TYPE_2040:
-        drivemem_set_func(cpud, 0x60, 0x80, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x2000], 0x60007ffd);
-        drivemem_set_func(cpud, 0xe0, 0x100, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x2000], 0xe000fffd);
+        drivemem_set_func(cpud, 0x60, 0x80, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x6000], 0x60007ffd);
+        drivemem_set_func(cpud, 0xe0, 0x100, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x6000], 0xe000fffd);
         break;
     case DRIVE_TYPE_3040:
     case DRIVE_TYPE_4040:
-        drivemem_set_func(cpud, 0x50, 0x80, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x1000], 0x50007ffd);
-        drivemem_set_func(cpud, 0xd0, 0x100, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x1000], 0xd000fffd);
+        drivemem_set_func(cpud, 0x50, 0x80, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x5000], 0x50007ffd);
+        drivemem_set_func(cpud, 0xd0, 0x100, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x5000], 0xd000fffd);
         break;
     default:
         return;
