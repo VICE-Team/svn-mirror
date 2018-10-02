@@ -69,6 +69,8 @@
 #include "ui.h"
 #include "util.h"
 
+#include "../shared/archdep_user_config_path.h"
+
 #ifdef __NeXT__
 #define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
 #endif
@@ -93,7 +95,7 @@ int archdep_rtc_get_centisecond(void)
 
 static int archdep_init_extra(int *argc, char **argv)
 {
-    archdep_pref_path = archdep_boot_path();
+    archdep_pref_path = archdep_user_config_path();
     return 0;
 }
 
