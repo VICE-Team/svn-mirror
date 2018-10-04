@@ -83,119 +83,6 @@ const char *archdep_pref_path = NULL;
 #include "archdep_win32.c"
 #endif
 
-#if 0
-/** \brief  Get the program name
- *
- * This returns the final part of argv[0], as if basename were used.
- *
- * \return  program name, heap-allocated, free with lib_free()
- */
-char *archdep_program_name(void)
-{
-    if (program_name == NULL) {
-        program_name = lib_stralloc(g_path_get_basename(argv0));
-    }
-    return program_name;
-}
-#endif
-
-#if 0
-/** \brief  Get the user's home directory
- *
- * \return  current user's home directory
- */
-const char *archdep_home_path(void)
-{
-    return g_get_home_dir();
-}
-#endif
-
-#if 0
-/** \brief  Get user configuration directory
- *
- * \return  heap-allocated string, free after use with lib_free()
- */
-char *archdep_user_config_path(void)
-{
-    char *path;
-    gchar *tmp = g_build_path(path_separator, g_get_user_config_dir(),
-            VICEUSERDIR, NULL);
-    /* transfer ownership of string from GLib to VICE */
-    path = lib_stralloc(tmp);
-    g_free(tmp);
-    return path;
-}
-#endif
-
-#if 0
-/** \brief  Determine if \a path is an absolute path
- *
- * \param[in]   path    some path
- *
- * \return  bool
- */
-int archdep_path_is_relative(const char *path)
-{
-    return !g_path_is_absolute(path);
-}
-#endif
-
-
-#if 0
-/** \brief  Quote \a name for use as a parameter in exec() etc calls
- *
- * Surounds \a name with double-quotes and replaces brackets with escaped
- * versions on Windows, on Unix it simply returns a heap-allocated copy.
- * Still leaves the OSX unzip bug. (See bug #920)
- *
- * \param[in]   name    string to quote
- *
- * \return  quoted string
- */
-char *archdep_quote_parameter(const char *name)
-{
-#ifdef WIN32_COMPILE
-    char *a,*b,*c;
-
-    a = util_subst(name, "[", "\\[");
-    b = util_subst(a, "]", "\\]");
-    c = util_concat("\"", b, "\"", NULL);
-    lib_free(a);
-    lib_free(b);
-    return c;
-#else
-    return lib_stralloc(name);
-#endif
-}
-#endif
-
-#if 0
-/** \brief  Quote \a name with double quotes
- *
- * Taken from win32/archdep.c, seems Windows needs this, but it makes unzip etc
- * fail on proper systems.
- *
- * \param[in]   name    string to quote
- *
- * \return  quoted (win32 only) and heap-allocated copy of \a name
- */
-char *archdep_filename_parameter(const char *name)
-{
-#ifdef WIN32_COMPILE
-    char *path;
-    char *result;
-
-    archdep_expand_path(&path, name);
-    result = util_concat("\"", path, "\"", NULL);
-    lib_free(path);
-    return result;
-#else
-    return lib_stralloc(name);
-#endif
-}
-#endif
-
-
 /** \brief  Generate path to the default fliplist file
  *
  * On Unix, this will return "$HOME/.config/vice/fliplist-$machine.vfl", on
@@ -218,36 +105,6 @@ char *archdep_default_fliplist_file_name(void)
     g_free(path);
     return tmp;
 }
-
-#if 0
-/** \brief  Create path(s) used by VICE for user-data
- *
- */
-static void archdep_create_user_config_dir(void)
-{
-    char *path = archdep_user_config_path();
-
-    /*
-     * cannot use the log here since it hasn't been created yet, not the
-     * directory it's supposed to live in
-     */
-    debug_gtk3("creating user config dir '%s'", path);
-
-    /* create config dir, fail silently if it exists */
-    if (g_mkdir(path, 0755) == 0) {
-        debug_gtk3("OK: created user config dir.");
-    } else {
-        if (errno == EEXIST) {
-            debug_gtk3("OK: directory already existed.");
-        } else {
-            debug_gtk3("Error: %d: %s.", errno, strerror(errno));
-        }
-    }
-#if 0
-    lib_free(path);
-#endif
-}
-#endif
 
 
 /** \brief  Generate default autostart disk image path
@@ -301,26 +158,6 @@ FILE *archdep_open_default_log_file(void)
 #endif
 }
 
-#if 0
-/** \brief  Sanitize \a name by removing invalid characters for the current OS
- *
- * \param[in,out]   name    0-terminated string
- */
-void archdep_sanitize_filename(char *name)
-{
-    while (*name != '\0') {
-        int i = 0;
-        while (illegal_name_tokens[i] != '\0') {
-            if (illegal_name_tokens[i] == *name) {
-                *name = '_';
-                break;
-            }
-            i++;
-        }
-        name++;
-    }
-}
-#endif
 
 /** \brief  Create and open temp file
  *
@@ -341,66 +178,6 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     }
     return fdopen(fd, mode);
 }
-
-#if 0
-/** \brief  Create directory \a pathname
- *
- * \param[in]   pathname    path/name of new directory
- * \param[in]   mode        ignored
- *
- * \return  0 on success, -1 on failure
- */
-int archdep_mkdir(const char *pathname, int mode)
-{
-    return g_mkdir(pathname, mode); /* mode is ignored on Windows */
-}
-#endif
-
-#if 0
-/** \brief  Remove directory \a pathname
- *
- * \param[in]   pathname    directory to remove
- *
- * \return  0 on success, -1 on error
- */
-int archdep_rmdir(const char *pathname)
-{
-    return g_rmdir(pathname);
-}
-#endif
-
-#if 0
-/** \brief  Rename \a oldpath to \a newpath
- *
- * \param[in]   oldpath old path
- * \param[in]   newpath new path
- *
- * \return  0 on success, -1 on failure
- */
-int archdep_rename(const char *oldpath, const char *newpath)
-{
-    return g_rename(oldpath, newpath);
-}
-#endif
-
-#if 0
-/** \brief  Log an error message
- *
- * \param[in]   format  format string
- */
-void archdep_startup_log_error(const char *format, ...)
-{
-    char *tmp;
-    va_list args;
-
-    va_start(args, format);
-    tmp = lib_mvsprintf(format, args);
-    va_end(args);
-
-    ui_error(tmp);
-    lib_free(tmp);
-}
-#endif
 
 
 /** \brief  Arch-dependent init

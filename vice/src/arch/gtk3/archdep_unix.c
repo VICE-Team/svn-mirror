@@ -61,21 +61,6 @@
 static const gchar *path_separator = "/";
 
 
-#if 0
-/** \brief  String containing search paths
- *
- * Allocated in the first call to archdep_default_sysfile_pathlist(),
- * deallocated in archdep_shutdown().
- */
-static char *default_path = NULL;
-
-
-/** \brief  Path to the binary
- */
-static char *boot_path_bin = NULL;
-#endif
-
-
 /** \brief  Write log message to stdout
  *
  * param[in]    level_string    log level string
@@ -93,175 +78,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-
-#if 0
-/** \brief  Generate path to vicerc
- *
- * The value returned needs to be freed using lib_free()
- *
- * \return  absolute path to vice.ini
- */
-char *archdep_default_resource_file_name(void)
-{
-    char *cfg;
-    gchar *tmp;
-    char *path;
-
-    cfg = archdep_user_config_path();
-    tmp = g_build_path(path_separator, cfg, "vicerc", NULL);
-    /* transfer ownership to VICE */
-    path = lib_stralloc(tmp);
-    g_free(tmp);
-#if 0
-    lib_free(cfg);
-#endif
-    return path;
-}
-#endif
-
-#if 0
-/** \brief  Get default settings file name
- *
- * \return  path to default settings file
- */
-char *archdep_default_save_resource_file_name(void)
-{
-    char *fname;
-    const char *home;
-    const char *viceuserdir;
-
-    if (archdep_pref_path == NULL) {
-        home = archdep_home_path();
-        /* XDG spec */
-        viceuserdir = util_concat(home, "/.config/vice", NULL);
-    } else {
-        viceuserdir = archdep_pref_path;
-    }
-
-    if (access(viceuserdir, F_OK) != 0) {
-        mkdir(viceuserdir, 0700);
-    }
-
-    fname = util_concat(viceuserdir, "/vicerc", NULL);
-
-    if (archdep_pref_path == NULL) {
-        lib_free(viceuserdir);
-    }
-
-    return fname;
-}
-#endif
-
-#if 0
-/** \brief  Build a list of search paths for emulator \a emu_id
- *
- * \param[in]   emu_id  emulator name
- *
- * \return  string containing search paths
- */
-char *archdep_default_sysfile_pathlist(const char *emu_id)
-{
-    if (default_path == NULL) {
-        const char *boot_path;
-        const char *config_path;
-
-        boot_path = archdep_boot_path();
-        config_path = archdep_user_config_path();
-
-        /* First search in the `LIBDIR' then the $HOME/.config/vice/ dir (config_path)
-           and then in the `boot_path'.  */
-
-#if defined(MACOSX_BUNDLE)
-        /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
-# if defined(MACOSX_COCOA)
-#  define MACOSX_ROMDIR "/../Resources/ROM/"
-# else
-#  define MACOSX_ROMDIR "/../ROM/"
-# endif
-        default_path = util_concat(
-                boot_path, MACOSX_ROMDIR, emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, MACOSX_ROMDIR, "DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, MACOSX_ROMDIR, "PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/PRINTER", NULL);
-#else
-        default_path = util_concat(
-                LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/PRINTER", NULL);
-#endif
-        lib_free(config_path);
-    }
-
-    /* We allocate a fresh string here because sysfile.c, among other
-     * places, takes ownership of the result. */
-    return lib_stralloc(default_path);
-}
-#endif
-
-#if 0
-/** \brief  Generate heap-allocated full pathname of \a orig_name
- *
- * Returns the absolute path of \a orig_name. Expands '~' to the user's home
- * path. If the prefix in \a orig_name is not '~/', the file is assumed to
- * reside in the current working directory whichever that may be.
- *
- * \param[out]  return_path pointer to expand path destination
- * \param[in]   orig_name   original path
- *
- * \return  0
- */
-int archdep_expand_path(char **return_path, const char *orig_name)
-{
-    /* Unix version.  */
-    if (*orig_name == '/') {
-        *return_path = lib_stralloc(orig_name);
-    } else if (*orig_name == '~' && *(orig_name +1) == '/') {
-        *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
-    } else {
-        char *cwd;
-
-        cwd = ioutil_current_dir();
-        *return_path = util_concat(cwd, "/", orig_name, NULL);
-        lib_free(cwd);
-    }
-    return 0;
-}
-#endif
-
-
-#if 0
-/** \brief  Get the absolute path to the VICE dir
- *
- * \return  Path to VICE's directory
- */
-const char *archdep_boot_path(void)
-{
-    char *sep;
-
-    if (boot_path_bin == NULL) {
-        boot_path_bin = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
-
-        /* Remove the program name.  */
-        sep = strrchr(boot_path_bin, '/');
-        if (sep != NULL) {
-           *sep = '\0';
-        }
-    }
-
-    return boot_path_bin;
-}
-#endif
 
 /** \brief  Get the absolute path to the directory that contains resources, icons, etc
  *
@@ -282,6 +98,7 @@ char *archdep_get_vice_datadir(void)
 #endif
 }
 
+
 /** \brief  Get the absolute path to the directory that contains the documentation
  *
  * \return  Path to the docs directory
@@ -296,21 +113,6 @@ char *archdep_get_vice_docsdir(void)
     return util_concat(DOCDIR, "/", NULL);
 #endif
 }
-
-#if 0
-/** \brief  Create a backup filename of \a fname
- *
- * Puts a tilde in front of \a fname
- *
- * \param[in]   fname   filename
- *
- * \return  heap allocated "backup filename", free with lib_free()
- */
-char *archdep_make_backup_filename(const char *fname)
-{
-    return util_concat(fname, "~", NULL);
-}
-#endif
 
 
 /** \brief  Architecture-dependent shutdown hanlder
@@ -341,14 +143,6 @@ void archdep_shutdown(void)
         lib_free(argv0);
         argv0 = NULL;
     }
-
-#if 0
-    /* probably has something to do with archdep_program_path() */
-    if (boot_path_bin != NULL) {
-        lib_free(boot_path_bin);
-        boot_path_bin = NULL;
-    }
-#endif
 
     archdep_network_shutdown();
 
@@ -431,23 +225,6 @@ int archdep_spawn(const char *name, char **argv,
                            &err);
 #endif
 
-#if 0
-int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
-{
-    struct stat statbuf;
-
-    if (stat(file_name, &statbuf) < 0) {
-        *len = 0;
-        *isdir = 0;
-        return -1;
-    }
-
-    *len = statbuf.st_size;
-    *isdir = S_ISDIR(statbuf.st_mode);
-
-    return 0;
-}
-#endif
 
 /** \brief  Create a unique temporary filename
  *
@@ -496,38 +273,6 @@ char *archdep_default_rtc_file_name(void)
         return util_concat(archdep_pref_path, "/vice-rtc", NULL);
     }
 }
-
-#if 0
-int archdep_file_is_chardev(const char *name)
-{
-    INCOMPLETE_IMPLEMENTATION();
-    return 0;
-}
-#endif
-
-#if 0
-int archdep_file_is_blockdev(const char *name)
-{
-    struct stat buf;
-
-    if (stat(name, &buf) != 0) {
-        return 0;
-    }
-
-    if (S_ISBLK(buf.st_mode)) {
-        return 1;
-    }
-    return 0;
-}
-#endif
-
-#if 0
-int archdep_fix_permissions(const char *file_name)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-#endif
 
 
 static RETSIGTYPE break64(int sig)
