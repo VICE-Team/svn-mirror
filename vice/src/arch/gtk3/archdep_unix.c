@@ -119,7 +119,7 @@ char *archdep_default_resource_file_name(void)
 }
 #endif
 
-
+#if 0
 /** \brief  Get default settings file name
  *
  * \return  path to default settings file
@@ -150,6 +150,7 @@ char *archdep_default_save_resource_file_name(void)
 
     return fname;
 }
+#endif
 
 #if 0
 /** \brief  Build a list of search paths for emulator \a emu_id
