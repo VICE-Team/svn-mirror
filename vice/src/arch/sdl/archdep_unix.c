@@ -99,142 +99,6 @@ static int archdep_init_extra(int *argc, char **argv)
     return 0;
 }
 
-#if 0
-char *archdep_program_name(void)
-{
-    if (program_name == NULL) {
-        char *p;
-
-        p = strrchr(argv0, '/');
-        if (p == NULL) {
-            program_name = lib_stralloc(argv0);
-        } else {
-            program_name = lib_stralloc(p + 1);
-        }
-    }
-
-    return program_name;
-}
-#endif
-
-#if 0
-const char *archdep_boot_path(void)
-{
-    if (boot_path == NULL) {
-        /* FIXME: bad name of define */
-#ifdef USE_PROC_SELF_EXE
-        /* known from setup in archdep_init_extra() so just reuse it */
-        boot_path = lib_stralloc(argv0);
-#else
-        boot_path = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
-#endif
-
-        /* Remove the program name.  */
-        *strrchr(boot_path, '/') = '\0';
-    }
-
-    return boot_path;
-}
-#endif
-
-#if 0
-const char *archdep_home_path(void)
-{
-    /* FIXME: bad name of define */
-#ifdef USE_PROC_SELF_EXE
-    /* everything is relative to the location of the exe which is already known
-       from archdep_init_bootpath() so just reuse it */
-    return (archdep_boot_path());
-#else
-    char *home;
-
-    home = getenv("HOME");
-    if (home == NULL) {
-        struct passwd *pwd;
-
-        pwd = getpwuid(getuid());
-        if ((pwd == NULL) || ((home = pwd->pw_dir) == NULL)) {
-            /* give up */
-            home = ".";
-        }
-    }
-
-    return home;
-#endif
-}
-#endif
-
-
-#if 0
-char *archdep_default_sysfile_pathlist(const char *emu_id)
-{
-    /* wrong */
-    static char *default_path;
-
-    if (default_path == NULL) {
-        const char *boot_path;
-        const char *home_path;
-
-        boot_path = archdep_boot_path();
-        home_path = archdep_home_path();
-
-        /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
-           and then in the `boot_path'.  */
-
-#if defined(MACOSX_BUNDLE)
-        /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
-        #define MACOSX_ROMDIR "/../Resources/ROM/"
-
-        default_path = util_concat(boot_path, MACOSX_ROMDIR, emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-
-                                   boot_path, MACOSX_ROMDIR, "DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-
-                                   boot_path, MACOSX_ROMDIR, "PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/PRINTER", NULL);
-#else
-        default_path = util_concat(LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/PRINTER", NULL);
-#endif
-    }
-
-    return default_path;
-}
-#endif
-
-#if 0
-/* Return a malloc'ed backup file name for file `fname'.  */
-char *archdep_make_backup_filename(const char *fname)
-{
-    return util_concat(fname, "~", NULL);
-}
-#endif
-
-#if 0
-char *archdep_default_resource_file_name(void)
-{
-    if (archdep_pref_path == NULL) {
-        const char *home;
-
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/sdl-vicerc", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/sdl-vicerc", NULL);
-    }
-}
-#endif
-
 
 /** \brief  Get path to VICE session file
  *
@@ -316,33 +180,6 @@ char *archdep_default_joymap_file_name(void)
     }
 }
 
-#if 0
-char *archdep_default_save_resource_file_name(void)
-{
-    char *fname;
-    const char *home;
-    const char *viceuserdir;
-
-    if (archdep_pref_path == NULL) {
-        home = archdep_home_path();
-        viceuserdir = util_concat(home, "/.vice", NULL);
-    } else {
-        viceuserdir = archdep_pref_path;
-    }
-
-    if (access(viceuserdir, F_OK)) {
-        mkdir(viceuserdir, 0700);
-    }
-
-    fname = util_concat(viceuserdir, "/sdl-vicerc", NULL);
-
-    if (archdep_pref_path == NULL) {
-        lib_free(viceuserdir);
-    }
-
-    return fname;
-}
-#endif
 
 FILE *archdep_open_default_log_file(void)
 {
@@ -357,16 +194,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-#if 0
-int archdep_path_is_relative(const char *path)
-{
-    if (path == NULL) {
-        return 0;
-    }
-
-    return *path != '/';
-}
-#endif
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
@@ -415,62 +242,6 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     }
 }
 
-#if 0
-/** \brief  Return malloc'd version of full pathname of orig_name
- *
- * Returns the absolute path of \a orig_name. Expands '~' to the user's home
- * path.
- *
- * \param[out]  return_path pointer to expand path destination
- * \param[in]   orig_name   original path
- *
- * \return  0
- */
-int archdep_expand_path(char **return_path, const char *orig_name)
-{
-    /* Unix version.  */
-    if (*orig_name == '/') {
-        *return_path = lib_stralloc(orig_name);
-    } else if (*orig_name == '~' && *(orig_name + 1) == '/') {
-        *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
-    } else {
-        static char *cwd;
-
-        cwd = ioutil_current_dir();
-        *return_path = util_concat(cwd, "/", orig_name, NULL);
-        lib_free(cwd);
-    }
-    return 0;
-}
-#endif
-
-#if 0
-void archdep_startup_log_error(const char *format, ...)
-{
-    va_list ap;
-
-    va_start(ap, format);
-    vfprintf(stderr, format, ap);
-    va_end(ap);
-}
-#endif
-
-#if 0
-char *archdep_filename_parameter(const char *name)
-{
-    /* nothing special(?) */
-    return lib_stralloc(name);
-}
-#endif
-
-
-#if 0
-char *archdep_quote_parameter(const char *name)
-{
-    /*not needed(?) */
-    return lib_stralloc(name);
-}
-#endif
 
 char *archdep_tmpnam(void)
 {
@@ -507,6 +278,7 @@ char *archdep_tmpnam(void)
     return lib_stralloc(tmpnam(NULL));
 #endif
 }
+
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
@@ -569,91 +341,11 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 }
 
 
-#if 0
-int archdep_mkdir(const char *pathname, int mode)
-{
-#ifndef __NeXT__
-    return mkdir(pathname, (mode_t)mode);
-#else
-    return mkdir(pathname, mode);
-#endif
-}
-#endif
-
-#if 0
-int archdep_rmdir(const char *pathname)
-{
-    return rmdir(pathname);
-}
-#endif
-
-#if 0
-int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
-{
-    struct stat statbuf;
-
-    if (stat(file_name, &statbuf) < 0) {
-        *len = 0;
-        *isdir = 0;
-        return -1;
-    }
-
-    *len = statbuf.st_size;
-    *isdir = S_ISDIR(statbuf.st_mode);
-
-    return 0;
-}
-#endif
-
-#if 0
-/* set permissions of given file to rw, respecting current umask */
-int archdep_fix_permissions(const char *file_name)
-{
-    mode_t mask = umask(0);
-    umask(mask);
-    return chmod(file_name, mask ^ 0666);
-}
-#endif
-
-#if 0
-int archdep_file_is_blockdev(const char *name)
-{
-    struct stat buf;
-
-    if (stat(name, &buf) != 0) {
-        return 0;
-    }
-
-    if (S_ISBLK(buf.st_mode)) {
-        return 1;
-    }
-
-    return 0;
-}
-#endif
-
-#if 0
-int archdep_file_is_chardev(const char *name)
-{
-    struct stat buf;
-
-    if (stat(name, &buf) != 0) {
-        return 0;
-    }
-
-    if (S_ISCHR(buf.st_mode)) {
-        return 1;
-    }
-
-    return 0;
-}
-#endif
-
-
 int archdep_require_vkbd(void)
 {
     return 0;
 }
+
 
 static void archdep_shutdown_extra(void)
 {
@@ -677,9 +369,11 @@ void archdep_signals_init(int do_core_dumps)
     }
 }
 
+
 typedef void (*signal_handler_t)(int);
 
 static signal_handler_t old_pipe_handler;
+
 
 /*
     these two are used for socket send/recv. in this case we might
@@ -690,29 +384,12 @@ void archdep_signals_pipe_set(void)
     old_pipe_handler = signal(SIGPIPE, SIG_IGN);
 }
 
+
 void archdep_signals_pipe_unset(void)
 {
     signal(SIGPIPE, old_pipe_handler);
 }
 
-#if 0
-int archdep_rename(const char *oldpath, const char *newpath)
-{
-    return rename(oldpath, newpath);
-}
-#endif
-
-/* doesn't seem to be required -- compyx */
-#if 0
-static char *archdep_get_runtime_os(void)
-{
-/* TODO: add runtime os detection code for other *nix os'es */
-#ifndef RUNTIME_OS_CALL
-    return "*nix";
-#else
-    return RUNTIME_OS_CALL();
-#endif
-}
 
 static char *archdep_get_runtime_cpu(void)
 {

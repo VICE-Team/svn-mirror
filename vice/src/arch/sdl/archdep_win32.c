@@ -204,28 +204,6 @@ static void system_mbstowcs_free(char *wcs)
     lib_free(wcs);
 }
 
-#if 0
-static char *system_wcstombs_alloc(const char *wcs)
-{
-    char *mbs;
-
-    if (wcs == NULL) {
-        return NULL;
-    }
-
-    mbs = lib_malloc((strlen(wcs) + 1) * sizeof(char));
-    system_wcstombs(mbs, wcs, strlen(wcs) + 1);
-
-    return mbs;
-}
-#endif
-
-#if 0
-static void system_wcstombs_free(char *mbs)
-{
-    lib_free(mbs);
-}
-#endif
 
 static int archdep_init_extra(int *argc, char **argv)
 {
@@ -238,101 +216,6 @@ static int archdep_init_extra(int *argc, char **argv)
 
     return 0;
 }
-
-#if 0
-static char *program_name = NULL;
-#endif
-
-#if 0
-char *archdep_program_name(void)
-{
-    if (program_name == NULL) {
-        char *s, *e;
-        int len;
-
-        s = strrchr(argv0, '\\');
-        if (s == NULL) {
-            s = argv0;
-        } else {
-            s++;
-        }
-        e = strchr(s, '.');
-        if (e == NULL) {
-            e = argv0 + strlen(argv0);
-        }
-        len = (int)(e - s + 1);
-        program_name = lib_malloc(len);
-        memcpy(program_name, s, len - 1);
-        program_name[len - 1] = 0;
-    }
-
-    return program_name;
-}
-#endif
-
-#if 0
-char boot_path[MAX_PATH];
-
-const char *archdep_boot_path(void)
-{
-    char *checkpath;
-
-    GetModuleFileName(NULL, boot_path, MAX_PATH);
-
-    checkpath = boot_path + strlen(boot_path);
-
-    while (*checkpath != '\\') {
-        checkpath--;
-    }
-    *checkpath = 0;
-
-    return boot_path;
-}
-#endif
-
-#if 0
-char *archdep_default_sysfile_pathlist(const char *emu_id)
-{
-    static char *default_path;
-
-    if (default_path == NULL) {
-        const char *boot_path = archdep_boot_path();
-
-        default_path = util_concat(boot_path, "\\", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "\\DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "\\PRINTER", NULL);
-    }
-
-    return default_path;
-}
-#endif
-
-
-#if 0
-/* Return a malloc'ed backup file name for file `fname'.  */
-char *archdep_make_backup_filename(const char *fname)
-{
-    char *tmp;
-
-    tmp = util_concat(fname, NULL);
-    tmp[strlen(tmp) - 1] = '~';
-    return tmp;
-}
-#endif
-
-#if 0
-char *archdep_default_save_resource_file_name(void)
-{
-    return archdep_default_resource_file_name();
-}
-#endif
-
-#if 0
-char *archdep_default_resource_file_name(void)
-{
-    return util_concat(archdep_boot_path(), "\\sdl-vice.ini", NULL);
-}
-#endif
 
 
 /** \brief  Get path to VICE session file
@@ -409,19 +292,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-#if 0
-int archdep_path_is_relative(const char *path)
-{
-    if (path == NULL) {
-        return 0;
-    }
-
-    /* `c:\foo', `c:/foo', `c:foo', `\foo' and `/foo' are absolute.  */
-
-    return !((isalpha(path[0]) && path[1] == ':') || path[0] == '/' || path[0] == '\\');
-}
-#endif
-
+/* FIXME: do we still support Watcom? --compyx */
 #ifndef WATCOM_COMPILE
 #ifndef _S_IREAD
 #define _S_IREAD S_IREAD
@@ -507,53 +378,6 @@ cleanup:
 #endif
 }
 
-#if 0
-/* return malloc'd version of full pathname of orig_name */
-int archdep_expand_path(char **return_path, const char *orig_name)
-{
-    /*  Win32 version   */
-    *return_path = lib_stralloc(orig_name);
-    return 0;
-}
-#endif
-
-#if 0
-void archdep_startup_log_error(const char *format, ...)
-{
-    char *tmp;
-    va_list args;
-
-    va_start(args, format);
-    tmp = lib_mvsprintf(format, args);
-    va_end(args);
-
-    ui_error(tmp);
-    lib_free(tmp);
-}
-#endif
-
-#if 0
-char *archdep_quote_parameter(const char *name)
-{
-    char *a;
-
-    a = util_concat("\"", name, "\"", NULL);
-    return a;
-}
-#endif
-
-#if 0
-char *archdep_filename_parameter(const char *name)
-{
-    char *exp;
-    char *a;
-
-    archdep_expand_path(&exp, name);
-    a = archdep_quote_parameter(exp);
-    lib_free(exp);
-    return a;
-}
-#endif
 
 char *archdep_tmpnam(void)
 {
@@ -590,35 +414,6 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     return fd;
 }
 
-#if 0
-int archdep_mkdir(const char *pathname, int mode)
-{
-    return _mkdir(pathname);
-}
-#endif
-
-#if 0
-int archdep_rmdir(const char *pathname)
-{
-    return _rmdir(pathname);
-}
-#endif
-
-#if 0
-int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
-{
-    struct stat statbuf;
-
-    if (stat(file_name, &statbuf) < 0) {
-        return -1;
-    }
-
-    *len = statbuf.st_size;
-    *isdir = S_ISDIR(statbuf.st_mode);
-
-    return 0;
-}
-#endif
 
 /* set permissions of given file to rw, respecting current umask */
 int archdep_fix_permissions(const char *file_name)
@@ -626,23 +421,6 @@ int archdep_fix_permissions(const char *file_name)
     return _chmod(file_name, _S_IREAD | _S_IWRITE);
 }
 
-#if 0
-int archdep_file_is_blockdev(const char *name)
-{
-    return 0;
-}
-#endif
-
-#if 0
-int archdep_file_is_chardev(const char *name)
-{
-    if (strcmp(name, "/dev/cbm") == 0) {
-        return 1;
-    }
-
-    return 0;
-}
-#endif
 
 #ifdef SDL_CHOOSE_DRIVES
 char **archdep_list_drives(void)
@@ -698,13 +476,6 @@ int archdep_require_vkbd(void)
     return 0;
 }
 
-#if 0
-int archdep_rename(const char *oldpath, const char *newpath)
-{
-    unlink(newpath);
-    return rename(oldpath, newpath);
-}
-#endif
 
 static void archdep_shutdown_extra(void)
 {
