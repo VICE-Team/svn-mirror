@@ -60,10 +60,15 @@ static void archdep_shutdown_extra(void);
 #define SDL_REALINIT SDL_Init
 #endif
 
+#include "../shared/archdep_create_user_config_dir.h"
+
+
+
 int archdep_init(int *argc, char **argv)
 {
     archdep_program_path_set_argv0(argv[0]);
 
+    archdep_create_user_config_dir();
 
     if (SDL_REALINIT(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         fprintf(stderr, "SDL error: %s\n", SDL_GetError());

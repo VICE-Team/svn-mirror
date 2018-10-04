@@ -184,4 +184,12 @@
 # define DOCDIR LIBDIR "/doc"
 #endif
 
+
+#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
+    || defined(ARCHDEP_OS_MSDOS)
+# define ARCHDEP_VICERC_NAME    "vice.ini"
+#else
+# define ARCHDEP_VICERC_NAME    "vicerc"
+#endif
+
 #endif

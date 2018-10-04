@@ -49,6 +49,8 @@
 #include "util.h"
 #include "uiapi.h"
 
+#include "../shared/archdep_create_user_config_dir.h"
+
 
 /** \brief  Prefix used for autostart disk images
  */
@@ -217,7 +219,7 @@ char *archdep_default_fliplist_file_name(void)
     return tmp;
 }
 
-
+#if 0
 /** \brief  Create path(s) used by VICE for user-data
  *
  */
@@ -245,6 +247,7 @@ static void archdep_create_user_config_dir(void)
     lib_free(path);
 #endif
 }
+#endif
 
 
 /** \brief  Generate default autostart disk image path

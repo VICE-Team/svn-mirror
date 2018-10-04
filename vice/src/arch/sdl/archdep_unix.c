@@ -316,6 +316,7 @@ char *archdep_default_joymap_file_name(void)
     }
 }
 
+#if 0
 char *archdep_default_save_resource_file_name(void)
 {
     char *fname;
@@ -341,6 +342,7 @@ char *archdep_default_save_resource_file_name(void)
 
     return fname;
 }
+#endif
 
 FILE *archdep_open_default_log_file(void)
 {

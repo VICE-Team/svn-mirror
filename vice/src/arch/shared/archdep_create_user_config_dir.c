@@ -1,18 +1,7 @@
-/** \file   archdep_default_resource_file_name.c
- * \brief   Retrieve default resource file path
+/** \file   archdep_create_user_config_dir.c
+ * \brief   Create user config dir if it doesn't exist already
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Get path to default resource file (vicerc/vice.ini)
- *
- * OS support:
- *  - Linux
- *  - Windows
- *  - MacOS
- *  - BeOS/Haiku (untested)
- *  - AmigaOS (untested)
- *  - OS/2 (untested)
- *  - MS-DOS (untested)
- *
  */
 
 /*
@@ -39,22 +28,37 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
-#include "archdep_join_paths.h"
+#include "lib.h"
+#include "log.h"
 #include "archdep_user_config_path.h"
 
-#include "archdep_default_resource_file_name.h"
+#ifdef ARCHDEP_OS_UNIX
+# include <sys/stat.h>
+# include <sys/types.h>
+#elif defined(ARCHDEP_OS_WINDOWS)
+# include <direct.h>
+#endif
+
+#include "archdep_create_user_config_dir.h"
 
 
-/** \brief  Get path to default resource file
- *
- * \return  heap-allocated path, free with lib_free()
- */
-char *archdep_default_resource_file_name(void)
+void archdep_create_user_config_dir(void)
 {
-    char *cfg;
+    char *cfg = archdep_user_config_path();
 
-    cfg = archdep_user_config_path();
-    return archdep_join_paths(cfg, ARCHDEP_VICERC_NAME, NULL);
+#if defined(ARCHDEP_OS_UNIX)
+    if (mkdir(cfg, 0755) == 0) {
+#else
+    if (_mkdir(cfg) == 0) {
+#endif
+    } else if (errno != EEXIST) {
+        log_error(LOG_ERR, "failed to create user config dir '%s': %d: %s.",
+                cfg, errno, strerror(errno));
+        exit(1);
+    }
 }

@@ -1,18 +1,8 @@
-/** \file   archdep_default_resource_file_name.c
- * \brief   Retrieve default resource file path
+/** \file   archdep_default_save_resource_file_name.c
+ * \brief   Retrieve default resource file path for saving
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Get path to default resource file (vicerc/vice.ini)
- *
- * OS support:
- *  - Linux
- *  - Windows
- *  - MacOS
- *  - BeOS/Haiku (untested)
- *  - AmigaOS (untested)
- *  - OS/2 (untested)
- *  - MS-DOS (untested)
- *
  */
 
 /*
@@ -38,23 +28,16 @@
 
 #include "vice.h"
 #include "archdep_defs.h"
-
-#include <stdlib.h>
-
-#include "archdep_join_paths.h"
-#include "archdep_user_config_path.h"
-
 #include "archdep_default_resource_file_name.h"
+
+#include "archdep_default_save_resource_file_name.h"
 
 
 /** \brief  Get path to default resource file
  *
  * \return  heap-allocated path, free with lib_free()
  */
-char *archdep_default_resource_file_name(void)
+char *archdep_default_save_resource_file_name(void)
 {
-    char *cfg;
-
-    cfg = archdep_user_config_path();
-    return archdep_join_paths(cfg, ARCHDEP_VICERC_NAME, NULL);
+    return archdep_default_resource_file_name();
 }

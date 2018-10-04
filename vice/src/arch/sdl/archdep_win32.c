@@ -320,10 +320,12 @@ char *archdep_make_backup_filename(const char *fname)
 }
 #endif
 
+#if 0
 char *archdep_default_save_resource_file_name(void)
 {
     return archdep_default_resource_file_name();
 }
+#endif
 
 #if 0
 char *archdep_default_resource_file_name(void)

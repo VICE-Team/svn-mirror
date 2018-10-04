@@ -132,6 +132,7 @@ char *archdep_default_resource_file_name(void)
 }
 #endif
 
+#if 0
 char *archdep_default_save_resource_file_name(void)
 {
     /* XXX: taken from SDL, but is wrong, this returns the directoru in which
@@ -140,6 +141,7 @@ char *archdep_default_save_resource_file_name(void)
      */
     return archdep_default_resource_file_name();
 }
+#endif
 
 #if 0
 /** \brief  Build a list of search paths for emulator \a emu_id

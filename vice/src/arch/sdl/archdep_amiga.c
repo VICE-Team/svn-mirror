@@ -367,10 +367,12 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(home, "sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
+#if 0
 char *archdep_default_save_resource_file_name(void)
 {
     return archdep_default_resource_file_name();
 }
+#endif
 
 FILE *archdep_open_default_log_file(void)
 {
