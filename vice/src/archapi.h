@@ -81,7 +81,6 @@ extern int archdep_fix_permissions(const char *file_name);
 /* Resource handling.  */
 extern char *archdep_default_resource_file_name(void);
 extern char *archdep_default_session_file_name(void);
-extern char *archdep_default_save_resource_file_name(void);
 
 /* Fliplist.  */
 extern char *archdep_default_fliplist_file_name(void);

@@ -16,7 +16,6 @@ libarchdep_a_SOURCES = \
 	archdep_boot_path.c \
 	archdep_create_user_config_dir.c \
 	archdep_default_resource_file_name.c \
-	archdep_default_save_resource_file_name.c \
 	archdep_default_sysfile_pathlist.c \
 	archdep_expand_path.c \
 	archdep_file_is_blockdev.c \
@@ -43,7 +42,6 @@ EXTRA_DIST = \
 	archdep_boot_path.h \
 	archdep_create_user_config_dir.h \
 	archdep_default_resource_file_name.h \
-	archdep_default_save_resource_file_name.h \
 	archdep_default_sysfile_pathlist.h \
 	archdep_expand_path.h \
 	archdep_file_is_blockdev.h \
