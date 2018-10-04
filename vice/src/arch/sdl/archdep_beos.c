@@ -162,10 +162,12 @@ char *archdep_default_save_resource_file_name(void)
     return archdep_default_resource_file_name();
 }
 
+#if 0
 char *archdep_default_resource_file_name(void)
 {
     return util_concat(archdep_boot_path(), "/vice-sdl.ini", NULL);
 }
+#endif
 
 
 /** \brief  Get path to VICE session file

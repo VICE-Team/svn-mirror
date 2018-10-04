@@ -221,6 +221,7 @@ char *archdep_make_backup_filename(const char *fname)
 }
 #endif
 
+#if 0
 char *archdep_default_resource_file_name(void)
 {
     if (archdep_pref_path == NULL) {
@@ -232,6 +233,7 @@ char *archdep_default_resource_file_name(void)
         return util_concat(archdep_pref_path, "/sdl-vicerc", NULL);
     }
 }
+#endif
 
 
 /** \brief  Get path to VICE session file

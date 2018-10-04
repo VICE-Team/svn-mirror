@@ -14,6 +14,7 @@ noinst_LIBRARIES = libarchdep.a
 
 libarchdep_a_SOURCES = \
 	archdep_boot_path.c \
+	archdep_default_resource_file_name.c \
 	archdep_default_sysfile_pathlist.c \
 	archdep_expand_path.c \
 	archdep_file_is_blockdev.c \
@@ -38,6 +39,7 @@ libarchdep_a_SOURCES = \
 EXTRA_DIST = \
 	archdep_defs.h \
 	archdep_boot_path.h \
+	archdep_default_resource_file_name.h \
 	archdep_default_sysfile_pathlist.h \
 	archdep_expand_path.h \
 	archdep_file_is_blockdev.h \

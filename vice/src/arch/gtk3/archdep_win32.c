@@ -107,6 +107,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
+#if 0
 /** \brief  Generate path to vice.ini
  *
  * The value returned needs to be freed using lib_free()
@@ -129,7 +130,7 @@ char *archdep_default_resource_file_name(void)
 #endif
     return path;
 }
-
+#endif
 
 char *archdep_default_save_resource_file_name(void)
 {

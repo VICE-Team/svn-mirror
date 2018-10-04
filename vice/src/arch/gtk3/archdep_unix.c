@@ -94,6 +94,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
+#if 0
 /** \brief  Generate path to vicerc
  *
  * The value returned needs to be freed using lib_free()
@@ -116,6 +117,7 @@ char *archdep_default_resource_file_name(void)
 #endif
     return path;
 }
+#endif
 
 
 /** \brief  Get default settings file name

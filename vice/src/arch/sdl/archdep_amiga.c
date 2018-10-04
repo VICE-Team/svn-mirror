@@ -302,6 +302,7 @@ char *archdep_make_backup_filename(const char *fname)
 }
 #endif
 
+#if 0
 char *archdep_default_resource_file_name(void)
 {
     const char *home;
@@ -309,6 +310,7 @@ char *archdep_default_resource_file_name(void)
     home = archdep_boot_path();
     return util_concat(home, "vice-sdl.ini", NULL);
 }
+#endif
 
 
 /** \brief  Get path to VICE session file
