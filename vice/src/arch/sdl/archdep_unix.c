@@ -100,26 +100,6 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
-/** \brief  Get path to VICE session file
- *
- * The 'session file' is a file that is used to store settings between VICE
- * runs, storing things like the last used directory.
- *
- * \return  path to session file
- */
-char *archdep_default_session_file_name(void)
-{
-    if (archdep_pref_path == NULL) {
-        const char *home;
-
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/sdl-vicesession", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/sdl-vicesession", NULL);
-    }
-}
-
-
 char *archdep_default_fliplist_file_name(void)
 {
     if (archdep_pref_path == NULL) {

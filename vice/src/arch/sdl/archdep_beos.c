@@ -95,19 +95,6 @@ char *archdep_make_backup_filename(const char *fname)
 }
 
 
-/** \brief  Get path to VICE session file
- *
- * The 'session file' is a file that is used to store settings between VICE
- * runs, storing things like the last used directory.
- *
- * \return  path to session file
- */
-char *archdep_default_session_file_name(void)
-{
-    return util_concat(archdep_boot_path(), "/vice-sdl-session.ini", NULL);
-}
-
-
 char *archdep_default_fliplist_file_name(void)
 {
     static char *fname;

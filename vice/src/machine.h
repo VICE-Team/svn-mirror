@@ -220,4 +220,6 @@ extern char *machine_get_keyboard_type_name(int type);
 
 extern int machine_register_userport(void);
 
+const char *machine_name_proper(void);
+
 #endif
