@@ -185,11 +185,26 @@
 #endif
 
 
+/*
+ * Determine if we compile against SDL
+ */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+# define ARCHDEP_USE_SDL
+#endif
+
 #if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
     || defined(ARCHDEP_OS_MSDOS)
-# define ARCHDEP_VICERC_NAME    "vice.ini"
+# ifdef ARCHDEP_USE_SDL
+#  define ARCHDEP_VICERC_NAME   "sdl-vice.ini"
+# else
+#  define ARCHDEP_VICERC_NAME   "vice.ini"
+# endif
 #else
-# define ARCHDEP_VICERC_NAME    "vicerc"
+# ifdef ARCHDEP_USE_SDL
+#  define ARCHDEP_VICERC_NAME   "sdl-vicerc"
+# else
+#  define ARCHDEP_VICERC_NAME   "vicerc"
+# endif
 #endif
 
 #endif
