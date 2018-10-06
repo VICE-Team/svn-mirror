@@ -196,14 +196,19 @@
     || defined(ARCHDEP_OS_MSDOS)
 # ifdef ARCHDEP_USE_SDL
 #  define ARCHDEP_VICERC_NAME   "sdl-vice.ini"
+/* Just copying stuff, I'm backwards */
+#  define ARCHDEP_VICE_RTC_NAME "vice-sdl.rtc"
 # else
 #  define ARCHDEP_VICERC_NAME   "vice.ini"
+#  define ARCHDEP_VICE_RTC_NAME "vice.rtc"
 # endif
 #else
 # ifdef ARCHDEP_USE_SDL
 #  define ARCHDEP_VICERC_NAME   "sdl-vicerc"
+#  define ARCHDEP_VICE_RTC_NAME "sdl-vice.rtc"
 # else
 #  define ARCHDEP_VICERC_NAME   "vicerc"
+#  define ARCHDEP_VICE_RTC_NAME "vice.rtc"
 # endif
 #endif
 

@@ -105,11 +105,6 @@
 static char *argv0;
 
 
-char *archdep_default_rtc_file_name(void)
-{
-    return util_concat(archdep_boot_path(), "\\sdl-vice.rtc", NULL);
-}
-
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     const char *home;

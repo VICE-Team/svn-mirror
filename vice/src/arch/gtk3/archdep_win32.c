@@ -235,14 +235,6 @@ char *archdep_tmpnam(void)
 }
 
 
-char *archdep_default_rtc_file_name(void)
-{
-    /* XXX: temp hack, should resolve %APPDATA%\\vice
-     *      2017-09-13 -- Compyx */
-    return util_concat(archdep_boot_path(), "\\vice.rtc", NULL);
-}
-
-
 /* Provide a usleep replacement */
 void vice_usleep(uint64_t waitTime)
 {

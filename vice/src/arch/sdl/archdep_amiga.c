@@ -230,14 +230,6 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
-char *archdep_default_rtc_file_name(void)
-{
-    const char *home;
-
-    home = archdep_boot_path();
-    return util_concat(home, "vice-sdl.rtc", NULL);
-}
-
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     const char *home;

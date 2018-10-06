@@ -264,17 +264,6 @@ char *archdep_tmpnam(void)
 }
 
 
-char *archdep_default_rtc_file_name(void)
-{
-    if (archdep_pref_path == NULL) {
-        /* XDG-spec path */
-        return util_concat(archdep_home_path(), "/.config/vice/vice.rtc", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/vice-rtc", NULL);
-    }
-}
-
-
 static RETSIGTYPE break64(int sig)
 {
     log_message(LOG_DEFAULT, "Received signal %d, exiting.", sig);
