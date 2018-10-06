@@ -391,18 +391,6 @@ void archdep_signals_pipe_unset(void)
 }
 
 
-static char *archdep_get_runtime_cpu(void)
-{
-/* TODO: add runtime cpu detection code for other cpu's */
-#ifndef RUNTIME_CPU_CALL
-    return "Unknown CPU";
-#else
-    return RUNTIME_CPU_CALL();
-#endif
-}
-#endif
-
-
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a blank (default) config, so an educated guess works good
    enough most of the time :)
