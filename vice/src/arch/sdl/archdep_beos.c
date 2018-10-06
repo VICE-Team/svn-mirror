@@ -95,15 +95,6 @@ char *archdep_make_backup_filename(const char *fname)
 }
 
 
-char *archdep_default_fliplist_file_name(void)
-{
-    static char *fname;
-
-    lib_free(fname);
-    fname = util_concat(archdep_boot_path(), "/fliplist-", machine_get_name(), ".vfl", NULL);
-    return fname;
-}
-
 char *archdep_default_rtc_file_name(void)
 {
     static char *fname;

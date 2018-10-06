@@ -100,18 +100,6 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
-char *archdep_default_fliplist_file_name(void)
-{
-    if (archdep_pref_path == NULL) {
-        const char *home;
-
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/fliplist-", machine_get_name(), ".vfl", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/fliplist-", machine_get_name(), ".vfl", NULL);
-    }
-}
-
 char *archdep_default_rtc_file_name(void)
 {
     if (archdep_pref_path == NULL) {

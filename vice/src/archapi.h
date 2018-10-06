@@ -76,7 +76,7 @@ void        archdep_default_sysfile_pathlist_free(void);
 
 
 /* set permissions of given file to rw, respecting current umask */
-extern int archdep_fix_permissions(const char *file_name);
+extern int  archdep_fix_permissions(const char *file_name);
 
 /* Resource handling.  */
 extern char *archdep_default_resource_file_name(void);

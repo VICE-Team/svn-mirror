@@ -230,15 +230,6 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
-char *archdep_default_fliplist_file_name(void)
-{
-    const char *home;
-
-    home = archdep_boot_path();
-    return util_concat(home, "fliplist-", machine_get_name(), ".vfl", NULL);
-}
-
-
 char *archdep_default_rtc_file_name(void)
 {
     const char *home;

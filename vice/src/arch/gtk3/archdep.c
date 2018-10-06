@@ -83,29 +83,6 @@ const char *archdep_pref_path = NULL;
 #include "archdep_win32.c"
 #endif
 
-/** \brief  Generate path to the default fliplist file
- *
- * On Unix, this will return "$HOME/.config/vice/fliplist-$machine.vfl", on
- * Windows this should return "%APPDATA%\\vice\\fliplist-$machine.vfl".
- *
- * \return  path to defaul fliplist file, must be freed with lib_free()
- */
-char *archdep_default_fliplist_file_name(void)
-{
-    gchar *path;
-    char *name;
-    char *tmp;
-
-    name = util_concat("fliplist-", machine_get_name(), ".vfl", NULL);
-    path = g_build_path(path_separator, g_get_user_config_dir(), VICEUSERDIR,
-            name, NULL);
-    lib_free(name);
-    /* transfer ownership of path to VICE */
-    tmp = lib_stralloc(path);
-    g_free(path);
-    return tmp;
-}
-
 
 /** \brief  Generate default autostart disk image path
  *
