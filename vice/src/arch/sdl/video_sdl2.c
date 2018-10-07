@@ -402,6 +402,14 @@ void video_arch_resources_shutdown(void)
 
     lib_free(aspect_ratio_s);
     lib_free(sdl2_renderer_name);
+    if (sdl2_renderer) {
+        SDL_DestroyRenderer(sdl2_renderer);
+        sdl2_renderer=NULL;
+    }
+    if (sdl2_window) {
+        SDL_DestroyWindow(sdl2_window);
+        sdl2_window = NULL;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -545,6 +553,87 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
     SDL_RenderSetLogicalSize(sdl2_renderer, dest_w, dest_h);
 }
 
+static int sdl_window_create(const char *title, unsigned int width, unsigned int height, int flags)
+{
+    char rendername[256] = { 0 };
+    char **renderlist = NULL;
+    int renderamount = SDL_GetNumRenderDrivers();
+    int it, l;
+    SDL_RendererInfo info;
+    if (sdl2_window) {
+        /* We've already created the window here */
+        return 1;
+    }
+    if (width == 0 || height == 0) {
+        /* Early startup; we don't actually know the screen size yet */
+        return 1;
+    }
+    /* Obtain the Window with the corresponding size and behavior based on the flags */
+    sdl2_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    if (sdl2_window == NULL) {
+        log_error(sdlvideo_log, "SDL_CreateWindow() failed: %s\n", SDL_GetError());
+        return 0;
+    }
+
+    sdl_ui_set_window_icon(sdl2_window);
+
+    /* Allocate renderlist strings */
+    renderlist = lib_malloc((renderamount + 1) * sizeof(char *));
+
+    /* Fill in the renderlist and render info string */
+    for (it = 0; it < renderamount; ++it) {
+        SDL_GetRenderDriverInfo(it, &info);
+
+        strcat(rendername, info.name);
+        strcat(rendername, " ");
+        renderlist[it] = lib_stralloc(info.name);
+    }
+    renderlist[it] = NULL;
+
+    /* Check for resource preferred renderer */
+    if (sdl2_renderer_name != NULL && *sdl2_renderer_name != '\0') {
+        for (it = 0; it < renderamount; ++it) {
+            if (!strcmp(sdl2_renderer_name, renderlist[it])) {
+                drv_index = it;
+            }
+        }
+        if (drv_index == -1) {
+            log_warning(sdlvideo_log, "Resource preferred renderer %s not available, trying arch default renderer(s)", sdl2_renderer_name);
+        }
+    }
+
+    /* Try arch default renderer(s) if the resource preferred renderer was not available */
+    for (l = 0; drv_index == -1 && archdep_sdl2_default_renderers[l]; ++l) {
+        for (it = 0; it < renderamount; ++it) {
+            if (!strcmp(archdep_sdl2_default_renderers[l], renderlist[it])) {
+                drv_index = it;
+            }
+        }
+    }
+
+    for (l = 0; l < renderamount; ++l) {
+        lib_free(renderlist[l]);
+    }
+    lib_free(renderlist);
+    renderlist = NULL;
+
+    log_message(sdlvideo_log, "Available Renderers: %s", rendername);
+
+    sdl2_renderer = SDL_CreateRenderer(sdl2_window, drv_index, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!sdl2_renderer) {
+        log_error(sdlvideo_log, "SDL_CreateRenderer() failed: %s\n", SDL_GetError());
+        SDL_DestroyWindow(sdl2_window);
+        sdl2_window = NULL;
+        return 0;
+    }
+    SDL_GetRenderDriverInfo(drv_index, &info);
+    log_message(sdlvideo_log, "SDL2 renderer driver selected: %s\n", info.name);
+    SDL_SetRenderDrawColor(sdl2_renderer, 0, 0, 0, 255);
+    SDL_RenderClear(sdl2_renderer);
+    SDL_RenderPresent(sdl2_renderer);
+    return 1;
+}
+
 static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
 {
     unsigned int new_width, new_height;
@@ -555,17 +644,12 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     unsigned int limit_w = (unsigned int)sdl_custom_width;
     unsigned int limit_h = (unsigned int)sdl_custom_height;
     int lightpen_updated = 0;
-    int it;
     int l;
     double aspect = 1.0;
-    char rendername[256] = { 0 };
-    char **renderlist = NULL;
-    int renderamount = SDL_GetNumRenderDrivers();
     unsigned int window_h = 0;
     unsigned int window_w = 0;
     int temp_h = 0;
     int temp_w = 0;
-    SDL_RendererInfo info;
     SDL_Texture *new_texture = NULL;
     SDL_Surface *new_screen = NULL;
 
@@ -626,89 +710,23 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         }
     }
 
-    if (!sdl2_window) {
-        /* Obtain the Window with the corresponding size and behavior based on the flags */
-        sdl2_window = SDL_CreateWindow(canvas->viewport->title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_w, window_h, flags);
-        if (sdl2_window == NULL) {
-            log_error(sdlvideo_log, "SDL_CreateWindow() failed: %s\n", SDL_GetError());
-            return NULL;
-        }
-
-        sdl_ui_set_window_icon(sdl2_window);
-
-        /* Allocate renderlist strings */
-        renderlist = lib_malloc((renderamount + 1) * sizeof(char *));
-
-        /* Fill in the renderlist and render info string */
-        for (it = 0; it < renderamount; ++it) {
-            SDL_GetRenderDriverInfo(it, &info);
-
-            strcat(rendername, info.name);
-            strcat(rendername, " ");
-            renderlist[it] = lib_stralloc(info.name);
-        }
-        renderlist[it] = NULL;
-
-        /* Check for resource preferred renderer */
-        if (sdl2_renderer_name != NULL && *sdl2_renderer_name != '\0') {
-            for (it = 0; it < renderamount; ++it) {
-                if (!strcmp(sdl2_renderer_name, renderlist[it])) {
-                    drv_index = it;
-                }
-            }
-            if (drv_index == -1) {
-                log_warning(sdlvideo_log, "Resource preferred renderer %s not available, trying arch default renderer(s)", sdl2_renderer_name);
-            }
-        }
-
-        /* Try arch default renderer(s) if the resource preferred renderer was not available */
-        for (l = 0; drv_index == -1 && archdep_sdl2_default_renderers[l]; ++l) {
-            for (it = 0; it < renderamount; ++it) {
-                if (!strcmp(archdep_sdl2_default_renderers[l], renderlist[it])) {
-                    drv_index = it;
-                }
-            }
-        }
-
-        for (l = 0; l < renderamount; ++l) {
-            lib_free(renderlist[l]);
-        }
-        lib_free(renderlist);
-        renderlist = NULL;
-
-        log_message(sdlvideo_log, "Available Renderers: %s", rendername);
-
-        sdl2_renderer = SDL_CreateRenderer(sdl2_window, drv_index, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-        if (!sdl2_renderer) {
-            log_error(sdlvideo_log, "SDL_CreateRenderer() failed: %s\n", SDL_GetError());
-            SDL_DestroyWindow(sdl2_window);
-            sdl2_window = NULL;
-            return NULL;
-        }
+    if (!sdl_window_create(canvas->viewport->title, window_w, window_h, flags)) {
+        /* We don't have a renderer and couldn't create one! Give up. */
+        return NULL;
     }
-    SDL_SetRenderDrawColor(sdl2_renderer, 0, 0, 0, 255);
-    SDL_RenderClear(sdl2_renderer);
-    SDL_RenderPresent(sdl2_renderer);
+    
     new_screen = SDL_CreateRGBSurface(0, actual_width, actual_height, sdl_bitdepth, rmask, gmask, bmask, amask);
     if (fullscreen) {
         SDL_RenderSetLogicalSize(sdl2_renderer, actual_width, actual_height);
     }
     if (!new_screen) {
         log_error(sdlvideo_log, "SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
-        SDL_DestroyRenderer(sdl2_renderer);
-        sdl2_renderer = NULL;
-        SDL_DestroyWindow(sdl2_window);
-        sdl2_window = NULL;
         return NULL;
     }
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     new_texture = SDL_CreateTexture(sdl2_renderer, texformat, SDL_TEXTUREACCESS_STREAMING, actual_width, actual_height);
     if (!new_texture) {
         SDL_FreeSurface(new_screen);
-        SDL_DestroyRenderer(sdl2_renderer);
-        sdl2_renderer = NULL;
-        SDL_DestroyWindow(sdl2_window);
-        sdl2_window = NULL;
         return NULL;
     }
 
@@ -739,9 +757,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     canvas->actual_height = actual_height;
     canvas->videoconfig->hwscale = 1;
 
-    SDL_GetRenderDriverInfo(drv_index, &info);
-
-    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp using %s%s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, info.name, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
+    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp %s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
 #endif
