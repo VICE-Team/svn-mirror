@@ -24,23 +24,23 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <top_srcdir> <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> [bin_format]
-#                         $1           $2      $3             $4              $5          $6               $7
+# Usage: make-bindist.sh <top_srcdir> <strip> <vice-version> <--enable-arch> <zip|nozip>
+#                         $1           $2      $3             $4              $5
 #
 
 RUN_PATH=`dirname $0`
 
-echo "Generating Mac OSX binary distribution."
+echo "Generating macOS binary distribution."
 
 TOP_DIR=$1
 STRIP=$2
 VICE_VERSION=$3
 ENABLEARCH=$4
 ZIP=$5
-X64SC=$6
-BIN_FORMAT=$7
 
-UI_TYPE=gtk3
+# define UI type
+UI_TYPE=GTK3
+echo "  UI type: $UI_TYPE"
 
 # check binary type
 TEST_BIN=src/x64
@@ -48,26 +48,24 @@ if [ ! -x $TEST_BIN ]; then
   echo "error missing binary $TEST_BIN"
   exit 1
 fi
-if [ x"$BIN_FORMAT" = "x" ]; then
-  BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | sed -e 's/executable//g' -e 's/Mach-O//g' -e 's/64-bit//g' | awk '{print $2}'`
-  if [ x"$BIN_TYPE" = "xi386" ]; then
-    BIN_FORMAT=i386
-  elif [ x"$BIN_TYPE" = "xx86_64" ]; then
-    BIN_FORMAT=x86_64
-  elif [ x"$BIN_TYPE" = "xppc" ]; then
-    BIN_FORMAT=ppc
-  else
-    echo "fatal: unknown bin type '$BIN_TYPE'"
-    exit 1
-  fi
+BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | sed -e 's/executable//g' -e 's/Mach-O//g' -e 's/64-bit//g' | awk '{print $2}'`
+if [ x"$BIN_TYPE" = "xi386" ]; then
+  BIN_FORMAT=i386
+elif [ x"$BIN_TYPE" = "xx86_64" ]; then
+  BIN_FORMAT=x86_64
+elif [ x"$BIN_TYPE" = "xppc" ]; then
+  BIN_FORMAT=ppc
+else
+  echo "fatal: unknown bin type '$BIN_TYPE'"
+  exit 1
 fi
 echo "  binary format: $BIN_FORMAT"
 
 # setup BUILD dir
 if [ x"$SDK_TAG" != "x" ]; then
-  BUILD_DIR=vice-macosx-$UI_TYPE-$BIN_FORMAT-$SDK_TAG-$VICE_VERSION
+  BUILD_DIR=VICE-macOS-$UI_TYPE-$BIN_FORMAT-$SDK_TAG-$VICE_VERSION
 else
-  BUILD_DIR=vice-macosx-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
+  BUILD_DIR=VICE-macOS-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
 fi
 if [ -d $BUILD_DIR ]; then
   rm -rf $BUILD_DIR
@@ -84,14 +82,8 @@ if [ ! -d $TOOL_DIR ]; then
   mkdir $TOOL_DIR
 fi
 
-if test x"$X64SC" = "xyes"; then
-  SCFILE="x64sc"
-else
-  SCFILE=""
-fi
-
 # define emulators and command line tools
-EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic"
+EMULATORS="x64 xscpu64 x64dtv x64sc x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 TOOLS="c1541 petcat cartconv"
 
 # define data files for emulators
@@ -509,6 +501,7 @@ cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
 cp $TOP_DIR/README $BUILD_DIR/README.txt
 mkdir "$BUILD_DIR/doc"
 copy_tree "$TOP_DIR/doc" "$BUILD_DIR/doc"
+mv $BUILD_DIR/doc/readmes/Readme-$UI_TYPE.txt $BUILD_DIR/
 (cd $BUILD_DIR/doc && eval "rm -rf $DOC_REMOVE")
 
 # --- copy fonts ---
