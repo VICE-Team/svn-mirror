@@ -525,14 +525,14 @@ static void init_drawing_tables(void)
 
 #define TRIM_MSK(msk, size)                                                 \
     do {                                                                    \
-        int i;                                                              \
+        int k;                                                              \
         int display_width = (MIN(sprite_xe + 1, size) - MAX(0, sprite_xs)); \
         msk = 0;                                                            \
         if (display_width > 0) {                                            \
-            for (i = 0; i < display_width; i++) {                           \
+            for (k = 0; k < display_width; k++) {                           \
                 msk = (msk << 1) | 1;                                       \
             }                                                               \
-            for (i = 0; i < size - sprite_xe - 1; i++) {                    \
+            for (k = 0; k < size - sprite_xe - 1; k++) {                    \
                 msk <<= 1;                                                  \
             }                                                               \
         }                                                                   \

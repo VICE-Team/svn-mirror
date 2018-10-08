@@ -864,10 +864,10 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
         DRAW_MC_BYTE(p, b, c1, c2, c3);
 
         if (vicii.raster.xsmooth_shift_left > 0) {
-            int j;
+            int k;
 
-            for (j = 0; j < vicii.raster.xsmooth_shift_left; j++) {
-                p[7 - j] = orig_background;
+            for (k = 0; k < vicii.raster.xsmooth_shift_left; k++) {
+                p[7 - k] = orig_background;
             }
 
             msk_ptr[i] = (uint8_t)((mcmsktable[b]
