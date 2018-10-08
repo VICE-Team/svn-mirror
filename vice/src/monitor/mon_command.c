@@ -821,22 +821,22 @@ void mon_command_print_help(const char *cmd)
         } else if (mon_cmd_array[cmd_num].description == NULL) {
             mon_out("No help available for `%s'\n", cmd);
         } else {
-            const mon_cmds_t *c;
+            const mon_cmds_t *mc;
 
-            c = &mon_cmd_array[cmd_num];
+            mc = &mon_cmd_array[cmd_num];
 
-            if (c->param_names == NULL) {
+            if (mc->param_names == NULL) {
                 parameters = NULL;
             } else {
-                parameters = lib_stralloc(_(c->param_names));
+                parameters = lib_stralloc(_(mc->param_names));
             }
 
-            mon_out("\nSyntax: %s %s\n", c->str, parameters != NULL ? parameters : "");
+            mon_out("\nSyntax: %s %s\n", mc->str, parameters != NULL ? parameters : "");
             lib_free(parameters);
-            if (!util_check_null_string(c->abbrev)) {
-                mon_out("Abbreviation: %s\n", c->abbrev);
+            if (!util_check_null_string(mc->abbrev)) {
+                mon_out("Abbreviation: %s\n", mc->abbrev);
             }
-            mon_out("\n%s\n\n", c->description);
+            mon_out("\n%s\n\n", mc->description);
         }
     }
 }

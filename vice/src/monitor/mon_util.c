@@ -241,7 +241,7 @@ char *mon_dump_with_label(MEMSPACE memspace, uint16_t loc, int hex, unsigned *la
 #if !(defined(__OS2__) && !defined(USE_SDLUI))
 static char *pchCommandLine = NULL;
 
-void mon_set_command(console_t *console_log, char *command,
+void mon_set_command(console_t *cons_log, char *command,
                      void (*pAfter)(void))
 {
     pchCommandLine = command;
