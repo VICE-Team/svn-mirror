@@ -182,33 +182,33 @@ void eeprom_seq_write(uint8_t value)
     }
 }
 
-int eeprom_execute_command(int eeprom_mode)
+int eeprom_execute_command(int mode)
 {
     if ((eeprom_cmdbit != 0) || (eeprom_cmdpos == 0)) {
-/*LOG(("eeprom mode:%02x %02x %02x",eeprom_mode,eeprom_cmdbit,eeprom_cmdpos)); */
-        return eeprom_mode;
+/*LOG(("eeprom mode:%02x %02x %02x",mode,eeprom_cmdbit,eeprom_cmdpos)); */
+        return mode;
     }
-/*LOG(("eeprom CMD:%02x mode:%02x %02x %02x",eeprom_cmdbuf[0],eeprom_mode,eeprom_cmdbit,eeprom_cmdpos)); */
+/*LOG(("eeprom CMD:%02x mode:%02x %02x %02x",eeprom_cmdbuf[0],mode,eeprom_cmdbit,eeprom_cmdpos)); */
     switch (eeprom_cmdbuf[0]) {
         case 0xa0:             /* set read/write position, switches to write mode */
             switch (eeprom_cmdpos) {
                 case 1:
-                    if (eeprom_mode != EEPROM_INSEQ) {
+                    if (mode != EEPROM_INSEQ) {
                         break;
                     }
 /*LOG(("eeprom CMDA0     (%02x) %02x",eeprom_cmdbuf[0],eeprom_cmdbuf[1]));*/
-                    eeprom_mode = EEPROM_INCA0;
+                    mode = EEPROM_INCA0;
                     break;
                 case 2:
-                    if (eeprom_mode != EEPROM_INCA0) {
+                    if (mode != EEPROM_INCA0) {
                         break;
                     }
 /*LOG(("eeprom CMDA0 pos %02x (%02x)",eeprom_cmdbuf[0],eeprom_cmdbuf[1])); */
-                    eeprom_mode = EEPROM_INCA0_DATA;
+                    mode = EEPROM_INCA0_DATA;
                     eeprom_readpos = (eeprom_cmdbuf[1] << 3);
                     break;
                 default:
-                    if (eeprom_mode != EEPROM_INCA0_DATA) {
+                    if (mode != EEPROM_INCA0_DATA) {
                         break;
                     }
 #ifdef LOG_WRITE_BYTES
@@ -223,18 +223,18 @@ int eeprom_execute_command(int eeprom_mode)
         case 0xa1:
             switch (eeprom_cmdpos) {
                 case 1:
-                    if (eeprom_mode != EEPROM_INSEQ) {
+                    if (mode != EEPROM_INSEQ) {
                         break;
                     }
 #ifdef LOG_COMMANDS
                     LOG(("eeprom CMDA1     (%02x) %02x", eeprom_cmdbuf[0],
                          eeprom_cmdbuf[1]));
 #endif
-                    eeprom_mode = EEPROM_INCA1_DATA;
+                    mode = EEPROM_INCA1_DATA;
                     eeprom_readpos = ((eeprom_cmdbuf[1]) & 0x03ff) << 3;
                     break;
                 default:
-                    if (eeprom_mode != EEPROM_INCA1_DATA) {
+                    if (mode != EEPROM_INCA1_DATA) {
                         break;
                     }
 #ifdef LOG_COMMANDS
@@ -249,7 +249,7 @@ int eeprom_execute_command(int eeprom_mode)
 /*LOG(("eeprom cmd %d:%02x %02x",eeprom_cmdpos,eeprom_cmdbuf[0],eeprom_cmdbuf[1]));*/
             break;
     }
-    return eeprom_mode;
+    return mode;
 }
 
 void eeprom_port_write(uint8_t clk, uint8_t data, int ddr, int status)
