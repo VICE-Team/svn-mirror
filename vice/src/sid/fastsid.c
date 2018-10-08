@@ -442,7 +442,7 @@ static void trigger_adsr(voice_t *pv)
     }
 }
 
-static void print_voice(char *buf, voice_t *pv)
+static void print_voice(char *b, voice_t *pv)
 {
     const char *m = "ADSRI";
 #ifdef WAVETABLES
@@ -450,7 +450,7 @@ static void print_voice(char *buf, voice_t *pv)
 #else
     const char *w = "TPSTN-R5";
 #endif
-    sprintf(buf,
+    sprintf(b,
             "#SID: V%d: e=%5.1f%%(%c) w=%6.1fHz(%c) f=%5.1f%% p=%5.1f%%\n",
             pv->nr,
             (double)pv->adsr * 100.0 / (((uint32_t)1 << 31) - 1), m[pv->adsrm],
@@ -472,16 +472,16 @@ static void print_voice(char *buf, voice_t *pv)
 static char *fastsid_dump_state(sound_t *psid)
 {
     int i;
-    char buf[1024];
+    char b[1024];
 
-    sprintf(buf, "#SID: clk=%ld v=%d s3=%d\n",
+    sprintf(b, "#SID: clk=%ld v=%d s3=%d\n",
             (long)maincpu_clk, psid->vol, psid->has3);
 
     for (i = 0; i < 3; i++) {
-        print_voice(buf + strlen(buf), &psid->v[i]);
+        print_voice(b + strlen(b), &psid->v[i]);
     }
 
-    return lib_stralloc(buf);
+    return lib_stralloc(b);
 }
 
 /* update SID structure */
