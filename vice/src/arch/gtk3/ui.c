@@ -780,7 +780,7 @@ int vice_atexit(void (*function)(void))
     return 0;
 }
 
-void vice_exit(int excode)
+static void vice_exit(int excode)
 {
     const void (*f)(void);
 
@@ -1736,7 +1736,11 @@ void ui_exit(void)
     /* clean up boot path */
     archdep_boot_path_free();
 
+#ifdef ARCHDEP_OS_WINDOWS
+    vice_exit(0);
+#else
     exit(0);
+#endif
 }
 
 /** \brief  Send current light pen state to the emulator core for all windows
