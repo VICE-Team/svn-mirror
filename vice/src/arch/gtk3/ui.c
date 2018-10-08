@@ -762,21 +762,16 @@ void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
 #ifdef WIN32_COMPILE
 #define ATEXIT_MAX_FUNCS 64
 
-static void *atexit_functions[ATEXIT_MAX_FUNCS + 1];
+static void (*atexit_functions[ATEXIT_MAX_FUNCS + 1])(void);
+
 
 static int atexit_counter = 0;
 
 int vice_atexit(void (*function)(void))
 {
-    int i;
-
-    if (!atexit_counter) {
-        for (i = 0; i <= ATEXIT_MAX_FUNCS; ++i) {
-            atexit_functions[i] = NULL;
-        }
-    }
-
+    debug_gtk3("registering function %p.", function);
     if (atexit_counter == ATEXIT_MAX_FUNCS) {
+        debug_gtk3("ERROR: max atexit functions reached.");
         return 1;
     }
 
@@ -785,15 +780,18 @@ int vice_atexit(void (*function)(void))
     return 0;
 }
 
-static void atexit_functions_execute(void)
+void vice_exit(int excode)
 {
-    int i = atexit_counter -1;
-    void (*f)(void) = NULL;
+    const void (*f)(void);
 
-    while (i >= 0 && atexit_functions[i]) {
-        f = atexit_functions[i--];
+    debug_gtk3("unrolling atexit stack:");
+    /* don't check for NULL, segfaults allow backtraces in gdb */
+    while (atexit_counter-- >= 0) {
+        f = atexit_functions[atexit_counter];
+        debug_gtk3("running atexit %d: %p.", atexit_counter, f)
         f();
     }
+    exit(excode);
 }
 #endif  /* ifdef WIN32_COMPILE */
 
@@ -1738,11 +1736,6 @@ void ui_exit(void)
     /* clean up boot path */
     archdep_boot_path_free();
 
-
-    /* FIXME: this has to go */
-#ifdef WIN32_COMPILE
-    atexit_functions_execute();
-#endif
     exit(0);
 }
 

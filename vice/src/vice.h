@@ -168,7 +168,12 @@ static int noop;
 
 
 #if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-#define atexit vice_atexit
+# define atexit vice_atexit
+/* temp. disabled
+# define exit_org exit
+# undef exit
+# define exit vice_exit
+*/
 #endif
 
 #endif
