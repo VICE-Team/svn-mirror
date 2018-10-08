@@ -199,18 +199,18 @@ static void restore_int(unsigned int int_num, int value)
 {
 }
 
-static void set_ca(tpi_context_t *tpi_context, int a)
+static void set_ca(tpi_context_t *tpi_ctx, int a)
 {
 }
 
-static void set_cb(tpi_context_t *tpi_context, int a)
+static void set_cb(tpi_context_t *tpi_ctx, int a)
 {
 }
 
 static int ieee_is_dev = 1;
 static uint8_t ieee_is_out = 1;
 
-static void reset(tpi_context_t *tpi_context)
+static void reset(tpi_context_t *tpi_ctx)
 {
     /* assuming input after reset */
     parallel_cpu_set_atn(0);
@@ -224,15 +224,15 @@ static void reset(tpi_context_t *tpi_context)
     ieee_is_out = 1;
 }
 
-static void store_pa(tpi_context_t *tpi_context, uint8_t byte)
+static void store_pa(tpi_context_t *tpi_ctx, uint8_t byte)
 {
-    if (byte != tpi_context->oldpa) {
+    if (byte != tpi_ctx->oldpa) {
         uint8_t tmp = ~byte;
 
         ieee_is_dev = byte & 0x01;
         ieee_is_out = byte & 0x02;
 
-        parallel_cpu_set_bus((uint8_t)(ieee_is_out ? tpi_context->oldpb : 0xff));
+        parallel_cpu_set_bus((uint8_t)(ieee_is_out ? tpi_ctx->oldpb : 0xff));
 
         if (ieee_is_out) {
             parallel_cpu_set_ndac(0);
@@ -253,18 +253,18 @@ static void store_pa(tpi_context_t *tpi_context, uint8_t byte)
     }
 }
 
-static void store_pb(tpi_context_t *tpi_context, uint8_t byte)
+static void store_pb(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     parallel_cpu_set_bus((uint8_t)(ieee_is_out ? byte : 0xff));
 }
 
-static void undump_pa(tpi_context_t *tpi_context, uint8_t byte)
+static void undump_pa(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     uint8_t tmp = ~byte;
     ieee_is_dev = byte & 0x01;
     ieee_is_out = byte & 0x02;
 
-    parallel_cpu_set_bus((uint8_t)(ieee_is_out ? tpi_context->oldpb : 0xff));
+    parallel_cpu_set_bus((uint8_t)(ieee_is_out ? tpi_ctx->oldpb : 0xff));
 
     if (ieee_is_out) {
         parallel_cpu_set_ndac(0);
@@ -284,25 +284,27 @@ static void undump_pa(tpi_context_t *tpi_context, uint8_t byte)
     }
 }
 
-static void undump_pb(tpi_context_t *tpi_context, uint8_t byte)
+static void undump_pb(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     parallel_cpu_set_bus((uint8_t)(ieee_is_out ? byte : 0xff));
 }
 
-static void store_pc(tpi_context_t *tpi_context, uint8_t byte)
+static void store_pc(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     int exrom = ((byte & 0x08) ? 0 : 1); /* bit 3, 1 = active */
     rom_enabled = ((byte & 0x10) ? 1 : 0); /* bit 4, 1 = active */
     /* passthrough support */
-    DBG(("TPI store_pc %02x (rom enabled: %d exrom: %d game: %d)\n", byte, rom_enabled, exrom ^ 1, tpi_extgame));
-    cart_config_changed_slot0((uint8_t)((exrom << 1) | tpi_extgame), (uint8_t)((exrom << 1) | tpi_extgame), CMODE_READ);
+    DBG(("TPI store_pc %02x (rom enabled: %d exrom: %d game: %d)\n",
+                byte, rom_enabled, exrom ^ 1, tpi_extgame));
+    cart_config_changed_slot0((uint8_t)((exrom << 1) | tpi_extgame),
+            (uint8_t)((exrom << 1) | tpi_extgame), CMODE_READ);
 }
 
-static void undump_pc(tpi_context_t *tpi_context, uint8_t byte)
+static void undump_pc(tpi_context_t *tpi_ctx, uint8_t byte)
 {
 }
 
-static uint8_t read_pa(tpi_context_t *tpi_context)
+static uint8_t read_pa(tpi_context_t *tpi_ctx)
 {
     uint8_t byte;
 
@@ -330,31 +332,34 @@ static uint8_t read_pa(tpi_context_t *tpi_context)
         }
     }
 
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPA]) | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
+    byte = (byte & ~(tpi_ctx->c_tpi)[TPI_DDPA])
+        | (tpi_ctx->c_tpi[TPI_PA] & tpi_ctx->c_tpi[TPI_DDPA]);
 
     return byte;
 }
 
-static uint8_t read_pb(tpi_context_t *tpi_context)
+static uint8_t read_pb(tpi_context_t *tpi_ctx)
 {
     uint8_t byte;
 
     drive_cpu_execute_all(maincpu_clk);
 
     byte = ieee_is_out ? 0xff : parallel_bus;
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB]) | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
+    byte = (byte & ~(tpi_ctx->c_tpi)[TPI_DDPB])
+        | (tpi_ctx->c_tpi[TPI_PB] & tpi_ctx->c_tpi[TPI_DDPB]);
 
     return byte;
 }
 
-static uint8_t read_pc(tpi_context_t *tpi_context)
+static uint8_t read_pc(tpi_context_t *tpi_ctx)
 {
     uint8_t byte = 0xff;
 
     if (tpi_extexrom) {
         byte &= ~(1 << 7);
     }
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
+    byte = (byte & ~(tpi_ctx->c_tpi)[TPI_DDPC])
+        | (tpi_ctx->c_tpi[TPI_PC] & tpi_ctx->c_tpi[TPI_DDPC]);
     return byte;
 }
 
@@ -378,13 +383,13 @@ void tpi_shutdown(void)
     tpicore_shutdown(tpi_context);
 }
 
-void tpi_setup_context(machine_context_t *machine_context)
+void tpi_setup_context(machine_context_t *machine_ctx)
 {
     tpi_context = lib_malloc(sizeof(tpi_context_t));
 
     tpi_context->prv = NULL;
 
-    tpi_context->context = (void *)machine_context;
+    tpi_context->context = (void *)machine_ctx;
 
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
@@ -409,10 +414,10 @@ void tpi_setup_context(machine_context_t *machine_context)
     tpi_context->restore_int = restore_int;
 }
 
-void tpi_passthrough_changed(export_t *export)
+void tpi_passthrough_changed(export_t *ex)
 {
-    tpi_extexrom = (export)->exrom;
-    tpi_extgame = (export)->game;
+    tpi_extexrom = ex->exrom;
+    tpi_extgame = ex->game;
     DBG(("IEEE488 passthrough changed exrom: %d game: %d\n", tpi_extexrom, tpi_extgame));
 
     cart_set_port_game_slot0(tpi_extgame);
@@ -587,12 +592,12 @@ int tpi_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
     return CART_READ_THROUGH;
 }
 
-void tpi_config_init(export_t *export)
+void tpi_config_init(export_t *ex)
 {
     DBG(("TPI: tpi_config_init\n"));
 
-    tpi_extexrom = export->exrom;
-    tpi_extgame = export->game;
+    tpi_extexrom = ex->exrom;
+    tpi_extgame = ex->game;
 
     cart_set_port_exrom_slot0(1);
     cart_set_port_game_slot0(tpi_extgame);

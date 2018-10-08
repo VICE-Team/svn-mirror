@@ -133,7 +133,7 @@ static const export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-int gamekiller_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int gamekiller_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (cartridge_disable_flag <= 1) {
         if (addr >= 0xe000) {

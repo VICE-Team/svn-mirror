@@ -629,7 +629,7 @@ int mmc64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limi
     return CART_READ_THROUGH;
 }
 
-void mmc64_config_init(export_t *export)
+void mmc64_config_init(export_t *ex)
 {
     LOG(("MMC64 mmc64_config_init"));
 
@@ -647,8 +647,8 @@ void mmc64_config_init(export_t *export)
     mmc64_extexrom = 0;
     mmc64_extgame = 0;
 #endif
-    mmc64_extexrom = export->exrom;
-    mmc64_extgame = export->game;
+    mmc64_extexrom = ex->exrom;
+    mmc64_extgame = ex->game;
 
     if (mmc64_enabled) {
 #if USEPASSTHROUGHHACK
@@ -662,10 +662,10 @@ void mmc64_config_init(export_t *export)
     }
 }
 
-void mmc64_passthrough_changed(export_t *export)
+void mmc64_passthrough_changed(export_t *ex)
 {
-    mmc64_extexrom = export->exrom;
-    mmc64_extgame = export->game;
+    mmc64_extexrom = ex->exrom;
+    mmc64_extgame = ex->game;
     LOG(("MMC64 passthrough changed exrom: %d game: %d (mmc64_active: %d)", mmc64_extexrom, mmc64_extgame, mmc64_active));
     if (!mmc64_active) {
         cart_set_port_game_slot0(mmc64_extgame);

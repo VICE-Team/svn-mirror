@@ -742,11 +742,11 @@ const char *cart_get_file_name(int type)
 /* FIXME: shutdown missing */
 
 /* called once by machine_setup_context */
-void cartridge_setup_context(machine_context_t *machine_context)
+void cartridge_setup_context(machine_context_t *context)
 {
     /* "Slot 0" */
-    tpi_setup_context(machine_context);
-    magicvoice_setup_context(machine_context);
+    tpi_setup_context(context);
+    magicvoice_setup_context(context);
     /* mmc64 */
 
     /* "Slot 1" */

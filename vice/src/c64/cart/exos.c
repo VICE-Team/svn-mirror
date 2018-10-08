@@ -76,7 +76,7 @@ int exos_romh_phi2_read(uint16_t addr, uint8_t *value)
     return exos_romh_phi1_read(addr, value);
 }
 
-int exos_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int exos_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (addr >= 0xe000) {
         *value = romh_banks[addr & 0x1fff];

@@ -157,7 +157,8 @@ static FILE *crt_open(const char *filename, crt_header_t *header)
         header->exrom = crt_header[0x18];
         header->game = crt_header[0x19];
         memset(header->name, 0, sizeof(header->name));
-        strncpy(header->name, (char*)&crt_header[0x20], sizeof(header->name) - 1);
+        strncpy(header->name, (char *)(crt_header + 0x20),
+                sizeof(header->name) - 1);
 
         fseek(fd, skip, SEEK_CUR); /* skip the rest */
 
@@ -286,7 +287,7 @@ FILE *crt_create(const char *filename, int type, int exrom, int game, const char
     util_word_to_be_buf(&crt_header[0x16], (uint16_t)type);
     crt_header[0x18] = exrom ? 1 : 0;
     crt_header[0x19] = game ? 1 : 0;
-    strncpy((char*)&crt_header[0x20], name, sizeof(crt_header) - 0x20);
+    strncpy((char*)(crt_header + 0x20), name, sizeof(crt_header) - 0x20 - 1);
 
     if (fwrite(crt_header, sizeof(crt_header), 1, fd) < 1) {
         fclose(fd);

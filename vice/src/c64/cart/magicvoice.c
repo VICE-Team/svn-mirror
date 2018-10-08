@@ -179,7 +179,7 @@ static void update_dtrd(void)
 }
 
 /* hooked to callback of t6721 chip */
-static uint8_t read_data(t6721_state *t6721, unsigned int *bit)
+static uint8_t read_data(t6721_state *state, unsigned int *bit)
 {
     *bit = 0;
 
@@ -269,32 +269,32 @@ static void write_data_nibble(uint8_t nibble)
 }
 
 /* hooked to callback of t6721 chip */
-static void set_dtrd(t6721_state *t6721)
+static void set_dtrd(t6721_state *state)
 {
     static int old;
-    if (old != t6721->dtrd) {
+    if (old != state->dtrd) {
 #ifdef IRQDEBUG
-        DBG(("MV: set dtrd IRQ:%x\n", t6721->dtrd));
+        DBG(("MV: set dtrd IRQ:%x\n", state->dtrd));
 #endif
-/*        DTRD = t6721->dtrd; */
+/*        DTRD = state->dtrd; */
         update_dtrd();
-        tpicore_set_int(tpi_context, NMI_DTRD, t6721->dtrd);
-        tpicore_set_int(tpi_context, NMI_DTRD, t6721->dtrd ^ 1);
+        tpicore_set_int(tpi_context, NMI_DTRD, state->dtrd);
+        tpicore_set_int(tpi_context, NMI_DTRD, state->dtrd ^ 1);
 #if 0
-        if (t6721->dtrd) {
+        if (state->dtrd) {
             cart_trigger_nmi();
         } else {
             cartridge_release_freeze();
         }
 #endif
-        old = t6721->dtrd;
+        old = state->dtrd;
     }
 }
 
 /* hooked to callback of t6721 chip */
-static void set_apd(t6721_state *t6721)
+static void set_apd(t6721_state *state)
 {
-    if (t6721->apd) {
+    if (state->apd) {
         fifo_reset = 1; /* set FIFO reset condition */
 
         /* reset FIFO */
@@ -304,16 +304,16 @@ static void set_apd(t6721_state *t6721)
 
         update_dtrd();
     }
-    DBG(("MV: set apd:%x\n", t6721->apd));
-    /* tpicore_set_int(tpi_context, NMI_APD, t6721->apd ^ 1); */
+    DBG(("MV: set apd:%x\n", state->apd));
+    /* tpicore_set_int(tpi_context, NMI_APD, state->apd ^ 1); */
 }
 
 /* hooked to callback of t6721 chip */
-static void set_eos(t6721_state *t6721)
+static void set_eos(t6721_state *state)
 {
-    DBG(("MV: set eos:%x\n", t6721->eos));
-    tpicore_set_int(tpi_context, NMI_EOS, t6721->eos ^ 1);
-    tpicore_set_int(tpi_context, NMI_EOS, t6721->eos);
+    DBG(("MV: set eos:%x\n", state->eos));
+    tpicore_set_int(tpi_context, NMI_EOS, state->eos ^ 1);
+    tpicore_set_int(tpi_context, NMI_EOS, state->eos);
 }
 
 /*****************************************************************************
@@ -568,7 +568,7 @@ static void restore_int(unsigned int int_num, int value)
     DBG(("MV: tpi restore int %02x %02x\n", int_num, value));
 }
 
-static void reset(tpi_context_t *tpi_context)
+static void reset(tpi_context_t *tpi_ctx)
 {
     DBG(("MV: tpi reset\n"));
 }
@@ -595,7 +595,7 @@ static void reset(tpi_context_t *tpi_context)
 #define MV_EXROM_GAMECART 0
 #endif
 
-static uint8_t read_pa(tpi_context_t *tpi_context)
+static uint8_t read_pa(tpi_context_t *tpi_ctx)
 {
     uint8_t byte = 0;
 #ifdef USEPASSTHROUGHHACK
@@ -613,13 +613,14 @@ static uint8_t read_pa(tpi_context_t *tpi_context)
     byte |= ((t6721->eos ^ 1) << 6); /* !EOS = End of Speech from T6721 */
     byte |= (DTRD << 7); /* DIR = Data in Ready from 40105 */
 
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPA]) | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
+    byte = (byte & ~(tpi_ctx->c_tpi)[TPI_DDPA])
+        | (tpi_ctx->c_tpi[TPI_PA] & tpi_ctx->c_tpi[TPI_DDPA]);
     /* DBG(("MV: read pa %02x\n", byte)); */
 
     return byte;
 }
 
-static void store_pa(tpi_context_t *tpi_context, uint8_t byte)
+static void store_pa(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     static uint8_t last;
 /* DBG(("MV: store pa %02x\n", byte)); */
@@ -641,7 +642,7 @@ static void store_pa(tpi_context_t *tpi_context, uint8_t byte)
     PB6         OUT? -> Gate Array (with pullup)
     PB7         IN:  !EXROM <- Exrom of the MV Cartridge Port (with pullup)
 */
-static void store_pb(tpi_context_t *tpi_context, uint8_t byte)
+static void store_pb(tpi_context_t *tpi_ctx, uint8_t byte)
 {
 /* DBG(("MV: store pp %02x\n", byte)); */
     t6721->wr = (byte >> 4) & 1; /* wr line */
@@ -654,7 +655,7 @@ static void store_pb(tpi_context_t *tpi_context, uint8_t byte)
     ga_memconfig_changed(CMODE_READ);
 }
 
-static uint8_t read_pb(tpi_context_t *tpi_context)
+static uint8_t read_pb(tpi_context_t *tpi_ctx)
 {
     uint8_t byte = 0;
 
@@ -675,7 +676,8 @@ static uint8_t read_pb(tpi_context_t *tpi_context)
     /* DBG(("MV: read pb extexrom %d\n", mv_extexrom)); */
     byte |= ((mv_extexrom ^ 1) << 7);
 #endif
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB]) | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
+    byte = (byte & ~(tpi_ctx->c_tpi)[TPI_DDPB])
+        | (tpi_ctx->c_tpi[TPI_PB] & tpi_ctx->c_tpi[TPI_DDPB]);
 
     return byte;
 }
@@ -692,7 +694,7 @@ static uint8_t read_pb(tpi_context_t *tpi_context)
     PC6         OUT: (CA) CA ? <-> Gate Array (with pullup) (toggles rom on/off ?)
     PC7         OUT: (CB) !EXROM -> C64 Cartridge Port
 */
-static void store_pc(tpi_context_t *tpi_context, uint8_t byte)
+static void store_pc(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     /* this function is actually never used ? */
     DBG(("MV: store pc %02x\n", byte));
@@ -711,7 +713,7 @@ static void store_pc(tpi_context_t *tpi_context, uint8_t byte)
 #endif
 }
 
-static uint8_t read_pc(tpi_context_t *tpi_context)
+static uint8_t read_pc(tpi_context_t *tpi_ctx)
 {
     static uint8_t byte = 0;
 #if 0
@@ -719,36 +721,37 @@ static uint8_t read_pc(tpi_context_t *tpi_context)
     byte |= ((t6721->eos ^ 1) << 2); /* !EOS (End of Speech) */
     byte |= (DTRD << 3); /* DIR (Data in Ready) */
 #endif
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
+    byte = (byte & ~(tpi_ctx->c_tpi)[TPI_DDPC])
+        | (tpi_ctx->c_tpi[TPI_PC] & tpi_ctx->c_tpi[TPI_DDPC]);
     DBG(("MV: read pc %02x\n", byte));
     return byte;
 }
 
-static void set_ca(tpi_context_t *tpi_context, int a)
+static void set_ca(tpi_context_t *tpi_ctx, int a)
 {
 /* DBG(("MV: set ca %02x\n", a)); */
     ga_pc6 = (a != 0);
     ga_memconfig_changed(CMODE_READ);
 }
 
-static void set_cb(tpi_context_t *tpi_context, int a)
+static void set_cb(tpi_context_t *tpi_ctx, int a)
 {
 /* DBG(("MV: set cb %02x\n", a)); */
     mv_exrom = (a == 0);
     ga_memconfig_changed(CMODE_READ);
 }
 
-static void undump_pa(tpi_context_t *tpi_context, uint8_t byte)
+static void undump_pa(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     DBG(("MV: undump pa %02x\n", byte));
 }
 
-static void undump_pb(tpi_context_t *tpi_context, uint8_t byte)
+static void undump_pb(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     DBG(("MV: undump pb %02x\n", byte));
 }
 
-static void undump_pc(tpi_context_t *tpi_context, uint8_t byte)
+static void undump_pc(tpi_context_t *tpi_ctx, uint8_t byte)
 {
     DBG(("MV: undump pc %02x\n", byte));
 }
@@ -1058,10 +1061,10 @@ int magicvoice_peek_mem(uint16_t addr, uint8_t *value)
     return CART_READ_C64MEM;
 }
 
-void magicvoice_passthrough_changed(export_t *export)
+void magicvoice_passthrough_changed(export_t *ex)
 {
-    mv_extexrom = export->exrom;
-    mv_extgame = export->game;
+    mv_extexrom = ex->exrom;
+    mv_extgame = ex->game;
     DBG(("MV passthrough changed exrom: %d game: %d\n", mv_extexrom, mv_extgame));
 
     ga_memconfig_changed(CMODE_READ);
@@ -1204,7 +1207,7 @@ void magicvoice_shutdown(void)
     }
 }
 
-void magicvoice_setup_context(machine_context_t *machine_context)
+void magicvoice_setup_context(machine_context_t *machine_ctx)
 {
     DBG(("MV: setup_context\n"));
 
@@ -1212,7 +1215,7 @@ void magicvoice_setup_context(machine_context_t *machine_context)
 
     tpi_context->prv = NULL;
 
-    tpi_context->context = (void *)machine_context;
+    tpi_context->context = (void *)machine_ctx;
 
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
@@ -1320,12 +1323,12 @@ int magicvoice_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
 }
 
 /* called at reset */
-void magicvoice_config_init(export_t *export)
+void magicvoice_config_init(export_t *ex)
 {
     DBG(("MV: magicvoice_config_init\n"));
 
-    mv_extexrom = export->exrom;
-    mv_extgame = export->game;
+    mv_extexrom = ex->exrom;
+    mv_extgame = ex->game;
 
     if (magicvoice_sound_chip.chip_enabled) {
         mv_exrom = 1;

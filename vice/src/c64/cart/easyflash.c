@@ -370,11 +370,12 @@ void easyflash_config_setup(uint8_t *rawcart)
      * check for presence of EAPI
      */
     if (memcmp(&romh_banks[0x1800], "eapi", 4) == 0) {
-        char eapi[17]; int i;
-        for (i = 0; i < 16; i++) {
-            eapi[i] = romh_banks[0x1804 + i] & 0x7f;
+        char eapi[17];
+        int k;
+        for (k = 0; k < 16; k++) {
+            eapi[k] = romh_banks[0x1804 + k] & 0x7f;
         }
-        eapi[i] = 0;
+        eapi[k] = 0;
         log_message(LOG_DEFAULT, "EF: EAPI found (%s)", eapi);
     } else {
         log_warning(LOG_DEFAULT, "EF: EAPI not found! Are you sure this is a proper EasyFlash image?");

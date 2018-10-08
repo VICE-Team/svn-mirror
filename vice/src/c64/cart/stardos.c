@@ -280,7 +280,7 @@ int stardos_romh_phi2_read(uint16_t addr, uint8_t *value)
     return stardos_romh_phi1_read(addr, value);
 }
 
-int stardos_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int stardos_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (roml_enable) {
         if (addr >= 0x8000 && addr <= 0x9fff) {

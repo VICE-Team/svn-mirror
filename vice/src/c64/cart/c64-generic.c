@@ -354,7 +354,7 @@ int generic_romh_phi2_read(uint16_t addr, uint8_t *value)
     return generic_romh_phi1_read(addr, value);
 }
 
-int generic_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int generic_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         if (export_ram) {
@@ -365,7 +365,7 @@ int generic_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
         return CART_READ_VALID;
     }
 
-    if (!(((export_t*)export)->exrom) && (((export_t*)export)->game)) {
+    if (!(((export_t*)ex)->exrom) && (((export_t*)ex)->game)) {
         if (addr >= 0xe000) {
             *value = romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
             return CART_READ_VALID;

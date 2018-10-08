@@ -195,7 +195,7 @@ void gmod2_romh_store(uint16_t addr, uint8_t value)
     }
 }
 
-int gmod2_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int gmod2_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         *value = gmod2_roml_read(addr);

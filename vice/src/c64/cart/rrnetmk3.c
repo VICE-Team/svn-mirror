@@ -287,7 +287,7 @@ int rrnetmk3_roml_read(uint16_t addr)
     return mem_ram[addr];
 }
 
-int rrnetmk3_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int rrnetmk3_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
         if (!rrnetmk3_biossel) {

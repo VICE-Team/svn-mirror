@@ -189,7 +189,7 @@ int final_plus_romh_phi2_read(uint16_t addr, uint8_t *value)
     return final_plus_romh_phi1_read(addr, value);
 }
 
-int final_plus_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int final_plus_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (fcplus_roml == 1) {
         if (addr >= 0x8000 && addr <= 0x9fff) {

@@ -616,13 +616,13 @@ void retroreplay_romh_store(uint16_t addr, uint8_t value)
     }
 }
 
-int retroreplay_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int retroreplay_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         *value = retroreplay_roml_read(addr);
         return CART_READ_VALID;
     }
-    if (!(export->exrom) && (export->game)) {
+    if (!(ex->exrom) && (ex->game)) {
         if (addr >= 0xe000) {
             *value = retroreplay_romh_read(addr);
             return CART_READ_VALID;

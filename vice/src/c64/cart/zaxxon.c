@@ -61,7 +61,7 @@ uint8_t zaxxon_roml_read(uint16_t addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-int zaxxon_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
+int zaxxon_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         *value = roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
