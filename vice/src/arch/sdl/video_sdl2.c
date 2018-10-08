@@ -46,7 +46,6 @@
 #include "joy.h"
 #include "joystick.h"
 #include "lib.h"
-#include "lightpendrv.h"
 #include "log.h"
 #include "machine.h"
 #include "palette.h"
@@ -512,16 +511,6 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
         }
     }
 
-    /* Update lightpen adjustment parameters */
-    sdl_lightpen_adjust.offset_x = dest_x;
-    sdl_lightpen_adjust.offset_y = dest_y;
-
-    sdl_lightpen_adjust.max_x = dest_w;
-    sdl_lightpen_adjust.max_y = dest_h;
-
-    sdl_lightpen_adjust.scale_x = (double)(src_w) / (double)(dest_w);
-    sdl_lightpen_adjust.scale_y = (double)(src_h) / (double)(dest_h);
-
     SDL_RenderSetLogicalSize(sdl2_renderer, dest_w, dest_h);
 }
 
@@ -619,7 +608,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     int limit = sdl_limit_mode;
     unsigned int limit_w = (unsigned int)sdl_custom_width;
     unsigned int limit_h = (unsigned int)sdl_custom_height;
-    int lightpen_updated = 0;
     double aspect = 1.0;
     unsigned int window_h = 0;
     unsigned int window_w = 0;
@@ -722,15 +710,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
 #endif
-
-    /* Update lightpen adjustment parameters */
-    if (!lightpen_updated) {
-        sdl_lightpen_adjust.max_x = actual_width;
-        sdl_lightpen_adjust.max_y = actual_height;
-
-        sdl_lightpen_adjust.scale_x = (double)*width / (double)actual_width;
-        sdl_lightpen_adjust.scale_y = (double)*height / (double)actual_height;
-    }
 
     video_canvas_set_palette(canvas, canvas->palette);
 
