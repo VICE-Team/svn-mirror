@@ -1478,10 +1478,10 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const ui
                     nl10->esc_ctr++;
                 } else {
                     if (nl10->esc[2] == 0 && nl10->esc[3] == 0 && nl10->esc[4] == 0) {
-                        int c;
-                        for (c = 0; c < 96; c++) {
-                            memcpy(nl10->char_ram + c * 12, drv_nl10_charset + nl10->mapping[c + 32] * 12, 12);
-                            memcpy(nl10->char_ram_nlq + c * 47, drv_nl10_charset_nlq + nl10->mapping[c + 32] * 47, 47);
+                        int b;
+                        for (b = 0; b < 96; b++) {
+                            memcpy(nl10->char_ram + b * 12, drv_nl10_charset + nl10->mapping[b + 32] * 12, 12);
+                            memcpy(nl10->char_ram_nlq + b * 47, drv_nl10_charset_nlq + nl10->mapping[b + 32] * 47, 47);
                         }
                     }
                     nl10->esc_ctr = 0;

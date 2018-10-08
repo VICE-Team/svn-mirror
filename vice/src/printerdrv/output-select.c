@@ -209,7 +209,7 @@ void output_select_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-void output_select_register(output_select_t *output_select)
+void output_select_register(output_select_t *outp_select)
 {
     output_select_list_t *list, *prev;
 
@@ -219,7 +219,7 @@ void output_select_register(output_select_t *output_select)
     }
 
     list = lib_malloc(sizeof(output_select_list_t));
-    memcpy(&(list->output_select), output_select, sizeof(output_select_t));
+    memcpy(&(list->output_select), outp_select, sizeof(output_select_t));
     list->next = NULL;
 
     if (output_select_list != NULL) {
