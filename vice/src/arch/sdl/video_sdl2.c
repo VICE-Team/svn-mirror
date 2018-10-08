@@ -77,10 +77,6 @@ static int sdl_ui_finalized;
 static int sdl_custom_width = 0;
 static int sdl_custom_height = 0;
 
-/* window size, used for free scaling */
-static int sdl_window_width = 0;
-static int sdl_window_height = 0;
-
 int sdl_active_canvas_num = 0;
 static int sdl_num_screens = 0;
 static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
@@ -193,26 +189,6 @@ static int set_sdl_custom_height(int h, void *param)
             video_viewport_resize(sdl_active_canvas, 1);
         }
     }
-    return 0;
-}
-
-static int set_sdl_window_width(int w, void *param)
-{
-    if (w < 0) {
-        return -1;
-    }
-
-    sdl_window_width = w;
-    return 0;
-}
-
-static int set_sdl_window_height(int h, void *param)
-{
-    if (h < 0) {
-        return -1;
-    }
-
-    sdl_window_height = h;
     return 0;
 }
 
@@ -360,10 +336,6 @@ static const resource_int_t resources_int[] = {
       &sdl_custom_width, set_sdl_custom_width, NULL },
     { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
-    { "SDLWindowWidth", 0, RES_EVENT_NO, NULL,
-      &sdl_window_width, set_sdl_window_width, NULL },
-    { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
-      &sdl_window_height, set_sdl_window_height, NULL },
     { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
@@ -631,6 +603,10 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
     SDL_SetRenderDrawColor(sdl2_renderer, 0, 0, 0, 255);
     SDL_RenderClear(sdl2_renderer);
     SDL_RenderPresent(sdl2_renderer);
+
+    /* Enable file/text drag and drop support */
+    SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+    
     return 1;
 }
 
@@ -644,12 +620,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     unsigned int limit_w = (unsigned int)sdl_custom_width;
     unsigned int limit_h = (unsigned int)sdl_custom_height;
     int lightpen_updated = 0;
-    int l;
     double aspect = 1.0;
     unsigned int window_h = 0;
     unsigned int window_w = 0;
-    int temp_h = 0;
-    int temp_w = 0;
     SDL_Texture *new_texture = NULL;
     SDL_Surface *new_screen = NULL;
 
@@ -670,6 +643,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     if (fullscreen) {
         if (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
             flags = SDL_WINDOW_FULLSCREEN;
+            window_w = sdl_custom_width;
+            window_h = sdl_custom_height;
         } else {
             flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
         }
@@ -700,14 +675,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     actual_height = new_height;
 
     if (!fullscreen) {
-        /* if no window geometry given then create one. */
-        if (!sdl_window_width || !sdl_window_height) {
-            window_w = sdl_window_width = (unsigned int)((double)new_width * aspect + 0.5);
-            window_h = sdl_window_height = new_height;
-        } else { /* full window size remembering when aspect ratio is not important */
-            window_w = (unsigned int)sdl_window_width;
-            window_h = (unsigned int)sdl_window_height;
-        }
+        window_w = (unsigned int)((double)new_width * aspect + 0.5);
+        window_h = new_height;
     }
 
     if (!sdl_window_create(canvas->viewport->title, window_w, window_h, flags)) {
@@ -728,14 +697,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     if (!new_texture) {
         SDL_FreeSurface(new_screen);
         return NULL;
-    }
-
-    /* some devices, OS do not provide a windowing system they have always a fixed width/height,
-       check if our desired window size is different from real size, needed by apect ratio */
-    SDL_GetWindowSize(sdl2_window, &temp_w, &temp_h);
-    if (temp_w != window_w && temp_h != window_h && !fullscreen) {
-        sdl_window_width = (unsigned int)temp_w;
-        sdl_window_height = (unsigned int)temp_h;
     }
 
     sdl_bitdepth = new_screen->format->BitsPerPixel;
@@ -772,19 +733,6 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     video_canvas_set_palette(canvas, canvas->palette);
-
-    if ((sdl_window_width || sdl_window_height) && !fullscreen) {
-        SDL_Event sdlevent;
-        sdlevent.type = SDL_WINDOWEVENT;
-        sdlevent.window.event = SDL_WINDOWEVENT_RESIZED;
-        sdlevent.window.data1 = sdl_window_width;
-        sdlevent.window.data2 = sdl_window_height;
-
-        SDL_PushEvent(&sdlevent);
-    }
-
-    /* Enable file/text drag and drop support */
-    SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
     return canvas;
 }
@@ -904,19 +852,6 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     DBG(("%s: %ix%i (%i)", __func__, width, height, canvas->index));
     /* Check if canvas needs to be resized to real size first */
     if (sdl_ui_finalized) {
-        /* NOTE: setting the resources to zero like this here would actually
-                 not only force a recalculation of the resources, but also
-                 result in the window size being recalculated from the default
-                 dimensions instead of the (saved and supposed to be persistant)
-                 values in the resources. what goes wrong when this is done can
-                 be observed when x128 starts up.
-            FIXME: remove this note and code below after some testing. hopefully
-                   nothing else relies on the broken behavior...
-         */
-#if 0
-        sdl_window_width = 0; /* force recalculate */
-        sdl_window_height = 0;
-#endif
         sdl_canvas_create(canvas, &width, &height); /* set the real canvas size */
 
         if (resize_canvas) {
@@ -928,7 +863,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 }
 
 /* Resize window to w/h. */
-static void sdl_video_resize(unsigned int w, unsigned int h)
+void sdl_video_resize_event(unsigned int w, unsigned int h)
 {
     DBG(("%s: %ix%i", __func__, w, h));
 
@@ -955,22 +890,7 @@ void sdl_video_restore_size(void)
     h = sdl_active_canvas->real_height;
 
     DBG(("%s: %ix%i->%ix%i", __func__, sdl_active_canvas->real_width, sdl_active_canvas->real_height, w, h));
-    sdl_video_resize(w, h);
-}
-
-/* special case handling for the SDL window resize event */
-void sdl_video_resize_event(unsigned int w, unsigned int h)
-{
-    DBG(("%s: %ix%i", __func__, w, h));
-    if ((w == 0) || (h == 0)) {
-        DBG(("%s: ERROR, ignored!", __func__));
-        return;
-    }
-    sdl_video_resize(w, h);
-    if (!sdl_active_canvas->fullscreenconfig->enable) {
-        resources_set_int("SDLWindowWidth", sdl_active_canvas->actual_width);
-        resources_set_int("SDLWindowHeight", sdl_active_canvas->actual_height);
-    }
+    sdl_video_resize_event(w, h);
 }
 
 void sdl_video_canvas_switch(int index)
