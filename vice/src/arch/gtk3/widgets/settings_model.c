@@ -655,8 +655,6 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
  */
 static GtkWidget *create_vic20_layout(GtkWidget *grid)
 {
-    GtkWidget *ram_widget;
-
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
@@ -681,8 +679,6 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
  */
 static GtkWidget *create_plus4_layout(GtkWidget *grid)
 {
-    GtkWidget *ram_widget;
-
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 

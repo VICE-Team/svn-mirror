@@ -64,9 +64,9 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = vice_gtk3_open_file_dialog("Open Magic Voice image", NULL,
             NULL, NULL);
     if (filename != NULL) {
-        GtkWidget *entry = GTK_WIDGET(user_data);
+        GtkWidget *ent= GTK_WIDGET(user_data);
         debug_gtk3("setting MagicVoiceImage to '%s'.", filename);
-        vice_gtk3_resource_entry_full_set(entry, filename);
+        vice_gtk3_resource_entry_full_set(ent, filename);
         g_free(filename);
     }
 }
