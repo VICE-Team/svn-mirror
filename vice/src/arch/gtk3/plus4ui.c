@@ -137,7 +137,8 @@ int plus4ui_init(void)
     uicart_set_attach_func(cartridge_attach_image);
 /*    uicart_set_freeze_func(cartridge_trigger_freeze); */
     uicart_set_detach_func(cartridge_detach_image);
-    
+/*    uicart_set_default_func(cartridge_set_default); */
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

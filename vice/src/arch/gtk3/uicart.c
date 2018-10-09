@@ -216,12 +216,14 @@ static int  (*crt_attach_func)(int type, const char *filename) = NULL;
 static void (*crt_freeze_func)(void) = NULL;
 static void (*crt_detach_func)(int type) = NULL;
 static cartridge_info_t *(*crt_list_func)(void) = NULL;
+static void (*crt_default_func)(void) = NULL;
 
 /* references to widgets used in various event handlers */
 static GtkWidget *cart_dialog = NULL;
 static GtkWidget *cart_type_widget = NULL;
 static GtkWidget *cart_id_widget = NULL;
 static GtkWidget *cart_preview_widget = NULL;
+static GtkWidget *cart_set_default_widget = NULL;
 
 static GtkWidget *cart_id_label = NULL;
 
@@ -437,6 +439,8 @@ static int get_cart_id(void)
  */
 static bool attach_cart_image(int type, int id, const char *path)
 {
+    int result;
+
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -445,12 +449,15 @@ static bool attach_cart_image(int type, int id, const char *path)
             debug_gtk3("attaching cart type %d, cart ID %d.", type, id);
             switch (type) {
                 case UICART_C64_SMART:
-                    return (crt_attach_func(CARTRIDGE_CRT, path) == 0);
+                    id = CARTRIDGE_CRT;
+                    break;
                 case UICART_C64_FREEZER:    /* fall through */
                 case UICART_C64_GAME:       /* fall through */
                 case UICART_C64_UTIL:
-                    return (crt_attach_func(id, path) == 0);
+                    /* id is correct I think */
+                    break;
                 default:
+                    debug_gtk3("error: shouldn't get here.");
                     break;
             }
             break;
@@ -458,7 +465,7 @@ static bool attach_cart_image(int type, int id, const char *path)
         case VICE_MACHINE_VIC20:
             switch (type) {
                 case UICART_VIC20_SMART:
-                    return (crt_attach_func(CARTRIDGE_VIC20_DETECT, path) == 0);
+                    id = CARTRIDGE_VIC20_DETECT;
                 case UICART_VIC20_GENERIC:
                     id = CARTRIDGE_VIC20_GENERIC;
                     break;
@@ -479,13 +486,15 @@ static bool attach_cart_image(int type, int id, const char *path)
                     break;
                 default:
                     /* add to generic, id is already set */
+                    debug_gtk3("error: shouldn't get here.");
                     break;
             }
+            break;
 
         case VICE_MACHINE_PLUS4:
             switch (type) {
                 case UICART_PLUS4_SMART:
-                    return (crt_attach_func(CARTRIDGE_PLUS4_DETECT, path) == 0);
+                    id = CARTRIDGE_PLUS4_DETECT;
                 case UICART_PLUS4_NEWROM:
                     id = CARTRIDGE_PLUS4_NEWROM;
                     break;
@@ -518,10 +527,12 @@ static bool attach_cart_image(int type, int id, const char *path)
                     break;
                 default:
                     /* oops */
+                    debug_gtk3("error: shouldn't get here.");
                     break;
             }
+            break;
 
-        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM5x0:   /* fall through */
         case VICE_MACHINE_CBM6x0:
             switch (type) {
                 /*case UICART_CBM2_SMART:
@@ -540,14 +551,31 @@ static bool attach_cart_image(int type, int id, const char *path)
                     break;
                 default:
                     /* oops */
+                    debug_gtk3("error: shouldn't get here.");
                     break;
             }
+            break;
 
-        debug_gtk3("attaching cart type %d, cart ID %04x.", type, id);
-        return (crt_attach_func(id, path) == 0);
-        break;
+        default:
+            debug_gtk3("very oops: type = %d, id = %d, path = '%s'.",
+                    type, id, path);
+            return false;
+            break;
     }
 
+    debug_gtk3("attaching cart type %d, cart ID %04x.", type, id);
+    if ((crt_attach_func(id, path) == 0)) {
+        /* check 'set default' */
+        if ((cart_set_default_widget != NULL)
+                & (gtk_toggle_button_get_active(
+                        GTK_TOGGLE_BUTTON(cart_set_default_widget)))) {
+            /* set cart as default, there's no return value, so let's assume
+             * this works */
+            debug_gtk3("setting cart with ID %04x as default.", id);
+                crt_default_func();
+        }
+        return true;
+    }
     return false;
 }
 
@@ -767,7 +795,25 @@ static GtkWidget *create_extra_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), cart_type_widget, 1, 0, 1, 1);
 
-    /* TODO: only for c64/c128 */
+    /* create "Set cartridge as default" check button */
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_VIC20:
+            cart_set_default_widget = gtk_check_button_new_with_label(
+                    "Set cartridge as default");
+            gtk_toggle_button_set_active(
+                    GTK_TOGGLE_BUTTON(cart_set_default_widget), FALSE);
+
+            gtk_grid_attach(GTK_GRID(grid), cart_set_default_widget, 0, 1, 4, 1);
+            break;
+        default:
+            /* Set cart as default is not supported for the current machine */
+            break;
+    }
+
+    /* only for c64/c128 */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -886,6 +932,17 @@ void uicart_set_detach_func(void (*func)(int))
 {
     crt_detach_func = func;
 }
+
+
+/** \brief  Set function to set active cart as default
+ *
+ * \param[in]   func    default func
+ */
+void uicart_set_default_func(void (*func)(void))
+{
+    crt_default_func = func;
+}
+
 
 
 /** \brief  Try to smart-attach a cartridge image
