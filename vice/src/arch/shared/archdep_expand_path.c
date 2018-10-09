@@ -73,7 +73,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         lib_free(cwd);
     }
     return 0;
-#elif defined(ARCHEP_OS_WINDOW)
+#elif defined(ARCHEP_OS_WINDOWS)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
     *return_path = lib_stralloc(orig_name);
 #elif defined(ARCHDEP_OS_AMIGA)
