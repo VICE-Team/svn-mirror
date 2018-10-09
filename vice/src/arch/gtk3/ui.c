@@ -759,16 +759,20 @@ void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
 /*****************************************************************************
  *                  Temporary windows atexit() crash workaround              *
  ****************************************************************************/
-#ifdef WIN32_COMPILE
+
+/* FIXME: we need to move the whole atexit() and exit() mechanism to archdep,
+          since otherwise it would crash on windows when using the GTK3 UI. */
+
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
 #define ATEXIT_MAX_FUNCS 64
 
 static void (*atexit_functions[ATEXIT_MAX_FUNCS + 1])(void);
-
 
 static int atexit_counter = 0;
 
 int vice_atexit(void (*function)(void))
 {
+    INCOMPLETE_IMPLEMENTATION();
     debug_gtk3("registering function %p.", function);
     if (atexit_counter == ATEXIT_MAX_FUNCS) {
         debug_gtk3("ERROR: max atexit functions reached.");
@@ -780,10 +784,11 @@ int vice_atexit(void (*function)(void))
     return 0;
 }
 
-static void vice_exit(int excode)
+void vice_exit(int excode)
 {
     const void (*f)(void);
 
+    INCOMPLETE_IMPLEMENTATION();
     debug_gtk3("unrolling atexit stack:");
     /* don't check for NULL, segfaults allow backtraces in gdb */
     while (atexit_counter-- >= 0) {
@@ -1736,7 +1741,7 @@ void ui_exit(void)
     /* clean up boot path */
     archdep_boot_path_free();
 
-#ifdef ARCHDEP_OS_WINDOWS
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
     vice_exit(0);
 #else
     exit(0);
