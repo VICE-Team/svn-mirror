@@ -269,8 +269,11 @@ int initcmdline_init(void)
         }
     }
 
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+    vice_atexit(cmdline_free_startup_images);
+#else
     atexit(cmdline_free_startup_images);
-
+#endif
     return 0;
 }
 
