@@ -60,6 +60,15 @@
 #include "vdrive-rel.h"
 #include "vdrive.h"
 
+/* this is terrible, fix it! */
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+static void _vice_exit(int status)
+{
+	fprintf("%s: vice_exit() monkey patch - fix this shit!\n", __FILE__);
+	exit(status); /* BOOOOM! */
+}
+#define vice_exit _vice_exit
+#endif
 
 static log_t vdrive_iec_log = LOG_ERR;
 

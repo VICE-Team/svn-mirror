@@ -73,6 +73,16 @@
 # endif
 #endif
 
+/* this is terrible, fix it! */
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+static void _vice_exit(int status)
+{
+	fprintf("%s: vice_exit() monkey patch - fix this shit!\n", __FILE__);
+	exit(status); /* BOOOOM! */
+}
+#define vice_exit _vice_exit
+#endif
+
 #ifdef LIB_DEBUG
 #define LIB_DEBUG_SIZE  0x10000
 #define LIB_DEBUG_GUARD 0x1000
