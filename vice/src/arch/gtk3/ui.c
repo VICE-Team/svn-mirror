@@ -779,7 +779,8 @@ int vice_atexit(void (*function)(void))
         return 1;
     }
 
-    atexit_functions[atexit_counter++] = function;
+    atexit_functions[atexit_counter] = function;
+    atexit_counter++;
 
     return 0;
 }
@@ -791,7 +792,8 @@ void vice_exit(int excode)
     INCOMPLETE_IMPLEMENTATION();
     debug_gtk3("unrolling atexit stack:");
     /* don't check for NULL, segfaults allow backtraces in gdb */
-    while (atexit_counter-- >= 0) {
+    while (atexit_counter > 0) {
+		atexit_counter--;
         f = atexit_functions[atexit_counter];
         debug_gtk3("running atexit %d: %p.", atexit_counter, f)
         f();
