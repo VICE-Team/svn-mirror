@@ -449,7 +449,11 @@ io_source_list_t *io_source_register(io_source_t *device)
             break;
         default:
             log_error(LOG_DEFAULT, "io_source_register internal error: I/O range 0x%04x does not exist", device->start_address & 0xff00);
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+            vice_exit(-1);
+#else
             exit(-1);
+#endif
             break;
     }
 

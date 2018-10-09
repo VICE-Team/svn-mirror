@@ -71,7 +71,11 @@ static void debugcart_store(uint16_t addr, uint8_t value)
 {
     int n = (int)value;
     fprintf(stdout, "DBGCART: exit(%d) cycles elapsed: %d\n", n, maincpu_clk);
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+    vice_exit(n);
+#else
     exit(n);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

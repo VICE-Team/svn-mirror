@@ -133,7 +133,11 @@ unsigned int machine_jam(const char *format, ...)
             ret = ui_jam_dialog(str);
         }
     } else if (jam_action == MACHINE_JAM_ACTION_QUIT) {
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(EXIT_SUCCESS);
+#else
         exit(EXIT_SUCCESS);
+#endif
     } else {
         int actions[4] = {
             -1, UI_JAM_MONITOR, UI_JAM_RESET, UI_JAM_HARD_RESET

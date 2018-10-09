@@ -567,7 +567,11 @@ void *lib_malloc(size_t size)
 #ifndef __OS2__
     if (ptr == NULL && size > 0) {
         fprintf(stderr, "error: lib_malloc failed\n");
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(-1);
+#else
         exit(-1);
+#endif
     }
 #endif
 #ifdef LIB_DEBUG
@@ -601,7 +605,11 @@ void *lib_AllocVec(unsigned long size, unsigned long attributes)
 #ifndef __OS2__
     if (ptr == NULL && size > 0) {
         fprintf(stderr, "error: lib_AllocVec failed\n");
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(-1);
+#else
         exit(-1);
+#endif
     }
 #endif
 #ifdef LIB_DEBUG
@@ -628,7 +636,11 @@ void *lib_AllocMem(unsigned long size, unsigned long attributes)
 #ifndef __OS2__
     if (ptr == NULL && size > 0) {
         fprintf(stderr, "error: lib_AllocMem failed\n");
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(-1);
+#else
         exit(-1);
+#endif
     }
 #endif
 #ifdef LIB_DEBUG
@@ -654,7 +666,11 @@ void *lib_calloc(size_t nmemb, size_t size)
 #ifndef __OS2__
     if (ptr == NULL && (size * nmemb) > 0) {
         fprintf(stderr, "error: lib_calloc failed\n");
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(-1);
+#else
         exit(-1);
+#endif
     }
 #endif
 #ifdef LIB_DEBUG
@@ -679,7 +695,11 @@ void *lib_realloc(void *ptr, size_t size)
 #ifndef __OS2__
     if (new_ptr == NULL) {
         fprintf(stderr, "error: lib_realloc failed\n");
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(-1);
+#else
         exit(-1);
+#endif
     }
 #endif
 #ifdef LIB_DEBUG
@@ -747,7 +767,11 @@ char *lib_stralloc(const char *str)
         fprintf(stderr, "%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
         fprintf(stderr, "error: lib_stralloc(NULL) not allowed.\n");
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(-1);
+#else
         exit(-1);
+#endif
     }
 
     size = strlen(str) + 1;

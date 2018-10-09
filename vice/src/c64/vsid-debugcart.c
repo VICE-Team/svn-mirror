@@ -45,7 +45,11 @@ void debugcart_store(uint16_t addr, uint8_t value)
     if ((debugcart_enabled) && (addr == 0xd7ff)) {
         /* FIXME: perhaps print a timestamp too */
         fprintf(stdout, "DBGCART: exit(%d)\n", n);
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+        vice_exit(n);
+#else
         exit(n);
+#endif
     }
 }
 

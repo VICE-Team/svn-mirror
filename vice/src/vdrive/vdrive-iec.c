@@ -850,7 +850,11 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
             break;
         default:
             log_error(vdrive_iec_log, "Fatal: Unknown write mode.");
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+            vice_exit(-1);
+#else
             exit(-1);
+#endif
     }
     return SERIAL_OK;
 }
