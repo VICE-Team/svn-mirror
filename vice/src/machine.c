@@ -99,16 +99,6 @@ static char *ExitScreenshotName = NULL;
 static char *ExitScreenshotName1 = NULL;
 
 
-/** \brief  List of emulator names
- *
- * See machine.h
- */
-static const char *emu_names[] = {
-    "None", "C64", "C128", "VIC20", "PET", "CBM5x0", "CBM6x0", "PLUS4",
-    "C64DTV", "C64SC", "VSID", "SCPU64", "C1541", "PETCAT"
-};
-
-
 
 unsigned int machine_jam(const char *format, ...)
 {
@@ -493,16 +483,4 @@ int machine_common_cmdline_options_init(void)
     } else {
         return cmdline_register_options(cmdline_options);
     }
-}
-
-
-/** \brief  Get proper machine name
- *
- * This function returns the proper machine name, unlike machine_name.
- *
- * \return  proper machine name
- */
-const char *machine_name_proper(void)
-{
-    return emu_names[machine_class];
 }

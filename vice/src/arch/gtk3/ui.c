@@ -793,7 +793,7 @@ void vice_exit(int excode)
     debug_gtk3("unrolling atexit stack:");
     /* don't check for NULL, segfaults allow backtraces in gdb */
     while (atexit_counter > 0) {
-		atexit_counter--;
+        atexit_counter--;
         f = atexit_functions[atexit_counter];
         debug_gtk3("running atexit %d: %p.", atexit_counter, f)
         f();
@@ -1092,7 +1092,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     int width = 0;
     int height = 0;
 
-    const gchar *emu;
     gchar title[256];
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1105,26 +1104,8 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_window_set_icon(GTK_WINDOW(new_window), icon);
     }
 
-    /* set title (this sucks) */
-    if (strcmp(machine_name, "C64") == 0) {
-        switch (machine_class) {
-            case VICE_MACHINE_C64:
-                emu = "C64";
-                break;
-            case VICE_MACHINE_C64SC:
-                emu = "C64SC";
-                break;
-            case VICE_MACHINE_VSID:
-                emu = "VSID";
-                break;
-            default:
-                emu = "unknow C64 model";
-                break;
-        }
-    } else {
-        emu = machine_name;
-    }
-    g_snprintf(title, 256, "VICE (%s)", emu);
+    /* set title */
+    g_snprintf(title, 256, "VICE (%s)", machine_get_name());
     gtk_window_set_title(GTK_WINDOW(new_window), title);
 
     grid = gtk_grid_new();
