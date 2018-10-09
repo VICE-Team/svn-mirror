@@ -217,6 +217,8 @@ static void (*crt_freeze_func)(void) = NULL;
 static void (*crt_detach_func)(int type) = NULL;
 static cartridge_info_t *(*crt_list_func)(void) = NULL;
 static void (*crt_default_func)(void) = NULL;
+static const char * (*crt_filename_func)(void) = NULL;
+static void (*crt_wipe_func)(void) = NULL;
 
 /* references to widgets used in various event handlers */
 static GtkWidget *cart_dialog = NULL;
@@ -439,8 +441,6 @@ static int get_cart_id(void)
  */
 static bool attach_cart_image(int type, int id, const char *path)
 {
-    int result;
-
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -944,6 +944,28 @@ void uicart_set_default_func(void (*func)(void))
 }
 
 
+/** \brief  Set function to get filename of currently attached cart
+ *
+ * \param[in]   func    filename func
+ */
+void uicart_set_filename_func(const char * (*func)(void))
+{
+    crt_filename_func = func;
+}
+
+
+/** \brief  Set function to wipe internal cart filename to allow resources to work
+ *
+ * \param[in]   func    wipe func
+ */
+void uicart_set_wipe_func(void (*func)(void))
+{
+    crt_wipe_func = func;
+}
+
+
+
+
 
 /** \brief  Try to smart-attach a cartridge image
  *
@@ -1008,9 +1030,52 @@ gboolean uicart_trigger_freeze(void)
  */
 gboolean uicart_detach(void)
 {
+    const char *default_cart;
+    const char *current_cart;
+
     if (crt_detach_func != NULL) {
-        debug_gtk3("detaching latest cartridge image.");
-        crt_detach_func(-1);
+        resources_get_string("CartridgeFile", &default_cart);
+        debug_gtk3("default cartidge file = '%s'.",
+                default_cart == NULL || *default_cart == '\0'
+                ? "<none>" : default_cart);
+
+        if (crt_filename_func != NULL) {
+            current_cart = crt_filename_func();
+
+            debug_gtk3("current cartridge file = '%s',", current_cart);
+
+            if ((current_cart != NULL && default_cart != NULL)) {
+                if (strcmp(default_cart, current_cart) == 0) {
+                    gboolean result;
+
+                    debug_gtk3("names match: pop up UI to ask to delete"
+                            " default cart from resources.");
+
+                    result = vice_gtk3_message_confirm("Detach cartridge",
+                            "You're detaching the default cartridge '%s'.\n"
+                            "Would you also like to unregister this cartridge"
+                            " as the default cartridge?",
+                            default_cart);
+                    if (result) {
+                        debug_gtk3("removing default cart (still requires"
+                                " saving resources.");
+                        if (crt_wipe_func != NULL) {
+                            debug_gtk3("wiping internal ctr file name(s).");
+                            crt_wipe_func();
+                        }
+                        /* does this actually do anything, seeing how I
+                         * need to wipe internal vars in cart code? */
+#if 0
+                        if (resources_set_string("CartridgeFile", "") != 0) {
+                            debug_gtk3("failed to set resource.");
+                        }
+#endif
+                    }
+                }
+           }
+           debug_gtk3("detaching latest cartridge image.");
+           crt_detach_func(-1);
+       }
     }
     return TRUE;
 }

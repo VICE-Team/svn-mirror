@@ -166,6 +166,8 @@ int scpu64ui_init(void)
     uicart_set_freeze_func(cartridge_trigger_freeze);
     uicart_set_detach_func(cartridge_detach_image);
     uicart_set_default_func(cartridge_set_default);
+    uicart_set_filename_func(cartridge_current_filename);
+    uicart_set_wipe_func(cartridge_wipe_filename);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

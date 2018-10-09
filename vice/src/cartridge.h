@@ -64,6 +64,8 @@ extern void cartridge_detach_image(int type);
 /* set current "Main Slot" cart as default */
 extern void cartridge_set_default(void);
 
+void cartridge_unset_default(void);
+
 /* reset button pressed in UI */
 extern void cartridge_reset(void);
 
@@ -452,5 +454,10 @@ typedef struct {
 #define CARTRIDGE_GROUP_UTIL            0x0010
 
 extern cartridge_info_t *cartridge_get_info_list(void);
+
+
+const char *cartridge_current_filename(void);
+
+void cartridge_wipe_filename(void);
 
 #endif

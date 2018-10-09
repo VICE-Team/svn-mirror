@@ -757,6 +757,16 @@ void cartridge_set_default(void)
     cartridge_type = type; /* resource value modified */
 }
 
+
+/** \brief  Wipe "default cartidge"
+ */
+void cartridge_unset_default(void)
+{
+    util_string_set(&cartridge_file, "");
+    cartridge_type = CARTRIDGE_NONE;
+}
+
+
 int cartridge_save_image(int type, const char *filename)
 {
     char *ext = util_get_extension((char *)filename);
@@ -859,3 +869,16 @@ void cartridge_init(void)
     cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }
 
+
+const char *cartridge_current_filename(void)
+{
+    return cartfile;
+}
+
+void cartridge_wipe_filename(void)
+{
+    if (cartridge_file != NULL) {
+        lib_free(cartridge_file);
+        cartridge_file = NULL;
+    }
+}
