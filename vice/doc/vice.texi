@@ -26644,6 +26644,10 @@ Provided some monitor fixes.
 @b{Count Zero}
 Fixed some monitor issues.
 
+@item
+@b{Bjoern Odendahl}
+Created the new VICE logo and volunteered to create new icons.
+
 @end itemize
 
 (We hope we have not forgotten anybody; if you think we have,
@@ -26715,7 +26719,7 @@ thanks goes to the following people:
 
 Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
-Peternel, Per Håkan Sundell and David Horrocks for writing
+Peternel, Per Håkan Sundell, David Horrocks and Benjamin Rosseaux for writing
 cool emulators to compete with.  @t{:-)}
 
 @c end of file generation section.
@@ -26726,23 +26730,23 @@ cool emulators to compete with.  @t{:-)}
 @item
 Copyright @copyright{} 1999-2016 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2017 Martin Pottendorfer
+Copyright @copyright{} 1999-2018 Martin Pottendorfer
 @item
-Copyright @copyright{} 2005-2017 Marco van den Heuvel
+Copyright @copyright{} 2005-2018 Marco van den Heuvel
 @item
-Copyright @copyright{} 2007-2017 Fabrizio Gennari
+Copyright @copyright{} 2007-2018 Fabrizio Gennari
 @item
-Copyright @copyright{} 2009-2017 Groepaz
+Copyright @copyright{} 2009-2018 Groepaz
 @item
-Copyright @copyright{} 2010-2017 Olaf Seibert
+Copyright @copyright{} 2010-2018 Olaf Seibert
 @item
-Copyright @copyright{} 2011-2017 Marcus Sutton
+Copyright @copyright{} 2011-2018 Marcus Sutton
 @item
-Copyright @copyright{} 2011-2017 Kajtar Zsolt
+Copyright @copyright{} 2011-2018 Kajtar Zsolt
 @item
-Copyright @copyright{} 2016-2017 AreaScout
+Copyright @copyright{} 2016-2018 AreaScout
 @item
-Copyright @copyright{} 2016-2017 Bas Wassink
+Copyright @copyright{} 2016-2018 Bas Wassink
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
