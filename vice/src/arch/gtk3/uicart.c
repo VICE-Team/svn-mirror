@@ -27,6 +27,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <string.h>
 #include <stdbool.h>
 
 #include "machine.h"
