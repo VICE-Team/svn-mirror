@@ -88,7 +88,7 @@ char *      archdep_default_fliplist_file_name(void);
 char *      archdep_default_rtc_file_name(void);
 
 /* Autostart-PRG */
-extern char *archdep_default_autostart_disk_image_file_name(void);
+char *      archdep_default_autostart_disk_image_file_name(void);
 
 /* Logfile stuff.  */
 extern FILE *archdep_open_default_log_file(void);
