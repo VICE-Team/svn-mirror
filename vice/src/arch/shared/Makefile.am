@@ -13,6 +13,7 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libarchdep.a
 
 libarchdep_a_SOURCES = \
+	archdep_atexit.c \
 	archdep_boot_path.c \
 	archdep_create_user_config_dir.c \
 	archdep_default_autostart_disk_image_file_name.c \
@@ -42,6 +43,7 @@ libarchdep_a_SOURCES = \
 
 EXTRA_DIST = \
 	archdep_defs.h \
+	archdep_atexit.h \
 	archdep_boot_path.h \
 	archdep_create_user_config_dir.h \
 	archdep_default_autostart_disk_image_file_name.h \

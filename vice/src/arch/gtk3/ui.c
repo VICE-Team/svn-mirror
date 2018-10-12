@@ -40,6 +40,10 @@
 #include "debug_gtk3.h"
 
 #include "archdep.h"
+
+/* for now (cpx. 2018-10-12) */
+#include "../shared/archdep_atexit.h"
+
 #include "autostart.h"
 #include "cmdline.h"
 #include "drive.h"
@@ -755,6 +759,7 @@ void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
     ui_update_fullscreen_decorations();
 }
 
+#if 0
 /*****************************************************************************
  *                  Temporary windows atexit() crash workaround              *
  ****************************************************************************/
@@ -800,7 +805,7 @@ void vice_exit(int excode)
     exit(excode);
 }
 #endif  /* ifdef WIN32_COMPILE */
-
+#endif
 
 
 /** \brief  Get a window-spec array index from \a param
