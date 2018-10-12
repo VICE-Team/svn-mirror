@@ -399,14 +399,14 @@ static DRAW_INLINE void draw_sprites(int i)
     if (collision_mask) {
         uint8_t pixel_pri = pri_buffer[i];
         int as = active_sprite;
-        uint8_t spri = sprite_pri_bits & (1 << s);
+        uint8_t spri = sprite_pri_bits & (1 << as);
         if (!(pixel_pri && spri)) {
             switch (sbuf_pixel_reg[as]) {
                 case 1:
                     render_buffer[i] = COL_D025;
                     break;
                 case 2:
-                    render_buffer[i] = COL_D027 + s;
+                    render_buffer[i] = COL_D027 + as;
                     break;
                 case 3:
                     render_buffer[i] = COL_D026;
