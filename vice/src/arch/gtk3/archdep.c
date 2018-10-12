@@ -50,7 +50,7 @@
 
 #include "../shared/archdep_create_user_config_dir.h"
 
-
+#if 0
 /** \brief  Prefix used for autostart disk images
  */
 #define AUTOSTART_FILENAME_PREFIX   "autostart-"
@@ -59,7 +59,7 @@
 /** \brief  Suffix used for autostart disk images
  */
 #define AUTOSTART_FILENAME_SUFFIX   ".d64"
-
+#endif
 
 /** \brief  Reference to argv[0]
  *
@@ -83,6 +83,7 @@ const char *archdep_pref_path = NULL;
 #endif
 
 
+#if 0
 /** \brief  Generate default autostart disk image path
  *
  * The path will be "$cfgdir/autostart-$emu.d64". this needs to be freed with
@@ -110,7 +111,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
     g_free(path);
     return tmp;
 }
-
+#endif
 
 /** \brief  Open the default log file
  *

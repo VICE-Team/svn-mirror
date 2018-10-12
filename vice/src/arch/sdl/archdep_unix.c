@@ -100,6 +100,7 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
+#if 0
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     if (archdep_pref_path == NULL) {
@@ -111,6 +112,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
         return util_concat(archdep_pref_path, "/autostart-", machine_get_name(), ".d64", NULL);
     }
 }
+#endif
 
 char *archdep_default_hotkey_file_name(void)
 {

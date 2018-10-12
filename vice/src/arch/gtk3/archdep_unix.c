@@ -55,11 +55,11 @@
 #define VICEUSERDIR "vice"
 
 
-
+#if 0
 /** \brief  Path separator used in GLib code
  */
 static const gchar *path_separator = "/";
-
+#endif
 
 /** \brief  Write log message to stdout
  *

@@ -212,4 +212,13 @@
 # endif
 #endif
 
+/** \brief  Autostart diskimage prefix
+ */
+#define ARCHDEP_AUTOSTART_DISKIMAGE_PREFIX  "autostart-"
+
+/** \brief  Autostart diskimage suffix
+ */
+#define ARCHDEP_AUTOSTART_DISKIMAGE_SUFFIX  ".d64"
+
+
 #endif

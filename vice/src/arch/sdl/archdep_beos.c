@@ -95,6 +95,7 @@ char *archdep_make_backup_filename(const char *fname)
 }
 
 
+#if 0
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     const char *home;
@@ -102,6 +103,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
     home = archdep_boot_path();
     return util_concat(home, "/autostart-", machine_get_name(), ".d64", NULL);
 }
+#endif
 
 char *archdep_default_hotkey_file_name(void)
 {
