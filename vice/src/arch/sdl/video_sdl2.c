@@ -4,6 +4,7 @@
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Michael C. Martin <mcmartin@gmail.com>
  *
  * Based on code by
  *  Ettore Perazzoli
@@ -29,6 +30,30 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
+ */
+
+/* This file is a work in progress, and it is being refactored,
+ * rewritten, and extended to take the maximum advantage of SDL2's
+ * capabilities while still properly providing the special
+ * capabilities that SDL VICE would like to generally support. Current
+ * gaps:
+ *
+ * - Custom fullscreen mode is missing.
+ * - In fact, fullscreen of any kind does not work. (This is not a
+ *   regression, at least on Wayland. The SDL2 port was mostly a
+ *   slightly tweaked version of the SDL1 code before and this caused
+ *   some serious issues.)
+ * - "Restore Window Size" kind of breaks the menu display but also
+ *   sets the minimum non-distorted display size.
+ * - The user's selected window size is not preserved across runs.
+ * - Initial startup is not selecting the optimal renderer.
+ * - The window limiter mode is currently ignored, and it's not clear
+ *   what it should mean in the SDL2 rendering world beyond custom-
+ *   fullscreen code.
+ * - There is no window limiting in terms of *minimum* size, and
+ *   changing double size/scan does not adjust the window size as it
+ *   goes.
+ * - Aspect correction cannot actually be turned off.
  */
 
 /* #define SDL_DEBUG */
@@ -70,7 +95,6 @@ static log_t sdlvideo_log = LOG_ERR;
 static int sdl_bitdepth;
 
 static int sdl_limit_mode;
-static int sdl_ui_finalized;
 
 /* Custom w/h, used for fullscreen and limiting*/
 static int sdl_custom_width = 0;
@@ -209,7 +233,6 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
     if (old_v != v) {
         if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
             video_viewport_resize(sdl_active_canvas, 1);
-            sdl_video_resize_event(sdl_active_canvas->actual_width, sdl_active_canvas->actual_height);
         }
     }
 
@@ -462,6 +485,13 @@ void video_shutdown(void)
 /* ------------------------------------------------------------------------- */
 /* static helper functions */
 
+/* TODO: This function was part of the SDL1 code and important for
+ * Android. Based on how the SDL2 renderer works, this is not clearly
+ * a function that still needs to exist. It only matters if we want
+ * SDL2 to be able to insist on some fixed actual resolution for the
+ * GPU to render into, and even so it seems to only matter for
+ * fullscreen. */
+#if 0
 static int sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, unsigned int *w, unsigned int *h, int mode)
 {
     DBG(("%s", __func__));
@@ -486,33 +516,7 @@ static int sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, un
     }
     return 0;
 }
-
-static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned int dest_w, unsigned int dest_h)
-{
-    int dest_x = 0, dest_y = 0;
-
-    if (sdl_gl_aspect_mode != SDL_ASPECT_MODE_OFF) {
-        double aspect = aspect_ratio;
-
-        /* Get "true" aspect ratio */
-        if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
-            aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
-        }
-
-        /* Keep aspect ratio of src image. */
-        if (dest_w * src_h < src_w * aspect * dest_h) {
-            dest_y = dest_h;
-            dest_h = (unsigned int)(dest_w * src_h / (src_w * aspect) + 0.5);
-            dest_y = (dest_y - dest_h) / 2;
-        } else {
-            dest_x = dest_w;
-            dest_w = (unsigned int)(dest_h * src_w * aspect / src_h + 0.5);
-            dest_x = (dest_x - dest_w) / 2;
-        }
-    }
-
-    SDL_RenderSetLogicalSize(sdl2_renderer, dest_w, dest_h);
-}
+#endif
 
 static int sdl_window_create(const char *title, unsigned int width, unsigned int height, int flags)
 {
@@ -595,125 +599,8 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
 
     /* Enable file/text drag and drop support */
     SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
-    
+
     return 1;
-}
-
-static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
-{
-    unsigned int new_width, new_height;
-    unsigned int actual_width, actual_height;
-    int flags;
-    int fullscreen = 0;
-    int limit = sdl_limit_mode;
-    unsigned int limit_w = (unsigned int)sdl_custom_width;
-    unsigned int limit_h = (unsigned int)sdl_custom_height;
-    double aspect = 1.0;
-    unsigned int window_h = 0;
-    unsigned int window_w = 0;
-    SDL_Texture *new_texture = NULL;
-    SDL_Surface *new_screen = NULL;
-
-    DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
-
-    aspect = aspect_ratio;
-
-    new_width = *width;
-    new_height = *height;
-
-    new_width *= canvas->videoconfig->scalex;
-    new_height *= canvas->videoconfig->scaley;
-
-    if ((canvas == sdl_active_canvas) && (canvas->fullscreenconfig->enable)) {
-        fullscreen = 1;
-    }
-
-    if (fullscreen) {
-        if (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
-            flags = SDL_WINDOW_FULLSCREEN;
-            window_w = sdl_custom_width;
-            window_h = sdl_custom_height;
-        } else {
-            flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
-        }
-    } else {
-        flags = SDL_WINDOW_RESIZABLE;
-    }
-
-    if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE && !fullscreen) {
-        aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
-    }
-
-    if (sdl_video_canvas_limit(limit_w, limit_h, &new_width, &new_height, limit)) {
-        canvas->draw_buffer->canvas_physical_width = new_width;
-        canvas->draw_buffer->canvas_physical_height = new_height;
-        video_viewport_resize(sdl_active_canvas, 0);
-        if (sdl_ui_finalized) {
-            return canvas; /* exit here as video_viewport_resize will recall */
-        }
-    }
-
-    if (!sdl_ui_finalized) { /* remember first size */
-        sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect + 0.5);
-        sdl_active_canvas->real_height = new_height;
-        DBG(("first: %d:%d\n", sdl_active_canvas->real_width, sdl_active_canvas->real_height));
-    }
-
-    actual_width = new_width;
-    actual_height = new_height;
-
-    if (!fullscreen) {
-        window_w = (unsigned int)((double)new_width * aspect + 0.5);
-        window_h = new_height;
-    }
-
-    if (!sdl_window_create(canvas->viewport->title, window_w, window_h, flags)) {
-        /* We don't have a renderer and couldn't create one! Give up. */
-        return NULL;
-    }
-    
-    new_screen = SDL_CreateRGBSurface(0, actual_width, actual_height, sdl_bitdepth, rmask, gmask, bmask, amask);
-    if (fullscreen) {
-        SDL_RenderSetLogicalSize(sdl2_renderer, actual_width, actual_height);
-    }
-    if (!new_screen) {
-        log_error(sdlvideo_log, "SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
-        return NULL;
-    }
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    new_texture = SDL_CreateTexture(sdl2_renderer, texformat, SDL_TEXTUREACCESS_STREAMING, actual_width, actual_height);
-    if (!new_texture) {
-        SDL_FreeSurface(new_screen);
-        return NULL;
-    }
-
-    sdl_bitdepth = new_screen->format->BitsPerPixel;
-    actual_width = new_screen->w;
-    actual_height = new_screen->h;
-
-    canvas->depth = sdl_bitdepth;
-    canvas->width = new_width;
-    canvas->height = new_height;
-    if (canvas->screen) {
-        SDL_FreeSurface(canvas->screen);
-    }
-    canvas->screen = new_screen;
-    if (canvas->texture) {
-        SDL_DestroyTexture(canvas->texture);
-    }
-    canvas->texture = new_texture;
-    canvas->actual_width = actual_width;
-    canvas->actual_height = actual_height;
-    canvas->videoconfig->hwscale = 1;
-
-    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp %s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
-#ifdef SDL_DEBUG
-    log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
-#endif
-
-    video_canvas_set_palette(canvas, canvas->palette);
-
-    return canvas;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -823,53 +710,91 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     return 0;
 }
 
+static void sdl_correct_logical_size(void)
+{
+    if (sdl2_window && sdl2_renderer && sdl_active_canvas && sdl_active_canvas->texture) {
+        int corrected_width, corrected_height;
+        if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_OFF) {
+            SDL_GetWindowSize(sdl2_window, &corrected_width, &corrected_height);
+        } else {
+            double aspect = (sdl_gl_aspect_mode == SDL_ASPECT_MODE_CUSTOM) ? aspect_ratio : sdl_active_canvas->geometry->pixel_aspect_ratio;
+            corrected_width = sdl_active_canvas->width * aspect;
+            corrected_height = sdl_active_canvas->height;
+        }
+        SDL_RenderSetLogicalSize(sdl2_renderer, corrected_width, corrected_height);
+    }
+}
+
 /* called from video_viewport_resize */
 void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
-    unsigned int width = canvas->draw_buffer->canvas_width;
-    unsigned int height = canvas->draw_buffer->canvas_height;
-    DBG(("%s: %ix%i (%i)", __func__, width, height, canvas->index));
-    /* Check if canvas needs to be resized to real size first */
-    if (sdl_ui_finalized) {
-        sdl_canvas_create(canvas, &width, &height); /* set the real canvas size */
+    unsigned int width, height;
+    if (!(canvas && canvas->draw_buffer && canvas->videoconfig && canvas->fullscreenconfig)) {
+        return;
+    }
+    width = canvas->draw_buffer->canvas_width * canvas->videoconfig->scalex;
+    height = canvas->draw_buffer->canvas_height * canvas->videoconfig->scaley;
 
-        if (resize_canvas) {
-            DBG(("%s: set and resize to real size (%ix%i)", __func__, width, height));
-            canvas->real_width = canvas->actual_width;
-            canvas->real_height = canvas->actual_height;
+    DBG(("%s: %ix%i (%i)", __func__, width, height, canvas->index));
+
+    /* Ignore bad values, or values that don't change anything */
+    if (width == 0 || height == 0 || (canvas->texture && width == canvas->width && height == canvas->height)) {
+        return;
+    }
+    canvas->depth = sdl_bitdepth;
+    canvas->width = canvas->actual_width = width;
+    canvas->height = canvas->actual_height = height;
+
+    if (sdl2_renderer) {
+        SDL_Surface *new_screen = SDL_CreateRGBSurface(0, width, height, sdl_bitdepth, rmask, gmask, bmask, amask);
+        SDL_Texture *new_texture;
+        if (!new_screen) {
+            log_error(sdlvideo_log, "SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
+            return;
         }
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+        new_texture = SDL_CreateTexture(sdl2_renderer, texformat, SDL_TEXTUREACCESS_STREAMING, width, height);
+        if (!new_texture) {
+            log_error(sdlvideo_log, "SDL_CreateTexture() failed: %s\n", SDL_GetError());
+            SDL_FreeSurface(new_screen);
+            return;
+        }
+
+        if (canvas->screen) {
+            SDL_FreeSurface(canvas->screen);
+        }
+        canvas->screen = new_screen;
+        if (canvas->texture) {
+            SDL_DestroyTexture(canvas->texture);
+        }
+        canvas->texture = new_texture;
+        canvas->videoconfig->hwscale = 1;
+
+        log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp %s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", width, height, sdl_bitdepth, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
+#ifdef SDL_DEBUG
+        log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
+#endif
+
+        video_canvas_set_palette(canvas, canvas->palette);
+        sdl_correct_logical_size();
     }
 }
 
 /* Resize window to w/h. */
 void sdl_video_resize_event(unsigned int w, unsigned int h)
 {
-    DBG(("%s: %ix%i", __func__, w, h));
-
-    if ((w == 0) || (h == 0)) {
-        DBG(("%s: ERROR, ignored!", __func__));
-        return;
-    }
-
-    vsync_suspend_speed_eval();
-
-    {
-        sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
-        sdl_active_canvas->actual_width = w;
-        sdl_active_canvas->actual_height = h;
-    }
+    /* This is a no-op in SDL2! */
 }
 
 /* Resize window to stored real size */
 void sdl_video_restore_size(void)
 {
-    unsigned int w, h;
+    int w, h;
 
-    w = sdl_active_canvas->real_width;
-    h = sdl_active_canvas->real_height;
-
-    DBG(("%s: %ix%i->%ix%i", __func__, sdl_active_canvas->real_width, sdl_active_canvas->real_height, w, h));
-    sdl_video_resize_event(w, h);
+    if (sdl2_renderer) {
+        SDL_RenderGetLogicalSize(sdl2_renderer, &w, &h);
+        SDL_SetWindowSize(sdl2_window, w, h);
+    }
 }
 
 void sdl_video_canvas_switch(int index)
@@ -890,7 +815,7 @@ void sdl_video_canvas_switch(int index)
 
     canvas = sdl_canvaslist[sdl_active_canvas_num];
     sdl_active_canvas = canvas;
-
+    sdl_correct_logical_size();
     video_viewport_resize(canvas, 1);
 }
 
@@ -946,9 +871,20 @@ char video_canvas_can_resize(video_canvas_t *canvas)
 
 void sdl_ui_init_finalize(void)
 {
-    unsigned int width = sdl_active_canvas->draw_buffer->canvas_width;
-    unsigned int height = sdl_active_canvas->draw_buffer->canvas_height;
+    unsigned int width = sdl_active_canvas->width;
+    unsigned int height = sdl_active_canvas->height;
+    int flags = sdl_active_canvas->fullscreenconfig->enable ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_RESIZABLE;
+    int i;
 
-    sdl_canvas_create(sdl_active_canvas, &width, &height); /* set the real canvas size */
-    sdl_ui_finalized = 1;
+    if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_CUSTOM) {
+        width *= aspect_ratio;
+    }
+    if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
+        width *= sdl_active_canvas->geometry->pixel_aspect_ratio;
+    }
+
+    sdl_window_create(sdl_active_canvas->viewport->title, width, height, flags);
+    for (i = 0; i < sdl_num_screens; ++i) {
+        video_canvas_resize(sdl_canvaslist[i], 1);
+    }
 }
