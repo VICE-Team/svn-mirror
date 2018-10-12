@@ -35,7 +35,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <errno.h>
 #include <glib.h>
 #include <glib/gstdio.h>
@@ -241,9 +240,9 @@ char *archdep_extra_title_text(void)
  *
  * This tries to use fontconfig on Unix, and uses GDI on windows.
  *
- * \return    bool
+ * \return    bool as int
  */
-bool archdep_register_cbmfont(void)
+int archdep_register_cbmfont(void)
 {
     FcConfig *fc_config;
     int fc_version;
@@ -253,7 +252,7 @@ bool archdep_register_cbmfont(void)
     debug_gtk3("Initializing FontConfig.");
     if (!FcInit()) {
         debug_gtk3("failed\n");
-        return false;
+        return 0;
     }
     debug_gtk3("OK\n");
 
@@ -273,20 +272,20 @@ bool archdep_register_cbmfont(void)
     if (!FcConfigAppFontAddFile(fc_config, (FcChar8 *)path)) {
         debug_gtk3("failed.");
         lib_free(path);
-        return false;
+        return 0;
     }
     debug_gtk3("OK, font loaded.")
 
     lib_free(path);
-    return true;
+    return 1;
 }
 
 # else     /* HAVE_FONTCONFIG */
 
-bool archdep_register_cbmfont(void)
+int archdep_register_cbmfont(void)
 {
     log_error(LOG_ERR, "no fontconfig support, sorry.");
-    return false;
+    return 0;
 }
 
 # endif
@@ -304,7 +303,7 @@ bool archdep_register_cbmfont(void)
  *
  * \return  bool
  */
-bool archdep_register_cbmfont(void)
+int archdep_register_cbmfont(void)
 {
     char *datadir;
     char *path;
@@ -321,11 +320,11 @@ bool archdep_register_cbmfont(void)
     if (result == 0) {
         debug_gtk3("failed to add font");
         lib_free(path);
-        return FALSE;
+        return 0;
     }
     debug_gtk3("added %d fonts", result);
     lib_free(path);
-    return TRUE;
+    return 1;
 }
 
 #endif
