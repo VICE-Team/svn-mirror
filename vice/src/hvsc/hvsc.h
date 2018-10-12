@@ -37,7 +37,6 @@
 /* for size_t, fixed width types and bool */
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 /*
  * Microsoft's msvcrt does support C99's %z printf format specifier, so we
@@ -289,7 +288,7 @@ typedef struct hvsc_psid_s {
  * main.c stuff
  */
 
-bool        hvsc_init(const char *path);
+int         hvsc_init(const char *path);
 void        hvsc_exit(void);
 const char *hvsc_lib_version_str(void);
 void        hvsc_lib_version_num(int *major, int *minor, int *revision);
@@ -320,11 +319,11 @@ int         hvsc_sldb_get_lengths(const char *psid, long **lengths);
  * stil.c stuff
  */
 
-bool        hvsc_stil_open(const char *psid, hvsc_stil_t *handle);
+int         hvsc_stil_open(const char *psid, hvsc_stil_t *handle);
 void        hvsc_stil_close(hvsc_stil_t *handle);
-bool        hvsc_stil_read_entry(hvsc_stil_t *handle);
+int         hvsc_stil_read_entry(hvsc_stil_t *handle);
 void        hvsc_stil_dump_entry(hvsc_stil_t *handle);
-bool        hvsc_stil_parse_entry(hvsc_stil_t *handle);
+int         hvsc_stil_parse_entry(hvsc_stil_t *handle);
 void        hvsc_stil_dump(hvsc_stil_t *handle);
 
 /* XXX: needs much better name
@@ -332,9 +331,9 @@ void        hvsc_stil_dump(hvsc_stil_t *handle);
  * This combines calls of stil_open(), stil_read_entry() and stil_parse_entry()
  * It's probably best to make those functions static and leave this one.
  * */
-bool        hvsc_stil_get(hvsc_stil_t *stil, const char *path);
+int         hvsc_stil_get(hvsc_stil_t *stil, const char *path);
 
-bool        hvsc_stil_get_tune_entry(const hvsc_stil_t *handle,
+int         hvsc_stil_get_tune_entry(const hvsc_stil_t *handle,
                                      hvsc_stil_tune_entry_t *entry,
                                      int tune);
 void        hvsc_stil_dump_tune_entry(const hvsc_stil_tune_entry_t *entry);
@@ -343,7 +342,7 @@ void        hvsc_stil_dump_tune_entry(const hvsc_stil_tune_entry_t *entry);
  * bugs.c stuff
  */
 
-bool        hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle);
+int         hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle);
 void        hvsc_bugs_close(hvsc_bugs_t *handle);
 
 
@@ -351,10 +350,10 @@ void        hvsc_bugs_close(hvsc_bugs_t *handle);
  * psid.c stuff
  */
 
-bool            hvsc_psid_open(const char *path, hvsc_psid_t *handle);
+int             hvsc_psid_open(const char *path, hvsc_psid_t *handle);
 void            hvsc_psid_close(hvsc_psid_t *handle);
 void            hvsc_psid_dump(const hvsc_psid_t *handle);
-bool            hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path);
+int             hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path);
 unsigned int    hvsc_psid_get_model_id(const hvsc_psid_t *handle, int sid);
 const char *    hvsc_psid_get_model_str(const hvsc_psid_t *handle, int sid);
 unsigned int    hvsc_psid_get_clock_id(const hvsc_psid_t *handle);

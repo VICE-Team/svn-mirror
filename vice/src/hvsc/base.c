@@ -28,7 +28,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
-#include <stdbool.h>
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
@@ -189,7 +188,7 @@ void hvsc_text_file_init_handle(hvsc_text_file_t *handle)
  *
  * \return  bool
  */
-bool hvsc_text_file_open(const char *path, hvsc_text_file_t *handle)
+int hvsc_text_file_open(const char *path, hvsc_text_file_t *handle)
 {
     printf("%s(): opening '%s'\n", __func__, path);
     hvsc_text_file_init_handle(handle);
@@ -197,12 +196,12 @@ bool hvsc_text_file_open(const char *path, hvsc_text_file_t *handle)
     handle->fp = fopen(path, "rb");
     if (handle->fp == NULL) {
         hvsc_errno = HVSC_ERR_IO;
-        return false;
+        return 0;
     }
     handle->path = hvsc_strdup(path);
     if (handle->path == NULL) {
         fclose(handle->fp);
-        return false;
+        return 0;
     }
 
     handle->lineno = 0;
@@ -212,11 +211,11 @@ bool hvsc_text_file_open(const char *path, hvsc_text_file_t *handle)
         hvsc_errno = HVSC_ERR_OOM;
         free(handle->path);
         fclose(handle->fp);
-        return false;
+        return 0;
     }
     handle->buflen = READFILE_LINE_SIZE;
 
-    return true;
+    return 1;
 }
 
 
@@ -253,7 +252,7 @@ const char *hvsc_text_file_read(hvsc_text_file_t *handle)
 {
     size_t i = 0;
 
-    while (true) {
+    while (1) {
         int ch;
 
         /* resize buffer? */
@@ -359,7 +358,7 @@ long hvsc_read_file(uint8_t **dest, const char *path)
     }
 
     /* keep reading chunks until EOF */
-    while (true) {
+    while (1) {
         /* need to resize? */
         if (offset == size) {
             /* yup */
@@ -507,12 +506,12 @@ char *hvsc_paths_join(const char *p1, const char *p2)
  *
  * \return  bool
  */
-bool hvsc_set_paths(const char *path)
+int hvsc_set_paths(const char *path)
 {
     /* set HVSC root path */
     hvsc_root_path = hvsc_strdup(path);
     if (hvsc_root_path == NULL) {
-        return false;
+        return 0;
     }
 
     /* set SLDB path */
@@ -520,7 +519,7 @@ bool hvsc_set_paths(const char *path)
     if (hvsc_sldb_path == NULL) {
         free(hvsc_root_path);
         hvsc_root_path = NULL;
-        return false;
+        return 0;
     }
 
     /* set STIL path */
@@ -530,7 +529,7 @@ bool hvsc_set_paths(const char *path)
         free(hvsc_sldb_path);
         hvsc_root_path = NULL;
         hvsc_sldb_path = NULL;
-        return false;
+        return 0;
     }
 
     /* set BUGlist path */
@@ -542,14 +541,14 @@ bool hvsc_set_paths(const char *path)
         hvsc_root_path = NULL;
         hvsc_sldb_path = NULL;
         hvsc_stil_path = NULL;
-        return false;
+        return 0;
     }
 
     hvsc_dbg("HVSC root = %s\n", hvsc_root_path);
     hvsc_dbg("HVSC sldb = %s\n", hvsc_sldb_path);
     hvsc_dbg("HVSC stil = %s\n", hvsc_stil_path);
     hvsc_dbg("HVSC bugs = %s\n", hvsc_bugs_path);
-    return true;
+    return 1;
 }
 
 
@@ -634,12 +633,12 @@ void hvsc_path_fix_separators(char *path)
  *
  * \return  bool
  */
-bool hvsc_string_is_empty(const char *s)
+int hvsc_string_is_empty(const char *s)
 {
     while (*s != '\0' && isspace((int)*s)) {
         s++;
     }
-    return *s == '\0' ? true : false;
+    return *s == '\0';
 }
 
 
@@ -652,13 +651,13 @@ bool hvsc_string_is_empty(const char *s)
  *
  * \return  bool
  */
-bool hvsc_string_is_comment(const char *s)
+int hvsc_string_is_comment(const char *s)
 {
     /* ignore leading whitespace (not strictly required) */
     while (*s != '\0' && isspace((int)*s)) {
         s++;
     }
-    return *s == '#' ? true : false;
+    return *s == '#';
 }
 
 

@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <inttypes.h>
-#include <stdbool.h>
 #include <ctype.h>
 
 #ifdef HVSC_USE_MD5
@@ -53,7 +52,7 @@
  *
  * \return  bool
  */
-static bool create_md5_hash(const char *psid, unsigned char *digest)
+static int create_md5_hash(const char *psid, unsigned char *digest)
 {
     unsigned char *data;
     long size;
@@ -66,7 +65,7 @@ static bool create_md5_hash(const char *psid, unsigned char *digest)
     size = hvsc_read_file(&data, psid);
     if (size < 0) {
         fprintf(stderr, "failed!\n");
-        return false;
+        return 0;
     }
     hvsc_dbg("got %ld bytes\n", size);
 
@@ -77,7 +76,7 @@ static bool create_md5_hash(const char *psid, unsigned char *digest)
     if (err != 0) {
         hvsc_errno = HVSC_ERR_GCRYPT;
         free(data);
-        return -1;
+        return 0;
     }
 
     gcry_md_write(handle, data, (size_t)size);
@@ -88,7 +87,7 @@ static bool create_md5_hash(const char *psid, unsigned char *digest)
 
     free(data);
 
-    return true;
+    return 1;
 }
 #endif
 
@@ -112,7 +111,7 @@ static char *find_sldb_entry_md5(const char *digest)
         return NULL;
     }
 
-    while (true) {
+    while (1) {
         line = hvsc_text_file_read(&handle);
         if (line == NULL) {
             hvsc_text_file_close(&handle);
@@ -157,7 +156,7 @@ static char *find_sldb_entry_txt(const char *path)
 
     plen = strlen(path);
 
-    while (true) {
+    while (1) {
         line = hvsc_text_file_read(&handle);
         if (line == NULL) {
             hvsc_text_file_close(&handle);
@@ -248,7 +247,7 @@ char *hvsc_sldb_get_entry_md5(const char *psid)
 {
     unsigned char hash[HVSC_DIGEST_SIZE];
     char hash_text[HVSC_DIGEST_SIZE * 2 + 1];
-    bool result;
+    int result;
     int i;
     char *entry;
 

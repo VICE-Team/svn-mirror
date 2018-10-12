@@ -32,7 +32,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
-#include <stdbool.h>
 
 #include "hvsc.h"
 
@@ -67,7 +66,7 @@
  *
  * \ingroup main
  */
-bool hvsc_init(const char *path)
+int hvsc_init(const char *path)
 {
     hvsc_errno = 0;
     return hvsc_set_paths(path);

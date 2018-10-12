@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <inttypes.h>
-#include <stdbool.h>
 
 #include "hvsc.h"
 #include "base.h"
@@ -115,10 +114,10 @@ static void psid_handle_init(hvsc_psid_t *handle)
  * \return  bool
  * \ingroup psid
  */
-static bool psid_header_is_valid(const uint8_t *header)
+static int psid_header_is_valid(const uint8_t *header)
 {
-    return (bool)((memcmp(header, psid_magic, HVSC_PSID_MAGIC_LEN) == 0)
-        || (memcmp(header, rsid_magic, HVSC_PSID_MAGIC_LEN) == 0));
+    return (memcmp(header, psid_magic, HVSC_PSID_MAGIC_LEN) == 0)
+        || (memcmp(header, rsid_magic, HVSC_PSID_MAGIC_LEN) == 0);
 }
 
 
@@ -145,17 +144,17 @@ static void psid_copy_string(char *dest, uint8_t *src)
  * \return  bool
  * \ingroup psid
  */
-static bool psid_sid_address_is_valid(uint8_t address)
+static int psid_sid_address_is_valid(uint8_t address)
 {
     /* only even addresses are valid */
     if (address & 0x01) {
-        return false;
+        return 0;
     }
     /* only $d420-$d7e0 or $de00-$dfe0 are valid, in steps of $20 */
     if (address < 0x42 || (address >= 0x80 && address <= 0xdf)) {
-        return false;
+        return 0;
     }
-    return true;
+    return 1;
 }
 
 
@@ -240,7 +239,7 @@ static void psid_parse_header(hvsc_psid_t *handle)
  * \return  bool
  * \ingroup psid
  */
-bool hvsc_psid_open(const char *path, hvsc_psid_t *handle)
+int hvsc_psid_open(const char *path, hvsc_psid_t *handle)
 {
     long size;
     uint8_t *data;
@@ -255,7 +254,7 @@ bool hvsc_psid_open(const char *path, hvsc_psid_t *handle)
 #ifdef HVSC_DBG
         hvsc_perror("failed");
 #endif
-        return false;
+        return 0;
     }
 
     /* check size */
@@ -265,7 +264,7 @@ bool hvsc_psid_open(const char *path, hvsc_psid_t *handle)
 #endif
         hvsc_errno = HVSC_ERR_INVALID;
         free(data);
-        return false;
+        return 0;
     }
     hvsc_dbg("OK, got %ld bytes\n", size);
 
@@ -274,7 +273,7 @@ bool hvsc_psid_open(const char *path, hvsc_psid_t *handle)
         hvsc_dbg("got invalid header magic\n");
         hvsc_errno = HVSC_ERR_INVALID;
         free(data);
-        return false;
+        return 0;
     }
 
     /* set data and size */
@@ -284,11 +283,11 @@ bool hvsc_psid_open(const char *path, hvsc_psid_t *handle)
     handle->path = hvsc_strdup(path);
     if (handle->path == NULL) {
         free(handle->data);
-        return false;
+        return 0;
     }
 
     psid_parse_header(handle);
-    return true;
+    return 1;
 }
 
 
@@ -471,7 +470,7 @@ void hvsc_psid_dump(const hvsc_psid_t *handle)
  *
  * \ingroup psid
  */
-bool hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
+int hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
 {
     FILE *fp;
     size_t size;
@@ -480,7 +479,7 @@ bool hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
     fp = fopen(path, "wb");
     if (fp == NULL) {
         hvsc_errno = HVSC_ERR_IO;
-        return false;
+        return 0;
     }
 
     /* do we need to write a 2-byte start address? */
@@ -489,12 +488,12 @@ bool hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
         if (fputc(handle->load_address & 0xff, fp) == EOF) {
             hvsc_errno = HVSC_ERR_IO;
             fclose(fp);
-            return false;
+            return 0;
         }
         if (fputc(handle->load_address >> 8, fp) == EOF) {
             hvsc_errno = HVSC_ERR_IO;
             fclose(fp);
-            return false;
+            return 0;
         }
     }
     /* write binary data */
@@ -505,9 +504,9 @@ bool hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
     if (result != size) {
         hvsc_errno = HVSC_ERR_IO;
         fclose(fp);
-        return false;
+        return 0;
     }
 
     fclose(fp);
-    return true;
+    return 1;
 }

@@ -28,9 +28,6 @@
 #ifndef HVSC_STIL_H
 #define HVSC_STIL_H
 
-#include <stdbool.h>
-
 #include "hvsc_defs.h"
-
 
 #endif

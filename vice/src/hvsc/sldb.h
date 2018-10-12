@@ -28,7 +28,5 @@
 #ifndef HVSC_SLDB_H
 #define HVSC_SLDB_H
 
-#include <stdbool.h>
-
 
 #endif
