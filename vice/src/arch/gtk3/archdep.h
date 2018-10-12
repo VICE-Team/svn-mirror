@@ -2,6 +2,9 @@
  * \brief   Miscellaneous system-specific stuff - header
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
+ * \note    Do NOT \#include stdbool.h here, that will lead to weird bugs in
+ *          the monitor code.
  */
 
 /*
@@ -28,6 +31,7 @@
 #ifndef VICE_ARCHDEP_H
 #define VICE_ARCHDEP_H
 
+/* XXX: do NOT include <stdbool.h>, causes bugs in monitor code */
 #include "vice.h"
 #include "sound.h"
 
