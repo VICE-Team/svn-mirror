@@ -32,7 +32,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #ifdef UNIX_COMPILE
 #include <unistd.h>
@@ -1750,7 +1749,7 @@ void ui_update_lightpen(void)
  *
  * \param[in]   enabled enabled state for the CRT controls
  */
-void ui_enable_crt_controls(bool enabled)
+void ui_enable_crt_controls(int enabled)
 {
     GtkWidget *window;
     GtkWidget *grid;
@@ -1784,7 +1783,7 @@ void ui_enable_crt_controls(bool enabled)
  *
  * \param[in]   enabled enabled state for the mixer controls
  */
-void ui_enable_mixer_controls(bool enabled)
+void ui_enable_mixer_controls(int enabled)
 {
     GtkWidget *window;
     GtkWidget *grid;

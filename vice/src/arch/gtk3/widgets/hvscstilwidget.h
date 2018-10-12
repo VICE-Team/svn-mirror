@@ -31,10 +31,9 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 
-GtkWidget *hvsc_stil_widget_create(void);
-bool hvsc_stil_widget_set_psid(const char *filename);
+GtkWidget * hvsc_stil_widget_create(void);
+int         hvsc_stil_widget_set_psid(const char *filename);
 
 #endif

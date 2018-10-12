@@ -39,7 +39,6 @@
 #include "vice.h"
 
 #include <stdlib.h>
-#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -375,7 +374,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     int row = 0;
     int model = 0;
 #ifdef HAVE_RESID
-    bool sid_present = true;
+    gboolean sid_present = TRUE;
     int tmp;
 
     if (machine_class == VICE_MACHINE_PET
@@ -384,13 +383,13 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
         /* check for presence of SidCart */
         if (resources_get_int("SidCart", &tmp) < 0) {
             debug_gtk3("failed to get value for resource SidCart, disabling.");
-            sid_present = false;
+            sid_present = FALSE;
         } else {
-            sid_present = (bool)tmp;
+            sid_present = (gboolean)tmp;
         }
     }
 #else
-    bool sid_present = false;
+    gboolean sid_present = FALSE;
 #endif
 
     grid = vice_gtk3_grid_new_spaced(16, 0);

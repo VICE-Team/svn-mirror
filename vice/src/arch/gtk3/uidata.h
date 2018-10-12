@@ -28,7 +28,6 @@
 #define VICE_UIDATA_H
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 /** \brief  Root namespace of the GResouce files
  *
@@ -41,7 +40,7 @@
 #define UIDATA_ROOT_PATH    "/org/pokefinder/vice"
 
 
-bool        uidata_init(void);
+int         uidata_init(void);
 void        uidata_shutdown(void);
 
 GdkPixbuf * uidata_get_pixbuf(const char *name);

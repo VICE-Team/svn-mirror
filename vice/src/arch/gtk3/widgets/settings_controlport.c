@@ -37,7 +37,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 #include <stdlib.h>
 
 #include "vice_gtk3.h"

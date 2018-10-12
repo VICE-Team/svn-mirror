@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
 #include "machine.h"
@@ -125,19 +124,19 @@ int uivideo_chip_id(void)
  *
  * \return  bool
  */
-bool uivideo_chip_has_vert_stretch(const char *chip)
+int uivideo_chip_has_vert_stretch(const char *chip)
 {
     switch (machine_class) {
         /* CRTC */
         case VICE_MACHINE_PET:      /* fall through */
         case VICE_MACHINE_CBM6x0:
-            return true;
+            return 1;
         /* VDC */
         case VICE_MACHINE_C128:
             return (strcmp(chip, "VDC") == 0);
         /* VIC, VIC-II, TED */
         default:
-            return false;
+            return 0;
     }
 }
 
@@ -148,19 +147,19 @@ bool uivideo_chip_has_vert_stretch(const char *chip)
  *
  * \return  bool
  */
-bool uivideo_chip_has_border_mode(const char *chip)
+int uivideo_chip_has_border_mode(const char *chip)
 {
     switch (machine_class) {
         /* CRTC */
         case VICE_MACHINE_PET:      /* fall through */
         case VICE_MACHINE_CBM6x0:
-            return false;
+            return 0;
         /* VDC */
         case VICE_MACHINE_C128:
             return !(strcmp(chip, "VDC") == 0);
         /* VIC, VIC-II, TED */
         default:
-            return true;
+            return 1;
     }
 }
 
@@ -171,20 +170,20 @@ bool uivideo_chip_has_border_mode(const char *chip)
  *
  * \return  bool
  */
-bool uivideo_chip_has_vsp_bug(const char *chip)
+int uivideo_chip_has_vsp_bug(const char *chip)
 {
     switch (machine_class) {
         case VICE_MACHINE_C64SC:      /* fall through */
         case VICE_MACHINE_SCPU64:
-            return true;
+            return 1;
         /* VDC */
         case VICE_MACHINE_C128:
             /* not right now, unless VICII emulation in x128 gets it later */
             /* return !(strcmp(chip, "VDC") == 0); */
-            return false;
+            return 0;
 
         default:
-            return false;
+            return 0;
     }
 }
 
@@ -195,7 +194,7 @@ bool uivideo_chip_has_vsp_bug(const char *chip)
  *
  * \return  bool
  */
-bool uivideo_chip_has_sprites(const char *chip)
+int uivideo_chip_has_sprites(const char *chip)
 {
     switch (machine_class) {
         /* VIC-II */
@@ -204,12 +203,12 @@ bool uivideo_chip_has_sprites(const char *chip)
         case VICE_MACHINE_C64DTV:   /* fall through */
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_CBM5x0:
-            return true;
+            return 1;
         /* VDC or VICII */
         case VICE_MACHINE_C128:
             return !(strcmp(chip, "VDC") == 0);
 
         default:
-            return false;
+            return 0;
     }
 }

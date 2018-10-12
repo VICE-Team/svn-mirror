@@ -43,7 +43,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 #include <string.h>
 
 #include "debug_gtk3.h"
@@ -143,7 +142,7 @@ static GtkWidget *create_combo_box(void)
     palette_info_t *list;
     int row;
     const char *current;
-    bool found = false;
+    gboolean found = FALSE;
 
     if (resources_get_string_sprintf("%sPaletteFile",
                 &current, chip_prefix) < 0) {
@@ -160,7 +159,7 @@ static GtkWidget *create_combo_box(void)
                     list[index].file, list[index].name);
             if (current != NULL && strcmp(list[index].file, current) == 0) {
                 gtk_combo_box_set_active(GTK_COMBO_BOX(combo), row);
-                found = true;
+                found = TRUE;
             }
             row++;
         }

@@ -1262,7 +1262,7 @@ static void on_crt_toggled(GtkWidget *widget, gpointer data)
     gboolean state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    ui_enable_crt_controls((bool)state);
+    ui_enable_crt_controls((gboolean)state);
 }
 
 
@@ -1278,7 +1278,7 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
     gboolean state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    ui_enable_mixer_controls((bool)state);
+    ui_enable_mixer_controls((gboolean)state);
 }
 
 

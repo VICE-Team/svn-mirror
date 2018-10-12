@@ -27,7 +27,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include "lib.h"
 #include "debug_gtk3.h"
@@ -80,7 +79,7 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
 {
     GtkWidget *dialog;
     GtkWindow *parent = ui_get_active_window();
-    bool no_parent = false;
+    gboolean no_parent = FALSE;
 #if 0
     int pause_state = ui_emulation_is_paused();
     /* pause emulation if not paused already */
@@ -93,7 +92,7 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
 
     if (parent == NULL) {
         /* set up a temporary parent to avoid Gtk warnings */
-        no_parent = true;
+        no_parent = TRUE;
         parent = GTK_WINDOW(gtk_window_new(GTK_WINDOW_TOPLEVEL));
     }
 

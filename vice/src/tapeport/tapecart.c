@@ -100,7 +100,7 @@ static void    tapecart_set_mode(tapecart_mode_t mode);
 static clock_t fasttx_byte_advance(void);
 static clock_t cmdmode_receive_command(void);
 
-static bool    load_tcrt(const char *filename, tapecart_memory_t *tcmem);
+static int     load_tcrt(const char *filename, tapecart_memory_t *tcmem);
 static void    update_tcrt(void);
 
 static tapeport_device_t tapecart_device = {
@@ -319,7 +319,7 @@ static void set_write(int value)
 static void clear_memory(tapecart_memory_t *memory)
 {
     memset(memory, 0xff, sizeof(tapecart_memory_t));
-    memory->changed = false;
+    memory->changed = 0;
 }
 
 static int set_tapecart_enabled(int value, void *unused_param)
@@ -853,7 +853,7 @@ static clock_t fastload_mode_init(void)
 /*  command mode functions                                              */
 /* ---------------------------------------------------------------------*/
 
-static bool validate_flashaddress(unsigned int address, unsigned int length)
+static int validate_flashaddress(unsigned int address, unsigned int length)
 {
     return (address < TAPECART_FLASH_SIZE) &&
         (address + length <= TAPECART_FLASH_SIZE);
@@ -1076,7 +1076,7 @@ static clock_t cmd_read_flash_fast(void)
 
 static clock_t cmdmode_write_flash_page(void)
 {
-    bool non_erased_write = false;
+    int non_erased_write = 0;
     unsigned int i = 0;
 
     /* accept writes only to bytes that are erased */
@@ -1084,12 +1084,12 @@ static clock_t cmdmode_write_flash_page(void)
     for (i = 0; i < block_length; i++) {
         if (tapecart_memory->flash[flash_address + i] == 0xff) {
             tapecart_memory->flash[flash_address + i] = transfer_buffer[i];
-            tapecart_memory->changed = true;
+            tapecart_memory->changed = 1;
         } else if (tapecart_loglevel > 0 && !non_erased_write) {
             log_message(tapecart_log,
                         "detected write to non-erased address at 0x%X",
                         flash_address + i);
-            non_erased_write = true;
+            non_erased_write = 1;
         }
     }
 
@@ -1153,7 +1153,7 @@ static clock_t cmd_erase_flash_64k(void)
         }
 
         memset(tapecart_memory->flash + address, 0xff, 65536);
-        tapecart_memory->changed = true;
+        tapecart_memory->changed = 1;
     }
 
     /* simulate typical erase time of SPI flash */
@@ -1179,7 +1179,7 @@ static clock_t cmd_erase_flash_block(void)
         }
 
         memset(tapecart_memory->flash + address, 0xff, FLASH_ERASE_SIZE);
-        tapecart_memory->changed = true;
+        tapecart_memory->changed = 1;
     }
 
     /* simulate typical erase time of SPI flash */
@@ -1222,7 +1222,7 @@ static clock_t cmd_write_loadinfo(void)
     tapecart_memory->call_address = get_u16_le(transfer_buffer + 4);
     memcpy(tapecart_memory->filename, transfer_buffer + 6,
            TAPECART_FILENAME_SIZE);
-    tapecart_memory->changed = true;
+    tapecart_memory->changed = 0;
 
     if (tapecart_loglevel > 1) {
         log_message(tapecart_log,
@@ -1376,7 +1376,7 @@ static clock_t cmdmode_dispatch_command(void)
         case CMD_WRITE_LOADER:
             receive_1bit(0, tapecart_memory->loader, TAPECART_LOADER_SIZE,
                          cmdmode_receive_command);
-            tapecart_memory->changed = true;
+            tapecart_memory->changed = 1;
             break;
 
         case CMD_WRITE_LOADINFO:
@@ -1714,16 +1714,16 @@ static const unsigned char default_loader[TAPECART_LOADER_SIZE] = {
 #  include "tapecart-loader.h"
 };
 
-static bool load_tcrt(const char *filename, tapecart_memory_t *tcmem)
+static int load_tcrt(const char *filename, tapecart_memory_t *tcmem)
 {
-    bool retval = false;
+    int retval = 0;
     FILE *fd;
     uint8_t tcrt_header[TCRT_HEADER_SIZE];
     uint32_t flashlen;
 
     fd = fopen(filename, MODE_READ);
     if (fd == NULL) {
-        return false;
+        return 0;
     }
 
     do {
@@ -1770,22 +1770,22 @@ static bool load_tcrt(const char *filename, tapecart_memory_t *tcmem)
         tcmem->data_offset  = get_u16_le(tcrt_header + TCRT_OFFSET_DATAADDR);
         tcmem->data_length  = get_u16_le(tcrt_header + TCRT_OFFSET_DATALENGTH);
         tcmem->call_address = get_u16_le(tcrt_header + TCRT_OFFSET_CALLADDR);
-        tcmem->changed      = false;
+        tcmem->changed      = 0;
 
-        retval = true;
+        retval = 1;
     } while (0);
 
     fclose(fd);
     return retval;
 }
 
-static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem)
+static int save_tcrt(const char *filename, tapecart_memory_t *tcmem)
 {
     FILE *fd;
     uint8_t *ptr;
     uint8_t tcrt_header[TCRT_HEADER_SIZE];
     uint32_t flashlen = TAPECART_FLASH_SIZE;
-    bool retval = false;
+    int retval = 0;
 
     if (tapecart_optimize_tcrt) {
         /* scan for last non-0xff byte */
@@ -1811,7 +1811,7 @@ static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem)
 
     fd = fopen(filename, MODE_WRITE);
     if (fd == NULL) {
-        return false;
+        return 0;
     }
 
     do {
@@ -1823,7 +1823,7 @@ static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem)
             break;
         }
 
-        retval = true;
+        retval = 1;
     } while (0);
 
     fclose(fd);

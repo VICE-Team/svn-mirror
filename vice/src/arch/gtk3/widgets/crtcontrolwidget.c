@@ -94,7 +94,6 @@
 #include "vice.h"
 
 #include <string.h>
-#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -363,7 +362,7 @@ static void add_sliders(GtkGrid *grid,
     int video_standard;
     int row = 1;
     int chip_id;
-    bool enabled;
+    gboolean enabled;
     int oldrow;
 
     chip = data->chip;

@@ -28,7 +28,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include "machine.h"
 #include "resources.h"
@@ -239,7 +238,7 @@ static GtkFileFilter *flt_all = NULL;
 static GtkListStore *create_cart_id_model(unsigned int flags);
 static int get_cart_type(void);
 static int get_cart_id(void);
-static bool attach_cart_image(int type, int id, const char *path);
+static int attach_cart_image(int type, int id, const char *path);
 static GtkListStore *create_cart_id_model_vic20(void);
 
 
@@ -440,7 +439,7 @@ static int get_cart_id(void)
  *
  * \return  bool
  */
-static bool attach_cart_image(int type, int id, const char *path)
+static int attach_cart_image(int type, int id, const char *path)
 {
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
@@ -560,7 +559,7 @@ static bool attach_cart_image(int type, int id, const char *path)
         default:
             debug_gtk3("very oops: type = %d, id = %d, path = '%s'.",
                     type, id, path);
-            return false;
+            return 0;
             break;
     }
 
@@ -575,9 +574,9 @@ static bool attach_cart_image(int type, int id, const char *path)
             debug_gtk3("setting cart with ID %04x as default.", id);
                 crt_default_func();
         }
-        return true;
+        return 1;
     }
-    return false;
+    return 0;
 }
 
 

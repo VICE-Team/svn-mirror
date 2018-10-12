@@ -33,7 +33,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -89,7 +88,7 @@ static vice_gtk3_combo_entry_str_t *iface_list;
  *
  * \return  bool
  */
-static bool build_iface_list(void)
+static gboolean build_iface_list(void)
 {
     int num = 0;
     char *if_name;
@@ -97,7 +96,7 @@ static bool build_iface_list(void)
 
     /* get number of adapters */
     if (!rawnet_enumadapter_open()) {
-        return false;
+        return FALSE;
     }
     while (rawnet_enumadapter(&if_name, &if_desc)) {
         lib_free(if_name);
@@ -115,7 +114,7 @@ static bool build_iface_list(void)
     if (!rawnet_enumadapter_open()) {
         lib_free(iface_list);
         iface_list = NULL;
-        return false;
+        return FALSE;
     }
 
     num = 0;
@@ -140,7 +139,7 @@ static bool build_iface_list(void)
     iface_list[num].id = NULL;
     iface_list[num].name = NULL;
     rawnet_enumadapter_close();
-    return true;
+    return TRUE;
 }
 
 

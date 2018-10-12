@@ -28,7 +28,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #include "resources.h"
 #include "vice_gtk3.h"

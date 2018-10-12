@@ -39,7 +39,6 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -124,7 +123,7 @@ void archdep_program_path_set_argv0(char *argv0)
  *
  * \return  bool (if this fails, we have to give up)
  */
-static bool argv_fallback(void)
+static int argv_fallback(void)
 {
     char cwd_buf[4096];
     char *result;
@@ -132,17 +131,17 @@ static bool argv_fallback(void)
 
     if (argv0_ref == NULL) {
         log_error(LOG_ERR, "argv[0] is NULL, giving up.");
-        return false;
+        return 0;
     }
     if (*argv0_ref == '\0') {
         log_error(LOG_ERR, "argv[0] is empty, giving up.");
-        return false;
+        return 0;
     }
 
     /* do we have an absolute path in argv[0]? */
     if (!archdep_path_is_relative(argv0_ref)) {
         strcpy(buffer, argv0_ref);
-        return true;
+        return 1;
     }
 
     /*
@@ -153,16 +152,16 @@ static bool argv_fallback(void)
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
     if (getcwd(cwd_buf, 4096 - 1) == NULL) {
         log_error(LOG_ERR, "failed to get cwd, giving up.");
-        return false;
+        return 0;
     }
 #elif defined(ARCHDEP_OS_WINDOWS)
     if (_getcwd(cwd_buf, 4096 -1) == NULL) {
         log_error(LOG_ERR, "failed to get cwd, giving up.");
-        return false;
+        return 0;
     }
 #else
     log_eror(LOG_ERR,"no getcwd() support for current OS, giving up.");
-    return false;
+    return 0;
 #endif
 
     result = archdep_join_paths(cwd_buf, argv0_ref, NULL);
@@ -171,11 +170,11 @@ static bool argv_fallback(void)
         /* insufficient space */
         log_error(LOG_ERR, "insufficient space for path, giving up.");
         lib_free(result);
-        return false;
+        return 0;
     }
     memcpy(buffer, result, res_len + 1);
     lib_free(result);
-    return true;
+    return 1;
 }
 
 

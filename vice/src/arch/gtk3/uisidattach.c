@@ -27,7 +27,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #include "debug_gtk3.h"
 #include "basedialogs.h"

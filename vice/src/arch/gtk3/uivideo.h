@@ -29,7 +29,6 @@
 #define VICE_UIVIDEO_H
 
 #include "vice.h"
-#include <stdbool.h>
 
 
 /** \brief  Video chip ID enum
@@ -45,9 +44,9 @@ enum {
 
 const char *uivideo_chip_name(void);
 int         uivideo_chip_id  (void);
-bool        uivideo_chip_has_vert_stretch(const char *chip);
-bool        uivideo_chip_has_border_mode(const char *chip);
-bool        uivideo_chip_has_vsp_bug(const char *chip);
-bool        uivideo_chip_has_sprites(const char *chip);
+int         uivideo_chip_has_vert_stretch(const char *chip);
+int         uivideo_chip_has_border_mode(const char *chip);
+int         uivideo_chip_has_vsp_bug(const char *chip);
+int         uivideo_chip_has_sprites(const char *chip);
 
 #endif

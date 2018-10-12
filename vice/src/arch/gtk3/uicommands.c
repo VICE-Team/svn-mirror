@@ -39,7 +39,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #include "archdep.h"
 #include "resources.h"

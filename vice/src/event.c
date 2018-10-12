@@ -31,7 +31,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include "alarm.h"
 #include "archdep.h"
@@ -252,7 +251,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
             crc_to_attach = crc32_from_le(data + 3);
             crc32_to_le(crc_file, crc_to_attach);
 
-            while (true) {
+            while (1) {
                 uint32_t file_crc;
 
                 filename = ui_get_file(

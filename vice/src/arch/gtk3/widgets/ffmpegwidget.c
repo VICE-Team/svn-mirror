@@ -38,7 +38,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 #include "debug_gtk3.h"
 #include "lib.h"

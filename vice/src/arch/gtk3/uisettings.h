@@ -29,7 +29,6 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
-#include <stdbool.h>
 #include "resourcewidgetmanager.h"
 
 

@@ -31,7 +31,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #include "videoarch.h"
 #include "palette.h"
@@ -89,7 +88,7 @@ gboolean ui_advance_frame(void);
 
 void ui_update_lightpen(void);
 
-void ui_enable_crt_controls(bool enabled);
-void ui_enable_mixer_controls(bool enabled);
+void ui_enable_crt_controls(int enabled);
+void ui_enable_mixer_controls(int enabled);
 
 #endif

@@ -35,7 +35,6 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 #include "archdep.h"
 #include "debug_gtk3.h"
@@ -59,7 +58,7 @@ static GResource *gresource = NULL;
  *
  * \return  bool
  */
-bool uidata_init(void)
+int uidata_init(void)
 {
     GError *err = NULL;
 #ifdef HAVE_DEBUG_GTK3UI
@@ -81,7 +80,7 @@ bool uidata_init(void)
                 path, err->message);
         g_clear_error(&err);
         lib_free(path);
-        return false;
+        return 0;
     }
     lib_free(path);
     g_resources_register(gresource);
@@ -96,14 +95,14 @@ bool uidata_init(void)
     if (files == NULL && err != NULL) {
         debug_gtk3("couldn't enumerate children: %s.", err->message);
         g_clear_error(&err);
-        return false;
+        return 0;
     }
     debug_gtk3("Listing files in the GResource file:");
     for (i = 0; files[i] != NULL; i++) {
         debug_gtk3("%d: %s.", i, files[i]);
     }
 #endif
-    return true;
+    return 1;
 }
 
 

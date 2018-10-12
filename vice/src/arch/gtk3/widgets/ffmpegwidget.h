@@ -29,9 +29,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 GtkWidget *ffmpeg_widget_create(void);
-
 
 #endif

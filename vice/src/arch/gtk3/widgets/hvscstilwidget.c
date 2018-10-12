@@ -32,7 +32,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #include "resources.h"
 #include "vice_gtk3.h"
@@ -99,7 +98,7 @@ GtkWidget *hvsc_stil_widget_create(void)
 }
 
 
-bool hvsc_stil_widget_set_psid(const char *psid)
+int hvsc_stil_widget_set_psid(const char *psid)
 {
     hvsc_stil_t stil;
     size_t t;
@@ -116,7 +115,7 @@ bool hvsc_stil_widget_set_psid(const char *psid)
         } else {
             gtk_text_buffer_set_text(buffer, "Failed to load STIL.", -1);
         }
-        return false;
+        return 0;
     }
 
     gtk_text_buffer_set_text(buffer, "", -1);
@@ -177,5 +176,5 @@ bool hvsc_stil_widget_set_psid(const char *psid)
     }
 
     hvsc_stil_close(&stil);
-    return true;
+    return 1;
 }

@@ -31,7 +31,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdbool.h>
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
@@ -668,7 +667,7 @@ void vsid_tune_info_widget_set_data_size(uint16_t size)
  *
  * \return  bool
  */
-bool vsid_tune_info_widget_set_song_lengths(const char *psid)
+int vsid_tune_info_widget_set_song_lengths(const char *psid)
 {
     int num;
     int i;
@@ -681,7 +680,7 @@ bool vsid_tune_info_widget_set_song_lengths(const char *psid)
     if (num < 0) {
         debug_gtk3("failed to get song lengths.");
         gtk_label_set_text(GTK_LABEL(sldb_widget), "Failed to get SLDB info");
-        return false;
+        return 0;
     }
     song_lengths_count = num;
 
@@ -705,7 +704,7 @@ bool vsid_tune_info_widget_set_song_lengths(const char *psid)
     for (i = 0; i < num; i++) {
         lib_free(lstr[i]);
     }
-    return true;
+    return 1;
 }
 
 

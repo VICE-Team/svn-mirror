@@ -30,7 +30,6 @@
 #ifndef VICE_TAPECART_H
 #define VICE_TAPECART_H
 
-#include <stdbool.h>
 #include <stdint.h>
 
 #define TAPECART_FLASH_SIZE    (2 * 1024 * 1024)
@@ -46,7 +45,7 @@ typedef struct tapecart_memory_s {
     uint16_t data_offset;
     uint16_t data_length;
     uint16_t call_address;
-    bool     changed;
+    int      changed;
 } tapecart_memory_t;
 
 extern int tapecart_resources_init(void);

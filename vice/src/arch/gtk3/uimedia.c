@@ -43,7 +43,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 #include "debug_gtk3.h"
 #include "lib.h"
@@ -602,9 +601,9 @@ static void create_video_driver_list(void)
  *
  * \todo    There has to be a better, more reliable way than this
  */
-static bool driver_is_video(const char *name)
+static int driver_is_video(const char *name)
 {
-    return (bool)(strcmp(name, "FFMPEG") == 0 || strcmp(name, "QuickTime") == 0);
+    return strcmp(name, "FFMPEG") == 0 || strcmp(name, "QuickTime") == 0;
 }
 
 
@@ -620,8 +619,8 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     GtkWidget *grid;
     GtkWidget *label;
     int row;
-    bool doodle = false;
-    bool koala = false;
+    int doodle = 0;
+    int koala = 0;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -639,11 +638,11 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
         prefix = "Doodle";  /* XXX: not strictly required since resource names
                                     seem to be case insensitive, but better
                                     safe than sorry */
-        doodle = true;
+        doodle = 1;
     } else if ((strcmp(prefix, "KOALA") == 0)
             || (strcmp(prefix, "KOALA_COMPRESSED") == 0)) {
         prefix = "Koala";
-        koala = true;
+        koala = 1;
     }
 
     if (!koala && !doodle) {
