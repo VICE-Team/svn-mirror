@@ -1,14 +1,14 @@
-/*
- * flash-trap.c
+/** \file   flash-trap.c
  *
- * Written by
- *  Daniel Kahlin <daniel@kahlin.net>
+ * @author  Daniel Kahlin <daniel@kahlin.net>
  *
  * Based on code from serial by
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -277,9 +277,9 @@ void flash_traps_reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_flash_trap_fsflashdir(const char *name, void *param)
+static int set_flash_trap_fsflashdir(const char *dirname, void *param)
 {
-    util_string_set(&flash_trap_fsflashdir, name);
+    util_string_set(&flash_trap_fsflashdir, dirname);
 
     return 0;
 }
