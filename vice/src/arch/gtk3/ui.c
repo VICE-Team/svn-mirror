@@ -1719,11 +1719,6 @@ void ui_exit(void)
         g_main_context_iteration(g_main_context_default(), TRUE);
     }
 
-    /* clean up program name */
-    archdep_program_name_free();
-    /* clean up boot path */
-    archdep_boot_path_free();
-
 #if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
     vice_exit(0);
 #else
