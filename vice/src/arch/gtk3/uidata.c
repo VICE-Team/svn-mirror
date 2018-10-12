@@ -74,6 +74,7 @@ bool uidata_init(void)
     debug_gtk3("trying archdep_get_vice_datadir() (%s).", dir);
     path = util_concat(dir, "vice.gresource", NULL);
     lib_free(dir);
+
     gresource = g_resource_load(path, &err);
     if (gresource == NULL && err != NULL) {
         debug_gtk3("failed to load resource data '%s': %s.",
@@ -82,6 +83,7 @@ bool uidata_init(void)
         lib_free(path);
         return false;
     }
+    lib_free(path);
     g_resources_register(gresource);
 
     /* debugging: show files in the resource blob */

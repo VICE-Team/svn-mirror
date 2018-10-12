@@ -12,7 +12,7 @@
  *  - Linux
  *  - Windows
  *  - MacOS
- *  - BeOS/Haiku (untested, always returns '/home')
+ *  - BeOS/Haiku (always returns '/boot/home')
  *  - AmigaOS (untested, always returns 'PROGDIR:')
  *  - OS/2 (untested, always returns '.')
  *  - MS-DOS (untested, always returns '.')
