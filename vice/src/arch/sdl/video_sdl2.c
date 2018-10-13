@@ -50,9 +50,6 @@
  * - The window limiter mode is currently ignored, and it's not clear
  *   what it should mean in the SDL2 rendering world beyond custom-
  *   fullscreen code.
- * - There is no window limiting in terms of *minimum* size, and
- *   changing double size/scan does not adjust the window size as it
- *   goes.
  * - The sdl_gl_filter variable isn't being respected, but it can and
  *   should be, even when we aren't using OpenGL.
  */
@@ -129,6 +126,7 @@ uint8_t *draw_buffer_vsid = NULL;
 /* Video-related resources.  */
 
 static void sdl_correct_logical_size(void);
+static void sdl_correct_logical_and_minimum_size(void);
 
 static int set_sdl_bitdepth(int d, void *param)
 {
@@ -234,7 +232,7 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
     sdl_gl_aspect_mode = v;
 
     if (old_v != v) {
-        sdl_correct_logical_size();
+        sdl_correct_logical_and_minimum_size();
     }
 
     return 0;
@@ -268,7 +266,7 @@ static int set_aspect_ratio(const char *val, void *param)
     if (old_aspect != aspect_ratio) {
         if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
             video_viewport_resize(sdl_active_canvas, 1);
-            sdl_video_resize_event(sdl_active_canvas->actual_width, sdl_active_canvas->actual_height);
+            sdl_correct_logical_and_minimum_size();
         }
     }
 
@@ -726,6 +724,21 @@ static void sdl_correct_logical_size(void)
     }
 }
 
+static void sdl_correct_logical_and_minimum_size(void)
+{
+    if (sdl2_window && sdl2_renderer && sdl_active_canvas && sdl_active_canvas->texture) {
+        if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_OFF) {
+            SDL_SetWindowMinimumSize(sdl2_window, sdl_active_canvas->width, sdl_active_canvas->height);
+            sdl_correct_logical_size();
+        } else {
+            int width, height;
+            sdl_correct_logical_size();
+            SDL_RenderGetLogicalSize(sdl2_renderer, &width, &height);
+            SDL_SetWindowMinimumSize(sdl2_window, width, height);
+        }
+    }
+}
+
 /* called from video_viewport_resize */
 void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
@@ -778,7 +791,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 
         video_canvas_set_palette(canvas, canvas->palette);
     }
-    sdl_correct_logical_size();
+    sdl_correct_logical_and_minimum_size();
 }
 
 /* Resize window to w/h. */
@@ -816,7 +829,7 @@ void sdl_video_canvas_switch(int index)
 
     canvas = sdl_canvaslist[sdl_active_canvas_num];
     sdl_active_canvas = canvas;
-    sdl_correct_logical_size();
+    sdl_correct_logical_and_minimum_size();
     video_viewport_resize(canvas, 1);
 }
 
