@@ -53,7 +53,8 @@
  * - There is no window limiting in terms of *minimum* size, and
  *   changing double size/scan does not adjust the window size as it
  *   goes.
- * - Aspect correction cannot actually be turned off.
+ * - The sdl_gl_filter variable isn't being respected, but it can and
+ *   should be, even when we aren't using OpenGL.
  */
 
 /* #define SDL_DEBUG */
@@ -126,6 +127,8 @@ static int drv_index = -1;
 uint8_t *draw_buffer_vsid = NULL;
 /* ------------------------------------------------------------------------- */
 /* Video-related resources.  */
+
+static void sdl_correct_logical_size(void);
 
 static int set_sdl_bitdepth(int d, void *param)
 {
@@ -231,9 +234,7 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
     sdl_gl_aspect_mode = v;
 
     if (old_v != v) {
-        if (sdl_active_canvas && sdl_active_canvas->videoconfig->hwscale) {
-            video_viewport_resize(sdl_active_canvas, 1);
-        }
+        sdl_correct_logical_size();
     }
 
     return 0;
@@ -776,14 +777,14 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 #endif
 
         video_canvas_set_palette(canvas, canvas->palette);
-        sdl_correct_logical_size();
     }
+    sdl_correct_logical_size();
 }
 
 /* Resize window to w/h. */
 void sdl_video_resize_event(unsigned int w, unsigned int h)
 {
-    /* This is a no-op in SDL2! */
+    sdl_correct_logical_size();
 }
 
 /* Resize window to stored real size */
