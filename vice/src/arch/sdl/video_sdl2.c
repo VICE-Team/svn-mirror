@@ -46,10 +46,6 @@
  * - "Restore Window Size" kind of breaks the menu display but also
  *   sets the minimum non-distorted display size.
  * - The user's selected window size is not preserved across runs.
- * - Initial startup is not selecting the optimal renderer.
- * - The window limiter mode is currently ignored, and it's not clear
- *   what it should mean in the SDL2 rendering world beyond custom-
- *   fullscreen code.
  * - The sdl_gl_filter variable isn't being respected, but it can and
  *   should be, even when we aren't using OpenGL.
  */
@@ -92,9 +88,7 @@ static log_t sdlvideo_log = LOG_ERR;
 
 static int sdl_bitdepth;
 
-static int sdl_limit_mode;
-
-/* Custom w/h, used for fullscreen and limiting*/
+/* Custom w/h, used for non-desktop fullscreen */
 static int sdl_custom_width = 0;
 static int sdl_custom_height = 0;
 
@@ -162,24 +156,6 @@ static int set_sdl_bitdepth(int d, void *param)
     }
     sdl_bitdepth = d;
     /* update */
-    return 0;
-}
-
-static int set_sdl_limit_mode(int v, void *param)
-{
-    switch (v) {
-        case SDL_LIMIT_MODE_OFF:
-        case SDL_LIMIT_MODE_MAX:
-        case SDL_LIMIT_MODE_FIXED:
-            break;
-        default:
-            return -1;
-    }
-
-    if (sdl_limit_mode != v) {
-        sdl_limit_mode = v;
-        video_viewport_resize(sdl_active_canvas, 1);
-    }
     return 0;
 }
 
@@ -337,21 +313,12 @@ static const resource_string_t resources_string[] = {
 
 #define VICE_DEFAULT_BITDEPTH 32
 
-#ifdef ANDROID_COMPILE
-#define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_MAX
-#define SDLCUSTOMWIDTH_DEFAULT   320
-#define SDLCUSTOMHEIGHT_DEFAULT  200
-#else
-#define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_OFF
 #define SDLCUSTOMWIDTH_DEFAULT   800
 #define SDLCUSTOMHEIGHT_DEFAULT  600
-#endif
 
 static const resource_int_t resources_int[] = {
     { "SDLBitdepth", VICE_DEFAULT_BITDEPTH, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
-    { "SDLLimitMode", SDLLIMITMODE_DEFAULT, RES_EVENT_NO, NULL,
-      &sdl_limit_mode, set_sdl_limit_mode, NULL },
     { "SDLCustomWidth", SDLCUSTOMWIDTH_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_width, set_sdl_custom_width, NULL },
     { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
@@ -412,9 +379,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlbitdepth", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLBitdepth", NULL,
       "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)" },
-    { "-sdllimitmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "SDLLimitMode", NULL,
-      "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)" },
     { "-sdlcustomw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLCustomWidth", NULL,
       "<width>", "Set custom resolution width" },
@@ -482,39 +446,6 @@ void video_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 /* static helper functions */
-
-/* TODO: This function was part of the SDL1 code and important for
- * Android. Based on how the SDL2 renderer works, this is not clearly
- * a function that still needs to exist. It only matters if we want
- * SDL2 to be able to insist on some fixed actual resolution for the
- * GPU to render into, and even so it seems to only matter for
- * fullscreen. */
-#if 0
-static int sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, unsigned int *w, unsigned int *h, int mode)
-{
-    DBG(("%s", __func__));
-    switch (mode & 3) {
-        case SDL_LIMIT_MODE_MAX:
-            if ((*w > limit_w) || (*h > limit_h)) {
-                *w = MIN(*w, limit_w);
-                *h = MIN(*h, limit_h);
-                return 1;
-            }
-            break;
-        case SDL_LIMIT_MODE_FIXED:
-            if ((*w != limit_w) || (*h != limit_h)) {
-                *w = limit_w;
-                *h = limit_h;
-                return 1;
-            }
-            break;
-        case SDL_LIMIT_MODE_OFF:
-        default:
-            break;
-    }
-    return 0;
-}
-#endif
 
 static int sdl_window_create(const char *title, unsigned int width, unsigned int height, int flags)
 {

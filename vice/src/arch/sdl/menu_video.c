@@ -284,7 +284,9 @@ static const ui_menu_entry_t crtc_color_controls_menu[] = {
 
 UI_MENU_DEFINE_INT(SDLCustomWidth)
 UI_MENU_DEFINE_INT(SDLCustomHeight)
+#ifndef USE_SDLUI2    
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
+#endif    
 
 #define VICE_SDL_SIZE_MENU_DOUBLESIZE(chip)         \
     { "Double size",                                \
@@ -298,7 +300,7 @@ UI_MENU_DEFINE_RADIO(SDLLimitMode)
       toggle_##chip##StretchVertical_callback,      \
       NULL },
 
-#define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
+#define VICE_SDL_SIZE_MENU_ITEMS_SHARED(chip)       \
     { "Double scan",                                \
       MENU_ENTRY_RESOURCE_TOGGLE,                   \
       toggle_##chip##DoubleScan_callback,           \
@@ -326,7 +328,9 @@ UI_MENU_DEFINE_RADIO(SDLLimitMode)
     { "Height",                                     \
       MENU_ENTRY_RESOURCE_INT,                      \
       int_SDLCustomHeight_callback,                 \
-      (ui_callback_data_t)"Set height" },           \
+      (ui_callback_data_t)"Set height" },
+#ifndef USE_SDLUI2
+#define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)        \
     SDL_MENU_ITEM_SEPARATOR,                        \
     SDL_MENU_ITEM_TITLE("Resolution limit mode"),   \
     { "Off",                                        \
@@ -341,6 +345,13 @@ UI_MENU_DEFINE_RADIO(SDLLimitMode)
       MENU_ENTRY_RESOURCE_RADIO,                    \
       radio_SDLLimitMode_callback,                  \
       (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
+#else
+#define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)
+#endif
+
+#define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
+VICE_SDL_SIZE_MENU_ITEMS_SHARED(chip)               \
+VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)
 
 #if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 
