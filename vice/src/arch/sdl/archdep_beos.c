@@ -241,13 +241,6 @@ int kbd_arch_get_host_mapping(void)
 }
 
 
-#ifdef USE_SDLUI2
-char *archdep_sdl2_default_renderers[] = {
-    "software", "opengl", NULL
-};
-#endif
-
-
 /* This check is needed for haiku, since it always returns 1 on
    SupportsWindowMode() */
 int CheckForHaiku(void)

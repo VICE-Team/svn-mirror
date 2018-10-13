@@ -599,13 +599,3 @@ void vice_usleep(uint64_t waitTime)
         QueryPerformanceCounter((LARGE_INTEGER *) &time2);
     } while((time2-time1) < waitTime);
 }
-
-#ifdef USE_SDLUI2
-char *archdep_sdl2_default_renderers[] = {
-    "direct3d11",
-    "direct3d",
-    "opengles",
-    "opengl",
-    NULL
-};
-#endif

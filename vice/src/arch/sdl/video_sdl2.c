@@ -119,7 +119,6 @@ static SDL_Window *sdl2_window = NULL;
 static SDL_Renderer *sdl2_renderer = NULL;
 static Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
 static int texformat = 0;
-static int drv_index = -1;
 
 uint8_t *draw_buffer_vsid = NULL;
 /* ------------------------------------------------------------------------- */
@@ -523,6 +522,7 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
     char **renderlist = NULL;
     int renderamount = SDL_GetNumRenderDrivers();
     int it, l;
+    int drv_index;
     SDL_RendererInfo info;
     if (sdl2_window) {
         /* We've already created the window here */
@@ -555,6 +555,7 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
     renderlist[it] = NULL;
 
     /* Check for resource preferred renderer */
+    drv_index = -1;
     if (sdl2_renderer_name != NULL && *sdl2_renderer_name != '\0') {
         for (it = 0; it < renderamount; ++it) {
             if (!strcmp(sdl2_renderer_name, renderlist[it])) {
@@ -563,15 +564,6 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
         }
         if (drv_index == -1) {
             log_warning(sdlvideo_log, "Resource preferred renderer %s not available, trying arch default renderer(s)", sdl2_renderer_name);
-        }
-    }
-
-    /* Try arch default renderer(s) if the resource preferred renderer was not available */
-    for (l = 0; drv_index == -1 && archdep_sdl2_default_renderers[l]; ++l) {
-        for (it = 0; it < renderamount; ++it) {
-            if (!strcmp(archdep_sdl2_default_renderers[l], renderlist[it])) {
-                drv_index = it;
-            }
         }
     }
 
@@ -590,7 +582,7 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
         sdl2_window = NULL;
         return 0;
     }
-    SDL_GetRenderDriverInfo(drv_index, &info);
+    SDL_GetRendererInfo(sdl2_renderer, &info);
     log_message(sdlvideo_log, "SDL2 renderer driver selected: %s\n", info.name);
     SDL_SetRenderDrawColor(sdl2_renderer, 0, 0, 0, 255);
     SDL_RenderClear(sdl2_renderer);
