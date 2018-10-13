@@ -38,13 +38,8 @@
  * capabilities that SDL VICE would like to generally support. Current
  * gaps:
  *
- * - Custom fullscreen mode is missing.
- * - In fact, fullscreen of any kind does not work. (This is not a
- *   regression, at least on Wayland. The SDL2 port was mostly a
- *   slightly tweaked version of the SDL1 code before and this caused
- *   some serious issues.)
- * - "Restore Window Size" kind of breaks the menu display but also
- *   sets the minimum non-distorted display size.
+ * - The menu display sometimes ends up having a bad display until the
+ *   user moves the cursor or resizes the window.
  * - The user's selected window size is not preserved across runs.
  * - The sdl_gl_filter variable isn't being respected, but it can and
  *   should be, even when we aren't using OpenGL.
@@ -673,6 +668,25 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     height = canvas->draw_buffer->canvas_height * canvas->videoconfig->scaley;
 
     DBG(("%s: %ix%i (%i)", __func__, width, height, canvas->index));
+
+    /* Update the fullscreen status, if any */
+    if (sdl2_window) {
+        if (canvas == sdl_active_canvas) {
+            if (canvas->fullscreenconfig->enable) {
+                if (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
+                    SDL_SetWindowSize(sdl2_window, sdl_custom_width, sdl_custom_height);
+                    SDL_SetWindowFullscreen(sdl2_window, SDL_WINDOW_FULLSCREEN);
+                } else {
+                    SDL_SetWindowFullscreen(sdl2_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                }
+            } else {
+                int flags = SDL_GetWindowFlags(sdl2_window);
+                if (flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP)) {
+                    SDL_SetWindowFullscreen(sdl2_window, 0);
+                }
+            }
+        }
+    }
 
     /* Ignore bad values, or values that don't change anything */
     if (width == 0 || height == 0 || (canvas->texture && width == canvas->width && height == canvas->height)) {
