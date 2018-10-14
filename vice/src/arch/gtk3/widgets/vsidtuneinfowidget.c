@@ -704,6 +704,7 @@ int vsid_tune_info_widget_set_song_lengths(const char *psid)
     for (i = 0; i < num; i++) {
         lib_free(lstr[i]);
     }
+    lib_free(lstr);
     return 1;
 }
 
