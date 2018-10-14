@@ -933,11 +933,7 @@ void turbomaster_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_
 
         if (turbomaster_clk_limit && (maincpu_clk > turbomaster_clk_limit)) {
             log_error(LOG_DEFAULT, "cycle limit reached.");
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-            vice_exit(EXIT_FAILURE);
-#else
-            exit(EXIT_FAILURE);
-#endif
+            archdep_vice_exit(EXIT_FAILURE);
         }
 #if 0
         if (CLK > 246171754) {

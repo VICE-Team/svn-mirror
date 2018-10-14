@@ -146,12 +146,8 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-    if (vice_atexit(main_exit) != 0) {
-#else
-    if (atexit(main_exit) != 0) {
-#endif
-        archdep_startup_log_error("atexit failed.\n");
+    if (archdep_vice_atexit(main_exit) != 0) {
+        archdep_startup_log_error("archdep_vice_atexit failed.\n");
         return -1;
     }
 

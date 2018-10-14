@@ -47,6 +47,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "cbmdos.h"
 #include "diskimage.h"
 #include "lib.h"
@@ -60,6 +61,7 @@
 #include "vdrive-rel.h"
 #include "vdrive.h"
 
+#if 0
 /* this is terrible, fix it! */
 #if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
 static void _vice_exit(int status)
@@ -68,6 +70,7 @@ static void _vice_exit(int status)
     exit(status); /* BOOOOM! */
 }
 #define vice_exit _vice_exit
+#endif
 #endif
 
 static log_t vdrive_iec_log = LOG_ERR;
@@ -859,11 +862,7 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
             break;
         default:
             log_error(vdrive_iec_log, "Fatal: Unknown write mode.");
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-            vice_exit(-1);
-#else
-            exit(-1);
-#endif
+            archdep_vice_exit(-1);
     }
     return SERIAL_OK;
 }

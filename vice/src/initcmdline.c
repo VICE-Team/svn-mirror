@@ -90,11 +90,7 @@ static void cmdline_free_startup_images(void)
 static int cmdline_help(const char *param, void *extra_param)
 {
     cmdline_show_help(NULL);
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-    vice_exit(0);
-#else
-    exit(0);
-#endif
+    archdep_vice_exit(0);
     return 0;   /* OSF1 cc complains */
 }
 
@@ -108,11 +104,7 @@ static int cmdline_features(const char *param, void *extra_param)
         ++list;
     }
 
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-    vice_exit(0);
-#else
-    exit(0);
-#endif
+    archdep_vice_exit(0);
     return 0;   /* OSF1 cc complains */
 }
 
@@ -276,11 +268,7 @@ int initcmdline_init(void)
         }
     }
 
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-    vice_atexit(cmdline_free_startup_images);
-#else
-    atexit(cmdline_free_startup_images);
-#endif
+    archdep_vice_atexit(cmdline_free_startup_images);
     return 0;
 }
 

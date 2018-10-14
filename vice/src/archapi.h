@@ -130,4 +130,8 @@ extern int archdep_rtc_get_centisecond(void);
 extern char *archdep_extra_title_text(void);
 
 
+int archdep_vice_atexit(void (*function)(void));
+void archdep_vice_exit(int excode);
+
+
 #endif

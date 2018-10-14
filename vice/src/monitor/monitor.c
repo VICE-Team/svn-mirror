@@ -2346,11 +2346,7 @@ static void monitor_close(int check)
         if (!monitor_is_remote()) {
             uimon_window_close();
         }
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-        vice_exit(0);
-#else
-        exit(0);
-#endif
+        archdep_vice_exit(0);
     }
 
     exit_mon = 0;

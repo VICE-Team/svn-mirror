@@ -32,6 +32,7 @@
 
 #include "6510core.h"
 #include "alarm.h"
+#include "archdep.h"
 
 #ifdef FEATURE_CPUMEMHISTORY
 #include "c64pla.h"
@@ -628,11 +629,7 @@ void maincpu_mainloop(void)
 
         if (maincpu_clk_limit && (maincpu_clk > maincpu_clk_limit)) {
             log_error(LOG_DEFAULT, "cycle limit reached.");
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-            vice_exit(EXIT_FAILURE);
-#else
-            exit(EXIT_FAILURE);
-#endif
+            archdep_vice_exit(EXIT_FAILURE);
         }
 #if 0
         if (CLK > 246171754) {

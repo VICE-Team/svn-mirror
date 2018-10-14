@@ -759,54 +759,6 @@ void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
     ui_update_fullscreen_decorations();
 }
 
-#if 0
-/*****************************************************************************
- *                  Temporary windows atexit() crash workaround              *
- ****************************************************************************/
-
-/* FIXME: we need to move the whole atexit() and exit() mechanism to archdep,
-          since otherwise it would crash on windows when using the GTK3 UI. */
-
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-#define ATEXIT_MAX_FUNCS 64
-
-static void (*atexit_functions[ATEXIT_MAX_FUNCS + 1])(void);
-
-static int atexit_counter = 0;
-
-int vice_atexit(void (*function)(void))
-{
-    INCOMPLETE_IMPLEMENTATION();
-    debug_gtk3("registering function %p.", function);
-    if (atexit_counter == ATEXIT_MAX_FUNCS) {
-        debug_gtk3("ERROR: max atexit functions reached.");
-        return 1;
-    }
-
-    atexit_functions[atexit_counter] = function;
-    atexit_counter++;
-
-    return 0;
-}
-
-void vice_exit(int excode)
-{
-    const void (*f)(void);
-
-    INCOMPLETE_IMPLEMENTATION();
-    debug_gtk3("unrolling atexit stack:");
-    /* don't check for NULL, segfaults allow backtraces in gdb */
-    while (atexit_counter > 0) {
-        atexit_counter--;
-        f = atexit_functions[atexit_counter];
-        debug_gtk3("running atexit %d: %p.", atexit_counter, f)
-        f();
-    }
-    exit(excode);
-}
-#endif  /* ifdef WIN32_COMPILE */
-#endif
-
 
 /** \brief  Get a window-spec array index from \a param
  *
@@ -1722,12 +1674,7 @@ void ui_exit(void)
         debug_gtk3("processing pending event.");
         g_main_context_iteration(g_main_context_default(), TRUE);
     }
-
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-    vice_exit(0);
-#else
-    exit(0);
-#endif
+    archdep_vice_exit(0);
 }
 
 /** \brief  Send current light pen state to the emulator core for all windows

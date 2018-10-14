@@ -44,14 +44,30 @@
 
 #include "debug_gtk3.h"
 
+/** \brief  List of functions registered with archdep_vice_atexit()
+ *
+ * The functions get called in the reverse order of which they were registered,
+ * so this acts as a stack,
+ */
 static void (*atexit_functions[ATEXIT_MAX_FUNCS + 1])(void);
 
+
+/** \brief  Number of register functions in #atexit_functions
+ */
 static int atexit_counter = 0;
 
 
-int vice_atexit(void (*function)(void))
+/** \brief  Register \a function to be called on exit() or return from main
+ *
+ * Wrapper to work around Windows not handling the C library's atexit()
+ * mechanism properly
+ *
+ * \param[in]   function    function to call at exit
+ *
+ * \return  0 on success, 1 on failure
+ */
+int archdep_vice_atexit(void (*function)(void))
 {
-    INCOMPLETE_IMPLEMENTATION();
     debug_gtk3("registering function %p.", function);
     if (atexit_counter == ATEXIT_MAX_FUNCS) {
         debug_gtk3("ERROR: max atexit functions reached.");
@@ -64,11 +80,15 @@ int vice_atexit(void (*function)(void))
     return 0;
 }
 
-void vice_exit(int excode)
+
+/** \brief  Wrapper around exit()
+ *
+ * \param[in]   excode  exit code
+ */
+void archdep_vice_exit(int excode)
 {
     const void (*f)(void);
 
-    INCOMPLETE_IMPLEMENTATION();
     debug_gtk3("unrolling atexit stack:");
     /* don't check for NULL, segfaults allow backtraces in gdb */
     while (atexit_counter > 0) {
@@ -81,17 +101,29 @@ void vice_exit(int excode)
 }
 #else  /* ifdef WIN32_COMPILE */
 
-int vice_atexit(void (*function)(void))
+
+/** \brief  Register \a function to be called on exit() or return from main
+ *
+ * Wrapper to work around Windows not handling the C library's atexit()
+ * mechanism properly
+ *
+ * \param[in]   function    function to call at exit
+ *
+ * \return  0 on success, 1 on failure
+ */
+int archdep_vice_atexit(void (*function)(void))
 {
     return atexit(function);
 }
 
 
-void vice_exit(int excode)
+/** \brief  Wrapper around exit()
+ *
+ * \param[in]   excode  exit code
+ */
+void archdep_vice_exit(int excode)
 {
     exit(excode);
 }
 
 #endif
-
-

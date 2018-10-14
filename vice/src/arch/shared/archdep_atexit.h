@@ -28,7 +28,7 @@
 #ifndef ARCHDEP_ATEXIT_H
 #define ARCHDEP_ATEXIT_H
 
-int vice_atexit(void (*function)(void));
-void vice_exit(int excode);
+int     archdep_vice_atexit(void (*function)(void));
+void    archdep_vice_exit(int excode);
 
 #endif

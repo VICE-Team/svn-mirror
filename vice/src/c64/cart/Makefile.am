@@ -10,7 +10,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/rtc \
-	-I$(top_srcdir)/src/samplerdrv
+	-I$(top_srcdir)/src/samplerdrv \
+	-I$(top_srcdir)/src/arch/shared
 
 noinst_LIBRARIES = libc64cartsystem.a libc64cart.a libc64commoncart.a
 

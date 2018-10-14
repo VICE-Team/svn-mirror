@@ -245,11 +245,7 @@ static int wav_create_file(const char *filename)
         return 1;
     }
 
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
-    vice_atexit(wav_close_file);
-#else
-    atexit(wav_close_file);
-#endif
+    archdep_vice_atexit(wav_close_file);
     return write_header();
 }
 
