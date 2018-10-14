@@ -229,4 +229,7 @@ void c64_resources_shutdown(void)
     lib_free(chargen_rom_name);
     lib_free(basic_rom_name);
     lib_free(kernal_rom_name);
+    if (hvsc_root != NULL) {
+        lib_free(hvsc_root);
+    }
 }
