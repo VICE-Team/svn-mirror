@@ -26719,8 +26719,8 @@ thanks goes to the following people:
 
 Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
-Peternel, Per Håkan Sundell, David Horrocks and Benjamin Rosseaux for writing
-cool emulators to compete with.  @t{:-)}
+Peternel, Per Håkan Sundell, David Horrocks, Benjamin Rosseaux and William McCabe
+for writing cool emulators to compete with.  @t{:-)}
 
 @c end of file generation section.
 @node Copyright, Contacts, Acknowledgments, Top
