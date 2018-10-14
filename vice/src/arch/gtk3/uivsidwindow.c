@@ -37,12 +37,14 @@
 #include "videoarch.h"
 
 #include "vice_gtk3.h"
+#include "hvscstilwidget.h"
 #include "machine.h"
 #include "psid.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uivsidmenu.h"
 #include "vsidmainwidget.h"
+#include "vsidtuneinfowidget.h"
 #include "vsync.h"
 
 #include "uivsidwindow.h"
@@ -96,6 +98,9 @@ int ui_vsid_window_load_psid(const char *filename)
     psid_init_driver();
     machine_play_psid(0);
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+
+    vsid_tune_info_widget_set_song_lengths(filename);
+    hvsc_stil_widget_set_psid(filename);
 
     return 0;
 }
