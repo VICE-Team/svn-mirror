@@ -177,7 +177,6 @@ is_os2=no
 is_beos=no
 is_amiga=no
 
-HAVE_OPENGL_SYNC_SUPPORT="no "
 HAVE_CAIRO_SUPPORT="no "
 HAVE_PANGO_SUPPORT="no "
 HAVE_HWSCALE_SUPPORT="no "
@@ -4331,10 +4330,6 @@ echo "---------"
 
 if test x"$real_arch" != "xWin32" -a x"$real_arch" != "xBeOS"; then
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
-fi
-
-if test x"$real_arch" = "xUnix" -o x"$show_gui" = "xSDL" -o x"$show_gui" = "xSDL2"; then
-    echo "OpenGL sync support            : $HAVE_OPENGL_SYNC_SUPPORT"
 fi
 
 if test x"$real_arch" = "xUnix"; then

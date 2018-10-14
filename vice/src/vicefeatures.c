@@ -288,14 +288,6 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(USE_SDLUI) || defined(USE_SDLUI2) || defined(UNIX) || defined(WIN32) /* (sdl/unix/win32) */
-    { "HAVE_OPENGL_SYNC", "Enable openGL synchronization",
-#ifndef HAVE_OPENGL_SYNC
-        0 },
-#else
-        1 },
-#endif
-#endif
 /* (all) */
     { "HAVE_PANGO", "Enable support for Pango",
 #ifndef HAVE_PANGO
