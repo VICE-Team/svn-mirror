@@ -35,6 +35,8 @@
 
 #include "lib.h"
 #include "log.h"
+#include "archdep_home_path.h"
+#include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
 
 #ifdef ARCHDEP_OS_UNIX
@@ -52,6 +54,20 @@ void archdep_create_user_config_dir(void)
     char *cfg = archdep_user_config_path();
 
 #if defined(ARCHDEP_OS_UNIX)
+    const char *home = archdep_home_path();
+    char *tmp;
+
+    /*
+     * Brute force create XDG ~/.config dir
+     * Some systems without X11 don't have ~/.config, which makes sense since
+     * XDG is a Freedesktop spec. We use it however for vicerc and other files
+     * and it expected to be there
+     */
+    tmp = archdep_join_paths(home, ".config", NULL);    /* TODO: use define */
+    mkdir(tmp, 0755);
+    errno = 0;
+    lib_free(tmp);
+
     if (mkdir(cfg, 0755) == 0) {
 #else
     if (_mkdir(cfg) == 0) {
