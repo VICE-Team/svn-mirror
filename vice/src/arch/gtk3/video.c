@@ -34,6 +34,7 @@
 
 #include "debug_gtk3.h"
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -304,7 +305,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
         /* Set the palette */
         if (video_canvas_set_palette(canvas, canvas->palette) < 0) {
             fprintf(stderr, "Setting palette for this mode failed. (Try 16/24/32 bpp.)");
-            exit(-1);
+            archdep_vice_exit(-1);
         }
     }
 }

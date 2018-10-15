@@ -42,6 +42,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "archdep.h"
 #include "debug_gtk3.h"
 #include "datasette.h"
 #include "debug.h"
@@ -828,7 +829,7 @@ GtkWidget *ui_machine_menu_bar_create(void)
             settings_menu_joy_section = settings_menu_userport_joy;
             break;
         case VICE_MACHINE_VSID:
-            exit(1);
+            archdep_vice_exit(1);
             break;
         default:
             break;

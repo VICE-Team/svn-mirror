@@ -40,6 +40,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "widgethelpers.h"
 #include "resourcehelpers.h"
 #include "debug_gtk3.h"
@@ -158,7 +159,7 @@ GtkWidget *printer_driver_widget_create(int device)
     } else {
         fprintf(stderr, "%s:%d:%s(): invalid device #%d\n",
                 __FILE__, __LINE__, __func__, device);
-        exit(1);
+        archdep_vice_exit(1);
     }
 
 
@@ -220,7 +221,7 @@ void printer_driver_widget_update(GtkWidget *widget, const char *driver)
     } else {
         fprintf(stderr, "%s:%d:%s(): invalid printer device #%d\n",
                 __FILE__, __LINE__, __func__, device);
-        exit(1);
+        archdep_vice_exit(1);
     }
 
     /* now select the proper radio button */

@@ -35,14 +35,14 @@
 
 #include <gtk/gtk.h>
 
-#include "lib.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "resources.h"
+#include "archdep.h"
 #include "basewidgets.h"
+#include "debug_gtk3.h"
+#include "lib.h"
 #include "machine.h"
-
+#include "resources.h"
 #include "sidmodelwidget.h"
+#include "widgethelpers.h"
 
 #include "sidcartwidget.h"
 
@@ -160,7 +160,8 @@ static GtkWidget *create_sidcart_address_widget(void)
             list = sid_base_pet;
             break;
         default:
-            exit(1);
+            list = NULL;
+            archdep_vice_exit(1);
             break;
     }
 
@@ -196,7 +197,8 @@ static GtkWidget *create_sidcart_clock_widget(void)
             list = sid_clock_pet;
             break;
         default:
-            exit(1);
+            list = NULL;
+            archdep_vice_exit(1);
             break;
     }
 

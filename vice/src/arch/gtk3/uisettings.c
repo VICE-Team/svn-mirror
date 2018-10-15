@@ -58,6 +58,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -2107,7 +2108,7 @@ static GtkTreeStore *populate_tree_model(void)
             fprintf(stderr,
                     "Error: %s:%d:%s(): unsupported machine_class %d\n",
                     __FILE__, __LINE__, __func__, machine_class);
-            exit(1);
+            archdep_vice_exit(1);
             break;
     }
 

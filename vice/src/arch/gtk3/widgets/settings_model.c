@@ -42,29 +42,30 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
-#include "debug_gtk3.h"
-#include "machine.h"
-#include "resources.h"
-#include "resourcecheckbutton.h"
-#include "machinemodelwidget.h"
-#include "videomodelwidget.h"
-#include "vdcmodelwidget.h"
-#include "sidmodelwidget.h"
-#include "ciamodelwidget.h"
-#include "kernalrevisionwidget.h"
+#include "archdep.h"
 #include "c128machinetypewidget.h"
-#include "vic20memoryexpansionwidget.h"
-#include "petkeyboardtypewidget.h"
-#include "petvideosizewidget.h"
-#include "petramsizewidget.h"
-#include "petiosizewidget.h"
-#include "petmiscwidget.h"
-#include "superpetwidget.h"
-#include "plus4memoryexpansionwidget.h"
-#include "cbm2memorysizewidget.h"
 #include "cbm2hardwiredswitcheswidget.h"
+#include "cbm2memorysizewidget.h"
 #include "cbm2rammappingwidget.h"
+#include "ciamodelwidget.h"
+#include "debug_gtk3.h"
+#include "kernalrevisionwidget.h"
+#include "machine.h"
+#include "machinemodelwidget.h"
+#include "petiosizewidget.h"
+#include "petkeyboardtypewidget.h"
+#include "petmiscwidget.h"
+#include "petramsizewidget.h"
+#include "petvideosizewidget.h"
+#include "plus4memoryexpansionwidget.h"
+#include "resourcecheckbutton.h"
+#include "resources.h"
+#include "sidmodelwidget.h"
+#include "superpetwidget.h"
+#include "vdcmodelwidget.h"
+#include "vic20memoryexpansionwidget.h"
+#include "vice_gtk3.h"
+#include "videomodelwidget.h"
 
 #include "settings_model.h"
 
@@ -914,7 +915,9 @@ static GtkWidget *create_layout(void)
         default:
             /* shouldn't get here */
             fprintf(stderr, "Aargs! machine %d does not exist!", machine_class);
-            exit(1);
+            archdep_vice_exit(1);
+            return NULL;    /* unlike with ordinary exit(), GCC doesn't see
+                               this will never be reached */
     }
 }
 

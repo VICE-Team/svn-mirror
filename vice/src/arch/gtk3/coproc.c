@@ -72,6 +72,8 @@
 #include <sys/signal.h>
 #endif
 
+#include "archdep.h"
+
 #include "coproc.h"
 
 #include "log.h"
@@ -160,7 +162,7 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
            open now...  */
         execl(SHELL, "sh", "-c", cmd, NULL);
 
-        exit(127);              /* child dies on error */
+        archdep_vice_exit(127); /* child dies on error */
     } else {                    /* parent */
         close(fd1[1]);
         close(fd2[0]);

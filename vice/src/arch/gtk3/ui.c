@@ -41,9 +41,6 @@
 
 #include "archdep.h"
 
-/* for now (cpx. 2018-10-12) */
-#include "../shared/archdep_atexit.h"
-
 #include "autostart.h"
 #include "cmdline.h"
 #include "drive.h"
@@ -576,7 +573,7 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
     if (index < 0) {
         /* We should never end up here. */
         log_error(LOG_ERR, "focus-in-event: window not found\n");
-        exit(1);
+        archdep_vice_exit(1);
     }
 
     if (event->in == TRUE) {
@@ -679,7 +676,7 @@ static gboolean on_window_state_event(GtkWidget *widget,
     if (index < 0) {
         /* We should never end up here. */
         log_error(LOG_ERR, "window-state-event: window not found\n");
-        exit(1);
+        archdep_vice_exit(1);
     }
 
     if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
@@ -1081,11 +1078,11 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
     if (target_window < 0) {
         log_error(LOG_ERR, "ui_create_main_window: canvas not identified!\n");
-        exit(1);
+        archdep_vice_exit(1);
     }
     if (ui_resources.window_widget[target_window] != NULL) {
         log_error(LOG_ERR, "ui_create_main_window: existing window recreated??\n");
-        exit(1);
+        archdep_vice_exit(1);
     }
 
     /* add status bar */

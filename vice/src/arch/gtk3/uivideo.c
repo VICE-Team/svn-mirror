@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "machine.h"
 
 #include "uivideo.h"
@@ -72,7 +73,7 @@ const char *uivideo_chip_name(void)
             /* should never get here */
             fprintf(stderr, "%s:%d:%s(): error: got machine class %d\n",
                     __FILE__, __LINE__, __func__, machine_class);
-            exit(1);
+            archdep_vice_exit(1);
     }
 }
 
@@ -113,7 +114,8 @@ int uivideo_chip_id(void)
             /* should never get here */
             fprintf(stderr, "%s:%d:%s(): error: got machine class %d\n",
                     __FILE__, __LINE__, __func__, machine_class);
-            exit(1);
+            archdep_vice_exit(1);
+            return -1;
     }
 }
 
