@@ -1129,7 +1129,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 
     if (sdl_num_screens == MAX_CANVAS_NUM) {
         log_error(sdlvideo_log, "Too many canvases!");
-        exit(-1);
+        archdep_vice_exit(-1);
     }
 
     canvas->video_draw_buffer_callback = NULL;

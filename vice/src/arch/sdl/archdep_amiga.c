@@ -102,7 +102,7 @@ int SDL_Init(Uint32 flags)
 
     if (!SDLLIBBASE) {
         printf("Unable to open %s\n", SDLLIBNAME);
-        exit(0);
+        archdep_vice_exit(0);
     }
 
     return SDL_RealInit(flags);
@@ -116,7 +116,7 @@ int VICE_SDL_Init(Uint32 flags)
 
     if (!SDLLIBBASE) {
         printf("Unable to open %s\n", SDLLIBNAME);
-        exit(0);
+        archdep_vice_exit(0);
     }
     return SDL_Init(flags);
 }

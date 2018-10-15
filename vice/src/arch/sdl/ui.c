@@ -37,6 +37,7 @@
 
 #include "autostart.h"
 #include "cmdline.h"
+#include "archdep.h"
 #include "color.h"
 #include "fullscreenarch.h"
 #include "joy.h"
@@ -675,7 +676,7 @@ void ui_sdl_quit(void)
             ui_error("Cannot save current settings.");
         }
     }
-    exit(0);
+    archdep_vice_exit(0);
 }
 
 /* Initialization  */
