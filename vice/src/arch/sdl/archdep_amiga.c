@@ -256,6 +256,7 @@ char *archdep_default_joymap_file_name(void)
 }
 
 
+#if 0
 FILE *archdep_open_default_log_file(void)
 {
     if (run_from_wb) {
@@ -276,6 +277,7 @@ FILE *archdep_open_default_log_file(void)
         return stdout;
     }
 }
+#endif
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {

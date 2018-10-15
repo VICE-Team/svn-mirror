@@ -91,7 +91,9 @@ char *      archdep_default_rtc_file_name(void);
 char *      archdep_default_autostart_disk_image_file_name(void);
 
 /* Logfile stuff.  */
-extern FILE *archdep_open_default_log_file(void);
+FILE *      archdep_open_default_log_file(void);
+
+
 extern int archdep_default_logger(const char *level_string, const char *txt);
 
 /* Launch program `name' (searched via the PATH environment variable)
@@ -130,8 +132,8 @@ extern int archdep_rtc_get_centisecond(void);
 extern char *archdep_extra_title_text(void);
 
 
-int archdep_vice_atexit(void (*function)(void));
-void archdep_vice_exit(int excode);
+int         archdep_vice_atexit(void (*function)(void));
+void        archdep_vice_exit(int excode);
 
 
 #endif

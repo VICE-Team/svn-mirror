@@ -238,6 +238,7 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
+#if 0
 /* windows programs will start with the console detached when SUBSYSTEM:WINDOWS
    is used (which is the default). SUBSYSTEM:CONSOLE will provide a console
    output and thus stdout. yes its ugly. */
@@ -258,6 +259,7 @@ FILE *archdep_open_default_log_file(void)
     return f;
 #endif
 }
+#endif
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {

@@ -125,6 +125,7 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
+#if 0
 FILE *archdep_open_default_log_file(void)
 {
     char *fname;
@@ -136,6 +137,7 @@ FILE *archdep_open_default_log_file(void)
 
     return f;
 }
+#endif
 
 int archdep_default_logger(const char *lvl, const char *txt)
 {

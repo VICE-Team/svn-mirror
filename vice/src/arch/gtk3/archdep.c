@@ -113,6 +113,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
 }
 #endif
 
+#if 0
 /** \brief  Open the default log file
  *
  * \return  file pointer to log file ("vice.log on Windows, stdout otherwise)
@@ -134,7 +135,7 @@ FILE *archdep_open_default_log_file(void)
     return stdout;
 #endif
 }
-
+#endif
 
 /** \brief  Create and open temp file
  *
