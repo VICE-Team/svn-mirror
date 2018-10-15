@@ -35,6 +35,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "archdep_atexit.h"
 #include "archdep_home_path.h"
 #include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
@@ -48,6 +49,8 @@
 
 #include "archdep_create_user_config_dir.h"
 
+
+/* TODO: replace mkdir()/_mkdir() calls with archdep_mkdir() calls */
 
 void archdep_create_user_config_dir(void)
 {
@@ -75,6 +78,6 @@ void archdep_create_user_config_dir(void)
     } else if (errno != EEXIST) {
         log_error(LOG_ERR, "failed to create user config dir '%s': %d: %s.",
                 cfg, errno, strerror(errno));
-        exit(1);
+        archdep_vice_exit(1);
     }
 }

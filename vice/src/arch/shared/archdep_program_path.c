@@ -68,6 +68,7 @@
 # include <direct.h>
 #endif
 
+#include "archdep_atexit.h"
 #include "archdep_join_paths.h"
 #include "archdep_path_is_relative.h"
 
@@ -208,7 +209,7 @@ const char *archdep_program_path(void)
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
-            exit(1);
+            archdep_vice_exit(1);
         }
     }
 
@@ -233,7 +234,7 @@ const char *archdep_program_path(void)
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
-            exit(1);
+            archdep_vice_exit(1);
         }
     }
 
@@ -247,7 +248,7 @@ const char *archdep_program_path(void)
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
-            exit(1);
+            archdep_vice_exit(1);
         }
     }
 
@@ -273,7 +274,7 @@ const char *archdep_program_path(void)
                     "failed to retrieve executable path, falling back"
                     " to getcwd() + argv[0]");
             if (!argv_fallback()) {
-                exit(1);
+                archdep_vice_exit(1);
             }
         }
         printf("SYSCTL: %s\n", buffer);
@@ -286,7 +287,7 @@ const char *archdep_program_path(void)
                 "failed to retrieve executable path, falling back"
                 " to getcwd() + argv[0]");
         if (!argv_fallback()) {
-            exit(1);
+            archdep_vice_exit(1);
         }
     }
 
@@ -304,7 +305,7 @@ const char *archdep_program_path(void)
      * Other systems (BeOS etc)
      */
     if (!argv_fallback()) {
-        exit(1);
+        archdep_vice_exit(1);
     }
 
 #endif

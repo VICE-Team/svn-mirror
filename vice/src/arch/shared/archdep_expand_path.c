@@ -38,6 +38,7 @@
 #include "util.h"
 #include "archdep_defs.h"
 
+#include "archdep_atexit.h"
 #include "archdep_home_path.h"
 
 /* TODO:    Include required headers for AmigaOS */
@@ -98,7 +99,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 #elif defined(ARCHDEP_OS_OS2)
     /* the OS/2 code is too terrible to include, so just exit: */
     log_err(LOG_ERR, "OS/2 code is too screwed up, sorry.");
-    exit(1);
+    archdep_vice_exit(1);
 # if 0
     if (filename[0] == '\\' || filename[1] == ':') {
         *return_path = lib_stralloc(filename);

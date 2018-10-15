@@ -45,6 +45,7 @@
 # include <direct.h>
 #endif
 
+#include "archdep_atexit.h"
 #include "log.h"
 
 #include "archdep_mkdir.h"
@@ -70,6 +71,6 @@ int archdep_mkdir(const char *pathname, int mode)
     log_error(LOG_ERR,
             "%s(): not implemented for current system, whoops!\n",
             __func__);
-    exit(1);
+    archdep_vice_exit(1);
 #endif
 }

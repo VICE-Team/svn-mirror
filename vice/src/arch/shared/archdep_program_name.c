@@ -64,6 +64,7 @@
 # include "windows.h"
 #endif
 
+#include "archdep_atexit.h"
 #include "archdep_program_path.h"
 
 #include "archdep_program_name.h"
@@ -154,7 +155,7 @@ const char *archdep_program_name(void)
     execpath = archdep_program_path();
     if (execpath == NULL) {
         log_error(LOG_ERR, "bollocks");
-        exit(1);
+        archdep_vice_exit(1);
     }
 
 #ifdef AMIGA_SUPPORT
@@ -165,7 +166,7 @@ const char *archdep_program_name(void)
         program_name = lib_stralloc(p);
     } else {
         log_error(LOG_ERR, "failed to retrieve program name.");
-        exit(1);
+        archdep_vice_exit(1);
     }
 #endif
 

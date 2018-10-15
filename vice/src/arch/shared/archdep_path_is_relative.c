@@ -32,6 +32,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "archdep_atexit.h"
 #include "log.h"
 
 #include "archdep_path_is_relative.h"
@@ -64,6 +65,6 @@ int archdep_path_is_relative(const char *path)
     return 1;
 #else
     log_error(LOG_ERR, "system not supported.");
-    exit(1);
+    archdep_vice_exit(1);
 #endif
 }
