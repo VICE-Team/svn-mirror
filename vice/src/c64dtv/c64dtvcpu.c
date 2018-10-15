@@ -129,7 +129,7 @@ inline static void c64dtvcpu_clock_add(CLOCK *clock, int amount)
 #define CLK_ADD(clock, amount) c64dtvcpu_clock_add(&clock, amount)
 
 /* This is an optimization making x64dtv consume less host cycles in burst mode. */
-inline static void mem_burst_read(const uint16_t addr, uint8_t *burst_cache)
+inline static void mem_burst_read(const uint16_t addr, uint8_t *burst_c)
 {
     read_func_ptr_t mrtf;
     int paddr = ((((int) dtv_registers[12 + (addr >> 14)]) << 14) + (addr & 0x3fff)) & (C64_RAM_SIZE - 1);
@@ -137,15 +137,15 @@ inline static void mem_burst_read(const uint16_t addr, uint8_t *burst_cache)
     if (paddr <= 0xffff) {
         mrtf = _mem_read_tab_ptr[paddr >> 8];
         if (mrtf != ram_read) {
-            burst_cache[0] = mrtf((uint16_t)(paddr + 0));
-            burst_cache[1] = mrtf((uint16_t)(paddr + 1));
-            burst_cache[2] = mrtf((uint16_t)(paddr + 2));
-            burst_cache[3] = mrtf((uint16_t)(paddr + 3));
+            burst_c[0] = mrtf((uint16_t)(paddr + 0));
+            burst_c[1] = mrtf((uint16_t)(paddr + 1));
+            burst_c[2] = mrtf((uint16_t)(paddr + 2));
+            burst_c[3] = mrtf((uint16_t)(paddr + 3));
             return;
         }
     }
     /* this memcpy is optimized to a simple dword copy */
-    memcpy(burst_cache, &mem_ram[paddr], 4);
+    memcpy(burst_c, &mem_ram[paddr], 4);
 }
 
 /* Burst mode & skip cycle helper table */
