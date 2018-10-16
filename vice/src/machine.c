@@ -104,7 +104,7 @@ unsigned int machine_jam(const char *format, ...)
 {
     char *str;
     va_list ap;
-    ui_jam_action_t ret;
+    ui_jam_action_t ret = JAM_NONE;
 
     if (ignore_jam > 0) {
         return JAM_NONE;
