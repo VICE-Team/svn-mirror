@@ -137,20 +137,20 @@ fail:
     return 1;
 }
 
-static int xrun_recovery(snd_pcm_t *handle, int err)
+static int xrun_recovery(snd_pcm_t *hnd, int err)
 {
     if (err == -EPIPE) {    /* under-run */
-        if ((err = snd_pcm_prepare(handle)) < 0) {
+        if ((err = snd_pcm_prepare(hnd)) < 0) {
             log_message(LOG_DEFAULT, "Can't recover from underrun, prepare failed: %s", snd_strerror(err));
         }
         return 0;
     } else if (err == -ESTRPIPE) {
-        while ((err = snd_pcm_resume(handle)) == -EAGAIN) {
+        while ((err = snd_pcm_resume(hnd)) == -EAGAIN) {
             log_message(LOG_DEFAULT, "xrun_recovery: %s", snd_strerror(err));
             sleep(1);       /* wait until the suspend flag is released */
         }
         if (err < 0) {
-            if ((err = snd_pcm_prepare(handle)) < 0) {
+            if ((err = snd_pcm_prepare(hnd)) < 0) {
                 log_message(LOG_DEFAULT, "Can't recover from suspend, prepare failed: %s", snd_strerror(err));
             }
         }
