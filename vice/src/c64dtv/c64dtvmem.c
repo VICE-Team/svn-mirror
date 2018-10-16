@@ -434,8 +434,8 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
             return;
         } else {
             if (!c64dtvflash_state) {
-                read_func_ptr_t p = _mem_read_tab_ptr[paddr >> 8];
-                if (p == c64memrom_kernal64_read) {
+                read_func_ptr_t ptr = _mem_read_tab_ptr[paddr >> 8];
+                if (ptr == c64memrom_kernal64_read) {
                     int mapping = c64dtvmem_memmapper[0];
                     paddr = ((mapping & 0x1f) << 16) + (paddr & ~0x3fff) - (addr & 0xc000);
                     *base = ((mapping & 0xc0) ? mem_ram : c64dtvflash_mem) + paddr;
@@ -443,7 +443,7 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
                     *start = addr & 0xe000;
                     return;
                 }
-                if (p == c64memrom_basic64_read) {
+                if (ptr == c64memrom_basic64_read) {
                     int mapping = c64dtvmem_memmapper[1];
                     paddr = ((mapping & 0x1f) << 16) + (paddr & ~0x3fff) - (addr & 0xc000);
                     *base = ((mapping & 0xc0) ? mem_ram : c64dtvflash_mem) + paddr;
@@ -451,7 +451,7 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
                     *start = addr & 0xe000;
                     return;
                 }
-                if (p == chargen_read) { /* not likely but anyway */
+                if (ptr == chargen_read) { /* not likely but anyway */
                     *base = c64dtvflash_mem + (paddr & ~0x3fff) - (addr & 0xc000);
                     *limit = (addr & 0xf000) | 0x0ffd;
                     *start = addr & 0xf000;
