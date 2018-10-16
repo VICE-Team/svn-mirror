@@ -90,7 +90,7 @@ static log_t keyboard_log = LOG_DEFAULT;
 
 static keyboard_machine_func_t keyboard_machine_func = NULL;
 
-static CLOCK keyboard_delay;
+static CLOCK keyboard_delay = 0;
 
 static int keyboard_clear = 0;
 
@@ -502,8 +502,8 @@ void keyboard_key_pressed(signed long key)
     if (latch) {
         keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
         if (network_connected()) {
-            CLOCK keyboard_delay = KEYBOARD_RAND();
-            network_event_record(EVENT_KEYBOARD_DELAY, (void *)&keyboard_delay, sizeof(keyboard_delay));
+            CLOCK delay = KEYBOARD_RAND();
+            network_event_record(EVENT_KEYBOARD_DELAY, (void *)&delay, sizeof(delay));
             network_event_record(EVENT_KEYBOARD_MATRIX, (void *)latch_keyarr, sizeof(latch_keyarr));
         } else {
             alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
@@ -631,8 +631,8 @@ void keyboard_key_released(signed long key)
 
     if (latch) {
         if (network_connected()) {
-            CLOCK keyboard_delay = KEYBOARD_RAND();
-            network_event_record(EVENT_KEYBOARD_DELAY, (void *)&keyboard_delay, sizeof(keyboard_delay));
+            CLOCK delay = KEYBOARD_RAND();
+            network_event_record(EVENT_KEYBOARD_DELAY, (void *)&delay, sizeof(delay));
             network_event_record(EVENT_KEYBOARD_MATRIX, (void *)latch_keyarr, sizeof(latch_keyarr));
         } else {
             alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
