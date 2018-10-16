@@ -557,12 +557,12 @@ void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
 
 /* Initialize autostart.  */
 int autostart_init(CLOCK _min_cycles, int handle_drive_true_emulation,
-                   int blnsw, int pnt, int pntr, int lnmx)
+                   int _blnsw, int _pnt, int _pntr, int _lnmx)
 {
     autostart_prg_init();
 
-    autostart_reinit(_min_cycles, handle_drive_true_emulation, blnsw, pnt,
-                     pntr, lnmx);
+    autostart_reinit(_min_cycles, handle_drive_true_emulation, _blnsw, _pnt,
+                     _pntr, _lnmx);
 
     if (autostart_log == LOG_ERR) {
         autostart_log = log_open("AUTOSTART");
