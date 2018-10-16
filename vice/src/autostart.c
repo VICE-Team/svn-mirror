@@ -534,21 +534,21 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 /* ------------------------------------------------------------------------- */
 
 /* Reset autostart.  */
-void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
-                      int _blnsw, int _pnt, int _pntr, int _lnmx)
+void autostart_reinit(CLOCK min_cycles_, int handle_tde,
+                      int blnsw_, int pnt_, int pntr_, int lnmx_)
 {
-    blnsw = (uint16_t)(_blnsw);
-    pnt = _pnt;
-    pntr = _pntr;
-    lnmx = _lnmx;
+    blnsw = (uint16_t)(blnsw_);
+    pnt = pnt_;
+    pntr = pntr_;
+    lnmx = lnmx_;
 
-    min_cycles = _min_cycles;
+    min_cycles = min_cycles_;
 
-    handle_drive_true_emulation_by_machine = _handle_drive_true_emulation;
+    handle_drive_true_emulation_by_machine = handle_tde;
 
     set_handle_true_drive_emulation_state();
 
-    if (_min_cycles) {
+    if (min_cycles_) {
         autostart_enabled = 1;
     } else {
         autostart_enabled = 0;
@@ -556,13 +556,12 @@ void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
 }
 
 /* Initialize autostart.  */
-int autostart_init(CLOCK _min_cycles, int handle_drive_true_emulation,
-                   int _blnsw, int _pnt, int _pntr, int _lnmx)
+int autostart_init(CLOCK min_cycles_, int handle_drive_true_emulation,
+                   int blnsw_, int pnt_, int pntr_, int lnmx_)
 {
     autostart_prg_init();
 
-    autostart_reinit(_min_cycles, handle_drive_true_emulation, _blnsw, _pnt,
-                     _pntr, _lnmx);
+    autostart_reinit(min_cycles_, handle_drive_true_emulation, blnsw_, pnt_, pntr_, lnmx_);
 
     if (autostart_log == LOG_ERR) {
         autostart_log = log_open("AUTOSTART");
