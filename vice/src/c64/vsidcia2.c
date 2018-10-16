@@ -203,12 +203,12 @@ void cia2_init(cia_context_t *cia_context)
     ciacore_init(machine_context.cia2, maincpu_alarm_context, maincpu_int_status, maincpu_clk_guard);
 }
 
-void cia2_setup_context(machine_context_t *machine_context)
+void cia2_setup_context(machine_context_t *machine_ctx)
 {
     cia_context_t *cia;
 
-    machine_context->cia2 = lib_calloc(1, sizeof(cia_context_t));
-    cia = machine_context->cia2;
+    machine_ctx->cia2 = lib_calloc(1, sizeof(cia_context_t));
+    cia = machine_ctx->cia2;
 
     cia->prv = NULL;
     cia->context = NULL;
