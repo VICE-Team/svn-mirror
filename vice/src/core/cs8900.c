@@ -643,7 +643,7 @@ static uint16_t cs8900_receive(void)
     int rx_ok;
     int correct_mac;
     int broadcast;
-    int multicast;
+    int multicast = 0; /* avoid warning */
     int crc_error;
 
     int newframe;
