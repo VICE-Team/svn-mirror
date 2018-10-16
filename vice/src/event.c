@@ -809,7 +809,11 @@ void event_reset_ack(void)
     }
 }
 
-static void event_playback_start_trap(uint16_t addr, void *data)
+/* XXX: the 'unused' (prev. 'data') param is only passed from one function:
+ * 	interrupt_maincpu_trigger_trap(), and that one passes (void*)0, ie NULL.
+ * 	So fixing the shadowing of 'data' should be fine.
+ */
+static void event_playback_start_trap(uint16_t addr, void *unused)
 {
     snapshot_t *s;
     uint8_t minor, major;
