@@ -449,7 +449,8 @@ inline static void debug_history_step(const char *st)
     }
 
     if (event_playback_active()) {
-        char tempstr[DEBUG_MAXLINELEN];
+        /* +1 for the terminating nul char */
+        char tempstr[DEBUG_MAXLINELEN + 1];
         int line_len = sprintf(tempstr, "%s\n", st);
 
         if (debug_buffer_ptr >= debug_buffer_size) {
