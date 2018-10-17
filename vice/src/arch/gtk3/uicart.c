@@ -466,6 +466,7 @@ static int attach_cart_image(int type, int id, const char *path)
             switch (type) {
                 case UICART_VIC20_SMART:
                     id = CARTRIDGE_VIC20_DETECT;
+                    break;
                 case UICART_VIC20_GENERIC:
                     id = CARTRIDGE_VIC20_GENERIC;
                     break;
@@ -495,6 +496,7 @@ static int attach_cart_image(int type, int id, const char *path)
             switch (type) {
                 case UICART_PLUS4_SMART:
                     id = CARTRIDGE_PLUS4_DETECT;
+                    break;
                 case UICART_PLUS4_NEWROM:
                     id = CARTRIDGE_PLUS4_NEWROM;
                     break;
