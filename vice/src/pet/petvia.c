@@ -235,12 +235,12 @@ void via_init(via_context_t *via_context)
                  maincpu_int_status, maincpu_clk_guard);
 }
 
-void petvia_setup_context(machine_context_t *machine_context)
+void petvia_setup_context(machine_context_t *machinecontext)
 {
     via_context_t *via;
 
-    machine_context->via = lib_malloc(sizeof(via_context_t));
-    via = machine_context->via;
+    machinecontext->via = lib_malloc(sizeof(via_context_t));
+    via = machinecontext->via;
 
     via->prv = NULL;
     via->context = NULL;
