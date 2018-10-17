@@ -194,12 +194,12 @@ void via1_init(via_context_t *via_context)
                  maincpu_int_status, maincpu_clk_guard);
 }
 
-void vic20via1_setup_context(machine_context_t *machine_context)
+void vic20via1_setup_context(machine_context_t *machinecontext)
 {
     via_context_t *via;
 
-    machine_context->via1 = lib_malloc(sizeof(via_context_t));
-    via = machine_context->via1;
+    machinecontext->via1 = lib_malloc(sizeof(via_context_t));
+    via = machinecontext->via1;
 
     via->prv = NULL;
     via->context = NULL;
