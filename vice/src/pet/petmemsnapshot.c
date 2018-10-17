@@ -208,7 +208,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
         NULL, NULL, NULL, NULL, NULL, NULL, NULL, { NULL }
     };
     int old6809mode;
-    int spet_bank = 0;
+    int spetbank = 0;
 
     m = snapshot_module_open(s, module_ram_name, &vmajor, &vminor);
     if (m == NULL) {
@@ -259,7 +259,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
             spet_ramwp = superpet & 2;
             spet_ctrlwp = superpet & 4;
             spet_diag = superpet & 8;
-            spet_bank = (superpet >> 4) & 0x0f;
+            spetbank = (superpet >> 4) & 0x0f;
             peti.superpet = 1;
             break;
         case 4:         /* 8096 */
@@ -320,7 +320,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
         /* Extra superpet2 bits */
         b = 0;  /* when not present in file */
         SMR_B(m, &b);
-        spet_bank |= (b & 0x10);
+        spetbank |= (b & 0x10);
         spet_firq_disabled = (b & 0x20);
         spet_flat_mode = (b & 0x40);
 
@@ -343,8 +343,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
         mem_initialize_memory_6809();
     }
 
-    /* spet_bank_4k = spet_bank << 12; */
-    set_spet_bank(spet_bank);
+    /* spet_bank_4k = spetbank << 12; */
+    set_spet_bank(spetbank);
 
     snapshot_module_close(m);
 
