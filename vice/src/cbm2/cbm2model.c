@@ -72,13 +72,13 @@ static struct model_s cbm2models[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-static int cbm2model_get_temp(int video, int ramsize, int hasvicii, int line)
+static int cbm2model_get_temp(int video, int ramsz, int hasvicii, int line)
 {
     int i;
 
     for (i = 0; i < CBM2MODEL_NUM; ++i) {
         if ((cbm2models[i].video == video)
-            && (cbm2models[i].ramsize == ramsize)
+            && (cbm2models[i].ramsize == ramsz)
             && (cbm2models[i].hasvicii == hasvicii)
             && (cbm2models[i].line == line)) {
             return i;
@@ -90,17 +90,17 @@ static int cbm2model_get_temp(int video, int ramsize, int hasvicii, int line)
 
 int cbm2model_get(void)
 {
-    int video, ramsize, hasvicii, line;
+    int video, ramsz, hasvicii, line;
 
     hasvicii = (machine_class == VICE_MACHINE_CBM5x0);
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
-        || (resources_get_int("RamSize", &ramsize) < 0)
+        || (resources_get_int("RamSize", &ramsz) < 0)
         || (resources_get_int("ModelLine", &line) < 0)) {
         return -1;
     }
 
-    return cbm2model_get_temp(video, ramsize, hasvicii, line);
+    return cbm2model_get_temp(video, ramsz, hasvicii, line);
 }
 
 #if 0
