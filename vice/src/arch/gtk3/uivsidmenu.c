@@ -39,7 +39,9 @@
 #include <gtk/gtk.h>
 
 #include "debug.h"
+#include "lib.h"
 #include "machine.h"
+#include "psid.h"
 #include "ui.h"
 #include "uiabout.h"
 #include "uicmdline.h"
@@ -95,6 +97,11 @@ static GtkWidget *debug_submenu = NULL;
 /** \brief  Help submenu
  */
 static GtkWidget *help_submenu = NULL;
+
+
+/** \brief  List of items in the tune submenu
+ */
+static GSList *tune_submenu_group = NULL;
 
 
 /** \brief  File->Reset submenu
@@ -239,6 +246,68 @@ static ui_menu_item_t help_menu[] = {
     UI_MENU_TERMINATOR
 };
 
+/** \brief  Play a tune when selected with the Tune menu
+ *
+ * \return  void
+ */
+static void select_tune_from_menu(GtkMenuItem *menuitem,
+               gpointer     user_data) {
+    if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem))) {
+        return;
+    }
+    long tune = (long)user_data;
+    psid_init_driver();
+    machine_play_psid((int)tune);
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+}
+
+
+/** \brief  Remove each of the old menu items before adding the new ones
+ *
+ * \return  void
+ */
+static void remove_item_from_menu (GtkWidget *widget, gpointer data) {
+    gtk_widget_destroy(widget);
+}
+
+/** \brief  Create the tune menu when a new PSID is loaded
+ *
+ * \return  void
+ */
+void ui_vsid_tune_menu_set_tune_count(int count) {
+    GtkWidget *item = NULL;
+    long i;
+    char *buf;
+
+    gtk_container_foreach(GTK_CONTAINER(tune_submenu), remove_item_from_menu, NULL);
+    for (i = count; i >0; i--) {
+        buf = lib_msprintf(_("Tune %s%d"), i < 10 ? "_" :"", i);
+        item = gtk_radio_menu_item_new_with_mnemonic_from_widget (GTK_RADIO_MENU_ITEM(item), buf);
+        lib_free(buf);
+        gtk_widget_show(item);
+        g_signal_connect(
+            item,
+            "activate",
+            G_CALLBACK(select_tune_from_menu),
+            (gpointer)i);
+        gtk_menu_shell_prepend(GTK_MENU_SHELL(tune_submenu), item);
+    }
+    tune_submenu_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
+}
+
+
+/** \brief  Ensure the correct menu element is selected when the current tune is changed by anything other than the menu
+ *
+ * \return  void
+ */
+void ui_vsid_tune_set_tune_current(int count) {
+    if (tune_submenu_group) {
+        gpointer nth_item = g_slist_nth_data(tune_submenu_group, (guint)count - 1);
+        if (nth_item) {
+            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (nth_item), TRUE);
+        }
+    }
+}
 
 /** \brief  Create the top menu bar with standard submenus
  *

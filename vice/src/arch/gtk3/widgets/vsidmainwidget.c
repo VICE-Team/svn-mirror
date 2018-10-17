@@ -36,6 +36,7 @@
 #include "machine.h"
 #include "lib.h"
 #include "log.h"
+#include "uivsidmenu.h"
 #include "vsidtuneinfowidget.h"
 #include "vsidcontrolwidget.h"
 #include "vsidmixerwidget.h"
@@ -90,6 +91,7 @@ void vsid_main_widget_set_tune_count(int n)
 {
     vsid_control_widget_set_tune_count(n);
     vsid_tune_info_widget_set_tune_count(n);
+    ui_vsid_tune_menu_set_tune_count(n);
 }
 
 /** \brief  Set current tune
@@ -100,6 +102,7 @@ void vsid_main_widget_set_tune_current(int n)
 {
     vsid_control_widget_set_tune_current(n);
     vsid_tune_info_widget_set_tune_current(n);
+    ui_vsid_tune_set_tune_current(n);
 }
 
 

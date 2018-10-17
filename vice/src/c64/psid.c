@@ -314,6 +314,9 @@ int psid_load_file(const char* filename)
         psid->start_song = 1;
     }
 
+    vsid_ui_display_nr_of_tunes(psid->songs);
+    vsid_ui_set_default_tune(psid->start_song);
+
     /* Check for SIDPLAYER MUS files. */
     if (psid->flags & 0x01) {
         zfile_fclose(f);
@@ -538,8 +541,6 @@ void psid_init_tune(int install_driver_hook)
         vsid_ui_display_sid_model(sid_model);
         vsid_ui_display_irqtype(irq_str);
         vsid_ui_display_tune_nr(start_song);
-        vsid_ui_set_default_tune(psid->start_song);
-        vsid_ui_display_nr_of_tunes(psid->songs);
         vsid_ui_display_time(0);
     }
 

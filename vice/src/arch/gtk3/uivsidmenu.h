@@ -32,6 +32,8 @@
 #include <gtk/gtk.h>
 
 GtkWidget *ui_vsid_menu_bar_create(void);
+void ui_vsid_tune_menu_set_tune_count(int count);
+void ui_vsid_tune_set_tune_current(int count);
 
 
 #endif /* VICE_UIVSIDMENU_H */
