@@ -388,8 +388,6 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
             sid_present = (gboolean)tmp;
         }
     }
-#else
-    gboolean sid_present = FALSE;
 #endif
 
     grid = vice_gtk3_grid_new_spaced(16, 0);

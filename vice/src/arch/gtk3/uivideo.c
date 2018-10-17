@@ -74,6 +74,7 @@ const char *uivideo_chip_name(void)
             fprintf(stderr, "%s:%d:%s(): error: got machine class %d\n",
                     __FILE__, __LINE__, __func__, machine_class);
             archdep_vice_exit(1);
+            return NULL;
     }
 }
 
