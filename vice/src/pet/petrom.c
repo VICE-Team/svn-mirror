@@ -840,19 +840,14 @@ int mem_load(void)
     }
 
     if (petres.rom_video) {
-        log_message(petrom_log, "ROM screen width is %d.",
-                    petres.rom_video);
+        log_message(petrom_log, "ROM screen width is %d.", petres.rom_video);
     } else {
         log_message(petrom_log, "ROM screen width is unknown.");
     }
 
-    {
-        int i;
-
-        for (i = 0; i < NUM_6809_ROMS; i++) {
-            if (petrom_load_6809rom(i) < 0) {
-                return -1;
-            }
+    for (i = 0; i < NUM_6809_ROMS; i++) {
+        if (petrom_load_6809rom(i) < 0) {
+            return -1;
         }
     }
 
