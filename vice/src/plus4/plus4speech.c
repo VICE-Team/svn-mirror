@@ -338,11 +338,13 @@ static void set_apd(t6721_state *state)
 /* hooked to callback of t6721 chip */
 static void set_eos(t6721_state *state)
 {
-    if (last != state->eos) {
+    static int lst;
+
+    if (lst != state->eos) {
         DBG(("SPEECH: set EOS: %d\n", state->eos));
         latch_set_irq(IRQNUM_EOS, state->eos);
     }
-    last = state->eos;
+    lst = state->eos;
 }
 
 /*
