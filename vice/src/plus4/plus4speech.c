@@ -225,7 +225,7 @@ static void update_dtrd(int d)
 }
 
 /* hooked to callback of t6721 chip */
-static uint8_t read_bit_from_fifo(t6721_state *t6721, unsigned int *bit)
+static uint8_t read_bit_from_fifo(t6721_state *state, unsigned int *bit)
 {
     *bit = 0;
 
@@ -309,21 +309,21 @@ static void write_data_nibble(uint8_t nibble)
 }
 
 /* hooked to callback of t6721 chip */
-static void set_dtrd(t6721_state *t6721)
+static void set_dtrd(t6721_state *state)
 {
     static int old;
-    if (old != t6721->dtrd) {
-        DTRD = t6721->dtrd;
-        old = t6721->dtrd;
+    if (old != state->dtrd) {
+        DTRD = state->dtrd;
+        old = state->dtrd;
         /* DBG(("SPEECH: irq assert dtrd:%x masked:%x\n", DTRD, DTRD & irq_enable)); */
         latch_set_irq(IRQNUM_DTRD, DTRD);
     }
 }
 
 /* hooked to callback of t6721 chip */
-static void set_apd(t6721_state *t6721)
+static void set_apd(t6721_state *state)
 {
-    if (t6721->apd) {
+    if (state->apd) {
         fifo_reset = 1; /* set FIFO reset condition */
 
         /* reset FIFO */
@@ -336,14 +336,13 @@ static void set_apd(t6721_state *t6721)
 }
 
 /* hooked to callback of t6721 chip */
-static void set_eos(t6721_state *t6721)
+static void set_eos(t6721_state *state)
 {
-    static int last;
-    if (last != t6721->eos) {
-        DBG(("SPEECH: set EOS: %d\n", t6721->eos));
-        latch_set_irq(IRQNUM_EOS, t6721->eos);
+    if (last != state->eos) {
+        DBG(("SPEECH: set EOS: %d\n", state->eos));
+        latch_set_irq(IRQNUM_EOS, state->eos);
     }
-    last = t6721->eos;
+    last = state->eos;
 }
 
 /*
@@ -466,7 +465,7 @@ static int speech_dump(void)
     return 0;
 }
 
-void speech_setup_context(machine_context_t *machine_context)
+void speech_setup_context(machine_context_t *machine_ctx)
 {
     DBG(("SPEECH: speech_setup_context\n"));
     /* init t6721 chip */
