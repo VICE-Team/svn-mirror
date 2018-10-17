@@ -993,11 +993,11 @@ static gboolean on_window_configure_event(GtkWidget *widget,
         /* determine Window index */
         int windex = GPOINTER_TO_INT(data);
 
-
+#if 0
         debug_gtk3("updating window #%d coords and size to (%d,%d)/(%d*%d)"
                 " in resources.",
                 0, cfg->x, cfg->y, cfg->width, cfg->height);
-
+#endif
         /* set resources, ignore failures */
         resources_set_int_sprintf("Window%dWidth", cfg->width, windex);
         resources_set_int_sprintf("Window%dHeight", cfg->height, windex);
