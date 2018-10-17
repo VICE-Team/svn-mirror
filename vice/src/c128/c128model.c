@@ -90,18 +90,18 @@ static struct model_s c128models[] = {
 /* ------------------------------------------------------------------------- */
 
 static int c128model_get_temp(int video, int sid_model, int vdc_revision, int vdc_64k,
-                       int cia1_model, int cia2_model)
+                       int cia1model, int cia2model)
 {
     int new_sid;
     int new_cia;
     int i;
 
-    if (cia1_model != cia2_model) {
+    if (cia1model != cia2model) {
         return C128MODEL_UNKNOWN;
     }
 
     new_sid = is_new_sid(sid_model);
-    new_cia = is_new_cia(cia1_model);
+    new_cia = is_new_cia(cia1model);
 
     for (i = 0; i < C128MODEL_NUM; ++i) {
         if ((c128models[i].video == video)
@@ -118,25 +118,25 @@ static int c128model_get_temp(int video, int sid_model, int vdc_revision, int vd
 
 int c128model_get(void)
 {
-    int video, sid_model, cia1_model, cia2_model, vdc_revision, vdc_64k;
+    int video, sid_model, cia1model, cia2model, vdc_revision, vdc_64k;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
         || (resources_get_int("SidModel", &sid_model) < 0)
-        || (resources_get_int("CIA1Model", &cia1_model) < 0)
-        || (resources_get_int("CIA2Model", &cia2_model) < 0)
+        || (resources_get_int("CIA1Model", &cia1model) < 0)
+        || (resources_get_int("CIA2Model", &cia2model) < 0)
         || (resources_get_int("VDCRevision", &vdc_revision) < 0)
         || (resources_get_int("VDC64KB", &vdc_64k) < 0)) {
         return -1;
     }
 
     return c128model_get_temp(video, sid_model, vdc_revision, vdc_64k,
-                              cia1_model, cia2_model);
+                              cia1model, cia2model);
 }
 
 #if 0
 static void c128model_set_temp(int model, int *vicii_model, int *sid_model,
-                        int *vdc_revision, int *vdc_64k, int *cia1_model,
-                        int *cia2_model)
+                        int *vdc_revision, int *vdc_64k, int *cia1model,
+                        int *cia2model)
 {
     int old_model;
     int old_engine;
@@ -146,15 +146,15 @@ static void c128model_set_temp(int model, int *vicii_model, int *sid_model,
     int new_type;
 
     old_model = c128model_get_temp(*vicii_model, *sid_model, *vdc_revision,
-                                   *vdc_64k, *cia1_model, *cia2_model);
+                                   *vdc_64k, *cia1model, *cia2model);
 
     if ((model == old_model) || (model == C128MODEL_UNKNOWN)) {
         return;
     }
 
     *vicii_model = c128models[model].video;
-    *cia1_model = c128models[model].cia;
-    *cia2_model = c128models[model].cia;
+    *cia1model = c128models[model].cia;
+    *cia2model = c128models[model].cia;
     *vdc_revision = c128models[model].vdc;
     *vdc_64k = c128models[model].vdc64k;
 
