@@ -35,6 +35,11 @@
 #include "main.h"
 #include "video.h"
 
+/* For the ugly hack below */
+#ifdef WIN32_COMPILE
+# include "windows.h"
+#endif
+
 
 /** \brief  Program driver
  *
@@ -49,6 +54,22 @@
  */
 int main(int argc, char **argv)
 {
+    /*
+     * Ugly hack to make the VTE-based monitor behave on 32-bit Windows.
+     *
+     * Without this, the monitor outputs all sorts of non-ASCII glyphs resulting
+     * in either weird tokens and a red background or a nice crash.
+     *
+     * The Windows C runtime doesn't actually use this env var, but Gtk/GLib
+     * does. Ofcourse properly fixing the monitor code would be better, but I've
+     * spent all day trying to figure this out, so it'll have to do for now.
+     *
+     * --Compyx
+     */
+#ifdef WIN32_COMPILE
+    _putenv("LANG=C");
+#endif
+
     return main_program(argc, argv);
 }
 
