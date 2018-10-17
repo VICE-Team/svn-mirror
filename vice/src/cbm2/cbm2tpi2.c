@@ -150,16 +150,16 @@ void tpi2_init(tpi_context_t *tpi_context)
     tpi_context->log = log_open(tpi_context->myname);
 }
 
-void tpi2_setup_context(machine_context_t *machine_context)
+void tpi2_setup_context(machine_context_t *machine_ctx)
 {
     tpi_context_t *tpi_context;
 
-    machine_context->tpi2 = lib_malloc(sizeof(tpi_context_t));
-    tpi_context = machine_context->tpi2;
+    machine_ctx->tpi2 = lib_malloc(sizeof(tpi_context_t));
+    tpi_context = machine_ctx->tpi2;
 
     tpi_context->prv = NULL;
 
-    tpi_context->context = (void *)machine_context;
+    tpi_context->context = (void *)machine_ctx;
 
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
