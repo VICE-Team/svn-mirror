@@ -234,16 +234,16 @@ void tpi1_init(tpi_context_t *tpi_context)
         = interrupt_cpu_status_int_new(maincpu_int_status, tpi_context->myname);
 }
 
-void tpi1_setup_context(machine_context_t *machine_context)
+void tpi1_setup_context(machine_context_t *machine_ctx)
 {
     tpi_context_t *tpi_context;
 
-    machine_context->tpi1 = lib_malloc(sizeof(tpi_context_t));
-    tpi_context = machine_context->tpi1;
+    machine_ctx->tpi1 = lib_malloc(sizeof(tpi_context_t));
+    tpi_context = machine_ctx->tpi1;
 
     tpi_context->prv = NULL;
 
-    tpi_context->context = (void *)machine_context;
+    tpi_context->context = (void *)machine_ctx;
 
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
