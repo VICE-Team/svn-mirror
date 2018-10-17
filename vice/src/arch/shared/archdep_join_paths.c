@@ -72,9 +72,10 @@ char *archdep_join_paths(const char *path, ...)
         result_len += (strlen(arg) + 1);
     }
     va_end(ap);
+#if 0
     /* cannot use %zu here due to MS' garbage C lib */
     printf("%s: result length: %lu\n", __func__, (unsigned long)result_len);
-
+#endif
     /* initialize result string */
     result = lib_calloc(result_len + 1, 1);
     strcpy(result, path);
