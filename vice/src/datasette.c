@@ -857,7 +857,7 @@ static void datasette_control_internal(int command)
                 break;
             case DATASETTE_CONTROL_RESET:
                 datasette_internal_reset();
-            case DATASETTE_CONTROL_STOP:
+            case DATASETTE_CONTROL_STOP:    /* fall through */
                 current_image->mode = DATASETTE_CONTROL_STOP;
                 if (datasette_list_item) {
                     tapeport_set_tape_sense(0, datasette_device.id);
@@ -914,7 +914,7 @@ static void datasette_control_internal(int command)
                 break;
             case DATASETTE_CONTROL_RESET:
                 datasette_internal_reset();
-            case DATASETTE_CONTROL_STOP:
+            case DATASETTE_CONTROL_STOP:    /* fall through */
                 notape_mode = DATASETTE_CONTROL_STOP;
                 if (datasette_list_item) {
                     tapeport_set_tape_sense(0, datasette_device.id);
