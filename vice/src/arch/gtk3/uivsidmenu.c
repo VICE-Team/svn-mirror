@@ -251,13 +251,15 @@ static ui_menu_item_t help_menu[] = {
  * \return  void
  */
 static void select_tune_from_menu(GtkMenuItem *menuitem,
-               gpointer     user_data) {
+                                  gpointer     user_data) {
+    int tune;
+
     if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem))) {
         return;
     }
-    long tune = (long)user_data;
+    tune = GPOINTER_TO_INT(user_data);
     psid_init_driver();
-    machine_play_psid((int)tune);
+    machine_play_psid(tune);
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
@@ -289,7 +291,7 @@ void ui_vsid_tune_menu_set_tune_count(int count) {
             item,
             "activate",
             G_CALLBACK(select_tune_from_menu),
-            (gpointer)i);
+            GINT_TO_POINTER(i));
         gtk_menu_shell_prepend(GTK_MENU_SHELL(tune_submenu), item);
     }
     tune_submenu_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
