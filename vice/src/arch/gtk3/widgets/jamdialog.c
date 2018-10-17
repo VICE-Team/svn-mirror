@@ -68,7 +68,7 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
      * No point in making this asynchronous I think, the emulation is paused
      * anyway due to the CPU jam.
      */
-    dialog = gtk_dialog_new_with_buttons("CPU JAM", GTK_WINDOW(parent),
+    dialog = gtk_dialog_new_with_buttons("D'OH!", GTK_WINDOW(parent),
             GTK_DIALOG_MODAL,
             "None", RESPONSE_NONE,
             "Soft reset", RESPONSE_RESET_SOFT,
