@@ -267,9 +267,9 @@ static void clk_overflow_callback(CLOCK amount, void *data)
 
 /* ------------------------------------------------------------------------- */
 
-void vsync_set_machine_parameter(double refresh_rate, long cycles)
+void vsync_set_machine_parameter(double refresh, long cycles)
 {
-    refresh_frequency = refresh_rate;
+    refresh_frequency = refresh;
     cycles_per_sec = cycles;
     set_timer_speed(relative_speed);
 }
