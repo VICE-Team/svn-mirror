@@ -1803,7 +1803,7 @@ void div0_trap(void)
 }
 #endif
 
-static void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
+static void cwai(struct interrupt_cpu_status_s *maincpu_intstatus, alarm_context_t *maincpu_alarm_context)
 {
     uint8_t tmp = imm_byte();
     int taken;
@@ -1828,7 +1828,7 @@ static void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_contex
      * the normal interrupt processing (incl. masking) is used.
      */
     while (!taken) {
-        int pending = maincpu_int_status->global_pending_int & (IK_IRQ | IK_IRQPEND);
+        int pending = maincpu_intstatus->global_pending_int & (IK_IRQ | IK_IRQPEND);
         if (pending) {
             break;
         } else {
@@ -2742,7 +2742,7 @@ static void st32(uint32_t arg, int CLK6809, int CLK6309)
 #endif
 
 /* Execute 6809 code for a certain number of cycles. */
-void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
+void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_intstatus, alarm_context_t *maincpu_alarm_context)
 {
     uint16_t opcode;
     uint8_t fetch;
@@ -3999,7 +3999,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x103c:        /* CWAI (UNDOC) */
             case 0x113c:        /* CWAI (UNDOC) */
 #endif
-                cwai(maincpu_int_status, maincpu_alarm_context);
+                cwai(maincpu_intstatus, maincpu_alarm_context);
                 break;
 
             case 0x0019:        /* DAA */
