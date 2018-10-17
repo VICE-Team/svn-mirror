@@ -372,6 +372,7 @@ int sid_cmdline_options_init(int sid_type)
         }
     }
 #else
+    sidengine_cmdline_options[0].description = build_sid_cmdline_option(sid_type);
     if (cmdline_register_options(sidengine_cmdline_options) < 0) {
         return -1;
     }
