@@ -164,12 +164,12 @@ void ieeevia1_init(via_context_t *via_context)
                  maincpu_int_status, maincpu_clk_guard);
 }
 
-void vic20ieeevia1_setup_context(machine_context_t *machine_context)
+void vic20ieeevia1_setup_context(machine_context_t *machinecontext)
 {
     via_context_t *via;
 
-    machine_context->ieeevia1 = lib_malloc(sizeof(via_context_t));
-    via = machine_context->ieeevia1;
+    machinecontext->ieeevia1 = lib_malloc(sizeof(via_context_t));
+    via = machinecontext->ieeevia1;
 
     via->prv = NULL;
     via->context = NULL;
