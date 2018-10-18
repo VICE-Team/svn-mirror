@@ -486,7 +486,7 @@ void ui_display_kbd_status(SDL_Event *e)
     char *p = &kbdstatusbar_text[KBDSTATUSENTRYLEN * 2];
 
     if (kbdstatusbar_enabled) {
-        memcpy(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN], 40);
+        memmove(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN], 40);
         sprintf(p, "%c%03d>%03d %c%04x    ", 
                 (e->type == SDL_KEYUP) ? 'U' : 'D',
                 e->key.keysym.sym & 0xffff, 
