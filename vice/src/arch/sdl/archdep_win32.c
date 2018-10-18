@@ -178,25 +178,27 @@ static size_t system_wcstombs(char *mbs, const char *wcs, size_t len)
     return strlen(mbs);
 }
 #endif
-
+#if 0
 static size_t system_mbstowcs(char *wcs, const char *mbs, size_t len)
 {
     strncpy(wcs, mbs, len);
     return strlen(wcs);
 }
+#endif
 
 static char *system_mbstowcs_alloc(const char *mbs)
 {
     char *wcs;
+    size_t len;
 
     if (mbs == NULL) {
         return NULL;
     }
 
-    wcs = lib_malloc((strlen(mbs) + 1) * sizeof(char));
-    system_mbstowcs(wcs, mbs, strlen(mbs) + 1);
+    len = strlen(mbs);
 
-    return wcs;
+    wcs = lib_malloc(len + 1);
+    return memcpy(wcs, mbs, len + 1);
 }
 
 static void system_mbstowcs_free(char *wcs)
