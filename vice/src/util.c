@@ -1403,7 +1403,6 @@ char *util_add_extension_const(const char *filename, const char *extension)
 
 /* like util_add_extension(), but using a var[MAXPATH] type string
    without using realloc if extension is not present. */
-
 void util_add_extension_maxpath(char *name, const char *extension, unsigned int maxpath)
 {
     size_t name_len, ext_len;
@@ -1428,7 +1427,8 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
         return;
     }
 
-    sprintf(name, "%s%c%s", name, FSDEV_EXT_SEP_CHR, extension);
+    name[name_len] = FSDEV_EXT_SEP_CHR;
+    memcpy(name + name_len + 1, extension, ext_len + 1);
 }
 
 char *util_get_extension(char *filename)
