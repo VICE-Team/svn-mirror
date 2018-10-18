@@ -769,7 +769,7 @@ static uint8_t read_io_e8(uint16_t addr)
         case 0x80:              /* CRTC */
             if (petres.crtc) {
                 last_access = crtc_read(addr);
-            }
+            } /* fall through */
         case 0x00:
             return last_access;
         default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
