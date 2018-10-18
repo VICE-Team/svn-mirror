@@ -1548,6 +1548,7 @@ static void pause_trap(uint16_t addr, void *data)
     vsync_suspend_speed_eval();
     while (is_paused) {
         ui_dispatch_next_event();
+        g_usleep(10000);
     }
 }
 
