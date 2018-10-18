@@ -101,6 +101,7 @@ static int set_internal_function_rom_enabled(int val, void *param)
     switch (val) {
         case INT_FUNCTION_RTC:
             rtc1_context = bq4830y_init("IFR");
+            /* fall through */
         case INT_FUNCTION_RAM:
             memset(int_function_rom, 0, sizeof(int_function_rom));
             break;
@@ -152,6 +153,7 @@ static int set_external_function_rom_enabled(int val, void *param)
     switch (val) {
         case EXT_FUNCTION_RTC:
             rtc2_context = bq4830y_init("EFR");
+            /* fall through */
         case EXT_FUNCTION_RAM:
             memset(ext_function_rom, 0, sizeof(ext_function_rom));
             break;
