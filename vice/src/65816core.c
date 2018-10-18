@@ -2551,7 +2551,10 @@
 {
 
     {
-        unsigned int p0, p1, p2, p3;
+        unsigned int p0 = 0;
+        unsigned int p1 = 0;
+        unsigned int p2 = 0;
+        unsigned int p3 = 0;
 #ifdef DEBUG
         CLOCK debug_clk = 0;
         unsigned int debug_pc = 0;
