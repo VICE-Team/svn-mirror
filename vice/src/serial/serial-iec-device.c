@@ -643,9 +643,13 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value)
                     iecbus_device_write(devnr, (uint8_t)(IECBUS_DEVICE_WRITE_CLK
                                                       | IECBUS_DEVICE_WRITE_DATA));
                     iec->state = P_READY;
-                    /* FIXME: is this the correct place for the break? */
-                    break;
                 }
+                /*
+                 * This break used to be inside the if(), but since code further
+                 * up has the break like this in a P_PRE1 case, I think this
+                 * is the proper place. -- Compyx
+                 */
+                break;
             case P_READY:
                 if (bus & IECBUS_DEVICE_READ_DATA) {
                     /* receiver signaled "ready-for-data" (DATA=1) */
