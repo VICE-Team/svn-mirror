@@ -721,6 +721,7 @@ uint8_t viacore_read_(via_context_t *via_context, uint16_t addr)
             if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2)) {
                 update_myviairq(via_context);
             }
+            /* falls through */
 
         case VIA_PRA_NHS: /* port A, no handshake */
             /* WARNING: this pin reads the voltage of the output pins, not
