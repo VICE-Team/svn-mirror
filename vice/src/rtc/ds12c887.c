@@ -661,6 +661,7 @@ void ds12c887_store_data(rtc_ds12c887_t *context, uint8_t data)
             } else {
                 ds12c887_write_clock_byte(context, context->reg, data);
             }
+            break;
         case DS12C887_REG_CTRL_A:
             data &= 0x7f;
             if ((data & 0x70) != 0x20) {
