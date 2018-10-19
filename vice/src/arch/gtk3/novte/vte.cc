@@ -7442,6 +7442,17 @@ void VteTerminalPrivate::apply_pango_attr(PangoAttribute *attr,
     }
 }
 
+/** \brief  Function to avoid function pointer madness
+ *
+ * \param[in]   attr    pango atrributes
+ * \param[in]   unused  unused param, used to provide a GFunc() prototype
+ */
+static void pango_attr_destroy_glue(PangoAttribute *attr, void *unused)
+{
+    pango_attribute_destroy(attr);
+}
+
+
 /* Convert a PangoAttrList and a location in that list to settings in a
  * charcell structure.  The cells array is assumed to contain enough items
  * so that all ranges in the attribute list can be mapped into the array, which
@@ -7478,7 +7489,7 @@ void VteTerminalPrivate::translate_pango_cells(PangoAttrList *attrs,
                                  attr->start_index,
                                  MIN(n_cells, attr->end_index) -
                                  attr->start_index);
-                g_slist_foreach(list, (GFunc)pango_attribute_destroy, nullptr);
+                g_slist_foreach(list, (GFunc)pango_attr_destroy_glue, nullptr);
                 g_slist_free(list);
             }
         } while (pango_attr_iterator_next(attriter) == TRUE);
