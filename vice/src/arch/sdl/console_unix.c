@@ -1,12 +1,11 @@
+/** \file   console_unix.c
+ * \brief   Unix specific console access interface for SDL.
+ *
+ * \author  Hannu Nuotio <hannu.nuotio@tut.fi>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ */
+
 /*
- * console_unix.c - Unix specific console access interface for SDL.
- *
- * Written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *
- * Based on code by
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -101,21 +100,22 @@ int console_out(console_t *log, const char *format, ...)
 char *readline(const char *prompt)
 {
     char *p = lib_malloc(1024);
+    size_t len;
 
     console_out(NULL, "%s", prompt);
 
     fflush(mon_output);
-    fgets(p, 1024, mon_input);
-
-    /* Remove trailing newlines.  */
-    {
-        int len;
-
-        for (len = strlen(p); len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n'); len--) {
-            p[len - 1] = '\0';
-        }
+    if (fgets(p, 1024, mon_input) == NULL) {
+        lib_free(p);
+        return NULL;
     }
 
+    /* Remove trailing newlines.  */
+    for (len = strlen(p);
+            len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n');
+            len--) {
+        p[len - 1] = '\0';
+    }
     return p;
 }
 #endif
