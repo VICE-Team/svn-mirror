@@ -43,9 +43,41 @@
 #endif
 
 /* Call this if device is not attached: -128 == device not present.  */
-static int fn(void)
+
+/*
+ * A whole bunch of function stubs with proper prototypes to fix warnings
+ * about incompatible function pointers
+ */
+
+static int fn_getf(struct vdrive_s *foo, uint8_t *bar, unsigned int bas)
 {
     return 0x80;
+}
+
+static int fn_putf(struct vdrive_s *foo, uint8_t bar, unsigned int bas)
+{
+    return 0x80;
+}
+
+
+static int fn_openf(struct vdrive_s *foo, const uint8_t *bar, unsigned int bas,
+        unsigned int meloen, struct cbmdos_cmd_parse_s *appel)
+{
+    return 0x80;
+}
+
+
+static int fn_closef(struct vdrive_s *foo, unsigned int bar)
+{
+    return 0x80;
+}
+
+static void fn_flushf(struct vdrive_s *foo, unsigned int bar)
+{
+}
+
+static void fn_listenf(struct vdrive_s *foo, unsigned int bar)
+{
 }
 
 void machine_bus_init(void)
@@ -58,13 +90,12 @@ void machine_bus_init(void)
         p = serial_device_get(i);
 
         p->inuse = 0;
-        p->getf = (int (*)(struct vdrive_s *, uint8_t *, unsigned int))fn;
-        p->putf = (int (*)(struct vdrive_s *, uint8_t, unsigned int))fn;
-        p->openf = (int (*)(struct vdrive_s *, const uint8_t *, unsigned int,
-                            unsigned int, struct cbmdos_cmd_parse_s *))fn;
-        p->closef = (int (*)(struct vdrive_s *, unsigned int))fn;
-        p->flushf = (void (*)(struct vdrive_s *, unsigned int))NULL;
-        p->listenf = (void (*)(struct vdrive_s *, unsigned int))NULL;
+        p->getf = fn_getf;
+        p->putf = fn_putf;
+        p->openf = fn_openf;
+        p->closef = fn_closef;
+        p->flushf = fn_flushf;
+        p->listenf = fn_listenf;
     }
 
     machine_bus_init_machine();
@@ -137,13 +168,13 @@ int machine_bus_device_detach(unsigned int unit)
             lib_free(p->name);
         }
         p->name = NULL;
-        p->getf = (int (*)(struct vdrive_s *, uint8_t *, unsigned int))fn;
-        p->putf = (int (*)(struct vdrive_s *, uint8_t, unsigned int))fn;
-        p->openf = (int (*)(struct vdrive_s *, const uint8_t *, unsigned int,
-                            unsigned int, struct cbmdos_cmd_parse_s *))fn;
-        p->closef = (int (*)(struct vdrive_s *, unsigned int))fn;
-        p->flushf = (void (*)(struct vdrive_s *, unsigned int))NULL;
-        p->listenf = (void (*)(struct vdrive_s *, unsigned int))NULL;
+
+        p->getf = fn_getf;
+        p->putf = fn_putf;
+        p->openf = fn_openf;
+        p->closef = fn_closef;
+        p->flushf = fn_flushf;
+        p->listenf = fn_listenf;
     }
 
     return 0;
