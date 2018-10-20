@@ -145,6 +145,12 @@
 #define C1541_VERSION_MINOR     2   /**< c1541 minor version number */
 
 
+/** \brief  Magic bytes for a P00 header
+ */
+const char p00_header[] = "C64File";
+
+
+
 /* mostly useless crap, show go into c1541.h */
 char *kbd_get_menu_keyname(void);
 void enable_text(void);
@@ -2243,6 +2249,39 @@ static int delete_cmd(int nargs, char **args)
 }
 
 
+#define P00_HDR_LEN         0x1a
+#define P00_HDR_MAGIC       0x00
+#define P00_HDR_MAGIC_LEN   0x08
+#define P00_HDR_NAME        0x08
+#define P00_HDR_NAME_LEN    0x10
+#define P00_HDR_REL_RECLEN  0x19
+
+
+static int write_p00_header(FILE *fd, const uint8_t *petname)
+{
+    uint8_t hdr[P00_HDR_LEN];
+    int i;
+
+    /* copy "C64File" and nul char as magic */
+    memcpy(hdr + P00_HDR_MAGIC, p00_header, P00_HDR_MAGIC_LEN);
+    /* copy CBMDOS filename in PETSCII */
+    memcpy(hdr + P00_HDR_NAME, petname, P00_HDR_NAME_LEN);
+    /* fix up name padding, P00 uses 0x00 for padding instead of the standard
+     * 0xa0 padding of CBMDOS
+     */
+    i = P00_HDR_NAME_LEN - 1;
+    while (i >=0 && hdr[P00_HDR_NAME + i] == 0xa0) {
+        hdr[P00_HDR_NAME + i] = 0;
+        i--;
+    }
+    /* REL file info, unsupported for now */
+    hdr[0x18] = 0;  /* always 0 */
+    hdr[P00_HDR_REL_RECLEN] = 0;
+
+    return fwrite(hdr, 1U, P00_HDR_LEN, fd) == P00_HDR_LEN;
+}
+
+
 /* Extract all files <gwesp@cosy.sbg.ac.at>.  */
 /* FIXME: This does not work with non-standard file names.  */
 
@@ -2341,6 +2380,14 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 if (geos) {
                     status = internal_read_geos_file(dnr, fd, (char *)name);
                 } else {
+                    /* do we have P00save? */
+                    if (p00save[dnr]) {
+                        printf("Writing P00 header\n");
+                        if (!write_p00_header(fd, cbm_name)) {
+                            fprintf(stderr, "failed to write P00 header\n");
+                            return FD_WRTERR;
+                        }
+                    }
                     do {
                         status = vdrive_iec_read(floppy, &c, 0);
                         fputc(c, fd);
@@ -4795,6 +4842,8 @@ int main(int argc, char **argv)
 /** \brief  Enable\disable saving of files as P00
  *
  * Syntax: p00save \<enable> [\<unit>]
+ *
+ * Where \a enable is either 0 or 1.
  *
  * \param[in]   nargs   argument count
  * \param[in]   args    argument list
