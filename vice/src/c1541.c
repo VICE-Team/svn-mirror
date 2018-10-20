@@ -2362,7 +2362,6 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 }
 
                 charset_petconvstring((uint8_t *)name, 1);
-                printf("%s\n", name);
 
                 /* translate illegal chars for the host OS to '_' */
                 archdep_sanitize_filename((char *)name);

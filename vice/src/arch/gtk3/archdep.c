@@ -247,7 +247,9 @@ char *archdep_extra_title_text(void)
 int archdep_register_cbmfont(void)
 {
     FcConfig *fc_config;
+#ifdef HAVE_DEBUG_GTK3UI
     int fc_version;
+#endif
     char *datadir;
     char *path;
 
@@ -258,7 +260,9 @@ int archdep_register_cbmfont(void)
     }
     debug_gtk3("OK\n");
 
+#ifdef HAVE_DEBUG_GTK3UI
     fc_version = FcGetVersion();
+#endif
     debug_gtk3("fontconfig version = %d.%d.%d.",
             fc_version / 10000, (fc_version % 10000) / 100, fc_version % 10);
 

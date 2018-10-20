@@ -96,7 +96,6 @@ char *archdep_user_config_path(void)
 #else
     user_config_dir = lib_stralloc(archdep_boot_path());
 #endif
-    printf("%s(): USER_CONFIG_PATH = '%s'\n", __func__, user_config_dir);
     return user_config_dir;
 }
 
