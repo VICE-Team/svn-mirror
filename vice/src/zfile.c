@@ -485,7 +485,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
                     && strcasecmp(tmp + l - len, search) == 0) {
                 nameoffset = l - 4;
             }
-            if (nameoffset >= 0 && nameoffset <= 1024
+            if (nameoffset <= 1024
                     && is_valid_extension(tmp, l, nameoffset)) {
                 ZDEBUG(("try_uncompress_archive: found `%s'.",
                         tmp + nameoffset));
