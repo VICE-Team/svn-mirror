@@ -304,7 +304,7 @@ static char *p00_evaluate_name(const char *name, int length)
     return filename;
 }
 
-static char *p00_filename_create(const char *file_name, unsigned int type)
+char *p00_filename_create(const char *file_name, unsigned int type)
 {
     char *p00name, *main_name;
     const char *typeext = NULL;
