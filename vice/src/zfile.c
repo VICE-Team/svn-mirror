@@ -481,16 +481,12 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         l = strlen(tmp);
         while (l > 0) {
             tmp[--l] = 0;
-            if ((/* (nameoffset == SIZE_MAX) || */ (nameoffset > 1024)) && l >= len &&
-                /* XXX: what the hell does this do/mean? First off, strcasecmp()
-                 *      does NOT return a boolean, but if you add parentheses:
-                 *      "!(strcasecmp(blabla) != 0)" it still doesn't make any
-                 *      sense, might as well write "strcasecmp(blabla) == 0"
-                 *      -- compyx */
-                !strcasecmp(tmp + l - len, search) != 0) {
+            if (((nameoffset == SIZE_MAX) || (nameoffset > 1024)) && l >= len
+                    && strcasecmp(tmp + l - len, search) == 0) {
                 nameoffset = l - 4;
             }
-            if (/* nameoffset >= 0 && */ nameoffset <= 1024 && is_valid_extension(tmp, l, nameoffset)) {
+            if (nameoffset >= 0 && nameoffset <= 1024
+                    && is_valid_extension(tmp, l, nameoffset)) {
                 ZDEBUG(("try_uncompress_archive: found `%s'.",
                         tmp + nameoffset));
                 found = 1;
