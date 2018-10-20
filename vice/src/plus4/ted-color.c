@@ -73,12 +73,23 @@
 /* luminances */
 static float ted_luminances[8] =
 {
+/*
     40.0f,
     56.0f,
     64.0f,
     80.0f,
     128.0f,
     160.0f,
+    192.0f,
+    256.0f
+*/
+    /* new pepto ("colodore") */
+    32.0f,
+    48.0f,
+    64.0f,
+    80.0f,
+    120.0f,
+    144.0f,
     192.0f,
     256.0f
 };
