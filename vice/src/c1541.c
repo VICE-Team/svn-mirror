@@ -2377,7 +2377,6 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 if (p00save[dnr]) {
                     p00_name = p00_filename_create((const char *)name,
                             file_type & 7);
-                    printf("p00_filename_create = %s\n", p00_name);
                     fd = fopen(p00_name, "wb");
                 } else {
                     fd = fopen((char *)name, MODE_WRITE);
@@ -2393,7 +2392,6 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 } else {
                     /* do we have P00save? */
                     if (p00save[dnr]) {
-                       printf("Writing P00 header\n");
                         if (!write_p00_header(fd, cbm_name)) {
                             fprintf(stderr, "failed to write P00 header\n");
                             lib_free(p00_name);
