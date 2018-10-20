@@ -282,7 +282,7 @@ EXTRA_DIST =
 SUFFIXES = .a65
 
 .a65.h:
-	$(XA) -R -G $< -o $*.o65
+	$(XA) -R -G $< -o $*.o65 2>/dev/null
 	od -v -An -tx1 $*.o65 | sed 's/\([0-9a-f][0-9a-f]\)/0x\1,/g' > $@
 
 .PHONY: libc64cart libc64cartsystem libc64commoncart
