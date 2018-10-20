@@ -48,7 +48,9 @@
 #include "util.h"
 #include "uiapi.h"
 
+/* Will get fixed once the code in this file gets moved to its proper location */
 #include "../shared/archdep_create_user_config_dir.h"
+#include "../shared/archdep_join_paths.h"
 
 #if 0
 /** \brief  Prefix used for autostart disk images
@@ -270,7 +272,10 @@ int archdep_register_cbmfont(void)
     fc_config = FcConfigGetCurrent();
 
     datadir = archdep_get_vice_datadir();
+#if 0
     path = util_concat(datadir, "/../fonts/CBM.ttf", NULL);
+#endif
+    path = archdep_join_paths(datadir, "..", "fonts", "CBM.ttf", NULL);
     lib_free(datadir);
 
     debug_gtk3("Trying to load font '%s'.", path);

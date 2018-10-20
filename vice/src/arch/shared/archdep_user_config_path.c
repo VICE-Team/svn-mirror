@@ -80,7 +80,6 @@ static char *user_config_dir = NULL;
 char *archdep_user_config_path(void)
 {
     if (user_config_dir != NULL) {
-        printf("%s(): CALLED AGAIN\n", __func__);
         return user_config_dir;
     }
 

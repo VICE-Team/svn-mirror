@@ -671,8 +671,6 @@ static gboolean on_window_state_event(GtkWidget *widget,
     GdkWindowState win_state = event->new_window_state;
     int index = ui_get_window_index(widget);
 
-    printf("ui.c:on_window_state_event\n");
-
     if (index < 0) {
         /* We should never end up here. */
         log_error(LOG_ERR, "window-state-event: window not found\n");
