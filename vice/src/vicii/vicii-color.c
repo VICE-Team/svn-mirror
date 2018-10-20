@@ -53,7 +53,8 @@
 /* chroma angles in UV space */
 
 #define ANGLE_RED        112.5f
-#define ANGLE_GRN       -135.0f
+/* #define ANGLE_GRN       -135.0f */ /* old pepto */
+#define ANGLE_GRN       -112.5f /* new pepto ("colodore") */
 #define ANGLE_BLU          0.0f
 #define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree)
 */
