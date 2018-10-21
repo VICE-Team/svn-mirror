@@ -37,7 +37,7 @@ $ sudo apt-get install libasound2-dev   # for ALSA sound support
 The following are optional but recommended (not required for a basic build):
 
 $ sudo apt-get install texi2html        # (it this required? VICE carries its
-                                           own texi2html in doc/html)
+                                        # own texi2html in doc/html)
 $ sudo apt-get install libreadline-dev
 $ sudo apt-get install libgif-dev       # GIF screenshot support
 $ sudo apt-get install libjpeg-dev      # JPEG screenshot support
@@ -105,7 +105,7 @@ $ sudo apt-get install libswscale-dev
 
 $ sudo apt-get install libmp3lame-dev     # required for MP3 encoding
 $ sudo apt-get install libmpg123-dev      # required for MP3 decoding (and for
-                                            mp3@64 cartridge support)
+                                          # mp3@64 cartridge support)
 
 $ sudo apt-get install yasm               # required for --enable-static-ffmpeg
                                           # and --enable-shared-ffmpeg, yasm
@@ -116,7 +116,7 @@ $ ./configure --enable-arch=native --with-resid --enable-native-gtk3ui \
     --enable-ethernet --with-pulse --with-alsa --enable-cpuhistory \
     --enable-vte --enable-external-ffmpeg
 
-(optionally add --enable-debug-gtk3ui --enable-debug to get debugging messages,
+(optionally add --enable-debug-gtk3ui --enable-debug to get debugging messages
  to better debug problems, or to help reporting bugs)
 
 
