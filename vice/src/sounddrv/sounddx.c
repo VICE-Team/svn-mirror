@@ -121,6 +121,7 @@ static void sound_debug(const char *format, ...)
 
 static char *ds_error(HRESULT result)
 {
+    static char tmp[0x20];
     switch (result) {
         case DSERR_ALLOCATED:
             return "Already allocated resource";
@@ -155,8 +156,9 @@ static char *ds_error(HRESULT result)
         case DSERR_NOINTERFACE:
             return "Requested COM interface is not available";
         default:
-            return "Whadda hell?!";
     }
+    sprintf(tmp, "Error 0x%x", (unsigned int)result);
+    return tmp;
 }
 
 /* ------------------------------------------------------------------------ */
