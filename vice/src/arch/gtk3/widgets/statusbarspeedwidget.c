@@ -109,7 +109,6 @@ static void on_refreshrate_toggled(GtkWidget *widget, gpointer data)
 {
     int refresh = GPOINTER_TO_INT(data);
 
-    debug_gtk3("setting Refresh Rate to %d.", refresh);
     resources_set_int("RefreshRate", refresh);
 }
 
@@ -123,7 +122,6 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 {
     int speed = GPOINTER_TO_INT(data);
 
-    debug_gtk3("setting emulation speed to %d.", speed);
     resources_set_int("Speed", speed);
 }
 
@@ -148,10 +146,7 @@ static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
                 old_val, &new_val,
                 1, 100)) {
         /* OK: */
-        debug_gtk3("got new fresh rate %d.", new_val);
         resources_set_int("RefreshRate", new_val);
-    } else {
-        debug_gtk3("cancelled or invalid value.");
     }
 }
 
@@ -176,10 +171,7 @@ static void on_speed_custom_toggled(GtkWidget *widget, gpointer data)
                 old_val, &new_val,
                 1, 1000)) {
         /* OK: */
-        debug_gtk3("got new speed %d.", new_val);
         resources_set_int("Speed", new_val);
-    } else {
-        debug_gtk3("cancelled or invalid value.");
     }
 }
 
@@ -200,7 +192,6 @@ static GtkWidget *emulation_speed_submenu_create(void)
     if (resources_get_int("Speed", &curr_speed) < 0) {
         curr_speed = 100;
     }
-    debug_gtk3("got emulation speed %d.", curr_speed);
 
     menu = gtk_menu_new();
 
@@ -268,7 +259,6 @@ static GtkWidget *refreshrate_submenu_create(void)
     if (resources_get_int("RefreshRate", &refresh) < 0) {
         refresh = 0;
     }
-    debug_gtk3("got refresh rate %d.", refresh);
 
     menu = gtk_menu_new();
 
@@ -406,7 +396,6 @@ static gboolean on_widget_clicked(GtkWidget *widget,
     if (resources_get_int("Mouse", &mouse) < 0) {
         mouse = 0;
     }
-    debug_gtk3("mouse grab is %s.", mouse ? "ON" : "OFF");
 
     if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         GtkWidget *menu = speed_menu_popup_create();
@@ -449,11 +438,8 @@ static gboolean on_widget_hover(GtkWidget *widget,
         if (resources_get_int("Mouse", &mouse) < 0) {
             mouse = 0;
         }
-        debug_gtk3("mouse grab is %s.", mouse ? "ON" : "OFF");
-
 
         if (event->type == GDK_ENTER_NOTIFY) {
-            debug_gtk3("ENTERING WIDGET");
             display = gtk_widget_get_display(widget);
             if (display != NULL && mouse_ptr == NULL) {
                 mouse_ptr = gdk_cursor_new_from_name(display, "pointer");
@@ -466,9 +452,6 @@ static gboolean on_widget_hover(GtkWidget *widget,
             }
         } else {
             GdkWindow *window = gtk_widget_get_window(widget);
-
-            debug_gtk3("LEAVING WIDGET");
-
             if (window != NULL) {
                 gdk_window_set_cursor(window, NULL);
             }
