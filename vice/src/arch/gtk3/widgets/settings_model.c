@@ -120,10 +120,27 @@ static void video_model_callback(int model)
     if (get_model_func != NULL) {
         true_model = get_model_func();
         debug_gtk3("got true model %d", true_model);
-        debug_gtk3("Do something now\n");
         machine_model_widget_update(machine_widget);
     }
 
+}
+
+
+static void vdc_revision_callback(int revision)
+{
+    debug_gtk3("got VDC revision %d.", revision);
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget);
+    }
+}
+
+
+static void vdc_ram_callback(int state)
+{
+    debug_gtk3("Got VDC 64KB RAM state %d.", state);
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget);
+    }
 }
 
 
@@ -647,17 +664,24 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
 
     /* VIC-II model widget */
     video_widget = video_model_widget_create(machine_widget);
+    video_model_widget_set_callback(video_widget, video_model_callback);
     gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
     /* VDC model widget */
     vdc_widget = vdc_model_widget_create();
+    /* XXX: I'm sure I had/have a reason for this: */
+    vdc_model_widget_connect_signals(vdc_widget);
+    vdc_model_widget_set_revision_callback(vdc_widget, vdc_revision_callback);
+    vdc_model_widget_set_ram_callback(vdc_widget, vdc_ram_callback);
     gtk_grid_attach(GTK_GRID(video_wrapper), vdc_widget, 0, 1, 1, 1);
     /* CIA1 & CIA2 widget */
     cia_widget = cia_model_widget_create(machine_widget, 2);
+    cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(video_wrapper), cia_widget, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), video_wrapper, 1, 0, 1, 1);
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
+    sid_model_widget_set_callback(sid_widget, sid_model_callback);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 2, 0, 1, 1);
 
     /* Misc widget */

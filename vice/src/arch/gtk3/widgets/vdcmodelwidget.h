@@ -34,5 +34,9 @@
 GtkWidget * vdc_model_widget_create(void);
 void        vdc_model_widget_update(GtkWidget *widget);
 void        vdc_model_widget_connect_signals(GtkWidget *widget);
+void        vdc_model_widget_set_revision_callback(GtkWidget *widget,
+                                                   void (*func)(int));
 
+void        vdc_model_widget_set_ram_callback(GtkWidget *widget,
+                                              void (*func)(int));
 #endif

@@ -53,6 +53,10 @@ static const vice_gtk3_radiogroup_entry_t vdc_revs[] = {
 };
 
 
+static void (*vdc_revision_func)(int);
+static void (*vdc_ram_func)(int);
+
+
 #if 0
 
 /** \brief  Get index in revisions table of \a revision
@@ -79,9 +83,30 @@ static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
 {
     int rev = GPOINTER_TO_INT(user_data);
 
+    debug_gtk3("GOT REV %d.", rev);
+
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         debug_gtk3("setting VDCRevision to %d.", rev);
         resources_set_int("VDCRevision", rev);
+
+        if (vdc_revision_func != NULL) {
+            vdc_revision_func(rev);
+        }
+    }
+}
+
+
+/** brief   Extra event handler to update C128 model setting
+ *
+ * \param[in]   widget  64KB check button
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_64kb_ram_toggled(GtkWidget *widget, gpointer data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    if (vdc_ram_func != NULL) {
+        debug_gtk3("calling vdc_ram_func(%d).", state);
+        vdc_ram_func(state);
     }
 }
 
@@ -116,6 +141,8 @@ GtkWidget *vdc_model_widget_create(void)
             "VDC settings", 1);
 
     extra_ram = create_64kb_widget();
+    g_signal_connect(extra_ram, "toggled", G_CALLBACK(on_64kb_ram_toggled),
+            NULL);
     group = vice_gtk3_resource_radiogroup_new("VDCRevision",
             vdc_revs, GTK_ORIENTATION_VERTICAL);
     g_object_set(extra_ram, "margin-left", 16, NULL);
@@ -167,15 +194,40 @@ void vdc_model_widget_update(GtkWidget *widget)
  */
 void vdc_model_widget_connect_signals(GtkWidget *widget)
 {
+    GtkWidget *grid;
     GtkWidget *radio;
     int i = 0;
 
+    /* revisions grid is at (0,2) in the 'main' grid */
+    grid = gtk_grid_get_child_at(GTK_GRID(widget), 0, 2);
     while ((radio = gtk_grid_get_child_at(
-                    GTK_GRID(widget), 0, i + 2)) != NULL) {
+                    GTK_GRID(grid), 0, i)) != NULL) {
+        debug_gtk3("Connection signsal handler %d", i);
         if (GTK_IS_RADIO_BUTTON(radio)) {
+            debug_gtk3("IS RADIO");
             g_signal_connect(radio, "toggled", G_CALLBACK(on_revision_toggled),
                     GINT_TO_POINTER(vdc_revs[i].id));
         }
         i++;
     }
+}
+
+
+/** \brief  Set callback function to trigger on revision change
+ *
+ * \param[in,out]   widget  vdc model widget
+ * \param[in]       func    callback
+ */
+void vdc_model_widget_set_revision_callback(GtkWidget *widget,
+                                           void (*func)(int))
+{
+    vdc_revision_func = func;
+}
+
+
+
+void vdc_model_widget_set_ram_callback(GtkWidget *widget,
+                                       void (*func)(int))
+{
+    vdc_ram_func = func;
 }
