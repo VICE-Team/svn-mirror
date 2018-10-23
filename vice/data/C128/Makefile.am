@@ -9,6 +9,7 @@ roms = \
 	chargfr \
 	chargse \
 	chargch \
+	chargno \
 	kernal \
 	kernal64 \
 	kernalde \
