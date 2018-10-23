@@ -62,6 +62,7 @@
 #include "carthelpers.h"
 #include "tapecart.h"
 #include "tapeportdeviceswidget.h"
+#include "settings_model.h"
 #include "c64ui.h"
 
 
@@ -173,6 +174,9 @@ int c64scui_init(void)
 
     /* set tapecart flush function */
     tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
+
+    /* set C64 model_get function */
+    settings_model_widget_set_model_func(c64model_get);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

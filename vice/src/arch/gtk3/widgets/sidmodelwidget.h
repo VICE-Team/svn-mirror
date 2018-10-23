@@ -34,5 +34,6 @@
 GtkWidget * sid_model_widget_create(GtkWidget *machine_model_widget);
 void        sid_model_widget_update(GtkWidget *widget, int model);
 void        sid_model_widget_sync(GtkWidget *widget);
+void        sid_model_widget_set_callback(GtkWidget *widget, void (*callback)(int));
 
 #endif

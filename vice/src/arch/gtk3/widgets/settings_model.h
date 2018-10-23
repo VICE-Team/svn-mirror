@@ -31,6 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *settings_model_widget_create(GtkWidget *parent);
+GtkWidget * settings_model_widget_create(GtkWidget *parent);
+void        settings_model_widget_set_model_func(int (*func)(void));
 
 #endif

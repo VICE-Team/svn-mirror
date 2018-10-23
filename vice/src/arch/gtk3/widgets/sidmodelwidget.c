@@ -105,8 +105,25 @@ static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
  */
 static void on_sid_model_toggled(GtkWidget *widget, int user_data)
 {
+    GtkWidget *parent;
+    void (*callback)(int);
+
+
+    if (widget == NULL) {
+        debug_gtk3("WIDGET IS NUL!!!!!\n\n\n\n\n");
+    }
+
     /* sync mixer widget */
     mixer_widget_sid_type_changed();
+
+    parent = gtk_widget_get_parent(widget);
+    callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
+    if (callback != NULL) {
+        debug_gtk3("calling extra callback");
+        callback(user_data);
+    } else {
+        debug_gtk3("No ExtraCallback!");
+    }
 }
 
 /** \brief  Reference to the machine model widget
@@ -226,4 +243,16 @@ void sid_model_widget_sync(GtkWidget *widget)
         return;
     }
     sid_model_widget_update(widget, model);
+}
+
+
+
+/** \brief  Set extra callback to trigger when the model changes
+ *
+ * \param[in]   widget      the SID model widget
+ * \param[in]   callback    function to call on model change
+ */
+void sid_model_widget_set_callback(GtkWidget *widget, void (*callback)(int))
+{
+    g_object_set_data(G_OBJECT(widget), "ExtraCallback", (gpointer)callback);
 }

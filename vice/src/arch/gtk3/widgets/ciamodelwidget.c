@@ -56,12 +56,34 @@ static const vice_gtk3_radiogroup_entry_t cia_models[] = {
  *
  * Used to update the machine model widget when a CIA model is changed
  *
- * XXX: No indication this actually works
+ * XXX: Not sure this is needed anymore since any model changes/updates go
+ *      through callbacks/event handlers.
  */
 static GtkWidget *machine_widget = NULL;
 
 static GtkWidget *cia1_group;
 static GtkWidget *cia2_group;
+
+static void (*cia_model_callback)(int, int);
+
+
+
+/** \brief  Handler for the radiogroup callbacks for the CIA models
+ *
+ * Triggers the callback set with cia_model_widget_set_callback()
+ *
+ * \param[in]   widget  CIA radiogroup widget triggering the event
+ * \param[in]   model   CIA model ID
+ */
+static void on_cia_model_callback_internal(GtkWidget *widget, int model)
+{
+    debug_gtk3("got value %d.", model);
+    if (cia_model_callback != NULL) {
+        cia_model_callback(widget == cia1_group ? 1 : 2, model);
+    }
+}
+
+
 
 
 /** \brief  Create a widget for CIA \a num
@@ -87,6 +109,8 @@ static GtkWidget *create_cia_widget(int num)
 
     radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
             "CIA%dModel", cia_models, GTK_ORIENTATION_HORIZONTAL, num);
+    vice_gtk3_resource_radiogroup_add_callback(radio_group,
+            on_cia_model_callback_internal);
     if (num == 1) {
         cia1_group = radio_group;
     } else {
@@ -147,4 +171,11 @@ void cia_model_widget_sync(GtkWidget *widget)
     if (cia2_group != NULL) {
         vice_gtk3_resource_radiogroup_sync(cia2_group);
     }
+}
+
+
+void cia_model_widget_set_callback(GtkWidget *widget,
+                                   void (*func)(int cia_num, int cia_model))
+{
+    cia_model_callback = func;
 }

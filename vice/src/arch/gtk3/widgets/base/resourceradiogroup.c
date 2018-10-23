@@ -94,7 +94,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 
             callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
             if (callback != NULL) {
-                callback(radio, new_val);
+                callback(parent, new_val);
             }
         }
     }

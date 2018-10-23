@@ -41,6 +41,7 @@
 #include "vicii.h"
 #include "videomodelwidget.h"
 #include "widgethelpers.h"
+#include "settings_model.h"
 
 #include "clockportdevicewidget.h"
 #include "clockport.h"
@@ -174,6 +175,9 @@ int c64ui_init(void)
 
     /* set tapecart flush function */
     tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
+
+    /* set C64 model_get function */
+    settings_model_widget_set_model_func(c64model_get);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

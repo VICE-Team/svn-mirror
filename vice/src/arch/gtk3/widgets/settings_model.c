@@ -67,6 +67,9 @@
 #include "vice_gtk3.h"
 #include "videomodelwidget.h"
 
+#include "c64model.h"
+
+
 #include "settings_model.h"
 
 
@@ -93,6 +96,9 @@ static GtkWidget *machine_widget = NULL;
 static GtkWidget *cia_widget = NULL;
 
 
+static int (*get_model_func)(void);
+
+
 /** \brief  Video model widget
  */
 static GtkWidget *video_widget = NULL;
@@ -103,6 +109,52 @@ static GtkWidget *sid_widget = NULL;
 static GtkWidget *kernal_widget = NULL;
 
 static GtkWidget *c64dtv_rev_widget = NULL;
+
+
+static void video_model_callback(int model)
+{
+    int true_model = -1;
+
+    debug_gtk3("got model %d", model);
+
+    if (get_model_func != NULL) {
+        true_model = get_model_func();
+        debug_gtk3("got true model %d", true_model);
+        debug_gtk3("Do something now\n");
+        machine_model_widget_update(machine_widget);
+    }
+
+}
+
+
+static void sid_model_callback(int model)
+{
+    int true_model = -1;
+
+    debug_gtk3("got model %d", model);
+
+    if (get_model_func != NULL) {
+        true_model = get_model_func();
+        debug_gtk3("got true model %d", true_model);
+        debug_gtk3("Do something now\n");
+        machine_model_widget_update(machine_widget);
+    }
+}
+
+
+/** \brief  Callback for CIA model changes
+ *
+ * \param[in]   cia_num     CIA number (1 or 2)
+ * \param[in]   cia_model   CIA model ID
+ */
+static void cia_model_callback(int cia_num, int cia_model)
+{
+    debug_gtk3("got CIA %d, model %d", cia_num, cia_model);
+
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget);
+    }
+}
 
 
 /*
@@ -540,14 +592,17 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
 
     /* VIC-II model widget */
     video_widget = video_model_widget_create(machine_widget);
+    video_model_widget_set_callback(video_widget, video_model_callback);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
+    sid_model_widget_set_callback(sid_widget, sid_model_callback);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 1, 1, 1);
 
     /* CIA1 & CIA2 widget */
     cia_widget = cia_model_widget_create(machine_widget, 2);
+    cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 0, 2, 2, 1);
 
     /* Kernal revision widget */
@@ -1012,4 +1067,15 @@ GtkWidget *settings_model_widget_create(GtkWidget *parent)
 #endif
     gtk_widget_show_all(layout);
     return layout;
+}
+
+
+/** \brief  Set function pointer to function that determines if the model
+ *          settings indicate a valid model
+ *
+ * \param[in]   func    function pointer
+ */
+void settings_model_widget_set_model_func(int (*func)(void))
+{
+    get_model_func = func;
 }
