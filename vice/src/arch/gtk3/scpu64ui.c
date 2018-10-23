@@ -60,6 +60,8 @@
 #include "rrnetmk3widget.h"
 #include "carthelpers.h"
 #include "uicart.h"
+#include "c64model.h"
+#include "settings_model.h"
 
 #include "scpu64ui.h"
 
@@ -168,6 +170,9 @@ int scpu64ui_init(void)
     uicart_set_default_func(cartridge_set_default);
     uicart_set_filename_func(cartridge_current_filename);
     uicart_set_wipe_func(cartridge_wipe_filename);
+
+    /* set C64 model_get function */
+    settings_model_widget_set_model_func(c64model_get);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
