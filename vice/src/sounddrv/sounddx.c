@@ -156,6 +156,7 @@ static char *ds_error(HRESULT result)
         case DSERR_NOINTERFACE:
             return "Requested COM interface is not available";
         default:
+            break;
     }
     sprintf(tmp, "Error 0x%x", (unsigned int)result);
     return tmp;
