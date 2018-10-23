@@ -691,6 +691,7 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
+    sid_model_widget_set_callback(sid_widget, sid_model_callback);
     g_object_set(G_OBJECT(sid_widget), "margin-left", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 0, 2, 1, 1);
 

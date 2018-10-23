@@ -40,6 +40,8 @@
 #include "settings_sampler.h"
 #include "vicii.h"
 #include "videomodelwidget.h"
+#include "c64dtvmodel.h"
+#include "settings_model.h"
 
 #include "c64ui.h"
 
@@ -125,6 +127,8 @@ int c64dtvui_init(void)
     video_model_widget_set_models(c64dtv_vicii_models);
 
     settings_sampler_set_devices_getter(sampler_get_devices);
+
+    settings_model_widget_set_model_func(dtvmodel_get);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

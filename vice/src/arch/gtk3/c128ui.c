@@ -64,6 +64,8 @@
 #include "carthelpers.h"
 #include "tapecart.h"
 #include "tapeportdeviceswidget.h"
+#include "c128model.h"
+#include "settings_model.h"
 
 #include "c128ui.h"
 
@@ -179,6 +181,9 @@ int c128ui_init(void)
 
     /* set tapecart flush function */
     tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
+
+    /* set model getter for the model settings dialog */
+    settings_model_widget_set_model_func(c128model_get);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
