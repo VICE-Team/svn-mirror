@@ -63,6 +63,7 @@ static int rom_loaded = 0;
 #include "c128chargfr.h"
 #include "c128chargse.h"
 #include "c128chargch.h"
+#include "c128chargno.h"
 #else
 /* National Kernal ROM images. */
 static uint8_t kernal_int[C128_KERNAL_ROM_IMAGE_SIZE];
@@ -80,6 +81,7 @@ static uint8_t chargen_de[C128_CHARGEN_ROM_SIZE];
 static uint8_t chargen_fr[C128_CHARGEN_ROM_SIZE];
 static uint8_t chargen_se[C128_CHARGEN_ROM_SIZE];
 static uint8_t chargen_ch[C128_CHARGEN_ROM_SIZE];
+static uint8_t chargen_no[C128_CHARGEN_ROM_SIZE];
 #endif
 
 int c128rom_kernal_checksum(void)
@@ -368,12 +370,14 @@ int c128rom_chargen_setup(void)
             chargen = chargen_de;
             break;
         case C128_MACHINE_FINNISH:
-        case C128_MACHINE_NORWEGIAN:
         case C128_MACHINE_SWEDISH:
             chargen = chargen_se;
             break;
         case C128_MACHINE_SWISS:
             chargen = chargen_ch;
+            break;
+        case C128_MACHINE_NORWEGIAN:
+            chargen = chargen_no;
             break;
         default:
             log_error(c128rom_log, "Unknown machine type %i.", machine_type);
@@ -458,6 +462,22 @@ int c128rom_load_chargen_ch(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM.  */
         if (sysfile_load(rom_name, chargen_ch, C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE) < 0) {
+            log_error(c128rom_log, "Couldn't load character ROM `%s'.", rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int c128rom_load_chargen_no(const char *rom_name)
+{
+    if (!rom_loaded) {
+        return 0;
+    }
+
+    if (!util_check_null_string(rom_name)) {
+        /* Load chargen ROM.  */
+        if (sysfile_load(rom_name, chargen_no, C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load character ROM `%s'.", rom_name);
             return -1;
         }
@@ -625,6 +645,13 @@ int mem_load(void)
         return -1;
     }
     if (c128rom_load_chargen_ch(rom_name) < 0) {
+        return -1;
+    }
+
+    if (resources_get_string("ChargenNOName", &rom_name) < 0) {
+        return -1;
+    }
+    if (c128rom_load_chargen_no(rom_name) < 0) {
         return -1;
     }
 

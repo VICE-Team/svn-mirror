@@ -71,6 +71,9 @@ static char *chargen_se_rom_name = NULL;
 /* Name of the Swiss character ROM.  */
 static char *chargen_ch_rom_name = NULL;
 
+/* Name of the Norwegian character ROM.  */
+static char *chargen_no_rom_name = NULL;
+
 /* Name of the BASIC LO ROM.  */
 static char *basiclo_rom_name = NULL;
 
@@ -229,6 +232,23 @@ static int set_chargen_ch_rom_name(const char *val, void *param)
     }
 
     if (c128rom_load_chargen_ch(chargen_ch_rom_name) < 0) {
+        return -1;
+    }
+
+    if (c128rom_chargen_setup() < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
+static int set_chargen_no_rom_name(const char *val, void *param)
+{
+    if (util_string_set(&chargen_no_rom_name, val)) {
+        return 0;
+    }
+
+    if (c128rom_load_chargen_ch(chargen_no_rom_name) < 0) {
         return -1;
     }
 
@@ -490,6 +510,8 @@ static const resource_string_t resources_string[] = {
       &chargen_se_rom_name, set_chargen_se_rom_name, NULL },
     { "ChargenCHName", "chargch", RES_EVENT_NO, NULL,
       &chargen_ch_rom_name, set_chargen_ch_rom_name, NULL },
+    { "ChargenNOName", "chargno", RES_EVENT_NO, NULL,
+      &chargen_no_rom_name, set_chargen_no_rom_name, NULL },
     { "KernalIntName", "kernal", RES_EVENT_NO, NULL,
       &kernal_int_rom_name, set_kernal_int_rom_name, NULL },
     { "KernalDEName", "kernalde", RES_EVENT_NO, NULL,
@@ -559,6 +581,7 @@ void c128_resources_shutdown(void)
     lib_free(chargen_fr_rom_name);
     lib_free(chargen_se_rom_name);
     lib_free(chargen_ch_rom_name);
+    lib_free(chargen_no_rom_name);
     lib_free(basiclo_rom_name);
     lib_free(basichi_rom_name);
     lib_free(kernal_int_rom_name);

@@ -28,6 +28,7 @@
  * $VICERES ChargenFRName       x128
  * $VICERES ChargenSEName       x128
  * $VICERES ChargenCHName       x128
+ * $VICERES ChargenNOName       x128
  * $VICERES FunctionLowName     xplus4
  * $VICERES FunctionHighName    xplus4
  * $VICERES c1loName            xplus4
@@ -211,6 +212,7 @@ static const romset_entry_t c128_chargen_roms[] = {
     { "ChargenFRName",  "French Chargen",           NULL },
     { "ChargenSEName",  "Swedish Chargen",          NULL },
     { "ChargenCHName",  "Swiss Chargen",            NULL },
+    { "ChargenNOName",  "Norwegian Chargen",        NULL },
     { NULL,             NULL,                       NULL }
 };
 
