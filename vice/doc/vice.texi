@@ -8896,6 +8896,10 @@ String specifying the filename of the Swedish character generator ROM image.
 @item ChargenCHName
 String specifying the filename of the Swiss character generator ROM image.
 
+@vindex ChargenNOName
+@item ChargenNOName
+String specifying the filename of the Norwegian character generator ROM image.
+
 @vindex KernalIntName
 @item KernalIntName
 String specifying the filename of the international Kernal ROM image.
@@ -9059,6 +9063,11 @@ Specify name of Swedish character generator ROM image
 @item -chargch <name>
 Specify name of Swiss character generator ROM image
 (@code{ChargenCHName}).
+
+@findex -chargno
+@item -chargno <name>
+Specify name of Norwegian character generator ROM image
+(@code{ChargenNOName}).
 
 @findex -intfunc
 @item -intfunc <type>
