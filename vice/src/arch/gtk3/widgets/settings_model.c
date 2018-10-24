@@ -868,10 +868,12 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
+    sid_model_widget_set_callback(sid_widget, sid_model_callback);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 1, 1, 1);
 
     /* CIA1 widget */
     cia_widget = cia_model_widget_create(machine_widget, 1);
+    cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 2, 0, 1, 1);
 
     /* RAM size widget */
