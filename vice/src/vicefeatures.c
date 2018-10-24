@@ -54,14 +54,6 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#ifdef UNIX /* unix */
-    { "ENABLE_NLS", "Define if NLS support is enabled.",
-#ifndef ENABLE_NLS
-        0 },
-#else
-        1 },
-#endif
-#endif
 /* (all) */
     { "FEATURE_CPUMEMHISTORY", "Use the memmap feature.",
 #ifndef FEATURE_CPUMEMHISTORY

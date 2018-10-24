@@ -283,7 +283,7 @@ void ui_vsid_tune_menu_set_tune_count(int count) {
 
     gtk_container_foreach(GTK_CONTAINER(tune_submenu), remove_item_from_menu, NULL);
     for (i = count; i >0; i--) {
-        buf = lib_msprintf(_("Tune %s%d"), i < 10 ? "_" :"", i);
+        buf = lib_msprintf("Tune %s%d", i < 10 ? "_" :"", i);
         item = gtk_radio_menu_item_new_with_mnemonic_from_widget (GTK_RADIO_MENU_ITEM(item), buf);
         lib_free(buf);
         gtk_widget_show(item);

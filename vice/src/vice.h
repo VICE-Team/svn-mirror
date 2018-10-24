@@ -116,25 +116,6 @@ typedef int ssize_t;
 
 /* ------------------------------------------------------------------------- */
 
-/* Internationalization stuff */
-#if defined(ENABLE_NLS) && defined(HAVE_LIBINTL_H)
-#    include <libintl.h>
-#    define _(String) gettext (String)
-#    ifdef gettext_noop
-#        define N_(String) gettext_noop (String)
-#    else
-#        define N_(String) (String)
-#    endif
-#else
-/* Stubs that do something close enough.  */
-#    define _(String) (String)
-#    define N_(String) (String)
-#endif /* ENABLE_NLS */
-
-/* T_() is just an indicator for new common text which needs
-   to be added to the translate.* translation tables. */
-#define T_(String) (String)
-
 #ifdef __OS2__
 int yyparse (void);
 #undef __GNUC__

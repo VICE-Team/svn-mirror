@@ -314,12 +314,12 @@ void cmdline_show_help(void *userparam)
 
 char *cmdline_options_get_name(int counter)
 {
-    return (char *)_(options[counter].name);
+    return (char *)options[counter].name;
 }
 
 char *cmdline_options_get_param(int counter)
 {
-    return (char *)_(options[counter].param_name);
+    return (char *)options[counter].param_name;
 }
 
 char *cmdline_options_get_description(int counter)
@@ -334,7 +334,7 @@ char *cmdline_options_get_description(int counter)
         combined_string = cf.f(options[counter].attributes >> 8);
         return combined_string;
     } else {
-        return (char *)_(options[counter].description);
+        return (char *)options[counter].description;
     }
 }
 
