@@ -203,7 +203,7 @@ static const cmdline_option_t common_cmdline_options[] =
     { "-default", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_default, NULL, NULL, NULL,
       NULL, "Restore default settings" },
-    { "-config", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
+    { "-config", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_config, NULL, NULL, NULL,
       "<filename>", "Specify config file" },
     { "-dumpconfig", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
