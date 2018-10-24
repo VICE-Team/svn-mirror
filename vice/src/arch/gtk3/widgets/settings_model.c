@@ -153,7 +153,6 @@ static void sid_model_callback(int model)
     if (get_model_func != NULL) {
         true_model = get_model_func();
         debug_gtk3("got true model %d", true_model);
-        debug_gtk3("Do something now\n");
         machine_model_widget_update(machine_widget);
     }
 }
@@ -911,6 +910,7 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
+    sid_model_widget_set_callback(sid_widget, sid_model_callback);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 0, 1, 1);
 
     /* Hardwired I/O port model switches */
@@ -921,6 +921,7 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 
     /* CIA1 widget */
     cia_widget = cia_model_widget_create(machine_widget, 1);
+    cia_model_widget_set_callback(cia_widget, cia_model_callback);
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 1, 1, 2, 1);
 
     /* RAM size widget */

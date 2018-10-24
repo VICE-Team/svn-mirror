@@ -42,6 +42,7 @@
 #include "uicart.h"
 #include "uimachinewindow.h"
 #include "settings_sampler.h"
+#include "settings_model.h"
 
 #include "cbm2ui.h"
 
@@ -117,6 +118,8 @@ int cbm2ui_init(void)
     uicart_set_attach_func(cartridge_attach_image);
     /*uicart_set_freeze_func(cartridge_trigger_freeze);*/
     uicart_set_detach_func(cartridge_detach_image);
+
+    settings_model_widget_set_model_func(cbm2model_get);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
