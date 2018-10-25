@@ -6,9 +6,7 @@
 
 /*
  * $VICERES Crtc        xpet
- *  (enable/disable CRTC 6546 emulation for models 40xx and above)
  * $VICERES EoiBlank    xpet
- *  (enable/disable "blank screen on EOI" (oldest PET 2001))
  */
 
 /*
@@ -46,6 +44,14 @@
 static GtkWidget *crtc_widget = NULL;
 static GtkWidget *blank_widget = NULL;
 
+/** \brief  User-defined callback for changes in the Crtc resource
+ */
+static void (*user_callback_crtc)(int) = NULL;
+
+/** \brief  User-defined callback for changes in the EoiBlank resource
+ */
+static void (*user_callback_blank)(int) = NULL;
+
 
 /** \brief  Handler for the "toggled" event of the CRTC check button
  *
@@ -65,6 +71,10 @@ static void on_crtc_toggled(GtkWidget *widget, gpointer user_data)
     if (new_val != old_val) {
         debug_gtk3("setting Crtc to %s.", new_val ? "ON" : "OFF");
         resources_set_int("Crtc", new_val);
+        if (user_callback_crtc != NULL) {
+            debug_gtk3("calling user_callback_crtc(%d).", new_val);
+            user_callback_crtc(new_val);
+        }
     }
 }
 
@@ -87,6 +97,11 @@ static void on_blank_toggled(GtkWidget *widget, gpointer user_data)
     if (new_val != old_val) {
         debug_gtk3("setting EoiBlank to %s.", new_val ? "ON" : "OFF");
         resources_set_int("EoiBlank", new_val);
+        if (user_callback_blank != NULL) {
+            debug_gtk3("calling user_callback_blank(%d).", new_val);
+            user_callback_blank(new_val);
+        }
+
     }
 }
 
@@ -102,6 +117,9 @@ GtkWidget *pet_misc_widget_create(void)
     GtkWidget *grid;
     int crtc;
     int blank;
+
+    user_callback_crtc = NULL;
+    user_callback_blank = NULL;
 
     resources_get_int("Crtc", &crtc);
     resources_get_int("EoiBlank", &blank);
@@ -123,4 +141,33 @@ GtkWidget *pet_misc_widget_create(void)
 
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+void pet_misc_widget_set_crtc_callback(GtkWidget *widget,
+                                       void (*func)(int))
+{
+    user_callback_crtc = func;
+}
+
+
+void pet_misc_widget_set_blank_callback(GtkWidget *widget,
+                                       void (*func)(int))
+{
+    user_callback_blank = func;
+}
+
+
+void pet_misc_widget_sync(GtkWidget *widget)
+{
+    int state;
+    GtkWidget *check;
+
+    resources_get_int("Crtc", &state);
+    check = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
+
+    resources_get_int("EoiBlank", &state);
+    check = gtk_grid_get_child_at(GTK_GRID(widget), 1, 1);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
 }

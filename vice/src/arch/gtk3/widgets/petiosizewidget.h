@@ -32,5 +32,8 @@
 #include <gtk/gtk.h>
 
 GtkWidget *pet_io_size_widget_create(void);
+void pet_io_size_widget_set_callback(GtkWidget *widget,
+                                     void (*func)(int));
+void pet_io_size_widget_sync(GtkWidget *widget);
 
 #endif

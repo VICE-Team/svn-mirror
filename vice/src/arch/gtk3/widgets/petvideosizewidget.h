@@ -31,6 +31,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *pet_video_size_widget_create(void);
+GtkWidget * pet_video_size_widget_create(void);
+void        pet_video_size_widget_set_callback(GtkWidget *widget,
+                                               void (*func)(int));
+void        pet_video_size_widget_sync(GtkWidget *widget);
 
 #endif

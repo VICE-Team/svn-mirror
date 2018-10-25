@@ -36,5 +36,8 @@ void pet_keyboard_type_widget_set_keyboard_num_get(int (*f)(void));
 void pet_keyboard_type_widget_set_keyboard_list_get(kbdtype_info_t *(*f)(void));
 
 GtkWidget * pet_keyboard_type_widget_create(void);
+void        pet_keyboard_type_widget_set_callback(GtkWidget *widget,
+                                                  void (*func)(int));
+void        pet_keyboard_type_widget_sync(GtkWidget *widget);
 
 #endif

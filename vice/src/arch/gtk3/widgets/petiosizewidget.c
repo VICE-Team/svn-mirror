@@ -50,6 +50,18 @@ static const vice_gtk3_radiogroup_entry_t io_sizes[] = {
 };
 
 
+static void (*user_callback)(int) = NULL;
+
+
+
+static void on_io_size_changed(GtkWidget *widget, int id)
+{
+    if (user_callback != NULL) {
+        user_callback(id);
+    }
+}
+
+
 /** \brief  Create PET I/O area size widget
  *
  * \return  GtkGrid
@@ -59,13 +71,34 @@ GtkWidget *pet_io_size_widget_create(void)
     GtkWidget *grid;
     GtkWidget *group;
 
+    user_callback = NULL;
+
     grid = uihelpers_create_grid_with_label("I/O area size", 1);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     group = vice_gtk3_resource_radiogroup_new("IOSize", io_sizes,
             GTK_ORIENTATION_VERTICAL);
+    vice_gtk3_resource_radiogroup_add_callback(group, on_io_size_changed);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+void pet_io_size_widget_set_callback(GtkWidget *widget,
+                                     void (*func)(int))
+{
+    user_callback = func;
+}
+
+
+
+void pet_io_size_widget_sync(GtkWidget *widget)
+{
+    int size;
+
+    resources_get_int("IOSize", &size);
+    GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    vice_gtk3_resource_radiogroup_set(group, size);
 }

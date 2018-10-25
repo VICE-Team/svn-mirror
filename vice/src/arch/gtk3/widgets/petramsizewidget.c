@@ -54,6 +54,29 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
 };
 
 
+/** \brief  User-defined callback function
+ *
+ * Set with pet_ram_size_widget_set_callback()
+ */
+static void (*glue_func)(int);
+
+
+/** \brief  Callback for the radio group widget
+ *
+ * \param[in]   widget  radio group widget
+ * \param[in]   ram     RAM size in KB
+ */
+static void on_ram_size_changed_callback(GtkWidget *widget, int ram)
+{
+    debug_gtk3("RAM = %dKB.", ram);
+    if (glue_func != NULL) {
+        glue_func(ram);
+    }
+}
+
+
+
+
 /** \brief  Create PET RAM size widget
  *
  * Creates a widget to control the PET's RAM size
@@ -68,6 +91,7 @@ GtkWidget *pet_ram_size_widget_create(void)
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
             "Memory size", 1);
+    g_object_set(G_OBJECT(grid), "margin-top", 8, NULL);
     group = vice_gtk3_resource_radiogroup_new("RamSize", ram_sizes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
@@ -75,4 +99,43 @@ GtkWidget *pet_ram_size_widget_create(void)
 
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+/** \brief  Set callback on RAM size change
+ *
+ * \param[in]   widget  PET RAM size widget
+ * \param[in]   func    callback function
+ */
+void pet_ram_size_widget_set_callback(GtkWidget *widget,
+                                      void (*func)(int))
+{
+    GtkWidget *group;
+
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    if (group != NULL) {
+        vice_gtk3_resource_radiogroup_add_callback(
+                group,
+                on_ram_size_changed_callback);
+        glue_func = func;
+    }
+}
+
+
+/** \brief  Syncronize widget with its resource
+ *
+ * \param[in,out]   widget  PET RAM size widget
+ */
+void pet_ram_size_widget_sync(GtkWidget *widget)
+{
+    GtkWidget *group;
+
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    debug_gtk3("updating RAM size from resource.");
+    if (vice_gtk3_resource_radiogroup_sync(group)) {
+        debug_gtk3("OK.");
+    } else {
+        debug_gtk3("failed.");
+    }
+
 }

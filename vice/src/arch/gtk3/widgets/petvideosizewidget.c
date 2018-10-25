@@ -50,6 +50,31 @@ static const vice_gtk3_radiogroup_entry_t video_sizes[] = {
 };
 
 
+/** \brief  User-defined extra callback
+ */
+static void (*user_callback)(int) = NULL;
+
+
+/** \brief  Get index in list of video sizes of \a size
+ *
+ * \param[in]   size    video size
+ *
+ * \return  index in list, or -1 when not found
+ */
+static int get_video_sizes_index(int size)
+{
+    int i = 0;
+
+    while (video_sizes[i].id >= 0) {
+        if (video_sizes[i].id == size) {
+            return i;
+        }
+        i++;
+    }
+    return -1;
+}
+
+
 /** \brief  Look up the index of \a size int the video sizes array
  *
  * \param[in]   size    video size value (0, 40 or 80)
@@ -81,6 +106,11 @@ static void on_video_size_toggled(GtkWidget *widget, gpointer user_data)
             && (new_val != old_val)) {
         debug_gtk3("setting VideoSize to %d.", new_val);
         resources_set_int("VideoSize", new_val);
+
+        if (user_callback != NULL) {
+            debug_gtk3("call user_callback with %d.", new_val);
+            user_callback(new_val);
+        }
     }
 }
 
@@ -97,6 +127,9 @@ GtkWidget *pet_video_size_widget_create(void)
     int size;
     int index;
 
+    /* disable old callback, if any */
+    user_callback = NULL;
+
     resources_get_int("VideoSize", &size);
     index = get_video_size_index(size);
 
@@ -107,4 +140,34 @@ GtkWidget *pet_video_size_widget_create(void)
             index);
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+/** \brief  Set user-defined callback to be triggered when the widget changes
+ *
+ * \param[in]   widget  PET video size widget
+ * \param[in]   func    user-defined callback
+ */
+void pet_video_size_widget_set_callback(GtkWidget *widget,
+                                        void (*func)(int))
+{
+    user_callback = func;
+}
+
+
+/** \brief  Synchronize \a widget with its current resource value
+ *
+ * \param[in,out]   widget  PET video size widget
+ */
+void pet_video_size_widget_sync(GtkWidget *widget)
+{
+    int size;
+    int index;
+
+    resources_get_int("VideoSize", &size);
+    index = get_video_sizes_index(size);
+    if (index >= 0) {
+        /* got valid index in radio button list */
+        vice_gtk3_radiogroup_set_index(widget, index);
+    }
 }
