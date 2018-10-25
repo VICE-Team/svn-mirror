@@ -44,6 +44,7 @@
 #include "vsync.h"
 #include "ui.h"
 #include "uimachinewindow.h"
+#include "crtpreviewwidget.h"
 
 #include "uicart.h"
 
@@ -851,23 +852,27 @@ static GtkWidget *create_extra_widget(void)
  */
 static GtkWidget *create_preview_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
+    if ((machine_class != VICE_MACHINE_C64)
+            && (machine_class != VICE_MACHINE_C64SC)) {
+        GtkWidget *grid = NULL;
+        GtkWidget *label;
+        grid = gtk_grid_new();
+        gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+        gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+        label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(label), "<b>Cartridge info</b>");
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>Cartridge info</b>");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+        label = gtk_label_new("Error: groepaz was here!");
+        g_object_set(label, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
-    label = gtk_label_new("Error: groepaz was here!");
-    g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
+        gtk_widget_show_all(grid);
+        return grid;
+    } else {
+        return crt_preview_widget_create();
+    }
 
 }
 
@@ -877,9 +882,14 @@ static GtkWidget *create_preview_widget(void)
  */
 static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
 {
-    debug_gtk3("update_preview: TODO");
+    gchar *path = NULL;
 
-    /* TODO */
+    debug_gtk3("update_preview");
+    path = gtk_file_chooser_get_filename(file_chooser);
+    if (path != NULL) {
+        crt_preview_widget_update(path);
+        g_free(path);
+    }
 }
 
 /** \brief  Set function to get a list of cartridges

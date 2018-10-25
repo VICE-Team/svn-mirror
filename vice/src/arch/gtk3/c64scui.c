@@ -64,7 +64,9 @@
 #include "tapeportdeviceswidget.h"
 #include "settings_model.h"
 #include "c64ui.h"
-
+#include "crt.h"
+#include "cartridge.h"
+#include "crtpreviewwidget.h"
 
 /** \brief  List of C64 models
  *
@@ -177,6 +179,10 @@ int c64scui_init(void)
 
     /* set C64 model_get function */
     settings_model_widget_set_model_func(c64model_get);
+
+    /* crt preview widget functions */
+    crt_preview_widget_set_open_func(crt_open);
+    crt_preview_widget_set_chip_func(crt_read_chip_header);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

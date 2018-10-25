@@ -44,6 +44,7 @@ libwidgets_a_SOURCES = \
 	contentpreviewwidget.c \
 	cpmwidget.c \
 	crtcontrolwidget.c \
+	crtpreviewwidget.c \
 	cwdwidget.c \
 	digimaxwidget.c \
 	dirmenupopup.c \
@@ -186,6 +187,7 @@ EXTRA_DIST = \
 	contentpreviewwidget.h \
 	cpmwidget.h \
 	crtcontrolwidget.h \
+	crtpreviewwidget.h \
 	cwdwidget.h \
 	dirmenupopup.h \
 	digimaxwidget.h \

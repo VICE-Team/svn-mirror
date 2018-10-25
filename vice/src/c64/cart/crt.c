@@ -120,7 +120,7 @@ static const char CHIP_HEADER[] = "CHIP";
 /*
     Open a crt file and read header, return NULL on fault, fd otherwise
 */
-static FILE *crt_open(const char *filename, crt_header_t *header)
+FILE *crt_open(const char *filename, crt_header_t *header)
 {
     uint8_t crt_header[0x40];
     uint32_t skip;
@@ -188,7 +188,7 @@ int crt_getid(const char *filename)
 }
 
 /*
-    Read and pharse chip header, return -1 on fault
+    Read and parse chip header, return -1 on fault
 */
 int crt_read_chip_header(crt_chip_header_t *header, FILE *fd)
 {
