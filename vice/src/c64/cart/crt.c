@@ -189,6 +189,11 @@ int crt_getid(const char *filename)
 
 /*
     Read and parse chip header, return -1 on fault
+
+XXX:    The skip member of a crt_chip_header_t will always be 0, instead of
+        what the CHIP header indicates.
+        So the chip member is complete bollocks,
+        -- compyx
 */
 int crt_read_chip_header(crt_chip_header_t *header, FILE *fd)
 {
@@ -201,18 +206,22 @@ int crt_read_chip_header(crt_chip_header_t *header, FILE *fd)
         return -1; /* invalid header signature */
     }
 
+    /* 1: grab size of chip packet + chip header */
     header->skip = util_be_buf_to_dword(&chipheader[4]);
 
     if (header->skip < sizeof(chipheader)) {
         return -1; /* invalid packet size */
     }
+    /* 2: subtract header size, we now have the rom size */
     header->skip -= sizeof(chipheader); /* without header */
 
     header->size = util_be_buf_to_word(&chipheader[14]);
     if (header->size > header->skip) {
         return -1; /* rom bigger then total size?! */
     }
+    /* 3: subtract ROM size -> 0, WTF? */
     header->skip -= header->size; /* skip size after image */
+
     header->type = util_be_buf_to_word(&chipheader[8]);
     header->bank = util_be_buf_to_word(&chipheader[10]);
     header->start = util_be_buf_to_word(&chipheader[12]);
