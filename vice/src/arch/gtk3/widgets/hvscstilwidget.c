@@ -122,9 +122,8 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
     if (stil.sid_comment != NULL) {
         gtk_text_buffer_set_text(buffer, stil.sid_comment, -1);
+        gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), "\n\n", -1);
     }
-
-    gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), "\n\n", -1);
 
     /* now add info on each subtune */
     for (t = 0; t < stil.blocks_used; t++) {

@@ -198,7 +198,14 @@ static const resource_string_t resources_string[] = {
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
-    { "HVSCRoot", "~/C64Music", RES_EVENT_NO, NULL,
+    { "HVSCRoot",
+#ifdef WIN32_COMPILE
+        /* totally self serving change */
+        "D:\\C64Music",
+#else
+        "~/C64Music",
+#endif
+        RES_EVENT_NO, NULL,
       &hvsc_root, set_hvsc_root, NULL },
     RESOURCE_STRING_LIST_END
 };
