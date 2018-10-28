@@ -49,6 +49,8 @@
 #include "uiapi.h"
 
 /* Will get fixed once the code in this file gets moved to its proper location */
+#include "../shared/archdep_xdg.h"
+#include "../shared/archdep_defs.h"
 #include "../shared/archdep_create_user_config_dir.h"
 #include "../shared/archdep_join_paths.h"
 
@@ -176,6 +178,11 @@ int archdep_init(int *argc, char **argv)
     char *vice_ini;
     char *datadir;
     char *docsdir;
+# if defined(ARCHDEP_OS_LINUX) || defined(ARCHDEP_OS_BSD)
+    char *xdg_cache;
+    char *xdg_config;
+    char *xdg_data;
+# endif
 #endif
     argv0 = lib_stralloc(argv[0]);
 
@@ -193,6 +200,12 @@ int archdep_init(int *argc, char **argv)
     datadir = archdep_get_vice_datadir();
     docsdir = archdep_get_vice_docsdir();
 
+# if defined(ARCHDEP_OS_LINUX) && defined(ARCHDEP_OS_BSD)
+    xdg_cache = archdep_xdg_cache_home();
+    xdg_config = archdep_xdg_config_home();
+    xdg_data = archdep_xdg_data_home()l
+# endif 
+
     debug_gtk3("program name    = \"%s\"", prg_name);
     debug_gtk3("user home dir   = \"%s\"", archdep_home_path());
     debug_gtk3("user config dir = \"%s\"", cfg_path);
@@ -201,6 +214,22 @@ int archdep_init(int *argc, char **argv)
     debug_gtk3("VICE gui data   = \"%s\"", datadir);
     debug_gtk3("VICE docs path  = \"%s\"", docsdir);
     debug_gtk3("vice.ini path   = \"%s\"", vice_ini);
+
+# if defined(ARCHDEP_OS_LINUX) || defined(ARCHDEP_OS_BSD)
+    xdg_cache = archdep_xdg_cache_home();
+    xdg_config = archdep_xdg_config_home();
+    xdg_data = archdep_xdg_data_home();
+
+    debug_gtk3("XDG_CACHE_HOME  = '%s'.", xdg_cache);
+    debug_gtk3("XDG_CONFIG_HOME = '%s'.", xdg_config);
+    debug_gtk3("XDG_DATA_HOME   = '%s'.", xdg_data);
+
+    lib_free(xdg_cache);
+    lib_free(xdg_config);
+    lib_free(xdg_data);
+# endif 
+
+
 
     lib_free(searchpath);
     lib_free(vice_ini);

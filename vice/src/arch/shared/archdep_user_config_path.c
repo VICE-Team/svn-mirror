@@ -49,6 +49,7 @@
 #include "archdep_boot_path.h"
 #include "archdep_home_path.h"
 #include "archdep_join_paths.h"
+#include "archdep_xdg.h"
 
 #include "archdep_user_config_path.h"
 
@@ -67,7 +68,7 @@ static char *user_config_dir = NULL;
  * the home directory, depending on OS:
  *
  * - Windows: $HOME\\AppData\\Roaming\\vice
- * - Unix: $HOME/.config/vice
+ * - Unix: $HOME/.config/vice (rather: XDG_CONFIG_HOME)
  * - BeOS: $HOME/config/settings/vice
  *   (Haiku sets $XDG_CONFIG_HOME to '/boot/home/config/settings')
  *
@@ -84,8 +85,10 @@ char *archdep_user_config_path(void)
     }
 
 #if defined(ARCHDEP_OS_UNIX)
-    user_config_dir = archdep_join_paths(archdep_home_path(),
-                                         ".config", "vice", NULL);
+    char *xdg_config = archdep_xdg_config_home();
+    user_config_dir = archdep_join_paths(xdg_config, "vice", NULL);
+    lib_free(xdg_config);
+
 #elif defined(ARCHDEP_OS_WINDOWS)
     user_config_dir = archdep_join_paths(archdep_home_path(),
                                          "AppData", "Roaming", "vice", NULL);
