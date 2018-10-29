@@ -840,9 +840,15 @@ void sdl_ui_init_finalize(void)
     }
 }
 
+static int last_mouse_x = -1;
+static int last_mouse_y = -1;
+
 int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
 {
-    if (!sdl2_window) {
+    int x, y, w, h;
+    Uint32 buttons;
+    double ratio;
+    if (!sdl2_window || !sdl2_renderer || !sdl_active_canvas) {
         /* Not initialized yet */
         return 0;
     }
@@ -851,12 +857,30 @@ int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
         return 0;
     }
 
-    /* TODO: Actually implement this. SDL_GetMouseState() doesn't respect
-             SDL_RenderSetLogicalSize. */
-    return 0;
+    buttons = SDL_GetMouseState(&x, &y);
+    SDL_RenderGetLogicalSize(sdl2_renderer, &w, &h);
+    x = last_mouse_x;
+    y = last_mouse_y;
+    ratio = (double) w / (double)sdl_active_canvas->width;
+    if (x < 0 || x > w || y < 0 || y > h) {
+        return 0;
+    }
+    if (px) {
+        *px = x / (ratio * sdl_active_canvas->videoconfig->scalex);
+    }
+    if (py) {
+        *py = y / sdl_active_canvas->videoconfig->scaley;
+    }
+    if (pbuttons) {
+        *pbuttons = buttons;
+    }
+    return 1;
 }
 
 void sdl_ui_consume_mouse_event(SDL_Event *event)
 {
-    /* TODO */
+    if (event && event->type == SDL_MOUSEMOTION) {
+        last_mouse_x = event->motion.x;
+        last_mouse_y = event->motion.y;
+    }
 }
