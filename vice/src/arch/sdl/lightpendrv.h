@@ -30,14 +30,6 @@
 #include "vice.h"
 #include "types.h"
 
-struct sdl_lightpen_adjust_s {
-    int offset_x, offset_y;
-    int max_x, max_y;
-    double scale_x, scale_y;
-};
-typedef struct sdl_lightpen_adjust_s sdl_lightpen_adjust_t;
-extern sdl_lightpen_adjust_t sdl_lightpen_adjust;
-
 extern void sdl_lightpen_update(void);
 
 #endif

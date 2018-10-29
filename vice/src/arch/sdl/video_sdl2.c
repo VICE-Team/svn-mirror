@@ -839,3 +839,24 @@ void sdl_ui_init_finalize(void)
         video_canvas_resize(sdl_canvaslist[i], 1);
     }
 }
+
+int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
+{
+    if (!sdl2_window) {
+        /* Not initialized yet */
+        return 0;
+    }
+    if (!(SDL_GetWindowFlags(sdl2_window) & SDL_WINDOW_MOUSE_FOCUS)) {
+        /* We don't have mouse focus */
+        return 0;
+    }
+
+    /* TODO: Actually implement this. SDL_GetMouseState() doesn't respect
+             SDL_RenderSetLogicalSize. */
+    return 0;
+}
+
+void sdl_ui_consume_mouse_event(SDL_Event *event)
+{
+    /* TODO */
+}

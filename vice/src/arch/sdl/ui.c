@@ -488,6 +488,7 @@ ui_menu_action_t ui_dispatch_events(void)
                 break;
 #endif
             case SDL_MOUSEMOTION:
+                sdl_ui_consume_mouse_event(&e);
                 if (_mouse_enabled) {
                     mouse_move((int)(e.motion.xrel), (int)(e.motion.yrel));
                 }

@@ -114,6 +114,14 @@ static int sdl_gl_filter_res;
 static int sdl_gl_filter;
 #endif
 
+struct sdl_lightpen_adjust_s {
+    int offset_x, offset_y;
+    int max_x, max_y;
+    double scale_x, scale_y;
+};
+typedef struct sdl_lightpen_adjust_s sdl_lightpen_adjust_t;
+static sdl_lightpen_adjust_t sdl_lightpen_adjust;
+
 uint8_t *draw_buffer_vsid = NULL;
 /* ------------------------------------------------------------------------- */
 /* Video-related resources.  */
@@ -702,7 +710,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             if ((fullscreen) && (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM)) {
                 new_screen = SDL_SetVideoMode(limit_w, limit_h, sdl_bitdepth, flags);
             } else {
-                new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags); 
+                new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
             }
             if (!new_screen) { /* Did not work out quite well. Let's try without hwscale */
                 resources_set_int("HwScalePossible", 0);
@@ -1180,4 +1188,48 @@ void sdl_ui_init_finalize(void)
 
     sdl_canvas_create(sdl_active_canvas, &width, &height); /* set the real canvas size */
     sdl_ui_finalized = 1;
+}
+
+int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
+{
+    int local_x, local_y, local_buttons;
+    if (!(SDL_GetAppState() & SDL_APPMOUSEFOCUS)) {
+        /* We don't have mouse focus */
+        return 0;
+    }
+
+    local_buttons = SDL_GetMouseState(&local_x, &local_y);
+
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n", __func__, x, y, buttons, on_screen);
+#endif
+
+    local_x -= sdl_lightpen_adjust.offset_x;
+    local_y -= sdl_lightpen_adjust.offset_y;
+
+    if ((local_x < 0) || (local_y < 0) || (local_x >= sdl_lightpen_adjust.max_x) || (local_y >= sdl_lightpen_adjust.max_y)) {
+        return 0;
+    } else {
+        local_x = (int)(local_x * sdl_lightpen_adjust.scale_x);
+        local_y = (int)(local_y * sdl_lightpen_adjust.scale_y);
+    }
+
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s post: x = %i, y = %i\n", __func__, x, y);
+#endif
+    if (px) {
+        *px = local_x;
+    }
+    if (py) {
+        *py = local_y;
+    }
+    if (pbuttons) {
+        *pbuttons = local_buttons;
+    }
+    return 1;
+}
+
+void sdl_ui_consume_mouse_event(SDL_Event *event)
+{
+    /* This is a no-op on SDL1 */
 }

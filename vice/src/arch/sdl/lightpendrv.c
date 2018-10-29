@@ -37,51 +37,22 @@
 /* ------------------------------------------------------------------ */
 /* External interface */
 
-sdl_lightpen_adjust_t sdl_lightpen_adjust;
-
 void sdl_lightpen_update(void)
 {
-    int x, y, on_screen = 0, screen_num;
-    Uint8 buttons;
+    int x, y, screen_num;
+    unsigned int buttons;
 
     if (!lightpen_enabled) {
         return;
     }
 
-/* FIXME for SDL2 */
-#ifndef USE_SDLUI2
-    on_screen = SDL_GetAppState() & SDL_APPMOUSEFOCUS;
-#endif
-
-    if (on_screen) {
-        buttons = SDL_GetMouseState(&x, &y);
-    } else {
+    if (!sdl_ui_get_mouse_state(&x, &y, &buttons)) {
         x = y = -1;
         buttons = 0;
     }
 
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n", __func__, x, y, buttons, on_screen);
-#endif
-
-    if (on_screen) {
-        x -= sdl_lightpen_adjust.offset_x;
-        y -= sdl_lightpen_adjust.offset_y;
-
-        if ((x < 0) || (y < 0) || (x >= sdl_lightpen_adjust.max_x) || (y >= sdl_lightpen_adjust.max_y)) {
-            on_screen = 0;
-        } else {
-            x = (int)(x * sdl_lightpen_adjust.scale_x);
-            y = (int)(y * sdl_lightpen_adjust.scale_y);
-        }
-    }
-
-    if (!on_screen) {
-        x = y = -1;
-    }
-
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s post: x = %i, y = %i\n", __func__, x, y);
+    fprintf(stderr, "%s : x = %i, y = %i, buttons = %02x\n", __func__, x, y, buttons);
 #endif
 
     screen_num = sdl_active_canvas_num;

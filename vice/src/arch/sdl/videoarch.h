@@ -100,6 +100,9 @@ extern int sdl_active_canvas_num;
 
 extern void sdl_ui_init_finalize(void);
 
+int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons);
+void sdl_ui_consume_mouse_event(SDL_Event *event);
+
 extern uint8_t *draw_buffer_vsid;
 
 /* Modes of resolution limitation */
