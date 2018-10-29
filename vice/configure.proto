@@ -3711,6 +3711,9 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   HAVE_LIGHTPEN_SUPPORT="yes"
 
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
+
+  dnl for novte
+  LIBS="$LIBS -lstdc++"
 else
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)
 fi
