@@ -1,6 +1,8 @@
 /** \file   archdep_xdg.c
  * \brief   XDG base dir specification support
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Freedesktop XDG basedir spec support.
  */
 
 /*
@@ -46,7 +48,7 @@ char *archdep_xdg_data_home(void)
 {
     const char *path = getenv("XDG_DATA_HOME");
 
-    if (path != NULL) {
+    if (path != NULL && *path != '\0') {
         /* got env var, heap-allocate since the archdep_join_paths() function
          * also returns a heap-allocated string.
          */
@@ -66,7 +68,7 @@ char *archdep_xdg_config_home(void)
 {
     const char *path = getenv("XDG_CONFIG_HOME");
 
-    if (path != NULL) {
+    if (path != NULL && *path != '\0') {
         return lib_stralloc(path);
     }
     return archdep_join_paths(archdep_home_path(), ".config", NULL);
@@ -83,7 +85,7 @@ char *archdep_xdg_cache_home(void)
 {
     const char *path = getenv("XDG_CACHE_HOME");
 
-    if (path != NULL) {
+    if (path != NULL && *path != '\0') {
         return lib_stralloc(path);
     }
     return archdep_join_paths(archdep_home_path(), ".cache", NULL);
