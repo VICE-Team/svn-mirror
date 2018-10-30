@@ -520,41 +520,64 @@ ui_menu_action_t ui_dispatch_events(void)
  * TODO: and perhaps in windowed mode enable it when the mouse is moved.
  */
 
+#ifdef USE_SDLUI2
+static SDL_Cursor *arrow_cursor = NULL;
+static SDL_Cursor *crosshair_cursor = NULL;
+
+static void set_arrow_cursor(void)
+{
+    if (!arrow_cursor) {
+        arrow_cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+    }
+    SDL_SetCursor(arrow_cursor);
+}
+
+static void set_crosshair_cursor(void)
+{
+    if (!crosshair_cursor) {
+        crosshair_cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR);
+    }
+    SDL_SetCursor(crosshair_cursor);
+}
+#endif
+
 void ui_check_mouse_cursor(void)
 {
     if (_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
         /* mouse grabbed, not in menu. grab input but do not show a pointer */
-#ifndef USE_SDLUI2
         SDL_ShowCursor(SDL_DISABLE);
+#ifndef USE_SDLUI2
         SDL_WM_GrabInput(SDL_GRAB_ON);
 #else
+        set_arrow_cursor();
         SDL_SetRelativeMouseMode(SDL_TRUE);
 #endif
     } else if (lightpen_enabled && !sdl_menu_state) {
         /* lightpen active, not in menu. show a pointer for the lightpen emulation */
-#ifndef USE_SDLUI2
         SDL_ShowCursor(SDL_ENABLE);
+#ifndef USE_SDLUI2
         SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
+        set_crosshair_cursor();
         SDL_SetRelativeMouseMode(SDL_FALSE);
 #endif
     } else {
         if (sdl_active_canvas->fullscreenconfig->enable) {
             /* fullscreen, never show pointer (we really never need it) */
-#ifndef USE_SDLUI2
             SDL_ShowCursor(SDL_DISABLE);
+#ifndef USE_SDLUI2
             SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
-            SDL_ShowCursor(SDL_DISABLE);
+            set_arrow_cursor();
             SDL_SetRelativeMouseMode(SDL_FALSE);
 #endif
         } else {
             /* windowed, TODO: disable pointer after time-out */
-#ifndef USE_SDLUI2
             SDL_ShowCursor(SDL_DISABLE);
+#ifndef USE_SDLUI2
             SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
-            SDL_ShowCursor(SDL_DISABLE);
+            set_arrow_cursor();
             SDL_SetRelativeMouseMode(SDL_FALSE);
 #endif
         }
@@ -824,6 +847,16 @@ int ui_init_finalize(void)
 void ui_shutdown(void)
 {
     DBG(("%s", __func__));
+#ifdef USE_SDLUI2
+    if (arrow_cursor) {
+        SDL_FreeCursor(arrow_cursor);
+        arrow_cursor = NULL;
+    }
+    if (crosshair_cursor) {
+        SDL_FreeCursor(crosshair_cursor);
+        crosshair_cursor = NULL;
+    }
+#endif
     sdl_ui_file_selection_dialog_shutdown();
 }
 

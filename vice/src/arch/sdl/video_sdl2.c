@@ -65,6 +65,7 @@
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
+#include "ui.h"
 #include "uimenu.h"
 #include "uistatusbar.h"
 #include "util.h"
@@ -838,6 +839,7 @@ void sdl_ui_init_finalize(void)
     for (i = 0; i < sdl_num_screens; ++i) {
         video_canvas_resize(sdl_canvaslist[i], 1);
     }
+    ui_check_mouse_cursor();
 }
 
 static int last_mouse_x = -1;

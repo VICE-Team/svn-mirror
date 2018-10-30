@@ -53,6 +53,7 @@
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
+#include "ui.h"
 #include "uimenu.h"
 #include "uistatusbar.h"
 #include "util.h"
@@ -1188,6 +1189,7 @@ void sdl_ui_init_finalize(void)
 
     sdl_canvas_create(sdl_active_canvas, &width, &height); /* set the real canvas size */
     sdl_ui_finalized = 1;
+    ui_check_mouse_cursor();
 }
 
 int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
