@@ -41,8 +41,6 @@
  * - The menu display sometimes ends up having a bad display until the
  *   user moves the cursor or resizes the window.
  * - The user's selected window size is not preserved across runs.
- * - The sdl_gl_filter variable isn't being respected, but it can and
- *   should be, even when we aren't using OpenGL.
  */
 
 /* #define SDL_DEBUG */
@@ -109,6 +107,7 @@ static SDL_Window *sdl2_window = NULL;
 static SDL_Renderer *sdl2_renderer = NULL;
 static Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
 static int texformat = 0;
+static int recreate_textures = 0;
 
 uint8_t *draw_buffer_vsid = NULL;
 /* ------------------------------------------------------------------------- */
@@ -270,6 +269,46 @@ static int set_sdl_gl_flipy(int v, void *param)
     return 0;
 }
 
+
+static void sdl_ui_recreate_textures(void)
+{
+    int i;
+    if (!sdl2_renderer) {
+        return;
+    }
+    for (i = 0; i < sdl_num_screens; ++i) {
+        video_canvas_t *canvas;
+        SDL_Surface *surface;
+        SDL_Texture *texture;
+        int width, height;
+        canvas = sdl_canvaslist[i];
+        if (!canvas) {
+            continue;
+        }
+        surface = canvas->screen;
+        if (!surface) {
+            continue;
+        }
+        width = surface->w;
+        height = surface->h;
+        if (sdl_gl_filter_res == SDL_FILTER_LINEAR) {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+        } else {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+        }
+        texture = SDL_CreateTexture(sdl2_renderer, texformat, SDL_TEXTUREACCESS_STREAMING, width, height);
+        if (texture) {
+            if (canvas->texture) {
+                SDL_DestroyTexture(canvas->texture);
+            }
+            canvas->texture = texture;
+            
+        } else {
+            log_error(sdlvideo_log, "SDL_CreateTexture() failed on recreation: %s\n", SDL_GetError());
+        }
+    }
+}
+
 static int set_sdl_gl_filter(int v, void *param)
 {
     switch (v) {
@@ -286,6 +325,7 @@ static int set_sdl_gl_filter(int v, void *param)
     }
 
     sdl_gl_filter_res = v;
+    recreate_textures = 1;
     return 0;
 }
 
@@ -584,6 +624,13 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         video_canvas_render(canvas, (uint8_t *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
     }
 
+    if (recreate_textures) {
+        sdl_ui_recreate_textures();
+        recreate_textures = 0;
+        /* NOTE: The texture isn't holding the screen's values
+         *       here. We can get away with that because the call to
+         *       SDL_UpdateTexture below updates the entire canvas */
+    }
     SDL_UpdateTexture(canvas->texture, NULL, canvas->screen->pixels, canvas->screen->pitch);
     SDL_RenderClear(sdl2_renderer);
     SDL_RenderCopyEx(sdl2_renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
@@ -704,7 +751,11 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
             log_error(sdlvideo_log, "SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
             return;
         }
-        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+        if (sdl_gl_filter_res == SDL_FILTER_LINEAR) {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+        } else {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+        }
         new_texture = SDL_CreateTexture(sdl2_renderer, texformat, SDL_TEXTUREACCESS_STREAMING, width, height);
         if (!new_texture) {
             log_error(sdlvideo_log, "SDL_CreateTexture() failed: %s\n", SDL_GetError());
