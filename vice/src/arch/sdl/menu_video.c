@@ -373,7 +373,6 @@ static const ui_menu_entry_t aspect_menu[] = {
     SDL_MENU_LIST_END
 };
 
-#ifndef USE_SDLUI2
 UI_MENU_DEFINE_RADIO(SDLGLFilter)
 
 static const ui_menu_entry_t filter_menu[] = {
@@ -388,6 +387,7 @@ static const ui_menu_entry_t filter_menu[] = {
     SDL_MENU_LIST_END
 };
 
+#ifndef USE_SDLUI2
 UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
 UI_MENU_DEFINE_TOGGLE(VDCHwScale)
 UI_MENU_DEFINE_TOGGLE(CrtcHwScale)
@@ -438,6 +438,10 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
       MENU_ENTRY_RESOURCE_STRING,                           \
       string_AspectRatio_callback,                          \
       (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" }, \
+    { "Filter",                                             \
+      MENU_ENTRY_SUBMENU,                                   \
+      submenu_radio_callback,                               \
+      (ui_callback_data_t)filter_menu },                    \
     { "Flip X",                                             \
       MENU_ENTRY_RESOURCE_TOGGLE,                           \
       toggle_SDLGLFlipX_callback,                           \
