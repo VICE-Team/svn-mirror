@@ -101,18 +101,6 @@ extern char util_toupper(char c);
 
 extern char *util_gen_hex_address_list(int start, int stop, int step);
 
-#if !defined HAVE_MEMMOVE
-extern void *memmove(void *target, const void *source, unsigned int length);
-#endif
-
-#if !defined HAVE_ATEXIT
-extern int atexit(void (*function)(void));
-#endif
-
-#if !defined HAVE_STRERROR
-extern char *strerror(int errnum);
-#endif
-
 #if !defined HAVE_STRCASECMP
 extern int strcasecmp(const char *s1, const char *s2);
 #endif
