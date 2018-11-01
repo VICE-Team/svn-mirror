@@ -115,7 +115,7 @@ static int paused = 0;
 static void display_speed(void)
 {
     int len;
-    char sep = paused ? ('P' | 0x80) : warp ? ('W' | 0x80) : '/';
+    unsigned char sep = paused ? ('P' | 0x80) : warp ? ('W' | 0x80) : '/';
 
     len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "%3d%%%c%2dfps", per, sep, fps);
     statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
