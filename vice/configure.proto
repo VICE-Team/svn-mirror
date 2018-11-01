@@ -302,6 +302,43 @@ else
   fi
 fi
 
+
+dnl Do these checks before any Gtk3 flags are added
+AC_MSG_CHECKING(for time_t in time.h)
+AC_CACHE_VAL(bu_cv_decl_time_t_time_h,
+[AC_TRY_COMPILE([#include <time.h>], [time_t i;],
+bu_cv_decl_time_t_time_h=yes, bu_cv_decl_time_t_time_h=no)])
+AC_MSG_RESULT($bu_cv_decl_time_t_time_h)
+if test $bu_cv_decl_time_t_time_h = yes; then
+  AC_DEFINE([HAVE_TIME_T_IN_TIME_H],,
+	    [Is the type time_t defined in <time.h>?])
+fi
+
+AC_MSG_CHECKING(for time_t in sys/types.h)
+AC_CACHE_VAL(bu_cv_decl_time_t_types_h,
+[AC_TRY_COMPILE([#include <sys/types.h>], [time_t i;],
+bu_cv_decl_time_t_types_h=yes, bu_cv_decl_time_t_types_h=no)])
+AC_MSG_RESULT($bu_cv_decl_time_t_types_h)
+if test $bu_cv_decl_time_t_types_h = yes; then
+  AC_DEFINE([HAVE_TIME_T_IN_TYPES_H],,
+	    [Is the type time_t defined in <sys/types.h>?])
+fi
+
+if test $bu_cv_decl_time_t_time_h = yes; then
+  AC_CHECK_SIZEOF([time_t],[],[#include <time.h>])
+else
+  AC_CHECK_SIZEOF([time_t],[],[#include <sys/types.h>])
+fi
+
+if test "x$ac_cv_sizeof_time_t" = "x4"; then
+  AC_DEFINE([TIME_T_IS_32BIT],,[time_t is 32 bit])
+elif test "x$ac_cv_sizeof_time_t" = "x8"; then
+  AC_DEFINE([TIME_T_IS_64BIT],,[time_t is 64 bit])
+else
+  AC_MSG_ERROR([can not figure type of time_t])
+fi
+
+
 dnl Check and setup native GTK3 compilation, only fail if the gtk3 ui was requested
 if test x"$check_gtk3" = "xyes"; then
 
@@ -2115,40 +2152,6 @@ AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 #define	ERROR(val)	_RegExpError(val)
 ])
 AC_DECL_SYS_SIGLIST
-
-AC_MSG_CHECKING(for time_t in time.h)
-AC_CACHE_VAL(bu_cv_decl_time_t_time_h,
-[AC_TRY_COMPILE([#include <time.h>], [time_t i;],
-bu_cv_decl_time_t_time_h=yes, bu_cv_decl_time_t_time_h=no)])
-AC_MSG_RESULT($bu_cv_decl_time_t_time_h)
-if test $bu_cv_decl_time_t_time_h = yes; then
-  AC_DEFINE([HAVE_TIME_T_IN_TIME_H],,
-	    [Is the type time_t defined in <time.h>?])
-fi
-
-AC_MSG_CHECKING(for time_t in sys/types.h)
-AC_CACHE_VAL(bu_cv_decl_time_t_types_h,
-[AC_TRY_COMPILE([#include <sys/types.h>], [time_t i;],
-bu_cv_decl_time_t_types_h=yes, bu_cv_decl_time_t_types_h=no)])
-AC_MSG_RESULT($bu_cv_decl_time_t_types_h)
-if test $bu_cv_decl_time_t_types_h = yes; then
-  AC_DEFINE([HAVE_TIME_T_IN_TYPES_H],,
-	    [Is the type time_t defined in <sys/types.h>?])
-fi
-
-if test $bu_cv_decl_time_t_time_h = yes; then
-  AC_CHECK_SIZEOF([time_t],[],[#include <time.h>])
-else
-  AC_CHECK_SIZEOF([time_t],[],[#include <sys/types.h>])
-fi
-
-if test "x$ac_cv_sizeof_time_t" = "x4"; then
-  AC_DEFINE([TIME_T_IS_32BIT],,[time_t is 32 bit])
-elif test "x$ac_cv_sizeof_time_t" = "x8"; then
-  AC_DEFINE([TIME_T_IS_64BIT],,[time_t is 64 bit])
-else
-  AC_MSG_ERROR([can not figure type of time_t])
-fi
 
 dnl ----- Dynamic Lib Loading Support -----
 dynlib_support=no
