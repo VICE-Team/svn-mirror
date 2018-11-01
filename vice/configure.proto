@@ -1956,13 +1956,13 @@ AC_SUBST(MAX_INLINE_INSN_SINGLE)
 
 dnl Check and setup aRts compilation.
 if test x"$with_arts" = "xyes"; then
-	AC_CHECK_PROGS(artsc_config, artsc-config, no)
-	if test x"$artsc_config" = "xno"; then
-		AC_MSG_WARN([artsc-config not found. aRts will not be configured])
+  AC_CHECK_PROGS(artsc_config, artsc-config, no)
+  if test x"$artsc_config" = "xno"; then
+    AC_MSG_WARN([artsc-config not found. aRts will not be configured])
                 with_arts=no
         fi
 else
-	with_arts=no
+  with_arts=no
 fi
 
 dnl Set output drivers to none
@@ -3696,6 +3696,8 @@ SDL_EXTRA_LIBS=""
 AM_CONDITIONAL(MAKE_BINDIST, false)
 
 if test x"$enable_native_gtk3ui" = "xyes"; then
+  dnl Use C++ compiler/linker since novte uses C++
+  LINKCC='$(CXX)'
   ARCH_DIR="\$(top_builddir)/src/arch/gtk3"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a $ARCH_DIR/novte/libnovte.a"
@@ -3715,8 +3717,6 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
 
-  dnl for novte
-  LIBS="$LIBS -lstdc++"
 else
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)
 fi
