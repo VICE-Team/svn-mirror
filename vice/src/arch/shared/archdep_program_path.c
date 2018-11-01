@@ -292,7 +292,13 @@ const char *archdep_program_path(void)
     }
 
 #  elif defined(ARCHDEP_OS_BSD_OPEN)
-#   error OpenBSD support missing
+    /*
+     * I couldn't find any non-argv[0] solution for OpenBSD, so this will have
+     * to do. --compyx
+     */
+    if (!argv_fallback()) {
+	    archdep_vice_exit(1);
+    }
 #  elif defined(ARCHDEP_OS_BSD_DRAGON)
 #   error DragonFly BSD support missing
 
