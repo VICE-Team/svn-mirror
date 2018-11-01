@@ -101,11 +101,11 @@ extern char util_toupper(char c);
 
 extern char *util_gen_hex_address_list(int start, int stop, int step);
 
-#if !defined HAVE_STRCASECMP
+#ifndef HAVE_STRCASECMP
 extern int strcasecmp(const char *s1, const char *s2);
 #endif
 
-#if !defined HAVE_STRNCASECMP
+#ifndef HAVE_STRNCASECMP
 extern int strncasecmp(const char *s1, const char *s2, size_t n);
 #endif
 
