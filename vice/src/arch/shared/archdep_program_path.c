@@ -52,7 +52,7 @@
 #endif
 
 /* for readlink(2) */
-#if defined(ARCHDEP_OS_UNIX) || defined(ACHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
 # include <unistd.h>
 # ifdef ARCHDEP_OS_BSD_FREE
 #  include <sys/sysctl.h>
@@ -90,7 +90,7 @@ static char *program_path = NULL;
 
 /** \brief  Reference to argv[0]
  *
- * Do not free this, the C standard guarantees argv is available during a
+ * Do not free this, the C standard guarantees argv is available during a
  * program's lifetime, so this will work.
  */
 static char *argv0_ref = NULL;
@@ -161,7 +161,7 @@ static int argv_fallback(void)
         return 0;
     }
 #else
-    log_eror(LOG_ERR,"no getcwd() support for current OS, giving up.");
+    log_error(LOG_ERR,"no getcwd() support for current OS, giving up.");
     return 0;
 #endif
 

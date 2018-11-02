@@ -84,6 +84,7 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
+#if 0
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
 {
@@ -93,6 +94,7 @@ char *archdep_make_backup_filename(const char *fname)
     tmp[strlen(tmp) - 1] = '~';
     return tmp;
 }
+#endif
 
 
 #if 0

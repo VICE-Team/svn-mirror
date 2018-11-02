@@ -52,7 +52,7 @@ int archdep_path_is_relative(const char *path)
 
 #if defined(AMIGA_SUPPORT)
     return strchr(path, ':') == NULL;
-#elif defined(UNIX_COMPILE) || (BEOS_COMPILE)
+#elif defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
     return *path != '/';
 #elif defined(WIN32_COMPILE) || defined(OS2_COMPILE)
     if (*path == '\\' || *path == '/') {

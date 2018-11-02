@@ -35,7 +35,7 @@
 /* includes? */
 #endif
 
-#ifdef UNIX_COMPILE
+#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
 # include <unistd.h>
 # include <sys/stat.h>
 # include <sys/types.h>

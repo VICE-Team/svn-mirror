@@ -8,7 +8,7 @@
  *  - Linux
  *  - Windows
  *  - MacOS
- *  - BeOS/Haiku (untested)
+ *  - BeOS/Haiku
  *  - AmigaOS (untested)
  *  - OS/2 (untested)
  *  - MS-DOS (untested)
@@ -113,7 +113,7 @@ static char *prg_name_win32_os2(const char *buf)
 #endif
 
 
-#ifdef UNIX_COMPILE
+#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
 /** \brief  Helper function for Unix-ish systems
  *
  * \param[in]   buf string to parse binary name from
