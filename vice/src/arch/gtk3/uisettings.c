@@ -155,6 +155,20 @@
 #include "uisettings.h"
 
 
+static const char *treeview_css =
+"@binding-set SettingsTreeViewBinding\n"
+"{\n"
+"    bind \"Left\"  { \"select-cursor-parent\" ()\n"
+"                     \"expand-collapse-cursor-row\" (0,0,0) };\n"
+"    bind \"Right\" { \"expand-collapse-cursor-row\" (0,1,0) };\n"
+"}\n"
+"\n"
+"GtkTreeView\n"
+"{\n"
+"    -gtk-key-bindings: SettingsTreeViewBinding;\n"
+"}\n";
+
+
 /** \brief  Number of columns in the tree model
  */
 #define NUM_COLUMNS 3
@@ -2165,6 +2179,9 @@ static GtkWidget *create_treeview(void)
     GtkWidget *tree;
     GtkCellRenderer *text_renderer;
     GtkTreeViewColumn *text_column;
+    GtkCssProvider *css_provider;
+    GtkStyleContext *style_context;
+    GError *err = NULL;
 
     create_tree_model();
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(populate_tree_model()));
@@ -2178,6 +2195,16 @@ static GtkWidget *create_treeview(void)
             NULL);
     /*    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), obj_column); */
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree), text_column);
+
+    css_provider = gtk_css_provider_new();
+    if (!gtk_css_provider_load_from_data(css_provider, treeview_css, -1, &err)) {
+        debug_gtk3("failed to initialize CSS provider");
+    } else {
+        style_context = gtk_widget_get_style_context(tree);
+        gtk_style_context_add_provider(style_context,
+                                       GTK_STYLE_PROVIDER(css_provider),
+                                       GTK_STYLE_PROVIDER_PRIORITY_USER);
+    }
 
     return tree;
 }
