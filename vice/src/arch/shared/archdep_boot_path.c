@@ -87,8 +87,9 @@ const char *archdep_boot_path(void)
     const char *full_path;
     char *p;
 
+#if 0
     printf("%s:%s(): CALLED\n", __FILE__, __func__);
-
+#endif
     if (boot_path != NULL) {
         /* already determined boot path, return */
         return boot_path;
@@ -110,7 +111,9 @@ const char *archdep_boot_path(void)
         memcpy(boot_path, full_path, (size_t)(p - full_path));
         boot_path[p - full_path] = '\0';
     }
+#if 0
     printf("%s:%s(): boot path = %s\n", __FILE__, __func__, boot_path);
+#endif
     return boot_path;
 }
 

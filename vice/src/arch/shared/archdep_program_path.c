@@ -277,7 +277,9 @@ const char *archdep_program_path(void)
                 archdep_vice_exit(1);
             }
         }
+#if 0
         printf("SYSCTL: %s\n", buffer);
+#endif
     }
 
 #  elif defined(ARCHDEP_OS_BSD_NET)
@@ -297,7 +299,7 @@ const char *archdep_program_path(void)
      * to do. --compyx
      */
     if (!argv_fallback()) {
-	    archdep_vice_exit(1);
+        archdep_vice_exit(1);
     }
 #  elif defined(ARCHDEP_OS_BSD_DRAGON)
 #   error DragonFly BSD support missing
@@ -316,7 +318,9 @@ const char *archdep_program_path(void)
 
 #endif
     program_path = lib_stralloc(buffer);
+#if 0
     printf("%s(): program_path = %s\n", __func__, program_path);
+#endif
     return program_path;
 }
 

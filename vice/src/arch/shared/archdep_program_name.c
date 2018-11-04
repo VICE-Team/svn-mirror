@@ -193,8 +193,9 @@ const char *archdep_program_name(void)
 #ifdef BEOS_COMPILE
     program_name = prg_name_unix(execpath);
 #endif
-
+#if 0
     printf("%s: got program name '%s'\n", __func__, program_name);
+#endif
     return program_name;
 }
 
