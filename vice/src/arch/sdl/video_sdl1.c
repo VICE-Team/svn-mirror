@@ -421,6 +421,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlcustomh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLCustomHeight", NULL,
       "<height>", "Set custom resolution height" },
+    { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SDLWindowWidth", NULL,
+      "<width>", "Set intiial window width" },
+    { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SDLWindowHeight", NULL,
+      "<height>", "Set intiial window height" },
 #if defined(HAVE_HWSCALE)
     { "-sdlaspectmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLAspectMode", NULL,

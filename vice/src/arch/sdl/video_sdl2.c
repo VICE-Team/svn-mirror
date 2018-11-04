@@ -82,9 +82,15 @@ static log_t sdlvideo_log = LOG_ERR;
 
 static int sdl_bitdepth;
 
+/* Initial w/h for windowed display */
+static int sdl_initial_width = 0;
+static int sdl_initial_height = 0;
+
 /* Custom w/h, used for non-desktop fullscreen */
 static int sdl_custom_width = 0;
 static int sdl_custom_height = 0;
+
+/* State variable for making sure that the OS let us leave fullscreen sanely */
 static int leaving_fullscreen = 0;
 
 /* Recorded width/height, for dealing with windowing systems that forget
@@ -189,6 +195,26 @@ static int set_sdl_custom_height(int h, void *param)
             video_viewport_resize(sdl_active_canvas, 1);
         }
     }
+    return 0;
+}
+
+static int set_sdl_initial_width(int w, void *param)
+{
+    if (w < 0) {
+        return -1;
+    }
+
+    sdl_initial_width = w;
+    return 0;
+}
+
+static int set_sdl_initial_height(int h, void *param)
+{
+    if (h < 0) {
+        return -1;
+    }
+
+    sdl_initial_height = h;
     return 0;
 }
 
@@ -365,6 +391,10 @@ static const resource_int_t resources_int[] = {
       &sdl_custom_width, set_sdl_custom_width, NULL },
     { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
+    { "SDLWindowWidth", 0, RES_EVENT_NO, NULL,
+      &sdl_initial_width, set_sdl_initial_width, NULL },
+    { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
+      &sdl_initial_height, set_sdl_initial_height, NULL },
     { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
@@ -427,6 +457,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-sdlcustomh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLCustomHeight", NULL,
       "<height>", "Set custom resolution height" },
+    { "-sdlinitialw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SDLWindowWidth", NULL,
+      "<width>", "Set initial window width" },
+    { "-sdlinitialh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SDLWindowHeight", NULL,
+      "<height>", "Set initial window height" },
     { "-sdlaspectmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLAspectMode", NULL,
       "<mode>", "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)" },
@@ -496,6 +532,7 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
     int renderamount = SDL_GetNumRenderDrivers();
     int it, l;
     int drv_index;
+    int window_width = width, window_height = height;
     SDL_RendererInfo info;
     if (sdl2_window) {
         /* We've already created the window here */
@@ -506,15 +543,21 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
         return 1;
     }
     /* Obtain the Window with the corresponding size and behavior based on the flags */
-    sdl2_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    if (sdl_initial_width > window_width) {
+        window_width = sdl_initial_width;
+    }
+    if (sdl_initial_height > window_height) {
+        window_height = sdl_initial_height;
+    }
+    sdl2_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_width, window_height, flags);
     if (sdl2_window == NULL) {
         log_error(sdlvideo_log, "SDL_CreateWindow() failed: %s\n", SDL_GetError());
         return 0;
     }
 
     sdl_ui_set_window_icon(sdl2_window);
-    last_width = width;
-    last_height = height;
+    last_width = window_width;
+    last_height = window_height;
 
     /* Allocate renderlist strings */
     renderlist = lib_malloc((renderamount + 1) * sizeof(char *));
