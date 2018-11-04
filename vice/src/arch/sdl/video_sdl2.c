@@ -85,6 +85,12 @@ static int sdl_bitdepth;
 /* Custom w/h, used for non-desktop fullscreen */
 static int sdl_custom_width = 0;
 static int sdl_custom_height = 0;
+static int leaving_fullscreen = 0;
+
+/* Recorded width/height, for dealing with windowing systems that forget
+ * how big the window was when leaving fullscreen. */
+static int last_width = 0;
+static int last_height = 0;
 
 int sdl_active_canvas_num = 0;
 static int sdl_num_screens = 0;
@@ -507,6 +513,8 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
     }
 
     sdl_ui_set_window_icon(sdl2_window);
+    last_width = width;
+    last_height = height;
 
     /* Allocate renderlist strings */
     renderlist = lib_malloc((renderamount + 1) * sizeof(char *));
@@ -635,6 +643,18 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     SDL_RenderClear(sdl2_renderer);
     SDL_RenderCopyEx(sdl2_renderer, canvas->texture, NULL, NULL, 0, NULL, flip);
     SDL_RenderPresent(sdl2_renderer);
+    if (leaving_fullscreen) {
+        int curr_w, curr_h, flags;
+        SDL_GetWindowSize(sdl2_window, &curr_w, &curr_h);
+        flags = SDL_GetWindowFlags(sdl2_window);
+        leaving_fullscreen = 0;
+        if ((curr_w != last_width || curr_h != last_height) &&
+            (flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP |
+                      SDL_WINDOW_MAXIMIZED)) == 0) {
+            log_message(sdlvideo_log, "Resolution anomaly leaving fullscreen: expected %dx%d, got %dx%d", last_width, last_height, curr_w, curr_h);
+            SDL_SetWindowSize(sdl2_window, last_width, last_height);
+        }
+    }
 }
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
@@ -731,6 +751,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
                 int flags = SDL_GetWindowFlags(sdl2_window);
                 if (flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP)) {
                     SDL_SetWindowFullscreen(sdl2_window, 0);
+                    leaving_fullscreen = 1;
                 }
             }
         }
@@ -786,6 +807,15 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 /* Resize window to w/h. */
 void sdl_video_resize_event(unsigned int w, unsigned int h)
 {
+    int flags = SDL_GetWindowFlags(sdl2_window);
+    if ((flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP |
+                  SDL_WINDOW_MAXIMIZED)) == 0) {
+        /* We aren't in some fullscreen-or-close-to-it mode, and so this is
+         * a "legitimate" resize. Record that size for comparison against
+         * what we see when we leave fullscreen. */
+        last_width = w;
+        last_height = h;
+    }
     sdl_correct_logical_size();
 }
 
