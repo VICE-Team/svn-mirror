@@ -50,6 +50,10 @@
 #include "util.h"
 #include "vsync.h"
 
+#ifdef WIN32_COMPILE
+# include <windows.h>
+#endif
+
 #include "ui.h"
 #include "uicommands.h"
 #include "uimachinewindow.h"
@@ -253,7 +257,18 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     /* first try opening the pdf */
     /* This should be implemented with archdep_join_paths() */
     uri = util_concat(path, "vice.pdf", NULL);
+
     debug_gtk3("URI before GTK3: %s", uri);
+
+#ifdef WIN32_COMPILE
+    /* Windows: the Gtk/GLib stuff fails whatever I do, so let's use actual
+     *          Windows code. --compyx
+     */
+    ShellExecuteA(NULL, "open", uri, NULL, NULL, SW_SHOW);
+    /* that's right: no error checking and no fallback to HTML */
+    return;
+#endif
+
     final_uri = g_filename_to_uri(uri, NULL, &error);
     debug_gtk3("final URI (pdf): %s", final_uri);
     if (final_uri == NULL) {
