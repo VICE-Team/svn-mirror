@@ -36,6 +36,9 @@
 
 /*
  * 'Stock' file patterns
+ *
+ * These look ridiciulous, but Gtk only allows some basic globbing-like patterns,
+ * not proper regexes.
  */
 
 /** \brief  Patterns for all files
@@ -48,16 +51,16 @@ const char *file_chooser_pattern_all[] = {
 /** \brief  Patterns for cartridge images
  */
 const char *file_chooser_pattern_cart[] = {
-    "*.crt", "*.bin", NULL
+    "*.[cC][rR][tT]", "*.[bB][iI]nN]", NULL
 };
 
 /** \brief  Patterns for disk images
  */
 const char *file_chooser_pattern_disk[] = {
-    "*.d64", "*.d67", "*.d71", "*.d8[0-2]",
-    "*.d1m", "*.d2m", "*.d4m",
-    "*.g64", "*.g71", "*.g41", "*.p64",
-    "*.x64",
+    "*.[dD]64",     "*.[dD]67",     "*.[dD]71",     "*.[dD]8[0-2]",
+    "*.[dD]1[mM]",  "*.[dD]2[mM]",  "*.[dD]4[mM]",
+    "*.[gG]64",     "*.[gG]71",     "*.[gG]41",     "*.[pP]64",
+    "*.[xX]64",
     NULL
 };
 
@@ -68,26 +71,28 @@ const char *file_chooser_pattern_disk[] = {
  * together with ZipCode, Lynx, Ark, etc.
  */
 const char *file_chooser_pattern_tape[] = {
-    "*.t64", "*.tap", NULL
+    "*.[tT]64", "*.[tT][aA][pP]", NULL
 };
 
 /** \brief  Patterns for fliplists
  */
 const char *file_chooser_pattern_fliplist[] = {
-    "*.vfl", NULL
+    "*.[vV[fF][lL]", NULL
 };
 
 /** \brief  Patterns for program files
  */
 const char *file_chooser_pattern_program[] = {
-    "*.prg", "*.p[0-9][0-9]", NULL
+    "*.[pP][rR]gG]", "*.[pP][0-9][0-9]", NULL
 };
 
 
 /** \brief  Patterns for PSID/SID files
  */
 const char *file_chooser_pattern_sid[] = {
-    "*.psid", "*.sid", NULL
+    "*.[sD][iI][dD]",
+    "*.[pP][sD][iI][dD]",
+    NULL
 };
 
 /** \brief  C64 native archives
@@ -96,8 +101,8 @@ const char *file_chooser_pattern_sid[] = {
  * calling c1541.
  */
 const char *file_chooser_pattern_archive[] = {
-    "*.ark",    /* ARK archive */
-    "*.lnx",    /* Lynx archive */
+    "*.[aA][rR][kK]",    /* ARK archive */
+    "*.[lL][nN][xX]",    /* Lynx archive */
     "[1-4]1*",  /* ZipCode disk */
     "[1-6]!!*", /* ZipSix */
     "[a-z]!*",  /* ZipFile*/
@@ -111,13 +116,15 @@ const char *file_chooser_pattern_archive[] = {
  *      for the extensions supported
  */
 const char *file_chooser_pattern_compressed[] = {
-    "*7z", "*.bz2", "*.gz", ".rar", "*.[zZ]", "*.zip", NULL
+    "*7[zZ]", "*.[bB][zZ]2", "*.[gG][zZ]", ".[rR][aA][rR]",
+    "*.[zZ]", "*.[zZ][iI][pP]", NULL
 };
 
 
 /** \brief  Patterns for snapshot files
  */
-const char *file_chooser_pattern_snapshot [] = { "*.vsf", NULL };
+const char *file_chooser_pattern_snapshot [] = {
+    "*.[vV][sS][fF]", NULL };
 
 
 /*

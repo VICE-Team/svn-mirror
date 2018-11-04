@@ -316,7 +316,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
-                create_file_chooser_filter(filters[i], TRUE));
+                create_file_chooser_filter(filters[i], FALSE));
     }
 
     /* connect "reponse" handler: the `user_data` argument gets filled in when

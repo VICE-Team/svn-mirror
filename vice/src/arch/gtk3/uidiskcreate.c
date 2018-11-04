@@ -378,6 +378,7 @@ void uidiskcreate_dialog_show(GtkWidget *parent, gpointer data)
     int unit;
 
     unit = GPOINTER_TO_INT(data);
+    /* TODO: stuff some UNIT_MIN/UNIT_MAX defines in some file */
     if (unit < 8 || unit > 11) {
         unit = 8;
     }
@@ -398,7 +399,7 @@ void uidiskcreate_dialog_show(GtkWidget *parent, gpointer data)
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
             TRUE);
 
-    filter = create_file_chooser_filter(file_chooser_filter_disk, TRUE);
+    filter = create_file_chooser_filter(file_chooser_filter_disk, FALSE);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);

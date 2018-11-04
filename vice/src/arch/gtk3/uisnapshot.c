@@ -100,7 +100,7 @@ static void save_snapshot_dialog(void)
             NULL);
 
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
-            create_file_chooser_filter(file_chooser_filter_snapshot, TRUE));
+            create_file_chooser_filter(file_chooser_filter_snapshot, FALSE));
 
     /* create extras widget */
     extra = gtk_grid_new();

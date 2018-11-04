@@ -191,7 +191,7 @@ void ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
     /* TODO: add a separate "extra widget" that will let the user
      * select autoattach */
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
-            create_file_chooser_filter(file_chooser_filter_fliplist, TRUE));
+            create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
     g_signal_connect(dialog, "response", G_CALLBACK(fliplist_load_response), data);
     gtk_widget_show_all(dialog);
 }
@@ -228,7 +228,7 @@ void ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
         "Cancel", GTK_RESPONSE_REJECT,
         NULL, NULL);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
-            create_file_chooser_filter(file_chooser_filter_fliplist, TRUE));
+            create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
     g_signal_connect(dialog, "response", G_CALLBACK(fliplist_save_response), data);
     gtk_widget_show_all(dialog);

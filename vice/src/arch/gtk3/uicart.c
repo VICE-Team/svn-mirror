@@ -1129,9 +1129,9 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
     gtk_file_chooser_set_use_preview_label(GTK_FILE_CHOOSER(dialog), FALSE);
 
     /* add filters */
-    flt_crt = create_file_chooser_filter(filters[UICART_PATTERN_CRT], TRUE);
-    flt_bin = create_file_chooser_filter(filters[UICART_PATTERN_BIN], TRUE);
-    flt_bin_prg = create_file_chooser_filter(filters[UICART_PATTERN_BIN_PRG], TRUE);
+    flt_crt = create_file_chooser_filter(filters[UICART_PATTERN_CRT], FALSE);
+    flt_bin = create_file_chooser_filter(filters[UICART_PATTERN_BIN], FALSE);
+    flt_bin_prg = create_file_chooser_filter(filters[UICART_PATTERN_BIN_PRG], FALSE);
     flt_all = create_file_chooser_filter(filters[UICART_PATTERN_ALL], TRUE);
 
     switch (machine_class) {
