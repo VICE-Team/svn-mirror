@@ -286,7 +286,10 @@ UI_MENU_DEFINE_INT(SDLCustomWidth)
 UI_MENU_DEFINE_INT(SDLCustomHeight)
 #ifndef USE_SDLUI2    
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
-#endif    
+#endif
+UI_MENU_DEFINE_INT(SDLWindowWidth)
+UI_MENU_DEFINE_INT(SDLWindowHeight)
+    
 
 #define VICE_SDL_SIZE_MENU_DOUBLESIZE(chip)         \
     { "Double size",                                \
@@ -348,10 +351,22 @@ UI_MENU_DEFINE_RADIO(SDLLimitMode)
 #else
 #define VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)
 #endif
+#define VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip) \
+    SDL_MENU_ITEM_SEPARATOR,                        \
+    SDL_MENU_ITEM_TITLE("Initial resolution"),      \
+    { "Width",                                      \
+      MENU_ENTRY_RESOURCE_INT,                      \
+      int_SDLWindowWidth_callback,                  \
+      (ui_callback_data_t)"Set width" },            \
+    { "Height",                                     \
+      MENU_ENTRY_RESOURCE_INT,                      \
+      int_SDLWindowHeight_callback,                 \
+      (ui_callback_data_t)"Set height" },
 
 #define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
 VICE_SDL_SIZE_MENU_ITEMS_SHARED(chip)               \
-VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)
+VICE_SDL_SIZE_MENU_ITEMS_LIMIT(chip)                \
+VICE_SDL_SIZE_MENU_ITEMS_LATER_SHARED(chip)
 
 #if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
 
