@@ -34,7 +34,9 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
+#include "keyboard.h"
 #include "lib.h"
+#include "log.h"
 #include "ui.h"
 #include "resources.h"
 #include "vsync.h"
@@ -47,18 +49,14 @@
 
 
 /** \brief  Keyboard layout types
+ * 
+ * \fixme   dynamically allocate the array instead. meh.
  */
-static const vice_gtk3_radiogroup_entry_t kbd_layouts[] = {
-    { "American", 0 },
-    { "British", 1 },
-    { "German", 2 },
-    { "Danish", 3 },
-    { "Norwegian", 4 },
-    { "Finnish", 5 },
-    { "Italian", 6 },
+static vice_gtk3_radiogroup_entry_t kbd_layouts[10 + 1] = {
+    { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 },
+    { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 },
     { NULL, -1 }
 };
-
 
 /** \brief  Create a keyboard layout selection widget
  *
@@ -71,9 +69,26 @@ GtkWidget *kbdlayout_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *group;
+    vice_gtk3_radiogroup_entry_t *kbdlayouts = &kbd_layouts[0];
+    mapping_info_t *kbdinfo = keyboard_get_info_list();
+
+    /* build the list from the list provided by keyboard.c */
+    while(kbdinfo->name) {
+        if (kbdlayouts->id == -1) {
+            log_error(LOG_DEFAULT, "internal error: too many keyboard layouts (kbdlayout_widget_create)\n");
+            break;
+        }
+        kbdlayouts->name = kbdinfo->name;
+        kbdlayouts->id = kbdinfo->mapping;
+        /* printf("%d:%s\n", kbdlayouts->id, kbdlayouts->name); */
+        kbdinfo++;
+        kbdlayouts++;
+    }
+    kbdlayouts->name = NULL;
+    kbdlayouts->id = -1;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Keyboard layout", 1);
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Host keyboard layout", 1);
     group = vice_gtk3_resource_radiogroup_new(
             "KeyboardMapping", kbd_layouts, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);

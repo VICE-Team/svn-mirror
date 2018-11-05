@@ -153,14 +153,12 @@ GtkWidget *kbdmapping_widget_create(GtkWidget *widget)
     gtk_grid_insert_row(GTK_GRID(layout), 4);
     gtk_grid_attach(GTK_GRID(layout), btn_sym, 0, 4, 1, 1);
 
-
     btn_pos = gtk_button_new_with_label("Select file ...");
     g_signal_connect(btn_pos, "clicked",
             G_CALLBACK(open_pos_file_callback), (gpointer)(widget));
 
     g_object_set(btn_pos, "margin-left", 32, NULL);
     gtk_grid_attach(GTK_GRID(layout), btn_pos, 0, 6, 1, 1);
-
 
     gtk_widget_show_all(layout);
     return layout;
