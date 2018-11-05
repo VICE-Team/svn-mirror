@@ -33,37 +33,40 @@
 #include "archdep_user_config_path.h"
 #include "lib.h"
 #include "log.h"
-
+#ifdef UNIX_COMPILE
+#include "unistd.h"
+#endif
 #include "archdep_open_default_log_file.h"
 
 
-/** \brief  Attempt to open a log file in the user's vice config dir
- *
- * If the file cannot be opened for some reason, stdout is returned.
+/** \brief  Opens the default log file. On *nix the log goes to stdout by
+ *          default. If that does not exist, attempt to open a log file in 
+ *          the user's vice config dir. If the file cannot be opened for some 
+ *          reason, stdout is returned anyway.
  *
  * \return  file pointer to log file
  */
 FILE *archdep_open_default_log_file(void)
 {
-    FILE *fp;
+    FILE *fp = stdout;
     char *path;
 
     /* quick fix. on non windows platforms this should check if VICE has been
        started from a terminal, and only if not open a file instead of stdout */
 #ifdef UNIX_COMPILE
-    return stdout;
-#else
-    path = archdep_join_paths(archdep_user_config_path(), "vice.log", NULL);
-    fp = fopen(path, "w");
-    if (fp == NULL) {
-        log_error(LOG_ERR,
-                "failed to open log file '%s' for writing, reverting to stdout",
-                path);
-        fp = stdout;
-    }
-    lib_free(path);
-    return fp;
+    if (!isatty(fileno(fp))) {
 #endif
+        path = archdep_join_paths(archdep_user_config_path(), "vice.log", NULL);
+        fp = fopen(path, "w");
+        if (fp == NULL) {
+            log_error(LOG_ERR,
+                    "failed to open log file '%s' for writing, reverting to stdout",
+                    path);
+            fp = stdout;
+        }
+        lib_free(path);
+#ifdef UNIX_COMPILE
+    }
+#endif
+    return fp;
 }
-
-
