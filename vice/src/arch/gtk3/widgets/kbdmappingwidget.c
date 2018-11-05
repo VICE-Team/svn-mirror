@@ -5,9 +5,9 @@
  */
 
 /*
- * $VICERES KeymapIndex     -vsid
- * $VICERES KeymapPosFile   -vsid
- * $VICERES KeymapSymFile   -vsid
+ * $VICERES KeymapIndex         -vsid
+ * $VICERES KeymapUserPosFile   -vsid
+ * $VICERES KeymapUserSymFile   -vsid
  */
 
 /*
@@ -78,7 +78,7 @@ static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
 
     debug_gtk3("got file '%s'.", filename);
     if (filename != NULL) {
-        resources_set_string("KeymapSymFile", filename);
+        resources_set_string("KeymapUserSymFile", filename);
         g_free(filename);
         resources_set_int("KeymapIndex", 2);
         /* set proper radio button */
@@ -103,7 +103,7 @@ static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
 
     debug_gtk3("got file '%s'.", filename);
     if (filename != NULL) {
-        resources_set_string("KeymapPosFile", filename);
+        resources_set_string("KeymapUserPosFile", filename);
         g_free(filename);
         resources_set_int("KeymapIndex", 3);
         /* set proper radio button */
