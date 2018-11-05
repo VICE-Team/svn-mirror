@@ -1441,11 +1441,13 @@ int keyboard_get_num_mappings(void)
     return KBD_MAPPING_NUM;
 }
 
+/* (keep in sync with constants in keyboard.c) */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "American (us)", KBD_MAPPING_US, "" },
     { "British (uk)", KBD_MAPPING_UK, "uk" },
     { "German (de)", KBD_MAPPING_DE, "de" },
     { "Danish (da)", KBD_MAPPING_DA, "da" },
+    { "Dutch (nl)", KBD_MAPPING_NL, "nl" },
     { "Norwegian (no)", KBD_MAPPING_NO, "no" },
     { "Finnish (fi)", KBD_MAPPING_FI, "fi" },
     { "Italian (it)", KBD_MAPPING_IT, "it" },

@@ -57,11 +57,12 @@
 #define KBD_MAPPING_UK    1     /* "uk" */
 #define KBD_MAPPING_DE    2     /* "de" */
 #define KBD_MAPPING_DA    3     /* "da" */
-#define KBD_MAPPING_NO    4     /* "no" */
-#define KBD_MAPPING_FI    5     /* "fi" */
-#define KBD_MAPPING_IT    6     /* "it" */
-#define KBD_MAPPING_LAST  6
-#define KBD_MAPPING_NUM   7
+#define KBD_MAPPING_NL    4     /* "nl" */
+#define KBD_MAPPING_NO    5     /* "no" */
+#define KBD_MAPPING_FI    6     /* "fi" */
+#define KBD_MAPPING_IT    7     /* "it" */
+#define KBD_MAPPING_LAST  7
+#define KBD_MAPPING_NUM   8
 extern int keyboard_get_num_mappings(void);
 
 /* mapping info for GUIs */
