@@ -30,7 +30,8 @@ gtk3_keymaps = \
 	gtk3_sym.vkm \
 	gtk3_pos.vkm \
 	gtk3_pos_de.vkm \
-	gtk3_sym_de.vkm
+	gtk3_sym_de.vkm \
+	gtk3_sym_nl.vkm
 
 sdl_keymaps = \
 	sdl_hotkeys.vkm \
@@ -45,7 +46,8 @@ sdl_keymaps = \
 	sdl_pos_fi.vkm \
 	sdl_pos_no.vkm \
 	sdl_sym.vkm \
-	sdl_sym_de.vkm
+	sdl_sym_de.vkm \
+	sdl_sym_nl.vkm
 
 sym_file = \
 	scpu64mem.sym
