@@ -48,6 +48,11 @@ FILE *archdep_open_default_log_file(void)
     FILE *fp;
     char *path;
 
+    /* quick fix. on non windows platforms this should check if VICE has been
+       started from a terminal, and only if not open a file instead of stdout */
+#ifdef UNIX_COMPILE
+    return stdout;
+#else
     path = archdep_join_paths(archdep_user_config_path(), "vice.log", NULL);
     fp = fopen(path, "w");
     if (fp == NULL) {
@@ -58,6 +63,7 @@ FILE *archdep_open_default_log_file(void)
     }
     lib_free(path);
     return fp;
+#endif
 }
 
 
