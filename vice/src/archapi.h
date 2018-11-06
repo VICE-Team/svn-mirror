@@ -136,5 +136,6 @@ int         archdep_vice_atexit(void (*function)(void));
 void        archdep_vice_exit(int excode);
 
 char *      archdep_get_vice_docsdir(void);
+char *      archdep_get_vice_datadir(void);
 
 #endif

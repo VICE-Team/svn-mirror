@@ -92,6 +92,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
+#if 0
 /** \brief  Get the absolute path to the directory that contains resources, icons, etc
  *
  * \return  Path to the gui data directory
@@ -101,6 +102,7 @@ char *archdep_get_vice_datadir(void)
     const char *boot_path = archdep_boot_path();
     return util_concat(boot_path, "\\gui\\", NULL);
 }
+#endif
 
 
 #if 0
