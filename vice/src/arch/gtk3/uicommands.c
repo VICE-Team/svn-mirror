@@ -239,8 +239,6 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
 
 
 /** \brief  Open the Manual
- *
- * \return  TRUE if succesful, FALSE otherwise
  */
 void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -316,6 +314,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
          *
          * -- compyx
          */
+        lib_free(path);
         return;
     }
 
