@@ -257,8 +257,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     path = archdep_get_vice_docsdir();
 
     /* first try opening the pdf */
-    /* This should be implemented with archdep_join_paths() */
-    uri = util_concat(path, "vice.pdf", NULL);
+    uri = archdep_join_paths(path, "vice.pdf", NULL);
 
     debug_gtk3("URI before GTK3: %s", uri);
 
@@ -308,9 +307,9 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     /* try opening the html doc */
 #if defined(WIN32_COMPILE)
     /* HACK: on windows the html files are in a separate directory */
-    uri = util_concat(path, "../html/vice_toc.html", NULL);
+    uri = archdep_join_paths(path, "..", "html", "vice_toc.html", NULL);
 #else
-    uri = util_concat(path, "vice_toc.html", NULL);
+    uri = archdep_join_paths(path, "vice_toc.html", NULL);
 #endif
 
     final_uri = g_filename_to_uri(uri, NULL, &error);

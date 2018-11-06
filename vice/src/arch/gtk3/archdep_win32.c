@@ -102,6 +102,8 @@ char *archdep_get_vice_datadir(void)
     return util_concat(boot_path, "\\gui\\", NULL);
 }
 
+
+#if 0
 /** \brief  Get the absolute path to the directory that contains the documentation
  *
  * \return  Path to the docs directory
@@ -112,6 +114,7 @@ char *archdep_get_vice_docsdir(void)
 
     return util_concat(boot_path, "\\doc\\", NULL);
 }
+#endif
 
 
 void archdep_shutdown(void)

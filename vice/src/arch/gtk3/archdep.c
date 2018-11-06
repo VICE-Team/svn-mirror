@@ -53,6 +53,7 @@
 #include "../shared/archdep_defs.h"
 #include "../shared/archdep_create_user_config_dir.h"
 #include "../shared/archdep_join_paths.h"
+#include "../shared/archdep_get_vice_docsdir.h"
 
 #if 0
 /** \brief  Prefix used for autostart disk images
@@ -227,9 +228,7 @@ int archdep_init(int *argc, char **argv)
     lib_free(xdg_cache);
     lib_free(xdg_config);
     lib_free(xdg_data);
-# endif 
-
-
+# endif
 
     lib_free(searchpath);
     lib_free(vice_ini);
@@ -382,7 +381,7 @@ void archdep_unregister_cbmfont(void)
     char *path;
 
     datadir = archdep_get_vice_datadir();
-    path = util_concat(datadir, "/CBM.ttf", NULL);
+    path = archdep_join_paths(datadir, "CBM.ttf", NULL);
     lib_free(datadir);
 
     RemoveFontResourceEx(path, 0, 0);

@@ -99,6 +99,7 @@ char *archdep_get_vice_datadir(void)
 }
 
 
+#if 0
 /** \brief  Get the absolute path to the directory that contains the documentation
  *
  * \return  Path to the docs directory
@@ -113,7 +114,7 @@ char *archdep_get_vice_docsdir(void)
     return util_concat(DOCDIR, "/", NULL);
 #endif
 }
-
+#endif
 
 /** \brief  Architecture-dependent shutdown hanlder
  */
