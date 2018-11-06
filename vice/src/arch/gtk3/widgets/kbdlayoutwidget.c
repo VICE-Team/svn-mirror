@@ -49,43 +49,60 @@
 
 
 /** \brief  Keyboard layout types
- * 
- * \fixme   dynamically allocate the array instead. meh.
+ *
+ * Dynamically allocated in the "constructor" and freed in the "destructor"
  */
-static vice_gtk3_radiogroup_entry_t kbd_layouts[10 + 1] = {
-    { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 },
-    { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 }, { NULL, 0 },
-    { NULL, -1 }
-};
+static vice_gtk3_radiogroup_entry_t *kbd_layouts = NULL;
+
+
+/** \brief  Handler for the 'destroy' event of the widget
+ *
+ * Frees memory used by radio buttons list
+ *
+ * \param[in]   widget  widget (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_destroy(GtkWidget *widget, gpointer data)
+{
+    lib_free(kbd_layouts);
+}
+
 
 /** \brief  Create a keyboard layout selection widget
  *
  * \return  GtkGrid
- *
- * \fixme   I'm not really satisfied with the 'select file' buttons, perhaps
- *          they should be placed next to the radio buttons?
  */
 GtkWidget *kbdlayout_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *group;
-    vice_gtk3_radiogroup_entry_t *kbdlayouts = &kbd_layouts[0];
     mapping_info_t *kbdinfo = keyboard_get_info_list();
+    int num;
+    int idx;
 
     /* build the list from the list provided by keyboard.c */
-    while(kbdinfo->name) {
-        if (kbdlayouts->id == -1) {
-            log_error(LOG_DEFAULT, "internal error: too many keyboard layouts (kbdlayout_widget_create)\n");
-            break;
-        }
-        kbdlayouts->name = kbdinfo->name;
-        kbdlayouts->id = kbdinfo->mapping;
-        /* printf("%d:%s\n", kbdlayouts->id, kbdlayouts->name); */
+
+    /* allocate memory for radio buttons list */
+    kbdinfo = keyboard_get_info_list();
+    num = 0;
+    while (kbdinfo->name != NULL) {
+        num++;
         kbdinfo++;
-        kbdlayouts++;
     }
-    kbdlayouts->name = NULL;
-    kbdlayouts->id = -1;
+    kbd_layouts = lib_malloc((num + 1) * sizeof *kbd_layouts);
+
+    /* populate radio buttons list */
+    kbdinfo = keyboard_get_info_list();
+    idx = 0;
+    while (kbdinfo->name != NULL) {
+        kbd_layouts[idx].name = kbdinfo->name;
+        kbd_layouts[idx].id = kbdinfo->mapping;
+        idx++;
+        kbdinfo++;
+    }
+    /* terminate list */
+    kbd_layouts[idx].name = NULL;
+    kbd_layouts[idx].id = -1;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Host keyboard layout", 1);
@@ -93,6 +110,11 @@ GtkWidget *kbdlayout_widget_create(void)
             "KeyboardMapping", kbd_layouts, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+
+    /* connect signal handler to free memory used by the radio buttons list
+     * when the widget is destroyed */
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+
     gtk_widget_show_all(grid);
     return grid;
 }
