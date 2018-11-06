@@ -50,8 +50,10 @@
 #include "util.h"
 #include "vsync.h"
 
+#if 0
 #ifdef WIN32_COMPILE
 # include <windows.h>
+#endif
 #endif
 
 #include "ui.h"
@@ -260,6 +262,12 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 
     debug_gtk3("URI before GTK3: %s", uri);
 
+    /*
+     * This should not be used, but rather a helper tool provided by Gtk:
+     * gspawn-winXX-helper-console.exe needs to be installed by the bindist
+     * script.
+     */
+#if 0
 #ifdef WIN32_COMPILE
     /* Windows: the Gtk/GLib stuff fails whatever I do, so let's use actual
      *          Windows code. --compyx
@@ -267,6 +275,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     ShellExecuteA(NULL, "open", uri, NULL, NULL, SW_SHOW);
     /* that's right: no error checking and no fallback to HTML */
     return;
+#endif
 #endif
 
     final_uri = g_filename_to_uri(uri, NULL, &error);
