@@ -178,11 +178,15 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"arts" },
 #endif
-#ifdef __BEOS__
-    { "BeOS",
+#ifdef BEOS_COMPILE
+    { "BeOS GameSound",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"beos" },
+    { "BeOS SoundPlayer",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundDeviceName_callback,
+      (ui_callback_data_t)"bsp" },
 #endif
 #ifdef USE_COREAUDIO
     { "Core Audio",
