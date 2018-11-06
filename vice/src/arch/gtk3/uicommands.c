@@ -303,6 +303,21 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     lib_free(uri);
     g_free(final_uri);
     g_clear_error(&error);
+    if (res) {
+        /* We succesfully managed to open the PDF application, but there's no
+         * way to determine if actually loading the PDF in that application
+         * worked. So we simply exit here to avoid also opening a HTML browser
+         * which on Windows at least seems to completely ignore the default and
+         * always starts fucking Internet Explorer.
+         *
+         * Also how do we close the PDF application if we could determine it
+         * failed to load the PDF? We don't get any reference to the application
+         * to be able to terminate it. Gtk3 is awesome!
+         *
+         * -- compyx
+         */
+        return;
+    }
 
     /* try opening the html doc */
 #if defined(WIN32_COMPILE)
