@@ -1038,6 +1038,9 @@ gboolean uicart_trigger_freeze(void)
 
 /** \brief  Detach all cartridge images
  *
+ * TODO: Doesn't work for carts like Expert, these seem to have their own
+ *       resources and not use the CartridgeType/CartridgeFile resources.
+ *
  * \return  TRUE
  */
 gboolean uicart_detach(void)
@@ -1049,12 +1052,12 @@ gboolean uicart_detach(void)
         resources_get_string("CartridgeFile", &default_cart);
         debug_gtk3("default cartidge file = '%s'.",
                 default_cart == NULL || *default_cart == '\0'
-                ? "<none>" : default_cart);
+                ? NULL : default_cart);
 
         if (crt_filename_func != NULL) {
             current_cart = crt_filename_func();
 
-            debug_gtk3("current cartridge file = '%s',", current_cart);
+            debug_gtk3("current cartridge file = '%s'.", current_cart);
 
             if ((current_cart != NULL && default_cart != NULL)) {
                 if (strcmp(default_cart, current_cart) == 0) {
@@ -1064,7 +1067,7 @@ gboolean uicart_detach(void)
                             " default cart from resources.");
 
                     result = vice_gtk3_message_confirm("Detach cartridge",
-                            "You're detaching the default cartridge '%s'.\n"
+                            "You're detaching the default cartridge '%s'.\n\n"
                             "Would you also like to unregister this cartridge"
                             " as the default cartridge?",
                             default_cart);
