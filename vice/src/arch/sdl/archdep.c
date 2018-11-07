@@ -109,13 +109,5 @@ void archdep_shutdown(void)
     archdep_network_shutdown();
 #endif
     archdep_shutdown_extra();
-    if (extra_title_text) {
-        lib_free(extra_title_text);
-    }
-}
-
-char *archdep_extra_title_text(void)
-{
-    extra_title_text = util_concat(", press \"", kbd_get_menu_keyname(), "\" for the menu.", NULL);
-    return extra_title_text;
+    archdep_extra_title_text_free();
 }

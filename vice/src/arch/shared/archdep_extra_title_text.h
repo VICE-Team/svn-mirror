@@ -1,5 +1,6 @@
-/** \file   archdep_vice_get_docsdir.c
- * \brief   Get path to VICE doc/ dir
+/** \file   archdep_extra_title_text.h
+ *
+ * \brief   Extra text to use in the title bar - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -24,36 +25,10 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_ARCHDEP_EXTRA_TITLE_TEXT_H
+#define VICE_ARCHDEP_EXTRA_TITLE_TEXT_H
 
-#include <stdlib.h>
+char *  archdep_extra_title_text(void);
+void    archdep_extra_title_text_free(void);
 
-#include "archdep_defs.h"
-#include "lib.h"
-#include "archdep_boot_path.h"
-#include "archdep_join_paths.h"
-
-#include "archdep_get_vice_docsdir.h"
-
-
-/** \brief  Get path to VICE doc dir
- *
- * \return  heap-allocated string, to be freed after use with lib_free()
- */
-char *archdep_get_vice_docsdir(void)
-{
-    char *path;
-
-#ifdef ARCHDEP_OS_UNIX
-# ifdef MACOSX_BUNDLE
-    /*    debug_gtk3("FIXME: MACOSX: archdep_get_vice_docsdir '%s%s'.",
-            archdep_boot_path(), "/../doc/"); */
-    path = archdep_join_paths(archdep_boot_path(), "..", "doc", NULL);
-# else
-    path = lib_stralloc(DOCDIR);
-# endif
-#else
-    path = archdep_join_paths(archdep_boot_path(), "doc", NULL);
 #endif
-    return path;
-}

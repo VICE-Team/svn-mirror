@@ -128,9 +128,8 @@ extern void archdep_shutdown(void);
 /* RTC. */
 extern int archdep_rtc_get_centisecond(void);
 
-/* archdep extra title text */
-extern char *archdep_extra_title_text(void);
-
+char *      archdep_extra_title_text(void);
+void        archdep_extra_title_text_free();
 
 int         archdep_vice_atexit(void (*function)(void));
 void        archdep_vice_exit(int excode);

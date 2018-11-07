@@ -26,11 +26,13 @@
  */
 
 #include "vice.h"
+
+#include <stdlib.h>
+
 #include "archdep_defs.h"
 #include "archdep_boot_path.h"
 #include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
-#include "debug_gtk3.h"
 
 #include "archdep_get_vice_datadir.h"
 
@@ -46,7 +48,7 @@ char *archdep_get_vice_datadir(void)
 # ifdef MACOSX_BUNDLE
     /* Why is this a fixme? */
     path = archdep_join_paths(archdep_user_config_path, "gui", NULL);
-    debug_gtk3("FIXME: archdep_get_vice_datadir '%s'.", path);
+    /* debug_gtk("FIXME: archdep_get_vice_datadir '%s'.", path); */
 # else
     path = archdep_join_paths(LIBDIR, "gui", NULL);
 # endif
