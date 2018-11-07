@@ -198,11 +198,12 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     }
 }
 
-
+#if 0
 char *archdep_tmpnam(void)
 {
     return lib_stralloc(tmpnam(NULL));
 }
+#endif
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {

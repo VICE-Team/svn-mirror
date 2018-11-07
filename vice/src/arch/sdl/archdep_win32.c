@@ -315,7 +315,7 @@ cleanup:
 #endif
 }
 
-
+#if 0
 char *archdep_tmpnam(void)
 {
     if (getenv("temp")) {
@@ -326,6 +326,7 @@ char *archdep_tmpnam(void)
         return lib_stralloc(tmpnam(NULL));
     }
 }
+#endif
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {

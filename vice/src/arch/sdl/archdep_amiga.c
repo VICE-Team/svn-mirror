@@ -300,11 +300,12 @@ void archdep_sanitize_path(char *path)
     return; /* FIXME: stub */
 }
 
-
+#if 0
 char *archdep_tmpnam(void)
 {
     return lib_stralloc(tmpnam(NULL));
 }
+#endif
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {

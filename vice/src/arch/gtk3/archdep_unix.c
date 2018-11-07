@@ -151,7 +151,7 @@ int archdep_spawn(const char *name, char **argv,
     }
 }
 
-
+#if 0
 /** \brief  Create a unique temporary filename
  *
  * Uses mkstemp(3) when available.
@@ -188,7 +188,7 @@ char *archdep_tmpnam(void)
     return lib_stralloc(tmpnam(NULL));
 #endif
 }
-
+#endif
 
 static RETSIGTYPE break64(int sig)
 {

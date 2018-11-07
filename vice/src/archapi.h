@@ -104,6 +104,10 @@ char *      archdep_default_autostart_disk_image_file_name(void);
 /* Logfile stuff.  */
 FILE *      archdep_open_default_log_file(void);
 
+/* Allocates a filename for a tempfile.  */
+char *      archdep_tmpnam(void);
+
+
 
 /*
  * Not yet moved to arc/shared/
@@ -121,9 +125,6 @@ extern int archdep_spawn(const char *name, char **argv,
 /* Spawn need quoting the params or expanding the filename in some archs.  */
 extern char *archdep_filename_parameter(const char *name);
 extern char *archdep_quote_parameter(const char *name);
-
-/* Allocates a filename for a tempfile.  */
-extern char *archdep_tmpnam(void);
 
 /* Allocates a filename and creates a tempfile.  */
 extern FILE *archdep_mkstemp_fd(char **filename, const char *mode);

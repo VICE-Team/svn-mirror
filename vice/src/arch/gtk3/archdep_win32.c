@@ -198,7 +198,7 @@ cleanup:
     return retval;
 }
 
-
+#if 0
 /** \brief  Create a unique temporary filename
  *
  * \return  unique filename in the %TEMP% directory
@@ -213,7 +213,7 @@ char *archdep_tmpnam(void)
         return lib_stralloc(tmpnam(NULL));
     }
 }
-
+#endif
 
 /* Provide a usleep replacement */
 void vice_usleep(uint64_t waitTime)

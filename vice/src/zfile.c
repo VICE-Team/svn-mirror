@@ -700,6 +700,7 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     }
 
     tmp_name = archdep_tmpnam();
+    printf("ZFILE: TMP_NAME = '%s'\n", tmp_name);
 
     /* now create the image */
     argv[0] = lib_stralloc("c1541");
