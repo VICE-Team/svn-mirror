@@ -344,14 +344,14 @@ int kbd_arch_get_host_mapping(void)
     int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
         KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL };
-    char str[KBD_MAPPING_NUM][] = {
+    char *s[KBD_MAPPING_NUM] = {
         "en_US", "en_UK", "de", "da", "no", "fi", "it", "nl" };
     /* setup the locale */
     setlocale(LC_ALL, "");
     l = setlocale(LC_ALL, NULL);
     if (l && (strlen(l) > 1)) {
         for (n = 1; n < KBD_MAPPING_NUM; n++) {
-            if (strncmp(l, str[n], strlen(str[n])) == 0) {
+            if (strncmp(l, s[n], strlen(s[n])) == 0) {
                 return maps[n];
             }
         }
