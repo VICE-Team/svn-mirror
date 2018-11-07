@@ -55,12 +55,6 @@
 #define VICEUSERDIR "vice"
 
 
-#if 0
-/** \brief  Path separator used in GLib code
- */
-static const gchar *path_separator = "/";
-#endif
-
 /** \brief  Write log message to stdout
  *
  * param[in]    level_string    log level string
@@ -79,44 +73,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
-#if 0
-/** \brief  Get the absolute path to the directory that contains resources, icons, etc
- *
- * \return  Path to the gui data directory
- */
-char *archdep_get_vice_datadir(void)
-{
-#ifdef MACOSX_BUNDLE
-    char *user_config_path = archdep_user_config_path();
-    char *res = util_concat(user_config_path, "/gui/", NULL);
-    debug_gtk3("FIXME: archdep_get_vice_datadir '%s'.", res);
-# if 0
-    lib_free(user_config_path);
-# endif
-    return res;
-#else
-    return util_concat(LIBDIR, "/gui/", NULL);
-#endif
-}
-#endif
-
-#if 0
-/** \brief  Get the absolute path to the directory that contains the documentation
- *
- * \return  Path to the docs directory
- */
-char *archdep_get_vice_docsdir(void)
-{
-#ifdef MACOSX_BUNDLE
-    debug_gtk3("FIXME: archdep_get_vice_docsdir '%s%s'.",
-            archdep_boot_path(), "/../doc/");
-    return util_concat(archdep_boot_path(), "/../doc/", NULL);
-#else
-    return util_concat(DOCDIR, "/", NULL);
-#endif
-}
-#endif
-
 /** \brief  Architecture-dependent shutdown hanlder
  */
 void archdep_shutdown(void)
@@ -133,12 +89,6 @@ void archdep_shutdown(void)
     archdep_user_config_path_free();
     /* free memory used by the sysfile pathlist */
     archdep_default_sysfile_pathlist_free();
-
-#if 0
-    if (default_path != NULL) {
-        lib_free(default_path);
-    }
-#endif
 
     /* this should be removed soon */
     if (argv0 != NULL) {
@@ -200,32 +150,6 @@ int archdep_spawn(const char *name, char **argv,
         return -1;
     }
 }
-
-/* for when I figure this out: */
-#if 0
-    char *stdout_redir;
-    gboolean result;
-    GPid child_pid;
-    GError *err;
-
-    if (pstdout_redir != NULL) {
-        if (*pstdout_redir == NULL) {
-            *pstdout_redir = archdep_tmpnam();
-        }
-        stdout_redir = *pstdout_redir;
-    } else {
-        stdout_redir = NULL;
-    }
-
-    result = g_spawn_async(NULL,        /* working_directory, NULL = inherit */
-                           argv,        /* argv */
-                           NULL,        /* envp, NULL = inherit */
-                           G_SPAWN_DEFAULT,   /* flags */
-                           NULL,        /* child_setup */
-                           NULL,        /* user_data */
-                           &child_pid,  /* child PID object */
-                           &err);
-#endif
 
 
 /** \brief  Create a unique temporary filename

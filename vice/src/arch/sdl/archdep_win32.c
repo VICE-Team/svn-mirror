@@ -171,20 +171,6 @@
 
 static char *argv0;
 
-#if 0
-static size_t system_wcstombs(char *mbs, const char *wcs, size_t len)
-{
-    strncpy(mbs, wcs, len);
-    return strlen(mbs);
-}
-#endif
-#if 0
-static size_t system_mbstowcs(char *wcs, const char *mbs, size_t len)
-{
-    strncpy(wcs, mbs, len);
-    return strlen(wcs);
-}
-#endif
 
 static char *system_mbstowcs_alloc(const char *mbs)
 {
@@ -220,16 +206,6 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
-#if 0
-char *archdep_default_autostart_disk_image_file_name(void)
-{
-    const char *home;
-
-    home = archdep_boot_path();
-    return util_concat(home, "\\autostart-", machine_get_name(), ".d64", NULL);
-}
-#endif
-
 char *archdep_default_hotkey_file_name(void)
 {
     return util_concat(archdep_boot_path(), "\\sdl-hotkey-", machine_get_name(), ".vkm", NULL);
@@ -240,28 +216,6 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
-#if 0
-/* windows programs will start with the console detached when SUBSYSTEM:WINDOWS
-   is used (which is the default). SUBSYSTEM:CONSOLE will provide a console
-   output and thus stdout. yes its ugly. */
-FILE *archdep_open_default_log_file(void)
-{
-/* older versions of MSVC used to define _CONSOLE - define manually if you need
-   it */
-#ifdef _CONSOLE
-    return stdout;
-#else
-    char *fname;
-    FILE *f;
-
-    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
-    f = fopen(fname, "wt");
-    lib_free(fname);
-
-    return f;
-#endif
-}
-#endif
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
@@ -559,15 +513,16 @@ int kbd_arch_get_host_mapping(void)
     int n;
     int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
-        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT };
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL };
     int langids[KBD_MAPPING_NUM] = {
-        MAKELANGID(LANG_ENGLISH,   SUBLANG_ENGLISH_US),
-        MAKELANGID(LANG_ENGLISH,   SUBLANG_ENGLISH_UK),
-        MAKELANGID(LANG_GERMAN,    SUBLANG_GERMAN),
-        MAKELANGID(LANG_DANISH,    SUBLANG_DANISH_DENMARK),
-        MAKELANGID(LANG_NORWEGIAN, SUBLANG_NORWEGIAN_BOKMAL),
-        MAKELANGID(LANG_FINNISH,   SUBLANG_FINNISH_FINLAND),
-        MAKELANGID(LANG_ITALIAN,   SUBLANG_ITALIAN)
+        MAKELANGID(LANG_ENGLISH,    SUBLANG_ENGLISH_US),
+        MAKELANGID(LANG_ENGLISH,    SUBLANG_ENGLISH_UK),
+        MAKELANGID(LANG_GERMAN,     SUBLANG_GERMAN),
+        MAKELANGID(LANG_DANISH,     SUBLANG_DANISH_DENMARK),
+        MAKELANGID(LANG_NORWEGIAN,  SUBLANG_NORWEGIAN_BOKMAL),
+        MAKELANGID(LANG_FINNISH,    SUBLANG_FINNISH_FINLAND),
+        MAKELANGID(LANG_ITALIAN,    SUBLANG_ITALIAN),
+        MAKELANGID(LANG_DUTCH,      SUBLANG_DUTCH)
     };
 
     /* GetKeyboardLayout returns a pointer, but the first 16 bits of it return a 'language identfier',

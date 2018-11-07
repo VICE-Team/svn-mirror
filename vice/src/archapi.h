@@ -74,6 +74,17 @@ int         archdep_rename(const char *oldpath, const char *newpath);
 char *      archdep_default_sysfile_pathlist(const char *emu_id);
 void        archdep_default_sysfile_pathlist_free(void);
 
+char *      archdep_extra_title_text(void);
+void        archdep_extra_title_text_free(void);
+
+int         archdep_vice_atexit(void (*function)(void));
+void        archdep_vice_exit(int excode);
+
+char *      archdep_get_vice_docsdir(void);
+char *      archdep_get_vice_datadir(void);
+
+int         archdep_register_cbmfont(void);
+void        archdep_unregister_cbmfont(void);
 
 /* set permissions of given file to rw, respecting current umask */
 int         archdep_fix_permissions(const char *file_name);
@@ -93,6 +104,10 @@ char *      archdep_default_autostart_disk_image_file_name(void);
 /* Logfile stuff.  */
 FILE *      archdep_open_default_log_file(void);
 
+
+/*
+ * Not yet moved to arc/shared/
+ */
 
 extern int archdep_default_logger(const char *level_string, const char *txt);
 
@@ -128,16 +143,6 @@ extern void archdep_shutdown(void);
 /* RTC. */
 extern int archdep_rtc_get_centisecond(void);
 
-char *      archdep_extra_title_text(void);
-void        archdep_extra_title_text_free(void);
 
-int         archdep_vice_atexit(void (*function)(void));
-void        archdep_vice_exit(int excode);
-
-char *      archdep_get_vice_docsdir(void);
-char *      archdep_get_vice_datadir(void);
-
-int         archdep_register_cbmfont(void);
-void        archdep_unregister_cbmfont(void);
 
 #endif

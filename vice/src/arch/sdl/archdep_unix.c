@@ -100,20 +100,6 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 
 
-#if 0
-char *archdep_default_autostart_disk_image_file_name(void)
-{
-    if (archdep_pref_path == NULL) {
-        const char *home;
-
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/autostart-", machine_get_name(), ".d64", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/autostart-", machine_get_name(), ".d64", NULL);
-    }
-}
-#endif
-
 char *archdep_default_hotkey_file_name(void)
 {
     if (archdep_pref_path == NULL) {
@@ -138,13 +124,6 @@ char *archdep_default_joymap_file_name(void)
     }
 }
 
-
-#if 0
-FILE *archdep_open_default_log_file(void)
-{
-    return stdout;
-}
-#endif
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
@@ -363,9 +342,9 @@ int kbd_arch_get_host_mapping(void)
     char *l;
     int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
-        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT };
-    char str[KBD_MAPPING_NUM][6] = {
-        "en_US", "en_UK", "de", "da", "no", "fi", "it"};
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL };
+    char str[KBD_MAPPING_NUM][] = {
+        "en_US", "en_UK", "de", "da", "no", "fi", "it", "nl" };
     /* setup the locale */
     setlocale(LC_ALL, "");
     l = setlocale(LC_ALL, NULL);
