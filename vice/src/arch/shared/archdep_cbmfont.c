@@ -29,6 +29,7 @@
 #include "archdep_join_paths.h"
 #include "archdep_get_vice_datadir.h"
 #include "lib.h"
+#include "log.h"
 
 #include "archdep_cbmfont.h"
 

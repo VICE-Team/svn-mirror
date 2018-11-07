@@ -295,8 +295,10 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 
     debug_gtk3("pdf uri: '%s'.", final_uri);
     res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
-    if (!res && error != NULL) {
-        vice_gtk3_message_error("Failed to load PDF: %s.", error->message);
+    if (!res) {
+        vice_gtk3_message_error(
+                "Failed to load PDF: %s.",
+                error != NULL ? error->message : "<no message>");
     }
     lib_free(uri);
     g_free(final_uri);

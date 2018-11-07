@@ -95,7 +95,6 @@ int archdep_init(int *argc, char **argv)
     return archdep_init_extra(argc, argv);
 }
 
-static char *extra_title_text = NULL;
 
 void archdep_shutdown(void)
 {
