@@ -138,4 +138,7 @@ void        archdep_vice_exit(int excode);
 char *      archdep_get_vice_docsdir(void);
 char *      archdep_get_vice_datadir(void);
 
+int         archdep_register_cbmfont(void);
+void        archdep_unregister_cbmfont(void);
+
 #endif

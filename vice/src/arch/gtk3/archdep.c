@@ -257,7 +257,7 @@ char *archdep_extra_title_text(void)
     return NULL;
 }
 
-
+#if 0
 /*
  * Font handling
  */
@@ -388,3 +388,4 @@ void archdep_unregister_cbmfont(void)
     lib_free(path);
 #endif
 }
+#endif
