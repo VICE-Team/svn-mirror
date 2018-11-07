@@ -41,7 +41,10 @@
  * perhaps others
  */
 #include <stdio.h>
-
+#include <string.h>
+#ifdef ARCHDEP_OS_UNIX
+# include <unistd.h>
+#endif
 
 #include "archdep_tmpnam.h"
 
@@ -59,13 +62,15 @@ char *archdep_tmpnam(void)
      * Linux manpage for tmpnam(3) says to never use it, FreeBSD indicates the
      * same.
      */
+
+
+    size_t maxlen = ioutil_maxpathlen();
 # ifdef HAVE_MKSTEMP
     char *tmp_name;
     const char *mkstemp_template = "/vice.XXXXXX";
     int fd;
     char *tmp;
     char *final_name;
-    size_t maxlen = ioutil_maxpathlen();
 
     tmp_name = lib_malloc(maxlen);
 
@@ -77,7 +82,7 @@ char *archdep_tmpnam(void)
     tmp = getenv("TMPDIR");
     if (tmp != NULL) {
         strncpy(tmp_name, tmp, maxlen);
-        tmp_name[max_len - sizeof(mkstemp_template)] = '\0';
+        tmp_name[maxlen - sizeof(mkstemp_template)] = '\0';
     } else {
         /* fall back to /tmp */
         strcpy(tmp_name, "/tmp");
