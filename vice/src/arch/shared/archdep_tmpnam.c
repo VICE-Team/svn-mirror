@@ -28,8 +28,10 @@
 #include "archdep_defs.h"
 
 #include "lib.h"
+#include "log.h"
 #include "ioutil.h"
 #include "util.h"
+#include "archdep_atexit.h"
 #include "archdep_boot_path.h"
 #include "archdep_join_paths.h"
 
@@ -44,6 +46,9 @@
 #include <string.h>
 #ifdef ARCHDEP_OS_UNIX
 # include <unistd.h>
+#endif
+#ifdef ARCHDEP_OS_WINDOWS
+# include "windows.h"
 #endif
 
 #include "archdep_tmpnam.h"
@@ -109,12 +114,31 @@ char *archdep_tmpnam(void)
      * This blows and should probably be replaced with GetTempFileName() or
      * something similar
      */
-    if (getenv("temp")) {
-        return util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    } else if (getenv("tmp")) {
-        return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    } else {
-        return lib_stralloc(tmpnam(NULL));
+    char *temp_path;
+    char *temp_name;
+    size_t maxlen = ioutil_maxpathlen();
+
+    temp_path = lib_malloc(maxlen);
+    temp_name = lib_malloc(maxlen);
+
+    if (GetTempPath(maxlen, temp_path) == 0) {
+        log_error(LOG_ERR, "failed to get Windows temp dir.");
+        lib_free(temp_path);
+        lib_free(temp_name);
+        archdep_vice_exit(1);
     }
+
+
+    if (GetTempFileName(temp_path, "vic", 0, temp_name) == 0) {
+        log_error(LOG_ERR, "failed to construct as Windows temp file.");
+        lib_free(temp_path);
+        lib_free(temp_name);
+        archdep_vice_exit(1);
+    }
+
+    printf("GOT TEMP FILE '%s'\n", temp_name);
+
+    lib_free(temp_path);
+    return temp_name;
 #endif
 }
