@@ -49,6 +49,9 @@
 #define FFWD_SPEED  500
 
 
+
+
+
 /** \brief  Object containing icon and callback
  */
 typedef struct vsid_ctrl_button_s {
@@ -66,6 +69,9 @@ static int tune_current;
 
 /** \brief  Default subtune number */
 static int tune_default;
+
+
+static GtkWidget *progress = NULL;
 
 
 /** \brief  Temporary callback for the media buttons
@@ -236,6 +242,9 @@ GtkWidget *vsid_control_widget_create(void)
         }
     }
 
+    progress = gtk_progress_bar_new();
+    gtk_grid_attach(GTK_GRID(grid), progress, 0, 1, i, 1);
+
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -269,3 +278,10 @@ void vsid_control_widget_set_tune_default(int n)
 {
     tune_default = n;
 }
+
+
+void vsid_control_widget_set_progress(gdouble fraction)
+{
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress), fraction);
+}
+

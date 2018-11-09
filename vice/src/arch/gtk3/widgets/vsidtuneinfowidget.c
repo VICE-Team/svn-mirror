@@ -38,7 +38,9 @@
 #include "lib.h"
 #include "util.h"
 
+
 #include "hvsc.h"
+#include "vsidcontrolwidget.h"
 
 #include "vsidtuneinfowidget.h"
 
@@ -584,8 +586,22 @@ void vsid_tune_info_widget_set_irq(const char *irq)
  */
 void vsid_tune_info_widget_set_time(unsigned int sec)
 {
+    long total;
+    gdouble fraction;
+
     update_runtime_widget(sec);
+    if (song_lengths != NULL) {
+        total = song_lengths[tune_current - 1];
+        fraction = 1.0 - ((gdouble)(total - sec) / (gdouble)total);
+        if (fraction < 0.0) {
+            fraction = 1.0;
+        }
+        vsid_control_widget_set_progress(fraction);
+    } else {
+        vsid_control_widget_set_progress(1.0);
+    }
 }
+
 
 
 /** \brief  Set driver information

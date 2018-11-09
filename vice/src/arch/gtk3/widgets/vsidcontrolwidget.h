@@ -36,4 +36,6 @@ GtkWidget *vsid_control_widget_create(void);
 void vsid_control_widget_set_tune_count(int nr);
 void vsid_control_widget_set_tune_current(int nr);
 void vsid_control_widget_set_tune_default(int nr);
+void vsid_control_widget_set_progress(gdouble fraction);
+
 #endif
