@@ -73,6 +73,8 @@ static int tune_default;
 
 static GtkWidget *progress = NULL;
 
+static GtkWidget *repeat = NULL;
+
 
 /** \brief  Temporary callback for the media buttons
  *
@@ -245,6 +247,10 @@ GtkWidget *vsid_control_widget_create(void)
     progress = gtk_progress_bar_new();
     gtk_grid_attach(GTK_GRID(grid), progress, 0, 1, i, 1);
 
+    repeat = gtk_check_button_new_with_label("Loop current song");
+    gtk_grid_attach(GTK_GRID(grid), repeat, 0, 2, i, 1);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(repeat), FALSE);
+
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -285,3 +291,13 @@ void vsid_control_widget_set_progress(gdouble fraction)
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress), fraction);
 }
 
+void vsid_control_widget_next_tune(void)
+{
+    next_tune_callback(NULL, NULL);
+}
+
+
+gboolean vsid_control_widget_get_repeat(void)
+{
+    return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(repeat));
+}

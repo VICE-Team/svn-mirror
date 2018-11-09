@@ -37,5 +37,7 @@ void vsid_control_widget_set_tune_count(int nr);
 void vsid_control_widget_set_tune_current(int nr);
 void vsid_control_widget_set_tune_default(int nr);
 void vsid_control_widget_set_progress(gdouble fraction);
+void vsid_control_widget_next_tune(void);
+gboolean vsid_control_widget_get_repeat(void);
 
 #endif

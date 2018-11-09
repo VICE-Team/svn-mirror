@@ -595,6 +595,11 @@ void vsid_tune_info_widget_set_time(unsigned int sec)
         fraction = 1.0 - ((gdouble)(total - sec) / (gdouble)total);
         if (fraction < 0.0) {
             fraction = 1.0;
+            /* skip to next tune, if repeat is off */
+            if (!vsid_control_widget_get_repeat()) {
+                vsid_control_widget_next_tune();
+                fraction = 0.0;
+            }
         }
         vsid_control_widget_set_progress(fraction);
     } else {
