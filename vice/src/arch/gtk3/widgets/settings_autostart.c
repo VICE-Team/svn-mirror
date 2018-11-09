@@ -215,13 +215,6 @@ static GtkWidget *create_prg_widget(void)
     g_object_set(basic, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), basic, 0, 2, 1, 1);
 
-#if 0
-    resources_get_int("AutostartPrgMode", &mode_value);
-    mode = uihelpers_radiogroup_create(
-            "Autostart PRG mode", autostart_modes,
-            on_autostartprg_mode_changed,
-            mode_value);
-#endif
     mode = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Autostart PRG mode", 1);
     group = vice_gtk3_resource_radiogroup_new("AutostartPrgMode",

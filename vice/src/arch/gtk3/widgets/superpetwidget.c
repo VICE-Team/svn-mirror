@@ -44,8 +44,8 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
-#include "resourcecheckbutton.h"
 #include "debug_gtk3.h"
 #include "resources.h"
 #include "openfiledialog.h"
@@ -75,27 +75,6 @@ static const vice_gtk3_radiogroup_entry_t cpu_types[] = {
     { "Programmable", 2 },
     { NULL, -1 },
 };
-
-
-/** \brief  Handler for the "toggled" event of the CPU type radio buttons
- *
- * \param[in]   widget      radio button
- * \param[in]   user_data   new resourc value (`int`)
- */
-static void on_superpet_cpu_type_changed(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("CPUswitch", &old_val);
-    new_val = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
-            && new_val != old_val) {
-        debug_gtk3("setting CPUswitch to %d.", new_val);
-        resources_set_int("CPUswitch", new_val);
-    }
-}
 
 
 /** \brief  Handler for the "changed" event of the ROM text boxes
@@ -165,15 +144,22 @@ static GtkWidget *create_superpet_enable_widget(void)
 static GtkWidget *create_superpet_cpu_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *group;
+    GtkWidget *label;
 
-    int cpu;
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    resources_get_int("CPUswitch", &cpu);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>CPU type</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    grid = uihelpers_radiogroup_create("CPU type",
+    group = vice_gtk3_resource_radiogroup_new(
+            "CPUswitch",
             cpu_types,
-            on_superpet_cpu_type_changed,
-            cpu);
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(G_OBJECT(group), "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -257,9 +243,14 @@ static GtkWidget *create_superpet_axxx_ram_widget(void)
 GtkWidget *superpet_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
 
-    grid = uihelpers_create_grid_with_label("SuperPET model settings", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>SuperPET settings</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 3, 1);
 
     superpet_enable_widget = create_superpet_enable_widget();
     gtk_grid_attach(GTK_GRID(grid), superpet_enable_widget, 0, 1, 3, 1);
