@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "resources.h"
 #include "vsync.h"
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "openfiledialog.h"
 
@@ -47,83 +48,86 @@
 #include "kbdmappingwidget.h"
 
 
-/** \brief  GtkGrid layout for the widget
+/** \brief  Keymap file glob
+ *
+ * Looks like shit, but this is how Gtk/GLib works
  */
-static GtkWidget *layout = NULL;
+static const char *keymap_patterns[] = { "*.[vV][kK][mM]", NULL };
+
+
+
+/** \brief  resource radiogroup widget controlling the "KeymapIndex" resource
+ */
+static GtkWidget *radio_group = NULL;
 
 
 /** \brief  Keyboard mapping types
  */
 static const vice_gtk3_radiogroup_entry_t mappings[] = {
-    { "Symbolic mapping", 0 },
-    { "Positional mapping", 1 },
-    { "Symbolic mapping (User)", 2 },
-    { "Positional mapping (User)", 3 },
+    { "Symbolic", 0 },
+    { "Positional", 1 },
+    { "Symbolic (user)", 2 },
+    { "Positional (user)", 3 },
     { NULL, -1 }
 };
 
 
-/** \brief  Load user symbolic keymap file
+/** \brief  Custom callback for the symbolic user keymap browser
  *
  * \param[in]   widget      widget triggering the event (unused)
- * \param[in]   user_data   filename returned by 'open file' dialog
+ * \param[in]   user_data   filename returned by the widget (unused)
  */
 static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
-    const char *filters[] = { "*.vkm", NULL };
-
-    filename = vice_gtk3_open_file_dialog("Open symbolic keymap file",
-            "Keymaps", filters, NULL);
-
-    debug_gtk3("got file '%s'.", filename);
-    if (filename != NULL) {
-        resources_set_string("KeymapUserSymFile", filename);
-        g_free(filename);
-        resources_set_int("KeymapIndex", 2);
-        /* set proper radio button */
-        vice_gtk3_radiogroup_set_index(layout, 2);
-
-    }
+    vice_gtk3_resource_radiogroup_set(radio_group, 2);   /* sym-user */
 }
 
 
-/** \brief  Load user positional keymap file
+/** \brief  Custom callback for the positional user keymap browser
  *
  * \param[in]   widget      widget triggering the event (unused)
- * \param[in]   user_data   filename returned by 'open file' dialog
+ * \param[in]   user_data   filename returned by the widget (unused)
  */
 static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
-    const char *filters[] = { "*.vkm", NULL };
-
-    filename = vice_gtk3_open_file_dialog("Open positional keymap file",
-            "Keymaps", filters, NULL);
-
-    debug_gtk3("got file '%s'.", filename);
-    if (filename != NULL) {
-        resources_set_string("KeymapUserPosFile", filename);
-        g_free(filename);
-        resources_set_int("KeymapIndex", 3);
-        /* set proper radio button */
-        vice_gtk3_radiogroup_set_index(layout, 3);
-    }
+    vice_gtk3_resource_radiogroup_set(radio_group, 3);  /* pos-user */
 }
 
 
-/** \brief  Event handler for changing keymapping
+/** \brief  Create resource browser widget for the user-defined symbolic keymap
  *
- * \param[in]   widget      widget triggering the event (unused)
- * \param[in]   user_data   value for 'KeymapIndex' resource
+ * \return  resource browser widget
  */
-static void on_mapping_changed(GtkWidget *widget, gpointer user_data)
+static GtkWidget *create_symbolic_keymap_browser(void)
 {
-    int index = GPOINTER_TO_INT(user_data);
-
-    debug_gtk3("setting mapping to %d.", index);
-    resources_set_int("KeymapIndex", index);
+    GtkWidget *browser = vice_gtk3_resource_browser_new(
+            "KeymapUserSymFile",
+            keymap_patterns,
+            "VICE keymap files",
+            "Select user-defined symbolic keymap",
+            NULL,
+            open_sym_file_callback);
+    return browser;
 }
+
+
+/** \brief  Create resource browser widget for the user-defined positional keymap
+ *
+ * \return  resource browser widget
+ */
+static GtkWidget *create_positional_keymap_browser(void)
+{
+    GtkWidget *browser = vice_gtk3_resource_browser_new(
+            "KeymapUserPosFile",
+            keymap_patterns,
+            "VICE keymap files",
+            "Select user-defined positional keymap",
+            NULL,
+            open_pos_file_callback);
+    return browser;
+}
+
+
 
 
 /** \brief  Create a keyboard mapping selection widget
@@ -135,31 +139,31 @@ static void on_mapping_changed(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *kbdmapping_widget_create(GtkWidget *widget)
 {
-    GtkWidget *btn_sym;
-    GtkWidget *btn_pos;
-    int index = 0;
+    GtkWidget *grid;
+    GtkWidget *browser_sym;
+    GtkWidget *browser_pos;
+    GtkWidget *label;
 
-    resources_get_int("KeymapIndex", &index);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Keyboard mapping</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    /* create grid with label and four radio buttons */
-    layout = uihelpers_radiogroup_create("Keyboard mapping", mappings,
-            on_mapping_changed, index);
+    radio_group = vice_gtk3_resource_radiogroup_new(
+            "KeymapIndex",
+            mappings,
+            GTK_ORIENTATION_VERTICAL);
+    gtk_grid_set_row_homogeneous(GTK_GRID(radio_group), TRUE);
+    g_object_set(G_OBJECT(radio_group), "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
-    btn_sym = gtk_button_new_with_label("Select file ...");
-    g_signal_connect(btn_sym, "clicked",
-            G_CALLBACK(open_sym_file_callback), (gpointer)(widget));
-    g_object_set(btn_sym, "margin-left", 32, NULL);
+    browser_sym = create_symbolic_keymap_browser();
+    gtk_grid_attach(GTK_GRID(radio_group), browser_sym, 1, 2, 1, 1);
 
-    gtk_grid_insert_row(GTK_GRID(layout), 4);
-    gtk_grid_attach(GTK_GRID(layout), btn_sym, 0, 4, 1, 1);
+    browser_pos = create_positional_keymap_browser();
+    gtk_grid_attach(GTK_GRID(radio_group), browser_pos, 1, 3, 1, 1);
 
-    btn_pos = gtk_button_new_with_label("Select file ...");
-    g_signal_connect(btn_pos, "clicked",
-            G_CALLBACK(open_pos_file_callback), (gpointer)(widget));
-
-    g_object_set(btn_pos, "margin-left", 32, NULL);
-    gtk_grid_attach(GTK_GRID(layout), btn_pos, 0, 6, 1, 1);
-
-    gtk_widget_show_all(layout);
-    return layout;
+    gtk_widget_show_all(grid);
+    return grid;
 }

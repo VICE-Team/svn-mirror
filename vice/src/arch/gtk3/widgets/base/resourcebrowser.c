@@ -138,6 +138,11 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
             /* restore resource to original state */
             resources_set_string(state->res_name, state->res_orig);
             gtk_entry_set_text(GTK_ENTRY(state->entry), state->res_orig);
+        } else {
+            if (state->callback != NULL) {
+                debug_gtk3("triggering user-defined callback.");
+                state->callback(widget, (gpointer)filename);
+            }
         }
         g_free(filename);
     }

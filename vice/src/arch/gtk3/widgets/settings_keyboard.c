@@ -61,6 +61,7 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(layout), mapping_widget, 0, 0, 1, 1);
 
     layout_widget = kbdlayout_widget_create();
+    g_object_set(G_OBJECT(layout_widget), "margin-top", 32, NULL);
 
     gtk_grid_attach(GTK_GRID(layout), layout_widget, 0, 1, 1, 1);
 
