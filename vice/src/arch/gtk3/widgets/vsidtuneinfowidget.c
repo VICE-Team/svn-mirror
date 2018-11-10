@@ -100,12 +100,23 @@ static GtkWidget *driver_info_widget;
 /* temporary for testing: */
 static GtkWidget *sldb_widget;
 
-
+/** \brief  List of song lenghts
+ */
 static long *song_lengths;
+
+
+/** \brief  Number of songs
+ */
 static int song_lengths_count;
 
 
-
+/** \brief  Handler for the 'destroy' event of the widget
+ *
+ * Clean up memory used.
+ *
+ * \param[in]   widget  tune info widget (unused)
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
     if (song_lengths != NULL) {
@@ -391,9 +402,6 @@ static GtkWidget *create_sldb_widget(void)
 }
 
 
-
-
-
 /** \brief  Create widget to show tune information
  *
  * \return  GtkGrid
@@ -582,6 +590,9 @@ void vsid_tune_info_widget_set_irq(const char *irq)
 
 /** \brief  Set current run time
  *
+ * Also sets progress in current tune and handles skipping to the next tune
+ * if HVSC SLDB is found. So it probably does too much.
+ *
  * \param[in]   sec run time in seconds
  */
 void vsid_tune_info_widget_set_time(unsigned int sec)
@@ -590,8 +601,12 @@ void vsid_tune_info_widget_set_time(unsigned int sec)
     gdouble fraction;
 
     update_runtime_widget(sec);
+
+    /* HVSC support? */
     if (song_lengths != NULL) {
+        /* get song length in seconds */
         total = song_lengths[tune_current - 1];
+        /* determine progress bar value */
         fraction = 1.0 - ((gdouble)(total - sec) / (gdouble)total);
         if (fraction < 0.0) {
             fraction = 1.0;
@@ -603,10 +618,10 @@ void vsid_tune_info_widget_set_time(unsigned int sec)
         }
         vsid_control_widget_set_progress(fraction);
     } else {
+        /* non-HVSC fallback: fill progress bar */
         vsid_control_widget_set_progress(1.0);
     }
 }
-
 
 
 /** \brief  Set driver information

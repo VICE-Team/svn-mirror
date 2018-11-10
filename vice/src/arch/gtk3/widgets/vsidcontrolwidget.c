@@ -185,8 +185,6 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 }
 
 
-
-
 /** \brief  List of media control buttons
  */
 static const vsid_ctrl_button_t buttons[] = {
@@ -244,9 +242,15 @@ GtkWidget *vsid_control_widget_create(void)
         }
     }
 
+    /* add progress bar */
     progress = gtk_progress_bar_new();
     gtk_grid_attach(GTK_GRID(grid), progress, 0, 1, i, 1);
 
+    /* Add loop check button
+     *
+     * I'm pretty sure there's a loop icon, so perhaps add that to the control
+     * buttons in stead of using this check button.
+     */
     repeat = gtk_check_button_new_with_label("Loop current song");
     gtk_grid_attach(GTK_GRID(grid), repeat, 0, 2, i, 1);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(repeat), FALSE);
@@ -286,17 +290,28 @@ void vsid_control_widget_set_tune_default(int n)
 }
 
 
+/** \brief  Set tune progress bar value
+ *
+ * \param[in]   fraction    amount to fill (0.0 - 1.0)
+ */
 void vsid_control_widget_set_progress(gdouble fraction)
 {
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress), fraction);
 }
 
+
+/** \brief  Play next tune
+ */
 void vsid_control_widget_next_tune(void)
 {
     next_tune_callback(NULL, NULL);
 }
 
 
+/** \brief  Get repeat/loop widget state
+ *
+ * \return  loop state
+ */
 gboolean vsid_control_widget_get_repeat(void)
 {
     return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(repeat));
