@@ -581,8 +581,9 @@ static void create_video_driver_list(void)
     if (video_driver_count > 0) {
         driver = gfxoutput_drivers_iter_init();
         while (driver != NULL) {
-            debug_gtk3(".. adding driver '%s'.", driver->name);
-            printf(".. adding driver '%s'. ext: %s", driver->name, driver->default_extension);
+            debug_gtk3(".. adding driver '%s'. ext: %s.",
+			    driver->name,
+			    driver->default_extension);
             video_driver_list[index].display = driver->displayname;
             video_driver_list[index].name = driver->name;
             video_driver_list[index].ext = driver->default_extension;
