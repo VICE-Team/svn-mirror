@@ -518,7 +518,9 @@ static void save_video_recording_handler(void)
     display = video_driver_list[video_driver_index].display;
     name = video_driver_list[video_driver_index].name;
 #endif
-    ext = video_driver_list[video_driver_index].ext;
+    /* we dont' have a format->extension mapping, so the format name itself is 
+       better than `video_driver_list[video_driver_index].ext' */
+    resources_get_string("FFMPEGFormat", &ext);
 
     title = lib_msprintf("Save %s file", "FFMPEG");
     proposed = create_proposed_video_recording_name(ext);
@@ -580,6 +582,7 @@ static void create_video_driver_list(void)
         driver = gfxoutput_drivers_iter_init();
         while (driver != NULL) {
             debug_gtk3(".. adding driver '%s'.", driver->name);
+            printf(".. adding driver '%s'. ext: %s", driver->name, driver->default_extension);
             video_driver_list[index].display = driver->displayname;
             video_driver_list[index].name = driver->name;
             video_driver_list[index].ext = driver->default_extension;
