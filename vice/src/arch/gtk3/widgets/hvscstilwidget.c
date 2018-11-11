@@ -46,6 +46,79 @@
 static GtkWidget *stil_view;
 
 
+
+static int hvsc_stil_widget_create_tags(void)
+{
+
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "main",
+            "left-margin", 16,
+            "right-margin", 16,
+            NULL);
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "main-comment",
+            "style", PANGO_STYLE_OBLIQUE,
+            "weight", PANGO_WEIGHT_BOLD,
+            "left-margin", 4,
+            "right-margin", 4,
+            NULL);
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "tune-header",
+            "left-margin", 8,
+            "foreground", "blue",
+            NULL);
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "tune-comment",
+            "left-margin", 16,
+            "style", PANGO_STYLE_ITALIC,
+            NULL);
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "timestamp",
+            "left-margin", 16,
+            "family", "Monospace",
+            NULL);
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "album",
+            "left-margin", 16,
+            "foreground", "green",
+            NULL);
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "title",
+            "left-margin", 16,
+            "weight", PANGO_WEIGHT_BOLD,
+            NULL);
+
+    gtk_text_buffer_create_tag(
+            buffer,
+            "artist",
+            "left-margin", 16,
+            "foreground", "darkgreen",
+            "weight", PANGO_WEIGHT_MEDIUM,
+            NULL);
+
+
+    return 1;
+
+
+}
+
+
+
 /** \brief  Create TextView widget for the STIL entry text
  *
  * \return  GtkTextView
@@ -71,6 +144,7 @@ GtkWidget *hvsc_stil_widget_create(void)
     GtkWidget *label;
     GtkWidget *scroll;
 
+
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* add title label */
@@ -82,6 +156,10 @@ GtkWidget *hvsc_stil_widget_create(void)
 
     /* add view */
     stil_view = create_view();
+
+
+    hvsc_stil_widget_create_tags();
+
     scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_size_request(scroll, 400, 500);
     gtk_widget_set_hexpand(scroll, TRUE);
@@ -98,12 +176,18 @@ GtkWidget *hvsc_stil_widget_create(void)
 }
 
 
+
+
 int hvsc_stil_widget_set_psid(const char *psid)
 {
     hvsc_stil_t stil;
     size_t t;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
     char line[1024];
+
+    GtkTextIter start;
+    GtkTextIter end;
+
 
     debug_gtk3("attempting to load STIL entry for '%s'.", psid);
     if (!hvsc_stil_get(&stil, psid)) {
@@ -119,10 +203,20 @@ int hvsc_stil_widget_set_psid(const char *psid)
     }
 
     gtk_text_buffer_set_text(buffer, "", -1);
+    gtk_text_buffer_get_bounds(buffer, &start, &end);
+    gtk_text_buffer_apply_tag_by_name(buffer, "main", &start, &end);
 
     if (stil.sid_comment != NULL) {
-        gtk_text_buffer_set_text(buffer, stil.sid_comment, -1);
-        gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), "\n\n", -1);
+
+        gtk_text_buffer_insert_with_tags_by_name(
+                buffer,
+                &end,
+                stil.sid_comment,
+                -1,
+                "main-comment",
+                NULL);
+        /* add newlines */
+        gtk_text_buffer_insert(buffer, &end, "\n\n", -1);
     }
 
     /* now add info on each subtune */
@@ -132,16 +226,41 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
         block = stil.blocks[t];
 
+        if (block->tune == 0) {
+            /* FIXME: might be a bug in my HVSC 'lib' */
+            continue;
+        }
+
         g_snprintf(line, 1024, "tune #%d:\n", block->tune);
-        gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), line, -1);
+
+        gtk_text_buffer_insert_with_tags_by_name(
+                buffer,
+                &end,
+                line,
+                -1,
+                "tune-header",
+                NULL);
 
         /* handle fields for the current subtune */
         for (f = 0; f < block->fields_used; f++) {
+#if 0
             g_snprintf(line, 1024, "    %s %s\n",
                     hvsc_get_field_display(block->fields[f]->type),
                     block->fields[f]->text);
             gtk_text_buffer_insert_at_cursor(
                     GTK_TEXT_BUFFER(buffer), line, -1);
+#endif
+            if (block->fields[f]->type == HVSC_FIELD_COMMENT) {
+                /* add tune-specific comment */
+                g_snprintf(line, 1024, "%s\n", block->fields[f]->text);
+                gtk_text_buffer_insert_with_tags_by_name(
+                        buffer,
+                        &end,
+                        line,
+                        -1,
+                        "tune-comment",
+                        NULL);
+            }
 
             /* timestamp? */
             if (block->fields[f]->timestamp.from >= 0) {
@@ -151,27 +270,72 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
                 if (to < 0) {
                     g_snprintf(line, 1024,
-                            "        {timestamp} %ld:%02ld\n",
+                            "%ld:%02ld\n",
                             from / 60, from % 60);
                 } else {
                     g_snprintf(line, 1024,
-                            "        {timestamp) %ld:%02ld-%ld:%02ld\n",
+                            "%ld:%02ld-%ld:%02ld\n",
                             from / 60, from % 60, to / 60, to % 60);
                 }
+
+                gtk_text_buffer_insert_with_tags_by_name(
+                        buffer,
+                        &end,
+                        line,
+                        -1,
+                        "timestamp",
+                        NULL);
+#if 0
                 gtk_text_buffer_insert_at_cursor(
                         GTK_TEXT_BUFFER(buffer), line, -1);
+#endif
+            }
+
+            /* title? */
+            if (block->fields[f]->type == HVSC_FIELD_TITLE
+                    && block->fields[f]->text != NULL) {
+                g_snprintf(line, 1024, "%s\n", block->fields[f]->text);
+                gtk_text_buffer_insert_with_tags_by_name(
+                        buffer,
+                        &end,
+                        line,
+                        -1,
+                        "title",
+                        NULL);
+            }
+
+
+            /* artist? */
+            if (block->fields[f]->type == HVSC_FIELD_ARTIST
+                    && block->fields[f]->text != NULL) {
+                g_snprintf(line, 1024, "%s\n", block->fields[f]->text);
+                gtk_text_buffer_insert_with_tags_by_name(
+                        buffer,
+                        &end,
+                        line,
+                        -1,
+                        "artist",
+                        NULL);
             }
 
             /* album? */
             if (block->fields[f]->album != NULL) {
-                g_snprintf(line, 1024, "            {album} %s\n",
+                g_snprintf(line, 1024, "%s\n",
                         block->fields[f]->album);
-                gtk_text_buffer_insert_at_cursor(
-                        GTK_TEXT_BUFFER(buffer), line, - 1);
+                gtk_text_buffer_insert_with_tags_by_name(
+                        buffer,
+                        &end,
+                        line,
+                        -1,
+                        "album",
+                        NULL);
             }
-
         }
 
+        /* add newlines when not last subtune */
+        if (t < stil.blocks_used - 1) {
+            gtk_text_buffer_insert(buffer, &end, "\n\n", -1);
+        }
     }
 
     hvsc_stil_close(&stil);
