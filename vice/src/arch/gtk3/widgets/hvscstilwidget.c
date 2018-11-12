@@ -129,6 +129,7 @@ static GtkWidget *create_view(void)
 
     gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), FALSE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD_CHAR);
+    gtk_widget_set_can_focus(textview, FALSE);
     return textview;
 }
 
@@ -151,6 +152,7 @@ GtkWidget *hvsc_stil_widget_create(void)
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_label_set_markup(GTK_LABEL(label), "<b>STIL entry:</b>");
+    g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
