@@ -1824,7 +1824,9 @@ if test x"$enable_debug" = "xyes"; then
   have_backtrace_symbols="no"
   DEBUGBUILD=1
   DEBUG_SUPPORT="yes"
-  dnl PCBSD/FreeBSD needs -lexecinfo for debug builds
+  AC_CHECK_HEADERS(execinfo.h,,)
+
+  dnl PCBSD/FreeBSD/Haiku needs -lexecinfo for debug builds
   AC_CHECK_FUNC(backtrace_symbols,
                 have_backtrace_symbols="yes",
                 have_backtrace_symbols="no")

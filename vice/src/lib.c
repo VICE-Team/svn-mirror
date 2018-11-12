@@ -68,7 +68,7 @@
 # define LIB_DEBUG_PINPOINT
 /* warn on free(NULL) */
 /* #define LIB_DEBUG_WARN_FREE_NULL */
-# ifdef HAVE_BT_SYMBOLS
+# if defined(HAVE_EXECINFO_H) && defined(HAVE_BT_SYMBOLS)
 #  define LIB_DEBUG_CALLER
 #  define DEBUG_BT_MAXDEPTH 16
 #  include <execinfo.h>
