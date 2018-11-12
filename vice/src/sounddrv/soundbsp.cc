@@ -190,6 +190,9 @@ static int bsp_bufferspace(void)
 static void bsp_close(void)
 {
     delete sound_player;
+    lib_free(sound_buf);
+    sound_buf = NULL;
+    buf_inptr = buf_outptr = buf_len = buf_full = 0;
 }
 
 static int bsp_suspend(void)
