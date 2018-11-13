@@ -101,9 +101,10 @@ static void next_tune_callback(GtkWidget *widget, gpointer data)
     } else {
         tune_current++;
     }
+
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     psid_init_driver();
     machine_play_psid(tune_current);
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
 
@@ -121,9 +122,10 @@ static void prev_tune_callback(GtkWidget *widget, gpointer data)
     } else {
         tune_current--;
     }
+
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     psid_init_driver();
     machine_play_psid(tune_current);
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 
 
@@ -185,6 +187,12 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 }
 
 
+static void stop_callback(GtkWidget *widget, gpointer data)
+{
+}
+
+
+
 /** \brief  List of media control buttons
  */
 static const vsid_ctrl_button_t buttons[] = {
@@ -194,6 +202,8 @@ static const vsid_ctrl_button_t buttons[] = {
         "Play tune" },
     { "media-playback-pause", pause_callback,
         "Pause playback" },
+    { "media-playback-stop", stop_callback,
+        "Stop playback" },
     { "media-seek-forward", ffwd_callback,
         "Fast forward" },
     { "media-skip-forward", next_tune_callback,
@@ -253,7 +263,7 @@ GtkWidget *vsid_control_widget_create(void)
      */
     repeat = gtk_check_button_new_with_label("Loop current song");
     gtk_grid_attach(GTK_GRID(grid), repeat, 0, 2, i, 1);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(repeat), FALSE);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(repeat), TRUE);
     gtk_widget_set_can_focus(repeat, FALSE);
 
     gtk_widget_show_all(grid);

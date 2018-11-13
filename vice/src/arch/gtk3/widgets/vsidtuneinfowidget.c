@@ -153,7 +153,7 @@ static GtkWidget *create_left_aligned_label(const char *text)
  *
  * \note    the string returned needs to be freed with g_free()
  */
-static gchar *convert_to_utf8(const char *s)
+gchar *convert_to_utf8(const char *s)
 {
     GError *err = NULL;
     gchar *utf8;
@@ -298,7 +298,20 @@ static void update_runtime_widget(unsigned int sec)
 
     /* don't use lib_msprintf() here, this function gets called a lot and
      * malloc() isn't fast */
-    g_snprintf(buffer, 256, "%u:%02u:%02u", h, m, s);
+
+    if (song_lengths != NULL) {
+
+        unsigned long total = song_lengths[tune_current - 1];
+        unsigned int ts = (unsigned int)(total % 60);
+        unsigned int tm = (unsigned int)(total / 60);
+        unsigned int th = (unsigned int)(total / 60 / 60);
+
+
+        g_snprintf(buffer, 256, "%u:%02u:%02u / %u:%02u:%02u",
+                h, m, s, th, tm, ts);
+    } else {
+        g_snprintf(buffer, 256, "%u:%02u:%02u", h, m, s);
+    }
     gtk_label_set_text(GTK_LABEL(runtime_widget), buffer);
 }
 
@@ -424,7 +437,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
     gtk_label_set_markup(GTK_LABEL(label), "<b>SID file info:</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(G_OBJECT(label), "margin-bottom", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     /* title */
@@ -442,7 +455,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
     row++;
 
     /* copyright */
-    label = create_left_aligned_label("Copyright:");
+    label = create_left_aligned_label("(C):");
     copyright_widget = create_readonly_entry();
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), copyright_widget, 1, row, 1, 1);
@@ -470,7 +483,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
     row++;
 
     /* sync widget */
-    label = create_left_aligned_label("Synchronization:");
+    label = create_left_aligned_label("Sync:");
     sync_widget = create_sync_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), sync_widget, 1, row, 1, 1);
@@ -484,7 +497,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
     row ++;
 
     /* driver info */
-    label = create_left_aligned_label("Driver info:");
+    label = create_left_aligned_label("Driver:");
     gtk_widget_set_valign(label, GTK_ALIGN_START);
     driver_info_widget = create_driver_info_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);

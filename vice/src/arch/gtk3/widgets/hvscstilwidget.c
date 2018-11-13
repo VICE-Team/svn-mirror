@@ -37,6 +37,7 @@
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
 #include "hvsc.h"
+#include "vsidtuneinfowidget.h"
 
 #include "hvscstilwidget.h"
 
@@ -245,6 +246,7 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
         /* handle fields for the current subtune */
         for (f = 0; f < block->fields_used; f++) {
+
 #if 0
             g_snprintf(line, 1024, "    %s %s\n",
                     hvsc_get_field_display(block->fields[f]->type),
@@ -254,14 +256,21 @@ int hvsc_stil_widget_set_psid(const char *psid)
 #endif
             if (block->fields[f]->type == HVSC_FIELD_COMMENT) {
                 /* add tune-specific comment */
+
+                gchar *utf8;
+
                 g_snprintf(line, 1024, "%s\n", block->fields[f]->text);
+                utf8 = convert_to_utf8(line);
+
                 gtk_text_buffer_insert_with_tags_by_name(
                         buffer,
                         &end,
-                        line,
+                        utf8,
                         -1,
                         "tune-comment",
                         NULL);
+
+                g_free(utf8);
             }
 
             /* timestamp? */
@@ -296,34 +305,52 @@ int hvsc_stil_widget_set_psid(const char *psid)
             /* title? */
             if (block->fields[f]->type == HVSC_FIELD_TITLE
                     && block->fields[f]->text != NULL) {
+
+                gchar *utf8;
+
                 g_snprintf(line, 1024, "%s\n", block->fields[f]->text);
+                utf8 = convert_to_utf8(line);
+
                 gtk_text_buffer_insert_with_tags_by_name(
                         buffer,
                         &end,
-                        line,
+                        utf8,
                         -1,
                         "title",
                         NULL);
+
+                g_free(utf8);
             }
 
 
             /* artist? */
             if (block->fields[f]->type == HVSC_FIELD_ARTIST
                     && block->fields[f]->text != NULL) {
+
+                gchar *utf8;
+
                 g_snprintf(line, 1024, "%s\n", block->fields[f]->text);
+                utf8 = convert_to_utf8(line);
+
                 gtk_text_buffer_insert_with_tags_by_name(
                         buffer,
                         &end,
-                        line,
+                        utf8,
                         -1,
                         "artist",
                         NULL);
+                g_free(utf8);
             }
 
             /* album? */
             if (block->fields[f]->album != NULL) {
+
+                gchar *utf8;
+
                 g_snprintf(line, 1024, "%s\n",
                         block->fields[f]->album);
+                utf8 = convert_to_utf8(line);
+
                 gtk_text_buffer_insert_with_tags_by_name(
                         buffer,
                         &end,
@@ -331,6 +358,8 @@ int hvsc_stil_widget_set_psid(const char *psid)
                         -1,
                         "album",
                         NULL);
+
+                g_free(utf8);
             }
         }
 

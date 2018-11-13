@@ -54,4 +54,8 @@ void vsid_tune_info_widget_set_data_size(uint16_t size);
 int  vsid_tune_info_widget_set_song_lengths(const char *sid);
 int  vsid_tune_info_widget_get_song_lengths(long **dest);
 
+
+/* TODO: move and rename */
+gchar *convert_to_utf8(const char *s);
+
 #endif
