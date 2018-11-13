@@ -33,6 +33,7 @@
 #include <gtk/gtk.h>
 #include "vice_gtk3.h"
 #include "basedialogs.h"
+#include "machine.h"
 #include "resources.h"
 #include "ui.h"
 
@@ -481,13 +482,14 @@ GtkWidget *statusbar_speed_widget_create(void)
     gtk_container_add(GTK_CONTAINER(event_box), label);
     gtk_widget_show(label);
 
-    g_signal_connect(event_box, "button-press-event",
-            G_CALLBACK(on_widget_clicked), NULL);
-    g_signal_connect(event_box, "enter-notify-event",
-            G_CALLBACK(on_widget_hover), NULL);
-    g_signal_connect(event_box, "leave-notify-event",
-            G_CALLBACK(on_widget_hover), NULL);
-
+    if (machine_class != VICE_MACHINE_VSID) {
+        g_signal_connect(event_box, "button-press-event",
+                G_CALLBACK(on_widget_clicked), NULL);
+        g_signal_connect(event_box, "enter-notify-event",
+                G_CALLBACK(on_widget_hover), NULL);
+        g_signal_connect(event_box, "leave-notify-event",
+                G_CALLBACK(on_widget_hover), NULL);
+    }
     return event_box;
 }
 
