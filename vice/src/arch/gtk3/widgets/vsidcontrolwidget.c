@@ -254,6 +254,7 @@ GtkWidget *vsid_control_widget_create(void)
     repeat = gtk_check_button_new_with_label("Loop current song");
     gtk_grid_attach(GTK_GRID(grid), repeat, 0, 2, i, 1);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(repeat), FALSE);
+    gtk_widget_set_can_focus(repeat, FALSE);
 
     gtk_widget_show_all(grid);
     return grid;
