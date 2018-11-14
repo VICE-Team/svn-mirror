@@ -300,6 +300,7 @@ static palette_info_t palettelist[] = {
     { "VICII", "Pepto (NTSC, Sony)", "pepto-ntsc-sony"},
     { "VICII", "Pepto (NTSC)",       "pepto-ntsc"},
     { "VICII", "Colodore (PAL)",     "colodore"},
+    { "VICII", "ChristopherJam",     "cjam"},
     { "VICII", "VICE",               "vice"},
     { "VICII", "C64HQ",              "c64hq"},
     { "VICII", "C64S",               "c64s"},

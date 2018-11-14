@@ -41,6 +41,7 @@ palettes = \
 	colodore.vpl \
 	ptoing.vpl \
 	deekay.vpl \
+	cjam.vpl \
 	rgb.vpl
 
 gtk3_keymaps = \

@@ -32,6 +32,7 @@ palettes = \
 	colodore.vpl \
 	ptoing.vpl \
 	deekay.vpl \
+	cjam.vpl \
 	rgb.vpl \
 	vice.vpl \
 	amber.vpl \
