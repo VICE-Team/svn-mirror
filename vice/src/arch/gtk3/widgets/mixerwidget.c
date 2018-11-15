@@ -123,6 +123,14 @@ void mixer_widget_sid_type_changed(void)
     if (resources_get_int("SidModel", &model) < 0) {
         debug_gtk3("failed to get SidModel resource");
     }
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        /* exit, vsid has its own machinism to toggle SID models and their
+         * widgets
+         */
+        return;
+    }
+
 #ifdef HAVE_RESID
     if ((model == 1) || (model == 2)) {
         gtk_widget_hide(passband);
