@@ -282,19 +282,19 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 2, 1);
 
 
-    label = create_label("ReSID Passband");
+    label = create_label("Passband");
     passband = create_passband_widget(model);
     gtk_widget_set_hexpand(passband, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), passband, 1, 2, 1, 1);
 
-    label = create_label("ReSID Gain");
+    label = create_label("Gain");
     gain = create_gain_widget(model);
     gtk_widget_set_hexpand(gain, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), gain, 1, 3, 1, 1);
 
-    label = create_label("ReSID Filter Bias");
+    label = create_label("Bias");
     bias = create_bias_widget(model);
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
@@ -302,7 +302,7 @@ GtkWidget *vsid_mixer_widget_create(void)
 #endif
 
     button = gtk_button_new_with_label("Reset to defaults");
-    gtk_grid_attach(GTK_GRID(grid), button, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button, 0, 5, 2, 1);
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
 
     gtk_widget_show_all(grid);

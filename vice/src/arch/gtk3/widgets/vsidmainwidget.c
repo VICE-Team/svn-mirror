@@ -48,9 +48,7 @@
 
 static GtkWidget *tune_info_widget;
 static GtkWidget *control_widget;
-#if 0
 static GtkWidget *mixer_widget;
-#endif
 static GtkWidget *stil_widget;
 static GtkWidget *playlist_widget;
 
@@ -76,15 +74,16 @@ GtkWidget *vsid_main_widget_create(void)
 
     control_widget = vsid_control_widget_create();
     gtk_grid_attach(GTK_GRID(grid), control_widget, 0, 1, 1, 1);
-#if 0
+
     mixer_widget = vsid_mixer_widget_create();
     gtk_grid_attach(GTK_GRID(grid), mixer_widget, 0, 2, 1, 1);
-#endif
+
     stil_widget = hvsc_stil_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), stil_widget, 1, 0, 1, 3);
+    gtk_widget_set_vexpand(stil_widget, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), stil_widget, 1, 0, 1, 4);
 
     playlist_widget = vsid_playlist_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), playlist_widget, 2, 0, 1, 3);
+    gtk_grid_attach(GTK_GRID(grid), playlist_widget, 2, 0, 1, 4);
 
     gtk_widget_show_all(grid);
     return grid;

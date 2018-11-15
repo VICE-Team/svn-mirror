@@ -131,6 +131,7 @@ static GtkWidget *create_view(void)
     gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), FALSE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD_CHAR);
     gtk_widget_set_can_focus(textview, FALSE);
+    gtk_widget_set_vexpand(textview, TRUE);
     return textview;
 }
 
@@ -164,6 +165,7 @@ GtkWidget *hvsc_stil_widget_create(void)
     hvsc_stil_widget_create_tags();
 
     scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_widget_set_vexpand(scroll, TRUE);
     gtk_widget_set_size_request(scroll, 400, 500);
     gtk_widget_set_hexpand(scroll, TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
@@ -171,9 +173,7 @@ GtkWidget *hvsc_stil_widget_create(void)
     gtk_container_add(GTK_CONTAINER(scroll), stil_view);
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
 
-    /*gtk_widget_set_valign(grid, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(grid, TRUE);
-    */
+    gtk_widget_set_vexpand(grid, TRUE);
     gtk_widget_show_all(grid);
     return grid;
 }
