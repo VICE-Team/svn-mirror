@@ -45,6 +45,7 @@
 
 #include "vsidmainwidget.h"
 
+static GtkWidget *main_widget;
 
 static GtkWidget *tune_info_widget;
 static GtkWidget *control_widget;
@@ -86,6 +87,7 @@ GtkWidget *vsid_main_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), playlist_widget, 2, 0, 1, 4);
 
     gtk_widget_show_all(grid);
+    main_widget = grid;
     return grid;
 }
 
@@ -110,6 +112,13 @@ void vsid_main_widget_set_tune_current(int n)
     vsid_control_widget_set_tune_current(n);
     vsid_tune_info_widget_set_tune_current(n);
     ui_vsid_tune_set_tune_current(n);
+
+    /* update mixer widget to use the SID model of the current tune */
+    if (mixer_widget != NULL) {
+        gtk_widget_destroy(mixer_widget);
+        mixer_widget = vsid_mixer_widget_create();
+        gtk_grid_attach(GTK_GRID(main_widget), mixer_widget, 0, 2, 1, 1);
+    }
 }
 
 
