@@ -34,6 +34,7 @@
 #include "basewidgets.h"
 #include "cartridge.h"
 #include "c64/cart/crt.h"
+#include "machine.h"
 
 #include "crtpreviewwidget.h"
 
@@ -315,9 +316,19 @@ void crt_preview_widget_update(const gchar *path)
     gchar buffer[1024];
     int packets = 0;
 
-
-
+    /*
+     * Guard against non C64/C128 carts
+     * Once we implement CRT headers for VIC20 and others, this needs to be
+     * removed.
+     */
     debug_gtk3("Got path '%s'.", path);
+    if (machine_class != VICE_MACHINE_C64
+            && machine_class != VICE_MACHINE_C64SC
+            && machine_class != VICE_MACHINE_C128)
+    {
+        debug_gtk3("Machine class != c64/c128, skipping.");
+        return;
+    }
 
     fd = open_func(path, &header);
     if (fd == NULL) {
