@@ -189,6 +189,13 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 
 static void stop_callback(GtkWidget *widget, gpointer data)
 {
+    debug_gtk3("called.");
+#if 0
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+#endif
+    psid_init_driver();
+    psid_init_tune(0);
+    machine_specific_reset();
 }
 
 
