@@ -202,6 +202,9 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 static void stop_callback(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("called.");
+
+    return;
+
 #if 0
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 #endif
@@ -223,7 +226,7 @@ static const vsid_ctrl_button_t buttons[] = {
     { "media-playback-pause", pause_callback,
         "Pause playback" },
     { "media-playback-stop", stop_callback,
-        "Stop playback" },
+        "Stop playback (slightly fuck at the moment, so it doesn't work)"},
     { "media-seek-forward", ffwd_callback,
         "Fast forward" },
     { "media-skip-forward", next_tune_callback,

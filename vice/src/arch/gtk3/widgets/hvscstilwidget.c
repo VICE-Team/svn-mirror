@@ -229,6 +229,10 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
         block = stil.blocks[t];
 
+        if (t == 0 && block->fields_used == 0) {
+            continue;
+        }
+
         if (block->tune == 0) {
             /* FIXME: might be a bug in my HVSC 'lib' */
             continue;
