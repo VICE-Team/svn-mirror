@@ -268,9 +268,9 @@ static int compute_drives_enabled_mask(void)
 {
     int unit, mask;
     int result = 0;
-    for (unit = 0, mask=1; unit < 4; ++unit, mask <<= 1) {
+    for (unit = 0, mask = 1; unit < 4; ++unit, mask <<= 1) {
         int status = 0, value = 0;
-        status = resources_get_int_sprintf("Drive%dType", &value, unit+8);
+        status = resources_get_int_sprintf("Drive%dType", &value, unit + 8);
         if (status == 0 && value != 0) {
             result |= mask;
         }
@@ -509,8 +509,8 @@ static GtkWidget *ui_drive_widget_create(int unit)
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
 
-    snprintf(drive_id, 4, "%d:", unit+8);
-    drive_id[3]=0;
+    snprintf(drive_id, 4, "%d:", unit + 8);
+    drive_id[3] = 0;
     number = gtk_label_new(drive_id);
     gtk_widget_set_halign(number, GTK_ALIGN_START);
 
@@ -576,10 +576,6 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
     return FALSE;
 }
 
-/** \brief  Disk/tape image to autorun a file from
- */
-static const char *autostart_image = NULL;
-
 #if 0
 /** \brief  Handler for the "response" event of the directory dialog
  *
@@ -626,28 +622,32 @@ static void on_dir_widget_selected(GtkWidget *widget,
 
 static void disk_dir_autostart_callback(const char *image, int index)
 {
+    const char *autostart_image;
+
     debug_gtk3("Got image '%s', file index %d to autostart",
             image, index);
-    /* make a copy since autostart will reuse memory for the diskimage name */
-    if (autostart_image != NULL) {
-        lib_free(autostart_image);
-    }
+    /* make a copy of the image name since autostart will reattach the disk
+     * image, freeing memory used by the image name passed to us in the process
+     */
     autostart_image = lib_stralloc(image);
     autostart_disk(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
+    lib_free(autostart_image);
 }
 
 
 
 static void tape_dir_autostart_callback(const char *image, int index)
 {
+    const char *autostart_image;
+
     debug_gtk3("Got image '%s', file index %d to autostart",
             image, index);
-    /* make a copy since autostart will reuse memory for the diskimage name */
-    if (autostart_image != NULL) {
-        lib_free(autostart_image);
-    }
+    /* make a copy of the image name since autostart will reattach the tape
+     * image, freeing memory used by the image name passed to us in the process
+     */
     autostart_image = lib_stralloc(image);
     autostart_tape(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
+    lib_free(autostart_image);
 }
 
 
@@ -739,7 +739,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     GtkWidget *drive_menu = allocated_bars[0].drive_popups[i];
     GtkWidget *drive_menu_item;
 
-    ui_populate_fliplist_menu(drive_menu, i+8, 0);
+    ui_populate_fliplist_menu(drive_menu, i + 8, 0);
 
     /* XXX: this code is a duplicate of the drive_menu creation code, so we
      *      should probably refactor this a bit
@@ -1295,22 +1295,23 @@ static GtkWidget *ui_drive_menu_create(int unit)
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
 
-    snprintf(buf, 128, "Attach to drive #%d...", unit + 8);
+    snprintf(buf, 128, "Attach disk to drive #%d...", unit + 8);
     buf[127] = 0;
 
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
+            G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit + 8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     snprintf(buf, 128, "Detach disk from drive #%d", unit + 8);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
-    g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_detach_callback), GINT_TO_POINTER(unit+8));
+    g_signal_connect(drive_menu_item, "activate",
+            G_CALLBACK(ui_disk_detach_callback), GINT_TO_POINTER(unit + 8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     /* GTK2/GNOME UI put TDE and Read-only checkboxes here, but that
      * seems excessive or possibly too fine-grained, so skip that for
      * now */
-    ui_populate_fliplist_menu(drive_menu, unit+8, 0);
+    ui_populate_fliplist_menu(drive_menu, unit + 8, 0);
 
 
     gtk_container_add(GTK_CONTAINER(drive_menu),
@@ -1562,20 +1563,6 @@ void ui_display_statustext(const char *text, int fade_out)
         g_timeout_add(5000, ui_statustext_fadeout,
                 GINT_TO_POINTER(sb_state.statustext_msgid));
     }
-
-    /*
-     * Some weirdness: since triggering autostart of a specific file in a
-     * disk image via the dir menu pop on the status bar frees the image name
-     * and allocates a new one, we need to temporarily copy the old image name
-     * so the statusbar will properly display "Attaching <diskimage>".
-     * That is done in disk_dir_autostart_callback().
-     * Once the attaching is done and the message displayed (here), we can free
-     * the diskimage string again for the next time the dir menu popup is used.
-     */
-    if (autostart_image != NULL) {
-        lib_free(autostart_image);
-        autostart_image = NULL;
-    }
 #endif
 }
 
@@ -1727,7 +1714,7 @@ void ui_display_tape_current_image(const char *image)
         snprintf(buf, 256, "Tape unit is empty");
     }
 
-    buf[255]=0;
+    buf[255] = 0;
     ui_display_statustext(buf, 1);
 #endif
 }
@@ -1865,11 +1852,11 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
 #if 0
     char buf[256];
     if (image && *image) {
-        snprintf(buf, 256, "Attached %s to unit %d", image, drive_number+8);
+        snprintf(buf, 256, "Attached %s to unit %d", image, drive_number + 8);
     } else {
-        snprintf(buf, 256, "Unit %d is empty", drive_number+8);
+        snprintf(buf, 256, "Unit %d is empty", drive_number + 8);
     }
-    buf[255]=0;
+    buf[255] = 0;
     ui_display_statustext(buf, 1);
 #endif
 }
