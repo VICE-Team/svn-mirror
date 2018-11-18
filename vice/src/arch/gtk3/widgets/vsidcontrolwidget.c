@@ -41,6 +41,7 @@
 #include "uicommands.h"
 #include "ui.h"
 #include "uisidattach.h"
+#include "vsidtuneinfowidget.h"
 
 #include "vsidcontrolwidget.h"
 
@@ -96,7 +97,7 @@ static void fake_callback(GtkWidget *widget, gpointer data)
  */
 static void next_tune_callback(GtkWidget *widget, gpointer data)
 {
-    if (tune_current >= tune_count) {
+    if (tune_current >= tune_count || tune_current <= 0 ) {
         tune_current = 1;
     } else {
         tune_current++;
@@ -166,8 +167,19 @@ static void ffwd_callback(GtkWidget *widget, gpointer data)
 static void play_callback(GtkWidget *widget, gpointer data)
 {
     ui_pause_emulation(0);
-    /* return emulation speed back to 100% */
-    resources_set_int("Speed", 100);
+
+    if (tune_current <= 0) {
+        debug_gtk3("restarting with tune #%d.", tune_default);
+	    tune_current = tune_default;
+        vsid_tune_info_widget_set_time(0);
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        psid_init_driver();
+        /* psid_init_tune(1); */
+	    machine_play_psid(tune_current);
+    } else {
+	    /* return emulation speed back to 100% */
+	    resources_set_int("Speed", 100);
+    }
 }
 
 
@@ -194,8 +206,9 @@ static void stop_callback(GtkWidget *widget, gpointer data)
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 #endif
     psid_init_driver();
-    psid_init_tune(0);
+    psid_init_tune(1);
     machine_specific_reset();
+    tune_current = -1;
 }
 
 
