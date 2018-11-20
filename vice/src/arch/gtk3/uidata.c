@@ -71,7 +71,7 @@ int uidata_init(void)
     /* try directory with VICE's data files */
     dir = archdep_get_vice_datadir();
     debug_gtk3("trying archdep_get_vice_datadir() (%s).", dir);
-    path = util_concat(dir, "vice.gresource", NULL);
+    path = archdep_join_paths(dir, "vice.gresource", NULL);
     lib_free(dir);
 
     gresource = g_resource_load(path, &err);
@@ -130,7 +130,7 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
     GError *err = NULL;
     char *path;
 
-    path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
+    path = archdep_join_paths(UIDATA_ROOT_PATH, name, NULL);
     debug_gtk3("attempting to load resource '%s'.", path);
     buf = gdk_pixbuf_new_from_resource(path, &err);
     lib_free(path);
