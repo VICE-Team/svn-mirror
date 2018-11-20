@@ -131,6 +131,7 @@ if test x"$CROSS" != "xtrue"; then
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp --parents -a share/icons/Adwaita $BUILDPATH
+  cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cd - >/dev/null
 else
 
@@ -158,6 +159,7 @@ else
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp --parents -a share/icons/Adwaita $BUILDPATH
+  cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cd $current
 fi
 
