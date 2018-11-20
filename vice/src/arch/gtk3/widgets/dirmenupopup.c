@@ -311,7 +311,7 @@ GtkWidget *dir_menu_popup_create(
             image_contents_destroy(contents);
         }
     } else {
-        debug_gtk3("autostart_diskiamage is NUKLLK");
+        debug_gtk3("autostart_diskimage is NULL");
         item = gtk_menu_item_new_with_label("<<NO IMAGE ATTACHED>>");
         gtk_container_add(GTK_CONTAINER(menu), item);
     }
