@@ -2553,21 +2553,25 @@ gboolean ui_settings_dialog_activate_node(const char *path)
     while (part != NULL) {
 
         const gchar *node_id = NULL;
-
+#if 0
         debug_gtk3("checking column %d for '%s'.", column, part);
+#endif
 
         /* iterate nodes until either 'part' is found or the nodes in the
          * current 'column' run out */
         while (TRUE) {
             gtk_tree_model_get(GTK_TREE_MODEL(settings_model), &iter,
                     COLUMN_ID, &node_id, -1);
+#if 0
             debug_gtk3("got id '%s'.", node_id);
+#endif
 
             /* check node ID against currently sought part of the path */
             if (strcmp(node_id, part) == 0) {
                 /* got the requested node */
-
+#if 0
                 debug_gtk3("FOUND SOMETHING!");
+#endif
                 if (parts[column + 1] == NULL) {
                     /* got final item */
 
@@ -2589,7 +2593,9 @@ gboolean ui_settings_dialog_activate_node(const char *path)
                 } else {
                     /* continue searching, dive into the children of the
                      * current node, if there are any */
+#if 0
                     debug_gtk3("diving into child nodes of %s.", node_id);
+#endif
                     if (gtk_tree_model_iter_has_child(
                                 GTK_TREE_MODEL(settings_model), &iter)) {
                         /* node has children, iterate those now */
