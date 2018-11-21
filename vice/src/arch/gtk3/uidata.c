@@ -130,7 +130,7 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
     GError *err = NULL;
     char *path;
 
-    path = archdep_join_paths(UIDATA_ROOT_PATH, name, NULL);
+    path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
     debug_gtk3("attempting to load resource '%s'.", path);
     buf = gdk_pixbuf_new_from_resource(path, &err);
     lib_free(path);
