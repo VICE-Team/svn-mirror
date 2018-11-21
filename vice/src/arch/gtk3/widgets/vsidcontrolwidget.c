@@ -170,15 +170,15 @@ static void play_callback(GtkWidget *widget, gpointer data)
 
     if (tune_current <= 0) {
         debug_gtk3("restarting with tune #%d.", tune_default);
-	    tune_current = tune_default;
+        tune_current = tune_default;
         vsid_tune_info_widget_set_time(0);
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         psid_init_driver();
         /* psid_init_tune(1); */
-	    machine_play_psid(tune_current);
+        machine_play_psid(tune_current);
     } else {
-	    /* return emulation speed back to 100% */
-	    resources_set_int("Speed", 100);
+        /* return emulation speed back to 100% */
+        resources_set_int("Speed", 100);
     }
 }
 
@@ -198,22 +198,25 @@ static void pause_callback(GtkWidget *widget, gpointer data)
     ui_pause_emulation(1);
 }
 
-
+/* XXX: this doesn't work and even segfaults when pushing play after a tune
+ *      has played for some time.
+ */
+#if 0
 static void stop_callback(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("called.");
 
-    return;
-
 #if 0
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 #endif
+    machine_reset();
+#if 0
     psid_init_driver();
     psid_init_tune(1);
-    machine_specific_reset();
+#endif
     tune_current = -1;
 }
-
+#endif
 
 
 /** \brief  List of media control buttons
@@ -225,8 +228,10 @@ static const vsid_ctrl_button_t buttons[] = {
         "Play tune" },
     { "media-playback-pause", pause_callback,
         "Pause playback" },
+#if 0
     { "media-playback-stop", stop_callback,
         "Stop playback (slightly fucked at the moment, so it doesn't work)"},
+#endif
     { "media-seek-forward", ffwd_callback,
         "Fast forward" },
     { "media-skip-forward", next_tune_callback,
