@@ -717,11 +717,13 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
     { "Model settings",
       "model",
       settings_model_widget_create, NULL },
+#if 0
     /* XXX: do we need this? Sidplay allows ROM selection for Basic, Kernal and
      *      Chargen, perhaps move into model settings, plenty of space there */
     { "ROM settings",
       "rom-settings",
       settings_romset_widget_create, NULL },
+#endif
     /* XXX: perhaps required for VSID-specific things */
     { "Miscellaneous",
       "misc",

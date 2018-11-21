@@ -34,6 +34,7 @@
 #include <gtk/gtk.h>
 
 #include "lib.h"
+#include "machine.h"
 #include "ui.h"
 #include "resources.h"
 #include "vsync.h"
@@ -116,17 +117,22 @@ static GtkWidget *create_pause_checkbox(void)
 GtkWidget *settings_speed_widget_create(GtkWidget *widget)
 {
     GtkWidget *layout;
-
     layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     checkbox_pause = create_pause_checkbox();
     checkbox_warp = create_warp_checkbox();
 
     /* create layout */
-    gtk_grid_attach(GTK_GRID(layout), refreshrate_widget_create(), 0, 0, 1, 3);
-    gtk_grid_attach(GTK_GRID(layout), speed_widget_create(), 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), checkbox_warp, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), checkbox_pause, 1, 2, 1, 1);
+    if (machine_class != VICE_MACHINE_VSID) {
+        gtk_grid_attach(GTK_GRID(layout), refreshrate_widget_create(), 0, 0, 1, 3);
+        gtk_grid_attach(GTK_GRID(layout), speed_widget_create(), 1, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), checkbox_warp, 1, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), checkbox_pause, 1, 2, 1, 1);
+    } else {
+        gtk_grid_attach(GTK_GRID(layout), speed_widget_create(), 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), checkbox_warp, 0, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), checkbox_pause, 0, 2, 1, 1);
+    }
 
     gtk_widget_show(layout);
     return layout;
