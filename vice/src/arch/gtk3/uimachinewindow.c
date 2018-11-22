@@ -442,9 +442,10 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
                 /* grab the pointer */
                 if (pointerseat == NULL) {
                     pointerseat = gdk_device_get_seat (pointer);
-                    if (!gdk_seat_grab (pointerseat, window,
-                                        GDK_SEAT_CAPABILITY_ALL_POINTING,
-                                        FALSE, VICE_EMPTY_POINTER, event, NULL, NULL) == GDK_GRAB_SUCCESS) {
+                    if (gdk_seat_grab(pointerseat, window,
+                                GDK_SEAT_CAPABILITY_ALL_POINTING,
+                                FALSE, VICE_EMPTY_POINTER, event,
+                                NULL, NULL) != GDK_GRAB_SUCCESS) {
                         pointerseat = NULL;
                     }
                     /* printf("event_box_cross_cb pointer grab\n"); */
