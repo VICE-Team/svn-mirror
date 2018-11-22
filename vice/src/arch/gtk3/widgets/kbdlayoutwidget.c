@@ -36,13 +36,7 @@
 #include "basewidgets.h"
 #include "keyboard.h"
 #include "lib.h"
-#include "log.h"
-#include "ui.h"
-#include "resources.h"
-#include "vsync.h"
 #include "widgethelpers.h"
-
-#include "debug_gtk3.h"
 
 #include "kbdlayoutwidget.h"
 
@@ -76,19 +70,14 @@ GtkWidget *kbdlayout_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *group;
-    mapping_info_t *kbdinfo = keyboard_get_info_list();
+    mapping_info_t *kbdinfo;
     int num;
     int idx;
 
     /* build the list from the list provided by keyboard.c */
 
     /* allocate memory for radio buttons list */
-    kbdinfo = keyboard_get_info_list();
-    num = 0;
-    while (kbdinfo->name != NULL) {
-        num++;
-        kbdinfo++;
-    }
+    num = keyboard_get_num_mappings();
     kbd_layouts = lib_malloc((num + 1) * sizeof *kbd_layouts);
 
     /* populate radio buttons list */
