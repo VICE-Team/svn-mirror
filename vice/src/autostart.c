@@ -45,6 +45,7 @@
 #include "charset.h"
 #include "cmdline.h"
 #include "datasette.h"
+#include "diskimage.h"
 #include "drive.h"
 #include "fileio.h"
 #include "fsdevice.h"
@@ -1173,8 +1174,47 @@ int autostart_disk(const char *file_name, const char *program_name,
     if (name) {
         autostart_disk_cook_name(&name);
         if (!(file_system_attach_disk(8, file_name) < 0)) {
+
+#if 0
+            vdrive_t *vdrive;
+            struct disk_image_s *diskimg;
+#endif
+
             log_message(autostart_log,
                         "Attached file `%s' as a disk image.", file_name);
+
+            /*
+             * Simple attempt at implementing setting the current drive type
+             * based on the image type as per feature request #319.
+             *
+             * I'm leaving this commented out since I don't think I'll be able
+             * properly implement this AND properly test it before the code
+             * freeze on 2018-12-3 (I have a lot of other stuff to do). I will
+             * pick this up again after 3.3 has been released.
+             *
+             * --compyx
+             */
+#if 0
+            /* shitty code, we really need to extend the drive API to
+             * get at these sorts for things without breaking into core code
+             */
+            vdrive = file_system_get_vdrive(8);
+            if (vdrive == NULL) {
+                log_error(LOG_ERR, "Failed to get vdrive reference for unit 8.");
+            } else {
+                diskimg = vdrive->image;
+                if (diskimg == NULL) {
+                    log_error(LOG_ERR, "Failed to get disk image for unit 8.");
+                } else {
+                    printf("\nGOT IMAGE TYPE %u.\n\n", diskimg->type);
+                    if (resources_set_int("Drive8Type", diskimg->type) < 0) {
+                        log_error(LOG_ERR, "Failed to set drive type.");
+                    }
+                    drive_cpu_trigger_reset(0);
+                }
+            }
+#endif
+
             reboot_for_autostart(name, AUTOSTART_HASDISK, runmode);
             lib_free(name);
 
