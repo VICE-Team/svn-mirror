@@ -22,12 +22,6 @@
 #  02111-1307  USA.
 #
 
-# NOTICE: This file is currently incomplete. Right now it only prints
-#         what it intends to do instead of actually doing it. Once I'm
-#         confident that the command text has been debugged I will
-#         swap it out to do the work for real and then remove this
-#         notice.
-
 use strict;
 use warnings;
 
@@ -71,17 +65,20 @@ foreach my $binary (@binaries) {
   }
   close LINKEDLIBS;
 }
-# Copy libraries and frameworks into place, using the Apple-specific
-# "ditto" command to make sure that all attributes etc are preserved
+# Copy libraries and frameworks into place. With frameworks we use the
+# Apple-specific "ditto" command to make sure that internal symlinks,
+# etc are preserved. With libraries we avoid this because we actively
+# *do not want* to copy the symlink if the linked library is in fact
+# just a symlink!
 foreach (keys %libraries) {
-  print "ditto \"$_\" \"$bindir\"\n";
+  system("cp \"$_\" \"$bindir/\"\n");
 }
-print "mkdir \"VICE.app/Contents/Frameworks\"\n";
+mkdir ("VICE.app/Contents/Frameworks");
 foreach (keys %frameworks) {
   /.*\/(.*\.framework).*/;
   my $destdir = "VICE.app/Contents/Frameworks/$1";
-  print "mkdir \"$destdir\"\n";
-  print "ditto \"$fwdir/$1\" \"$destdir\"\n";
+  mkdir("$destdir");
+  system("ditto \"$fwdir/$1\" \"$destdir\"");
 }
 # Create new id tokens for the dylibs and assemble the mapping to
 # change them to the new relative locations.
@@ -89,7 +86,8 @@ my %links;
 foreach (keys %libraries) {
   /.*\/(.*)/;
   $links{$_} = "\@executable_path/$1";
-  print "install_name_tool -id \@executable_path/$1 \"$bindir/$1\"\n";
+  system("chmod u+w \"$bindir/$1\"");
+  system("install_name_tool -id \@executable_path/$1 \"$bindir/$1\"");
 }
 # Create new id tokens for the frameworks. Note that there's an extra
 # ".." in the path for this than is usual for macOS applications;
@@ -102,13 +100,15 @@ foreach (keys %libraries) {
 foreach (keys %frameworks) {
   /.*\/(.*\.framework.*)/;
   $links{$_} = "\@executable_path/../../Frameworks/$1";
-  print "install_name_tool -id \@executable_path/../../Frameworks/$1 VICE.app/Contents/Frameworks/$1\n";
+  system("chmod u+w \"VICE.app/Contents/Frameworks/$1\"");
+  system("install_name_tool -id \@executable_path/../../Frameworks/$1 VICE.app/Contents/Frameworks/$1");
 }
 # Update the linkage information for all libraries and frameworks in
 # all binaries. This includes the libraries in %libraries but not in
 # %frameworks, as frameworks are assumed to be self-contained.
 foreach my $binary (@binaries) {
+  $binary =~ /.*\/(.*)/;
   foreach (keys %links) {
-    print "install_name_tool -old \"$_\" -new \"$links{$_}\" \"$binary\"\n";
+    system("install_name_tool -change \"$_\" \"$links{$_}\" \"$bindir/$1\"");
   };
 }
