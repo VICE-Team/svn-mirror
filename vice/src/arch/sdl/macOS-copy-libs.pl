@@ -22,27 +22,26 @@
 #  02111-1307  USA.
 #
 
-# NOTICE: This file is currently incomplete. Right now it takes an
-#         already built bindist and recursively scans the VICE
-#         executables and its dependencies to determine what libraries
-#         need to be copied into the bundle. To be able to replace the
-#         current bindsit script, it needs to:
-#
-#         - Actually execute those copies into the correct parts of
-#           the bundle
-#         - Correctly run install_name_tool to patch up all loading
-#           paths
-#
-#         This is enough work to do that I'm going to be committing it
-#         in parts.
+# NOTICE: This file is currently incomplete. Right now it only prints
+#         what it intends to do instead of actually doing it. Once I'm
+#         confident that the command text has been debugged I will
+#         swap it out to do the work for real and then remove this
+#         notice.
 
 use strict;
 use warnings;
 
-my $bindir = 'VICE.app/Contents/Resources/bin';
+# Check our preconditions: that we're running just outside of the VICE
+# bundle and that the FW_DIR environment variable has been set, which
+# identifies where supplemental frameworks live.
 
+my $bindir = 'VICE.app/Contents/Resources/bin';
 die "Run this script in the same directory as VICE.app!" unless -d $bindir;
+die "FW_DIR environment variable not specified!" unless exists($ENV{"FW_DIR"});
+
+my $fwdir = $ENV{"FW_DIR"};
 my @binaries = map("$bindir/$_", split(' ', `ls $bindir`));
+
 # Collect every framework and library linked by any binary. We use hashes as a
 # cheap way to dedup each of these.
 my %frameworks = ();
@@ -58,6 +57,10 @@ foreach my $binary (@binaries) {
     next if /^\/usr\//;
     next if /^\/System\//;
     if (/\.framework\//) {
+      # TODO: Confirm that this framework has a copy in FW_DIR? The
+      #       make would have failed at an earlier phase if it weren't
+      #       there, but the user might have messed with their file
+      #       system between making 'all' and 'bindist', I suppose
       $frameworks{$_} = 1.0;
     } else {
       if (not exists $libraries{$_}) {
@@ -68,8 +71,44 @@ foreach my $binary (@binaries) {
   }
   close LINKEDLIBS;
 }
-print "Frameworks\n----------\n";
-print join("\n", keys %frameworks);
-print "\n\nLibraries\n---------\n";
-print join("\n", keys %libraries);
-print "\n";
+# Copy libraries and frameworks into place, using the Apple-specific
+# "ditto" command to make sure that all attributes etc are preserved
+foreach (keys %libraries) {
+  print "ditto \"$_\" \"$bindir\"\n";
+}
+print "mkdir \"VICE.app/Contents/Frameworks\"\n";
+foreach (keys %frameworks) {
+  /.*\/(.*\.framework).*/;
+  my $destdir = "VICE.app/Contents/Frameworks/$1";
+  print "mkdir \"$destdir\"\n";
+  print "ditto \"$fwdir/$1\" \"$destdir\"\n";
+}
+# Create new id tokens for the dylibs and assemble the mapping to
+# change them to the new relative locations.
+my %links;
+foreach (keys %libraries) {
+  /.*\/(.*)/;
+  $links{$_} = "\@executable_path/$1";
+  print "install_name_tool -id \@executable_path/$1 \"$bindir/$1\"\n";
+}
+# Create new id tokens for the frameworks. Note that there's an extra
+# ".." in the path for this than is usual for macOS applications;
+# that's because x64/x128/xplus4/etc all live in
+# Contents/Resources/bin instead of Contents/MacOS, so it's got to
+# step out one more to get to Contents/Frameworks. And yes, this means
+# that the actual VICE launcher binary doesn't get to link any of
+# these frameworks itself. If we need that in the future we'll need to
+# migrate all the binaries and libraries into Contents/MacOS.
+foreach (keys %frameworks) {
+  /.*\/(.*\.framework.*)/;
+  $links{$_} = "\@executable_path/../../Frameworks/$1";
+  print "install_name_tool -id \@executable_path/../../Frameworks/$1 VICE.app/Contents/Frameworks/$1\n";
+}
+# Update the linkage information for all libraries and frameworks in
+# all binaries. This includes the libraries in %libraries but not in
+# %frameworks, as frameworks are assumed to be self-contained.
+foreach my $binary (@binaries) {
+  foreach (keys %links) {
+    print "install_name_tool -old \"$_\" -new \"$links{$_}\" \"$binary\"\n";
+  };
+}
