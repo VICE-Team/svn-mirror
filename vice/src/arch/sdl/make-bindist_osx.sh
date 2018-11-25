@@ -533,7 +533,7 @@ else
   
   # Create the image and format it
   echo "  creating DMG"
-  hdiutil create -srcfolder $BUILD_DIR $BUILD_TMP_IMG -volname $BUILD_DIR -ov -quiet 
+  hdiutil create -fs HFS+ -srcfolder $BUILD_DIR $BUILD_TMP_IMG -volname $BUILD_DIR -ov -quiet 
 
   # Compress the image
   echo "  compressing DMG"
