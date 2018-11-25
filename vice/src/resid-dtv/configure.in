@@ -8,6 +8,8 @@ LTVERSION=5:0:0
 dnl Use C++ for tests.
 AC_LANG_CPLUSPLUS
 
+AC_CANONICAL_HOST
+
 dnl Enable inlining.
 AC_ARG_ENABLE(inline,
 [  --enable-inline         enable inlining of functions [default=yes]])
@@ -38,7 +40,15 @@ if test "$GXX" = yes; then
                      CXXFLAGS="-g -Wall -O2 -funroll-loops -fomit-frame-pointer"
                      ])
   fi
+  case $host_os in
+  darwin*)
+    CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.9"
+    ;;
+  *)
+    ;;
+  esac
 fi
+
 
 AC_CHECK_PROG(AR, ar, ar, ar)
 AC_PROG_RANLIB

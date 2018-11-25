@@ -519,6 +519,9 @@ if [ "$UI_TYPE" = "cocoa" ]; then
   done
 fi
 
+echo "  copying libraries and adjusting dynamic linking paths"
+(cd $BUILD_DIR && ../src/arch/sdl/macOS-copy-libs.pl)
+
 # --- make dmg? ---
 if [ x"$ZIP" = "xnozip" ]; then
   echo "ready. created dist directory: $BUILD_DIR"

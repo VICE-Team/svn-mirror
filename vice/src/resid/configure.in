@@ -19,6 +19,8 @@ dnl AC_SUBST([LTVERSION], [6:0:0])
 dnl Use C++ for tests.
 AC_LANG([C++])
 
+AC_CANONICAL_HOST
+
 dnl Enable inlining.
 AC_ARG_ENABLE([inline],
   [AC_HELP_STRING([--enable-inline],
@@ -84,6 +86,14 @@ else
     CXXFLAGS=$ORIG_CXXFLAGS
   fi
 fi
+
+case $host_os in
+darwin*)
+  CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.9"
+  ;;
+*)
+  ;;
+esac
 
 AS_IF([test "$GXX" = yes -a "$resid_test_CXXFLAGS" != set],
   [resid_save_CXXFLAGS=$CXXFLAGS
