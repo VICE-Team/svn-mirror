@@ -187,6 +187,7 @@ static const ui_menu_entry_t userport_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
+UI_MENU_DEFINE_TOGGLE(Go64Mode)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
     { "Select C128 model",
@@ -237,6 +238,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c128_rom_menu },
+    { "Switch to C64 mode on reset",
+        MENU_ENTRY_RESOURCE_TOGGLE,
+        toggle_Go64Mode_callback,
+        NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Hardware expansions"),
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
