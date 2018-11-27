@@ -1,5 +1,5 @@
 
-  VICE  3.1                                                        Mar 2017
+  VICE  3.x                                                        Nov 2018
 
 
                  _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 3.1 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 3.x of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  MSDOS, Win32, OS/2, BeOS, QNX 4.x, QNX 6.x, AmigaOS, Dingoo,
  Syllable, SkyOS and for most Unix systems provided with
