@@ -91,4 +91,6 @@ void ui_update_lightpen(void);
 void ui_enable_crt_controls(int enabled);
 void ui_enable_mixer_controls(int enabled);
 
+GtkWidget *ui_get_window_by_index(int index);
+
 #endif

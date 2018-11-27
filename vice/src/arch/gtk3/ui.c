@@ -1759,3 +1759,14 @@ void ui_enable_mixer_controls(int enabled)
         gtk_window_resize(GTK_WINDOW(window), 1, 1);
     }
 }
+
+
+
+GtkWidget *ui_get_window_by_index(int index)
+{
+    if (index < 0 || index >= NUM_WINDOWS) {
+        debug_gtk3("invalid window index %d.", index);
+        return NULL;
+    }
+    return ui_resources.window_widget[index];
+}
