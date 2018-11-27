@@ -9147,12 +9147,12 @@ Integer that specifies the video standard of the emulated machine
 @findex -40col
 @item -40col
 Activate 40 column mode
-(@code{40/80ColumnKey=1}).
+(@code{C128ColumnKey=1}).
 
 @findex -80col
 @item -80col
 Activate 80 column mode
-(@code{40/80ColumnKey=0}).
+(@code{C128ColumnKey=0}).
 
 @findex -go64, +go64
 @item -go64
