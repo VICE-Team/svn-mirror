@@ -1497,8 +1497,13 @@ void sound_suspend(void)
 
     if (snddata.playdev->write && !snddata.issuspended
         && snddata.playdev->need_attenuation) {
-        fill_buffer(snddata.fragsize, -1);
-
+        /* fill buffer, but avoid overwriting */
+        if (!snddata.playdev->bufferspace
+            || snddata.playdev->bufferspace() >= snddata.fragsize) {
+            fill_buffer(snddata.fragsize, -1);
+        } else {
+            log_warning(sound_log, "Buffer full during suspend");
+        }
         /* fill_buffer() can call sound_close() */
         if (!snddata.playdev) {
             return;
