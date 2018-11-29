@@ -1611,7 +1611,7 @@ darwin*)
     if test x"$GCC" = "xyes" ; then
       warnings_cxx="-Wall -Winline"
       warnings_c="-Wstrict-prototypes $warnings_cxx"
-      optimization_c="-O3 -mmacos-version-min=10.9 $march"
+      optimization_c="-O3 -mmacosx-version-min=10.9 $march"
       optimization_cxx="-fno-exceptions $optimization_c"
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
         CFLAGS="$CFLAGS -g $optimization_c $warnings_c"
@@ -3136,7 +3136,7 @@ if test x"$FLAC_PRESENT" = "xyes"; then
     AC_DEFINE(USE_FLAC,,[Enable FLAC support.])
 fi
 
-if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+if test x"$is_unix_macosx" = "xyes"; then
 
   dnl --- check for CoreAudio ---
   AC_CHECK_HEADER(CoreAudio/CoreAudio.h,,)
