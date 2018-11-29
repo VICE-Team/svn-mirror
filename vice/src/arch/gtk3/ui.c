@@ -1200,11 +1200,11 @@ void ui_create_main_window(video_canvas_t *canvas)
     debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
     if (xpos < 0 || ypos < 0 || width <= 0 || height <= 0) {
         /* def. not legal */
-        return;
+        debug_gtk3("shit ain't legal!");
+    } else {
+        gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
+        gtk_window_resize(GTK_WINDOW(new_window), width, height);
     }
-
-    gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
-    gtk_window_resize(GTK_WINDOW(new_window), width, height);
 
     if (resources_get_int("FullscreenEnable", &full) < 0) {
         debug_gtk3("failed to get FullscreenEnabled resource.");
