@@ -85,7 +85,7 @@ static int set_window_xpos(int val, void *param);
 static int set_window_ypos(int val, void *param);
 static int set_start_minimized(int val, void *param);
 static int set_native_monitor(int val, void *param);
-
+static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
 
 
@@ -125,6 +125,9 @@ typedef struct ui_resources_s {
  * to reference the UI resources.
  */
 static ui_resource_t ui_resources;
+
+
+static int fullscreen_enabled = 0;
 
 
 /** \brief  Row numbers of the various widgets packed in a main GtkWindow
@@ -185,6 +188,10 @@ static const resource_int_t resources_int_shared[] = {
 
     { "NativeMonitor", 0, RES_EVENT_NO, NULL,
         &ui_resources.use_native_monitor, set_native_monitor, NULL },
+
+    { "FullscreenEnable", 0, RES_EVENT_NO, NULL,
+        &fullscreen_enabled, set_fullscreen_state, NULL },
+
 
     RESOURCE_INT_LIST_END
 };
@@ -262,6 +269,13 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+native-monitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)0,
         NULL, "Use VICE Gtk3 monitor terminal" },
+    { "-fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "FullscreenEnable", (void*)1,
+        NULL, "Enable fullscreen" },
+    { "+fullscreen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "FullscreenEnable", (void*)0,
+        NULL, "Disable fullscreen" },
+
     CMDLINE_LIST_END
 };
 
@@ -477,6 +491,15 @@ static void on_drag_data_received(
         g_free(filename);
     }
 }
+
+
+static int set_fullscreen_state(int val, void *param)
+{
+    debug_gtk3("called with %d.", val);
+    fullscreen_enabled = val;
+    return 0;
+}
+
 
 
 /** \brief  Get the most recently focused toplevel window
@@ -1045,6 +1068,8 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     gchar title[256];
 
+    int full = 0;
+
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
@@ -1180,6 +1205,16 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
     gtk_window_resize(GTK_WINDOW(new_window), width, height);
+
+    if (resources_get_int("FullscreenEnable", &full) < 0) {
+        debug_gtk3("failed to get FullscreenEnabled resource.");
+    } else {
+        if (full) {
+            gtk_window_fullscreen(GTK_WINDOW(new_window));
+        } else {
+            gtk_window_unfullscreen(GTK_WINDOW(new_window));
+        }
+    }
 }
 
 
