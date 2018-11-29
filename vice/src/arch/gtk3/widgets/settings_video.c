@@ -210,6 +210,19 @@ static GtkWidget *create_true_aspect_widget(int index)
 }
 
 
+/** \brief  Create "fullscreen" widget
+ *
+ * Currently completely ignores C128 VDC/VCII, maybe once we can differenciate
+ * between displays (ie two or more), and put the GtkWindows there, we can
+ * try to handle these scenarios. But for now, deh.
+ */
+static GtkWidget *create_fullscreen_widget(int index)
+{
+    return vice_gtk3_resource_check_button_new(
+            "FullscreenEnable", "Switch to full screen on boot");
+}
+
+
 static void on_hw_scale_toggled(GtkWidget *check, gpointer user_data)
 {
     int enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
@@ -326,8 +339,7 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
 {
     GtkWidget *grid;
     GtkWidget *hw_scale_widget = NULL;
-
-
+    GtkWidget *fullscreen = NULL;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Scaling and fullscreen", 3);
@@ -357,6 +369,10 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
     gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 2 ,1 ,1, 1);
+
+    fullscreen = create_fullscreen_widget(index);
+    g_object_set(G_OBJECT(fullscreen), "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), fullscreen, 0, 2, 3, 1);
 
     g_signal_connect(hw_scale_widget, "toggled",
             G_CALLBACK(on_hw_scale_toggled), GINT_TO_POINTER(index));
@@ -449,39 +465,6 @@ GtkWidget *settings_video_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     chip = uivideo_chip_name();
-#if 0
-    if (machine_class != VICE_MACHINE_C128) {
-        gtk_grid_attach(GTK_GRID(grid),
-                create_layout(parent, chip, 0),
-                0, 0, 1, 1);
-    } else {
-        /* pack VIC-II and VDC widgets into a stack with switcher to avoid
-         * making the widget too large */
-
-        GtkWidget *stack;
-        GtkWidget *switcher;
-
-        stack = gtk_stack_new();
-        gtk_stack_set_transition_type(GTK_STACK(stack),
-                GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
-        gtk_stack_set_transition_duration(GTK_STACK(stack), 1000);
-
-        gtk_stack_add_titled(GTK_STACK(stack), create_layout(parent, chip, 0),
-                "VIC-II", "VIC-II");
-        gtk_stack_add_titled(GTK_STACK(stack), create_layout(parent, "VDC", 1),
-                "VDC", "VDC");
-
-        switcher = gtk_stack_switcher_new();
-        gtk_orientable_set_orientation(GTK_ORIENTABLE(switcher),
-                GTK_ORIENTATION_HORIZONTAL);
-        gtk_widget_set_halign(switcher, GTK_ALIGN_CENTER);
-        gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher),
-                GTK_STACK(stack));
-
-        gtk_grid_attach(GTK_GRID(grid), switcher, 0, 0, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
-    }
-#endif
     gtk_grid_attach(GTK_GRID(grid),
             create_layout(parent, chip, 0),
             0, 0, 1, 1);
