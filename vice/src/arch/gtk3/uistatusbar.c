@@ -375,9 +375,30 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 }
 
 
+/** \brief  Handler for the 'activate' event of the 'Configure drives' item
+ *
+ * Opens the settings UI at the drive settings "page".
+ *
+ * \param[in]   widget  menu item triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
 {
     ui_settings_dialog_create_and_activate_node("peripheral/drive");
+}
+
+
+/** \brief  Handler for the 'activate' event of the 'Reset drive #X' item
+ *
+ * Triggers a reset for drive ((int)data + 8)
+ *
+ * \param[in]   widget  menu item triggering the event (unused)
+ * \param[in]   data    drive number (0-3)
+ */
+static void on_drive_reset_clicked(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("Resetting drive %d", GPOINTER_TO_INT(data) + 8);
+    drive_cpu_trigger_reset(GPOINTER_TO_INT(data));
 }
 
 
@@ -738,6 +759,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     int i = GPOINTER_TO_INT(data);
     GtkWidget *drive_menu = allocated_bars[0].drive_popups[i];
     GtkWidget *drive_menu_item;
+    gchar buffer[256];
 
     ui_populate_fliplist_menu(drive_menu, i + 8, 0);
 
@@ -749,6 +771,15 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
     g_signal_connect(drive_menu_item, "activate",
             G_CALLBACK(on_drive_configure_activate), NULL);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+
+    /*
+     * Add drive reset item
+     */
+    g_snprintf(buffer, 256, "Reset drive #%d", i + 8);
+    drive_menu_item = gtk_menu_item_new_with_label(buffer);
+    g_signal_connect(drive_menu_item, "activate",
+            G_CALLBACK(on_drive_reset_clicked), GINT_TO_POINTER(i));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
 
     gtk_widget_show_all(drive_menu);
