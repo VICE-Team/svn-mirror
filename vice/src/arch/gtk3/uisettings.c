@@ -2452,8 +2452,14 @@ static GtkWidget *dialog_create_helper(void)
             title,
             ui_get_active_window(),
             GTK_DIALOG_MODAL,
+            /*
+             * Temp. disabled due to code freeze, will work on this again
+             * after the code freeze -- compyx
+             */
+#if 0
             "Revert changes", RESPONSE_RESET,
             "Factory reset", RESPONSE_FACTORY,
+#endif
             "Close", GTK_RESPONSE_DELETE_EVENT,
             NULL);
 
