@@ -239,8 +239,10 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         lib_free(home_printer_roms);
     }
 
+#if 0
     log_message(LOG_DEFAULT, "Search path = %s", sysfile_path);
     printf("%s(): paths = '%s'\n", __func__, sysfile_path);
+#endif
     /* sysfile.c appears to free() this (ie TODO: fix sysfile.c) */
     return lib_stralloc(sysfile_path);
 }
