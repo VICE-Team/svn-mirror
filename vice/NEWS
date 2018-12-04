@@ -43,6 +43,14 @@ Before reporting bugs, always try with a clean config (run emulator with
 - Use VTE in Gtk3 ports
 
 
+** c1541
+--------
+
+- Fix `geosread` command
+- Add tilde (~) expansion in `write` command (Unix only)
+- Add P00Save support to `extract` command
+
+
 ** Gtk3 UI
 ----------
 
