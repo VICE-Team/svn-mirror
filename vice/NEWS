@@ -36,6 +36,8 @@ Before reporting bugs, always try with a clean config (run emulator with
 
 - Fix building against external ffmpeg >= 4.0
 
+- Fix errors in multi-SID code
+
 
 ** Monitor
 ----------
@@ -69,15 +71,37 @@ Before reporting bugs, always try with a clean config (run emulator with
 
 - Move cpu/fps display to the statusbar from the title bar
 
+- Add popup menu to the cpu/fps display widget to control refresh rate, speed,
+  warp and pause/advance frame
+
+- Add popup menu to the joystick widget to allow swapping joysticks and
+  userport joysticks, add shortcut menu item to joystick settings UI
+
 - Add cartridge content preview to the cart-attach dialog
   (x64/x64sc/xscpu64/x128)
 
+- Dynamically load CBM font
+
+- Don't allow the mouse cursor to 'escape' during mouse grab
+
+- Unhide mouse pointer in dialogs during mouse grab
+
+- Add setting a cartridge as default
+
+- Improve model settings UI behaviour
+
+- Add "Fullscreen on boot" checkbutton and -fullscreen command line option
+
+- x128: Bring either VDC or VICII display to front depending on 40/80 col key
 
 
 ** SDL UI
 ---------
 
 <go through svn log to fill this in>
+
+- Add toggle button in x128 for the Go64Mode
+
 
 ** more stuff
 -------------
