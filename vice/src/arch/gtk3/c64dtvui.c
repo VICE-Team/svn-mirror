@@ -106,8 +106,6 @@ int c64dtvui_init_early(void)
     ui_machine_window_init();
     ui_set_identify_canvas_func(identify_canvas);
     ui_set_create_controls_widget_func(create_crt_widget);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -129,8 +127,6 @@ int c64dtvui_init(void)
     settings_sampler_set_devices_getter(sampler_get_devices);
 
     settings_model_widget_set_model_func(dtvmodel_get);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -139,5 +135,5 @@ int c64dtvui_init(void)
  */
 void c64dtvui_shutdown(void)
 {
-    INCOMPLETE_IMPLEMENTATION();
+    /* NOP */
 }

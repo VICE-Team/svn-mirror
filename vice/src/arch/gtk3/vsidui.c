@@ -261,6 +261,5 @@ int vsid_ui_init(void)
 
     /* for debugging */
     debug_gtk3("libhvsc version: %s.", hvsc_lib_version_str());
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

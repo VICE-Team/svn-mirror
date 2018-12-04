@@ -105,8 +105,6 @@ int vic20ui_init_early(void)
     ui_machine_window_init();
     ui_set_identify_canvas_func(identify_canvas);
     ui_set_create_controls_widget_func(create_crt_widget);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -137,8 +135,6 @@ int vic20ui_init(void)
 /*    uicart_set_freeze_func(cartridge_trigger_freeze); */
     uicart_set_detach_func(cartridge_detach_image);
     uicart_set_default_func(cartridge_set_default);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -147,5 +143,5 @@ int vic20ui_init(void)
  */
 void vic20ui_shutdown(void)
 {
-    INCOMPLETE_IMPLEMENTATION();
+    /* NOP */
 }

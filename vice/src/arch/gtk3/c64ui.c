@@ -132,8 +132,6 @@ int c64ui_init_early(void)
     ui_machine_window_init();
     ui_set_identify_canvas_func(identify_canvas);
     ui_set_create_controls_widget_func(create_crt_widget);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -183,8 +181,6 @@ int c64ui_init(void)
     /* crt preview widget functions */
     crt_preview_widget_set_open_func(crt_open);
     crt_preview_widget_set_chip_func(crt_read_chip_header);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -193,5 +189,5 @@ int c64ui_init(void)
  */
 void c64ui_shutdown(void)
 {
-    INCOMPLETE_IMPLEMENTATION();
+    /* NOP */
 }

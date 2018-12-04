@@ -131,8 +131,6 @@ int scpu64ui_init_early(void)
     ui_machine_window_init();
     ui_set_identify_canvas_func(identify_canvas);
     ui_set_create_controls_widget_func(create_crt_widget);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -173,8 +171,6 @@ int scpu64ui_init(void)
 
     /* set C64 model_get function */
     settings_model_widget_set_model_func(c64model_get);
-
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -183,5 +179,5 @@ int scpu64ui_init(void)
  */
 void scpu64ui_shutdown(void)
 {
-    INCOMPLETE_IMPLEMENTATION();
+    /* NOP */
 }
