@@ -33,7 +33,7 @@ VICE_ARG_WITH_LIST(gif,           [  --without-gif           do not use the GIF 
 VICE_ARG_WITH_LIST(zlib,          [  --without-zlib          do not use the zlib support])
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(sdlui2,      [  --enable-sdlui2         enables SDL2 UI support])
-VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables WIP native GTK3 UI support])
+VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables native GTK3 UI support])
 VICE_ARG_ENABLE_LIST(debug-gtk3ui, [ --enable-debug-gtk3ui    enables debugging for the WIP GTK3 port])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(shared-ffmpeg, [  --enable-shared-ffmpeg  enable included shared FFmpeg support])
@@ -4288,8 +4288,8 @@ fi
 
 dnl construct show_gui
 show_gui="Unknown"
-if test x"$enable_sdlui" = "xyes" -o x"$show_arch" = "xDingux"; then
-    show_gui="SDL"
+if test x"$enable_sdlui" = "xyes"; then
+    show_gui="SDL1"
 fi
 
 if test x"$enable_sdlui2" = "xyes"; then
