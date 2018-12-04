@@ -37,7 +37,6 @@ libnovte_a_SOURCES = \
 	vteutils.cc
 
 EXTRA_DIST = \
-	vte.h \
 	vtedeprecated.h \
 	vteenums.h \
 	vteglobals.h \
@@ -61,7 +60,6 @@ EXTRA_DIST = \
 	vtegtk.hh \
 	vteinternal.hh \
 	vterowdata.h \
-	vtespawn.hh \
 	vteseq-list.hh \
 	vtestream.h \
 	vtestream-base.h \
