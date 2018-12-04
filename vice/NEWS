@@ -17,8 +17,44 @@ Before reporting bugs, always try with a clean config (run emulator with
 -default or use "restore default config" in the UI).
 
 
+* Changes in VICE 3.3
+=====================
+
+** General
+----------
+
+- Old, unmaintained, ports removed:
+  - MacOS Cocoa: use SDL or Gtk3
+  - WinVice: use SDL or Gtk3
+  - BeOS/Haiku: use SDL
+  - AmigaOS: use SDL
+  - Unix Xaw: use SDL or Gtk3
+  - Unix Gtk2: use SDL or Gtk3
+  - OS/2: use SDL
+
+** Monitor
+----------
+
+- Use VTE in Gtk3 ports
+
+** Gtk3 UI
+----------
+
+<go through svn log to fill this in>
+
+** SDL UI
+---------
+
+<go through svn log to fill this in>
+
+** more stuff
+-------------
+
+
+
+
 * Changes in VICE 3.2
-======================
+=====================
 
 ** General
 ----------
