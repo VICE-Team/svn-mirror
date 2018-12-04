@@ -314,7 +314,9 @@ void crt_preview_widget_update(const gchar *path)
     crt_header_t header;
     crt_chip_header_t chip;
     gchar buffer[1024];
+#ifdef HAVE_DEBUG_GTK3UI
     int packets = 0;
+#endif
 
     /*
      * Guard against non C64/C128 carts
