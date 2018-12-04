@@ -117,12 +117,16 @@ static GtkWidget *c64dtv_rev_widget = NULL;
 
 static void video_model_callback(int model)
 {
+#ifdef HAVE_DEBUG_GTK3UI
     int true_model = -1;
+#endif
 
     debug_gtk3("got model %d", model);
 
     if (get_model_func != NULL) {
+#ifdef HAVE_DEBUG_GTK3UI
         true_model = get_model_func();
+#endif
         debug_gtk3("got true model %d", true_model);
         machine_model_widget_update(machine_widget);
     }
@@ -150,12 +154,16 @@ static void vdc_ram_callback(int state)
 
 static void sid_model_callback(int model)
 {
+#ifdef HAVE_DEBUG_GTK3UI
     int true_model = -1;
+#endif
 
     debug_gtk3("got model %d", model);
 
     if (get_model_func != NULL) {
+#ifdef HAVE_DEBUG_GTK3UI
         true_model = get_model_func();
+#endif
         debug_gtk3("got true model %d", true_model);
         machine_model_widget_update(machine_widget);
     }
