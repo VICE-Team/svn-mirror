@@ -13,7 +13,8 @@ MISC_DOX = \
 	ffmpeg-support.txt \
 	hardware-sids.txt \
 	iec-bus.txt \
-	SDL-support.txt
+	SDL-support.txt \
+	Release-Howto.txt
 
 TEXI_TOOLS = \
 	fixdox.sh \
