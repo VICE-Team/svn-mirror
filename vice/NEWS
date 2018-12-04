@@ -24,23 +24,47 @@ Before reporting bugs, always try with a clean config (run emulator with
 ----------
 
 - Old, unmaintained, ports removed:
-  - MacOS Cocoa: use SDL or Gtk3
-  - WinVice: use SDL or Gtk3
-  - BeOS/Haiku: use SDL
-  - AmigaOS: use SDL
-  - Unix Xaw: use SDL or Gtk3
-  - Unix Gtk2: use SDL or Gtk3
+  * MacOS Cocoa: use SDL or Gtk3
+  * WinVice: use SDL or Gtk3
+  * BeOS/Haiku: use SDL
+  * AmigaOS: use SDL
+  * Unix Xaw: use SDL or Gtk3
+  ( Unix Gtk2: use SDL or Gtk3
   - OS/2: use SDL
+
+- Split ReSID resource into 6581/8580-specific resources
+
+- Fix building against external ffmpeg >= 4.0
+
 
 ** Monitor
 ----------
 
 - Use VTE in Gtk3 ports
 
+
 ** Gtk3 UI
 ----------
 
 <go through svn log to fill this in>
+
+- Remember last used settings "page" in the settings UI
+
+- Remember last used directory for various file dialogs
+
+- Popup menus for the drive widgets in the status bar:
+  * Show directory of currently attached disk image
+  * Add menu shortcut to the drive settings UI
+  * Add Reset drive #X item
+
+- Mixer/CRT widgets: various fixes
+
+- Move cpu/fps display to the statusbar from the title bar
+
+- Add cartridge content preview to the cart-attach dialog
+  (x64/x64sc/xscpu64/x128)
+
+
 
 ** SDL UI
 ---------
@@ -50,7 +74,15 @@ Before reporting bugs, always try with a clean config (run emulator with
 ** more stuff
 -------------
 
+** VSID (Gtk3)
+--------------
 
+- Remember last-used-directory for the open file dialog
+- Add drag'n'drop support
+- Add HVSC support:
+    * Support SLDB
+    * Support STIL
+- 
 
 
 * Changes in VICE 3.2
