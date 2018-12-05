@@ -13,6 +13,8 @@ $(GRESOURCE_XML): $(GRESOURCE_PROTO)
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources $< --target $@
 
+EXTRA_DIST = $(GRESOURCE_PROTO)
+
 gtk3data_DATA = $(GRESOURCE_TARGET)
 
 .PHONY: clean
