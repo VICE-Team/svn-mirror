@@ -37,6 +37,7 @@ libnovte_a_SOURCES = \
 	vteutils.cc
 
 EXTRA_DIST = \
+	novte.h \
 	vtedeprecated.h \
 	vteenums.h \
 	vteglobals.h \
@@ -68,7 +69,12 @@ EXTRA_DIST = \
 	vteunistr.h \
 	vteutils.h\
 	box_drawing.txt \
-	iso2022.txt
+	iso2022.txt \
+	box_drawing_generate.sh \
+	marshal.list \
+	vtetypebuiltins.cc.template \
+	vtetypebuiltins.h.template \
+	vtetypebuiltins.h
 
 BUILT_SOURCES = \
 	box_drawing.h \
