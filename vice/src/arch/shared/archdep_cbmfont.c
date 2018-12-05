@@ -81,10 +81,14 @@ int archdep_register_cbmfont(void)
 
 #else   /* UNIX_COMPILE */
 
+
 /*
  * Windows part of the API
  */
-# include "windows.h"
+
+# ifdef ARCHDEP_OS_WINDOWS
+
+#  include "windows.h"
 
 
 /** \brief  Attempt to register the CBM font with the OS's font API
@@ -111,8 +115,17 @@ int archdep_register_cbmfont(void)
     return 1;
 }
 
-#endif
+# else
 
+int archdep_register_cbmfont(void)
+{
+    /* OS not supported */
+   return 0;
+}
+
+# endif
+
+#endif
 
 /** \brief  Unregister the CBM font
  *
