@@ -66,7 +66,9 @@ EXTRA_DIST = \
 	vtestream-file.h \
 	vtetypes.hh \
 	vteunistr.h \
-	vteutils.h
+	vteutils.h\
+	box_drawing.txt \
+	iso2022.txt
 
 BUILT_SOURCES = \
 	box_drawing.h \
