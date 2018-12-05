@@ -6,6 +6,10 @@ Prerequisites:
 
 - update the html pages in doc/html
 
+- update man pages and vice.texi
+
+- make sure (c) dates are correct (README, vice.texi, soundflac.c)
+
 - make sure the version in configure.proto is updated and it's updated in other 
   files
 
