@@ -27,6 +27,12 @@ ffmpeg is not configured they will not have any makefiles to get 'make dist'ed
 $ ./configure --with-resid --disable-external-ffmpeg --enable-static-ffmpeg
 $ make dist
 
+Be prepared for a shitload of stuff people forgot to add to the various
+EXTRA_DIST vars in the Makefile.am's, meaning endless updates to those
+Makefile.am's and constantly running make dist, unzipping into another dir to
+properly test the dist and finding out it is broken. Repeat.
+
+
 create a tagged branch on the svn
 
 $ svn cp <url of svn trunk> <url of svn tag>
