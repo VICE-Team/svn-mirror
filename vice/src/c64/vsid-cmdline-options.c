@@ -62,6 +62,5 @@ static const cmdline_option_t cmdline_options[] =
  */
 int vsid_cmdline_options_init(void)
 {
-    printf("VSID CMDLINE INIT!\n");
     return cmdline_register_options(cmdline_options);
 }
