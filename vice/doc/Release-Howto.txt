@@ -4,6 +4,13 @@ Prerequisites:
 
 - update README and NEWS
 
+to get a list of all changes since last release you can use svn log like this:
+
+$ svn log -r <rev of last release>:<current rev> > log.txt
+
+you can look up the revision of the last release in the tags directory in the
+repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
+
 - update the html pages in doc/html
 
 - update man pages and vice.texi

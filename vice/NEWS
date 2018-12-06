@@ -32,20 +32,91 @@ Before reporting bugs, always try with a clean config (run emulator with
   ( Unix Gtk2: use SDL or Gtk3
   - OS/2: use SDL
 
-- Split ReSID resource into 6581/8580-specific resources
-
 - Fix building against external ffmpeg >= 4.0
 
 - Fix errors in multi-SID code
+
+- added single SNES pad emulation (compatible to Ninjas adapter/TrapThem64)
+
+- Make VICE much faster by using -O3 vs -O2
+
+- add a slot number before the literal name of a game-controller, which is less 
+  confusing when more than one controller of the same type is used
+
+- fix parsing of the commandline with -config first
+
+- added dutch to list of keyboard mappings
+
+  
+** Unix fixes
+-------------
+
+- the sleep function was not handling timer overflows properly, which happens
+  every 4 seconds on a 32bit machine with nanosleep()
+
+  
+** macOS fixes
+--------------
+
+- Enabled the use of the CoreAudio driver in macOS SDL builds.
+
+
+** ReSID fixes
+--------------
+
+- tweak uCox value
+- correctly emulate filter cutoff transistor both in triode and saturation mode
+- Split ReSID resource into 6581/8580-specific resources (passthrough/gain/bias)
+- various envelope generator fixes
+- use different timing on 6581/8580 for noise register reset when testbit is set
+- noise shift register is clocked once after reset
+
+
+** VIC fixes
+---------------
+
+- corrected green color angle according to colodore website
+- fix lumas according to 'colodore'
+
+
+** VIC-II fixes
+---------------
+
+- corrected green color angle according to colodore website
+- fix lumas according to 'colodore'
+- added ChristopherJam palette
+
+
+** TED fixes
+---------------
+
+- corrected color angles according to colodore website
+- fix lumas according to 'colodore'
+
+
+** VIA fixes
+------------
+
+- fixed initial state of the I/O ports
+
+
+** CIA fixes
+------------
+
+- fixed initial state of the I/O ports
 
 
 ** Monitor
 ----------
 
-- Use VTE in Gtk3 ports
 - io d600 (x128 VDC register dump) expanded
 
+- in memory dump limit the number of bytes per line to a power of two.
 
+- instead of limiting disassembler output to a number of bytes, limit it to the 
+  height of the current terminal
+
+  
 ** c1541
 --------
 
@@ -54,8 +125,28 @@ Before reporting bugs, always try with a clean config (run emulator with
 - Add P00Save support to `extract` command
 
 
+** Drive changes
+----------------
+
+- Fix WD1770 formatting issues
+
+- fix mapping of sfd-1001 ram
+
+- Fix trap_rom offset for 2040/4040
+
+
+** C64 changes
+--------------
+
+- support extra 64k eprom on the comal80 cartridge
+
+- added symbolic keymaps for dutch keyboard layout
+
+
 ** C128 changes
 ---------------
+
+- Autostart fixes
 
 - Stability improvements
 
@@ -70,12 +161,13 @@ Before reporting bugs, always try with a clean config (run emulator with
   * Alternate character set fixes
   * Cursor rendering
   * Smooth scrolling in 40 column (pixel double) mode
+  * vertical positioning (include register 5)
+
+- added norwegian c128 chargen
 
 
 ** Gtk3 UI
 ----------
-
-<go through svn log to fill this in>
 
 - Remember last used settings "page" in the settings UI
 
@@ -113,17 +205,46 @@ Before reporting bugs, always try with a clean config (run emulator with
 
 - x128: Bring either VDC or VICII display to front depending on 40/80 col key
 
+- VTE pulled into the sourcetree, which allows using the same monitor window
+  in all ports
+
+- Terminal- or GUI based monitor can be selected at runtime in all ports
+
+- introduced new VICE logo provided by Bjoern Odendahl (thanks!)
+
+- fix assignment of user keymaps
+
 
 ** SDL UI
 ---------
 
-<go through svn log to fill this in>
-
 - Add toggle button in x128 for the Go64Mode
 
+- ignore 'dotfiles' in the fileselector on *nix
 
-** more stuff
--------------
+- added browsing inside disk and tape images.
+
+- added pageup/pagedown/home/end key mappings, and support them in the menus, 
+  file-selector and text viewer
+
+- Terminal- or UI based monitor can be selected at runtime in all ports
+
+- added a hack to get rid of spurious keyup/keydown events after switching 
+  from/to fullscreen
+  
+- generate suitable fonts for the ui at startup, use some custom gfx for the ui. 
+  fixes the problem that the ui chars will screw up when the user selects a 
+  japanese chargen :)
+  
+- when changing color- or crt emulation settings, print a color matrix on screen 
+  and update the resources in realtime
+  
+- UI cosmetics:
+  - fix slider length, use custom chars for slider
+  - make screen all black before entering the UI
+  - added basic default window icon
+  - fix display of literal key names for SDL2
+
 
 ** VSID (Gtk3)
 --------------
@@ -133,7 +254,12 @@ Before reporting bugs, always try with a clean config (run emulator with
 - Add HVSC support:
     * Support SLDB
     * Support STIL
-- 
+
+
+** VSID (SDL)
+--------------
+
+- implemented drag'n'drop
 
 
 * Changes in VICE 3.2
