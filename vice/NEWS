@@ -43,6 +43,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 ----------
 
 - Use VTE in Gtk3 ports
+- io d600 (x128 VDC register dump) expanded
 
 
 ** c1541
@@ -51,6 +52,24 @@ Before reporting bugs, always try with a clean config (run emulator with
 - Fix `geosread` command
 - Add tilde (~) expansion in `write` command (Unix only)
 - Add P00Save support to `extract` command
+
+
+** C128 changes
+---------------
+
+- Stability improvements
+
+- VIC mirroring fixed
+
+- VDC emulation improvements
+  * Interlace mode is supported in text and graphics modes
+    (renderers still need work to handle the interlace effect properly)
+  * STATUS flag is partially emulated
+  * Rendering unusual character widths and in the inter-character gap
+  * Semi-graphics mode fixes
+  * Alternate character set fixes
+  * Cursor rendering
+  * Smooth scrolling in 40 column (pixel double) mode
 
 
 ** Gtk3 UI
