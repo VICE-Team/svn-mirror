@@ -18,6 +18,15 @@
 
  ----------------------------------------------------------------------------
 
+ This release stabilizes and introduces the GTK3 UI as the primary user 
+ interface for all major ports. For "lesser" platforms we still have the SDL 
+ based interface. All other user interfaces have been removed. RIP
+
+ We are still looking for dedicated maintainers for the Windows- and macOS 
+ ports, if you want to help improving these and/or want to provide binaries, 
+ please get in touch.
+
+ ----------------------------------------------------------------------------
 
  This is version 3.3 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
@@ -82,6 +91,14 @@
      - coding-guidelines.txt, description of VICE coding style
      - Documentation-Howto.txt, information on how to edit the documentation
      - Doxygen-Howto.txt, how to generate doxygen documentation
+     - Release-Howto.txt, some hints and reminders on how to create a release
+       tarball (for maintainers)
+     - ffmpeg-support.txt, this document details the results of test compiles 
+       with regards to the included ffmpeg library.
+     - SDL-support.txt, this document details the results of test compiles with 
+       regards to the SDL 1 and SDL 2 support.
+     - hardware-sids.txt, this document details the hardware SIDs and how they 
+       are supported on the various platforms.
 
    - in the doc/readmes directory:
 
