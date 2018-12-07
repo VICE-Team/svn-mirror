@@ -143,9 +143,6 @@
  */
 #define UNIT_MAX        (UNIT_MIN + DRIVE_COUNT - 1)
 
-#define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
-#define C1541_VERSION_MINOR     3   /**< c1541 minor version number */
-
 
 /** \brief  Magic bytes for a P00 header
  */
@@ -4442,12 +4439,11 @@ static int validate_cmd(int nargs, char **args)
 static int version_cmd(int nargs, char **args)
 {
 #ifdef USE_SVN_REVISION
-    printf("c1541 V%d.%d (VICE %s svn r%d)\n",
-            C1541_VERSION_MAJOR, C1541_VERSION_MINOR,
+    printf("c1541 (VICE %s SVN r%d)\n",
             VERSION, VICE_SVN_REV_NUMBER);
 #else
-    printf("c1541 V%d.%d (VICE %s)\n",
-            C1541_VERSION_MAJOR, C1541_VERSION_MINOR, VERSION);
+    printf("c1541 (VICE %s)\n",
+            VERSION);
 #endif
     return FD_OK;
 }
