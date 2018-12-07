@@ -144,7 +144,7 @@
 #define UNIT_MAX        (UNIT_MIN + DRIVE_COUNT - 1)
 
 #define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
-#define C1541_VERSION_MINOR     2   /**< c1541 minor version number */
+#define C1541_VERSION_MINOR     3   /**< c1541 minor version number */
 
 
 /** \brief  Magic bytes for a P00 header
