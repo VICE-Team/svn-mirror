@@ -56,7 +56,7 @@ An extra emulator is provided for C64 expanded with the CMD SuperCPU.
 <h1><a NAME="news"></a>News</h1>
 <p>
 <img SRC="images/new.gif" ALT="[NEW]">
-(20 May 2018) Version 3.2 released
+(20 December 2018) Version 3.3 released
 </p>
 
 <ul>
@@ -73,15 +73,16 @@ We like to thank the SourceForge staff for that help.
 </ul>
 
 <p>
-This release marks the end of the legacy ports (native Amiga, BeOS/Haiku, OS/2, DOS, Xaw/Gnome2/Gnome3, Cocoa and Windows) ports,
-and we will be switching to SDL1/2 and *nix/Windows/OSX native GTK3 ports for all future releases.
+This release stabilizes and introduces the GTK3 UI as the primary user interface for all major ports. For "lesser"
+platforms we still have the SDL1/SDL2 based interface. All other user interfaces have been removed. RIP
 </p>
 
 <p>
 Anyway, we probably need more help to keep all things going, so here
 is the usual call for volunteers... <tt>;-)</tt> If you like to join our
 group, and help us in any way , please send a mail to
-<a href="mailto:vice-emu-mail@lists.sourceforge.net">vice-emu-mail@lists.sourceforge.net</a>.
+<a href="mailto:vice-emu-mail@lists.sourceforge.net">vice-emu-mail@lists.sourceforge.net</a>
+or catch us in #vice-dev on freenode IRC.
 Anyone interested in helping development of VICE is welcome. Please contact
 <a href="mailto:vice-emu-mail@lists.sourceforge.net">us</a>
 to avoid doing something that someone else has done already. <tt>(-:</tt>
@@ -129,16 +130,19 @@ or lost.
 <h2><a NAME="download"></a>Download VICE</h2>
 
 <p>
-You can download the latest VICE distributions here.
-Some ports may not be available at the release date,
-they will be added when they become available.
+You can download the latest VICE distribution here.
+We do not provide official binaries anymore. 
+If you want to help improving the official ports and/or want to provide binaries, please get in touch with us.
+Occasionally we might upload unofficial test builds
+<a href="https://sourceforge.net/projects/vice-emu/files/experimental%20binaries/">here</a>.
+</p>
 
 <h3>Source distributions</h3>
 
 <ul>
 <li>
 Tarball:
-<a href="https://sourceforge.net/projects/vice-emu/files/releases/vice-3.2.tar.gz/download">vice-3.2.tar.gz</a>
+<a href="https://sourceforge.net/projects/vice-emu/files/releases/vice-3.3.tar.gz/download">vice-3.3.tar.gz</a>
 </li>
 </ul>
 
@@ -146,12 +150,19 @@ Tarball:
 
 <h3>Binary distributions</h3>
 
-The only binary distribution that we are providing for VICE 3.2 is the nightly windows build on the date of release.
+The only binary distribution that we are providing for VICE 3.3 is the nightly windows build on the date of release.
 
-<a href="https://sourceforge.net/projects/vice-emu/files/releases/binaries/windows/WinVICE-3.2-x86.7z/download">WinVICE-3.2-x86.7z</a>
+<a href="https://sourceforge.net/projects/vice-emu/files/releases/binaries/windows/WinVICE-3.3-x86.7z/download">WinVICE-3.3-x86.7z</a>
+
+<h3>nightly builds</h3>
+
+<p>
+nightly builds of WinVICE provided by pokefinder.org can be found on
+<a href="http://vice.pokefinder.org/">http://vice.pokefinder.org/</a>.
+</p>
 
 
-<h3>Older binary distributions</h3>
+<h3>Old binary distributions</h3>
 
 <ul>
 <li>
@@ -160,8 +171,6 @@ Please visit the Windows <a href="windows.html">download page</a>.
 </li>
 </ul>
 
-
-<h4>Linux</h4>
 <h4>OSX</h4>
 
 <ul>
@@ -277,25 +286,12 @@ Please visit the Unix <a href="unix.html">download page</a>.
 </li>
 </ul>
 
+<h3>Older binary distributions</h3>
+
 <p>
-The files are taken from
+Binaries of even older releases can be found on
 <a href="http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE/">http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE</a>.
 </p>
-
-<h3>Old binary distributions</h3>
-
-<p>
-Binaries of old releases can be found on
-<a href="http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE/">http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE</a>.
-</p>
-
-<h3>nightly builds</h3>
-
-<p>
-nightly builds of WinVICE provided by pokefinder.org can be found on
-<a href="http://vice.pokefinder.org/">http://vice.pokefinder.org/</a>.
-</p>
-
 
 
 <h1><a NAME="Related Resources"></a>Related resources</h1>

@@ -11,14 +11,14 @@ $ svn log -r <rev of last release>:<current rev> > log.txt
 you can look up the revision of the last release in the tags directory in the
 repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
-- update the html pages in doc/html
+- update the html pages in doc/html (index.html, windows.html)
 
 - update man pages and vice.texi
 
-- make sure (c) dates are correct (README, vice.texi, soundflac.c)
+- make sure (c) dates are correct (README, index.html, vice.texi, soundflac.c)
 
 - make sure the version in configure.proto is updated and it's updated in other 
-  files
+  files (index.html)
 
 - ANNOUNCE A CODE FREEZE ;)
 
