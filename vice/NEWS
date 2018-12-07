@@ -20,6 +20,14 @@ Before reporting bugs, always try with a clean config (run emulator with
 * Changes in VICE 3.3
 =====================
 
+This release stabilizes and introduces the GTK3 UI as the primary user interface 
+for all major ports. For "lesser" platforms we still have the SDL1/SDL2 based 
+interface. All other user interfaces have been removed. RIP
+
+We are still looking for dedicated maintainers for the Windows- and macOS ports,
+if you want to help improving these and/or want to provide binaries, please get
+in touch.
+
 ** General
 ----------
 
