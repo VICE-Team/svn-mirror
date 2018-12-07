@@ -89,9 +89,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define PETCATVERSION   2.22
-#define PETCATLEVEL     1
-
 #define B_1              1
 #define B_2              2
 #define B_SUPEREXP       3
@@ -1217,9 +1214,15 @@ void usage(char *progname)
     qsort(sorted_option_elements, NUM_VERSIONS, sizeof(*sorted_option_elements),
             compare_elements);
 
+#ifdef USE_SVN_REVISION
     fprintf(stdout,
-            "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n\tPart of "PACKAGE " "VERSION "\n",
-            progname, (float)PETCATVERSION, PETCATLEVEL );
+            "\n\t%s (VICE %s SVN r%d) -- Basic list/crunch utility.\n",
+            progname, VERSION, VICE_SVN_REV_NUMBER);
+#else
+    fprintf(stdout,
+            "\n\t%s (VICE %s) -- Basic list/crunch utility.\n",
+            progname, VERSION);
+#endif
 
     fprintf(stdout,
             "\nUsage: %7s  [-c | -nc]  [-h | -nh]  [-text | -<version> | -w<version>]"
@@ -1281,11 +1284,9 @@ void usage(char *progname)
 static void petcat_version(void)
 {
 #ifdef USE_SVN_REVISION
-    printf("petcat V%0.2f PL %d (VICE %s svn r%d)\n",
-            PETCATVERSION, PETCATLEVEL, VERSION, VICE_SVN_REV_NUMBER);
+    printf("petcat (VICE %s SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
 #else
-    printf("petcat V%0.2f PL %d (VICE %s)\n",
-            PETCATVERSION, PETCATLEVEL, VERSION);
+    printf("petcat (VICE %s)\n", VERSION);
 #endif
 }
 
@@ -1317,7 +1318,15 @@ static void list_keywords(int version)
     unsigned int n, max;
 
     if (version <= 0 || (unsigned int)version > NUM_VERSIONS) {
-        printf("\n  The following versions are supported on  %s V%4.2f\n\n", "petcat", (float)PETCATVERSION );
+#ifdef USE_SVN_REVISION
+        printf("\n  The following versions are supported on petcat"
+               " (VICE %s SVN r%d)\n\n",
+                VERSION, VICE_SVN_REV_NUMBER);
+#else
+        printf("\n  The following versions are supported on petcat"
+               " (VICE %s)\n\n",
+                VERSION);
+#endif
 
         for (n = 0; basic_list[n].name; n++) {
             printf("\t%s\n", basic_list[n].name);
