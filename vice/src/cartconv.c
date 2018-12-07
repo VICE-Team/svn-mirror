@@ -387,9 +387,9 @@ static void usage(void)
 static void dump_version(void)
 {
 #ifdef USE_SVN_REVISION
-    printf("cartconv %s (SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+    printf("cartconv (VICE %s SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
 #else
-    printf("cartconv %s RELEASE\n", VERSION);
+    printf("cartconv (VICE %s)\n", VERSION);
 #endif
 }
 
