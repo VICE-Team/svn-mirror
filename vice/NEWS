@@ -29,8 +29,8 @@ Before reporting bugs, always try with a clean config (run emulator with
   * BeOS/Haiku: use SDL
   * AmigaOS: use SDL
   * Unix Xaw: use SDL or Gtk3
-  ( Unix Gtk2: use SDL or Gtk3
-  - OS/2: use SDL
+  * Unix Gtk2: use SDL or Gtk3
+  * OS/2: use SDL
 
 - Fix building against external ffmpeg >= 4.0
 
@@ -59,6 +59,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 --------------
 
 - Enabled the use of the CoreAudio driver in macOS SDL builds.
+- Removed the legacy requirement for X11.app when launching VICE.app
 
 
 ** ReSID fixes
@@ -244,6 +245,14 @@ Before reporting bugs, always try with a clean config (run emulator with
   - make screen all black before entering the UI
   - added basic default window icon
   - fix display of literal key names for SDL2
+
+- major rework of SDL2 video renderer to work natively with all supported
+  graphics acceleration technologies (OpenGL ES, DX11, Metal, etc). Fullscreen
+  support and resized windows now preserve aspect ratio properly on any screen
+  size.
+
+- SDL2 now respects "GL" filter mode. As a bonus it does so even when the
+  renderer is not OpenGL.
 
 
 ** VSID (Gtk3)
