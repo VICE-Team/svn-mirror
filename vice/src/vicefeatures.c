@@ -549,13 +549,15 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#ifdef UNIX /* (unix) */
+#if 0
+# ifdef UNIX /* (unix) */
     { "USE_UI_THREADS", "Enable multithreaded UI.",
-#ifndef USE_UI_THREADS
+#  ifndef USE_UI_THREADS
         0 },
-#else
+#  else
         1 },
-#endif
+#  endif
+# endif
 #endif
     { NULL, NULL, 0 }
 };
