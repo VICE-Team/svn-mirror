@@ -406,14 +406,6 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#ifdef UNIX /* (unix) */
-    { "HAVE_XVIDEO", "Enable XVideo support.",
-#ifndef HAVE_XVIDEO
-        0 },
-#else
-        1 },
-#endif
-#endif
 /* (all) */
     { "HAVE_ZLIB", "Can we use the ZLIB compression library?",
 #ifndef HAVE_ZLIB
@@ -559,6 +551,26 @@ static feature_list_t featurelist[] = {
 #  endif
 # endif
 #endif
+
+/*
+ * Used in Gtk3 for Unix. Gtk3 can also use fontconfig as a backend on MacOS
+ * and Windows.
+ */
+    { "HAVE_FONTCONFIG", "Fontconfig support for dynamical font loading.",
+#ifndef HAVE_FONTCONFIG
+        0 },
+#else
+        1 },
+#endif
+
+/* Gtk3UI debubbing support */
+    { "HAVE_DEBUG_GTK3UI", "Enable debugging messages in the Gtk3 UI.",
+#ifndef HAVE_DEBUG_GTK3UI
+        0 },
+#else
+        1 },
+#endif
+
     { NULL, NULL, 0 }
 };
 
