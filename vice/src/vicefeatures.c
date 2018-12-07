@@ -571,6 +571,22 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 
+/* Gtk3UI OpenGL support */
+    { "HAVE_GTK3_OPENGL", "Enable OpenGL support in the Gtk3 UI.",
+#ifndef HAVE_GTK3_OPENGL
+        0 },
+#else
+        1 },
+#endif
+
+/* Gtk3UI OpenGL GLEW (openGL Extenstion Wrangler) library support */
+    { "HAVE_GTK3_GLEW", "Gtk3 OpenGL support uses GLEW (openGL Extension Wrangler).",
+#ifndef HAVE_GTK3_GLEW
+        0 },
+#else
+        1 },
+#endif
+
     { NULL, NULL, 0 }
 };
 
