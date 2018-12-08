@@ -478,7 +478,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                                    - (vdc.regs[3] >> 4)             /* vertical sync pulse width */
                                    + (vdc.regs[5] & 0x1f);          /* vertical total adjust */
 
-        if (calculated_border_height >= 0) {
+        if (calculated_border_height >= 0 && calculated_border_height <= VDC_SCREEN_HEIGHT) {
             vdc.border_height = calculated_border_height;
         } else {
             vdc.border_height = 0;
@@ -523,7 +523,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             switch (vdc.regs[4]) {
                 case 0x84:  /* Option 1 - NTSC  Interlace */
                     for (i = 0; i < 20; i++) { /* increment the memory pointer a few times based on [WTF?] */
-                        // vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
                         vdc.mem_counter -= vdc.mem_counter_inc + vdc.regs[27];
                     }
                     for (i = 0; i < 40; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */

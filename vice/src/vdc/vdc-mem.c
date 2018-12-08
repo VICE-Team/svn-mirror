@@ -32,7 +32,7 @@
 #include <string.h>
 
 #include <stdio.h>
-
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
@@ -253,7 +253,7 @@ void vdc_store(uint16_t addr, uint8_t value)
         case 8:                 /* R08  unused: Interlace and Skew */
             vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-            log_message(vdc.log, "REG 8 Interlace:%02x");
+            log_message(vdc.log, "REG 8 Interlace:%02x", vdc.regs[8]);
 #endif
             break;
 
