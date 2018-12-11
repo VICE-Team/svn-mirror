@@ -153,6 +153,37 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
 
 
 
+static void do_autostart(GtkWidget *widget, gpointer user_data)
+{
+    gchar *filename;
+    int index = GPOINTER_TO_INT(user_data);
+
+    lastdir_update(widget, &last_dir);
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    debug_gtk3("Autostarting file '%s'.", filename);
+    /* if this function exists, why is there no attach_autodetect()
+     * or something similar? -- compyx */
+    if (autostart_disk(
+                filename,
+                NULL,   /* program name */
+                index,  /* Program number? Probably used when clicking
+                           in the preview widget to load the proper
+                           file in an image */
+                AUTOSTART_MODE_RUN) < 0) {
+        /* oeps */
+        debug_gtk3("autostart disk attach failed.");
+    }
+    g_free(filename);
+    gtk_widget_destroy(widget);
+}
+
+
+static void on_file_activated(GtkWidget *chooser, gpointer data)
+{
+    do_autostart(chooser, data);
+}
+
+
 
 /** \brief  Handler for 'response' event of the dialog
  *
@@ -198,24 +229,8 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
-            lastdir_update(widget, &last_dir);
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            debug_gtk3("Autostarting file '%s'.", filename);
-            /* if this function exists, why is there no attach_autodetect()
-             * or something similar? -- compyx */
-            if (autostart_disk(
-                        filename,
-                        NULL,   /* program name */
-                        index,  /* Program number? Probably used when clicking
-                                   in the preview widget to load the proper
-                                   file in an image */
-                        AUTOSTART_MODE_RUN) < 0) {
-                /* oeps */
-                debug_gtk3("autostart disk attach failed.");
-            }
-            g_free(filename);
-            gtk_widget_destroy(widget);
-            break;
+            do_autostart(widget, user_data);
+           break;
 
         /* 'Close'/'X' button */
         case GTK_RESPONSE_REJECT:
@@ -325,7 +340,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             G_CALLBACK(on_response), GINT_TO_POINTER(0));
     g_signal_connect(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
-
+    g_signal_connect(dialog, "file-activated",
+            G_CALLBACK(on_file_activated), NULL);
     return dialog;
 
 }
