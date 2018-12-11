@@ -93,6 +93,44 @@ static void update_last_dir(GtkWidget *widget)
 #endif
 
 
+/** \brief  Tigger autostart
+ *
+ * \param[in]   widget  dialog
+ */
+static void do_autostart(GtkWidget *widget, gpointer data)
+{
+    gchar *filename;
+    int index = GPOINTER_TO_INT(data);
+
+    lastdir_update(widget, &last_dir);
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    debug_gtk3("Autostarting file '%s'.", filename);
+    /* if this function exists, why is there no attach_autodetect()
+     * or something similar? -- compyx */
+    if (autostart_autodetect(
+                filename,
+                NULL,   /* program name */
+                index,  /* Program number? Probably used when clicking
+                           in the preview widget to load the proper
+                           file in an image */
+                AUTOSTART_MODE_RUN) < 0) {
+        /* oeps */
+        debug_gtk3("autostart-smart-attach failed.");
+    }
+    g_free(filename);
+    gtk_widget_destroy(widget);
+}
+
+
+
+static void on_file_activated(GtkWidget *chooser, gpointer data)
+{
+    debug_gtk3("I haz called.");
+    do_autostart(chooser, data);
+}
+
+
+
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -194,6 +232,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
+            do_autostart(widget, user_data);
+#if 0
             lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'.", filename);
@@ -211,6 +251,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             }
             g_free(filename);
             gtk_widget_destroy(widget);
+#endif
             break;
 
         /* 'Close'/'X' button */
@@ -330,6 +371,8 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
     g_signal_connect(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
+    g_signal_connect(dialog, "file-activated",
+            G_CALLBACK(on_file_activated), NULL);
 
     return dialog;
 
