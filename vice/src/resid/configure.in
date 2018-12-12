@@ -87,14 +87,6 @@ else
   fi
 fi
 
-case $host_os in
-darwin*)
-  CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.9"
-  ;;
-*)
-  ;;
-esac
-
 AS_IF([test "$GXX" = yes -a "$resid_test_CXXFLAGS" != set],
   [resid_save_CXXFLAGS=$CXXFLAGS
    CXXFLAGS="-g -Wall -O3 $march -ffast-math -fno-exceptions"
@@ -108,6 +100,14 @@ AS_IF([test "$GXX" = yes -a "$resid_test_CXXFLAGS" != set],
                                         [AC_MSG_RESULT(yes)],
                                         [AC_MSG_RESULT(no)
                                          CXXFLAGS=$resid_save_CXXFLAGS])])])
+
+case $host_os in
+darwin*)
+  CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.9"
+  ;;
+*)
+  ;;
+esac
 
 AC_CHECK_PROG([AR], [ar], [ar], [ar])
 AC_PROG_RANLIB
