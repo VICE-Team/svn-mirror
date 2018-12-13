@@ -97,9 +97,6 @@ void archdep_shutdown(void)
     }
 
     archdep_network_shutdown();
-
-    /* partially implemented */
-    INCOMPLETE_IMPLEMENTATION();
 }
 
 
