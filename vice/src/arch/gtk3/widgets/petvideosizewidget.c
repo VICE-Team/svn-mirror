@@ -87,7 +87,7 @@ GtkWidget *pet_video_size_widget_create(void)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     g_object_set(G_OBJECT(grid), "margin-left", 8, NULL);
     label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>Bidet size</b>");
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Display width</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
