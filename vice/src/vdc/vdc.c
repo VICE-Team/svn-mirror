@@ -522,10 +522,10 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                Need to figure out WTF the VDC is doing with its memory pointers that we need this much hackery.. */
             switch (vdc.regs[4]) {
                 case 0x84:  /* Option 1 - NTSC  Interlace */
-                    for (i = 0; i < 20; i++) { /* increment the memory pointer a few times based on [WTF?] */
+                    for (i = 0; i < 20; i++) { /* decrement the memory pointer a few times based on [WTF?] */
                         vdc.mem_counter -= vdc.mem_counter_inc + vdc.regs[27];
                     }
-                    for (i = 0; i < 40; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
+                    for (i = 0; i < 40; i++) { /* decrement the bitmap memory pointer a few times based on how many columns are in a row */
                         vdc.bitmap_counter -= (vdc.mem_counter_inc + vdc.regs[27]);
                     }
                     break;
@@ -538,19 +538,18 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     }
                     break;
                 case 0x6a:  /* Option 5 - "VDC-IMONO" 720x700 Mono Interlace */
-                    for (i = 0; i < 170; i++) { /* increment the memory pointer a few times based on [WTF?] */
-                        vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
-                    }
                     for (i = 0; i < 83; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
                         vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
                     }
                     break;
                 case 0x5c:  /* Option 6 - "VDC-IM800" 800x600 Mono Interlace */
-                    for (i = 0; i < 70; i++) { /* increment the memory pointer a few times based on [WTF?] */
-                        vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
-                    }
                     for (i = 0; i < 34; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
                         vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
+                    }
+                    break;
+                case 0x4c:  /* Platoterm - 640x532 Mono Interlace */
+                    for (i = 0; i < 20; i++) { /* decrement the bitmap memory pointer a few times based on how many columns are in a row */
+                        vdc.bitmap_counter -= (vdc.mem_counter_inc + vdc.regs[27]);
                     }
                     break;
             }
