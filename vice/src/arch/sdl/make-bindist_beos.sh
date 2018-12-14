@@ -106,7 +106,11 @@ cp -a $TOPSRCDIR/data/PRINTER $SDLNAME
 cp -a $TOPSRCDIR/data/VIC20 $SDLNAME
 
 cp -a $TOPSRCDIR/doc/html $SDLNAME
+cp doc/html/*.html $SDLNAME/html
 rm $SDLNAME/html/checklinks.sh
+rm $SDLNAME/html/texi2html
+rm $SDLNAME/html/COPYING
+rm $SDLNAME/html/NEWS
 if test x"$SDLVERSION" = "x2"; then
   cp $TOPSRCDIR/doc/readmes/Readme-SDL2.txt $SDLNAME
 else
@@ -116,9 +120,6 @@ cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $SDLNAME
 cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $SDLNAME
 rm `find $SDLNAME -name "Makefile*"`
 rm `find $SDLNAME -name "*.vkm" -and ! -name "sdl*.vkm"`
-rm `find $SDLNAME -name "*.vsc"`
-rm `find $SDLNAME -name "win_*.v*"`
-rm $SDLNAME/html/texi2html
 
 # just in case ...
 rm -f -r `find $SDLNAME -name ".svn"`
