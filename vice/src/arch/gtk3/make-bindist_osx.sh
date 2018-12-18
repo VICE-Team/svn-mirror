@@ -106,7 +106,7 @@ DROP_TYPES="x64|p64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"
 DROP_FORMATS="x64 p64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
 
 # launcher script
-LAUNCHER=x11-launcher.sh
+LAUNCHER=macOS-launcher.sh
 
 # multi apps
 MULTI_APPS=0
