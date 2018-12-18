@@ -119,6 +119,31 @@ void archdep_shutdown(void)
 }
 
 
+FILE *archdep_mkstemp_fd(char **filename, const char *mode)
+{
+    char *tmp;
+    FILE *fd;
+
+    if (getenv("temp")) {
+        tmp = util_concat(getenv("temp"), tmpnam(NULL), NULL);
+    } else if (getenv("tmp")) {
+        tmp = util_concat(getenv("tmp"), tmpnam(NULL), NULL);
+    } else {
+        tmp = lib_stralloc(tmpnam(NULL));
+    }
+
+    fd = fopen(tmp, mode);
+
+    if (fd == NULL) {
+        return NULL;
+    }
+
+    *filename = tmp;
+
+    return fd;
+}
+
+
 /** \brief  Spawn new process
  *
  * Shamelessly stolen from arch/sdl/archdep_win32.c

@@ -99,6 +99,65 @@ void archdep_shutdown(void)
     archdep_network_shutdown();
 }
 
+FILE *archdep_mkstemp_fd(char **filename, const char *mode)
+{
+#if defined(HAVE_MKSTEMP)
+    char *tmp;
+    const char template[] = "/vice.XXXXXX";
+    int fildes;
+    FILE *fd;
+    char *tmpdir;
+
+#ifdef USE_EXE_RELATIVE_TMP
+    tmp = lib_msprintf("%s/tmp%s", archdep_boot_path(), template);
+#else
+    tmpdir = getenv("TMPDIR");
+
+    if (tmpdir != NULL) {
+        tmp = util_concat(tmpdir, template, NULL);
+    } else {
+        tmp = util_concat("/tmp", template, NULL);
+    }
+#endif
+
+    fildes = mkstemp(tmp);
+
+    if (fildes < 0) {
+        lib_free(tmp);
+        return NULL;
+    }
+
+    fd = fdopen(fildes, mode);
+
+    if (fd == NULL) {
+        lib_free(tmp);
+        return NULL;
+    }
+
+    *filename = tmp;
+
+    return fd;
+#else
+    char *tmp;
+    FILE *fd;
+
+    tmp = tmpnam(NULL);
+
+    if (tmp == NULL) {
+        return NULL;
+    }
+
+    fd = fopen(tmp, mode);
+
+    if (fd == NULL) {
+        return NULL;
+    }
+
+    *filename = lib_stralloc(tmp);
+
+    return fd;
+#endif
+}
 
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)

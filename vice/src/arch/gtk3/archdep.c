@@ -88,6 +88,7 @@ const char *archdep_pref_path = NULL;
 #endif
 
 
+#if 0
 /** \brief  Create and open temp file
  *
  * \param[in]   filename    pointer to object to store name of temp file
@@ -97,7 +98,7 @@ const char *archdep_pref_path = NULL;
  */
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
-    GError *err;
+    GError *err = NULL;
     /* this function already uses the OS's tmp dir as a prefix, so no need to
      * do stuff like getenv("TMP")
      */
@@ -107,6 +108,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     }
     return fdopen(fd, mode);
 }
+#endif
 
 
 /** \brief  Arch-dependent init
