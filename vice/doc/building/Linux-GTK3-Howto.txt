@@ -84,7 +84,7 @@ run x64 in a terminal, it should print a line that tells some config details:
 
 $ ./src/x64
 <...>
-*** VICE Version 3.2, rev 35077:35078 ***
+*** VICE Version 3.3, rev 35869:35870 ***
 
 Welcome to x64, the free portable C64 emulator.
 <...>
