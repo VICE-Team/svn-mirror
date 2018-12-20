@@ -1,53 +1,92 @@
-Vice on Windows - The Next G(TK)eneration
+VICE on Windows - The Next G(TK)eneration
 =========================================
 
-This is some quick instructions on getting Vice with the GTK3 GUI compiled on Windows under MinGW.
+These are some instructions about getting VICE with the GTK3 GUI
+compiled on Windows under MinGW.
 
-1. Get msys2 (includes mingw):
-http://www.msys2.org/
-Install as per that webpage, but don't bother with step 7 (GIT), unless you actually want GIT.
-
-
-2. Install the stuff you actually need to build vice:
-NOTE - this assumes you installed the 64 bit version of msys2...
-
-Launch MSYS2 MinGW 64-bit and run the following to install your prerequisites:
-$ pacman -S mingw-w64-x86_64-gtk3 mingw-w64-x86_64-toolchain base-devel
-(Hit enter for default on all the prompts, then wait for the 300MB of stuff to download and install.)
-
-Get ntldd to help create the distribution:
-$ pacboy sync ntldd
-
-You might also want SVN to get/manage the source (or you could use a gui like e.g. TortoiseSVN):
-$ pacman -S subversion
-
-To checkout the source with SVN (e.g. to ~/vicetrunk/ ) you could then use:
-$ svn checkout https://svn.code.sf.net/p/vice-emu/code/trunk vicetrunk
+1. Get MSys2 (includes mingw):
+ http://www.msys2.org/
+Install as per that webpage; but, don't bother with step 7 (GIT),
+unless you actually want GIT.
 
 
-3. You need the xa 6502 compiler which you will have to download and install:
-http://www.floodgap.com/retrotech/xa/
-Download, unpack to e.g.:
-C:\msys64\home\user\xa-2.3.8
-Then at the msys prompt e.g.:
-$ cd ~/xa-2.3.8
-$ make
-$ make install
+2. Install the stuff that you actually need to build VICE:
+Launch either the MSYS2 MinGW 64-bit shell or the MSYS2 MinGW 32-bit shell
+(use the one that matches the version of MSys2 that you installed).
+Run the following command line to install your prerequisites:
+
+$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: gtk3
+
+(Note: type the colons that you see in that command; they are important.
+ Hit enter for the default on all the prompts, then wait for the 301 MiB
+ of stuff to download and install.)
 
 
-4. Now you can try to build Vice:
-Note the below assumes your source is in c:\src\vice\
-At the MSYS2 prompt run:
-$ cd /c/src/vice/vice
+3. If you want to build ReSID (a sound engine) into VICE,
+then you need the xa 6502 cross-assembler, which you must download and build:
+ http://www.floodgap.com/retrotech/xa/
+Don't log out of the shell.  After you download xa, go back to the shell.
+Make the directory "/usr/local/src/".
+Use tar to unpack xa (use the MSys2 path to where you downloaded it):
+
+$ cd /usr/local
+$ mkdir -p src
+$ cd src
+$ tar -xzf /c/Users/<login-name>/Downloads/xa-2.3.8.tar.gz
+
+Then, build and install it:
+
+$ cd xa-2.3.8
+$ make mingw install
+$ mv ../../bin/xa.exe ../../bin/xa65.exe
+
+
+4. Get VICE's source code.
+To checkout the source with Subversion (to "~/vice/", for example),
+you could type:
+
+$ cd ~
+$ svn checkout https://svn.code.sf.net/p/vice-emu/code/trunk/vice vice
+
+Now, you can try to build VICE:
+
+$ cd ~/vice
 $ ./autogen.sh
-$ ./configure --enable-native-gtk3ui
+$ ./configure -C --enable-native-tools --enable-native-gtk3ui
 $ make
 $ make bindist
 
-NOTE if you want to help us out with bug reports, please instead configure with:
-$ ./configure --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug
+NOTE: if you want to help us out, with bug reports, please instead configure
+with:
+
+$ ./configure -C --enable-native-tools --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug
 
 
-5. If it got through all those steps you should have some executables to play with in ..\vice\vice\GTK3VICE-3.*
+5. If it got through all those steps, you should have some executables to play
+with in "GTK3VICE-3.?-win??-*/" (the "win??" part of that name tells you which
+type [32-bit or 64-bit] you built).
+
+6. You can build the 32-bit version of VICE and/or the 64-bit version.  You
+make the choice by choosing to run a particular one of the MSYS2 MinGW shells
+(its environment variables control VICE's configuration).
+
+If you build one version, then want to build the other version, you must clean
+away some object files first.  Then, you must configure VICE again.
+
+$ make clean
+$ rm config.cache
+$ ./configure -C --enable-native-tools --enable-native-gtk3ui
+$ make
+$ make bindist
+
+
+7. If you want the distribution in a ZIP archive instead of a subdirectory,
+then use the command
+
+$ make bindistzip
+
+instead of
+
+$ make bindist
 
 Enjoy!
