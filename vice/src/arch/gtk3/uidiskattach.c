@@ -201,11 +201,11 @@ static void on_response(GtkWidget *widget, gint response_id,
                         gpointer user_data)
 {
     gchar *filename;
-    int index;
 
-    index = GPOINTER_TO_INT(user_data);
-
+#ifdef HAVE_DEBUG_GTK3UI
+    int index = GPOINTER_TO_INT(user_data);
     debug_gtk3("got response ID %d, index %d.", response_id, index);
+#endif
 
     switch (response_id) {
 
