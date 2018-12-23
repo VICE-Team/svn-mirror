@@ -98,8 +98,9 @@ ROM_xcbm5x0=CBM-II
 ROM_xpet=PET
 ROM_xplus4=PLUS4
 ROM_xvic=VIC20
+ROM_vsid=C64
 # files to remove from ROM directory
-ROM_REMOVE="{beos,amiga,dos,win,RO}*.vkm"
+ROM_REMOVE="sdl_*.v?m"
 DOC_REMOVE="Makefile.* *.c *.mak *.sh *.tex *.texi *.pl *.chm *.guide *.hlp *.inf building readmes"
 # define droppable file types
 DROP_TYPES="x64|p64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"
@@ -291,45 +292,6 @@ for bundle in $BUNDLES ; do
 
       # where is the launcher script
       LAUNCHER_SCRIPT_REL="MacOS/VICE"
-    elif [ "$UI_TYPE" = "cocoa" ]; then
-      # embed resources for cocoa
-      LOC_RESOURCES="$RUN_PATH/Resources"
-      
-      # copy extra files from Resources
-      EXTRA_RES_FILES="Credits.html"
-      for f in $EXTRA_RES_FILES ; do
-        echo -n "[$f] "
-        cp "$LOC_RESOURCES/$f" "$APP_RESOURCES/"
-      done
-      
-      # rename emu nib
-      RES_LANGUAGES="English"
-      for lang in $RES_LANGUAGES ; do
-        echo -n "[lang:$lang"
-
-        RES_DIR="$APP_RESOURCES/${lang}.lproj"
-        mkdir -p "$RES_DIR"
-        copy_tree "$LOC_RESOURCES/${lang}.lproj" "$RES_DIR"
-        
-        # make emu nib the MainMenu.nib
-        EMU_NIB="$RES_DIR/$bundle.nib"
-        if [ -e "$EMU_NIB" ]; then
-          echo -n " nib"
-          MAIN_NIB="$RES_DIR/MainMenu.nib"
-          mv "$EMU_NIB" "$MAIN_NIB"
-        else 
-          echo -n " **MISSING:nib"
-        fi
-        # remove unwanted emu nibs
-        find -d "$RES_DIR" -name "x*.nib" -exec rm -rf {} \;
-                
-        echo -n "]"
-      done
-      
-      # clean up nibs and remove developer files
-      echo -n "[clean nib] "
-      find "$APP_RESOURCES" \( -name "info.nib" -o -name "classes.nib" -o -name "designable.nib" \) -exec rm {} \;
-      
     fi
   fi
 
@@ -525,7 +487,7 @@ else
   
   # Create the image and format it
   echo "  creating DMG"
-  hdiutil create -srcfolder $BUILD_DIR $BUILD_TMP_IMG -volname $BUILD_DIR -ov -quiet 
+  hdiutil create -fs HFS+ -srcfolder $BUILD_DIR $BUILD_TMP_IMG -volname $BUILD_DIR -ov -quiet
 
   # Compress the image
   echo "  compressing DMG"
