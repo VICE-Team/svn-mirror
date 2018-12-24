@@ -1158,13 +1158,40 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         INC_PC(1);                          \
     } while (0)
 
-/* Note: this is not always exact, as this opcode can be quite unstable!
-   Moreover, the behavior is different from the one described in 64doc. */
-#define LXA(value, pc_inc)                                             \
-    do {                                                               \
-        reg_a_write = reg_x = ((reg_a_read | 0xee) & ((uint8_t)(value))); \
-        LOCAL_SET_NZ(reg_a_read);                                      \
-        INC_PC(pc_inc);                                                \
+/*
+The result of the LXA opcode is A = X = ((A | CONST) & IMM), with CONST apparently
+being both chip- and temperature dependent. There is also a dependency on the RDY
+line, ie somehow bit4 and bit0 are affected in the cycle when a DMA starts.
+
+The commonly used value for CONST in various documents is 0xee, which is however
+not to be taken for granted (as it is unstable).
+
+FIXME: in the unlikely event that other code surfaces that depends on another
+CONST value, it probably has to be made configureable somehow if no value can
+be found that works for both.
+
+FIXME: perhaps we really have to add some randomness to (some) bits
+*/
+
+#define LXA_MAGIC       0xee
+#define LXA_RDY_MAGIC   0xee
+
+#define LXA()                                                       \
+    do {                                                            \
+        /* Set by main-cpu to signal steal after first fetch */     \
+        if (OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {                 \
+            /* Remove the signal */                                 \
+            LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
+            /* TODO: the real behaviour is more complex */          \
+            reg_a_write = reg_x = (uint8_t)((reg_a_read | LXA_MAGIC) & LXA_RDY_MAGIC & p1); \
+        } else {                                                    \
+            reg_a_write = reg_x = (uint8_t)((reg_a_read | LXA_MAGIC) & p1); \
+        }                                                           \
+        LOCAL_SET_NZ(reg_a_read);                                   \
+        INC_PC(2);                                                  \
+        /* Pretend to be NOP #$nn to not trigger the special case   \
+           when cycles are stolen after the second fetch */         \
+        SET_LAST_OPCODE(0x80);                                      \
     } while (0)
 
 #define ORA(get_func, pc_inc)                       \
@@ -2270,7 +2297,7 @@ trap_skipped:
                 break;
 
             case 0xab:          /* LXA #$nn */
-                LXA(p1, 2);
+                LXA();
                 break;
 
             case 0xac:          /* LDY $nnnn */

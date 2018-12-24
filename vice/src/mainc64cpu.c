@@ -153,6 +153,12 @@ static void maincpu_steal_cycles(void)
            cycles were stolen after the first fetch */
         /* (fall through) */
 
+        /* LXA */
+        case 0xab:
+        /* this is a hacky way of signaling LXA() that
+           cycles were stolen after the first fetch */
+        /* (fall through) */
+
         /* CLI */
         case 0x58:
             /* this is a hacky way of signaling CLI() that it
