@@ -739,7 +739,8 @@
 
 /*
 The result of the ANE opcode is A = ((A | CONST) & X & IMM), with CONST apparently
-being both chip- and temperature dependent.
+being both chip- and temperature dependent. There is also a dependency on the RDY
+line, ie somehow bit4 and bit0 are affected in the cycle when a DMA starts.
 
 The commonly used value for CONST in various documents is 0xee, which is however
 not to be taken for granted (as it is unstable). see here:
@@ -753,7 +754,12 @@ https://sourceforge.net/tracker/?func=detail&aid=2110948&group_id=223021&atid=10
 FIXME: in the unlikely event that other code surfaces that depends on another
 CONST value, it probably has to be made configureable somehow if no value can
 be found that works for both.
+
+FIXME: perhaps we really have to add some randomness to (some) bits
 */
+
+#define ANE_MAGIC       0xff
+#define ANE_RDY_MAGIC   0xee
 
 #define ANE()                                                       \
     do {                                                            \
@@ -761,10 +767,10 @@ be found that works for both.
         if (OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {                 \
             /* Remove the signal */                                 \
             LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
-            /* TODO emulate the different behaviour */              \
-            reg_a_write = (uint8_t)((reg_a_read | 0xff) & reg_x & p1); \
+            /* TODO: the real behaviour is more complex */          \
+            reg_a_write = (uint8_t)((reg_a_read | ANE_MAGIC) & ANE_RDY_MAGIC & reg_x & p1); \
         } else {                                                    \
-            reg_a_write = (uint8_t)((reg_a_read | 0xff) & reg_x & p1); \
+            reg_a_write = (uint8_t)((reg_a_read | ANE_MAGIC) & reg_x & p1); \
         }                                                           \
         LOCAL_SET_NZ(reg_a_read);                                   \
         INC_PC(2);                                                  \
