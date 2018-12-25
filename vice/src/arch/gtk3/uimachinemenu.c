@@ -529,6 +529,9 @@ static ui_menu_item_t settings_menu_head[] = {
     { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
         "fullscreen", ui_fullscreen_callback, NULL,
         GDK_KEY_D, VICE_MOD_MASK },
+    { "Restore display state", UI_MENU_TYPE_ITEM_ACTION,
+        "restore-display", (void *)ui_restore_display, NULL,
+        GDK_KEY_r, VICE_MOD_MASK },
 #if 1
     { "Show menu/status in fullscreen", UI_MENU_TYPE_ITEM_ACTION,
         "fullscreen-widgets", ui_fullscreen_decorations_callback, NULL,

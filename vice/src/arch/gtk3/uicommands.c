@@ -360,3 +360,26 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     g_clear_error(&error);
     lib_free(path);
 }
+
+
+/** \brief  Attempt to restore the active window's size to its "natural" size
+ *
+ * \param[in]   widget  widget triggering the event (ignored)
+ * \param[in]   data    extra event data (unused)
+ */
+gboolean ui_restore_display(GtkWidget *widget, gpointer data)
+{
+    GtkWindow *window = ui_get_active_window();
+
+    if (window != NULL) {
+        /* requesting a 1x1 window forces the window to resize to its natural
+         * size, ie the minimal size required to display the window's
+         * decorations and contents without wasting space
+         */
+        gtk_window_resize(window, 1, 1);
+    } else {
+        debug_gtk3("ui_get_active_window() returned NULL");
+    }
+    return TRUE;
+}
+

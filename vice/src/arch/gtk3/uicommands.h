@@ -47,4 +47,6 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 
 void ui_open_manual_callback(GtkWidget *widget, gpointer user_data);
 
+gboolean ui_restore_display(GtkWidget *widget, gpointer data);
+
 #endif
