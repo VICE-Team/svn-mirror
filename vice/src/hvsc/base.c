@@ -663,12 +663,15 @@ int hvsc_string_is_comment(const char *s)
 
 /** \brief  Parse string \a p for a timestamp and return number of seconds
  *
- * Parse a timestamp in the format HH:MM, return number of seconds.
+ * Parse a timestamp in the format [M]+:SS, return number of seconds, where
+ * [M]+ is minutes and SS is seconds.
  *
  * \param[in]   t       timestamp
  * \param[out]  endptr  object to store pointer to first non-timestamp char
  *
  * \return  time in seconds or -1 on error
+ *
+ * \todo    update to support milliseconds once HVSC 71 is out
  */
 long hvsc_parse_simple_timestamp(char *t, char **endptr)
 {
