@@ -30,11 +30,12 @@
 
 static p64_uint32_t P64CRC32(p64_uint8_t* Data, p64_uint32_t Len) {
 
-    const p64_uint32_t CRC32Table[16] = {0x00000000UL, 0x1db71064UL, 0x3b6e20c8UL, 0x26d930acUL,
-                                         0x76dc4190UL, 0x6b6b51f4UL, 0x4db26158UL, 0x5005713cUL,
-                                         0xedb88320UL, 0xf00f9344UL, 0xd6d6a3e8UL, 0xcb61b38cUL,
-                                         0x9b64c2b0UL, 0x86d3d2d4UL, 0xa00ae278UL, 0xbdbdf21cUL
-                                        };
+    const p64_uint32_t CRC32Table[16] = {
+        0x00000000UL, 0x1db71064UL, 0x3b6e20c8UL, 0x26d930acUL,
+        0x76dc4190UL, 0x6b6b51f4UL, 0x4db26158UL, 0x5005713cUL,
+        0xedb88320UL, 0xf00f9344UL, 0xd6d6a3e8UL, 0xcb61b38cUL,
+        0x9b64c2b0UL, 0x86d3d2d4UL, 0xa00ae278UL, 0xbdbdf21cUL
+    };
 
     p64_uint32_t value, pos;
 
@@ -445,10 +446,10 @@ p64_int32_t P64PulseStreamAllocatePulse(PP64PulseStream Instance) {
         Index = Instance->FreeList;
         Instance->FreeList = Instance->Pulses[Index].Next;
     }
-    Instance->Pulses[Index].Previous    = -1;
-    Instance->Pulses[Index].Next    = -1;
-    Instance->Pulses[Index].Position    = 0;
-    Instance->Pulses[Index].Strength    = 0;
+    Instance->Pulses[Index].Previous = -1;
+    Instance->Pulses[Index].Next = -1;
+    Instance->Pulses[Index].Position = 0;
+    Instance->Pulses[Index].Strength = 0;
     return Index;
 }
 
@@ -984,18 +985,20 @@ void P64ImageCreate(PP64Image Instance) {
     p64_int32_t HalfTrack, side;
     memset(Instance, 0, sizeof(TP64Image));
     Instance->noSides = 1;
-    for(side=0; side<2; side++)
-    for(HalfTrack = 0; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
-        P64PulseStreamCreate(&Instance->PulseStreams[side][HalfTrack]);
+    for(side=0; side<2; side++) {
+        for(HalfTrack = 0; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
+            P64PulseStreamCreate(&Instance->PulseStreams[side][HalfTrack]);
+        }
     }
     P64ImageClear(Instance);
 }
 
 void P64ImageDestroy(PP64Image Instance) {
     p64_int32_t HalfTrack, side;
-    for(side=0; side<2; side++)
-    for(HalfTrack = 0; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
-        P64PulseStreamDestroy(&Instance->PulseStreams[side][HalfTrack]);
+    for(side=0; side<2; side++) {
+        for(HalfTrack = 0; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
+            P64PulseStreamDestroy(&Instance->PulseStreams[side][HalfTrack]);
+        }
     }
     memset(Instance, 0, sizeof(TP64Image));
 }
@@ -1003,9 +1006,10 @@ void P64ImageDestroy(PP64Image Instance) {
 void P64ImageClear(PP64Image Instance) {
     p64_int32_t HalfTrack, side;
     Instance->WriteProtected = 0;
-    for(side=0; side<2; side++)
-    for(HalfTrack = 0; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
-        P64PulseStreamClear(&Instance->PulseStreams[side][HalfTrack]);
+    for(side=0; side<2; side++) {
+        for(HalfTrack = 0; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
+            P64PulseStreamClear(&Instance->PulseStreams[side][HalfTrack]);
+        }
     }
 }
 
@@ -1129,25 +1133,25 @@ p64_uint32_t P64ImageWriteToStream(PP64Image Instance, PP64MemoryStream Stream) 
     P64MemoryStreamCreate(&ChunksMemoryStream);
 
     result = 1;
-    for (side = 0; side < (p64_uint32_t)Instance->noSides; side++)
-    for(HalfTrack = P64FirstHalfTrack; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
+    for (side = 0; side < (p64_uint32_t)Instance->noSides; side++) {
+        for(HalfTrack = P64FirstHalfTrack; HalfTrack <= P64LastHalfTrack; HalfTrack++) {
 
-        P64MemoryStreamCreate(&ChunkMemoryStream);
-        result = P64PulseStreamWriteToStream(&Instance->PulseStreams[side][HalfTrack], &ChunkMemoryStream);
-        if(result) {
-            ChunkSignature[0] = 'H';
-            ChunkSignature[1] = 'T';
-            ChunkSignature[2] = 'P';
-            ChunkSignature[3] = (p64_uint8_t)(HalfTrack + 128*side);
-            WriteChunk();
-            result = WriteChunkResult;
-        }
-        P64MemoryStreamDestroy(&ChunkMemoryStream);
-        if(!result) {
-            break;
+            P64MemoryStreamCreate(&ChunkMemoryStream);
+            result = P64PulseStreamWriteToStream(&Instance->PulseStreams[side][HalfTrack], &ChunkMemoryStream);
+            if(result) {
+                ChunkSignature[0] = 'H';
+                ChunkSignature[1] = 'T';
+                ChunkSignature[2] = 'P';
+                ChunkSignature[3] = (p64_uint8_t)(HalfTrack + 128*side);
+                WriteChunk();
+                result = WriteChunkResult;
+            }
+            P64MemoryStreamDestroy(&ChunkMemoryStream);
+            if(!result) {
+                break;
+            }
         }
     }
-
 
     if(result) {
 
