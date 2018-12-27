@@ -300,7 +300,7 @@ p64_int32_t P64MemoryStreamReadWord(PP64MemoryStream Instance, p64_uint16_t* Dat
     if(!P64MemoryStreamReadByte(Instance, &b[1])) {
         return 0;
     }
-    *Data = (p64_uint8_t)(((p64_uint16_t)b[0]) | (((p64_uint16_t)b[1]) << 8));
+    *Data = ((p64_uint16_t)b[0]) | (((p64_uint16_t)b[1]) << 8);
     return 1;
 }
 
