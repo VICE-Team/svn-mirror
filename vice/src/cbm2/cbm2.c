@@ -376,6 +376,7 @@ int machine_resources_init(void)
 
 void machine_resources_shutdown(void)
 {
+    serial_shutdown();
     cbm2_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
