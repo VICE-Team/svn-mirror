@@ -270,7 +270,7 @@ static gboolean kbd_hotkey_handle(GdkEvent *report)
 
     while (i < hotkeys_count) {
         if ((hotkeys_list[i].code == code)
-                && (report->key.state & hotkeys_list[i].mask)) {
+                && (report->key.state ==  hotkeys_list[i].mask)) {
 
             debug_gtk3("triggering callback of hotkey with index %d.", i);
             hotkeys_list[i].callback();
