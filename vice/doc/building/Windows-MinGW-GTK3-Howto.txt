@@ -15,10 +15,10 @@ Launch either the MSYS2 MinGW 64-bit shell or the MSYS2 MinGW 32-bit shell
 (use the one that matches the version of MSys2 that you installed).
 Run the following command line to install your prerequisites:
 
-$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: gtk3
+$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: gtk3 glew
 
 (Note: type the colons that you see in that command; they are important.
- Hit enter for the default on all the prompts, then wait for the 301 MiB
+ Hit enter for the default on all the prompts, then wait for the 306 MiB
  of stuff to download and install.)
 
 
@@ -46,7 +46,7 @@ To checkout the source with Subversion (to "~/vice/", for example),
 you could type:
 
 $ cd ~
-$ svn checkout https://svn.code.sf.net/p/vice-emu/code/trunk/vice vice
+$ svn checkout http://svn.code.sf.net/p/vice-emu/code/trunk/vice vice
 
 Now, you can try to build VICE:
 

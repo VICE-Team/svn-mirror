@@ -33,6 +33,7 @@ $ sudo apt-get install texinfo
 $ sudo apt-get install dos2unix         # only used when doing `make dist`
 $ sudo apt-get install libpulse-dev     # for Pulse Audio sound support
 $ sudo apt-get install libasound2-dev   # for ALSA sound support
+$ sudo apt-get install libglew-dev      # for OpenGL hardware scaling support
 
 The following are optional but recommended (not required for a basic build):
 
