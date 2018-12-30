@@ -1,6 +1,4 @@
-
-
-- x128: Bring either VDC or VICII display to front depending on 40/80 col key## Makefile.am for the native GTK3 version of `libarch.a'.
+## Makefile.am for the native GTK3 version of `libarch.a'.
 
 if WIN32_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
@@ -177,6 +175,7 @@ EXTRA_DIST = \
 	videoarch.h \
 	winjoy.h \
 	Info.plist \
+	macOS-launcher.sh \
 	Resources/VICE.icns \
 	vice-launcher.sh \
 	x11-launcher.sh

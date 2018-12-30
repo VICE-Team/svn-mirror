@@ -233,10 +233,16 @@ EXTRA_DIST = \
 	dynlib-win32.c \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
+	make-bindist_osx.sh \
 	make-bindist_qnx6.sh \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
 	make-bindist_syllable.sh \
 	make-bindist_win32.sh \
 	rs232dev-unix.c \
-	rs232dev-win32.c
+	rs232dev-win32.c \
+	Info.plist \
+	macOS-launcher.sh \
+	Resources/VICE.icns \
+	vice-launcher.sh \
+	x11-launcher.sh
