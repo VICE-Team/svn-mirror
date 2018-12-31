@@ -61,6 +61,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "sound.h"
 #include "types.h"
 #include "uiapi.h"
@@ -320,8 +321,12 @@ static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
             return -1;
         }
 
-        result = IDirectSound_SetCooperativeLevel(ds, ui_get_main_hwnd(),
-                                                  DSSCL_EXCLUSIVE);
+        if (console_mode || video_disabled_mode) {
+            result = IDirectSound_SetCooperativeLevel(ds, GetForegroundWindow() ? GetForegroundWindow() : GetDesktopWindow(), DSSCL_EXCLUSIVE);
+        } else {
+            result = IDirectSound_SetCooperativeLevel(ds, ui_get_main_hwnd(), DSSCL_EXCLUSIVE);
+        }
+        
         if (result != DS_OK) {
             log_error(LOG_DEFAULT, "Cannot set cooperative level:\n%s", ds_error(result));
             return -1;
