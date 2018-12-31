@@ -71,20 +71,18 @@ dnl '--disable-option-checking' is used.
 enable_option_checking=yes
 for command_option in $@
 do
-  if test x"$command_option" = "x--disable-option-checking"; then
-    enable_option_checking=no
-  fi
+  AS_IF([test x"$command_option" = "x--disable-option-checking"], [enable_option_checking=no])
 done
 
 dnl check for invalid options
 echo "option checking is $enable_option_checking"
-if test x"$enable_option_checking" = "xyes"; then
-  VICE_ARG_LIST_CHECK()
-fi
+AS_IF([test x"$enable_option_checking" = "xyes"], [VICE_ARG_LIST_CHECK()])
 
-dnl check for conflicting ui options
+dnl check for conflicting options
 VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-native-gtk3ui], [UI])
 VICE_ARG_LIST_AT_MOST_ONE([--enable-static-ffmpeg --enable-shared-ffmpeg --enable-external-ffmpeg], [FFMPEG])
+AS_IF([test x"$enable_native_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno"],
+      [AC_MSG_ERROR([You cannot disable all GUIs])])
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -92,9 +90,8 @@ AC_CANONICAL_HOST
 dnl Check for the existence of various programs that VICE and its component systems use
 AC_PROG_CC([gcc clang cc])
 AC_PROG_CC_C99
-if test x"$ac_cv_prog_cc_c99" = "xno"; then
-  AC_MSG_ERROR([A C99-compliant compiler is required.])
-fi
+AS_IF([test x"$ac_cv_prog_cc_c99" = "xno"],
+      [AC_MSG_ERROR([A C99-compliant compiler is required.])])
 AC_PROG_CPP
 AC_PROG_GCC_TRADITIONAL
 AC_PROG_CXX([g++ clang++ cc])
@@ -103,9 +100,7 @@ AC_PROG_CXXCPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_LEX
-if test x"$LEX" = "x:"; then
-  AC_MSG_ERROR([Could not find either flex or lex!])
-fi
+AS_IF([x"$LEX" = "x:"], [AC_MSG_ERROR([Could not find either flex or lex!])])
 
 AC_LIB_PROG_LD
 
@@ -113,17 +108,16 @@ AC_CHECK_PROG(AR, ar, ar, ar)
 AC_CHECK_PROG(SVN, svn, svn, :)
 AC_CHECK_PROG(TAR, tar, tar, :)
 AC_CHECK_PROG(SVNVERSION, svnversion, svnversion, :)
-if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; then
+AS_IF([test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"],
+[
   AC_CHECK_PROG(BASH, bash, bash, :)
-  if test x"$BASH" = "x:"; then
-    AC_MSG_ERROR([bash is required for ffmpeg compiling])
-  fi
-  case "$host_cpu" in
-  i*86 | x86_64* | amd64*)
+  AS_IF([test x"$BASH" = "x:"],
+        [AC_MSG_ERROR([bash is required for ffmpeg compiling])])
+  AS_CASE(["$host_cpu"], [i*86 | x86_64* | amd64*],
+  [
     AC_CHECK_PROG(YASM, yasm, yasm, no)
-    if test x"$YASM" = "xno"; then
-      AC_MSG_ERROR([yasm needed for ffmpeg compile])
-    fi
+    AS_IF([test x"$YASM" = "xno"],
+          [AC_MSG_ERROR([yasm needed for ffmpeg compile])])
     dnl Check minimum yasm version required
     YASM_VERSION_MAJOR=1
     YASM_VERSION_MINOR=2
@@ -134,56 +128,37 @@ if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; 
     yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
     yasm_ok=false
 
-    if test $yasm_maj -gt $YASM_VERSION_MAJOR; then
-      yasm_ok=true
-    elif test $yasm_maj -eq $YASM_VERSION_MAJOR; then
-      if test $yasm_min -gt $YASM_VERSION_MINOR; then
-        yasm_ok=true
-      elif test $yasm_min -eq $YASM_VERSION_MINOR; then
-        if test $yasm_rev -ge $YASM_VERSION_BUILD; then
-          yasm_ok=true
-        fi
-      fi
-    fi
-
-    if test x"$yasm_ok" != x"true"; then
-      AC_MSG_ERROR([yasm $YASM_VERSION_MAJOR.$YASM_VERSION_MINOR.$YASM_VERSION_BUILD or higher required])
-    fi
-    ;;
-  *)
-    ;;
-  esac
+    AS_IF([test $yasm_maj -gt $YASM_VERSION_MAJOR], [yasm_ok=true])
+    AS_IF([test $yasm_maj -eq $YASM_VERSION_MAJOR -a $yasm_min -gt $YASM_VERSION_MINOR], [yasm_ok=true])
+    AS_IF([test $yasm_maj -eq $YASM_VERSION_MAJOR -a $yasm_min -eq $YASM_VERSION_MINOR -a $yasm_rev -ge $YASM_VERSION_BUILD], [yasm_ok=true])
+    AS_IF([x"$yasm_ok" != x"true"],
+          [AC_MSG_ERROR([yasm $YASM_VERSION_MAJOR.$YASM_VERSION_MINOR.$YASM_VERSION_BUILD or higher required])])
+  ], [])
   make_cmd=""
   AC_MSG_CHECKING(Whether our make is a GNU make)
   for i in "$MAKE" make gmake gnumake
   do
     test -x "$i" && continue
-      if ( sh -c "$i --version" 2>/dev/null | grep GNU >/dev/null )
-      then
-        AC_MSG_RESULT($i);
-        make_cmd=$i;
-        break;
-      fi
+    AS_IF([ ( sh -c "$i --version" 2>/dev/null | grep GNU >/dev/null ) ],
+          [
+             AC_MSG_RESULT($i);
+             make_cmd=$i;
+             break;
+          ])
   done
-  if test x"$make_cmd" = "x"; then
+  AS_IF([test x"$make_cmd" = "x"], [
     AC_MSG_RESULT(no);
     AC_MSG_ERROR([When using internal FFMPEG a GNU make command is needed])
-  else
-    MAKE="$make_cmd"
-  fi
-fi
+  ], [MAKE="$make_cmd"])
+])
 AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
-if test x"$YACC" = "xno"; then
-  AC_MSG_ERROR([Could not find byacc, yacc or bison!])
-fi
+AS_IF([test x"$YACC" = "xno"], [AC_MSG_ERROR([Could not find byacc, yacc or bison!])])
 AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
 AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
 AC_CHECK_PROGS(PDFTEX, pdftex, no)
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 AC_CHECK_PROGS(XA, [xa xa65], no)
-if test x"$XA" = "xno"; then
-  AC_MSG_ERROR([xa is missing])
-fi
+AS_IF([test x"$XA" = "xno"], [AC_MSG_ERROR([xa is missing])])
 AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
 AC_CHECK_PROGS(HHC, hhc, no)
 AC_CHECK_PROGS(MAKERTF, makertf, no)
@@ -207,23 +182,17 @@ AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
 AC_SUBST(VICE_VERSION_BUILD)
 
-if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
-  VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
-else
-  VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR"."$VICE_VERSION_BUILD
-  AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
-fi
+AS_IF([test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0"],
+      [VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
+       VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR",0,0"],
+      [VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR"."$VICE_VERSION_BUILD
+       VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR","$VICE_VERSION_BUILD",0"
+       AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])])
 AC_SUBST(VICE_VERSION)
+AC_SUBST(VERSION_RC)
 
 AM_INIT_AUTOMAKE(vice, $VICE_VERSION)
 AM_CONFIG_HEADER(src/config.h)
-
-if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
-  VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR",0,0"
-else
-  VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR","$VICE_VERSION_BUILD",0"
-fi
-AC_SUBST(VERSION_RC)
 
 VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
 AC_SUBST(VERSION_COMBINED)
@@ -318,10 +287,11 @@ HAVE_FONTCONFIG_SUPPORT="no"
 
 AM_CONDITIONAL(DUMMY_COMPILE, false)
 
-if test x"$enable_cpuhistory" = "xyes"; then
-  AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
-  FEATURE_CPUMEMHISTORY_SUPPORT="yes"
-fi
+AS_IF([test x"$enable_cpuhistory" = "xyes"],
+  [
+    AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
+    FEATURE_CPUMEMHISTORY_SUPPORT="yes"
+  ])
 
 AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
 
@@ -331,15 +301,9 @@ PKG_PROG_PKG_CONFIG
 
 SOUND_DRIVERS=""
 
-dnl Check if the user has disabled all GUIs
-if test x"$enable_native_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno"; then
-  AC_MSG_ERROR([You cannot disable all GUIs])
-fi
-
 dnl Check if a GUI order check needs to be done
-if test x"$enable_native_gtk3ui" != "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-  check_guis=yes
-fi
+AS_IF([test x"$enable_native_gtk3ui" != "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"],
+      [check_guis=yes])
 
 dnl Check if gtk3 ui should be checked
 if test x"$check_guis" = "xyes"; then
