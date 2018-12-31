@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS=-Im4
+
 if VICE_QUIET
 .SILENT:
 endif
