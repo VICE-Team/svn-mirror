@@ -4213,7 +4213,11 @@ if test x"$enable_sdlui2" = "xyes"; then
 fi
 
 if test x"$enable_native_gtk3ui" = "xyes"; then
-    show_gui="NATIVE GTK3"
+    if test x"$enable_debug_gtk3ui" = "xyes"; then
+        show_gui="NATIVE GTK3 (debug)"
+    else
+        show_gui="NATIVE GTK3"
+    fi
 fi
 
 if test "x$ac_cv_header_sys_audio_h" = xyes; then
