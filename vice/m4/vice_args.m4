@@ -121,68 +121,41 @@ dnl --enable-*, --disable-*, --with-* and --without-* sanity checks
 for argcheck in [$]@
 do
   argvalid=yes
-  case [$]argcheck in
-    --enable-arch=*)
-      argvalid=yes
-      ;;
-    --enable-make-command*)
-      argvalid=yes
-      ;;
-    --enable-yasm-command*)
-      argvalid=yes
-      ;;
-    --enable-full-host*)
-      argvalid=yes
-      ;;
-    --enable-w32threads)
-      argvalid=yes
-      ;;
-    --enable-native-tools=*)
-      argvalid=yes
-      ;;
-    --enable-compiler=*)
-      argvalid=yes
-      ;;
-    --enable-*)
-      argvalid=no
-      for i in [$]vice_arg_enable_list
-      do
-        if test x"[$]argcheck" = x"--enable-[$]i"; then
-          argvalid=yes
-        fi
-      done
-      ;;
-    --disable-*)
-      argvalid=no
-      for i in [$]vice_arg_enable_list
-      do
-        if test x"[$]argcheck" = x"--disable-[$]i"; then
-          argvalid=yes
-        fi
-      done
-      ;;
-    --with-*)
-      argvalid=no
-      for i in [$]vice_arg_with_list
-      do
-        if test x"[$]argcheck" = x"--with-[$]i"; then
-          argvalid=yes
-        fi
-      done
-      ;;
-    --without-*)
-      argvalid=no
-      for i in [$]vice_arg_with_list
-      do
-        if test x"[$]argcheck" = x"--without-[$]i"; then
-          argvalid=yes
-        fi
-      done
-      ;;
-  esac
-  if test x"[$]argvalid" = "xno"; then
-    AC_MSG_ERROR([invalid option: [$]argcheck])
-  fi
+  AS_CASE([[$]argcheck],
+      [--enable-arch=*], [argvalid=yes],
+      [--enable-make-command*], [argvalid=yes],
+      [--enable-yasm-command*], [argvalid=yes],
+      [--enable-full-host*], [argvalid=yes],
+      [--enable-w32threads], [argvalid=yes],
+      [--enable-native-tools=*], [argvalid=yes],
+      [--enable-compiler=*], [argvalid=yes],
+      [--enable-*], [
+        argvalid=no
+        for i in [$]vice_arg_enable_list
+        do
+          AS_IF([test x"[$]argcheck" = x"--enable-[$]i"], [argvalid=yes])
+        done],
+      [--disable-*], [
+        argvalid=no
+        for i in [$]vice_arg_enable_list
+        do
+          AS_IF([test x"[$]argcheck" = x"--disable-[$]i"], [argvalid=yes])
+        done],
+      [--with-*], [
+        argvalid=no
+        for i in [$]vice_arg_with_list
+        do
+          AS_IF([test x"[$]argcheck" = x"--with-[$]i"], [argvalid=yes])
+        done],
+      [--without-*], [
+        argvalid=no
+        for i in [$]vice_arg_with_list
+        do
+          AS_IF([test x"[$]argcheck" = x"--without-[$]i"], [argvalid=yes])
+        done],
+      [])
+  AS_IF([test x"[$]argvalid" = "xno"],
+        [AC_MSG_ERROR([invalid option: [$]argcheck])])
 done
 ])# VICE_ARG_LIST_CHECK
 
