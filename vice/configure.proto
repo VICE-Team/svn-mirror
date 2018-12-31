@@ -35,6 +35,7 @@ VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI supp
 VICE_ARG_ENABLE_LIST(sdlui2,      [  --enable-sdlui2         enables SDL2 UI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables native GTK3 UI support])
 VICE_ARG_ENABLE_LIST(debug-gtk3ui, [ --enable-debug-gtk3ui    enables debugging for the GTK3 port])
+VICE_ARG_ENABLE_LIST(hwscale,     [  --disable-hwscale       disables GPU scaling of emulated screen])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(shared-ffmpeg, [  --enable-shared-ffmpeg  enable included shared FFmpeg support])
 VICE_ARG_ENABLE_LIST(static-ffmpeg, [  --enable-static-ffmpeg  enable included static FFmpeg support])
@@ -109,14 +110,44 @@ if test x"$vice_ui_1" != "xnone" -a x"$vice_ui_2" != "xnone"; then
   AC_MSG_ERROR([conflicting UI options: $vice_ui_1 $vice_ui_2])
 fi
 
+dnl Check for the existence of various programs that VICE and its component systems use
+AC_PROG_CC([gcc clang cc])
+AC_PROG_CC_C99
+AC_PROG_CPP
+AC_PROG_CXX([g++ clang++ cc])
+AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
+AC_PROG_CXXCPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_LEX
+AC_PROG_GCC_TRADITIONAL
+AC_CHECK_PROG(have_bash, bash, "yes", "no")
+AC_CHECK_PROG(AR, ar, ar, ar)
+AC_CHECK_PROG(SVN, svn, svn, :)
+AC_CHECK_PROG(TAR, tar, tar, :)
+AC_CHECK_PROG(SVNVERSION, svnversion, svnversion, :)
+AC_CHECK_PROG(YASM, yasm, yasm, no)
+AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
+AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
+AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
+AC_CHECK_PROGS(PDFTEX, pdftex, no)
+AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
+AC_CHECK_PROGS(XA, [xa xa65], no)
+AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
+AC_CHECK_PROGS(HHC, hhc, no)
+AC_CHECK_PROGS(MAKERTF, makertf, no)
+AC_CHECK_PROGS(HCRTF, hcrtf, no)
+AC_CHECK_PROGS(TEXI2IPF, texi2ipf, no)
+AC_CHECK_PROGS(IPFC, wipfc, no)
+AC_CHECK_PROGS(IPFC, ipfc, no)
+AC_CHECK_PROGS(artsc_config, artsc-config, no)
+AC_CHECK_TOOL(RANLIB, ranlib, :)
+AC_CHECK_TOOL(STRIP, strip, :)
+AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
+AC_CHECK_TOOL(sdl_config, sdl-config, no)
 
-dnl Test for bash for building static/shared ffmpeg
-if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
-  AC_CHECK_PROG(ffmpeg_have_bash, bash, "yes", "no")
-  if test x"$ffmpeg_have_bash" != "xyes"; then
-    AC_MSG_ERROR([bash is required for ffmpeg compiling])
-  fi
-fi
+dnl Other build environment checks
+AC_SYS_LARGEFILE
 
 dnl check for conflicting ffmpeg options
 vice_ffmpeg_list="--enable-static-ffmpeg --enable-shared-ffmpeg --enable-external-ffmpeg"
@@ -140,6 +171,13 @@ done
 if test x"$vice_ffmpeg_1" != "xnone" -a x"$vice_ffmpeg_2" != "xnone"; then
   AC_MSG_ERROR([conflicting FFMPEG options: $vice_ffmpeg_1 $vice_ffmpeg_2])
 fi
+
+if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
+  if test x"$have_bash" != "xyes"; then
+    AC_MSG_ERROR([bash is required for ffmpeg compiling])
+  fi
+fi
+
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -267,7 +305,6 @@ fi
 AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
 
 user_cflags=$CFLAGS
-AC_PROG_CC([gcc clang cc])
 AC_LIB_PROG_LD
 
 AC_CHECK_TOOL(objdump, objdump, no)
@@ -366,42 +403,31 @@ if test x"$check_gtk3" = "xyes"; then
       :
     fi
 
-    dnl Check for OpenGL 3.x and (on platforms that need it) GLEW.
+    dnl enforce OpenGL/GLEW usability unless explicitly disabled
+    if test x"$is_unix_macosx" = "xyes"; then
+      if test x"$have_opengl_lib" != "xyes"; then
+        AC_MSG_CHECKING(whether we can use the OpenGL Framework)
+        old_LIBS="$LIBS"
+        LIBS="$LIBS -framework OpenGL"
+        AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
+                     #include <OpenGL/gl.h>],
+                     [glUniform4f(0,1,2,3,4);],
+                     [AC_MSG_RESULT(yes);
+                      have_opengl_lib=yes],
+                     [AC_MSG_RESULT(no);
+                      LIBS="$old_LIBS"])
+      fi
+      if test x"$have_opengl_lib" != "xyes"; then
+        AC_MSG_ERROR(Cannot find the OpenGL framework. Something is seriously wrong with your build environment.)
+      fi
+    elif test x"$enable_hwscale" != "xno"; then
+      dnl Find where the GL functions live on this system
+      AC_SEARCH_LIBS(glViewport, [GL opengl32], [have_opengl_lib=yes], [have_opengl_lib=no])
+      AC_SEARCH_LIBS(glewInit, [GLEW glew32], [have_glew=yes], [have_glew=no])
 
-    AC_MSG_CHECKING(whether we can use the GL library)
-    old_LIBS="$LIBS"
-    LIBS="$LIBS -lGL -lGLEW"
-    AC_TRY_LINK([#include <GL/glew.h>],
-                [glewInit()],
-                [AC_MSG_RESULT(yes);
-                 have_opengl_lib=yes;
-                 have_glew=yes],
-                [AC_MSG_RESULT(no);
-                 LIBS="$old_LIBS"])
-    if test x"$have_opengl_lib" != "xyes"; then
-      AC_MSG_CHECKING(whether we can use the opengl32 library...)
-      old_LIBS="$LIBS"
-      LIBS="$LIBS -lopengl32 -lglew32"
-      AC_TRY_LINK([#include <GL/glew.h>],
-                  [glewInit()],
-                  [AC_MSG_RESULT(yes);
-                   have_opengl_lib=yes;
-                   have_glew=yes],
-                  [AC_MSG_RESULT(no);
-                   LIBS="$old_LIBS"])
-    fi
-
-    if test x"$have_opengl_lib" != "xyes" -a x"$is_unix_macosx" = "xyes"; then
-      AC_MSG_CHECKING(whether we can use the OpenGL Framework)
-      old_LIBS="$LIBS"
-      LIBS="$LIBS -framework OpenGL"
-      AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
-                   #include <OpenGL/gl.h>],
-                   [glUniform4f(0,1,2,3,4);],
-                   [AC_MSG_RESULT(yes);
-                    have_opengl_lib=yes],
-                   [AC_MSG_RESULT(no);
-                    LIBS="$old_LIBS"])
+      if test x"$have_opengl_lib" != "xyes" -o x"$have_glew" != "xyes"; then
+        AC_MSG_ERROR([Could not find OpenGL and GLEW libraries. GTK3 performance is usually unacceptable without these libraries, but you can insist on software rendering with --disable-hwscale if necessary.])
+      fi
     fi
 
     dnl Note that even if HAVE_HWSCALE is "no", GTK3's base "Cairo"
@@ -409,9 +435,9 @@ if test x"$check_gtk3" = "xyes"; then
     dnl hardware. Our experimentation suggests that this is more
     dnl aspirational than genuine, though...
     AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-    HAVE_HWSCALE_SUPPORT="yes"
     if test x"$have_opengl_lib" = "xyes"; then
       AC_DEFINE(HAVE_GTK3_OPENGL,,[Enable OpenGL support in GTK3 UI])
+      HAVE_HWSCALE_SUPPORT="yes"
     fi
     if test x"$have_glew" = "xyes"; then
       AC_DEFINE(HAVE_GTK3_GLEW,,[GTK3 OpenGL support uses GLEW])
@@ -422,7 +448,6 @@ if test x"$check_gtk3" = "xyes"; then
     fi
 
     dnl Check for C++11 support (for novte) and update CXXFLAGS
-    AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
     CXXFLAGS="$CXXFLAGS -std=c++11"
 
     dnl Platform canonical names for Win32-GTK3 have names like "i686-w64-mingw32"
@@ -500,7 +525,6 @@ if test x"$check_sdl2" = "xyes"; then
 
   if test x"$found_sdl2" != "xyes"; then
     dnl Check for sdl2-config
-    AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
     if test x"$sdl2_config" != "xno"; then
       CFLAGS="$CFLAGS `$sdl2_config --cflags`"
       CXXFLAGS="$CXXFLAGS `$sdl2_config --cflags`"
@@ -720,13 +744,6 @@ if test x"$check_sdl1" = "xyes"; then
     fi
   else
 
-    dnl check for sdl-config
-    AC_CHECK_TOOL(sdl_config, sdl-config, no)
-
-    if test x"$sdl_config" = "x"; then
-      sdl_config=no
-    fi
-
     dnl fail if SDL ui was requested
     if test x"$sdl_config" = "xno" -a x"$enable_sdlui" = "xyes"; then
       AC_MSG_ERROR([SDL UI requested, but sdl-config is missing])
@@ -806,71 +823,37 @@ if test x"$check_sdl1" = "xyes"; then
 
           AC_CHECK_FUNCS(SDL_NumJoysticks)
 
-          dnl check for opengl libs.
-          AC_MSG_CHECKING(whether we can use the GL library)
+          if test x"$enable_hwscale" != "xno"; then
+            if test x"$is_unix_macosx" = "xyes"; then
+              AC_MSG_CHECKING(whether we can use the OpenGL Framework)
+              old_LIBS="$LIBS"
+              LIBS="$LIBS -framework OpenGL"
 
-          old_LIBS="$LIBS"
-          LIBS="$LIBS -lGL"
-          if test x"$use_sdl_prefix" = "xyes"; then
-            AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
-                        [glViewport(1,2,3,4)],
-                        [AC_MSG_RESULT(yes);
-                         have_opengl_lib=yes],
-                        [AC_MSG_RESULT(no);
-                         LIBS="$old_LIBS"])
-          else
-            AC_TRY_LINK([#include <SDL_opengl.h>],
-                        [glViewport(1,2,3,4)],
-                        [AC_MSG_RESULT(yes);
-                         have_opengl_lib=yes],
-                        [AC_MSG_RESULT(no);
-                         LIBS="$old_LIBS"])
-          fi
-
-          if test x"$have_opengl_lib" != "xyes"; then
-            AC_MSG_CHECKING(whether we can use the opengl32 library)
-            old_LIBS="$LIBS"
-            LIBS="$LIBS -lopengl32"
-            if test x"$use_sdl_prefix" = "xyes"; then
-              AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
-                          [glViewport(1,2,3,4)],
-                          [AC_MSG_RESULT(yes);
-                           have_opengl_lib=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
+              if test x"$use_sdl_prefix" = "xyes"; then
+                AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
+                            [glViewport(1,2,3,4)],
+                            [AC_MSG_RESULT(yes);
+                             have_opengl_lib=yes],
+                            [AC_MSG_RESULT(no);
+                             LIBS="$old_LIBS"])
+              else
+                AC_TRY_LINK([#include <SDL_opengl.h>],
+                            [glViewport(1,2,3,4)],
+                            [AC_MSG_RESULT(yes);
+                             have_opengl_lib=yes],
+                            [AC_MSG_RESULT(no);
+                             LIBS="$old_LIBS"])
+              fi
             else
-              AC_TRY_LINK([#include <SDL_opengl.h>],
-                          [glViewport(1,2,3,4)],
-                          [AC_MSG_RESULT(yes);
-                           have_opengl_lib=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
+              AC_SEARCH_LIBS(glViewport, [GL opengl32], [have_opengl_lib=yes], [have_opengl_lib=no])
+            fi
+
+            if test x"$have_opengl_lib" != "xyes"; then
+              AC_MSG_ERROR(The SDL1 UI requires OpenGL for hardware scaling. Install OpenGL development headers or set --disable-hwscale to disable scaling.)
             fi
           fi
 
-          if test x"$have_opengl_lib" != "xyes" -a x"$is_unix_macosx" = "xyes"; then
-            AC_MSG_CHECKING(whether we can use the OpenGL Framework)
-            old_LIBS="$LIBS"
-            LIBS="$LIBS -framework OpenGL"
-
-            if test x"$use_sdl_prefix" = "xyes"; then
-              AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
-                          [glViewport(1,2,3,4)],
-                          [AC_MSG_RESULT(yes);
-                           have_opengl_lib=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
-            else
-              AC_TRY_LINK([#include <SDL_opengl.h>],
-                          [glViewport(1,2,3,4)],
-                          [AC_MSG_RESULT(yes);
-                           have_opengl_lib=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
-            fi
-          fi
-
-          if test x"$have_opengl_lib" = "xyes"; then
+          if test x"$enable_hwscale" != "xno"; then
             AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
             HAVE_HWSCALE_SUPPORT="yes"
           fi
@@ -973,7 +956,6 @@ if test x"$with_sdlsound" = "xyes"; then
 fi
 
 # We require C99
-AC_PROG_CC_C99
 if test x"$ac_cv_prog_cc_c99" = "xno"; then
   AC_MSG_ERROR([A C99-compliant compiler is required.])
 fi
@@ -1145,26 +1127,9 @@ if test x"$posix_check" = "xyes"; then
                    CFLAGS=$ORIG_CFLAGS ])
 fi
 
-
-
-dnl Check for needed external programs.
-AC_PROG_CPP
-AC_CHECK_PROG(AR, ar, ar, ar)
-AC_CHECK_TOOL(RANLIB, ranlib, :)
-AC_CHECK_TOOL(STRIP, strip, :)
-AC_CHECK_PROG(SVN, svn, svn, :)
-AC_CHECK_PROG(TAR, tar, tar, :)
-AC_CHECK_PROG(SVNVERSION, svnversion, svnversion, :)
-AC_PROG_INSTALL
-AC_PROG_LN_S
-
-dnl Check for large file support
-AC_SYS_LARGEFILE
-
 if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; then
   case "$host_cpu" in
   i*86 | x86_64* | amd64*)
-    AC_CHECK_PROG(YASM, yasm, yasm, no)
     if test x"$YASM" = "xno"; then
       AC_MSG_ERROR([yasm needed for ffmpeg compile])
     fi
@@ -1196,7 +1161,6 @@ if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; 
   esac
 fi
 
-AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
 if test x"$YACC" = "xno"; then
   AC_MSG_ERROR([Could not find byacc, yacc or bison!])
 fi
@@ -1208,8 +1172,6 @@ dnl AC_CHECK_PROGS(LEX, 'flex --noyywrap', [no])
 dnl if test x"$LEX" = "xno"; then
 dnl   unset LEX
 dnl fi
-
-AC_PROG_LEX
 
 if test x"$LEX" = "x:"; then
   AC_MSG_ERROR([Could not find either flex or lex!])
@@ -1257,19 +1219,11 @@ if test x"$ar_check" != "xno"; then
   fi
 fi
 
-AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
-
-AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
-AC_CHECK_PROGS(PDFTEX, pdftex, no)
 if test x"$TEXI2DVI" = "xno" -o x"$PDFTEX" = "xno"; then
   AM_CONDITIONAL(BUILD_PDF, false)
 else
   AM_CONDITIONAL(BUILD_PDF, true)
 fi
-
-AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
-
-AC_CHECK_PROGS(XA, [xa xa65], no)
 
 if test x"$XA" = "xno"; then
   AC_MSG_ERROR([xa is missing])
@@ -1855,7 +1809,6 @@ else
 fi
 
 dnl check for texi to amigaguide program
-AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
 if test x"$MAKEGUIDE" != "xno"; then
   AM_CONDITIONAL(BUILD_AMIGAGUIDE, true)
 else
@@ -1877,7 +1830,6 @@ fi
 AC_SUBST(MAKEGUIDE)
 
 dnl check for windows chm compiler
-AC_CHECK_PROGS(HHC, hhc, no)
 if test x"$HHC" = "xno"; then
   AM_CONDITIONAL(BUILD_CHM, false)
 else
@@ -1885,8 +1837,6 @@ else
 fi
 
 dnl check for windows hlp compiler programs
-AC_CHECK_PROGS(MAKERTF, makertf, no)
-AC_CHECK_PROGS(HCRTF, hcrtf, no)
 if test x"$MAKERTF" = "xno" -o x"$HCRTF" = "xno"; then
   AM_CONDITIONAL(BUILD_HLP, false)
 else
@@ -1894,12 +1844,7 @@ else
 fi
 
 dnl check for os/2 ipf compiler programs
-AC_CHECK_PROGS(TEXI2IPF, texi2ipf, no)
-AC_CHECK_PROGS(IPFC, wipfc, no)
 if test x"$TEXI2IPF" != "xno"; then
-  if test x"$IPFC" = "xno"; then
-    AC_CHECK_PROGS(IPFC, ipfc, no)
-  fi
   if test x"$IPFC" != "xno"; then
     AM_CONDITIONAL(BUILD_IPF, true)
   else
@@ -1950,7 +1895,6 @@ AC_SUBST(MAX_INLINE_INSN_SINGLE)
 
 dnl Check and setup aRts compilation.
 if test x"$with_arts" = "xyes"; then
-  AC_CHECK_PROGS(artsc_config, artsc-config, no)
   if test x"$artsc_config" = "xno"; then
     AC_MSG_WARN([artsc-config not found. aRts will not be configured])
                 with_arts=no
@@ -2125,10 +2069,6 @@ AC_SUBST(NATIVE_TOOLS_COMPILER)
 AC_CHECK_SIZEOF(unsigned short, 2)
 AC_CHECK_SIZEOF(unsigned int, 4)
 AC_CHECK_SIZEOF(unsigned long, 4)
-
-
-dnl Check whether gcc needs -traditional.
-AC_PROG_GCC_TRADITIONAL
 
 
 dnl Check for header files.
@@ -4328,7 +4268,7 @@ echo ""
 echo "SCREEN/UI"
 echo "---------"
 
-if test x"$real_arch" != "xWin32" -a x"$real_arch" != "xBeOS"; then
+if test x"$real_arch" != "xBeOS"; then
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
 fi
 
