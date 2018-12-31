@@ -83,27 +83,8 @@ if test x"$enable_option_checking" = "xyes"; then
 fi
 
 dnl check for conflicting ui options
-vice_ui_list="--enable-sdlui --enable-sdlui2 --enable-native-gtk3ui"
-vice_ui_1=none
-vice_ui_2=none
-
-for command_option in $@
-do
-  for vice_ui in $vice_ui_list
-  do
-    if test x"$command_option" = x"$vice_ui"; then
-      if test x"$vice_ui_1" = "xnone"; then
-        vice_ui_1=$vice_ui
-      else
-        vice_ui_2=$vice_ui
-      fi
-    fi
-  done
-done
-
-if test x"$vice_ui_1" != "xnone" -a x"$vice_ui_2" != "xnone"; then
-  AC_MSG_ERROR([conflicting UI options: $vice_ui_1 $vice_ui_2])
-fi
+VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-native-gtk3ui], [UI])
+VICE_ARG_LIST_AT_MOST_ONE([--enable-static-ffmpeg --enable-shared-ffmpeg --enable-external-ffmpeg], [FFMPEG])
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -221,29 +202,6 @@ AM_PROG_AS
 
 dnl Other build environment checks
 AC_SYS_LARGEFILE
-
-dnl check for conflicting ffmpeg options
-vice_ffmpeg_list="--enable-static-ffmpeg --enable-shared-ffmpeg --enable-external-ffmpeg"
-vice_ffmpeg_1=none
-vice_ffmpeg_2=none
-
-for command_option in $@
-do
-  for vice_ffmpeg in $vice_ffmpeg_list
-  do
-    if test x"$command_option" = x"$vice_ffmpeg"; then
-      if test x"$vice_ffmpeg_1" = "xnone"; then
-        vice_ffmpeg_1=$vice_ffmpeg
-      else
-        vice_ffmpeg_2=$vice_ffmpeg
-      fi
-    fi
-  done
-done
-
-if test x"$vice_ffmpeg_1" != "xnone" -a x"$vice_ffmpeg_2" != "xnone"; then
-  AC_MSG_ERROR([conflicting FFMPEG options: $vice_ffmpeg_1 $vice_ffmpeg_2])
-fi
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)

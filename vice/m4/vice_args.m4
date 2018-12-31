@@ -188,3 +188,46 @@ done
 
 AN_IDENTIFIER([ssize_t], [AC_TYPE_SSIZE_T])
 AC_DEFUN([AC_TYPE_SSIZE_T], [AC_CHECK_TYPE(ssize_t, int)])
+
+#
+# Ensure that at most one of the arguments given is in the target list
+#
+# Written by Michael C. Martin.
+#
+# VICE_ARG_LIST_AT_MOST_ONE([options],[group name])
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+# VICE_ARG_LIST_AT_MOST_ONE
+# -------------------------
+AC_DEFUN([VICE_ARG_LIST_AT_MOST_ONE], [
+vice_arg_list_amo_1=none
+vice_arg_list_amo_2=none
+
+for vice_arg_list_command_option in [$]@
+do
+  for vice_arg_list_entry in $1; do
+    AS_IF([test x"$vice_arg_list_command_option" = x"$vice_arg_list_entry"],
+          [AS_IF([test x"$vice_arg_list_amo_1" = "xnone"],
+                 [vice_arg_list_amo_1=$vice_arg_list_entry],
+                 [vice_arg_list_amo_2=$vice_arg_list_entry])])
+  done
+done
+AS_IF([test x"$vice_arg_list_amo_2" != "xnone"],
+      [AC_MSG_ERROR([conflicting $2 options: $vice_arg_list_amo_1 $vice_arg_list_amo_2])])
+])#VICE_ARG_LIST_AT_MOST_ONE
+
+          
