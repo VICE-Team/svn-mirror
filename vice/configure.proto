@@ -14,12 +14,6 @@ VICE_VERSION_MAJOR=3
 VICE_VERSION_MINOR=3
 VICE_VERSION_BUILD=0
 
-dnl Miminum required version of yasm to build static/shared ffmpeg
-YASM_VERSION_MAJOR=1
-YASM_VERSION_MINOR=2
-YASM_VERSION_BUILD=0
-
-
 VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system's readline library])
 VICE_ARG_WITH_LIST(arts,          [  --with-arts             use aRts sound system])
 VICE_ARG_WITH_LIST(pulse,         [  --without-pulse         do not use PulseAudio sound system])
@@ -110,29 +104,104 @@ if test x"$vice_ui_1" != "xnone" -a x"$vice_ui_2" != "xnone"; then
   AC_MSG_ERROR([conflicting UI options: $vice_ui_1 $vice_ui_2])
 fi
 
+dnl Try to find out which system we are on...
+AC_CANONICAL_HOST
+
 dnl Check for the existence of various programs that VICE and its component systems use
 AC_PROG_CC([gcc clang cc])
 AC_PROG_CC_C99
+if test x"$ac_cv_prog_cc_c99" = "xno"; then
+  AC_MSG_ERROR([A C99-compliant compiler is required.])
+fi
 AC_PROG_CPP
+AC_PROG_GCC_TRADITIONAL
 AC_PROG_CXX([g++ clang++ cc])
 AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
 AC_PROG_CXXCPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_LEX
-AC_PROG_GCC_TRADITIONAL
-AC_CHECK_PROG(have_bash, bash, "yes", "no")
+if test x"$LEX" = "x:"; then
+  AC_MSG_ERROR([Could not find either flex or lex!])
+fi
+
+AC_LIB_PROG_LD
+
 AC_CHECK_PROG(AR, ar, ar, ar)
 AC_CHECK_PROG(SVN, svn, svn, :)
 AC_CHECK_PROG(TAR, tar, tar, :)
 AC_CHECK_PROG(SVNVERSION, svnversion, svnversion, :)
-AC_CHECK_PROG(YASM, yasm, yasm, no)
+if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; then
+  AC_CHECK_PROG(BASH, bash, bash, :)
+  if test x"$BASH" = "x:"; then
+    AC_MSG_ERROR([bash is required for ffmpeg compiling])
+  fi
+  case "$host_cpu" in
+  i*86 | x86_64* | amd64*)
+    AC_CHECK_PROG(YASM, yasm, yasm, no)
+    if test x"$YASM" = "xno"; then
+      AC_MSG_ERROR([yasm needed for ffmpeg compile])
+    fi
+    dnl Check minimum yasm version required
+    YASM_VERSION_MAJOR=1
+    YASM_VERSION_MINOR=2
+    YASM_VERSION_BUILD=0
+    yasm_ver=`$YASM --version | head -n 1 | cut -d ' ' -f 2`
+    yasm_maj=`echo "$yasm_ver" | cut -d '.' -f 1`
+    yasm_min=`echo "$yasm_ver" | cut -d '.' -f 2`
+    yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
+    yasm_ok=false
+
+    if test $yasm_maj -gt $YASM_VERSION_MAJOR; then
+      yasm_ok=true
+    elif test $yasm_maj -eq $YASM_VERSION_MAJOR; then
+      if test $yasm_min -gt $YASM_VERSION_MINOR; then
+        yasm_ok=true
+      elif test $yasm_min -eq $YASM_VERSION_MINOR; then
+        if test $yasm_rev -ge $YASM_VERSION_BUILD; then
+          yasm_ok=true
+        fi
+      fi
+    fi
+
+    if test x"$yasm_ok" != x"true"; then
+      AC_MSG_ERROR([yasm $YASM_VERSION_MAJOR.$YASM_VERSION_MINOR.$YASM_VERSION_BUILD or higher required])
+    fi
+    ;;
+  *)
+    ;;
+  esac
+  make_cmd=""
+  AC_MSG_CHECKING(Whether our make is a GNU make)
+  for i in "$MAKE" make gmake gnumake
+  do
+    test -x "$i" && continue
+      if ( sh -c "$i --version" 2>/dev/null | grep GNU >/dev/null )
+      then
+        AC_MSG_RESULT($i);
+        make_cmd=$i;
+        break;
+      fi
+  done
+  if test x"$make_cmd" = "x"; then
+    AC_MSG_RESULT(no);
+    AC_MSG_ERROR([When using internal FFMPEG a GNU make command is needed])
+  else
+    MAKE="$make_cmd"
+  fi
+fi
 AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
+if test x"$YACC" = "xno"; then
+  AC_MSG_ERROR([Could not find byacc, yacc or bison!])
+fi
 AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
 AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
 AC_CHECK_PROGS(PDFTEX, pdftex, no)
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 AC_CHECK_PROGS(XA, [xa xa65], no)
+if test x"$XA" = "xno"; then
+  AC_MSG_ERROR([xa is missing])
+fi
 AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
 AC_CHECK_PROGS(HHC, hhc, no)
 AC_CHECK_PROGS(MAKERTF, makertf, no)
@@ -143,8 +212,11 @@ AC_CHECK_PROGS(IPFC, ipfc, no)
 AC_CHECK_PROGS(artsc_config, artsc-config, no)
 AC_CHECK_TOOL(RANLIB, ranlib, :)
 AC_CHECK_TOOL(STRIP, strip, :)
+AC_CHECK_TOOL(objdump, objdump, no)
 AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
 AC_CHECK_TOOL(sdl_config, sdl-config, no)
+
+AM_PROG_AS
 
 dnl Other build environment checks
 AC_SYS_LARGEFILE
@@ -171,13 +243,6 @@ done
 if test x"$vice_ffmpeg_1" != "xnone" -a x"$vice_ffmpeg_2" != "xnone"; then
   AC_MSG_ERROR([conflicting FFMPEG options: $vice_ffmpeg_1 $vice_ffmpeg_2])
 fi
-
-if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
-  if test x"$have_bash" != "xyes"; then
-    AC_MSG_ERROR([bash is required for ffmpeg compiling])
-  fi
-fi
-
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -294,9 +359,6 @@ HAVE_FONTCONFIG_SUPPORT="no"
 
 AM_CONDITIONAL(DUMMY_COMPILE, false)
 
-dnl Try to find out which system we are on...
-AC_CANONICAL_HOST
-
 if test x"$enable_cpuhistory" = "xyes"; then
   AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
   FEATURE_CPUMEMHISTORY_SUPPORT="yes"
@@ -305,9 +367,6 @@ fi
 AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
 
 user_cflags=$CFLAGS
-AC_LIB_PROG_LD
-
-AC_CHECK_TOOL(objdump, objdump, no)
 
 PKG_PROG_PKG_CONFIG
 
@@ -955,11 +1014,6 @@ if test x"$with_sdlsound" = "xyes"; then
   fi
 fi
 
-# We require C99
-if test x"$ac_cv_prog_cc_c99" = "xno"; then
-  AC_MSG_ERROR([A C99-compliant compiler is required.])
-fi
-
 dnl Set proper mkfontdir path for QNX6
 case "$host_os" in
   nto*)
@@ -1020,28 +1074,6 @@ case "$host_os" in
   *)
     ;;
 esac
-
-dnl AC_HEADER_TIOCGWINSZ
-
-dnl check for GNU make for static/shared ffmpeg
-if test x"$enable_shared_ffmpeg" = "xyes" -o x"$enable_static_ffmpeg" = "xyes"; then
-  make_cmd=""
-  for i in "$MAKE" make gmake gnumake
-  do
-    test -x "$i" && continue
-      if ( sh -c "$i --version" 2>/dev/null | grep GNU >/dev/null )
-      then
-        make_cmd=$i;
-        break;
-      fi
-  done
-  if test x"$make_cmd" = "x"; then
-    AC_MSG_ERROR([When using internal FFMPEG a GNU make command is needed])
-  else
-    MAKE="$make_cmd"
-  fi
-fi
-
 
 if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
   if test x"$with_x" = "xyes"; then
@@ -1127,58 +1159,6 @@ if test x"$posix_check" = "xyes"; then
                    CFLAGS=$ORIG_CFLAGS ])
 fi
 
-if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; then
-  case "$host_cpu" in
-  i*86 | x86_64* | amd64*)
-    if test x"$YASM" = "xno"; then
-      AC_MSG_ERROR([yasm needed for ffmpeg compile])
-    fi
-    dnl Check minimum yasm version required
-    yasm_ver=`$YASM --version | head -n 1 | cut -d ' ' -f 2`
-    yasm_maj=`echo "$yasm_ver" | cut -d '.' -f 1`
-    yasm_min=`echo "$yasm_ver" | cut -d '.' -f 2`
-    yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
-    yasm_ok=false
-
-    if test $yasm_maj -gt $YASM_VERSION_MAJOR; then
-      yasm_ok=true
-    elif test $yasm_maj -eq $YASM_VERSION_MAJOR; then
-      if test $yasm_min -gt $YASM_VERSION_MINOR; then
-        yasm_ok=true
-      elif test $yasm_min -eq $YASM_VERSION_MINOR; then
-        if test $yasm_rev -ge $YASM_VERSION_BUILD; then
-          yasm_ok=true
-        fi
-      fi
-    fi
-
-    if test x"$yasm_ok" != x"true"; then
-      AC_MSG_ERROR([yasm 1.2.0 or higher required])
-    fi
-    ;;
-  *)
-    ;;
-  esac
-fi
-
-if test x"$YACC" = "xno"; then
-  AC_MSG_ERROR([Could not find byacc, yacc or bison!])
-fi
-
-dnl do not use --noyywrap option with flex as older versions do not support
-dnl it. FIXME: We should really have a compatibility test here.
-dnl AC_CHECK_PROGS(LEX, 'flex --noyywrap', [no])
-
-dnl if test x"$LEX" = "xno"; then
-dnl   unset LEX
-dnl fi
-
-if test x"$LEX" = "x:"; then
-  AC_MSG_ERROR([Could not find either flex or lex!])
-fi
-
-AM_PROG_AS
-
 dnl check if ar truncates object names
 if test x"$ar_check" != "xno"; then
   AC_MSG_CHECKING(if ar truncates object names)
@@ -1223,10 +1203,6 @@ if test x"$TEXI2DVI" = "xno" -o x"$PDFTEX" = "xno"; then
   AM_CONDITIONAL(BUILD_PDF, false)
 else
   AM_CONDITIONAL(BUILD_PDF, true)
-fi
-
-if test x"$XA" = "xno"; then
-  AC_MSG_ERROR([xa is missing])
 fi
 
 if test x"$SVN" != "x"; then
