@@ -141,6 +141,7 @@ notice identical to this one.
 Copyright @copyright{} 2005-2018 Marco van den Heuvel
 Copyright @copyright{} 2007-2018 Fabrizio Gennari
 Copyright @copyright{} 2009-2018 Groepaz
+Copyright @copyright{} 2009-2018 Errol Smith
 Copyright @copyright{} 2010-2018 Olaf Seibert
 Copyright @copyright{} 2011-2018 Marcus Sutton
 Copyright @copyright{} 2011-2018 Kajtar Zsolt
@@ -155,7 +156,6 @@ Copyright @copyright{} 2011-2016 Stefan Haubenthal
 Copyright @copyright{} 2015-2016 BSzili
 Copyright @copyright{} 1999-2016 Andreas Matthies
 Copyright @copyright{} 2007-2015 Daniel Kahlin
-Copyright @copyright{} 2009-2015 Errol Smith
 Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 Copyright @copyright{} 2011-2014 Ulrich Schulz
 Copyright @copyright{} 2011-2014 Thomas Giesel
@@ -26747,6 +26747,8 @@ Copyright @copyright{} 2007-2018 Fabrizio Gennari
 @item
 Copyright @copyright{} 2009-2018 Groepaz
 @item
+Copyright @copyright{} 2009-2018 Errol Smith
+@item
 Copyright @copyright{} 2010-2018 Olaf Seibert
 @item
 Copyright @copyright{} 2011-2018 Marcus Sutton
@@ -26763,8 +26765,6 @@ Copyright @copyright{} 2011-2016 Stefan Haubenthal
 Copyright @copyright{} 2015-2016 BSzili
 @item
 Copyright @copyright{} 2007-2015 Daniel Kahlin
-@item
-Copyright @copyright{} 2009-2015 Errol Smith
 @item
 Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 @item
