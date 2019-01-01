@@ -115,6 +115,17 @@ static void vdc_perform_fillcopy(void)
 }
 
 
+/* (re)calculate the width of each vdc character in pixels */
+static void vdc_calculate_charwidth(void)
+{
+    if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
+        vdc.charwidth = 2 * (vdc.regs[22] >> 4);
+    } else { /* 80 column mode */
+        vdc.charwidth = 1 + (vdc.regs[22] >> 4);
+    }
+}
+
+
 /* VDC interface functions. */
 
 /* Store a value in a VDC register. */
@@ -320,6 +331,7 @@ void vdc_store(uint16_t addr, uint8_t value)
 
         case 22:                /* R22 Character Horizontal Size Control */
             /* TODO - changes to this register are real time, so need raster_changes() type call, but why bother... */
+            vdc_calculate_charwidth();
 #ifdef REG_DEBUG
             log_message(vdc.log, "REG 22 only partially supported!");
 #endif
@@ -372,6 +384,7 @@ void vdc_store(uint16_t addr, uint8_t value)
                 /* Double-Pixel Mode */
                 vdc.update_geometry = 1;
             }
+            vdc_calculate_charwidth();
 #ifdef REG_DEBUG
             log_message(vdc.log, "Video mode: %s.",
                         (vdc.regs[25] & 0x80) ? "bitmap" : "text");

@@ -100,7 +100,7 @@ struct vdc_s {
     /* VDC registers.  */
     uint8_t regs[64];
 
-    /* VDC geometry constants that differ in doulbe size mode.  */
+    /* VDC geometry constants that differ in double size mode.  */
     unsigned int screen_height;
     unsigned int screen_xpix;
     unsigned int screen_ypix;
@@ -140,6 +140,9 @@ struct vdc_s {
     /* Bytes per character.  */
     unsigned int bytes_per_char;
 
+    /* Character width - width of each character on screen in physical pixels */
+    unsigned int charwidth;
+    
     /* Value to add to `mem_counter' after the graphics has been painted.  */
     unsigned int mem_counter_inc;
 

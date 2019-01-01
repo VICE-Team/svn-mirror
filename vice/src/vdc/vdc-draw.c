@@ -147,13 +147,12 @@ index = where in the screen memory we are, to check against the cursor */
         data = char_mem[(c * bytes_per_char) + l] & mask[vdc.regs[22] & 0x0F];
     }
 
+    /* Pixels per char does not apply to the underline but the underline does blink, reverse and extend through inter-character spacing */
     if ((l == (signed)vdc.regs[29]) && (a & VDC_UNDERLINE_ATTR)) {
-        /* TODO - figure out if the pixels per char applies to the underline */
         data = 0xFF;
     }
 
     if ((a & VDC_FLASH_ATTR) && (vdc.attribute_blink)) {
-        /* underline byte also blinks! */
         data = 0x00;
     }
 
@@ -437,18 +436,16 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
     uint8_t *p, *q;
     uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
 
-    unsigned int i, charwidth;
+    unsigned int i;
     int icsi = -1;  /* Inter Character Spacing Index - used as a combo flag/index as to whether there is any intercharacter gap to render */
     
     if (vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
-        charwidth = 2 * (vdc.regs[22] >> 4);
-        if (charwidth > 16) {   /* Is there inter character spacing to render? */
-            icsi = charwidth / 2 - 8;
+        if (vdc.charwidth > 16) {   /* Is there inter character spacing to render? */
+            icsi = vdc.charwidth / 2 - 8;
         }
     } else { /* 80 column mode */
-        charwidth = 1 + (vdc.regs[22] >> 4);
-        if (charwidth > 8) {    /* Is there inter character spacing to render? */
-            icsi = charwidth - 8;
+        if (vdc.charwidth > 8) {    /* Is there inter character spacing to render? */
+            icsi = vdc.charwidth - 8;
         }
     }
     p = vdc.raster.draw_buffer_ptr
@@ -456,13 +453,13 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
         + ((vdc.regs[25] & 0x10) ? 2 : 0)
         + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
         - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1)
-        + xs * charwidth;
+        + xs * vdc.charwidth;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
     pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
     pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
 
     if (vdc.regs[25] & 0x10) { /* double pixel mode */
-        for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
+        for (i = xs; i <= (unsigned int)xe; i++, p += vdc.charwidth) {
             uint32_t *pdwl = pdl_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             uint32_t *pdwh = pdh_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             int d = cache->foreground_data[i];
@@ -490,7 +487,7 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
             }
         }
     } else { /* normal text size */
-        for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) { /* FIXME rendering in the intercharacter gap when charwidth >8 */
+        for (i = xs; i <= (unsigned int)xe; i++, p += vdc.charwidth) {
             uint32_t *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             int d = cache->foreground_data[i];
             *((uint32_t *)p) = *(ptr + (d >> 4));
@@ -532,21 +529,19 @@ static void draw_std_text(void)
     uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
     uint8_t *attr_ptr, *screen_ptr, *char_ptr;
 
-    unsigned int i, d, charwidth;
+    unsigned int i, d;
     unsigned int cpos = 0xffff;
     int icsi = -1;  /* Inter Character Spacing Index - used as a combo flag/index as to whether there is any intercharacter gap to render */
     
     cpos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
 
     if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
-        charwidth = 2 * (vdc.regs[22] >> 4);
-        if (charwidth > 16) {   /* Is there inter character spacing to render? */
-            icsi = charwidth / 2 - 8;
+        if (vdc.charwidth > 16) {   /* Is there inter character spacing to render? */
+            icsi = vdc.charwidth / 2 - 8;
         }
     } else { /* 80 column mode */
-        charwidth = 1 + (vdc.regs[22] >> 4);
-        if (charwidth > 8) {    /* Is there inter character spacing to render? */
-            icsi = charwidth - 8;
+        if (vdc.charwidth > 8) {    /* Is there inter character spacing to render? */
+            icsi = vdc.charwidth - 8;
         }
     }
     
@@ -566,7 +561,7 @@ static void draw_std_text(void)
         table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
         pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
         pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
-        for (i = 0; i < vdc.screen_text_cols; i++, p += charwidth) {
+        for (i = 0; i < vdc.screen_text_cols; i++, p += vdc.charwidth) {
             if (vdc.raster.ycounter > (signed)vdc.regs[23]) {
                 /* Return nothing if > Vertical Character Size */
                 d = 0x00;
@@ -579,8 +574,8 @@ static void draw_std_text(void)
             d &= mask[vdc.regs[22] & 0x0F];
                   
             /* set underline if the underline attrib is set for this char */
+            /* Pixels per char does not apply to the underline but the underline does blink, reverse and extend through inter-character spacing */
             if ((vdc.raster.ycounter == vdc.regs[29]) && (*(attr_ptr + i) & VDC_UNDERLINE_ATTR)) {
-                /* TODO - figure out if the pixels per char applies to the underline */
                 d = 0xFF;
             }
 
@@ -674,7 +669,7 @@ static void draw_std_text(void)
         uint32_t *ptr = hr_table + (vdc.regs[26] << 4);
         uint32_t *pdwl = pdl_table + (vdc.regs[26] << 4);  /* Pointers into the lookup tables */
         uint32_t *pdwh = pdh_table + (vdc.regs[26] << 4);
-        for (i = 0; i < vdc.screen_text_cols; i++, p += charwidth) {
+        for (i = 0; i < vdc.screen_text_cols; i++, p += vdc.charwidth) {
             d = *(char_ptr + (*(screen_ptr + i) * vdc.bytes_per_char));
             
             /* mask against r[22] - pixels per char mask */
@@ -796,24 +791,19 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
     uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
     uint32_t *ptr, *pdwl, *pdwh;
 
-    unsigned int i, d, j, fg, bg, charwidth;
-    if (vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
-        charwidth = 2 * (vdc.regs[22] >> 4);
-    } else { /* 80 column mode */
-        charwidth = 1 + (vdc.regs[22] >> 4);
-    }
+    unsigned int i, d, j, fg, bg;
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
         + ((vdc.regs[25] & 0x10) ? 2 : 0)
         + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
         - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1)
-        + xs * charwidth;
+        + xs * vdc.charwidth;
 
     /* TODO: See if we even need to split these renderers between attr/mono, because the attr data is filled either way. draw_std_text_cached mode() doesn't differentiate */
     if (vdc.regs[25] & 0x40) {
         /* attribute mode */
         if (vdc.regs[25] & 0x10) { /* double pixel mode */
-            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += vdc.charwidth) {
                 d = cache->foreground_data[i];
                 pdwl = pdl_table + ((cache->color_data_1[i] & 0x0f) << 8) + (cache->color_data_1[i] & 0xf0);
                 pdwh = pdh_table + ((cache->color_data_1[i] & 0x0f) << 8) + (cache->color_data_1[i] & 0xf0);
@@ -823,7 +813,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
                 *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
             }
         } else { /* normal text size */
-            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += vdc.charwidth) {
                 d = cache->foreground_data[i];
 
                 table_ptr = hr_table + (cache->color_data_1[i] & 0xf0);
@@ -839,7 +829,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
             pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
             pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
 
-            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += vdc.charwidth) {
                 d = cache->foreground_data[i];
                 pdwl = pdl_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
                 pdwh = pdh_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
@@ -851,7 +841,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
         } else { /* normal text size */
             table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
-            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += vdc.charwidth) {
                 d = cache->foreground_data[i];
 
                 ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
@@ -895,13 +885,7 @@ static void draw_std_bitmap(void)
     uint8_t *p;
     uint8_t *attr_ptr, *bitmap_ptr;
 
-    unsigned int i, d, j, fg, bg, charwidth;
-    
-    if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
-        charwidth = 2 * (vdc.regs[22] >> 4);
-    } else { /* 80 column mode */
-        charwidth = 1 + (vdc.regs[22] >> 4);
-    }
+    unsigned int i, d, j, fg, bg;
     
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
@@ -912,7 +896,7 @@ static void draw_std_bitmap(void)
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter + vdc.attribute_offset;
     bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
 
-    for (i = 0; i < vdc.mem_counter_inc; i++, p += charwidth) {
+    for (i = 0; i < vdc.mem_counter_inc; i++, p += vdc.charwidth) {
         uint32_t *ptr, *pdwl, *pdwh;
 
         if (vdc.regs[25] & 0x40) {

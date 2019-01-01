@@ -95,7 +95,6 @@ static void vdc_set_geometry(void)
     unsigned int vdc_25row_start_line, vdc_25row_stop_line;
     unsigned int displayed_width, displayed_height;
     unsigned int vdc_80col_start_pixel, vdc_80col_stop_pixel;
-    unsigned int charwidth;
 
     raster = &vdc.raster;
 
@@ -114,13 +113,8 @@ static void vdc_set_geometry(void)
     vdc_25row_start_line = border_height;
     vdc_25row_stop_line = vdc_25row_start_line + screen_ypix;
 
-    if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
-        charwidth = 2 * (vdc.regs[22] >> 4);
-    } else { /* 80 column mode */
-        charwidth = 1 + (vdc.regs[22] >> 4);
-    }
     vdc_80col_start_pixel = border_width;
-    vdc_80col_stop_pixel = vdc_80col_start_pixel + charwidth * vdc.screen_text_cols;
+    vdc_80col_stop_pixel = vdc_80col_start_pixel + vdc.charwidth * vdc.screen_text_cols;
 
     displayed_width = VDC_SCREEN_WIDTH;
     displayed_height = last_displayed_line - first_displayed_line + 1;
@@ -151,7 +145,7 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         0, 0); /* extra off screen border left / right */
 
     raster->geometry->pixel_aspect_ratio = vdc_get_pixel_aspect();
-    raster->geometry->char_pixel_width = charwidth;
+    raster->geometry->char_pixel_width = vdc.charwidth;
     raster->viewport->crt_type = vdc_get_crt_type();
 }
 
@@ -256,7 +250,7 @@ static void vdc_update_geometry(void)
                 hsync_shift
                 border_width    */
     
-    int charwidth, hsync;
+    int hsync;
 
     /* Leave this fixed so the window isn't getting constantly resized */
     vdc.screen_height = VDC_SCREEN_HEIGHT;
@@ -282,13 +276,11 @@ static void vdc_update_geometry(void)
 
     /* FIXME: this seems to have semi-randomly selected constants... */
     if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
-        charwidth = 2 * (vdc.regs[22] >> 4);
         hsync = 62 * 16            /* 992 */
-            - vdc.regs[2] * charwidth;       /* default (55) - 880 = 112 */
+            - vdc.regs[2] * vdc.charwidth;       /* default (55) - 880 = 112 */
     } else { /* 80 column mode */
-        charwidth = 1 + (vdc.regs[22] >> 4);
         hsync = 116 * 8            /* 928 */
-            - vdc.regs[2] * charwidth;       /* default (102) - 816 = 112 */
+            - vdc.regs[2] * vdc.charwidth;       /* default (102) - 816 = 112 */
     }
     /* FIXME: It's potentially valid for the active display area to start off the left (or right) of the display,
         because the VDC can put the horizontal sync anywhere. But we can't really emulate that (yet) without things crashing. */
@@ -298,11 +290,11 @@ static void vdc_update_geometry(void)
     vdc.hsync_shift = hsync;
 
     /* clamp the display within the right edge of the screen */
-    if ((vdc.screen_text_cols * charwidth) > VDC_SCREEN_WIDTH ) {
+    if ((vdc.screen_text_cols * vdc.charwidth) > VDC_SCREEN_WIDTH ) {
         /* bounds check so we don't wind up with a "negative unsigned" hsync_shift (i.e. a massive value) which then causes a segfault in vdc-draw.. */
         vdc.hsync_shift = 0;
-    } else if (vdc.hsync_shift + (vdc.screen_text_cols * charwidth) > VDC_SCREEN_WIDTH ) {
-        vdc.hsync_shift = VDC_SCREEN_WIDTH - (vdc.screen_text_cols * charwidth);
+    } else if (vdc.hsync_shift + (vdc.screen_text_cols * vdc.charwidth) > VDC_SCREEN_WIDTH ) {
+        vdc.hsync_shift = VDC_SCREEN_WIDTH - (vdc.screen_text_cols * vdc.charwidth);
     }
     vdc.border_width = vdc.hsync_shift;
 
