@@ -36,6 +36,7 @@ int (*carthelpers_flush_func)(int type);
 int (*carthelpers_is_enabled_func)(int type);
 int (*carthelpers_enable_func)(int type);
 int (*carthelpers_disable_func)(int type);
+const char * (*carthelpers_filename_func)(int type);
 
 
 void carthelpers_set_functions(
@@ -43,7 +44,8 @@ void carthelpers_set_functions(
         int (*flush_func)(int),
         int (*is_enabled_func)(int),
         int (*enable_func)(int),
-        int (*disable_func)(int));
+        int (*disable_func)(int),
+        const char * (*filename_func)(int));
 
 GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
                                                   int cart_id);

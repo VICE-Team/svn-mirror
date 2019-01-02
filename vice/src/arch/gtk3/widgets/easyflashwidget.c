@@ -99,6 +99,7 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     GtkWidget *optimize_crt;
     GtkWidget *save_button;
     GtkWidget *flush_button;
+    const char *fname;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -121,11 +122,22 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked),
             NULL);
 
+    gtk_widget_set_sensitive(save_button,
+            (gboolean)(carthelpers_is_enabled_func(CARTRIDGE_EASYFLASH)));
+
     /* Flush image now */
     flush_button = gtk_button_new_with_label("Flush image now");
     gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 1, 1, 1);
     g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
             NULL);
+
+    fname = carthelpers_filename_func(CARTRIDGE_EASYFLASH);
+    if (fname != NULL && *fname != '\0') {
+        debug_gtk3("Easyflash filename = '%s'.", fname)
+        gtk_widget_set_sensitive(flush_button, TRUE);
+    } else {
+        gtk_widget_set_sensitive(flush_button, FALSE);
+    }
 
     gtk_widget_show_all(grid);
     return grid;

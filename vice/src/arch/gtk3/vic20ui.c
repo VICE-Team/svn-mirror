@@ -127,7 +127,8 @@ int vic20ui_init(void)
 
     /* I/O extension function pointers */
     carthelpers_set_functions(cartridge_save_image, cartridge_flush_image,
-            cartridge_type_enabled, NULL, NULL);
+            cartridge_type_enabled, NULL, NULL,
+            cartridge_get_file_name);
 
     /* uicart_set_detect_func(cartridge_detect); only cbm2/plus4 */
 /*    uicart_set_list_func(cartridge_get_info_list); */
