@@ -15749,13 +15749,17 @@ Otherwise, it is ignored.  If registers are specified in the
 expression, the values used are those at the time the checkpoint is
 examined, not when the condition is set.
 
-Currently, the cond_expr is very limited. You can use registers (.A, .X,
-.Y, .PC, and .SP) and compare against other registers or absolute
-values. For example, the following are all valid conditions:
-.A == 0, .X == .Y, 8:.X == .X, .A != 5, .A < .X.
-
-However, you cannot specify memory contents and compare that.
-
+The condition can use registers (A, X, Y, PC, SP, FL and other cpu
+specific registers (see manual)) and compare them (==, !=, <, >, <=, >=)
+against other registers or constants.
+Registers can be the registers of other devices; this is denoted by
+a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:
+Examples: A == $0, X == Y, 8:X == X)
+You can also compare against the value of a memory location in a specific
+bank, i.e you can break only if the vic register $d020 is $f0.
+use the form @@[bankname]:[$<address>] | [.label].
+Note this is for the C : memspace only.
+Examples : if @@io:$d020 == $f0, if @@io:.vicBorder == $f0
 
 @item delete <checknum>
 @itemx del <checknum>
