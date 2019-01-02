@@ -383,3 +383,27 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
+
+/** \brief  Restore default settings
+ *
+ * Resets settings to their defaults, asking the user to confirm.
+ *
+ * \param[in]   widget  widget triggering event (ignored)
+ * \param[in]   data    extra event data
+ *
+ * \return  TRUE (UI 'consumed' the keypress so it doesn't end up in the emu)
+ */
+gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data)
+{
+    if (vice_gtk3_message_confirm(
+                "Reset all settings to default",
+                "Are you sure you wish to reset all settings to their default"
+                " values?\n\n"
+                "The new settings will not be saved until using the 'Save"
+                " settings' menu item, or having 'Save on exit' enabled and"
+                " exiting VICE.")) {
+        debug_gtk3("Resetting resources to default.");
+        resources_set_defaults();
+    }
+    return TRUE;
+}

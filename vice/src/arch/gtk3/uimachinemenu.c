@@ -649,6 +649,9 @@ static ui_menu_item_t settings_menu_tail[] = {
     { "Save custom settings ...", UI_MENU_TYPE_ITEM_ACTION,
         "settings-save-custom", settings_save_custom_callback, NULL,
         0, 0 },
+    { "Restore default settings", UI_MENU_TYPE_ITEM_ACTION,
+        "settings-restore", (void *)ui_restore_default_settings, NULL,
+        0, 0 },
     UI_MENU_TERMINATOR
 };
 
