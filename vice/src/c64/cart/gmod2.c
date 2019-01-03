@@ -512,7 +512,7 @@ void gmod2_detach(void)
 static char snap_module_name[] = "CARTGMOD2";
 static char flash_snap_module_name[] = "FLASH040GMOD2";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   1
+#define SNAP_MINOR   2
 
 int gmod2_snapshot_write_module(snapshot_t *s)
 {
@@ -526,12 +526,17 @@ int gmod2_snapshot_write_module(snapshot_t *s)
 
     if (0
         || SMW_B(m, (uint8_t)gmod2_cmode) < 0
-        || SMW_B(m, (uint8_t)gmod2_bank) < 0) {
+        || SMW_B(m, (uint8_t)gmod2_bank) < 0
+        || SMW_BA(m, flashrom_state->flash_data, GMOD2_FLASH_SIZE) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
+
+    if (m93c86_snapshot_write_module(s) < 0) {
+        return -1;
+    }
 
     return flash040core_snapshot_write_module(s, flashrom_state, flash_snap_module_name);
 }
@@ -555,11 +560,16 @@ int gmod2_snapshot_read_module(snapshot_t *s)
 
     if (0
         || SMR_B_INT(m, &gmod2_cmode) < 0
-        || SMR_B_INT(m, &gmod2_bank) < 0) {
+        || SMR_B_INT(m, &gmod2_bank) < 0
+        || SMR_BA(m, roml_banks, GMOD2_FLASH_SIZE) < 0) {
         goto fail;
     }
 
     snapshot_module_close(m);
+
+    if (m93c86_snapshot_read_module(s) < 0) {
+        return -1;
+    }
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));
     flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_NORMAL, roml_banks);
