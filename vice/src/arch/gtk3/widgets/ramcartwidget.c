@@ -83,7 +83,7 @@ static GtkWidget *create_ramcart_readonly_widget(void)
 }
 
 
-/** \brief  Create radio button group to determine GEORAM RAM size
+/** \brief  Create radio button group to determine RAMCART size
  *
  * \return  GtkGrid
  */
@@ -102,7 +102,7 @@ static GtkWidget *create_ramcart_size_widget(void)
 }
 
 
-/** \brief  Create widget to load/save GEORAM image file
+/** \brief  Create widget to load/save RAMCART image file
  *
  * \return  GtkGrid
  */
@@ -111,6 +111,7 @@ static GtkWidget *create_ramcart_image_widget(GtkWidget *parent)
     return cart_image_widget_create(parent, "RAMCART image",
             "RAMCARTfilename", "RAMCARTImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
+            carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_RAMCART, CARTRIDGE_RAMCART);
 
 }

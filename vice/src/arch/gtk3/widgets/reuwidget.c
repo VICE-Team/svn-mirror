@@ -81,7 +81,7 @@ static GtkWidget *create_reu_ioswap_widget(void)
 }
 
 
-/** \brief  Create radio button group to determine GEORAM RAM size
+/** \brief  Create radio button group to determine REU RAM size
  *
  * \return  GtkGrid
  */
@@ -100,7 +100,7 @@ static GtkWidget *create_reu_size_widget(void)
 }
 
 
-/** \brief  Create widget to load/save GEORAM image file
+/** \brief  Create widget to load/save REU image file
  *
  * \return  GtkGrid
  */
@@ -109,6 +109,7 @@ static GtkWidget *create_reu_image_widget(GtkWidget *parent)
     return cart_image_widget_create(parent, "REU image",
             "REUfilename", "REUImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
+            carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_REU, CARTRIDGE_REU);
 }
 

@@ -123,7 +123,7 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
             NULL);
 
     gtk_widget_set_sensitive(save_button,
-            (gboolean)(carthelpers_is_enabled_func(CARTRIDGE_EASYFLASH)));
+            (gboolean)(carthelpers_can_save_func(CARTRIDGE_EASYFLASH)));
 
     /* Flush image now */
     flush_button = gtk_button_new_with_label("Flush image now");
@@ -131,8 +131,7 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
             NULL);
 
-    fname = carthelpers_filename_func(CARTRIDGE_EASYFLASH);
-    if (fname != NULL && *fname != '\0') {
+    if (carthelpers_can_flush_func(CARTRIDGE_EASYFLASH)) {
         debug_gtk3("Easyflash filename = '%s'.", fname)
         gtk_widget_set_sensitive(flush_button, TRUE);
     } else {

@@ -43,7 +43,8 @@ int (*carthelpers_flush_func)(int type);
 int (*carthelpers_is_enabled_func)(int type);
 int (*carthelpers_enable_func)(int type);
 int (*carthelpers_disable_func)(int type);
-const char * (*carthelpers_filename_func)(int type);
+int (*carthelpers_can_save_func)(int type);
+int (*carthelpers_can_flush_func)(int type);
 
 /** \brief  Placeholder function for functions accepting (int)
  *
@@ -100,14 +101,16 @@ void carthelpers_set_functions(
         int (*is_enabled_func)(int),
         int (*enable_func)(int),
         int (*disable_func)(int),
-        const char * (*filename_func)(int))
+        int (*can_save_func)(int),
+        int (*can_flush_func)(int))
 {
     carthelpers_save_func = save_func ? save_func : null_handler_save;
     carthelpers_flush_func = flush_func ? flush_func : null_handler;
     carthelpers_is_enabled_func = is_enabled_func ? is_enabled_func : null_handler;
     carthelpers_enable_func = enable_func ? enable_func : null_handler;
     carthelpers_disable_func = disable_func ? disable_func : null_handler;
-    carthelpers_filename_func = filename_func;
+    carthelpers_can_save_func = can_save_func ? can_save_func : null_handler;
+    carthelpers_can_flush_func = can_flush_func ? can_flush_func : null_handler;
 }
 
 

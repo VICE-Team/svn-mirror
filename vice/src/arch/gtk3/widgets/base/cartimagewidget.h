@@ -36,6 +36,8 @@ GtkWidget *cart_image_widget_create(
         const char *resource_fname, const char *resource_write,
         int (*func_save)(int, const char *),
         int (*func_flush)(int),
+        int (*func_can_save)(int),
+        int (*func_can_flush)(int),
         const char *cart_name, int cart_id);
 
 #endif

@@ -162,7 +162,8 @@ int c64ui_init(void)
             cartridge_type_enabled,
             cartridge_enable,
             cartridge_disable,
-            cartridge_get_file_name);
+            cartridge_can_save_image,
+            cartridge_can_flush_image);
 
     /* uicart_set_detect_func(cartridge_detect); only cbm2/plus4 */
     uicart_set_list_func(cartridge_get_info_list);

@@ -89,6 +89,7 @@ static GtkWidget *create_expert_image_widget(GtkWidget *parent)
     return cart_image_widget_create(parent, "Expert Cartridge image",
             "Expertfilename", "ExpertImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
+            carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_EXPERT, CARTRIDGE_EXPERT);
 }
 
