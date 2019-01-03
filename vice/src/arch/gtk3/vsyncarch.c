@@ -32,8 +32,9 @@
 
 #include "kbdbuf.h"
 #include "ui.h"
-#include "vsyncapi.h"
 #include "videoarch.h"
+#include "vsyncapi.h"
+#include "vsyncarch.h"
 
 #ifdef HAS_JOYSTICK
 #include "joy.h"
@@ -64,16 +65,6 @@ static void_hook_t ui_dispatch_hook;
 static int pause_pending = 0;
 
 /* ------------------------------------------------------------------------- */
-#ifdef HAVE_NANOSLEEP
-#define TICKSPERSECOND  1000000000L  /* Nanoseconds resolution. */
-#define TICKSPERMSEC    1000000L
-#define TICKSPERUSEC    1000L
-#define TICKSPERNSEC    1L
-#else
-#define TICKSPERSECOND  1000000L     /* Microseconds resolution. */
-#define TICKSPERMSEC    1000L
-#define TICKSPERUSEC    1L
-#endif
 
 /* FIXME: this function should be a constant */
 /* Number of timer units per second. */
