@@ -52,10 +52,8 @@ static UI_MENU_CALLBACK(toggle_save_disk_images_callback)
 {
     if (activated) {
         save_disks = !save_disks;
-    } else {
-        if (save_disks) {
-            return sdl_menu_text_tick;
-        }
+    } else if (save_disks) {
+        return sdl_menu_text_tick;
     }
     return NULL;
 }
@@ -64,10 +62,8 @@ static UI_MENU_CALLBACK(toggle_save_rom_images_callback)
 {
     if (activated) {
         save_roms = !save_roms;
-    } else {
-        if (save_roms) {
-            return sdl_menu_text_tick;
-        }
+    } else if (save_roms) {
+        return sdl_menu_text_tick;
     }
     return NULL;
 }
@@ -237,11 +233,11 @@ static UI_MENU_CALLBACK(select_history_files_callback)
 
 static const ui_menu_entry_t save_snapshot_menu[] = {
     { "Save currently attached disk images",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       toggle_save_disk_images_callback,
       NULL },
     { "Save currently attached ROM images",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       toggle_save_rom_images_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
