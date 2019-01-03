@@ -150,7 +150,7 @@ int c128ui_init_early(void)
  */
 int c128ui_init(void)
 {
-    int eighty;
+    int forty;
 
     machine_model_widget_getter(c128model_get);
     machine_model_widget_setter(c128model_set);
@@ -188,20 +188,13 @@ int c128ui_init(void)
     settings_model_widget_set_model_func(c128model_get);
 
     /* push VDC display to front depending on 40/80 key */
-    if (resources_get_int("C128ColumnKey", &eighty) >= 0) {
-        debug_gtk3("got 80 col mode: %d.", eighty);
+    if (resources_get_int("C128ColumnKey", &forty) >= 0) {
+        debug_gtk3("col mode: %d.", forty ? 40 : 80);
 
-        if (!eighty) {
+        if (!forty) {
             GtkWidget *window = ui_get_window_by_index(1); /* VDC */
             if (window != NULL) {
-                /* this is a bit dubious, but it seems any bring-to-front code
-                 * has been removed from gtk3, so we just force the VDC window
-                 * to front and immediately disable this, still keeping the
-                 * VDC window as the top level window, but allowing moving
-                 * the VICII in front of it.
-                 */
-                gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);
-                gtk_window_set_keep_above(GTK_WINDOW(window), FALSE);
+                gtk_window_present(GTK_WINDOW(window));
             }
         }
     }
