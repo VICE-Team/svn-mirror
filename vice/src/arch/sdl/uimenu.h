@@ -42,7 +42,7 @@ typedef const char *(*ui_callback_t)(int activated, ui_callback_data_t param);
 
 typedef enum {
     /* Text item (no operation): if data == 1 text colors are inverted */
-    MENU_ENTRY_TEXT,
+    MENU_ENTRY_TEXT = 0,
 
     /* Resource toggle: no UI needed, callback is used */
     MENU_ENTRY_RESOURCE_TOGGLE,
@@ -72,11 +72,18 @@ typedef enum {
     MENU_ENTRY_OTHER_TOGGLE
 } ui_menu_entry_type_t;
 
+typedef enum {
+    MENU_STATUS_ACTIVE = 0,
+    MENU_STATUS_INACTIVE = 1,
+    MENU_STATUS_NA = 2
+} ui_menu_status_type_t;
+
 typedef struct ui_menu_entry_s {
     char *string;
     ui_menu_entry_type_t type;
     ui_callback_t callback;
     ui_callback_data_t data;
+    ui_menu_status_type_t status;
 } ui_menu_entry_t;
 
 #define SDL_MENU_LIST_END { NULL, MENU_ENTRY_TEXT, NULL, NULL }

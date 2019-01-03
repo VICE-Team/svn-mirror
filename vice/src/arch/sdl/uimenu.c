@@ -355,6 +355,13 @@ int sdl_ui_set_toggle_colors(int state)
     return color;
 }
 
+int sdl_ui_set_item_colors(int status)
+{
+    uint8_t color = menu_draw.color_front;
+    menu_draw.color_front = (status == MENU_STATUS_INACTIVE) ? menu_draw.color_inactive_grey : menu_draw.color_default_front;
+    return color;
+}
+
 int sdl_ui_set_default_colors(void)
 {
     uint8_t color = menu_draw.color_front;
@@ -416,12 +423,14 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
     }
     i += n;
 
+    /* setup color for the menu item */
     if (!iscursor) {
         sdl_ui_reset_tickmark_colors(oldfg);
-    }
-
-    if (!iscursor && istoggle) {
-        sdl_ui_set_toggle_colors(status);
+        if (istoggle) {
+            sdl_ui_set_toggle_colors(status);
+        } else {
+            sdl_ui_set_item_colors(item->status);
+        }
     }
 
     /* print the actual menu item */
@@ -662,6 +671,10 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
 static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
 {
     const char *p = NULL;
+
+    if (item->status == MENU_STATUS_INACTIVE) {
+        return MENU_RETVAL_DEFAULT;
+    }
 
     switch (item->type) {
         case MENU_ENTRY_OTHER:
