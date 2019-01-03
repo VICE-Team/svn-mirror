@@ -112,7 +112,7 @@ const ui_menu_entry_t petcart_menu[] = {
       detach_cart_callback,
       (ui_callback_data_t)"RomModuleBName" },
     SDL_MENU_ITEM_SEPARATOR,
-    { "I/O collision handling ($8800-$8FFF / $E900-$EEFF)",
+    { "I/O collision handling ($8800-$8FFF/$E900-$EEFF)",
       MENU_ENTRY_SUBMENU,
       iocollision_show_type_callback,
       (ui_callback_data_t)iocollision_menu },
