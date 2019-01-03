@@ -38,6 +38,7 @@
 
 #include "log.h"
 #include "m93c86.h"
+#include "resources.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -390,14 +391,11 @@ void m93c86_close_image(int rw)
 /*    snapshot support functions                                             */
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "M93C86"
 
-/* FIXME: implement snapshot support */
 int m93c86_snapshot_write_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
@@ -406,39 +404,75 @@ int m93c86_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (0
+        || SMW_B(m, eeprom_cs) < 0
+        || SMW_B(m, eeprom_clock) < 0
+        || SMW_B(m, eeprom_data_in) < 0
+        || SMW_B(m, eeprom_data_out) < 0
+        || SMW_B(m, input_shiftreg) < 0
+        || SMW_B(m, input_count) < 0
+        || SMW_B(m, output_shiftreg) < 0
+        || SMW_B(m, output_count) < 0
+        || SMW_B(m, command) < 0
+        || SMW_B(m, addr) < 0
+        || SMW_B(m, data0) < 0
+        || SMW_B(m, data1) < 0
+        || SMW_B(m, write_enable_status) < 0
+        || SMW_B(m, ready_busy_status) < 0
+        || SMW_BA(m, m93c86_data, M93C86_SIZE) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
     return 0;
-#endif
 }
 
 int m93c86_snapshot_read_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
+    int rw;
+
+    /* FIXME: currently m93c86 is used exclusively in gmod2, so this is not a
+     *        problem - however, the whole global context should go into a
+     *        struct at some point, and this rw flag too :) */
+    resources_get_int("GMod2EEPROMRW", &rw);
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL) {
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+    /* Do not accept versions higher than current */
+    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
         snapshot_module_close(m);
         return -1;
     }
 
-    if (0) {
+    m93c86_close_image(rw);
+
+    if (0
+        || SMR_B_INT(m, &eeprom_cs) < 0
+        || SMR_B_INT(m, &eeprom_clock) < 0
+        || SMR_B_INT(m, &eeprom_data_in) < 0
+        || SMR_B_INT(m, &eeprom_data_out) < 0
+        || SMR_B_INT(m, &input_shiftreg) < 0
+        || SMR_B_INT(m, &input_count) < 0
+        || SMR_B_INT(m, &output_shiftreg) < 0
+        || SMR_B_INT(m, &output_count) < 0
+        || SMR_B_INT(m, &command) < 0
+        || SMR_B_INT(m, &addr) < 0
+        || SMR_B_INT(m, &data0) < 0
+        || SMR_B_INT(m, &data1) < 0
+        || SMR_B_INT(m, &write_enable_status) < 0
+        || SMR_B_INT(m, &ready_busy_status) < 0
+        || SMR_BA(m, m93c86_data, M93C86_SIZE) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
+
     return 0;
-#endif
 }
