@@ -46,6 +46,7 @@
 #include "uifilereq.h"
 #include "uimenu.h"
 
+/* attach .bin cartridge image */
 static UI_MENU_CALLBACK(attach_c64_cart_callback)
 {
     char *name = NULL;
@@ -120,7 +121,6 @@ void uicart_menu_shutdown(void)
     }
 }
 
-
 static UI_MENU_CALLBACK(detach_c64_cart_callback)
 {
     if (activated) {
@@ -169,6 +169,9 @@ static c64_cart_flush_t carts[] = {
     { 0, NULL, NULL }
 };
 
+static void cartmenu_update_flush(void);
+static void cartmenu_update_save(void);
+
 static UI_MENU_CALLBACK(c64_cart_flush_callback)
 {
     int i;
@@ -212,6 +215,8 @@ static UI_MENU_CALLBACK(c64_cart_flush_callback)
                 ui_error("Cannot save cartridge image.");
             }
         }
+    } else {
+        cartmenu_update_flush();
     }
     return NULL;
 }
@@ -230,6 +235,8 @@ static UI_MENU_CALLBACK(c64_cart_save_callback)
             }
             lib_free(name);
         }
+    } else {
+        cartmenu_update_save();
     }
     return NULL;
 }
@@ -242,7 +249,7 @@ UI_MENU_DEFINE_RADIO(RAMCARTsize)
 UI_MENU_DEFINE_FILE_STRING(RAMCARTfilename)
 UI_MENU_DEFINE_TOGGLE(RAMCARTImageWrite)
 
-static const ui_menu_entry_t ramcart_menu[] = {
+static ui_menu_entry_t ramcart_menu[] = {
     { "Enable " CARTRIDGE_NAME_RAMCART,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RAMCART_callback,
@@ -282,7 +289,6 @@ static const ui_menu_entry_t ramcart_menu[] = {
     SDL_MENU_LIST_END
 };
 
-
 /* REU */
 
 UI_MENU_DEFINE_TOGGLE(REU)
@@ -290,7 +296,7 @@ UI_MENU_DEFINE_RADIO(REUsize)
 UI_MENU_DEFINE_FILE_STRING(REUfilename)
 UI_MENU_DEFINE_TOGGLE(REUImageWrite)
 
-static const ui_menu_entry_t reu_menu[] = {
+static ui_menu_entry_t reu_menu[] = {
     { "Enable " CARTRIDGE_NAME_REU,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_REU_callback,
@@ -358,7 +364,7 @@ UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
 UI_MENU_DEFINE_FILE_STRING(Expertfilename)
 UI_MENU_DEFINE_TOGGLE(ExpertImageWrite)
 
-static const ui_menu_entry_t expert_cart_menu[] = {
+static ui_menu_entry_t expert_cart_menu[] = {
     { "Enable " CARTRIDGE_NAME_EXPERT,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_ExpertCartridgeEnabled_callback,
@@ -405,7 +411,7 @@ UI_MENU_DEFINE_TOGGLE(DQBB)
 UI_MENU_DEFINE_FILE_STRING(DQBBfilename)
 UI_MENU_DEFINE_TOGGLE(DQBBImageWrite)
 
-static const ui_menu_entry_t dqbb_cart_menu[] = {
+static ui_menu_entry_t dqbb_cart_menu[] = {
     { "Enable " CARTRIDGE_NAME_DQBB,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DQBB_callback,
@@ -439,7 +445,7 @@ UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 UI_MENU_DEFINE_FILE_STRING(Isepicfilename)
 UI_MENU_DEFINE_TOGGLE(IsepicImageWrite)
 
-static const ui_menu_entry_t isepic_cart_menu[] = {
+static ui_menu_entry_t isepic_cart_menu[] = {
     { "Enable " CARTRIDGE_NAME_ISEPIC,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IsepicCartridgeEnabled_callback,
@@ -477,7 +483,7 @@ UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
 UI_MENU_DEFINE_TOGGLE(EasyFlashOptimizeCRT)
 
 
-static const ui_menu_entry_t easyflash_cart_menu[] = {
+static ui_menu_entry_t easyflash_cart_menu[] = {
     { "Jumper",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EasyFlashJumper_callback,
@@ -509,7 +515,7 @@ UI_MENU_DEFINE_RADIO(GEORAMsize)
 UI_MENU_DEFINE_FILE_STRING(GEORAMfilename)
 UI_MENU_DEFINE_TOGGLE(GEORAMImageWrite)
 
-static const ui_menu_entry_t georam_menu[] = {
+static ui_menu_entry_t georam_menu[] = {
     { "Enable " CARTRIDGE_NAME_GEORAM,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_GEORAM_callback,
@@ -602,7 +608,7 @@ UI_MENU_DEFINE_FILE_STRING(MMC64BIOSfilename)
 UI_MENU_DEFINE_TOGGLE(MMC64_RO)
 UI_MENU_DEFINE_FILE_STRING(MMC64imagefilename)
 
-static const ui_menu_entry_t mmc64_cart_menu[] = {
+static ui_menu_entry_t mmc64_cart_menu[] = {
     { "Enable " CARTRIDGE_NAME_MMC64,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_MMC64_callback,
@@ -698,7 +704,7 @@ UI_MENU_DEFINE_TOGGLE(MMCREEPROMRW)
 UI_MENU_DEFINE_TOGGLE(MMCRRescueMode)
 UI_MENU_DEFINE_TOGGLE(MMCRImageWrite)
 
-static const ui_menu_entry_t mmcreplay_cart_menu[] = {
+static ui_menu_entry_t mmcreplay_cart_menu[] = {
     { "Rescue mode",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_MMCRRescueMode_callback,
@@ -773,7 +779,7 @@ static const ui_menu_entry_t retroreplay_revision_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t retroreplay_cart_menu[] = {
+static ui_menu_entry_t retroreplay_cart_menu[] = {
     { "Revision",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -813,7 +819,7 @@ UI_MENU_DEFINE_FILE_STRING(GMod2EEPROMImage)
 UI_MENU_DEFINE_TOGGLE(GMOD2EEPROMRW)
 UI_MENU_DEFINE_TOGGLE(GMod2FlashWrite)
 
-static const ui_menu_entry_t gmod2_cart_menu[] = {
+static ui_menu_entry_t gmod2_cart_menu[] = {
     SDL_MENU_ITEM_TITLE("EEPROM image"),
     { "EEPROM image file",
       MENU_ENTRY_DIALOG,
@@ -829,6 +835,14 @@ static const ui_menu_entry_t gmod2_cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_GMod2FlashWrite_callback,
       NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_GMOD2 },
+    { "Save image as",
+      MENU_ENTRY_OTHER,
+      c64_cart_save_callback,
+      (ui_callback_data_t)CARTRIDGE_GMOD2 },
     SDL_MENU_LIST_END
 };
 
@@ -836,7 +850,7 @@ static const ui_menu_entry_t gmod2_cart_menu[] = {
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_flashjumper)
 UI_MENU_DEFINE_TOGGLE(RRNETMK3_bios_write)
 
-static const ui_menu_entry_t rrnet_mk3_cart_menu[] = {
+static ui_menu_entry_t rrnet_mk3_cart_menu[] = {
     { "BIOS flash jumper",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RRNETMK3_flashjumper_callback,
@@ -933,6 +947,38 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
             break;
     }
     return "n/a";
+}
+
+static void cartmenu_update_flush(void)
+{
+    ramcart_menu[10].status = cartridge_can_flush_image(CARTRIDGE_RAMCART) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    reu_menu[15].status = cartridge_can_flush_image(CARTRIDGE_REU) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    expert_cart_menu[10].status = cartridge_can_flush_image(CARTRIDGE_EXPERT) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    dqbb_cart_menu[5].status = cartridge_can_flush_image(CARTRIDGE_DQBB) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    isepic_cart_menu[6].status = cartridge_can_flush_image(CARTRIDGE_ISEPIC) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    easyflash_cart_menu[3].status = cartridge_can_flush_image(CARTRIDGE_EASYFLASH) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    georam_menu[14].status = cartridge_can_flush_image(CARTRIDGE_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    mmc64_cart_menu[11].status = cartridge_can_flush_image(CARTRIDGE_MMC64) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    mmcreplay_cart_menu[4].status = cartridge_can_flush_image(CARTRIDGE_MMC_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    retroreplay_cart_menu[4].status = cartridge_can_flush_image(CARTRIDGE_RETRO_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    gmod2_cart_menu[6].status = cartridge_can_flush_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    rrnet_mk3_cart_menu[2].status = cartridge_can_flush_image(CARTRIDGE_RRNETMK3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+}
+
+static void cartmenu_update_save(void)
+{
+    ramcart_menu[11].status = cartridge_can_save_image(CARTRIDGE_RAMCART) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    reu_menu[16].status = cartridge_can_save_image(CARTRIDGE_REU) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    expert_cart_menu[11].status = cartridge_can_save_image(CARTRIDGE_EXPERT) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    dqbb_cart_menu[6].status = cartridge_can_save_image(CARTRIDGE_DQBB) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    isepic_cart_menu[7].status = cartridge_can_save_image(CARTRIDGE_ISEPIC) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    easyflash_cart_menu[4].status = cartridge_can_save_image(CARTRIDGE_EASYFLASH) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    georam_menu[15].status = cartridge_can_save_image(CARTRIDGE_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    mmc64_cart_menu[12].status = cartridge_can_save_image(CARTRIDGE_MMC64) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    mmcreplay_cart_menu[5].status = cartridge_can_save_image(CARTRIDGE_MMC_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    retroreplay_cart_menu[5].status = cartridge_can_save_image(CARTRIDGE_RETRO_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    gmod2_cart_menu[7].status = cartridge_can_save_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    rrnet_mk3_cart_menu[3].status = cartridge_can_save_image(CARTRIDGE_RRNETMK3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
 }
 
 /* Cartridge menu */
