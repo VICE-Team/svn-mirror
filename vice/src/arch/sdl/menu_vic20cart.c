@@ -135,6 +135,42 @@ static UI_MENU_CALLBACK(set_cart_default_callback)
     return NULL;
 }
 
+static void cartmenu_update_flush(void);
+static void cartmenu_update_save(void);
+
+static UI_MENU_CALLBACK(vic20_cart_flush_callback)
+{
+    printf("\nvic20_cart_flush_callback\n");
+    if (activated) {
+        int cartid = vice_ptr_to_int(param);
+        if (cartridge_flush_image(cartid) < 0) {
+        }
+    } else {
+        cartmenu_update_flush();
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(vic20_cart_save_callback)
+{
+    if (activated) {
+        int cartid = vice_ptr_to_int(param);
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose cartridge file", FILEREQ_MODE_SAVE_FILE);
+
+        if (name != NULL) {
+            if (cartridge_save_image(cartid, name) < 0) {
+                ui_error("Cannot save cartridge image.");
+            }
+            lib_free(name);
+        }
+    } else {
+        cartmenu_update_save();
+    }
+    return NULL;
+}
+
 /* GEORAM */
 
 UI_MENU_DEFINE_TOGGLE(GEORAM)
@@ -143,7 +179,7 @@ UI_MENU_DEFINE_RADIO(GEORAMsize)
 UI_MENU_DEFINE_FILE_STRING(GEORAMfilename)
 UI_MENU_DEFINE_TOGGLE(GEORAMImageWrite)
 
-static const ui_menu_entry_t georam_menu[] = {
+static ui_menu_entry_t georam_menu[] = {
     { "Enable " CARTRIDGE_NAME_GEORAM,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_GEORAM_callback,
@@ -192,6 +228,14 @@ static const ui_menu_entry_t georam_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_GEORAMImageWrite_callback,
       NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      vic20_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_VIC20_GEORAM },
+    { "Save image as",
+      MENU_ENTRY_OTHER,
+      vic20_cart_save_callback,
+      (ui_callback_data_t)CARTRIDGE_VIC20_GEORAM },
     SDL_MENU_LIST_END
 };
 
@@ -393,6 +437,18 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
     return "n/a";
 }
 
+static void cartmenu_update_flush(void)
+{
+    georam_menu[15].status = cartridge_can_flush_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+}
+
+static void cartmenu_update_save(void)
+{
+    georam_menu[16].status = cartridge_can_save_image(CARTRIDGE_VIC20_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+}
+
+/* Cartridge menu */
+
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
 UI_MENU_DEFINE_TOGGLE(UltiMemWriteBack)
@@ -442,7 +498,7 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_OTHER,
       set_cart_default_callback,
       NULL },
-    { "I/O collision handling ($9000-$93FF / $9800-$9FFF)",
+    { "I/O collision handling ($9000-$93FF/$9800-$9FFF)",
       MENU_ENTRY_SUBMENU,
       iocollision_show_type_callback,
       (ui_callback_data_t)iocollision_menu },
