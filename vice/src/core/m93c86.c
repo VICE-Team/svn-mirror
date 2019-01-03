@@ -457,10 +457,10 @@ int m93c86_snapshot_read_module(snapshot_t *s)
         || SMR_B_INT(m, &eeprom_clock) < 0
         || SMR_B_INT(m, &eeprom_data_in) < 0
         || SMR_B_INT(m, &eeprom_data_out) < 0
-        || SMR_B_INT(m, &input_shiftreg) < 0
-        || SMR_B_INT(m, &input_count) < 0
-        || SMR_B_INT(m, &output_shiftreg) < 0
-        || SMR_B_INT(m, &output_count) < 0
+        || SMR_B_INT(m, (int*)&input_shiftreg) < 0
+        || SMR_B_INT(m, (int*)&input_count) < 0
+        || SMR_B_INT(m, (int*)&output_shiftreg) < 0
+        || SMR_B_INT(m, (int*)&output_count) < 0
         || SMR_B_INT(m, &command) < 0
         || SMR_B_INT(m, &addr) < 0
         || SMR_B_INT(m, &data0) < 0
