@@ -512,6 +512,41 @@ int cartridge_save_image(int type, const char *filename)
     return cartridge_bin_save(type, filename);
 }
 
+int cartridge_type_enabled(int crtid)
+{
+    if (crtid == vic20cart_type) {
+        return 1;
+    }
+    switch (crtid) {
+        case CARTRIDGE_VIC20_GEORAM:
+            return georam_cart_enabled();
+    }
+    return 0;
+}
+
+/* returns 1 when cartridge (ROM) image can be flushed */
+int cartridge_can_flush_image(int crtid)
+{
+    const char *p;
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+    p = cartridge_get_file_name(crtid);
+    if ((p == NULL) || (*p == '\x0')) {
+        return 0;
+    }
+    return 1;
+}
+
+/* returns 1 when cartridge (ROM) image can be saved */
+int cartridge_can_save_image(int crtid)
+{
+    if (!cartridge_type_enabled(crtid)) {
+        return 0;
+    }
+    return 1;
+}
+
 /* ------------------------------------------------------------------------- */
 
 #define VIC20CART_DUMP_MAX_CARTS  16

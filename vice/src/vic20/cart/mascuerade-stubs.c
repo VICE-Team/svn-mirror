@@ -51,11 +51,6 @@ int rrnetmk3_cart_enabled(void)
     return 0;
 }
 
-int cartridge_type_enabled(int type)
-{
-    return 0;
-}
-
 int mmc64_clockport_enabled = 0;
 int mmc64_hw_clockport = 0;
 int rr_clockport_enabled = 0;
