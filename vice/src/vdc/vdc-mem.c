@@ -628,11 +628,11 @@ int vdc_dump(void *context, uint16_t addr)
     if (vdc.regs[25] & 0x10) { /* double pixel mode aka 40column mode */
         mon_out(", Double Pixel Mode");
         mon_out("\nScreen Size    : %d x %d", vdc.regs[1], vdc.regs[6]);
-        mon_out("\nCharacter Size : %d x %d pixels (%d x %d visible)", vdc.regs[22] >> 4, vdc.regs[9] + 1, vdc.regs[22] & 0x0f, (vdc.regs[23] & 0x1f) + 1);
+        mon_out("\nCharacter Size : %d x %d pixels (%d x %d visible)", vdc.regs[22] >> 4, vdc.regs[9] + 1, (vdc.regs[22] & 0x0f) + 1, (vdc.regs[23] & 0x1f) + 1);
         mon_out("\nActive Pixels  : %d x %d", vdc.regs[1] * (vdc.regs[22] >> 4), vdc.regs[6] * (vdc.regs[9] + 1));
     } else {
         mon_out("\nScreen Size    : %d x %d", vdc.regs[1], vdc.regs[6]);
-        mon_out("\nCharacter Size : %d x %d pixels (%d x %d visible)", (vdc.regs[22] >> 4) + 1, vdc.regs[9] + 1, vdc.regs[22] & 0x0f, (vdc.regs[23] & 0x1f) + 1);
+        mon_out("\nCharacter Size : %d x %d pixels (%d x %d visible)", (vdc.regs[22] >> 4) + 1, vdc.regs[9] + 1, (vdc.regs[22] & 0x0f) + 1, (vdc.regs[23] & 0x1f) + 1);
         mon_out("\nActive Pixels  : %d x %d", vdc.regs[1] * ((vdc.regs[22] >> 4) + 1), vdc.regs[6] * (vdc.regs[9] + 1));
     }
     

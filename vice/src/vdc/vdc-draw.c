@@ -529,9 +529,10 @@ static void draw_std_text(void)
     uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
     uint8_t *attr_ptr, *screen_ptr, *char_ptr;
 
-    unsigned int i, d;
-    unsigned int cpos = 0xffff;
+    unsigned int i, d, d2, dmask, d2mask, semi_gfx_test, semi_gfx_mask;
+    unsigned int cpos = 0xFFFF;
     int icsi = -1;  /* Inter Character Spacing Index - used as a combo flag/index as to whether there is any intercharacter gap to render */
+    int displayedpixels;    /* technically this is displayed pixels - 1, because it's an index starting from 0 */
     
     cpos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
 
@@ -554,13 +555,51 @@ static void draw_std_text(void)
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
     screen_ptr = vdc.ram + vdc.screen_adr + vdc.mem_counter;
     char_ptr = vdc.ram + vdc.chargen_adr + vdc.raster.ycounter;
-
-    if (vdc.regs[25] & 0x40) {
-        /* attribute mode */
-        /* regs[26] & 0xf is the background colour */
-        table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
-        pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
-        pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
+    
+    /* Calculate the displayed character width, and bit-masks for the character byte (d) & inter-character gap byte (d2) */
+    /* Various special cases here to cover weird observed behaviour */
+    if ((vdc.regs[22] & 0x0F) > (vdc.regs[22] >> 4)) {  /* if displayed width > total width, it seems to always display the full 8 pixels, but semi-grafix won't extend through any gap */
+        displayedpixels = 7;
+        dmask = 0xFF;
+        semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+    } else if ((vdc.regs[22] & 0x0F) == 7) {    /* displayed width of 7 produces blank display, except if semigfx mode is enabled, in which case it shows full 8 pixels but without any extension through any gap */
+        displayedpixels = 7;
+        if (vdc.regs[25] & 0x20) {  /* Semi-graphics mode */
+            dmask = 0xFF;   /* show all pixels */
+        } else {
+            dmask = 0x00;   /* show no pixels */
+        }
+        semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+    } else {    /* otherwise display a certain amount of pixels, which increases by 1 with each increment in total width set */
+        semi_gfx_test = (vdc.regs[25] & 0x20);    /* set this initially as a flag for yes/no semigfx */
+        displayedpixels = (vdc.regs[22] & 0x0F) + (vdc.regs[22] >> 4) - 7;
+        if (vdc.regs[25] & 0x10) { /* double pixel mode */
+            displayedpixels--;  /* compensate for the different reg[22] setup you need for doublepixel/40col mode */
+        }
+        if ((vdc.regs[22] & 0x0F) >= 8) {   /* there's an odd wrap around effect in this case */
+            displayedpixels -= 9;
+            /* Force semigfx test on in double pixel/40col mode - things get weirder here because it acts like semigfx mode is on, when it isn't */
+            semi_gfx_test = (vdc.regs[25] & 0x10);  /* test for double pixel mode */
+        }
+        if (displayedpixels < 0) {  /* try not to segfault */
+            displayedpixels = 0;
+        }
+        dmask = mask[displayedpixels];
+        if (semi_gfx_test) {    /* if we need to do semigfx... */
+            semi_gfx_test = semigfxtest[displayedpixels];   /* .. set it as a mask to check the appropriate bit */
+        }
+    }
+    if ((vdc.regs[22] >> 4) >= 8) { /* if there is inter-char gap then... */
+        d2mask = mask[(vdc.regs[22] >> 4) - 8];  /* ..calculate the mask to apply to display the correct # of pixels but no more */
+    } else {
+        d2mask = 0x00;  /* this shouldn't matter as it shouldn't try to render the interchar gap because there isn't one, but setting it to be thorough */
+    }
+    semi_gfx_mask = semigfxmask[displayedpixels];   /* mask for any extra pixels to turn on if semigrfx mode is active */
+    
+    if (vdc.regs[25] & 0x40) {  /* Attribute mode - background colour from regs[26] but foreground from attribute ram */
+        table_ptr = hr_table + ((vdc.regs[26] & 0x0F) << 4);    /* regs[26] & 0xF is the background colour */
+        pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0F) << 4);
+        pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0F) << 4);
         for (i = 0; i < vdc.screen_text_cols; i++, p += vdc.charwidth) {
             if (vdc.raster.ycounter > (signed)vdc.regs[23]) {
                 /* Return nothing if > Vertical Character Size */
@@ -570,32 +609,32 @@ static void draw_std_text(void)
                   + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x100 * vdc.bytes_per_char : 0) /* the offset to the alternate character set is either 0x1000 or 0x2000, depending on the character size (16 or 32) */
                   + (*(screen_ptr + i) * vdc.bytes_per_char));
             }
-            /* mask against r[22] - pixels per char mask */
-            d &= mask[vdc.regs[22] & 0x0F];
-                  
+            d &= dmask; /* mask off to active pixels only */
+            d2 = 0x00;
+            
             /* set underline if the underline attrib is set for this char */
             /* Pixels per char does not apply to the underline but the underline does blink, reverse and extend through inter-character spacing */
             if ((vdc.raster.ycounter == vdc.regs[29]) && (*(attr_ptr + i) & VDC_UNDERLINE_ATTR)) {
                 d = 0xFF;
+                d2 = 0xFF;
             }
 
             /* blink if the blink attribute is set for this char */
             if (vdc.attribute_blink && (*(attr_ptr + i) & VDC_FLASH_ATTR)) {
                 d = 0x00;
+                d2 = 0x00;
             }
 
-            if (vdc.regs[25] & 0x20) {
-                /* Semi-graphics mode */
-                if (d & semigfxtest[vdc.regs[22] & 0x0F]) {
-                /* if the far right pixel is on.. */
-                    d |= semigfxmask[vdc.regs[22] & 0x0F];
-                    /* .. mask the rest of the right hand side on */
-                }
+            /* Handle semi-graphics mode. Note semi_gfx_test doubles as a flag, if it's 0 this just falls through */
+            if (d & semi_gfx_test) { /* if the far right pixel is on.. */
+                d |= semi_gfx_mask;  /* .. mask the rest of the right hand side on */
+                d2 = 0xFF;  /* this will get masked off later on, so we just set all inter-char pixels on for now */  
             }
             
             /* reverse if the reverse attribute is set for this char */
             if (*(attr_ptr + i) & VDC_REVERSE_ATTR) {
-                d ^= 0xff;
+                d ^= 0xFF;
+                d2 ^= 0xFF;
             }
 
             if (cpos == i) { /* handle cursor if this is the cursor */
@@ -608,80 +647,62 @@ static void draw_std_text(void)
                     ) {
                         /* The VDC cursor reverses the char */
                         d ^= 0xFF;
+                        d2 ^= 0xFF;
                     }
                 }
             }
 
             if (vdc.regs[24] & VDC_REVERSE_ATTR) { /* whole screen reverse */
-                d ^= 0xff;
+                d ^= 0xFF;
+                d2 ^= 0xFF;
             }
+            
+            d2 &= d2mask;   /* Mask off any extra "on" pixels from the inter-character gap */
 
             /* actually render the byte into 8 bytes of colour pixels using the lookup tables */
             if (vdc.regs[25] & 0x10) { /* double pixel mode */
-                uint32_t *pdwl = pdl_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
-                uint32_t *pdwh = pdh_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+                uint32_t *pdwl = pdl_ptr + ((*(attr_ptr + i) & 0x0F) << 8);
+                uint32_t *pdwh = pdh_ptr + ((*(attr_ptr + i) & 0x0F) << 8);
                 *((uint32_t *)p) = *(pdwh + (d >> 4));
                 *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
-                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
-                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
+                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0F));
+                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0F));
                 if (icsi >= 0) {    /* if there's inter character spacing, then render it */
                     q = p + 16;
-                    if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
-                        d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
-                    } else { /* otherwise just draw the background */
-                        d = 0;
-                    }    
-                    if (*(attr_ptr + i) & VDC_REVERSE_ATTR) { /* reverse if the reverse attribute is set for this char */
-                        d ^= 0xff;
-                    }
-                    if (vdc.regs[24] & VDC_REVERSE_ATTR) {  /* whole screen reverse */
-                        d ^= 0xff;
-                    }
-                    *((uint32_t *)q) = *(pdwh + (d >> 4));
-                    *((uint32_t *)q + 1) = *(pdwl + (d >> 4));
-                    *((uint32_t *)q + 2) = *(pdwh + (d & 0x0f));
-                    *((uint32_t *)q + 3) = *(pdwl + (d & 0x0f));
+                    *((uint32_t *)q) = *(pdwh + (d2 >> 4));
+                    *((uint32_t *)q + 1) = *(pdwl + (d2 >> 4));
+                    *((uint32_t *)q + 2) = *(pdwh + (d2 & 0x0F));
+                    *((uint32_t *)q + 3) = *(pdwl + (d2 & 0x0F));
                 }
             } else { /* normal text size */
-                uint32_t *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+                uint32_t *ptr = table_ptr + ((*(attr_ptr + i) & 0x0F) << 8);
                 *((uint32_t *)p) = *(ptr + (d >> 4));
-                *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
+                *((uint32_t *)p + 1) = *(ptr + (d & 0x0F));
                 if (icsi >= 0) {    /* if there's inter character spacing, then render it */
                     q = p + 8;
-                    if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
-                        d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
-                    } else { /* otherwise just draw the background */
-                        d = 0;
-                    }    
-                    if (*(attr_ptr + i) & VDC_REVERSE_ATTR) { /* reverse if the reverse attribute is set for this char */
-                        d ^= 0xff;
-                    }
-                    if (vdc.regs[24] & VDC_REVERSE_ATTR) { /* whole screen reverse */
-                        d ^= 0xff;
-                    }
-                    *((uint32_t *)q) = *(ptr + (d >> 4));
-                    *((uint32_t *)q + 1) = *(ptr + (d & 0x0f));
+                    *((uint32_t *)q) = *(ptr + (d2 >> 4));
+                    *((uint32_t *)q + 1) = *(ptr + (d2 & 0x0F));
                 }
             }
         }
-    } else {
-        /* monochrome mode - attributes from register 26 */
+    } else {    /* Monochrome mode - foreground & background colours both from register 26 */
         uint32_t *ptr = hr_table + (vdc.regs[26] << 4);
         uint32_t *pdwl = pdl_table + (vdc.regs[26] << 4);  /* Pointers into the lookup tables */
         uint32_t *pdwh = pdh_table + (vdc.regs[26] << 4);
         for (i = 0; i < vdc.screen_text_cols; i++, p += vdc.charwidth) {
-            d = *(char_ptr + (*(screen_ptr + i) * vdc.bytes_per_char));
-            
-            /* mask against r[22] - pixels per char mask */
-            d &= mask[vdc.regs[22] & 0x0F];
+            if (vdc.raster.ycounter > (signed)vdc.regs[23]) {
+                /* Return nothing if > Vertical Character Size */
+                d = 0x00;
+            } else {
+                d = *(char_ptr + (*(screen_ptr + i) * vdc.bytes_per_char));
+            }
+            d &= dmask; /* mask off to active pixels only */
+            d2 = 0x00;
 
-            if (vdc.regs[25] & 0x20) {
-                /* Semi-graphics mode */
-                if (d & semigfxtest[vdc.regs[22] & 0x0F]) {
-                /* if the far right pixel is on.. */
-                    d |= semigfxmask[vdc.regs[22] & 0x0F];
-                    /* .. mask the rest of the right hand side on */
-                }
+            /* Handle semi-graphics mode. Note semi_gfx_test doubles as a flag, if it's 0 this just falls through */
+            if (d & semi_gfx_test) { /* if the far right pixel is on.. */
+                d |= semi_gfx_mask;  /* .. mask the rest of the right hand side on */
+                d2 = 0xFF;  /* this will get masked off later on, so we just set all inter-char pixels on for now */  
             }
             
             if (cpos == i) { /* handle cursor if this is the cursor */
@@ -694,57 +715,45 @@ static void draw_std_text(void)
                     ) {
                         /* The VDC cursor reverses the char */
                         d ^= 0xFF;
+                        d2 ^= 0xFF;
                     }
                 }
             }
 
             if (vdc.regs[24] & VDC_REVERSE_ATTR) { /* whole screen reverse */
-                d ^= 0xff;
+                d ^= 0xFF;
+                d2 ^= 0xFF;
             }
 
+            d2 &= d2mask;   /* Mask off any extra "on" pixels from the inter-character gap */
+            
             /* actually render the byte into 8 bytes of colour pixels using the lookup tables */
             if (vdc.regs[25] & 0x10) { /* double pixel mode */
                 *((uint32_t *)p) = *(pdwh + (d >> 4));
                 *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
-                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
-                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
+                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0F));
+                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0F));
                 if (icsi >= 0) {    /* if there's inter character spacing, then render it */
                     q = p + 16;
-                    if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
-                        d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
-                    } else { /* otherwise just draw the background */
-                        d = 0;
-                    }    
-                    if (vdc.regs[24] & VDC_REVERSE_ATTR) { /* whole screen reverse */
-                        d ^= 0xff;
-                    }
-                    *((uint32_t *)q) = *(pdwh + (d >> 4));
-                    *((uint32_t *)q + 1) = *(pdwl + (d >> 4));
-                    *((uint32_t *)q + 2) = *(pdwh + (d & 0x0f));
-                    *((uint32_t *)q + 3) = *(pdwl + (d & 0x0f));
+                    *((uint32_t *)q) = *(pdwh + (d2 >> 4));
+                    *((uint32_t *)q + 1) = *(pdwl + (d2 >> 4));
+                    *((uint32_t *)q + 2) = *(pdwh + (d2 & 0x0F));
+                    *((uint32_t *)q + 3) = *(pdwl + (d2 & 0x0F));
                 }
             } else { /* normal text size */
                 *((uint32_t *)p) = *(ptr + (d >> 4));
-                *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
+                *((uint32_t *)p + 1) = *(ptr + (d & 0x0F));
                 if (icsi >= 0) {    /* if there's inter character spacing, then render it */
                     q = p + 8;
-                    if ((vdc.regs[25] & 0x20) && (d & semigfxtest[vdc.regs[22] & 0x0F])) { /* If semi-graphics mode and the rightmost active bit is set */
-                        d = mask[icsi];   /* .. figure out how big it is based on the width of the gap */
-                    } else { /* otherwise just draw the background */
-                        d = 0;
-                    }
-                    if (vdc.regs[24] & VDC_REVERSE_ATTR) { /* whole screen reverse */
-                        d ^= 0xff;
-                    }
-                    *((uint32_t *)q) = *(ptr + (d >> 4));
-                    *((uint32_t *)q + 1) = *(ptr + (d & 0x0f));
+                    *((uint32_t *)q) = *(ptr + (d2 >> 4));
+                    *((uint32_t *)q + 1) = *(ptr + (d2 & 0x0F));
                 }
             }
         }
     }
     /* fill the last few pixels of the display with bg colour if smooth scroll != 0 */
     for (i = vdc.xsmooth; i < (unsigned)(vdc.regs[22] >> 4); i++, p++) {
-        *p = (vdc.regs[26] & 0x0f);
+        *p = (vdc.regs[26] & 0x0F);
     }
 }
 
