@@ -116,7 +116,6 @@ static GtkWidget *create_cart_image_widget(void)
     GtkWidget *write_back;
     GtkWidget *save_button;
     GtkWidget *flush_button;
-    const char *fname;
 
     grid = uihelpers_create_grid_with_label("GMod2 Cartridge image", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);

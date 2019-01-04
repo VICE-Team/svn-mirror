@@ -99,7 +99,6 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     GtkWidget *optimize_crt;
     GtkWidget *save_button;
     GtkWidget *flush_button;
-    const char *fname;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -132,7 +131,6 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
             NULL);
 
     if (carthelpers_can_flush_func(CARTRIDGE_EASYFLASH)) {
-        debug_gtk3("Easyflash filename = '%s'.", fname)
         gtk_widget_set_sensitive(flush_button, TRUE);
     } else {
         gtk_widget_set_sensitive(flush_button, FALSE);
