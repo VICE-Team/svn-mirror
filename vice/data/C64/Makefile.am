@@ -39,7 +39,8 @@ gtk3_keymaps = \
 	gtk3_sym_de.vkm \
 	gtk3_sym_nl.vkm \
 	gtk3_keyrah.vkm \
-	gtk3_keyrah_de.vkm
+	gtk3_keyrah_de.vkm \
+	gtk3_sym_it.vkm
 
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
@@ -57,7 +58,8 @@ sdl_keymaps = \
 	sdl_keyrah_combian.vkm \
 	sdl_sym.vkm \
 	sdl_sym_de.vkm \
-	sdl_sym_nl.vkm
+	sdl_sym_nl.vkm \
+	sdl_sym_it.vkm
 
 sym_file = \
 	c64mem.sym
