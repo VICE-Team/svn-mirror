@@ -208,7 +208,20 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
         return 0;
     }
 
+    if (EthernetPcapNextDev->name == NULL) {
+        fprintf(stderr, "%s:%d:%s(): adapter name is NULL",
+                __FILE__, __LINE__, __func__);
+        log_error(LOG_ERR, "adapter name is NULL");
+        return 0;
+    }
     *ppname = lib_stralloc(EthernetPcapNextDev->name);
+
+    if (EthernetPcapNextDev->description == NULL) {
+        fprintf(stderr, "%s:%d:%s(): adapter description is NULL",
+                __FILE__, __LINE__, __func__);
+        log_error(LOG_ERR, "adapter description is NULL");
+        return 0;
+    }
     *ppdescription = lib_stralloc(EthernetPcapNextDev->description);
 
     EthernetPcapNextDev = EthernetPcapNextDev->next;
