@@ -178,10 +178,12 @@ static void do_autostart(GtkWidget *widget, gpointer user_data)
 }
 
 
+#if 0
 static void on_file_activated(GtkWidget *chooser, gpointer data)
 {
     do_autostart(chooser, data);
 }
+#endif
 
 
 
@@ -340,8 +342,11 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             G_CALLBACK(on_response), GINT_TO_POINTER(0));
     g_signal_connect(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
+#if 0
+    /* Double click: autostart */
     g_signal_connect(dialog, "file-activated",
             G_CALLBACK(on_file_activated), NULL);
+#endif
     return dialog;
 
 }

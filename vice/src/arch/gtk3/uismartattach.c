@@ -123,11 +123,12 @@ static void do_autostart(GtkWidget *widget, gpointer data)
 
 
 
+#if 0
 static void on_file_activated(GtkWidget *chooser, gpointer data)
 {
-    debug_gtk3("I haz called.");
     do_autostart(chooser, data);
 }
+#endif
 
 
 
@@ -371,9 +372,12 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
     g_signal_connect(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
+
+#if 0
+    /* Autostart on double-click */
     g_signal_connect(dialog, "file-activated",
             G_CALLBACK(on_file_activated), NULL);
-
+#endif
     return dialog;
 
 }
