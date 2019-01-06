@@ -294,7 +294,18 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     }
 
     debug_gtk3("pdf uri: '%s'.", final_uri);
+
+#ifdef WIN32_COMPILE
+
+    /*
+     * Silly hack: at least Acrobat reader can't make heads or tails from a
+     * URI, so we remove 'file:///C:' here to at least make Acrobat reader
+     * "work"
+     */
+    res = gtk_show_uri_on_window(NULL, final_uri + 8, GDK_CURRENT_TIME, &error);
+#else
     res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
+#endif
     if (!res) {
         vice_gtk3_message_error(
                 "Failed to load PDF: %s.",
