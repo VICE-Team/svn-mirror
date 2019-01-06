@@ -1,4 +1,4 @@
-/** \file   jam_dialog.c
+/** \file   jamdialog.c
  * \brief   Gtk3 CPU jam dialog
  *
  * GTK3 CPU Jam dialog

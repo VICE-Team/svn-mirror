@@ -388,7 +388,7 @@ static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Handler for the 'activate' event of the 'Reset drive #X' item
+/** \brief  Handler for the 'activate' event of the 'Reset drive \#X' item
  *
  * Triggers a reset for drive ((int)data + 8)
  *

@@ -78,13 +78,15 @@ int rs232dev_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/** \brief  Something that something to do with RS232
+ */
 typedef struct rs232dev {
-    int inuse;
-    HANDLE fd;
-    char *file;
-    DCB restore_dcb;
-    int rts;
-    int dtr;
+    int inuse;  /**< could be in-use, but also could be an exotic animal */
+    HANDLE fd;  /**< probably a file descriptor */
+    char *file; /**< don't we already have this? see above */
+    DCB restore_dcb;    /**< restore dcb if DCB == DCB.True? */
+    int rts;    /**< $60 */
+    int dtr;    /**< It's like DTM, but Audi doesn't participate */
 } rs232dev_t;
 
 static rs232dev_t fds[RS232_NUM_DEVICES];
