@@ -319,7 +319,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
          * way to determine if actually loading the PDF in that application
          * worked. So we simply exit here to avoid also opening a HTML browser
          * which on Windows at least seems to completely ignore the default and
-         * always starts fucking Internet Explorer.
+         * always starts fucking Internet Explorer (or Edge, even better).
          *
          * Also how do we close the PDF application if we could determine it
          * failed to load the PDF? We don't get any reference to the application
@@ -331,45 +331,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
         return;
     }
 
-    /* try opening the html doc */
-#if defined(WIN32_COMPILE)
-    /* HACK: on windows the html files are in a separate directory */
-    uri = archdep_join_paths(path, "..", "html", "vice_toc.html", NULL);
-#else
-    uri = archdep_join_paths(path, "vice_toc.html", NULL);
-#endif
-
-    final_uri = g_filename_to_uri(uri, NULL, &error);
-    if (final_uri == NULL) {
-        /*
-         * This is a fatal error, if a proper URI can't be built something is
-         * wrong and should be looked at. This is different from failing to
-         * load the PDF or not having a program to show the PDF
-         */
-        log_error(LOG_ERR,
-                "failed to construct a proper URI from '%s',"
-                " this is an error that should not happen.",
-                uri);
-        g_free(final_uri);
-        lib_free(uri);
-        lib_free(path);
-        return;
-    }
-
-    /*
-     * On Windows this does not respect the user's preferred browser. That is,
-     * it didn't respect my Firefox but decided to use Internet Explorer,
-     * which is an unspeakable act of cruelty.
-     */
-    debug_gtk3("html uri: '%s'.", final_uri);
-    res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
-    if (!res && error != NULL) {
-        vice_gtk3_message_error("Failed to show URI", error->message);
-    }
-    lib_free(uri);
-    g_free(final_uri);
-    g_clear_error(&error);
-    lib_free(path);
+    /* No HTML for you! */
 }
 
 
