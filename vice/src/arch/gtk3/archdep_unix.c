@@ -73,31 +73,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
-/** \brief  Architecture-dependent shutdown hanlder
- */
-void archdep_shutdown(void)
-{
-    /* free memory used by the exec path */
-    archdep_program_path_free();
-    /* free memory used by the exec name */
-    archdep_program_name_free();
-    /* free memory used by the boot path */
-    archdep_boot_path_free();
-    /* free memory used by the home path */
-    archdep_home_path_free();
-    /* free memory used by the config files path */
-    archdep_user_config_path_free();
-    /* free memory used by the sysfile pathlist */
-    archdep_default_sysfile_pathlist_free();
 
-    /* this should be removed soon */
-    if (argv0 != NULL) {
-        lib_free(argv0);
-        argv0 = NULL;
-    }
-
-    archdep_network_shutdown();
-}
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
