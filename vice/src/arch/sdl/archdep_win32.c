@@ -328,30 +328,6 @@ char *archdep_tmpnam(void)
 }
 #endif
 
-FILE *archdep_mkstemp_fd(char **filename, const char *mode)
-{
-    char *tmp;
-    FILE *fd;
-
-    if (getenv("temp")) {
-        tmp = util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    } else if (getenv("tmp")) {
-        tmp = util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    } else {
-        tmp = lib_stralloc(tmpnam(NULL));
-    }
-
-    fd = fopen(tmp, mode);
-
-    if (fd == NULL) {
-        return NULL;
-    }
-
-    *filename = tmp;
-
-    return fd;
-}
-
 
 /* set permissions of given file to rw, respecting current umask */
 int archdep_fix_permissions(const char *file_name)

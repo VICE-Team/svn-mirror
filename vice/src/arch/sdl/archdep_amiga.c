@@ -307,24 +307,6 @@ char *archdep_tmpnam(void)
 }
 #endif
 
-FILE *archdep_mkstemp_fd(char **filename, const char *mode)
-{
-    char *tmp;
-    FILE *fd;
-
-    tmp = lib_stralloc(tmpnam(NULL));
-
-    fd = fopen(tmp, mode);
-
-    if (fd == NULL) {
-        return NULL;
-    }
-
-    *filename = tmp;
-
-    return fd;
-}
-
 
 int archdep_require_vkbd(void)
 {
