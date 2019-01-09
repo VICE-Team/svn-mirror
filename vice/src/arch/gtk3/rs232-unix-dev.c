@@ -84,36 +84,6 @@
 #include "rs232dev.h"
 #include "types.h"
 
-
-
-int tcgetattr(int fildes, struct termios *tp)
-{
-    return ioctl(fildes, TIOCGETA, tp);
-}
-
-int tcsetattr(int fd, int opt, const struct termios *t)
-{
-    int st;
-
-    switch(opt) {
-        case TCSANOW:
-            st = ioctl(fd, TIOCSETA, t);
-            break;
-        case TCSADRAIN:
-            st = ioctl(fd, TIOCSETAW, t);
-            break;
-        case TCSAFLUSH:
-            st = ioctl(fd, TIOCSETAF, t);
-            break;
-        default:
-            st = -1;
-            errno = EINVAL;
-            break;
-    }
-    return st;
-}
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 /* resource handling */
