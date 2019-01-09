@@ -53,10 +53,7 @@
 
 #ifdef UNIX_COMPILE
 
-/* to be removed later */
-#if !defined(OPENSTEP_COMPILE) && !defined(RHAPSODY_COMPILE) \
-    && !defined(NEXTSTEP_COMPILE)
-
+/* Solaris and Gtk3 eh? */
 #ifdef __svr4__
 #define _POSIX_SOURCE
 #endif
@@ -68,9 +65,6 @@
 #include <errno.h>
 #include <signal.h>
 
-#ifdef OPENSERVER6_COMPILE
-#include <sys/signal.h>
-#endif
 
 #include "archdep.h"
 
@@ -89,32 +83,6 @@
 #define SA_RESTART 0
 #endif
 
-#ifdef __NeXT__
-int sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
-{
-    struct sigvec vec, ovec;
-    int st;
-
-    vec.sv_handler = act->sa_handler;
-    vec.sv_mask = act->sa_mask;
-    vec.sv_flags = act->sa_flags;
-
-    st = sigvec(sig, &vec, &ovec);
-
-    if (oact) {
-        oact->sa_handler = ovec.sv_handler;
-        oact->sa_mask = ovec.sv_mask;
-        oact->sa_flags = ovec.sv_flags;
-    }
-    return st;
-}
-
-int sigemptyset(sigset_t *set)
-{
-    *set = 0;
-    return 0;
-}
-#endif
 
 static struct sigaction ignore;
 
@@ -172,6 +140,6 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     }
     return 0;
 }
-#endif
+
 #endif
 

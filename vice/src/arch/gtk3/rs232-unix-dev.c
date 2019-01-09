@@ -65,8 +65,7 @@
 
 /* <sys/select.h> is required for select(2) and fd_set */
 #if defined(HAVE_SYS_SELECT_H) || \
-    defined(OPENSERVER6_COMPILE) || \
-    (defined(__QNX__) && !defined(__QNXNTO__))
+    defined(OPENSERVER6_COMPILE)
 #include <sys/select.h>
 #endif
 
@@ -76,9 +75,6 @@
 
 #endif
 
-#if defined(OPENSTEP_COMPILE) || defined(NEXTSTEP_COMPILE)
-#define ssize_t int
-#endif
 
 #include "cmdline.h"
 #include "coproc.h"
@@ -89,18 +85,6 @@
 #include "types.h"
 
 
-#if defined(NEXTSTEP_COMPILE) || defined(OPENSTEP_COMPILE)
-int cfsetispeed(struct termios *t, int speed)
-{
-    t->c_ispeed = speed;
-    return 0;
-}
-
-int cfsetospeed(struct termios *t, int speed)
-{
-    t->c_ispeed = speed;
-    return 0;
-}
 
 int tcgetattr(int fildes, struct termios *tp)
 {
@@ -326,21 +310,14 @@ int rs232dev_open(int device)
 #endif
 
     if (rs232_devfile[device][0] == '|') {
-#if defined(OPENSTEP_COMPILE) || defined(RHAPSODY_COMPILE) \
-        || defined(NEXTSTEP_COMPILE)
-        log_error(rs232dev_log, "Forking not supported on this platform.");
-        return -1;
-#else
         if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1) < 0) {
             log_error(rs232dev_log, "Cannot fork process.");
             return -1;
         }
-#endif
         fds[i].type = T_PROC;
         fds[i].inuse = 1;
         fds[i].file = rs232_devfile[device];
     } else {
-#if !defined(OPENSTEP_COMPILE) && !defined(NEXTSTEP_COMPILE)
         fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd < 0) {
             log_error(rs232dev_log, "Cannot open file \"%s\": %s", rs232_devfile[device], strerror(errno));
@@ -356,7 +333,6 @@ int rs232dev_open(int device)
             fds[i].type = T_FILE;
         }
         fds[i].inuse = 1;
-#endif
     }
 
     return i;
