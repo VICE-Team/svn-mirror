@@ -40,6 +40,15 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
+#ifdef ARCHDEP_OS_WINDOWS
+# include "windows.h"
+# include "shlobj.h"
+#endif
+
+#ifdef HAVE_DEBUG_GTK3UI
+# include "debug_gtk3.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -80,6 +89,11 @@ static char *user_config_dir = NULL;
  */
 char *archdep_user_config_path(void)
 {
+#ifdef ARCHDEP_OS_WINDOWS
+    TCHAR szPath[MAX_PATH];
+#endif
+
+    /* don't recalculate path if it's already known */
     if (user_config_dir != NULL) {
         return user_config_dir;
     }
@@ -90,8 +104,22 @@ char *archdep_user_config_path(void)
     lib_free(xdg_config);
 
 #elif defined(ARCHDEP_OS_WINDOWS)
-    user_config_dir = archdep_join_paths(archdep_home_path(),
-                                         "AppData", "Roaming", "vice", NULL);
+    /*
+     * Use WinAPI to get %APPDATA% directory, hopefully more reliable than
+     * hardcoding 'AppData/Roaming'. We can't use SHGetKnownFolderPath() here
+     * since SDL should be able to run on Windows XP and perhaps even lower.
+     */
+    if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, szPath))) {
+        user_config_dir = archdep_join_paths(szPath, "vice", NULL);
+#ifdef HAVE_DEBUG_GTK3UI
+        debug_gtk3("Got AppData via SHGetFolderPathA(): '%s'.", user_config_dir);
+#endif
+    } else {
+#ifdef HAVE_DEBUG_GTK3UI
+        debug_gtk3("Failed to get AppData via SHGetFolderPathA().");
+#endif
+        user_config_dir = NULL;
+    }
 #elif defined(ARCHDEP_OS_BEOS)
     user_config_dir = archdep_join_paths(archdep_home_path(),
                                          "config", "settings", "vice", NULL);
