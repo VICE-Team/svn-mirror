@@ -283,9 +283,9 @@ static GtkWidget *create_runtime_widget(void)
  *
  * Displays the run time of the current (sub)tune in hours, minutes and seconds
  *
- * \param[in]   sec current run time in seconds
+ * \param[in]   dsec    current run time in deciseconds
  */
-static void update_runtime_widget(unsigned int sec)
+static void update_runtime_widget(unsigned int dsec)
 {
     char buffer[256];
     unsigned int f;
@@ -293,10 +293,10 @@ static void update_runtime_widget(unsigned int sec)
     unsigned int m;
     unsigned int h;
 
-    f = 0;
-    s = sec  % 60;
-    m = sec / 60;
-    h = sec / 60 / 60;
+    f = (dsec % 10) * 100;
+    s = (dsec / 10)  % 60;
+    m = (dsec / 10) / 60;
+    h = (dsec / 10) / 60 / 60;
 
     /* don't use lib_msprintf() here, this function gets called a lot and
      * malloc() isn't fast */
@@ -633,21 +633,21 @@ void vsid_tune_info_widget_set_irq(const char *irq)
  * Also sets progress in current tune and handles skipping to the next tune
  * if HVSC SLDB is found. So it probably does too much.
  *
- * \param[in]   sec run time in seconds
+ * \param[in]   dsec    run time in decaseconds
  */
-void vsid_tune_info_widget_set_time(unsigned int sec)
+void vsid_tune_info_widget_set_time(unsigned int dsec)
 {
     long total;
     gdouble fraction;
 
-    update_runtime_widget(sec);
+    update_runtime_widget(dsec);
 
     /* HVSC support? */
     if (song_lengths != NULL) {
         /* get song length in milliseconds */
         total = song_lengths[tune_current - 1];
         /* determine progress bar value */
-        fraction = 1.0 - ((gdouble)(total / 1000 - sec) / (gdouble)(total / 1000));
+        fraction = 1.0 - ((gdouble)(total / 100 - dsec) / (gdouble)(total / 100));
         if (fraction < 0.0) {
             fraction = 1.0;
             /* skip to next tune, if repeat is off */

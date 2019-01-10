@@ -140,9 +140,9 @@ void vsid_ui_display_sync(int sync)
  *
  * \param[in]   sec seconds of play time
  */
-void vsid_ui_display_time(unsigned int sec)
+void vsid_ui_display_time(unsigned int dsec)
 {
-    vsid_tune_info_widget_set_time(sec);
+    vsid_tune_info_widget_set_time(dsec);
 }
 
 
