@@ -94,9 +94,11 @@ static int stil_parse_tune_number(const char *s)
 
 /** \brief  Parse a STIL timestamp
  *
- * A STIL timestamp is either '([H]H:MM)' or '([H]H:MM-[H]H:MM)'. In the first
- * case, the 'to' member of \a ts is set to -1 to indicate only a single
- * timestamp was found, not a range.
+ * A STIL timestamp is either '([H]H:MM[.f]{1,3)' or
+ * '([H]H:MM[.f]{1,3}-[H]H:MM[.f]{1,3})'.
+ *
+ * In the first case, the 'to' member of \a ts is set to -1 to indicate only a
+ * single timestamp was found, not a range.
  *
  * \param[in]   s       string to parse
  * \param[out]  ts      timestamp object to store result

@@ -675,8 +675,10 @@ int hvsc_string_is_comment(const char *s)
  */
 long hvsc_parse_simple_timestamp(char *t, char **endptr)
 {
-    long m = 0;
-    long s = 0;
+    long m = 0; /* minutes */
+    long s = 0; /* seconds */
+    long f = 0; /* fractional seconds (ie milliseconds) */
+    int fd = 0; /* number of fractional digits */
 
     /* minutes */
     while (isdigit((int)*t)) {
@@ -689,6 +691,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
         hvsc_errno = HVSC_ERR_TIMESTAMP;
         return -1;
     }
+    printf("HVSC: got %ld minutes.", m);
 
     /* seconds */
     t++;
@@ -700,10 +703,35 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
             return -1;
         }
     }
+    printf("HVSC: got %ld seconds.", s);
+
+    /* milliseconds */
+    if (*t == '.') {
+        /* parse fractional part */
+        t++;
+        fd = 0;
+        f = 0;
+
+        while (isdigit((int)*t) && fd < 3) {
+            fd++;
+            f = f * 10 + *t - '0';
+            t++;
+        }
+        if (fd == 0) {
+            hvsc_errno = HVSC_ERR_TIMESTAMP;
+            printf("HSVC: parsing msecs failed.");
+            return -1;
+        }
+        /* update fraction to milliseconds */
+        while (fd++ < 3) {
+            f *= 10;
+        }
+        printf("HVSC: got milliseconds: %ld", f);
+    }
 
     /* done */
     *endptr = t;
-    return m * 60 + s;
+    return (m * 60 + s) * 1000 + f;
 }
 
 

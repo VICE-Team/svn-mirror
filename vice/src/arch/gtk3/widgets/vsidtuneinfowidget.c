@@ -273,7 +273,7 @@ static void update_model_widget(int model)
  */
 static GtkWidget *create_runtime_widget(void)
 {
-    GtkWidget *label = gtk_label_new("0:00:00");
+    GtkWidget *label = gtk_label_new("0:00:00.000 / 0:00:00.000");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
 }
@@ -288,11 +288,13 @@ static GtkWidget *create_runtime_widget(void)
 static void update_runtime_widget(unsigned int sec)
 {
     char buffer[256];
+    unsigned int f;
     unsigned int s;
     unsigned int m;
     unsigned int h;
 
-    s = sec % 60;
+    f = 0;
+    s = sec  % 60;
     m = sec / 60;
     h = sec / 60 / 60;
 
@@ -302,15 +304,16 @@ static void update_runtime_widget(unsigned int sec)
     if (song_lengths != NULL) {
 
         unsigned long total = song_lengths[tune_current - 1];
-        unsigned int ts = (unsigned int)(total % 60);
-        unsigned int tm = (unsigned int)(total / 60);
-        unsigned int th = (unsigned int)(total / 60 / 60);
+        unsigned int tf = (unsigned int)(total % 1000);
+        unsigned int ts = (unsigned int)((total /1000) % 60);
+        unsigned int tm = (unsigned int)(total / 1000 / 60);
+        unsigned int th = (unsigned int)(total / 1000 / 60 / 60);
 
 
-        g_snprintf(buffer, 256, "%u:%02u:%02u / %u:%02u:%02u",
-                h, m, s, th, tm, ts);
+        g_snprintf(buffer, 256, "%u:%02u:%02u.%03u / %u:%02u:%02u.%03u",
+                h, m, s, f, th, tm, ts, tf);
     } else {
-        g_snprintf(buffer, 256, "%u:%02u:%02u", h, m, s);
+        g_snprintf(buffer, 256, "%u:%02u:%02u.%03u", h, m, s, f);
     }
     gtk_label_set_text(GTK_LABEL(runtime_widget), buffer);
 }
@@ -641,10 +644,10 @@ void vsid_tune_info_widget_set_time(unsigned int sec)
 
     /* HVSC support? */
     if (song_lengths != NULL) {
-        /* get song length in seconds */
+        /* get song length in milliseconds */
         total = song_lengths[tune_current - 1];
         /* determine progress bar value */
-        fraction = 1.0 - ((gdouble)(total - sec) / (gdouble)total);
+        fraction = 1.0 - ((gdouble)(total / 1000 - sec) / (gdouble)(total / 1000));
         if (fraction < 0.0) {
             fraction = 1.0;
             /* skip to next tune, if repeat is off */

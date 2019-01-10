@@ -101,11 +101,11 @@ typedef struct hvsc_text_file_s {
 /** \brief  STIL timestamp object
  *
  * Set `to` to -1 to signal only `from` should be used. Set `from` to -1 to
- * signal the entire timestamp is unused. Both entries are in seconds.
+ * signal the entire timestamp is unused. Both entries are in milliseconds.
  *
  * Examples: no timestamp would result in { -1, -1 }
- *           "(0:30)" would result in { 30, -1 }
- *           "(0:30-2:15)" would result in { 30, 135 }
+ *           "(0:30)" would result in { 300000, -1 }
+ *           "(0:30-2:15)" would result in { 30000, 135000 }
  */
 typedef struct hvsc_stil_timestamp_s {
     long from;  /**< 'from' timestamp, or only timestamp */
