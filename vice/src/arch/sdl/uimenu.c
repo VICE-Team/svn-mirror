@@ -355,7 +355,7 @@ int sdl_ui_set_toggle_colors(int state)
     return color;
 }
 
-int sdl_ui_set_item_colors(int status)
+static int sdl_ui_set_item_colors(int status)
 {
     uint8_t color = menu_draw.color_front;
     menu_draw.color_front = (status == MENU_STATUS_INACTIVE) ? menu_draw.color_inactive_grey : menu_draw.color_default_front;
