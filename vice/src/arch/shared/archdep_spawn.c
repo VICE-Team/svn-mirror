@@ -30,6 +30,8 @@
 
 #include "vice.h"
 
+#include "archdep_defs.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
