@@ -46,8 +46,7 @@
 #include <unistd.h>
 
 /* <sys/select.h> is required for select(2) and fd_set */
-#if defined(HAVE_SYS_SELECT_H) || \
-    defined(OPENSERVER6_COMPILE)
+#if defined(HAVE_SYS_SELECT_H)
 #include <sys/select.h>
 #endif
 

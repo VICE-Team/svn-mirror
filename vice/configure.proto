@@ -3536,8 +3536,6 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  openserver5compile=no
-  openserver6compile=no
   unixwarecompile=no
   solariscompile=no
   hpuxcompile=no
@@ -3599,14 +3597,6 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$solariscompile" = "xno"; then
     AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
-  fi
-
-  if test x"$openserver5compile" = "xno"; then
-    AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
-  fi
-
-  if test x"$openserver6compile" = "xno"; then
-    AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   fi
 
   if test x"$unixwarecompile" = "xno"; then

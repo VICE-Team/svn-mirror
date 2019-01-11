@@ -197,26 +197,6 @@ bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/next_open_rhap/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) nextstep $(top_srcdir) $(MAKE)
 endif
 
-if UNIX_OPENSERVER5_COMPILE
-if SDL_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
-endif
-endif
-
-if UNIX_OPENSERVER6_COMPILE
-if SDL_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
-endif
-endif
-
 if UNIX_UNIXWARE_COMPILE
 if SDL_COMPILE
 bindist:

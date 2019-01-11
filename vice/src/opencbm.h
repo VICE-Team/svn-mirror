@@ -105,10 +105,6 @@ typedef unsigned char __u_char;
 typedef unsigned char __u_char;
 #endif
 
-/* Really? */
-#if defined(OPENSERVER5_COMPILE)
-typedef unsigned char __u_char;
-#endif
 
 #if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
 typedef unsigned char __u_char;
