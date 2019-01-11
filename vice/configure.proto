@@ -1,4 +1,3 @@
-dnl
 dnl This file is part of VICE, the Versatile Commodore Emulator.
 dnl See README for copyright notice.
 dnl
@@ -1501,13 +1500,6 @@ darwin*)
 
 dnl All other UN*X systems
 *)
-
-  dnl special handling of sco unixware 7.x
-  case "$host_os" in
-    sco3.2v7*)
-      LIBS="-lxti -lsocket -lnsl $LIBS"
-      ;;
-  esac
 
   case "$host" in
     alpha*-*-linux*)
@@ -3573,7 +3565,6 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  scounixcompile=no
   openserver5compile=no
   openserver6compile=no
   unixwarecompile=no
@@ -3621,26 +3612,6 @@ if test x"$is_unix" = "xyes"; then
         ac_configure_args="$ac_configure_args"
       fi
       ;;
-    sco3.2v4*)
-      scounixcompile=yes
-      AM_CONDITIONAL(UNIX_SCO4_COMPILE, true)
-      AC_DEFINE(SCO4UNIX_COMPILE,,[Enable SCO Unix 4.x support])
-      ;;
-    sco3.2v5*)
-      openserver5compile=yes
-      AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, true)
-      AC_DEFINE(OPENSERVER5_COMPILE,,[Enable SCO Openserver 5.x support])
-      ;;
-    sco3.2v6*)
-      openserver6compile=yes
-      AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, true)
-      AC_DEFINE(OPENSERVER6_COMPILE,,[Enable SCO Openserver 6.x support])
-      ;;
-    sco3.2v7*)
-      unixwarecompile=yes
-      AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, true)
-      AC_DEFINE(UNIXWARE_COMPILE,,[Enable SCO Unixware 7.x support])
-      ;;
     hpux*)
       hpuxcompile=yes
       AM_CONDITIONAL(UNIX_HPUX_COMPILE, true)
@@ -3675,10 +3646,6 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$solariscompile" = "xno"; then
     AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
-  fi
-
-  if test x"$scounixcompile" = "xno"; then
-    AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   fi
 
   if test x"$openserver5compile" = "xno"; then
@@ -3729,12 +3696,10 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
-  AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
@@ -3750,12 +3715,10 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
-  AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
@@ -3776,12 +3739,10 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
-  AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
@@ -3798,12 +3759,10 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
-  AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
