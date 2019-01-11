@@ -74,25 +74,6 @@ static const gchar *path_separator = "\\";
 #endif
 
 
-/** \brief  Write message to Windows debugger/logger
- *
- * param[in]    level_string    log level string
- * param[in]    txt             log message
- *
- * \note    Shamelessly copied from win32/archdep.c
- *
- * \return  0 on success, < 0 on failure
- */
-int archdep_default_logger(const char *level_string, const char *txt)
-{
-    char *out = lib_msprintf("*** %s %s\n", level_string, txt);
-    OutputDebugString(out);
-    lib_free(out);
-    return 0;
-}
-
-
-
 
 
 #if 0

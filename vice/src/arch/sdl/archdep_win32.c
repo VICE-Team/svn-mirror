@@ -171,7 +171,7 @@
 
 static char *argv0;
 
-
+#if 0
 static char *system_mbstowcs_alloc(const char *mbs)
 {
     char *wcs;
@@ -191,6 +191,7 @@ static void system_mbstowcs_free(char *wcs)
 {
     lib_free(wcs);
 }
+#endif
 
 
 static int archdep_init_extra(int *argc, char **argv)
@@ -217,17 +218,6 @@ char *archdep_default_joymap_file_name(void)
 }
 
 
-int archdep_default_logger(const char *level_string, const char *txt)
-{
-    TCHAR *st_out;
-    char *out = lib_msprintf("*** %s %s\n", level_string, txt);
-
-    st_out = system_mbstowcs_alloc(out);
-    OutputDebugString(st_out);
-    system_mbstowcs_free(st_out);
-    lib_free(out);
-    return 0;
-}
 
 /* FIXME: do we still support Watcom? --compyx */
 #ifndef WATCOM_COMPILE

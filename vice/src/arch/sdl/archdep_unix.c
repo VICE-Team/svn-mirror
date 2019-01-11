@@ -125,16 +125,6 @@ char *archdep_default_joymap_file_name(void)
 }
 
 
-int archdep_default_logger(const char *level_string, const char *txt)
-{
-    if (fputs(level_string, stdout) == EOF || fprintf(stdout, "%s", txt) < 0 || fputc('\n', stdout) == EOF) {
-        return -1;
-    }
-    return 0;
-}
-
-
-
 #if 0
 char *archdep_tmpnam(void)
 {

@@ -139,14 +139,6 @@ FILE *archdep_open_default_log_file(void)
 }
 #endif
 
-int archdep_default_logger(const char *lvl, const char *txt)
-{
-    if (fputs(lvl, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {
-        return -1;
-    }
-    return 0;
-}
-
 
 static int archdep_search_path(const char *name, char *pBuf, int lBuf)
 {

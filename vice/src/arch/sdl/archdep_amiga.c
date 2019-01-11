@@ -279,11 +279,6 @@ FILE *archdep_open_default_log_file(void)
 }
 #endif
 
-int archdep_default_logger(const char *level_string, const char *txt)
-{
-    return 0;
-}
-
 
 /** \brief  Sanitize \a path by removing invalid characters for the current OS
  *

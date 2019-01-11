@@ -55,22 +55,6 @@
 #define VICEUSERDIR "vice"
 
 
-/** \brief  Write log message to stdout
- *
- * param[in]    level_string    log level string
- * param[in]    txt             log message
- *
- * \note    Shamelessly copied from unix/archdep.c
- *
- * \return  0 on success, < 0 on failure
- */
-int archdep_default_logger(const char *level_string, const char *txt)
-{
-    if (fputs(level_string, stdout) == EOF || fprintf(stdout, "%s", txt) < 0 || fputc ('\n', stdout) == EOF) {
-        return -1;
-    }
-    return 0;
-}
 
 
 #if 0
