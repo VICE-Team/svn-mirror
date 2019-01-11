@@ -269,14 +269,6 @@ endif
 endif
 endif
 
-if SYLLABLE_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_syllable.sh $(STRIP) $(VICE_VERSION) $(prefix) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_syllable.sh $(STRIP) $(VICE_VERSION) $(prefix) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir)
-endif
-
 if HAVE_SHARED_FFMPEG
 EXTRA_INSTALLS = ffmpeglibs-install
 EXTRA_CLEANS = ffmpeglibs-clean

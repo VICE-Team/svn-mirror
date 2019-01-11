@@ -3582,7 +3582,6 @@ if test x"$is_unix" = "xyes"; then
   solariscompile=no
   hpuxcompile=no
   skyoscompile=no
-  syllablecompile=no
   nextstepcompile=no
   openstepcompile=no
   rhapsodycompile=no
@@ -3646,10 +3645,6 @@ if test x"$is_unix" = "xyes"; then
       hpuxcompile=yes
       AM_CONDITIONAL(UNIX_HPUX_COMPILE, true)
       ;;
-    syllable*)
-      syllablecompile=yes
-      AM_CONDITIONAL(SYLLABLE_COMPILE, true)
-      ;;
     *)
       ;;
   esac
@@ -3700,10 +3695,6 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$hpuxcompile" = "xno"; then
     AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
-  fi
-
-  if test x"$syllablecompile" = "xno"; then
-    AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
@@ -4028,7 +4019,6 @@ AC_OUTPUT([Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/qnx4/Makefile
            src/arch/sdl/sortix-files/Makefile
-           src/arch/sdl/syllable-files/Makefile
            src/arch/shared/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
