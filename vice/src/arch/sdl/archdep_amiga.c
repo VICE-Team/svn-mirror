@@ -285,12 +285,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
-int archdep_spawn(const char *name, char **argv, char **stdout_redir, const char *stderr_redir)
-{
-    return -1;
-}
-
-
 /** \brief  Sanitize \a path by removing invalid characters for the current OS
  *
  * \param[in,out]   path    0-terminated string

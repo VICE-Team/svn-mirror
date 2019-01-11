@@ -73,56 +73,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
-
-
-int archdep_spawn(const char *name, char **argv,
-                  char **pstdout_redir, const char *stderr_redir)
-{
-    pid_t child_pid;
-    int child_status;
-    char *stdout_redir;
-
-
-    if (pstdout_redir != NULL) {
-        if (*pstdout_redir == NULL) {
-            *pstdout_redir = archdep_tmpnam();
-        }
-        stdout_redir = *pstdout_redir;
-    } else {
-        stdout_redir = NULL;
-    }
-
-    child_pid = vfork();
-    if (child_pid < 0) {
-        log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
-        return -1;
-    } else {
-        if (child_pid == 0) {
-            if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
-                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.", stdout_redir, strerror(errno));
-                _exit(-1);
-            }
-            if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
-                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.", stderr_redir, strerror(errno));
-                _exit(-1);
-            }
-            execvp(name, argv);
-            _exit(-1);
-        }
-    }
-
-    if (waitpid(child_pid, &child_status, 0) != child_pid) {
-        log_error(LOG_DEFAULT, "waitpid() failed: %s", strerror(errno));
-        return -1;
-    }
-
-    if (WIFEXITED(child_status)) {
-        return WEXITSTATUS(child_status);
-    } else {
-        return -1;
-    }
-}
-
 #if 0
 /** \brief  Create a unique temporary filename
  *

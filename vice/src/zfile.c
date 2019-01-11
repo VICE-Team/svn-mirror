@@ -50,6 +50,8 @@
 #endif
 
 #include "archdep.h"
+/* XXX: update once all archdep stuff is in src/arch/shared */
+#include "arch/shared/archdep_spawn.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
