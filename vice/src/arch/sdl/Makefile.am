@@ -9,7 +9,6 @@ endif
 if DUMMY_COMPILE
 # this will get remove soons as well
 SUBDIRS = \
-	qnx4 \
 	sortix-files
 endif
 
@@ -234,10 +233,8 @@ EXTRA_DIST = \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_osx.sh \
-	make-bindist_qnx6.sh \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
-	make-bindist_syllable.sh \
 	make-bindist_win32.sh \
 	rs232dev-unix.c \
 	rs232dev-win32.c \

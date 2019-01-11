@@ -936,22 +936,6 @@ if test x"$with_sdlsound" = "xyes"; then
   fi
 fi
 
-dnl Set proper mkfontdir path for QNX6
-case "$host_os" in
-  nto*)
-    if test -d "/opt/X11R6"; then
-      AC_SUBST(MKFONTDIR_BIN, "/opt/X11R6/bin/mkfontdir")
-    else
-      if test -d "/opt/X11R7"; then
-        AC_SUBST(MKFONTDIR_BIN, "/opt/X11R7/bin/mkfontdir")
-      fi
-    fi
-    ;;
-  *)
-    AC_SUBST(MKFONTDIR_BIN, "mkfontdir")
-    ;;
-esac
-
 dnl Add runtime/linker paths for OpenIndiana
 case "$host_os" in
   solaris*)
@@ -3045,7 +3029,6 @@ if test x"$is_unix" = "xyes"; then
     LINUX_HARDSID_HEADER_PRESENT=yes
     LINUX_PARPORT_HEADERS_PRESENT=yes
     CATWEASEL_HEADER_PRESENT=yes
-    QNX_MMAN_HEADERS_PRESENT=yes
     BSD_SET_IOPERM_HEADERS_PRESENT=yes
     PARSID_SUPPORT=no
     IOSID_SUPPORT=no
@@ -3061,7 +3044,6 @@ if test x"$is_unix" = "xyes"; then
     AC_CHECK_HEADERS(linux/ppdev.h linux/parport.h,,[LINUX_PARPORT_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(dev/ppbus/ppi.h dev/ppbus/ppbconf.h,,[FREEBSD_PARPORT_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(cwsid.h,,[CATWEASEL_HEADER_PRESENT=no],)
-    AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
     AC_CHECK_HEADERS(pci/pci.h,,[PCIUTILS_HEADER_PRESENT=no],)
@@ -3112,17 +3094,6 @@ if test x"$is_unix" = "xyes"; then
       AC_DEFINE(HAVE_FREEBSD_PARPORT_HEADERS,,[Support for FreeBSD par port device file.])
       PORTSID_SUPPORT=yes
       HAVE_PORTSID_SUPPORT=yes
-    fi
-
-    if test x"$IOSID_SUPPORT" = "xno"; then
-      if test x"$QNX_MMAN_HEADERS_PRESENT" = "xyes"; then
-        QNX_MMAN_FUNCS_PRESENT=yes
-        AC_CHECK_FUNCS(mmap_device_io in8 out8,,[QNX_MMAN_FUNCS_PRESENT=no])
-        if test x"$QNX_MMAN_FUNCS_PRESENT" = "xyes"; then
-          IOSID_SUPPORT=yes
-          HAVE_IOSID_SUPPORT=yes
-        fi
-      fi
     fi
 
     if test x"$IOSID_SUPPORT" = "xno"; then
@@ -3568,8 +3539,6 @@ if test x"$is_unix" = "xyes"; then
   openserver5compile=no
   openserver6compile=no
   unixwarecompile=no
-  qnx4compile=no
-  qnx6compile=no
   solariscompile=no
   hpuxcompile=no
   skyoscompile=no
@@ -3596,14 +3565,6 @@ if test x"$is_unix" = "xyes"; then
       skyoscompile=yes
       AM_CONDITIONAL(UNIX_SKYOS_COMPILE, true)
       ;;
-    qnx*)
-      qnx4compile=yes
-      AM_CONDITIONAL(UNIX_QNX4_COMPILE, true)
-      ;;
-    nto*)
-      qnx6compile=yes
-      AM_CONDITIONAL(UNIX_QNX6_COMPILE, true)
-      ;;
     solaris*)
       solariscompile=yes
       AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, true)
@@ -3622,14 +3583,6 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$skyoscompile" = "xno"; then
     AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
-  fi
-
-  if test x"$qnx4compile" = "xno"; then
-    AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
-  fi
-
-  if test x"$qnx6compile" = "xno"; then
-    AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   fi
 
   if test x"$nextstepcompile" = "xno"; then
@@ -3690,8 +3643,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
@@ -3709,8 +3660,6 @@ elif test x"$is_win32" = "xyes"; then
 elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
@@ -3733,8 +3682,6 @@ elif test x"$is_os2" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
@@ -3753,8 +3700,6 @@ elif test x"$is_os2" = "xyes"; then
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)

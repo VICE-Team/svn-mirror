@@ -163,30 +163,6 @@ bindistzip:
 endif
 endif
 
-if UNIX_QNX6_COMPILE
-if SDL_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_qnx6.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir) $(MAKE) $(host_cpu)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_qnx6.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir) $(MAKE) $(host_cpu)
-else
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir) $(MAKE) $(host_cpu)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir) $(MAKE) $(host_cpu)
-endif
-endif
-
-if UNIX_QNX4_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/qnx4/make-bindist.sh $(VICE_VERSION) $(prefix) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/qnx4/make-bindist.sh $(VICE_VERSION) $(prefix) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir)
-endif
-
 if UNIX_SOLARIS_COMPILE
 if SDL_COMPILE
 bindist:

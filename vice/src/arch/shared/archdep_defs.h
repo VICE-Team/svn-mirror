@@ -45,7 +45,6 @@
  *      ARCHDEP_OS_BSD_NET
  *      ARCHDEP_OS_BSD_OPEN
  *      ARCHDEP_OS_BSD_DRAGON
- *    ARCHDEP_OS_QNX (?)
  *    ARCHDEP_OS_SOLARIS (?)
  *  ARCHDEP_OS_WINDOWS
  *  ARCHDEP_OS_OS2 (?)
@@ -96,14 +95,9 @@
 /** \brief  OS is DragonFly BSD */
 #  define ARCHDEP_OS_BSD_DRAGON
 
-# elif defined(__QNX__)
-
-/**\brief   OS is QNX (do we even support this anymore?) */
-#  define ARCHDEP_OS_QNX
-
 # elif defined(sun) || defined(__sun)
 
-/** \brief  OS is Solaris (same question) */
+/** \brief  OS is Solaris (same question, most likely just remove) */
 #  define ARCHDEP_OS_SOLARIS
 
 # endif /* ifdef UNIX_COMPILE */

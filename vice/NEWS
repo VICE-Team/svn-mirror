@@ -17,6 +17,16 @@ Before reporting bugs, always try with a clean config (run emulator with
 -default or use "restore default config" in the UI).
 
 
+* Changes in Vice 3.4
+=====================
+
+** General
+----------
+
+Remove support for Syllable OS, SCO, QNX4, QNX6
+
+
+
 * Changes in VICE 3.3
 =====================
 

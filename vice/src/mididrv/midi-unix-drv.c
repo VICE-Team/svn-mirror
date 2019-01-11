@@ -47,8 +47,7 @@
 
 /* <sys/select.h> is required for select(2) and fd_set */
 #if defined(HAVE_SYS_SELECT_H) || \
-    defined(OPENSERVER6_COMPILE) || \
-    (defined(__QNX__) && !defined(__QNXNTO__))
+    defined(OPENSERVER6_COMPILE)
 #include <sys/select.h>
 #endif
 

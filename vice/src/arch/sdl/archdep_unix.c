@@ -52,11 +52,6 @@
 #include <strings.h>
 #endif
 
-#if defined(__QNX__) && !defined(__QNXNTO__)
-#include <sys/time.h>
-#include <sys/timers.h>
-#endif
-
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
@@ -79,19 +74,6 @@
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
-
-#if defined(__QNX__) && !defined(__QNXNTO__)
-int archdep_rtc_get_centisecond(void)
-{
-    struct timespec dtm;
-    int status;
-
-    if ((status = clock_gettime(CLOCK_REALTIME, &dtm)) == 0) {
-        return dtm.tv_nsec / 10000L;
-    }
-    return 0;
-}
-#endif
 
 static int archdep_init_extra(int *argc, char **argv)
 {
