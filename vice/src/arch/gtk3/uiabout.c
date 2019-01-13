@@ -207,8 +207,12 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* set list of current team members */
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about), (const gchar **)authors);
     /* set copyright string */
+    /*
+     * TODO:    Get the current year from [svn]version.h or something similar,
+     *          so altering this file by hand won't be required anymore.
+     */
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about),
-            "Copyright 1996-2018 VICE TEAM");
+            "Copyright 1996-2019 VICE TEAM");
 
     /* set logo */
     gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
