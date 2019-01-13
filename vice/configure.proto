@@ -3806,7 +3806,6 @@ AC_OUTPUT([Makefile
            build/nextstep/Makefile
            build/openstep/Makefile
            build/openwatcom/Makefile
-           build/qnx4/Makefile
            build/rhapsody/Makefile
            data/Makefile
            data/C128/Makefile
@@ -3903,7 +3902,6 @@ AC_OUTPUT([Makefile
            src/arch/mingw32-pcap/wpcap/Makefile
            src/arch/mingw32-pcap/wpcap/net/Makefile
            src/arch/sdl/Makefile
-           src/arch/sdl/qnx4/Makefile
            src/arch/sdl/sortix-files/Makefile
            src/arch/shared/Makefile
            src/buildtools/Makefile
