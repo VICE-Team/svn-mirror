@@ -15,9 +15,10 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 - update man pages and vice.texi
 
-- make sure (c) dates are correct (README, index.html, vice.texi, soundflac.c)
+- make sure (c) dates are correct (README, index.html, vice.texi, soundflac,
+  src/arch/gtk3/uiabout.c)
 
-- make sure the version in configure.proto is updated and it's updated in other 
+- make sure the version in configure.proto is updated and it's updated in other
   files (index.html)
 
 - ANNOUNCE A CODE FREEZE ;)
@@ -34,7 +35,7 @@ $ svn up
 $ make distclean
 
 now configure the source tree with sid engines and ffmpeg included. this is
-needed because make dist propagates through the source tree, and if resid and/or 
+needed because make dist propagates through the source tree, and if resid and/or
 ffmpeg is not configured they will not have any makefiles to get 'make dist'ed
 
 $ ./configure --with-resid --disable-external-ffmpeg --enable-static-ffmpeg
