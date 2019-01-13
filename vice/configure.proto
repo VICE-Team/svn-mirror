@@ -2740,12 +2740,6 @@ if test x"$is_unix" = "xyes"; then
     fi
   fi
 
-  AC_CHECK_HEADERS(dmedia/audio.h, [AC_CHECK_LIB(audio, ALseterrorhandler,
-                   [SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o";
-                    SOUND_LIBS="$SOUND_LIBS -laudio";
-                    USE_DMEDIA_SUPPORT="yes";
-                    AC_DEFINE(USE_DMEDIA,,[Enable sgi sound support.])],,$SOUND_LIBS)])
-
   AC_CHECK_HEADERS(sys/audioio.h,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundsun.o"; break])
 
