@@ -295,7 +295,7 @@ static void update_runtime_widget(unsigned int dsec)
 
     f = (dsec % 10) * 100;
     s = (dsec / 10)  % 60;
-    m = (dsec / 10) / 60;
+    m = ((dsec / 10) / 60) % 60;
     h = (dsec / 10) / 60 / 60;
 
     /* don't use lib_msprintf() here, this function gets called a lot and
@@ -306,7 +306,7 @@ static void update_runtime_widget(unsigned int dsec)
         unsigned long total = song_lengths[tune_current - 1];
         unsigned int tf = (unsigned int)(total % 1000);
         unsigned int ts = (unsigned int)((total /1000) % 60);
-        unsigned int tm = (unsigned int)(total / 1000 / 60);
+        unsigned int tm = (unsigned int)((total / 1000 / 60) % 60);
         unsigned int th = (unsigned int)(total / 1000 / 60 / 60);
 
 

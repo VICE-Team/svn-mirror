@@ -481,7 +481,7 @@ void vsid_ui_display_time(unsigned int dsec)
 
     f = (dsec % 10) * 100;
     s = (dsec / 10) % 60;
-    m = dsec / 10 / 60;
+    m = (dsec / 10 / 60) % 60
     h = dsec / 10 / 60 / 60;
 
     sprintf(vsidstrings[VSID_S_TIMER], "%02u:%02u:%02u.%03u", h, m, s, f);
