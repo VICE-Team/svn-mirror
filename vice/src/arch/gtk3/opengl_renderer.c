@@ -43,6 +43,7 @@
 #endif
 
 #include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "ui.h"
 #include "video.h"
@@ -372,6 +373,8 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
 static void
 resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
 {
+    GdkGLContext *context;
+
     video_canvas_t *canvas = (video_canvas_t *)user_data;
     context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
     int keepaspect = 1, trueaspect = 0;
@@ -412,6 +415,12 @@ resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
     canvas->screen_display_h = (double)height * ctx->scale_y;
     canvas->screen_origin_x = ((double)width - canvas->screen_display_w) / 2.0;
     canvas->screen_origin_y = ((double)height - canvas->screen_display_h) / 2.0;
+
+    context = gtk_gl_area_get_context(GTK_GL_AREA(area));
+    log_message(LOG_DEFAULT, "GdGlkContext is in legacy mode: %s.",
+            gdk_gl_context_is_legacy(context) ? "True" : "False");
+
+
 }
 
 /** \brief OpenGL implementation of create_widget.
@@ -422,7 +431,10 @@ resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
  */
 static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
 {
-    GtkWidget *widget = gtk_gl_area_new();
+    GtkWidget *widget;
+
+    log_message(LOG_DEFAULT, "Creating GtkGlArea widget.");
+    widget =  gtk_gl_area_new();
     gtk_widget_set_hexpand(widget, TRUE);
     gtk_widget_set_vexpand(widget, TRUE);
     canvas->drawing_area = widget;
