@@ -19,11 +19,9 @@ EXTRA_libsounddrv_a_SOURCES = \
 	sounddart.c \
 	sounddx.c \
 	soundflac.c \
-	soundhpux.c \
 	soundmp3.c \
 	soundpulse.c \
 	soundsdl.c \
-	soundsgi.c \
 	soundsun.c \
 	sounduss.c \
 	soundvorbis.c \

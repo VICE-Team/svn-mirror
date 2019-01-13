@@ -98,31 +98,24 @@ static sound_register_devices_t sound_register_devices[] = {
 #ifdef USE_COREAUDIO
     { "coreaudio", sound_init_coreaudio_device, SOUND_PLAYBACK_DEVICE },
 #endif
+
+
 #ifdef USE_OSS
 
 /* don't use oss for FreeBSD or BSDI */
-
-#if !defined(__FreeBSD__) && !defined(__bsdi__)
-    { "uss", sound_init_uss_device, SOUND_PLAYBACK_DEVICE },
-#endif
-#endif
-#ifdef USE_DMEDIA
-    { "sgi", sound_init_sgi_device, SOUND_PLAYBACK_DEVICE },
-#endif
 
 /* Don't use the NetBSD/SUN sound driver for OpenBSD */
 #if defined(HAVE_SYS_AUDIOIO_H) && !defined(__OpenBSD__)
 #if defined(__NetBSD__)
     { "netbsd", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
 #else
+    /* Really? */
     { "sun", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
 #endif
 #endif
-#if defined(HAVE_SYS_AUDIO_H)
-    { "hpux", sound_init_hpux_device, SOUND_PLAYBACK_DEVICE },
-#endif
 #ifdef USE_AIX_AUDIO
     { "aix", sound_init_aix_device, SOUND_PLAYBACK_DEVICE },
+#endif
 #endif
 
 #ifdef WIN32_COMPILE

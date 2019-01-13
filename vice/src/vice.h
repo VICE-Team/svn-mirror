@@ -47,16 +47,24 @@
 
 /* Portability... */
 
-#if defined(__hpux) || defined(__IBMC__)
+/*
+ * I really wonder if we need this anymore, when was the last time VICE was
+ * compiled with anything not GCC or Clang?
+ */
+#if defined(__IBMC__)
 #ifndef _POSIX_SOURCE
 #define _POSIX_SOURCE
 #endif
 #ifndef _INCLUDE_POSIX_SOURCE
 #define _INCLUDE_POSIX_SOURCE
 #endif
-#endif  /* __hpux */
+#endif  /* __hpux, nope __IMBC__ at best */
 
 /* currently tested/testing for the following cpu types:
+ *
+ * (please let's get rid of this, I personally enjoy making stuff work on OS's
+ * I don't expect to support it, but VICE should just support OS's people
+ * actually use. (Windows, Linux, MacOS, BSD)
  *
  * cpu        4*u_char fetch   1*u_int32 fetch   define(s)
  * -----      --------------   ---------------   ---------
