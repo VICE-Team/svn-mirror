@@ -437,25 +437,9 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(UNIX) /* (unix) */
-    { "USE_ARTS", "Enable aRts support.",
-#ifndef USE_ARTS
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(MACOSX_SUPPORT) /* (osx) */
     { "USE_COREAUDIO", "Enable CoreAudio support.",
 #ifndef USE_COREAUDIO
-        0 },
-#else
-        1 },
-#endif
-#endif
-#if defined(UNIX) /* (unix) */
-    { "USE_DMEDIA", "Enable sgi sound support.",
-#ifndef USE_DMEDIA
         0 },
 #else
         1 },

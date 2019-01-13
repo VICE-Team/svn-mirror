@@ -15,7 +15,6 @@ VICE_VERSION_MINOR=3
 VICE_VERSION_BUILD=0
 
 VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system's readline library])
-VICE_ARG_WITH_LIST(arts,          [  --with-arts             use aRts sound system])
 VICE_ARG_WITH_LIST(pulse,         [  --without-pulse         do not use PulseAudio sound system])
 VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA sound system])
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
@@ -165,7 +164,6 @@ AC_CHECK_PROGS(HCRTF, hcrtf, no)
 AC_CHECK_PROGS(TEXI2IPF, texi2ipf, no)
 AC_CHECK_PROGS(IPFC, wipfc, no)
 AC_CHECK_PROGS(IPFC, ipfc, no)
-AC_CHECK_PROGS(artsc_config, artsc-config, no)
 AC_CHECK_TOOL(RANLIB, ranlib, :)
 AC_CHECK_TOOL(STRIP, strip, :)
 AC_CHECK_TOOL(objdump, objdump, no)
@@ -222,7 +220,6 @@ HAVE_PCIUTILS_SUPPORT="no "
 HAVE_SYS_AUDIO_H_SUPPORT="no "
 HAVE_SYS_AUDIOIO_H_SUPPORT="no "
 USE_ALSA_SUPPORT="no "
-USE_ARTS_SUPPORT="no "
 USE_DMEDIA_SUPPORT="no "
 USE_OSS_SUPPORT="no "
 USE_PORTAUDIO_SUPPORT="no "
@@ -1760,16 +1757,6 @@ AC_TRY_COMPILE([],
 CFLAGS=$old_CFLAGS
 AC_SUBST(MAX_INLINE_INSN_SINGLE)
 
-dnl Check and setup aRts compilation.
-if test x"$with_arts" = "xyes"; then
-  if test x"$artsc_config" = "xno"; then
-    AC_MSG_WARN([artsc-config not found. aRts will not be configured])
-                with_arts=no
-        fi
-else
-  with_arts=no
-fi
-
 dnl Set output drivers to none
 GFXOUTPUT_DRIVERS=""
 
@@ -2691,26 +2678,6 @@ if test x"$is_unix" = "xyes"; then
       AC_MSG_ERROR([pulse audio support missing])
     fi
   fi
-
-
-  dnl aRts support checking
-  if test x"$with_arts" = "xyes"; then
-    old_cflags=$CFLAGS
-    old_libs=$LIBS
-    CFLAGS="$CFLAGS `artsc-config --cflags`"
-    LIBS="$LIBS `artsc-config --libs`"
-    AC_CHECK_HEADERS(artsc.h,[AC_CHECK_LIB(artsc, arts_init,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundarts.o"; break],
-                     [CFLAGS=$old_cflags; LIBS=$old_libs; with_arts=no; break],$SOUND_LIBS)],
-                     [CFLAGS=$old_cflags; LIBS=$old_libs; with_arts=no; break])
-    if test x"$with_arts" = "xyes"; then
-      AC_DEFINE(USE_ARTS,,[Enable aRts support.])
-      USE_ARTS_SUPPORT="yes"
-    else
-      AC_MSG_ERROR([aRts support is missing])
-    fi
-  fi
-
 
   dnl ALSA support checks
   if test x"$with_alsa" != "xno"; then
@@ -4017,7 +3984,6 @@ fi
 if test x"$real_arch" = "xUnix"; then
     echo "OSS sound support            : $USE_OSS_SUPPORT (--with/without-oss)"
     echo "ALSA sound support           : $USE_ALSA_SUPPORT (--with/without-alsa)"
-    echo "ARTS sound support           : $USE_ARTS_SUPPORT (--with/without-arts)"
     echo "Pulseaudio sound support     : $USE_PULSE_SUPPORT (--with/without-pulse)"
 fi
 

@@ -11,7 +11,6 @@ noinst_LIBRARIES = libsounddrv.a
 EXTRA_libsounddrv_a_SOURCES = \
 	soundahi.c \
 	soundalsa.c \
-	soundarts.c \
 	soundbeos.cc \
 	soundbsp.cc \
 	soundcoreaudio.c \

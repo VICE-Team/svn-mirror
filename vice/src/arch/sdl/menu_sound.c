@@ -166,12 +166,6 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"alsa" },
 #endif
-#ifdef USE_ARTS
-    { "aRts",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"arts" },
-#endif
 #ifdef BEOS_COMPILE
     { "BeOS GameSound",
       MENU_ENTRY_RESOURCE_RADIO,
