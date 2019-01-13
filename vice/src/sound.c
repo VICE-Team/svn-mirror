@@ -113,9 +113,6 @@ static sound_register_devices_t sound_register_devices[] = {
     { "sun", sound_init_sun_device, SOUND_PLAYBACK_DEVICE },
 #endif
 #endif
-#ifdef USE_AIX_AUDIO
-    { "aix", sound_init_aix_device, SOUND_PLAYBACK_DEVICE },
-#endif
 #endif
 
 #ifdef WIN32_COMPILE

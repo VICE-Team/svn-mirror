@@ -221,7 +221,6 @@ HAVE_PORTSID_SUPPORT="no "
 HAVE_PCIUTILS_SUPPORT="no "
 HAVE_SYS_AUDIO_H_SUPPORT="no "
 HAVE_SYS_AUDIOIO_H_SUPPORT="no "
-USE_AIX_AUDIO_SUPPORT="no "
 USE_ALSA_SUPPORT="no "
 USE_ARTS_SUPPORT="no "
 USE_DMEDIA_SUPPORT="no "
@@ -2740,15 +2739,6 @@ if test x"$is_unix" = "xyes"; then
     fi
   fi
 
-  AC_CHECK_HEADERS(sys/audioio.h,
-                   [SOUND_DRIVERS="$SOUND_DRIVERS soundsun.o"; break])
-
-  AC_CHECK_HEADERS(UMS/UMSAudioDevice.h,[AC_CHECK_HEADERS(UMS/UMSBAUDDevice.h,
-                   [AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,
-                    [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o";
-                     SOUND_LIBS="$SOUND_LIBS -lUMSobj";
-                     USE_AIX_AUDIO_SUPPORT="yes";
-                     AC_DEFINE(USE_AIX_AUDIO,,[Enable aix sound support.])],,$SOUND_LIBS)])])
 fi
 
 if test x"$is_amiga" = "xyes"; then
@@ -3701,7 +3691,6 @@ AC_SUBST(ARCH_EXTRA_SUBDIR)
 AC_SUBST(UI_LIBS)
 AC_SUBST(SDL_EXTRA_LIBS)
 AC_SUBST(SOUND_USS_OBJ)
-AC_SUBST(SOUND_AIX_OBJ)
 AC_SUBST(SOUND_MIDAS_OBJ)
 AC_SUBST(SOUND_SDL_OBJ)
 
@@ -4051,7 +4040,6 @@ fi
 
 if test x"$real_arch" = "xUnix"; then
     echo "NetBSD/Solaris sound support : $HAVE_SYS_AUDIOIO_H_SUPPORT"
-    echo "AIX sound support            : $USE_AIX_AUDIO_SUPPORT"
 fi
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then

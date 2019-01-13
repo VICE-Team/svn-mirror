@@ -430,14 +430,6 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 #if defined(UNIX) /* (unix) */
-    { "USE_AIX_AUDIO", "Enable aix sound support.",
-#ifndef USE_AIX_AUDIO
-        0 },
-#else
-        1 },
-#endif
-#endif
-#if defined(UNIX) /* (unix) */
     { "USE_ALSA", "Enable alsa support.",
 #ifndef USE_ALSA
         0 },
