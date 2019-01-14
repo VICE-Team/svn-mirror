@@ -566,6 +566,19 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     /* Render mode NEW_TEXTURE has no effect; it stays just as new */
 
     gtk_widget_queue_draw(canvas->drawing_area);
+    {
+        /* This block of code is a workaround for an issue we started
+         * seeing with Mesa 18.2 on Intel integrated GPUs on
+         * Debianoids, but, weirdly, nowhere else. The emulated screen
+         * would simply stop updating, even though we were queuing
+         * draw requests on it. This tries to force a redraw by
+         * invalidating the canvas's top level widget, in case
+         * something isn't propagating properly. */
+        GtkWidget *toplevel = gtk_widget_get_toplevel(canvas->drawing_area);
+        if (GTK_IS_WINDOW(toplevel)) {
+            gtk_widget_queue_draw(toplevel);
+        }
+    }
 }
 
 /** \brief OpenGL implementation of set_palette.
