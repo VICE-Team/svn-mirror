@@ -5,5 +5,4 @@ SUBDIRS = \
 	nextstep \
 	openstep \
 	openwatcom \
-	qnx4 \
 	rhapsody
