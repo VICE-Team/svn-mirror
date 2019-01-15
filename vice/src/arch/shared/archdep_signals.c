@@ -29,6 +29,10 @@
  */
 
 #include "vice.h"
+#include "log.h"
+
+#include <stdlib.h>
+#include <signal.h>
 
 #include "archdep_defs.h"
 
