@@ -44,6 +44,7 @@ libarchdep_a_SOURCES = \
 	archdep_rename.c \
 	archdep_rmdir.c \
 	archdep_sanitize_filename.c \
+	archdep_signals.c \
 	archdep_spawn.c \
 	archdep_startup_log_error.c \
 	archdep_stat.c \
@@ -84,6 +85,7 @@ EXTRA_DIST = \
 	archdep_rename.h \
 	archdep_rmdir.h \
 	archdep_sanitize_filename.h \
+	archdep_signals.h \
 	archdep_spawn.h \
 	archdep_startup_log_error.h \
 	archdep_stat.h \

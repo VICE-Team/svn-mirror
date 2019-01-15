@@ -105,9 +105,11 @@
 
            see archdep_unix.c and bug #3201796
 */
+#if 0
 #define archdep_signals_init(x)
 #define archdep_signals_pipe_set()
 #define archdep_signals_pipe_unset()
+#endif
 
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno

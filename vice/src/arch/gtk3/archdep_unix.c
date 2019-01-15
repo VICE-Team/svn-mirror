@@ -95,35 +95,3 @@ char *archdep_tmpnam(void)
 #endif
 }
 #endif
-
-static RETSIGTYPE break64(int sig)
-{
-    log_message(LOG_DEFAULT, "Received signal %d, exiting.", sig);
-    exit (-1);
-}
-
-void archdep_signals_init(int do_core_dumps)
-{
-    if (do_core_dumps) {
-        signal(SIGPIPE, break64);
-    }
-}
-
-typedef void (*signal_handler_t)(int);
-
-static signal_handler_t old_pipe_handler;
-
-/*
-    these two are used for socket send/recv. in this case we might
-    get SIGPIPE if the connection is unexpectedly closed.
-*/
-void archdep_signals_pipe_set(void)
-{
-    old_pipe_handler = signal(SIGPIPE, SIG_IGN);
-}
-
-void archdep_signals_pipe_unset(void)
-{
-    signal(SIGPIPE, old_pipe_handler);
-}
-

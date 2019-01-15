@@ -92,9 +92,11 @@ extern void archdep_workaround_nop(const char *otto);
 
            see archdep_unix.c and bug #3201796
 */
+#if 0
 #define archdep_signals_init(x)
 #define archdep_signals_pipe_set()
 #define archdep_signals_pipe_unset()
+#endif
 
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  #name "-" #version ".dll"
 
