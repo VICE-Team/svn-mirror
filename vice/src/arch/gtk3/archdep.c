@@ -39,6 +39,7 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
+#include "archdep.h"
 #include "debug_gtk3.h"
 #include "findpath.h"
 #include "ioutil.h"

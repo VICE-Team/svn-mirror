@@ -1319,26 +1319,20 @@ realdevice_lib =
 endif
 
 if SUPPORT_X64DTV
-x64dtv_owbin = x64dtvow
 x64dtv_bin = x64dtv
 else
-x64dtv_owbin =
 x64dtv_bin =
 endif
 
 if SUPPORT_X64SC
-x64sc_owbin = x64scow
 x64sc_bin = x64sc
 else
-x64sc_owbin =
 x64sc_bin =
 endif
 
 if SUPPORT_XSCPU64
-xscpu64_owbin = xscpu64ow
 xscpu64_bin = xscpu64
 else
-xscpu64_owbin =
 xscpu64_bin =
 endif
 
@@ -1353,18 +1347,6 @@ cartconv =
 endif
 
 # workaround for extra exe creation
-vsidow_SOURCES = maincpu.c
-x128ow_SOURCES = maincpu.c
-x64ow_SOURCES = maincpu.c
-xscpu64ow_SOURCES = maincpu.c
-x64dtvow_SOURCES = maincpu.c
-x64scow_SOURCES = maincpu.c
-xcbm2ow_SOURCES = maincpu.c
-xcbm5x0ow_SOURCES = maincpu.c
-xpetow_SOURCES = maincpu.c
-xplus4ow_SOURCES = maincpu.c
-xvicow_SOURCES = maincpu.c
-
 
 bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(xscpu64_bin) $(c1541) $(petcat) $(cartconv)
 
@@ -2550,39 +2532,6 @@ libvideo:
 libvsid:
 	@echo "making libvsid.a in c64"
 	@(cd c64 && $(MAKE) psiddrv.h libvsid.a)
-
-x64ow$(EXEEXT): x64$(EXEEXT)
-	wrc -fe=x64ow$(EXEEXT) arch/win32/resc64.res x64$(EXEEXT)
-
-x64dtvow$(EXEEXT): x64dtv$(EXEEXT)
-	wrc -fe=x64dtvow$(EXEEXT) arch/win32/resc64dtv.res x64dtv$(EXEEXT)
-
-xscpu64ow$(EXEEXT): xscpu64$(EXEEXT)
-	wrc -fe=xscpu64ow$(EXEEXT) arch/win32/resscpu64.res xscpu64$(EXEEXT)
-
-x64scow$(EXEEXT): x64sc$(EXEEXT)
-	wrc -fe=x64scow$(EXEEXT) arch/win32/resc64.res x64sc$(EXEEXT)
-
-x128ow$(EXEEXT): x128$(EXEEXT)
-	wrc -fe=x128ow$(EXEEXT) arch/win32/resc128.res x128$(EXEEXT)
-
-xcbm2ow$(EXEEXT): xcbm2$(EXEEXT)
-	wrc -fe=xcbm2ow$(EXEEXT) arch/win32/rescbm2.res xcbm2$(EXEEXT)
-
-xcbm5x0ow$(EXEEXT): xcbm5x0$(EXEEXT)
-	wrc -fe=xcbm5x0ow$(EXEEXT) arch/win32/rescbm5x0.res xcbm5x0$(EXEEXT)
-
-xpetow$(EXEEXT): xpet$(EXEEXT)
-	wrc -fe=xpetow$(EXEEXT) arch/win32/respet.res xpet$(EXEEXT)
-
-xplus4ow$(EXEEXT): xplus4$(EXEEXT)
-	wrc -fe=xplus4ow$(EXEEXT) arch/win32/resplus4.res xplus4$(EXEEXT)
-
-xvicow$(EXEEXT): xvic$(EXEEXT)
-	wrc -fe=xvicow$(EXEEXT) arch/win32/resvic20.res xvic$(EXEEXT)
-
-vsidow$(EXEEXT): vsid$(EXEEXT)
-	wrc -fe=vsidow$(EXEEXT) arch/win32/resvsid.res vsid$(EXEEXT)
 
 if HAVE_SHARED_FFMPEG
 $(top_builddir)/src/libffmpeg.a: libffmpeg

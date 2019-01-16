@@ -46,6 +46,12 @@
 
 #include "socketimpl.h"
 
+/* I suspect the #include's below should be handled by the #include above */
+#include <sys/socket.h>
+#include <netdb.h>
+#include <netinet/ip.h>
+#include <arpa/inet.h>
+
 /* Fix Windows' definition of 'INVALID_SOCKET (SOCKET)(~0)', which breaks the
  * code further down. Any 'normal' OS uses -1, but Microsft had to use an
  * unsigned int with INVALID_SOCKET being the largest value for that unsigned

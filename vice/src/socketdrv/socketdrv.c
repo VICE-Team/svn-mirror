@@ -31,6 +31,10 @@
 #include "archdep.h"
 
 
+#ifndef HAVE_NETWORK
+#error No HAVE_NETWORK
+#endif
+
 #ifdef HAVE_NETWORK
 
 #ifdef AMIGA_SUPPORT
