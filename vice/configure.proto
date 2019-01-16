@@ -1002,17 +1002,6 @@ if test "x$CC" = "xgcc"; then
   GCC=yes
 fi
 
-dnl test for openwatcom CC for library conversion
-if test x"$CC" = "xowcc"; then
-  CFLAGS="$CFLAGS -O3"
-  AM_CONDITIONAL(OWCC, true)
-  AC_DEFINE(WATCOM_COMPILE,,[owcc is being used.])
-  toolchain_check=no
-  ar_check=no
-  nowarnings=yes
-else
-  AM_CONDITIONAL(OWCC, false)
-fi
 
 if test x"$enable_arch" = "xno"; then
   march=""
@@ -1319,24 +1308,21 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
 
   dinput_header_no_lib="no"
 
-  dnl don't use dinput for owcc
-  if test x"$CC" != "xowcc"; then
-    AC_CHECK_HEADER(dinput.h,
-                [ HAVE_DINPUT_SUPPORT="yes";
-                  AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
-                [ AC_MSG_CHECKING(for -ldinput) ]
-                [SAVELIBS="$LIBS"] [ LIBS="-ldinput $LIBS" ]
-                [ AC_LINK_IFELSE([
-                                 AC_LANG_PROGRAM([#include <dinput.h>],[return DirectInputCreateA(0,0,0,0);])
-                                 ],
-                              [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput.lib or libdinput.a are present]) ]
-     	                        [ AC_MSG_RESULT(yes) ],
-                              [ dinput_header_no_lib="yes" ]
-                              [ LIBS="$SAVELIBS" ]
-                              [ AC_MSG_RESULT(no) ]
-                )]
-	  	 )
-  fi
+  AC_CHECK_HEADER(dinput.h,
+              [ HAVE_DINPUT_SUPPORT="yes";
+                AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
+              [ AC_MSG_CHECKING(for -ldinput) ]
+              [SAVELIBS="$LIBS"] [ LIBS="-ldinput $LIBS" ]
+              [ AC_LINK_IFELSE([
+                               AC_LANG_PROGRAM([#include <dinput.h>],[return DirectInputCreateA(0,0,0,0);])
+                               ],
+                            [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput.lib or libdinput.a are present]) ]
+                            [ AC_MSG_RESULT(yes) ],
+                            [ dinput_header_no_lib="yes" ]
+                            [ LIBS="$SAVELIBS" ]
+                            [ AC_MSG_RESULT(no) ]
+              )]
+     )
 
   dnl warnings_cxx="-Wall -W -Wno-unused-parameter -Wno-missing-field-initializers -Wno-sign-compare"
   if test x"$nowarnings" != "xyes"; then

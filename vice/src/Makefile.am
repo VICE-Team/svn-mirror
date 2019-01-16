@@ -582,11 +582,6 @@ else
 EMBEDDED_H_FILES =
 endif
 
-if OWCC
-OWCC_LIBS = owcc_libs_converted.h
-else
-OWCC_LIBS =
-endif
 
 if USE_SVN_REVISION
 SVN_VERSION_HEADER = svnversion.h
@@ -594,7 +589,7 @@ else
 SVN_VERSION_HEADER =
 endif
 
-BUILT_SOURCES = $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
+BUILT_SOURCES = $(EMBEDDED_H_FILES) $(SVN_VERSION_HEADER) infocontrib.h
 
 .PHONY: svnversion.h.indirect
 
@@ -629,10 +624,6 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	rm -f team.tmp
 endif
 
-if OWCC
-owcc_libs_converted.h:
-	$(SHELL) $(srcdir)/buildtools/convert_owcc_libs.sh $(LIBS)
-endif
 
 if NATIVE_TOOLS
 bin2c: $(srcdir)/buildtools/bin2c.c
@@ -1374,13 +1365,8 @@ xpetow_SOURCES = maincpu.c
 xplus4ow_SOURCES = maincpu.c
 xvicow_SOURCES = maincpu.c
 
-if OWCC
-OW_progs = vsidow x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow xcbm5x0ow $(xscpu64_owbin)
-else
-OW_progs =
-endif
 
-bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(xscpu64_bin) $(c1541) $(petcat) $(cartconv) $(OW_progs)
+bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(xscpu64_bin) $(c1541) $(petcat) $(cartconv)
 
 EXTRA_PROGRAMS =
 
@@ -2279,11 +2265,7 @@ c1541_SOURCES = \
 	zfile.c \
 	zipcode.c
 
-if OWCC
-ARCH_EXTRA_OBJECTS = @ARCH_DIR@/libarch.a
-else
 ARCH_EXTRA_OBJECTS = 	@ARCH_DIR@/archdep.o
-endif
 
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
