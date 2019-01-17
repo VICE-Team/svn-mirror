@@ -183,7 +183,7 @@ static GLuint create_shader(GLenum shader_type, const char *text)
         default: shader_type_name = "unknown"; break;
         }
 
-        fprintf(stderr, "Compile failure in %s shader:\n%s\n", shader_type_name, info_log);
+        log_error(LOG_DEFAULT, "Compile failure in %s shader:\n%s\n", shader_type_name, info_log);
         lib_free(info_log);
     }
 
@@ -218,7 +218,7 @@ static void create_shader_program(context_t *ctx)
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_log_length);
         info_log = lib_malloc(sizeof(GLchar) * (info_log_length + 1));
         glGetProgramInfoLog(program, info_log_length, NULL, info_log);
-        fprintf(stderr, "Linker failure: %s\n", info_log);
+        log_error(LOG_DEFAULT, "Linker failure: %s\n", info_log);
         lib_free(info_log);
     }
 
@@ -251,15 +251,16 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     context_t *ctx = NULL;
     GError *err = NULL;
     GLenum glErr;
+    GdkGLContext *context;
 
     gtk_gl_area_make_current(area);
     err = gtk_gl_area_get_error(area);
     if (err != NULL) {
-        fprintf(stderr, "CRITICAL: Could not realize GL context: %s\n", err->message);
+        log_error(LOG_ERR, "Could not realize GL context: %s\n", err->message);
         return;
     }
     if (canvas->renderer_context) {
-        fprintf(stderr, "WARNING: Re-realizing the GtkGL area! This will leak.\n");
+        log_warning(LOG_DEFAULT, "WARNING: Re-realizing the GtkGL area! This will leak.\n");
     }
     ctx = lib_malloc(sizeof(context_t));
     memset(ctx, 0, sizeof(context_t));
@@ -268,13 +269,19 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     glewExperimental = GL_TRUE;
     glErr = glewInit();
     if (glErr != GLEW_OK) {
-        fprintf(stderr, "GTKGL: Could not initialize GLEW\n");
+        log_warning(LOG_DEFAULT, "GTKGL: glewInit reported an error: %s. This is not always a real error.", glewGetErrorString(glErr));
     }
     if (!GLEW_VERSION_3_2) {
-        fprintf(stderr, "GTKGL: OpenGL version 3.2 not supported in this context\n");
+        log_warning(LOG_DEFAULT, "GTKGL: OpenGL version 3.2 not supported in this context");
     }
 #endif
 
+    context = gtk_gl_area_get_context(GTK_GL_AREA(area));
+    log_message(LOG_DEFAULT, "GdkGlkContext is in legacy mode: %s.",
+            gdk_gl_context_is_legacy(context) ? "True" : "False");
+
+    /* TODO: If it is in fact legacy mode, we need a different rending
+     *       strategy. */
     create_shader_program(ctx);
     glGenBuffers(1, &ctx->vbo);
     glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
@@ -311,7 +318,7 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
     glActiveTexture(GL_TEXTURE0);
     if (ctx->render_mode == RENDER_MODE_NEW_TEXTURE) {
         if (ctx->texture == 0) {
-            fprintf(stderr, "GTKGL CRITICAL: No texture generated!\n");
+            log_error(LOG_ERR, "GTKGL: No texture generated!");
         }
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -373,8 +380,6 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
 static void
 resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
 {
-    GdkGLContext *context;
-
     video_canvas_t *canvas = (video_canvas_t *)user_data;
     context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
     int keepaspect = 1, trueaspect = 0;
@@ -415,12 +420,6 @@ resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
     canvas->screen_display_h = (double)height * ctx->scale_y;
     canvas->screen_origin_x = ((double)width - canvas->screen_display_w) / 2.0;
     canvas->screen_origin_y = ((double)height - canvas->screen_display_h) / 2.0;
-
-    context = gtk_gl_area_get_context(GTK_GL_AREA(area));
-    log_message(LOG_DEFAULT, "GdGlkContext is in legacy mode: %s.",
-            gdk_gl_context_is_legacy(context) ? "True" : "False");
-
-
 }
 
 /** \brief OpenGL implementation of create_widget.
@@ -528,7 +527,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
 
     if (((xi + w) > ctx->width) || ((yi + h) > ctx->height)) {
         /* Trying to draw outside canvas? */
-        fprintf(stderr, "Attempt to draw outside canvas!\nXI%u YI%u W%u H%u CW%u CH%u\n", xi, yi, w, h, ctx->width, ctx->height);
+        log_warning(LOG_DEFAULT, "Attempt to draw outside canvas!\nXI%u YI%u W%u H%u CW%u CH%u", xi, yi, w, h, ctx->width, ctx->height);
         return;
     }
 
