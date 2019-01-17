@@ -294,7 +294,6 @@ static void machine_vsync_hook(void)
     int i;
     unsigned int playtime;
     static unsigned int time = 0;
-    unsigned int frames;
 
     if (vsid_autostart_delay > 0) {
         if (--vsid_autostart_delay == 0) {
@@ -313,19 +312,14 @@ static void machine_vsync_hook(void)
 #if 0
     playtime = (psid_increment_frames() * machine_timing.cycles_per_rfsh)
         / machine_timing.cycles_per_sec;
-    if (playtime != time) {
-        vsid_ui_display_time(playtime);
-        time = playtime;
-    }
+#else
+    /* Count deciseconds */
+    playtime = (double)psid_increment_frames()
+        / machine_timing.rfsh_per_sec * 10.0;
 #endif
-    frames = psid_increment_frames();
-
-    playtime = (frames * machine_timing.cycles_per_rfsh)
-        / machine_timing.cycles_per_sec * 10 +
-        (frames / (int)(machine_timing.rfsh_per_sec / 10)) % 10;
     if (playtime != time) {
-        vsid_ui_display_time(playtime);
         time = playtime;
+        vsid_ui_display_time(playtime);
     }
 
     clk_guard_prevent_overflow(maincpu_clk_guard);
