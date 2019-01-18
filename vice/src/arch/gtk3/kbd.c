@@ -45,6 +45,7 @@
 
 #include "keyboard.h"
 #include "kbd.h"
+#include "uimenu.h"
 
 
 static gboolean kbd_hotkey_handle(GdkEvent *report);
@@ -268,21 +269,24 @@ static gboolean kbd_hotkey_handle(GdkEvent *report)
     int i = 0;
     gint code = report->key.keyval;
 
-    debug_gtk3("got code %d.", code)
+    debug_gtk3("got code %d.", code);
 
-    while (i < hotkeys_count) {
-        debug_gtk3("checking index %d: hotkey %d, mask %d",
-                i, hotkeys_list[i].code, hotkeys_list[i].mask);
-        if (hotkeys_list[i].code == code) {
-            debug_gtk3("Got non-modified key %d.", code);
-            if (report->key.state & hotkeys_list[i].mask) {
-                debug_gtk3("got modifers");
-                debug_gtk3("triggering callback of hotkey with index %d.", i);
-                hotkeys_list[i].callback();
-                return TRUE;
+    if (((GdkEventKey*)(report))->state & VICE_MOD_MASK) {
+
+        while (i < hotkeys_count) {
+            debug_gtk3("checking index %d: hotkey %d, mask %d",
+                    i, hotkeys_list[i].code, hotkeys_list[i].mask);
+            if (hotkeys_list[i].code == code) {
+                debug_gtk3("Got non-modified key %d.", code);
+                if (report->key.state & hotkeys_list[i].mask) {
+                        debug_gtk3("got modifers");
+                        debug_gtk3("triggering callback of hotkey with index %d.", i);
+                        hotkeys_list[i].callback();
+                        return TRUE;
+                    }
             }
+            i++;
         }
-        i++;
     }
     return FALSE;
 }
