@@ -460,9 +460,4 @@ typedef struct {
 
 extern cartridge_info_t *cartridge_get_info_list(void);
 
-
-const char *cartridge_current_filename(void);
-
-void cartridge_wipe_filename(void);
-
 #endif

@@ -869,20 +869,6 @@ void cartridge_init(void)
     cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }
 
-
-const char *cartridge_current_filename(void)
-{
-    return cartfile;
-}
-
-void cartridge_wipe_filename(void)
-{
-    if (cartridge_file != NULL) {
-        lib_free(cartridge_file);
-        cartridge_file = NULL;
-    }
-}
-
 /* returns 1 when cartridge (ROM) image can be flushed */
 int cartridge_can_flush_image(int crtid)
 {
