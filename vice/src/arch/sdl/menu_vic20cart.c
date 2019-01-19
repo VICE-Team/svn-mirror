@@ -135,6 +135,14 @@ static UI_MENU_CALLBACK(set_cart_default_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(unset_cart_default_callback)
+{
+    if (activated) {
+        cartridge_unset_default();
+    }
+    return NULL;
+}
+
 static void cartmenu_update_flush(void);
 static void cartmenu_update_save(void);
 
@@ -497,6 +505,10 @@ const ui_menu_entry_t vic20cart_menu[] = {
     { "Set current cartridge as default",
       MENU_ENTRY_OTHER,
       set_cart_default_callback,
+      NULL },
+    { "Unset default cartridge",
+      MENU_ENTRY_OTHER,
+      unset_cart_default_callback,
       NULL },
     { "I/O collision handling ($9000-$93FF/$9800-$9FFF)",
       MENU_ENTRY_SUBMENU,
