@@ -141,7 +141,7 @@ int vic20ui_init(void)
 /*    uicart_set_freeze_func(cartridge_trigger_freeze); */
     uicart_set_detach_func(cartridge_detach_image);
     uicart_set_set_default_func(cartridge_set_default);
-/*    uicart_set_unset_default_func(cartridge_unset_default); */
+    uicart_set_unset_default_func(cartridge_unset_default);
 
     return 0;
 }

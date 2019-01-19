@@ -116,11 +116,15 @@ void reset_try_flags(void)
 
 int try_cartridge_attach(int c)
 {
+/* FIXME: whatever this was trying to do, it doesnt work. eg having a default
+          (generic) cartridge in vicerc doesnt work when this logic is active.
+*/
+/*
     cartres_flags ^= c;
     if (cartres_flags) {
         return 0;
     }
-
+*/
     return cartridge_attach_from_resource(vic20cart_type, cartfile);
 }
 
@@ -432,7 +436,6 @@ void cartridge_set_default(void)
         log_warning(LOG_DEFAULT, "Set as default disabled");
         return;
     }
-
     set_cartridge_type(vic20cart_type, NULL);
     set_cartridge_file((vic20cart_type == CARTRIDGE_NONE) ? "" : cartfile, NULL);
     /* special case handling for the multiple file generic type */
@@ -440,6 +443,16 @@ void cartridge_set_default(void)
 
     /* reset the try flags (we've only called the set function once each) */
     reset_try_flags();
+}
+
+/** \brief  Wipe "default cartidge"
+ */
+void cartridge_unset_default(void)
+{
+    util_string_set(&cartridge_file, "");
+    /* special case handling for the multiple file generic type */
+    generic_unset_default();
+    cartridge_type = CARTRIDGE_NONE;
 }
 
 const char *cartridge_get_file_name(int addr)

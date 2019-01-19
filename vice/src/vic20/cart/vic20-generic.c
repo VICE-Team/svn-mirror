@@ -531,6 +531,15 @@ void generic_set_default(void)
     set_cartridge_file_B(cartfileB, NULL);
 }
 
+void generic_unset_default(void)
+{
+    util_string_set(&cartridge_file_2, "");
+    util_string_set(&cartridge_file_4, "");
+    util_string_set(&cartridge_file_6, "");
+    util_string_set(&cartridge_file_A, "");
+    util_string_set(&cartridge_file_B, "");
+}
+
 /* FIXME: rewrite to use cartids defined in cartridge.h instead of an address */
 const char *generic_get_file_name(uint16_t addr)
 {
