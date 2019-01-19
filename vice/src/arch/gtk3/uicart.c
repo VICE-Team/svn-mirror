@@ -38,6 +38,7 @@
 #include "cartimagewidget.h"
 #include "filechooserhelpers.h"
 #include "lastdir.h"
+#include "log.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "cartridge.h"
@@ -217,9 +218,8 @@ static int  (*crt_attach_func)(int type, const char *filename) = NULL;
 static void (*crt_freeze_func)(void) = NULL;
 static void (*crt_detach_func)(int type) = NULL;
 static cartridge_info_t *(*crt_list_func)(void) = NULL;
-static void (*crt_default_func)(void) = NULL;
-static const char * (*crt_filename_func)(void) = NULL;
-static void (*crt_wipe_func)(void) = NULL;
+static void (*crt_set_default_func)(void) = NULL;
+static void (*crt_unset_default_func)(void) = NULL;
 
 /* references to widgets used in various event handlers */
 static GtkWidget *cart_dialog = NULL;
@@ -575,7 +575,7 @@ static int attach_cart_image(int type, int id, const char *path)
             /* set cart as default, there's no return value, so let's assume
              * this works */
             debug_gtk3("setting cart with ID %04x as default.", id);
-                crt_default_func();
+            crt_set_default_func();
         }
         return 1;
     }
@@ -950,34 +950,19 @@ void uicart_set_detach_func(void (*func)(int))
  *
  * \param[in]   func    default func
  */
-void uicart_set_default_func(void (*func)(void))
+void uicart_set_set_default_func(void (*func)(void))
 {
-    crt_default_func = func;
+    crt_set_default_func = func;
 }
 
-
-/** \brief  Set function to get filename of currently attached cart
+/** \brief  Set function to set active cart as default
  *
- * \param[in]   func    filename func
+ * \param[in]   func    default func
  */
-void uicart_set_filename_func(const char * (*func)(void))
+void uicart_set_unset_default_func(void (*func)(void))
 {
-    crt_filename_func = func;
+    crt_unset_default_func = func;
 }
-
-
-/** \brief  Set function to wipe internal cart filename to allow resources to work
- *
- * \param[in]   func    wipe func
- */
-void uicart_set_wipe_func(void (*func)(void))
-{
-    crt_wipe_func = func;
-}
-
-
-
-
 
 /** \brief  Try to smart-attach a cartridge image
  *
@@ -1038,59 +1023,51 @@ gboolean uicart_trigger_freeze(void)
 
 /** \brief  Detach all cartridge images
  *
- * TODO: Doesn't work for carts like Expert, these seem to have their own
- *       resources and not use the CartridgeType/CartridgeFile resources.
+ * TODO: The question about removing the default enabled cartridge doesn't 
+ *       work for carts not on "slot 1", these seem to their own "enabled"
+ *       resources and do not use the CartridgeType/CartridgeFile resources.
  *
  * \return  TRUE
  */
 gboolean uicart_detach(void)
 {
-    const char *default_cart;
-    const char *current_cart;
+    int cartid = CARTRIDGE_NONE;
+    gboolean result;
 
     if (crt_detach_func != NULL) {
-        resources_get_string("CartridgeFile", &default_cart);
-        debug_gtk3("default cartidge file = '%s'.",
-                default_cart == NULL || *default_cart == '\0'
-                ? NULL : default_cart);
 
-        if (crt_filename_func != NULL) {
-            current_cart = crt_filename_func();
+        /* determine if one of the attached cartridges is set as default
+           cartridge, and if so ask if it should be removed from default also */
 
-            debug_gtk3("current cartridge file = '%s'.", current_cart);
-
-            if ((current_cart != NULL && default_cart != NULL)) {
-                if (strcmp(default_cart, current_cart) == 0) {
-                    gboolean result;
-
-                    debug_gtk3("names match: pop up UI to ask to delete"
-                            " default cart from resources.");
-
+        /* first check if the set_default and unset_default functions exist. some
+           emulators do not have this feature, in this case we just use detach */
+        if (crt_set_default_func != NULL) {
+            if (crt_unset_default_func != NULL) {
+                /* when both functions exist, check if the default is actually set */
+                /* FIXME: perhaps we should have a dedicated function for getting the,
+                          id of slot1 default cart, however this will work for a start */
+                resources_get_int("CartridgeType", &cartid);
+                if (cartid != CARTRIDGE_NONE) {
+                    /* default is set, ask to remove it */
                     result = vice_gtk3_message_confirm("Detach cartridge",
-                            "You're detaching the default cartridge '%s'.\n\n"
+                            "You're detaching the default cartridge.\n\n"
                             "Would you also like to unregister this cartridge"
-                            " as the default cartridge?",
-                            default_cart);
+                            " as the default cartridge?");
                     if (result) {
-                        debug_gtk3("removing default cart (still requires"
-                                " saving resources.");
-                        if (crt_wipe_func != NULL) {
-                            debug_gtk3("wiping internal ctr file name(s).");
-                            crt_wipe_func();
-                        }
-                        /* does this actually do anything, seeing how I
-                         * need to wipe internal vars in cart code? */
-#if 0
-                        if (resources_set_string("CartridgeFile", "") != 0) {
-                            debug_gtk3("failed to set resource.");
-                        }
-#endif
+                        crt_unset_default_func();
                     }
                 }
-           }
-           debug_gtk3("detaching latest cartridge image.");
-           crt_detach_func(-1);
-       }
+                /* FIXME: the above will only check/ask for "slot1" cartridges. other
+                          cartridges have seperate "enable" resources which would
+                          have to be checked individually. perhaps make a dedicated
+                          function for this later */
+            } else {
+                log_message(LOG_DEFAULT, "FIXME: cartridge_set_default exists, but cartridge_unset_default is not implemented");
+            }
+        }
+
+        debug_gtk3("detaching all cartridges.");
+        crt_detach_func(-1);    /* detach all cartridges */
     }
     return TRUE;
 }

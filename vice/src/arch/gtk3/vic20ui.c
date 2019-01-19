@@ -126,9 +126,12 @@ int vic20ui_init(void)
     settings_sampler_set_devices_getter(sampler_get_devices);
 
     /* I/O extension function pointers */
-    carthelpers_set_functions(cartridge_save_image, cartridge_flush_image,
-            cartridge_type_enabled, 
-            NULL, NULL,
+    carthelpers_set_functions(
+            cartridge_save_image,
+            cartridge_flush_image,
+            cartridge_type_enabled,
+            NULL, /* cartridge_enable */
+            NULL, /* cartridge_disable */
             cartridge_can_save_image,
             cartridge_can_flush_image);
 
@@ -137,7 +140,9 @@ int vic20ui_init(void)
     uicart_set_attach_func(cartridge_attach_image);
 /*    uicart_set_freeze_func(cartridge_trigger_freeze); */
     uicart_set_detach_func(cartridge_detach_image);
-    uicart_set_default_func(cartridge_set_default);
+    uicart_set_set_default_func(cartridge_set_default);
+/*    uicart_set_unset_default_func(cartridge_unset_default); */
+
     return 0;
 }
 
