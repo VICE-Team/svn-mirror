@@ -90,16 +90,16 @@ typedef struct vice_opengl_renderer_context_s {
      *         takes up (1.0f=entire height). */
     float scale_y;
     /** \brief X coordinate of leftmost pixel that needs to be updated
-     * in the texture. */
+     *         in the texture. */
     unsigned int dirty_x;
     /** \brief Y coordinate of topmost pixel that needs to be updated
-     * in the texture. */
+     *         in the texture. */
     unsigned int dirty_y;
     /** \brief Width of the rectangle that needs to be updated in the
-     * texture. */
+     *         texture. */
     unsigned int dirty_w;
     /** \brief Height of the rectangle that needs to be updated in the
-     * texture. */
+     *         texture. */
     unsigned int dirty_h;
     /** \brief What preprocessing the texture will need pre-rendering.
      *
@@ -107,6 +107,14 @@ typedef struct vice_opengl_renderer_context_s {
      * RENDER_MODE_DIRTY_RECT.
      */
     unsigned int render_mode;
+    /** \brief Which rendering technique we will use to draw the
+     *         display.
+     *
+     * If true, the OpenGL calls will stay restricted to calls
+     * available in OpenGL 1.1. Otherwise, a renderer based on Gtk3's
+     * default of OpenGL 3.2 will be used.
+     */
+    int legacy_renderer;
 } context_t;
 
 /** \brief Raw geometry for the machine screen.
@@ -126,7 +134,7 @@ static float vertexData[] = {
          1.0f,     0.0f
 };
 
-/** \brief Our renderer's vertex shader. 
+/** \brief Our renderer's vertex shader.
  *
  * This simply scales the geometry it is provided and provides
  * smoothly interpolated texture coordinates between each vertex. The
@@ -243,7 +251,7 @@ static void create_shader_program(context_t *ctx)
  *          some displays will successfully render as a 3.2 context
  *          even when the driver only purports to support up to
  *          2.1. It is not clear exactly what the requirements truly
- *          are. 
+ *          are.
  */
 static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
 {
@@ -274,20 +282,29 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     if (!GLEW_VERSION_3_2) {
         log_warning(LOG_DEFAULT, "GTKGL: OpenGL version 3.2 not supported in this context");
     }
+    if (!GLEW_VERSION_1_1) {
+        log_error(LOG_DEFAULT, "GTKGL: OpenGL cannot be initialized even in legacy mode");
+        log_error(LOG_ERR, "GTKGL: OpenGL cannot be initialized even in legacy mode");
+        return;
+    }
 #endif
 
     context = gtk_gl_area_get_context(GTK_GL_AREA(area));
-    log_message(LOG_DEFAULT, "GdkGlkContext is in legacy mode: %s.",
-            gdk_gl_context_is_legacy(context) ? "True" : "False");
+    ctx->legacy_renderer = gdk_gl_context_is_legacy(context);
+    log_message(LOG_DEFAULT, "GdkGlkContext is in %s mode.",
+            ctx->legacy_renderer ? "legacy (OpenGL 1.1)" : "modern (OpenGL 3.2)");
 
-    /* TODO: If it is in fact legacy mode, we need a different rending
-     *       strategy. */
-    create_shader_program(ctx);
-    glGenBuffers(1, &ctx->vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glGenVertexArrays(1, &ctx->vao);
+    if (!ctx->legacy_renderer) {
+        /* Initialize the ancillary data structures the modern renderer uses */
+        create_shader_program(ctx);
+        glGenBuffers(1, &ctx->vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glGenVertexArrays(1, &ctx->vao);
+    }
+    /* The legacy renderer has no data unique to it */
+    /* Initialize the ancillary data structures all renderers use */
     glGenTextures(1, &ctx->texture);
 }
 
@@ -315,7 +332,12 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         /* Nothing else to do */
         return TRUE;
     }
-    glActiveTexture(GL_TEXTURE0);
+    if (!ctx->legacy_renderer) {
+        /* Multitexturing was added in OpenGL 1.3; the legacy renderer
+         * doesn't need it, but the modern one does so that the pixel
+         * shader knows where to grab stuff from */
+        glActiveTexture(GL_TEXTURE0);
+    }
     if (ctx->render_mode == RENDER_MODE_NEW_TEXTURE) {
         if (ctx->texture == 0) {
             log_error(LOG_ERR, "GTKGL: No texture generated!");
@@ -328,7 +350,7 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        /* These should be selectable as GL_LINEAR or GL_NEAREST */
+        /** \todo The GTK OpenGL texture filters should be selectable as GL_LINEAR vs GL_NEAREST */
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -340,30 +362,52 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glBindTexture(GL_TEXTURE_2D, 0);
     }
     ctx->render_mode = RENDER_MODE_STATIC;
-    if (ctx->program) {
-        GLuint scale_uniform, sampler_uniform;
-
-        glUseProgram(ctx->program);
-
-        glBindVertexArray(ctx->vao);
-        glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(ctx->position_index, 4, GL_FLOAT, GL_FALSE, 0, 0);
-        glVertexAttribPointer(ctx->tex_coord_index, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
-
-        scale_uniform = glGetUniformLocation(ctx->program, "scale");
-        glUniform4f(scale_uniform, ctx->scale_x, ctx->scale_y, 1.0f, 1.0f);
-        sampler_uniform = glGetUniformLocation(ctx->program, "sampler");
-        glUniform1i(sampler_uniform, 0);
-
+    if (ctx->legacy_renderer) {
+        /* Legacy renderer */
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_TEXTURE_2D);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        glBegin(GL_TRIANGLE_STRIP);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2f(-ctx->scale_x, -ctx->scale_y);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2f(ctx->scale_x, -ctx->scale_y);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2f(-ctx->scale_x, ctx->scale_y);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2f(ctx->scale_x, ctx->scale_y);
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+    } else {
+        /* Modern renderer */
+        if (ctx->program) {
+            GLuint scale_uniform, sampler_uniform;
 
-        glDisableVertexAttribArray(ctx->position_index);
-        glDisableVertexAttribArray(ctx->tex_coord_index);
-        glUseProgram(0);
+            glUseProgram(ctx->program);
+
+            glBindVertexArray(ctx->vao);
+            glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(ctx->position_index, 4, GL_FLOAT, GL_FALSE, 0, 0);
+            glVertexAttribPointer(ctx->tex_coord_index, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
+
+            /** \todo cache the uniform locations along with the vertex attributes */
+            scale_uniform = glGetUniformLocation(ctx->program, "scale");
+            glUniform4f(scale_uniform, ctx->scale_x, ctx->scale_y, 1.0f, 1.0f);
+            sampler_uniform = glGetUniformLocation(ctx->program, "sampler");
+            glUniform1i(sampler_uniform, 0);
+
+            glBindTexture(GL_TEXTURE_2D, ctx->texture);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            glDisableVertexAttribArray(ctx->position_index);
+            glDisableVertexAttribArray(ctx->tex_coord_index);
+            glUseProgram(0);
+        }
     }
 
     return TRUE;
@@ -445,7 +489,7 @@ static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
 }
 
 /** \brief OpenGL implementation of destroy_context.
- * 
+ *
  *  \param canvas The canvas whose renderer_context is to be
  *                deleted
  *  \sa vice_renderer_backend_s::destroy_context
