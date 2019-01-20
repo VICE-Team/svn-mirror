@@ -80,8 +80,10 @@ static char *argv0 = NULL;
 const char *archdep_pref_path = NULL;
 
 
+#if 0
 #ifdef UNIX_COMPILE
 #include "archdep_unix.c"
+#endif
 #endif
 
 #ifdef WIN32_COMPILE

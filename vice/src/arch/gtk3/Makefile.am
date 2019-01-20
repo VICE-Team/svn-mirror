@@ -113,9 +113,9 @@ libarch_a_SOURCES = \
 	vsyncarch.c
 
 EXTRA_DIST = \
+	Info.plist \
+	Resources/VICE.icns \
 	archdep.h \
-	archdep_unix.c \
-	archdep_unix.h \
 	archdep_win32.c \
 	archdep_win32.h \
 	cairo_renderer.h \
@@ -132,6 +132,7 @@ EXTRA_DIST = \
 	joy.h \
 	kbd.h \
 	linenoise.h \
+	macOS-launcher.sh \
 	make-bindist_osx.sh \
 	make-bindist_win32.sh \
 	mousedrv.h \
@@ -158,8 +159,8 @@ EXTRA_DIST = \
 	uimachinewindow.h \
 	uimedia.h \
 	uimenu.h \
-	uimonarch.h \
 	uimon-fallback.h \
+	uimonarch.h \
 	uinetplay.h \
 	uinetplay_new.h \
 	uisettings.h \
@@ -172,10 +173,7 @@ EXTRA_DIST = \
 	uivideo.h \
 	uivsidmenu.h \
 	uivsidwindow.h \
+	vice-launcher.sh \
 	videoarch.h \
 	winjoy.h \
-	Info.plist \
-	macOS-launcher.sh \
-	Resources/VICE.icns \
-	vice-launcher.sh \
 	x11-launcher.sh
