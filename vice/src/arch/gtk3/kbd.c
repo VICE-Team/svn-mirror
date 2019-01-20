@@ -269,18 +269,25 @@ static gboolean kbd_hotkey_handle(GdkEvent *report)
     int i = 0;
     gint code = report->key.keyval;
 
+#if 0
     debug_gtk3("got code %d.", code);
-
+#endif
     if (((GdkEventKey*)(report))->state & VICE_MOD_MASK) {
 
         while (i < hotkeys_count) {
+#if 0
             debug_gtk3("checking index %d: hotkey %d, mask %d",
                     i, hotkeys_list[i].code, hotkeys_list[i].mask);
+#endif
             if (hotkeys_list[i].code == code) {
+#if 0
                 debug_gtk3("Got non-modified key %d.", code);
+#endif
                 if (report->key.state & hotkeys_list[i].mask) {
+#if 0
                         debug_gtk3("got modifers");
                         debug_gtk3("triggering callback of hotkey with index %d.", i);
+#endif
                         hotkeys_list[i].callback();
                         return TRUE;
                     }
