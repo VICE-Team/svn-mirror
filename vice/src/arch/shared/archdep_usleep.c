@@ -1,7 +1,8 @@
-/** \file   archdep_win32.c
- * \brief   Miscellaneous Windows-specific stuff
+/** \file   archdep_usleep.c
+ * \brief   usleep replacements for OS'es that don't support usleep
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -26,22 +27,29 @@
  */
 
 #include "vice.h"
+
 #include <windows.h>
+#include <stdint.h>
 
 #include "archdep.h"
+#include "archdep_defs.h"
+
+#include "archdep_usleep.h"
 
 
-int is_windows_nt(void)
+#ifdef ARCHDEP_OS_WINDOWS
+
+/* Provide a usleep replacement */
+void archdep_usleep(uint64_t waitTime)
 {
-    OSVERSIONINFO os_version_info;
+    uint64_t time1 = 0, time2 = 0, freq = 0;
 
-    ZeroMemory(&os_version_info, sizeof(os_version_info));
-    os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
+    QueryPerformanceCounter((LARGE_INTEGER *) &time1);
+    QueryPerformanceFrequency((LARGE_INTEGER *)&freq);
 
-    GetVersionEx(&os_version_info);
-
-    if (os_version_info.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-        return 1;
-    }
-    return 0;
+    do {
+        QueryPerformanceCounter((LARGE_INTEGER *) &time2);
+    } while((time2-time1) < waitTime);
 }
+
+#endif
