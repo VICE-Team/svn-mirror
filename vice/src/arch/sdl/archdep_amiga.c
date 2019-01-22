@@ -244,7 +244,8 @@ char *archdep_default_hotkey_file_name(void)
     const char *home;
 
     home = archdep_boot_path();
-    return util_concat(home, "sdl-hotkey-", machine_get_name(), ".vkm", NULL);
+
+    return util_concat(home, "/sdl-hotkey-", machine_get_name(), ".vkm", NULL);
 }
 
 char *archdep_default_joymap_file_name(void)
@@ -252,7 +253,7 @@ char *archdep_default_joymap_file_name(void)
     const char *home;
 
     home = archdep_boot_path();
-    return util_concat(home, "sdl-joymap-", machine_get_name(), ".vjm", NULL);
+    return util_concat(home, "/sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
 
