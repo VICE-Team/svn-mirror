@@ -30,8 +30,13 @@
 #ifndef ARCHDEP_USLEEP_H
 #define ARCHDEP_USLEEP_H
 
+#include "archdep_defs.h"
+
+#ifdef ARCHDEP_OS_WINDOWS
+
 #include <stdint.h>
 
 void archdep_usleep(uint64_t waitTime);
 
+#endif
 #endif

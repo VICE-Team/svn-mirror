@@ -26,7 +26,7 @@
  *
  */
 
-#include "vice.h"
+#ifdef ARCHDEP_OS_WINDOWS
 
 #include <windows.h>
 #include <stdint.h>
@@ -36,8 +36,6 @@
 
 #include "archdep_usleep.h"
 
-
-#ifdef ARCHDEP_OS_WINDOWS
 
 /* Provide a usleep replacement */
 void archdep_usleep(uint64_t waitTime)
