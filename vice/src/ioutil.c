@@ -60,11 +60,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifdef __NeXT__
-#include <sys/dir.h>
-#define dirent direct
-#endif
-
 #include "archdep.h"
 #include "ioutil.h"
 #include "lib.h"

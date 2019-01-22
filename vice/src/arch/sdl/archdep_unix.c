@@ -66,10 +66,6 @@
 
 #include "../shared/archdep_user_config_path.h"
 
-#ifdef __NeXT__
-#define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
-#endif
-
 
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */

@@ -41,10 +41,6 @@
 
 #include <sys/types.h>
 
-#ifdef NeXT
-#include <netinet/in_systm.h>
-#endif
-
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -74,12 +70,7 @@
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
- 
-#ifndef NeXT
-#  ifdef HAVE_LIBC_H
-#    include <libc.h>
-#  endif
-#endif
+
 
 #include <unistd.h>
 
