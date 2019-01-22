@@ -80,40 +80,6 @@ static char *argv0 = NULL;
 const char *archdep_pref_path = NULL;
 
 
-#if 0
-#ifdef UNIX_COMPILE
-#include "archdep_unix.c"
-#endif
-#endif
-
-#ifdef WIN32_COMPILE
-#include "archdep_win32.c"
-#endif
-
-
-#if 0
-/** \brief  Create and open temp file
- *
- * \param[in]   filename    pointer to object to store name of temp file
- * \param[in]   mode        mode to open file with (see fopen(3))
- *
- * \return  pointer to new file or `NULL` on error
- */
-FILE *archdep_mkstemp_fd(char **filename, const char *mode)
-{
-    GError *err = NULL;
-    /* this function already uses the OS's tmp dir as a prefix, so no need to
-     * do stuff like getenv("TMP")
-     */
-    int fd = g_file_open_tmp("vice.XXXXXX", filename, &err);
-    if (fd < 0) {
-        return NULL;
-    }
-    return fdopen(fd, mode);
-}
-#endif
-
-
 /** \brief  Arch-dependent init
  *
  * \param[in]   argc    pointer to argument count
@@ -224,5 +190,4 @@ void archdep_shutdown(void)
     archdep_network_shutdown();
 #endif
 }
-
 

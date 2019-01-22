@@ -1,8 +1,7 @@
-/** \file   archdep_usleep.c
- * \brief   usleep replacements for OS'es that don't support usleep
+/** \file   archdep_is_windows_nt.c
+ * \brief   Determine if Windows is 'NT', whatever that means
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
- * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -27,27 +26,27 @@
  */
 
 #include "archdep_defs.h"
+
 #ifdef ARCHDEP_OS_WINDOWS
 
 #include <windows.h>
-#include <stdint.h>
 
-#include "archdep.h"
-
-#include "archdep_usleep.h"
+#include "archdep_is_windows_nt.h"
 
 
-/* Provide a usleep replacement */
-void archdep_usleep(uint64_t waitTime)
+int archdep_is_windows_nt(void)
 {
-    uint64_t time1 = 0, time2 = 0, freq = 0;
+    OSVERSIONINFO os_version_info;
 
-    QueryPerformanceCounter((LARGE_INTEGER *) &time1);
-    QueryPerformanceFrequency((LARGE_INTEGER *)&freq);
+    ZeroMemory(&os_version_info, sizeof(os_version_info));
+    os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
 
-    do {
-        QueryPerformanceCounter((LARGE_INTEGER *) &time2);
-    } while((time2-time1) < waitTime);
+    GetVersionEx(&os_version_info);
+
+    if (os_version_info.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+        return 1;
+    }
+    return 0;
 }
 
 #endif

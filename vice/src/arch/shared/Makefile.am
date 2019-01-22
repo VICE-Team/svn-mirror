@@ -32,6 +32,7 @@ libarchdep_a_SOURCES = \
 	archdep_get_vice_datadir.c \
 	archdep_get_vice_docsdir.c \
 	archdep_home_path.c \
+	archdep_is_windows_nt.c \
 	archdep_join_paths.c \
 	archdep_make_backup_filename.c \
 	archdep_mkdir.c \
@@ -74,6 +75,7 @@ EXTRA_DIST = \
 	archdep_get_vice_datadir.h \
 	archdep_get_vice_docsdir.h \
 	archdep_home_path.h \
+	archdep_is_windows_nt.h \
 	archdep_join_paths.h \
 	archdep_make_backup_filename.h \
 	archdep_mkdir.h \

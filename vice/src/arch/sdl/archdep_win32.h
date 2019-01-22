@@ -124,6 +124,6 @@ extern void archdep_workaround_nop(const char *otto);
 
 void archdep_usleep(uint64_t waitTime);
 
-extern int is_windows_nt(void);
+int archdep_is_windows_nt(void);
 
 #endif

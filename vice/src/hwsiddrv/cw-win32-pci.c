@@ -268,7 +268,7 @@ static int has_pci(void)
     HKEY hKey;
     LONG ret;
 
-    if (is_windows_nt()) {
+    if (archdep_is_windows_nt()) {
         return 1;
     }
 

@@ -117,7 +117,6 @@ EXTRA_DIST = \
 	Resources/VICE.icns \
 	archdep.h \
 	archdep_unix.h \
-	archdep_win32.c \
 	archdep_win32.h \
 	cairo_renderer.h \
 	coproc.h \

@@ -1,5 +1,5 @@
-/** \file   archdep_win32.c
- * \brief   Miscellaneous Windows-specific stuff
+/** \file   archdep_is_windows_nt.h
+ * \brief   Determine if Windows is 'NT', whatever that means - header
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  */
@@ -25,23 +25,16 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_ARCHDEP_IS_WINDOWS_NT_H
+#define VICE_ARCHDEP_IS_WINDOWS_NT_H
+
+#include "archdep_defs.h"
+
+#ifdef ARCHDEP_OS_WINDOWS
+
 #include <windows.h>
 
-#include "archdep.h"
+int archdep_is_windows_nt(void);
 
-
-int is_windows_nt(void)
-{
-    OSVERSIONINFO os_version_info;
-
-    ZeroMemory(&os_version_info, sizeof(os_version_info));
-    os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
-
-    GetVersionEx(&os_version_info);
-
-    if (os_version_info.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-        return 1;
-    }
-    return 0;
-}
+#endif
+#endif
