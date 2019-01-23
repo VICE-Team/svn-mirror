@@ -378,3 +378,8 @@ int cartridge_attach_image(int type, const char *filename)
 
     return -1;
 }
+
+void cartridge_unset_default(void)
+{
+}
+

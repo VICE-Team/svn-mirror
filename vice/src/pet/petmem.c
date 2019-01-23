@@ -1894,3 +1894,12 @@ int cartridge_attach_image(int type, const char *name)
 {
     return -1;
 }
+
+void cartridge_detach_image(int type)
+{
+}
+
+void cartridge_unset_default(void)
+{
+}
+

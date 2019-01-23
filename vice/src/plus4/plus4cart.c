@@ -130,6 +130,10 @@ void cartridge_resources_shutdown(void)
 {
 }
 
+void cartridge_unset_default(void)
+{
+}
+
 /* ---------------------------------------------------------------------*/
 
 static void cart_power_off(void)

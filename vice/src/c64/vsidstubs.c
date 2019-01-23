@@ -180,6 +180,10 @@ int cartridge_attach_image(int type, const char *filename)
     return -1;
 }
 
+void cartridge_detach_image(int type)
+{
+}
+
 uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
 {
     return mem_phi;
@@ -188,6 +192,10 @@ uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
 uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
 {
     return mem_phi;
+}
+
+void cartridge_unset_default(void)
+{
 }
 
 midi_interface_t midi_interface[] = {

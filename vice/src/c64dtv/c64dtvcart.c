@@ -70,6 +70,10 @@ void cartridge_set_default(void)
 {
 }
 
+void cartridge_unset_default(void)
+{
+}
+
 void cartridge_init(void)
 {
 }
