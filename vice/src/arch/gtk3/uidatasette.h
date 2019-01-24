@@ -34,5 +34,6 @@
 GtkWidget *ui_create_datasette_control_menu(void);
 
 void ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data);
+void ui_datasette_update_sensitive(GtkWidget *menu);
 
 #endif

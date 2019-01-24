@@ -572,9 +572,17 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
     int i = GPOINTER_TO_INT(data);
 
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
+
+
         if (allocated_bars[i].tape && allocated_bars[i].tape_menu
                 && event->type == GDK_BUTTON_PRESS) {
-            gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
+
+            GtkWidget *tape_menu = allocated_bars[i].tape_menu;
+
+            /* update sensitivity of tape controls */
+            ui_datasette_update_sensitive(tape_menu);
+
+            gtk_menu_popup_at_widget(GTK_MENU(tape_menu),
                                      allocated_bars[i].tape,
                                      GDK_GRAVITY_NORTH_EAST,
                                      GDK_GRAVITY_SOUTH_EAST,

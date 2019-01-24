@@ -28,6 +28,7 @@
 #include "vice.h"
 #include "uidatasette.h"
 #include "datasette.h"
+#include "resources.h"
 #include "uitapeattach.h"
 #include "uisettings.h"
 
@@ -92,4 +93,36 @@ GtkWidget *ui_create_datasette_control_menu(void)
 
     gtk_widget_show_all(menu);
     return menu;
+}
+
+
+/** \brief  Update sensitivity of the datasettet controls
+ *
+ * Disables/enables the datasette controls (keys), depending on whether the
+ * datasette is enabled.
+ *
+ * \param[in,out]   menu    tape menu
+ */
+void ui_datasette_update_sensitive(GtkWidget *menu)
+{
+    int datasette;
+    int y;
+    GList *children;
+    GList *controls;
+
+    resources_get_int("Datasette", &datasette);
+
+    /* get all children of the menu */
+    children = gtk_container_get_children(GTK_CONTAINER(menu));
+    /* skip 'Attach', 'Detach' and separator item */
+    controls = g_list_nth(children, 3);
+
+    for (y = 0; y <= DATASETTE_CONTROL_RESET_COUNTER; y++) {
+        GtkWidget *item = controls->data;
+        gtk_widget_set_sensitive(item, datasette);
+        controls = g_list_next(controls);
+    }
+
+    /* free list of children */
+    g_list_free(children);
 }
