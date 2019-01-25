@@ -93,4 +93,27 @@ void ui_enable_mixer_controls(int enabled);
 
 GtkWidget *ui_get_window_by_index(int index);
 
+
+#define UI_DRAG_TARGETS_COUNT   3
+
+extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
+
+gboolean ui_on_drag_drop(
+        GtkWidget *widget,
+        GdkDragContext *context,
+        gint x,
+        gint y,
+        guint time,
+        gpointer data);
+
+void ui_on_drag_data_received(
+        GtkWidget *widget,
+        GdkDragContext *context,
+        int x,
+        int y,
+        GtkSelectionData *data,
+        guint info,
+        guint time);
+
+
 #endif

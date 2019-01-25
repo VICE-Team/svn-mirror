@@ -294,7 +294,7 @@ enum {
  * It would appear different OS'es/WM's pass dropped files using various
  * mime-types.
  */
-static GtkTargetEntry drag_targets[] = {
+GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT] = {
     { "text/plain",     0, DT_TEXT },   /* we get this on at least my Linux
                                            box with Mate */
     { "text/uri",       0, DT_URI },
@@ -352,8 +352,8 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  * \param[in]   y       y position of drag event
  * \param[in]   time    (I don't have a clue)
  * \param[in]   data    extra event data (unused)
- */ 
-static gboolean on_drag_drop(
+ */
+gboolean ui_on_drag_drop(
         GtkWidget *widget,
         GdkDragContext *context,
         gint x,
@@ -381,7 +381,7 @@ static gboolean on_drag_drop(
  * \todo    Once this works properly, remove a lot of debugging calls, perhaps
  *          changing a few into log calls.
  */
-static void on_drag_data_received(
+void ui_on_drag_data_received(
         GtkWidget *widget,
         GdkDragContext *context,
         int x,
@@ -1159,13 +1159,13 @@ void ui_create_main_window(video_canvas_t *canvas)
     gtk_drag_dest_set(
             new_window,
             GTK_DEST_DEFAULT_ALL,
-            drag_targets,
-            (int)(sizeof drag_targets / sizeof drag_targets[0]),
+            ui_drag_targets,
+            UI_DRAG_TARGETS_COUNT,
             GDK_ACTION_COPY);
     g_signal_connect(new_window, "drag-data-received",
-                     G_CALLBACK(on_drag_data_received), NULL);
+                     G_CALLBACK(ui_on_drag_data_received), NULL);
     g_signal_connect(new_window, "drag-drop",
-                     G_CALLBACK(on_drag_drop), NULL);
+                     G_CALLBACK(ui_on_drag_drop), NULL);
     if (ui_resources.start_minimized) {
         gtk_window_iconify(GTK_WINDOW(new_window));
     }

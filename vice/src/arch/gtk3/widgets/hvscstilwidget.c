@@ -38,6 +38,7 @@
 #include "debug_gtk3.h"
 #include "hvsc.h"
 #include "vsidtuneinfowidget.h"
+#include "ui.h"
 
 #include "hvscstilwidget.h"
 
@@ -45,7 +46,6 @@
 /** \brief  GtkTextArea used to present the STIL entry
  */
 static GtkWidget *stil_view;
-
 
 
 static int hvsc_stil_widget_create_tags(void)
@@ -172,6 +172,18 @@ GtkWidget *hvsc_stil_widget_create(void)
             GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scroll), stil_view);
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
+
+    /* set up drag-drop */
+    gtk_drag_dest_set(
+            stil_view,
+            GTK_DEST_DEFAULT_ALL,
+            ui_drag_targets,
+            UI_DRAG_TARGETS_COUNT,
+            GDK_ACTION_COPY);
+    g_signal_connect(stil_view, "drag-data-received",
+                     G_CALLBACK(ui_on_drag_data_received), NULL);
+    g_signal_connect(stil_view, "drag-drop",
+                     G_CALLBACK(ui_on_drag_drop), NULL);
 
     gtk_widget_set_vexpand(grid, TRUE);
     gtk_widget_show_all(grid);
