@@ -51,21 +51,8 @@ static GtkWidget *tune_info_widget;
 static GtkWidget *control_widget;
 static GtkWidget *mixer_widget;
 static GtkWidget *stil_widget;
-
-/*
- * Disable unfinished playlist widget
- *
- * I probably won't be able to work this into a proper functioning widget
- * before the code freeze in about a week (2018-12-03), so until 3.3 is
- * released this will be disabled. The Wiki contains items about "playlist"
- * and "HVSC browser" support, so this should not be forgotten. And I also
- * would like to properly implement those things, soon.
- *
- * --compyx
- */
-#if 0
 static GtkWidget *playlist_widget;
-#endif
+
 
 
 /** \brief  Create VSID main widget
@@ -97,10 +84,9 @@ GtkWidget *vsid_main_widget_create(void)
     gtk_widget_set_vexpand(stil_widget, TRUE);
     gtk_grid_attach(GTK_GRID(grid), stil_widget, 1, 0, 1, 4);
 
-#if 0
     playlist_widget = vsid_playlist_widget_create();
     gtk_grid_attach(GTK_GRID(grid), playlist_widget, 2, 0, 1, 4);
-#endif
+
     gtk_widget_show_all(grid);
     main_widget = grid;
     return grid;
