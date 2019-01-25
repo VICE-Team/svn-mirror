@@ -73,7 +73,7 @@ GtkWidget *ui_create_datasette_control_menu(void)
     g_signal_connect(item, "activate", G_CALLBACK(ui_tape_detach_callback), NULL);
     gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
     menu_items[0] = gtk_menu_item_new_with_label("Stop");
-    menu_items[1] = gtk_menu_item_new_with_label("Start");
+    menu_items[1] = gtk_menu_item_new_with_label("Play");
     menu_items[2] = gtk_menu_item_new_with_label("Forward");
     menu_items[3] = gtk_menu_item_new_with_label("Rewind");
     menu_items[4] = gtk_menu_item_new_with_label("Record");
