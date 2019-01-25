@@ -55,6 +55,7 @@ static void archdep_shutdown_extra(void);
 #endif
 
 #include "kbd.h"
+#include "log.h"
 
 #ifndef SDL_REALINIT
 #define SDL_REALINIT SDL_Init

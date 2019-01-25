@@ -37,6 +37,7 @@
 #endif
 
 #include "lib.h"
+#include "log.h"
 #include "sound.h"
 
 #ifdef ANDROID_COMPILE
@@ -106,6 +107,13 @@ static int sdl_init(const char *param, int *speed,
 {
     SDL_AudioSpec spec;
     int nr;
+    int i;
+
+    log_message(LOG_DEFAULT, "SDLAudio: list of drivers:");
+    for (i = 0; i < SDL_GetNumAudioDrivers(); i++) {
+        log_message(LOG_DEFAULT, "SDLAudio: %d: %s", i, SDL_GetAudioDriver(i));
+    }
+
 
     memset(&spec, 0, sizeof(spec));
     spec.freq = *speed;
@@ -126,13 +134,29 @@ static int sdl_init(const char *param, int *speed,
      *       to get an idea of the whole mess
      */
     if (SDL_OpenAudio(&spec, &sdl_spec)) {
+        log_message(LOG_DEFAULT, "SDLAudio: SDL_OpenAudio() failed: %s",
+                SDL_GetError());
         return 1;
     }
 
-    if ((sdl_spec.format != AUDIO_S16 && sdl_spec.format != AUDIO_S16MSB) || sdl_spec.channels != *channels) {
+    /*
+     * The driver can be selected by using the environment variable
+     * 'SDL_AUDIODRIVER', so for example:
+     * $ SDL_AUDIODRIVER="directsound" x64sc.exe
+     */
+    log_message(LOG_DEFAULT, "SDLAudio: current driver: %s",
+            SDL_GetCurrentAudioDriver());
+
+
+
+    if ((sdl_spec.format != AUDIO_S16 && sdl_spec.format != AUDIO_S16MSB)
+            || sdl_spec.channels != *channels) {
         SDL_CloseAudio();
+        log_message(LOG_DEFAULT, "SDLAudio: got invalid audio spec.");
         return 1;
     }
+    log_message(LOG_DEFAULT, "SDLAudio: got proper audio spec.");
+
 
     /* recalculate the number of fragments since the frag size might
      * have changed and we want to keep approximately the same
