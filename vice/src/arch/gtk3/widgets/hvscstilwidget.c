@@ -297,12 +297,19 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
                 if (to < 0) {
                     g_snprintf(line, 1024,
-                            "%ld:%02ld\n",
-                            from / 60, from % 60);
+                            "%ld:%02ld.%03ld\n",
+                            from / 60 / 1000,
+                            (from / 1000) % 60,
+                            (from % 1000));
                 } else {
                     g_snprintf(line, 1024,
-                            "%ld:%02ld-%ld:%02ld\n",
-                            from / 60, from % 60, to / 60, to % 60);
+                            "%ld:%02ld.%03ld-%ld:%02ld.%03d\n",
+                            from / 60 / 1000,
+                            (from / 1000) % 60,
+                            (from % 1000),
+                            to / 60 / 1000,
+                            (to / 1000) % 60,
+                            (to % 1000));
                 }
 
                 gtk_text_buffer_insert_with_tags_by_name(
@@ -338,26 +345,6 @@ int hvsc_stil_widget_set_psid(const char *psid)
                 g_free(utf8);
             }
 
-
-            /* artist? */
-            if (block->fields[f]->type == HVSC_FIELD_ARTIST
-                    && block->fields[f]->text != NULL) {
-
-                gchar *utf8;
-
-                g_snprintf(line, 1024, "%s\n", block->fields[f]->text);
-                utf8 = convert_to_utf8(line);
-
-                gtk_text_buffer_insert_with_tags_by_name(
-                        buffer,
-                        &end,
-                        utf8,
-                        -1,
-                        "artist",
-                        NULL);
-                g_free(utf8);
-            }
-
             /* album? */
             if (block->fields[f]->album != NULL) {
 
@@ -377,6 +364,27 @@ int hvsc_stil_widget_set_psid(const char *psid)
 
                 g_free(utf8);
             }
+
+            /* artist? */
+            if (block->fields[f]->type == HVSC_FIELD_ARTIST
+                    && block->fields[f]->text != NULL) {
+
+                gchar *utf8;
+
+                g_snprintf(line, 1024, "%s\n\n", block->fields[f]->text);
+                utf8 = convert_to_utf8(line);
+
+                gtk_text_buffer_insert_with_tags_by_name(
+                        buffer,
+                        &end,
+                        utf8,
+                        -1,
+                        "artist",
+                        NULL);
+                g_free(utf8);
+            }
+
+            /* gtk_text_buffer_insert(buffer, &end, "\n", -1); */
         }
 
         /* add newlines when not last subtune */
