@@ -1192,8 +1192,17 @@ void sdl_ui_init_finalize(void)
 {
     unsigned int width = sdl_active_canvas->draw_buffer->canvas_width;
     unsigned int height = sdl_active_canvas->draw_buffer->canvas_height;
+    int minimized = 0;
+
+    /* unfortunately we cant create the window minimized in SDL1 */
+    resources_get_int("StartMinimized", &minimized);
 
     sdl_canvas_create(sdl_active_canvas, &width, &height); /* set the real canvas size */
+    /* minimize window after it was created */
+    if (minimized) {
+        SDL_WM_IconifyWindow();
+    }
+
     sdl_ui_finalized = 1;
     ui_check_mouse_cursor();
 }
