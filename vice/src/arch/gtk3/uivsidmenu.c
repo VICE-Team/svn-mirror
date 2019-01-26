@@ -324,10 +324,10 @@ GtkWidget *ui_vsid_menu_bar_create(void)
 
     /* create the top-level 'File' menu */
     file_submenu = ui_menu_submenu_create(menu_bar, "File");
-
+#if 0
     /* create the top-level 'Tune' menu */
     tune_submenu = ui_menu_submenu_create(menu_bar, "Tune");
-
+#endif
     /* create the top-level 'Settings' menu */
     settings_submenu = ui_menu_submenu_create(menu_bar, "Settings");
 
