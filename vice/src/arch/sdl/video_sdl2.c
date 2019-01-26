@@ -950,7 +950,7 @@ void sdl_ui_init_finalize(void)
     unsigned int width = sdl_active_canvas->width;
     unsigned int height = sdl_active_canvas->height;
     int flags = sdl_active_canvas->fullscreenconfig->enable ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_RESIZABLE;
-    int i;
+    int i, minimized = 0;
 
     if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_CUSTOM) {
         width *= aspect_ratio;
@@ -959,7 +959,19 @@ void sdl_ui_init_finalize(void)
         width *= sdl_active_canvas->geometry->pixel_aspect_ratio;
     }
 
+    /* create window minimized if -minimized was used */
+    resources_get_int("StartMinimized", &minimized);
+    if (minimized) {
+        flags |= SDL_WINDOW_MINIMIZED;
+    }
+
     sdl_window_create(sdl_active_canvas->viewport->title, width, height, flags);
+
+    /* explicitly minimize incase the window was still not created minimized */
+    if (minimized) {
+        SDL_MinimizeWindow(sdl2_window);
+    }
+
     for (i = 0; i < sdl_num_screens; ++i) {
         video_canvas_resize(sdl_canvaslist[i], 1);
     }
