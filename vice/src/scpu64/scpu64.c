@@ -1192,6 +1192,10 @@ static int check_cart_range(unsigned int addr)
 
 int machine_addr_in_ram(unsigned int addr)
 {
+    /* hack to make autostarting work */
+    if (addr < 0x100) {
+        return 0;
+    }
     return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) && check_cart_range(addr));
 }
 
