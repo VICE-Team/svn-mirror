@@ -947,6 +947,11 @@ void tapeport_set_tape_sense(int sense, int id)
 
 int machine_addr_in_ram(unsigned int addr)
 {
+    /* Hack to make autostarting prg files work */
+    if ((addr >= 0x871) && (addr <= 0x872)) {
+        return 0;
+    }
+
     /* NOTE: while the RAM/ROM distinction is more complicated, this is
        sufficient from autostart's perspective */
     return (addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) ? 1 : 0;
