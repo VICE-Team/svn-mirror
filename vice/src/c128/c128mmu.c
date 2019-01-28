@@ -58,6 +58,9 @@
 /* MMU register.  */
 static uint8_t mmu[12];
 
+/* latches for P0H and P1H */
+static uint8_t p0h_latch, p1h_latch;
+
 /* State of the 40/80 column key.  */
 static int mmu_column4080_key = 1;
 
@@ -306,10 +309,23 @@ void mmu_store(uint16_t address, uint8_t value)
             case 6: /* RAM configuration register (RCR).  */
                 mem_set_ram_config(value);
                 break;
-            case 7:
             case 8:
-            case 9:
+                /* do not commit yet, update happens on write to p0l */
+                mmu[address] = oldvalue;
+                p0h_latch = value;
+                break;
             case 10:
+                /* do not commit yet, update happens on write to p1l */
+                mmu[address] = oldvalue;
+                p1h_latch = value;
+                break;
+            case 7:
+            case 9:
+                if (address == 7) {
+                    mmu[8] = p0h_latch;
+                } else {
+                    mmu[10] = p1h_latch;
+                }
                 if (c128_full_banks) {
                     mem_page_zero = mem_ram + ((mmu[0x8] & 0x3) * 0x10000) + (mmu[0x7] << 8);
                     mem_page_one = mem_ram + ((mmu[0xa] & 0x3) * 0x10000) + (mmu[0x9] << 8);
