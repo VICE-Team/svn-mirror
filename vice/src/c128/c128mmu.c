@@ -232,7 +232,8 @@ uint8_t mmu_peek(uint16_t addr)
 #endif
 
     if (addr < 0xc) {
-        if (addr == 5) {
+        switch (addr) {
+        case 5: {
             uint8_t exrom = export.exrom;
 
             if (force_c64_mode) {
@@ -241,9 +242,17 @@ uint8_t mmu_peek(uint16_t addr)
 
             /* 0x80 = 40/80 key released.  */
             return (mmu[5] & 0x0f) | (mmu_column4080_key ? 0x80 : 0) | ((export.game ^ 1) << 4) | ((exrom ^ 1) << 5);
-        } else if (addr == 11) {
+        }
+
+        case 8:
+        case 10:
+            /* P0H/P1H upper four bits are unused and always return 1 */
+            return mmu[addr] | 0xf0;
+
+        case 11:
             return (c128_full_banks) ? 4 : 2;
-        } else {
+
+        default:
             return mmu[addr];
         }
     } else {
