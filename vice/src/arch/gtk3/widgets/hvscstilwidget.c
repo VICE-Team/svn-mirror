@@ -303,7 +303,7 @@ int hvsc_stil_widget_set_psid(const char *psid)
                             (from % 1000));
                 } else {
                     g_snprintf(line, 1024,
-                            "%ld:%02ld.%03ld-%ld:%02ld.%03d\n",
+                            "%ld:%02ld.%03ld-%ld:%02ld.%03ld\n",
                             from / 60 / 1000,
                             (from / 1000) % 60,
                             (from % 1000),
