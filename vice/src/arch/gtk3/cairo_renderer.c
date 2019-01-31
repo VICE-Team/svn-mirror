@@ -43,6 +43,8 @@ typedef struct vice_cairo_renderer_context_s {
     /** \brief The affine transform to scale and translate the backing
      *         surface when it is displayed on the canvas. */
     cairo_matrix_t transform;
+    /** \brief The Filter method used for scaling */
+    cairo_filter_t filter;
 } context_t;
 
 /** \brief Rendering callback to display the screen as we understand
@@ -71,7 +73,7 @@ draw_canvas_cairo_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
     if (ctx && ctx->backing_surface) {
         cairo_pattern_t *pattern = cairo_pattern_create_for_surface(ctx->backing_surface);
         cairo_pattern_set_matrix(pattern, &ctx->transform);
-        cairo_pattern_set_filter(pattern, CAIRO_FILTER_FAST);
+        cairo_pattern_set_filter(pattern, ctx->filter);
         cairo_set_source(cr, pattern);
         cairo_paint(cr);
         cairo_pattern_destroy(pattern);
@@ -215,7 +217,7 @@ static void vice_cairo_update_context(video_canvas_t *canvas, unsigned int width
         canvas->renderer_context = ctx;
         if (width != 0 && height != 0) {
             /* Actually create the backing surface */
-            int keepaspect=1, trueaspect=0;
+            int keepaspect = 1, trueaspect = 0, filter = 0;
             double aspect = 1.0;
             resources_get_int("KeepAspectRatio", &keepaspect);
             resources_get_int("TrueAspectRatio", &trueaspect);
@@ -224,6 +226,9 @@ static void vice_cairo_update_context(video_canvas_t *canvas, unsigned int width
             }
 
             ctx->backing_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
+
+            resources_get_int("GTKFilter", &filter);
+            ctx->filter = filter ? CAIRO_FILTER_BILINEAR : CAIRO_FILTER_NEAREST;
 
             /* Configure the matrix to fit it in the widget as it exists */
             resize_canvas_container_cairo_cb (canvas->drawing_area, NULL, canvas);

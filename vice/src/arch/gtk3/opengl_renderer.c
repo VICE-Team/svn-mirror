@@ -115,6 +115,9 @@ typedef struct vice_opengl_renderer_context_s {
      * default of OpenGL 3.2 will be used.
      */
     int legacy_renderer;
+    /** \brief The filter used for scaling 
+     */
+    GLint filter;
 } context_t;
 
 /** \brief Raw geometry for the machine screen.
@@ -348,11 +351,10 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ctx->width, ctx->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        /** \todo The GTK OpenGL texture filters should be selectable as GL_LINEAR vs GL_NEAREST */
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, ctx->filter);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, ctx->filter);
         glBindTexture(GL_TEXTURE_2D, 0);
     } else if (ctx->render_mode == RENDER_MODE_DIRTY_RECT) {
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
@@ -521,7 +523,7 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
     context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
     if (ctx) {
         double aspect = 1.0;
-        int keepaspect = 1, trueaspect = 0;
+        int keepaspect = 1, trueaspect = 0, filter = 0;
         gint widget_width, widget_height;
         if (ctx->width == width && ctx->height == height) {
             return;
@@ -539,6 +541,8 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         if (keepaspect && trueaspect) {
             aspect = canvas->geometry->pixel_aspect_ratio;
         }
+        resources_get_int("GTKFilter", &filter);
+        ctx->filter = filter ? GL_LINEAR : GL_NEAREST;
 
         /* Configure the matrix to fit it in the widget as it exists */
         widget_width = gtk_widget_get_allocated_width(canvas->drawing_area);

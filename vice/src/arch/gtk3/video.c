@@ -61,6 +61,9 @@ static int trueaspect = 0;
 /** \brief  Display depth in bits (8, 15, 16, 24, 32) */
 static int display_depth = 24;
 
+/** \brief  Display filter (0: nearest 1: bilinear) */
+static int display_filter = 1;
+
 
 /** \brief  Set KeepAspectRatio resource (bool)
  *
@@ -111,6 +114,17 @@ static int set_display_depth(int val, void *param)
     return 0;
 }
 
+/** \brief Set the display filter for scaling.
+ *  \param     val   new filter (0: nearest, 1: bilinear)
+ *  \param[in] param extra parameter (unused).
+ *  \return  0
+ */
+static int set_display_filter(int val, void *param)
+{
+    display_filter = val ? 1 : 0;
+    return 0;
+}
+
 /** \brief  Command line options related to generic video output
  */
 static const cmdline_option_t cmdline_options[] =
@@ -127,6 +141,9 @@ static const cmdline_option_t cmdline_options[] =
     { "+keepaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepAspectRatio", (resource_value_t)0,
       NULL, "Do not keep aspect ratio when scaling (freescale)" },
+    { "-gtkfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "GTKFilter", NULL,
+      "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear)" },
     CMDLINE_LIST_END
 };
 
@@ -140,6 +157,8 @@ static const resource_int_t resources_int[] = {
       &trueaspect, set_trueaspect, NULL },
     { "DisplayDepth", 0, RES_EVENT_NO, NULL,
       &display_depth, set_display_depth, NULL },
+    { "GTKFilter", 1, RES_EVENT_NO, NULL,
+      &display_filter, set_display_filter, NULL },
     RESOURCE_INT_LIST_END
 };
 
