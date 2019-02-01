@@ -13065,6 +13065,16 @@ This section lists the settings and commands that are common and specific to Uni
 
 @table @code
 
+@vindex GTKBackend
+@item GTKBackend
+Rendering backend to use for the Gtk3 UI
+(0: Cairo, 1: OpenGL).
+
+@vindex GTKFilter
+@item GTKFilter
+Rendering filter to use for the Gtk3 UI
+(0: Nearest neighbor, 1: Bilinear interpolation).
+
 @vindex AspectRatio
 @item AspectRatio
 String/float specifying the aspect ratio
@@ -13340,6 +13350,17 @@ Start/Do not start with minimized window
 Set the aspect ratio
 (@code{AspectRatio}).
 (0.5-2.0)
+
+@findex -gtkbackend
+@item -gtkbackend <backend>
+Set the Gtk3 rendering backend
+(@code{GTKBackend})
+(0: Cairo, 1: OpenGL)
+
+@findex -gtkfilter
+@item -gtkfilter <filter>
+(@code{GTKFilter})
+(0: Nearest neighbor, 1: Bilinear interpolation)
 
 @findex -keepaspect, +keepaspect
 @item -keepaspect
