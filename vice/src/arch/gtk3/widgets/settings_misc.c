@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "machine.h"
 
+#include "canvasrenderfilterwidget.h"
 #include "cwdwidget.h"
 #include "jamactionwidget.h"
 
@@ -58,6 +59,7 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
     GtkWidget *cwd_widget = NULL;
     GtkWidget *vdev_widget = NULL;
     GtkWidget *jam_widget = jam_action_widget_create();
+    GtkWidget *filter_widget = canvas_render_filter_widget_create();
 
     grid = gtk_grid_new();
 
@@ -71,6 +73,9 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
         g_object_set(vdev_widget, "margin-left",8, NULL);
         gtk_grid_attach(GTK_GRID(grid), vdev_widget, 0, 2, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), filter_widget, 0, 4, 1, 1);
+        g_object_set(filter_widget, "margin-left",8, NULL);
+
     } else {
          gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 0, 1, 1);
     }

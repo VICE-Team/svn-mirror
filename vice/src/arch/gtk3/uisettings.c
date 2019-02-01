@@ -725,7 +725,7 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
       settings_romset_widget_create, NULL },
 #endif
     /* XXX: perhaps required for VSID-specific things */
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     { "Monitor settings",
@@ -864,7 +864,7 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -973,7 +973,7 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     { "Snaphot/event/media recording",
@@ -1120,7 +1120,7 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1242,7 +1242,7 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
 
@@ -1362,7 +1362,7 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1481,7 +1481,7 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1599,7 +1599,7 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
         settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1716,7 +1716,7 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
 
@@ -1830,7 +1830,7 @@ static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Miscellaneous",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR

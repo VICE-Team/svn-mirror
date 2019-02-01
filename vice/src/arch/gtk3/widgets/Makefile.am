@@ -37,6 +37,7 @@ libwidgets_a_SOURCES = \
 	c128functionromwidget.c \
 	c128machinetypewidget.c \
 	c64dtvflashsettingswidget.c \
+	canvasrenderfilterwidget.c \
 	cbm2hardwiredswitcheswidget.c \
 	cbm2memorysizewidget.c \
 	cbm2rammappingwidget.c \
@@ -184,6 +185,7 @@ EXTRA_DIST = \
 	cbm2hardwiredswitcheswidget.h \
 	cbm2memorysizewidget.h \
 	cbm2rammappingwidget.h \
+	canvasrenderfilterwidget.h \
 	ciamodelwidget.h \
 	contentpreviewwidget.h \
 	cpmwidget.h \
