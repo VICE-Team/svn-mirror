@@ -42,7 +42,9 @@
 #include "opengl_renderer.h"
 #include "quartz_renderer.h"
 #include "lightpen.h"
+#include "log.h"
 #include "mousedrv.h"
+#include "resources.h"
 #include "videoarch.h"
 
 #include "ui.h"
@@ -504,13 +506,21 @@ static void machine_window_create(video_canvas_t *canvas)
 {
     GtkWidget *new_drawing_area, *new_event_box;
     GtkWidget *menu_bar;
+    int backend = 0;
 
-    /* TODO: Make the rendering process transparent enough that this can be selected and altered as-needed */
+    /* TODO: Make the rendering process transparent enough that this can be
+             changed when the emulator is running */
 #ifdef HAVE_GTK3_OPENGL
-    canvas->renderer_backend = &vice_opengl_backend;
+    resources_get_int("GTKBackend", &backend);
+    if (backend) {
+        canvas->renderer_backend = &vice_opengl_backend;
+    } else {
+        canvas->renderer_backend = &vice_cairo_backend;
+    }
 #else
     canvas->renderer_backend = &vice_cairo_backend;
 #endif
+    log_message(LOG_DEFAULT, "using GTK3 backend: %s", backend ? "OpenGL" : "Software");
 
     new_drawing_area = canvas->renderer_backend->create_widget(canvas);
     canvas->drawing_area = new_drawing_area;

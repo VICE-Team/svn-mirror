@@ -64,6 +64,9 @@ static int display_depth = 24;
 /** \brief  Display filter (0: nearest 1: bilinear) */
 static int display_filter = 1;
 
+/** \brief  Render Backend (0: Software 1: OpenGL) */
+static int render_backend = 1;
+
 
 /** \brief  Set KeepAspectRatio resource (bool)
  *
@@ -125,6 +128,17 @@ static int set_display_filter(int val, void *param)
     return 0;
 }
 
+/** \brief Set the backend for rendering
+ *  \param     val   new backend (0: software, 1: opengl)
+ *  \param[in] param extra parameter (unused).
+ *  \return  0
+ */
+static int set_render_backend(int val, void *param)
+{
+    render_backend = val ? 1 : 0;
+    return 0;
+}
+
 /** \brief  Command line options related to generic video output
  */
 static const cmdline_option_t cmdline_options[] =
@@ -144,6 +158,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-gtkfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GTKFilter", NULL,
       "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear)" },
+    { "-gtkbackend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "GTKBackend", NULL,
+      "<mode>", "Set rendering mode (0 = Software, 1 = OpenGL)" },
     CMDLINE_LIST_END
 };
 
@@ -159,6 +176,8 @@ static const resource_int_t resources_int[] = {
       &display_depth, set_display_depth, NULL },
     { "GTKFilter", 1, RES_EVENT_NO, NULL,
       &display_filter, set_display_filter, NULL },
+    { "GTKBackend", 1, RES_EVENT_NO, NULL,
+      &render_backend, set_render_backend, NULL },
     RESOURCE_INT_LIST_END
 };
 
