@@ -2108,52 +2108,61 @@ dnl ----- Netplay Support -----
 NETPLAY_LIBS=
 old_LIBS="$LIBS"
 if test x"$is_unix_x11" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
-  dnl Check for possible extra needed network libraries
-  AC_CHECK_LIB(intl, dgettext,[ NETPLAY_LIBS="-lintl $NETPLAY_LIBS";
-                                LIBS="-lintl $LIBS"],,)
-  AC_CHECK_LIB(nsl, gethostbyname,[ NETPLAY_LIBS="-lnsl $NETPLAY_LIBS";
-                                    LIBS="-lnsl $LIBS"],,)
-  AC_CHECK_LIB(socket, gethostbyname,[ NETPLAY_LIBS="-lsocket $NETPLAY_LIBS";
-                                       LIBS="-lsocket $LIBS"],,)
-  AC_CHECK_LIB(bsd, gethostbyname,[ NETPLAY_LIBS="-lbsd $NETPLAY_LIBS";
-                                    LIBS="-lbsd $LIBS"],,)
-  AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet $NETPLAY_LIBS";
-                                    LIBS="-lnet $LIBS"],,)
-  AC_CHECK_LIB(inet, gethostbyname,[ NETPLAY_LIBS="-linet $NETPLAY_LIBS";
-                                     LIBS="-linet $LIBS"],,)
 
-  dnl Check for needed functions
-  UNIX_NETWORK_FUNCS_PRESENT=yes
+  dnl Check for needed network headers
+  UNIX_NETWORK_HEADERS_PRESENT=yes
+  AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
+                   [UNIX_NETWORK_HEADERS_PRESENT=no],)
 
-  dnl Check for netinet/tcp.h
-  AC_CHECK_HEADERS([netinet/tcp.h])
+  if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
-  AC_CHECK_FUNCS(socket send bind listen gethostbyname connect recv accept,,
-                 [UNIX_NETWORK_FUNCS_PRESENT=no],)
+    dnl Check for possible extra needed network libraries
+    AC_CHECK_LIB(intl, dgettext,[ NETPLAY_LIBS="-lintl $NETPLAY_LIBS";
+                                  LIBS="-lintl $LIBS"],,)
+    AC_CHECK_LIB(nsl, gethostbyname,[ NETPLAY_LIBS="-lnsl $NETPLAY_LIBS";
+                                      LIBS="-lnsl $LIBS"],,)
+    AC_CHECK_LIB(socket, gethostbyname,[ NETPLAY_LIBS="-lsocket $NETPLAY_LIBS";
+                                         LIBS="-lsocket $LIBS"],,)
+    AC_CHECK_LIB(bsd, gethostbyname,[ NETPLAY_LIBS="-lbsd $NETPLAY_LIBS";
+                                      LIBS="-lbsd $LIBS"],,)
+    AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet $NETPLAY_LIBS";
+                                      LIBS="-lnet $LIBS"],,)
+    AC_CHECK_LIB(inet, gethostbyname,[ NETPLAY_LIBS="-linet $NETPLAY_LIBS";
+                                       LIBS="-linet $LIBS"],,)
 
-  if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
-    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-    HAVE_NETWORK_SUPPORT="yes"
-    AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
-    HAVE_RS232NET_SUPPORT="yes"
-    AC_CHECK_FUNCS(htons htonl)
-    AC_CHECK_FUNCS(getdtablesize getrlimit)
-    AC_MSG_CHECKING([For socklen_t])
-    AC_TRY_COMPILE([#include <sys/types.h>
-                    #include <sys/socket.h>],
-                   [socklen_t foo; foo = 1235;],
-                   [AC_DEFINE(HAVE_SOCKLEN_T,,[Define if the socklen_t type is present.])
-                    AC_MSG_RESULT(yes)],
-                   [AC_MSG_RESULT(no)])
+    dnl Check for needed functions
+    UNIX_NETWORK_FUNCS_PRESENT=yes
 
-    AC_MSG_CHECKING([for in_addr_t])
-    AC_TRY_COMPILE([#include <sys/types.h>
-                    #include <stdlib.h>
-                    #include <stddef.h>
-                    #include <netinet/in.h>], [in_addr_t foo;],
-                    [AC_DEFINE(HAVE_IN_ADDR_T,,[Define if the in_addr_t type is present.])
-                     AC_MSG_RESULT(yes)],
-                    [AC_MSG_RESULT(no)])
+    dnl Check for netinet/tcp.h
+    AC_CHECK_HEADERS([netinet/tcp.h])
+
+    AC_CHECK_FUNCS(socket send bind listen gethostbyname connect recv accept,,
+                   [UNIX_NETWORK_FUNCS_PRESENT=no],)
+
+    if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
+      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      HAVE_NETWORK_SUPPORT="yes"
+      AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
+      HAVE_RS232NET_SUPPORT="yes"
+      AC_CHECK_FUNCS(htons htonl)
+      AC_CHECK_FUNCS(getdtablesize getrlimit)
+      AC_MSG_CHECKING([For socklen_t])
+      AC_TRY_COMPILE([#include <sys/types.h>
+                      #include <sys/socket.h>],
+                     [socklen_t foo; foo = 1235;],
+                     [AC_DEFINE(HAVE_SOCKLEN_T,,[Define if the socklen_t type is present.])
+                      AC_MSG_RESULT(yes)],
+                     [AC_MSG_RESULT(no)])
+
+      AC_MSG_CHECKING([for in_addr_t])
+      AC_TRY_COMPILE([#include <sys/types.h>
+                      #include <stdlib.h>
+                      #include <stddef.h>
+                      #include <netinet/in.h>], [in_addr_t foo;],
+                      [AC_DEFINE(HAVE_IN_ADDR_T,,[Define if the in_addr_t type is present.])
+                       AC_MSG_RESULT(yes)],
+                      [AC_MSG_RESULT(no)])
+    fi
   fi
 elif test x"$is_beos" = "xyes"; then
 
