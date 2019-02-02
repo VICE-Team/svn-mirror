@@ -170,7 +170,7 @@ static int sdl_init(const char *param, int *speed,
     }
     if (status > 0) {
         sdl_len_mult = sdl_converter.len_mult;
-        log_message(LOG_DEFAULT, "SDLAudio: Error creating SDL audio: Conversion required (multiplier '%d').", sdl_len_mult);
+        log_message(LOG_DEFAULT, "SDLAudio: Error creating SDL audio: Conversion required (multiplier '%ld').", sdl_len_mult);
         SDL_CloseAudio();
         return 1;
     } else {
