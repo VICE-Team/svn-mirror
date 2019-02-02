@@ -27,7 +27,7 @@ VICE_ARG_WITH_LIST(zlib,          [  --without-zlib          do not use the zlib
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(sdlui2,      [  --enable-sdlui2         enables SDL2 UI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables native GTK3 UI support])
-VICE_ARG_ENABLE_LIST(debug-gtk3ui, [ --enable-debug-gtk3ui    enables debugging for the GTK3 port])
+VICE_ARG_ENABLE_LIST(debug-gtk3ui, [  --enable-debug-gtk3ui   enables debugging for the GTK3 UI])
 VICE_ARG_ENABLE_LIST(hwscale,     [  --disable-hwscale       disables GPU scaling of emulated screen])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(shared-ffmpeg, [  --enable-shared-ffmpeg  enable included shared FFmpeg support])
@@ -2078,6 +2078,11 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
       LIBS="${old_LIBS}"
     fi
   fi
+fi
+if test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+  dnl Windows joystick support ... should always work
+  AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  HAS_JOYSTICK_SUPPORT="yes"
 fi
 AC_SUBST(JOY_LIBS)
 
