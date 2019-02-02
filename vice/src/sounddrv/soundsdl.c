@@ -135,11 +135,13 @@ static int sdl_init(const char *param, int *speed,
      *       see eg http://forums.libsdl.org/viewtopic.php?t=9248&sid=92130a5b4cfd7fd713e076e122d7e2a1
      *       to get an idea of the whole mess
      */
-    if (SDL_OpenAudio(&spec, &sdl_spec)) {
+    if (SDL_OpenAudio(&spec, NULL)) {
         log_message(LOG_DEFAULT, "SDLAudio: SDL_OpenAudio() failed: %s",
                 SDL_GetError());
         return 1;
     }
+
+    memcpy(&sdl_spec, &spec, sizeof(spec));
 
     /*
      * The driver can be selected by using the environment variable
