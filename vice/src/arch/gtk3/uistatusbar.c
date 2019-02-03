@@ -93,7 +93,10 @@ enum {
     SB_COL_SEP_CRT,     /**< separator between crt/mixer and tape widgets */
     SB_COL_TAPE,        /**< tape and joysticks widget */
     SB_COL_SEP_TAPE,    /**< separator between tape and joysticks widgets */
-    SB_COL_DRIVE        /**< drives widgets */
+    SB_COL_DRIVE,       /**< drives widgets */
+    SB_COL_SEP_DRIVE,   /**< separator between drives and volume widgets */
+    SB_COL_VOLUME       /**< volume widget */
+
 };
 
 
@@ -197,6 +200,9 @@ typedef struct ui_statusbar_s {
 
     /** \brief The popup menus associated with each drive. */
     GtkWidget *drive_popups[DRIVE_NUM];
+
+    /** \brief The volume control */
+    GtkWidget *volume;
 
     /** \brief The hand-shaped cursor to change to when popup menus
      *         are available. */
@@ -818,6 +824,22 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Handler for the 'value-changed' event of the volume control
+ *
+ * Updates the master volume
+ *
+ * \param[in]   widget  GtkVolumeButton control
+ * \param[in]   value   new volume value (1.0 - 0.0)
+ * \param[in]   data    extra event data (unused
+ */
+
+static void on_volume_value_changed(GtkScaleButton *widget,
+                                    gdouble value,
+                                    gpointer data)
+{
+    resources_set_int("SoundVolume", (int)(value * 100.0));
+}
+
 
 /*****************************************************************************
  *                          Private functions                                *
@@ -1285,6 +1307,7 @@ void ui_statusbar_init(void)
             allocated_bars[i].drives[j] = NULL;
             allocated_bars[i].drive_popups[j] = NULL;
         }
+        allocated_bars[i].volume = NULL;
         allocated_bars[i].hand_ptr = NULL;
     }
 
@@ -1328,6 +1351,8 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *sb, *speed, *tape, *tape_events, *joysticks;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
+    GtkWidget *volume;
+    int sound_vol;
     int i, j;
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -1436,6 +1461,26 @@ GtkWidget *ui_statusbar_create(void)
      * statusbar display. If more widgets are added past this point,
      * that function will need to change as well. */
     layout_statusbar_drives(i);
+
+    /*
+     * Add volume control widget
+     */
+    gtk_grid_attach(GTK_GRID(sb),
+            gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+            SB_COL_SEP_DRIVE, 0, 1, 2);
+
+    volume = gtk_volume_button_new();
+
+    resources_get_int("SoundVolume", &sound_vol);
+    gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
+            (gdouble)sound_vol / 100.0);
+
+    g_signal_connect(volume, "value-changed",
+            G_CALLBACK(on_volume_value_changed), NULL);
+
+    gtk_grid_attach(GTK_GRID(sb), volume,SB_COL_VOLUME, 0, 1, 2);
+    allocated_bars[i].volume = volume;
+
 
     /* Set an impossible number of joyports to enabled so that the status
      * is guarenteed to be updated. */
