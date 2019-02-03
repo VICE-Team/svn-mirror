@@ -32,6 +32,10 @@
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
+#include "filechooserhelpers.h"
+#include "openfiledialog.h"
+#include "hvsc.h"
+#include "uivsidwindow.h"
 
 #include "vsidplaylistwidget.h"
 
@@ -52,6 +56,12 @@ typedef struct plist_ctrl_button_s {
     void        (*callback)(GtkWidget *, gpointer); /**< callback function */
     const char *tooltip;    /**< tooltip text */
 } plist_ctrl_button_t;
+
+
+/*
+ * Forward declarations
+ */
+static void on_playlist_append_clicked(GtkWidget *widget, gpointer data);
 
 
 /** \brief  List of playlist controls
@@ -76,7 +86,7 @@ static const plist_ctrl_button_t controls[] = {
         NULL,
         "Shuffle playlist" },
     { "list-add", CTRL_ACTION,
-        NULL,
+        on_playlist_append_clicked,
         "Add tune to playlist" },
     { "list-remove", CTRL_ACTION,
         NULL,
@@ -104,11 +114,74 @@ static GtkListStore *playlist_model;
 static GtkWidget *playlist_view;
 
 
+/*
+ * Event handlers
+ */
+
+
+/** \brief  Event handler for the 'row-activated' event of the view
+ *
+ * Triggered by double-clicking on a SID file in the view
+ *
+ * \param[in,out]   view    the GtkTreeView instance
+ * \param[in]       path    the path to the activated row
+ * \param[in]       column  the column in the \a view (unused)
+ * \param[in]       data    extra event data (unused)
+ */
+static void on_row_activated(GtkTreeView *view,
+                             GtkTreePath *path,
+                             GtkTreeViewColumn *column,
+                             gpointer data)
+{
+    GtkTreeIter iter;
+    GValue value = G_VALUE_INIT;
+    const gchar *filename;
+
+    if (!gtk_tree_model_get_iter(GTK_TREE_MODEL(playlist_model), &iter, path)) {
+        debug_gtk3("error: failed to get tree iter.");
+        return;
+    }
+
+    gtk_tree_model_get_value(GTK_TREE_MODEL(playlist_model), &iter, 2, &value);
+    filename = g_value_get_string(&value);
+    debug_gtk3("got filename '%s'.", filename);
+
+    ui_vsid_window_load_psid(filename);
+
+    g_value_unset(&value);
+}
+
+
+
+/** \brief  Event handler for the 'add SID' button
+ *
+ * \param[in]   widget  button triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_playlist_append_clicked(GtkWidget *widget, gpointer data)
+{
+    gchar *path;
+
+    path = vice_gtk3_open_file_dialog(
+            "Attach SID file",
+            "SID files",
+            file_chooser_pattern_sid,
+            NULL    /* todo: remember last dir */
+            );
+    if (path != NULL) {
+        vsid_playlist_widget_append_file(path);
+        g_free(path);
+    }
+}
+
+
+
 /** \brief  Create playlist model
  */
 static void vsid_playlist_model_create(void)
 {
-    playlist_model = gtk_list_store_new(1, G_TYPE_STRING);
+    playlist_model = gtk_list_store_new(
+            3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 }
 
 
@@ -124,11 +197,34 @@ static void vsid_playlist_view_create(void)
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(
-            "Path",
+            "Title",
             renderer,
             "text", 0,
             NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
+
+    column = gtk_tree_view_column_new_with_attributes(
+            "Composer",
+            renderer,
+            "text", 1,
+            NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
+
+    column = gtk_tree_view_column_new_with_attributes(
+            "Path",
+            renderer,
+            "text", 2,
+            NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
+
+    /*
+     * Set event handlers
+     */
+
+    /* Enter/double-click */
+    g_signal_connect(playlist_view, "row-activated",
+            G_CALLBACK(on_row_activated), NULL);
+
 }
 
 
@@ -206,7 +302,52 @@ GtkWidget *vsid_playlist_widget_create(void)
             0, 2, 1, 1);
 
 
+    vsid_playlist_widget_append_file(
+            "D:\\C64Music\\MUSICIANS\\H\\Hubbard_Rob\\Commando.sid");
+    vsid_playlist_widget_append_file(
+            "D:\\C64Music\\MUSICIANS\\J\\JCH\\Calypso.sid");
+    vsid_playlist_widget_append_file(
+            "D:\\C64Music\\MUSICIANS\\B\\Blues_Muz\\Gallefoss_Glenn\\Vicious_Circles.sid");
+
 
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+gboolean vsid_playlist_widget_append_file(const gchar *path)
+{
+    GtkTreeIter iter;
+    hvsc_psid_t psid;
+    char name[HVSC_PSID_TEXT_LEN + 1];
+    char author[HVSC_PSID_TEXT_LEN + 1];
+
+    /* Attempt to parse sid header for title & composer */
+    if (!hvsc_psid_open(path, &psid)) {
+        vice_gtk3_message_error("VSID",
+                "Failed to parse PSID header of '%s'.",
+                path);
+        return FALSE;
+    }
+
+    /* get SID name and author */
+    memset(name, 0, HVSC_PSID_TEXT_LEN + 1);
+    memset(author, 0, HVSC_PSID_TEXT_LEN + 1);
+    memcpy(name, psid.name, HVSC_PSID_TEXT_LEN);
+    memcpy(author, psid.author, HVSC_PSID_TEXT_LEN);
+
+    /* append SID to playlist */
+    gtk_list_store_append(playlist_model, &iter);
+    gtk_list_store_set(playlist_model, &iter,
+            0, name,
+            1, author,
+            2, path,
+            -1);
+
+    /* clean up */
+    hvsc_psid_close(&psid);
+    return TRUE;
+}
+
+
+

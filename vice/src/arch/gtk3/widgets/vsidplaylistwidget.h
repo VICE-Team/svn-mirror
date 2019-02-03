@@ -32,5 +32,8 @@
 #include <gtk/gtk.h>
 
 GtkWidget *vsid_playlist_widget_create(void);
+
+gboolean vsid_playlist_widget_append_file(const gchar *path);
+
 #endif
 
