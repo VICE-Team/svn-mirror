@@ -62,6 +62,7 @@ typedef struct plist_ctrl_button_s {
  * Forward declarations
  */
 static void on_playlist_append_clicked(GtkWidget *widget, gpointer data);
+static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data);
 
 
 /** \brief  List of playlist controls
@@ -89,7 +90,7 @@ static const plist_ctrl_button_t controls[] = {
         on_playlist_append_clicked,
         "Add tune to playlist" },
     { "list-remove", CTRL_ACTION,
-        NULL,
+        on_playlist_remove_clicked,
         "Remove selected tune from playlist" },
     { "document-open", CTRL_ACTION,
         NULL,
@@ -175,6 +176,58 @@ static void on_playlist_append_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    if (gtk_tree_selection_get_selected(selection,
+                                        NULL,
+                                        &iter)) {
+        debug_gtk3("got valid iter.");
+        gtk_list_store_remove(playlist_model, &iter);
+    }
+}
+
+
+static void on_foo_clicked(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("FOO clicked!");
+
+}
+
+
+static gboolean on_button_press_event(GtkWidget *view,
+                                      GdkEvent *event,
+                                      gpointer data)
+{
+    GtkWidget *menu;
+    GtkWidget *item;
+
+    if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
+        menu = gtk_menu_new();
+
+        item = gtk_menu_item_new_with_label("This is supposed to start a SID, but it doesn't work :)");
+        gtk_container_add(GTK_CONTAINER(menu), item);
+        gtk_widget_show_all(menu);
+
+        g_signal_connect(item, "activate", G_CALLBACK(on_foo_clicked), view);
+#if 0
+        gtk_menu_popup_at_widget(GTK_MENU(menu), view,
+                GDK_GRAVITY_NORTH_EAST, GDK_GRAVITY_SOUTH_WEST,
+                event);
+#else
+        gtk_menu_popup_at_pointer(GTK_MENU(menu), event);
+#endif
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+
+
 
 /** \brief  Create playlist model
  */
@@ -224,7 +277,9 @@ static void vsid_playlist_view_create(void)
     /* Enter/double-click */
     g_signal_connect(playlist_view, "row-activated",
             G_CALLBACK(on_row_activated), NULL);
-
+    /* context menu (right-click, or left-click when you're a retard) */
+    g_signal_connect(playlist_view, "button-press-event",
+            G_CALLBACK(on_button_press_event), playlist_view);
 }
 
 
@@ -266,6 +321,7 @@ static GtkWidget *vsid_playlist_controls_create(void)
 }
 
 
+
 /** \brief  Create main playlisy widget
  *
  * \return  GtkGrid
@@ -301,15 +357,17 @@ GtkWidget *vsid_playlist_widget_create(void)
             vsid_playlist_controls_create(),
             0, 2, 1, 1);
 
-#if 0
-    vsid_playlist_widget_append_file(
-            "D:\\C64Music\\MUSICIANS\\H\\Hubbard_Rob\\Commando.sid");
-    vsid_playlist_widget_append_file(
-            "D:\\C64Music\\MUSICIANS\\J\\JCH\\Calypso.sid");
-    vsid_playlist_widget_append_file(
-            "D:\\C64Music\\MUSICIANS\\B\\Blues_Muz\\Gallefoss_Glenn\\Vicious_Circles.sid");
-#endif
-
+    /*
+     * I really should add some proper debug define for this
+     */
+    if (strcmp(g_getenv("USER"), "compyx") == 0) {
+        vsid_playlist_widget_append_file(
+                "D:\\C64Music\\MUSICIANS\\H\\Hubbard_Rob\\Commando.sid");
+        vsid_playlist_widget_append_file(
+                "D:\\C64Music\\MUSICIANS\\J\\JCH\\Calypso.sid");
+        vsid_playlist_widget_append_file(
+                "D:\\C64Music\\MUSICIANS\\B\\Blues_Muz\\Gallefoss_Glenn\\Vicious_Circles.sid");
+    }
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -350,4 +408,11 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
 }
 
 
+void vsid_playlist_widget_remove_file(int row)
+{
+    if (row < 0) {
+        debug_gtk3("got invalid row %d.", row);
+        return;
+    }
+}
 
