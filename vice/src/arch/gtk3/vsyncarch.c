@@ -176,7 +176,7 @@ void vsyncarch_presync(void)
 {
     ui_update_lightpen();
     kbdbuf_flush();
-#ifdef HAS_JOYSTICK
+#if defined(HAS_JOYSTICK) && !defined(WIN32_COMPILE)
     joystick();
 #endif
 #ifdef WIN32_COMPILE
