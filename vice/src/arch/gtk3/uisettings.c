@@ -725,7 +725,7 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
       settings_romset_widget_create, NULL },
 #endif
     /* XXX: perhaps required for VSID-specific things */
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     { "Monitor settings",
@@ -864,7 +864,7 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -973,7 +973,7 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     { "Snaphot/event/media recording",
@@ -1120,7 +1120,7 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1242,7 +1242,7 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
 
@@ -1362,7 +1362,7 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1481,7 +1481,7 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1599,7 +1599,7 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
         settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1716,7 +1716,7 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
 
@@ -1830,7 +1830,7 @@ static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
     { "Snaphot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings or perhaps Miscellaneous (both suck)",
+    { "Emulator settings",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -2315,7 +2315,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scroll, 400, 500);
+    gtk_widget_set_size_request(scroll, 250, 500);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
