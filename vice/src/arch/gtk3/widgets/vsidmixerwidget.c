@@ -7,7 +7,6 @@
  */
 
 /*
- * $VICERES SoundVolume             vsid
  * $VICERES SidResidPassband        vsid
  * $VICERES SidResidGain            vsid
  * $VICERES SidResidFilterBias      vsid
@@ -75,9 +74,6 @@
 #define LABEL_CSS "label { font-size: 80%; margin-top: -2px; margin-bottom: -2px; }"
 
 
-/** \brief  Main volume slider */
-static GtkWidget *volume;
-
 #ifdef HAVE_RESID
 
 /** \brief  ReSID passband slider */
@@ -107,8 +103,6 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 #endif
 
 
-    resources_get_default_value("SoundVolume", &value);
-    gtk_range_set_value(GTK_RANGE(volume), (gdouble)value);
 #ifdef HAVE_RESID
 
     if (resources_get_int("SidModel", &model) < 0) {
@@ -176,14 +170,14 @@ static GtkWidget *create_slider(
     scale = vice_gtk3_resource_scale_int_new(resource,
             GTK_ORIENTATION_HORIZONTAL, low, high, step);
     gtk_widget_set_hexpand(scale, TRUE);
-    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_TOP);
+    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
 
     gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
     return scale;
 }
 
 
-
+#if 0
 /** \brief  Create slider for main volume
  *
  * \param[in]   minimal resize slider to minimal size
@@ -194,6 +188,7 @@ static GtkWidget *create_volume_widget(void)
 {
     return create_slider("SoundVolume", 0, 100, 5);
 }
+#endif
 
 
 #ifdef HAVE_RESID
@@ -265,11 +260,13 @@ GtkWidget *vsid_mixer_widget_create(void)
     g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
     gtk_widget_set_hexpand(grid, TRUE);
 
+#if 0
     label = create_label("Volume");
     volume = create_volume_widget();
     gtk_widget_set_hexpand(volume, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), volume, 1, 0, 1, 1);
+#endif
 
 #ifdef HAVE_RESID
 
@@ -279,30 +276,30 @@ GtkWidget *vsid_mixer_widget_create(void)
     } else {
         gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 8580 settings</b>");
     }
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
 
 
     label = create_label("Passband");
     passband = create_passband_widget(model);
     gtk_widget_set_hexpand(passband, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), passband, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), passband, 1, 1, 1, 1);
 
     label = create_label("Gain");
     gain = create_gain_widget(model);
     gtk_widget_set_hexpand(gain, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gain, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain, 1, 2, 1, 1);
 
     label = create_label("Bias");
     bias = create_bias_widget(model);
     gtk_widget_set_hexpand(bias, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bias, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
 #endif
 
     button = gtk_button_new_with_label("Reset to defaults");
-    gtk_grid_attach(GTK_GRID(grid), button, 0, 5, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 2, 1);
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
 
     gtk_widget_show_all(grid);

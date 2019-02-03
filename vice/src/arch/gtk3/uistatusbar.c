@@ -18,6 +18,14 @@
  */
 
 /*
+ * Resources controlled by this widget. We probably need to expand this list.
+ * (Do not add resources controlled by widgets #include'd by this widget, only
+ *  add resources actually controlled from this widget)
+ *
+ * $VICERES SoundVolume all
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -1465,9 +1473,13 @@ GtkWidget *ui_statusbar_create(void)
     /*
      * Add volume control widget
      */
-    gtk_grid_attach(GTK_GRID(sb),
-            gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-            SB_COL_SEP_DRIVE, 0, 1, 2);
+
+    /* avoid two separators next to each other in VSID */
+    if (machine_class != VICE_MACHINE_VSID) {
+        gtk_grid_attach(GTK_GRID(sb),
+                gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                SB_COL_SEP_DRIVE, 0, 1, 2);
+    }
 
     volume = gtk_volume_button_new();
 
