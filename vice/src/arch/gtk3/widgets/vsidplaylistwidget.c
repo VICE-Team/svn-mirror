@@ -357,17 +357,15 @@ GtkWidget *vsid_playlist_widget_create(void)
             vsid_playlist_controls_create(),
             0, 2, 1, 1);
 
-    /*
-     * I really should add some proper debug define for this
-     */
-    if (strcmp(g_getenv("USER"), "compyx") == 0) {
-        vsid_playlist_widget_append_file(
-                "D:\\C64Music\\MUSICIANS\\H\\Hubbard_Rob\\Commando.sid");
-        vsid_playlist_widget_append_file(
-                "D:\\C64Music\\MUSICIANS\\J\\JCH\\Calypso.sid");
-        vsid_playlist_widget_append_file(
-                "D:\\C64Music\\MUSICIANS\\B\\Blues_Muz\\Gallefoss_Glenn\\Vicious_Circles.sid");
-    }
+#if 0
+    vsid_playlist_widget_append_file(
+            "D:\\C64Music\\MUSICIANS\\H\\Hubbard_Rob\\Commando.sid");
+    vsid_playlist_widget_append_file(
+            "D:\\C64Music\\MUSICIANS\\J\\JCH\\Calypso.sid");
+    vsid_playlist_widget_append_file(
+            "D:\\C64Music\\MUSICIANS\\B\\Blues_Muz\\Gallefoss_Glenn\\Vicious_Circles.sid");
+#endif
+
     gtk_widget_show_all(grid);
     return grid;
 }
