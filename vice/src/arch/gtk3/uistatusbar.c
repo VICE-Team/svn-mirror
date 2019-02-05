@@ -791,6 +791,10 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                     allocated_bars[i].drive_popups[j] = NULL;
                 }
             }
+            if (allocated_bars[i].volume != NULL) {
+                g_object_unref(G_OBJECT(allocated_bars[i].volume));
+                allocated_bars[i].volume = NULL;
+            }
             if (allocated_bars[i].hand_ptr) {
                 g_object_unref(G_OBJECT(allocated_bars[i].hand_ptr));
                 allocated_bars[i].hand_ptr = NULL;
@@ -1473,15 +1477,8 @@ GtkWidget *ui_statusbar_create(void)
     /*
      * Add volume control widget
      */
-
-    /* avoid two separators next to each other in VSID */
-    if (machine_class != VICE_MACHINE_VSID) {
-        gtk_grid_attach(GTK_GRID(sb),
-                gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-                SB_COL_SEP_DRIVE, 0, 1, 2);
-    }
-
     volume = gtk_volume_button_new();
+    g_object_ref_sink(volume);
 
     resources_get_int("SoundVolume", &sound_vol);
     gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
@@ -1490,7 +1487,15 @@ GtkWidget *ui_statusbar_create(void)
     g_signal_connect(volume, "value-changed",
             G_CALLBACK(on_volume_value_changed), NULL);
 
-    gtk_grid_attach(GTK_GRID(sb), volume,SB_COL_VOLUME, 0, 1, 2);
+    /* avoid two separators next to each other in VSID */
+    if (machine_class != VICE_MACHINE_VSID) {
+        gtk_grid_attach(GTK_GRID(sb),
+                gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                SB_COL_SEP_DRIVE, 0, 1, 2);
+        gtk_grid_attach(GTK_GRID(sb), volume, SB_COL_VOLUME, 0, 1, 2);
+    } else {
+        gtk_grid_attach(GTK_GRID(sb), volume, 2, 0, 1 ,2); /* FIXME */
+    }
     allocated_bars[i].volume = volume;
 
 
