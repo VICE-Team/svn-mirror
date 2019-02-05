@@ -35,6 +35,7 @@
 #include "filechooserhelpers.h"
 #include "openfiledialog.h"
 #include "hvsc.h"
+#include "resources.h"
 #include "uivsidwindow.h"
 
 #include "vsidplaylistwidget.h"
@@ -115,9 +116,31 @@ static GtkListStore *playlist_model;
 static GtkWidget *playlist_view;
 
 
+/** \brief  Last used directory
+ *
+ * Is set to the HVSC root directory if that is set in the resources.
+ * Gets freed on destruction of the playlist widget.
+ */
+static char *last_used_dir = NULL;
+
+
 /*
  * Event handlers
  */
+
+
+/** \brief  Event handler for the 'destroy' event of the playlist widget
+ *
+ * \param[in]   widget  playlist widget
+ * \param[in    data    extra event data (unused)
+ */
+static void on_destroy(GtkWidget *widget, gpointer data)
+{
+    if (last_used_dir != NULL) {
+        g_free(last_used_dir);
+        last_used_dir = NULL;
+    }
+}
 
 
 /** \brief  Event handler for the 'row-activated' event of the view
@@ -167,15 +190,33 @@ static void on_playlist_append_clicked(GtkWidget *widget, gpointer data)
             "Attach SID file",
             "SID files",
             file_chooser_pattern_sid,
-            NULL    /* todo: remember last dir */
-            );
+            last_used_dir);
     if (path != NULL) {
         vsid_playlist_widget_append_file(path);
+
+        /*
+         * Update last used dir, I can't use widgets/base/lastdir.{c,h} here
+         * since that requires a reference to a GtkFileChooser, and we don't
+         * have one here.
+         *
+         * Perhaps I should implement some non-GtkFileChooser functions in
+         * lastdir.{c,h} if this happens again.
+         */
+        if (last_used_dir != NULL) {
+            g_free(last_used_dir);
+            last_used_dir = g_path_get_dirname(path);
+        }
+
         g_free(path);
     }
 }
 
 
+/** \brief  Event handler for the 'remove' button
+ *
+ * \param[in]   widget  button triggering the event
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
 {
     GtkTreeSelection *selection;
@@ -191,6 +232,8 @@ static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Test event handler
+ */
 static void on_foo_clicked(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("FOO clicked!");
@@ -198,6 +241,16 @@ static void on_foo_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Event handler for button press events on the playlist
+ *
+ * Pops up a context menu on the playlist.
+ *
+ * \param[in,out]   view    playlist view widget
+ * \param[in]       event   event reference
+ * \param[in]       data    extra even data
+ *
+ * \return  TRUE when event consumed and no further propagation is needed
+ */
 static gboolean on_button_press_event(GtkWidget *view,
                                       GdkEvent *event,
                                       gpointer data)
@@ -208,7 +261,8 @@ static gboolean on_button_press_event(GtkWidget *view,
     if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         menu = gtk_menu_new();
 
-        item = gtk_menu_item_new_with_label("This is supposed to start a SID, but it doesn't work :)");
+        item = gtk_menu_item_new_with_label(
+                "This is supposed to start a SID, but it doesn't work :)");
         gtk_container_add(GTK_CONTAINER(menu), item);
         gtk_widget_show_all(menu);
 
@@ -331,6 +385,7 @@ GtkWidget *vsid_playlist_widget_create(void)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *scroll;
+    const char *hvsc_dir;
 
     vsid_playlist_model_create();
     vsid_playlist_view_create();
@@ -357,20 +412,28 @@ GtkWidget *vsid_playlist_widget_create(void)
             vsid_playlist_controls_create(),
             0, 2, 1, 1);
 
-#if 0
-    vsid_playlist_widget_append_file(
-            "D:\\C64Music\\MUSICIANS\\H\\Hubbard_Rob\\Commando.sid");
-    vsid_playlist_widget_append_file(
-            "D:\\C64Music\\MUSICIANS\\J\\JCH\\Calypso.sid");
-    vsid_playlist_widget_append_file(
-            "D:\\C64Music\\MUSICIANS\\B\\Blues_Muz\\Gallefoss_Glenn\\Vicious_Circles.sid");
-#endif
+    /*
+     * Set 'last used dir' to HVSC dir, if present
+     */
+    if (resources_get_string("HVSCRoot", &hvsc_dir) >= 0) {
+        if (hvsc_dir != NULL && *hvsc_dir != '\0') {
+            last_used_dir = g_strdup(hvsc_dir);
+        }
+    }
+
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;
 }
 
 
+/** \brief  Append \a path to the playlist
+ *
+ * \param[in[   path    path to SID file
+ *
+ * \return  TRUE on success, FALSE on failure
+ */
 gboolean vsid_playlist_widget_append_file(const gchar *path)
 {
     GtkTreeIter iter;
@@ -406,11 +469,16 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
 }
 
 
+/** \brief  Remove SID file at \a row from playlist
+ *
+ * \param[in]   row     row in playlist
+ */
 void vsid_playlist_widget_remove_file(int row)
 {
     if (row < 0) {
         debug_gtk3("got invalid row %d.", row);
         return;
     }
+    /* TODO: actually remove item :) */
 }
 
