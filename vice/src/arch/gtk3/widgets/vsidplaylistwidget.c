@@ -59,11 +59,23 @@ typedef struct plist_ctrl_button_s {
 } plist_ctrl_button_t;
 
 
+typedef struct plist_state_s {
+    GtkTreeModel *      model;
+    GtkTreeSelection *  selection;
+    GtkTreeIter         iter;
+    GtkTreePath *       path;
+    gchar *             path_str;
+} plist_state_t;
+
+
 /*
  * Forward declarations
  */
 static void on_playlist_append_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data);
+static void on_playlist_next_clicked(GtkWidget *widget, gpointer data);
+static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data);
+
 
 
 /** \brief  List of playlist controls
@@ -73,10 +85,10 @@ static const plist_ctrl_button_t controls[] = {
         NULL,
         "Go to start of playlist" },
     { "media-seek-backward", CTRL_ACTION,
-        NULL,
+        on_playlist_prev_clicked,
         "Go to previous tune" },
     { "media-seek-forward", CTRL_ACTION,
-        NULL,
+        on_playlist_next_clicked,
         "Go to next tune" },
     { "media-skip-forward", CTRL_ACTION,
         NULL,
@@ -122,6 +134,50 @@ static GtkWidget *playlist_view;
  * Gets freed on destruction of the playlist widget.
  */
 static char *last_used_dir = NULL;
+
+
+static void playlist_state_init(plist_state_t *state)
+{
+    state->selection = NULL;
+    state->model = NULL;
+
+    /* TODO: init iter to some initial state */
+
+    state->path = NULL;
+    state->path_str = NULL;
+}
+
+
+static gboolean playlist_state_get(plist_state_t *state)
+{
+    playlist_state_init(state);
+
+    state->selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    if (gtk_tree_selection_get_selected(state->selection,
+                                        &(state->model),
+                                        &(state->iter))) {
+            /* got proper iter */
+            state->path = gtk_tree_model_get_path(state->model, &(state->iter));
+            state->path_str = gtk_tree_path_to_string(state->path);
+            return TRUE;
+    }
+    return FALSE;
+}
+
+
+static void playlist_state_free(plist_state_t *state)
+{
+    if (state->path != NULL) {
+        gtk_tree_path_free(state->path);
+    }
+    if (state->path_str != NULL) {
+        g_free(state->path_str);
+    }
+
+    /* reset for future use */
+    playlist_state_init(state);
+}
+
 
 
 /*
@@ -228,6 +284,84 @@ static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
                                         &iter)) {
         debug_gtk3("got valid iter.");
         gtk_list_store_remove(playlist_model, &iter);
+    }
+}
+
+
+static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
+{
+#if 0
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreePath *path;
+    gchar *pstr;
+#endif
+
+    plist_state_t state;
+
+    debug_gtk3("clicked!");
+
+    if (playlist_state_get(&state)) {
+        debug_gtk3("got valid iterator: %s", state.path_str);
+
+        if (gtk_tree_model_iter_next(state.model, &(state.iter))) {
+
+            GValue value = G_VALUE_INIT;
+            const gchar *filename;
+
+            gtk_tree_selection_select_iter(state.selection, &(state.iter));
+
+            gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
+                    &(state.iter), 2, &value);
+            filename = g_value_get_string(&value);
+            debug_gtk3("got filename '%s'.", filename);
+
+            ui_vsid_window_load_psid(filename);
+
+            g_value_unset(&value);
+
+            playlist_state_free(&state);
+        }
+    }
+}
+
+
+static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
+{
+#if 0
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreePath *path;
+    gchar *pstr;
+#endif
+
+    plist_state_t state;
+
+    debug_gtk3("clicked!");
+
+    if (playlist_state_get(&state)) {
+        debug_gtk3("got valid iterator: %s", state.path_str);
+
+        if (gtk_tree_model_iter_previous(state.model, &(state.iter))) {
+
+            GValue value = G_VALUE_INIT;
+            const gchar *filename;
+
+            gtk_tree_selection_select_iter(state.selection, &(state.iter));
+
+            gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
+                    &(state.iter), 2, &value);
+            filename = g_value_get_string(&value);
+            debug_gtk3("got filename '%s'.", filename);
+
+            ui_vsid_window_load_psid(filename);
+
+            g_value_unset(&value);
+
+            playlist_state_free(&state);
+        }
     }
 }
 
@@ -450,10 +584,10 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
     }
 
     /* get SID name and author */
-    memset(name, 0, HVSC_PSID_TEXT_LEN + 1);
-    memset(author, 0, HVSC_PSID_TEXT_LEN + 1);
     memcpy(name, psid.name, HVSC_PSID_TEXT_LEN);
+    name[HVSC_PSID_TEXT_LEN] = '\0';
     memcpy(author, psid.author, HVSC_PSID_TEXT_LEN);
+    author[HVSC_PSID_TEXT_LEN] = '\0';
 
     /* append SID to playlist */
     gtk_list_store_append(playlist_model, &iter);
