@@ -59,6 +59,11 @@ typedef struct plist_ctrl_button_s {
 } plist_ctrl_button_t;
 
 
+/** \brief  Playlist state object
+ *
+ * This can be used to get the current playlist state without going through
+ * some of the boilerplate hell of Gtk's tree/list models/views
+ */
 typedef struct plist_state_s {
     GtkTreeModel *      model;
     GtkTreeSelection *  selection;
@@ -75,6 +80,8 @@ static void on_playlist_append_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_next_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data);
+static void on_playlist_first_clicked(GtkWidget *widget, gpointer data);
+static void on_playlist_last_clicked(GtkWidget *widget, gpointer data);
 
 
 
@@ -82,7 +89,7 @@ static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data);
  */
 static const plist_ctrl_button_t controls[] = {
     { "media-skip-backward", CTRL_ACTION,
-        NULL,
+        on_playlist_first_clicked,
         "Go to start of playlist" },
     { "media-seek-backward", CTRL_ACTION,
         on_playlist_prev_clicked,
@@ -91,7 +98,7 @@ static const plist_ctrl_button_t controls[] = {
         on_playlist_next_clicked,
         "Go to next tune" },
     { "media-skip-forward", CTRL_ACTION,
-        NULL,
+        on_playlist_last_clicked,
         "Go to end of playlist" },
     { "media-playlist-repeat", CTRL_TOGGLE,
         NULL,
@@ -136,6 +143,12 @@ static GtkWidget *playlist_view;
 static char *last_used_dir = NULL;
 
 
+/** \brief  Initialize playlist \a state object
+ *
+ * Initializes \a state to an invalid/empty state
+ *
+ * \param[out]  state   playlist state object
+ */
 static void playlist_state_init(plist_state_t *state)
 {
     state->selection = NULL;
@@ -148,6 +161,15 @@ static void playlist_state_init(plist_state_t *state)
 }
 
 
+/** \brief  Get current playlist state
+ *
+ * Get the Gtk tree model, selection, iterator, path and all that jazz of the
+ * playlist.
+ *
+ * \param[out]  state   playlist state
+ *
+ * \return  TRUE if valid iterator and thus state.
+ */
 static gboolean playlist_state_get(plist_state_t *state)
 {
     playlist_state_init(state);
@@ -165,6 +187,10 @@ static gboolean playlist_state_get(plist_state_t *state)
 }
 
 
+/** \brief  Free members of \a state and reset \a state for next use
+ *
+ * \param[in,out]   state   playlist state object
+ */
 static void playlist_state_free(plist_state_t *state)
 {
     if (state->path != NULL) {
@@ -288,6 +314,72 @@ static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+static void on_playlist_first_clicked(GtkWidget *widget, gpointer data)
+{
+    plist_state_t state;
+
+    debug_gtk3("clicked!");
+
+    if (playlist_state_get(&state)) {
+        debug_gtk3("got valid iterator: %s", state.path_str);
+
+        if (gtk_tree_model_get_iter_first(state.model, &(state.iter))) {
+
+            GValue value = G_VALUE_INIT;
+            const gchar *filename;
+
+            gtk_tree_selection_select_iter(state.selection, &(state.iter));
+            gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
+                    &(state.iter), 2, &value);
+            filename = g_value_get_string(&value);
+            debug_gtk3("got filename '%s'.", filename);
+
+            ui_vsid_window_load_psid(filename);
+
+            g_value_unset(&value);
+
+            playlist_state_free(&state);
+        }
+    }
+}
+
+
+static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
+{
+    plist_state_t state;
+
+    debug_gtk3("clicked!");
+
+    if (playlist_state_get(&state)) {
+
+        GValue value = G_VALUE_INIT;
+        const gchar *filename;
+        GtkTreeIter temp;
+
+        debug_gtk3("got valid iterator: %s", state.path_str);
+
+        /* This is complete bollocks, there is no gtk_tree_model_iter_last() */
+        temp = state.iter;
+        while (gtk_tree_model_iter_next(state.model, &(state.iter))) {
+            temp = state.iter;
+        }
+
+        gtk_tree_selection_select_iter(state.selection, &temp);
+        gtk_tree_model_get_value(GTK_TREE_MODEL(state.model),
+                &(temp), 2, &value);
+        filename = g_value_get_string(&value);
+        debug_gtk3("got filename '%s'.", filename);
+
+        ui_vsid_window_load_psid(filename);
+
+        g_value_unset(&value);
+
+        playlist_state_free(&state);
+    }
+}
+
+
+
 static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
 {
 #if 0
@@ -327,6 +419,13 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+
+
+/** \brief  Go to previous entry in the playlist
+ *
+ * \param[in]   widget  button triggering the event (unused)
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
 {
 #if 0
