@@ -203,11 +203,24 @@ static const vice_gtk3_combo_entry_int_t crtc_colors[] = {
 };
 
 
+/* forward declarations of helper functions */
+static GtkWidget *create_screenshot_param_widget(const char *prefix);
+static void save_screenshot_handler(void);
+static void save_audio_recording_handler(void);
+static void save_video_recording_handler(void);
+
+
 /** \brief  Reference to the GtkStack containing the media types
  *
  * Used in the dialog response callback to determine recording mode and params
  */
 static GtkWidget *stack;
+
+
+/** \brief  Pause state when activating the dialog
+ */
+static int old_pause_state = 0;
+
 
 /* references to widgets, used from various event handlers */
 static GtkWidget *screenshot_options_grid = NULL;
@@ -218,12 +231,6 @@ static GtkWidget *ted_luma_widget = NULL;
 static GtkWidget *crtc_textcolor_widget = NULL;
 static GtkWidget *video_driver_options_grid = NULL;
 
-
-/* forward declarations of helper functions */
-static GtkWidget *create_screenshot_param_widget(const char *prefix);
-static void save_screenshot_handler(void);
-static void save_audio_recording_handler(void);
-static void save_video_recording_handler(void);
 
 
 /*****************************************************************************
@@ -241,7 +248,11 @@ static void on_dialog_destroy(GtkWidget *widget, gpointer data)
         debug_gtk3("called: cleaning up driver list.");
         lib_free(video_driver_list);
     }
-    ui_pause_emulation(FALSE);
+
+    /* only unpause when the emu wasn't paused when activating the dialog */
+    if (!old_pause_state) {
+        ui_pause_emulation(FALSE);
+    }
 }
 
 
@@ -582,8 +593,8 @@ static void create_video_driver_list(void)
         driver = gfxoutput_drivers_iter_init();
         while (driver != NULL) {
             debug_gtk3(".. adding driver '%s'. ext: %s.",
-			    driver->name,
-			    driver->default_extension);
+                    driver->name,
+                    driver->default_extension);
             video_driver_list[index].display = driver->displayname;
             video_driver_list[index].name = driver->name;
             video_driver_list[index].ext = driver->default_extension;
@@ -949,6 +960,10 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
      * the ui_pause_emulation() function is a little weird: when passed FALSE
      * it unpauses, when passed TRUE it toggles the paused state.
      */
+
+    /* remember pause state before entering the widget */
+    old_pause_state = ui_emulation_is_paused();
+
     if (!ui_emulation_is_paused()) {
         ui_pause_emulation(TRUE);
     }
