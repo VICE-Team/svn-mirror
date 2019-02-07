@@ -32,5 +32,6 @@
 #include <gtk/gtk.h>
 
 void vsid_playlist_add_dialog_exec(void (*callback)(GSList *files));
+void vsid_playlist_add_dialog_free(void);
 
 #endif

@@ -86,7 +86,6 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_first_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_last_clicked(GtkWidget *widget, gpointer data);
-static void on_playlist_open_clicked(GtkWidget *widget, gpointer data);
 
 
 /** \brief  List of playlist controls
@@ -117,7 +116,7 @@ static const plist_ctrl_button_t controls[] = {
         on_playlist_remove_clicked,
         "Remove selected tune from playlist" },
     { "document-open", CTRL_ACTION,
-        on_playlist_open_clicked,
+        NULL,
         "Open playlist file" },
     { "document-save", CTRL_ACTION,
         NULL,
@@ -243,6 +242,8 @@ static void on_destroy(GtkWidget *widget, gpointer data)
         g_free(last_used_dir);
         last_used_dir = NULL;
     }
+
+    vsid_playlist_add_dialog_free();
 }
 
 
@@ -287,31 +288,7 @@ static void on_row_activated(GtkTreeView *view,
  */
 static void on_playlist_append_clicked(GtkWidget *widget, gpointer data)
 {
-    gchar *path;
-
-    path = vice_gtk3_open_file_dialog(
-            "Attach SID file",
-            "SID files",
-            file_chooser_pattern_sid,
-            last_used_dir);
-    if (path != NULL) {
-        vsid_playlist_widget_append_file(path);
-
-        /*
-         * Update last used dir, I can't use widgets/base/lastdir.{c,h} here
-         * since that requires a reference to a GtkFileChooser, and we don't
-         * have one here.
-         *
-         * Perhaps I should implement some non-GtkFileChooser functions in
-         * lastdir.{c,h} if this happens again.
-         */
-        if (last_used_dir != NULL) {
-            g_free(last_used_dir);
-            last_used_dir = g_path_get_dirname(path);
-        }
-
-        g_free(path);
-    }
+    vsid_playlist_add_dialog_exec(add_files_callback);
 }
 
 
@@ -485,7 +462,6 @@ static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
 
 static void on_playlist_open_clicked(GtkWidget *widget, gpointer data)
 {
-    vsid_playlist_add_dialog_exec(add_files_callback);
 }
 
 
