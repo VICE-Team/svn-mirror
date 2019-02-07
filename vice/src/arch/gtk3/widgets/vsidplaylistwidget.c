@@ -38,6 +38,10 @@
 #include "resources.h"
 #include "uivsidwindow.h"
 
+/* TODO: move and rename `convert_to_utf8()` */
+#include "vsidtuneinfowidget.h"
+#include "vsidplaylistadddialog.h"
+
 #include "vsidplaylistwidget.h"
 
 
@@ -82,7 +86,7 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_first_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_last_clicked(GtkWidget *widget, gpointer data);
-
+static void on_playlist_open_clicked(GtkWidget *widget, gpointer data);
 
 
 /** \brief  List of playlist controls
@@ -113,7 +117,7 @@ static const plist_ctrl_button_t controls[] = {
         on_playlist_remove_clicked,
         "Remove selected tune from playlist" },
     { "document-open", CTRL_ACTION,
-        NULL,
+        on_playlist_open_clicked,
         "Open playlist file" },
     { "document-save", CTRL_ACTION,
         NULL,
@@ -204,6 +208,23 @@ static void playlist_state_free(plist_state_t *state)
     playlist_state_init(state);
 }
 
+
+static void add_files_callback(GSList *files)
+{
+    GSList *pos = files;
+
+    if (files == NULL) {
+        return;
+    }
+
+    do {
+        const char *path = (const char *)(pos->data);
+        debug_gtk3("Adding SID: %s", path);
+        vsid_playlist_widget_append_file(path);
+        pos = g_slist_next(pos);
+    } while (pos != NULL);
+    g_slist_free(files);
+}
 
 
 /*
@@ -419,8 +440,6 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-
-
 /** \brief  Go to previous entry in the playlist
  *
  * \param[in]   widget  button triggering the event (unused)
@@ -463,6 +482,12 @@ static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
         }
     }
 }
+
+static void on_playlist_open_clicked(GtkWidget *widget, gpointer data)
+{
+    vsid_playlist_add_dialog_exec(add_files_callback);
+}
+
 
 
 /** \brief  Test event handler
@@ -673,6 +698,8 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
     hvsc_psid_t psid;
     char name[HVSC_PSID_TEXT_LEN + 1];
     char author[HVSC_PSID_TEXT_LEN + 1];
+    char *name_utf8;
+    char *author_utf8;
 
     /* Attempt to parse sid header for title & composer */
     if (!hvsc_psid_open(path, &psid)) {
@@ -688,15 +715,20 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
     memcpy(author, psid.author, HVSC_PSID_TEXT_LEN);
     author[HVSC_PSID_TEXT_LEN] = '\0';
 
+    name_utf8 = convert_to_utf8(name);
+    author_utf8 = convert_to_utf8(author);
+
     /* append SID to playlist */
     gtk_list_store_append(playlist_model, &iter);
     gtk_list_store_set(playlist_model, &iter,
-            0, name,
-            1, author,
+            0, name_utf8,
+            1, author_utf8,
             2, path,
             -1);
 
     /* clean up */
+    g_free(name_utf8);
+    g_free(author_utf8);
     hvsc_psid_close(&psid);
     return TRUE;
 }

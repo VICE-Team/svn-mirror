@@ -173,6 +173,7 @@ libwidgets_a_SOURCES = \
 	vsidcontrolwidget.c \
 	vsidmainwidget.c \
 	vsidmixerwidget.c \
+	vsidplaylistadddialog.c \
 	vsidplaylistwidget.c \
 	vsidtuneinfowidget.c
 
@@ -319,5 +320,6 @@ EXTRA_DIST = \
 	vsidcontrolwidget.h \
 	vsidmainwidget.h \
 	vsidmixerwidget.h \
+	vsidplaylistadddialog.h \
 	vsidplaylistwidget.h \
 	vsidtuneinfowidget.h
