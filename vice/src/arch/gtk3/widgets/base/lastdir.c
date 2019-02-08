@@ -111,6 +111,16 @@ void lastdir_update(GtkWidget *widget, char **last)
 }
 
 
+void lastdir_update_raw(char *path, char **last)
+{
+    if (*last != NULL) {
+        g_free(*last);
+    }
+    *last = path;
+}
+
+
+
 /** \brief  Free memory used by *\a last
  *
  * Clean up memory used by last used directory string, if any.

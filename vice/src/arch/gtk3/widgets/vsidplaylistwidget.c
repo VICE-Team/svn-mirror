@@ -137,13 +137,6 @@ static GtkListStore *playlist_model;
 static GtkWidget *playlist_view;
 
 
-/** \brief  Last used directory
- *
- * Is set to the HVSC root directory if that is set in the resources.
- * Gets freed on destruction of the playlist widget.
- */
-static char *last_used_dir = NULL;
-
 
 /** \brief  Initialize playlist \a state object
  *
@@ -237,11 +230,6 @@ static void add_files_callback(GSList *files)
  */
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
-    if (last_used_dir != NULL) {
-        g_free(last_used_dir);
-        last_used_dir = NULL;
-    }
-
     vsid_playlist_add_dialog_free();
 }
 
@@ -621,7 +609,6 @@ GtkWidget *vsid_playlist_widget_create(void)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *scroll;
-    const char *hvsc_dir;
 
     vsid_playlist_model_create();
     vsid_playlist_view_create();
@@ -647,15 +634,6 @@ GtkWidget *vsid_playlist_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid),
             vsid_playlist_controls_create(),
             0, 2, 1, 1);
-
-    /*
-     * Set 'last used dir' to HVSC dir, if present
-     */
-    if (resources_get_string("HVSCRoot", &hvsc_dir) >= 0) {
-        if (hvsc_dir != NULL && *hvsc_dir != '\0') {
-            last_used_dir = g_strdup(hvsc_dir);
-        }
-    }
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
@@ -715,6 +693,8 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
 /** \brief  Remove SID file at \a row from playlist
  *
  * \param[in]   row     row in playlist
+ *
+ * FIXME:   unlikely this will be used.
  */
 void vsid_playlist_widget_remove_file(int row)
 {
