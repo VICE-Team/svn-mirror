@@ -33,7 +33,6 @@
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
-#include "openfiledialog.h"
 #include "hvsc.h"
 #include "resources.h"
 #include "uivsidwindow.h"
@@ -460,9 +459,12 @@ static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data)
     }
 }
 
+
+#if 0
 static void on_playlist_open_clicked(GtkWidget *widget, gpointer data)
 {
 }
+#endif
 
 
 
