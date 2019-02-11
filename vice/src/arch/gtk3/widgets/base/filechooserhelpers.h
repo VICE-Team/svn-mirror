@@ -65,4 +65,5 @@ extern const ui_file_filter_t file_chooser_filter_snapshot;
 GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
                                           gboolean show_globs);
 
+gchar * file_chooser_convert_to_locale(const gchar *text);
 #endif

@@ -227,3 +227,33 @@ GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
     return ff;
 }
 
+
+/** \brief  Convert UTF-8 encoded string \a text to the current locale
+ *
+ * \param[in]   text    UTF-8 encoded string
+ *
+ * \return  \a text encoded to the locale, or the original string on failure
+ *
+ * \note    the result must be freed after use with g_free()
+ */
+gchar * file_chooser_convert_to_locale(const gchar *text)
+{
+    GError *err = NULL;
+    char *result = g_locale_from_utf8(
+            text,
+            -1,
+            NULL,
+            NULL,
+            &err);
+    if (result == NULL) {
+        fprintf(stderr, "warning: failed to convert string to locale.\n");
+        result = g_strdup(text);
+        if (err != NULL) {
+            g_error_free(err);
+        }
+    }
+    return result;
+}
+
+
+
