@@ -76,6 +76,19 @@ typedef struct plist_state_s {
 } plist_state_t;
 
 
+typedef enum {
+    CTX_MENU_ACTION,
+    CTX_MENU_SEP
+} ctx_menu_item_type_t;
+
+
+typedef struct ctx_menu_item_s {
+    const char *            text;
+    gboolean                (*callback)(GtkWidget *, gpointer *);
+    ctx_menu_item_type_t    type;
+} ctx_menu_item_t;
+
+
 /*
  * Forward declarations
  */
@@ -124,6 +137,16 @@ static const plist_ctrl_button_t controls[] = {
         NULL,
         "Clear playlist" },
     { NULL, 0, NULL, NULL }
+};
+
+
+
+static const ctx_menu_item_t cmenu_items[] = {
+    { "Play", NULL, CTX_MENU_ACTION },
+    { "Delete", NULL, CTX_MENU_ACTION },
+    { "---", NULL, CTX_MENU_SEP },
+    { "Export binary", NULL, CTX_MENU_ACTION },
+    { NULL, NULL, -1 }
 };
 
 
@@ -465,6 +488,37 @@ static void on_foo_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+static GtkWidget *create_context_menu(void)
+{
+    GtkWidget *menu;
+    GtkWidget *item;
+    int i;
+
+    menu = gtk_menu_new();
+
+    for (i = 0; cmenu_items[i].text != NULL; i++) {
+
+        if (cmenu_items[i].type == CTX_MENU_SEP) {
+            item = gtk_separator_menu_item_new();
+        } else {
+            item = gtk_menu_item_new_with_label(cmenu_items[i].text);
+            if (cmenu_items[i].callback != NULL) {
+                g_signal_connect(
+                        item,
+                        "activate",
+                        G_CALLBACK(cmenu_items[i].callback),
+                        GINT_TO_POINTER(i));
+            }
+        }
+        gtk_container_add(GTK_CONTAINER(menu), item);
+
+    }
+    gtk_widget_show_all(menu);
+    return menu;
+}
+
+
+
 /** \brief  Event handler for button press events on the playlist
  *
  * Pops up a context menu on the playlist.
@@ -479,25 +533,11 @@ static gboolean on_button_press_event(GtkWidget *view,
                                       GdkEvent *event,
                                       gpointer data)
 {
-    GtkWidget *menu;
-    GtkWidget *item;
 
     if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
-        menu = gtk_menu_new();
+        GtkWidget *menu = create_context_menu();
 
-        item = gtk_menu_item_new_with_label(
-                "This is supposed to start a SID, but it doesn't work :)");
-        gtk_container_add(GTK_CONTAINER(menu), item);
-        gtk_widget_show_all(menu);
-
-        g_signal_connect(item, "activate", G_CALLBACK(on_foo_clicked), view);
-#if 0
-        gtk_menu_popup_at_widget(GTK_MENU(menu), view,
-                GDK_GRAVITY_NORTH_EAST, GDK_GRAVITY_SOUTH_WEST,
-                event);
-#else
         gtk_menu_popup_at_pointer(GTK_MENU(menu), event);
-#endif
         return TRUE;
     } else {
         return FALSE;
