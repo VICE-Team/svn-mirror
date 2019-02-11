@@ -1298,6 +1298,7 @@ int ui_init(int *argc, char **argv)
 
     GSettings *settings;
     GVariant *variant;
+    GtkSettings *settings_default;
 
 #if 0
     INCOMPLETE_IMPLEMENTATION();
@@ -1305,6 +1306,16 @@ int ui_init(int *argc, char **argv)
     gtk_init(argc, &argv);
 
     kbd_hotkey_init();
+
+    /*
+     * Make sure F10 doesn't trigger the menu bar
+     *
+     * I tried unmapping via CSS, but according to the Gtk devs, this little
+     * hack works, and it does.
+     */
+    settings_default = gtk_settings_get_default();
+    g_object_set(settings_default, "gtk-menu-bar-accel", "F20", NULL);
+
 
     if (!uidata_init()) {
         log_error(LOG_ERR,
