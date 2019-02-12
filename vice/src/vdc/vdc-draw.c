@@ -71,6 +71,49 @@ static const uint8_t semigfxmask[16] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+static const uint8_t displayedpixmask[17] = {
+    0x00, 0x80, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC, 0xFE,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF
+};
+
+static const int8_t displayedwidth[256] = {
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+     1, 2, 3, 4, 5, 6, 7, 0, 8, 8, 8, 8, 8, 8, 8, 8,
+     2, 3, 4, 5, 6, 7, 8, 0, 1, 8, 8, 8, 8, 8, 8, 8,
+     3, 4, 5, 6, 7, 8, 8, 0, 1, 2, 8, 8, 8, 8, 8, 8,
+     4, 5, 6, 7, 8, 8, 8, 0, 1, 2, 3, 8, 8, 8, 8, 8,
+     5, 6, 7, 8, 8, 8, 8, 0, 1, 2, 3, 4, 8, 8, 8, 8,
+     6, 7, 8, 8, 8, 8, 8, 0, 1, 2, 3, 4, 5, 8, 8, 8,
+     7, 8, 8, 8, 8, 8, 8, 0, 1, 2, 3, 4, 5, 6, 8, 8,
+     8, 8, 8, 8, 8, 8, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8,
+     8, 8, 8, 8, 8, 8, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8
+};
+
+static const int8_t semigfxtype[256] = {
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+     1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+     1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+     1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+     1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
+     1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0,
+     1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
+     1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0,
+     1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1
+};
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 /*
@@ -532,7 +575,7 @@ static void draw_std_text(void)
     unsigned int i, d, d2, dmask, d2mask, semi_gfx_test, semi_gfx_mask;
     unsigned int cpos = 0xFFFF;
     int icsi = -1;  /* Inter Character Spacing Index - used as a combo flag/index as to whether there is any intercharacter gap to render */
-    int displayedpixels;    /* technically this is displayed pixels - 1, because it's an index starting from 0 */
+    int displayedpixels;
     
     cpos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
 
@@ -558,44 +601,78 @@ static void draw_std_text(void)
     
     /* Calculate the displayed character width, and bit-masks for the character byte (d) & inter-character gap byte (d2) */
     /* Various special cases here to cover weird observed behaviour */
-    if ((vdc.regs[22] & 0x0F) > (vdc.regs[22] >> 4)) {  /* if displayed width > total width, it seems to always display the full 8 pixels, but semi-grafix won't extend through any gap */
-        displayedpixels = 7;
-        dmask = 0xFF;
-        semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
-    } else if ((vdc.regs[22] & 0x0F) == 7) {    /* displayed width of 7 produces blank display, except if semigfx mode is enabled, in which case it shows full 8 pixels but without any extension through any gap */
-        displayedpixels = 7;
-        if (vdc.regs[25] & 0x20) {  /* Semi-graphics mode */
-            dmask = 0xFF;   /* show all pixels */
-        } else {
-            dmask = 0x00;   /* show no pixels */
-        }
-        semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
-    } else {    /* otherwise display a certain amount of pixels, which increases by 1 with each increment in total width set */
-        semi_gfx_test = (vdc.regs[25] & 0x20);    /* set this initially as a flag for yes/no semigfx */
-        displayedpixels = (vdc.regs[22] & 0x0F) + (vdc.regs[22] >> 4) - 7;
-        if (vdc.regs[25] & 0x10) { /* double pixel mode */
-            displayedpixels--;  /* compensate for the different reg[22] setup you need for doublepixel/40col mode */
-        }
-        if ((vdc.regs[22] & 0x0F) >= 8) {   /* there's an odd wrap around effect in this case */
-            displayedpixels -= 9;
-            /* Force semigfx test on in double pixel/40col mode - things get weirder here because it acts like semigfx mode is on, when it isn't */
-            semi_gfx_test = (vdc.regs[25] & 0x10);  /* test for double pixel mode */
-        }
-        if (displayedpixels < 0) {  /* try not to segfault */
-            displayedpixels = 0;
-        }
-        dmask = mask[displayedpixels];
-        if (semi_gfx_test) {    /* if we need to do semigfx... */
-            semi_gfx_test = semigfxtest[displayedpixels];   /* .. set it as a mask to check the appropriate bit */
-        }
-    }
-    if ((vdc.regs[22] >> 4) >= 8) { /* if there is inter-char gap then... */
-        d2mask = mask[(vdc.regs[22] >> 4) - 8];  /* ..calculate the mask to apply to display the correct # of pixels but no more */
-    } else {
-        d2mask = 0x00;  /* this shouldn't matter as it shouldn't try to render the interchar gap because there isn't one, but setting it to be thorough */
-    }
-    semi_gfx_mask = semigfxmask[displayedpixels];   /* mask for any extra pixels to turn on if semigrfx mode is active */
     
+    /*  For the renderer to work we need to set:
+        dmask - used to mask off bits in the rendered character, if for example we are only showing 4pixels dmask=0xF0
+        d2mask - used to mask off bits in the intercharacter gap, if there is one, so that we only display the 'correct' number of pixels
+        semi_gfx_test - a combo flag & bitmask, if 0 there is no semi-graphics effect. >0 it's the bit mask to check against, e.g. 0x08 for bit 3
+        semi_gfx_mask - used to mask 'on' the remainder of the character, e.g. for semi_gfx_test 0x08, semi_gfx_mask= 0x07 to mask on bits 0-2 inclusive
+        
+        i, displayedpixels is not required, just temp values used in calculations
+    */
+    if (vdc.regs[25] & 0x10) { /* double pixel / 40 column mode */
+        /* half the values for 40column mode are 0x10 further down, so compensate the table lookup */
+        if (!(vdc.regs[22] & 0x08) && (vdc.regs[22] >= 0x10)) {
+            i = vdc.regs[22] - 0x10;
+        } else {
+            i = vdc.regs[22];
+        }
+        displayedpixels = displayedwidth[i];
+        if (displayedpixels < 0) {  /* invalid, i.e displays nothing but black. we don't support this quite yet so just set the displayed width to 0 */
+            displayedpixels = 0;
+            dmask = 0x00;   /* show no pixels */
+            semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+        } else {
+            if ((vdc.regs[25] & 0x20 )  /* Semi-graphics mode */
+                || (vdc.regs[22] >> 4) == (vdc.regs[22] & 0x0F)) { /* extra weirdness - in 40col mode if displayed width = total width, semigfx is enabled either way */
+                if (displayedpixels == 0) {
+                    displayedpixels = 8;    /* there is no width 0 in semigfx mode, so override it if it happens, e.g. R22:0-3 = 7 */
+                }
+                if (semigfxtype[i] == 0) {  /* semigfx mode is active but doesn't extend through intercharacter gap */
+                    semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+                } else {    /* semigfx mode is active and extends through intercharacter gap */
+                    semi_gfx_test = semigfxtest[displayedpixels - 1];   /* .. set it as a mask to check the appropriate bit */
+                }
+            } else {    /* regular text mode */
+                semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+            }
+            dmask = displayedpixmask[displayedpixels];
+        }
+        if ((vdc.regs[22] >> 4) > 8) { /* if there is inter-char gap then...    */
+            d2mask = displayedpixmask[(vdc.regs[22] >> 4) - 6];  /* ..calculate the mask to apply to display the correct # of pixels but no more */
+        } else {
+            d2mask = 0x00;  /* this shouldn't matter as it shouldn't try to render the interchar gap because there isn't one, but setting it to be thorough */
+        }
+    } else {    /* normal / 80 column mode */
+        displayedpixels = displayedwidth[vdc.regs[22]];
+        if (displayedpixels < 0) {  /* invalid, i.e displays nothing but black. we don't support this quite yet so just set the displayed width to 0 */
+            displayedpixels = 0;
+            dmask = 0x00;   /* show no pixels */
+            semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+        } else {
+            if (vdc.regs[25] & 0x20) {  /* Semi-graphics mode */
+                if (displayedpixels == 0) {
+                    displayedpixels = 8;    /* there is no width 0 in semigfx mode, so override it if it happens, e.g. R22:0-3 = 7 */
+                }
+                if (semigfxtype[vdc.regs[22]] == 0) {    /* semigfx mode is active but doesn't extend through intercharacter gap */
+                    semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+                } else {    /* semigfx mode is active and extends through intercharacter gap */
+                    semi_gfx_test = semigfxtest[displayedpixels - 1];   /* .. set it as a mask to check the appropriate bit */
+                }
+            } else {    /* regular text mode */
+                semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
+            }
+            dmask = displayedpixmask[displayedpixels];
+        }
+        if ((vdc.regs[22] >> 4) >= 8) { /* if there is inter-char gap then... */
+            d2mask = displayedpixmask[(vdc.regs[22] >> 4) - 6];  /* ..calculate the mask to apply to display the correct # of pixels but no more */
+        } else {
+            d2mask = 0x00;  /* this shouldn't matter as it shouldn't try to render the interchar gap because there isn't one, but setting it to be thorough */
+        }
+    }
+    semi_gfx_mask = semigfxmask[displayedpixels - 1];   /* mask for any extra pixels to turn on if semigrfx mode is active */
+    
+    /* Now actually render everything */
     if (vdc.regs[25] & 0x40) {  /* Attribute mode - background colour from regs[26] but foreground from attribute ram */
         table_ptr = hr_table + ((vdc.regs[26] & 0x0F) << 4);    /* regs[26] & 0xF is the background colour */
         pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0F) << 4);
