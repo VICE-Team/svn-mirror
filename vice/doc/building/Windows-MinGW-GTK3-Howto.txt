@@ -22,10 +22,17 @@ $ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: gtk3 glew
  of stuff to download and install.)
 
 
-3. If you want to build ReSID (a sound engine) into VICE,
-then you need the xa 6502 cross-assembler, which you must download and build:
- http://www.floodgap.com/retrotech/xa/
+3. Then you need the xa 6502 cross-assembler, which is used to assemble the
+"driver" program for vsid (the SID player that comes with VICE). It can be found
+here: http://www.floodgap.com/retrotech/xa/
+
 Don't log out of the shell.  After you download xa, go back to the shell.
+
+Alternatively use wget to download it:
+
+$ cd /c/Users/<login-name>/Downloads/
+$ wget http://www.floodgap.com/retrotech/xa/dists/xa-2.3.9.tar.gz
+
 Make the directory "/usr/local/src/".
 Use tar to unpack xa (use the MSys2 path to where you downloaded it):
 
