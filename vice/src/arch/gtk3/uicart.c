@@ -262,12 +262,16 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             lastdir_update(dialog, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
+                gchar *filename_locale = file_chooser_convert_to_locale(filename);
+
                 debug_gtk3("attaching '%s'.", filename);
-                if (!attach_cart_image(get_cart_type(), get_cart_id(), filename)) {
+                if (!attach_cart_image(get_cart_type(), get_cart_id(),
+                            filename_locale)) {
                     vice_gtk3_message_error("VICE Error",
                             "Failed to smart-attach '%s'", filename);
                 }
                 g_free(filename);
+                g_free(filename_locale);
             }
             gtk_widget_destroy(dialog);
             break;
@@ -887,8 +891,10 @@ static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
     debug_gtk3("update_preview");
     path = gtk_file_chooser_get_filename(file_chooser);
     if (path != NULL) {
-        crt_preview_widget_update(path);
+        gchar *path_locale = file_chooser_convert_to_locale(path);
+        crt_preview_widget_update(path_locale);
         g_free(path);
+        g_free(path_locale);
     }
 }
 
