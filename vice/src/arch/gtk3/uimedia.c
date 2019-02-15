@@ -44,20 +44,21 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "debug_gtk3.h"
-#include "lib.h"
-#include "resources.h"
-#include "machine.h"
-#include "sound.h"
-#include "screenshot.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
 #include "basedialogs.h"
-#include "openfiledialog.h"
-#include "savefiledialog.h"
-#include "selectdirectorydialog.h"
-#include "ui.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
+#include "filechooserhelpers.h"
 #include "gfxoutput.h"
+#include "lib.h"
+#include "machine.h"
+#include "openfiledialog.h"
+#include "resources.h"
+#include "savefiledialog.h"
+#include "screenshot.h"
+#include "selectdirectorydialog.h"
+#include "sound.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #ifdef HAVE_FFMPEG
 #include "ffmpegwidget.h"
@@ -316,6 +317,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                         audio_driver_index);
                 save_audio_recording_handler();
             }
+            gtk_widget_destroy(GTK_WIDGET(dialog));
             break;
 
 
@@ -460,8 +462,11 @@ static void save_screenshot_handler(void)
 
     filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
     if (filename != NULL) {
+
+        gchar *filename_locale = file_chooser_convert_to_locale(filename);
+
         /* TODO: add extension if not present? */
-        if (screenshot_save(name, filename, ui_get_active_canvas()) < 0) {
+        if (screenshot_save(name, filename_locale, ui_get_active_canvas()) < 0) {
             vice_gtk3_message_error("VICE Error",
                     "Failed to write screenshot file '%s'", filename);
         } else {
@@ -469,6 +474,7 @@ static void save_screenshot_handler(void)
                     "Saved screenshot as '%s'", filename);
         }
         g_free(filename);
+        g_free(filename_locale);
     }
     lib_free(proposed);
     lib_free(title);
@@ -486,6 +492,7 @@ static void save_audio_recording_handler(void)
     const char *name;
     const char *ext;
     gchar *filename;
+    gchar *filename_locale;
     char *title;
     char *proposed;
 
@@ -497,11 +504,14 @@ static void save_audio_recording_handler(void)
     proposed = create_proposed_audio_recording_name(ext);
 
     filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
+    filename_locale = file_chooser_convert_to_locale(filename);
+
     if (filename != NULL) {
         /* XXX: setting resources doesn't exactly help with catching errors */
-        resources_set_string("SoundRecordDeviceArg", filename);
+        resources_set_string("SoundRecordDeviceArg", filename_locale);
         resources_set_string("SoundRecordDeviceName", name);
         g_free(filename);
+        g_free(filename_locale);
     }
 }
 
@@ -544,6 +554,7 @@ static void save_video_recording_handler(void)
         int vc;
         int ab;
         int vb;
+        gchar *filename_locale;
 
         resources_get_string("FFMPEGFormat", &driver);
         resources_get_int("FFMPEGVideoCodec", &vc);
@@ -558,12 +569,16 @@ static void save_video_recording_handler(void)
 
         ui_pause_emulation(FALSE);
 
+
+        filename_locale = file_chooser_convert_to_locale(filename);
+
         /* TODO: add extension if not present? */
-        if (screenshot_save("FFMPEG", filename, ui_get_active_canvas()) < 0) {
+        if (screenshot_save("FFMPEG", filename_locale, ui_get_active_canvas()) < 0) {
             vice_gtk3_message_error("VICE Error",
                     "Failed to write video file '%s'", filename);
         }
         g_free(filename);
+        g_free(filename_locale);
     }
     lib_free(proposed);
     lib_free(title);
