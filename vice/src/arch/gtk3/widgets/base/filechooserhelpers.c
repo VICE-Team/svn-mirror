@@ -28,7 +28,9 @@
 
 #include <gtk/gtk.h>
 
+#include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "util.h"
 
 #include "filechooserhelpers.h"
@@ -236,17 +238,32 @@ GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
  *
  * \note    the result must be freed after use with g_free()
  */
-gchar * file_chooser_convert_to_locale(const gchar *text)
+gchar *file_chooser_convert_to_locale(const gchar *text)
 {
     GError *err = NULL;
-    char *result = g_locale_from_utf8(
-            text,
-            -1,
-            NULL,
-            NULL,
-            &err);
+    gsize br;
+    gsize bw;
+    gchar *result;
+
+#ifdef HAVE_DEBUG_GTK3UI
+    const gchar *charset;
+    gchar *codeset;
+
+    g_get_charset(&charset);
+    codeset = g_get_codeset();
+    debug_gtk3("charset = '%s', codeset = '%s'", charset, codeset);
+    g_free(codeset);
+#endif
+
+    result = g_locale_from_utf8(text, -1, &br, &bw, &err);
+
+    debug_gtk3("bytes read: %"G_GSIZE_FORMAT", bytes written: %"G_GSIZE_FORMAT,
+            br, bw);
+
     if (result == NULL) {
-        fprintf(stderr, "warning: failed to convert string to locale.\n");
+        log_warning(LOG_DEFAULT,
+                "warning: failed to convert string to locale: %s",
+                err->message);
         result = g_strdup(text);
         if (err != NULL) {
             g_error_free(err);

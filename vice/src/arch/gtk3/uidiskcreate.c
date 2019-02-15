@@ -115,7 +115,11 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
         case GTK_RESPONSE_ACCEPT:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             if (filename != NULL) {
-                status = create_disk_image(filename);
+                gchar *filename_locale;
+
+                filename_locale = file_chooser_convert_to_locale(filename);
+                status = create_disk_image(filename_locale);
+                g_free(filename_locale);
             }
             g_free(filename);
             if (status) {
