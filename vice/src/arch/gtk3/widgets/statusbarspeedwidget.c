@@ -398,7 +398,7 @@ static gboolean on_widget_clicked(GtkWidget *widget,
         mouse = 0;
     }
 
-    if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
+    if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
         GtkWidget *menu = speed_menu_popup_create();
         gtk_menu_popup_at_widget(GTK_MENU(menu), widget,
                 GDK_GRAVITY_NORTH_WEST, GDK_GRAVITY_SOUTH_WEST,
