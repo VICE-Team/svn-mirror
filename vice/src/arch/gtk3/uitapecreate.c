@@ -72,8 +72,11 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
         case GTK_RESPONSE_ACCEPT:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             if (filename != NULL) {
+                gchar *filename_locale = file_chooser_convert_to_locale(filename);
+
                 /* create tape */
-                status = create_tape_image(filename);
+                status = create_tape_image(filename_locale);
+                g_free(filename_locale);
             }
             g_free(filename);
             if (status) {
