@@ -79,10 +79,13 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
     if (file != NULL) {
         path = g_file_get_path(file);
         if (path != NULL) {
+            gchar *path_locale = file_chooser_convert_to_locale(path);
+
             debug_gtk3("called with '%s'.", path);
 
-            content_preview_widget_set_image(preview_widget, path);
-           g_free(path);
+            content_preview_widget_set_image(preview_widget, path_locale);
+            g_free(path);
+            g_free(path_locale);
         }
         g_object_unref(file);
     }
@@ -121,6 +124,7 @@ static void on_response(GtkWidget *widget, gint response_id,
                         gpointer user_data)
 {
     gchar *filename;
+    gchar *filename_locale;
     int index;
 
     index = GPOINTER_TO_INT(user_data);
@@ -136,13 +140,14 @@ static void on_response(GtkWidget *widget, gint response_id,
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Attaching file '%s' to tape unit.", filename);
 
-            /* copied from Gtk2: I fail to see how brute-forcing your way
-             * through file types is 'smart', but hell, it works */
-            if (tape_image_attach(1, filename) < 0) {
+            filename_locale = file_chooser_convert_to_locale(filename);
+
+            if (tape_image_attach(1, filename_locale) < 0) {
                 /* failed */
                 debug_gtk3("tape attach failed.");
             }
             g_free(filename);
+            g_free(filename_locale);
             gtk_widget_destroy(widget);
             break;
 
@@ -151,8 +156,10 @@ static void on_response(GtkWidget *widget, gint response_id,
             lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'.", filename);
+
+            filename_locale = file_chooser_convert_to_locale(filename);
             if (autostart_tape(
-                        filename,
+                        filename_locale,
                         NULL,   /* program name */
                         index,
                         AUTOSTART_MODE_RUN) < 0) {
@@ -160,6 +167,7 @@ static void on_response(GtkWidget *widget, gint response_id,
                 debug_gtk3("autostart tape attach failed.");
             }
             g_free(filename);
+            g_free(filename_locale);
             gtk_widget_destroy(widget);
             break;
 
