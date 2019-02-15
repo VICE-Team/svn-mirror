@@ -1334,6 +1334,9 @@ int ui_init(int *argc, char **argv)
      *
      * Perhaps turn this into a resource when people start complaining? Though
      * personally I'm used to having directories sorted before files.
+     *
+     * FIXME:   This alters Gtk/GLib settings globally, ie Wm/Desktop-wide.
+     *          Which probably isn't the correct way.
      */
     settings = g_settings_new("org.gtk.Settings.FileChooser");
     variant = g_variant_new("b", TRUE);
