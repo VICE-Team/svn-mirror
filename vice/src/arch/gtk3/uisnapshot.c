@@ -49,6 +49,7 @@
 #include "vice-event.h"
 #include "uistatusbar.h"
 #include "ui.h"
+#include "uiapi.h"
 
 #include "uisnapshot.h"
 
@@ -330,6 +331,7 @@ void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
 void uisnapshot_history_record_start(GtkWidget *parent, gpointer user_data)
 {
     event_record_start();
+    ui_display_recording(1);
 }
 
 
@@ -341,6 +343,7 @@ void uisnapshot_history_record_start(GtkWidget *parent, gpointer user_data)
 void uisnapshot_history_record_stop(GtkWidget *parent, gpointer user_data)
 {
     event_record_stop();
+    ui_display_recording(0);
 }
 
 

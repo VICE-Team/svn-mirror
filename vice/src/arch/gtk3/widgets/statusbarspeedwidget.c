@@ -474,7 +474,6 @@ GtkWidget *statusbar_speed_widget_create(void)
 
     label = gtk_label_new("CPU: 100%, FPS: 50.125");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_hexpand(label, TRUE);
     /* gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_END); */
 
     event_box = gtk_event_box_new();

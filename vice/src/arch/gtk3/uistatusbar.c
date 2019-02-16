@@ -81,6 +81,7 @@
 #include "dirmenupopup.h"
 #include "joystickmenupopup.h"
 #include "statusbarspeedwidget.h"
+#include "statusbarrecordingwidget.h"
 
 #include "uistatusbar.h"
 
@@ -96,7 +97,9 @@
  */
 enum {
     SB_COL_SPEED = 0,   /**< message widget */
-    SB_COL_SEP_MSG ,    /**< separator between message and ctr/mixer widgets */
+    SB_COL_SEP_SPEED ,  /**< separator between speed/fps and recording widget */
+    SB_COL_RECORD,      /**< recording widget */
+    SB_COL_SEP_RECORD,  /**< separator between recording and crt/mixer widgets */
     SB_COL_CRT,         /**< crt and mixer widgets */
     SB_COL_SEP_CRT,     /**< separator between crt/mixer and tape widgets */
     SB_COL_TAPE,        /**< tape and joysticks widget */
@@ -187,6 +190,10 @@ typedef struct ui_statusbar_s {
      * Also used to set refresh rate, CPU speed, pause, warp and adv-frame
      */
     GtkWidget *speed;
+
+    /** \brief  Recording control/display widget
+     */
+    GtkWidget *record;
 
     /** \brief CRT control widget checkbox */
     GtkWidget *crt;
@@ -752,12 +759,12 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == sb) {
             allocated_bars[i].bar = NULL;
-#if 0
-            if (allocated_bars[i].msg) {
-                g_object_unref(G_OBJECT(allocated_bars[i].msg));
-                allocated_bars[i].msg = NULL;
+
+            if (allocated_bars[i].record) {
+                g_object_unref(G_OBJECT(allocated_bars[i].record));
+                allocated_bars[i].record = NULL;
             }
-#endif
+
             if (allocated_bars[i].speed != NULL) {
                 g_object_unref(G_OBJECT(allocated_bars[i].speed));
                 allocated_bars[i].speed = NULL;
@@ -1192,7 +1199,8 @@ static void layout_statusbar_drives(int bar_index)
      * elements of the status bar. */
     for (i = 0; i < ((DRIVE_NUM + 1) / 2) * 2; ++i) {
         for (j = 0; j < 2; ++j) {
-            GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar), 6+i, j);
+            GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar),
+                    SB_COL_DRIVE + i, j);
             if (child) {
                 /* Fun GTK3 fact! If you destroy an event box, then
                  * even if the thing it contains still has references
@@ -1310,6 +1318,7 @@ void ui_statusbar_init(void)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         allocated_bars[i].bar = NULL;
         allocated_bars[i].speed = NULL;
+        allocated_bars[i].record = NULL;
         allocated_bars[i].crt = NULL;
         allocated_bars[i].mixer = NULL;
         allocated_bars[i].tape = NULL;
@@ -1364,6 +1373,7 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
     GtkWidget *volume;
+    GtkWidget *recording;
     int sound_vol;
     int i, j;
 
@@ -1416,7 +1426,18 @@ GtkWidget *ui_statusbar_create(void)
 
     /* Second column: separator */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-            SB_COL_SEP_MSG, 0, 1, 2);
+            SB_COL_SEP_SPEED, 0, 1, 2);
+
+    /* Recording: third column probably */
+    recording = statusbar_recording_widget_create();
+    gtk_widget_set_hexpand(recording, TRUE);
+    g_object_ref_sink(recording);
+    allocated_bars[i].record = recording;
+    gtk_grid_attach(GTK_GRID(sb), recording, SB_COL_RECORD, 0, 1, 2);
+    /* add sep */
+    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+            SB_COL_SEP_RECORD, 0, 1, 2);
+
 
     /* TODO: skip VSID and add another separator after the checkbox */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1543,7 +1564,7 @@ void ui_display_playback(int playback_status, char *version)
 
 /** \brief  Statusbar API function to display recording status.
  *
- *  \param  recording_status    Unknown.
+ *  \param  recording_status    seems to be bool indicating recording active
  *
  *  \todo   This function is not implemented and its API is not
  *          understood.
@@ -1554,7 +1575,11 @@ void ui_display_playback(int playback_status, char *version)
  */
 void ui_display_recording(int recording_status)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    GtkWidget *widget;
+
+    widget = allocated_bars[0].record;
+
+    statusbar_recording_widget_set_recording_status(widget, recording_status);
 }
 
 

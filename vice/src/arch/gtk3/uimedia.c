@@ -58,6 +58,7 @@
 #include "selectdirectorydialog.h"
 #include "sound.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "widgethelpers.h"
 
 #ifdef HAVE_FFMPEG
@@ -307,15 +308,18 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                     debug_gtk3("Audio recording requested, driver %d.",
                             audio_driver_index);
                     save_audio_recording_handler();
+                    ui_display_recording(1);
                 } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
                     debug_gtk3("Video recording requested, driver %d.",
                             video_driver_index);
                     save_video_recording_handler();
+                    ui_display_recording(1);
                 }
             } else {
                 debug_gtk3("Audio recording requested, driver %d.",
                         audio_driver_index);
                 save_audio_recording_handler();
+                ui_display_recording(1);
             }
             gtk_widget_destroy(GTK_WIDGET(dialog));
             break;
@@ -1028,5 +1032,8 @@ gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data)
     if (screenshot_is_recording()) {
         screenshot_stop_recording();
     }
+
+    ui_display_recording(0);
+
     return TRUE;
 }
