@@ -691,11 +691,11 @@ int console_init(void)
     char *full_name;
     char *short_name;
     int takes_filename_as_arg;
-    
+
     if (native_monitor()) {
         return consolefb_init();
     }
-    
+
     while (mon_get_nth_command(i++, (const char **)&full_name, (const char **)&short_name, &takes_filename_as_arg)) {
         if (strlen(full_name)) {
             linenoiseAddCompletion(&command_lc, full_name);
