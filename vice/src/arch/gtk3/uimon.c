@@ -476,7 +476,17 @@ console_t *uimon_window_resume(void)
 
     gtk_widget_show_all(fixed.window);
     screen_resize_window_cb (VTE_TERMINAL(fixed.term), NULL);
+
+    /*
+     * Make the monitor window appear on top of the active emulated machine
+     * window. This makes the monitor window show when the emulated machine
+     * window is in fullscreen mode. (only tested on Windows 10)
+     */
+    gtk_window_set_transient_for(GTK_WINDOW(fixed.window),
+            ui_get_active_window());
+
     gtk_window_present(GTK_WINDOW(fixed.window));
+
     ui_dispatch_events();
     return &vte_console;
 }
