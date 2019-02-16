@@ -1530,20 +1530,19 @@ GtkWidget *ui_statusbar_create(void)
 
 /** \brief Statusbar API function to register an elapsed time.
  *
- *  \param current The current time value.
- *  \param total   The maximum time value
+ *  \param current The current time value in seconds
+ *  \param total   The maximum time value in seconds
  *
- *  \todo This function is not implemented and its API is not
- *        understood.
- *
- * \note    Since the statusbar message display widget has been removed, we
- *          have some space to implement a widget to display information
- *          regarding playback/recording.
  */
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    GtkWidget *widget;
+
+    widget = allocated_bars[0].record;
+
+    statusbar_recording_widget_set_time(widget, current, total);
 }
+
 
 /** \brief Statusbar API function to display playback status.
  *

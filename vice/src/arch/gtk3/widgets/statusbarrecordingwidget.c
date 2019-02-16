@@ -1,9 +1,6 @@
 /** \file   statusbarrecordingwidget.c
  * \brief   Widget to display and control recording of events/audio/video
  *
- * TODO:    Perhaps have some timestamp display to indicate how long a
- *          recording has been going on?
- *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -46,8 +43,18 @@
 /** \brief  Columns in the recording widget
  */
 enum {
-    RW_COL_TEXT,    /**< label widget */
-    RW_COL_BUTTON   /**< button (STOP) widget */
+    RW_COL_TEXT = 0,    /**< recording status label */
+    RW_COL_TIME = 0,    /**< recording time label */
+    RW_COL_BUTTON = 1   /**< STOP button */
+};
+
+
+/** \brief  Rows in the recording widget
+ */
+enum {
+    RW_ROW_TEXT = 0,    /**< recording status label */
+    RW_ROW_TIME = 1,    /**< recording time label */
+    RW_ROW_BUTTON = 0   /**< STOP button (takes both rows) */
 };
 
 
@@ -87,7 +94,7 @@ static void on_stop_clicked(GtkWidget *button, gpointer data)
         event_record_stop();
     }
 
-    label = gtk_grid_get_child_at(GTK_GRID(data), RW_COL_TEXT, 0);
+    label = gtk_grid_get_child_at(GTK_GRID(data), RW_COL_TEXT, RW_ROW_TEXT);
     gtk_label_set_text(GTK_LABEL(label), "Recording stopped.");
 }
 
@@ -107,14 +114,21 @@ GtkWidget *statusbar_recording_widget_create(void)
     grid = vice_gtk3_grid_new_spaced(8, 8);
     gtk_widget_set_hexpand(grid, TRUE);
 
+    /* recording status label */
     label = gtk_label_new("Recording widget, not quite finished.");
-    gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TEXT, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TEXT, RW_ROW_TEXT, 1, 1);
     gtk_widget_set_halign(label, GTK_ALIGN_FILL);
     gtk_widget_set_hexpand(label, TRUE);
 
+    /* recording timestamp label */
+    label = gtk_label_new("00:00 / 00:00");
+    gtk_widget_set_halign(label, GTK_ALIGN_FILL);
+    gtk_widget_set_hexpand(label, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TIME, RW_ROW_TIME, 1, 1);
+
     button = gtk_button_new_from_icon_name("media-playback-stop",
                                            GTK_ICON_SIZE_LARGE_TOOLBAR);
-    gtk_grid_attach(GTK_GRID(grid), button, RW_COL_BUTTON, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), button, RW_COL_BUTTON, RW_ROW_BUTTON, 1, 2);
     gtk_widget_set_halign(button, GTK_ALIGN_END);
     gtk_widget_set_hexpand(button, FALSE);
     gtk_widget_set_sensitive(button, FALSE);
@@ -145,7 +159,12 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
 
     /* determine recording type */
     if (event_record_active()) {
-        /* XXX: doesn't work for some obscure reason */
+        /* XXX: doesn't work for some obscure reason
+         *
+         * When triggering the menu item 'start event recording' again, we do
+         * get "Recording events", so it looks like the event recording state
+         * is set after events.c calls ui_display_recording().
+         */
         type = RW_TYPE_EVENTS;
     } else if (sound_is_recording()) {
         type = RW_TYPE_AUDIO;
@@ -155,11 +174,38 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
 
 
     /* update recording status text */
-    label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, 0);
+    label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, RW_ROW_TEXT);
     g_snprintf(buffer, 256, "Recording %s ...", rec_types[type]);
     gtk_label_set_text(GTK_LABEL(label), buffer);
 
     /* enable/disable STOP butto based on the \a status variable */
-    button = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_BUTTON, 0);
+    button = gtk_grid_get_child_at(
+            GTK_GRID(widget), RW_COL_BUTTON, RW_ROW_BUTTON);
+    gtk_widget_set_tooltip_text(button, "Stop recording");
     gtk_widget_set_sensitive(button, status);
+}
+
+
+/** \brief  Update recording/playback time display
+ *
+ * \param[in,out]   statusbar   recording widget
+ * \param[in]       current     current time in seconds
+ * \param[in]       total       total time in seconds
+ *
+ * \note    \a total only makes sense when replaying events.
+ *          I could make the time display '--:--' when \a total is 0, but it
+ *          it possible, though unlikely, we're replaying a sequence of events
+ *          which take less than a second.
+ */
+void statusbar_recording_widget_set_time(GtkWidget *widget,
+                                         unsigned int current,
+                                         unsigned int total)
+{
+    GtkWidget *label;
+    gchar buffer[256];
+
+    label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
+    g_snprintf(buffer, 256, "Time: %02u:%02u / %02u:%02u",
+            current / 60, current % 60, total / 60, total % 60);
+    gtk_label_set_text(GTK_LABEL(label), buffer);
 }
