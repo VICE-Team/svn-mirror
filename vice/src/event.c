@@ -383,7 +383,6 @@ static void next_alarm_set(void)
 
     alarm_set(event_alarm, new_value);
 }
-
 static void next_current_list(void)
 {
     event_list->current = event_list->current->next;
@@ -677,9 +676,11 @@ static void event_record_start_trap(uint16_t addr, void *data)
 {
     switch (event_start_mode) {
         case EVENT_START_MODE_FILE_SAVE:
-            if (machine_write_snapshot(event_snapshot_path(event_start_snapshot),
-                                       1, 1, 0) < 0) {
-                ui_error("Could not create start snapshot file %s.", event_snapshot_path(event_start_snapshot));
+            if (machine_write_snapshot(
+                        event_snapshot_path(event_start_snapshot),
+                        1, 1, 0) < 0) {
+                ui_error("Could not create start snapshot file %s.",
+                        event_snapshot_path(event_start_snapshot));
                 ui_display_recording(0);
                 return;
             }
@@ -691,8 +692,10 @@ static void event_record_start_trap(uint16_t addr, void *data)
             current_timestamp = 0;
             break;
         case EVENT_START_MODE_FILE_LOAD:
-            if (machine_read_snapshot(event_snapshot_path(event_end_snapshot), 1) < 0) {
-                ui_error("Error reading end snapshot file %s.", event_snapshot_path(event_end_snapshot));
+            if (machine_read_snapshot(event_snapshot_path(event_end_snapshot),
+                        1) < 0) {
+                ui_error("Error reading end snapshot file %s.",
+                        event_snapshot_path(event_end_snapshot));
                 return;
             }
             warp_end_list();
@@ -730,6 +733,9 @@ static void event_record_start_trap(uint16_t addr, void *data)
     /* use alarm for timestamps */
     milestone_timestamp_alarm = 0;
     alarm_set(event_alarm, next_timestamp_clk);
+
+    record_active = 1;
+    ui_display_recording(1);
 }
 
 int event_record_start(void)
@@ -747,8 +753,6 @@ int event_record_start(void)
     }
 
     interrupt_maincpu_trigger_trap(event_record_start_trap, (void *)0);
-
-    ui_display_recording(1);
 
     return 0;
 }
