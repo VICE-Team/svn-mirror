@@ -478,16 +478,10 @@ static void on_playlist_open_clicked(GtkWidget *widget, gpointer data)
 #endif
 
 
-
-/** \brief  Test event handler
+/** \brief  Create context menu for the playlist
+ *
+ * \return  GtkMenu
  */
-static void on_foo_clicked(GtkWidget *widget, gpointer data)
-{
-    debug_gtk3("FOO clicked!");
-
-}
-
-
 static GtkWidget *create_context_menu(void)
 {
     GtkWidget *menu;
