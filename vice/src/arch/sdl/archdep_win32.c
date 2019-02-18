@@ -1,10 +1,10 @@
-/*
- * archdep_win32.c - Miscellaneous system-specific stuff.
+/** \file   archdep_win32.c
+ * \brief   Miscellaneous system-specific stuff
  *
- * Written by
- *  Tibor Biczo <crown@mail.matav.hu>
- *  Andreas Boose <viceteam@t-online.de>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Tibor Biczo <crown@mail.matav.hu>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -218,28 +218,11 @@ char *archdep_default_joymap_file_name(void)
 }
 
 
-
-/* FIXME: do we still support Watcom? --compyx */
-#ifndef WATCOM_COMPILE
 #ifndef _S_IREAD
 #define _S_IREAD S_IREAD
 #endif
 #ifndef _S_IWRITE
 #define _S_IWRITE S_IWRITE
-#endif
-#endif
-
-#if 0
-char *archdep_tmpnam(void)
-{
-    if (getenv("temp")) {
-        return util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    } else if (getenv("tmp")) {
-        return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    } else {
-        return lib_stralloc(tmpnam(NULL));
-    }
-}
 #endif
 
 
@@ -322,7 +305,7 @@ int archdep_rtc_get_centisecond(void)
     return (int)(t.wMilliseconds / 10);
 }
 
-#if defined(_MSC_VER) && !defined(WATCOM_COMPILE)
+#if defined(_MSC_VER)
 #include "dirent.h"
 
 struct _vice_dir {

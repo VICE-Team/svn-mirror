@@ -106,9 +106,7 @@ void archdep_signals_init(int do_coredumps);
 #define ARCHDEP_AV_PREFIX_NEEDED
 
 /* Needs extra call to log_archdep() even when logfile is already opened */
-#ifndef WATCOM_COMPILE
 #define ARCHDEP_EXTRA_LOG_CALL
-#endif
 
 /* When using the ascii printer driver we need a return before the newline */
 #define ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE

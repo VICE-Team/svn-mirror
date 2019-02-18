@@ -33,7 +33,7 @@
 #include <time.h>
 #include <io.h>
 
-#if !defined(__MINGW32__) && !defined(WATCOM_COMPILE)
+#if !defined(__MINGW32__)
 #include "IP6_misc.h"
 #endif
 

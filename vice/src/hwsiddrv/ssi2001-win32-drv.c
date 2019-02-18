@@ -112,11 +112,7 @@ static void ssi2001_outb(unsigned int addrint, short value)
         }
     } else {
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-        outp(addr, value);
-#else
         _outp(addr, value);
-#endif
 #endif
     }
 }
@@ -139,11 +135,7 @@ static BYTE ssi2001_inb(unsigned int addrint)
         }
     } else {
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-        return inp(addr);
-#else
         return _inp(addr);
-#endif
 #endif
     }
     return retval;

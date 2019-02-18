@@ -41,10 +41,6 @@
 #include <unistd.h>
 #endif
 
-#if defined(WATCOM_COMPILE) && defined(HAVE_IO_H)
-#include <io.h>
-#endif
-
 
 #include "version.h"
 

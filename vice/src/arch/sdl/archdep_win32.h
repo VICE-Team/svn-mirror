@@ -1,9 +1,8 @@
-/*
- * archdep_win32.h - Architecture dependant defines.
+/** \file   archdep_win32.h
+ * \brief   Architecture dependent defines
  *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -109,9 +108,7 @@ extern void archdep_workaround_nop(const char *otto);
 #define ARCHDEP_AV_PREFIX_NEEDED
 
 /* Needs extra call to log_archdep() even when logfile is already opened */
-#ifndef WATCOM_COMPILE
 #define ARCHDEP_EXTRA_LOG_CALL
-#endif
 
 /* When using the ascii printer driver we need a return before the newline */
 #define ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE

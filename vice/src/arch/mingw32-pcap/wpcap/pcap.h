@@ -37,12 +37,12 @@
 #ifndef lib_pcap_h
 #define lib_pcap_h
 
-#if defined(WIN32) || defined(__WATCOMC__) || defined(WATCOM_COMPILE)
+#if defined(WIN32)
 #include <pcap-stdinc.h>
-#else /* WIN32 */
+#else /* not WIN32 */
 #include <sys/types.h>
 #include <sys/time.h>
-#endif /* WIN32 */
+#endif /* not WIN32 */
 
 #include <net/bpf.h>
 

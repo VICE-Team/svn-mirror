@@ -391,11 +391,9 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
      socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
      Thus, server_address must not be NULL.
 */
-vice_network_socket_t * vice_network_server(const vice_network_socket_address_t * server_address)
+vice_network_socket_t *vice_network_server(
+        const vice_network_socket_address_t * server_address)
 {
-#ifndef WATCOM_COMPILE
-    int socket_reuse_address = 1;
-#endif
     int sockfd = INVALID_SOCKET;
     int error = 1;
 
@@ -422,16 +420,6 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
         if ((server_address->domain == PF_INET) || (server_address->domain == PF_INET6)) {
 #else
         if ((server_address->domain == PF_INET)) {
-#endif
-#ifndef WATCOM_COMPILE
-#if defined(SO_REUSEPORT)
-          setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, (const void*)&socket_reuse_address, sizeof(socket_reuse_address));
-#elif defined(SO_REUSEADDR)
-          setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void*)&socket_reuse_address, sizeof(socket_reuse_address));
-#endif
-#if defined(TCP_NODELAY)
-          setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&error, sizeof(error)); /* just an integer with 1, not really an error */
-#endif
 #endif
         }
         if (bind(sockfd, &server_address->address.generic, server_address->len) < 0) {
@@ -484,10 +472,8 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
             break;
         }
 
-#ifndef WATCOM_COMPILE
 #if defined(TCP_NODELAY)
         setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&error, sizeof(error)); /* just an integer with 1, not really an error */
-#endif
 #endif
 
         if (connect(sockfd, &server_address->address.generic, server_address->len) < 0) {

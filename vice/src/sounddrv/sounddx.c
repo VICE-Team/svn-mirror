@@ -46,13 +46,8 @@
 #include <mmsystem.h>
 #endif
 
-#if defined(WATCOM_COMPILE) || defined(__WATCOMC__)
-#define DIRECTSOUND_VERSION 0x0900
-#include <directx/dsound.h>
-#else
 #define DIRECTSOUND_VERSION 0x0500
 #include <dsound.h>
-#endif
 
 #if defined(USE_SDLUI) || defined(USE_SDLUI2)
 #define INCLUDE_SDL_SYSWM_H

@@ -129,11 +129,8 @@ int yyparse (void);
 #undef __GNUC__
 #endif
 
-#ifdef MINIXVMD
-#undef vfork
-#endif
 
-#if (defined(__BEOS__) && defined(WORDS_BIGENDIAN)) || defined(__OS2__) || defined(__WATCOMC__)
+#if (defined(__BEOS__) && defined(WORDS_BIGENDIAN)) || defined(__OS2__)
 #ifndef __cplusplus
 #undef inline
 #define inline

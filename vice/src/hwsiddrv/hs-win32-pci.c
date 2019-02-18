@@ -101,11 +101,7 @@ static void hardsid_outb(unsigned int addrint, DWORD value)
     assert(addr == addrint);
 
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-    outp(addr, (BYTE)value);
-#else
     _outp(addr, (BYTE)value);
-#endif
 #endif
 }
 
@@ -117,11 +113,7 @@ static void hardsid_outl(unsigned int addrint, DWORD value)
     assert(addr == addrint);
 
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-    outpd(addr, value);
-#else
     _outpd(addr, value);
-#endif
 #endif
 }
 
@@ -133,11 +125,7 @@ static BYTE hardsid_inb(unsigned int addrint)
     assert(addr == addrint);
 
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-    return inp(addr);
-#else
     return _inp(addr);
-#endif
 #endif
     return 0;
 }
@@ -150,11 +138,7 @@ static DWORD hardsid_inl(unsigned int addrint)
     assert(addr == addrint);
 
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-    return inpd(addr);
-#else
     return _inpd(addr);
-#endif
 #endif
     return 0;
 }

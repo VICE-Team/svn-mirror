@@ -1,9 +1,8 @@
-/*
- * video.c - SDL video
+/** \brief  video.c
+ * \brief   SDL video (probably needs a more descriptive 'brief')
  *
- * Written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Hannu Nuotio <hannu.nuotio@tut.fi>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * Based on code by
  *  Ettore Perazzoli
@@ -332,11 +331,7 @@ static const resource_string_t resources_string[] = {
     RESOURCE_STRING_LIST_END
 };
 
-#if defined(WATCOM_COMPILE)
-#define VICE_DEFAULT_BITDEPTH 32
-#else
 #define VICE_DEFAULT_BITDEPTH 0
-#endif
 
 #ifdef ANDROID_COMPILE
 #define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_MAX

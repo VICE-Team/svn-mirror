@@ -137,11 +137,7 @@ static void hardsid_outb(unsigned int addrint, BYTE value)
         }
     } else {
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-        outp(addr, value);
-#else
         _outp(addr, value);
-#endif
 #endif
     }
 }
@@ -164,11 +160,7 @@ static BYTE hardsid_inb(unsigned int addrint)
         }
     } else {
 #ifdef  _M_IX86
-#ifdef WATCOM_COMPILE
-        retval = inp(addr);
-#else
         retval = _inp(addr);
-#endif
 #endif
     }
     return retval;
