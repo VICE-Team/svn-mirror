@@ -1171,6 +1171,11 @@ uint8_t machine_tape_behaviour(void)
     return 0;
 }
 
+int tapecart_is_valid(const char *filename)
+{
+    return 0;   /* FALSE */
+}
+
 int tapecart_attach_tcrt(const char *filename, void *unused)
 {
     return -1;

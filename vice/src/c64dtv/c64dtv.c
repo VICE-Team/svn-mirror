@@ -946,6 +946,11 @@ void tapeport_set_tape_sense(int sense, int id)
 {
 }
 
+int tapecart_is_valid(const char *filename)
+{
+    return 0;   /* FALSE */
+}
+
 int tapecart_attach_tcrt(const char *filename, void *unused)
 {
     return -1;

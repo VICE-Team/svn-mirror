@@ -425,6 +425,10 @@ const char *tape_get_file_name(void)
  *  tapecart                                                                 *
  ****************************************************************************/
 
+int tapecart_is_valid(const char *filename)
+{
+    return 0;   /* FALSE */
+}
 
 int tapecart_attach_tcrt(const char *filename, void *unused)
 {

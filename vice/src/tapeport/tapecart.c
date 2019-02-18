@@ -61,7 +61,17 @@
 
 #include "tapecart.h"
 
+
+#define TCRT_MAGIC_LEN  13
+
+
 static char idstring[] = "TAPECART V1.0 W25QFLASH";
+
+
+/** \brief  Tapecart header magic string
+ */
+static const char tcrt_magic[TCRT_MAGIC_LEN] = "tapecartImage";
+
 
 static int tapecart_enabled       = 0;
 static int tapecart_update_tcrt   = 0;
@@ -1837,6 +1847,38 @@ static void update_tcrt(void)
         save_tcrt(tcrt_filename, tapecart_memory);
     }
 }
+
+
+/** \brief  Check magic of the tapecart \a filename
+ *
+ * Checks the first 13 bytes for 'tapecartImage', which seems to be the TCRT
+ * header magic.
+ *
+ * \return  bool
+ */
+int tapecart_is_valid(const char *filename)
+{
+    unsigned char buffer[TCRT_MAGIC_LEN];
+    FILE *fp;
+
+    fp = fopen(filename, "rb");
+    if (fp == NULL) {
+        return 0;
+    }
+
+    if (fread(buffer, 1, TCRT_MAGIC_LEN, fp) != TCRT_MAGIC_LEN) {
+        fclose(fp);
+        return 0;
+    }
+
+    if (memcmp(buffer, tcrt_magic, TCRT_MAGIC_LEN) != 0) {
+        fclose(fp);
+        return 0;
+    }
+    fclose(fp);
+    return 1;
+}
+
 
 int tapecart_attach_tcrt(const char *filename, void *unused)
 {

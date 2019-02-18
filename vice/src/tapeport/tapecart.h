@@ -54,4 +54,6 @@ extern int tapecart_attach_tcrt(const char *filename, void *unused);
 extern int tapecart_flush_tcrt(void);
 extern void tapecart_exit(void);
 
+int tapecart_is_valid(const char *filename);
+
 #endif
