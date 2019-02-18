@@ -27,9 +27,7 @@ COMMON_EXTRA_DIST = \
 	INSTALL \
 	NEWS \
 	gcccpu.sh \
-	tixbuildinfo \
-	vice-mint-sdl.spec \
-	vice-mint-sdl.spec.in
+	tixbuildinfo
 
 EXTRA_DIST = $(COMMON_EXTRA_DIST)
 

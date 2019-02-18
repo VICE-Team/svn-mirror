@@ -3642,7 +3642,6 @@ rpath_line=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAG
 LDFLAGS="$LDFLAGS $rpath_line"
 
 AC_OUTPUT([Makefile
-           vice-mint-sdl.spec
            build/Makefile
            build/android/Makefile
            build/beos/Makefile
