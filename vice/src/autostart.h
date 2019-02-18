@@ -61,6 +61,7 @@ extern int autostart_tape(const char *file_name, const char *program_name,
                           unsigned int program_number, unsigned int runmode);
 extern int autostart_prg(const char *file_name, unsigned int runmode);
 extern int autostart_snapshot(const char *file_name, const char *program_name);
+extern int autostart_tapecart(const char *file_name, void *unused);
 
 extern void autostart_disable(void);
 extern void autostart_advance(void);

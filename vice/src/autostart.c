@@ -67,6 +67,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
+#include "tapecart.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -1298,6 +1299,18 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     return result;
 }
 
+
+int autostart_tapecart(const char *file_name, void *unused)
+{
+    if (tapecart_attach_tcrt(file_name, NULL) == 0) {
+        reboot_for_autostart(NULL, AUTOSTART_HASTAPE, AUTOSTART_MODE_RUN);
+        return 0;
+    }
+    return -1;
+}
+
+
+
 /* ------------------------------------------------------------------------- */
 
 int autostart_autodetect_opt_prgname(const char *file_prog_name,
@@ -1361,6 +1374,11 @@ int autostart_autodetect(const char *file_name, const char *program_name,
             log_message(autostart_log, "`%s' recognized as tape image.", file_name);
             return 0;
         }
+
+        if (autostart_tapecart(file_name, NULL) == 0) {
+            return 0;
+        }
+
     }
 
     if (autostart_snapshot(file_name, program_name) == 0) {

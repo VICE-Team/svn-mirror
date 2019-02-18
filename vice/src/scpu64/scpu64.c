@@ -105,6 +105,7 @@
 #include "sid.h"
 #include "snespad.h"
 #include "sound.h"
+#include "tapecart.h"
 #include "traps.h"
 #include "types.h"
 #include "userport.h"
@@ -1168,6 +1169,11 @@ uint8_t machine_tape_type_default(void)
 uint8_t machine_tape_behaviour(void)
 {
     return 0;
+}
+
+int tapecart_attach_tcrt(const char *filename, void *unused)
+{
+    return -1;
 }
 
 static int get_cart_emulation_state(void)

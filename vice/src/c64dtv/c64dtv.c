@@ -95,6 +95,7 @@
 #include "sid.h"
 #include "sound.h"
 #include "tape.h"
+#include "tapecart.h"
 #include "tapeport.h"
 #include "traps.h"
 #include "types.h"
@@ -944,6 +945,13 @@ void tapeport_trigger_flux_change(unsigned int on, int id)
 void tapeport_set_tape_sense(int sense, int id)
 {
 }
+
+int tapecart_attach_tcrt(const char *filename, void *unused)
+{
+    return -1;
+}
+
+
 
 int machine_addr_in_ram(unsigned int addr)
 {

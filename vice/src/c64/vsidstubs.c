@@ -58,6 +58,7 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
+#include "tapecart.h"
 #include "tapeport.h"
 #include "imagecontents/tapecontents.h"
 #include "tape-snapshot.h"
@@ -417,6 +418,17 @@ void tape_get_header(tape_image_t *tape_image, uint8_t *name)
 const char *tape_get_file_name(void)
 {
     return NULL;
+}
+
+
+/*****************************************************************************
+ *  tapecart                                                                 *
+ ****************************************************************************/
+
+
+int tapecart_attach_tcrt(const char *filename, void *unused)
+{
+    return -1;
 }
 
 /*******************************************************************************
