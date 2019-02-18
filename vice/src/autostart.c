@@ -179,6 +179,16 @@ static const char * const AutostartRunCommandsAvailable[] = {
     "RUN\r", "RUN:\r"
 };
 
+
+/** \brief  Tapecart header magic
+ *
+ * Shouldn't actually be here. A tapecart_is_valid() or so would be preferred.
+ * Also note the lenght of 13, which avoids a '\0' at the end of the magic
+ * string.
+ */
+static const char tcrt_magic[13] = "tapecartImage";
+
+
 static const char * AutostartRunCommand = NULL;
 
 static void set_handle_true_drive_emulation_state(void)
@@ -1302,7 +1312,29 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 
 int autostart_tapecart(const char *file_name, void *unused)
 {
+    /*
+     * All this header/magic detection should be handle by tapecart.c, not here.
+     * Adding it here so we can at least again auto PRG's again
+     */
+    unsigned char buffer[32];
+    FILE *fp;
+
+    fp = fopen(file_name, "rb");
+    if (fp == NULL) {
+        return -1;
+    }
+
+    memset(buffer, 0, 32);
+    fread(buffer, 1, 32, fp);
+    if (memcmp(buffer, tcrt_magic, sizeof(tcrt_magic)) != 0) {
+        fclose(fp);
+        return -1;
+    }
+    fclose(fp);
+
+    /* This is where the magic check should happen: */
     if (tapecart_attach_tcrt(file_name, NULL) == 0) {
+        fprintf(stderr, "'%s' recognized as tapecart image.", file_name);
         reboot_for_autostart(NULL, AUTOSTART_HASTAPE, AUTOSTART_MODE_RUN);
         return 0;
     }
@@ -1376,6 +1408,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         }
 
         if (autostart_tapecart(file_name, NULL) == 0) {
+            log_message(autostart_log, "`%s' recognized as tapecart image.", file_name);
             return 0;
         }
 
