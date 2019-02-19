@@ -1,9 +1,10 @@
+/** \file   ffmpegdrv.c
+ * \brie    Movie driver using FFMPEG library and screenshot API
+ *
+ * \author  Andreas Matthies <andreas.matthies@gmx.net>
+ */
+
 /*
- * ffmpegdrv.c - Movie driver using FFMPEG library and screenshot API.
- *
- * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -446,13 +447,8 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
     }
     c->channel_layout = (channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO);
     c->channels = VICE_P_AV_GET_CHANNEL_LAYOUT_NB_CHANNELS(c->channel_layout);
- 
-#ifdef _MSC_VER
-    st->time_base.num = 1;
-	st->time_base.den = c->sample_rate;
-#else
+
     st->time_base = (AVRational){ 1, c->sample_rate };
-#endif
     audio_st.st = st;
     audio_st.next_pts = 0;
     audio_st.samples_count = 0;
@@ -524,10 +520,6 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
     AVFrame *frame;
     int ret;
 
-#ifdef _MSC_VER
-    AVRational tmp;
-#endif
-
     if (audio_st.st) {
         audio_st.frame->pts = audio_st.next_pts;
         audio_st.next_pts += audio_in->size;
@@ -565,13 +557,7 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
                 return -1;
             }
             frame = audio_st.frame;
-#ifdef _MSC_VER
-            tmp.num = 1;
-            tmp.den = c->sample_rate;
-            frame->pts = VICE_P_AV_RESCALE_Q(audio_st.samples_count, tmp, c->time_base);
-#else
             frame->pts = VICE_P_AV_RESCALE_Q(audio_st.samples_count, (AVRational){ 1, c->sample_rate }, c->time_base);
-#endif
             audio_st.samples_count += dst_nb_samples;
         }
 

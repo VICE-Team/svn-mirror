@@ -1,8 +1,7 @@
-/*
- * z80mem.c
+/**\file    z80mem.c
+ * \brief   Z80 memory handling
  *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ * \author  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -307,9 +306,6 @@ static void z80_c64io_df00_store(uint16_t adr, uint8_t val)
 #define z80_c64io_df00_store  c64io_df00_store
 #endif
 
-#ifdef _MSC_VER
-#pragma optimize("",off)
-#endif
 
 void z80mem_initialize(void)
 {
@@ -537,9 +533,6 @@ void z80mem_initialize(void)
     io_write_tab[0xdf] = z80_c64io_df00_store;
 }
 
-#ifdef _MSC_VER
-#pragma optimize("",on)
-#endif
 
 void z80mem_update_config(int config)
 {

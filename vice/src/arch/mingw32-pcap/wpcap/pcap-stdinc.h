@@ -34,11 +34,7 @@
 #include <io.h>
 
 #if !defined(__MINGW32__)
-#include "IP6_misc.h"
+#include "ip6_misc.h"
 #endif
 
 #define caddr_t char*
-
-#if defined _MSC_VER && _MSC_VER < 1900 
-#define snprintf _snprintf
-#endif

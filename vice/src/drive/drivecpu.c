@@ -360,10 +360,6 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
     return 0;
 }
 
-/* MPi: For some reason MSVC is generating a compiler fatal error when optimising this function? */
-#ifdef _MSC_VER
-#pragma optimize("",off)
-#endif
 /* -------------------------------------------------------------------------- */
 /* Execute up to the current main CPU clock value.  This automatically
    calculates the corresponding number of clock ticks in the drive.  */
@@ -456,9 +452,6 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
     drivecpu_sleep(drv);
 }
 
-#ifdef _MSC_VER
-#pragma optimize("",on)
-#endif
 
 /* ------------------------------------------------------------------------- */
 

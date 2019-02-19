@@ -305,60 +305,6 @@ int archdep_rtc_get_centisecond(void)
     return (int)(t.wMilliseconds / 10);
 }
 
-#if defined(_MSC_VER)
-#include "dirent.h"
-
-struct _vice_dir {
-    WIN32_FIND_DATA find_data;
-    HANDLE handle;
-    int first_passed;
-    char *filter;
-};
-
-DIR *opendir(const char *path)
-{
-    DIR *dir;
-    TCHAR *st_filter;
-
-    dir = lib_malloc(sizeof(DIR));
-    dir->filter = util_concat(path, "\\*", NULL);
-
-    st_filter = system_mbstowcs_alloc(dir->filter);
-    dir->handle = FindFirstFile(st_filter, &dir->find_data);
-    system_mbstowcs_free(st_filter);
-    if (dir->handle == INVALID_HANDLE_VALUE) {
-        return NULL;
-    }
-
-    dir->first_passed = 0;
-    return dir;
-}
-
-struct dirent *readdir(DIR *dir)
-{
-    static struct dirent ret;
-
-    if (dir->first_passed) {
-        if (!FindNextFile(dir->handle, &dir->find_data)) {
-            return NULL;
-        }
-    }
-
-    dir->first_passed = 1;
-    ret.d_name = dir->find_data.cFileName;
-    ret.d_namlen = (int)strlen(ret.d_name);
-
-    return &ret;
-}
-
-void closedir(DIR *dir)
-{
-    FindClose(dir->handle);
-    lib_free(dir->filter);
-    lib_free(dir);
-}
-#endif
-
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good

@@ -1,5 +1,5 @@
-/*
- * hs-win32-dll.c - Windows (HardSID.dll) specific hardsid driver.
+/** \file   hs-win32-dll.c
+ * \brief   Windows (HardSID.dll) specific hardsid driver
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

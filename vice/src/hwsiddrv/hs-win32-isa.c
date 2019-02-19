@@ -1,8 +1,7 @@
-/*
- * hs-win32-isa.c - HardSID ISA support for WIN32.
+/** \file   hs-win32-isa.c
+ * \brief   HardSID ISA support for WIN32
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -189,24 +188,13 @@ void hs_isa_store(uint16_t addr, uint8_t outval, int chipno)
 
 static HINSTANCE hLib = NULL;
 
-#ifdef _MSC_VER
-#  ifdef _WIN64
-#    define INPOUTDLLNAME "inpoutx64.dll"
-#    define WINIODLLNAME  "winio64.dll"
-#  else
-#    define INPOUTDLLNAME "inpout32.dll"
-#    define WINIODLLNAME  "winio32.dll"
-#    define WINIOOLDNAME  "winio.dll"
-#  endif
+#if defined(__amd64__) || defined(__x86_64__)
+#  define INPOUTDLLNAME "inpoutx64.dll"
+#  define WINIODLLNAME  "winio64.dll"
 #else
-#  if defined(__amd64__) || defined(__x86_64__)
-#    define INPOUTDLLNAME "inpoutx64.dll"
-#    define WINIODLLNAME  "winio64.dll"
-#  else
-#    define INPOUTDLLNAME "inpout32.dll"
-#    define WINIODLLNAME  "winio32.dll"
-#    define WINIOOLDNAME  "winio.dll"
-#  endif
+#  define INPOUTDLLNAME "inpout32.dll"
+#  define WINIODLLNAME  "winio32.dll"
+#  define WINIOOLDNAME  "winio.dll"
 #endif
 
 static int detect_sid_uno(void)

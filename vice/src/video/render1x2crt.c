@@ -43,18 +43,9 @@
 static inline
 void yuv_to_rgb(int32_t y, int32_t u, int32_t v, int16_t *red, int16_t *grn, int16_t *blu)
 {
-#ifdef _MSC_VER
-# pragma warning( push )
-# pragma warning( disable: 4244 )
-#endif
-
     *red = (y + v) >> 16;
     *blu = (y + u) >> 16;
     *grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
-
-#ifdef _MSC_VER
-# pragma warning( pop )
-#endif
 }
 
 /* Often required function that stores gamma-corrected pixel to current line,
@@ -194,10 +185,6 @@ void store_line_and_scanline_UYVY(
     int16_t *const prevline, const int shade,
     int32_t y1_, int32_t u1, int32_t v1, int32_t y2_, int32_t u2, int32_t v2)
 {
-#ifdef _MSC_VER
-# pragma warning( push )
-# pragma warning( disable: 4244 )
-#endif
     uint8_t y1 = (uint8_t)((y1_ >> 16) & 0xFFu);
     uint8_t y2 = (uint8_t)((y2_ >> 16) & 0xFFu);
 
@@ -227,9 +214,6 @@ void store_line_and_scanline_UYVY(
     prevline[4] = u1;
     prevline[5] = v1;
 */
-#ifdef _MSC_VER
-# pragma warning( pop )
-#endif
 }
 
 static inline
@@ -238,11 +222,6 @@ void store_line_and_scanline_YUY2(
     int16_t *const prevline, const int shade,
     int32_t y1_, int32_t u1, int32_t v1, int32_t y2_, int32_t u2, int32_t v2)
 {
-#ifdef _MSC_VER
-# pragma warning( push )
-# pragma warning( disable: 4244 )
-#endif
-
     uint8_t y1 = (uint8_t)((y1_ >> 16) & 0xFFu);
     uint8_t y2 = (uint8_t)((y2_ >> 16) & 0xFFu);
 
@@ -273,9 +252,6 @@ void store_line_and_scanline_YUY2(
     prevline[5] = v1;
 */
 
-#ifdef _MSC_VER
-# pragma warning( pop )
-#endif
 }
 
 static inline
@@ -284,11 +260,6 @@ void store_line_and_scanline_YVYU(
     int16_t *const prevline, const int shade,
     int32_t y1_, int32_t u1, int32_t v1, int32_t y2_, int32_t u2, int32_t v2)
 {
-#ifdef _MSC_VER
-# pragma warning( push )
-# pragma warning( disable: 4244 )
-#endif
-
     uint8_t y1 = (uint8_t)((y1_ >> 16) & 0xFFu);
     uint8_t y2 = (uint8_t)((y2_ >> 16) & 0xFFu);
 
@@ -319,9 +290,6 @@ void store_line_and_scanline_YVYU(
     prevline[5] = v1;
 */
 
-#ifdef _MSC_VER
-# pragma warning( pop )
-#endif
 }
 
 

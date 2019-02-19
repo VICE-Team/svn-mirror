@@ -1,8 +1,7 @@
-/*
- * hs-win32-pci.c - HardSID PCI support for WIN32.
+/** \file   hs-win32-pci.c
+ * \brief   HardSID PCI support for WIN32
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -40,6 +39,8 @@
  - Windows XP (PCI HardSID Quattro, winio32.dll PCI I/O)
  - Windows 2003 Server (PCI HardSID, winio32.dll PCI I/O)
  - Windows 2003 Server (PCI HardSID Quattro, winio32.dll PCI I/O)
+
+ None of these are even remotely current :)
  */
 
 #include "vice.h"
@@ -170,20 +171,11 @@ void hs_pci_store(uint16_t addr, uint8_t outval, int chipno)
 
 static HINSTANCE hLib = NULL;
 
-#ifdef _MSC_VER
-#  ifdef _WIN64
-#    define INPOUTDLLNAME "winio64.dll"
-#  else
-#    define INPOUTDLLNAME "winio32.dll"
-#    define INPOUTDLLOLDNAME "winio.dll"
-#  endif
+#if defined(__amd64__) || defined(__x86_64__)
+#  define INPOUTDLLNAME "winio64.dll"
 #else
-#  if defined(__amd64__) || defined(__x86_64__)
-#    define INPOUTDLLNAME "winio64.dll"
-#  else
-#    define INPOUTDLLNAME "winio32.dll"
-#    define INPOUTDLLOLDNAME "winio.dll"
-#  endif
+#  define INPOUTDLLNAME "winio32.dll"
+#  define INPOUTDLLOLDNAME "winio.dll"
 #endif
 
 static int detect_sid_uno(void)

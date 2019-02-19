@@ -324,24 +324,13 @@ static int parsid_GetAddressLptPort(int myPort)
 
 static HINSTANCE hLib = NULL;
 
-#ifdef _MSC_VER
-#  ifdef _WIN64
-#    define INPOUTDLLNAME "inpoutx64.dll"
-#    define WINIODLLNAME  "winio64.dll"
-#  else
-#    define INPOUTDLLNAME "inpout32.dll"
-#    define WINIODLLNAME  "winio32.dll"
-#    define WINIOOLDNAME  "winio.dll"
-#  endif
+#if defined(__amd64__) || defined(__x86_64__)
+#  define INPOUTDLLNAME "inpoutx64.dll"
+#  define WINIODLLNAME  "winio64.dll"
 #else
-#  if defined(__amd64__) || defined(__x86_64__)
-#    define INPOUTDLLNAME "inpoutx64.dll"
-#    define WINIODLLNAME  "winio64.dll"
-#  else
-#    define INPOUTDLLNAME "inpout32.dll"
-#    define WINIODLLNAME  "winio32.dll"
-#    define WINIOOLDNAME  "winio.dll"
-#  endif
+#   define INPOUTDLLNAME "inpout32.dll"
+#  define WINIODLLNAME  "winio32.dll"
+#  define WINIOOLDNAME  "winio.dll"
 #endif
 
 static BYTE detect_sid_read(int chipno, BYTE addr)

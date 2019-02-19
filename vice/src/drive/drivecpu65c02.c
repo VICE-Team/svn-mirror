@@ -1,8 +1,7 @@
-/*
- * drivecpu65c02.c - R65C02 processor emulation of CMD fd2000/4000 disk drives.
+/** \file   drivecpu65c02.c
+ * \brief   65C02 processor emulation of CMD fd2000/4000 disk drives
  *
- * Written by
- *  Kajtar Zsolt <soci@c64.rulez.org>
+ * \author  Kajtar Zsolt <soci@c64.rulez.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -349,11 +348,6 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 #define CPU_R65C02     1
 #define CPU_65SC02     2
 
-/* MPi: For some reason MSVC is generating a compiler fatal error when optimising this function? */
-#ifdef _MSC_VER
-#pragma optimize("",off)
-#endif
-/* -------------------------------------------------------------------------- */
 /* Execute up to the current main CPU clock value.  This automatically
    calculates the corresponding number of clock ticks in the drive.  */
 void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
@@ -436,9 +430,6 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
     drivecpu65c02_sleep(drv);
 }
 
-#ifdef _MSC_VER
-#pragma optimize("",on)
-#endif
 
 /* ------------------------------------------------------------------------- */
 

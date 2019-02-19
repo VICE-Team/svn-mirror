@@ -1,10 +1,9 @@
-/*
- * c128mem.c -- Memory handling for the C128 emulator.
+/** \file   c128mem.c
+ * \brief   Memory handling for the C128 emulator
  *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * Based on the original work in VICE 0.11.0 by
  *  Jouko Valta <jopi@stekt.oulu.fi>
@@ -687,9 +686,6 @@ void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
     mem_read_base_tab[base][index] = mem_ptr;
 }
 
-#ifdef _MSC_VER
-#pragma optimize("",off)
-#endif
 
 void mem_initialize_memory(void)
 {
@@ -839,9 +835,6 @@ void mem_initialize_memory(void)
     cartridge_init_config();
 }
 
-#ifdef _MSC_VER
-#pragma optimize("",on)
-#endif
 
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
