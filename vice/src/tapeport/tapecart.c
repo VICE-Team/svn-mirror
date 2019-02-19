@@ -68,11 +68,6 @@
 static char idstring[] = "TAPECART V1.0 W25QFLASH";
 
 
-/** \brief  Tapecart header magic string
- */
-static const char tcrt_magic[TCRT_MAGIC_LEN] = "tapecartImage";
-
-
 static int tapecart_enabled       = 0;
 static int tapecart_update_tcrt   = 0;
 static int tapecart_optimize_tcrt = 0;
@@ -1858,7 +1853,7 @@ static void update_tcrt(void)
  */
 int tapecart_is_valid(const char *filename)
 {
-    unsigned char buffer[TCRT_MAGIC_LEN];
+    unsigned char buffer[TCRT_SIGNATURE_SIZE];
     FILE *fp;
 
     fp = fopen(filename, "rb");
@@ -1866,12 +1861,12 @@ int tapecart_is_valid(const char *filename)
         return 0;
     }
 
-    if (fread(buffer, 1, TCRT_MAGIC_LEN, fp) != TCRT_MAGIC_LEN) {
+    if (fread(buffer, 1, TCRT_SIGNATURE_SIZE, fp) != TCRT_SIGNATURE_SIZE) {
         fclose(fp);
         return 0;
     }
 
-    if (memcmp(buffer, tcrt_magic, TCRT_MAGIC_LEN) != 0) {
+    if (memcmp(buffer, tcrt_signature, TCRT_SIGNATURE_SIZE) != 0) {
         fclose(fp);
         return 0;
     }
