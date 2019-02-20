@@ -126,7 +126,7 @@ if test x"$CROSS" != "xtrue"; then
 # The following lines assume that this script is run by MSYS2.
   cp `ntldd -R $BUILDPATH/x64.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
   cp $MINGW_PREFIX/bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
-  cp $MINGW_PREFIX/bin/gspawn-win??-helper-console.exe $BUILDPATH
+  cp $MINGW_PREFIX/bin/gspawn-win??-helper*.exe $BUILDPATH
   cd $MINGW_PREFIX
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
@@ -193,14 +193,19 @@ if test x"$ZIPKIND" = "xzip"; then
     else $ZIP $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
   fi
   rm -r -f $BUILDPATH
-  echo "$WINXX GTK3 port binary distribution archive generated as $BUILDPATH.zip"
-else echo "$WINXX GTK3 port binary distribution directory generated as $BUILDPATH/"
+  echo "$WINXX GTK3 port binary distribution archive generated as:"
+  echo "in MSYS2/bash: $BUILDPATH.zip"
+  echo "in Windows/cmd.exe: '`cygpath -wa \"$BUILDPATH.zip\"`'"
+else
+  echo "$WINXX GTK3 port binary distribution directory generated as:"
+  echo "in MSYS2/bash: $BUILDPATH/"
+  echo "in Windows/cmd.exe: '`cygpath -wa \"$BUILDPATH/\"`'"
 fi
 
 if test x"$ENABLEARCH" = "xyes"; then
   echo ''
   echo 'Warning: The binaries are optimized for your system.'
   echo 'They might not run on a different system.'
-  echo 'Configure with --enable-arch=no to avoid that.'
+  echo 'Configure with --disable-arch to avoid that.'
   echo ''
 fi
