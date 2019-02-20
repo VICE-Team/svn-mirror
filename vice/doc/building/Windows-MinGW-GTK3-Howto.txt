@@ -39,11 +39,11 @@ Use tar to unpack xa (use the MSys2 path to where you downloaded it):
 $ cd /usr/local
 $ mkdir -p src
 $ cd src
-$ tar -xzf /c/Users/<login-name>/Downloads/xa-2.3.8.tar.gz
+$ tar -xzf /c/Users/<login-name>/Downloads/xa-2.3.9.tar.gz
 
 Then, build and install it:
 
-$ cd xa-2.3.8
+$ cd xa-2.3.9
 $ make mingw install
 $ mv ../../bin/xa.exe ../../bin/xa65.exe
 
