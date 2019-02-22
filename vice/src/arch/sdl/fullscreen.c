@@ -49,11 +49,6 @@
 #define DBG(x)
 #endif
 
-void fullscreen_resume(void)
-{
-    DBG(("%s", __func__));
-}
-
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
     SDL_Event e;
