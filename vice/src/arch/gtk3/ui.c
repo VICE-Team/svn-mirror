@@ -72,6 +72,9 @@
 #include "uidata.h"
 #include "archdep.h"
 
+/* for the fullscreen_capability() stub */
+#include "fullscreen.h"
+
 #include "ui.h"
 
 
@@ -714,6 +717,21 @@ static gboolean on_window_state_event(GtkWidget *widget,
 
     return FALSE;
 }
+
+
+
+/** \brief  Stub to satisfy the various $videochip-resources.c files
+ *
+ * \param[in]   cap_fullscreen  unused
+ */
+void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen)
+{
+    /*
+     * A NOP for the Gtk3 UI, since we don't support custom fullscreen modes.
+     */
+    return;
+}
+
 
 
 /** \brief  Checks if we're in fullscreen mode

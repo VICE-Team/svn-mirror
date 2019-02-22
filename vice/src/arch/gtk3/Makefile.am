@@ -55,7 +55,6 @@ libarch_a_SOURCES = \
 	cbm5x0ui.c \
 	coproc.c \
 	dynlib.c \
-	fullscreen.c \
 	gtk3main.c \
 	joy-osx-hid.c \
 	joy-osx-hidmgr.c \
