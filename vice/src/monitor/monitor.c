@@ -51,10 +51,6 @@
 #include "datasette.h"
 #include "drive.h"
 
-#ifdef HAVE_FULLSCREEN
-#include "fullscreenarch.h"
-#endif
-
 #include "interrupt.h"
 #include "ioutil.h"
 #include "kbdbuf.h"
@@ -2410,9 +2406,6 @@ void monitor_startup(MEMSPACE mem)
 static void monitor_trap(uint16_t addr, void *unused_data)
 {
     monitor_startup(e_default_space);
-#ifdef HAVE_FULLSCREEN
-    fullscreen_resume();
-#endif
 }
 
 void monitor_startup_trap(void)

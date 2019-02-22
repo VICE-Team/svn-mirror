@@ -752,9 +752,6 @@ void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
     resources_get_int("MonitorServer", &v);
 
     if (v == 0) {
-#ifdef HAVE_FULLSCREEN
-        fullscreen_suspend(0);
-#endif
         vsync_suspend_speed_eval();
         /* ui_autorepeat_on(); */
 
@@ -766,9 +763,6 @@ void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
             monitor_startup_trap();
         } else {
             monitor_startup(e_default_space);
-#ifdef HAVE_FULLSCREEN
-            fullscreen_resume();
-#endif
         }
     }
 }
