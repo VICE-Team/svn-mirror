@@ -194,12 +194,12 @@ if test x"$ZIPKIND" = "xzip"; then
   fi
   rm -r -f $BUILDPATH
   echo "$WINXX GTK3 port binary distribution archive generated as:"
-  echo "in MSYS2/bash: $BUILDPATH.zip"
-  echo "in Windows/cmd.exe: '`cygpath -wa \"$BUILDPATH.zip\"`'"
+  echo "in bash: $BUILDPATH.zip"
+  echo "in Windows: '`cygpath -wa \"$BUILDPATH.zip\"`'"
 else
   echo "$WINXX GTK3 port binary distribution directory generated as:"
-  echo "in MSYS2/bash: $BUILDPATH/"
-  echo "in Windows/cmd.exe: '`cygpath -wa \"$BUILDPATH/\"`'"
+  echo "in bash: $BUILDPATH/"
+  echo "in Windows: '`cygpath -wa \"$BUILDPATH/\"`'"
 fi
 
 if test x"$ENABLEARCH" = "xyes"; then
