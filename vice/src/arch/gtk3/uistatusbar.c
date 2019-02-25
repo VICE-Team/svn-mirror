@@ -1546,8 +1546,9 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 
 /** \brief Statusbar API function to display playback status.
  *
- *  \param playback_status Unknown.
- *  \param version         Unknown.
+ *  \param playback_status  Unknown.
+ *  \param version          seems to be the VICE version major.minor during
+ *                          playback and `NULL` when playback is done.
  *
  *  \todo This function is not implemented and its API is not
  *        understood.
@@ -1558,7 +1559,9 @@ void ui_display_event_time(unsigned int current, unsigned int total)
  */
 void ui_display_playback(int playback_status, char *version)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    GtkWidget *widget = allocated_bars[0].record;
+
+    statusbar_recording_widget_set_event_playback(widget, version);
 }
 
 /** \brief  Statusbar API function to display recording status.

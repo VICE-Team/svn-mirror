@@ -35,4 +35,9 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
 void statusbar_recording_widget_set_time(GtkWidget *widget,
                                          unsigned int current,
                                          unsigned int total);
+
+
+void statusbar_recording_widget_set_event_playback(GtkWidget *widget,
+                                                   char *version);
+
 #endif

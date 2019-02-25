@@ -248,3 +248,27 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     }
     gtk_label_set_text(GTK_LABEL(label), buffer);
 }
+
+
+
+/** \brief  Set event playback status
+ *
+ * \param[in,out]   widget  statusbar recording status widget
+ * \param[in]       version VICE version major.minor string during playback,
+ *                          NULL when playback is done
+ */
+void statusbar_recording_widget_set_event_playback(GtkWidget *widget,
+                                                   char *version)
+{
+    GtkWidget *label;
+
+    label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, RW_ROW_TEXT);
+    if (version != NULL && *version != '\0') {
+        /* got VICE version string, seems like we're still playing back events */
+        gtk_label_set_text(GTK_LABEL(label), "Playing back events ...");
+    } else {
+        /* look like we're done (this API really needs improving) */
+        gtk_label_set_text(GTK_LABEL(label), "Event playback done.");
+    }
+}
+
