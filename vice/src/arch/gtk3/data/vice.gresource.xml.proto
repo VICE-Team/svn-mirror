@@ -4,7 +4,6 @@
 -->
 <gresources>
   <gresource prefix="/org/pokefinder/vice">
-    <file alias="CBM.ttf">VICE_SRC_DIR/../../../../data/fonts/CBM.ttf</file>
     <file alias="vice-logo-black.svg">VICE_SRC_DIR/../../../../doc/html/images/vice-logo-black.svg</file>
     <file alias="CBM_Logo.svg">VICE_SRC_DIR/../../../../data/logos/CBM_Logo.svg</file>
   </gresource>
