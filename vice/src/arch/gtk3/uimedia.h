@@ -33,5 +33,6 @@
 
 void     uimedia_dialog_show(GtkWidget *parent, gpointer user_data);
 gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data);
+void     uimedia_auto_screenshot(void);
 
 #endif

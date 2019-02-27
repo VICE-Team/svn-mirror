@@ -1044,3 +1044,16 @@ gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data)
 
     return TRUE;
 }
+
+
+void uimedia_auto_screenshot(void)
+{
+    debug_gtk3("called!");
+    char *filename;
+
+    /* no need for locale bullshit */
+    filename = create_proposed_screenshot_name("png");
+    if (screenshot_save("PNG", filename, ui_get_active_canvas()) < 0) {
+        debug_gtk3("OOPS");
+    }
+}

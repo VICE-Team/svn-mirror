@@ -68,6 +68,7 @@
 #include "uismartattach.h"
 #include "uitapeattach.h"
 #include "uimachinewindow.h"
+#include "uimedia.h"
 #include "mixerwidget.h"
 #include "uidata.h"
 #include "archdep.h"
@@ -157,6 +158,8 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
      *      recognized (only tested on Win10)
      */
     { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
+
+    { GDK_KEY_F12, VICE_MOD_MASK|GDK_SHIFT_MASK, uimedia_auto_screenshot },
 
     /* Arnie */
     { 0, 0, NULL }
