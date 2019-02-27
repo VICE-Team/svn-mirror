@@ -327,7 +327,9 @@ int fliplist_save_list(unsigned int unit, const char *filename)
 
     /* create the directory where the fliplist should be written first */
     util_fname_split(filename, &savedir, NULL);
-    ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+    if ((savedir != NULL) && (*savedir != 0) && (!strcmp(savedir, "."))) {
+        ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+    }
     lib_free(savedir);
 
     if (unit == FLIPLIST_ALL_UNITS) {
