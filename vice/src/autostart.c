@@ -1274,7 +1274,9 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             log_message(autostart_log, "Loading PRG file `%s' with autostart disk image.", file_name);
             /* create the directory where the image should be written first */
             util_fname_split(AutostartPrgDiskImage, &savedir, NULL);
-            ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+            if ((savedir != NULL) && (*savedir != 0) && (!strcmp(savedir, "."))) {
+                ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+            }
             lib_free(savedir);
             result = autostart_prg_with_disk_image(file_name, finfo, autostart_log, AutostartPrgDiskImage);
             mode = AUTOSTART_HASDISK;
