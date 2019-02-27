@@ -473,9 +473,6 @@ static void save_screenshot_handler(void)
         if (screenshot_save(name, filename_locale, ui_get_active_canvas()) < 0) {
             vice_gtk3_message_error("VICE Error",
                     "Failed to write screenshot file '%s'", filename);
-        } else {
-            vice_gtk3_message_info("VICE Info",
-                    "Saved screenshot as '%s'", filename);
         }
         g_free(filename);
         g_free(filename_locale);
@@ -785,15 +782,19 @@ static GtkWidget *create_screenshot_widget(void)
                     GTK_RADIO_BUTTON(last));
             gtk_grid_attach(GTK_GRID(drv_grid), radio, 0, grid_index, 1, 1);
 
-            /* make PNG default (doesn't look we have any numeric define to
-             * indicate PNG, so a strcmp() will have to do) */
-            if (strcmp(name, "PNG") == 0) {
-                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-            }
-
             g_signal_connect(radio, "toggled",
                     G_CALLBACK(on_screenshot_driver_toggled),
                     GINT_TO_POINTER(index));
+
+            /* Make PNG default (doesn't look we have any numeric define to
+             * indicate PNG, so a strcmp() will have to do)
+             * Also trigger the event handler to set the driver index (by
+             * connecting it before this call), so I don't have to manually
+             * set it here, though all this text could have been used to set it.
+             */
+            if (strcmp(name, "PNG") == 0) {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+            }
 
             last = radio;
             grid_index++;
