@@ -785,6 +785,12 @@ static GtkWidget *create_screenshot_widget(void)
                     GTK_RADIO_BUTTON(last));
             gtk_grid_attach(GTK_GRID(drv_grid), radio, 0, grid_index, 1, 1);
 
+            /* make PNG default (doesn't look we have any numeric define to
+             * indicate PNG, so a strcmp() will have to do) */
+            if (strcmp(name, "PNG") == 0) {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+            }
+
             g_signal_connect(radio, "toggled",
                     G_CALLBACK(on_screenshot_driver_toggled),
                     GINT_TO_POINTER(index));
