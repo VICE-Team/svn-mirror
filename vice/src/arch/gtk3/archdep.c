@@ -102,7 +102,7 @@ int archdep_init(int *argc, char **argv)
     char *xdg_data;
 # endif
 #endif
-    argv0 = lib_stralloc(argv[0]);
+    argv0 = lib_strdup(argv[0]);
 
     /* set argv0 for program_name()/boot_path() calls (yes this sucks) */
     archdep_program_path_set_argv0(argv[0]);

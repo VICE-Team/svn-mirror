@@ -300,7 +300,7 @@ static int set_attach_device_readonly(int value, void *param)
     }
 
     /* Old filename will go away after the image is detached.  */
-    new_filename = lib_stralloc(old_filename);
+    new_filename = lib_strdup(old_filename);
 
     file_system_detach_disk(unit);
     attach_device_readonly_enabled[unit - 8] = val;

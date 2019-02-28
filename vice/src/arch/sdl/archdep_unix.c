@@ -132,11 +132,11 @@ char *archdep_tmpnam(void)
         close(fd);
     }
 
-    final_name = lib_stralloc(tmp_name);
+    final_name = lib_strdup(tmp_name);
     lib_free(tmp_name);
     return final_name;
 #else
-    return lib_stralloc(tmpnam(NULL));
+    return lib_strdup(tmpnam(NULL));
 #endif
 }
 #endif

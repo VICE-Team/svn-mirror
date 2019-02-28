@@ -89,7 +89,7 @@ unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs,
     cs->pending_int[cs->num_ints - 1] = 0;
 
     cs->int_name = lib_realloc(cs->int_name, cs->num_ints * sizeof(char *));
-    cs->int_name[cs->num_ints - 1] = lib_stralloc(name);
+    cs->int_name[cs->num_ints - 1] = lib_strdup(name);
 
     return cs->num_ints - 1;
 }

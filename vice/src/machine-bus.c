@@ -137,7 +137,7 @@ int machine_bus_device_attach(unsigned int unit, const char *name,
         if (p->name) {
             lib_free(p->name);
         }
-        p->name = lib_stralloc(name);
+        p->name = lib_strdup(name);
     }
 
     for (i = 0; i < 16; i++) {

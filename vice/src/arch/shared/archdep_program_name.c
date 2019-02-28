@@ -127,9 +127,9 @@ static char *prg_name_unix(const char *buf)
 
     p = strrchr(buf, '/');
     if (p == NULL) {
-        tmp = lib_stralloc(buf);
+        tmp = lib_strdup(buf);
     } else {
-        tmp = lib_stralloc(p + 1);
+        tmp = lib_strdup(p + 1);
     }
     return tmp;
 }
@@ -163,7 +163,7 @@ const char *archdep_program_name(void)
 
     p = FilePart(execpath);
     if (p != NULL) {
-        program_name = lib_stralloc(p);
+        program_name = lib_strdup(p);
     } else {
         log_error(LOG_ERR, "failed to retrieve program name.");
         archdep_vice_exit(1);

@@ -42,7 +42,7 @@ static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer 
     if (text == NULL) {
         return;
     }
-    text_in_petscii = lib_stralloc(text);
+    text_in_petscii = lib_strdup(text);
 
     charset_petconvstring((unsigned char*)text_in_petscii, 0);
     kbdbuf_feed(text_in_petscii);

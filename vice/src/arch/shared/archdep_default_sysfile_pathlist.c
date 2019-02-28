@@ -88,7 +88,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
     if (sysfile_path != NULL) {
         /* sysfile.c appears to free() this */
-        return lib_stralloc(sysfile_path);
+        return lib_strdup(sysfile_path);
     }
 
     /* zero out the array of paths to join later */
@@ -244,7 +244,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     printf("%s(): paths = '%s'\n", __func__, sysfile_path);
 #endif
     /* sysfile.c appears to free() this (ie TODO: fix sysfile.c) */
-    return lib_stralloc(sysfile_path);
+    return lib_strdup(sysfile_path);
 }
 
 

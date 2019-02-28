@@ -62,7 +62,7 @@ int resource_widget_get_int(GtkWidget *widget, const char *key)
 
 /** \brief  Set property \a key of \a widget to string \a value
  *
- * Sets \a key to \a value using g_object_set_data() using lib_stralloc(), so
+ * Sets \a key to \a value using g_object_set_data() using lib_strdup(), so
  * this function can be called with temporary data from the caller.
  * Needs to be freed with resource_widget_free_string().
  *
@@ -75,7 +75,7 @@ void resource_widget_set_string(GtkWidget *widget,
                                 const char *value)
 {
     g_object_set_data(G_OBJECT(widget), key,
-            (gpointer)lib_stralloc(value != NULL ? value : ""));
+            (gpointer)lib_strdup(value != NULL ? value : ""));
 }
 
 
@@ -94,7 +94,7 @@ const char *resource_widget_get_string(GtkWidget *widget, const char *key)
 
 /** \brief  Free memory used by property \a key in \a widget
  *
- * Frees the string allocated on the heap by lib_stralloc().
+ * Frees the string allocated on the heap by lib_strdup().
  *
  * \param[in,out]   widget  widget
  * \param[in]       key     property name
@@ -108,7 +108,7 @@ void resource_widget_free_string(GtkWidget *widget, const char *key)
 
 /** \brief  Set the "ResourceName" property of \a widget to \a resoucre
  *
- * Stores a copy of \a resource in \a widget using lib_stralloc()
+ * Stores a copy of \a resource in \a widget using lib_strdup()
  *
  * \param[in]   widget      widget
  * \param[in]   resource    resource name

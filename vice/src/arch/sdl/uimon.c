@@ -119,7 +119,7 @@ int uimon_out(const char *buffer)
 {
     int rc = 0;
 
-    char *buf = lib_stralloc(buffer);
+    char *buf = lib_strdup(buffer);
 
     if (using_ui_monitor) {
         int y = menu_draw->max_text_y - 1;
@@ -179,7 +179,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         sdl_ui_scroll_screen_up();
 
         if (input == NULL) {
-            input = lib_stralloc("x");
+            input = lib_strdup("x");
         }
 
         return input;

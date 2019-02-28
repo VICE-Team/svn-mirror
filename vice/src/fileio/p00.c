@@ -201,7 +201,7 @@ static char *p00_file_find(const char *file_name, const char *path)
             lib_free(cname);
 
             if (equal > 0) {
-                alloc_name = lib_stralloc(name);
+                alloc_name = lib_strdup(name);
             } else {
                 rc = -1;
             }
@@ -374,7 +374,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
     int type;
 
     if (command & FILEIO_COMMAND_FSNAME) {
-        fname = lib_stralloc(file_name);
+        fname = lib_strdup(file_name);
     } else {
         switch (command & FILEIO_COMMAND_MASK) {
             case FILEIO_COMMAND_STAT:
@@ -433,7 +433,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
     }
 
     info = lib_malloc(sizeof(fileio_info_t));
-    info->name = (uint8_t *)lib_stralloc(rname);
+    info->name = (uint8_t *)lib_strdup(rname);
     info->length = (unsigned int)strlen((char *)(info->name));
     info->type = (unsigned int)type;
     info->format = FILEIO_FORMAT_P00;

@@ -58,7 +58,7 @@ palette_t *palette_create(unsigned int num_entries, const char *entry_names[])
 
     if (entry_names != NULL) {
         for (i = 0; i < num_entries; i++) {
-            p->entries[i].name = lib_stralloc(entry_names[i]);
+            p->entries[i].name = lib_strdup(entry_names[i]);
         }
     }
 
@@ -230,7 +230,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
 
     if (f == NULL) {
         /* Try to add the extension.  */
-        char *tmp = lib_stralloc(file_name);
+        char *tmp = lib_strdup(file_name);
 
         util_add_extension(&tmp, "vpl");
         f = sysfile_open(tmp, &complete_path, MODE_READ_TEXT);

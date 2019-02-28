@@ -291,7 +291,7 @@ static void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 
 static char *resid_dump_state(sound_t *psid)
 {
-    return lib_stralloc("");
+    return lib_strdup("");
 }
 
 static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)

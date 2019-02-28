@@ -1490,7 +1490,7 @@ void mon_end_recording(void)
 static int set_playback_name(const char *param, void *extra_param)
 {
     if (!playback_name) {
-        playback_name = lib_stralloc(param);
+        playback_name = lib_strdup(param);
         playback = 1;
     }
     return 0;
@@ -1539,7 +1539,7 @@ static void playback_commands(int current_playback)
 void mon_playback_init(const char *filename)
 {
     if (playback < MAX_PLAYBACK) {
-        playback_name = lib_stralloc(filename);
+        playback_name = lib_strdup(filename);
         ++playback;
     } else {
         mon_out("Playback for `%s' failed (recursion > %i).\n", filename, MAX_PLAYBACK);
@@ -2289,7 +2289,7 @@ static int monitor_process(char *cmd)
             if (!asm_mode) {
                 /* Repeat previous command */
                 lib_free(cmd);
-                cmd = last_cmd ? lib_stralloc(last_cmd) : NULL;
+                cmd = last_cmd ? lib_strdup(last_cmd) : NULL;
             } else {
                 /* Leave asm mode */
             }

@@ -943,7 +943,7 @@ static void disk_dir_autostart_callback(const char *image, int index)
     /* make a copy of the image name since autostart will reattach the disk
      * image, freeing memory used by the image name passed to us in the process
      */
-    autostart_image = lib_stralloc(image);
+    autostart_image = lib_strdup(image);
     autostart_disk(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
     lib_free(autostart_image);
 }
@@ -965,7 +965,7 @@ static void tape_dir_autostart_callback(const char *image, int index)
     /* make a copy of the image name since autostart will reattach the tape
      * image, freeing memory used by the image name passed to us in the process
      */
-    autostart_image = lib_stralloc(image);
+    autostart_image = lib_strdup(image);
     autostart_tape(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
     lib_free(autostart_image);
 }

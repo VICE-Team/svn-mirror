@@ -187,7 +187,7 @@ int rawnet_arch_enumadapter_open(void)
 
 /** \brief  Get current pcap device iterator values
  *
- * The \a ppname and \a ppdescription are heap-allocated via lib_stralloc()
+ * The \a ppname and \a ppdescription are heap-allocated via lib_strdup()
  * and should thus be freed after use with lib_free(). Please not that
  * \a ppdescription can be `NULL` due to pcap_if_t->description being `NULL`,
  * so check against `NULL` before using it. Calling lib_free() on it is safe
@@ -212,11 +212,11 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
         return 0;
     }
 
-    *ppname = lib_stralloc(rawnet_pcap_dev_iter->name);
-    /* carefull: pcap_if_t->description can be NULL and lib_stralloc() fails on
+    *ppname = lib_strdup(rawnet_pcap_dev_iter->name);
+    /* carefull: pcap_if_t->description can be NULL and lib_strdup() fails on
      * passing `NULL` */
     if (rawnet_pcap_dev_iter->description != NULL) {
-        *ppdescription = lib_stralloc(rawnet_pcap_dev_iter->description);
+        *ppdescription = lib_strdup(rawnet_pcap_dev_iter->description);
     } else {
         *ppdescription = NULL;
     }
@@ -666,11 +666,11 @@ char *rawnet_arch_get_standard_interface(void)
     pcap_if_t *list;
 
     if (pcap_findalldevs(&list, errbuf) == 0 && list != NULL) {
-        dev = lib_stralloc(list[0].name);
+        dev = lib_strdup(list[0].name);
         pcap_freealldevs(list);
 #ifdef HAVE_TUNTAP
     } else {
-        dev = lib_stralloc("tap0");
+        dev = lib_strdup("tap0");
 #endif
     }
     return dev;

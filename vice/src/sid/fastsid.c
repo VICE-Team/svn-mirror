@@ -481,7 +481,7 @@ static char *fastsid_dump_state(sound_t *psid)
         print_voice(b + strlen(b), &psid->v[i]);
     }
 
-    return lib_stralloc(b);
+    return lib_strdup(b);
 }
 
 /* update SID structure */

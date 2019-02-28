@@ -984,7 +984,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
             memcpy(name, disk_name, comma - disk_name);
             name[comma - disk_name] = '\0';
         } else {
-            name = lib_stralloc(" ");
+            name = lib_strdup(" ");
         }
         if (comma[1] != '\0') {
             id[0] = comma[1];
@@ -997,7 +997,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
             id[1] = id[0] = ' ';
         }
     } else {
-        name = lib_stralloc(disk_name);
+        name = lib_strdup(disk_name);
         id[1] = id[0] = ' ';
     }
 

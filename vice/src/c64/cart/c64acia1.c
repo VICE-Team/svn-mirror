@@ -380,11 +380,11 @@ int aciacart_cmdline_options_init(void)
 {
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (machine_class == VICE_MACHINE_C128) {
-        acia_base_list = lib_stralloc("Set the base address of the ACIA cartridge. (0xD700, 0xDE00, 0xDF00)");
+        acia_base_list = lib_strdup("Set the base address of the ACIA cartridge. (0xD700, 0xDE00, 0xDF00)");
     } else if (machine_class == VICE_MACHINE_VIC20) {
-        acia_base_list = lib_stralloc("Set the base address of the ACIA cartridge. (0x9800, 0x9C00)");
+        acia_base_list = lib_strdup("Set the base address of the ACIA cartridge. (0x9800, 0x9C00)");
     } else {
-        acia_base_list = lib_stralloc("Set the base address of the ACIA cartridge. (0xDE00, 0xDF00)");
+        acia_base_list = lib_strdup("Set the base address of the ACIA cartridge. (0xDE00, 0xDF00)");
     }
 
     base_cmdline_options[0].description = acia_base_list;

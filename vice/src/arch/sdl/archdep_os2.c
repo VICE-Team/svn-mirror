@@ -207,7 +207,7 @@ static void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState
 #if 0
 char *archdep_tmpnam(void)
 {
-    return lib_stralloc(tmpnam(NULL));
+    return lib_strdup(tmpnam(NULL));
 }
 #endif
 
@@ -243,7 +243,7 @@ char **archdep_list_drives(void)
         if (drives[i]) {
             char buf[16];
             sprintf(buf, "%c:/", 'a' + i);
-            *p++ = lib_stralloc(buf);
+            *p++ = lib_strdup(buf);
         }
     }
     *p = NULL;
@@ -300,7 +300,7 @@ int kbd_arch_get_host_mapping(void)
 
 static int archdep_init_extra(int *argc, char **argv)
 {
-    argv0 = lib_stralloc(argv[0]);
+    argv0 = lib_strdup(argv[0]);
     return 0;
 }
 

@@ -129,7 +129,7 @@ void userport_device_unregister(userport_device_list_t *device)
 static void userport_detach_devices(int collision, unsigned int highest_order)
 {
     userport_device_list_t *current = userport_head.next;
-    char *tmp1 = lib_stralloc("Userport collision detected from ");
+    char *tmp1 = lib_strdup("Userport collision detected from ");
     char *tmp2;
     int col_found = 0;
     char *last_device_resource = NULL;

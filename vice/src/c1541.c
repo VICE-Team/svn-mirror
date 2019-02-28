@@ -2058,8 +2058,8 @@ static int copy_cmd(int nargs, char **args)
                     "the destination must be a drive if multiple sources are specified\n");
             return FD_BADDEV;
         }
-        dest_name_ascii = lib_stralloc(args[nargs - 1]);
-        dest_name_petscii = lib_stralloc(dest_name_ascii);
+        dest_name_ascii = lib_strdup(args[nargs - 1]);
+        dest_name_petscii = lib_strdup(dest_name_ascii);
         charset_petconvstring((uint8_t *)dest_name_petscii, 0);
         dest_unit = drive_index + UNIT_MIN;
     } else {
@@ -2069,8 +2069,8 @@ static int copy_cmd(int nargs, char **args)
                         "the destination must be a drive if multiple sources are specified\n");
                 return FD_BADDEV;
             }
-            dest_name_ascii = lib_stralloc(p);
-            dest_name_petscii = lib_stralloc(dest_name_ascii);
+            dest_name_ascii = lib_strdup(p);
+            dest_name_petscii = lib_strdup(dest_name_ascii);
             charset_petconvstring((uint8_t *)dest_name_petscii, 0);
         } else {
             dest_name_ascii = dest_name_petscii = NULL;
@@ -2094,13 +2094,13 @@ static int copy_cmd(int nargs, char **args)
 
         src_unit = extract_unit_from_file_name(args[i], &p);
         if (src_unit <= 0) {
-            src_name_ascii = lib_stralloc(args[i]);
+            src_name_ascii = lib_strdup(args[i]);
             src_unit = drive_index + UNIT_MIN;
         } else {
             if (check_drive_ready(src_unit - UNIT_MIN) < 0) {
                 return FD_NOTREADY;
             }
-            src_name_ascii = lib_stralloc(p);
+            src_name_ascii = lib_strdup(p);
         }
 
         if (!is_valid_cbm_file_name(src_name_ascii)) {
@@ -2111,7 +2111,7 @@ static int copy_cmd(int nargs, char **args)
             continue;
         }
 
-        src_name_petscii = lib_stralloc(src_name_ascii);
+        src_name_petscii = lib_strdup(src_name_ascii);
         charset_petconvstring((uint8_t *)src_name_petscii, 0);
 
         if (vdrive_iec_open(drives[src_unit - UNIT_MIN], (uint8_t *)src_name_petscii,
@@ -2998,9 +2998,9 @@ static int read_cmd(int nargs, char **args)
     }
 
     if (p == NULL) {
-        src_name_ascii = lib_stralloc(args[1]);
+        src_name_ascii = lib_strdup(args[1]);
     } else {
-        src_name_ascii = lib_stralloc(p);
+        src_name_ascii = lib_strdup(p);
     }
 
     if (!is_valid_cbm_file_name(src_name_ascii)) {
@@ -3010,7 +3010,7 @@ static int read_cmd(int nargs, char **args)
         return FD_BADNAME;
     }
 
-    src_name_petscii = lib_stralloc(src_name_ascii);
+    src_name_petscii = lib_strdup(src_name_ascii);
     charset_petconvstring((uint8_t *)src_name_petscii, 0);
 
     if (vdrive_iec_open(drives[dnr], (uint8_t *)src_name_petscii,
@@ -3036,7 +3036,7 @@ static int read_cmd(int nargs, char **args)
             char *open_petscii_name;
 
             dest_name_ascii = args[2];
-            open_petscii_name = lib_stralloc(dest_name_ascii);
+            open_petscii_name = lib_strdup(dest_name_ascii);
             charset_petconvstring((uint8_t *)open_petscii_name, 0);
             finfo = fileio_open(open_petscii_name, NULL, format,
                                 FILEIO_COMMAND_WRITE, FILEIO_TYPE_PRG);
@@ -3387,7 +3387,7 @@ static int read_geos_cmd(int nargs, char **args)
                 "missing filename\n");
         return FD_BADNAME;
     } else {
-        src_name_ascii = lib_stralloc(p);
+        src_name_ascii = lib_strdup(p);
     }
 
     if (!is_valid_cbm_file_name(src_name_ascii)) {
@@ -3408,7 +3408,7 @@ static int read_geos_cmd(int nargs, char **args)
     parse_cmd = lib_calloc(1, sizeof *parse_cmd);
     parse_cmd->cmd = (const uint8_t *)src_name_ascii;
     parse_cmd->cmdlength = namelen;
-    parse_cmd->parsecmd = lib_stralloc(src_name_ascii); /* freed in
+    parse_cmd->parsecmd = lib_strdup(src_name_ascii); /* freed in
                                                            vdrive_iec_open() */
     parse_cmd->parselength = namelen;
     parse_cmd->secondary = 0;
@@ -3774,11 +3774,11 @@ static int write_geos_cmd(int nargs, char **args)
 
     slashp = strrchr(args[1], '/');
     if (slashp == NULL) {
-        dest_name_ascii = lib_stralloc(args[1]);
+        dest_name_ascii = lib_strdup(args[1]);
     } else {
-        dest_name_ascii = lib_stralloc(slashp + 1);
+        dest_name_ascii = lib_strdup(slashp + 1);
     }
-    dest_name_petscii = lib_stralloc(dest_name_ascii);
+    dest_name_petscii = lib_strdup(dest_name_ascii);
     charset_petconvstring((uint8_t *)dest_name_petscii, 0);
 
     if (vdrive_iec_open(drives[dev], (uint8_t *)dest_name_petscii,
@@ -3864,7 +3864,7 @@ static int rename_cmd(int nargs, char **args)
     } else {
         return FD_BADDEV;
     }
-    src_name = lib_stralloc(p);
+    src_name = lib_strdup(p);
 
 
     unit = extract_unit_from_file_name(args[2], &p);
@@ -3875,7 +3875,7 @@ static int rename_cmd(int nargs, char **args)
     } else {
         return FD_BADDEV;
     }
-    dest_name = lib_stralloc(p);
+    dest_name = lib_strdup(p);
 
     dev = dest_unit - UNIT_MIN;
 
@@ -4220,7 +4220,7 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
 
         printf("writing file '%s' to image\n", cname);
 
-        cmd_parse.parsecmd = lib_stralloc(cname);
+        cmd_parse.parsecmd = lib_strdup(cname);
         cmd_parse.secondary = 1;
         cmd_parse.parselength = (unsigned int)strlen(cname);
         cmd_parse.readmode = CBMDOS_FAM_WRITE;
@@ -4477,7 +4477,7 @@ static int write_cmd(int nargs, char **args)
             return FD_BADDEV;
         }
         if (p != NULL && *p != '\0') {
-            dest_name = lib_stralloc(p);
+            dest_name = lib_strdup(p);
         } else {
             dest_name = NULL;
         }
@@ -4516,7 +4516,7 @@ static int write_cmd(int nargs, char **args)
     }
 
     if (dest_name == NULL) {
-        dest_name = lib_stralloc((char *)(finfo->name));
+        dest_name = lib_strdup((char *)(finfo->name));
         dest_len = finfo->length;
     } else {
         dest_len = (unsigned int)strlen(dest_name);
@@ -4704,7 +4704,7 @@ static int raw_cmd(int nargs, char **args)
 
     /* Write to the command channel.  */
     if (nargs >= 2) {
-        char *command = lib_stralloc(args[1]);
+        char *command = lib_strdup(args[1]);
 
         charset_petconvstring((uint8_t *)command, 0);
         vdrive_command_execute(vdrive, (uint8_t *)command, (unsigned int)strlen(command));

@@ -766,7 +766,7 @@ static void advance_hasdisk(void)
                ANDing the charcodes with 0x7f here is a cheap way to prevent
                illegal characters in the printed message */
             if (autostart_program_name) {
-                temp_name = tmp = lib_stralloc(autostart_program_name);
+                temp_name = tmp = lib_strdup(autostart_program_name);
                 while (*tmp) {
                     *tmp++ &= 0x7f;
                 }
@@ -1005,7 +1005,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
        with 0x7f here is a cheap way to prevent illegal characters in the
        printed message */
     if (program_name) {
-        temp_name = temp = lib_stralloc(program_name);
+        temp_name = temp = lib_strdup(program_name);
         while (*temp) {
             *temp++ &= 0x7f;
         }
@@ -1029,7 +1029,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_ignore_reset = 1;
     deallocate_program_name();
     if (program_name && program_name[0]) {
-        autostart_program_name = lib_stralloc(program_name);
+        autostart_program_name = lib_strdup(program_name);
     }
 
     autostart_initial_delay_cycles = min_cycles;
@@ -1077,7 +1077,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
     snapshot_close(snap);
 
-    /*autostart_program_name = lib_stralloc(file_name);
+    /*autostart_program_name = lib_strdup(file_name);
     interrupt_maincpu_trigger_trap(load_snapshot_trap, 0);*/
     /* use for snapshot */
     reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT, AUTOSTART_MODE_RUN);
@@ -1169,7 +1169,7 @@ int autostart_disk(const char *file_name, const char *program_name,
             image_contents_destroy(contents);
         }
     } else {
-        name = lib_stralloc(program_name ? program_name : "*");
+        name = lib_strdup(program_name ? program_name : "*");
     }
 
     if (name) {
@@ -1341,7 +1341,7 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
         char *autostart_prg_name;
         char *autostart_file;
 
-        autostart_file = lib_stralloc(file_prog_name);
+        autostart_file = lib_strdup(file_prog_name);
         autostart_prg_name = strrchr(autostart_file, ':');
         *autostart_prg_name++ = '\0';
         /* Does the image exist?  */

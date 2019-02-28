@@ -410,9 +410,9 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
     /* store current resource value, so it can be restored via
      * resource_entry_full_reset() */
     if (current != NULL) {
-        orig = lib_stralloc(current);
+        orig = lib_strdup(current);
     } else {
-        orig = lib_stralloc("");
+        orig = lib_strdup("");
     }
     g_object_set_data(G_OBJECT(entry), "ResourceOrig", orig);
 

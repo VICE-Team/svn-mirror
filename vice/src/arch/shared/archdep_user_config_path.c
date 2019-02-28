@@ -124,7 +124,7 @@ char *archdep_user_config_path(void)
     user_config_dir = archdep_join_paths(archdep_home_path(),
                                          "config", "settings", "vice", NULL);
 #else
-    user_config_dir = lib_stralloc(archdep_boot_path());
+    user_config_dir = lib_strdup(archdep_boot_path());
 #endif
     return user_config_dir;
 }

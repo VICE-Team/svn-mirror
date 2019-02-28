@@ -108,7 +108,7 @@ const char *archdep_home_path(void)
             home = pwd->pw_dir;
         }
     }
-    home_dir = lib_stralloc(home);
+    home_dir = lib_strdup(home);
 #elif defined(ARCHDEP_OS_WINDOWS)
     HANDLE token_handle;
     DWORD bufsize = 4096;
@@ -121,7 +121,7 @@ const char *archdep_home_path(void)
                           &token_handle)) {
         err = GetLastError();
         printf("failed to get process token: 0x%lx.\n", err);
-        home_dir = lib_stralloc(".");
+        home_dir = lib_strdup(".");
     } else {
 
         /* now get the user profile directory with more weird garbage */
@@ -139,13 +139,13 @@ const char *archdep_home_path(void)
     }
 #elif defined(ARCHDEP_OS_BEOS)
     /* Beos/Haiku is single-user */
-    home_dir = lib_stralloc("/boot/home");
+    home_dir = lib_strdup("/boot/home");
 #elif defined(ARCHDEP_OS_AMIGA)
     /* single user: use the path to the executable as the "home" dir */
-    home_dir = lib_stralloc("PROGDIR:");
+    home_dir = lib_strdup("PROGDIR:");
 #else
     /* all others: */
-    home_dir = lib_stralloc(".");
+    home_dir = lib_strdup(".");
 #endif
     return home_dir;
 }

@@ -238,7 +238,7 @@ log_t log_open(const char *id)
         logs = lib_realloc(logs, sizeof(*logs) * num_logs);
     }
 
-    logs[new_log] = lib_stralloc(id);
+    logs[new_log] = lib_strdup(id);
 
     /* printf("log_open(%s) = %d\n", id, (int)new_log); */
     return new_log;

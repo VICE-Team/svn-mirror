@@ -268,7 +268,7 @@ int resources_register_int(const resource_int_t *r)
             dp = resources + num_resources;
         }
 
-        dp->name = lib_stralloc(sp->name);
+        dp->name = lib_strdup(sp->name);
         dp->type = RES_INTEGER;
         dp->factory_value = uint_to_void_ptr(sp->factory_value);
         dp->value_ptr = (void *)(sp->value_ptr);
@@ -320,7 +320,7 @@ int resources_register_string(const resource_string_t *r)
             dp = resources + num_resources;
         }
 
-        dp->name = lib_stralloc(sp->name);
+        dp->name = lib_strdup(sp->name);
         dp->type = RES_STRING;
         dp->factory_value = (resource_value_t)(sp->factory_value);
         dp->value_ptr = (void *)(sp->value_ptr);
@@ -444,7 +444,7 @@ int resources_init(const char *machine)
 {
     unsigned int i;
 
-    machine_id = lib_stralloc(machine);
+    machine_id = lib_strdup(machine);
     num_allocated_resources = 100;
     num_resources = 0;
     resources = lib_malloc(num_allocated_resources * sizeof(resource_ram_t));
@@ -1105,7 +1105,7 @@ int resources_load(const char *fname)
         if (vice_config_file == NULL) {
             default_name = archdep_default_resource_file_name();
         } else {
-            default_name = lib_stralloc(vice_config_file);
+            default_name = lib_strdup(vice_config_file);
         }
         fname = default_name;
     }
@@ -1254,7 +1254,7 @@ int resources_save(const char *fname)
             /* get default filename. this also creates the .vice directory if not present */
             default_name = archdep_default_resource_file_name();
         } else {
-            default_name = lib_stralloc(vice_config_file);
+            default_name = lib_strdup(vice_config_file);
         }
         fname = default_name;
     }

@@ -828,7 +828,7 @@ void mon_command_print_help(const char *cmd)
             if (mc->param_names == NULL) {
                 parameters = NULL;
             } else {
-                parameters = lib_stralloc(mc->param_names);
+                parameters = lib_strdup(mc->param_names);
             }
 
             mon_out("\nSyntax: %s %s\n", mc->str, parameters != NULL ? parameters : "");

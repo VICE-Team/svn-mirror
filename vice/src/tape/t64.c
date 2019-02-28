@@ -576,7 +576,7 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
             sizeof *(new->file_records), comp_index);
 
 
-    new->file_name = lib_stralloc(name);
+    new->file_name = lib_strdup(name);
 
     return new;
 }

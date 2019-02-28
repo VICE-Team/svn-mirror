@@ -201,7 +201,7 @@ GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
             carthelpers_is_enabled_func(cart_id));
 
-    name = lib_stralloc(cart_name);
+    name = lib_strdup(cart_name);
     g_object_set_data(G_OBJECT(check), "CartridgeName", (gpointer)name);
     g_object_set_data(G_OBJECT(check), "CartridgeId", GINT_TO_POINTER(cart_id));
 

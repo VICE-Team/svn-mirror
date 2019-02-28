@@ -132,7 +132,7 @@ void fliplist_shutdown(void)
 void fliplist_set_current(unsigned int unit, const char *filename)
 {
     lib_free(current_image);
-    current_image = lib_stralloc(filename);
+    current_image = lib_strdup(filename);
     current_drive = unit;
 }
 
@@ -184,7 +184,7 @@ void fliplist_add_image(unsigned int unit)
     }
 
     n = lib_malloc(sizeof(struct fliplist_s));
-    n->image = lib_stralloc(current_image);
+    n->image = lib_strdup(current_image);
     unit = n->unit = current_drive;
 
     log_message(LOG_DEFAULT, "Adding `%s' to fliplist[%d]", n->image, unit);
@@ -438,7 +438,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
             }
 
             tmp = lib_malloc(sizeof(struct fliplist_s));
-            tmp->image = lib_stralloc(buffer);
+            tmp->image = lib_strdup(buffer);
             tmp->unit = unit;
 
             if (fliplist[unit - 8] == NULL) {

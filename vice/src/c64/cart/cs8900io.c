@@ -308,7 +308,7 @@ int cs8900io_resources_init(void)
         default_if = rawnet_get_standard_interface();
 
         if (default_if == NULL) {
-            default_if = lib_stralloc(ARCHDEP_ETHERNET_DEFAULT_DEVICE);
+            default_if = lib_strdup(ARCHDEP_ETHERNET_DEFAULT_DEVICE);
         }
 
         resources_string[0].factory_value = default_if;

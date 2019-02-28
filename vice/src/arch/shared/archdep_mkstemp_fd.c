@@ -51,7 +51,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     char *tmp;
     FILE *fd;
 
-    tmp = lib_stralloc(tmpnam(NULL));
+    tmp = lib_strdup(tmpnam(NULL));
 
     fd = fopen(tmp, mode);
 
@@ -77,7 +77,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     } else if (getenv("tmp")) {
         tmp = util_concat(getenv("tmp"), tmpnam(NULL), NULL);
     } else {
-        tmp = lib_stralloc(tmpnam(NULL));
+        tmp = lib_strdup(tmpnam(NULL));
     }
 
     fd = fopen(tmp, mode);
@@ -149,7 +149,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
         return NULL;
     }
 
-    *filename = lib_stralloc(tmp);
+    *filename = lib_strdup(tmp);
 
     return fd;
 #endif

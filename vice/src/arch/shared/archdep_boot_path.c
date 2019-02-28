@@ -105,7 +105,7 @@ const char *archdep_boot_path(void)
 #endif
     if (p == NULL) {
         /* didn't find a '/' or '\' anywhere */
-        boot_path = lib_stralloc(".");
+        boot_path = lib_strdup(".");
     } else {
         boot_path = lib_malloc((size_t)(p - full_path + 1));
         memcpy(boot_path, full_path, (size_t)(p - full_path));

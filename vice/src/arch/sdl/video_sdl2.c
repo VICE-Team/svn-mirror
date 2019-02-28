@@ -568,7 +568,7 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
 
         strcat(rendername, info.name);
         strcat(rendername, " ");
-        renderlist[it] = lib_stralloc(info.name);
+        renderlist[it] = lib_strdup(info.name);
     }
     renderlist[it] = NULL;
 

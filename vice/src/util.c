@@ -160,7 +160,7 @@ char *util_strjoin(const char **list, const char *sep)
         return NULL;
     } else if (list_size == 1) {
         /* one item, just copy */
-        return lib_stralloc(*list);
+        return lib_strdup(*list);
     }
 
     if (sep != NULL && *sep != '\0') {
@@ -254,7 +254,7 @@ int util_string_set(char **str, const char *new_value)
 {
     if (*str == NULL) {
         if (new_value != NULL) {
-            *str = lib_stralloc(new_value);
+            *str = lib_strdup(new_value);
         }
     } else {
         if (new_value == NULL) {
@@ -565,10 +565,10 @@ void util_fname_split(const char *path, char **directory_return,
     /* if no input, return "."/"" */
     if (path == NULL) {
         if (directory_return != NULL) {
-            *directory_return = lib_stralloc(".");
+            *directory_return = lib_strdup(".");
         }
         if (name_return != NULL) {
-            *name_return = lib_stralloc("");
+            *name_return = lib_strdup("");
         }
         return;
     }
@@ -591,10 +591,10 @@ void util_fname_split(const char *path, char **directory_return,
     /* if no path in the input, return "." as path */
     if (p == NULL) {
         if (directory_return != NULL) {
-            *directory_return = lib_stralloc(".");
+            *directory_return = lib_strdup(".");
         }
         if (name_return != NULL) {
-            *name_return = lib_stralloc(path);
+            *name_return = lib_strdup(path);
         }
         return;
     }
@@ -606,7 +606,7 @@ void util_fname_split(const char *path, char **directory_return,
     }
 
     if (name_return != NULL) {
-        *name_return = lib_stralloc(p + 1);
+        *name_return = lib_strdup(p + 1);
     }
 
     return;
@@ -1397,7 +1397,7 @@ char *util_add_extension_const(const char *filename, const char *extension)
 {
     char *ext_filename;
 
-    ext_filename = lib_stralloc(filename);
+    ext_filename = lib_strdup(filename);
 
     util_add_extension(&ext_filename, extension);
 
@@ -1473,7 +1473,7 @@ char *util_gen_hex_address_list(int start, int stop, int step)
     char *temp3 = NULL;
     int i = start;
 
-    temp1 = lib_stralloc("");
+    temp1 = lib_strdup("");
     while (i < stop) {
         temp2 = lib_msprintf("0x%X", i);
         temp3 = util_concat(temp1, temp2, NULL);

@@ -59,6 +59,6 @@ char *archdep_filename_parameter(const char *name)
     lib_free(path);
     return result;
 #else
-    return lib_stralloc(name);
+    return lib_strdup(name);
 #endif
 }

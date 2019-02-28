@@ -55,6 +55,6 @@ char *archdep_quote_parameter(const char *name)
     lib_free(b);
     return c;
 #else
-    return lib_stralloc(name);
+    return lib_strdup(name);
 #endif
 }

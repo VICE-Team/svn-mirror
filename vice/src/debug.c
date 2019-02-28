@@ -327,7 +327,7 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
     unsigned int i;
     char *textout, *texttmp;
 
-    textout = lib_stralloc(name);
+    textout = lib_strdup(name);
 
     for (i = 0; i < cs->num_ints; i++) {
         if (cs->pending_int[i] & type) {

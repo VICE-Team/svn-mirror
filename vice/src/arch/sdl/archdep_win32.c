@@ -201,7 +201,7 @@ static int archdep_init_extra(int *argc, char **argv)
     _setmode(_fileno(stdin), O_BINARY);
     _setmode(_fileno(stdout), O_BINARY);
 
-    argv0 = lib_stralloc(argv[0]);
+    argv0 = lib_strdup(argv[0]);
 
     return 0;
 }
@@ -255,7 +255,7 @@ char **archdep_list_drives(void)
         if (bits & mask) {
             char buf[16];
             sprintf(buf, "%c:/", 'a' + i);
-            *p++ = lib_stralloc(buf);
+            *p++ = lib_strdup(buf);
         }
         mask <<= 1;
         ++i;

@@ -46,9 +46,9 @@ fileio_info_t *fileio_open(const char *file_name, const char *path,
     if ((command & FILEIO_COMMAND_FSNAME) && path == NULL) {
         util_fname_split(file_name, &new_path, &new_file);
     } else {
-        new_file = lib_stralloc(file_name);
+        new_file = lib_strdup(file_name);
         if (path != NULL) {
-            new_path = lib_stralloc(path);
+            new_path = lib_strdup(path);
         } else {
             new_path = NULL;
         }

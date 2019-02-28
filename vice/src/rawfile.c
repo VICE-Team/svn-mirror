@@ -55,7 +55,7 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
     unsigned int isdir, len;
 
     if (path == NULL) {
-        complete = lib_stralloc(file_name);
+        complete = lib_strdup(file_name);
     } else {
         complete = util_concat(path, FSDEV_DIR_SEP_STR, file_name, NULL);
     }
@@ -164,8 +164,8 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
     int rc;
 
     if (path == NULL) {
-        complete_src = lib_stralloc(src_name);
-        complete_dst = lib_stralloc(dst_name);
+        complete_src = lib_strdup(src_name);
+        complete_dst = lib_strdup(dst_name);
     } else {
         complete_src = util_concat(path, FSDEV_DIR_SEP_STR, src_name, NULL);
         complete_dst = util_concat(path, FSDEV_DIR_SEP_STR, dst_name, NULL);
@@ -193,7 +193,7 @@ unsigned int rawfile_remove(const char *src_name, const char *path)
     int rc;
 
     if (path == NULL) {
-        complete_src = lib_stralloc(src_name);
+        complete_src = lib_strdup(src_name);
     } else {
         complete_src = util_concat(path, FSDEV_DIR_SEP_STR, src_name, NULL);
     }

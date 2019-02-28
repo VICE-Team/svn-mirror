@@ -130,7 +130,7 @@ char *console_in(console_t *log, const char *prompt)
         add_history(p);
     }
 #endif
-    ret_sting = lib_stralloc(p);
+    ret_sting = lib_strdup(p);
     free(p);
 
     return ret_sting;

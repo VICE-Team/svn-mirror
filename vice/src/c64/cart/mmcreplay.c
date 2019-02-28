@@ -2601,7 +2601,7 @@ static int mmcreplay_common_attach(const char *filename)
     mmc_open_card_image(mmcr_card_filename, mmcr_card_rw);
     eeprom_open_image(mmcr_eeprom_filename, mmcr_eeprom_rw);
 
-    mmcr_filename = lib_stralloc(filename);
+    mmcr_filename = lib_strdup(filename);
     return 0;
 }
 

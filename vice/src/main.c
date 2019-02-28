@@ -114,7 +114,7 @@ int main_program(int argc, char **argv)
 #endif
         if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
-                vice_config_file = lib_stralloc(argv[++i]);
+                vice_config_file = lib_strdup(argv[++i]);
             }
         } else if ((!strcmp(argv[i], "-help")) ||
                    (!strcmp(argv[i], "--help")) ||

@@ -399,7 +399,7 @@ char * charset_hexstring_to_byte(char *source, char *destination)
 
 char *charset_replace_hexcodes(char *source)
 {
-    char * destination = lib_stralloc(source ? source : "");
+    char * destination = lib_strdup(source ? source : "");
 
     if (destination) {
         char * pread = destination;

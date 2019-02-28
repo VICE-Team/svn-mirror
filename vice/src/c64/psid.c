@@ -892,7 +892,7 @@ static int mus_load_file(const char* filename, int ispsid)
     /* FIXME: the psid file format specification does not tell how to handle
               stereo sidplayer tunes when they are in psid format */
     if (!ispsid) {
-        strname = lib_stralloc(filename);
+        strname = lib_strdup(filename);
         n = strlen(strname) - 4;
         strcpy(strname + n, ".str");
 

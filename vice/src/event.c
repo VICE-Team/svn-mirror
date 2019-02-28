@@ -123,12 +123,12 @@ static int event_image_append(const char *filename, char **mapped_name, int appe
             if (mapped_name != NULL) {
                 if (append == 0) {
                     if (event_image_list_ptr->next->mapped_filename != NULL) {
-                        *mapped_name = lib_stralloc(event_image_list_ptr->next->mapped_filename);
+                        *mapped_name = lib_strdup(event_image_list_ptr->next->mapped_filename);
                     } else {
                         return 1;
                     }
                 } else {
-                    event_image_list_ptr->next->mapped_filename = lib_stralloc(*mapped_name);
+                    event_image_list_ptr->next->mapped_filename = lib_strdup(*mapped_name);
                 }
             }
             return 0;
@@ -140,10 +140,10 @@ static int event_image_append(const char *filename, char **mapped_name, int appe
 
     event_image_list_ptr = event_image_list_ptr->next;
     event_image_list_ptr->next = NULL;
-    event_image_list_ptr->orig_filename = lib_stralloc(filename);
+    event_image_list_ptr->orig_filename = lib_strdup(filename);
     event_image_list_ptr->mapped_filename = NULL;
     if (mapped_name != NULL && append) {
-        event_image_list_ptr->mapped_filename = lib_stralloc(*mapped_name);
+        event_image_list_ptr->mapped_filename = lib_strdup(*mapped_name);
     }
 
     return 1;
@@ -856,7 +856,7 @@ static void event_playback_start_trap(uint16_t addr, void *unused)
                         event_snapshot_path((char *)(&data[1])), 0) < 0
                     && machine_read_snapshot(
                         event_snapshot_path(event_start_snapshot), 0) < 0) {
-                    char *st = lib_stralloc(event_snapshot_path((char *)(&data[1])));
+                    char *st = lib_strdup(event_snapshot_path((char *)(&data[1])));
                     ui_error("Error reading start snapshot file. Tried %s and %s", st, event_snapshot_path(event_start_snapshot));
                     lib_free(st);
                     ui_display_playback(0, NULL);

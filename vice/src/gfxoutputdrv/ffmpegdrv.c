@@ -1099,7 +1099,7 @@ static void ffmpeg_get_formats_and_codecs(void)
                 video_codec_list[vi].name = NULL;
             }
             if (((audio_codec_list == NULL) || (ai > 0)) && ((video_codec_list == NULL) || (vi > 0))) {
-                ffmpegdrv_formatlist[f].name = lib_stralloc(formats_to_test[i].name);
+                ffmpegdrv_formatlist[f].name = lib_strdup(formats_to_test[i].name);
                 ffmpegdrv_formatlist[f].audio_codecs = audio_codec_list;
                 ffmpegdrv_formatlist[f++].video_codecs = video_codec_list;
                 ffmpegdrv_formatlist = lib_realloc(ffmpegdrv_formatlist, (f + 1) * sizeof(gfxoutputdrv_format_t));

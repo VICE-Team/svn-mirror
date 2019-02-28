@@ -50,7 +50,7 @@ char *archdep_get_vice_docsdir(void)
             archdep_boot_path(), "/../doc/"); */
     path = archdep_join_paths(archdep_boot_path(), "..", "doc", NULL);
 # else
-    path = lib_stralloc(DOCDIR);
+    path = lib_strdup(DOCDIR);
 # endif
 #else
     path = archdep_join_paths(archdep_boot_path(), "doc", NULL);

@@ -118,7 +118,7 @@ static void io_source_msg_detach_all(uint16_t addr, int amount, io_source_list_t
 
             /* first part of the message "read collision at x from" */
             if (found == 0) {
-                old_msg = lib_stralloc("I/O read collision at %X from ");
+                old_msg = lib_strdup("I/O read collision at %X from ");
                 new_msg = util_concat(old_msg, current->device->name, NULL);
                 lib_free(old_msg);
             }
@@ -187,7 +187,7 @@ static void io_source_msg_detach_last(uint16_t addr, int amount, io_source_list_
 
             /* first part of the message "read collision at x from" */
             if (found == 0) {
-                old_msg = lib_stralloc("I/O read collision at %X from ");
+                old_msg = lib_strdup("I/O read collision at %X from ");
                 new_msg = util_concat(old_msg, current->device->name, NULL);
                 lib_free(old_msg);
             }
@@ -246,7 +246,7 @@ static void io_source_log_collisions(uint16_t addr, int amount, io_source_list_t
 
             /* first part of the message "read collision at x from" */
             if (found == 0) {
-                old_msg = lib_stralloc("I/O read collision at %X from ");
+                old_msg = lib_strdup("I/O read collision at %X from ");
                 new_msg = util_concat(old_msg, current->device->name, NULL);
                 lib_free(old_msg);
             }

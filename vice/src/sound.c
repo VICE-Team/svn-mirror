@@ -621,8 +621,8 @@ int sound_cmdline_options_init(void)
         return -1;
     }
 
-    playback_devices_cmdline = lib_stralloc("Specify sound driver. (");
-    record_devices_cmdline = lib_stralloc("Specify recording sound driver. (");
+    playback_devices_cmdline = lib_strdup("Specify sound driver. (");
+    record_devices_cmdline = lib_strdup("Specify recording sound driver. (");
 
     for (i = 0; sound_register_devices[i].name; i++) {
         if (sound_register_devices[i].is_playback_device) {
@@ -1557,7 +1557,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     clk_guard_add_callback(maincpu_clk_guard, prevent_clk_overflow_callback,
                            NULL);
 
-    devlist = lib_stralloc("");
+    devlist = lib_strdup("");
 
     for (i = 0; sound_register_devices[i].name; i++) {
         sound_register_devices[i].init();

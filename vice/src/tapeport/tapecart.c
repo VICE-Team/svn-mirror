@@ -1885,7 +1885,7 @@ int tapecart_attach_tcrt(const char *filename, void *unused)
         }
 
         if (filename != NULL && *filename != 0) {
-            tcrt_filename = lib_stralloc(filename);
+            tcrt_filename = lib_strdup(filename);
         }
 
         return 0;
@@ -1905,7 +1905,7 @@ int tapecart_attach_tcrt(const char *filename, void *unused)
             return -1;
         }
 
-        tcrt_filename = lib_stralloc(filename);
+        tcrt_filename = lib_strdup(filename);
     }
 
     tapecart_set_mode(MODE_REINIT);

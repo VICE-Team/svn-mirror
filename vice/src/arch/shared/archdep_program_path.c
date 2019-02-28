@@ -317,7 +317,7 @@ const char *archdep_program_path(void)
     }
 
 #endif
-    program_path = lib_stralloc(buffer);
+    program_path = lib_strdup(buffer);
 #if 0
     printf("%s(): program_path = %s\n", __func__, program_path);
 #endif

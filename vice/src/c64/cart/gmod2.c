@@ -387,7 +387,7 @@ int gmod2_bin_attach(const char *filename, uint8_t *rawcart)
     }
 
     gmod2_filetype = CARTRIDGE_FILETYPE_BIN;
-    gmod2_filename = lib_stralloc(filename);
+    gmod2_filename = lib_strdup(filename);
     return gmod2_common_attach();
 }
 
@@ -416,7 +416,7 @@ int gmod2_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
     }
 
     gmod2_filetype = CARTRIDGE_FILETYPE_CRT;
-    gmod2_filename = lib_stralloc(filename);
+    gmod2_filename = lib_strdup(filename);
 
     return gmod2_common_attach();
 }

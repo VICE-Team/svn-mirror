@@ -76,7 +76,7 @@ static char *argv0 = NULL;
 
 static int archdep_init_extra(int *argc, char **argv)
 {
-    argv0 = lib_stralloc(argv[0]);
+    argv0 = lib_strdup(argv[0]);
     orig_workdir = getcwd(NULL, PATH_MAX);
 
     return 0;
@@ -144,7 +144,7 @@ FILE *archdep_open_default_log_file(void)
 #if 0
 char *archdep_tmpnam(void)
 {
-    return lib_stralloc(tmpnam(NULL));
+    return lib_strdup(tmpnam(NULL));
 }
 #endif
 

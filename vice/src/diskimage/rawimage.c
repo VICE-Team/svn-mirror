@@ -54,7 +54,7 @@ void rawimage_name_set(disk_image_t *image, const char *name)
 
     rawimage = image->media.rawimage;
 
-    rawimage->name = lib_stralloc(name);
+    rawimage->name = lib_strdup(name);
 }
 
 const char *rawimage_name_get(const disk_image_t *image)

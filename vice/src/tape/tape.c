@@ -521,7 +521,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
         return -1;
     }
 
-    tape_image.name = lib_stralloc(name);
+    tape_image.name = lib_strdup(name);
     tape_image.read_only = 0;
 
     if (tape_image_open(&tape_image) < 0) {

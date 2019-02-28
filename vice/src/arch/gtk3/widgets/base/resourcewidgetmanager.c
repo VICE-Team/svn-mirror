@@ -185,7 +185,7 @@ void vice_resource_widget_manager_add_widget(
     resource_widget_entry_init(entry);
     entry->widget = widget;
     if (resource != NULL) {
-        entry->resource = lib_stralloc(resource);
+        entry->resource = lib_strdup(resource);
     } else {
         entry->resource = NULL;
     }

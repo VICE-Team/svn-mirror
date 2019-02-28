@@ -63,7 +63,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 {
 #ifdef ARCHDEP_OS_UNIX
     if (*orig_name == '/') {
-        *return_path = lib_stralloc(orig_name);
+        *return_path = lib_strdup(orig_name);
     } else if (*orig_name == '~' && *(orig_name +1) == '/') {
         *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
     } else {
@@ -76,7 +76,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     return 0;
 #elif defined(ARCHDEP_OS_WINDOWS)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
-    *return_path = lib_stralloc(orig_name);
+    *return_path = lib_strdup(orig_name);
 #elif defined(ARCHDEP_OS_AMIGA)
     /* taken from src/arch/sdl/archdep_amiga.c: */
     BPTR lock;
@@ -88,21 +88,21 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         rc = NameFromLock(lock, name, 1024);
         UnLock(lock);
         if (rc != 0) {
-            *return_path = lib_stralloc(name);
+            *return_path = lib_strdup(name);
             return 0;
         }
     }
-    *return_path = lib_stralloc(orig_name);
+    *return_path = lib_strdup(orig_name);
 #elif defined(ARCHDEP_OS_BEOS)
     /* taken from src/arch/sdl/archdep_beos.c: */
-    *return_path = lib_stralloc(orig_name);
+    *return_path = lib_strdup(orig_name);
 #elif defined(ARCHDEP_OS_OS2)
     /* the OS/2 code is too terrible to include, so just exit: */
     log_err(LOG_ERR, "OS/2 code is too screwed up, sorry.");
     archdep_vice_exit(1);
 # if 0
     if (filename[0] == '\\' || filename[1] == ':') {
-        *return_path = lib_stralloc(filename);
+        *return_path = lib_strdup(filename);
     } else {
         char *p = (char *)malloc(512);
         while (getcwd(p, 512) == NULL) {
@@ -118,7 +118,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 #else
     /* fallback */
     log_error(LOG_ERR, "unsupported OS: just returning input.");
-    *return_path = lib_stralloc(orig_name);
+    *return_path = lib_strdup(orig_name);
 #endif
     return 0;
 }

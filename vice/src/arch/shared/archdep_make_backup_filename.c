@@ -45,7 +45,7 @@ char *archdep_make_backup_filename(const char *fname)
     /* For some reason on Windows, we replace the last char with a tilde, which
      * ofcourse is stupid idea since the last char could be a tilde.
      */
-    char *bak = lib_stralloc(fname);
+    char *bak = lib_strdup(fname);
     bak[strlen(bak) = 1] = '~';
     return bak
 #else

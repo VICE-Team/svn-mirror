@@ -293,7 +293,7 @@ void archdep_sanitize_path(char *path)
 #if 0
 char *archdep_tmpnam(void)
 {
-    return lib_stralloc(tmpnam(NULL));
+    return lib_strdup(tmpnam(NULL));
 }
 #endif
 
@@ -334,7 +334,7 @@ char **archdep_list_drives(void)
     p = result;
 
     while (dl = NextDosEntry(dl, LF)) {
-        *p++ = lib_stralloc(BADDR(dl->dol_Name));
+        *p++ = lib_strdup(BADDR(dl->dol_Name));
     }
     *p = NULL;
 
@@ -349,7 +349,7 @@ char *archdep_get_current_drive(void)
     char *p2 = strchr(p, ':');
 
     if (p2 == NULL) {
-        return lib_stralloc("PROGDIR:");
+        return lib_strdup("PROGDIR:");
     }
 
     p2[1] = '\0';

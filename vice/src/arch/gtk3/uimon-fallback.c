@@ -298,7 +298,7 @@ char *uimonfb_get_in(char **ppchCommandLine, const char *prompt)
         add_history(p);
     }
 #endif
-    ret_sting = lib_stralloc(p);
+    ret_sting = lib_strdup(p);
     free(p);
 
     return ret_sting;

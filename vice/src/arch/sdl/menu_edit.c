@@ -51,7 +51,7 @@ UI_MENU_CALLBACK(edit_menu_paste_callback)
         if (text == NULL) {
             return NULL;
         }
-        text_in_petscii = lib_stralloc(text);
+        text_in_petscii = lib_strdup(text);
 
         charset_petconvstring((unsigned char*)text_in_petscii, 0);
         kbdbuf_feed(text_in_petscii);

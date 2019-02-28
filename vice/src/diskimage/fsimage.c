@@ -58,7 +58,7 @@ void fsimage_name_set(disk_image_t *image, const char *name)
 
     fsimage = image->media.fsimage;
 
-    fsimage->name = lib_stralloc(name);
+    fsimage->name = lib_strdup(name);
 }
 
 

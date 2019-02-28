@@ -332,7 +332,7 @@ static void sdlkbd_parse_entry(char *buffer)
 
     p = strtok(NULL, "\r\n");
     if (p != NULL) {
-        full_path = lib_stralloc(p);
+        full_path = lib_strdup(p);
         action = sdl_ui_hotkey_action(p);
         if (action == NULL) {
             log_warning(sdlkbd_log, "Cannot find menu item \"%s\"!", full_path);

@@ -46,7 +46,7 @@
 #define DEFAULT_DEVICE SAMPLER_DEVICE_FILE
 #endif
 
-/* used to build a resource string via lib_stralloc() and util_concat() calls,
+/* used to build a resource string via lib_strdup() and util_concat() calls,
  * gets free'd in sampler_resources_shutdown() */
 static char *cmdline_devices = NULL;
 
@@ -262,7 +262,7 @@ int sampler_cmdline_options_init(void)
     char *temp = NULL;
     char number[4];
 
-    cmdline_devices = lib_stralloc("Specify sampler device. (");
+    cmdline_devices = lib_strdup("Specify sampler device. (");
 
     for (i = 0; i < SAMPLER_MAX_DEVICES; ++i) {
         if (devices[i].name) {

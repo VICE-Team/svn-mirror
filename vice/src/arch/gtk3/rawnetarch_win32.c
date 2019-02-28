@@ -214,7 +214,7 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
         log_error(LOG_ERR, "adapter name is NULL");
         return 0;
     }
-    *ppname = lib_stralloc(EthernetPcapNextDev->name);
+    *ppname = lib_strdup(EthernetPcapNextDev->name);
 
     if (EthernetPcapNextDev->description == NULL) {
         fprintf(stderr, "%s:%d:%s(): adapter description is NULL",
@@ -222,7 +222,7 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
         log_error(LOG_ERR, "adapter description is NULL");
         return 0;
     }
-    *ppdescription = lib_stralloc(EthernetPcapNextDev->description);
+    *ppdescription = lib_strdup(EthernetPcapNextDev->description);
 
     EthernetPcapNextDev = EthernetPcapNextDev->next;
 
@@ -547,7 +547,7 @@ char *rawnet_arch_get_standard_interface(void)
         return NULL;
     }
 
-    dev = lib_stralloc((*p_pcap_lookupdev)(errbuf));
+    dev = lib_strdup((*p_pcap_lookupdev)(errbuf));
 
     return dev;
 }

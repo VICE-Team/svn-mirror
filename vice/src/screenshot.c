@@ -208,9 +208,9 @@ int screenshot_save(const char *drvname, const char *filename,
         recording_driver = drv;
         recording_canvas = canvas;
 
-        reopen_recording_drivername = lib_stralloc(drvname);
+        reopen_recording_drivername = lib_strdup(drvname);
         reopen_recording_canvas = canvas;
-        reopen_filename = lib_stralloc(filename);
+        reopen_filename = lib_strdup(filename);
     }
 
     result = screenshot_save_core(&screenshot, drv, filename);

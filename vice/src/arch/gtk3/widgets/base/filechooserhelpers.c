@@ -213,7 +213,7 @@ GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
         name = util_concat(filter.name, " (", globs, ")", NULL);
         lib_free(globs);
     } else {
-        name = lib_stralloc(filter.name);
+        name = lib_strdup(filter.name);
     }
 
     ff = gtk_file_filter_new();

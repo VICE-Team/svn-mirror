@@ -242,13 +242,13 @@ static char *generate_sid_address_range(int nr)
 
     switch (nr) {
         case 2:
-            temp3 = lib_stralloc("Specify base address for 2nd SID. (");
+            temp3 = lib_strdup("Specify base address for 2nd SID. (");
             break;
         case 3:
-            temp3 = lib_stralloc("Specify base address for 3rd SID. (");
+            temp3 = lib_strdup("Specify base address for 3rd SID. (");
             break;
         default:
-            temp3 = lib_stralloc("Specify base address for 4th SID. (");
+            temp3 = lib_strdup("Specify base address for 4th SID. (");
             break;
     }
 
@@ -288,7 +288,7 @@ static char *build_sid_cmdline_option(int sid_type)
     }
 
     /* start building up the command-line */
-    old = lib_stralloc("Specify SID engine and model (");
+    old = lib_strdup("Specify SID engine and model (");
 
     /* add fast sid options */
     new = util_concat(old, "0: FastSID 6581, 1: FastSID 8580", NULL);

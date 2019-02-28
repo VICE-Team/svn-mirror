@@ -119,13 +119,13 @@ static gboolean build_iface_list(void)
 
     num = 0;
     while (rawnet_enumadapter(&if_name, &if_desc)) {
-        iface_list[num].id = lib_stralloc(if_name);
+        iface_list[num].id = lib_strdup(if_name);
         /*
          * On Windows, the description string seems to be always present, on
          * Unix this isn't the case and NULL can be returned.
          */
         if (if_desc == NULL) {
-            iface_list[num].name = lib_stralloc(if_name);
+            iface_list[num].name = lib_strdup(if_name);
         } else {
             iface_list[num].name = lib_msprintf("%s (%s)", if_name, if_desc);
         }

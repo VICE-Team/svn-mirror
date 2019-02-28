@@ -113,7 +113,7 @@ static UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        joyport1_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
+        joyport1_dyn_menu[i].string = (char *)lib_strdup(devices[i].name);
         joyport1_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport1_dyn_menu[i].callback = radio_JoyPort1Device_callback;
         joyport1_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
@@ -142,7 +142,7 @@ static UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        joyport2_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
+        joyport2_dyn_menu[i].string = (char *)lib_strdup(devices[i].name);
         joyport2_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport2_dyn_menu[i].callback = radio_JoyPort2Device_callback;
         joyport2_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
@@ -171,7 +171,7 @@ static UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        joyport3_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
+        joyport3_dyn_menu[i].string = (char *)lib_strdup(devices[i].name);
         joyport3_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport3_dyn_menu[i].callback = radio_JoyPort3Device_callback;
         joyport3_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
@@ -200,7 +200,7 @@ static UI_MENU_CALLBACK(JoyPort4Device_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        joyport4_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
+        joyport4_dyn_menu[i].string = (char *)lib_strdup(devices[i].name);
         joyport4_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport4_dyn_menu[i].callback = radio_JoyPort4Device_callback;
         joyport4_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);
@@ -230,7 +230,7 @@ static UI_MENU_CALLBACK(JoyPort5Device_dynmenu_callback)
     }
 
     for (i = 0; devices[i].name; ++i) {
-        joyport5_dyn_menu[i].string = (char *)lib_stralloc(devices[i].name);
+        joyport5_dyn_menu[i].string = (char *)lib_strdup(devices[i].name);
         joyport5_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
         joyport5_dyn_menu[i].callback = radio_JoyPort5Device_callback;
         joyport5_dyn_menu[i].data = (ui_callback_data_t)int_to_void_ptr(devices[i].id);

@@ -258,7 +258,7 @@ char *image_contents_filename_to_string(image_contents_file_list_t * p,
     print_name = image_contents_get_filename(p);
 
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
-        return lib_stralloc(print_name);
+        return lib_strdup(print_name);
     } else {
         return (char *)charset_petconv_stralloc((uint8_t *)print_name, out_charset);
     }
@@ -278,7 +278,7 @@ char *image_contents_filetype_to_string(image_contents_file_list_t *p,
                                         char out_charset)
 {
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
-        return  lib_stralloc((const char *)(p->type));
+        return  lib_strdup((const char *)(p->type));
     } else {
         return (char *)charset_petconv_stralloc((p->type), out_charset);
     }
@@ -337,7 +337,7 @@ char *image_contents_filename_by_number(image_contents_t *contents,
             file_index--;
         }
         if (current != NULL) {
-            s = lib_stralloc((char *)(current->name));
+            s = lib_strdup((char *)(current->name));
         }
     }
     return s;

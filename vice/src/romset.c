@@ -100,7 +100,7 @@ static const char *prepend_dir_to_path(const char *dir)
     char *new_path;
 
     resources_get_string("Directory", &saved_path);
-    saved_path = lib_stralloc(saved_path);
+    saved_path = lib_strdup(saved_path);
 
     if (dir && *dir) {
         new_path = util_concat(dir,
@@ -220,7 +220,7 @@ char *romset_file_list(const char **resource_list)
     char *list;
     const char *s;
 
-    list = lib_stralloc("");
+    list = lib_strdup("");
     s = *resource_list++;
 
     while (s != NULL) {
@@ -400,7 +400,7 @@ char *romset_archive_list(void)
     char *list, *line;
     int i;
 
-    list = lib_stralloc("");
+    list = lib_strdup("");
 
     for (i = 0; i < num_romsets; i++) {
         item = romsets + i;

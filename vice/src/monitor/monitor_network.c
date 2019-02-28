@@ -156,7 +156,7 @@ static char * monitor_network_extract_text_command_line(char * pbuffer, int buff
             assert(cr_end != NULL);
 
             *cr_start = 0;
-            p = lib_stralloc(pbuffer);
+            p = lib_strdup(pbuffer);
 
             memmove(pbuffer, cr_end + 1, strlen(cr_end + 1));
 
@@ -167,7 +167,7 @@ static char * monitor_network_extract_text_command_line(char * pbuffer, int buff
             /* we have a command that is too large:
              * process it anyway, so the sender knows something is wrong
              */
-            p = lib_stralloc(pbuffer);
+            p = lib_strdup(pbuffer);
             *pbuffer_pos = 0;
             pbuffer[0] = 0;
             break;

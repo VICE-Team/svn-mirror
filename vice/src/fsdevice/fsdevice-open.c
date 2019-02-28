@@ -85,13 +85,13 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
         } else {
             strcpy(bufinfo[secondary].dirmask, mask);
             lib_free(cmd_parse->parsecmd);
-            cmd_parse->parsecmd = lib_stralloc(fsdevice_get_path(vdrive->unit));
+            cmd_parse->parsecmd = lib_strdup(fsdevice_get_path(vdrive->unit));
         }
     } else {
         bufinfo[secondary].dirmask[0] = '\0';
         if (!*(cmd_parse->parsecmd)) {
             lib_free(cmd_parse->parsecmd);
-            cmd_parse->parsecmd = lib_stralloc(fsdevice_get_path(vdrive->unit));
+            cmd_parse->parsecmd = lib_strdup(fsdevice_get_path(vdrive->unit));
         }
     }
 

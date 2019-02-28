@@ -170,7 +170,7 @@ static void zfile_list_add(const char *tmp_name,
     archdep_expand_path(&new_zfile->orig_name, orig_name);
 
     /* The new zfile becomes first on the list.  */
-    new_zfile->tmp_name = tmp_name ? lib_stralloc(tmp_name) : NULL;
+    new_zfile->tmp_name = tmp_name ? lib_strdup(tmp_name) : NULL;
     new_zfile->write_mode = write_mode;
     new_zfile->stream = stream;
     new_zfile->fd = fd;
@@ -252,8 +252,8 @@ static char *try_uncompress_with_gzip(const char *name)
     }
 
     /* `exec*()' does not want these to be constant...  */
-    argv[0] = lib_stralloc("gzip");
-    argv[1] = lib_stralloc("-cd");
+    argv[0] = lib_strdup("gzip");
+    argv[1] = lib_strdup("-cd");
     argv[2] = archdep_filename_parameter(name);
     argv[3] = NULL;
 
@@ -294,8 +294,8 @@ static char *try_uncompress_with_bzip(const char *name)
     }
 
     /* `exec*()' does not want these to be constant...  */
-    argv[0] = lib_stralloc("bzip2");
-    argv[1] = lib_stralloc("-cd");
+    argv[0] = lib_strdup("bzip2");
+    argv[1] = lib_strdup("-cd");
     argv[2] = archdep_filename_parameter(name);
     argv[3] = NULL;
 
@@ -330,7 +330,7 @@ static char *try_uncompress_with_tzx(const char *name)
     }
 
     /* `exec*()' does not want these to be constant...  */
-    argv[0] = lib_stralloc("64tzxtap");
+    argv[0] = lib_strdup("64tzxtap");
     argv[1] = archdep_filename_parameter(name);
     argv[2] = NULL;
 
@@ -438,8 +438,8 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     }
 
     /* First run listing and search for first recognizeable extension.  */
-    argv[0] = lib_stralloc(program);
-    argv[1] = lib_stralloc(listopts);
+    argv[0] = lib_strdup(program);
+    argv[1] = lib_strdup(listopts);
     argv[2] = archdep_filename_parameter(name);
     argv[3] = NULL;
 
@@ -515,14 +515,14 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
     /* And then file inside zip.  If we have a zipcode extract all of them
        to the same file. */
-    argv[0] = lib_stralloc(program);
-    argv[1] = lib_stralloc(extractopts);
+    argv[0] = lib_strdup(program);
+    argv[1] = lib_strdup(extractopts);
     argv[2] = archdep_filename_parameter(name);
     if (is_zipcode_name(tmp + nameoffset)) {
-        argv[3] = lib_stralloc(tmp + nameoffset);
-        argv[4] = lib_stralloc(tmp + nameoffset);
-        argv[5] = lib_stralloc(tmp + nameoffset);
-        argv[6] = lib_stralloc(tmp + nameoffset);
+        argv[3] = lib_strdup(tmp + nameoffset);
+        argv[4] = lib_strdup(tmp + nameoffset);
+        argv[5] = lib_strdup(tmp + nameoffset);
+        argv[6] = lib_strdup(tmp + nameoffset);
         argv[7] = NULL;
         argv[3][0] = '1';
         argv[4][0] = '2';
@@ -610,9 +610,9 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     tmp_name = archdep_tmpnam();
 
     /* ok, now extract the zipcode */
-    argv[0] = lib_stralloc(C1541_NAME);
-    argv[1] = lib_stralloc("-zcreate");
-    argv[2] = lib_stralloc(tmp_name);
+    argv[0] = lib_strdup(C1541_NAME);
+    argv[1] = lib_strdup("-zcreate");
+    argv[2] = lib_strdup(tmp_name);
     argv[3] = archdep_filename_parameter(name);
     argv[4] = NULL;
 
@@ -704,12 +704,12 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     tmp_name = archdep_tmpnam();
 
     /* now create the image */
-    argv[0] = lib_stralloc("c1541");
-    argv[1] = lib_stralloc("-format");
-    argv[2] = lib_stralloc("lynximage,00");
-    argv[3] = lib_stralloc("x64");
-    argv[4] = lib_stralloc(tmp_name);
-    argv[5] = lib_stralloc("-unlynx");
+    argv[0] = lib_strdup("c1541");
+    argv[1] = lib_strdup("-format");
+    argv[2] = lib_strdup("lynximage,00");
+    argv[3] = lib_strdup("x64");
+    argv[4] = lib_strdup(tmp_name);
+    argv[5] = lib_strdup("-unlynx");
     argv[6] = archdep_filename_parameter(name);
     argv[7] = NULL;
 
@@ -848,12 +848,12 @@ static int compress_with_gzip(const char *src, const char *dest)
     char *mdest;
 
     /* `exec*()' does not want these to be constant...  */
-    argv[0] = lib_stralloc("gzip");
-    argv[1] = lib_stralloc("-c");
-    argv[2] = lib_stralloc(src);
+    argv[0] = lib_strdup("gzip");
+    argv[1] = lib_strdup("-c");
+    argv[2] = lib_strdup(src);
     argv[3] = NULL;
 
-    mdest = lib_stralloc(dest);
+    mdest = lib_strdup(dest);
 
     ZDEBUG(("compress_with_gzip: spawning gzip -c %s", src));
     exit_status = archdep_spawn("gzip", argv, &mdest, NULL);
@@ -882,12 +882,12 @@ static int compress_with_bzip(const char *src, const char *dest)
     char *mdest;
 
     /* `exec*()' does not want these to be constant...  */
-    argv[0] = lib_stralloc("bzip2");
-    argv[1] = lib_stralloc("-c");
-    argv[2] = lib_stralloc(src);
+    argv[0] = lib_strdup("bzip2");
+    argv[1] = lib_strdup("-c");
+    argv[2] = lib_strdup(src);
     argv[3] = NULL;
 
-    mdest = lib_stralloc(dest);
+    mdest = lib_strdup(dest);
 
     ZDEBUG(("compress_with_bzip: spawning bzip -c %s", src));
     exit_status = archdep_spawn("bzip2", argv, &mdest, NULL);
@@ -1181,7 +1181,7 @@ int zfile_close_action(const char *filename, zfile_action_t action,
     while (p != NULL) {
         if (p->orig_name && !strcmp(p->orig_name, fullname)) {
             p->action = action;
-            p->request_string = request_str ? lib_stralloc(request_str) : NULL;
+            p->request_string = request_str ? lib_strdup(request_str) : NULL;
             lib_free(fullname);
             return 0;
         }

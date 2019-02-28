@@ -116,7 +116,7 @@ static int handle_message_box(const char *title, const char *message, int messag
                         UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING 
                         UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_LEFTTEE_STRING, 4);
 
-    text = lib_stralloc(message);
+    text = lib_strdup(message);
     msglen = (unsigned int)strlen(text);
 
     /* substitute forward slashes and spaces for backslashes and newline

@@ -460,7 +460,7 @@ int rrnetmk3_bin_attach(const char *filename, uint8_t *rawcart)
 
     rrnetmk3_bios_offset = amount_read & 3;
     rrnetmk3_bios_type = CARTRIDGE_FILETYPE_BIN;
-    rrnetmk3_bios_filename = lib_stralloc(filename);
+    rrnetmk3_bios_filename = lib_strdup(filename);
     return rrnetmk3_common_attach();
 }
 
@@ -482,7 +482,7 @@ int rrnetmk3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 
     rrnetmk3_bios_offset = 0;
     rrnetmk3_bios_type = CARTRIDGE_FILETYPE_CRT;
-    rrnetmk3_bios_filename = lib_stralloc(filename);
+    rrnetmk3_bios_filename = lib_strdup(filename);
     return rrnetmk3_common_attach();
 }
 

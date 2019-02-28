@@ -286,7 +286,7 @@ char *uimon_in(const char *prompt)
     if (pchCommandLine) {
         /* we have an "artificially" generated command line */
         lib_free(p);
-        p = lib_stralloc(pchCommandLine);
+        p = lib_strdup(pchCommandLine);
         pchCommandLine = NULL;
     }
 

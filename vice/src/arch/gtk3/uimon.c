@@ -667,17 +667,17 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         return uimonfb_get_in(ppchCommandLine, prompt);
     }
 
-    fixed.input_buffer = lib_stralloc("");;
+    fixed.input_buffer = lib_strdup("");;
     linenoiseSetCompletionCallback(monitor_completions);
     p = linenoise(prompt, &fixed);
     if (p) {
         if (*p) {
             linenoiseHistoryAdd(p);
         }
-        ret_string = lib_stralloc(p);
+        ret_string = lib_strdup(p);
         free(p);
     } else {
-        ret_string = lib_stralloc("x");
+        ret_string = lib_strdup("x");
     }
     lib_free(fixed.input_buffer);
     fixed.input_buffer = NULL;

@@ -551,7 +551,7 @@ int cartridge_attach_image(int type, const char *filename)
     if (archdep_path_is_relative(filename)) {
         archdep_expand_path(&abs_filename, filename);
     } else {
-        abs_filename = lib_stralloc(filename);
+        abs_filename = lib_strdup(filename);
     }
 
     if (type == CARTRIDGE_CRT) {

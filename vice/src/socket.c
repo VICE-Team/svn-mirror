@@ -551,7 +551,7 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
                 unsigned long new_port;
 
                 /* yes, there is a port: Copy the part before, so we can modify it */
-                p = lib_stralloc(address_string);
+                p = lib_strdup(address_string);
 
                 p[port_part - address_string] = 0;
                 address_part = p;

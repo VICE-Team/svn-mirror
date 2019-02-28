@@ -148,7 +148,7 @@ static int cmdline_limitcycles(const char *param, void *extra_param)
 static int cmdline_autostart(const char *param, void *extra_param)
 {
     cmdline_free_autostart_string();
-    autostart_string = lib_stralloc(param);
+    autostart_string = lib_strdup(param);
     autostart_mode = AUTOSTART_MODE_RUN;
     return 0;
 }
@@ -156,7 +156,7 @@ static int cmdline_autostart(const char *param, void *extra_param)
 static int cmdline_autoload(const char *param, void *extra_param)
 {
     cmdline_free_autostart_string();
-    autostart_string = lib_stralloc(param);
+    autostart_string = lib_strdup(param);
     autostart_mode = AUTOSTART_MODE_LOAD;
     return 0;
 }
@@ -178,14 +178,14 @@ static int cmdline_attach(const char *param, void *extra_param)
     switch (unit) {
         case 1:
             lib_free(startup_tape_image);
-            startup_tape_image = lib_stralloc(param);
+            startup_tape_image = lib_strdup(param);
             break;
         case 8:
         case 9:
         case 10:
         case 11:
             lib_free(startup_disk_images[unit - 8]);
-            startup_disk_images[unit - 8] = lib_stralloc(param);
+            startup_disk_images[unit - 8] = lib_strdup(param);
             break;
         default:
             archdep_startup_log_error("cmdline_attach(): unexpected unit number %d?!\n", unit);
@@ -307,7 +307,7 @@ int initcmdline_check_args(int argc, char **argv)
 
     /* The last orphan option is the same as `-autostart'.  */
     if ((argc > 1) && (autostart_string == NULL)) {
-        autostart_string = lib_stralloc(argv[1]);
+        autostart_string = lib_strdup(argv[1]);
         autostart_mode = AUTOSTART_MODE_RUN;
         argc--, argv++;
     }

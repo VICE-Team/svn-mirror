@@ -740,7 +740,7 @@ void lib_FreeMem(void *ptr, unsigned long size)
 #ifdef LIB_DEBUG_PINPOINT
 static
 #endif
-char *lib_stralloc(const char *str)
+char *lib_strdup(const char *str)
 {
     size_t size;
     char *ptr;
@@ -749,7 +749,7 @@ char *lib_stralloc(const char *str)
 #ifdef LIB_DEBUG_PINPOINT
         fprintf(stderr, "%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
-        fprintf(stderr, "error: lib_stralloc(NULL) not allowed.\n");
+        fprintf(stderr, "error: lib_strdup(NULL) not allowed.\n");
         archdep_vice_exit(-1);
     }
 
@@ -1202,11 +1202,11 @@ void *lib_realloc_pinpoint(void *p, size_t size, const char *name, unsigned int 
     return lib_realloc(p, size);
 }
 
-char *lib_stralloc_pinpoint(const char *str, const char *name, unsigned int line)
+char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
-    return lib_stralloc(str);
+    return lib_strdup(str);
 }
 
 #ifdef AMIGA_SUPPORT

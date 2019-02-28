@@ -393,7 +393,7 @@ static int easyflash_common_attach(const char *filename)
     easyflash_io1_list_item = io_source_register(&easyflash_io1_device);
     easyflash_io2_list_item = io_source_register(&easyflash_io2_device);
 
-    easyflash_filename = lib_stralloc(filename);
+    easyflash_filename = lib_strdup(filename);
 
     return 0;
 }

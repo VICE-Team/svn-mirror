@@ -112,7 +112,7 @@ static BOOL CALLBACK EnumJoyAxes(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvRef)
     axis = lib_malloc(sizeof(JoyAxis));
     axis->next = NULL;
     axis->id = DIDFT_GETINSTANCE(lpddoi->dwType);
-    axis->name = lib_stralloc(lpddoi->tszName);
+    axis->name = lib_strdup(lpddoi->tszName);
     axis->dwOffs = lpddoi->dwOfs;
 
     //  Link axis into list for this joystick
@@ -140,7 +140,7 @@ static BOOL CALLBACK EnumJoyButtons(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvR
     button = lib_malloc(sizeof(JoyButton));
     button->next = NULL;
     button->id = DIDFT_GETINSTANCE(lpddoi->dwType);
-    button->name = lib_stralloc(lpddoi->tszName);
+    button->name = lib_strdup(lpddoi->tszName);
     button->dwOffs = lpddoi->dwOfs;
 
     //  Link button into list for this joystick
@@ -613,7 +613,7 @@ static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
     new_joystick = lib_malloc(sizeof(JoyInfo));
     new_joystick->next = NULL;
     memcpy(&new_joystick->guid, &lpddi->guidInstance, sizeof(GUID));
-    new_joystick->name = lib_stralloc(lpddi->tszInstanceName);
+    new_joystick->name = lib_strdup(lpddi->tszInstanceName);
     new_joystick->axes = NULL;
     new_joystick->buttons = NULL;
     new_joystick->numPOVs = 0;

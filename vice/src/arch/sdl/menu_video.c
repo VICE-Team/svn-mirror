@@ -1308,10 +1308,10 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
 
     while (palettelist->name) {
         if (palettelist->chip && !strcmp(palettelist->chip, video_chip1_used)) {
-            palette_dyn_menu1[i].string = (char *)lib_stralloc(palettelist->name);
+            palette_dyn_menu1[i].string = (char *)lib_strdup(palettelist->name);
             palette_dyn_menu1[i].type = MENU_ENTRY_OTHER_TOGGLE;
             palette_dyn_menu1[i].callback = external_palette_file1_callback;
-            palette_dyn_menu1[i].data = (ui_callback_data_t)lib_stralloc(palettelist->file);
+            palette_dyn_menu1[i].data = (ui_callback_data_t)lib_strdup(palettelist->file);
             ++i;
         }
         ++palettelist;
@@ -1331,10 +1331,10 @@ void uipalette_menu_create(char *chip1_name, char *chip2_name)
 
         while (palettelist->name) {
             if (palettelist->chip && !strcmp(palettelist->chip, video_chip2_used)) {
-                palette_dyn_menu2[i].string = (char *)lib_stralloc(palettelist->name);
+                palette_dyn_menu2[i].string = (char *)lib_strdup(palettelist->name);
                 palette_dyn_menu2[i].type = MENU_ENTRY_OTHER_TOGGLE;
                 palette_dyn_menu2[i].callback = external_palette_file2_callback;
-                palette_dyn_menu2[i].data = (ui_callback_data_t)lib_stralloc(palettelist->file);
+                palette_dyn_menu2[i].data = (ui_callback_data_t)lib_strdup(palettelist->file);
                 ++i;
             }
             ++palettelist;

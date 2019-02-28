@@ -385,7 +385,7 @@ int fsimage_create(const char *name, unsigned int type)
     image->device = DISK_IMAGE_DEVICE_FS;
     image->type = type;
 
-    fsimage->name = lib_stralloc(name);
+    fsimage->name = lib_strdup(name);
     fsimage->fd = fopen(name, MODE_WRITE);
 
     if (fsimage->fd == NULL) {

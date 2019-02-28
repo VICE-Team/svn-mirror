@@ -100,13 +100,13 @@ int cmdline_register_options(const cmdline_option_t *c)
             p = options + num_options;
         }
 
-        p->name = lib_stralloc(c->name);
+        p->name = lib_strdup(c->name);
         p->type = c->type;
         p->attributes = c->attributes;
         p->set_func = c->set_func;
         p->extra_param = c->extra_param;
         if (c->resource_name != NULL) {
-            p->resource_name = lib_stralloc(c->resource_name);
+            p->resource_name = lib_strdup(c->resource_name);
         } else {
             p->resource_name = NULL;
         }
@@ -344,7 +344,7 @@ char *cmdline_options_string(void)
     char *cmdline_string, *new_cmdline_string;
     char *add_to_options1, *add_to_options2, *add_to_options3;
 
-    cmdline_string = lib_stralloc("\n");
+    cmdline_string = lib_strdup("\n");
 
     for (i = 0; i < num_options; i++) {
         add_to_options1 = lib_msprintf("%s", options[i].name);

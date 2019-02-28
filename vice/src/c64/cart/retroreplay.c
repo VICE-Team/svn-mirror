@@ -1060,7 +1060,7 @@ int retroreplay_bin_attach(const char *filename, uint8_t *rawcart)
             return -1;
     }
     retroreplay_filetype = CARTRIDGE_FILETYPE_BIN;
-    retroreplay_filename = lib_stralloc(filename);
+    retroreplay_filename = lib_strdup(filename);
     return retroreplay_common_attach();
 }
 
@@ -1097,7 +1097,7 @@ int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
     }
 
     retroreplay_filetype = CARTRIDGE_FILETYPE_CRT;
-    retroreplay_filename = lib_stralloc(filename);
+    retroreplay_filename = lib_strdup(filename);
 
     return retroreplay_common_attach();
 }

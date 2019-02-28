@@ -512,7 +512,7 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     crt_control_data_t *data;
 
     data = lib_malloc(sizeof *data);
-    data->chip = lib_stralloc(chip);
+    data->chip = lib_strdup(chip);
     data->color_brightness = NULL;
     data->color_contrast = NULL;
     data->color_gamma = NULL;

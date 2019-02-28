@@ -144,7 +144,7 @@ static void sdl_ui_print_translate_seperator(const char *text, int x, int y)
     char *new_text = NULL;
 
     len = strlen(text);
-    new_text = lib_stralloc(text);
+    new_text = lib_strdup(text);
 
     for (i = 0; i < len; i++) {
         if (new_text[i] == '\\') {
@@ -172,7 +172,7 @@ static void sdl_ui_display_path(const char *current_dir)
     len = strlen(current_dir);
 
     if (len > menu_draw->max_text_x) {
-        text = lib_stralloc(current_dir);
+        text = lib_strdup(current_dir);
 
         temp = strchr(current_dir + 1, FSDEV_DIR_SEP_CHR);
         before = (int)(temp - current_dir + 1);
@@ -393,7 +393,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     current_dir = lib_malloc(maxpathlen);
 
     ioutil_getcwd(current_dir, maxpathlen);
-    backup_dir = lib_stralloc(current_dir);
+    backup_dir = lib_strdup(current_dir);
 
     directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
     if (directory == NULL) {
@@ -509,7 +509,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                                 }
                             }
                         } else {
-                            retval = lib_stralloc(current_dir);
+                            retval = lib_strdup(current_dir);
                         }
                         active = 0;
                         break;
@@ -569,7 +569,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             char *selected_file = directory->files[offset + cur - dirs - SDL_FILEREQ_META_NUM].name;
                             if ((mode == FILEREQ_MODE_CHOOSE_FILE) || (mode == FILEREQ_MODE_CHOOSE_FILE_IN_IMAGE) || (mode == FILEREQ_MODE_CHOOSE_FILE_IN_IMAGE)) {
                                 lib_free(last_selected_file);
-                                last_selected_file = lib_stralloc(selected_file);
+                                last_selected_file = lib_strdup(selected_file);
                             }
                             retval = util_concat(current_dir, FSDEV_DIR_SEP_STR, selected_file, NULL);
 
