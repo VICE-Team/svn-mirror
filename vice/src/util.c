@@ -562,16 +562,18 @@ void util_fname_split(const char *path, char **directory_return,
 {
     const char *p;
 
+    /* if no input, return "."/"" */
     if (path == NULL) {
         if (directory_return != NULL) {
-            *directory_return = NULL;
+            *directory_return = strdup(".");
         }
         if (name_return != NULL) {
-            *name_return = NULL;
+            *name_return = strdup("");
         }
         return;
     }
 
+    /* get ptr to last dir seperator before the filename */
     p = strrchr(path, FSDEV_DIR_SEP_CHR);
 
 #if (FSDEV_DIR_SEP_CHR == '\\')
@@ -586,9 +588,10 @@ void util_fname_split(const char *path, char **directory_return,
     }
 #endif
 
+    /* if no path in the input, return "." as path */
     if (p == NULL) {
         if (directory_return != NULL) {
-            *directory_return = NULL;
+            *directory_return = strdup(".");
         }
         if (name_return != NULL) {
             *name_return = lib_stralloc(path);
