@@ -565,10 +565,10 @@ void util_fname_split(const char *path, char **directory_return,
     /* if no input, return "."/"" */
     if (path == NULL) {
         if (directory_return != NULL) {
-            *directory_return = strdup(".");
+            *directory_return = lib_stralloc(".");
         }
         if (name_return != NULL) {
-            *name_return = strdup("");
+            *name_return = lib_stralloc("");
         }
         return;
     }
@@ -591,7 +591,7 @@ void util_fname_split(const char *path, char **directory_return,
     /* if no path in the input, return "." as path */
     if (p == NULL) {
         if (directory_return != NULL) {
-            *directory_return = strdup(".");
+            *directory_return = lib_stralloc(".");
         }
         if (name_return != NULL) {
             *name_return = lib_stralloc(path);
