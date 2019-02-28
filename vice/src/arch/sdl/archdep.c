@@ -103,6 +103,7 @@ void archdep_shutdown(void)
     archdep_program_path_free();
     archdep_boot_path_free();
     archdep_home_path_free();
+    archdep_user_config_path_free();
     archdep_default_sysfile_pathlist_free();
 
 #ifdef HAVE_NETWORK
