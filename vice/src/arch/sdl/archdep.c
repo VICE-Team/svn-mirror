@@ -67,6 +67,7 @@ static void archdep_shutdown_extra(void);
  */
 #include "../shared/archdep_atexit.h"
 #include "../shared/archdep_create_user_config_dir.h"
+#include "../shared/archdep_user_config_path.h"
 
 
 
