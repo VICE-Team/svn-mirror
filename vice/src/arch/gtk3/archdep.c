@@ -159,6 +159,8 @@ int archdep_init(int *argc, char **argv)
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
 
+    debug_gtk3("MSYSTEM = '%s'", getenv("MSYSTEM"));
+
     return 0;
 }
 
