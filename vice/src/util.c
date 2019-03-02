@@ -561,9 +561,9 @@ void util_fname_split(const char *path, char **directory_return,
                       char **name_return)
 {
     const char *p;
-
+#if 0
     printf("%s:%d:%s(): got '%s'\n", __FILE__, __LINE__, __func__, path);
-
+#endif
     /* if no input, return "."/"" */
     if (path == NULL) {
         if (directory_return != NULL) {
@@ -572,10 +572,12 @@ void util_fname_split(const char *path, char **directory_return,
         if (name_return != NULL) {
             *name_return = lib_strdup("");
         }
+#if 0
         printf("%s:%d:%s(): dir = '%s', name = '%s' (didn't find DIRSEP)\n",
                 __FILE__, __LINE__, __func__,
                 directory_return != NULL ? *directory_return : "NULL",
                 name_return != NULL ? *name_return : "NULL");
+#endif
         return;
     }
 
@@ -583,9 +585,9 @@ void util_fname_split(const char *path, char **directory_return,
     p = strrchr(path, FSDEV_DIR_SEP_CHR);
 
 #if (FSDEV_DIR_SEP_CHR == '\\')
-
+# if 0
     printf("WE HAVE \\ AS A DIR SEPARATOR!\n");
-
+# endif
     /* Both `/' and `\' are valid.  */
     {
         const char *p1;
@@ -605,11 +607,12 @@ void util_fname_split(const char *path, char **directory_return,
         if (name_return != NULL) {
             *name_return = lib_strdup(path);
         }
-
+#if 0
         printf("%s:%d:%s(): dir = '%s', name = '%s' (didn't find DIRSEP)\n",
                 __FILE__, __LINE__, __func__,
                 directory_return != NULL ? *directory_return : "NULL",
                 name_return != NULL ? *name_return : "NULL");
+#endif
         return;
     }
 
@@ -622,11 +625,12 @@ void util_fname_split(const char *path, char **directory_return,
     if (name_return != NULL) {
         *name_return = lib_strdup(p + 1);
     }
+#if 0
     printf("%s:%d:%s(): dir = '%s', name = '%s' (didn't find DIRSEP)\n",
             __FILE__, __LINE__, __func__,
             directory_return != NULL ? *directory_return : "NULL",
             name_return != NULL ? *name_return : "NULL");
-
+#endif
     return;
 }
 
