@@ -571,35 +571,7 @@ static const cmdline_option_t joydev5cmdline_options[] = {
 
 int joy_arch_cmdline_options_init(void)
 {
-#if 0 /* FIXME */
-    if (joyport_get_port_name(JOYPORT_1)) {
-        if (cmdline_register_options(joydev1cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_2)) {
-        if (cmdline_register_options(joydev2cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_3)) {
-        if (cmdline_register_options(joydev3cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_4)) {
-        if (cmdline_register_options(joydev4cmdline_options) < 0) {
-            return -1;
-        }
-    }
-    if (joyport_get_port_name(JOYPORT_5)) {
-        if (cmdline_register_options(joydev5cmdline_options) < 0) {
-            return -1;
-        }
-    }
-#else
-    NOT_IMPLEMENTED_WARN_ONLY();
-#endif /* FIXME */
+    /* NOP */
     return 0;
 }
 
