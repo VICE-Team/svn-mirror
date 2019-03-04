@@ -35,55 +35,39 @@
 #include "vice.h"
 #include "sound.h"
 
-/* Extra functions for SDL UI */
-char *archdep_default_hotkey_file_name(void);
-char *archdep_default_joymap_file_name(void);
-
-/* returns a NULL terminated list of strings. Both the list and the strings
- * must be freed by the caller using lib_free(void*) */
-char **archdep_list_drives(void);
-
-/* returns a string that corresponds to the current drive. The string must
- * be freed by the caller using lib_free(void*) */
-char *archdep_get_current_drive(void);
-
-/* sets the current drive to the given string */
-void archdep_set_current_drive(const char *drive);
-
-/* Virtual keyboard handling */
-int archdep_require_vkbd(void);
-
 /* Video chip scaling.  */
-#define ARCHDEP_VICII_DSIZE   1
-#define ARCHDEP_VICII_DSCAN   1
-#define ARCHDEP_VICII_HWSCALE 1
-#define ARCHDEP_VDC_DSIZE     1
-#define ARCHDEP_VDC_DSCAN     1
-#define ARCHDEP_VDC_HWSCALE   1
-#define ARCHDEP_VIC_DSIZE     1
-#define ARCHDEP_VIC_DSCAN     1
-#define ARCHDEP_VIC_HWSCALE   1
-#define ARCHDEP_CRTC_DSIZE    1
-#define ARCHDEP_CRTC_DSCAN    1
-#define ARCHDEP_CRTC_HWSCALE  1
-#define ARCHDEP_TED_DSIZE     1
-#define ARCHDEP_TED_DSCAN     1
-#define ARCHDEP_TED_HWSCALE   1
+#define ARCHDEP_VICII_DSIZE   1     /**< VICII double size */
+#define ARCHDEP_VICII_DSCAN   1     /**< VICII double scan */
+#define ARCHDEP_VICII_HWSCALE 1     /**< VICII hardware scaling */
+#define ARCHDEP_VDC_DSIZE     1     /**< VDC double size */
+#define ARCHDEP_VDC_DSCAN     1     /**< VDC double scan */
+#define ARCHDEP_VDC_HWSCALE   1     /**< VDC hardware scaling */
+#define ARCHDEP_VIC_DSIZE     1     /**< VIC double size */
+#define ARCHDEP_VIC_DSCAN     1     /**< VIC double scan */
+#define ARCHDEP_VIC_HWSCALE   1     /**< VIC hardware scaling */
+#define ARCHDEP_CRTC_DSIZE    1     /**< CRTC double size */
+#define ARCHDEP_CRTC_DSCAN    1     /**< CRTC double scan */
+#define ARCHDEP_CRTC_HWSCALE  1     /**< CRTC hardware scaling */
+#define ARCHDEP_TED_DSIZE     1     /**< TED double size */
+#define ARCHDEP_TED_DSCAN     1     /**< TED double scan */
+#define ARCHDEP_TED_HWSCALE   1     /**< TED hardware scaling */
 
 /* Video chip double buffering.  */
-#define ARCHDEP_VICII_DBUF 0
-#define ARCHDEP_VDC_DBUF   0
-#define ARCHDEP_VIC_DBUF   0
-#define ARCHDEP_CRTC_DBUF  0
-#define ARCHDEP_TED_DBUF   0
+#define ARCHDEP_VICII_DBUF 0        /**< VICII double buffering */
+#define ARCHDEP_VDC_DBUF   0        /**< VDC double buffering */
+#define ARCHDEP_VIC_DBUF   0        /**< VIC double buffering */
+#define ARCHDEP_CRTC_DBUF  0        /**< CRTC double buffering */
+#define ARCHDEP_TED_DBUF   0        /**< TED double buffering */
 
 /* No key symcode.  */
-#define ARCHDEP_KEYBOARD_SYM_NONE 0
+#define ARCHDEP_KEYBOARD_SYM_NONE 0 /**< no keyboard symcode (?) */
 
-/* Default sound output mode */
+/** \brief  Default sound output mode
+ */
 #define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
-/* define if the platform supports the monitor in a seperate window */
+/** \brief  Define if the platform supports the monitor in a seperate window
+ */
 #define ARCHDEP_SEPERATE_MONITOR_WINDOW
 
 #ifdef UNIX_COMPILE
