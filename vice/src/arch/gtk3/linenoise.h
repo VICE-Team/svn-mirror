@@ -41,9 +41,13 @@
 
 #include "vice.h"
 
+/** \brief  Linenoise completions object
+ *
+ * This documentation block is purely guess work.
+ */
 typedef struct linenoiseCompletions {
-  size_t len;
-  char **cvec;
+  size_t len;   /**< probably max or current number of completions in /c cvec */
+  char **cvec;  /**< list of completions */
 } linenoiseCompletions;
 
 struct console_private_s;

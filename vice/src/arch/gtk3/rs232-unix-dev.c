@@ -142,6 +142,10 @@ int rs232dev_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/** \brief  Whoever wrote this: please document this, thanks
+ *
+ * (that includes the members of this struct)
+ */
 typedef struct rs232 {
     int inuse;
     int type;
@@ -151,12 +155,13 @@ typedef struct rs232 {
     struct termios saved;
 } rs232_t;
 
+/* Also document this crap */
 #define T_FILE 0
 #define T_TTY  1
 #define T_PROC 2
 
+/* And these things */
 static rs232_t fds[RS232_NUM_DEVICES];
-
 static log_t rs232dev_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */

@@ -76,16 +76,21 @@ typedef struct plist_state_s {
 } plist_state_t;
 
 
+/** \brief  Type of context menu item types
+ */
 typedef enum {
-    CTX_MENU_ACTION,
-    CTX_MENU_SEP
+    CTX_MENU_ACTION,    /**< action */
+    CTX_MENU_SEP        /**< menu separator */
 } ctx_menu_item_type_t;
 
 
+/** \brief  Context menu item object
+ */
 typedef struct ctx_menu_item_s {
-    const char *            text;
+    const char *            text;   /**< displayed text */
+    /**< item callback */
     gboolean                (*callback)(GtkWidget *, gpointer *);
-    ctx_menu_item_type_t    type;
+    ctx_menu_item_type_t    type;   /**< menu item type, \see ctx_menu_item_type_t */
 } ctx_menu_item_t;
 
 

@@ -70,9 +70,14 @@
 #include "vsync.h"
 #include "uidata.h"
 
+
+/** \brief  Monitor console window object
+ *
+ * Again, guess work. Someone, not me, should have documented this.
+ */
 struct console_private_s {
-    GtkWidget *window;
-    GtkWidget *term;
+    GtkWidget *window;  /**< windows */
+    GtkWidget *term;    /**< could be a VTE instance? */
     char *input_buffer;
 } fixed = {NULL, NULL, NULL};
 
