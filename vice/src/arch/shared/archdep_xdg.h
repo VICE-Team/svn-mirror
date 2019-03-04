@@ -1,4 +1,4 @@
-/** \file   archdep_xdg.g
+/** \file   archdep_xdg.h
  * \brief   XDG base dir specification support - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */

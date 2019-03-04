@@ -1,4 +1,4 @@
-/** \file   archdep_fix_permissions.g
+/** \file   archdep_fix_permissions.h
  * \brief   Update permissions of a file to R+W - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
