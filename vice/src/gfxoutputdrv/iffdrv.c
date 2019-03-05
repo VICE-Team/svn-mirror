@@ -50,7 +50,7 @@ typedef struct gfxoutputdrv_data_s {
     int iff_rowbytes;
 } gfxoutputdrv_data_t;
 
-STATIC_PROTOTYPE gfxoutputdrv_t iff_drv;
+static gfxoutputdrv_t iff_drv;
 
 static uint8_t powers[8]= { 1, 2, 4, 8, 16, 32, 64, 128 };
 

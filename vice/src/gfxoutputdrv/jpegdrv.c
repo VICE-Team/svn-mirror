@@ -50,7 +50,7 @@ typedef struct gfxoutputdrv_data_s {
     unsigned int line;
 } gfxoutputdrv_data_t;
 
-STATIC_PROTOTYPE gfxoutputdrv_t jpeg_drv;
+static gfxoutputdrv_t jpeg_drv;
 
 struct jpeg_compress_struct cinfo;
 struct jpeg_error_mgr jerr;

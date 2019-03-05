@@ -28,26 +28,41 @@
 #ifndef VICE_ARCHDEP_UNIX_H
 #define VICE_ARCHDEP_UNIX_H
 
+/** \brief  No idea
+ */
 #define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
 #undef VICE_ARCHAPI_PRIVATE_API
 
 /* Default MIDI devices. */
-#define ARCHDEP_MIDI_IN_DEV  "/dev/midi"
-#define ARCHDEP_MIDI_OUT_DEV "/dev/midi"
+#define ARCHDEP_MIDI_IN_DEV  "/dev/midi"    /**< MIDI input dev */
+#define ARCHDEP_MIDI_OUT_DEV "/dev/midi"    /**< MIDI output dev */
 
-/* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR "."
-#define FSDEV_DIR_SEP_STR    "/"
-#define FSDEV_DIR_SEP_CHR    '/'
-#define FSDEV_EXT_SEP_STR    "."
-#define FSDEV_EXT_SEP_CHR    '.'
+/* Filesystem dependent operators.  */
+#define FSDEVICE_DEFAULT_DIR "."    /**< CWD */
+#define FSDEV_DIR_SEP_STR    "/"    /**< directory separator as a string */
+#define FSDEV_DIR_SEP_CHR    '/'    /**< directory separator as an integer */
+#define FSDEV_EXT_SEP_STR    "."    /**< file extension separator as a string
+                                         (doesn't exist on Unix) */
+#define FSDEV_EXT_SEP_CHR    '.'    /**< file extension separator as an integer
+                                         (doesn't exist on Unix) */
 
 /* Path separator.  */
+
+/** \brief  Separator character to split directory lists, as an integer
+ */
 #define ARCHDEP_FINDPATH_SEPARATOR_CHAR   ':'
+
+/** \brief  Separator character to split directory lists, as a string
+ */
 #define ARCHDEP_FINDPATH_SEPARATOR_STRING ":"
 
-/* Modes for fopen().  */
+/* Modes for fopen()
+ *
+ * I'm not going to document this, just use "rb" or "wb" on all OS'es, and
+ * handle line endings accordingly. At least that way using ftell()/fseek()
+ * works properly without having to deal with any Windows weirdness.
+ */
 #define MODE_READ              "r"
 #define MODE_READ_TEXT         "r"
 #define MODE_READ_WRITE        "r+"
@@ -129,10 +144,11 @@ void archdep_signals_pipe_unset(void);
 #define ARCHDEP_LAME_SO_NAME     "libmp3lame.so"
 #endif
 
-/* what to use to return an error when a socket error happens */
+/* what to use to return an error when a socket error happens
+ *
+ * Really?
+ */
 #define ARCHDEP_SOCKET_ERROR errno
 
-/* Keyword to use for a static prototype */
-#define STATIC_PROTOTYPE static
 
 #endif

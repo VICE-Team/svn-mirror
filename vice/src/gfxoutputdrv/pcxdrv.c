@@ -49,7 +49,7 @@ typedef struct gfxoutputdrv_data_s {
     unsigned int line;
 } gfxoutputdrv_data_t;
 
-STATIC_PROTOTYPE gfxoutputdrv_t pcx_drv;
+static gfxoutputdrv_t pcx_drv;
 
 static int pcxdrv_write_file_header(screenshot_t *screenshot)
 {

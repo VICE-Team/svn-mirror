@@ -67,7 +67,7 @@ typedef struct gfxoutputdrv_data_s {
     unsigned int line;
 } gfxoutputdrv_data_t;
 
-STATIC_PROTOTYPE gfxoutputdrv_t gif_drv;
+static gfxoutputdrv_t gif_drv;
 
 static ColorMapObject *gif_colors = NULL;
 

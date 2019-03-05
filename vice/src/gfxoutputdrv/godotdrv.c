@@ -51,7 +51,7 @@ typedef struct gfxoutputdrv_data_s {
     unsigned int byte;
 } gfxoutputdrv_data_t;
 
-STATIC_PROTOTYPE gfxoutputdrv_t godot_drv;
+static gfxoutputdrv_t godot_drv;
 
 static int godotdrv_write_file_header(screenshot_t *screenshot)
 {

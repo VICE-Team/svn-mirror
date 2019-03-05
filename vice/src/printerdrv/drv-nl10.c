@@ -114,8 +114,8 @@ static uint8_t *drv_nl10_charset = drv_nl10_rom;
 static uint8_t drv_nl10_charset_nlq[CHARSET_SIZE * 47];
 static uint8_t drv_nl10_charset_nlq_italic[CHARSET_SIZE * 47];
 
-STATIC_PROTOTYPE const uint8_t drv_nl10_charset_mapping_intl[3][8][14];
-STATIC_PROTOTYPE const uint8_t drv_nl10_charset_mapping[3][256];
+static const uint8_t drv_nl10_charset_mapping_intl[3][8][14];
+static const uint8_t drv_nl10_charset_mapping[3][256];
 
 static int drv_nl10_init_charset(void);
 static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const uint8_t c);

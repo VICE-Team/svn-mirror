@@ -69,8 +69,8 @@
 #define VIDEORAM_OFFSET 2
 #define BITMAP_OFFSET 1026
 
-STATIC_PROTOTYPE gfxoutputdrv_t doodle_drv;
-STATIC_PROTOTYPE gfxoutputdrv_t doodle_compressed_drv;
+static gfxoutputdrv_t doodle_drv;
+static gfxoutputdrv_t doodle_compressed_drv;
 
 /* ------------------------------------------------------------------------ */
 

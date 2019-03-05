@@ -71,8 +71,8 @@
 #define VIDEORAM_OFFSET 9002
 #define BGCOLOR_OFFSET 10002
 
-STATIC_PROTOTYPE gfxoutputdrv_t koala_drv;
-STATIC_PROTOTYPE gfxoutputdrv_t koala_compressed_drv;
+static gfxoutputdrv_t koala_drv;
+static gfxoutputdrv_t koala_compressed_drv;
 
 /* ------------------------------------------------------------------------ */
 

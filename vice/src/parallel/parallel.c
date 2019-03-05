@@ -153,7 +153,7 @@ static const char *Trans[NTRANS] = {
     "NDAC low", "NDAC high", "NRFD low", "NRFD high"
 };
 
-STATIC_PROTOTYPE State_t State[NSTATE];
+static State_t State[NSTATE];
 
 static int state = WaitATN;
 

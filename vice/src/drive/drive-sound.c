@@ -1420,7 +1420,7 @@ static const signed char bump[] = {
 
 static const signed char nosound[1] = { 0 };
 
-STATIC_PROTOTYPE sound_chip_t drive_sound;
+static sound_chip_t drive_sound;
 
 static uint16_t drive_sound_offset;
 static const signed char *step[DRIVE_NUM];

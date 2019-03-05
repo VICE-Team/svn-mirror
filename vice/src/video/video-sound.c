@@ -57,7 +57,7 @@ static const signed char noise_sample[] = {
     2, 1, 1, 1, 3, 2, 1, 1, 2, 1, 1, 1, 3, 2, 1, 1
 };
 
-STATIC_PROTOTYPE sound_chip_t video_sound;
+static sound_chip_t video_sound;
 
 static uint16_t video_sound_offset;
 static int cycles_per_sec = 1000000;
