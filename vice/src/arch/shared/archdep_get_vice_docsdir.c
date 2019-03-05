@@ -1,4 +1,4 @@
-/** \file   archdep_vice_get_docsdir.c
+/** \file   archdep_get_vice_docsdir.c
  * \brief   Get path to VICE doc/ dir
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */

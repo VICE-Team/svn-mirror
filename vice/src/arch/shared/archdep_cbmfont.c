@@ -33,18 +33,22 @@
 
 #include "archdep_cbmfont.h"
 
+
+/** \fn  int archdep_register_cbmfont(void)
+ * \brief    Try to register the CBM font with the OS
+ *
+ * This tries to use fontconfig on Unix, and uses GDI on windows. I don't have
+ * a clue if this works on MacOS.
+ *
+ * \return    bool as int
+ */
+
+
 #ifdef ARCHDEP_OS_UNIX
 # ifdef HAVE_FONTCONFIG
 
 #  include <fontconfig/fontconfig.h>
 
-
-/** \brief    Try to register the CBM font with the OS
- *
- * This tries to use fontconfig on Unix, and uses GDI on windows.
- *
- * \return    bool as int
- */
 int archdep_register_cbmfont(void)
 {
     FcConfig *fc_config;
@@ -90,12 +94,6 @@ int archdep_register_cbmfont(void)
 
 #  include "windows.h"
 
-
-/** \brief  Attempt to register the CBM font with the OS's font API
- *
- *
- * \return  bool
- */
 int archdep_register_cbmfont(void)
 {
     char *datadir;
