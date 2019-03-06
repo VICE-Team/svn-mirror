@@ -1,0 +1,48 @@
+/* vim: set syntax=c.doxygen: */
+
+/*
+ * Some documentation on defines that show up in multiply files
+ */
+
+/** \def    VICE_ARCHAPI_PRIVATE_API
+ *
+ * Declare stuff private (Make sure \#include'ing archapi.h fails)
+ */
+
+/** \def    ARCHDEP_PRINTER_DEFAULT_DEV1
+ *
+ * Default for printer device 1
+ */
+
+/** \def    ARCHDEP_PRINTER_DEFAULT_DEV2
+ *
+ * Default for printer device 2
+ */
+
+/** \def    ARCHDEP_PRINTER_DEFAULT_DEV3
+ *
+ * Default for printer device 3
+ */
+
+/** \def    ARCHDEP_RS232_DEV1
+ *
+ * Default for RS232 device #1
+ */
+
+/** \def    ARCHDEP_RS232_DEV2
+ *
+ * Default for RS232 device #2
+ */
+
+/** \def    ARCHDEP_RS232_DEV3
+ *
+ * Default for RS232 device #3
+ */
+
+/** \def    ARCHDEP_RS232_DEV4
+ *
+ * Default for RS232 device #4
+ */
+
+
+

@@ -1515,7 +1515,7 @@ GtkWidget *ui_statusbar_create(void)
                 SB_COL_SEP_DRIVE, 0, 1, 2);
         gtk_grid_attach(GTK_GRID(sb), volume, SB_COL_VOLUME, 0, 1, 2);
     } else {
-        gtk_grid_attach(GTK_GRID(sb), volume, 2, 0, 1 ,2); /* FIXME */
+        gtk_grid_attach(GTK_GRID(sb), volume, 3, 0, 1 ,2); /* FIXME */
     }
     allocated_bars[i].volume = volume;
 

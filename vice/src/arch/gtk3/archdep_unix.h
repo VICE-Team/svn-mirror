@@ -28,8 +28,6 @@
 #ifndef VICE_ARCHDEP_UNIX_H
 #define VICE_ARCHDEP_UNIX_H
 
-/** \brief  No idea
- */
 #define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
 #undef VICE_ARCHAPI_PRIVATE_API
@@ -63,13 +61,13 @@
  * handle line endings accordingly. At least that way using ftell()/fseek()
  * works properly without having to deal with any Windows weirdness.
  */
-#define MODE_READ              "r"
-#define MODE_READ_TEXT         "r"
-#define MODE_READ_WRITE        "r+"
-#define MODE_WRITE             "w"
-#define MODE_WRITE_TEXT        "w"
-#define MODE_APPEND            "a"
-#define MODE_APPEND_READ_WRITE "a+"
+#define MODE_READ              "r"  /**< read mode (binary) */
+#define MODE_READ_TEXT         "r"  /**< read mode (text) */
+#define MODE_READ_WRITE        "r+" /**< read/write mode */
+#define MODE_WRITE             "w"  /**< write mode (binary) */
+#define MODE_WRITE_TEXT        "w"  /**< write mode (text) */
+#define MODE_APPEND            "a"  /**< append mode */
+#define MODE_APPEND_READ_WRITE "a+" /**< append mode and read/write(?) */
 
 /* Printer default devices.  */
 #define ARCHDEP_PRINTER_DEFAULT_DEV1 "print.dump"

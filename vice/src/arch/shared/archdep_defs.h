@@ -25,6 +25,7 @@
  *
  */
 
+
 #ifndef VICE_ARCHDEP_DEFS_H
 #define VICE_ARCHDEP_DEFS_H
 

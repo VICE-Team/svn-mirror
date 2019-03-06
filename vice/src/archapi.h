@@ -1,10 +1,11 @@
+/** \file   archapi.h
+ * \brief   Common system-specific API.
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * archapi.h - Common system-specific API.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
