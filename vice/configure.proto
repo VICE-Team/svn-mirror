@@ -60,6 +60,7 @@ dnl register ReSID options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
+VICE_ARG_ENABLE_LIST(new8580filter, [  --enable-new8580filter  enable experimental 8580 filters [[default=no]]])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 

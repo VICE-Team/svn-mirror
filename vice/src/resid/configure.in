@@ -52,6 +52,17 @@ AS_IF([test "$enable_branch_hints" != no],
   [AC_SUBST([RESID_BRANCH_HINTS], [1])],
   [AC_SUBST([RESID_BRANCH_HINTS], [0])])
 
+dnl Enable experimental 8580 filters.
+AC_ARG_ENABLE([new8580filter],
+  [AC_HELP_STRING([--enable-new8580filter],
+    [enable experimental 8580 filters [default=no]])],
+  [],
+  [])
+
+AS_IF([test x"$enable_new8580filter" = "xyes"],
+  [AC_SUBST([NEW_8580_FILTER], [1])],
+  [AC_SUBST([NEW_8580_FILTER], [0])])
+
 dnl Store CXXFLAGS status.
 resid_test_CXXFLAGS=${CXXFLAGS+set}
 
