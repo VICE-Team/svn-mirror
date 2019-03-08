@@ -289,6 +289,9 @@ AS_IF([test x"$enable_cpuhistory" = "xyes"],
     FEATURE_CPUMEMHISTORY_SUPPORT="yes"
   ])
 
+AS_IF([test x"$enable_new8580filter" = "xyes"],
+  [AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the experimental new 8580 filter])])
+
 AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
 
 user_cflags=$CFLAGS
