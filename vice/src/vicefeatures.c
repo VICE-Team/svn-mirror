@@ -332,6 +332,15 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+#ifdef HAVE_RESID
+/* (all) */
+    { "HAVE_NEW_8580_FILTER", "Enable experimental new 8580 Filter emulation.",
+#ifndef HAVE_NEW_8580_FILTER
+        0 },
+#else
+        1 },
+#endif
+#endif
 /* (all) */
     { "HAVE_RESID_DTV", "Enable ReSID-DTV support.",
 #ifndef HAVE_RESID_DTV
