@@ -24,7 +24,7 @@
 #define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
 #endif
 
-#include "filter.h"
+#include "filter8580new.h"
 #include "dac.h"
 #include "spline.h"
 #include <math.h>

@@ -5,7 +5,7 @@ AR = @AR@
 noinst_LIBRARIES = libresid.a
 
 if NEW_8580_FILTER
-FILTER8580SRC = filter8580.cc
+FILTER8580SRC = filter8580new.cc
 else
 FILTER8580SRC = filter.cc
 endif
