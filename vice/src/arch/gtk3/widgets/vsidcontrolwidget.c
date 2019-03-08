@@ -230,7 +230,7 @@ static const vsid_ctrl_button_t buttons[] = {
         "Pause playback" },
 #if 0
     { "media-playback-stop", stop_callback,
-        "Stop playback (slightly fucked at the moment, so it doesn't work)"},
+        "Stop playback (slightly screwed up at the moment, so it doesn't work)"},
 #endif
     { "media-seek-forward", ffwd_callback,
         "Fast forward" },

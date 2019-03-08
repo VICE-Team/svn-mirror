@@ -240,7 +240,7 @@ gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget)
     }
 
     if (widget_val == NULL || resource_val == NULL) {
-        /* fuck it */
+        /* give up */
         return FALSE;
     }
 

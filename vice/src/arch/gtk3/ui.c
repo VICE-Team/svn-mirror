@@ -637,7 +637,7 @@ static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
 /** \brief  Create an icon by loading it from the vice.gresource file
  *
  * \return  Standard C= icon ripped from the internet (but at least scalable)
- *          Which ofcourse sucks on Windows for some reason, *sigh*
+ *          Which of course looks weird on Windows for some reason, *sigh*.
  */
 static GdkPixbuf *get_default_icon(void)
 {
@@ -1416,7 +1416,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     ui_set_ignore_mouse_hide(TRUE);
 
-    /* XXX: this sucks */
+    /* XXX: this probably needs a variable index into the window_widget array */
     result = jam_dialog(ui_resources.window_widget[PRIMARY_WINDOW], buffer);
     lib_free(buffer);
 

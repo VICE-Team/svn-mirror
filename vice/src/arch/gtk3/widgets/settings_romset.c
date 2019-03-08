@@ -501,28 +501,15 @@ static GtkWidget *create_scpu64_roms_widget(void)
 static GtkWidget *create_c128_roms_widget(void)
 {
     GtkWidget *grid;
-#if 0
-    GtkWidget *label;
-    GtkWidget *browser;
-#endif
-    grid = create_roms_widget(c128_machine_roms);
 
-/* two rows of browers - sucks */
-#if 0
-    label = gtk_label_new("Some resource");
-    browser = vice_gtk3_resource_browser_new("InvalidResourceName",
-            rom_file_patterns, "ROM files", "Select ROM file",
-            NULL /* no label, so the labels get aligned properly */,
-            NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browser, 3, 1, 1, 1);
-#endif
+    grid = create_roms_widget(c128_machine_roms);
     return grid;
 }
 
 static GtkWidget *create_c128_chargen_widget(void)
 {
     GtkWidget *grid;
+
     grid = create_roms_widget(c128_chargen_roms);
     return grid;
 }
@@ -531,6 +518,7 @@ static GtkWidget *create_c128_chargen_widget(void)
 static GtkWidget *create_plus4_roms_widget(void)
 {
     GtkWidget *grid;
+
     grid = create_roms_widget(plus4_machine_roms);
     return grid;
 }
@@ -539,6 +527,7 @@ static GtkWidget *create_plus4_roms_widget(void)
 static GtkWidget *create_cbm2_roms_widget(void)
 {
     GtkWidget *grid;
+
     grid = create_roms_widget(cbm2_machine_roms);
     return grid;
 }

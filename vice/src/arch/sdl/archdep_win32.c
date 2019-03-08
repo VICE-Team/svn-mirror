@@ -333,7 +333,7 @@ int kbd_arch_get_host_mapping(void)
     };
 
     /* GetKeyboardLayout returns a pointer, but the first 16 bits of it return
-     * a 'language identfier', whatever that is. This is seriously fucked */
+     * a 'language identfier', whatever that is. This is a bit weird. */
     lang = (uintptr_t)(void *)GetKeyboardLayout(0);
 
     /* try full match first */

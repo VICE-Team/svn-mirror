@@ -101,9 +101,6 @@ static char *argv0_ref = NULL;
  * Various OS calls use this buffer to store the path to the running binary, if
  * such a call exists. The buffer should be large enough (I think Linux
  * defines PATH_MAX as 4096 by default, but that can be changed).
- * The various function calls guard against writing past this buffer's end, but
- * should some idiotic OS or user actually need a path larger than 4095 bytes,
- * tell 'em to fuck off or update PATH_BUFSIZE.
  */
 static char buffer[PATH_BUFSIZE];
 

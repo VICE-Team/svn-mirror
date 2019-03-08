@@ -392,7 +392,7 @@ static void screen_resize_window_cb2 (VteTerminal *terminal,
 /** \brief  Create an icon by loading it from the vice.gresource file
  *
  * \return  Standard C= icon ripped from the internet (but at least scalable)
- *          Which ofcourse sucks on Windows for some reason, *sigh*
+ *          Which of course looks weird on Windows for some reason, *sigh*.
  */
 static GdkPixbuf *get_default_icon(void)
 {

@@ -104,7 +104,7 @@ int archdep_init(int *argc, char **argv)
 #endif
     argv0 = lib_strdup(argv[0]);
 
-    /* set argv0 for program_name()/boot_path() calls (yes this sucks) */
+    /* set argv0 for program_name()/boot_path() calls (yes, not ideal) */
     archdep_program_path_set_argv0(argv[0]);
 
     archdep_create_user_config_dir();

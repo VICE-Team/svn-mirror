@@ -59,16 +59,16 @@
 
 #include "settings_drive.h"
 
-/* this needs documentation and the literal 4 sucks */
-static GtkWidget *drive_model[4];
-static GtkWidget *drive_options[4];
-static GtkWidget *drive_extend[4];
-static GtkWidget *drive_idle[4];
-static GtkWidget *drive_parallel[4];
-static GtkWidget *drive_rpm[4];
-static GtkWidget *drive_ram[4];
-static GtkWidget *drive_dos[4];
-static GtkWidget *drive_fsdevice[4];
+/* FIXME: this needs proper documentation */
+static GtkWidget *drive_model[NUM_DRIVES];
+static GtkWidget *drive_options[NUM_DRIVES];
+static GtkWidget *drive_extend[NUM_DRIVES];
+static GtkWidget *drive_idle[NUM_DRIVES];
+static GtkWidget *drive_parallel[NUM_DRIVES];
+static GtkWidget *drive_rpm[NUM_DRIVES];
+static GtkWidget *drive_ram[NUM_DRIVES];
+static GtkWidget *drive_dos[NUM_DRIVES];
+static GtkWidget *drive_fsdevice[NUM_DRIVES];
 
 
 /** \brief  Callback for changes in the drive type widget

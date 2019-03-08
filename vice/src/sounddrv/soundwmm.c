@@ -47,7 +47,7 @@
 #include "types.h"
 #include "uiapi.h"
 
-/* What the fuck is this? */
+/* What the hell is this? */
 #if !defined(_WIN64)
 #define DWORD_PTR DWORD
 #endif
