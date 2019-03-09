@@ -329,7 +329,7 @@ struct mixer_offset
 {
   enum { value = mixer_offset<i - 1>::value + ((i - 1) << 16) };
 };
-	      
+
 template<>
 struct mixer_offset<1>
 {
@@ -741,8 +741,8 @@ for my $mix (0..2**@i-1) {
     print sprintf("  case 0x%02x:\n", $mix);
     my @sum;
     for (@i) {
-	unshift(@sum, $_) if $mix & 0x01;
-	$mix >>= 1;
+        unshift(@sum, $_) if $mix & 0x01;
+        $mix >>= 1;
     }
     my $sum = join(" + ", @sum) || "0";
     print "    Vi = $sum;\n";
@@ -1393,8 +1393,8 @@ int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
       // Bisection step (ala Dekker's method).
       x = (ak + bk) >> 1;
       if (unlikely(x == ak)) {
-	// No further bisection possible.
-	return vo;
+        // No further bisection possible.
+        return vo;
       }
     }
   }
@@ -1521,8 +1521,7 @@ Vg = Vddt - sqrt(((Vddt - vi)^2 + (Vddt - Vw)^2)/2)
 
 */
 RESID_INLINE
-int Filter::solve_integrate_6581(int dt, int vi, int& vx, int& vc,
-				 model_filter_t& mf)
+int Filter::solve_integrate_6581(int dt, int vi, int& vx, int& vc, model_filter_t& mf)
 {
   // Note that all variables are translated and scaled in order to fit
   // in 16 bits. It is not necessary to explicitly translate the variables here,
