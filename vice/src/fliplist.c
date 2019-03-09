@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "attach.h"
 #include "cmdline.h"
+#include "drive.h"
 #include "fliplist.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -41,7 +42,6 @@
 #include "resources.h"
 #include "util.h"
 
-#define NUM_DRIVES 4
 
 struct fliplist_s {
     fliplist_t next, prev;
@@ -49,7 +49,7 @@ struct fliplist_s {
     unsigned int unit;
 };
 
-static fliplist_t fliplist[NUM_DRIVES] = {
+static fliplist_t fliplist[DRIVE_NUM] = {
     (fliplist_t)NULL,
     (fliplist_t)NULL
 };
@@ -99,7 +99,7 @@ void fliplist_resources_shutdown(void)
 {
     int i;
 
-    for (i = 0; i < NUM_DRIVES; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         fliplist_clear_list(8 + i);
     }
 
@@ -356,7 +356,7 @@ int fliplist_save_list(unsigned int unit, const char *filename)
             while (flip != fliplist[unit - 8]);
         }
         unit++;
-    } while (all_units && ((unit - 8) < NUM_DRIVES));
+    } while (all_units && ((unit - 8) < DRIVE_NUM));
 
     if (fp) {
         fclose(fp);
@@ -388,7 +388,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     }
     if (unit == FLIPLIST_ALL_UNITS) {
         all_units = 1;
-        for (i = 0; i < NUM_DRIVES; i++) {
+        for (i = 0; i < DRIVE_NUM; i++) {
             fliplist_clear_list(i + 8);
         }
     } else {
@@ -462,7 +462,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
         current_drive = unit;
 
         if (all_units) {
-            for (i = 0; i < NUM_DRIVES; i++) {
+            for (i = 0; i < DRIVE_NUM; i++) {
                 show_fliplist(i + 8);
             }
         } else {

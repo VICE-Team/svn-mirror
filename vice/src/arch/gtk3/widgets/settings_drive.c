@@ -60,15 +60,15 @@
 #include "settings_drive.h"
 
 /* FIXME: this needs proper documentation */
-static GtkWidget *drive_model[NUM_DRIVES];
-static GtkWidget *drive_options[NUM_DRIVES];
-static GtkWidget *drive_extend[NUM_DRIVES];
-static GtkWidget *drive_idle[NUM_DRIVES];
-static GtkWidget *drive_parallel[NUM_DRIVES];
-static GtkWidget *drive_rpm[NUM_DRIVES];
-static GtkWidget *drive_ram[NUM_DRIVES];
-static GtkWidget *drive_dos[NUM_DRIVES];
-static GtkWidget *drive_fsdevice[NUM_DRIVES];
+static GtkWidget *drive_model[DRIVE_NUM];
+static GtkWidget *drive_options[DRIVE_NUM];
+static GtkWidget *drive_extend[DRIVE_NUM];
+static GtkWidget *drive_idle[DRIVE_NUM];
+static GtkWidget *drive_parallel[DRIVE_NUM];
+static GtkWidget *drive_rpm[DRIVE_NUM];
+static GtkWidget *drive_ram[DRIVE_NUM];
+static GtkWidget *drive_dos[DRIVE_NUM];
+static GtkWidget *drive_fsdevice[DRIVE_NUM];
 
 
 /** \brief  Callback for changes in the drive type widget

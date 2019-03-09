@@ -41,8 +41,6 @@
 #define ALLOW_NATIVE_MONITOR
 #endif
 
-/* Number of drives we support in the UI.  */
-#define NUM_DRIVES 4
 
 /* Tell menu system to ignore a string for translation
    (e.g. filenames in fliplists) */

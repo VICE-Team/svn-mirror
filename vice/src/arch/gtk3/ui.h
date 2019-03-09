@@ -36,11 +36,6 @@
 #include "palette.h"
 
 
-/** \brief  Number of drives we support in the UI
- */
-#define NUM_DRIVES 4
-
-
 /** \brief  Number of GtkWindow's in the ui_resources
  */
 #define NUM_WINDOWS 3
