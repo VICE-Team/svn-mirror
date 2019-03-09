@@ -1550,7 +1550,7 @@ int Filter::solve_integrate_6581(int dt, int vi, int& vx, int& vc,
   if (Vgd < 0) Vgd = 0;
 
   // VCR current, scaled by m*2^15*2^15 = m*2^30
-  int n_I_vcr = (vcr_n_Ids_term[Vgs] - vcr_n_Ids_term[Vgd]) << 15;
+  int n_I_vcr = int(unsigned(vcr_n_Ids_term[Vgs] - vcr_n_Ids_term[Vgd]) << 15);
 
   // Change in capacitor charge.
   vc -= (n_I_snake + n_I_vcr)*dt;
