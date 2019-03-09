@@ -178,6 +178,10 @@ static model_filter_init_t model_filter_init[2] = {
 unsigned short Filter::vcr_kVg[1 << 16];
 unsigned short Filter::vcr_n_Ids_term[1 << 16];
 
+#if defined(__amiga__) && defined(__mc68000__)
+#undef HAS_LOG1P
+#endif
+
 #ifndef HAS_LOG1P
 static double log1p(double x)
 {
