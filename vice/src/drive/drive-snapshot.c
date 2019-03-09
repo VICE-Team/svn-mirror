@@ -105,7 +105,7 @@ Type                 DWORD  2      drive type
 */
 
 #define DRIVE_SNAP_MAJOR 1
-#define DRIVE_SNAP_MINOR 4
+#define DRIVE_SNAP_MINOR 5
 
 int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 {
@@ -113,7 +113,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     char snap_module_name[] = "DRIVE";
     snapshot_module_t *m;
     uint32_t rotation_table_ptr[DRIVE_NUM];
-    uint8_t GCR_image[4], P64_image[4];
+    uint8_t GCR_image[DRIVE_NUM], P64_image[DRIVE_NUM];
     int drive_true_emulation;
     int sync_factor;
     drive_t *drive;
@@ -153,8 +153,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         return -1;
     }
 
-    /* TODO: NUM_DRIVES drives instead of 2 */
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_clk)) < 0
@@ -207,7 +206,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     /* new snapshot members */
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_detach_clk)) < 0
@@ -219,7 +218,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         }
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         if (0
             || SMW_B(m, (uint8_t)(drive->byte_ready_edge)) < 0
@@ -236,7 +235,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         return -1;
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         if (drive->enable) {
             if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
@@ -255,35 +254,25 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     if (save_disks) {
-        if (GCR_image[0] > 0) {
-            if (drive_snapshot_write_gcrimage_module(s, 0) < 0) {
-                return -1;
-            }
-        } else if (P64_image[0] > 0) {
-            if (drive_snapshot_write_p64image_module(s, 0) < 0) {
-                return -1;
-            }
-        } else {
-            if (drive_snapshot_write_image_module(s, 0) < 0) {
-                return -1;
-            }
-        }
-        if (GCR_image[1] > 0) {
-            if (drive_snapshot_write_gcrimage_module(s, 1) < 0) {
-                return -1;
-            }
-        } else if (P64_image[1] > 0) {
-            if (drive_snapshot_write_p64image_module(s, 1) < 0) {
-                return -1;
-            }
-        } else {
-            if (drive_snapshot_write_image_module(s, 1) < 0) {
-                return -1;
+        int d;
+        for (d = 0; d < DRIVE_NUM; d++) {
+            if (GCR_image[d] > 0) {
+                if (drive_snapshot_write_gcrimage_module(s, d) < 0) {
+                    return -1;
+                }
+            } else if (P64_image[d] > 0) {
+                if (drive_snapshot_write_p64image_module(s, d) < 0) {
+                    return -1;
+                }
+            } else {
+                if (drive_snapshot_write_image_module(s, d) < 0) {
+                    return -1;
+                }
             }
         }
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         if (save_roms && drive->enable) {
             if (driverom_snapshot_write(s, drive) < 0) {
@@ -337,8 +326,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    /* TODO: NUM_DRIVES drives instead of 2 */
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
 
         /* Partially read 1.0 snapshots */
@@ -535,13 +523,13 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     /* this one is new, so don't test so stay compatible with old snapshots */
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         SMR_DW(m, &(attach_detach_clk[i]));
     }
 
     /* these are even newer */
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         SMR_B_INT(m, (int *)&(drive->byte_ready_edge));
         SMR_B_INT(m, (int *)&(drive->byte_ready_active));
@@ -619,13 +607,80 @@ int drive_snapshot_read_module(snapshot_t *s)
             return -1;
     }
 
+    drive = drive_context[2]->drive;
+    switch (drive->type) {
+        case DRIVE_TYPE_1540:
+        case DRIVE_TYPE_1541:
+        case DRIVE_TYPE_1541II:
+        case DRIVE_TYPE_1551:
+        case DRIVE_TYPE_1570:
+        case DRIVE_TYPE_1571:
+        case DRIVE_TYPE_1571CR:
+        case DRIVE_TYPE_1581:
+        case DRIVE_TYPE_2000:
+        case DRIVE_TYPE_4000:
+        case DRIVE_TYPE_2031:
+        case DRIVE_TYPE_1001:
+        case DRIVE_TYPE_2040:
+        case DRIVE_TYPE_3040:
+        case DRIVE_TYPE_4040:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            drive->enable = 1;
+            machine_drive_rom_setup_image(2);
+            drivemem_init(drive_context[2], drive->type);
+            resources_set_int("Drive10IdleMethod", drive->idling_method);
+            driverom_initialize_traps(drive);
+            drive_set_active_led_color(drive->type, 0);
+            machine_bus_status_drivetype_set(10, 1);
+            break;
+        case DRIVE_TYPE_NONE:
+            drive_disable(drive_context[2]);
+            machine_bus_status_drivetype_set(10, 0);
+            break;
+        default:
+            return -1;
+    }
+
+    drive = drive_context[3]->drive;
+    switch (drive->type) {
+        case DRIVE_TYPE_1540:
+        case DRIVE_TYPE_1541:
+        case DRIVE_TYPE_1541II:
+        case DRIVE_TYPE_1551:
+        case DRIVE_TYPE_1570:
+        case DRIVE_TYPE_1571:
+        case DRIVE_TYPE_1581:
+        case DRIVE_TYPE_2000:
+        case DRIVE_TYPE_4000:
+        case DRIVE_TYPE_2031:
+        case DRIVE_TYPE_1001:
+            /* drive 1 does not allow dual disk drive */
+            drive->enable = 1;
+            machine_drive_rom_setup_image(3);
+            drivemem_init(drive_context[3], drive->type);
+            resources_set_int("Drive11IdleMethod", drive->idling_method);
+            driverom_initialize_traps(drive);
+            drive_set_active_led_color(drive->type, 1);
+            machine_bus_status_drivetype_set(11, 1);
+            break;
+        case DRIVE_TYPE_NONE:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            drive_disable(drive_context[3]);
+            machine_bus_status_drivetype_set(11, 0);
+            break;
+        default:
+            return -1;
+    }
+
     /* Clear parallel cable before undumping parallel port values.  */
     for (i = 0; i < DRIVE_PC_NUM; i++) {
         parallel_cable_drive_write(i, 0xff, PARALLEL_WRITE, 0);
         parallel_cable_drive_write(i, 0xff, PARALLEL_WRITE, 1);
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         if (drive->enable) {
             if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
@@ -643,24 +698,21 @@ int drive_snapshot_read_module(snapshot_t *s)
         }
     }
 
-    if (drive_snapshot_read_image_module(s, 0) < 0
-        || drive_snapshot_read_gcrimage_module(s, 0) < 0
-        || drive_snapshot_read_p64image_module(s, 0) < 0) {
-        return -1;
-    }
-    if (drive_snapshot_read_image_module(s, 1) < 0
-        || drive_snapshot_read_gcrimage_module(s, 1) < 0
-        || drive_snapshot_read_p64image_module(s, 1) < 0) {
-        return -1;
-    }
-    if (driverom_snapshot_read(s, drive_context[0]->drive) < 0) {
-        return -1;
-    }
-    if (driverom_snapshot_read(s, drive_context[1]->drive) < 0) {
-        return -1;
+    for (i = 0; i < DRIVE_NUM; i++) {
+        if (drive_snapshot_read_image_module(s, i) < 0
+            || drive_snapshot_read_gcrimage_module(s, i) < 0
+            || drive_snapshot_read_p64image_module(s, i) < 0) {
+            return -1;
+        }
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
+        if (driverom_snapshot_read(s, drive_context[i]->drive) < 0) {
+            return -1;
+        }
+    }
+
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         if (drive->type != DRIVE_TYPE_NONE) {
             drive_enable(drive_context[i]);
@@ -670,7 +722,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         }
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         int side = 0;
         drive = drive_context[i]->drive;
         if (drive->type == DRIVE_TYPE_1570
