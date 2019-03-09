@@ -876,3 +876,12 @@ GtkWidget *ui_machine_menu_bar_create(void)
                                          for this */
     return menu_bar;
 }
+
+
+/** \brief  Add missing settings load/save items
+ */
+void ui_machine_menu_bar_vsid_patch(GtkWidget *menu)
+{
+    ui_menu_add(menu, settings_menu_tail);
+}
+

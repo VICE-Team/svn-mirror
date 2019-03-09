@@ -48,6 +48,7 @@
 #include "uicommands.h"
 #include "uicompiletimefeatures.h"
 #include "uidebug.h"
+#include "uimachinemenu.h"
 #include "uimedia.h"
 #include "uimenu.h"
 #include "uimonarch.h"
@@ -350,6 +351,8 @@ GtkWidget *ui_vsid_menu_bar_create(void)
 
     /* add items to the Settings menu */
     ui_menu_add(settings_submenu, settings_menu);
+    /* bit of a hack: add load/save */
+    ui_machine_menu_bar_vsid_patch(settings_submenu);
 
 #ifdef DEBUG
     /* add items to the Debug menu */

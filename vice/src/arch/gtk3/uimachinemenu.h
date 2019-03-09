@@ -31,6 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ui_machine_menu_bar_create(void);
+GtkWidget * ui_machine_menu_bar_create(void);
+void        ui_machine_menu_bar_vsid_patch(GtkWidget *menu);
 
 #endif /* VICE_UIMACHINEMENU_H */

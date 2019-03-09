@@ -33,6 +33,7 @@
 #include "filechooserhelpers.h"
 #include "lastdir.h"
 #include "lib.h"
+#include "resources.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uivsidwindow.h"
@@ -197,7 +198,23 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 */
-    /* set last used directory, if present */
+    /* set last used directory, if present, otherwise use HVSCRoot if set */
+    if (last_dir == NULL) {
+        const char *hvsc_root;
+
+        if (resources_get_string("HVSCRoot", &hvsc_root) >= 0) {
+            if (hvsc_root != NULL && *hvsc_root != '\0') {
+                /*
+                 * The last_dir.c code uses GLib memory management, so use
+                 * g_strdup() here and not lib_strdup(). I did, and it produced
+                 * a nice segfault, and I actually wrote the lastdir code ;)
+                 */
+                last_dir = g_strdup(hvsc_root);
+            }
+        }
+    }
+
+
     lastdir_set(dialog, &last_dir);
 
     /* add filters */
