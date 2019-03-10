@@ -8,6 +8,10 @@
  * $VICERES DriveTrueEmulation          -vsid
  * $VICERES DriveSoundEmulation         -vsid
  * $VICERES DriveSoundEmulationVolume   -vsid
+ * $VICERES FileSystemDevice8           -vsid
+ * $VICERES FileSystemDevice9           -vsid
+ * $VICERES FileSystemDevice10          -vsid
+ * $VICERES FileSystemDevice11          -vsid
  *
  *  (for more, see used widgets)
  */
@@ -39,8 +43,11 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#include "vice.h"
+
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
+#include "attach.h"
 #include "drive.h"
 #include "drive-check.h"
 #include "machine.h"
@@ -59,6 +66,20 @@
 
 #include "settings_drive.h"
 
+
+/** \brief  List of file system types
+ */
+static const vice_gtk3_combo_entry_int_t device_types[] = {
+    { "None", ATTACH_DEVICE_NONE },
+    { "File system", ATTACH_DEVICE_FS },
+#ifdef HAVE_OPENCBM
+    { "Real device (OpenCBM)", ATTACH_DEVICE_REAL },
+#endif
+    { "Block device (RAW)", ATTACH_DEVICE_RAW },
+    { NULL, -1 }
+};
+
+
 /* FIXME: this needs proper documentation */
 static GtkWidget *drive_model[DRIVE_NUM];
 static GtkWidget *drive_options[DRIVE_NUM];
@@ -69,6 +90,7 @@ static GtkWidget *drive_rpm[DRIVE_NUM];
 static GtkWidget *drive_ram[DRIVE_NUM];
 static GtkWidget *drive_dos[DRIVE_NUM];
 static GtkWidget *drive_fsdevice[DRIVE_NUM];
+static GtkWidget *drive_device_type[DRIVE_NUM];
 
 
 /** \brief  Callback for changes in the drive type widget
@@ -233,6 +255,36 @@ static GtkWidget *create_drive_volume_widget(void)
 }
 
 
+/** \brief  Create widget to control drive device type
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_drive_device_type_widget(int unit)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *combo;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    g_object_set(grid, "margin-top", 8, NULL);
+
+    label = gtk_label_new("Device type");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 24, NULL);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
+    combo = vice_gtk3_resource_combo_box_int_new_sprintf(
+            "FileSystemDevice%d", device_types, unit);
+    gtk_widget_set_hexpand(combo, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
 /** \brief  Create layout for x64/x64sc/xscpu64 and x128
  *
  * \param[in]   grid    main widget grid
@@ -255,6 +307,8 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(wrapper), drive_model[unit - 8], 0, 0, 1, 1);
     drive_options[unit - 8] = drive_options_widget_create(unit);
     gtk_grid_attach(GTK_GRID(wrapper), drive_options[unit - 8], 0, 1, 1, 1);
+    drive_device_type[unit - 8] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[unit - 8], 0, 2, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
@@ -312,6 +366,10 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(wrapper), drive_model[unit - 8], 0, 0, 1, 1);
     drive_options[unit - 8] = drive_options_widget_create(unit);
     gtk_grid_attach(GTK_GRID(wrapper), drive_options[unit - 8], 0, 1, 1, 1);
+    drive_device_type[unit - 8] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[unit - 8], 0, 2, 1, 1);
+    drive_device_type[unit - 8] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[unit - 8], 0, 2, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
@@ -370,6 +428,8 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(wrapper), drive_model[unit - 8], 0, 0, 1, 1);
     drive_options[unit - 8] = drive_options_widget_create(unit);
     gtk_grid_attach(GTK_GRID(wrapper), drive_options[unit - 8], 0, 1, 1, 1);
+    drive_device_type[unit - 8] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_device_type[unit - 8], 0, 2, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 

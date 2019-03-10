@@ -5,10 +5,6 @@
  */
 
 /*
- * $VICERES FileSystemDevice8       -vsid
- * $VICERES FileSystemDevice9       -vsid
- * $VICERES FileSystemDevice10      -vsid
- * $VICERES FileSystemDevice11      -vsid
  * $VICERES FSDevice8ConvertP00     -vsid
  * $VICERES FSDevice9ConvertP00     -vsid
  * $VICERES FSDevice10ConvertP00    -vsid
@@ -63,7 +59,7 @@
 
 #include "drivefsdevicewidget.h"
 
-
+#if 0
 /** \brief  List of file system types
  */
 static const vice_gtk3_combo_entry_int_t device_types[] = {
@@ -75,6 +71,8 @@ static const vice_gtk3_combo_entry_int_t device_types[] = {
     { "Block device (RAW)", ATTACH_DEVICE_RAW },
     { NULL, -1 }
 };
+#endif
+
 
 /*
  * TODO:    refactor the fsdir entry code into a `resourceentrywidget` in
@@ -101,7 +99,7 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
-
+#if 0
 /** \brief  Create a combo box with device types
  *
  * \param[in]   unit    unit number
@@ -113,6 +111,7 @@ static GtkWidget *create_device_type_widget(int unit)
     return vice_gtk3_resource_combo_box_int_new_sprintf(
             "FileSystemDevice%d", device_types, unit);
 }
+#endif
 
 
 /** \brief  Create text entry for file system directory for \a unit
@@ -175,7 +174,6 @@ static GtkWidget *create_p00_widget(int unit)
 GtkWidget *drive_fsdevice_widget_create(int unit)
 {
     GtkWidget *grid;
-    GtkWidget *combo;
     GtkWidget *entry;
     GtkWidget *label;
     GtkWidget *browse;
@@ -183,14 +181,14 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
 
     grid = uihelpers_create_grid_with_label("FS Device settings", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-
+#if 0
     label = gtk_label_new("device type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     combo = create_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 1, 2, 1);
-
+#endif
     label = gtk_label_new("directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
@@ -198,13 +196,13 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_fsdir_browse_clicked),
             (gpointer)entry);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     p00 = create_p00_widget(unit);
-    g_object_set(p00, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), p00, 0, 3, 3, 1);
+    g_object_set(p00, "margin-left", 16, "margin-top", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), p00, 0, 2, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
