@@ -3318,7 +3318,7 @@ fi
 dnl CBM4Linux/OpenCBM
 AC_MSG_CHECKING([for OpenCBM support])
 if test x"$enable_realdevice" != "xno"; then
-  if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc"; then
+  if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc" -o x"$host_os" = "xmingw32-gtk3"; then
     AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
     HAVE_OPENCBM_SUPPORT="yes"
     AM_CONDITIONAL(HAVE_REALDEVICE, true)
