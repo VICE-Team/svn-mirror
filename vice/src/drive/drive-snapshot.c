@@ -132,7 +132,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
     rotation_table_get(rotation_table_ptr);
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         GCR_image[i] = (drive->GCR_image_loaded == 0 || !save_disks) ? 0 : 1;
         P64_image[i] = (drive->P64_image_loaded == 0 || !save_disks) ? 0 : 1;
