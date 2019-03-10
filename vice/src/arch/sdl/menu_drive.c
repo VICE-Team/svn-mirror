@@ -36,7 +36,7 @@
 #include "machine.h"
 #include "menu_common.h"
 #include "menu_drive.h"
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 #include "opencbmlib.h"
 #endif
 #include "resources.h"
@@ -139,7 +139,7 @@ static char *get_drive_type_string(int drive)
     switch (type) {
         case 0:                  return MENU_SUBMENU_STRING " none";
         case ATTACH_DEVICE_FS:   return MENU_SUBMENU_STRING " directory";
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case ATTACH_DEVICE_REAL: return MENU_SUBMENU_STRING " real drive";
 #endif
 #ifdef HAVE_RAWDRIVE
@@ -648,7 +648,7 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
     parameter = (int)(vice_ptr_to_int(param) & 0xffff);
 
     if (parameter == ATTACH_DEVICE_REAL) {
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         support = opencbmlib_is_available();
 #else
         support = 0;
@@ -661,7 +661,7 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
     if (activated) {
         if (support) {
             if (parameter == ATTACH_DEVICE_REAL) {
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
                 resources_set_int_sprintf("IECDevice%i", 1, drive);
                 resources_set_int_sprintf("FileSystemDevice%i", parameter, drive);
 #endif
@@ -824,7 +824,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
       set_drive_type_callback,      \
       (ui_callback_data_t)(data) },
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 #define DRIVE_TYPE_ITEM_OPENCBM(text, data) DRIVE_TYPE_ITEM(text, data)
 #else
 #define DRIVE_TYPE_ITEM_OPENCBM(text, data)

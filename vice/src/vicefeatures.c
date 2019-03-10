@@ -273,8 +273,8 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #if defined(UNIX) || defined(WIN32) /* (unix/windows) */
-    { "HAVE_OPENCBM", "Support for OpenCBM", /* (former CBM4Linux). */
-#ifndef HAVE_OPENCBM
+    { "HAVE_REALDEVICE", "Support for OpenCBM", /* (former CBM4Linux). */
+#ifndef HAVE_REALDEVICE
         0 },
 #else
         1 },

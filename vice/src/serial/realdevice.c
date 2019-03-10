@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 
 #include <stdio.h>
 

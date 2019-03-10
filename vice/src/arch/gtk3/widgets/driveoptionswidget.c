@@ -58,17 +58,28 @@
 #include "driveoptionswidget.h"
 
 
-
+/** \brief  Create checkbox to toggle IEC (OpenCBM) emulation for \a unit
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_iec_check_button(int unit)
 {
     GtkWidget *check;
 
     check = vice_gtk3_resource_check_button_new_sprintf(
-            "IECDevice%d", "IEC Device", unit);
+            "IECDevice%d", "IEC (OpenCBM)", unit);
     return check;
 }
 
 
+/** \brief  Create widget to control read-only mode for \a unit
+ *
+  * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_readonly_check_button(int unit)
 {
     return vice_gtk3_resource_check_button_new_sprintf("AttachDevice%dReadonly",
@@ -76,7 +87,12 @@ static GtkWidget *create_readonly_check_button(int unit)
 }
 
 
-
+/** \brief  Create widget to control Real time clock emulation for \a unit
+ *
+  * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_rtc_check_button(int unit)
 {
     GtkWidget *check;

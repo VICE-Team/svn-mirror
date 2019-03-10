@@ -379,7 +379,7 @@ static int set_file_system_device(int val, void *param)
                 file_system_set_serial_hooks(unit, 1);
             }
             break;
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case ATTACH_DEVICE_REAL:
             if (old_device_enabled == ATTACH_DEVICE_RAW) {
                 detach_disk_image(vdrive->image, vdrive, unit);

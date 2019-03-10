@@ -42,7 +42,7 @@
 #include "serial.h"
 #include "types.h"
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 static int interface_opencbm_attach(unsigned int prnr);
 static int interface_opencbm_detach(unsigned int prnr);
 #endif
@@ -70,7 +70,7 @@ static int set_printer_enabled(int flag, void *param)
     switch (flag) {
         case PRINTER_DEVICE_NONE:
         case PRINTER_DEVICE_FS:
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case PRINTER_DEVICE_REAL:
 #endif
             break;
@@ -84,7 +84,7 @@ static int set_printer_enabled(int flag, void *param)
         return -1;
     }
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
     /*
      * Special hack to allow the use of a toggle menu item
      * for device #7.
@@ -92,7 +92,7 @@ static int set_printer_enabled(int flag, void *param)
     if (prnr == 3 && flag != 0) {
         flag = PRINTER_DEVICE_REAL;
     }
-#endif /* HAVE_OPENCBM */
+#endif /* HAVE_REALDEVICE */
 
     if (prnr < NUM_PRINTERS) {
         if (printer_enabled[prnr] == PRINTER_DEVICE_FS
@@ -109,7 +109,7 @@ static int set_printer_enabled(int flag, void *param)
         }
     }
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 
     if (printer_enabled[prnr] == PRINTER_DEVICE_REAL
         && flag != PRINTER_DEVICE_REAL) {
@@ -125,7 +125,7 @@ static int set_printer_enabled(int flag, void *param)
         }
     }
 
-#endif /* HAVE_OPENCBM */
+#endif /* HAVE_REALDEVICE */
 
     printer_enabled[prnr] = flag;
 
@@ -400,20 +400,20 @@ int interface_serial_late_init(void)
                 return -1;
             }
         }
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         else if (printer_enabled[i] == PRINTER_DEVICE_REAL) {
             if (interface_opencbm_attach(i) < 0) {
                 return -1;
             }
         }
-#endif /* HAVE_OPENCBM */
+#endif /* HAVE_REALDEVICE */
     }
 
     return 0;
 }
 
 /* ------------------------------------------------------------------------- */
-#if defined(HAVE_OPENCBM)
+#if defined(HAVE_REALDEVICE)
 
 static int interface_opencbm_attach(unsigned int prnr)
 {
@@ -445,7 +445,7 @@ static int interface_opencbm_detach(unsigned int prnr)
     return interface_serial_detach(prnr);
 }
 
-#endif /* HAVE_OPENCBM */
+#endif /* HAVE_REALDEVICE */
 
 /* ------------------------------------------------------------------------- */
 

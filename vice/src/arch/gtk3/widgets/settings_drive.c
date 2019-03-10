@@ -72,7 +72,7 @@
 static const vice_gtk3_combo_entry_int_t device_types[] = {
     { "None", ATTACH_DEVICE_NONE },
     { "File system", ATTACH_DEVICE_FS },
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
     { "Real device (OpenCBM)", ATTACH_DEVICE_REAL },
 #endif
     { "Block device (RAW)", ATTACH_DEVICE_RAW },

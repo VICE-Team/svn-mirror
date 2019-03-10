@@ -135,7 +135,7 @@ VICE_SDL_PRINTER_OUTPUT_MENU(5)
 VICE_SDL_PRINTER_OUTPUT_MENU(6)
 VICE_SDL_PRINTER_OUTPUT_MENU(Userport)
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 
 #define VICE_SDL_PRINTER_TYPE_MENU(prn)                             \
     UI_MENU_DEFINE_RADIO(Printer##prn)                              \
@@ -169,7 +169,7 @@ VICE_SDL_PRINTER_OUTPUT_MENU(Userport)
         SDL_MENU_LIST_END                                           \
     };
 
-#else   /* !HAVE_OPENCBM */
+#else   /* !HAVE_REALDEVICE */
 
 #define VICE_SDL_PRINTER_TYPE_MENU(prn)                             \
     UI_MENU_DEFINE_RADIO(Printer##prn)                              \
@@ -193,7 +193,7 @@ VICE_SDL_PRINTER_TYPE_MENU(4)
 VICE_SDL_PRINTER_TYPE_MENU(5)
 VICE_SDL_PRINTER_TYPE_MENU(6)
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 VICE_SDL_DEVICE_TYPE_MENU(7)
 UI_MENU_DEFINE_TOGGLE(IECDevice7)
 #endif
@@ -276,7 +276,7 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
       uiprinter_formfeed_callback,                    \
       (ui_callback_data_t)2 },
 
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
 #define VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS \
     { "Device #7 emulation",                \
       MENU_ENTRY_SUBMENU,                   \
@@ -343,7 +343,7 @@ const ui_menu_entry_t printer_iec_menu[] = {
       toggle_IECDevice6_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
     VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS
     { "Device #7 enable IEC device",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -377,7 +377,7 @@ const ui_menu_entry_t printer_iec_nouserport_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
     VICE_SDL_DEVICE_COMMON_7_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
 #endif

@@ -483,7 +483,7 @@ void disk_image_media_create(disk_image_t *image)
         case DISK_IMAGE_DEVICE_FS:
             fsimage_media_create(image);
             break;
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             realimage_media_create(image);
             break;
@@ -508,7 +508,7 @@ void disk_image_media_destroy(disk_image_t *image)
         case DISK_IMAGE_DEVICE_FS:
             fsimage_media_destroy(image);
             break;
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             realimage_media_destroy(image);
             break;
@@ -535,7 +535,7 @@ int disk_image_open(disk_image_t *image)
         case DISK_IMAGE_DEVICE_FS:
             rc = fsimage_open(image);
             break;
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             rc = realimage_open(image);
             break;
@@ -566,7 +566,7 @@ int disk_image_close(disk_image_t *image)
         case DISK_IMAGE_DEVICE_FS:
             rc = fsimage_close(image);
             break;
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             rc = realimage_close(image);
             break;
@@ -594,7 +594,7 @@ int disk_image_read_sector(const disk_image_t *image, uint8_t *buf, const disk_a
         case DISK_IMAGE_DEVICE_FS:
             rc = fsimage_read_sector(image, buf, dadr);
             break;
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             rc = realimage_read_sector(image, buf, dadr);
             break;
@@ -625,7 +625,7 @@ int disk_image_write_sector(disk_image_t *image, const uint8_t *buf, const disk_
         case DISK_IMAGE_DEVICE_FS:
             rc = fsimage_write_sector(image, buf, dadr);
             break;
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             rc = realimage_write_sector(image, buf, dadr);
             break;
@@ -694,7 +694,7 @@ void disk_image_init(void)
     disk_image_log = log_open("Disk Access");
     fsimage_create_init();
     fsimage_init();
-#ifdef HAVE_OPENCBM
+#ifdef HAVE_REALDEVICE
     realimage_init();
 #endif
 #ifdef HAVE_RAWDRIVE
