@@ -165,6 +165,8 @@ static GtkListStore *playlist_model;
 static GtkWidget *playlist_view;
 
 
+static GtkWidget *title_widget;
+
 
 /** \brief  Initialize playlist \a state object
  *
@@ -228,6 +230,13 @@ static void playlist_state_free(plist_state_t *state)
 }
 
 
+/** \brief  Add SID files to the playlist
+ *
+ * \param[in,out]   files   List of selected files
+ *
+ * WARNING: this function frees its argument and probably shouldn't do that!
+ *
+ */
 static void add_files_callback(GSList *files)
 {
     GSList *pos = files;
@@ -243,6 +252,21 @@ static void add_files_callback(GSList *files)
         pos = g_slist_next(pos);
     } while (pos != NULL);
     g_slist_free(files);
+}
+
+
+/** \brief  Update title of the widget with number of entries in the list
+ */
+static void update_title(void)
+{
+    gchar buffer[256];
+    gint rows;
+
+    /* get number of top level items by using NULL as an iter */
+    rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(playlist_model), NULL);
+
+    g_snprintf(buffer, 256, "<b>Playlist (%d)</b>", rows);
+    gtk_label_set_markup(GTK_LABEL(title_widget), buffer);
 }
 
 
@@ -659,6 +683,7 @@ GtkWidget *vsid_playlist_widget_create(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-bottom", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+    title_widget = label;
 
     scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_size_request(scroll, 400, 500);
@@ -725,6 +750,8 @@ gboolean vsid_playlist_widget_append_file(const gchar *path)
     g_free(name_utf8);
     g_free(author_utf8);
     hvsc_psid_close(&psid);
+
+    update_title();
     return TRUE;
 }
 
