@@ -201,7 +201,8 @@ Filter::Filter()
 
   if (!class_init) {
     // Temporary table for op-amp transfer function.
-    int* opamp = new int[1 << 16];
+    unsigned int* voltages = new unsigned int[1 << 16];
+    opamp_t* opamp = new opamp_t[1 << 16];
 
     for (int m = 0; m < 2; m++) {
       model_filter_init_t& fi = model_filter_init[m];
@@ -270,28 +271,31 @@ Filter::Filter()
       }
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
-		  PointPlotter<int>(opamp), 1.0);
+		  PointPlotter<unsigned int>(voltages), 1.0);
 
       // Store both fn and dfn in the same table.
       mf.ak = (int)scaled_voltage[0][0];
       mf.bk = (int)scaled_voltage[fi.opamp_voltage_size - 1][0];
       int j;
       for (j = 0; j < mf.ak; j++) {
-	opamp[j] = 0;
+	    opamp[j].vx = 0;
+        opamp[j].dvx = 0;
       }
-      int f = opamp[j] - (opamp[j + 1] - opamp[j]);
+      unsigned int f = voltages[j];
       for (; j <= mf.bk; j++) {
-	int fp = f;
-	f = opamp[j];  // Scaled by m*2^31
+        unsigned int fp = f;
+        f = voltages[j];  // Scaled by m*2^31
 	// m*2^31*dy/1 = (m*2^31*dy)/(m*2^16*dx) = 2^15*dy/dx
 	int df = f - fp;  // Scaled by 2^15
 
-	// High 16 bits (15 bits + sign bit): 2^11*dfn
-	// Low 16 bits (unsigned):            m*2^16*(fn - xmin)
-	opamp[j] = ((df << (16 + 11 - 15)) & ~0xffff) | (f >> 15);
+        // 16 bits unsigned: m*2^16*(fn - xmin)
+        opamp[j].vx = f > (0xffff << 15) ? 0xffff : f >> 15;
+        // 16 bits (15 bits + sign bit): 2^11*dfn
+        opamp[j].dvx = df >> (15 - 11);
       }
       for (; j < (1 << 16); j++) {
-	opamp[j] = 0;
+        opamp[j].vx = 0;
+        opamp[j].dvx = 0;
       }
 
       // Create lookup tables for gains / summers.
@@ -357,7 +361,7 @@ Filter::Filter()
       // Create lookup table mapping capacitor voltage to op-amp input voltage:
       // vc -> vx
       for (int m = 0; m < (1 << 16); m++) {
-	mf.opamp_rev[m] = opamp[m] & 0xffff;
+        mf.opamp_rev[m] = opamp[m].vx;
       }
 
       mf.vc_max = (int)(N30*(fi.opamp_voltage[0][1] - fi.opamp_voltage[0][0]));
@@ -371,7 +375,8 @@ Filter::Filter()
       }
     }
 
-    // Free temporary table.
+    // Free temporary tables.
+    delete[] voltages;
     delete[] opamp;
 
     // VCR - 6581 only.
