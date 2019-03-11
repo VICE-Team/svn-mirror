@@ -86,39 +86,66 @@ static const ui_menu_entry_t sid_sampling_menu[] = {
 UI_MENU_DEFINE_SLIDER(SidResidPassband, 0, 90)
 UI_MENU_DEFINE_SLIDER(SidResidGain, 90, 100)
 UI_MENU_DEFINE_SLIDER(SidResidFilterBias, -5000, 5000)
+
+/* Do we have new 8580 filter emulation? */
+#ifdef HAVE_NEW_8580_FILTER
+
+/* Yup, create 8580 filter sliders */
 UI_MENU_DEFINE_SLIDER(SidResid8580Passband, 0, 90)
 UI_MENU_DEFINE_SLIDER(SidResid8580Gain, 90, 100)
 UI_MENU_DEFINE_SLIDER(SidResid8580FilterBias, -5000, 5000)
 
-#define VICE_SDL_RESID_OPTIONS                                                                                     \
+/* Create menu items including 8580 slider */
+# define VICE_SDL_RESID_OPTIONS                                                                                    \
     { "reSID sampling method",                                                                                     \
       MENU_ENTRY_SUBMENU,                                                                                          \
       submenu_radio_callback,                                                                                      \
       (ui_callback_data_t)sid_sampling_menu },                                                                     \
-    { "reSID resampling passband",                                                                                 \
+    { "reSID 6581 resampling passband",                                                                            \
       MENU_ENTRY_RESOURCE_INT,                                                                                     \
       slider_SidResidPassband_callback,                                                                            \
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (lower is faster, higher is better)" }, \
-    { "reSID filter gain",                                                                                         \
+    { "reSID 6581 filter gain",                                                                                    \
       MENU_ENTRY_RESOURCE_INT,                                                                                     \
       slider_SidResidGain_callback,                                                                                \
       (ui_callback_data_t)"Set filter gain in percent" },                                                          \
-    { "reSID filter bias",                                                                                         \
+    { "reSID 6581 filter bias",                                                                                    \
       MENU_ENTRY_RESOURCE_INT,                                                                                     \
       slider_SidResidFilterBias_callback,                                                                          \
       (ui_callback_data_t)"Set filter bias in mV" },                                                               \
-    { "reSID 8580 resampling passband",                                                                                 \
+    { "reSID 8580 resampling passband",                                                                            \
       MENU_ENTRY_RESOURCE_INT,                                                                                     \
       slider_SidResid8580Passband_callback,                                                                        \
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (lower is faster, higher is better)" }, \
-    { "reSID 8580 filter gain",                                                                                         \
+    { "reSID 8580 filter gain",                                                                                    \
       MENU_ENTRY_RESOURCE_INT,                                                                                     \
       slider_SidResid8580Gain_callback,                                                                            \
       (ui_callback_data_t)"Set filter gain in percent" },                                                          \
-    { "reSID 8580 filter bias",                                                                                         \
+    { "reSID 8580 filter bias",                                                                                    \
       MENU_ENTRY_RESOURCE_INT,                                                                                     \
       slider_SidResid8580FilterBias_callback,                                                                      \
       (ui_callback_data_t)"Set filter bias in mV" },
+#else
+
+/* Nope, don't show 8580 filter sliders */
+# define VICE_SDL_RESID_OPTIONS                                                                                    \
+    { "reSID sampling method",                                                                                     \
+      MENU_ENTRY_SUBMENU,                                                                                          \
+      submenu_radio_callback,                                                                                      \
+      (ui_callback_data_t)sid_sampling_menu },                                                                     \
+    { "reSID 6581 resampling passband",                                                                            \
+      MENU_ENTRY_RESOURCE_INT,                                                                                     \
+      slider_SidResidPassband_callback,                                                                            \
+      (ui_callback_data_t)"Enter passband in percentage of total bandwidth (lower is faster, higher is better)" }, \
+    { "reSID 6581 filter gain",                                                                                    \
+      MENU_ENTRY_RESOURCE_INT,                                                                                     \
+      slider_SidResidGain_callback,                                                                                \
+      (ui_callback_data_t)"Set filter gain in percent" },                                                          \
+    { "reSID 6581 filter bias",                                                                                    \
+      MENU_ENTRY_RESOURCE_INT,                                                                                     \
+      slider_SidResidFilterBias_callback,                                                                          \
+      (ui_callback_data_t)"Set filter bias in mV" },
+#endif
 
 #endif /* HAVE_RESID */
 
