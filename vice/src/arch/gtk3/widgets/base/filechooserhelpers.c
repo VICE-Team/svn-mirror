@@ -79,13 +79,13 @@ const char *file_chooser_pattern_tape[] = {
 /** \brief  Patterns for fliplists
  */
 const char *file_chooser_pattern_fliplist[] = {
-    "*.[vV[fF][lL]", NULL
+    "*.[vV][fF][lL]", NULL
 };
 
 /** \brief  Patterns for program files
  */
 const char *file_chooser_pattern_program[] = {
-    "*.[pP][rR]gG]", "*.[pP][0-9][0-9]", NULL
+    "*.[pP][rR][gG]", "*.[pP][0-9][0-9]", NULL
 };
 
 
