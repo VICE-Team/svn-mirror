@@ -120,6 +120,12 @@ static GtkWidget *bias8580label;
 void mixer_widget_sid_type_changed(void)
 {
     int model = 0;
+#ifdef HAVE_NEW_8580_FILTER
+    gboolean enabled = TRUE;
+#else
+    gboolean enabled = FALSE;
+#endif
+
     if (resources_get_int("SidModel", &model) < 0) {
         debug_gtk3("failed to get SidModel resource");
     }
@@ -159,6 +165,12 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_show(gainlabel);
         gtk_widget_show(biaslabel);
     }
+
+    /* enable/disable 8580 filter controls based on --enable-new8580filter */
+    gtk_widget_set_sensitive(passband8580, enabled);
+    gtk_widget_set_sensitive(gain8580, enabled);
+    gtk_widget_set_sensitive(bias8580, enabled);
+
 #endif
 }
 

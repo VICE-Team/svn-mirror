@@ -130,6 +130,15 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
         resources_get_default_value("SidResid8580FilterBias", &value);
     }
     gtk_range_set_value(GTK_RANGE(bias), (gdouble)value);
+
+#ifndef HAVE_NEW_8580_FILTER
+    if (model > 0) {
+        gtk_widget_set_sensitive(passband, FALSE);
+        gtk_widget_set_sensitive(gain, FALSE);
+        gtk_widget_set_sensitive(bias, FALSE);
+    }
+#endif
+
 #endif
 }
 
@@ -296,6 +305,15 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
+
+#ifndef HAVE_NEW_8580_FILTER
+    if (model > 0) {
+        gtk_widget_set_sensitive(passband, FALSE);
+        gtk_widget_set_sensitive(gain, FALSE);
+        gtk_widget_set_sensitive(bias, FALSE);
+    }
+#endif
+
 #endif
 
     button = gtk_button_new_with_label("Reset to defaults");

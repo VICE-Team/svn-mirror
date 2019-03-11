@@ -57,6 +57,7 @@ GtkWidget *settings_mixer_widget_create(GtkWidget *parent)
             mixer_widget_create(FALSE, GTK_ALIGN_START),
             0, 0, 1, 1);
 
+    mixer_widget_sid_type_changed();
     gtk_widget_show_all(grid);
     return grid;
 }

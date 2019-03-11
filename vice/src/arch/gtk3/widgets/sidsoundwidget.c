@@ -273,6 +273,9 @@ static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
         return;
     }
     if ((model == 1) || (model == 2)) {
+#ifndef HAVE_NEW_8580_FILTER
+        state = 0;
+#endif
         gtk_widget_set_sensitive(resid_8580_passband, state);
         gtk_widget_set_sensitive(resid_8580_gain, state);
         gtk_widget_set_sensitive(resid_8580_bias, state);
