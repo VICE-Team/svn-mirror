@@ -61,7 +61,6 @@ VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of 
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 VICE_ARG_ENABLE_LIST(new8580filter, [  --enable-new8580filter  enable experimental 8580 filters [[default=no]]])
-VICE_ARG_ENABLE_LIST(native-dialogs, [  --enable-native-dialogs   enable native dialogs on Linux for sandboxed installs [[default=no]]])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -281,8 +280,6 @@ DEBUG_SUPPORT="no "
 USE_EMBEDDED_SUPPORT="no "
 
 HAVE_FONTCONFIG_SUPPORT="no"
-HAVE_NATIVE_DIALOGS_SUPPORT="no"
-
 
 AM_CONDITIONAL(DUMMY_COMPILE, false)
 
@@ -296,7 +293,6 @@ AS_IF([test x"$enable_new8580filter" = "xyes"],
   [AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the experimental new 8580 filter])])
 
 AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
-
 
 user_cflags=$CFLAGS
 
@@ -916,7 +912,7 @@ if test x"$check_sdl1" = "xyes"; then
               LIBS="$LIBS -luserenv"
               ;;
           esac
-
+          
           dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
           enable_native_gtk3ui=no
           enable_sdlui=yes
@@ -1523,9 +1519,9 @@ dnl All other UN*X systems
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
-      dnl "-Wstrict-prototypes" gives zillions of warnings in gtk headers
-      dnl warnings_gnome="-DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-      warnings_c="$warnings_gnome $warnings_cxx"
+	  dnl "-Wstrict-prototypes" gives zillions of warnings in gtk headers
+	  dnl warnings_gnome="-DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+	  warnings_c="$warnings_gnome $warnings_cxx"
       fi
 
       dnl Set appropriate optimization options (better than the default -g -O)
@@ -2432,13 +2428,13 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
         HAVE_FFMPEG_SUPPORT="yes"
         FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
         GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
-        dlopen_pthread=yes
+	dlopen_pthread=yes
       fi
       if (test x"${have_swscale}" = x"yes") ; then
         AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
         HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
         FFMPEG_INCLUDES="$FFMPEG_INCLUDES $FFMPEG_SWSCALE_CFLAGS"
-        dlopen_pthread=yes
+	dlopen_pthread=yes
       fi
        ],
       [echo "no. disabled."]
@@ -3614,7 +3610,7 @@ else
 fi
 
 AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX",
-        [Where do we want to install the executable?])
+		   [Where do we want to install the executable?])
 
 dnl Path for keymaps, ROMs etc.
 case "$host_os" in
@@ -3642,24 +3638,12 @@ case "$host_os" in
 esac
 AC_SUBST(VICEDIR)
 AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
-        [Where should we lookup for data files?])
+		   [Where should we lookup for data files?])
 
 
 # Add path with private dynamic ffmpeg libs to the search path
 rpath_line=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "$VICEDIR/lib"`
 LDFLAGS="$LDFLAGS $rpath_line"
-
-dnl Check for native dialog support on Linux + Gtk3
-case "$host_os" in
-  linux*)
-    if test x"$enable_native_dialogs" = "xyes" -a x"$enable_native_gtk3ui" = "xyes"; then
-      AC_DEFINE(HAVE_NATIVE_DIALOGS, [1], [Use native dialogs for sandboxing])
-      HAVE_NATIVE_DIALOGS_SUPPORT="yes"
-    fi
-    ;;
-esac
-
-
 
 AC_OUTPUT([Makefile
            build/Makefile
@@ -3899,7 +3883,6 @@ echo ""
 echo "Platform canonical: $ac_cv_host"
 echo "Architecture      : $show_arch"
 echo "GUI               : $show_gui"
-echo "Native dialogs    : $HAVE_NATIVE_DIALOGS_SUPPORT"
 echo ""
 
 echo "SCREEN/UI"
