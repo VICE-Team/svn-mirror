@@ -965,12 +965,23 @@ void snapshot_display_error(void)
         case SNAPSHOT_MODULE_INCOMPATIBLE:
             display_error_with_vice_version("Snapshot %s is incompatible (too old)", current_filename);
             break;
+        case SNAPSHOT_CANNOT_WRITE_SNAPSHOT:
+            ui_error("Cannot write snapshot %s", current_filename);
+            break;
+        case SNAPSHOT_CANNOT_READ_SNAPSHOT:
+            ui_error("Cannot read snapshot %s", current_filename);
+            break;
     }
 }
 
 void snapshot_set_error(int error)
 {
     snapshot_error = error;
+}
+
+int snapshot_get_error(void)
+{
+    return snapshot_error;
 }
 
 int snapshot_version_at_least(uint8_t major_version, uint8_t minor_version, uint8_t major_version_required, uint8_t minor_version_required)

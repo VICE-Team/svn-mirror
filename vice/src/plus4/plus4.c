@@ -1021,12 +1021,20 @@ void machine_change_timing(int timeval, int border_mode)
 int machine_write_snapshot(const char *name, int save_roms, int save_disks,
                            int event_mode)
 {
-    return plus4_snapshot_write(name, save_roms, save_disks, event_mode);
+    int err = plus4_snapshot_write(name, save_roms, save_disks, event_mode);
+    if ((err < 0) && (snapshot_get_error() == SNAPSHOT_NO_ERROR)) {
+        snapshot_set_error(SNAPSHOT_CANNOT_WRITE_SNAPSHOT);
+    }
+    return err;
 }
 
 int machine_read_snapshot(const char *name, int event_mode)
 {
-    return plus4_snapshot_read(name, event_mode);
+    int err = plus4_snapshot_read(name, event_mode);
+    if ((err < 0) && (snapshot_get_error() == SNAPSHOT_NO_ERROR)) {
+        snapshot_set_error(SNAPSHOT_CANNOT_READ_SNAPSHOT);
+    }
+    return err;
 }
 
 /* ------------------------------------------------------------------------- */
