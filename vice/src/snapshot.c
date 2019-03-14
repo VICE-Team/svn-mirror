@@ -965,6 +965,9 @@ void snapshot_display_error(void)
         case SNAPSHOT_MODULE_INCOMPATIBLE:
             display_error_with_vice_version("Snapshot %s is incompatible (too old)", current_filename);
             break;
+        case SNAPSHOT_MODULE_NOT_IMPLEMENTED:
+            ui_error("Snapshots are not implemented for module %s", current_module);
+            break;
         case SNAPSHOT_CANNOT_WRITE_SNAPSHOT:
             ui_error("Cannot write snapshot %s", current_filename);
             break;

@@ -61,6 +61,7 @@
 #define SNAPSHOT_MODULE_INCOMPATIBLE             25
 #define SNAPSHOT_CANNOT_WRITE_SNAPSHOT           26
 #define SNAPSHOT_CANNOT_READ_SNAPSHOT            27
+#define SNAPSHOT_MODULE_NOT_IMPLEMENTED          28
 
 typedef struct snapshot_module_s snapshot_module_t;
 typedef struct snapshot_s snapshot_t;
