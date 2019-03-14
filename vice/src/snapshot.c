@@ -647,6 +647,7 @@ fail:
 
 int snapshot_module_close(snapshot_module_t *m)
 {
+
     /* Backpatch module size if writing.  */
     if (m->write_mode
         && (fseek(m->file, m->size_offset, SEEK_SET) < 0
@@ -987,19 +988,48 @@ int snapshot_get_error(void)
     return snapshot_error;
 }
 
-/* check if is version >= required version */
-int snapshot_version_at_least(uint8_t major_version, uint8_t minor_version, 
+/* check if version == required version */
+int snapshot_version_is_equal(uint8_t major_version, uint8_t minor_version,
                               uint8_t major_version_required, uint8_t minor_version_required)
 {
-    if (major_version < major_version_required) {
-        return 0;
+    if ((major_version == major_version_required) && (minor_version == minor_version_required)) {
+        return 1;
     }
+    return 0;
+}
 
+/* check if version > required version */
+int snapshot_version_is_bigger(uint8_t major_version, uint8_t minor_version,
+                               uint8_t major_version_required, uint8_t minor_version_required)
+{
     if (major_version > major_version_required) {
         return 1;
     }
 
-    if (minor_version >= minor_version_required) {
+    if (major_version < major_version_required) {
+        return 0;
+    }
+
+    if (minor_version > minor_version_required) {
+        return 1;
+    }
+
+    return 0;
+}
+
+/* check if version < required version */
+int snapshot_version_is_smaller(uint8_t major_version, uint8_t minor_version,
+                                uint8_t major_version_required, uint8_t minor_version_required)
+{
+    if (major_version < major_version_required) {
+        return 1;
+    }
+
+    if (major_version > major_version_required) {
+        return 0;
+    }
+
+    if (minor_version < minor_version_required) {
         return 1;
     }
 

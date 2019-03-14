@@ -205,7 +205,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
     }
 
     /* Handle 1.3 snapshots differently */
-    if (SNAPVAL(major_version, minor_version, 1, 3)) {
+    if (!snapshot_version_is_smaller(major_version, minor_version, 1, 3)) {
         if (!sidnr) {
             if (SMR_B_INT(m, &sids) < 0) {
                 goto fail;
@@ -243,7 +243,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
     }
 
     /* Handle 1.2 snapshots differently */
-    if (SNAPVAL(major_version, minor_version, 1, 2)) {
+    if (snapshot_version_is_equal(major_version, minor_version, 1, 2)) {
         if (!sidnr) {
             if (SMR_B_INT(m, &sids) < 0) {
                 goto fail;
@@ -751,7 +751,7 @@ static int sid_snapshot_read_hs_module(snapshot_module_t *m, int sidnr, uint8_t 
         return -1;
     }
 
-    if (SNAPVAL(vmajor, vminor, 1, 3)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 1, 3)) {
         if (0
             || SMR_DW(m, &sid_state.device_map[2]) < 0
             || SMR_DW(m, &sid_state.device_map[3]) < 0) {
@@ -979,14 +979,15 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
         return -1;
     }
 
-    if (!snapshot_version_at_least(major_version, minor_version, 1, 3)) {
-        snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
+    /* reject snapshot modules newer than what we can handle (this VICE is too old) */
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR_EXTENDED, SNAP_MINOR_EXTENDED)) {
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
-    /* Do not accept versions higher than current */
-    if (major_version > SNAP_MAJOR_EXTENDED || minor_version > SNAP_MINOR_EXTENDED) {
-        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
+    /* reject snapshot modules older than what we can handle (the snapshot is too old) */
+    if (snapshot_version_is_smaller(major_version, minor_version, 1, 3)) {
+        snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         goto fail;
     }
 

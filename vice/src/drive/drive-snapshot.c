@@ -310,13 +310,15 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     drive_gcr_data_writeback_all();
 
-    if (major_version > DRIVE_SNAP_MAJOR || minor_version > DRIVE_SNAP_MINOR) {
+    /* reject snapshot modules newer than what we can handle (this VICE is too old) */
+    if (snapshot_version_is_bigger(major_version, minor_version, DRIVE_SNAP_MAJOR, DRIVE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }
 
-    if (major_version != DRIVE_SNAP_MAJOR || minor_version != DRIVE_SNAP_MINOR) {
+    /* reject snapshot modules older than what we can handle (the snapshot is too old) */
+    if (snapshot_version_is_smaller(major_version, minor_version, DRIVE_SNAP_MAJOR, DRIVE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         snapshot_module_close(m);
         return -1;
@@ -868,13 +870,15 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
         return 0;
     }
 
-    if (major_version > IMAGE_SNAP_MAJOR || minor_version > IMAGE_SNAP_MINOR) {
+    /* reject snapshot modules newer than what we can handle (this VICE is too old) */
+    if (snapshot_version_is_bigger(major_version, minor_version, IMAGE_SNAP_MAJOR, IMAGE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }
 
-    if (major_version != IMAGE_SNAP_MAJOR || minor_version != IMAGE_SNAP_MINOR) {
+    /* reject snapshot modules older than what we can handle (the snapshot is too old) */
+    if (snapshot_version_is_smaller(major_version, minor_version, IMAGE_SNAP_MAJOR, IMAGE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         snapshot_module_close(m);
         return -1;
@@ -1033,13 +1037,15 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
         return 0;
     }
 
-    if (major_version > GCRIMAGE_SNAP_MAJOR || minor_version > GCRIMAGE_SNAP_MINOR) {
+    /* reject snapshot modules newer than what we can handle (this VICE is too old) */
+    if (snapshot_version_is_bigger(major_version, minor_version, GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }
 
-    if (major_version != GCRIMAGE_SNAP_MAJOR || minor_version != GCRIMAGE_SNAP_MINOR) {
+    /* reject snapshot modules older than what we can handle (the snapshot is too old) */
+    if (snapshot_version_is_smaller(major_version, minor_version, GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         snapshot_module_close(m);
         return -1;
@@ -1182,13 +1188,15 @@ static int drive_snapshot_read_p64image_module(snapshot_t *s, unsigned int dnr)
         return -1;
     }
 
-    if (major_version > P64IMAGE_SNAP_MAJOR || minor_version > P64IMAGE_SNAP_MINOR) {
+    /* reject snapshot modules newer than what we can handle (this VICE is too old) */
+    if (snapshot_version_is_bigger(major_version, minor_version, P64IMAGE_SNAP_MAJOR, P64IMAGE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
     }
 
-    if (major_version != P64IMAGE_SNAP_MAJOR || minor_version != P64IMAGE_SNAP_MINOR) {
+    /* reject snapshot modules older than what we can handle (the snapshot is too old) */
+    if (snapshot_version_is_smaller(major_version, minor_version, P64IMAGE_SNAP_MAJOR, P64IMAGE_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         snapshot_module_close(m);
         return -1;
