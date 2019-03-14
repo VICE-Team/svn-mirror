@@ -62,7 +62,7 @@ int vdc_snapshot_write_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-
+    log_error(LOG_DEFAULT, "FIXME: VDC snapshots are not implemented\n");
     return snapshot_module_close(m);
 
 /*
