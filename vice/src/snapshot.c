@@ -987,10 +987,16 @@ int snapshot_get_error(void)
     return snapshot_error;
 }
 
-int snapshot_version_at_least(uint8_t major_version, uint8_t minor_version, uint8_t major_version_required, uint8_t minor_version_required)
+/* check if is version >= required version */
+int snapshot_version_at_least(uint8_t major_version, uint8_t minor_version, 
+                              uint8_t major_version_required, uint8_t minor_version_required)
 {
-    if (major_version != major_version_required) {
+    if (major_version < major_version_required) {
         return 0;
+    }
+
+    if (major_version > major_version_required) {
+        return 1;
     }
 
     if (minor_version >= minor_version_required) {
