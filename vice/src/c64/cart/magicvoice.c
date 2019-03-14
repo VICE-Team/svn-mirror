@@ -1525,8 +1525,6 @@ static void magicvoice_sound_machine_close(sound_t *psid)
 /* FIXME: implement snapshot support */
 int magicvoice_snapshot_write_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
@@ -1535,6 +1533,9 @@ int magicvoice_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
+    snapshot_set_error(SNAPSHOT_MODULE_NOT_IMPLEMENTED);
+    return -1;
+#if 0
     if (0) {
         snapshot_module_close(m);
         return -1;
