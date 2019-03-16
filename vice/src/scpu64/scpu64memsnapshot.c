@@ -127,7 +127,7 @@ static int scpu64_snapshot_read_rom_module(snapshot_t *s)
         return 0;
     }
 
-    if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_ROM_MAJOR, SNAP_ROM_MINOR)) {
         log_error(c64_snapshot_log, "Snapshot module version (%d.%d) newer than %d.%d.", major_version, minor_version, SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
         snapshot_module_close(m);
         return -1;

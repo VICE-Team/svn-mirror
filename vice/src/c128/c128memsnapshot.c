@@ -114,7 +114,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     resources_set_int("VirtualDevices", 0);
 
     /* Do not accept higher versions than current */
-    if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_ROM_MAJOR, SNAP_ROM_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         log_error(c128_snapshot_log,
                   "MEM: Snapshot module version (%d.%d) newer than %d.%d.",

@@ -752,7 +752,7 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
         return -1;
     }
 
-    if (major_version != DUMP_VER_MAJOR || minor_version != DUMP_VER_MINOR) {
+    if (!snapshot_version_is_equal(major_version, minor_version, DUMP_VER_MAJOR, DUMP_VER_MINOR)) {
         snapshot_module_close(m);
         return -1;
     }

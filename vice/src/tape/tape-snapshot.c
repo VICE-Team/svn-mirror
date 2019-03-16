@@ -145,8 +145,7 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
         return 0;
     }
 
-    if (major_version > TAPIMAGE_SNAP_MAJOR
-        || minor_version > TAPIMAGE_SNAP_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, TAPIMAGE_SNAP_MAJOR, TAPIMAGE_SNAP_MINOR)) {
         log_error(tape_snapshot_log,
                   "Snapshot module version (%d.%d) newer than %d.%d.",
                   major_version, minor_version,

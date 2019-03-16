@@ -337,7 +337,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive = drive_context[i]->drive;
 
         /* Partially read 1.0 snapshots */
-        if (major_version == 1 && minor_version == 0) {
+        if (snapshot_version_is_equal(major_version, minor_version, 1, 0)) {
             if (0
                 || SMR_DW_UL(m, &(drive->snap_accum)) < 0
                 || SMR_DW(m, &(attach_clk[i])) < 0
@@ -366,7 +366,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             }
 
             /* Partially read 1.1 snapshots */
-        } else if (major_version == 1 && minor_version == 1) {
+        } else if (snapshot_version_is_equal(major_version, minor_version, 1, 1)) {
             if (0
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
@@ -398,7 +398,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             }
 
             /* Partially read 1.2 snapshots */
-        } else if (major_version == 1 && minor_version == 2) {
+        } else if (snapshot_version_is_equal(major_version, minor_version, 1, 2)) {
             if (0
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
@@ -439,7 +439,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 snapshot_module_close(m);
                 return -1;
             }
-        } else if (major_version == 1 && minor_version == 3) {
+        } else if (snapshot_version_is_equal(major_version, minor_version, 1, 3)) {
             if (0
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0

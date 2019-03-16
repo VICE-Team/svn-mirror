@@ -1062,7 +1062,7 @@ int wd1770_snapshot_read_module(wd1770_t *drv, struct snapshot_s *s)
     }
 
     /* Do not accept higher versions than current */
-    if (vmajor > WD1770_SNAP_MAJOR || vminor > WD1770_SNAP_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, WD1770_SNAP_MAJOR, WD1770_SNAP_MAJOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;
