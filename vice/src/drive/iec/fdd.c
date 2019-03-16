@@ -706,7 +706,7 @@ int fdd_snapshot_read_module(fd_drive_t *drv, struct snapshot_s *s)
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > FDD_SNAP_MAJOR || vminor > FDD_SNAP_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, FDD_SNAP_MAJOR, FDD_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;

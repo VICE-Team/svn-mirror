@@ -445,7 +445,7 @@ int m93c86_snapshot_read_module(snapshot_t *s)
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > CART_DUMP_VER_MAJOR || vminor > CART_DUMP_VER_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR)) {
         snapshot_module_close(m);
         return -1;
     }

@@ -158,7 +158,4 @@ extern int snapshot_version_is_bigger(uint8_t major_version, uint8_t minor_versi
 extern int snapshot_version_is_smaller(uint8_t major_version, uint8_t minor_version,
                 uint8_t major_version_required, uint8_t minor_version_required);
 
-/* FIXME: checks commented as "Do not accept versions higher than current" 
-          should get fixed and replaced by snapshot_version_is_bigger() checks */
-
 #endif

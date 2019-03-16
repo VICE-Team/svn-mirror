@@ -199,7 +199,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
     }
 
     /* Do not accept versions higher than current */
-    if (major_version > SNAP_MAJOR_SIMPLE || minor_version > SNAP_MINOR_SIMPLE) {
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR_SIMPLE, SNAP_MINOR_SIMPLE)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }

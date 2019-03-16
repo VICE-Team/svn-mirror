@@ -310,7 +310,7 @@ int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
     }
 
     /* Do not accept versions higher than current */
-    if (major_version > ROM_SNAP_MAJOR || minor_version > ROM_SNAP_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, ROM_SNAP_MAJOR, ROM_SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         log_error(driverom_log,
                   "Snapshot module version (%d.%d) newer than %d.%d.",

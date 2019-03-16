@@ -1294,7 +1294,7 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
         return -1;
     }
     /* Do not accept versions higher than current */
-    if (vminor > VIA_DUMP_VER_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;

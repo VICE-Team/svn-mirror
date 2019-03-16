@@ -806,7 +806,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > ACIA_DUMP_VER_MAJOR || vminor > ACIA_DUMP_VER_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, ACIA_DUMP_VER_MAJOR, ACIA_DUMP_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;

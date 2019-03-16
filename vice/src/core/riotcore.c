@@ -483,7 +483,7 @@ int riotcore_snapshot_read_module(riot_context_t *riot_context, snapshot_t *p)
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > RIOT_DUMP_VER_MAJOR || vminor > RIOT_DUMP_VER_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, RIOT_DUMP_VER_MAJOR, RIOT_DUMP_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;

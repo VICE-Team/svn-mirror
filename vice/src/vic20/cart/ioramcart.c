@@ -244,7 +244,7 @@ int ioramcart_io2_snapshot_read_module(snapshot_t *s)
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > IORAMCART_DUMP_VER_MAJOR || vminor > IORAMCART_DUMP_VER_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
@@ -292,7 +292,7 @@ int ioramcart_io3_snapshot_read_module(snapshot_t *s)
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > IORAMCART_DUMP_VER_MAJOR || vminor > IORAMCART_DUMP_VER_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, IORAMCART_DUMP_VER_MAJOR, IORAMCART_DUMP_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }

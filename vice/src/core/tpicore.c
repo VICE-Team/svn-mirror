@@ -463,7 +463,7 @@ int tpicore_snapshot_read_module(tpi_context_t *tpi_context, snapshot_t *p)
     }
 
     /* Do not accept versions higher than current */
-    if (vmajor > TPI_DUMP_VER_MAJOR || vminor > TPI_DUMP_VER_MINOR) {
+    if (snapshot_version_is_bigger(vmajor, vminor, TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         snapshot_module_close(m);
         return -1;

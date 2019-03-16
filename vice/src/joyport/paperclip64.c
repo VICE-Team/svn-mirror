@@ -231,7 +231,7 @@ static int paperclip64_read_snapshot(struct snapshot_s *s, int port)
     }
 
     /* Do not accept versions higher than current */
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, SNAP_MAJOR, SNAP_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }

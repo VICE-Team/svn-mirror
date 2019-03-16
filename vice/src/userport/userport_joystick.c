@@ -858,7 +858,7 @@ static int userport_joystick_cga_read_snapshot_module(snapshot_t *s)
     }
 
     /* Do not accept versions higher than current */
-    if (major_version > CGA_VER_MAJOR || minor_version > CGA_VER_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, CGA_VER_MAJOR, CGA_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
@@ -985,7 +985,7 @@ static int userport_joystick_hit_read_snapshot_module(snapshot_t *s)
     }
 
     /* Do not accept versions higher than current */
-    if (major_version > HIT_VER_MAJOR || minor_version > HIT_VER_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, HIT_VER_MAJOR, HIT_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
@@ -1061,7 +1061,7 @@ static int userport_joystick_kingsoft_read_snapshot_module(snapshot_t *s)
     }
 
     /* Do not accept versions higher than current */
-    if (major_version > KINGSOFT_VER_MAJOR || minor_version > KINGSOFT_VER_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, KINGSOFT_VER_MAJOR, KINGSOFT_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
@@ -1137,7 +1137,7 @@ static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s)
     }
 
     /* Do not accept versions higher than current */
-    if (major_version != STARBYTE_VER_MAJOR || minor_version != STARBYTE_VER_MINOR) {
+    if (snapshot_version_is_bigger(major_version, minor_version, STARBYTE_VER_MAJOR, STARBYTE_VER_MINOR)) {
         snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
