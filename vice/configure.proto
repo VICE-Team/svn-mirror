@@ -407,6 +407,19 @@ if test x"$check_gtk3" = "xyes"; then
       AC_SEARCH_LIBS(glewInit, [GLEW glew32], [have_glew=yes], [have_glew=no])
 
       if test x"$have_opengl_lib" != "xyes" -o x"$have_glew" != "xyes"; then
+        AC_MSG_CHECKING(whether the opengl32 and glew32 libraries work anyway)
+        old_LIBS="$LIBS"
+        LIBS="$LIBS -lopengl32 -lglew32"
+        AC_TRY_LINK([#include <GL/glew.h>],
+                    [glewInit();],
+                    [AC_MSG_RESULT(yes);
+                     have_opengl_lib=yes;
+                     have_glew=yes],
+                    [AC_MSG_RESULT(no);
+                     LIBS="$old_LIBS"])
+      fi
+
+      if test x"$have_opengl_lib" != "xyes" -o x"$have_glew" != "xyes"; then
         AC_MSG_ERROR([Could not find OpenGL and GLEW libraries. GTK3 performance is usually unacceptable without these libraries, but you can insist on software rendering with --disable-hwscale if necessary.])
       fi
     fi
