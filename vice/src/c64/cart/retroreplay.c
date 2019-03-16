@@ -1316,7 +1316,7 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 1)) {
         if (SMR_B_INT(m, &rr_revision) < 0) {
             goto fail;
         }
@@ -1329,7 +1329,7 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.2 */
-    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 2)) {
         if (SMR_B_INT(m, &rr_frozen) < 0) {
             goto fail;
         }
@@ -1338,7 +1338,7 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.3 */
-    if (SNAPVAL(vmajor, vminor, 0, 3)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 3)) {
         if (SMR_B_INT(m, &rr_cmode) < 0) {
             goto fail;
         }
@@ -1357,7 +1357,7 @@ int retroreplay_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 1)) {
         if (SMR_B_INT(m, &export_ram_at_a000) < 0) {
             goto fail;
         }

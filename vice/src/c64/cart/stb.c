@@ -262,7 +262,7 @@ int stb_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 1)) {
         if (0
             || SMR_B_INT(m, &stb_bank) < 0
             || SMR_B_INT(m, &stb_active) < 0) {

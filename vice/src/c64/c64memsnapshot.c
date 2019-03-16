@@ -251,7 +251,7 @@ int c64_snapshot_read_module(snapshot_t *s)
     }
 
     /* new since 0.1 */
-    if (SNAPVAL(major_version, minor_version, 0, 1)) {
+    if (!snapshot_version_is_smaller(major_version, minor_version, 0, 1)) {
         if (0
             || SMR_DW_INT(m, &tmp_bit6) < 0
             || SMR_DW_INT(m, &tmp_bit7) < 0

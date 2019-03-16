@@ -408,7 +408,7 @@ int supersnapshot_v5_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.2 */
-    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 2)) {
         if (0
             || SMR_B_INT(m, &currbank) < 0
             || SMR_B_INT(m, &currreg) < 0) {
@@ -426,7 +426,7 @@ int supersnapshot_v5_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 1)) {
         if (0
             || SMR_B_INT(m, &ss_32k_enabled) < 0
             || SMR_B_INT(m, &ss_rom_disabled) < 0) {

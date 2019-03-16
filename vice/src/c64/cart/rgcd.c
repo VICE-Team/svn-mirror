@@ -243,7 +243,7 @@ int rgcd_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.2 */
-    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 2)) {
         if (SMR_B(m, &disabled) < 0) {
             goto fail;
         }

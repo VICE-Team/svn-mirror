@@ -251,7 +251,7 @@ int supergames_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.2 */
-    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 2)) {
         if (0
             || SMR_B_INT(m, &currmode) < 0
             || SMR_B(m, &regval) < 0) {
@@ -267,7 +267,7 @@ int supergames_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(vmajor, vminor, 0, 2)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 2)) {
         if (SMR_B_INT(m, &reglatched) < 0) {
             goto fail;
         }

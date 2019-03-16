@@ -652,7 +652,7 @@ int georam_read_snapshot_module(snapshot_t *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(vmajor, vminor, 0, 1)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 1)) {
         if (SMR_B_INT(m, &georam_io_swap) < 0) {
             goto fail;
         }

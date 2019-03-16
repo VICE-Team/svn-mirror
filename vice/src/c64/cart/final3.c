@@ -319,7 +319,7 @@ int final_v3_snapshot_read_module(snapshot_t *s)
     }
 
     /* new in 1.2 */
-    if (SNAPVAL(vmajor, vminor, 1, 2)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 1, 2)) {
         if (0
             || SMR_B_INT(m, &fc3_rom_banks) < 0
             || SMR_B(m, &regval) < 0) {
@@ -335,7 +335,7 @@ int final_v3_snapshot_read_module(snapshot_t *s)
     }
 
     /* changed in 1.1 */
-    if (SNAPVAL(vmajor, vminor, 1, 1)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 1, 1)) {
         if (0
             || SMR_BA(m, roml_banks, 0x2000 * fc3_rom_banks) < 0
             || SMR_BA(m, romh_banks, 0x2000 * fc3_rom_banks) < 0) {

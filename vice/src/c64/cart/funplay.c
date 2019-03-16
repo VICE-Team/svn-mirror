@@ -272,13 +272,13 @@ int funplay_snapshot_read_module(snapshot_t *s)
     }
 
     /* Only accept compatible snapshots */
-    if (!SNAPVAL(vmajor, vminor, 1, 0)) {
+    if (snapshot_version_is_smaller(vmajor, vminor, 1, 0)) {
         snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         goto fail;
     }
 
     /* new in 1.1 */
-    if (SNAPVAL(vmajor, vminor, 1, 1)) {
+    if (!snapshot_version_is_smaller(vmajor, vminor, 1, 1)) {
         if (SMR_B(m, &regval) < 0) {
             goto fail;
         }

@@ -521,7 +521,7 @@ static int tapelog_read_snapshot(struct snapshot_s *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(major_version, minor_version, 0, 1)) {
+    if (!snapshot_version_is_smaller(major_version, minor_version, 0, 1)) {
         if (SMR_B(m, &tapelog_motor_in) < 0) {
             goto fail;
         }
@@ -537,7 +537,7 @@ static int tapelog_read_snapshot(struct snapshot_s *s)
     }
 
     /* new in 0.1 */
-    if (SNAPVAL(major_version, minor_version, 0, 1)) {
+    if (!snapshot_version_is_smaller(major_version, minor_version, 0, 1)) {
         if (0
             || SMR_B(m, &tapelog_write_in) < 0
             || SMR_B(m, &tapelog_read_out) < 0) {
