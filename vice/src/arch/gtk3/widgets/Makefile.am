@@ -142,6 +142,7 @@ libwidgets_a_SOURCES = \
 	sfxsoundexpanderwidget.c \
 	sfxsoundsamplerwidget.c \
 	sidcartwidget.c \
+	sidenginemodelwidget.c \
 	sidmodelwidget.c \
 	sidsoundwidget.c \
 	soundbuffersizewidget.c \
@@ -290,6 +291,7 @@ EXTRA_DIST = \
 	sfxsoundexpanderwidget.h \
 	sfxsoundsamplerwidget.h \
 	sidcartwidget.h \
+	sidenginemodelwidget.h \
 	sidmodelwidget.h \
 	sidsoundwidget.h \
 	soundbuffersizewidget.h \

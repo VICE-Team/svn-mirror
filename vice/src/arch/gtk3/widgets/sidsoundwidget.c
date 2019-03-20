@@ -53,6 +53,7 @@
 #include "basewidgets.h"
 #include "debug_gtk3.h"
 
+
 #ifdef HAVE_CATWEASELMKIII
 #include "catweaselmkiii.h"
 #endif
@@ -65,9 +66,13 @@
 #include "parsid.h"
 #endif
 
+#include "sidenginemodelwidget.h"
+
+
 #include "sidsoundwidget.h"
 
-
+/* XXX: moved to sidenginemodelwidget.c */
+#if 0
 /** \brief  Values for the "SidEngine" resource
  */
 static vice_gtk3_radiogroup_entry_t sid_engines[] = {
@@ -80,6 +85,7 @@ static vice_gtk3_radiogroup_entry_t sid_engines[] = {
     { "ParSID port 3", 6 },
     { NULL, -1 }
 };
+#endif
 
 
 #ifdef HAVE_RESID
@@ -223,7 +229,7 @@ static GtkWidget *resid_8580_bias;
 static GtkWidget *address_widgets[3];
 
 
-
+#if 0
 /** \brief  Extra callback registered to the SidEngine radiogroup
  *
  * \param[in]   widget  widget triggering the event
@@ -236,7 +242,7 @@ static void on_sid_engine_changed(GtkWidget *widget, int engine)
     gtk_widget_set_sensitive(resid_sampling, engine == 1);
 #endif
 }
-
+#endif
 
 /** \brief  Extra callback registered to the 'number of SIDs' radiogroup
  *
@@ -375,6 +381,7 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 #endif
 
 
+#if 0
 /** \brief  Create widget to control the SID engine
  *
  * \return  GtkGrid
@@ -439,6 +446,7 @@ static GtkWidget *create_sid_engine_widget(void)
     gtk_widget_show_all(grid);
     return grid;
 }
+#endif
 
 
 #ifdef HAVE_RESID
@@ -684,12 +692,19 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(layout), label, 0, 0, 3, 1);
 
+    if (resources_get_int("SidModel", &model) < 0) {
+        debug_gtk3("failed to get SidModel resource");
+    }
+#if 0
     engine = create_sid_engine_widget();
     gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
 
     if (resources_get_int("SidModel", &model) < 0) {
         debug_gtk3("failed to get SidModel resource");
     }
+#endif
+    engine = sid_engine_model_widget_create();
+    gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
 #ifdef HAVE_RESID
     resid_sampling = create_resid_sampling_widget();
     gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
