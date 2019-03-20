@@ -395,12 +395,13 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
 
     /* row 2, column 0 */
-    drive_rpm[unit - 8] = drive_rpm_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - 8], 0, 2, 1, 1);
+    drive_fsdevice[unit - 8] = drive_fsdevice_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_fsdevice[unit-8], 0, 2, 1, 1);
 
     /* row 2, column 1 & 2 */
-    drive_fsdevice[unit - 8] = drive_fsdevice_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_fsdevice[unit-8], 1, 2, 2, 1);
+    drive_rpm[unit - 8] = drive_rpm_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - 8], 1, 2, 2, 1);
+
 
     drive_model_widget_add_callback(drive_model[unit - 8], on_model_changed,
             GINT_TO_POINTER(unit));
