@@ -1500,7 +1500,7 @@ void ui_update_menus(void)
  */
 void ui_dispatch_next_event(void)
 {
-    g_main_context_iteration(g_main_context_default(), FALSE);
+    /* NOP */
 }
 
 
@@ -1511,8 +1511,8 @@ void ui_dispatch_next_event(void)
  */
 void ui_dispatch_events(void)
 {
-    while (g_main_context_pending(g_main_context_default())) {
-        ui_dispatch_next_event();
+    while (g_main_context_pending(NULL)) {
+        g_main_context_iteration(NULL, FALSE);
     }
 }
 
