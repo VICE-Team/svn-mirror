@@ -188,13 +188,6 @@ static ui_menu_item_t settings_menu[] = {
         "psid-keep-env", (void *)(ui_toggle_resource), (void *)"PSIDKeepEnv",
         0, 0 },
 
-    UI_MENU_SEPARATOR,
-
-    /* the settings dialog */
-    { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
-        "settings", (void *)ui_settings_dialog_create, NULL,
-        GDK_KEY_O, VICE_MOD_MASK },
-
     UI_MENU_TERMINATOR
 };
 
