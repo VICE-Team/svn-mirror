@@ -187,6 +187,31 @@ static void mmu_set_ram_bank(uint8_t value)
 #endif
 }
 
+static void mmu_update_page01_pointers(void)
+{
+    /* update pointers for page 0/1 in case they or the shared RAM settings changed */
+    /* (shared window has priority over P0H/P1H) */
+    unsigned int page_zero_bank, page_one_bank;
+
+    if (c128_full_banks) {
+        page_zero_bank = (mmu[0x8] & 0x3) * 0x10000U;
+        page_one_bank  = (mmu[0xa] & 0x3) * 0x10000U;
+    } else {
+        page_zero_bank = (mmu[0x8] & 0x1) * 0x10000U;
+        page_one_bank  = (mmu[0xa] & 0x1) * 0x10000U;
+    }
+
+    if (mmu_is_in_shared_ram(mmu[0x7] << 8)) {
+        page_zero_bank = 0;
+    }
+    if (mmu_is_in_shared_ram(mmu[0x9] << 8)) {
+        page_one_bank = 0;
+    }
+
+    mem_page_zero = mem_ram + page_zero_bank + (mmu[0x7] << 8);
+    mem_page_one  = mem_ram + page_one_bank  + (mmu[0x9] << 8);
+}
+
 static void mmu_switch_to_c64mode(void)
 {
 #ifdef MMU_DEBUG
@@ -197,8 +222,16 @@ static void mmu_switch_to_c64mode(void)
         log_message(mmu_log, "mmu_switch_to_c64mode: force_c64_mode\n");
 #endif
         mmu_config64 = 0x07;
+        /* force c64-compatible register values */
+        /* Note: Don't use mmu_store here, it calls this function. */
         mmu[0] = 0x3e;
         mmu[5] = 0xf7;
+        /* force standard addresses for stack and zeropage */
+        mmu[7] = 0;
+        mmu[8] = 0;
+        mmu[9] = 1;
+        mmu[10] = 0;
+        mmu_update_page01_pointers();
     }
     machine_tape_init_c64();
     mem_update_config(0x80 + mmu_config64);
@@ -354,27 +387,7 @@ void mmu_store(uint16_t address, uint8_t value)
                 break;
         }
 
-        /* update pointers for page 0/1 in case they or the shared RAM settings changed */
-        /* (shared window has priority over P0H/P1H) */
-        unsigned int page_zero_bank, page_one_bank;
-
-        if (c128_full_banks) {
-            page_zero_bank = (mmu[0x8] & 0x3) * 0x10000U;
-            page_one_bank  = (mmu[0xa] & 0x3) * 0x10000U;
-        } else {
-            page_zero_bank = (mmu[0x8] & 0x1) * 0x10000U;
-            page_one_bank  = (mmu[0xa] & 0x1) * 0x10000U;
-        }
-
-        if (mmu_is_in_shared_ram(mmu[0x7] << 8)) {
-            page_zero_bank = 0;
-        }
-        if (mmu_is_in_shared_ram(mmu[0x9] << 8)) {
-            page_one_bank = 0;
-        }
-
-        mem_page_zero = mem_ram + page_zero_bank + (mmu[0x7] << 8);
-        mem_page_one  = mem_ram + page_one_bank  + (mmu[0x9] << 8);
+        mmu_update_page01_pointers();
 
         mmu_update_config();
     }
