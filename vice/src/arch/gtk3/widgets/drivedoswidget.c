@@ -86,7 +86,7 @@ GtkWidget *drive_dos_widget_create(int unit)
 
     profdos = create_dos_check_button(unit, "ProfDos", "Professional DOS");
     stardos = create_dos_check_button(unit, "StarDOS", "StarDOS");
-    supercard = create_dos_check_button(unit, "SuperCard", "SuperCard+");
+    supercard = create_dos_check_button(unit, "Supercard", "Supercard+");
 
     gtk_grid_attach(GTK_GRID(grid), profdos, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stardos, 0, 2, 1, 1);

@@ -3806,7 +3806,7 @@ Booleans controlling whether Professional DOS is emulated or not for drives 8 to
 @itemx Drive9SuperCard
 @itemx Drive10SuperCard
 @itemx Drive11SuperCard
-Booleans controlling whether Super Card is emulated or not for drives 8 to 11
+Booleans controlling whether Supercard is emulated or not for drives 8 to 11
 (x64, x64sc, xscpu64 and x128 only).
 
 @vindex Drive8StarDos
@@ -3957,7 +3957,7 @@ String specifying the filename of the 1571 professional DOS ROM image
 
 @vindex DriveSuperCardName
 @item DriveSuperCardName
-String specifying the filename of the Super Card ROM image
+String specifying the filename of the Supercard ROM image
 (x64, x64sc, xscpu64 and x128 only).
 
 @vindex DriveStarDosName
@@ -4335,34 +4335,34 @@ Specify name of Professional DOS 1571 ROM image
 @findex -drive8supercard, +drive8supercard
 @item -drive8supercard
 @itemx +drive8supercard
-Enable/disable Super Card for drive 8
+Enable/disable Supercard for drive 8
 (@code{Drive8SuperCard=1}, @code{Drive8SuperCard=0})
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive9supercard, +drive9supercard
 @item -drive9supercard
 @itemx +drive9supercard
-Enable/disable Super Card for drive 9
+Enable/disable Supercard for drive 9
 (@code{Drive9SuperCard=1}, @code{Drive9SuperCard=0})
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive10supercard, +drive10supercard
 @item -drive10supercard
 @itemx +drive10supercard
-Enable/disable Super Card for drive 10
+Enable/disable Supercard for drive 10
 (@code{Drive10SuperCard=1}, @code{Drive10SuperCard=0})
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive11supercard, +drive11supercard
 @item -drive11supercard
 @itemx +drive11supercard
-Enable/disable Super Card for drive 11
+Enable/disable Supercard for drive 11
 (@code{Drive11SuperCard=1}, @code{Drive11SuperCard=0})
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -supercard
 @item -supercard <name>
-Specify name of Super Card ROM image
+Specify name of Supercard ROM image
 (@code{DriveSuperCardName})
 (x64, x64sc, xscpu64 and x128 only).
 
