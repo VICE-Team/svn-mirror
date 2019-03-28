@@ -100,15 +100,19 @@ static void update_last_dir(GtkWidget *widget)
 static void do_autostart(GtkWidget *widget, gpointer data)
 {
     gchar *filename;
+    gchar *filename_locale;
+
     int index = GPOINTER_TO_INT(data);
 
     lastdir_update(widget, &last_dir);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    filename_locale = file_chooser_convert_to_locale(filename);
+
     debug_gtk3("Autostarting file '%s'.", filename);
     /* if this function exists, why is there no attach_autodetect()
      * or something similar? -- compyx */
     if (autostart_autodetect(
-                filename,
+                filename_locale,
                 NULL,   /* program name */
                 index,  /* Program number? Probably used when clicking
                            in the preview widget to load the proper
@@ -118,6 +122,7 @@ static void do_autostart(GtkWidget *widget, gpointer data)
         debug_gtk3("autostart-smart-attach failed.");
     }
     g_free(filename);
+    g_free(filename_locale);
     gtk_widget_destroy(widget);
 }
 
@@ -146,10 +151,13 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
     if (file != NULL) {
         path = g_file_get_path(file);
         if (path != NULL) {
+            gchar *filename_locale = file_chooser_convert_to_locale(path);
+
             debug_gtk3("called with '%s'.", path);
 
-            content_preview_widget_set_image(preview_widget, path);
-           g_free(path);
+            content_preview_widget_set_image(preview_widget, filename_locale);
+            g_free(path);
+            g_free(filename_locale);
         }
         g_object_unref(file);
     }
@@ -202,6 +210,7 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
+    gchar *filename_locale;
 
 #ifdef HAVE_DEBUG_GTK3UI
     int index = GPOINTER_TO_INT(user_data);
@@ -214,20 +223,23 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case GTK_RESPONSE_ACCEPT:
             lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+            filename_locale = file_chooser_convert_to_locale(filename);
+
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Opening file '%s'.", filename);
 
             /* copied from Gtk2: I fail to see how brute-forcing your way
              * through file types is 'smart', but hell, it works */
-            if (file_system_attach_disk(8, filename) < 0
-                    && tape_image_attach(1, filename) < 0
-                    && autostart_snapshot(filename, NULL) < 0
-                    && autostart_prg(filename, AUTOSTART_MODE_LOAD) < 0) {
+            if (file_system_attach_disk(8, filename_locale) < 0
+                    && tape_image_attach(1, filename_locale) < 0
+                    && autostart_snapshot(filename_locale, NULL) < 0
+                    && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
                 /* failed */
                 debug_gtk3("smart attach failed.");
             }
 
             g_free(filename);
+            g_free(filename_locale);
             gtk_widget_destroy(widget);
             break;
 
