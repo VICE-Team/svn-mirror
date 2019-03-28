@@ -1500,7 +1500,7 @@ void ui_update_menus(void)
  */
 void ui_dispatch_next_event(void)
 {
-    /* NOP */
+    g_main_context_iteration(NULL, FALSE);
 }
 
 
