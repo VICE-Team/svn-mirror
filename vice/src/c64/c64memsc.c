@@ -649,6 +649,15 @@ void mem_initialize_memory(void)
 
     resources_get_int("BoardType", &board);
 
+    /* first init everything to "nothing" */
+    for (i = 0; i < NUM_CONFIGS; i++) {
+        for (j = 0; j <= 0xff; j++) {
+            mem_read_tab[i][j] = void_read;
+            mem_read_base_tab[i][j] = NULL;
+            mem_set_write_hook(i, j, void_store);
+        }
+    }
+
     /* Default is RAM.  */
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_set_write_hook(i, 0, zero_store);
@@ -656,9 +665,9 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
             if (board == 1 && j >= 0x08) {
-                mem_read_tab[i][j] = void_read;
+                /* mem_read_tab[i][j] = void_read;
                 mem_read_base_tab[i][j] = NULL;
-                mem_set_write_hook(0, j, void_store);
+                mem_set_write_hook(0, j, void_store); */
                 continue;
             }
             mem_read_tab[i][j] = ram_read;
@@ -666,9 +675,9 @@ void mem_initialize_memory(void)
             mem_write_tab[i][j] = ram_store;
         }
         if (board == 1) {
-            mem_read_tab[i][0xff] = void_read;
+            /* mem_read_tab[i][0xff] = void_read;
             mem_read_base_tab[i][0xff] = NULL;
-            mem_set_write_hook(0, 0xff, void_store);
+            mem_set_write_hook(0, 0xff, void_store); */
         } else {
             mem_read_tab[i][0xff] = ram_read;
             mem_read_base_tab[i][0xff] = mem_ram;
