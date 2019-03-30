@@ -115,6 +115,8 @@ libc64cart_a_SOURCES = \
 	magicformel.h \
 	magicvoice.c \
 	magicvoice.h \
+	maxbasic.c \
+	maxbasic.h \
 	mikroass.c \
 	mikroass.h \
 	mmcreplay.c \

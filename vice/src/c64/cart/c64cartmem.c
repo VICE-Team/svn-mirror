@@ -87,6 +87,7 @@
 #include "magicdesk.h"
 #include "magicformel.h"
 #include "magicvoice.h"
+#include "maxbasic.h"
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
@@ -612,6 +613,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
             return kingsoft_roml_read(addr);
+        case CARTRIDGE_MAX_BASIC:
+            return maxbasic_roml_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_roml_read(addr);
         case CARTRIDGE_PAGEFOX:
@@ -820,6 +823,8 @@ static uint8_t romh_read_slotmain(uint16_t addr)
             return kingsoft_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read(addr);
+        case CARTRIDGE_MAX_BASIC:
+            return maxbasic_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_romh_read(addr);
         case CARTRIDGE_OCEAN:
@@ -925,6 +930,8 @@ static uint8_t ultimax_romh_read_hirom_slotmain(uint16_t addr)
             return kingsoft_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read_hirom(addr);
+        case CARTRIDGE_MAX_BASIC:
+            return maxbasic_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_romh_read(addr);
         case CARTRIDGE_OCEAN:
@@ -1224,6 +1231,36 @@ void ramh_no_ultimax_store(uint16_t addr, uint8_t value)
     /* DBG(("c64 ram    w 8000: %04x %02x\n", addr, value)); */
     ram_store(addr, value);
     /* mem_store_without_romlh(addr, value); */
+}
+
+/* ultimax read - 0800 to 0fff (MAX-Machine only) */
+uint8_t ultimax_0800_0fff_read(uint16_t addr)
+{
+    /* "Main Slot" */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_MAX_BASIC:
+            return maxbasic_0800_0fff_read(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
+    }
+    /* default; no cart, open bus */
+    return vicii_read_phi1();
+}
+
+/* ultimax store - 0800 to 0fff (MAX-Machine only) */
+void ultimax_0800_0fff_store(uint16_t addr, uint8_t value)
+{
+    /* "Main Slot" */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_MAX_BASIC:
+            maxbasic_0800_0fff_store(addr, value);
+            break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
+    }
+    /* default; no cart, open bus */
 }
 
 /* ultimax read - 1000 to 7fff */

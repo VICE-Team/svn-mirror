@@ -44,6 +44,8 @@ extern void raml_no_ultimax_store(uint16_t addr, uint8_t value);
 extern void romh_no_ultimax_store(uint16_t addr, uint8_t value);
 extern void ramh_no_ultimax_store(uint16_t addr, uint8_t value);
 
+extern uint8_t ultimax_0800_0fff_read(uint16_t addr);
+extern void ultimax_0800_0fff_store(uint16_t addr, uint8_t value);
 extern uint8_t ultimax_1000_7fff_read(uint16_t addr);
 extern void ultimax_1000_7fff_store(uint16_t addr, uint8_t value);
 extern uint8_t ultimax_a000_bfff_read(uint16_t addr);

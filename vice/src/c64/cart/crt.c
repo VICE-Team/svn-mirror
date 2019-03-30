@@ -76,6 +76,7 @@
 #include "magicdesk.h"
 #include "magicformel.h"
 #include "magicvoice.h"
+#include "maxbasic.h"
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
@@ -456,6 +457,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_MAGIC_VOICE:
             rc = magicvoice_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_MAX_BASIC:
+            rc = maxbasic_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_MIKRO_ASSEMBLER:
             rc = mikroass_crt_attach(fd, rawcart);

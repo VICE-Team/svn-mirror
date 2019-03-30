@@ -6359,6 +6359,8 @@ The following cartridge types are valid:
 59: EasyCalc
 @item
 60: GMod2
+@item
+61: MAX Basic
 @end itemize
 
 @vindex CartridgeFile
@@ -7082,6 +7084,10 @@ Attach raw 32/64/128kB Magic Desk cartridge image.
 @findex -cartmf
 @item -cartmf <name>
 Attach raw Magic Formel cartridge image.
+
+@findex -cartmax
+@item -cartmax <name>
+Attach raw MAX Basic cartridge image.
 
 @findex -cartmikro
 @item -cartmikro <name>
@@ -16487,6 +16493,8 @@ MACH 5 .crt file
 Magic Desk .crt file
 @item mf
 Magic Formel .crt file
+@item max
+MAX Basic .crt file
 @item mikro
 Mikro Assembler .crt file
 @item mmc64
@@ -22114,6 +22122,7 @@ Camels"@dots{}
                       58 - RR-Net MK3
                       59 - EasyCalc
                       60 - GMod2
+                      61 - MAX Basic
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -25319,6 +25328,35 @@ and has a 2K serial EEPROM (m93C86).
 
     see http://wiki.icomp.de/wiki/GMod2
 @end example
+
+@c @node FIXME
+@subsubsection 61 - MAX Basic
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (ULTIMAX mode)
+@item EXROM
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $8000-$9FFF (bank 1),
+     $E000-$FFFF (bank 2)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64.CARTRIDGE...
+0010: 00 00 00 40 01 00 00 3d 01 00 00 00 00 00 00 00   ...@...=........
+0020: 4d 41 58 20 42 41 53 49 43 00 00 00 00 00 00 00   MAX.BASIC.......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP............
+0050: 94 e3 7b e3 43 42 4d 42 41 53 49 43 30 88 41 87   ..?.CBMBASIC0.A.
+@end example
+
+This cartridge uses two 8k ROMs that contain BASIC and KERNAL for the MAX Machine.
+It also provides additional 2k RAM which will be mapped to $0800.
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
