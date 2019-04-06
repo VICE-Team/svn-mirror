@@ -43,26 +43,55 @@
 #include "sidenginemodelwidget.h"
 
 
+static void (*extra_callback)(int, int) = NULL;
+
 
 static void on_radio_toggled(GtkWidget *radio, gpointer data)
 {
     unsigned int engine;
     unsigned int model;
 
+    int current_engine;
+    int current_model;
+
+    int value = GPOINTER_TO_INT(data);
+
+    if (resources_get_int("SidEngine", &current_engine) < 0) {
+        debug_gtk3("Failed to get 'SidEngine' resource value, reverting to 0.");
+    }
+    if (resources_get_int("SidModel", &current_model) < 0) {
+        debug_gtk3("Failed to get 'SidModel' resource value, reverting to 0.");
+    }
+
+    debug_gtk3("data as int = %d.", value);
+
     /* bit 15-8: engine */
-    engine = (GPOINTER_TO_UINT(data) >> 8) & 0xff;
+    engine = (GPOINTER_TO_INT(data) >> 8) & 0xff;
     /* bit 7-0: model */
     model = GPOINTER_TO_INT(data) & 0xff;
 
     debug_gtk3("called with engine %02x, model %02x.", engine, model);
 
-    sid_set_engine_model(engine, model);
+    if ((int)model != current_model || (int)engine != current_engine) {
+        debug_gtk3("model and/or engine changed.");
 
+        resources_set_int("SidModel", (int)model);
+        resources_set_int("SidEngine", (int)engine);
+        sid_set_engine_model(engine, model);
 
+        /* user-defined callback? */
+        if (extra_callback != NULL) {
+            debug_gtk3("calling user-defined callback.");
+            extra_callback(engine, model);
+        }
+    }
 }
 
 
-
+/** \brief  Create SID engine/model selection widget
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *sid_engine_model_widget_create(void)
 {
     GtkWidget *grid;
@@ -83,7 +112,7 @@ GtkWidget *sid_engine_model_widget_create(void)
     }
 
     current = (unsigned int)((engine << 8) | model);
-
+    debug_gtk3("current SID model/engine value = 0x%x.", current);
 
     grid = gtk_grid_new();
 
@@ -103,6 +132,7 @@ GtkWidget *sid_engine_model_widget_create(void)
         g_object_set(radio, "margin-left", 16, NULL);
 
         if (list[i]->value == current) {
+            debug_gtk3("Setting radio button %d (%x).", i, current);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         }
 
@@ -120,4 +150,11 @@ GtkWidget *sid_engine_model_widget_create(void)
 }
 
 
-
+/** \brief  Set callback to be triggered on ...
+ *
+ */
+void sid_engine_model_widget_set_callback(GtkWidget *widget,
+                                          void (*callback)(int, int))
+{
+    extra_callback = callback;
+}

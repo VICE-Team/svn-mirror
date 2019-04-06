@@ -249,7 +249,6 @@ static void on_sid_engine_changed(GtkWidget *widget, int engine)
  * \param[in]   widget  widget triggering the event
  * \param[in]   count   number of extra SIDs (0-3)
  */
-
 static void on_sid_count_changed(GtkWidget *widget, int count)
 {
     debug_gtk3("extra SIDs count changed to %d.", count);
@@ -379,6 +378,12 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 
 }
 #endif
+
+
+static void engine_model_changed_callback(int engine, int model)
+{
+    debug_gtk3("engine: %d, model = %d.", engine, model);
+}
 
 
 #if 0
@@ -704,12 +709,17 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     }
 #endif
     engine = sid_engine_model_widget_create();
+    /*
+    sid_engine_model_widget_set_callback(engine,
+            engine_model_changed_callback);
+            */
     gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
 #ifdef HAVE_RESID
     resid_sampling = create_resid_sampling_widget();
     gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
 #endif
     resources_get_int("SidEngine", &current_engine);
+    debug_gtk3("SidEngine = %d.", current_engine);
 #ifdef HAVE_RESID
     gtk_widget_set_sensitive(resid_sampling, current_engine == 1);
 #endif
@@ -755,6 +765,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
 
 #ifdef HAVE_RESID
+    /* TODO: check engine as well (hardSID) */
     if ((model == 1) || (model == 2)) {
         label = gtk_label_new("ReSID 8580 passband");
         gtk_widget_set_halign(label, GTK_ALIGN_START);
