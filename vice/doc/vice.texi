@@ -138,16 +138,16 @@ notice identical to this one.
 @vskip 0pt plus 1filll
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
-Copyright @copyright{} 2005-2018 Marco van den Heuvel
-Copyright @copyright{} 2007-2018 Fabrizio Gennari
-Copyright @copyright{} 2009-2018 Groepaz
-Copyright @copyright{} 2009-2018 Errol Smith
-Copyright @copyright{} 2010-2018 Olaf Seibert
-Copyright @copyright{} 2011-2018 Marcus Sutton
-Copyright @copyright{} 2011-2018 Kajtar Zsolt
-Copyright @copyright{} 2016-2018 AreaScout
-Copyright @copyright{} 2016-2018 Bas Wassink
-Copyright @copyright{} 2017-2018 Michael C. Martin
+Copyright @copyright{} 2005-2019 Marco van den Heuvel
+Copyright @copyright{} 2007-2019 Fabrizio Gennari
+Copyright @copyright{} 2009-2019 Groepaz
+Copyright @copyright{} 2009-2019 Errol Smith
+Copyright @copyright{} 2010-2019 Olaf Seibert
+Copyright @copyright{} 2011-2019 Marcus Sutton
+Copyright @copyright{} 2011-2019 Kajtar Zsolt
+Copyright @copyright{} 2016-2019 AreaScout
+Copyright @copyright{} 2016-2019 Bas Wassink
+Copyright @copyright{} 2017-2019 Michael C. Martin
 @c ---vice-core-team-end---
 
 @c ---ex-team---
