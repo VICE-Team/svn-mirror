@@ -137,17 +137,6 @@ endif
 endif
 
 
-if UNIX_SOLARIS_COMPILE
-if SDL_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) sol $(infodir) $(mandir) $(top_srcdir) $(MAKE) $(host_cpu) $(host_os)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) sol $(infodir) $(mandir) $(top_srcdir) $(MAKE) $(host_cpu) $(host_os)
-endif
-endif
-
-
 if WIN32_COMPILE
 if NATIVE_GTK3_COMPILE
 bindist:

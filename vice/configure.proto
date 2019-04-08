@@ -950,21 +950,6 @@ if test x"$with_sdlsound" = "xyes"; then
   fi
 fi
 
-dnl Add runtime/linker paths for OpenIndiana
-case "$host_os" in
-  solaris*)
-    CPPFLAGS="$CPPFLAGS -I/usr/gnu/include"
-    solrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" /usr/gnu/bin/ld yes "$host" "/usr/gnu/lib"`
-    LDFLAGS="$LDFLAGS $solrtp -L/usr/gnu/lib"
-    if test -d "/opt/csw"; then
-      CPPFLAGS="$CPPFLAGS -I/opt/csw/include"
-      solrtp_csw=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" /usr/gnu/bin/ld yes "$host" "/opt/csw/lib"`
-      LDFLAGS="$LDFLAGS $solrtp_csw -L/opt/csw/lib"
-    fi
-    ;;
-esac
-
-
 dnl Add runtime/linker paths for *BSD
 case "$host_os" in
   freebsd*)
@@ -2967,12 +2952,6 @@ if test x"$is_unix" = "xyes"; then
     AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
     AC_CHECK_HEADERS(pci/pci.h,,[PCIUTILS_HEADER_PRESENT=no],)
 
-    case "$host_os" in
-    solaris*)
-      PORTSID_SUPPORT=yes
-      ;;
-    esac
-
     if test x"$PCIUTILS_HEADER_PRESENT" = "xyes"; then
       AC_CHECK_LIB(pciutils, pci_fill_info,[LIBS="-lpciutils $LIBS"; PCIUTILS_LIB_PRESENT=yes],,)
       if test x"$PCIUTILS_LIB_PRESENT" = "xno"; then
@@ -3459,24 +3438,6 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  solariscompile=no
-  case "$host_os" in
-    solaris*)
-      solariscompile=yes
-      AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, true)
-      sol_version=`uname -r`
-      if test x"$sol_version" = "x5.7"; then
-        ac_configure_args="$ac_configure_args"
-      fi
-      ;;
-    *)
-      ;;
-  esac
-
-
-  if test x"$solariscompile" = "xno"; then
-    AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
-  fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, true)
@@ -3503,7 +3464,6 @@ elif test x"$is_win32" = "xyes"; then
 
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
@@ -3511,7 +3471,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
@@ -3524,7 +3483,6 @@ elif test x"$is_os2" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
@@ -3533,7 +3491,6 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
@@ -3549,25 +3506,6 @@ if test x"$GCC" = "xyes" ; then
   AC_DEFINE(USE_GCC,, [Define when using gcc] )
 fi
 
-dnl Check wether we have gcc and solaris /usr/openwin stuff.
-dnl The headers there give zillions of warnings because of implicit int
-dnl declarations. gcc's >= 2.6.3 know the `-Wno-implicit-int' option so I
-dnl don't care about checking it out. MP
-
-if test x"$GCC" = "xyes" ; then
-  case "$host_os" in
-    solaris2.3*)
-      LIBS="$LIBS -lthread"
-      ;;
-    solaris*)
-      if echo ${CFLAGS} ${ARCH_INCLUDES} | grep "I/usr/openwin/include" > /dev/null 2>&1 ; then
-          CFLAGS="${CFLAGS} -Wno-implicit-int"
-      fi
-      ;;
-    *)
-      ;;
-  esac
-fi
 
 AC_SUBST(HAVE_READLINE)
 AC_SUBST(ARCH_INCLUDES)
