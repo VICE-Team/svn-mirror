@@ -3367,12 +3367,6 @@ AC_SUBST(xpet_LDFLAGS)
 AC_SUBST(xplus4_LDFLAGS)
 AC_SUBST(xcbm2_LDFLAGS)
 
-AM_CONDITIONAL(SUPPORT_X64DTV, true)
-AM_CONDITIONAL(SUPPORT_X64SC, true)
-
-dnl xscpu64 should be supported on all platforms
-AM_CONDITIONAL(SUPPORT_XSCPU64, true)
-
 
 dnl Do we need to build x64?
 if test x"$enable_x64" = "xyes"; then

@@ -1328,23 +1328,6 @@ else
 x64_bin =
 endif
 
-if SUPPORT_X64DTV
-x64dtv_bin = x64dtv
-else
-x64dtv_bin =
-endif
-
-if SUPPORT_X64SC
-x64sc_bin = x64sc
-else
-x64sc_bin =
-endif
-
-if SUPPORT_XSCPU64
-xscpu64_bin = xscpu64
-else
-xscpu64_bin =
-endif
 
 if SUPPORT_CMDLINE_TOOLS
 c1541 = c1541
@@ -1358,7 +1341,7 @@ endif
 
 # workaround for extra exe creation
 
-bin_PROGRAMS = vsid $(x64_bin) $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(xscpu64_bin) $(c1541) $(petcat) $(cartconv)
+bin_PROGRAMS = vsid $(x64_bin) x64sc x64dtv xscpu64 x128 xvic xpet xplus4 xcbm2 xcbm5x0 $(c1541) $(petcat) $(cartconv)
 
 EXTRA_PROGRAMS =
 

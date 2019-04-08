@@ -6,6 +6,7 @@
 # Written by
 #  Marco van den Heuvel <blackystardust68@yahoo.com>
 #  Greg King <gregdk@users.sf.net>
+#  Bas Wassink <b.wassink@ziggo.nl>
 #
 # This file is part of VICE, the Versatile Commodore Emulator.
 # See README for copyright notice.
@@ -25,8 +26,8 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <x64sc-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
-#                         $1      $2             $3              $4          $5             $6               $7           $8    $9                 $10     $11       $12
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
+#                         $1      $2             $3              $4          $5             $6           $7    $8                 $9      $10       $11
 #
 
 STRIP=$1
@@ -34,12 +35,9 @@ VICEVERSION=$2
 ENABLEARCH=$3
 ZIPKIND=$4
 X64INC=$5
-X64SCINC=$6
-TOPSRCDIR=$7
-CPU=$8
-TOPBUILDDIR=$9
-
-shift
+TOPSRCDIR=$6
+CPU=$7
+TOPBUILDDIR=$8
 CROSS=$9
 
 shift
@@ -90,24 +88,17 @@ else
 fi
 
 if test x"$X64INC" = "xyes"; then
-    NONSCFILE="x64"
+    X64FILE="x64"
 else
-    NONSCFILE=""
+    X64FILE=""
 fi
 
-if test x"$X64SCINC" = "xyes"; then
-  SCFILE="x64sc"
-else
-  SCFILE=""
-fi
 
-EMULATORS="$NONSCFILE xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="$X64FILE x64sc xscpu64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
-echo "Executables = $EXECUTABLES"
-
-unset CONSOLE_TOOLS EMULATORS NONSCFILE SCFILE X64INC X64SCINC CPU svnrev_string
+unset CONSOLE_TOOLS EMULATORS X64FILE X64INC CPU svnrev_string
 
 for i in $EXECUTABLES; do
   if [ ! -x $TOPBUILDDIR/src/$i.exe ]; then
