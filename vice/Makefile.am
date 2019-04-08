@@ -31,6 +31,12 @@ COMMON_EXTRA_DIST = \
 
 EXTRA_DIST = $(COMMON_EXTRA_DIST)
 
+if SUPPORT_X64
+  X64_INCLUDED = yes
+else
+  X64_INCLUDED = no
+endif
+
 if SUPPORT_X64SC
   X64SC_INCLUDED = yes
 else
@@ -47,8 +53,10 @@ endif
 vsid:
 	(cd src; $(MAKE) vsid-all)
 
+if SUPPORT_X64
 x64:
 	(cd src; $(MAKE) x64-all)
+endif
 
 if SUPPORT_X64SC
 x64sc:
@@ -184,17 +192,17 @@ endif
 if WIN32_COMPILE
 if NATIVE_GTK3_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(abs_top_builddir) $(CROSS) $(objdump) $(CC)
 else
 if SDL_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(SDL_VERSION)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(SDL_VERSION)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(SDL_VERSION)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) $(SDL_VERSION)
 endif
 endif
 endif

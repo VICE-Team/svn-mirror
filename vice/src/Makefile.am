@@ -1322,6 +1322,12 @@ else
 realdevice_lib =
 endif
 
+if SUPPORT_X64
+x64_bin = x64
+else
+x64_bin =
+endif
+
 if SUPPORT_X64DTV
 x64dtv_bin = x64dtv
 else
@@ -1352,7 +1358,7 @@ endif
 
 # workaround for extra exe creation
 
-bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(xscpu64_bin) $(c1541) $(petcat) $(cartconv)
+bin_PROGRAMS = vsid $(x64_bin) $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(xscpu64_bin) $(c1541) $(petcat) $(cartconv)
 
 EXTRA_PROGRAMS =
 

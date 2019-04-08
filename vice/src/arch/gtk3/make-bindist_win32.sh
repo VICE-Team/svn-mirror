@@ -25,18 +25,21 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
-#                         $1      $2             $3              $4          $5               $6           $7    $8                 $9      $10       $11
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <x64sc-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
+#                         $1      $2             $3              $4          $5             $6               $7           $8    $9                 $10     $11       $12
 #
 
 STRIP=$1
 VICEVERSION=$2
 ENABLEARCH=$3
 ZIPKIND=$4
-X64SCINC=$5
-TOPSRCDIR=$6
-CPU=$7
-TOPBUILDDIR=$8
+X64INC=$5
+X64SCINC=$6
+TOPSRCDIR=$7
+CPU=$8
+TOPBUILDDIR=$9
+
+shift
 CROSS=$9
 
 shift
@@ -86,16 +89,25 @@ else
   WINXX="win32"
 fi
 
+if test x"$X64INC" = "xyes"; then
+    NONSCFILE="x64"
+else
+    NONSCFILE=""
+fi
+
 if test x"$X64SCINC" = "xyes"; then
   SCFILE="x64sc"
 else
   SCFILE=""
 fi
 
-EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="$NONSCFILE xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
-unset CONSOLE_TOOLS EMULATORS SCFILE X64SCINC CPU svnrev_string
+
+echo "Executables = $EXECUTABLES"
+
+unset CONSOLE_TOOLS EMULATORS NONSCFILE SCFILE X64INC X64SCINC CPU svnrev_string
 
 for i in $EXECUTABLES; do
   if [ ! -x $TOPBUILDDIR/src/$i.exe ]; then
@@ -124,7 +136,7 @@ done
 if test x"$CROSS" != "xtrue"; then
 
 # The following lines assume that this script is run by MSYS2.
-  cp `ntldd -R $BUILDPATH/x64.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
+  cp `ntldd -R $BUILDPATH/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
   cp $MINGW_PREFIX/bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
   cp $MINGW_PREFIX/bin/gspawn-win??-helper*.exe $BUILDPATH
   cd $MINGW_PREFIX
@@ -141,7 +153,7 @@ else
   location=`dirname $libm`
   loc=`dirname $location`
   dlldir="$loc/dll"
-  dlls=`$OBJDUMP -p src/x64.exe | sed 's| |\n|g' | grep -F ".dll"`
+  dlls=`$OBJDUMP -p src/x64sc.exe | sed 's| |\n|g' | grep -F ".dll"`
   for i in $dlls
   do
     if test -e $dlldir/$i; then

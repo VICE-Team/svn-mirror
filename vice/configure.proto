@@ -61,6 +61,7 @@ VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of 
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 VICE_ARG_ENABLE_LIST(new8580filter, [  --enable-new8580filter  enable experimental 8580 filters [[default=no]]])
+VICE_ARG_ENABLE_LIST(x64,         [  --enable-x64  enable building of the old x64 emulator [default=no]])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -3372,6 +3373,17 @@ AM_CONDITIONAL(SUPPORT_X64SC, true)
 dnl xscpu64 should be supported on all platforms
 AM_CONDITIONAL(SUPPORT_XSCPU64, true)
 
+
+dnl Do we need to build x64?
+if test x"$enable_x64" = "xyes"; then
+  X64_INCLUDED="yes"
+  AM_CONDITIONAL(SUPPORT_X64, true)
+else
+  AM_CONDITIONAL(SUPPORT_X64, false)
+  X64_INCLUDED="no"
+fi
+
+
 dnl Setup the system-specific object files.
 if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/sdl"
@@ -4086,6 +4098,7 @@ echo "ReSID support              : $HAVE_RESID_SUPPORT (--with/without-resid)"
 echo "65xx CPU history support   : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
 echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
 echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embedded)"
+echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 
 echo ""
 echo "CPPFLAGS: $CPPFLAGS"

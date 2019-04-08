@@ -24,26 +24,33 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <SDL-version>
-#                         $1      $2             $3              $4          $5               $6           $7    $8
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <x64sc-included> <top-srcdir> <cpu> <SDL-version>
+#                         $1      $2             $3              $4          $5             $6               $7           $8    $9
 #
 
 STRIP=$1
 VICEVERSION=$2
 ENABLEARCH=$3
 ZIPKIND=$4
-X64SC=$5
-TOPSRCDIR=$6
-CPU=$7
-SDLVERSION=$8
+X64INC=$5
+X64SCINC=$6
+TOPSRCDIR=$7
+CPU=$8
+SDLVERSION=$9
 
-if test x"$X64SC" = "xyes"; then
+if test x"$X64INC" = "xyes"; then
+  NONSCFILE="x64"
+else
+  NONSCFILE=""
+fi
+
+if test x"$X64SCINC" = "xyes"; then
   SCFILE="x64sc"
 else
   SCFILE=""
 fi
 
-EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="$NONSCFILE xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
