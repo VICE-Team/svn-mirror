@@ -1329,19 +1329,10 @@ x64_bin =
 endif
 
 
-if SUPPORT_CMDLINE_TOOLS
-c1541 = c1541
-petcat = petcat
-cartconv = cartconv
-else
-c1541 =
-petcat =
-cartconv =
-endif
-
 # workaround for extra exe creation
 
-bin_PROGRAMS = vsid $(x64_bin) x64sc x64dtv xscpu64 x128 xvic xpet xplus4 xcbm2 xcbm5x0 $(c1541) $(petcat) $(cartconv)
+bin_PROGRAMS = vsid $(x64_bin) x64sc x64dtv xscpu64 x128 xvic xpet xplus4 \
+	       xcbm2 xcbm5x0 c1541 petcat cartconv
 
 EXTRA_PROGRAMS =
 

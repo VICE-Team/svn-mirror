@@ -3450,7 +3450,6 @@ if test x"$is_unix" = "xyes"; then
     AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
   fi
 
-  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
   AM_CONDITIONAL(UNIX_COMPILE, true)
   if test x"$is_win32_gtk3" = "xyes"; then
      AM_CONDITIONAL(WIN32_COMPILE, true)
@@ -3525,7 +3524,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
-  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -3537,7 +3535,6 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
-  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
@@ -3553,7 +3550,6 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
-  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -3565,7 +3561,6 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, true)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
-  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 else
   AC_MSG_WARN([No architecture defined!])
