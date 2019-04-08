@@ -147,15 +147,6 @@ bindistzip:
 endif
 endif
 
-if UNIX_UNIXWARE_COMPILE
-if SDL_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
-endif
-endif
 
 if WIN32_COMPILE
 if NATIVE_GTK3_COMPILE
