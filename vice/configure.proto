@@ -3461,12 +3461,7 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   unixwarecompile=no
   solariscompile=no
-  skyoscompile=no
   case "$host_os" in
-    skyos*)
-      skyoscompile=yes
-      AM_CONDITIONAL(UNIX_SKYOS_COMPILE, true)
-      ;;
     solaris*)
       solariscompile=yes
       AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, true)
@@ -3478,10 +3473,6 @@ if test x"$is_unix" = "xyes"; then
     *)
       ;;
   esac
-
-  if test x"$skyoscompile" = "xno"; then
-    AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
-  fi
 
 
   if test x"$solariscompile" = "xno"; then
@@ -3517,7 +3508,6 @@ elif test x"$is_win32" = "xyes"; then
 
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
@@ -3527,7 +3517,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
@@ -3542,7 +3531,6 @@ elif test x"$is_os2" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
@@ -3553,7 +3541,6 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
