@@ -45,6 +45,8 @@ We need quite a few packages on the VM:
 * A decent text editor, I'm using Vim
 
 
+* gettext (required by Atk, not sure if need to build a Windows version)
+
 #### Optional packages
 
 links, a text-based web browser to download source packages, but wget will
@@ -99,3 +101,21 @@ This should build an a.exe which prints "WinMain called".
 
 Download and extract <https://download.gnome.org/sources/atk/2.32/atk-2.32.0.tar.xz>
 
+$ cd atk-2-32
+$ cp ~/glib-2.58.2/cross_file.txt ,
+
+Shit, Atk depends on xgettext
+
+$ meson --prefix=/opt/cross --cross-file cross_file.txt
+$ cd builddir
+(as root)
+$ ninja install
+
+
+Running configure in gtk3-3.24.7 does no longer complaing about missing GLib
+or Atk.
+
+
+#### Cairo
+
+Looks like the Cairo source can only be retrieved via Git.
