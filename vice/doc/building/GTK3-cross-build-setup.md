@@ -46,6 +46,8 @@ We need quite a few packages on the VM:
 
 
 * gettext (required by Atk, not sure if need to build a Windows version)
+* curl
+
 
 #### Optional packages
 
@@ -118,4 +120,25 @@ or Atk.
 
 #### Cairo
 
-Looks like the Cairo source can only be retrieved via Git.
+
+First we need to install libpng
+
+$ wget https://downloads.sourceforge.net/project/libpng/libpng16/1.6.36/libpng-1.6.36.tar.gz
+$ cd libpng-1.6.36
+$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig CPPFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/bin" ./configure --prefix=/opt/cross --host=x86_64-w64-mingw32
+
+$ make
+(libtools spits out a lot of errors, we'll see if that has consequences)
+
+(as root)
+$ make install
+
+
+Let's try Cairo now:
+
+$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig CPPFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" ./configure --prefix=/opt/cross --host=x86_64-w64-mingw32
+
+Recognized libpng and zlib finally, but now I need pixman-1.
+
+Cairo also indicates it can use EGL, GLX and WGL, this is worth investigating.
+
