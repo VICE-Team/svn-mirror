@@ -5,6 +5,22 @@
  */
 
 /*
+ * Icons used by this file:
+ *
+ * $VICEICON    media-skip-backward     24
+ * $VICEICON    media-seek-backward     24
+ * $VICEICON    media-seek-forward      24
+ * $VICEICON    media-skip-forward      24
+ * $VICEICON    media-playlist-repeat   24
+ * $VICEICON    media-playlist-shuffle  24
+ * $VICEICON    list-add                24
+ * $VICEICON    list-remove             24
+ * $VICEICON    document-open           24
+ * $VICEICON    document-save           24
+ * $VICEICON    edit-clear-all          24
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

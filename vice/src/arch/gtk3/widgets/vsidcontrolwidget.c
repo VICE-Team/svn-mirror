@@ -5,6 +5,20 @@
  */
 
 /*
+ * Icons used by this file:
+ *
+ * $VICEICON    media-skip-backward     24
+ * $VICEICON    media-playback-start    24
+ * $VICEICON    media-playback-pause    24
+ * $VICEICON    media-playback-stop     24
+ * $VICEICON    media-seek-forward      24
+ * $VICEICON    media-skip-forward      24
+ * $VICEICON    media-eject             24
+ * $VICEICON    media-record            24
+ *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
