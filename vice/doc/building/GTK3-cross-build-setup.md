@@ -133,12 +133,49 @@ $ make
 (as root)
 $ make install
 
+We also need pixman:
+
+$ wget https://www.cairographics.org/releases/pixman-0.38.2.tar.gz
+
+unpack and cd 
+$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig CPPFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/bin" ./configure --prefix=/opt/cross --host=x86_64-w64-mingw32
+$ make
+
+
+we need libfreetype2:
+https://download.savannah.gnu.org/releases/freetype/freetype-2.10.0.tar.gz
+
 
 Let's try Cairo now:
 
 $ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig CPPFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" ./configure --prefix=/opt/cross --host=x86_64-w64-mingw32
 
-Recognized libpng and zlib finally, but now I need pixman-1.
 
-Cairo also indicates it can use EGL, GLX and WGL, this is worth investigating.
+Works.
+
+
+
+Now we need Pango
+$ wget https://github.com/GNOME/pango/archive/1.43.0.tar.gz
+$ mv 1.43.0.tar.gz pango-1.43.0.tar.gz
+$ tar -xvfz pango-1.43.0.tar.gz
+$ cd ~/pango-1.43.0.tar.gz
+
+Crap! Another Meson build thing.
+
+
+
+Pango needs PATH=/opt/cross/bin:$PATH to find a few glib bins, but it also seems
+to need gobject-introspection.
+
+$ wget https://github.com/GNOME/gobject-introspection/archive/1.60.1.tar.gz
+$ mv 1.60.1.tar.gz gobject-introspection-1.60.1.tar.gz
+$ tar -xvzf gobject-introspection-1.60.1.tar.gz
+
+(gobject-introspection needs bison, so (as root) apt-get install bison)
+
+
+As with the other Meson-based projecs, copy ~/glib-2.0/cross_file.txt
+And watch it fail with a very mysterious message
+
 
