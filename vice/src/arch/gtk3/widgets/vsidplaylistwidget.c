@@ -7,7 +7,7 @@
 /*
  * Icons used by this file:
  *
- * $VICEICON    media-skip-backward     24
+ * $VICEICON    media-skip-backward     24 svg
  * $VICEICON    media-seek-backward     24
  * $VICEICON    media-seek-forward      24
  * $VICEICON    media-skip-forward      24
