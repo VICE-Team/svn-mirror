@@ -117,6 +117,7 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
 
     combo = gtk_combo_box_text_new();
     g_object_set(combo, "margin-left", 16, NULL);
+    gtk_widget_set_hexpand(combo, TRUE);
     /* add predefined standard devices */
     for (i1 = 0; predefined_device_list[i1].name != NULL; i1++) {
         char idstr[32];

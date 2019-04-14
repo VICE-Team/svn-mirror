@@ -288,7 +288,7 @@ static int create_c64_layout(GtkGrid *grid)
     g_object_set(swap_button2, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 2, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 7, 1, 1);
 
     return 3;
 }
@@ -348,7 +348,7 @@ static int create_vic20_layout(GtkGrid *grid)
     g_object_set(swap_button2, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 3, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 7, 1, 1);
 
     return 2;
 }
@@ -379,18 +379,18 @@ static int create_plus4_layout(GtkGrid *grid)
     gtk_grid_attach(grid, device_widgets[JOYPORT_2], 1, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 1, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 1, 1, 1);
-    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 2, 1, 1, 1);
+    gtk_grid_attach(grid, device_widgets[JOYPORT_5], 0, 2, 1, 1);
 
     swap_button1 = create_swap_joysticks_button();
     g_object_set(swap_button1, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), swap_button1, 0, 3, 1, 1);
     swap_button2 = create_swap_userport_joysticks_button();
     g_object_set(swap_button2, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 3, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 8, 1, 1);
 
-    return 3;
+    return 4;
 }
 
 
@@ -441,7 +441,7 @@ static int create_cbm6x0_layout(GtkGrid *grid)
     g_object_set(swap_button2, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 1, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 0, 6, 1, 1);
 
     return 2;
 }
@@ -520,8 +520,8 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, rows, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, rows, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 2, rows, 1, 1);
-    rows++;
+    gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 0, rows + 1, 1, 1);
+    rows += 2;
 
     /* add buttons to active keyset dialog */
     keyset_1_button = gtk_button_new_with_label("Configure keyset A");
