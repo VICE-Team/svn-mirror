@@ -40,6 +40,11 @@
 #include "statusbarrecordingwidget.h"
 
 
+/** \brief  Seconds to wait before hiding the widget after pressing 'STOP'
+ */
+#define HIDE_ALL_TIMEOUT 5
+
+
 /** \brief  Columns in the recording widget
  */
 enum {
@@ -125,6 +130,8 @@ static void on_stop_clicked(GtkWidget *button, gpointer data)
 
     label = gtk_grid_get_child_at(GTK_GRID(data), RW_COL_TEXT, RW_ROW_TEXT);
     gtk_label_set_text(GTK_LABEL(label), "Recording stopped.");
+
+    statusbar_recording_widget_hide_all(GTK_WIDGET(data), HIDE_ALL_TIMEOUT);
 }
 
 
@@ -147,13 +154,13 @@ GtkWidget *statusbar_recording_widget_create(void)
     g_object_set_data(G_OBJECT(grid), "Status", GINT_TO_POINTER(0));
 
     /* recording status label */
-    label = gtk_label_new("Recording inactive");
+    label = gtk_label_new("");  /* initially empty */
     gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TEXT, RW_ROW_TEXT, 1, 1);
     gtk_widget_set_halign(label, GTK_ALIGN_FILL);
     gtk_widget_set_hexpand(label, TRUE);
 
     /* recording timestamp label */
-    label = gtk_label_new("Time: --:--");
+    label = gtk_label_new("");  /* initially empty */
     gtk_widget_set_halign(label, GTK_ALIGN_FILL);
     gtk_widget_set_hexpand(label, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TIME, RW_ROW_TIME, 1, 1);
@@ -164,6 +171,8 @@ GtkWidget *statusbar_recording_widget_create(void)
     gtk_widget_set_halign(button, GTK_ALIGN_END);
     gtk_widget_set_hexpand(button, FALSE);
     gtk_widget_set_sensitive(button, FALSE);
+    gtk_widget_set_no_show_all(button, TRUE);
+    gtk_widget_hide(button);    /* initially hidden */
     g_signal_connect(button, "clicked", G_CALLBACK(on_stop_clicked),
            (gpointer)grid);
     return grid;
@@ -209,14 +218,16 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
 
     /* update recording status text */
     label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, RW_ROW_TEXT);
+
     g_snprintf(buffer, 256, "Recording %s ...", rec_types[type]);
     gtk_label_set_text(GTK_LABEL(label), buffer);
 
-    /* enable/disable STOP butto based on the \a status variable */
+    /* enable/disable STOP button based on the \a status variable */
     button = gtk_grid_get_child_at(
             GTK_GRID(widget), RW_COL_BUTTON, RW_ROW_BUTTON);
     gtk_widget_set_tooltip_text(button, "Stop recording");
     gtk_widget_set_sensitive(button, status);
+    gtk_widget_show(button);
 }
 
 
@@ -272,3 +283,55 @@ void statusbar_recording_widget_set_event_playback(GtkWidget *widget,
     }
 }
 
+
+/** \brief  Timer callback for the hide_all() method
+ *
+ * \param[in,out]   data    recording widget
+ *
+ * \return  FALSE to delete the timer source
+ */
+static gboolean hide_all_timer_callback(gpointer data)
+{
+    GtkWidget *widget = data;
+    GtkWidget *label;
+    GtkWidget *button;
+
+    /* clear recording status label */
+    label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, RW_ROW_TEXT);
+    gtk_label_set_text(GTK_LABEL(label), "");
+
+    /* clear time display label */
+    label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
+    gtk_label_set_text(GTK_LABEL(label), "");
+
+    /* hide button */
+    button = gtk_grid_get_child_at(
+            GTK_GRID(widget), RW_COL_BUTTON, RW_ROW_BUTTON);
+    gtk_widget_hide(button);
+
+    /* delete timer source */
+    return FALSE;
+}
+
+
+/** \brief  Clear the labels and hide the button after \a timeout seconds
+ *
+ * Use a \a timeout of 0 to immediately clear the labels and hide the button,
+ * skipping timer setup.
+ *
+ * \param[in,out]   widget  recording widget
+ * \param[in]       timeout timeout in seconds
+ */
+void statusbar_recording_widget_hide_all(GtkWidget *widget, guint timeout)
+{
+    /* setup a one-shot timer to hide the labels and button */
+    if (timeout == 0) {
+        /* don't bother setting up timer, trigger directly */
+        hide_all_timer_callback((gpointer)widget);
+    } else {
+        g_timeout_add_seconds(
+                timeout,
+                hide_all_timer_callback,
+                (gpointer)widget);
+    }
+}

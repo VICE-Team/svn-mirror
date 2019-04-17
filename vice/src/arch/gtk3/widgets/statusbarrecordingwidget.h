@@ -40,4 +40,6 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
 void statusbar_recording_widget_set_event_playback(GtkWidget *widget,
                                                    char *version);
 
+void statusbar_recording_widget_hide_all(GtkWidget *widget, guint timeout);
+
 #endif
