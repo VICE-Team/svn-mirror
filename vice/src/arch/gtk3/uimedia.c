@@ -266,12 +266,15 @@ static void on_dialog_destroy(GtkWidget *widget, gpointer data)
  */
 static void update_screenshot_options_grid(GtkWidget *new)
 {
-    GtkWidget *old = gtk_grid_get_child_at(GTK_GRID(screenshot_options_grid),
-            0, 1);
-    if (old != NULL) {
-        gtk_widget_destroy(old);
+    GtkWidget *old;
+
+    if (new != NULL) {
+        old = gtk_grid_get_child_at(GTK_GRID(screenshot_options_grid), 0, 1);
+        if (old != NULL) {
+            gtk_widget_destroy(old);
+        }
+        gtk_grid_attach(GTK_GRID(screenshot_options_grid), new, 0, 1, 1, 1);
     }
-    gtk_grid_attach(GTK_GRID(screenshot_options_grid), new, 0, 1, 1, 1);
 }
 
 
@@ -540,7 +543,7 @@ static void save_video_recording_handler(void)
     display = video_driver_list[video_driver_index].display;
     name = video_driver_list[video_driver_index].name;
 #endif
-    /* we dont' have a format->extension mapping, so the format name itself is 
+    /* we don't have a format->extension mapping, so the format name itself is
        better than `video_driver_list[video_driver_index].ext' */
     resources_get_string("FFMPEGFormat", &ext);
 
@@ -782,10 +785,6 @@ static GtkWidget *create_screenshot_widget(void)
                     GTK_RADIO_BUTTON(last));
             gtk_grid_attach(GTK_GRID(drv_grid), radio, 0, grid_index, 1, 1);
 
-            g_signal_connect(radio, "toggled",
-                    G_CALLBACK(on_screenshot_driver_toggled),
-                    GINT_TO_POINTER(index));
-
             /* Make PNG default (doesn't look we have any numeric define to
              * indicate PNG, so a strcmp() will have to do)
              * Also trigger the event handler to set the driver index (by
@@ -795,6 +794,12 @@ static GtkWidget *create_screenshot_widget(void)
             if (strcmp(name, "PNG") == 0) {
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
             }
+
+            /* connect signal *after* setting a radio button's state, to avoid
+             * triggering the handler before the UI is properly set up. */
+            g_signal_connect(radio, "toggled",
+                    G_CALLBACK(on_screenshot_driver_toggled),
+                    GINT_TO_POINTER(index));
 
             last = radio;
             grid_index++;
