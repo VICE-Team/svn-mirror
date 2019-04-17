@@ -420,7 +420,7 @@ static ui_menu_item_t file_menu_tail[] = {
 #if 0
         "netplay", ui_netplay_dialog_new, NULL,
 #else
-        "netplay", ui_netplay_dialog, NULL,
+        "netplay", ui_netplay_dialog_new, NULL,
 #endif
         0, 0 },
 

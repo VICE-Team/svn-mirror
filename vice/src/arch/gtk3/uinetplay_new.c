@@ -77,9 +77,9 @@ static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
     int state = gtk_switch_get_active(widget);
     debug_gtk3("Server %s requested.", state ? "ENABLE" : "DISABLE");
 
-    gtk_widget_set_sensitive(bind_enable, state ? FALSE : TRUE);
-    gtk_widget_set_sensitive(server_addr, state ? FALSE : TRUE);
-    gtk_widget_set_sensitive(server_port, state ? FALSE : TRUE);
+    gtk_widget_set_sensitive(bind_enable, state);
+    gtk_widget_set_sensitive(server_addr, state);
+    gtk_widget_set_sensitive(server_port, state);
 }
 
 
@@ -170,9 +170,13 @@ static GtkWidget *create_content_widget(void)
     GtkWidget *bind_addr;
     int row;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    g_object_set(G_OBJECT(grid),
+            "margin-top", 8,
+            "margin-bottom", 8,
+            "margin-left", 16,
+            "margin-right", 16,
+            NULL);
 
     row = 0;
 
@@ -202,7 +206,7 @@ static GtkWidget *create_content_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 4, 1);
     row++;
 
-    label = create_indented_label("Bind IP address");
+    label = create_indented_label("Zind IP address");
     bind_addr = vice_gtk3_resource_entry_full_new(
             "NetworkServerBindAddress");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);

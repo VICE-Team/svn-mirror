@@ -513,10 +513,10 @@ static GtkWidget *create_num_sids_widget(void)
     }
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
-
+/*
     vice_gtk3_resource_radiogroup_add_callback(radio_group,
             on_sid_count_changed);
-
+*/
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -829,13 +829,16 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     {
         /* set sensitivity of address widgets */
         resources_get_int("SidStereo", &stereo);
+#if 0
         on_sid_count_changed(NULL, stereo);
+#endif
     }
 
+#if 0
     g_signal_connect(filters, "toggled", G_CALLBACK(on_sid_filters_toggled),
             NULL);
     on_sid_filters_toggled(filters, NULL);
-
+#endif
     gtk_widget_show_all(layout);
     return layout;
 }

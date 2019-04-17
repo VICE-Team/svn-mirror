@@ -43,6 +43,9 @@
 #include "sidenginemodelwidget.h"
 
 
+static int num_calls;
+
+
 static void (*extra_callback)(int, int) = NULL;
 
 
@@ -55,6 +58,9 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
     int current_model;
 
     int value = GPOINTER_TO_INT(data);
+
+    debug_gtk3("Call number %d.", num_calls++);
+
 
     if (resources_get_int("SidEngine", &current_engine) < 0) {
         debug_gtk3("Failed to get 'SidEngine' resource value, reverting to 0.");
@@ -129,13 +135,14 @@ GtkWidget *sid_engine_model_widget_create(void)
         debug_gtk3("Adding item (%s, %d).", list[i]->name, list[i]->value);
         radio = gtk_radio_button_new_with_label(group, list[i]->name);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-        g_object_set(radio, "margin-left", 16, NULL);
 
+        g_object_set(radio, "margin-left", 16, NULL);
+#if 0
         if (list[i]->value == current) {
             debug_gtk3("Setting radio button %d (%x).", i, current);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         }
-
+#endif
         g_signal_connect(radio, "toggled",
                 G_CALLBACK(on_radio_toggled),
                 GINT_TO_POINTER(list[i]->value));
