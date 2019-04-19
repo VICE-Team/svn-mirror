@@ -50,6 +50,22 @@ enum {
 };
 
 
+#define UI_DRAG_TARGETS_COUNT   3
+
+
+/** \brief  Drag-n-drop 'target' types
+ */
+enum {
+    DT_TEXT,        /**< simple text (text/plain) */
+    DT_URI,         /**< haven't seen this one get triggered (yet) */
+    DT_URI_LIST     /**< used by Windows Explorer / macOS Finder */
+};
+
+
+
+extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
+
+
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 
@@ -88,7 +104,7 @@ void ui_enable_mixer_controls(int enabled);
 
 GtkWidget *ui_get_window_by_index(int index);
 
-
+#if 0
 #define UI_DRAG_TARGETS_COUNT   3
 
 extern GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT];
@@ -109,6 +125,6 @@ void ui_on_drag_data_received(
         GtkSelectionData *data,
         guint info,
         guint time);
-
+#endif
 
 #endif

@@ -173,6 +173,8 @@ GtkWidget *hvsc_stil_widget_create(void)
     gtk_container_add(GTK_CONTAINER(scroll), stil_view);
     gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
 
+    /* XXX: needs to be handled somewhere else */
+#if 0
     /* set up drag-drop */
     gtk_drag_dest_set(
             stil_view,
@@ -184,6 +186,7 @@ GtkWidget *hvsc_stil_widget_create(void)
                      G_CALLBACK(ui_on_drag_data_received), NULL);
     g_signal_connect(stil_view, "drag-drop",
                      G_CALLBACK(ui_on_drag_drop), NULL);
+#endif
 
     gtk_widget_set_vexpand(grid, TRUE);
     gtk_widget_show_all(grid);

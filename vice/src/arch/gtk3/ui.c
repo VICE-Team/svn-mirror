@@ -98,6 +98,21 @@ static void ui_toggle_warp(void);
  *                  Defines, enums, type declarations                        *
  ****************************************************************************/
 
+
+/** \brief  List of drag targets for the drag-n-drop event handler
+ *
+ * It would appear different OS'es/WM's pass dropped files using various
+ * mime-types.
+ */
+GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT] = {
+    { "text/plain",     0, DT_TEXT },   /* we get this on at least my Linux
+                                           box with Mate */
+    { "text/uri",       0, DT_URI },
+    { "text/uri-list",  0, DT_URI_LIST }    /* we get this using Windows
+                                               Explorer or macOS Finder */
+};
+
+
 /** \brief  Struct holding basic UI rescources
  */
 typedef struct ui_resources_s {
@@ -286,29 +301,6 @@ static const cmdline_option_t cmdline_options_common[] =
 };
 
 
-/** \brief  Drag-n-drop 'target' types
- */
-enum {
-    DT_TEXT,        /**< simple text (text/plain) */
-    DT_URI,         /**< haven't seen this one get triggered (yet) */
-    DT_URI_LIST     /**< used by Windows Explorer / macOS Finder */
-};
-
-
-/** \brief  List of drag targets for the drag-n-drop event handler
- *
- * It would appear different OS'es/WM's pass dropped files using various
- * mime-types.
- */
-GtkTargetEntry ui_drag_targets[UI_DRAG_TARGETS_COUNT] = {
-    { "text/plain",     0, DT_TEXT },   /* we get this on at least my Linux
-                                           box with Mate */
-    { "text/uri",       0, DT_URI },
-    { "text/uri-list",  0, DT_URI_LIST }    /* we get this using Windows
-                                               Explorer or macOS Finder */
-};
-
-
 /** \brief  Flag indicating pause mode
  */
 static int is_paused = 0;
@@ -359,7 +351,7 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  * \param[in]   time    (I don't have a clue)
  * \param[in]   data    extra event data (unused)
  */
-gboolean ui_on_drag_drop(
+static gboolean ui_on_drag_drop(
         GtkWidget *widget,
         GdkDragContext *context,
         gint x,
@@ -374,7 +366,8 @@ gboolean ui_on_drag_drop(
 
 /** \brief  Handler for the 'drag-data-received' event
  *
- * Autostarts an image/prg when valid
+ * Autostarts an image/prg when valid. Please note that VSID now has its own
+ * drag-n-drop handlers.
  *
  * \param[in]   widget      widget triggering the event (unused)
  * \param[in]   context     drag context (unused)
@@ -387,7 +380,7 @@ gboolean ui_on_drag_drop(
  * \todo    Once this works properly, remove a lot of debugging calls, perhaps
  *          changing a few into log calls.
  */
-void ui_on_drag_data_received(
+static void ui_on_drag_data_received(
         GtkWidget *widget,
         GdkDragContext *context,
         int x,
@@ -480,19 +473,11 @@ void ui_on_drag_data_received(
 
     /* can we attempt autostart? */
     if (filename != NULL) {
-        if (machine_class != VICE_MACHINE_VSID) {
-
-            debug_gtk3("Attempting to autostart '%s'.", filename);
-            if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
-                debug_gtk3("failed.");
-            } else {
-                debug_gtk3("OK!");
-            }
+        debug_gtk3("Attempting to autostart '%s'.", filename);
+        if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
+            debug_gtk3("failed.");
         } else {
-            /* try to open SID file, reports error itself */
-            if (handle_dropped_files_func != NULL) {
-                handle_dropped_files_func(filename);
-            }
+            debug_gtk3("OK!");
         }
         g_free(filename);
     }
@@ -1177,20 +1162,23 @@ void ui_create_main_window(video_canvas_t *canvas)
     /*
      * Set up drag-n-drop handling for files
      */
-    gtk_drag_dest_set(
-            new_window,
-            GTK_DEST_DEFAULT_ALL,
-            ui_drag_targets,
-            UI_DRAG_TARGETS_COUNT,
-            GDK_ACTION_COPY);
-    g_signal_connect(new_window, "drag-data-received",
-                     G_CALLBACK(ui_on_drag_data_received), NULL);
-    g_signal_connect(new_window, "drag-drop",
-                     G_CALLBACK(ui_on_drag_drop), NULL);
-    if (ui_resources.start_minimized) {
-        gtk_window_iconify(GTK_WINDOW(new_window));
-    }
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* VSID has its own drag-n-drop handlers */
 
+        gtk_drag_dest_set(
+                new_window,
+                GTK_DEST_DEFAULT_ALL,
+                ui_drag_targets,
+                UI_DRAG_TARGETS_COUNT,
+                GDK_ACTION_COPY);
+        g_signal_connect(new_window, "drag-data-received",
+                         G_CALLBACK(ui_on_drag_data_received), NULL);
+        g_signal_connect(new_window, "drag-drop",
+                         G_CALLBACK(ui_on_drag_drop), NULL);
+        if (ui_resources.start_minimized) {
+            gtk_window_iconify(GTK_WINDOW(new_window));
+        }
+    }
     ui_resources.canvas[target_window] = canvas;
     ui_resources.window_widget[target_window] = new_window;
 
