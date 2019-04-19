@@ -149,9 +149,10 @@ static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
         if (network_start_server() == 0) {
             debug_gtk3("Started Netplay server.");
         }
-        netplay_update_resources();
     } else {
-        network_disconnect();
+        if (network_get_mode() != 0) {
+            network_disconnect();
+        }
         debug_gtk3("Disconnected server.");
     }
     netplay_update_status();
@@ -172,9 +173,10 @@ static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
         if (network_connect_client() == 0) {
             debug_gtk3("Netplay listening.");
         }
-        netplay_update_resources();
     } else {
-        network_disconnect();
+        if (network_get_mode() != 0) {
+            network_disconnect();
+        }
         debug_gtk3("Disconnected client.");
     }
     netplay_update_status();
