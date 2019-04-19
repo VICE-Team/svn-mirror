@@ -115,7 +115,7 @@ static void on_drag_data_received(
         guint info,
         guint time)
 {
-    gchar **uris;
+    gchar **uris = NULL;
     gchar *filename = NULL;
     gchar **files = NULL;
     guchar *text = NULL;
@@ -133,82 +133,78 @@ static void on_drag_data_received(
         return;
     }
 
+
+    switch (info) {
+
+        case DT_URI_LIST:
+            /*
+             * This branch appears to be taken on both Windows and macOS.
+             */
+
+            /* got possible list of URI's */
+            uris = gtk_selection_data_get_uris(data);
+            if (uris != NULL) {
+                /* dump URI's on stdout */
+                debug_gtk3("got URI's:");
+                for (i = 0; uris[i] != NULL; i++) {
+
+                    debug_gtk3("URI: '%s'\n", uris[i]);
+                    filename = g_filename_from_uri(uris[i], NULL, NULL);
+                    debug_gtk3("filename: '%s'.", filename);
+                    if (filename != NULL) {
+                        g_free(filename);
+                    }
+                }
+
+                /* use the first/only entry as the autostart file
+                 */
+                if (uris[0] != NULL) {
+                    filename = g_filename_from_uri(uris[0], NULL, NULL);
+                } else {
+                    filename = NULL;
+                }
+            }
+            break;
+
+        case DT_TEXT:
+            /*
+             * this branch appears to be taken on both Gtk and Qt based WM's
+             * on Linux
+             */
+
+
+            /* text will contain a newline separated list of 'file://' URIs,
+             * and a trailing newline */
+            text = gtk_selection_data_get_text(data);
+            /* remove trailing whitespace */
+            g_strchomp((gchar *)text);
+
+            debug_gtk3("Got data as text: '%s'.", text);
+            files = g_strsplit((const gchar *)text, "\n", -1);
+            g_free(text);
+
+            for (i = 0; files[i] != NULL; i++) {
+#ifdef HAVE_DEBUG_GTK3UI
+                gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
+#endif
+                debug_gtk3("URI: '%s', filename: '%s'.",
+                        files[i], tmp);
+            }
+            /* now grab the first file */
+            filename = g_filename_from_uri(files[0], NULL, NULL);
+
+            debug_gtk3("got filename '%s'.", filename);
+            break;
+
+        default:
+            debug_gtk3("Warning: unhandled d'n'd target %u.", info);
+            filename = NULL;
+            break;
+    }
+
+
     if (widget == left_pane
             || widget == stil_widget || widget == hvsc_stil_widget_get_view()) {
-        switch (info) {
-
-            case DT_URI_LIST:
-                /*
-                 * This branch appears to be taken on both Windows and macOS.
-                 */
-
-                /* got possible list of URI's */
-                uris = gtk_selection_data_get_uris(data);
-                if (uris != NULL) {
-                    /* dump URI's on stdout */
-                    debug_gtk3("got URI's:");
-                    for (i = 0; uris[i] != NULL; i++) {
-
-                        debug_gtk3("URI: '%s'\n", uris[i]);
-                        filename = g_filename_from_uri(uris[i], NULL, NULL);
-                        debug_gtk3("filename: '%s'.", filename);
-                        if (filename != NULL) {
-                            g_free(filename);
-                        }
-                    }
-
-                    /* use the first/only entry as the autostart file
-                     *
-                     * XXX: perhaps add any additional files to the fliplist
-                     *      if Dxx?
-                     */
-                    if (uris[0] != NULL) {
-                        filename = g_filename_from_uri(uris[0], NULL, NULL);
-                    } else {
-                        filename = NULL;
-                    }
-
-                    g_strfreev(uris);
-                }
-                break;
-
-            case DT_TEXT:
-                /*
-                 * this branch appears to be taken on both Gtk and Qt based WM's
-                 * on Linux
-                 */
-
-
-                /* text will contain a newline separated list of 'file://' URIs,
-                 * and a trailing newline */
-                text = gtk_selection_data_get_text(data);
-                /* remove trailing whitespace */
-                g_strchomp((gchar *)text);
-
-                debug_gtk3("Got data as text: '%s'.", text);
-                files = g_strsplit((const gchar *)text, "\n", -1);
-                g_free(text);
-
-                for (i = 0; files[i] != NULL; i++) {
-#ifdef HAVE_DEBUG_GTK3UI
-                    gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
-#endif
-                    debug_gtk3("URI: '%s', filename: '%s'.",
-                            files[i], tmp);
-                }
-                /* now grab the first file */
-                filename = g_filename_from_uri(files[0], NULL, NULL);
-                g_strfreev(files);
-
-                debug_gtk3("got filename '%s'.", filename);
-                break;
-
-            default:
-                debug_gtk3("Warning: unhandled d'n'd target %u.", info);
-                filename = NULL;
-                break;
-        }
-
         /* can we attempt autostart? */
         if (filename != NULL) {
             debug_gtk3("Attempting to autostart '%s'.", filename);
@@ -217,9 +213,38 @@ static void on_drag_data_received(
             } else {
                 debug_gtk3("OK!");
             }
-            g_free(filename);
+        }
+    } else if (widget == playlist_widget) {
+        debug_gtk3("attempting to add SIDs to the playlist.");
+        if (files != NULL) {
+            debug_gtk3("got array of filenames:");
+            for (i = 0; files[i] != NULL; i++) {
+                debug_gtk3("adding '%s'.", files[i]);
+                vsid_playlist_widget_append_file(files[i]);
+            }
+        } else if (uris != NULL) {
+            debug_gtk3("got array of URIs:");
+            for (i = 0; uris[i] != NULL; i++) {
+                gchar *tmp = g_filename_from_uri(uris[i], NULL, NULL);
+
+                debug_gtk3("adding '%s'.", tmp);
+                vsid_playlist_widget_append_file(tmp);
+                g_free(tmp);
+            }
         }
     }
+
+
+    if (files != NULL) {
+        g_strfreev(files);
+    }
+    if (uris != NULL) {
+        g_strfreev(uris);
+    }
+    if (filename != NULL) {
+        g_free(filename);
+    }
+
 }
 
 
