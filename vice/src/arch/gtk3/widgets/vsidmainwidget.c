@@ -124,7 +124,7 @@ static void on_drag_data_received(
     debug_gtk3("got drag-data, info = %u:", info);
     if (widget == left_pane) {
         debug_gtk3("got data for 'left_pane'.");
-    } else if (widget == stil_widget) {
+    } else if (widget == stil_widget || hvsc_stil_widget_get_view()) {
         debug_gtk3("got data for 'stil_widget'.");
     } else if (widget == playlist_widget) {
         debug_gtk3("got data for 'playlist_widget.");
@@ -133,7 +133,8 @@ static void on_drag_data_received(
         return;
     }
 
-    if (widget == left_pane || widget == stil_widget) {
+    if (widget == left_pane
+            || widget == stil_widget || widget == hvsc_stil_widget_get_view()) {
         switch (info) {
 
             case DT_URI_LIST:
@@ -229,6 +230,7 @@ static void on_drag_data_received(
 GtkWidget *vsid_main_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *view;
 
     grid = vice_gtk3_grid_new_spaced(32, 32);
     g_object_set(G_OBJECT(grid),
@@ -290,6 +292,19 @@ GtkWidget *vsid_main_widget_create(void)
     g_signal_connect(stil_widget, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
 
+    /* not the cleanest method maybe, but somehow the GtkTextView doesn't
+     * trigger the drag-drop events otherwise */
+    view = hvsc_stil_widget_get_view();
+    gtk_drag_dest_set(
+            view,
+            GTK_DEST_DEFAULT_ALL,
+            ui_drag_targets,
+            UI_DRAG_TARGETS_COUNT,
+            GDK_ACTION_COPY);
+    g_signal_connect(view, "drag-data-received",
+                     G_CALLBACK(on_drag_data_received), NULL);
+    g_signal_connect(view, "drag-drop",
+                     G_CALLBACK(on_drag_drop), NULL);
     /* right pane: playlist */
     gtk_drag_dest_set(
             playlist_widget,

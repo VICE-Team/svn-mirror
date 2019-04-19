@@ -399,3 +399,15 @@ int hvsc_stil_widget_set_psid(const char *psid)
     hvsc_stil_close(&stil);
     return 1;
 }
+
+
+/** \brief  Return reference to the view
+ *
+ * This is currently required to make drag-n-drop on the STIL widget work
+ *
+ * \return  view
+ */
+GtkWidget *hvsc_stil_widget_get_view(void)
+{
+    return stil_view;
+}

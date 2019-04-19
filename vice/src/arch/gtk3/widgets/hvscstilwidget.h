@@ -35,5 +35,6 @@
 
 GtkWidget * hvsc_stil_widget_create(void);
 int         hvsc_stil_widget_set_psid(const char *filename);
+GtkWidget * hvsc_stil_widget_get_view(void);
 
 #endif
