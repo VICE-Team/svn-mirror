@@ -54,12 +54,29 @@
 static void netplay_update_status(void);
 
 
+typedef struct netctrl_s {
+    const char *    text;  /**< label */
+    unsigned int    mask;  /**< bit to toggle */
+} netctrl_t;
+
+
+static const netctrl_t control_list[] = {
+    { "Keyboard",       NETWORK_CONTROL_KEYB },
+    { "Joystick #1",    NETWORK_CONTROL_JOY1 },
+    { "Joystick #2",    NETWORK_CONTROL_JOY2 },
+    { "Devices",        NETWORK_CONTROL_DEVC },
+    { "Resources",      NETWORK_CONTROL_RSRC },
+    { NULL,             0 }
+};
+
+
 static GtkWidget *server_addr = NULL;
 static GtkWidget *server_port = NULL;
 static GtkWidget *server_enable = NULL;
 static GtkWidget *bind_addr = NULL;
 static GtkWidget *bind_enable = NULL;
 static GtkWidget *status_widget = NULL;
+static GtkWidget *controls_widget = NULL;
 
 
 static const char *net_modes[] = {
@@ -218,6 +235,8 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 }
 
 
+/** \brief  Update display of the netplay status
+ */
 static void netplay_update_status(void)
 {
     const char *text = NULL;
@@ -235,6 +254,110 @@ static void netplay_update_status(void)
     lib_free(temp);
 }
 
+
+/** \brief  Handler for the 'toggled' events of the server/client controls
+ *
+ * \param[in,out]   widget  toggle button triggering the event
+ * \param[in]       data    bit to toggle in the "NetworkControl" resource
+ */
+static void on_control_checkbox_toggled(GtkWidget *widget, gpointer data)
+{
+    unsigned int bit = GPOINTER_TO_UINT(data);
+    unsigned int old;
+    gboolean active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    unsigned new;
+    int tmp;
+
+    resources_get_int("NetworkControl", &tmp);
+    old = (unsigned int)tmp;
+
+    if (active) {
+        /* switch bit on */
+        new = old | bit;
+    } else {
+        new = old & ~bit;
+    }
+
+    /* only update resource when something changed */
+    if (new != old) {
+        resources_set_int("NetworkControl", new);
+        debug_gtk3("Setting NetworkControl to %x.", new);
+    }
+
+}
+
+
+/** \brief  Create widget to switch various stuff controlled from server/client
+ *
+ * \see src/network.h for some idea of what this probably does.
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_controls_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *controls;
+    unsigned int i;
+    int cstatus;
+
+    resources_get_int("NetworkControl", &cstatus);
+
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    g_object_set(grid, "margin-top", 16, NULL);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+            "<b>I don't have a clue what this does</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
+
+    /* create header for the checkboxes */
+    controls = vice_gtk3_grid_new_spaced(32, 8);
+    label = gtk_label_new("Server");
+    gtk_grid_attach(GTK_GRID(controls), label, 1, 0, 1, 1);
+    label = gtk_label_new("Client");
+    gtk_grid_attach(GTK_GRID(controls), label, 2, 0, 1, 1);
+
+    for (i = 0; control_list[i].text != NULL; i++) {
+
+        GtkWidget *server;
+        GtkWidget *client;
+
+        label = gtk_label_new(control_list[i].text);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(controls), label, 0, i + 1, 1, 1);
+
+        server = gtk_check_button_new();
+        gtk_widget_set_halign(server, GTK_ALIGN_CENTER);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(server),
+                cstatus & (1 << i));
+        gtk_grid_attach(GTK_GRID(controls), server, 1, i + 1, 1, 1);
+
+        client = gtk_check_button_new();
+        gtk_widget_set_halign(client, GTK_ALIGN_CENTER);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(server),
+                (cstatus >> 8) & (1 << i));
+        gtk_grid_attach(GTK_GRID(controls), client, 2, i + 1, 1, 1);
+
+        g_signal_connect(server, "toggled",
+                G_CALLBACK(on_control_checkbox_toggled),
+                GUINT_TO_POINTER(control_list[i].mask));
+        g_signal_connect(client, "toggled",
+                G_CALLBACK(on_control_checkbox_toggled),
+                GUINT_TO_POINTER(control_list[i].mask << NETWORK_CONTROL_CLIENTOFFSET));
+
+
+
+
+    }
+
+    gtk_grid_attach(GTK_GRID(grid), controls, 0, 1, 4, 1);
+    return grid;
+}
 
 
 /** \brief  Create the 'content' widget for the dialog
@@ -298,11 +421,15 @@ static GtkWidget *create_content_widget(void)
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Network status</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 4, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+
+    status_widget = gtk_label_new("Idle");
+    gtk_widget_set_halign(status_widget, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), status_widget, 1, row, 3, 1);
 
     row++;
-    status_widget = create_indented_label("");
-    gtk_grid_attach(GTK_GRID(grid), status_widget, 0, row, 4, 1);
+    controls_widget = create_controls_widget();
+    gtk_grid_attach(GTK_GRID(grid), controls_widget, 0, row, 4, 1);
 
     gtk_widget_show_all(grid);
     return grid;
