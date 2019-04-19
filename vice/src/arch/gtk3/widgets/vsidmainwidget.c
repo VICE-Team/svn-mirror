@@ -207,6 +207,13 @@ static void on_drag_data_received(
             || widget == stil_widget || widget == hvsc_stil_widget_get_view()) {
         /* can we attempt autostart? */
         if (filename != NULL) {
+            /* fix for Nautilus and perhaps other file managers */
+            gchar *tmp = g_filename_from_uri(filename, NULL, NULL);
+            if (tmp != NULL) {
+                g_free(filename);
+                filename = tmp;
+            }
+
             debug_gtk3("Attempting to autostart '%s'.", filename);
             if (ui_vsid_window_load_psid(filename) != 0) {
                 debug_gtk3("failed.");
@@ -219,8 +226,21 @@ static void on_drag_data_received(
         if (files != NULL) {
             debug_gtk3("got array of filenames:");
             for (i = 0; files[i] != NULL; i++) {
-                debug_gtk3("adding '%s'.", files[i]);
-                vsid_playlist_widget_append_file(files[i]);
+                gchar *tmp;
+
+                /*
+                 * It looks like at least Gnome 3/Nautilus returns a simple
+                 * string, but after splitting we end with URI's anyway.
+                 */
+                tmp = g_filename_from_uri(files[i], NULL, NULL);
+                if (tmp == NULL) {
+                    debug_gtk3("adding '%s'.", files[i]);
+                    vsid_playlist_widget_append_file(files[i]);
+                } else {
+                    debug_gtk3("adding '%s'.", tmp);
+                    vsid_playlist_widget_append_file(tmp);
+                    g_free(tmp);
+                }
             }
         } else if (uris != NULL) {
             debug_gtk3("got array of URIs:");
