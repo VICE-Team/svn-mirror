@@ -38,29 +38,72 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "basewidgets.h"
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "network.h"
+#include "resources.h"
 #include "ui.h"
 #include "widgethelpers.h"
 
 #include "uinetplay_new.h"
 
 
+static void netplay_update_status(void);
+
+
 static GtkWidget *server_addr = NULL;
 static GtkWidget *server_port = NULL;
+static GtkWidget *server_enable = NULL;
+static GtkWidget *bind_addr = NULL;
 static GtkWidget *bind_enable = NULL;
 static GtkWidget *status_widget = NULL;
 
 
 static const char *net_modes[] = {
     "Idle",
-    "Server listening",
-    "Connected server",
-    "Connected client"
+    "Server",
+    "Server connected"
+    "Client connected"
 };
+
+
+static gboolean netplay_update_resources(void)
+{
+    const gchar *s_addr;
+    const gchar *s_port;
+    const gchar *b_addr;
+    long port;
+    char *endptr;
+
+    s_addr = gtk_entry_get_text(GTK_ENTRY(server_addr));
+    s_port = gtk_entry_get_text(GTK_ENTRY(server_port));
+    b_addr = gtk_entry_get_text(GTK_ENTRY(bind_addr));
+
+    errno = 0;
+    port = strtol(s_port, &endptr, 0);
+    if (errno == ERANGE || endptr == s_port || *endptr != '\0') {
+        /* oops */
+        return FALSE;
+    }
+
+    if (resources_set_int("NetworkServerPort", (int)port) < 0) {
+        return FALSE;
+    }
+    if (resources_set_string("NetworkServerName", s_addr) < 0) {
+        return FALSE;
+    }
+    if (resources_set_string("NetworkServerBindAddress", b_addr) < 0) {
+        return FALSE;
+    }
+
+    /* TODO: the controls mappings */
+
+    return TRUE;
+}
+
 
 
 static GtkWidget *create_indented_label(const char *text)
@@ -75,20 +118,49 @@ static GtkWidget *create_indented_label(const char *text)
 static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
+    int bind = gtk_switch_get_active(GTK_SWITCH(bind_enable));
+
+
     debug_gtk3("Server %s requested.", state ? "ENABLE" : "DISABLE");
 
-    gtk_widget_set_sensitive(bind_enable, state);
-    gtk_widget_set_sensitive(server_addr, state);
-    gtk_widget_set_sensitive(server_port, state);
+    if (state) {
+        if (bind) {
+            /* cannot have both */
+            gtk_switch_set_active(GTK_SWITCH(bind_enable), FALSE);
+        }
+        /* try starting server */
+        if (network_start_server() == 0) {
+            debug_gtk3("Started Netplay server.");
+        }
+        netplay_update_resources();
+    } else {
+        network_disconnect();
+        debug_gtk3("Disconnected server.");
+    }
+    netplay_update_status();
 }
 
 
 static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
 {
-#ifdef HAVE_DEBUG_GTK3UI
     int state = gtk_switch_get_active(widget);
-#endif
+    int server = gtk_switch_get_active(GTK_SWITCH(server_enable));
+
     debug_gtk3("Client %s requested.", state ? "CONNECT" : "DISCONNECT");
+
+    if (state) {
+        if (server) {
+            gtk_switch_set_active(GTK_SWITCH(server_enable), FALSE);
+        }
+        if (network_connect_client() == 0) {
+            debug_gtk3("Netplay listening.");
+        }
+        netplay_update_resources();
+    } else {
+        network_disconnect();
+        debug_gtk3("Disconnected client.");
+    }
+    netplay_update_status();
 }
 
 
@@ -96,9 +168,14 @@ static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
 static GtkWidget *create_server_enable_widget(void)
 {
     GtkWidget *widget;
+    int mode = network_get_mode();
 
     widget = gtk_switch_new();
     gtk_widget_set_halign(widget, GTK_ALIGN_START);
+
+    gtk_switch_set_active(GTK_SWITCH(widget),
+            mode == NETWORK_SERVER || mode == NETWORK_SERVER_CONNECTED);
+
     g_signal_connect(widget, "notify::active",
             G_CALLBACK(on_server_enable_toggled), NULL);
     return widget;
@@ -108,9 +185,13 @@ static GtkWidget *create_server_enable_widget(void)
 static GtkWidget *create_client_enable_widget(void)
 {
     GtkWidget *widget;
+    int mode = network_get_mode();
 
     widget = gtk_switch_new();
     gtk_widget_set_halign(widget, GTK_ALIGN_START);
+
+    gtk_switch_set_active(GTK_SWITCH(widget), mode == NETWORK_CLIENT);
+
     g_signal_connect(widget, "notify::active",
             G_CALLBACK(on_client_enable_toggled), NULL);
     return widget;
@@ -166,8 +247,6 @@ static GtkWidget *create_content_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *server_enable;
-    GtkWidget *bind_addr;
     int row;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
@@ -206,7 +285,7 @@ static GtkWidget *create_content_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 4, 1);
     row++;
 
-    label = create_indented_label("Zind IP address");
+    label = create_indented_label("Bind IP address");
     bind_addr = vice_gtk3_resource_entry_full_new(
             "NetworkServerBindAddress");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
