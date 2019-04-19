@@ -297,11 +297,13 @@ GtkWidget *vsid_main_widget_create(void)
     mixer_widget = vsid_mixer_widget_create();
     gtk_grid_attach(GTK_GRID(left_pane), mixer_widget, 0, 2, 1, 1);
 
+    gtk_widget_set_hexpand(left_pane, FALSE);
     gtk_grid_attach(GTK_GRID(grid), left_pane, 0, 0, 1, 1);
 
     /* middle pane: STIL widget */
     stil_widget = hvsc_stil_widget_create();
     gtk_widget_set_vexpand(stil_widget, TRUE);
+    gtk_widget_set_hexpand(stil_widget, FALSE);
     gtk_grid_attach(GTK_GRID(grid), stil_widget, 1, 0, 1, 1);
 
     /* right pane: playlist */
