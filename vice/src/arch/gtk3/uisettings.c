@@ -155,6 +155,10 @@
 #include "uisettings.h"
 
 
+/** \brief  CSS to allow collapsing/expanding tree nodes with crsr keys
+ *
+ * Note the 'treeview' rule, before Gtk+ 3.20 this was 'GtkTreeView'
+ */
 static const char *treeview_css =
 "@binding-set SettingsTreeViewBinding\n"
 "{\n"
@@ -163,7 +167,7 @@ static const char *treeview_css =
 "    bind \"Right\" { \"expand-collapse-cursor-row\" (0,1,0) };\n"
 "}\n"
 "\n"
-"GtkTreeView\n"
+"treeview\n"
 "{\n"
 "    -gtk-key-bindings: SettingsTreeViewBinding;\n"
 "}\n";
