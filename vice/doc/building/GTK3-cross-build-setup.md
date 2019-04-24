@@ -109,9 +109,11 @@ int WinMain(HINSTANCE hInstance,
 
 And run:
 
-$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --libs --cflags glib-2.0` -lmingw32 test-glib-win32.c -lglib-2.0 -L/opt/cross/lib/glib-2.0 some-file.txt
+$ export PKG_CONFIG_PATH=/opt/cross/bin/pkgconfig
+$ x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --cflags glib-2.0` test-glib-win32.c `x86_64-w64-mingw32-pkg-config --libs glib-2.0`
 
-This should build an a.exe which prints "WinMain called".
+This should build an a.exe which prints "WinMain called" (you'll need a Windows box for this)
+
 
 #### Atk
 
@@ -242,4 +244,41 @@ This currently fails with not finding Epoxy, a lib similar to GLEW.
 
 This is a hard requirement for Gtk3, and apparently only available via git:
 
-$ git clone blabla
+$ git clone https://github.com/anholt/libepoxy.git
+(Do not copy the URL from the github website, that somehow uses some weird charset which looks okay, it'll bitch about 'https' not being a proper protocol)
+
+$ cd ~/libepoxy
+$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" meson --prefix=/opt/cross --cross-file cross_file.txt -Dgir=false -Dman=false -Dx11=false builddir -Degl=yes
+$ su
+$ cd builddir
+$ ninja install
+$ (CTRL-D)
+
+Fails due to not having EGL, which seems to require cross-compiling Mesa.
+
+$ wget https://mesa.freedesktop.org/archive/mesa-19.0.3.tar.xz
+$ tar -xvf mesa
+$ cd mesa
+
+Needs 'Scons',
+And Scons on Debian needs Python2 (that's a lot of old shit)
+(Looks like current Scons supports Python 3, but would require building Scons)
+
+$ su
+$ apt-get install python-pip
+$ pip2 install mako
+$ (CTRL-D)
+
+
+$ cd into mesa
+$ scons platform=windows toolchain=crossmingw machine=x86_64 libgl-gdi
+
+This takes a while, but we should end up with `build/windows-x86_64-debug/gallium/targets/libgl-gdi/opengl32.dll`. Which should be copied into the Windows bindist dir when doing a bindist. (Massive TODO)
+
+
+$ su
+$ cp -R include/\* /opt/cross/include
+
+
+Still fucks up.
+
