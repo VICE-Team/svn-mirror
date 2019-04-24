@@ -33,7 +33,7 @@ We need quite a few packages on the VM:
 * texlive-\* (?) (for pdf)
 * mingw-w64
 * mingw-x64-tools
-* meson (a build system used by GLib, Python based)
+* meson + ninja (a build system used by GLib, Python based)
 
     Do not use apt, but use pip (as root):
 
@@ -92,10 +92,24 @@ This will install the Glib-2.0 files into /opt/cross/usr/local/
 
 ##### Testing the Glib instal
 
-[[TODO: add test source file]]
+Paste this in some-file.txt:
 
+```
+#include <glib.h>
+#include <windows.h>
 
-$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --libs --cflags glib-2.0` -lmingw32 test-glib-win32.c -lglib-2.0 -L/opt/cross/lib/glib-2.0
+int WinMain(HINSTANCE hInstance,
+            HINSTANCE hPrevInstance,
+            LPSTR     lpCommandLine,
+            int       nShowCommand)
+{
+        g_print("WinMain called\n");
+}
+```
+
+And run:
+
+$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --libs --cflags glib-2.0` -lmingw32 test-glib-win32.c -lglib-2.0 -L/opt/cross/lib/glib-2.0 some-file.txt
 
 This should build an a.exe which prints "WinMain called".
 
@@ -165,8 +179,16 @@ Crap! Another Meson build thing.
 
 
 
-Pango needs PATH=/opt/cross/bin:$PATH to find a few glib bins, but it also seems
-to need gobject-introspection.
+Pango needs PATH=/opt/cross/bin:$PATH to find a few glib bins, (but it also seems
+to need gobject-introspection)
+
+
+
+
+GObject-introspection doesn't appear to be necessary. But I'll have to rebuild
+some previous stuff with `-Dintrospection=false` or `--disable-introspection`,
+so the next stuff might not be neccesary:
+---
 
 $ wget https://github.com/GNOME/gobject-introspection/archive/1.60.1.tar.gz
 $ mv 1.60.1.tar.gz gobject-introspection-1.60.1.tar.gz
@@ -174,8 +196,50 @@ $ tar -xvzf gobject-introspection-1.60.1.tar.gz
 
 (gobject-introspection needs bison, so (as root) apt-get install bison)
 
+Also:
+* libtool
+* autoconf-archive
+
 
 As with the other Meson-based projecs, copy ~/glib-2.0/cross_file.txt
 And watch it fail with a very mysterious message
+---
 
 
+### Pango (without Gir)
+
+$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" meson --prefix=/opt/cross --cross-file cross_file.txt -Dgir=false builddir
+$ cd builddir
+(as root)
+$ ninja install
+
+
+### GDK-Pixbuf
+
+GDK-Pixbuf is the next dependency of Gtk3.
+
+
+$ wget https://ftp.gnome.org/pub/GNOME/sources/gdk-pixbuf/2.38/gdk-pixbuf-2.38.1.tar.xz
+$ tar -xvf gdk-pixbuf-2.38.1.tar.xz
+$ cd gdk-pixbif-2.38.1
+
+It's getting more and more complicated:
+PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" meson --prefix=/opt/cross --cross-file cross_file.txt -Dgir=false -Dman=false -Dx11=false builddir
+$ su
+$ cd builddir
+$ ninja install
+$ (CTRL-D)
+
+
+### Gtk3:
+
+$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" ./configure --prefix=/usr/cross --host=x86_64-w64-mingw32 --disable-introspection --enable-win32-backend --enable-win32-gles --disable-wayland-backend --disable-mir-backend --disable-x11-backend
+
+
+This currently fails with not finding Epoxy, a lib similar to GLEW.
+
+#### Building Expoy
+
+This is a hard requirement for Gtk3, and apparently only available via git:
+
+$ git clone blabla
