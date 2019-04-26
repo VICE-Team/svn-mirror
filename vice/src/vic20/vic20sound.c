@@ -83,6 +83,8 @@ void vic_sound_chip_init(void)
 
 /* ---------------------------------------------------------------------*/
 
+/* TODO: remove when new vic_sound_clock is confirmed to work right */
+#if 0
 static uint8_t noisepattern[1024] = {
       7, 30, 30, 28, 28, 62, 60, 56,120,248,124, 30, 31,143,  7,  7,193,192,224,
     241,224,240,227,225,192,224,120,126, 60, 56,224,225,195,195,135,199,  7, 30,
@@ -139,6 +141,7 @@ static uint8_t noisepattern[1024] = {
      15, 14, 28,112,225,224,113,193,131,131,135, 15, 30, 24,120,120,124, 62, 28,
      56,240,225,224,120,112, 56, 60, 62, 30, 60, 30, 28,112, 60, 56, 63
 };
+#endif
 
 static float voltagefunction[] = {
         0.00f,   148.28f,   296.55f,   735.97f,   914.88f,  1126.89f,  1321.86f,  1503.07f,  1603.50f,
@@ -306,7 +309,61 @@ void vic_sound_store(uint16_t addr, uint8_t value)
     sound_store((uint16_t)(vic_sound_chip_offset | addr), value, 0);
 }
 
+/* FIXME: what is the init value? what happens on reset? */
+static uint16_t noise_LFSR = 0xffff;
 
+void vic_sound_clock(int cycles)
+{
+    int i, j, enabled;
+
+    if (cycles <= 0) {
+        return;
+    }
+
+    for (j = 0; j < 4; j++) {
+        int chspeed = "\4\3\2\1"[j];
+
+        if (snd.ch[j].ctr > cycles) {
+            snd.accum += snd.ch[j].out * cycles;
+            snd.ch[j].ctr -= cycles;
+        } else {
+            for (i = cycles; i; i--) {
+                snd.ch[j].ctr--;
+                if (snd.ch[j].ctr <= 0) {
+                    int a = (~snd.ch[j].reg) & 127;
+                    a = a ? a : 128;
+                    snd.ch[j].ctr += a << chspeed;
+                    enabled = (snd.ch[j].reg & 128) >> 7;
+
+                     /* if it's a normal voice or it's noise and LFSR out is 1 */
+                    if((j != 3) || ((j == 3) && (noise_LFSR & 1))) {
+                        uint8_t shift = snd.ch[j].shift;
+                        shift = ((shift << 1) | ((((shift & 128) >> 7)) ^ 1) & enabled);
+                        snd.ch[j].shift = shift;
+                    }
+                    if(j == 3) {
+                        int bit3  = (noise_LFSR >> 3) & 1;
+                        int bit12 = (noise_LFSR >> 12) & 1;
+                        int bit14 = (noise_LFSR >> 14) & 1;
+                        int bit15 = (noise_LFSR >> 15) & 1;
+                        int gate1 = bit3 ^ bit12;
+                        int gate2 = bit14 ^ bit15;
+                        int gate3 = (gate1 ^ gate2) ^ 1;
+                        int gate4 = (gate3 & enabled) ^ 1;
+                        noise_LFSR = (noise_LFSR << 1) | gate4;
+                    }
+                    snd.ch[j].out = snd.ch[j].shift & 1;
+                }
+                snd.accum += snd.ch[j].out; /* FIXME: doesn't take DC offset into account */
+            }
+        }
+    }
+
+    snd.accum_cycles += cycles;
+}
+
+/* TODO: remove when the code above is confirmed to work right */
+#if 0
 void vic_sound_clock(int cycles)
 {
     int i, j;
@@ -366,6 +423,7 @@ void vic_sound_clock(int cycles)
 
     snd.accum_cycles += cycles;
 }
+#endif
 
 static void vic_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t value)
 {
