@@ -588,7 +588,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                     alarm_set(via_context->t2_alarm, via_context->tbi);
                 }
             }
-
+#if 0 /* r32790 FIXME: this breaks Galaxians/Thunder Mountain protection */
             /* handle the t2 alarm for the serial shift register
              * 
              * FIXME: it is not clear what happens when pulse counting mode is 
@@ -604,7 +604,8 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                     alarm_set(via_context->t2_alarm, via_context->tbi);
                 }
             }
-
+#endif
+#if 1 /* r32790 */
             /* bit 4, 3, 2 shift register control */
             if ((byte & 0x0c) == 0x08) {
                 /* shift under control of phi2 */
@@ -617,7 +618,7 @@ void viacore_store(via_context_t *via_context, uint16_t addr, uint8_t byte)
                 /* when disabled or external clock, stop the alarm */
                 alarm_unset(via_context->sr_alarm);
             }
-
+#endif
             via_context->via[addr] = byte;
             (via_context->store_acr)(via_context, byte);
 
@@ -961,8 +962,10 @@ void viacore_set_sr(via_context_t *via_context, uint8_t data)
     if (!(via_context->via[VIA_ACR] & 0x10) && (via_context->via[VIA_ACR] & 0x0c)) {
         via_context->via[VIA_SR] = data;
         via_context->ifr |= VIA_IM_SR;
+#if 1 /* r32790 */
         update_myviairq(via_context);
         via_context->shift_state = 15;
+#endif
     }
 }
 
@@ -977,7 +980,9 @@ static inline void do_shiftregister(CLOCK offset, void *data)
         if (via_context->shift_state & 1) {
             if (via_context->via[VIA_ACR] & 0x10) {
                 /* FIXME: shift out */
+#if 1 /* r32790 */
                 via_context->via[VIA_SR] = ((via_context->via[VIA_SR] << 1 ) & 0xfe) | ((via_context->via[VIA_SR] >> 7) & 1);
+#endif
             } else {
                 /* shift in */
                 /* FIXME: we should read CB2 here instead of 1, but CB2 state must not be controlled by PCR
@@ -990,7 +995,9 @@ static inline void do_shiftregister(CLOCK offset, void *data)
         if (via_context->shift_state == 16) {
             via_context->ifr |= VIA_IM_SR;
             update_myviairq_rclk(via_context, rclk);
+#if 0 /* r32790 FIXME: this breaks Galaxians/Thunder Mountain protection */
             via_context->shift_state = 0;
+#endif
         }
     }
 }
@@ -1025,6 +1032,7 @@ static void viacore_intt2(CLOCK offset, void *data)
            every second underflow is a pulse updating the shift register, 
            until all 8 bits are complete */
         do_shiftregister(offset, data);
+#if 1 /* r32790 */
     } else if ((via_context->via[VIA_ACR] & 0x1c) == 0x10) {
 
         /* set next alarm to T2 low period */
@@ -1033,6 +1041,7 @@ static void viacore_intt2(CLOCK offset, void *data)
         /* same as above, except bits will we clocked out CB2 repeatedly without
          * stopping after 8 bits */
         do_shiftregister(offset, data);
+#endif
     } else {
         /* 16 bit timer mode; it is guaranteed that T2 low is in underflow */
         via_context->t2cl = 0xff;
