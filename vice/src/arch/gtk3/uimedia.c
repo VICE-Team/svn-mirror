@@ -791,8 +791,11 @@ static GtkWidget *create_screenshot_widget(void)
              * connecting it before this call), so I don't have to manually
              * set it here, though all this text could have been used to set it.
              */
+            /* FIXME: only set PNG first time the dialog is created, on second time
+                      it should use whatever was used before */
             if (strcmp(name, "PNG") == 0) {
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                video_driver_index = index; /* set this driver as currently selected one */
             }
 
             /* connect signal *after* setting a radio button's state, to avoid
