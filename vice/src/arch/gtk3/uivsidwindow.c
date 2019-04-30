@@ -2,6 +2,7 @@
  * \brief   Native GTK3 main vsid window code
  *
  * \author  Marcus Sutton <loggedoubt@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -27,8 +28,9 @@
 
 /* XXX: It should be possible to compile, link and run all emulators while this
  *      entire file (amongst others) is contained inside an #if 0 wrapper.
+ *
+ * Well, it doesn't, removing. --compyx
  */
-#if 1
 
 #include "vice.h"
 
@@ -51,10 +53,6 @@
 
 
 /** \brief  Main widget of VSID
- *
- * This should contain play/stop/rewind etc controls, and data on the currently
- * loaded SID. A proper playlist and Songlength.[txt|md5] support wouldn't
- * hurt either.
  */
 static GtkWidget *main_widget = NULL;
 
@@ -113,5 +111,3 @@ void ui_vsid_window_init(void)
 
     ui_set_handle_dropped_files_func(ui_vsid_window_load_psid);
 }
-
-#endif
