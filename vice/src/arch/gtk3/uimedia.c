@@ -131,8 +131,11 @@ static int video_driver_index = 0;
 
 
 /** \brief  Index of currently selected audio driver
+ *
+ * Initially set to -1 to select WAV as default in the audio driver list.
+ * Set to last selected driver on subsequent uses of the dialog.
  */
-static int audio_driver_index = 0;
+static int audio_driver_index = -1;
 
 
 /** \brief  List of available audio recording drivers
@@ -140,20 +143,20 @@ static int audio_driver_index = 0;
  * This list is dependent on compile-time options
  */
 static audio_driver_info_t audio_driver_list[] = {
-    { "WAV", "wav", "wav" },
-    { "AIFF", "aiff", "aif" },
-    { "VOC", "voc", "voc" },
-    { "IFF", "iff", "iff" },
+    { "WAV",        "wav",  "wav" },
+    { "AIFF",       "aiff", "aif" },
+    { "VOC",        "voc",  "voc" },
+    { "IFF",        "iff",  "iff" },
 #ifdef USE_LAMEMP3
-    { "MP3", "mp3", "mp3" },
+    { "MP3",        "mp3",  "mp3" },
 #endif
 #ifdef USE_FLAC
-    { "FLAC", "flac", "flac" },
+    { "FLAC",       "flac", "flac" },
 #endif
 #ifdef USE_VORBIS
-    { "Ogg/Vorbis", "ogg", "ogg" },
+    { "Ogg/Vorbis", "ogg",  "ogg" },
 #endif
-    { NULL, NULL, NULL }
+    { NULL,         NULL,   NULL }
 };
 
 
@@ -167,7 +170,7 @@ static vice_gtk3_combo_entry_int_t oversize_modes[] = {
     { "crop left center", 4 },
     { "crop center", 5 },
     { "crop right center", 6 },
-    { "crop left bottom (huhu)", 7 },
+    { "crop left bottom", 7 },
     { "crop center bottom", 8 },
     { "crop right bottom", 9 },
     { NULL, -1 }
@@ -868,6 +871,21 @@ static GtkWidget *create_sound_widget(void)
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio),
                 GTK_RADIO_BUTTON(last));
         gtk_grid_attach(GTK_GRID(drv_grid), radio, 0, index + 1, 1, 1);
+
+        /*
+         * Set default audio driver, or restore previously selected audio
+         * driver.
+         */
+        if (audio_driver_index < 0) {
+            if (index == 0) {   /* 0 == WAV */
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                audio_driver_index = index;
+            }
+        } else {
+            if (index == audio_driver_index) {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+            }
+        }
 
         g_signal_connect(radio, "toggled",
                 G_CALLBACK(on_audio_driver_toggled),
