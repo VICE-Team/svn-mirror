@@ -116,7 +116,16 @@ static video_driver_info_t *video_driver_list = NULL;
 static int video_driver_count = 0;
 
 
+/** \brief  Index of currently selected screenshot driver
+ *
+ * Initially set to -1 to select PNG as default in the screenshot driver list.
+ * Set to last selected driver on subsequent uses of the dialog.
+ */
+static int screenshot_driver_index = -1;
+
+
 /** \brief  Index of currently selected video driver
+ *
  */
 static int video_driver_index = 0;
 
@@ -305,7 +314,7 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 
                 if (strcmp(child_name, CHILD_SCREENSHOT) == 0) {
                     debug_gtk3("Screenshot requested, driver %d.",
-                            video_driver_index);
+                            screenshot_driver_index);
                     save_screenshot_handler();
                 } else if (strcmp(child_name, CHILD_SOUND) == 0) {
                     debug_gtk3("Audio recording requested, driver %d.",
@@ -345,7 +354,7 @@ static void on_screenshot_driver_toggled(GtkWidget *widget, gpointer data)
         int index = GPOINTER_TO_INT(data);
         debug_gtk3("screenshot driver %d (%s) selected.",
                 index, video_driver_list[index].name);
-        video_driver_index = index;
+        screenshot_driver_index = index;
         update_screenshot_options_grid(
                 create_screenshot_param_widget(video_driver_list[index].name));
     }
@@ -460,9 +469,9 @@ static void save_screenshot_handler(void)
     char *title;
     char *proposed;
 
-    display = video_driver_list[video_driver_index].display;
-    name = video_driver_list[video_driver_index].name;
-    ext = video_driver_list[video_driver_index].ext;
+    display = video_driver_list[screenshot_driver_index].display;
+    name = video_driver_list[screenshot_driver_index].name;
+    ext = video_driver_list[screenshot_driver_index].ext;
 
     title = lib_msprintf("Save %s file", display);
     proposed = create_proposed_screenshot_name(ext);
@@ -790,12 +799,20 @@ static GtkWidget *create_screenshot_widget(void)
              * Also trigger the event handler to set the driver index (by
              * connecting it before this call), so I don't have to manually
              * set it here, though all this text could have been used to set it.
+             *
+             * Only set PNG first time the dialog is created, on second time
+             * it should use whatever was used before
              */
-            /* FIXME: only set PNG first time the dialog is created, on second time
-                      it should use whatever was used before */
-            if (strcmp(name, "PNG") == 0) {
-                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-                video_driver_index = index; /* set this driver as currently selected one */
+            if (screenshot_driver_index < 0) {
+                if (strcmp(name, "PNG") == 0) {
+                    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                    screenshot_driver_index = index; /* set this driver as
+                                                        currently selected one */
+                }
+            } else {
+                if (screenshot_driver_index == index) {
+                    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                }
             }
 
             /* connect signal *after* setting a radio button's state, to avoid
