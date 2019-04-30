@@ -338,7 +338,7 @@ void vic_sound_clock(int cycles)
                      /* if it's a normal voice or it's noise and LFSR out is 1 */
                     if((j != 3) || ((j == 3) && (noise_LFSR & 1))) {
                         uint8_t shift = snd.ch[j].shift;
-                        shift = ((shift << 1) | ((((shift & 128) >> 7)) ^ 1) & enabled);
+                        shift = (shift << 1) | ((((shift & 128) >> 7) ^ 1) & enabled);
                         snd.ch[j].shift = shift;
                     }
                     if(j == 3) {
