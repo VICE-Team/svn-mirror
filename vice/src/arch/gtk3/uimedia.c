@@ -649,7 +649,16 @@ static void create_video_driver_list(void)
  */
 static int driver_is_video(const char *name)
 {
-    return strcmp(name, "FFMPEG") == 0 || strcmp(name, "QuickTime") == 0;
+    int result;
+
+    debug_gtk3("Got driver '%s'.", name);
+#if 0
+    result =  strcmp(name, "FFMPEG") == 0 || strcmp(name, "QuickTime") == 0;
+#else
+    result = strcmp(name, "FFMPEG") == 0;
+#endif
+    debug_gtk3("Result = %s", result ? "TRUE" : "FALSE");
+    return result;
 }
 
 
@@ -930,9 +939,18 @@ static GtkWidget *create_video_widget(void)
         if (driver_is_video(name)) {
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), name, display);
         }
+
+        if (video_driver_index < 0) {
+            video_driver_index = 0;
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
+        } else {
+            if (video_driver_index == index) {
+                gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
+            }
+        }
+
     }
     gtk_widget_set_hexpand(combo, TRUE);
-    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
     selection_grid = uihelpers_create_grid_with_label("Driver selection", 2);
     gtk_grid_set_column_spacing(GTK_GRID(selection_grid), 16);
