@@ -310,6 +310,10 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
         vice_gtk3_message_error(
                 "Failed to load PDF: %s.",
                 error != NULL ? error->message : "<no message>");
+#ifdef WIN32_COMPILE
+        gtk_show_uri_on_window(NULL, "https://youtu.be/pkJG53d7p3U?t=173",
+                GDK_CURRENT_TIME, NULL);
+#endif
     }
     lib_free(uri);
     g_free(final_uri);
