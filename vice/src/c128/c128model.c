@@ -67,10 +67,12 @@ static int is_new_cia(int model)
 
 /*
 C128:             SID 6581, VDC 8563, 16 KB VDC RAM.
-C128D (plastic):  SID 6581, VDC 8563, 16 KB VDC RAM (like C128+1571)
+C128D (plastic):  SID 6581, VDC 8563, 16 KB VDC RAM, new BASIC ROM?, new floppy ROM? (like C128+1571)
 C128D (metal):    SID 8580, VDC 8568, 64 KB VDC RAM, new BASIC ROM?, new floppy ROM?
 C128DCR (like above)
- */
+
+FIXME: ROM differences not handled. New Floppy ROM handles 5710 in drive.
+*/
 
 struct model_s {
     int video;   /* machine video timing */
@@ -81,10 +83,12 @@ struct model_s {
 };
 
 static struct model_s c128models[] = {
-    { MACHINE_SYNC_PAL,  OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K },
-    { MACHINE_SYNC_PAL,  NEW_CIA, NEW_SID, VDC_REVISION_2, VDC64K },
-    { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K },
-    { MACHINE_SYNC_NTSC, NEW_CIA, NEW_SID, VDC_REVISION_2, VDC64K },
+    { MACHINE_SYNC_PAL,  OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K }, /* PAL C128 flat */
+    { MACHINE_SYNC_PAL,  OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K }, /* PAL C128D */
+    { MACHINE_SYNC_PAL,  NEW_CIA, NEW_SID, VDC_REVISION_2, VDC64K }, /* PAL C128DCR */
+    { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K }, /* NTSC C128 flat */
+    { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K }, /* NTSC C128D */
+    { MACHINE_SYNC_NTSC, NEW_CIA, NEW_SID, VDC_REVISION_2, VDC64K }, /* NTSC C128DCR */
 };
 
 /* ------------------------------------------------------------------------- */
