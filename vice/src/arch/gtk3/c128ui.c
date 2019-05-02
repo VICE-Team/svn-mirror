@@ -78,8 +78,10 @@
 static const char *c128_model_list[] = {
     "C128 PAL",
     "C128D PAL",
+    "C128DCR PAL",
     "C128 NTSC",
     "C128D NTSC",
+    "C128DCR NTSC",
     NULL
 };
 

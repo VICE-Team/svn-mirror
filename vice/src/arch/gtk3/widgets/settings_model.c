@@ -747,13 +747,17 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     video_widget = video_model_widget_create(machine_widget);
     video_model_widget_set_callback(video_widget, video_model_callback);
     gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
+
     /* VDC model widget */
     vdc_widget = vdc_model_widget_create();
     /* XXX: I'm sure I had/have a reason for this: */
     vdc_model_widget_connect_signals(vdc_widget);
     vdc_model_widget_set_revision_callback(vdc_widget, vdc_revision_callback);
     vdc_model_widget_set_ram_callback(vdc_widget, vdc_ram_callback);
+    /* align with other widgets */
+    g_object_set(vdc_widget, "margin-left", 8, NULL);
     gtk_grid_attach(GTK_GRID(video_wrapper), vdc_widget, 0, 1, 1, 1);
+
     /* CIA1 & CIA2 widget */
     cia_widget = cia_model_widget_create(machine_widget, 2);
     cia_model_widget_set_callback(cia_widget, cia_model_callback);
