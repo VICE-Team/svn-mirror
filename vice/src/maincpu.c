@@ -514,7 +514,7 @@ void maincpu_mainloop(void)
 
         if (maincpu_clk_limit && (maincpu_clk > maincpu_clk_limit)) {
             log_error(LOG_DEFAULT, "cycle limit reached.");
-            archdep_vice_exit(EXIT_FAILURE);
+            archdep_vice_exit(1);
         }
 #if 0
         if (CLK > 246171754) {
