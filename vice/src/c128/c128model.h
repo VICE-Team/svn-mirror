@@ -41,6 +41,9 @@
 
 #define C128MODEL_UNKNOWN 99
 
+#define BOARD_C128  0
+#define BOARD_C128D 1
+
 #define OLD_CIA   0
 #define NEW_CIA   1
 

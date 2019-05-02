@@ -32,6 +32,7 @@
 
 #include "c128-resources.h"
 #include "c128.h"
+#include "c128model.h"
 #include "c64cia.h"
 #include "c128mem.h"
 #include "c128rom.h"
@@ -117,6 +118,8 @@ int c128_full_banks;
 int cia1_model = CIA_MODEL_6526A;
 int cia2_model = CIA_MODEL_6526A;
 
+static int board_type = BOARD_C128D;
+
 static int set_c128_full_banks(int val, void *param)
 {
     c128_full_banks = val ? 1 : 0;
@@ -154,6 +157,19 @@ static int set_machine_type(int val, void *param)
         return -1;
     }
 
+    return 0;
+}
+
+static int set_board_type(int val, void *param)
+{
+    int old_board_type = board_type;
+    if ((val < 0) || (val > 1)) {
+        return -1;
+    }
+    board_type = val;
+    if (old_board_type != board_type) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
     return 0;
 }
 
@@ -542,6 +558,8 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
+    { "BoardType", BOARD_C128D, RES_EVENT_SAME, NULL,
+      &board_type, set_board_type, NULL },
     { "MachineType", C128_MACHINE_INT, RES_EVENT_SAME, NULL,
       &machine_type, set_machine_type, NULL },
     { "CIA1Model", CIA_MODEL_6526A, RES_EVENT_SAME, NULL,
