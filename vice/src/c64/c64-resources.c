@@ -36,6 +36,7 @@
 #include "c64rom.h"
 #include "c64memrom.h"
 #include "c64mem.h"
+#include "c64model.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
@@ -73,7 +74,7 @@ int kernal_revision = C64_KERNAL_REV3;
 int cia1_model;
 int cia2_model;
 
-static int board_type = 0;
+static int board_type = BOARD_C64;
 static int iec_reset = 0;
 
 static int set_chargen_rom_name(const char *val, void *param)
@@ -264,7 +265,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-    { "BoardType", 0, RES_EVENT_SAME, NULL,
+    { "BoardType", BOARD_C64, RES_EVENT_SAME, NULL,
       &board_type, set_board_type, NULL },
     { "IECReset", 0, RES_EVENT_SAME, NULL,
       &iec_reset, set_iec_reset, NULL },
