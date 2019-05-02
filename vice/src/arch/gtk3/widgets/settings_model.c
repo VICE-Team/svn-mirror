@@ -266,6 +266,33 @@ static void machine_model_handler_c64(int model)
 }
 
 
+/** \brief  Callback triggered on changing machine model
+ *
+ * \param[in]   model   machine model
+ */
+static void machine_model_handler_c128(int model)
+{
+    GtkWidget *sid_group;
+
+    debug_gtk3("Got model change for C128: %d.", model);
+
+    /* sync video chip (VICIIe) widget */
+    video_model_widget_update(video_widget);
+
+    /* sync VDC widget */
+    vdc_model_widget_update(vdc_widget);
+
+    /* sync SID chip widget */
+    sid_group = gtk_grid_get_child_at(GTK_GRID(sid_widget), 0, 1);
+    if (sid_group != NULL) {
+        vice_gtk3_resource_radiogroup_sync(sid_group);
+    }
+
+    /* synchronize CIA widget */
+    cia_model_widget_sync(cia_widget);
+}
+
+
 /*
  * C64DTV widget glue logic
  */
@@ -499,6 +526,9 @@ static void machine_model_callback(int model)
             break;
         case VICE_MACHINE_PET:
             machine_model_handler_pet(model);
+            break;
+        case VICE_MACHINE_C128:
+            machine_model_handler_c128(model);
             break;
         default:
             debug_gtk3("unsupported machine_class %d.", machine_class);

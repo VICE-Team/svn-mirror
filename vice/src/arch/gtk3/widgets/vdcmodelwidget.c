@@ -163,6 +163,8 @@ void vdc_model_widget_update(GtkWidget *widget)
 {
     int rev;
     int index;
+    int ram;
+    GtkWidget *ram_widget;
 
     resources_get_int("VDCRevision", &rev);
     index = vice_gtk3_radiogroup_get_list_index(vdc_revs, rev);
@@ -185,6 +187,13 @@ void vdc_model_widget_update(GtkWidget *widget)
             i++;
         }
     }
+
+    /* update the 16/64 KB widget */
+    resources_get_int("VDC64KB", &ram);
+    debug_gtk3("Got 64KB VDC RAM: %s.", ram ? "TRUE" : "FALSE");
+    ram_widget = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ram_widget), ram);
+
 }
 
 
