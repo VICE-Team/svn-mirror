@@ -164,25 +164,40 @@ void vdc_model_widget_update(GtkWidget *widget)
     int rev;
     int index;
     int ram;
+    GtkWidget *rev_widget;
     GtkWidget *ram_widget;
 
     resources_get_int("VDCRevision", &rev);
     index = vice_gtk3_radiogroup_get_list_index(vdc_revs, rev);
     debug_gtk3("got VDCRevision %d.", rev);
 
+    /* grab VDC revisions grid from the VDC widget */
+    rev_widget = gtk_grid_get_child_at(GTK_GRID(widget), 0, 2);
+
+    /*
+     * Look up revision and activate it.
+     *
+     * This currently is slightly overkill since rev 0-2 map to 0-2 in the
+     * widget, but once we start handling 'rev 1.0, rev 1.1' etc, you'll
+     * thank me.
+     */
     if (index >= 0) {
         int i = 0;
         GtkWidget *radio;
 
-        /* +2: skip title & 64KB checkbox */
         while ((radio = gtk_grid_get_child_at(
-                        GTK_GRID(widget), 0, i + 2)) != NULL) {
+                        GTK_GRID(rev_widget), 0, i)) != NULL) {
+            debug_gtk3("index = %d, i = %d.", index, i);
             if (GTK_IS_RADIO_BUTTON(radio)) {
                 if (i == index) {
+                    debug_gtk3("setting toggle button.");
                     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio),
                             TRUE);
                     break;
                 }
+            } else {
+                debug_gtk3("NOT RADIO (shouldn't get here).");
+                break;
             }
             i++;
         }
