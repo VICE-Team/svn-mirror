@@ -71,7 +71,7 @@ static const export_resource_t export_res = {
 static void debugcart_store(uint16_t addr, uint8_t value)
 {
     int n = (int)value;
-    fprintf(stdout, "DBGCART: exit(%d) cycles elapsed: %d\n", n, maincpu_clk);
+    fprintf(stdout, "DBGCART: exit(%d) cycles elapsed: %u\n", n, maincpu_clk);
     archdep_vice_exit(n);
 }
 
