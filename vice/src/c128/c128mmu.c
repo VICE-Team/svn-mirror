@@ -306,7 +306,10 @@ uint8_t mmu_peek(uint16_t addr)
             return mmu[addr] | 0xf0;
 
         case 11:
-            return (c128_full_banks) ? 4 : 2;
+            /* always return 0x20 unless someone confirms it would ever return
+               0x40 in any of the bank2+3 expansions */
+            /* return ((c128_full_banks) ? 0x40 : 0x20); */
+            return 0x20;
 
         default:
             return mmu[addr];
