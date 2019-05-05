@@ -115,7 +115,7 @@ extern int cur_len, last_len;
 #define ERR_EXPECT_CHECKNUM 5
 #define ERR_EXPECT_END_CMD 6
 #define ERR_MISSING_CLOSE_PAREN 7
-#define ERR_INCOMPLETE_COMPARE_OP 8
+#define ERR_INCOMPLETE_COND_OP 8
 #define ERR_EXPECT_FILENAME 9
 #define ERR_ADDR_TOO_BIG 10
 #define ERR_IMM_TOO_BIG 11
@@ -175,12 +175,12 @@ extern int cur_len, last_len;
 %token<i> PLUS MINUS
 %token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME CPUTYPE
 %token<reg> MON_REGISTER
-%left<cond_op> COMPARE_OP
+%left<cond_op> COND_OP
 %token<rt> RADIX_TYPE INPUT_SPEC
 %token<action> CMD_CHECKPT_ON CMD_CHECKPT_OFF TOGGLE
 %type<range> address_range address_opt_range
 %type<a>  address opt_address
-%type<cond_node> opt_if_cond_expr cond_expr compare_operand
+%type<cond_node> opt_if_cond_expr cond_expr cond_operand
 %type<i> number expression d_number guess_default device_num
 %type<i> memspace memloc memaddr checkpt_num mem_op opt_mem_op
 %type<i> top_level value
@@ -699,22 +699,22 @@ expression: expression '+' expression { $$ = $1 + $3; }
 opt_if_cond_expr: IF cond_expr { $$ = $2; }
                 | { $$ = 0; }
 
-cond_expr: cond_expr COMPARE_OP cond_expr
+cond_expr: cond_expr COND_OP cond_expr
            {
                $$ = new_cond; $$->is_parenthized = FALSE;
                $$->child1 = $1; $$->child2 = $3; $$->operation = $2;
            }
-         | cond_expr COMPARE_OP error
-           { return ERR_INCOMPLETE_COMPARE_OP; }
+      	 | cond_expr COND_OP error
+           { return ERR_INCOMPLETE_COND_OP; }
          | L_PAREN cond_expr R_PAREN
            { $$ = $2; $$->is_parenthized = TRUE; }
          | L_PAREN cond_expr error
            { return ERR_MISSING_CLOSE_PAREN; }
-         | compare_operand
+         | cond_operand
            { $$ = $1; }
          ;
 
-compare_operand: register { $$ = new_cond;
+cond_operand: register    { $$ = new_cond;
                             $$->operation = e_INV;
                             $$->is_parenthized = FALSE;
                             $$->reg_num = $1; $$->is_reg = TRUE; $$->banknum=-1;
@@ -1088,8 +1088,8 @@ void parse_and_execute_line(char *input)
          case ERR_MISSING_CLOSE_PAREN:
            mon_out("')' expected:\n");
            break;
-         case ERR_INCOMPLETE_COMPARE_OP:
-           mon_out("Compare operation missing an operand:\n");
+         case ERR_INCOMPLETE_COND_OP:
+           mon_out("Conditional operation missing an operand:\n");
            break;
          case ERR_EXPECT_FILENAME:
            mon_out("Expecting a filename:\n");

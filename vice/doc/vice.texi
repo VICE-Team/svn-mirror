@@ -15779,6 +15779,9 @@ examined, not when the condition is set.
 The condition can use registers (A, X, Y, PC, SP, FL and other cpu
 specific registers (see manual)) and compare them (==, !=, <, >, <=, >=)
 against other registers or constants.
+Full expressions are also supported (+, -, *, /, &&, ||). This let's
+you f.e. to check specific bits in the FL register using the bitwise
+boolean operators. Paranthises are also supported in the expression.
 Registers can be the registers of other devices; this is denoted by
 a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:
 Examples: A == $0, X == Y, 8:X == X)

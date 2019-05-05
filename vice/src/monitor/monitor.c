@@ -236,7 +236,13 @@ static const char *cond_op_string[] = {
     ">=",
     "<=",
     "&&",
-    "||"
+    "||",
+    "+",
+    "-",
+    "*",
+    "/",
+    "&",
+    "|"
 };
 
 const char *mon_memspace_string[] = { "default", "C", "8", "9", "0", "1" };
@@ -1908,6 +1914,28 @@ int mon_evaluate_conditional(cond_node_t *cnode)
                 cnode->value = (value_1 && value_2);
                 break;
             case e_OR:
+                cnode->value = (value_1 || value_2);
+                break;
+            case e_ADD:
+                cnode->value = (value_1 + value_2);
+                break;
+            case e_SUB:
+                cnode->value = (value_1 - value_2);
+                break;
+            case e_MUL:
+                cnode->value = (value_1 * value_2);
+                break;
+            case e_DIV:
+                if (value_2 == 0) {
+                    log_error(LOG_ERR, "Division by zero in conditional\n");
+                    return 0;                    
+                }
+                cnode->value = (value_1 / value_2);
+                break;
+            case e_BINARY_AND:
+                cnode->value = (value_1 && value_2);
+                break;
+            case e_BINARY_OR:
                 cnode->value = (value_1 || value_2);
                 break;
             default:

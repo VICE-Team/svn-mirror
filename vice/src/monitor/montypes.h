@@ -123,7 +123,13 @@ enum t_conditional {
     e_GTE,
     e_LTE,
     e_AND,
-    e_OR
+    e_OR,
+    e_ADD,
+    e_SUB,
+    e_MUL,
+    e_DIV,
+    e_BINARY_AND,
+    e_BINARY_OR
 };
 typedef enum t_conditional CONDITIONAL;
 

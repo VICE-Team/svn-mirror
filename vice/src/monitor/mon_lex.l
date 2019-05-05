@@ -424,14 +424,21 @@ if		{ BEGIN (COND_MODE); return IF; }
 }
 
 <COND_MODE>{
-	== 		{ yylval.i = e_EQU; return COMPARE_OP; }
-	!= 		{ yylval.i = e_NEQ; return COMPARE_OP; }
-	\<=		{ yylval.i = e_LTE; return COMPARE_OP; }
-	\<		{ yylval.i = e_LT;  return COMPARE_OP; }
-	\>		{ yylval.i = e_GT;  return COMPARE_OP; }
-	\>=		{ yylval.i = e_GTE; return COMPARE_OP; }
-	&&		{ yylval.i = e_AND; return COMPARE_OP; }
-	\|\|		{ yylval.i = e_OR;  return COMPARE_OP; }
+	== 		{ yylval.i = e_EQU; return COND_OP; }
+	!= 		{ yylval.i = e_NEQ; return COND_OP; }
+	\<=		{ yylval.i = e_LTE; return COND_OP; }
+	\<		{ yylval.i = e_LT;  return COND_OP; }
+	\>		{ yylval.i = e_GT;  return COND_OP; }
+	\>=		{ yylval.i = e_GTE; return COND_OP; }
+	&&		{ yylval.i = e_AND; return COND_OP; }
+	\|\|	{ yylval.i = e_OR;  return COND_OP; }
+
+  \+    { yylval.i = e_ADD; return COND_OP; }
+  -     { yylval.i = e_SUB; return COND_OP; }
+  \*    { yylval.i = e_MUL; return COND_OP; }
+  \/    { yylval.i = e_DIV; return COND_OP; }
+  &     { yylval.i = e_BINARY_AND; return COND_OP; }
+  \|    { yylval.i = e_BINARY_OR; return COND_OP; }
 
 	A 		{ yylval.i = e_A; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
 	X 		{ yylval.i = e_X; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
