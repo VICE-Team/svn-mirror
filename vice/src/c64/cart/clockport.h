@@ -32,11 +32,12 @@
 #define CLOCKPORT_DEVICE_NONE            0
 #define CLOCKPORT_DEVICE_ETH64_II        1
 #define CLOCKPORT_DEVICE_RRNET           2
-#define CLOCKPORT_DEVICE_SILVER_SURFER   3
-#define CLOCKPORT_DEVICE_MP3_64          4
-#define CLOCKPORT_DEVICE_CW3_SID         5
+#define CLOCKPORT_DEVICE_RRNETMK3        3
+#define CLOCKPORT_DEVICE_SILVER_SURFER   4
+#define CLOCKPORT_DEVICE_MP3_64          5
+#define CLOCKPORT_DEVICE_CW3_SID         6
 
-#define CLOCKPORT_MAX_ENTRIES            6
+#define CLOCKPORT_MAX_ENTRIES            7
 
 typedef struct clockport_device_s {
     char *owner;

@@ -52,6 +52,7 @@ clockport_supported_devices_t clockport_supported_devices[] = {
     { CLOCKPORT_DEVICE_NONE,          "None" },
 #ifdef HAVE_RAWNET
     { CLOCKPORT_DEVICE_RRNET,         "RRNet" },
+    { CLOCKPORT_DEVICE_RRNETMK3,      "RRNet MK3" },
 #endif
 #ifdef USE_MPG123
     { CLOCKPORT_DEVICE_MP3_64,        "MP3@64" },
@@ -135,7 +136,8 @@ clockport_device_t *clockport_open_device(int deviceid, char *owner)
     switch (deviceid) {
 #ifdef HAVE_RAWNET
         case CLOCKPORT_DEVICE_RRNET:
-            retval = clockport_rrnet_open_device(owner);
+        case CLOCKPORT_DEVICE_RRNETMK3:
+            retval = clockport_rrnet_open_device(owner, deviceid);
             break;
 #endif
 

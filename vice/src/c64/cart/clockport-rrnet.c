@@ -48,6 +48,8 @@
 
 /* Flag: Do we have the RRNET enabled?  */
 static int clockport_rrnet_enabled = 0;
+/* Flag: Type of device ?  */
+static int clockport_rrnet_deviceid = 0;
 
 static char *clockport_rrnet_owner = NULL;
 
@@ -68,8 +70,23 @@ static uint8_t clockport_rrnet_read(uint16_t address, int *valid, void *context)
     if (address < 0x02) {
         return 0;
     }
-    address ^= 0x08;
 
+    /* on the MK3, the MAC and a checksum can be read from the last 4 bytes, see
+       http://wiki.icomp.de/wiki/RR-Net#Detecting_MK3 */
+    if (clockport_rrnet_deviceid == CLOCKPORT_DEVICE_RRNETMK3) {
+        if ((address >= 0x0c) && (address <= 0x0f)) {
+            unsigned char mk3mac[4];
+            /* use the recommended default for the time being */
+            mk3mac[0] = 0xfb;   /* MAC hi */
+            mk3mac[1] = 0xff;   /* MAC lo */
+            mk3mac[2] = mk3mac[0] ^ mk3mac[1] ^ 0x55; /* checksum 0 */
+            mk3mac[3] = (mk3mac[0] + mk3mac[1] + mk3mac[2]) ^ 0xaa; /* checksum 1 */
+            *valid = 1;
+            return (mk3mac[address - 0x0c]);
+        }
+    }
+
+    address ^= 0x08;
     *valid = 1;
     return cs8900io_read(address);
 }
@@ -117,10 +134,11 @@ void clockport_rrnet_shutdown(void)
 {
     if (clockport_rrnet_enabled) {
         cs8900io_disable();
+        clockport_rrnet_deviceid = 0;
     }
 }
 
-clockport_device_t *clockport_rrnet_open_device(char *owner)
+clockport_device_t *clockport_rrnet_open_device(char *owner, int deviceid)
 {
     clockport_device_t *retval = NULL;
     if (clockport_rrnet_enabled) {
@@ -142,6 +160,7 @@ clockport_device_t *clockport_rrnet_open_device(char *owner)
     retval->device_context = NULL;
 
     clockport_rrnet_enabled = 1;
+    clockport_rrnet_deviceid = deviceid;
 
     return retval;
 }
