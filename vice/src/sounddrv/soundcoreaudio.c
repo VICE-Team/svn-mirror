@@ -249,11 +249,21 @@ static int determine_output_device_id()
     OSStatus err;
     UInt32 size;
     AudioDeviceID default_device;
+    AudioObjectPropertyAddress property_address = {
+        0,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster
+    };
 
     /* get default audio device id */
+    property_address.mSelector = kAudioHardwarePropertyDefaultOutputDevice;
     size = sizeof(default_device);
-    err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,
-                                   &size, (void*)&default_device);
+    err = AudioObjectGetPropertyData(kAudioObjectSystemObject,
+                                     &property_address,
+                                     0,
+                                     NULL,
+                                     &size,
+                                     &default_device);
     if (err != kAudioHardwareNoError) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): Failed to get default output device");
         return -1;
@@ -267,11 +277,7 @@ static int determine_output_device_id()
     }
 
     /* list audio devices */
-    AudioObjectPropertyAddress property_address = { 
-        kAudioHardwarePropertyDevices, 
-        kAudioObjectPropertyScopeGlobal, 
-        kAudioObjectPropertyElementMaster 
-    };
+    property_address.mSelector = kAudioHardwarePropertyDevices;
     size = 0;
     err = AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &property_address, 0, NULL, &size);
     if (err != kAudioHardwareNoError) {
