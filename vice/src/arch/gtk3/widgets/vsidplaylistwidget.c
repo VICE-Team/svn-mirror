@@ -120,6 +120,7 @@ static void on_playlist_next_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_prev_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_first_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_last_clicked(GtkWidget *widget, gpointer data);
+static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data);
 
 
 /** \brief  List of playlist controls
@@ -156,7 +157,7 @@ static const plist_ctrl_button_t controls[] = {
         NULL,
         "Save playlist file" },
     { "edit-clear-all", CTRL_ACTION,
-        NULL,
+        on_playlist_clear_clicked,
         "Clear playlist" },
     { NULL, 0, NULL, NULL }
 };
@@ -432,6 +433,11 @@ static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
     }
 }
 
+static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("Called!");
+    gtk_list_store_clear(playlist_model);
+}
 
 
 static void on_playlist_next_clicked(GtkWidget *widget, gpointer data)
@@ -680,7 +686,7 @@ static GtkWidget *vsid_playlist_controls_create(void)
 
 
 
-/** \brief  Create main playlisy widget
+/** \brief  Create main playlist widget
  *
  * \return  GtkGrid
  */
