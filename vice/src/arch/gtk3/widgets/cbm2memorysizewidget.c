@@ -119,7 +119,7 @@ void cbm2_memory_size_widget_update(GtkWidget *widget)
 {
     GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     if (group != NULL) {
-        vice_gtk3_resource_radiogroup_sync(widget);
+        vice_gtk3_resource_radiogroup_sync(group);
     }
 }
 
