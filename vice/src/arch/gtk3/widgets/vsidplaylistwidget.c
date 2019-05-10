@@ -662,9 +662,12 @@ static GtkWidget *vsid_playlist_controls_create(void)
     grid = vice_gtk3_grid_new_spaced(0, VICE_GTK3_DEFAULT);
     for (i = 0; controls[i].icon_name != NULL; i++) {
         GtkWidget *button;
+        gchar buff[1024];
+
+        g_snprintf(buff, 1024, "%s-symbolic", controls[i].icon_name);
 
         button = gtk_button_new_from_icon_name(
-                controls[i].icon_name,
+                buff,
                 GTK_ICON_SIZE_LARGE_TOOLBAR);
         /* always show icon and don't grab focus on click/tab */
         gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);

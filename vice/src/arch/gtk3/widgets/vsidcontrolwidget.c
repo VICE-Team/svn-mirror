@@ -272,8 +272,11 @@ GtkWidget *vsid_control_widget_create(void)
 
     for (i = 0; buttons[i].icon_name != NULL; i++) {
         GtkWidget *button;
+        gchar buf[1024];
 
-        button = gtk_button_new_from_icon_name(buttons[i].icon_name,
+        g_snprintf(buf, sizeof buf, "%s-symbolic", buttons[i].icon_name);
+
+        button = gtk_button_new_from_icon_name(buf,
                 GTK_ICON_SIZE_LARGE_TOOLBAR);
         /* always show the image, the button would useless without an image */
         gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);
