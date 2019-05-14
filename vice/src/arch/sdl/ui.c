@@ -242,19 +242,19 @@ ui_menu_action_t ui_dispatch_events(void)
     }
     if (loadf->abort) {
         loadf->abort = 0;
-        ui_pause_emulation(1);
+        ui_pause_enable();
         ui_sdl_quit();
-        ui_pause_emulation(0);
+        ui_pause_disable(); /* does this even get called after ui_sdl_quit()? */
         return MENU_ACTION_NONE;
     } else if (loader_loadstate) {
         loader_loadstate = 0;
         loader_load_snapshot(savestate_filename);
-        ui_pause_emulation(0);
+        ui_pause_disable();
         return MENU_ACTION_NONE;
     } else if (loader_savestate) {
         loader_savestate = 0;
         loader_save_snapshot(savestate_filename);
-        ui_pause_emulation(0);
+        ui_pause_disable();
         return MENU_ACTION_NONE;
     }
 

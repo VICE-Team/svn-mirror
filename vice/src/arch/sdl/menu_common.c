@@ -112,10 +112,8 @@ UI_MENU_CALLBACK(autostart_callback)
 
 UI_MENU_CALLBACK(pause_callback)
 {
-    int paused = ui_emulation_is_paused();
-
     if (activated) {
-        ui_pause_emulation(!paused);
+        ui_pause_toggle();
         return sdl_menu_text_exit_ui;
     }
     return NULL;
@@ -123,13 +121,13 @@ UI_MENU_CALLBACK(pause_callback)
 
 UI_MENU_CALLBACK(advance_frame_callback)
 {
-    int paused = ui_emulation_is_paused();
+    int paused = ui_pause_active();
 
     if (activated) {
         if (paused) {
             vsyncarch_advance_frame();
         } else {
-            ui_pause_emulation(1);
+            ui_pause_enable();
         }
         return sdl_menu_text_exit_ui;
     }

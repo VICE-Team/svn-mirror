@@ -68,3 +68,44 @@ int ui_emulation_is_paused(void)
 {
     return is_paused;
 }
+
+
+/** \brief  Get current pause state
+ *
+ * \return  boolean
+ */
+int ui_pause_active(void)
+{
+    return is_paused;
+}
+
+
+/** \brief  Enable pause
+ */
+void ui_pause_enable(void)
+{
+    ui_display_paused(1);
+    is_paused = 1;
+    interrupt_maincpu_trigger_trap(pause_trap, 0);
+}
+
+
+/** \brief  Disable pause
+ */
+void ui_pause_disable(void)
+{
+    ui_display_paused(0);
+    is_paused = 0;
+}
+
+
+/** \brief  Toggle pause
+ */
+void ui_pause_toggle(void)
+{
+    if (ui_pause_active()) {
+        ui_pause_disable();
+    } else {
+        ui_pause_enable();
+    }
+}

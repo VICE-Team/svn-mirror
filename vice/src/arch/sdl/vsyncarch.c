@@ -120,13 +120,13 @@ void vsyncarch_postsync(void)
     /* this function is called once a frame, so this
        handles single frame advance */
     if (pause_pending) {
-        ui_pause_emulation(1);
+        ui_pause_enable();
         pause_pending = 0;
     }
 }
 
 void vsyncarch_advance_frame(void)
 {
-    ui_pause_emulation(0);
+    ui_pause_disable();
     pause_pending = 1;
 }

@@ -339,6 +339,7 @@ GtkWidget *vsid_main_widget_create(void)
     g_signal_connect(stil_widget, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
 
+#if 0
     /* not the cleanest method maybe, but somehow the GtkTextView doesn't
      * trigger the drag-drop events otherwise */
     view = hvsc_stil_widget_get_view();
@@ -352,6 +353,7 @@ GtkWidget *vsid_main_widget_create(void)
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(view, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
+#endif
     /* right pane: playlist */
     gtk_drag_dest_set(
             playlist_widget,

@@ -1415,8 +1415,8 @@ void sdl_ui_invert_char(int pos_x, int pos_y)
 
 void sdl_ui_activate(void)
 {
-    if (ui_emulation_is_paused()) {
-        ui_pause_emulation(0);
+    if (ui_pause_active()) {
+        ui_pause_disable();
     }
     interrupt_maincpu_trigger_trap(sdl_ui_trap, NULL);
 }

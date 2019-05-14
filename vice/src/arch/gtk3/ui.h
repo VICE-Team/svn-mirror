@@ -87,14 +87,6 @@ void ui_display_paused(int flag);
 void ui_pause_emulation(int flag);
 int  ui_emulation_is_paused(void);
 
-/*
- * New pause 'API'
- */
-int  ui_pause_active(void);
-void ui_pause_enable(void);
-void ui_pause_disable(void);
-void ui_pause_toggle(void);
-
 
 
 int  ui_is_fullscreen(void);

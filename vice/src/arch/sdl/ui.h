@@ -101,4 +101,13 @@ extern int CheckForHaiku(void);
 void sdl_vsid_set_init_func(void (*func)(void));
 void sdl_vsid_set_play_func(void (*func)(int));
 
+/*
+ * New pause 'API'
+ */
+int  ui_pause_active(void);
+void ui_pause_enable(void);
+void ui_pause_disable(void);
+void ui_pause_toggle(void);
+
+
 #endif
