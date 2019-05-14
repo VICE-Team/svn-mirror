@@ -48,7 +48,20 @@ $ make mingw install
 $ mv ../../bin/xa.exe ../../bin/xa65.exe
 
 
-4. Get VICE's source code.
+4. Get MiKTeX to build the PDF documentation (optional).
+
+Download and install: https://miktex.org/howto/install-miktex
+
+Set $PATH so configure will find the required binaries:
+
+(my MiKTeX path is C:\miktex, I'll use that. Assumes msys 64-bit)
+$ export PATH="$PATH:/c/miktex/miktex/bin/x64"
+
+Remember to either do this last step every time you open the msys64 terminal
+or edit your ~/.bashrc
+
+
+5. Get VICE's source code.
 To checkout the source with Subversion (to "~/vice/", for example),
 you could type:
 
