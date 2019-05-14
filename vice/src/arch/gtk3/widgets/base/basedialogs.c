@@ -45,6 +45,7 @@
  */
 static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 {
+    GtkWidget *window = GTK_WIDGET(data);
 
     debug_gtk3("RESTORE MOUSE HIDE");
     ui_set_ignore_mouse_hide(FALSE);
@@ -54,7 +55,6 @@ static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
     pause_state = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog),
                 "OldPauseState"));
 #endif
-    GtkWidget *window = GTK_WIDGET(data);
     gtk_widget_destroy(window);
 #if 0
     if (!pause_state) {

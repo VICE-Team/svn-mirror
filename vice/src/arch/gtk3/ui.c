@@ -1625,6 +1625,12 @@ void ui_display_paused(int flag)
 }
 
 
+/*
+ * The following code has to go, but src/c64/c64-memory-hacks.c calls these
+ * functions. So I'll need to implement the "new pause API" in SDL as well.
+ * Also it's a bit weird why core code would call UI code.
+ */
+
 /** \brief  Pause emulation
  *
  * \param[in]   flag    toggle pause state if true
@@ -1640,6 +1646,53 @@ void ui_pause_emulation(int flag)
     }
 }
 
+/*
+ * New, less confusing pause handling
+ */
+
+/** \brief  Get pause active state
+ *
+ * \return  boolean
+ */
+int ui_pause_active(void)
+{
+    return is_paused;
+}
+
+
+/** \brief  Pause emulation
+ */
+void ui_pause_enable(void)
+{
+    if (!ui_pause_active()) {
+        is_paused = 1;
+        interrupt_maincpu_trigger_trap(pause_trap, 0);
+        ui_display_paused(1);
+    }
+}
+
+
+/** \brief  Unpause emulation
+ */
+void ui_pause_disable(void)
+{
+    if (ui_pause_active()) {
+        is_paused = 0;
+        ui_display_paused(0);
+    }
+}
+
+
+/** \brief  Toggle pause state
+ */
+void ui_pause_toggle(void)
+{
+    if (ui_pause_active()) {
+        ui_pause_disable();
+    } else {
+        ui_pause_enable();
+    }
+}
 
 
 /** \brief  Check if emulation is paused
@@ -1662,7 +1715,7 @@ int ui_emulation_is_paused(void)
  */
 gboolean ui_toggle_pause(void)
 {
-    ui_pause_emulation(!is_paused);
+    ui_pause_toggle();
     /* TODO: somehow update the checkmark in the menu without reverting to
      *       weird code like Gtk
      */

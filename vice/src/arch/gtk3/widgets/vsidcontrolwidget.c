@@ -180,7 +180,7 @@ static void ffwd_callback(GtkWidget *widget, gpointer data)
  */
 static void play_callback(GtkWidget *widget, gpointer data)
 {
-    ui_pause_emulation(0);
+    ui_pause_disable();
 
     if (tune_current <= 0) {
         debug_gtk3("restarting with tune #%d.", tune_default);
@@ -201,15 +201,12 @@ static void play_callback(GtkWidget *widget, gpointer data)
  *
  * Pause playback by using the emulator's pause feature.
  *
- * \note    ui_pause_emulation() appears to toggle pause mode when passed 1 and
- *          disable pause mode when passed 0.
- *
  * \param[in]   widget  widget
  * \param[in]   data    icon name
  */
 static void pause_callback(GtkWidget *widget, gpointer data)
 {
-    ui_pause_emulation(1);
+    ui_pause_toggle();
 }
 
 /* XXX: this doesn't work and even segfaults when pushing play after a tune

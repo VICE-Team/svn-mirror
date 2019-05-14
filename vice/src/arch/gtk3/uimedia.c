@@ -265,7 +265,7 @@ static void on_dialog_destroy(GtkWidget *widget, gpointer data)
 
     /* only unpause when the emu wasn't paused when activating the dialog */
     if (!old_pause_state) {
-        ui_pause_emulation(FALSE);
+        ui_pause_disable();
     }
 }
 
@@ -583,7 +583,7 @@ static void save_video_recording_handler(void)
         debug_gtk3("Audio = %d, bitrate %d.", ac, ab);
 
 
-        ui_pause_emulation(FALSE);
+        ui_pause_disable();
 
 
         filename_locale = file_chooser_convert_to_locale(filename);
@@ -1051,11 +1051,10 @@ gboolean uimedia_dialog_show(GtkWidget *parent, gpointer data)
      */
 
     /* remember pause state before entering the widget */
-    old_pause_state = ui_emulation_is_paused();
+    old_pause_state = ui_pause_active();
 
-    if (!ui_emulation_is_paused()) {
-        ui_pause_emulation(TRUE);
-    }
+    /* pause emulartion */
+    ui_pause_enable();
 
     /* create driver list */
     if (machine_class != VICE_MACHINE_VSID) {

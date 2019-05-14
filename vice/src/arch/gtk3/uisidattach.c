@@ -130,7 +130,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             text = lib_msprintf("Opening '%s'", filename);
             debug_gtk3("Loading SID file '%s'.", filename);
             ui_vsid_window_load_psid(filename);
-            ui_pause_emulation(0);
+            ui_pause_disable();
 
             g_free(filename);
             lib_free(text);
