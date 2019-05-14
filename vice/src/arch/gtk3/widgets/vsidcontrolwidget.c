@@ -172,9 +172,6 @@ static void ffwd_callback(GtkWidget *widget, gpointer data)
  *
  * Continue playback by using the emulator's pause feature.
  *
- * \note    ui_pause_emulation() appears to toggle pause mode when passed 1 and
- *          disable pause mode when passed 0.
- *
  * \param[in]   widget  widget
  * \param[in]   data    icon name
  */

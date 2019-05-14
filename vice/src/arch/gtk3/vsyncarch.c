@@ -194,7 +194,7 @@ void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 }
 
 /* FIXME: ui_pause_emulation is not implemented in the OSX port
- * Why does Gtk3 compile on OSX if this is true?
+ *        (Not true anymore I think)
  */
 void vsyncarch_postsync(void)
 {
@@ -203,7 +203,7 @@ void vsyncarch_postsync(void)
     /* this function is called once a frame, so this
        handles single frame advance */
     if (pause_pending) {
-        ui_pause_toggle();
+        ui_pause_enable();
         pause_pending = 0;
     }
 }

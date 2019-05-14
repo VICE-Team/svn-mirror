@@ -49,19 +49,7 @@ static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 
     debug_gtk3("RESTORE MOUSE HIDE");
     ui_set_ignore_mouse_hide(FALSE);
-#if 0
-    int pause_state;
-
-    pause_state = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog),
-                "OldPauseState"));
-#endif
     gtk_widget_destroy(window);
-#if 0
-    if (!pause_state) {
-        /* old state was unpaused: restore */
-        ui_pause_emulation(0);
-    }
-#endif
 }
 
 
@@ -80,13 +68,6 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
     GtkWidget *dialog;
     GtkWindow *parent = ui_get_active_window();
     gboolean no_parent = FALSE;
-#if 0
-    int pause_state = ui_emulation_is_paused();
-    /* pause emulation if not paused already */
-    if (!pause_state) {
-        ui_pause_emulation(1);
-    }
-#endif
 
     ui_set_ignore_mouse_hide(TRUE);
 
@@ -103,12 +84,6 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
     gtk_window_set_title(GTK_WINDOW(dialog), title);
     gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), text);
 
-#if 0
-    /* store old pause state */
-    debug_gtk3("OldPauseState = %s.", pause_state ? "paused" : "unpaused");
-    g_object_set_data(G_OBJECT(dialog),
-            "OldPauseState", GINT_TO_POINTER(pause_state));
-#endif
     /* set up signal handler to destroy the temporary parent window */
     if (no_parent) {
         g_signal_connect(dialog, "destroy", G_CALLBACK(on_dialog_destroy),

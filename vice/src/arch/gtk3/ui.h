@@ -84,10 +84,6 @@ void ui_exit(void);
 void ui_show_text(const char *title, const char *text, int width, int height);
 
 void ui_display_paused(int flag);
-void ui_pause_emulation(int flag);
-int  ui_emulation_is_paused(void);
-
-
 
 int  ui_is_fullscreen(void);
 void ui_trigger_resize(void);
@@ -96,6 +92,14 @@ gboolean ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_dat
 
 GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
+
+/*
+ * New pause 'API'
+ */
+int  ui_pause_active(void);
+void ui_pause_enable(void);
+void ui_pause_disable(void);
+void ui_pause_toggle(void);
 
 gboolean ui_toggle_pause(void);
 gboolean ui_advance_frame(void);

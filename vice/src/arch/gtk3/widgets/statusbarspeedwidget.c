@@ -93,11 +93,7 @@ static void on_warp_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_pause_toggled(GtkWidget *widget, gpointer data)
 {
-    if (ui_emulation_is_paused()) {
-        ui_pause_emulation(0);
-    } else {
-        ui_pause_emulation(1);
-    }
+    ui_pause_toggle();
 }
 
 
@@ -345,7 +341,7 @@ GtkWidget *speed_menu_popup_create(void)
     gtk_label_set_markup(GTK_LABEL(child),
             "Pause emulation (" VICE_MOD_MASK_HTML "+P)");
 
-    if (ui_emulation_is_paused()) {
+    if (ui_pause_active()) {
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     }
     gtk_container_add(GTK_CONTAINER(menu), item);
@@ -356,7 +352,7 @@ GtkWidget *speed_menu_popup_create(void)
     child = gtk_bin_get_child(GTK_BIN(item));
     gtk_label_set_markup(GTK_LABEL(child),
             "Advance frame (" VICE_MOD_MASK_HTML "+Shift+P)");
-    if (!ui_emulation_is_paused()) {
+    if (!ui_pause_active()) {
         gtk_widget_set_sensitive(item, FALSE);
     }
     gtk_container_add(GTK_CONTAINER(menu), item);
@@ -516,7 +512,7 @@ void statusbar_speed_widget_update(
             cpu,
             fps,
             warp_flag ? " (warp)" : "",
-            ui_emulation_is_paused() ? " (paused)" : "");
+            ui_pause_active() ? " (paused)" : "");
 
     label = gtk_bin_get_child(GTK_BIN(widget));
 

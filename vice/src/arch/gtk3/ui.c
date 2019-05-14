@@ -1625,31 +1625,6 @@ void ui_display_paused(int flag)
 }
 
 
-/*
- * The following code has to go, but src/c64/c64-memory-hacks.c calls these
- * functions. So I'll need to implement the "new pause API" in SDL as well.
- * Also it's a bit weird why core code would call UI code.
- */
-
-/** \brief  Pause emulation
- *
- * \param[in]   flag    toggle pause state if true
- */
-void ui_pause_emulation(int flag)
-{
-    if (flag && !is_paused) {
-        is_paused = 1;
-        interrupt_maincpu_trigger_trap(pause_trap, 0);
-    } else {
-        ui_display_paused(0);
-        is_paused = 0;
-    }
-}
-
-/*
- * New, less confusing pause handling
- */
-
 /** \brief  Get pause active state
  *
  * \return  boolean
@@ -1695,16 +1670,6 @@ void ui_pause_toggle(void)
 }
 
 
-/** \brief  Check if emulation is paused
- *
- * \return  nonzero if emulation is paused
- */
-int ui_emulation_is_paused(void)
-{
-    return is_paused;
-}
-
-
 /** \brief  Pause toggle handler
  *
  * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
@@ -1742,10 +1707,10 @@ static void ui_toggle_warp(void)
  */
 gboolean ui_advance_frame(void)
 {
-    if (ui_emulation_is_paused()) {
+    if (ui_pause_active()) {
         vsyncarch_advance_frame();
     } else {
-        ui_pause_emulation(1);
+        ui_pause_enable();
     }
 
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */

@@ -1045,9 +1045,7 @@ gboolean uimedia_dialog_show(GtkWidget *parent, gpointer data)
     GtkWidget *content;
 
     /*
-     * Pause emulation, the ui_emulation_is_paused() check is required since
-     * the ui_pause_emulation() function is a little weird: when passed FALSE
-     * it unpauses, when passed TRUE it toggles the paused state.
+     * Pause emulation
      */
 
     /* remember pause state before entering the widget */

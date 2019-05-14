@@ -766,7 +766,7 @@ gboolean ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
         /* FIXME: restore mouse in case it was grabbed */
         /* ui_restore_mouse(); */
 #endif
-        if (!ui_emulation_is_paused()) {
+        if (!ui_pause_active()) {
             monitor_startup_trap();
         } else {
             monitor_startup(e_default_space);

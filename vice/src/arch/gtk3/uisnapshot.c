@@ -246,7 +246,7 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
  */
 gboolean uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
 {
-    if (!ui_emulation_is_paused()) {
+    if (!ui_pause_active()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, NULL);
     } else {
         load_snapshot_trap(0, NULL);
@@ -264,7 +264,7 @@ gboolean uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
  */
 gboolean uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
 {
-    if (!ui_emulation_is_paused()) {
+    if (!ui_pause_active()) {
         interrupt_maincpu_trigger_trap(save_snapshot_trap, NULL);
     } else {
         save_snapshot_trap(0, NULL);

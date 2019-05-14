@@ -69,7 +69,11 @@ static void pause_callback(GtkWidget *widget, gpointer data)
     int pause = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
     debug_gtk3("%spausing emulation.", pause ? "" : "un");
-    ui_pause_emulation(pause);
+    if (pause) {
+        ui_pause_enable();
+    } else {
+        ui_pause_disable();
+    }
 }
 
 
@@ -93,7 +97,7 @@ static GtkWidget *create_pause_checkbox(void)
     int paused;
 
     check = gtk_check_button_new_with_label("Pause emulation");
-    paused = ui_emulation_is_paused() ? TRUE : FALSE;
+    paused = ui_pause_active() ? TRUE : FALSE;
     /* set widget state before connecting the event handler, otherwise the
      * event handler triggers an un-pause */
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), paused);
