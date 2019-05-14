@@ -52,23 +52,6 @@ static void pause_trap(uint16_t addr, void *data)
     }
 }
 
-void ui_pause_emulation(int flag)
-{
-    if (flag) {
-        ui_display_paused(1);
-        is_paused = 1;
-        interrupt_maincpu_trigger_trap(pause_trap, 0);
-    } else {
-        ui_display_paused(0);
-        is_paused = 0;
-    }
-}
-
-int ui_emulation_is_paused(void)
-{
-    return is_paused;
-}
-
 
 /** \brief  Get current pause state
  *

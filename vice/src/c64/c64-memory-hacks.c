@@ -66,9 +66,9 @@ static int set_memory_hack(int value, void *param)
         return 0;
     }
 
-    old_pause_state = ui_emulation_is_paused();
+    old_pause_state = ui_pause_active();
     if (!old_pause_state) {
-        ui_pause_emulation(1);
+        ui_pause_enable();
     }
 
     switch (value) {
@@ -79,7 +79,7 @@ static int set_memory_hack(int value, void *param)
             break;
         default:
             if (!old_pause_state) {
-                ui_pause_emulation(1);
+                ui_pause_enable();
             }
             return -1;
     }
@@ -113,7 +113,7 @@ static int set_memory_hack(int value, void *param)
             break;
         default:
             if (!old_pause_state) {
-                ui_pause_emulation(1);
+                ui_pause_enable();
             }
             return -1;
             break;
@@ -122,7 +122,7 @@ static int set_memory_hack(int value, void *param)
     memory_hack = value;
 
     if (!old_pause_state) {
-        ui_pause_emulation(1);
+        ui_pause_enable();
     }
     return 0;
 }

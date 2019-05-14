@@ -1,10 +1,12 @@
+/** \file   ui.h
+ * \brief   Generic UI header file
+ *
+ * \author  Hannu Nuotio <hannu.nuotio@tut.fi>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * ui.h
- *
- * Written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -72,8 +74,6 @@ extern ui_button_t ui_input_string(const char *title, const char *prompt, char *
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);
-extern void ui_pause_emulation(int flag);
-extern int ui_emulation_is_paused(void);
 extern void ui_check_mouse_cursor(void);
 extern void ui_restore_mouse(void);
 

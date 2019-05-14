@@ -730,7 +730,7 @@ static void sdl_ui_trap(uint16_t addr, void *data)
         memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
         sdl_ui_refresh();
     } else {
-        if (ui_emulation_is_paused() && (width == sdl_active_canvas->draw_buffer->draw_buffer_width) && (height == sdl_active_canvas->draw_buffer->draw_buffer_height)) {
+        if (ui_pause_active() && (width == sdl_active_canvas->draw_buffer->draw_buffer_width) && (height == sdl_active_canvas->draw_buffer->draw_buffer_height)) {
             memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
             sdl_ui_refresh();
         }
