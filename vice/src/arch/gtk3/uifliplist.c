@@ -36,28 +36,32 @@
 
 #include "uifliplist.h"
 
-void ui_fliplist_add_current_cb(GtkWidget *widget, gpointer data)
+gboolean ui_fliplist_add_current_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
     fliplist_add_image(unit);
+    return TRUE;
 }
 
-void ui_fliplist_remove_current_cb(GtkWidget *widget, gpointer data)
+gboolean ui_fliplist_remove_current_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
     fliplist_remove(unit, NULL);
+    return TRUE;
 }
 
-void ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
+gboolean ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
     fliplist_attach_head(unit, 1);
+    return TRUE;
 }
 
-void ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
+gboolean ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
     fliplist_attach_head(unit, 0);
+    return TRUE;
 }
 
 static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
@@ -205,13 +209,15 @@ static void fliplist_load_response(GtkWidget *widget, gint response_id, gpointer
  *
  *  \param   parent     Widget that sent the event
  *  \param   data       Drive to load fliplist to, or FLIPLIST_ALL_UNITS
+ *
+ *  \return TRUE
  */
-void ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
+gboolean ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
     if (unit != FLIPLIST_ALL_UNITS && (unit < 8 || unit > 11)) {
-        return;
+        return TRUE;
     }
     dialog = gtk_file_chooser_dialog_new(
         "Select flip list file",
@@ -227,6 +233,7 @@ void ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
             create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
     g_signal_connect(dialog, "response", G_CALLBACK(fliplist_load_response), data);
     gtk_widget_show_all(dialog);
+    return TRUE;
 }
 
 static void fliplist_save_response(GtkWidget *widget, gint response_id, gpointer user_data)
@@ -244,13 +251,15 @@ static void fliplist_save_response(GtkWidget *widget, gint response_id, gpointer
  *
  *  \param   parent     Widget that sent the event
  *  \param   data       Drive to save fliplist from, or FLIPLIST_ALL_UNITS
+ *
+ *  \return TRUE
  */
-void ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
+gboolean ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
     if (unit != FLIPLIST_ALL_UNITS && (unit < 8 || unit > 11)) {
-        return;
+        return TRUE;
     }
     dialog = gtk_file_chooser_dialog_new(
         "Select flip list file",
@@ -265,4 +274,6 @@ void ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
     g_signal_connect(dialog, "response", G_CALLBACK(fliplist_save_response), data);
     gtk_widget_show_all(dialog);
+
+    return TRUE;
 }

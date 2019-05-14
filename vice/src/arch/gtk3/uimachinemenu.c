@@ -238,22 +238,22 @@ static ui_menu_item_t attach_submenu[] = {
  */
 static ui_menu_item_t fliplist_submenu[] = {
     { "Add current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-add", ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
+        "fliplist-add", (void*)ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
         GDK_KEY_I, VICE_MOD_MASK },
     { "Remove current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-       "fliplist-remove", ui_fliplist_remove_current_cb, GINT_TO_POINTER(8),
+       "fliplist-remove", (void*)ui_fliplist_remove_current_cb, GINT_TO_POINTER(8),
         GDK_KEY_K, VICE_MOD_MASK },
     { "Attach next image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-next", ui_fliplist_next_cb, GINT_TO_POINTER(8),
+        "fliplist-next", (void*)ui_fliplist_next_cb, GINT_TO_POINTER(8),
         GDK_KEY_N, VICE_MOD_MASK },
     { "Attach previous image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-prev", ui_fliplist_prev_cb, GINT_TO_POINTER(8),
+        "fliplist-prev", (void*)ui_fliplist_prev_cb, GINT_TO_POINTER(8),
         GDK_KEY_N, VICE_MOD_MASK | GDK_SHIFT_MASK },
     { "Load flip list file...", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-load", ui_fliplist_load_callback, GINT_TO_POINTER(8),
+        "fliplist-load", (void*)ui_fliplist_load_callback, GINT_TO_POINTER(8),
         0, 0 },
     { "Save flip list file...", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-save", ui_fliplist_save_callback, GINT_TO_POINTER(8),
+        "fliplist-save", (void*)ui_fliplist_save_callback, GINT_TO_POINTER(8),
         0, 0 },
 
     UI_MENU_TERMINATOR
