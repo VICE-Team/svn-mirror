@@ -155,7 +155,7 @@ static GtkWidget *create_extra_widget(void)
  * \param[in]   data    extra data (ignored)
  *
  */
-void uitapecreate_dialog_show(GtkWidget *parent, gpointer data)
+gboolean uitapecreate_dialog_show(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
@@ -183,4 +183,5 @@ void uitapecreate_dialog_show(GtkWidget *parent, gpointer data)
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
 
     gtk_widget_show(dialog);
+    return TRUE;
 }

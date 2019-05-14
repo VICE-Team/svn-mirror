@@ -155,7 +155,11 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
 }
 
 
-
+/** \brief  Trigger autostarting a disk image
+ *
+ * \param[in,out]   widget      dialog
+ * \param[in]       user_data   file index in the image
+ */
 static void do_autostart(GtkWidget *widget, gpointer user_data)
 {
     gchar *filename;
@@ -373,15 +377,18 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
  * \param[in]   widget      menu item triggering the callback
  * \param[in]   user_data   integer from 8-11 for the default drive to attach
  *                          (for some reason auto-attach always ultra uses #8)
+ *
+ * \return  TRUE
  */
-void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
     dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));
     gtk_widget_show(dialog);
-
+    return TRUE;
 }
+
 
 /** \brief  Callback for "detach from #%d" menu items
  *
@@ -391,12 +398,15 @@ void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
  * \param[in]   widget      menu item triggering the callback
  * \param[in]   user_data   integer from 8-11 for the drive to
  *                          close, or -1 to detach all disks
+ *
+ * \return  TRUE
  */
-void ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
 {
     /* This function does its own interpretation and input validation,
      * so we can simply forward the call directly. */
     file_system_detach_disk(GPOINTER_TO_INT(user_data));
+    return TRUE;
 }
 
 
@@ -404,8 +414,10 @@ void ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget  widget (unused)
  * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE
  */
-void ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
+gboolean ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
 {
     int unit;
 
@@ -413,6 +425,7 @@ void ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
     for (unit = 8; unit < 12; unit++) {
         file_system_detach_disk(unit);
     }
+    return TRUE;
 }
 
 

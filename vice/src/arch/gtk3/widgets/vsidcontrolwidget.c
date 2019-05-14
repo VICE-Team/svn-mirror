@@ -233,6 +233,12 @@ static void stop_callback(GtkWidget *widget, gpointer data)
 #endif
 
 
+static void sid_attach_wrapper(GtkWidget *widget, gpointer data)
+{
+    uisidattach_show_dialog(widget, data);
+}
+
+
 /** \brief  List of media control buttons
  */
 static const vsid_ctrl_button_t buttons[] = {
@@ -250,7 +256,7 @@ static const vsid_ctrl_button_t buttons[] = {
         "Fast forward" },
     { "media-skip-forward", next_tune_callback,
         "Go to next subtune" },   /* select next tune */
-    { "media-eject", uisidattach_show_dialog,
+    { "media-eject", sid_attach_wrapper,
         "Load PSID file" },   /* active file-open dialog */
     { "media-record", fake_callback,
         "Record media" },  /* start recording with current settings*/

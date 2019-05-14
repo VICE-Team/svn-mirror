@@ -169,8 +169,10 @@ static void about_response_callback(GtkWidget *widget, gint response_id,
  *
  * \param[in,out]   widget      widget triggering the event
  * \param[in]       user_data   data for the event (unused)
+ *
+ * \return  TRUE
  */
-void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *about = gtk_about_dialog_new();
     GdkPixbuf *logo = get_vice_logo();
@@ -235,4 +237,5 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* ... and show the dialog finally */
     gtk_widget_show(about);
+    return TRUE;
 }

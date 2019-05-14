@@ -283,14 +283,14 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
  * \param[in]   widget      menu item triggering the callback
  * \param[in]   user_data   ignored
  */
-void ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
     debug_gtk3("called.");
     dialog = create_tape_attach_dialog(widget);
     gtk_widget_show(dialog);
-
+    return TRUE;
 }
 
 
@@ -301,10 +301,13 @@ void ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget      menu item triggering the callback
  * \param[in]   user_data   ignored
+ *
+ * \return  TRUE
  */
-void ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
 {
     tape_image_detach(1);
+    return TRUE;
 }
 
 

@@ -140,8 +140,10 @@ static GtkWidget *create_content_widget(void)
  *
  * \param[in]   widget      parent widget (unused)
  * \param[in]   user_data   extra data (unused)
+ *
+ * \return  TRUE
  */
-void uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
+gboolean uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -161,4 +163,5 @@ void uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
     gtk_widget_show_all(dialog);
+    return TRUE;
 }

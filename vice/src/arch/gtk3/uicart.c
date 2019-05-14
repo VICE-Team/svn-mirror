@@ -1082,8 +1082,10 @@ gboolean uicart_detach(void)
  *
  * \param[in]   widget  parent widget (unused)
  * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE
  */
-void uicart_show_dialog(GtkWidget *widget, gpointer data)
+gboolean uicart_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
 
@@ -1151,6 +1153,7 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
     }
 
     gtk_widget_show(dialog);
+    return TRUE;
 }
 
 

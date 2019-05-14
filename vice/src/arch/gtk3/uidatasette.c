@@ -49,7 +49,7 @@ static void on_configure_activate(GtkWidget *widget, gpointer data)
 }
 
 
-void ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
+gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
 {
     int val = GPOINTER_TO_INT(data);
     if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
@@ -57,6 +57,7 @@ void ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
     } else {
         fprintf(stderr, "Got an impossible Datasette Control action, code %ld (valid range %d-%d)\n", (long)val, DATASETTE_CONTROL_STOP, DATASETTE_CONTROL_RESET_COUNTER);
     }
+    return TRUE;
 }
 
 GtkWidget *ui_create_datasette_control_menu(void)

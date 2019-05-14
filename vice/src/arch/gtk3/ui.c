@@ -751,13 +751,15 @@ void ui_trigger_resize(void)
  *
  * \param[in]   widget      the widget that sent the callback (ignored)
  * \param[in]   user_data   extra data for the callback (ignored)
+ *
+ * \return  TRUE
  */
-void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWindow *window;
 
     if (active_win_index < 0) {
-        return;
+        return FALSE;
     }
 
     window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
@@ -770,17 +772,21 @@ void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
     }
 
     ui_update_fullscreen_decorations();
+    return TRUE;
 }
 
 /** \brief Toggles fullscreen window decorations in response to user request
  *
  * \param[in]   widget      the widget that sent the callback (ignored)
  * \param[in]   user_data   extra data for the callback (ignored)
+ *
+ * \return  TRUE
  */
-void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
     ui_update_fullscreen_decorations();
+    return TRUE;
 }
 
 

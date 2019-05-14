@@ -31,7 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data);
-void uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data);
+gboolean uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data);
+gboolean uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data);
 
 #endif

@@ -30,8 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void uisidattach_show_dialog(GtkWidget *widget, gpointer data);
-
+gboolean uisidattach_show_dialog(GtkWidget *widget, gpointer data);
 void uisidattach_shutdown(void);
 
 #endif

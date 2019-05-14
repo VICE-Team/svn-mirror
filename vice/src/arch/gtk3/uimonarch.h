@@ -31,6 +31,6 @@
 
 #include <gtk/gtk.h>
 
-void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data);
+gboolean ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data);
 
 #endif

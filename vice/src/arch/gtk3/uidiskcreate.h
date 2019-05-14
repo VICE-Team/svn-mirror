@@ -30,6 +30,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void uidiskcreate_dialog_show(GtkWidget *parent, gpointer data);
+gboolean uidiskcreate_dialog_show(GtkWidget *parent, gpointer data);
 
 #endif

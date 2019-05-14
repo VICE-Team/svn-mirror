@@ -65,12 +65,23 @@ typedef struct ui_menu_item_s {
     /** GAction name (must be unique or NULL for no action) */
     char *action_name;
 
-    /** menu item callback function (NULL == no callback) */
-    void (*callback)(GtkWidget *widget, gpointer user_data);
+    /** \brief  menu item callback function
+     *
+     * The return value determines whether or not the keypress was 'consumed'
+     * by the UI. Normally you'd return TRUE here.
+     *
+     * If `NULL`, there is no callback (for separators or placeholders for
+     * not yet implemented items)
+     */
+    gboolean (*callback)(GtkWidget *widget, gpointer user_data);
 
-    /** callback data, or a pointer to an array of submenu items if the menu
-     *  type is UI_MENU_TYPE_SUBMENU, or a resource name in case of
-     *  UI_MENU_ITEM_TYPE_CHECK */
+    /** \brief  Callback data (optional)
+     *
+     *  - UI_MENU_TYPE_ITEM_ACTION:  scalar
+     *  - UI_MENU_TYPE_SUBMENU: array of submenu items
+     *  - UI_MENU_TYPE_ITEM_CHECK: resource name
+     *  - UI_MENU_TYPE_SEPARATOR: ignored
+     */
     void *data;
 
     /** accelerator key, without modifier

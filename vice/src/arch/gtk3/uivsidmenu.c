@@ -136,7 +136,7 @@ static ui_menu_item_t file_menu[] = {
         GDK_KEY_R, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     { "Stop sound recording", UI_MENU_TYPE_ITEM_ACTION,
-        "sound-stop", (void *)uimedia_stop_recording, NULL,
+        "sound-stop", uimedia_stop_recording, NULL,
         GDK_KEY_S, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     UI_MENU_SEPARATOR,
@@ -185,7 +185,7 @@ static ui_menu_item_t settings_menu[] = {
      *      added to the settings dialog
      */
     { "Override PSID settings", UI_MENU_TYPE_ITEM_CHECK,
-        "psid-keep-env", (void *)(ui_toggle_resource), (void *)"PSIDKeepEnv",
+        "psid-keep-env", ui_toggle_resource, (void *)"PSIDKeepEnv",
         0, 0 },
 
     UI_MENU_TERMINATOR

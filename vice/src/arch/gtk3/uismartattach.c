@@ -401,16 +401,16 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
  *
  * \param[in]   widget      menu item triggering the callback
  * \param[in]   user_data   data for the event (unused)
+ *
+ * \return  TRUE
  */
-void ui_smart_attach_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_smart_attach_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
-    debug_gtk3("called.");
-
     dialog = create_smart_attach_dialog(widget);
-
     gtk_widget_show(dialog);
+    return TRUE;
 
 }
 

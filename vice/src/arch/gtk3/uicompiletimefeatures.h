@@ -31,6 +31,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void uicompiletimefeatures_dialog_show(GtkWidget *widget, gpointer user_data);
+gboolean uicompiletimefeatures_dialog_show(GtkWidget *widget, gpointer user_data);
 
 #endif

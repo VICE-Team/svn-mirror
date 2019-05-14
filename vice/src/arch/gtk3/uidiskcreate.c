@@ -374,8 +374,12 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 
 /** \brief  Create and show 'attach new disk image' dialog
  *
+ *  \param[in]  parent  parent widget
+ *  \param[in]  data    disk unit
+ *
+ * \return  TRUE;
  */
-void uidiskcreate_dialog_show(GtkWidget *parent, gpointer data)
+gboolean uidiskcreate_dialog_show(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
@@ -409,4 +413,6 @@ void uidiskcreate_dialog_show(GtkWidget *parent, gpointer data)
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
 
     gtk_widget_show(dialog);
+
+    return TRUE;
 }

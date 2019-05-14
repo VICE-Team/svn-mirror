@@ -45,7 +45,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data);
 gboolean uicart_trigger_freeze(void);
 gboolean uicart_detach(void);
 
-void uicart_show_dialog(GtkWidget *widget, gpointer data);
+gboolean uicart_show_dialog(GtkWidget *widget, gpointer data);
 
 void uicart_shutdown(void);
 

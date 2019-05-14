@@ -739,8 +739,10 @@ int console_close_all(void)
  *
  * \param[in,out]   widget      widget triggering the event
  * \param[in]       user_data   data for the event (unused)
+ *
+ * \return  TRUE
  */
-void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
 {
     int v;
     int native = 0;
@@ -770,5 +772,6 @@ void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
             monitor_startup(e_default_space);
         }
     }
+    return TRUE;
 }
 

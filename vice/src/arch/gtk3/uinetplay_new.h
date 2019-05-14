@@ -32,7 +32,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void ui_netplay_dialog_new(GtkWidget *parent, gpointer data);
+gboolean ui_netplay_dialog_new(GtkWidget *parent, gpointer data);
 
 #endif  /* ifdef HAVE_NETWORK */
 #endif  /* ifndef VICE_UINETPLAY_H */

@@ -127,13 +127,16 @@ static GtkWidget *help_submenu = NULL;
  *
  * \param[in]   widget  menu item triggering the event (ignored)
  * \param[in]   data    extra even data (ignored)
+ *
+ * \return  TRUE
  */
-static void settings_load_callback(GtkWidget *widget, gpointer data)
+static gboolean settings_load_callback(GtkWidget *widget, gpointer data)
 {
     if (resources_load(NULL) != 0) {
         vice_gtk3_message_error("VICE core error",
                 "Failed to load default settings file");
     }
+    return TRUE;
 }
 
 
@@ -141,8 +144,10 @@ static void settings_load_callback(GtkWidget *widget, gpointer data)
  *
  * \param[in]   widget  menu item triggering the event (ignored)
  * \param[in]   data    extra even data (ignored)
+ *
+ * \return  TRUE
  */
-static void settings_load_custom_callback(GtkWidget *widget, gpointer data)
+static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
 {
     gchar *filename = vice_gtk3_open_file_dialog("Load settings file",
             NULL, NULL, NULL);
@@ -152,6 +157,7 @@ static void settings_load_custom_callback(GtkWidget *widget, gpointer data)
                     "Failed to load settings from '%s'", filename);
         }
     }
+    return TRUE;
 }
 
 
@@ -160,12 +166,13 @@ static void settings_load_custom_callback(GtkWidget *widget, gpointer data)
  * \param[in]   widget  menu item triggering the event (ignored)
  * \param[in]   data    extra even data (ignored)
  */
-static void settings_save_callback(GtkWidget *widget, gpointer data)
+static gboolean settings_save_callback(GtkWidget *widget, gpointer data)
 {
     if (resources_save(NULL) != 0) {
         vice_gtk3_message_error("VICE core error",
                 "Failed to save default settings file");
     }
+    return TRUE;
 }
 
 
@@ -173,8 +180,10 @@ static void settings_save_callback(GtkWidget *widget, gpointer data)
  *
  * \param[in]   widget  menu item triggering the event (ignored)
  * \param[in]   data    extra even data (ignored)
+ *
+ * \return  TRUE
  */
-static void settings_save_custom_callback(GtkWidget *widget, gpointer data)
+static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
 {
     gchar *filename = vice_gtk3_save_file_dialog("Save settings as ...",
             NULL, TRUE, NULL);
@@ -185,6 +194,7 @@ static void settings_save_custom_callback(GtkWidget *widget, gpointer data)
         }
         g_free(filename);
     }
+    return TRUE;
 }
 
 
@@ -238,22 +248,22 @@ static ui_menu_item_t attach_submenu[] = {
  */
 static ui_menu_item_t fliplist_submenu[] = {
     { "Add current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-add", (void*)ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
+        "fliplist-add", ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
         GDK_KEY_I, VICE_MOD_MASK },
     { "Remove current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-       "fliplist-remove", (void*)ui_fliplist_remove_current_cb, GINT_TO_POINTER(8),
+       "fliplist-remove", ui_fliplist_remove_current_cb, GINT_TO_POINTER(8),
         GDK_KEY_K, VICE_MOD_MASK },
     { "Attach next image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-next", (void*)ui_fliplist_next_cb, GINT_TO_POINTER(8),
+        "fliplist-next", ui_fliplist_next_cb, GINT_TO_POINTER(8),
         GDK_KEY_N, VICE_MOD_MASK },
     { "Attach previous image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-prev", (void*)ui_fliplist_prev_cb, GINT_TO_POINTER(8),
+        "fliplist-prev", ui_fliplist_prev_cb, GINT_TO_POINTER(8),
         GDK_KEY_N, VICE_MOD_MASK | GDK_SHIFT_MASK },
     { "Load flip list file...", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-load", (void*)ui_fliplist_load_callback, GINT_TO_POINTER(8),
+        "fliplist-load", ui_fliplist_load_callback, GINT_TO_POINTER(8),
         0, 0 },
     { "Save flip list file...", UI_MENU_TYPE_ITEM_ACTION,
-        "fliplist-save", (void*)ui_fliplist_save_callback, GINT_TO_POINTER(8),
+        "fliplist-save", ui_fliplist_save_callback, GINT_TO_POINTER(8),
         0, 0 },
 
     UI_MENU_TERMINATOR
@@ -730,13 +740,13 @@ static ui_menu_item_t debug_menu_c64dtv[] = {
     UI_MENU_SEPARATOR,
 
     { "Blitter log", UI_MENU_TYPE_ITEM_CHECK,
-      "blitter-log", (void *)ui_toggle_resource, (void *)"DtvBlitterLog",
+      "blitter-log", ui_toggle_resource, (void *)"DtvBlitterLog",
       0, 0 },
     { "DMA log", UI_MENU_TYPE_ITEM_CHECK,
-      "dma-log", (void *)ui_toggle_resource, (void *)"DtvDMALog",
+      "dma-log", ui_toggle_resource, (void *)"DtvDMALog",
       0, 0 },
     { "Flash log", UI_MENU_TYPE_ITEM_CHECK,
-      "flash-log", (void *)ui_toggle_resource, (void*)"DtvFlashLog",
+      "flash-log", ui_toggle_resource, (void*)"DtvFlashLog",
       0, 0 },
 
     UI_MENU_SEPARATOR,
@@ -745,7 +755,7 @@ static ui_menu_item_t debug_menu_c64dtv[] = {
         "playframes", uidebug_playback_frames_callback, NULL,
         0, 0 },
     { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
-        "coredump", (void *)(ui_toggle_resource), (void *)"DoCoreDump",
+        "coredump", ui_toggle_resource, (void *)"DoCoreDump",
         0, 0 },
 
     UI_MENU_TERMINATOR

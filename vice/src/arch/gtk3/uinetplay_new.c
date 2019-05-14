@@ -443,8 +443,10 @@ static GtkWidget *create_content_widget(void)
  *
  * \param[in]   parent  parent widget
  * \param[in]   data    extra data (unused)
+ *
+ * \return  TRUE
  */
-void ui_netplay_dialog_new(GtkWidget *parent, gpointer data)
+gboolean ui_netplay_dialog_new(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -462,4 +464,5 @@ void ui_netplay_dialog_new(GtkWidget *parent, gpointer data)
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
 
     gtk_widget_show_all(dialog);
+    return TRUE;
 }

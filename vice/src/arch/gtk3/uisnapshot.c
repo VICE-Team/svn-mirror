@@ -241,14 +241,17 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
 {
     if (!ui_emulation_is_paused()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, NULL);
     } else {
         load_snapshot_trap(0, NULL);
     }
+    return TRUE;
 }
 
 
@@ -256,14 +259,17 @@ void uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
 {
     if (!ui_emulation_is_paused()) {
         interrupt_maincpu_trigger_trap(save_snapshot_trap, NULL);
     } else {
         save_snapshot_trap(0, NULL);
     }
+    return TRUE;
 }
 
 
@@ -272,11 +278,12 @@ void uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
  */
-void uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
 {
     char *fname = quicksnap_filename();
 
     interrupt_maincpu_trigger_trap(quickload_snapshot_trap, (void *)fname);
+    return TRUE;
 }
 
 
@@ -284,12 +291,15 @@ void uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
 {
     char *fname = quicksnap_filename();
 
     interrupt_maincpu_trigger_trap(quicksave_snapshot_trap, (void *)fname);
+    return TRUE;
 }
 
 
@@ -327,11 +337,14 @@ void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_history_record_start(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_history_record_start(GtkWidget *parent, gpointer user_data)
 {
     event_record_start();
     ui_display_recording(1);
+    return TRUE;
 }
 
 
@@ -339,11 +352,14 @@ void uisnapshot_history_record_start(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_history_record_stop(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_history_record_stop(GtkWidget *parent, gpointer user_data)
 {
     event_record_stop();
     ui_display_recording(0);
+    return TRUE;
 }
 
 
@@ -351,10 +367,13 @@ void uisnapshot_history_record_stop(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_history_playback_start(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_history_playback_start(GtkWidget *parent, gpointer user_data)
 {
     event_playback_start();
+    return TRUE;
 }
 
 
@@ -363,10 +382,13 @@ void uisnapshot_history_playback_start(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_history_playback_stop(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_history_playback_stop(GtkWidget *parent, gpointer user_data)
 {
     event_playback_stop();
+    return TRUE;
 }
 
 
@@ -374,10 +396,13 @@ void uisnapshot_history_playback_stop(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_history_milestone_set(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_history_milestone_set(GtkWidget *parent, gpointer user_data)
 {
     event_record_set_milestone();
+    return TRUE;
 }
 
 
@@ -385,8 +410,11 @@ void uisnapshot_history_milestone_set(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void uisnapshot_history_milestone_reset(GtkWidget *parent, gpointer user_data)
+gboolean uisnapshot_history_milestone_reset(GtkWidget *parent, gpointer user_data)
 {
     event_record_reset_milestone();
+    return TRUE;
 }

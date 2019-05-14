@@ -1036,8 +1036,10 @@ static GtkWidget *create_content_widget(void)
  *
  * \param[in]   parent  parent widget (unused)
  * \param[in]   data    extra data (unused)
+ *
+ * \return  TRUE
  */
-void uimedia_dialog_show(GtkWidget *parent, gpointer data)
+gboolean uimedia_dialog_show(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -1081,6 +1083,7 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
     g_signal_connect(dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
 
     gtk_widget_show_all(dialog);
+    return TRUE;
 }
 
 

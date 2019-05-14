@@ -240,14 +240,14 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
  * \param[in]   widget  menu item triggering the callback
  * \param[in]   data    ignored
  */
-void uisidattach_show_dialog(GtkWidget *widget, gpointer data)
+gboolean uisidattach_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
 
     debug_gtk3("called.");
     dialog = create_sid_attach_dialog(widget);
     gtk_widget_show(dialog);
-
+    return TRUE;
 }
 
 

@@ -192,8 +192,10 @@ static void on_response_playback_frames(GtkDialog *dialog,
  *
  * \param[in]   widget      parent widget (ignored)
  * \param[in]   user_data   extra data for the callback
+ *
+ * \return  TRUE
  */
-void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
+gboolean uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
@@ -201,6 +203,7 @@ void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "response",
             G_CALLBACK(on_response_trace_mode), NULL);
     gtk_widget_show_all(dialog);
+    return TRUE;
 }
 
 
@@ -208,8 +211,10 @@ void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
 *
 * \param[in]   widget      parent widget (ignored)
 * \param[in]   user_data   extra data for the callback
+*
+* \return   TRUE
 */
-void uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
+gboolean uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
@@ -217,5 +222,5 @@ void uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "response",
             G_CALLBACK(on_response_playback_frames), NULL);
     gtk_widget_show_all(dialog);
-
+    return TRUE;
 }

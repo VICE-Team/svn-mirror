@@ -109,10 +109,11 @@ gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
  * \param[in]   widget      menu item triggering the event (unused)
  * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
  */
-void ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
 {
     vsync_suspend_speed_eval();
     machine_trigger_reset(GPOINTER_TO_INT(user_data));
+    return TRUE;
 }
 
 
@@ -121,10 +122,11 @@ void ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
  * \param[in]   widget      menu item triggering the event (unused)
  * \param[in]   user_data   drive unit number (8-11) (int)
  */
-void ui_drive_reset_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data)
 {
     vsync_suspend_speed_eval();
     drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);
+    return TRUE;
 }
 
 
@@ -154,12 +156,15 @@ static gboolean confirm_exit(void)
  *
  * \param[in]   widget      menu item triggering the event (unused)
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
-void ui_close_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_close_callback(GtkWidget *widget, gpointer user_data)
 {
     if (confirm_exit()) {
         ui_exit();
     }
+    return TRUE;
 }
 
 
@@ -240,7 +245,7 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
 
 /** \brief  Open the Manual
  */
-void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 {
     GError *error = NULL;
     gboolean res;
@@ -290,7 +295,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
         g_clear_error(&error);
         lib_free(uri);
         lib_free(path);
-        return;
+        return FALSE;
     }
 
     debug_gtk3("pdf uri: '%s'.", final_uri);
@@ -332,10 +337,11 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
          * -- compyx
          */
         lib_free(path);
-        return;
+        return TRUE;
     }
 
     /* No HTML for you! */
+    return FALSE;
 }
 
 
