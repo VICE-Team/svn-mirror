@@ -708,35 +708,35 @@ static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
 /** \brief  Main tree nodes for VSID
  */
 static ui_settings_tree_node_t main_nodes_vsid[] = {
-   { "Sound settings",
+   { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
     /* XXX: basically a selection between 'PAL'/'NTSC' (50/60Hz) */
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
 #if 0
     /* XXX: do we need this? Sidplay allows ROM selection for Basic, Kernal and
      *      Chargen, perhaps move into model settings, plenty of space there */
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
 #endif
     /* XXX: perhaps required for VSID-specific things */
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
 
-    { "HVSC settings",
+    { "HVSC",
       "hvsc",
       hvsc_settings_widget_create, NULL },
 
@@ -751,22 +751,22 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 
 /* {{{ machine_nodes_c64 */
 static ui_settings_tree_node_t machine_nodes_c64[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -775,10 +775,10 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
 
 /* {{{ display_nodes_c64 */
 static ui_settings_tree_node_t display_nodes_c64[] = {
-    { "VIC-II settings",
+    { "VIC-II",
       "vicii",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
         "crt",
         settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -787,13 +787,13 @@ static ui_settings_tree_node_t display_nodes_c64[] = {
 
 /* {{{ audio_nodes_c64 */
 static ui_settings_tree_node_t audio_nodes_c64[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -802,16 +802,16 @@ static ui_settings_tree_node_t audio_nodes_c64[] = {
 
 /* {{{ input_nodes_c64 */
 static ui_settings_tree_node_t input_nodes_c64[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -821,19 +821,19 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
 /* {{{ peripheral_nodes_c64 */
 static ui_settings_tree_node_t peripheral_nodes_c64[] = {
     /* "Output devices? drive is also input */
-    { "Drive settings",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
+    { "Ethernet",
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
@@ -847,13 +847,13 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
  */
 static ui_settings_tree_node_t main_nodes_c64[] = {
 
-    { "Machine settings",
+    { "Machine",
         "machine",
         NULL, machine_nodes_c64 },
-    { "Display settings",
+    { "Display",
         "display",
         NULL, display_nodes_c64 },
-    { "Audio settings",
+    { "Audio",
         "audio",
         NULL, audio_nodes_c64 },
     { "Input devices",
@@ -868,7 +868,7 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -882,22 +882,22 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
 
 /* {{{ machine_nodes_c64dtv */
 static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -906,10 +906,10 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
 
 /* {{{ display_nodes_c64dtv */
 static ui_settings_tree_node_t display_nodes_c64dtv[] = {
-    { "VIC-II settings",
+    { "VIC-II",
       "vicii",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -918,13 +918,13 @@ static ui_settings_tree_node_t display_nodes_c64dtv[] = {
 
 /* {{{ audio_nodes_c64dtv */
 static ui_settings_tree_node_t audio_nodes_c64dtv[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -933,16 +933,16 @@ static ui_settings_tree_node_t audio_nodes_c64dtv[] = {
 
 /* {{{ input_nodes_c64dtv */
 static ui_settings_tree_node_t input_nodes_c64dtv[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -951,10 +951,10 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
 
 /* {{{ peripheral_nodes_c64dtv */
 static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
-    { "Drive settings",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 };
@@ -977,7 +977,7 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
     { "Snapshot/event/media recording",
@@ -997,22 +997,22 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
 /** \brief  Machine subnodes for c128
  */
 static ui_settings_tree_node_t machine_nodes_c128[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1023,13 +1023,13 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
 /** \brief  C128 Display sub nodes
  */
 static ui_settings_tree_node_t display_nodes_c128[] = {
-    { "VIC-II settings",
+    { "VIC-II",
       "vicii",
       settings_video_create, NULL },
-    { "VDC settings",
+    { "VDC",
       "vdc",
       settings_video_create_vdc, NULL },
-    { "CRT settings",
+    { "CRT",
       "crt",
       settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1040,13 +1040,13 @@ static ui_settings_tree_node_t display_nodes_c128[] = {
 /** \brief  C128 Audio sub nodes
  */
 static ui_settings_tree_node_t audio_nodes_c128[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1057,16 +1057,16 @@ static ui_settings_tree_node_t audio_nodes_c128[] = {
 /** \brief  C128 Input sub nodes
  */
 static ui_settings_tree_node_t input_nodes_c128[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1078,19 +1078,19 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
  */
 static ui_settings_tree_node_t peripheral_nodes_c128[] = {
     /* "Output devices? drive is also input */
-    { "Drive settings",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
+    { "Ethernet",
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
@@ -1103,13 +1103,13 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
 /** \brief  Main tree nodes for x128
  */
 static ui_settings_tree_node_t main_nodes_c128[] = {
-    { "Machine settings",
+    { "Machine",
         "machine",
         NULL, machine_nodes_c128 },
-    { "Display settings",
+    { "Display",
         "display",
         NULL, display_nodes_c128 },
-    { "Audio settings",
+    { "Audio",
         "audio",
         NULL, audio_nodes_c128 },
     { "Input devices",
@@ -1124,7 +1124,7 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1138,25 +1138,25 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
 
 /* {{{ machine_nodes_scpu64 */
 static ui_settings_tree_node_t machine_nodes_scpu64[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL }, 
-    { "SCPU64 settings",
+    { "SCPU64",
       "scpu64",
       scpu64_settings_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1165,10 +1165,10 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
 
 /* {{{ display_nodes_scpu64 */
 static ui_settings_tree_node_t display_nodes_scpu64[] = {
-    { "VIC-II settings",
+    { "VIC-II",
       "vicii",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1177,13 +1177,13 @@ static ui_settings_tree_node_t display_nodes_scpu64[] = {
 
 /* {{{ audio_nodes_scpu64 */
 static ui_settings_tree_node_t audio_nodes_scpu64[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1192,16 +1192,16 @@ static ui_settings_tree_node_t audio_nodes_scpu64[] = {
 
 /* {{{ input_nodes_scpu64 */
 static ui_settings_tree_node_t input_nodes_scpu64[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1210,19 +1210,19 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
 
 /* {{{ peripheral_nodes_scpu64 */
 static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
-    { "Drive settings",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
+    { "Ethernet",
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
@@ -1246,7 +1246,7 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
 
@@ -1261,22 +1261,22 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
 
 /* {{{ machine_nodes_vic20 */
 static ui_settings_tree_node_t machine_nodes_vic20[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1285,10 +1285,10 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
 
 /* {{{ display_nodes_vic20 */
 static ui_settings_tree_node_t display_nodes_vic20[] = {
-    { "VIC settings",
+    { "VIC",
       "vic",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1297,13 +1297,13 @@ static ui_settings_tree_node_t display_nodes_vic20[] = {
 
 /* {{{ audio_nodes_vic20 */
 static ui_settings_tree_node_t audio_nodes_vic20[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1312,16 +1312,16 @@ static ui_settings_tree_node_t audio_nodes_vic20[] = {
 
 /* {{{ input_nodes_vic20 */
 static ui_settings_tree_node_t input_nodes_vic20[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1330,19 +1330,19 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
 
 /* {{{ peripheral_nodes_vic20 */
 static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
-   { "Drive settings",
+   { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
+    { "Ethernet",
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
@@ -1366,7 +1366,7 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1379,22 +1379,22 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
 
 /* {{{ machine_nodes_plus4 */
 static ui_settings_tree_node_t machine_nodes_plus4[] = {
-    { "Model settings",
+    { "Model",
       "model",
        settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
        settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
        settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
        settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1403,10 +1403,10 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
 
 /* {{{ display_nodes_plus4 */
 static ui_settings_tree_node_t display_nodes_plus4[] = {
-    { "TED settings",
+    { "TED",
       "ted",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1415,13 +1415,13 @@ static ui_settings_tree_node_t display_nodes_plus4[] = {
 
 /* {{{ audio_nodes_plus4 */
 static ui_settings_tree_node_t audio_nodes_plus4[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1430,16 +1430,16 @@ static ui_settings_tree_node_t audio_nodes_plus4[] = {
 
 /* {{{ input_nodes_plus4 */
 static ui_settings_tree_node_t input_nodes_plus4[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1448,19 +1448,19 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
 
 /* {{{ peripheral_nodes_plus4 */
 static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
-    { "Drive settings",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
+    { "Ethernet",
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
@@ -1485,7 +1485,7 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1499,22 +1499,22 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
 
 /* {{{ machine_nodes_pet */
 static ui_settings_tree_node_t machine_nodes_pet[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1523,10 +1523,10 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
 
 /* {{{ display_nodes_pet */
 static ui_settings_tree_node_t display_nodes_pet[] = {
-    { "CRTC settings",
+    { "CRTC",
       "crtc",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1535,13 +1535,13 @@ static ui_settings_tree_node_t display_nodes_pet[] = {
 
 /* {{{ audio_nodes_pet */
 static ui_settings_tree_node_t audio_nodes_pet[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1550,16 +1550,16 @@ static ui_settings_tree_node_t audio_nodes_pet[] = {
 
 /* {{{ input_nodes_pet */
 static ui_settings_tree_node_t input_nodes_pet[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1568,19 +1568,19 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
 
 /* {{{ peripheral_nodes_pet */
 static ui_settings_tree_node_t peripheral_nodes_pet[] = {
-    { "Drive settings",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
 #ifdef HAVE_RAWNET
-    { "Ethernet settings",
+    { "Ethernet",
       "ethernet",
       settings_ethernet_widget_create, NULL },
 #endif
@@ -1603,7 +1603,7 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
         settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
@@ -1619,22 +1619,22 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
 
 /* {{{ machine_nodes_cbm5x0 */
 static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     ARNIE
@@ -1643,10 +1643,10 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
 
 /* {{{ display_nodes_cbm5x0 */
 static ui_settings_tree_node_t display_nodes_cbm5x0[] = {
-    { "VIC-II settings",
+    { "VIC-II",
       "vicii",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
     ARNIE
@@ -1655,13 +1655,13 @@ static ui_settings_tree_node_t display_nodes_cbm5x0[] = {
 
 /* {{{ audio_nodes_cbm5x0 */
 static ui_settings_tree_node_t audio_nodes_cbm5x0[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
       "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     ARNIE
@@ -1670,16 +1670,16 @@ static ui_settings_tree_node_t audio_nodes_cbm5x0[] = {
 
 /* {{{ input_nodes_cbm5x0 */
 static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
-     { "Keyboard settings",
+     { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
     ARNIE
@@ -1689,14 +1689,14 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
 
 /* {{{ peripheral_nodes_cbm5x0 */
 static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
-   { "Drive settings",
+   { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
@@ -1720,7 +1720,7 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
 
@@ -1732,22 +1732,22 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
 
 /* {{{ machine_nodes_cbm6x0 */
 static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
-    { "Model settings",
+    { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Speed settings",
+    { "Speed",
       "speed",
        settings_speed_widget_create, NULL },
-    { "Autostart settings",
+    { "Autostart",
       "autostart",
       settings_autostart_widget_create, NULL },
-    { "ROM settings",
+    { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
-    { "RAM reset pattern",
+    { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
-    { "Monitor settings",
+    { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
     ARNIE
@@ -1756,10 +1756,10 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
 
 /* {{{ display_nodes_cbm6x0 (*/
 static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
-    { "CRTC settings",
+    { "CRTC",
       "crtc",
       settings_video_create, NULL },
-    { "CRT settings",
+    { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
     ARNIE
@@ -1768,13 +1768,13 @@ static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
 
 /* {{{ audio_nodes_cbm6x0 */
 static ui_settings_tree_node_t audio_nodes_cbm6x0[] = {
-    { "Sound settings",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
-    { "SID settings",
+    { "SID",
        "sid",
       settings_soundchip_widget_create, NULL },
-    { "Sampler settings",
+    { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
     ARNIE
@@ -1783,16 +1783,16 @@ static ui_settings_tree_node_t audio_nodes_cbm6x0[] = {
 
 /* {{{ input_nodes_cbm6x0 */
 static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
-    { "Keyboard settings",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
-    { "Joystick settings",
+    { "Joystick",
       "joystick",
       settings_joystick_widget_create, NULL },
-    { "Control port settings",
+    { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse settings",
+    { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
 
@@ -1802,14 +1802,14 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
 
 /* {{{ peripheral nodes_cbm6x0 */
 static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
-    { "Drive settings",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
-    { "Printer settings",
+    { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 #ifdef HAVE_RS232DEV
-    { "RS232 settings",
+    { "RS232",
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
@@ -1834,7 +1834,7 @@ static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-    { "Emulator settings",
+    { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
