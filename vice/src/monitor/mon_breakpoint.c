@@ -1,11 +1,12 @@
+/** \file   mon_breakpoint.c
+ * \brief   The VICE built-in monitor breakpoint functions.
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Daniel Sladic <sladic@eecg.toronto.edu>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ */
+
 /*
- * mon_breakpoint.c - The VICE built-in monitor breakpoint functions.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -192,7 +193,7 @@ void mon_breakpoint_switch_checkpoint(int op, int cp_num)
 {
     int i;
     checkpoint_t *cp = NULL;
-    
+
     cp = find_checkpoint(cp_num);
 
     if (cp_num == -1) {
@@ -201,7 +202,7 @@ void mon_breakpoint_switch_checkpoint(int op, int cp_num)
         for (i = 1; i < breakpoint_count; i++) {
             if ((cp = find_checkpoint(i))) {
                 cp = find_checkpoint(i);
-	        cp->enabled = op;
+                cp->enabled = op;
             }
         }
     } else if (!(cp = find_checkpoint(cp_num))) {
