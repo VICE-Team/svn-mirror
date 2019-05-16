@@ -457,6 +457,19 @@ static void cbm5x0_video_callback(int model)
 }
 
 
+/** \brief  Callback for the CBM-II 6x0/7x0 CRTC model (sync factor)
+ *
+ * Calls model widget update
+ *
+ * \param[in]   model   new VIC-II model
+ */
+static void cbm2_video_callback(int model)
+{
+    debug_gtk3("got video model %d.", model);
+    machine_model_widget_update(machine_widget);
+}
+
+
 static void cbm2_switches_callback(GtkWidget *widget, int model_line)
 {
     debug_gtk3("called with model_line %d.", model_line);
@@ -480,6 +493,7 @@ static void machine_model_handler_cbm5x0(int model)
 
 static void machine_model_handler_cbm6x0(int model)
 {
+    video_model_widget_update(video_widget);
     cbm2_memory_size_widget_update(ram_widget);
 }
 
@@ -1026,6 +1040,11 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
     GtkWidget *switches_widget;
     GtkWidget *bank15_widget;
 
+    /* add video widget */
+    video_widget = video_model_widget_create(machine_widget);
+    video_model_widget_set_callback(video_widget, cbm2_video_callback);
+    gtk_grid_attach(GTK_GRID(grid), video_widget, 0, 3, 1, 1);
+
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);
 
@@ -1152,9 +1171,11 @@ GtkWidget *settings_model_widget_create(GtkWidget *parent)
      * Connect signal handlers
      */
     machine_model_widget_connect_signals(machine_widget);
-    if ((machine_class != VICE_MACHINE_CBM6x0)
-            && (machine_class != VICE_MACHINE_PET)) {
-        /* CBM6x0 and PET only have a simple CRTC, so no video widget used */
+    if ((machine_class != VICE_MACHINE_PET)) {
+        /*
+         * PET only has a simple CRTC, so no video widget used
+         * (Is this still valid? I had to remove the cbm2 from this branch)
+         */
         video_model_widget_connect_signals(video_widget);
     }
 

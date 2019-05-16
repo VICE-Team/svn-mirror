@@ -69,6 +69,7 @@ static int get_model_index(int model)
 static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 {
     int model_id = GPOINTER_TO_INT(user_data);
+    debug_gtk3("got model ID %d.", model_id);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         debug_gtk3("setting '%s' to %d.", resource_name, model_id);
@@ -202,6 +203,7 @@ void video_model_widget_connect_signals(GtkWidget *widget)
 
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
+            debug_gtk3("adding model ID %d.", model_list[i].id);
             g_signal_connect(radio, "toggled", G_CALLBACK(on_model_toggled),
                     GINT_TO_POINTER(model_list[i].id));
         } else {
