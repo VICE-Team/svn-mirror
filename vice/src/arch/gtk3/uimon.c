@@ -475,6 +475,8 @@ console_t *uimon_window_open(void)
 
 console_t *uimon_window_resume(void)
 {
+    GtkWindow *active;
+
     if (native_monitor()) {
         return uimonfb_window_resume();
     }
@@ -487,8 +489,11 @@ console_t *uimon_window_resume(void)
      * window. This makes the monitor window show when the emulated machine
      * window is in fullscreen mode. (only tested on Windows 10)
      */
-    gtk_window_set_transient_for(GTK_WINDOW(fixed.window),
-            ui_get_active_window());
+    active = ui_get_active_window();
+    if (active != GTK_WINDOW(fixed.window)) {
+        debug_gtk3("setting monitor window transient for emulator window.");
+        gtk_window_set_transient_for(GTK_WINDOW(fixed.window), active);
+    }
 
     gtk_window_present(GTK_WINDOW(fixed.window));
 
