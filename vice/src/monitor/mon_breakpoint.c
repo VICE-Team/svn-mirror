@@ -209,8 +209,8 @@ void mon_breakpoint_switch_checkpoint(int op, int cp_num)
         mon_out("#%d not a valid checkpoint\n", cp_num);
         return;
     } else {
-                cp = find_checkpoint(cp_num);
-	        cp->enabled = op;
+        cp = find_checkpoint(cp_num);
+        cp->enabled = op;
     }
 }
 
