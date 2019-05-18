@@ -79,7 +79,7 @@ static int set_memory_hack(int value, void *param)
             break;
         default:
             if (!old_pause_state) {
-                ui_pause_enable();
+                ui_pause_disable();
             }
             return -1;
     }
@@ -113,7 +113,7 @@ static int set_memory_hack(int value, void *param)
             break;
         default:
             if (!old_pause_state) {
-                ui_pause_enable();
+                ui_pause_disable();
             }
             return -1;
             break;
@@ -122,7 +122,7 @@ static int set_memory_hack(int value, void *param)
     memory_hack = value;
 
     if (!old_pause_state) {
-        ui_pause_enable();
+        ui_pause_disable();
     }
     return 0;
 }
