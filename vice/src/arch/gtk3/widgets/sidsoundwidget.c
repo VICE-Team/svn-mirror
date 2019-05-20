@@ -52,6 +52,7 @@
 #include "resources.h"
 #include "basewidgets.h"
 #include "debug_gtk3.h"
+#include "sid.h"
 
 
 #ifdef HAVE_CATWEASELMKIII
@@ -244,6 +245,13 @@ static void on_sid_engine_changed(GtkWidget *widget, int engine)
 }
 #endif
 
+
+/** \brief  Reference to the SID filters checkbox
+ */
+GtkWidget *filters;
+
+
+
 /** \brief  Extra callback registered to the 'number of SIDs' radiogroup
  *
  * \param[in]   widget  widget triggering the event
@@ -383,6 +391,8 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 static void engine_model_changed_callback(int engine, int model)
 {
     debug_gtk3("engine: %d, model = %d.", engine, model);
+
+    gtk_widget_set_sensitive(filters, engine == SID_ENGINE_RESID);
 }
 
 
@@ -681,7 +691,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 #endif
     GtkWidget *engine;
     GtkWidget *sids = NULL;
-    GtkWidget *filters;
     int current_engine;
     int stereo;
     int row;
@@ -709,10 +718,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     }
 #endif
     engine = sid_engine_model_widget_create();
-    /*
-    sid_engine_model_widget_set_callback(engine,
-            engine_model_changed_callback);
-            */
+    sid_engine_model_widget_set_callback(engine, engine_model_changed_callback);
     gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
 #ifdef HAVE_RESID
     resid_sampling = create_resid_sampling_widget();
@@ -720,10 +726,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 #endif
     resources_get_int("SidEngine", &current_engine);
     debug_gtk3("SidEngine = %d.", current_engine);
-#ifdef HAVE_RESID
-    gtk_widget_set_sensitive(resid_sampling, current_engine == 1);
-#endif
-
 
     sids = create_num_sids_widget();
     gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
@@ -763,6 +765,12 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     filters = vice_gtk3_resource_check_button_new("SidFilters",
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
+
+#ifdef HAVE_RESID
+    gtk_widget_set_sensitive(resid_sampling, current_engine == SID_ENGINE_RESID);
+    gtk_widget_set_sensitive(filters, current_engine == SID_ENGINE_RESID);
+#endif
+
 
 #ifdef HAVE_RESID
     /* TODO: check engine as well (hardSID) */
