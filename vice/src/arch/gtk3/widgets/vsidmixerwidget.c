@@ -49,6 +49,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#include "sid.h"
 
 #include "vsidmixerwidget.h"
 
@@ -110,9 +111,10 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
         model = 0;
     }
 
-    if (model == 0) {
+    if ((model == SID_MODEL_6581) | (model = SID_MODEL_6581R4)) {
         resources_get_default_value("SidResidPassband", &value);
     } else {
+        /* this includes DTVSID, which may not be correct */
         resources_get_default_value("SidResid8580Passband", &value);
     }
     gtk_range_set_value(GTK_RANGE(passband), (gdouble)value);
@@ -256,6 +258,8 @@ GtkWidget *vsid_mixer_widget_create(void)
     GtkWidget *label;
     GtkWidget *button;
 
+    int engine;
+
 #ifdef HAVE_RESID
     int model;
 
@@ -263,7 +267,12 @@ GtkWidget *vsid_mixer_widget_create(void)
         /* assume 6581 */
         model = 0;
     }
+    debug_gtk3("SidModel = %d.", model);
 #endif
+
+    if (resources_get_int("SidEngine", &engine) < 0) {
+        engine = 0;
+    }
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
     g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
@@ -280,7 +289,7 @@ GtkWidget *vsid_mixer_widget_create(void)
 #ifdef HAVE_RESID
 
     label = gtk_label_new(NULL);
-    if (model == 0) {
+    if (model == SID_MODEL_6581 | model == SID_MODEL_6581R4) {
         gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 6581 settings</b>");
     } else {
         gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 8580 settings</b>");
@@ -305,14 +314,12 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
-
-#ifndef HAVE_NEW_8580_FILTER
-    if (model > 0) {
+#ifdef 
+    if (engine != SID_ENGINE_RESID) {
         gtk_widget_set_sensitive(passband, FALSE);
         gtk_widget_set_sensitive(gain, FALSE);
         gtk_widget_set_sensitive(bias, FALSE);
     }
-#endif
 
 #endif
 

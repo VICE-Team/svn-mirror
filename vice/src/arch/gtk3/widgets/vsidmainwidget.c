@@ -44,6 +44,7 @@
 #include "vsidmixerwidget.h"
 #include "vsidplaylistwidget.h"
 #include "hvscstilwidget.h"
+#include "sid.h"
 
 #include "vsidmainwidget.h"
 
