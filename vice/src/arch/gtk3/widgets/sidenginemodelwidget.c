@@ -43,12 +43,25 @@
 #include "sidenginemodelwidget.h"
 
 
-static int num_calls;
+#ifdef HAVE_DEBUG_GTK3UI
+/** \brief  Used for debugging
+ *
+ * Count calls to the 'toggle' event handler of the radio buttons.
+ */
+static int num_calls = 0;
+#endif
 
 
+/** \brief  Optional extra callback for the SID settings glue logic
+ */
 static void (*extra_callback)(int, int) = NULL;
 
 
+/** \brief  Handler for the 'toggled' event of the SID engine/model radio buttons
+ *
+ * \param[in]   radio   radio button triggering the event
+ * \param[in]   data    new value for the SID engine/model
+ */
 static void on_radio_toggled(GtkWidget *radio, gpointer data)
 {
     unsigned int engine;
@@ -60,7 +73,14 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
     int value = GPOINTER_TO_INT(data);
 
     debug_gtk3("Call number %d.", num_calls++);
+    debug_gtk3("Radio button = 0x%p.", (void*)radio);
 
+    /* Do not update engine/model when deactivating a radio button, stupid
+     * compyx!
+     */
+    if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
+        return;
+    }
 
     if (resources_get_int("SidEngine", &current_engine) < 0) {
         debug_gtk3("Failed to get 'SidEngine' resource value, reverting to 0.");
@@ -81,8 +101,9 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
     if ((int)model != current_model || (int)engine != current_engine) {
         debug_gtk3("model and/or engine changed.");
 
-        resources_set_int("SidModel", (int)model);
+        /*resources_set_int("SidModel", (int)model);
         resources_set_int("SidEngine", (int)engine);
+        */
         sid_set_engine_model(engine, model);
 
         /* user-defined callback? */
@@ -134,15 +155,17 @@ GtkWidget *sid_engine_model_widget_create(void)
 
         debug_gtk3("Adding item (%s, %d).", list[i]->name, list[i]->value);
         radio = gtk_radio_button_new_with_label(group, list[i]->name);
+        debug_gtk3("Created radio button: 0x%p", (void*)radio);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
 
         g_object_set(radio, "margin-left", 16, NULL);
-#if 0
         if (list[i]->value == current) {
             debug_gtk3("Setting radio button %d (%x).", i, current);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+            debug_gtk3("Finished setting radio button %d, "
+                    "shouldn't have triggered callback for previous "
+                    "radio buttons in this group.", i);
         }
-#endif
         g_signal_connect(radio, "toggled",
                 G_CALLBACK(on_radio_toggled),
                 GINT_TO_POINTER(list[i]->value));
