@@ -753,8 +753,11 @@ appears to work with all known occurances of this opcode in real code:
 known occurances of this opcode in actual code are:
 
 - spectipede (original tape), use of ANE is unstable. bits 7,6,5,0 MUST be set
-  in the magic constant (that makes it not work with the common 0xee)
-- turrican 3 (by smash designs), use of ANE is unstable.
+  in the magic constant (that makes it not work with the common 0xee, but 0xef
+  works)
+- turrican 3 (by smash designs), use of ANE is unstable. bits 6,1,0 MUST be set
+  in the magic constant (that makes it not work with the common 0xee, but 0xef
+  works)
 - the ocean/imagine tape loader (yie ar kung fu, rambo first blood part ii,
   comic bakery), use of ANE is stable.
 
@@ -1215,7 +1218,7 @@ be found that works for both.
 FIXME: perhaps we really have to add some randomness to (some) bits
 */
 
-#define LXA_MAGIC       0xee
+#define LXA_MAGIC       0xef
 #define LXA_RDY_MAGIC   0xee
 
 /* FIXME: perhaps we should make the log level a user setting */
