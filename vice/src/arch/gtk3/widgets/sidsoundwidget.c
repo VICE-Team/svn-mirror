@@ -390,9 +390,12 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 
 static void engine_model_changed_callback(int engine, int model)
 {
+    gboolean is_resid = engine == SID_ENGINE_RESID;
+
     debug_gtk3("engine: %d, model = %d.", engine, model);
 
-    gtk_widget_set_sensitive(filters, engine == SID_ENGINE_RESID);
+    gtk_widget_set_sensitive(filters, is_resid);
+    gtk_widget_set_sensitive(resid_sampling, is_resid);
 }
 
 
@@ -773,7 +776,10 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
 
 #ifdef HAVE_RESID
-    /* TODO: check engine as well (hardSID) */
+    /* TODO:    check engine as well (hardSID)
+     *          Also somehow delete and replace 6581/8580 mixer widget when
+     *          changing model, so this has to go, mostly.
+     */
     if ((model == 1) || (model == 2)) {
         label = gtk_label_new("ReSID 8580 passband");
         gtk_widget_set_halign(label, GTK_ALIGN_START);
