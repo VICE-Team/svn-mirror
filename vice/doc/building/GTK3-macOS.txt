@@ -1,3 +1,77 @@
+---------------
+Using Homebrew:
+---------------
+
+#
+# Install Xcode from the app store, and make sure Xcode CLI tools
+# are installed and licenses agreed.
+#
+
+xcode-select --install
+sudo xcodebuild -license accept
+
+#
+# Install Homebrew if not already installed, see https://brew.sh but if you are lazy:
+#
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+
+------------------------------------------------------------
+Then if you just want to run the latest development version:
+------------------------------------------------------------
+
+brew install --HEAD vice
+
+#
+# x64sc, x128 etc. are now installed in /usr/local/bin.
+#
+# To rebuild once trunk has moved on:
+#
+
+brew reinstall vice
+
+
+------------------------------------------------------------------------------
+Or, you can use Homebrew to fetch dependencies for building your own checkout:
+------------------------------------------------------------------------------
+
+brew install --only-dependencies --HEAD vice
+export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
+./autogen.sh
+./configure --prefix=/usr/local --disable-hwscale
+make -j
+
+#
+# At this point you have working x64sc, x128 etc. binaries in ./src
+#
+# You can test the emulators directly via:
+#
+
+mkdir -p ~/.config/vice
+cp -r data/{C64,DRIVES,PRINTER} ~/.config/vice
+cp -r src/arch/gtk3/data/vice.gresource* ~/.config/vice
+
+./src/x64sc
+
+#
+# You can also try with OpenGL support, although at Gtk 3.24.8, the Gtk3 macOS OpenGL support:
+# "... is still very much unstable and experimental; it has only recently been added, and requires
+# more debugging from somebody who is familiar with both GL and Darwin/CoreGraphics."
+#
+
+brew install --only-dependencies --HEAD vice
+brew install glew
+export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
+./autogen.sh
+./configure --prefix=/usr/local
+make -j
+
+
+------------------------------------
+Previous macports based instuctions:
+------------------------------------
+
 FIXME: this should be much more detailed :)
 
 the following requires macports, and perhaps some more libs (libjpeg) need to be

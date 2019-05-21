@@ -29,11 +29,6 @@
 
 #include "videoarch.h"
 
-#ifdef MACOSX_SUPPORT
-/* XXX: GdkGLContext is not implemented for Macs */
-#undef HAVE_GTK3_OPENGL
-#endif
-
 #ifdef HAVE_GTK3_OPENGL
 /** \brief A renderer that uses OpenGL to render to a GtkGLArea.
  *
@@ -41,9 +36,6 @@
  * required by Gtk3, it is implemented against the OpenGL 3.2 core
  * profile and requires nothing else outside of it.
  *
- * \warning Due to incompatibilities within GTK3 itself this backend
- *          is not available on macOS, because GtkGLArea is also not
- *          available.
  */
 extern vice_renderer_backend_t vice_opengl_backend;
 #endif

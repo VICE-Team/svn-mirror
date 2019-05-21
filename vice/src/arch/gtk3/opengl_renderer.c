@@ -32,7 +32,7 @@
 #include <string.h>
 
 #ifdef MACOSX_SUPPORT
-#include <OpenGL/gl3.h>
+#include <GL/glew.h>
 #else
 #ifdef HAVE_GTK3_GLEW
 #include <GL/glew.h>
@@ -160,7 +160,7 @@ static const char *fragmentShader = "#version 150\n"
     "uniform sampler2D sampler;\n"
     "smooth in vec2 texCoord;\n"
     "out vec4 outputColor;\n"
-    "void main() { outputColor = texture2D(sampler, texCoord); }\n";
+    "void main() { outputColor = texture(sampler, texCoord); }\n";
 
 /** \brief Compile a shader.
  *
@@ -411,6 +411,11 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
             glUseProgram(0);
         }
     }
+
+#ifdef MACOSX_SUPPORT
+    // Without this, all we see is the glClearColor
+    glFinish();
+#endif
 
     return TRUE;
 }
