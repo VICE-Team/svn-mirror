@@ -639,7 +639,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc,
 
 #ifdef HAVE_TUNTAP
     if (rawnet_tuntap_dev >= 0) {
-        write(rawnet_tuntap_dev, txframe, txlength);
+        ssize_t res = write(rawnet_tuntap_dev, txframe, txlength);
         return;
     }
 #endif
