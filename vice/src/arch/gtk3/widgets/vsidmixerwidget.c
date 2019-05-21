@@ -314,7 +314,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
-#ifdef 
+
     if (engine != SID_ENGINE_RESID) {
         gtk_widget_set_sensitive(passband, FALSE);
         gtk_widget_set_sensitive(gain, FALSE);
