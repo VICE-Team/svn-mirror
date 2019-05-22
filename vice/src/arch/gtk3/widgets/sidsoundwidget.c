@@ -222,7 +222,6 @@ GtkWidget *filters;
 /* Temporarily disable this to remove warning. I'll need this one again when
  * I continue working on the SID setting glue logic.
  */
-#if 0
 /** \brief  Extra callback registered to the 'number of SIDs' radiogroup
  *
  * \param[in]   widget  widget triggering the event
@@ -238,7 +237,6 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
         gtk_widget_set_sensitive(address_widgets[2], count > 2);
     }
 }
-#endif
 
 
 /* Temporarily disable this to remove warning. Will need this function again
@@ -506,10 +504,10 @@ static GtkWidget *create_num_sids_widget(void)
     }
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
-/*
+
     vice_gtk3_resource_radiogroup_add_callback(radio_group,
             on_sid_count_changed);
-*/
+
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -823,9 +821,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     {
         /* set sensitivity of address widgets */
         resources_get_int("SidStereo", &stereo);
-#if 0
         on_sid_count_changed(NULL, stereo);
-#endif
     }
 
 #if 0
