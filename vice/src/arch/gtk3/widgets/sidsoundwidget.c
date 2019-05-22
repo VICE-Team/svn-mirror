@@ -56,15 +56,15 @@
 
 
 #ifdef HAVE_CATWEASELMKIII
-#include "catweaselmkiii.h"
+# include "catweaselmkiii.h"
 #endif
 
 #ifdef HAVE_HARDSID
-#include "hardsid.h"
+# include "hardsid.h"
 #endif
 
 #ifdef HAVE_PARSID
-#include "parsid.h"
+# include "parsid.h"
 #endif
 
 #include "sidenginemodelwidget.h"
@@ -72,21 +72,6 @@
 
 #include "sidsoundwidget.h"
 
-/* XXX: moved to sidenginemodelwidget.c */
-#if 0
-/** \brief  Values for the "SidEngine" resource
- */
-static vice_gtk3_radiogroup_entry_t sid_engines[] = {
-    { "FastSID", 0 },
-    { "ReSID", 1 },
-    { "Catweasel MKIII", 2 },
-    { "HardSID", 3 },
-    { "ParSID port 1", 4 },
-    { "ParSID port 2", 5 },
-    { "ParSID port 3", 6 },
-    { NULL, -1 }
-};
-#endif
 
 
 #ifdef HAVE_RESID
@@ -108,8 +93,7 @@ static const vice_gtk3_radiogroup_entry_t num_sids[] = {
     { "One", 0 },
     { "Two", 1 },
     { "Three", 2 },
-    { "Four" , 3 }, /* selecting this with FastSID causes a memory corruption
-                       warning in sid.c:364 */
+    { "Four" , 3 },
     { NULL, -1 }
 };
 
@@ -230,28 +214,15 @@ static GtkWidget *resid_8580_bias;
 static GtkWidget *address_widgets[3];
 
 
-#if 0
-/** \brief  Extra callback registered to the SidEngine radiogroup
- *
- * \param[in]   widget  widget triggering the event
- * \param[in]   engine  engine ID
- */
-static void on_sid_engine_changed(GtkWidget *widget, int engine)
-{
-    debug_gtk3("SID engine changed to %d.", engine);
-#ifdef HAVE_RESID
-    gtk_widget_set_sensitive(resid_sampling, engine == 1);
-#endif
-}
-#endif
-
-
 /** \brief  Reference to the SID filters checkbox
  */
 GtkWidget *filters;
 
 
-
+/* Temporarily disable this to remove warning. I'll need this one again when
+ * I continue working on the SID setting glue logic.
+ */
+#if 0
 /** \brief  Extra callback registered to the 'number of SIDs' radiogroup
  *
  * \param[in]   widget  widget triggering the event
@@ -267,8 +238,13 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
         gtk_widget_set_sensitive(address_widgets[2], count > 2);
     }
 }
+#endif
 
 
+/* Temporarily disable this to remove warning. Will need this function again
+ * once I continue working on the glue logic of the SID settings.
+ */
+#if 0
 /** \brief  Extra handler for the "toggled" event of the SID filters
  *
  * Enables/disables ReSID filter settings
@@ -299,7 +275,7 @@ static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
     }
 #endif
 }
-
+#endif
 
 #ifdef HAVE_RESID
 /** \brief  Handler for "clicked" event of reset-to-default for passband
@@ -387,7 +363,11 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 }
 #endif
 
-
+/** \brief  Extra callback for the SID engine/model widget
+ *
+ * \param[in]   engine  SID engine ID
+ * \param[in]   model   SID model ID
+ */
 static void engine_model_changed_callback(int engine, int model)
 {
     gboolean is_resid = engine == SID_ENGINE_RESID;

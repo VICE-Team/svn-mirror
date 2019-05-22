@@ -276,7 +276,6 @@ static void on_drag_data_received(
 GtkWidget *vsid_main_widget_create(void)
 {
     GtkWidget *grid;
-    GtkWidget *view;
 
     grid = vice_gtk3_grid_new_spaced(32, 32);
     g_object_set(G_OBJECT(grid),

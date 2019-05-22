@@ -86,7 +86,7 @@ static const char *net_modes[] = {
     "Client connected"
 };
 
-
+#if 0
 static gboolean netplay_update_resources(void)
 {
     const gchar *s_addr;
@@ -120,7 +120,7 @@ static gboolean netplay_update_resources(void)
 
     return TRUE;
 }
-
+#endif
 
 
 static GtkWidget *create_indented_label(const char *text)
