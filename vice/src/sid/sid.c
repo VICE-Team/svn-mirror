@@ -722,3 +722,34 @@ void sid_set_machine_parameter(long clock_rate)
     hardsid_set_machine_parameter(clock_rate);
 #endif
 }
+
+
+/** \brief  Get maximum number of support SIDs for \a engine
+ *
+ * Helper function for UIs: determine number of supported SIDs to allow UIs
+ * to not display impossibre settings.
+ *
+ * \param[in]   engine  engine ID
+ *
+ * \see sid.h for engine IDs
+ */
+int sid_engine_get_max_sids(int engine)
+{
+    switch (engine) {
+        case SID_ENGINE_FASTSID:
+            return SID_ENGINE_FASTSID_NUM_SIDS;
+        case SID_ENGINE_RESID:
+            return SID_ENGINE_RESID_NUM_SIDS;
+       case SID_ENGINE_CATWEASELMKIII:
+            return SID_ENGINE_CATWEASELMKIII_NUM_SIDS;
+        case SID_ENGINE_HARDSID:
+            return SID_ENGINE_HARDSID_NUM_SIDS;
+        case SID_ENGINE_PARSID:
+            return SID_ENGINE_PARSID_NUM_SIDS;
+        case SID_ENGINE_SSI2001:
+            return SID_ENGINE_SSI2001_NUM_SIDS;
+        default:
+            /* unknow engine */
+            return -1;
+    }
+}

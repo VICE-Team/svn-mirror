@@ -47,6 +47,25 @@ struct sid_snapshot_state_s;
 #define SID_ENGINE_SSI2001        5
 #define SID_ENGINE_DEFAULT       99
 
+/* Maximum number of supported SIDs for each engine
+ */
+
+/** \brief  Maximum number of supported SIDs for the FastSID engine */
+#define SID_ENGINE_FASTSID_NUM_SIDS         4
+/** \brief  Maximum number of supported SIDs for the ReSID engine */
+#define SID_ENGINE_RESID_NUM_SIDS           4
+/** \brief  Maximum number of supported SIDs for the Catweasel Mk3 engine */
+#define SID_ENGINE_CATWEASELMKIII_NUM_SIDS  2
+/** \brief  Maximum number of supported SIDs for the HardSID engine */
+#define SID_ENGINE_HARDSID_NUM_SIDS         2
+/** \brief  Maximum number of supported SIDs for the ParSID engine */
+#define SID_ENGINE_PARSID_NUM_SIDS          1
+/** \brief  Maximum number of supported SIDs for the SSI2001 engine */
+#define SID_ENGINE_SSI2001_NUM_SIDS         1
+
+
+
+
 #define SID_MODEL_6581           0
 #define SID_MODEL_8580           1
 #define SID_MODEL_8580D          2
@@ -139,5 +158,7 @@ extern int sid_set_engine_model(int engine, int model);
 extern void sid_sound_chip_init(void);
 
 extern void sid_set_enable(int value);
+
+int sid_engine_get_max_sids(int engine);
 
 #endif
