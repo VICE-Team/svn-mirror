@@ -405,6 +405,7 @@ gboolean ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
 {
     /* This function does its own interpretation and input validation,
      * so we can simply forward the call directly. */
+    debug_gtk3("Detaching unit #%d.", GPOINTER_TO_INT(user_data));
     file_system_detach_disk(GPOINTER_TO_INT(user_data));
     return TRUE;
 }
