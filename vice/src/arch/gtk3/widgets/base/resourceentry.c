@@ -313,8 +313,10 @@ static gboolean resource_entry_full_update_resource(GtkEntry *entry)
         return FALSE;
     }
     entry_text = gtk_entry_get_text(entry);
+#if 0
     debug_gtk3("res_name: %s res_val: %s entry_text: %s.",
             res_name, res_val, entry_text);
+#endif
     if ((res_val == NULL) || (strcmp(entry_text, res_val) != 0)) {
         if (resources_set_string(res_name, entry_text) < 0) {
             log_error(LOG_ERR, "failed to set resource '%s' to '%s'\n",

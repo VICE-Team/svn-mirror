@@ -153,10 +153,10 @@ static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
 
     id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(check), "CartridgeId"));
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-
+#if 0
     debug_gtk3("setting to %s '%s' (%d).", state ? "enable" : "disable",
             name, id);
-
+#endif
     if (state) {
         if (carthelpers_enable_func(id) < 0) {
             debug_gtk3("failed to enable %s cartridge.", name);

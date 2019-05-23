@@ -78,7 +78,9 @@ static void on_device_changed(GtkWidget *widget, gpointer user_data)
 
     value = (int)strtol(id, &endptr, 10);
     if (*endptr == '\0') {
+#if 0
         debug_gtk3("setting %s to %d.", resource, value);
+#endif
         resources_set_int(resource, value);
     }
 }

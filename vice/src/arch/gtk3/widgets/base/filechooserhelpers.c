@@ -245,6 +245,7 @@ gchar *file_chooser_convert_to_locale(const gchar *text)
     gsize bw;
     gchar *result;
 
+#if 0
 #ifdef HAVE_DEBUG_GTK3UI
     const gchar *charset;
     gchar *codeset;
@@ -254,12 +255,13 @@ gchar *file_chooser_convert_to_locale(const gchar *text)
     debug_gtk3("charset = '%s', codeset = '%s'", charset, codeset);
     g_free(codeset);
 #endif
+#endif
 
     result = g_locale_from_utf8(text, -1, &br, &bw, &err);
-
+#if 0
     debug_gtk3("bytes read: %"G_GSIZE_FORMAT", bytes written: %"G_GSIZE_FORMAT,
             br, bw);
-
+#endif
     if (result == NULL) {
         log_warning(LOG_DEFAULT,
                 "warning: failed to convert string to locale: %s",
@@ -288,6 +290,7 @@ gchar *file_chooser_convert_from_locale(const gchar *text)
     gsize bw;
     gchar *result;
 
+#if 0
 #ifdef HAVE_DEBUG_GTK3UI
     const gchar *charset;
     gchar *codeset;
@@ -297,12 +300,13 @@ gchar *file_chooser_convert_from_locale(const gchar *text)
     debug_gtk3("charset = '%s', codeset = '%s'", charset, codeset);
     g_free(codeset);
 #endif
+#endif
 
     result = g_locale_to_utf8(text, -1, &br, &bw, &err);
-
+#if 0
     debug_gtk3("bytes read: %"G_GSIZE_FORMAT", bytes written: %"G_GSIZE_FORMAT,
             br, bw);
-
+#endif
     if (result == NULL) {
         log_warning(LOG_DEFAULT,
                 "warning: failed to convert string to UTF-8: %s",

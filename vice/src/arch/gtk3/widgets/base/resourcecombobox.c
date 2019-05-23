@@ -471,7 +471,9 @@ static void on_combo_str_changed(GtkWidget *combo, gpointer user_data)
 
     resource = resource_widget_get_resource_name(combo);
     id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
+#if 0
     debug_gtk3("setting %s to '%s'.", resource, id_str);
+#endif
     resources_set_string(resource, id_str);
 }
 

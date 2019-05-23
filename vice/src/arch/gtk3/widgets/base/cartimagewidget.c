@@ -104,7 +104,9 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     g_snprintf(buffer, 256, "Save %s image file", crt_name);
     new_filename = vice_gtk3_save_file_dialog(buffer, fname, TRUE, dname);
     if (new_filename != NULL) {
+#if 0
         debug_gtk3("writing %s file image as '%s'.", crt_name, new_filename);
+#endif
         /* write file */
         if (save_func != NULL) {
             if (save_func(crt_id, new_filename) < 0) {

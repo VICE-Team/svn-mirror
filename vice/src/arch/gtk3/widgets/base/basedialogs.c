@@ -46,8 +46,9 @@
 static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 {
     GtkWidget *window = GTK_WIDGET(data);
-
+#if 0
     debug_gtk3("RESTORE MOUSE HIDE");
+#endif
     ui_set_ignore_mouse_hide(FALSE);
     gtk_widget_destroy(window);
 }
@@ -148,12 +149,10 @@ gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...)
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
     gtk_widget_destroy(dialog);
+#if 0
     debug_gtk3("got response ID %d.", result);
-    if (result == GTK_RESPONSE_OK) {
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+#endif
+    return (result == GTK_RESPONSE_OK ? TRUE : FALSE);
 }
 
 
