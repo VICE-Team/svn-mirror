@@ -69,9 +69,9 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
 
     int current_engine;
     int current_model;
-
+#ifdef HAVE_DEBUG_GTK3UI
     int value = GPOINTER_TO_INT(data);
-
+#endif
     debug_gtk3("Call number %d.", num_calls++);
     debug_gtk3("Radio button = 0x%p.", (void*)radio);
 
