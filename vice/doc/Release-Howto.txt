@@ -17,6 +17,8 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 - make sure (c) dates are correct (README, index.html, vice.texi, soundflac,
   src/arch/gtk3/uiabout.c)
+  
+- make sure the list of team members is correct (vice.texi, infocontrib.sed)
 
 - make sure the version in configure.proto is updated and it's updated in other
   files (index.html)
