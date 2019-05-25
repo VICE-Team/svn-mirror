@@ -148,6 +148,7 @@ Copyright @copyright{} 2011-2019 Kajtar Zsolt
 Copyright @copyright{} 2016-2019 AreaScout
 Copyright @copyright{} 2016-2019 Bas Wassink
 Copyright @copyright{} 2017-2019 Michael C. Martin
+Copyright @copyright{} 2019-2019 David Hogan
 @c ---vice-core-team-end---
 
 @c ---ex-team---
