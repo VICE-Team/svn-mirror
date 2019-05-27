@@ -100,6 +100,8 @@ install: installvice
 ChangeLog:
 	touch ChangeLog
 
+if MAKE_BINDIST
+
 if AMIGA_COMPILE
 if SDL_COMPILE
 bindist:
@@ -155,6 +157,11 @@ endif
 endif
 endif
 
+else
+bindist:
+	@echo this platform doesn\'t use \"make bindist\", use \"make install\" instead
+endif
+
 if HAVE_SHARED_FFMPEG
 EXTRA_INSTALLS = ffmpeglibs-install
 EXTRA_CLEANS = ffmpeglibs-clean
@@ -168,11 +175,11 @@ EXTRA_CLEANS =
 endif
 endif
 
-if MAKE_BINDIST
+if MAKE_INSTALL
+installvice: install-recursive $(EXTRA_INSTALLS)
+else
 installvice:
 	@echo this platform doesn\'t use \"make install\", use \"make bindist\" instead
-else
-installvice: install-recursive $(EXTRA_INSTALLS)
 endif
 
 # Manually define the dist targets so the correct tar usage will be used.

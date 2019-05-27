@@ -1,10 +1,9 @@
 #!/bin/bash
 
 #
-# make-bindist.sh - make binary distribution for the Mac OSX port
+# macOS-redirect-launcher.sh - macOS Application Launcher for the VICE Project
 #
 # Written by
-#  Christian Vogelgsang <chris@vogelgsang.org>
 #  David Hogan <david.q.hogan@gmail.com>
 #
 # This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,17 +24,20 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <top_srcdir> <strip> <vice-version> <--enable-arch> <zip|nozip>
-#                         $1           $2      $3             $4              $5
-#
 
-RUN_PATH=`dirname $0`
+SCRIPT_DIR="`dirname \"$0\"`"
+RESOURCES_DIR="`cd \"$SCRIPT_DIR/../Resources\" && pwd`"
+BUNDLE_DIR="`cd \"$SCRIPT_DIR/../..\" && pwd`"
+BUNDLE_NAME="`basename \"$BUNDLE_DIR\" .app`"
 
-TOP_DIR=$1
-STRIP=$2
-VICE_VERSION=$3
-ENABLEARCH=$4
-ZIP=$5
-UI_TYPE=GTK3
+MASTER_VICE_APP="$BUNDLE_DIR/../VICE.app"
+if [ ! -e $MASTER_VICE_APP ]; then
+  osascript -e "display notification \"${BUNDLE_NAME}.app requires that VICE.app be installed in the same location.\" with title \"VICE Installation Error\""
+  exit 1
+fi
 
-source "$RUN_PATH/../shared/make-bindist_osx.sh"
+# open the emulator via VICE.app
+export PROGRAM=$BUNDLE_NAME
+open "$MASTER_VICE_APP" --args "$@"
+
+exit 0

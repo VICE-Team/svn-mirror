@@ -45,10 +45,9 @@ char *archdep_get_vice_docsdir(void)
     char *path;
 
 #ifdef ARCHDEP_OS_UNIX
-# ifdef MACOSX_BUNDLE
-    /*    debug_gtk3("FIXME: MACOSX: archdep_get_vice_docsdir '%s%s'.",
-            archdep_boot_path(), "/../doc/"); */
-    path = archdep_join_paths(archdep_boot_path(), "..", "doc", NULL);
+# ifdef ARCHDEP_OS_OSX
+    /* this would work on Linux, too. */
+    path = archdep_join_paths(archdep_boot_path(), "..", "lib", "vice", "doc", NULL);
 # else
     path = lib_strdup(DOCDIR);
 # endif

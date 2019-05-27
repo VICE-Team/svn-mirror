@@ -56,9 +56,9 @@ fi
 # setup dylib path
 LIB_DIR="$RESOURCES_DIR/lib"
 if [ -d "$LIB_DIR" ]; then
-  PROGRAM_PREFIX="env DYLD_LIBRARY_PATH=\"$LIB_DIR\""
+  export DYLD_FALLBACK_LIBRARY_PATH="$LIB_DIR"
 fi
-dbgecho "PROGRAM_PREFIX=$PROGRAM_PREFIX"
+dbgecho "export DYLD_FALLBACK_LIBRARY_PATH=\"$LIB_DIR\""
 # setup path
 BIN_DIR="$RESOURCES_DIR/bin"
 if [ ! -d "$BIN_DIR" ]; then
@@ -76,13 +76,10 @@ fi
 # --- find VICE binary ---
 # derive emu name from bundle name
 if [ "x$PROGRAM" = "x" ]; then
-  EMUS="x128,x64,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic"
+  EMUS="x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic"
   case "$BUNDLE_NAME" in
   x128*)
     PROGRAM=x128
-    ;;
-  x64*)
-    PROGRAM=x64
     ;;
   x64dtv*)
     PROGRAM=x64dtv
@@ -107,23 +104,25 @@ if [ "x$PROGRAM" = "x" ]; then
     ;;
   VICE*)
     # pick emu name in dialog
-    PROGRAM=`osascript -e 'first item of (choose from list {"x128","x64","x64dtv","x64sc","xcbm2","xcbm5x0","xpet","xplus4","xvic"} with title "VICE Emulator" with prompt "Please select an Emulator to run:" default items {"x64"})'`
+    PROGRAM=`osascript -e 'first item of (choose from list {"x128","x64dtv","x64sc","xcbm2","xcbm5x0","xpet","xplus4","xvic"} with title "VICE Emulator" with prompt "Please select an Emulator to run:" default items {"x64sc"})'`
     ;;
   *)
     # invalid bundle name
-    osascript -e 'display alert "Invalid Bundle Name! (use: VICE,x128,x64,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic" buttons {"Abort"} with icon stop'
+    osascript -e 'display alert "Invalid Bundle Name! (use: VICE,x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic" buttons {"Abort"} with icon stop'
     PROGRAM=""
     ;;
   esac
 fi
-dbgecho "PROGRAM=$PROGRAM"
-PROGRAM_PATH="$BIN_DIR/$PROGRAM"
-dbgecho "PROGRAM_PATH=$PROGRAM_PATH"
 
-# --- now launch the VICE emulator ---
+if [ "$PROGRAM" != "" ]; then
+  dbgecho "PROGRAM=$PROGRAM"
+  PROGRAM_PATH="$BIN_DIR/$PROGRAM"
+  dbgecho "PROGRAM_PATH=$PROGRAM_PATH"
+
   # launch in cmd line without xterm
   dbgecho "CMDLINE ARGS=""$@"
-  $PROGRAM_PREFIX "$PROGRAM_PATH" "$@"
+  nohup "$PROGRAM_PATH" "$@" </dev/null >/dev/null 2>&1 &
+fi
 
 exit 0
 

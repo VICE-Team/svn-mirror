@@ -6,6 +6,7 @@
   <gresource prefix="/org/pokefinder/vice">
     <file alias="vice-logo-black.svg">VICE_SRC_DIR/../../../../doc/html/images/vice-logo-black.svg</file>
     <file alias="CBM_Logo.svg">VICE_SRC_DIR/../../../../data/logos/CBM_Logo.svg</file>
+    <file alias="Icon-128@2x.png">VICE_SRC_DIR/../../../../data/logos/Icon-128@2x.png</file>
   </gresource>
 </gresources>
 

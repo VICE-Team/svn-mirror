@@ -43,7 +43,6 @@ VICE_ARG_ENABLE_LIST(parsid,      [  --disable-parsid        disables ParSID sup
 VICE_ARG_ENABLE_LIST(libieee1284, [  --enable-libieee1284    enables libieee1284 support])
 VICE_ARG_ENABLE_LIST(portaudio,   [  --disable-portaudio     disables PortAudio support])
 VICE_ARG_ENABLE_LIST(ahi,         [  --disable-ahi           disables AHI support])
-VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
 VICE_ARG_ENABLE_LIST(cpuhistory,  [  --enable-cpuhistory     enable the 65xx cpu history feature])
 VICE_ARG_ENABLE_LIST(lame,        [  --disable-lame          disable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(static-lame, [  --enable-static-lame    enable static LAME linking])
@@ -849,16 +848,10 @@ darwin*)
   HAVE_LIGHTPEN_SUPPORT="yes"
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
-  if test x"$enable_bundle" != "xno"; then
-    echo "enabled Mac application bundles"
-    AC_DEFINE(MACOSX_BUNDLE,,[Enable Mac OS X application bundles.])
-  else
-    echo "disabled Mac application bundles"
-  fi
   CFLAGS="$CFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
   CXXFLAGS="$CXXFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
   LDFLAGS="$LDFLAGS -L/usr/local/lib"
-  LIBS="$LIBS -framework CoreServices -framework OpenGL"
+  LIBS="$LIBS -framework CoreText -framework CoreServices -framework OpenGL"
 
   ;;
 
@@ -3396,6 +3389,7 @@ fi
 
 SDL_EXTRA_LIBS=""
 
+AM_CONDITIONAL(MAKE_INSTALL, true)
 AM_CONDITIONAL(MAKE_BINDIST, false)
 
 if test x"$enable_native_gtk3ui" = "xyes"; then
@@ -3406,6 +3400,7 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a $ARCH_DIR/novte/libnovte.a"
   if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
+    AM_CONDITIONAL(MAKE_INSTALL, false)
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
@@ -3445,11 +3440,8 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$is_unix_macosx" = "xyes" ; then
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, true)
-    if test x"$enable_bundle" != "xno" ; then
-      AM_CONDITIONAL(MAKE_BINDIST, true)
-    else
-      AM_CONDITIONAL(MAKE_BINDIST, false)
-    fi
+    dnl macOS supports both make install and make bindist
+    AM_CONDITIONAL(MAKE_BINDIST, true)
   else
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   fi
@@ -3472,6 +3464,7 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -3480,6 +3473,7 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
@@ -3492,6 +3486,7 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -3500,6 +3495,7 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, true)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 else
   AC_MSG_WARN([No architecture defined!])

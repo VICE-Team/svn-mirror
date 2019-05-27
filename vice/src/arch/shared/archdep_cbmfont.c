@@ -25,9 +25,10 @@
  */
 
 #include "vice.h"
+#include "archdep_boot_path.h"
 #include "archdep_defs.h"
 #include "archdep_join_paths.h"
-#include "archdep_get_vice_datadir.h"
+#include "archdep_stat.h"
 #include "lib.h"
 #include "log.h"
 
@@ -37,14 +38,56 @@
 /** \fn  int archdep_register_cbmfont(void)
  * \brief    Try to register the CBM font with the OS
  *
- * This tries to use fontconfig on Unix, and uses GDI on windows. I don't have
- * a clue if this works on MacOS.
+ * This tries to use fontconfig on Unix, GDI on windows and CoreText on macOS.
  *
  * \return    bool as int
  */
 
+#ifdef ARCHDEP_OS_OSX
 
-#ifdef ARCHDEP_OS_UNIX
+# include <CoreText/CTFontManager.h>
+
+int archdep_register_cbmfont(void)
+{
+    char *fontPath;
+    CFStringRef fontPathStringRef;
+    CFURLRef fontUrl;
+    CFArrayRef fontUrls;
+    CFArrayRef errors;
+    unsigned int len;
+    unsigned int isdir;
+
+    fontPath = archdep_join_paths(archdep_boot_path(), "..", "lib", "vice", "fonts", "CBM.ttf", NULL);
+    if (-1 == archdep_stat(fontPath, &len, &isdir)) {
+        lib_free(fontPath);
+
+        log_error(LOG_ERR, "Failed to find CBM.ttf");           
+        return 0;
+    }
+
+    fontPathStringRef = CFStringCreateWithCString(NULL, fontPath, kCFStringEncodingUTF8);
+    fontUrl = CFURLCreateWithFileSystemPath(NULL, fontPathStringRef, kCFURLPOSIXPathStyle, false);
+    fontUrls = CFArrayCreate(NULL, (const void **)&fontUrl, 1, NULL);
+
+    CFRelease(fontPathStringRef);
+
+    if(!CTFontManagerRegisterFontsForURLs(fontUrls, kCTFontManagerScopeProcess, &errors))
+    {
+        log_error(LOG_ERR, "Failed to register font for file: %s", fontPath);
+        CFRelease(fontUrls);
+        CFRelease(fontUrl);
+        lib_free(fontPath);
+        return 0;
+    }
+
+    CFRelease(fontUrls);
+    CFRelease(fontUrl);
+    lib_free(fontPath);
+    return 1;
+}
+
+#elif defined(ARCHDEP_OS_UNIX)
+
 # ifdef HAVE_FONTCONFIG
 
 #  include <fontconfig/fontconfig.h>

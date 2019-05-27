@@ -141,3 +141,27 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
     }
     return buf;
 }
+
+/** \brief  Get a bytes from the GResource blob
+ *
+ * \param   name    virtual path to the file
+ *
+ * \return  GBytes* or `NULL` on error
+ */
+GBytes * uidata_get_bytes(const char *name)
+{
+    GBytes *bytes;
+    GError *err = NULL;
+    char *path;
+
+    path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
+    debug_gtk3("attempting to load resource '%s'.", path);
+    bytes = g_resource_lookup_data(gresource, path, G_RESOURCE_LOOKUP_FLAGS_NONE, &err);
+    lib_free(path);
+    if (bytes == NULL) {
+        debug_gtk3("failed: %s.", err->message);
+        /* TODO: log error */
+        g_clear_error(&err);
+    }
+    return bytes;
+}

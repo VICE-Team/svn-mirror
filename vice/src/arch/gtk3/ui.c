@@ -37,6 +37,12 @@
 #include <unistd.h>
 #endif
 
+#ifdef MACOSX_SUPPORT
+#include <objc/runtime.h>
+#include <objc/message.h>
+#include <CoreFoundation/CFString.h>
+#endif
+
 #include "debug_gtk3.h"
 
 #include "archdep.h"
@@ -1040,6 +1046,74 @@ static gboolean on_window_configure_event(GtkWidget *widget,
     return FALSE;
 }
 
+#ifdef MACOSX_SUPPORT
+
+void macos_set_dock_icon_workaround(void);
+void macos_activate_application_workaround(void);
+
+/** \brief  Set the macOS dock icon
+ *
+ * Gtk dock icon support doesn't work on macos (last tested with Gtk 3.24.8)
+ * Therefore we get it done via the obj-c API. Except rather than integrate 
+ * support for obj-c into the project, leverage some low level C functionality
+ * to interact with the obj-c runtime.
+ */
+void macos_set_dock_icon_workaround()
+{
+    GBytes *gbytes;
+    gconstpointer bytes;
+    gsize bytesSize;
+    id imageData;
+    id logo;
+    id application;
+
+    gbytes = uidata_get_bytes("Icon-128@2x.png");
+
+    if (!gbytes) {
+        log_error(LOG_ERR, "macos_set_dock_icon_workaround: failed to access icon bytes from gresource file.\n");
+        return;
+    }
+
+    bytes = g_bytes_get_data(gbytes, &bytesSize);
+    imageData =
+        objc_msgSend(
+            (id)objc_getClass("NSData"),
+            sel_getUid("dataWithBytesNoCopy:length:freeWhenDone:"),
+            bytes,
+            bytesSize,
+            NO);
+    logo = objc_msgSend((id)objc_getClass("NSImage"), sel_getUid("alloc"));
+    logo = objc_msgSend(logo, sel_getUid("initWithData:"), imageData);
+
+    if (logo) {
+        application = objc_msgSend((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+        objc_msgSend(application, sel_getUid("setApplicationIconImage:"), logo);
+        objc_msgSend(logo, sel_getUid("release"));
+    } else {
+        log_error(LOG_ERR, "macos_set_dock_icon_workaround: failed to initialise image from resource");
+    }
+}
+
+/** \brief  Bring emulator main window to front on macOS
+ *
+ * On macOS, this Gtk3 app doesn't activate properly on launch.
+ * (last tested with Gtk 3.24.8). This means that the user needs
+ * to click the icon in the dock for the emulator window to appear.
+ *
+ * This workaround is the obj-c runtime equivalent of calling:
+ * [[NSApplication sharedApplication] activateIgnoringOtherApps: YES];
+ */
+void macos_activate_application_workaround()
+{
+    id ns_application;
+
+    /* [[NSApplication sharedApplication] activateIgnoringOtherApps: YES]; */
+    ns_application = objc_msgSend((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+    objc_msgSend(ns_application, sel_getUid("activateIgnoringOtherApps:"), YES);
+}
+
+#endif
+
 
 /** \brief  Create a toplevel window to represent a video canvas
  *
@@ -1086,11 +1160,15 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
 
+#ifdef MACOSX_SUPPORT
+    macos_set_dock_icon_workaround();
+#else
     /* set a default C= icon for now */
     icon = get_default_icon();
     if (icon != NULL) {
         gtk_window_set_icon(GTK_WINDOW(new_window), icon);
     }
+#endif
 
     /* set title */
     g_snprintf(title, 256, "VICE (%s)", machine_get_name());
@@ -1230,6 +1308,10 @@ void ui_create_main_window(video_canvas_t *canvas)
             gtk_window_unfullscreen(GTK_WINDOW(new_window));
         }
     }
+
+#ifdef MACOSX_SUPPORT
+    macos_activate_application_workaround();
+#endif
 }
 
 

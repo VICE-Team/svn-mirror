@@ -45,11 +45,9 @@ char *archdep_get_vice_datadir(void)
 {
     char *path;
 #ifdef ARCHDEP_OS_UNIX
-# ifdef MACOSX_BUNDLE
-    /* FIXME: this needs to point to a dir inside the bundle, possibly
-       with a fallback for developer testing */
-    path = archdep_join_paths(archdep_user_config_path(), "gui", NULL);
-    /* debug_gtk("FIXME: archdep_get_vice_datadir '%s'.", path); */
+# ifdef ARCHDEP_OS_OSX
+    /* this would work on Linux, too. */
+    path = archdep_join_paths(archdep_boot_path(), "..", "lib", "vice", "gui", NULL);
 # else
     path = archdep_join_paths(LIBDIR, "gui", NULL);
 # endif
