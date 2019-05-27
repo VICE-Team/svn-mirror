@@ -59,6 +59,24 @@ static GtkWidget *stil_widget;
 static GtkWidget *playlist_widget;
 
 
+/** \brief  Handler for the 'drag-motion' event
+ */
+static gboolean on_drag_motion(
+        GtkWidget *widget,
+        GdkDragContext *context,
+        gint x,
+        gint y,
+        guint time,
+        gpointer user_data)
+{
+    gdk_drag_status(context, GDK_ACTION_COPY, time);
+    return TRUE;
+}
+
+
+
+
+
 /** \brief  Handler for the 'drag-drop' event of the GtkWindow
  *
  * Can be used to filter certain drop targets or altering the data before
@@ -81,7 +99,20 @@ static gboolean on_drag_drop(
         guint time,
         gpointer data)
 {
+    GList *targets;
+    GList *t;
+
     debug_gtk3("called.");
+
+    targets = gdk_drag_context_list_targets(context);
+    if (targets == NULL) {
+        debug_gtk3("No targets");
+        return FALSE;
+    }
+    for (t = targets; t != NULL; t = t->next) {
+        debug_gtk3("target: %p.", t->data);
+    }
+
     return TRUE;
 }
 
@@ -134,6 +165,7 @@ static void on_drag_data_received(
         return;
     }
 
+    gtk_drag_finish(context, TRUE, FALSE, time);
 
     switch (info) {
 
@@ -276,6 +308,7 @@ static void on_drag_data_received(
 GtkWidget *vsid_main_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *view;
 
     grid = vice_gtk3_grid_new_spaced(32, 32);
     g_object_set(G_OBJECT(grid),
@@ -334,15 +367,17 @@ GtkWidget *vsid_main_widget_create(void)
             ui_drag_targets,
             UI_DRAG_TARGETS_COUNT,
             GDK_ACTION_COPY);
+    g_signal_connect(stil_widget, "drag-motion",
+                     G_CALLBACK(on_drag_motion), NULL);
     g_signal_connect(stil_widget, "drag-data-received",
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(stil_widget, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
 
-#if 0
     /* not the cleanest method maybe, but somehow the GtkTextView doesn't
      * trigger the drag-drop events otherwise */
     view = hvsc_stil_widget_get_view();
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(view), TRUE);
     gtk_drag_dest_set(
             view,
             GTK_DEST_DEFAULT_ALL,
@@ -353,7 +388,8 @@ GtkWidget *vsid_main_widget_create(void)
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(view, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
-#endif
+    g_signal_connect(stil_widget, "drag-motion",
+                     G_CALLBACK(on_drag_motion), NULL);
     /* right pane: playlist */
     gtk_drag_dest_set(
             playlist_widget,
