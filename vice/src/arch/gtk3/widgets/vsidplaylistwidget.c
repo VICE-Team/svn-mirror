@@ -7,17 +7,17 @@
 /*
  * Icons used by this file:
  *
- * $VICEICON    media-skip-backward     24 svg
- * $VICEICON    media-seek-backward     24
- * $VICEICON    media-seek-forward      24
- * $VICEICON    media-skip-forward      24
- * $VICEICON    media-playlist-repeat   24
- * $VICEICON    media-playlist-shuffle  24
- * $VICEICON    list-add                24
- * $VICEICON    list-remove             24
- * $VICEICON    document-open           24
- * $VICEICON    document-save           24
- * $VICEICON    edit-clear-all          24
+ * $VICEICON    24x24/actions/media-skip-backward
+ * $VICEICON    24x24/actions/media-seek-backward
+ * $VICEICON    24x24/actions/media-seek-forward
+ * $VICEICON    24x24/actions/media-skip-forward
+ * $VICEICON    24x24/status/media-playlist-repeat
+ * $VICEICON    24x24/status/media-playlist-shuffle
+ * $VICEICON    24x24/actions/list-add
+ * $VICEICON    24x24/actions/list-remove
+ * $VICEICON    24x24/actions/document-open
+ * $VICEICON    24x24/actions/document-save
+ * $VICEICON    24x24/actions/edit-clear-all
  */
 
 /*

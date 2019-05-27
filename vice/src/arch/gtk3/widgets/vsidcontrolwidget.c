@@ -7,14 +7,14 @@
 /*
  * Icons used by this file:
  *
- * $VICEICON    media-skip-backward     24
- * $VICEICON    media-playback-start    24
- * $VICEICON    media-playback-pause    24
- * $VICEICON    media-playback-stop     24
- * $VICEICON    media-seek-forward      24
- * $VICEICON    media-skip-forward      24
- * $VICEICON    media-eject             24
- * $VICEICON    media-record            24
+ * $VICEICON    24x24/actions/media-skip-backward
+ * $VICEICON    24x24/actions/media-playback-start
+ * $VICEICON    24x24/actions/media-playback-pause
+ * $VICEICON    24x24/actions/media-playback-stop
+ * $VICEICON    24x24/actions/media-seek-forward
+ * $VICEICON    24x24/actions/media-skip-forward
+ * $VICEICON    24x24/actions/media-eject
+ * $VICEICON    24x24/actions/media-record
  *
  */
 
