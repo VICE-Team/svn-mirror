@@ -811,6 +811,11 @@ darwin*)
   dnl disable toolchain checking for macosx
   toolchain_check=no
 
+  dnl libffi isn't visible to pkg-config by default when installed by homebrew
+  dnl this causes the GTK version check to fail as gobject depends on libffi.
+  dnl This export give pkg-config another place to look for .pc files.
+  export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig
+
   is_unix_x11=yes
 
   if test -z "$user_cflags" ; then

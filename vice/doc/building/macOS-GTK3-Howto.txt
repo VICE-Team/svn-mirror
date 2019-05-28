@@ -1,0 +1,69 @@
+-----------------------------------------------------------------------------
+macOS builds require that Xcode command line tools and Homebrew be installed:
+-----------------------------------------------------------------------------
+
+#
+# Install Xcode from the app store, and make sure Xcode CLI tools
+# are installed and licenses agreed.
+#
+
+xcode-select --install
+sudo xcodebuild -license accept
+
+#
+# Install Homebrew if not already installed, see https://brew.sh but if you are lazy:
+#
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+
+------------------------
+Building without OpenGL:
+------------------------
+
+brew cask install basictex
+brew install autoconf automake pkg-config texinfo
+brew install xa lame gtk+3 librsvg adwaita-icon-theme
+
+# get pdftex in PATH
+source /etc/profile
+
+./autogen.sh
+./configure --enable-native-gtk3ui --disable-hwscale
+make -j install
+
+#
+# At this point you have x64sc, x128 etc. binaries in /usr/local/bin.
+#
+
+
+---------------------
+Building with OpenGL:
+---------------------
+
+#
+# You can choose to build with OpenGL support, although as at Gtk 3.24.8, the
+# Gtk3 macOS OpenGL support "is still very much unstable and experimental; it
+# has only recently been added, and requires more debugging from somebody who
+# is familiar with both GL and Darwin/CoreGraphics."
+#
+# In practice this means that whilst scaling is hardware accelerated, the result
+# is pulled back to the system memory and then re-rendered using old 2D API which
+# is slow AF, possibly slower than software scaling on some systems.
+#
+
+
+brew cask install basictex
+brew install autoconf automake pkg-config texinfo
+brew install xa lame gtk+3 librsvg adwaita-icon-theme glew
+
+# get pdftex in PATH
+source /etc/profile
+
+./autogen.sh
+./configure --enable-native-gtk3ui
+make -j install
+
+#
+# At this point you have x64sc, x128 etc. binaries in /usr/local/bin.
+#

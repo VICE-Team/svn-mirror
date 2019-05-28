@@ -1,0 +1,37 @@
+-----------------------------------------------------------------------------
+macOS builds require that Xcode command line tools and Homebrew be installed:
+-----------------------------------------------------------------------------
+
+#
+# Install Xcode from the app store, and make sure Xcode CLI tools
+# are installed and licenses agreed.
+#
+
+xcode-select --install
+sudo xcodebuild -license accept
+
+#
+# Install Homebrew if not already installed, see https://brew.sh but if you are lazy:
+#
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+
+---------
+Building:
+---------
+
+brew cask install basictex
+brew install autoconf automake pkg-config texinfo
+brew install xa sdl2 lame
+
+# get pdftex in PATH
+source /etc/profile
+
+./autogen.sh
+./configure --enable-sdlui2
+make -j install
+
+#
+# At this point you have x64sc, x128 etc. binaries in /usr/local/bin.
+#

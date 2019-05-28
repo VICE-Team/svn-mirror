@@ -8,7 +8,9 @@ BUILDING_DOX = \
 	SDL-Howto.txt \
 	Windows-MinGW-GTK3-Howto.txt \
 	FreeBSD-GTK3-Howto.txt \
-	GTK3-macOS.txt \
+	macOS-Distribution-Howto.txt \
+	macOS-GTK3-Howto.txt \
+	macOS-SDL2-Howto.txt \
 	Linux-GTK3-Howto.txt \
 	NetBSD-howto.txt
 

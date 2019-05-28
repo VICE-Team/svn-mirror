@@ -1,0 +1,33 @@
+--------------------
+Binary Distribution:
+--------------------
+
+#
+# Please note that the result will not run on an older version of macOS.
+# It remains to be tested whether building on an older macOS results in
+# a build that will run on a newer version of macOS.
+#
+# The binary distributions are not currently signed with an Apple developer ID
+# and therefore not that easy to run on other macs due to gatekeeper. It is
+# expected that this will get even harder in macOS 10.15 so we'll need to
+# address this issue soon. The solution will likely look like passing the name
+# of a signing identity to configure and using the codesign util to sign each
+# app.
+#
+# First, create an SDL2 or GTK3 build. For compatibility with other systems you
+# should build with --enable-arch=no passed to configure.
+#
+
+brew install platypus
+
+#
+# And then it's just:
+#
+
+make bindistzip
+
+#
+# Or to just make a bindist folder:
+#
+
+make bindist
