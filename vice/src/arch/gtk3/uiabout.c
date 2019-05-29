@@ -1,9 +1,6 @@
 /** \file   uiabout.c
  * \brief   GTK3 about dialog
  *
- * \todo    Needs a proper logo, not the old, ugly, blue one. The logo from the
- *          pokefinder website will do nicely, I think.
- *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
