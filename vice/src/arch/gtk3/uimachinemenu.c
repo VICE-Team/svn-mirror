@@ -406,7 +406,7 @@ static ui_menu_item_t file_menu_tail[] = {
         GDK_KEY_C, VICE_MOD_MASK },
     { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
         "cart-detach", (void *)uicart_detach, NULL,
-        0, 0 },
+        GDK_KEY_C, VICE_MOD_MASK|GDK_SHIFT_MASK },
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
         "cart-freeze", (void *)uicart_trigger_freeze, NULL,
         GDK_KEY_Z, VICE_MOD_MASK },
