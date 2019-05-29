@@ -59,6 +59,7 @@
 #include "uidiskattach.h"
 #include "uiedit.h"
 #include "uifliplist.h"
+#include "uihotkeys.h"
 #include "uimachinemenu.h"
 #include "uimedia.h"
 #include "uimenu.h"
@@ -775,6 +776,9 @@ static ui_menu_item_t help_menu[] = {
         0, 0 },
     { "Compile time features ...", UI_MENU_TYPE_ITEM_ACTION,
         "features", uicompiletimefeatures_dialog_show, NULL,
+        0, 0 },
+    { "Hotkeys", UI_MENU_TYPE_ITEM_ACTION,
+        "hotkeys", uihotkeys_dialog_show, NULL,
         0, 0 },
     { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
         "about", ui_about_dialog_callback, NULL,
