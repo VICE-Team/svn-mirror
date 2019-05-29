@@ -396,8 +396,12 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   mkdir $APP_SHARE/icons
   import_scalable_gtk_icons Adwaita
 
-  # hicolor is small, just copy it. It doesn't have any scalable assets.
-  cp -r /usr/local/share/icons/hicolor "$APP_SHARE/icons/"
+  # dqh: disabled hicolor on macos as i don't think it's the full version and it doesn't
+  # appear to be used ...
+  #
+  # # hicolor is small, just copy it. It doesn't have any scalable assets.
+  # cp -r /usr/local/share/icons/hicolor "$APP_SHARE/icons/"
+  # gtk3-update-icon-cache "$APP_SHARE/icons/hicolor"
 fi
 
 # .so libs need their libs too
