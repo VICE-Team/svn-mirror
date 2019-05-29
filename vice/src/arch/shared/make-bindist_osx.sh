@@ -338,8 +338,9 @@ done
 # --- runtime depenencies ---
 
 
-# Can use dtrace in a terminal to find these:
-# sudo dtrace -n 'syscall::open*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
+# Can use dtrace in a terminal and run vsid.app to find these:
+# sudo dtrace -n 'syscall::stat*:entry /execname=="vsid"/ { printf("%s", copyinstr(arg0)); }'
+# sudo dtrace -n 'syscall::open*:entry /execname=="vsid"/ { printf("%s", copyinstr(arg0)); }'
 
 if [ "$UI_TYPE" = "GTK3" ]; then
   cp -r /usr/local/lib/gdk-pixbuf-* $APP_LIB
@@ -351,6 +352,52 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   mkdir $APP_SHARE/locale
   cp -r /usr/local/opt/gettext/share/locale/* $APP_SHARE/locale
   cp -r /usr/local/opt/gtk+3/share/locale/* $APP_SHARE/locale
+
+  import_scalable_gtk_icons() {
+    local in_icons="/usr/local/share/icons/$1"
+    local out_icons="$APP_SHARE/icons/$1"
+
+    mkdir "$out_icons"
+    # Rewrite the index.theme file to exclude large non-vector assets
+    awk '
+      BEGIN {
+        directories_found = 0
+      }
+      /^Directories=/ {
+        directories_found = 1
+        printf "Directories="
+        system("echo " $0 " | tr \"=,\" \"\n\" | grep ^scalable | tr \"\n\" \",\" ")
+        printf "\n"
+        next
+      }
+      {
+        if (!directories_found) {
+          print
+          next
+        }
+      }
+      /^\[/ {
+        eat = 0
+        if ($0 !~ /^\[scalable\//) {
+          eat = 1
+        }
+      }
+      {
+        if (!eat) {
+          print
+        }
+      }' < "$in_icons/index.theme" > "$out_icons/index.theme"
+    cp -r "$in_icons/scalable" "$out_icons/"
+
+    # create the icon-theme.cache file
+    gtk3-update-icon-cache "$out_icons/"
+  }
+
+  mkdir $APP_SHARE/icons
+  import_scalable_gtk_icons Adwaita
+
+  # hicolor is small, just copy it. It doesn't have any scalable assets.
+  cp -r /usr/local/share/icons/hicolor "$APP_SHARE/icons/"
 fi
 
 # .so libs need their libs too
