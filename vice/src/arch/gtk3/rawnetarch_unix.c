@@ -53,7 +53,6 @@
 
 #ifdef HAVE_RAWNET
 
-#ifdef HAVE_PCAP
 /*
  * if we have a pcap version with either pcap_sendpacket or pcap_inject,
  * do not use libnet anymore!
@@ -67,22 +66,11 @@
 #ifdef HAVE_LIBNET
 #include "libnet.h"
 #endif
-#endif /* HAVE_PCAP */
 
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifdef HAVE_TUNTAP
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <linux/if.h>
-#include <linux/if_tun.h>
-#endif
 
 #include "lib.h"
 #include "log.h"
@@ -119,7 +107,6 @@
 static log_t rawnet_arch_log = LOG_ERR;
 
 
-#ifdef HAVE_PCAP
 /** \brief  Iterator for the list returned by pcap_findalldevs()
  */
 static pcap_if_t *rawnet_pcap_dev_iter = NULL;
@@ -150,16 +137,6 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
 /** \brief  Buffer for pcap error messages
  */
 static char rawnet_pcap_errbuf[PCAP_ERRBUF_SIZE];
-#endif /* HAVE_PCAP */
- 
-#ifdef HAVE_TUNTAP
-static const char *rawnet_tuntap_alldevs[] = {
-    "tap0",
-    NULL
-};
-static const char **rawnet_tuntap_nextdev = NULL;
-static int rawnet_tuntap_dev = -1;
-#endif
 
 
 #ifdef RAWNET_DEBUG_PKTDUMP
@@ -189,30 +166,22 @@ static void debug_output( const char *text, uint8_t *what, int count )
 
 int rawnet_arch_enumadapter_open(void)
 {
-    int ret = 0;
-#ifdef HAVE_TUNTAP
-    rawnet_tuntap_nextdev = rawnet_tuntap_alldevs;
-    ret = 1;
-#endif
-#ifdef HAVE_PCAP
     if (pcap_findalldevs(&rawnet_pcap_dev_list, rawnet_pcap_errbuf) == -1) {
         log_message(rawnet_arch_log,
                 "ERROR in rawnet_arch_enumadapter_open: pcap_findalldevs: '%s'",
                 rawnet_pcap_errbuf);
-        return ret;
+        return 0;
     }
 
     if (!rawnet_pcap_dev_list) {
         log_message(rawnet_arch_log,
                 "ERROR in rawnet_arch_enumadapter_open, finding all pcap "
                 "devices - Do we have the necessary privilege rights?");
-        return ret;
+        return 0;
     }
 
     rawnet_pcap_dev_iter = rawnet_pcap_dev_list;
-    ret = 1;
-#endif
-    return ret;
+    return 1;
 }
 
 
@@ -231,15 +200,6 @@ int rawnet_arch_enumadapter_open(void)
  */
 int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
 {
-#ifdef HAVE_TUNTAP
-    if (*rawnet_tuntap_nextdev != NULL) {
-        *ppname = lib_strdup(*rawnet_tuntap_nextdev);
-        *ppdescription = lib_strdup("TAP virtual network device");
-        rawnet_tuntap_nextdev++;
-        return 1;
- }
-#endif
-#ifdef HAVE_PCAP
 #ifdef RAWNET_ONLY_IF_UP
     /* only select devices that are up */
     while (rawnet_pcap_dev_iter != NULL
@@ -248,61 +208,33 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
     }
 #endif
 
-    if (rawnet_pcap_dev_iter != NULL) {
-        *ppname = lib_strdup(rawnet_pcap_dev_iter->name);
-        /* carefull: pcap_if_t->description can be NULL and lib_strdup() fails on
-         * passing `NULL` */
-        if (rawnet_pcap_dev_iter->description != NULL) {
-            *ppdescription = lib_strdup(rawnet_pcap_dev_iter->description);
-        } else {
-            *ppdescription = NULL;
-        }
-
-        rawnet_pcap_dev_iter = rawnet_pcap_dev_iter->next;
-
-        return 1;
+    if (rawnet_pcap_dev_iter == NULL) {
+        return 0;
     }
-#endif
-    return 0;
+
+    *ppname = lib_strdup(rawnet_pcap_dev_iter->name);
+    /* carefull: pcap_if_t->description can be NULL and lib_strdup() fails on
+     * passing `NULL` */
+    if (rawnet_pcap_dev_iter->description != NULL) {
+        *ppdescription = lib_strdup(rawnet_pcap_dev_iter->description);
+    } else {
+        *ppdescription = NULL;
+    }
+
+    rawnet_pcap_dev_iter = rawnet_pcap_dev_iter->next;
+
+    return 1;
 }
 
 int rawnet_arch_enumadapter_close(void)
 {
-#ifdef HAVE_PCAP
     if (rawnet_pcap_dev_list) {
         pcap_freealldevs(rawnet_pcap_dev_list);
         rawnet_pcap_dev_list = NULL;
     }
-#endif
     return 1;
 }
 
-#ifdef HAVE_TUNTAP
-static int rawnet_tuntap_open_adapter(const char *interface_name)
-{
-    struct ifreq ifr;
-
-    rawnet_tuntap_dev = open("/dev/net/tun", O_RDWR);
-    if (rawnet_tuntap_dev < 0) {
-        log_message(rawnet_arch_log, "ERROR opening adapter: '%s'", interface_name);
-        return 0;
-    }
-    memset(&ifr, 0, sizeof(ifr));
-    ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
-    strncpy(ifr.ifr_name, interface_name, IFNAMSIZ - 1);
-    if (ioctl(rawnet_tuntap_dev, TUNSETIFF, (void *) &ifr) < 0) {
-       if (errno == EBADFD) {
-           close(rawnet_tuntap_dev);
-           rawnet_tuntap_dev = -1;
-           return 0;
-       }
-    }
-    fcntl(rawnet_tuntap_dev, F_SETFL, fcntl(rawnet_tuntap_dev, F_GETFL) | O_NONBLOCK);
-    return 1;
-}
-#endif
-
-#ifdef HAVE_PCAP
 static int rawnet_pcap_open_adapter(const char *interface_name) 
 {
     rawnet_pcap_fp = pcap_open_live((char*)interface_name, 1700, 1, 20, rawnet_pcap_errbuf);
@@ -342,7 +274,6 @@ static int rawnet_pcap_open_adapter(const char *interface_name)
 
     return 1;
 }
-#endif /* HAVE_PCAP */
 
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
@@ -373,29 +304,16 @@ int rawnet_arch_activate(const char *interface_name)
 #ifdef RAWNET_DEBUG_ARCH
     log_message( rawnet_arch_log, "rawnet_arch_activate()." );
 #endif
-#ifdef HAVE_TUNTAP
-    if (rawnet_tuntap_open_adapter(interface_name)) {
-        return 1;
+    if (!rawnet_pcap_open_adapter(interface_name)) {
+        return 0;
     }
-#endif
-#ifdef HAVE_PCAP
-    if (rawnet_pcap_open_adapter(interface_name)) {
-        return 1;
-    }
-#endif
-    return 0;
+    return 1;
 }
 
 void rawnet_arch_deactivate( void )
 {
 #ifdef RAWNET_DEBUG_ARCH
     log_message( rawnet_arch_log, "rawnet_arch_deactivate()." );
-#endif
-#ifdef HAVE_TUNTAP
-    if (rawnet_tuntap_dev >= 0) {
-        close(rawnet_tuntap_dev);
-        rawnet_tuntap_dev = -1;
-    }
 #endif
 }
 
@@ -446,7 +364,6 @@ void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 }
 
 
-#ifdef HAVE_PCAP
 /** \brief  Raw pcap packet
  */
 typedef struct rawnet_pcap_internal_s {
@@ -607,7 +524,6 @@ static void rawnet_arch_transmit_pcap(int force, int onecoll, int inhibit_crc,
 }
 
 #endif /* HAVE_LIBNET */
-#endif /* HAVE_PCAP */
 
 
 /** \brief  Transmit a frame
@@ -637,17 +553,8 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc,
     debug_output("Transmit frame: ", txframe, txlength);
 #endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
 
-#ifdef HAVE_TUNTAP
-    if (rawnet_tuntap_dev >= 0) {
-        ssize_t res = write(rawnet_tuntap_dev, txframe, txlength);
-        return;
-    }
-#endif
-
-#ifdef HAVE_PCAP
     RAWNET_ARCH_TRANSMIT(force, onecoll, inhibit_crc, tx_pad_dis, txlength,
             txframe);
-#endif
 }
 
 
@@ -693,11 +600,9 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed,
         int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast,
         int *pcrc_error)
 {
-    int len = -1;
+    int len;
 
-#ifdef HAVE_PCAP
     rawnet_pcap_internal_t internal = { *plen, pbuffer };
-#endif
 
 #ifdef RAWNET_DEBUG_ARCH
     log_message(rawnet_arch_log,
@@ -707,17 +612,7 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed,
 
     assert((*plen & 1) == 0);
 
-#ifdef HAVE_TUNTAP
-    if (rawnet_tuntap_dev >= 0) {
-        len = read(rawnet_tuntap_dev, pbuffer, *plen);
-        if (len <= 0) len = -1;
-    }
-#endif
-#ifdef HAVE_PCAP
-    if (len < 0) {
-        len = rawnet_arch_receive_frame(&internal);
-    }
-#endif
+    len = rawnet_arch_receive_frame(&internal);
 
     if (len != -1) {
 
@@ -767,20 +662,17 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed,
 char *rawnet_arch_get_standard_interface(void)
 {
     char *dev = NULL;
-#ifdef HAVE_PCAP
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_if_t *list;
 
     if (pcap_findalldevs(&list, errbuf) == 0 && list != NULL) {
         dev = lib_strdup(list[0].name);
         pcap_freealldevs(list);
-    }
-#endif
 #ifdef HAVE_TUNTAP
-    if (dev == NULL) {
+    } else {
         dev = lib_strdup("tap0");
-    }
 #endif
+    }
     return dev;
 }
 
