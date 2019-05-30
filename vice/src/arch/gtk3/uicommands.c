@@ -111,8 +111,8 @@ gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
  */
 gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
 {
-    vsync_suspend_speed_eval();
     machine_trigger_reset(GPOINTER_TO_INT(user_data));
+    ui_pause_disable();
     return TRUE;
 }
 
