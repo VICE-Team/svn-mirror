@@ -1002,7 +1002,7 @@ AC_TRY_COMPILE([],
 
 dnl check if the compiler supports -Wshadow
 AC_MSG_CHECKING([if the compiler supports -Wshadow])
-ORIGI_CFLAGS="$CFLAGS"
+ORIG_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Wshadow"
 AC_TRY_COMPILE([],
                [int test;],
@@ -1010,6 +1010,25 @@ AC_TRY_COMPILE([],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
+    dnl check if the compiler support -Wformat
+AC_MSG_CHECKING([if the compiler supports -Wformat])
+ORIG_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -Wformat"
+AC_TRY_COMPILE([],
+               [int test;],
+               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(no)
+                 CFLAGS="$ORIG_CFLAGS" ])
+
+dnl check if the compiler support -Wformat-signedness
+AC_MSG_CHECKING([if the compiler supports -Wformat-signedness])
+ORIG_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -Wformat-signedness"
+AC_TRY_COMPILE([],
+               [int test;],
+               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(no)
+                 CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
