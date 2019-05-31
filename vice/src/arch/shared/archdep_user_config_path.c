@@ -38,6 +38,9 @@
  */
 
 #include "vice.h"
+
+#include <stddef.h>
+
 #include "archdep_defs.h"
 
 #ifdef ARCHDEP_OS_WINDOWS
@@ -49,14 +52,19 @@
 # include "debug_gtk3.h"
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stddef.h>
 
 #include "lib.h"
-#include "log.h"
-#include "archdep_boot_path.h"
-#include "archdep_home_path.h"
+
+#if !defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_WINDOWS) \
+    && !(defined(ARCHDEP_OS_BEOS))
+# include "archdep_boot_path.h"
+#endif
+
+#ifdef ARCHDEP_OS_BEOS
+# include "archdep_home_path.h"
+#endif
+
 #include "archdep_join_paths.h"
 #include "archdep_xdg.h"
 
