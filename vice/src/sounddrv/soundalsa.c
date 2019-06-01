@@ -102,7 +102,8 @@ static int alsa_init(const char *param, int *speed, int *fragsize, int *fragnr, 
     period_size = (snd_pcm_uframes_t)*fragsize;
     dir = 0;
     if ((err = snd_pcm_hw_params_set_period_size_near(handle, hwparams, &period_size, &dir)) < 0) {
-        log_message(LOG_DEFAULT, "Unable to set period size %li for playback: %s", period_size, snd_strerror(err));
+        log_message(LOG_DEFAULT, "Unable to set period size %lu for playback: %s",
+                period_size, snd_strerror(err));
         goto fail;
     }
     *fragsize = (int)period_size;
@@ -113,7 +114,8 @@ static int alsa_init(const char *param, int *speed, int *fragsize, int *fragnr, 
     periods = (unsigned int)*fragnr;
     dir = 0;
     if ((err = snd_pcm_hw_params_set_periods_near(handle, hwparams, &periods, &dir)) < 0) {
-        log_message(LOG_DEFAULT, "Unable to set periods %i for playback: %s", periods, snd_strerror(err));
+        log_message(LOG_DEFAULT, "Unable to set periods %u for playback: %s",
+                periods, snd_strerror(err));
         goto fail;
     }
     *fragnr = (int)periods;
