@@ -1,10 +1,12 @@
+/** \file   soundalsa.c
+ * \brief   Implementation of the ALSA sound device
+ *
+ * \author  Dag Lem <resid@nimrod.no>
+ *
+ * based on ALSA /test/pcm.c and various scarce documentation.
+ */
+
 /*
- * soundalsa.c - Implementation of the ALSA sound device
- *
- * Written by
- *  Dag Lem <resid@nimrod.no>
- *  - based on ALSA /test/pcm.c and various scarce documentation.
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
