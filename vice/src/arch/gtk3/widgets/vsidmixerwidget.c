@@ -111,7 +111,7 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
         model = 0;
     }
 
-    if ((model == SID_MODEL_6581) | (model = SID_MODEL_6581R4)) {
+    if ((model == SID_MODEL_6581) || (model == SID_MODEL_6581R4)) {
         resources_get_default_value("SidResidPassband", &value);
     } else {
         /* this includes DTVSID, which may not be correct */
@@ -289,7 +289,7 @@ GtkWidget *vsid_mixer_widget_create(void)
 #ifdef HAVE_RESID
 
     label = gtk_label_new(NULL);
-    if (model == SID_MODEL_6581 || model == SID_MODEL_6581R4) {
+    if ((model == SID_MODEL_6581) || (model == SID_MODEL_6581R4)) {
         gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 6581 settings</b>");
     } else {
         gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID 8580 settings</b>");
