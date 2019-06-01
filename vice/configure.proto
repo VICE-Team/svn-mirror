@@ -968,67 +968,78 @@ esac
 fi
 
 
-dnl check if the compiler supports -Werror=missing-prototypes
+dnl check if the compiler supports -Wmissing-prototypes
 AC_MSG_CHECKING([if the compiler supports -Wmissing-prototypes])
 ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wmissing-prototypes"
+YES_CFLAGS="$CFLAGS -Wmissing-prototypes"
+CFLAGS="$YES_CFLAGS -Werror"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(yes)
+                 CFLAGS="$YES_CFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
-
 
 dnl check if the compiler supports -Werror=implicit-function-declaration
 AC_MSG_CHECKING([if the compiler supports -Werror=implicit-function-declaration])
 ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Werror=implicit-function-declaration"
+YES_CFLAGS="$CFLAGS -Werror=implicit-function-declaration"
+CFLAGS="$YES_CFLAGS -Werror"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(yes)
+                 CFLAGS="$YES_CFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
-
 
 dnl check if the compiler supports -Wfatal-errors
 AC_MSG_CHECKING([if the compiler supports -Wfatal-errors])
 ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wfatal-errors"
+YES_CFLAGS="$CFLAGS -Wfatal-errors"
+CFLAGS="$YES_CFLAGS -Werror"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(yes)
+                 CFLAGS="$YES_CFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check if the compiler supports -Wshadow
 AC_MSG_CHECKING([if the compiler supports -Wshadow])
 ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wshadow"
+YES_CFLAGS="$CFLAGS -Wshadow"
+CFLAGS="$YES_CFLAGS -Werror"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(yes)
+                 CFLAGS="$YES_CFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
     dnl check if the compiler support -Wformat
 AC_MSG_CHECKING([if the compiler supports -Wformat])
 ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wformat"
+YES_CFLAGS="$CFLAGS -Wformat"
+CFLAGS="$YES_CFLAGS -Werror"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(yes)
+                 CFLAGS="$YES_CFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check if the compiler support -Wformat-signedness
 AC_MSG_CHECKING([if the compiler supports -Wformat-signedness])
 ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wformat-signedness"
+YES_CFLAGS="$CFLAGS -Wformat-signedness"
+CFLAGS="$YES_CFLAGS -Werror"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(yes)
+                 CFLAGS="$YES_CFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
+
 
 dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
