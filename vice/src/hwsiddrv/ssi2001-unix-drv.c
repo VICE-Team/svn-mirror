@@ -1,9 +1,10 @@
+/** \file   ssi2001-unix-drv.c
+ * \brief   Unix specific SSI2001 (ISA SID card) driver.
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * ssi2001-unix-drv.c - Unix specific SSI2001 (ISA SID card) driver.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -49,7 +50,7 @@
 #include "types.h"
 #include "log.h"
 
-#define SSI2008_BASE 0x280
+#define SSI2008_BASE 0x280U
 
 #define MAXSID 1
 
@@ -113,7 +114,8 @@ int ssi2001_drv_open(void)
     log_message(LOG_DEFAULT, "Detecting direct I/O ISA SSI2001.");
 
     if (io_access_map(SSI2008_BASE, 32) < 0) {
-        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", SSI2008_BASE);
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.",
+                SSI2008_BASE);
         return -1;
     }
     if (detect_sid()) {

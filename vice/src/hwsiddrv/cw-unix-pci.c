@@ -1,9 +1,10 @@
+/** \file   cw-unix-pci.c
+ * \brief   Unix specific PCI cw3 driver.
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * cw-unix-pci.c - Unix specific PCI cw3 driver.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -151,11 +152,13 @@ int cw_pci_open(void)
     base = b1 & 0xfffc;
 
     if (io_access_map(base, 256) < 0) {
-        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", base);
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.",
+                (unsigned int)base);
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "PCI CatWeasel board found at $%04X.", base);
+    log_message(LOG_DEFAULT, "PCI CatWeasel board found at $%04X.",
+            (unsigned int)base);
 
     if (detect_sid()) {
         sids_found++;

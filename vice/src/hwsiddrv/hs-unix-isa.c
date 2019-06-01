@@ -1,9 +1,10 @@
+/** \file   hs-unix-isa.c
+ * \brief   Unix specific ISA hardsid driver.
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * hs-unix-isa.c - Unix specific ISA hardsid driver.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -56,7 +57,7 @@
 
 #include "hs-unix.h"
 
-#define HARDSID_BASE 0x300
+#define HARDSID_BASE 0x300U
 
 #define MAXSID 4
 
@@ -159,7 +160,8 @@ int hs_isa_open(void)
     log_message(LOG_DEFAULT, "Detecting ISA HardSID boards.");
 
     if (io_access_map(HARDSID_BASE, 2) < 0) {
-        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", HARDSID_BASE);
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.",
+                HARDSID_BASE);
         return -1;
     }
 

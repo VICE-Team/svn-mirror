@@ -1,9 +1,10 @@
+/** \file   hs-unix-pci.c
+ * \brief   Unix specific PCI hardsid driver.
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * hs-unix-pci.c - Unix specific PCI hardsid driver.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -35,6 +36,8 @@
 #include "vice.h"
 
 #ifdef UNIX_COMPILE
+
+#include <inttypes.h>
 
 #if defined(HAVE_HARDSID) && defined(HAVE_HARDSID_IO)
 
@@ -172,17 +175,20 @@ int hs_pci_open(void)
     base2 = b2 & 0xfffc;
 
     if (io_access_map(base1, 8) < 0) {
-        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", base1);
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X",
+                (unsigned int)base1);
         return -1;
     }
 
     if (io_access_map(base2, 4) < 0) {
-        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.", base2);
+        log_message(LOG_DEFAULT, "Cannot get permission to access $%X.",
+                (unsigned int)base2);
         io_access_unmap(base1, 8);
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "PCI HardSID board found at $%04X and $%04X.", base1, base2);
+    log_message(LOG_DEFAULT, "PCI HardSID board found at $%04X and $%04X.",
+            (unsigned int)base1, (unsigned int)base2);
 
     for (j = 0; j < MAXSID; ++j) {
         hssids[sids_found] = j;
