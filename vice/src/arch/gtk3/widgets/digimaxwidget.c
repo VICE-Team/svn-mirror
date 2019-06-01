@@ -67,15 +67,15 @@ static void on_digimax_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_combo_changed(GtkWidget *widget, gpointer user_data)
 {
-    int value;
+    long value;
     char *endptr;
     const char *id_str;
 
     id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget));
-    value = (int)strtol(id_str, &endptr, 10);
+    value = strtol(id_str, &endptr, 10);
     if (*endptr == '\0') {
-        debug_gtk3("setting DIGIMAXbase to $%04X\n", value);
-        resources_set_int("DIGIMAXbase", value);
+        debug_gtk3("setting DIGIMAXbase to $%04X\n", (unsigned int)value);
+        resources_set_int("DIGIMAXbase", (int)value);
     }
 }
 
