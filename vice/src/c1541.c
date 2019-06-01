@@ -1,19 +1,15 @@
 /** \file   src/c1541.c
  * \brief   Stand-alone disk image maintenance program
- */
-
-/*
- * c1541.c - Stand-alone disk image maintenance program.
  *
- * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Jouko Valta <jopi@zombie.oulu.fi>
- *  Gerhard Wesp <gwesp@cosy.sbg.ac.at>
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Ricardo Ferreira <storm@esoterica.pt>
- *  Andreas Boose <viceteam@t-online.de>
- *  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Teemu Rantanen <tvr@cs.hut.fi>
+ * \author  Jouko Valta <jopi@zombie.oulu.fi>
+ * \author  Gerhard Wesp <gwesp@cosy.sbg.ac.at>
+ * \author  Daniel Sladic <sladic@eecg.toronto.edu>
+ * \author  Ricardo Ferreira <storm@esoterica.pt>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Patches by
  *  Olaf Seibert <rhialto@mbfys.kun.nl>
@@ -21,7 +17,9 @@
  *
  * Zipcode implementation based on `zip2disk' by
  *  Paul David Doherty <h0142kdd@rz.hu-berlin.de>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -1710,7 +1708,7 @@ static int block_cmd(int nargs, char **args)
 
     /* Read one block */
     if (vdrive_read_sector(vdrive, sector_data, track, sector) != 0) {
-        fprintf(stderr, "cannot read track %i sector %i.", track, sector);
+        fprintf(stderr, "cannot read track %u sector %u.", track, sector);
         return FD_RDERR;
     }
 
@@ -1718,9 +1716,9 @@ static int block_cmd(int nargs, char **args)
 
     /* Show block */
 
-    printf("<#%2d: %2d %2d>\n", drive + UNIT_MIN, track, sector);
+    printf("<#%2d: %2u %2u>\n", drive + UNIT_MIN, track, sector);
     while (offset < RAW_BLOCK_SIZE) {
-        printf("> %02X ", offset);
+        printf("> %02X ", (unsigned int)offset);
         memset(chrbuf, '\0', BLOCK_CMD_WIDTH + 1);
         for (cnt = 0; cnt < BLOCK_CMD_WIDTH && offset < RAW_BLOCK_SIZE;
                 cnt++, offset++) {
@@ -1871,7 +1869,7 @@ static int bread_cmd(int nargs, char **args)
 
     /* copy sector to buffer */
     if (vdrive_read_sector(vdrive, buffer, track, sector) != 0) {
-        fprintf(stderr, "cannot read track %i sector %i.", track, sector);
+        fprintf(stderr, "cannot read track %u sector %u.", track, sector);
         return FD_RDERR;
     }
 
@@ -2603,7 +2601,7 @@ static int info_cmd(int nargs, char **args)
      */
     printf("disk format  : %s\n", format_name);
     /* printf("Sides\t   : %d.\n", hdr.sides);*/
-    printf("track count  : %d\n", vdrive->image->tracks);
+    printf("track count  : %u\n", vdrive->image->tracks);
     if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
         printf("error block  : %s\n",
                 ((vdrive->image->media.fsimage)->error_info.map)
