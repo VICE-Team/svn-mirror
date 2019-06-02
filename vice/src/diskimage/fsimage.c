@@ -212,7 +212,7 @@ int fsimage_read_sector(const disk_image_t *image, uint8_t *buf, const disk_addr
             return fsimage_p64_read_sector(image, buf, dadr);
         default:
             log_error(fsimage_log,
-                      "Unknown disk image type %i.  Cannot read sector.",
+                      "Unknown disk image type %u.  Cannot read sector.",
                       image->type);
             return CBMDOS_IPE_NOT_READY;
     }
