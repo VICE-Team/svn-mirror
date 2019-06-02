@@ -469,7 +469,7 @@ int tape_image_detach_internal(unsigned int unit)
             tape_traps_install();
             break;
         default:
-            log_error(tape_log, "Unknown tape type %i.",
+            log_error(tape_log, "Unknown tape type %u.",
                       tape_image_dev1->type);
     }
 
@@ -551,7 +551,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
             tape_traps_deinstall();
             break;
         default:
-            log_error(tape_log, "Unknown tape type %i.",
+            log_error(tape_log, "Unknown tape type %u.",
                       tape_image_dev1->type);
             return -1;
     }
