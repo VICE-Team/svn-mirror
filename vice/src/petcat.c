@@ -1713,7 +1713,7 @@ static int p_expand(int version, int addr, int ctrls)
                         if ((c = getc(source)) <= MAX_KWCE) {
                             fprintf(dest, "%s", (version == B_10) ? kwce10[c] : kwce[c]);
                         } else {
-                            fprintf(dest, "($ce%02x)", c);
+                            fprintf(dest, "($ce%02x)", (unsigned int)c);
                         }
                         continue;
                     } else if (c == 0xfe && basic_list[version - 1].prefixfe) {
@@ -1721,13 +1721,13 @@ static int p_expand(int version, int addr, int ctrls)
                             if ((c = getc(source)) <= basic_list[B_SXC - 1].max_token) {
                                 fprintf(dest, "%s", basic_list[version - 1].tokens[c]);
                             } else {
-                                fprintf(dest, "($fe%02x)", c);
+                                fprintf(dest, "($fe%02x)", (unsigned int)c);
                             }
                         } else {
                             if ((c = getc(source)) <= basic_list[B_10 - 1].max_token) {
                                 fprintf(dest, "%s", (version == B_71) ? kwfe71[c] : kwfe[c]);
                             } else {
-                                fprintf(dest, "($fe%02x)", c);
+                                fprintf(dest, "($fe%02x)", (unsigned int)c);
                             }
                         }
                         continue;
@@ -1805,16 +1805,22 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[MAX_INLINE_LEN + 1];
     static char tokenizedline[MAX_OUTLINE_LEN + 1];
-    unsigned char *p1, *p2, *p3, quote;
+    unsigned char *p1;
+    unsigned char *p2;
+    unsigned char *p3;
+    unsigned char quote;
     int c;
     int ctmp = -1;
     int kwlentmp = -1;
-    unsigned char rem_data_mode, rem_data_endchar = '\0';
-    unsigned int len = 0, match, match2;
+    unsigned char rem_data_mode;
+    unsigned char rem_data_endchar = '\0';
+    unsigned int len = 0;
+    unsigned int match;
+    unsigned int match2;
     unsigned int linum = 10;
 
     /* put start address to output file */
-    fprintf(dest, "%c%c", (addr & 255), ((addr >> 8) & 255));
+    fprintf(dest, "%c%c", (int)(addr & 255), (int)((addr >> 8) & 255));
 
     /* Copies from p2 to p1 */
 
@@ -1829,7 +1835,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
         p2 += scan_integer(line, &linum, &len); /* read decimal from "line" into "linum" */
 
-        DBG(("line: %d [%s]\n", linum, line));
+        DBG(("line: %u [%s]\n", linum, line));
 
         quote = 0;
         rem_data_mode = 0;
