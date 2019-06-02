@@ -62,7 +62,7 @@ static void disk_image_check_log(disk_image_t *image, const char *type)
 
     fsimage = image->media.fsimage;
 
-    log_verbose("%s disk image recognised: %s, %d tracks%s",
+    log_verbose("%s disk image recognised: %s, %u tracks%s",
                 type, fsimage->name, image->tracks,
                 image->read_only ? " (read only)." : ".");
 }
@@ -70,7 +70,7 @@ static void disk_image_check_log(disk_image_t *image, const char *type)
 static int disk_image_check_min_block(unsigned int blk, unsigned int length)
 {
     if (blk < length) {
-        log_error(disk_image_probe_log, "Cannot read block %d.", blk);
+        log_error(disk_image_probe_log, "Cannot read block %u.", blk);
         return -1;
     }
     return 0;
