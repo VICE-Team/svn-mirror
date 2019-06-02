@@ -790,9 +790,9 @@ static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
     drive = drive_context[dnr]->drive;
 
     if (drive->image == NULL) {
-        sprintf(snap_module_name, "NOIMAGE%i", dnr);
+        sprintf(snap_module_name, "NOIMAGE%u", dnr);
     } else {
-        sprintf(snap_module_name, "IMAGE%i", dnr);
+        sprintf(snap_module_name, "IMAGE%u", dnr);
     }
 
     m = snapshot_module_create(s, snap_module_name, IMAGE_SNAP_MAJOR,
@@ -852,7 +852,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
 
     drive = drive_context[dnr]->drive;
 
-    sprintf(snap_module_name, "NOIMAGE%i", dnr);
+    sprintf(snap_module_name, "NOIMAGE%u", dnr);
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -862,7 +862,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
         return 0;
     }
 
-    sprintf(snap_module_name, "IMAGE%i", dnr);
+    sprintf(snap_module_name, "IMAGE%u", dnr);
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -983,7 +983,7 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
     uint32_t num_half_tracks, track_size;
 
     drive = drive_context[dnr]->drive;
-    sprintf(snap_module_name, "GCRIMAGE%i", dnr);
+    sprintf(snap_module_name, "GCRIMAGE%u", dnr);
 
     m = snapshot_module_create(s, snap_module_name, GCRIMAGE_SNAP_MAJOR,
                                GCRIMAGE_SNAP_MINOR);
@@ -1029,7 +1029,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
     uint32_t num_half_tracks, track_size;
 
     drive = drive_context[dnr]->drive;
-    sprintf(snap_module_name, "GCRIMAGE%i", dnr);
+    sprintf(snap_module_name, "GCRIMAGE%u", dnr);
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -1117,7 +1117,7 @@ static int drive_snapshot_write_p64image_module(snapshot_t *s, unsigned int dnr)
     PP64Image P64Image;
 
     drive = drive_context[dnr]->drive;
-    sprintf(snap_module_name, "P64IMAGE%i", dnr);
+    sprintf(snap_module_name, "P64IMAGE%u", dnr);
 
     m = snapshot_module_create(s, snap_module_name, GCRIMAGE_SNAP_MAJOR,
                                GCRIMAGE_SNAP_MINOR);
@@ -1171,7 +1171,7 @@ static int drive_snapshot_read_p64image_module(snapshot_t *s, unsigned int dnr)
     uint32_t size;
 
     drive = drive_context[dnr]->drive;
-    sprintf(snap_module_name, "P64IMAGE%i", dnr);
+    sprintf(snap_module_name, "P64IMAGE%u", dnr);
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
