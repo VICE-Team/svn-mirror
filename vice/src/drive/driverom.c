@@ -209,7 +209,7 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
     const uint8_t *base;
     int len;
 
-    sprintf(snap_module_name, "DRIVEROM%i", drive->mynumber);
+    sprintf(snap_module_name, "DRIVEROM%u", drive->mynumber);
 
     m = snapshot_module_create(s, snap_module_name, ROM_SNAP_MAJOR, ROM_SNAP_MINOR);
 
@@ -302,7 +302,7 @@ int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
     uint8_t *base;
     int len;
 
-    sprintf(snap_module_name, "DRIVEROM%i", drive->mynumber);
+    sprintf(snap_module_name, "DRIVEROM%u", drive->mynumber);
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
     if (m == NULL) {
