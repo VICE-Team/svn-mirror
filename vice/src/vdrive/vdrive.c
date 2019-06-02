@@ -205,7 +205,7 @@ int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track)
             return 256;
         default:
             log_message(vdrive_log,
-                        "Unknown disk type %i.  Cannot calculate max sectors",
+                        "Unknown disk type %u.  Cannot calculate max sectors",
                         vdrive->image_format);
     }
     return -1;
@@ -404,7 +404,7 @@ void vdrive_set_disk_geometry(vdrive_t *vdrive)
             break;
         default:
             log_error(vdrive_log,
-                      "Unknown disk type %i.  Cannot set disk geometry.",
+                      "Unknown disk type %u.  Cannot set disk geometry.",
                       vdrive->image_format);
     }
 
