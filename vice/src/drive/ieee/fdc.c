@@ -179,7 +179,7 @@ static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int 
                 ret = disk_image_write_sector(thefdc[dnr].image, sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
-                              "Could not update T:%d S:%d on disk image.",
+                              "Could not update T:%u S:%u on disk image.",
                               dadr.track, dadr.sector);
                     rc = FDC_ERR_DCHECK;
                     break;
@@ -247,7 +247,7 @@ static uint8_t fdc_do_format_D40(fdc_t *thefdc, unsigned int fnum, unsigned int 
                 ret = disk_image_write_sector(thefdc[dnr].image, sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
-                              "Could not update T:%d S:%d on disk image.",
+                              "Could not update T:%u S:%u on disk image.",
                               dadr.track, dadr.sector);
                     rc = FDC_ERR_DCHECK;
                     break;
@@ -331,7 +331,7 @@ static uint8_t fdc_do_format_D80(fdc_t *thefdc, unsigned int fnum, unsigned int 
                                               &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
-                              "Could not update T:%d S:%d on disk image.",
+                              "Could not update T:%u S:%u on disk image.",
                               dadr.track, dadr.sector);
                     rc = FDC_ERR_DCHECK;
                     break;
@@ -430,7 +430,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             ret = disk_image_read_sector(fdc[dnr].image, sector_data, &dadr);
             if (ret < 0) {
                 log_error(LOG_DEFAULT,
-                          "Cannot read T:%d S:%d from disk image.",
+                          "Cannot read T:%u S:%u from disk image.",
                           dadr.track, dadr.sector);
                 rc = FDC_ERR_DRIVE;
             } else {
@@ -451,7 +451,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             ret = disk_image_write_sector(fdc[dnr].image, sector_data, &dadr);
             if (ret < 0) {
                 log_error(LOG_DEFAULT,
-                          "Could not update T:%d S:%d on disk image.",
+                          "Could not update T:%u S:%u on disk image.",
                           dadr.track, dadr.sector);
                 rc = FDC_ERR_DRIVE;
             } else {
@@ -466,7 +466,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             ret = disk_image_read_sector(fdc[dnr].image, sector_data, &dadr);
             if (ret < 0) {
                 log_error(LOG_DEFAULT,
-                          "Cannot read T:%d S:%d from disk image.",
+                          "Cannot read T:%u S:%u from disk image.",
                           dadr.track, dadr.sector);
                 rc = FDC_ERR_DRIVE;
             } else {
@@ -580,6 +580,9 @@ static void int_fdc(CLOCK offset, void *data)
             log_message(fdc_log, "int_fdc%d %d: state=%d\n",
                         fnum, rclk, fdc[fnum].fdc_state);
         }
+        /* FIXME: this causes an `'old_state' undeclared` error with
+         * FDC_DEBUG enabled
+         */
         old_state[fnum] = fdc[fnum].fdc_state;
     }
 #endif
