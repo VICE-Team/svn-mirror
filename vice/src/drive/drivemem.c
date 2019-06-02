@@ -250,7 +250,7 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
             mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, riot2_dump, context);
             break;
         default:
-            log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
+            log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%u'.", type);
             break;
     }
     return drivemem_ioreg_list;
