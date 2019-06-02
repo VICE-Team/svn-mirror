@@ -1016,7 +1016,7 @@ AC_TRY_COMPILE([],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
-    dnl check if the compiler support -Wformat
+dnl check if the compiler supports -Wformat
 AC_MSG_CHECKING([if the compiler supports -Wformat])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Wformat"
@@ -1028,7 +1028,7 @@ AC_TRY_COMPILE([],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
-dnl check if the compiler support -Wformat-signedness
+dnl check if the compiler supports -Wformat-signedness (GCC)
 AC_MSG_CHECKING([if the compiler supports -Wformat-signedness])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Wformat-signedness"
@@ -1039,6 +1039,22 @@ AC_TRY_COMPILE([],
                  CFLAGS="$YES_CFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
+
+dnl check if the compiler supports -Wformat-pedantic (clang)
+dnl This only seems to catch things like passing a Type* to %p and not casting
+dnl it to void*. Sounds like it could be useful for C++, not so much for C.
+dnl catch additional bugs.
+AC_MSG_CHECKING([if the compiler supports -Wformat-pedantic])
+ORIG_CFLAGS="$CFLAGS"
+YES_CFLAGS="$CFLAGS -Wformat-pedantic"
+CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+AC_TRY_COMPILE([],
+               [int test;],
+               [ AC_MSG_RESULT(yes)
+                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(no)
+                 CFLAGS="$ORIG_CFLAGS" ])
+
 
 AC_LANG_PUSH(C++)
 
