@@ -71,7 +71,8 @@ static int vdrive_calculate_disk_half(vdrive_t *vdrive)
             return vdrive->num_tracks - 1;
         default:
             log_error(LOG_ERR,
-                      "Unknown disk type %i.  Cannot calculate disk half.", vdrive->image_format);
+                      "Unknown disk type %u.  Cannot calculate disk half.",
+                      vdrive->image_format);
     }
     return -1;
 }
@@ -364,7 +365,8 @@ uint8_t *vdrive_bam_get_track_entry(vdrive_t *vdrive, unsigned int track)
             bamp = &bam[0x100 + BAM_BIT_MAP_4000 + 32 * (track - 1) - 1];
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %i.  Cannot calculate BAM track.", vdrive->image_format);
+            log_error(LOG_ERR, "Unknown disk type %u.  Cannot calculate BAM track.",
+                    vdrive->image_format);
     }
     return bamp;
 }
@@ -390,7 +392,8 @@ static void vdrive_bam_sector_free(vdrive_t *vdrive, uint8_t *bamp,
         case VDRIVE_IMAGE_FORMAT_4000:
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %i.  Cannot find free sector.", vdrive->image_format);
+            log_error(LOG_ERR, "Unknown disk type %u.  Cannot find free sector.",
+                    vdrive->image_format);
     }
 }
 
@@ -473,7 +476,8 @@ void vdrive_bam_clear_all(vdrive_t *vdrive)
             break;
         default:
             log_error(LOG_ERR,
-                      "Unknown disk type %i.  Cannot clear BAM.", vdrive->image_format);
+                      "Unknown disk type %u.  Cannot clear BAM.",
+                      vdrive->image_format);
     }
 }
 
@@ -610,7 +614,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, uint8_t *id
             break;
         default:
             log_error(LOG_ERR,
-                      "Unknown disk type %i.  Cannot create BAM.",
+                      "Unknown disk type %u.  Cannot create BAM.",
                       vdrive->image_format);
     }
     return;
@@ -664,7 +668,8 @@ int vdrive_bam_get_interleave(unsigned int type)
         case VDRIVE_IMAGE_FORMAT_4000:
             return 1;
         default:
-            log_error(LOG_ERR, "Unknown disk type %i.  Using interleave 10.", type);
+            log_error(LOG_ERR, "Unknown disk type %u.  Using interleave 10.",
+                    type);
             return 10;
     }
 }
@@ -740,7 +745,8 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
             }
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %i.  Cannot read BAM.", vdrive->image_format);
+            log_error(LOG_ERR, "Unknown disk type %u.  Cannot read BAM.",
+                    vdrive->image_format);
     }
 
     if (err < 0) {
@@ -797,7 +803,8 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
             }
             break;
         default:
-            log_error(LOG_ERR, "Unknown disk type %i.  Cannot read BAM.", vdrive->image_format);
+            log_error(LOG_ERR, "Unknown disk type %u.  Cannot read BAM.",
+                    vdrive->image_format);
     }
     return err;
 }
@@ -865,7 +872,7 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                 break;
             default:
                 log_error(LOG_ERR,
-                          "Unknown disk type %i.  Cannot calculate free sectors.",
+                          "Unknown disk type %u.  Cannot calculate free sectors.",
                           vdrive->image_format);
         }
     }
