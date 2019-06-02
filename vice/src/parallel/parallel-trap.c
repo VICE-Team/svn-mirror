@@ -150,7 +150,9 @@ static int parallelcommand(void)
                     if (st) {
                         p->isopen[channel] = 0;
                         (*(p->closef))(vdrive, channel);
-                        log_error(parallel_log, "Cannot open file. Status $%02x.", st);
+                        log_error(parallel_log,
+                                "Cannot open file. Status $%02x.",
+                                (unsigned int)st);
                     }
                 }
 #endif
@@ -172,7 +174,7 @@ int parallel_trap_attention(int b)
     void *vdrive;
 
     if (parallel_debug) {
-        log_message(parallel_log, "ParallelAttention(%02x).", b);
+        log_message(parallel_log, "ParallelAttention(%02x).", (unsigned int)b);
     }
 
     if (b == 0x3f
@@ -277,7 +279,8 @@ int parallel_trap_sendbyte(uint8_t data)
 
 int parallel_trap_receivebyte(uint8_t *data, int fake)
 {
-    int st = 0, secadr = TrapSecondary & 0x0f;
+    int st = 0;
+    int secadr = TrapSecondary & 0x0f;
     serial_t *p;
     void *vdrive;
     unsigned int dnr;
@@ -328,12 +331,15 @@ if ((!p->nextok[secadr]) && (!p->lastst[secadr])) {
         log_message(parallel_log,
                     "receive: sa=%02x lastb = %02x (data=%02x), "
                     "ok=%s, st=%04x, nextb = %02x, "
-                    "ok=%s, st=%04x.", secadr,
-                    p->lastbyte[secadr], (int)*data,
+                    "ok=%s, st=%04x.",
+                    (unsigned int)secadr,
+                    p->lastbyte[secadr],
+                    (int)*data,
                     p->lastok[secadr] ? "ok" : "no",
-                    p->lastst[secadr],
-                    p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
-                    p->nextst[secadr]);
+                    (unsigned int)(p->lastst[secadr]),
+                    p->nextbyte[secadr],
+                    p->nextok[secadr] ? "ok" : "no",
+                    (unsigned int)(p->nextst[secadr]));
     }
 #if 0
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr]) {
