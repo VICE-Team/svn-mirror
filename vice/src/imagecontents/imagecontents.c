@@ -143,7 +143,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
     }
 
     for (p = contents->file_list; p != NULL; p = p->next) {
-        sprintf((char *)rawline, "%-5d \"                  ", p->size);
+        sprintf((char *)rawline, "%-5u \"                  ", p->size);
         memcpy(&rawline[7], p->name, IMAGE_CONTENTS_FILE_NAME_LEN);
 
         for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++) {
