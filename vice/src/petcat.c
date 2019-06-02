@@ -1790,7 +1790,8 @@ static int p_expand(int version, int addr, int ctrls)
         fprintf(dest, "\n");
     }      /* line */
 
-    DBG(("\n c %02x  EOF %d  *line %d  sysflg %d\n", c, feof(source), *line, sysflg));
+    DBG(("\n c %02d  EOF %d  *line %d  sysflg %d\n",
+                c, feof(source), *line, sysflg));
 
     return (!feof(source) && (*line | line[1]) && sysflg);
 }
@@ -1876,11 +1877,12 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         if (*p == CLARIF_RP) {
                             *p1++ = (unsigned char)len; /* put charcode into output */
                             p2 = p + 1; /* skip the closing brace in input */
-                            DBG(("controlcode was a decimal character code: {%d}\n", len));
+                            DBG(("controlcode was a decimal character code: {%u}\n", len));
                             continue;
                         }
 
-                        DBG(("controlcode repeat count: len:%d kwlen:%d\n", len, kwlen));
+                        DBG(("controlcode repeat count: len:%u kwlen:%u\n",
+                                    len, kwlen));
 
                         if (*p == ' ') {
                             ++p;
@@ -1920,7 +1922,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         )
                         ) {
 
-                        DBG(("controlcode test 2: '%c' '%s' '%d'\n", p[kwlen], p, kwlen));
+                        DBG(("controlcode test 2: '%c' '%s' '%u'\n",
+                                    p[kwlen], p, kwlen));
 
                         if (p[kwlen] == '*') {
                             /* repetition count */
@@ -1932,12 +1935,14 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                             if (scan_integer((char *)++p, &len, &kwlen) > 0) {
                                 p += kwlen;
-                                DBG(("controlcode repeat count: len:%d kwlen:%d\n", len, kwlen));
+                                DBG(("controlcode repeat count: len:%u kwlen:%u\n",
+                                            len, kwlen));
                                 kwlen = 0;
                             }
                         }
 
-                        DBG(("controlcode test 3: '%c' '%s' '%d'\n", p[0], p, kwlen));
+                        DBG(("controlcode test 3: '%c' '%s' '%u'\n",
+                                    p[0], p, kwlen));
 
                         if (p[kwlen] == CLARIF_RP) {
                             for (; len-- > 0; ) {
@@ -1950,7 +1955,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         }
                     }
 
-                    fprintf(stderr, "error: line %d - unknown control code: %s\n", linum, p);
+                    fprintf(stderr, "error: line %u - unknown control code: %s\n",
+                            linum, p);
                     exit(-1);
                 }
 /*    DBG(("controlcode end\n")); */
@@ -2157,8 +2163,9 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
         p3 = (unsigned char *)tokenizedline;
         if ((len = (unsigned int)(p1 - p3)) > 0) {
             addr += (len + 5);
-            fprintf(dest, "%c%c%c%c", addr & 255, (addr >> 8) & 255,
-                    linum & 255, (linum >> 8) & 255);
+            fprintf(dest, "%c%c%c%c",
+                    (int)(addr & 255), (int)((addr >> 8) & 255),
+                    (int)(linum & 255), (int)((linum >> 8) & 255));
             fwrite(tokenizedline, 1, len, dest);
             fprintf(dest, "%c", '\0');
             linum += 2; /* auto line numbering by default */
@@ -2204,7 +2211,8 @@ static void asc_2_pet(int version, int ctrls)
                     continue;
                 }
 
-                DBG(("asc_2_pet controlcode repeat count: len:%d kwlen:%d\n", len, kwlen));
+                DBG(("asc_2_pet controlcode repeat count: len:%u kwlen:%u\n",
+                            len, kwlen));
 
                 if (*p == ' ') {
                     ++p;
@@ -2244,7 +2252,8 @@ static void asc_2_pet(int version, int ctrls)
                 )
                 ) {
 
-                DBG(("asc_2_pet controlcode test 2: '%c' '%s' '%d'\n", p[kwlen], p, kwlen));
+                DBG(("asc_2_pet controlcode test 2: '%c' '%s' '%u'\n",
+                            p[kwlen], p, kwlen));
 
                 if (p[kwlen] == '*') {
                     /* repetition count */
@@ -2255,12 +2264,14 @@ static void asc_2_pet(int version, int ctrls)
                     len = 1;
                     if (scan_integer((char *)++p, &len, &kwlen) > 0) {
                         p += kwlen;
-                        DBG(("asc_2_pet controlcode repeat count: len:%d kwlen:%d\n", len, kwlen));
+                        DBG(("asc_2_pet controlcode repeat count: len:%u kwlen:%u\n",
+                                    len, kwlen));
                         kwlen = 0;
                     }
                 }
 
-                DBG(("asc_2_pet controlcode test 3: '%c' '%s' '%d'\n", p[0], p, kwlen));
+                DBG(("asc_2_pet controlcode test 3: '%c' '%s' '%u'\n",
+                            p[0], p, kwlen));
 
                 if (p[kwlen] == CLARIF_RP) {
                     for (; len-- > 0; ) {
@@ -2277,7 +2288,7 @@ static void asc_2_pet(int version, int ctrls)
             exit(-1);
         }
 
-        DBG(("asc_2_pet convert character (%02x)\n", c));
+        DBG(("asc_2_pet convert character (%02x)\n", (unsigned int)c));
 
         /* convert character */
         d = _a_topetscii(c, ctrls);
@@ -2313,10 +2324,10 @@ static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, 
         /* found a control code */
         if (j && (!*p) && ((*q == '}') || (*q == '*'))) {
             kwlen = j;
-            DBG(("found '%s' %2x\n", wordlist[token], token));
+            DBG(("found '%s' %2x\n", wordlist[token], (unsigned int)token));
             return token;
         }
-    } /* for */ 
+    } /* for */
 
     return (CODE_NONE);
 }
