@@ -397,7 +397,9 @@ static int fsdevice_flush_ba(vdrive_t *vdrive, char *realarg)
     int err = CBMDOS_IPE_OK;
 
     get4args(realarg, &drv, &trk, &sec, NULL);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - B-A: %d %d %d (block access needs disk image)", drv, trk, sec);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - B-A: %u %u %u (block access needs disk image)",
+            drv, trk, sec);
 
     bamptr = get_bamptr(trk, sec);
     bammask = get_bammask(trk, sec);
@@ -437,7 +439,9 @@ static int fsdevice_flush_bf(vdrive_t *vdrive, char *realarg)
     unsigned int bamptr, bammask;
 
     get4args(realarg, &drv, &trk, &sec, NULL);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - B-F: %d %d %d (block access needs disk image)", drv, trk, sec);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - B-F: %u %u %u (block access needs disk image)",
+            drv, trk, sec);
 
     bamptr = get_bamptr(trk, sec);
     bammask = get_bammask(trk, sec);
@@ -451,7 +455,9 @@ static int fsdevice_flush_bp(vdrive_t *vdrive, char *realarg)
 {
     unsigned int chn, pos;
     get4args(realarg, &chn, &pos, NULL, NULL);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - B-P: %d %d (block access needs disk image)", chn, pos);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - B-P: %u %u (block access needs disk image)",
+            chn, pos);
     return CBMDOS_IPE_OK;
 }
 
@@ -461,7 +467,9 @@ static int fsdevice_flush_be(vdrive_t *vdrive, char *realarg)
     unsigned int dnr = vdrive->unit - 8;
     unsigned int chn, drv, trk, sec;
     get4args(realarg, &chn, &drv, &trk, &sec);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - B-E: %d %d %d %d (needs TDE)", chn, drv, trk, sec);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - B-E: %u %u %u %u (needs TDE)",
+            chn, drv, trk, sec);
     fsdevice_dev[dnr].track = trk;
     fsdevice_dev[dnr].sector = sec;
     return CBMDOS_IPE_OK;
@@ -473,7 +481,9 @@ static int fsdevice_flush_br(vdrive_t *vdrive, char *realarg)
     unsigned int dnr = vdrive->unit - 8;
     unsigned int chn, drv, trk, sec;
     get4args(realarg, &chn, &drv, &trk, &sec);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - B-R: %d %d %d %d (block access needs disk image)", chn, drv, trk, sec);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - B-R: %u %u %u %u (block access needs disk image)",
+            chn, drv, trk, sec);
     fsdevice_dev[dnr].track = trk;
     fsdevice_dev[dnr].sector = sec;
     return CBMDOS_IPE_OK;
@@ -486,7 +496,9 @@ static int fsdevice_flush_u1(vdrive_t *vdrive, char *realarg)
     unsigned int chn, drv, trk, sec;
 
     get4args(realarg, &chn, &drv, &trk, &sec);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - U1: %d %d %d %d (block access needs disk image)", chn, drv, trk, sec);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - U1: %u %u %u %u (block access needs disk image)",
+            chn, drv, trk, sec);
     fsdevice_dev[dnr].track = trk;
     fsdevice_dev[dnr].sector = sec;
 
@@ -500,7 +512,9 @@ static int fsdevice_flush_bw(vdrive_t *vdrive, char *realarg)
     unsigned int chn, drv, trk, sec;
 
     get4args(realarg, &chn, &drv, &trk, &sec);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - B-W: %d %d %d %d (block access needs disk image)", chn, drv, trk, sec);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - B-W: %u %u %u %u (block access needs disk image)",
+            chn, drv, trk, sec);
     fsdevice_dev[dnr].track = trk;
     fsdevice_dev[dnr].sector = sec;
 
@@ -514,7 +528,9 @@ static int fsdevice_flush_u2(vdrive_t *vdrive, char *realarg)
     unsigned int chn, drv, trk, sec;
 
     get4args(realarg, &chn, &drv, &trk, &sec);
-    log_message(LOG_DEFAULT, "Fsdevice: Warning - U2: %d %d %d %d (block access needs disk image)", chn, drv, trk, sec);
+    log_message(LOG_DEFAULT,
+            "Fsdevice: Warning - U2: %u %u %u %u (block access needs disk image)",
+            chn, drv, trk, sec);
     fsdevice_dev[dnr].track = trk;
     fsdevice_dev[dnr].sector = sec;
 
