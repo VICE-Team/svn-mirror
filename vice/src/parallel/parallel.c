@@ -265,7 +265,8 @@ static void In1_davlo(int tr)
         par_status = parallel_trap_sendbyte((uint8_t)(b ^ 0xff));
     }
     if (parallel_debug) {
-        log_warning(LOG_DEFAULT, "IEEE488: sendbyte returns %04x", par_status);
+        log_warning(LOG_DEFAULT, "IEEE488: sendbyte returns %04x",
+                (unsigned int)par_status);
     }
 
     Go(In2);
@@ -424,13 +425,13 @@ static State_t State[NSTATE] = {
     if (parallel_debug) {                                                \
         if (old && !parallel_ ## line) {                                    \
             log_warning(LOG_DEFAULT,                                    \
-                        "clr_" # line "(%02x) -> " # linecap "hi",        \
-                        ~mask & 0xff); }                                  \
+                       "clr_" # line "(%02x) -> " # linecap "hi",        \
+                        ~mask & 0xffU); }                                  \
         else                                                            \
         if (old & ~mask) {                                            \
             log_warning(LOG_DEFAULT,                                \
                         "clr_" # line "(%02x) -> %02x",              \
-                        ~mask & 0xff, parallel_ ## line); }             \
+                        ~mask & 0xffU, parallel_ ## line); }             \
     }
 
 #define PARALLEL_LINE_DEBUG_SET(line, linecap)                          \
@@ -522,7 +523,8 @@ void parallel_restore_clr_atn(uint8_t mask)
     parallel_atn &= mask;
 
     if (parallel_debug && old && !parallel_atn) {
-        log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi", ~mask & 0xff);
+        log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi",
+                (unsigned int)(~mask & 0xff));
     }
 
     /* we do not send IRQ signals to chips on restore */
@@ -607,7 +609,7 @@ void parallel_clr_ndac(uint8_t mask)
 #define PARALLEL_DEBUG_SET_BUS(type)                                    \
     if (parallel_debug) {                                               \
         log_warning(LOG_DEFAULT, # type "_set_bus(%02x) -> %02x (%02x)", \
-                    b, parallel_bus, ~parallel_bus & 0xff);             \
+                    (unsigned int)b, parallel_bus, ~parallel_bus & 0xffu);             \
     }
 
 static uint8_t par_emu_bus = 0xff;
