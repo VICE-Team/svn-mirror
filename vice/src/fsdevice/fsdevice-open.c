@@ -350,7 +350,9 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
         not found" - so it is the best we can do in that case, too.
     */
     if (strlen((const char*)name) != length) {
-        log_message(LOG_DEFAULT, "Fsdevice: Warning - filename '%s' with bogus length '%d'.", cmd_parse.parsecmd, length);
+        log_message(LOG_DEFAULT,
+                "Fsdevice: Warning - filename '%s' with bogus length '%u'.",
+                cmd_parse.parsecmd, length);
         status = CBMDOS_IPE_NOT_FOUND;
         goto out;
     }
