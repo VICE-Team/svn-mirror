@@ -277,7 +277,7 @@ int fsimage_gcr_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
 
     if (dadr->track > image->tracks) {
         log_error(fsimage_gcr_log,
-                  "Track %i out of bounds.  Cannot read GCR track.",
+                  "Track %u out of bounds.  Cannot read GCR track.",
                   dadr->track);
         return -1;
     }
@@ -297,7 +297,7 @@ int fsimage_gcr_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
     }
     if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_gcr_log,
-                  "Cannot find track: %i sector: %i within GCR image.",
+                  "Cannot find track: %u sector: %u within GCR image.",
                   dadr->track, dadr->sector);
         switch (rf) {
             case CBMDOS_FDC_ERR_HEADER:
@@ -338,7 +338,7 @@ int fsimage_gcr_write_sector(disk_image_t *image, const uint8_t *buf,
 {
     if (dadr->track > image->tracks) {
         log_error(fsimage_gcr_log,
-                  "Track %i out of bounds.  Cannot write GCR sector",
+                  "Track %u out of bounds.  Cannot write GCR sector",
                   dadr->track);
         return -1;
     }
@@ -351,7 +351,7 @@ int fsimage_gcr_write_sector(disk_image_t *image, const uint8_t *buf,
         }
         if (gcr_write_sector(&raw, buf, (uint8_t)dadr->sector) != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_gcr_log,
-                      "Could not find track %i sector %i in disk image",
+                      "Could not find track %u sector %u in disk image",
                       dadr->track, dadr->sector);
             lib_free(raw.data);
             return -1;
@@ -364,13 +364,13 @@ int fsimage_gcr_write_sector(disk_image_t *image, const uint8_t *buf,
     } else {
         if (gcr_write_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (uint8_t)dadr->sector) != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_gcr_log,
-                      "Could not find track %i sector %i in disk image",
+                      "Could not find track %u sector %u in disk image",
                       dadr->track, dadr->sector);
             return -1;
         }
         if (fsimage_gcr_write_track(image, dadr->track, &image->gcr->tracks[(dadr->track * 2) - 2]) < 0) {
             log_error(fsimage_gcr_log,
-                      "Failed writing track %i to disk image.", dadr->track);
+                      "Failed writing track %u to disk image.", dadr->track);
             return -1;
         }
     }
