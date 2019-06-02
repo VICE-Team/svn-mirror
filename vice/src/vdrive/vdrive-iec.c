@@ -663,7 +663,8 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
 /*        vdrive_close_all_channels(vdrive); */
             break;
         default:
-            log_error(vdrive_iec_log, "Fatal: unknown floppy-close-mode: %i.", p->mode);
+            log_error(vdrive_iec_log, "Fatal: unknown floppy-close-mode: %u.",
+                    p->mode);
     }
 
     return status;
