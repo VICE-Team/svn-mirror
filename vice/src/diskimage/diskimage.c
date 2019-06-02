@@ -116,7 +116,7 @@ unsigned int disk_image_speed_map(unsigned int format, unsigned int track)
 
         default:
             log_message(disk_image_log,
-                        "Unknown disk type %i. Cannot calculate zone speed",
+                        "Unknown disk type %u. Cannot calculate zone speed",
                         format);
             break;
     }
@@ -183,7 +183,7 @@ unsigned int disk_image_sector_per_track(unsigned int format,
             return sector_map_d80[disk_image_speed_map(format, track)];
         default:
             log_message(disk_image_log,
-                        "Unknown disk type %i.  Cannot calculate sectors per track",
+                        "Unknown disk type %u.  Cannot calculate sectors per track",
                         format);
     }
     return 0;
@@ -233,7 +233,7 @@ unsigned int disk_image_raw_track_size(unsigned int format,
             return raw_track_size_d80[disk_image_speed_map(format, track)];
         default:
             log_message(disk_image_log,
-                        "Unknown disk type %i.  Cannot calculate raw size of track",
+                        "Unknown disk type %u.  Cannot calculate raw size of track",
                         format);
     }
     return 1;
@@ -262,7 +262,7 @@ unsigned int disk_image_gap_size(unsigned int format, unsigned int track)
             return 25;
         default:
             log_message(disk_image_log,
-                        "Unknown disk type %i.  Cannot calculate gap size",
+                        "Unknown disk type %u.  Cannot calculate gap size",
                         format);
     }
     return 1;
@@ -335,12 +335,12 @@ void disk_image_attach_log(const disk_image_t *image, signed int lognum,
 
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
-            log_verbose("Unit %d: %s disk image attached: %s.",
+            log_verbose("Unit %u: %s disk image attached: %s.",
                         unit, type, fsimage_name_get(image));
             break;
 #ifdef HAVE_RAWDRIVE
         case DISK_IMAGE_DEVICE_RAW:
-            log_verbose("Unit %d: %s disk attached (drive: %s).",
+            log_verbose("Unit %u: %s disk attached (drive: %s).",
                         unit, type, rawimage_name_get(image));
             break;
 #endif
@@ -365,12 +365,12 @@ void disk_image_detach_log(const disk_image_t *image, signed int lognum,
 
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
-            log_verbose("Unit %d: %s disk image detached: %s.",
+            log_verbose("Unit %u: %s disk image detached: %s.",
                         unit, type, fsimage_name_get(image));
             break;
 #ifdef HAVE_RAWDRIVE
         case DISK_IMAGE_DEVICE_RAW:
-            log_verbose("Unit %d: %s disk detached (drive: %s).",
+            log_verbose("Unit %u: %s disk detached (drive: %s).",
                         unit, type, rawimage_name_get(image));
             break;
 #endif
@@ -494,7 +494,7 @@ void disk_image_media_create(disk_image_t *image)
             break;
 #endif
         default:
-            log_error(disk_image_log, "Unknown image device %i.", image->device);
+            log_error(disk_image_log, "Unknown image device %u.", image->device);
     }
 }
 
@@ -519,7 +519,7 @@ void disk_image_media_destroy(disk_image_t *image)
             break;
 #endif
         default:
-            log_error(disk_image_log, "Unknown image device %i.", image->device);
+            log_error(disk_image_log, "Unknown image device %u.", image->device);
     }
 }
 
@@ -546,7 +546,7 @@ int disk_image_open(disk_image_t *image)
             break;
 #endif
         default:
-            log_error(disk_image_log, "Unknown image device %i.", image->device);
+            log_error(disk_image_log, "Unknown image device %u.", image->device);
             rc = -1;
     }
 
@@ -577,7 +577,7 @@ int disk_image_close(disk_image_t *image)
             break;
 #endif
         default:
-            log_error(disk_image_log, "Unknown image device %i.", image->device);
+            log_error(disk_image_log, "Unknown image device %u.", image->device);
             rc = -1;
     }
 
@@ -605,7 +605,7 @@ int disk_image_read_sector(const disk_image_t *image, uint8_t *buf, const disk_a
             break;
 #endif
         default:
-            log_error(disk_image_log, "Unknown image device %i.", image->device);
+            log_error(disk_image_log, "Unknown image device %u.", image->device);
             rc = -1;
     }
 
@@ -636,7 +636,7 @@ int disk_image_write_sector(disk_image_t *image, const uint8_t *buf, const disk_
             break;
 #endif
         default:
-            log_error(disk_image_log, "Unknow image device %i.", image->device);
+            log_error(disk_image_log, "Unknow image device %u.", image->device);
             rc = -1;
     }
 
