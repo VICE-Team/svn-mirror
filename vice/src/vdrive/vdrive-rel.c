@@ -91,7 +91,8 @@ static unsigned int vdrive_rel_has_super(vdrive_t *vdrive)
             break;
         default:
             log_error(vdrive_rel_log,
-                      "Unknown disk type %i.  Cannot determine if it supports super side sectors.",
+                      "Unknown disk type %u.  "
+                      "Cannot determine if it supports super side sectors.",
                       vdrive->image_format);
             break;
     }
@@ -130,7 +131,7 @@ static unsigned int vdrive_rel_blocks_max(vdrive_t *vdrive)
             break;
         default:
             log_error(vdrive_rel_log,
-                      "Unknown disk type %i.  Cannot determine max REL size.",
+                      "Unknown disk type %u.  Cannot determine max REL size.",
                       vdrive->image_format);
             break;
     }
@@ -812,7 +813,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
 
     if (p->slot) {
         log_debug(
-            "Open existing REL file '%s' with record length %i on channel %d.",
+            "Open existing REL file '%s' with record length %u on channel %u.",
             name, cmd_parse->recordlength, secondary);
         /* Follow through to function. */
         if (vdrive_rel_open_existing(vdrive, secondary)) {
@@ -820,7 +821,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
         }
     } else {
         log_debug(
-            "Open new REL file '%s' with record length %i on channel %d.",
+            "Open new REL file '%s' with record length %u on channel %u.",
             name, cmd_parse->recordlength, secondary);
 
         /* abort if we are in read only mode */
@@ -1037,7 +1038,8 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
     /* Fill the rest of the currently written record. */
     vdrive_rel_fillrecord(vdrive, secondary);
 
-    log_debug("Requested position %d, %d on channel %d.", record, position, secondary);
+    log_debug("Requested position %u, %u on channel %u.",
+            record, position, secondary);
 
     /* locate the track, sector and sector offset of record */
     vdrive_rel_track_sector(vdrive, secondary, record, &track, &sector, &rec_start);
@@ -1063,7 +1065,8 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
 
         /* load in the sector to memory */
         if (vdrive_read_sector(vdrive, p->buffer, track, sector) != 0) {
-            log_error(vdrive_rel_log, "Cannot read track %i sector %i.", track, sector);
+            log_error(vdrive_rel_log, "Cannot read track %u sector %u.",
+                    track, sector);
             return 66;
         }
         p->track = track;
@@ -1201,7 +1204,8 @@ int vdrive_rel_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
                 /* keep buffered sector where ever it is */
                 /* we won't read in the next sector unless we have to */
             } else {
-                log_error(vdrive_rel_log, "Cannot read track %i sector %i.", track, sector);
+                log_error(vdrive_rel_log, "Cannot read track %u sector %u.",
+                        track, sector);
                 *data = 0xc7;
                 return SERIAL_EOF;
             }
@@ -1284,7 +1288,8 @@ int vdrive_rel_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
                 }
             }
         }
-        log_debug("Forced from read to position %d, 0 on channel %d.", p->record, secondary);
+        log_debug("Forced from read to position %u, 0 on channel %u.",
+                p->record, secondary);
 
         return SERIAL_EOF;
     }
@@ -1349,7 +1354,8 @@ int vdrive_rel_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
                 /* keep buffered sector where ever it is */
                 /* we won't read in the next sector unless we have to */
             } else {
-                log_error(vdrive_rel_log, "Cannot read track %i sector %i.", track, sector);
+                log_error(vdrive_rel_log, "Cannot read track %u sector %u.",
+                        track, sector);
                 return SERIAL_EOF;
             }
         }
@@ -1404,7 +1410,7 @@ int vdrive_rel_close(vdrive_t *vdrive, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-    log_debug("VDrive REL close channel %d.", secondary);
+    log_debug("VDrive REL close channel %u.", secondary);
 
     /* Fill the rest of the currently written record. */
     vdrive_rel_fillrecord(vdrive, secondary);
@@ -1498,6 +1504,7 @@ void vdrive_rel_listen(vdrive_t *vdrive, unsigned int secondary)
                 }
             }
         }
-        log_debug("Forced from write to position %d, 0 on channel %d.", p->record, secondary);
+        log_debug("Forced from write to position %u, 0 on channel %u.",
+                p->record, secondary);
     }
 }
