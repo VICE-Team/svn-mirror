@@ -58,7 +58,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
     max_sector = disk_image_sector_per_track(image->type, track);
     sectors = disk_image_check_sector(image, track, 0);
     if (sectors < 0) {
-        log_error(fsimage_dxx_log, "Track: %i out of bounds.", track);
+        log_error(fsimage_dxx_log, "Track: %u out of bounds.", track);
         return -1;
     }
 
@@ -79,7 +79,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
         rf = gcr_read_sector(raw, &buffer[sector * 256], (uint8_t)sector);
         if (rf != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_dxx_log,
-                      "Could not find data sector of T:%d S:%d.",
+                      "Could not find data sector of T:%u S:%u.",
                       track, sector);
             if (fsimage->error_info.map == NULL) { /* create map if does not exists */
                 int newlen = disk_image_check_sector(image, image->tracks, 0);
@@ -107,7 +107,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
     }
 
     if (util_fpwrite(fsimage->fd, buffer, max_sector * 256, offset) < 0) {
-        log_error(fsimage_dxx_log, "Error writing T:%i to disk image.",
+        log_error(fsimage_dxx_log, "Error writing T:%u to disk image.",
                   track);
         lib_free(buffer);
         return -1;
@@ -130,8 +130,9 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                                    max_sector, offset);
             }
             if (res < 0) {
-                log_error(fsimage_dxx_log, "Error writing T:%i error info to disk image.",
-                          track);
+                log_error(fsimage_dxx_log,
+                        "Error writing T:%u error info to disk image.",
+                        track);
                 return -1;
             }
         }
@@ -254,7 +255,7 @@ int fsimage_dxx_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
     sectors = disk_image_check_sector(image, dadr->track, dadr->sector);
 
     if (sectors < 0) {
-        log_error(fsimage_dxx_log, "Track %i, Sector %i out of bounds.",
+        log_error(fsimage_dxx_log, "Track %u, Sector %u out of bounds.",
                   dadr->track, dadr->sector);
         return -1;
     }
@@ -268,7 +269,7 @@ int fsimage_dxx_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
     if (image->gcr == NULL) {
         if (util_fpread(fsimage->fd, buf, 256, offset) < 0) {
             log_error(fsimage_dxx_log,
-                      "Error reading T:%i S:%i from disk image.",
+                      "Error reading T:%u S:%u from disk image.",
                       dadr->track, dadr->sector);
             return -1;
         } else {
@@ -319,7 +320,7 @@ int fsimage_dxx_write_sector(disk_image_t *image, const uint8_t *buf, const disk
     sectors = disk_image_check_sector(image, dadr->track, dadr->sector);
 
     if (sectors < 0) {
-        log_error(fsimage_dxx_log, "Track: %i, Sector: %i out of bounds.",
+        log_error(fsimage_dxx_log, "Track: %u, Sector: %u out of bounds.",
                   dadr->track, dadr->sector);
         return -1;
     }
@@ -330,7 +331,7 @@ int fsimage_dxx_write_sector(disk_image_t *image, const uint8_t *buf, const disk
     }
 
     if (util_fpwrite(fsimage->fd, buf, 256, offset) < 0) {
-        log_error(fsimage_dxx_log, "Error writing T:%i S:%i to disk image.",
+        log_error(fsimage_dxx_log, "Error writing T:%u S:%u to disk image.",
                   dadr->track, dadr->sector);
         return -1;
     }
@@ -348,8 +349,9 @@ int fsimage_dxx_write_sector(disk_image_t *image, const uint8_t *buf, const disk
 
         fsimage->error_info.map[sectors] = CBMDOS_FDC_ERR_OK;
         if (util_fpwrite(fsimage->fd, &fsimage->error_info.map[sectors], 1, offset) < 0) {
-            log_error(fsimage_dxx_log, "Error writing T:%i S:%i error info to disk image.",
-                      dadr->track, dadr->sector);
+            log_error(fsimage_dxx_log,
+                    "Error writing T:%u S:%u error info to disk image.",
+                    dadr->track, dadr->sector);
         }
     }
 
