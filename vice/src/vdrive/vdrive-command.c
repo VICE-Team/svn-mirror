@@ -652,14 +652,13 @@ static int vdrive_command_scratch(vdrive_t *vdrive, uint8_t *name, int length)
         status = CBMDOS_IPE_WRITE_PROTECT_ON;
     } else {
 /*#ifdef DEBUG_DRIVE*/
-        log_debug("remove name='%s', len=%d (%d), type= %d.",
+        log_debug("remove name='%s', len=%u (%d), type= %u.",
                   cmd_parse.parsecmd, cmd_parse.parselength,
                   length, cmd_parse.filetype);
 /*#endif*/
         deleted_files = 0;
 
-	filetype = vdrive_dir_filetype(cmd_parse.parsecmd,
-				       cmd_parse.parselength);
+        filetype = vdrive_dir_filetype(cmd_parse.parsecmd, cmd_parse.parselength);
         vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
                                    cmd_parse.parselength, filetype, &dir);
 
@@ -698,7 +697,7 @@ static int vdrive_command_chdir(vdrive_t *vdrive, uint8_t *name, int length)
         status = CBMDOS_IPE_NO_NAME;
     } else {
 /*#ifdef DEBUG_DRIVE*/
-        log_debug("chdir name='%s', len=%d (%d), type= %d.",
+        log_debug("chdir name='%s', len=%u (%d), type= %u.",
                   cmd_parse.parsecmd, cmd_parse.parselength,
                   length, cmd_parse.filetype);
 /*#endif*/
@@ -760,7 +759,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, uint8_t *name, int length)
         status = CBMDOS_IPE_NO_NAME;
     } else {
 /*#ifdef DEBUG_DRIVE*/
-        log_debug("chpart name='%s', len=%d (%d), type= %d.",
+        log_debug("chpart name='%s', len=%u (%d), type= %u.",
                   cmd_parse.parsecmd, cmd_parse.parselength,
                   length, cmd_parse.filetype);
 /*#endif*/
@@ -1099,7 +1098,9 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
 {
     unsigned int len = buf[0];
 
-    log_warning(vdrive_command_log, "M-W %04x %u (+%d) (might need TDE)", addr, len, length - 6);
+    log_warning(vdrive_command_log,
+            "M-W %04x %u (+%u) (might need TDE)",
+            addr, len, length - 6);
     if (length < 6) {
         return CBMDOS_IPE_SYNTAX;
     }
@@ -1114,7 +1115,7 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
 /* FIXME: This function doesn't need buf or length. */
 int vdrive_command_memory_exec(vdrive_t *vdrive, const uint8_t *buf, uint16_t addr, unsigned int length)
 {
-    log_warning(vdrive_command_log, "M-E %04x (+%d) (needs TDE)", addr, length - 5);
+    log_warning(vdrive_command_log, "M-E %04x (+%u) (needs TDE)", addr, length - 5);
     return CBMDOS_IPE_OK;
 }
 
@@ -1125,7 +1126,8 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const uint8_t *buf, uint16_t ad
 {
     unsigned int len = buf[0];
 
-    log_warning(vdrive_command_log, "M-R %04x %u (+%d) (might need TDE)", addr, len, length - 6);
+    log_warning(vdrive_command_log, "M-R %04x %u (+%u) (might need TDE)",
+            addr, len, length - 6);
     if (length < 6) {
         return CBMDOS_IPE_SYNTAX;
     }
