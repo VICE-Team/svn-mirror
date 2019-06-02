@@ -1434,7 +1434,8 @@ int vicii_dump(void)
 
     v_bank = vicii.vbank_phi2;
 
-    mon_out("Rasterline:   current: %d IRQ: %d\n", vicii.raster.current_line, vicii.raster_irq_line);
+    mon_out("Rasterline:   current: %u IRQ: %u\n",
+            vicii.raster.current_line, vicii.raster_irq_line);
     mon_out("Display Mode:");
     mon_out(m_ext ? " Extended" : " Standard");
     mon_out(m_muco ? " Multi Color" : " Hires");
@@ -1448,11 +1449,13 @@ int vicii_dump(void)
     mon_out("Scroll X/Y:   %d/%d\n", vicii.regs[0x16] & 0x07, vicii.regs[0x11] & 0x07);
     mon_out("Screen Size:  %d x %d\n", 39 + ((vicii.regs[0x16] >> 3) & 1), 24 + ((vicii.regs[0x11] >> 3) & 1));
 
-    mon_out("\nVIC Memory Bank:   $%04x - $%04x\n", v_bank, v_bank + 0x3fff);
+    mon_out("\nVIC Memory Bank:   $%04x - $%04x\n",
+           (unsigned int)v_bank, (unsigned int)(v_bank + 0x3fff));
     v_vram = ((vicii.regs[0x18] >> 4) * 0x0400) + v_bank;
-    mon_out("\nVideo Memory:      $%04x\n", v_vram);
+    mon_out("\nVideo Memory:      $%04x\n", (unsigned int)v_vram);
     if (m_disp) {
-        mon_out("Bitmap Memory:     $%04x\n", (((vicii.regs[0x18] >> 3) & 1) * 0x2000) + v_bank);
+        mon_out("Bitmap Memory:     $%04x\n",
+                (unsigned int)((((vicii.regs[0x18] >> 3) & 1) * 0x2000) + v_bank));
     } else {
         i = (((vicii.regs[0x18] >> 1) & 0x7) * 0x800) + v_bank;
         /* FIXME: how does cbm510 work ? */
@@ -1466,7 +1469,7 @@ int vicii_dump(void)
                 i = 0xd000 | (i & 0x0f00);
             }
         }
-        mon_out("Character Set:     $%04x\n", i);
+        mon_out("Character Set:     $%04x\n", (unsigned int)i);
     }
 
     mon_out("\nSprites:");
@@ -1483,7 +1486,7 @@ int vicii_dump(void)
     }
     mon_out("\nAddress: ");
     for (i = 0x3f8; i < 0x400; i++) {
-        mon_out("  $%04x", v_bank + (vicii.screen_ptr[i] * 0x40));
+        mon_out("  $%04x", (unsigned int)(v_bank + (vicii.screen_ptr[i] * 0x40)));
     }
     mon_out("\nX-Pos:   ");
     bits = vicii.regs[0x10]; /* sprite x msb */
