@@ -623,7 +623,7 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
                    ((double)color_tab->crtable[i] * (double)color_tab->crtable[i]));
         if (len >= (double)0x10000) {
             log_error(LOG_DEFAULT, 
-                "video_calc_ycbcrtable: color %d cbcr vector too long, use lower base saturation.", i);
+                "video_calc_ycbcrtable: color %u cbcr vector too long, use lower base saturation.", i);
         }
 
         y = (int)RMINMAX(yf, 16, 240);
