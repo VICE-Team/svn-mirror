@@ -354,7 +354,7 @@ static char *p00_file_create(const char *file_name, const char *path,
         if (util_file_exists(p00name) == 0) {
             break;
         }
-        sprintf(&p00name[strlen(p00name) - 2], "%02i", i);
+        sprintf(&p00name[strlen(p00name) - 2], "%02u", i);
     }
 
     if (i >= 100) {
