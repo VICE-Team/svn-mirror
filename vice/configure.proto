@@ -972,7 +972,7 @@ dnl check if the compiler supports -Wmissing-prototypes
 AC_MSG_CHECKING([if the compiler supports -Wmissing-prototypes])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Wmissing-prototypes"
-CFLAGS="$YES_CFLAGS -Werror"
+CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)
@@ -984,7 +984,7 @@ dnl check if the compiler supports -Werror=implicit-function-declaration
 AC_MSG_CHECKING([if the compiler supports -Werror=implicit-function-declaration])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Werror=implicit-function-declaration"
-CFLAGS="$YES_CFLAGS -Werror"
+CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)
@@ -996,7 +996,7 @@ dnl check if the compiler supports -Wfatal-errors
 AC_MSG_CHECKING([if the compiler supports -Wfatal-errors])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Wfatal-errors"
-CFLAGS="$YES_CFLAGS -Werror"
+CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)
@@ -1008,7 +1008,7 @@ dnl check if the compiler supports -Wshadow
 AC_MSG_CHECKING([if the compiler supports -Wshadow])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Wshadow"
-CFLAGS="$YES_CFLAGS -Werror"
+CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)
@@ -1020,7 +1020,7 @@ AC_TRY_COMPILE([],
 AC_MSG_CHECKING([if the compiler supports -Wformat])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Wformat"
-CFLAGS="$YES_CFLAGS -Werror"
+CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)
@@ -1032,7 +1032,7 @@ dnl check if the compiler support -Wformat-signedness
 AC_MSG_CHECKING([if the compiler supports -Wformat-signedness])
 ORIG_CFLAGS="$CFLAGS"
 YES_CFLAGS="$CFLAGS -Wformat-signedness"
-CFLAGS="$YES_CFLAGS -Werror"
+CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)
@@ -1046,7 +1046,7 @@ dnl check if the C++ compiler support -Wno-address-of-packed-member
 AC_MSG_CHECKING([if the C++ compiler supports -Wno-address-of-packed-member])
 ORIG_CXXFLAGS="$CXXFLAGS"
 YES_CXXFLAGS="$CXXFLAGS -Wno-address-of-packed-member"
-CXXFLAGS="$YES_CXXFLAGS -Werror"
+CXXFLAGS="$YES_CXXFLAGS -Werror -Wno-unused-variable"
 AC_TRY_COMPILE([],
                [int test;],
                [ AC_MSG_RESULT(yes)
