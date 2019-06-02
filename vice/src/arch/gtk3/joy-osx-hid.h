@@ -42,7 +42,7 @@ struct joy_hid_axis_info {
 typedef struct joy_hid_axis_info joy_hid_axis_info_t;
 
 /* public list of axis names */
-joy_hid_axis_info_t joy_hid_axis_infos[];
+extern joy_hid_axis_info_t joy_hid_axis_infos[];
 
 /* describe the HID specific parts of the joystick */
 struct joy_hid_descriptor  {
@@ -72,6 +72,7 @@ int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *devic
 void joy_hid_unmap_device(struct joystick_descriptor *joy);
 
 /* axis functions */
+joy_hid_element_t *joy_hid_element_by_usage(struct joystick_descriptor *joy, int usage);
 int  joy_hid_reset_axis_range(struct joystick_descriptor *joy, int id, int usage, int logical);
 int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage, int logical);
 int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id, int logical);

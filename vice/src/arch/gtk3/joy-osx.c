@@ -832,17 +832,17 @@ static int match_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev)
     return 0;
 }
 
-static void setup_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev, const char *desc)
+static void setup_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev, const char *setup_desc)
 {
     if (joy_hid_map_device(joy, dev) >= 0) {
         log_message(LOG_DEFAULT, "mac_joy: set up %s HID joystick (%d buttons, %d axis, %d hat switches)", 
-                    desc, joy->num_hid_buttons, joy->num_hid_axis, joy->num_hid_hat_switches);
+                    setup_desc, joy->num_hid_buttons, joy->num_hid_axis, joy->num_hid_hat_switches);
         setup_axis_mapping(joy);
         setup_button_mapping(joy);
         setup_auto_button_mapping(joy);
         setup_hat_switch_mapping(joy);
     } else {
-        log_message(LOG_DEFAULT, "mac_joy: ERROR setting up %s HID joystick", desc);
+        log_message(LOG_DEFAULT, "mac_joy: ERROR setting up %s HID joystick", setup_desc);
     }
 }
 
