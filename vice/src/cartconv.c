@@ -1,10 +1,11 @@
+/** \file   cartconv.c
+ * \brief   Cartridge Conversion utility
+ *
+ * \author  Marco van den heuvel <blackystardust68@yahoo.com>
+ * \author  groepaz <groepaz@gmx.net>
+ */
+
 /*
- * cartconv - Cartridge Conversion utility.
- *
- * Written by
- *  Marco van den heuvel <blackystardust68@yahoo.com>
- *  groepaz <groepaz@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -425,7 +426,9 @@ static void printbanks(char *name)
             if (type > 2) {
                 type = 3; /* invalid */
             }
-            printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03d $%04x $%04x $%04lx\n", pos, b[0], b[1], b[2], b[3], typestr[type], bank, start, size, len);
+            printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03u $%04x $%04x $%04lx\n",
+                    (unsigned long)pos, b[0], b[1], b[2], b[3],
+                    typestr[type], bank, start, size, (unsigned long)len);
             if ((size + 0x10) > len) {
                 printf("  Error: data size exceeds chunk length\n");
             }
@@ -438,7 +441,7 @@ static void printbanks(char *name)
             tsize += size;
         }
         fclose(f);
-        printf("\ntotal banks: %d size: $%06lx\n", numbanks, tsize);
+        printf("\ntotal banks: %u size: $%06lx\n", numbanks, tsize);
     }
 }
 
@@ -1224,7 +1227,8 @@ static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3,
     unsigned int i;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        fprintf(stderr, "Error: wrong size of Dela EP64 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Dela EP64 base file %s (%u)\n",
+                input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
@@ -1272,7 +1276,8 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
     unsigned int insert_size = 0;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        fprintf(stderr, "Error: wrong size of Dela EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Dela EP256 base file %s (%u)\n",
+                input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
@@ -1329,14 +1334,16 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
                 }
             }
             if (!quiet_mode) {
-                printf("inserted %s in banks %d-%d of the Dela EP256 .crt\n", input_filename[i + 1], (i * 4) + 1, (i * 4) + 4);
+                printf("inserted %s in banks %u-%u of the Dela EP256 .crt\n",
+                        input_filename[i + 1], (i * 4) + 1, (i * 4) + 4);
             }
         } else {
             if (write_chip_package(0x2000, i + 1, 0x8000, 0) < 0) {
                 close_output_cleanup();
             }
             if (!quiet_mode) {
-                printf("inserted %s in bank %d of the Dela EP256 .crt\n", input_filename[i + 1], i + 1);
+                printf("inserted %s in bank %u of the Dela EP256 .crt\n",
+                        input_filename[i + 1], i + 1);
             }
         }
     }
@@ -1354,7 +1361,8 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
     unsigned int chip_counter = 1;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        fprintf(stderr, "Error: wrong size of Dela EP7x8 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Dela EP7x8 base file %s (%u)\n",
+                input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
@@ -1404,8 +1412,9 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
                         close_output_cleanup();
                     }
                     if (!quiet_mode) {
-                        printf("inserted %s in banks %d-%d of the Dela EP7x8 .crt\n",
-                               input_filename[name_counter], chip_counter, chip_counter + 3);
+                        printf("inserted %s in banks %u-%u of the Dela EP7x8 .crt\n",
+                               input_filename[name_counter], chip_counter,
+                               chip_counter + 3);
                     }
                     chip_counter += 4;
                     inserted_size += 0x8000;
@@ -1431,7 +1440,7 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
                         close_output_cleanup();
                     }
                     if (!quiet_mode) {
-                        printf("inserted %s in banks %d and %d of the Dela EP7x8 .crt\n",
+                        printf("inserted %s in banks %u and %u of the Dela EP7x8 .crt\n",
                                input_filename[name_counter], chip_counter, chip_counter + 1);
                     }
                     chip_counter += 2;
@@ -1455,7 +1464,8 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
                         close_output_cleanup();
                     }
                     if (!quiet_mode) {
-                        printf("inserted %s in bank %d of the Dela EP7x8 .crt\n", input_filename[name_counter], chip_counter);
+                        printf("inserted %s in bank %u of the Dela EP7x8 .crt\n",
+                                input_filename[name_counter], chip_counter);
                     }
                     chip_counter++;
                     inserted_size += 0x2000;
@@ -1481,7 +1491,8 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
     int subchip_counter = 1;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        fprintf(stderr, "Error: wrong size of Rex EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Rex EP256 base file %s (%u)\n",
+                input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
@@ -1526,7 +1537,7 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                         close_output_cleanup();
                     }
                     if (!quiet_mode) {
-                        printf("inserted %s in bank %d as a 32KB eprom of the Rex EP256 .crt\n",
+                        printf("inserted %s in bank %u as a 32KB eprom of the Rex EP256 .crt\n",
                                input_filename[name_counter], chip_counter);
                     }
                     chip_counter++;
@@ -1559,7 +1570,7 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                     if (write_chip_package(0x2000, chip_counter, 0x8000, 0) < 0) {
                         close_output_cleanup();
                         if (!quiet_mode) {
-                            printf("inserted %s as an 8KB eprom in bank %d of the Rex EP256 .crt\n",
+                            printf("inserted %s as an 8KB eprom in bank %u of the Rex EP256 .crt\n",
                                    input_filename[name_counter], chip_counter);
                         }
                         chip_counter++;
@@ -1574,10 +1585,10 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                         }
                         if (!quiet_mode) {
                             if (subchip_counter == 1) {
-                                printf("inserted %s as a 32KB eprom in bank %d of the Rex EP256 .crt\n",
+                                printf("inserted %s as a 32KB eprom in bank %u of the Rex EP256 .crt\n",
                                        input_filename[name_counter], chip_counter);
                             } else {
-                                printf(" and %s as a 32KB eprom in bank %d of the Rex EP256 .crt\n",
+                                printf(" and %s as a 32KB eprom in bank %u of the Rex EP256 .crt\n",
                                        input_filename[name_counter], chip_counter);
                             }
                         }
@@ -1605,10 +1616,10 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                             }
                             if (!quiet_mode) {
                                 if (subchip_counter == 1) {
-                                    printf("inserted %s as a 16KB eprom in bank %d of the Rex EP256 .crt\n",
+                                    printf("inserted %s as a 16KB eprom in bank %u of the Rex EP256 .crt\n",
                                            input_filename[name_counter], chip_counter);
                                 } else {
-                                    printf(" and %s as a 16KB eprom in bank %d of the Rex EP256 .crt\n",
+                                    printf(" and %s as a 16KB eprom in bank %u of the Rex EP256 .crt\n",
                                            input_filename[name_counter], chip_counter);
                                 }
                             }
@@ -1776,7 +1787,7 @@ int main(int argc, char *argv[])
             }
         } else {
             if ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
-                fprintf(stderr, "Error: Input file size (%d) doesn't match %s requirements\n",
+                fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
                         loadfile_size, cart_info[(unsigned char)cart_type].name);
                 cleanup();
                 exit(1);
