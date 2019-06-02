@@ -73,7 +73,7 @@ void fsdevice_set_directory(char *filename, unsigned int unit)
             resources_set_string_sprintf("FSDevice%iDir", filename, unit);
             break;
         default:
-            log_message(LOG_DEFAULT, "Invalid unit number %d.", unit);
+            log_message(LOG_DEFAULT, "Invalid unit number %u.", unit);
     }
     return;
 }
@@ -88,7 +88,8 @@ char *fsdevice_get_path(unsigned int unit)
             return fsdevice_dir[unit - 8];
         default:
             log_error(LOG_DEFAULT,
-                      "fsdevice_get_path() called with invalid device %d.", unit);
+                      "fsdevice_get_path() called with invalid device %u",
+                      unit);
             break;
     }
     return NULL;
@@ -123,12 +124,16 @@ void fsdevice_error(vdrive_t *vdrive, int code)
             sec = fsdevice_dev[dnr].sector;
         }
 
-        sprintf(fsdevice_dev[dnr].errorl, "%02d,%s,%02d,%02d\015", code, message, trk, sec);
+        sprintf(fsdevice_dev[dnr].errorl,
+                "%02d,%s,%02u,%02u\015",
+                code, message, trk, sec);
 
         fsdevice_dev[dnr].elen = (unsigned int)strlen(fsdevice_dev[dnr].errorl);
 
         if (code && code != CBMDOS_IPE_DOS_VERSION) {
-            log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s, %02d, %02d", code, message, trk, sec);
+            log_message(LOG_DEFAULT,
+                    "Fsdevice: ERR = %02d, %s, %02u, %02u",
+                    code, message, trk, sec);
         }
     } else {
         memcpy(fsdevice_dev[dnr].errorl, vdrive->mem_buf, vdrive->mem_length);
