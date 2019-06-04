@@ -108,7 +108,10 @@ void c64dtvflash_store(int addr, uint8_t value)
     int i, j, k;
 #ifdef DEBUG
     if (flash_log_enabled) {
-        log_message(c64dtvflash_log, "flash_store: addr %x, value %x, mode %i\n", addr, value, c64dtvflash_state);
+        log_message(c64dtvflash_log,
+                "flash_store: addr %x, value %x, mode %i\n",
+                (unsigned int)addr, value, c64dtvflash_state);
+
     }
 #endif
     switch (c64dtvflash_state) {
@@ -185,7 +188,9 @@ void c64dtvflash_store(int addr, uint8_t value)
                     if (c64dtvflash_mem_lock[paddr_to_sector(addr)]) {
 #ifdef DEBUG
                         if (flash_log_enabled) {
-                            log_message(c64dtvflash_log, "flash: ignoring erase (locked) %06x-%06x\n", j, k);
+                            log_message(c64dtvflash_log,
+                                    "flash: ignoring erase (locked) %06x-%06x\n",
+                                    (unsigned int)j, (unsigned int)k);
                         }
 #endif
                     } else {
@@ -194,7 +199,9 @@ void c64dtvflash_store(int addr, uint8_t value)
                         }
 #ifdef DEBUG
                         if (flash_log_enabled) {
-                            log_message(c64dtvflash_log, "flash: erased %06x-%06x\n", j, k);
+                            log_message(c64dtvflash_log,
+                                    "flash: erased %06x-%06x\n",
+                                    (unsigned int)j, (unsigned int)k);
                         }
 #endif
                     }
@@ -234,14 +241,18 @@ void c64dtvflash_store(int addr, uint8_t value)
             if (c64dtvflash_mem_lock[paddr_to_sector(addr)]) {
 #ifdef DEBUG
                 if (flash_log_enabled) {
-                    log_message(c64dtvflash_log, "flash: ignoring byte program (locked) %02x to %06x\n", value, addr);
+                    log_message(c64dtvflash_log,
+                            "flash: ignoring byte program (locked) %02x to %06x\n",
+                            value, (unsigned int)addr);
                 }
 #endif
             } else {
                 c64dtvflash_mem[addr] &= value;
 #ifdef DEBUG
                 if (flash_log_enabled) {
-                    log_message(c64dtvflash_log, "flash: written %02x to %06x\n", c64dtvflash_mem[addr], addr);                    /* DEBUG */
+                    log_message(c64dtvflash_log,
+                            "flash: written %02x to %06x\n",
+                            c64dtvflash_mem[addr], (unsigned int)addr);                    /* what is this? -> DEBUG */
                 }
 #endif
             }
@@ -265,7 +276,9 @@ void c64dtvflash_store(int addr, uint8_t value)
             } else {
 #ifdef DEBUG
                 if (flash_log_enabled) {
-                    log_message(c64dtvflash_log, "flash: program protection register %x = %02x (unimplemented)\n", addr, value);
+                    log_message(c64dtvflash_log,
+                            "flash: program protection register %x = %02x (unimplemented)\n",
+                            (unsigned int)addr, value);
                 }
 #endif
             }
@@ -288,7 +301,9 @@ uint8_t c64dtvflash_read(int addr)
     if (c64dtvflash_state != FLASH_IDLE) {
 #ifdef DEBUG
         if (flash_log_enabled) {
-            log_message(c64dtvflash_log, "flash_read: addr %x, mode %i\n", addr, c64dtvflash_state);
+            log_message(c64dtvflash_log,
+                    "flash_read: addr %x, mode %i\n",
+                    (unsigned int)addr, c64dtvflash_state);
         }
 #endif
     }
