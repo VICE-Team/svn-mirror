@@ -250,7 +250,7 @@ static int set_c64_256k_base(int val, void *param)
             c64_256k_device.end_address = (uint16_t)(val + 0x7f);
             break;
         default:
-            log_message(c64_256k_log, "Unknown 256K base %X.", val);
+            log_message(c64_256k_log, "Unknown 256K base %X.", (unsigned int)val);
             return -1;
     }
 
