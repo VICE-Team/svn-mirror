@@ -246,7 +246,17 @@ static inline int do_blitter_write(void)
     }
 #ifdef DEBUG
     if (blitter_log_enabled) {
-        log_message(c64dtvblitter_log, "Blitter: %s %x.%x/%x.%x to %x.%x, %d to go, minterm %d", was_write ? "transferred" : "skipped", blit_sourceA_off >> 4, blit_sourceA_off & 15, blit_sourceB_off >> 4, blit_sourceB_off & 15, blit_dest_off >> 4, blit_dest_off & 15, blitter_count - 1, reg1e_mintermALU);
+        log_message(c64dtvblitter_log,
+                "Blitter: %s %x.%x/%x.%x to %x.%x, %d to go, minterm %d",
+                was_write ? "transferred" : "skipped",
+                (unsigned int)(blit_sourceA_off >> 4),
+                (unsigned int)(blit_sourceA_off & 15),
+                (unsigned int)(blit_sourceB_off >> 4),
+                (unsigned int)(blit_sourceB_off & 15),
+                (unsigned int)(blit_dest_off >> 4),
+                (unsigned int)(blit_dest_off & 15),
+                blitter_count - 1,
+                reg1e_mintermALU);
     }
 #endif
     return was_write;
@@ -502,7 +512,8 @@ void c64dtv_blitter_store(uint16_t addr, uint8_t value)
         blitter_busy = 1;
 #ifdef DEBUG
         if (blitter_log_enabled) {
-            log_message(c64dtvblitter_log, "Scheduled Blitter (%02x)", blitter_on_irq);
+            log_message(c64dtvblitter_log, "Scheduled Blitter (%02x)",
+                    (unsigned int)blitter_on_irq);
         }
 #endif
         return;
