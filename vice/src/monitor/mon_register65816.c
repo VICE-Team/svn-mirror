@@ -273,7 +273,7 @@ static void mon_register_print(int mem)
     }
 
     if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
-        mon_out(" %03i %03i", line, cycle);
+        mon_out(" %03u %03u", line, cycle);
         if (half_cycle != -1) {
             mon_out(".%02i", half_cycle);
         }
