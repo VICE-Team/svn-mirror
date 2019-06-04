@@ -464,9 +464,9 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
                 mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
 
                 if (half_cycle == -1) {
-                    mon_out(" %03i %03i\n", line, cycle);
+                    mon_out(" %03u %03u\n", line, cycle);
                 } else {
-                    mon_out(" %03i %03i %i\n", line, cycle, half_cycle);
+                    mon_out(" %03u %03u %i\n", line, cycle, half_cycle);
                 }
             } else {
                 mon_out("\n");
