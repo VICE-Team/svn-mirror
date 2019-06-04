@@ -548,7 +548,7 @@ static int check_pulsebuffer_size(void)
 {
     if (pulse_count >= sizeof(tapecart_buffers->pulse_buffer)/
         sizeof(tapecart_buffers->pulse_buffer[0])) {
-        log_message(tapecart_log, "Pulse buffer overflow, need %d more",
+        log_message(tapecart_log, "Pulse buffer overflow, need %u more",
                     ++needed_space);
         return 1;
     }
@@ -785,7 +785,7 @@ static clock_t fasttx_nibble_advance(void)
         return 1; /* random guess, not sure how much time it takes in reality */
 
     default:
-        log_error(tapecart_log, "In fasttx_advance with unhandled state %d",
+        log_error(tapecart_log, "In fasttx_advance with unhandled state %u",
                   fasttx_state - 1);
         return 0;
     }
@@ -1050,7 +1050,9 @@ static clock_t cmd_read_flash(void)
     }
 
     if (tapecart_loglevel > 1) {
-        log_message(tapecart_log, "reading %d byte from flash address 0x%X", length, address);
+        log_message(tapecart_log,
+                "reading %u byte from flash address 0x%X",
+                length, address);
     }
 
     /* pre-transmit delay is pretty much handwaved */
@@ -1070,7 +1072,7 @@ static clock_t cmd_read_flash_fast(void)
     }
 
     if (tapecart_loglevel > 1) {
-        log_message(tapecart_log, "reading %d byte from flash address 0x%X",
+        log_message(tapecart_log, "reading %u byte from flash address 0x%X",
                     length, address);
     }
 
@@ -1125,7 +1127,7 @@ static clock_t cmd_write_flash(void)
     }
 
     if (tapecart_loglevel > 1) {
-        log_message(tapecart_log, "writing %d byte to flash address 0x%X",
+        log_message(tapecart_log, "writing %u byte to flash address 0x%X",
                     total_length, flash_address);
     }
 
@@ -1208,7 +1210,7 @@ static clock_t cmd_crc32_flash(void)
 
     if (tapecart_loglevel > 1) {
         log_message(tapecart_log,
-                    "calculating CRC from flash address 0x%X length %d",
+                    "calculating CRC from flash address 0x%X length %u",
                     address, length);
     }
 
@@ -1253,7 +1255,8 @@ static clock_t cmd_dir_setparams(void)
     if (!validate_flashaddress(dir_base,
                                dir_entries * (dir_name_len + dir_data_len))) {
         log_message(tapecart_log,
-                    "directory search would fall off end of flash: base 0x%X namelen %d datalen %d",
+                    "directory search would fall off end of flash: "
+                    "base 0x%X namelen %u datalen %u",
                     dir_base, dir_name_len, dir_data_len);
         dir_base    = 0;
         dir_entries = 1;
@@ -1261,7 +1264,7 @@ static clock_t cmd_dir_setparams(void)
 
     if (tapecart_loglevel > 1) {
         log_message(tapecart_log,
-                    "dir_setparams base 0x%X entries %d name length %d data length %d",
+                    "dir_setparams base 0x%X entries %u name length %u data length %u",
                     dir_base, dir_entries, dir_name_len, dir_data_len);
     }
 
@@ -1283,7 +1286,7 @@ static clock_t cmd_dir_lookup(void)
 
             if (tapecart_loglevel > 1) {
                 log_message(tapecart_log,
-                            "successful dir lookup at entry %d", i);
+                            "successful dir lookup at entry %u", i);
             }
 
             processing_delay = (dir_name_len + dir_data_len) * (i+1);
@@ -1584,7 +1587,7 @@ static void tapecart_logic_alarm_handler(CLOCK offset, void *data)
             break;
 
         default:
-            log_message(tapecart_log, "alarm while in unhandled mode %d",
+            log_message(tapecart_log, "alarm while in unhandled mode %u",
                         tapecart_mode);
             break;
     }
