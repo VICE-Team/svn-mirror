@@ -201,7 +201,7 @@ static int open_pr(unsigned int prnr, const uint8_t *name, unsigned int length,
     if (inuse_secadr[prnr] == 0) {
         if (driver_select_open(prnr, DRIVER_FIRST_OPEN) < 0) {
             log_error(interface_serial_log,
-                      "Couldn't initialize device #%i.",
+                    "Couldn't initialize device #%u.",
                     prnr + FIRST_PRINTER_DEVICE_NUMBER);
             return -1;
         }
@@ -209,14 +209,14 @@ static int open_pr(unsigned int prnr, const uint8_t *name, unsigned int length,
 
     if (inuse_secadr[prnr] & mask) {
         log_error(interface_serial_log,
-                  "Open printer #%i,%i while already open - ignoring.",
+                "Open printer #%u,%u while already open - ignoring.",
                 prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
         return 0;
     }
 
     if (driver_select_open(prnr, secondary) < 0) {
         log_error(interface_serial_log,
-                  "Couldn't open device #%i,%i.",
+                "Couldn't open device #%u,%u.",
                 prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
         return -1;
     }
@@ -240,7 +240,7 @@ static int write_pr(unsigned int prnr, uint8_t byte, unsigned int secondary)
         /* oh, well, we just assume an implicit open - "OPEN 1,4"
            just does not leave any trace on the serial bus */
         log_message(interface_serial_log,
-                    "Auto-opening printer #%i,%i.",
+                    "Auto-opening printer #%u,%u.",
                     prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
 
         err = open_pr(prnr, NULL, 0, secondary);
@@ -259,7 +259,7 @@ static int close_pr(unsigned int prnr, unsigned int secondary)
 
     if (!(inuse_secadr[prnr] & mask)) {
         log_error(interface_serial_log,
-                  "Close printer #%i,%i while closed - ignoring.",
+                  "Close printer #%u,%u while closed - ignoring.",
                   prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
         return 0;
     }
@@ -283,7 +283,7 @@ static void flush_pr(unsigned int prnr, unsigned int secondary)
 
     if (!(inuse_secadr[prnr] & mask)) {
         log_error(interface_serial_log,
-                  "Flush printer #%i,%i while closed - ignoring.",
+                  "Flush printer #%u,%u while closed - ignoring.",
                   prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
         return;
     }
@@ -477,7 +477,8 @@ static int interface_serial_attach(unsigned int prnr)
 
     if (err) {
         log_error(interface_serial_log,
-                  "Cannot attach serial printer #%i.", prnr + FIRST_PRINTER_DEVICE_NUMBER);
+                  "Cannot attach serial printer #%u.",
+                  prnr + FIRST_PRINTER_DEVICE_NUMBER);
         return -1;
     }
     serial_device_type_set(SERIAL_DEVICE_FS, FIRST_PRINTER_DEVICE_NUMBER + prnr);
