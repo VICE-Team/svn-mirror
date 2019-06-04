@@ -91,10 +91,10 @@ int c64rom_get_kernal_checksum(void)
     int id;                     /* ROM identification number */
 
     if (c64rom_get_kernal_chksum_id(&sum, &id) < 0) {
-        log_warning(c64rom_log, "Unknown Kernal image.  ID: %d ($%02X) Sum: %d ($%04X).", id, id, sum, sum);
+        log_warning(c64rom_log, "Unknown Kernal image.  ID: %d ($%02X) Sum: %d ($%04X).", id, (unsigned int)id, sum, sum);
         return -1;
     } else {
-        log_message(c64rom_log, "Kernal rev #%d ($%02X) Sum: %d ($%04X).", id, id, sum, sum);
+        log_message(c64rom_log, "Kernal rev #%d ($%02X) Sum: %d ($%04X).", id, (unsigned int)id, sum, sum);
     }
 
     return 0;
