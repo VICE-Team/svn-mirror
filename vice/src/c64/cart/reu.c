@@ -1,12 +1,11 @@
-/*! \file reu.c \n
- *  \author Andreas Boose, Spiro Trikaliotis, Jouko Valta, Richard Hable, Ettore Perazzoli\n
- *  \brief   REU emulation.
+/** \file   reu.c
+ * \brief   REU emulation
  *
- * reu.c - REU emulation.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+ * \author  Andreas Boose
+ * \author  Spiro Trikaliotis
+ * \author  Jouko Valta
+ * \author  Richard Hable
+ * \author  Ettore Perazzoli
  *
  * Additions upon extensive REU hardware testing:
  *  Wolfgang Moser <http://d81.de>
@@ -15,7 +14,9 @@
  *  Jouko Valta <jopi@stekt.oulu.fi>
  *  Richard Hable <K3027E7@edvz.uni-linz.ac.at>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -622,7 +623,7 @@ static int reu_activate(void)
 
     old_reu_ram_size = reu_size;
 
-    log_message(reu_log, "%dKB unit installed.", reu_size >> 10);
+    log_message(reu_log, "%uKB unit installed.", reu_size >> 10);
 
     if (!util_check_null_string(reu_filename)) {
         if (util_file_load(reu_filename, reu_ram, (size_t)reu_size, UTIL_FILE_LOAD_RAW) < 0) {
