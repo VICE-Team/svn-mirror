@@ -183,7 +183,8 @@ void hummeradc_store(uint8_t value)
                         hummeradc_state = ADC_IDLE;
                         break;
                     default:
-                        log_message(hummeradc_log, "BUG: Unknown command %i.", hummeradc_command);
+                        log_message(hummeradc_log, "BUG: Unknown command %u.",
+                                hummeradc_command);
                         break;
                 }
             }
