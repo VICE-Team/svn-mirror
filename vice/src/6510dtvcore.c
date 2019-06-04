@@ -787,11 +787,11 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
             if (unstablebits == 0) {                                                        \
                 log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s",  \
                     reg_pc, p1, reg_a_read, reg_x,                                          \
-                    result & (rdy ? ANE_RDY_MAGIC : 0xff) , rdy ? " (RDY cycle)" : "");     \
+                    result & (rdy ? ANE_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "");     \
             } else {                                                                        \
                 log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s (unstable bits: %s%s%s%s%s%s%s%s)", \
                     reg_pc, p1, reg_a_read, reg_x,                                          \
-                    result & (rdy ? ANE_RDY_MAGIC : 0xff) , rdy ? " (RDY cycle)" : "",      \
+                    result & (rdy ? ANE_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "",      \
                     unstablebits & 0x80 ? "*" : ".", unstablebits & 0x40 ? "*" : ".",       \
                     unstablebits & 0x20 ? "*" : ".", unstablebits & 0x10 ? "*" : ".",       \
                     unstablebits & 0x08 ? "*" : ".", unstablebits & 0x04 ? "*" : ".",       \
@@ -1233,11 +1233,11 @@ static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
             if (unstablebits == 0) {                                                        \
                 log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s",        \
                     reg_pc, p1, reg_a_read,                                                 \
-                    result & (rdy ? LXA_RDY_MAGIC : 0xff) , rdy ? " (RDY cycle)" : "");     \
+                    result & (rdy ? LXA_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "");     \
             } else {                                                                        \
                 log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s (unstable bits: %s%s%s%s%s%s%s%s)", \
                     reg_pc, p1, reg_a_read,                                                 \
-                    result & (rdy ? LXA_RDY_MAGIC : 0xff) , rdy ? " (RDY cycle)" : "",      \
+                    result & (rdy ? LXA_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "",      \
                     unstablebits & 0x80 ? "*" : ".", unstablebits & 0x40 ? "*" : ".",       \
                     unstablebits & 0x20 ? "*" : ".", unstablebits & 0x10 ? "*" : ".",       \
                     unstablebits & 0x08 ? "*" : ".", unstablebits & 0x04 ? "*" : ".",       \
