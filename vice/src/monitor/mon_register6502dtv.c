@@ -291,9 +291,9 @@ static void mon_register_print(int mem)
         mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
 
         if (half_cycle == -1) {
-            mon_out(" %03i %03i", line, cycle);
+            mon_out(" %03u %03u", line, cycle);
         } else {
-            mon_out(" %03i %03i %i", line, cycle, half_cycle);
+            mon_out(" %03u %03u %i", line, cycle, half_cycle);
         }
     }
     mon_stopwatch_show(" ", "\n");
