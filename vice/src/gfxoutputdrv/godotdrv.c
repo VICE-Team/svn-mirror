@@ -63,7 +63,10 @@ static int godotdrv_write_file_header(screenshot_t *screenshot)
         }
         return 0;
     }
-    if (fprintf(fd, "GOD1%c%c%c%c", 0, 0, screenshot->width / 8, screenshot->height / 8) < 0) {
+    if (fprintf(fd, "GOD1%c%c%c%c",
+                0, 0,
+                (int)(screenshot->width / 8),
+                (int)(screenshot->height / 8)) < 0) {
         return -1;
     }
     return 0;
