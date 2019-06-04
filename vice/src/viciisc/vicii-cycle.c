@@ -426,7 +426,10 @@ int vicii_cycle(void)
                 if(fragile && (lib_unsigned_rand(0, 0xff) < 10)) {
                     result = fragile & lib_unsigned_rand(0, 0xff);
                     for(row = firstrow; row <= 0xff; row += 8) {
-                        log_message(vicii.log, "VSP Bug: Corrupting %04x, fragile %02x, new bits %02x", (page << 8) | row, fragile, result);
+                        log_message(vicii.log,
+                                "VSP Bug: Corrupting %04x, fragile %02x, new bits %02x",
+                                (unsigned int)((page << 8) | row),
+                                (unsigned int)fragile, (unsigned int)result);
                         vicii.ram_base_phi1[(page << 8) | row] &= ~fragile;
                         vicii.ram_base_phi1[(page << 8) | row] |= result;
                     }
@@ -492,7 +495,7 @@ int vicii_cycle(void)
     if (vicii.bad_line && cycle_may_fetch_c(vicii.cycle_flags)) {
 #ifdef DEBUG
         if (debug.maincpu_traceflg) {
-            log_debug("DMA at cycle %d   %d", vicii.raster_cycle, maincpu_clk);
+            log_debug("DMA at cycle %u   %u", vicii.raster_cycle, maincpu_clk);
         }
 #endif
         vicii_fetch_matrix();
