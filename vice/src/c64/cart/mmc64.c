@@ -1065,7 +1065,7 @@ static void mmc64_clockport_store(uint16_t address, uint8_t byte)
 static int mmc64_dump(void)
 {
     mon_out("Clockport is %s.\n", mmc64_clockport_enabled ? "enabled" : "disabled");
-    mon_out("Clockport mapped to $%04x.\n", mmc64_hw_clockport);
+    mon_out("Clockport mapped to $%04x.\n", (unsigned int)mmc64_hw_clockport);
     mon_out("Clockport device %s\n", clockport_device_id_to_name(clockport_device_id));
 
     return 0;
