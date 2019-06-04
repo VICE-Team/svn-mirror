@@ -475,7 +475,10 @@ void psid_init_tune(int install_driver_hook)
 
     reloc_addr = psid->start_page << 8;
 
-    log_message(vlog, "Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X", reloc_addr, psid->load_addr, psid->load_addr + psid->data_size - 1, psid->init_addr, psid->play_addr);
+    log_message(vlog, "Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
+            reloc_addr, psid->load_addr,
+            (unsigned int)(psid->load_addr + psid->data_size - 1),
+            psid->init_addr, psid->play_addr);
 
     /* PAL/NTSC. */
     resources_get_int("MachineVideoStandard", &sync);
@@ -647,7 +650,7 @@ void psid_init_driver(void)
     resources_set_int("SidStereo", 0);
     if (psid->version >= 3) {
         sid2loc = 0xd000 | ((psid->reserved >> 4) & 0x0ff0);
-        log_message(vlog, "2nd SID at $%04x", sid2loc);
+        log_message(vlog, "2nd SID at $%04x", (unsigned int)sid2loc);
         if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc >= 0xde00)
             && (sid2loc & 0x10) == 0) {
             resources_set_int("SidStereo", 1);
@@ -655,7 +658,7 @@ void psid_init_driver(void)
         }
         sid3loc = 0xd000 | ((psid->reserved << 4) & 0x0ff0);
         if (sid3loc != 0xd000) {
-            log_message(vlog, "3rd SID at $%04x", sid3loc);
+            log_message(vlog, "3rd SID at $%04x", (unsigned int)sid3loc);
             if (((sid3loc >= 0xd420 && sid3loc < 0xd800) || sid3loc >= 0xde00)
                 && (sid3loc & 0x10) == 0) {
                 resources_set_int("SidStereo", 2);
@@ -689,7 +692,8 @@ void psid_init_driver(void)
     /* Relocation of C64 PSID driver code. */
     reloc_addr = psid->start_page << 8;
     psid_size = sizeof(psid_driver);
-    log_message(vlog, "PSID free pages: $%04x-$%04x", reloc_addr, (reloc_addr + (psid->max_pages << 8)) -1);
+    log_message(vlog, "PSID free pages: $%04x-$%04x",
+            reloc_addr, (reloc_addr + (psid->max_pages << 8)) - 1U);
 
     if (!reloc65((char **)&psid_reloc, &psid_size, reloc_addr)) {
         log_error(vlog, "Relocation.");
