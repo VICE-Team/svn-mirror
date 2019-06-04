@@ -361,7 +361,7 @@ static void monitor_print_cpu_types_supported(MEMSPACE mem)
                     mon_out(" 65816/65802");
                     break;
                 default:
-                    mon_out(" unknown(%d)", ptr->monitor_cpu_type_p->cpu_type);
+                    mon_out(" unknown(%u)", ptr->monitor_cpu_type_p->cpu_type);
                     break;
             }
         }
@@ -753,12 +753,12 @@ void mon_print_bin(int val, char on, char off)
 
 static void print_hex(int val)
 {
-    mon_out(val > 0xff ? "$%04x\n" : "$%02x\n", val);
+    mon_out(val > 0xff ? "$%04x\n" : "$%02x\n", (unsigned int)val);
 }
 
 static void print_octal(int val)
 {
-    mon_out(val > 0777 ? "0%06o\n" : "0%03o\n", val);
+    mon_out(val > 0777 ? "0%06o\n" : "0%03o\n", (unsigned int)val);
 }
 
 
@@ -908,7 +908,7 @@ void mon_show_dir(const char *path)
             if (isdir) {
                 mon_out("     <dir> %s\n", name);
             } else {
-                mon_out("%10d %s\n", len, name);
+                mon_out("%10u %s\n", len, name);
             }
         } else {
             mon_out("%-20s?????\n", name);
@@ -1663,7 +1663,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     if (old_addr >= 0) {
         if (old_addr != loc) {
             mon_out("Changing address of label %s from $%04x to $%04x\n",
-                    name, old_addr, loc);
+                    name, (unsigned int)old_addr, loc);
         }
         mon_remove_name_from_symbol_table(mem, name);
     }
@@ -1866,9 +1866,11 @@ void mon_print_conditional(cond_node_t *cnode)
             mon_out("%s", register_string[reg_regid(cnode->reg_num)]);
         }
         else if (cnode->banknum >= 0) {
-            mon_out("@:%s:$%04x", mon_get_bank_name_for_bank(default_memspace,cnode->banknum), cnode->value);
+            mon_out("@:%s:$%04x",
+                    mon_get_bank_name_for_bank(default_memspace,cnode->banknum),
+                    (unsigned int)cnode->value);
         } else {
-            mon_out("$%02x", cnode->value);
+            mon_out("$%02x", (unsigned int)cnode->value);
         }
     }
 
