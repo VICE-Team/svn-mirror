@@ -605,7 +605,8 @@ int vicii_dump(void)
 
     v_bank = vicii.vbank_phi1;
 
-    mon_out("Raster cycle/line: %d/%d IRQ: %d\n", vicii.raster_cycle, vicii.raster_line, vicii.raster_irq_line);
+    mon_out("Raster cycle/line: %u/%u IRQ: %u\n",
+            vicii.raster_cycle, vicii.raster_line, vicii.raster_irq_line);
     mon_out("Mode: %s (ECM/BMM/MCM=%d/%d/%d)\n", mode_name[video_mode], m_ecm, m_bmm, m_mcm);
     mon_out("Colors: Border: %x BG: %x ", vicii.regs[0x20], vicii.regs[0x21]);
     if (m_ecm) {
@@ -619,16 +620,18 @@ int vicii_dump(void)
     mon_out("Scroll X/Y: %d/%d, RC %d, Idle: %d, ", vicii.regs[0x16] & 0x07, vicii.regs[0x11] & 0x07, vicii.rc, vicii.idle_state);
     mon_out("%dx%d\n", 39 + ((vicii.regs[0x16] >> 3) & 1), 24 + ((vicii.regs[0x11] >> 3) & 1));
 
-    mon_out("VC $%03x, VCBASE $%03x, VMLI %2d, Phi1 $%02x\n", vicii.vc, vicii.vcbase, vicii.vmli, vicii.last_read_phi1);
+    mon_out("VC $%03x, VCBASE $%03x, VMLI %2d, Phi1 $%02x\n",
+            (unsigned int)vicii.vc, (unsigned int)vicii.vcbase,
+            vicii.vmli, vicii.last_read_phi1);
 
     v_vram = ((vicii.regs[0x18] >> 4) * 0x0400) + vicii.vbank_phi2;
-    mon_out("Video $%04x, ", v_vram);
+    mon_out("Video $%04x, ", (unsigned int)v_vram);
     if (m_bmm) {
         i = ((vicii.regs[0x18] >> 3) & 1) * 0x2000 + v_bank;
-        mon_out("Bitmap $%04x (%s)\n", i, fetch_phi1_type(i));
+        mon_out("Bitmap $%04x (%s)\n", (unsigned int)i, fetch_phi1_type(i));
     } else {
         i = (((vicii.regs[0x18] >> 1) & 0x7) * 0x800) + v_bank;
-        mon_out("Charset $%04x (%s)\n", i, fetch_phi1_type(i));
+        mon_out("Charset $%04x (%s)\n", (unsigned int)i, fetch_phi1_type(i));
     }
 
     mon_out("\nSprites: S.0 S.1 S.2 S.3 S.4 S.5 S.6 S.7");
@@ -665,7 +668,7 @@ int vicii_dump(void)
 
     mon_out("\nX-Pos:  ");
     for (i = 0; i < 8; i++) {
-        mon_out("$%03x", vicii.sprite[i].x);
+        mon_out("$%03x", (unsigned int)vicii.sprite[i].x);
     }
     mon_out("\nY-Pos:  ");
     for (i = 0; i < 8; i++) {
