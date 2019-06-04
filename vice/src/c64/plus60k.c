@@ -264,7 +264,8 @@ static int set_plus60k_base(int val, void *param)
         case 0xd100:
             break;
         default:
-            log_message(plus60k_log, "Unknown PLUS60K base address $%X.", val);
+            log_message(plus60k_log, "Unknown PLUS60K base address $%X.",
+                    (unsigned int)val);
             return -1;
     }
 
