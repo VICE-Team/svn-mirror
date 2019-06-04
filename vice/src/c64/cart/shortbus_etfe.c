@@ -283,7 +283,7 @@ static void shortbus_etfe_store(uint16_t io_address, uint8_t byte)
 static int shortbus_etfe_dump(void)
 {
     mon_out("CS8900 mapped to $%04x ($%04x-$%04x).\n",
-            shortbus_etfe_device.start_address & ~shortbus_etfe_device.address_mask,
+            (unsigned int)(shortbus_etfe_device.start_address & ~shortbus_etfe_device.address_mask),
             shortbus_etfe_device.start_address,
             shortbus_etfe_device.end_address);
 
