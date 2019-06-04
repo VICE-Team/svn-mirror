@@ -716,7 +716,8 @@ static void vicii_chip_model_set(struct ViciiChipModel *cm)
 
             /* dump to log */
             log_verbose("VIC-II: %s $%03x %s %s %s %s %s %s", 
-                        cycle_str, xpos, visible_str, ba_str, fetch_str, border_str, gfx_str, sprite_str);
+                        cycle_str, (unsigned int)xpos, visible_str, ba_str,
+                        fetch_str, border_str, gfx_str, sprite_str);
         }
 
         xpos_phi[phi] = xpos;
