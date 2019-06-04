@@ -497,8 +497,10 @@ int mmu_dump(void *context, uint16_t addr)
             (mmu[6] & 8) ? ((mmu[6] & 4) ? "bottom and top" : "top") : ((mmu[6] & 4) ? "bottom" : "none"),
             (mmu[6] & 2) ? ((mmu[6] & 1) ? "16Kb" : "8Kb") : ((mmu[6] & 1) ? "4Kb" : "1Kb"));
 
-    mon_out("Page 0 pointer: $%04X\n", (mmu[8] << 16) | (mmu[7] << 8));
-    mon_out("Page 1 pointer: $%04X\n", (mmu[10] << 16) | (mmu[9] << 8));
+    mon_out("Page 0 pointer: $%04X\n",
+            (unsigned int)((mmu[8] << 16) | (mmu[7] << 8)));
+    mon_out("Page 1 pointer: $%04X\n",
+            (unsigned int)((mmu[10] << 16) | (mmu[9] << 8)));
 
     mon_out("MMU version: %d\n", mmu[11] & 0xf);
     mon_out("Amount of 64Kb blocks present: %d\n", (c128_full_banks) ? 4 : 2);
