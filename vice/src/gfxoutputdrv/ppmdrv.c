@@ -57,7 +57,7 @@ static int ppmdrv_write_file_header(screenshot_t *screenshot)
     if (fprintf(fd, "P6\012# VICE generated PPM screenshot\012") < 0) {
         return -1;
     }
-    if (fprintf(fd, "%d %d\012255\012", screenshot->width, screenshot->height) < 0) {
+    if (fprintf(fd, "%u %u\012255\012", screenshot->width, screenshot->height) < 0) {
         return -1;
     }
 
