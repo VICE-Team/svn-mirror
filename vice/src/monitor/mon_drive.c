@@ -81,10 +81,11 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
                 mon_set_mem_val(dest_mem, ADDR_LIMIT(dst + i), readdata[i]);
             }
 
-            mon_out("Read track %d sector %d into address $%04x\n", track, sector, dst);
+            mon_out("Read track %d sector %d into address $%04x\n",
+                    track, sector, (unsigned int)dst);
         } else {
             for (i = 0; i < 16; i++) {
-                mon_out(">%04x", i * 16);
+                mon_out(">%04x", (unsigned int)(i * 16));
                 for (j = 0; j < 16; j++) {
                     if ((j & 3) == 0) {
                         mon_out(" ");
@@ -112,7 +113,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
         }
 
         mon_out("Write data from address $%04x to track %d sector %d\n",
-                src, track, sector);
+                (unsigned int)src, track, sector);
     }
 }
 
