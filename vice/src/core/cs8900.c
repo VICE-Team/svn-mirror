@@ -1610,7 +1610,9 @@ int cs8900_dump(void)
 {
     /* FIXME: this is incomplete */
     mon_out("Link status: %s\n", (GET_PP_16(CS8900_PP_ADDR_SE_LINEST) & 0x80) ? "up" : "no link");
-    mon_out("Package Page Ptr: $%04X (autoincrement %s)\n", cs8900_packetpage_ptr & PP_PTR_ADDR_MASK, (cs8900_packetpage_ptr & PP_PTR_AUTO_INCR_FLAG) != 0 ? "enabled" : "disabled");
+    mon_out("Package Page Ptr: $%04X (autoincrement %s)\n",
+            (unsigned int)(cs8900_packetpage_ptr & PP_PTR_ADDR_MASK),
+            (cs8900_packetpage_ptr & PP_PTR_AUTO_INCR_FLAG) != 0 ? "enabled" : "disabled");
     return 0;
 }
 
