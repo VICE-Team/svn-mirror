@@ -532,7 +532,7 @@ uint8_t vdc_read(uint16_t addr)
         return 0xff; /* return 0xFF for invalid register numbers */
     } else { /* read $d600 (and mirrors $d602/4/6....$d6fe) */
         retval = vdc.revision;
-        
+
         /* Status ($80) is set when the VDC is ready for the next register access.
            we use an (approximate) timer hack to see if it is ready yet. */
         if (maincpu_clk > vdc_status_clear_clock) {
@@ -541,7 +541,7 @@ uint8_t vdc_read(uint16_t addr)
             /* safety check in case maincpu_clk overflows */
             vdc_status_clear_clock = maincpu_clk;
         }
-        
+
         /* Emulate lightpen flag. */
         if (vdc.light_pen.triggered) {
             retval |= 0x40;
@@ -609,7 +609,7 @@ int vdc_dump(void *context, uint16_t addr)
         }
         mon_out("\n");
     }
-    mon_out("\nVDC Revision   : %d", vdc.revision);
+    mon_out("\nVDC Revision   : %u", vdc.revision);
     mon_out("\nVertical Blanking Period: ");
     mon_out(((vdc.raster.current_line <= vdc.border_height) || (vdc.raster.current_line > (vdc.border_height + vdc.screen_ypix))) ? "Yes" : "No");
     mon_out("\nLight Pen Triggered: ");
@@ -617,8 +617,10 @@ int vdc_dump(void *context, uint16_t addr)
     mon_out("\nStatus         : ");
     mon_out(maincpu_clk > vdc_status_clear_clock ? "Ready" : "Busy");
     mon_out("\nActive Register: %d", vdc.update_reg);
-    mon_out("\nMemory Address : $%04x", ((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask);
-    mon_out("\nBlockCopySource: $%04x", ((vdc.regs[32] << 8) + vdc.regs[33]) & vdc.vdc_address_mask);
+    mon_out("\nMemory Address : $%04x",
+            (unsigned int)(((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask));
+    mon_out("\nBlockCopySource: $%04x",
+            (unsigned int)(((vdc.regs[32] << 8) + vdc.regs[33]) & vdc.vdc_address_mask));
     mon_out("\nDisplay Mode   : ");
     mon_out(vdc.regs[25] & 0x80 ? "Bitmap" : "Text");
     mon_out(vdc.regs[25] & 0x40 ? " & Attributes" : ", no Attributes");
@@ -635,7 +637,7 @@ int vdc_dump(void *context, uint16_t addr)
         mon_out("\nCharacter Size : %d x %d pixels (%d x %d visible)", (vdc.regs[22] >> 4) + 1, vdc.regs[9] + 1, (vdc.regs[22] & 0x0f) + 1, (vdc.regs[23] & 0x1f) + 1);
         mon_out("\nActive Pixels  : %d x %d", vdc.regs[1] * ((vdc.regs[22] >> 4) + 1), vdc.regs[6] * (vdc.regs[9] + 1));
     }
-    
+
     location = ((vdc.regs[12] << 8) + vdc.regs[13]) & vdc.vdc_address_mask;
     if (vdc.regs[25] & 0x80 ) {
         size = vdc.regs[1] * vdc.regs[6] * (vdc.regs[9] + 1);   /* bitmap size */
@@ -643,16 +645,17 @@ int vdc_dump(void *context, uint16_t addr)
         size = vdc.regs[1] * vdc.regs[6];   /* text mode size */
     }
     mon_out("\nScreen Memory  : $%04x-$%04x (Size $%04x)", location, (location + size - 1) & vdc.vdc_address_mask, size);
-    
+
     location = ((vdc.regs[20] << 8) + vdc.regs[21]) & vdc.vdc_address_mask;
     size = vdc.regs[1] * vdc.regs[6];
     mon_out("\nAttrib Memory  : $%04x-$%04x (Size $%04x)", location, (location + size - 1) & vdc.vdc_address_mask, size);
-    
+
     location = ((vdc.regs[28] & 0xE0) << 8) & vdc.vdc_address_mask;
     size = 0x200 * vdc.bytes_per_char; /* 0x2000 or 0x4000, depending on character height */
     mon_out("\nCharset Memory : $%04x-$%04x (Size $%04x)", location, (location + size - 1) & vdc.vdc_address_mask, size);
-    
-    mon_out("\nCursor Address : $%04x", ((vdc.regs[14] << 8) + vdc.regs[15]) & vdc.vdc_address_mask);
+
+    mon_out("\nCursor Address : $%04x",
+            (unsigned int)(((vdc.regs[14] << 8) + vdc.regs[15]) & vdc.vdc_address_mask));
     mon_out("\n");
     return 0;
 }
