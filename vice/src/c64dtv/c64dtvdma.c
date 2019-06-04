@@ -393,7 +393,8 @@ void c64dtv_dma_store(uint16_t addr, uint8_t value)
         dma_busy = 1;
 #ifdef DEBUG
         if (dma_log_enabled) {
-            log_message(c64dtvdma_log, "Scheduled DMA (%02x).", dma_on_irq);
+            log_message(c64dtvdma_log, "Scheduled DMA (%02x).",
+                    (unsigned int)dma_on_irq);
         }
 #endif
         return;
@@ -418,7 +419,14 @@ void c64dtvdma_perform_dma(void)
 
 #ifdef DEBUG
     if (dma_log_enabled && (dma_state == DMA_WRITE)) {
-        log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f) & 0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
+        log_message(c64dtvdma_log,
+                "%s from %x (%s) to %x (%s), %d to go",
+                GET_REG8(0x1f) & 0x02 ? "Swapped" : "Copied",
+                (unsigned int)dma_source_off,
+                source_memtype == 0 ? "Flash" : "RAM",
+                (unsigned int)dma_dest_off,
+                dest_memtype == 0 ? "Flash" : "RAM",
+                dma_count - 1);
     }
 #endif
 
