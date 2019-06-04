@@ -360,7 +360,7 @@ static double get_acia_bps(void)
             }
 
         default:
-            log_message(acia.log, "Invalid acia.mode = %u in get_acia_bps()", acia.mode);
+            log_message(acia.log, "Invalid acia.mode = %d in get_acia_bps()", acia.mode);
             return acia_bps_table[0]; /* return dummy value */
     }
 }
