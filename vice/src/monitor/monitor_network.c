@@ -1,12 +1,10 @@
-/*! \file monitor_network.c \n
- *  \author Spiro Trikaliotis
- *  \brief   Monitor implementation - network access
+/** \file   monitor_network.c
+ *  \brief  Monitor implementation - network access
  *
- * monitor_network.c - Monitor implementation - network access.
- *
- * Written by
- *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
- *
+ *  \author Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -309,7 +307,10 @@ static void monitor_network_process_binary_command(unsigned char * pbuffer, int 
             break;
 
         default:
-            log_message(LOG_DEFAULT, "monitor_network binary command: unknown command %u, skipping command length of %u", command, command_length);
+            log_message(LOG_DEFAULT,
+                    "monitor_network binary command: unknown command %d, "
+                    "skipping command length of %u",
+                    command, command_length);
             break;
     }
 
