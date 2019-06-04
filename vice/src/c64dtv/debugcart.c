@@ -74,7 +74,10 @@ void debugcart_store(uint16_t addr, uint8_t value)
 {
     int n = (int)value;
     if ((debugcart_enabled) && (addr == 0xd7ff)) {
-        fprintf(stdout, "DBGCART: exit(%d) cycles elapsed: %d\n", n, maincpu_clk);
+        fprintf(stdout, "DBGCART: exit(%d) cycles elapsed: %lu\n",
+                n, (unsigned long)maincpu_clk); /* CLOCK can be 32 bit or 64 bit
+                                                 *  so this will kinda work
+                                                 */
         archdep_vice_exit(n);
     }
 }
