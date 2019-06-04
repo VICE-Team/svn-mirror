@@ -1419,14 +1419,14 @@ int viacore_dump(via_context_t *via_context)
     mon_out("Port A: %02x DDR: %02x no HS: %02x\n",
             viacore_peek(via_context, 0x01), viacore_peek(via_context, 0x03), viacore_peek(via_context, 0x0f));
     mon_out("Port B: %02x DDR: %02x\n", viacore_peek(via_context, 0x00), viacore_peek(via_context, 0x02));
-    mon_out("Timer 1: %04x Latch: %04x\n", viacore_peek(via_context, 0x04) + (viacore_peek(via_context, 0x05) * 256),
-            viacore_peek(via_context, 0x06) + (viacore_peek(via_context, 0x07) * 256));
-    mon_out("Timer 2: %04x\n", viacore_peek(via_context, 0x08) + (viacore_peek(via_context, 0x09) * 256));
+    mon_out("Timer 1: %04x Latch: %04x\n", viacore_peek(via_context, 0x04) + (viacore_peek(via_context, 0x05) * 256U),
+            viacore_peek(via_context, 0x06U) + (viacore_peek(via_context, 0x07) * 256U));
+    mon_out("Timer 2: %04x\n", viacore_peek(via_context, 0x08) + (viacore_peek(via_context, 0x09) * 256U));
     mon_out("Aux. control: %02x\n", viacore_peek(via_context, 0x0b));
     mon_out("Per. control: %02x\n", viacore_peek(via_context, 0x0c));
     mon_out("IRQ flags: %02x\n", viacore_peek(via_context, 0x0d));
     mon_out("IRQ enable: %02x\n", viacore_peek(via_context, 0x0e));
-    mon_out("\nSynchronous Serial I/O Data Buffer: %02x (%s, shifting %s)\n", 
+    mon_out("\nSynchronous Serial I/O Data Buffer: %02x (%s, shifting %s)\n",
             viacore_peek(via_context, 0x0a), 
             ((via_context->via[VIA_ACR] & 0x1c) == 0) ? "disabled" : "enabled",
             (via_context->via[VIA_ACR] & 0x10) ? "out" : "in");
