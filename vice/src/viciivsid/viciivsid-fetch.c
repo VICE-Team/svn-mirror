@@ -372,7 +372,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
 #ifdef DEBUG
             if (debug.maincpu_traceflg) {
-                log_debug("SDMA %i", i);
+                log_debug("SDMA %u", i);
             }
 #endif
 
