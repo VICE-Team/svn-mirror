@@ -1004,12 +1004,15 @@ int crtc_dump(void)
            );
     if ((regs[CRTC_REG_MODECTRL] & 4) == 0) {
         /* binary mode */
-        mon_out("\nDisplay start:     $%04x\n", 
-                ((int)regs[CRTC_REG_DISPSTARTH] * 256) + regs[CRTC_REG_DISPSTARTL]);
-        mon_out("Cursor position:   $%04x\n", 
-                ((int)regs[CRTC_REG_CURSORPOSH] * 256) + regs[CRTC_REG_CURSORPOSL]);
-        mon_out("Lightpen position: $%04x\n", 
-                ((int)regs[CRTC_REG_LPENH] * 256) + regs[CRTC_REG_LPENL]);
+        mon_out("\nDisplay start:     $%04x\n",
+                (unsigned int)((regs[CRTC_REG_DISPSTARTH] * 256)
+                    + regs[CRTC_REG_DISPSTARTL]));
+        mon_out("Cursor position:   $%04x\n",
+                (unsigned int)((regs[CRTC_REG_CURSORPOSH] * 256)
+                    + regs[CRTC_REG_CURSORPOSL]));
+        mon_out("Lightpen position: $%04x\n",
+                (unsigned int)((regs[CRTC_REG_LPENH] * 256)
+                    + regs[CRTC_REG_LPENL]));
     } else {
         /* row/column mode */
         mon_out("\nDisplay start:     %3d x %3d\n", 
