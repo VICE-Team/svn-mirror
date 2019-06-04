@@ -824,7 +824,7 @@ int ds12c887_dump(rtc_ds12c887_t *context)
 
     mon_out("Registers contents:\n");
     for (i = 0; i < 8; ++i) {
-        mon_out("%02X-%02X:", i * 16, (i * 16) + 15);
+        mon_out("%02X-%02X:", i * 16U, (i * 16U) + 15U);
         for (j = 0; j < 16; ++j) {
             mon_out(" %02X", ds12c887_read_regs(context, (i * 16) + j));
         }
