@@ -661,7 +661,7 @@ int ds1202_1302_dump(rtc_ds1202_1302_t *context)
     }
     mon_out("\n\nRAM contents:\n");
     for (i = 0; i < 4; ++i) {
-        mon_out("%02X-%02X:", i * 8, (i * 8) + 7);
+        mon_out("%02X-%02X:", i * 8U, (i * 8U) + 7U);
         for (j = 0; j < 8; ++j) {
             mon_out(" %02X", context->ram[(i * 8) + j]);
         }
