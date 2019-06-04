@@ -220,7 +220,7 @@ int rs232net_putc(int fd, uint8_t b)
 
     n = vice_network_send(fds[fd].fd, &b, 1, 0);
     if (n < 0) {
-        log_error(rs232net_log, "Error writing: %u.", vice_network_get_errorcode());
+        log_error(rs232net_log, "Error writing: %d.", vice_network_get_errorcode());
         rs232net_closesocket(fd);
         return -1;
     }
@@ -262,7 +262,8 @@ int rs232net_getc(int fd, uint8_t * b)
 
             if ( no_of_read_byte != 1 ) {
                 if ( no_of_read_byte < 0 ) {
-                    log_error(rs232net_log, "Error reading: %u.", vice_network_get_errorcode());
+                    log_error(rs232net_log, "Error reading: %d.",
+                            vice_network_get_errorcode());
                 } else {
                     log_error(rs232net_log, "EOF");
                 }
