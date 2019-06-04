@@ -182,8 +182,8 @@ static void ethernetcart_store(uint16_t io_address, uint8_t byte)
 static int ethernetcart_dump(void)
 {
     mon_out("CS8900 mapped to $%04x ($%04x-$%04x), Mode: %s.\n",
-            ethernetcart_device.start_address & ~ethernetcart_device.address_mask,
-            ethernetcart_device.start_address + (ethernetcart_mode ? 2 : 0),
+            (unsigned int)(ethernetcart_device.start_address & ~ethernetcart_device.address_mask),
+            ethernetcart_device.start_address + (ethernetcart_mode ? 2U : 0U),
             ethernetcart_device.end_address,
             ethernetcart_mode ? "RR-Net" : "TFE" );
 
