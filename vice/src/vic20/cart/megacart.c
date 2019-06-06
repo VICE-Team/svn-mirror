@@ -694,7 +694,8 @@ static int megacart_mon_dump(void)
 
     mon_out("BLKn: ");
     if (!ram_low_en) {
-        mon_out("ROM bank $%02x (offset $%06x)\n", bank_low, bank_low * 0x2000);
+        mon_out("ROM bank $%02x (offset $%06x)\n",
+                bank_low, bank_low * 0x2000U);
     } else {
         if (ram_high_en) {
             mon_out("RAM %s\n", ram_wp ? "(write protected)" : "");
@@ -705,10 +706,10 @@ static int megacart_mon_dump(void)
 
     mon_out("BLK5: ");
     if (!ram_high_en) {
-        mon_out("ROM bank $%02x (offset $%06x)\n", bank_high, bank_high * 0x2000 + 0x100000);
+        mon_out("ROM bank $%02x (offset $%06x)\n", bank_high, bank_high * 0x2000U + 0x100000U);
     } else {
         if (!ram_low_en) {
-            mon_out("ROM bank $%02x (offset $%06x)\n", bank_low, bank_low * 0x2000);
+            mon_out("ROM bank $%02x (offset $%06x)\n", bank_low, bank_low * 0x2000U);
         } else {
             mon_out("RAM %s\n", ram_wp ? "(write protected)" : "");
         }
