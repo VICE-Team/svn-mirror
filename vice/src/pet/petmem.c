@@ -445,7 +445,7 @@ static int efe0_dump(void)
     int i;
     int mask = 1;
 
-    mon_out("efe0 = $%02x; previous in = $%02x; odd/even = %d\n", dongle6702.val, dongle6702.prevodd, dongle6702.wantodd);
+    mon_out("efe0 = $%02x; previous in = $%02x; odd/even = %d\n", (unsigned int)dongle6702.val, dongle6702.prevodd, dongle6702.wantodd);
     for (i = 0; i < 8; i++, mask <<= 1) {
         int j;
         int maskj;
