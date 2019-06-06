@@ -369,12 +369,23 @@ static io_source_list_t *sid_d500_list_item = NULL;
 static io_source_list_t *sid_d600_list_item = NULL;
 static io_source_list_t *sid_d700_list_item = NULL;
 
-void c64io_vicii_init(void)
+void c64io_vicii_reinit(void)
 {
     vicii_d000_list_item = io_source_register(&vicii_d000_device);
     vicii_d100_list_item = io_source_register(&vicii_d100_device);
     vicii_d200_list_item = io_source_register(&vicii_d200_device);
     vicii_d300_list_item = io_source_register(&vicii_d300_device);
+}
+
+void c64io_vicii_init(void)
+{
+    int memhack = 0;
+
+    resources_get_int("MemoryHack", &memhack);
+
+    if (memhack != MEMORY_HACK_PLUS60K && memhack != MEMORY_HACK_PLUS256K) {
+        c64io_vicii_reinit();
+    }
 }
 
 void c64io_vicii_deinit(void)

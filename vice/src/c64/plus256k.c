@@ -290,7 +290,7 @@ static int plus256k_deactivate(void)
         io_source_unregister(vicii_d100_list_item);
         vicii_d100_list_item = NULL;
     }
-    c64io_vicii_init();
+    c64io_vicii_reinit();
     return 0;
 }
 
