@@ -1802,7 +1802,7 @@ static int mem_dump_io(void *context, uint16_t addr)
             return 0;
         } else if (addr == 0xeffc) {
             /* Bank select */
-            mon_out("bank: $%x\n", spet_bank);
+            mon_out("bank: $%x\n", (unsigned int)spet_bank);
             mon_out("control write protect: %d\n", spet_ctrlwp);
             mon_out("flat (super-os9) mode: %d\n", !!spet_flat_mode);
             mon_out("firq disabled: %d\n", !!spet_firq_disabled);
