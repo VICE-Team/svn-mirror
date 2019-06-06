@@ -289,7 +289,8 @@ int mypia_dump(void)
     mon_out("port_a: %02x  port_b: %02x   (written bits only)\n", mypia.port_a, mypia.port_b);
     mon_out(" ddr_a: %02x   ddr_b: %02x   (1 bits are outputs)\n", mypia.ddr_a, mypia.ddr_b);
     mon_out("ctrl_a: %02x  ctrl_b: %02x\n", mypia.ctrl_a, mypia.ctrl_b);
-    mon_out("   ca2: %2x     cb2: %2x\n", mypia.ca_state, mypia.cb_state);
+    mon_out("   ca2: %2x     cb2: %2x\n",
+            (unsigned int)mypia.ca_state, (unsigned int)mypia.cb_state);
     mon_out("CA1 active transition: %d\n", (mypia.ctrl_a & 0x80) >> 7);
     mon_out("CA2 active transition: %d\n", (mypia.ctrl_a & 0x40) >> 6);
 
