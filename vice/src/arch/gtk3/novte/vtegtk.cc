@@ -2418,7 +2418,6 @@ void vte_terminal_set_color_cursor_foreground(NoVteTerminal *terminal,
 void vte_terminal_set_color_foreground(NoVteTerminal *terminal, const GdkRGBA *foreground)
 {
     g_return_if_fail(VTE_IS_TERMINAL(terminal));
-    g_return_if_fail(foreground != nullptr);
     g_return_if_fail(valid_color(foreground));
 
     IMPL(terminal)->set_color_foreground(vte::color::rgb(foreground));

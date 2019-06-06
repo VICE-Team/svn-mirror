@@ -1242,7 +1242,6 @@ void VteTerminalPrivate::queue_adjustment_value_changed_clamped(double v)
 void VteTerminalPrivate::adjust_adjustments()
 {
     g_assert(m_screen != nullptr);
-    g_assert(m_screen->row_data != nullptr);
 
     queue_adjustment_changed();
 
