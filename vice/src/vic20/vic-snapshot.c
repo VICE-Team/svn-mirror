@@ -131,7 +131,7 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
     if (b != VIC_RASTER_CYCLE(maincpu_clk)) {
-        log_error(vic.log, "Cycle value (%d) incorrect; should be %d.",
+        log_error(vic.log, "Cycle value (%d) incorrect; should be %u.",
                   (int)b, VIC_RASTER_CYCLE(maincpu_clk));
         goto fail;
     }
@@ -141,7 +141,7 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
     if (w != VIC_RASTER_Y(maincpu_clk)) {
-        log_error(vic.log, "Raster line value (%d) incorrect; should be %d.",
+        log_error(vic.log, "Raster line value (%d) incorrect; should be %u.",
                   (int)w, VIC_RASTER_Y(maincpu_clk));
         goto fail;
     }
