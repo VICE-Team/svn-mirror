@@ -201,6 +201,7 @@ extern void cartio_shutdown(void);
 
 extern void c64io_vicii_init(void);
 extern void c64io_vicii_deinit(void);
+extern void c64io_vicii_reinit(void);
 
 extern int cartio_resources_init(void);
 extern int cartio_cmdline_options_init(void);
