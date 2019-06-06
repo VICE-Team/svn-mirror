@@ -469,17 +469,17 @@ int vic_dump(void)
     int xstart, ystart, xstop, ystop, cols, lines, addr;
     int matrix_base, char_base;
 
-    mon_out("Raster cycle/line: %d/%d\n", vic.raster_cycle, vic.raster_line);
+    mon_out("Raster cycle/line: %u/%u\n", vic.raster_cycle, vic.raster_line);
 
     matrix_base = ((vic.regs[5] & 0xf0) << 6) | ((vic.regs[2] & 0x80) << 2);
     char_base = (vic.regs[5] & 0xf) << 10;
 
     mon_out("Matrix: $%04x, Char: $%04x, Memptr: $%03x\n",
-            vic_dump_addr(matrix_base),
-            vic_dump_addr(char_base),
+            (unsigned int)vic_dump_addr(matrix_base),
+            (unsigned int)vic_dump_addr(char_base),
             vic.memptr);
 
-    mon_out("Y counter: %d, char height: %d, offset: %i\n",
+    mon_out("Y counter: %u, char height: %u, offset: %u\n",
             vic.raster.ycounter,
             vic.char_height,
             vic.buf_offset);
@@ -489,13 +489,14 @@ int vic_dump(void)
     switch (vic.fetch_state) {
         case VIC_FETCH_MATRIX:
             addr = matrix_base + (vic.memptr + vic.buf_offset);
-            mon_out("$%04x\n", vic_dump_addr(addr));
+            mon_out("$%04x\n", (unsigned int)vic_dump_addr(addr));
             break;
 
         case VIC_FETCH_CHARGEN:
             addr = char_base + (vic.vbuf * vic.char_height + (vic.raster.ycounter & ((vic.char_height >> 1) | 7)));
 
-            mon_out("$%04x (vbuf $%02x)\n", vic_dump_addr(addr), vic.vbuf);
+            mon_out("$%04x (vbuf $%02x)\n",
+                    (unsigned int)vic_dump_addr(addr), vic.vbuf);
             break;
         default:
             mon_out("??\n");
@@ -523,7 +524,7 @@ int vic_dump(void)
     }
 
     if ((vic.area == VIC_AREA_DISPLAY) || (vic.area == VIC_AREA_DONE)) {
-        mon_out("%d - ", vic.raster.display_ystart);
+        mon_out("%u - ", vic.raster.display_ystart);
     } else {
         mon_out("? - ");
     }
@@ -535,12 +536,12 @@ int vic_dump(void)
     }
 
     if (vic.area == VIC_AREA_DONE) {
-        mon_out("%d, ", vic.raster.display_ystop);
+        mon_out("%u, ", vic.raster.display_ystop);
     } else {
         mon_out("?, ");
     }
 
-    mon_out("%dx%d\n", vic.text_cols, vic.text_lines);
+    mon_out("%ux%u\n", vic.text_cols, vic.text_lines);
 
     return 0;
 }
