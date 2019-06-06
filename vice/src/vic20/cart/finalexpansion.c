@@ -952,13 +952,15 @@ static void finalexpansion_mon_dump_blk(int blk)
     mon_out("\n  read %s ", finalexpansion_acc_mode[acc_mode_r]);
 
     if (acc_mode_r != ACC_OFF) {
-        mon_out("bank $%02x (offset $%06x)", bank_r, calc_addr(0, bank_r, base));
+        mon_out("bank $%02x (offset $%06x)",
+                (unsigned int)bank_r, calc_addr(0, bank_r, base));
     }
 
     mon_out("\n write %s ", finalexpansion_acc_mode[acc_mode_w]);
 
     if (acc_mode_w != ACC_OFF) {
-        mon_out("bank $%02x (offset $%06x)", bank_w, calc_addr(0, bank_w, base));
+        mon_out("bank $%02x (offset $%06x)",
+                (unsigned int)bank_w, calc_addr(0, bank_w, base));
     }
 
     mon_out("\n");
