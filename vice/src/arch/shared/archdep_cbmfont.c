@@ -136,6 +136,16 @@ int archdep_register_cbmfont(void)
 
 # ifdef ARCHDEP_OS_WINDOWS
 
+/* Make sure AddFontResourceEx prototyped is used in wingdi.h */
+#ifndef _WIN32_WINNT
+#  define _WIN32_WINNT 0x0500
+#else
+#  if (_WIN32_WINNT < 0x0500)
+#    undef _WIN32_WINNT
+#    define _WIN32_WINNT 0x0500
+#  endif
+#endif
+
 #  include "windows.h"
 
 int archdep_register_cbmfont(void)
