@@ -282,7 +282,10 @@ static void pethre_DRAW(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8
         int width = xend - xstart;
 
         if (screen_rel >= mem_ram + 0xE000) {
-            printf("screen_rel too large: scr_rel=%d, ymod8=%d, screen_rel=%04x, xstart=%d xend=%d\n", scr_rel, ymod8, (int)(screen_rel - mem_ram), xstart, xend);
+            printf("screen_rel too large: scr_rel=%d, ymod8=%d, "
+                    "screen_rel=%04x, xstart=%d xend=%d\n",
+                    scr_rel, ymod8, (unsigned int)(screen_rel - mem_ram),
+                    xstart, xend);
         }
 
         if (ma_lo == 0 && width <= MA_WIDTH) {
