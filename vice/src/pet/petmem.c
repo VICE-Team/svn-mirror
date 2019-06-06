@@ -1798,7 +1798,7 @@ static int mem_dump_io(void *context, uint16_t addr)
                     petres.superpet_cpu_switch == SUPERPET_CPU_6809 ? "6809" :
                     "PROG (unimpl)");
             mon_out("RAM write protect: $%x\n", (unsigned int)spet_ramwp);
-            mon_out("diagnostic sense: $%x\n", spet_diag);
+            mon_out("diagnostic sense: $%x\n", (unsigned int)spet_diag);
             return 0;
         } else if (addr == 0xeffc) {
             /* Bank select */
