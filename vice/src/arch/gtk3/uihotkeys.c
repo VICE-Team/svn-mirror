@@ -188,7 +188,7 @@ static char *modifiers_to_string(GdkModifierType mods, const char *keys)
     const char *mod_strings[MAX_MODS + 2];
     int i;
 
-    debug_gtk3("mods = %d.", mods);
+    debug_gtk3("mods = %u.", mods);
 
     for (i = 0; i < MAX_MODS + 2; i++) {
         mod_strings[i] = NULL;
