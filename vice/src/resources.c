@@ -1376,7 +1376,8 @@ int resources_dump(const char *fname)
     FILE *out_file;
     unsigned int i;
 
-    log_message(LOG_DEFAULT, "Dumping %d resources to file `%s'.", num_resources, fname);
+    log_message(LOG_DEFAULT, "Dumping %u resources to file `%s'.",
+            num_resources, fname);
 
     out_file = fopen(fname, MODE_WRITE_TEXT);
     if (!out_file) {
