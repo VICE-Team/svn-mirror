@@ -96,7 +96,7 @@ static void screenshot_line_data(screenshot_t *screenshot, uint8_t *data,
     uint8_t color;
 
     if (line > screenshot->height) {
-        log_error(screenshot_log, "Invalild line `%i' request.", line);
+        log_error(screenshot_log, "Invalild line `%u' request.", line);
         return;
     }
 
@@ -130,7 +130,7 @@ static void screenshot_line_data(screenshot_t *screenshot, uint8_t *data,
             }
             break;
         default:
-            log_error(screenshot_log, "Invalid mode %i.", mode);
+            log_error(screenshot_log, "Invalid mode %u.", mode);
     }
 }
 
