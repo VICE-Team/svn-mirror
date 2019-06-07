@@ -449,7 +449,8 @@ static void event_alarm_handler(CLOCK offset, void *data)
         case EVENT_OVERFLOW:
             break;
         default:
-            log_error(event_log, "Unknow event type %i.", event_list->current->type);
+            log_error(event_log, "Unknow event type %u.",
+                    event_list->current->type);
     }
 
     if (event_list->current->type != EVENT_LIST_END
@@ -514,7 +515,7 @@ void event_playback_event_list(event_list_state_t *list)
                 resources_set_value_event(current->data, current->size);
                 break;
             default:
-                log_error(event_log, "Unknow event type %i.", current->type);
+                log_error(event_log, "Unknow event type %u.", current->type);
         }
         current = current->next;
     }
