@@ -253,7 +253,8 @@ uint8_t h256k_read(uint16_t addr)
 
 static int h256k_dump(void)
 {
-    mon_out("RAM at $%04X-$FFFF comes from bank %d\n", (h256k_bound) ? 0x4000 : 0x1000, h256k_bank);
+    mon_out("RAM at $%04X-$FFFF comes from bank %d\n",
+            (h256k_bound) ? 0x4000U : 0x1000U, h256k_bank);
 
     return 0;
 }
