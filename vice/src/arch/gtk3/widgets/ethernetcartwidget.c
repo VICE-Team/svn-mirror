@@ -72,7 +72,7 @@ static void on_base_changed(GtkWidget *widget, gpointer user_data)
     id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget));
     base = (int)strtol(id, &endptr, 10);
     if (*endptr == '\0') {
-        debug_gtk3("setting ETHERNETCARTBase to $%04X.", base);
+        debug_gtk3("setting ETHERNETCARTBase to $%04X.", (unsigned int)base);
         resources_set_int("ETHERNETCARTBase", base);
     }
 }
