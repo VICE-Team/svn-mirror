@@ -262,7 +262,11 @@ static void vice_cairo_refresh_rect(video_canvas_t *canvas,
     if (((xi + w) > cairo_image_surface_get_width(ctx->backing_surface)) ||
         ((yi+h) > cairo_image_surface_get_height(ctx->backing_surface))) {
         /* Trying to draw outside canvas? */
-        fprintf(stderr, "Attempt to draw outside canvas!\nXI%u YI%u W%u H%u CW%u CH%u\n", xi, yi, w, h, cairo_image_surface_get_width(ctx->backing_surface), cairo_image_surface_get_height(ctx->backing_surface));
+        fprintf(stderr,
+                "Attempt to draw outside canvas!\nXI%u YI%u W%u H%u CW%u CH%u\n",
+                xi, yi, w, h,
+                (unsigned int)cairo_image_surface_get_width(ctx->backing_surface),
+                (unsigned int)cairo_image_surface_get_height(ctx->backing_surface));
         return;
     }
 
