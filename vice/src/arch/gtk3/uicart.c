@@ -570,7 +570,7 @@ static int attach_cart_image(int type, int id, const char *path)
             break;
     }
 
-    debug_gtk3("attaching cart type %d, cart ID %04x.", type, id);
+    debug_gtk3("attaching cart type %d, cart ID %04x.", type, (unsigned int)id);
     if ((crt_attach_func(id, path) == 0)) {
         /* check 'set default' */
         if ((cart_set_default_widget != NULL)
@@ -578,7 +578,7 @@ static int attach_cart_image(int type, int id, const char *path)
                         GTK_TOGGLE_BUTTON(cart_set_default_widget)))) {
             /* set cart as default, there's no return value, so let's assume
              * this works */
-            debug_gtk3("setting cart with ID %04x as default.", id);
+            debug_gtk3("setting cart with ID %04x as default.", (unsigned int)id);
             crt_set_default_func();
         }
         return 1;
