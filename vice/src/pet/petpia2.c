@@ -126,7 +126,7 @@ static uint8_t read_pa(void)
         log_message(mypia_log,
                     "read pia2 port A %x, parallel_bus=%x, gives %x.",
                     mypia.port_a, parallel_bus,
-                    ((parallel_bus & ~mypia.ddr_a)
+                    (unsigned int)((parallel_bus & ~mypia.ddr_a)
                      | (mypia.port_a & mypia.ddr_a)));
     }
 
