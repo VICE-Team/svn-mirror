@@ -159,7 +159,7 @@ static int palette_load_core(FILE *f, const char *file_name,
             const char *p2;
 
             if (util_string_to_long(p1, &p2, 16, &result) < 0) {
-                log_error(palette_log, "%s, %d: number expected.",
+                log_error(palette_log, "%s, %u: number expected.",
                           file_name, line_num);
                 return -1;
             }
@@ -167,8 +167,8 @@ static int palette_load_core(FILE *f, const char *file_name,
                 || (i == 3 && result > 0xf)
                 || result > 0xff
                 || result < 0) {
-                log_error(palette_log, "%s, %d: invalid value %lx.",
-                          file_name, line_num, result);
+                log_error(palette_log, "%s, %u: invalid value %lx.",
+                          file_name, line_num, (unsigned long)result);
                 return -1;
             }
             values[i] = (uint8_t)result;
@@ -178,13 +178,13 @@ static int palette_load_core(FILE *f, const char *file_name,
         p1 = next_nonspace(p1);
         if (*p1 != '\0') {
             log_error(palette_log,
-                      "%s, %d: garbage at end of line.",
+                      "%s, %u: garbage at end of line.",
                       file_name, line_num);
             return -1;
         }
         if (entry_num >= palette_return->num_entries) {
             log_error(palette_log,
-                      "%s: too many entries, %d expected.", file_name,
+                      "%s: too many entries, %u expected.", file_name,
                       palette_return->num_entries);
             return -1;
         }
@@ -202,7 +202,7 @@ static int palette_load_core(FILE *f, const char *file_name,
     }
 
     if (entry_num < palette_return->num_entries) {
-        log_error(palette_log, "%s: too few entries, %d found, %d expected.",
+        log_error(palette_log, "%s: too few entries, %u found, %u expected.",
                   file_name, entry_num, palette_return->num_entries);
         return -1;
     }
