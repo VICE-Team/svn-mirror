@@ -300,7 +300,7 @@ int charset_ucs_to_utf8(uint8_t *out, int code, int len)
         }
         return 4;
     }
-    log_error(LOG_DEFAULT, "Out-of-range code point U+%04x.", code);
+    log_error(LOG_DEFAULT, "Out-of-range code point U+%04x.", (unsigned int)code);
     return 0;
 }
 
