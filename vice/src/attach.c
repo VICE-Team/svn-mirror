@@ -176,14 +176,14 @@ static int file_system_set_serial_hooks(unsigned int unit, int fs)
     if (!fs) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
             log_error(attach_log,
-                      "Could not initialize vdrive emulation for device #%i.",
+                      "Could not initialize vdrive emulation for device #%u.",
                       unit);
             return -1;
         }
     } else {
         if (fsdevice_attach(unit, "FS Drive")) {
             log_error(attach_log,
-                      "Could not initialize FS drive for device #%i.",
+                      "Could not initialize FS drive for device #%u.",
                       unit);
             return -1;
         }
