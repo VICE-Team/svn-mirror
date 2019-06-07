@@ -578,7 +578,8 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
                     /* something weird happened... SHOULD NOT HAPPEN! */
                     log_message(LOG_DEFAULT,
                                 "gethostbyname() returned an IPv4 address, "
-                                "but the length is wrong: %u", host_entry->h_length );
+                                "but the length is wrong: %d", 
+                                host_entry->h_length );
                     break;
                 }
 
