@@ -1151,7 +1151,7 @@ int keyboard_keymap_dump(const char *filename)
     fprintf(fp, "\n");
 
     for (i = 0; keyconvmap[i].sym != ARCHDEP_KEYBOARD_SYM_NONE; i++) {
-        fprintf(fp, "%s %d %d %d\n",
+        fprintf(fp, "%s %d %d %u\n",
                 kbd_arch_keynum_to_keyname(keyconvmap[i].sym),
                 keyconvmap[i].row, keyconvmap[i].column,
                 keyconvmap[i].shift);
