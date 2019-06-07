@@ -372,7 +372,9 @@ int cartridge_attach_image(int type, const char *filename)
         case CARTRIDGE_CBM2_16KB_6000:
             return resources_set_string("Cart6Name", filename);
         default:
-            log_error(LOG_DEFAULT, "cartridge_attach_image: unsupported type (%04x)", type);
+            log_error(LOG_DEFAULT,
+                    "cartridge_attach_image: unsupported type (%04x)",
+                    (unsigned int)type);
             break;
     }
 
