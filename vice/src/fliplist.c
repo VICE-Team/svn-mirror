@@ -187,7 +187,7 @@ void fliplist_add_image(unsigned int unit)
     n->image = lib_strdup(current_image);
     unit = n->unit = current_drive;
 
-    log_message(LOG_DEFAULT, "Adding `%s' to fliplist[%d]", n->image, unit);
+    log_message(LOG_DEFAULT, "Adding `%s' to fliplist[%u]", n->image, unit);
     if (fliplist[unit - 8]) {
         n->next = fliplist[unit - 8];
         n->prev = fliplist[unit - 8]->prev;
@@ -222,7 +222,7 @@ void fliplist_remove(unsigned int unit, const char *image)
             tmp = fliplist[unit - 8];
             fliplist[unit - 8] = fliplist[unit - 8]->next;
         }
-        log_message(LOG_DEFAULT, "Removing `%s' from fliplist[%d]",
+        log_message(LOG_DEFAULT, "Removing `%s' from fliplist[%u]",
                     tmp->image, unit);
         lib_free(tmp->image);
         lib_free(tmp);
@@ -245,7 +245,7 @@ void fliplist_remove(unsigned int unit, const char *image)
 
         if (it == fliplist[unit - 8]) {
             log_message(LOG_DEFAULT,
-                        "Cannot remove `%s'; not found in fliplist[%d]",
+                        "Cannot remove `%s'; not found in fliplist[%u]",
                         it->image, unit);
             return;
         }
@@ -348,7 +348,7 @@ int fliplist_save_list(unsigned int unit, const char *filename)
                 fprintf(fp, "%s\n", flip_file_header);
             }
 
-            fprintf(fp, "\nUNIT %d", unit);
+            fprintf(fp, "\nUNIT %u", unit);
             do {
                 fprintf(fp, "\n%s", flip->image);
                 flip = flip->next;
@@ -485,12 +485,12 @@ static void show_fliplist(unsigned int unit)
 {
     fliplist_t it = fliplist[unit - 8];
 
-    log_message(LOG_DEFAULT, "Fliplist[%d] contains:", unit);
+    log_message(LOG_DEFAULT, "Fliplist[%u] contains:", unit);
 
     if (it) {
         do {
             log_message(LOG_DEFAULT,
-                        "\tUnit %d %s (n: %s, p:%s)", it->unit, it->image,
+                        "\tUnit %u %s (n: %s, p:%s)", it->unit, it->image,
                         it->next->image, it->prev->image);
             it = it->next;
         } while (it != fliplist[unit - 8]);
