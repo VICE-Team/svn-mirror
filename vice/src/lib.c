@@ -419,11 +419,11 @@ static void *lib_debug_libc_realloc(void *ptr, size_t size)
 static void printsize(unsigned int size)
 {
     if (size > (1024 * 1024)) {
-        printf("%dMiB", size / (1024 * 1024));
+        printf("%uMiB", size / (1024 * 1024));
     } else if (size > (1024)) {
-        printf("%dKiB", size / (1024));
+        printf("%uKiB", size / (1024));
     } else {
-        printf("%dB", size);
+        printf("%uB", size);
     }
 }
 #endif
@@ -509,7 +509,8 @@ void lib_debug_check(void)
 #ifdef LIB_DEBUG_PINPOINT
     printf("\n");
     for (index = 0; index < lib_debug_leaklist_num; index++) {
-        printf("%s:%d: Warning: Memory block(s) allocated here was not free'd (Memory leak with size 0x%x at %p).",
+        printf("%s:%u: Warning: Memory block(s) allocated here was not "
+                "free'd (Memory leak with size 0x%x at %p).",
                lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index],
                lib_debug_leaklist_size[index], lib_debug_leaklist_address[index]);
 #ifdef LIB_DEBUG_CALLER
@@ -532,9 +533,9 @@ void lib_debug_check(void)
     }
 #endif
 
-    printf("\nTotal memory leaks: %d", count);
+    printf("\nTotal memory leaks: %u", count);
 #ifdef LIB_DEBUG_PINPOINT
-    printf(" in %d lines", lib_debug_leaklist_num);
+    printf(" in %u lines", lib_debug_leaklist_num);
 #endif
     printf(". Total bytes leaked: 0x%x (", leakbytes);
     printsize(leakbytes);
@@ -548,7 +549,8 @@ void lib_debug_check(void)
         if (lib_debug_top_size[index]) {
             printf("%8x bytes (", lib_debug_top_size[index]);
             printsize(lib_debug_top_size[index]);
-            printf(") allocated at %s:%d\n", lib_debug_top_filename[index], lib_debug_top_line[index]);
+            printf(") allocated at %s:%u\n",
+                    lib_debug_top_filename[index], lib_debug_top_line[index]);
         }
     }
 #endif
