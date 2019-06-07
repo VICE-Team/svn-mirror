@@ -456,8 +456,8 @@ void hvsc_psid_dump(const hvsc_psid_t *handle)
     }
 
     /* page/driver info */
-    printf("start page      : $%04x\n", handle->start_page * 256);
-    printf("page length     : $%04x\n", handle->page_length * 256);
+    printf("start page      : $%04x\n", handle->start_page * 256U);
+    printf("page length     : $%04x\n", handle->page_length * 256U);
 }
 
 
