@@ -227,13 +227,13 @@ void debug_maincpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint8_t reg_a,
 
                 sprintf(st, ".%04X %02X %02X %8lX %-20s "
                         "%02X%02X%02X%02X", (unsigned int)reg_pc,
-                        RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                        RLINE(mclk), RCYCLE(mclk), (unsigned long)mclk, dis,
                         reg_a, reg_x, reg_y, reg_sp);
                 debug_history_step(st);
                 break;
             }
         case DEBUG_NORMAL:
-            log_debug(".%04X %03i %03i %10ld  %-22s "
+            log_debug(".%04X %03u %03u %10ld  %-22s "
                       "%02x%02x%02x%02x", (unsigned int)reg_pc,
                       RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
                       reg_a, reg_x, reg_y, reg_sp);
@@ -265,7 +265,7 @@ void debug_main65816cpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint16_t r
                     small_dis[4] = dis[6];
                     small_dis[5] = dis[7];
                     small_dis[6] = '\0';
-                }  
+                }
             }
 
             log_debug("%02X%04X %ld %04X %04X %04X %s", reg_pbr, (unsigned int)reg_pc,
@@ -279,15 +279,15 @@ void debug_main65816cpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint16_t r
 
             sprintf(st, ".%02X%04X %02X %02X %8lX %-23s "
                     "%04X %04X %04X %02X", reg_pbr, (unsigned int)reg_pc,
-                    RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                    RLINE(mclk), RCYCLE(mclk), (unsigned long)mclk, dis,
                     reg_c, reg_x, reg_y, reg_sp);
             debug_history_step(st);
             break;
       }
       case DEBUG_NORMAL:
-            log_debug(".%02X%04X %03i %03i %10ld  %-25s "
+            log_debug(".%02X%04X %03u %03u %10ld  %-25s "
                     "%04x %04x %04x %04x", reg_pbr, (unsigned int)reg_pc,
-                    RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                    RLINE(mclk), RCYCLE(mclk),(long)mclk, dis,
                     reg_c, reg_x, reg_y, reg_sp);
             break;
       default:
