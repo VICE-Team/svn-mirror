@@ -181,7 +181,9 @@ uint8_t cs256k_read(uint16_t addr)
 
 static int cs256k_dump(void)
 {
-    mon_out("Segment: %d ($%04X-$%04X), block: %d\n", cs256k_segment, cs256k_segment * 0x4000, (cs256k_segment * 0x4000) + 0x3fff, cs256k_block);
+    mon_out("Segment: %d ($%04X-$%04X), block: %d\n",
+            cs256k_segment, cs256k_segment * 0x4000U,
+            (cs256k_segment * 0x4000U) + 0x3fffU, cs256k_block);
 
     return 0;
 }
