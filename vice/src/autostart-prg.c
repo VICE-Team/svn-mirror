@@ -26,6 +26,7 @@
  */
 
 #include <string.h>
+#include <inttypes.h>
 
 #include "archdep.h"
 #include "attach.h"
@@ -84,7 +85,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     /* check range */
     end = prg->start_addr + prg->size - 1;
     if (end > 0xffff) {
-        log_error(log, "Invalid size of '%s': %d", file_name, (unsigned int)prg->size);
+        log_error(log, "Invalid size of '%s': %" PRIu32, file_name, prg->size);
         return NULL;
     }
 
