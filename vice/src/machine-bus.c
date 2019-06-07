@@ -156,7 +156,7 @@ int machine_bus_device_detach(unsigned int unit)
     DBG(("machine_bus_device_detach unit %d\n", unit));
 
     if (unit >= SERIAL_MAXDEVICES) {
-        log_error(LOG_DEFAULT, "Illegal device number %d.", unit);
+        log_error(LOG_DEFAULT, "Illegal device number %u.", unit);
         return -1;
     }
 
