@@ -721,7 +721,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (ted.tv_current_line < ted.screen_height) {
         raster_line_emulate(&ted.raster);
     } else {
-        log_debug("Skip line %d %d", ted.tv_current_line, ted.screen_height);
+        log_debug("Skip line %u %u", ted.tv_current_line, ted.screen_height);
     }
 
     if (ted.ted_raster_counter == ted.last_dma_line) {
