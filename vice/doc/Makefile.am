@@ -54,6 +54,11 @@ EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS) $(STYLE_TOOLS)
 AM_MAKEINFOHTMLFLAGS = 
 AM_MAKEINFOFLAGS = --no-split
 
+if UNIX_MACOSX_COMPILE
+# Use brew supplied texi2dvi over buggy Apple version
+export PATH := /usr/local/opt/texinfo/bin:$(PATH)
+endif
+
 $(builddir)/vice.txt:		$(srcdir)/vice.texi
 	touch vicetmp.txt
 	LANG=C $(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o vicetmp.txt --no-validate --no-headers $(srcdir)/vice.texi
