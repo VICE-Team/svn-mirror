@@ -316,7 +316,8 @@ static int parsid_GetAddressLptPort(int myPort)
     } else {
         retval = parsid_GetAddressLptPortInTheMemory(myPort);
     }
-    log_message(LOG_DEFAULT, "Address of parallel port %d is $%X.", myPort, retval);
+    log_message(LOG_DEFAULT, "Address of parallel port %d is $%X.",
+            myPort, (unsigned int)retval);
     return retval;
 }
 

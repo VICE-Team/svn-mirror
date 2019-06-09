@@ -389,7 +389,8 @@ int cw_pci_open(void)
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "PCI CatWeasel board found at $%04X.", base);
+    log_message(LOG_DEFAULT, "PCI CatWeasel board found at $%04X.",
+            (unsigned int)base);
 
     if (detect_sid()) {
         sids_found++;

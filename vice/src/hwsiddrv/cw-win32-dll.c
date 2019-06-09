@@ -127,7 +127,7 @@ int cw_dll_open(void)
     for (i = 0; i < CW_MAXCARDS; i++) {
         char buf[32];
 
-        sprintf(buf, "\\\\.\\SID6581_%u", i + 1);
+        sprintf(buf, "\\\\.\\SID6581_%d", i + 1);
         sidhandle[sids_found] = CreateFile(buf, GENERIC_READ, FILE_SHARE_WRITE | FILE_SHARE_READ, 0L, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0L);
         if (sidhandle[sids_found] != INVALID_HANDLE_VALUE) {
             log_message(LOG_DEFAULT, "Found PCI CatWeasel #%i.", sids_found + 1);
