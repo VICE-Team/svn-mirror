@@ -67,6 +67,10 @@ $(builddir)/vice.txt:		$(srcdir)/vice.texi
 
 $(builddir)/vice.pdf:	$(srcdir)/vice.texi
 if BUILD_PDF
+	if [ "`file --mime-encoding vice.texi`" != "vice.texi: iso-8859-1" ]; then \
+		echo "ERROR: vice.texi content not ios-8859-1" >&2; \
+		false; \
+	fi
 	LANG=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
 	LANG=C $(TEXI2DVI) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
 		rm -f vicepdf.texi
