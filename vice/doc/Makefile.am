@@ -60,7 +60,7 @@ export PATH := /usr/local/opt/texinfo/bin:$(PATH)
 endif
 
 .vice-texi-charset-ok:	$(srcdir)/vice.texi
-	if [ "`file --mime-encoding vice.texi`" != "vice.texi: iso-8859-1" ]; then \
+	if [ "`file --mime-encoding $(srcdir)/vice.texi | cut -d' ' -f2`" != "iso-8859-1" ]; then \
 		echo "ERROR: vice.texi contains content that is not valid iso-8859-1" >&2; \
 		false; \
 	fi
@@ -76,7 +76,7 @@ $(builddir)/vice.pdf:	.vice-texi-charset-ok
 if BUILD_PDF
 	LANG=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
 	LANG=C $(TEXI2DVI) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
-		rm -f vicepdf.texi
+	rm -f vicepdf.texi
 
 PDF_DEPS=$(builddir)/vice.pdf
 else
