@@ -59,18 +59,21 @@ if UNIX_MACOSX_COMPILE
 export PATH := /usr/local/opt/texinfo/bin:$(PATH)
 endif
 
-$(builddir)/vice.txt:		$(srcdir)/vice.texi
+.vice-texi-charset-ok:	$(srcdir)/vice.texi
+	if [ "`file --mime-encoding vice.texi`" != "vice.texi: iso-8859-1" ]; then \
+		echo "ERROR: vice.texi contains content that is not valid iso-8859-1" >&2; \
+		false; \
+	fi
+	touch .vice-texi-charset-ok
+
+$(builddir)/vice.txt:	.vice-texi-charset-ok
 	touch vicetmp.txt
 	LANG=C $(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o vicetmp.txt --no-validate --no-headers $(srcdir)/vice.texi
 	$(srcdir)/fixdox.sh txt <vicetmp.txt | LANG=C sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
 
-$(builddir)/vice.pdf:	$(srcdir)/vice.texi
+$(builddir)/vice.pdf:	.vice-texi-charset-ok
 if BUILD_PDF
-	if [ "`file --mime-encoding vice.texi`" != "vice.texi: iso-8859-1" ]; then \
-		echo "ERROR: vice.texi content not ios-8859-1" >&2; \
-		false; \
-	fi
 	LANG=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
 	LANG=C $(TEXI2DVI) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
 		rm -f vicepdf.texi
@@ -82,7 +85,7 @@ else
 PDF_DEPS=
 endif
 
-$(builddir)/vice.guide:	$(srcdir)/vice.texi
+$(builddir)/vice.guide:	.vice-texi-charset-ok
 if BUILD_AMIGAGUIDE
 	cp $(srcdir)/vice.texi tmp.texi
 	$(srcdir)/fixdox.sh guide
@@ -96,7 +99,7 @@ else
 GUIDE_DEPS=
 endif
 
-$(builddir)/vice.hlp:	$(srcdir)/vice.texi
+$(builddir)/vice.hlp:	.vice-texi-charset-ok
 if BUILD_HLP
 	cp $(srcdir)/vice.texi tmp.texi
 	$(srcdir)/fixdox.sh hlp
@@ -112,7 +115,7 @@ else
 HLP_DEPS=
 endif
 
-$(builddir)/vice.chm:	$(srcdir)/vice.texi
+$(builddir)/vice.chm:	.vice-texi-charset-ok
 if BUILD_CHM
 	$(srcdir)/texi2chm.sh $(HHC) $(builddir)/vice.chm $(srcdir)/vice.texi $(srcdir)/fixdox.sh $(srcdir)/t2h.pl
 
@@ -123,7 +126,7 @@ else
 CHM_DEPS=
 endif
 
-$(builddir)/vice.inf:	$(srcdir)/vice.texi
+$(builddir)/vice.inf:	.vice-texi-charset-ok
 if BUILD_IPF
 	cp $(srcdir)/vice.texi tmp.texi
 	$(srcdir)/fixdox.sh ipf
@@ -139,7 +142,7 @@ else
 IPF_DEPS=
 endif
 
-$(builddir)/vice.info:	$(srcdir)/vice.texi
+$(builddir)/vice.info:	.vice-texi-charset-ok
 	touch $(builddir)/vice.info
 	$(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o $(builddir)/vice.info --no-validate --no-split $(srcdir)/vice.texi
 
