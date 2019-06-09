@@ -606,7 +606,7 @@ $(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/inf
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed $(builddir)/geninfocontrib
 	@echo "generating infocontrib.h..."
 	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS README doc/html/index.html man/vice.1
-	iconv -f ISO-8859-1 -t UTF-8 $(srcdir)/infocontrib.h > $(srcdir)/infocontrib.h.utf8 && mv $(srcdir)/infocontrib.h.utf8 $(srcdir)/infocontrib.h
+	iconv -f ISO-8859-1 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	@echo "generating infocontrib.h..."
@@ -624,7 +624,7 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	cat man2.tmp | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../man/vice.1
 	rm -f man*.tmp
 	rm -f team.tmp
-	iconv -f ISO-8859-1 -t UTF-8 $(srcdir)/infocontrib.h > $(srcdir)/infocontrib.h.utf8 && mv $(srcdir)/infocontrib.h.utf8 $(srcdir)/infocontrib.h
+	iconv -f ISO-8859-1 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
 endif
 
 
