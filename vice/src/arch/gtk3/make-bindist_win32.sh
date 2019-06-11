@@ -185,7 +185,6 @@ cp $TOPSRCDIR/COPYING $TOPSRCDIR/FEEDBACK $TOPSRCDIR/NEWS $TOPSRCDIR/README $BUI
 cp $TOPSRCDIR/doc/readmes/Readme-GTK3.txt $BUILDPATH
 mkdir $BUILDPATH/doc
 cp $TOPBUILDDIR/doc/vice.pdf $BUILDPATH/doc
-cp $TOPBUILDDIR/doc/vice.{chm,hlp} $BUILDPATH/doc
 
 
 if test x"$ZIPKIND" = "xzip"; then
