@@ -3644,8 +3644,6 @@ AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
 rpath_line=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "$VICEDIR/lib"`
 LDFLAGS="$LDFLAGS $rpath_line"
 
-AC_CONFIG_LINKS([doc/texinfo.tex:doc/texinfo.tex])
-
 AC_OUTPUT([Makefile
            build/Makefile
            build/android/Makefile

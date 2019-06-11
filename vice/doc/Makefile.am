@@ -75,7 +75,7 @@ $(builddir)/vice.txt:	.vice-texi-charset-ok
 $(builddir)/vice.pdf:	.vice-texi-charset-ok
 if BUILD_PDF
 	LANG=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
-	LANG=C $(TEXI2DVI) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
+	LANG=C $(TEXI2DVI) -I $(srcdir) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
 	rm -f vicepdf.texi
 
 PDF_DEPS=$(builddir)/vice.pdf
