@@ -40,6 +40,7 @@
 #endif
 
 #include <windows.h>
+#include <mmsystem.h>
 
 #include "lib.h"
 #include "joy.h"

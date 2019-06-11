@@ -158,4 +158,10 @@ extern int vice_atexit(void (*function)(void));
 extern void vice_exit(int excode);
 #endif
 
+/* Avoid windows.h including too much garbage
+ */
+#ifdef WIN32_COMPILE
+# define WIN32_LEAN_AND_MEAN
+#endif
+
 #endif

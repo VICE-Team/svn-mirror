@@ -25,7 +25,6 @@
 #define SIZEOF_SHORT 2
 #define SIZEOF_INT   4
 
-#define _WINSOCKAPI_
 #include <fcntl.h>
 
 #include <winsock2.h>
