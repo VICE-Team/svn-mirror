@@ -37,8 +37,7 @@ STYLE_TOOLS = \
 
 # VICE_DOX is conditionally extended with vice.pdf, vice.hlp etc
 VICE_DOX = \
-	vice.txt \
-	vice.info
+	vice.txt
 
 dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
 
@@ -61,10 +60,6 @@ $(builddir)/vice.txt:	.vice-texi-charset-ok
 	LANG=C $(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o vicetmp.txt --no-validate --no-headers $(srcdir)/vice.texi
 	$(srcdir)/fixdox.sh txt <vicetmp.txt | LANG=C sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
-
-$(builddir)/vice.info:	.vice-texi-charset-ok
-	touch $(builddir)/vice.info
-	$(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o $(builddir)/vice.info --no-validate --no-split $(srcdir)/vice.texi
 
 if BUILD_PDF
 VICE_DOX += vice.pdf
