@@ -32,7 +32,7 @@
 
 
 static int serial_iec_st = 0;
-static unsigned int listen = 0;
+static unsigned int listen_active = 0;
 static unsigned int talk = 0;
 
 
@@ -59,9 +59,9 @@ int serial_iec_open(unsigned int unit, unsigned int secondary,
 
 int serial_iec_close(unsigned int unit, unsigned int secondary)
 {
-    if (listen) {
+    if (listen_active) {
         serial_iec_bus_unlisten(unit, (uint8_t)secondary, serial_iec_set_st);
-        listen = 0;
+        listen_active = 0;
     }
 
     if (talk) {
@@ -76,9 +76,9 @@ int serial_iec_close(unsigned int unit, unsigned int secondary)
 
 int serial_iec_read(unsigned int unit, unsigned int secondary, uint8_t *data)
 {
-    if (listen) {
+    if (listen_active) {
         serial_iec_bus_unlisten(unit, (uint8_t)secondary, serial_iec_set_st);
-        listen = 0;
+        listen_active = 0;
     }
 
     if (!talk) {
@@ -98,9 +98,9 @@ int serial_iec_write(unsigned int unit, unsigned int secondary, uint8_t data)
         talk = 0;
     }
 
-    if (!listen) {
+    if (!listen_active) {
         serial_iec_bus_listen(unit | 0x20, (uint8_t)secondary, serial_iec_set_st);
-        listen = 1;
+        listen_active = 1;
     }
 
     serial_iec_bus_write(unit, (uint8_t)secondary, data, serial_iec_set_st);
