@@ -19,7 +19,6 @@ MISC_DOX = \
 TEXI_TOOLS = \
 	fixdox.sh \
 	t2h.pl \
-	texi2chm.sh \
 	texi2guide.sh
 
 DOC_TOOLS = \
@@ -84,23 +83,6 @@ $(builddir)/vice.guide:	.vice-texi-charset-ok
 	rm -f tmp.texi vicetmp.texi
 endif
 
-if BUILD_HLP
-VICE_DOX += vice.hlp
-$(builddir)/vice.hlp:	.vice-texi-charset-ok
-	cp $(srcdir)/vice.texi tmp.texi
-	$(srcdir)/fixdox.sh hlp
-	$(MAKERTF) -Dplatformwindows --hpj=vice.hpj --output=vice.rtf vicetmp.texi
-	$(HCRTF) -o VICE.HLP -xn vice.hpj
-	rm -f vice.hpj vice.rtf vicetmp.texi
-	mv VICE.HLP $(builddir)/vice.hlp
-endif
-
-if BUILD_CHM
-VICE_DOX += vice.chm
-$(builddir)/vice.chm:	.vice-texi-charset-ok
-	$(srcdir)/texi2chm.sh $(HHC) $(builddir)/vice.chm $(srcdir)/vice.texi $(srcdir)/fixdox.sh $(srcdir)/t2h.pl
-endif
-
 if BUILD_IPF
 VICE_DOX += vice.inf
 $(builddir)/vice.inf:	.vice-texi-charset-ok
@@ -112,5 +94,8 @@ $(builddir)/vice.inf:	.vice-texi-charset-ok
 	rm -f temp.ipf vicetmp.texi
 endif
 
+# This doesn't appear to delete vice.pdf, vice.chm, vice.guide etc added
+# in this Makefile with VICE_DOX += FOO, perhaps just some ordinary `rm -f`
+# would do better? -- Compyx
 CLEANFILES = .vice-texi-charset-ok $(VICE_DOX)
 

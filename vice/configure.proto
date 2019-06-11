@@ -1741,19 +1741,6 @@ else
 fi
 AC_SUBST(MAKEGUIDE)
 
-dnl check for windows chm compiler
-if test x"$HHC" = "xno"; then
-  AM_CONDITIONAL(BUILD_CHM, false)
-else
-  AM_CONDITIONAL(BUILD_CHM, true)
-fi
-
-dnl check for windows hlp compiler programs
-if test x"$MAKERTF" = "xno" -o x"$HCRTF" = "xno"; then
-  AM_CONDITIONAL(BUILD_HLP, false)
-else
-  AM_CONDITIONAL(BUILD_HLP, true)
-fi
 
 dnl check for os/2 ipf compiler programs
 if test x"$TEXI2IPF" != "xno"; then
