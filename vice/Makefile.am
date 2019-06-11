@@ -26,7 +26,6 @@ COMMON_EXTRA_DIST = \
 	FEEDBACK \
 	INSTALL \
 	NEWS \
-	gcccpu.sh \
 	tixbuildinfo
 
 EXTRA_DIST = $(COMMON_EXTRA_DIST)
