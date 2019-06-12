@@ -781,21 +781,20 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
 
 #define ANE_LOGGING(rdy)                                                                    \
     do {                                                                                    \
-        int result = ((reg_a_read | ANE_MAGIC) & reg_x & p1);                               \
-        int unstablebits = ((reg_a_read ^ 0xff) & (p1 & reg_x));                            \
+        unsigned int result = ((reg_a_read | (rdy ? ANE_RDY_MAGIC : ANE_MAGIC)) & reg_x & p1); \
+        unsigned int unstablebits = ((reg_a_read ^ 0xff) & (p1 & reg_x));                   \
         if ((ane_log_level == 2) || ((ane_log_level == 1) && (unstablebits != 0))) {        \
             if (unstablebits == 0) {                                                        \
                 log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s",  \
-                    reg_pc, p1, reg_a_read, reg_x,                                          \
-                    result & (rdy ? ANE_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "");     \
+                    reg_pc, p1, reg_a_read, reg_x, result, rdy ? " (RDY cycle)" : "");      \
             } else {                                                                        \
-                log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s (unstable bits: %c%c%c%c%c%c%c%c)", \
-                    reg_pc, p1, reg_a_read, reg_x,                                          \
-                    result & (rdy ? ANE_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "",      \
+                log_warning(LOG_DEFAULT, "%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                    reg_pc, p1, reg_a_read, reg_x, result,                                  \
                     unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
                     unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \
                     unstablebits & 0x08 ? '*' : '.', unstablebits & 0x04 ? '*' : '.',       \
-                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.'        \
+                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.',       \
+                    rdy ? " (RDY cycle)" : ""                                               \
                     );                                                                      \
             }                                                                               \
         }                                                                                   \
@@ -812,7 +811,7 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
             LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
             /* TODO: the real behaviour is more complex */          \
             ANE_LOGGING(1);                                         \
-            reg_a_write = (uint8_t)((reg_a_read | ANE_MAGIC) & ANE_RDY_MAGIC & reg_x & p1); \
+            reg_a_write = (uint8_t)((reg_a_read | ANE_RDY_MAGIC) & reg_x & p1); \
         } else {                                                    \
             ANE_LOGGING(0);                                         \
             reg_a_write = (uint8_t)((reg_a_read | ANE_MAGIC) & reg_x & p1); \
@@ -1227,21 +1226,20 @@ static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
 
 #define LXA_LOGGING(rdy)                                                                    \
     do {                                                                                    \
-        int result = (reg_a_read | LXA_MAGIC) & p1;                                         \
-        int unstablebits = (reg_a_read ^ 0xff) & p1;                                        \
+        unsigned int result = (reg_a_read | (rdy ? LXA_RDY_MAGIC : LXA_MAGIC)) & p1;        \
+        unsigned int unstablebits = (reg_a_read ^ 0xff) & p1;                               \
         if ((lxa_log_level == 2) || ((lxa_log_level == 1) && (unstablebits != 0))) {        \
             if (unstablebits == 0) {                                                        \
                 log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s",        \
-                    reg_pc, p1, reg_a_read,                                                 \
-                    result & (rdy ? LXA_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "");     \
+                    reg_pc, p1, reg_a_read, result, rdy ? " (RDY cycle)" : "");             \
             } else {                                                                        \
-                log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s (unstable bits: %c%c%c%c%c%c%c%c)", \
-                    reg_pc, p1, reg_a_read,                                                 \
-                    result & (rdy ? LXA_RDY_MAGIC : 0xffU) , rdy ? " (RDY cycle)" : "",      \
+                log_warning(LOG_DEFAULT, "%04x LAX #$%02x ; A=$%02x -> A=X=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                    reg_pc, p1, reg_a_read, result,                                         \
                     unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
                     unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \
                     unstablebits & 0x08 ? '*' : '.', unstablebits & 0x04 ? '*' : '.',       \
-                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.'        \
+                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.',       \
+                    rdy ? " (RDY cycle)" : ""                                               \
                     );                                                                      \
             }                                                                               \
         }                                                                                   \
@@ -1258,7 +1256,7 @@ static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
             LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
             /* TODO: the real behaviour is more complex */          \
             LXA_LOGGING(1);                                         \
-            reg_a_write = reg_x = (uint8_t)((reg_a_read | LXA_MAGIC) & LXA_RDY_MAGIC & p1); \
+            reg_a_write = reg_x = (uint8_t)((reg_a_read | LXA_RDY_MAGIC) & p1); \
         } else {                                                    \
             LXA_LOGGING(0);                                         \
             reg_a_write = reg_x = (uint8_t)((reg_a_read | LXA_MAGIC) & p1); \
