@@ -119,7 +119,7 @@ unsigned int machine_jam(const char *format, ...)
     if (jam_action == MACHINE_JAM_ACTION_DIALOG) {
         if (monitor_is_remote()) {
             ret = monitor_network_ui_jam_dialog(str);
-        } else {
+        } else if (!console_mode) {
             ret = ui_jam_dialog(str);
         }
     } else if (jam_action == MACHINE_JAM_ACTION_QUIT) {
