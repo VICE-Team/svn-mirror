@@ -225,7 +225,7 @@ done
 
 # copy manual into bundle
 echo -n "[manual] "
-cp "$TOP_DIR/doc/vice.pdf" "$APP_DOCS"
+cp "doc/vice.pdf" "$APP_DOCS"
 
 # embed c1541
 echo -n "[c1541] "
@@ -480,7 +480,7 @@ done
 # --- copy docs ---
 echo "  copying documents"
 cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
-cp $TOP_DIR/README $BUILD_DIR/README.txt
+cp README $BUILD_DIR/README.txt
 mkdir "$BUILD_DIR/doc"
 copy_tree "$TOP_DIR/doc" "$BUILD_DIR/doc"
 mv $BUILD_DIR/doc/readmes/Readme-$UI_TYPE.txt $BUILD_DIR/
@@ -496,7 +496,7 @@ done
 if [ "$UI_TYPE" = "GTK3" ]; then
   # --- copy vice.gresource ---
   echo "  copying vice.gresource"
-  cp "$TOP_DIR/src/arch/gtk3/data/vice.gresource" "$APP_GUI/"
+  cp "src/arch/gtk3/data/vice.gresource" "$APP_GUI/"
 fi
 
 # --- sign apps with apple developer id ---
