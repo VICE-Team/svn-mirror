@@ -166,7 +166,7 @@ GtkWidget *hvsc_stil_widget_create(void)
 
     scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_vexpand(scroll, TRUE);
-    gtk_widget_set_size_request(scroll, 400, 500);
+    gtk_widget_set_size_request(scroll, 400, 400);
     gtk_widget_set_hexpand(scroll, TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
             GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);

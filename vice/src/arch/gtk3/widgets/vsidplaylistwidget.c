@@ -591,6 +591,77 @@ static gboolean on_button_press_event(GtkWidget *view,
 }
 
 
+/** \brief  Event handler for key press events on the playlist
+ *
+ * Delete:  Delete selected rows
+ *
+ * \param[in,out]   view    playlist view widget
+ * \param[in]       event   event reference
+ * \param[in]       data    extra even data
+ *
+ * \return  TRUE when event consumed and no further propagation is needed
+ */
+static gboolean on_key_press_event(GtkWidget *view,
+                                   GdkEvent *event,
+                                   gpointer data)
+{
+    GdkEventType type = ((GdkEventKey *)event)->type;
+
+    if (type == GDK_KEY_PRESS) {
+        guint keyval = ((GdkEventKey *)event)->keyval;  /* key ID */
+        guint state = ((GdkEventKey *)event)->state;    /* modifiers */
+        GtkTreeSelection *selection;
+        GList *rows;
+       GList *elem;
+       GtkTreeModel *model;
+
+        switch (keyval) {
+            case GDK_KEY_Delete:
+                /*
+                 * Delete selected rows
+                 *
+                 * TODO:    Generalize the following code for reuse
+                 *          Make the following available for the contex menu
+                 */
+
+                /* get model in the correct type for gtk_tree_model_get_iter(),
+                 * taking the address of GTK_TREE_MODEL(M) doesn't work.
+                 */
+                model = GTK_TREE_MODEL(playlist_model);
+                /* get current selection */
+                selection = gtk_tree_view_get_selection(
+                        GTK_TREE_VIEW(playlist_view));
+                /* get rows in the selection, which is a GList of GtkTreePath *'s */
+                rows = gtk_tree_selection_get_selected_rows(
+                        selection,
+                        &model);
+
+                /* iterate the list of rows in reverse order to avoid
+                 * invalidating the GtkTreePath*'s in the list
+                 */
+                for (elem = g_list_last(rows); elem != NULL; elem = elem->prev) {
+                    GtkTreePath *path;
+                    GtkTreeIter iter;
+
+                    /* delete row */
+                    path = elem->data;
+                    if (gtk_tree_model_get_iter(
+                                GTK_TREE_MODEL(playlist_model),
+                                &iter,
+                                path)) {
+                        gtk_list_store_remove(playlist_model, &iter);
+                    }
+                }
+                g_list_free(rows);
+                return TRUE;    /* we handled the Delete key */
+            default:
+                return FALSE;
+        }
+    }
+    return FALSE;
+}
+
+
 
 
 /** \brief  Create playlist model
@@ -609,6 +680,7 @@ static void vsid_playlist_view_create(void)
 {
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
+    GtkTreeSelection *selection;
 
     playlist_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(playlist_model));
 
@@ -634,6 +706,10 @@ static void vsid_playlist_view_create(void)
             NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
 
+    /* Allow selecting multiple items (for deletion) */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(playlist_view));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
+
     /*
      * Set event handlers
      */
@@ -641,9 +717,12 @@ static void vsid_playlist_view_create(void)
     /* Enter/double-click */
     g_signal_connect(playlist_view, "row-activated",
             G_CALLBACK(on_row_activated), NULL);
-    /* context menu (right-click, or left-click when you're a retard) */
+    /* context menu (right-click, or left-click) */
     g_signal_connect(playlist_view, "button-press-event",
             G_CALLBACK(on_button_press_event), playlist_view);
+    /* special keys (Del for now) */
+    g_signal_connect(playlist_view, "key-press-event",
+            G_CALLBACK(on_key_press_event), playlist_view);
 }
 
 
