@@ -1271,12 +1271,17 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
     ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
 
-    /* connect keyboard handlers */
-    kbd_connect_handlers(new_window, NULL);
+    /* Connect keyboard handlers, except for VSID
+     *
+     * TODO:    support hotkeys (if required) for VSID
+     */
+    if (machine_class != VICE_MACHINE_VSID) {
+        kbd_connect_handlers(new_window, NULL);
 
-    /* Add default hotkeys that don't have a menu item */
-    if (!kbd_hotkey_add_list(default_hotkeys)) {
-        debug_gtk3("adding hotkeys failed, see the log for details.");
+        /* Add default hotkeys that don't have a menu item */
+        if (!kbd_hotkey_add_list(default_hotkeys)) {
+            debug_gtk3("adding hotkeys failed, see the log for details.");
+        }
     }
 
     /*
