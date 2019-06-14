@@ -106,7 +106,7 @@ typedef enum {
 typedef struct ctx_menu_item_s {
     const char *            text;   /**< displayed text */
     /**< item callback */
-    gboolean                (*callback)(GtkWidget *, gpointer *);
+    gboolean                (*callback)(GtkWidget *, gpointer);
     ctx_menu_item_type_t    type;   /**< menu item type, \see ctx_menu_item_type_t */
 } ctx_menu_item_t;
 
@@ -163,14 +163,18 @@ static const plist_ctrl_button_t controls[] = {
 };
 
 
+static gboolean delete_selected_rows(GtkWidget *widget, gpointer data);
+
 
 static const ctx_menu_item_t cmenu_items[] = {
     { "Play", NULL, CTX_MENU_ACTION },
-    { "Delete", NULL, CTX_MENU_ACTION },
+    { "Delete selected item(s)", delete_selected_rows, CTX_MENU_ACTION },
     { "---", NULL, CTX_MENU_SEP },
     { "Export binary", NULL, CTX_MENU_ACTION },
     { NULL, NULL, -1 }
 };
+
+
 
 
 
@@ -270,6 +274,55 @@ static void add_files_callback(GSList *files)
         pos = g_slist_next(pos);
     } while (pos != NULL);
     g_slist_free(files);
+}
+
+
+/** \brief  Delete selected rows
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  FALSE on error
+ */
+static gboolean delete_selected_rows(GtkWidget *widget, gpointer data)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GList *rows;
+    GList *elem;
+
+    /* get model in the correct type for gtk_tree_model_get_iter(),
+     * taking the address of GTK_TREE_MODEL(M) doesn't work.
+     */
+    model = GTK_TREE_MODEL(playlist_model);
+    /* get current selection */
+    selection = gtk_tree_view_get_selection(
+            GTK_TREE_VIEW(playlist_view));
+    /* get rows in the selection, which is a GList of GtkTreePath *'s */
+    rows = gtk_tree_selection_get_selected_rows(
+            selection,
+            &model);
+
+    /* iterate the list of rows in reverse order to avoid
+     * invalidating the GtkTreePath*'s in the list
+     */
+    for (elem = g_list_last(rows); elem != NULL; elem = elem->prev) {
+        GtkTreePath *path;
+        GtkTreeIter iter;
+
+        /* delete row */
+        path = elem->data;
+        if (gtk_tree_model_get_iter(
+                    GTK_TREE_MODEL(playlist_model),
+                    &iter,
+                    path)) {
+            gtk_list_store_remove(playlist_model, &iter);
+        } else {
+            return FALSE;
+        }
+    }
+    g_list_free(rows);
+    return TRUE;
 }
 
 
@@ -610,50 +663,11 @@ static gboolean on_key_press_event(GtkWidget *view,
     if (type == GDK_KEY_PRESS) {
         guint keyval = ((GdkEventKey *)event)->keyval;  /* key ID */
         guint state = ((GdkEventKey *)event)->state;    /* modifiers */
-        GtkTreeSelection *selection;
-        GList *rows;
-       GList *elem;
-       GtkTreeModel *model;
 
         switch (keyval) {
             case GDK_KEY_Delete:
-                /*
-                 * Delete selected rows
-                 *
-                 * TODO:    Generalize the following code for reuse
-                 *          Make the following available for the contex menu
-                 */
-
-                /* get model in the correct type for gtk_tree_model_get_iter(),
-                 * taking the address of GTK_TREE_MODEL(M) doesn't work.
-                 */
-                model = GTK_TREE_MODEL(playlist_model);
-                /* get current selection */
-                selection = gtk_tree_view_get_selection(
-                        GTK_TREE_VIEW(playlist_view));
-                /* get rows in the selection, which is a GList of GtkTreePath *'s */
-                rows = gtk_tree_selection_get_selected_rows(
-                        selection,
-                        &model);
-
-                /* iterate the list of rows in reverse order to avoid
-                 * invalidating the GtkTreePath*'s in the list
-                 */
-                for (elem = g_list_last(rows); elem != NULL; elem = elem->prev) {
-                    GtkTreePath *path;
-                    GtkTreeIter iter;
-
-                    /* delete row */
-                    path = elem->data;
-                    if (gtk_tree_model_get_iter(
-                                GTK_TREE_MODEL(playlist_model),
-                                &iter,
-                                path)) {
-                        gtk_list_store_remove(playlist_model, &iter);
-                    }
-                }
-                g_list_free(rows);
-                return TRUE;    /* we handled the Delete key */
+                /* Delete selected rows */
+                return delete_selected_rows(view, NULL);
             default:
                 return FALSE;
         }
