@@ -111,9 +111,24 @@ typedef struct ctx_menu_item_s {
 } ctx_menu_item_t;
 
 
+/** \brief  VSID Hotkey info object
+ */
+typedef struct vsid_hotkey_s {
+    guint keyval;                                   /**< GDK key value */
+    guint modifiers;                                /**< GDK modifiers */
+    gboolean (*callback)(GtkWidget *, gpointer);    /**< hotkey callback */
+} vsid_hotkey_t;
+
+
 /*
  * Forward declarations
  */
+
+
+static gboolean delete_all_rows(GtkWidget *widget, gpointer data);
+static gboolean delete_selected_rows(GtkWidget *widget, gpointer data);
+static gboolean open_add_dialog(GtkWidget *widget, gpointer data);
+
 static void on_playlist_append_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_remove_clicked(GtkWidget *widget, gpointer data);
 static void on_playlist_next_clicked(GtkWidget *widget, gpointer data);
@@ -163,9 +178,8 @@ static const plist_ctrl_button_t controls[] = {
 };
 
 
-static gboolean delete_selected_rows(GtkWidget *widget, gpointer data);
-
-
+/** \brief  Playlist context menu items
+ */
 static const ctx_menu_item_t cmenu_items[] = {
     { "Play", NULL, CTX_MENU_ACTION },
     { "Delete selected item(s)", delete_selected_rows, CTX_MENU_ACTION },
@@ -175,6 +189,14 @@ static const ctx_menu_item_t cmenu_items[] = {
 };
 
 
+/** \brief  Playlist hotkeys
+ */
+static const vsid_hotkey_t hotkeys[] = {
+    { GDK_KEY_Insert,   0,              open_add_dialog },
+    { GDK_KEY_Delete,   0,              delete_selected_rows },
+    { GDK_KEY_Delete,   GDK_SHIFT_MASK, delete_all_rows },
+    { 0, 0, NULL }
+};
 
 
 
@@ -324,6 +346,35 @@ static gboolean delete_selected_rows(GtkWidget *widget, gpointer data)
     g_list_free(rows);
     return TRUE;
 }
+
+
+/** \brief  Delete the entire playlist
+ *
+ * \param[in]   widget  widget triggering the callback (unused)
+ * \param[in]   data    event reference (unused)
+ *
+ * \return  TRUE
+ */
+static gboolean delete_all_rows(GtkWidget *widget, gpointer data)
+{
+    gtk_list_store_clear(playlist_model);
+    return TRUE;
+}
+
+
+/** \brief  Callback for the Insert hotkey
+ *
+ * \param[in]   widget  widget triggering the callback (unused)
+ * \param[in]   data    event reference (unused)
+ *
+ * \return  TRUE
+ */
+static gboolean open_add_dialog(GtkWidget *widget, gpointer data)
+{
+    vsid_playlist_add_dialog_exec(add_files_callback);
+    return TRUE;
+}
+
 
 
 /** \brief  Update title of the widget with number of entries in the list
@@ -489,7 +540,7 @@ static void on_playlist_last_clicked(GtkWidget *widget, gpointer data)
 static void on_playlist_clear_clicked(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("Called!");
-    gtk_list_store_clear(playlist_model);
+    delete_all_rows(NULL, NULL);
 }
 
 
@@ -662,14 +713,16 @@ static gboolean on_key_press_event(GtkWidget *view,
 
     if (type == GDK_KEY_PRESS) {
         guint keyval = ((GdkEventKey *)event)->keyval;  /* key ID */
-        guint state = ((GdkEventKey *)event)->state;    /* modifiers */
+        guint modifiers = ((GdkEventKey *)event)->state;    /* modifiers */
+        int i;
 
-        switch (keyval) {
-            case GDK_KEY_Delete:
-                /* Delete selected rows */
-                return delete_selected_rows(view, NULL);
-            default:
-                return FALSE;
+        for (i = 0; hotkeys[i].keyval != 0; i++) {
+            if (hotkeys[i].keyval == keyval
+                    && hotkeys[i].modifiers == modifiers) {
+                if (hotkeys[i].callback != NULL) {
+                    return hotkeys[i].callback(view, event);
+                }
+            }
         }
     }
     return FALSE;
