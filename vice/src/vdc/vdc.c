@@ -38,6 +38,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "raster.h"
+#include "raster-canvas.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"
@@ -89,35 +90,25 @@ static void vdc_set_geometry(void)
 {
     raster_t *raster;
     unsigned int screen_width, screen_height;
-    unsigned int first_displayed_line, last_displayed_line;
-    unsigned int screen_xpix, screen_ypix;
-    unsigned int border_height, border_width;
-    unsigned int vdc_25row_start_line, vdc_25row_stop_line;
-    unsigned int displayed_width, displayed_height;
+    /* unsigned int first_displayed_line, last_displayed_line; */
+    unsigned int screen_xpix; /*, screen_ypix; */
+    unsigned int border_width;  /* border_height, */
+    /* unsigned int vdc_25row_start_line, vdc_25row_stop_line; */
+    /* unsigned int displayed_width, displayed_height; */
     unsigned int vdc_80col_start_pixel, vdc_80col_stop_pixel;
 
     raster = &vdc.raster;
-
-    screen_width = VDC_SCREEN_WIDTH;
-    screen_height = VDC_SCREEN_HEIGHT;
-
-    first_displayed_line = vdc.first_displayed_line;
-    last_displayed_line = vdc.last_displayed_line;
+    /* total visible pixels including border(s) - constants defined in vdctypes.h */
+    screen_width = VDC_SCREEN_WIDTH;    /* 856 */
+    screen_height = 288;    /* maximum number of raster lines visible on a PAL system. also the same as old winvice    //VDC_SCREEN_HEIGHT;  //312 */
 
     screen_xpix = vdc.screen_xpix;
-    screen_ypix = vdc.screen_ypix;
 
     border_width = vdc.border_width;
-    border_height = vdc.border_height;
-
-    vdc_25row_start_line = border_height;
-    vdc_25row_stop_line = vdc_25row_start_line + screen_ypix;
 
     vdc_80col_start_pixel = border_width;
     vdc_80col_stop_pixel = vdc_80col_start_pixel + vdc.charwidth * vdc.screen_text_cols;
 
-    displayed_width = VDC_SCREEN_WIDTH;
-    displayed_height = last_displayed_line - first_displayed_line + 1;
 
 /*
 printf("SH: %03i SW: %03i\n", screen_height, screen_width);
@@ -128,20 +119,20 @@ printf("SA: %03i SO: %03i\n", vdc_25row_start_line, vdc_25row_stop_line);
 printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
 */
 
-    raster->display_ystart = vdc_25row_start_line;
-    raster->display_ystop = vdc_25row_stop_line;
+    raster->display_ystart = 1;
+    raster->display_ystop = 1 + VDC_SCREEN_HEIGHT;
     raster->display_xstart = vdc_80col_start_pixel;
     raster->display_xstop = vdc_80col_stop_pixel;
 
     raster_set_geometry(raster,
-                        displayed_width, displayed_height,  /* canvas - physically displayed width/height, ie size of visible window */
-                        screen_width, screen_height,        /* width/height of virtual screen */
-                        screen_xpix, screen_ypix,   /* size of the foreground area (pixels) */
-                        VDC_SCREEN_MAX_TEXTCOLS, vdc.screen_textlines,  /* size of the foreground area (characters) */
-                        border_width, vdc_25row_start_line, /* gfx_pos_x/y - position of visible screen in virtual coords */
+                        screen_width, screen_height,  /* canvas - physically displayed width/height, ie size of visible window */
+                        screen_width, 1024,        /* width/height of virtual screen - FIXME we should make the width 1024 as well but the xsync code interacts with this the wrong way */
+                        screen_xpix, screen_height,   /* size of the foreground area (pixels) */
+                        VDC_SCREEN_MAX_TEXTCOLS, 256,  /* size of the foreground area (characters) */
+                        border_width, 0, /* gfx_pos_x/y - position of visible screen in virtual coords */
                         0,  /* gfx_area_moves */
-                        first_displayed_line,   /* 1st line of virtual screen physically visible */
-                        last_displayed_line,    /* last line physically visible */
+                        0,   /* 1st line of virtual screen physically visible */
+                        1024 -1,    /* last line physically visible */
                         0, 0); /* extra off screen border left / right */
 
     raster->geometry->pixel_aspect_ratio = vdc_get_pixel_aspect();
@@ -282,6 +273,9 @@ static void vdc_update_geometry(void)
         hsync = 116 * 8            /* 928 */
             - vdc.regs[2] * vdc.charwidth;       /* default (102) - 816 = 112 */
     }
+    /* FIXME sync / left border calculation should probably be something like:
+        Total Width: (127+1) * 8 = 1024     - Hsync Pos: 102 * 8 = 816    - Hsync width: 9 * 8 = 72    = 136 (17 chars)
+        e.g. hsync = (vdc.regs[0] + 1) * vdc.charwidth - vdc.regs[2] * vdc.charwidth - (vdc.regs[3] & 0x0F) * vdc.charwidth; */
     /* FIXME: It's potentially valid for the active display area to start off the left (or right) of the display,
         because the VDC can put the horizontal sync anywhere. But we can't really emulate that (yet) without things crashing. */
     if (hsync < 0) {
@@ -320,6 +314,8 @@ void vdc_reset(void)
     vdc.regs[5] = 0;
     vdc.regs[6] = 25;
     vdc.regs[9] = vdc.raster_ycounter_max = 7;
+    vdc.regs[22] = 0x78;
+    vdc.charwidth = 8;
     vdc.attribute_offset = 0;
     vdc.border_height = 59;
     vdc.bytes_per_char = 16;
@@ -420,212 +416,227 @@ static void vdc_set_video_mode(void)
     vdc.raster.video_mode = (vdc.regs[25] & 0x80)
                             ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
 
-    if (vdc.raster.ycounter > (unsigned int)(vdc.regs[9] & 0x1f)) {
+    if (vdc.draw_counter_y > (unsigned int)(vdc.regs[9] & 0x1f)) {
         vdc.raster.video_mode = VDC_IDLE_MODE;
     }
 }
 
 
 /* Redraw the current raster line. */
+/* This was mostly re-written from scratch in May-June 2019 by Strobe to develop,
+ and then correctly emulate the VDC101 demo which uses a new raster split technique
+ that forces the VDC to display multiple frames as if they are one frame.
+ The old code assumed a mostly static screen and couldn't cope.
+ The new code is intended to function a bit more like the VDC does internally
+ (or at least how we think it does).. */
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
-    int in_idle_state, calculated_border_height, i;
-    static unsigned int old_screen_adr, old_attribute_adr, screen_ystart, need_increment_memory_pointer;
-
-    /* Update the memory pointers just before we draw the next line (vs after last line),
-       in case relevant registers changed since last call. */
-    if (need_increment_memory_pointer) {
-        vdc_increment_memory_pointer();
-        /* If interlace we need to skip a line, so we increment again */
-        if ((vdc.regs[8] & 0x03) == 3) {
-            if (vdc.regs[25] & 0x80) {    /* in interlace bitmap mode we want to increment the attribute memory pointer again, but not the bitmap pointer */
-                vdc_increment_memory_pointer_interlace_bitmap();
-            } else {    /* text mode */
-                vdc_increment_memory_pointer();
+    /*  Video signal handling section ----------------------------------------------------------------------------------------------------------*/
+    if (vdc.row_counter_y == (vdc.regs[9] & 0x1F)) {    /* we've just drawn the last raster line of the current character row, so.. */
+        /*  Handle a new row from the video signal side:
+            - restart internal counters if we've displayed a full frame
+            - drawing starting e.g. pass top border
+            - drawing stopping e.g. pass into bottom border
+            - start or stop vsync pulse */
+        vdc.row_counter_y = 0;
+        
+        /* FIXME we know the row counter doesn't seem to increase in FLI mode, but this is probably not why */
+        if (vdc.regs[9] & 0x1F) {
+            /* Update the row counter because we are starting a new line */
+            vdc.row_counter++;
+            vdc.row_counter &= 0xFF;
+        }
+        
+        if (vdc.vsync) {    /* if we are in vertical sync pulse */
+            vdc.vsync_counter++;
+            vdc.vsync_counter &= 0x0F;
+            
+            /* Check if we are now out of the pulse == at first visible raster line, and reset the raster to the top of the screen if so */
+            if (vdc.vsync_counter == ((vdc.regs[3] >> 4) & 0x0F)) {
+                vdc.vsync = 0;
+                
+                /* This SEEMS to work to reset the raster to 0, based on ted.c, but maybe there is something else needed? */
+                vdc.raster.current_line = 0;
+                raster_canvas_handle_end_of_frame(&vdc.raster);
+            
+                vdc.frame_counter++;    /* As far as the frame counter is concerned, we are now on a new frame */
+                if (vdc.regs[24] & 0x20) {
+                    vdc.attribute_blink = vdc.frame_counter & 16;
+                } else {
+                    vdc.attribute_blink = vdc.frame_counter & 8;
+                }
+                
+                /* FIXME I doubt all this is required any more: */
+                if (vdc.update_geometry) {
+                    vdc_update_geometry();
+                    vdc.force_resize = 1;
+                    vdc.force_repaint = 1;
+                    /* Screen height has changed, so do not invalidate cache with
+                       the new value.  It will be recreated by resize anyway.  */
+                    vdc.force_cache_flush = 0;
+                } else {
+                    if (vdc.force_cache_flush) {
+                        vdc_invalidate_cache(&vdc.raster, vdc.screen_height);
+                        vdc.force_cache_flush = 0;
+                    }
+                }
+                if (vdc.force_resize) {
+                    if (vdc.initialized) {
+                        vdc_set_geometry();
+                        raster_mode_change();
+                    }
+                    vdc.force_resize = 0;
+                }
+                if (vdc.force_repaint) {
+                    vdc.force_repaint = 0;
+                    raster_force_repaint(&vdc.raster);
+                }
+            
+                /* Restart drawing if we're past the sync but we should still be drawing */
+                if (vdc.draw_active) {
+                    vdc_set_video_mode();
+                }
             }
         }
-        need_increment_memory_pointer = 0;
+        
+        /* FIXME this seems a bit messy and/or is in the wrong spot */
+        if (vdc.row_counter == 1) { /* we think anything visible starts on internal row 1 */
+            vdc.display_enable = 1;
+            vdc_set_video_mode();
+        }
+        
+        /* check if we are at the end of the active area, e.g. after last visible row, normally #25 */
+        if (vdc.row_counter > vdc.regs[6])  {
+            vdc.display_enable = 0;
+            vdc.raster.video_mode = VDC_IDLE_MODE;
+            /* FIXME handle prebuffering next line here and/or in draw section */
+        }
+        
+        /* Check if we've hit past the last char row and we should restart
+            FIXME comparison looks wrong, probably not a > ?
+            FIXME Also this draws the actual number of rows in reg 4, which is 1 less than what MTC128 says it should be drawing (even though the timing is then correct for e.g. RFO..) */
+        if (vdc.row_counter > (vdc.regs[4])) {
+            /* FIXME handle vertical fine adjust vdc.regs[5] */
+            vdc.row_counter = 0;
+            vdc.row_counter_y = 0;
+            vdc.prime_draw = 1;
+            
+            /* FIXME fall through catch in case the attribute pointers didn't latch. Probably not exactly what the chip does... */
+            if (!vdc.draw_finished) {
+                /* Reset address pointers */
+                vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
+                    & vdc.vdc_address_mask;
+                vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
+                    & vdc.vdc_address_mask;
+                if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
+                    /* the cache can't cleanly handle these changing */
+                    vdc.force_repaint = 1;
+                    vdc.old_screen_adr = vdc.screen_adr;
+                    vdc.old_attribute_adr = vdc.attribute_adr;
+                }
+                vdc.mem_counter = 0;
+                vdc.bitmap_counter = 0;
+            }
+            vdc.draw_finished = 1;
+        }
+        
+        /* check if we've hit the vsync position and should start vsync */
+        if (vdc.row_counter == vdc.regs[7]) {
+            vdc.vsync = 1;
+            
+            /* Starting with 1 instead of 0 seems wrong but gives the correct results. It suggests the vertical sync pulse is smaller than it should be according to documentation.. */
+            vdc.vsync_counter = 1;  
+            
+            /*FIXME change this to black or some other mode so it works more obviously that you're in vsync and make sure it restarts drawing past the pulse */
+            vdc.raster.video_mode = VDC_IDLE_MODE;
+        }
+    } else {
+        vdc.row_counter_y++;
+        vdc.row_counter_y &= 0x1F;
     }
+    /* END Video signal handling section ----------------------------------------------------------------------------------------------------------*/
 
-    /* VDC locks in the screen/attr start addresses after the last raster line of foreground */
-    if (vdc.raster.current_line == vdc.border_height + vdc.screen_ypix + 1) {
+
+    /* This is where previous builds of vice latched in the screen & attribute addresses,
+        i.e. not the first raster line after the last active row, but the 2nd
+        FIXME - it doesn't seem quite 'right' but it works.
+        e.g. changing it to the first raster line with row_counter_y == 0 breaks RFO logo swinger and techtech */
+    if ((vdc.row_counter == vdc.regs[6] + 1) && (vdc.row_counter_y == 1 )) {
+        vdc.draw_active = 0;
+        vdc.draw_finished = 1;
+        
+        /* Reset address pointers */
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                          & vdc.vdc_address_mask;
         vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
                             & vdc.vdc_address_mask;
-        if (old_screen_adr != vdc.screen_adr || old_attribute_adr != vdc.attribute_adr) {
+        if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
             /* the cache can't cleanly handle these changing */
             vdc.force_repaint = 1;
-            old_screen_adr = vdc.screen_adr;
-            old_attribute_adr = vdc.attribute_adr;
+            vdc.old_screen_adr = vdc.screen_adr;
+            vdc.old_attribute_adr = vdc.attribute_adr;
         }
+        vdc.mem_counter = 0;
+        vdc.bitmap_counter = 0;
     }
 
-    if (vdc.raster.current_line == 0) { /* We are on the first raster line, so go reset and/or handle everything for a new frame */
-        /* The top border position is based on the position of the vertical
-           sync pulse [7] in relation to the total height of the screen [4]
-           and the width of the sync pulse [3] */
-        calculated_border_height = (vdc.regs[4] + 1 - vdc.regs[7])  /* # of rows from sync pulse */
-                                   * ((vdc.regs[9] & 0x1f) + 1)     /* height of each row (R9) */
-                                   - (vdc.regs[3] >> 4)             /* vertical sync pulse width */
-                                   + (vdc.regs[5] & 0x1f);          /* vertical total adjust */
 
-        if (calculated_border_height >= 0 && calculated_border_height <= VDC_SCREEN_HEIGHT) {
-            vdc.border_height = calculated_border_height;
+    /*  START drawing section ----------------------------------------------------------------------------------------------------------------*/
+    /* Handle the beginning of the drawing process/set up, on/after internal row # 0 */
+    if (vdc.prime_draw) {
+        if ((vdc.row_counter == 0) && (vdc.row_counter_y == 0)) {
+            /* set up for smooth scroll comparison */
+            vdc.draw_counter_y = (vdc.regs[24] & 0x1F);     /* this could be moved up into the screen handling section? */
         } else {
-            vdc.border_height = 0;
+            if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F)) {
+                /* we latch on now and start drawing on the next call, even if that's invisible because it's above the top border */
+                vdc.draw_counter_y = 0;
+                vdc.prime_draw = 0;
+                vdc.draw_active = 1;
+            } else {
+                vdc.draw_counter_y++;
+                vdc.draw_counter_y &= 0x1F;
+            }
         }
-        vdc.screen_ypix = vdc.regs[6] * ((vdc.regs[9] & 0x1f) + 1);
-        /* screen_ystart is the raster line the foreground data actually starts on, which may be above or below the border */
-        screen_ystart = vdc.border_height + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical smooth scroll, which interacts with the screen & R9 like this based on experimentation. */
-        vdc.border_height = vdc.border_height + (vdc.regs[9] & 0x1f);
-        
-        /* If interlace we need to adjust the borders and screen height because they are twice as big otherwise */
-        if ((vdc.regs[8] & 0x03) == 3)  {
-            vdc.border_height >>= 1;
-            vdc.screen_ypix >>= 1;
-            screen_ystart >>= 1;
-        }
-        
-        /* fix to catch the end of the display for the bitmap/character memory pointers */
-        if ((vdc.border_height + vdc.screen_ypix + 1) > vdc.last_displayed_line) {
-            vdc.screen_ypix = vdc.last_displayed_line - vdc.border_height - 1;
-        }
-        vdc.raster.display_ystart = vdc.border_height;
-        vdc.raster.display_ystop = vdc.border_height + vdc.screen_ypix;
-        vdc.row_counter = 0;
-        vdc.row_counter_y = vdc.raster_ycounter_max;
-        vdc.raster.video_mode = VDC_IDLE_MODE;
-        vdc.frame_counter++;    /* Note that as far as the frame counter is concerned, we are now on a new frame */
-        if (vdc.regs[24] & 0x20) {
-            vdc.attribute_blink = vdc.frame_counter & 16;
+    
+    /* Handle the normal drawing case */
+    } else if (vdc.draw_active) {
+        if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F)) {
+            vdc.draw_counter_y = 0;
+            
+            /* FIXME We've just drawn the last raster line of the current row, should probably load those buffers or so.. */
+            
+            /* increment memory pointers etc. for a new character row */
+            vdc.mem_counter_inc = vdc.screen_text_cols;
+            vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
+            vdc.mem_counter &= vdc.vdc_address_mask;
+            vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
+            vdc.bitmap_counter &= vdc.vdc_address_mask;
         } else {
-            vdc.attribute_blink = vdc.frame_counter & 8;
+            /* increment memory pointers etc. for a new raster line */
+            vdc.draw_counter_y++;
+            vdc.draw_counter_y &= 0x1F;
+            vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
+            vdc.bitmap_counter &= vdc.vdc_address_mask;
         }
-        
-        /* Normally we would reset all the memory pointers etc. on a new frame.
-        BUT, in one particular circumstance we don't - interlace bitmap mode on an even frame -
-        because interlace bitmap is interleaved, we want it to keep reading into the 2nd bank on the even frame
-        (it starts on an odd frame) */
-        if (((vdc.regs[8] & 0x03) == 3)  /* interlace */
-            && (vdc.regs[25] & 0x80)    /* bitmap mode */
-            && !(vdc.frame_counter & 1)) { /* even frame */
-            /* FIXME: hideous hacks to fix VDCModeMania
-               Need to figure out WTF the VDC is doing with its memory pointers that we need this much hackery.. */
-            switch (vdc.regs[4]) {
-                case 0x84:  /* Option 1 - NTSC  Interlace */
-                    for (i = 0; i < 20; i++) { /* decrement the memory pointer a few times based on [WTF?] */
-                        vdc.mem_counter -= vdc.mem_counter_inc + vdc.regs[27];
-                    }
-                    for (i = 0; i < 40; i++) { /* decrement the bitmap memory pointer a few times based on how many columns are in a row */
-                        vdc.bitmap_counter -= (vdc.mem_counter_inc + vdc.regs[27]);
-                    }
-                    break;
-                case 0x68:  /* Option 2 - PAL Interlace */
-                    for (i = 0; i < 47; i++) { /* increment the memory pointer a few times based on [WTF?] */
-                        vdc_increment_memory_pointer_interlace_bitmap();    /* increment everything except the bitmap pointer */
-                    }
-                    for (i = 0; i < 23; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
-                        vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
-                    }
-                    break;
-                case 0x6a:  /* Option 5 - "VDC-IMONO" 720x700 Mono Interlace */
-                    for (i = 0; i < 83; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
-                        vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
-                    }
-                    break;
-                case 0x5c:  /* Option 6 - "VDC-IM800" 800x600 Mono Interlace */
-                    for (i = 0; i < 34; i++) { /* increment the bitmap memory pointer a few times based on how many columns are in a row */
-                        vdc.bitmap_counter += (vdc.mem_counter_inc + vdc.regs[27]);
-                    }
-                    break;
-                case 0x4c:  /* Platoterm - 640x532 Mono Interlace */
-                    for (i = 0; i < 20; i++) { /* decrement the bitmap memory pointer a few times based on how many columns are in a row */
-                        vdc.bitmap_counter -= (vdc.mem_counter_inc + vdc.regs[27]);
-                    }
-                    break;
-            }
-        } else {    /* Reset all the internal VDC memory pointers and counters to 0 */
-            vdc.mem_counter = 0;
-            need_increment_memory_pointer = 0;
-            vdc.bitmap_counter = 0;
-            vdc.raster.ycounter = 0;
-        }
-        
-        /* If interlace mode we need to skip to the 2nd line on an odd frame so that we render the odd field vs the even */
-        if (((vdc.regs[8] & 0x03) == 3)     /* interlace and */
-        && (vdc.frame_counter & 1)) {       /* odd frame */
-            if (!(vdc.regs[25] & 0x80)) {   /* text mode */
-                vdc_increment_memory_pointer();
-            } else {                        /* bitmap mode */
-                /* FIXME: this hack fixes VDCModeMania, but I'm not completely sure why, or if it's correct in general.. */
-                /* Add half the number of raster lines in a char * number of characters in a row, to the bitmap pointer only
-                    effectively skips the bitmap pointer over one full (interlace) attribute cell row worth of bitmap data
-                    but why, because we don't increment the attribute pointer?? */
-                vdc.bitmap_counter += (((vdc.regs[9] & 0x1f) + 1) >> 1) * (vdc.mem_counter_inc + vdc.regs[27]);
-            }
-        }
-        
-        if (vdc.update_geometry) {
-            vdc_update_geometry();
-            vdc.force_resize = 1;
-            vdc.force_repaint = 1;
-            /* Screen height has changed, so do not invalidate cache with
-               the new value.  It will be recreated by resize anyway.  */
-            vdc.force_cache_flush = 0;
-        } else {
-            if (vdc.force_cache_flush) {
-                vdc_invalidate_cache(&vdc.raster, vdc.screen_height);
-                vdc.force_cache_flush = 0;
-            }
-        }
-
-        if (vdc.force_resize) {
-            if (vdc.initialized) {
-                vdc_set_geometry();
-                raster_mode_change();
-            }
-            vdc.force_resize = 0;
-        }
-
-        if (vdc.force_repaint) {
-            vdc.force_repaint = 0;
-            raster_force_repaint(&vdc.raster);
-        }
-    }
-
-    /* If in_idle_state then we are not drawing anything on the current raster line */
-    in_idle_state = (vdc.raster.current_line < vdc.border_height)
-                    || vdc.raster.current_line < screen_ystart
-                    || (vdc.raster.current_line >= (vdc.border_height + vdc.screen_ypix));
-
-    if (!in_idle_state) {
-        vdc_set_video_mode();
     } else {
-        vdc.raster.video_mode = VDC_IDLE_MODE;
+        /* FIXME handle the last visible(ish) row situation better
+           Implied: vdc.prime_draw == 0 && vdc.draw_active == 0 */
     }
+    vdc.raster.ycounter = vdc.draw_counter_y;   /* FIXME quick hack. maybe just use ycounter in the first place? Check side effects with memory inc functions */
+    /*  END drawing section ----------------------------------------------------------------------------------------------------------------*/
+
+
+    /* FIXME this is a hack to get the "background" between the "left and right" top & bottom border areas actually drawn when the cache is on.
+        Strongly suspect raster code is broken at this point, or at least confused, as it always draws black even though the colours are set.. */
+    if (vdc.raster.cache_enabled && !vdc.display_enable) {
+        vdc.raster.blank_this_line = 1;
+    }
+
 
     /* actually draw the current raster line */
     raster_line_emulate(&vdc.raster);
 
-    /* see if we still should be drawing things - if we haven't drawn more than regs[6] rows since the top border */
-    if (!in_idle_state) {
-        vdc.row_counter_y--;
-        if (vdc.row_counter_y < 0) {
-            vdc.row_counter_y = vdc.raster_ycounter_max;
-            /* update the row counter if we are starting a new line */
-            vdc.row_counter++;
-            /* check if we are at the end of the display */
-            if (vdc.row_counter == vdc.regs[6]) {
-                /* vdc.last_displayed_line = vdc.raster.current_line; */
-                /* FIXME - this is really a hack to lock in the screen/attr addresses at the next raster alarm handler */
-                vdc.screen_ypix = vdc.raster.current_line - vdc.border_height;
-            }
-        }
-    }
-
-    /* update the memory pointers if we are past screen_ystart, which may be above or below the top border */
-    need_increment_memory_pointer = (vdc.raster.current_line > screen_ystart);
 
     vdc_set_next_alarm(offset);
 }

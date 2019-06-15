@@ -547,8 +547,9 @@ uint8_t vdc_read(uint16_t addr)
             retval |= 0x40;
         }
 
-        /* Emulate vblank bit.  */
-        if ((vdc.raster.current_line <= vdc.border_height) || (vdc.raster.current_line > (vdc.border_height + vdc.screen_ypix))) {
+        /* Emulate VBLANK bit. If the bit is set, we are in the top or bottom border. If zero we are in the active area.
+           Confusingly this has nothing to do with vertical retrace or vertical sync pulse, despite the name & what documentation says. */
+        if (!vdc.display_enable) {
             retval |= 0x20;
         }
 
