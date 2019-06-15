@@ -133,7 +133,9 @@ if test x"$CROSS" != "xtrue"; then
   cd $MINGW_PREFIX
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
-  cp --parents -a share/icons/Adwaita $BUILDPATH
+  # Gtk3 accepts only having scalable icons, which reduces the bindist size
+  # considerably
+  cp --parents -a share/icons/Adwaita/scalable $BUILDPATH
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cd - >/dev/null
 else
