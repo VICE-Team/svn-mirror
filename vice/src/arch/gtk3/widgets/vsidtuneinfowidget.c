@@ -210,12 +210,13 @@ static GtkWidget *create_tune_num_widget(void)
  */
 static void update_tune_num_widget(void)
 {
-    char *text;
+    gchar buffer[256];
 
-    text = lib_msprintf("%d of %d (Default: %d)",
+    g_snprintf(buffer, 256,
+            "%d of %d (default: %d)",
             tune_current, tune_count, tune_default);
-    gtk_label_set_text(GTK_LABEL(tune_num_widget), text);
-    lib_free(text);
+
+    gtk_label_set_text(GTK_LABEL(tune_num_widget), buffer);
 }
 
 
