@@ -432,20 +432,18 @@ static void vdc_set_video_mode(void)
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     /*  Video signal handling section ----------------------------------------------------------------------------------------------------------*/
-    if (vdc.row_counter_y == (vdc.regs[9] & 0x1F)) {    /* we've just drawn the last raster line of the current character row, so.. */
-        /*  Handle a new row from the video signal side:
+    if (vdc.row_counter_y >= (vdc.regs[9] & 0x1F)) {    /* changed this from == to >= to fix RFO FLI, but not convinced that's correct. Could be a timing thing. also see draw >= change below */
+        /* We've just drawn the last raster line of the current character row,
+            so handle a new row from the video signal side:
             - restart internal counters if we've displayed a full frame
             - drawing starting e.g. pass top border
             - drawing stopping e.g. pass into bottom border
             - start or stop vsync pulse */
         vdc.row_counter_y = 0;
         
-        /* FIXME we know the row counter doesn't seem to increase in FLI mode, but this is probably not why */
-        if (vdc.regs[9] & 0x1F) {
-            /* Update the row counter because we are starting a new line */
-            vdc.row_counter++;
-            vdc.row_counter &= 0xFF;
-        }
+        /* Update the row counter because we are starting a new line */
+        vdc.row_counter++;
+        vdc.row_counter &= 0xFF;
         
         if (vdc.vsync) {    /* if we are in vertical sync pulse */
             vdc.vsync_counter++;
@@ -601,7 +599,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     
     /* Handle the normal drawing case */
     } else if (vdc.draw_active) {
-        if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F)) {
+        if (vdc.draw_counter_y >= (vdc.regs[9] & 0x1F)) {   /* changed this from == to >= to fix RFO FLI, but not convinced that's correct. Could be a timing thing. also see video >= change above */
             vdc.draw_counter_y = 0;
             
             /* FIXME We've just drawn the last raster line of the current row, should probably load those buffers or so.. */
