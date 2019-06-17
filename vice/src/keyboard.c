@@ -60,7 +60,7 @@
 #include "util.h"
 #include "vice-event.h"
 
-#define DBGKBD
+/* #define DBGKBD */
 
 #ifdef DBGKBD
 #define DBG(x)  printf x
@@ -1270,7 +1270,12 @@ static int machine_keyboard_mapping = 0;
 static int machine_keyboard_type = 0;
 
 static int try_set_keymap_file(int atidx, int idx, int mapping, int type);
-static int switch_keymap_file(int *idxp, int *mapp, int *typep);
+
+#define KBD_SWITCH_DEFAULT      0
+#define KBD_SWITCH_MAPPING      1
+#define KBD_SWITCH_INDEX        2
+#define KBD_SWITCH_TYPE         3
+static int switch_keymap_file(int sw, int *idxp, int *mapp, int *typep);
 
 /* (re)load keymap at index */
 static int load_keymap_file(int val)
@@ -1354,7 +1359,7 @@ int keyboard_set_keymap_index(int val, void *param)
     DBG((">keyboard_set_keymap_index(idx:%d mapping:%d type:%d)\n", val, mapping, type));
 
     if (val < 2) {
-        if (switch_keymap_file(&val, &mapping, &type) < 0) {
+        if (switch_keymap_file(KBD_SWITCH_INDEX, &val, &mapping, &type) < 0) {
             DBG(("<keyboard_set_keymap_index switch_keymap_file ERROR\n"));
             log_error(keyboard_log, "Default keymap not found, this should be fixed. Going on anyway...");
             /* return -1; */
@@ -1384,7 +1389,7 @@ static int keyboard_set_keyboard_type(int val, void *param)
 
     DBG((">keyboard_set_keyboard_type(idx:%d mapping:%d type:%d)\n", idx, mapping, val));
     if (idx < 2) {
-        if (switch_keymap_file(&idx, &mapping, &val) < 0) {
+        if (switch_keymap_file(KBD_SWITCH_TYPE, &idx, &mapping, &val) < 0) {
             log_error(keyboard_log, "Default keymap not found, this should be fixed. Going on anyway...");
             /* return -1; */
             return 0; /* HACK: allow to start up when default keymap is missing */
@@ -1415,7 +1420,7 @@ static int keyboard_set_keyboard_mapping(int val, void *param)
     DBG((">keyboard_set_keyboard_mapping(%d,%d,%d)\n", idx, type, val));
 
     if (idx < 2) {
-        if (switch_keymap_file(&idx, &val, &type) < 0) {
+        if (switch_keymap_file(KBD_SWITCH_MAPPING, &idx, &val, &type) < 0) {
             log_error(keyboard_log, "Default keymap not found, this should be fixed. Going on anyway...");
             /* return -1; */
             return 0; /* HACK: allow to start up when default keymap is missing */
@@ -1537,7 +1542,7 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
     return 0;
 }
 
-static int switch_keymap_file(int *idxp, int *mapp, int *typep)
+static int switch_keymap_file(int sw, int *idxp, int *mapp, int *typep)
 {
     int type = *typep;
     int mapping = *mapp;
@@ -1548,6 +1553,26 @@ static int switch_keymap_file(int *idxp, int *mapp, int *typep)
     if(try_set_keymap_file(atidx, idx, mapping, type) >= 0) {
         goto ok;
     }
+
+    /* when switching host layout or emulated keyboard type, try the "other" 
+       index first if the current one does not exist */
+    if ((sw == KBD_SWITCH_MAPPING) || (sw == KBD_SWITCH_TYPE)) {
+        switch (idx) {
+            case KBD_INDEX_SYM:
+                if(try_set_keymap_file(atidx, KBD_INDEX_POS, mapping, type) >= 0) {
+                    idx = KBD_INDEX_POS;
+                    goto ok;
+                }
+                break;
+            case KBD_INDEX_POS:
+                if(try_set_keymap_file(atidx, KBD_INDEX_SYM, mapping, type) >= 0) {
+                    idx = KBD_INDEX_SYM;
+                    goto ok;
+                }
+                break;
+        }
+    }
+    
     /* if a positional map was not found, we cant really do any better
        than trying a symbolic map for the same keyboard instead */
     if (idx != KBD_INDEX_SYM) {
@@ -1592,7 +1617,7 @@ static int keyboard_set_default_keymap_file(int idx)
         return -1;
     }
 
-    if(switch_keymap_file(&idx, &mapping, &type) < 0) {
+    if(switch_keymap_file(KBD_SWITCH_DEFAULT, &idx, &mapping, &type) < 0) {
         /* return -1; */
         DBG(("<keyboard_set_default_keymap_file(FAILURE: idx: %d type: %d mapping: %d)\n", idx, type, mapping));
         return 0; /* always return success to allow starting up without valid keymap */
