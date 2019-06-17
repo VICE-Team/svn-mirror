@@ -1497,8 +1497,8 @@ static char *keyboard_get_keymap_name(int idx, int mapping, int type)
 /** \brief  Check if a keymap exists for given layout
  *
  * \param[in]   sympos      Symbolic or Positional, KBD_INDEX_SYM or KBD_INDEX_POS
- * \param[in]   hosttype    Type of Host Layout, KBD_MAPPING_...
- * \param[in]   kbdtype     Emulated Keyboard type, KBD_TYPE_... or -1 if no different types exist
+ * \param[in]   hosttype    Type of Host Layout, KBD_MAPPING_... (mapping_info_t .mapping)
+ * \param[in]   kbdtype     Emulated Keyboard type, KBD_TYPE_... (kbdtype_info_t .type) or -1 if no different types exist
  *
  * \return  0: ok !=0: error
  */
