@@ -36,4 +36,7 @@ extern ui_menu_entry_t settings_manager_menu_vsid[];
 extern void uikeyboard_menu_create(void);
 extern void uikeyboard_menu_shutdown(void);
 
+extern void uikeyboard_update_index_menu(void);
+extern void uikeyboard_update_mapping_menu(void);
+
 #endif

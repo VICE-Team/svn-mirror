@@ -37,6 +37,7 @@
 #include "menu_mouse.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#include "menu_settings.h"
 #include "pet.h"
 #include "petmodel.h"
 #include "pet-resources.h"
@@ -236,8 +237,28 @@ static const ui_menu_entry_t pet_model_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_RADIO(KeyboardType)
+/* FIXME */
+#if 0
+void uikeyboard_update_pet_type_menu(void)
+{
+    int idx, type, mapping;
 
+    resources_get_int("KeymapIndex", &idx);
+    resources_get_int("KeyboardMapping", &mapping);
+}
+#endif    
+
+static UI_MENU_CALLBACK(radio_KeyboardType_callback)
+{
+    const char *res = sdl_ui_menu_radio_helper(activated, param, "KeyboardType");
+    if (activated) {
+        uikeyboard_update_index_menu();
+        uikeyboard_update_mapping_menu();
+    }
+    return res;
+}
+
+/* FIXME: this should be dynamic/generated */
 static const ui_menu_entry_t pet_keyboard_menu[] = {
     { "Business (US)",
       MENU_ENTRY_RESOURCE_RADIO,
