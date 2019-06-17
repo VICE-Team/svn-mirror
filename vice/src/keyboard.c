@@ -1494,13 +1494,13 @@ static char *keyboard_get_keymap_name(int idx, int mapping, int type)
     return name;
 }
 
-int keyboard_is_keymap_valid(int hosttype, int mapping, int kbdtype)
+int keyboard_is_keymap_valid(int sympos, int hosttype, int kbdtype)
 {
     char *name = NULL;
     char *complete_path;
     int res;
 
-    name = keyboard_get_keymap_name(hosttype, mapping, kbdtype);
+    name = keyboard_get_keymap_name(sympos, hosttype, kbdtype);
     res = sysfile_locate(name, &complete_path);
     
     lib_free(name);
