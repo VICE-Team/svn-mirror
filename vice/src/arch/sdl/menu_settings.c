@@ -207,26 +207,6 @@ ui_menu_entry_t ui_keyboard_mapping_entry = {
     (ui_callback_data_t)0
 };
 
-static int keyboard_is_mapping_valid(int mapping)
-{
-    int numtypes = machine_get_num_keyboard_types();
-    kbdtype_info_t *typelist = machine_get_keyboard_info_list();
-    int i, type;
-    
-    for (i = 0; i < numtypes; i++) {
-        if (typelist) {
-            type = typelist[i].type;
-        } else {
-            type = 0;
-        }
-        if ((keyboard_is_keymap_valid(KBD_INDEX_SYM, mapping, type) == 0) ||
-            (keyboard_is_keymap_valid(KBD_INDEX_POS, mapping, type) == 0)) {
-            return 0;
-        }
-    }
-    return -1;
-}
-
 void uikeyboard_update_mapping_menu(void)
 {
     int num, mapping;
@@ -238,7 +218,7 @@ void uikeyboard_update_mapping_menu(void)
     num = keyboard_get_num_mappings();
     entry = keyboard_mapping_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
     while(num) {
-        if (!(keyboard_is_mapping_valid(kbdlist->mapping) < 0)) {
+        if (!(keyboard_is_hosttype_valid(kbdlist->mapping) < 0)) {
             ui_keyboard_mapping_entry.string = kbdlist->name;
             ui_keyboard_mapping_entry.data = (ui_callback_data_t)(int_to_void_ptr(kbdlist->mapping));
             memcpy(entry, &ui_keyboard_mapping_entry, sizeof(ui_menu_entry_t));

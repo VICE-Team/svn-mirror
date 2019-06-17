@@ -1499,9 +1499,9 @@ static char *keyboard_get_keymap_name(int idx, int mapping, int type)
     return name;
 }
 
-/** \brief  Check if a keymap exists for given layout
+/** \brief  Check if a keymap exists for given layout / mapping / emulated keyboard
  *
- * \param[in]   sympos      Symbolic or Positional, KBD_INDEX_SYM or KBD_INDEX_POS
+ * \param[in]   sympos      Symbolic or Positional mapping , KBD_INDEX_SYM or KBD_INDEX_POS
  * \param[in]   hosttype    Type of Host Layout, KBD_MAPPING_... (mapping_info_t .mapping)
  * \param[in]   kbdtype     Emulated Keyboard type, KBD_TYPE_... (kbdtype_info_t .type) or -1 if no different types exist
  *
@@ -1519,6 +1519,32 @@ int keyboard_is_keymap_valid(int sympos, int hosttype, int kbdtype)
     lib_free(name);
     lib_free(complete_path);
     return res;
+}
+
+/** \brief  Check if a keymap exists for given host layout
+ *
+ * \param[in]   hosttype    Type of Host Layout, KBD_MAPPING_... (mapping_info_t .mapping)
+ *
+ * \return  0: ok !=0: error
+ */
+int keyboard_is_hosttype_valid(int hosttype)
+{
+    int numtypes = machine_get_num_keyboard_types();
+    kbdtype_info_t *typelist = machine_get_keyboard_info_list();
+    int i, type;
+    
+    for (i = 0; i < numtypes; i++) {
+        if (typelist) {
+            type = typelist[i].type;
+        } else {
+            type = 0;
+        }
+        if ((keyboard_is_keymap_valid(KBD_INDEX_SYM, hosttype, type) == 0) ||
+            (keyboard_is_keymap_valid(KBD_INDEX_POS, hosttype, type) == 0)) {
+            return 0;
+        }
+    }
+    return -1;
 }
 
 static int try_set_keymap_file(int atidx, int idx, int mapping, int type)

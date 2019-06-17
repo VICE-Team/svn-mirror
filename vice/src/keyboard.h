@@ -74,6 +74,7 @@ typedef struct {
 
 extern mapping_info_t *keyboard_get_info_list(void);
 extern int keyboard_is_keymap_valid(int sympos, int hosttype, int kbdtype);
+extern int keyboard_is_hosttype_valid(int hosttype);
 
 struct snapshot_s;
 
