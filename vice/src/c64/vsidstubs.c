@@ -51,6 +51,7 @@
 #include "iecdrive.h"
 #include "imagecontents.h"
 #include "midi.h"
+#include "machine.h"
 #include "machine-bus.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
@@ -943,3 +944,13 @@ int loader_get_drive_true_emulation()
     return loader_true_drive;
 }
 #endif
+
+int machine_get_num_keyboard_types(void)
+{
+    return 0;
+}
+
+kbdtype_info_t *machine_get_keyboard_info_list(void)
+{
+    return NULL;
+}
