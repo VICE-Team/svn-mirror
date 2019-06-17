@@ -1464,14 +1464,13 @@ static char *keyboard_get_mapping_name(int mapping)
     return kbdinfo[mapping].mapping_name;
 }
 
-static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
+static char *keyboard_get_keymap_name(int idx, int mapping, int type)
 {
     char *sympos[2] = { "sym", "pos"};
     char *mapname;
     char *name = NULL, *tstr = NULL;
-    char *complete_path;
-
-    DBG((">try_set_keymap_file idx %d mapping %d type %d\n", idx, mapping, type));
+    
+    DBG((">keyboard_get_keymap_name idx %d mapping %d type %d\n", idx, mapping, type));
     if (type >= 0) {
         tstr = machine_get_keyboard_type_name(type);
     }
@@ -1488,10 +1487,34 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
         name = util_concat(KBD_PORT_PREFIX, "_", tstr, "_", sympos[idx], "_", mapname, ".vkm", NULL);
     }
 
-    DBG(("try_set_keymap_file: (port:%s type:%s idx:%d mapping:%d) '%s' = '%s'\n",
+    DBG(("keyboard_get_keymap_name: (port:%s type:%s idx:%d mapping:%d) '%s' = '%s'\n",
                 KBD_PORT_PREFIX, tstr ? tstr : "-", idx, mapping,
                 idx ? "KeymapPosFile" : "KeymapSymFile", name));
+    
+    return name;
+}
 
+int keyboard_is_keymap_valid(int hosttype, int mapping, int kbdtype)
+{
+    char *name = NULL;
+    char *complete_path;
+    int res;
+
+    name = keyboard_get_keymap_name(hosttype, mapping, kbdtype);
+    res = sysfile_locate(name, &complete_path);
+    
+    lib_free(name);
+    lib_free(complete_path);
+    return res;
+}
+
+static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
+{
+    char *name = NULL;
+    char *complete_path;
+
+    name = keyboard_get_keymap_name(idx, mapping, type);
+    
     util_string_set(&machine_keymap_file_list[atidx], name);
     DBG(("try_set_keymap_file calls sysfile_locate(%s)\n", name));
     if (sysfile_locate(name, &complete_path) != 0) {
