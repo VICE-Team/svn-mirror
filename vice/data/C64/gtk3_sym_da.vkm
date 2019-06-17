@@ -174,7 +174,7 @@ question        6 7 1
 # |Bit 7| 1 ! |A_LFT| CTRL| 2 " |SPACE|  C= |  Q  | R/S |
 
 exclam          7 0 1
-onehalf         7 1 0
+underscore      7 1 0
 Tab             7 2 8     /* Tab = CTRL */
 ISO_Left_Tab    7 2 8     /* Shift + Tab = CTRL */
 quotedbl        7 3 1
