@@ -60,7 +60,7 @@
 #include "util.h"
 #include "vice-event.h"
 
-/* #define DBGKBD */
+#define DBGKBD
 
 #ifdef DBGKBD
 #define DBG(x)  printf x
@@ -1134,9 +1134,9 @@ int keyboard_keymap_dump(const char *filename)
             "# When a bigger spaced key is used,\n"
             "# it uses the upper left most key value.\n"
            );
-    
+
     /* FIXME: output the keyboard matrix for the respective target */
-    
+
     fprintf(fp, "!CLEAR\n");
     fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
     fprintf(fp, "!RSHIFT %d %d\n", kbd_rshiftrow, kbd_rshiftcol);
@@ -1469,7 +1469,7 @@ static char *keyboard_get_keymap_name(int idx, int mapping, int type)
     char *sympos[2] = { "sym", "pos"};
     char *mapname;
     char *name = NULL, *tstr = NULL;
-    
+
     DBG((">keyboard_get_keymap_name idx %d mapping %d type %d\n", idx, mapping, type));
     if (type >= 0) {
         tstr = machine_get_keyboard_type_name(type);
@@ -1490,7 +1490,7 @@ static char *keyboard_get_keymap_name(int idx, int mapping, int type)
     DBG(("keyboard_get_keymap_name: (port:%s type:%s idx:%d mapping:%d) '%s' = '%s'\n",
                 KBD_PORT_PREFIX, tstr ? tstr : "-", idx, mapping,
                 idx ? "KeymapPosFile" : "KeymapSymFile", name));
-    
+
     return name;
 }
 
@@ -1502,7 +1502,7 @@ int keyboard_is_keymap_valid(int sympos, int hosttype, int kbdtype)
 
     name = keyboard_get_keymap_name(sympos, hosttype, kbdtype);
     res = sysfile_locate(name, &complete_path);
-    
+
     lib_free(name);
     lib_free(complete_path);
     return res;
@@ -1514,7 +1514,7 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
     char *complete_path;
 
     name = keyboard_get_keymap_name(idx, mapping, type);
-    
+
     util_string_set(&machine_keymap_file_list[atidx], name);
     DBG(("try_set_keymap_file calls sysfile_locate(%s)\n", name));
     if (sysfile_locate(name, &complete_path) != 0) {
