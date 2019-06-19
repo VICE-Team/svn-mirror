@@ -5600,6 +5600,10 @@ Trace the drive 2 CPU / Do not trace the drive 2 CPU
 @item Drive3CPU_TRACE
 Trace the drive 3 CPU / Do not trace the drive 3 CPU
 
+@vindex IEC_TRACE
+@item IEC_TRACE
+Trace IEC bus activity / Do not trace IEC bus activity
+
 @end table
 
 @c @node FIXME
@@ -5669,6 +5673,11 @@ Trace the drive 2 CPU / Do not trace the drive 2 CPU (@code{Drive2CPU_TRACE=1}, 
 @item -trace_drive3
 @itemx +trace_drive3
 Trace the drive 3 CPU / Do not trace the drive 3 CPU (@code{Drive3CPU_TRACE=1}, @code{Drive3CPU_TRACE=0})
+
+@findex -trace_iec, +trace_iec
+@item -trace_iec
+@itemx +trace_iec
+Trace IEC bus activity / Do not trace IEC bus activity (@code{IEC_TRACE=1}, @code{IEC_TRACE=0})
 
 @findex -trace_mode
 @item -trace_mode <value>

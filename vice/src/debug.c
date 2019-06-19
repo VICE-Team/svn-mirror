@@ -67,6 +67,13 @@ static int set_maincpu_traceflg(int val, void *param)
     return 0;
 }
 
+static int set_iec_traceflg(int val, void *param)
+{
+    debug.iec = val ? 1 : 0;
+
+    return 0;
+}
+
 static int set_drive_traceflg(int val, void *param)
 {
     debug.drivecpu_traceflg[vice_ptr_to_uint(param)] = val ? 1 : 0;
@@ -109,6 +116,8 @@ static const resource_int_t resources_int[] = {
 #ifdef DEBUG
     { "MainCPU_TRACE", 0, RES_EVENT_NO, NULL,
       &debug.maincpu_traceflg, set_maincpu_traceflg, NULL },
+    { "IEC_TRACE", 0, RES_EVENT_NO, NULL,
+      &debug.iec, set_iec_traceflg, NULL },
     { "Drive0CPU_TRACE", 0, RES_EVENT_NO, NULL,
       &debug.drivecpu_traceflg[0], set_drive_traceflg, (void *)0 },
     { "Drive1CPU_TRACE", 0, RES_EVENT_NO, NULL,
@@ -139,6 +148,12 @@ static const cmdline_option_t cmdline_options[] =
     { "+trace_maincpu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MainCPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the main CPU" },
+    { "-trace_iec", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "IEC_TRACE", (resource_value_t)1,
+      NULL, "Trace IEC bus activity" },
+    { "+trace_iec", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "IEC_TRACE", (resource_value_t)0,
+      NULL, "Do not trace IEC bus activity" },
     { "-trace_drive0", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive0CPU_TRACE", (resource_value_t)1,
       NULL, "Trace the drive0 CPU" },
