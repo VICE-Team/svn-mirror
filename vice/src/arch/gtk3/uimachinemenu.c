@@ -684,6 +684,10 @@ static ui_menu_item_t debug_menu[] = {
 
     UI_MENU_SEPARATOR,
 
+    { "IEC bus trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-iec", (void *)(ui_toggle_resource), (void *)"IEC_TRACE",
+        0, 0 },
+    
     { "Drive #8 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
         "trace-drive8", (void *)(ui_toggle_resource), (void *)"Drive0CPU_TRACE",
         0, 0 },
