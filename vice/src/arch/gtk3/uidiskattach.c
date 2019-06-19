@@ -39,6 +39,7 @@
 #include "filechooserhelpers.h"
 #include "driveunitwidget.h"
 #include "ui.h"
+#include "uistatusbar.h"
 #include "uimachinewindow.h"
 #include "lastdir.h"
 
@@ -216,6 +217,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 {
     gchar *filename;
     gchar *filename_locale;
+    gchar buffer[1024];
 
 #ifdef HAVE_DEBUG_GTK3UI
     int index = GPOINTER_TO_INT(user_data);
@@ -241,7 +243,13 @@ static void on_response(GtkWidget *widget, gint response_id,
             if (file_system_attach_disk(unit_number, filename_locale) < 0) {
                 /* failed */
                 debug_gtk3("disk attach failed.");
+                g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
+                        unit_number, filename);
+            } else {
+                g_snprintf(buffer, 1024, "Unit #%d: attached '%s'",
+                        unit_number, filename);
             }
+            ui_display_statustext(buffer, 1);
             g_free(filename);
             g_free(filename_locale);
             gtk_widget_destroy(widget);

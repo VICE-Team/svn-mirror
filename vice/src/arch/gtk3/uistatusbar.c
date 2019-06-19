@@ -91,6 +91,11 @@
 #define MAX_STATUS_BARS 3
 
 
+/** \brief  Timeout for statusbar messages in seconds
+ */
+#define MESSAGE_TIMEOUT 5
+
+
 /** \brief  Status bar column indici
  *
  * These values assume a proper emulator statusbar (ie not VSID).
@@ -98,7 +103,8 @@
 enum {
     SB_COL_SPEED = 0,   /**< message widget */
     SB_COL_SEP_SPEED ,  /**< separator between speed/fps and recording widget */
-    SB_COL_RECORD,      /**< recording widget */
+    SB_COL_MSG,
+    SB_COL_RECORD = SB_COL_MSG,      /**< recording widget */
     SB_COL_SEP_RECORD,  /**< separator between recording and crt/mixer widgets */
     SB_COL_CRT,         /**< crt and mixer widgets */
     SB_COL_SEP_CRT,     /**< separator between crt/mixer and tape widgets */
@@ -191,6 +197,10 @@ typedef struct ui_statusbar_s {
      */
     GtkWidget *speed;
 
+    /** \brief  Status bar messages
+     */
+    GtkWidget *msg;
+
     /** \brief  Recording control/display widget
      */
     GtkWidget *record;
@@ -238,6 +248,11 @@ static ui_statusbar_t allocated_bars[MAX_STATUS_BARS];
 static GdkCursor *joywidget_mouse_ptr = NULL;
 
 
+/** \brief  Timeout ID of the message widget
+ */
+static guint timeout_id = 0;
+
+
 
 /* Forward decl. */
 static void tape_dir_autostart_callback(const char *image, int index);
@@ -247,6 +262,23 @@ static void disk_dir_autostart_callback(const char *image, int index);
 /*****************************************************************************
  *                          Gtk3 event handlers                              *
  ****************************************************************************/
+
+
+/** \brief  Timeout callback for the stausbar message widget
+ *
+ * \param[in,out]   widget  message widget
+ *
+ * \return  FALSE (delete timer source)
+ */
+static gboolean message_timeout_handler(gpointer data)
+{
+    GtkLabel *label = data;
+
+    gtk_label_set_text(label, "");
+    timeout_id = 0; /* signal no timeouts pending (this should be fun) */
+    return FALSE;
+}
+
 
 
 /** \brief Draws the tape icon based on the current control and motor status. 
@@ -759,6 +791,10 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == sb) {
             allocated_bars[i].bar = NULL;
+
+            if (allocated_bars[i].msg) {
+                g_object_unref(G_OBJECT(allocated_bars[i].msg));
+            }
 
             if (allocated_bars[i].record) {
                 g_object_unref(G_OBJECT(allocated_bars[i].record));
@@ -1318,6 +1354,7 @@ void ui_statusbar_init(void)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         allocated_bars[i].bar = NULL;
         allocated_bars[i].speed = NULL;
+        allocated_bars[i].msg = NULL;
         allocated_bars[i].record = NULL;
         allocated_bars[i].crt = NULL;
         allocated_bars[i].mixer = NULL;
@@ -1373,6 +1410,7 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
     GtkWidget *volume;
+    GtkWidget *message;
     GtkWidget *recording;
     int sound_vol;
     int i, j;
@@ -1428,12 +1466,22 @@ GtkWidget *ui_statusbar_create(void)
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
             SB_COL_SEP_SPEED, 0, 1, 2);
 
+
+    /* Messages */
+    message = gtk_label_new(NULL);
+    gtk_widget_set_hexpand(message, TRUE);
+    gtk_widget_set_halign(message, GTK_ALIGN_START);
+    gtk_label_set_ellipsize(GTK_LABEL(message), PANGO_ELLIPSIZE_END);
+    g_object_ref_sink(message);
+    allocated_bars[i].msg = message;
+    gtk_grid_attach(GTK_GRID(sb), message, SB_COL_MSG, 0, 1, 1);
+
     /* Recording: third column probably */
     recording = statusbar_recording_widget_create();
     gtk_widget_set_hexpand(recording, TRUE);
     g_object_ref_sink(recording);
     allocated_bars[i].record = recording;
-    gtk_grid_attach(GTK_GRID(sb), recording, SB_COL_RECORD, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(sb), recording, SB_COL_RECORD, 1, 1, 1);
     /* add sep */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
             SB_COL_SEP_RECORD, 0, 1, 2);
@@ -1597,6 +1645,27 @@ void ui_display_statustext(const char *text, int fade_out)
      * No longer used, but needs to remain here since it's called from
      * src/network.c
      */
+
+    GtkWidget *widget = allocated_bars[0].msg;
+
+
+    /* remove any previous timeout source, if present */
+    if (timeout_id > 0) {
+        /* still an old timeout running, but the message was overwritten,
+         * remove */
+        g_source_remove(timeout_id);
+        timeout_id = 0;
+    }
+
+    gtk_label_set_text(GTK_LABEL(widget), text);
+
+    /* set up timeout if requested */
+    if (fade_out) {
+        timeout_id = g_timeout_add_seconds(
+                MESSAGE_TIMEOUT,
+                message_timeout_handler,
+                widget);
+    }
 }
 
 /** \brief  Statusbar API function to display current volume
