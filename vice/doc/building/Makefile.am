@@ -11,6 +11,7 @@ BUILDING_DOX = \
 	macOS-Distribution-Howto.txt \
 	macOS-GTK3-Howto.txt \
 	macOS-SDL2-Howto.txt \
+	macOS-Xcode-Howto.txt \
 	Linux-GTK3-Howto.txt \
 	NetBSD-howto.txt
 
