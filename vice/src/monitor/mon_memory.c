@@ -404,7 +404,7 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
             mon_out(">%s:%04x ", mon_memspace_string[mem], addr);
             for (j = 0; j < (x / 8); j++) {
                 mon_print_bin(mon_get_mem_val(mem,
-                                              (uint16_t)(ADDR_LIMIT(addr + j))), '.', '*');
+                                              (uint16_t)(ADDR_LIMIT(addr + j))), '*', '.');
                 cnt++;
             }
             mon_out("\n");
