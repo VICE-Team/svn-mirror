@@ -35,3 +35,8 @@ make -j install
 #
 # At this point you have x64sc, x128 etc. binaries in /usr/local/bin.
 #
+# If you link in /usr/local/lib you can also run local copies:
+#
+
+ln -s /usr/local/bin
+./src/x64sc

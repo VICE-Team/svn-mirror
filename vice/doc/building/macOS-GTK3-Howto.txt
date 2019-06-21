@@ -17,9 +17,9 @@ sudo xcodebuild -license accept
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 
-------------------------
-Building without OpenGL:
-------------------------
+-------------------------
+Configure without OpenGL:
+-------------------------
 
 brew cask install basictex
 brew install autoconf automake pkg-config texinfo
@@ -30,16 +30,15 @@ source /etc/profile
 
 ./autogen.sh
 ./configure --enable-native-gtk3ui --disable-hwscale
-make -j install
 
 #
-# At this point you have x64sc, x128 etc. binaries in /usr/local/bin.
+# Continue with 'Build' section below
 #
 
 
----------------------
-Building with OpenGL:
----------------------
+----------------------
+Configure with OpenGL:
+----------------------
 
 #
 # You can choose to build with OpenGL support, although as at Gtk 3.24.8, the
@@ -52,7 +51,6 @@ Building with OpenGL:
 # is slow AF, possibly slower than software scaling on some systems.
 #
 
-
 brew cask install basictex
 brew install autoconf automake pkg-config texinfo
 brew install xa lame gtk+3 librsvg adwaita-icon-theme glew
@@ -62,8 +60,23 @@ source /etc/profile
 
 ./autogen.sh
 ./configure --enable-native-gtk3ui
+
+#
+# Continue with 'Build' section below
+#
+
+
+------
+Build:
+------
+
 make -j install
 
 #
 # At this point you have x64sc, x128 etc. binaries in /usr/local/bin.
 #
+# If you link in /usr/local/lib you can also run the local copies:
+#
+
+ln -s /usr/local/bin
+./src/x64sc
