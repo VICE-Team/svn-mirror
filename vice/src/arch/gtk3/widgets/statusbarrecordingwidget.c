@@ -45,12 +45,15 @@
 #define HIDE_ALL_TIMEOUT 5
 
 
+#define STOP_BUTTON_CSS "button { padding: 0; min-width: 14px; min-height: 10px; margin-top: 0px; margin-bottom: 2px; }"
+
+
 /** \brief  Columns in the recording widget
  */
 enum {
     RW_COL_TEXT = 0,    /**< recording status label */
-    RW_COL_TIME = 0,    /**< recording time label */
-    RW_COL_BUTTON = 1   /**< STOP button */
+    RW_COL_TIME = 1,    /**< recording time label */
+    RW_COL_BUTTON = 2   /**< STOP button */
 };
 
 
@@ -58,7 +61,7 @@ enum {
  */
 enum {
     RW_ROW_TEXT = 0,    /**< recording status label */
-    RW_ROW_TIME = 1,    /**< recording time label */
+    RW_ROW_TIME = 0,    /**< recording time label */
     RW_ROW_BUTTON = 0   /**< STOP button (takes both rows) */
 };
 
@@ -135,6 +138,35 @@ static void on_stop_clicked(GtkWidget *button, gpointer data)
 }
 
 
+static GtkWidget *create_stop_button(void)
+{
+    GtkWidget *button;
+    GtkCssProvider *provider;
+    GtkStyleContext *context;
+    GError *err = NULL;
+
+    button = gtk_button_new_from_icon_name("media-playback-stop-symbolic",
+                                           GTK_ICON_SIZE_SMALL_TOOLBAR);
+    g_object_set(button, "margin-top", 0, NULL);
+    /* set up CSS to reduce button size */
+    provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(provider, STOP_BUTTON_CSS, -1, &err);
+    if (err != NULL) {
+        fprintf(stderr, "CSS error: %s\n", err->message);
+        g_error_free(err);
+    } else {
+        context = gtk_widget_get_style_context(button);
+        if (context != NULL) {
+            gtk_style_context_add_provider(context,
+                    GTK_STYLE_PROVIDER(provider),
+                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+    }
+    return button;
+}
+
+
+
 /** \brief  Create recording status widget
  *
  * Generate a widget to show on the statusbar to display recording state
@@ -147,8 +179,10 @@ GtkWidget *statusbar_recording_widget_create(void)
     GtkWidget *label;
     GtkWidget *button;
 
-    grid = vice_gtk3_grid_new_spaced(8, 8);
+    grid = vice_gtk3_grid_new_spaced(8, 0);
     gtk_widget_set_hexpand(grid, TRUE);
+    gtk_widget_set_vexpand(grid, FALSE);
+    g_object_set(grid, "margin-top", 0, "margin-bottom", 0, NULL);
 
     g_object_set_data(G_OBJECT(grid), "Seconds", GINT_TO_POINTER(0));
     g_object_set_data(G_OBJECT(grid), "Status", GINT_TO_POINTER(0));
@@ -156,8 +190,8 @@ GtkWidget *statusbar_recording_widget_create(void)
     /* recording status label */
     label = gtk_label_new("");  /* initially empty */
     gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TEXT, RW_ROW_TEXT, 1, 1);
-    gtk_widget_set_halign(label, GTK_ALIGN_FILL);
-    gtk_widget_set_hexpand(label, TRUE);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+/*    gtk_widget_set_hexpand(label, TRUE); */
 
     /* recording timestamp label */
     label = gtk_label_new("");  /* initially empty */
@@ -165,11 +199,13 @@ GtkWidget *statusbar_recording_widget_create(void)
     gtk_widget_set_hexpand(label, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, RW_COL_TIME, RW_ROW_TIME, 1, 1);
 
-    button = gtk_button_new_from_icon_name("media-playback-stop",
-                                           GTK_ICON_SIZE_LARGE_TOOLBAR);
+    button = create_stop_button();
+
     gtk_grid_attach(GTK_GRID(grid), button, RW_COL_BUTTON, RW_ROW_BUTTON, 1, 2);
     gtk_widget_set_halign(button, GTK_ALIGN_END);
+    gtk_widget_set_valign(button, GTK_ALIGN_START);
     gtk_widget_set_hexpand(button, FALSE);
+    gtk_widget_set_vexpand(button, FALSE);
     gtk_widget_set_sensitive(button, FALSE);
     gtk_widget_set_no_show_all(button, TRUE);
     gtk_widget_hide(button);    /* initially hidden */
