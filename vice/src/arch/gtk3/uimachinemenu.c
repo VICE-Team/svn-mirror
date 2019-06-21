@@ -12,6 +12,15 @@
  * $VICERES DtvBlitterLog   x64dtv
  * $VICERES DtvDMALog       x64dtv
  * $VICERES DtvFlashLog     x64dtv
+ *
+ * These resources are only available with --enable-debug
+ *
+ * $VICERES MainCPU_TRACE   all
+ * $VICERES IEC_TRACE       -vsid
+ * $VICERES Drive0CPU_TRACE -vsid
+ * $VICERES Drive1CPU_TRACE -vsid
+ * $VICERES Drive2CPU_TRACE -vsid
+ * $VICERES Drive3CPU_TRACE -vsid
  */
 
 /*
@@ -687,7 +696,9 @@ static ui_menu_item_t debug_menu[] = {
     { "IEC bus trace", UI_MENU_TYPE_ITEM_CHECK,
         "trace-iec", (void *)(ui_toggle_resource), (void *)"IEC_TRACE",
         0, 0 },
-    
+
+    UI_MENU_SEPARATOR,
+
     { "Drive #8 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
         "trace-drive8", (void *)(ui_toggle_resource), (void *)"Drive0CPU_TRACE",
         0, 0 },
