@@ -196,7 +196,7 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *grid;
 
-    debug_gtk3("WINDOW DESTROY called on %p.", widget);
+    debug_gtk3("WINDOW DESTROY called on %p.", (void *)widget);
 
     /*
      * This should not be needed, destroying a GtkWindow should trigger

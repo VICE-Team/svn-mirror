@@ -273,7 +273,7 @@ static int lib_debug_guard_remove(char *ptr)
         printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
         printf("Error: lib_debug_guard_remove(): Cannot find debug address %p! (make sure to use functions from lib.h, do NOT use lib_free on pointers allocated by other functions.)\n",
-               ptr - LIB_DEBUG_GUARD);
+               (void *)(ptr - LIB_DEBUG_GUARD));
         return 0;
     }
 
@@ -282,7 +282,7 @@ static int lib_debug_guard_remove(char *ptr)
 #ifdef LIB_DEBUG_PINPOINT
             printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
-            printf("Error: Memory corruption in lower part of base %p!\n", ptr - LIB_DEBUG_GUARD);
+            printf("Error: Memory corruption in lower part of base %p!\n", (void *)(ptr - LIB_DEBUG_GUARD));
             break;
         }
     }
@@ -291,7 +291,7 @@ static int lib_debug_guard_remove(char *ptr)
 #ifdef LIB_DEBUG_PINPOINT
             printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
-            printf("Error: Memory corruption in higher part of base %p!\n", ptr - LIB_DEBUG_GUARD);
+            printf("Error: Memory corruption in higher part of base %p!\n", (void *)(ptr - LIB_DEBUG_GUARD));
             break;
         }
     }
@@ -317,7 +317,7 @@ static unsigned int lib_debug_guard_size_get(char *ptr)
         printf("%s:%u: ", lib_debug_pinpoint_filename, lib_debug_pinpoint_line);
 #endif
         printf("Error: lib_debug_guard_size(): Cannot find debug address %p!\n",
-               ptr - LIB_DEBUG_GUARD);
+               (void *)(ptr - LIB_DEBUG_GUARD));
         return 0;
     }
 
