@@ -1592,8 +1592,8 @@ void ui_dispatch_next_event(void)
  */
 void ui_dispatch_events(void)
 {
-    while (g_main_context_pending(NULL)) {
-        g_main_context_iteration(NULL, FALSE);
+    while (g_main_context_iteration(NULL, FALSE)) {
+        /* NOP */
     }
 }
 
