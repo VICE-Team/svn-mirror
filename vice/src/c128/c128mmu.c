@@ -525,6 +525,8 @@ void mmu_reset(void)
     for (i = 0; i < 0xb; i++) {
         mmu[i] = 0;
     }
+    mmu[9] = 1;
+    mmu_update_page01_pointers();
 
     keyboard_register_column4080_key(mmu_toggle_column4080_key);
 
