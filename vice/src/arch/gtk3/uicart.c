@@ -857,7 +857,8 @@ static GtkWidget *create_extra_widget(void)
 static GtkWidget *create_preview_widget(void)
 {
     if ((machine_class != VICE_MACHINE_C64)
-            && (machine_class != VICE_MACHINE_C64SC)) {
+            && (machine_class != VICE_MACHINE_C64SC)
+            && (machine_class != VICE_MACHINE_C128)) {
         GtkWidget *grid = NULL;
         GtkWidget *label;
         grid = gtk_grid_new();
