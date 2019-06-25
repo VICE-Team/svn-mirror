@@ -294,35 +294,29 @@ static void update_runtime_widget(unsigned int dsec)
     unsigned int m;
     unsigned int h;
 
-    static unsigned int old_dsec = 0;
+    f = (dsec % 10) * 100;
+    s = (dsec / 10)  % 60;
+    m = ((dsec / 10) / 60) % 60;
+    h = (dsec / 10) / 60 / 60;
 
-    if (dsec != old_dsec) {
-        old_dsec = dsec;
+    /* don't use lib_msprintf() here, this function gets called a lot and
+     * malloc() isn't fast */
 
-        f = (dsec % 10) * 100;
-        s = (dsec / 10)  % 60;
-        m = ((dsec / 10) / 60) % 60;
-        h = (dsec / 10) / 60 / 60;
+    if (song_lengths != NULL) {
 
-        /* don't use lib_msprintf() here, this function gets called a lot and
-         * malloc() isn't fast */
-
-        if (song_lengths != NULL) {
-
-            unsigned long total = song_lengths[tune_current - 1];
-            unsigned int tf = (unsigned int)(total % 1000);
-            unsigned int ts = (unsigned int)((total /1000) % 60);
-            unsigned int tm = (unsigned int)((total / 1000 / 60) % 60);
-            unsigned int th = (unsigned int)(total / 1000 / 60 / 60);
+        unsigned long total = song_lengths[tune_current - 1];
+        unsigned int tf = (unsigned int)(total % 1000);
+        unsigned int ts = (unsigned int)((total /1000) % 60);
+        unsigned int tm = (unsigned int)((total / 1000 / 60) % 60);
+        unsigned int th = (unsigned int)(total / 1000 / 60 / 60);
 
 
-            g_snprintf(buffer, 256, "%u:%02u:%02u.%03u / %u:%02u:%02u.%03u",
-                    h, m, s, f, th, tm, ts, tf);
-        } else {
-            g_snprintf(buffer, 256, "%u:%02u:%02u.%03u", h, m, s, f);
-        }
-        gtk_label_set_text(GTK_LABEL(runtime_widget), buffer);
+        g_snprintf(buffer, 256, "%u:%02u:%02u.%03u / %u:%02u:%02u.%03u",
+                h, m, s, f, th, tm, ts, tf);
+    } else {
+        g_snprintf(buffer, 256, "%u:%02u:%02u.%03u", h, m, s, f);
     }
+    gtk_label_set_text(GTK_LABEL(runtime_widget), buffer);
 }
 
 
