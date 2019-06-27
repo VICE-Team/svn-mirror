@@ -158,11 +158,11 @@ UI_MENU_DEFINE_RADIO(SidQuadAddressStart)
 static UI_MENU_CALLBACK(show_SidStereoAddressStart_callback)
 {
     static char buf[20];
-    unsigned int value;
+    int value;
 
     resources_get_int("SidStereoAddressStart", &value);
 
-    sprintf(buf, "$%04x", value);
+    sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
@@ -362,11 +362,11 @@ static const ui_menu_entry_t c64_stereo_sid_base_menu[] = {
 static UI_MENU_CALLBACK(show_SidTripleAddressStart_callback)
 {
     static char buf[20];
-    unsigned int value;
+    int value;
 
     resources_get_int("SidTripleAddressStart", &value);
 
-    sprintf(buf, "$%04x", value);
+    sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
@@ -436,11 +436,11 @@ static const ui_menu_entry_t c64_triple_sid_base_menu[] = {
 static UI_MENU_CALLBACK(show_SidQuadAddressStart_callback)
 {
     static char buf[20];
-    unsigned int value;
+    int value;
 
     resources_get_int("SidQuadAddressStart", &value);
 
-    sprintf(buf, "$%04x", value);
+    sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
