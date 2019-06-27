@@ -96,6 +96,31 @@ static int keyboard_clear = 0;
 
 static alarm_t *restore_alarm = NULL; /* restore key alarm context */
 
+
+/** \brief  Resource value for KdbStatusbar
+ *
+ * Determines whether to show the keyboard debugging widget on the statusbar.
+ * (Work for SLD and Gtk3)
+ */
+static int kbd_statusbar_enabled = 0;
+
+
+/** \brief  Resource handler for 'KbdStatusbar'
+ *
+ * Enables/disables the display of the keyboard debugging on the statusbar
+ *
+ * \param[in]   val     enable display of widget
+ * \param[in]   param   extra data (unused)
+ *
+ * \return 0
+ */
+static int keyboard_set_keyboard_statusbar(int val, void *param)
+{
+    kbd_statusbar_enabled = val ? 1 : 0;
+    return 0;   /* Okidoki */
+}
+
+
 static void keyboard_latch_matrix(CLOCK offset)
 {
     if (network_connected()) {
@@ -1532,7 +1557,7 @@ int keyboard_is_hosttype_valid(int hosttype)
     int numtypes = machine_get_num_keyboard_types();
     kbdtype_info_t *typelist = machine_get_keyboard_info_list();
     int i, type;
-    
+
     for (i = 0; i < numtypes; i++) {
         if (typelist) {
             type = typelist[i].type;
@@ -1598,7 +1623,7 @@ static int switch_keymap_file(int sw, int *idxp, int *mapp, int *typep)
                 break;
         }
     }
-    
+
     /* if a positional map was not found, we cant really do any better
        than trying a symbolic map for the same keyboard instead */
     if (idx != KBD_INDEX_SYM) {
@@ -1666,13 +1691,17 @@ static char *resources_string_d3 = NULL;
 
 static const resource_string_t resources_string[] = {
     { "KeymapSymFile", "", RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[KBD_INDEX_SYM], keyboard_set_keymap_file, (void *)KBD_INDEX_SYM },
+      &machine_keymap_file_list[KBD_INDEX_SYM],
+      keyboard_set_keymap_file, (void *)KBD_INDEX_SYM },
     { "KeymapPosFile", "", RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[KBD_INDEX_POS], keyboard_set_keymap_file, (void *)KBD_INDEX_POS },
+      &machine_keymap_file_list[KBD_INDEX_POS],
+      keyboard_set_keymap_file, (void *)KBD_INDEX_POS },
     { "KeymapUserSymFile", "", RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[KBD_INDEX_USERSYM], keyboard_set_keymap_file, (void *)KBD_INDEX_USERSYM },
+      &machine_keymap_file_list[KBD_INDEX_USERSYM],
+      keyboard_set_keymap_file, (void *)KBD_INDEX_USERSYM },
     { "KeymapUserPosFile", "", RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[KBD_INDEX_USERPOS], keyboard_set_keymap_file, (void *)KBD_INDEX_USERPOS },
+      &machine_keymap_file_list[KBD_INDEX_USERPOS],
+      keyboard_set_keymap_file, (void *)KBD_INDEX_USERPOS },
     RESOURCE_STRING_LIST_END
 };
 
@@ -1683,6 +1712,8 @@ static const resource_int_t resources_int[] = {
       &machine_keyboard_type, keyboard_set_keyboard_type, NULL },
     { "KeyboardMapping", 0, RES_EVENT_NO, NULL,
       &machine_keyboard_mapping, keyboard_set_keyboard_mapping, NULL },
+    { "KbdStatusbar", 0, RES_EVENT_NO, NULL,
+      &kbd_statusbar_enabled, keyboard_set_keyboard_statusbar, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -1701,6 +1732,7 @@ int keyboard_resources_init(void)
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
+
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
@@ -1802,6 +1834,17 @@ static cmdline_option_t const cmdline_options[] =
     { "-poskeymap", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KeymapUserPosFile", NULL,
       "<Name>", "Specify name of positional keymap file" },
+
+    /* enable keyboard debugging display in the statusbar */
+    { "-kbdstatusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "KbdStatusbar", (resource_value_t)1,
+        NULL, "Enable keyboard-status bar" },
+
+    /* disable keyboard debugging display in the statusbar */
+    { "+kbdstatusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "KbdStatusbar", (resource_value_t)0,
+        NULL, "Enable keyboard-status bar" },
+
     CMDLINE_LIST_END
 };
 

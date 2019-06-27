@@ -373,7 +373,12 @@ void ui_display_volume(int vol)
 /* ----------------------------------------------------------------- */
 /* resources */
 
-static int statusbar_enabled, kbdstatusbar_enabled;
+static int statusbar_enabled;
+
+#if 0
+static int kbdstatusbar_enabled;
+#endif
+
 
 static int set_statusbar(int val, void *param)
 {
@@ -388,18 +393,22 @@ static int set_statusbar(int val, void *param)
     return 0;
 }
 
+#if 0
 static int set_kbdstatusbar(int val, void *param)
 {
     kbdstatusbar_enabled = val ? 1 : 0;
 
     return 0;
 }
+#endif
 
 static const resource_int_t resources_int[] = {
     { "SDLStatusbar", 0, RES_EVENT_NO, NULL,
       &statusbar_enabled, set_statusbar, NULL },
+#if 0
     { "KbdStatusbar", 0, RES_EVENT_NO, NULL,
       &kbdstatusbar_enabled, set_kbdstatusbar, NULL },
+#endif
     RESOURCE_INT_LIST_END
 };
 
@@ -436,6 +445,11 @@ void uistatusbar_draw(void)
     unsigned int line;
     menu_draw_t *limits = NULL;
     menufont = sdl_ui_get_menu_font();
+    int kbd_status;
+
+    if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
+        kbd_status = 0;
+    }
 
     sdl_ui_init_draw_params();
     limits = sdl_ui_get_menu_param();
@@ -450,7 +464,7 @@ void uistatusbar_draw(void)
                   + sdl_active_canvas->geometry->extra_offscreen_border_left
                   + sdl_active_canvas->viewport->first_x;
 
-    if (kbdstatusbar_enabled) {
+    if (kbd_status) {
         for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {
             c = kbdstatusbar_text[i];
 
@@ -484,8 +498,14 @@ void uistatusbar_draw(void)
 void ui_display_kbd_status(SDL_Event *e)
 {
     char *p = &kbdstatusbar_text[KBDSTATUSENTRYLEN * 2];
+    int kbd_status;
 
-    if (kbdstatusbar_enabled) {
+    if (resources_get_int("KbdStatusbar", & kbd_status) < 0) {
+        kbd_status = 0;
+    }
+
+
+    if (kbd_status) {
         memmove(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN], 40);
         sprintf(p, "%c%03d>%03d %c%04x    ", 
                 (e->type == SDL_KEYUP) ? 'U' : 'D',
