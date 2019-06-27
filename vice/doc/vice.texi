@@ -12484,8 +12484,8 @@ Integer specifying the custom resolution width.
 @item SDLCustomHeight
 Integer specifying the custom resolution height.
 
-@vindex SDLKbdStatusbar
-@item SDLKbdStatusbar
+@vindex KbdStatusbar
+@item KbdStatusbar
 Boolean specifying whether the keyboard-status bar is enabled.
 
 @vindex SDL2Renderer
@@ -12830,16 +12830,17 @@ Set the custom resolution width
 Set the custom resolution height
 (@code{SDLCustomHeight}).
 
+@c Move to generic options
 @findex -kbdstatusbar, +kbdstatusbar
 @item -kbdstatusbar
 @itemx +kbdstatusbar
 Enable/Disable keyboard-status bar (when status bar is enabled)
-(@code{SDLKbdStatusbar=1}, @code{SDLKbdStatusbar=0}).
+(@code{KbdStatusbar=1}, @code{KbdStatusbar=0}).
 
 @findex -sdlglfilter
 @item -sdlglfilter <mode>
 Set OpenGL filtering mode (0 = nearest, 1 = linear)
-(@code{SDLKbdStatusbar}).
+(@code{SDLGLFilter}).
 
 @findex -sdl2renderer
 @item -sdl2renderer <renderer name>

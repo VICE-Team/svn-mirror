@@ -524,7 +524,7 @@ static const ui_menu_entry_t define_ui_keyset_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(SDLKbdStatusbar)
+UI_MENU_DEFINE_TOGGLE(KbdStatusbar)
 
 ui_menu_entry_t settings_manager_menu[] = {
     { "Save current settings",
@@ -577,7 +577,7 @@ ui_menu_entry_t settings_manager_menu[] = {
       NULL },
     { "Show keyboard status in statusbar",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SDLKbdStatusbar_callback,
+      toggle_KbdStatusbar_callback,
       NULL },
     { "Save current keymap to",
       MENU_ENTRY_OTHER,

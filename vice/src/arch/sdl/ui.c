@@ -819,10 +819,10 @@ static const cmdline_option_t statusbar_cmdline_options[] =
       NULL, NULL, "SDLStatusbar", (resource_value_t)0,
       NULL, "Disable statusbar" },
     { "-kbdstatusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLKbdStatusbar", (resource_value_t)1,
+      NULL, NULL, "KbdStatusbar", (resource_value_t)1,
       NULL, "Enable keyboard-status bar" },
     { "+kbdstatusbar", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "SDLKbdStatusbar", (resource_value_t)0,
+      NULL, NULL, "KbdStatusbar", (resource_value_t)0,
       NULL, "Disable keyboard-status bar" },
     CMDLINE_LIST_END
 };

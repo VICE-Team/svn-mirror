@@ -398,7 +398,7 @@ static int set_kbdstatusbar(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "SDLStatusbar", 0, RES_EVENT_NO, NULL,
       &statusbar_enabled, set_statusbar, NULL },
-    { "SDLKbdStatusbar", 0, RES_EVENT_NO, NULL,
+    { "KbdStatusbar", 0, RES_EVENT_NO, NULL,
       &kbdstatusbar_enabled, set_kbdstatusbar, NULL },
     RESOURCE_INT_LIST_END
 };
