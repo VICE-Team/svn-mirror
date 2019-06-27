@@ -82,6 +82,7 @@
 #include "joystickmenupopup.h"
 #include "statusbarspeedwidget.h"
 #include "statusbarrecordingwidget.h"
+#include "kbddebugwidget.h"
 
 #include "uistatusbar.h"
 
@@ -232,6 +233,11 @@ typedef struct ui_statusbar_s {
     /** \brief The hand-shaped cursor to change to when popup menus
      *         are available. */
     GdkCursor *hand_ptr;
+
+    /** \brief  Keyboard debugging widget
+     */
+    GtkWidget *kbd_debug;
+
 } ui_statusbar_t;
 
 
@@ -838,6 +844,14 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                 g_object_unref(G_OBJECT(allocated_bars[i].volume));
                 allocated_bars[i].volume = NULL;
             }
+
+            /* why? */
+            if (allocated_bars[i].kbd_debug != NULL) {
+                g_object_unref(G_OBJECT(allocated_bars[i].kbd_debug));
+                allocated_bars[i].kbd_debug = NULL;
+            }
+
+
             if (allocated_bars[i].hand_ptr) {
                 g_object_unref(G_OBJECT(allocated_bars[i].hand_ptr));
                 allocated_bars[i].hand_ptr = NULL;
@@ -1366,6 +1380,7 @@ void ui_statusbar_init(void)
             allocated_bars[i].drive_popups[j] = NULL;
         }
         allocated_bars[i].volume = NULL;
+        allocated_bars[i].kbd_debug = NULL;
         allocated_bars[i].hand_ptr = NULL;
     }
 
@@ -1412,6 +1427,8 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *volume;
     GtkWidget *message;
     GtkWidget *recording;
+    GtkWidget *kbd_debug_widget;
+    int kbd_debug_enabled;
     int sound_vol;
     int i, j;
 
@@ -1566,6 +1583,26 @@ GtkWidget *ui_statusbar_create(void)
         gtk_grid_attach(GTK_GRID(sb), volume, 3, 0, 1 ,2); /* FIXME */
     }
     allocated_bars[i].volume = volume;
+
+    /*
+     * Add keyboard debugging widget
+     */
+    debug_gtk3("Adding kbd debug widget.");
+    kbd_debug_widget = kbd_debug_widget_create();
+    allocated_bars[i].kbd_debug = kbd_debug_widget;
+    g_object_ref_sink(kbd_debug_widget);
+    gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, 2, 16, 1);
+
+    if (resources_get_int("KbdStatusbar", &kbd_debug_enabled) < 0) {
+        kbd_debug_enabled = 0;
+    }
+    debug_gtk3("KbdStatusbar = %d.", kbd_debug_enabled);
+    if (!kbd_debug_enabled) {
+        gtk_widget_hide(kbd_debug_widget);
+    } else {
+        gtk_widget_show(kbd_debug_widget);
+    }
+
 
 
     /* Set an impossible number of joyports to enabled so that the status

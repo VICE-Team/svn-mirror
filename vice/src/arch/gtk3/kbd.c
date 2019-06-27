@@ -37,6 +37,7 @@
 #include "lib.h"
 #include "log.h"
 #include "ui.h"
+#include "kbddebugwidget.h"
 
 /* UNIX-specific; for kbd_arch_get_host_mapping */
 #include <locale.h>
@@ -155,6 +156,10 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     switch (report->type) {
         case GDK_KEY_PRESS:
             /* fprintf(stderr, "KeyPress: %d.\n", key); */
+
+            kdb_debug_widget_update(report);
+
+
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
                 return TRUE;
             }
