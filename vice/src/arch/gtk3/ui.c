@@ -1145,6 +1145,10 @@ void ui_create_main_window(video_canvas_t *canvas)
     GtkWidget *crt_controls;
     GtkWidget *mixer_controls;
 
+    GtkWidget *kbd_widget;
+    int kbd_status = 0;
+
+
     GdkPixbuf *icon;
 
     int xpos = -1;
@@ -1313,6 +1317,22 @@ void ui_create_main_window(video_canvas_t *canvas)
             gtk_window_unfullscreen(GTK_WINDOW(new_window));
         }
     }
+
+    if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
+        debug_gtk3("Failed to get KbdStatusbar resource, defaulting to False.");
+        kbd_status = 0;
+    }
+    kbd_widget = gtk_grid_get_child_at(GTK_GRID(status_bar), 0, 2);
+
+    if (kbd_status) {
+        gtk_widget_show_all(kbd_widget);
+    } else {
+        gtk_widget_hide(kbd_widget);
+    }
+
+
+
+
 
 #ifdef MACOSX_SUPPORT
     macos_activate_application_workaround();

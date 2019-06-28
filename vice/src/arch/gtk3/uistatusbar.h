@@ -49,4 +49,6 @@ gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window);
 gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window);
 
 
+void ui_statusbar_set_kbd_debug(gboolean state);
+
 #endif

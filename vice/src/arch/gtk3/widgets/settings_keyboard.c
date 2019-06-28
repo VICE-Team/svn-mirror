@@ -38,9 +38,16 @@
 
 #include "kbdmappingwidget.h"
 #include "kbdlayoutwidget.h"
+#include "uistatusbar.h"
 
 #include "settings_keyboard.h"
 
+
+
+static void on_kbd_debug_toggled(GtkWidget *widget, gpointer data)
+{
+    ui_statusbar_set_kbd_debug(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+}
 
 
 /** \brief  Create keyboard settings widget
@@ -54,6 +61,7 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     GtkWidget *layout;
     GtkWidget *mapping_widget;
     GtkWidget *layout_widget;
+    GtkWidget *kbdstatusbar;
 
     layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -65,6 +73,12 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
 
     gtk_grid_attach(GTK_GRID(layout), layout_widget, 0, 1, 1, 1);
 
+
+    kbdstatusbar = vice_gtk3_resource_check_button_new("KbdStatusbar",
+            "Enable keyboard debugging on statusbar");
+    gtk_grid_attach(GTK_GRID(layout), kbdstatusbar, 0, 2, 1, 1);
+    g_signal_connect(kbdstatusbar, "toggled", G_CALLBACK(on_kbd_debug_toggled),
+            NULL);
     gtk_widget_show_all(layout);
     return layout;
 }

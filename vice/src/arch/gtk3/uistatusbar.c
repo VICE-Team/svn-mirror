@@ -1428,7 +1428,6 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *message;
     GtkWidget *recording;
     GtkWidget *kbd_debug_widget;
-    int kbd_debug_enabled;
     int sound_vol;
     int i, j;
 
@@ -1592,18 +1591,6 @@ GtkWidget *ui_statusbar_create(void)
     allocated_bars[i].kbd_debug = kbd_debug_widget;
     g_object_ref_sink(kbd_debug_widget);
     gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, 2, 16, 1);
-
-    if (resources_get_int("KbdStatusbar", &kbd_debug_enabled) < 0) {
-        kbd_debug_enabled = 0;
-    }
-    debug_gtk3("KbdStatusbar = %d.", kbd_debug_enabled);
-    if (!kbd_debug_enabled) {
-        gtk_widget_hide(kbd_debug_widget);
-    } else {
-        gtk_widget_show(kbd_debug_widget);
-    }
-
-
 
     /* Set an impossible number of joyports to enabled so that the status
      * is guarenteed to be updated. */
@@ -2102,3 +2089,11 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
         statusbar_speed_widget_update(speed, percent, framerate, warp_flag);
     }
 }
+
+
+void ui_statusbar_set_kbd_debug(gboolean state)
+{
+    debug_gtk3("Called with '%s'.", state ? "True" : "False");
+}
+
+
