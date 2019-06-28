@@ -2091,9 +2091,55 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 }
 
 
-void ui_statusbar_set_kbd_debug(gboolean state)
+/** \brief  Show/hide the statusbar kdb debug widget of \a window
+ *
+ * \param[in,out]   window  GtkWindow instance
+ * \param[in]       state   Display state
+ *
+ * \todo    Replace integer literals
+ */
+static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
 {
-    debug_gtk3("Called with '%s'.", state ? "True" : "False");
+    GtkWidget *main_grid;
+    GtkWidget *statusbar;
+    GtkWidget *kbd;
+
+    main_grid = gtk_bin_get_child(GTK_BIN(window));
+    if (main_grid != NULL) {
+        statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
+        if (statusbar != NULL) {
+            kbd = gtk_grid_get_child_at(GTK_GRID(statusbar), 0, 2);
+            if (kbd != NULL) {
+                if (state) {
+                    gtk_widget_show_all(kbd);
+                } else {
+                    gtk_widget_hide(kbd);
+                }
+            }
+        }
+    }
 }
 
+
+/** \brief  Show/hide the keyboard debugging widget on the statusbar
+ *
+ * \param[in]   state   visible state
+ */
+void ui_statusbar_set_kbd_debug(gboolean state)
+{
+    GtkWidget *window;
+
+    /* standard VIC/VICII/TED/CRTC window */
+    window = ui_get_window_by_index(0);
+    kbd_statusbar_widget_enable(window, state);
+    /* reduce window size so we don't have weird extra lines */
+    gtk_window_resize(GTK_WINDOW(window), 1, 1);
+
+    /* C128: Handle the VDC */
+    if (machine_class == VICE_MACHINE_C128) {
+        window = ui_get_window_by_index(1); /* VDC */
+        kbd_statusbar_widget_enable(window, state);
+        gtk_window_resize(GTK_WINDOW(window), 1, 1);
+    }
+}
 

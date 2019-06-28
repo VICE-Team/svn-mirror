@@ -110,6 +110,7 @@ void ui_enable_crt_controls(int enabled);
 void ui_enable_mixer_controls(int enabled);
 
 GtkWidget *ui_get_window_by_index(int index);
+int ui_get_window_index(GtkWidget *widget);
 
 #if 0
 #define UI_DRAG_TARGETS_COUNT   3

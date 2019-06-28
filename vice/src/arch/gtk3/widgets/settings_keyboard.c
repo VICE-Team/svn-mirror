@@ -5,6 +5,10 @@
  */
 
 /*
+ * $VICERES KbdStatusbar    all
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -79,6 +83,7 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(layout), kbdstatusbar, 0, 2, 1, 1);
     g_signal_connect(kbdstatusbar, "toggled", G_CALLBACK(on_kbd_debug_toggled),
             NULL);
+    g_object_set(kbdstatusbar, "margin-top", 16, NULL);
     gtk_widget_show_all(layout);
     return layout;
 }

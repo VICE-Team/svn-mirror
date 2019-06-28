@@ -557,7 +557,7 @@ video_canvas_t *ui_get_active_canvas(void)
  *
  * \return  window index, or -1 if not a main window
  */
-static int ui_get_window_index(GtkWidget *widget)
+int ui_get_window_index(GtkWidget *widget)
 {
     if (widget == NULL) {
         return -1;
