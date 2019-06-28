@@ -313,7 +313,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 #endif
     if (!res) {
         vice_gtk3_message_error(
-                "Failed to load PDF: %s.",
+                "Failed to load PDF, (No more joke here, guess the joke about Germans not having a sense of humor is at least partially true)",
                 error != NULL ? error->message : "<no message>");
     }
     lib_free(uri);
