@@ -38,5 +38,5 @@ make -j install
 # If you link in /usr/local/lib you can also run local copies:
 #
 
-ln -s /usr/local/bin
+ln -s /usr/local/lib
 ./src/x64sc
