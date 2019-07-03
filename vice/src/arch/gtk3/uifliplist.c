@@ -231,6 +231,9 @@ gboolean ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
      * select autoattach */
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_fliplist, FALSE));
+     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
+            create_file_chooser_filter(file_chooser_filter_all, FALSE));
+
     g_signal_connect(dialog, "response", G_CALLBACK(fliplist_load_response), data);
     gtk_widget_show_all(dialog);
     return TRUE;
