@@ -35,9 +35,7 @@
 #include "vsyncapi.h"
 #include "videoarch.h"
 
-#ifdef HAS_JOYSTICK
 #include "joy.h"
-#endif
 #ifdef WIN32_COMPILE
 #include "joy-win32.h"
 #endif
@@ -176,7 +174,7 @@ void vsyncarch_presync(void)
 {
     ui_update_lightpen();
     kbdbuf_flush();
-#if defined(HAS_JOYSTICK) && !defined(WIN32_COMPILE)
+#if !defined(WIN32_COMPILE)
     joystick();
 #endif
 #ifdef WIN32_COMPILE
