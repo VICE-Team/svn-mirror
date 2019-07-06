@@ -36,7 +36,6 @@
 #include "lib.h"
 #include "joy-osx-hidlib.h"
 
-#ifdef HAS_JOYSTICK
 #ifdef HAS_HIDMGR
 
 /* ----- Statics ----- */
@@ -361,6 +360,5 @@ int  joy_hidlib_get_value(joy_hid_device_t *device,
 }
 
 #endif /* HAS_HIDMGR */
-#endif /* HAS_JOYSTICK */
 #endif
 

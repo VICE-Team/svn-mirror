@@ -35,8 +35,6 @@
 #include "lib.h"
 #include "joy-osx-hid.h"
 
-#ifdef HAS_JOYSTICK
-
 /* ----- Static Data ----- */
 
 static joy_hid_device_array_t *device_array;
@@ -509,6 +507,5 @@ int joy_hid_get_axis_usage(const char *name)
     return -1;
 }
 
-#endif /* HAS_JOYSTICK */
 #endif
 

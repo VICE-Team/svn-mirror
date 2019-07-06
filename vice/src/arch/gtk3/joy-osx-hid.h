@@ -30,8 +30,6 @@
 
 #include "vice.h"
 
-#ifdef HAS_JOYSTICK
-
 #include "joy-osx-hidlib.h"
 
 /* axis map: define names of available axis on a HID device */
@@ -93,5 +91,4 @@ int  joy_hid_read_hat_switch(struct joystick_descriptor *joy, int *value);
 const char *joy_hid_get_axis_name(int usage);
 int joy_hid_get_axis_usage(const char *name);
 
-#endif
 #endif

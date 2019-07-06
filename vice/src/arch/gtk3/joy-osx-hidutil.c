@@ -35,7 +35,6 @@
 #include "log.h"
 #include "lib.h"
 
-#ifdef HAS_JOYSTICK
 #ifndef HAS_HIDMGR
 
 /* ----- Helpers ----- */
@@ -236,6 +235,5 @@ int  joy_hidlib_get_value(joy_hid_device_t *device,
 }
 
 #endif /* !HAS_HIDMGR */
-#endif /* HAS_JOYSTICK */
 #endif
 

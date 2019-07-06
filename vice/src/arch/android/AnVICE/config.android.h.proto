@@ -70,9 +70,6 @@
 /* Enable Mac IOHIDManager Joystick driver. */
 /* #undef HAS_HIDMGR */
 
-/* Enable joystick emulation. */
-#define HAS_JOYSTICK /**/
-
 /* Support 64bit integer for Win32 performance counter */
 /* #undef HAS_LONGLONG_INTEGER */
 

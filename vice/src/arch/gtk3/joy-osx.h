@@ -67,8 +67,6 @@
 #define HID_Y_AXIS      1
 #define HID_NUM_AXIS    2
 
-#ifdef HAS_JOYSTICK
-
 #include "vice.h"
 #include "types.h"
 
@@ -155,7 +153,5 @@ const char *joystick_ui_get_next_device_name(int *id);
 #else
 
 void joystick_close(void);
-
-#endif  /* HAS_JOYSTICK */
 
 #endif /* VICE_JOY_H */

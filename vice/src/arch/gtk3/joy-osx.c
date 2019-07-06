@@ -42,8 +42,6 @@
 #include "types.h"
 #include "util.h"
 
-#ifdef HAS_JOYSTICK
-
 /* ----- Static Data ------------------------------------------------------ */
 
 static int joy_done_init = 0;
@@ -77,14 +75,12 @@ typedef struct device_info_s {
 } device_info_t;
 
 static device_info_t predefined_device_list[] = {
-#ifdef HAS_JOYSTICK
     { "Analog joystick 0",  JOYDEV_ANALOG_0 },
     { "Analog joystick 1",  JOYDEV_ANALOG_1 },
     { "Analog joystick 2",  JOYDEV_ANALOG_2 },
     { "Analog joystick 3",  JOYDEV_ANALOG_3 },
     { "Analog joystick 4",  JOYDEV_ANALOG_4 },
     { "Analog joystick 5",  JOYDEV_ANALOG_5 },
-#endif
 #ifdef HAS_DIGITAL_JOYSTICK
     { "Digital joystick 0", JOYDEV_DIGITAL_0 },
     { "Digital joystick 1", JOYDEV_DIGITAL_1 },
@@ -1141,7 +1137,5 @@ void joystick_close(void)
 {
     /* NOP */
 }
-
-#endif /* HAS_JOYSTICK */
 
 #endif /* MACOSX_SUPPORT */
