@@ -78,14 +78,6 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 #ifdef UNIX /* (unix) */
-    { "HAS_JOYSTICK", "Enable joystick emulation.",
-#ifndef HAS_JOYSTICK
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef UNIX /* (unix) */
     { "HAS_USB_JOYSTICK", "Enable emulation for USB joysticks.",
 #ifndef HAS_USB_JOYSTICK
         0 },

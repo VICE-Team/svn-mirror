@@ -44,6 +44,7 @@
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "interrupt.h"
+#include "joy.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -71,14 +72,6 @@
 #include "zfile.h"
 
 /* #define DEBUGMACHINE */
-
-#ifdef WIN32_COMPILE
-# include "joy.h"
-#else
-# ifdef HAS_JOYSTICK
-#  include "joy.h"
-#  endif
-#endif
 
 #ifndef EXIT_SUCCESS
 #define EXIT_SUCCESS 0
@@ -293,9 +286,9 @@ void machine_shutdown(void)
     machine_specific_shutdown();
 
     autostart_shutdown();
-#ifdef HAS_JOYSTICK
+
     joystick_close();
-#endif
+
     sound_close();
 
     printer_shutdown();
