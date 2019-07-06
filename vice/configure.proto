@@ -2035,8 +2035,7 @@ dnl ----- Joystick support -----
 JOY_LIBS=
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
   AC_CHECK_HEADER(linux/joystick.h,
-                  [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
-                    HAS_JOYSTICK_SUPPORT="yes";
+                  [ HAS_JOYSTICK_SUPPORT="yes";
                     LINUX_JOYSTICK_SUPPORT="yes";
                     AC_DEFINE(LINUX_JOYSTICK,,
                               [Enable support for Linux style joysticks.])],)
@@ -2051,8 +2050,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
   fi
 
   AC_CHECK_HEADER(machine/joystick.h,
-                  [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
-                    HAS_JOYSTICK_SUPPORT="yes";
+                  [ HAS_JOYSTICK_SUPPORT="yes";
                     BSD_JOYSTICK_SUPPORT="yes";
                     AC_DEFINE(HAVE_MACHINE_JOYSTICK_H,,
                               [Define to 1 if you have the <machine/joystick.h> header file.])
@@ -2061,8 +2059,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
 
   if test x"$ac_cv_header_machine_joystick_h" != "xyes"; then
     AC_CHECK_HEADER(sys/joystick.h,
-                    [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
-                      HAS_JOYSTICK_SUPPORT="yes";
+                    [ HAS_JOYSTICK_SUPPORT="yes";
                       BSD_JOYSTICK_SUPPORT="yes";
                       AC_DEFINE(HAVE_SYS_JOYSTICK_H,,
                                 [Define to 1 if you have the <sys/joystick.h> header file.])
@@ -2124,7 +2121,6 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                   [IOHIDManagerCreate(NULL,0)],
                   [AC_MSG_RESULT(yes);
                    JOY_LIBS="-framework IOKit -framework CoreServices";
-                   AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
                    HAS_JOYSTICK_SUPPORT="yes";
                    MAC_JOYSTICK_SUPPORT="yes";
                    HAS_HIDMGR_SUPPORT="yes";
@@ -2149,7 +2145,6 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                   [HIDCountDevices()],
                   [AC_MSG_RESULT(yes);
                    JOY_LIBS="-lHIDUtilities -framework IOKit -framework CoreServices";
-                   AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
                    HAS_JOYSTICK_SUPPORT="yes";
                    MAC_JOYSTICK_SUPPORT="yes";
                    AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])],
@@ -2161,7 +2156,6 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
 fi
 if test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
   dnl Windows joystick support ... should always work
-  AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   HAS_JOYSTICK_SUPPORT="yes"
 fi
 AC_SUBST(JOY_LIBS)
@@ -3447,7 +3441,6 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   if test x"$ac_cv_lib_readline_readline" = "xyes"; then
     AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
   fi
-  AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   HAS_JOYSTICK_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   HAVE_MOUSE_SUPPORT="yes"
