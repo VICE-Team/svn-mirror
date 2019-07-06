@@ -42,7 +42,7 @@
 #include "resources.h"
 #include "types.h"
 
-#if defined(HAS_JOYSTICK) && defined(HAS_USB_JOYSTICK)
+#if defined(HAS_USB_JOYSTICK)
 
 #define ITEM_AXIS   0
 #define ITEM_BUTTON 1
@@ -322,6 +322,6 @@ void usb_joystick(void)
     }
 }
 
-#endif /* HAS_JOYSTICK && HAS_USB_JOYSTICK */
+#endif /* HAS_USB_JOYSTICK */
 #endif
 
