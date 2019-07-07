@@ -487,6 +487,7 @@ if test x"$ar_check" != "xno"; then
   else
     AC_MSG_RESULT(no)
   fi
+  rm -f libvicetest.a vicetest.o
 fi
 
 if test x"$TEXI2DVI" = "xno" -o x"$PDFTEX" = "xno"; then
