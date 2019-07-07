@@ -1131,11 +1131,4 @@ void joystick(void)
     }
 }
 
-#else
-
-void joystick_close(void)
-{
-    /* NOP */
-}
-
 #endif /* MACOSX_SUPPORT */
