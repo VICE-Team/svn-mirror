@@ -6,7 +6,8 @@ libraries to be available. E.g. the below doesn't work on LinuxMint 18.3 or
 earlier, though you may be able to manually download and compile GTK3.22 for
 your platform (untested).
 
-Tested on: Linux Mint 19, Ubuntu 17.10.1 and Ubuntu 18.04
+Tested on: 	Linux Mint 19, Ubuntu 17.10.1, Ubuntu 18.04, Ubuntu 19.04,
+		    Debian 9.0-9.8, Debian 10
 
 --------------------------------------------------------------------------------
 1. adhoc build from SVN
@@ -38,8 +39,9 @@ $ sudo apt-get install libglew-dev      # for OpenGL hardware scaling support
 
 The following are optional but recommended (not required for a basic build):
 
-$ sudo apt-get install texi2html        # (it this required? VICE carries its
-                                        # own texi2html in doc/html)
+$ sudo apt-get install texi2html        # Doesn't appear to be required at all
+                                        # since VICE carries its own texi2html
+                                        # in doc/html (tested on Debian 10)
 $ sudo apt-get install libreadline-dev
 $ sudo apt-get install libgif-dev       # GIF screenshot support
 $ sudo apt-get install libjpeg-dev      # JPEG screenshot support
