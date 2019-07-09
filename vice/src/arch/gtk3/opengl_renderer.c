@@ -29,6 +29,7 @@
 
 #ifdef HAVE_GTK3_OPENGL
 
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef MACOSX_SUPPORT
@@ -47,6 +48,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "video.h"
+#include "vice_gtk3.h"
 
 /** \brief The screen has not changed, so the texture may be used
  *         unchanged */
@@ -267,8 +269,13 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     gtk_gl_area_make_current(area);
     err = gtk_gl_area_get_error(area);
     if (err != NULL) {
-        log_error(LOG_ERR, "Could not realize GL context: %s\n", err->message);
-        return;
+        log_error(LOG_ERR, "Could not realize GL context: %d: %s\n",
+                err->code, err->message);
+	    vice_gtk3_message_error(
+                "OpenGL",
+                "Error: %d: %s",
+                err->code, err->message);
+        exit(1);
     }
     if (canvas->renderer_context) {
         log_warning(LOG_DEFAULT, "WARNING: Re-realizing the GtkGL area! This will leak.\n");
@@ -288,7 +295,12 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     if (!GLEW_VERSION_1_1) {
         log_error(LOG_DEFAULT, "GTKGL: OpenGL cannot be initialized even in legacy mode");
         log_error(LOG_ERR, "GTKGL: OpenGL cannot be initialized even in legacy mode");
-        return;
+        vice_gtk3_message_error(
+                "OpenGL",
+                "OpenGL cannot be initialized even in legacy mode.\n"
+                "Error: %d: %s",
+                glErr, glewGetErrorString(glErr));
+        exit(1);
     }
 #endif
 
