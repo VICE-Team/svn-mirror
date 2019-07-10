@@ -1132,7 +1132,9 @@ void parse_and_execute_line(char *input)
 
 static int yyerror(char *s)
 {
+#if 0
    fprintf(stderr, "ERR:%s\n", s);
+#endif
    return 0;
 }
 
