@@ -338,31 +338,33 @@ static inline void vicii_handle_vsp_bug(void)
         
     /* simulate the "VSP bug" problem */
     if(vicii_resources.vsp_bug_enabled) {
-        
-        if(((vsp_buglines[line] + vsp_bugchannels[channel]) + lib_unsigned_rand(0, 0x01)) > VSP_PROB_THRESH) {
-        
-            for(page = 0x00; page < 0xff; page ++) {
-                int seen0 = 0, seen1 = 0, fragile, result;
-                int firstrow = 7;
-                /* in each page, all addresses ending with 7 or F are affected */
-                for(row = firstrow; row <= 0xff; row += 0x08) {
-                    seen0 |= vicii.ram_base_phi1[((page << 8) | row) & 0xffff] ^ 255;
-                    seen1 |= vicii.ram_base_phi1[((page << 8) | row) & 0xffff];
-                }
-                fragile = (seen0 & seen1);
-                result = fragile & lib_unsigned_rand(0, 0xff);
-
-                for(row = firstrow; row <= 0xff; row += 0x08) {
-                    vicii.ram_base_phi1[((page << 8) | row) & 0xffff] &= ~fragile;
-                    vicii.ram_base_phi1[((page << 8) | row) & 0xffff] |= result;
-#if 0
-                    if (vsp_bugwarn) {
-                        log_message(vicii.log,
-                            "VSP Bug: Corrupting %04x, fragile %02x, new bits %02x", 
-                            (unsigned int)(page << 8) | row,
-                            (unsigned int)fragile, (unsigned int)result);
+        if((vsp_buglines[line] + vsp_bugchannels[channel] + lib_unsigned_rand(0, 1)) > VSP_PROB_THRESH) {
+            for(page = 0x00; page < 0xff; page++) {
+                /* keep 98,5% of all pages untouched. this is hand tweaked to result in
+                 * somewhat convincing long term plots in vsp-lab */
+                if (lib_unsigned_rand(0, 1000) > 985) {
+                    int seen0 = 0, seen1 = 0, fragile, result;
+                    int firstrow = 7;
+                    /* in each page, all addresses ending with 7 or F are affected */
+                    for(row = firstrow; row <= 0xff; row += 0x08) {
+                        seen0 |= vicii.ram_base_phi1[((page << 8) | row) & 0xffff] ^ 255;
+                        seen1 |= vicii.ram_base_phi1[((page << 8) | row) & 0xffff];
                     }
+                    fragile = (seen0 & seen1);
+                    result = fragile & lib_unsigned_rand(0, 0xff);
+
+                    for(row = firstrow; row <= 0xff; row += 0x08) {
+                        vicii.ram_base_phi1[((page << 8) | row) & 0xffff] &= ~fragile;
+                        vicii.ram_base_phi1[((page << 8) | row) & 0xffff] |= result;
+#if 0
+                        if (vsp_bugwarn) {
+                            log_message(vicii.log,
+                                "VSP Bug: Corrupting %04x, fragile %02x, new bits %02x", 
+                                (unsigned int)(page << 8) | row,
+                                (unsigned int)fragile, (unsigned int)result);
+                        }
 #endif
+                    }
                 }
             }
         }
