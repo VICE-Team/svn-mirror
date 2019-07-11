@@ -40,7 +40,7 @@ to say the least.
 
 So as the normal user:
 
-$ su (enter password)
+$ su
 $ apt install sudo
 
 We don't have /sbin in our path, so we need to do this:
@@ -63,33 +63,37 @@ We need quite a few packages on the VM:
 * byacc
 * flex
 * texinfo
-* texlive-\* (?) (for pdf)
+* texlive-fonts-recommended
 * mingw-w64
-* mingw-x64-tools
-* meson + ninja (a build system used by GLib, Python based)
-
-    Do not use apt, but use pip (as root):
-
-    $ apt-get install python3-pip
-    $ pip3 install meson ninja
-
-* xa65
-
-(lots more, I forgot)
-
-* A decent text editor, I'm using Vim
-
-
-* gettext (required by Atk, not sure if need to build a Windows version)
+* mingw-w64-tools
+* subversion
+* git
 * curl
+* xa65
+* python3-pip
+* meson + ninja (a build system used by Gnome/Gtk, Python based)
+
+    Do not use apt, but use pip3:
+
+    $ sudo pip3 install meson ninja
+
+(Perhaps more, we'll get to it when we hit a problem)
 
 
 #### Optional packages
 
-links, a text-based web browser to download source packages, but wget will
-probably do fine.
+* A decent text editor, I'm using Vim:
+$ apt install vim
 
-Virtualbox Guest Additions
+* A text mode web browser, I use links2, had good experience with it when
+  setting up Gentoo:
+$ apt install links2
+
+
+##### VirtualBox guest additions
+
+-- end-of-last-edit --
+
 
 Install dmks, then in the VBox UI select "Devices" -> "Insert Guest Additions Cd Image ...".
 On my VM the CD didn't automount, so (as root) mount the CD with `mount /dev/cdrom /media/cdrom`
