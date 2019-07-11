@@ -50,6 +50,7 @@
 #include "vicii-chip-model.h"
 #include "vicii-cmdline-options.h"
 #include "vicii-color.h"
+#include "vicii-cycle.h"
 #include "vicii-draw.h"
 #include "vicii-draw-cycle.h"
 #include "vicii-fetch.h"
@@ -323,8 +324,10 @@ void vicii_reset(void)
     vicii.vborder = 1;
     vicii.set_vborder = 1;
     vicii.main_border = 1;
+    
 }
 
+/* called at powerup */
 void vicii_reset_registers(void)
 {
     uint16_t i;
@@ -336,6 +339,8 @@ void vicii_reset_registers(void)
     for (i = 0; i <= 0x3f; i++) {
         vicii_store(i, 0);
     }
+
+    vicii_init_vsp_bug();
 }
 
 /* This /should/ put the VIC-II in the same state as after a powerup, if

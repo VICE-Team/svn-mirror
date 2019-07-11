@@ -35,6 +35,7 @@
 #include "raster-resources.h"
 #include "resources.h"
 #include "vicii-chip-model.h"
+#include "vicii-cycle.h"
 #include "vicii-color.h"
 #include "vicii-resources.h"
 #include "vicii-timing.h"
@@ -73,6 +74,7 @@ static int set_sprite_background_collisions_enabled(int val, void *param)
 static int set_vsp_bug_enabled(int val, void *param)
 {
     vicii_resources.vsp_bug_enabled = val;
+    vicii_init_vsp_bug();
     return 0;
 }
 
