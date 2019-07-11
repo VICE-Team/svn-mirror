@@ -5,17 +5,50 @@
 
 ## Test machine setup details
 
-I'll be using a Debian 9.8 64-bit VM, and the target is to create a cross-build
+I'll be using a Debian 10.0 64-bit VM, and the target is to create a cross-build
 system for 64-bit Windows. I choose Debian since that is what pokefinder uses,
 it is widely used, I'm familiar with it, and our other build instructions use
-Debian as well.
+Debian as well. I'll be using 'vice' as the username for both root and the
+default user, passwords for both will also be 'vice', to keep thing simple.
+
 
 I used the netinstall CD image to install Debian:
-<https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.8.0-amd64-netinst.iso>
+<https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.0.0-amd64-netinst.iso>
 
-When the installer runs dselect(?), select only 'base system' and 'ssh server'.
-We want a headless box so all this can (hopefully) be reproduced on the pokefinder
-server.
+When the installer asks for the 'Software selection', select only 'SSH server'
+and 'standard system utilities', nothing else.
+We want a headless box so all this can (hopefully) be reproduced on the
+pokefinder server.
+
+When the installer asks to reboot, do so.
+
+After reboot log in as the normal user, and do `su`.
+
+Update any packages:
+
+$ apt update
+$ apt upgrade
+
+Reboot if required (ie kernal update or so)
+
+
+### Enable sudo
+
+Debian 10.0 no longer updates $PATH when using `su` which means some binaries
+in /sbin may not be found, such as `shutdown` and `reboot`, which is annoying,
+to say the least.
+
+So as the normal user:
+
+$ su (enter password)
+$ apt install sudo
+
+We don't have /sbin in our path, so we need to do this:
+$ /sbin/adduser vice sudo
+
+Now log out from the root shell AND the normal user shell and log back in as
+the normal user for the sudoers changes to take effect.
+
 
 
 ### Installing required packages on the VM
@@ -39,6 +72,8 @@ We need quite a few packages on the VM:
 
     $ apt-get install python3-pip
     $ pip3 install meson ninja
+
+* xa65
 
 (lots more, I forgot)
 
