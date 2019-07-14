@@ -155,7 +155,7 @@ $ sudo ninja -C builddir install
 
 ##### Testing the Glib instal
 
-Paste this in some-file.txt:
+Paste this in "test-glib-win64.c":
 
 ```C
 #include <glib.h>
@@ -174,7 +174,7 @@ int WinMain(HINSTANCE hInstance,
 And run:
 ```
 $ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-$ x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --cflags glib-2.0` test-glib-win32.c `x86_64-w64-mingw32-pkg-config --libs glib-2.0`
+$ x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --cflags glib-2.0` test-glib-win64.c `x86_64-w64-mingw32-pkg-config --libs glib-2.0`
 ```
 
 This should build an a.exe which prints "WinMain() called!" (you'll need a Windows box for this)
