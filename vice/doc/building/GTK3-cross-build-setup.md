@@ -80,6 +80,23 @@ We need quite a few packages on the VM:
 (Perhaps more, we'll get to it when we hit a problem)
 
 
+#### Fix pkg-config for Windows cross-building
+
+Currently (2019-07-14), Debian has an issue with running pkg-config for Windows
+cross-builds. Whenever you run into a message like:
+
+    Please install dpkg-dev to use pkg-config when cross-building
+
+Don't bother installing dpkg-dev, it's already installed and reinstalling won't
+fix anything.
+
+Edit `/usr/share/pkg-config-crosswrapper` and comment out the 'if [ "$?" != 0 ]
+branch after the multiarch="...." line (line 13 on my box).
+
+
+
+
+
 #### Optional packages
 
 * A decent text editor, I'm using Vim:
@@ -92,48 +109,55 @@ $ apt install links2
 
 ##### VirtualBox guest additions
 
--- end-of-last-edit --
+Install dmks (this will also install the kernal headers needed):
 
+$ apt install dkms
 
-Install dmks, then in the VBox UI select "Devices" -> "Insert Guest Additions Cd Image ...".
+then in the VBox UI select "Devices" -> "Insert Guest Additions Cd Image ...".
 On my VM the CD didn't automount, so (as root) mount the CD with `mount /dev/cdrom /media/cdrom`
-Then (as root), run `sh /media/cdrom/VBoxLinuxAdditions.run`, this will install
-the guest additions kernel modules (takes a while), so we can use "shared folders" and shared/bidirection clipboards. The VM's framebuffer will also become a bit larger.
+Then run
+$ sudo sh /media/cdrom/VBoxLinuxAdditions.run
 
-Reboot the VM to make the guest additions work properly.
+Reboot the VM to make the guest additions work properly,
 
 
 ### Building Gtk and related packages
 
-I decided to use /opt/cross as the target of the cross-compiled packages. No
-idea if that's clever, we'll have to see. But at least it keeps all the Windows
-stuff removed from the Linux stuff, and makes for easier packaging later, if
-required.
-
 The following instructions assume using the home directory as the target for downloads and extracted tarballs. Also, unless otherwise notified, the "normal" user (ie non-root) should be used.
+
 
 
 #### GLib
 
-Download and extract <https://download.gnome.org/sources/glib/2.60/glib-2.60.0.tar.xz>
+$ wget https://download.gnome.org/sources/glib/2.61/glib-2.61.1.tar.xz
+$ tar -vxf glib-2.61.1.tar.xz
+$ cd ~/glib-2.61.1.1/
+
 
 I'll be following these instructions to cross-compile GLib:
 <https://developer.gnome.org/glib/stable/glib-cross-compiling.html>
+And I'll be using the default /usr/local prefix.
+(Note that thate page uses an incorrect command line argument for meson:
+ it uses --cross_file, while Meson uses --cross-file)
 
-So, create a cross_build.txt file in the glib dirm and then run:
-$ meson --prefix=/opt/cross --cross-file cross_file.txt builddir
 
-After that, cd to builddir/ and use ninja to install (as root):
-$ ninja install
+Create a ~/glib2-cross_file.txt file as mentioned on that page, and run:
 
-This will install the Glib-2.0 files into /opt/cross/usr/local/
+$ meson --cross-file ~/glib2-cross_file.txt builddir
+
+After that build the library:
+$ ninja -C builddir
+
+And install it:
+$ sudo ninja -C builddir install
+
 
 
 ##### Testing the Glib instal
 
 Paste this in some-file.txt:
 
-```
+```C
 #include <glib.h>
 #include <windows.h>
 
@@ -142,16 +166,21 @@ int WinMain(HINSTANCE hInstance,
             LPSTR     lpCommandLine,
             int       nShowCommand)
 {
-        g_print("WinMain called\n");
+        g_print("WinMain() called!\n");
+        return 0;
 }
 ```
 
 And run:
-
-$ export PKG_CONFIG_PATH=/opt/cross/bin/pkgconfig
+```
+$ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 $ x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --cflags glib-2.0` test-glib-win32.c `x86_64-w64-mingw32-pkg-config --libs glib-2.0`
+```
 
-This should build an a.exe which prints "WinMain called" (you'll need a Windows box for this)
+This should build an a.exe which prints "WinMain() called!" (you'll need a Windows box for this)
+
+
+--end-of-edit--
 
 
 #### Atk
