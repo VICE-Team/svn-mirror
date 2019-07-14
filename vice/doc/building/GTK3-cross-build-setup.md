@@ -125,6 +125,44 @@ Reboot the VM to make the guest additions work properly,
 
 The following instructions assume using the home directory as the target for downloads and extracted tarballs. Also, unless otherwise notified, the "normal" user (ie non-root) should be used.
 
+I'll be using the /usr/x86_64-w64-mingw32 prefix used by mingw to install all
+cross-built stuff.
+
+
+#### zlib
+
+```
+$ wget https://zlib.net/zlib-1.2.11.tar.gz
+$ tar -xvzf zlib-1.2.11.tar.gz
+$ cd zlib-1.2.11.tar.gz
+```
+
+Stole this from <https://wiki.openttd.org/Cross-compiling_for_Windows#zlib> and
+altered it for this guide.
+
+```
+$ sed -e s/"PREFIX ="/"PREFIX = x86_64-w64-mingw32-"/ -i win32/Makefile.gcc
+$ make -f win32/Makefile.gcc
+$ sudo BINARY_PATH=/usr/x86_64-w64-mingw32/bin \
+    INCLUDE_PATH=/usr/x86_64-w64-mingw32/include \
+    LIBRARY_PATH=/usr/x86_64-w64-mingw32/lib \
+    make -f win32/Makefile.gcc install
+```
+
+#### libpng
+
+```
+$ wget https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz
+$ cd libpng-1.6.3
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 --host=x86_64-w64-mingw32
+$ sudo make install
+```
+
+[no errors whatsoever, which is nice]
+
+**For most of the remaing libs, it might be a good idea to look at Fedora's
+build scripts**
+[end-of-edit 2019-07-15 00:00]
 
 
 #### GLib
@@ -180,10 +218,8 @@ $ x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --cflags glib-2.0` test-
 This should build an a.exe which prints "WinMain() called!" (you'll need a Windows box for this)
 
 
---end-of-edit--
 
-
-#### Atk
+#### Atk (Doesn't work on Windows, so hopefully we can skip this)
 
 Download and extract <https://download.gnome.org/sources/atk/2.32/atk-2.32.0.tar.xz>
 
@@ -191,7 +227,7 @@ $ cd atk-2-32
 $ cp ~/glib-2.58.2/cross_file.txt ,
 
 Shit, Atk depends on xgettext
-
+./con   
 $ meson --prefix=/opt/cross --cross-file cross_file.txt
 $ cd builddir
 (as root)
@@ -204,19 +240,9 @@ or Atk.
 
 #### Cairo
 
+##### libpng
 
-First we need to install libpng
-
-$ wget https://downloads.sourceforge.net/project/libpng/libpng16/1.6.36/libpng-1.6.36.tar.gz
-$ cd libpng-1.6.36
-$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig CPPFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/bin" ./configure --prefix=/opt/cross --host=x86_64-w64-mingw32
-
-$ make
-(libtools spits out a lot of errors, we'll see if that has consequences)
-
-(as root)
-$ make install
-
+udo 
 We also need pixman:
 
 $ wget https://www.cairographics.org/releases/pixman-0.38.2.tar.gz
