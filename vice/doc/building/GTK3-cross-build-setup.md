@@ -267,26 +267,38 @@ $ ninja -C builddir
 $ sudo ninja -C builddir install
 ```
 
-[end-of-edit 2019-07-15 23:43]
-
-
-
-Running configure in gtk3-3.24.7 does no longer complaing about missing GLib
-or Atk.
 
 
 #### Cairo
 
-##### libpng
+##### Pixman
 
-udo 
+Cairo requires pixman, so let's build that first:
 We also need pixman:
 
-$ wget https://www.cairographics.org/releases/pixman-0.38.2.tar.gz
+```
+$ wget https://www.cairographics.org/releases/pixman-0.38.4.tar.gz
+$ tar -xvzf pixman-0.38.4.tar.gz
+$ cd ~/pixman-0.38.4
+```
 
-unpack and cd 
-$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig CPPFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/bin" ./configure --prefix=/opt/cross --host=x86_64-w64-mingw32
-$ make
+Copy ~/config-files/glib2-cross-file.txt to ~/config-files/pixman-cross-file.txt
+
+Now configure, build and install pixman:
+```
+$ meson --prefix /usr/x86_64-w64-mingw32 \
+        --cross-file ~/config-files/pixman-cross-file.txt \
+        builddir
+$ ninja -C builddir
+$ sudo ninja -C builddir install
+```
+
+
+#### Libfreetype2
+
+[end-of-edit 2019-07-16 00:32]
+
+
 
 
 we need libfreetype2:
