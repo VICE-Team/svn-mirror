@@ -162,15 +162,15 @@ $ sudo make install
 
 **For most of the remaing libs, it might be a good idea to look at Fedora's
 build scripts**
-[end-of-edit 2019-07-15 00:00]
 
 
 #### GLib
 
+```
 $ wget https://download.gnome.org/sources/glib/2.61/glib-2.61.1.tar.xz
 $ tar -vxf glib-2.61.1.tar.xz
 $ cd ~/glib-2.61.1.1/
-
+```
 
 I'll be following these instructions to cross-compile GLib:
 <https://developer.gnome.org/glib/stable/glib-cross-compiling.html>
@@ -178,22 +178,33 @@ And I'll be using the default /usr/local prefix.
 (Note that thate page uses an incorrect command line argument for meson:
  it uses --cross_file, while Meson uses --cross-file)
 
+Since Meson/Ninja need user-created config files, I'll be creating a directory
+~/config-files/ where I'll store those files, so I can package those files later,
+should I wish to.
 
-Create a ~/glib2-cross_file.txt file as mentioned on that page, and run:
 
-$ meson --cross-file ~/glib2-cross_file.txt builddir
+Create a ~/config-files/glib2-cross-file.txt file as mentioned on that page, and run:
+
+```
+$ meson --prefix /usr/x86_64-w64-mingw32 --cross-file ~/config-files/glib2-cross-file.txt builddir
+```
 
 After that build the library:
+```
 $ ninja -C builddir
+```
 
 And install it:
+```
 $ sudo ninja -C builddir install
+```
 
 
+##### Testing the Glib install
 
-##### Testing the Glib instal
+For test compiles I'll use a directory ~/test-files
 
-Paste this in "test-glib-win64.c":
+So cd to ~/test-files and paste this into "test-glib-win64.c":
 
 ```C
 #include <glib.h>
@@ -211,11 +222,16 @@ int WinMain(HINSTANCE hInstance,
 
 And run:
 ```
-$ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-$ x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --cflags glib-2.0` test-glib-win64.c `x86_64-w64-mingw32-pkg-config --libs glib-2.0`
+$ x86_64-w64-mingw32-gcc `x86_64-w64-mingw32-pkg-config --cflags glib-2.0` \
+        test-glib-win64.c `x86_64-w64-mingw32-pkg-config --libs glib-2.0`
 ```
 
-This should build an a.exe which prints "WinMain() called!" (you'll need a Windows box for this)
+This should build an a.exe which prints "WinMain() called!"
+(you'll need a Windows box for this, so scp "a.exe" to the Windows box and run
+ a.exe on that.)
+
+
+[end-of-edit 2019-07-15 22:49]
 
 
 
