@@ -62,6 +62,7 @@ We need quite a few packages on the VM:
 * pkg-config
 * byacc
 * flex
+* gettext (for Atk)
 * texinfo
 * texlive-fonts-recommended
 * mingw-w64
@@ -231,23 +232,43 @@ This should build an a.exe which prints "WinMain() called!"
  a.exe on that.)
 
 
-[end-of-edit 2019-07-15 22:49]
 
 
 
 #### Atk (Doesn't work on Windows, so hopefully we can skip this)
 
-Download and extract <https://download.gnome.org/sources/atk/2.32/atk-2.32.0.tar.xz>
+Download and extract Atk 2.33.3:
 
-$ cd atk-2-32
-$ cp ~/glib-2.58.2/cross_file.txt ,
+```
+$ wget https://download.gnome.org/sources/atk/2.33/atk-2.33.3.tar.xz
+$ tar -xvf atk-2.33.3.tar.xz
+$ cd atk-2-33.3
+```
 
-Shit, Atk depends on xgettext
-./con   
-$ meson --prefix=/opt/cross --cross-file cross_file.txt
-$ cd builddir
-(as root)
-$ ninja install
+Copy over the Meson cross-file we used for GLib:
+```
+$ cp ~/config-files/glib2-cross-file.txt ~/config-files/atk-cross-file.txt
+```
+
+Add the following lines under the [binaries] header:
+```
+glib-genmarshal = '/usr/x86_64-w64-mingw32/bin/glib-genmarshal'
+glib-mkenums = '/usr/x86_64-w64-mingw32/bin/glib-mkenums'
+```
+
+Now configure and build Atk:
+(make sure to include the `-Dintrospection` to avoid trouble later!)
+```
+$ meson --prefix /usr/x86_64-w64-mingw32 \
+        --cross-file ~/config-files/atk-cross-file.txt \
+        -Dintrospection=false \
+        builddir
+$ ninja -C builddir
+$ sudo ninja -C builddir install
+```
+
+[end-of-edit 2019-07-15 23:43]
+
 
 
 Running configure in gtk3-3.24.7 does no longer complaing about missing GLib
