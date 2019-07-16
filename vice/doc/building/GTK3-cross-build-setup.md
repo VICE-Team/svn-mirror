@@ -307,7 +307,81 @@ $ cd freetype-2.10.1
 Freetype uses autotools, not Meson:
 
 ```
-$ ./configure --prefix=/usr/x86_64-w64-mingw32 --host=x86_64-w64-mingw32
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 \
+              --host=x86_64-w64-mingw32 \
+              --enable-static \
+              --enable-shared
+$ make
+$ sudo make install
+```
+
+#### Dependency: fontconfig
+
+Cairo needs fontconfig, so let's install that now. Version numbers ending in 91-99 appear to be unstable releases, so we won't use those.
+
+
+##### Dependency: libxml2
+
+Fontconfig needs either libxml2 or expat, let's install libxml2, since it was developed for Gnome.
+
+```
+$ wget ftp://xmlsoft.org/libxml2/libxml2-2.9.9.tar.gz
+$ tar -xvzf libxml2-2.9.9.tar.gz
+$ cd libxml2-2.9.9
+```
+
+Configure, build and install libxml2:
+
+libxml2 fails to link with --enable-shared (which is its default), it also appears to think it can generate Python bindings, which will also fail:
+
+```
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 \
+              --host=x86_64-w64-mingw32 \
+              --enable-static \
+              --disable-shared \
+              --without-python
+$ make
+$ sudo make install
+```
+
+
+##### Dependency: gperf
+
+Seems fontconfig also needs gpref, so we'll be installing that as well, sigh.
+
+```
+$ sudo apt install gperf
+```
+
+##### Dependency: libuuid?
+
+Building fontconfig fails with errors building tests due to not recognizing
+the `uuid_t` type.
+
+https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+
+Aargh: `#include <sys/syscall.h>`, so not portable as the author claims.
+
+
+[ **We'll skip fontconfig for now** ]
+
+
+#### Build and install fontconfig
+
+```
+$ wget https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.gz
+$ tar -xvzf fontconfig-2.13.1.tar.gz
+$ cd fontconfig-2.13.1
+```
+
+```
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 \
+              --host=x86_64-w64-mingw32 \
+              --enable-static \
+              --enable-shared \
+              --enable-iconv \
+              --disable-docs \
+              --enable-libxml2
 $ make
 $ sudo make install
 ```
@@ -315,19 +389,40 @@ $ sudo make install
 
 #### Build and install Cairo
 
-[end-of-edit 2019-07-16 13:00]
+Cairo uses the release style where even minor numbers are stable and uneven are unstable, so we'll grab the latest stable release:
+
+```
+$ wget https://cairographics.org/releases/cairo-1.16.0.tar.xz
+$ tar -xvf cairo-1.16.0.tar.xz
+$ cd cairo-1.16.0
+```
+
+Cairo has a large selection of configure options, including options for OpenGL, OpenGLESv2 and OpenGLESv3. Neither MSYS2 nor Fedora seem to use these in their build scripts, so we'll skip these for now.
+
+Most of the configure switches are taken from MSYS2's PKGBUILD script. I've removed fontconfig support since that caused a lot of trouble (uuid).
+
+```
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 \
+              --host=x86_64-w64-mingw32 \
+              --enable-win32 \
+              --enable-win32-font \
+              --enable-png \
+              --enable-static \
+              --enable-gobject \
+              --enable-tee \
+              --disable-xlib \
+              --disable-xcb \
+              --enable-ft
+$ make
+$ sudo make install
+```
+
+[end-of-edit 2019-07-16 16:07]
 
 
 
 
-
-Let's try Cairo now:
-
-$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig CPPFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" ./configure --prefix=/opt/cross --host=x86_64-w64-mingw32
-
-
-Works.
-
+### Pango
 
 
 Now we need Pango
