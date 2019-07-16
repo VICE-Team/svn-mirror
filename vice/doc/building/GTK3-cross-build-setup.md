@@ -613,6 +613,38 @@ Gtk3 needs EGL support, unfortunately that requires compiling libepoxy against m
 [-end-of-edit 2019-07-16 22:20]
 
 
+##### Dependency: llvm
+
+$ sudo apt install cmake
+
+```
+$ wget https://releases.llvm.org/8.0.0/llvm-8.0.0.src.tar.xz
+$ tar -xvf llvm-8.0.0.src.tar.xz
+$ cd llvm-8.0.0.src
+```
+
+Create a ~/config-files/Toolchain-mingw32.cmake file with:
+
+(Might need more shit, no idea)
+
+```Cmake
+SET(CMAKE_SYSTEM_NAME Windows)
+SET(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
+SET(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
+SET(CMAKE_RC_COMPILER x86_64-w64-mingw32-windres)
+SET(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32 /usr/x86_64-w64-mingw32)
+```
+
+```
+$ mkdir builddir
+$ cd builddir
+$ cmake -DCMAKE_TOOLCHAIN_FILE=~/config-files/Toolchain-mingw32.cmake \
+        -DCMAKE_CXX_STANDARD=11 ..
+$ make
+
+Fucks up about std::mutex
+```
+
 -- old shit --
 
 $ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" meson --prefix=/opt/cross --cross-file cross_file.txt -Dgir=false -Dman=false -Dx11=false builddir -Degl=yes
