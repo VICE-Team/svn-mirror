@@ -544,24 +544,77 @@ $ sudo ninja -C builddir install
 
 
 [ end-of-edit 2019-07-16 21:13 ]
--- old shit --
 
 
 ### Gtk3
 
+First let's try building Gtk3 without any fancy OpenGL stuff. Once we get the build system to create a Cairo-based Gtk3-Windows dist, we can tweak the VM to try to get OpenGL working.
+
+[--old-shit--]
 $ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" ./configure --prefix=/usr/cross --host=x86_64-w64-mingw32 --disable-introspection --enable-win32-backend --enable-win32-gles --disable-wayland-backend --disable-mir-backend --disable-x11-backend
 
-
 This currently fails with not finding Epoxy, a lib similar to GLEW.
+[--end-old-shit--]
 
-#### Building Expoy
+**TODO: add proper URL for Gtk+**
+```
+$ wget gtk+-3.24.10.tar.gz
+$ tar -xvzf gtk+-3.24.10.tar.gz
+$ cd gtk+-3.24.10
+
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 \
+              --host=x86_64-w64-mingw32 \
+              --disable-static \
+              --enable-shared \
+              --disable-x11-backend \
+              --enable-win32-backend \
+              --disable-quartz-backend \
+              --disable-broadway-backend \
+              --disable-wayland-backend \
+              --disable-mir-backend \
+              --disable-glibtest \
+              --disable-win32-gles \
+              --disable-cups \
+              --disable-papi \
+              --disable-cloudprint \
+              --enable-introspection=no \
+              --enable-gtk-doc=no \
+              --enable-gtk-doc-html=no \
+              --enable-gtk-doc-pdf=no \
+              --enable-man=no
+```
+
+Still needs Expoxy:
+
+
+
+#### Dependency Expoy
 
 This is a hard requirement for Gtk3, and apparently only available via git:
 
+```
 $ git clone https://github.com/anholt/libepoxy.git
-(Do not copy the URL from the github website, that somehow uses some weird charset which looks okay, it'll bitch about 'https' not being a proper protocol)
-
 $ cd ~/libepoxy
+$ cp ~/config-files/atk-cross-file.txt ~/config-files/epoxy-cross-file.txt
+$ meson --prefix /usr/x86_64-w64-mingw32 \
+        --cross-file ~/config-files/epoxy-cross-file.txt \
+        -Ddocs=false \
+        -Dglx=no \
+        -Degl=yes \
+        -Dx11=false \
+        -Dtests=false \
+        builddir
+$ ninja -C builddir
+$ sudo ninja -C builddir install
+```
+
+Gtk3 needs EGL support, unfortunately that requires compiling libepoxy against mesa, which in turn seems to need llvm. So I give up for now :)
+
+[-end-of-edit 2019-07-16 22:20]
+
+
+-- old shit --
+
 $ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" meson --prefix=/opt/cross --cross-file cross_file.txt -Dgir=false -Dman=false -Dx11=false builddir -Degl=yes
 $ su
 $ cd builddir
