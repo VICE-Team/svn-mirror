@@ -271,7 +271,7 @@ $ sudo ninja -C builddir install
 
 #### Cairo
 
-##### Pixman
+##### Dependency: pixman
 
 Cairo requires pixman, so let's build that first:
 We also need pixman:
@@ -294,15 +294,31 @@ $ sudo ninja -C builddir install
 ```
 
 
-#### Libfreetype2
+#### Dependency: freetype2
 
-[end-of-edit 2019-07-16 00:32]
+Now we need to install freetype2:
+
+```
+$ wget https://download.savannah.gnu.org/releases/freetype/freetype-2.10.1.tar.gz
+$ tar -xvzf freetype-2.10.1.tar.gz
+$ cd freetype-2.10.1
+```
+
+Freetype uses autotools, not Meson:
+
+```
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 --host=x86_64-w64-mingw32
+$ make
+$ sudo make install
+```
+
+
+#### Build and install Cairo
+
+[end-of-edit 2019-07-16 13:00]
 
 
 
-
-we need libfreetype2:
-https://download.savannah.gnu.org/releases/freetype/freetype-2.10.0.tar.gz
 
 
 Let's try Cairo now:
