@@ -176,6 +176,7 @@ static int mmc64_dump(void);
 static uint8_t mmc64_clockport_read(uint16_t io_address);
 static uint8_t mmc64_clockport_peek(uint16_t io_address);
 static void mmc64_clockport_store(uint16_t io_address, uint8_t byte);
+static int mmc64_clockport_dump(void);
 
 static io_source_t mmc64_io1_clockport_enable_device = {
     CARTRIDGE_NAME_MMC64 " Clockport enable",
@@ -217,7 +218,7 @@ static io_source_t mmc64_io1_clockport_device = {
     mmc64_clockport_store,
     mmc64_clockport_read,
     mmc64_clockport_peek,
-    mmc64_dump,
+    mmc64_clockport_dump,
     CARTRIDGE_MMC64,
     0,
     0
@@ -232,7 +233,7 @@ static io_source_t mmc64_io2_clockport_device = {
     mmc64_clockport_store,
     mmc64_clockport_read,
     mmc64_clockport_peek,
-    mmc64_dump,
+    mmc64_clockport_dump,
     CARTRIDGE_MMC64,
     0,
     0
@@ -1028,22 +1029,26 @@ static uint8_t mmc64_io1_peek(uint16_t addr)
 
 static uint8_t mmc64_clockport_read(uint16_t address)
 {
+    if (address < 0x02) {
+        mmc64_current_clockport_device->io_source_valid = 0;
+        return 0;
+    }
+    /* read from clockport device */
     if (clockport_device) {
-        if (address < 0x02) {
-            mmc64_current_clockport_device->io_source_valid = 0;
-            return 0;
-        }
         return clockport_device->read(address, &mmc64_current_clockport_device->io_source_valid, clockport_device->device_context);
     }
+    /* read open clock port */
+    mmc64_current_clockport_device->io_source_valid = 1;
     return 0;
 }
 
 static uint8_t mmc64_clockport_peek(uint16_t address)
 {
+    if (address < 0x02) {
+        return 0;
+    }
+    /* read from clockport device */
     if (clockport_device) {
-        if (address < 0x02) {
-            return 0;
-        }
         return clockport_device->peek(address, clockport_device->device_context);
     }
     return 0;
@@ -1051,13 +1056,22 @@ static uint8_t mmc64_clockport_peek(uint16_t address)
 
 static void mmc64_clockport_store(uint16_t address, uint8_t byte)
 {
-    if (clockport_device) {
-        if (address < 0x02) {
-            return;
-        }
+    if (address < 0x02) {
+        return;
+    }
 
+    /* write to clockport device */
+    if (clockport_device) {
         clockport_device->store(address, byte, clockport_device->device_context);
     }
+}
+
+static int mmc64_clockport_dump(void)
+{
+    if (clockport_device) {
+        clockport_device->dump(clockport_device->device_context);
+    }
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/

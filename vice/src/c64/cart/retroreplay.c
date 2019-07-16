@@ -146,6 +146,7 @@ static int retroreplay_dump(void);
 static uint8_t retroreplay_clockport_read(uint16_t io_address);
 static uint8_t retroreplay_clockport_peek(uint16_t io_address);
 static void retroreplay_clockport_store(uint16_t io_address, uint8_t byte);
+static int retroreplay_clockport_dump(void);
 
 static io_source_t retroreplay_io1_device = {
     CARTRIDGE_NAME_RETRO_REPLAY,
@@ -178,7 +179,7 @@ static io_source_t retroreplay_io2_device = {
 };
 
 static io_source_t retroreplay_clockport_io1_device = {
-    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_RETRO_REPLAY " Clockport",
+    CARTRIDGE_NAME_RETRO_REPLAY " Clockport",
     IO_DETACH_RESOURCE,
     "RRClockPort",
     0xde02, 0xde0f, 0x0f,
@@ -186,7 +187,7 @@ static io_source_t retroreplay_clockport_io1_device = {
     retroreplay_clockport_store,
     retroreplay_clockport_read,
     retroreplay_clockport_peek,
-    retroreplay_dump,
+    retroreplay_clockport_dump,
     CARTRIDGE_RETRO_REPLAY,
     0,
     0
@@ -204,25 +205,30 @@ static const export_resource_t export_res = {
 
 static uint8_t retroreplay_clockport_read(uint16_t address)
 {
-    if (clockport_device) {
-        if (rr_clockport_enabled) {
-            if (address < 0x02) {
-                retroreplay_clockport_io1_device.io_source_valid = 0;
-                return 0;
-            }
+    if (rr_clockport_enabled) {
+        if (address < 0x02) {
+            retroreplay_clockport_io1_device.io_source_valid = 0;
+            return 0;
+        }
+        /* read from clockport device */
+        if (clockport_device) {
             return clockport_device->read(address, &retroreplay_clockport_io1_device.io_source_valid, clockport_device->device_context);
         }
+        /* read open clock port */
+        retroreplay_clockport_io1_device.io_source_valid = 1;
+        return 0;
     }
     return 0;
 }
 
 static uint8_t retroreplay_clockport_peek(uint16_t address)
 {
-    if (clockport_device) {
-        if (rr_clockport_enabled) {
-            if (address < 0x02) {
-                return 0;
-            }
+    if (rr_clockport_enabled) {
+        if (address < 0x02) {
+            return 0;
+        }
+        /* read from clockport device */
+        if (clockport_device) {
             return clockport_device->peek(address, clockport_device->device_context);
         }
     }
@@ -231,15 +237,23 @@ static uint8_t retroreplay_clockport_peek(uint16_t address)
 
 static void retroreplay_clockport_store(uint16_t address, uint8_t byte)
 {
-    if (clockport_device) {
-        if (rr_clockport_enabled) {
-            if (address < 0x02) {
-                return;
-            }
-
+    if (rr_clockport_enabled) {
+        if (address < 0x02) {
+            return;
+        }
+        /* write to clockport device */
+        if (clockport_device) {
             clockport_device->store(address, byte, clockport_device->device_context);
         }
     }
+}
+
+static int retroreplay_clockport_dump(void)
+{
+    if (clockport_device) {
+        clockport_device->dump(clockport_device->device_context);
+    }
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -698,9 +712,7 @@ static int retroreplay_dump(void)
     /* FIXME: incomplete */
     mon_out("Retro Replay registers are %s.\n", rr_active ? "enabled" : "disabled");
     mon_out("Clockport is %s.\n", rr_clockport_enabled ? "enabled" : "disabled");
-    if (rr_clockport_enabled) {
-        mon_out("Clockport device: %s.\n", clockport_device_id_to_name(clockport_device_id));
-    }
+    mon_out("Clockport device: %s.\n", clockport_device_id_to_name(clockport_device_id));
     mon_out("Freeze status: %s.\n", rr_frozen ? "frozen" : "released");
 
     mon_out("EXROM line: %s, GAME line: %s, Mode: %s\n",

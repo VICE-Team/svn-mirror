@@ -162,6 +162,7 @@ static uint8_t ide64_romio_peek(uint16_t addr);
 static uint8_t ide64_clockport_read(uint16_t io_address);
 static uint8_t ide64_clockport_peek(uint16_t io_address);
 static void ide64_clockport_store(uint16_t io_address, uint8_t byte);
+static int ide64_clockport_dump(void);
 static int ide64_rtc_dump(void);
 
 static io_source_t ide64_idebus_device = {
@@ -248,7 +249,7 @@ static io_source_t ide64_clockport_device = {
     ide64_clockport_store,
     ide64_clockport_read,
     ide64_clockport_peek,
-    NULL, /* TODO: dump */
+    ide64_clockport_dump,
     CARTRIDGE_IDE64,
     0,
     0
@@ -1282,14 +1283,18 @@ static void ide64_ds1302_store(uint16_t addr, uint8_t value)
 
 static uint8_t ide64_clockport_read(uint16_t address)
 {
+    /* read from clockport device */
     if (clockport_device) {
         return clockport_device->read(address, &ide64_clockport_device.io_source_valid, clockport_device->device_context);
     }
+    /* read open clock port */
+    ide64_clockport_device.io_source_valid = 1;
     return 0;
 }
 
 static uint8_t ide64_clockport_peek(uint16_t address)
 {
+    /* read from clockport device */
     if (clockport_device) {
         return clockport_device->peek(address, clockport_device->device_context);
     }
@@ -1298,9 +1303,18 @@ static uint8_t ide64_clockport_peek(uint16_t address)
 
 static void ide64_clockport_store(uint16_t address, uint8_t byte)
 {
+    /* write to clockport device */
     if (clockport_device) {
         clockport_device->store(address, byte, clockport_device->device_context);
     }
+}
+
+static int ide64_clockport_dump(void)
+{
+    if (clockport_device) {
+        clockport_device->dump(clockport_device->device_context);
+    }
+    return 0;
 }
 
 static uint8_t ide64_romio_read(uint16_t addr)

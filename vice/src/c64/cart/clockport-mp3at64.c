@@ -39,6 +39,7 @@
 #ifdef MP3AT64_DEBUG
 #include "log.h"
 #endif
+#include "monitor.h"
 #include "sound.h"
 #include "types.h"
 #include "uiapi.h"
@@ -695,6 +696,8 @@ static void clockport_mp3at64_reset(void *context)
 static int clockport_mp3at64_dump(void *context)
 {
     /* TODO */
+    /* FIXME: this is incomplete */
+    mon_out("mp3 status: $%02x\n", mp3at64_read_mp3_status());
     return 0;
 }
 
