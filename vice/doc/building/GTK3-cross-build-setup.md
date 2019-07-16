@@ -484,19 +484,70 @@ $ sudo ninja -C builddir install
 GDK-Pixbuf is the next dependency of Gtk3.
 
 
-$ wget https://ftp.gnome.org/pub/GNOME/sources/gdk-pixbuf/2.38/gdk-pixbuf-2.38.1.tar.xz
-$ tar -xvf gdk-pixbuf-2.38.1.tar.xz
-$ cd gdk-pixbif-2.38.1
 
-It's getting more and more complicated:
-PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" meson --prefix=/opt/cross --cross-file cross_file.txt -Dgir=false -Dman=false -Dx11=false builddir
-$ su
-$ cd builddir
-$ ninja install
-$ (CTRL-D)
+    Looking at the meson_options.txt it seems I have to decide between using
+    native-windows-loaders or linking to libpng, libtiff, libjpeg and libjpeg2000.
+    I've decided to not use the native-windows-loaders.
 
 
-### Gtk3:
+#### Dependency: libpng
+
+Already satisfied.
+
+#### Dependency: libjpeg
+
+```
+$ wget https://www.ijg.org/files/jpegsrc.v9c.tar.gz
+$ tar -xvzf jpegsrc.v9c.tar.gz
+$ cd jpeg-9c
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 \
+              --host=x86_64-w64-mingw32 \
+              --enable-static \
+              --enable-shared
+$ make
+$ sudo make install
+```
+
+
+#### Dependency; libtiff
+
+This seems to be very old, build instructions mention MSVC on Win95-2000 or
+DJGPP. I'll be skipping this.
+
+
+#### Configure, build and install GDK-Pixbuf
+
+```
+$ git clone https://gitlab.gnome.org/GNOME/gdk-pixbuf.git
+$ cd gdk-pixbuf
+```
+Once again copy ~/config-files/atk-cross-file.txt to ~/config-files/gdk-pixbuf-cross-file.txt
+
+```
+$ meson --prefix /usr/x86_64-w64-mingw32 \
+        --cross-file ~/config-files/gdk-pixbuf-cross-file.txt \
+        -Dpng=true \
+        -Dtiff=false \
+        -Djpeg=true \
+        -Djasper=false \
+        -Dx11=false \
+        -Ddocs=false \
+        -Dgir=false \
+        -Dman=false \
+        -Dnative_windows_loaders=false \
+        -Dinstalled_tests=false \
+        builddir
+$ ninja -C builddir
+$ sudo ninja -C builddir install
+```
+
+
+
+[ end-of-edit 2019-07-16 21:13 ]
+-- old shit --
+
+
+### Gtk3
 
 $ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" ./configure --prefix=/usr/cross --host=x86_64-w64-mingw32 --disable-introspection --enable-win32-backend --enable-win32-gles --disable-wayland-backend --disable-mir-backend --disable-x11-backend
 
