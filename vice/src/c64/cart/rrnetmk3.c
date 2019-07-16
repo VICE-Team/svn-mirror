@@ -111,6 +111,7 @@ static int rrnetmk3_dump(void);
 static uint8_t rrnetmk3_cs8900_read(uint16_t io_address);
 static uint8_t rrnetmk3_cs8900_peek(uint16_t io_address);
 static void rrnetmk3_cs8900_store(uint16_t io_address, uint8_t byte);
+static int rrnetmk3_cs8900_dump(void);
 
 static io_source_t rrnetmk3_io1_device = {
     CARTRIDGE_NAME_RRNETMK3,
@@ -136,7 +137,7 @@ static io_source_t rrnetmk3_cs8900_io1_device = {
     rrnetmk3_cs8900_store,
     rrnetmk3_cs8900_read,
     rrnetmk3_cs8900_peek,
-    rrnetmk3_dump,
+    rrnetmk3_cs8900_dump,
     CARTRIDGE_RRNETMK3,
     0,
     0
@@ -265,6 +266,12 @@ static void rrnetmk3_cs8900_store(uint16_t address, uint8_t byte)
     address ^= 0x08;
 
     cs8900io_store(address, byte);
+}
+
+static int rrnetmk3_cs8900_dump(void)
+{
+    cs8900io_dump();
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
