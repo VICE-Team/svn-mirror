@@ -130,6 +130,10 @@ I'll be using the /usr/x86_64-w64-mingw32 prefix used by mingw to install all
 cross-built stuff.
 
 
+**TODO**: Add instructions on cross-building and installing libtool!!
+
+
+
 #### zlib
 
 ```
@@ -147,7 +151,7 @@ $ make -f win32/Makefile.gcc
 $ sudo BINARY_PATH=/usr/x86_64-w64-mingw32/bin \
     INCLUDE_PATH=/usr/x86_64-w64-mingw32/include \
     LIBRARY_PATH=/usr/x86_64-w64-mingw32/lib \
-    make -f win32/Makefile.gcc install
+    make -f win32/Makefile.gcc install SHARED_MODE=1
 ```
 
 #### libpng
@@ -155,7 +159,11 @@ $ sudo BINARY_PATH=/usr/x86_64-w64-mingw32/bin \
 ```
 $ wget https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz
 $ cd libpng-1.6.3
-$ ./configure --prefix=/usr/x86_64-w64-mingw32 --host=x86_64-w64-mingw32
+$ ./configure --prefix=/usr/x86_64-w64-mingw32 \
+              --host=x86_64-w64-mingw32 \
+              --enable-static \
+              --enable-shared
+$ make
 $ sudo make install
 ```
 
@@ -347,7 +355,7 @@ $ sudo make install
 
 ##### Dependency: gperf
 
-Seems fontconfig also needs gpref, so we'll be installing that as well, sigh.
+Seems fontconfig also needs gperf, so we'll be installing that as well, sigh.
 
 ```
 $ sudo apt install gperf
@@ -408,8 +416,8 @@ $ ./configure --prefix=/usr/x86_64-w64-mingw32 \
               --enable-win32-font \
               --enable-png \
               --enable-static \
+              --enable-shared \
               --enable-gobject \
-              --enable-tee \
               --disable-xlib \
               --disable-xcb \
               --enable-ft
@@ -426,48 +434,49 @@ $ sudo make install
 
 
 Now we need Pango
+
+
+#### Dependency: fribidi
+
+```
+$ git clone https://github.com/fribidi/fribidi.git
+$ cp ~/config-files/glib2-cross-file.txt ~/config-files/fribidi-cross-file.txt
+$ cd fribidi
+$ meson --prefix /usr/x86_64-w64-mingw32 \
+        --cross-file ~/config-files/fribidi-cross-file.txt \
+        -Ddocs=false \
+        builddir
+$ ninja -C builddir
+$ sudo ninja -C builddir install
+```
+
+#### Optional dependency: harfbuzz
+
+Seems to not be required, but is also an optional dependency of Cairo and freetype2, so perhaps it will be useful? Skipping now.
+
+
+### Cross-compile Pango
+
+```
 $ wget https://github.com/GNOME/pango/archive/1.43.0.tar.gz
 $ mv 1.43.0.tar.gz pango-1.43.0.tar.gz
 $ tar -xvfz pango-1.43.0.tar.gz
 $ cd ~/pango-1.43.0.tar.gz
+```
 
-Crap! Another Meson build thing.
+Copy ~/config-files/atk-cross-file.txt to ~/config-files/pango-cross-file.txt
 
+```
+$ meson --prefix /usr/x86_64-w64-mingw32 \
+        --cross-file ~/config-files/pango-cross-file.txt \
+        -Dgir=false \
+        builddir
+$ ninja -C builddir
+$ sudo ninja -C builddir install
+```
 
+[ end-of-edit 2019-07-16 19:39 ]
 
-Pango needs PATH=/opt/cross/bin:$PATH to find a few glib bins, (but it also seems
-to need gobject-introspection)
-
-
-
-
-GObject-introspection doesn't appear to be necessary. But I'll have to rebuild
-some previous stuff with `-Dintrospection=false` or `--disable-introspection`,
-so the next stuff might not be neccesary:
----
-
-$ wget https://github.com/GNOME/gobject-introspection/archive/1.60.1.tar.gz
-$ mv 1.60.1.tar.gz gobject-introspection-1.60.1.tar.gz
-$ tar -xvzf gobject-introspection-1.60.1.tar.gz
-
-(gobject-introspection needs bison, so (as root) apt-get install bison)
-
-Also:
-* libtool
-* autoconf-archive
-
-
-As with the other Meson-based projecs, copy ~/glib-2.0/cross_file.txt
-And watch it fail with a very mysterious message
----
-
-
-### Pango (without Gir)
-
-$ PKG_CONFIG_PATH=/opt/cross/lib/pkgconfig PATH="/opt/cross/bin:$PATH" CFLAGS="-I/opt/cross/include" LDFLAGS="-L/opt/cross/lib" meson --prefix=/opt/cross --cross-file cross_file.txt -Dgir=false builddir
-$ cd builddir
-(as root)
-$ ninja install
 
 
 ### GDK-Pixbuf
