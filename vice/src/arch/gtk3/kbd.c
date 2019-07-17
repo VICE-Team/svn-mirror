@@ -122,6 +122,7 @@ void kbd_arch_shutdown(void)
 signed long kbd_arch_keyname_to_keynum(char *keyname)
 {
     guint sym = gdk_keyval_from_name(keyname);
+    /* printf("kbd_arch_keyname_to_keynum %s=%u\n", keyname, sym); */
 
     if (sym == GDK_KEY_VoidSymbol) {
         return -1;
@@ -156,10 +157,22 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     switch (report->type) {
         case GDK_KEY_PRESS:
             /* fprintf(stderr, "KeyPress: %d.\n", key); */
-
+#ifdef WIN32_COMPILE
+/* HACK: windows and linux disagree with how the right alt key (alt-gr) 
+   is reported. in linux it will be "ISO_Level3_Shift" and the modifier
+   mask is. On windows it will be "Alt_R" and use MOD2_MASK. The  
+   following is a hack to compensate for that and make it always work 
+   like on linux. */
+            if (report->key.keyval == GDK_KEY_Alt_R) {
+                key = report->key.keyval = GDK_KEY_ISO_Level3_Shift;
+                report->key.state &= ~GDK_MOD2_MASK;
+            } else if (report->key.state & GDK_MOD2_MASK) {
+                report->key.state &= ~GDK_MOD2_MASK;
+                report->key.state |= GDK_MOD5_MASK;
+            }
+#endif
             kdb_debug_widget_update(report);
-
-
+            
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
                 return TRUE;
             }
@@ -187,8 +200,19 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             keyboard_key_pressed((signed long)key);
             return TRUE;
         case GDK_KEY_RELEASE:
+#ifdef WIN32_COMPILE
+            /* HACK: remap alt-gr, see above */
+            if (report->key.keyval == GDK_KEY_Alt_R) {
+                key = report->key.keyval = GDK_KEY_ISO_Level3_Shift;
+                report->key.state &= ~GDK_MOD2_MASK;
+            } else if (report->key.state & GDK_MOD2_MASK) {
+                report->key.state &= ~GDK_MOD2_MASK;
+                report->key.state |= GDK_MOD5_MASK;
+            }
+#endif
             /* fprintf(stderr, "KeyRelease: %d.\n", key); */
-            if (key == GDK_KEY_Shift_L || key == GDK_KEY_Shift_R || 
+            if (key == GDK_KEY_Shift_L || 
+                key == GDK_KEY_Shift_R || 
                 key == GDK_KEY_ISO_Level3_Shift) {
                 keyboard_key_clear();
             }
