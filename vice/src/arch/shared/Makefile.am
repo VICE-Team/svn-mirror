@@ -45,6 +45,7 @@ libarchdep_a_SOURCES = \
 	archdep_quote_parameter.c \
 	archdep_rename.c \
 	archdep_rmdir.c \
+	archdep_rtc_get_centisecond.c \
 	archdep_sanitize_filename.c \
 	archdep_signals.c \
 	archdep_spawn.c \
@@ -89,6 +90,7 @@ EXTRA_DIST = \
 	archdep_quote_parameter.h \
 	archdep_rename.h \
 	archdep_rmdir.h \
+	archdep_rtc_get_centisecond.h \
 	archdep_sanitize_filename.h \
 	archdep_signals.h \
 	archdep_spawn.h \

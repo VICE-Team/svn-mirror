@@ -280,11 +280,3 @@ static void archdep_shutdown_extra(void)
 void archdep_workaround_nop(const char *otto)
 {
 }
-
-int archdep_rtc_get_centisecond(void)
-{
-    SYSTEMTIME t;
-
-    GetSystemTime(&t);
-    return (int)(t.wMilliseconds / 10);
-}

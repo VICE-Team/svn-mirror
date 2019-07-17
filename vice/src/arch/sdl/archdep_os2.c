@@ -273,18 +273,6 @@ int archdep_require_vkbd(void)
     return 0;
 }
 
-
-#ifndef HAVE_GETTIMEOFDAY
-int archdep_rtc_get_centisecond(void)
-{
-    struct timeb tb;
-
-    __ftime(&tb);
-
-    return (int)tb.millitm / 10;
-}
-#endif
-
 static int archdep_init_extra(int *argc, char **argv)
 {
     argv0 = lib_strdup(argv[0]);
