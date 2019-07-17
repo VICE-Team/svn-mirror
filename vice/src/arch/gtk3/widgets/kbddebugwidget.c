@@ -87,14 +87,21 @@ void kdb_debug_widget_update(GdkEvent *event)
     g_snprintf(buffer, 666, "<tt>%u, 0x%04x</tt>", keyval, keyval);
     gtk_label_set_markup(GTK_LABEL(keyval_widget), buffer);
 
-    g_snprintf(buffer, 666, "<tt>GTK_KEY_%s</tt>", gdk_keyval_name(keyval));
+    g_snprintf(buffer, 666, "<tt>%s</tt>", gdk_keyval_name(keyval));
     gtk_label_set_markup(GTK_LABEL(keysym_widget), buffer);
 
-    g_snprintf(buffer, 666, "<tt>%c%c%c%c</tt>",
-            mods & GDK_SHIFT_MASK ? 'S' : '-',
-            mods & GDK_LOCK_MASK ? 'L' : '-',
-            mods & GDK_CONTROL_MASK ? 'C' : '-',
-            mods & GDK_MOD1_MASK ? 'A' : '-');
+    g_snprintf(buffer, 666, "<tt>%c%c%c %c%c%c%c%c</tt>",
+            mods & GDK_SHIFT_MASK ? 'S' : '-',    /* shift (left or right) */
+            mods & GDK_LOCK_MASK ? 'L' : '-',     /* shift-lock */
+            mods & GDK_CONTROL_MASK ? 'C' : '-',  /* control */
+                                                  /* the additional ones seem to be different on */
+                                                  /* windows        vs linux                     */
+            mods & GDK_MOD1_MASK ? '1' : '-',     /* alt left          alt-left                  */
+            mods & GDK_MOD2_MASK ? '2' : '-',     /* alt-gr (Alt_R)    num-lock                  */
+            mods & GDK_MOD3_MASK ? '3' : '-',
+            mods & GDK_MOD4_MASK ? '4' : '-',     /*                   windows right             */
+            mods & GDK_MOD5_MASK ? '5' : '-'      /*                   alt-gr (ISO_Level3_Shift) */
+            );
 
     gtk_label_set_markup(GTK_LABEL(keymod_widget), buffer);
 
