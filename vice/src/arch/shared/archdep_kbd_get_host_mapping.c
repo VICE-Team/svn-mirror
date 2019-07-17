@@ -25,16 +25,24 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
+
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifdef ARCHDEP_OS_WINDOWS
+# include <windows.h>
+#endif
+#if defined(ARCHDEP_OS_UNIX)
+# include <locale.h>
+# include <string.h>
+#endif
 
 #include "keyboard.h"
 
 #include "archdep_kbd_get_host_mapping.h"
 
-#if defined(WIN32_COMPILE)
-
-#include <windows.h>
+#ifdef ARCHDEP_OS_WINDOWS
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good
@@ -85,7 +93,7 @@ int archdep_kbd_get_host_mapping(void)
 #else
 
 /* Amiga, Beos, OS2 */
-#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(__OS2__)
+#if defined(ARCHDEP_OS_AMIGA) || defined(ARCHDEP_OS_BEOS) || defined(ARCHDEP_OS_OS2)
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good
@@ -99,9 +107,6 @@ int archdep_kbd_get_host_mapping(void)
 }
 
 #else
-
-#include <locale.h>
-#include <string.h>
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a blank (default) config, so an educated guess works good
