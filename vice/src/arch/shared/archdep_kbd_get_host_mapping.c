@@ -33,6 +33,9 @@
 #include "archdep_kbd_get_host_mapping.h"
 
 #if defined(WIN32_COMPILE)
+
+#include <windows.h>
+
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good
    enough most of the time :)
