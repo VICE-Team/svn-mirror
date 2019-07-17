@@ -161,18 +161,6 @@ static void archdep_shutdown_extra(void)
     lib_free(argv0);
 }
 
-/* returns host keyboard mapping. used to initialize the keyboard map when
-   starting with a black (default) config, so an educated guess works good
-   enough most of the time :)
-
-   FIXME: add more languages/actual detection
-*/
-int kbd_arch_get_host_mapping(void)
-{
-    return KBD_MAPPING_US;
-}
-
-
 /* This check is needed for haiku, since it always returns 1 on
    SupportsWindowMode() */
 int CheckForHaiku(void)

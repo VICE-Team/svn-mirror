@@ -285,19 +285,6 @@ int archdep_rtc_get_centisecond(void)
 }
 #endif
 
-/* returns host keyboard mapping. used to initialize the keyboard map when
-   starting with a black (default) config, so an educated guess works good
-   enough most of the time :)
-
-   FIXME: add more languages, constants are defined in winnt.h
-
-   https://msdn.microsoft.com/en-us/library/windows/desktop/dd318693%28v=vs.85%29.aspx
-*/
-int kbd_arch_get_host_mapping(void)
-{
-    return KBD_MAPPING_US;
-}
-
 static int archdep_init_extra(int *argc, char **argv)
 {
     argv0 = lib_strdup(argv[0]);

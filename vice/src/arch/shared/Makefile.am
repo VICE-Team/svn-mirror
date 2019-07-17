@@ -34,6 +34,7 @@ libarchdep_a_SOURCES = \
 	archdep_home_path.c \
 	archdep_is_windows_nt.c \
 	archdep_join_paths.c \
+	archdep_kbd_get_host_mapping.c \
 	archdep_make_backup_filename.c \
 	archdep_mkdir.c \
 	archdep_mkstemp_fd.c \
@@ -77,6 +78,7 @@ EXTRA_DIST = \
 	archdep_home_path.h \
 	archdep_is_windows_nt.h \
 	archdep_join_paths.h \
+	archdep_kbd_get_host_mapping.h \
 	archdep_make_backup_filename.h \
 	archdep_mkdir.h \
 	archdep_mkstemp_fd.h \

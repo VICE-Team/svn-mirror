@@ -368,15 +368,3 @@ void archdep_set_current_drive(const char *drive)
         ui_error("Failed to change to drive %s", drive);
     }
 }
-
-
-/* returns host keyboard mapping. used to initialize the keyboard map when
-   starting with a black (default) config, so an educated guess works good
-   enough most of the time :)
-
-   FIXME: add more languages/actual detection
-*/
-int kbd_arch_get_host_mapping(void)
-{
-    return KBD_MAPPING_US;
-}

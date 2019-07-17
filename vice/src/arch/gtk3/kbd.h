@@ -47,7 +47,6 @@ typedef struct kbd_gtk3_hotkey_s {
 
 void kbd_arch_init(void);
 void kbd_arch_shutdown(void);
-int kbd_arch_get_host_mapping(void);
 void kbd_initialize_numpad_joykeys(int *joykeys);
 void kbd_connect_handlers(GtkWidget *widget, void *data);
 
