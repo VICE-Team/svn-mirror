@@ -217,22 +217,6 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
-
-#ifndef _S_IREAD
-#define _S_IREAD S_IREAD
-#endif
-#ifndef _S_IWRITE
-#define _S_IWRITE S_IWRITE
-#endif
-
-
-/* set permissions of given file to rw, respecting current umask */
-int archdep_fix_permissions(const char *file_name)
-{
-    return _chmod(file_name, _S_IREAD | _S_IWRITE);
-}
-
-
 #ifdef SDL_CHOOSE_DRIVES
 char **archdep_list_drives(void)
 {
