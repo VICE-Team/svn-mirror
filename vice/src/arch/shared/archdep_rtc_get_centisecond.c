@@ -28,7 +28,12 @@
 #include "archdep_defs.h"
 
 /* FIXME: includes for OS2 */
-/* FIXME: includes for windows */
+
+#if defined(ARCHDEP_OS_WINDOWS)
+# include <windows.h>
+#endif
+
+#include "archdep_rtc_get_centisecond.h"
 
 #if defined(ARCHDEP_OS_OS2)
 
