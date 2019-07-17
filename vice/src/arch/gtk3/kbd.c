@@ -156,20 +156,27 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     key = report->key.keyval;
     switch (report->type) {
         case GDK_KEY_PRESS:
-            /* fprintf(stderr, "KeyPress: %d.\n", key); */
+            /* fprintf(stderr, "GDK_KEY_PRESS: %u %04x.\n",  report->key.keyval,  report->key.state); */
 #ifdef WIN32_COMPILE
-/* HACK: windows and linux disagree with how the right alt key (alt-gr) 
-   is reported. in linux it will be "ISO_Level3_Shift" and the modifier
-   mask is. On windows it will be "Alt_R" and use MOD2_MASK. The  
-   following is a hack to compensate for that and make it always work 
-   like on linux. */
-            if (report->key.keyval == GDK_KEY_Alt_R) {
+/* HACK: The Alt-Gr Key seems to work differently on windows and linux.
+         On Linux one Keypress "ISO_Level3_Shift" will be produced, and
+         the modifier mask for combined keys will be GDK_MOD5_MAS.
+         On Windows two Keypresses will be produced, first "Control_L"
+         then "Alt_R", and the modifier mask for combined keys will be
+         GDK_MOD2_MASK.
+         The following is a hack to compensate for that and make it
+         always work like on linux.
+*/
+            if ((report->key.keyval == GDK_KEY_Alt_R) && (report->key.state & GDK_MOD2_MASK)) {
+                /* Alt-R with modifier MOD2 */
                 key = report->key.keyval = GDK_KEY_ISO_Level3_Shift;
                 report->key.state &= ~GDK_MOD2_MASK;
+                keyboard_key_released(GDK_KEY_Control_L); /* release control in the emulated keymap */
             } else if (report->key.state & GDK_MOD2_MASK) {
                 report->key.state &= ~GDK_MOD2_MASK;
                 report->key.state |= GDK_MOD5_MASK;
             }
+            /* fprintf(stderr, "               %u %04x.\n",  report->key.keyval,  report->key.state); */
 #endif
             kdb_debug_widget_update(report);
             
@@ -200,17 +207,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             keyboard_key_pressed((signed long)key);
             return TRUE;
         case GDK_KEY_RELEASE:
+            /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",  report->key.keyval,  report->key.state); */
 #ifdef WIN32_COMPILE
-            /* HACK: remap alt-gr, see above */
+            /* HACK: remap control,alt+r to alt-gr, see above */
             if (report->key.keyval == GDK_KEY_Alt_R) {
                 key = report->key.keyval = GDK_KEY_ISO_Level3_Shift;
-                report->key.state &= ~GDK_MOD2_MASK;
-            } else if (report->key.state & GDK_MOD2_MASK) {
-                report->key.state &= ~GDK_MOD2_MASK;
-                report->key.state |= GDK_MOD5_MASK;
             }
+            /* fprintf(stderr, "                 %u %04x.\n",  report->key.keyval,  report->key.state); */
 #endif
-            /* fprintf(stderr, "KeyRelease: %d.\n", key); */
             if (key == GDK_KEY_Shift_L || 
                 key == GDK_KEY_Shift_R || 
                 key == GDK_KEY_ISO_Level3_Shift) {
