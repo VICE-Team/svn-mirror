@@ -24,6 +24,9 @@
  *
  */ 
 
+#include "vice.h"
+#include "archdep_defs.h"
+
 /* FIXME: includes for OS2 */
 /* FIXME: includes for windows */
 
