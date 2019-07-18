@@ -7,7 +7,8 @@ AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/rs232drv
 
 
 noinst_LIBRARIES = libarchdep.a
@@ -57,7 +58,8 @@ libarchdep_a_SOURCES = \
 	archdep_usleep.c \
 	archdep_xdg.c \
 	dynlib.c \
-	rawnetarch.c
+	rawnetarch.c \
+	rs232dev.c
 
 EXTRA_DIST = \
 	archdep_defs.h \
@@ -107,4 +109,6 @@ EXTRA_DIST = \
 	dynlib-unix.c \
 	dynlib-win32.c \
 	rawnetarch_unix.c \
-	rawnetarch_win32.c
+	rawnetarch_win32.c \
+	rs232-unix-dev.c \
+	rs232-win32-dev.c

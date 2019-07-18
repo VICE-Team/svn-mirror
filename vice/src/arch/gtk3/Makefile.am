@@ -70,7 +70,6 @@ libarch_a_SOURCES = \
 	petui.c \
 	plus4ui.c \
 	quartz_renderer.c \
-	rs232dev.c \
 	scpu64ui.c \
 	signals.c \
 	ui.c \
@@ -134,8 +133,6 @@ EXTRA_DIST = \
 	mousedrv.h \
 	opengl_renderer.h \
 	quartz_renderer.h \
-	rs232-unix-dev.c \
-	rs232-win32-dev.c \
 	ui.h \
 	uiabout.h \
 	uicart.h \
