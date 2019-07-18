@@ -249,9 +249,3 @@ void archdep_set_current_drive(const char *drive)
     }
 }
 #endif
-
-int archdep_require_vkbd(void)
-{
-    return 0;
-}
-

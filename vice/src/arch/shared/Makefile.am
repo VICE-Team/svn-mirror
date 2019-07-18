@@ -44,6 +44,7 @@ libarchdep_a_SOURCES = \
 	archdep_program_path.c \
 	archdep_quote_parameter.c \
 	archdep_rename.c \
+	archdep_require_vkbd.c \
 	archdep_rmdir.c \
 	archdep_rtc_get_centisecond.c \
 	archdep_sanitize_filename.c \
@@ -89,6 +90,7 @@ EXTRA_DIST = \
 	archdep_program_path.h \
 	archdep_quote_parameter.h \
 	archdep_rename.h \
+	archdep_require_vkbd.h \
 	archdep_rmdir.h \
 	archdep_rtc_get_centisecond.h \
 	archdep_sanitize_filename.h \

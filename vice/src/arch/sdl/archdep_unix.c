@@ -105,9 +105,3 @@ char *archdep_default_joymap_file_name(void)
         return util_concat(archdep_pref_path, "/sdl-joymap-", machine_get_name(), ".vjm", NULL);
     }
 }
-
-int archdep_require_vkbd(void)
-{
-    return 0;
-}
-

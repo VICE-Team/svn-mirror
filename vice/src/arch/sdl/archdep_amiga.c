@@ -258,10 +258,12 @@ char *archdep_default_joymap_file_name(void)
  *
  * \param[in,out]   path    0-terminated string
  */
+#if 0
 void archdep_sanitize_path(char *path)
 {
     return; /* FIXME: stub */
 }
+#endif
 
 #define LF (LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ)
 
@@ -321,9 +323,4 @@ void archdep_set_current_drive(const char *drive)
     } else {
         ui_error("Failed to change to drive %s", drive);
     }
-}
-
-int archdep_require_vkbd(void)
-{
-    return 0;
 }

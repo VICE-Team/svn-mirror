@@ -38,6 +38,60 @@
 #endif
 #include "archdep_open_default_log_file.h"
 
+/* amiga */
+#if 0
+FILE *archdep_open_default_log_file(void)
+{
+    if (run_from_wb) {
+        char *fname;
+        FILE *f;
+
+        fname = util_concat(archdep_boot_path(), "vice.log", NULL);
+        f = fopen(fname, MODE_WRITE_TEXT);
+
+        lib_free(fname);
+
+        if (f == NULL) {
+            return stdout;
+        }
+
+        return f;
+    } else {
+        return stdout;
+    }
+}
+#endif
+
+/* beos */
+#if 0
+FILE *archdep_open_default_log_file(void)
+{
+    char *fname;
+    FILE *f;
+
+    fname = util_concat(archdep_boot_path(), "/vice.log", NULL);
+    f = fopen(fname, "wt");
+    lib_free(fname);
+
+    return f;
+}
+#endif
+
+/* os2 */
+#if 0
+FILE *archdep_open_default_log_file(void)
+{
+    char *fname;
+    FILE *f;
+
+    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
+    f = fopen(fname, "wt");
+    lib_free(fname);
+
+    return f;
+}
+#endif
+
 
 /** \brief  Opens the default log file. On *nix the log goes to stdout by
  *          default. If that does not exist, attempt to open a log file in 

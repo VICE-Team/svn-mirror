@@ -32,6 +32,18 @@
 
 #include "archdep_make_backup_filename.h"
 
+/* BEOS */
+#if 0
+/* Return a malloc'ed backup file name for file `fname'.  */
+char *archdep_make_backup_filename(const char *fname)
+{
+    char *tmp;
+
+    tmp = util_concat(fname, NULL);
+    tmp[strlen(tmp) - 1] = '~';
+    return tmp;
+}
+#endif
 
 /** \brief  Generate backup filename for \a fname
  *
@@ -41,7 +53,7 @@
  */
 char *archdep_make_backup_filename(const char *fname)
 {
-#ifdef ARCGDEP_OS_WIN32
+#ifdef ARCHDEP_OS_WIN32
     /* For some reason on Windows, we replace the last char with a tilde, which
      * ofcourse is stupid idea since the last char could be a tilde.
      */

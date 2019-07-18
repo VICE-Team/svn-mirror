@@ -107,11 +107,6 @@ char *archdep_default_joymap_file_name(void)
     return fname;
 }
 
-int archdep_require_vkbd(void)
-{
-    return 0;
-}
-
 /* This check is needed for haiku, since it always returns 1 on
    SupportsWindowMode() */
 int CheckForHaiku(void)
