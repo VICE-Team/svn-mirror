@@ -10,6 +10,7 @@ SUBDIRS = data novte widgets
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
+	-I$(top_srcdir)/src/arch/shared \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
@@ -53,7 +54,6 @@ libarch_a_SOURCES = \
 	cairo_renderer.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
-	coproc.c \
 	gtk3main.c \
 	joy-osx-hid.c \
 	joy-osx-hidmgr.c \
@@ -116,7 +116,6 @@ EXTRA_DIST = \
 	archdep_unix.h \
 	archdep_win32.h \
 	cairo_renderer.h \
-	coproc.h \
 	debug_gtk3.h \
 	joy-osx-hid.h \
 	joy-osx-hidlib.h \

@@ -5,7 +5,7 @@ extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
 else
 extra_includes =
 endif
- 
+
 if DUMMY_COMPILE
 # this will get remove soons as well
 SUBDIRS = \
@@ -14,6 +14,7 @@ endif
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
+	-I$(top_srcdir)/src/arch/shared \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -60,8 +61,6 @@ libarch_a_SOURCES = \
 	blockdev.c \
 	console.c \
 	console_unix.c \
-	coproc.c \
-	coproc.h \
 	fullscreen.c \
 	fullscreenarch.h \
 	icon.c \
