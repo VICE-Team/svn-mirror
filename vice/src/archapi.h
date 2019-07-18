@@ -81,10 +81,17 @@ void        archdep_extra_title_text_free(void);
 int         archdep_vice_atexit(void (*function)(void));
 void        archdep_vice_exit(int excode);
 
+/* Get the absolute path to the directory that contains the documentation */
 char *      archdep_get_vice_docsdir(void);
+/* Get the absolute path to the directory that contains resources, icons, etc */
 char *      archdep_get_vice_datadir(void);
 
+char *      archdep_user_config_path(void);
+void        archdep_user_config_path_free(void);
+
+/* Register CBM font with the OS without installing */
 int         archdep_register_cbmfont(void);
+/* Unregister CBM font */
 void        archdep_unregister_cbmfont(void);
 
 /* set permissions of given file to rw, respecting current umask */
@@ -98,6 +105,7 @@ char *      archdep_default_fliplist_file_name(void);
 
 /* RTC. */
 char *      archdep_default_rtc_file_name(void);
+int         archdep_rtc_get_centisecond(void);
 
 /* Autostart-PRG */
 char *      archdep_default_autostart_disk_image_file_name(void);
@@ -108,7 +116,8 @@ FILE *      archdep_open_default_log_file(void);
 /* Allocates a filename for a tempfile.  */
 char *      archdep_tmpnam(void);
 
-
+/* Virtual keyboard handling */
+int         archdep_require_vkbd(void);
 
 /*
  * Not yet moved to arc/shared/
@@ -141,10 +150,5 @@ extern void archdep_network_shutdown(void);
 
 /* Free everything on exit.  */
 extern void archdep_shutdown(void);
-
-/* RTC. */
-extern int archdep_rtc_get_centisecond(void);
-
-
 
 #endif

@@ -114,9 +114,4 @@ extern char *archdep_get_current_drive(void);
 /* sets the current drive to the given string */
 extern void archdep_set_current_drive(const char *drive);
 
-/* FIXME: the following should be moved to a header in shared */
-
-/* Virtual keyboard handling */
-extern int archdep_require_vkbd(void);
-
 #endif

@@ -24,10 +24,12 @@
  *
  */
 
-#ifndef VICE_ARCHDE_CBMFONT_H
-#define VICE_ARCHDE_CBMFONT_H
+#ifndef VICE_ARCHDEP_CBMFONT_H
+#define VICE_ARCHDEP_CBMFONT_H
 
+/* Register CBM font with the OS without installing */
 int     archdep_register_cbmfont(void);
+/* Unregister CBM font */
 void    archdep_unregister_cbmfont(void);
 
 #endif

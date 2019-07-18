@@ -80,26 +80,4 @@
 #include "archdep_win32.h"
 #endif
 
-/******************************************************************************/
-
-/* Register CBM font with the OS without installing */
-int archdep_register_cbmfont(void);
-/* Unregister CBM font */
-void archdep_unregister_cbmfont(void);
-
-/******************************************************************************/
-
-/* FIXME: the following should be moved to a header in shared */
-
-/* Get user configuration directory */
-/* FIXME: why does this need to be here as well as in
- * arch/shared/archdep_user_config_path?
- */
-char *archdep_user_config_path(void);
-void  archdep_user_config_path_free(void);
-/* Get the absolute path to the directory that contains resources, icons, etc */
-char *archdep_get_vice_datadir(void);
-/* Get the absolute path to the directory that contains the documentation */
-char *archdep_get_vice_docsdir(void);
-
 #endif
