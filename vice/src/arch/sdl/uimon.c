@@ -208,6 +208,7 @@ int console_init(void)
     }
 #endif
     console_log_local = native_console_init();
+    return 0;
 }    
     
 int console_close_all(void)
@@ -220,4 +221,5 @@ int console_close_all(void)
 #endif
     native_console_close_all();
     console_log_local = NULL;
+    return 0;
 }    
