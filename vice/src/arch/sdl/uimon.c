@@ -73,7 +73,7 @@ void uimon_window_close(void)
             sdl_ui_refresh();
         }
     } else {
-        console_close(console_log_local);
+        native_console_close(console_log_local);
         console_log_local = NULL;
     }
 }
@@ -94,7 +94,7 @@ console_t *uimon_window_open(void)
         x_pos = 0;
         return &mon_console;
     } else {
-        console_log_local = console_open("Monitor");
+        console_log_local = native_console_open("Monitor");
         return console_log_local;
     }
 }
@@ -156,7 +156,7 @@ int uimon_out(const char *buffer)
 
     } else {
         if (console_log_local) {
-            rc = console_out(console_log_local, "%s", buffer);
+            rc = native_console_petscii_out(console_log_local, "%s", buffer);
         }
     }
 
@@ -184,7 +184,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 
         return input;
     } else {
-        return console_in(console_log_local, prompt);
+        return native_console_in(console_log_local, prompt);
     }
 }
 
@@ -198,3 +198,26 @@ void uimon_notify_change(void)
 void uimon_set_interface(monitor_interface_t **monitor_interface_init, int count)
 {
 }
+
+int console_init(void)
+{
+#if 0
+    if (using_ui_monitor) {
+    } else {
+        return native_console_init();
+    }
+#endif
+    console_log_local = native_console_init();
+}    
+    
+int console_close_all(void)
+{
+#if 0
+    if (using_ui_monitor) {
+    } else {
+        return native_console_close_all();
+    }
+#endif
+    native_console_close_all();
+    console_log_local = NULL;
+}    

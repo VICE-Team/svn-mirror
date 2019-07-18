@@ -26,7 +26,7 @@
  *
  */
 
-/* FIXME: this code can probably be shared between GTK3/SDL */
+/* FIXME: this code is simple enough to be merged back into uimon.c */
 
 #include "vice.h"
 
@@ -57,15 +57,7 @@
 #include "uimon.h"
 #include "uimon-fallback.h"
 
-
 static console_t *console_log_local = NULL;
-
-#if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H)
-#include <readline/readline.h>
-#include <readline/history.h>
-#else
-static FILE *mon_input, *mon_output;
-#endif
 
 /** \brief  NOP
  *
@@ -74,7 +66,7 @@ static FILE *mon_input, *mon_output;
 int consolefb_close_all(void)
 {
     /* This is a no-op on GNOME, should be fine here too */
-    return 0;
+    return native_console_close_all();
 }
 
 
@@ -84,138 +76,26 @@ int consolefb_close_all(void)
  */
 int consolefb_init(void)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
-    return 0;
+    return native_console_init();
 }
 
-#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
 int consolefb_out(console_t *log, const char *format, ...)
 {
     va_list ap;
 
     va_start(ap, format);
-    vfprintf(mon_output, format, ap);
+    native_console_out(console_log_local, format, ap);
     va_end(ap);
 
     return 0;
 }
-#endif
-
-#ifdef WIN32_COMPILE
-static int vice_ismsystty(int fd)
-{
-    intptr_t h_stdin = _get_osfhandle(fd);
-    char ntfn_bytes[sizeof(OBJECT_NAME_INFORMATION) + 256 * sizeof(WCHAR)];
-    OBJECT_NAME_INFORMATION *ntfn = (OBJECT_NAME_INFORMATION*) ntfn_bytes;
-    NTSTATUS status;
-    ULONG ntfn_size = sizeof(ntfn_bytes);
-    USHORT i, l;
-    wchar_t c, *s0;
-
-    memset(ntfn, 0, ntfn_size);
-    status = NtQueryObject((HANDLE)h_stdin, ObjectNameInformation, ntfn, ntfn_size, &ntfn_size);
-
-    if (!NT_SUCCESS(status)) {
-        return 0;
-    }
-
-    l = ntfn->Name.Length;
-    s0 = ntfn->Name.Buffer;
-    /* Check for "\Device\NamedPipe" */
-    {
-        USHORT l1 = l;
-        wchar_t *s1 = s0;
-        wchar_t expect[] = L"\\Device\\NamedPipe\\";
-
-        if (s0[0] == '\\' && s0[1] == '\\' && s0[2] == '?' && s0[3] == '\\') {
-            l1 -= 4;
-            s1 += 4;
-        }
-        for (i = 0; i < l1; i++) {
-            wchar_t e = expect[i];
-            c = s1[i];
-            if (!e) {
-                break;
-            }
-            if (c != e) {
-                return 0;
-            }
-        }
-    }
-    /* Look for "-pty%d-" */
-    for (i = 0; i < l; i++) {
-        c = s0[i];
-        if (c == '-') {
-            wchar_t *s = s0 + i + 1;
-            if (s[0] == 'p' && s[1] == 't' && s[2] == 'y' && (c = s[3]) && (c >= '0') && (c <= '9'))
-            {
-                s += 4;
-                while ((c = *s) && (c >= '0') && (c <= '9')) {
-                    s++;
-                }
-                if (c == '-' || c == 0) {
-                    return 1;
-                }
-            }
-        }
-    }
-
-    return 0;
-}
-
-static int vice_isatty(int fd)
-{
-    if (!isatty(fileno(stdin))) {
-        return vice_ismsystty(fileno(stdin));
-    }
-    return 1;
-}
-#else
-#define vice_isatty isatty
-#endif
 
 console_t *uimonfb_window_open(void)
 {
-#ifdef HAVE_SYS_IOCTL_H
-    struct winsize w;
-#endif
-
-    if (!vice_isatty(fileno(stdin))) {
-        log_error(LOG_DEFAULT, "console_open: stdin is not a tty.");
-        console_log_local = NULL;
+    console_log_local = native_console_open(0);
+    if (console_log_local == NULL) {
         return NULL;
     }
-    if (!vice_isatty(fileno(stdout))) {
-        log_error(LOG_DEFAULT, "console_open: stdout is not a tty.");
-        console_log_local = NULL;
-        return NULL;
-    }
-    console_log_local = lib_malloc(sizeof(console_t));
-    /* change window title for console identification purposes */
-    if (getenv("WINDOWID") == NULL) {
-        printf("\033]2;VICE monitor console (%d)\007", (int)getpid());
-    }
-
-#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-    mon_input = stdin;
-    mon_output = stdout;
-#endif
-
-#ifdef HAVE_SYS_IOCTL_H
-    if (ioctl(fileno(stdin), TIOCGWINSZ, &w)) {
-        console_log_local->console_xres = 80;
-        console_log_local->console_yres = 25;
-    } else {
-        console_log_local->console_xres = w.ws_col >= 40 ? w.ws_col : 40;
-        console_log_local->console_yres = w.ws_row >= 22 ? w.ws_row : 22;
-    }
-#else
-    console_log_local->console_xres = 80;
-    console_log_local->console_yres = 25;
-#endif
-    console_log_local->console_can_stay_open = 1;
-    console_log_local->console_cannot_output = 0;
-
     /* partially implemented */
     INCOMPLETE_IMPLEMENTATION();
 #ifdef HAVE_MOUSE
@@ -227,8 +107,7 @@ console_t *uimonfb_window_open(void)
 
 void uimonfb_window_close(void)
 {
-    lib_free(console_log_local);
-    console_log_local = NULL;
+    native_console_close(console_log_local);
 
     uimon_window_suspend();
 }
@@ -253,55 +132,19 @@ console_t *uimonfb_window_resume(void)
         /* ui_focus_monitor(); */
         return console_log_local;
     }
-    log_error(LOG_DEFAULT, "uimon_window_resume: log was not opened.");
+    log_error(LOG_DEFAULT, "uimonfb_window_resume: log was not opened.");
     return uimon_window_open();
 }
 
 int uimonfb_out(const char *buffer)
 {
-    fprintf(stdout, "%s", buffer);
+    native_console_out(console_log_local, "%s", buffer);
     return 0;
 }
 
-#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-char *readline(const char *prompt)
-{
-    char *p = malloc(1024);
-
-    consolefb_out(NULL, "%s", prompt);
-
-    fflush(mon_output);
-    if (fgets(p, 1024, mon_input) == NULL) {
-        /* FIXME: handle error */
-    }
-
-    /* Remove trailing newlines.  */
-    {
-        int len;
-
-        for (len = strlen(p); len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n'); len--) {
-            p[len - 1] = '\0';
-        }
-    }
-
-    return p;
-}
-#endif
-
 char *uimonfb_get_in(char **ppchCommandLine, const char *prompt)
 {
-    char *p, *ret_sting;
-
-    p = readline(prompt);
-#if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H)
-    if (p && *p) {
-        add_history(p);
-    }
-#endif
-    ret_sting = lib_strdup(p);
-    free(p);
-
-    return ret_sting;
+    return native_console_in(console_log_local, prompt);
 }
 
 void uimonfb_notify_change( void )

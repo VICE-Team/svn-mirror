@@ -59,8 +59,6 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
-	console.c \
-	console_unix.c \
 	fullscreen.c \
 	fullscreenarch.h \
 	icon.c \
@@ -215,9 +213,6 @@ EXTRA_DIST = \
 	archdep_os2.c \
 	archdep_unix.c \
 	archdep_win32.c \
-	console_amiga.c \
-	console_sdl.c \
-	console_unix.c \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_osx.sh \

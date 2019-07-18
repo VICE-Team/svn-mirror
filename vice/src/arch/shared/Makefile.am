@@ -57,6 +57,7 @@ libarchdep_a_SOURCES = \
 	archdep_user_config_path.c \
 	archdep_usleep.c \
 	archdep_xdg.c \
+	console.c \
 	coproc.c \
 	dynlib.c \
 	rawnetarch.c \
@@ -113,6 +114,9 @@ EXTRA_DIST = \
 	archdep_os2.h \
 	archdep_unix.h \
 	archdep_win32.h \
+	console_amiga.c \
+	console_none.c \
+	console_unix.c \
 	coproc.h \
 	dynlib-unix.c \
 	dynlib-win32.c \

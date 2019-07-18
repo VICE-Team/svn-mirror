@@ -60,7 +60,27 @@ static APTR fh_putchproc(APTR putchdata, UBYTE ch)
 }
 #endif
 
-int console_out(console_t *log, const char *format, ...)
+int native_console_out(console_t *log, const char *format, ...)
+{
+    va_list ap;
+
+    va_start(ap, format);
+#ifndef AMIGA_MORPHOS
+#ifdef AMIGA_AROS
+    VFPrintf(console_handle, format, (IPTR *)ap);
+#else
+    VFPrintf(console_handle, format, (CONST APTR)ap);
+#endif
+#else
+    VNewRawDoFmt(format, fh_putchproc, (STRPTR)console_handle, ap);
+#endif
+    va_end(ap);
+
+    return 0;
+}
+
+/* FIXME: add character conversion */
+int native_console_petscii_out(console_t *log, const char *format, ...)
 {
     va_list ap;
 
@@ -84,7 +104,7 @@ char *readline(const char *prompt)
     char *p = lib_malloc(1024);
     int len;
 
-    console_out(NULL, "%s", prompt);
+    native_console_out(NULL, "%s", prompt);
 
     Flush(console_handle);
     FGets(console_handle, p, 1024);
@@ -97,7 +117,7 @@ char *readline(const char *prompt)
     return p;
 }
 
-char *console_in(console_t *log, const char *prompt)
+char *native_console_in(console_t *log, const char *prompt)
 {
     char *p;
 
@@ -106,7 +126,7 @@ char *console_in(console_t *log, const char *prompt)
     return p;
 }
 
-console_t *console_open(const char *id)
+console_t *native_console_open(const char *id)
 {
     console_t *console;
 
@@ -121,7 +141,7 @@ console_t *console_open(const char *id)
     return console;
 }
 
-int console_close(console_t *log)
+int native_console_close(console_t *log)
 {
     Close(console_handle);
 
@@ -130,12 +150,12 @@ int console_close(console_t *log)
     return 0;
 }
 
-int console_init(void)
+int native_console_init(void)
 {
     return 0;
 }
 
-int console_close_all(void)
+int native_console_close_all(void)
 {
     return 0;
 }
