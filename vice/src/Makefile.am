@@ -114,7 +114,7 @@ DIST_SUBDIRS = \
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
-	-I$(top_srcdir)/src/arch/shared/ \
+	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/c64 \
@@ -133,8 +133,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/socketdrv \
-	-I$(top_srcdir)/src/hvsc \
-	-I$(top_srcdir)/src/arch/shared
+	-I$(top_srcdir)/src/hvsc
 
 noinst_HEADERS = \
 	6510core.h \

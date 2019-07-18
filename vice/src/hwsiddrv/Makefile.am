@@ -6,7 +6,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/platform \
-	-I$(top_srcdir)/src/iodrv
+	-I$(top_srcdir)/src/iodrv \
+	-I$(top_srcdir)/src/arch/shared
 
 noinst_LIBRARIES = libhwsiddrv.a
 
