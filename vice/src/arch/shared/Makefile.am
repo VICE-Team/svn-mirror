@@ -60,7 +60,8 @@ libarchdep_a_SOURCES = \
 	coproc.c \
 	dynlib.c \
 	rawnetarch.c \
-	rs232dev.c
+	rs232dev.c \
+	signals.c
 
 EXTRA_DIST = \
 	archdep_defs.h \

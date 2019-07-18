@@ -114,9 +114,9 @@ DIST_SUBDIRS = \
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
+	-I$(top_srcdir)/src/arch/shared/ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/arch/unix/readline \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/monitor \

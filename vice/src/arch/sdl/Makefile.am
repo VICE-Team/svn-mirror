@@ -168,7 +168,6 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	sdlmain.c \
-	signals.c \
 	ui.c \
 	ui.h \
 	uifontscbm2.c \

@@ -71,7 +71,6 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	quartz_renderer.c \
 	scpu64ui.c \
-	signals.c \
 	ui.c \
 	uiabout.c \
 	uicart.c \
