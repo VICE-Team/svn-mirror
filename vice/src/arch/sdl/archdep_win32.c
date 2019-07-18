@@ -212,15 +212,7 @@ static void archdep_shutdown_extra(void)
     lib_free(argv0);
 }
 
-char *archdep_default_hotkey_file_name(void)
-{
-    return util_concat(archdep_boot_path(), "\\sdl-hotkey-", machine_get_name(), ".vkm", NULL);
-}
-
-char *archdep_default_joymap_file_name(void)
-{
-    return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
-}
+/******************************************************************************/
 
 #ifdef SDL_CHOOSE_DRIVES
 char **archdep_list_drives(void)

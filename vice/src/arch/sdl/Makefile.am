@@ -211,7 +211,6 @@ EXTRA_DIST = \
 	archdep_amiga.c \
 	archdep_beos.c \
 	archdep_os2.c \
-	archdep_unix.c \
 	archdep_win32.c \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \

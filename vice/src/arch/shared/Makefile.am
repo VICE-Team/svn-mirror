@@ -20,6 +20,8 @@ libarchdep_a_SOURCES = \
 	archdep_create_user_config_dir.c \
 	archdep_default_autostart_disk_image_file_name.c \
 	archdep_default_fliplist_file_name.c \
+	archdep_default_hotkey_file_name.c \
+	archdep_default_joymap_file_name.c \
 	archdep_default_logger.c \
 	archdep_default_resource_file_name.c \
 	archdep_default_rtc_file_name.c \
@@ -41,6 +43,7 @@ libarchdep_a_SOURCES = \
 	archdep_mkstemp_fd.c \
 	archdep_open_default_log_file.c \
 	archdep_path_is_relative.c \
+	archdep_pref_path.c \
 	archdep_program_name.c \
 	archdep_program_path.c \
 	archdep_quote_parameter.c \

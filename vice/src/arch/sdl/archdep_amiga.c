@@ -237,33 +237,7 @@ static void archdep_shutdown_extra(void)
     close_libs();
 }
 
-char *archdep_default_hotkey_file_name(void)
-{
-    const char *home;
-
-    home = archdep_boot_path();
-
-    return util_concat(home, "/sdl-hotkey-", machine_get_name(), ".vkm", NULL);
-}
-
-char *archdep_default_joymap_file_name(void)
-{
-    const char *home;
-
-    home = archdep_boot_path();
-    return util_concat(home, "/sdl-joymap-", machine_get_name(), ".vjm", NULL);
-}
-
-/** \brief  Sanitize \a path by removing invalid characters for the current OS
- *
- * \param[in,out]   path    0-terminated string
- */
-#if 0
-void archdep_sanitize_path(char *path)
-{
-    return; /* FIXME: stub */
-}
-#endif
+/******************************************************************************/
 
 #define LF (LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ)
 

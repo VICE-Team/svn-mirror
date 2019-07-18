@@ -89,6 +89,9 @@ char *      archdep_get_vice_datadir(void);
 char *      archdep_user_config_path(void);
 void        archdep_user_config_path_free(void);
 
+char *      archdep_default_hotkey_file_name(void);
+char *      archdep_default_joymap_file_name(void);
+
 /* Register CBM font with the OS without installing */
 int         archdep_register_cbmfont(void);
 /* Unregister CBM font */

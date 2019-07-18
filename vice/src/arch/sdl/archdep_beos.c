@@ -89,23 +89,7 @@ static void archdep_shutdown_extra(void)
     lib_free(argv0);
 }
 
-char *archdep_default_hotkey_file_name(void)
-{
-    static char *fname;
-
-    lib_free(fname);
-    fname = util_concat(archdep_boot_path(), "/sdl-hotkey-", machine_get_name(), ".vkm", NULL);
-    return fname;
-}
-
-char *archdep_default_joymap_file_name(void)
-{
-    static char *fname;
-
-    lib_free(fname);
-    fname = util_concat(archdep_boot_path(), "/sdl-joymap-", machine_get_name(), ".vjm", NULL);
-    return fname;
-}
+/******************************************************************************/
 
 /* This check is needed for haiku, since it always returns 1 on
    SupportsWindowMode() */

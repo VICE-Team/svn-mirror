@@ -69,7 +69,27 @@ static void archdep_shutdown_extra(void);
 #include "../shared/archdep_create_user_config_dir.h"
 #include "../shared/archdep_user_config_path.h"
 
+/******************************************************************************/
 
+#if defined(UNIX_COMPILE)
+
+/* called from archdep.c:archdep_init */
+static int archdep_init_extra(int *argc, char **argv)
+{
+    return 0;
+}
+#endif
+
+#if defined(UNIX_COMPILE) || defined (__OS2__)
+
+/* called from archdep.c:archdep_shutdown */
+static void archdep_shutdown_extra(void)
+{
+}
+
+#endif
+
+/******************************************************************************/
 
 int archdep_init(int *argc, char **argv)
 {

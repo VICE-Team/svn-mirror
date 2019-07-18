@@ -1472,7 +1472,7 @@ int keyboard_get_num_mappings(void)
     return KBD_MAPPING_NUM;
 }
 
-/* (keep in sync with constants in keyboard.c) */
+/* (keep in sync with constants in keyboard.h) */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
     { "American (us)", KBD_MAPPING_US, "" },
     { "British (uk)", KBD_MAPPING_UK, "uk" },

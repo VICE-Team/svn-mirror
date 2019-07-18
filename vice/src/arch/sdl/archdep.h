@@ -99,10 +99,6 @@
 
 /* FIXME: the following should be moved to a header, and a .c file, in shared */
 
-/* Extra functions for SDL UI */
-extern char *archdep_default_hotkey_file_name(void);
-extern char *archdep_default_joymap_file_name(void);
-
 /* returns a NULL terminated list of strings. Both the list and the strings
  * must be freed by the caller using lib_free(void*) */
 extern char **archdep_list_drives(void);
