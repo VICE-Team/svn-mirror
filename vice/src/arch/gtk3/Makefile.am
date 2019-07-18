@@ -112,8 +112,6 @@ EXTRA_DIST = \
 	Info.plist \
 	Resources/VICE.icns \
 	archdep.h \
-	archdep_unix.h \
-	archdep_win32.h \
 	cairo_renderer.h \
 	debug_gtk3.h \
 	joy-osx-hid.h \

@@ -1,6 +1,7 @@
 # Makefile.am for `libgfxoutputdrv.a'.
 
 AM_CPPFLAGS = \
+	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/sounddrv \

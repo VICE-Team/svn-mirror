@@ -108,6 +108,11 @@ EXTRA_DIST = \
 	archdep_user_config_path.h \
 	archdep_usleep.h \
 	archdep_xdg.h \
+	archdep_amiga.h \
+	archdep_beos.h \
+	archdep_os2.h \
+	archdep_unix.h \
+	archdep_win32.h \
 	coproc.h \
 	dynlib-unix.c \
 	dynlib-win32.c \

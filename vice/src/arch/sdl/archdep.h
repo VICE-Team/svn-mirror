@@ -88,6 +88,8 @@ extern int archdep_require_vkbd(void);
 
 #ifdef AMIGA_SUPPORT
 #include "archdep_amiga.h"
+/* This platform supports choosing drives. */
+#define SDL_CHOOSE_DRIVES
 #endif
 
 #ifdef BEOS_COMPILE
@@ -96,6 +98,8 @@ extern int archdep_require_vkbd(void);
 
 #ifdef __OS2__
 #include "archdep_os2.h"
+/* This platform supports choosing drives. */
+#define SDL_CHOOSE_DRIVES
 #endif
 
 #if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
@@ -104,6 +108,8 @@ extern int archdep_require_vkbd(void);
 
 #ifdef WIN32_COMPILE
 #include "archdep_win32.h"
+/* This platform supports choosing drives. */
+#define SDL_CHOOSE_DRIVES
 #endif
 
 #endif

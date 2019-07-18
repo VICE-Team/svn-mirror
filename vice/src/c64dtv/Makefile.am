@@ -2,6 +2,7 @@ AM_CFLAGS=@INLINE_UNIT_GROWTH@
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
+	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
