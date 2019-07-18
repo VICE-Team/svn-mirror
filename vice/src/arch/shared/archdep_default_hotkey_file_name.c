@@ -28,6 +28,7 @@
 #include "kbd.h"
 #include "util.h"
 
+#include "archdep_boot_path.h"
 #include "archdep_pref_path.h"
 #include "archdep_home_path.h"
 #include "archdep_default_hotkey_file_name.h"
