@@ -1,9 +1,10 @@
+/** \file   dynlib.c
+ * \brief   Dynamic library loading wrapper
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * dynlib.c - Unix support for dynamic library loading.
- *
- * Written by
- *  Christian Vogelgsang <chris@vogelgsang.org>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,59 +25,16 @@
  *
  */
 
-#include <stdlib.h>
 #include "dynlib.h"
 
 #ifdef HAVE_DYNLIB_SUPPORT
 
-#include <dlfcn.h>
-
-#ifndef RTLD_LOCAL
-#define RTLD_LOCAL 0
+#ifdef UNIX_COMPILE
+#include "dynlib-unix.c"
 #endif
 
-void *vice_dynlib_open(const char *name)
-{
-    return dlopen(name, RTLD_LAZY | RTLD_LOCAL);
-}
-
-void *vice_dynlib_symbol(void *handle,const char *name)
-{
-    return dlsym(handle, name);
-}
-
-char *vice_dynlib_error(void)
-{
-     char *error = dlerror();
-     
-     return error ? error : "no error";
-}
-
-int vice_dynlib_close(void *handle)
-{
-    return dlclose(handle);
-}
-
-#else
-
-void *vice_dynlib_open(const char *name)
-{
-    return NULL;
-}
-
-void *vice_dynlib_symbol(void *handle,const char *name)
-{
-    return NULL;
-}
-
-char *vice_dynlib_error(void)
-{
-    return "no error";
-}
-
-int vice_dynlib_close(void *handle)
-{
-    return -1;
-}
+#ifdef WIN32_COMPILE
+#include "dynlib-win32.c"
+#endif
 
 #endif

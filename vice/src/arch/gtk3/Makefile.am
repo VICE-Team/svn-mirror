@@ -54,7 +54,6 @@ libarch_a_SOURCES = \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	coproc.c \
-	dynlib.c \
 	gtk3main.c \
 	joy-osx-hid.c \
 	joy-osx-hidmgr.c \
@@ -120,8 +119,6 @@ EXTRA_DIST = \
 	cairo_renderer.h \
 	coproc.h \
 	debug_gtk3.h \
-	dynlib-unix.c \
-	dynlib-win32.c \
 	joy-osx-hid.h \
 	joy-osx-hidlib.h \
 	joy-osx.h \

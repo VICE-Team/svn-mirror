@@ -56,6 +56,7 @@ libarchdep_a_SOURCES = \
 	archdep_user_config_path.c \
 	archdep_usleep.c \
 	archdep_xdg.c \
+	dynlib.c \
 	rawnetarch.c
 
 EXTRA_DIST = \
@@ -103,5 +104,7 @@ EXTRA_DIST = \
 	archdep_user_config_path.h \
 	archdep_usleep.h \
 	archdep_xdg.h \
+	dynlib-unix.c \
+	dynlib-win32.c \
 	rawnetarch_unix.c \
 	rawnetarch_win32.c

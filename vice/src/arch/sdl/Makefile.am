@@ -62,7 +62,6 @@ libarch_a_SOURCES = \
 	console_unix.c \
 	coproc.c \
 	coproc.h \
-	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \
 	icon.c \
@@ -227,8 +226,6 @@ EXTRA_DIST = \
 	console_amiga.c \
 	console_sdl.c \
 	console_unix.c \
-	dynlib-unix.c \
-	dynlib-win32.c \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_osx.sh \
