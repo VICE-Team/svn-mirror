@@ -165,7 +165,7 @@ int archdep_init(int *argc, char **argv)
 }
 
 
-/** \brief  Architecture-dependent shutdown hanlder
+/** \brief  Architecture-dependent shutdown handler
  */
 void archdep_shutdown(void)
 {
