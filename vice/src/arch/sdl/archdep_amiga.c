@@ -217,6 +217,7 @@ void close_libs(void)
     }
 }
 
+/* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
     if (*argc == 0) { /* run from WB */
@@ -229,15 +230,12 @@ static int archdep_init_extra(int *argc, char **argv)
     return 0;
 }
 
-#if 0
-char *archdep_default_autostart_disk_image_file_name(void)
+/* called from archdep.c:archdep_shutdown */
+static void archdep_shutdown_extra(void)
 {
-    const char *home;
-
-    home = archdep_boot_path();
-    return util_concat(home, "autostart-", machine_get_name(), ".d64", NULL);
+    lib_free(boot_path);
+    close_libs();
 }
-#endif
 
 char *archdep_default_hotkey_file_name(void)
 {
@@ -256,31 +254,6 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(home, "/sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
-
-#if 0
-FILE *archdep_open_default_log_file(void)
-{
-    if (run_from_wb) {
-        char *fname;
-        FILE *f;
-
-        fname = util_concat(archdep_boot_path(), "vice.log", NULL);
-        f = fopen(fname, MODE_WRITE_TEXT);
-
-        lib_free(fname);
-
-        if (f == NULL) {
-            return stdout;
-        }
-
-        return f;
-    } else {
-        return stdout;
-    }
-}
-#endif
-
-
 /** \brief  Sanitize \a path by removing invalid characters for the current OS
  *
  * \param[in,out]   path    0-terminated string
@@ -288,25 +261,6 @@ FILE *archdep_open_default_log_file(void)
 void archdep_sanitize_path(char *path)
 {
     return; /* FIXME: stub */
-}
-
-#if 0
-char *archdep_tmpnam(void)
-{
-    return lib_strdup(tmpnam(NULL));
-}
-#endif
-
-
-int archdep_require_vkbd(void)
-{
-    return 0;
-}
-
-static void archdep_shutdown_extra(void)
-{
-    lib_free(boot_path);
-    close_libs();
 }
 
 #define LF (LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ)
@@ -367,4 +321,9 @@ void archdep_set_current_drive(const char *drive)
     } else {
         ui_error("Failed to change to drive %s", drive);
     }
+}
+
+int archdep_require_vkbd(void)
+{
+    return 0;
 }

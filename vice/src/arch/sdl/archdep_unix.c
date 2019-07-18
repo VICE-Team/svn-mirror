@@ -70,13 +70,17 @@
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
-
+/* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
     archdep_pref_path = archdep_user_config_path();
     return 0;
 }
 
+/* called from archdep.c:archdep_shutdown */
+static void archdep_shutdown_extra(void)
+{
+}
 
 char *archdep_default_hotkey_file_name(void)
 {
@@ -102,52 +106,8 @@ char *archdep_default_joymap_file_name(void)
     }
 }
 
-
-#if 0
-char *archdep_tmpnam(void)
-{
-#ifdef HAVE_MKSTEMP
-    char *tmp_name;
-    const char mkstemp_template[] = "/vice.XXXXXX";
-    int fd;
-    char *tmp;
-    char *final_name;
-
-    tmp_name = lib_malloc(ioutil_maxpathlen());
-#ifdef USE_EXE_RELATIVE_TMP
-    strcpy(tmp_name, archdep_boot_path());
-    strcat(tmp_name, "/tmp");
-#else
-    if ((tmp = getenv("TMPDIR")) != NULL) {
-        strncpy(tmp_name, tmp, ioutil_maxpathlen());
-        tmp_name[ioutil_maxpathlen() - sizeof(mkstemp_template)] = '\0';
-    } else {
-        strcpy(tmp_name, "/tmp");
-    }
-#endif
-    strcat(tmp_name, mkstemp_template);
-    if ((fd = mkstemp(tmp_name)) < 0) {
-        tmp_name[0] = '\0';
-    } else {
-        close(fd);
-    }
-
-    final_name = lib_strdup(tmp_name);
-    lib_free(tmp_name);
-    return final_name;
-#else
-    return lib_strdup(tmpnam(NULL));
-#endif
-}
-#endif
-
-
 int archdep_require_vkbd(void)
 {
     return 0;
 }
 
-
-static void archdep_shutdown_extra(void)
-{
-}

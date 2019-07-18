@@ -193,7 +193,7 @@ static void system_mbstowcs_free(char *wcs)
 }
 #endif
 
-
+/* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
     _fmode = O_BINARY;
@@ -206,6 +206,11 @@ static int archdep_init_extra(int *argc, char **argv)
     return 0;
 }
 
+/* called from archdep.c:archdep_shutdown */
+static void archdep_shutdown_extra(void)
+{
+    lib_free(argv0);
+}
 
 char *archdep_default_hotkey_file_name(void)
 {
@@ -269,12 +274,6 @@ void archdep_set_current_drive(const char *drive)
 int archdep_require_vkbd(void)
 {
     return 0;
-}
-
-
-static void archdep_shutdown_extra(void)
-{
-    lib_free(argv0);
 }
 
 void archdep_workaround_nop(const char *otto)

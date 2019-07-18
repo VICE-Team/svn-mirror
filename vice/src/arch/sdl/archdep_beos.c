@@ -74,6 +74,7 @@
 static char *orig_workdir;
 static char *argv0 = NULL;
 
+/* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
     argv0 = lib_strdup(argv[0]);
@@ -82,29 +83,11 @@ static int archdep_init_extra(int *argc, char **argv)
     return 0;
 }
 
-
-#if 0
-/* Return a malloc'ed backup file name for file `fname'.  */
-char *archdep_make_backup_filename(const char *fname)
+/* called from archdep.c:archdep_shutdown */
+static void archdep_shutdown_extra(void)
 {
-    char *tmp;
-
-    tmp = util_concat(fname, NULL);
-    tmp[strlen(tmp) - 1] = '~';
-    return tmp;
+    lib_free(argv0);
 }
-#endif
-
-
-#if 0
-char *archdep_default_autostart_disk_image_file_name(void)
-{
-    const char *home;
-
-    home = archdep_boot_path();
-    return util_concat(home, "/autostart-", machine_get_name(), ".d64", NULL);
-}
-#endif
 
 char *archdep_default_hotkey_file_name(void)
 {
@@ -124,41 +107,9 @@ char *archdep_default_joymap_file_name(void)
     return fname;
 }
 
-#if 0
-FILE *archdep_open_default_log_file(void)
-{
-    char *fname;
-    FILE *f;
-
-    fname = util_concat(archdep_boot_path(), "/vice.log", NULL);
-    f = fopen(fname, "wt");
-    lib_free(fname);
-
-    return f;
-}
-#endif
-
-
-
-
-#if 0
-char *archdep_tmpnam(void)
-{
-    return lib_strdup(tmpnam(NULL));
-}
-#endif
-
-
-
 int archdep_require_vkbd(void)
 {
     return 0;
-}
-
-
-static void archdep_shutdown_extra(void)
-{
-    lib_free(argv0);
 }
 
 /* This check is needed for haiku, since it always returns 1 on

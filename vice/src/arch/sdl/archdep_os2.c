@@ -104,16 +104,17 @@
 
 static char *argv0;
 
-
-#if 0
-char *archdep_default_autostart_disk_image_file_name(void)
+/* called from archdep.c:archdep_init */
+static int archdep_init_extra(int *argc, char **argv)
 {
-    const char *home;
-
-    home = archdep_boot_path();
-    return util_concat(home, "\\autostart-", machine_get_name(), ".d64", NULL);
+    argv0 = lib_strdup(argv[0]);
+    return 0;
 }
-#endif
+
+/* called from archdep.c:archdep_shutdown */
+static void archdep_shutdown_extra(void)
+{
+}
 
 char *archdep_default_hotkey_file_name(void)
 {
@@ -125,21 +126,8 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
+/* FIXME: only referenced in archdep_spawn ? */
 #if 0
-FILE *archdep_open_default_log_file(void)
-{
-    char *fname;
-    FILE *f;
-
-    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
-    f = fopen(fname, "wt");
-    lib_free(fname);
-
-    return f;
-}
-#endif
-
-
 static int archdep_search_path(const char *name, char *pBuf, int lBuf)
 {
     const int flags = SEARCH_CUR_DIRECTORY|SEARCH_IGNORENETERRS;
@@ -157,8 +145,10 @@ static int archdep_search_path(const char *name, char *pBuf, int lBuf)
 
     return 0;
 }
+#endif
 
-
+/* FIXME: only referenced in archdep_spawn ? */
+#if 0
 static char *archdep_cmdline(const char *name, char **argv, const char *sout, const char *serr)
 {
     char *res;
@@ -189,8 +179,9 @@ static char *archdep_cmdline(const char *name, char **argv, const char *sout, co
 
     return res;
 }
+#endif
 
-
+#if 0
 static void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
 {
     APIRET rc;
@@ -201,16 +192,7 @@ static void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState
 
     rc = DosCreateMutexSem(sem, hmtx, 0, fState);
 }
-
-
-
-#if 0
-char *archdep_tmpnam(void)
-{
-    return lib_strdup(tmpnam(NULL));
-}
 #endif
-
 
 #ifdef SDL_CHOOSE_DRIVES
 char **archdep_list_drives(void)
@@ -273,12 +255,3 @@ int archdep_require_vkbd(void)
     return 0;
 }
 
-static int archdep_init_extra(int *argc, char **argv)
-{
-    argv0 = lib_strdup(argv[0]);
-    return 0;
-}
-
-static void archdep_shutdown_extra(void)
-{
-}
