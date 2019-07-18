@@ -74,12 +74,6 @@
  */
 static char *argv0 = NULL;
 
-
-/** \brief  Path to the preferences directory of the emu
- */
-const char *archdep_pref_path = NULL;
-
-
 /** \brief  Arch-dependent init
  *
  * \param[in]   argc    pointer to argument count
