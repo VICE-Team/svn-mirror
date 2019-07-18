@@ -169,7 +169,6 @@ libarch_a_SOURCES = \
 	menu_video.h \
 	mousedrv.c \
 	mousedrv.h \
-	rawnetarch.c \
 	rs232dev.c \
 	sdlmain.c \
 	signals.c \

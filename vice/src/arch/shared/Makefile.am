@@ -55,7 +55,8 @@ libarchdep_a_SOURCES = \
 	archdep_tmpnam.c \
 	archdep_user_config_path.c \
 	archdep_usleep.c \
-	archdep_xdg.c
+	archdep_xdg.c \
+	rawnetarch.c
 
 EXTRA_DIST = \
 	archdep_defs.h \
@@ -101,4 +102,6 @@ EXTRA_DIST = \
 	archdep_tmpnam.h \
 	archdep_user_config_path.h \
 	archdep_usleep.h \
-	archdep_xdg.h
+	archdep_xdg.h \
+	rawnetarch_unix.c \
+	rawnetarch_win32.c
