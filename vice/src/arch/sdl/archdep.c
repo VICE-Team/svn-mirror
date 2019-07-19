@@ -70,9 +70,13 @@ static void archdep_shutdown_extra(void);
 #include "../shared/archdep_user_config_path.h"
 
 /******************************************************************************/
+static char *argv0 = NULL;
+#if defined(ARCHDEP_OS_BEOS)
+static char *orig_workdir = NULL;
+#endif
+/**********************************/
 
 #if defined(UNIX_COMPILE)
-
 /* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
@@ -80,14 +84,49 @@ static int archdep_init_extra(int *argc, char **argv)
 }
 #endif
 
-#if defined(UNIX_COMPILE) || defined (__OS2__)
+#if defined(ARCHDEP_OS_WINDOWS)
+/* called from archdep.c:archdep_init */
+static int archdep_init_extra(int *argc, char **argv)
+{
+    _fmode = O_BINARY;
+
+    _setmode(_fileno(stdin), O_BINARY);
+    _setmode(_fileno(stdout), O_BINARY);
+
+    argv0 = lib_strdup(argv[0]);
+
+    return 0;
+}
+#endif
+
+#if defined(ARCHDEP_OS_BEOS)
+/* called from archdep.c:archdep_init */
+static int archdep_init_extra(int *argc, char **argv)
+{
+    argv0 = lib_strdup(argv[0]);
+    orig_workdir = getcwd(NULL, PATH_MAX);
+
+    return 0;
+}
+#endif
+
+#if defined(ARCHDEP_OS_OS2)
+/* called from archdep.c:archdep_init */
+static int archdep_init_extra(int *argc, char **argv)
+{
+    argv0 = lib_strdup(argv[0]);
+    return 0;
+}
+#endif
+/**********************************/
 
 /* called from archdep.c:archdep_shutdown */
 static void archdep_shutdown_extra(void)
 {
+    if (argv0) {
+        lib_free(argv0);
+    }
 }
-
-#endif
 
 /******************************************************************************/
 

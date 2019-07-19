@@ -70,25 +70,6 @@
 #include "machine.h"
 #include "util.h"
 
-
-static char *orig_workdir;
-static char *argv0 = NULL;
-
-/* called from archdep.c:archdep_init */
-static int archdep_init_extra(int *argc, char **argv)
-{
-    argv0 = lib_strdup(argv[0]);
-    orig_workdir = getcwd(NULL, PATH_MAX);
-
-    return 0;
-}
-
-/* called from archdep.c:archdep_shutdown */
-static void archdep_shutdown_extra(void)
-{
-    lib_free(argv0);
-}
-
 /******************************************************************************/
 
 /* This check is needed for haiku, since it always returns 1 on

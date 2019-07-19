@@ -168,9 +168,6 @@
 #define SUBLANG_ITALIAN 0x01
 #endif
 
-
-static char *argv0;
-
 #if 0
 static char *system_mbstowcs_alloc(const char *mbs)
 {
@@ -192,25 +189,6 @@ static void system_mbstowcs_free(char *wcs)
     lib_free(wcs);
 }
 #endif
-
-/* called from archdep.c:archdep_init */
-static int archdep_init_extra(int *argc, char **argv)
-{
-    _fmode = O_BINARY;
-
-    _setmode(_fileno(stdin), O_BINARY);
-    _setmode(_fileno(stdout), O_BINARY);
-
-    argv0 = lib_strdup(argv[0]);
-
-    return 0;
-}
-
-/* called from archdep.c:archdep_shutdown */
-static void archdep_shutdown_extra(void)
-{
-    lib_free(argv0);
-}
 
 /******************************************************************************/
 

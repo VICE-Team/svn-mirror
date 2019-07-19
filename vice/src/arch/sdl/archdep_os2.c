@@ -102,17 +102,6 @@
 #include "vsyncapi.h"
 
 
-static char *argv0;
-
-/* called from archdep.c:archdep_init */
-static int archdep_init_extra(int *argc, char **argv)
-{
-    argv0 = lib_strdup(argv[0]);
-    return 0;
-}
-
-/******************************************************************************/
-
 /* FIXME: only referenced in archdep_spawn ? */
 #if 0
 static int archdep_search_path(const char *name, char *pBuf, int lBuf)
