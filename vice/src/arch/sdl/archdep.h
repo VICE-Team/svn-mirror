@@ -91,6 +91,8 @@ extern void close_libs(void);
 
 #if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
 #include "archdep_unix.h"
+/* Allow native monitor code (on host console) */
+#define ALLOW_NATIVE_MONITOR
 #endif
 
 #ifdef WIN32_COMPILE
