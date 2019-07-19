@@ -23,7 +23,9 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-/* FIXME: includes for windows */
+#include "archdep.h"
+#include "lib.h"
+
 /* FIXME: includes for os/2 */
 /* FIXME: includes for amiga */
 

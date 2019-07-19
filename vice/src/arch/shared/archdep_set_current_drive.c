@@ -23,7 +23,13 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-/* FIXME: includes for windows */
+#if defined(ARCHDEP_OS_WINDOWS)
+# include <direct.h>
+#endif
+
+#include "archdep.h"
+#include "ui.h"
+
 /* FIXME: includes for os/2 */
 /* FIXME: includes for amiga */
 

@@ -153,7 +153,7 @@
 
 /** \brief  Extension used for autostart disks
  */
-#define ARCHDEP_AUTOSTART_DICK_EXTENSION    "d64"
+#define ARCHDEP_AUTOSTART_DISK_EXTENSION    "d64"
 
 
 #if defined(ARCHEP_OS_AMIGA) || defined(ARCHDEP_OS_MSDOS) \

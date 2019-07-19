@@ -43,6 +43,8 @@
 
 #include "archdep_defs.h"
 
+#include "archdep.h"
+
 #ifdef ARCHDEP_OS_WINDOWS
 # include "windows.h"
 # include "shlobj.h"

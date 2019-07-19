@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "archdep.h"
+
 #ifdef ARCHDEP_OS_WINDOWS
 # include <windows.h>
 #endif

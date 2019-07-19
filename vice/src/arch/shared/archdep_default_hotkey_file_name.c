@@ -24,6 +24,8 @@
 
 #include <stdlib.h>
 
+#include "archdep.h"
+
 #include "machine.h"
 #include "kbd.h"
 #include "util.h"
@@ -33,7 +35,6 @@
 #include "archdep_home_path.h"
 #include "archdep_default_hotkey_file_name.h"
 
-/* FIXME: includes for windows */
 /* FIXME: includes for OS/2 */
 /* FIXME: includes for beos */
 /* FIXME: includes for amiga */

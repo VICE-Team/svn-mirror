@@ -25,6 +25,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "archdep.h"
+
 #include "archdep_pref_path.h"
 #include "archdep_user_config_path.h"
 
