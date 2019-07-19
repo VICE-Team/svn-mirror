@@ -42,7 +42,7 @@
 #ifdef UNIX_COMPILE
 char *archdep_default_hotkey_file_name(void)
 {
-    char *pref_path = NULL;
+    const char *pref_path = NULL;
     pref_path = archdep_pref_path();
     if (pref_path == NULL) {
         const char *home;
