@@ -100,7 +100,6 @@ char *archdep_user_config_path(void)
 #ifdef ARCHDEP_OS_WINDOWS
     TCHAR szPath[MAX_PATH];
 #endif
-
     /* don't recalculate path if it's already known */
     if (user_config_dir != NULL) {
         return user_config_dir;

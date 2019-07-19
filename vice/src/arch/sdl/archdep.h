@@ -95,19 +95,4 @@
 #define SDL_CHOOSE_DRIVES
 #endif
 
-/******************************************************************************/
-
-/* FIXME: the following should be moved to a header, and a .c file, in shared */
-
-/* returns a NULL terminated list of strings. Both the list and the strings
- * must be freed by the caller using lib_free(void*) */
-extern char **archdep_list_drives(void);
-
-/* returns a string that corresponds to the current drive. The string must
- * be freed by the caller using lib_free(void*) */
-extern char *archdep_get_current_drive(void);
-
-/* sets the current drive to the given string */
-extern void archdep_set_current_drive(const char *drive);
-
 #endif

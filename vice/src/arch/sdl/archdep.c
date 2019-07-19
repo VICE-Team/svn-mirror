@@ -26,11 +26,41 @@
 
 #include "vice.h"
 
+#ifdef AMIGA_SUPPORT
+#ifndef __VBCC__
+#define __USE_INLINE__
+#endif
+
+#include <proto/dos.h>
+#include <proto/exec.h>
+
+#ifndef AMIGA_OS4
+#include <proto/socket.h>
+#endif
+#endif /* AMIGA_SUPPORT */
+
 #include "vice_sdl.h"
+#include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+#include <ctype.h>
+#include <errno.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "archdep.h"
+#include "findpath.h"
+#include "ioutil.h"
+#include "kbd.h"
+#include "keyboard.h"
 #include "lib.h"
+#include "log.h"
+#include "machine.h"
+#include "ui.h"
+#include "util.h"
 
 /* FIXME: includes for windows */
 /* FIXME: includes for beos */
@@ -43,8 +73,164 @@ static int archdep_init_extra(int *argc, char **argv);
 static void archdep_shutdown_extra(void);
 
 #ifdef AMIGA_SUPPORT
-#include "archdep_amiga.c"
+/* #include "archdep_amiga.c" */
+
+#if defined(AMIGA_OS4)
+#include <exec/execbase.h>
+#ifndef __USE_BASETYPE__
+  extern struct Library * SysBase;
+#else
+  extern struct ExecBase * SysBase;
+#endif /* __USE_BASETYPE__ */
 #endif
+
+#ifndef AMIGA_OS4
+struct Library *SocketBase;
+#endif
+
+#ifdef POWERSDL_AMIGA_INLINE
+struct Library *PowerSDLBase = NULL;
+#define SDLLIBBASE PowerSDLBase
+#define SDLLIBNAME "powersdl.library"
+#endif
+
+#ifdef SDL_AMIGA_INLINE
+struct Library *SDLBase = NULL;
+#define SDLLIBBASE SDLBase
+#define SDLLIBNAME "SDL.library"
+#endif
+
+#if defined(SDL_AMIGA_INLINE) || defined(POWERSDL_AMIGA_INLINE)
+void SDL_Quit(void)
+{
+    SDL_RealQuit();
+    CloseLibrary(SDLLIBBASE);
+}
+#endif
+
+#ifdef SDL_AMIGA_INLINE
+int SDL_Init(Uint32 flags)
+{
+    SDLLIBBASE = OpenLibrary(SDLLIBNAME, 0L);
+
+    if (!SDLLIBBASE) {
+        printf("Unable to open %s\n", SDLLIBNAME);
+        archdep_vice_exit(0);
+    }
+
+    return SDL_RealInit(flags);
+}
+#endif
+
+#ifdef POWERSDL_AMIGA_INLINE
+int VICE_SDL_Init(Uint32 flags)
+{
+    SDLLIBBASE = OpenLibrary(SDLLIBNAME, 0L);
+
+    if (!SDLLIBBASE) {
+        printf("Unable to open %s\n", SDLLIBNAME);
+        archdep_vice_exit(0);
+    }
+    return SDL_Init(flags);
+}
+
+#define SDL_REALINIT VICE_SDL_Init
+#endif
+
+#define __USE_INLINE__
+
+#undef BYTE
+#undef WORD
+#include <exec/types.h>
+#include <exec/nodes.h>
+#include <exec/lists.h>
+#include <exec/memory.h>
+
+#include <proto/exec.h>
+#include <proto/intuition.h>
+
+#ifdef AMIGA_OS4
+struct Library *ExpansionBase = NULL;
+struct ExpansionIFace *IExpansion = NULL;
+#endif
+
+#ifdef HAVE_PROTO_OPENPCI_H
+struct Library *OpenPciBase = NULL;
+#endif
+
+#if defined(HAVE_PROTO_OPENPCI_H) || defined(AMIGA_OS4)
+int pci_lib_loaded = 1;
+#endif
+
+/* ----------------------------------------------------------------------- */
+
+#define LIBS_ACTION_ERROR     0
+#define LIBS_ACTION_WARNING   1
+
+typedef struct amiga_libs_s {
+    char *lib_name;
+    void **lib_base;
+    int lib_version;
+    void **interface_base;
+    int action;
+    int **var;
+} amiga_libs_t;
+
+static amiga_libs_t amiga_libs[] = {
+#ifdef AMIGA_OS4
+    { "expansion.library", &ExpansionBase, 50, &IExpansion, LIBS_ACTION_WARNING, &pci_lib_loaded },
+#endif
+#ifdef HAVE_PROTO_OPENPCI_H
+    { "openpci.library", &OpenPciBase, 0, NULL, LIBS_ACTION_WARNING, &pci_lib_loaded },
+#endif
+    { NULL, NULL, 0, NULL, 0, NULL }
+};
+
+int load_libs(void)
+{
+    int i = 0;
+
+    while (amiga_libs[i].lib_name) {
+        amiga_libs[i].lib_base[0] = OpenLibrary(amiga_libs[i].lib_name, amiga_libs[i].lib_version);
+#ifdef AMIGA_OS4
+        if (amiga_libs[i].lib_base[0]) {
+            amiga_libs[i].interface_base[0] = GetInterface(amiga_libs[i].lib_base[0], "main", 1, NULL);
+            if (amiga_libs[i].interface_base[0] == NULL) {
+                CloseLibrary(amiga_libs[i].lib_base[0]);
+                amiga_libs[i].lib_base[0] = NULL;
+            }
+        }
+#endif
+        if (!amiga_libs[i].lib_base[0]) {
+            if (amiga_libs[i].action == LIBS_ACTION_ERROR) {
+                return -1;
+            } else {
+                amiga_libs[i].var[0] = 0;
+            }
+        }
+        i++;
+    }
+    return 0;
+}
+
+void close_libs(void)
+{
+    int i = 0;
+
+    while (amiga_libs[i].lib_name) {
+#ifdef AMIGA_OS4
+        if (amiga_libs[i].interface_base) {
+            DropInterface((struct Interface *)amiga_libs[i].interface_base[0]);
+        }
+#endif
+        if (amiga_libs[i].lib_base) {
+            CloseLibrary(amiga_libs[i].lib_base[0]);
+        }
+        i++;
+    }
+}
+
+#endif /* AMIGA_SUPPORT */
 
 #ifdef BEOS_COMPILE
 /* #include "archdep_beos.c" */
@@ -64,7 +250,7 @@ int CheckForHaiku(void)
 #endif
 
 #ifdef __OS2__
-#include "archdep_os2.c"
+/* #include "archdep_os2.c" */
 #endif
 
 #ifdef UNIX_COMPILE
@@ -72,7 +258,7 @@ int CheckForHaiku(void)
 #endif
 
 #ifdef WIN32_COMPILE
-#include "archdep_win32.c"
+/* #include "archdep_win32.c" */
 #endif
 
 #include "kbd.h"
@@ -95,51 +281,37 @@ static char *argv0 = NULL;
 #if defined(ARCHDEP_OS_BEOS)
 static char *orig_workdir = NULL;
 #endif
-/**********************************/
-
-#if defined(UNIX_COMPILE)
-/* called from archdep.c:archdep_init */
-static int archdep_init_extra(int *argc, char **argv)
-{
-    return 0;
-}
+#if defined(ARCHDEP_OS_AMIGA)    
+static int run_from_wb = 0;
 #endif
 
-#if defined(ARCHDEP_OS_WINDOWS)
 /* called from archdep.c:archdep_init */
 static int archdep_init_extra(int *argc, char **argv)
 {
+#if defined(ARCHDEP_OS_WINDOWS)
     _fmode = O_BINARY;
 
     _setmode(_fileno(stdin), O_BINARY);
     _setmode(_fileno(stdout), O_BINARY);
-
-    argv0 = lib_strdup(argv[0]);
-
-    return 0;
-}
 #endif
-
+    
+#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_BEOS) || defined(ARCHDEP_OS_OS2)
+    argv0 = lib_strdup(argv[0]);
+#endif
 #if defined(ARCHDEP_OS_BEOS)
-/* called from archdep.c:archdep_init */
-static int archdep_init_extra(int *argc, char **argv)
-{
-    argv0 = lib_strdup(argv[0]);
     orig_workdir = getcwd(NULL, PATH_MAX);
-
+#endif
+    
+#if defined(ARCHDEP_OS_AMIGA)    
+    if (*argc == 0) { /* run from WB */
+        run_from_wb = 1;
+    } else { /* run from CLI */
+        run_from_wb = 0;
+    }
+    load_libs();
+#endif    
     return 0;
 }
-#endif
-
-#if defined(ARCHDEP_OS_OS2)
-/* called from archdep.c:archdep_init */
-static int archdep_init_extra(int *argc, char **argv)
-{
-    argv0 = lib_strdup(argv[0]);
-    return 0;
-}
-#endif
-/**********************************/
 
 /* called from archdep.c:archdep_shutdown */
 static void archdep_shutdown_extra(void)
@@ -147,6 +319,10 @@ static void archdep_shutdown_extra(void)
     if (argv0) {
         lib_free(argv0);
     }
+#if defined(ARCHDEP_OS_AMIGA)    
+    lib_free(boot_path);
+    close_libs();
+#endif    
 }
 
 /******************************************************************************/

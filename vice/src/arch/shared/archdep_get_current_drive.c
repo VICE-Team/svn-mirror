@@ -1,3 +1,4 @@
+
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -22,22 +23,43 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#include <stdlib.h>
-#include <stdio.h>
+/* FIXME: includes for windows */
+/* FIXME: includes for os/2 */
+/* FIXME: includes for amiga */
 
-#include "archdep_pref_path.h"
-#include "archdep_user_config_path.h"
+#if defined(ARCHDEP_OS_WINDOWS) || defined(__OS2__)
 
-/* alternate storage of preferences */
-static char *pref_path = NULL; /* NULL -> use home_path + ".vice" */
-
-const char *archdep_pref_path(void)
+/* FIXME: is this needed* */
+#ifdef SDL_CHOOSE_DRIVES
+char *archdep_get_current_drive(void)
 {
-    if (pref_path == NULL) {
-#ifdef UNIX_COMPILE
-        /* unix */
-        pref_path = archdep_user_config_path();
-#endif
-    }
-    return pref_path;
+    char *p = ioutil_current_dir();
+    char *p2 = strchr(p, '\\');
+    p2[0] = '/';
+    p2[1] = '\0';
+    return p;
 }
+#endif
+
+#endif
+
+#if defined(ARCHDEP_OS_AMIGA)
+
+/* FIXME: is this needed* */
+#ifdef SDL_CHOOSE_DRIVES
+char *archdep_get_current_drive(void)
+{
+    char *p = ioutil_current_dir();
+    char *p2 = strchr(p, ':');
+
+    if (p2 == NULL) {
+        return lib_strdup("PROGDIR:");
+    }
+
+    p2[1] = '\0';
+
+    return p;
+}
+#endif
+
+#endif

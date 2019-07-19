@@ -81,8 +81,6 @@
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
-void archdep_workaround_nop(const char *otto);
-
 /*
     FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
            or crashes when the connection is closed, you might have to install
@@ -119,4 +117,27 @@ void archdep_usleep(uint64_t waitTime);
 
 int archdep_is_windows_nt(void);
 
+#endif
+
+/* FIXME: was dangling around in old archdep. remove once everything is working */
+#if 0
+static char *system_mbstowcs_alloc(const char *mbs)
+{
+    char *wcs;
+    size_t len;
+
+    if (mbs == NULL) {
+        return NULL;
+    }
+
+    len = strlen(mbs);
+
+    wcs = lib_malloc(len + 1);
+    return memcpy(wcs, mbs, len + 1);
+}
+
+static void system_mbstowcs_free(char *wcs)
+{
+    lib_free(wcs);
+}
 #endif

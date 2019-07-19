@@ -148,26 +148,13 @@ console_t *native_console_open(const char *id)
     console->private = conpriv;
     conpriv->input = NULL;
     conpriv->output = NULL;
-#if 0
-    mon_input = stdin;
-    mon_output = stdout;
-
-    console->console_xres = 80;
-    console->console_yres = 25;
-    console->console_can_stay_open = 1;
-    console->console_cannot_output = 0;
-#endif
     
     if (!vice_isatty(fileno(stdin))) {
         log_error(LOG_DEFAULT, "native_console_open: stdin is not a tty.");
-//         console = NULL;
-//         return NULL;
         goto exitnull;
     }
     if (!vice_isatty(fileno(stdout))) {
         log_error(LOG_DEFAULT, "native_console_open: stdout is not a tty.");
-//         console = NULL;
-//         return NULL;
         goto exitnull;
     }
     

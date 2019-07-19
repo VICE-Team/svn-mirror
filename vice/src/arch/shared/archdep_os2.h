@@ -80,8 +80,6 @@
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
-extern void archdep_workaround_nop(const char *otto);
-
 /*
     FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
            or crashes when the connection is closed, you might have to install
@@ -115,4 +113,76 @@ extern void archdep_workaround_nop(const char *otto);
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
 
+#endif
+
+/* FIXME: the following where dangling around in old archdep code, remove them
+          when os/2 port was checked working */
+
+/* FIXME: OS/2 only? / referenced in archdep_spawn */
+#if 0
+static int archdep_search_path(const char *name, char *pBuf, int lBuf)
+{
+    const int flags = SEARCH_CUR_DIRECTORY|SEARCH_IGNORENETERRS;
+    char *path = "";        /* PATH environment variable */
+    char *pgmName = util_concat(name, ".exe", NULL);
+
+    // Search the program in the path
+    DosScanEnv("PATH", &path);
+
+
+    if (DosSearchPath(flags, path, pgmName, pBuf, lBuf)) {
+        return -1;
+    }
+    lib_free(pgmName);
+
+    return 0;
+}
+#endif
+
+/* FIXME: OS/2 only? / referenced in archdep_spawn */
+#if 0
+static char *archdep_cmdline(const char *name, char **argv, const char *sout, const char *serr)
+{
+    char *res;
+    int length = 0;
+    int i = 0;
+
+    while (argv[++i]) {
+        length += strlen(argv[i]);
+    }
+
+    length += i + 1 + (name ? strlen(name) : 0) + 3 + (sout ? strlen(sout) : 0) + 5 +(serr ? strlen(serr) : 0) + 6; // need space for the spaces
+    res = lib_calloc(1, length);
+
+    strcat(strcpy(res,"/c "), name);
+
+    i = 0;
+    while (argv[++i]) {
+        strcat(strcat(res," "), argv[i]);
+    }
+
+    if (sout) {
+        strcat(strcat(strcat(res,  " > \""), sout), "\"");
+    }
+
+    if (serr) {
+        strcat(strcat(strcat(res, " 2> \""), serr), "\"");
+    }
+
+    return res;
+}
+#endif
+
+/* FIXME: OS/2 only? */
+#if 0
+static void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
+{
+    APIRET rc;
+
+    char *sem = lib_malloc(13+strlen(pszName) + 5 + 1);
+
+    sprintf(sem, "\\SEM32\\VICE2\\%s_%04x", pszName, vsyncarch_gettime()&0xffff);
+
+    rc = DosCreateMutexSem(sem, hmtx, 0, fState);
+}
 #endif

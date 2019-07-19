@@ -1,3 +1,4 @@
+
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -22,22 +23,39 @@
 #include "vice.h"
 #include "archdep_defs.h"
 
-#include <stdlib.h>
-#include <stdio.h>
+/* FIXME: includes for windows */
+/* FIXME: includes for os/2 */
+/* FIXME: includes for amiga */
 
-#include "archdep_pref_path.h"
-#include "archdep_user_config_path.h"
+#if defined(__OS2__) || defined(ARCHDEP_OS_WINDOWS)
 
-/* alternate storage of preferences */
-static char *pref_path = NULL; /* NULL -> use home_path + ".vice" */
-
-const char *archdep_pref_path(void)
+/* FIXME: is this needed* */
+#ifdef SDL_CHOOSE_DRIVES
+void archdep_set_current_drive(const char *drive)
 {
-    if (pref_path == NULL) {
-#ifdef UNIX_COMPILE
-        /* unix */
-        pref_path = archdep_user_config_path();
-#endif
+    if (_chdir(drive)) {
+        ui_error("Failed to change drive to %s", drive);
     }
-    return pref_path;
 }
+#endif 
+
+#endif
+
+#if defined(ARCHDEP_OS_AMIGA)
+
+/* FIXME: is this needed* */
+#ifdef SDL_CHOOSE_DRIVES
+void archdep_set_current_drive(const char *drive)
+{
+    BPTR lck = Lock(drive, ACCESS_READ);
+
+    if (lck) {
+        CurrentDir(lck);
+        UnLock(lck);
+    } else {
+        ui_error("Failed to change to drive %s", drive);
+    }
+}
+#endif 
+
+#endif

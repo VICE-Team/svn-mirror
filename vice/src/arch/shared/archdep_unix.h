@@ -102,11 +102,6 @@
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
-const char *archdep_home_path(void);
-
-/* set this path to customize the preference storage */
-const char *archdep_pref_path;
-
 #define LIBDIR VICEDIR
 
 #if defined(__FreeBSD__) || defined(__NetBSD__)

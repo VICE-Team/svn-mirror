@@ -32,12 +32,14 @@ libarchdep_a_SOURCES = \
 	archdep_file_is_chardev.c \
 	archdep_filename_parameter.c \
 	archdep_fix_permissions.c \
+	archdep_get_current_drive.c \
 	archdep_get_vice_datadir.c \
 	archdep_get_vice_docsdir.c \
 	archdep_home_path.c \
 	archdep_is_windows_nt.c \
 	archdep_join_paths.c \
 	archdep_kbd_get_host_mapping.c \
+	archdep_list_drives.c \
 	archdep_make_backup_filename.c \
 	archdep_mkdir.c \
 	archdep_mkstemp_fd.c \
@@ -52,6 +54,7 @@ libarchdep_a_SOURCES = \
 	archdep_rmdir.c \
 	archdep_rtc_get_centisecond.c \
 	archdep_sanitize_filename.c \
+	archdep_set_current_drive.c \
 	archdep_signals.c \
 	archdep_spawn.c \
 	archdep_startup_log_error.c \

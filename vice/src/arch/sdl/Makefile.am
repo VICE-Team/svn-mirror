@@ -208,9 +208,6 @@ libarch_a_SOURCES = \
 	xvic_ui.c
 
 EXTRA_DIST = \
-	archdep_amiga.c \
-	archdep_os2.c \
-	archdep_win32.c \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_osx.sh \

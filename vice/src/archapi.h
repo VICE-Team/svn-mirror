@@ -59,6 +59,8 @@ void        archdep_boot_path_free(void);
 const char *archdep_home_path(void);
 void        archdep_home_path_free(void);
 
+const char *archdep_pref_path(void);
+
 int         archdep_mkdir(const char *pathname, int mode);
 int         archdep_rmdir(const char *pathname);
 
@@ -121,6 +123,19 @@ char *      archdep_tmpnam(void);
 
 /* Virtual keyboard handling */
 int         archdep_require_vkbd(void);
+
+/* returns a NULL terminated list of strings. Both the list and the strings
+ * must be freed by the caller using lib_free(void*) */
+char **     archdep_list_drives(void);
+
+/* returns a string that corresponds to the current drive. The string must
+ * be freed by the caller using lib_free(void*) */
+char *      archdep_get_current_drive(void);
+
+/* sets the current drive to the given string */
+void        archdep_set_current_drive(const char *drive);
+
+
 
 /*
  * Not yet moved to arc/shared/
