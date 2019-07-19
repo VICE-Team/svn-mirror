@@ -91,10 +91,6 @@ extern void ui_sdl_quit(void);
 
 extern int native_monitor;
 
-#ifdef BEOS_COMPILE
-extern int CheckForHaiku(void);
-#endif
-
 /*
  * For VSID drag-n-drop support
  */

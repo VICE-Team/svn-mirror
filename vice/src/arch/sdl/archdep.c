@@ -230,22 +230,6 @@ void close_libs(void)
 
 #endif /* AMIGA_SUPPORT */
 
-#ifdef BEOS_COMPILE
-
-/* This check is needed for haiku, since it always returns 1 on
-   SupportsWindowMode() */
-int CheckForHaiku(void)
-{
-    struct utsname name;
-
-    uname(&name);
-    if (!strncasecmp(name.sysname, "Haiku", 5)) {
-        return -1;
-    }
-    return 0;
-}
-#endif
-
 #include "kbd.h"
 #include "log.h"
 

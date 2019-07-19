@@ -36,6 +36,7 @@ libarchdep_a_SOURCES = \
 	archdep_get_vice_datadir.c \
 	archdep_get_vice_docsdir.c \
 	archdep_home_path.c \
+	archdep_is_haiku.c \
 	archdep_is_windows_nt.c \
 	archdep_join_paths.c \
 	archdep_kbd_get_host_mapping.c \
@@ -91,6 +92,7 @@ EXTRA_DIST = \
 	archdep_get_vice_datadir.h \
 	archdep_get_vice_docsdir.h \
 	archdep_home_path.h \
+	archdep_is_haiku.h \
 	archdep_is_windows_nt.h \
 	archdep_join_paths.h \
 	archdep_kbd_get_host_mapping.h \
