@@ -29,6 +29,14 @@
 #include "vice_sdl.h"
 #include <stdio.h>
 
+#include "archdep.h"
+#include "lib.h"
+
+/* FIXME: includes for windows */
+/* FIXME: includes for beos */
+/* FIXME: includes for amiga */
+/* FIXME: includes for os/2 */
+
 /* These functions are defined in the files included below and
    used lower down. */
 static int archdep_init_extra(int *argc, char **argv);
@@ -39,7 +47,20 @@ static void archdep_shutdown_extra(void);
 #endif
 
 #ifdef BEOS_COMPILE
-#include "archdep_beos.c"
+/* #include "archdep_beos.c" */
+
+/* This check is needed for haiku, since it always returns 1 on
+   SupportsWindowMode() */
+int CheckForHaiku(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    if (!strncasecmp(name.sysname, "Haiku", 5)) {
+        return -1;
+    }
+    return 0;
+}
 #endif
 
 #ifdef __OS2__
@@ -47,7 +68,7 @@ static void archdep_shutdown_extra(void);
 #endif
 
 #ifdef UNIX_COMPILE
-#include "archdep_unix.c"
+/* #include "archdep_unix.c" */
 #endif
 
 #ifdef WIN32_COMPILE
@@ -159,11 +180,17 @@ int archdep_init(int *argc, char **argv)
 
 void archdep_shutdown(void)
 {
-    archdep_program_name_free();
+    /* free memory used by the exec path */
     archdep_program_path_free();
+    /* free memory used by the exec name */
+    archdep_program_name_free();
+    /* free memory used by the boot path */
     archdep_boot_path_free();
+    /* free memory used by the home path */
     archdep_home_path_free();
+    /* free memory used by the config files path */
     archdep_user_config_path_free();
+    /* free memory used by the sysfile pathlist */
     archdep_default_sysfile_pathlist_free();
 
 #ifdef HAVE_NETWORK
