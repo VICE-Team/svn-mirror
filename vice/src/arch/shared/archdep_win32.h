@@ -112,9 +112,6 @@ void archdep_signals_init(int do_coredumps);
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR WSAGetLastError()
 
-
-void archdep_usleep(uint64_t waitTime);
-
 int archdep_is_windows_nt(void);
 
 #endif

@@ -62,7 +62,6 @@
 #include "ui.h"
 #include "util.h"
 
-/* FIXME: includes for windows */
 /* FIXME: includes for beos */
 /* FIXME: includes for amiga */
 /* FIXME: includes for os/2 */
@@ -73,7 +72,6 @@ static int archdep_init_extra(int *argc, char **argv);
 static void archdep_shutdown_extra(void);
 
 #ifdef AMIGA_SUPPORT
-/* #include "archdep_amiga.c" */
 
 #if defined(AMIGA_OS4)
 #include <exec/execbase.h>
@@ -233,7 +231,6 @@ void close_libs(void)
 #endif /* AMIGA_SUPPORT */
 
 #ifdef BEOS_COMPILE
-/* #include "archdep_beos.c" */
 
 /* This check is needed for haiku, since it always returns 1 on
    SupportsWindowMode() */
@@ -247,18 +244,6 @@ int CheckForHaiku(void)
     }
     return 0;
 }
-#endif
-
-#ifdef __OS2__
-/* #include "archdep_os2.c" */
-#endif
-
-#ifdef UNIX_COMPILE
-/* #include "archdep_unix.c" */
-#endif
-
-#ifdef WIN32_COMPILE
-/* #include "archdep_win32.c" */
 #endif
 
 #include "kbd.h"

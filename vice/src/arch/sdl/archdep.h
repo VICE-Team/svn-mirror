@@ -70,6 +70,10 @@
 /******************************************************************************/
 
 #ifdef AMIGA_SUPPORT
+/* FIXME: naming? */
+extern int load_libs(void);
+extern void close_libs(void);
+
 #include "archdep_amiga.h"
 /* This platform supports choosing drives. */
 #define SDL_CHOOSE_DRIVES

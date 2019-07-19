@@ -36,16 +36,17 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-
+#include <stdint.h>
 
 /* Program start.  */
 extern int archdep_init(int *argc, char **argv);
 extern void archdep_startup_log_error(const char *format, ...);
 
+/* 
+ * refactored into src/arch/shared/
+ */
+
 /* Filesystem related functions.  */
-
-/* XXX: refactored into src/arch/shared/ : */
-
 void        archdep_program_path_set_argv0(char *argv0);
 const char *archdep_program_path(void);
 void        archdep_program_path_free(void);
@@ -135,38 +136,37 @@ char *      archdep_get_current_drive(void);
 /* sets the current drive to the given string */
 void        archdep_set_current_drive(const char *drive);
 
-
-
-/*
- * Not yet moved to arc/shared/
- */
-
-extern int archdep_default_logger(const char *level_string, const char *txt);
+int         archdep_default_logger(const char *level_string, const char *txt);
 
 /* Launch program `name' (searched via the PATH environment variable)
    passing `argv' as the parameters, wait for it to exit and return its
    exit status. If `pstdout_redir' or `stderr_redir' are != NULL,
    redirect stdout or stderr to the corresponding file.  */
-extern int archdep_spawn(const char *name, char **argv,
-                         char **pstdout_redir, const char *stderr_redir);
+int         archdep_spawn(const char *name, char **argv,
+                            char **pstdout_redir, const char *stderr_redir);
 
 /* Spawn need quoting the params or expanding the filename in some archs.  */
-extern char *archdep_filename_parameter(const char *name);
-extern char *archdep_quote_parameter(const char *name);
+char *      archdep_filename_parameter(const char *name);
+char *      archdep_quote_parameter(const char *name);
 
 /* Allocates a filename and creates a tempfile.  */
-extern FILE *archdep_mkstemp_fd(char **filename, const char *mode);
-
+FILE *      archdep_mkstemp_fd(char **filename, const char *mode);
 
 /* Check file name for block or char device.  */
-extern int archdep_file_is_blockdev(const char *name);
-extern int archdep_file_is_chardev(const char *name);
+int         archdep_file_is_blockdev(const char *name);
+int         archdep_file_is_chardev(const char *name);
 
-/* Networking. */
+void        archdep_usleep(uint64_t waitTime);
+
+/*
+ * Not yet moved to arch/shared/
+ */
+
+/* Networking. (in src/socketdrv) */
 extern int archdep_network_init(void);
 extern void archdep_network_shutdown(void);
 
-/* Free everything on exit.  */
+/* Free everything on exit. (in arch/../archdep.c)  */
 extern void archdep_shutdown(void);
 
 #endif

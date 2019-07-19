@@ -100,10 +100,6 @@
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
 
-
-extern int load_libs(void);
-extern void close_libs(void);
-
 extern int pci_lib_loaded;
 
 #if defined(HAVE_PROTO_OPENPCI_H) || defined(AMIGA_OS4)

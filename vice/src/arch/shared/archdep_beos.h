@@ -114,4 +114,7 @@
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
 
+/* FIXME: naming? */
+int CheckForHaiku(void);
+
 #endif
