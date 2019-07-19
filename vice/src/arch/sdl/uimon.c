@@ -207,8 +207,7 @@ int console_init(void)
         return native_console_init();
     }
 #endif
-    console_log_local = native_console_init();
-    return 0;
+    return native_console_init();
 }    
     
 int console_close_all(void)
