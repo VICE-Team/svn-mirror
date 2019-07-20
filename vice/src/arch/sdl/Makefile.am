@@ -6,11 +6,6 @@ else
 extra_includes =
 endif
 
-if DUMMY_COMPILE
-# this will get remove soons as well
-SUBDIRS = \
-	sortix-files
-endif
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
