@@ -41,7 +41,7 @@
 #include "ssi2001.h"
 #include "types.h"
 
-#define SSI2008_BASE 0x280
+#define SSI2008_BASE 0x280U
 
 #define MAXSID 1
 

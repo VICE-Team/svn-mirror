@@ -172,7 +172,8 @@ int hs_pci_open(void)
     base1 = b1 & 0xfffc;
     base2 = b2 & 0xfffc;
 
-    log_message(LOG_DEFAULT, "PCI HardSID board found at $%04X and $%04X.", base1, base2);
+    log_message(LOG_DEFAULT, "PCI HardSID board found at $%04X and $%04X.",
+		    (unsigned int)base1, (unsigned int)base2);
 
     for (j = 0; j < MAXSID; ++j) {
         hssids[sids_found] = j;

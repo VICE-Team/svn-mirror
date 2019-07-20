@@ -46,7 +46,7 @@
 #include "log.h"
 #include "types.h"
 
-#define HARDSID_BASE 0x300
+#define HARDSID_BASE 0x300U
 
 #define MAXSID 4
 

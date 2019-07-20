@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include "archdep.h"
+#include "archdep_signals.h"
 #include "signals.h"
 
 /** \brief  Initialize signal handling

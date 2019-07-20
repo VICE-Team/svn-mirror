@@ -27,6 +27,7 @@
 
 #include "machine.h"
 #include "kbd.h"
+#include "lib.h"
 #include "util.h"
 
 #include "archdep_boot_path.h"
