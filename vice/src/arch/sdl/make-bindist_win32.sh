@@ -38,6 +38,27 @@ TOPSRCDIR=$6
 CPU=$7
 SDLVERSION=$8
 
+
+# Try to get the SVN revision
+#echo "Trying to get SVN revision"
+SVN_SUFFIX=""
+svnrev_string=`svnversion $TOPSRCDIR`
+if test "$?" != "0"; then
+    #echo "No svnversion found"
+    # nop:
+    :
+else
+    # Choose the second number (usually higher) if it exists; drop letter suffixes.
+    svnrev=`echo "$svnrev_string" | sed 's/^\([0-9]*:\)*\([0-9]*\)*.*/\2/'`
+    #echo "svnrev string: $svnrev"
+    # Only a number is extracted.
+    if test -n "$svnrev"
+        then SVN_SUFFIX="-r$svnrev"
+    fi
+fi
+
+
+# check if we have the old x64 binary
 if test x"$X64INC" = "xyes"; then
   X64FILE="x64"
 else
@@ -71,50 +92,65 @@ else
   echo Generating $WINXX SDL port binary distribution.
   SDLNAME="SDLVICE"
 fi
-rm -f -r $SDLNAME-$VICEVERSION-$WINXX
-mkdir $SDLNAME-$VICEVERSION-$WINXX
+
+BINDIST_DIR="$SDLNAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
+
+rm -f -r $BINDIST_DIR
+mkdir $BINDIST_DIR
+
+# strip binaries. FIXME: shouldn't this only happen with --enable-debug?
 for i in $EXECUTABLES
 do
   $STRIP src/$i.exe
-  cp src/$i.exe $SDLNAME-$VICEVERSION-$WINXX
+  cp src/$i.exe $BINDIST_DIR
 done
-cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $SDLNAME-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $SDLNAME-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $SDLNAME-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $SDLNAME-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $SDLNAME-$VICEVERSION-$WINXX
-cp -a $TOPSRCDIR/doc/html $SDLNAME-$VICEVERSION-$WINXX
-rm $SDLNAME-$VICEVERSION-$WINXX/html/checklinks.sh
-cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $SDLNAME-$VICEVERSION-$WINXX
-cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $SDLNAME-$VICEVERSION-$WINXX
-cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $SDLNAME-$VICEVERSION-$WINXX
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "Makefile*"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "amiga_*.vkm"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "osx*.vkm"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "beos_*.vkm"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "x11_*.vkm"`
-rm $SDLNAME-$VICEVERSION-$WINXX/html/texi2html
-mkdir $SDLNAME-$VICEVERSION-$WINXX/doc
-cp $TOPSRCDIR/doc/vice.chm $SDLNAME-$VICEVERSION-$WINXX/doc
-cp $TOPSRCDIR/doc/vice.hlp $SDLNAME-$VICEVERSION-$WINXX/doc
-cp $TOPSRCDIR/doc/vice.pdf $SDLNAME-$VICEVERSION-$WINXX/doc
+
+
+if test x"$CROSS" != "xtrue"; then
+  # assume MSYS2 on Windows here
+  BUILDPATH=$BINDIST_DIR
+  cp `ntldd -R $BUILDPATH/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
+fi
+
+cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $BINDIST_DIR
+cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $BINDIST_DIR
+cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $BINDIST_DIR
+cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $BINDIST_DIR
+cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BINDIST_DIR
+cp -a $TOPSRCDIR/doc/html $BINDIST_DIR
+rm -f $BINDIST_DIR/html/checklinks.sh
+cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $BINDIST_DIR
+cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $BINDIST_DIR
+cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $BINDIST_DIR
+rm -f `find $BINDIST_DIR -name "Makefile*"`
+rm -f `find $BINDIST_DIR -name "amiga_*.vkm"`
+rm -f `find $BINDIST_DIR -name "osx*.vkm"`
+rm -f `find $BINDIST_DIR -name "beos_*.vkm"`
+rm -f `find $BINDIST_DIR -name "x11_*.vkm"`
+rm -f $BINDIST_DIR/html/texi2html
+
+mkdir $BINDIST_DIR/doc
+# FIXME: This doesn't work with out-of-tree builds, we need a $TOPSRCDIR, but
+#        that isn't passed to this script.
+cp $TOPBUILDDIR/doc/vice.pdf $BINDIST_DIR/doc
+
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
-    zip -r -9 -q $SDLNAME-$VICEVERSION-$WINXX.zip $SDLNAME-$VICEVERSION-$WINXX
+    zip -r -9 -q $BINDIST_DIR.zip $BINDIST_DIR
   else
-    $ZIP $SDLNAME-$VICEVERSION-$WINXX.zip $SDLNAME-$VICEVERSION-$WINXX
+    $ZIP $BINDIST_DIR.zip $BINDIST_DIR
   fi
-  rm -f -r $SDLNAME-$VICEVERSION-$WINXX
+  rm -f -r $BINDIST_DIR
   if test x"$SDLVERSION" = "x2"; then
-    echo $WINXX SDL2 port binary distribution archive generated as $SDLNAME-$VICEVERSION-$WINXX.zip
+      echo $WINXX SDL2 port binary distribution archive generated as $BINDIST_DIR.zip
   else
-    echo $WINXX SDL port binary distribution archive generated as $SDLNAME-$VICEVERSION-$WINXX.zip
+    echo $WINXX SDL port binary distribution archive generated as $BINDIST_DIR.zip
   fi
 else
   if test x"$SDLVERSION" = "x2"; then
-    echo $WINXX SDL2 port binary distribution directory generated as $SDLNAME-$VICEVERSION-$WINXX
+    echo $WINXX SDL2 port binary distribution directory generated as $BINDIST_DIR
   else
-    echo $WINXX SDL port binary distribution directory generated as $SDLNAME-$VICEVERSION-$WINXX
+    echo $WINXX SDL port binary distribution directory generated as $BINDIST_DIR
   fi
 fi
 if test x"$ENABLEARCH" = "xyes"; then
