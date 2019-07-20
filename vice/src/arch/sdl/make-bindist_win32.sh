@@ -25,8 +25,8 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <top-srcdir> <cpu> <SDL-version>
-#                         $1      $2             $3              $4          $5             $6           $7    $8
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <top-srcdir> <top-builddir> <cpu> <SDL-version>
+#                         $1      $2             $3              $4          $5             $6           $7             $8    $9
 #
 
 STRIP=$1
@@ -35,8 +35,9 @@ ENABLEARCH=$3
 ZIPKIND=$4
 X64INC=$5
 TOPSRCDIR=$6
-CPU=$7
-SDLVERSION=$8
+TOPBUILDDIR=$7
+CPU=$8
+SDLVERSION=$9
 
 
 # Try to get the SVN revision
