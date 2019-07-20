@@ -130,7 +130,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #ifdef WIN32_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
          On Linux one Keypress "ISO_Level3_Shift" will be produced, and
-         the modifier mask for combined keys will be GDK_MOD5_MAS.
+         the modifier mask for combined keys will be GDK_MOD5_MASK.
          On Windows two Keypresses will be produced, first "Control_L"
          then "Alt_R", and the modifier mask for combined keys will be
          GDK_MOD2_MASK.
@@ -149,7 +149,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             /* fprintf(stderr, "               %u %04x.\n",  report->key.keyval,  report->key.state); */
 #endif
             kdb_debug_widget_update(report);
-            
+
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
                 return TRUE;
             }
