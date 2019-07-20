@@ -40,11 +40,18 @@ SDLVERSION=$9
 
 EXTRAFILES="x64sc"
 
+# check if we told configure to build the old x64 emu:
+if test x"$X64INC" = "xyes"; then
+  X64FILE="x64"
+else
+  X64FILE=""
+fi
+
 if test x"$XSCPU64INCLUDED" = "xyes"; then
   EXTRAFILES="$EXTRAFILES xscpu64"
 fi
 
-EMULATORS="x64 x64dtv $EXTRAFILES x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="$X64FILE x64dtv $EXTRAFILES x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
