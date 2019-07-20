@@ -33,13 +33,8 @@ doc_DATA = \
 	macosx.html \
 	COPYING \
 	NEWS \
-	nsosrh.html \
-	qnx.html \
 	robots.txt \
-	sco.html \
 	sitemap.xml \
-	solaris.html \
-	sortix.html \
 	unix.html \
 	vice.css \
 	vice_1.html \
