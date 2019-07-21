@@ -258,29 +258,28 @@ SDLKey SDL1x_to_SDL2x_Keys(SDLKey key)
 }
 #endif
 
+/* get index for the hotkeys lookup table */
 static inline int sdlkbd_key_mod_to_index(SDLKey key, SDLMod mod)
 {
     int i = 0;
-
-    mod &= (KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META);
-
-    if (mod) {
-        if (mod & KMOD_SHIFT) {
-            i |= (1 << 0);
-        }
-
-        if (mod & KMOD_ALT) {
-            i |= (1 << 1);
-        }
-
-        if (mod & KMOD_CTRL) {
-            i |= (1 << 2);
-        }
-
-        if (mod & KMOD_META) {
-            i |= (1 << 3);
-        }
+    
+    if (mod & KMOD_SHIFT) {
+        i |= (1 << 0);
     }
+    /* use only left alt here, because alt-gr would be reported as right alt,
+       and alt-gr might be used in keymaps */
+    if (mod & KMOD_LALT) {
+        i |= (1 << 1);
+    }
+
+    if (mod & KMOD_CTRL) {
+        i |= (1 << 2);
+    }
+
+    if (mod & KMOD_META) {
+        i |= (1 << 3);
+    }
+
     return (i * SDL_NUM_SCANCODES) + key;
 }
 
@@ -297,7 +296,6 @@ void sdlkbd_set_hotkey(SDLKey key, SDLMod mod, ui_menu_entry_t *value)
 static void sdlkbd_keyword_clear(void)
 {
     int i;
-
     for (i = 0; i < SDLKBD_UI_HOTKEYS_MAX; ++i) {
         sdlkbd_ui_hotkeys[i] = NULL;
     }
@@ -450,6 +448,27 @@ int sdlkbd_hotkeys_dump(const char *filename)
 
 /* ------------------------------------------------------------------------ */
 
+static int sdlkbd_get_modifier(SDLMod mod)
+{
+    int ret = 0;
+    if (mod & KMOD_LSHIFT) {
+        ret |= KBD_MOD_LSHIFT;
+    }
+    if (mod & KMOD_RSHIFT) {
+        ret |= KBD_MOD_RSHIFT;
+    }
+    if (mod & KMOD_LALT) {
+        ret |= KBD_MOD_LALT;
+    }
+    if (mod & KMOD_RALT) {
+        ret |= KBD_MOD_RALT;
+    }
+    if (mod & KMOD_LCTRL) {
+        ret |= KBD_MOD_LCTRL;
+    }
+    return ret;
+}
+
 ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
 {
     ui_menu_action_t i, retval = MENU_ACTION_NONE;
@@ -483,7 +502,7 @@ ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
         return retval;
     }
 
-    keyboard_key_pressed((unsigned long)key);
+    keyboard_key_pressed((unsigned long)key, sdlkbd_get_modifier(mod));
     return retval;
 }
 
@@ -506,7 +525,7 @@ ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod)
         return retval + MENU_ACTION_NONE_RELEASE;
     }
 
-    keyboard_key_released((unsigned long)key);
+    keyboard_key_released((unsigned long)key, sdlkbd_get_modifier(mod));
     return retval;
 }
 
