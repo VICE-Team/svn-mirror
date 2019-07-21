@@ -281,27 +281,27 @@ enum shift_type {
     NO_SHIFT = 0,             /* Key is not shifted. Keys will be deshifted,
                                  no other flags will be checked */
 
-    VIRTUAL_SHIFT = (1 << 0), /* The key needs a shift on the real machine. */
-    LEFT_SHIFT    = (1 << 1), /* Key is left shift. */
-    RIGHT_SHIFT   = (1 << 2), /* Key is right shift. */
-    ALLOW_SHIFT   = (1 << 3), /* Allow key to be shifted. */
-    DESHIFT_SHIFT = (1 << 4), /* Although SHIFT might be pressed, do not
+    VIRTUAL_SHIFT     = (1 << 0), /* The key needs a shift on the real machine. */
+    LEFT_SHIFT        = (1 << 1), /* Key is left shift. */
+    RIGHT_SHIFT       = (1 << 2), /* Key is right shift. */
+    ALLOW_SHIFT       = (1 << 3), /* Allow key to be shifted. */
+    DESHIFT_SHIFT     = (1 << 4), /* Although SHIFT might be pressed, do not
                                  press shift on the real machine. */
-    ALLOW_OTHER   = (1 << 5), /* Allow another key code to be assigned if
+    ALLOW_OTHER       = (1 << 5), /* Allow another key code to be assigned if
                                  SHIFT is pressed. */
-    SHIFT_LOCK    = (1 << 6), /* Key is shift lock on the real machine */
-    MOD_SHIFT     = (1 << 7), /* Key requires SHIFT to be pressed on host */
+    SHIFT_LOCK        = (1 << 6), /* Key is shift lock on the real machine */
+    MAP_MOD_SHIFT     = (1 << 7), /* Key requires SHIFT to be pressed on host */
     
-    ALT_MAP       = (1 << 8), /* Key is used for an alternative keyboard mapping (x128) */
+    ALT_MAP           = (1 << 8), /* Key is used for an alternative keyboard mapping (x128) */
 
-    MOD_RIGHT_ALT = (1 << 9), /* Key requires right ALT (Alt-gr) to be pressed on host */
-    MOD_CTRL     = (1 << 10), /* Key requires control to be pressed on host */
+    MAP_MOD_RIGHT_ALT = (1 << 9), /* Key requires right ALT (Alt-gr) to be pressed on host */
+    MAP_MOD_CTRL     = (1 << 10), /* Key requires control to be pressed on host */
     
-    VIRTUAL_CBM  = (1 << 11), /* The key is combined with CBM on the emulated machine */
-    VIRTUAL_CTRL = (1 << 12), /* The key is combined with CTRL on the emulated machine */
+    VIRTUAL_CBM      = (1 << 11), /* The key is combined with CBM on the emulated machine */
+    VIRTUAL_CTRL     = (1 << 12), /* The key is combined with CTRL on the emulated machine */
 
-    LEFT_CBM     = (1 << 13), /* Key is CBM on the real machine */
-    LEFT_CTRL    = (1 << 14)  /* Key is CTRL on the real machine */
+    LEFT_CBM         = (1 << 13), /* Key is CBM on the real machine */
+    LEFT_CTRL        = (1 << 14)  /* Key is CTRL on the real machine */
 };
 
 struct keyboard_conv_s {
@@ -576,6 +576,8 @@ static void keyboard_restore_released(void)
 void keyboard_key_pressed(signed long key, int mod)
 {
     int i, j, latch;
+    
+    /* log_debug("%s: %i %04x", __func__, key, mod); */
 
     if (event_playback_active()) {
         return;
@@ -639,13 +641,13 @@ void keyboard_key_pressed(signed long key, int mod)
             }
 
             /* find explicit matches on modifiers pressed on host */
-            if ((keyconvmap[i].shift & MOD_RIGHT_ALT) && (!(mod & KBD_MOD_RALT)) ) {
+            if ((keyconvmap[i].shift & MAP_MOD_RIGHT_ALT) && (!(mod & KBD_MOD_RALT)) ) {
                 continue;
             }
-            if ((keyconvmap[i].shift & MOD_CTRL) && (!(mod & (KBD_MOD_LCTRL | KBD_MOD_RCTRL))) ) {
+            if ((keyconvmap[i].shift & MAP_MOD_CTRL) && (!(mod & (KBD_MOD_LCTRL | KBD_MOD_RCTRL))) ) {
                 continue;
             }
-            if ((keyconvmap[i].shift & MOD_SHIFT) && (!(mod & (KBD_MOD_LSHIFT | KBD_MOD_RSHIFT))) ) {
+            if ((keyconvmap[i].shift & MAP_MOD_SHIFT) && (!(mod & (KBD_MOD_LSHIFT | KBD_MOD_RSHIFT))) ) {
                 continue;
             }
             
@@ -765,6 +767,8 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
 void keyboard_key_released(signed long key, int mod)
 {
     int i, j, latch;
+
+    /* log_debug("%s: %i %04x", __func__, key, mod); */
 
     if (event_playback_active()) {
         return;
@@ -1417,7 +1421,9 @@ static int check_modifiers(const char *filename)
             n & (1 << 6) ? ms[6] : "",
             n & (1 << 7) ? ms[7] : ""
         );
+        return -1;
     }
+    return 0;
 }
 
 static int keyboard_parse_keymap(const char *filename, int child)
