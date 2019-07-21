@@ -14,18 +14,38 @@
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
 # '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
+# '!LCTRL row col'       left control keyboard row/column
+# '!VCTRL ctrlkey'       virtual control key (LCTRL)
+# '!LCBM row col'        left CBM keyboard row/column
+# '!VCBM cbmkey'         virtual CBM key (LCBM)
 # '!UNDEF keysym'        remove keysym from table
 #
 # Shiftflag can have the values:
 # 0      key is not shifted for this keysym/scancode
-# 1      key is shifted for this keysym/scancode
-# 2      left shift
-# 4      right shift
+# 1      key is combined with shift for this keysym/scancode
+# 2      key is left shift on emulated machine
+# 4      key is right shift on emulated machine
 # 8      key can be shifted or not with this keysym/scancode
 # 16     deshift key for this keysym/scancode
 # 32     another definition for this keysym/scancode follows
-# 64     shift lock
+# 64     key is shift-lock on emulated machine
+# 128    shift modifier required on host
 # 256    key is used for an alternative keyboard mapping
+# 512    alt-r (alt-gr) modifier required on host
+# 1024   ctrl modifier required on host
+# 2048   key is combined with cbm for this keysym/scancode
+# 4096   key is combined with ctrl for this keysym/scancode
+# 8192   key is (left) cbm on emulated machine
+# 16384  key is (left) ctrl on emulated machine
+#
+# to migrate older keymaps and use the CBM and/or CTRL related features:
+#
+# - define !LCTRL, !VCTRL, !LCBM, !VCBM
+# - add 'key is (left) cbm/ctrl on emulated machine' flags to
+#   all keys that map to the cbm or ctrl key respectively.
+#
+# after that the virtual cbm/ctrl flags and requiring host modifiers
+# should work as expected. keep an eye on the error messages.
 #
 # Negative row values:
 # 'keysym -1 n' joystick keymap A, direction n
@@ -90,6 +110,10 @@
 !RSHIFT 6 4
 !VSHIFT RSHIFT
 !SHIFTL LSHIFT
+!LCBM 7 5
+!VCBM LCBM
+!LCTRL 7 2
+!VCTRL LCTRL
 
 # keys that can't be mapped positionally are:
 # (row0) pound (-> </>), clr/home (-> home)
@@ -125,6 +149,20 @@
 # @ (-> ue, altgr+Q)
 # @+shift (-> UE)
 
+# some extra keys with AltGr
+109 6 6 545            /*       altr+M -> pi (shift+arrow up) */
+56 5 5 545             /*       altr+8 -> [  (shift+:)        */
+57 6 2 545             /*       altr+9 -> ]  (shift+;)        */
+113 5 6 544            /*       altr+Q -> @                   */
+60 3 5 545             /*       altr+< -> |  (shift+h)        */
+
+# key requires SHIFT on host, generates a key without shift but with CBM on emulated machine
+#45 5 6 16+2048+128+32    /*            _ -> _ (cbm+@)    */
+45 5 6 2224            /*            _ -> _ (cbm+@)    */
+45 5 3 0               /*            - -> -            */
+
+# add CTRL to keypress
+#49 7 0 4096            /*            1 -> CTRL+1       */
 
 94 6 6 8               /*            ^ -> Up Arrow     */
 # 94 6 6 17              /*            ° -> Pi           */
@@ -145,7 +183,8 @@
 180 7 1 8              /* (de)     ? ` -> Left Arrow   */
 8 0 0 8                /*    Backspace -> Ins          */
 
-9 7 2 8                /*          TAB -> Ctrl         */
+#9 7 2 8+16384  key is CTRL              /*          TAB -> Ctrl         */
+9 7 2 16392             /*          TAB -> Ctrl         */
 113 7 6 8              /*            Q -> Q            */
 119 1 1 8              /*            W -> W            */
 101 1 6 8              /*            E -> E            */
@@ -176,6 +215,7 @@
 35 3 0 1               /*            ' -> '            */
 13 0 1 8               /*       Return -> Return       */
 
+# key is right shift
 303 6 4 4              /*  Right Shift -> Right Shift  */
 60 5 7 33              /*            < -> <            */
 60 5 4 1               /*            > -> >            */
@@ -187,14 +227,17 @@
 110 4 7 8              /*            N -> N            */
 109 4 4 8              /*            M -> M            */
 44 5 7 32              /*            , -> ,            */
-44 6 2 0               /*            ; -> ;            */
+44 6 2 16              /*            ; -> ;            */
 46 5 4 32              /*            . -> .            */
-46 5 5 0               /*            : -> :            */
-45 5 3 32              /*            - -> -            */
-45 6 6 17              /*            _ -> Pi           */
+46 5 5 16              /*            : -> :            */
+#45 5 3 16              /*            - -> -            */
+#45 6 6 17              /*            _ -> Pi           */
+
+# key is left shift
 304 1 7 2              /*   Left Shift -> Left Shift   */
 
-306 7 5 8              /*    Left Ctrl -> CBM          */
+#306 7 5 8+8192  key is CBM      /*    Left Ctrl -> CBM          */
+306 7 5 8200          /*    Left Ctrl -> CBM          */
 32 7 4 8               /*        Space -> Space        */
 
 27 7 7 8               /*          ESC -> Run/Stop     */
