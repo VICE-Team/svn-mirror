@@ -475,8 +475,26 @@ ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
     ui_menu_entry_t *hotkey_action = NULL;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i (%s),%i\n", __func__, key, SDL_GetKeyName(key), mod);
+    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
+#ifdef WIN32_COMPILE
+/* HACK: The Alt-Gr Key seems to work differently on windows and linux.
+         On Linux one Keypress "SDLK_RALT" will be produced.
+         On Windows two Keypresses will be produced, first "SDLK_LCTRL"
+         then "SDLK_RALT".
+         The following is a hack to compensate for that and make it
+         always work like on linux.
+*/
+    if (SDL1x_to_SDL2x_Keys(key) == SDLK_RALT) {
+        mod &= ~KMOD_LCTRL;
+        keyboard_key_released(SDL2x_to_SDL1x_Keys(SDLK_LCTRL), KBD_MOD_LCTRL);
+    } else {
+        if ((mod & KMOD_LCTRL) && (mod & KMOD_RALT)) {
+            mod &= ~KMOD_LCTRL;
+        }
+    }
+#endif
+
     if (sdl_menu_state || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) {
         if (key != SDLK_UNKNOWN) {
             for (i = MENU_ACTION_UP; i < MENU_ACTION_NUM; ++i) {
@@ -511,8 +529,21 @@ ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod)
     ui_menu_action_t i, retval = MENU_ACTION_NONE_RELEASE;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i (%s),%i\n", __func__, key, SDL_GetKeyName(key), mod);
+    log_debug("%s: %i (%s),%04x", __func__, key, SDL_GetKeyName(key), mod);
 #endif
+
+#ifdef WIN32_COMPILE
+/* HACK: The Alt-Gr Key seems to work differently on windows and linux.
+         see above */
+    if (SDL1x_to_SDL2x_Keys(key) == SDLK_RALT) {
+        mod &= ~KMOD_LCTRL;
+    } else {
+        if ((mod & KMOD_LCTRL) && (mod & KMOD_RALT)) {
+            mod &= ~KMOD_LCTRL;
+        }
+    }
+#endif
+
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
         if (key != SDLK_UNKNOWN) {
             for (i = MENU_ACTION_UP; i < MENU_ACTION_NUM; ++i) {
