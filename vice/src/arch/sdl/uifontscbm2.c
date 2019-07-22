@@ -158,7 +158,7 @@ int sdl_ui_cbm2_font_init(void)
     char *path = NULL;
 
     if (sysfile_locate(name, &path) != 0) {
-           log_error(LOG_DEFAULT, "could not locate menu charset `%s'.\n", name ? name : "(null)");
+           log_error(LOG_DEFAULT, "could not locate menu charset '%s'.\n", name ? name : "(null)");
            return -1;
     }
 
@@ -167,7 +167,7 @@ int sdl_ui_cbm2_font_init(void)
     cbm2fontmon = lib_malloc(CBM2FONTSIZE);
 
     if (loadchar(path) != 0) {
-        log_error(LOG_DEFAULT, "could not load menu charset `%s'.\n", name ? name : "(null)");
+        log_error(LOG_DEFAULT, "could not load menu charset '%s'.\n", name ? name : "(null)");
     }
     lib_free(path);
 
@@ -182,7 +182,7 @@ int sdl_ui_cbm2_font_init(void)
     for (i = 0; i < 7; i++) {
         cbm2fontasc[0x1c * 8 + i] = cbm2fontasc[0x2f * 8 + (7 - i)];
     }
-    /* 40 fix ´ */
+    /* 40 fix ' */
     for (i = 0; i < 3; i++) {
         cbm2fontasc[0x40 * 8 + i] = cbm2fontasc[0x27 * 8 + (3 - i)];
         cbm2fontasc[0x40 * 8 + i + 3] = 0;

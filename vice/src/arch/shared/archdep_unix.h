@@ -47,11 +47,11 @@
 
 /* Path separator.  */
 
-/** \brief  Separator character to split directory lists, as an integer
+/** \brief  Separator character to split directory lists, as an integer
  */
 #define ARCHDEP_FINDPATH_SEPARATOR_CHAR   ':'
 
-/** \brief  Separator character to split directory lists, as a string
+/** \brief  Separator character to split directory lists, as a string
  */
 #define ARCHDEP_FINDPATH_SEPARATOR_STRING ":"
 

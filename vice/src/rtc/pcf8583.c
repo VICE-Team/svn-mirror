@@ -40,7 +40,7 @@
  * - 56 x 8 Battery-Backed General-Purpose RAM
  * - 24/12h mode with AM/PM indicator in 12h mode
  * - Clock Halt flag
- * - 240 × 8-bit RAM
+ * - 240 x 8-bit RAM
  * - Clock function with four year calendar
  * - Universal timer with alarm and overflow indication
  * - Programmable alarm, timer, and interrupt function
@@ -473,7 +473,8 @@ void pcf8583_set_data_line(rtc_pcf8583_t *context, uint8_t data)
 
 uint8_t pcf8583_read_data_line(rtc_pcf8583_t *context)
 {
-	switch (context->state) {
+
+switch (context->state) {
         case PCF8583_READ_REGS:
             return (context->reg & (1 << (7 - context->bit))) >> (7 - context->bit);
         case PCF8583_READ_REGS_TRAIN:

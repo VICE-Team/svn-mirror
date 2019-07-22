@@ -24,7 +24,7 @@
 /*
  * VteFileStream is implemented as three layers above each other.
  *
- * o The bottom layer is VteSnake. It provides a mapping from logical offsets
+ * - The bottom layer is VteSnake. It provides a mapping from logical offsets
  *   to physical file offsets, storing the stream in at most 3 continuous
  *   regions of the file. See below for details how this mapping is done.
  *
@@ -48,7 +48,7 @@
  *   the tail is kinda like a snake, and the mapping to file offsets reminds
  *   me of the well-known game on old mobile phones.
  *
- * o The middle layer is called VteBoa. It does compression and encryption
+ * - The middle layer is called VteBoa. It does compression and encryption
  *   along with integrity check. It has (almost) the same API as the snake,
  *   but the blocksize is a bit smaller to leave room for the required
  *   overhead. See below for the exact layout.
@@ -63,7 +63,7 @@
  *   AES GCM. Also, because grown-ups might think it's a hat, when actually
  *   it's a boa constrictor digesting an elephant :)
  *
- * o The top layer is VteFileStream. It does buffering and caching. As opposed
+ * - The top layer is VteFileStream. It does buffering and caching. As opposed
  *   to the previous layers, this one provides methods on arbitrary amount of
  *   data. It doesn't offer random-access-writes, instead, it offers appending
  *   data, and truncating the head (undoing the latest appends). Write
@@ -594,13 +594,13 @@ static void _vte_snake_class_init (VteSnakeClass *klass)
  * (Numbers in parentheses are the offsets/lengths used for unit testing.)
  *
  *                        snake block 65536(10)
- * ├───────┬───────┬────────────────────┬───────┬────────────────────┤
+ * |-------+-------+--------------------+-------+--------------------|
  * 0  dat  4  owr  8   compressed and   D  enc  T      implicit    65536
- *    len (1) cnt (2)  encrypted data   ╵  tag          zeros       (10)
- *    4(1)    4(1) ╵     <= 65512(7)    ╵ 16(1)          >= 0
- *                 ╵                    ╵
- * ┌ ─ ─ ─ ─ ─ ─ ─ ┘                    └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
- * ├────────────────────────────────────────────────────────────┤
+ *    len (1) cnt (2)  encrypted data   |  tag          zeros       (10)
+ *    4(1)    4(1) |     <= 65512(7)    | 16(1)          >= 0
+ *                 |                    |
+ * /---------------/                    \-----------------------\
+ * |------------------------------------------------------------|
  *                       boa block 65512(7)
  *
  * Structure of the block that we give to the snake:
