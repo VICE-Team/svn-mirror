@@ -60,7 +60,9 @@ int archdep_kbd_get_host_mapping(void)
     int n;
     int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
-        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL };
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL,
+        KBD_MAPPING_SE
+    };
     int langids[KBD_MAPPING_NUM] = {
         MAKELANGID(LANG_ENGLISH,    SUBLANG_ENGLISH_US),
         MAKELANGID(LANG_ENGLISH,    SUBLANG_ENGLISH_UK),
@@ -69,7 +71,8 @@ int archdep_kbd_get_host_mapping(void)
         MAKELANGID(LANG_NORWEGIAN,  SUBLANG_NORWEGIAN_BOKMAL),
         MAKELANGID(LANG_FINNISH,    SUBLANG_FINNISH_FINLAND),
         MAKELANGID(LANG_ITALIAN,    SUBLANG_ITALIAN),
-        MAKELANGID(LANG_DUTCH,      SUBLANG_DUTCH)
+        MAKELANGID(LANG_DUTCH,      SUBLANG_DUTCH),
+        MAKELANGID(LANG_SWEDISH,    SUBLANG_SWEDISH)
     };
 
     /* GetKeyboardLayout returns a pointer, but the first 16 bits of it return
@@ -123,9 +126,11 @@ int archdep_kbd_get_host_mapping(void)
     char *l;
     int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
-        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL };
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL,
+        KBD_MAPPING_SE
+    };
     char *s[KBD_MAPPING_NUM] = {
-        "en_US", "en_UK", "de", "da", "no", "fi", "it", "nl" };
+        "en_US", "en_UK", "de", "da", "no", "fi", "it", "nl", "se" };
     /* setup the locale */
     setlocale(LC_ALL, "");
     l = setlocale(LC_ALL, NULL);
