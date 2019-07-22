@@ -1386,24 +1386,31 @@ int snprintf(char *text, size_t maxlen, const char *fmt, ...)
 /*
 ------------------------------------------------------------------------- */
 
-/* util_add_extension() add the extension if not already there.
-   If the extension is added `name' is realloced. */
-
+/** \brief  Add \a extension to a\ name if missing
+ *
+ * \param[in,out]   name        input and final 'string'
+ * \param[in]       extension   extension to add to \a name
+ *
+ * \warning Since adding \a extension can trigger a realloc(3) of \a *name,
+ *          make sure to handle the output pointer properly.
+ *
+ */
 void util_add_extension(char **name, const char *extension)
 {
-    size_t name_len, ext_len;
+    size_t name_len;
+    size_t ext_len;
 
     if (extension == NULL || *name == NULL) {
         return;
     }
 
-    name_len = strlen(*name);
     ext_len = strlen(extension);
 
     if (ext_len == 0) {
         return;
     }
 
+    name_len = strlen(*name);
     if ((name_len > ext_len + 1)
         && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0)) {
         return;

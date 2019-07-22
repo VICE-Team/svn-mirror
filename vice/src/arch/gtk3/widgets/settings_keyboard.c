@@ -39,6 +39,7 @@
 #include "vice_gtk3.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "util.h"
 #include "ui.h"
 #include "resources.h"
 #include "vsync.h"
@@ -82,6 +83,9 @@ static void on_save_custom_keymap_clicked(GtkWidget *widget, gpointer data)
 
     if (path != NULL && *path != '\0') {
         /* we got something at least */
+
+        util_add_extension(&path, "vkm");
+
         int oops = keyboard_keymap_dump(path);
         if (oops == 0) {
             vice_gtk3_message_info("Succesfully saved current keymap",
