@@ -136,5 +136,9 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
             NULL);
     g_object_set(kbdstatusbar, "margin-top", 16, NULL);
     gtk_widget_show_all(layout);
+    
+    /* update widget so sym/pos is greyed out correctly */
+    kbdmapping_widget_update();
+    
     return layout;
 }

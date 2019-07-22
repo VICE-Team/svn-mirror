@@ -31,5 +31,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget * kbdmapping_widget_create(GtkWidget *widget);
+void kbdmapping_widget_update(void);
 
 #endif

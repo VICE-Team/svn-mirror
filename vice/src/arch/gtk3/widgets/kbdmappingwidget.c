@@ -35,6 +35,7 @@
 
 #include <gtk/gtk.h>
 
+#include "keyboard.h"
 #include "lib.h"
 #include "ui.h"
 #include "resources.h"
@@ -127,8 +128,22 @@ static GtkWidget *create_positional_keymap_browser(void)
     return browser;
 }
 
-
-
+/** \brief  Update the widget depending on external dependencies
+ *
+ */
+void kbdmapping_widget_update(void)
+{
+    int sym, pos;
+    int hosttype;
+    int kbdtype;
+    resources_get_int("KeyboardMapping", &hosttype);
+    resources_get_int("KeyboardType", &kbdtype);
+    sym = (keyboard_is_keymap_valid(KBD_INDEX_SYM, hosttype, kbdtype) == 0);
+    pos = (keyboard_is_keymap_valid(KBD_INDEX_POS, hosttype, kbdtype) == 0);
+    /* printf("symbolic: %s positional: %s\n", sym ? "enabled" : "disabled", pos ? "enabled" : "disabled"); */
+    vice_gtk3_resource_radiogroup_item_set_sensitive(radio_group, 0, sym);
+    vice_gtk3_resource_radiogroup_item_set_sensitive(radio_group, 1, pos);
+}
 
 /** \brief  Create a keyboard mapping selection widget
  *

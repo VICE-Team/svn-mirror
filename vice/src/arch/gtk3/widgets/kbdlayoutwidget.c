@@ -36,10 +36,11 @@
 #include "basewidgets.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "resources.h"
 #include "widgethelpers.h"
 
 #include "kbdlayoutwidget.h"
-
+#include "kbdmappingwidget.h"
 
 
 /** \brief  Keyboard layout types
@@ -61,6 +62,19 @@ static void on_destroy(GtkWidget *widget, gpointer data)
     lib_free(kbd_layouts);
 }
 
+/** \brief  Handler for the 'button-release-event' event of the widget
+ *
+ * Frees memory used by radio buttons list
+ *
+ * \param[in]   widget  widget (unused)
+ * \param[in]   event       extra event data (unused)
+ * \param[in]   user_data   extra user data (unused)
+ */
+static void on_changed(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
+{
+    /* update widget so sym/pos is greyed out correctly */
+    kbdmapping_widget_update();
+}
 
 /** \brief  Create a keyboard layout selection widget
  *
@@ -102,6 +116,8 @@ GtkWidget *kbdlayout_widget_create(void)
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
+    g_signal_connect(group, "button-release-event", G_CALLBACK(on_changed), NULL);
+    
     /* connect signal handler to free memory used by the radio buttons list
      * when the widget is destroyed */
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
