@@ -305,6 +305,31 @@ gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id)
     return TRUE;
 }
 
+/** \brief  Set sensitive flag of item at index
+ *
+ * \param[in,out]   widget     radiogroup widget
+ * \param[in]       index      
+ * \param[in]       sensitive  sensitive flag for item at index
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_radiogroup_item_set_sensitive(GtkWidget *widget, int index, int sensitive)
+{
+    int orientation;
+    GtkWidget *radio;
+
+    debug_gtk3("idx:%d sensitive:%d", index, sensitive);
+    
+    orientation = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "Orientation"));    
+    
+    if (orientation == GTK_ORIENTATION_VERTICAL) {
+        radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, index);
+    } else {
+        radio = gtk_grid_get_child_at(GTK_GRID(widget), index, 0);
+    }
+    gtk_widget_set_sensitive(radio, sensitive ? TRUE : FALSE);
+    return TRUE;
+}
 
 /** \brief  Synchronize \a widget with its current resource value
  *
