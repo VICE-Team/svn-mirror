@@ -84,9 +84,11 @@ GtkWidget *kbdlayout_widget_create(void)
     kbdinfo = keyboard_get_info_list();
     idx = 0;
     while (kbdinfo->name != NULL) {
-        kbd_layouts[idx].name = kbdinfo->name;
-        kbd_layouts[idx].id = kbdinfo->mapping;
-        idx++;
+        if (keyboard_is_hosttype_valid(kbdinfo->mapping) == 0) {
+            kbd_layouts[idx].name = kbdinfo->name;
+            kbd_layouts[idx].id = kbdinfo->mapping;
+            idx++;
+        }
         kbdinfo++;
     }
     /* terminate list */
