@@ -55,14 +55,15 @@
    (keep in sync with table in keyboard.c) */
 #define KBD_MAPPING_US    0     /* "" (us mapping) */
 #define KBD_MAPPING_UK    1     /* "uk" */
-#define KBD_MAPPING_DE    2     /* "de" */
-#define KBD_MAPPING_DA    3     /* "da" */
-#define KBD_MAPPING_NL    4     /* "nl" */
-#define KBD_MAPPING_NO    5     /* "no" */
-#define KBD_MAPPING_FI    6     /* "fi" */
-#define KBD_MAPPING_IT    7     /* "it" */
-#define KBD_MAPPING_LAST  7
-#define KBD_MAPPING_NUM   8
+#define KBD_MAPPING_DA    2     /* "da" */
+#define KBD_MAPPING_NL    3     /* "nl" */
+#define KBD_MAPPING_DE    4     /* "de" */
+#define KBD_MAPPING_FI    5     /* "fi" */
+#define KBD_MAPPING_IT    6     /* "it" */
+#define KBD_MAPPING_NO    7     /* "no" */
+#define KBD_MAPPING_SE    8     /* "se" */
+#define KBD_MAPPING_LAST  8
+#define KBD_MAPPING_NUM   9
 extern int keyboard_get_num_mappings(void);
 
 /* mapping info for GUIs */
