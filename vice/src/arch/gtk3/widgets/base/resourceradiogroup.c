@@ -316,18 +316,39 @@ gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id)
 gboolean vice_gtk3_resource_radiogroup_item_set_sensitive(GtkWidget *widget, int index, int sensitive)
 {
     int orientation;
+    int i;
     GtkWidget *radio;
+    vice_gtk3_radiogroup_entry_t *entries;
 
     debug_gtk3("idx:%d sensitive:%d", index, sensitive);
     
     orientation = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "Orientation"));    
-    
+    entries = (vice_gtk3_radiogroup_entry_t *)(g_object_get_data(G_OBJECT(widget), "Entries"));
+
+    /* first set up the child at index */
     if (orientation == GTK_ORIENTATION_VERTICAL) {
         radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, index);
     } else {
         radio = gtk_grid_get_child_at(GTK_GRID(widget), index, 0);
     }
     gtk_widget_set_sensitive(radio, sensitive ? TRUE : FALSE);
+    /* if child at index is no more sensitive, it can no more be selected, so loop over
+       the items until one that can be selected was found and use that one instead */
+    if ((!sensitive) && (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio)) == TRUE)) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), FALSE);
+
+        for (i = 0; entries[i].name != NULL; i++) {
+            if (orientation == GTK_ORIENTATION_VERTICAL) {
+                radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i);
+            } else {
+                radio = gtk_grid_get_child_at(GTK_GRID(widget), i, 0);
+            }
+            if (gtk_widget_get_sensitive(radio) == TRUE) {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                break;
+            }
+        }
+    }
     return TRUE;
 }
 
