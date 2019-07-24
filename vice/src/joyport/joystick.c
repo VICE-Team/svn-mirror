@@ -418,6 +418,7 @@ static void DBGSTATUS(int keysetnum, int value, int joyport, int key, int flg)
 #define DBGSTATUS(a, b, c, d, e)
 #endif
 
+
 /* called on key-down event */
 int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
 {

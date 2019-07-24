@@ -71,6 +71,9 @@ extern uint8_t joystick_value[JOYSTICK_NUM + 1];
 /* the mapping of real devices to emulated joystick ports */
 extern int joystick_port_map[JOYSTICK_NUM];
 
+/*
+ * This logic seems broken
+ */
 #if !defined(__OS2__) || defined(USE_SDLUI) || defined(USE_SDLUI2)
 #define COMMON_JOYKEYS
 

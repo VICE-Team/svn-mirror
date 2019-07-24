@@ -291,12 +291,12 @@ enum shift_type {
                                  SHIFT is pressed. */
     SHIFT_LOCK        = (1 << 6), /* Key is shift lock on the real machine */
     MAP_MOD_SHIFT     = (1 << 7), /* Key requires SHIFT to be pressed on host */
-    
+
     ALT_MAP           = (1 << 8), /* Key is used for an alternative keyboard mapping (x128) */
 
     MAP_MOD_RIGHT_ALT = (1 << 9), /* Key requires right ALT (Alt-gr) to be pressed on host */
     MAP_MOD_CTRL     = (1 << 10), /* Key requires control to be pressed on host */
-    
+
     VIRTUAL_CBM      = (1 << 11), /* The key is combined with CBM on the emulated machine */
     VIRTUAL_CTRL     = (1 << 12), /* The key is combined with CTRL on the emulated machine */
 
@@ -462,7 +462,6 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
             /* FIXME: somehow make sure virtual shift/cbm/ctrl is really only
                       valid for one combined keypress. the shift/ctrl/cbm
                       status should not get permanently altered by deshifting */
-            
             if (shift & DESHIFT_SHIFT) {
                 /* FIXME: should this really remove ALL modifiers? */
                 keyboard_key_deshift();
@@ -576,7 +575,7 @@ static void keyboard_restore_released(void)
 void keyboard_key_pressed(signed long key, int mod)
 {
     int i, j, latch;
-    
+
     /* log_debug("%s: %i %04x", __func__, key, mod); */
 
     if (event_playback_active()) {
@@ -650,7 +649,7 @@ void keyboard_key_pressed(signed long key, int mod)
             if ((keyconvmap[i].shift & MAP_MOD_SHIFT) && (!(mod & (KBD_MOD_LSHIFT | KBD_MOD_RSHIFT))) ) {
                 continue;
             }
-            
+
             if (keyboard_key_pressed_matrix(keyconvmap[i].row,
                                             keyconvmap[i].column,
                                             keyconvmap[i].shift)) {
@@ -1141,12 +1140,13 @@ static void keyboard_parse_keyword(char *buffer, int line, const char *filename)
     } else {
         log_error(keyboard_log, "%s:%d: unknown keyword (%s).", filename, line, key);
     }
-    
+
     if (ret) {
         log_error(keyboard_log, "%s:%d: Bad keyword (%s).", filename, line, key);
     }
-
+#ifdef COMMON_JOYKEYS
     joystick_joypad_clear();
+#endif
 }
 
 static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
@@ -1185,9 +1185,13 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
 static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
 {
     if (row == -1 && (col >= 0) && (col <= 8)) {
+#ifdef COMMON_JOYKEYS
         joykeys[JOYSTICK_KEYSET_IDX_A][col] = sym;
+#endif
     } else if (row == -2 && (col >= 0) && (col <= 8)) {
+#ifdef COMMON_JOYKEYS
         joykeys[JOYSTICK_KEYSET_IDX_B][col] = sym;
+#endif
     } else if (row == -3 && col == 0) {
         key_ctrl_restore1 = sym;
     } else if (row == -3 && col == 1) {
@@ -1241,11 +1245,11 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                                   filename, line, row, col, key);
                     }
                 }
-                
+
                 /* printf("%s:%d: %s %d %d (%04x)\n", filename, line, key, row, col, shift); */
-                
+
                 /* sanity checks */
-                
+
                 if (((shift & LEFT_SHIFT) && ((shift & RIGHT_SHIFT) || (shift & SHIFT_LOCK))) ||
                     ((shift & RIGHT_SHIFT) && ((shift & LEFT_SHIFT) || (shift & SHIFT_LOCK))) ||
                     ((shift & SHIFT_LOCK) && ((shift & RIGHT_SHIFT) || (shift & LEFT_SHIFT)))) {
@@ -1706,7 +1710,7 @@ int keyboard_keymap_dump(const char *filename)
             }
         }
     }
-
+#ifdef COMMON_JOYKEYS
     for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
         if (joykeys[JOYSTICK_KEYSET_IDX_A][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
             fprintf(fp, "#\n"
@@ -1736,6 +1740,7 @@ int keyboard_keymap_dump(const char *filename)
             break;
         }
     }
+#endif
 
     fclose(fp);
 
