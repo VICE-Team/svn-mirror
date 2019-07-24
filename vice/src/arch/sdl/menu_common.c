@@ -191,14 +191,16 @@ const char *sdl_ui_menu_radio_helper(int activated, ui_callback_data_t param, co
         int v;
         const char *w;
         if (resources_query_type(resource_name) == RES_INTEGER) {
-            resources_get_int(resource_name, &v);
-            if (v == vice_ptr_to_int(param)) {
-                return sdl_menu_text_tick;
+            if (resources_get_int(resource_name, &v) == 0) {
+                if (v == vice_ptr_to_int(param)) {
+                    return sdl_menu_text_tick;
+                }
             }
         } else {
-            resources_get_string(resource_name, &w);
-            if (!strcmp(w, (char *)param)) {
-                return sdl_menu_text_tick;
+            if (resources_get_string(resource_name, &w) == 0) {
+                if (!strcmp(w, (char *)param)) {
+                    return sdl_menu_text_tick;
+                }
             }
         }
     }
