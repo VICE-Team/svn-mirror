@@ -72,9 +72,6 @@
 #define FD_ISSET(n, p) ((p)->fds_bits[(n)/NFDBITS] & (1L << ((n) % NFDBITS)))
 #endif
 
-#endif
-
-
 #include "cmdline.h"
 #include "coproc.h"
 #include "log.h"
@@ -421,3 +418,5 @@ enum rs232handshake_in rs232dev_get_status(int fd)
 void rs232dev_set_bps(int fd, unsigned int bps)
 {
 }
+
+#endif /* HAVE_RS232DEV */
