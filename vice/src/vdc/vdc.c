@@ -240,7 +240,7 @@ static void vdc_update_geometry(void)
                 screen_text_cols
                 hsync_shift
                 border_width    */
-    
+
     int hsync;
 
     /* Leave this fixed so the window isn't getting constantly resized */
@@ -388,6 +388,11 @@ void vdc_update_memory_ptrs(unsigned int cycle)
     /* FIXME: use it or lose it */
 }
 
+
+/*
+ * Temporarily disabled due to annoying compiler warnings
+ */
+#if 0
 static void vdc_increment_memory_pointer(void)
 {
     vdc.mem_counter_inc = vdc.screen_text_cols;
@@ -410,6 +415,7 @@ static void vdc_increment_memory_pointer_interlace_bitmap(void)
     vdc.raster.ycounter = (vdc.raster.ycounter + 1)
                           % (vdc.raster_ycounter_max + 1);
 }
+#endif
 
 static void vdc_set_video_mode(void)
 {
