@@ -2,6 +2,7 @@
  * \brief   RS232 Device emulation
  *
  * \author  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+ * \author  groepaz <groepaz@gmx.net>
  *
  * The RS232 emulation captures the bytes sent to the RS232 interfaces
  * available (currently, ACIA 6551, std. C64, and Daniel Dallmann's fast RS232
@@ -31,12 +32,6 @@
  *
  */
 
-#undef        DEBUG
-/* #define DEBUG */
-
-#define DEBUG_FAKE_INPUT_OUTPUT (5 * 80)
-#undef DEBUG_FAKE_INPUT_OUTPUT
-
 #include "vice.h"
 
 #include <errno.h>
@@ -48,13 +43,17 @@
 #include <io.h>
 #endif
 
+#include "cmdline.h"
 #include "log.h"
+#include "resources.h"
 #include "rs232.h"
 #include "rs232dev.h"
 #include "types.h"
 #include "util.h"
 
-#ifdef DEBUG
+#define DEBUGRS232
+
+#ifdef DEBUGRS232
 # define DEBUG_LOG_MESSAGE(_xxx) log_message _xxx
 #else
 # define DEBUG_LOG_MESSAGE(_xxx)
@@ -62,31 +61,127 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* resource handling */
+
+static int devbaud[RS232_NUM_DEVICES];
+
+static int is_baud_valid(int baud)
+{
+    switch (baud) {
+        case     110:
+        case     300:
+        case     600:
+        case    1200:
+        case    2400:
+        case    4800:
+        case    9600:
+        case   19200:
+        case   38400:
+        case   57600:
+        case  115200:
+        case  128000:
+        case  256000:
+#if 0
+        case  500000:
+        case 1000000:
+#endif
+                return 1;
+            break;
+        default:
+            break;
+    }
+    return 0;
+}
+
+static int set_devbaud(int val, void *param)
+{
+    if (is_baud_valid(val)) {
+        devbaud[vice_ptr_to_int(param)] = val;
+    }
+    return 0;
+}
+
+static int get_devbaud(int dev)
+{
+    switch (devbaud[dev]) {
+        case     110: return CBR_110;
+        case     300: return CBR_300;
+        case     600: return CBR_600;
+        case    1200: return CBR_1200;
+        case    2400: return CBR_2400;
+        case    4800: return CBR_4800;
+        case    9600: return CBR_9600;
+        case   19200: return CBR_19200;
+        case   38400: return CBR_38400;
+        case   57600: return CBR_57600;
+        case  115200: return CBR_115200;
+        case  128000: return CBR_128000;
+        case  256000: return CBR_256000;
+#if 0
+        case  500000: return CBR_500000;
+        case 1000000: return CBR_1000000;
+#endif
+    }
+
+    return 0; /* invalid / not set */
+}
+
+/* ------------------------------------------------------------------------- */
+
+static const resource_int_t resources_int[] = {
+    { "RsDevice1Baud", 2400, RES_EVENT_NO, NULL,
+      &devbaud[0], set_devbaud, (void *)0 },
+    { "RsDevice2Baud", 38400, RES_EVENT_NO, NULL,
+      &devbaud[1], set_devbaud, (void *)1 },
+    { "RsDevice3Baud", 2400, RES_EVENT_NO, NULL,
+      &devbaud[2], set_devbaud, (void *)2 },
+    { "RsDevice4Baud", 38400, RES_EVENT_NO, NULL,
+      &devbaud[3], set_devbaud, (void *)3 },
+    RESOURCE_INT_LIST_END
+};
+
 int rs232dev_resources_init(void)
 {
-    return 0;
+    return resources_register_int(resources_int);
 }
 
 void rs232dev_resources_shutdown(void)
 {
 }
 
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-rsdev1baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
+      NULL, NULL, "RsDevice1Baud", NULL,
+      "<baudrate>", "Specify baudrate of first RS232 device" },
+    { "-rsdev2baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
+      NULL, NULL, "RsDevice2Baud", NULL,
+      "<baudrate>", "Specify baudrate of second RS232 device" },
+    { "-rsdev3baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
+      NULL, NULL, "RsDevice3Baud", NULL,
+      "<baudrate>", "Specify baudrate of third RS232 device" },
+    { "-rsdev4baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
+      NULL, NULL, "RsDevice4Baud", NULL,
+      "<baudrate>", "Specify baudrate of fourth RS232 device" },
+    CMDLINE_LIST_END
+};
+
 int rs232dev_cmdline_options_init(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
 
-/** \brief  Something that something to do with RS232
+/** \brief  descriptor for a rs232 interface/port
  */
 typedef struct rs232dev {
-    int inuse;  /**< could be in-use, but also could be an exotic animal */
-    HANDLE fd;  /**< probably a file descriptor */
-    char *file; /**< don't we already have this? see above */
-    DCB restore_dcb;    /**< restore dcb if DCB == DCB.True? */
-    int rts;    /**< $60 */
-    int dtr;    /**< It's like DTM, but Audi doesn't participate */
+    int inuse;          /**< flag to mark descriptor in-use */
+    HANDLE fd;          /**< windows file handle for the open rs232 port */
+    /* char *file; */
+    DCB restore_dcb;    /**< status of the serial port before using it, for later restauration */
+    int rts;            /**< current status of the serial port's RTS line */
+    int dtr;            /**< current status of the serial port's DTR line */
 } rs232dev_t;
 
 static rs232dev_t fds[RS232_NUM_DEVICES];
@@ -128,11 +223,11 @@ int rs232dev_open(int device)
         }
     }
     if (i >= RS232_NUM_DEVICES) {
-        log_error(rs232dev_log, "No more devices available.");
+        log_error(rs232dev_log, "rs232dev_open: No more devices available.");
         return -1;
     }
 
-    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open(device=%d).", device));
+    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open(device %d, got fds#%d).", device, i));
 
     do {
         DCB dcb;
@@ -143,6 +238,7 @@ int rs232dev_open(int device)
             *mode_string = 0;
         }
 
+        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open: CreateFile(%s).", rs232_devfile[device]));
         serial_port = CreateFile(rs232_devfile[device], GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
         if (mode_string != NULL) {
@@ -151,20 +247,38 @@ int rs232dev_open(int device)
 
 
         if (serial_port == INVALID_HANDLE_VALUE) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: CreateFile '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open: CreateFile '%s' failed: %lu.", rs232_devfile[device], GetLastError()));
             break;
         }
 
+        /* setup clean dcb */
         memset(&dcb, 0, sizeof dcb);
         dcb.DCBlength = sizeof dcb;
 
+        /* save status of the port, so we can restore it when we do not use it anymore */
         if (!GetCommState(serial_port, &dcb)) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: GetCommState '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open: GetCommState '%s' failed: %lu.", rs232_devfile[device], GetLastError()));
             break;
         }
-
         fds[i].restore_dcb = dcb;
 
+        /* setup port with some sane defaults */
+        /* https://docs.microsoft.com/de-de/windows/win32/api/winbase/ns-winbase-_dcb */
+        dcb.BaudRate = get_devbaud(device);  // Setting BaudRate
+
+        dcb.ByteSize = 8;             /* Setting ByteSize = 8 */
+        dcb.StopBits = ONESTOPBIT;    /* Setting StopBits = 1 */
+        dcb.Parity   = NOPARITY;      /* Setting Parity = None */
+
+        dcb.fOutxCtsFlow = FALSE;     /* disable CTS flow control */
+
+        dcb.fOutxDsrFlow = FALSE;     /* disable DSR flow control */
+        dcb.fDsrSensitivity = FALSE;
+
+        dcb.fDtrControl = DTR_CONTROL_DISABLE;
+        dcb.fRtsControl = RTS_CONTROL_DISABLE;
+
+        /* build more config options from the mode string */
         if (mode_string != NULL) {
             ++mode_string;
 
@@ -173,13 +287,14 @@ int rs232dev_open(int device)
             }
 
             if ( ! BuildCommDCB(mode_string, &dcb) ) {
-                DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: BuildCommDCB '%s' for device '%s' failed: %d.\n", mode_string + 1, rs232_devfile[device], GetLastError()));
+                DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open: BuildCommDCB '%s' for device '%s' failed: %lu.", mode_string + 1, rs232_devfile[device], GetLastError()));
                 break;
             }
         }
 
+        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open: SetCommState baudrate: %lu.", dcb.BaudRate));
         if (! SetCommState(serial_port, &dcb)) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommState '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open: SetCommState '%s' failed: %lu.", rs232_devfile[device], GetLastError()));
             break;
         }
 
@@ -200,13 +315,13 @@ int rs232dev_open(int device)
         comm_timeouts.WriteTotalTimeoutMultiplier = 0;
 
         if (!SetCommTimeouts(serial_port, &comm_timeouts)) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommTimeouts '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open: SetCommTimeouts '%s' failed: %lu.", rs232_devfile[device], GetLastError()));
             break;
         }
 
         fds[i].inuse = 1;
         fds[i].fd = serial_port;
-        fds[i].file = rs232_devfile[device];
+        /* fds[i].file = rs232_devfile[device]; */
         ret = i;
         serial_port = INVALID_HANDLE_VALUE;
 
@@ -222,43 +337,33 @@ int rs232dev_open(int device)
 /* closes the rs232 window again */
 void rs232dev_close(int fd)
 {
-    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: close(fd=%d).", fd));
+    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_close (fd=%d).", fd));
 
     if (fd < 0 || fd >= RS232_NUM_DEVICES) {
-        log_error(rs232dev_log, "Attempt to close invalid fd %d.", fd);
+        log_error(rs232dev_log, "rs232dev_close: Attempt to close invalid fd %d.", fd);
         return;
     }
     if (!fds[fd].inuse) {
-        log_error(rs232dev_log, "Attempt to close non-open fd %d.", fd);
+        log_error(rs232dev_log, "rs232dev_close: Attempt to close non-open fd %d.", fd);
         return;
     }
 
+    /* restore status of the serial port to what it was before we used it */
     if (!SetCommState(fds[fd].fd, &fds[fd].restore_dcb)) {
-        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommState '%s' on close failed: %d.\n", rs232_devfile[fd], GetLastError()));
+        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_close: SetCommState '%s' on close failed: %lu.", rs232_devfile[fd], GetLastError()));
     }
 
     CloseHandle(fds[fd].fd);
     fds[fd].inuse = 0;
 }
 
-#if DEBUG_FAKE_INPUT_OUTPUT
-static char rs232_debug_fake_input = 0;
-static unsigned rs232_debug_fake_input_available = 0;
-#endif
-
 /* sends a byte to the RS232 line */
 int rs232dev_putc(int fd, uint8_t b)
 {
     uint32_t number_of_bytes = 1;
 
-    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: Output %u = `%c'.", (unsigned)b, b));
+    /* DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_putc: Output %u = `%c'.", (unsigned)b, b)); */
 
-#if DEBUG_FAKE_INPUT_OUTPUT
-
-    rs232_debug_fake_input_available = DEBUG_FAKE_INPUT_OUTPUT;
-    rs232_debug_fake_input = b;
-
-#else
     if (WriteFile(fds[fd].fd, &b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
         return -1;
     }
@@ -266,7 +371,6 @@ int rs232dev_putc(int fd, uint8_t b)
     if (number_of_bytes == 0) {
         return -1;
     }
-#endif
 
     return 0;
 }
@@ -274,39 +378,30 @@ int rs232dev_putc(int fd, uint8_t b)
 /* gets a byte from the RS232 line, returns !=0 if byte received, byte in *b. */
 int rs232dev_getc(int fd, uint8_t *b)
 {
-    uint32_t number_of_bytes = 1;
+    uint32_t number_of_bytes = 0;
 
-#if DEBUG_FAKE_INPUT_OUTPUT
-
-    if (rs232_debug_fake_input_available != 0) {
-        --rs232_debug_fake_input_available;
-        *b = rs232_debug_fake_input;
-    } else {
-        number_of_bytes = 0;
-    }
-
-#else
     if (ReadFile(fds[fd].fd, b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
         return -1;
     }
-#endif
 
     if (number_of_bytes) {
-        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: Input %u = `%c'.", (unsigned)*b, *b));
+        /* DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_getc: Input %u = `%c'.", (unsigned)*b, *b)); */
         return 1;
     }
-
     return 0;
 }
 
+/* FIXME: apparently this is never called yet */
 /* set the status lines of the RS232 device */
 int rs232dev_set_status(int fd, enum rs232handshake_out status)
 {
     int new_rts = (status & RS232_HSO_RTS) ? 1 : 0;
     int new_dtr = (status & RS232_HSO_DTR) ? 1 : 0;
 
-    /* signal the RS232 device the current status, too */
+    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_set_status: rts:%s dtr:%s",
+        new_rts ? "on" : "off", new_dtr ? "on" : "off"));
 
+    /* signal the RS232 device the current status, too */
     if ( new_rts != fds[fd].rts ) {
         EscapeCommFunction(fds[fd].fd, new_rts ? SETRTS : CLRRTS);
         fds[fd].rts = new_rts;
@@ -316,10 +411,10 @@ int rs232dev_set_status(int fd, enum rs232handshake_out status)
         EscapeCommFunction(fds[fd].fd, new_dtr ? SETDTR : CLRDTR);
         fds[fd].dtr = new_dtr;
     }
-
     return 0;
 }
 
+/* FIXME: apparently this is never called yet */
 /* get the status lines of the RS232 device */
 enum rs232handshake_in rs232dev_get_status(int fd)
 {
@@ -328,7 +423,7 @@ enum rs232handshake_in rs232dev_get_status(int fd)
     do {
         uint32_t modemstat = 0;
         if (GetCommModemStatus(fds[fd].fd, (LPDWORD)&modemstat) == 0) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "Could not get modem status for device %d.", device));
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_get_status: Could not get modem status for fd %d.", fd));
             break;
         }
 
@@ -341,12 +436,15 @@ enum rs232handshake_in rs232dev_get_status(int fd)
         }
     } while (0);
 
+    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_get_status: rs232dev_get_status: got %u.", modem_status));
+
     return modem_status;
 }
 
+/* FIXME: apparently this is never called yet */
 /* set the bps rate of the physical device */
 void rs232dev_set_bps(int fd, unsigned int bps)
 {
     /*! \todo set the physical bps rate */
-    DEBUG_LOG_MESSAGE((rs232dev_log, "Setting bps to %u", bps));
+    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_set_bps: bps: %u", bps));
 }
