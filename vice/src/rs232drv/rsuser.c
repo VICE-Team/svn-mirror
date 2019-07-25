@@ -320,7 +320,7 @@ static void check_tx_buffer(void)
 
     if (valid >= 10) {     /* (valid-1)-th bit is not set = start bit! */
         if (!(buf & masks[valid - 10])) {
-            log_error(LOG_DEFAULT, "Frame error!");
+            log_error(LOG_DEFAULT, "rsuser: framing mismatch - outgoing baudrates ok?");
         } else {
             c = (buf >> (valid - 9)) & 0xff;
             if (fd != -1) {
