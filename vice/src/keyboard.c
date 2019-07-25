@@ -846,9 +846,6 @@ static void keyboard_key_clear_internal(void)
     joystick_clear_all();
     virtual_cbm_down = virtual_shift_down = 
         left_shift_down = right_shift_down = keyboard_shiftlock = 0;
-#ifdef COMMON_JOYKEYS
-    joystick_joypad_clear();
-#endif
 }
 
 void keyboard_key_clear(void)
@@ -1144,9 +1141,6 @@ static void keyboard_parse_keyword(char *buffer, int line, const char *filename)
     if (ret) {
         log_error(keyboard_log, "%s:%d: Bad keyword (%s).", filename, line, key);
     }
-#ifdef COMMON_JOYKEYS
-    joystick_joypad_clear();
-#endif
 }
 
 static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
