@@ -95,13 +95,13 @@ static int set_devbaud(int val, void *param)
 /* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_int[] = {
-    { "RsDevice1Baud", 9600, RES_EVENT_NO, NULL,
+    { "RsDevice1Baud", 2400, RES_EVENT_NO, NULL,
       &devbaud[0], set_devbaud, (void *)0 },
-    { "RsDevice2Baud", 9600, RES_EVENT_NO, NULL,
+    { "RsDevice2Baud", 38400, RES_EVENT_NO, NULL,
       &devbaud[1], set_devbaud, (void *)1 },
-    { "RsDevice3Baud", 9600, RES_EVENT_NO, NULL,
+    { "RsDevice3Baud", 2400, RES_EVENT_NO, NULL,
       &devbaud[2], set_devbaud, (void *)2 },
-    { "RsDevice4Baud", 9600, RES_EVENT_NO, NULL,
+    { "RsDevice4Baud", 38400, RES_EVENT_NO, NULL,
       &devbaud[3], set_devbaud, (void *)3 },
     RESOURCE_INT_LIST_END
 };
@@ -404,6 +404,7 @@ int rs232dev_getc(int fd, uint8_t * b)
 /* set the status lines of the RS232 device */
 int rs232dev_set_status(int fd, enum rs232handshake_out status)
 {
+    /*! \todo dummy */
     return -1;
 }
 
@@ -417,6 +418,7 @@ enum rs232handshake_in rs232dev_get_status(int fd)
 /* set the bps rate of the physical device */
 void rs232dev_set_bps(int fd, unsigned int bps)
 {
+    /*! \todo dummy */
 }
 
 #endif /* HAVE_RS232DEV */
