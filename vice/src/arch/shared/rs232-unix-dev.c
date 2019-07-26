@@ -282,7 +282,7 @@ int rs232dev_open(int device)
 
     if (rs232_devfile[device][0] == '|') {
         if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1) < 0) {
-            log_error(rs232dev_log, "Cannot fork process.");
+            log_error(rs232dev_log, "Cannot fork process '%s'.", rs232_devfile[device] + 1);
             return -1;
         }
         fds[i].type = T_PROC;
