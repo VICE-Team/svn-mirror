@@ -44,12 +44,15 @@
 #endif
 
 #include "cmdline.h"
+#include "coproc.h"
 #include "log.h"
 #include "resources.h"
 #include "rs232.h"
 #include "rs232dev.h"
 #include "types.h"
 #include "util.h"
+
+/* #define COPROC_SUPPORT */
 
 #define DEBUGRS232
 
@@ -177,12 +180,20 @@ int rs232dev_cmdline_options_init(void)
  */
 typedef struct rs232dev {
     int inuse;          /**< flag to mark descriptor in-use */
+    int type;           /**< type of connection, T_FILE, T_TTY, T_PROC */
     HANDLE fd;          /**< windows file handle for the open rs232 port */
+    HANDLE fd_r;        /**< stdout read pipe from external process */
+    HANDLE fd_w;        /**< stdin write pipe from external process */
     /* char *file; */
     DCB restore_dcb;    /**< status of the serial port before using it, for later restauration */
     int rts;            /**< current status of the serial port's RTS line */
     int dtr;            /**< current status of the serial port's DTR line */
 } rs232dev_t;
+
+/* type of open connection */
+#define T_FILE 0
+#define T_TTY  1
+#define T_PROC 2
 
 static rs232dev_t fds[RS232_NUM_DEVICES];
 
@@ -213,7 +224,7 @@ void rs232dev_reset(void)
 /* opens a rs232 window, returns handle to give to functions below. */
 int rs232dev_open(int device)
 {
-    HANDLE serial_port;
+    HANDLE serial_port = INVALID_HANDLE_VALUE;
     int ret = -1;
     int i;
 
@@ -229,6 +240,18 @@ int rs232dev_open(int device)
 
     DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_open(device %d, got fds#%d).", device, i));
 
+#ifdef COPROC_SUPPORT
+    if (rs232_devfile[device][0] == '|') {
+        log_message(rs232dev_log, "rs232dev_open: forking '%s'", rs232_devfile[device] + 1);
+        if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1) < 0) {
+            log_error(rs232dev_log, "rs232dev_open: Cannot fork process.");
+            return -1;
+        }
+        fds[i].type = T_PROC;
+        fds[i].inuse = 1;
+        /* fds[i].file = rs232_devfile[device]; */
+    } else
+#endif
     do {
         DCB dcb;
         COMMTIMEOUTS comm_timeouts;
@@ -319,6 +342,11 @@ int rs232dev_open(int device)
             break;
         }
 
+        if(!strncasecmp(rs232_devfile[device], "com", 3)) {
+            fds[i].type = T_TTY;
+        } else {
+            fds[i].type = T_FILE;
+        }
         fds[i].inuse = 1;
         fds[i].fd = serial_port;
         /* fds[i].file = rs232_devfile[device]; */
@@ -361,10 +389,11 @@ void rs232dev_close(int fd)
 int rs232dev_putc(int fd, uint8_t b)
 {
     uint32_t number_of_bytes = 1;
+    HANDLE fdw = (fds[fd].type == T_PROC) ? fds[fd].fd_w : fds[fd].fd;
 
     /* DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_putc: Output %u = `%c'.", (unsigned)b, b)); */
 
-    if (WriteFile(fds[fd].fd, &b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
+    if (WriteFile(fdw, &b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
         return -1;
     }
 
@@ -379,8 +408,9 @@ int rs232dev_putc(int fd, uint8_t b)
 int rs232dev_getc(int fd, uint8_t *b)
 {
     uint32_t number_of_bytes = 0;
+    HANDLE fdr = (fds[fd].type == T_PROC) ? fds[fd].fd_r : fds[fd].fd;
 
-    if (ReadFile(fds[fd].fd, b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
+    if (ReadFile(fdr, b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
         return -1;
     }
 

@@ -143,3 +143,16 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
 
 #endif
 
+#ifdef WIN32_COMPILE
+
+#include <windows.h>
+
+#include "archdep.h"
+#include "coproc.h"
+#include "log.h"
+
+int fork_coproc(HANDLE *fd_wr, HANDLE *fd_rd, char *cmd)
+{
+    return 0;
+}
+#endif
