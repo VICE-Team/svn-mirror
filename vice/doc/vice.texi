@@ -5101,6 +5101,10 @@ actually expects).
 @itemx RsDevice4
 Strings specifying the RS232 devices (@pxref{RS232 settings}).
 
+@end table
+
+@table @code
+
 @vindex Acia1Enable
 @item Acia1Enable
 Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be emulated or not
@@ -5126,6 +5130,10 @@ Integer specifying the type of emulated RS232 interface (x64, x64sc, xscpu64, xv
 Integer specifying which interrupt to use (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
 (0 = none, 1 = IRQ, 2 = NMI)
 
+@end table
+
+@table @code
+
 @vindex RsUserEnable
 @item RsUserEnable
 Boolean specifying if the user-port RS232 interface is being emulated
@@ -5140,6 +5148,24 @@ Integer specifying the baudrate of the user-port RS232 interface
 @item RsUserDev
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device
 the user-port interface is using (C64, C128 and VIC20).
+
+@end table
+
+@b{The following resources are only available if RS232 device support or RS232 network support is available at compile time.}
+
+@table @code
+
+@vindex RsDevice1Baud
+@vindex RsDevice2Baud
+@vindex RsDevice3Baud
+@vindex RsDevice4Baud
+@item RsDevice1Baud
+@itemx RsDevice2Baud
+@itemx RsDevice3Baud
+@itemx RsDevice4Baud
+Integers specifying the RS232 baudrate devices if the device file points
+to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
+(all emulators except vsid).
 
 @end table
 
@@ -5158,6 +5184,10 @@ the user-port interface is using (C64, C128 and VIC20).
 @itemx -rsdev4 <Name>
 Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
+
+@end table
+
+@table @code
 
 @findex -acia1, +acia1
 @item -acia1
@@ -5192,6 +5222,10 @@ Set the ACIA interrupt
 (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
 (0: None, 1: IRQ, 2: NMI)
 
+@end table
+
+@table @code
+
 @findex -rsuser, +rsuser
 @item -rsuser
 @itemx +rsuser
@@ -5206,6 +5240,27 @@ Set the baud rate of the RS232 userport emulation.
 @item -rsuserdev <0-3>
 Specify device for the userport RS232 emulation (@code{RsUserDev};
 C64, C128 and VIC20).
+
+@end table
+
+@b{The following command-line options are only available if RS232 device support or RS232 network support is available at compile time.}
+
+@table @code
+
+@findex -rsdev1baud
+@item -rsdev1baud <baudrate>
+@findex -rsdev2baud
+@itemx -rsdev2baud <baudrate>
+@findex -rsdev3baud
+@itemx -rsdev3baud <baudrate>
+@findex -rsdev4baud
+@itemx -rsdev4baud <baudrate>
+Specify <baudrate> as baudrate for the RS232 devices if the device name
+specifies a special device (like @file{/dev/ttyS0} for example,
+@pxref{RS232 settings};
+@code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
+@code{RsDevice4Baud})
+(all emulators except vsid).
 
 @end table
 
@@ -13328,24 +13383,6 @@ Enum specifying the MIDI driver
 
 @end table
 
-@b{The following resources are only available if RS232 device support or RS232 network support is available at compile time.}
-
-@table @code
-
-@vindex RsDevice1Baud
-@vindex RsDevice2Baud
-@vindex RsDevice3Baud
-@vindex RsDevice4Baud
-@item RsDevice1Baud
-@itemx RsDevice2Baud
-@itemx RsDevice3Baud
-@itemx RsDevice4Baud
-Integers specifying the RS232 baudrate devices if the device file points
-to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
-(all emulators except vsid).
-
-@end table
-
 @c @node FIXME
 @subsection GTK3 specific command-line options
 
@@ -13556,26 +13593,6 @@ Specify MIDI driver
 
 @end table
 
-@b{The following command-line options are only available if RS232 device support or RS232 network support is available at compile time.}
-
-@table @code
-
-@findex -rsdev1baud
-@item -rsdev1baud <baudrate>
-@findex -rsdev2baud
-@itemx -rsdev2baud <baudrate>
-@findex -rsdev3baud
-@itemx -rsdev3baud <baudrate>
-@findex -rsdev4baud
-@itemx -rsdev4baud <baudrate>
-Specify <baudrate> as baudrate for the RS232 devices if the device name
-specifies a special device (like @file{/dev/ttyS0} for example,
-@pxref{RS232 settings};
-@code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
-@code{RsDevice4Baud})
-(all emulators except vsid).
-
-@end table
 
 @end ifset
 
