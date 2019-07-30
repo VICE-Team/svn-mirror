@@ -1228,6 +1228,21 @@ if test x"$check_gtk3" = "xyes"; then
     dnl Check for C++11 support (for novte) and update CXXFLAGS
     CXXFLAGS="$CXXFLAGS -std=c++11"
 
+    dnl Check if g++ supports -Wno-nonnull-compare to silence warnings building
+    dnl VTE with GCC 9.1+
+    old_CXXFLAGS="$CXXFLAGS"
+    CXXFLAGS="$CXXFLAGS -Wno-nonnull-compare"
+    dnl Temporarily switch to C++
+    AC_LANG_PUSH([C++])
+    AC_MSG_CHECKING([if the compiler supports -Wno-nonnull-compare])
+    AC_TRY_COMPILE([],
+                   [int arse;],
+                   [AC_MSG_RESULT(yes)],
+                   [AC_MSG_RESULT(no)
+                    CXXFLAGS="$old_CXXFLAGS"])
+    dnl Revert to (I assume) C
+    AC_LANG_POP([C++])
+
     dnl Platform canonical names for Win32-GTK3 have names like "i686-w64-mingw32"
     case "$host_os" in
       *mingw32)
