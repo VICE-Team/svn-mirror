@@ -60,6 +60,7 @@ int joy_arch_set_device(int port, int new_dev)
 
 /* Resources.  */
 
+
 int joy_arch_resources_init(void)
 {
     return 0;
@@ -67,6 +68,7 @@ int joy_arch_resources_init(void)
 
 /* Command-line options.  */
 
+#if 0
 static const cmdline_option_t joydev1cmdline_options[] =
 {
     { "-joydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -147,9 +149,15 @@ static const cmdline_option_t joydev5cmdline_options[] =
 #endif
     CMDLINE_LIST_END
 };
+#endif
+
 
 int joy_arch_cmdline_options_init(void)
 {
+    /* NOP */
+    return 0;
+}
+#if 0
     if (joyport_get_port_name(JOYPORT_1)) {
         if (cmdline_register_options(joydev1cmdline_options) < 0) {
             return -1;
@@ -178,6 +186,7 @@ int joy_arch_cmdline_options_init(void)
 
     return 0;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

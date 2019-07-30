@@ -377,6 +377,8 @@ int joy_arch_set_device(int port_idx, int new_dev)
     return 0;
 }
 
+
+#if 0
 static int set_joystick_fire_speed(int speed, void *param)
 {
     int port_idx = vice_ptr_to_int(param);
@@ -431,6 +433,7 @@ static int set_joystick_fire_button(int button, void *param)
 
     return 0;
 }
+
 
 static const resource_int_t joy1_resources_int[] = {
     { "JoyAutofire1Speed", 16, RES_EVENT_NO, NULL,
@@ -491,8 +494,19 @@ static const resource_int_t joy5_resources_int[] = {
       &joystick_fire_button[4], set_joystick_fire_button, (void *)4 },
     RESOURCE_INT_LIST_END
 };
+#endif
 
+
+/** \brief  Stub, required by src/joystick.c
+ *
+ * \return 0
+ */
 int joy_arch_resources_init(void)
+{
+    /* NOP */
+    return 0;
+}
+#if 0
 {
     if (joyport_get_port_name(JOYPORT_1)) {
         if (resources_register_int(joy1_resources_int) < 0) {
@@ -519,9 +533,10 @@ int joy_arch_resources_init(void)
             return -1;
         }
     }
-
     return 0;
 }
+#endif
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -575,6 +590,7 @@ int joy_arch_cmdline_options_init(void)
     /* NOP */
     return 0;
 }
+
 
 /* ------------------------------------------------------------------------- */
 
