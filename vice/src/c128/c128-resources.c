@@ -264,7 +264,7 @@ static int set_chargen_no_rom_name(const char *val, void *param)
         return 0;
     }
 
-    if (c128rom_load_chargen_ch(chargen_no_rom_name) < 0) {
+    if (c128rom_load_chargen_no(chargen_no_rom_name) < 0) {
         return -1;
     }
 
