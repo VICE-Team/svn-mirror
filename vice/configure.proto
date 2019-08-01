@@ -973,72 +973,60 @@ fi
 dnl check if the compiler supports -Wmissing-prototypes
 AC_MSG_CHECKING([if the compiler supports -Wmissing-prototypes])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -Wmissing-prototypes"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -Wmissing-prototypes"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check if the compiler supports -Werror=implicit-function-declaration
 AC_MSG_CHECKING([if the compiler supports -Werror=implicit-function-declaration])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -Werror=implicit-function-declaration"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -Werror=implicit-function-declaration"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check if the compiler supports -Wfatal-errors
 AC_MSG_CHECKING([if the compiler supports -Wfatal-errors])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -Wfatal-errors"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -Wfatal-errors"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check if the compiler supports -Wshadow
 AC_MSG_CHECKING([if the compiler supports -Wshadow])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -Wshadow"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -Wshadow"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check if the compiler supports -Wformat
 AC_MSG_CHECKING([if the compiler supports -Wformat])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -Wformat"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -Wformat"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl check if the compiler supports -Wformat-signedness (GCC)
 AC_MSG_CHECKING([if the compiler supports -Wformat-signedness])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -Wformat-signedness"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -Wformat-signedness"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
@@ -1048,12 +1036,10 @@ dnl it to void*. Sounds like it could be useful for C++, not so much for C.
 dnl catch additional bugs.
 AC_MSG_CHECKING([if the compiler supports -Wformat-pedantic])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -Wformat-pedantic"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -Wformat-pedantic"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
@@ -1061,13 +1047,11 @@ AC_TRY_COMPILE([],
 dnl check if the compiler supports -fdiagnostics-absolute-paths (clang)
 AC_MSG_CHECKING([if the compiler supports -fdiagnostics-absolute-paths])
 ORIG_CFLAGS="$CFLAGS"
-YES_CFLAGS="$CFLAGS -fdiagnostics-absolute-paths"
-CFLAGS="$YES_CFLAGS -Werror -Wno-unused-variable"
+CFLAGS="$CFLAGS -fdiagnostics-absolute-paths"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CFLAGS="$YES_CFLAGS" ],
-               [ AC_MSG_RESULT(no)
+               [ AC_MSG_RESULT(yes)],
+               [ AC_MSG_RESULT(no)],
                  CFLAGS="$ORIG_CFLAGS" ])
 
 dnl C++ checks
@@ -1089,12 +1073,10 @@ dnl check if the C++ compiler support -fdiagnostics-absolute-paths
 AC_LANG_PUSH([C++])
 AC_MSG_CHECKING([if the C++ compiler supports -fdiagnostics-absolute-paths])
 ORIG_CXXFLAGS="$CXXFLAGS"
-YES_CXXFLAGS="$CXXFLAGS -fdiagnostics-absolute-paths"
-CXXFLAGS="$YES_CXXFLAGS -Werror -Wno-unused-variable"
+CXXFLAGS="$CXXFLAGS -fdiagnostics-absolute-paths"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CXXFLAGS="$YES_CXXFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CXXFLAGS="$ORIG_CXXFLAGS" ])
 AC_LANG_POP([C++])
