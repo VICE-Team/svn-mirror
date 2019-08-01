@@ -382,19 +382,6 @@ case "$host_os" in
     ;;
 esac
 
-if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
-  if test x"$with_x" = "xyes"; then
-    host_os=cygwin-x11
-    is_win32_x11=yes
-  fi
-fi
-
-dnl disable toolchain and ar checking for ppc-beos
-if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
-  toolchain_check=no
-  ar_check=no
-fi
-
 
 if test "x$CC" = "xgcc"; then
   GCC=yes
