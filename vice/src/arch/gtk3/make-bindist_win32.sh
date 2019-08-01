@@ -68,14 +68,10 @@ fi
 
 get_dll_deps()
 {
-  for j in `find $BUILDPATH -name "*.dll"`
-  do
-    dlls=`$OBJDUMP -p $j | sed 's| |\n|g' | grep -F ".dll"`
+  for j in $BUILDPATH/*.dll; do
+    dlls=`$OBJDUMP -p $j | gawk '/^\\tDLL N/{print $3;}'`
     for i in $dlls
-    do
-      if test -e $dlldir/$i; then
-        cp $dlldir/$i $BUILDPATH
-      fi
+    do test -e $dlldir/$i&&cp -u $dlldir/$i $BUILDPATH
     done
   done
 }
@@ -128,43 +124,49 @@ if test x"$CROSS" != "xtrue"; then
 
 # The following lines assume that this script is run by MSYS2.
   cp `ntldd -R $BUILDPATH/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
-  cp $MINGW_PREFIX/bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
-  cp $MINGW_PREFIX/bin/gspawn-win??-helper*.exe $BUILDPATH
   cd $MINGW_PREFIX
+  cp bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
-  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
-  # Gtk3 accepts only having scalable icons, which reduces the bindist size
-  # considerably
-  cp --parents -a share/icons/Adwaita/scalable $BUILDPATH
+  # GTK3 accepts having only scalable icons,
+  # which reduces the bindist size considerably.
+  cp --parents -a share/icons/Adwaita/{index.*,scalable} $BUILDPATH
+  rm -r $BUILDPATH/share/icons/Adwaita/scalable/emotes
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
+  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
+  cp bin/gspawn-win??-helper*.exe $BUILDPATH
   cd - >/dev/null
 else
 
 # The following lines assume a cross compiler,
-# and the DLLs installed in the dll dir. of that toolchain.
-  libm=`i686-w64-mingw32-gcc -print-file-name=libm.a`
+# with DLLs installed in the dll or bin dir. of that toolchain.
+  libm=`$COMPILER -print-file-name=libm.a`
   location=`dirname $libm`
   loc=`dirname $location`
-  dlldir="$loc/dll"
-  dlls=`$OBJDUMP -p src/x64sc.exe | sed 's| |\n|g' | grep -F ".dll"`
+  if test -d "$loc/dll"
+  then dlldir="$loc/dll"
+  else dlldir="$loc/bin"
+  fi
+  dlls=`$OBJDUMP -p src/x64sc.exe | gawk '/^\\tDLL N/{print $3;}'`
   for i in $dlls
-  do
-    if test -e $dlldir/$i; then
-      cp $dlldir/$i $BUILDPATH
-    fi
+  do test -e $dlldir/$i&&cp $dlldir/$i $BUILDPATH
   done
-  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_dw2-1,croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
+  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_*,croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
   gccname=`$COMPILER -print-file-name=libgcc.a`
   gccdir=`dirname $gccname`
-  cp $gccdir/libgcc*.dll $BUILDPATH
+  dlls=`find $gccdir -name 'libgcc*.dll'`
+  test -n "$dlls"&&cp $dlls $BUILDPATH
   get_dll_deps
   get_dll_deps
   current=`pwd`
   cd $loc
-  cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
-  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
-  cp --parents -a share/icons/Adwaita $BUILDPATH
+  echo cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
+  cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{svg,xpm}.dll $BUILDPATH
+  test -e lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-png.dll&&cp --parents lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-png.dll $BUILDPATH
+  cp --parents -a share/icons/Adwaita/{index.*,16x16,scalable} $BUILDPATH
+  rm -r -f $BUILDPATH/share/icons/Adwaita/*/emotes
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
+  cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
+  cp bin/gspawn-win??-helper*.exe $BUILDPATH
   cd $current
 fi
 
@@ -186,7 +188,7 @@ rm -f $BUILDPATH/html/COPYING $BUILDPATH/html/NEWS
 cp $TOPSRCDIR/COPYING $TOPSRCDIR/FEEDBACK $TOPSRCDIR/NEWS $TOPSRCDIR/README $BUILDPATH
 cp $TOPSRCDIR/doc/readmes/Readme-GTK3.txt $BUILDPATH
 mkdir $BUILDPATH/doc
-cp $TOPBUILDDIR/doc/vice.pdf $BUILDPATH/doc
+test -e $TOPBUILDDIR/doc/vice.pdf&&cp $TOPBUILDDIR/doc/vice.pdf $BUILDPATH/doc
 
 
 if test x"$ZIPKIND" = "xzip"; then
@@ -198,12 +200,12 @@ if test x"$ZIPKIND" = "xzip"; then
   fi
   rm -r -f $BUILDPATH
   echo "$WINXX GTK3 port binary distribution archive generated as:"
-  echo "in bash: $BUILDPATH.zip"
-  echo "in Windows: '`cygpath -wa \"$BUILDPATH.zip\"`'"
+  echo "(Bash path): $BUILDPATH.zip"
+  test x"$CROSS" != "xtrue"&&echo "(Windows path): '`cygpath -wa \"$BUILDPATH.zip\"`'"
 else
   echo "$WINXX GTK3 port binary distribution directory generated as:"
-  echo "in bash: $BUILDPATH/"
-  echo "in Windows: '`cygpath -wa \"$BUILDPATH/\"`'"
+  echo "(Bash path): $BUILDPATH/"
+  test x"$CROSS" != "xtrue"&&echo "(Windows path): '`cygpath -wa \"$BUILDPATH/\"`'"
 fi
 
 if test x"$ENABLEARCH" = "xyes"; then
