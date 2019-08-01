@@ -1070,21 +1070,23 @@ AC_TRY_COMPILE([],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
 
-AC_LANG_PUSH(C++)
+dnl C++ checks
+
+AC_LANG_PUSH([C++])
 
 dnl check if the C++ compiler support -Wno-address-of-packed-member
 AC_MSG_CHECKING([if the C++ compiler supports -Wno-address-of-packed-member])
 ORIG_CXXFLAGS="$CXXFLAGS"
-YES_CXXFLAGS="$CXXFLAGS -Wno-address-of-packed-member"
-CXXFLAGS="$YES_CXXFLAGS -Werror -Wno-unused-variable"
+CXXFLAGS="$CXXFLAGS -Wno-address-of-packed-member"
 AC_TRY_COMPILE([],
                [int test;],
-               [ AC_MSG_RESULT(yes)
-                 CXXFLAGS="$YES_CXXFLAGS" ],
+               [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CXXFLAGS="$ORIG_CXXFLAGS" ])
+AC_LANG_POP([C++])
 
 dnl check if the C++ compiler support -fdiagnostics-absolute-paths
+AC_LANG_PUSH([C++])
 AC_MSG_CHECKING([if the C++ compiler supports -fdiagnostics-absolute-paths])
 ORIG_CXXFLAGS="$CXXFLAGS"
 YES_CXXFLAGS="$CXXFLAGS -fdiagnostics-absolute-paths"
@@ -1095,8 +1097,7 @@ AC_TRY_COMPILE([],
                  CXXFLAGS="$YES_CXXFLAGS" ],
                [ AC_MSG_RESULT(no)
                  CXXFLAGS="$ORIG_CXXFLAGS" ])
-
-AC_LANG_POP(C++)
+AC_LANG_POP([C++])
 
 
 dnl check for debug build
