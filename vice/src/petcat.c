@@ -77,7 +77,6 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "machine.h"
-#include "network.h"
 #include "util.h"
 #include "vice-event.h"
 
@@ -136,7 +135,6 @@
 
 
 /* emu-compile crap */
-const char *machine_get_name(void);
 void ui_error_string(const char *text);
 void ui_error(const char *format, ...);
 char *kbd_get_menu_keyname(void);
@@ -1152,7 +1150,7 @@ int main(int argc, char **argv)
                 pet_2_asc(version, ctrls);
             } else {
                 load_addr = (getc(source) & 0xff);
-                load_addr |= (getc(source) & 0xff) << 8;
+                load_addr |= (unsigned int)(getc(source) & 0xff) << 8;
                 if (hdr) {
                     fprintf(dest, "==%04x==\n", load_addr);
                 }
@@ -2390,7 +2388,11 @@ int network_connected(void)
 
 int network_get_mode(void)
 {
+#if 0
     return NETWORK_IDLE;
+#else
+    return 0;
+#endif
 }
 
 void network_event_record(unsigned int type, void *data, unsigned int size)
