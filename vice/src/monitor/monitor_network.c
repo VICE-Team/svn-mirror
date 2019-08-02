@@ -62,12 +62,12 @@ int monitor_network_transmit(const char * buffer, size_t buffer_length)
     int error = 0;
 
     if (connected_socket) {
-        size_t len = vice_network_send(connected_socket, buffer, buffer_length, 0);
+        size_t len = (size_t)vice_network_send(connected_socket, buffer, buffer_length, 0);
 
         if (len != buffer_length) {
             error = -1;
         } else {
-            error = len;
+            error = (int)len;
         }
     }
 
@@ -158,7 +158,7 @@ static char * monitor_network_extract_text_command_line(char * pbuffer, int buff
 
             memmove(pbuffer, cr_end + 1, strlen(cr_end + 1));
 
-            *pbuffer_pos -= (int)(strlen(p) + (cr_end - cr_start) + 1);
+            *pbuffer_pos -= (int)(((long)strlen(p) + (cr_end - cr_start) + 1));
             pbuffer[*pbuffer_pos] = 0;
             break;
         } else if (*pbuffer_pos >= buffer_size) {
@@ -232,7 +232,7 @@ static char * monitor_network_extract_text_command_line(char * pbuffer, int buff
 #define MON_ERR_CMD_TOO_SHORT 0x80  /* command length is not enough for this command */
 #define MON_ERR_INVALID_PARAMETER 0x81  /* command has invalid parameters */
 
-static void monitor_network_binary_answer(unsigned int length, unsigned char errorcode, unsigned char * answer)
+static void monitor_network_binary_answer(uint32_t length, unsigned char errorcode, unsigned char * answer)
 {
     unsigned char binlength[6];
 
@@ -240,7 +240,7 @@ static void monitor_network_binary_answer(unsigned int length, unsigned char err
     binlength[1] = length & 0xFFu;
     binlength[2] = (length >> 8) & 0xFFu;
     binlength[3] = (length >> 16) & 0xFFu;
-    binlength[4] = (length >> 24) & 0xFFu;
+    binlength[4] = (uint8_t)(length >> 24) & 0xFFu;
     binlength[5] = errorcode;
 
     monitor_network_transmit((char*)binlength, sizeof binlength);
@@ -265,8 +265,10 @@ static void monitor_network_process_binary_command(unsigned char * pbuffer, int 
             if (command_length < 5) {
                 monitor_network_binary_error(MON_ERR_CMD_TOO_SHORT);
             } else {
-                unsigned int startaddress = pbuffer[3] | (pbuffer[4] << 8);
-                unsigned int endaddress = pbuffer[5] | (pbuffer[6] << 8);
+                unsigned int startaddress =
+                        (unsigned int)(pbuffer[3] | (pbuffer[4] << 8));
+                unsigned int endaddress =
+                        (unsigned int)(pbuffer[5] | (pbuffer[6] << 8));
 
                 MEMSPACE memspace = e_default_space;
 
@@ -329,7 +331,8 @@ char * monitor_network_get_command_line(void)
     do {
         /* Do not read more from network until all commands in current buffer is fully processed */
         if (bufferpos == 0) {
-            int n = monitor_network_receive(buffer + bufferpos, sizeof buffer - bufferpos - 1);
+            int n = monitor_network_receive(buffer + bufferpos,
+                            sizeof buffer - (size_t)(bufferpos - 1));
 
             if (n > 0) {
                 bufferpos += n;
@@ -349,7 +352,7 @@ char * monitor_network_get_command_line(void)
         if (monitor_binary_input) {
             if (bufferpos > 2) {
                 /* we already got the length, get it */
-                unsigned int command_length = buffer[1];
+                unsigned int command_length = (unsigned int)buffer[1];
 
                 if (3 + command_length <= (unsigned int)bufferpos) {
                     monitor_network_process_binary_command((unsigned char*)buffer, sizeof buffer, &bufferpos, command_length);
