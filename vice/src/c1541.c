@@ -88,7 +88,9 @@
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
+#if 0
 #include "network.h"
+#endif
 #include "serial.h"
 #include "snapshot.h"
 #include "tape.h"
@@ -165,13 +167,17 @@ int machine_bus_device_attach(unsigned int device, const char *name,
 struct vdrive_s *file_system_get_vdrive(unsigned int unit);
 void ui_error_string(const char *text);
 void vsync_suspend_speed_eval(void);
+#if 0
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
+#endif
 int machine_bus_lib_directory(unsigned int unit, const char *pattern, uint8_t **buf);
 int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf);
 int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf);
 unsigned int machine_bus_device_type_get(unsigned int unit);
 void machine_drive_flush(void);
+#if 0
 const char *machine_get_name(void);
+#endif
 
 /** \brief  Machine name
  */
@@ -306,7 +312,11 @@ int network_connected(void)
 
 int network_get_mode(void)
 {
+#if 0
     return NETWORK_IDLE;
+#else
+    return 0;
+#endif
 }
 
 void network_event_record(unsigned int type, void *data, unsigned int size)
@@ -1328,8 +1338,8 @@ static void bam_print_sector_header(int sectors)
     assert(sectors < BAM_SECTOR_HEADER_MAX_SECTORS);
 
     while (i < sectors && p < BAM_SECTOR_HEADER_MAX_STRLEN) {
-        line1[p] = (i / 10) + '0';
-        line2[p] = (i % 10) + '0';
+        line1[p] = (char)((i / 10) + '0');
+        line2[p] = (char)((i % 10) + '0');
         i++;
         p++;
         if ((i % 8 == 0) && (i <sectors)) {
@@ -3405,10 +3415,10 @@ static int read_geos_cmd(int nargs, char **args)
     namelen = strlen(src_name_ascii);
     parse_cmd = lib_calloc(1, sizeof *parse_cmd);
     parse_cmd->cmd = (const uint8_t *)src_name_ascii;
-    parse_cmd->cmdlength = namelen;
+    parse_cmd->cmdlength = (unsigned int)namelen;
     parse_cmd->parsecmd = lib_strdup(src_name_ascii); /* freed in
                                                            vdrive_iec_open() */
-    parse_cmd->parselength = namelen;
+    parse_cmd->parselength = (unsigned int)namelen;
     parse_cmd->secondary = 0;
     parse_cmd->filetype = CBMDOS_FT_USR;
     parse_cmd->readmode = CBMDOS_FAM_READ;
