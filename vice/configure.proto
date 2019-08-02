@@ -14,7 +14,7 @@ VICE_VERSION_MAJOR=3
 VICE_VERSION_MINOR=3
 VICE_VERSION_BUILD=0
 
-VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system's readline library])
+VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system readline library])
 VICE_ARG_WITH_LIST(pulse,         [  --without-pulse         do not use PulseAudio sound system])
 VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA sound system])
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
@@ -92,10 +92,53 @@ AC_PROG_CC_C99
 AS_IF([test x"$ac_cv_prog_cc_c99" = "xno"],
       [AC_MSG_ERROR([A C99-compliant compiler is required.])])
 AC_PROG_CPP
-AC_PROG_GCC_TRADITIONAL
 AC_PROG_CXX([g++ clang++ cc])
 AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
 AC_PROG_CXXCPP
+
+dnl Set default CFLAGS
+if test x"$CFLAGS" = "x"; then
+  CFLAGS="-g -O3"
+fi
+
+dnl Set default CXXFLAGS
+if test x"$CXXFLAGS" = "x"; then
+  CXXFLAGS="-g -O3"
+fi
+
+dnl Try global compiler warnings
+m4_foreach([flag],
+           [[-Wall],
+            [-Wextra],
+            [-Wformat],
+            [-Wformat-signedness],
+            [-Wformat-pedantic],
+            [-Wshadow]
+            [-Wpointer-arith],
+            [-Wcast-qual],
+            [-Wcast-align],
+            [-Wstrict-prototypes],
+            [-Wswitch-default],
+            [-Wswitch-enum],
+            [-Wuninitialized],
+            [-Wconversion],
+            [-Wredundant-decls],
+            [-Wnested-externs],
+            [-Wunreachable-code],
+            [-Wno-unused-parameter]],
+           [old_CFLAGS="$CFLAGS"
+             TMP_FLAG=flag
+             CFLAGS="$CFLAGS $TMP_FLAG"
+             AC_MSG_CHECKING([if the compiler supports $TMP_FLAG])
+             AC_TRY_COMPILE([],
+                            [int arse;],
+                            [AC_MSG_RESULT(yes)],
+                            [AC_MSG_RESULT(no)
+                             CFLAGS="$old_CFLAGS"])
+           ])
+
+
+
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_LEX
@@ -851,90 +894,8 @@ darwin*)
 
 dnl All other UN*X systems
 *)
-
-  case "$host" in
-    alpha*-*-linux*)
-      if test x"$CC" = "xccc"; then
-        echo "Using Compaq C Compiler cflags."
-        CFLAGS="$CFLAGS -w0 -g3 -migrate -fast -inline speed -unroll 0 -arch host -tune host"
-        AC_DEFINE(__DECALPHA__,1,[define when using the alpha compaq compiler])
-      fi
-      ;;
-
-    sparc-*-sunos4*)
-      if test x"$CC" = "xcc"; then
-        echo "Using Sun C Compiler cflags."
-        CFLAGS="$CFLAGS -O -xCC"
-      fi
-      ;;
-
-    alpha*-dec-osf*)
-      if test x"$CC" = "xcc"; then
-        echo "Using Tru64 C Compiler cflags."
-        CFLAGS="$CFLAGS -fast -O3 -std -g3 -non_shared"
-      fi
-      ;;
-  esac
-
   is_unix=yes
   is_unix_x11=yes
-
-  if test -z "$user_cflags" ; then
-
-    ORIG_CFLAGS="$CFLAGS"
-    dnl Check for the type of compiler first.
-    if test x"$GCC" = "xyes" ; then
-
-      AC_MSG_CHECKING([if the compiler supports -Wno-unused-parameter])
-      CFLAGS="$ORIG_CFLAGS -Wno-unused-parameter"
-      AC_TRY_COMPILE([],
-                     [int test;],
-                     [ AC_MSG_RESULT(yes)
-                       warn_no_up="-Wno-unused-parameter" ],
-                     [ AC_MSG_RESULT(no)
-                       warn_no_up="" ])
-      AC_MSG_CHECKING([if the compiler supports -Wno-sign-compare])
-      CFLAGS="$ORIG_CFLAGS -Wno-sign-compare"
-      AC_TRY_COMPILE([],
-                     [int test;],
-                     [ AC_MSG_RESULT(yes)
-                       warn_no_sc="-Wno-sign-compare" ],
-                     [ AC_MSG_RESULT(no)
-                       warn_no_sc="" ])
-      CFLAGS=$ORIG_CFLAGS
-
-      warnings_cxx="-Wall -W $warn_no_up $warn_no_mfi $warn_no_sc"
-      if test x"$enable_gnomeui" != "xyes" ; then
-          warnings_c="-Wstrict-prototypes $warnings_cxx"
-      else
-	  dnl "-Wstrict-prototypes" gives zillions of warnings in gtk headers
-	  dnl warnings_gnome="-DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-	  warnings_c="$warnings_gnome $warnings_cxx"
-      fi
-
-      dnl Set appropriate optimization options (better than the default -g -O)
-      dnl if using GCC.
-      dnl If the user has specified her own `CFLAGS', we do not override them.
-
-      optimization_c="-O3 $march"
-      optimization_cxx="-fno-exceptions $optimization_c"
-      dnl Use -g if available.
-      if test x"$ac_cv_prog_cc_g" = "xyes" ; then
-         CFLAGS="$CFLAGS -g $optimization_c $warnings_c"
-         CXXFLAGS="$CXXFLAGS -g $optimization_cxx $warnings_cxx"
-      else
-         CFLAGS="$CFLAGS $optimization_c $warnings_c"
-         CXXFLAGS="$CXXFLAGS $optimization_cxx $warnings_cxx"
-      fi
-
-      dnl Check whether the options are OK.
-      AC_PROG_CC
-
-    fi
-
-    dnl (If not on GCC, just keep the defaults, which are very conservative).
-
-  fi
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
@@ -957,16 +918,6 @@ esac
 fi
 
 
-dnl check if the compiler supports -Wmissing-prototypes
-AC_MSG_CHECKING([if the compiler supports -Wmissing-prototypes])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wmissing-prototypes"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
 dnl check if the compiler supports -Werror=implicit-function-declaration
 AC_MSG_CHECKING([if the compiler supports -Werror=implicit-function-declaration])
 ORIG_CFLAGS="$CFLAGS"
@@ -986,50 +937,6 @@ AC_TRY_COMPILE([],
                [ AC_MSG_RESULT(yes)],
                [ AC_MSG_RESULT(no)
                  CFLAGS="$ORIG_CFLAGS" ])
-
-dnl check if the compiler supports -Wshadow
-AC_MSG_CHECKING([if the compiler supports -Wshadow])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wshadow"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
-dnl check if the compiler supports -Wformat
-AC_MSG_CHECKING([if the compiler supports -Wformat])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wformat"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
-dnl check if the compiler supports -Wformat-signedness (GCC)
-AC_MSG_CHECKING([if the compiler supports -Wformat-signedness])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wformat-signedness"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
-dnl check if the compiler supports -Wformat-pedantic (clang)
-dnl This only seems to catch things like passing a Type* to %p and not casting
-dnl it to void*. Sounds like it could be useful for C++, not so much for C.
-dnl catch additional bugs.
-AC_MSG_CHECKING([if the compiler supports -Wformat-pedantic])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wformat-pedantic"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
 
 dnl check if the compiler supports -fdiagnostics-absolute-paths (clang)
 AC_MSG_CHECKING([if the compiler supports -fdiagnostics-absolute-paths])
