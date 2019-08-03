@@ -655,7 +655,7 @@ void keyboard_key_pressed(signed long key, int mod)
                                             keyconvmap[i].shift)) {
                 latch = 1;
                 if (!(keyconvmap[i].shift & ALLOW_OTHER)
-                    || (right_shift_down + left_shift_down) == 0) {
+                    /*|| (right_shift_down + left_shift_down) == 0*/) {
                     break;
                 }
             }
