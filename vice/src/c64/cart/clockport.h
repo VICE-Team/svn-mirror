@@ -40,7 +40,7 @@
 #define CLOCKPORT_MAX_ENTRIES            7
 
 typedef struct clockport_device_s {
-    char *owner;
+    const char *owner;
     int devicenr;
     void (*store)(uint16_t address, uint8_t byte, void *context);
     uint8_t (*read)(uint16_t address, int *valid, void *context);
@@ -64,7 +64,7 @@ typedef struct clockport_supported_devices_s {
 extern int clockport_resources_init(void);
 extern void clockport_resources_shutdown(void);
 
-extern clockport_device_t *clockport_open_device(int deviceid, char *owner);
+extern clockport_device_t *clockport_open_device(int deviceid, const char *owner);
 extern void clockport_close_device(clockport_device_t *device);
 
 extern clockport_supported_devices_t clockport_supported_devices[];

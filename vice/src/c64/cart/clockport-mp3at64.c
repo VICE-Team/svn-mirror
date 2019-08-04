@@ -724,7 +724,7 @@ void clockport_mp3at64_shutdown(void)
     mp3at64_reset();
 }
 
-clockport_device_t *clockport_mp3at64_open_device(char *owner)
+clockport_device_t *clockport_mp3at64_open_device(const char *owner)
 {
     clockport_device_t *retval = NULL;
     if (clockport_mp3at64_sound_chip.chip_enabled) {

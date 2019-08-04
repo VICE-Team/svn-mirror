@@ -127,7 +127,7 @@ void clockport_resources_shutdown(void)
 #endif
 }
 
-clockport_device_t *clockport_open_device(int deviceid, char *owner)
+clockport_device_t *clockport_open_device(int deviceid, const char *owner)
 {
     clockport_device_list_t *current = &clockport_device_head;
     clockport_device_t *retval = NULL;

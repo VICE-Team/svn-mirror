@@ -384,7 +384,7 @@ static int set_mmc64_clockport_device(int val, void *param)
     }
 
     if (val != CLOCKPORT_DEVICE_NONE) {
-        clockport_device = clockport_open_device(val, (char *)STRING_MMC64);
+        clockport_device = clockport_open_device(val, STRING_MMC64);
         if (!clockport_device) {
             return -1;
         }
@@ -403,7 +403,7 @@ static int clockport_activate(void)
         return 0;
     }
 
-    clockport_device = clockport_open_device(clockport_device_id, (char *)STRING_MMC64);
+    clockport_device = clockport_open_device(clockport_device_id, STRING_MMC64);
     if (!clockport_device) {
         return -1;
     }

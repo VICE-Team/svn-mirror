@@ -884,7 +884,7 @@ static int set_rr_clockport_device(int val, void *param)
     }
 
     if (val != CLOCKPORT_DEVICE_NONE) {
-        clockport_device = clockport_open_device(val, (char *)STRING_RETRO_REPLAY);
+        clockport_device = clockport_open_device(val, STRING_RETRO_REPLAY);
         if (!clockport_device) {
             return -1;
         }
@@ -903,7 +903,7 @@ static int clockport_activate(void)
         return 0;
     }
 
-    clockport_device = clockport_open_device(clockport_device_id, (char *)STRING_RETRO_REPLAY);
+    clockport_device = clockport_open_device(clockport_device_id, STRING_RETRO_REPLAY);
     if (!clockport_device) {
         return -1;
     }
