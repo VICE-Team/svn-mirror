@@ -49,9 +49,18 @@
 #include "uimon.h"
 #include "util.h"
 
+/* FIXME:
+ * Removing `const` from `str` and `abbrev` fixes this warning:
+../../../../vice/src/arch/gtk3/uimon.c: In function ‘console_init’:
+../../../../vice/src/arch/gtk3/uimon.c:710:17: warning: to be safe all intermediate pointers in cast from ‘char **’ to ‘const char **’ must be ‘const’ qualified [-Wcast-qual
+(const char **)&full_name,
+
+  Also had to do some additional hacking, would be nice to see a better solution.
+  See r36839.
+*/
 typedef struct mon_cmds_s {
-    const char *str;
-    const char *abbrev;
+    char *str;
+    char *abbrev;
     const char *param_names;
     const char *description;
     const int filename_as_arg;
@@ -726,7 +735,8 @@ static const mon_cmds_t mon_cmd_array[] = {
     { NULL, NULL, NULL, NULL, 0 }
 };
 
-int mon_get_nth_command(int index, const char** full_name, const char **short_name, int *takes_filename_as_arg)
+int mon_get_nth_command(int index, char **full_name, char **short_name,
+        int *takes_filename_as_arg)
 {
     if (index < 0 || index >= sizeof(mon_cmd_array) / sizeof(*mon_cmd_array) - 1) {
         return 0;

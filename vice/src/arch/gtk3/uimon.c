@@ -684,7 +684,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         if (*p) {
             linenoiseHistoryAdd(p);
         }
-        ret_string = lib_strdup(p);
+        ret_string = lib_strdup(p); /* LEAKS */
         free(p);
     } else {
         ret_string = lib_strdup("x");
@@ -706,7 +706,10 @@ int console_init(void)
         return consolefb_init();
     }
 
-    while (mon_get_nth_command(i++, (const char **)&full_name, (const char **)&short_name, &takes_filename_as_arg)) {
+    while (mon_get_nth_command(i++,
+                &full_name,
+                &short_name,
+                &takes_filename_as_arg)) {
         if (strlen(full_name)) {
             linenoiseAddCompletion(&command_lc, full_name);
             if (strlen(short_name)) {

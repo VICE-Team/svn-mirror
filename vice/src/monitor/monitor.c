@@ -872,9 +872,14 @@ void mon_screenshot_save(const char* filename, int format)
     }
 }
 
+
+/** \brief  Display current working directory
+ */
 void mon_show_pwd(void)
 {
-    mon_out("%s\n", ioutil_current_dir());
+    char *p = ioutil_current_dir();
+    mon_out("%s\n", p);
+    lib_free(p);
 }
 
 void mon_show_dir(const char *path)
@@ -1428,7 +1433,7 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
 
 void mon_change_dir(const char *path)
 {
-    if (ioutil_chdir((char*)path) < 0) {
+    if (ioutil_chdir(path) < 0) {
         mon_out("Cannot change to directory `%s':\n", path);
     }
 
