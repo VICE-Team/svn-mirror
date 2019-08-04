@@ -1,13 +1,15 @@
+/** \file   monitor.c
+ * \bief    The VICE built-in monitor.
+ *
+ * \author  Daniel Sladic <sladic@eecg.toronto.edu>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Daniel Kahlin <daniel@kahlin.net>
+ * \author  Thomas Giesel <skoe@directbox.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * monitor.c - The VICE built-in monitor.
- *
- * Written by
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
- *  Daniel Kahlin <daniel@kahlin.net>
- *  Thomas Giesel <skoe@directbox.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -55,6 +57,7 @@
 #include "ioutil.h"
 #include "kbdbuf.h"
 #include "lib.h"
+#include "util.h"
 #include "log.h"
 #include "machine.h"
 #include "machine-video.h"
@@ -882,7 +885,7 @@ void mon_show_dir(const char *path)
     char *fullname;
 
     if (path) {
-        mpath = (char *)path;
+        mpath = lib_strdup(path);
     } else {
         mpath = ioutil_current_dir();
     }
@@ -891,6 +894,7 @@ void mon_show_dir(const char *path)
     dir = ioutil_opendir(mpath, IOUTIL_OPENDIR_ALL_FILES);
     if (!dir) {
         mon_out("Couldn't open directory.\n");
+        lib_free(mpath);
         return;
     }
 
@@ -914,6 +918,7 @@ void mon_show_dir(const char *path)
             mon_out("%-20s?????\n", name);
         }
     }
+    lib_free(mpath);
     ioutil_closedir(dir);
 }
 

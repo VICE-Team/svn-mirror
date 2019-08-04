@@ -1,10 +1,12 @@
+/** \file   ioutil.c
+ * \brief   Miscellaneous IO utility functions
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * ioutil.c - Miscellaneous IO utility functions.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -91,7 +93,7 @@ int ioutil_access(const char *pathname, int mode)
 
 int ioutil_chdir(const char *path)
 {
-    return chdir((char*)path);
+    return chdir(path);
 }
 
 int ioutil_errno(unsigned int check)
@@ -215,8 +217,8 @@ static int files_amount = 0;
 
 static int ioutil_compare_names(const void* a, const void* b)
 {
-    ioutil_name_table_t *arg1 = (ioutil_name_table_t*)a;
-    ioutil_name_table_t *arg2 = (ioutil_name_table_t*)b;
+    const ioutil_name_table_t *arg1 = (const ioutil_name_table_t*)a;
+    const ioutil_name_table_t *arg2 = (const ioutil_name_table_t*)b;
     return strcmp(arg1->name, arg2->name);
 }
 
