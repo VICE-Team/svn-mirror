@@ -107,23 +107,27 @@ if test x"$CXXFLAGS" = "x"; then
 fi
 
 dnl Try global compiler warnings
+dnl
+dnl Temporarily removed:
+dnl     -Wextra (enables -Wsign-compare)
+dnl     -Wswitch-default
+dnl     -Wswitch-enum
+dnl     -Wconversion
+dnl     -Wredundant-decls
+dnl     -Wnested-externs
+dnl
+dnl (Commenting these out in the following list makes configure barf)
 m4_foreach([flag],
            [[-Wall],
-            [-Wextra],
             [-Wformat],
             [-Wformat-signedness],
             [-Wformat-pedantic],
-            [-Wshadow]
+            [-Wshadow],
             [-Wpointer-arith],
             [-Wcast-qual],
             [-Wcast-align],
             [-Wstrict-prototypes],
-            [-Wswitch-default],
-            [-Wswitch-enum],
             [-Wuninitialized],
-            [-Wconversion],
-            [-Wredundant-decls],
-            [-Wnested-externs],
             [-Wunreachable-code],
             [-Wno-unused-parameter]],
            [old_CFLAGS="$CFLAGS"
