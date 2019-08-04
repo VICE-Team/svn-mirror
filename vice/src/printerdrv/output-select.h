@@ -32,7 +32,7 @@
 struct output_parameter_s;
 
 struct output_select_s {
-    const char *output_name;
+    char *output_name;
     int (*output_open)(unsigned int prnr, struct output_parameter_s *output_parameter);
     void (*output_close)(unsigned int prnr);
     int (*output_putc)(unsigned int prnr, uint8_t b);

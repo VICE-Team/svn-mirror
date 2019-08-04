@@ -30,7 +30,7 @@
 #include "types.h"
 
 struct driver_select_s {
-    const char *drv_name;
+    char *drv_name;
     int (*drv_open)(unsigned int prnr, unsigned int secondary);
     void (*drv_close)(unsigned int prnr, unsigned int secondary);
     int (*drv_putc)(unsigned int prnr, unsigned int secondary, uint8_t b);
