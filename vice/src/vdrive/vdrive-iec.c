@@ -297,7 +297,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
         memset(name_stat, 0, sizeof(name_stat));
         strncpy((char *)name_stat, cmd_parse->parsecmd, sizeof(name_stat) - 1);
         name = name_stat;
-        length = (unsigned int)strlen((char *)name);
+        length = (unsigned int)strlen((const char *)name);
         secondary = cmd_parse->secondary;
     } else {
         cmd_parse = &cmd_parse_stat;
