@@ -300,7 +300,7 @@ void cmdline_show_help(void *userparam)
     /* AmigaOS used some translation function for this string: */
     printf("\nAvailable command-line options:\n\n");
     for (i = 0; i < num_options; i++) {
-        char *param = cmdline_options_get_param(i);
+        const char *param = cmdline_options_get_param(i);
         if ((options[i].attributes & CMDLINE_ATTRIB_NEED_ARGS) && param != NULL) {
             printf("%s %s\n", options[i].name, param);
         } else {
@@ -317,25 +317,25 @@ char *cmdline_options_get_name(int counter)
     return (char *)options[counter].name;
 }
 
-char *cmdline_options_get_param(int counter)
+const char *cmdline_options_get_param(int counter)
 {
-    return (char *)options[counter].param_name;
+    return options[counter].param_name;
 }
 
 char *cmdline_options_get_description(int counter)
 {
-    union char_func cf;
-
+    if (combined_string != NULL) {
+        lib_free(combined_string);
+        combined_string = NULL;
+    }
     if (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION) {
-        if (combined_string) {
-            lib_free(combined_string);
-        }
+        union char_func cf;
         cf.c = options[counter].description;
         combined_string = cf.f(options[counter].attributes >> 8);
-        return combined_string;
     } else {
-        return (char *)options[counter].description;
+        combined_string = lib_strdup(options[counter].description);
     }
+    return combined_string;
 }
 
 char *cmdline_options_string(void)

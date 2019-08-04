@@ -1463,7 +1463,7 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
     memcpy(name + name_len + 1, extension, ext_len + 1);
 }
 
-char *util_get_extension(char *filename)
+char *util_get_extension(const char *filename)
 {
     char *s;
 
