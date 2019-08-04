@@ -79,4 +79,32 @@ extern int rs232_cmdline_options_init(void);
 
 extern char *rs232_devfile[RS232_NUM_DEVICES];
 
+/* the "ip232" protocol used by tcpser 
+ 
+tcpser->vice
+
+0xff nn ->
+ nn = 0      DCD = false
+ nn = 1      DCD = true
+ nn = 255    literal 0xff
+other   ->   unchanged
+
+vice->tcpser
+
+0xff nn ->
+ nn = 0      DTR = false
+ nn = 1      DTR = true
+ nn = 255    literal 0xff
+other   ->   unchanged 
+
+*/
+
+#define IP232MAGIC  0xff
+/* reading */
+#define IP232DTRLO  0   
+#define IP232DTRHI  1
+/* sending */
+#define IP232DTDLO  0   
+#define IP232DTDHI  1   
+
 #endif

@@ -197,7 +197,7 @@ void rs232net_close(int fd)
 }
 
 /* sends a byte to the RS232 line */
-int rs232net_putc(int fd, uint8_t b)
+static int _rs232net_putc(int fd, uint8_t b)
 {
     int n;
 
@@ -229,7 +229,7 @@ int rs232net_putc(int fd, uint8_t b)
 }
 
 /* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
-int rs232net_getc(int fd, uint8_t * b)
+static int _rs232net_getc(int fd, uint8_t * b)
 {
     int ret;
     int no_of_read_byte = -1;
@@ -273,21 +273,68 @@ int rs232net_getc(int fd, uint8_t * b)
         }
     } while (0);
 
-    return (int)no_of_read_byte;
+    return no_of_read_byte;
+}
+
+static int useip232 = 0;    /* FIXME: this should be optional */
+
+/* sends a byte to the RS232 line */
+int rs232net_putc(int fd, uint8_t b)
+{
+    if (useip232) {
+        if (b == IP232MAGIC) {
+            if (_rs232net_putc(fd, IP232MAGIC) == -1) {
+                return -1;
+            }
+        }
+    }
+
+    return _rs232net_putc(fd, b);
+}
+
+/* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
+int rs232net_getc(int fd, uint8_t * b)
+{
+    int ret = -1;
+    
+tryagain:
+
+    ret = _rs232net_getc(fd, b);
+
+    if (useip232) {
+        if (*b == IP232MAGIC) {
+            if ((ret = _rs232net_getc(fd, b)) < 1) {
+                return ret;
+            }
+            switch (*b) {
+                case IP232DTRLO: /* FIXME: dtr false */
+                    goto tryagain;
+                case IP232DTRHI: /* FIXME: dtr true */
+                    goto tryagain;
+                case 0xff:
+                    break;
+            }
+        }
+    }
+    
+    return ret;
 }
 
 /* set the status lines of the RS232 device */
 int rs232net_set_status(int fd, enum rs232handshake_out status)
 {
-    /* unused */
-
+    if (useip232) {
+        /* FIXME */
+    }
     return 0;
 }
 
 /* get the status lines of the RS232 device */
 enum rs232handshake_in rs232net_get_status(int fd)
 {
-    /*! \todo dummy */
+    if (useip232) {
+        /* FIXME */
+    }
     return RS232_HSI_CTS | RS232_HSI_DSR;
 }
 #endif
