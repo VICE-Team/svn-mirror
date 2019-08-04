@@ -701,9 +701,8 @@ void *lib_realloc(void *ptr, size_t size)
 #ifdef LIB_DEBUG_PINPOINT
 static
 #endif
-void lib_free(const void *constptr)
+void lib_free(void *ptr)
 {
-    void * ptr = (void*) constptr;
 #ifdef LIB_DEBUG
     lib_debug_free(ptr, 1, true);
 #endif
@@ -1185,7 +1184,7 @@ void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line)
     return lib_malloc(size);
 }
 
-void lib_free_pinpoint(const void *p, const char *name, unsigned int line)
+void lib_free_pinpoint(void *p, const char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;

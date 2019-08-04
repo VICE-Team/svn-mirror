@@ -64,7 +64,7 @@ extern int lib_snprintf(char *str, size_t len, const char *fmt, ...);
 extern void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line);
 extern void *lib_calloc_pinpoint(size_t nmemb, size_t size, const char *name, unsigned int line);
 extern void *lib_realloc_pinpoint(void *p, size_t size, const char *name, unsigned int line);
-extern void lib_free_pinpoint(const void *p, const char *name, unsigned int line);
+extern void lib_free_pinpoint(void *p, const char *name, unsigned int line);
 
 extern char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int line);
 
@@ -95,7 +95,7 @@ extern void lib_FreeMem_pinpoint(void *ptr, unsigned long size, char *name, unsi
 extern void *lib_malloc(size_t size);
 extern void *lib_calloc(size_t nmemb, size_t size);
 extern void *lib_realloc(void *p, size_t size);
-extern void lib_free(const void *ptr);
+extern void lib_free(void *ptr);
 
 extern char *lib_strdup(const char *str);
 
