@@ -80,13 +80,20 @@ static int cs8900io_cannot_use = 0;
 
 /* Flag: Do we have the CS8900 I/O enabled?  */
 static int cs8900io_enabled = 0;
-static char *cs8900io_owner = NULL;
+static const char *cs8900io_owner = NULL;
 
 static char *cs8900io_interface = NULL;
 
 static int cs8900io_init_done = 0;
 static int cs8900io_resources_init_done = 0;
 static int cs8900io_cmdline_init_done = 0;
+
+
+/** \brief  Keep track of default IF used as a factory value
+ *
+ */
+static char *default_if;
+
 
 /* ------------------------------------------------------------------------- */
 /*    initialization and deinitialization functions                          */
@@ -224,7 +231,7 @@ int cs8900io_cart_enabled(void)
     return cs8900io_enabled;
 }
 
-int cs8900io_enable(char *owner)
+int cs8900io_enable(const char *owner)
 {
     if (!cs8900io_cannot_use) {
         if (!cs8900io_enabled) {
@@ -301,10 +308,9 @@ static const resource_int_t resources_int[] = {
 
 int cs8900io_resources_init(void)
 {
-    char *default_if = NULL;
-
     if (!cs8900io_resources_init_done) {
 
+        /* allocated in src/arch/shared/rawnetarch_unix/win32/c */
         default_if = rawnet_get_standard_interface();
 
         if (default_if == NULL) {
@@ -329,9 +335,9 @@ void cs8900io_resources_shutdown(void)
         lib_free(cs8900io_interface);
         cs8900io_interface = NULL;
     }
-    if (resources_string[0].factory_value != NULL) {
-        lib_free(resources_string[0].factory_value);
-        resources_string[0].factory_value = NULL;
+    if (default_if != NULL) {
+        lib_free(default_if);
+        default_if = NULL;
     }
 }
 

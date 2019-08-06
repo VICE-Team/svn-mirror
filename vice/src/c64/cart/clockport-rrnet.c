@@ -138,7 +138,7 @@ void clockport_rrnet_shutdown(void)
     }
 }
 
-clockport_device_t *clockport_rrnet_open_device(char *owner, int deviceid)
+clockport_device_t *clockport_rrnet_open_device(const char *owner, int deviceid)
 {
     clockport_device_t *retval = NULL;
     if (clockport_rrnet_enabled) {

@@ -45,7 +45,7 @@ extern int cs8900io_cmdline_options_init(void);
 
 extern void cs8900io_reset(void);
 extern void cs8900io_detach(void);
-extern int cs8900io_enable(char *owner);
+extern int cs8900io_enable(const char *owner);
 extern int cs8900io_disable(void);
 
 extern void cs8900io_store(uint16_t io_address, uint8_t byte);

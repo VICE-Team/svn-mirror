@@ -29,6 +29,6 @@
 
 extern int clockport_rrnet_init(void);
 extern void clockport_rrnet_shutdown(void);
-extern clockport_device_t *clockport_rrnet_open_device(char *owner, int deviceid);
+extern clockport_device_t *clockport_rrnet_open_device(const char *owner, int deviceid);
 
 #endif
