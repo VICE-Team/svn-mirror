@@ -986,7 +986,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
  */
 static void disk_dir_autostart_callback(const char *image, int index)
 {
-    const char *autostart_image;
+    char *autostart_image;
 
     debug_gtk3("Got image '%s', file index %d to autostart",
             image, index);
@@ -1008,7 +1008,7 @@ static void disk_dir_autostart_callback(const char *image, int index)
  */
 static void tape_dir_autostart_callback(const char *image, int index)
 {
-    const char *autostart_image;
+    char *autostart_image;
 
     debug_gtk3("Got image '%s', file index %d to autostart",
             image, index);
