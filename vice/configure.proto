@@ -115,6 +115,7 @@ dnl     -Wswitch-enum
 dnl     -Wconversion
 dnl     -Wredundant-decls
 dnl     -Wnested-externs
+dnl     -Wcast-qual
 dnl
 dnl (Commenting these out in the following list makes configure barf)
 m4_foreach([flag],
@@ -124,7 +125,6 @@ m4_foreach([flag],
             [-Wformat-pedantic],
             [-Wshadow],
             [-Wpointer-arith],
-            [-Wcast-qual],
             [-Wcast-align],
             [-Wstrict-prototypes],
             [-Wuninitialized],
