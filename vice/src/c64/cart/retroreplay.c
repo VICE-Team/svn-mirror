@@ -710,6 +710,7 @@ void retroreplay_mmu_translate(unsigned int addr, uint8_t **base, int *start, in
 static int retroreplay_dump(void)
 {
     /* FIXME: incomplete */
+    mon_out("Hardware Revision: %d (%s Replay).\n", rr_revision, rr_revision ? "Nordic" : "Retro");
     mon_out("Retro Replay registers are %s.\n", rr_active ? "enabled" : "disabled");
     mon_out("Clockport is %s.\n", rr_clockport_enabled ? "enabled" : "disabled");
     mon_out("Clockport device: %s.\n", clockport_device_id_to_name(clockport_device_id));
@@ -1080,7 +1081,7 @@ int retroreplay_bin_attach(const char *filename, uint8_t *rawcart)
     a CRT may contain up to 16 8k chunks. 32K, 64K and 128K total are accepted.
     - 32K and 64K files will always get loaded into logical bank 0
 */
-int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
+int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename, uint8_t revision)
 {
     crt_chip_header_t chip;
     int i;
@@ -1110,6 +1111,10 @@ int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 
     retroreplay_filetype = CARTRIDGE_FILETYPE_CRT;
     retroreplay_filename = lib_strdup(filename);
+    
+    if (revision > 0) {
+        rr_revision = RR_REV_NORDIC_REPLAY;
+    }
 
     return retroreplay_common_attach();
 }
@@ -1171,7 +1176,7 @@ int retroreplay_crt_save(const char *filename)
     uint8_t *data;
     int i;
 
-    fd = crt_create(filename, CARTRIDGE_RETRO_REPLAY, 1, 0, STRING_RETRO_REPLAY);
+    fd = crt_create_v11(filename, CARTRIDGE_RETRO_REPLAY, rr_revision, 1, 0, STRING_RETRO_REPLAY);
 
     if (fd == NULL) {
         return -1;

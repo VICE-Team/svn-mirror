@@ -155,6 +155,7 @@ FILE *crt_open(const char *filename, crt_header_t *header)
 
         header->version = util_be_buf_to_word(&crt_header[0x14]);
         header->type = util_be_buf_to_word(&crt_header[0x16]);
+        header->subtype = crt_header[0x1a];
         header->exrom = crt_header[0x18];
         header->game = crt_header[0x19];
         memset(header->name, 0, sizeof(header->name));
@@ -297,6 +298,40 @@ FILE *crt_create(const char *filename, int type, int exrom, int game, const char
     util_word_to_be_buf(&crt_header[0x16], (uint16_t)type);
     crt_header[0x18] = exrom ? 1 : 0;
     crt_header[0x19] = game ? 1 : 0;
+    strncpy((char*)(crt_header + 0x20), name, sizeof(crt_header) - 0x20 - 1);
+
+    if (fwrite(crt_header, sizeof(crt_header), 1, fd) < 1) {
+        fclose(fd);
+        return NULL;
+    }
+
+    return fd;
+}
+
+/* create v1.1 header with sub type */
+FILE *crt_create_v11(const char *filename, int type, int subtype, int exrom, int game, const char *name)
+{
+    uint8_t crt_header[0x40];
+    FILE *fd;
+
+    if (filename == NULL) {
+        return NULL;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return NULL;
+    }
+
+    memset(&crt_header, 0, sizeof(crt_header));
+    memcpy(crt_header, CRT_HEADER, 16);
+    util_dword_to_be_buf(&crt_header[0x10], sizeof(crt_header));
+    util_word_to_be_buf(&crt_header[0x14], 0x100); /* version */
+    util_word_to_be_buf(&crt_header[0x16], (uint16_t)type);
+    crt_header[0x18] = exrom ? 1 : 0;
+    crt_header[0x19] = game ? 1 : 0;
+    crt_header[0x1a] = subtype;
     strncpy((char*)(crt_header + 0x20), name, sizeof(crt_header) - 0x20 - 1);
 
     if (fwrite(crt_header, sizeof(crt_header), 1, fd) < 1) {
@@ -480,7 +515,7 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             rc = pagefox_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            rc = retroreplay_crt_attach(fd, rawcart, filename);
+            rc = retroreplay_crt_attach(fd, rawcart, filename, header.subtype);
             break;
         case CARTRIDGE_REX_EP256:
             rc = rexep256_crt_attach(fd, rawcart);

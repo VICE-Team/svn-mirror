@@ -60,6 +60,7 @@ static int (*chip_func)(crt_chip_header_t *, FILE *) = NULL;
 
 
 static GtkWidget *crtid_label = NULL;
+static GtkWidget *crtrevision_label = NULL;
 static GtkWidget *crtname_label = NULL;
 static GtkWidget *exrom_label = NULL;
 static GtkWidget *game_label = NULL;
@@ -242,6 +243,12 @@ GtkWidget *crt_preview_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), crtid_label, 1, row, 1, 1);
     row++;
 
+    label = create_label("Revision:");
+    crtrevision_label = create_label("<unknown>");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), crtrevision_label, 1, row, 1, 1);
+    row++;
+
     label = create_label("Name:");
     crtname_label = create_label("<unknown>");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
@@ -336,6 +343,7 @@ void crt_preview_widget_update(const gchar *path)
     if (fd == NULL) {
         debug_gtk3("failed to open crt image");
         gtk_label_set_text(GTK_LABEL(crtid_label), "<unknown>");
+        gtk_label_set_text(GTK_LABEL(crtrevision_label), "<unknown>");
         gtk_label_set_text(GTK_LABEL(crtname_label), "<unknown>");
         gtk_label_set_text(GTK_LABEL(exrom_label), "<unknown>");
         gtk_label_set_text(GTK_LABEL(game_label), "<unknown>");
@@ -345,6 +353,10 @@ void crt_preview_widget_update(const gchar *path)
     /* type */
     g_snprintf(buffer, sizeof(buffer), "%d", (int)header.type);
     gtk_label_set_text(GTK_LABEL(crtid_label), buffer);
+
+    /* revision */
+    g_snprintf(buffer, sizeof(buffer), "%d", (int)header.subtype);
+    gtk_label_set_text(GTK_LABEL(crtrevision_label), buffer);
 
     /* name */
     gtk_label_set_text(GTK_LABEL(crtname_label), header.name);

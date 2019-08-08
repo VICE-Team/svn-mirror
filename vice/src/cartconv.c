@@ -59,6 +59,7 @@ static char *output_filename = NULL;
 static char *input_filename[33];
 static char *cart_name = NULL;
 static signed char cart_type = -1;
+static unsigned char cart_subtype = 0;
 static char convert_to_bin = 0;
 static char convert_to_prg = 0;
 static char convert_to_ultimax = 0;
@@ -360,13 +361,14 @@ static void usage_types(void)
 static void usage(void)
 {
     cleanup();
-    printf("convert:    cartconv [-r] [-q] [-t cart type] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
+    printf("convert:    cartconv [-r] [-q] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
     printf("print info: cartconv [-r] -f \"input name\"\n\n");
     printf("-f <name>    print info on file\n");
     printf("-r           repair mode (accept broken input files)\n");
     printf("-p           accept non padded binaries as input\n");
     printf("-b           output all banks (do not optimize the .crt file)\n");
     printf("-t <type>    output cart type\n");
+    printf("-s <rev>     output cart revision/subtype\n");
     printf("-i <name>    input filename\n");
     printf("-o <name>    output filename\n");
     printf("-n <name>    crt cart name\n");
@@ -485,6 +487,7 @@ static void printinfo(char *name)
     printf("CRT Version: %d.%d\n", headerbuffer[0x14], headerbuffer[0x15]);
     printf("Name: %s\n", cartname);
     printf("Hardware ID: %d (%s)\n", crtid, idname);
+    printf("Hardware Revision: %d\n", headerbuffer[0x1a]);
     printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
     if (exrom_warning) {
         printf("%s", exrom_warning);
@@ -543,6 +546,14 @@ static int checkflag(char *flg, char *arg)
             checkarg(arg);
             if (load_address == 0) {
                 load_address = atoi(arg);
+            } else {
+                usage();
+            }
+            return 2;
+        case 's':
+            checkarg(arg);
+            if (cart_subtype == 0) {
+                cart_subtype = atoi(arg);
             } else {
                 usage();
             }
@@ -728,21 +739,29 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
     int endofname = 0;
     int i;
 
+    /* header length */
     crt_header[0x10] = 0;
     crt_header[0x11] = 0;
     crt_header[0x12] = 0;
     crt_header[0x13] = 0x40;
 
-    crt_header[0x14] = 1;
-    crt_header[0x15] = 0;
+    crt_header[0x14] = 1;   /* crt version high */
+    /* crt version low */
+    if (cart_subtype > 0) {
+        crt_header[0x15] = 1;   
+    } else {
+        crt_header[0x15] = 0;   
+    }
 
-    crt_header[0x16] = 0;
+    crt_header[0x16] = 0;   /* cart type high */
     crt_header[0x17] = (unsigned char)cart_type;
 
     crt_header[0x18] = exromline;
     crt_header[0x19] = gameline;
 
-    crt_header[0x1a] = 0;
+    crt_header[0x1a] = cart_subtype;
+    
+    /* unused/reserved */
     crt_header[0x1b] = 0;
     crt_header[0x1c] = 0;
     crt_header[0x1d] = 0;
@@ -824,7 +843,8 @@ static void bin2crt_ok(void)
     if (!quiet_mode) {
         printf("Input file : %s\n", input_filename[0]);
         printf("Output file : %s\n", output_filename);
-        printf("Conversion from binary format to %s .crt successful.\n", cart_info[(unsigned char)cart_type].name);
+        printf("Conversion from binary format to %s .crt successful.\n", 
+               cart_info[(unsigned char)cart_type].name);
     }
 }
 

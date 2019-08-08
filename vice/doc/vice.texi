@@ -22091,7 +22091,7 @@ Camels"@dots{}
                      calculated from offset $0000). The default  (also  the
                      minimum) value is $40.  Some  cartridges  exist  which
                      show a value of $00000020 which is wrong.
-         0014-0015 - Cartridge version (high/low, presently 01.00)
+         0014-0015 - Cartridge version (high/low, presently 01.01)
          0016-0017 - Cartridge hardware type ($0000, high/low)
                        0 - Normal cartridge
                        1 - Action Replay
@@ -22161,7 +22161,8 @@ Camels"@dots{}
               0019 - Cartridge port GAME line status
                       0 - active (lo)
                       1 - inactive (hi)
-         001A-001F - Reserved for future use
+              001A - Cartridge Hardware Revision/Subtype (usually 0)
+         001B-001F - Reserved for future use
          0020-003F - 32-byte cartridge  name  "CCSMON"  (uppercase,  padded
                      with null characters)
          0040-xxxx - Cartridge contents (called CHIP PACKETS, as there  can
@@ -23952,6 +23953,9 @@ load files of this type.
 0050: 09 80 0C 80 C3 C2 CD 38 30 4C 7F 81 4C 87 81 4C  .......80L..L..L
 @end example
 
+    Note: When the Cartridge Hardware Subtype/Revision (Offset 0x1A in the
+    CRT Header) is 1, then the image utilizes features only present in the
+    "Nordic Replay" (see description of Nordic/Atomic Power)
 
     The Retro Replay has three registers: Two write-only ($DE00  &  $DE01)
     and one read-only register ($DE00 & $DE01 giving the same results).

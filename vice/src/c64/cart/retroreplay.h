@@ -59,7 +59,7 @@ extern void retroreplay_config_init(void);
 extern void retroreplay_reset(void);
 extern void retroreplay_config_setup(uint8_t *rawcart);
 extern int retroreplay_bin_attach(const char *filename, uint8_t *rawcart);
-extern int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
+extern int retroreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename, uint8_t revision);
 extern int retroreplay_bin_save(const char *filename);
 extern int retroreplay_crt_save(const char *filename);
 extern int retroreplay_flush_image(void);

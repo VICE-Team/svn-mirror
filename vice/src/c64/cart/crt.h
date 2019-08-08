@@ -31,8 +31,9 @@
 #include "types.h"
 
 typedef struct crt_header_s {
-    uint16_t version;             /* version */
-    uint16_t type;                /* type of cartridge */
+    uint16_t version;         /* version */
+    uint16_t type;            /* type of cartridge */
+    uint8_t subtype;          /* subtype/hardware revision of cartridge */
     int exrom;                /* exrom line status */
     int game;                 /* game line status */
     char name[32 + 1];        /* name of cartridge */
@@ -53,5 +54,7 @@ extern int crt_read_chip_header(crt_chip_header_t *header, FILE *fd);
 extern int crt_read_chip(uint8_t *rawcart, int offset, crt_chip_header_t *chip, FILE *fd);
 extern FILE *crt_create(const char *filename, int type, int exrom, int game, const char *name);
 extern int crt_write_chip(uint8_t *data, crt_chip_header_t *header, FILE *fd);
+/* create v1.1 header with sub type */
+extern FILE *crt_create_v11(const char *filename, int type, int subtype, int exrom, int game, const char *name);
 
 #endif
