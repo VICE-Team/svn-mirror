@@ -119,7 +119,11 @@ static int cs8900io_activate(void)
             case -2:
                 cs8900io_enabled = 0;
                 cs8900io_cannot_use = 1;
-                ui_error("No PCAP library is installed, cannot use ethernet based devices.");
+                ui_error("Failed to initialize PCAP library, cannot use"
+                       " ethernet based devices.\n\n"
+                       "On Windows make sure the pcap DLL is installed,"
+                       " on Unix make sure to run VICE as root, on MacOS"
+                       " you're on your own.");
                 return -1;
         }
     } else {
