@@ -94,13 +94,14 @@ int romset_cmdline_options_init()
     return cmdline_register_options(cmdline_options);
 }
 
-static const char *prepend_dir_to_path(const char *dir)
+static char *prepend_dir_to_path(const char *dir)
 {
-    const char *saved_path;
+    const char *res_path;   /* path from the resource */
+    char *saved_path;
     char *new_path;
 
-    resources_get_string("Directory", &saved_path);
-    saved_path = lib_strdup(saved_path);
+    resources_get_string("Directory", &res_path);
+    saved_path = lib_strdup(res_path);
 
     if (dir && *dir) {
         new_path = util_concat(dir,
@@ -122,7 +123,10 @@ static const char *prepend_dir_to_path(const char *dir)
     return saved_path;
 }
 
-static void restore_path(const char *saved_path)
+
+/* XXX: Warning: frees its argument
+ */
+static void restore_path(char *saved_path)
 {
     resources_set_string("Directory", saved_path);
     lib_free(saved_path);
@@ -134,7 +138,7 @@ int romset_file_load(const char *filename)
     int retval, line_num;
     int err = 0;
     char *complete_path, *dir;
-    const char *saved_path;
+    char *saved_path;
 
     if (filename == NULL) {
         log_error(romset_log, "ROM set filename is NULL!");
@@ -176,7 +180,10 @@ int romset_file_load(const char *filename)
         line_num++;
     } while (retval != 0);
 
-    /* Restore search path */
+    /* Restore search path
+     *
+     * Deallocates its argument, seems iffy
+     */
     restore_path(saved_path);
     fclose(fp);
 
@@ -472,7 +479,7 @@ int romset_archive_item_select(const char *romset_name)
     for (i = 0, item = romsets; i < num_romsets; i++, item++) {
         if (strcmp(romset_name, item->name) == 0) {
             /* Prepend dir to search path */
-            const char *saved_path = prepend_dir_to_path(romset_dir);
+            char *saved_path = prepend_dir_to_path(romset_dir);
 
             while (item->next != NULL) {
                 /* FIXME: Apparently there are no boundary checks! */
