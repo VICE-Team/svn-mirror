@@ -179,7 +179,16 @@ static const char * const AutostartRunCommandsAvailable[] = {
     "RUN\r", "RUN:\r"
 };
 
+/** \brief  Keep track of the generated 'factory' value for the default disk
+ *
+ * Factory values are const, so we need a little extra code to avoid free'ing
+ * a const.
+ */
+static char *autostart_default_diskimage = NULL;
+
+
 static const char * AutostartRunCommand = NULL;
+
 
 static void set_handle_true_drive_emulation_state(void)
 {
@@ -320,7 +329,8 @@ static const resource_int_t resources_int[] = {
 */
 int autostart_resources_init(void)
 {
-    resources_string[0].factory_value = archdep_default_autostart_disk_image_file_name();
+    autostart_default_diskimage = archdep_default_autostart_disk_image_file_name();
+    resources_string[0].factory_value = autostart_default_diskimage;
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -332,7 +342,7 @@ int autostart_resources_init(void)
 void autostart_resources_shutdown(void)
 {
     lib_free(AutostartPrgDiskImage);
-    lib_free(resources_string[0].factory_value);
+    lib_free(autostart_default_diskimage);
 }
 
 /* ------------------------------------------------------------------------- */
