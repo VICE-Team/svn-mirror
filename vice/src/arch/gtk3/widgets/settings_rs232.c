@@ -17,6 +17,10 @@
  * $VICERES RsDevice2       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice3       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice4       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice1ip232  x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice2ip232  x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice3ip232  x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice4ip232  x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice1Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  * $VICERES RsDevice2Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  */
@@ -61,8 +65,8 @@
 static const vice_gtk3_combo_entry_int_t acia_devices[] = {
     { "Serial 1", 0 },
     { "Serial 2", 1 },
-    { "Dump to file", 2 },
-    { "Execute process", 3 },
+    { "Serial 3", 2 },
+    { "Serial 4", 3 },
     { NULL, -1 }
 };
 
@@ -454,11 +458,12 @@ static GtkWidget *create_rs232_devices_widget(void)
     GtkWidget *ser1_baud_widget;
     GtkWidget *ser2_file_widget;
     GtkWidget *ser2_baud_widget;
-    GtkWidget *dump_widget;
-    GtkWidget *command_widget;
+    GtkWidget *ser3_file_widget;
+    GtkWidget *ser3_baud_widget;
+    GtkWidget *ser4_file_widget;
+    GtkWidget *ser4_baud_widget;
     /* ttyu[0-3] are supposedly set up on FreeBSD */
     const char *patterns_ttys[] = { "ttyS*", "ttyu*", NULL };
-    const char *patterns_dump[] = { "*", NULL };
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     label = gtk_label_new(NULL);
@@ -488,20 +493,27 @@ static GtkWidget *create_rs232_devices_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser2_baud_widget, 3, 2, 1, 1);
 
-
-    label = create_indented_label("Dump file");
-    dump_widget = vice_gtk3_resource_browser_new("RsDevice3",
-            patterns_dump, "All files", "Select RS232 dump file",
-            NULL, NULL);
+    label = create_indented_label("Serial 3");
+    ser3_file_widget = vice_gtk3_resource_browser_new(
+            "RsDevice3", patterns_ttys, "Serial ports",
+            "Select serial port", NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), dump_widget, 1, 3, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), ser3_file_widget, 1, 3, 1, 1);
+    label = gtk_label_new("Baud");
+    ser3_baud_widget = create_serial_baud_widget("RsDevice3Baud");
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ser3_baud_widget, 3, 3, 1, 1);
 
-    label = create_indented_label("Command");
-    command_widget = vice_gtk3_resource_entry_full_new("RsDevice4");
+    label = create_indented_label("Serial 4");
+    ser4_file_widget = vice_gtk3_resource_browser_new(
+            "RsDevice4", patterns_ttys, "Serial ports",
+            "Select serial port", NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), command_widget, 1, 4, 3, 1);
-
-
+    gtk_grid_attach(GTK_GRID(grid), ser4_file_widget, 1, 4, 1, 1);
+    label = gtk_label_new("Baud");
+    ser4_baud_widget = create_serial_baud_widget("RsDevice4Baud");
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ser4_baud_widget, 3, 4, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
