@@ -89,6 +89,7 @@ typedef struct rs232net {
                     although inuse == 1, then the socket has been closed
                     because of a previous error. This prevents the error
                     log from being flooded with error messages. */
+    int useip232; /*!< 1 to use the ip232 protocol for tcpser */
 } rs232net_t;
 
 /* C99 standard guarantees all members of an object of static storage are
@@ -156,6 +157,7 @@ int rs232net_open(int device)
         }
 
         fds[i].inuse = 1;
+        fds[i].useip232 = rs232_useip232[device];
 
         index = i;
 
@@ -276,12 +278,10 @@ static int _rs232net_getc(int fd, uint8_t * b)
     return no_of_read_byte;
 }
 
-static int useip232 = 0;    /* FIXME: this should be optional */
-
 /* sends a byte to the RS232 line */
 int rs232net_putc(int fd, uint8_t b)
 {
-    if (useip232) {
+    if (fds[fd].useip232) {
         if (b == IP232MAGIC) {
             if (_rs232net_putc(fd, IP232MAGIC) == -1) {
                 return -1;
@@ -301,7 +301,7 @@ tryagain:
 
     ret = _rs232net_getc(fd, b);
 
-    if (useip232) {
+    if (fds[fd].useip232) {
         if (*b == IP232MAGIC) {
             if ((ret = _rs232net_getc(fd, b)) < 1) {
                 return ret;
@@ -323,7 +323,7 @@ tryagain:
 /* set the status lines of the RS232 device */
 int rs232net_set_status(int fd, enum rs232handshake_out status)
 {
-    if (useip232) {
+    if (fds[fd].useip232) {
         /* FIXME */
     }
     return 0;
@@ -332,7 +332,7 @@ int rs232net_set_status(int fd, enum rs232handshake_out status)
 /* get the status lines of the RS232 device */
 enum rs232handshake_in rs232net_get_status(int fd)
 {
-    if (useip232) {
+    if (fds[fd].useip232) {
         /* FIXME */
     }
     return RS232_HSI_CTS | RS232_HSI_DSR;

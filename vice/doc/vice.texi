@@ -5105,6 +5105,21 @@ Strings specifying the RS232 devices (@pxref{RS232 settings}).
 
 @table @code
 
+@vindex RsDevice1ip232
+@vindex RsDevice2ip232
+@vindex RsDevice3ip232
+@vindex RsDevice4ip232
+@item RsDevice1ip232
+@itemx RsDevice2ip232
+@itemx RsDevice3ip232
+@itemx RsDevice4ip232
+Boolean specifying whether the respective RS232 devices (@pxref{RS232 settings}) use the IP232 protocol.
+This only works with Socket connections.
+
+@end table
+
+@table @code
+
 @vindex Acia1Enable
 @item Acia1Enable
 Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be emulated or not
@@ -5184,6 +5199,25 @@ to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
 @itemx -rsdev4 <Name>
 Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
+
+@end table
+
+@table @code
+
+@findex -rsdev1ip232, +rsdev1ip232
+@item -rsdev1ip232
+@itemx +rsdev1ip232
+@findex -rsdev2ip232, +rsdev2ip232
+@item -rsdev2ip232
+@itemx +rsdev2ip232
+@findex -rsdev3ip232, +rsdev3ip232
+@item -rsdev3ip232
+@itemx +rsdev3ip232
+@findex -rsdev4ip232, +rsdev4ip232
+@item -rsdev4ip232
+@itemx +rsdev4ip232
+Enable/Disable whether the respective RS232 devices (@pxref{RS232 settings}) use the IP232 protocol.
+This only works with Socket connections.
 
 @end table
 

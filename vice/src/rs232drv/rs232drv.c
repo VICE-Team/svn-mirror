@@ -38,10 +38,21 @@
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 
 char *rs232_devfile[RS232_NUM_DEVICES] = { NULL };
+int rs232_useip232[RS232_NUM_DEVICES];
 
 static int set_devfile(const char *val, void *param)
 {
     util_string_set(&rs232_devfile[vice_ptr_to_int(param)], val);
+    return 0;
+}
+
+static int set_useip232(int val, void *param)
+{
+    if (val < 0 || val > 1) {
+        return -1;
+    }
+
+    rs232_useip232[vice_ptr_to_int(param)] = val;
     return 0;
 }
 
@@ -59,12 +70,28 @@ static const resource_string_t resources_string[] = {
     RESOURCE_STRING_LIST_END
 };
 
+static const resource_int_t resources_int[] = {
+    { "RsDevice1ip232", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &rs232_useip232[0], set_useip232, (void *)0 },
+    { "RsDevice2ip232", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &rs232_useip232[1], set_useip232, (void *)1 },
+    { "RsDevice3ip232", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &rs232_useip232[2], set_useip232, (void *)2 },
+    { "RsDevice4ip232", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &rs232_useip232[3], set_useip232, (void *)3 },
+    RESOURCE_INT_LIST_END
+};
+
 #if RS232_NUM_DEVICES != 4
 # error Please fix the count of resources_string[] and cmdline_options[]!
 #endif
 
 int rs232drv_resources_init(void)
 {
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -96,7 +123,31 @@ static const cmdline_option_t cmdline_options[] =
     { "-rsdev4", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsDevice4", NULL,
       "<Name>", "Specify name of fourth RS232 device" },
-    CMDLINE_LIST_END
+    { "-rsdev1ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice1ip232", (void *)1,
+      NULL, "Enable IP232 protocol on first RS232 device" },
+    { "+rsdev1ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice1ip232", (void *)0,
+      NULL, "Disable IP232 protocol on first RS232 device" },
+    { "-rsdev2ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice2ip232", (void *)1,
+      NULL, "Enable IP232 protocol on second RS232 device" },
+    { "+rsdev2ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice2ip232", (void *)0,
+      NULL, "Disable IP232 protocol on second RS232 device" },
+    { "-rsdev3ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice3ip232", (void *)1,
+      NULL, "Enable IP232 protocol on third RS232 device" },
+    { "+rsdev3ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice3ip232", (void *)0,
+      NULL, "Disable IP232 protocol on third RS232 device" },
+    { "-rsdev4ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice4ip232", (void *)1,
+      NULL, "Enable IP232 protocol on fourth RS232 device" },
+    { "+rsdev4ip232", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RsDevice4ip232", (void *)0,
+      NULL, "Disable IP232 protocol on fourth RS232 device" },
+     CMDLINE_LIST_END
 };
 
 int rs232drv_cmdline_options_init(void)
