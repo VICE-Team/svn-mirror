@@ -521,9 +521,12 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
      and &lt;port&gt; being the port number. If the first form is used,
      the default port will be used.
 */
-static int vice_network_address_generate_ipv4(vice_network_socket_address_t * socket_address, const char * address_string, unsigned short port)
+static int vice_network_address_generate_ipv4(
+        vice_network_socket_address_t *socket_address,
+        const char *address_string,
+        unsigned short port)
 {
-    const char * address_part = address_string;
+    char * address_part = lib_strdup(address_string);
     int error = 1;
 
     do {
@@ -554,6 +557,7 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
                 p = lib_strdup(address_string);
 
                 p[port_part - address_string] = 0;
+                lib_free(address_part);
                 address_part = p;
 
                 ++port_part;
@@ -583,7 +587,9 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
                     break;
                 }
 
-                memcpy(&socket_address->address.ipv4.sin_addr.s_addr, host_entry->h_addr_list[0], host_entry->h_length);
+                memcpy(&socket_address->address.ipv4.sin_addr.s_addr,
+                        host_entry->h_addr_list[0],
+                        host_entry->h_length);
             } else {
                 /* Assume it is an IP address */
 
@@ -597,7 +603,8 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
                      * Unfortunately, not all ports have inet_aton(), so, we must
                      * provide both implementations.
                      */
-                    if (inet_aton(address_part, &socket_address->address.ipv4.sin_addr.s_addr) == 0) {
+                    if (inet_aton(address_part,
+                                &socket_address->address.ipv4.sin_addr.s_addr) == 0) {
                         /* no valid IP address */
                         break;
                     }
@@ -617,14 +624,7 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
         }
     } while (0);
 
-    /* if we allocated memory for the address part
-     * because a port was specified,
-     * free that memory now.
-     */
-    if (address_part != address_string) {
-        lib_free(address_part);
-    }
-
+    lib_free(address_part);
     return error;
 }
 
