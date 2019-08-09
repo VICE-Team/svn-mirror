@@ -101,7 +101,7 @@ static GtkWidget *create_content_widget(void)
 
     for (i = 0; i < num_options; i++) {
         char *name;
-        char *param;
+        const char *param;
         char *desc;
 
         name = cmdline_options_get_name(i);
