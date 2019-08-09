@@ -456,12 +456,16 @@ static GtkWidget *create_rs232_devices_widget(void)
     GtkWidget *label;
     GtkWidget *ser1_file_widget;
     GtkWidget *ser1_baud_widget;
+    GtkWidget *ser1_ip232_widget;
     GtkWidget *ser2_file_widget;
     GtkWidget *ser2_baud_widget;
+    GtkWidget *ser2_ip232_widget;
     GtkWidget *ser3_file_widget;
     GtkWidget *ser3_baud_widget;
+    GtkWidget *ser3_ip232_widget;
     GtkWidget *ser4_file_widget;
     GtkWidget *ser4_baud_widget;
+    GtkWidget *ser4_ip232_widget;
     /* ttyu[0-3] are supposedly set up on FreeBSD */
     const char *patterns_ttys[] = { "ttyS*", "ttyu*", NULL };
 
@@ -481,6 +485,9 @@ static GtkWidget *create_rs232_devices_widget(void)
     ser1_baud_widget = create_serial_baud_widget("RsDevice1Baud");
     gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser1_baud_widget, 3, 1, 1, 1);
+    ser1_ip232_widget = vice_gtk3_resource_check_button_new(
+            "RsDevice1ip232", "IP232");    
+    gtk_grid_attach(GTK_GRID(grid), ser1_ip232_widget, 4, 1, 1, 1);
 
     label = create_indented_label("Serial 2");
     ser2_file_widget = vice_gtk3_resource_browser_new(
@@ -492,6 +499,9 @@ static GtkWidget *create_rs232_devices_widget(void)
     ser2_baud_widget = create_serial_baud_widget("RsDevice2Baud");
     gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser2_baud_widget, 3, 2, 1, 1);
+    ser2_ip232_widget = vice_gtk3_resource_check_button_new(
+            "RsDevice2ip232", "IP232");    
+    gtk_grid_attach(GTK_GRID(grid), ser2_ip232_widget, 4, 2, 1, 1);
 
     label = create_indented_label("Serial 3");
     ser3_file_widget = vice_gtk3_resource_browser_new(
@@ -503,6 +513,9 @@ static GtkWidget *create_rs232_devices_widget(void)
     ser3_baud_widget = create_serial_baud_widget("RsDevice3Baud");
     gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser3_baud_widget, 3, 3, 1, 1);
+    ser3_ip232_widget = vice_gtk3_resource_check_button_new(
+            "RsDevice4ip232", "IP232");    
+    gtk_grid_attach(GTK_GRID(grid), ser3_ip232_widget, 4, 3, 1, 1);
 
     label = create_indented_label("Serial 4");
     ser4_file_widget = vice_gtk3_resource_browser_new(
@@ -514,7 +527,10 @@ static GtkWidget *create_rs232_devices_widget(void)
     ser4_baud_widget = create_serial_baud_widget("RsDevice4Baud");
     gtk_grid_attach(GTK_GRID(grid), label, 2, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser4_baud_widget, 3, 4, 1, 1);
-
+    ser4_ip232_widget = vice_gtk3_resource_check_button_new(
+            "RsDevice4ip232", "IP232");    
+    gtk_grid_attach(GTK_GRID(grid), ser4_ip232_widget, 4, 4, 1, 1);
+    
     gtk_widget_show_all(grid);
     return grid;
 }
