@@ -248,7 +248,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
             crc_to_attach = *(uint32_t *)(((char *)data) + 3);
 #endif
             /* looks weird, but crc_to_attach is used in messages */
-            crc_to_attach = crc32_from_le(data + 3);
+            crc_to_attach = crc32_from_le((const uint8_t *)data + 3);
             crc32_to_le(crc_file, crc_to_attach);
 
             while (1) {
