@@ -291,8 +291,8 @@ static void acia_set_int(int aciairq, unsigned int int_num, int value)
  \param new_irq_res
    The interrupt type to use:
       0 = none,
-      1 = IRQ,
-      2 = NMI.
+      1 = NMI,
+      2 = IRQ.
 
  \param param
    Unused
@@ -308,19 +308,14 @@ static void acia_set_int(int aciairq, unsigned int int_num, int value)
 static int acia_set_irq(int new_irq_res, void *param)
 {
     enum cpu_int new_irq;
-    static const enum cpu_int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
+    static const enum cpu_int irq_tab[] = { IK_NONE, IK_NMI, IK_IRQ };
 
     /*
      * if an invalid interrupt type has been given, return
      * with an error.
      */
-    switch (new_irq_res) {
-        case IK_NONE:
-        case IK_NMI:
-        case IK_IRQ:
-            break;
-        default:
-            return -1;
+    if ((new_irq_res < 0) || (new_irq_res > 2)) {
+        return -1;
     }
 
     new_irq = irq_tab[new_irq_res];

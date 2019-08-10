@@ -5143,7 +5143,7 @@ Integer specifying the type of emulated RS232 interface (x64, x64sc, xscpu64, xv
 @vindex Acia1Irq
 @item Acia1Irq
 Integer specifying which interrupt to use (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
-(0 = none, 1 = IRQ, 2 = NMI)
+(0 = none, 1 = NMI, 2 = IRQ)
 
 @end table
 
@@ -5254,7 +5254,7 @@ Set the ACIA mode
 Set the ACIA interrupt
 (@code{Acia1Irq})
 (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
-(0: None, 1: IRQ, 2: NMI)
+(0: None, 1: NMI, 2: IRQ)
 
 @end table
 
