@@ -78,7 +78,7 @@ This is obviously only required, or even optional, when running a VM.
 
 ```
 $ su
-$ dnf update kernel*
+$ dnf update kernel\*
 ```
 If this actually updates the kernel, reboot.
 
@@ -107,10 +107,10 @@ $ shutdown -r now
 ```
 
 
-## Install mingw64 and Gtk3/GLib libs
+## Install packages required for cross-compiling Gtk3
 ```
 $ su
-$ dnf install mingw64-gtk3
+$ dnf install mingw64-gtk3 mingw64-glew glib2-devel xa
 ```
 
 Install svn:
@@ -132,33 +132,35 @@ This should result in a proper build system.
 $ cd ..
 $ mkdir gtk3-build
 $ cd gtk3-build
-$ ../vice/configure --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug --host=x86_64-w64-mingw32
-```
-
-And it fails with xa65 not found,
-```
-$ sudo install xa
-```
-
-Now it fails with glew etc,
-```
-$ sudo dnf install mingw64-glew
-```
-
-uugh, glib-compile-resources:
-```
-$ su
-$ dnf install glib2-devel
+$ ../vice/configure --enable-native-gtk3ui --host=x86_64-w64-mingw32
 ```
 
 
-Barfs at Making all in readmes
+Barfs at 'Making all in readmes'
 
+```
 $ dnf install texinfo
+```
+Still barfs, need to figure this out.
 
-Still barfs.
+
+### Create bindist
+
+`make bindist` kinda works, but needs svg loader for gdkpixbuf. For some reason Fedora doesn't supply the SVG loader DLL. I can't find it, or any other 'libpixbufloader-$format.dll' nor the loaders.cache file using `dnf provides`, so I suspect these loaders and the cache are generated during the install of mingw64-gdk-pixbuf.
+Something to figure out, I suppose.
 
 
-make bindistzip kinda works, but needs svg loader for gdkpixbuf.
+Not ideal, MSYS2 way:
 
+Copy `C:/msys64/mingw64/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.dll` into the bindist dir at `lib/gdk-pixbuf-2.0/2.10.0/loaders/`.
+
+Edit the `lib/gdk-pixbuf-2.0/2.10.0/loaders.cache` file and add the following:
+```
+"lib\\libgdk-pixbuf-2.0\\2.10.0\\loaders\\libpixbufloader-svg.dll"
+"svg" 6 "gdk-pixbuf" "Scalable Vector Graphics" "LGPL"
+"image/svg+xml" "image/svg" "image/svg-xml" "image/vnd.adobe.svg+xml" "text/xml-svg" "image/svg+xml-compressed" ""
+"svg" "svgz" "svg.gz" ""
+" <svg" "*    " 100
+" <!DOCTYPE svg" "*             " 100
+```
 
