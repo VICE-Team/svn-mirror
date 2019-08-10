@@ -78,7 +78,7 @@ This is obviously only required, or even optional, when running a VM.
 
 ```
 $ su
-$ dnf update kernel\*
+$ dnf update kernel*
 ```
 If this actually updates the kernel, reboot.
 
