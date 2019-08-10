@@ -67,6 +67,13 @@ static void show_fliplist(unsigned int unit);
 static char *fliplist_file_name = NULL;
 
 
+/** \brief  Keep track of factory value
+ *
+ * Don't free() a const
+ */
+static char *fliplist_factory = NULL;
+
+
 static int set_fliplist_file_name(const char *val, void *param)
 {
     if (util_string_set(&fliplist_file_name, val)) {
@@ -86,7 +93,8 @@ static resource_string_t resources_string[] = {
 
 int fliplist_resources_init(void)
 {
-    resources_string[0].factory_value = archdep_default_fliplist_file_name();
+    fliplist_factory = archdep_default_fliplist_file_name();
+    resources_string[0].factory_value = fliplist_factory;
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -104,7 +112,7 @@ void fliplist_resources_shutdown(void)
     }
 
     lib_free(fliplist_file_name);
-    lib_free((char *)(resources_string[0].factory_value));
+    lib_free(fliplist_factory);
 }
 
 static const cmdline_option_t cmdline_options[] =
