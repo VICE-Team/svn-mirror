@@ -120,7 +120,7 @@ $ dnf install subversion
 
 Check out trunk and create configure (as vice, not root)
 ```
-$ svn checkout --username=$USER svn+ssh://compyx@svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
+$ svn checkout --username=$USER svn+ssh://$USER@svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
 $ cd vice-trunk/vice
 $ ./autogen.sh
 ```
@@ -132,7 +132,7 @@ This should result in a proper build system.
 $ cd ..
 $ mkdir gtk3-build
 $ cd gtk3-build
-$ ../vice/configure --enable-native-gtk3ui --host=x86_64-w64-mingw32
+$ ../vice/configure --enable-native-gtk3ui --host=x86_64-w64-mingw32 --enable-arch=no
 ```
 
 
@@ -140,27 +140,21 @@ Barfs at 'Making all in readmes'
 
 ```
 $ dnf install texinfo
+$ dnf install texlive
 ```
-Still barfs, need to figure this out.
+Will install a crapload of packages and still not create vice.pdf =)
+
 
 
 ### Create bindist
 
-`make bindist` kinda works, but needs svg loader for gdkpixbuf. For some reason Fedora doesn't supply the SVG loader DLL. I can't find it, or any other 'libpixbufloader-$format.dll' nor the loaders.cache file using `dnf provides`, so I suspect these loaders and the cache are generated during the install of mingw64-gdk-pixbuf.
-Something to figure out, I suppose.
-
-
-Not ideal, MSYS2 way:
-
-Copy `C:/msys64/mingw64/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.dll` into the bindist dir at `lib/gdk-pixbuf-2.0/2.10.0/loaders/`.
-
-Edit the `lib/gdk-pixbuf-2.0/2.10.0/loaders.cache` file and add the following:
 ```
-"lib\\libgdk-pixbuf-2.0\\2.10.0\\loaders\\libpixbufloader-svg.dll"
-"svg" 6 "gdk-pixbuf" "Scalable Vector Graphics" "LGPL"
-"image/svg+xml" "image/svg" "image/svg-xml" "image/vnd.adobe.svg+xml" "text/xml-svg" "image/svg+xml-compressed" ""
-"svg" "svgz" "svg.gz" ""
-" <svg" "*    " 100
-" <!DOCTYPE svg" "*             " 100
+$ make bindistzip
 ```
+
+**Note**:
+
+Current make-bindist_win32.sh contains some hackish code to make GdkPixbuf recognize the SVG loader. which will break as soons as gdkpixbuf updates its version number.
+So we'll probably need a bit of `pkg-config --modversion` magic to update the code to handle newer versions of GdkPixbuf.
+
 
