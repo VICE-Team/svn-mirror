@@ -190,10 +190,12 @@ int hvsc_bugs_open(const char *psid, hvsc_bugs_t *handle)
         }
     }
 
+#if 0 /* above loop never breaks - following code can never execute */
     /* not found */
     hvsc_errno = HVSC_ERR_NOT_FOUND;
     hvsc_bugs_close(handle);
     return 1;
+#endif
 }
 
 

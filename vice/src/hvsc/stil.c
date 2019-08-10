@@ -509,8 +509,8 @@ int hvsc_stil_open(const char *psid, hvsc_stil_t *handle)
     handle->entry_bufused = 0;
 
     if (!hvsc_text_file_open(hvsc_stil_path, &(handle->stil))) {
-        return 0;
         hvsc_stil_close(handle);
+        return 0;
     }
 
     /* make copy of psid, ripping off the HVSC root directory */
@@ -545,10 +545,12 @@ int hvsc_stil_open(const char *psid, hvsc_stil_t *handle)
         }
     }
 
+#if 0 /* above loop never breaks - following code can never execute */
     /* not found */
     hvsc_errno = HVSC_ERR_NOT_FOUND;
     hvsc_stil_close(handle);
     return 1;
+#endif
 }
 
 

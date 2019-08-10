@@ -180,9 +180,11 @@ static char *find_sldb_entry_txt(const char *path)
         }
     }
 
+#if 0 /* above loop never breaks - following code can never execute */
     hvsc_text_file_close(&handle);
     hvsc_errno = HVSC_ERR_NOT_FOUND;
     return NULL;
+#endif
 }
 
 
