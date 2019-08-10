@@ -127,6 +127,13 @@ dnl        clang and gcc both support -Werror to promote all warnings to errors
 dnl        initialising and returning the value of arse removes the gcc warning that arse isn't used.
 dnl        So, until a better solution is found, -Werror is added while testing -W flag support.
 dnl
+dnl Warnings added to C should also be added to C++ compiler list. Except these ones because novte:
+dnl     -Wstrict-prototypes (g++ warning: cc1plus: -Wstrict-prototypes is only valid of C/ObjC not C++)
+dnl
+dnl Warnings implied by other settings but explicitly disabled:
+dnl     -Waddress-of-packed-member  (novte warnings)
+dnl     -Wchar-subscripts           (novte warnings)
+dnl
 m4_foreach([flag],
            [[-Wall],
             [-Wformat],
@@ -142,19 +149,36 @@ m4_foreach([flag],
             [-Wfatal-errors],
             [-fdiagnostics-absolute-paths]],
            [TEST_FLAG=flag
-
             old_CFLAGS="$CFLAGS"
             SUCCESS_CFLAGS="$CFLAGS $TEST_FLAG"
             CFLAGS="$SUCCESS_CFLAGS -Werror"
-            AC_MSG_CHECKING([if the C   compiler supports $TEST_FLAG])
+            AC_MSG_CHECKING([if the C compiler supports $TEST_FLAG])
             AC_TRY_COMPILE([],
                            [int arse = 0; return arse;],
                            [AC_MSG_RESULT(yes)
                             CFLAGS="$SUCCESS_CFLAGS"],
                            [AC_MSG_RESULT(no)
                             CFLAGS="$old_CFLAGS"])
+           ])
+AC_LANG_PUSH([C++])
+m4_foreach([flag],
+           [[-Wall],
+            [-Wformat],
+            [-Wformat-signedness],
+            [-Wformat-pedantic],
+            [-Wshadow],
+            [-Wpointer-arith],
+            [-Wuninitialized],
+            [-Wunreachable-code],
+            [-Wno-unused-parameter],
+            [-Werror=implicit-function-declaration],
+            [-Wfatal-errors],
+            [-fdiagnostics-absolute-paths],
 
-            AC_LANG_PUSH([C++])
+            [-Wno-address-of-packed-member],
+            [-Wno-char-subscripts]
+            ],
+           [TEST_FLAG=flag
             old_CXXFLAGS="$CXXFLAGS"
             SUCCESS_CXXFLAGS="$CXXFLAGS $TEST_FLAG"
             CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
@@ -165,9 +189,8 @@ m4_foreach([flag],
                             CXXFLAGS="$SUCCESS_CXXFLAGS"],
                            [AC_MSG_RESULT(no)
                             CXXFLAGS="$old_CXXFLAGS"])
-            AC_LANG_POP([C++])              
            ])
-
+AC_LANG_POP([C++])
 
 AC_PROG_INSTALL
 AC_PROG_LN_S
