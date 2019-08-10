@@ -103,8 +103,8 @@ static const vice_gtk3_radiogroup_entry_t acia_base_vic20[] = {
  */
 static const vice_gtk3_radiogroup_entry_t acia_irqs[] = {
     { "None",   0 },
-    { "IRQ",    1 },
-    { "NMI",    2 },
+    { "NMI",    1 },
+    { "IRQ",    2 },
     { NULL, -1 }
 };
 
