@@ -50,7 +50,9 @@
 #include "log.h"
 #include "charset.h"
 
+#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
 static FILE *mon_input, *mon_output;
+#endif
 
 #ifdef HAVE_READLINE
 #include <readline/readline.h>
