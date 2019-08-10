@@ -58,10 +58,10 @@
 #define ARCHDEP_PRINTER_DEFAULT_DEV3 "LPT2:"
 
 /* Default RS232 devices.  */
-#define ARCHDEP_RS232_DEV1 "10.0.0.1:25232"
-#define ARCHDEP_RS232_DEV2 "10.0.0.1:25232"
-#define ARCHDEP_RS232_DEV3 "10.0.0.1:25232"
-#define ARCHDEP_RS232_DEV4 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV1 "com1"
+#define ARCHDEP_RS232_DEV2 "com2"
+#define ARCHDEP_RS232_DEV3 "127.0.0.1:25232"
+#define ARCHDEP_RS232_DEV4 "127.0.0.1:25232"
 
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "A:"

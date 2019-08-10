@@ -5016,12 +5016,12 @@ Enable/disable virtual devices
 
 The VICE emulators can emulate the RS232 device most of the machines
 have.  The C64, C128 and VIC20 emulators emulate the userport RS232
-interface at 300 and 1200 baud.  The C64 and C128 can also use the 9600
+interface at 300, 1200 and 2400 baud.  The C64 and C128 can also use the 9600
 baud interface by Daniel Dallmann, using the shift registers of the two
 CIA 6526 chips.  The PET can have a 6551 ACIA RS232 interface when
 running as a SuperPET, and the CBM-II has such an ACIA by default.  The
-C64 and C128 emulators can emulate an ACIA 6551 (also known as Datapump
-for example) as extension at @code{$de**}.
+C64 and C128 emulators can emulate an ACIA 6551 (also known as Swithlink, Datapump
+or Turbo232 for example) as extension at @code{$de**}.
 
 Emulation can be achieved by either:
 
@@ -5032,13 +5032,16 @@ connecting a real UNIX serial device;
 dumping to a file;
 @item
 piping through a process.
+@item
+connect through a network socket.
 @end itemize
 
 It is possible to define up to four UNIX serial devices, and then decide
 which interface should be connected to which device.  This is done by
 so-called @dfn{rs232 device file names}; an rs232 device file name can
-be either a simple path, or a command name preceeded by a pipe symbol
-@samp{|}.  If the path specifies a special device (e.g. @file{/dev/ttyS0}) it
+be either a simple path, a network address, or a command name preceeded 
+by a pipe symbol @samp{|}.  
+If the path specifies a special device (e.g. @file{/dev/ttyS0}) it
 is recognized by VICE and the emulator can set the baudrate.
 
 For example, rs232 device @samp{filename} will cause the output to be
@@ -5055,11 +5058,6 @@ of your PC, setup one port for login and use the other in VICE.  Then you
 can login from your emulator via the RS232 emulation and the null-modem
 cable to your machine again.
 
-You can not simply run a shell from VICE, as the shell will notice that
-it does not run on its own pseudo terminal and will thus buffer its
-output.  You need to write some program that opens an own pseudo terminal
-and runs the shell from there (not yet finished).
-
 Up to four RS232 devices may be specified through the following
 resources:
 
@@ -5069,16 +5067,13 @@ device 1, whose default value is @code{/dev/ttyS0};
 @item
 device 2, whose default value is @code{/dev/ttyS1};
 @item
-device 3, whose default value is @code{rs232.dump};
+device 3, whose default value is @code{127.0.0.1:25232};
 @item
-device 4, whose default value is @code{|lpr}.
+device 4, whose default value is @code{|nc 127.0.0.1:25232}.
 @end itemize
 
-For the first two devices you can change the baudrate the tty device is
-set to by specifying it on the commandline or in the menu.  This
-baudrate is 9600 by default for the latter two, but can be changed only
-by resources (The baudrate is independent from the baudrate the emulator
-actually expects).
+You can change the baudrate the tty device is set to by specifying it on the 
+commandline or in the menu.
 
 @menu
 * RS232 resources::
@@ -5310,8 +5305,10 @@ Normally you should set it up to use the modem as "/dev/modem".
 @item start VICE
 
 @item Setup VICE to use your modem as "serial device 1"
-Go to the RS232 settings menu and change "Serial 1 device" to "/dev/modem" (or the device where you attached your modem to)
-Then go to the RS232 settings menu and change "Serial 1 baudrate" to the baudrate your modem should run at.
+Go to the RS232 settings menu and change "Serial 1 device" to "/dev/modem" 
+(or the device where you attached your modem to)
+Then go to the RS232 settings menu and change "Serial 1 baudrate" to the 
+baudrate your modem should run at.
   Watch out, e.g. on Linux there is an additional multiplier
   to multiply with the baudrate (so e.g. 19200 gives 115200 or so baud)
   See the "setserial" manpage on Linux for example.
@@ -5332,7 +5329,7 @@ If you want to use the Userport emulation, go to the RS232 settings and
 If it is able to detect an
   RS232 cartridge like swiftlink or so, try to detect the ACIA emulation
   if enabled.
-  Otherwise just set the baudrate to either 300, 1200 or 9600 according
+  Otherwise just set the baudrate to either 300, 1200, 2400 or 9600 according
   to what you enabled in the VICE menu for the userport.
 
 @end table

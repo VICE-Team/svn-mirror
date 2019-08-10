@@ -75,10 +75,10 @@
 #define ARCHDEP_PRINTER_DEFAULT_DEV3 "/dev/printer/usb/"
 
 /* Default RS232 devices.  */
-#define ARCHDEP_RS232_DEV1 "10.0.0.1:25232"
-#define ARCHDEP_RS232_DEV2 "10.0.0.1:25232"
-#define ARCHDEP_RS232_DEV3 "10.0.0.1:25232"
-#define ARCHDEP_RS232_DEV4 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV1 "127.0.0.1:25232"
+#define ARCHDEP_RS232_DEV2 "127.0.0.1:25232"
+#define ARCHDEP_RS232_DEV3 "127.0.0.1:25232"
+#define ARCHDEP_RS232_DEV4 "127.0.0.1:25232"
 
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "/dev/disk/floppy/raw"

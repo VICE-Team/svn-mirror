@@ -77,8 +77,8 @@
 /* Default RS232 devices.  */
 #define ARCHDEP_RS232_DEV1 "/dev/ttyS0"
 #define ARCHDEP_RS232_DEV2 "/dev/ttyS1"
-#define ARCHDEP_RS232_DEV3 "rs232.dump"
-#define ARCHDEP_RS232_DEV4 "|lpr"
+#define ARCHDEP_RS232_DEV3 "127.0.0.1:25232"
+#define ARCHDEP_RS232_DEV4 "|nc 127.0.0.1 25232"
 
 /* Default MIDI devices.  */
 #define ARCHDEP_MIDI_IN_DEV  "/dev/midi"

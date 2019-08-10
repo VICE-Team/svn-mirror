@@ -38,8 +38,8 @@
 
 /* resource defaults */
 #define MYACIA          "Acia1"
-#define MyDevice        0
-#define MyIrq           IK_IRQ
+#define MyDevice        1
+#define MyIrq           IK_NMI
 
 #define myaciadev       acia1dev
 
@@ -292,7 +292,7 @@ static const resource_int_t resources_i[] = {
       &acia_enabled, set_acia_enabled, NULL },
     { "Acia1Irq", MyIrq, RES_EVENT_NO, NULL,
       &acia.irq_res, acia_set_irq, NULL },
-    { "Acia1Mode", ACIA_MODE_NORMAL, RES_EVENT_NO, NULL,
+    { "Acia1Mode", ACIA_MODE_SWIFTLINK, RES_EVENT_NO, NULL,
       &acia.mode, acia_set_mode, NULL },
     { "Acia1Base", 0xffff, RES_EVENT_STRICT, int_to_void_ptr(0xffff),
       &acia_base, set_acia_base, NULL },
