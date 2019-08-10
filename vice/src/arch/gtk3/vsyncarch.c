@@ -90,7 +90,7 @@ unsigned long vsyncarch_gettime(void)
     uint64_t time = mach_absolute_time();
     if (!factor) {
         mach_timebase_info_data_t info;
-        kern_return_t ret = mach_timebase_info(&info);
+		mach_timebase_info(&info);
         factor = info.numer / info.denom;
     }
     return time * factor;

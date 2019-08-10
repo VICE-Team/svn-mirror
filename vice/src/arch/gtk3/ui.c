@@ -1164,11 +1164,11 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
 
+    /* set a default C= icon for now */
+    icon = get_default_icon();
 #ifdef MACOSX_SUPPORT
     macos_set_dock_icon_workaround();
 #else
-    /* set a default C= icon for now */
-    icon = get_default_icon();
     if (icon != NULL) {
         gtk_window_set_icon(GTK_WINDOW(new_window), icon);
     }
