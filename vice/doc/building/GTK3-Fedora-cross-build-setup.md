@@ -65,14 +65,100 @@ Optional: set passwords
 ```
 $ su
 $ passwd
- # enter 'vice' as password
+# enter 'vice' as password
 $ passwd vice
- # enter 'vice' as password
+# enter 'vice' as password
 ```
 Fedora will bitch, but it works.
 
 
+##### Install VBox Guest Additions
+
+This is obviously only required, or even optional, when running a VM.
+
+```
+$ su
+$ dnf update kernel*
+```
+If this actually updates the kernel, reboot.
+
+Insert the VBox Guest Additions ISO via the VBox menu.
+And then mount it:
+```
+$ mkdir /media/vbox
+$ mount -r /dev/cdrom /media/vbox
+```
+
+Now install a few packages:
+```
+$ dnf install gcc kernel-devel kernel-headers dkms make bzip2 perl libxcrypt-compat
+```
+
+Set env var to the kernel source dir (do we need this?)
+```
+$ export KERN_DIR=/usr/src/kernels/`uname -r`
+```
+
+Build and install VBox kernel modules:
+```
+$ cd /media/vbox
+$ ./VBoxLinuxAdditions.run
+$ shutdown -r now
+```
 
 
+## Install mingw64 and Gtk3/GLib libs
+```
+$ su
+$ dnf install mingw64-gtk3
+```
+
+Install svn:
+```
+$ dnf install subversion
+```
+
+Check out trunk and create configure (as vice, not root)
+```
+$ svn checkout --username=$USER svn+ssh://compyx@svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
+$ cd vice-trunk/vice
+$ ./autogen.sh
+```
+This should result in a proper build system.
+
+
+### Create builddir and test system
+```
+$ cd ..
+$ mkdir gtk3-build
+$ cd gtk3-build
+$ ../vice/configure --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug --host=x86_64-w64-mingw32
+```
+
+And it fails with xa65 not found,
+```
+$ sudo install xa
+```
+
+Now it fails with glew etc,
+```
+$ sudo dnf install mingw64-glew
+```
+
+uugh, glib-compile-resources:
+```
+$ su
+$ dnf install glib2-devel
+```
+
+
+Barfs at Making all in readmes
+
+$ dnf install texinfo
+
+Still barfs.
+
+
+make bindistzip kinda works, but needs svg loader for gdkpixbuf.
 
 
