@@ -133,6 +133,8 @@ dnl
 dnl Warnings implied by other settings but explicitly disabled:
 dnl     -Waddress-of-packed-member  (novte warnings)
 dnl     -Wchar-subscripts           (novte warnings)
+dnl     -Wchar-subscripts           (novte warnings)
+dnl     -Wformat-signedness         (novte warnings)
 dnl
 m4_foreach([flag],
            [[-Wall],
@@ -164,7 +166,6 @@ AC_LANG_PUSH([C++])
 m4_foreach([flag],
            [[-Wall],
             [-Wformat],
-            [-Wformat-signedness],
             [-Wformat-pedantic],
             [-Wshadow],
             [-Wpointer-arith],
