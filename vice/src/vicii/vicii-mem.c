@@ -2017,7 +2017,9 @@ inline static uint8_t d019_peek(void)
         return vicii.viciidtv ? vicii.irq_status | ((vicii.irq_status & 0xf) ? 0xf0 : 0x70) : vicii.irq_status | 0x70;
     }
 
+#if 0 /* all code paths above return, the following line can never be executed ... */
     return vicii.viciidtv ? vicii.irq_status | ((vicii.irq_status & 0xf) ? 0x80 : 0x00) : vicii.irq_status;
+#endif
 }
 
 uint8_t vicii_peek(uint16_t addr)
