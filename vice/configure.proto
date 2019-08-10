@@ -116,31 +116,57 @@ dnl     -Wconversion
 dnl     -Wredundant-decls
 dnl     -Wnested-externs
 dnl     -Wcast-qual
+dnl     -Wcast-align
 dnl
 dnl (Commenting these out in the following list makes configure barf)
+dnl
+dnl NOTE - before you optimise away the weird SUCCESS_CFLAGS thing, understand the following:
+dnl        clang doesn't exit with an error for an unsupported warning flag by default.
+dnl        clang has -Werror=x to promote a warning to an error, but gcc treats that as an error
+dnl        clang and gcc both support -Werror to promote all warnings to errors
+dnl        initialising and returning the value of arse removes the gcc warning that arse isn't used.
+dnl        So, until a better solution is found, -Werror is added while testing -W flag support.
+dnl
 m4_foreach([flag],
            [[-Wall],
             [-Wformat],
             [-Wformat-signedness],
             [-Wformat-pedantic],
             [-Wshadow],
-            [-Wpointer-arith],
-            [-Wcast-align],
+            [-Wpointer-arith],            
             [-Wstrict-prototypes],
             [-Wuninitialized],
             [-Wunreachable-code],
-            [-Wno-unused-parameter]],
-           [old_CFLAGS="$CFLAGS"
-             TMP_FLAG=flag
-             CFLAGS="$CFLAGS $TMP_FLAG"
-             AC_MSG_CHECKING([if the compiler supports $TMP_FLAG])
-             AC_TRY_COMPILE([],
-                            [int arse;],
-                            [AC_MSG_RESULT(yes)],
-                            [AC_MSG_RESULT(no)
-                             CFLAGS="$old_CFLAGS"])
-           ])
+            [-Wno-unused-parameter],
+            [-Werror=implicit-function-declaration],
+            [-Wfatal-errors],
+            [-fdiagnostics-absolute-paths]],
+           [TEST_FLAG=flag
 
+            old_CFLAGS="$CFLAGS"
+            SUCCESS_CFLAGS="$CFLAGS $TEST_FLAG"
+            CFLAGS="$SUCCESS_CFLAGS -Werror"
+            AC_MSG_CHECKING([if the C   compiler supports $TEST_FLAG])
+            AC_TRY_COMPILE([],
+                           [int arse = 0; return arse;],
+                           [AC_MSG_RESULT(yes)
+                            CFLAGS="$SUCCESS_CFLAGS"],
+                           [AC_MSG_RESULT(no)
+                            CFLAGS="$old_CFLAGS"])
+
+            AC_LANG_PUSH([C++])
+            old_CXXFLAGS="$CXXFLAGS"
+            SUCCESS_CXXFLAGS="$CXXFLAGS $TEST_FLAG"
+            CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
+            AC_MSG_CHECKING([if the C++ compiler supports $TEST_FLAG])
+            AC_TRY_COMPILE([],
+                           [int arse = 0; return arse;],
+                           [AC_MSG_RESULT(yes)
+                            CXXFLAGS="$SUCCESS_CXXFLAGS"],
+                           [AC_MSG_RESULT(no)
+                            CXXFLAGS="$old_CXXFLAGS"])
+            AC_LANG_POP([C++])              
+           ])
 
 
 AC_PROG_INSTALL
@@ -921,65 +947,6 @@ dnl All other UN*X systems
 esac
 fi
 
-
-dnl check if the compiler supports -Werror=implicit-function-declaration
-AC_MSG_CHECKING([if the compiler supports -Werror=implicit-function-declaration])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Werror=implicit-function-declaration"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
-dnl check if the compiler supports -Wfatal-errors
-AC_MSG_CHECKING([if the compiler supports -Wfatal-errors])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Wfatal-errors"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
-dnl check if the compiler supports -fdiagnostics-absolute-paths (clang)
-AC_MSG_CHECKING([if the compiler supports -fdiagnostics-absolute-paths])
-ORIG_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -fdiagnostics-absolute-paths"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS="$ORIG_CFLAGS" ])
-
-dnl C++ checks
-
-AC_LANG_PUSH([C++])
-
-dnl check if the C++ compiler support -Wno-address-of-packed-member
-AC_MSG_CHECKING([if the C++ compiler supports -Wno-address-of-packed-member])
-ORIG_CXXFLAGS="$CXXFLAGS"
-CXXFLAGS="$CXXFLAGS -Wno-address-of-packed-member"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CXXFLAGS="$ORIG_CXXFLAGS" ])
-AC_LANG_POP([C++])
-
-dnl check if the C++ compiler support -fdiagnostics-absolute-paths
-AC_LANG_PUSH([C++])
-AC_MSG_CHECKING([if the C++ compiler supports -fdiagnostics-absolute-paths])
-ORIG_CXXFLAGS="$CXXFLAGS"
-CXXFLAGS="$CXXFLAGS -fdiagnostics-absolute-paths"
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)],
-               [ AC_MSG_RESULT(no)
-                 CXXFLAGS="$ORIG_CXXFLAGS" ])
-AC_LANG_POP([C++])
-
-
 dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
   have_backtrace_symbols="no"
@@ -1112,13 +1079,15 @@ if test x"$check_gtk3" = "xyes"; then
     dnl Check if g++ supports -Wno-nonnull-compare to silence warnings building
     dnl VTE with GCC 9.1+
     old_CXXFLAGS="$CXXFLAGS"
-    CXXFLAGS="$CXXFLAGS -Wno-nonnull-compare"
+    SUCCESS_CXXFLAGS="$CXXFLAGS -Wno-nonnull-compare"
+    CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
     dnl Temporarily switch to C++
     AC_LANG_PUSH([C++])
     AC_MSG_CHECKING([if the compiler supports -Wno-nonnull-compare])
     AC_TRY_COMPILE([],
-                   [int arse;],
-                   [AC_MSG_RESULT(yes)],
+                   [int arse = 0; return arse;],
+                   [AC_MSG_RESULT(yes)
+                    CXXFLAGS="$SUCCESS_CXXFLAGS"],
                    [AC_MSG_RESULT(no)
                     CXXFLAGS="$old_CXXFLAGS"])
     dnl Revert to (I assume) C
