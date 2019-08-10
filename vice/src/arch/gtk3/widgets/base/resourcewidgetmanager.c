@@ -87,6 +87,7 @@
  *
  * \param[in,out]   entry   resource widget entry
  */
+#if 0
 static void resource_widget_entry_init(resource_widget_entry_t *entry)
 {
     entry->widget = NULL;
@@ -95,12 +96,13 @@ static void resource_widget_entry_init(resource_widget_entry_t *entry)
     entry->factory = NULL;
     entry->sync = NULL;
 }
-
+#endif
 
 /** \brief  Free members of \a entry
  *
  * \param[in]   entry   resource widget entry
  */
+#if 0
 static void resource_widget_entry_cleanup(resource_widget_entry_t *entry)
 {
     if (entry != NULL) {
@@ -109,7 +111,7 @@ static void resource_widget_entry_cleanup(resource_widget_entry_t *entry)
         }
     }
 }
-
+#endif
 
 /** \brief  Initialize the resource widget manager
  *
@@ -120,8 +122,8 @@ static void resource_widget_entry_cleanup(resource_widget_entry_t *entry)
  */
 void vice_resource_widget_manager_init(resource_widget_manager_t *manager)
 {
+#if 0
     size_t i;
-    return;
 
     manager->widget_list = lib_malloc(sizeof *(manager->widget_list)
             * INITIAL_ENTRIES);
@@ -130,6 +132,7 @@ void vice_resource_widget_manager_init(resource_widget_manager_t *manager)
     for (i = 0; i < INITIAL_ENTRIES; i++) {
         manager->widget_list[i] = NULL;
     }
+#endif
 }
 
 
@@ -141,8 +144,8 @@ void vice_resource_widget_manager_init(resource_widget_manager_t *manager)
  */
 void vice_resource_widget_manager_exit(resource_widget_manager_t *manager)
 {
+#if 0
     size_t i;
-    return;
 
     if (manager->widget_list == NULL) {
         debug_gtk3("Got NULL as widget list, shouldn't happen!");
@@ -154,6 +157,7 @@ void vice_resource_widget_manager_exit(resource_widget_manager_t *manager)
         lib_free(manager->widget_list[i]);
     }
     lib_free(manager->widget_list);
+#endif
 }
 
 
@@ -168,9 +172,8 @@ void vice_resource_widget_manager_add_widget(
         gboolean (*factory)(GtkWidget *),
         gboolean (*sync)(GtkWidget *))
 {
+#if 0
     resource_widget_entry_t *entry;
-
-    return ;
 
     /* do we need to resize the list? */
     if (manager->widget_max == manager->widget_num) {
@@ -195,6 +198,7 @@ void vice_resource_widget_manager_add_widget(
 
     /* store entry */
     manager->widget_list[manager->widget_num++] = entry;
+#endif
 }
 
 
@@ -204,8 +208,8 @@ void vice_resource_widget_manager_add_widget(
  */
 void vice_resource_widget_manager_dump(resource_widget_manager_t *manager)
 {
+#if 0
     size_t i;
-    return;
 
     debug_gtk3("Resource Widget Manager: registered resources:");
     for (i = 0; i < manager->widget_num; i++) {
@@ -219,6 +223,7 @@ void vice_resource_widget_manager_dump(resource_widget_manager_t *manager)
                     entry->resource);
         }
     }
+#endif
 }
 
 
