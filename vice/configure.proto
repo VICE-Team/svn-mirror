@@ -128,13 +128,12 @@ dnl        initialising and returning the value of arse removes the gcc warning 
 dnl        So, until a better solution is found, -Werror is added while testing -W flag support.
 dnl
 dnl Warnings added to C should also be added to C++ compiler list. Except these ones because novte:
-dnl     -Wstrict-prototypes (g++ warning: cc1plus: -Wstrict-prototypes is only valid of C/ObjC not C++)
+dnl     -Wstrict-prototypes (g++ warning: "cc1plus: -Wstrict-prototypes is only valid of C/ObjC not C++" - but zero exit code)
+dnl     -Wformat-signedness         (novte warnings - these could be addressed with source changes)
 dnl
-dnl Warnings implied by other settings but explicitly disabled:
+dnl C++ warnings implied by other settings but explicitly disabled:
 dnl     -Waddress-of-packed-member  (novte warnings)
 dnl     -Wchar-subscripts           (novte warnings)
-dnl     -Wchar-subscripts           (novte warnings)
-dnl     -Wformat-signedness         (novte warnings)
 dnl
 m4_foreach([flag],
            [[-Wall],
