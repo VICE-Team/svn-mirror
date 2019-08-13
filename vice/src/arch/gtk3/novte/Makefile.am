@@ -15,6 +15,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/arch/gtk3/novte \
 	-I$(top_srcdir)/src
 
+AM_CXXFLAGS = $(VTE_CXXFLAGS)
+
 noinst_LIBRARIES = libnovte.a
 
 libnovte_a_SOURCES = \

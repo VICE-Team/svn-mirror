@@ -141,7 +141,7 @@ m4_foreach([flag],
             [-Wformat-signedness],
             [-Wformat-pedantic],
             [-Wshadow],
-            [-Wpointer-arith],            
+            [-Wpointer-arith],
             [-Wstrict-prototypes],
             [-Wuninitialized],
             [-Wunreachable-code],
@@ -174,10 +174,7 @@ m4_foreach([flag],
             [-Werror=implicit-function-declaration],
             [-Wfatal-errors],
             [-fdiagnostics-absolute-paths],
-
-            [-Wno-address-of-packed-member],
-            [-Wno-char-subscripts]
-            ],
+           ],
            [TEST_FLAG=flag
             old_CXXFLAGS="$CXXFLAGS"
             SUCCESS_CXXFLAGS="$CXXFLAGS $TEST_FLAG"
@@ -191,6 +188,29 @@ m4_foreach([flag],
                             CXXFLAGS="$old_CXXFLAGS"])
            ])
 AC_LANG_POP([C++])
+
+dnl VTE specific flags
+VTE_CXXFLAGS=""
+AC_LANG_PUSH([C++])
+m4_foreach([flag],
+           [[-Wno-address-of-packed-member],
+            [-Wno-char-subscripts],
+            [-Wno-format-signedness]
+           ],
+           [TEST_FLAG=flag
+            old_VTE_CXXFLAGS="$VTE_CXXFLAGS"
+            SUCCESS_VTE_CXXFLAGS="$VTE_CXXFLAGS $TEST_FLAG"
+            VTE_CXXFLAGS="$SUCCESS_VTE_CXXFLAGS -Werror"
+            AC_MSG_CHECKING([if the C++ compiler supports $TEST_FLAG])
+            AC_TRY_COMPILE([],
+                           [int arse = 0; return arse;],
+                           [AC_MSG_RESULT(yes)
+                            CXXFLAGS="$SUCCESS_VTE_CXXFLAGS"],
+                           [AC_MSG_RESULT(no)
+                            CXXFLAGS="$old_VTE_CXXFLAGS"])
+            ])
+AC_LANG_POP([C++])
+AC_SUBST(VTE_CXXFLAGS)
 
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -3955,8 +3975,9 @@ echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embed
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 
 echo ""
-echo "CPPFLAGS: $CPPFLAGS"
-echo "CFLAGS  : $CFLAGS"
-echo "CXXFLAGS: $CXXFLAGS"
-echo "LDFLAGS : $LDFLAGS"
+echo "CPPFLAGS:     $CPPFLAGS"
+echo "CFLAGS:       $CFLAGS"
+echo "CXXFLAGS:     $CXXFLAGS"
+echo "VTE_CXXFLAGS: $VTE_CXXFLAGS"
+echo "LDFLAGS:      $LDFLAGS"
 echo "----------------------------------------------------------------------"
