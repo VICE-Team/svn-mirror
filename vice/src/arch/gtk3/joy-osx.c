@@ -506,6 +506,8 @@ static const resource_int_t resources_int[] = {
 
 int joy_arch_resources_init(void)
 {
+    return 0;
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -611,6 +613,8 @@ static const cmdline_option_t joydev5cmdline_options[] =
 int joy_arch_cmdline_options_init(void)
 {
     int num_ports = 0, num_extra_ports = 0;
+
+    return 0;
 
     if (joyport_get_port_name(JOYPORT_1)) {
         if (cmdline_register_options(joydev1cmdline_options) < 0) {
