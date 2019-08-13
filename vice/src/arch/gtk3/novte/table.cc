@@ -287,13 +287,13 @@ static void _vte_table_addi(struct _vte_table *table,
             if (table->table == NULL) {
                 table->table = _vte_table_literal_new();
                 subtable = _vte_table_new();
-                table->table['%'] = subtable;
+                table->table[(int)'%'] = subtable;
             } else
-            if (table->table['%'] == NULL) {
+            if (table->table[(int)'%'] == NULL) {
                 subtable = _vte_table_new();
-                table->table['%'] = subtable;
+                table->table[(int)'%'] = subtable;
             } else {
-                subtable = table->table['%'];
+                subtable = table->table[(int)'%'];
             }
             /* Add the rest of the string to the subtable. */
             _vte_table_addi(subtable, original, original_length,

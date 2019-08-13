@@ -191,6 +191,7 @@ AC_LANG_POP([C++])
 
 dnl VTE specific flags
 VTE_CXXFLAGS=""
+backup_CXXFLAGS="$CXXFLAGS"
 AC_LANG_PUSH([C++])
 m4_foreach([flag],
            [[-Wno-address-of-packed-member],
@@ -200,15 +201,16 @@ m4_foreach([flag],
            [TEST_FLAG=flag
             old_VTE_CXXFLAGS="$VTE_CXXFLAGS"
             SUCCESS_VTE_CXXFLAGS="$VTE_CXXFLAGS $TEST_FLAG"
-            VTE_CXXFLAGS="$SUCCESS_VTE_CXXFLAGS -Werror"
+            CXXFLAGS="$SUCCESS_VTE_CXXFLAGS -Werror"
             AC_MSG_CHECKING([if the C++ compiler supports $TEST_FLAG])
             AC_TRY_COMPILE([],
                            [int arse = 0; return arse;],
                            [AC_MSG_RESULT(yes)
-                            CXXFLAGS="$SUCCESS_VTE_CXXFLAGS"],
+                            VTE_CXXFLAGS="$SUCCESS_VTE_CXXFLAGS"],
                            [AC_MSG_RESULT(no)
-                            CXXFLAGS="$old_VTE_CXXFLAGS"])
+                            VTE_CXXFLAGS="$old_VTE_CXXFLAGS"])
             ])
+CXXFLAGS="$backup_CXXFLAGS"
 AC_LANG_POP([C++])
 AC_SUBST(VTE_CXXFLAGS)
 
