@@ -224,7 +224,6 @@ static int set_sid_model(int val, void *param)
         case SID_MODEL_6581:
         case SID_MODEL_8580:
         case SID_MODEL_8580D:
-        case SID_MODEL_6581R4:
 #ifdef HAVE_RESID
         case SID_MODEL_DTVSID:
 #endif
