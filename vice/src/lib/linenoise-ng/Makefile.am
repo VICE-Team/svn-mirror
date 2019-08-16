@@ -9,7 +9,7 @@
 #
 # Once we alter configure.proto to not override C[XX|PP]FLAGS
 #
-AM_CXXFLAGS = -Wno-used-variable -Wno-unused-function
+AM_CXXFLAGS = -Wno-unused-variable -Wno-unused-function
 
 noinst_LIBRARIES = liblinenoiseng.a
 
