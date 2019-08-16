@@ -710,11 +710,16 @@ static void advance_hastape(void)
         case YES:
             log_message(autostart_log, "Loading file.");
             if (autostart_program_name) {
-                tmp = util_concat("LOAD\"", autostart_program_name, "\":\r", NULL);
+                tmp = util_concat("LOAD\"", autostart_program_name, "\"", 
+                                  autostart_basic_load ? "" : ",1,1", ":\r", NULL);
                 kbdbuf_feed(tmp);
                 lib_free(tmp);
             } else {
-                kbdbuf_feed("LOAD:\r");
+                if (autostart_basic_load) {
+                    kbdbuf_feed("LOAD:\r");
+                } else {
+                    kbdbuf_feed("LOAD\"\",1,1:\r");
+                }
             }
             autostartmode = AUTOSTART_PRESSPLAYONTAPE;
             entered_rom = 0;
