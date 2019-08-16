@@ -8005,14 +8005,29 @@ Interpolation, @code{2}: Resampling, @code{3}: Fast Resampling)
 @vindex SidResidPassband
 @item SidResidPassband
 Integer specifying the resampling filter passband in percentage of the
-total bandwidth (@code{0 - 90}).
+total bandwidth (@code{0 - 90}) for 6581.
 
 @vindex SidResidGain
 @item SidResidGain
-Integer that specifies reSID gain in percent [97] (90..100)
+Integer that specifies reSID gain in percent [97] (90..100) for 6581.
+
 @vindex SidResidFilterBias
 @item SidResidFilterBias
-Integer that specifies reSID filter bias, which can be used to adjust DAC bias
+Integer that specifies reSID filter bias for 6581, which can be used to adjust DAC bias
+in millivolts. [0] (-5000..5000)
+
+@vindex SidResid8580Passband
+@item SidResid8580Passband
+Integer specifying the resampling filter passband in percentage of the
+total bandwidth (@code{0 - 90}) for 8580.
+
+@vindex SidResid8580Gain
+@item SidResid8580Gain
+Integer that specifies reSID gain in percent [97] (90..100) for 8580.
+
+@vindex SidResid8580FilterBias
+@item SidResid8580FilterBias
+Integer that specifies reSID filter bias for 8580, which can be used to adjust DAC bias
 in millivolts. [0] (-5000..5000)
 
 @end table
@@ -8111,15 +8126,28 @@ interpolating (@code{SidResidSampling=1}), resampling
 @findex -residpass
 @item -residpass @code{PERCENTAGE}
 Specifies the resampling filter passband in percentage of the total
-bandwidth (@code{SidResidPassband=0-90}).
+bandwidth (@code{SidResidPassband=0-90}) for 6581.
 
 @findex -residgain
 @item -residgain @code{PERCENTAGE}
-Specifies reSID gain in percent (90 - 100).
+Specifies reSID gain in percent (90 - 100) for 6581.
 
 @findex -residfilterbias
 @item -residfilterbias <number>
-reSID filter bias setting, which can be used to adjust DAC bias in millivolts.
+reSID filter bias setting for 6581, which can be used to adjust DAC bias in millivolts.
+
+@findex -resid8580pass
+@item -residpass @code{PERCENTAGE}
+Specifies the resampling filter passband in percentage of the total
+bandwidth (@code{SidResid8580Passband=0-90}) for 8580.
+
+@findex -resid8580gain
+@item -residgain @code{PERCENTAGE}
+Specifies reSID gain in percent (90 - 100) for 8580.
+
+@findex -resid8580filterbias
+@item -residfilterbias <number>
+reSID filter bias setting for 8580, which can be used to adjust DAC bias in millivolts.
 
 @end table
 
