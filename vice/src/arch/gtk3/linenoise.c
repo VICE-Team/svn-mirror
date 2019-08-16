@@ -1,6 +1,6 @@
 /** \file   linenoise.c
  *
- * \brief   uerrilla line editing library against the idea that a
+ * \brief   Guerrilla line editing library against the idea that a
  *          line editing lib needs to be 20,000 lines of C code.
  *
  * Modified for the VICE project by Fabrizio Gennari,
@@ -119,7 +119,7 @@ static int history_len = 0;
 char **history = NULL;
 
 /* static void linenoiseAtExit(void); */
-int linenoiseHistoryAdd(const char *line);
+int vte_linenoiseHistoryAdd(const char *line);
 
 /* FIXME: unused -> memory leak
 static void freeHistory(void) {
@@ -240,7 +240,7 @@ static int completeLine(struct console_private_s *term, const char *prompt, char
     return c; /* Return last read character */
 }
 
-void linenoiseClearScreen(struct console_private_s *term) {
+void vte_linenoiseClearScreen(struct console_private_s *term) {
     const char clearseq[] = "\x1b[H\x1b[2J";
     uimon_write_to_terminal(term, clearseq, strlen(clearseq));
 }
@@ -258,7 +258,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
 
     /* The latest history entry is always our current buffer, that
      * initially is just an empty string. */
-    linenoiseHistoryAdd("");
+    vte_linenoiseHistoryAdd("");
 
     /* HACK HACK HACK
 
@@ -447,13 +447,13 @@ up_down_arrow:
             refreshLine(term, prompt, buf, len, pos, cols);
             break;
         case 12: /* ctrl+l, clear screen */
-            linenoiseClearScreen(term);
+            vte_linenoiseClearScreen(term);
             refreshLine(term, prompt, buf, len, pos, cols);
         }
     }
 }
 
-char *linenoise(const char *prompt, struct console_private_s *term) {
+char *vte_linenoise(const char *prompt, struct console_private_s *term) {
     char buf[LINENOISE_MAX_LINE];
     int count;
 
@@ -466,11 +466,11 @@ char *linenoise(const char *prompt, struct console_private_s *term) {
 }
 
 /* Register a callback function to be called for tab-completion. */
-void linenoiseSetCompletionCallback(linenoiseCompletionCallback *fn) {
+void vte_linenoiseSetCompletionCallback(linenoiseCompletionCallback *fn) {
     completionCallback = fn;
 }
 
-void linenoiseAddCompletion(linenoiseCompletions *lc, char *str) {
+void vte_linenoiseAddCompletion(linenoiseCompletions *lc, char *str) {
     size_t len = strlen(str);
     char *copy = malloc(len+1);
     memcpy(copy,str,len+1);
@@ -479,7 +479,7 @@ void linenoiseAddCompletion(linenoiseCompletions *lc, char *str) {
 }
 
 /* Using a circular buffer is smarter, but a bit more complex to handle. */
-int linenoiseHistoryAdd(const char *line) {
+int vte_linenoiseHistoryAdd(const char *line) {
     char *linecopy;
 
     if (history_max_len == 0) {
@@ -506,7 +506,7 @@ int linenoiseHistoryAdd(const char *line) {
     return 1;
 }
 
-int linenoiseHistorySetMaxLen(int len) {
+int vte_linenoiseHistorySetMaxLen(int len) {
     char **new;
 
     if (len < 1) {

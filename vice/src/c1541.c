@@ -106,7 +106,7 @@
 #include "p64.h"
 #include "fileio/p00.h"
 
-#include "linenoise.h"
+#include "lib/linenoise-ng/linenoise.h"
 
 /* #define DEBUG_DRIVE */
 
@@ -4803,6 +4803,7 @@ int main(int argc, char **argv)
 #if 0
             line = read_line(buf);
 #endif
+            printf("%s", buf);
             line = linenoise(buf);
 
             if (line == NULL) {

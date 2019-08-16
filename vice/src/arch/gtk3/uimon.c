@@ -576,7 +576,7 @@ static void fill_completions(const char *string_so_far, int initial_chars, int t
         }
         if (i == token_len && possible_lc->cvec[word_index][token_len] != 0) {
             char *string_to_append = concat_strings(string_so_far, initial_chars, possible_lc->cvec[word_index]);
-            linenoiseAddCompletion(lc, string_to_append);
+            vte_linenoiseAddCompletion(lc, string_to_append);
             lib_free(string_to_append);
         }
     }
@@ -630,7 +630,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
         for (start_of_token += token_len; string_so_far[start_of_token] && isspace((int)(string_so_far[start_of_token])); start_of_token++);
         if (string_so_far[start_of_token] != '"') {
             char *string_to_append = concat_strings(string_so_far, start_of_token, "\"");
-            linenoiseAddCompletion(lc, string_to_append);
+            vte_linenoiseAddCompletion(lc, string_to_append);
             lib_free(string_to_append);
             return;
         }
@@ -655,7 +655,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
             for (direntry = readdir(dir); direntry; direntry = readdir(dir)) {
                 if (strcmp(direntry->d_name, ".") && strcmp(direntry->d_name, "..")) {
                     char *entryname = lib_msprintf("%s%s", direntry->d_name, is_dir(direntry) ? "/" : "\"");
-                    linenoiseAddCompletion(&files_lc, entryname);
+                    vte_linenoiseAddCompletion(&files_lc, entryname);
                     lib_free(entryname);
                 }
             }
@@ -678,11 +678,11 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     }
 
     fixed.input_buffer = lib_strdup("");;
-    linenoiseSetCompletionCallback(monitor_completions);
-    p = linenoise(prompt, &fixed);
+    vte_linenoiseSetCompletionCallback(monitor_completions);
+    p = vte_linenoise(prompt, &fixed);
     if (p) {
         if (*p) {
-            linenoiseHistoryAdd(p);
+            vte_linenoiseHistoryAdd(p);
         }
         ret_string = lib_strdup(p); /* LEAKS */
         free(p);
@@ -711,14 +711,14 @@ int console_init(void)
                 &short_name,
                 &takes_filename_as_arg)) {
         if (strlen(full_name)) {
-            linenoiseAddCompletion(&command_lc, full_name);
+            vte_linenoiseAddCompletion(&command_lc, full_name);
             if (strlen(short_name)) {
-                linenoiseAddCompletion(&command_lc, short_name);
+                vte_linenoiseAddCompletion(&command_lc, short_name);
             }
             if (takes_filename_as_arg) {
-                linenoiseAddCompletion(&need_filename_lc, full_name);
+                vte_linenoiseAddCompletion(&need_filename_lc, full_name);
                 if (strlen(short_name)) {
-                    linenoiseAddCompletion(&need_filename_lc, short_name);
+                    vte_linenoiseAddCompletion(&need_filename_lc, short_name);
                 }
             }
         }
