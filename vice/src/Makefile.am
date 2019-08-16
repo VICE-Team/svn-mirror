@@ -133,7 +133,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/socketdrv \
-	-I$(top_srcdir)/src/hvsc
+	-I$(top_srcdir)/src/hvsc \
+	-I$(top_srcdir)/src/lib/linenoise-ng
 
 noinst_HEADERS = \
 	6510core.h \
@@ -1268,6 +1269,7 @@ iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
+linenoise_ng_lib = $(top_builddir)/src/lib/linenoise-ng/liblinenoiseng.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
@@ -2250,6 +2252,7 @@ c1541_LDADD = \
 	$(tape_lib) \
 	$(serial_lib) \
 	$(socketdrv_lib) \
+	$(linenoise_ng_lib) \
 	@SDL_EXTRA_LIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@

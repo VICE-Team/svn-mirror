@@ -106,6 +106,7 @@
 #include "p64.h"
 #include "fileio/p00.h"
 
+#include "linenoise.h"
 
 /* #define DEBUG_DRIVE */
 
@@ -4740,6 +4741,7 @@ int main(int argc, char **argv)
     int i;
     int retval = EXIT_SUCCESS;
 
+
     archdep_init(&argc, argv);
 
     /* This causes all the logging messages from the various VICE modules to
@@ -4773,11 +4775,17 @@ int main(int argc, char **argv)
 
         /* Interactive mode.  */
         interactive_mode = 1;
-
+#if 0
         /* properly init GNU readline, if available */
 #ifdef HAVE_READLINE_READLINE_H
         using_history();
 #endif
+#endif
+        /* init linenoise-ng */
+        linenoiseHistorySetMaxLen(100);
+
+        /* Add completions on Windows, somehow, or perhaps not */
+
         version_cmd(0, NULL);
         printf("Copyright 1995-2018 The VICE Development Team.\n"
                "C1541 is free software, covered by the GNU General Public License,"
@@ -4792,7 +4800,10 @@ int main(int argc, char **argv)
             fflush(stderr);
             lib_free(buf);
             buf = lib_msprintf("c1541 #%d> ", drive_index | 8);
+#if 0
             line = read_line(buf);
+#endif
+            line = linenoise(buf);
 
             if (line == NULL) {
                 putchar('\n');
@@ -4819,9 +4830,12 @@ int main(int argc, char **argv)
             }
         }
         /* properly clean up GNU readline's history, if used */
+#if 0
 #ifdef HAVE_READLINE_READLINE_H
         clear_history();
 #endif
+#endif
+        linenoiseHistoryFree();
     } else {
         while (i < argc) {
             args[0] = argv[i] + 1;
