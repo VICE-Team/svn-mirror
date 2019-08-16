@@ -33,9 +33,12 @@
 
 /* FIXME: is this needed* */
 #ifdef SDL_CHOOSE_DRIVES
+
+#include <windows.h>
+
 char **archdep_list_drives(void)
 {
-    DWORD bits, mask;
+    uint32_t bits, mask;
     int drive_count = 1, i = 0;
     char **result, **p;
 
