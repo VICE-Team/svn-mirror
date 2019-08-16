@@ -7873,7 +7873,9 @@ properly, but their emulation requires some additional processor power.
 @item
 ``ChipModel'' specifies the model of the SID chip being emulated: there
 are two slightly different generations of SID chips: MOS6581 ones and
-MOS8580 ones.
+MOS8580 ones. Additionally there is "8580D", which refers to MOS8580 with added
+"Digifix" modification, which adds a DC offset to audio-in, which makes classic
+samples audible also on the 8580.
 
 @cindex Toggling reSID emulation
 @item
@@ -7988,7 +7990,7 @@ Boolean specifying whether the built-in SID filters must be emulated.
 @vindex SidModel
 @item SidModel
 Integer specifying what model of the SID must be emulated.
-(0: 6581, 1: 8580, 2: 8580D, 3: 6581R4, 4: DTVSID)
+(0: 6581, 1: 8580, 2: 8580D, 3: DTVSID)
 
 @vindex SidEngine
 @item SidEngine
