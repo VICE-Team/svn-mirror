@@ -40,11 +40,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* hopefully fixed in configure */
+#if 0
 /* get rid of the asserts when compiling in non debug mode. somehow
    configure fails to define NDEBUG instead */
 #ifndef DEBUG
 #undef assert
 #define assert(x)
+#endif
 #endif
 
 #ifdef HAVE_STRINGS_H
