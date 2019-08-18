@@ -4784,7 +4784,7 @@ int main(int argc, char **argv)
         /* init linenoise-ng */
         linenoiseHistorySetMaxLen(100);
 
-        /* Add completions on Windows, somehow, or perhaps not */
+        /* TODO: Add completions on Windows, somehow, or perhaps not */
 
         version_cmd(0, NULL);
         printf("Copyright 1995-2018 The VICE Development Team.\n"
@@ -4795,6 +4795,7 @@ int main(int argc, char **argv)
                "Type `show copying' to see the conditions.\n"
                "There is absolutely no warranty for C1541.  Type `show warranty'"
                " for details.\n");
+        fflush(stdout); /* needs flushing on windows, it seems */
 
         while (1) {
             fflush(stderr);
@@ -4804,6 +4805,7 @@ int main(int argc, char **argv)
             line = read_line(buf);
 #endif
             printf("%s", buf);
+            fflush(stdout); /* required for Windows */
             line = linenoise(buf);
 
             if (line == NULL) {
