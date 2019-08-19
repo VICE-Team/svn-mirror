@@ -583,6 +583,7 @@ const command_t command_list[] = {
 
 /* ------------------------------------------------------------------------- */
 
+#if 0
 #if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H)
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -628,7 +629,7 @@ static char *read_line(const char *prompt)
 }
 
 #endif
-
+#endif
 
 
 /** \brief  Split \a line into a list of arguments
@@ -4804,7 +4805,6 @@ int main(int argc, char **argv)
 #if 0
             line = read_line(buf);
 #endif
-            printf("%s", buf);
             fflush(stdout); /* required for Windows */
             line = linenoise(buf);
 
