@@ -4796,7 +4796,9 @@ int main(int argc, char **argv)
                "Type `show copying' to see the conditions.\n"
                "There is absolutely no warranty for C1541.  Type `show warranty'"
                " for details.\n");
+#if 0
         fflush(stdout); /* needs flushing on windows, it seems */
+#endif
 
         while (1) {
             fflush(stderr);
@@ -4805,7 +4807,9 @@ int main(int argc, char **argv)
 #if 0
             line = read_line(buf);
 #endif
+#if 0
             fflush(stdout); /* required for Windows */
+#endif
             line = linenoise(buf);
 
             if (line == NULL) {
