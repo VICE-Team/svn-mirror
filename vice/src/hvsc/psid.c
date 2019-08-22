@@ -412,7 +412,8 @@ void hvsc_psid_dump(const hvsc_psid_t *handle)
 
     /* dump header data on stdout */
     printf("file name       : %s\n", handle->path);
-    printf("file size       : %" PRI_SIZE_T "\n", handle->size);
+    /* can't use PRI_SIZE_T thanks to Windows here: */
+    printf("file size       : %lu\n", (unsigned long)(handle->size));
     printf("magic           : %s\n", magic);
     printf("version         : %d\n", (int)handle->version);
     printf("data offset     : $%04x\n", handle->data_offset);
