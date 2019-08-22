@@ -135,13 +135,19 @@ typedef struct sdljoystick_mapping_s sdljoystick_mapping_t;
 
 struct sdljoystick_s {
     SDL_Joystick *joyptr;
-    const char *name;
+    char *name;
     int input_max[NUM_INPUT_TYPES];
     sdljoystick_mapping_t *input[NUM_INPUT_TYPES];
 };
 typedef struct sdljoystick_s sdljoystick_t;
 
 static sdljoystick_t *sdljoystick = NULL;
+
+/** \brief  Temporary copy of the default joymap file name
+ *
+ * Avoids silly casting away of const
+ */
+static char *joymap_factory = NULL;
 
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
@@ -272,7 +278,8 @@ int joy_arch_resources_init(void)
     }
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    resources_string[0].factory_value = archdep_default_joymap_file_name();
+    joymap_factory = archdep_default_joymap_file_name();
+    resources_string[0].factory_value = joymap_factory;
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -288,8 +295,7 @@ int joy_arch_resources_init(void)
 void joy_arch_resources_shutdown(void)
 {
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    lib_free(resources_string[0].factory_value);
-    resources_string[0].factory_value = NULL;
+    lib_free(joymap_factory);
     lib_free(joymap_file);
     joymap_file = NULL;
 #endif
