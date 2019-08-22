@@ -104,10 +104,14 @@
 
 #define LIBDIR VICEDIR
 
-#if defined(__FreeBSD__) || defined(__NetBSD__)
-#define DOCDIR PREFIX "/share/doc/vice"
-#else
-#define DOCDIR LIBDIR "/doc"
+
+/* This is incorrect */
+#if 0
+# if defined(__FreeBSD__) || defined(__NetBSD__)
+#  define DOCDIR PREFIX "/share/doc/vice"
+# else
+#  define DOCDIR LIBDIR "/doc"
+# endif
 #endif
 
 #define VICEUSERDIR ".vice"
