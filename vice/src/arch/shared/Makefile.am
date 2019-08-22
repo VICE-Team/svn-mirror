@@ -11,6 +11,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/rs232drv
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libarchdep.a
 
 libarchdep_a_SOURCES = \
@@ -70,6 +74,9 @@ libarchdep_a_SOURCES = \
 	rawnetarch.c \
 	rs232dev.c \
 	signals.c
+
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
 
 EXTRA_DIST = \
 	archdep_defs.h \

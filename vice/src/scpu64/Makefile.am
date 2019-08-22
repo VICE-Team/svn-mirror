@@ -19,6 +19,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/tapeport
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libscpu64.a
 
 libscpu64_a_SOURCES = \

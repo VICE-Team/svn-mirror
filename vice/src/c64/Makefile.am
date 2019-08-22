@@ -23,6 +23,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/core \
 	-I$(top_srcdir)/src/hvsc
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
 
 libvsid_a_SOURCES = \

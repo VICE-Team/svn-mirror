@@ -9,6 +9,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/diag
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libuserport.a
 
 libuserport_a_SOURCES = \

@@ -9,6 +9,10 @@ AM_CPPFLAGS = \
 	@QUICKTIME_INCLUDES@ \
 	@ARCH_INCLUDES@
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libgfxoutputdrv.a
 
 # These sources are linked only under certain circumstances.

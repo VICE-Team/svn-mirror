@@ -6,6 +6,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/joyport
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libvideo.a
 
 libvideo_a_SOURCES = \

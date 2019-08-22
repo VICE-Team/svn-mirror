@@ -2,6 +2,10 @@
 
 AR = @AR@
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libresiddtv.a
 
 libresiddtv_a_SOURCES = sid.cc voice.cc wave.cc envelope.cc filter.cc extfilt.cc version.cc

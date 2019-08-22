@@ -23,6 +23,11 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/c64/cart
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
+
 noinst_LIBRARIES = libbasewidgets.a
 
 libbasewidgets_a_SOURCES = \

@@ -5,6 +5,20 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
+
+dnl Make sure autotools doesn't add '-g -O2' by default when the user's CFLAGS
+dnl or CXXFLAGS are empty
+dnl This has to happen before any other AC_* calls, so leave it here please.
+: ${CFLAGS=""}
+: ${CXXFLAGS=""}
+
+dnl Set VICE's compiler flags (can be overridden by the user)
+VICE_CPPFLAGS=""
+VICE_CFLAGS="-g -O3"
+VICE_CXXFLAGS="-g -O3"
+VICE_LDFLAGS=""
+
+
 AC_CONFIG_MACRO_DIR([m4])
 
 dnl Command-line options
@@ -97,14 +111,14 @@ AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
 AC_PROG_CXXCPP
 
 dnl Set default CFLAGS
-if test x"$CFLAGS" = "x"; then
-  CFLAGS="-g -O3"
-fi
+dnl if test x"$CFLAGS" = "x"; then
+dnl   CFLAGS="-g -O3"
+dnl fi
 
 dnl Set default CXXFLAGS
-if test x"$CXXFLAGS" = "x"; then
-  CXXFLAGS="-g -O3"
-fi
+dnl if test x"$CXXFLAGS" = "x"; then
+dnl  CXXFLAGS="-g -O3"
+dnl fi
 
 dnl Try global compiler warnings
 dnl
@@ -151,15 +165,17 @@ m4_foreach([flag],
             [-fdiagnostics-absolute-paths]],
            [TEST_FLAG=flag
             old_CFLAGS="$CFLAGS"
-            SUCCESS_CFLAGS="$CFLAGS $TEST_FLAG"
+            old_vice_CFLAGS="$VICE_CFLAGS"
+            SUCCESS_CFLAGS="$VICE_CFLAGS $TEST_FLAG"
             CFLAGS="$SUCCESS_CFLAGS -Werror"
             AC_MSG_CHECKING([if the C compiler supports $TEST_FLAG])
             AC_TRY_COMPILE([],
                            [int arse = 0; return arse;],
                            [AC_MSG_RESULT(yes)
-                            CFLAGS="$SUCCESS_CFLAGS"],
+                            VICE_CFLAGS="$SUCCESS_CFLAGS"],
                            [AC_MSG_RESULT(no)
-                            CFLAGS="$old_CFLAGS"])
+                            VICE_CFLAGS="$old_vice_CFLAGS"])
+            CFLAGS="$old_CFLAGS"
            ])
 AC_LANG_PUSH([C++])
 m4_foreach([flag],
@@ -177,15 +193,18 @@ m4_foreach([flag],
            ],
            [TEST_FLAG=flag
             old_CXXFLAGS="$CXXFLAGS"
-            SUCCESS_CXXFLAGS="$CXXFLAGS $TEST_FLAG"
+            old_vice_CXXFLAGS="$VICE_CXXFLAGS"
+            SUCCESS_CXXFLAGS="$VICE_CXXFLAGS $TEST_FLAG"
             CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
             AC_MSG_CHECKING([if the C++ compiler supports $TEST_FLAG])
             AC_TRY_COMPILE([],
                            [int arse = 0; return arse;],
                            [AC_MSG_RESULT(yes)
-                            CXXFLAGS="$SUCCESS_CXXFLAGS"],
+                            VICE_CXXFLAGS="$SUCCESS_CXXFLAGS"],
                            [AC_MSG_RESULT(no)
-                            CXXFLAGS="$old_CXXFLAGS"])
+                            VICE_CXXFLAGS="$old_vice_CXXFLAGS"])
+
+           CXXFLAGS="$old_CFLAGS"
            ])
 AC_LANG_POP([C++])
 
@@ -435,6 +454,8 @@ else
 fi
 
 
+old_CFLAGS="$CFLAGS"
+CFLAGS="$VICE_CFLAGS"
 dnl Do these checks before any Gtk3 flags are added
 AC_MSG_CHECKING(for time_t in time.h)
 AC_CACHE_VAL(bu_cv_decl_time_t_time_h,
@@ -470,7 +491,11 @@ else
   AC_MSG_ERROR([can not figure type of time_t])
 fi
 
+CFLAGS="$old_CFLAGS"
 dnl Add runtime/linker paths for *BSD
+dnl
+dnl This needs to be altered to use VICE_**FLAGS, but I'm kinda busy making that
+dnl work on Linux and Windows. So once that works, alter this:
 case "$host_os" in
   freebsd*)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
@@ -512,8 +537,8 @@ if test x"$enable_arch" = "xno"; then
 else
   if test x"$enable_arch" = "xyes"; then
     AC_MSG_CHECKING([if the compiler supports -march=native])
-    ORIG_CFLAGS="$CFLAGS"
-    CFLAGS="$CFLAGS -march=native"
+    ORIG_CFLAGS="$VICE_CFLAGS"
+    VICE_CFLAGS="$VICE_CFLAGS -march=native"
     AC_TRY_COMPILE([],
                    [int test;],
                    [ AC_MSG_RESULT(yes)
@@ -522,11 +547,11 @@ else
                    [ AC_MSG_RESULT(no)
                      ENABLE_ARCH=no
                      march="" ])
-    CFLAGS="$ORIG_CFLAGS"
+    VICE_CFLAGS="$ORIG_CFLAGS"
   else
     AC_MSG_CHECKING([if the compiler supports -march=$enable_arch])
-    ORIG_CFLAGS="$CFLAGS"
-    CFLAGS="$CFLAGS -march=$enable_arch"
+    ORIG_CFLAGS="$VICE_CFLAGS"
+    VICE_CFLAGS="$VICE_CFLAGS -march=$enable_arch"
     AC_TRY_COMPILE([],
                    [int test;],
                    [ AC_MSG_RESULT(yes)
@@ -535,7 +560,7 @@ else
                    [ AC_MSG_RESULT(no)
                      ENABLE_ARCH=no
                      march="" ])
-    CFLAGS="$ORIG_CFLAGS"
+    VICE_CFLAGS="$ORIG_CFLAGS"
   fi
 fi
 
@@ -544,7 +569,7 @@ AC_SUBST(ENABLE_ARCH)
 dnl check if the compiler supports -posix
 if test x"$posix_check" = "xyes"; then
   AC_MSG_CHECKING([if the compiler supports -posix])
-  ORIG_CFLAGS=$CFLAGS
+  ORIG_CFLAGS="$CFLAGS"
   CFLAGS="$CFLAGS -posix"
   AC_TRY_COMPILE([],
                  [int test;],
@@ -616,6 +641,9 @@ fi
 dnl Setup crosscompiling.
 
 if test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
+  dnl
+  dnl The VICE_*CFLAGS stuff will ignore and thus break this
+  dnl
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
   AC_DEFINE(AMIGA_SUPPORT,,[Should we enable Amigaos support.])
@@ -829,13 +857,16 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
      )
 
   dnl warnings_cxx="-Wall -W -Wno-unused-parameter -Wno-missing-field-initializers -Wno-sign-compare"
+  dnl (Didn't we already check this?
   if test x"$nowarnings" != "xyes"; then
       warnings_cxx="-Wall -Wno-unused-parameter -Wno-sign-compare"
-      CFLAGS="$CFLAGS $warnings_cxx"
-      CXXFLAGS="$CXXFLAGS $warnings_cxx"
+      VICE_CFLAGS="$VICE_CFLAGS $warnings_cxx"
+      VICE_CXXFLAGS="$VICE_CXXFLAGS $warnings_cxx"
   fi
 
 elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
+
+  dnl Again: ingnored for now
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
@@ -932,18 +963,18 @@ darwin*)
       optimization_c="-O3 -mmacosx-version-min=10.9 $march"
       optimization_cxx="-fno-exceptions $optimization_c"
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
-        CFLAGS="$CFLAGS -g $optimization_c $warnings_c"
-        CXXFLAGS="$CXXFLAGS -g $optimization_cxx $warnings_cxx"
+        VICE_CFLAGS="$VICE_CFLAGS -g $optimization_c $warnings_c"
+        VICE_CXXFLAGS="$VICE_CXXFLAGS -g $optimization_cxx $warnings_cxx"
       else
-        CFLAGS="$CFLAGS $optimization_c $warnings_c"
-        CXXFLAGS="$CXXFLAGS $optimization_cxx $warnings_cxx"
+        VICE_CFLAGS="$VICE_CFLAGS $optimization_c $warnings_c"
+        VICE_CXXFLAGS="$VICE_CXXFLAGS $optimization_cxx $warnings_cxx"
       fi
     fi
   fi
 
   if test "$GCC" = yes -a "$enable_no_pic" != "no" ; then
-    CFLAGS="$CFLAGS -mdynamic-no-pic"
-    CXXFLAGS="$CXXFLAGS -mdynamic-no-pic"
+    VICE_CFLAGS="$VICE_CFLAGS -mdynamic-no-pic"
+    VICE_CXXFLAGS="$VICE_CXXFLAGS -mdynamic-no-pic"
   fi
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
@@ -960,8 +991,8 @@ darwin*)
   HAVE_LIGHTPEN_SUPPORT="yes"
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
-  CFLAGS="$CFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
-  CXXFLAGS="$CXXFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
+  VICE_CFLAGS="$VICE_CFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
   LDFLAGS="$LDFLAGS -L/usr/local/lib"
   LIBS="$LIBS -framework CoreText -framework CoreServices -framework OpenGL"
 
@@ -1019,7 +1050,7 @@ if test x"$enable_debug" = "xyes"; then
 
 else
   dnl Disable asserts
-  CPPFLAGS="$CPPFLAGS -DNDEBUG"
+  VICE_CPPFLAGS="$VICE_CPPFLAGS -DNDEBUG"
   DEBUGBUILD=0
 fi
 
@@ -1043,7 +1074,7 @@ if test x"$check_gtk3" = "xyes"; then
   dnl only continue to test if gtk3 support was present
   if test x"$have_gtk3_module" = "xyes" -a x"$have_glib2_module" = "xyes"; then
 
-    CFLAGS="$CFLAGS $GLIB_CFLAGS $GTK_CFLAGS"
+    VICE_CFLAGS="$VICE_CFLAGS $GLIB_CFLAGS $GTK_CFLAGS"
     LIBS="$LIBS $GTK_LIBS $GLIB_LIBS"
 
     if test x"$is_unix_macosx" = "xyes"; then
@@ -1082,6 +1113,8 @@ if test x"$check_gtk3" = "xyes"; then
       fi
     elif test x"$enable_hwscale" != "xno"; then
       dnl Find where the GL functions live on this system
+      old_clags="$CFLAGS"
+      CFLAGS="$VICE_CFLAGS"
       AC_SEARCH_LIBS(glViewport, [GL opengl32], [have_opengl_lib=yes], [have_opengl_lib=no])
       AC_SEARCH_LIBS(glewInit, [GLEW glew32], [have_glew=yes], [have_glew=no])
 
@@ -1097,6 +1130,8 @@ if test x"$check_gtk3" = "xyes"; then
                     [AC_MSG_RESULT(no);
                      LIBS="$old_LIBS"])
       fi
+
+      CFLAGS="$old_CFLAGS"
 
       if test x"$have_opengl_lib" != "xyes" -o x"$have_glew" != "xyes"; then
         AC_MSG_ERROR([Could not find OpenGL and GLEW libraries. GTK3 performance is usually unacceptable without these libraries, but you can insist on software rendering with --disable-hwscale if necessary.])
@@ -1121,22 +1156,22 @@ if test x"$check_gtk3" = "xyes"; then
     fi
 
     dnl Check for C++11 support (for novte) and update CXXFLAGS
-    CXXFLAGS="$CXXFLAGS -std=c++11"
+    VICE_CXXFLAGS="$VICE_CXXFLAGS -std=c++11"
 
     dnl Check if g++ supports -Wno-nonnull-compare to silence warnings building
     dnl VTE with GCC 9.1+
-    old_CXXFLAGS="$CXXFLAGS"
-    SUCCESS_CXXFLAGS="$CXXFLAGS -Wno-nonnull-compare"
-    CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
+    old_CXXFLAGS="$VICE_CXXFLAGS"
+    SUCCESS_CXXFLAGS="$VICE_CXXFLAGS -Wno-nonnull-compare"
+    VICE_CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
     dnl Temporarily switch to C++
     AC_LANG_PUSH([C++])
     AC_MSG_CHECKING([if the compiler supports -Wno-nonnull-compare])
     AC_TRY_COMPILE([],
                    [int arse = 0; return arse;],
                    [AC_MSG_RESULT(yes)
-                    CXXFLAGS="$SUCCESS_CXXFLAGS"],
+                    VICE_CXXFLAGS="$SUCCESS_CXXFLAGS"],
                    [AC_MSG_RESULT(no)
-                    CXXFLAGS="$old_CXXFLAGS"])
+                    VICE_CXXFLAGS="$old_CXXFLAGS"])
     dnl Revert to (I assume) C
     AC_LANG_POP([C++])
 
@@ -1187,16 +1222,18 @@ fi
 
 dnl Check and setup SDL2 compilation, only fail if the sdl2 ui was requested
 if test x"$check_sdl2" = "xyes"; then
-  old_cflags=$CFLAGS
-  old_cxxflags=$CXXFLAGS
+  user_cflags="$CFLAGS"
+  user_cxxflags="$CXXFLAGS"
+  backup_CFLAGS="$VICE_CFLAGS"
+  backup_CXXFLAGS = "$VICE_CXXFLAGS"
   old_libs=$LIBS
 
   found_sdl2=no
 
   dnl Check for SDL2.framework
   if test x"$FW_DIR" != "x"; then
-    CFLAGS="$CFLAGS -F$FW_DIR"
-    CXXFLAGS="$CXXFLAGS -F$FW_DIR"
+    CFLAGS="$VICE_FLAGS -F$FW_DIR"
+    CXXFLAGS="$VICE_CXXFLAGS -F$FW_DIR"
     LIBS="$LIBS -F$FW_DIR -framework SDL2"
 
     AC_MSG_CHECKING(for SDL2.framework)
@@ -1205,19 +1242,23 @@ if test x"$check_sdl2" = "xyes"; then
                 [AC_MSG_RESULT(yes);
                  use_sdl_prefix=no;
                  use_sdl2_prefix=yes;
-                 found_sdl2=yes],
+                 found_sdl2=yes;
+                 VICE_CFLAGS="$CFLAGS";
+                 VICE_CXXFLAGS="$CXXFLAGS"],
                 [AC_MSG_RESULT(no);
-                 CFLAGS=$old_cflags;
-                 CXXFLAGS=$old_cxxflags;
                  LIBS=$old_libs])
     AC_SUBST(FW_DIR)
+    CFLAGS="$user_CFLAGS"
+    CXXFLAGS="$user_CXXFLAGS"
   fi
 
   if test x"$found_sdl2" != "xyes"; then
     dnl Check for sdl2-config
     if test x"$sdl2_config" != "xno"; then
-      CFLAGS="$CFLAGS `$sdl2_config --cflags`"
-      CXXFLAGS="$CXXFLAGS `$sdl2_config --cflags`"
+      user_CFLAGS="$CFLAGS"
+      user_CXXFLAGS="$CXXFLAGS"
+      CFLAGS="$VICE_CFLAGS `$sdl2_config --cflags`"
+      CXXFLAGS="$VICE_CXXFLAGS `$sdl2_config --cflags`"
       LIBS="$LIBS `$sdl2_config --libs`"
 
       dnl Determine whether we need to add SDL2/ as a prefix.
@@ -1240,6 +1281,9 @@ if test x"$check_sdl2" = "xyes"; then
                      found_sdl2=yes],
                     [AC_MSG_RESULT(no)])
       fi
+
+      CFLAGS="$user_CFLAGS"
+      CXXFLAGS="$user_CXXFLAGS"
     fi
   fi
 
@@ -1441,12 +1485,12 @@ if test x"$check_sdl1" = "xyes"; then
 
     dnl only continue if sdl-config was found
     if test x"$sdl_config" != "xno"; then
-      old_cflags=$CFLAGS
-      old_cxxflags=$CXXFLAGS
+      user_cflags="$CFLAGS"
+      user_cxxflags="$CXXFLAGS"
       old_libs=$LIBS
 
-      CFLAGS="$CFLAGS `$sdl_config --cflags`"
-      CXXFLAGS="$CXXFLAGS `$sdl_config --cflags`"
+      CFLAGS="$VICE_CFLAGS `$sdl_config --cflags`"
+      CXXFLAGS="$VICE_CXXFLAGS `$sdl_config --cflags`"
       LIBS="$LIBS `$sdl_config --libs`"
 
       dnl only do if audio needs to be checked
@@ -1457,8 +1501,8 @@ if test x"$check_sdl1" = "xyes"; then
                           USE_SDL_AUDIO_SUPPORT="yes";
                           AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
                           AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                         [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                         [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+                         [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                         [CFLAGS="$user_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
 
         if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
           unset ac_cv_lib_SDL_SDL_OpenAudio
@@ -1467,8 +1511,8 @@ if test x"$check_sdl1" = "xyes"; then
                             use_sdl2_prefix=no;
                             USE_SDL_AUDIO_SUPPORT="yes";
                             AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+                           [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                           [CFLAGS="$old_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
         fi
 
         dnl fail if --with-sdlsound was given
@@ -1488,8 +1532,8 @@ if test x"$check_sdl1" = "xyes"; then
                             use_sdl2_prefix=no;
                             AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
                             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
-                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+                           [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                           [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break])
 
           if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes"; then
             unset ac_cv_lib_SDL_SDL_SetVideoMode
@@ -1845,7 +1889,7 @@ AC_TYPE_SSIZE_T
 dnl Check whether inline functions are available.
 AC_C_INLINE
 if test x"$ac_cv_c_inline" = "xno" ; then
-  CFLAGS="$CFLAGS -DNO_INLINE"
+  VICE_CFLAGS="$VICE_CFLAGS -DNO_INLINE"
 fi
 
 dnl fix endian for interix
@@ -3177,7 +3221,7 @@ if test x"$with_png" != "xno" ; then
       if test x"$HAVE_PNG_SUPPORT" = "xyes"; then
           GFXOUTPUT_LIBS="$PNG_LIBS $GFXOUTPUT_LIBS"
           GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-          CFLAGS="$PNG_CFLAGS $CFLAGS";
+          VICE_CFLAGS="$PNG_CFLAGS $VICE_CFLAGS";
           AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
           AC_MSG_RESULT([yes])
       else
@@ -3310,6 +3354,9 @@ else
   AM_CONDITIONAL(HAVE_REALDEVICE, false)
   AC_MSG_RESULT([no (realdevice disabled)])
 fi
+
+AC_SUBST(VICE_CFLAGS)
+AC_SUBST(VICE_CXXFLAGS)
 
 AC_SUBST(vsid_LDFLAGS)
 AC_SUBST(x64_LDFLAGS)
@@ -3980,9 +4027,14 @@ echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embed
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 
 echo ""
-echo "CPPFLAGS:     $CPPFLAGS"
-echo "CFLAGS:       $CFLAGS"
-echo "CXXFLAGS:     $CXXFLAGS"
-echo "VTE_CXXFLAGS: $VTE_CXXFLAGS"
-echo "LDFLAGS:      $LDFLAGS"
+echo "User CPPFLAGS: $CPPFLAGS"
+echo "VICE_CPPFLAGS: $VICE_CPPFLAGS"
+echo "User CFLAGS:   $CFLAGS"
+echo "VICE CFLAGS:   $VICE_CFLAGS"
+echo "User CXXFLAGS: $CXXFLAGS"
+echo "VICE CXXFLAGS: $VICE_CXXFLAGS"
+echo "VTE_CXXFLAGS:  $VTE_CXXFLAGS"
+echo "User LDFLAGS:  $LDFLAGS"
+echo "VICE LDFLAGS:  $VICE_LDFLAGS"
+echo "(didn't get around to LDFLAGS yet)"
 echo "----------------------------------------------------------------------"

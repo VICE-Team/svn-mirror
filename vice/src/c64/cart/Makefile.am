@@ -13,6 +13,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/arch/shared
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libc64cartsystem.a libc64cart.a libc64commoncart.a
 
 libc64cartsystem_a_SOURCES = \

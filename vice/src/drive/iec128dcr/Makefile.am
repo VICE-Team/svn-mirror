@@ -5,6 +5,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/lib/p64
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libdriveiec128dcr.a
 
 libdriveiec128dcr_a_SOURCES = \

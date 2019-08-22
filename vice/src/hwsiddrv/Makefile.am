@@ -9,6 +9,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/iodrv \
 	-I$(top_srcdir)/src/arch/shared
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+
 noinst_LIBRARIES = libhwsiddrv.a
 
 libhwsiddrv_a_SOURCES = \

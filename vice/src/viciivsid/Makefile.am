@@ -9,6 +9,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/lib/p64
 
+AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS) @XXCFLAGS@
+
 noinst_LIBRARIES = libviciivsid.a
 
 libviciivsid_a_SOURCES = \
