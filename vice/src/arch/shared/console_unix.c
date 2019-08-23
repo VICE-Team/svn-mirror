@@ -284,7 +284,10 @@ char *native_console_in(console_t *log, const char *prompt)
     }
 #endif
     ret_sting = lib_strdup(p);
+#if 0
+    /* Don't free this, add_history() seems to take ownership */
     free(p);
+#endif
 
     return ret_sting;
 }
