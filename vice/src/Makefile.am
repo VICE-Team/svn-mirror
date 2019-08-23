@@ -1324,7 +1324,8 @@ blockdev_lib =
 endif
 
 if HAVE_REALDEVICE
-realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
+# realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
+realdevice_lib = opencbmlib.o
 else
 realdevice_lib =
 endif

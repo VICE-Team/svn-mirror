@@ -29,12 +29,12 @@
 
 #ifdef HAVE_DYNLIB_SUPPORT
 
-#ifdef UNIX_COMPILE
-#include "dynlib-unix.c"
-#endif
+#include "archdep_defs.h"
 
-#ifdef WIN32_COMPILE
-#include "dynlib-win32.c"
+#ifdef ARCHDEP_OS_UNIX
+# include "dynlib-unix.c"
+#elif defined(ARCHDEP_OS_WINDOWS)
+# include "dynlib-win32.c"
 #endif
 
 #endif
