@@ -35,7 +35,7 @@ lame_SOURCES = lame_main.c $(common_sources)
 mp3rtp_SOURCES = mp3rtp.c rtp.c $(common_sources)
 mp3x_SOURCES = mp3x.c gtkanal.c gpkplotting.c $(common_sources)
 
-CFLAGS = @GTK_CFLAGS@ @FRONTEND_CFLAGS@ @SNDFILE_CFLAGS@
+CFLAGS = @CFLAGS@ @GTK_CFLAGS@ @FRONTEND_CFLAGS@ @SNDFILE_CFLAGS@
 LDFLAGS = @LDFLAGS@ @FRONTEND_LDFLAGS@ @SNDFILE_LIBS@
 
 INCLUDES = -I$(top_srcdir)/libmp3lame -I$(top_srcdir)/include -I$(top_builddir)
