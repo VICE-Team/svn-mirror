@@ -65,7 +65,7 @@ static char *sysfile_path = NULL;
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     const char *boot_path = archdep_boot_path();
-#ifndef ARCHDEP_OS_WINDOWS
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
     const char *home_path = archdep_user_config_path();
 #endif
 

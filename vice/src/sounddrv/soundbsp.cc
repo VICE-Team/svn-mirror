@@ -1,10 +1,10 @@
+/** \file	soundbsp.cc
+ * \brief	Implementation of the BeOS Media Kit (BSoundPlayer) device.
+ *
+ * \author	Marcus Sutton <loggedoubt@gmail.com>
+ */
+ 
 /*
- * soundbsp.cc - Implementation of the BeOS Media Kit (BSoundPlayer)
- *               sound device.
- *
- * Written by
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -71,14 +71,14 @@ static void bsp_callback(void *param, void *cb_buf, size_t len,
     int amount, total;
 
     total = 0;
-    while (total < len / sizeof(int16_t)) {
+    while (total < (int)(len / sizeof(int16_t))) {
         amount = buf_inptr - buf_outptr;
         if (amount <= 0) {
             amount = buf_len - buf_outptr;
         }
 
-        if (amount + total > len / sizeof(int16_t)) {
-            amount = len / sizeof(int16_t) - total;
+        if (amount + total > (int)(len / sizeof(int16_t))) {
+            amount = len / sizeof(int16_t) - (size_t)total;
         }
 
         buf_full = 0;
@@ -134,9 +134,8 @@ static int bsp_init(const char *param, int *speed,
 
 static int bsp_write(int16_t *pbuf, size_t nr)
 {
-    int total, amount;
-    total = 0;
-
+    size_t total = 0;
+    size_t amount;
 
     while (total < nr) {
         amount = buf_outptr - buf_inptr;
