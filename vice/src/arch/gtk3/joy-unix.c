@@ -31,6 +31,7 @@
  */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
 
@@ -315,8 +316,10 @@ void joystick_ui_reset_device_list(void)
 const char *joystick_ui_get_next_device_name(int *id)
 {
     const char *name;
+#ifndef ARCHDEP_OS_BSD
     static char jname[0x80];
     int idx;
+#endif
 
     /* printf("joystick_ui_get_next_device_name  id: %d\n", joystickdeviceidx); */
 
@@ -325,7 +328,7 @@ const char *joystick_ui_get_next_device_name(int *id)
         joystickdeviceidx++;
 
         if (!use_old_api) {
-#if !defined(__FreeBSD__) && !defined(__OpenBSD__) && !defined(__NetBSD__) && !defined (__DragonflyBSD__)
+#ifndef ARCHDEP_OS_BSD
             if ((*id >= JOYDEV_ANALOG_0) && (*id <= JOYDEV_ANALOG_5)) {
                 idx = *id - JOYDEV_ANALOG_0;
                 if (ajoyfd[idx] >= 0) {
