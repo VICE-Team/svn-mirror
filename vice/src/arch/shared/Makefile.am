@@ -75,9 +75,6 @@ libarchdep_a_SOURCES = \
 	rs232dev.c \
 	signals.c
 
-AM_CFLAGS = $(VICE_CFLAGS)
-AM_CXXFLAGS = $(VICE_CXXFLAGS)
-
 EXTRA_DIST = \
 	archdep_defs.h \
 	archdep_atexit.h \
