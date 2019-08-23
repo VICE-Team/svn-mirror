@@ -492,6 +492,7 @@ else
   AC_MSG_ERROR([can not figure type of time_t])
 fi
 
+AM_CONDITIONAL([HAVE_BSD], false)
 CFLAGS="$old_CFLAGS"
 dnl Add runtime/linker paths for *BSD
 dnl
