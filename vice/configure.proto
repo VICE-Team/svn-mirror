@@ -499,11 +499,13 @@ dnl This needs to be altered to use VICE_**FLAGS, but I'm kinda busy making that
 dnl work on Linux and Windows. So once that works, alter this:
 case "$host_os" in
   freebsd*)
+    AM_CONDITIONAL([HAVE_BSD], true)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
     fbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     LDFLAGS="$LDFLAGS $fbsdrtp -L/usr/local/lib"
     ;;
   netbsd*)
+    AM_CONDITIONAL([HAVE_BSD], true)
     CPPFLAGS="$CPPFLAGS -I/usr/pkg/include -I/usr/include"
     nbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/pkg/lib"`
     LDFLAGS="$LDFLAGS $nbsdrtp -L/usr/pkg/lib"
@@ -518,6 +520,7 @@ case "$host_os" in
     fi
     ;;
   dragonfly*)
+    AM_CONDITIONAL([HAVE_BSD], true)
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
     dfbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
     LDFLAGS="$LDFLAGS $dfbsdrtp -L/usr/local/lib"

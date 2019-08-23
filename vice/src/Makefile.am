@@ -1323,10 +1323,16 @@ else
 blockdev_lib =
 endif
 
+# Bit of a hack to make both Linux and BSD link agains dynlib
+# Someone with a better understand of the differences between Linux and BSD
+# should have a proper look at this issue.
+# -- compyx
 if HAVE_REALDEVICE
-# This breaks FreeBSD due to linker errors, removing the dynlib.o makes FreeBSD
-# link, but breaks Linux. =)
+if HAVE_BSD
+realdevice_lib = opencbmlib.o
+else
 realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
+endif
 else
 realdevice_lib =
 endif
