@@ -63,6 +63,11 @@ static char *hotkey_file = NULL;
 /* Menu keys */
 int sdl_ui_menukeys[MENU_ACTION_NUM];
 
+/** \brief  Hotkey filename
+ */
+char *hotkey_filename;
+
+
 /* UI hotkeys: index is the key(combo), value is a pointer to the menu item.
    4 is the number of the supported modifiers: shift, alt, control, meta. */
 #define SDLKBD_UI_HOTKEYS_MAX (SDL_NUM_SCANCODES * (1 << 4))
@@ -93,7 +98,8 @@ static resource_string_t resources_string[] = {
 
 int sdlkbd_init_resources(void)
 {
-    resources_string[0].factory_value = archdep_default_hotkey_file_name();
+    hotkey_filename = archdep_default_hotkey_file_name();
+    resources_string[0].factory_value = hotkey_filename;
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -103,8 +109,7 @@ int sdlkbd_init_resources(void)
 
 void sdlkbd_resources_shutdown(void)
 {
-    lib_free(resources_string[0].factory_value);
-    resources_string[0].factory_value = NULL;
+    lib_free(hotkey_filename);
     lib_free(hotkey_file);
     hotkey_file = NULL;
 }
