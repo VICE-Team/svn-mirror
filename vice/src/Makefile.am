@@ -1324,8 +1324,9 @@ blockdev_lib =
 endif
 
 if HAVE_REALDEVICE
-# realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
-realdevice_lib = opencbmlib.o
+# This breaks FreeBSD due to linker errors, removing the dynlib.o makes FreeBSD
+# link, but breaks Linux. =)
+realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
 else
 realdevice_lib =
 endif
