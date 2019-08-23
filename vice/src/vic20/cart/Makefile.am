@@ -9,9 +9,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/lib/p64
 
-AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+AM_CFLAGS = $(VICE_CFLAGS)
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+AM_CXXFLAGS = $(VICE_CXXFLAGS)
 
 noinst_LIBRARIES = libvic20cart.a libmascuerade.a
 

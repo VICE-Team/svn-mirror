@@ -6,9 +6,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/diag
 
-AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+AM_CFLAGS = $(VICE_CFLAGS)
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+AM_CXXFLAGS = $(VICE_CXXFLAGS)
 
 noinst_LIBRARIES = libtapeport.a
 

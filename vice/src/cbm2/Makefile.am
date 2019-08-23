@@ -17,9 +17,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/tapeport
 
-AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+AM_CFLAGS = $(VICE_CFLAGS)
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+AM_CXXFLAGS = $(VICE_CXXFLAGS)
 
 noinst_LIBRARIES = libcbm2.a libcbm5x0.a
 

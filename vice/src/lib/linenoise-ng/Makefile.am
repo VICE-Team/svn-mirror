@@ -5,7 +5,7 @@
 #
 
 # This needs to change into:
-#	$VICE_CXXFLAGS -Wno-unused-variable -Wno-unused-function @CXXFLAGS@
+#	$VICE_CXXFLAGS -Wno-unused-variable -Wno-unused-function
 #
 # Once we alter configure.proto to not override C[XX|PP]FLAGS
 #

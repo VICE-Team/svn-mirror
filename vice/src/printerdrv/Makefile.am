@@ -5,9 +5,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/userport
 
-AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+AM_CFLAGS = $(VICE_CFLAGS)
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+AM_CXXFLAGS = $(VICE_CXXFLAGS)
 
 noinst_LIBRARIES = libprinterdrv.a
 

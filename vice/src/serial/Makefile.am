@@ -5,9 +5,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/lib/p64
 
-AM_CFLAGS = $(VICE_CFLAGS) @CFLAGS@
+AM_CFLAGS = $(VICE_CFLAGS)
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS) @CXXFLAGS@
+AM_CXXFLAGS = $(VICE_CXXFLAGS)
 
 noinst_LIBRARIES = libserial.a
 
