@@ -222,6 +222,7 @@ static int set_acia_enabled(int value, void *param)
             return -1;
         }
         acia_enabled = 1;
+        acia1_reset();
     } else if ((!val) && (acia_enabled)) {
         acia1_disable();
         acia_enabled = 0;
