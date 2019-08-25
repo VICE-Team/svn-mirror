@@ -1,6 +1,6 @@
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
-LINK = @LINKCC@ $(CFLAGS) $(LDFLAGS) -o $@
+LINK = @LINKCC@ $(VICE_CFLAGS) $(LDFLAGS) -o $@
 CCLD = @LINKCC@
 
 AM_CFLAGS = $(VICE_CFLAGS)
@@ -1328,11 +1328,11 @@ endif
 # should have a proper look at this issue.
 # -- compyx
 if HAVE_REALDEVICE
-if HAVE_BSD
-realdevice_lib = opencbmlib.o
-else
+#if HAVE_BSD
+#realdevice_lib = opencbmlib.o
+#else
 realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
-endif
+#endif
 else
 realdevice_lib =
 endif
