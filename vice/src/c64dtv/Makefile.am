@@ -1,5 +1,3 @@
-AM_CFLAGS=@INLINE_UNIT_GROWTH@
-
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
@@ -18,7 +16,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/tapeport
 
-AM_CFLAGS = $(VICE_CFLAGS)
+AM_CFLAGS = $(VICE_CFLAGS) @INLINE_UNIT_GROWTH@
 
 AM_CXXFLAGS = $(VICE_CXXFLAGS)
 
