@@ -346,7 +346,7 @@ is_beos=no
 is_amiga=no
 
 HAVE_CAIRO_SUPPORT="no "
-HAVE_PANGO_SUPPORT="no "
+# HAVE_PANGO_SUPPORT="no "
 HAVE_HWSCALE_SUPPORT="no "
 HAVE_LIBXPM_SUPPORT="no "
 
@@ -465,7 +465,7 @@ bu_cv_decl_time_t_time_h=yes, bu_cv_decl_time_t_time_h=no)])
 AC_MSG_RESULT($bu_cv_decl_time_t_time_h)
 if test $bu_cv_decl_time_t_time_h = yes; then
   AC_DEFINE([HAVE_TIME_T_IN_TIME_H],,
-	    [Is the type time_t defined in <time.h>?])
+            [Is the type time_t defined in <time.h>?])
 fi
 
 AC_MSG_CHECKING(for time_t in sys/types.h)
@@ -475,7 +475,7 @@ bu_cv_decl_time_t_types_h=yes, bu_cv_decl_time_t_types_h=no)])
 AC_MSG_RESULT($bu_cv_decl_time_t_types_h)
 if test $bu_cv_decl_time_t_types_h = yes; then
   AC_DEFINE([HAVE_TIME_T_IN_TYPES_H],,
-	    [Is the type time_t defined in <sys/types.h>?])
+            [Is the type time_t defined in <sys/types.h>?])
 fi
 
 if test $bu_cv_decl_time_t_time_h = yes; then
@@ -814,7 +814,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
       if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
         AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
         if test x"$PARSID_SUPPORT" = "xyes"; then
-          AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+          AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the 'ieee1284' library (-lieee1284).])
         else
           AC_MSG_ERROR([libieee1284 is missing])
         fi
@@ -905,7 +905,7 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
       if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
         AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
         if test x"$PARSID_SUPPORT" = "xyes"; then
-          AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+          AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the 'ieee1284' library (-lieee1284).])
         else
           AC_MSG_ERROR([libieee1284 is missing])
         fi
@@ -1434,13 +1434,14 @@ if test x"$check_sdl1" = "xyes"; then
     if test x"$SDL_AMIGA_INLINE" = "xyes"; then
       AC_DEFINE(SDL_AMIGA_INLINE,,[Enable amiga shared SDL library support.])
       if test x"$enable_sdlui" != "xno"; then
-        AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
+        AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,,
+                  [Define to 1 if you have the 'SDL_NumJoysticks' function.])
         HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes";
       fi
     elif test x"$POWERSDL_AMIGA_INLINE" = "xyes"; then
       AC_DEFINE(POWERSDL_AMIGA_INLINE,,[Enable morphos shared SDL library support.])
       if test x"$enable_sdlui" != "xno"; then
-        AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
+        AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the 'SDL_NumJoysticks' function.])
         HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes";
       fi
     else
@@ -1672,7 +1673,7 @@ if test x"$check_sdl1" = "xyes"; then
               LIBS="$LIBS -luserenv"
               ;;
           esac
-          
+
           dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
           enable_native_gtk3ui=no
           enable_sdlui=yes
@@ -1954,12 +1955,13 @@ sys/dirent.h sys/stat.h inttypes.h libgen.h sys/ioctl.h \
 dir.h io.h process.h signal.h alloca.h wchar.h stdint.h sys/time.h)
 
 
-AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
-#define	GETC()		(*sp++)
-#define	PEEKC()		(*sp)
-#define	UNGETC(c)	-- sp
-#define	RETURN(ptr)	return NULL;
-#define	ERROR(val)	_RegExpError(val)
+AC_CHECK_HEADER(regexp.h,,,
+                [#define    INIT        register char *sp = instring;
+                 #define    GETC()      (*sp++)
+                 #define    PEEKC()     (*sp)
+                 #define    UNGETC(c)   sp
+                 #define    RETURN(ptr) return NULL;
+                 #define    ERROR(val)  _RegExpError(val)
 ])
 AC_DECL_SYS_SIGLIST
 
@@ -2452,13 +2454,13 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
         HAVE_FFMPEG_SUPPORT="yes"
         FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
         GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
-	dlopen_pthread=yes
+        dlopen_pthread=yes
       fi
       if (test x"${have_swscale}" = x"yes") ; then
         AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
         HAVE_FFMPEG_SWSCALE_SUPPORT="yes"
         FFMPEG_INCLUDES="$FFMPEG_INCLUDES $FFMPEG_SWSCALE_CFLAGS"
-	dlopen_pthread=yes
+        dlopen_pthread=yes
       fi
        ],
       [echo "no. disabled."]
@@ -2991,7 +2993,8 @@ if test x"$is_unix" = "xyes"; then
     if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
       AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
       if test x"$PARSID_SUPPORT" = "xyes"; then
-        AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+        AC_DEFINE(HAVE_LIBIEEE1284,
+                  [Define to 1 if you have the 'ieee1284' library (-lieee1284).])
         HAVE_LIBIEEE1284_SUPPORT="yes"
       else
         AC_MSG_ERROR([libieee1284 is missing])
@@ -3023,7 +3026,8 @@ if test x"$is_unix" = "xyes"; then
       if test x"$BSD_SET_IOPERM_HEADERS_PRESENT" = "xyes"; then
         AC_CHECK_LIB(amd64, amd64_set_ioperm,[LIBS="-lamd64 $LIBS"; IOSID_SUPPORT=yes],,)
         if test x"$IOSID_SUPPORT" = "xyes"; then
-          AC_DEFINE(HAVE_LIBAMD64,,[Define to 1 if you have the `amd64' library (-lamd64).])
+          AC_DEFINE(HAVE_LIBAMD64,,
+                    [Define to 1 if you have the 'amd64' library (-lamd64).])
         fi
       fi
     fi
@@ -3113,7 +3117,7 @@ if test x"$have_strdup_func" = "xno"; then
                [AC_MSG_RESULT(no); have_strdup_func=no])
 
   if test x"$have_strdup_func" = "xyes"; then
-    AC_DEFINE(HAVE_STRDUP,,[Define to 1 if you have the `strdup' function.])
+    AC_DEFINE(HAVE_STRDUP,,[Define to 1 if you have the 'strdup' function.])
   fi
 fi
 
@@ -3136,7 +3140,7 @@ dnl GTK3-FIXME: check if readline is even needed for native GTK3 UI and disable 
 
 dnl ----- Readline -----
 dnl Check whether we have GNU readline.  If not, use our replacement.
-dnl The user can force us to use the replacement with `--without-readline'.
+dnl The user can force us to use the replacement with '--without-readline'.
 READLINE_LIBS=
 EDITLINE_LIBS=
 if test x"$is_unix_x11" = "xyes"; then
@@ -3179,7 +3183,7 @@ if test x"$is_unix_x11" = "xyes"; then
     if test "$ac_cv_lib_readline_readline" = "yes"; then
       AC_CHECK_LIB(readline, rl_readline_name,
              [ AC_DEFINE(HAVE_RLNAME,,
-             [Does the `readline' library support `rl_readline_name'?]) ],,)
+             [Does the 'readline' library support 'rl_readline_name'?]) ],,)
     fi
     LIBS="${old_LIBS}"
   else
@@ -3568,8 +3572,7 @@ else
   PREFIX="$prefix"
 fi
 
-AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX",
-		   [Where do we want to install the executable?])
+AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX", [Where do we want to install the executable?])
 
 dnl Path for keymaps, ROMs etc.
 case "$host_os" in
@@ -3596,8 +3599,7 @@ case "$host_os" in
     ;;
 esac
 AC_SUBST(VICEDIR)
-AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
-		   [Where should we lookup for data files?])
+AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR", [Where should we lookup for data files?])
 
 
 # Add path with private dynamic ffmpeg libs to the search path
@@ -3853,7 +3855,7 @@ fi
 
 if test x"$real_arch" = "xUnix"; then
     echo "Cairo rendering support        : $HAVE_CAIRO_SUPPORT"
-    echo "Pango support                  : $HAVE_PANGO_SUPPORT"
+#    echo "Pango support                  : $HAVE_PANGO_SUPPORT"
 fi
 
 echo ""
