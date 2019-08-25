@@ -53,17 +53,18 @@
 
 /* the mapping of the host ("KeyboardMapping")
    (keep in sync with table in keyboard.c) */
-#define KBD_MAPPING_US    0     /* "" (us mapping) */
+#define KBD_MAPPING_US    0     /* "" (us mapping) this must be first (=0) always */
 #define KBD_MAPPING_UK    1     /* "uk" */
 #define KBD_MAPPING_DA    2     /* "da" */
 #define KBD_MAPPING_NL    3     /* "nl" */
-#define KBD_MAPPING_DE    4     /* "de" */
-#define KBD_MAPPING_FI    5     /* "fi" */
+#define KBD_MAPPING_FI    4     /* "fi" */
+#define KBD_MAPPING_DE    5     /* "de" */
 #define KBD_MAPPING_IT    6     /* "it" */
 #define KBD_MAPPING_NO    7     /* "no" */
 #define KBD_MAPPING_SE    8     /* "se" */
-#define KBD_MAPPING_LAST  8
-#define KBD_MAPPING_NUM   9
+#define KBD_MAPPING_CH    9     /* "ch" */
+#define KBD_MAPPING_LAST  9
+#define KBD_MAPPING_NUM   10
 extern int keyboard_get_num_mappings(void);
 
 /* mapping info for GUIs */

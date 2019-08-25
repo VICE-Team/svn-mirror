@@ -1955,15 +1955,16 @@ int keyboard_get_num_mappings(void)
 
 /* (keep in sync with constants in keyboard.h) */
 static mapping_info_t kbdinfo[KBD_MAPPING_NUM + 1] = {
-    { "American (us)", KBD_MAPPING_US, "" },
+    { "American (us)", KBD_MAPPING_US, "" },    /* this must be first (=0) always */
     { "British (uk)", KBD_MAPPING_UK, "uk" },
     { "Danish (da)", KBD_MAPPING_DA, "da" },
     { "Dutch (nl)", KBD_MAPPING_NL, "nl" },
-    { "German (de)", KBD_MAPPING_DE, "de" },
     { "Finnish (fi)", KBD_MAPPING_FI, "fi" },
+    { "German (de)", KBD_MAPPING_DE, "de" },
     { "Italian (it)", KBD_MAPPING_IT, "it" },
     { "Norwegian (no)", KBD_MAPPING_NO, "no" },
     { "Swedish (se)", KBD_MAPPING_SE, "se" },
+    { "Swiss (ch)", KBD_MAPPING_CH, "ch" },
     { NULL, 0, 0 }
 };
 
