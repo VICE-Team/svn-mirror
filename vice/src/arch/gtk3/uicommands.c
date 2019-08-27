@@ -70,8 +70,8 @@
  */
 gboolean ui_swap_joysticks_callback(GtkWidget *widget, gpointer user_data)
 {
-    int joy1;
-    int joy2;
+    int joy1 = -1;
+    int joy2 = -1;
 
     resources_get_int("JoyDevice1", &joy1);
     resources_get_int("JoyDevice2", &joy2);
@@ -92,8 +92,8 @@ gboolean ui_swap_joysticks_callback(GtkWidget *widget, gpointer user_data)
 gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
                                              gpointer user_data)
 {
-    int joy3;
-    int joy4;
+    int joy3 = -1;
+    int joy4 = -1;
 
     resources_get_int("JoyDevice3", &joy3);
     resources_get_int("JoyDevice4", &joy4);
@@ -136,7 +136,7 @@ gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data)
  */
 static gboolean confirm_exit(void)
 {
-    int confirm;
+    int confirm = FALSE;
 
     resources_get_int("ConfirmOnExit", &confirm);
     if (!confirm) {
