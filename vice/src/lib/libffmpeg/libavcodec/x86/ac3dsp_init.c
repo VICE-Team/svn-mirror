@@ -64,7 +64,7 @@ void ff_apply_window_int16_ssse3(int16_t *output, const int16_t *input,
 void ff_apply_window_int16_ssse3_atom(int16_t *output, const int16_t *input,
                                       const int16_t *window, unsigned int len);
 
-#if ARCH_X86_32 && (defined(__INTEL_COMPILER) || defined(__clang__))
+#if ARCH_X86_32 && (defined(__INTEL_COMPILER) || defined(__clang__) || defined(__GNUC__))
 #       undef HAVE_7REGS
 #       define HAVE_7REGS 0
 #endif

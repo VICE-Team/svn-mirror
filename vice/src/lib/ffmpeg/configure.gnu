@@ -164,23 +164,21 @@ fi
 cd ../liblame
 cur=`pwd`
 extra_lame_enables=""
-if test x"$hostprefix" != "x"; then
-  if test x"$host" = "xi686-w64-mingw32"; then
-    extra_lame_enables="ac_cv_header_xmmintrin_h=no"
-  fi
+if test x"$host" = "xi686-w64-mingw32"; then
+  extra_lame_enables="ac_cv_header_xmmintrin_h=no"
 fi
 
 if test x"$shared" = "xyes"; then
   if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$prefix $extra_generic_enables $extra_lame_enables --host=$host"
   else
-    config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$prefix $extra_generic_enables"
+    config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$prefix $extra_generic_enables $extra_lame_enables"
   fi
 else
   if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables $extra_lame_enables --host=$host"
   else
-    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables"
+    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$prefix $extra_generic_enables $extra_lame_enables"
   fi
 fi
 cat <<__END
@@ -237,13 +235,13 @@ if test x"$shared" = "xyes"; then
   if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../libx264/configure --enable-shared --enable-static --yasm-prog=${yasmcommand} --prefix=$prefix $extra_generic_enables $extra_x264_enables --host=$host --cross-prefix=$hostprefix-"
   else
-    config_line="$srcdir/../libx264/configure --enable-shared --enable-static --yasm-prog=${yasmcommand} --prefix=$prefix $extra_generic_enables $extra_x264_enables --compiler=${compiler}"
+    config_line="$srcdir/../libx264/configure --enable-shared --enable-static --yasm-prog=${yasmcommand} --prefix=$prefix $extra_generic_enables $extra_x264_enables --host=$host --compiler=${compiler}"
   fi
 else
   if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../libx264/configure --enable-static $pic_option $asm_option --yasm-prog=${yasmcommand} --prefix=$prefix --host=$host --cross-prefix=$hostprefix-"
   else
-    config_line="$srcdir/../libx264/configure --enable-static $pic_option $asm_option --yasm-prog=${yasmcommand} --prefix=$prefix --compiler=${compiler}"
+    config_line="$srcdir/../libx264/configure --enable-static $pic_option $asm_option --yasm-prog=${yasmcommand} --prefix=$prefix --host=$host --compiler=${compiler}"
   fi
 fi
 
@@ -298,16 +296,16 @@ fi
 
 if test x"$shared" = "xyes"; then
 cat <<__END
-Running configure in libffmpeg with $config_line --extra-ldflags="-L$prefix/lib -L$prefix/lib64" --extra-cflags="-I$prefix/include -Wno-deprecated-declarations"
+Running configure in libffmpeg with $config_line --extra-ldflags="-L$prefix/lib -L$prefix/lib64" --extra-cflags="-I$prefix/include -Wno-deprecated-declarations -Wno-attributes"
 __END
 else
 cat <<__END
-Running configure in libffmpeg with $config_line --extra-ldflags="-Llib -Llib64" --extra-cflags="-Iinclude -Wno-deprecated-declarations"
+Running configure in libffmpeg with $config_line --extra-ldflags="-Llib -Llib64" --extra-cflags="-Iinclude -Wno-deprecated-declarations -Wno-attributes"
 __END
 fi
 
 if test x"$shared" = "xyes"; then
-  ${NEW_SHELL} $config_line --extra-cflags="-I$prefix/include -Wno-deprecated-declarations" --extra-ldflags="-L$prefix/lib -L$prefix/lib64"
+  ${NEW_SHELL} $config_line --extra-cflags="-I$prefix/include -Wno-deprecated-declarations -Wno-attributes" --extra-ldflags="-L$prefix/lib -L$prefix/lib64"
 else
-  ${NEW_SHELL} $config_line --extra-cflags="-Iinclude -Wno-deprecated-declarations" --extra-ldflags="-Llib -Llib64"
+  ${NEW_SHELL} $config_line --extra-cflags="-Iinclude -Wno-deprecated-declarations -Wno-attributes" --extra-ldflags="-Llib -Llib64"
 fi

@@ -32,7 +32,7 @@
 #define X264_API_IMPORTS 1
 #endif
 
-#include <x264.h>
+#include "../../libx264/x264.h"
 #include <float.h>
 #include <math.h>
 #include <stdio.h>
