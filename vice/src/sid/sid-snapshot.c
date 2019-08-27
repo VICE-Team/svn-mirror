@@ -97,10 +97,12 @@ static const char snap_module_name_simple3[] = "SID3";
 
 static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
 {
-    int sound, sid_engine, sids;
+    int sound = 0;
+    int sid_engine = 0;
+    int sids = 0;
     snapshot_module_t *m;
     const char *snap_module_name_simple = NULL;
-    int sid_address;
+    int sid_address = 0;
 
     switch (sidnr) {
         default:
@@ -858,7 +860,8 @@ static const char snap_module_name_extended3[] = "SIDEXTENDED3";
 static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
 {
     snapshot_module_t *m;
-    int sound, sid_engine;
+    int sound;
+    int sid_engine = 0;
     const char *snap_module_name_extended = NULL;
 
     switch (sidnr) {

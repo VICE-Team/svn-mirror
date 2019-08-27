@@ -814,7 +814,7 @@ static void datasette_internal_reset(void)
 
 void datasette_reset(void)
 {
-    int ds_reset;
+    int ds_reset = 0;
     DBG(("datasette_reset"));
     resources_get_int("DatasetteResetWithCPU", &ds_reset);
 

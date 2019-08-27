@@ -137,7 +137,7 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
     char *filename = NULL;
     FILE *ftap;
     uint8_t *buffer;
-    long tap_size;
+    long tap_size = -1;
 
     m = snapshot_module_open(s, "TAPIMAGE",
                              &major_version, &minor_version);

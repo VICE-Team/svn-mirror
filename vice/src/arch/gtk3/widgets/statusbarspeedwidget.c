@@ -132,7 +132,7 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
 {
-    int old_val;
+    int old_val = 0;
     int new_val;
 
     resources_get_int("RefreshRate", &old_val);

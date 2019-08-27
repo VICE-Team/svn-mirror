@@ -413,7 +413,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
         if (strncmp("UNIT ", buffer, 5) == 0) {
             if (all_units != 0) {
-                long unit_long;
+                long unit_long = -1;
 
                 util_string_to_long(buffer + 5, NULL, 10, &unit_long);
 
