@@ -242,9 +242,9 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
     /* determine recording type */
     if (event_record_active()) {
         type = RW_TYPE_EVENTS;
-    } else if (sound_is_recording()) {
+    } else if (sound_is_recording() && !screenshot_is_recording()) {
         type = RW_TYPE_AUDIO;
-    } else if (screenshot_is_recording()) {
+    } else {
         type = RW_TYPE_VIDEO;
     }
 
