@@ -951,7 +951,7 @@ static GtkWidget *create_video_widget(void)
 
     }
     gtk_widget_set_hexpand(combo, TRUE);
-    gtk_combo_box_set_active(combo, 0);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
     selection_grid = uihelpers_create_grid_with_label("Driver selection", 2);
     gtk_grid_set_column_spacing(GTK_GRID(selection_grid), 16);
