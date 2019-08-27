@@ -217,7 +217,11 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
     int i, j, isdir = 0;
     char* title_string;
     char* name;
-    uint8_t oldbg;
+    uint8_t oldbg = 0x0d;   /* This is the worst color, doesn't fit next to
+                               3, 7 or F, only fits somewhat next to 5, but that
+                               ramp is too high, or 1, but then the ramp down
+                               kinda sucks
+                             */
 
     title_string = lib_msprintf("%s %s", title, (offset) ? ((more) ? "(<- ->)" : "(<-)") : ((more) ? "(->)" : ""));
 
@@ -227,11 +231,10 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
     sdl_ui_display_path(current_dir);
 
     for (i = 0; i < num_items; ++i) {
-        
         if (i == cur_offset) {
             oldbg = sdl_ui_set_cursor_colors();
         }
-        
+
         j = MENU_FIRST_X;
         name = sdl_ui_get_file_selector_entry(directory, offset + i, &isdir, mode);
         if (isdir) {
