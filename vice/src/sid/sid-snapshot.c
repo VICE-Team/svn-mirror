@@ -88,12 +88,21 @@ static int intended_sid_engine = -1;
    ARRAY | sid data |   1.2+  | 32 BYTES of SID registers
  */
 
+/* SID4 snapshot module format:
+
+   type  | name     | version | description
+   ----------------------------------------
+   WORD  | address  |   1.4+  | SID address
+   ARRAY | sid data |   1.4+  | 32 BYTES of SID registers
+ */
+
 static const char snap_module_name_simple1[] = "SID";
 static const char snap_module_name_simple2[] = "SID2";
 static const char snap_module_name_simple3[] = "SID3";
+static const char snap_module_name_simple4[] = "SID4";
 
 #define SNAP_MAJOR_SIMPLE 1
-#define SNAP_MINOR_SIMPLE 3
+#define SNAP_MINOR_SIMPLE 4
 
 static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
 {
@@ -114,6 +123,9 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
             break;
         case 2:
             snap_module_name_simple = snap_module_name_simple3;
+            break;
+        case 3:
+            snap_module_name_simple = snap_module_name_simple4;
             break;
     }
 
@@ -145,6 +157,14 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
     /* Added in 1.2, for the 3rd SID module the address is saved */
     if (sidnr == 2) {
         resources_get_int("SidTripleAddressStart", &sid_address);
+        if (SMW_W(m, (uint16_t)sid_address) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Added in 1.4, for the 4th SID module the address is saved */
+    if (sidnr == 3) {
+        resources_get_int("SidQuadAddressStart", &sid_address);
         if (SMW_W(m, (uint16_t)sid_address) < 0) {
             goto fail;
         }
@@ -192,6 +212,9 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
         case 2:
             snap_module_name_simple = snap_module_name_simple3;
             break;
+        case 3:
+            snap_module_name_simple = snap_module_name_simple4;
+            break;
     }
 
     m = snapshot_module_open(s, snap_module_name_simple, &major_version, &minor_version);
@@ -206,7 +229,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
         goto fail;
     }
 
-    /* Handle 1.3 snapshots differently */
+    /* Handle 1.3+ snapshots differently */
     if (!snapshot_version_is_smaller(major_version, minor_version, 1, 3)) {
         if (!sidnr) {
             if (SMR_B_INT(m, &sids) < 0) {
@@ -235,6 +258,9 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
         }
         if (sidnr == 2) {
             resources_set_int("SidTripleAddressStart", sid_address);
+        }
+        if (sidnr == 3) {
+            resources_set_int("SidQuadAddressStart", sid_address);
         }
         if (SMR_BA(m, tmp + 2, 32) < 0) {
             goto fail;
@@ -854,8 +880,9 @@ static int sid_snapshot_read_ssi2001_module(snapshot_module_t *m, int sidnr)
 static const char snap_module_name_extended1[] = "SIDEXTENDED";
 static const char snap_module_name_extended2[] = "SIDEXTENDED2";
 static const char snap_module_name_extended3[] = "SIDEXTENDED3";
+static const char snap_module_name_extended4[] = "SIDEXTENDED4";
 #define SNAP_MAJOR_EXTENDED 1
-#define SNAP_MINOR_EXTENDED 3
+#define SNAP_MINOR_EXTENDED 4
 
 static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
 {
@@ -874,6 +901,9 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
             break;
         case 2:
             snap_module_name_extended = snap_module_name_extended3;
+            break;
+        case 3:
+            snap_module_name_extended = snap_module_name_extended4;
             break;
     }
 
@@ -958,6 +988,9 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
         case 2:
             snap_module_name_extended = snap_module_name_extended3;
             break;
+        case 3:
+            snap_module_name_extended = snap_module_name_extended4;
+            break;
     }
 
     /* If the sid engine data that was save does not match the current engine
@@ -969,8 +1002,10 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
                 sid_store((uint16_t)i, siddata[i]);
             } else if (sidnr == 1) {
                 sid2_store((uint16_t)i, siddata[i]);
-            } else {
+            } else if (sidnr == 2) {
                 sid3_store((uint16_t)i, siddata[i]);
+            } else if (sidnr == 3) {
+                sid4_store((uint16_t)i, siddata[i]);
             }
         }
         return 0;
