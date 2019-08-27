@@ -311,7 +311,7 @@ void vicii_init_vsp_bug(void)
 /* see VSP Lab (http://csdb.dk/release/?id=120810) */
 static inline void vicii_handle_vsp_bug(void)
 {
-    unsigned int page, row, channel, line;
+    unsigned int page, row, channel = 0, line = 0;
 
     /* FIXME: we should instead init at "powercycle" */
     if (!vsp_buginitialized) {
