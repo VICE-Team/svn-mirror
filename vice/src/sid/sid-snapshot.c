@@ -69,6 +69,7 @@ static int intended_sid_engine = -1;
    BYTE  | sids     |   1.2+  | amount of extra sids
    BYTE  | sound    |   1.2+  | sound active flag
    BYTE  | engine   |   1.2+  | sound engine
+   BYTE  | model    |   1.4+  | SID model     
    ARRAY | sid data |   1.1+  | 32 BYTES of SID registers
  */
 
@@ -109,6 +110,7 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
     int sound = 0;
     int sid_engine = 0;
     int sids = 0;
+    int model = 0;
     snapshot_module_t *m;
     const char *snap_module_name_simple = NULL;
     int sid_address = 0;
@@ -138,9 +140,10 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
     resources_get_int("Sound", &sound);
     resources_get_int("SidEngine", &sid_engine);
     resources_get_int("SidStereo", &sids);
+    resources_get_int("SidModel", &model);
 
     /* Added in 1.2, for the 1st SID module the amount of SIDs is saved 1st */
-    if (!sidnr) {
+    if (sidnr == 0) {
         if (SMW_B(m, (uint8_t)sids) < 0) {
             goto fail;
         }
@@ -173,10 +176,12 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
     /* Changed in 1.2, all data is saved whether sound is on or off */
 
     /* Changed in 1.3, sound and sid_engine are only saved in the 1st SID module */
-    if (!sidnr) {
+    /* Changed in 1.4, model is saved after engine */
+    if (sidnr == 0) {
         if (0
             || SMW_B(m, (uint8_t)sound) < 0
-            || SMW_B(m, (uint8_t)sid_engine) < 0) {
+            || SMW_B(m, (uint8_t)sid_engine) < 0
+            || SMW_B(m, (uint8_t)model) < 0) {
             goto fail;
         }
     }
@@ -196,7 +201,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
 {
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
-    uint8_t tmp[34];
+    uint8_t tmp[35];
     const char *snap_module_name_simple = NULL;
     int sids = 0;
     int sid_address;
@@ -231,7 +236,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
 
     /* Handle 1.3+ snapshots differently */
     if (!snapshot_version_is_smaller(major_version, minor_version, 1, 3)) {
-        if (!sidnr) {
+        if (sidnr == 0) {
             if (SMR_B_INT(m, &sids) < 0) {
                 goto fail;
             }
@@ -248,6 +253,14 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
 
             intended_sid_engine = tmp[1];
             set_sid_engine_with_fallback(tmp[1]);
+
+            if (!snapshot_version_is_smaller(major_version, minor_version, 1, 4)) {
+                if (0
+                    || SMR_B(m, &tmp[0]) < 0) {
+                    goto fail;
+                }
+                resources_set_int("SidModel", (int)tmp[0]);
+            }
         } else {
             if (SMR_W_INT(m, &sid_address) < 0) {
                 goto fail;
