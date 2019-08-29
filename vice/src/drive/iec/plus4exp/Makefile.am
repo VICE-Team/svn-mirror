@@ -6,6 +6,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/drive/iec \
 	-I$(top_srcdir)/src/lib/p64
 
+AM_CFLAGS = $(VICE_CFLAGS)
+
+AM_CXXFLAGS = $(VICE_CXXFLAGS)
+
 noinst_LIBRARIES = libdriveiecplus4exp.a
 
 libdriveiecplus4exp_a_SOURCES = \
