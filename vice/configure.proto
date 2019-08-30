@@ -190,8 +190,7 @@ m4_foreach([flag],
             [-Wno-unused-parameter],
             [-Werror=implicit-function-declaration],
             [-Wfatal-errors],
-            [-fdiagnostics-absolute-paths],
-           ],
+            [-fdiagnostics-absolute-paths]],
            [TEST_FLAG=flag
             old_CXXFLAGS="$CXXFLAGS"
             old_vice_CXXFLAGS="$VICE_CXXFLAGS"
@@ -216,8 +215,7 @@ AC_LANG_PUSH([C++])
 m4_foreach([flag],
            [[-Wno-address-of-packed-member],
             [-Wno-char-subscripts],
-            [-Wno-format-signedness]
-           ],
+            [-Wno-format-signedness]],
            [TEST_FLAG=flag
             old_VTE_CXXFLAGS="$VTE_CXXFLAGS"
             SUCCESS_VTE_CXXFLAGS="$VTE_CXXFLAGS $TEST_FLAG"
