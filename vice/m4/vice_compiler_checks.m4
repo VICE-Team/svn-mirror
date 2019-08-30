@@ -19,9 +19,11 @@ AC_DEFUN([VICE_CFLAG_REQUEST],
     AC_LANG_PUSH([C])
     AC_MSG_CHECKING([if the C compiler supports $1])
     old_CFLAGS="$CFLAGS"
-    dnl We need -Werror to make AC_TRY_COMPILE error out with Clang
+    dnl We need -Werror to make AC_TRY_COMPILE error out with Clang, and we
+    dnl need it to be before any -Werror=foo flags to make gcc 9.2+ error out,
+    dnl otherwise gcc 9.2 will complain but still return 0.
     dnl We need -Wno-strict-prototypes to avoid barfing on 'main()'
-    CFLAGS="$VICE_CFLAGS $1 -Wno-strict-prototypes -Werror"
+    CFLAGS="-Werror $VICE_CFLAGS $1 -Wno-strict-prototypes"
     AC_TRY_COMPILE(
         [],
         [int poop = 42; return poop;],
@@ -44,7 +46,7 @@ AC_DEFUN([VICE_CFLAG_REQUIRE],
     AC_MSG_CHECKING([if the C compiler supports $1])
     old_CFLAGS="$CFLAGS"
     dnl We need -Werror to make AC_TRY_COMPILE error out with Clang
-    CFLAGS="$VICE_CFLAGS $1 -Wno-strict-prototypes -Werror"
+    CFLAGS="-Werror $VICE_CFLAGS $1 -Wno-strict-prototypes"
     AC_TRY_COMPILE(
         [],
         [int poop = 42; return poop;],
