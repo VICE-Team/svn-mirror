@@ -144,7 +144,6 @@ void fliplist_set_current(unsigned int unit, const char *filename)
     current_drive = unit;
 }
 
-#if 0
 char *fliplist_get_head(unsigned int unit)
 {
     if (fliplist[unit - 8]) {
@@ -152,7 +151,6 @@ char *fliplist_get_head(unsigned int unit)
     }
     return (char *) NULL;
 }
-#endif
 
 const char *fliplist_get_next(unsigned int unit)
 {

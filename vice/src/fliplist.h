@@ -43,7 +43,7 @@ extern void fliplist_remove(unsigned int unit, const char *image);
 extern void fliplist_attach_head(unsigned int unit, int direction);
 extern fliplist_t fliplist_init_iterate(unsigned int unit);
 extern fliplist_t fliplist_next_iterate(unsigned int unit);
-/*extern char *fliplist_get_head(unsigned int unit);*/
+extern char *fliplist_get_head(unsigned int unit);
 extern const char *fliplist_get_next(unsigned int unit);
 extern const char *fliplist_get_prev(unsigned int unit);
 extern const char *fliplist_get_image(fliplist_t fl);
