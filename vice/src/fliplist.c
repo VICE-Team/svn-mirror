@@ -149,7 +149,7 @@ char *fliplist_get_head(unsigned int unit)
     if (fliplist[unit - 8]) {
         return fliplist[unit - 8]->image;
     }
-    return (char *) NULL;
+    return NULL;
 }
 
 const char *fliplist_get_next(unsigned int unit)
@@ -157,7 +157,7 @@ const char *fliplist_get_next(unsigned int unit)
     if (fliplist[unit - 8]) {
         return fliplist[unit - 8]->next->image;
     }
-    return (const char *) NULL;
+    return NULL;
 }
 
 const char *fliplist_get_prev(unsigned int unit)
@@ -165,7 +165,7 @@ const char *fliplist_get_prev(unsigned int unit)
     if (fliplist[unit - 8]) {
         return fliplist[unit - 8]->prev->image;
     }
-    return (const char *) NULL;
+    return NULL;
 }
 
 const char *fliplist_get_image(fliplist_t fl)
