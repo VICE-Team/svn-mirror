@@ -224,8 +224,9 @@ void drive_model_widget_update(GtkWidget *widget)
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
             debug_gtk3("row 0: checking drive ID %d", list[i].id);
-            gtk_widget_set_sensitive(radio, drive_check_type(
-                        (unsigned int)(list[i].id), (unsigned int)(unit - 8)));
+            gtk_widget_set_sensitive(radio,
+                    drive_check_type((unsigned int)(list[i].id),
+                                     (unsigned int)(unit - DRIVE_UNIT_MIN)));
             if (list[i].id == type) {
                 /* TODO: temporary block the resource-set callback */
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
@@ -238,9 +239,9 @@ void drive_model_widget_update(GtkWidget *widget)
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 1, row);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
             debug_gtk3("row 1: checking drive ID %d", list[i].id);
-            gtk_widget_set_sensitive(radio, drive_check_type(
-                        (unsigned int)(list[i].id),
-                        (unsigned int)(unit - 8)));
+            gtk_widget_set_sensitive(radio,
+                    drive_check_type((unsigned int)(list[i].id),
+                                     (unsigned int)(unit - DRIVE_UNIT_MIN)));
             if (list[i].id == type) {
                 /* TODO: temporary block the resource-set callback */
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);

@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include "attach.h"
+#include "drive.h"
 #include "fliplist.h"
 #include "lib.h"
 #include "util.h"
@@ -251,7 +252,8 @@ gboolean ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
-    if (unit != FLIPLIST_ALL_UNITS && (unit < 8 || unit > 11)) {
+    if (unit != FLIPLIST_ALL_UNITS &&
+            (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX)) {
         return TRUE;
     }
     dialog = gtk_file_chooser_dialog_new(
@@ -302,7 +304,8 @@ gboolean ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
-    if (unit != FLIPLIST_ALL_UNITS && (unit < 8 || unit > 11)) {
+    if (unit != FLIPLIST_ALL_UNITS &&
+            (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX)) {
         return TRUE;
     }
     dialog = gtk_file_chooser_dialog_new(

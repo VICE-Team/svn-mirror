@@ -209,7 +209,7 @@ GtkWidget *dir_menu_popup_create(
 
     /* create menu header */
     if (dev >= 0) {
-        g_snprintf(buffer, 1024, "Directory of unit %d:", dev + 8);
+        g_snprintf(buffer, 1024, "Directory of unit %d:", dev + DRIVE_UNIT_MIN);
     } else {
         g_snprintf(buffer, 1024, "Directory of attached tape:");
     }
@@ -229,8 +229,8 @@ GtkWidget *dir_menu_popup_create(
         struct disk_image_s *diskimg = NULL;
         autostart_diskimage = NULL;
 
-        debug_gtk3("Getting vdrive reference for unit #%d.", dev + 8);
-        vdrive = file_system_get_vdrive(dev + 8);
+        debug_gtk3("Getting vdrive reference for unit #%d.", dev + DRIVE_UNIT_MIN);
+        vdrive = file_system_get_vdrive(dev + DRIVE_UNIT_MIN);
         if (vdrive == NULL) {
             debug_gtk3("failed: got NULL.");
         } else {

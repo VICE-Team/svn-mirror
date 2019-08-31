@@ -31,6 +31,7 @@
 
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
+#include "drive.h"
 
 #include "driveunitwidget.h"
 
@@ -93,7 +94,7 @@ static GtkWidget *create_radio_group(int unit)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     last = NULL;
-    for (i = 8; i < 12; i++) {
+    for (i = DRIVE_UNIT_MIN; i <= DRIVE_UNIT_MAX; i++) {
         gchar buffer[16];
         GtkWidget *radio;
 
@@ -101,7 +102,7 @@ static GtkWidget *create_radio_group(int unit)
 
         radio = gtk_radio_button_new_with_label(group, buffer);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-        gtk_grid_attach(GTK_GRID(grid), radio, i - 8, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), radio, i - DRIVE_UNIT_MIN, 0, 1, 1);
 
         if (unit == i) {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
@@ -149,7 +150,7 @@ GtkWidget *drive_unit_widget_create(int unit, int *target, void (*callback)(int)
     gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
 
     /* connect signal handlers */
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < DRIVE_NUM; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), i, 0);
         g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
             GINT_TO_POINTER(i + 8));

@@ -33,6 +33,7 @@
 #include "debug_gtk3.h"
 #include "widgethelpers.h"
 #include "driveunitwidget.h"
+#include "drive.h"
 #include "diskimage.h"
 #include "filechooserhelpers.h"
 #include "util.h"
@@ -85,7 +86,7 @@ static disk_image_type_t disk_image_types[] = {
 
 
 /** \brief  Drive unit to attach image to */
-static int unit_number = 8;
+static int unit_number = DRIVE_UNIT_MIN;
 /** \brief  Disk image type to create */
 static int image_type = 1541;
 
@@ -386,9 +387,8 @@ gboolean uidiskcreate_dialog_show(GtkWidget *parent, gpointer data)
     int unit;
 
     unit = GPOINTER_TO_INT(data);
-    /* TODO: stuff some UNIT_MIN/UNIT_MAX defines in some file */
-    if (unit < 8 || unit > 11) {
-        unit = 8;
+    if (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX) {
+        unit = DRIVE_UNIT_DEFAULT;
     }
     unit_number = unit;
 

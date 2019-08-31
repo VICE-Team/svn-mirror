@@ -42,7 +42,7 @@
  */
 int ui_get_drive_type(int unit)
 {
-    int type;
+    int type = -1;
 
     resources_get_int_sprintf("Drive%dType", &type, unit);
     return type;

@@ -33,7 +33,23 @@
 #include "rtc/ds1216e.h"
 #include "p64.h"
 
-#define DRIVE_NUM 4
+/** \brief  Number of supported drives
+ */
+#define DRIVE_NUM   4
+
+/** \brief  Minimum drive unit number
+ */
+#define DRIVE_UNIT_MIN  8
+
+/** \brief  Maximum drive unit number
+ */
+#define DRIVE_UNIT_MAX  (DRIVE_UNIT_MIN + DRIVE_NUM - 1)
+
+/** \brief  Default drive unit number
+ */
+#define DRIVE_UNIT_DEFAULT  DRIVE_UNIT_MIN
+
+
 #define MAX_PWM 1000
 
 #define DRIVE_ROM_SIZE 0x8000

@@ -30,6 +30,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "drive.h"
 #include "tape.h"
 #include "debug_gtk3.h"
 #include "basedialogs.h"
@@ -230,7 +231,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
             /* copied from Gtk2: I fail to see how brute-forcing your way
              * through file types is 'smart', but hell, it works */
-            if (file_system_attach_disk(8, filename_locale) < 0
+            if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, filename_locale) < 0
                     && tape_image_attach(1, filename_locale) < 0
                     && autostart_snapshot(filename_locale, NULL) < 0
                     && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {

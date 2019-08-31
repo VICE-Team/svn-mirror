@@ -30,6 +30,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "drive.h"
 #include "tape.h"
 #include "debug_gtk3.h"
 #include "basedialogs.h"
@@ -73,7 +74,7 @@ static gchar *last_dir = NULL;
 
 /** \brief  Unit number to attach disk to
  */
-static int unit_number = 8;
+static int unit_number = DRIVE_UNIT_DEFAULT;
 
 #if 0
 /** \brief  Update the last directory reference
@@ -345,8 +346,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     lastdir_set(dialog, &last_dir);
 
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
-    if (unit < 8 || unit > 11) {
-        unit = 8;
+    if (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX) {
+        unit = DRIVE_UNIT_DEFAULT;
     }
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog, unit));
@@ -430,8 +431,7 @@ gboolean ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
 {
     int unit;
 
-    /* TODO: figure out where these integer literals are defined */
-    for (unit = 8; unit < 12; unit++) {
+    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
         file_system_detach_disk(unit);
     }
     return TRUE;

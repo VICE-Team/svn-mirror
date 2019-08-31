@@ -924,9 +924,9 @@ static int compute_drives_enabled_mask(void)
 {
     int unit, mask;
     int result = 0;
-    for (unit = 0, mask = 1; unit < 4; ++unit, mask <<= 1) {
+    for (unit = 0, mask = 1; unit < DRIVE_NUM; ++unit, mask <<= 1) {
         int status = 0, value = 0;
-        status = resources_get_int_sprintf("Drive%dType", &value, unit + 8);
+        status = resources_get_int_sprintf("Drive%dType", &value, unit + DRIVE_UNIT_MIN);
         if (status == 0 && value != 0) {
             result |= mask;
         }
@@ -953,7 +953,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
             GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
 
-    snprintf(drive_id, 4, "%d:", unit + 8);
+    snprintf(drive_id, 4, "%d:", unit + DRIVE_UNIT_MIN);
     drive_id[3] = 0;
     number = gtk_label_new(drive_id);
     gtk_widget_set_halign(number, GTK_ALIGN_START);
@@ -1318,18 +1318,20 @@ static GtkWidget *ui_drive_menu_create(int unit)
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
 
-    snprintf(buf, 128, "Attach disk to drive #%d...", unit + 8);
+    snprintf(buf, 128, "Attach disk to drive #%d...", unit + DRIVE_UNIT_MIN);
     buf[127] = 0;
 
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit + 8));
+            G_CALLBACK(ui_disk_attach_callback),
+            GINT_TO_POINTER(unit + DRIVE_UNIT_MIN));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
-    snprintf(buf, 128, "Detach disk from drive #%d", unit + 8);
+    snprintf(buf, 128, "Detach disk from drive #%d", unit + DRIVE_UNIT_MIN);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(ui_disk_detach_callback), GINT_TO_POINTER(unit + 8));
+            G_CALLBACK(ui_disk_detach_callback),
+            GINT_TO_POINTER(unit + DRIVE_UNIT_MIN));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     /* GTK2/GNOME UI put TDE and Read-only checkboxes here, but that
      * seems excessive or possibly too fine-grained, so skip that for
@@ -1867,7 +1869,7 @@ void ui_display_drive_led(int drive_number,
                           unsigned int led_pwm2)
 {
     int i;
-    if (drive_number < 0 || drive_number > DRIVE_NUM-1) {
+    if (drive_number < 0 || drive_number > DRIVE_NUM - 1) {
         /* TODO: Fatal error? */
         return;
     }
@@ -1902,7 +1904,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int half_track_number)
 {
     int i;
-    if (drive_number > DRIVE_NUM-1) {
+    if (drive_number > DRIVE_NUM - 1) {
         /* TODO: Fatal error? */
         return;
     }
