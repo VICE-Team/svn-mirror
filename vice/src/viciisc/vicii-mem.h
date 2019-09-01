@@ -31,6 +31,7 @@
 #include "types.h"
 
 extern void vicii_store(uint16_t addr, uint8_t value);
+extern void vicii_poke(uint16_t addr, uint8_t value);
 extern uint8_t vicii_read(uint16_t addr);
 extern uint8_t vicii_peek(uint16_t addr);
 extern void vicii_mem_vbank_store(uint16_t addr, uint8_t value);

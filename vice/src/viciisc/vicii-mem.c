@@ -35,6 +35,7 @@
 #include "debug.h"
 #include "types.h"
 #include "vicii-chip-model.h"
+#include "vicii-draw-cycle.h"
 #include "vicii-fetch.h"
 #include "vicii-irq.h"
 #include "vicii-resources.h"
@@ -475,6 +476,16 @@ void vicii_store(uint16_t addr, uint8_t value)
     }
 }
 
+/* used by monitor when sfx off */
+void vicii_poke(uint16_t addr, uint8_t value)
+{
+    addr &= 0x3f;
+    if ((addr >= 0x20) && (addr <= 0x2e)) {
+        vicii_monitor_colreg_store(addr, value);
+        return;
+    }
+    vicii_store(addr, value);
+}
 
 /* Helper function for reading from $D011/$D012.  */
 inline static unsigned int read_raster_y(void)

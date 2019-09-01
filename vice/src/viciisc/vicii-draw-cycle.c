@@ -120,6 +120,8 @@ static unsigned int cycle_flags_pipe;
 void vicii_monitor_colreg_store(int reg, int value)
 {
     cregs[reg] = value;
+    last_color_reg = reg;
+    last_color_value = value;
 }
 
 /**************************************************************************
