@@ -29,9 +29,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/hvsc
 
-AM_CFLAGS = $(VICE_CFLAGS)
+AM_CFLAGS = @VICE_CFLAGS@
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS)
+AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 noinst_LIBRARIES = libwidgets.a
 

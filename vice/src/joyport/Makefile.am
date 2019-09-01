@@ -9,9 +9,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/userport
 
-AM_CFLAGS = $(VICE_CFLAGS)
+AM_CFLAGS = @VICE_CFLAGS@
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS)
+AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 noinst_LIBRARIES = libjoyport.a
 

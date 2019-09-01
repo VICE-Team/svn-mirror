@@ -426,8 +426,10 @@ AS_IF([test x"$enable_cpuhistory" = "xyes"],
     FEATURE_CPUMEMHISTORY_SUPPORT="yes"
   ])
 
+AM_CONDITIONAL([NEW_8580_FILTER], false)
 AS_IF([test x"$enable_new8580filter" = "xyes"],
-  [AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the experimental new 8580 filter])])
+  [AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the experimental new 8580 filter])
+   AM_CONDITIONAL([NEW_8580_FILTER], true)])
 
 AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
 
@@ -3764,6 +3766,8 @@ AC_OUTPUT([Makefile
            src/video/Makefile
            src/version.h
            src/vice-version.sh
+           src/resid/Makefile
+           src/resid-dtv/Makefile
            ])
 
 dnl Local Variables:

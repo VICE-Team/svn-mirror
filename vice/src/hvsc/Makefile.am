@@ -23,6 +23,6 @@ EXTRA_DIST = \
 	stil.c \
 	stil.h
 
-AM_CFLAGS = -pedantic $(VICE_CFLAGS)
+AM_CFLAGS = -pedantic @VICE_CFLAGS@
 
-AM_CXXFLAGS = $(VICE_CXXFLAGS)
+AM_CXXFLAGS = @VICE_CXXFLAGS@
