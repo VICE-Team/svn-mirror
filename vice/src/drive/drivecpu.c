@@ -108,9 +108,12 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
     mi->mem_bank_list = NULL;
     mi->mem_bank_from_name = NULL;
     mi->get_line_cycle = NULL;
+
     mi->mem_bank_read = drivemem_bank_read;
     mi->mem_bank_peek = drivemem_bank_peek;
     mi->mem_bank_write = drivemem_bank_store;
+    mi->mem_bank_poke = drivemem_bank_poke;
+
     mi->mem_ioreg_list_get = drivemem_ioreg_list_get;
     mi->toggle_watchpoints_func = drivemem_toggle_watchpoints;
     mi->set_bank_base = drivecpu_set_bank_base;

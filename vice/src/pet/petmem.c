@@ -1701,6 +1701,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
     return mem_ram[addr];
 }
 
+/* used by monitor if sfx off */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
@@ -1761,6 +1762,13 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
     }
     mem_ram[addr] = byte;
 }
+
+/* used by monitor if sfx off */
+void mem_bank_poke(int bank, uint16_t addr, uint8_t byte, void *context)
+{
+    mem_bank_write(bank, addr, byte, context);
+}
+
 
 static int mem_dump_io(void *context, uint16_t addr)
 {

@@ -1134,7 +1134,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
     return access_rom(addr) ? c64dtvflash_read(paddr) : mem_ram[paddr];
 }
 
-
+/* used by monitor if sfx off */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     int paddr;
@@ -1258,6 +1258,12 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
     } else {
         mem_ram[paddr] = byte;
     }
+}
+
+/* used by monitor if sfx off */
+void mem_bank_poke(int bank, uint16_t addr, uint8_t byte, void *context)
+{
+    mem_bank_write(bank, addr, byte, context);
 }
 
 /* ------------------------------------------------------------------------- */

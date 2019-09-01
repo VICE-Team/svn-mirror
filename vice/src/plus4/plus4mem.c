@@ -1120,6 +1120,12 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
     mem_ram[addr] = byte;
 }
 
+/* used by monitor if sfx off */
+void mem_bank_poke(int bank, uint16_t addr, uint8_t byte, void *context)
+{
+    mem_bank_write(bank, addr, byte, context);
+}
+
 static int mem_dump_io(void *context, uint16_t addr)
 {
     if ((addr >= 0xff00) && (addr <= 0xff3f)) {

@@ -1000,6 +1000,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
     return read_unused(addr);
 }
 
+/* used by monitor if sfx off */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     if (bank == 16) {
@@ -1034,6 +1035,12 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
             }
     }
     store_dummy(addr, byte);
+}
+
+/* used by monitor if sfx off */
+void mem_bank_poke(int bank, uint16_t addr, uint8_t byte, void *context)
+{
+    mem_bank_write(bank, addr, byte, context);
 }
 
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)

@@ -156,6 +156,7 @@ uint8_t drivemem_bank_read(int bank, uint16_t addr, void *context)
     return drv->cpud->read_func_ptr[addr >> 8](drv, addr);
 }
 
+/* used by monitor when sfx off */
 uint8_t drivemem_bank_peek(int bank, uint16_t addr, void *context)
 {
     drive_context_t *drv = (drive_context_t *)context;
@@ -168,6 +169,12 @@ void drivemem_bank_store(int bank, uint16_t addr, uint8_t value, void *context)
     drive_context_t *drv = (drive_context_t *)context;
 
     drv->cpud->store_func_ptr[addr >> 8](drv, addr, value);
+}
+
+/* used by monitor when sfx off */
+void drivemem_bank_poke(int bank, uint16_t addr, uint8_t value, void *context)
+{
+    drivemem_bank_store(bank, addr, value, context);
 }
 
 /* ------------------------------------------------------------------------- */

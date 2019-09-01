@@ -80,6 +80,7 @@ extern int mem_bank_from_name(const char *name);
 extern uint8_t mem_bank_read(int bank, uint16_t addr, void *context);
 extern uint8_t mem_bank_peek(int bank, uint16_t addr, void *context);
 extern void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context);
+extern void mem_bank_poke(int bank, uint16_t addr, uint8_t byte, void *context);
 extern void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, int *bank);
 
 typedef struct mem_ioreg_list_s {

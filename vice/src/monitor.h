@@ -115,6 +115,7 @@ struct monitor_interface_s {
     uint8_t (*mem_bank_read)(int bank, uint16_t addr, void *context);
     uint8_t (*mem_bank_peek)(int bank, uint16_t addr, void *context);
     void (*mem_bank_write)(int bank, uint16_t addr, uint8_t byte, void *context);
+    void (*mem_bank_poke)(int bank, uint16_t addr, uint8_t byte, void *context);
 
     struct mem_ioreg_list_s *(*mem_ioreg_list_get)(void *context);
 
