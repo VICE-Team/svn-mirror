@@ -639,7 +639,8 @@ const char *mon_get_current_bank_name(MEMSPACE mem)
     main entry point for the monitor to read a value from memory
 
     mem_bank_peek and mem_bank_read are set up in src/drive/drivecpu.c,
-    src/mainc64cpu.c:358, src/mainviccpu.c:237, src/maincpu.c:296
+    src/drive/drivecpu65c02.c, src/mainc64cpu.c, src/mainviccpu.c, 
+    src/maincpu.c, src/main65816cpu.c
 */
 
 uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr)
@@ -675,6 +676,14 @@ void mon_get_mem_block(MEMSPACE mem, uint16_t start, uint16_t end, uint8_t *data
     mon_get_mem_block_ex(mem, mon_interfaces[mem]->current_bank, start, end, data);
 }
 
+/*
+    main entry point for the monitor to write a value to memory
+
+    mem_bank_peek and mem_bank_read are set up in src/drive/drivecpu.c,
+    src/drive/drivecpu65c02.c, src/mainc64cpu.c, src/mainviccpu.c, 
+    src/maincpu.c, src/main65816cpu.c
+*/
+
 void mon_set_mem_val(MEMSPACE mem, uint16_t mem_addr, uint8_t val)
 {
     int bank;
@@ -686,9 +695,12 @@ void mon_set_mem_val(MEMSPACE mem, uint16_t mem_addr, uint8_t val)
             return;
         }
     }
-
-    mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val,
-                                        mon_interfaces[mem]->context);
+    
+    if ((sidefx == 0) && (mon_interfaces[mem]->mem_bank_poke != NULL)) {
+        mon_interfaces[mem]->mem_bank_poke(bank, mem_addr, val, mon_interfaces[mem]->context);
+    } else {
+        mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val, mon_interfaces[mem]->context);
+    }    
 }
 
 /* exit monitor  */
