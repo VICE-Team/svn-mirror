@@ -113,9 +113,10 @@ enum {
     SB_COL_SEP_TAPE,    /**< separator between tape and joysticks widgets */
     SB_COL_DRIVE,       /**< drives widgets */
     SB_COL_SEP_DRIVE,   /**< separator between drives and volume widgets */
-    SB_COL_VOLUME       /**< volume widget */
-
+    SB_COL_VOLUME,      /**< volume widget */
+    SB_COL_COUNT        /**< number of columns on the statusbar widget */
 };
+
 
 
 /** \brief Global data that custom status bar widgets base their rendering
@@ -1485,14 +1486,25 @@ GtkWidget *ui_statusbar_create(void)
             SB_COL_SEP_SPEED, 0, 1, 2);
 
 
-    /* Messages */
+    /* Messages
+     *
+     * Moved to a separate, full row, needs testing
+     */
     message = gtk_label_new(NULL);
     gtk_widget_set_hexpand(message, TRUE);
     gtk_widget_set_halign(message, GTK_ALIGN_START);
     gtk_label_set_ellipsize(GTK_LABEL(message), PANGO_ELLIPSIZE_END);
+    g_object_set(G_OBJECT(message),
+                 "margin-left", 8,
+                 "margin-right", 8,
+                 NULL);
     g_object_ref_sink(message);
     allocated_bars[i].msg = message;
-    gtk_grid_attach(GTK_GRID(sb), message, SB_COL_MSG, 0, 1, 1);
+    /* add horizontal separator */
+    gtk_grid_attach(GTK_GRID(sb),
+                    gtk_separator_new(GTK_ORIENTATION_HORIZONTAL),
+                    0, 2, SB_COL_COUNT, 1);
+    gtk_grid_attach(GTK_GRID(sb), message, 0, 3, SB_COL_COUNT, 1);
 
     /* Recording: third column probably */
     recording = statusbar_recording_widget_create();
