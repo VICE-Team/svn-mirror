@@ -3365,6 +3365,7 @@ else
   AC_MSG_RESULT([no (realdevice disabled)])
 fi
 
+AC_SUBST(VICE_CPPFLAGS)
 AC_SUBST(VICE_CFLAGS)
 AC_SUBST(VICE_CXXFLAGS)
 
