@@ -120,10 +120,12 @@ static GtkWidget *bias8580label;
 void mixer_widget_sid_type_changed(void)
 {
     int model = 0;
-#ifdef HAVE_NEW_8580_FILTER
+#ifdef HAVE_RESID
+# ifdef HAVE_NEW_8580_FILTER
     gboolean enabled = TRUE;
-#else
+# else
     gboolean enabled = FALSE;
+# endif
 #endif
 
     if (resources_get_int("SidModel", &model) < 0) {

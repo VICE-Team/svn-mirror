@@ -98,8 +98,8 @@ static GtkWidget *bias;
  */
 static void on_reset_clicked(GtkWidget *widget, gpointer data)
 {
-    int value;
 #ifdef HAVE_RESID
+    int value;
     int model;
 #endif
 
@@ -145,6 +145,7 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 }
 
 
+#ifdef HAVE_RESID
 /** \brief  Create a right-align label
  *
  * \param[in]   text    text for the label
@@ -160,8 +161,10 @@ static GtkWidget *create_label(const char *text)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
 }
+#endif
 
 
+#ifdef HAVE_RESID
 /** \brief  Create a customized GtkScale for \a resource
  *
  * \param[in]   resource    resource name without the video \a chip name prefix
@@ -186,6 +189,7 @@ static GtkWidget *create_slider(
     gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
     return scale;
 }
+#endif
 
 
 #if 0
@@ -255,12 +259,12 @@ static GtkWidget *create_bias_widget(int model)
 GtkWidget *vsid_mixer_widget_create(void)
 {
     GtkWidget *grid;
-    GtkWidget *label;
     GtkWidget *button;
 
     int engine;
 
 #ifdef HAVE_RESID
+    GtkWidget *label;
     int model;
 
     if (resources_get_int("SidModel", &model) < 0) {

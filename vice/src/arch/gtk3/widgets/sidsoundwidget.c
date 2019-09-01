@@ -371,9 +371,10 @@ static void engine_model_changed_callback(int engine, int model)
     gboolean is_resid = engine == SID_ENGINE_RESID;
 
     debug_gtk3("engine: %d, model = %d.", engine, model);
-
     gtk_widget_set_sensitive(filters, is_resid);
+#ifdef HAVE_RESID
     gtk_widget_set_sensitive(resid_sampling, is_resid);
+#endif
 }
 
 
