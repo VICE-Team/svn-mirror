@@ -106,6 +106,7 @@ static io_source_t atomicpower_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     atomicpower_io1_store,
+    NULL, /* no poke */
     NULL,
     NULL, /* TODO: peek */
     atomicpower_dump,
@@ -121,6 +122,7 @@ static io_source_t atomicpower_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     atomicpower_io2_store,
+    NULL, /* no poke */
     atomicpower_io2_read,
     NULL, /* TODO: peek */
     atomicpower_dump,

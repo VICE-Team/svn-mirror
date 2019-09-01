@@ -95,6 +95,7 @@ static io_source_t digiblaster_fd5e_device = {
     0xfd5e, 0xfd5f, 3,
     1, /* read is always valid */
     digiblaster_store,
+    NULL, /* poke */
     digiblaster_read,
     NULL, /* no peek */
     NULL, /* nothing to dump */
@@ -110,6 +111,7 @@ static io_source_t digiblaster_fe9e_device = {
     0xfe9e, 0xfe9f, 3,
     1, /* read is always valid */
     digiblaster_store,
+    NULL, /* poke */
     digiblaster_read,
     NULL, /* no peek */
     NULL, /* nothing to dump */

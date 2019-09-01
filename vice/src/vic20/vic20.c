@@ -373,6 +373,7 @@ static io_source_t vic_device = {
     0x9000, 0x90ff, 0x3f, /* must include A5/A4 */
     1, /* read is always valid */
     vic_via1_via2_store,
+    NULL, /* no poke */
     vic_via1_via2_read,
     vic_via1_via2_peek,
     vic_dump,
@@ -388,6 +389,7 @@ static io_source_t via2_device = {
     0x9110, 0x93ff, 0x3f, /* must include A5/A4 */
     1, /* read is always valid */
     via1_via2_store,
+    NULL, /* no poke */
     via1_via2_read,
     via1_via2_peek,
     via2_dump,
@@ -403,6 +405,7 @@ static io_source_t via1_device = {
     0x9120, 0x93ff, 0x3f, /* must include A5/A4 */
     1, /* read is always valid */
     via1_via2_store,
+    NULL, /* no poke */
     via1_via2_read,
     via1_via2_peek,
     via1_dump,

@@ -89,6 +89,7 @@ static io_source_t rex_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     NULL,
+    NULL, /* no poke */
     rex_io2_read,
     rex_io2_peek,
     rex_dump,

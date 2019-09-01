@@ -128,6 +128,7 @@ static io_source_t epyxfastload_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     NULL,
+    NULL, /* no poke */
     epyxfastload_io1_read,
     epyxfastload_io1_peek,
     epyxfastload_dump,
@@ -143,6 +144,7 @@ static io_source_t epyxfastload_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     NULL,
+    NULL, /* no poke */
     epyxfastload_io2_read,
     epyxfastload_io2_read,
     epyxfastload_dump,

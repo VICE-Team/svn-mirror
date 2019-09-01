@@ -185,6 +185,7 @@ static io_source_t mmc64_io1_clockport_enable_device = {
     0xde01, 0xde01, 0x01,
     0,
     mmc64_clockport_enable_store,
+    NULL, /* no poke */
     NULL, /* read */
     mmc64_clockport_enable_peek,
     mmc64_dump,
@@ -201,6 +202,7 @@ static io_source_t mmc64_io2_clockport_enable_device = {
     0xdf21, 0xdf21, 0x01,
     0,
     mmc64_clockport_enable_store,
+    NULL, /* no poke */
     NULL, /* read */
     mmc64_clockport_enable_peek,
     mmc64_dump,
@@ -216,6 +218,7 @@ static io_source_t mmc64_io1_clockport_device = {
     0xde02, 0xde0f, 0x0f,
     0,
     mmc64_clockport_store,
+    NULL, /* no poke */
     mmc64_clockport_read,
     mmc64_clockport_peek,
     mmc64_clockport_dump,
@@ -231,6 +234,7 @@ static io_source_t mmc64_io2_clockport_device = {
     0xdf22, 0xdf2f, 0x0f,
     0,
     mmc64_clockport_store,
+    NULL, /* no poke */
     mmc64_clockport_read,
     mmc64_clockport_peek,
     mmc64_clockport_dump,
@@ -258,6 +262,7 @@ static io_source_t mmc64_io2_device = {
     0xdf10, 0xdf13, 0x03,
     0,
     mmc64_io2_store,
+    NULL, /* no poke */
     mmc64_io2_read,
     mmc64_io2_peek,
     mmc64_dump,
@@ -273,6 +278,7 @@ static io_source_t mmc64_io1_device = {
     0xde10, 0xde13, 0x03,
     0,
     mmc64_io1_store,
+    NULL, /* no poke */
     mmc64_io1_read,
     mmc64_io1_peek,
     mmc64_dump,

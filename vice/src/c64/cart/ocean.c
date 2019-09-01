@@ -128,6 +128,7 @@ static io_source_t ocean_device = {
     0xde00, 0xdeff, 0xff,
     0,
     ocean_io1_store,
+    NULL, /* no poke */
     NULL,
     ocean_io1_peek,
     ocean_dump,

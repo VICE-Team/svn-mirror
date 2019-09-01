@@ -262,6 +262,7 @@ static io_source_t easyflash_io1_device = {
     0xde00, 0xdeff, 0x03,
     0,
     easyflash_io1_store,
+    NULL, /* no poke */
     NULL,
     easyflash_io1_peek,
     easyflash_io1_dump,
@@ -277,6 +278,7 @@ static io_source_t easyflash_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     easyflash_io2_store,
+    NULL, /* no poke */
     easyflash_io2_read,
     easyflash_io2_read, /* same implementation */
     NULL, /* nothing to dump */

@@ -172,6 +172,7 @@ typedef struct io_source_s {
     uint16_t address_mask;
     int io_source_valid;  /*!< after reading, is 1 if read was valid */
     void (*store)(uint16_t address, uint8_t data);
+    void (*poke)(uint16_t address, uint8_t data); /*!< write without side effects (used by monitor) */
     uint8_t (*read)(uint16_t address);
     uint8_t (*peek)(uint16_t address); /*!< read without side effects (used by monitor) */
     int (*dump)(void); /*!< print detailed state for this i/o device (used by monitor) */

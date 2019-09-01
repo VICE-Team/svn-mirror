@@ -269,6 +269,7 @@ static io_source_t reu_io2_device = {
     0xdf00, 0xdfff, REU_REG_LAST_REG,
     0,
     reu_io2_store,
+    NULL, /* no poke */
     reu_io2_read,
     reu_io2_peek,
     NULL, /* TODO: dump */

@@ -74,6 +74,7 @@ static io_source_t ram_io2_device = {
     0x9800, 0x9bff, 0x3ff,
     1, /* read is always valid */
     ram_io2_store,
+    NULL, /* no poke */
     ram_io2_read,
     ram_io2_read,
     NULL, /* nothing to dump */
@@ -89,6 +90,7 @@ static io_source_t ram_io3_device = {
     0x9c00, 0x9fff, 0x3ff,
     1, /* read is always valid */
     ram_io3_store,
+    NULL, /* no poke */
     ram_io3_read,
     ram_io3_read,
     NULL, /* nothing to dump */

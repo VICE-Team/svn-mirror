@@ -1189,6 +1189,7 @@ static io_source_t mem_config_device = {
     0xfdd0, 0xfddf, 0xf,
     0, /* read is never valid */
     mem_config_rom_set_store,
+    NULL, /* no poke */
     NULL, /* no read */
     NULL, /* no peek */
     memconfig_dump,
@@ -1204,6 +1205,7 @@ static io_source_t pio1_with_mirrors_device = {
     0xfd10, 0xfd1f, 1,
     1, /* read is always valid */
     pio1_store,
+    NULL, /* no poke */
     pio1_read,
     NULL, /* no peek */
     NULL, /* nothing to dump */
@@ -1219,6 +1221,7 @@ static io_source_t pio1_only_device = {
     0xfd10, 0xfd10, 1,
     1, /* read is always valid */
     pio1_store,
+    NULL, /* no poke */
     pio1_read,
     NULL, /* no peek */
     NULL, /* nothing to dump */
@@ -1234,6 +1237,7 @@ static io_source_t pio2_device = {
     0xfd30, 0xfd3f, 1,
     1, /* read is always valid */
     pio2_store,
+    NULL, /* no poke */
     pio2_read,
     NULL, /* no peek */
     NULL, /* nothing to dump */
@@ -1249,6 +1253,7 @@ static io_source_t tcbm1_device = {
     0xfee0, 0xfeff, 0x1f,
     1, /* read is always valid */
     plus4tcbm1_store,
+    NULL, /* no poke */
     plus4tcbm1_read,
     NULL, /* no peek */
     NULL, /* TODO: dump */
@@ -1264,6 +1269,7 @@ static io_source_t tcbm2_device = {
     0xfec0, 0xfedf, 0x1f,
     1, /* read is always valid */
     plus4tcbm2_store,
+    NULL, /* no poke */
     plus4tcbm2_read,
     NULL, /* no peek */
     NULL, /* TODO: dump */

@@ -170,6 +170,7 @@ static io_source_t finalexpansion_device = {
     0x9c00, 0x9fff, 0x3ff,
     0,
     finalexpansion_io3_store,
+    NULL, /* no poke */
     finalexpansion_io3_read,
     finalexpansion_io3_peek,
     finalexpansion_mon_dump,

@@ -95,6 +95,7 @@ static io_source_t dinamic_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* reads are never valid */
     NULL,
+    NULL, /* no poke */
     dinamic_io1_read,
     dinamic_io1_peek,
     dinamic_dump,

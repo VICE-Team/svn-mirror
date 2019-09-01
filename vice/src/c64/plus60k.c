@@ -142,6 +142,7 @@ static io_source_t vicii_d000_device = {
     0xd000, 0xd03f, 0x3f,
     1, /* read is always valid */
     vicii_store,
+    NULL, /* no poke */
     vicii_read,
     vicii_peek,
     vicii_dump,
@@ -157,6 +158,7 @@ static io_source_t vicii_d000_full_device = {
     0xd000, 0xd0ff, 0x3f,
     1, /* read is always valid */
     vicii_store,
+    NULL, /* no poke */
     vicii_read,
     vicii_peek,
     vicii_dump,
@@ -172,6 +174,7 @@ static io_source_t vicii_d040_device = {
     0xd040, 0xd0ff, 1,
     1, /* read is always valid */
     plus60k_vicii_store,
+    NULL, /* no poke */
     plus60k_ff_read,
     plus60k_peek,
     plus60k_dump,
@@ -187,6 +190,7 @@ static io_source_t vicii_d100_device = {
     0xd100, 0xd1ff, 1,
     1, /* read is always valid */
     plus60k_vicii_store,
+    NULL, /* no poke */
     plus60k_ff_read,
     plus60k_peek,
     plus60k_dump,

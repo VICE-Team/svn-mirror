@@ -98,6 +98,7 @@ static io_source_t sidcart_fd40_device = {
     0xfd40, 0xfd5d, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* poke */
     sid_read,
     NULL, /* no peek */
     sid_dump,
@@ -113,6 +114,7 @@ static io_source_t sidcart_fe80_device = {
     0xfe80, 0xfe9d, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* poke */
     sid_read,
     NULL, /* no peek */
     sid_dump,
@@ -128,6 +130,7 @@ static io_source_t sidcart_joy_device = {
     0xfd80, 0xfd8f, 1,
     1, /* read is always valid */
     sidcartjoy_store,
+    NULL, /* poke */
     sidcartjoy_read,
     NULL, /* no peek */
     NULL, /* TODO: dump */

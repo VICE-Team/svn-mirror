@@ -86,6 +86,7 @@ static io_source_t actionreplay3_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     actionreplay3_io1_store,
+    NULL, /* no poke */
     NULL,
     actionreplay3_io1_peek,
     actionreplay3_dump,
@@ -101,6 +102,7 @@ static io_source_t actionreplay3_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     NULL,
+    NULL, /* no poke */
     actionreplay3_io2_read,
     actionreplay3_io2_peek,
     actionreplay3_dump,

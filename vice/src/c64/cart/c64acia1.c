@@ -115,6 +115,7 @@ static io_source_t acia_device = {
     0xde00, 0xde07, 0x07,
     0,
     acia1_store,
+    NULL, /* no poke */
     aciacart_read,
     aciacart_peek,
     NULL, /* TODO: dump */

@@ -535,6 +535,7 @@ static io_source_t speech_device = {
     0xfd20, 0xfd22, 3,
     1, /* read is always valid */
     speech_store,
+    NULL, /* no poke */
     speech_read,
     speech_peek,
     speech_dump,

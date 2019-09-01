@@ -295,6 +295,7 @@ static io_source_t mmcreplay_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     mmcreplay_io1_store,
+    NULL, /* no poke */
     mmcreplay_io1_read,
     NULL, /* TODO: peek */
     mmcreplay_dump,
@@ -310,6 +311,7 @@ static io_source_t mmcreplay_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     mmcreplay_io2_store,
+    NULL, /* no poke */
     mmcreplay_io2_read,
     NULL, /* TODO: peek */
     mmcreplay_dump,
@@ -325,6 +327,7 @@ static io_source_t mmcreplay_clockport_device = {
     0xde02, 0xde0f, 0x0f,
     0,
     mmcreplay_clockport_store,
+    NULL, /* no poke */
     mmcreplay_clockport_read,
     mmcreplay_clockport_peek,
     mmcreplay_dump,

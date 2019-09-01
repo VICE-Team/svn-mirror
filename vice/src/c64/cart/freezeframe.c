@@ -139,6 +139,7 @@ static io_source_t freezeframe_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     freezeframe_io1_store,
+    NULL, /* no poke */
     freezeframe_io1_read,
     freezeframe_io1_peek,
     freezeframe_dump,
@@ -154,6 +155,7 @@ static io_source_t freezeframe_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     freezeframe_io2_store,
+    NULL, /* no poke */
     freezeframe_io2_read,
     freezeframe_io2_peek,
     freezeframe_dump,

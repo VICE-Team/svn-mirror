@@ -95,6 +95,7 @@ static io_source_t ss64_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     snapshot64_io2_store,
+    NULL, /* no poke */
     snapshot64_io2_read,
     snapshot64_io2_peek,
     NULL, /* TODO: dump */

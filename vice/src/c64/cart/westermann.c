@@ -65,6 +65,7 @@ static io_source_t westermann_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     NULL,
+    NULL, /* no poke */
     westermann_io2_read,
     westermann_io2_peek,
     westermann_dump,

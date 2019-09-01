@@ -115,6 +115,7 @@ static io_source_t formel64_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     formel64_io2_store,
+    NULL, /* no poke */
     formel64_io2_read,
     formel64_io2_peek,
     NULL, /* TODO: dump */

@@ -69,6 +69,7 @@ static io_source_t cs256k_device = {
     0xfd15, 0xfd15, 1,
     1, /* read is always valid */
     cs256k_reg_store,
+    NULL, /* no poke */
     cs256k_reg_read,
     NULL, /* no peek */
     cs256k_dump, /* TODO: dump */

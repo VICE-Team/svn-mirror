@@ -112,6 +112,7 @@ static io_source_t ss4_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     supersnapshot_v4_io1_store,
+    NULL, /* no poke */
     supersnapshot_v4_io1_read,
     NULL,
     NULL, /* TODO: dump */
@@ -127,6 +128,7 @@ static io_source_t ss4_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     supersnapshot_v4_io2_store,
+    NULL, /* no poke */
     supersnapshot_v4_io2_read,
     NULL,
     NULL, /* TODO: dump */

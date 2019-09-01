@@ -150,6 +150,7 @@ static io_source_t ramcart_io1_device = {
     0xde00, 0xdeff, 0x01,
     1, /* read is always valid */
     ramcart_io1_store,
+    NULL, /* no poke */
     ramcart_io1_read,
     ramcart_io1_peek,
     ramcart_dump,
@@ -165,6 +166,7 @@ static io_source_t ramcart_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     ramcart_io2_store,
+    NULL, /* no poke */
     ramcart_io2_read,
     ramcart_io2_read,
     ramcart_dump,

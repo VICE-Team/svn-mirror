@@ -76,6 +76,7 @@ static io_source_t ieee488_device = {
     0x9800, 0x9bff, 0x3ff,
     1, /* read is always valid */
     ieee488_store,
+    NULL, /* no poke */
     ieee488_read,
     NULL, /* TODO: peek */
     ieee488_dump,

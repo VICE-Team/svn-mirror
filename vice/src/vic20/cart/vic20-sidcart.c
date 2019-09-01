@@ -48,6 +48,7 @@ static io_source_t sidcart_device = {
     0x9800, 0x9bff, 0x3ff,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     NULL, /* TODO: peek */
     sid_dump,

@@ -106,6 +106,7 @@ static io_source_t magicdesk_device = {
     0xde00, 0xdeff, 0xff,
     0,
     magicdesk_io1_store,
+    NULL, /* no poke */
     NULL,
     magicdesk_io1_peek,
     magicdesk_dump,

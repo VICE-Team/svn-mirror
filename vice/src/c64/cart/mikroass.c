@@ -72,6 +72,7 @@ static io_source_t mikroass_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     NULL,
+    NULL, /* no poke */
     mikroass_io1_read,
     mikroass_io1_read,
     NULL, /* nothing to dump */
@@ -87,6 +88,7 @@ static io_source_t mikroass_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     NULL,
+    NULL, /* no poke */
     mikroass_io2_read,
     mikroass_io2_read,
     NULL, /* nothing to dump */

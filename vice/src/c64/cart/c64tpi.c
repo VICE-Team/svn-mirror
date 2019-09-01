@@ -97,6 +97,7 @@ static io_source_t tpi_io2_device = {
     0xdf00, 0xdfff, 0x07,
     1, /* read is always valid */
     tpi_io2_store,
+    NULL, /* no poke */
     tpi_io2_read,
     tpi_io2_peek,
     tpi_io2_dump,

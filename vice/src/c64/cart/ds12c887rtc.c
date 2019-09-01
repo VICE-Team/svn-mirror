@@ -88,6 +88,7 @@ static io_source_t ds12c887rtc_device = {
     0xde00, 0xde01, 0xff,
     0,
     ds12c887rtc_store,
+    NULL, /* no poke */
     ds12c887rtc_read,
     ds12c887rtc_read,
     ds12c887rtc_dump,

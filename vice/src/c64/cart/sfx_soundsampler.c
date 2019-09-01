@@ -65,6 +65,7 @@ static io_source_t sfx_soundsampler_io1_device = {
     0xde00, 0xdeff, 0x01,
     0,
     sfx_soundsampler_latch_sample,
+    NULL, /* no poke */
     NULL,
     NULL, /* TODO: peek */
     NULL, /* nothing to dump */
@@ -80,6 +81,7 @@ static io_source_t sfx_soundsampler_io2_device = {
     0xdf00, 0xdfff, 0x01,
     1,
     sfx_soundsampler_sound_store,
+    NULL, /* no poke */
     sfx_soundsampler_sample_read,
     NULL, /* TODO: peek */
     NULL, /* nothing to dump */

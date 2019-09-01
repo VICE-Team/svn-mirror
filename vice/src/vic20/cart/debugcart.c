@@ -52,6 +52,7 @@ static io_source_t debugcart_device = {
     0x910f, 0x910f, 0xff,
     0,
     debugcart_store,
+    NULL, /* no poke */
     NULL, /* read */
     NULL, /* peek */
     NULL, /* nothing to dump */

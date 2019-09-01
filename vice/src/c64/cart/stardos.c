@@ -219,6 +219,7 @@ static io_source_t stardos_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     stardos_io1_store,
+    NULL, /* no poke */
     stardos_io1_read,
     stardos_io_peek,
     stardos_dump,
@@ -235,6 +236,7 @@ static io_source_t stardos_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     stardos_io2_store,
+    NULL, /* no poke */
     stardos_io2_read,
     stardos_io_peek,
     stardos_dump,

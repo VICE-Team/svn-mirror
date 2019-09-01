@@ -159,6 +159,7 @@ static io_source_t ultimem_io2 = {
     0x9800, 0x9bff, 0x3ff,
     0,
     vic_um_io2_store,
+    NULL, /* no poke */
     vic_um_io2_read,
     vic_um_io2_peek,
     NULL,
@@ -174,6 +175,7 @@ static io_source_t ultimem_io3 = {
     0x9c00, 0x9fff, 0x3ff,
     0,
     vic_um_io3_store,
+    NULL, /* no poke */
     vic_um_io3_read,
     vic_um_io3_peek,
     vic_um_mon_dump,

@@ -65,6 +65,7 @@ static io_source_t midi_device = {
     0x9c00, 0x9fff, 0x3ff,
     1, /* read is always valid */
     midi_store,
+    NULL, /* no poke */
     vic20midi_read,
     vic20midi_peek,
     NULL, /* TODO: dump */

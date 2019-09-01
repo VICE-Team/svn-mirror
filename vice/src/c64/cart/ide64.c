@@ -172,6 +172,7 @@ static io_source_t ide64_idebus_device = {
     0xde20, 0xde2f, 0x0f,
     0,
     ide64_idebus_store,
+    NULL, /* no poke */
     ide64_idebus_read,
     ide64_idebus_peek,
     ide64_idebus_dump,
@@ -187,6 +188,7 @@ static io_source_t ide64_io_device = {
     0xde30, 0xde37, 0x07,
     0,
     ide64_io_store,
+    NULL, /* no poke */
     ide64_io_read,
     ide64_io_peek,
     ide64_io_dump,
@@ -202,6 +204,7 @@ static io_source_t ide64_ft245_device = {
     0xde5d, 0xde5e, 0x01,
     0,
     ide64_ft245_store,
+    NULL, /* no poke */
     ide64_ft245_read,
     ide64_ft245_peek,
     NULL, /* TODO: dump */
@@ -217,6 +220,7 @@ static io_source_t ide64_ds1302_device = {
     0xde5f, 0xde5f, 0x00,
     0,
     ide64_ds1302_store,
+    NULL, /* no poke */
     ide64_ds1302_read,
     ide64_ds1302_peek,
     ide64_rtc_dump,
@@ -232,6 +236,7 @@ static io_source_t ide64_rom_device = {
     0xde60, 0xdeff, 0xff,
     0,
     ide64_romio_store,
+    NULL, /* no poke */
     ide64_romio_read,
     ide64_romio_peek,
     NULL, /* TODO: dump */
@@ -247,6 +252,7 @@ static io_source_t ide64_clockport_device = {
     0xde00, 0xde0f, 0x0f,
     0,
     ide64_clockport_store,
+    NULL, /* no poke */
     ide64_clockport_read,
     ide64_clockport_peek,
     ide64_clockport_dump,

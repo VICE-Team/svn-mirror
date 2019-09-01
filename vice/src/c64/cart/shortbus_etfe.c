@@ -68,6 +68,7 @@ static io_source_t shortbus_etfe_device = {
     0xde00, 0xde0f, 0x0f,
     0,
     shortbus_etfe_store,
+    NULL, /* no poke */
     shortbus_etfe_read,
     shortbus_etfe_peek,
     shortbus_etfe_dump,

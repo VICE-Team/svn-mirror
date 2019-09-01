@@ -151,6 +151,7 @@ static io_source_t vfp_device = {
     0x9800, 0x9bff, 0x3ff,
     0,
     vic_fp_io2_store,
+    NULL, /* no poke */
     vic_fp_io2_read,
     vic_fp_io2_peek,
     vic_fp_mon_dump,

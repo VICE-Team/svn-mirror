@@ -100,6 +100,7 @@ static io_source_t ross_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     NULL,
+    NULL, /* no poke */
     ross_io1_read,
     ross_io_peek,
     ross_dump,
@@ -115,6 +116,7 @@ static io_source_t ross_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     NULL,
+    NULL, /* no poke */
     ross_io2_read,
     ross_io_peek,
     ross_dump,

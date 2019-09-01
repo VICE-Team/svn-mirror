@@ -83,6 +83,7 @@ static io_source_t action_replay_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     actionreplay_io1_store,
+    NULL, /* no poke */
     NULL,
     actionreplay_io1_peek,
     actionreplay_dump,
@@ -98,6 +99,7 @@ static io_source_t action_replay_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     actionreplay_io2_store,
+    NULL, /* no poke */
     actionreplay_io2_read,
     actionreplay_io2_peek,
     actionreplay_dump,

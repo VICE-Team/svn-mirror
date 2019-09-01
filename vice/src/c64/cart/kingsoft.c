@@ -119,6 +119,7 @@ static io_source_t kingsoft_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     kingsoft_io1_store,
+    NULL, /* no poke */
     kingsoft_io1_read,
     kingsoft_io1_peek,
     kingsoft_dump,

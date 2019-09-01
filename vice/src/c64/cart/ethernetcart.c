@@ -81,6 +81,7 @@ static io_source_t ethernetcart_device = {
     0xde00, 0xde0f, 0x0f,
     0,
     ethernetcart_store,
+    NULL, /* no poke */
     ethernetcart_read,
     ethernetcart_peek,
     ethernetcart_dump,

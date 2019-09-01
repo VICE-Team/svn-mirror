@@ -97,6 +97,7 @@ static io_source_t final3_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     NULL,
+    NULL, /* no poke */
     final_v3_io1_read,
     final_v3_io1_read, /* peek */
     final_v3_dump,
@@ -112,6 +113,7 @@ static io_source_t final3_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     final_v3_io2_store,
+    NULL, /* no poke */
     final_v3_io2_read,
     final_v3_io2_read, /* peek */
     final_v3_dump,

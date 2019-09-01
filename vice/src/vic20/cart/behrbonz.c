@@ -83,6 +83,7 @@ static io_source_t behrbonz_io3_device = {
     0x9c00, 0x9fff, 0x3ff,
     0,
     behrbonz_io3_store,
+    NULL, /* no poke */
     NULL,
     behrbonz_io3_peek,
     behrbonz_mon_dump,

@@ -88,6 +88,7 @@ static io_source_t final_plus_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     final_plus_io2_store,
+    NULL, /* no poke */
     final_plus_io2_read,
     final_plus_io2_read,
     final_plus_dump,

@@ -78,6 +78,7 @@ static io_source_t sidcart_8f00_device = {
     0x8f00, 0x8fff, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     NULL, /* no peek */
     sid_dump,
@@ -93,6 +94,7 @@ static io_source_t sidcart_e900_device = {
     0xe900, 0xe9ff, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     NULL, /* no peek */
     sid_dump,

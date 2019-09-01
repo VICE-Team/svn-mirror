@@ -168,6 +168,7 @@ static io_source_t c64_256k_device = {
     0xdf80, 0xdfff, 0x7f,
     1, /* read is always valid */
     c64_256k_store,
+    NULL, /* no poke */
     c64_256k_read,
     c64_256k_read,
     c64_256k_dump,

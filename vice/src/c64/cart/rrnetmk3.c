@@ -120,6 +120,7 @@ static io_source_t rrnetmk3_io1_device = {
     0xde80, 0xde88, 0x88, /* FIXME */
     0,
     rrnetmk3_io1_store,
+    NULL, /* no poke */
     NULL, /* read */
     rrnetmk3_io1_peek,
     rrnetmk3_dump,
@@ -135,6 +136,7 @@ static io_source_t rrnetmk3_cs8900_io1_device = {
     0xde02, 0xde0f, 0x0f,
     0,
     rrnetmk3_cs8900_store,
+    NULL, /* no poke */
     rrnetmk3_cs8900_read,
     rrnetmk3_cs8900_peek,
     rrnetmk3_cs8900_dump,

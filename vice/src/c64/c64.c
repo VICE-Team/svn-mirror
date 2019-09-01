@@ -231,6 +231,7 @@ static io_source_t vicii_d000_device = {
     0xd000, 0xd0ff, 0x3f,
     1, /* read is always valid */
     vicii_store,
+    NULL, /* no poke */
     vicii_read,
     vicii_peek,
     vicii_dump,
@@ -246,6 +247,7 @@ static io_source_t vicii_d100_device = {
     0xd100, 0xd1ff, 0x3f,
     1, /* read is always valid */
     vicii_store,
+    NULL, /* no poke */
     vicii_read,
     vicii_peek,
     vicii_dump,
@@ -261,6 +263,7 @@ static io_source_t vicii_d200_device = {
     0xd200, 0xd2ff, 0x3f,
     1, /* read is always valid */
     vicii_store,
+    NULL, /* no poke */
     vicii_read,
     vicii_peek,
     vicii_dump,
@@ -276,6 +279,7 @@ static io_source_t vicii_d300_device = {
     0xd300, 0xd3ff, 0x3f,
     1, /* read is always valid */
     vicii_store,
+    NULL, /* no poke */
     vicii_read,
     vicii_peek,
     vicii_dump,
@@ -291,6 +295,7 @@ static io_source_t sid_d400_device = {
     0xd400, 0xd41f, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     sid_peek,
     sid_dump,
@@ -306,6 +311,7 @@ static io_source_t sid_d420_device = {
     0xd420, 0xd4ff, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     sid_peek,
     sid_dump,
@@ -321,6 +327,7 @@ static io_source_t sid_d500_device = {
     0xd500, 0xd5ff, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     sid_peek,
     sid_dump,
@@ -336,6 +343,7 @@ static io_source_t sid_d600_device = {
     0xd600, 0xd6ff, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     sid_peek,
     sid_dump,
@@ -351,6 +359,7 @@ static io_source_t sid_d700_device = {
     0xd700, 0xd7ff, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     sid_peek,
     sid_dump,

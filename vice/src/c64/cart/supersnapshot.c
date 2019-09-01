@@ -94,6 +94,7 @@ static io_source_t ss5_device = {
     0xde00, 0xdeff, 0xff,
     0,
     supersnapshot_v5_io1_store,
+    NULL, /* no poke */
     supersnapshot_v5_io1_read,
     supersnapshot_v5_io1_peek,
     supersnapshot_v5_dump,

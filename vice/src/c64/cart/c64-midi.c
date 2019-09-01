@@ -78,6 +78,7 @@ static io_source_t midi_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     midi_store,
+    NULL, /* no poke */
     c64midi_read,
     c64midi_peek,
     NULL, /* TODO: dump */

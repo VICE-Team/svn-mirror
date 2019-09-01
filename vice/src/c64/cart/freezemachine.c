@@ -145,6 +145,7 @@ static io_source_t freezemachine_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     freezemachine_io1_store,
+    NULL, /* no poke */
     freezemachine_io1_read,
     freezemachine_io1_peek,
     NULL, /* TODO: dump */
@@ -160,6 +161,7 @@ static io_source_t freezemachine_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     freezemachine_io2_store,
+    NULL, /* no poke */
     freezemachine_io2_read,
     freezemachine_io2_peek,
     NULL, /* TODO: dump */

@@ -118,6 +118,7 @@ static io_source_t gmod2_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     gmod2_io1_store,
+    NULL, /* no poke */
     gmod2_io1_read,
     gmod2_io1_peek,
     gmod2_dump,

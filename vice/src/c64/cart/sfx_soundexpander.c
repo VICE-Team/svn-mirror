@@ -79,6 +79,7 @@ static io_source_t sfx_soundexpander_sound_device = {
     0xdf00, 0xdfff, 0x7f,
     0,
     sfx_soundexpander_sound_store,
+    NULL, /* no poke */
     sfx_soundexpander_sound_read,
     sfx_soundexpander_sound_peek,
     NULL, /* TODO: dump */

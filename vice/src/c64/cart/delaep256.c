@@ -115,6 +115,7 @@ static io_source_t delaep256_device = {
     0xde00, 0xdeff, 0xff,
     0,
     delaep256_io1_store,
+    NULL, /* no poke */
     NULL,
     delaep256_io1_peek,
     delaep256_dump,

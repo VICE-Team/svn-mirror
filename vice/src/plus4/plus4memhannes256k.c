@@ -72,6 +72,7 @@ static io_source_t h256k_device = {
     0xfd16, 0xfd16, 1,
     1, /* read is always valid */
     h256k_reg_store,
+    NULL, /* no poke */
     h256k_reg_read,
     NULL, /* no peek */
     h256k_dump,

@@ -148,6 +148,7 @@ static io_source_t georam_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     georam_io1_store,
+    NULL, /* no poke */
     georam_io1_read,
     georam_io1_read,
     georam_dump,
@@ -163,6 +164,7 @@ static io_source_t georam_io2_device = {
     0xdf80, 0xdfff, 0x7f,
     0,
     georam_io2_store,
+    NULL, /* no poke */
     NULL,
     georam_io2_peek,
     georam_dump,

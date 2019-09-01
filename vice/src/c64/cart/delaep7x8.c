@@ -132,6 +132,7 @@ static io_source_t delaep7x8_device = {
     0xde00, 0xdeff, 0xff,
     0,
     delaep7x8_io1_store,
+    NULL, /* no poke */
     NULL,
     delaep7x8_io1_peek,
     delaep7x8_dump,

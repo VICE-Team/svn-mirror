@@ -98,6 +98,7 @@ static io_source_t p64_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     p64_io2_store,
+    NULL, /* no poke */
     NULL,
     p64_io2_peek,
     p64_dump,

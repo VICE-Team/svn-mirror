@@ -155,6 +155,7 @@ static io_source_t retroreplay_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     retroreplay_io1_store,
+    NULL, /* no poke */
     retroreplay_io1_read,
     NULL, /* TODO: peek */
     retroreplay_dump,
@@ -170,6 +171,7 @@ static io_source_t retroreplay_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     retroreplay_io2_store,
+    NULL, /* no poke */
     retroreplay_io2_read,
     NULL, /* TODO: peek */
     retroreplay_dump,
@@ -185,6 +187,7 @@ static io_source_t retroreplay_clockport_io1_device = {
     0xde02, 0xde0f, 0x0f,
     0,
     retroreplay_clockport_store,
+    NULL, /* no poke */
     retroreplay_clockport_read,
     retroreplay_clockport_peek,
     retroreplay_clockport_dump,

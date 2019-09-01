@@ -78,6 +78,7 @@ static io_source_t digimax_device = {
     0xde40, 0xde47, 0x03,
     1, /* read is always valid */
     shortbus_digimax_sound_store,
+    NULL, /* no poke */
     shortbus_digimax_sound_read,
     shortbus_digimax_sound_read,
     NULL, /* nothing to dump */

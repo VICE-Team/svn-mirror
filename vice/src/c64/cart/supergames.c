@@ -108,6 +108,7 @@ static io_source_t supergames_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     supergames_io2_store,
+    NULL, /* no poke */
     NULL,
     supergames_io2_peek,
     supergames_dump,

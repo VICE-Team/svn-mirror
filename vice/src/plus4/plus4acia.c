@@ -90,6 +90,7 @@ static io_source_t acia_device = {
     0xfd00, 0xfd0f, 3,
     1, /* read is always valid */
     acia_store,
+    NULL, /* no poke */
     acia_read,
     acia_peek,
     NULL, /* TODO: dump */

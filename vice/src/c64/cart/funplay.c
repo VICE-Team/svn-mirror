@@ -136,6 +136,7 @@ static io_source_t funplay_device = {
     0xde00, 0xdeff, 0xff,
     0,
     funplay_io1_store,
+    NULL, /* no poke */
     NULL,
     funplay_io1_peek,
     funplay_dump,

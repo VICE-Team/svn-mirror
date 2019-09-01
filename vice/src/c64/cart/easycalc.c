@@ -66,6 +66,7 @@ static io_source_t easycalc_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     easycalc_io1_store,
+    NULL, /* no poke */
     NULL, /* no read */
     NULL, /* no peek */
     easycalc_dump,

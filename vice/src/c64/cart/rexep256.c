@@ -152,6 +152,7 @@ static io_source_t rexep256_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     rexep256_io2_store,
+    NULL, /* no poke */
     rexep256_io2_read,
     rexep256_io2_peek,
     rexep256_dump,

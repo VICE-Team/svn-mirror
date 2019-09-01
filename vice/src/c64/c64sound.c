@@ -76,6 +76,7 @@ static io_source_t stereo_sid_device = {
     0xde00, 0xde1f, 0x1f,
     1, /* read is always valid */
     machine_sid2_store,
+    NULL, /* no poke */
     machine_sid2_read,
     NULL, /* TODO: peek */
     sid2_dump,
@@ -91,6 +92,7 @@ static io_source_t triple_sid_device = {
     0xdf00, 0xdf1f, 0x1f,
     1, /* read is always valid */
     machine_sid3_store,
+    NULL, /* no poke */
     machine_sid3_read,
     NULL, /* TODO: peek */
     sid3_dump,
@@ -106,6 +108,7 @@ static io_source_t quad_sid_device = {
     0xdf80, 0xdf9f, 0x1f,
     1, /* read is always valid */
     machine_sid4_store,
+    NULL, /* no poke */
     machine_sid4_read,
     NULL, /* TODO: peek */
     sid4_dump,

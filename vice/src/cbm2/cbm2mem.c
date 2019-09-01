@@ -995,6 +995,7 @@ static io_source_t crtc_device = {
     0xd800, 0xd8ff, 1,
     1, /* read is always valid */
     crtc_store,
+    NULL, /* no poke */
     crtc_read,
     crtc_peek,
     crtc_dump,
@@ -1010,6 +1011,7 @@ static io_source_t sid_device = {
     0xda00, 0xdaff, 0x1f,
     1, /* read is always valid */
     sid_store,
+    NULL, /* no poke */
     sid_read,
     sid_peek,
     sid_dump,
@@ -1025,6 +1027,7 @@ static io_source_t cia_device = {
     0xdc00, 0xdcff, 0xf,
     1, /* read is always valid */
     cia1_store,
+    NULL, /* no poke */
     cia1_read,
     cia1_peek,
     cia1_dump,
@@ -1040,6 +1043,7 @@ static io_source_t acia_device = {
     0xdd00, 0xddff, 3,
     1, /* read is always valid */
     acia1_store,
+    NULL, /* no poke */
     acia1_read,
     acia1_peek,
     NULL, /* TODO: dump */
@@ -1055,6 +1059,7 @@ static io_source_t tpi1_device = {
     0xde00, 0xdeff, 7,
     1, /* read is always valid */
     tpi1_store,
+    NULL, /* no poke */
     tpi1_read,
     tpi1_peek,
     tpi1_dump,
@@ -1070,6 +1075,7 @@ static io_source_t tpi2_device = {
     0xdf00, 0xdfff, 7,
     1, /* read is always valid */
     tpi2_store,
+    NULL, /* no poke */
     tpi2_read,
     tpi2_peek,
     tpi2_dump,

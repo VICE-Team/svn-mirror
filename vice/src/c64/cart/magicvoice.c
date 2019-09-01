@@ -828,6 +828,7 @@ static io_source_t magicvoice_io2_device = {
     0xdf80, 0xdfff, 0x07,
     1, /* read is always valid */
     magicvoice_io2_store,
+    NULL, /* no poke */
     magicvoice_io2_read,
     magicvoice_io2_peek,
     magicvoice_io2_dump,

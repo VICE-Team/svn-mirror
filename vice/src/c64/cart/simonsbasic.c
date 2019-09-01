@@ -89,6 +89,7 @@ static io_source_t simon_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     simon_io1_store,
+    NULL, /* no poke */
     simon_io1_read,
     simon_io1_peek,
     simon_dump,

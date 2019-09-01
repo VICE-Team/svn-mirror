@@ -64,6 +64,7 @@ static io_source_t stb_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     stb_io1_store,
+    NULL, /* no poke */
     stb_io1_read,
     stb_io1_peek,
     stb_dump,

@@ -158,6 +158,7 @@ static io_source_t delaep64_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     delaep64_io1_store,
+    NULL, /* no poke */
     delaep64_io1_read,
     delaep64_io1_peek,
     delaep64_dump,

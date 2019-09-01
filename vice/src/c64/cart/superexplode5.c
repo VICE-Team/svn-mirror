@@ -131,6 +131,7 @@ static io_source_t se5_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is alway valid */
     se5_io2_store,
+    NULL, /* no poke */
     se5_io2_read,
     NULL,
     se5_dump,

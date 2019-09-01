@@ -144,6 +144,7 @@ static io_source_t isepic_io1_device = {
     0xde00, 0xdeff, 0x07,
     0, /* read is never valid */
     isepic_io1_store,
+    NULL, /* no poke */
     isepic_io1_read,
     isepic_io1_peek,
     isepic_dump,
@@ -159,6 +160,7 @@ static io_source_t isepic_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     isepic_io2_store,
+    NULL, /* no poke */
     isepic_io2_read,
     isepic_io2_peek,
     isepic_dump,

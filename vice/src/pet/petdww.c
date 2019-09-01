@@ -119,6 +119,7 @@ static io_source_t petdww_reg_device = {
     0xeb00, 0xebff, 3,
     1, /* read is always valid */
     store_petdww_reg,
+    NULL, /* no poke */
     read_petdww_reg,
     NULL, /* no peek */
     petdww_dump,
@@ -134,6 +135,7 @@ static io_source_t petdww_ram_ec00_device = {
     0xec00, 0xecff, 0x3ff,
     1, /* read is always valid */
     store_petdww_ec00_ram,
+    NULL, /* no poke */
     read_petdww_ec00_ram,
     NULL, /* no peek */
     petdww_dump,
@@ -149,6 +151,7 @@ static io_source_t petdww_ram_ed00_device = {
     0xed00, 0xedff, 0x3ff,
     1, /* read is always valid */
     store_petdww_ec00_ram,
+    NULL, /* no poke */
     read_petdww_ec00_ram,
     NULL, /* no peek */
     petdww_dump,
@@ -164,6 +167,7 @@ static io_source_t petdww_ram_ee00_device = {
     0xee00, 0xeeff, 0x3ff,
     1, /* read is always valid */
     store_petdww_ec00_ram,
+    NULL, /* no poke */
     read_petdww_ec00_ram,
     NULL, /* no peek */
     petdww_dump,
@@ -179,6 +183,7 @@ static io_source_t petdww_ram_ef00_device = {
     0xef00, 0xefff, 0x3ff,
     1, /* read is always valid */
     store_petdww_ec00_ram,
+    NULL, /* no poke */
     read_petdww_ec00_ram,
     NULL, /* no peek */
     petdww_dump,

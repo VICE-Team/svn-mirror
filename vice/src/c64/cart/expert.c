@@ -236,6 +236,7 @@ static io_source_t expert_io1_device = {
     0xde00, 0xde01, 0xff,
     0, /* read is never valid */
     expert_io1_store,
+    NULL, /* no poke */
     expert_io1_read,
     expert_io1_peek,
     NULL, /* TODO: dump */

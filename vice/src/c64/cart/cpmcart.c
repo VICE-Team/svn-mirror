@@ -208,6 +208,7 @@ static io_source_t cpmcart_device = {
     0xde00, 0xdeff, 0xff,
     0,
     cpmcart_io_store,
+    NULL, /* no poke */
     NULL, /* no read */
     NULL, /* no peek */
     cpmcart_dump,

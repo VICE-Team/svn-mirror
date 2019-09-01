@@ -126,6 +126,7 @@ static io_source_t megacart_io2_device = {
     0x9800, 0x9bff, 0x3ff,
     0,
     megacart_io2_store,
+    NULL, /* no poke */
     megacart_io2_read,
     NULL, /* TODO: peek */
     megacart_mon_dump,
@@ -141,6 +142,7 @@ static io_source_t megacart_io3_device = {
     0x9c00, 0x9fff, 0x3ff,
     0,
     megacart_io3_store,
+    NULL, /* no poke */
     megacart_io3_read,
     megacart_io3_peek,
     megacart_mon_dump,

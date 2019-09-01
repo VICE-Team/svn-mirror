@@ -117,6 +117,7 @@ static io_source_t dqbb_io1_device = {
     0xde00, 0xdeff, 0x01,
     0,
     dqbb_io1_store,
+    NULL, /* no poke */
     NULL,
     dqbb_io1_peek,
     dqbb_dump,

@@ -123,6 +123,7 @@ static io_source_t comal80_device = {
     0xde00, 0xdeff, 0xff,
     0,
     comal80_io1_store,
+    NULL, /* no poke */
     NULL,
     comal80_io1_peek,
     comal80_dump,

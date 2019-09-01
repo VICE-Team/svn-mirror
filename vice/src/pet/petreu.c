@@ -102,6 +102,7 @@ static io_source_t petreureg1_device = {
     0x8800, 0x88ff, 0x1f,
     1, /* read is always valid */
     store_petreu_reg,
+    NULL, /* no poke */
     read_petreu_reg,
     NULL, /* no peek */
     petreu_dump,
@@ -117,6 +118,7 @@ static io_source_t petreureg2_device = {
     0x8a00, 0x8aff, 0x1f,
     1, /* read is always valid */
     store_petreu2_reg,
+    NULL, /* no poke */
     read_petreu2_reg,
     NULL, /* no peek */
     petreu_dump,
@@ -132,6 +134,7 @@ static io_source_t petreuram_device = {
     0x8900, 0x89ff, 0xff,
     1, /* read is always valid */
     store_petreu_ram,
+    NULL, /* no poke */
     read_petreu_ram,
     NULL, /* no peek */
     petreu_dump,

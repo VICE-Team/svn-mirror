@@ -137,6 +137,7 @@ static io_source_t pagefox_device = {
     0xde80, 0xdeff, 0xff,
     0,
     pagefox_io1_store,
+    NULL, /* no poke */
     NULL,
     pagefox_io1_peek,
     pagefox_dump,
