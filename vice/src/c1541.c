@@ -164,9 +164,6 @@ const char *machine_get_name(void);
 const char machine_name[] = "C1541";
 int machine_class = VICE_MACHINE_C1541;
 
-/* Global clock counter.  */
-CLOCK clk = 0L;
-
 
 /** \brief  Array of virtual drives
  */
@@ -253,29 +250,6 @@ static int fix_ts(int unit, unsigned int trk, unsigned int sec,
                   unsigned int blk_offset);
 static int internal_write_geos_file(int unit, FILE* f);
 
-
-/* FIXME: why are these declared when not used? (Compyx) */
-int rom1540_loaded = 0;
-int rom1541_loaded = 0;
-int rom1541ii_loaded = 0;
-int rom1571_loaded = 0;
-int rom1581_loaded = 0;
-int rom2000_loaded = 0;
-int rom4000_loaded = 0;
-int rom2031_loaded = 0;
-int rom1001_loaded = 0;
-int rom2040_loaded = 0;
-
-uint8_t *drive_rom1540;
-uint8_t *drive_rom1541;
-uint8_t *drive_rom1541ii;
-uint8_t *drive_rom1571;
-uint8_t *drive_rom1581;
-uint8_t *drive_rom2000;
-uint8_t *drive_rom4000;
-uint8_t *drive_rom2031;
-uint8_t *drive_rom1001;
-uint8_t *drive_rom2040;
 
 /* ------------------------------------------------------------------------- */
 
