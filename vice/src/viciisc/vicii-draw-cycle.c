@@ -117,6 +117,10 @@ static uint8_t last_color_value;
 
 static unsigned int cycle_flags_pipe;
 
+void vicii_monitor_colreg_store(int reg, int value)
+{
+    cregs[reg] = value;
+}
 
 /**************************************************************************
  *
@@ -579,6 +583,7 @@ static DRAW_INLINE void draw_border8(void)
  *
  ******/
 
+/* used by draw_colors8() */
 static DRAW_INLINE void update_cregs(void)
 {
     last_color_reg = vicii.last_color_reg;
