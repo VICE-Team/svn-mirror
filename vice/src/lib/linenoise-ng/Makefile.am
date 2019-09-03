@@ -4,12 +4,9 @@
 #
 #
 
-# This needs to change into:
-#	$VICE_CXXFLAGS -Wno-unused-variable -Wno-unused-function
-#
-# Once we alter configure.proto to not override C[XX|PP]FLAGS
-#
-AM_CXXFLAGS = -Wno-unused-variable -Wno-unused-function
+AM_CPPFLAGS = @VICE_CPPFLAGS@
+AM_CFLAGS = @VICE_CFLAGS@
+AM_CXXFLAGS = @VICE_CXXFLAGS@ -Wno-unused-variable
 
 noinst_LIBRARIES = liblinenoiseng.a
 

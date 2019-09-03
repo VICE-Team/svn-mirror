@@ -9,6 +9,7 @@ endif
 SUBDIRS = data novte widgets
 
 AM_CPPFLAGS = \
+	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
 	$(extra_includes) \
