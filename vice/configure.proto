@@ -1165,7 +1165,7 @@ if test x"$check_gtk3" = "xyes"; then
     dnl Check if g++ supports -Wno-nonnull-compare to silence warnings building
     dnl VTE with GCC 9.1+
     old_CXXFLAGS="$VICE_CXXFLAGS"
-    tmp_CXXFLAG="$CXXFLAGS"
+    tmp_CXXFLAGS="$CXXFLAGS"
     SUCCESS_CXXFLAGS="$VICE_CXXFLAGS -Wno-nonnull-compare"
     CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
     dnl Temporarily switch to C++
