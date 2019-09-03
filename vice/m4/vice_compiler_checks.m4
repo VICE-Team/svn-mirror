@@ -25,7 +25,7 @@ AC_DEFUN([VICE_CFLAG_REQUEST],
 [
     dnl Handle optional 'flags_var_name' argument
     flags_var_name=m4_default($2, [VICE_CFLAGS])
-    AS_VAR_COPY([old_CFLAGS], [$flags_var_name])
+    AS_VAR_COPY([old_var_CFLAGS], [$flags_var_name])
 
     AC_LANG_PUSH([C])
     AC_MSG_CHECKING([if the C compiler supports $1])
@@ -34,14 +34,15 @@ AC_DEFUN([VICE_CFLAG_REQUEST],
     dnl need it to be before any -Werror=foo flags to make gcc 9.2+ error out,
     dnl otherwise gcc 9.2 will complain but still return 0.
     dnl We need -Wno-strict-prototypes to avoid barfing on 'main()'
-    CFLAGS="-Werror $old_CFLAGS $1 -Wno-strict-prototypes"
+    old_CFLAGS="$CFLAGS"
+    CFLAGS="-Werror $old_var_CFLAGS $1 -Wno-strict-prototypes"
 
     dnl Try compiling a minimal piece of code to test the requested flag
     AC_TRY_COMPILE(
         [],
         [int the_answer = 42; return the_answer;],
         [AC_MSG_RESULT([yes])
-         AS_VAR_SET([$flags_var_name], ["$old_CFLAGS $1"])],
+         AS_VAR_SET([$flags_var_name], ["$old_var_CFLAGS $1"])],
         [AC_MSG_RESULT([no])]
     )
     CFLAGS="$old_CFLAGS"
@@ -87,7 +88,7 @@ AC_DEFUN([VICE_CXXFLAG_REQUEST],
 [
     dnl Handle optional 'flags_var_name' argument
     flags_var_name=m4_default($2, [VICE_CXXFLAGS])
-    AS_VAR_COPY([old_CXXFLAGS], [$flags_var_name])
+    AS_VAR_COPY([old_var_CXXFLAGS], [$flags_var_name])
 
     AC_LANG_PUSH([C++])
     AC_MSG_CHECKING([if the C++ compiler supports $1])
@@ -96,14 +97,15 @@ AC_DEFUN([VICE_CXXFLAG_REQUEST],
     dnl need it to be before any -Werror=foo flags to make gcc 9.2+ error out,
     dnl otherwise gcc 9.2 will complain but still return 0.
     dnl We need -Wno-strict-prototypes to avoid barfing on 'main()'
-    CXXFLAGS="-Werror $old_CXXFLAGS $1 -Wno-strict-prototypes"
+    old_CXXFLAGS="$CXXFLAGS"
+    CXXFLAGS="-Werror $old_var_CXXFLAGS $1"
 
     dnl Try compiling a minimal piece of code to test the requested flag
     AC_TRY_COMPILE(
         [],
         [int the_answer = 42; return the_answer;],
         [AC_MSG_RESULT([yes])
-         AS_VAR_SET([$flags_var_name], ["$old_CXXFLAGS $1"])],
+         AS_VAR_SET([$flags_var_name], ["$old_var_CXXFLAGS $1"])],
         [AC_MSG_RESULT([no])]
     )
     CXXFLAGS="$old_CXXFLAGS"
