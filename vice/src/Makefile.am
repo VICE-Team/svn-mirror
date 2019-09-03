@@ -1328,11 +1328,11 @@ endif
 # should have a proper look at this issue.
 # -- compyx
 if HAVE_REALDEVICE
-#if HAVE_BSD
-#realdevice_lib = opencbmlib.o
-#else
+if HAVE_BSD_FREE
+realdevice_lib = opencbmlib.o
+else
 realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
-#endif
+endif
 else
 realdevice_lib =
 endif

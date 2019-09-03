@@ -165,18 +165,7 @@ m4_foreach([flag],
             [-Wfatal-errors],
             [-fdiagnostics-absolute-paths]],
            [TEST_FLAG=flag
-            old_CFLAGS="$CFLAGS"
-            old_vice_CFLAGS="$VICE_CFLAGS"
-            SUCCESS_CFLAGS="$VICE_CFLAGS $TEST_FLAG"
-            CFLAGS="-Werror $SUCCESS_CFLAGS"
-            AC_MSG_CHECKING([if the C compiler supports $TEST_FLAG])
-            AC_TRY_COMPILE([],
-                           [int arse = 0; return arse;],
-                           [AC_MSG_RESULT(yes)
-                            VICE_CFLAGS="$SUCCESS_CFLAGS"],
-                           [AC_MSG_RESULT(no)
-                            VICE_CFLAGS="$old_vice_CFLAGS"])
-            CFLAGS="$old_CFLAGS"
+            VICE_CFLAG_REQUEST([$TEST_FLAG])
            ])
 AC_LANG_PUSH([C++])
 m4_foreach([flag],
@@ -192,44 +181,19 @@ m4_foreach([flag],
             [-Wfatal-errors],
             [-fdiagnostics-absolute-paths]],
            [TEST_FLAG=flag
-            old_CXXFLAGS="$CXXFLAGS"
-            old_vice_CXXFLAGS="$VICE_CXXFLAGS"
-            SUCCESS_CXXFLAGS="$VICE_CXXFLAGS $TEST_FLAG"
-            CXXFLAGS="-Werror $SUCCESS_CXXFLAGS"
-            AC_MSG_CHECKING([if the C++ compiler supports $TEST_FLAG])
-            AC_TRY_COMPILE([],
-                           [int arse = 0; return arse;],
-                           [AC_MSG_RESULT(yes)
-                            VICE_CXXFLAGS="$SUCCESS_CXXFLAGS"],
-                           [AC_MSG_RESULT(no)
-                            VICE_CXXFLAGS="$old_vice_CXXFLAGS"])
-
-            CXXFLAGS="$old_CFLAGS"
+            VICE_CXXFLAG_REQUEST([$TEST_FLAG])
            ])
 AC_LANG_POP([C++])
 
 dnl VTE specific flags
 VTE_CXXFLAGS=""
-backup_CXXFLAGS="$CXXFLAGS"
-AC_LANG_PUSH([C++])
 m4_foreach([flag],
            [[-Wno-address-of-packed-member],
             [-Wno-char-subscripts],
             [-Wno-format-signedness]],
            [TEST_FLAG=flag
-            old_VTE_CXXFLAGS="$VTE_CXXFLAGS"
-            SUCCESS_VTE_CXXFLAGS="$VTE_CXXFLAGS $TEST_FLAG"
-            CXXFLAGS="-Werror $SUCCESS_VTE_CXXFLAGS"
-            AC_MSG_CHECKING([if the C++ compiler supports $TEST_FLAG])
-            AC_TRY_COMPILE([],
-                           [int arse = 0; return arse;],
-                           [AC_MSG_RESULT(yes)
-                            VTE_CXXFLAGS="$SUCCESS_VTE_CXXFLAGS"],
-                           [AC_MSG_RESULT(no)
-                            VTE_CXXFLAGS="$old_VTE_CXXFLAGS"])
+            VICE_CXXFLAG_REQUEST([$TEST_FLAG], [VTE_CXXFLAGS])
             ])
-CXXFLAGS="$backup_CXXFLAGS"
-AC_LANG_POP([C++])
 AC_SUBST(VTE_CXXFLAGS)
 
 AC_PROG_INSTALL
@@ -491,7 +455,13 @@ else
   AC_MSG_ERROR([can not figure type of time_t])
 fi
 
+dnl We probably shouldn't need these:
 AM_CONDITIONAL([HAVE_BSD], false)
+AM_CONDITIONAL([HAVE_BSD_FREE], false)
+AM_CONDITIONAL([HAVE_BSD_NET], false)
+AM_CONDITIONAL([HAVE_BSD_OPEN], false)
+AM_CONDITIONAL([HAVE_BSD_DRAGON], false)
+
 CFLAGS="$old_CFLAGS"
 dnl Add runtime/linker paths for *BSD
 dnl
@@ -500,9 +470,10 @@ dnl work on Linux and Windows. So once that works, alter this:
 case "$host_os" in
   freebsd*)
     AM_CONDITIONAL([HAVE_BSD], true)
-    CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+    AM_CONDITIONAL([HAVE_BSD_FREE], true)
+    VICE_CPPFLAGS="$VICE_CPPFLAGS -I/usr/local/include"
     fbsdrtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/local/lib"`
-    LDFLAGS="$LDFLAGS $fbsdrtp -L/usr/local/lib"
+    VICE_LDFLAGS="$VICE_LDFLAGS $fbsdrtp -L/usr/local/lib"
     ;;
   netbsd*)
     AM_CONDITIONAL([HAVE_BSD], true)
