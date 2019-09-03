@@ -60,7 +60,6 @@
 #include <limits.h>
 
 #include <string.h>
-#include <assert.h>
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
@@ -1289,8 +1288,6 @@ static void bam_print_sector_header(int sectors)
 
     int i = 0;
     int p = 0;
-
-    assert(sectors < BAM_SECTOR_HEADER_MAX_SECTORS);
 
     while (i < sectors && p < BAM_SECTOR_HEADER_MAX_STRLEN) {
         line1[p] = (char)((i / 10) + '0');
