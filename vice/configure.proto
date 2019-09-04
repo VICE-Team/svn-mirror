@@ -1871,11 +1871,17 @@ if test x"$ac_cv_c_inline" = "xno" ; then
 fi
 
 
-dnl Define the type sizes.
+dnl Define the type sizes. (No, it doesn't)
 if [[ x"$ac_cv_prog_cc_cross" != "xyes" ]]; then
+  dnl This appears to define `WORDS_BIGENDIAN`. Not sure if it gets AC_SUBST'ed
   AC_C_BIGENDIAN
 else
   dnl if cross-compiling, we have to do this by hand
+  dnl
+  dnl This is bollocks, cross-compiling doesn't suddenly make the assumption
+  dnl it's compiling for what looks like a 32-bit target. Any code that requires
+  dnl a certain width of a type uses types from <stdint.h>, or at least it should,
+  dnl this is VICE after all. --cpx
   echo "warning: assuming sizeof(unsigned short) == 2,"
   echo "                  sizeof(unsigned int) == 4,"
   echo "                  sizeof(unsigned long) == 4"
