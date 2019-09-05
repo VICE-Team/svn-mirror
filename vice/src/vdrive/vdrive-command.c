@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "cbmdos.h"
 #include "diskimage.h"
@@ -64,6 +65,11 @@ static int vdrive_command_rename(vdrive_t *vdrive, uint8_t *dest, int length);
 static int vdrive_command_scratch(vdrive_t *vdrive, uint8_t *name, int length);
 static int vdrive_command_position(vdrive_t *vdrive, uint8_t *buf,
                                    unsigned int length);
+
+/* CMD style commands */
+static int vdrive_command_time_read(struct vdrive_s *vdrive, const char format);
+static int vdrive_command_time_write(struct vdrive_s *vdrive, const char format, const uint8_t* newtime);
+
 
 #if 0
 const char *vdrive_command_errortext(unsigned int code)
@@ -242,6 +248,23 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
             } /* Un */
             break;
 
+        case 'T': /* Time T-RA/B/D, T-WA/B/D*/
+            if (minus) {
+                if (minus[1] == 'R') {
+                    status = vdrive_command_time_read(vdrive, minus[2]);
+                    /* the time is returned in the command channel, so we skip
+                       updating it */
+                    if (status == CBMDOS_IPE_OK) {
+                        lib_free((char *)p);
+                        return CBMDOS_IPE_OK;
+                    }
+                } else if (minus[1] == 'W') {
+                    status = vdrive_command_time_write(vdrive, minus[2], minus + 3);
+                }
+            }
+            break;
+
+
         default:
             break;
     } /* commands */
@@ -307,7 +330,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
 
             if (l < 0) {
 #ifdef DEBUG_DRIVE
-                log_debug("b-R/W parsed OK. (l=%d) channel %d mode %d, "
+                log_debug("b-R/W parsed OK. (l=%d) channel %d mode %u, "
                           "drive=%d, track=%d sector=%d.", l, channel,
                           vdrive->buffers[channel].mode, drive, track, sector);
 #endif
@@ -348,7 +371,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
 
             if (l < 0) {
 #ifdef DEBUG_DRIVE
-                log_debug("b-r/w parsed OK. (l=%d) channel %d mode %d, "
+                log_debug("b-r/w parsed OK. (l=%d) channel %d mode %u, "
                           "drive=%d, track=%d sector=%d.", l, channel,
                           vdrive->buffers[channel].mode, drive, track, sector);
 #endif
@@ -1060,8 +1083,8 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
     bufferinfo_t *p = &vdrive->buffers[15];
 
 #ifdef DEBUG_DRIVE
-    log_debug("Set error channel: code =%d, last_code =%d, track =%d, "
-              "sector =%d.", code, last_code, track, sector);
+    log_debug("Set error channel: code =%d, last_code =%d, track =%u, "
+              "sector =%u.", code, last_code, track, sector);
 #endif
 
     /* Set an error only once per command. */
@@ -1140,4 +1163,111 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const uint8_t *buf, uint16_t ad
 
     vdrive->mem_length = len;
     return CBMDOS_IPE_MEMORY_READ;
+}
+
+/* CMD style RTC read and write */
+int vdrive_command_time_read(struct vdrive_s *vdrive, const char format)
+{
+    bufferinfo_t *p = &vdrive->buffers[15];
+    int status = CBMDOS_IPE_SYNTAX;
+    char message[30] = { 0 };
+    int length;
+    time_t timep;
+    struct tm *ts;
+    
+    const char *days[7] = {
+        "SUN.", "MON.", "TUES", "WED.", "THUR", "FRI.", "SAT."
+    };
+
+    time(&timep);
+    ts = localtime(&timep);
+#ifdef DEBUG_DRIVE
+    log_debug("current time: %s %02d/%02d/%04d %02d:%02d:%02d\n",
+            days[ts->tm_wday], ts->tm_mon, ts->tm_mday, ts->tm_year + 1900, 
+            ts->tm_hour, ts->tm_min, ts->tm_sec);
+#endif
+    switch (format) {
+        case 'A': /* "DOW. MO/DA/YR HR:MI:SE xM"+chr$(13) */
+            sprintf(message, "%s %02d/%02d/%02d %02d:%02d:%02d %cM\x0d",
+                    days[ts->tm_wday], ts->tm_mon, ts->tm_mday, ts->tm_year % 100, 
+                    ts->tm_hour % 12, ts->tm_min, ts->tm_sec, ts->tm_hour >= 12 ? 'P' : 'A');
+            /* printf("returning: '%s'\n", message); */
+            length = strlen(message);
+            memcpy((char *)p->buffer, message, length);
+            p->length = length - 1;
+            p->bufptr = 0;
+            p->readmode = CBMDOS_FAM_READ;
+            status = CBMDOS_IPE_OK;
+            break;
+        case 'B': /* time in BCD format:
+                    Byte 0  day of week ($00=SUN., $01=MON., etc.)
+                    Byte 1  year (i.e 1990=$90)
+                    Byte 2  month ($01-$12)
+                    Byte 3  day ($01-xx)
+                    Byte 4  hour ($01-$12)
+                    Byte 5  minute ($00-$59)
+                    Byte 6  second ($00-$59)
+                    Byte 7  AM/PM flag (0=AM, non-0=PM)
+                    Byte 8  CHR$(13) */
+            message[0] = ts->tm_wday;
+            message[1] = ((ts->tm_year / 10) << 4) | (ts->tm_year % 10);
+            message[2] = ((ts->tm_mon / 10) << 4) | (ts->tm_mon % 10);
+            message[3] = ((ts->tm_mday / 10) << 4) | (ts->tm_mday % 10);
+            message[4] = ((ts->tm_hour / 10) << 4) | (ts->tm_hour % 10);
+            message[5] = ((ts->tm_min / 10) << 4) | (ts->tm_min % 10);
+            message[6] = ((ts->tm_sec / 10) << 4) | (ts->tm_sec % 10);
+            message[7] = ts->tm_hour >= 12 ? 1 : 0;
+            message[8] = 13;
+            memcpy((char *)p->buffer, message, 9);
+            p->length = 9 - 1;
+            p->bufptr = 0;
+            p->readmode = CBMDOS_FAM_READ;
+            status = CBMDOS_IPE_OK;
+            break;
+        case 'D': /* time in decimal format:
+                    Byte 0  day of week (0=SUN., 1=MON., etc.)
+                    Byte 1  year (i.e 1990=90)
+                    Byte 2  month (01-12)
+                    Byte 3  day (01-xx)
+                    Byte 4  hour (01-12)
+                    Byte 5  minute (00-59)
+                    Byte 6  second (00-59)
+                    Byte 7  AM/PM flag (0=AM, non-0=PM)
+                    Byte 8  CHR$(13) */
+            message[0] = ts->tm_wday;
+            message[1] = ts->tm_year;
+            message[2] = ts->tm_mon;
+            message[3] = ts->tm_mday;
+            message[4] = ts->tm_hour;
+            message[5] = ts->tm_min;
+            message[6] = ts->tm_sec;
+            message[7] = ts->tm_hour >= 12 ? 1 : 0;
+            message[8] = 13;
+            memcpy((char *)p->buffer, message, 9);
+            p->length = 9 - 1;
+            p->bufptr = 0;
+            p->readmode = CBMDOS_FAM_READ;
+            status = CBMDOS_IPE_OK;
+            break;
+    }
+    return status;
+}
+
+int vdrive_command_time_write(struct vdrive_s *vdrive, const char format, const uint8_t *newtime)
+{
+    switch (format) {
+        case 'A': /* "DOW. MO/DA/YR HR:MI:SE xM"+chr$(13) */
+            log_warning(vdrive_command_log, "T-WA command is being ignored.");
+            return CBMDOS_IPE_OK;
+            /*break;*/
+        case 'B':
+            log_warning(vdrive_command_log, "T-WB command is being ignored.");
+            return CBMDOS_IPE_OK;
+            /*break;*/
+        case 'D':
+            log_warning(vdrive_command_log, "T-WD command is being ignored.");
+            return CBMDOS_IPE_OK;
+            /*break;*/
+    }
+    return CBMDOS_IPE_SYNTAX;
 }
