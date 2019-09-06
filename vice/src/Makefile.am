@@ -116,7 +116,7 @@ DIST_SUBDIRS = \
 	hvsc
 
 AM_CPPFLAGS = \
-	@VICE_CPPFLAG@ \
+	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
