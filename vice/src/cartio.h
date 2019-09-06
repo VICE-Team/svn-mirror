@@ -204,10 +204,23 @@ extern void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
  * A priority of 1 (IO_PRIO_HIGH) means the returned byte will be returned immediately and no further read-collision checks are done,
  * therefor a device of this priority will always return a byte, unless it is not the first device in the device-chain at the
  * address being read. If it is not the first device it will not return a byte, but will also not be part of a read-collision.
-
+ *
  * A priority of 0 (IO_PRIO_NORMAL) means there needs to be a check of read-collisions, and the device byte will be used either
  * in an AND of all returned bytes, or as a device in a read-collision.
  *
+ * The I/O ranges that are covered by the I/O system are as follows:
+ *
+ * C64/C128: $d000-$d0ff, $d100-$d1ff, $d200-$d2ff, $d300-$d3ff, $d400-$d4ff, $d500-$d5ff, $d600-$d6ff, $d700-$d7ff,
+ *           $de00-$deff, $df00-$dfff
+ *
+ *     CBM2: $d800-$d8ff, $d900-$d9ff, $da00-$daff, $db00-$dbff, $dc00-$d9ff, $dd00-$d9ff, $de00-$deff, $df00-$dfff
+ *
+ *      PET: $8800-$88ff, $8900-$89ff, $8a00-$8aff, $8b00-$8bff, $8c00-$8cff, $8d00-$8dff, $8e00-$8eff, $8f00-$8fff,
+ *           $e900-$e9ff, $ea00-$eaff, $eb00-$ebff, $ec00-$ecff, $ed00-$edff, $ee00-$eeff, $ef00-$efff
+ *
+ *    PLUS4: $fd00-$fdff, $fe00-$feff
+ *
+ *    VIC20: $9000-$93ff, $9800-$9bff, $9c00-$9fff
  */
 
 typedef struct io_source_s {
