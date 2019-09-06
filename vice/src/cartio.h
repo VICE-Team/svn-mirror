@@ -163,6 +163,53 @@ extern void plus4io_fe00_store(uint16_t addr, uint8_t value);
 struct mem_ioreg_list_s;
 extern void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
 
+/* The following structure is used to register the I/O address range used by a certain device/chip/cartridge.
+ *
+ * The address_mask determines if the defined address range is mirrored across a bigger range, the mask tells
+ * the I/O read/write handler how many bits of the address being accessed are valid for an I/O read or write.
+ *
+ * Some examples:
+ *
+ * start_address | end_address | mask | primary register address | address mirrors
+ * -------------------------------------------------------------------------------
+ * $de00         | $de0f       | $00  | $de00                    | $de01-$de0f (mirrors of 0xde00)
+ * $de00         | $de03       | $01  | $de00-$de01              | $de02-$de03 ($de02 mirrors $de00 and $de03 mirrors $de01)
+ * $de00         | $deff       | $0f  | $de00-$de0f              | $de10-$deff (15 blocks of 16 bytes mirroring $de00-$de0f)
+ * $de00         | $deff       | $7f  | $de00-$de7f              | $de80-$deff (1 block of 128 bytes mirroring $de00-$de7f)
+ * $de80         | $deff       | $7f  | $de80-$deff              | no mirrors
+ * $de00         | $de0f       | $0f  | $de00-$de0f              | no mirrors
+ * $de00         | $deff       | $ff  | $de00-$deff              | no mirrors
+ *
+ * If the read/write functions of the device ignore the address parameter then it results in the following:
+ *
+ * start_address | end_address | mask | primary register address | address mirrors
+ * -------------------------------------------------------------------------------
+ * $de00         | $deff       | $ff  | $de00                    | $de01-$deff
+ *
+ * Devices can co-exist at the same addresses, but only if they are write only.
+ *
+ * A write to an address that is used by multiple devices just results in the data being written going to all/both devices.
+ *
+ * A read from an address that is used by multiple devices leads to problems, because all/both devices will respond with
+ * data to the read, in which case there will be a read-collision. The default action for a read-collision is to report the
+ * user with the names of the devices and the address at which the collision happened, and then detach all devices causing
+ * the read-collision. This default action can be changed to detach only the last inserted device involved in the
+ * read-collision, or AND the returned bytes instead of detaching devices.  
+ *
+ * The io_source_prio defines what to do with the returned byte of a device.
+ *
+ * A priority of -1 (IO_PRIO_LOW) means the returned byte of the device should be ignored if other devices return a byte as well,
+ * therefor a device of this priority only returns a byte if it is the only device at the address being read.
+ *
+ * A priority of 1 (IO_PRIO_HIGH) means the returned byte will be returned immediately and no further read-collision checks are done,
+ * therefor a device of this priority will always return a byte, unless it is not the first device in the device-chain at the
+ * address being read. If it is not the first device it will not return a byte, but will also not be part of a read-collision.
+
+ * A priority of 0 (IO_PRIO_NORMAL) means there needs to be a check of read-collisions, and the device byte will be used either
+ * in an AND of all returned bytes, or as a device in a read-collision.
+ *
+ */
+
 typedef struct io_source_s {
     char *name; /*!< literal name of this I/O device */
     int detach_id;
@@ -181,6 +228,7 @@ typedef struct io_source_s {
     unsigned int order; /*!< a tag to indicate the order of insertion */
 } io_source_t;
 
+/* The I/O source list structure is a double linked list for easy insertion/removal of devices. */
 typedef struct io_source_list_s {
     struct io_source_list_s *previous;
     io_source_t *device;
