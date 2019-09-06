@@ -3,7 +3,6 @@
 LINK = @LINKCC@ @VICE_CFLAGS@ $(LDFLAGS) -o $@
 CCLD = @LINKCC@
 
-AM_CPPFLAGS = @VICE_CPPFLAGS@
 AM_CFLAGS = @VICE_CFLAGS@
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
@@ -117,6 +116,7 @@ DIST_SUBDIRS = \
 	hvsc
 
 AM_CPPFLAGS = \
+	@VICE_CPPFLAG@ \
 	@ARCH_INCLUDES@ \
 	-I$(top_srcdir)/src/arch/shared \
 	-I$(top_builddir)/src \
