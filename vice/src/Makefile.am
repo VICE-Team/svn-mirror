@@ -236,10 +236,6 @@ noinst_HEADERS = \
 	resources.h \
 	riot.h \
 	romset.h \
-	rs232dev.h \
-	rs232drv.h \
-	rs232net.h \
-	rsuser.h \
 	scpu64ui.h \
 	screenshot.h \
 	serial.h \
