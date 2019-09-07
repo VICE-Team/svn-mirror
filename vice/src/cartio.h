@@ -31,6 +31,9 @@
 
 #define IO_DETACH_CART     0
 #define IO_DETACH_RESOURCE 1
+#define IO_DETACH_NEVER    2
+
+#define IO_DETACH_NO_RESOURCE NULL
 
 #define IO_COLLISION_METHOD_DETACH_ALL    0
 #define IO_COLLISION_METHOD_DETACH_LAST   1
@@ -39,6 +42,8 @@
 #define IO_PRIO_HIGH     1      /*!< override others on collisions */
 #define IO_PRIO_NORMAL   0      /*!< handle collisions */
 #define IO_PRIO_LOW     -1      /*!< overridden by others on collisions */
+
+#define IO_CART_ID_NONE 0
 
 extern uint8_t c64io_d000_read(uint16_t addr);
 extern uint8_t c64io_d000_peek(uint16_t addr);
@@ -188,9 +193,9 @@ extern void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
  *
  * Devices can co-exist at the same addresses, but only if they are write only.
  *
- * A write to an address that is used by multiple devices just results in the data being written going to all/both devices.
+ * A write to an address that is used by multiple devices just results in the data being written going to all devices.
  *
- * A read from an address that is used by multiple devices leads to problems, because all/both devices will respond with
+ * A read from an address that is used by multiple devices leads to problems, because all devices will respond with
  * data to the read, in which case there will be a read-collision. The default action for a read-collision is to report the
  * user with the names of the devices and the address at which the collision happened, and then detach all devices causing
  * the read-collision. This default action can be changed to detach only the last inserted device involved in the

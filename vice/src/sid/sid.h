@@ -93,10 +93,13 @@ struct sid_snapshot_state_s;
 extern void machine_sid2_enable(int val);
 
 extern uint8_t sid_read(uint16_t address);
-extern uint8_t sid_peek(uint16_t address);
 extern uint8_t sid2_read(uint16_t address);
 extern uint8_t sid3_read(uint16_t address);
 extern uint8_t sid4_read(uint16_t address);
+extern uint8_t sid_peek(uint16_t address);
+extern uint8_t sid2_peek(uint16_t address);
+extern uint8_t sid3_peek(uint16_t address);
+extern uint8_t sid4_peek(uint16_t address);
 extern void sid_store(uint16_t address, uint8_t byte);
 extern void sid2_store(uint16_t address, uint8_t byte);
 extern void sid3_store(uint16_t address, uint8_t byte);

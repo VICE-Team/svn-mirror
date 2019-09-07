@@ -161,20 +161,21 @@ static int c64_256k_dump(void)
 
 /* ---------------------------------------------------------------------*/
 
+
 static io_source_t c64_256k_device = {
-    "C64 256K",
-    IO_DETACH_RESOURCE,
-    "C64_256K",
-    0xdf80, 0xdfff, 0x7f,
-    1, /* read is always valid */
-    c64_256k_store,
-    NULL, /* no poke */
-    c64_256k_read,
-    c64_256k_read,
-    c64_256k_dump,
-    CARTRIDGE_C64_256K,
-    0,
-    0
+    "C64 256K",           /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "C64_256K",           /* resource to set to '0' */
+    0xdf80, 0xdfff, 0x03, /* range for the device, registers:$df80-df83, mirrors:$df84-$dfff, range can be changed */
+    1,                    /* read is always valid */
+    c64_256k_store,       /* store function */
+    NULL,                 /* NO poke function */
+    c64_256k_read,        /* read function */
+    c64_256k_read,        /* peek function */
+    c64_256k_dump,        /* device state information dump function */
+    CARTRIDGE_C64_256K,   /* cartridge ID */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *c64_256k_list_item = NULL;

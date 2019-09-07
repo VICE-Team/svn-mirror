@@ -222,6 +222,21 @@ uint8_t sid_read(uint16_t addr)
     return sid_read_chip(addr, 0);
 }
 
+uint8_t sid2_read(uint16_t addr)
+{
+    return sid_read_chip(addr, 1);
+}
+
+uint8_t sid3_read(uint16_t addr)
+{
+    return sid_read_chip(addr, 2);
+}
+
+uint8_t sid4_read(uint16_t addr)
+{
+    return sid_read_chip(addr, 3);
+}
+
 uint8_t sid_peek(uint16_t addr)
 {
     if (sid_stereo >= 1
@@ -245,19 +260,19 @@ uint8_t sid_peek(uint16_t addr)
     return sid_peek_chip(addr, 0);
 }
 
-uint8_t sid2_read(uint16_t addr)
+uint8_t sid2_peek(uint16_t addr)
 {
-    return sid_read_chip(addr, 1);
+    return sid_peek_chip(addr, 1);
 }
 
-uint8_t sid3_read(uint16_t addr)
+uint8_t sid3_peek(uint16_t addr)
 {
-    return sid_read_chip(addr, 2);
+    return sid_peek_chip(addr, 2);
 }
 
-uint8_t sid4_read(uint16_t addr)
+uint8_t sid4_peek(uint16_t addr)
 {
-    return sid_read_chip(addr, 3);
+    return sid_peek_chip(addr, 3);
 }
 
 void sid_store(uint16_t addr, uint8_t byte)
