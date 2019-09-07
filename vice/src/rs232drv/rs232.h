@@ -98,12 +98,14 @@ vice->tcpser
  nn = 255    literal 0xff
 other   ->   unchanged 
 
+there appears to be a bug in tcpser that makes the DTR codes appear in the output.
+
 */
 
 #define IP232MAGIC  0xff
 /* sending */
-#define IP232DTRLO  0   
-#define IP232DTRHI  1
+#define IP232DTRLO  0   /* original patch only sends this once on rs232 reset */
+#define IP232DTRHI  1   /* original patch only sends this once on 0->1 transition */
 /* reading */
 #define IP232DCDLO  0   
 #define IP232DCDHI  1   
