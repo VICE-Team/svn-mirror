@@ -295,35 +295,35 @@ static uint8_t actionreplay2_io2_peek(uint16_t addr);
 static void actionreplay2_io2_store(uint16_t addr, uint8_t value);
 
 static io_source_t actionreplay2_io1_device = {
-    CARTRIDGE_NAME_ACTION_REPLAY2,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    actionreplay2_io1_store,
-    NULL, /* no poke */
-    actionreplay2_io1_read,
-    actionreplay2_io1_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_ACTION_REPLAY2,
-    0,
-    0
+    CARTRIDGE_NAME_ACTION_REPLAY2, /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,          /* range for the device */
+    0,                             /* read is never valid */
+    actionreplay2_io1_store,       /* store function */
+    NULL,                          /* NO poke function */
+    actionreplay2_io1_read,        /* read function */
+    actionreplay2_io1_peek,        /* peek function */
+    NULL,                          /* TODO: device state information dump function */
+    CARTRIDGE_ACTION_REPLAY2,      /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t actionreplay2_io2_device = {
-    CARTRIDGE_NAME_ACTION_REPLAY2,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    1, /* read is always valid */
-    actionreplay2_io2_store,
-    NULL, /* no poke */
-    actionreplay2_io2_read,
-    actionreplay2_io2_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_ACTION_REPLAY2,
-    0,
-    0
+    CARTRIDGE_NAME_ACTION_REPLAY2, /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,          /* range for the device */
+    1,                             /* read is always valid */
+    actionreplay2_io2_store,       /* store function */
+    NULL,                          /* NO poke function */
+    actionreplay2_io2_read,        /* read function */
+    actionreplay2_io2_peek,        /* peek function */
+    NULL,                          /* TODO: device state information dump function */
+    CARTRIDGE_ACTION_REPLAY2,      /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *actionreplay2_io1_list_item = NULL;

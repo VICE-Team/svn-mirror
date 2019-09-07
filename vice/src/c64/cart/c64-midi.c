@@ -72,19 +72,19 @@ static uint8_t c64midi_peek(uint16_t address)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t midi_device = {
-    "MIDI",
-    IO_DETACH_RESOURCE,
-    "MIDIEnable",
-    0xde00, 0xdeff, 0xff,
-    1, /* read is always valid */
-    midi_store,
-    NULL, /* no poke */
-    c64midi_read,
-    c64midi_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_MIDI_SEQUENTIAL,
-    0,
-    0
+    "MIDI",                    /* name of the device */
+    IO_DETACH_RESOURCE,        /* use resource to detach the device when involved in a read-collision */
+    "MIDIEnable",              /* resource to set to '0' */
+    0xde00, 0xdeff, 0xff,      /* range of the device, the actual registers and mirrors depend on which MIDI cart is being emulated */
+    1,                         /* read is always valid */
+    midi_store,                /* store function */
+    NULL,                      /* NO poke function */
+    c64midi_read,              /* read function */
+    c64midi_peek,              /* peek function */
+    NULL,                      /* TODO: device state information dump function */
+    CARTRIDGE_MIDI_SEQUENTIAL, /* cartridge ID */
+    IO_PRIO_NORMAL,            /* normal priority, device read needs to be checked for collisions */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static export_resource_t export_res = {

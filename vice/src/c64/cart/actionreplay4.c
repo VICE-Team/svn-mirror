@@ -70,35 +70,35 @@ static uint8_t actionreplay4_io2_read(uint16_t addr);
 static int actionreplay4_dump(void);
 
 static io_source_t actionreplay4_io1_device = {
-    CARTRIDGE_NAME_ACTION_REPLAY4,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    actionreplay4_io1_store,
-    NULL, /* no poke */
-    NULL,
-    NULL, /* TODO: peek */
-    actionreplay4_dump,
-    CARTRIDGE_ACTION_REPLAY4,
-    0,
-    0
+    CARTRIDGE_NAME_ACTION_REPLAY4, /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,          /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
+    0,                             /* read is never valid, there is no read or peek function */
+    actionreplay4_io1_store,       /* store function */
+    NULL,                          /* NO poke function */
+    NULL,                          /* NO read function */
+    NULL,                          /* TODO: peek function */
+    actionreplay4_dump,            /* device state information dump function */
+    CARTRIDGE_ACTION_REPLAY4,      /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t actionreplay4_io2_device = {
-    CARTRIDGE_NAME_ACTION_REPLAY4,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    0,
-    NULL,
-    NULL, /* no poke */
-    actionreplay4_io2_read,
-    NULL, /* TODO: peek */
-    actionreplay4_dump,
-    CARTRIDGE_ACTION_REPLAY4,
-    0,
-    0
+    CARTRIDGE_NAME_ACTION_REPLAY4, /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,          /* range for the device */
+    0,                             /* read validity is determined by the device upon a read */
+    NULL,                          /* NO store function */
+    NULL,                          /* NO poke function */
+    actionreplay4_io2_read,        /* read function */
+    NULL,                          /* TODO: peek function */
+    actionreplay4_dump,            /* device state information dump function */
+    CARTRIDGE_ACTION_REPLAY4,      /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *actionreplay4_io1_list_item = NULL;
