@@ -539,6 +539,8 @@ static void clk_overflow_callback(CLOCK sub, void *var)
     acia.alarm_clk_rx -= sub;
 }
 
+#define LOG_MODEM_STATUS
+
 /*! \internal \brief Get the modem status and set the status register accordingly
 
  This function reads the physical modem status lines (DSR, DCD)
@@ -550,7 +552,9 @@ static void clk_overflow_callback(CLOCK sub, void *var)
 static int acia_get_status(void)
 {
     enum rs232handshake_in modem_status = rs232drv_get_status(acia.fd);
-
+#ifdef LOG_MODEM_STATUS
+    static uint8_t oldstatus = 0;
+#endif
     acia.status &= ~(ACIA_SR_BITS_DCD | ACIA_SR_BITS_DSR);
 
 #if 0
@@ -563,11 +567,19 @@ static int acia_get_status(void)
         acia.status |= ACIA_SR_BITS_DCD; /* we treat CTS like DCD */
     }
 #endif
+    if (modem_status & RS232_HSI_DCD) {
+        acia.status |= ACIA_SR_BITS_DCD;
+    }
 
     if (modem_status & RS232_HSI_DSR) {
         acia.status |= ACIA_SR_BITS_DSR;
     }
-
+#ifdef LOG_MODEM_STATUS
+    if (acia.status != oldstatus) {
+        printf("acia_get_status(%d): %02x\n", acia.fd, acia.status);
+        oldstatus = acia.status;
+    }
+#endif 
     return acia.status;
 }
 

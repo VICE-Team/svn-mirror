@@ -101,11 +101,11 @@ other   ->   unchanged
 */
 
 #define IP232MAGIC  0xff
-/* reading */
+/* sending */
 #define IP232DTRLO  0   
 #define IP232DTRHI  1
-/* sending */
-#define IP232DTDLO  0   
-#define IP232DTDHI  1   
+/* reading */
+#define IP232DCDLO  0   
+#define IP232DCDHI  1   
 
 #endif

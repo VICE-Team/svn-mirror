@@ -90,6 +90,8 @@ typedef struct rs232net {
                     because of a previous error. This prevents the error
                     log from being flooded with error messages. */
     int useip232; /*!< 1 to use the ip232 protocol for tcpser */
+    int dcd_in;   /*!< status of DCD line */
+    int dtr_out;  /*!< status of DTR line */
 } rs232net_t;
 
 /* C99 standard guarantees all members of an object of static storage are
@@ -123,7 +125,7 @@ void rs232net_reset(void)
 /* opens a rs232 window, returns handle to give to functions below. */
 int rs232net_open(int device)
 {
-    vice_network_socket_address_t * ad = NULL;
+    vice_network_socket_address_t *ad = NULL;
     int index = -1;
 
     do {
@@ -307,9 +309,11 @@ tryagain:
                 return ret;
             }
             switch (*b) {
-                case IP232DTRLO: /* FIXME: dtr false */
+                case IP232DCDLO: /* dcd false */
+                    fds[fd].dcd_in = 0;
                     goto tryagain;
-                case IP232DTRHI: /* FIXME: dtr true */
+                case IP232DCDHI: /* dcd true */
+                    fds[fd].dcd_in = 1;
                     goto tryagain;
                 case 0xff:
                     break;
@@ -323,18 +327,56 @@ tryagain:
 /* set the status lines of the RS232 device */
 int rs232net_set_status(int fd, enum rs232handshake_out status)
 {
+    int dtr = (status & RS232_HSO_DTR) ? 1 : 0;
     if (fds[fd].useip232) {
-        /* FIXME */
+        if (dtr != fds[fd].dtr_out) {
+            _rs232net_putc(fd, IP232MAGIC);
+            if (dtr) {
+                _rs232net_putc(fd, IP232DTRHI);
+            } else {
+                _rs232net_putc(fd, IP232DTRLO);
+            }
+            fds[fd].dtr_out = dtr;
+        }
     }
     return 0;
 }
 
+#define LOG_MODEM_STATUS
+
 /* get the status lines of the RS232 device */
 enum rs232handshake_in rs232net_get_status(int fd)
 {
+    enum rs232handshake_in status = 0;
+#ifdef LOG_MODEM_STATUS
+    static enum rs232handshake_in oldstatus = 0;
+#endif    
+    
     if (fds[fd].useip232) {
-        /* FIXME */
+#if 0   /* this doesnt work right, eg local echo wont work anymore */
+        /* if DTR is low, read from the socket to update it's status */
+        uint8_t dummy;
+        if (fds[fd].dcd_in == 0) {
+            if (rs232net_getc(fd, &dummy) > 0) {
+                if (fds[fd].dcd_in == 0) {
+                    log_error(rs232net_log, "Incoming byte with DTR inactive: 0x%02x '%c'.", dummy, dummy);
+                }
+            }
+        }
+#endif
+        if (fds[fd].dcd_in == 0) {
+            status |= RS232_HSI_DCD;
+        }
     }
-    return RS232_HSI_CTS | RS232_HSI_DSR;
+    status |= RS232_HSI_CTS;
+
+#ifdef LOG_MODEM_STATUS
+    if (status != oldstatus) {
+        printf("rs232handshake_in(%d): DCD:%d %02x\n", fd, fds[fd].dcd_in, status);
+        oldstatus = status;
+    }
+#endif     
+    return status;
+/*    return RS232_HSI_CTS | RS232_HSI_DSR; */
 }
 #endif

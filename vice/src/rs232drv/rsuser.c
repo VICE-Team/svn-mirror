@@ -420,10 +420,35 @@ uint8_t rsuser_get_rx_bit(void)
     return byte;
 }
 
+#define LOG_MODEM_STATUS
+
 /* called by VIA/CIA when cpu reads from user port */
 uint8_t rsuser_read_ctrl(uint8_t b)
 {
-    return b & (rsuser_get_rx_bit() | CTS_IN | (rsuser_baudrate > 2400 ? 0 : DCD_IN));
+    enum rs232handshake_in modem_status = rs232drv_get_status(fd);
+    uint8_t status = 0;
+#ifdef LOG_MODEM_STATUS
+    static uint8_t oldstatus = 0;
+#endif    
+    if (modem_status & RS232_HSI_CTS) {
+        status |= CTS_IN;
+    }
+    if (modem_status & RS232_HSI_DCD) {
+        if (!(rsuser_baudrate > 2400)) {
+            status |= DCD_IN;
+        }
+    }
+    if (modem_status & RS232_HSI_DSR) {
+        status |= DSR_IN;
+    }
+#ifdef LOG_MODEM_STATUS
+    if (status != oldstatus) {
+        printf("rsuser_read_ctrl(%d): mask:%02x %02x\n", fd, b, status);
+        oldstatus = status;
+    }
+#endif    
+    return b & (rsuser_get_rx_bit() | status);
+/*  return b & (rsuser_get_rx_bit() | CTS_IN | (rsuser_baudrate > 2400 ? 0 : DCD_IN)); */
 }
 
 void rsuser_tx_byte(uint8_t b)
