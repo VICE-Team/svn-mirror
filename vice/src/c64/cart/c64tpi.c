@@ -91,19 +91,19 @@ static uint8_t tpi_io2_peek(uint16_t addr);
 static int tpi_io2_dump(void);
 
 static io_source_t tpi_io2_device = {
-    CARTRIDGE_NAME_IEEE488,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0x07,
-    1, /* read is always valid */
-    tpi_io2_store,
-    NULL, /* no poke */
-    tpi_io2_read,
-    tpi_io2_peek,
-    tpi_io2_dump,
-    CARTRIDGE_IEEE488,
-    0,
-    0
+    CARTRIDGE_NAME_IEEE488, /* name of the device */
+    IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0x07,   /* range for the device, regs:$df00-$df07, mirrors:$df08-$dfff */
+    1,                      /* read is always valid */
+    tpi_io2_store,          /* store function */
+    NULL,                   /* NO poke function */
+    tpi_io2_read,           /* read function */
+    tpi_io2_peek,           /* peek function */
+    tpi_io2_dump,           /* device state information dump function */
+    CARTRIDGE_IEEE488,      /* cartridge ID */
+    IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
+    0                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *tpi_list_item = NULL;

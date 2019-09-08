@@ -109,19 +109,19 @@ uint8_t aciacart_read(uint16_t addr);
 uint8_t aciacart_peek(uint16_t addr);
 
 static io_source_t acia_device = {
-    CARTRIDGE_NAME_ACIA,
-    IO_DETACH_RESOURCE,
-    "Acia1Enable",
-    0xde00, 0xde07, 0x07,
-    0,
-    acia1_store,
-    NULL, /* no poke */
-    aciacart_read,
-    aciacart_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_ACIA,
-    0,
-    0
+    CARTRIDGE_NAME_ACIA,  /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "Acia1Enable",        /* resource to set to '0' */
+    0xde00, 0xde07, 0x07, /* range for the device, can be changed to other ranges */
+    0,                    /* read validity is determined by the device upon a read */
+    acia1_store,          /* store function */
+    NULL,                 /* NO poke function */
+    aciacart_read,        /* read function */
+    aciacart_peek,        /* peek function */
+    NULL,                 /* TODO: device state information dump function */
+    CARTRIDGE_ACIA,       /* cartridge ID */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *acia_list_item = NULL;
