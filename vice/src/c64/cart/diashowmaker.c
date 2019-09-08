@@ -81,6 +81,11 @@
 
 static int dsm_active = 0;
 
+/* We use the entire $de00-$deff range, even though the software only uses $de00,
+ * and we only react to address $de00, this is to fine tune the emulation when/if
+ * a working piece of software for the diashow maker shows up that uses an address
+ * other than $de00
+ */
 static uint8_t dsm_io1_read(uint16_t addr)
 {
     DBG(("io1 r %04x\n", addr));
@@ -97,6 +102,11 @@ static uint8_t dsm_io1_peek(uint16_t addr)
     return 0;
 }
 
+/* We use the entire $de00-$deff range, even though the software only uses $de00,
+ * and we only react to address $de00, this is to fine tune the emulation when/if
+ * a working piece of software for the diashow maker shows up that uses an address
+ * other than $de00
+ */
 static void dsm_io1_store(uint16_t addr, uint8_t value)
 {
     DBG(("io1 w %04x %02x\n", addr, value));
@@ -115,19 +125,19 @@ static int dsm_dump(void)
 }
 
 static io_source_t dsm_io1_device = {
-    CARTRIDGE_NAME_DIASHOW_MAKER,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    dsm_io1_store,
-    NULL, /* no poke */
-    dsm_io1_read,
-    dsm_io1_peek,
-    dsm_dump,
-    CARTRIDGE_DIASHOW_MAKER,
-    0,
-    0
+    CARTRIDGE_NAME_DIASHOW_MAKER, /* name of the device */
+    IO_DETACH_CART,               /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,        /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,         /* range for the device, reg: $de00, unknown mirrors:$de01-$deff */
+    0,                            /* read is never valid */
+    dsm_io1_store,                /* store function */
+    NULL,                         /* NO poke function */
+    dsm_io1_read,                 /* read function */
+    dsm_io1_peek,                 /* peek function */
+    dsm_dump,                     /* device state information dump function */
+    CARTRIDGE_DIASHOW_MAKER,      /* cartridge ID */
+    IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
+    0                             /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *dsm_io1_list_item = NULL;

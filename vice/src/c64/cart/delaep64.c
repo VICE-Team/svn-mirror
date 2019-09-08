@@ -152,19 +152,19 @@ static int delaep64_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t delaep64_device = {
-    CARTRIDGE_NAME_DELA_EP64,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    delaep64_io1_store,
-    NULL, /* no poke */
-    delaep64_io1_read,
-    delaep64_io1_peek,
-    delaep64_dump,
-    CARTRIDGE_DELA_EP64,
-    0,
-    0
+    CARTRIDGE_NAME_DELA_EP64, /* name of the device */
+    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,     /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
+    0,                        /* read is never valid */
+    delaep64_io1_store,       /* store function */
+    NULL,                     /* NO poke function */
+    delaep64_io1_read,        /* read function */
+    delaep64_io1_peek,        /* peek function */
+    delaep64_dump,            /* device state information dump function */
+    CARTRIDGE_DELA_EP64,      /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *delaep64_list_item = NULL;

@@ -121,7 +121,7 @@ static io_source_t comal80_device = {
     IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
     IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
     0xde00, 0xdeff, 0xff,   /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
-    0,                      /* read never valid, no read function */
+    0,                      /* read never valid, device is write only */
     comal80_io1_store,      /* store function */
     NULL,                   /* NO poke function */
     NULL,                   /* NO read function */
