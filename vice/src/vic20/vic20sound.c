@@ -321,7 +321,10 @@ void vic_sound_clock(int cycles)
     }
 
     for (j = 0; j < 4; j++) {
-        int chspeed = "\4\3\2\1"[j];
+        /* int chspeed = "\4\3\2\1"[j]; */
+        /* temporary fix for bug #1125. speed 1 is correct in theory, but
+           results in noise sounding one octave too high. */
+        int chspeed = "\4\3\2\2"[j];
 
         if (snd.ch[j].ctr > cycles) {
             snd.accum += snd.ch[j].out * cycles;
