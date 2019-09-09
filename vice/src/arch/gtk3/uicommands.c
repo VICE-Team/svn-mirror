@@ -104,6 +104,24 @@ gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
 }
 
 
+/** \brief  Toggle resource 'KeySetEnable'
+ *
+ * \param[in]   widget
+ * \param[in]   data    (unused?)
+ *
+ * \return  TRUE (so the UI eats the event)
+ */
+gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data)
+{
+    int enable;
+
+    resources_get_int("KeySetEnable", &enable);
+    resources_set_int("KeySetEnable", !enable);
+
+    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
+}
+
+
 /** \brief  Callback for the soft/hard reset items
  *
  * \param[in]   widget      menu item triggering the event (unused)

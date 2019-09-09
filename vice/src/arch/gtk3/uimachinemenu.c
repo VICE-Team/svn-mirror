@@ -594,6 +594,7 @@ static ui_menu_item_t *settings_menu_joy_section = NULL;
  */
 static ui_menu_item_t settings_menu_all_joy[] = {
 
+#if 0
     { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
         "joystick-swap", (void *)(ui_swap_joysticks_callback), NULL,
         GDK_KEY_J, VICE_MOD_MASK },
@@ -603,6 +604,7 @@ static ui_menu_item_t settings_menu_all_joy[] = {
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK },
+#endif
     { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
         "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
         GDK_KEY_M, VICE_MOD_MASK },
@@ -615,13 +617,14 @@ static ui_menu_item_t settings_menu_all_joy[] = {
  * Only valid for x64dtv/xcbm5x0
  */
 static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
-
+#if 0
     { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
         "joystick-swap", (void *)(ui_swap_joysticks_callback), NULL,
         GDK_KEY_J, VICE_MOD_MASK },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK },
+#endif
     { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
         "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
         GDK_KEY_M, VICE_MOD_MASK },
@@ -634,12 +637,14 @@ static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
  * Only valid for xvic/xpet/xcbm2
  */
 static ui_menu_item_t settings_menu_userport_joy[] = {
+#if 0
     { "Swap userport joysticks", UI_MENU_TYPE_ITEM_ACTION,
         "userportjoy-swap", (void *)(ui_swap_userport_joysticks_callback), NULL,
         GDK_KEY_U, VICE_MOD_MASK | GDK_SHIFT_MASK },
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK },
+#endif
     { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
         "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
         GDK_KEY_M, VICE_MOD_MASK },

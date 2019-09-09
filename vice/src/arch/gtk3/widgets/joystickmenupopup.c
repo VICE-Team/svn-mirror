@@ -32,6 +32,7 @@
 
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
+#include "widgethelpers.h"
 #include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -132,6 +133,17 @@ static void on_configure_activate(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Toggle the KeySetEnable resource
+ *
+ * \param[in]   widget  triggering the event
+ * \param[in]   data    extra event data
+ */
+static void on_keyset_toggled(GtkWidget *widget, gpointer data)
+{
+    (void)ui_toggle_keyset_joysticks(widget, data);
+}
+
+
 /** \brief  Create joystick menu popup for the statusbar
  *
  * \return  GtkMenu
@@ -140,18 +152,21 @@ GtkWidget *joystick_menu_popup_create(void)
 {
     GtkWidget *menu;
     GtkWidget *item;
+    GtkWidget *child;
+    int keyset = 0;
 
     menu = gtk_menu_new();
 
     if (joystick_swap_possible()) {
-        item = gtk_menu_item_new_with_label("Swap joysticks");
+        item = gtk_menu_item_new_with_label("Swap joysticks (Alt+J)");
         gtk_container_add(GTK_CONTAINER(menu), item);
         g_signal_connect(item, "activate",
                 G_CALLBACK(ui_swap_joysticks_callback), NULL);
     }
 
     if (userport_joystick_swap_possible()) {
-        item = gtk_menu_item_new_with_label("Swap userport joysticks");
+        item = gtk_menu_item_new_with_label
+            ("Swap userport joysticks (Shift+Alt+U)");
         gtk_container_add(GTK_CONTAINER(menu), item);
         g_signal_connect(item, "activate",
                 G_CALLBACK(ui_swap_userport_joysticks_callback), NULL);
@@ -159,6 +174,17 @@ GtkWidget *joystick_menu_popup_create(void)
                 userport_joystick_adapter_enabled());
 
     }
+
+    /* Enable keyset joysticks */
+    item = gtk_check_menu_item_new_with_label(
+            "Allow keyset joysticks (Alt+Shift+J)");
+    child = gtk_bin_get_child(GTK_BIN(item));
+    gtk_label_set_markup(GTK_LABEL(child),
+            "Allow keyset joysticks (" VICE_MOD_MASK_HTML "+Shift+J)");
+    resources_get_int("KeySetEnable", &keyset);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)keyset);
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "toggled", G_CALLBACK(on_keyset_toggled), NULL);
 
     item = gtk_separator_menu_item_new();
     gtk_container_add(GTK_CONTAINER(menu), item);
