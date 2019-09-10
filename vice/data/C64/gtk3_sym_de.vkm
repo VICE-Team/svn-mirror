@@ -290,17 +290,17 @@ asciitilde     7 1 8
 # extra: ssharp -> arrow left
 ssharp         7 1 8
 # ctrl
-#Tab            7 2 8+16384  key is CTRL
-Tab            7 2 16392
-#ISO_Left_Tab   7 2 16384+8  key is CTRL
-ISO_Left_Tab   7 2 16392
+#Control_L      7 2 8+16384  key is CTRL
+Control_L      7 2 16392
 # shift+2
 quotedbl       7 3 8
 # space
 space          7 4 8
 # cbm
-#Control_L      7 5 8192+8  key is CBM
-Control_L      7 5 8200
+#Tab            7 5 8192+8  key is CBM
+Tab            7 5 8200
+#ISO_Left_Tab   7 5 8192+8  key is CBM
+ISO_Left_Tab   7 5 8200
 # run/stop
 Escape         7 7 8
 
