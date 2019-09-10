@@ -604,11 +604,11 @@ static ui_menu_item_t settings_menu_all_joy[] = {
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK },
-#endif
     { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
         "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
         GDK_KEY_M, VICE_MOD_MASK },
 
+#endif
     UI_MENU_TERMINATOR
 };
 
@@ -624,11 +624,11 @@ static ui_menu_item_t settings_menu_cbm5x0_joy[] = {
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK },
-#endif
     { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
         "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
         GDK_KEY_M, VICE_MOD_MASK },
 
+#endif
     UI_MENU_TERMINATOR
 };
 
@@ -644,11 +644,11 @@ static ui_menu_item_t settings_menu_userport_joy[] = {
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         "keyset", (void *)(ui_toggle_resource), (void *)"KeySetEnable",
         GDK_KEY_J, VICE_MOD_MASK | GDK_SHIFT_MASK },
-#endif
     { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
         "mouse", (void *)(ui_toggle_resource), (void *)"Mouse",
         GDK_KEY_M, VICE_MOD_MASK },
 
+#endif
     UI_MENU_TERMINATOR
 };
 

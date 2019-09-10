@@ -190,6 +190,8 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
         (void *)ui_swap_userport_joysticks_callback },
     { GDK_KEY_J, VICE_MOD_MASK|GDK_SHIFT_MASK,
         (void *)ui_toggle_keyset_joysticks },
+    { GDK_KEY_m, VICE_MOD_MASK,
+        (void *)ui_toggle_mouse_grab },
 
     /* Arnie */
     { 0, 0, NULL }

@@ -122,6 +122,29 @@ gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Toggle resource 'Mouse' (mouse-grab)
+ *
+ * \param[in]   widget
+ * \param[in]   data    (unused?)
+ *
+ * \return  TRUE (so the UI eats the event)
+ */
+gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
+{
+    int mouse;
+
+    resources_get_int("Mouse", &mouse);
+    resources_set_int("Mouse", !mouse);
+    if (mouse) {
+        ui_mouse_grab_pointer();
+    } else {
+        ui_mouse_ungrab_pointer();
+    }
+
+    return TRUE;    /* don't let any shortcut key end up in the emulated machine */
+}
+
+
 /** \brief  Callback for the soft/hard reset items
  *
  * \param[in]   widget      menu item triggering the event (unused)

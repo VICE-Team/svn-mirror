@@ -135,13 +135,25 @@ static void on_configure_activate(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Toggle the KeySetEnable resource
  *
- * \param[in]   widget  triggering the event
+ * \param[in]   widget  widget triggering the event
  * \param[in]   data    extra event data
  */
 static void on_keyset_toggled(GtkWidget *widget, gpointer data)
 {
     (void)ui_toggle_keyset_joysticks(widget, data);
 }
+
+
+/** \brief  Toggle the Mouse resource
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   data    extra event data
+ */
+static void on_mousegrab_toggled(GtkWidget *widget, gpointer data)
+{
+    ui_toggle_mouse_grab(widget, data);
+}
+
 
 
 /** \brief  Create joystick menu popup for the statusbar
@@ -154,6 +166,7 @@ GtkWidget *joystick_menu_popup_create(void)
     GtkWidget *item;
     GtkWidget *child;
     int keyset = 0;
+    int mouse = 0;
 
     menu = gtk_menu_new();
 
@@ -186,6 +199,18 @@ GtkWidget *joystick_menu_popup_create(void)
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "toggled", G_CALLBACK(on_keyset_toggled), NULL);
 
+    /* Enable mouse grab */
+    item = gtk_check_menu_item_new_with_label(
+            "fpp(Alt+M0");
+    child = gtk_bin_get_child(GTK_BIN(item));
+    gtk_label_set_markup(GTK_LABEL(child),
+            "Enable mouse grab (" VICE_MOD_MASK_HTML "+M)");
+    resources_get_int("Mouse", &mouse);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (gboolean)mouse);
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "toggled", G_CALLBACK(on_mousegrab_toggled), NULL);
+
+ 
     item = gtk_separator_menu_item_new();
     gtk_container_add(GTK_CONTAINER(menu), item);
 
