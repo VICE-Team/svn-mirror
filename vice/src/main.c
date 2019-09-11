@@ -122,11 +122,6 @@ int main_program(int argc, char **argv)
             }
         } else if (!strcmp(argv[i], "-default")) {
             loadconfig = 0;
-        } else if ((!strcmp(argv[i], "-help")) ||
-                   (!strcmp(argv[i], "--help")) ||
-                   (!strcmp(argv[i], "-h")) ||
-                   (!strcmp(argv[i], "-?"))) {
-            ishelp = 1;
         } else {
             break;
         }
@@ -139,6 +134,17 @@ int main_program(int argc, char **argv)
     argv[n] = NULL;
     argc = n;
 
+    /* help is also special, but we want it NOT to be ignored by the main
+       commandline handler */
+    for (i = 1; i < argc; i++) {
+        if ((!strcmp(argv[i], "-help")) ||
+                   (!strcmp(argv[i], "--help")) ||
+                   (!strcmp(argv[i], "-h")) ||
+                   (!strcmp(argv[i], "-?"))) {
+            ishelp = 1;
+        }
+    }
+    
     DBG(("main:archdep_init(argc:%d)\n", argc));
     if (archdep_init(&argc, argv) != 0) {
         archdep_startup_log_error("archdep_init failed.\n");
