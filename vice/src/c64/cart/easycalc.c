@@ -36,7 +36,7 @@
 #include "cartridge.h"
 #include "crt.h"
 #include "easycalc.h"
-*#include "export.h"
+#include "export.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
