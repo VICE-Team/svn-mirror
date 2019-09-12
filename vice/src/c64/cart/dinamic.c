@@ -89,19 +89,19 @@ static int dinamic_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t dinamic_io1_device = {
-    CARTRIDGE_NAME_DINAMIC,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* reads are never valid */
-    NULL,
-    NULL, /* no poke */
-    dinamic_io1_read,
-    dinamic_io1_peek,
-    dinamic_dump,
-    CARTRIDGE_DINAMIC,
-    0,
-    0
+    CARTRIDGE_NAME_DINAMIC, /* name of the device */
+    IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,   /* range for the device, regs:$de00-$de0f, unknown mirrors:$de10-$deff */
+    0,                      /* reads are never valid */
+    NULL,                   /* store function */
+    NULL,                   /* NO poke function */
+    dinamic_io1_read,       /* read function */
+    dinamic_io1_peek,       /* peek function */
+    dinamic_dump,           /* device state information dump function */
+    CARTRIDGE_DINAMIC,      /* cartridge ID */
+    IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
+    0                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *dinamic_io1_list_item = NULL;

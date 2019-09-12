@@ -256,35 +256,35 @@ static int easyflash_io1_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t easyflash_io1_device = {
-    CARTRIDGE_NAME_EASYFLASH,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0x03,
-    0,
-    easyflash_io1_store,
-    NULL, /* no poke */
-    NULL,
-    easyflash_io1_peek,
-    easyflash_io1_dump,
-    CARTRIDGE_EASYFLASH,
-    0,
-    0
+    CARTRIDGE_NAME_EASYFLASH, /* name of the device */
+    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
+    0xde00, 0xdeff, 0x03,     /* range for the device, regs:$de00-$de03, mirrors:$de04-$deff */
+    0,                        /* read is never valid, regs are write only */
+    easyflash_io1_store,      /* store function */
+    NULL,                     /* NO poke function */
+    NULL,                     /* NO read function */
+    easyflash_io1_peek,       /* peek function */
+    easyflash_io1_dump,       /* device state information dump function */
+    CARTRIDGE_EASYFLASH,      /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t easyflash_io2_device = {
-    CARTRIDGE_NAME_EASYFLASH,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    1, /* read is always valid */
-    easyflash_io2_store,
-    NULL, /* no poke */
-    easyflash_io2_read,
-    easyflash_io2_read, /* same implementation */
-    NULL, /* nothing to dump */
-    CARTRIDGE_EASYFLASH,
-    0,
-    0
+    CARTRIDGE_NAME_EASYFLASH, /* name of the device */
+    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,     /* range for the device, regs:$df00-$dfff */
+    1,                        /* read is always valid */
+    easyflash_io2_store,      /* store function */
+    NULL,                     /* NO poke function */
+    easyflash_io2_read,       /* read function */
+    easyflash_io2_read,       /* peek function, same implementation */
+    NULL,                     /* device state information dump function */
+    CARTRIDGE_EASYFLASH,      /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *easyflash_io1_list_item = NULL;
