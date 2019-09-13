@@ -95,7 +95,6 @@ static uint8_t regval = 0;
 
 static void funplay_io1_store(uint16_t addr, uint8_t value)
 {
-    addr &= 0xff;
     regval = value;
     currbank = ((value >> 3) & 7) | ((value & 1) << 3);
     cart_romlbank_set_slotmain(currbank);
@@ -130,19 +129,19 @@ static int funplay_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t funplay_device = {
-    CARTRIDGE_NAME_FUNPLAY,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    funplay_io1_store,
-    NULL, /* no poke */
-    NULL,
-    funplay_io1_peek,
-    funplay_dump,
-    CARTRIDGE_FUNPLAY,
-    0,
-    0
+    CARTRIDGE_NAME_FUNPLAY, /* name of the device */
+    IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,   /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
+    0,                      /* read is never valid, reg is write only */
+    funplay_io1_store,      /* store function */
+    NULL,                   /* NO poke function */
+    NULL,                   /* NO read function */
+    funplay_io1_peek,       /* peek function */
+    funplay_dump,           /* device state information dump function */
+    CARTRIDGE_FUNPLAY,      /* cartridge ID */
+    IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
+    0                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *funplay_list_item = NULL;
