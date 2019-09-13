@@ -74,35 +74,35 @@ static void final_v1_io2_store(uint16_t addr, uint8_t value);
 static int final_v1_dump(void);
 
 static io_source_t final1_io1_device = {
-    CARTRIDGE_NAME_FINAL_I,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    1, /* read is always valid */
-    final_v1_io1_store,
-    NULL, /* no poke */
-    final_v1_io1_read,
-    final_v1_io1_peek,
-    final_v1_dump,
-    CARTRIDGE_FINAL_I,
-    0,
-    0
+    CARTRIDGE_NAME_FINAL_I, /* name of the device */
+    IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,   /* range for the device, regs:$de00-$deff */
+    1,                      /* read is always valid */
+    final_v1_io1_store,     /* store function */
+    NULL,                   /* NO poke function */
+    final_v1_io1_read,      /* read function */
+    final_v1_io1_peek,      /* peek function */
+    final_v1_dump,          /* device state information dump function */
+    CARTRIDGE_FINAL_I,      /* cartridge ID */
+    IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
+    0                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t final1_io2_device = {
-    CARTRIDGE_NAME_FINAL_I,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    1, /* read is always valid */
-    final_v1_io2_store,
-    NULL, /* no poke */
-    final_v1_io2_read,
-    final_v1_io2_peek,
-    final_v1_dump,
-    CARTRIDGE_FINAL_I,
-    0,
-    0
+    CARTRIDGE_NAME_FINAL_I, /* name of the device */
+    IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,   /* range for the device, regs:$df00-$dfff */
+    1,                      /* read is always valid */
+    final_v1_io2_store,     /* store function */
+    NULL,                   /* NO poke function */
+    final_v1_io2_read,      /* read function */
+    final_v1_io2_peek,      /* peek function */
+    final_v1_dump,          /* device state information dump function */
+    CARTRIDGE_FINAL_I,      /* cartridge ID */
+    IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
+    0                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *final1_io1_list_item = NULL;

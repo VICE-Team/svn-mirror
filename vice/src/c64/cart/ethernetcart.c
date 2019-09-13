@@ -75,19 +75,19 @@ static void ethernetcart_store(uint16_t io_address, uint8_t byte);
 static int ethernetcart_dump(void);
 
 static io_source_t ethernetcart_device = {
-    CARTRIDGE_NAME_ETHERNETCART,
-    IO_DETACH_RESOURCE,
-    "ETHERNETCART_ACTIVE",
-    0xde00, 0xde0f, 0x0f,
-    0,
-    ethernetcart_store,
-    NULL, /* no poke */
-    ethernetcart_read,
-    ethernetcart_peek,
-    ethernetcart_dump,
-    CARTRIDGE_TFE,
-    0,
-    0
+    CARTRIDGE_NAME_ETHERNETCART, /* name of the device */
+    IO_DETACH_RESOURCE,          /* use resource to detach the device when involved in a read-collision */
+    "ETHERNETCART_ACTIVE",       /* resource to set to '0' */
+    0xde00, 0xde0f, 0x0f,        /* range for the device, address start can be changed */
+    0,                           /* read validity is determined by the device upon a read */
+    ethernetcart_store,          /* store function */
+    NULL,                        /* NO poke function */
+    ethernetcart_read,           /* read function */
+    ethernetcart_peek,           /* peek function */
+    ethernetcart_dump,           /* device state information dump function */
+    CARTRIDGE_TFE,               /* cartridge ID */
+    IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
+    0                            /* insertion order, gets filled in by the registration function */
 };
 
 static export_resource_t export_res = {
@@ -150,6 +150,7 @@ static uint8_t ethernetcart_read(uint16_t io_address)
     if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
         if (io_address < 2) {
             return 0;
+            ethernetcart_device.io_source_valid = 0;
         }
         io_address ^= 8;
     }

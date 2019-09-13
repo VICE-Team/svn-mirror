@@ -230,19 +230,19 @@ uint8_t expert_io1_peek(uint16_t addr);
 void expert_io1_store(uint16_t addr, uint8_t value);
 
 static io_source_t expert_io1_device = {
-    CARTRIDGE_NAME_EXPERT,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xde01, 0xff,
-    0, /* read is never valid */
-    expert_io1_store,
-    NULL, /* no poke */
-    expert_io1_read,
-    expert_io1_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_EXPERT,
-    0,
-    0
+    CARTRIDGE_NAME_EXPERT, /* name of the device */
+    IO_DETACH_CART,        /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xde00, 0xde01, 0xff,  /* range for the device, regs:$de00-$de01 */
+    0,                     /* read is never valid */
+    expert_io1_store,      /* store function */
+    NULL,                  /* NO poke function */
+    expert_io1_read,       /* read function */
+    expert_io1_peek,       /* peek function */
+    NULL,                  /* TODO: device state information dump function */
+    CARTRIDGE_EXPERT,      /* cartridge ID */
+    IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static const export_resource_t export_res = {
