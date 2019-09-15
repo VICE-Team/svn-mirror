@@ -277,6 +277,15 @@ int fsimage_dxx_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
         }
     } else {
         rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (uint8_t)dadr->sector);
+        /* HACK: if the image has an error map, and the "FDC" did not detect an 
+           error in the GCR stream, use the error from the error map instead.
+           FIXME: what should really be done is encoding the errors from the
+           error map into the GCR stream. this is a lot more effort and will
+           give the exact same results, so i will leave it to someone else :)
+        */
+        if (fsimage->error_info.map && (rf == CBMDOS_FDC_ERR_OK)) {
+            rf = fsimage->error_info.map[sectors];
+        }
     }
 
     switch (rf) {
