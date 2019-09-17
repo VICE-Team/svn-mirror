@@ -61,7 +61,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Symbolic Mapping, Danish Layout, C64, X11
+# Symbolic Mapping, Danish Layout, C64, GTK3
 
 # C64 keyboard matrix:
 #
@@ -119,7 +119,8 @@ Up              0 7 1
 # |Bit 1| 3 # |  W  |  A  | 4 $ |  Z  |  S  |  E  | S_L |
 
 numbersign      1 0 1
-currency        1 3 1
+dollar          1 3 1
+currency        1 3 1   /* da-fix - enable $ instead of ¤ */
 Shift_L         1 7 2
 # shift lock
 Caps_Lock       1 7 64
