@@ -142,35 +142,35 @@ static void georam_io2_store(uint16_t addr, uint8_t byte);
 static int georam_dump(void);
 
 static io_source_t georam_io1_device = {
-    CARTRIDGE_NAME_GEORAM,
-    IO_DETACH_RESOURCE,
-    "GEORAM",
-    0xde00, 0xdeff, 0xff,
-    1, /* read is always valid */
-    georam_io1_store,
-    NULL, /* no poke */
-    georam_io1_read,
-    georam_io1_read,
-    georam_dump,
-    CARTRIDGE_GEORAM,
-    0,
-    0
+    CARTRIDGE_NAME_GEORAM, /* name of the device */
+    IO_DETACH_RESOURCE,    /* use resource to detach the device when involved in a read-collision */
+    "GEORAM",              /* resource to set to '0' */
+    0xde00, 0xdeff, 0xff,  /* range for the device, range is different for vic20 */
+    1,                     /* read is always valid */
+    georam_io1_store,      /* store function */
+    NULL,                  /* NO poke function */
+    georam_io1_read,       /* read function */
+    georam_io1_read,       /* peek function */
+    georam_dump,           /* device state information dump function */
+    CARTRIDGE_GEORAM,      /* cartridge ID */
+    IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t georam_io2_device = {
-    CARTRIDGE_NAME_GEORAM,
-    IO_DETACH_RESOURCE,
-    "GEORAM",
-    0xdf80, 0xdfff, 0x7f,
-    0,
-    georam_io2_store,
-    NULL, /* no poke */
-    NULL,
-    georam_io2_peek,
-    georam_dump,
-    CARTRIDGE_GEORAM,
-    0,
-    0
+    CARTRIDGE_NAME_GEORAM, /* name of the device */
+    IO_DETACH_RESOURCE,    /* use resource to detach the device when involved in a read-collision */
+    "GEORAM",              /* resource to set to '0' */
+    0xdf80, 0xdfff, 0x01,  /* range for the device, regs:$dffe-$dfff, mirrors:$df80-$dffd, range is different for vic20 */
+    0,                     /* read is never valid, regs are write only */
+    georam_io2_store,      /* store function */
+    NULL,                  /* NO poke function */
+    NULL,                  /* NO read function */
+    georam_io2_peek,       /* peek function */
+    georam_dump,           /* device state information dump function */
+    CARTRIDGE_GEORAM,      /* cartridge ID */
+    IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *georam_io1_list_item = NULL;

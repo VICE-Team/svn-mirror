@@ -85,7 +85,7 @@ static io_source_t ds12c887rtc_device = {
     CARTRIDGE_NAME_DS12C887RTC, /* name of the device */
     IO_DETACH_RESOURCE,         /* use resource to detach the device when involved in a read-collision */
     "DS12C887RTC",              /* resource to set to '0' */
-    0xde00, 0xde01, 0xff,       /* range for the device, regs: $de00-$de01 */
+    0xde00, 0xde01, 0xff,       /* range for the device, regs: $de00-$de01, range is different for vic20 */
     0,                          /* read validity is determined by the device upon a read */
     ds12c887rtc_store,          /* store function */
     NULL,                       /* NO poke function */

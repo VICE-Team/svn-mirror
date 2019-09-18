@@ -112,20 +112,21 @@ static void gmod2_io1_store(uint16_t addr, uint8_t value);
 static int gmod2_dump(void);
 
 static io_source_t gmod2_io1_device = {
-    CARTRIDGE_NAME_GMOD2,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    gmod2_io1_store,
-    NULL, /* no poke */
-    gmod2_io1_read,
-    gmod2_io1_peek,
-    gmod2_dump,
-    CARTRIDGE_GMOD2,
-    1,
-    0
+    CARTRIDGE_NAME_GMOD2,  /* name of the device */
+    IO_DETACH_CART,        /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,  /* range for the device, address is ignored, reg:$df00, mirrors:$de01-$deff */
+    0,                     /* read validity is determined by the device upon a read */
+    gmod2_io1_store,       /* store function */
+    NULL,                  /* NO poke function */
+    gmod2_io1_read,        /* read function */
+    gmod2_io1_peek,        /* peek function */
+    gmod2_dump,            /* device state information dump function */
+    CARTRIDGE_GMOD2,       /* cartridge ID */
+    IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
+
 static io_source_list_t *gmod2_io1_list_item = NULL;
 
 static const export_resource_t export_res = {
@@ -137,14 +138,13 @@ static const export_resource_t export_res = {
 uint8_t gmod2_io1_read(uint16_t addr)
 {
     gmod2_io1_device.io_source_valid = 0;
-
     /* DBG(("io1 r %04x (cs:%d)\n", addr, eeprom_cs)); */
 
-    gmod2_io1_device.io_source_valid = 1;
     if (eeprom_cs) {
+        gmod2_io1_device.io_source_valid = 1;
         return (m93c86_read_data() << 7) | (vicii_read_phi1() & 0x7f);
     }
-    return (vicii_read_phi1() & 0xff);
+    return 0;
 }
 
 uint8_t gmod2_io1_peek(uint16_t addr)

@@ -73,7 +73,7 @@ static io_source_t digimax_device = {
     CARTRIDGE_NAME_DIGIMAX, /* name of the device */
     IO_DETACH_RESOURCE,     /* use resource to detach the device when involved in a read-collision */
     "DIGIMAX",              /* resource to set to '0' */
-    0xde00, 0xde03, 0x03,   /* range for the device, regs:$de00-$de03 */
+    0xde00, 0xde03, 0x03,   /* range for the device, regs:$de00-$de03, range for vic20 will be different */
     1,                      /* read is always valid */
     digimax_sound_store,    /* store function */
     NULL,                   /* NO poke function */

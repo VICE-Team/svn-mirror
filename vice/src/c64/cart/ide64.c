@@ -166,99 +166,99 @@ static int ide64_clockport_dump(void);
 static int ide64_rtc_dump(void);
 
 static io_source_t ide64_idebus_device = {
-    CARTRIDGE_NAME_IDE64 " IDE",
-    IO_DETACH_CART,
-    NULL,
-    0xde20, 0xde2f, 0x0f,
-    0,
-    ide64_idebus_store,
-    NULL, /* no poke */
-    ide64_idebus_read,
-    ide64_idebus_peek,
-    ide64_idebus_dump,
-    CARTRIDGE_IDE64,
-    0,
-    0
+    CARTRIDGE_NAME_IDE64 " IDE", /* name of the device */
+    IO_DETACH_CART,              /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,       /* does not use a resource for detach */
+    0xde20, 0xde2f, 0x0f,        /* range for the device, regs:$de20-$de2f */
+    0,                           /* read validity is determined by the device upon a read */
+    ide64_idebus_store,          /* store function */
+    NULL,                        /* NO poke function */
+    ide64_idebus_read,           /* read function */
+    ide64_idebus_peek,           /* peek function */
+    ide64_idebus_dump,           /* device state information dump function */
+    CARTRIDGE_IDE64,             /* cartridge ID */
+    IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
+    0                            /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t ide64_io_device = {
-    CARTRIDGE_NAME_IDE64 " I/O",
-    IO_DETACH_CART,
-    NULL,
-    0xde30, 0xde37, 0x07,
-    0,
-    ide64_io_store,
-    NULL, /* no poke */
-    ide64_io_read,
-    ide64_io_peek,
-    ide64_io_dump,
-    CARTRIDGE_IDE64,
-    0,
-    0
+    CARTRIDGE_NAME_IDE64 " I/O", /* name of the device */
+    IO_DETACH_CART,              /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,       /* does not use a resource for detach */
+    0xde30, 0xde37, 0x07,        /* range for the device, regs:$de30-$de37 */
+    0,                           /* read validity is determined by the device upon a read */
+    ide64_io_store,              /* store function */
+    NULL,                        /* NO poke function */
+    ide64_io_read,               /* read function */
+    ide64_io_peek,               /* peek function */
+    ide64_io_dump,               /* device state information dump function */
+    CARTRIDGE_IDE64,             /* cartridge ID */
+    IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
+    0                            /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t ide64_ft245_device = {
-    CARTRIDGE_NAME_IDE64 " FT245",
-    IO_DETACH_CART,
-    NULL,
-    0xde5d, 0xde5e, 0x01,
-    0,
-    ide64_ft245_store,
-    NULL, /* no poke */
-    ide64_ft245_read,
-    ide64_ft245_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_IDE64,
-    0,
-    0
+    CARTRIDGE_NAME_IDE64 " FT245", /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0xde5d, 0xde5e, 0x01,          /* range for the device, regs:$de5d-$de5e */
+    0,                             /* read validity is determined by the device upon a read */
+    ide64_ft245_store,             /* store function */
+    NULL,                          /* NO poke function */
+    ide64_ft245_read,              /* read function */
+    ide64_ft245_peek,              /* peek function */
+    NULL,                          /* TODO: device state information dump function */
+    CARTRIDGE_IDE64,               /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t ide64_ds1302_device = {
-    CARTRIDGE_NAME_IDE64 " DS1302",
-    IO_DETACH_CART,
-    NULL,
-    0xde5f, 0xde5f, 0x00,
-    0,
-    ide64_ds1302_store,
-    NULL, /* no poke */
-    ide64_ds1302_read,
-    ide64_ds1302_peek,
-    ide64_rtc_dump,
-    CARTRIDGE_IDE64,
-    0,
-    0
+    CARTRIDGE_NAME_IDE64 " DS1302", /* name of the device */
+    IO_DETACH_CART,                 /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,          /* does not use a resource for detach */
+    0xde5f, 0xde5f, 0x00,           /* range for the device, reg:$de5f */
+    0,                              /* read validity is determined by the device upon a read */
+    ide64_ds1302_store,             /* store function */
+    NULL,                           /* NO poke function */
+    ide64_ds1302_read,              /* read function */
+    ide64_ds1302_peek,              /* peek function */
+    ide64_rtc_dump,                 /* device state information dump function */
+    CARTRIDGE_IDE64,                /* cartridge ID */
+    IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
+    0                               /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t ide64_rom_device = {
-    CARTRIDGE_NAME_IDE64 " ROM",
-    IO_DETACH_CART,
-    NULL,
-    0xde60, 0xdeff, 0xff,
-    0,
-    ide64_romio_store,
-    NULL, /* no poke */
-    ide64_romio_read,
-    ide64_romio_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_IDE64,
-    0,
-    0
+    CARTRIDGE_NAME_IDE64 " ROM", /* name of the device */
+    IO_DETACH_CART,              /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,       /* does not use a resource for detach */
+    0xde60, 0xdeff, 0xff,        /* range for the device, regs:$de60-$deff */
+    0,                           /* read validity is determined by the device upon a read */
+    ide64_romio_store,           /* store function */
+    NULL,                        /* NO poke function */
+    ide64_romio_read,            /* read function */
+    ide64_romio_peek,            /* peek function */
+    NULL,                        /* TODO: device state information dump function */
+    CARTRIDGE_IDE64,             /* cartridge ID */
+    IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
+    0                            /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t ide64_clockport_device = {
-    CARTRIDGE_NAME_IDE64 "Clockport",
-    IO_DETACH_RESOURCE,
-    "IDE64ClockPort",
-    0xde00, 0xde0f, 0x0f,
-    0,
-    ide64_clockport_store,
-    NULL, /* no poke */
-    ide64_clockport_read,
-    ide64_clockport_peek,
-    ide64_clockport_dump,
-    CARTRIDGE_IDE64,
-    0,
-    0
+    CARTRIDGE_NAME_IDE64 "Clockport", /* name of the device */
+    IO_DETACH_RESOURCE,               /* use resource to detach the device when involved in a read-collision */
+    "IDE64ClockPort",                 /* resource to set to '0' */
+    0xde00, 0xde0f, 0x0f,             /* range for the device, regs:$de00-$de0f */
+    0,                                /* read validity is determined by the device upon a read */
+    ide64_clockport_store,            /* store function */
+    NULL,                             /* NO poke function */
+    ide64_clockport_read,             /* read function */
+    ide64_clockport_peek,             /* peek function */
+    ide64_clockport_dump,             /* device state information dump function */
+    CARTRIDGE_IDE64,                  /* cartridge ID */
+    IO_PRIO_NORMAL,                   /* normal priority, device read needs to be checked for collisions */
+    0                                 /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *ide64_idebus_list_item = NULL;
@@ -1291,10 +1291,11 @@ static uint8_t ide64_clockport_read(uint16_t address)
 {
     /* read from clockport device */
     if (clockport_device) {
+        ide64_clockport_device.io_source_valid = 1;
         return clockport_device->read(address, &ide64_clockport_device.io_source_valid, clockport_device->device_context);
     }
     /* read open clock port */
-    ide64_clockport_device.io_source_valid = 1;
+    ide64_clockport_device.io_source_valid = 0;
     return 0;
 }
 

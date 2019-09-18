@@ -78,7 +78,7 @@ static io_source_t ethernetcart_device = {
     CARTRIDGE_NAME_ETHERNETCART, /* name of the device */
     IO_DETACH_RESOURCE,          /* use resource to detach the device when involved in a read-collision */
     "ETHERNETCART_ACTIVE",       /* resource to set to '0' */
-    0xde00, 0xde0f, 0x0f,        /* range for the device, address start can be changed */
+    0xde00, 0xde0f, 0x0f,        /* range for the device, address start can be changed, range will be different for vic20 */
     0,                           /* read validity is determined by the device upon a read */
     ethernetcart_store,          /* store function */
     NULL,                        /* NO poke function */

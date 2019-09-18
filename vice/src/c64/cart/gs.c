@@ -58,7 +58,6 @@ static uint8_t regval = 0;
 
 static void gs_io1_store(uint16_t addr, uint8_t value)
 {
-    addr &= 0xff;
     regval = value;
     currbank = addr & 0x3f;
     cart_romlbank_set_slotmain(currbank);
@@ -92,19 +91,19 @@ static int gs_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t gs_device = {
-    CARTRIDGE_NAME_GS,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    gs_io1_store,
-    NULL, /* no poke */
-    gs_io1_read,
-    gs_io1_peek,
-    gs_dump,
-    CARTRIDGE_GS,
-    0,
-    0
+    CARTRIDGE_NAME_GS,     /* name of the device */
+    IO_DETACH_CART,        /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xde00, 0xdeff, 0x3f,  /* range for the device, regs:$de00-$de3f, mirrors:$de40-$deff */
+    0,                     /* read is never valid */
+    gs_io1_store,          /* store function */
+    NULL,                  /* NO poke function */
+    gs_io1_read,           /* read function */
+    gs_io1_peek,           /* peek function */
+    gs_dump,               /* device state information dump function */
+    CARTRIDGE_GS,          /* cartridge ID */
+    IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *gs_list_item = NULL;
