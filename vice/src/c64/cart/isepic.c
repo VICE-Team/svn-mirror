@@ -138,35 +138,35 @@ static void isepic_io2_store(uint16_t addr, uint8_t byte);
 static int isepic_dump(void);
 
 static io_source_t isepic_io1_device = {
-    CARTRIDGE_NAME_ISEPIC,
-    IO_DETACH_RESOURCE,
-    "IsepicCartridgeEnabled",
-    0xde00, 0xdeff, 0x07,
-    0, /* read is never valid */
-    isepic_io1_store,
-    NULL, /* no poke */
-    isepic_io1_read,
-    isepic_io1_peek,
-    isepic_dump,
-    CARTRIDGE_ISEPIC,
-    0,
-    0
+    CARTRIDGE_NAME_ISEPIC,    /* name of the device */
+    IO_DETACH_RESOURCE,       /* use resource to detach the device when involved in a read-collision */
+    "IsepicCartridgeEnabled", /* resource to set to '0' */
+    0xde00, 0xdeff, 0x07,     /* range for the device, regs:$de00-$de07, mirrors:$de08-$deff */
+    0,                        /* read is never valid */
+    isepic_io1_store,         /* store function */
+    NULL,                     /* NO poke function */
+    isepic_io1_read,          /* read function */
+    isepic_io1_peek,          /* peek function */
+    isepic_dump,              /* device state information dump function */
+    CARTRIDGE_ISEPIC,         /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t isepic_io2_device = {
-    CARTRIDGE_NAME_ISEPIC,
-    IO_DETACH_RESOURCE,
-    "IsepicCartridgeEnabled",
-    0xdf00, 0xdfff, 0xff,
-    0,
-    isepic_io2_store,
-    NULL, /* no poke */
-    isepic_io2_read,
-    isepic_io2_peek,
-    isepic_dump,
-    CARTRIDGE_ISEPIC,
-    0,
-    0
+    CARTRIDGE_NAME_ISEPIC,    /* name of the device */
+    IO_DETACH_RESOURCE,       /* use resource to detach the device when involved in a read-collision */
+    "IsepicCartridgeEnabled", /* resource to set to '0' */
+    0xdf00, 0xdfff, 0xff,     /* range for the device, regs:$df00-$dfff */
+    0,                        /* read validity is determined by the device upon a read */
+    isepic_io2_store,         /* store function */
+    NULL,                     /* NO poke function */
+    isepic_io2_read,          /* read function */
+    isepic_io2_peek,          /* peek function */
+    isepic_dump,              /* device state information dump function */
+    CARTRIDGE_ISEPIC,         /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static const export_resource_t export_res = {
