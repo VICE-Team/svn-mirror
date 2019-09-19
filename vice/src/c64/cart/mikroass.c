@@ -66,35 +66,35 @@ static uint8_t mikroass_io2_read(uint16_t addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t mikroass_io1_device = {
-    CARTRIDGE_NAME_MIKRO_ASSEMBLER,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    1, /* read is always valid */
-    NULL,
-    NULL, /* no poke */
-    mikroass_io1_read,
-    mikroass_io1_read,
-    NULL, /* nothing to dump */
-    CARTRIDGE_MIKRO_ASSEMBLER,
-    0,
-    0
+    CARTRIDGE_NAME_MIKRO_ASSEMBLER, /* name of the device */
+    IO_DETACH_CART,                 /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,          /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,           /* range for the device, regs:$de00-$deff */
+    1,                              /* read is always valid */
+    NULL,                           /* NO store function */
+    NULL,                           /* NO poke function */
+    mikroass_io1_read,              /* read function */
+    mikroass_io1_read,              /* peek function */
+    NULL,                           /* nothing to dump */
+    CARTRIDGE_MIKRO_ASSEMBLER,      /* cartridge ID */
+    IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
+    0                               /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t mikroass_io2_device = {
-    CARTRIDGE_NAME_MIKRO_ASSEMBLER,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    1, /* read is always valid */
-    NULL,
-    NULL, /* no poke */
-    mikroass_io2_read,
-    mikroass_io2_read,
-    NULL, /* nothing to dump */
-    CARTRIDGE_MIKRO_ASSEMBLER,
-    0,
-    0
+    CARTRIDGE_NAME_MIKRO_ASSEMBLER, /* name of the device */
+    IO_DETACH_CART,                 /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,          /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,           /* range for the device, regs:$df00-$dfff */
+    1,                              /* read is always valid */
+    NULL,                           /* NO store function */
+    NULL,                           /* NO poke function */
+    mikroass_io2_read,              /* read function */
+    mikroass_io2_read,              /* peek function */
+    NULL,                           /* nothing to dump */
+    CARTRIDGE_MIKRO_ASSEMBLER,      /* cartridge ID */
+    IO_PRIO_NORMAL,                 /* normal priority, device read needs to be checked for collisions */
+    0                               /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *mikroass_io1_list_item = NULL;

@@ -822,19 +822,19 @@ static int magicvoice_io2_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t magicvoice_io2_device = {
-    CARTRIDGE_NAME_MAGIC_VOICE,
-    IO_DETACH_CART,
-    NULL,
-    0xdf80, 0xdfff, 0x07,
-    1, /* read is always valid */
-    magicvoice_io2_store,
-    NULL, /* no poke */
-    magicvoice_io2_read,
-    magicvoice_io2_peek,
-    magicvoice_io2_dump,
-    CARTRIDGE_MAGIC_VOICE,
-    0,
-    0
+    CARTRIDGE_NAME_MAGIC_VOICE, /* name of the device */
+    IO_DETACH_CART,             /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,      /* does not use a resource for detach */
+    0xdf80, 0xdfff, 0x07,       /* range for the device, regs:$df80-$df87, mirrors:$df88-$dfff */
+    1,                          /* read is always valid */
+    magicvoice_io2_store,       /* store function */
+    NULL,                       /* NO poke function */
+    magicvoice_io2_read,        /* read function */
+    magicvoice_io2_peek,        /* peek function */
+    magicvoice_io2_dump,        /* device state information dump function */
+    CARTRIDGE_MAGIC_VOICE,      /* cartridge ID */
+    IO_PRIO_NORMAL,             /* normal priority, device read needs to be checked for collisions */
+    0                           /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *magicvoice_io2_list_item = NULL;

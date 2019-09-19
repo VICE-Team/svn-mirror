@@ -289,51 +289,51 @@ static uint8_t mmcreplay_clockport_peek(uint16_t io_address);
 static void mmcreplay_clockport_store(uint16_t io_address, uint8_t byte);
 
 static io_source_t mmcreplay_io1_device = {
-    CARTRIDGE_NAME_MMC_REPLAY,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    mmcreplay_io1_store,
-    NULL, /* no poke */
-    mmcreplay_io1_read,
-    NULL, /* TODO: peek */
-    mmcreplay_dump,
-    CARTRIDGE_MMC_REPLAY,
-    0,
-    0
+    CARTRIDGE_NAME_MMC_REPLAY, /* name of the device */
+    IO_DETACH_CART,            /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,     /* does not use a resource for detach */
+    0xde00, 0xde01, 0x01,      /* range for the device, regs:$de00-$de01 */
+    0,                         /* read validity is determined by the device upon a read */
+    mmcreplay_io1_store,       /* store function */
+    NULL,                      /* NO poke function */
+    mmcreplay_io1_read,        /* read function */
+    NULL,                      /* TODO: peek function */
+    mmcreplay_dump,            /* device state information dump function */
+    CARTRIDGE_MMC_REPLAY,      /* cartridge ID */
+    IO_PRIO_NORMAL,            /* normal priority, device read needs to be checked for collisions */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t mmcreplay_io2_device = {
-    CARTRIDGE_NAME_MMC_REPLAY,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    0,
-    mmcreplay_io2_store,
-    NULL, /* no poke */
-    mmcreplay_io2_read,
-    NULL, /* TODO: peek */
-    mmcreplay_dump,
-    CARTRIDGE_MMC_REPLAY,
-    0,
-    0
+    CARTRIDGE_NAME_MMC_REPLAY, /* name of the device */
+    IO_DETACH_CART,            /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,     /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,      /* range for the device, regs:$df10-$df13, mirrors:$df00-$df0f & $df14-$dfff */
+    0,                         /* read validity is determined by the device upon a read */
+    mmcreplay_io2_store,       /* store function */
+    NULL,                      /* NO poke function */
+    mmcreplay_io2_read,        /* read function */
+    NULL,                      /* TODO: peek function */
+    mmcreplay_dump,            /* device state information dump function */
+    CARTRIDGE_MMC_REPLAY,      /* cartridge ID */
+    IO_PRIO_NORMAL,            /* normal priority, device read needs to be checked for collisions */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t mmcreplay_clockport_device = {
-    CARTRIDGE_NAME_MMC_REPLAY " Clockport",
-    IO_DETACH_RESOURCE,
-    "MMCRClockPort",
-    0xde02, 0xde0f, 0x0f,
-    0,
-    mmcreplay_clockport_store,
-    NULL, /* no poke */
-    mmcreplay_clockport_read,
-    mmcreplay_clockport_peek,
-    mmcreplay_dump,
-    CARTRIDGE_MMC_REPLAY,
-    0,
-    0
+    CARTRIDGE_NAME_MMC_REPLAY " Clockport", /* name of the device */
+    IO_DETACH_RESOURCE,                     /* use resource to detach the device when involved in a read-collision */
+    "MMCRClockPort",                        /* resource to set to '0' */
+    0xde02, 0xde0f, 0x0f,                   /* range for the device, regs:$de02-$de0f */
+    0,                                      /* read validity is determined by the device upon a read */
+    mmcreplay_clockport_store,              /* store function */
+    NULL,                                   /* NO poke function */
+    mmcreplay_clockport_read,               /* read function */
+    mmcreplay_clockport_peek,               /* peek function */
+    mmcreplay_dump,                         /* device state information dump function */
+    CARTRIDGE_MMC_REPLAY,                   /* cartridge ID */
+    IO_PRIO_NORMAL,                         /* normal priority, device read needs to be checked for collisions */
+    0                                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *mmcreplay_io1_list_item = NULL;
