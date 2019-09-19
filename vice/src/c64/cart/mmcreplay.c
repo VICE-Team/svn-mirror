@@ -292,7 +292,7 @@ static io_source_t mmcreplay_io1_device = {
     CARTRIDGE_NAME_MMC_REPLAY, /* name of the device */
     IO_DETACH_CART,            /* use cartridge ID to detach the device when involved in a read-collision */
     IO_DETACH_NO_RESOURCE,     /* does not use a resource for detach */
-    0xde00, 0xde01, 0x01,      /* range for the device, regs:$de00-$de01 */
+    0xde00, 0xdeff, 0xff,      /* range for the device, regs:$de00-$de01, possible ram:$de02-$deff */
     0,                         /* read validity is determined by the device upon a read */
     mmcreplay_io1_store,       /* store function */
     NULL,                      /* NO poke function */
