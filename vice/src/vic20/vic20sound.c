@@ -309,8 +309,8 @@ void vic_sound_store(uint16_t addr, uint8_t value)
     sound_store((uint16_t)(vic_sound_chip_offset | addr), value, 0);
 }
 
-/* FIXME: what is the init value? what happens on reset? */
-static uint16_t noise_LFSR = 0xffff;
+static uint16_t noise_LFSR = 0x0000;
+static uint8_t noise_LFSR0_old = 0;
 
 void vic_sound_clock(int cycles)
 {
@@ -321,10 +321,7 @@ void vic_sound_clock(int cycles)
     }
 
     for (j = 0; j < 4; j++) {
-        /* int chspeed = "\4\3\2\1"[j]; */
-        /* temporary fix for bug #1125. speed 1 is correct in theory, but
-           results in noise sounding one octave too high. */
-        int chspeed = "\4\3\2\2"[j];
+        int chspeed = "\4\3\2\1"[j];
 
         if (snd.ch[j].ctr > cycles) {
             snd.accum += snd.ch[j].out * cycles;
@@ -334,14 +331,15 @@ void vic_sound_clock(int cycles)
                 snd.ch[j].ctr--;
                 if (snd.ch[j].ctr <= 0) {
                     int a = (~snd.ch[j].reg) & 127;
+                    int edge_trigger;
                     a = a ? a : 128;
                     snd.ch[j].ctr += a << chspeed;
                     enabled = (snd.ch[j].reg & 128) >> 7;
-
-                     /* if it's a normal voice or it's noise and LFSR out is 1 */
-                    if((j != 3) || ((j == 3) && (noise_LFSR & 1))) {
+                    edge_trigger = (noise_LFSR & 1) & !noise_LFSR0_old;
+                    
+                    if((j != 3) || ((j == 3) && edge_trigger)) {
                         uint8_t shift = snd.ch[j].shift;
-                        shift = (shift << 1) | ((((shift & 128) >> 7) ^ 1) & enabled);
+                        shift = ((shift << 1) | (((((shift & 128) >> 7)) ^ 1) & enabled));
                         snd.ch[j].shift = shift;
                     }
                     if(j == 3) {
@@ -353,9 +351,10 @@ void vic_sound_clock(int cycles)
                         int gate2 = bit14 ^ bit15;
                         int gate3 = (gate1 ^ gate2) ^ 1;
                         int gate4 = (gate3 & enabled) ^ 1;
+                        noise_LFSR0_old = noise_LFSR & 1;
                         noise_LFSR = (noise_LFSR << 1) | gate4;
                     }
-                    snd.ch[j].out = snd.ch[j].shift & 1;
+                    snd.ch[j].out = snd.ch[j].shift & (j == 3 ? enabled : 1);                    
                 }
                 snd.accum += snd.ch[j].out; /* FIXME: doesn't take DC offset into account */
             }
