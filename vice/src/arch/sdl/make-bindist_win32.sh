@@ -25,8 +25,9 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64-included> <top-srcdir> <top-builddir> <cpu> <SDL-version>
-#                         $1      $2             $3              $4          $5             $6           $7             $8    $9
+# Usage: make-bindist.sh <strip=$1> <vice-version=$2> <--enable-arch=$3>
+#                        <zip|nozip=$4> <x64-included=$5> <top-srcdir=$6>
+#                        <top-builddir=$7> <cpu=$8> <SDL-version=$9>
 #
 
 STRIP=$1
@@ -99,7 +100,7 @@ BINDIST_DIR="$SDLNAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
 rm -f -r $BINDIST_DIR
 mkdir $BINDIST_DIR
 
-# strip binaries. FIXME: shouldn't this only happen with --enable-debug?
+# strip binaries. FIXME: shouldn't this only happen with --disable-debug?
 for i in $EXECUTABLES
 do
   $STRIP src/$i.exe

@@ -1002,6 +1002,7 @@ dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
   have_backtrace_symbols="no"
   DEBUGBUILD=1
+  STRIP=":"
   DEBUG_SUPPORT="yes"
   AC_CHECK_HEADERS(execinfo.h,,)
 
