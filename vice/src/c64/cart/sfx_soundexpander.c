@@ -73,19 +73,19 @@ static uint8_t sfx_soundexpander_piano_read(uint16_t addr);
 #endif
 
 static io_source_t sfx_soundexpander_sound_device = {
-    CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
-    IO_DETACH_RESOURCE,
-    "SFXSoundExpander",
-    0xdf00, 0xdfff, 0x7f,
-    0,
-    sfx_soundexpander_sound_store,
-    NULL, /* no poke */
-    sfx_soundexpander_sound_read,
-    sfx_soundexpander_sound_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_SFX_SOUND_EXPANDER,
-    0,
-    0
+    CARTRIDGE_NAME_SFX_SOUND_EXPANDER, /* name of the device */
+    IO_DETACH_RESOURCE,                /* use resource to detach the device when involved in a read-collision */
+    "SFXSoundExpander",                /* resource to set to '0' */
+    0xdf00, 0xdfff, 0x7f,              /* range for the device, regs:$df40/$df50/$df60, mirrors:$dfc0/$dfd0/$dfe0, range is different for vic20 */
+    0,                                 /* read validity is determined by the device upon a read */
+    sfx_soundexpander_sound_store,     /* store function */
+    NULL,                              /* NO poke function */
+    sfx_soundexpander_sound_read,      /* read function */
+    sfx_soundexpander_sound_peek,      /* peek function */
+    NULL,                              /* TODO: device state information dump function */
+    CARTRIDGE_SFX_SOUND_EXPANDER,      /* cartridge ID */
+    IO_PRIO_NORMAL,                    /* normal priority, device read needs to be checked for collisions */
+    0                                  /* insertion order, gets filled in by the registration function */
 };
 
 #if 0

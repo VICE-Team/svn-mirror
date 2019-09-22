@@ -72,19 +72,19 @@ static void shortbus_digimax_sound_store(uint16_t addr, uint8_t value);
 static uint8_t shortbus_digimax_sound_read(uint16_t addr);
 
 static io_source_t digimax_device = {
-    "ShortBus " CARTRIDGE_NAME_DIGIMAX,
-    IO_DETACH_RESOURCE,
-    "SBDIGIMAX",
-    0xde40, 0xde47, 0x03,
-    1, /* read is always valid */
-    shortbus_digimax_sound_store,
-    NULL, /* no poke */
-    shortbus_digimax_sound_read,
-    shortbus_digimax_sound_read,
-    NULL, /* nothing to dump */
-    CARTRIDGE_IDE64,
-    0,
-    0
+    "ShortBus " CARTRIDGE_NAME_DIGIMAX, /* name of the device */
+    IO_DETACH_RESOURCE,                 /* use resource to detach the device when involved in a read-collision */
+    "SBDIGIMAX",                        /* resource to set to '0' */
+    0xde40, 0xde47, 0x03,               /* range for the device, regs:$de40-$de43, mirrors:$de44-$de47 */
+    1,                                  /* read is always valid */
+    shortbus_digimax_sound_store,       /* store function */
+    NULL,                               /* NO poke function */
+    shortbus_digimax_sound_read,        /* read function */
+    shortbus_digimax_sound_read,        /* peek function */
+    NULL,                               /* nothing to dump */
+    CARTRIDGE_IDE64,                    /* cartridge ID */
+    IO_PRIO_NORMAL,                     /* normal priority, device read needs to be checked for collisions */
+    0                                   /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *shortbus_digimax_list_item = NULL;

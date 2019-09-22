@@ -59,35 +59,35 @@ static uint8_t sfx_soundsampler_sample_read(uint16_t addr);
 static void sfx_soundsampler_latch_sample(uint16_t addr, uint8_t value);
 
 static io_source_t sfx_soundsampler_io1_device = {
-    CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-    IO_DETACH_RESOURCE,
-    "SFXSoundSampler",
-    0xde00, 0xdeff, 0x01,
-    0,
-    sfx_soundsampler_latch_sample,
-    NULL, /* no poke */
-    NULL,
-    NULL, /* TODO: peek */
-    NULL, /* nothing to dump */
-    CARTRIDGE_SFX_SOUND_SAMPLER,
-    0,
-    0
+    CARTRIDGE_NAME_SFX_SOUND_SAMPLER, /* name of the device */
+    IO_DETACH_RESOURCE,               /* use resource to detach the device when involved in a read-collision */
+    "SFXSoundSampler",                /* resource to set to '0' */
+    0xde00, 0xdeff, 0x00,             /* range for the device, reg:$de00, mirrors:$de01-$deff, range is different on vic20 */
+    0,                                /* read is never valid, reg is write only */
+    sfx_soundsampler_latch_sample,    /* store function */
+    NULL,                             /* NO poke function */
+    NULL,                             /* NO read function */
+    NULL,                             /* TODO: peek function */
+    NULL,                             /* nothing to dump */
+    CARTRIDGE_SFX_SOUND_SAMPLER,      /* cartridge ID */
+    IO_PRIO_NORMAL,                   /* normal priority, device read needs to be checked for collisions */
+    0                                 /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sfx_soundsampler_io2_device = {
-    CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-    IO_DETACH_RESOURCE,
-    "SFXSoundSampler",
-    0xdf00, 0xdfff, 0x01,
-    1,
-    sfx_soundsampler_sound_store,
-    NULL, /* no poke */
-    sfx_soundsampler_sample_read,
-    NULL, /* TODO: peek */
-    NULL, /* nothing to dump */
-    CARTRIDGE_SFX_SOUND_SAMPLER,
-    0,
-    0
+    CARTRIDGE_NAME_SFX_SOUND_SAMPLER, /* name of the device */
+    IO_DETACH_RESOURCE,               /* use resource to detach the device when involved in a read-collision */
+    "SFXSoundSampler",                /* resource to set to '0' */
+    0xdf00, 0xdfff, 0x00,             /* range for the device, reg:$df00, mirrors:$df01-$dfff, range is different on vic20 */
+    1,                                /* read is always valid */
+    sfx_soundsampler_sound_store,     /* store function */
+    NULL,                             /* NO poke function */
+    sfx_soundsampler_sample_read,     /* read function */
+    NULL,                             /* TODO: peek function */
+    NULL,                             /* nothing to dump */
+    CARTRIDGE_SFX_SOUND_SAMPLER,      /* cartridge ID */
+    IO_PRIO_NORMAL,                   /* normal priority, device read needs to be checked for collisions */
+    0                                 /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *sfx_soundsampler_io1_list_item = NULL;

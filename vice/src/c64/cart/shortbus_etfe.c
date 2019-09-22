@@ -62,19 +62,19 @@ static void shortbus_etfe_store(uint16_t io_address, uint8_t byte);
 static int shortbus_etfe_dump(void);
 
 static io_source_t shortbus_etfe_device = {
-    "Shortbus ETFE",
-    IO_DETACH_RESOURCE,
-    "SBETFE",
-    0xde00, 0xde0f, 0x0f,
-    0,
-    shortbus_etfe_store,
-    NULL, /* no poke */
-    shortbus_etfe_read,
-    shortbus_etfe_peek,
-    shortbus_etfe_dump,
-    CARTRIDGE_IDE64,
-    0,
-    0
+    "Shortbus ETFE",      /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SBETFE",             /* resource to set to '0' */
+    0xde00, 0xde0f, 0x0f, /* range for the device, regs:$de00-$de0f */
+    0,                    /* read validity determined by the device upon a read */
+    shortbus_etfe_store,  /* store function */
+    NULL,                 /* NO poke function */
+    shortbus_etfe_read,   /* read function */
+    shortbus_etfe_peek,   /* peek function */
+    shortbus_etfe_dump,   /* device state information dump function */
+    CARTRIDGE_IDE64,      /* cartridge ID */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 /* current configurations */

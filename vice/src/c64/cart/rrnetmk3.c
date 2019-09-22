@@ -114,35 +114,35 @@ static void rrnetmk3_cs8900_store(uint16_t io_address, uint8_t byte);
 static int rrnetmk3_cs8900_dump(void);
 
 static io_source_t rrnetmk3_io1_device = {
-    CARTRIDGE_NAME_RRNETMK3,
-    IO_DETACH_RESOURCE,
-    "RRNETMK3",
-    0xde80, 0xde88, 0x88, /* FIXME */
-    0,
-    rrnetmk3_io1_store,
-    NULL, /* no poke */
-    NULL, /* read */
-    rrnetmk3_io1_peek,
-    rrnetmk3_dump,
-    CARTRIDGE_RRNETMK3,
-    0,
-    0
+    CARTRIDGE_NAME_RRNETMK3, /* name of the device */
+    IO_DETACH_RESOURCE,      /* use resource to detach the device when involved in a read-collision */
+    "RRNETMK3",              /* resource to set to '0' */
+    0xde80, 0xde88, 0xff,    /* range for the device, regs:$de80/$de88 */
+    0,                       /* read is never valid, regs are write only */
+    rrnetmk3_io1_store,      /* store function */
+    NULL,                    /* NO poke function */
+    NULL,                    /* NO read function */
+    rrnetmk3_io1_peek,       /* peek function */
+    rrnetmk3_dump,           /* device state information dump function */
+    CARTRIDGE_RRNETMK3,      /* cartridge ID */
+    IO_PRIO_NORMAL,          /* normal priority, device read needs to be checked for collisions */
+    0                        /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t rrnetmk3_cs8900_io1_device = {
-    CARTRIDGE_NAME_RRNETMK3,
-    IO_DETACH_RESOURCE,
-    "RRNETMK3",
-    0xde02, 0xde0f, 0x0f,
-    0,
-    rrnetmk3_cs8900_store,
-    NULL, /* no poke */
-    rrnetmk3_cs8900_read,
-    rrnetmk3_cs8900_peek,
-    rrnetmk3_cs8900_dump,
-    CARTRIDGE_RRNETMK3,
-    0,
-    0
+    CARTRIDGE_NAME_RRNETMK3, /* name of the device */
+    IO_DETACH_RESOURCE,      /* use resource to detach the device when involved in a read-collision */
+    "RRNETMK3",              /* resource to set to '0' */
+    0xde02, 0xde0f, 0x0f,    /* range for the device, regs:$de02-$de0f */
+    0,                       /* read validity is determined by the device upon a read */
+    rrnetmk3_cs8900_store,   /* store function */
+    NULL,                    /* NO poke function */
+    rrnetmk3_cs8900_read,    /* read function */
+    rrnetmk3_cs8900_peek,    /* peek function */
+    rrnetmk3_cs8900_dump,    /* device state information dump function */
+    CARTRIDGE_RRNETMK3,      /* cartridge ID */
+    IO_PRIO_NORMAL,          /* normal priority, device read needs to be checked for collisions */
+    0                        /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *rrnetmk3_io1_list_item = NULL;
