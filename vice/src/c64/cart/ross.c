@@ -94,35 +94,35 @@ static int ross_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ross_io1_device = {
-    CARTRIDGE_NAME_ROSS,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    NULL,
-    NULL, /* no poke */
-    ross_io1_read,
-    ross_io_peek,
-    ross_dump,
-    CARTRIDGE_ROSS,
-    0,
-    0
+    CARTRIDGE_NAME_ROSS,   /* name of the device */
+    IO_DETACH_CART,        /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,  /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
+    0,                     /* read is never valid */
+    NULL,                  /* NO store function */
+    NULL,                  /* NO poke function */
+    ross_io1_read,         /* read function */
+    ross_io_peek,          /* peek function */
+    ross_dump,             /* device state information dump function */
+    CARTRIDGE_ROSS,        /* cartridge ID */
+    IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t ross_io2_device = {
-    CARTRIDGE_NAME_ROSS,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    0, /* read is never valid */
-    NULL,
-    NULL, /* no poke */
-    ross_io2_read,
-    ross_io_peek,
-    ross_dump,
-    CARTRIDGE_ROSS,
-    0,
-    0
+    CARTRIDGE_NAME_ROSS,   /* name of the device */
+    IO_DETACH_CART,        /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,  /* range for the device, address is ignore, reg:$df00, mirrors:$df01-$dfff */
+    0,                     /* read is never valid */
+    NULL,                  /* NO store function */
+    NULL,                  /* NO poke function */
+    ross_io2_read,         /* read function */
+    ross_io_peek,          /* peek function */
+    ross_dump,             /* device state information dump function */
+    CARTRIDGE_ROSS,        /* cartridge ID */
+    IO_PRIO_NORMAL,        /* normal priority, device read needs to be checked for collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *ross_io1_list_item = NULL;

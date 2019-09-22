@@ -146,19 +146,19 @@ static int rexep256_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t rexep256_device = {
-    CARTRIDGE_NAME_REX_EP256,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    0, /* read is never valid */
-    rexep256_io2_store,
-    NULL, /* no poke */
-    rexep256_io2_read,
-    rexep256_io2_peek,
-    rexep256_dump,
-    CARTRIDGE_REX_EP256,
-    0,
-    0
+    CARTRIDGE_NAME_REX_EP256, /* name of the device */
+    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,     /* range for the device, regs:$dfa0/$dfc0/$dfe0 */
+    0,                        /* read is never valid, regs are write only */
+    rexep256_io2_store,       /* store function */
+    NULL,                     /* NO poke function */
+    rexep256_io2_read,        /* read function */
+    rexep256_io2_peek,        /* peek function */
+    rexep256_dump,            /* device state information dump function */
+    CARTRIDGE_REX_EP256,      /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *rexep256_list_item = NULL;

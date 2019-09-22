@@ -148,52 +148,53 @@ static uint8_t retroreplay_clockport_peek(uint16_t io_address);
 static void retroreplay_clockport_store(uint16_t io_address, uint8_t byte);
 static int retroreplay_clockport_dump(void);
 
+
 static io_source_t retroreplay_io1_device = {
-    CARTRIDGE_NAME_RETRO_REPLAY,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    retroreplay_io1_store,
-    NULL, /* no poke */
-    retroreplay_io1_read,
-    NULL, /* TODO: peek */
-    retroreplay_dump,
-    CARTRIDGE_RETRO_REPLAY,
-    1,
-    0
+    CARTRIDGE_NAME_RETRO_REPLAY, /* name of the device */
+    IO_DETACH_CART,              /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,       /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,        /* range of the device, regs:$de00-$deff */
+    0,                           /* read validity is determined by the device upon a read */
+    retroreplay_io1_store,       /* store function */
+    NULL,                        /* NO poke function */
+    retroreplay_io1_read,        /* read function */
+    NULL,                        /* TODO: peek function */
+    retroreplay_dump,            /* device state information dump function */
+    CARTRIDGE_RETRO_REPLAY,      /* cartridge ID */
+    IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
+    0                            /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t retroreplay_io2_device = {
-    CARTRIDGE_NAME_RETRO_REPLAY,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    0,
-    retroreplay_io2_store,
-    NULL, /* no poke */
-    retroreplay_io2_read,
-    NULL, /* TODO: peek */
-    retroreplay_dump,
-    CARTRIDGE_RETRO_REPLAY,
-    0,
-    0
+    CARTRIDGE_NAME_RETRO_REPLAY, /* name of the device */
+    IO_DETACH_CART,              /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,       /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,        /* range for the device, regs:$df00-$dfff */
+    0,                           /* read validity is determined by the device upon a read */
+    retroreplay_io2_store,       /* store function */
+    NULL,                        /* NO poke function */
+    retroreplay_io2_read,        /* read function */
+    NULL,                        /* TODO: peek function */
+    retroreplay_dump,            /* device state information dump function */
+    CARTRIDGE_RETRO_REPLAY,      /* cartridge ID */
+    IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
+    0                            /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t retroreplay_clockport_io1_device = {
-    CARTRIDGE_NAME_RETRO_REPLAY " Clockport",
-    IO_DETACH_RESOURCE,
-    "RRClockPort",
-    0xde02, 0xde0f, 0x0f,
-    0,
-    retroreplay_clockport_store,
-    NULL, /* no poke */
-    retroreplay_clockport_read,
-    retroreplay_clockport_peek,
-    retroreplay_clockport_dump,
-    CARTRIDGE_RETRO_REPLAY,
-    0,
-    0
+    CARTRIDGE_NAME_RETRO_REPLAY " Clockport", /* name of the device */
+    IO_DETACH_RESOURCE,                       /* use resource to detach the device when involved in a read-collision */
+    "RRClockPort",                            /* resource to set to '0' */
+    0xde02, 0xde0f, 0x0f,                     /* range for the device, regs:$de02-$de0f */
+    0,                                        /* read validity is determined by the device upon a read */
+    retroreplay_clockport_store,              /* store function */
+    NULL,                                     /* NO poke function */
+    retroreplay_clockport_read,               /* read function */
+    retroreplay_clockport_peek,               /* peek function */
+    retroreplay_clockport_dump,               /* device state information dump function */
+    CARTRIDGE_RETRO_REPLAY,                   /* cartridge ID */
+    IO_PRIO_NORMAL,                           /* normal priority, device read needs to be checked for collisions */
+    0                                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *retroreplay_io1_list_item = NULL;

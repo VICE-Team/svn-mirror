@@ -263,19 +263,19 @@ static uint8_t reu_io2_read(uint16_t addr);
 static uint8_t reu_io2_peek(uint16_t addr);
 
 static io_source_t reu_io2_device = {
-    CARTRIDGE_NAME_REU,
-    IO_DETACH_RESOURCE,
-    "REU",
-    0xdf00, 0xdfff, REU_REG_LAST_REG,
-    0,
-    reu_io2_store,
-    NULL, /* no poke */
-    reu_io2_read,
-    reu_io2_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_REU,
-    IO_PRIO_HIGH, /* high priority so it will work together with cartridges like RR and SSV5 */
-    0
+    CARTRIDGE_NAME_REU,               /* name of the device */
+    IO_DETACH_RESOURCE,               /* use resource to detach the device when involved in a read-collision */
+    "REU",                            /* resource to set to '0' */
+    0xdf00, 0xdfff, REU_REG_LAST_REG, /* range for the device, regs:$df00-$df1f, mirrors:$df20-$dfff */
+    0,                                /* read validity is determined by the device upon a read */
+    reu_io2_store,                    /* store function */
+    NULL,                             /* NO poke function */
+    reu_io2_read,                     /* read function */
+    reu_io2_peek,                     /* peek function */
+    NULL,                             /* TODO: device state information dump function */
+    CARTRIDGE_REU,                    /* cartridge ID */
+    IO_PRIO_NORMAL,                   /* normal priority, device read needs to be checked for collisions */
+    0                                 /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *reu_list_item = NULL;
