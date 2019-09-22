@@ -213,6 +213,11 @@ extern void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
  * A priority of 0 (IO_PRIO_NORMAL) means there needs to be a check of read-collisions, and the device byte will be used either
  * in an AND of all returned bytes, or as a device in a read-collision.
  *
+ * Note: When making emulation code of new devices with their range in the I/O ranges do NOT use IO_PRIO_HIGH unless the device
+ *       is a device on the system board, or a cartridge with a passthrough port, if the device doesn't work because of read
+ *       collisions do NOT use IO_PRIO_HIGH as a hack to get it to work, the cause is in the emulation code, using IO_PRIO_HIGH
+ *       in such a case will only hide the actual problem.
+ *
  * The I/O ranges that are covered by the I/O system are as follows:
  *
  * C64/C128: $d000-$d0ff, $d100-$d1ff, $d200-$d2ff, $d300-$d3ff, $d400-$d4ff, $d500-$d5ff, $d600-$d6ff, $d700-$d7ff,
