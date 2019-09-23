@@ -92,51 +92,51 @@ static void sidcartjoy_store(uint16_t addr, uint8_t value);
 static uint8_t sidcartjoy_read(uint16_t addr);
 
 static io_source_t sidcart_fd40_device = {
-    "SIDCart",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfd40, 0xfd5d, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* poke */
-    sid_read,
-    NULL, /* no peek */
-    sid_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "SIDCart",            /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidCart",            /* resource to set to '0' */
+    0xfd40, 0xfd5d, 0x1f, /* range for the device, regs:$fd40-$fd5d */
+    1,                    /* read is always valid */
+    sid_store,            /* store function */
+    NULL,                 /* NO poke function */
+    sid_read,             /* read function */
+    sid_peek,             /* peek function */
+    sid_dump,             /* device state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sidcart_fe80_device = {
-    "SIDCart",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfe80, 0xfe9d, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* poke */
-    sid_read,
-    NULL, /* no peek */
-    sid_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "SIDCart",            /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidCart",            /* resource to set to '0' */
+    0xfe80, 0xfe9d, 0x1f, /* range for the device, regs:$fe80-$fe9d */
+    1,                    /* read is always valid */
+    sid_store,            /* store function */
+    NULL,                 /* NO poke function */
+    sid_read,             /* read function */
+    sid_peek,             /* peek function */
+    sid_dump,             /* device state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sidcart_joy_device = {
-    "SIDCartJoy",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfd80, 0xfd8f, 1,
-    1, /* read is always valid */
-    sidcartjoy_store,
-    NULL, /* poke */
-    sidcartjoy_read,
-    NULL, /* no peek */
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL, /* priority, device and mirrors never involved in collisions */
-    0
+    "SIDCartJoy",         /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SIDCartJoy",         /* resource to set to '0' */
+    0xfd80, 0xfd8f, 0xff, /* range for the device, address is ignored, reg:$fd80, mirrors:$fd81-$fd8f */
+    1,                    /* read is always valid */
+    sidcartjoy_store,     /* store function */
+    NULL,                 /* NO poke function */
+    sidcartjoy_read,      /* read function */
+    NULL,                 /* TODO: peek function */
+    NULL,                 /* TODO: device state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *sidcartjoy_list_item = NULL;

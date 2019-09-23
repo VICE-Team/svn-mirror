@@ -177,7 +177,7 @@ static io_source_t petdww_ram_ee00_device = {
 };
 
 static io_source_t petdww_ram_ef00_device = {
-    "PETDWW RAM", /* name of the device */
+    "PETDWW RAM",          /* name of the device */
     IO_DETACH_RESOURCE,    /* use resource to detach the device when involved in a read-collision */
     "PETDWW",              /* resource to set to '0' */
     0xef00, 0xefff, 0x3ff, /* range for the device, regs:$ef00-$efff, 0x3ff is used as the mask so we can use 12 bits of address offset */

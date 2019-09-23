@@ -95,52 +95,53 @@ static uint8_t read_petreu_ram(uint16_t addr);
 static void store_petreu_ram(uint16_t addr, uint8_t byte);
 static int petreu_dump(void);
 
+
 static io_source_t petreureg1_device = {
-    "PETREU REG 1",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x8800, 0x88ff, 0x1f,
-    1, /* read is always valid */
-    store_petreu_reg,
-    NULL, /* no poke */
-    read_petreu_reg,
-    NULL, /* no peek */
-    petreu_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "PETREU REG 1",       /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "PETREU",             /* resource to set to '0' */
+    0x8800, 0x88ff, 0x1f, /* range for the device, regs:$8800-$881f, mirrors:$8820-$88ff */
+    1,                    /* read is always valid */
+    store_petreu_reg,     /* store function */
+    NULL,                 /* NO poke function */
+    read_petreu_reg,      /* read function */
+    NULL,                 /* TODO: peek function */
+    petreu_dump,          /* device state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t petreureg2_device = {
-    "PETREU REG 2",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x8a00, 0x8aff, 0x1f,
-    1, /* read is always valid */
-    store_petreu2_reg,
-    NULL, /* no poke */
-    read_petreu2_reg,
-    NULL, /* no peek */
-    petreu_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "PETREU REG 2",       /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "PETREU",             /* resource to set to '0' */
+    0x8a00, 0x8aff, 0x1f, /* range for the device, regs:$8a00-$8a1f, mirrors:$8a20-$8aff */
+    1,                    /* read is always valid */
+    store_petreu2_reg,    /* store function */
+    NULL,                 /* NO poke function */
+    read_petreu2_reg,     /* read function */
+    NULL,                 /* TODO: peek function */
+    petreu_dump,          /* device state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t petreuram_device = {
-    "PETREU RAM",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x8900, 0x89ff, 0xff,
-    1, /* read is always valid */
-    store_petreu_ram,
-    NULL, /* no poke */
-    read_petreu_ram,
-    NULL, /* no peek */
-    petreu_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "PETREU RAM",         /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "PETREU",             /* resource to set to '0' */
+    0x8900, 0x89ff, 0xff, /* range for the device, regs:$8900-$89ff */
+    1,                    /* read is always valid */
+    store_petreu_ram,     /* store function */
+    NULL,                 /* NO poke function */
+    read_petreu_ram,      /* read function */
+    NULL,                 /* TODO: peek function */
+    petreu_dump,          /* device state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *petreu_reg_1_list_item = NULL;

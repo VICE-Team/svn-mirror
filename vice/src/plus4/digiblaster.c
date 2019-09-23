@@ -89,35 +89,35 @@ static uint8_t digiblaster_read(uint16_t addr);
 static void digiblaster_store(uint16_t addr, uint8_t value);
 
 static io_source_t digiblaster_fd5e_device = {
-    "DigiBlaster",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfd5e, 0xfd5f, 3,
-    1, /* read is always valid */
-    digiblaster_store,
-    NULL, /* poke */
-    digiblaster_read,
-    NULL, /* no peek */
-    NULL, /* nothing to dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "DigiBlaster",        /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "DIGIBLASTER",        /* resource to set to '0' */
+    0xfd5e, 0xfd5f, 0x01, /* range for the device, regs:$fd5e-$fd5f */
+    1,                    /* read is always valid */
+    digiblaster_store,    /* store function */
+    NULL,                 /* NO poke function */
+    digiblaster_read,     /* read function */
+    NULL,                 /* TODO: peek function */
+    NULL,                 /* nothing to dump */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t digiblaster_fe9e_device = {
-    "DigiBlaster",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfe9e, 0xfe9f, 3,
-    1, /* read is always valid */
-    digiblaster_store,
-    NULL, /* poke */
-    digiblaster_read,
-    NULL, /* no peek */
-    NULL, /* nothing to dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "DigiBlaster",        /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "DIGIBLASTER",        /* resource to set to '0' */
+    0xfe9e, 0xfe9f, 0x01, /* range for the device, regs:$fe9e-$fe9f */
+    1,                    /* read is always valid */
+    digiblaster_store,    /* store function */
+    NULL,                 /* NO poke function */
+    digiblaster_read,     /* read function */
+    NULL,                 /* TODO: peek function */
+    NULL,                 /* nothing to dump */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *digiblaster_list_item = NULL;

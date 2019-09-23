@@ -84,19 +84,19 @@ static int _acia_enabled = 0;
 /* ------------------------------------------------------------------------- */
 
 static io_source_t acia_device = {
-    "ACIA",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfd00, 0xfd0f, 3,
-    1, /* read is always valid */
-    acia_store,
-    NULL, /* no poke */
-    acia_read,
-    acia_peek,
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "ACIA",               /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "Acia1Enable",        /* resource to set to '0' */
+    0xfd00, 0xfd0f, 0x03, /* range for the device, regs:$fd00-$fd03, mirrors:$df04-$fd0f */
+    1,                    /* read is always valid */
+    acia_store,           /* store function */
+    NULL,                 /* NO poke function */
+    acia_read,            /* read function */
+    acia_peek,            /* peek function */
+    NULL,                 /* TODO: device state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *acia_list_item = NULL;
