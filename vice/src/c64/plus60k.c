@@ -135,68 +135,70 @@ static void plus60k_vicii_store(uint16_t addr, uint8_t value)
     plus60k_reg = (value & 0x80) >> 7;
 }
 
+/* When the +60K device is active and the device base is at $d040, this device is used instead of the default VICII device */
 static io_source_t vicii_d000_device = {
-    "VIC-II",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd000, 0xd03f, 0x3f,
-    1, /* read is always valid */
-    vicii_store,
-    NULL, /* no poke */
-    vicii_read,
-    vicii_peek,
-    vicii_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VIC-II",              /* name of the device */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xd000, 0xd03f, 0x3f,  /* range for the device, regs:$d000-$d03f */
+    1,                     /* read is always valid */
+    vicii_store,           /* store function */
+    NULL,                  /* NO poke function */
+    vicii_read,            /* read function */
+    vicii_peek,            /* peek function */
+    vicii_dump,            /* device state information dump function */
+    0,                     /* dummy (not a cartridge) */
+    IO_PRIO_HIGH,          /* high priority, device is never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
+/* When the +60K device is active and the device base is at $d100, this device is used instead of the default VICII device */
 static io_source_t vicii_d000_full_device = {
-    "VIC-II",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd000, 0xd0ff, 0x3f,
-    1, /* read is always valid */
-    vicii_store,
-    NULL, /* no poke */
-    vicii_read,
-    vicii_peek,
-    vicii_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VIC-II",              /* name of the device */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xd000, 0xd0ff, 0x3f,  /* range for the device, regs:$d000-$d03f, mirrors:$d040-$d0ff */
+    1,                     /* read is always valid */
+    vicii_store,           /* store function */
+    NULL,                  /* NO poke function */
+    vicii_read,            /* read function */
+    vicii_peek,            /* peek function */
+    vicii_dump,            /* device state information dump function */
+    0,                     /* dummy (not a cartridge) */
+    IO_PRIO_HIGH,          /* high priority, device and mirrors are never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t vicii_d040_device = {
-    "+60K",
-    IO_DETACH_RESOURCE,
-    "PLUS60K",
-    0xd040, 0xd0ff, 1,
-    1, /* read is always valid */
-    plus60k_vicii_store,
-    NULL, /* no poke */
-    plus60k_ff_read,
-    plus60k_peek,
-    plus60k_dump,
-    CARTRIDGE_PLUS60K,
-    IO_PRIO_NORMAL,
-    0
+    "+60K",               /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "PLUS60K",            /* resource to set to '0' */
+    0xd040, 0xd0ff, 0x00, /* range for the device, address is ignored, reg:$d040, mirrors:$d041-$d0ff */
+    1,                    /* read is always valid */
+    plus60k_vicii_store,  /* store function */
+    NULL,                 /* NO poke function */
+    plus60k_ff_read,      /* read function */
+    plus60k_peek,         /* peek function */
+    plus60k_dump,         /* device state information dump function */
+    CARTRIDGE_PLUS60K,    /* cartridge ID */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t vicii_d100_device = {
-    "+60K",
-    IO_DETACH_RESOURCE,
-    "PLUS60K",
-    0xd100, 0xd1ff, 1,
-    1, /* read is always valid */
-    plus60k_vicii_store,
-    NULL, /* no poke */
-    plus60k_ff_read,
-    plus60k_peek,
-    plus60k_dump,
-    CARTRIDGE_PLUS60K,
-    IO_PRIO_NORMAL,
-    0
+    "+60K",               /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "PLUS60K",            /* resource to set to '0' */
+    0xd100, 0xd1ff, 0x00, /* range for the device, address is ignored, reg:$d100, mirrors:$d101-$d1ff */
+    1,                    /* read is always valid */
+    plus60k_vicii_store,  /* store function */
+    NULL,                 /* NO poke function */
+    plus60k_ff_read,      /* read function */
+    plus60k_peek,         /* peek function */
+    plus60k_dump,         /* device state information dump function */
+    CARTRIDGE_PLUS60K,    /* cartridge ID */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *vicii_d000_list_item = NULL;
