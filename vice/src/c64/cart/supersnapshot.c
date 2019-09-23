@@ -88,19 +88,19 @@ static void supersnapshot_v5_io1_store(uint16_t addr, uint8_t value);
 static int supersnapshot_v5_dump(void);
 
 static io_source_t ss5_device = {
-    CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    supersnapshot_v5_io1_store,
-    NULL, /* no poke */
-    supersnapshot_v5_io1_read,
-    supersnapshot_v5_io1_peek,
-    supersnapshot_v5_dump,
-    CARTRIDGE_SUPER_SNAPSHOT_V5,
-    0,
-    0
+    CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, /* name of the device */
+    IO_DETACH_CART,                   /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,            /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,             /* range for the device, regs:$de00-$deff */
+    0,                                /* read validity is determined by the device upon a read */
+    supersnapshot_v5_io1_store,       /* store function */
+    NULL,                             /* NO poke function */
+    supersnapshot_v5_io1_read,        /* read function */
+    supersnapshot_v5_io1_peek,        /* peek function */
+    supersnapshot_v5_dump,            /* device state information dump function */
+    CARTRIDGE_SUPER_SNAPSHOT_V5,      /* cartridge ID */
+    IO_PRIO_NORMAL,                   /* normal priority, device read needs to be checked for collisions */
+    0                                 /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *ss5_list_item = NULL;

@@ -67,35 +67,35 @@ static void warpspeed_io2_store(uint16_t addr, uint8_t value);
 static int warpspeed_dump(void);
 
 static io_source_t warpspeed_io1_device = {
-    CARTRIDGE_NAME_WARPSPEED,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    1, /* read is always valid */
-    warpspeed_io1_store,
-    NULL, /* no poke */
-    warpspeed_io1_read,
-    warpspeed_io1_read,
-    warpspeed_dump,
-    CARTRIDGE_WARPSPEED,
-    0,
-    0
+    CARTRIDGE_NAME_WARPSPEED, /* name of the device */
+    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,     /* range for the device, regs:$de00-$deff */
+    1,                        /* read is always valid */
+    warpspeed_io1_store,      /* store function */
+    NULL,                     /* NO poke function */
+    warpspeed_io1_read,       /* read function */
+    warpspeed_io1_read,       /* peek function */
+    warpspeed_dump,           /* device state information dump function */
+    CARTRIDGE_WARPSPEED,      /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t warpspeed_io2_device = {
-    CARTRIDGE_NAME_WARPSPEED,
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    1, /* read is always valid */
-    warpspeed_io2_store,
-    NULL, /* no poke */
-    warpspeed_io2_read,
-    warpspeed_io2_read,
-    warpspeed_dump,
-    CARTRIDGE_WARPSPEED,
-    0,
-    0
+    CARTRIDGE_NAME_WARPSPEED, /* name of the device */
+    IO_DETACH_CART,           /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,     /* range for the device, regs:$df00-$dfff */
+    1,                        /* read is always valid */
+    warpspeed_io2_store,      /* store function */
+    NULL,                     /* NO poke function */
+    warpspeed_io2_read,       /* read function */
+    warpspeed_io2_read,       /* peek function */
+    warpspeed_dump,           /* device state information dump function */
+    CARTRIDGE_WARPSPEED,      /* cartridge ID */
+    IO_PRIO_NORMAL,           /* normal priority, device read needs to be checked for collisions */
+    0                         /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *warpspeed_io1_list_item = NULL;
