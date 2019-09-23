@@ -1100,99 +1100,99 @@ static int tpi2_dump(void)
 /* ------------------------------------------------------------------------- */
 
 static io_source_t vicii_device = {
-    "VICII",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd800, 0xd8ff, 0x3f,
-    1, /* read is always valid */
-    vicii_store,
-    NULL, /* no poke */
-    vicii_read,
-    vicii_peek,
-    vicii_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VICII",               /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xd800, 0xd8ff, 0x3f,  /* range for the chip, regs:$d800-$d83f, mirrors:$d840-$d8ff */
+    1,                     /* read is always valid */
+    vicii_store,           /* store function */
+    NULL,                  /* NO poke function */
+    vicii_read,            /* read function */
+    vicii_peek,            /* peek function */
+    vicii_dump,            /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sid_device = {
-    "SID",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xda00, 0xdaff, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* no poke */
-    sid_read,
-    sid_peek,
-    sid_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "SID",                 /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xda00, 0xdaff, 0x1f,  /* range for the chip, regs:$da00-$da1f, mirrors:$da20-$daff */
+    1,                     /* read is always valid */
+    sid_store,             /* store function */
+    NULL,                  /* NO poke function */
+    sid_read,              /* read function */
+    sid_peek,              /* peek function */
+    sid_dump,              /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t cia_device = {
-    "CIA",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xdc00, 0xdcff, 0xf,
-    1, /* read is always valid */
-    cia1_store,
-    NULL, /* no poke */
-    cia1_read,
-    cia1_peek,
-    cia1_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "CIA",                 /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xdc00, 0xdcff, 0x0f,  /* range for the chip, regs:$dc00-$dc0f, mirrors:$dc10-$dcff */
+    1,                     /* read is always valid */
+    cia1_store,            /* store function */
+    NULL,                  /* NO poke function */
+    cia1_read,             /* read function */
+    cia1_peek,             /* peek function */
+    cia1_dump,             /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t acia_device = {
-    "ACIA",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xdd00, 0xddff, 3,
-    1, /* read is always valid */
-    acia1_store,
-    NULL, /* no poke */
-    acia1_read,
-    acia1_peek,
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "ACIA",                /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xdd00, 0xddff, 0x03,  /* range for the chip, regs:$dd00-$dd03, mirrors:$dd04-$ddff */
+    1,                     /* read is always valid */
+    acia1_store,           /* store function */
+    NULL,                  /* NO poke function */
+    acia1_read,            /* read function */
+    acia1_peek,            /* peek function */
+    NULL,                  /* TODO: chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t tpi1_device = {
-    "TPI1",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xde00, 0xdeff, 7,
-    1, /* read is always valid */
-    tpi1_store,
-    NULL, /* no poke */
-    tpi1_read,
-    tpi1_peek,
-    tpi1_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "TPI1",                /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xde00, 0xdeff, 0x07,  /* range for the chip, regs:$de00-$de07, mirrors:$de08-$deff */
+    1,                     /* read is always valid */
+    tpi1_store,            /* store function */
+    NULL,                  /* NO poke function */
+    tpi1_read,             /* read function */
+    tpi1_peek,             /* peek function */
+    tpi1_dump,             /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t tpi2_device = {
-    "TPI2",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xdf00, 0xdfff, 7,
-    1, /* read is always valid */
-    tpi2_store,
-    NULL, /* no poke */
-    tpi2_read,
-    tpi2_peek,
-    tpi2_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "TPI2",                /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0x07,  /* range for the chip, regs:$df00-$df07, mirrors:$df08-$dfff */
+    1,                     /* read is always valid */
+    tpi2_store,            /* store function */
+    NULL,                  /* NO poke function */
+    tpi2_read,             /* read function */
+    tpi2_peek,             /* peek function */
+    tpi2_dump,             /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *vicii_list_item = NULL;

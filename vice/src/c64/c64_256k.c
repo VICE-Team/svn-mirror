@@ -161,7 +161,6 @@ static int c64_256k_dump(void)
 
 /* ---------------------------------------------------------------------*/
 
-
 static io_source_t c64_256k_device = {
     "C64 256K",           /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
