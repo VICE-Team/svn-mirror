@@ -251,19 +251,19 @@ static int silverrock128_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t silverrock128_device = {
-    CARTRIDGE_NAME_SILVERROCK_128,
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    silverrock128_io1_store,
-    NULL, /* no poke */
-    NULL,
-    silverrock128_io1_peek,
-    silverrock128_dump,
-    CARTRIDGE_SILVERROCK_128,
-    0,
-    0
+    CARTRIDGE_NAME_SILVERROCK_128, /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,          /* range for the device, regs:$de00-$deff */
+    0,                             /* read is never valid, regs are write only */
+    silverrock128_io1_store,       /* store function */
+    NULL,                          /* NO poke function */
+    NULL,                          /* NO read function */
+    silverrock128_io1_peek,        /* peek function */
+    silverrock128_dump,            /* device state information dump function */
+    CARTRIDGE_SILVERROCK_128,      /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *silverrock128_list_item = NULL;

@@ -212,37 +212,35 @@ static int stardos_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stardos_io1_device = {
-    CARTRIDGE_NAME_STARDOS,
-    IO_DETACH_CART,
-    NULL,
-/*    0xde61, 0xde61, 0x01, */
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    stardos_io1_store,
-    NULL, /* no poke */
-    stardos_io1_read,
-    stardos_io_peek,
-    stardos_dump,
-    CARTRIDGE_STARDOS,
-    0,
-    0
+    CARTRIDGE_NAME_STARDOS, /* name of the device */
+    IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
+    0xde00, 0xdeff, 0xff,   /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
+    0,                      /* read is never valid */
+    stardos_io1_store,      /* store function */
+    NULL,                   /* NO poke function */
+    stardos_io1_read,       /* read function */
+    stardos_io_peek,        /* peek function */
+    stardos_dump,           /* device state information dump function */
+    CARTRIDGE_STARDOS,      /* cartridge ID */
+    IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
+    0                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t stardos_io2_device = {
-    CARTRIDGE_NAME_STARDOS,
-    IO_DETACH_CART,
-    NULL,
-/*    0xdfa1, 0xdfa1, 0x01, */
-    0xdf00, 0xdfff, 0xff,
-    0, /* read is never valid */
-    stardos_io2_store,
-    NULL, /* no poke */
-    stardos_io2_read,
-    stardos_io_peek,
-    stardos_dump,
-    CARTRIDGE_STARDOS,
-    0,
-    0
+    CARTRIDGE_NAME_STARDOS, /* name of the device */
+    IO_DETACH_CART,         /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,  /* does not use a resource for detach */
+    0xdf00, 0xdfff, 0xff,   /* range for the device, address is ignored, reg:$df00, mirrors:$df01-$dfff */
+    0,                      /* read is never valid */
+    stardos_io2_store,      /* store function */
+    NULL,                   /* NO poke function */
+    stardos_io2_read,       /* read function */
+    stardos_io_peek,        /* peek function */
+    stardos_dump,           /* device state information dump function */
+    CARTRIDGE_STARDOS,      /* cartridge ID */
+    IO_PRIO_NORMAL,         /* normal priority, device read needs to be checked for collisions */
+    0                       /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *stardos_io1_list_item = NULL;
