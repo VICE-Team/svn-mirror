@@ -223,6 +223,8 @@ extern void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
  * C64/C128: $d000-$d0ff, $d100-$d1ff, $d200-$d2ff, $d300-$d3ff, $d400-$d4ff, $d500-$d5ff, $d600-$d6ff, $d700-$d7ff,
  *           $de00-$deff, $df00-$dfff
  *
+ * SCPU64:   $d000-$d0ff, $d100-$d1ff, $d400-$d4ff, $d500-$d5ff, $d600-$d6ff, $d700-$d7ff, $de00-$deff, $df00-$dfff
+ *
  *     CBM2: $d800-$d8ff, $d900-$d9ff, $da00-$daff, $db00-$dbff, $dc00-$d9ff, $dd00-$d9ff, $de00-$deff, $df00-$dfff
  *
  *      PET: $8800-$88ff, $8900-$89ff, $8a00-$8aff, $8b00-$8bff, $8c00-$8cff, $8d00-$8dff, $8e00-$8eff, $8f00-$8fff,
