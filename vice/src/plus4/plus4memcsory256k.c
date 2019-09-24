@@ -63,19 +63,19 @@ static void cs256k_reg_store(uint16_t addr, uint8_t value);
 static int cs256k_dump(void);
 
 static io_source_t cs256k_device = {
-    "CSORY",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfd15, 0xfd15, 1,
-    1, /* read is always valid */
-    cs256k_reg_store,
-    NULL, /* no poke */
-    cs256k_reg_read,
-    NULL, /* no peek */
-    cs256k_dump, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "CSORY",              /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "MemoryHack",         /* resource to set to '0' */
+    0xfd15, 0xfd15, 0x00, /* range for the device, reg:$fd15 */
+    1,                    /* read is always valid */
+    cs256k_reg_store,     /* store function */
+    NULL,                 /* NO poke function */
+    cs256k_reg_read,      /* read function */
+    NULL,                 /* TODO: peek function */
+    cs256k_dump,          /* chip state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *cs256k_list_item = NULL;

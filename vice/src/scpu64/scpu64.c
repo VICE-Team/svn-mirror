@@ -186,115 +186,115 @@ static machine_timing_t machine_timing;
 /* ------------------------------------------------------------------------ */
 
 static io_source_t vicii_d000_device = {
-    "VIC-II",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd000, 0xd0ff, 0x3f,
-    1, /* read is always valid */
-    vicii_store,
-    NULL, /* no poke */
-    vicii_read,
-    vicii_peek,
-    vicii_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VIC-II",              /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xd000, 0xd0ff, 0x3f,  /* range for the chip, regs:$d000-$d03f, mirrors:$d040-$d0ff */
+    1,                     /* read is always valid */
+    vicii_store,           /* store function */
+    NULL,                  /* NO poke function */
+    vicii_read,            /* read function */
+    vicii_peek,            /* peek function */
+    vicii_dump,            /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t vicii_d100_device = {
-    "VIC-II $D100-$D1FF mirrors",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd100, 0xd1ff, 0x3f,
-    1, /* read is always valid */
-    vicii_store,
-    NULL, /* no poke */
-    vicii_read,
-    vicii_peek,
-    vicii_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VIC-II $D100-$D1FF mirrors", /* name of the chip */
+    IO_DETACH_NEVER,              /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE,        /* does not use a resource for detach */
+    0xd100, 0xd1ff, 0x3f,         /* range for the chip, mirrors of $d000-$d03f */
+    1,                            /* read is always valid */
+    vicii_store,                  /* store function */
+    NULL,                         /* NO poke function */
+    vicii_read,                   /* read function */
+    vicii_peek,                   /* peek function */
+    vicii_dump,                   /* chip state information dump function */
+    IO_CART_ID_NONE,              /* not a cartridge */
+    IO_PRIO_HIGH,                 /* high priority, chip and mirrors never involved in collisions */
+    0                             /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sid_d400_device = {
-    "SID",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd400, 0xd41f, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* no poke */
-    sid_read,
-    sid_peek,
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "SID",                 /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0xd400, 0xd41f, 0x1f,  /* main registers */
+    1,                     /* read is always valid */
+    sid_store,             /* store function */
+    NULL,                  /* NO poke function */
+    sid_read,              /* read function */
+    sid_peek,              /* peek function */
+    sid_dump,              /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sid_d420_device = {
-    "SID $D420-$D4FF mirrors",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd420, 0xd4ff, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* no poke */
-    sid_read,
-    sid_peek,
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
-    0
+    "SID $D420-$D4FF mirrors", /* name of the chip */
+    IO_DETACH_NEVER,           /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE,     /* does not use a resource for detach */
+    0xd420, 0xd4ff, 0x1f,      /* mirrors of $d400-$d41f */
+    1,                         /* read is always valid */
+    sid_store,                 /* store function */
+    NULL,                      /* NO poke function */
+    sid_read,                  /* read function */
+    sid_peek,                  /* peek function */
+    sid_dump,                  /* chip state information dump function */
+    IO_CART_ID_NONE,           /* not a cartridge */
+    IO_PRIO_LOW,               /* low priority, chip never involved in collisions, this is to allow additional SID chips in the same range */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sid_d500_device = {
-    "SID $D500-$D5FF mirrors",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd500, 0xd5ff, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* no poke */
-    sid_read,
-    sid_peek,
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
-    0
+    "SID $D500-$D5FF mirrors", /* name of the chip */
+    IO_DETACH_NEVER,           /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE,     /* does not use a resource for detach */
+    0xd500, 0xd5ff, 0x1f,      /* mirrors of $d400-$d41f */
+    1,                         /* read is always valid */
+    sid_store,                 /* store function */
+    NULL,                      /* NO poke function */
+    sid_read,                  /* read function */
+    sid_peek,                  /* peek function */
+    sid_dump,                  /* chip state information dump function */
+    IO_CART_ID_NONE,           /* not a cartridge */
+    IO_PRIO_LOW,               /* low priority, chip never involved in collisions, this is to allow additional SID chips in the same range */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sid_d600_device = {
-    "SID $D600-$D6FF mirrors",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd600, 0xd6ff, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* no poke */
-    sid_read,
-    sid_peek,
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
-    0
+    "SID $D600-$D6FF mirrors", /* name of the chip */
+    IO_DETACH_NEVER,           /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE,     /* does not use a resource for detach */
+    0xd600, 0xd6ff, 0x1f,      /* mirrors of $d400-$d41f */
+    1,                         /* read is always valid */
+    sid_store,                 /* store function */
+    NULL,                      /* NO poke function */
+    sid_read,                  /* read function */
+    sid_peek,                  /* peek function */
+    sid_dump,                  /* chip state information dump function */
+    IO_CART_ID_NONE,           /* not a cartridge */
+    IO_PRIO_LOW,               /* low priority, chip never involved in collisions, this is to allow additional SID chips in the same range */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t sid_d700_device = {
-    "SID $D700-$D7FF mirrors",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd700, 0xd7ff, 0x1f,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* no poke */
-    sid_read,
-    sid_peek,
-    NULL, /* TODO: dump */
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
-    0
+    "SID $D700-$D7FF mirrors", /* name of the chip */
+    IO_DETACH_NEVER,           /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE,     /* does not use a resource for detach */
+    0xd700, 0xd7ff, 0x1f,      /* mirrors of $d400-$d41f */
+    1,                         /* read is always valid */
+    sid_store,                 /* store function */
+    NULL,                      /* NO poke function */
+    sid_read,                  /* read function */
+    sid_peek,                  /* peek function */
+    sid_dump,                  /* chip state information dump function */
+    IO_CART_ID_NONE,           /* not a cartridge */
+    IO_PRIO_LOW,               /* low priority, chip never involved in collisions, this is to allow additional SID chips in the same range */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *vicii_d000_list_item = NULL;

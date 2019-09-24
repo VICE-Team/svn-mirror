@@ -529,19 +529,19 @@ int speech_cart_enabled(void)
 char *speech_filename = NULL;
 
 static io_source_t speech_device = {
-    "V364SPEECH",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xfd20, 0xfd22, 3,
-    1, /* read is always valid */
-    speech_store,
-    NULL, /* no poke */
-    speech_read,
-    speech_peek,
-    speech_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_NORMAL,
-    0
+    "V364SPEECH",         /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SpeechEnabled",      /* resource to set to '0' */
+    0xfd20, 0xfd22, 0x03, /* range for the device, regs:$fd20-$fd22 */
+    1,                    /* read is always valid */
+    speech_store,         /* store function */
+    NULL,                 /* NO poke function */
+    speech_read,          /* read function */
+    speech_peek,          /* peek function */
+    speech_dump,          /* chip state information dump function */
+    IO_CART_ID_NONE,      /* not a cartridge */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *speech_list_item = NULL;
