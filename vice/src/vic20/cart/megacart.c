@@ -120,35 +120,35 @@ static void megacart_io3_store(uint16_t addr, uint8_t value);
 static int megacart_mon_dump(void);
 
 static io_source_t megacart_io2_device = {
-    CARTRIDGE_VIC20_NAME_MEGACART,
-    IO_DETACH_CART,
-    NULL,
-    0x9800, 0x9bff, 0x3ff,
-    0,
-    megacart_io2_store,
-    NULL, /* no poke */
-    megacart_io2_read,
-    NULL, /* TODO: peek */
-    megacart_mon_dump,
-    CARTRIDGE_VIC20_MEGACART,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_MEGACART, /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0x9800, 0x9bff, 0x3ff,         /* range for the device, regs:$9800-$9bff */
+    0,                             /* read validity is determined by the device upon a read */
+    megacart_io2_store,            /* store function */
+    NULL,                          /* NO poke function */
+    megacart_io2_read,             /* read function */
+    NULL,                          /* TODO: peek function */
+    megacart_mon_dump,             /* device state information dump function */
+    CARTRIDGE_VIC20_MEGACART,      /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t megacart_io3_device = {
-    CARTRIDGE_VIC20_NAME_MEGACART,
-    IO_DETACH_CART,
-    NULL,
-    0x9c00, 0x9fff, 0x3ff,
-    0,
-    megacart_io3_store,
-    NULL, /* no poke */
-    megacart_io3_read,
-    megacart_io3_peek,
-    megacart_mon_dump,
-    CARTRIDGE_VIC20_MEGACART,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_MEGACART, /* name of the device */
+    IO_DETACH_CART,                /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
+    0x9c00, 0x9fff, 0x3ff,         /* range for the device, regs:$9c00-$9fff */
+    0,                             /* read validity is determined by the device upon a read */
+    megacart_io3_store,            /* store function */
+    NULL,                          /* NO poke function */
+    megacart_io3_read,             /* read function */
+    megacart_io3_peek,             /* peek function */
+    megacart_mon_dump,             /* device state information dump function */
+    CARTRIDGE_VIC20_MEGACART,      /* cartridge ID */
+    IO_PRIO_NORMAL,                /* normal priority, device read needs to be checked for collisions */
+    0                              /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *megacart_io2_list_item = NULL;

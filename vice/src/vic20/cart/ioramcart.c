@@ -68,35 +68,35 @@ static void ram_io3_store(uint16_t addr, uint8_t val)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ram_io2_device = {
-    CARTRIDGE_VIC20_NAME_IO2_RAM,
-    IO_DETACH_RESOURCE,
-    "IO2RAM",
-    0x9800, 0x9bff, 0x3ff,
-    1, /* read is always valid */
-    ram_io2_store,
-    NULL, /* no poke */
-    ram_io2_read,
-    ram_io2_read,
-    NULL, /* nothing to dump */
-    CARTRIDGE_VIC20_IO2_RAM,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_IO2_RAM, /* name of the device */
+    IO_DETACH_RESOURCE,           /* use resource to detach the device when involved in a read-collision */
+    "IO2RAM",                     /* resource to set to '0' */
+    0x9800, 0x9bff, 0x3ff,        /* range for the device, regs:$9800-$9bff */
+    1,                            /* read is always valid */
+    ram_io2_store,                /* store function */
+    NULL,                         /* NO poke function */
+    ram_io2_read,                 /* read function */
+    ram_io2_read,                 /* peek function */
+    NULL,                         /* nothing to dump */
+    CARTRIDGE_VIC20_IO2_RAM,      /* cartridge ID */
+    IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
+    0                             /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t ram_io3_device = {
-    CARTRIDGE_VIC20_NAME_IO3_RAM,
-    IO_DETACH_RESOURCE,
-    "IO3RAM",
-    0x9c00, 0x9fff, 0x3ff,
-    1, /* read is always valid */
-    ram_io3_store,
-    NULL, /* no poke */
-    ram_io3_read,
-    ram_io3_read,
-    NULL, /* nothing to dump */
-    CARTRIDGE_VIC20_IO3_RAM,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_IO3_RAM, /* name of the device */
+    IO_DETACH_RESOURCE,           /* use resource to detach the device when involved in a read-collision */
+    "IO3RAM",                     /* resource to set to '0' */
+    0x9c00, 0x9fff, 0x3ff,        /* range for the device, regs:$9c00-$9fff */
+    1,                            /* read is always valid */
+    ram_io3_store,                /* store function */
+    NULL,                         /* NO poke function */
+    ram_io3_read,                 /* read function */
+    ram_io3_read,                 /* peek function */
+    NULL,                         /* nothing to dump */
+    CARTRIDGE_VIC20_IO3_RAM,      /* cartridge ID */
+    IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
+    0                             /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *ram_io2_list_item = NULL;

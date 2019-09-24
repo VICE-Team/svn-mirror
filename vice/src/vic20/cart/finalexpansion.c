@@ -164,19 +164,19 @@ static void finalexpansion_io3_store(uint16_t addr, uint8_t value);
 static int finalexpansion_mon_dump(void);
 
 static io_source_t finalexpansion_device = {
-    CARTRIDGE_VIC20_NAME_FINAL_EXPANSION,
-    IO_DETACH_CART,
-    NULL,
-    0x9c00, 0x9fff, 0x3ff,
-    0,
-    finalexpansion_io3_store,
-    NULL, /* no poke */
-    finalexpansion_io3_read,
-    finalexpansion_io3_peek,
-    finalexpansion_mon_dump,
-    CARTRIDGE_VIC20_FINAL_EXPANSION,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, /* name of the device */
+    IO_DETACH_CART,                       /* use cartridge ID to detach the device when involved in a read-collision */
+    IO_DETACH_NO_RESOURCE,                /* does not use a resource for detach */
+    0x9c00, 0x9fff, 0x03,                 /* range for the device, regs:$9c00-$9c03, mirrors:$9c04-$9fff */
+    0,                                    /* read validity is determined by the device upon a read */
+    finalexpansion_io3_store,             /* store function */
+    NULL,                                 /* NO poke function */
+    finalexpansion_io3_read,              /* read function */
+    finalexpansion_io3_peek,              /* peek function */
+    finalexpansion_mon_dump,              /* device state information dump function */
+    CARTRIDGE_VIC20_FINAL_EXPANSION,      /* cartridge ID */
+    IO_PRIO_NORMAL,                       /* normal priority, device read needs to be checked for collisions */
+    0                                     /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *finalexpansion_list_item = NULL;
