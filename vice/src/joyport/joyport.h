@@ -99,7 +99,7 @@
 /* this structure is used for control port devices */
 typedef struct joyport_s {
     char *name;                                            /* name of the device */
-    int resource_id;                                       /* resource used by the device */
+    int resource_id;                                       /* type of device, to determine if there can be multiple instances of the type of device */
     int is_lp;                                             /* flag to indicate the device is a lightpen */
     int pot_optional;                                      /* flag to indicate that the device can work without a potentiometer */
     int (*enable)(int port, int val);                      /* pointer to the device enable function */

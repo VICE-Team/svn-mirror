@@ -50,6 +50,7 @@
 #define USERPORT_DEVICE_RTC_DS1307          13
 #define USERPORT_DEVICE_DIAG_586220_HARNESS 14
 
+/* this structure is used by userport devices */
 typedef struct userport_device_s {
     /* ID of the device */
     int id;
@@ -99,19 +100,20 @@ typedef struct userport_device_s {
     /* validity mask of a read */
     uint8_t mask;
 
-    /* involved on collision */
+    /* involved in collision */
     int collision;
 
     /* a tag to indicate the order of insertion */
     unsigned int order;
 } userport_device_t;
 
+/* this structure is used by userport ports */
 typedef struct userport_port_props_s {
-    int has_pa2;
-    int has_pa3;
-    void (*set_flag)(uint8_t val);
-    int has_pc;
-    int has_sp12;
+    int has_pa2;                   /* port has the pa2 line */
+    int has_pa3;                   /* port has the pa3 line */
+    void (*set_flag)(uint8_t val); /* pointer to set flag function */
+    int has_pc;                    /* port has the pc line */
+    int has_sp12;                  /* port has the sp1 and sp2 lines */
 } userport_port_props_t;
 
 typedef struct userport_device_list_s {
