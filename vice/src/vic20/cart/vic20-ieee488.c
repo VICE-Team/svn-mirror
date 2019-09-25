@@ -70,19 +70,19 @@ static int ieee488_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ieee488_device = {
-    CARTRIDGE_VIC20_NAME_IEEE488,
-    IO_DETACH_RESOURCE,
-    "IEEE488",
-    0x9800, 0x9bff, 0x3ff,
-    1, /* read is always valid */
-    ieee488_store,
-    NULL, /* no poke */
-    ieee488_read,
-    NULL, /* TODO: peek */
-    ieee488_dump,
-    CARTRIDGE_VIC20_IEEE488,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_IEEE488, /* name of the device */
+    IO_DETACH_RESOURCE,           /* use resource to detach the device when involved in a read-collision */
+    "IEEE488",                    /* resource to set to '0' */
+    0x9800, 0x9bff, 0x3ff,        /* range for the device, regs:$9800-$981f, mirrors:$9820-$9bff */
+    1,                            /* read is always valid */
+    ieee488_store,                /* store function */
+    NULL,                         /* NO poke function */
+    ieee488_read,                 /* read function */
+    NULL,                         /* TODO: peek function */
+    ieee488_dump,                 /* device state information dump function */
+    CARTRIDGE_VIC20_IEEE488,      /* cartridge ID */
+    IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
+    0                             /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *ieee488_list_item = NULL;

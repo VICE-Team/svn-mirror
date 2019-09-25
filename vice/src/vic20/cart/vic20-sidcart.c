@@ -42,19 +42,19 @@
 /* ---------------------------------------------------------------------*/
 
 static io_source_t sidcart_device = {
-    CARTRIDGE_VIC20_NAME_SIDCART,
-    IO_DETACH_RESOURCE,
-    "SidCart",
-    0x9800, 0x9bff, 0x3ff,
-    1, /* read is always valid */
-    sid_store,
-    NULL, /* no poke */
-    sid_read,
-    NULL, /* TODO: peek */
-    sid_dump,
-    CARTRIDGE_VIC20_SIDCART,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_SIDCART, /* name of the device */
+    IO_DETACH_RESOURCE,           /* use resource to detach the device when involved in a read-collision */
+    "SidCart",                    /* resource to set to '0' */
+    0x9800, 0x9bff, 0x3ff,        /* range for the device, regs:$9800-$981f, mirrors:$9820-$9bff, range can change */
+    1,                            /* read is always valid */
+    sid_store,                    /* store function */
+    NULL,                         /* NO poke function */
+    sid_read,                     /* read function */
+    sid_peek,                     /* peek function */
+    sid_dump,                     /* device state information dump function */
+    CARTRIDGE_VIC20_SIDCART,      /* cartridge ID */
+    IO_PRIO_NORMAL,               /* normal priority, device read needs to be checked for collisions */
+    0                             /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *sidcart_list_item = NULL;

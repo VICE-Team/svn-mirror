@@ -59,19 +59,19 @@ static uint8_t vic20midi_peek(uint16_t address)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t midi_device = {
-    CARTRIDGE_VIC20_NAME_MIDI,
-    IO_DETACH_RESOURCE,
-    "MIDIEnable",
-    0x9c00, 0x9fff, 0x3ff,
-    1, /* read is always valid */
-    midi_store,
-    NULL, /* no poke */
-    vic20midi_read,
-    vic20midi_peek,
-    NULL, /* TODO: dump */
-    CARTRIDGE_MIDI_MAPLIN,
-    0,
-    0
+    CARTRIDGE_VIC20_NAME_MIDI, /* name of the device */
+    IO_DETACH_RESOURCE,        /* use resource to detach the device when involved in a read-collision */
+    "MIDIEnable",              /* resource to set to '0' */
+    0x9c00, 0x9fff, 0x3ff,     /* range for the device, regs:$9c00-$9c01, mirrors:$9c02-$9fff */
+    1,                         /* read is always valid */
+    midi_store,                /* store function */
+    NULL,                      /* NO poke function */
+    vic20midi_read,            /* read function */
+    vic20midi_peek,            /* peek function */
+    NULL,                      /* TODO: device state information dump function */
+    CARTRIDGE_MIDI_MAPLIN,     /* cartridge ID */
+    IO_PRIO_NORMAL,            /* normal priority, device read needs to be checked for collisions */
+    0                          /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *midi_list_item = NULL;
