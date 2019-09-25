@@ -165,17 +165,17 @@ static int paperclip64_write_snapshot(struct snapshot_s *s, int port);
 static int paperclip64_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t joyport_paperclip64_device = {
-    "Paperclip64 dongle",
-    JOYPORT_RES_ID_PAPERCLIP64,
-    JOYPORT_IS_NOT_LIGHTPEN,
-    JOYPORT_POT_OPTIONAL,
-    joyport_paperclip64_enable,
-    paperclip64_read,
-    paperclip64_store,
-    NULL,               /* no pot-x read */
-    NULL,               /* no pot-y read */
-    paperclip64_write_snapshot,
-    paperclip64_read_snapshot
+    "Paperclip64 dongle",       /* name of the device */
+    JOYPORT_RES_ID_PAPERCLIP64, /* device is of the paperclip64 type, only 1 device of this kind can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,    /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,       /* device does NOT use the potentiometer lines */
+    joyport_paperclip64_enable, /* device enable function */
+    paperclip64_read,           /* digital line read function */
+    paperclip64_store,          /* digital line store function */
+    NULL,                       /* NO pot-x read function */
+    NULL,                       /* NO pot-y read function */
+    paperclip64_write_snapshot, /* device write snapshot function */
+    paperclip64_read_snapshot   /* device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */

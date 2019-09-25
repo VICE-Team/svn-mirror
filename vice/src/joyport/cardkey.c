@@ -229,17 +229,17 @@ static uint8_t cardkey_read_pot(void)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_cardkey_device = {
-    "Cardco Cardkey 1 keypad",
-    JOYPORT_RES_ID_KEYPAD,
-    JOYPORT_IS_NOT_LIGHTPEN,
-    JOYPORT_POT_REQUIRED,
-    joyport_cardkey_enable,
-    cardkey_read_dig,
-    NULL,				/* no digital store */
-    NULL,				/* no pot-x read */
-    cardkey_read_pot,
-    NULL,				/* no write snapshot */
-    NULL				/* no read snapshot */
+    "Cardco Cardkey 1 keypad", /* name of the device */
+    JOYPORT_RES_ID_KEYPAD,     /* device is a keypad, only 1 keypad can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,   /* device is NOT a lightpen */
+    JOYPORT_POT_REQUIRED,      /* device uses the potentiometer lines */
+    joyport_cardkey_enable,    /* device enable function */
+    cardkey_read_dig,          /* digital line read function */
+    NULL,                      /* NO digital line store function */
+    NULL,                      /* NO pot-x read function */
+    cardkey_read_pot,          /* pot-y read function */
+    NULL,                      /* NO device write snapshot function */
+    NULL                       /* NO device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */

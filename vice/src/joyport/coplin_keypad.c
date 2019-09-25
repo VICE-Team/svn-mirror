@@ -182,17 +182,17 @@ static uint8_t coplin_keypad_read(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_coplin_keypad_device = {
-    "Coplin Keypad",
-    JOYPORT_RES_ID_KEYPAD,
-    JOYPORT_IS_NOT_LIGHTPEN,
-    JOYPORT_POT_OPTIONAL,
-    joyport_coplin_keypad_enable,
-    coplin_keypad_read,
-    NULL,               /* no digital store */
-    NULL,               /* no pot-x read */
-    NULL,               /* no pot-y read */
-    NULL,               /* no write snapshot */
-    NULL                /* no read snapshot */
+    "Coplin Keypad",              /* name of the device */
+    JOYPORT_RES_ID_KEYPAD,        /* device is a keypad, only 1 keypad can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,      /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,         /* device does NOT use the potentiometer lines */
+    joyport_coplin_keypad_enable, /* device enable function */
+    coplin_keypad_read,           /* digital line read function */
+    NULL,                         /* NO digital line store function */
+    NULL,                         /* NO pot-x read function */
+    NULL,                         /* NO pot-y read function */
+    NULL,                         /* NO device write snapshot function */
+    NULL                          /* NO device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */

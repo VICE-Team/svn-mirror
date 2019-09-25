@@ -99,17 +99,17 @@ static void waasoft_dongle_store_dig(uint8_t val)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_waasoft_dongle_device = {
-    "WaaSoft dongle",
-    JOYPORT_RES_ID_WAASOFT,
-    JOYPORT_IS_NOT_LIGHTPEN,
-    JOYPORT_POT_REQUIRED,
-    joyport_waasoft_dongle_enable,
-    NULL,               /* no dig read */
-    waasoft_dongle_store_dig,
-    NULL,
-    waasoft_dongle_read_poty,
-    NULL,               /* no write snapshot */
-    NULL                /* no read snapshot */
+    "WaaSoft dongle",              /* name of the device */
+    JOYPORT_RES_ID_WAASOFT,        /* device is of the waasoft type, only 1 of this type can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,       /* device is NOT a lightpen */
+    JOYPORT_POT_REQUIRED,          /* device uses the potentiometer lines */
+    joyport_waasoft_dongle_enable, /* device enable function */
+    NULL,                          /* NO digital line read function */
+    waasoft_dongle_store_dig,      /* digital line store function */
+    NULL,                          /* NO pot-x read function */
+    waasoft_dongle_read_poty,      /* pot-y read function */
+    NULL,                          /* NO device write snapshot function */
+    NULL                           /* NO device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */

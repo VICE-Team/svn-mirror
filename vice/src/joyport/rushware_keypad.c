@@ -205,17 +205,17 @@ static uint8_t rushware_keypad_read(int port)
 /* ------------------------------------------------------------------------- */
 
 static joyport_t joyport_rushware_keypad_device = {
-    "RushWare Keypad",
-    JOYPORT_RES_ID_KEYPAD,
-    JOYPORT_IS_NOT_LIGHTPEN,
-    JOYPORT_POT_OPTIONAL,
-    joyport_rushware_keypad_enable,
-    rushware_keypad_read,
-    NULL,               /* no digital store */
-    NULL,               /* no pot-x read */
-    NULL,               /* no pot-y read */
-    NULL,               /* no write snapshot */
-    NULL                /* no read snapshot */
+    "RushWare Keypad",              /* name of the device */
+    JOYPORT_RES_ID_KEYPAD,          /* device is a keypad, only 1 keypad can be active at the same time */
+    JOYPORT_IS_NOT_LIGHTPEN,        /* device is NOT a lightpen */
+    JOYPORT_POT_OPTIONAL,           /* device does NOT use the potentiometer lines */
+    joyport_rushware_keypad_enable, /* device enable function */
+    rushware_keypad_read,           /* digital line read function */
+    NULL,                           /* NO digital line store function */
+    NULL,                           /* NO pot-x read function */
+    NULL,                           /* NO pot-x read function */
+    NULL,                           /* NO device write snapshot function */
+    NULL                            /* NO device read snapshot function */
 };
 
 /* ------------------------------------------------------------------------- */
