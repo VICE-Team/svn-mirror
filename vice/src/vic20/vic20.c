@@ -367,51 +367,51 @@ static uint8_t via1_via2_peek(uint16_t addr)
 }
 
 static io_source_t vic_device = {
-    "VIC",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x9000, 0x90ff, 0x3f, /* must include A5/A4 */
-    1, /* read is always valid */
-    vic_via1_via2_store,
-    NULL, /* no poke */
-    vic_via1_via2_read,
-    vic_via1_via2_peek,
-    vic_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VIC",                 /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0x9000, 0x90ff, 0x3f,  /* address range for the device, must include A5/A4 */
+    1,                     /* read is always valid */
+    vic_via1_via2_store,   /* store function */
+    NULL,                  /* NO poke function */
+    vic_via1_via2_read,    /* read function */
+    vic_via1_via2_peek,    /* peek function */
+    vic_dump,              /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t via2_device = {
-    "VIA2",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x9110, 0x93ff, 0x3f, /* must include A5/A4 */
-    1, /* read is always valid */
-    via1_via2_store,
-    NULL, /* no poke */
-    via1_via2_read,
-    via1_via2_peek,
-    via2_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VIA2",                /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0x9110, 0x93ff, 0x3f,  /* address range for the device, must include A5/A4 */
+    1,                     /* read is always valid */
+    via1_via2_store,       /* store function */
+    NULL,                  /* NO poke function */
+    via1_via2_read,        /* read function */
+    via1_via2_peek,        /* peek function */
+    via2_dump,             /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_t via1_device = {
-    "VIA1",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x9120, 0x93ff, 0x3f, /* must include A5/A4 */
-    1, /* read is always valid */
-    via1_via2_store,
-    NULL, /* no poke */
-    via1_via2_read,
-    via1_via2_peek,
-    via1_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
+    "VIA1",                /* name of the chip */
+    IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
+    IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
+    0x9120, 0x93ff, 0x3f,  /* address range for the device, must include A5/A4 */
+    1,                     /* read is always valid */
+    via1_via2_store,       /* store function */
+    NULL,                  /* NO poke function */
+    via1_via2_read,        /* read function */
+    via1_via2_peek,        /* peek function */
+    via1_dump,             /* chip state information dump function */
+    IO_CART_ID_NONE,       /* not a cartridge */
+    IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
+    0                      /* insertion order, gets filled in by the registration function */
 };
 
 static io_source_list_t *vic_list_item = NULL;
