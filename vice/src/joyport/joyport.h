@@ -96,18 +96,19 @@
 #define JOYPORT_POT_REQUIRED   0
 #define JOYPORT_POT_OPTIONAL   1
 
+/* this structure is used for control port devices */
 typedef struct joyport_s {
-    char *name;
-    int resource_id;
-    int is_lp;
-    int pot_optional;
-    int (*enable)(int port, int val);
-    uint8_t (*read_digital)(int port);
-    void (*store_digital)(uint8_t val);
-    uint8_t (*read_potx)(void);
-    uint8_t (*read_poty)(void);
-    int (*write_snapshot)(struct snapshot_s *s, int port);
-    int (*read_snapshot)(struct snapshot_s *s, int port);
+    char *name;                                            /* name of the device */
+    int resource_id;                                       /* resource used by the device */
+    int is_lp;                                             /* flag to indicate the device is a lightpen */
+    int pot_optional;                                      /* flag to indicate that the device can work without a potentiometer */
+    int (*enable)(int port, int val);                      /* pointer to the device enable function */
+    uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
+    void (*store_digital)(uint8_t val);                    /* pointer to the device digital lines store function */
+    uint8_t (*read_potx)(void);                            /* pointer to the device X potentiometer read function */
+    uint8_t (*read_poty)(void);                            /* pointer to the device Y potentiometer read function */
+    int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */
+    int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
 } joyport_t;
 
 typedef struct joyport_desc_s {
@@ -115,11 +116,12 @@ typedef struct joyport_desc_s {
     int id;
 } joyport_desc_t;
 
+/* this structure is used for control ports */
 typedef struct joyport_port_props_s {
-    char *name;
-    int has_pot;
-    int has_lp_support;
-    int active;
+    char *name;         /* name of the port */
+    int has_pot;        /* flag to indicate that the port has potentiometer support */
+    int has_lp_support; /* flag to indicate that the port has lightpen support */
+    int active;         /* flag to indicate if the port is currently active */
 } joyport_port_props_t;
 
 extern int joyport_device_register(int id, joyport_t *device);

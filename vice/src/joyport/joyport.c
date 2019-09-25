@@ -73,6 +73,7 @@ void set_joyport_pot_mask(int mask)
     pot_port_mask = mask;
 }
 
+/* attach device 'id' to port 'port' */
 static int joyport_set_device(int port, int id)
 {
     int i;
@@ -140,6 +141,7 @@ static int joyport_set_device(int port, int id)
     return 0;
 }
 
+/* detach all devices from all ports */
 void joyport_clear_devices(void)
 {
     int i;
@@ -151,6 +153,7 @@ void joyport_clear_devices(void)
     }
 }
 
+/* read the digital lines from port 'port' */
 uint8_t read_joyport_dig(int port)
 {
     int id = joy_port[port];
@@ -165,6 +168,7 @@ uint8_t read_joyport_dig(int port)
     return joyport_device[id].read_digital(port);
 }
 
+/* drive the digital lines that are indicated as active in 'mask' with value 'val' of port 'port' */
 void store_joyport_dig(int port, uint8_t val, uint8_t mask)
 {
     int id = joy_port[port];
@@ -212,6 +216,7 @@ static void find_pot_ports(void)
     }
 }
 
+/* read the X potentiometer value */
 uint8_t read_joyport_potx(void)
 {
     int id1 = JOYPORT_ID_NONE;
@@ -260,6 +265,7 @@ uint8_t read_joyport_potx(void)
     }
 }
 
+/* read the Y potentiometer value */
 uint8_t read_joyport_poty(void)
 {
     int id1 = JOYPORT_ID_NONE;
@@ -310,6 +316,7 @@ uint8_t read_joyport_poty(void)
 
 static int pot_present = -1;
 
+/* register a device to be used in the control port system if possible */
 int joyport_device_register(int id, joyport_t *device)
 {
     int i;
@@ -349,6 +356,7 @@ int joyport_device_register(int id, joyport_t *device)
     return 0;
 }
 
+/* register a port to be used in the control port system */
 int joyport_port_register(int port, joyport_port_props_t *props)
 {
     if (port < 0 || port >= JOYPORT_MAX_PORTS) {
