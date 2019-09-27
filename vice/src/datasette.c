@@ -135,20 +135,20 @@ static int datasette_write_snapshot(snapshot_t *s, int write_image);
 static int datasette_read_snapshot(snapshot_t *s);
 
 static tapeport_device_t datasette_device = {
-    TAPEPORT_DEVICE_DATASETTE,
-    "Datasette",
-    0,
-    "Datasette",
-    NULL, /* no shutdown */
-    NULL, /* no device specific reset */
-    datasette_set_motor,
-    datasette_toggle_write_bit,
-    NULL, /* no sense out */
-    NULL, /* no read out */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL  /* no passthrough */
+    TAPEPORT_DEVICE_DATASETTE,  /* device id */
+    "Datasette",                /* device name */
+    0,                          /* order of the device, filled in by the tapeport system when the device is attached */
+    "Datasette",                /* resource used by the device */
+    NULL,                       /* NO device shutdown function */
+    NULL,                       /* NO device specific reset function */
+    datasette_set_motor,        /* set motor line function */
+    datasette_toggle_write_bit, /* set write line function */
+    NULL,                       /* NO set sense line function */
+    NULL,                       /* NO set read line function */
+    NULL,                       /* NO passthrough flux change function */
+    NULL,                       /* NO passthrough sense read function */
+    NULL,                       /* NO passthrough write line function */
+    NULL                        /* NO passthrough motor line function */
 };
 
 static tapeport_snapshot_t datasette_snapshot = {

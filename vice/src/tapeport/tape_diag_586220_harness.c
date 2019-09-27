@@ -66,20 +66,20 @@ static void tape_diag_586220_harness_set_sense_out(int sense);
 static void tape_diag_586220_harness_set_read_out(int val);
 
 static tapeport_device_t tape_diag_586220_harness_device = {
-    TAPEPORT_DEVICE_TAPE_DIAG_586220_HARNESS,
-    "Tape 586220 diagnostics harness module",
-    0,
-    "TapeDiag586220Harness",
-    NULL, /* no shutdown */
-    NULL,
-    tape_diag_586220_harness_set_motor,
-    tape_diag_586220_harness_toggle_write_bit,
-    tape_diag_586220_harness_set_sense_out,
-    tape_diag_586220_harness_set_read_out,
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL  /* no passthrough */
+    TAPEPORT_DEVICE_TAPE_DIAG_586220_HARNESS,  /* device id */
+    "Tape 586220 diagnostics harness module",  /* device name */
+    0,                                         /* order of the device, filled in by the tapeport system when the device is attached */
+    "TapeDiag586220Harness",                   /* resource used by the device */
+    NULL,                                      /* NO device shutdown function */
+    NULL,                                      /* NO device specific reset function */
+    tape_diag_586220_harness_set_motor,        /* set motor line function */
+    tape_diag_586220_harness_toggle_write_bit, /* set write line function */
+    tape_diag_586220_harness_set_sense_out,    /* set sense line function */
+    tape_diag_586220_harness_set_read_out,     /* set read line function */
+    NULL,                                      /* NO passthrough flux change function */
+    NULL,                                      /* NO passthrough sense read function */
+    NULL,                                      /* NO passthrough write line function */
+    NULL                                       /* NO passthrough motor line function */
 };
 
 static tapeport_device_list_t *tape_diag_586220_harness_list_item = NULL;

@@ -48,20 +48,20 @@ static int sense_dongle_write_snapshot(struct snapshot_s *s, int write_image);
 static int sense_dongle_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t sense_dongle_device = {
-    TAPEPORT_DEVICE_SENSE_DONGLE,
-    "Sense dongle",
-    0,
-    "TapeSenseDongle",
-    NULL, /* no shutdown */
-    sense_dongle_reset,
-    NULL, /* no set motor */
-    NULL, /* no set write */
-    NULL, /* no sense out */
-    NULL, /* no read out */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL  /* no passthrough */
+    TAPEPORT_DEVICE_SENSE_DONGLE, /* device id */
+    "Sense dongle",               /* device name */
+    0,                            /* order of the device, filled in by the tapeport system when the device is attached */
+    "TapeSenseDongle",            /* resource used by the device */
+    NULL,                         /* NO device shutdown function */
+    sense_dongle_reset,           /* device specific reset function */
+    NULL,                         /* NO set motor line function */
+    NULL,                         /* NO set write line function */
+    NULL,                         /* NO set sense line function */
+    NULL,                         /* NO set read line function */
+    NULL,                         /* NO passthrough flux change function */
+    NULL,                         /* NO passthrough sense read function */
+    NULL,                         /* NO passthrough write line function */
+    NULL                          /* NO passthrough motor line function */
 };
 
 static tapeport_snapshot_t sense_dongle_snapshot = {

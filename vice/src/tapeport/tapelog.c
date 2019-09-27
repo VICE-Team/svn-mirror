@@ -90,20 +90,20 @@ static int tapelog_write_snapshot(struct snapshot_s *s, int write_image);
 static int tapelog_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t tapelog_device = {
-    TAPEPORT_DEVICE_TAPE_LOG,
-    "Tape Log",
-    0,
-    "TapeLog",
-    NULL,
-    NULL, /* no shutdown */
-    tapelog_set_motor,
-    tapelog_toggle_write_bit,
-    tapelog_set_sense_out,
-    tapelog_set_read_out,
-    tapelog_trigger_flux_change_passthrough,
-    tapelog_set_tape_sense_passthrough,
-    tapelog_set_tape_write_in_passthrough,
-    tapelog_set_tape_motor_in_passthrough
+    TAPEPORT_DEVICE_TAPE_LOG,                /* device id */
+    "Tape Log",                              /* device name */
+    0,                                       /* order of the device, filled in by the tapeport system when the device is attached */
+    "TapeLog",                               /* resource used by the device */
+    NULL,                                    /* NO device shutdown function */
+    NULL,                                    /* NO device specific reset function */
+    tapelog_set_motor,                       /* set motor line function */
+    tapelog_toggle_write_bit,                /* set write line function */
+    tapelog_set_sense_out,                   /* set sense line function */
+    tapelog_set_read_out,                    /* set read line function */
+    tapelog_trigger_flux_change_passthrough, /* passthrough flux change function */
+    tapelog_set_tape_sense_passthrough,      /* passthrough sense read function */
+    tapelog_set_tape_write_in_passthrough,   /* passthrough write line function */
+    tapelog_set_tape_motor_in_passthrough    /* passthrough motor line function */
 };
 
 static tapeport_snapshot_t tapelog_snapshot = {

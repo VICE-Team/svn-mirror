@@ -109,20 +109,20 @@ static int     load_tcrt(const char *filename, tapecart_memory_t *tcmem);
 static void    update_tcrt(void);
 
 static tapeport_device_t tapecart_device = {
-    TAPEPORT_DEVICE_TAPECART,
-    "tapecart",
-    0,
-    "TapecartEnabled",
-    tapecart_shutdown,
-    NULL, /* not implemented as no code ever calls it */
-    tapecart_store_motor,
-    tapecart_store_write,
-    tapecart_store_sense,
-    NULL, /* no read out */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL  /* no passthrough */
+    TAPEPORT_DEVICE_TAPECART, /* device id */
+    "tapecart",               /* device name */
+    0,                        /* order of the device, filled in by the tapeport system when the device is attached */
+    "TapecartEnabled",        /* resource used by the device */
+    tapecart_shutdown,        /* device shutdown function */
+    NULL,                     /* NO device specific reset function */
+    tapecart_store_motor,     /* set motor line function */
+    tapecart_store_write,     /* set write line function */
+    tapecart_store_sense,     /* set sense line function */
+    NULL,                     /* NO set read line function */
+    NULL,                     /* NO passthrough flux change function */
+    NULL,                     /* NO passthrough sense read function */
+    NULL,                     /* NO passthrough write line function */
+    NULL                      /* NO passthrough motor line function */
 };
 
 static tapeport_snapshot_t tapecart_snapshot = {

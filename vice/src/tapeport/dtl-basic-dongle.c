@@ -92,20 +92,20 @@ static int dtlbasic_write_snapshot(struct snapshot_s *s, int write_image);
 static int dtlbasic_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t dtlbasic_dongle_device = {
-    TAPEPORT_DEVICE_DTL_BASIC_DONGLE,
-    "DTL BASIC dongle",
-    0,
-    "DTLBasicDongle",
-    NULL, /* no shutdown */
-    dtlbasic_dongle_reset,
-    NULL, /* no set motor */
-    dtlbasic_write,
-    dtlbasic_sense_out,
-    NULL, /* no read out */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL  /* no passthrough */
+    TAPEPORT_DEVICE_DTL_BASIC_DONGLE, /* device id */
+    "DTL BASIC dongle",               /* device name */
+    0,                                /* order of the device, filled in by the tapeport system when the device is attached */
+    "DTLBasicDongle",                 /* resource used by the device */
+    NULL,                             /* NO device shutdown function */
+    dtlbasic_dongle_reset,            /* device specific reset function */
+    NULL,                             /* NO set motor line function */
+    dtlbasic_write,                   /* set write line function */
+    dtlbasic_sense_out,               /* set sense line function */
+    NULL,                             /* NO set read line function */
+    NULL,                             /* NO passthrough flux change function */
+    NULL,                             /* NO passthrough sense read function */
+    NULL,                             /* NO passthrough write line function */
+    NULL                              /* NO passthrough motor line function */
 };
 
 static tapeport_snapshot_t dtlbasic_snapshot = {

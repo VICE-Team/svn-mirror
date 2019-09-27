@@ -64,20 +64,20 @@ static int tapertc_write_snapshot(struct snapshot_s *s, int write_image);
 static int tapertc_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t tapertc_device = {
-    TAPEPORT_DEVICE_CP_CLOCK_F83,
-    "Tape RTC (PCF8583)",
-    0,
-    "CPClockF83",
-    tapertc_resources_shutdown,
-    NULL,
-    tapertc_store_sda,
-    tapertc_store_scl,
-    NULL, /* no sense out */
-    NULL, /* no read out */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL, /* no passthrough */
-    NULL  /* no passthrough */
+    TAPEPORT_DEVICE_CP_CLOCK_F83, /* device id */
+    "Tape RTC (PCF8583)",         /* device name */
+    0,                            /* order of the device, filled in by the tapeport system when the device is attached */
+    "CPClockF83",                 /* resource used by the device */
+    tapertc_resources_shutdown,   /* device shutdown function */
+    NULL,                         /* NO device specific reset function */
+    tapertc_store_sda,            /* set motor line function */
+    tapertc_store_scl,            /* set write line function */
+    NULL,                         /* NO set sense line function */
+    NULL,                         /* NO set read line function */
+    NULL,                         /* NO passthrough flux change function */
+    NULL,                         /* NO passthrough sense read function */
+    NULL,                         /* NO passthrough write line function */
+    NULL                          /* NO passthrough motor line function */
 };
 
 static tapeport_snapshot_t tapertc_snapshot = {
