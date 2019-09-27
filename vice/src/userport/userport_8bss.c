@@ -66,24 +66,24 @@ static int userport_8bss_write_snapshot_module(snapshot_t *s);
 static int userport_8bss_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t sampler_device = {
-    USERPORT_DEVICE_8BSS,
-    "Userport 8bit stereo sampler",
-    userport_8bss_read_pbx,
-    NULL, /* NO pbx store */
-    NULL, /* NO pa2 read */
-    NULL, /* NO pa3 write */
-    NULL, /* NO pa3 read */
-    userport_8bss_store_pa3,
-    1, /* pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "Userport8BSS",
-    0xff,
-    0xff, /* valid mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_8BSS,           /* device id */
+    "Userport 8bit stereo sampler", /* device name */
+    userport_8bss_read_pbx,         /* read pb0-pb7 function */
+    NULL,                           /* NO store pb0-pb7 function */
+    NULL,                           /* NO read pa2 pin function */
+    NULL,                           /* NO store pa2 pin function */
+    NULL,                           /* NO read pa3 pin function */
+    userport_8bss_store_pa3,        /* store pa3 pin function */
+    1,                              /* pc pin is needed */
+    NULL,                           /* NO store sp1 pin function */
+    NULL,                           /* NO read sp1 pin function */
+    NULL,                           /* NO store sp2 pin function */
+    NULL,                           /* NO read sp2 pin function */
+    "Userport8BSS",                 /* resource used by the device */
+    0xff,                           /* return value from a read, to be filled in by the device */
+    0xff,                           /* validity mask of the device, doesn't change */
+    0,                              /* device involved in a read collision, to be filled in by the collision detection system */
+    0                               /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t sampler_snapshot = {

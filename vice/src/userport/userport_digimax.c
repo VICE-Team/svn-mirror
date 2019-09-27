@@ -73,24 +73,24 @@ static int userport_digimax_write_snapshot_module(snapshot_t *s);
 static int userport_digimax_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t digimax_device = {
-    USERPORT_DEVICE_DIGIMAX,
-    "Userport DigiMAX",
-    NULL, /* NO pbx read */
-    userport_digimax_store_pbx,
-    NULL, /* NO pa2 read */
-    userport_digimax_store_pa2,
-    NULL, /* NO pa3 read */
-    userport_digimax_store_pa3,
-    1, /* pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "UserportDigiMax",
-    0xff,
-    0xf, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_DIGIMAX,    /* device id */
+    "Userport DigiMAX",         /* device name */
+    NULL,                       /* NO read pb0-pb7 function */
+    userport_digimax_store_pbx, /* store pb0-pb7 function */
+    NULL,                       /* NO read pa2 pin function */
+    userport_digimax_store_pa2, /* store pa2 pin function */
+    NULL,                       /* NO read pa3 pin function */
+    userport_digimax_store_pa3, /* store pa3 pin function */
+    1,                          /* pc pin is needed */
+    NULL,                       /* NO store sp1 pin function */
+    NULL,                       /* NO read sp1 pin function */
+    NULL,                       /* NO store sp2 pin function */
+    NULL,                       /* NO read sp2 pin function */
+    "UserportDigiMax",          /* resource used by the device */
+    0xff,                       /* return value from a read, not used since the device is write only */
+    0x0f,                       /* validity mask of the device, doesn't change */
+    0,                          /* device involved in a read collision, to be filled in by the collision detection system */
+    0                           /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t digimax_snapshot = {

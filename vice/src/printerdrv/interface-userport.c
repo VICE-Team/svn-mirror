@@ -64,24 +64,24 @@ static int userport_printer_write_snapshot_module(snapshot_t *s);
 static int userport_printer_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t printer_device = {
-    USERPORT_DEVICE_PRINTER,
-    "Userport printer",
-    NULL, /* NO pbx read */
-    userport_printer_store_pbx,
-    NULL, /* NO pa2 read */
-    userport_printer_store_pa2,
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "PrinterUserport",
-    0xff,
-    0xff, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_PRINTER,    /* device id */
+    "Userport printer",         /* device name */
+    NULL,                       /* NO read pb0-pb7 function */
+    userport_printer_store_pbx, /* store pb0-pb7 function */
+    NULL,                       /* NO read pa2 pin function */
+    userport_printer_store_pa2, /* store pa2 pin function */
+    NULL,                       /* NO read pa3 pin function */
+    NULL,                       /* NO store pa3 pin function */
+    0,                          /* pc pin is NOT needed */
+    NULL,                       /* NO store sp1 pin function */
+    NULL,                       /* NO read sp1 pin function */
+    NULL,                       /* NO store sp2 pin function */
+    NULL,                       /* NO read sp2 pin function */
+    "PrinterUserport",          /* resource used by the device */
+    0xff,                       /* return value from a read, to be filled in by the device */
+    0xff,                       /* validity mask of the device, doesn't change */
+    0,                          /* device involved in a read collision, to be filled in by the collision detection system */
+    0                           /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t printer_snapshot = {

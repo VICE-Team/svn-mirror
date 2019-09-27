@@ -69,24 +69,24 @@ static int userport_rtc_write_snapshot_module(snapshot_t *s);
 static int userport_rtc_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t rtc_device = {
-    USERPORT_DEVICE_RTC_DS1307,
-    "Userport RTC (DS1307)",
-    userport_rtc_read_pbx,
-    userport_rtc_store_pbx,
-    NULL, /* NO pa2 read */
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "UserportRTC",
-    0xff,
-    0x3, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_RTC_DS1307, /* device id */
+    "Userport RTC (DS1307)",    /* device name */
+    userport_rtc_read_pbx,      /* read pb0-pb7 function */
+    userport_rtc_store_pbx,     /* store pb0-pb7 function */
+    NULL,                       /* NO read pa2 pin function */
+    NULL,                       /* NO store pa2 pin function */
+    NULL,                       /* NO read pa3 pin function */
+    NULL,                       /* NO store pa3 pin function */
+    0,                          /* pc pin is NOT needed */
+    NULL,                       /* NO store sp1 pin function */
+    NULL,                       /* NO read sp1 pin function */
+    NULL,                       /* NO store sp2 pin function */
+    NULL,                       /* NO read sp2 pin function */
+    "UserportRTC",              /* resource used by the device */
+    0xff,                       /* return value from a read, to be filled in by the device */
+    0x03,                       /* validity mask of the device, doesn't change */
+    0,                          /* device involved in a read collision, to be filled in by the collision detection system */
+    0                           /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t rtc_snapshot = {

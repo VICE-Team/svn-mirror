@@ -207,24 +207,24 @@ static int userport_joystick_starbyte_write_snapshot_module(snapshot_t *s);
 static int userport_joystick_starbyte_read_snapshot_module(snapshot_t *s);
 
 static userport_device_t cga_device = {
-    USERPORT_DEVICE_JOYSTICK_CGA,
-    "CGA userport joy adapter",
-    userport_joystick_cga_read_pbx,
-    userport_joystick_cga_store_pbx,
-    NULL, /* NO pa2 read */
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "UserportJoy",
-    0xff,
-    0x3f, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_JOYSTICK_CGA,    /* device id */
+    "CGA userport joy adapter",      /* device name */
+    userport_joystick_cga_read_pbx,  /* read pb0-pb7 function */
+    userport_joystick_cga_store_pbx, /* store pb0-pb7 function */
+    NULL,                            /* NO read pa2 pin function */
+    NULL,                            /* NO store pa2 pin function */
+    NULL,                            /* NO read pa3 pin function */
+    NULL,                            /* NO store pa3 pin function */
+    0,                               /* pc pin is NOT needed */
+    NULL,                            /* NO store sp1 pin function */
+    NULL,                            /* NO read sp1 pin function */
+    NULL,                            /* NO store sp2 pin function */
+    NULL,                            /* NO read sp2 pin function */
+    "UserportJoy",                   /* resource used by the device */
+    0xff,                            /* return value from a read, to be filled in by the device */
+    0x3f,                            /* validity mask of the device, doesn't change */
+    0,                               /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t cga_snapshot = {
@@ -234,24 +234,24 @@ static userport_snapshot_t cga_snapshot = {
 };
 
 static userport_device_t pet_device = {
-    USERPORT_DEVICE_JOYSTICK_PET,
-    "PET userport joy adapter",
-    userport_joystick_pet_read_pbx,
-    userport_joystick_pet_hit_store_pbx,
-    NULL, /* NO pa2 read */
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "UserportJoy",
-    0xff,
-    0xff, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_JOYSTICK_PET,        /* device id */
+    "PET userport joy adapter",          /* device name */
+    userport_joystick_pet_read_pbx,      /* read pb0-pb7 function */
+    userport_joystick_pet_hit_store_pbx, /* store pb0-pb7 function */
+    NULL,                                /* NO read pa2 pin function */
+    NULL,                                /* NO store pa2 pin function */
+    NULL,                                /* NO read pa3 pin function */
+    NULL,                                /* NO store pa3 pin function */
+    0,                                   /* pc pin is NOT needed */
+    NULL,                                /* NO store sp1 pin function */
+    NULL,                                /* NO read sp1 pin function */
+    NULL,                                /* NO store sp2 pin function */
+    NULL,                                /* NO read sp2 pin function */
+    "UserportJoy",                       /* resource used by the device */
+    0xff,                                /* return value from a read, to be filled in by the device */
+    0xff,                                /* validity mask of the device, doesn't change */
+    0,                                   /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                    /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t pet_snapshot = {
@@ -261,24 +261,24 @@ static userport_snapshot_t pet_snapshot = {
 };
 
 static userport_device_t hummer_device = {
-    USERPORT_DEVICE_JOYSTICK_HUMMER,
-    "Hummer userport joy adapter",
-    userport_joystick_hummer_read_pbx,
-    userport_joystick_hummer_store_pbx,
-    NULL, /* NO pa2 read */
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "UserportJoy",
-    0xff,
-    0x1f, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_JOYSTICK_HUMMER,    /* device id */
+    "Hummer userport joy adapter",      /* device name */
+    userport_joystick_hummer_read_pbx,  /* read pb0-pb7 function */
+    userport_joystick_hummer_store_pbx, /* store pb0-pb7 function */
+    NULL,                               /* NO read pa2 pin function */
+    NULL,                               /* NO store pa2 pin function */
+    NULL,                               /* NO read pa3 pin function */
+    NULL,                               /* NO store pa3 pin function */
+    0,                                  /* pc pin is NOT needed */
+    NULL,                               /* NO store sp1 pin function */
+    NULL,                               /* NO read sp1 pin function */
+    NULL,                               /* NO store sp2 pin function */
+    NULL,                               /* NO read sp2 pin function */
+    "UserportJoy",                      /* resource used by the device */
+    0xff,                               /* return value from a read, to be filled in by the device */
+    0x1f,                               /* validity mask of the device, doesn't change */
+    0,                                  /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                   /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t hummer_snapshot = {
@@ -288,24 +288,24 @@ static userport_snapshot_t hummer_snapshot = {
 };
 
 static userport_device_t oem_device = {
-    USERPORT_DEVICE_JOYSTICK_OEM,
-    "OEM userport joy adapter",
-    userport_joystick_oem_read_pbx,
-    userport_joystick_oem_store_pbx,
-    NULL, /* NO pa2 read */
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    NULL, /* NO sp1 write */
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    NULL, /* NO sp2 read */
-    "UserportJoy",
-    0xff,
-    0xf8, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_JOYSTICK_OEM,    /* device id */
+    "OEM userport joy adapter",      /* device name */
+    userport_joystick_oem_read_pbx,  /* read pb0-pb7 function */
+    userport_joystick_oem_store_pbx, /* store pb0-pb7 function */
+    NULL,                            /* NO read pa2 pin function */
+    NULL,                            /* NO store pa2 pin function */
+    NULL,                            /* NO read pa3 pin function */
+    NULL,                            /* NO store pa3 pin function */
+    0,                               /* pc pin is NOT needed */
+    NULL,                            /* NO store sp1 pin function */
+    NULL,                            /* NO read sp1 pin function */
+    NULL,                            /* NO store sp2 pin function */
+    NULL,                            /* NO read sp2 pin function */
+    "UserportJoy",                   /* resource used by the device */
+    0xff,                            /* return value from a read, to be filled in by the device */
+    0xf8,                            /* validity mask of the device, doesn't change */
+    0,                               /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t oem_snapshot = {
@@ -315,24 +315,24 @@ static userport_snapshot_t oem_snapshot = {
 };
 
 static userport_device_t hit_device = {
-    USERPORT_DEVICE_JOYSTICK_HIT,
-    "HIT userport joy adapter",
-    userport_joystick_hit_read_pbx,
-    userport_joystick_pet_hit_store_pbx,
-    userport_joystick_hit_read_pa2,
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    userport_joystick_hit_store_sp1,
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    userport_joystick_hit_read_sp2,
-    "UserportJoy",
-    0xff,
-    0xff, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_JOYSTICK_HIT,        /* device id */
+    "HIT userport joy adapter",          /* device name */
+    userport_joystick_hit_read_pbx,      /* read pb0-pb7 function */
+    userport_joystick_pet_hit_store_pbx, /* store pb0-pb7 function */
+    userport_joystick_hit_read_pa2,      /* read pa2 pin function */
+    NULL,                                /* NO store pa2 pin function */
+    NULL,                                /* NO read pa3 pin function */
+    NULL,                                /* NO store pa3 pin function */
+    0,                                   /* pc pin is NOT needed */
+    userport_joystick_hit_store_sp1,     /* store sp1 pin function */
+    NULL,                                /* NO read sp1 pin function */
+    NULL,                                /* NO store sp2 pin function */
+    userport_joystick_hit_read_sp2,      /* read sp2 pin function */
+    "UserportJoy",                       /* resource used by the device */
+    0xff,                                /* return value from a read, to be filled in by the device */
+    0xff,                                /* validity mask of the device, doesn't change */
+    0,                                   /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                    /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t hit_snapshot = {
@@ -342,24 +342,24 @@ static userport_snapshot_t hit_snapshot = {
 };
 
 static userport_device_t kingsoft_device = {
-    USERPORT_DEVICE_JOYSTICK_KINGSOFT,
-    "KingSoft userport joy adapter",
-    userport_joystick_kingsoft_read_pbx,
-    userport_joystick_kingsoft_store_pbx,
-    userport_joystick_kingsoft_read_pa2,
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    userport_joystick_kingsoft_store_sp1,
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    userport_joystick_kingsoft_read_sp2,
-    "UserportJoy",
-    0xff,
-    0xff, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_JOYSTICK_KINGSOFT,    /* device id */
+    "KingSoft userport joy adapter",      /* device name */
+    userport_joystick_kingsoft_read_pbx,  /* read pb0-pb7 function */
+    userport_joystick_kingsoft_store_pbx, /* store pb0-pb7 function */
+    userport_joystick_kingsoft_read_pa2,  /* read pa2 pin function */
+    NULL,                                 /* NO store pa2 pin function */
+    NULL,                                 /* NO read pa3 pin function */
+    NULL,                                 /* NO store pa3 pin function */
+    0,                                    /* pc pin is NOT needed */
+    userport_joystick_kingsoft_store_sp1, /* store sp1 pin function */
+    NULL,                                 /* NO read sp1 pin function */
+    NULL,                                 /* NO store sp2 pin function */
+    userport_joystick_kingsoft_read_sp2,  /* read sp2 pin function */
+    "UserportJoy",                        /* resource used by the device */
+    0xff,                                 /* return value from a read, to be filled in by the device */
+    0xff,                                 /* validity mask of the device, doesn't change */
+    0,                                    /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                     /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t kingsoft_snapshot = {
@@ -369,24 +369,24 @@ static userport_snapshot_t kingsoft_snapshot = {
 };
 
 static userport_device_t starbyte_device = {
-    USERPORT_DEVICE_JOYSTICK_STARBYTE,
-    "StarByte userport joy adapter",
-    userport_joystick_starbyte_read_pbx,
-    userport_joystick_starbyte_store_pbx,
-    userport_joystick_starbyte_read_pa2,
-    NULL, /* NO pa2 write */
-    NULL, /* NO pa3 read */
-    NULL, /* NO pa3 write */
-    0, /* NO pc pin needed */
-    userport_joystick_starbyte_store_sp1,
-    NULL, /* NO sp1 read */
-    NULL, /* NO sp2 write */
-    userport_joystick_starbyte_read_sp2,
-    "UserportJoy",
-    0xff,
-    0xff, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_JOYSTICK_STARBYTE,    /* device id */
+    "StarByte userport joy adapter",      /* device name */
+    userport_joystick_starbyte_read_pbx,  /* read pb0-pb7 function */
+    userport_joystick_starbyte_store_pbx, /* store pb0-pb7 function */
+    userport_joystick_starbyte_read_pa2,  /* read pa2 pin function */
+    NULL,                                 /* NO store pa2 pin function */
+    NULL,                                 /* NO read pa3 pin function */
+    NULL,                                 /* NO store pa3 pin function */
+    0,                                    /* pc pin is NOT needed */
+    userport_joystick_starbyte_store_sp1, /* store sp1 pin function */
+    NULL,                                 /* NO read sp1 pin function */
+    NULL,                                 /* NO store sp2 pin function */
+    userport_joystick_starbyte_read_sp2,  /* read sp2 pin function */
+    "UserportJoy",                        /* resource used by the device */
+    0xff,                                 /* return value from a read, to be filled in by the device */
+    0xff,                                 /* validity mask of the device, doesn't change */
+    0,                                    /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                     /* a tag to indicate the order of insertion */
 };
 
 static userport_snapshot_t starbyte_snapshot = {

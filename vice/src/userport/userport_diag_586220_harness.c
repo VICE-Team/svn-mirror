@@ -75,24 +75,24 @@ static void userport_diag_586220_harness_read_sp2(void);
 static void userport_diag_586220_harness_store_sp2(uint8_t value);
 
 static userport_device_t diag_586220_harness_device = {
-    USERPORT_DEVICE_RTC_58321A,
-    "Userport diag 586220 harness",
-    userport_diag_586220_harness_read_pbx,
-    userport_diag_586220_harness_store_pbx,
-    userport_diag_586220_harness_read_pa2,
-    userport_diag_586220_harness_store_pa2,
-    userport_diag_586220_harness_read_pa3,
-    userport_diag_586220_harness_store_pa3,
-    1, /* pc pin needed */
-    userport_diag_586220_harness_store_sp1,
-    userport_diag_586220_harness_read_sp1,
-    userport_diag_586220_harness_store_sp2,
-    userport_diag_586220_harness_read_sp2,
-    "UserportDiag586220Harness",
-    0xff,
-    0xff, /* validity mask doesn't change */
-    0,
-    0
+    USERPORT_DEVICE_RTC_58321A,             /* device id */
+    "Userport diag 586220 harness",         /* device name */
+    userport_diag_586220_harness_read_pbx,  /* read pb0-pb7 function */
+    userport_diag_586220_harness_store_pbx, /* store pb0-pb7 function */
+    userport_diag_586220_harness_read_pa2,  /* read pa2 pin function */
+    userport_diag_586220_harness_store_pa2, /* store pa2 pin function */
+    userport_diag_586220_harness_read_pa3,  /* read pa3 pin function */
+    userport_diag_586220_harness_store_pa3, /* store pa3 pin function */
+    1,                                      /* pc pin is needed */
+    userport_diag_586220_harness_store_sp1, /* store sp1 pin function */
+    userport_diag_586220_harness_read_sp1,  /* read sp1 pin function */
+    userport_diag_586220_harness_store_sp2, /* store sp2 pin function */
+    userport_diag_586220_harness_read_sp2,  /* read sp2 pin function */
+    "UserportDiag586220Harness",            /* resource used by the device */
+    0xff,                                   /* return value from a read, to be filled in by the device */
+    0xff,                                   /* validity mask of the device, doesn't change */
+    0,                                      /* device involved in a read collision, to be filled in by the collision detection system */
+    0                                       /* a tag to indicate the order of insertion */
 };
 
 static userport_device_list_t *userport_diag_586220_harness_list_item = NULL;
