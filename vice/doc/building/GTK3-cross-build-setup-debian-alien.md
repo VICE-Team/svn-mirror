@@ -48,4 +48,35 @@ This should be basic stuff, but here's short list of settings I used:
 
 ##### Installing Debian on the VM
 
-(TODO)
+Do a basic install of Debian with only 'ssh server' and 'standard system utilities' selected, make sure not to select any Desktop stuff.
+
+I'll be using 'vice' for the username, the password for the user and also for the root password, which is handy but not very secure. For internet-facing stuff, better use a password like vice123.
+
+Reboot.
+
+Once rebooted, log in as 'vice', and do
+
+```
+$ su
+$ apt update
+$ apt upgrade
+```
+
+Now we'll install a bunch of native development packages:
+```sh
+$ su
+$ apt install autoconf automake build-essential byacc curl flex gettext git \
+        subversion xa65
+# install the text editor of your choice:
+$ apt install vim
+# optional:
+$ apt remove emacs
+$ ln -s `which vim` /usr/bin/emacs
+```
+
+Set the default editor for Subversion and Git commits, by adding this to `~/.profile`:
+```
+export SVN_EDITOR=vim
+export GIT_EDITOR=vim
+```
+
