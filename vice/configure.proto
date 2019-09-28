@@ -1203,7 +1203,7 @@ if test x"$check_sdl2" = "xyes"; then
   user_cflags="$CFLAGS"
   user_cxxflags="$CXXFLAGS"
   backup_CFLAGS="$VICE_CFLAGS"
-  backup_CXXFLAGS = "$VICE_CXXFLAGS"
+  backup_CXXFLAGS="$VICE_CXXFLAGS"
   old_libs=$LIBS
 
   found_sdl2=no
