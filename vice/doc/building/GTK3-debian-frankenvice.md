@@ -100,5 +100,16 @@ Copy all files in `/usr/x86_64-w64-mingw32/sys-root/mingw/{bin,etc,include,lib,s
 
 This should cause `./configure --enable-native-gtk3ui` to pass, but compiling/linking will break due to certain glib tools.
 
-(Don't install native glib2-tools, that'll pull in about 500 packages, including X11)
+(Don't install native glib2-tools, that'll pull in about 500+ packages, including X11)
+Also don't remove any files from sys-root, a lot of .pc files will point to those.
 
+
+Make sure gresource related bins can be found:
+```sh
+$ su
+$ ln -s /usr/lib/x86_64-linux-gnu/glib-2.0/glib-compile-resources \
+    /bin/glib-compile-resources
+```
+
+
+I suppose at some point we can use sed to update the .pc files coming from sys-root to point to Debian mingw paths.
