@@ -250,6 +250,7 @@ static const char *cond_op_string[] = {
 
 const char *mon_memspace_string[] = { "default", "C", "8", "9", "0", "1" };
 
+/* must match order in enum t_reg_id */
 static const char *register_string[] = {
 /* 6502/65c02 */
     "A",
@@ -293,11 +294,28 @@ static const char *register_string[] = {
     "DPR",
     "PBR",
     "DBR",
-    "EMUL",
+    /* "EMUL", */ /* FIXME: not in enum? */
 /* 6809 */
     "D",
     "U",
-    "DP"
+    "DP",
+    
+    "E",    /* 658xx/6309/z80 */
+/* 6309 */
+    "F",
+    "W",
+    "Q",
+    "V",
+    "MD",
+/* z80 */
+    "H",
+    "L",
+    "IXL",
+    "IXH",
+    "IYL",
+    "IYH",
+    
+    /* "CC", */ /* 6x09 */ /* FIXME: same as flags? */
 };
 
 /* Some local helper functions */
