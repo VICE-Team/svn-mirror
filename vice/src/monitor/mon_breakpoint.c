@@ -107,6 +107,7 @@ static void remove_checkpoint_from_list(checkpoint_list_t **head, checkpoint_t *
     }
 }
 
+/* find the breakpoint with number 'brknum' in the linked list */
 static checkpoint_t *find_checkpoint(int brknum)
 {
     checkpoint_list_t *ptr;
@@ -304,11 +305,21 @@ void mon_breakpoint_delete_checkpoint(int cp_num)
                 remove_checkpoint(cp);
             }
         }
+        /* reset the index to 1 */
+        breakpoint_count = 1;
     } else if (!(cp = find_checkpoint(cp_num))) {
         mon_out("#%d not a valid checkpoint\n", cp_num);
         return;
     } else {
         remove_checkpoint(cp);
+        /* if there are still checkpoints in the list, return.
+           else reset the index to 1 */
+        for (i = 1; i < breakpoint_count; i++) {
+            if ((cp = find_checkpoint(i))) {
+                return;
+            }
+        }
+        breakpoint_count = 1;
     }
 }
 
