@@ -257,12 +257,17 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 
 static void sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
-    sound_calls[addr >> 5]->store(psid, (uint16_t)(addr & 0x1f), val);
+    if (sound_calls[addr >> 5]->store) {
+        sound_calls[addr >> 5]->store(psid, (uint16_t)(addr & 0x1f), val);
+    }
 }
 
 static uint8_t sound_machine_read(sound_t *psid, uint16_t addr)
 {
-    return sound_calls[addr >> 5]->read(psid, (uint16_t)(addr & 0x1f));
+    if (sound_calls[addr >> 5]->read) {
+        return sound_calls[addr >> 5]->read(psid, (uint16_t)(addr & 0x1f));
+    }
+    return 0;
 }
 
 static void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)

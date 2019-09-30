@@ -848,8 +848,6 @@ static const export_resource_t export_res = {
 static int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void magicvoice_sound_machine_close(sound_t *psid);
 static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-static void magicvoice_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte);
-static uint8_t magicvoice_sound_machine_read(sound_t *psid, uint16_t addr);
 static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int magicvoice_sound_machine_cycle_based(void)
@@ -862,17 +860,18 @@ static int magicvoice_sound_machine_channels(void)
     return 1;
 }
 
+/* MagicVoice cartridge sound chip */
 static sound_chip_t magicvoice_sound_chip = {
-    NULL, /* no open */
-    magicvoice_sound_machine_init,
-    magicvoice_sound_machine_close,
-    magicvoice_sound_machine_calculate_samples,
-    magicvoice_sound_machine_store,
-    magicvoice_sound_machine_read,
-    magicvoice_sound_machine_reset,
-    magicvoice_sound_machine_cycle_based,
-    magicvoice_sound_machine_channels,
-    0 /* chip enabled */
+    NULL,                                       /* NO sound chip open function */ 
+    magicvoice_sound_machine_init,              /* sound chip init function */
+    magicvoice_sound_machine_close,             /* sound chip close function */
+    magicvoice_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    NULL,                                       /* NO sound chip store function */
+    NULL,                                       /* NO sound chip read function */
+    magicvoice_sound_machine_reset,             /* sound chip reset function, currently only used for debug */
+    magicvoice_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, sound chip is NOT cycle based */
+    magicvoice_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    0                                           /* chip enabled, toggled when sound chip is (de-)activated */
 };
 
 static uint16_t magicvoice_sound_chip_offset = 0;
@@ -1459,19 +1458,6 @@ void magicvoice_reset(void)
 }
 
 /* ---------------------------------------------------------------------*/
-
-/* FIXME: what are these two about anyway ? */
-static uint8_t magicvoice_sound_machine_read(sound_t *psid, uint16_t addr)
-{
-    DBG(("MV: magicvoice_sound_machine_read\n"));
-
-    return 0; /* ? */
-}
-
-static void magicvoice_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte)
-{
-    DBG(("MV: magicvoice_sound_machine_store\n"));
-}
 
 /*
     called periodically for every sound fragment that is played

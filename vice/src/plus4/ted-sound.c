@@ -62,17 +62,18 @@ static int ted_sound_machine_channels(void)
     return 1;
 }
 
+/* TED sound device */
 static sound_chip_t ted_sound_chip = {
-    NULL, /* no open */
-    ted_sound_machine_init,
-    NULL, /* no close */
-    ted_sound_machine_calculate_samples,
-    ted_sound_machine_store,
-    ted_sound_machine_read,
-    ted_sound_reset,
-    ted_sound_machine_cycle_based,
-    ted_sound_machine_channels,
-    1 /* chip enabled */
+    NULL,                                /* NO sound chip open function */ 
+    ted_sound_machine_init,              /* sound chip init function */
+    NULL,                                /* NO sound chip close function */
+    ted_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    ted_sound_machine_store,             /* sound chip store function */
+    ted_sound_machine_read,              /* sound chip read function */
+    ted_sound_reset,                     /* sound chip reset function */
+    ted_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
+    ted_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    1                                    /* sound chip enabled flag, chip is always enabled */
 };
 
 static uint16_t ted_sound_chip_offset = 0;

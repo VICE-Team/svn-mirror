@@ -48,7 +48,6 @@
 static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static int digiblaster_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void digiblaster_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
-static uint8_t digiblaster_sound_machine_read(sound_t *psid, uint16_t addr);
 static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int digiblaster_sound_machine_cycle_based(void)
@@ -61,17 +60,18 @@ static int digiblaster_sound_machine_channels(void)
     return 1;
 }
 
+/* PLUS4 DigiBlaster cartridge sound chip */
 static sound_chip_t digiblaster_sound_chip = {
-    NULL, /* no open */
-    digiblaster_sound_machine_init,
-    NULL, /* no close */
-    digiblaster_sound_machine_calculate_samples,
-    digiblaster_sound_machine_store,
-    digiblaster_sound_machine_read,
-    digiblaster_sound_reset,
-    digiblaster_sound_machine_cycle_based,
-    digiblaster_sound_machine_channels,
-    0 /* chip enabled */
+    NULL,                                        /* NO sound chip open function */ 
+    digiblaster_sound_machine_init,              /* sound chip init function */
+    NULL,                                        /* NO sound chip close function */
+    digiblaster_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    digiblaster_sound_machine_store,             /* sound chip store function */
+    NULL,                                        /* NO sound chip read function */
+    digiblaster_sound_reset,                     /* sound chip reset function */
+    digiblaster_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
+    digiblaster_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    0                                            /* sound chip enabled flag, toggled upon device (de-)activation */
 };
 
 static uint16_t digiblaster_sound_chip_offset = 0;
@@ -218,11 +218,6 @@ static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_p
 static void digiblaster_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
     snd.voice0 = val;
-}
-
-static uint8_t digiblaster_sound_machine_read(sound_t *psid, uint16_t addr)
-{
-    return 0;
 }
 
 static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk)

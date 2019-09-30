@@ -49,7 +49,6 @@
 static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static int vic_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void vic_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t value);
-static uint8_t vic_sound_machine_read(sound_t *psid, uint16_t addr);
 
 static int vic_sound_machine_cycle_based(void)
 {
@@ -61,17 +60,18 @@ static int vic_sound_machine_channels(void)
     return 1;
 }
 
+/* VIC20 VIC sound device */
 static sound_chip_t vic_sound_chip = {
-    NULL, /* no open */
-    vic_sound_machine_init,
-    NULL, /* no close */
-    vic_sound_machine_calculate_samples,
-    vic_sound_machine_store,
-    vic_sound_machine_read,
-    vic_sound_reset,
-    vic_sound_machine_cycle_based,
-    vic_sound_machine_channels,
-    1 /* chip enabled */
+    NULL,                                /* NO sound chip open function */ 
+    vic_sound_machine_init,              /* sound chip init function */
+    NULL,                                /* NO sound chip close function */
+    vic_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    vic_sound_machine_store,             /* sound chip store function */
+    NULL,                                /* NO sound chip read function */
+    vic_sound_reset,                     /* sound chip reset function */
+    vic_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
+    vic_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    1                                    /* sound chip enabled flag, chip is always enabled */
 };
 
 static uint16_t vic_sound_chip_offset = 0;
@@ -467,11 +467,6 @@ static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     }
 
     return 1;
-}
-
-static uint8_t vic_sound_machine_read(sound_t *psid, uint16_t addr)
-{
-    return 0;
 }
 
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)

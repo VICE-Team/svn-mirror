@@ -36,17 +36,18 @@
 
 /* ---------------------------------------------------------------------*/
 
+/* C64DTV SID sound chip */
 static sound_chip_t sid_sound_chip = {
-    sid_sound_machine_open,
-    sid_sound_machine_init,
-    sid_sound_machine_close,
-    sid_sound_machine_calculate_samples,
-    sid_sound_machine_store,
-    sid_sound_machine_read,
-    sid_sound_machine_reset,
-    sid_sound_machine_cycle_based,
-    sid_sound_machine_channels,
-    1 /* chip enabled */
+    sid_sound_machine_open,              /* sound chip open function */ 
+    sid_sound_machine_init,              /* sound chip init function */
+    sid_sound_machine_close,             /* sound chip close function */
+    sid_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    sid_sound_machine_store,             /* sound chip store function */
+    sid_sound_machine_read,              /* sound chip read function */
+    sid_sound_machine_reset,             /* sound chip reset function */
+    sid_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, RESID engine is cycle based, everything else is NOT */
+    sid_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    1                                    /* chip is always enabled */
 };
 
 static uint16_t sid_sound_chip_offset = 0;

@@ -77,17 +77,18 @@ static int userport_dac_sound_machine_channels(void)
     return 1;
 }
 
+/* Userport DAC device sound chip */
 static sound_chip_t userport_dac_sound_chip = {
-    NULL, /* no open */
-    userport_dac_sound_machine_init,
-    NULL, /* no close */
-    userport_dac_sound_machine_calculate_samples,
-    userport_dac_sound_machine_store,
-    userport_dac_sound_machine_read,
-    userport_dac_sound_reset,
-    userport_dac_sound_machine_cycle_based,
-    userport_dac_sound_machine_channels,
-    0 /* chip enabled */
+    NULL,                                         /* NO sound chip open function */ 
+    userport_dac_sound_machine_init,              /* sound chip init function */
+    NULL,                                         /* NO sound chip close function */
+    userport_dac_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    userport_dac_sound_machine_store,             /* sound chip store function */
+    userport_dac_sound_machine_read,              /* sound chip read function */
+    userport_dac_sound_reset,                     /* sound chip reset function */
+    userport_dac_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
+    userport_dac_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    0                                             /* sound chip enabled flag, toggled upon device (de-)activation */
 };
 
 static uint16_t userport_dac_sound_chip_offset = 0;
@@ -223,7 +224,6 @@ static void userport_dac_sound_machine_store(sound_t *psid, uint16_t addr, uint8
 
 static uint8_t userport_dac_sound_machine_read(sound_t *psid, uint16_t addr)
 {
-    /* FIXME: most likely needs to return 0, but not sure */
     return userport_dac_sound_data;
 }
 

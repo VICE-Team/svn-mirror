@@ -142,17 +142,18 @@ static int sfx_soundexpander_sound_machine_channels(void)
     return 1;     /* FIXME: needs to become stereo for stereo capable ports */
 }
 
+/* SFX Sound Expander cartridge sound chip */
 static sound_chip_t sfx_soundexpander_sound_chip = {
-    NULL, /* no open */
-    sfx_soundexpander_sound_machine_init,
-    sfx_soundexpander_sound_machine_close,
-    sfx_soundexpander_sound_machine_calculate_samples,
-    sfx_soundexpander_sound_machine_store,
-    sfx_soundexpander_sound_machine_read,
-    sfx_soundexpander_sound_reset,
-    sfx_soundexpander_sound_machine_cycle_based,
-    sfx_soundexpander_sound_machine_channels,
-    0 /* chip enabled */
+    NULL,                                              /* NO sound chip open function */ 
+    sfx_soundexpander_sound_machine_init,              /* sound chip init function */
+    sfx_soundexpander_sound_machine_close,             /* sound chip close function */
+    sfx_soundexpander_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    sfx_soundexpander_sound_machine_store,             /* sound chip store function */
+    sfx_soundexpander_sound_machine_read,              /* sound chip read function */
+    sfx_soundexpander_sound_reset,                     /* sound chip reset function */
+    sfx_soundexpander_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, sound chip is NOT cycle based */
+    sfx_soundexpander_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    0                                                  /* chip enabled, toggled when sound chip is (de-)activated */
 };
 
 static uint16_t sfx_soundexpander_sound_chip_offset = 0;

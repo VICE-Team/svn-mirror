@@ -116,17 +116,18 @@ static int sfx_soundsampler_sound_machine_channels(void)
     return 1;
 }
 
+/* SFX Sound Sampler cartridge sound chip */
 static sound_chip_t sfx_soundsampler_sound_chip = {
-    NULL, /* no open */
-    sfx_soundsampler_sound_machine_init,
-    NULL, /* no close */
-    sfx_soundsampler_sound_machine_calculate_samples,
-    sfx_soundsampler_sound_machine_store,
-    sfx_soundsampler_sound_machine_read,
-    sfx_soundsampler_sound_reset,
-    sfx_soundsampler_sound_machine_cycle_based,
-    sfx_soundsampler_sound_machine_channels,
-    0 /* chip enabled */
+    NULL,                                             /* NO sound chip open function */ 
+    sfx_soundsampler_sound_machine_init,              /* sound chip init function */
+    NULL,                                             /* NO sound chip close function */
+    sfx_soundsampler_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    sfx_soundsampler_sound_machine_store,             /* sound chip store function */
+    sfx_soundsampler_sound_machine_read,              /* sound chip read function */
+    sfx_soundsampler_sound_reset,                     /* sound chip reset function */
+    sfx_soundsampler_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, sound chip is NOT cycle based */
+    sfx_soundsampler_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    0                                                 /* chip enabled, toggled when sound chip is (de-)activated */
 };
 
 static uint16_t sfx_soundsampler_sound_chip_offset = 0;

@@ -1510,10 +1510,6 @@ static int drive_sound_machine_init(sound_t *psid, int speed, int cycles)
     return 1;
 }
 
-static void drive_sound_reset(sound_t *psid, CLOCK cpu_clk)
-{
-}
-
 static int drive_sound_machine_cycle_based(void)
 {
     return 0;
@@ -1524,26 +1520,18 @@ static int drive_sound_machine_channels(void)
     return 1;
 }
 
-static void drive_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
-{
-}
-
-static uint8_t drive_sound_machine_read(sound_t *psid, uint16_t addr)
-{
-    return 0;
-}
-
+/* Drive sound 'chip', emulates the sound of a 1541 disk drive */
 static sound_chip_t drive_sound = {
-    NULL, /* no open */
-    drive_sound_machine_init,
-    NULL, /* no close */
-    drive_sound_machine_calculate_samples,
-    drive_sound_machine_store,
-    drive_sound_machine_read,
-    drive_sound_reset,
-    drive_sound_machine_cycle_based,
-    drive_sound_machine_channels,
-    0 /* chip enabled */
+    NULL,                                  /* NO sound chip open function */ 
+    drive_sound_machine_init,              /* sound chip init function */
+    NULL,                                  /* NO sound chip close function */
+    drive_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    NULL,                                  /* NO sound chip store function */
+    NULL,                                  /* NO sound chip read function */
+    NULL,                                  /* NO sound chip reset function */
+    drive_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
+    drive_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    0                                      /* sound chip enabled flag, toggled upon device (de-)activation */
 };
 
 void drive_sound_update(int i, int unit)

@@ -483,11 +483,7 @@ void speech_setup_context(machine_context_t *machine_ctx)
 
 /* Some prototypes are needed */
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static void speech_sound_machine_close(sound_t *psid);
 static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-static uint8_t speech_sound_machine_read(sound_t *psid, uint16_t addr);
-static void speech_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte);
-static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int speech_sound_machine_cycle_based(void)
 {
@@ -499,17 +495,18 @@ static int speech_sound_machine_channels(void)
     return 1;
 }
 
+/* V364 speech sound chip */
 static sound_chip_t speech_sound_chip = {
-    NULL, /* no open */
-    speech_sound_machine_init,
-    speech_sound_machine_close,
-    speech_sound_machine_calculate_samples,
-    speech_sound_machine_store,
-    speech_sound_machine_read,
-    speech_sound_machine_reset,
-    speech_sound_machine_cycle_based,
-    speech_sound_machine_channels,
-    0 /* chip enabled */
+    NULL,                                   /* NO sound chip open function */ 
+    speech_sound_machine_init,              /* sound chip init function */
+    NULL,                                   /* NO sound chip close function */
+    speech_sound_machine_calculate_samples, /* sound chip calculate samples function */
+    NULL,                                   /* NO sound chip store function */
+    NULL,                                   /* NO sound chip read function */
+    NULL,                                   /* NO sound chip reset function */
+    speech_sound_machine_cycle_based,       /* sound chip 'is_cycle_based()' function, chip is NOT cycle based */
+    speech_sound_machine_channels,          /* sound chip 'get_amount_of_channels()' function, sound chip has 1 channel */
+    0                                       /* sound chip enabled flag, toggled upon device (de-)activation */
 };
 
 static uint16_t speech_sound_chip_offset = 0;
@@ -666,19 +663,6 @@ int speech_cmdline_options_init(void)
 
 /* FIXME: shutdown missing */
 
-/* FIXME: what are those two doing exactly ?! */
-static uint8_t speech_sound_machine_read(sound_t *psid, uint16_t addr)
-{
-    DBG(("SPEECH: speech_sound_machine_read\n"));
-
-    return 0; /* ? */
-}
-
-static void speech_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte)
-{
-    DBG(("SPEECH: speech_sound_machine_store\n"));
-}
-
 /*
     called periodically for every sound fragment that is played
 */
@@ -704,11 +688,6 @@ static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf,
     return nr;
 }
 
-static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
-{
-    DBG(("SPEECH: speech_sound_machine_reset\n"));
-}
-
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DBG(("SPEECH: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
@@ -719,9 +698,4 @@ static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_se
     }
 
     return 1;
-}
-
-static void speech_sound_machine_close(sound_t *psid)
-{
-    DBG(("SPEECH: speech_sound_machine_close\n"));
 }
