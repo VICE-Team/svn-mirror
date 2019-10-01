@@ -71,6 +71,7 @@ static int set_memory_hack(int value, void *param)
         ui_pause_enable();
     }
 
+    /* check if the new memory hack is a valid one */
     switch (value) {
         case MEMORY_HACK_NONE:
         case MEMORY_HACK_C64_256K:
@@ -84,6 +85,7 @@ static int set_memory_hack(int value, void *param)
             return -1;
     }
 
+    /* disable already active memory hack */
     switch (memory_hack) {
         case MEMORY_HACK_C64_256K:
             set_c64_256k_enabled(0, 0);
@@ -99,6 +101,7 @@ static int set_memory_hack(int value, void *param)
             break;
     }
 
+    /* enable new memory hack */
     switch (value) {
         case MEMORY_HACK_C64_256K:
             set_c64_256k_enabled(1, 0);
