@@ -7,7 +7,27 @@ All this assumes a 64-bit box and also a 64-bit target when compiling.
 
 ### Prepare Debian box
 
-Make sure you have a Debian box with basic development tools installed:
+#### Setting up a VM
+
+Use Netinstall ISO.
+
+I use English (simplified) as the language and Europe/Amsterdam as the region.
+Keymap is also English (simplified).
+
+Hostname: frankenvice
+
+Username/pwd, root password: all 'vice'. (No hacker expects us to be this stupid)
+
+When asked about packages (dselect), select only 'SSH server' and 'standard system utilities', we'll be installing anything we need manually.
+
+Now click 'continue' until done (GRUB on MBR etc)
+
+**REBOOT**
+
+
+
+
+Make sure you have the basic development tools:
 
 ```sh
 $ su
