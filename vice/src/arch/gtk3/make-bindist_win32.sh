@@ -139,17 +139,27 @@ else
 
 # The following lines assume a cross compiler,
 # with DLLs installed in the dll or bin dir. of that toolchain.
+#
+# 2019-10-02: Updated to work with FrankenVICE (Debian cross-compiler using
+#             Fedora packages for Gtk3/GLib)
+#             Currently a bit flakey, but it seems to work.
+
+
   libm=`$COMPILER -print-file-name=libm.a`
+  echo "libm.a = '$libm'"
   location=`dirname $libm`
   loc=`dirname $location`
-  if test -d "$loc/dll"
+  echo "loc = $loc"
+    if test -d "$loc/dll"
   then dlldir="$loc/dll"
-  else dlldir="$loc/bin"
+    else dlldir="$loc/bin"
   fi
   dlls=`$OBJDUMP -p src/x64sc.exe | gawk '/^\\tDLL N/{print $3;}'`
   for i in $dlls
   do test -e $dlldir/$i&&cp $dlldir/$i $BUILDPATH
   done
+  # A few of these libs cannot be found by frankenvice, so perhaps we need to install
+  # these or alter this command:
   cp $dlldir/lib{bz2-1,freetype-6,gcc_s_*,croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
   gccname=`$COMPILER -print-file-name=libgcc.a`
   gccdir=`dirname $gccname`
@@ -178,6 +188,7 @@ else
 EOF
   cp --parents -a share/icons/Adwaita/{index.*,16x16,scalable} $BUILDPATH
   rm -r -f $BUILDPATH/share/icons/Adwaita/*/emotes
+  # Breaks: no hicolor/ in either Debian or Fedora, but doesn't seem to matter
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp bin/gspawn-win??-helper*.exe $BUILDPATH
