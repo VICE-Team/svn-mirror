@@ -14,7 +14,9 @@ $ su
 $ apt install autoconf autotools build-essential byacc flex git subversion \
         vim xa65 alien
 ```
-(todo: probably a lot more)
+(todo: probably a lot more
+ Seems glib-compile-schemas and glib-compile-resources live in Debian's
+ libglib-2.0)
 
 Do **not** install any native Linux Gtk/GLib packages unless specifically told to do so, this might result in unwanted results.
 
@@ -181,6 +183,40 @@ Finally: scp the GTK3VICE-win64-rxxxxx.zip to a Windows box and see if it works.
 
 
 
+
+### Installing extra packages
+
+For example: libflac for FLAC support.
+
+Download <http://download-ib01.fedoraproject.org/pub/fedora/linux/releases/30/Everything/x86_64/os/Packages/m/mingw64-flac-1.3.2-6.fc30.noarch.rpm> and move it into ~/rpm.
+
+```sh
+$ cd ~
+$ su
+$ cd deb
+$ alien --to-deb ../rpm/mingw64-flac-1.3.2-6.fc30.noarch.rpm
+$ dpkg -i minwg64-flac_1.3.2-7_all.deb
+# sys-root exists again, for now at least
+$ cd /usr/x86_64-w64-mingw32
+$ cp -R sys-root/mingw/* /usr/x86_64-w64-mingw32
+```
+
+Now update the pkg-config files:
+```sh
+$ cd /usr/x86_64-w64-mingw32/lib/pkgconfig
+$ sed -i 's@/sys-root/mingw@@' flac*.pc
+```
+
+Now configure will recognize FLAC. (Did the same for Ogg and Theora).
+
+
+To clean up you can probably do:
+```sh
+$ rm -rfd /usr/x86_64-w64-mingw32/sys-root
+```
+
+Ofcourse any fuckery with sys-root renaming or deleting will screw with dpkg, so
+unless you really need the space, leave it alone.
 
 
 
