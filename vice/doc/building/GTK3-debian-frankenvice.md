@@ -32,7 +32,7 @@ Make sure you have the basic development tools:
 ```sh
 $ su
 $ apt install autoconf autotools build-essential byacc flex git subversion \
-        vim xa65 alien
+        vim xa65 alien p7zip-full zip texinfo gawk* zip unzip
 ```
 (todo: probably a lot more
  Seems glib-compile-schemas and glib-compile-resources live in Debian's
@@ -40,6 +40,7 @@ $ apt install autoconf autotools build-essential byacc flex git subversion \
 
 Do **not** install any native Linux Gtk/GLib packages unless specifically told to do so, this might result in unwanted results.
 
+*) Make bindist uses gawk vs awk, not sure why.
 
 
 #### Install Debian's mingw packages
@@ -120,22 +121,43 @@ I ran into a lot of trouble trying to do the 'proper' thing, so I brute-forced m
 #### Copy files from Fedora paths to Debian paths
 
 Copy all files in `/usr/x86_64-w64-mingw32/sys-root/mingw/{bin,etc,include,lib,share} to `/usr/x86-64-w64-wingw32/`.
+```sh
+$ cp -R /usr/x86_64-w64-mingw32/sys-root/mingw/* /usr/x86_64-w64-mingw32/
+```
+#### pkg-config files
 
-This should cause `./configure --enable-native-gtk3ui` to pass, but compiling/linking will break due to certain glib tools.
-
-(Don't install native glib2-tools, that'll pull in about 500+ packages, including X11)
+Copy and alter pkg-config files:
 
 
-Make sure Glib related bins can be found:
+```sh
+# update pc files to point to Debian paths (also create backup in case we fuck up)
+$ su
+$ cd /usr/x86_64-w64-mingw32/lib/pkgconfig
+$ for pc in *.pc; do \
+$   echo "$pc"; \
+$   cp "$pc" "$pc.bak"; \
+$   sed -i 's@/sys-root/mingw@@' "$pc"; \
+$ done
+
+
+#### Glib tools
+
+Make sure Glib related bins can be found (there are .exe's to do this, but that
+requires Wine, so probably not do that)
 ```sh
 $ su
 $ ln -s /usr/lib/x86_64-linux-gnu/glib-2.0/glib-compile-resources \
-    /bin/glib-compile-resources
+    /usr/bin/glib-compile-resources
 $ ln -s /usr/lib/x86_64-linux-gnu/glib-2.0/glib-compile-schemas \
-    /bin/glib-compile-schemas
+    /usr/bin/glib-compile-schemas
+$ ln -s /usr/x86_64-w64-mingw32/bin/glib-genmarshal \
+    /usr/bin/glib-genmarshal
+$ ln -s /usr/x86_64-w64-mingw32/bin/glib-mkenun \
+    /usr/bin/glib-mkenum
 ```
 
-Compile GLib-2.0 schemas:
+##### Compile GLib-2.0 schemas
+
 (I assume normally the package manager will do this whenever some schema gets
  updated. Right now I had to do it to at least have a 'gschemas.compiled' file
  for make bindist(zip) to copy.)
@@ -147,25 +169,15 @@ $ glib-compile-schemas .
 ```
 
 
-#### pkg-config files
 
-Copy and alter pkg-config files:
+##### Optional: make sure configure cannot find the Fedora stuff installed via alien/dpkg
 
-```sh
-$ su
-# copy pc files from the Fedora packages
-$ cp /usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/*.pc \
-$    /usr/x86_64-w64-mingw32/lib/pkgconfig
-$ cd /usr/x86_64-w64-mingw32/lib/pkgconfig
-# update pc files to point to Debian paths (also create backup in case we fuck up)
-$ for pc in *.pc; do \
-$   echo "$pc"; \
-$   cp "$pc" "$pc.bak"; \
-$   sed -i 's@sys-root/mingw@@' "$pc"; \
-$ done
-```
+I would advise against this, unless making sure our build system uses the Debian
+stuff and not the 'alien' Fedora stuff. Keeping the Fedora stuff around *should*
+allow for easier updating of packages, and we will need to update packages on the
+cross-compiler to keep up with upstream. The Fedora 30 gtk+-3.0 package is only
+3.22.30, my Linux boxes and even msys2 are at least at 3.24.
 
-Now make sure configure cannot find the Fedora stuff installed via alien/dpkg:
 ```sh
 $ su
 $ mv /usr/x86_64-w64-mingw32/sys-root /usr/x86_64-w64-mingw32/sys-root-bak
@@ -192,11 +204,6 @@ If this works, we're on the right track, so we'll run make next:
 ```sh
 $ make 2>&1 | tee build.log
 ```
-
-This will probably bork with '/bin/bash: no: command not found' during
-'making all in readmes', since we didn't install texinfo and texinfo got set to
-'no' in configure. Doesn't matter for make bindist(zip) though, it'll just
-bitch a little.
 
 
 Finally: scp the GTK3VICE-win64-rxxxxx.zip to a Windows box and see if it works.
