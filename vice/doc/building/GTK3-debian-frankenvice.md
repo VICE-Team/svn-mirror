@@ -161,8 +161,8 @@ $ ln -s /usr/lib/x86_64-linux-gnu/glib-2.0/glib-compile-schemas \
     /usr/bin/glib-compile-schemas
 $ ln -s /usr/x86_64-w64-mingw32/bin/glib-genmarshal \
     /usr/bin/glib-genmarshal
-$ ln -s /usr/x86_64-w64-mingw32/bin/glib-mkenun \
-    /usr/bin/glib-mkenum
+$ ln -s /usr/x86_64-w64-mingw32/bin/glib-mkenums \
+    /usr/bin/glib-mkenums
 ```
 
 ##### Compile GLib-2.0 schemas
