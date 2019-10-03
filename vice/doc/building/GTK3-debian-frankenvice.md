@@ -143,11 +143,11 @@ Copy and alter pkg-config files:
 $ su
 $ cd /usr/x86_64-w64-mingw32/lib/pkgconfig
 $ for pc in *.pc; do \
-$   echo "$pc"; \
-$   cp "$pc" "$pc.bak"; \
-$   sed -i 's@/sys-root/mingw@@' "$pc"; \
-$ done
-
+    echo "$pc"; \
+    cp "$pc" "$pc.bak"; \
+    sed -i 's@/sys-root/mingw@@' "$pc"; \
+  done
+```
 
 #### Glib tools
 
