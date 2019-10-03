@@ -202,7 +202,7 @@ the openGL stuff, since that's what we're doing this horror for:
 
 ```sh
 $ cd ~/vice-trunk/vice
-$ ./autogen
+$ ./autogen.sh
 $ cd ..
 $ mkdir gtk3-win64-build
 $ cd gtk3-win64-build
