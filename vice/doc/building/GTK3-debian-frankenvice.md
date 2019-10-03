@@ -212,6 +212,8 @@ $ ../vice/configure --enable-native-gtk3ui --host=x86_64-w64-mingw32
 If this works, we're on the right track, so we'll run make next:
 ```sh
 $ make 2>&1 | tee build.log
+$ make bindist
+$ make bindistzip
 ```
 
 
