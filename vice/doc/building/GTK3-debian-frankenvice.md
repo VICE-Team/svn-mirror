@@ -92,7 +92,7 @@ mingw64-win-iconv
 mingw64-winpthreads
 mingw64-zlib
 
-You can download the packages in one go like this: copy the above list into a textfile (files.txt), then:
+You can download the packages in one go like this: copy the above list into a textfile `files.txt` (make sure it has no empty line at the end or it will download ALL packages), then:
 ```sh
 $ cd `~/rpm`
 $ cat files.txt | while read f; do wget -r -l1 --no-parent --no-directories -A "${f}*.rpm" -R "*-static-*" -R "*-tools-*" https://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/30/Everything/i386/os/Packages/m/; done;
