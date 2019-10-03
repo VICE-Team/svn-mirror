@@ -72,8 +72,8 @@ mingw64-gettext
 mingw64-giflib
 mingw64-glew
 mingw64-glib2
-mingw64-gtk-update-icon-cache
 mingw64-gtk3
+mingw64-gtk-update-icon-cache
 mingw64-harfbuzz
 mingw64-icu
 mingw64-jasper
@@ -92,6 +92,12 @@ mingw64-win-iconv
 mingw64-winpthreads
 mingw64-zlib
 
+You can download the packages in one go like this: copy the above list into a textfile (files.txt), then:
+```sh
+$ cd `~/rpm`
+$ cat files.txt | while read f; do wget -r -l1 --no-parent --no-directories -A "${f}*.rpm" -R "*-static-*" -R "*-tools-*" https://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/30/Everything/i386/os/Packages/m/; done;
+```
+Check the downloaded files, a few will get downloaded which you do not need - delete them before proceeding.
 
 I used `~/rpm` and `~/deb` to store these files, so converting to .deb would go like this:
 ```sh
