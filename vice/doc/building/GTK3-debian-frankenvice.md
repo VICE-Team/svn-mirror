@@ -97,7 +97,10 @@ You can download the packages in one go like this: copy the above list into a te
 $ cd `~/rpm`
 $ cat files.txt | while read f; do wget -r -l1 --no-parent --no-directories -A "${f}*.rpm" -R "*-static-*" -R "*-tools-*" https://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/30/Everything/i386/os/Packages/m/; done;
 ```
-Check the downloaded files, a few will get downloaded which you do not need - delete them before proceeding.
+Check the downloaded files, a few will get downloaded which you do not need - delete them before proceeding. At the time of writing those would be:
+```sh
+$ rm mingw64-atkmm-2.24.2-7.fc30.noarch.rpm mingw64-cairomm-1.12.0-7.fc30.noarch.rpm mingw64-pangomm-2.40.1-6.fc30.noarch.rpm mingw64-pcre2-10.32-2.fc30.noarch.rpm
+```
 
 I used `~/rpm` and `~/deb` to store these files, so converting to .deb would go like this:
 ```sh
