@@ -130,5 +130,5 @@ done;
 echo "Generating .deb package."
 dpkg-deb --build /tmp/$debdir
 echo "Copying to current dir."
-cp /tmp/$debfile .
+cp -f /tmp/$debname .
 
