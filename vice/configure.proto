@@ -3587,6 +3587,7 @@ AC_OUTPUT([Makefile
            build/android/Makefile
            build/beos/Makefile
            build/macosx/Makefile
+           build/mingw/Makefile
            data/Makefile
            data/C128/Makefile
            data/C64/Makefile
