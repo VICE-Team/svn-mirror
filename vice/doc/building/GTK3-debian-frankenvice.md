@@ -94,7 +94,7 @@ mingw64-zlib
 
 You can download the packages in one go like this: copy the above list into a textfile `files.txt` (make sure it has no empty line at the end or it will download ALL packages), then:
 ```sh
-$ cd `~/rpm`
+$ cd ~/rpm
 $ cat files.txt | while read f; do wget -r -l1 --no-parent --no-directories -A "${f}*.rpm" -R "*-static-*" -R "*-tools-*" https://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/30/Everything/i386/os/Packages/m/; done;
 ```
 Check the downloaded files, a few will get downloaded which you do not need - delete them before proceeding. At the time of writing those would be:
@@ -196,6 +196,11 @@ $ mv /usr/x86_64-w64-mingw32/sys-root /usr/x86_64-w64-mingw32/sys-root-bak
 #### Test VICE
 
 Check out trunk, I'll assume ~/vice-trunk/vice as the location.
+
+```sh
+$ cd ~
+$ svn checkout https://svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
+```
 
 See if configure can find everything. Especially important is that it can find
 the openGL stuff, since that's what we're doing this horror for:
