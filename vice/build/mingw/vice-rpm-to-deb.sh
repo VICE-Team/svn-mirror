@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # vim: set et ts=4 sw=4 sts=4 fdm=marker:
 #
 # Script to convert Fedora mingw64 packages to Debian packages usable for the
@@ -31,7 +31,7 @@ EOF
 # Check if we are root
 check_root()
 {
-    if [ $UID -ne 0 ]; then
+    if [ "$EUID" -ne 0 ]; then
         echo "Root access required, aborting."
         exit 1
     fi
@@ -84,13 +84,12 @@ debdir=`basename $debname .deb`
 
 
 # Start actual work
-(
 
 # Use alien to generate .deb
-echo -n "Running alien on $rpmfile ... "
-cd /tmp
+echo -n "Running alien on $rpmpath ... "
 # DO NOT bump release (who the fuck considered this a good idea?)
 alien 2>/dev/null --to-deb --bump 0 $rpmpath > /dev/null
+cp $debname /tmp
 # Sanity check:
 if [ -f /tmp/$debname ]; then
     echo "OK"
@@ -124,7 +123,7 @@ for pc in /tmp/$debdir/usr/x86_64-w64-mingw32/lib/pkgconfig/*.pc; do
     echo "  patching $pc"
     sed -i 's@/sys-root/mingw@@' "$pc"
 done;
-)
+
 
 # Build deb package for use with Debian 
 echo "Generating .deb package."
