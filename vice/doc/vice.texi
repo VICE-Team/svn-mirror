@@ -15868,7 +15868,9 @@ examined, not when the condition is set.
 
 The condition can use registers (A, X, Y, PC, SP, FL and other cpu
 specific registers (see manual)) and compare them (==, !=, <, >, <=, >=)
-against other registers or constants.
+against other registers or constants. RL can be used to refer to the 
+current rasterline, and CY refers to the current cycle in the line.
+
 Full expressions are also supported (+, -, *, /, &&, ||). This let's
 you f.e. to check specific bits in the FL register using the bitwise
 boolean operators. Paranthises are also supported in the expression.

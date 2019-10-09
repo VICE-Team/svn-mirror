@@ -501,6 +501,9 @@ if		{ BEGIN (COND_MODE); return IF; }
 	IYH		{ yylval.i = e_IYH; return MON_REGISTER; }		/* z80 */
 	IYL		{ yylval.i = e_IYL; return MON_REGISTER; }		/* z80 */
 
+	RL		{ yylval.i = e_Rasterline; return MON_REGISTER; }		/* rasterline */
+	CY		{ yylval.i = e_Cycle; return MON_REGISTER; }		/* cycle in line */
+	
 	\(		{ return L_PAREN; }
 	\)		{ return R_PAREN; }
         \[              { return L_BRACKET; }

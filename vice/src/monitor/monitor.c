@@ -316,6 +316,9 @@ static const char *register_string[] = {
     "IYH",
     
     /* "CC", */ /* 6x09 */ /* FIXME: same as flags? */
+    
+    "RL",   /* Rasterline */
+    "CY",   /* Cycle in line */
 };
 
 /* Some local helper functions */
@@ -1986,12 +1989,21 @@ int mon_evaluate_conditional(cond_node_t *cnode)
                 return 0;
         }
     } else {
-        if (cnode->is_reg) {
+        if (cnode->is_reg && (reg_regid(cnode->reg_num) == e_Rasterline) ) {
+            unsigned int line, cycle;
+            int half_cycle;
+            mon_interfaces[e_comp_space]->get_line_cycle(&line, &cycle, &half_cycle);
+            cnode->value = line;
+        } else if (cnode->is_reg && (reg_regid(cnode->reg_num) == e_Cycle) ) {
+            unsigned int line, cycle;
+            int half_cycle;
+            mon_interfaces[e_comp_space]->get_line_cycle(&line, &cycle, &half_cycle);
+            cnode->value = cycle;
+        } else if (cnode->is_reg) {
             cnode->value = (monitor_cpu_for_memspace[reg_memspace(cnode->reg_num)]->mon_register_get_val)
                                (reg_memspace(cnode->reg_num),
                                reg_regid(cnode->reg_num));
-        }
-        else if(cnode->banknum >= 0) {
+        } else if(cnode->banknum >= 0) {
             MEMSPACE src_mem = e_comp_space;
             uint16_t start = addr_location(cnode->value);
             uint8_t byte1;

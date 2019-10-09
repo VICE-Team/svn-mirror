@@ -100,7 +100,9 @@ enum t_reg_id {
     e_IXL,		/* z80 */
     e_IXH,		/* z80 */
     e_IYL,		/* z80 */
-    e_IYH		/* z80 */
+    e_IYH,		/* z80 */
+    e_Rasterline,	/* Rasterline */
+    e_Cycle	/* Cycle */
 };
 typedef enum t_reg_id REG_ID;
 
