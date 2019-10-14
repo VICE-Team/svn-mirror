@@ -288,7 +288,7 @@ static GtkWidget *create_drive_device_type_widget(int unit)
 }
 
 
-/** \brief  Create layout for x64/x64sc/xscpu64 and x128
+/** \brief  Create layout for xvic
  *
  * \param[in]   grid    main widget grid
  * \param[in]   unit    unit number
@@ -354,7 +354,7 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
 }
 
 
-/** \brief  Create layout for xvic
+/** \brief  Create layout for x64, x64sc, xscpu64 and x128
  *
  * \param[in]   grid    main widget grid
  * \param[in]   unit    unit number
