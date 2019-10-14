@@ -80,7 +80,7 @@ int archdep_vice_atexit(void (*function)(void))
  */
 void archdep_vice_exit(int excode)
 {
-    const void (*f)(void);
+    void (*f)(void);
 
     debug_gtk3("unrolling atexit stack:");
     /* don't check for NULL, segfaults allow backtraces in gdb */
