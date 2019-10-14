@@ -194,6 +194,7 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
                 drive_check_expansionA000(model));
     }
 
+    /*  debug_gtk3("Setting DOS extension sensitivity."); */
     /* DOS extensions */
     option = drive_dos[unit - DRIVE_UNIT_MIN];
     if (option != NULL) {
@@ -368,33 +369,41 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 
     wrapper = gtk_grid_new();
 
+    /*    debug_gtk3("ADDING DRIVE MODEL WIDGET");  */
     drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
     drive_model_widget_add_callback(drive_model[unit - DRIVE_UNIT_MIN],
             stack_child_drive_type_callback,
             (gpointer)(grid));
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
+
+    /*    debug_gtk3("ADDING DRIVE OPTIONS WIDGET");    */
     drive_options[unit - DRIVE_UNIT_MIN] = drive_options_widget_create(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
-    drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
-    drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
-    gtk_grid_attach(GTK_GRID(wrapper),
-            drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
 
+
+    /*    debug_gtk3("ADDING DRIVE DEVICE TYPE WIDGET"); */
+    drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper),
+            drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+/*
+    drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
+    gtk_grid_attach(GTK_GRID(wrapper),
+            drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+*/
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
     /* row 0, column 1 */
     drive_ram[unit - DRIVE_UNIT_MIN] = drive_ram_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_ram[DRIVE_UNIT_MIN - 8], 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), drive_ram[unit - DRIVE_UNIT_MIN], 1, 0, 1, 1);
 
     /* row 1, column 1 */
     drive_dos[unit - DRIVE_UNIT_MIN] = drive_dos_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_dos[unit - DRIVE_UNIT_MIN], 1, 1, 1, 1);
 
     /* row 0 & 1, column 2 */
+    /*    debug_gtk3("ADDING DRIVE EXTEND ETC");    */
     wrapper = gtk_grid_new();
     drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
     drive_idle[unit - DRIVE_UNIT_MIN] = drive_idle_method_widget_create(unit);
@@ -512,6 +521,9 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
 static GtkWidget *create_stack_child_widget(int unit)
 {
     GtkWidget *grid;
+
+    /*  debug_gtk3("ADDING GRID FOR UNIT #%d.", unit);  */
+
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
@@ -593,6 +605,7 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
         char title[256];
 
         g_snprintf(title, 256, "Drive %d", unit);
+        debug_gtk3("ADDING STACK WIDGET");
         gtk_stack_add_titled(GTK_STACK(stack),
                 create_stack_child_widget(unit),
                 title, title);
