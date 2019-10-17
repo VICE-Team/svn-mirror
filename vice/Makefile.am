@@ -149,7 +149,7 @@ bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(top_srcdir) $(host_cpu) $(SDL_VERSION)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION)
 endif
 endif
 endif
