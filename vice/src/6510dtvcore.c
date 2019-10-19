@@ -373,6 +373,7 @@
                 addr = LOAD(0xfffc);                                           \
                 addr |= (LOAD(0xfffd) << 8);                                   \
                 bank_start = bank_limit = 0; /* prevent caching */             \
+                LOCAL_SET_INTERRUPT(1);                                        \
                 JUMP(addr);                                                    \
                 DMA_ON_RESET;                                                  \
             }                                                                  \
