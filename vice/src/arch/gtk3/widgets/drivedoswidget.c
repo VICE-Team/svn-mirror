@@ -80,6 +80,7 @@ GtkWidget *drive_dos_widget_create(int unit)
     GtkWidget *profdos;
     GtkWidget *stardos;
     GtkWidget *supercard;
+    int model = drive_get_disk_drive_type(unit - DRIVE_UNIT_MIN);
 
     grid = uihelpers_create_grid_with_label("DOS expansions", 1);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
@@ -87,6 +88,12 @@ GtkWidget *drive_dos_widget_create(int unit)
     profdos = create_dos_check_button(unit, "ProfDos", "Professional DOS");
     stardos = create_dos_check_button(unit, "StarDOS", "StarDOS");
     supercard = create_dos_check_button(unit, "Supercard", "Supercard+");
+
+    /* enable/disable widgets based on drive model */
+    gtk_widget_set_sensitive(profdos, drive_check_profdos(model));
+    gtk_widget_set_sensitive(stardos, drive_check_stardos(model));
+    gtk_widget_set_sensitive(supercard, drive_check_supercard(model));
+
 
     gtk_grid_attach(GTK_GRID(grid), profdos, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stardos, 0, 2, 1, 1);
