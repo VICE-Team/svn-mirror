@@ -68,7 +68,7 @@
 #endif
 
 #include "sidenginemodelwidget.h"
-
+#include "mixerwidget.h"
 
 #include "sidsoundwidget.h"
 
@@ -397,6 +397,12 @@ static void engine_model_changed_callback(int engine, int model)
         gtk_widget_show(resid_6581_grid);
         gtk_widget_hide(resid_8580_grid);
     }
+
+    /*
+     * Update mixer widget in the statusbar
+     */
+    mixer_widget_sid_type_changed();
+
 #endif
 
     gtk_widget_set_sensitive(filters, is_resid);
@@ -933,7 +939,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
     gtk_widget_set_sensitive(resid_6581_grid, is_resid);
     gtk_widget_set_sensitive(resid_8580_grid, is_resid);
-
 
 #endif
 
