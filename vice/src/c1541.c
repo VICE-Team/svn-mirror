@@ -521,6 +521,11 @@ const command_t command_list[] = {
       "image.",
       1, 2,
       write_cmd },
+    { "x",
+      "x",
+      "Exit (same as 'quit', mirrors monitor 'x')",
+      0, 0,
+      quit_cmd },
     /* FIXME: name is wrong: this doesn't create a zipcoded archive, but
      *        dissolves one, so a better name would be 'unzip' or 'zdecode'.
      * (BW) */
