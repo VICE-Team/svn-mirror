@@ -1415,8 +1415,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
     return mon_disassemble_to_string_internal(memspace, addr, opc, hex_mode, opc_size_p, monitor_cpu_for_memspace[memspace]);
 }
 
-
-unsigned mon_disassemble_instr(MON_ADDR addr)
+unsigned mon_disassemble_instr(MON_ADDR addr, int *line_count)
 {
     MEMSPACE mem;
     uint16_t loc;
@@ -1435,6 +1434,11 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
     /* Print the disassembled instruction */
     mon_out("%s\n", mon_disassemble_instr_interal(&opc_size, addr));
 
+    /* a line with label takes two lines */
+    if (line_count) {
+        *line_count = label ? 2 : 1;
+    }
+    
     return opc_size;
 }
 
@@ -1482,15 +1486,22 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 
     i = 0;
     while ((i <= len) || (limitlines == 1)) {
-        bytes = mon_disassemble_instr(dot_addr[mem]);
+        int line_count; /* Number of lines printed by disassembly */
+        bytes = mon_disassemble_instr(dot_addr[mem], &line_count);
         i += bytes;
         mon_inc_addr_location(&(dot_addr[mem]), bytes);
         if (mon_stop_output != 0) {
             break;
         }
         if (limitlines) {
-            linesleft--;
-            if (linesleft == 0) {
+            /* if there is a label on the NEXT line, we add an extra line so we
+               abort early and do not scroll up the top line */
+            if (mon_symbol_table_lookup_name(addr_memspace(dot_addr[mem]), 
+                                             addr_location(dot_addr[mem]))) {
+                line_count++;
+            }
+            linesleft -= line_count;
+            if (linesleft <= 0) {
                 break;
             }
         }
