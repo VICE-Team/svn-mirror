@@ -78,13 +78,13 @@ static GtkWidget *volume;
 #ifdef HAVE_RESID
 
 /** \brief  ReSID passband slider */
-static GtkWidget *passband;
+static GtkWidget *passband6581;
 
 /** \brief  ReSID gain slider */
-static GtkWidget *gain;
+static GtkWidget *gain6581;
 
 /** \brief  ReSID filter bias slider */
-static GtkWidget *bias;
+static GtkWidget *bias6581;
 
 /** \brief  ReSID 8580 passband slider */
 static GtkWidget *passband8580;
@@ -96,13 +96,13 @@ static GtkWidget *gain8580;
 static GtkWidget *bias8580;
 
 /** \brief  ReSID passband label */
-static GtkWidget *passbandlabel;
+static GtkWidget *passband6581label;
 
 /** \brief  ReSID gain label */
-static GtkWidget *gainlabel;
+static GtkWidget *gain6581label;
 
 /** \brief  ReSID filter bias label */
-static GtkWidget *biaslabel;
+static GtkWidget *bias6581label;
 
 /** \brief  ReSID 8580 passband label */
 static GtkWidget *passband8580label;
@@ -141,15 +141,15 @@ void mixer_widget_sid_type_changed(void)
 
 #ifdef HAVE_RESID
     if ((model == 1) || (model == 2)) {
-        gtk_widget_hide(passband);
-        gtk_widget_hide(gain);
-        gtk_widget_hide(bias);
+        gtk_widget_hide(passband6581);
+        gtk_widget_hide(gain6581);
+        gtk_widget_hide(bias6581);
         gtk_widget_show(passband8580);
         gtk_widget_show(gain8580);
         gtk_widget_show(bias8580);
-        gtk_widget_hide(passbandlabel);
-        gtk_widget_hide(gainlabel);
-        gtk_widget_hide(biaslabel);
+        gtk_widget_hide(passband6581label);
+        gtk_widget_hide(gain6581label);
+        gtk_widget_hide(bias6581label);
         gtk_widget_show(passband8580label);
         gtk_widget_show(gain8580label);
         gtk_widget_show(bias8580label);
@@ -157,15 +157,15 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_hide(passband8580);
         gtk_widget_hide(gain8580);
         gtk_widget_hide(bias8580);
-        gtk_widget_show(passband);
-        gtk_widget_show(gain);
-        gtk_widget_show(bias);
+        gtk_widget_show(passband6581);
+        gtk_widget_show(gain6581);
+        gtk_widget_show(bias6581);
         gtk_widget_hide(passband8580label);
         gtk_widget_hide(gain8580label);
         gtk_widget_hide(bias8580label);
-        gtk_widget_show(passbandlabel);
-        gtk_widget_show(gainlabel);
-        gtk_widget_show(biaslabel);
+        gtk_widget_show(passband6581label);
+        gtk_widget_show(gain6581label);
+        gtk_widget_show(bias6581label);
     }
 
     /* enable/disable 8580 filter controls based on --enable-new8580filter */
@@ -191,6 +191,7 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
     resources_get_default_value("SoundVolume", &value);
     gtk_range_set_value(GTK_RANGE(volume), (gdouble)value);
 #ifdef HAVE_RESID
+    /* FIXME: Maybe only reset the current SID model? */
     resources_get_default_value("SidResid8580Passband", &value);
     gtk_range_set_value(GTK_RANGE(passband8580), (gdouble)value);
     resources_get_default_value("SidResid8580Gain", &value);
@@ -198,11 +199,11 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
     resources_get_default_value("SidResid8580FilterBias", &value);
     gtk_range_set_value(GTK_RANGE(bias8580), (gdouble)value);
     resources_get_default_value("SidResidPassband", &value);
-    gtk_range_set_value(GTK_RANGE(passband), (gdouble)value);
+    gtk_range_set_value(GTK_RANGE(passband6581), (gdouble)value);
     resources_get_default_value("SidResidGain", &value);
-    gtk_range_set_value(GTK_RANGE(gain), (gdouble)value);
+    gtk_range_set_value(GTK_RANGE(gain6581), (gdouble)value);
     resources_get_default_value("SidResidFilterBias", &value);
-    gtk_range_set_value(GTK_RANGE(bias), (gdouble)value);
+    gtk_range_set_value(GTK_RANGE(bias6581), (gdouble)value);
 #endif
 }
 
@@ -314,7 +315,7 @@ static GtkWidget *create_volume_widget(gboolean minimal)
  *
  * \return  GtkScale
  */
-static GtkWidget *create_passband_widget(gboolean minimal)
+static GtkWidget *create_passband6581_widget(gboolean minimal)
 {
     return create_slider("SidResidPassBand", 0, 90, 5, minimal);
 }
@@ -326,7 +327,7 @@ static GtkWidget *create_passband_widget(gboolean minimal)
  *
  * \return  GtkScale
  */
-static GtkWidget *create_gain_widget(gboolean minimal)
+static GtkWidget *create_gain6581_widget(gboolean minimal)
 {
     return create_slider("SidResidGain", 90, 100, 1, minimal);
 }
@@ -338,7 +339,7 @@ static GtkWidget *create_gain_widget(gboolean minimal)
  *
  * \return  GtkScale
  */
-static GtkWidget *create_bias_widget(gboolean minimal)
+static GtkWidget *create_bias6581_widget(gboolean minimal)
 {
     return create_slider("SidResidFilterBias", -5000, 5000, 1000, minimal);
 }
@@ -454,28 +455,28 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
      * 6581 ReSID resources
      */
 
-    passbandlabel = create_label("ReSID 6581 Passband", minimal, alignment);
-    passband = create_passband_widget(minimal);
-    gtk_widget_set_sensitive(passband, sid_present);
-    gtk_widget_set_hexpand(passband, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), passbandlabel, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), passband, 1, row, 1, 1);
+    passband6581label = create_label("ReSID 6581 Passband", minimal, alignment);
+    passband6581 = create_passband6581_widget(minimal);
+    gtk_widget_set_sensitive(passband6581, sid_present);
+    gtk_widget_set_hexpand(passband6581, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), passband6581label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), passband6581, 1, row, 1, 1);
     row++;
 
-    gainlabel = create_label("ReSID 6581 Gain", minimal, alignment);
-    gain = create_gain_widget(minimal);
-    gtk_widget_set_sensitive(gain, sid_present);
-    gtk_widget_set_hexpand(gain, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), gainlabel, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gain, 1, row, 1, 1);
+    gain6581label = create_label("ReSID 6581 Gain", minimal, alignment);
+    gain6581 = create_gain6581_widget(minimal);
+    gtk_widget_set_sensitive(gain6581, sid_present);
+    gtk_widget_set_hexpand(gain6581, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), gain6581label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain6581, 1, row, 1, 1);
     row++;
 
-    biaslabel = create_label("ReSID 6581 Filter Bias", minimal, alignment);
-    bias = create_bias_widget(minimal);
-    gtk_widget_set_hexpand(bias, TRUE);
-    gtk_widget_set_sensitive(bias, sid_present);
-    gtk_grid_attach(GTK_GRID(grid), biaslabel, 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bias, 1, row, 1, 1);
+    bias6581label = create_label("ReSID 6581 Filter Bias", minimal, alignment);
+    bias6581 = create_bias6581_widget(minimal);
+    gtk_widget_set_hexpand(bias6581, TRUE);
+    gtk_widget_set_sensitive(bias6581, sid_present);
+    gtk_grid_attach(GTK_GRID(grid), bias6581label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bias6581, 1, row, 1, 1);
     row++;
     passband8580label = create_label("ReSID 8580 Passband", minimal, alignment);
     passband8580 = create_passband8580_widget(minimal);
