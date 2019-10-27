@@ -77,13 +77,13 @@ static GtkWidget *volume;
 
 #ifdef HAVE_RESID
 
-/** \brief  ReSID passband slider */
+/** \brief  ReSID 6581 passband slider */
 static GtkWidget *passband6581;
 
-/** \brief  ReSID gain slider */
+/** \brief  ReSID 6581 gain slider */
 static GtkWidget *gain6581;
 
-/** \brief  ReSID filter bias slider */
+/** \brief  ReSID 6581 filter bias slider */
 static GtkWidget *bias6581;
 
 /** \brief  ReSID 8580 passband slider */
@@ -95,13 +95,13 @@ static GtkWidget *gain8580;
 /** \brief  ReSID 8580 filter bias slider */
 static GtkWidget *bias8580;
 
-/** \brief  ReSID passband label */
+/** \brief  ReSID 6581 passband label */
 static GtkWidget *passband6581label;
 
-/** \brief  ReSID gain label */
+/** \brief  ReSID 6581 gain label */
 static GtkWidget *gain6581label;
 
-/** \brief  ReSID filter bias label */
+/** \brief  ReSID 6581 filter bias label */
 static GtkWidget *bias6581label;
 
 /** \brief  ReSID 8580 passband label */
@@ -112,6 +112,9 @@ static GtkWidget *gain8580label;
 
 /** \brief  ReSID 8580 filter bias label */
 static GtkWidget *bias8580label;
+
+
+static GtkWidget *passband6581spin;
 
 
 #endif
@@ -153,6 +156,7 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_show(passband8580label);
         gtk_widget_show(gain8580label);
         gtk_widget_show(bias8580label);
+        gtk_widget_hide(passband6581spin);
     } else {
         gtk_widget_hide(passband8580);
         gtk_widget_hide(gain8580);
@@ -166,6 +170,7 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_show(passband6581label);
         gtk_widget_show(gain6581label);
         gtk_widget_show(bias6581label);
+        gtk_widget_show(passband6581spin);
     }
 
     /* enable/disable 8580 filter controls based on --enable-new8580filter */
@@ -291,6 +296,17 @@ static GtkWidget *create_slider(
     /*    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE); */
 
     return scale;
+}
+
+
+static GtkWidget *create_spin(
+        const char *resource,
+        int low, int high, int step)
+{
+    GtkWidget *spin;
+
+    spin = vice_gtk3_resource_spin_int_new(resource, low, high, step);
+    return spin;
 }
 
 
