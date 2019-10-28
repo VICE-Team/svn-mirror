@@ -113,6 +113,8 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
 
 #if GIFLIB_MAJOR < 5
     EGifSetGifVersion("87a");
+#else
+    EGifSetGifVersion(sdata->fd, 1 /* for 89 */);
 #endif
 
     if (EGifPutScreenDesc(sdata->fd, screenshot->width, screenshot->height, 8, 0, gif_colors) == GIF_ERROR ||
@@ -236,6 +238,8 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, uint
 
 #if GIFLIB_MAJOR < 5
     EGifSetGifVersion("87a");
+#else
+    EGifSetGifVersion(gifdrv_memmap_fd, 1 /* for 89 */);
 #endif
 
     if (EGifPutScreenDesc(gifdrv_memmap_fd, x_size, y_size, 8, 0, gif_colors) == GIF_ERROR ||
