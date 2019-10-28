@@ -60,7 +60,7 @@ int archdep_fix_permissions(const char *name)
 #elif defined(ARCHDEP_OS_UNIX)
     mode_t mask = umask(0);
     umask(mask);
-    return chmod(name, mask ^ 666);
+    return chmod(name, mask ^ 0666); /* this is really octal here! */
 #elif defined(ARCHDEP_OS_AMIGA)
     SetProtection(name, 0);
     return 1;   /* the code in sdl/archdep_amiga.c originally returned 0 here,
