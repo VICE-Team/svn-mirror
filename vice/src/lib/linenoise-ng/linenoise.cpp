@@ -1102,8 +1102,14 @@ static void disableRawMode(void) {
 #endif
 }
 
+
+/* Fix compiler warning: non-Windows seems to need this.
+ */
+#ifndef _WIN32
 // At exit we'll try to fix the terminal to the initial conditions
 static void linenoiseAtExit(void) { disableRawMode(); }
+#endif
+
 
 static int getScreenColumns(void) {
   int cols;
