@@ -276,6 +276,8 @@ static int acia_set_device(int val, void *param)
 */
 static void acia_set_int(int aciairq, unsigned int int_num, int value)
 {
+    DEBUG_LOG_MESSAGE((acia.log, "acia_set_int(aciairq=%d, int_num=%u, value=%u",
+        aciairq, int_num, value));
     assert((value == aciairq) || (value == IK_NONE));
 
     if (aciairq == IK_IRQ) {
@@ -485,6 +487,7 @@ int myacia_init_resources(void)
     acia_preinit();
 
     acia.irq_res = MyIrq;
+    acia.irq_type = MyIrq;
     acia.mode = ACIA_MODE_NORMAL;
 
     return resources_register_int(resources_int);
@@ -1018,12 +1021,15 @@ static uint8_t myacia_read_(uint16_t addr)
 
     switch (addr & acia_register_size) {
         case ACIA_DR:
-            acia.status &= ~ACIA_SR_BITS_RECEIVE_DR_FULL;
+            DEBUG_LOG_MESSAGE((acia.log, "DR read at %d: 0x%02x", myclk, acia.rxdata));
+            acia.status &= ~(ACIA_SR_BITS_OVERRUN_ERROR | ACIA_SR_BITS_PARITY_ERROR | ACIA_SR_BITS_FRAMING_ERROR | ACIA_SR_BITS_RECEIVE_DR_FULL);
+
             acia.last_read = acia.rxdata;
             return acia.rxdata;
         case ACIA_SR:
             {
                 uint8_t c = acia_get_status() | (acia.irq ? ACIA_SR_BITS_IRQ : 0);
+                DEBUG_LOG_MESSAGE((acia.log, "SR read at %d: 0x%02x", myclk,c));
                 acia_set_int(acia.irq_type, acia.int_num, IK_NONE);
                 acia.irq = 0;
                 acia.last_read = c;
@@ -1196,10 +1202,15 @@ static void int_acia_rx(CLOCK offset, void *data)
         DEBUG_LOG_MESSAGE((acia.log, "received byte: %u = '%c'.",
                            (unsigned) received_byte, received_byte));
 
-        /*! \todo: What happens on the real 6551? Is the old value overwritten in
-         * case of an overrun, or is it not?
-         */
-        acia.rxdata = received_byte;
+        /* Datasheet (https://downloads.reactivemicro.com/Electronics/Interface%20Adapters/R65C51.pdf)
+         * says that new data is discarded on overrun */
+        if (!(acia.status & ACIA_SR_BITS_RECEIVE_DR_FULL)) {
+            acia.rxdata = received_byte;
+        } else {
+            acia.status |= ACIA_SR_BITS_OVERRUN_ERROR;
+            DEBUG_LOG_MESSAGE((acia.log, "Overrun! Discarding received byte",
+                           (unsigned) acia.rxdata, acia.rxdata));
+        }
 
         /* generate an interrupt if the ACIA was configured to generate one */
         if (!(acia.cmd & ACIA_CMD_BITS_IRQ_DISABLED)) {
@@ -1207,10 +1218,6 @@ static void int_acia_rx(CLOCK offset, void *data)
             acia.irq = 1;
         }
 
-        if (acia.status & ACIA_SR_BITS_RECEIVE_DR_FULL) {
-            acia.status |= ACIA_SR_BITS_OVERRUN_ERROR;
-            break;
-        }
 
         acia.status |= ACIA_SR_BITS_RECEIVE_DR_FULL;
     } while (0);
