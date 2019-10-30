@@ -298,7 +298,10 @@ static GtkWidget *create_slider(
     return scale;
 }
 
-
+/* Commented out for now, the idea here is to allow more fine-grained control
+ * over ReSID filter resources, which is still a TODO
+ */
+#if 0
 static GtkWidget *create_spin(
         const char *resource,
         int low, int high, int step)
@@ -308,7 +311,7 @@ static GtkWidget *create_spin(
     spin = vice_gtk3_resource_spin_int_new(resource, low, high, step);
     return spin;
 }
-
+#endif
 
 
 /** \brief  Create slider for main volume
