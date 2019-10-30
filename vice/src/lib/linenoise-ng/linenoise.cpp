@@ -1015,7 +1015,9 @@ static char8_t** history = NULL;
 static int historyPreviousIndex = -2;
 static bool historyRecallMostRecent = false;
 
+#ifndef _WIN32
 static void linenoiseAtExit(void);
+#endif
 
 static bool isUnsupportedTerm(void) {
   char* term = getenv("TERM");
