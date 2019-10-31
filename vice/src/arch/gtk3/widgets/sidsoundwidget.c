@@ -228,6 +228,10 @@ static GtkWidget *resid_8580_bias_button;
 
 static GtkWidget *resid_6581_grid;
 static GtkWidget *resid_8580_grid;
+
+
+static GtkWidget *resid_6581_passband_spin;
+
 #endif
 
 
@@ -374,13 +378,34 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 #endif
 
 
+static void on_spin_value_changed(GtkWidget *spin, gpointer data)
+{
+    debug_gtk3("Callled.");
+    vice_gtk3_resource_scale_int_sync(data);
+}
+
+
+
+/** \brief  Create spinbutton controlling \a resource and updating \a slider
+ *
+ * \param[in]       resource    resource name
+ * \param[in]       low         spinbox lowest value
+ * \param[in]       high        spinbox highest value
+ * \param[in]       step        spinbox step
+ * \param[in,out]   slider      slider widget controlling \a resource
+ *
+ * \return  GtkSpinBox
+ */
 static GtkWidget *create_spin(
         const char *resource,
-        int low, int high, int step)
+        int low, int high, int step,
+        GtkWidget *slider)
 {
     GtkWidget *spin;
 
     spin = vice_gtk3_resource_spin_int_new(resource, low, high, step);
+    g_signal_connect(spin, "value-changed", G_CALLBACK(on_spin_value_changed),
+            slider);
     return spin;
 }
 
@@ -591,6 +616,23 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
 }
 
 
+static void on_resid_6581_passband_change(GtkWidget *widget, gpointer data)
+{
+    double value = gtk_range_get_value(GTK_RANGE(widget));
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(resid_6581_passband_spin), value);
+}
+
+
+static void on_resid_6581_passband_spin_change(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("Callled!");
+    double value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+    debug_gtk3("Settubg to %lf", value);
+    gtk_range_set_value(GTK_RANGE(resid_6581_passband), value);
+}
+
+
+
 #ifdef HAVE_RESID
 /** \brief  Create scale to control the "SidResidPassband" resource
  *
@@ -602,7 +644,25 @@ static GtkWidget *create_resid_6581_passband_widget(void)
 
     scale = vice_gtk3_resource_scale_int_new("SidResidPassband",
             GTK_ORIENTATION_HORIZONTAL, 0, 90, 5);
+
+    g_signal_connect(scale, "value-changed",
+            G_CALLBACK(on_resid_6581_passband_change),
+            NULL);
     return scale;
+}
+
+
+static GtkWidget *create_resid_6581_passband_spin(GtkWidget *slider)
+{
+    GtkWidget *spin;
+    spin = create_spin("SidReSidPassBand", 0, 90,1, slider);
+
+    g_signal_connect(
+            spin,
+            "change",
+            G_CALLBACK(on_resid_6581_passband_spin_change),
+            NULL);
+    return spin;
 }
 
 
@@ -616,6 +676,7 @@ static GtkWidget *create_resid_6581_gain_widget(void)
 
     scale = vice_gtk3_resource_scale_int_new("SidResidGain",
             GTK_ORIENTATION_HORIZONTAL, 90, 100, 1);
+
     return scale;
 }
 
@@ -689,7 +750,7 @@ static GtkWidget *create_resource_reset_button(
 {
     GtkWidget *button;
 
-    button = gtk_button_new_with_label("Reset to default");
+    button = gtk_button_new_with_label("Reset");
     gtk_widget_set_valign(button, GTK_ALIGN_END);
     gtk_widget_set_hexpand(button, FALSE);
     g_object_set(button, "margin-left", 16, NULL);
@@ -827,7 +888,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(resid_8580_grid),
             resid_8580_passband, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(resid_8580_grid),
-            resid_8580_passband_button, 2, 1, 1, 1);
+            resid_8580_passband_button, 3, 1, 1, 1);
 
     /* We need to do this due to show_all getting disabled for the containing
      * GtkGrid and the other widgets (slider, button) having their own call
@@ -847,7 +908,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(resid_8580_grid),
             resid_8580_gain, 1, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(resid_8580_grid),
-            resid_8580_gain_button, 2, 2, 1, 1);
+            resid_8580_gain_button, 3, 2, 1, 1);
     gtk_widget_show(label);
 
     /* 8580 bias */
@@ -862,7 +923,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(resid_8580_grid),
             resid_8580_bias, 1, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(resid_8580_grid),
-            resid_8580_bias_button, 2, 3, 1, 1);
+            resid_8580_bias_button, 3, 3, 1, 1);
     gtk_widget_show(label);
 
     /* 6581 (YAY!) */
@@ -879,12 +940,15 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     resid_6581_passband = create_resid_6581_passband_widget();
     resid_6581_passband_button = create_resource_reset_button(
             on_resid_6581_passband_default_clicked);
+    resid_6581_passband_spin = create_resid_6581_passband_spin(resid_6581_passband);
     gtk_grid_attach(GTK_GRID(resid_6581_grid),
             label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(resid_6581_grid),
             resid_6581_passband, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(resid_6581_grid),
-            resid_6581_passband_button, 2, 1, 1, 1);
+            resid_6581_passband_spin, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(resid_6581_grid),
+            resid_6581_passband_button, 3, 1, 1, 1);
     gtk_widget_show(label);
 
     /* 6581 gain */
