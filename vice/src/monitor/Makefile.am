@@ -10,7 +10,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/lib/p64
 
-AM_CFLAGS = @VICE_CFLAGS@
+AM_CFLAGS = @VICE_CFLAGS@ -Wno-unused-label -Wno-unreachable-code
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
