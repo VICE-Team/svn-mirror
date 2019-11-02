@@ -6,7 +6,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
-AM_CFLAGS = @VICE_CFLAGS@
+AM_CFLAGS = @VICE_CFLAGS@ -Wno-strict-prototypes
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
