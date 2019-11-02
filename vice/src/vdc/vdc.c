@@ -451,58 +451,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         vdc.row_counter++;
         vdc.row_counter &= 0xFF;
         
-        if (vdc.vsync) {    /* if we are in vertical sync pulse */
-            vdc.vsync_counter++;
-            vdc.vsync_counter &= 0x0F;
-            
-            /* Check if we are now out of the pulse == at first visible raster line, and reset the raster to the top of the screen if so */
-            if (vdc.vsync_counter == ((vdc.regs[3] >> 4) & 0x0F)) {
-                vdc.vsync = 0;
-                
-                /* This SEEMS to work to reset the raster to 0, based on ted.c, but maybe there is something else needed? */
-                vdc.raster.current_line = 0;
-                raster_canvas_handle_end_of_frame(&vdc.raster);
-            
-                vdc.frame_counter++;    /* As far as the frame counter is concerned, we are now on a new frame */
-                if (vdc.regs[24] & 0x20) {
-                    vdc.attribute_blink = vdc.frame_counter & 16;
-                } else {
-                    vdc.attribute_blink = vdc.frame_counter & 8;
-                }
-                
-                /* FIXME I doubt all this is required any more: */
-                if (vdc.update_geometry) {
-                    vdc_update_geometry();
-                    vdc.force_resize = 1;
-                    vdc.force_repaint = 1;
-                    /* Screen height has changed, so do not invalidate cache with
-                       the new value.  It will be recreated by resize anyway.  */
-                    vdc.force_cache_flush = 0;
-                } else {
-                    if (vdc.force_cache_flush) {
-                        vdc_invalidate_cache(&vdc.raster, vdc.screen_height);
-                        vdc.force_cache_flush = 0;
-                    }
-                }
-                if (vdc.force_resize) {
-                    if (vdc.initialized) {
-                        vdc_set_geometry();
-                        raster_mode_change();
-                    }
-                    vdc.force_resize = 0;
-                }
-                if (vdc.force_repaint) {
-                    vdc.force_repaint = 0;
-                    raster_force_repaint(&vdc.raster);
-                }
-            
-                /* Restart drawing if we're past the sync but we should still be drawing */
-                if (vdc.draw_active) {
-                    vdc_set_video_mode();
-                }
-            }
-        }
-        
         /* FIXME this seems a bit messy and/or is in the wrong spot */
         if (vdc.row_counter == 1) { /* we think anything visible starts on internal row 1 */
             vdc.display_enable = 1;
@@ -547,16 +495,64 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         /* check if we've hit the vsync position and should start vsync */
         if (vdc.row_counter == vdc.regs[7]) {
             vdc.vsync = 1;
-            
-            /* Starting with 1 instead of 0 seems wrong but gives the correct results. It suggests the vertical sync pulse is smaller than it should be according to documentation.. */
-            vdc.vsync_counter = 1;  
-            
+            vdc.vsync_counter = 0;
             /*FIXME change this to black or some other mode so it works more obviously that you're in vsync and make sure it restarts drawing past the pulse */
             vdc.raster.video_mode = VDC_IDLE_MODE;
         }
     } else {
         vdc.row_counter_y++;
         vdc.row_counter_y &= 0x1F;
+    }
+
+    /* Handle if we are in vertical sync pulse */    
+    if (vdc.vsync) {
+        vdc.vsync_counter++;
+        /* Check if we are now out of the pulse == at first visible raster line, and reset the raster to the top of the screen if so */
+        if (vdc.vsync_counter > 25) {   /* seems to be about right # of raster lines the vsync consumes on a C= monitor, and is official PAL spec */
+            vdc.vsync = 0;
+            
+            /* This SEEMS to work to reset the raster to 0, based on ted.c, but maybe there is something else needed? */
+            vdc.raster.current_line = 0;
+            raster_canvas_handle_end_of_frame(&vdc.raster);
+        
+            vdc.frame_counter++;    /* As far as the frame counter is concerned, we are now on a new frame */
+            if (vdc.regs[24] & 0x20) {
+                vdc.attribute_blink = vdc.frame_counter & 16;
+            } else {
+                vdc.attribute_blink = vdc.frame_counter & 8;
+            }
+            
+            /* FIXME I doubt all this is required any more: */
+            if (vdc.update_geometry) {
+                vdc_update_geometry();
+                vdc.force_resize = 1;
+                vdc.force_repaint = 1;
+                /* Screen height has changed, so do not invalidate cache with
+                   the new value.  It will be recreated by resize anyway.  */
+                vdc.force_cache_flush = 0;
+            } else {
+                if (vdc.force_cache_flush) {
+                    vdc_invalidate_cache(&vdc.raster, vdc.screen_height);
+                    vdc.force_cache_flush = 0;
+                }
+            }
+            if (vdc.force_resize) {
+                if (vdc.initialized) {
+                    vdc_set_geometry();
+                    raster_mode_change();
+                }
+                vdc.force_resize = 0;
+            }
+            if (vdc.force_repaint) {
+                vdc.force_repaint = 0;
+                raster_force_repaint(&vdc.raster);
+            }
+        
+            /* Restart drawing if we're past the sync but we should still be drawing */
+            if (vdc.draw_active) {
+                vdc_set_video_mode();
+            }
+        }
     }
     /* END Video signal handling section ----------------------------------------------------------------------------------------------------------*/
 
