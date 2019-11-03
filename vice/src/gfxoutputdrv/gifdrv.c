@@ -114,7 +114,10 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
 #if GIFLIB_MAJOR < 5
     EGifSetGifVersion("87a");
 #else
+   /* for some reason giflib 5.0.0 does not have this function at all */
+#  if GIFLIB_MINOR >= 1
     EGifSetGifVersion(sdata->fd, 1 /* for 89 */);
+#  endif
 #endif
 
     if (EGifPutScreenDesc(sdata->fd, screenshot->width, screenshot->height, 8, 0, gif_colors) == GIF_ERROR ||
