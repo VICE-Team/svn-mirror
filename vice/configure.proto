@@ -924,6 +924,24 @@ darwin*)
   dnl disable toolchain checking for macosx
   toolchain_check=no
 
+  dnl The vice build system builds empty libs for things that are configured out,
+  dnl then links all of them together. This causes ranlib to complain like:
+  dnl
+  dnl   file: libarch.a(joy-win32-dinput-handle.o) has no symbols
+  dnl
+  dnl This warning can be disabled by passing -no_warning_for_no_symbols to ranlib.
+  dnl ar also calls ranlib, and there is no way to pass the argument.
+  dnl
+  dnl You can split an 'ar cru' call into separate ar and ranlib calls, but,
+  dnl sometimes ranlib will invoke libtool which has its own warning we can't
+  dnl change without major build system changes.
+  dnl
+  dnl Given all that it's simpler to just grep -v out the warnings we don't want,
+  dnl which these scripts do. 
+
+  RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
+  AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
+
   dnl libffi isn't visible to pkg-config by default when installed by homebrew
   dnl this causes the GTK version check to fail as gobject depends on libffi.
   dnl This export give pkg-config another place to look for .pc files.
