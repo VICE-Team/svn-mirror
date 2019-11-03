@@ -109,7 +109,7 @@ const char *joystick_ui_get_next_device_name(int *id)
     }
     return NULL;
 }
-
+#if 0
 /* HID settings */
 
 static int set_joy_a_device_name(const char *val,void *param)
@@ -503,20 +503,21 @@ static const resource_int_t resources_int[] = {
       &joy_b.hat_switch.id, set_joy_b_hat_switch, NULL },
     RESOURCE_INT_LIST_END
 };
-
+#endif
 int joy_arch_resources_init(void)
 {
     return 0;
-
+#if 0
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
 
     return resources_register_int(resources_int);
+#endif
 }
 
 /* ----- VICE Command-line options ----- */
-
+#if 0
 static const cmdline_option_t cmdline_options[] =
 {
     { "-joyAdevice", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -609,12 +610,12 @@ static const cmdline_option_t joydev5cmdline_options[] =
       "<0-5>", "Set device for extra joystick port 3" },
     CMDLINE_LIST_END
 };
-
+#endif
 int joy_arch_cmdline_options_init(void)
 {
-    int num_ports = 0, num_extra_ports = 0;
-
     return 0;
+#if 0
+    int num_ports = 0, num_extra_ports = 0;
 
     if (joyport_get_port_name(JOYPORT_1)) {
         if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -651,6 +652,7 @@ int joy_arch_cmdline_options_init(void)
     joy_num_extra_ports = num_extra_ports;
 
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ----- Setup Joystick Descriptor ---------------------------------------- */
