@@ -449,7 +449,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         
         /* Update the row counter because we are starting a new line */
         vdc.row_counter++;
-        vdc.row_counter &= 0xFF;
+        /* FIXME: not clamping to 8bits here so the "> vdc.regs[4]" case below catches reg#4=$FF and still shows an image. */
         
         /* FIXME this seems a bit messy and/or is in the wrong spot */
         if (vdc.row_counter == 1) { /* we think anything visible starts on internal row 1 */
