@@ -942,10 +942,10 @@ darwin*)
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
 
-  dnl libffi isn't visible to pkg-config by default when installed by homebrew
-  dnl this causes the GTK version check to fail as gobject depends on libffi.
-  dnl This export give pkg-config another place to look for .pc files.
-  export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig
+  dnl libffi and libswresample aren't visible to pkg-config by default when installed by homebrew
+  dnl This export gives pkg-config more places to look for .pc files.
+  
+  export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/ffmpeg/lib/pkgconfig
 
   is_unix_x11=yes
 
