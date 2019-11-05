@@ -29,6 +29,10 @@
 
 #ifdef HAVE_FFMPEG
 
+/* Disable clang deprecation warnings for ffmpeg - let's fix it when it stops working */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 #include <stdio.h>
 #include <string.h>
 
@@ -1126,4 +1130,8 @@ void gfxoutput_init_ffmpeg(int help)
     ffmpeg_get_formats_and_codecs();
     gfxoutput_register(&ffmpeg_drv);
 }
+
+/* re-enable ignored clang warnings */
+#pragma clang diagnostic pop
+
 #endif
