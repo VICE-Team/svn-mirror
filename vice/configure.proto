@@ -945,7 +945,8 @@ darwin*)
   dnl libffi and libswresample aren't visible to pkg-config by default when installed by homebrew
   dnl This export gives pkg-config more places to look for .pc files.
   
-  export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/ffmpeg/lib/pkgconfig
+  dnl export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/ffmpeg/lib/pkgconfig
+  dnl NO!
 
   is_unix_x11=yes
 
