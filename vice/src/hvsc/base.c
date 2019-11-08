@@ -8,7 +8,7 @@
 
 /*
  *  HVSClib - a library to work with High Voltage SID Collection files
- *  Copyright (C) 2018  Bas Wassink <b.wassink@ziggo.nl>
+ *  Copyright (C) 2018-2019  Bas Wassink <b.wassink@ziggo.nl>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -190,7 +190,7 @@ void hvsc_text_file_init_handle(hvsc_text_file_t *handle)
  */
 int hvsc_text_file_open(const char *path, hvsc_text_file_t *handle)
 {
-    printf("%s(): opening '%s'\n", __func__, path);
+    hvsc_dbg("%s(): opening '%s'\n", __func__, path);
     hvsc_text_file_init_handle(handle);
 
     handle->fp = fopen(path, "rb");
@@ -258,7 +258,7 @@ const char *hvsc_text_file_read(hvsc_text_file_t *handle)
         /* resize buffer? */
         if (i == handle->buflen - 1) {
             /* resize buffer */
-#ifdef HVSC_BEBUG
+#ifdef HVSC_DEBUG
             printf("RESIZING BUFFER TO %lu, lineno %ld\n",
                     (unsigned long)(handle->buflen  * 2), handle->lineno);
 #endif
@@ -691,7 +691,7 @@ long hvsc_parse_simple_timestamp(char *t, char **endptr)
         hvsc_errno = HVSC_ERR_TIMESTAMP;
         return -1;
     }
-    printf("HVSC: got %ld minutes.", m);
+    hvsc_dbg("HVSC: got %ld minutes.", m);
 
     /* seconds */
     t++;
