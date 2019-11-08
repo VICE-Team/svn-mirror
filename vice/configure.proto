@@ -948,6 +948,11 @@ darwin*)
   dnl export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/ffmpeg/lib/pkgconfig
   dnl NO!
 
+  dnl FIXME: Still far from correct, but better:
+  export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/ffmpeg/lib/pkgconfig"
+
+
+
   is_unix_x11=yes
 
   if test -z "$user_cflags" ; then
