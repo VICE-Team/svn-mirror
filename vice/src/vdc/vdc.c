@@ -437,14 +437,18 @@ static void vdc_set_video_mode(void)
  (or at least how we think it does).. */
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
+    static unsigned int vdc_row_counter_latch = 0;
+    static unsigned int vdc_draw_counter_latch = 0;
+
     /*  Video signal handling section ----------------------------------------------------------------------------------------------------------*/
-    if (vdc.row_counter_y >= (vdc.regs[9] & 0x1F)) {    /* changed this from == to >= to fix RFO FLI, but not convinced that's correct. Could be a timing thing. also see draw >= change below */
+    if (vdc_row_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
         /* We've just drawn the last raster line of the current character row,
             so handle a new row from the video signal side:
             - restart internal counters if we've displayed a full frame
             - drawing starting e.g. pass top border
             - drawing stopping e.g. pass into bottom border
             - start or stop vsync pulse */
+        vdc_row_counter_latch = 0;
         vdc.row_counter_y = 0;
         
         /* Update the row counter because we are starting a new line */
@@ -504,6 +508,11 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         vdc.row_counter_y &= 0x1F;
     }
 
+    /* Check if this is the last raster line of the current row, and latch so */
+    if (vdc.row_counter_y == (vdc.regs[9] & 0x1F)) {
+        vdc_row_counter_latch = 1;
+    }
+    
     /* Handle if we are in vertical sync pulse */    
     if (vdc.vsync) {
         vdc.vsync_counter++;
@@ -587,12 +596,16 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         if ((vdc.row_counter == 0) && (vdc.row_counter_y == 0)) {
             /* set up for smooth scroll comparison */
             vdc.draw_counter_y = (vdc.regs[24] & 0x1F);     /* this could be moved up into the screen handling section? */
+            vdc.draw_counter = 0;
+            vdc_draw_counter_latch = 0;
         } else {
             if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F)) {
                 /* we latch on now and start drawing on the next call, even if that's invisible because it's above the top border */
                 vdc.draw_counter_y = 0;
+                vdc.draw_counter++;
                 vdc.prime_draw = 0;
                 vdc.draw_active = 1;
+                vdc.draw_finished = 0;
             } else {
                 vdc.draw_counter_y++;
                 vdc.draw_counter_y &= 0x1F;
@@ -601,8 +614,10 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     
     /* Handle the normal drawing case */
     } else if (vdc.draw_active) {
-        if (vdc.draw_counter_y >= (vdc.regs[9] & 0x1F)) {   /* changed this from == to >= to fix RFO FLI, but not convinced that's correct. Could be a timing thing. also see video >= change above */
+        if (vdc_draw_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
             vdc.draw_counter_y = 0;
+            vdc.draw_counter++;
+            vdc_draw_counter_latch = 0;
             
             /* FIXME We've just drawn the last raster line of the current row, should probably load those buffers or so.. */
             
@@ -619,9 +634,13 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
             vdc.bitmap_counter &= vdc.vdc_address_mask;
         }
+        if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F)) {
+            vdc_draw_counter_latch = 1;
+        }
     } else {
         /* FIXME handle the last visible(ish) row situation better
            Implied: vdc.prime_draw == 0 && vdc.draw_active == 0 */
+        vdc_draw_counter_latch = 0;
     }
     vdc.raster.ycounter = vdc.draw_counter_y;   /* FIXME quick hack. maybe just use ycounter in the first place? Check side effects with memory inc functions */
     /*  END drawing section ----------------------------------------------------------------------------------------------------------------*/
