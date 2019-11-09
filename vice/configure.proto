@@ -920,6 +920,7 @@ darwin*)
 
   is_unix=yes
   is_unix_macosx=yes
+  is_unix_x11=yes
 
   dnl disable toolchain checking for macosx
   toolchain_check=no
@@ -941,19 +942,6 @@ darwin*)
 
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
-
-  dnl libffi and libswresample aren't visible to pkg-config by default when installed by homebrew
-  dnl This export gives pkg-config more places to look for .pc files.
-  
-  dnl export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/ffmpeg/lib/pkgconfig
-  dnl NO!
-
-  dnl FIXME: Still far from correct, but better:
-  export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/ffmpeg/lib/pkgconfig"
-
-
-
-  is_unix_x11=yes
 
   if test -z "$user_cflags" ; then
     if test x"$GCC" = "xyes" ; then
