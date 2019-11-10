@@ -1,6 +1,10 @@
+/* vim: set et ts=4 sw=4 sts=4 fdm=marker syntax=c.doxygen: */
+
 /** \file   fliplist.c
+ * \brief   Fliplist handling
  *
  * \author  pottendo <pottendo@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -267,10 +271,18 @@ void fliplist_remove(unsigned int unit, const char *image)
     }
 }
 
-void fliplist_attach_head (unsigned int unit, int direction)
+
+/** \brief  Attach new image from the fliplist
+ *
+ * \param[in]   unit        drive unit number (8-11)
+ * \param[in]   direction   attach either next (>=1) or previous image
+ *
+ * \return  boolean
+ */
+bool fliplist_attach_head(unsigned int unit, int direction)
 {
     if (fliplist[unit - 8] == NULL) {
-        return;
+        return false;
     }
 
     if (direction) {
@@ -279,9 +291,12 @@ void fliplist_attach_head (unsigned int unit, int direction)
         fliplist[unit - 8] = fliplist[unit - 8]->prev;
     }
 
-    if (file_system_attach_disk(fliplist[unit - 8]->unit, fliplist[unit - 8]->image) < 0) {
+    if (file_system_attach_disk(fliplist[unit - 8]->unit,
+                fliplist[unit - 8]->image) < 0) {
         /* shouldn't happen, so ignore it */
+        return false;   /* handle it anyway */
     }
+    return true;
 }
 
 fliplist_t fliplist_init_iterate(unsigned int unit)

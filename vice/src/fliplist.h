@@ -1,9 +1,11 @@
+/** \file   fliplist.h
+ * \brief   Fliplist handling - header
+ *
+ * \author  pottendo <pottendo@gmx.net>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * fliplist.h
- *
- * Written by
- *  pottendo <pottendo@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -42,7 +44,7 @@ extern void fliplist_shutdown(void);
 extern void fliplist_set_current(unsigned int unit, const char *image);
 extern bool fliplist_add_image(unsigned int unit);
 extern void fliplist_remove(unsigned int unit, const char *image);
-extern void fliplist_attach_head(unsigned int unit, int direction);
+extern bool fliplist_attach_head(unsigned int unit, int direction);
 extern fliplist_t fliplist_init_iterate(unsigned int unit);
 extern fliplist_t fliplist_next_iterate(unsigned int unit);
 extern char *fliplist_get_head(unsigned int unit);
