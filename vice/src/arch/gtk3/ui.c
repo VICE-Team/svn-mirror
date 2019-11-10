@@ -1073,6 +1073,9 @@ static gboolean on_window_configure_event(GtkWidget *widget,
 
 #ifdef MACOSX_SUPPORT
 
+/* The proper way to use objc_msgSend is to cast it into the right shape each time */
+#define OBJC_MSGSEND_FUNC_CAST(...) ((id (*)(__VA_ARGS__))objc_msgSend)
+
 void macos_set_dock_icon_workaround(void);
 void macos_activate_application_workaround(void);
 
@@ -1101,19 +1104,19 @@ void macos_set_dock_icon_workaround()
 
     bytes = g_bytes_get_data(gbytes, &bytesSize);
     imageData =
-        objc_msgSend(
+        OBJC_MSGSEND_FUNC_CAST(id, SEL, gconstpointer, gsize, BOOL)(
             (id)objc_getClass("NSData"),
             sel_getUid("dataWithBytesNoCopy:length:freeWhenDone:"),
             bytes,
             bytesSize,
             NO);
-    logo = objc_msgSend((id)objc_getClass("NSImage"), sel_getUid("alloc"));
-    logo = objc_msgSend(logo, sel_getUid("initWithData:"), imageData);
+    logo = OBJC_MSGSEND_FUNC_CAST(id, SEL)((id)objc_getClass("NSImage"), sel_getUid("alloc"));
+    logo = OBJC_MSGSEND_FUNC_CAST(id, SEL, id)(logo, sel_getUid("initWithData:"), imageData);
 
     if (logo) {
-        application = objc_msgSend((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
-        objc_msgSend(application, sel_getUid("setApplicationIconImage:"), logo);
-        objc_msgSend(logo, sel_getUid("release"));
+        application = OBJC_MSGSEND_FUNC_CAST(id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+        OBJC_MSGSEND_FUNC_CAST(id, SEL, id)(application, sel_getUid("setApplicationIconImage:"), logo);
+        OBJC_MSGSEND_FUNC_CAST(id, SEL)(logo, sel_getUid("release"));
     } else {
         log_error(LOG_ERR, "macos_set_dock_icon_workaround: failed to initialise image from resource");
     }
@@ -1133,8 +1136,8 @@ void macos_activate_application_workaround()
     id ns_application;
 
     /* [[NSApplication sharedApplication] activateIgnoringOtherApps: YES]; */
-    ns_application = objc_msgSend((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
-    objc_msgSend(ns_application, sel_getUid("activateIgnoringOtherApps:"), YES);
+    ns_application = OBJC_MSGSEND_FUNC_CAST(id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+    OBJC_MSGSEND_FUNC_CAST(id, SEL, BOOL)(ns_application, sel_getUid("activateIgnoringOtherApps:"), YES);
 }
 
 #endif
