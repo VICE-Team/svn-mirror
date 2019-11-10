@@ -48,11 +48,19 @@ gboolean ui_fliplist_add_current_cb(GtkWidget *widget, gpointer data)
     int unit = GPOINTER_TO_INT(data);
     char buffer[MSGBUF_SIZE];
 
-    fliplist_add_image(unit);
+    if (fliplist_add_image(unit)) {
 
-    g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): added '%s'",
-            unit, fliplist_get_head((unsigned int)unit));
-    ui_display_statustext(buffer, 10);
+        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): added '%s'",
+                unit, fliplist_get_head((unsigned int)unit));
+        ui_display_statustext(buffer, 10);
+    } else {
+        /* Display proper error message once we have a decent
+         * get_image_filename(unit) function which returns NULL on non-attached
+         * images.
+         */
+        g_snprintf(buffer, MSGBUF_SIZE, "Fliplist (#%d): oops", unit);
+        ui_display_statustext(buffer, 10);
+    }
     return TRUE;
 }
 

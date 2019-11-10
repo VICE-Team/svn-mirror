@@ -30,6 +30,8 @@
 #define FLIP_NEXT 1
 #define FLIP_PREV 0
 
+#include <stdbool.h>
+
 typedef struct fliplist_s * fliplist_t;
 
 extern int fliplist_resources_init(void);
@@ -38,7 +40,7 @@ extern int fliplist_cmdline_options_init(void);
 
 extern void fliplist_shutdown(void);
 extern void fliplist_set_current(unsigned int unit, const char *image);
-extern void fliplist_add_image(unsigned int unit);
+extern bool fliplist_add_image(unsigned int unit);
 extern void fliplist_remove(unsigned int unit, const char *image);
 extern void fliplist_attach_head(unsigned int unit, int direction);
 extern fliplist_t fliplist_init_iterate(unsigned int unit);

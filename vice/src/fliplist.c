@@ -1,9 +1,9 @@
+/** \file   fliplist.c
+ *
+ * \author  pottendo <pottendo@gmx.net>
+ */
+
 /*
- * fliplist.c
- *
- * Written by
- *  pottendo <pottendo@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "archdep.h"
 #include "attach.h"
@@ -178,15 +179,15 @@ unsigned int fliplist_get_unit(fliplist_t fl)
     return fl->unit;
 }
 
-void fliplist_add_image(unsigned int unit)
+bool fliplist_add_image(unsigned int unit)
 {
     fliplist_t n;
 
     if (current_image == NULL) {
-        return;
+        return false;
     }
     if (strcmp(current_image, "") == 0) {
-        return;
+        return false;
     }
 
     n = lib_malloc(sizeof(struct fliplist_s));
@@ -206,7 +207,9 @@ void fliplist_add_image(unsigned int unit)
         n->prev = n;
     }
     show_fliplist(unit);
+    return true;
 }
+
 
 void fliplist_remove(unsigned int unit, const char *image)
 {
