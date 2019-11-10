@@ -113,9 +113,9 @@ static GtkWidget *gain8580label;
 /** \brief  ReSID 8580 filter bias label */
 static GtkWidget *bias8580label;
 
-
+#if 0
 static GtkWidget *passband6581spin;
-
+#endif
 
 #endif
 
@@ -156,7 +156,9 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_show(passband8580label);
         gtk_widget_show(gain8580label);
         gtk_widget_show(bias8580label);
-        gtk_widget_hide(passband6581spin);
+#if 0
+        gtk_widget_hide(passband6581pin);
+#endif
     } else {
         gtk_widget_hide(passband8580);
         gtk_widget_hide(gain8580);
@@ -170,7 +172,9 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_show(passband6581label);
         gtk_widget_show(gain6581label);
         gtk_widget_show(bias6581label);
+#if 0
         gtk_widget_show(passband6581spin);
+#endif
     }
 
     /* enable/disable 8580 filter controls based on --enable-new8580filter */
