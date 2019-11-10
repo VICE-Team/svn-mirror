@@ -5583,53 +5583,136 @@ Enable/Disable native monitor.
 @c ----------------------------------------------------------------
 
 @c @node FIXME
-@section Memory settings
+@section RAM init pattern settings
+
+The initial content of uninitialized RAM depends on many factors, the inner
+workings of the RAM chip, the motherboard, etc. Generally, many RAM chips are
+build in a way that - however - at powerup about half the bits turn out 1, and
+about the other half turns out 0. As a consequence, and depending on what kind
+of RAM chips have been used in what kind of way, the typical patterns can be
+"seen" by the CPU right after powerup.
+
+VICE tries to model (some of) the real patterns accurately. Please be aware of
+the fact that there is - technically buggy - software out there that will only
+work with a certain RAM init pattern.
+
+How generating the pattern works is easily described in three simple steps:
+
+1. A base pattern is created using blocks of @code{RAMInitStartValue}, which
+   is inverted every @code{RAMInitValueInvert} bytes. This pattern can be offset
+   ("rotated") by @code{RAMInitValueOffset} bytes. This step creates the typical
+   00 00 ff ff ff ff 00 00 etc patterns.
+   
+2. Every @code{RAMInitPatternInvert} bytes the base pattern is inverted 
+   ("xored") by @code{RAMInitPatternInvertValue}. This step creates the inverted
+   pattern every $4000 or so bytes that is typical for some boards/ICs. It may
+   also create the 0x99, 0x66 based patterns that show up on other setups.
+   
+3. Every @code{RAMInitRepeatRandom} bytes @code{RAMInitStartRandom} bytes are
+   randomly inverted ("xored"). Additionally every bit is randomly inverted with
+   a @code{RAMInitRandomChance} : 4096 chance. This step creates the typical
+   random bytes that have been observed with some boards/ICs.
 
 @c @node FIXME
-@subsection Memory resources
+@subsection RAM init pattern resources
 
 @table @code
 
 @vindex RAMInitStartValue
 @item RAMInitStartValue
-Integer specifying the value for the very first RAM address after powerup
+Integer specifying the first value of the base pattern
 (all emulators except vsid).
 (0..255)
 
 @vindex RAMInitValueInvert
 @item RAMInitValueInvert
-Integer specifying the length of the memory block initialized with the same value
+Integer specifying the number of bytes until the base pattern is inverted
+(all emulators except vsid).
+
+@vindex RAMInitValueOffset
+@item RAMInitValueOffset
+Integer specifying the number of bytes to offset the base pattern
 (all emulators except vsid).
 
 @vindex RAMInitPatternInvert
 @item RAMInitPatternInvert
-Integer specifying the length of the memory block initialized with the same pattern
+Integer specifying the length of the memory block when inverting the base pattern
+(all emulators except vsid).
+
+@vindex RAMInitPatternInvertValue
+@item RAMInitPatternInvertValue
+Integer specifying the value to use for inverting the base pattern with
+(all emulators except vsid).
+
+@vindex RAMInitStartRandom
+@item RAMInitStartRandom
+Integer specifying the number of random bytes in the random pattern
+(all emulators except vsid).
+
+@vindex RAMInitRepeatRandom
+@item RAMInitRepeatRandom
+Integer specifying the number of bytes after which to repeat the random pattern
+(all emulators except vsid).
+
+@vindex RAMInitRandomChance
+@item RAMInitRandomChance
+Integer specifying the chance of any bit to randomly toggle (0-4096)
 (all emulators except vsid).
 
 @end table
 
 @c @node FIXME
-@subsection Memory command-line options
+@subsection RAM init pattern command-line options
 
 @table @code
 
 @findex -raminitstartvalue
 @item -raminitstartvalue <value>
-Set the value for the very first RAM address after powerup
+Set the first value of the base pattern
 (@code{RAMInitStartValue})
 (all emulators except vsid).
 (0..255)
 
 @findex -raminitvalueinvert
 @item -raminitvalueinvert <num of bytes>
-Length of memory block initialized with the same value
+Set the number of bytes until the base pattern is inverted
 (@code{RAMInitValueInvert})
+(all emulators except vsid).
+
+@findex -raminitvalueoffset
+@item -raminitvalueoffset <num of bytes>
+Offset the first pattern by <num> of bytes
+(@code{RAMInitValueOffset})
 (all emulators except vsid).
 
 @findex -raminitpatterninvert
 @item -raminitpatterninvert <num of bytes>
-Length of memory block initialized with the same pattern
+Set the length of the memory block when inverting the base pattern
 (@code{RAMInitPatternInvert})
+(all emulators except vsid).
+
+@findex -raminitpatterninvertvalue
+@item -raminitpatterninvertvalue <value>
+Set the length of the memory block when inverting the base pattern
+(@code{RAMInitPatternInvertValue})
+(all emulators except vsid).
+
+@findex -raminitstartrandom
+@item -raminitstartrandom <num of bytes>
+Set the number of random bytes in the random pattern
+(@code{RAMInitStartRandom})
+(all emulators except vsid).
+
+@findex -raminitrepeatrandom
+@item -raminitrepeatrandom <num of bytes>
+Set the number of bytes after which to repeat the random pattern
+(@code{RAMInitRepeatRandom})
+(all emulators except vsid).
+
+@findex -raminitrandomchance
+@item -raminitrandomchance <value>
+Set the chance of any bit to randomly toggle (0-4096)
+(@code{RAMInitRandomChance})
 (all emulators except vsid).
 
 @end table
