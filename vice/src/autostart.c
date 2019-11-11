@@ -1252,6 +1252,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     fileio_info_t *finfo;
     int result;
     const char *boot_file_name;
+    static char tempname[32];
     int mode;
 
     if (network_connected() || event_record_active() || event_playback_active()) {
@@ -1285,7 +1286,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             break;
         case AUTOSTART_PRG_MODE_DISK:
             {
-            char *savedir;
+            char *savedir; int n;
             log_message(autostart_log, "Loading PRG file `%s' with autostart disk image.", file_name);
             /* create the directory where the image should be written first */
             util_fname_split(AutostartPrgDiskImage, &savedir, NULL);
@@ -1295,7 +1296,22 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             lib_free(savedir);
             result = autostart_prg_with_disk_image(file_name, finfo, autostart_log, AutostartPrgDiskImage);
             mode = AUTOSTART_HASDISK;
-            boot_file_name = "*";
+            /* create temporary name for loading, use "*" when the name is longer
+               than 16 characters, remove ".prg" extension when found */
+            n = 0;while (finfo->name[n]) {
+                if (n == 17) {
+                    tempname[0] = '*';
+                    n = 1;
+                    break;
+                }
+                if ((n < 17) && (!strcasecmp((const char*)&finfo->name[n], ".prg"))) {
+                    break;
+                }
+                tempname[n] = finfo->name[n];
+                n++;
+            }
+            tempname[n] = 0;
+            boot_file_name = (const char *)tempname;
             }
             break;
         default:

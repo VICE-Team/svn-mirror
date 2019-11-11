@@ -200,6 +200,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     uint8_t data;
     unsigned int disk_image_type;
     int result, result2;
+    char tempname[32];
 
     /* identify disk image type */
     switch (drive_get_disk_drive_type(drive - 8)) {
@@ -271,14 +272,28 @@ int autostart_prg_with_disk_image(const char *file_name,
             break;
         }
 
-        /* get file name size */
-        file_name_size = strlen((const char *)fh->name);
+        /* create name for saving the file to the temporary disk. truncate to
+           16 characters max., remove ".prg" extension when found */
+        i = 0;while (fh->name[i]) {
+            if (i == 16) {
+                break;
+            }
+            if ((i < 16) && (!strcasecmp((const char*)&fh->name[i], ".prg"))) {
+                break;
+            }
+            tempname[i] = fh->name[i];
+            i++;
+        }
+        tempname[i] = 0;
+        file_name_size = i;
+
+        /* this should not happen */
         if (file_name_size > 16) {
             file_name_size = 16;
         }
-
+            
         /* open file on disk */
-        if (vdrive_iec_open(vdrive, (const uint8_t *)fh->name, file_name_size, secondary, NULL) != SERIAL_OK) {
+        if (vdrive_iec_open(vdrive, (const uint8_t *)tempname, file_name_size, secondary, NULL) != SERIAL_OK) {
             log_error(log, "Could not open file");
             break;
         }
