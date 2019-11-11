@@ -306,6 +306,11 @@ void plus256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
+void plus256k_ram_inject(uint16_t addr, uint8_t value)
+{
+    plus256k_ram[addr] = value;
+}
+
 void plus256k_ram_low_store(uint16_t addr, uint8_t value)
 {
     plus256k_ram[(plus256k_low_bank << 16) + addr] = value;

@@ -820,8 +820,13 @@ void mem_set_basic_text(uint16_t start, uint16_t end)
 
 void mem_inject(uint32_t addr, uint8_t value)
 {
-    /* could be made to handle various internal expansions in some sane way */
-    mem_ram[addr & 0xffff] = value;
+    /* printf("mem_inject addr: %04x  value: %02x\n", addr, value); */
+    /* FIXME: handle various internal expansions here */
+    if (plus256k_enabled) {
+        plus256k_ram_inject(addr, value);
+    } else {
+        mem_ram[addr & 0xffff] = value;
+    }
 }
 
 /* ------------------------------------------------------------------------- */

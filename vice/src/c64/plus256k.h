@@ -39,6 +39,7 @@ extern void plus256k_init(void);
 extern void plus256k_reset(void);
 extern void plus256k_shutdown(void);
 
+extern void plus256k_ram_inject(uint16_t addr, uint8_t value);
 extern void plus256k_ram_low_store(uint16_t addr, uint8_t value);
 extern void plus256k_ram_high_store(uint16_t addr, uint8_t value);
 extern uint8_t plus256k_ram_low_read(uint16_t addr);
