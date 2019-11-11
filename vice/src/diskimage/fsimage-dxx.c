@@ -157,6 +157,8 @@ int fsimage_read_dxx_image(const disk_image_t *image)
     int half_track;
     int sectors;
     long offset;
+    /* unsigned long trackoffset = 0; */
+    uint8_t *tempgcr;
 
     if (image->type == DISK_IMAGE_TYPE_D80
         || image->type == DISK_IMAGE_TYPE_D82) {
@@ -190,6 +192,9 @@ int fsimage_read_dxx_image(const disk_image_t *image)
         image->gcr->tracks[half_track].size = track_size;
 
         if (track <= image->tracks) {
+            /* get temp buffer */
+            ptr = tempgcr = lib_malloc(track_size);
+            
             if (double_sided && track == 36) {
                 sectors = disk_image_check_sector(image, BAM_TRACK_1571 + 35, BAM_SECTOR_1571);
 
@@ -230,17 +235,44 @@ int fsimage_read_dxx_image(const disk_image_t *image)
 
                 ptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
             }
+            
+            ptr = image->gcr->tracks[half_track].data;
+#if 1
+            memcpy(ptr, tempgcr, track_size);
+#else
+            /* FIXME: copy gcr data to final buffer with offset+wraparound */
+            memset(ptr, 0x55, track_size);
+            trackoffset %= track_size;
+            memcpy(ptr + trackoffset, tempgcr, track_size - trackoffset);
+            memcpy(ptr, tempgcr + (track_size - trackoffset), track_size - (track_size - trackoffset));
+            trackoffset += 200; /* FIXME */
+#endif
+            lib_free(tempgcr);
         } else {
             memset(ptr, 0x55, track_size);
         }
 
         /* Clear odd track */
         half_track++;
+#if 0
+        /* this does not work for some reason (skew.d64 fails) */
         if (image->gcr->tracks[half_track].data) {
-            lib_free(image->gcr->tracks[half_track].data);
-            image->gcr->tracks[half_track].data = NULL;
-            image->gcr->tracks[half_track].size = 0;
+            image->gcr->tracks[half_track].size = track_size;
+            ptr = image->gcr->tracks[half_track].data;
+            memset(ptr, 0, track_size);
         }
+#else
+        /* create an (empty) half track */
+        if (image->gcr->tracks[half_track].data == NULL) {
+            image->gcr->tracks[half_track].data = lib_malloc(track_size);
+        } else if (image->gcr->tracks[half_track].size != (int)track_size) {
+            image->gcr->tracks[half_track].data = lib_realloc(image->gcr->tracks[half_track].data, track_size);
+        }
+        image->gcr->tracks[half_track].size = track_size;
+        ptr = image->gcr->tracks[half_track].data;
+        memset(ptr, 0, track_size);        
+#endif
+        
     }
     return 0;
 }
