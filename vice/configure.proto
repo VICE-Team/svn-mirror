@@ -1040,6 +1040,14 @@ else
   dnl Disable asserts
   VICE_CPPFLAGS="$VICE_CPPFLAGS -DNDEBUG"
   DEBUGBUILD=0
+  dnl Remove super annoying horrible terminal window on Windows
+  dnl I have a feeling this should be in LDFLAGS, but I haven't got around to
+  dnl proper supporting VICE_LDFLAGS
+  if test x"$is_win32" = "xyes"; then
+     VICE_CPPFLAGS="$VICE_CPPFLAGS -mwindows"
+     VICE_CFLAGS="$VICE_CFLAGS -mwindows"
+     VICE_CXXFLAGS="$VICE_CXXFLAGS -mwindows"
+  fi
 fi
 
 AC_SUBST(DEBUGBUILD)
