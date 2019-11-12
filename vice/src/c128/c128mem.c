@@ -751,7 +751,7 @@ void mem_initialize_memory(void)
         mem_read_tab[128 + 9][i] = chargen_read;
         mem_read_tab[128 + 10][i] = chargen_read;
         mem_read_tab[128 + 11][i] = chargen_read;
-        mem_read_tab[128 + 25][i] = chargen_read;
+        /*mem_read_tab[128 + 25][i] = chargen_read;*/
         mem_read_tab[128 + 26][i] = chargen_read;
         mem_read_tab[128 + 27][i] = chargen_read;
         mem_read_base_tab[128 + 1][i] = NULL;
@@ -760,7 +760,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[128 + 9][i] = NULL;
         mem_read_base_tab[128 + 10][i] = NULL;
         mem_read_base_tab[128 + 11][i] = NULL;
-        mem_read_base_tab[128 + 25][i] = NULL;
+        /*mem_read_base_tab[128 + 25][i] = NULL;*/
         mem_read_base_tab[128 + 26][i] = NULL;
         mem_read_base_tab[128 + 27][i] = NULL;
     }
