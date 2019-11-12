@@ -306,11 +306,6 @@ void plus256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-void plus256k_ram_inject(uint16_t addr, uint8_t value)
-{
-    plus256k_ram[addr] = value;
-}
-
 void plus256k_ram_low_store(uint16_t addr, uint8_t value)
 {
     plus256k_ram[(plus256k_low_bank << 16) + addr] = value;
@@ -321,6 +316,15 @@ void plus256k_ram_high_store(uint16_t addr, uint8_t value)
     plus256k_ram[(plus256k_high_bank << 16) + addr] = value;
     if (addr == 0xff00) {
         reu_dma(-1);
+    }
+}
+
+void plus256k_ram_inject(uint16_t addr, uint8_t value)
+{
+    if (addr < 0x1000) {
+        plus256k_ram_low_store(addr, value);
+    } else {
+        plus256k_ram_high_store(addr, value);
     }
 }
 

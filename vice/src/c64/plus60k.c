@@ -493,6 +493,11 @@ void plus60k_ram_store(uint16_t addr, uint8_t value)
     }
 }
 
+void plus60k_ram_inject(uint16_t addr, uint8_t value)
+{
+    plus60k_ram_store(addr, value);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* PLUS60K snapshot module format:

@@ -42,6 +42,7 @@ extern void c64_256k_reset(void);
 extern void c64_256k_cia_set_vbank(int ciabank);
 extern void c64_256k_shutdown(void);
 
+extern void c64_256k_ram_inject(uint16_t addr, uint8_t value);
 extern void c64_256k_ram_segment0_store(uint16_t addr, uint8_t value);
 extern void c64_256k_ram_segment1_store(uint16_t addr, uint8_t value);
 extern void c64_256k_ram_segment2_store(uint16_t addr, uint8_t value);

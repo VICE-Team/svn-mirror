@@ -432,6 +432,19 @@ void c64_256k_ram_segment3_store(uint16_t addr, uint8_t value)
     }
 }
 
+void c64_256k_ram_inject(uint16_t addr, uint8_t value)
+{
+    if (addr < 0x4000) {
+        c64_256k_ram_segment0_store(addr, value);
+    } else if (addr < 0x8000) {
+        c64_256k_ram_segment1_store(addr, value);
+    } else if (addr < 0xc000) {
+        c64_256k_ram_segment2_store(addr, value);
+    } else {
+        c64_256k_ram_segment3_store(addr, value);
+    }
+}
+
 uint8_t c64_256k_ram_segment0_read(uint16_t addr)
 {
     return c64_256k_ram[(c64_256k_segment0 * 0x4000) + (addr & 0x3fff)];

@@ -38,6 +38,7 @@ extern void plus60k_init(void);
 extern void plus60k_reset(void);
 extern void plus60k_shutdown(void);
 
+extern void plus60k_ram_inject(uint16_t addr, uint8_t value);
 extern void plus60k_vicii_mem_vbank_store(uint16_t addr, uint8_t value);
 extern void plus60k_vicii_mem_vbank_39xx_store(uint16_t addr, uint8_t value);
 extern void plus60k_vicii_mem_vbank_3fxx_store(uint16_t addr, uint8_t value);

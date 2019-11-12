@@ -34,6 +34,7 @@
 
 #include "alarm.h"
 #include "c64.h"
+#include "c64-memory-hacks.h"
 #include "c64-resources.h"
 #include "c64_256k.h"
 #include "c64cart.h"
@@ -821,10 +822,7 @@ void mem_set_basic_text(uint16_t start, uint16_t end)
 void mem_inject(uint32_t addr, uint8_t value)
 {
     /* printf("mem_inject addr: %04x  value: %02x\n", addr, value); */
-    /* FIXME: handle various internal expansions here */
-    if (plus256k_enabled) {
-        plus256k_ram_inject(addr, value);
-    } else {
+    if (!memory_hacks_ram_inject(addr, value)) {
         mem_ram[addr & 0xffff] = value;
     }
 }
