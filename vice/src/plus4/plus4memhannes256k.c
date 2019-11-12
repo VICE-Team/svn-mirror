@@ -223,6 +223,11 @@ void h256k_store(uint16_t addr, uint8_t value)
     }
 }
 
+void h256k_ram_inject(uint16_t addr, uint8_t value)
+{
+    h256k_store(addr, value);
+}
+
 uint8_t h256k_read(uint16_t addr)
 {
     int real_bank;

@@ -42,6 +42,7 @@
 #include "plus4mem.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
+#include "plus4memhacks.h"
 #include "plus4memlimit.h"
 #include "plus4memrom.h"
 #include "plus4pio1.h"
@@ -906,10 +907,13 @@ void mem_set_basic_text(uint16_t start, uint16_t end)
 
 void mem_inject(uint32_t addr, uint8_t value)
 {
-    /* just call mem_store() to be safe.
-       This could possibly be changed to write straight into the
-       memory array.  mem_ram[addr & mask] = value; */
-    mem_store((uint16_t)(addr & 0xffff), value);
+    /* printf("mem_inject addr: %04x  value: %02x\n", addr, value); */
+    if (!plus4_memory_hacks_ram_inject(addr, value)) {
+        /* just call mem_store() to be safe.
+           This could possibly be changed to write straight into the
+           memory array.  mem_ram[addr & mask] = value; */
+        mem_store((uint16_t)(addr & 0xffff), value);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

@@ -43,6 +43,8 @@ extern void h256k_shutdown(void);
 extern void h256k_store(uint16_t addr, uint8_t value);
 extern uint8_t h256k_read(uint16_t addr);
 
+extern void h256k_ram_inject(uint16_t addr, uint8_t value);
+
 extern int set_h256k_enabled(int val);
 
 #endif

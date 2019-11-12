@@ -180,6 +180,11 @@ uint8_t cs256k_read(uint16_t addr)
 }
 
 
+void cs256k_ram_inject(uint16_t addr, uint8_t value)
+{
+    cs256k_store(addr, value);
+}
+
 static int cs256k_dump(void)
 {
     mon_out("Segment: %d ($%04X-$%04X), block: %d\n",

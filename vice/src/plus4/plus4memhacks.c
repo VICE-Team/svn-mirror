@@ -105,6 +105,25 @@ static int set_memory_hack(int val, void *param)
     return 0;
 }
 
+int plus4_memory_hacks_ram_inject(uint16_t addr, uint8_t value)
+{
+    switch (memory_hack) {
+        case MEMORY_HACK_C256K:
+            cs256k_ram_inject(addr, value);
+            break;
+        case MEMORY_HACK_H256K:
+        case MEMORY_HACK_H1024K:
+        case MEMORY_HACK_H4096K:
+            h256k_ram_inject(addr, value);
+            break;
+        case MEMORY_HACK_NONE:
+        default:
+            return 0;
+            break;
+    }
+    return 1;
+}
+
 static const resource_int_t resources_int[] = {
     { "MemoryHack", MEMORY_HACK_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &memory_hack, set_memory_hack, NULL },
