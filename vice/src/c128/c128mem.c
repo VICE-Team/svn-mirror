@@ -884,8 +884,14 @@ void mem_get_basic_text(uint16_t *start, uint16_t *end)
     if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
     }
-    if (end != NULL) {
-        *end = mem_ram[0x1210] | (mem_ram[0x1211] << 8);
+    if (mmu_is_c64config()) {
+        if (end != NULL) {
+            *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
+        }
+    } else {
+        if (end != NULL) {
+            *end = mem_ram[0x1210] | (mem_ram[0x1211] << 8);
+        }
     }
 }
 
@@ -893,8 +899,13 @@ void mem_set_basic_text(uint16_t start, uint16_t end)
 {
     mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
     mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
-    mem_ram[0x1210] = end & 0xff;
-    mem_ram[0x1211] = end >> 8;
+    if (mmu_is_c64config()) {
+        mem_ram[0x2d] = mem_ram[0x2f] = mem_ram[0x31] = mem_ram[0xae] = end & 0xff;
+        mem_ram[0x2e] = mem_ram[0x30] = mem_ram[0x32] = mem_ram[0xaf] = end >> 8;
+    } else {
+        mem_ram[0x1210] = end & 0xff;
+        mem_ram[0x1211] = end >> 8;
+    }
 }
 
 void mem_inject(uint32_t addr, uint8_t value)

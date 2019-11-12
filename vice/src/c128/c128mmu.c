@@ -212,6 +212,12 @@ static void mmu_update_page01_pointers(void)
     mem_page_one  = mem_ram + page_one_bank  + (mmu[0x9] << 8);
 }
 
+/* returns 1 if MMU is in C64 mode */
+int mmu_is_c64config(void)
+{
+    return (mmu[5] & 0x40) ? 1 : 0; /* FIXME: is this correct? */
+}
+
 static void mmu_switch_to_c64mode(void)
 {
 #ifdef MMU_DEBUG

@@ -39,6 +39,7 @@ extern uint8_t mmu_ffxx_read_z80(uint16_t addr);
 
 extern void mmu_reset(void);
 extern void mmu_set_config64(int config);
+extern int mmu_is_c64config(void);
 
 extern void mmu_init(void);
 extern int mmu_resources_init(void);
