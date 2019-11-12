@@ -1,10 +1,16 @@
 gtk3datadir = $(VICEDIR)/gui
 
 GRESOURCE_TARGET = $(builddir)/vice.gresource
+# TODO: check the double backslash
 GRESOURCE_PROTO = $(srcdir)//vice.gresource.xml.proto
 GRESOURCE_XML = $(builddir)/vice.gresource.xml
 
-all: $(GRESOURCE_TARGET)
+WINDRES_RC_PROTO = $(top_srcdir)/src/arch/gtk3/data/icon.rc.proto
+WINDRES_RC_TARGET = $(top_builddir)/src/arch/gtk3/data/icon.rc
+WINDRES_COFF = $(top_builddir)/src/arch/gtk3/data/icon.res
+
+
+all: $(GRESOURCE_TARGET) $(WINDRES_COFF)
 
 $(GRESOURCE_XML): $(GRESOURCE_PROTO)
 	cat $(GRESOURCE_PROTO) | sed -e "s@VICE_SRC_DIR@$(srcdir)@g" \
@@ -13,9 +19,16 @@ $(GRESOURCE_XML): $(GRESOURCE_PROTO)
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources $< --target $@
 
-EXTRA_DIST = $(GRESOURCE_PROTO)
 
-gtk3data_DATA = $(GRESOURCE_TARGET)
+$(WINDRES_RC_TARGET): $(WINDRES_RC_PROTO)
+	cat $< | sed -e "s@__PREFIX__@$(top_srcdir)@g" > $@
+
+$(WINDRES_COFF): $(WINDRES_RC_TARGET)
+	windres $< -O coff -o $@
+
+EXTRA_DIST = $(GRESOURCE_PROTO) $(WINDRES_RC_PROTO)
+
+gtk3data_DATA = $(GRESOURCE_TARGET) $(WINDRES_COFF)
 
 .PHONY: clean
 clean:

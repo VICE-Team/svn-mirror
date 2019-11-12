@@ -83,53 +83,42 @@ static shutdownfuncPtr shutdown32fp;
 static inpfuncPtr inp32fp;
 static oupfuncPtr oup32fp;
 
+
 /* input/output functions */
 static void cw_outb(unsigned int addrint, DWORD value)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
-
 #ifdef  _M_IX86
     _outp(addr, (BYTE)value);
+#else
+    (void)addrint;
 #endif
 }
 
 static void cw_outl(unsigned int addrint, DWORD value)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
-
 #ifdef  _M_IX86
-    _outpd(addr, value);
+    _outpd(addrint, value);
+#else
+    (void)addrint;
 #endif
 }
 
 static BYTE cw_inb(unsigned int addrint)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
-
 #ifdef  _M_IX86
-    return _inp(addr);
-#endif
+    return _inp(addrint);
+#else
+    (void)addrint;
     return 0;
+#endif
 }
 
 static DWORD cw_inl(unsigned int addrint)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
-
 #ifdef  _M_IX86
-    return _inpd(addr);
+    return _inpd(addrint);
+#else
+    (void)addrint;
 #endif
     return 0;
 }

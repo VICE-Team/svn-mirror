@@ -7,6 +7,7 @@ AM_CFLAGS = @VICE_CFLAGS@
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 ARCH_LIBS = @ARCH_LIBS@
+WINDRES_LIB = @WINDRES_LIB@
 
 if DUMMY_COMPILE
 SUBDIRS = buildtools
@@ -1370,7 +1371,9 @@ vsid_libs =  \
 	$(hvsc_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
-vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
+
+
 vsid_DEPENDENCIES = $(vsid_libs)
 vsid_LDFLAGS = @vsid_LDFLAGS@
 
@@ -1433,7 +1436,7 @@ x64_libs =  \
 	$(hvsc_lib)
 
 x64_SOURCES = $(base_sources) $(midi_sources)
-x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
@@ -1520,7 +1523,7 @@ x64sc_libs =  \
 	$(hvsc_lib)
 
 x64sc_SOURCES = $(base_sources) $(midi_sources)
-x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 x64sc_DEPENDENCIES = $(x64sc_libs)
 x64sc_LDFLAGS = @x64_LDFLAGS@
 
@@ -1605,7 +1608,7 @@ x64dtv_libs =  \
 	$(hvsc_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
-x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 x64dtv_DEPENDENCIES = $(x64dtv_libs)
 x64dtv_LDFLAGS = @x64_LDFLAGS@
 
@@ -1689,7 +1692,7 @@ xscpu64_libs =  \
 	$(hvsc_lib)
 
 xscpu64_SOURCES = $(base_sources) $(midi_sources)
-xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 xscpu64_DEPENDENCIES = $(xscpu64_libs)
 xscpu64_LDFLAGS = @xscpu64_LDFLAGS@
 
@@ -1779,7 +1782,7 @@ x128_libs =  \
 	$(hvsc_lib)
 
 x128_SOURCES = $(base_sources) $(midi_sources)
-x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
@@ -1866,7 +1869,7 @@ xvic_libs =  \
 	$(hvsc_lib)
 
 xvic_SOURCES = $(base_sources) $(midi_sources)
-xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
@@ -1946,7 +1949,7 @@ xpet_libs =  \
 	$(hvsc_lib)
 
 xpet_SOURCES = $(base_sources)
-xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
@@ -2024,7 +2027,7 @@ xplus4_libs =  \
 	$(hvsc_lib)
 
 xplus4_SOURCES = $(base_sources)
-xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
@@ -2102,8 +2105,8 @@ xcbm2_libs = \
 	$(hvsc_lib)
 
 xcbm2_SOURCES = $(base_sources)
-xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
-xcbm2_DEPENDENCIES = $(xcbm2_libs) 
+xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
+xcbm2_DEPENDENCIES = $(xcbm2_libs)
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
 .PHONY: xcbm2-all
@@ -2178,7 +2181,7 @@ xcbm5x0_libs = \
 	$(hvsc_lib)
 
 xcbm5x0_SOURCES = $(base_sources)
-xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
+xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs) 
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
 

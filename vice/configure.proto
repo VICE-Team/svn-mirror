@@ -3417,6 +3417,8 @@ SDL_EXTRA_LIBS=""
 AM_CONDITIONAL(MAKE_INSTALL, true)
 AM_CONDITIONAL(MAKE_BINDIST, false)
 
+WINDRES_LIB=""
+
 if test x"$enable_native_gtk3ui" = "xyes"; then
   dnl Use C++ compiler/linker since novte uses C++
   LINKCC='$(CXX)'
@@ -3427,6 +3429,9 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
     AM_CONDITIONAL(MAKE_INSTALL, false)
     AM_CONDITIONAL(MAKE_BINDIST, true)
+    dnl Add icons resources (there's probably a better way)
+    dnl ARCH_LIBS="$ARCH_LIBS $ARCH_DIR/data/icon.res"
+    WINDRES_LIB="$ARCH_DIR/data/icon.res"
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
   fi
@@ -3544,6 +3549,7 @@ AC_SUBST(SDL_EXTRA_LIBS)
 AC_SUBST(SOUND_USS_OBJ)
 AC_SUBST(SOUND_MIDAS_OBJ)
 AC_SUBST(SOUND_SDL_OBJ)
+AC_SUBST(WINDRES_LIB)
 
 PLATFORM_DOX_FLAGS=""
 if test x"$enable_platformdox" = "xyes"; then
