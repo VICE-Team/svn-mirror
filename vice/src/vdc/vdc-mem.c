@@ -38,6 +38,7 @@
 #include "monitor.h"
 #include "types.h"
 #include "vdc-mem.h"
+#include "vdc-resources.h"
 #include "vdc.h"
 #include "vdctypes.h"
 
@@ -65,7 +66,7 @@ static void vdc_write_data(void)
     ptr = (vdc.regs[18] << 8) + vdc.regs[19];
 
     /* Write data byte to update address. */
-    vdc.ram[ptr & vdc.vdc_address_mask] = vdc.regs[31];
+    vdc_ram_store(ptr & vdc.vdc_address_mask, vdc.regs[31]);
 #ifdef REG_DEBUG
     log_message(vdc.log, "STORE %04x %02x", ptr & vdc.vdc_address_mask,
                 vdc.regs[31]);
@@ -501,7 +502,7 @@ uint8_t vdc_read(uint16_t addr)
         /*log_message(vdc.log, "read: addr = %x", addr);*/
 
         if (vdc.update_reg == 31) {
-            retval = vdc.ram[((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask];
+            retval = vdc_ram_read((vdc.regs[18] << 8) + vdc.regs[19]);
             ptr = (1 + vdc.regs[19] + (vdc.regs[18] << 8))
                   & vdc.vdc_address_mask;
             vdc.regs[18] = (ptr >> 8) & 0xff;
@@ -579,15 +580,37 @@ uint8_t vdc_peek(uint16_t addr)    /* No sidefx read of external VDC registers *
     }
 }
 
+/* address translation function for a 64KB VDC in 16KB mode */
+static uint16_t vdc_64k_to_16k_map(uint16_t address)
+{
+    uint16_t new_address = address & 0x80ff;
+    uint16_t tmp = address & 0x3f00;
+    uint16_t low_bit = address & 0x0100;
+
+    tmp <<= 1;
+    tmp |= low_bit;
+    new_address |= tmp;
+    return new_address;
+}
 
 uint8_t vdc_ram_read(uint16_t addr)
 {
+    /* check for 16KB memory map and 64KB VDC */
+    if (!(vdc.regs[28] & 0x10) && (vdc_resources.vdc_64kb_expansion)) {
+        return vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)];
+    }
+
+    /* for now the default till all possible combinations have been fixed */
     return vdc.ram[addr & vdc.vdc_address_mask];
 }
 
 void vdc_ram_store(uint16_t addr, uint8_t value)
 {
-    vdc.ram[addr & vdc.vdc_address_mask] = value;
+    if (!(vdc.regs[28] & 0x10) && (vdc_resources.vdc_64kb_expansion)) {
+        vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)] = value;
+    } else {
+        vdc.ram[addr & vdc.vdc_address_mask] = value;
+    }
 }
 
 
