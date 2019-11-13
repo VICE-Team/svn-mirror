@@ -88,7 +88,7 @@ static oupfuncPtr oup32fp;
 static void cw_outb(unsigned int addrint, DWORD value)
 {
 #ifdef  _M_IX86
-    _outp(addr, (BYTE)value);
+    _outp(addrint, (BYTE)value);
 #else
     (void)addrint;
 #endif
