@@ -803,7 +803,7 @@ int machine_specific_init(void)
     if (delay == 0) {
         delay = 2; /* default */
     }
-    autostart_init((CLOCK)(delay * PLUS4_PAL_RFSH_PER_SEC * PLUS4_PAL_CYCLES_PER_RFSH), 1, 0, 0xc8, 0xca, -40);
+    autostart_init((CLOCK)(delay * PLUS4_PAL_RFSH_PER_SEC * PLUS4_PAL_CYCLES_PER_RFSH), 1);
 
     /* Initialize the sidcart first */
     sidcart_sound_chip_init();

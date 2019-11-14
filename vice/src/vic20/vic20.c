@@ -932,9 +932,7 @@ int machine_specific_init(void)
     if (delay == 0) {
         delay = 3; /* default */
     }
-    autostart_init((CLOCK)
-                   (delay * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH),
-                   1, 0xcc, 0xd1, 0xd3, 0xd5);
+    autostart_init((CLOCK)(delay * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH), 1);
 
     /* Pre-init VIC20-specific parts of the menus before vic_init()
        creates a canvas window with a menubar at the top. */

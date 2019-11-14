@@ -492,7 +492,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
        loading the new ROMs. These depend on addresses defined in the
        rom - they might be different in the loaded ROM. */
     kbdbuf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0);
+    autostart_init(0, 0);
     tape_deinstall();
 
     petrom_9_loaded = config & 1;

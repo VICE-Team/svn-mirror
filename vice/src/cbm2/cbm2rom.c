@@ -137,11 +137,7 @@ int cbm2rom_checksum(void)
     if (delay == 0) {
         delay = 10; /* default */
     }
-    autostart_init((CLOCK)(delay * C610_PAL_RFSH_PER_SEC * C610_PAL_CYCLES_PER_RFSH), 0,
-                    0, /* Pointer: Cursor Blink enable: 0 = Flash Cursor */
-                    0xc8, /* Pointer: Current Screen Line Address */
-                    0xcb, /* Pointer: Cursor Column on Current Line */
-                    -80); /* chars per line */
+    autostart_init((CLOCK)(delay * C610_PAL_RFSH_PER_SEC * C610_PAL_CYCLES_PER_RFSH), 0);
     return 0;
 }
 
@@ -153,7 +149,7 @@ int cbm2rom_load_kernal(const char *rom_name)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     kbdbuf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0);
+    autostart_init(0, 0);
     tape_init(&tapeinit);
 
     /* Load Kernal ROM.  */

@@ -1078,7 +1078,7 @@ int machine_specific_init(void)
     if (delay == 0) {
         delay = 3; /* default */
     }
-    autostart_init((CLOCK)(delay * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1, 0xa27, 0xe0, 0xec, 0xee);
+    autostart_init((CLOCK)(delay * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1);
 
     /* Pre-init C128-specific parts of the menus before vdc_init() and
        vicii_init() create canvas windows with menubars at the top. */
@@ -1247,15 +1247,14 @@ void machine_kbdbuf_reset_c64(void)
 
 void machine_autostart_reset_c128(void)
 {
-    /* FIXME: at least 0xa26 is only for 40 cols */
-    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1, 0xa27, 0xe0, 0xec, 0xee);
+    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
 }
 
 void machine_autostart_reset_c64(void)
 {
-    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1, 0xcc, 0xd1, 0xd3, 0xd5);
+    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
 }
-
+ 
 /* ------------------------------------------------------------------------- */
 
 /* This hook is called at the end of every frame.  */

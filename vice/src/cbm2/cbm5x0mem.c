@@ -897,6 +897,16 @@ void mem_set_basic_text(uint16_t start, uint16_t end)
 {
 }
 
+/* this function should always read from the screen currently used by the kernal
+   for output, normally this does just return system ram - except when the 
+   videoram is not memory mapped.
+   used by autostart to "read" the kernal messages
+*/
+uint8_t mem_read_screen(uint16_t addr)
+{
+    return mem_read(addr);
+}
+
 void mem_inject(uint32_t addr, uint8_t value)
 {
     /* just call mem_store() to be safe.
@@ -1060,6 +1070,19 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
     *bank = 16;
 }
 
+/* used by autostart to locate and "read" kernal output on the current screen
+ * this function should return whatever the kernal currently uses, regardless
+ * what is currently visible/active in the UI 
+ */
+void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uint8_t *line_length, int *blinking)
+{
+    /* Cursor Blink enable: 1 = Flash Cursor, 0 = Cursor disabled, -1 = n/a */
+    *blinking = -1;
+    *screen_addr = zero_read(0xc8) + zero_read(0xc9) * 256; /* Current Screen Line Address */
+    *cursor_column = zero_read(0xcb);  /* Cursor Column on Current Line */
+    *line_length = 40;                 /* Physical Screen Line Length */
+}
+    
 void mem_color_ram_to_snapshot(uint8_t *color_ram)
 {
     memcpy(color_ram, mem_color_ram, 0x400);

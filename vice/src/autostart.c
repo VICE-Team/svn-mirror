@@ -84,13 +84,6 @@
 static void autostart_done(void);
 static void autostart_finish(void);
 
-/* Kernal addresses.  Set by `autostart_init()'.  */
-
-static uint16_t blnsw;           /* Cursor Blink enable: 0 = Flash Cursor */
-static int pnt;                 /* Pointer: Current Screen Line Address */
-static int pntr;                /* Cursor Column on Current Line */
-static int lnmx;                /* Physical Screen Line Length */
-
 /* Current state of the autostart routine.  */
 static enum {
     AUTOSTART_NONE,
@@ -154,9 +147,6 @@ static int entered_rom = 0;
 static int trigger_monitor = 0;
 
 int autostart_ignore_reset = 0; /* FIXME: only used by datasette.c, does it really have to be global? */
-
-/* flag for special case handling of C128 80 columns mode */
-static int c128_column4080_key;
 
 /* ------------------------------------------------------------------------- */
 
@@ -415,37 +405,37 @@ static void deallocate_program_name(void)
 
 static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 {
-    int screen_addr, line_length, cursor_column, addr, i;
+    uint16_t screen_addr, addr;
+    uint8_t line_length, cursor_column;
+    int i, blinking;
 
-    screen_addr = (int)(mem_read((uint16_t)(pnt)) | (mem_read((uint16_t)(pnt + 1)) << 8));
-    cursor_column = (int)mem_read((uint16_t)(pntr));
-
-    line_length = (int)(lnmx < 0 ? -lnmx : mem_read((uint16_t)(lnmx)) + 1);
-
-    DBG(("check(%s) pnt:%04x pntr:%04x addr:%04x column:%d, linelen:%d blnsw:%04x(%d)",
-         s, pnt, pntr, screen_addr, cursor_column, line_length, blnsw, mem_read(blnsw)));
+    mem_get_cursor_parameter(&screen_addr, &cursor_column, &line_length, &blinking);
+    
+    DBG(("check(%s) screen addr:%04x column:%d, linelen:%d blinking:%d",
+         s, screen_addr, cursor_column, line_length, blinking));
 
     if (!kbdbuf_is_empty()) {
         return NOT_YET;
     }
-
-    if (blink_mode == AUTOSTART_WAIT_BLINK && cursor_column != 0) {
-        return NOT_YET;
-    }
-
-    if (blink_mode == AUTOSTART_WAIT_BLINK && blnsw != 0 && mem_read(blnsw) != 0) {
-        return NOT_YET;
-    }
-
+    
     if (blink_mode == AUTOSTART_WAIT_BLINK) {
+        /* wait until cursor is in the first column */
+        if (cursor_column != 0) {
+            return NOT_YET;
+        }
+        /* if blink state can be checked, wait until the cursor is in "on" state */
+        if ((blinking != -1) && (blinking == 0)) {
+            return NOT_YET;
+        }
+        /* now we expect the string in the previous line (typically "READY.") */
         addr = screen_addr - line_length;
     } else {
         addr = screen_addr;
     }
-
+    
     for (i = 0; s[i] != '\0'; i++) {
-        if (mem_read((uint16_t)(addr + i)) != s[i] % 64) {
-            if (mem_read((uint16_t)(addr + i)) != (uint8_t)32) {
+        if (mem_read_screen((uint16_t)(addr + i) & 0xffff) != s[i] % 64) {
+            if (mem_read_screen((uint16_t)(addr + i) & 0xffff) != (uint8_t)32) {
                 return NO;
             }
             return NOT_YET;
@@ -546,14 +536,8 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 /* ------------------------------------------------------------------------- */
 
 /* Reset autostart.  */
-void autostart_reinit(CLOCK min_cycles_, int handle_tde,
-                      int blnsw_, int pnt_, int pntr_, int lnmx_)
+void autostart_reinit(CLOCK min_cycles_, int handle_tde)
 {
-    blnsw = (uint16_t)(blnsw_);
-    pnt = pnt_;
-    pntr = pntr_;
-    lnmx = lnmx_;
-
     min_cycles = min_cycles_;
 
     handle_drive_true_emulation_by_machine = handle_tde;
@@ -568,12 +552,11 @@ void autostart_reinit(CLOCK min_cycles_, int handle_tde,
 }
 
 /* Initialize autostart.  */
-int autostart_init(CLOCK min_cycles_, int handle_drive_true_emulation,
-                   int blnsw_, int pnt_, int pntr_, int lnmx_)
+int autostart_init(CLOCK min_cycles_, int handle_drive_true_emulation)
 {
     autostart_prg_init();
 
-    autostart_reinit(min_cycles_, handle_drive_true_emulation, blnsw_, pnt_, pntr_, lnmx_);
+    autostart_reinit(min_cycles_, handle_drive_true_emulation);
 
     if (autostart_log == LOG_ERR) {
         autostart_log = log_open("AUTOSTART");
@@ -608,9 +591,6 @@ static void autostart_finish(void)
 {
     if (autostart_run_mode == AUTOSTART_MODE_RUN) {
         log_message(autostart_log, "Starting program.");
-        if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
-            kbdbuf_feed("GRAPHIC5:");
-        }
         /* log_message(autostart_log, "Run command is: '%s' (%s)", AutostartRunCommand, AutostartDelayRandom ? "delayed" : "no delay"); */
         if (AutostartDelayRandom) {
             kbdbuf_feed_runcmd(AutostartRunCommand);
@@ -619,9 +599,6 @@ static void autostart_finish(void)
         }
     } else {
         log_message(autostart_log, "Program loaded.");
-        if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
-            kbdbuf_feed("GRAPHIC5\x0d");
-        }
     }
     /* printf("autostart_finish cmdline_get_autostart_mode(): %d\n", cmdline_get_autostart_mode()); */
     /* inject string given to -keybuf option on commandline into keyboard buffer */
@@ -634,11 +611,6 @@ static void autostart_finish(void)
 static void autostart_done(void)
 {
     autostartmode = AUTOSTART_DONE;
-
-    if (machine_class == VICE_MACHINE_C128) {
-        /* restore original state of key */
-        resources_set_int("C128ColumnKey", c128_column4080_key);
-    }
 
     /* Enter monitor after done */
     if (trigger_monitor) {
@@ -1031,14 +1003,6 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
         lib_free(temp_name);
     }
 
-    /* on x128 autostart will only work in 40 columns mode (and can not be fixed
-       easily for VDC mode). We work around that by switching to 40 columns and
-       back if needed */
-    if (machine_class == VICE_MACHINE_C128) {
-        resources_get_int("C128ColumnKey", &c128_column4080_key);
-        resources_set_int("C128ColumnKey", 1);
-    }
-
     mem_powerup();
 
     autostart_ignore_reset = 1;
@@ -1053,7 +1017,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
         /* additional random delay of up to 10 frames */
         autostart_initial_delay_cycles += lib_unsigned_rand(1, machine_get_cycles_per_frame() * 10);
     }
-    DBG(("autostart_initial_delay_cycles: %d", autostart_initial_delay_cycles));
+    DBG(("autostart_initial_delay_cycles: %u", autostart_initial_delay_cycles));
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 

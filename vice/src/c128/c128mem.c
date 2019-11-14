@@ -908,6 +908,23 @@ void mem_set_basic_text(uint16_t start, uint16_t end)
     }
 }
 
+/* this function should always read from the screen currently used by the kernal
+   for output, normally this does just return system ram - except when the 
+   videoram is not memory mapped.
+   used by autostart to "read" the kernal messages
+*/
+uint8_t mem_read_screen(uint16_t addr)
+{
+    /* we assume in C64 mode the kernal never uses the VDC :) */
+    if (mmu_is_c64config()) {
+        return ram_read(addr);
+    }
+    if (!(mem_ram[215] & 0x80)) {
+        return ram_read(addr);
+    }
+    return vdc_ram_read(addr);
+}
+
 void mem_inject(uint32_t addr, uint8_t value)
 {
     /* this could be altered to handle more that 64 Kb in some
@@ -1308,6 +1325,67 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
         *columns = vdc.regs[1];
         *bank = 9;
     }
+/*    printf("mem_get_screen_parameter (%s) base:%04x rows: %d colums: %d bank: %d\n",
+           mem_ram[215] & 0x80 ? "vdc" : "vicii", *base, *rows, *columns, *bank); */
+}
+
+/* this function should return whatever the kernal currently uses */
+void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uint8_t *line_length, int *blinking)
+{
+    if (mmu_is_c64config()) {
+        /* VICII in C64 mode */
+        *screen_addr = mem_ram[0xd1] + mem_ram[0xd2] * 256; /* Current Screen Line Address */
+        *cursor_column = mem_ram[0xd3];    /* Cursor Column on Current Line */
+        *line_length = mem_ram[0xd5] + 1;  /* Physical Screen Line Length */
+        /* Cursor Blink enable: 1 = Flash Cursor, 0 = Cursor disabled, -1 = n/a */
+        *blinking = mem_ram[0xcc] ? 0 : 1;
+    } else {
+        if (!(mem_ram[215] & 0x80)) {
+            /* VICII */
+            *screen_addr = mem_ram[0xe0] + mem_ram[0xe1] * 256;
+            *cursor_column = mem_ram[0xec];
+            *line_length = 40;
+            *blinking = mem_ram[0xa27] ? 0 : 1;
+        } else { 
+            /* VDC */
+            /*
+              FIXME: somehow working out the cursor position and
+                     blink state can not be done in the same way
+                     as with the other videochips. the problem is
+                     likely that the vdc cursor is not advanced to
+                     the first column of the next line until
+                     actually some characters are being printed.
+                     
+                 6 ready.
+                 7 load"
+                 8 
+                 9 searching for
+                10 loading
+                11 ready.
+                12 run:
+            */
+            *screen_addr = mem_ram[0xe0] + mem_ram[0xe1] * 256;
+            *cursor_column = vdc.crsrpos - *screen_addr;
+            *line_length = vdc.regs[1];
+#if 1
+            /* FIXME: ugly hack to forward autostart to "searching" */
+            if ((*cursor_column > 4) && (mem_ram[0xeb] == 7)) {
+                *screen_addr += 80 * 2;
+                *cursor_column = 0;
+            }
+#endif
+#if 0
+            /* FIXME: ugly hack to forward to "ready" after "loading" */
+            if ((*cursor_column == 0) && (mem_ram[0xeb] == 11)) {
+                 *screen_addr += 80 * 1;
+            }
+#endif
+            /* *blinking = *cursor_column == 0 ? 1 : 0; */
+            *blinking = ((vdc.regs[10] & 0x60) == 0x20) ? 0 : 1;
+        }
+    }
+/*   printf("mem_get_cursor_parameter (%s) screen_addr:%04x cursor_column: %d line_length: %d blinking: %d\n",
+           mem_ram[215] & 0x80 ? "vdc" : "vicii", *screen_addr, *cursor_column, (int)*line_length, *blinking); */
 }
 
 /* ------------------------------------------------------------------------- */
