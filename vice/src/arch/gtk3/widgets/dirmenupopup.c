@@ -44,6 +44,7 @@
 #include "vdrive/vdrive.h"
 #include "attach.h"
 #include "autostart.h"
+#include "util.h"
 
 #include "tape.h"
 
@@ -253,15 +254,15 @@ GtkWidget *dir_menu_popup_create(
     }
 
     tmp = NULL;
-    if ( autostart_diskimage) {
-        tmp = lib_strdup(autostart_diskimage);
+    if (autostart_diskimage) {
+        util_fname_split(autostart_diskimage, NULL, &tmp);        
     }
     if (dev >= 0) {
         g_snprintf(buffer, 1024, "Directory of unit %d: (%s)", 
-                   dev + DRIVE_UNIT_MIN, tmp ? basename(tmp) : "n/a");
+                   dev + DRIVE_UNIT_MIN, tmp ? tmp : "n/a");
     } else {
         g_snprintf(buffer, 1024, "Directory of attached tape: (%s)",
-            tmp ? basename(tmp) : "n/a");
+            tmp ? tmp : "n/a");
     }
     item = gtk_menu_item_new_with_label(buffer);
     gtk_container_add(GTK_CONTAINER(menu), item);
