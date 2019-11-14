@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include <stdio.h>
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -580,6 +581,7 @@ uint8_t vdc_peek(uint16_t addr)    /* No sidefx read of external VDC registers *
     }
 }
 
+#if 0
 /* address translation function for a 64KB VDC in 16KB mode */
 static uint16_t vdc_64k_to_16k_map(uint16_t address)
 {
@@ -592,25 +594,28 @@ static uint16_t vdc_64k_to_16k_map(uint16_t address)
     new_address |= tmp;
     return new_address;
 }
+#endif
 
 uint8_t vdc_ram_read(uint16_t addr)
 {
+#if 0
     /* check for 16KB memory map and 64KB VDC */
     if (!(vdc.regs[28] & 0x10) && (vdc_resources.vdc_64kb_expansion)) {
         return vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)];
     }
-
+#endif
     /* for now the default till all possible combinations have been fixed */
     return vdc.ram[addr & vdc.vdc_address_mask];
 }
 
 void vdc_ram_store(uint16_t addr, uint8_t value)
 {
+#if 0
     if (!(vdc.regs[28] & 0x10) && (vdc_resources.vdc_64kb_expansion)) {
         vdc.ram[vdc_64k_to_16k_map(addr & vdc.vdc_address_mask)] = value;
-    } else {
-        vdc.ram[addr & vdc.vdc_address_mask] = value;
-    }
+    } else
+#endif
+    vdc.ram[addr & vdc.vdc_address_mask] = value;
 }
 
 
