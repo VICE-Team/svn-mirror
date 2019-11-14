@@ -273,6 +273,9 @@ AC_CHECK_TOOL(objdump, objdump, no)
 AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
 AC_CHECK_TOOL(sdl_config, sdl-config, no)
 
+dnl Check for windres, required to link icons into windows binaries
+AC_CHECK_TOOL([WINDRES], [windres], [:])
+
 AM_PROG_AS
 
 dnl Other build environment checks
@@ -4049,4 +4052,6 @@ echo "VTE_CXXFLAGS:  $VTE_CXXFLAGS"
 echo "User LDFLAGS:  $LDFLAGS"
 echo "VICE LDFLAGS:  $VICE_LDFLAGS"
 echo "(didn't get around to LDFLAGS yet)"
+echo ""
+echo "windres = $WINDRES"
 echo "----------------------------------------------------------------------"

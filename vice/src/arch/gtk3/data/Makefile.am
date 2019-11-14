@@ -31,7 +31,7 @@ $(WINDRES_RC_TARGET): $(WINDRES_RC_PROTO)
 	cat $< | sed -e "s@__PREFIX__@$(top_srcdir)@g" > $@
 
 $(WINDRES_COFF): $(WINDRES_RC_TARGET)
-	windres $< -O coff -o $@
+	$(WINDRES) $< -O coff -o $@
 endif
 
 EXTRA_DIST = $(GRESOURCE_PROTO) $(WINDRES_RC_PROTO)
