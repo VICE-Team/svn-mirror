@@ -207,15 +207,6 @@ GtkWidget *dir_menu_popup_create(
     /* create new menu */
     menu = gtk_menu_new();
 
-    /* create menu header */
-    if (dev >= 0) {
-        g_snprintf(buffer, 1024, "Directory of unit %d:", dev + DRIVE_UNIT_MIN);
-    } else {
-        g_snprintf(buffer, 1024, "Directory of attached tape:");
-    }
-    item = gtk_menu_item_new_with_label(buffer);
-    gtk_container_add(GTK_CONTAINER(menu), item);
-
     if (dev >= 0) {
         /*
          * The following is complete horseshit, this needs to be implemented in
@@ -261,6 +252,18 @@ GtkWidget *dir_menu_popup_create(
         autostart_diskimage = tape_image_dev1->name;
     }
 
+    tmp = lib_strdup(autostart_diskimage);
+    if (dev >= 0) {
+        g_snprintf(buffer, 1024, "Directory of unit %d: (%s)", 
+                   dev + DRIVE_UNIT_MIN, basename(tmp));
+    } else {
+        g_snprintf(buffer, 1024, "Directory of attached tape: (%s)",
+            basename(tmp));
+    }
+    item = gtk_menu_item_new_with_label(buffer);
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    lib_free(tmp);
+    
     debug_gtk3("Did we get some image?");
     if (autostart_diskimage != NULL) {
         /* read dir and add them as menu items */
