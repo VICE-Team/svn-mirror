@@ -1329,7 +1329,10 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
            mem_ram[215] & 0x80 ? "vdc" : "vicii", *base, *rows, *columns, *bank); */
 }
 
-/* this function should return whatever the kernal currently uses */
+/* used by autostart to locate and "read" kernal output on the current screen
+ * this function should return whatever the kernal currently uses, regardless
+ * what is currently visible/active in the UI 
+ */
 void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uint8_t *line_length, int *blinking)
 {
     if (mmu_is_c64config()) {
