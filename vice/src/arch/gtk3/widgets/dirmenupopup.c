@@ -252,17 +252,22 @@ GtkWidget *dir_menu_popup_create(
         autostart_diskimage = tape_image_dev1->name;
     }
 
-    tmp = lib_strdup(autostart_diskimage);
+    tmp = NULL;
+    if ( autostart_diskimage) {
+        tmp = lib_strdup(autostart_diskimage);
+    }
     if (dev >= 0) {
         g_snprintf(buffer, 1024, "Directory of unit %d: (%s)", 
-                   dev + DRIVE_UNIT_MIN, basename(tmp));
+                   dev + DRIVE_UNIT_MIN, tmp ? basename(tmp) : "n/a");
     } else {
         g_snprintf(buffer, 1024, "Directory of attached tape: (%s)",
-            basename(tmp));
+            tmp ? basename(tmp) : "n/a");
     }
     item = gtk_menu_item_new_with_label(buffer);
     gtk_container_add(GTK_CONTAINER(menu), item);
-    lib_free(tmp);
+    if (tmp) {
+        lib_free(tmp);
+    }
     
     debug_gtk3("Did we get some image?");
     if (autostart_diskimage != NULL) {
