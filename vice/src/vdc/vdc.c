@@ -439,6 +439,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     static unsigned int vdc_row_counter_latch = 0;
     static unsigned int vdc_draw_counter_latch = 0;
+    static unsigned int vdc_vert_fine_adj = 0;
 
     /*  Video signal handling section ----------------------------------------------------------------------------------------------------------*/
     if (vdc_row_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
@@ -472,28 +473,32 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             FIXME comparison looks wrong, probably not a > ?
             FIXME Also this draws the actual number of rows in reg 4, which is 1 less than what MTC128 says it should be drawing (even though the timing is then correct for e.g. RFO..) */
         if (vdc.row_counter > (vdc.regs[4])) {
-            /* FIXME handle vertical fine adjust vdc.regs[5] */
-            vdc.row_counter = 0;
-            vdc.row_counter_y = 0;
-            vdc.prime_draw = 1;
+            /* FIXME handle vertical fine adjust (reg#5>0) a bit cleaner and handle edge cases */
+            if (vdc_vert_fine_adj || vdc.regs[5] == 0 || vdc.regs[5] == vdc.regs[9]) {
+                vdc_vert_fine_adj = 0;
+                vdc.row_counter = 0;
+                vdc.prime_draw = 1;
             
-            /* FIXME fall through catch in case the attribute pointers didn't latch. Probably not exactly what the chip does... */
-            if (!vdc.draw_finished) {
-                /* Reset address pointers */
-                vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
-                    & vdc.vdc_address_mask;
-                vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
-                    & vdc.vdc_address_mask;
-                if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
-                    /* the cache can't cleanly handle these changing */
-                    vdc.force_repaint = 1;
-                    vdc.old_screen_adr = vdc.screen_adr;
-                    vdc.old_attribute_adr = vdc.attribute_adr;
+                /* FIXME fall through catch in case the attribute pointers didn't latch. Probably not exactly what the chip does... */
+                if (!vdc.draw_finished) {
+                    /* Reset address pointers */
+                    vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
+                        & vdc.vdc_address_mask;
+                    vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
+                        & vdc.vdc_address_mask;
+                    if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
+                        /* the cache can't cleanly handle these changing */
+                        vdc.force_repaint = 1;
+                        vdc.old_screen_adr = vdc.screen_adr;
+                        vdc.old_attribute_adr = vdc.attribute_adr;
+                    }
+                    vdc.mem_counter = 0;
+                    vdc.bitmap_counter = 0;
                 }
-                vdc.mem_counter = 0;
-                vdc.bitmap_counter = 0;
+                vdc.draw_finished = 1;
+            } else {    /* now in vertical adjust area where things work different */
+                vdc_vert_fine_adj = 1;
             }
-            vdc.draw_finished = 1;
         }
         
         /* check if we've hit the vsync position and should start vsync */
@@ -509,8 +514,14 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     }
 
     /* Check if this is the last raster line of the current row, and latch so */
-    if (vdc.row_counter_y == (vdc.regs[9] & 0x1F)) {
-        vdc_row_counter_latch = 1;
+    if (vdc_vert_fine_adj) {    /* vertical fine adjust area has a different comparison */
+        if (vdc.row_counter_y == (vdc.regs[5] & 0x1F)) {
+            vdc_row_counter_latch = 1;
+        }
+    } else {    /* normal case, compare with reg #9 */
+        if (vdc.row_counter_y == (vdc.regs[9] & 0x1F)) {
+            vdc_row_counter_latch = 1;
+        }
     }
     
     /* Handle if we are in vertical sync pulse */    
