@@ -2,6 +2,7 @@
  * \brief   Handle autostart of program files
  *
  * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ * \author  groepaz <groepaz@gmx.net>
  */
 
 /*
@@ -25,6 +26,8 @@
  *
  */
 
+/* #define DEBUG_AUTOSTART */
+
 #include <string.h>
 #include <inttypes.h>
 
@@ -44,8 +47,15 @@
 #include "vdrive-internal.h"
 #include "drive.h"
 
+#ifdef DEBUG_AUTOSTART
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 /* ----- Globals ----- */
 extern int autostart_basic_load;
+extern log_t autostart_log;
 
 /* program from last injection */
 static autostart_prg_t *inject_prg;
@@ -138,7 +148,8 @@ int autostart_prg_with_virtual_fs(const char *file_name,
 {
     char *directory;
     char *file;
-    int val;
+
+    DBG(("autostart_prg_with_virtual_fs"));    
 
     /* Extract the directory path to allow FS-based drive emulation to
        work.  */
@@ -156,14 +167,9 @@ int autostart_prg_with_virtual_fs(const char *file_name,
 
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
-    resources_get_int("AutostartHandleTrueDriveEmulation", &val);
-    if (val == 0) {
-        resources_set_int("DriveTrueEmulation", 0);
-    }
-    resources_set_int("VirtualDevices", 1);
-    resources_set_int("FSDevice8ConvertP00", 1);
-    file_system_detach_disk(8);
-    resources_set_int("FileSystemDevice8", ATTACH_DEVICE_FS);
+    log_message(autostart_log, "using virtual filesystem on: %s.", directory);
+
+    /* other setup was done by autostart_prg() */
 
     lib_free(directory);
     lib_free(file);
@@ -195,7 +201,6 @@ int autostart_prg_with_disk_image(const char *file_name,
     autostart_prg_t *prg;
     vdrive_t *vdrive;
     int i;
-    int old_tde_state;
     int file_name_size;
     uint8_t data;
     unsigned int disk_image_type;
@@ -242,13 +247,6 @@ int autostart_prg_with_disk_image(const char *file_name,
     prg = load_prg(file_name, fh, log);
     if (prg == NULL) {
         return -1;
-    }
-
-    /* disable TDE */
-    resources_get_int("DriveTrueEmulation", &old_tde_state);
-    if (old_tde_state != 0) {
-        log_message(log, "Turning true drive emulation off.");
-        resources_set_int("DriveTrueEmulation", 0);
     }
 
     do {
@@ -330,12 +328,6 @@ int autostart_prg_with_disk_image(const char *file_name,
     /* free prg file */
     free_prg(prg);
 
-    /* re-enable TDE */
-    if (old_tde_state != 0) {
-        log_message(log, "Turning true drive emulation on.");
-        resources_set_int("DriveTrueEmulation", old_tde_state);
-    }
-
     /* ready */
     return result;
 }
@@ -352,9 +344,8 @@ int autostart_prg_perform_injection(log_t log)
         return -1;
     }
 
-    log_message(log, "Injecting program data at $%04x (size $%04x)",
-                prg->start_addr,
-                (unsigned int)prg->size);
+    log_message(autostart_log, "Injecting program data at $%04x (size $%04x)",
+                prg->start_addr, (unsigned int)prg->size);
 
     /* store data in emu memory */
     for (i = 0; i < prg->size; i++) {
