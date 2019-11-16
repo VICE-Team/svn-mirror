@@ -521,18 +521,40 @@ static void disable_warp_if_was_requested(void)
 
 static void check_rom_area(void)
 {
+    static int lastmode = -1;
+    static int checkdelay = 0;
+    static int checkflag = 0;
     /* enter ROM ? */
     if (!entered_rom) {
         if (reg_pc >= 0xe000) {
             log_message(autostart_log, "Entered ROM at $%04x", reg_pc);
             entered_rom = 1;
         }
+        lastmode = autostartmode;
+        checkdelay = checkflag = 0;
     } else {
         /* special case for auto-starters: ROM left. We also consider
          * BASIC area to be ROM, because it's responsible for writing "READY."
+         * 
+         * we do not abort immediatly here, but delay it for two further calls,
+         * this accounts for the fact that the checks only run once per frame,
+         * and the loading might happen so fast we might have missed something.
          */
+        if (lastmode != autostartmode) {
+            lastmode = autostartmode;
+            checkdelay = checkflag = 0;
+        }    
         if (machine_addr_in_ram(reg_pc)) {
-            log_message(autostart_log, "Left ROM for $%04x", reg_pc);
+            if (!checkflag) {
+                log_message(autostart_log, "Left ROM for $%04x", reg_pc);
+                checkflag = 1;
+            }
+            checkdelay++;
+        }
+        if (checkdelay > 2) {
+            log_message(autostart_log, "aborting.");
+            lastmode = -1;
+            checkdelay = checkflag = 0;
             disable_warp_if_was_requested();
             autostart_done(); /* -> AUTOSTART_DONE */
         }
@@ -855,7 +877,7 @@ static void advance_hasdisk(void)
                 log_message(autostart_log, "Loading program '*'");
             }
 
-            DBG(("advance_hasdisk traps:%d tde:%d\n", 
+            DBG(("advance_hasdisk traps:%d tde:%d", 
                  get_device_traps_state(), get_true_drive_emulation_state()));
 
             /* now either device traps or TDE is enabled, but not both */
@@ -865,7 +887,7 @@ static void advance_hasdisk(void)
                                autostart_program_name ?
                                autostart_program_name : "*",
                                autostart_basic_load ? "" : ",1");
-            DBG(("advance_hasdisk LOAD\"%s\",8%s:\r",
+            DBG(("advance_hasdisk LOAD\"%s\",8%s:",
                                autostart_program_name ?
                                autostart_program_name : "*",
                                autostart_basic_load ? "" : ",1"));
