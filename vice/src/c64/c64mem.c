@@ -896,6 +896,17 @@ void mem_inject(uint32_t addr, uint8_t value)
     }
 }
 
+/* In banked memory architectures this will always write to the bank that
+   contains the keyboard buffer and "number of keys in buffer", regardless of
+   what the CPU "sees" currently.
+   In all other cases this just writes to the first 64kb block, usually by
+   wrapping to mem_inject().
+*/
+void mem_inject_key(uint16_t addr, uint8_t value)
+{
+    mem_inject(addr, value);
+}
+
 /* ------------------------------------------------------------------------- */
 
 int mem_rom_trap_allowed(uint16_t addr)

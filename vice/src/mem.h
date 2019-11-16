@@ -67,6 +67,9 @@ extern uint8_t mem_read_screen(uint16_t addr);
  * RAM on that machine.
  */
 extern void mem_inject(uint32_t addr, uint8_t value);
+/* in banked memory architectures this will always write to the bank that
+   contains the keyboard buffer and "number of keys in buffer" */
+extern void mem_inject_key(uint16_t addr, uint8_t value);
 
 extern read_func_t rom_read, rom_trap_read, zero_read;
 extern store_func_t rom_store, rom_trap_store, zero_store;

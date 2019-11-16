@@ -204,8 +204,8 @@ static void tokbdbuffer(int c)
 {
     int num = mem_read((uint16_t)(num_pending_location));
     /* printf("tokbdbuffer c:%d num:%d\n", c, num); */
-    mem_inject((uint16_t)(buffer_location + num), (uint8_t)c);
-    mem_inject((uint16_t)(num_pending_location), (uint8_t)(num + 1));
+    mem_inject_key((uint16_t)(buffer_location + num), (uint8_t)c);
+    mem_inject_key((uint16_t)(num_pending_location), (uint8_t)(num + 1));
 }
 
 /* Return nonzero if the keyboard buffer is empty.  */
