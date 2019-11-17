@@ -50,10 +50,14 @@
 
 #include "uinetplay_new.h"
 
-
+/*
+ * Forward declarations
+ */
 static void netplay_update_status(void);
 
 
+/** \brief  Net control widget info
+ */
 typedef struct netctrl_s {
     const char *    text;  /**< label */
     unsigned int    mask;  /**< bit to toggle */

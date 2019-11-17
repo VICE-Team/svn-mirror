@@ -37,10 +37,13 @@
 #include "blockdev.h"
 
 
+/** \brief  Close block device
+ *
+ * \return  0 on success, -1 on error
+ */
 int blockdev_close(void)
 {
 #ifdef UNIX_COMPILE
-    NOT_IMPLEMENTED();
     return 0;
 #else
     /* windows */
@@ -48,27 +51,51 @@ int blockdev_close(void)
 #endif
 }
 
+
+/** \brief  Add block device command line options
+ *
+ * \return  0 on success, -1 on error
+ */
 int blockdev_cmdline_options_init(void)
 {
     /* NOP, just like arch/unix */
     return 0;
 }
 
+
+/** \brief  Initialize block device
+ */
 void blockdev_init(void)
 {
     /* NOP, just like arch/unix */
 }
 
+
+/** \brief  Open block device
+ *
+ * \param[in]       name        block device name
+ * \param[in,out]   read_only   object to read read-only mode from for some
+ *                              vague reason (\see src/arch/sdl/blockdev.c)
+ *
+ * \return 0 on success, -1 on error
+ */
 int blockdev_open(const char *name, unsigned int *read_only)
 {
 #ifdef UNIX_COMPILE
-    NOT_IMPLEMENTED();
     return 0;
 #else
     return -1;
 #endif
 }
 
+/** \brief  Read sector from block device
+ *
+ * \param[out]  buf     target of data of (\a track, \a sector)
+ * \param[in]   track   track number
+ * \param[in]   sector  sector number
+ *
+ * \return 0 on success, -1 on error
+ */
 int blockdev_read_sector(uint8_t *buf, unsigned int track, unsigned int sector)
 {
 #ifdef UNIX_COMPILE
@@ -79,13 +106,29 @@ int blockdev_read_sector(uint8_t *buf, unsigned int track, unsigned int sector)
 #endif
 }
 
+
+/** \brief  Initialize block device-related resources
+ *
+ * \return  0 on success, -1 on error
+ */
 int blockdev_resources_init(void)
 {
     /* NOP, just like arc/unix */
     return 0;
 }
 
-int blockdev_write_sector(const uint8_t *buf, unsigned int track, unsigned int sector)
+
+/** \brief  Write data to block device
+ *
+ * \param[in]   buf     data to write to block device
+ * \param[in]   track   track number
+ * \param[in]   sector  sector number
+ *
+ * \return  0 on success, -1 on error
+ */
+int blockdev_write_sector(const uint8_t *buf,
+                          unsigned int track,
+                          unsigned int sector)
 {
 #ifdef UNIX_COMPILE
     NOT_IMPLEMENTED();
