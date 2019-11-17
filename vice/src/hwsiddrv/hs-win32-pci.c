@@ -96,52 +96,43 @@ static oupfuncPtr oup32fp;
 /* input/output functions */
 static void hardsid_outb(unsigned int addrint, DWORD value)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
 
 #ifdef  _M_IX86
-    _outp(addr, (BYTE)value);
+    _outp(addrint, (BYTE)value);
+#else
+    (void)addrint;
+    (void)value;
 #endif
 }
 
 static void hardsid_outl(unsigned int addrint, DWORD value)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
-
 #ifdef  _M_IX86
-    _outpd(addr, value);
+    _outpd(addrint, value);
+#else
+    (void)addrint;
+    (void)value;
 #endif
 }
 
 static BYTE hardsid_inb(unsigned int addrint)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
-
 #ifdef  _M_IX86
-    return _inp(addr);
-#endif
+    return _inp(addrint);
+#else
+    (void)addrint;
     return 0;
+#endif
 }
 
 static DWORD hardsid_inl(unsigned int addrint)
 {
-    WORD addr = (WORD)addrint;
-
-    /* make sure the above conversion did not loose any details */
-    assert(addr == addrint);
-
 #ifdef  _M_IX86
-    return _inpd(addr);
-#endif
+    return _inpd(addrint);
+#else
+    (void)addrint;
     return 0;
+#endif
 }
 
 int hs_pci_read(uint16_t addr, int chipno)
