@@ -33,7 +33,7 @@
 #define ATTACH_DEVICE_NONE 0
 #define ATTACH_DEVICE_FS   1 /* filesystem */
 #define ATTACH_DEVICE_REAL 2 /* real IEC device (opencbm) */
-#define ATTACH_DEVICE_RAW  3 /* raw device */
+/* 3 was raw device */
 #define ATTACH_DEVICE_VIRT 4 /* non-tde drive/image */
 
 struct vdrive_s;

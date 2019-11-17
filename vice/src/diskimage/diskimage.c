@@ -48,7 +48,6 @@
 #include "fsimage.h"
 #include "lib.h"
 #include "log.h"
-#include "rawimage.h"
 #include "realimage.h"
 #include "types.h"
 #include "p64.h"
@@ -338,12 +337,6 @@ void disk_image_attach_log(const disk_image_t *image, signed int lognum,
             log_verbose("Unit %u: %s disk image attached: %s.",
                         unit, type, fsimage_name_get(image));
             break;
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            log_verbose("Unit %u: %s disk attached (drive: %s).",
-                        unit, type, rawimage_name_get(image));
-            break;
-#endif
     }
 }
 
@@ -368,12 +361,6 @@ void disk_image_detach_log(const disk_image_t *image, signed int lognum,
             log_verbose("Unit %u: %s disk image detached: %s.",
                         unit, type, fsimage_name_get(image));
             break;
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            log_verbose("Unit %u: %s disk detached (drive: %s).",
-                        unit, type, rawimage_name_get(image));
-            break;
-#endif
     }
 }
 /*-----------------------------------------------------------------------*/
@@ -420,33 +407,12 @@ int disk_image_fsimage_create(const char *name, unsigned int type)
 
 /*-----------------------------------------------------------------------*/
 
-void disk_image_rawimage_name_set(disk_image_t *image, const char *name)
-{
-#ifdef HAVE_RAWDRIVE
-    rawimage_name_set(image, name);
-#endif
-}
-
-void disk_image_rawimage_driver_name_set(disk_image_t *image)
-{
-#ifdef HAVE_RAWDRIVE
-    rawimage_driver_name_set(image);
-#endif
-}
-
-/*-----------------------------------------------------------------------*/
-
 void disk_image_name_set(disk_image_t *image, const char *name)
 {
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
             fsimage_name_set(image, name);
             break;
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            rawimage_name_set(image, name);
-            break;
-#endif
     }
 }
 
@@ -488,11 +454,6 @@ void disk_image_media_create(disk_image_t *image)
             realimage_media_create(image);
             break;
 #endif
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            rawimage_media_create(image);
-            break;
-#endif
         default:
             log_error(disk_image_log, "Unknown image device %u.", image->device);
     }
@@ -511,11 +472,6 @@ void disk_image_media_destroy(disk_image_t *image)
 #ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             realimage_media_destroy(image);
-            break;
-#endif
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            rawimage_media_destroy(image);
             break;
 #endif
         default:
@@ -538,11 +494,6 @@ int disk_image_open(disk_image_t *image)
 #ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             rc = realimage_open(image);
-            break;
-#endif
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            rc = rawimage_open(image);
             break;
 #endif
         default:
@@ -571,11 +522,6 @@ int disk_image_close(disk_image_t *image)
             rc = realimage_close(image);
             break;
 #endif
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            rc = rawimage_close(image);
-            break;
-#endif
         default:
             log_error(disk_image_log, "Unknown image device %u.", image->device);
             rc = -1;
@@ -597,11 +543,6 @@ int disk_image_read_sector(const disk_image_t *image, uint8_t *buf, const disk_a
 #ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             rc = realimage_read_sector(image, buf, dadr);
-            break;
-#endif
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            rc = rawimage_read_sector(image, buf, dadr);
             break;
 #endif
         default:
@@ -628,11 +569,6 @@ int disk_image_write_sector(disk_image_t *image, const uint8_t *buf, const disk_
 #ifdef HAVE_REALDEVICE
         case DISK_IMAGE_DEVICE_REAL:
             rc = realimage_write_sector(image, buf, dadr);
-            break;
-#endif
-#ifdef HAVE_RAWDRIVE
-        case DISK_IMAGE_DEVICE_RAW:
-            rc = rawimage_write_sector(image, buf, dadr);
             break;
 #endif
         default:
@@ -697,34 +633,18 @@ void disk_image_init(void)
 #ifdef HAVE_REALDEVICE
     realimage_init();
 #endif
-#ifdef HAVE_RAWDRIVE
-    rawimage_init();
-#endif
 }
 
 int disk_image_resources_init(void)
 {
-#ifdef HAVE_RAWDRIVE
-    if (rawimage_resources_init() < 0) {
-        return -1;
-    }
-#endif
     return 0;
 }
 
 void disk_image_resources_shutdown(void)
 {
-#ifdef HAVE_RAWDRIVE
-    rawimage_resources_shutdown();
-#endif
 }
 
 int disk_image_cmdline_options_init(void)
 {
-#ifdef HAVE_RAWDRIVE
-    if (rawimage_cmdline_options_init() < 0) {
-        return -1;
-    }
-#endif
     return 0;
 }

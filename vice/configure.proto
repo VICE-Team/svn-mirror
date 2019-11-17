@@ -369,7 +369,6 @@ HAVE_RS232NET_SUPPORT="no "
 HAVE_IPV6_SUPPORT="no "
 HAVE_RAWNET_SUPPORT="no "
 
-HAVE_RAWDRIVE_SUPPORT="no "
 HAVE_REALDEVICE_SUPPORT="no "
 
 HAVE_DYNLIB_SUPPORT_TOO="no "
@@ -622,8 +621,6 @@ if test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "
   dnl
   dnl The VICE_*CFLAGS stuff will ignore and thus break this
   dnl
-  AM_CONDITIONAL(HAVE_RAWDRIVE, true)
-
   AC_DEFINE(AMIGA_SUPPORT,,[Should we enable Amigaos support.])
 
   is_amigaos4=yes
@@ -814,8 +811,6 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     HAVE_RS232DEV_SUPPORT="yes"
   fi
 
-  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
-
   dinput_header_no_lib="no"
 
   AC_CHECK_HEADER(dinput.h,
@@ -852,8 +847,6 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
 
   is_beos=yes
   AC_DEFINE(BEOS_COMPILE,,[Are we compiling for either BeOS or Haiku?])
-
-  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -967,14 +960,11 @@ darwin*)
     VICE_CXXFLAGS="$VICE_CXXFLAGS -mdynamic-no-pic"
   fi
 
-  AM_CONDITIONAL(HAVE_RAWDRIVE, true)
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     HAVE_RS232DEV_SUPPORT="yes"
   fi
 
-  AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
-  HAVE_RAWDRIVE_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
@@ -993,10 +983,6 @@ dnl All other UN*X systems
   is_unix=yes
   is_unix_x11=yes
 
-  AM_CONDITIONAL(HAVE_RAWDRIVE, true)
-
-  AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
-  HAVE_RAWDRIVE_SUPPORT="yes"
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
@@ -4001,8 +3987,6 @@ echo "Network capture/injection support: $HAVE_RAWNET_SUPPORT (--enable/disable-
 echo ""
 echo "DRIVE"
 echo "-----"
-
-echo "Raw drive support: $HAVE_RAWDRIVE_SUPPORT"
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
     echo "Real device (OpenCBM support): $HAVE_REALDEVICE_SUPPORT (--enable/disable-realdevice)"

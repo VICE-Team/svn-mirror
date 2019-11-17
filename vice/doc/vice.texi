@@ -1015,7 +1015,7 @@ emulation.  One of them the @dfn{virtual drive} emulation.  It does
 (with the so-called @dfn{kernal traps}) so that serial line operations
 can be emulated via C language routines.  This emulation is very fast,
 but only allows use of standard DOS functions (and not even all of
-them).  For real device or raw drive access it is required to enable
+them).  For real device access it is required to enable
 this type of emulation.
 
 The IEEE488 drives (2031, 2040, 3040, 4040, 1001, 8050 and 8250) do
@@ -3967,10 +3967,6 @@ String specifying the filename of the Supercard ROM image
 String specifying the filename of the image of the lower half of the StarDOS ROM
 (x64, x64sc, xscpu64 and x128 only).
 
-@vindex RawDriveDriver
-@item RawDriveDriver
-String specifying the name of the device to be used for raw block access.
-
 @end table
 
 @node Drive options,  , Drive resources, Drive settings
@@ -4403,11 +4399,6 @@ half using the -dos1541 option.)
 (@code{DriveStarDosName})
 (x64, x64sc, xscpu64 and x128 only).
 
-@findex -rawdrive
-@item -rawdrive <name>
-Set raw drive device name
-(@code{RawDriveDriver})
-
 @end table
 
 
@@ -4506,7 +4497,7 @@ Booleans that specify whether IEC device emulation for device #8 to #11 is enabl
 @itemx FileSystemDevice11
 Integers specifying the device type for device 8-11 respectively
 (all emulators except vsid).
-(0: None, 1: Filesystem, 2: OpenCBM (Real), 3: Block Device (Raw))
+(0: None, 1: Filesystem, 2: OpenCBM (Real))
 
 @vindex FSDevice8ConvertP00
 @vindex FSDevice9ConvertP00
@@ -4595,7 +4586,7 @@ Enable/disable IEC device emulation for device #11
 Set device type for device 8-11 respectively
 (@code{FileSystemDevice8}, @code{FileSystemDevice9}, @code{FileSystemDevice10}, @code{FileSystemDevice11})
 (all emulators except vsid).
-(0: None, 1: Filesystem, 2: OpenCBM (Real), 3: Block device (Raw))
+(0: None, 1: Filesystem, 2: OpenCBM (Real))
 
 @findex -fs8
 @findex -fs9

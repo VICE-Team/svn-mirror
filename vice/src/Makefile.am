@@ -149,7 +149,6 @@ noinst_HEADERS = \
 	attach.h \
 	autostart.h \
 	autostart-prg.h \
-	blockdev.h \
 	c128ui.h \
 	c64ui.h \
 	cartio.h \
@@ -1313,12 +1312,6 @@ ffmpeg_libs = @FFMPEG_LIBS@
 emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @ARCH_LIBS@ $(archdep_lib)
 
 driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
-
-if HAVE_RAWDRIVE
-blockdev_lib = @ARCH_DIR@/blockdev.o
-else
-blockdev_lib =
-endif
 
 # Bit of a hack to make both Linux and BSD link agains dynlib
 # Someone with a better understand of the differences between Linux and BSD

@@ -58,7 +58,6 @@ endif
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-	blockdev.c \
 	fullscreen.c \
 	fullscreenarch.h \
 	icon.c \

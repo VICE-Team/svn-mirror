@@ -311,13 +311,6 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_RAWDRIVE", "Support for block device disk image access.",
-#ifndef HAVE_RAWDRIVE
-        0 },
-#else
-        1 },
-#endif
-/* (all) */
     { "HAVE_RESID", "Enable ReSID support.",
 #ifndef HAVE_RESID
         0 },

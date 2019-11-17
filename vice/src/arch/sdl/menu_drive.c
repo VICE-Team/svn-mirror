@@ -87,7 +87,7 @@ static int has_fs(void)
 
 static int is_fs(int type)
 {
-    return ((type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL || type == ATTACH_DEVICE_RAW) && has_fs());
+    return ((type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL) && has_fs());
 }
 
 static int get_drive_type(int drive)
@@ -141,9 +141,6 @@ static char *get_drive_type_string(int drive)
         case ATTACH_DEVICE_FS:   return MENU_SUBMENU_STRING " directory";
 #ifdef HAVE_REALDEVICE
         case ATTACH_DEVICE_REAL: return MENU_SUBMENU_STRING " real drive";
-#endif
-#ifdef HAVE_RAWDRIVE
-        case ATTACH_DEVICE_RAW:  return MENU_SUBMENU_STRING " block device";
 #endif
         case DRIVE_TYPE_1540:    return MENU_SUBMENU_STRING " 1540";
         case DRIVE_TYPE_1541:    return MENU_SUBMENU_STRING " 1541";
@@ -830,18 +827,11 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
 #define DRIVE_TYPE_ITEM_OPENCBM(text, data)
 #endif
 
-#ifdef HAVE_RAWDRIVE
-#define DRIVE_TYPE_ITEM_RAWDRIVE(text, data) DRIVE_TYPE_ITEM(text, data)
-#else
-#define DRIVE_TYPE_ITEM_RAWDRIVE(text, data)
-#endif
-
 #define DRIVE_TYPE_MENU(x)                                                      \
     static const ui_menu_entry_t drive_##x##_type_menu[] = {                    \
         DRIVE_TYPE_ITEM("None", x << 16)                                        \
         DRIVE_TYPE_ITEM("Directory", ATTACH_DEVICE_FS + (x << 16))              \
         DRIVE_TYPE_ITEM_OPENCBM("Real drive", ATTACH_DEVICE_REAL + (x << 16))   \
-        DRIVE_TYPE_ITEM_RAWDRIVE("Block device", ATTACH_DEVICE_RAW + (x << 16)) \
         DRIVE_TYPE_ITEM("1540", DRIVE_TYPE_1540 + (x << 16))                    \
         DRIVE_TYPE_ITEM("1541", DRIVE_TYPE_1541 + (x << 16))                    \
         DRIVE_TYPE_ITEM("1541-II", DRIVE_TYPE_1541II + (x << 16))               \
@@ -1006,20 +996,6 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
 
-#ifdef HAVE_RAWDRIVE
-UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
-#endif
-
-#ifdef HAVE_RAWDRIVE
-#define DRIVE_MENU_RAWDRIVE_ITEM           \
-    { "Blockdevice",                       \
-      MENU_ENTRY_DIALOG,                   \
-      file_string_RawDriveDriver_callback, \
-      (ui_callback_data_t)"Select device file to use as drive" },
-#else
-#define DRIVE_MENU_RAWDRIVE_ITEM
-#endif
-
 #define DRIVE_MENU(x)                                           \
     static const ui_menu_entry_t drive_##x##_menu[] = {         \
         { "Drive " #x " type",                                  \
@@ -1068,8 +1044,6 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           toggle_Drive##x##RTCSave_callback,                    \
           NULL },                                               \
-        SDL_MENU_ITEM_SEPARATOR,                                \
-        DRIVE_MENU_RAWDRIVE_ITEM                                \
         SDL_MENU_LIST_END                                       \
     };
 

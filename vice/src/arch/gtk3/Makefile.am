@@ -51,7 +51,6 @@ noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
 	archdep.c \
-	blockdev.c \
 	c128ui.c \
 	c64dtvui.c \
 	c64scui.c \
