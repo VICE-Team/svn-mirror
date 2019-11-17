@@ -570,7 +570,9 @@ static void check_rom_area(void)
  */
 static void init_drive_emulation_state(void)
 {
-    DBG(("init_drive_emulation_state"));
+    DBG(("init_drive_emulation_state tde:%d traps:%d warp:%d",
+        get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
+    ));
     if (orig_drive_true_emulation_state == -1) {
         orig_drive_true_emulation_state = get_true_drive_emulation_state();
     }
@@ -618,6 +620,11 @@ static void restore_drive_emulation_state(void)
     orig_drive_true_emulation_state = - 1;
     orig_device_traps_state = - 1;
     orig_warp_mode = -1;
+    
+    DBG(("restore_drive_emulation_state tde:%d traps:%d warp:%d",
+        get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
+    ));
+    
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1156,7 +1163,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostartmode = mode;
     autostart_run_mode = runmode;
     autostart_wait_for_reset = 1;
-    
+
     autostart_initial_delay_cycles = min_cycles;
     resources_get_int("AutostartDelayRandom", &rnd);
     if (rnd) {
@@ -1223,6 +1230,11 @@ int autostart_tape(const char *file_name, const char *program_name,
         return -1;
     }
 
+    /* make sure to init TDE and traps status before each autostart */
+    init_drive_emulation_state();
+    
+    datasette_control(DATASETTE_CONTROL_STOP);
+    
     if (!(tape_image_attach(1, file_name) < 0)) {
         log_message(autostart_log,
                     "Attached file `%s' as a tape image.", file_name);
@@ -1252,6 +1264,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
 
+    /* restore_drive_emulation_state(); */
     return -1;
 }
 
@@ -1338,6 +1351,9 @@ int autostart_disk(const char *file_name, const char *program_name,
         return -1;
     }
 
+    /* make sure to init TDE and traps status before each autostart */
+    init_drive_emulation_state();
+    
     /* Get program name first to avoid more than one file handle open on
        image.  */
     if (!program_name && program_number > 0) {
@@ -1406,6 +1422,7 @@ int autostart_disk(const char *file_name, const char *program_name,
     deallocate_program_name();
     lib_free(name);
 
+    /* restore_drive_emulation_state(); */
     return -1;
 }
 
@@ -1476,6 +1493,9 @@ int autostart_prg(const char *file_name, unsigned int runmode)
         return -1;
     }
 
+    /* make sure to init TDE and traps status before each autostart */
+    init_drive_emulation_state();
+    
     setup_for_prg(AutostartPrgMode);
     
     /* determine how to load file */
@@ -1537,6 +1557,8 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* close prg file */
     fileio_close(finfo);
 
+    /* restore_drive_emulation_state(); */
+    
     return result;
 }
 
