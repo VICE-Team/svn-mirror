@@ -42,7 +42,9 @@
 #include "kbd.h"
 #include "uimenu.h"
 
-
+/*
+ * Forward declarations
+ */
 static gboolean kbd_hotkey_handle(GdkEvent *report);
 
 
@@ -82,13 +84,22 @@ void kbd_arch_init(void)
 }
 
 
-
+/** \brief  Shutdown keyboard handling (NOP)
+ */
 void kbd_arch_shutdown(void)
 {
     /* Also don't call kbd_hotkey_shutdown() here */
 }
 
 
+/** \brief  Get keynum from \a keyname
+ *
+ * \param[in]   keyname key name as a string
+ *
+ * \return  keynum or -1 on error
+ *
+ * \note    You don't see "signed $type-not-plain-char" too often :)
+ */
 signed long kbd_arch_keyname_to_keynum(char *keyname)
 {
     guint sym = gdk_keyval_from_name(keyname);
@@ -101,11 +112,23 @@ signed long kbd_arch_keyname_to_keynum(char *keyname)
     return (signed long)sym;
 }
 
+
+/** \brief  Get keyname from keynum
+ *
+ * \param[in]   keynum  key number
+ *
+ * \return  key value for \a keynum
+ */
 const char *kbd_arch_keynum_to_keyname(signed long keynum)
 {
     return gdk_keyval_name((guint)keynum);
 }
 
+
+/** \brief  Initialize numpad joystick key mapping
+ *
+ * \param[out]  joykeys pointer to joykey array
+ */
 void kbd_initialize_numpad_joykeys(int *joykeys)
 {
     joykeys[0] = GDK_KEY_KP_0;
@@ -119,6 +142,13 @@ void kbd_initialize_numpad_joykeys(int *joykeys)
     joykeys[8] = GDK_KEY_KP_9;
 }
 
+
+/** \brief  Get modifiers keys for keyboard event
+ *
+ * \param[in]   report  GDK keypress event
+ *
+ * \return  bitmasks of modifiers combined into a single int
+ */
 static int kbd_get_modifier(GdkEvent *report)
 {
     int ret = 0;
@@ -140,6 +170,15 @@ static int kbd_get_modifier(GdkEvent *report)
     return ret;
 }
 
+
+/** \brief  Gtk keyboard event handler
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   report  event object
+ * \param[in]   gp      extra data (unused)
+ *
+ * \return  TRUE if event handled (won't get passed to the emulated machine)
+ */
 static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint key;
@@ -147,7 +186,8 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     key = report->key.keyval;
     switch (report->type) {
         case GDK_KEY_PRESS:
-            /* fprintf(stderr, "GDK_KEY_PRESS: %u %04x.\n",  report->key.keyval,  report->key.state); */
+            /* fprintf(stderr, "GDK_KEY_PRESS: %u %04x.\n",
+                       report->key.keyval,  report->key.state); */
 #ifdef WIN32_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
          On Linux one Keypress "ISO_Level3_Shift" will be produced, and
@@ -162,12 +202,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 /* Alt-R with modifier MOD2 */
                 key = report->key.keyval = GDK_KEY_ISO_Level3_Shift;
                 report->key.state &= ~GDK_MOD2_MASK;
-                keyboard_key_released(GDK_KEY_Control_L, KBD_MOD_LCTRL); /* release control in the emulated keymap */
+                /* release control in the emulated keymap */
+                keyboard_key_released(GDK_KEY_Control_L, KBD_MOD_LCTRL);
             } else if (report->key.state & GDK_MOD2_MASK) {
                 report->key.state &= ~GDK_MOD2_MASK;
                 report->key.state |= GDK_MOD5_MASK;
             }
-            /* fprintf(stderr, "               %u %04x.\n",  report->key.keyval,  report->key.state); */
+            /* fprintf(stderr, "               %u %04x.\n",
+                       report->key.keyval,  report->key.state); */
 #endif
             kdb_debug_widget_update(report);
 
@@ -198,16 +240,18 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             keyboard_key_pressed((signed long)key, kbd_get_modifier(report));
             return TRUE;
         case GDK_KEY_RELEASE:
-            /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",  report->key.keyval,  report->key.state); */
+            /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
+                       report->key.keyval,  report->key.state); */
 #ifdef WIN32_COMPILE
             /* HACK: remap control,alt+r to alt-gr, see above */
             if (report->key.keyval == GDK_KEY_Alt_R) {
                 key = report->key.keyval = GDK_KEY_ISO_Level3_Shift;
             }
-            /* fprintf(stderr, "                 %u %04x.\n",  report->key.keyval,  report->key.state); */
+            /* fprintf(stderr, "                 %u %04x.\n",
+                       report->key.keyval,  report->key.state); */
 #endif
-            if (key == GDK_KEY_Shift_L || 
-                key == GDK_KEY_Shift_R || 
+            if (key == GDK_KEY_Shift_L ||
+                key == GDK_KEY_Shift_R ||
                 key == GDK_KEY_ISO_Level3_Shift) {
                 keyboard_key_clear();
             }
@@ -224,16 +268,39 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     return FALSE;
 }
 
+
+/** \brief  Connect keyboard event handlers to the current window
+ *
+ * \param[in]   widget  GtkWindow instance
+ * \param[in]   data    extra event data
+ */
 void kbd_connect_handlers(GtkWidget *widget, void *data)
 {
-    g_signal_connect(G_OBJECT(widget), "key-press-event", G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect(G_OBJECT(widget), "key-release-event", G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect(G_OBJECT(widget), "enter-notify-event", G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect(G_OBJECT(widget), "leave-notify-event", G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "key-press-event",
+            G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "key-release-event",
+            G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "enter-notify-event",
+            G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(
+            G_OBJECT(widget),
+            "leave-notify-event",
+            G_CALLBACK(kbd_event_handler), data);
 }
+
 
 /*
  * Hotkeys (keyboard shortcuts not connected to any GtkMenuItem) handling
+ *
+ * FIXME:   This approach is somewhat brittle, a better approach could be using
+ *          GAction's in combination with GMenu vs GtkMenu. Something to
+ *          consider for 3.5 (involves a lot of rewriting of Gtk code).
  */
 
 
