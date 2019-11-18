@@ -69,6 +69,8 @@ static const ui_menu_entry_t x64dtv_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)drive_menu },
+    /* no tape support */
+    /* no cartridge support */
     { "Printer",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

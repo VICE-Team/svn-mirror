@@ -100,6 +100,7 @@ static const ui_menu_entry_t xcbm6x0_7x0_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sound_output_menu },
+    /* no sampler support */
     { "Snapshot",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -186,6 +187,10 @@ static const ui_menu_entry_t xcbm5x0_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)tape_menu },
+    { "Cartridge",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)cbm2cart_menu }, /* FIXME: is this correct? */
     { "Printer",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -210,7 +215,7 @@ static const ui_menu_entry_t xcbm5x0_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)snapshot_menu },
-    { "Screenshot",
+    { "Save media file",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)media_menu },
@@ -323,6 +328,7 @@ int cbm2ui_init_early(void)
 int cbm2ui_init(void)
 {
 
+    /* no "real" joystickports, and a user port */
     uijoyport_menu_create(0, 0, 1, 1, 0);
     uikeyboard_menu_create();
     uipalette_menu_create("Crtc", NULL);
@@ -389,8 +395,8 @@ int cbm5x0ui_init_early(void)
 int cbm5x0ui_init(void)
 {
     sdl_ui_set_menu_params = cbm5x0ui_set_menu_params;
-
-    uijoyport_menu_create(1, 1, 0, 0, 0);
+    /* p500 has 2 "real" joystickports, and a user port */
+    uijoyport_menu_create(1, 1, 1, 1, 0);
     uisampler_menu_create();
     uidrive_menu_create();
     uikeyboard_menu_create();

@@ -73,6 +73,7 @@ static const ui_menu_entry_t xscpu64_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)drive_menu },
+    /* no tape support */
     { "Cartridge",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
