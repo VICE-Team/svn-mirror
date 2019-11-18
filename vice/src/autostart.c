@@ -404,7 +404,9 @@ static void deallocate_program_name(void)
     autostart_program_name = NULL;
 }
 
-static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
+typedef enum { YES, NO, NOT_YET } CHECKYESNO;
+
+static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 {
     uint16_t screen_addr, addr;
     uint8_t line_length, cursor_column;
@@ -412,8 +414,8 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 
     mem_get_cursor_parameter(&screen_addr, &cursor_column, &line_length, &blinking);
     
-    DBG(("check(%s) screen addr:%04x column:%d, linelen:%d blinking:%d",
-         s, screen_addr, cursor_column, line_length, blinking));
+    DBG(("check2(%s) screen addr:%04x column:%d, linelen:%d lineoffset: %d blinking:%d",
+         s, screen_addr, cursor_column, line_length, lineoffset, blinking));
 
     if (!kbdbuf_is_empty()) {
         return NOT_YET;
@@ -433,18 +435,29 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
     } else {
         addr = screen_addr;
     }
+    
+    addr += line_length * lineoffset;
 
+    DBG(("check2 addr:%04x", addr));
+    
     for (i = 0; s[i] != '\0'; i++) {
         if (mem_read_screen((uint16_t)(addr + i) & 0xffff) != s[i] % 64) {
             if (mem_read_screen((uint16_t)(addr + i) & 0xffff) != (uint8_t)32) {
+                DBG(("check2: return NO"));
                 return NO;
             }
+            DBG(("check2: return NOT_YET"));
             return NOT_YET;
         }
     }
+    DBG(("check2: return YES"));
     return YES;
 }
 
+static CHECKYESNO check(const char *s, unsigned int blink_mode)
+{
+    return check2(s, blink_mode, 0);
+}
 static void set_true_drive_emulation_mode(int on)
 {
     resources_set_int("DriveTrueEmulation", on);
@@ -524,6 +537,7 @@ static void check_rom_area(void)
     static int lastmode = -1;
     static int checkdelay = 0;
     static int checkflag = 0;
+    
     /* enter ROM ? */
     if (!entered_rom) {
         if (reg_pc >= 0xe000) {
@@ -989,6 +1003,19 @@ static void advance_waitsearchingfor(void)
                 entered_rom = 0;
                 autostartmode = AUTOSTART_WAITLOADREADY;
                 break;
+            }
+            /* if we are already way ahead and basically missed everything until
+               READY, then "searching for" is 3 lines above */
+            if (check2("READY", AUTOSTART_NOWAIT_BLINK, -1) == YES) {
+                if (check2("LOADING", AUTOSTART_NOWAIT_BLINK, -2) == YES) {
+                    if (check2("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK, -3) == YES) {
+                        log_message(autostart_log, "Searching for ... missed, got Ready");
+                        disable_warp_if_was_requested();
+                        autostart_finish();
+                        autostart_done(); /* -> AUTOSTART_DONE */                    
+                        break;
+                    }
+                }
             }
             log_message(autostart_log, "NO Searching for ...");
             disable_warp_if_was_requested();
