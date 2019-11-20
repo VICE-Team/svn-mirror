@@ -514,7 +514,7 @@ static GtkWidget *create_rs232_devices_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser3_baud_widget, 3, 3, 1, 1);
     ser3_ip232_widget = vice_gtk3_resource_check_button_new(
-            "RsDevice4ip232", "IP232");    
+            "RsDevice3ip232", "IP232");    
     gtk_grid_attach(GTK_GRID(grid), ser3_ip232_widget, 4, 3, 1, 1);
 
     label = create_indented_label("Serial 4");
