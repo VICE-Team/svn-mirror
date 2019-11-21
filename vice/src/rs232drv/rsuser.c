@@ -72,6 +72,8 @@ static void clk_overflow_callback(CLOCK sub, void *data);
 
 static void int_rsuser(CLOCK offset, void *data);
 
+#define LOG_MODEM_STATUS /* enable this for the time being */
+
 #undef DEBUG
 
 #define RSUSER_TICKS    21111
@@ -288,14 +290,23 @@ static void rsuser_setup(void)
 }
 
 /* called by VIA/CIA when cpu writes to user port */
-void rsuser_write_ctrl(uint8_t b)
+void rsuser_write_ctrl(uint8_t status)
 {
-    int new_dtr = b & DTR_OUT;  /* = 0 is active, != 0 is inactive */
-    int new_rts = b & RTS_OUT;  /* = 0 is active, != 0 is inactive */
+    enum rs232handshake_out modem_status = 0;
+    int new_dtr = status & DTR_OUT;  /* = 0 is active, != 0 is inactive */
+    int new_rts = status & RTS_OUT;  /* = 0 is active, != 0 is inactive */
+#ifdef LOG_MODEM_STATUS
+    static uint8_t oldstatus = 0;
+#endif    
 
     if (rsuser_enabled) {
         if (dtr && !new_dtr) {
+            /* DTR low->high transition, set up userport, set DTR active */
             rsuser_setup();
+            if (fd != -1) {
+                modem_status |= dtr ? 0 : RS232_HSO_DTR;
+                rs232drv_set_status(fd, modem_status);
+            }
         }
         if (new_dtr && !dtr && fd != -1) {
 #if 0   /* This is a bug in the X-line handshake of the C64... */
@@ -304,11 +315,21 @@ void rsuser_write_ctrl(uint8_t b)
             rs232drv_close(fd);
             fd = -1;
 #endif
+            modem_status |= dtr ? 0 : RS232_HSO_DTR;
+            rs232drv_set_status(fd, modem_status);
         }
     }
 
     dtr = new_dtr;
     rts = new_rts;
+
+#ifdef LOG_MODEM_STATUS
+    if (status != oldstatus) {
+        printf("rsuser_write_ctrl(fd:%d): dtr:%d rts:%d status:%02x modem_status:%02x\n", 
+               fd, dtr ? 1 : 0, rts ? 1 : 0, status, modem_status);
+        oldstatus = status;
+    }
+#endif
 }
 
 static void check_tx_buffer(void)
@@ -419,8 +440,6 @@ uint8_t rsuser_get_rx_bit(void)
     }
     return byte;
 }
-
-#define LOG_MODEM_STATUS
 
 /* called by VIA/CIA when cpu reads from user port */
 uint8_t rsuser_read_ctrl(uint8_t b)
