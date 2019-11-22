@@ -58,11 +58,12 @@ int archdep_register_cbmfont(void)
     unsigned int len;
     unsigned int isdir;
 
-    fontPath = archdep_join_paths(archdep_boot_path(), "..", "lib", "vice", "fonts", "CBM.ttf", NULL);
+    fontPath = archdep_join_paths(archdep_boot_path(),
+            "..", "lib", "vice", "common", "CBM.ttf", NULL);
     if (-1 == archdep_stat(fontPath, &len, &isdir)) {
         lib_free(fontPath);
 
-        log_error(LOG_ERR, "Failed to find CBM.ttf");           
+        log_error(LOG_ERR, "Failed to find CBM.ttf");
         return 0;
     }
 
@@ -105,7 +106,10 @@ int archdep_register_cbmfont(void)
 
     fc_config = FcConfigGetCurrent();
     datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, "..", "fonts", "CBM.ttf", NULL);
+    path = archdep_join_paths(datadir, "CBM.ttf", NULL);
+#if 0
+    printf("Path = '%s'\n", path);
+#endif
     lib_free(datadir);
 
     if (!FcConfigAppFontAddFile(fc_config, (FcChar8 *)path)) {

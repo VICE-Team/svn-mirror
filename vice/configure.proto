@@ -3620,7 +3620,7 @@ AC_OUTPUT([Makefile
            data/SCPU64/Makefile
            data/PRINTER/Makefile
            data/VIC20/Makefile
-           data/fonts/Makefile
+           data/common/Makefile
            doc/Makefile
            doc/building/Makefile
            doc/html/Makefile

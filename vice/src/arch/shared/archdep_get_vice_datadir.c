@@ -46,14 +46,16 @@ char *archdep_get_vice_datadir(void)
     char *path;
 #ifdef ARCHDEP_OS_UNIX
 # ifdef ARCHDEP_OS_OSX
-    /* this would work on Linux, too. */
-    path = archdep_join_paths(archdep_boot_path(), "..", "lib", "vice", "gui", NULL);
+    /* this would work on Linux, too.
+     * Probably not --cpx */
+    path = archdep_join_paths(archdep_boot_path(),
+            "..", "lib", "vice", "common", NULL);
 # else
-    path = archdep_join_paths(LIBDIR, "gui", NULL);
+    path = archdep_join_paths(LIBDIR, "common", NULL);
 # endif
 #else
     /* windows */
-    path = archdep_join_paths(archdep_boot_path(), "gui", NULL);
+    path = archdep_join_paths(archdep_boot_path(), "common", NULL);
 #endif
     return path;
 }
