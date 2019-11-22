@@ -202,9 +202,9 @@ cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $BUILDPATH
 cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BUILDPATH
 rm -f `find $BUILDPATH -name "Makefile*"`
 rm -f `find $BUILDPATH -name "sdl_*"`
-mkdir $BUILDPATH/gui
-cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/gui
-cp $TOPSRCDIR/data/fonts/CBM.ttf $BUILDPATH/gui
+mkdir $BUILDPATH/common
+cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/common
+cp $TOPSRCDIR/data/common/CBM.ttf $BUILDPATH/common
 cp -a $TOPSRCDIR/doc/html $BUILDPATH
 cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
 rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html
