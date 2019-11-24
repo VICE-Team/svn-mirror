@@ -35,8 +35,8 @@
  * is read and written data is discarded.
  */
 
-#undef        DEBUG
-/* #define DEBUG */
+/* #undef        DEBUG */
+#define DEBUG
 
 #include "vice.h"
 
@@ -327,6 +327,9 @@ tryagain:
                     goto tryagain;
                 case 0xff:
                     break;
+                default:
+                    log_error(rs232net_log, "rs232net_getc recieved invalid code after IP232 magic: %02x", *b);
+                    break;
             }
         }
     }
@@ -338,6 +341,9 @@ tryagain:
 int rs232net_set_status(int fd, enum rs232handshake_out status)
 {
     int dtr = (status & RS232_HSO_DTR) ? 1 : 0; /* is this correct? */
+    DEBUG_LOG_MESSAGE((rs232net_log, "rs232net_set_status(fd:%d) status:%02x dtr:%d rts:%d", 
+        fd, status, dtr, status & RS232_HSO_RTS ? 1 : 0
+    ));
     if (fds[fd].useip232) {
         if (dtr != fds[fd].dtr_out) {
             /* original patch never sends a 0 */
@@ -385,7 +391,13 @@ enum rs232handshake_in rs232net_get_status(int fd)
 
 #ifdef LOG_MODEM_STATUS
     if (status != oldstatus) {
-        printf("rs232handshake_in(%d): DCD:%d %02x\n", fd, fds[fd].dcd_in, status);
+        printf("rs232net_get_status(fd:%d): DCD:%d modem_status:%02x cts:%d dsr:%d dcd:%d ri:%d\n", 
+               fd, fds[fd].dcd_in, status, 
+               status & RS232_HSI_CTS ? 1 : 0,
+               status & RS232_HSI_DSR ? 1 : 0,
+               status & RS232_HSI_DCD ? 1 : 0,
+               status & RS232_HSI_RI ? 1 : 0
+              );    
         oldstatus = status;
     }
 #endif     
