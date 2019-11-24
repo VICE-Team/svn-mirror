@@ -5,6 +5,7 @@
  *  Markus Brenner <markus@brenner.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Errol Smith <strobey@users.sourceforge.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -236,6 +237,8 @@ struct vdc_s {
     /* used to monitor for changes in screen and/or attribute addresses, as the cache can't cope with that */
     unsigned int old_screen_adr, old_attribute_adr;
 
+    /* Interlace flag - 0 if normal/non-interlaced, 1 if interlaced */
+    unsigned int interlaced;
 
     /* Light pen. */
     vdc_light_pen_t light_pen;

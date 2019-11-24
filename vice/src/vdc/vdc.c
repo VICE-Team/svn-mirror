@@ -5,6 +5,7 @@
  *  Markus Brenner <markus@brenner.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Errol Smith <strobey@users.sourceforge.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -313,6 +314,8 @@ void vdc_reset(void)
     vdc.regs[4] = 39;
     vdc.regs[5] = 0;
     vdc.regs[6] = 25;
+    vdc.regs[8] = 0;
+	vdc.interlaced = 0;
     vdc.regs[9] = vdc.raster_ycounter_max = 7;
     vdc.regs[22] = 0x78;
     vdc.charwidth = 8;

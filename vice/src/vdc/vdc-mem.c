@@ -5,6 +5,7 @@
  *  Markus Brenner   <markus@brenner.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Errol Smith <strobey@users.sourceforge.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -263,8 +264,13 @@ void vdc_store(uint16_t addr, uint8_t value)
 #endif
             break;
 
-        case 8:                 /* R08  unused: Interlace and Skew */
-            vdc.update_geometry = 1;
+        case 8:                 /* R08  Interlace and Skew */
+			if ((vdc.regs[8] & 0x03) == 3)  {   /* interlace */
+				vdc.interlaced = 1;
+			} else {
+				vdc.interlaced = 0;
+			}
+			//vdc.update_geometry = 1;
 #ifdef REG_DEBUG
             log_message(vdc.log, "REG 8 Interlace:%02x", vdc.regs[8]);
 #endif
