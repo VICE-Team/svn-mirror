@@ -29,12 +29,16 @@
 
 #include "types.h"
 
-#define RTS_OUT         0x02
-#define DTR_OUT         0x04
+#define TXD_OUT         0x04    /* PA2 */
+#define RXD_IN          0x01    /* PB0 (also connected to !FLAG2) */
 
-#define DCD_IN          0x10
-#define CTS_IN          0x40
-#define DSR_IN          0x80
+#define RTS_OUT         0x02    /* PB1 */
+#define DTR_OUT         0x04    /* PB2 */
+
+#define RI_IN           0x08    /* PB3 */
+#define DCD_IN          0x10    /* PB4 */
+#define CTS_IN          0x40    /* PB6 */
+#define DSR_IN          0x80    /* PB7 */
 
 extern int rsuser_enabled;
 
