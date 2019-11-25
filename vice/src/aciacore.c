@@ -44,13 +44,14 @@
 #include "snapshot.h"
 #include "types.h"
 
-
 uint8_t myacia_read(uint16_t addr);
 
 #undef  DEBUG   /*!< define if you want "normal" debugging output */
 #undef  DEBUG_VERBOSE /*!< define if you want very verbose debugging output. */
 /* #define DEBUG */
 /* #define DEBUG_VERBOSE */
+
+/* #define LOG_MODEM_STATUS */
 
 /*! \brief Helper macro for outputting debugging messages */
 #ifdef DEBUG
@@ -542,8 +543,6 @@ static void clk_overflow_callback(CLOCK sub, void *var)
     acia.alarm_clk_rx -= sub;
 }
 
-#define LOG_MODEM_STATUS
-
 /*! \internal \brief Get the modem status and set the status register accordingly
 
  This function reads the physical modem status lines (DSR, DCD)
@@ -556,10 +555,9 @@ static int acia_get_status(void)
 {
     enum rs232handshake_in modem_status = rs232drv_get_status(acia.fd);
 #ifdef LOG_MODEM_STATUS
-    static uint8_t oldstatus = 0;
+    static int oldstatus = -1;
 #endif
     acia.status &= ~(ACIA_SR_BITS_DCD | ACIA_SR_BITS_DSR);
-
 #if 0
     /*
      * CTS is very different from DCD.
@@ -574,12 +572,20 @@ static int acia_get_status(void)
         acia.status |= ACIA_SR_BITS_DCD;
     }
 
-    if (modem_status & RS232_HSI_DSR) {
+    if ((modem_status & RS232_HSI_DSR)) {
         acia.status |= ACIA_SR_BITS_DSR;
     }
+
 #ifdef LOG_MODEM_STATUS
     if (acia.status != oldstatus) {
-        printf("acia_get_status(%d): %02x\n", acia.fd, acia.status);
+        printf("acia_get_status(fd:%d): modem_status:%02x dcd:%d dsr:%d status:%02x dcd:%d dsr:%d\n", 
+               acia.fd, modem_status, 
+               modem_status & RS232_HSI_DCD ? 1 : 0,
+               modem_status & RS232_HSI_DSR ? 1 : 0,
+               acia.status,
+               acia.status & ACIA_SR_BITS_DCD ? 1 : 0,
+               acia.status & ACIA_SR_BITS_DSR ? 1 : 0
+        );
         oldstatus = acia.status;
     }
 #endif 
@@ -593,6 +599,9 @@ static int acia_get_status(void)
 */
 static void acia_set_handshake_lines(void)
 {
+#ifdef LOG_MODEM_STATUS
+    static int oldstatus = -1;
+#endif
     switch (acia.cmd & ACIA_CMD_BITS_TRANSMITTER_MASK) {
         case ACIA_CMD_BITS_TRANSMITTER_NO_RTS:
             /* unset RTS, we are NOT ready to receive */
@@ -627,6 +636,18 @@ static void acia_set_handshake_lines(void)
         /* unset DTR, we are NOT ready to receive or to transmit */
         acia.rs232_status_lines &= ~RS232_HSO_DTR;
     }
+    
+#ifdef LOG_MODEM_STATUS
+    if (acia.rs232_status_lines != oldstatus) {
+        printf("acia_set_handshake_lines(fd:%d): rs232 status:%02x dtr:%d rts:%d\n", 
+               acia.fd,
+               acia.rs232_status_lines,
+               acia.rs232_status_lines & RS232_HSO_DTR ? 1 : 0,
+               acia.rs232_status_lines & RS232_HSO_RTS ? 1 : 0
+        );
+        oldstatus = acia.rs232_status_lines;
+    }
+#endif     
     /* set the RTS and the DTR status */
     rs232drv_set_status(acia.fd, acia.rs232_status_lines);
 }
@@ -1023,7 +1044,6 @@ static uint8_t myacia_read_(uint16_t addr)
         case ACIA_DR:
             DEBUG_LOG_MESSAGE((acia.log, "DR read at %d: 0x%02x", myclk, acia.rxdata));
             acia.status &= ~(ACIA_SR_BITS_OVERRUN_ERROR | ACIA_SR_BITS_PARITY_ERROR | ACIA_SR_BITS_FRAMING_ERROR | ACIA_SR_BITS_RECEIVE_DR_FULL);
-
             acia.last_read = acia.rxdata;
             return acia.rxdata;
         case ACIA_SR:
