@@ -50,9 +50,6 @@ static int fd = -1;
 
 static alarm_t *rsuser_alarm = NULL;
 
-static int dtr;
-static int rts;
-
 static int rxstate;
 static uint8_t rxdata;
 static uint8_t txdata;
@@ -72,9 +69,10 @@ static void clk_overflow_callback(CLOCK sub, void *data);
 
 static void int_rsuser(CLOCK offset, void *data);
 
-#define LOG_MODEM_STATUS /* enable this for the time being */
+#undef DEBUG
 
-/* #undef DEBUG */
+/* #define LOG_MODEM_STATUS */
+
 
 #define RSUSER_TICKS    21111
 
@@ -99,6 +97,13 @@ static void int_rsuser(CLOCK offset, void *data);
 #else
 # define LOG_DEBUG_TIMING_RX(_xxx)
 #endif
+
+/***********************************************************************
+ * control lines
+ */
+
+static int dtr = 0;
+static int rts = 0;
 
 /***********************************************************************
  * resource handling
@@ -302,7 +307,7 @@ void rsuser_write_ctrl(uint8_t status)
     int new_dtr = status & DTR_OUT;  /* = 0 is active, != 0 is inactive */
     int new_rts = status & RTS_OUT;  /* = 0 is active, != 0 is inactive */
 #ifdef LOG_MODEM_STATUS
-    static uint8_t oldstatus = 0;
+    static int oldstatus = -1;
 #endif    
 
 #ifdef LOG_MODEM_STATUS
@@ -317,6 +322,7 @@ void rsuser_write_ctrl(uint8_t status)
             /* DTR low->high transition, set up userport, set DTR active */
             rsuser_setup();
             if (fd != -1) {
+                /* all handshake lines are inverted by the RS232 interface */
                 modem_status |= dtr ? 0 : RS232_HSO_DTR;
                 rs232drv_set_status(fd, modem_status);
             }
@@ -328,6 +334,7 @@ void rsuser_write_ctrl(uint8_t status)
             rs232drv_close(fd);
             fd = -1;
 #endif
+            /* all handshake lines are inverted by the RS232 interface */
             modem_status |= dtr ? 0 : RS232_HSO_DTR;
             rs232drv_set_status(fd, modem_status);
         }
@@ -465,7 +472,7 @@ uint8_t rsuser_read_ctrl(uint8_t b)
     enum rs232handshake_in modem_status = rs232drv_get_status(fd);
     uint8_t status = 0;
 #ifdef LOG_MODEM_STATUS
-    static uint8_t oldstatus = 0;
+    static int oldstatus = -1;
 #endif    
 #if 0
     if (status != oldstatus) {
@@ -477,15 +484,16 @@ uint8_t rsuser_read_ctrl(uint8_t b)
               );
     }
 #endif    
-    if (modem_status & RS232_HSI_CTS) {
+    /* all handshake lines are inverted by the RS232 interface */
+    if (!(modem_status & RS232_HSI_CTS)) {
         status |= CTS_IN;
     }
-    if (modem_status & RS232_HSI_DCD) {
+    if (!(modem_status & RS232_HSI_DCD)) {
         if (!(rsuser_baudrate > 2400)) {
             status |= DCD_IN;
         }
     }
-    if (modem_status & RS232_HSI_DSR) {
+    if (!(modem_status & RS232_HSI_DSR)) {
         status |= DSR_IN;
     }
 #ifdef LOG_MODEM_STATUS
