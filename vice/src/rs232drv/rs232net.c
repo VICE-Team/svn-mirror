@@ -35,8 +35,8 @@
  * is read and written data is discarded.
  */
 
-/* #undef        DEBUG */
-#define DEBUG
+#undef DEBUG
+/* #define DEBUG */
 
 #include "vice.h"
 
@@ -60,6 +60,8 @@
 #ifdef DEBUG
 #include "ctype.h"
 #endif
+
+/* #define LOG_MODEM_STATUS */
 
 #ifdef DEBUG
 # define DEBUG_LOG_MESSAGE(_xxx) log_message _xxx
@@ -341,9 +343,13 @@ tryagain:
 int rs232net_set_status(int fd, enum rs232handshake_out status)
 {
     int dtr = (status & RS232_HSO_DTR) ? 1 : 0; /* is this correct? */
-    DEBUG_LOG_MESSAGE((rs232net_log, "rs232net_set_status(fd:%d) status:%02x dtr:%d rts:%d", 
-        fd, status, dtr, status & RS232_HSO_RTS ? 1 : 0
-    ));
+#ifdef LOG_MODEM_STATUS
+    if (dtr != fds[fd].dtr_out) {
+        DEBUG_LOG_MESSAGE((rs232net_log, "rs232net_set_status(fd:%d) status:%02x dtr:%d rts:%d", 
+            fd, status, dtr, status & RS232_HSO_RTS ? 1 : 0
+        ));
+    }
+#endif
     if (fds[fd].useip232) {
         if (dtr != fds[fd].dtr_out) {
             /* original patch never sends a 0 */
@@ -360,8 +366,6 @@ int rs232net_set_status(int fd, enum rs232handshake_out status)
     fds[fd].dtr_out = dtr;
     return 0;
 }
-
-#define LOG_MODEM_STATUS
 
 /* get the status lines of the RS232 device */
 enum rs232handshake_in rs232net_get_status(int fd)
@@ -383,7 +387,7 @@ enum rs232handshake_in rs232net_get_status(int fd)
             }
         }
 #endif
-        if (fds[fd].dcd_in == 0) {
+        if (fds[fd].dcd_in) {
             status |= RS232_HSI_DCD;
         }
     }
