@@ -31,6 +31,7 @@
 
 #include "debug_gtk3.h"
 
+#include "log.h"
 #include "vsyncapi.h"
 #include "mouse.h"
 #include "mousedrv.h"
@@ -151,7 +152,7 @@ void mouse_button(int bnumber, int state)
         }
         break;
     default:
-        fprintf(stderr, "GTK3MOUSE: Warning: Strange mouse button %d\n", bnumber);
+        log_error(LOG_DEFAULT, "GTK3MOUSE: Warning: Strange mouse button %d\n", bnumber);
     }
 }
 
@@ -164,7 +165,7 @@ void mousedrv_mouse_changed(void)
 {
     /** \todo Tell UI level to capture mouse cursor if necessary and
      *        permitted */
-    fprintf(stderr, "GTK3MOUSE: Status changed: %d (%s)\n", 
+    log_message(LOG_DEFAULT, "GTK3MOUSE: Status changed: %d (%s)\n", 
             _mouse_enabled, _mouse_enabled ? "enabled" : "disabled");
     if (_mouse_enabled) {
         ui_mouse_grab_pointer();
