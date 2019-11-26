@@ -166,6 +166,10 @@ int drive_check_iec(int type)
     return 0;
 }
 
+int drive_check_image_format(unsigned int format, unsigned int dnr)
+{
+    return -1;
+}
 
 /*******************************************************************************
     Cartridge system

@@ -48,6 +48,7 @@
 #include "datasette.h"
 #include "diskimage.h"
 #include "drive.h"
+#include "driveimage.h"
 #include "fileio.h"
 #include "fsdevice.h"
 #include "imagecontents.h"
@@ -1396,27 +1397,19 @@ int autostart_disk(const char *file_name, const char *program_name,
     if (name) {
         autostart_disk_cook_name(&name);
         if (!(file_system_attach_disk(8, file_name) < 0)) {
-
-#if 0
+#if 1
             vdrive_t *vdrive;
             struct disk_image_s *diskimg;
 #endif
 
             log_message(autostart_log,
                         "Attached file `%s' as a disk image.", file_name);
-
+#if 1
             /*
              * Simple attempt at implementing setting the current drive type
              * based on the image type as per feature request #319.
-             *
-             * I'm leaving this commented out since I don't think I'll be able
-             * properly implement this AND properly test it before the code
-             * freeze on 2018-12-3 (I have a lot of other stuff to do). I will
-             * pick this up again after 3.3 has been released.
-             *
-             * --compyx
              */
-#if 0
+
             /* shitty code, we really need to extend the drive API to
              * get at these sorts for things without breaking into core code
              */
@@ -1428,10 +1421,16 @@ int autostart_disk(const char *file_name, const char *program_name,
                 if (diskimg == NULL) {
                     log_error(LOG_ERR, "Failed to get disk image for unit 8.");
                 } else {
-                    printf("\nGOT IMAGE TYPE %u.\n\n", diskimg->type);
-                    if (resources_set_int("Drive8Type", diskimg->type) < 0) {
-                        log_error(LOG_ERR, "Failed to set drive type.");
+                    int chk = drive_check_image_format(diskimg->type, 0);
+                    log_message(autostart_log, "mounted image is type: %u, %schanging drive.", 
+                                diskimg->type, (chk < 0) ? "" : "not ");
+                    /* change drive type only when image does not work in current drive */
+                    if (chk < 0) {
+                        if (resources_set_int("Drive8Type", diskimg->type) < 0) {
+                            log_error(LOG_ERR, "Failed to set drive type.");
+                        }
                     }
+                    if (file_system_attach_disk(8, file_name) < 0) goto exiterror;
                     drive_cpu_trigger_reset(0);
                 }
             }
@@ -1443,7 +1442,7 @@ int autostart_disk(const char *file_name, const char *program_name,
             return 0;
         }
     }
-
+exiterror:
     DBG(("autostart_disk: ERROR"));
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
