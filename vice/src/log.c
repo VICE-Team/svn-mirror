@@ -331,7 +331,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
         }
     }
 
-    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR) && (*logs[logi] != '\0')) {
+    if ((log_file != NULL) && (logi != LOG_DEFAULT) && (logi != LOG_ERR) && (*logs[logi] != '\0')) {
         logtxt = lib_msprintf("%s: %s", logs[logi], level_strings[level]);
     } else {
         logtxt = lib_msprintf("%s", level_strings[level]);
