@@ -166,7 +166,7 @@ static char tmp[0x200];
 static char tmp1[0x20][0x200];
 static char tmp2[0x200];
 static char tmpc[0x200];
-static char tmpmsg[0x200];
+static char tmpmsg[0x200+1];
 
 void readtexi(FILE *tf)
 {
