@@ -20,8 +20,8 @@ Before reporting bugs, always try with a clean config (run emulator with
 * Changes in Vice 3.4
 =====================
 
-We are still looking for dedicated maintainers for the Windows port, if you 
-want to help improving these and/or want to provide binaries, please get in 
+We are still looking for dedicated maintainers for the Windows port, if you
+want to help improving these and/or want to provide binaries, please get in
 touch.
 
 We welcome dqh in the team, who will take care of the macOS port.
@@ -31,9 +31,10 @@ We welcome dqh in the team, who will take care of the macOS port.
 ----------
 
 - Remove support for Syllable OS, SCO, QNX4, QNX6, SGI, AIX, OpenStep/NextStep/
-  Rhapsody, Solaris/OpenIndiana and remaining traces of Minix, NeXT, SKYOS, UNIXWARE, Sortix
-  
-- Remove remaining traces of support for WATCOM, MSVC, OpenWatcom  
+  Rhapsody, Solaris/OpenIndiana and remaining traces of Minix, NeXT, SKYOS,
+  UNIXWARE, Sortix
+
+- Remove remaining traces of support for WATCOM, MSVC, OpenWatcom
 
 - Remove aRts support
 
@@ -41,12 +42,12 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - skip building x64 unless --enable-x64 is passed to configure
 
-- update pattern generator for uninitialized ram. changed defaults so all 
+- update pattern generator for uninitialized ram. changed defaults so all
   raminitpattern tests pass.
 
 - remove block device disk image (rawdrive) "support". in linux it was never
   needed (just use the device file) and on windows it was never implemented.
-  
+
 
 ** Autostart fixes
 ------------------
@@ -55,17 +56,17 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - Automatically change drive type when autostarting disk images that do not
   work with the currently active drive.
-  
+
 - Make AutostartRunWithColon default
 
 - fixed autostart when memory hacks are enabled (plus60k, plus256k, plus4)
 
-- make autostarting from tape also respect the 'basicload' option, loading 
+- make autostarting from tape also respect the 'basicload' option, loading
   absolute by default
 
-- when using a disk image to autostart .prg files, remove the .prg extension 
-  from the temporary file name  
-  
+- when using a disk image to autostart .prg files, remove the .prg extension
+  from the temporary file name
+
 
 ** Snapshot fixes
 -----------------
@@ -81,16 +82,16 @@ We welcome dqh in the team, who will take care of the macOS port.
   changed to 0xEF, which makes the problem cases "spectipede" and "turrican 3"
   work.
 
-- fix: reset should set the I flag  
-  
-  
+- fix: reset should set the I flag
+
+
 ** VIC-II fixes
 ---------------
 
 - Accurate emulation of the "VSP bug". Warnings about possible VSP related
-  memory corruption are always logged, actual memory corruption is still 
+  memory corruption are always logged, actual memory corruption is still
   optional.
-  
+
 - Fixed changing more than one colour register via monitor
 
 
@@ -105,28 +106,28 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - use model dependend floating output ttl values like in residfp
 
-  
+
 ** Monitor
 ----------
 
 - Support full expressions in the monitor conditional breakpoints.
 
-- When deleting checkpoints, reset the index to 1 when there are no more 
+- When deleting checkpoints, reset the index to 1 when there are no more
   checkpoints left
-  
-- Added 'RL' for rasterline and 'CY' for cycle in line to list of conditionals 
+
+- Added 'RL' for rasterline and 'CY' for cycle in line to list of conditionals
   that can be used for breakpoints.
-  
-- in mc/ms commands show asterisk for 1s and dots for 0s, not the other way 
+
+- in mc/ms commands show asterisk for 1s and dots for 0s, not the other way
   around
-  
-- adjust number of disassembled lines so the top line does not scroll out of 
+
+- adjust number of disassembled lines so the top line does not scroll out of
   the window when labels are used
 
-  
+
 ** C-64 fixes
 -------------
-  
+
 - added support for MAX Basic cartridge, new CRTID 61
 
 - added clockport device for rrnet mk3
@@ -145,20 +146,20 @@ We welcome dqh in the team, who will take care of the macOS port.
 ** Gtk3 UI
 ----------
 
-- Implemented "restore display" (Alt+r). Resets the active window to its 
-  minimal/natural size. Handy when stretching the window and then not knowing 
-  you can make the window smaller again with resizing that same window until 
+- Implemented "restore display" (Alt+r). Resets the active window to its
+  minimal/natural size. Handy when stretching the window and then not knowing
+  you can make the window smaller again with resizing that same window until
   it doesn't get smaller.
 
 - Change double-clicking images in smart/diskattach dialogs to 'open' instead
   of autostarting
-  
+
 
 * Changes in VICE 3.3
 =====================
 
-This release stabilizes and introduces the GTK3 UI as the primary user interface 
-for all major ports. For "lesser" platforms we still have the SDL1/SDL2 based 
+This release stabilizes and introduces the GTK3 UI as the primary user interface
+for all major ports. For "lesser" platforms we still have the SDL1/SDL2 based
 interface. All other user interfaces have been removed. RIP
 
 We are still looking for dedicated maintainers for the Windows- and macOS ports,
@@ -185,21 +186,21 @@ in touch.
 
 - Make VICE much faster by using -O3 vs -O2
 
-- add a slot number before the literal name of a game-controller, which is less 
+- add a slot number before the literal name of a game-controller, which is less
   confusing when more than one controller of the same type is used
 
 - fix parsing of the commandline with -config first
 
 - added dutch to list of keyboard mappings
 
-  
+
 ** Unix fixes
 -------------
 
 - the sleep function was not handling timer overflows properly, which happens
   every 4 seconds on a 32bit machine with nanosleep()
 
-  
+
 ** macOS fixes
 --------------
 
@@ -259,10 +260,10 @@ in touch.
 
 - in memory dump limit the number of bytes per line to a power of two.
 
-- instead of limiting disassembler output to a number of bytes, limit it to the 
+- instead of limiting disassembler output to a number of bytes, limit it to the
   height of the current terminal
 
-  
+
 ** c1541
 --------
 
@@ -370,21 +371,21 @@ in touch.
 
 - added browsing inside disk and tape images.
 
-- added pageup/pagedown/home/end key mappings, and support them in the menus, 
+- added pageup/pagedown/home/end key mappings, and support them in the menus,
   file-selector and text viewer
 
 - Terminal- or UI based monitor can be selected at runtime in all ports
 
-- added a hack to get rid of spurious keyup/keydown events after switching 
+- added a hack to get rid of spurious keyup/keydown events after switching
   from/to fullscreen
-  
-- generate suitable fonts for the ui at startup, use some custom gfx for the ui. 
-  fixes the problem that the ui chars will screw up when the user selects a 
+
+- generate suitable fonts for the ui at startup, use some custom gfx for the ui.
+  fixes the problem that the ui chars will screw up when the user selects a
   japanese chargen :)
-  
-- when changing color- or crt emulation settings, print a color matrix on screen 
+
+- when changing color- or crt emulation settings, print a color matrix on screen
   and update the resources in realtime
-  
+
 - UI cosmetics:
   - fix slider length, use custom chars for slider
   - make screen all black before entering the UI
@@ -545,7 +546,7 @@ in touch.
 
 - Fixed saving of GMOD2 cartridge image.
 
-  
+
 ** C128 changes
 ---------------
 
@@ -1626,7 +1627,7 @@ SDL changes
 - XRandR fullscreen implemented
 
 - Command line option `-fullscreen' is supposed to do something
-  useful. 
+  useful.
 
 - Vsync code imported from win32 (based on openGL extension).
   see also doc/openGLsync-howto.txt.
@@ -1634,7 +1635,7 @@ SDL changes
 - Vidmode (fullscreen support) is broken and therefore marked as
   deprecated. It will be removed in the next release if no-one takes
   responsibility to fix the broken code and is willing to maintain the
-  code. 
+  code.
 
 - PAL Emulation (new implementation, improved speed) should be usable
   again (it was broken on certain display depths).
@@ -1667,7 +1668,7 @@ SDL changes
   The characters after the colon can be used to specify additional
   settings for the COM port. The string must have the same form as the
   mode command's command-line arguments:
-  [baud=b][parity=p][data=d][stop=s][to={on|off}][xon={on|off}] 
+  [baud=b][parity=p][data=d][stop=s][to={on|off}][xon={on|off}]
   [odsr={on|off}][octs={on|off}][dtr={on|off|hs}][rts={on|off|hs|tg}]
   [idsr={on|off}]
 
@@ -1679,7 +1680,7 @@ SDL changes
 
   (Sorry, no fancy UI yet.)
 
-- vsid GUI reworked: 
+- vsid GUI reworked:
   * infoline appears only by pressing "I"
   * raises process priority. Otherwise, when in background,
     looses cpu power and music is not played at correct speed
@@ -1724,7 +1725,7 @@ SDL changes
   (see extended Resource Inspector)
 
 - Completely rewritten joystick driver that supports user-definable buttons
-  for fire and all directions. 
+  for fire and all directions.
 
 - Copy & Paste support for emulator and monitor/log window
 
@@ -2261,7 +2262,7 @@ SDL changes
 
 - An experimental patch for Gnome2/Gtk2 support is available (See
   website). Vice-1.19 will be the last Gnome1/Gtk1 version officially
-  supported. 
+  supported.
   The Gnome2/Gtk2 version is known to work on state-of-the-art
   Linux distributions (e.g. Fedora Core 4).
   See also src/arch/unix/x11/gnome/TODO
@@ -2572,7 +2573,7 @@ SDL changes
 ** General
 ----------
 
-- Audio and video streams can be recorded now. 
+- Audio and video streams can be recorded now.
   Unix users: Use configure parameter `--enable-ffmpeg'; make sure you
   have the required libraries installed (package ffmpeg-0.4.8 ori
   newer).
