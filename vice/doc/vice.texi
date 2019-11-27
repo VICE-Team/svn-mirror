@@ -2764,14 +2764,6 @@ The following resources affect the screen emulation.
 @item HwScalePossible
 Boolean that indicates whether hardware scaling is possible or not.
 
-@vindex openGL_sync
-@item openGL_sync
-Boolean, if true enable Open-GL frame sync.
-
-@vindex openGL_no_sync
-@item openGL_no_sync
-Boolean, if true Open-GL sync is not available.
-
 @vindex Speed
 @item Speed
 Integer specifying the maximum relative speed, as a percentage. @code{0}
@@ -2786,6 +2778,10 @@ skipping.
 @vindex WarpMode
 @item WarpMode
 Boolean specifying whether ``warp mode'' is turned on or not.
+
+@vindex FullscreenEnable
+@item FullscreenEnable
+Boolean specifying whether ``fullscreen'' is turned on at startup or not.
 
 @end table
 
@@ -5563,9 +5559,9 @@ Enable/Disable remote monitor
 @item -remotemonitoraddress <name>
 The local address the remote monitor should bind to
 
-@findex -nativemonitor, +nativemonitor
-@item -nativemonitor
-@itemx +nativemonitor
+@findex -native-monitor, +native-monitor
+@item -native-monitor
+@itemx +native-monitor
 Enable/Disable native monitor.
 (@code{NativeMonitor=1}, @code{NativeMonitor=0}).
 
@@ -5967,6 +5963,7 @@ speeddos or JiffyDos) can be stored for example.
 emulator's system files.
 
 @end ifset
+
 @vindex DoCoreDump
 @item DoCoreDump
 Boolean specifying whether the emulator should dump core when it gets a signal
@@ -7203,7 +7200,7 @@ Attach CBM IEEE-488 cartridge image.
 @itemx +ieee488
 Enable/disable emulation of the IEEE488 interface
 (@code{IEEE488=1}, @code{IEEE488=0}).
-.
+
 @findex -ieee488image
 @item -ieee488image <name>
 Set IEEE488 interface image name
@@ -12507,6 +12504,11 @@ Override PSID settings for Video standard and SID model
 Specify PSID tune <number>
 (@code{PSIDTune}).
 
+@findex -hvsc-root
+@item -hvsc-root <path>
+Specify the location of the HVSC "C64Music" directory.
+(@code{HVSCRoot}).
+
 @findex -chargen
 @item -chargen <name>
 Specify name of character generator ROM image
@@ -12889,17 +12891,6 @@ Integer specifying the joystick fuzz.
 
 @end table
 
-@ifset platformdingoo
-@b{The following resource is only present if compiling for native dingoo.}
-
-@table @code
-
-@vindex OverClock
-@item OverClock
-Boolean to enable/disable overclocking.
-
-@end table
-
 @c -----------------------------------------------------------------
 @c @node FIXME
 @subsection SDL specific command-line options
@@ -13265,6 +13256,8 @@ Set the joystick fuzz
 @end ifset
 @end ifclear
 
+@ifset platformunix
+
 This section lists the settings and commands that are common and specific to Unix, and are thus not present in other platforms.
 
 @c -----------------------------------------------------------------
@@ -13339,15 +13332,6 @@ Integers specifying the position and size of the (first) emulator window
 @itemx Window1Ypos
 Integers specifying the position and size of the (second) emulator window
 (x128 only).
-
-@vindex FOURCC
-@item FOURCC
-String specifying the YUV FOURCC format to use.
-
-@vindex UseFullscreen
-@item UseFullscreen
-Boolean specifying whether fullscreen mode is currently in use
-(all emulators except vsid).
 
 @vindex CrtcHwScale
 @item CrtcHwScale
@@ -13574,18 +13558,6 @@ Confirm quitting VICE
 Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
-@findex -displaydepth
-@item -displaydepth <value>
-Specify the display depth
-(@code{DisplayDepth})
-(all emulators except vsid).
-(0..32)
-
-@findex -fourcc
-@item -fourcc <fourcc>
-Set the YUV FOURCC format to use
-(@code{FOURCC}).
-
 @findex -fullscreen, +fullscreen
 @item -fullscreen
 @itemx +fullscreen
@@ -13728,8 +13700,8 @@ Specify MIDI driver
 
 @end table
 
-
 @end ifset
+@c platformunix
 
 @c -----------------------------------------------------------------
 
@@ -16548,6 +16520,11 @@ file you want to convert the input file to.
 @item -t carttype
 This parameter is optional. It is only needed when converting to a .crt
 file. See below for the supported cartridge types.
+@findex -s
+@item -s revision
+This parameter is optional. It is only needed when converting to a .crt
+file. See the detailed description of the .crt format for which types support
+subtypes/revisions.
 @findex -n
 @item -n "cart name"
 This parameter is optional and is used as the cartridge name when creating

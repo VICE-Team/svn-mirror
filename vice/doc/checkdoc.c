@@ -701,6 +701,7 @@ void checkresources(void)
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
+                    || !strcmp(list1->string, "AspectRatio")
                     || !strcmp(list1->string, "SDLKbdStatusbar")
                     || !strcmp(list1->string, "SDL2Renderer")
                     || !strcmp(list1->string, "SDLWindowWidth")
@@ -1012,6 +1013,7 @@ void checkoptions(void)
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
+                    || !strcmp(list1->string, "-aspect")
                     || !strcmp(list1->string, "-statusbar")
                     || !strcmp(list1->string, "+statusbar")
                     || !strcmp(list1->string, "-kbdstatusbar")
