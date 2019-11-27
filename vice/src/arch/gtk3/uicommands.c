@@ -382,6 +382,8 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Attempt to restore the active window's size to its "natural" size
  *
+ * Also unmaximizes and unfullscreens the window.
+ *
  * \param[in]   widget  widget triggering the event (ignored)
  * \param[in]   data    extra event data (unused)
  */
@@ -389,7 +391,15 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
 {
     GtkWindow *window = ui_get_active_window();
 
+    debug_gtk3("called\n");
+
     if (window != NULL) {
+        /* disable fullscreen if active */
+        if (ui_is_fullscreen()) {
+            ui_fullscreen_callback(widget, data);
+        }
+        /* unmaximize */
+        gtk_window_unmaximize(window);
         /* requesting a 1x1 window forces the window to resize to its natural
          * size, ie the minimal size required to display the window's
          * decorations and contents without wasting space
