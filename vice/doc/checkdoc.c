@@ -673,9 +673,6 @@ void checkresources(void)
             } else {
                 printf("%-40s", list1->string);
                 if(0
-                    || !strcmp(list1->string, "MITSHM")
-                    || !strcmp(list1->string, "openGL_sync")
-                    || !strcmp(list1->string, "openGL_no_sync")
                     || !strcmp(list1->string, "FFMPEGFormat")
                     || !strcmp(list1->string, "FFMPEGAudioBitrate")
                     || !strcmp(list1->string, "FFMPEGVideoBitrate")
@@ -683,7 +680,7 @@ void checkresources(void)
                     || !strcmp(list1->string, "FFMPEGVideoCodec")
                     || !strcmp(list1->string, "FFMPEGVideoHalveFramerate")
                   ) {
-                    printf("(might be disabled)");
+                    printf("(FFMPEG only, might be disabled)");
                 } else if(0
                     || !strcmp(list1->string, "KeepMonitorOpen")
                     || !strcmp(list1->string, "KeepAspectRatio")
@@ -698,6 +695,9 @@ void checkresources(void)
                     || !strcmp(list1->string, "Window1Ypos")
                     || !strcmp(list1->string, "StartMinimized")
                     || !strcmp(list1->string, "DisplayDepth")
+                    || !strcmp(list1->string, "GTKBackend")
+                    || !strcmp(list1->string, "GTKFilter")
+                    || !strcmp(list1->string, "FullscreenEnable")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -709,7 +709,6 @@ void checkresources(void)
                     || !strcmp(list1->string, "SDLGLFilter")
                     || !strcmp(list1->string, "SDLStatusbar")
                     || !strcmp(list1->string, "SDLBitdepth")
-                    || !strcmp(list1->string, "SDLLimitMode")
                     || !strcmp(list1->string, "SDLCustomWidth")
                     || !strcmp(list1->string, "SDLCustomHeight")
                     || !strcmp(list1->string, "SDLGLAspectMode")
@@ -759,20 +758,36 @@ void checkresources(void)
                   ) {
                     printf("(SDL only, not GTK3)");
                 } else if(0
-                    || !strcmp(list1->string, "OverClock")
+                    || !strcmp(list1->string, "SDLLimitMode")
                   ) {
-                    printf("(Dingoo)");
+                    printf("(SDL1 only, not GTK3)");
                 } else if(0
+                    || !strcmp(list1->string, "OverClock")
                     || !strcmp(list1->string, "UseFullscreen")
                     || !strcmp(list1->string, "FOURCC")
-                  ) {
-                    printf("(outdated?)");
-                } else if(0
+                    || !strcmp(list1->string, "MITSHM")
+                    || !strcmp(list1->string, "openGL_sync")
+                    || !strcmp(list1->string, "openGL_no_sync")
                     || !strcmp(list1->string, "XSync")
                     || !strcmp(list1->string, "UseXSync")
                     || !strcmp(list1->string, "PrivateColormap")
                   ) {
-                    printf("(outdated!)");
+                    printf("(outdated?)");
+                } else if(0
+                    || !strcmp(list1->string, "TraceMode")
+                    || !strcmp(list1->string, "AutoPlaybackFrames")
+                    || !strcmp(list1->string, "MainCPU_TRACE")
+                    || !strcmp(list1->string, "Drive0CPU_TRACE")
+                    || !strcmp(list1->string, "Drive1CPU_TRACE")
+                    || !strcmp(list1->string, "Drive2CPU_TRACE")
+                    || !strcmp(list1->string, "Drive3CPU_TRACE")
+                    || !strcmp(list1->string, "IEC_TRACE")
+                    || !strcmp(list1->string, "DoCoreDump")
+                    || !strcmp(list1->string, "DtvBlitterLog")
+                    || !strcmp(list1->string, "DtvDMALog")
+                    || !strcmp(list1->string, "DtvFlashLog")
+                  ) {
+                    printf("(DEBUG only, might be disabled)");
                 } else {
                     i++;
                 }
@@ -997,9 +1012,8 @@ void checkoptions(void)
                 if(0
                     || !strcmp(list1->string, "-ffmpegaudiobitrate")
                     || !strcmp(list1->string, "-ffmpegvideobitrate")
-                    || !strcmp(list1->string, "-debug")
                   ) {
-                    printf("(might be disabled)");
+                    printf("(FFMPEG only, might be disabled)");
                 } else if(0
                     || !strcmp(list1->string, "-keepaspect")
                     || !strcmp(list1->string, "+keepaspect")
@@ -1010,6 +1024,10 @@ void checkoptions(void)
                     || !strcmp(list1->string, "-minimized")
                     || !strcmp(list1->string, "+minimized")
                     || !strcmp(list1->string, "-displaydepth")
+                    || !strcmp(list1->string, "-gtkbackend")
+                    || !strcmp(list1->string, "-gtkfilter")
+                    || !strcmp(list1->string, "-fullscreen")
+                    || !strcmp(list1->string, "+fullscreen")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -1044,9 +1062,10 @@ void checkoptions(void)
                     || !strcmp(list1->string, "-menukeyexit")
                     || !strcmp(list1->string, "-menukeymap")
                     || !strcmp(list1->string, "-sdlbitdepth")
-                    || !strcmp(list1->string, "-sdllimitmode")
                     || !strcmp(list1->string, "-sdlcustomw")
                     || !strcmp(list1->string, "-sdlcustomh")
+                    || !strcmp(list1->string, "-sdlinitialw")
+                    || !strcmp(list1->string, "-sdlinitialh")
                     || !strcmp(list1->string, "-CRTCSDLfullmode")
                     || !strcmp(list1->string, "-CRTCfulldevice")
                     || !strcmp(list1->string, "-CRTCfull")
@@ -1070,21 +1089,44 @@ void checkoptions(void)
                   ) {
                     printf("(SDL only, not GTK3)");
                 } else if(0
+                    || !strcmp(list1->string, "-sdllimitmode")
+                  ) {
+                    printf("(SDL1 only, not GTK3)");
+                } else if(0
                     || !strcmp(list1->string, "-mitshm")
                     || !strcmp(list1->string, "+mitshm")
-                    || !strcmp(list1->string, "-fullscreen")
-                    || !strcmp(list1->string, "+fullscreen")
                     || !strcmp(list1->string, "-fourcc")
                     || !strcmp(list1->string, "+fourcc")
-                  ) {
-                    printf("(outdated?)");
-                } else if(0
                     || !strcmp(list1->string, "-xsync")
                     || !strcmp(list1->string, "+xsync")
                     || !strcmp(list1->string, "-colormap")
                     || !strcmp(list1->string, "+colormap")
                   ) {
-                    printf("(outdated!)");
+                    printf("(outdated?)");
+                } else if(0
+                    || !strcmp(list1->string, "-debug")
+                    || !strcmp(list1->string, "-trace_mode")
+                    || !strcmp(list1->string, "-autoplaybackframes")
+                    || !strcmp(list1->string, "-trace_maincpu")
+                    || !strcmp(list1->string, "+trace_maincpu")
+                    || !strcmp(list1->string, "-trace_drive0")
+                    || !strcmp(list1->string, "+trace_drive0")
+                    || !strcmp(list1->string, "-trace_drive1")
+                    || !strcmp(list1->string, "+trace_drive1")
+                    || !strcmp(list1->string, "-trace_drive2")
+                    || !strcmp(list1->string, "+trace_drive2")
+                    || !strcmp(list1->string, "-trace_drive3")
+                    || !strcmp(list1->string, "+trace_drive3")
+                    || !strcmp(list1->string, "-trace_iec")
+                    || !strcmp(list1->string, "+trace_iec")
+                    || !strcmp(list1->string, "-dtvblitterlog")
+                    || !strcmp(list1->string, "+dtvblitterlog")
+                    || !strcmp(list1->string, "-dtvdmalog")
+                    || !strcmp(list1->string, "+dtvdmalog")
+                    || !strcmp(list1->string, "-dtvflashlog")
+                    || !strcmp(list1->string, "+dtvflashlog")
+                  ) {
+                    printf("(DEBUG only, might be disabled)");
                 } else {
                     i++;
                 }

@@ -5559,9 +5559,9 @@ Enable/Disable remote monitor
 @item -remotemonitoraddress <name>
 The local address the remote monitor should bind to
 
-@findex -native-monitor, +native-monitor
-@item -native-monitor
-@itemx +native-monitor
+@findex -nativemonitor, +nativemonitor
+@item -nativemonitor
+@itemx +nativemonitor
 Enable/Disable native monitor.
 (@code{NativeMonitor=1}, @code{NativeMonitor=0}).
 
@@ -13010,6 +13010,14 @@ Set the custom resolution width
 @item -sdlcustomh <height>
 Set the custom resolution height
 (@code{SDLCustomHeight}).
+
+@findex -sdlinitialw
+@item -sdlinitialw <width>
+Set initial window width.
+
+@findex -sdlinitialh
+@item -sdlinitialh <height>
+Set initial window height.
 
 @c Move to generic options
 @findex -kbdstatusbar, +kbdstatusbar
