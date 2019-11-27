@@ -295,9 +295,14 @@ int joy_arch_resources_init(void)
 void joy_arch_resources_shutdown(void)
 {
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    lib_free(joymap_factory);
-    lib_free(joymap_file);
-    joymap_file = NULL;
+    if (joymap_factory) {
+        lib_free(joymap_factory);
+        joymap_factory = NULL;
+    }
+    if (joymap_file) {
+        lib_free(joymap_file);
+        joymap_file = NULL;
+    }
 #endif
 }
 
