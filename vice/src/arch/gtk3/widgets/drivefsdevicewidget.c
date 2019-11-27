@@ -126,6 +126,8 @@ static GtkWidget *create_fsdir_entry_widget(int unit)
 
     g_snprintf(resource, 256, "FSDevice%dDir", unit);
     entry = vice_gtk3_resource_entry_full_new(resource);
+    gtk_widget_set_tooltip_text(entry,
+            "Set the host OS directory to use as a virtual drive");
     return entry;
 }
 
@@ -178,7 +180,7 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
     GtkWidget *browse;
     GtkWidget *p00;
 
-    grid = uihelpers_create_grid_with_label("FS Device settings", 3);
+    grid = uihelpers_create_grid_with_label("File system device settings", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 #if 0
     label = gtk_label_new("device type");
