@@ -78,13 +78,13 @@ static const uint8_t displayedpixmask[17] = {
 };
 
 static const int8_t displayedwidth[256] = {
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+     1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     1, 2, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+     1, 2, 3, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+     1, 2, 3, 4, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+     1, 2, 3, 4, 5, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+     1, 2, 3, 4, 5, 6, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7,
      1, 2, 3, 4, 5, 6, 7, 0, 8, 8, 8, 8, 8, 8, 8, 8,
      2, 3, 4, 5, 6, 7, 8, 0, 1, 8, 8, 8, 8, 8, 8, 8,
      3, 4, 5, 6, 7, 8, 8, 0, 1, 2, 8, 8, 8, 8, 8, 8,
@@ -96,30 +96,30 @@ static const int8_t displayedwidth[256] = {
      8, 8, 8, 8, 8, 8, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8
 };
 
-static const int8_t semigfxtype[256] = {
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-     1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-     1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-     1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-     1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-     1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0,
-     1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
-     1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0,
-     1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-     0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1
+static const uint8_t semigfxtype[256] = {
+       0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+       0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+       0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+       0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+       0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+       0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+       0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,   0,   0,   0,   0,   0,   0,   0,   0,
+    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,   0,0xFF,   0,   0,   0,   0,   0,   0,   0,
+    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,   0,   0,0xFF,0xFF,   0,   0,   0,   0,   0,   0,
+    0xFF,0xFF,0xFF,0xFF,0xFF,   0,   0,   0,0xFF,0xFF,0xFF,   0,   0,   0,   0,   0,
+    0xFF,0xFF,0xFF,0xFF,   0,   0,   0,   0,0xFF,0xFF,0xFF,0xFF,   0,   0,   0,   0,
+    0xFF,0xFF,0xFF,   0,   0,   0,   0,   0,0xFF,0xFF,0xFF,0xFF,0xFF,   0,   0,   0,
+    0xFF,0xFF,   0,   0,   0,   0,   0,   0,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,   0,   0,
+    0xFF,   0,   0,   0,   0,   0,   0,   0,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,   0,
+       0,   0,   0,   0,   0,   0,   0,   0,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
 };
 
 static unsigned int dmask;           /* used to mask off bits in the rendered character, if for example we are only showing 4pixels dmask=0xF0 */
 static unsigned int d2mask;          /* used to mask off bits in the intercharacter gap, if there is one, so that we only display the 'correct' number of pixels */
 static unsigned int semi_gfx_test;   /* a combo flag & bitmask, if 0 there is no semi-graphics effect. >0 it's the bit mask to check against, e.g. 0x08 for bit 3 */
 static unsigned int semi_gfx_mask;   /* used to mask 'on' the remainder of the character, e.g. for semi_gfx_test 0x08, semi_gfx_mask= 0x07 to mask on bits 0-2 inclusive */
-      
+static unsigned int semi_gfx_type;   /* 0 = semi-graphics does not extend through intercharacter gap, 0xFF = it does */      
 
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
@@ -182,6 +182,7 @@ static void calculate_draw_masks(void)
         d2mask - used to mask off bits in the intercharacter gap, if there is one, so that we only display the 'correct' number of pixels
         semi_gfx_test - a combo flag & bitmask, if 0 there is no semi-graphics effect. >0 it's the bit mask to check against, e.g. 0x08 for bit 3
         semi_gfx_mask - used to mask 'on' the remainder of the character, e.g. for semi_gfx_test 0x08, semi_gfx_mask= 0x07 to mask on bits 0-2 inclusive
+        semi_gfx_type - flag/mask for the intercharacter gap, 0 = semi-graphics does not extend through intercharacter gap, 0xFF = it does
         
         i, displayedpixels is not required, just temp values used in calculations
     */
@@ -203,15 +204,16 @@ static void calculate_draw_masks(void)
             semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
         } else {
             if ((vdc.regs[25] & 0x20 )  /* Semi-graphics mode */
-                || (vdc.regs[22] >> 4) == (vdc.regs[22] & 0x0F)) { /* extra weirdness - in 40col mode if displayed width = total width, semigfx is enabled either way */
-                if (displayedpixels == 0) {
+             || (((vdc.regs[22] >> 4) & 0x0F) == (vdc.regs[22] & 0x0F))) { /* extra weirdness - in 40col mode if displayed width = total width, semigfx is enabled either way */
+                if (((vdc.regs[22] >> 4) & 0x0F) == (vdc.regs[22] & 0x0F)) { /* in extra weirdness the width is always at least 1 */
+                    if ((vdc.regs[22] & 0x0F) <= 8 ) {
+                        displayedpixels = 1;
+                    }
+                } else if (displayedpixels == 0) {
                     displayedpixels = 8;    /* there is no width 0 in semigfx mode, so override it if it happens, e.g. R22:0-3 = 7 */
                 }
-                if (semigfxtype[i] == 0) {  /* semigfx mode is active but doesn't extend through intercharacter gap */
-                    semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
-                } else {    /* semigfx mode is active and extends through intercharacter gap */
-                    semi_gfx_test = semigfxtest[displayedpixels - 1];   /* .. set it as a mask to check the appropriate bit */
-                }
+                semi_gfx_test = semigfxtest[displayedpixels - 1];   /* .. set it as a mask to check the appropriate bit */
+                semi_gfx_type = semigfxtype[i];  /* 0 if semigfx mode is active but doesn't extend through intercharacter gap. 0xFF otherwise, doubles as a mask */
             } else {    /* regular text mode */
                 semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
             }
@@ -233,11 +235,8 @@ static void calculate_draw_masks(void)
                 if (displayedpixels == 0) {
                     displayedpixels = 8;    /* there is no width 0 in semigfx mode, so override it if it happens, e.g. R22:0-3 = 7 */
                 }
-                if (semigfxtype[vdc.regs[22]] == 0) {    /* semigfx mode is active but doesn't extend through intercharacter gap */
-                    semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
-                } else {    /* semigfx mode is active and extends through intercharacter gap */
-                    semi_gfx_test = semigfxtest[displayedpixels - 1];   /* .. set it as a mask to check the appropriate bit */
-                }
+                semi_gfx_test = semigfxtest[displayedpixels - 1];   /* .. set it as a mask to check the appropriate bit */
+                semi_gfx_type = semigfxtype[vdc.regs[22]];  /* 0 if semigfx mode is active but doesn't extend through intercharacter gap. 0xFF otherwise, doubles as a mask */
             } else {    /* regular text mode */
                 semi_gfx_test = 0;  /* always fail, so don't extend through any gap */
             }
@@ -722,7 +721,7 @@ static void draw_std_text(void)
             /* Handle semi-graphics mode. Note semi_gfx_test doubles as a flag, if it's 0 this just falls through */
             if (d & semi_gfx_test) { /* if the far right pixel is on.. */
                 d |= semi_gfx_mask;  /* .. mask the rest of the right hand side on */
-                d2 = 0xFF;  /* this will get masked off later on, so we just set all inter-char pixels on for now */  
+                d2 = semi_gfx_type;  /* this will get masked off later on, so we just set all (or none) inter-char pixels on for now */
             }
             
             /* reverse if the reverse attribute is set for this char */
@@ -796,7 +795,7 @@ static void draw_std_text(void)
             /* Handle semi-graphics mode. Note semi_gfx_test doubles as a flag, if it's 0 this just falls through */
             if (d & semi_gfx_test) { /* if the far right pixel is on.. */
                 d |= semi_gfx_mask;  /* .. mask the rest of the right hand side on */
-                d2 = 0xFF;  /* this will get masked off later on, so we just set all inter-char pixels on for now */  
+                d2 = semi_gfx_type;  /* this will get masked off later on, so we just set all (or none) inter-char pixels on for now */
             }
             
             if (cpos == i) { /* handle cursor if this is the cursor */
@@ -1039,7 +1038,7 @@ static void draw_std_bitmap(void)
         /* Handle semi-graphics mode. Note semi_gfx_test doubles as a flag, if it's 0 this just falls through */
         if (d & semi_gfx_test) { /* if the far right pixel is on.. */
             d |= semi_gfx_mask;  /* .. mask the rest of the right hand side on */
-            d2 = 0xFF;  /* this will get masked off later on, so we just set all inter-char pixels on for now */  
+            d2 = semi_gfx_type;  /* this will get masked off later on, so we just set all (or none) inter-char pixels on for now */
         }
         
         if (vdc.regs[24] & VDC_REVERSE_ATTR) { /* whole screen reverse */
