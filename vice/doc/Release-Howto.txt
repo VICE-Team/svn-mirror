@@ -43,6 +43,8 @@ ffmpeg is not configured they will not have any makefiles to get 'make dist'ed
 $ ./configure --with-resid --disable-external-ffmpeg --enable-static-ffmpeg
 $ make dist
 
+now unpack into a seperate directory and test if compiling works. fix makefiles
+in case files are missing and build the tarball again.
 
 create a tagged branch on the svn
 
