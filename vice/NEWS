@@ -20,12 +20,139 @@ Before reporting bugs, always try with a clean config (run emulator with
 * Changes in Vice 3.4
 =====================
 
+We are still looking for dedicated maintainers for the Windows port, if you 
+want to help improving these and/or want to provide binaries, please get in 
+touch.
+
+We welcome dqh in the team, who will take care of the macOS port.
+
+
 ** General
 ----------
 
-Remove support for Syllable OS, SCO, QNX4, QNX6
+- Remove support for Syllable OS, SCO, QNX4, QNX6, SGI, AIX, OpenStep/NextStep/
+  Rhapsody, Solaris/OpenIndiana and remaining traces of Minix, NeXT, SKYOS, UNIXWARE, Sortix
+  
+- Remove remaining traces of support for WATCOM, MSVC, OpenWatcom  
+
+- Remove aRts support
+
+- Remove YUV rendering
+
+- skip building x64 unless --enable-x64 is passed to configure
+
+- update pattern generator for uninitialized ram. changed defaults so all 
+  raminitpattern tests pass.
+
+- remove block device disk image (rawdrive) "support". in linux it was never
+  needed (just use the device file) and on windows it was never implemented.
+  
+
+** Autostart fixes
+------------------
+
+- Implemented autostart for tapecart images (.tcrt)
+
+- Automatically change drive type when autostarting disk images that do not
+  work with the currently active drive.
+  
+- Make AutostartRunWithColon default
+
+- fixed autostart when memory hacks are enabled (plus60k, plus256k, plus4)
+
+- make autostarting from tape also respect the 'basicload' option, loading 
+  absolute by default
+
+- when using a disk image to autostart .prg files, remove the .prg extension 
+  from the temporary file name  
+  
+
+** Snapshot fixes
+-----------------
+
+- More strict checking and more explizit error reporting
 
 
+** 6510 fixes
+-------------
+
+- Accurate emulation of ANE#imm and LAX#imm "magic constant" dependency on RDY.
+  All occurances of unstable use are being logged now. LAX#imm "magic constant"
+  changed to 0xEF, which makes the problem cases "spectipede" and "turrican 3"
+  work.
+
+- fix: reset should set the I flag  
+  
+  
+** VIC-II fixes
+---------------
+
+- Accurate emulation of the "VSP bug". Warnings about possible VSP related
+  memory corruption are always logged, actual memory corruption is still 
+  optional.
+  
+- Fixed changing more than one colour register via monitor
+
+
+** VIC fixes
+------------
+
+- new noise LFSR as reverse engineered by Lance Ewing.
+
+
+** SID fixes
+------------
+
+- use model dependend floating output ttl values like in residfp
+
+  
+** Monitor
+----------
+
+- Support full expressions in the monitor conditional breakpoints.
+
+- When deleting checkpoints, reset the index to 1 when there are no more 
+  checkpoints left
+  
+- Added 'RL' for rasterline and 'CY' for cycle in line to list of conditionals 
+  that can be used for breakpoints.
+  
+- in mc/ms commands show asterisk for 1s and dots for 0s, not the other way 
+  around
+  
+- adjust number of disassembled lines so the top line does not scroll out of 
+  the window when labels are used
+
+  
+** C-64 fixes
+-------------
+  
+- added support for MAX Basic cartridge, new CRTID 61
+
+- added clockport device for rrnet mk3
+
+- fixed reading of 'open' clockport, fixed io dump for clockport devices
+
+- implemented support for cartridge hardware revision in the crt format
+
+
+** C-128 fixes
+--------------
+
+- added proper C128D model type.
+
+
+** Gtk3 UI
+----------
+
+- Implemented "restore display" (Alt+r). Resets the active window to its 
+  minimal/natural size. Handy when stretching the window and then not knowing 
+  you can make the window smaller again with resizing that same window until 
+  it doesn't get smaller.
+
+- Change double-clicking images in smart/diskattach dialogs to 'open' instead
+  of autostarting
+  
 
 * Changes in VICE 3.3
 =====================
