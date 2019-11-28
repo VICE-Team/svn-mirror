@@ -28,9 +28,9 @@
 
 #include "vice.h"
 
-#include "debug_gtk3.h"
-
 #ifdef WIN32_COMPILE
+
+#include "debug_gtk3.h"
 
 #include "cmdline.h"
 #include "resources.h"
@@ -42,11 +42,11 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-#include "lib.h"
 #include "joy.h"
 #include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "maincpu.h"
 #include "types.h"
 #include "ui.h"
@@ -540,51 +540,6 @@ int joy_arch_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: fix the resource references */
-
-/* These don't appear to used anywhere */
-#if 0
-static const cmdline_option_t joydev1cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice1", NULL,
-      /* FIXME */
-      NULL, NULL },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev2cmdline_options[] = {
-    { "-joydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice2", NULL,
-      /* FIXME */
-      NULL, NULL },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev3cmdline_options[] = {
-    { "-extrajoydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice3", NULL,
-      /* FIXME */
-      NULL, NULL },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev4cmdline_options[] = {
-    { "-extrajoydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice4", NULL,
-      /* FIXME */
-      NULL, NULL },
-    CMDLINE_LIST_END
-};
-
-static const cmdline_option_t joydev5cmdline_options[] = {
-    { "-extrajoydev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "JoyDevice5", NULL,
-      /* FIXME */
-      NULL, NULL },
-    CMDLINE_LIST_END
-};
-#endif
-
 int joy_arch_cmdline_options_init(void)
 {
     /* NOP */
@@ -852,7 +807,7 @@ static BYTE joystick_di5_update(int joy_no)
 }
 #endif
 
-void joystick_update(void)
+void joystick(void)
 {
     BYTE value;
     MMRESULT result;
@@ -1142,4 +1097,3 @@ int joystick_uses_direct_input(void)
 #endif
 }
 #endif
-

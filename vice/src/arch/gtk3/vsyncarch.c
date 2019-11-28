@@ -36,9 +36,6 @@
 #include "videoarch.h"
 
 #include "joy.h"
-#ifdef WIN32_COMPILE
-#include "joy-win32.h"
-#endif
 
 #ifdef HAVE_NANOSLEEP
 #include <time.h>
@@ -174,13 +171,7 @@ void vsyncarch_presync(void)
 {
     ui_update_lightpen();
     kbdbuf_flush();
-#if !defined(WIN32_COMPILE)
     joystick();
-#endif
-#ifdef WIN32_COMPILE
-    joystick_update();
-#endif
-
 }
 
 void_hook_t vsync_set_event_dispatcher(void_hook_t hook)

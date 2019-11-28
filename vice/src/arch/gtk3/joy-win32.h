@@ -40,7 +40,7 @@ typedef int joystick_device_t;
 #define JOYDEV_HW2     5
 
 int joystick_close(void);
-void joystick_update(void);
+void joystick(void);
 
 int joystick_uses_direct_input(void);
 
