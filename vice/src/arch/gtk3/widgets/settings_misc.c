@@ -44,6 +44,8 @@
 
 #include "settings_misc.h"
 
+
+#if 0
 static void on_fuck_apple(GtkWidget *widget, gpointer data)
 {
      debug_gtk3("got triggered!");
@@ -53,7 +55,7 @@ static void on_fuck_apple(GtkWidget *widget, gpointer data)
     abort();
 
 }
-
+#endif
 
 /** \brief  Create miscellaneous settings widget
  *
@@ -72,8 +74,9 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
     GtkWidget *jam_widget = jam_action_widget_create();
     GtkWidget *backend_widget = canvas_render_backend_widget_create();
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
+#if 0
     GtkWidget *apple;
-
+#endif
     grid = gtk_grid_new();
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -90,10 +93,12 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
         g_object_set(filter_widget, "margin-left",8, NULL);
         gtk_grid_attach(GTK_GRID(grid), backend_widget, 1, 4, 2, 1);
         g_object_set(backend_widget, "margin-left",8, NULL);
+#if 0
         apple = gtk_check_button_new_with_label("Enable Apple monitor stand emulation");
         g_object_set(apple, "margin-top", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), apple, 0, 5, 1, 1);
         g_signal_connect(apple, "toggled", G_CALLBACK(on_fuck_apple), NULL);
+#endif
 
     } else {
          gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 0, 1, 1);
