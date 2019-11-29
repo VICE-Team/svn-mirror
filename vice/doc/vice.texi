@@ -16023,6 +16023,16 @@ Show current working directory.
 Set the default radix to hex, decimal, octal, or binary.  With no
 argument, the current radix is printed.
 
+@item log [on|off|toggle]
+Control whether the monitor output is logged into a logfile. If the
+argument is 'on' then all output will be written into the logfile. If
+the argument is 'off' then no log is produced. If the argument is
+'toggle' then the current mode is switched. No argument displays the
+current state.
+
+@item logname "<filename>"
+Sets the filename of the logfile.
+
 @end table
 
 

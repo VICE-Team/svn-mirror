@@ -144,7 +144,9 @@ We welcome dqh in the team, who will take care of the macOS port.
   around
 
 - adjust number of disassembled lines so the top line does not scroll out of
-  the window when labels are used
+  the window when labels are used.
+  
+- Added "log" and "logname" commands to control logging to a file
 
   
 ** vdrive

@@ -204,6 +204,8 @@ HDIGIT  [0-9a-f]
         list            { BEGIN(INITIAL);       return CMD_LIST; }
         load|l          { BEGIN(FNAME);         return CMD_LOAD; }
         load_labels|ll  { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
+        log             { BEGIN(INITIAL);       return CMD_LOG; }
+        logname         { BEGIN(FNAME);         return CMD_LOGNAME; }
         mem|m           { BEGIN(INITIAL);       return CMD_MEM_DISPLAY; }
         memchar|mc      { BEGIN(INITIAL);       return CMD_CHAR_DISPLAY; }
         memmapsave|mmsave { BEGIN(FNAME);       return CMD_MEMMAPSAVE; }

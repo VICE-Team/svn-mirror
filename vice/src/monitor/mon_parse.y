@@ -149,7 +149,7 @@ extern int cur_len, last_len;
 %token<str> H_RANGE_GUESS D_NUMBER_GUESS O_NUMBER_GUESS B_NUMBER_GUESS
 %token<i> BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 MEM_DISK10 MEM_DISK11 EQUALS
 %token TRAIL CMD_SEP LABEL_ASGN_COMMENT
-%token CMD_SIDEFX CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
+%token CMD_LOG CMD_LOGNAME CMD_SIDEFX CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
 %token CMD_LOAD CMD_SAVE CMD_VERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
 %token CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_RADIX
 %token CMD_MEM_DISPLAY CMD_BREAK CMD_TRACE CMD_IO CMD_BRMON CMD_COMPARE
@@ -449,6 +449,29 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                      {
                          mon_out("I/O side effects are %s\n",
                                    sidefx ? "enabled" : "disabled");
+                     }
+                   | CMD_LOG TOGGLE end_cmd
+                     { 
+                        int logenabled;
+                        resources_get_int("MonitorLogEnabled", &logenabled);
+                        logenabled = (($2 == e_TOGGLE) ? (logenabled ^ 1) : $2);
+                        resources_set_int("MonitorLogEnabled", logenabled);
+                     }
+                   | CMD_LOG end_cmd
+                     {
+                         int logenabled;
+                         const char *logfilename;
+                         resources_get_int("MonitorLogEnabled", &logenabled);
+                         resources_get_string("MonitorLogFileName", &logfilename);
+                         if (logenabled) {
+                            mon_out("Logging to '%s' is enabled.\n", logfilename);
+                         } else {
+                            mon_out("Logging is disabled.\n");
+                         }
+                     }                     
+                   | CMD_LOGNAME filename end_cmd
+                     { 
+                        resources_set_string("MonitorLogFileName", $2);
                      }
                    | CMD_RADIX RADIX_TYPE end_cmd
                      { default_radix = $2; }

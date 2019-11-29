@@ -1262,6 +1262,10 @@ static int monitorlogenabled = 0;
 static int set_monitor_log_filename(const char *val, void *param)
 {
     util_string_set(&monitorlogfilename, val);
+    if (monitorlogenabled) {
+        mon_log_file_close();
+        mon_log_file_open(monitorlogfilename);
+    }
     return 0;
 }
 

@@ -521,6 +521,22 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "log", "",
+      "[on|off|toggle]",
+      "Control whether the monitor output is logged into a logfile. If the\n"
+      "argument is 'on' then all output will be written into the logfile. If\n"
+      "the argument is 'off' then no log is produced. If the argument is\n"
+      "'toggle' then the current mode is switched. No argument displays the\n"
+      "current state.",
+      NO_FILENAME_ARG
+    },
+    
+    { "logname", "",
+      "\"<filename>\"",
+      "Sets the filename of the logfile.",
+      FILENAME_ARG
+    },
+    
     { "", "",
       "",
       "Disk commands:",
