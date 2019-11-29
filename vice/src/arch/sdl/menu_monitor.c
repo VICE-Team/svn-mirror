@@ -60,6 +60,9 @@ UI_MENU_DEFINE_TOGGLE(MonitorServer)
 UI_MENU_DEFINE_STRING(MonitorServerAddress)
 #endif
 
+UI_MENU_DEFINE_TOGGLE(MonitorLogEnabled)
+UI_MENU_DEFINE_STRING(MonitorLogFileName)
+
 const ui_menu_entry_t monitor_menu[] = {
     { "Start monitor",
       MENU_ENTRY_OTHER,
@@ -83,6 +86,16 @@ const ui_menu_entry_t monitor_menu[] = {
       string_MonitorServerAddress_callback,
       (ui_callback_data_t)"Set remote monitor server address" },
 #endif
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Logging"),
+    { "Enable logging to a file",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MonitorLogEnabled_callback,
+      NULL },
+    { "Logfile name",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_MonitorLogFileName_callback,
+      (ui_callback_data_t)"Set remote monitor server address" },
     SDL_MENU_LIST_END
 };
 

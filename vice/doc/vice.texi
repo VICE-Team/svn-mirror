@@ -1359,10 +1359,6 @@ with this option you can see all resources and their current values.
 Specify log file name
 (@code{LogFileName}).
 
-@findex -monlog
-@item -monlog <name>
-Specify log file name for the monitor.
-
 @findex -verbose
 @item -verbose
 Enable verbose log output.
@@ -5528,6 +5524,14 @@ Boolean specifying whether the native monitor is enabled. When enabled, the moni
  will not run in the interface of the emulator, but instead work in the spawning
  terminal.
 
+@vindex MonitorLogEnabled
+@item MonitorLogEnabled
+Boolean specifying whether the output of the monitor will be logged to a file.
+
+@vindex MonitorLogFileName
+@item MonitorLogFileName
+String specifying the logfile name for the monitor.
+
 @end table
 
 @subsection Monitor command-line options
@@ -5564,6 +5568,17 @@ The local address the remote monitor should bind to
 @itemx +nativemonitor
 Enable/Disable native monitor.
 (@code{NativeMonitor=1}, @code{NativeMonitor=0}).
+
+@findex -monlog, +monlog
+@item -monlog
+@itemx +monlog
+Enable/Disable logging monitor output to a file.
+(@code{MonitorLogEnabled=1}, @code{MonitorLogEnabled=0}).
+
+@findex -monlogname
+@item -monlogname <name>
+Specify logfile name for the monitor.
+(@code{MonitorLogFileName}).
 
 @end table
 

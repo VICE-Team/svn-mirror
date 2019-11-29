@@ -9,6 +9,8 @@
  * $VICERES MonitorServer           all
  * $VICERES MonitorServerAddress    all
  * $VICERES NativeMonitor           all
+ * $VICERES MonitorLogEnabled       all
+ * $VICERES MonitorLogFileName      all
  */
 
 /*
@@ -54,6 +56,9 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     GtkWidget *server_enable;
     GtkWidget *server_address;
     GtkWidget *label;
+    GtkWidget *log_enable;
+    GtkWidget *log_name;
+    GtkWidget *log_label;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -72,12 +77,25 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     server_address = vice_gtk3_resource_entry_full_new(
             "MonitorServerAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
+    
+    log_enable = vice_gtk3_resource_check_button_new("MonitorLogEnabled",
+            "Enable logging to a file");
+    log_label = gtk_label_new("Logfile name");
+    /* align with the rest, more or less */
+    g_object_set(log_label, "margin-left", 8, NULL);
+    gtk_widget_set_halign(log_label, GTK_ALIGN_START);
+    log_name = vice_gtk3_resource_entry_full_new(
+            "MonitorLogFileName");
+    gtk_widget_set_hexpand(log_name, TRUE);
+    
     gtk_grid_attach(GTK_GRID(grid), native, 0, 0, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), keep_open, 0, 1, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), server_enable, 0, 2, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server_address, 1, 3, 1, 1);
-
+    gtk_grid_attach(GTK_GRID(grid), log_enable, 0, 4, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), log_label, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), log_name, 1, 5, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

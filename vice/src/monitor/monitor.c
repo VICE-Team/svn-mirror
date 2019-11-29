@@ -1256,23 +1256,51 @@ static int set_keep_monitor_open(int val, void *param)
 }
 #endif
 
+static char *monitorlogfilename = NULL;
+static int monitorlogenabled = 0;
+
+static int set_monitor_log_filename(const char *val, void *param)
+{
+    util_string_set(&monitorlogfilename, val);
+    return 0;
+}
+
+static int set_monitor_log_enabled(int val, void *param)
+{
+    int old = monitorlogenabled;
+    monitorlogenabled = val ? 1 : 0;
+    
+    if (!old && monitorlogenabled) {
+        mon_log_file_open(monitorlogfilename);
+    }
+    if (old && !monitorlogenabled) {
+        mon_log_file_close();
+    }
+    return 0;
+}
+
+static const resource_string_t resources_string[] = {
+    { "MonitorLogFileName", "monitor.log", RES_EVENT_NO, NULL,
+      &monitorlogfilename, set_monitor_log_filename, (void *)0 },
+    RESOURCE_STRING_LIST_END
+};
+
 static const resource_int_t resources_int[] = {
 #ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
     { "KeepMonitorOpen", 1, RES_EVENT_NO, NULL,
       &keep_monitor_open, set_keep_monitor_open, NULL },
 #endif
+    { "MonitorLogEnabled", 0, RES_EVENT_NO, NULL,
+      &monitorlogenabled, set_monitor_log_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
 
 int monitor_resources_init(void)
 {
+    if (resources_register_string(resources_string) < 0) {
+        return -1;
+    }
     return resources_register_int(resources_int);
-}
-
-/* FIXME: we should use a resource like MonitorLogFileName */
-static int set_monlog_name(const char *param, void *extra_param)
-{
-    return mon_log_file_open(param);
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -1280,9 +1308,15 @@ static const cmdline_option_t cmdline_options[] =
     { "-moncommands", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_playback_name, NULL, NULL, NULL,
       "<Name>", "Execute monitor commands from file" },
-    { "-monlog", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      set_monlog_name, NULL, NULL, NULL,
-      "<Name>", "Write monitor output also to file" },
+    { "-monlogname", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "MonitorLogFileName", NULL,
+      "<Name>", "Set name of monitor log file" },
+    { "-monlog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "MonitorLogEnabled", (resource_value_t)1,
+      NULL, "Enable logging monitor output to a file" },
+    { "+monlog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "MonitorLogEnabled", (resource_value_t)0,
+      NULL, "Disable logging monitor output to a file" },
     { "-initbreak", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       monitor_set_initial_breakpoint, NULL, NULL, NULL,
       "<value>", "Set an initial breakpoint for the monitor" },

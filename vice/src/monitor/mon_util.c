@@ -57,8 +57,8 @@ int mon_log_file_open(const char *name)
     FILE *fp;
 
     if (name) {
-        /* try to open new file */
-        fp = fopen(name, MODE_WRITE_TEXT);
+        /* if file exists, append to existing file */
+        fp = fopen(name, MODE_APPEND);
         if (fp) {
             /* close old logfile */
             mon_log_file_close();
