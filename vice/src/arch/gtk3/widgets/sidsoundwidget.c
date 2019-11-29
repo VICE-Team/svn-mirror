@@ -408,6 +408,8 @@ static GtkWidget *create_spin(
     spin = vice_gtk3_resource_spin_int_new(resource, low, high, step);
     g_signal_connect(spin, "value-changed", G_CALLBACK(on_spin_value_changed),
             slider);
+    /* add a bit of spacing (TODO: mabye use CSS?) */
+    g_object_set(G_OBJECT(spin), "margin-left", 16 , NULL);
     return spin;
 }
 
@@ -696,7 +698,7 @@ static GtkWidget *create_resid_6581_passband_spin(GtkWidget *slider)
 
     g_signal_connect(
             spin,
-            "change",
+            "value-changed",
             G_CALLBACK(on_resid_6581_passband_spin_change),
             NULL);
     return spin;
@@ -710,7 +712,7 @@ static GtkWidget *create_resid_6581_gain_spin(GtkWidget *slider)
 
     g_signal_connect(
             spin,
-            "change",
+            "value-changed",
             G_CALLBACK(on_resid_6581_gain_spin_change),
             NULL);
     return spin;
@@ -724,7 +726,7 @@ static GtkWidget *create_resid_6581_bias_spin(GtkWidget *slider)
 
     g_signal_connect(
             spin,
-            "change",
+            "value-changed",
             G_CALLBACK(on_resid_6581_bias_spin_change),
             NULL);
     return spin;
