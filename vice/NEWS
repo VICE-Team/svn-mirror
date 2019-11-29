@@ -55,18 +55,18 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - added support for the IP232 protocol that was used by the long lost VICE1.19
   hack, and which is supported by tcpser for emulating DTR/DCD (carrier detect)
-  
+
 - various userport rs232 fixes
 
 - always save gifs as gif89
 
-- added a couple shift flags to keyboard maps to support virtual cbm/ctrl and 
+- added a couple shift flags to keyboard maps to support virtual cbm/ctrl and
   mandatory pressed host modifiers. not all keymaps have been updated yet.
 
 - ACIA IRQ fix
 
 - create empty half tracks when mounting d64. fixes skew.d64
-  
+
 
 ** Autostart fixes
 ------------------
@@ -85,7 +85,7 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - when using a disk image to autostart .prg files, remove the .prg extension
   from the temporary file name
-  
+
 - many detail fixes that make autostart work as expected in all emulators and
   in all configurations (eg C128 in 80 columns or C64 mode)
 
@@ -145,10 +145,10 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - adjust number of disassembled lines so the top line does not scroll out of
   the window when labels are used.
-  
+
 - Added "log" and "logname" commands to control logging to a file
 
-  
+
 ** vdrive
 ---------
 
@@ -156,7 +156,7 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - respect error info in disk images (only when reading right now). Should trick
   some simple protections.
-  
+
 
 ** C-64 fixes
 -------------
@@ -169,12 +169,12 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - implemented support for cartridge hardware revision in the crt format
 
-- When attaching an Easyflash cartridge image, replace the EAPI driver with the 
+- When attaching an Easyflash cartridge image, replace the EAPI driver with the
   one for the flash chip VICE supports. This way EF images that contain a
   different driver (for whatever reason) will still work.
 
-- various keymaps added and/or fixed/updated.  
-  
+- various keymaps added and/or fixed/updated.
+
 
 ** C-128 fixes
 --------------
@@ -185,9 +185,9 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - fixed broken memory mapping in C64 mode
 
-- Completely rewritten VDC vertical handling code. VDC101 demo with it's 
-  vdc-split technique is now fully emulated. This rewrite attempts to emulate 
-  more how the VDC works internally, and how the video signal/screen react, so 
+- Completely rewritten VDC vertical handling code. VDC101 demo with it's
+  vdc-split technique is now fully emulated. This rewrite attempts to emulate
+  more how the VDC works internally, and how the video signal/screen react, so
   the border height etc is now more naturally handled.
 
 
@@ -201,36 +201,42 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - Change double-clicking images in smart/diskattach dialogs to 'open' instead
   of autostarting
-  
+
 - added options to select rendering backend and filter
 
 - fixed opening files with UTF8 encoded filenames
 
-- Make the (VTE) monitor display on top of the emulated machine window when in 
+- Make the (VTE) monitor display on top of the emulated machine window when in
   fullscreen
-  
+
 - copy only used icons into the distribution, which drastically reduced its size
 
 - Added keyboard debugging to the statusbar
 
-- Added * (all files) filter to the fliplist attach dialog. This will allow 
+- Added * (all files) filter to the fliplist attach dialog. This will allow
   people to use Pi1541 *.lst files at their own peril.
 
-- Add howto about creating a Gtk3-Windows cross-compiler on Debian with Fedora 
+- Add howto about creating a Gtk3-Windows cross-compiler on Debian with Fedora
   packages (aka FrankenVICE)
 
-- only show the host keyboard mappings in the list for which we have a valid 
-  mapping, grey out symbolic/positional depending on what keymaps are actually 
+- only show the host keyboard mappings in the list for which we have a valid
+  mapping, grey out symbolic/positional depending on what keymaps are actually
   available
-  
-- Windows: add icons to binaries  
-  
-  
+
+- Move joystick settings to the joystick widget on the statusbar.
+
+- Windows: add icons to binaries
+
+- allow better control of the filter settings by removing tick marks
+  of the sliders and adding spinboxes (6581+ReSID only)
+
+
+
 ** SDL fixes
 ------------
-  
-- make hotkeys only check left alt, which makes right alt (alt-gr) work in 
-  keyboard mappings.  
+
+- make hotkeys only check left alt, which makes right alt (alt-gr) work in
+  keyboard mappings.
 
 
 ** macOS fixes
@@ -240,12 +246,12 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - binary distributions, font support, GTK3 dock icon
 
-- fix missing icon theme, fixed pdf manual generation, improved build 
+- fix missing icon theme, fixed pdf manual generation, improved build
   instructions
-  
+
 - fixed macOS make bindist when building out of tree
-  
-- Added instructions for building and debugging using Xcode  
+
+- Added instructions for building and debugging using Xcode
 
 
 
