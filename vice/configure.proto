@@ -3412,7 +3412,7 @@ SDL_EXTRA_LIBS=""
 AM_CONDITIONAL(MAKE_INSTALL, true)
 AM_CONDITIONAL(MAKE_BINDIST, false)
 
-if test x"is_win32"; then
+if test x"is_win32" = "xyes"; then
   if test x"$enable_native_gtk3ui" = "xyes"; then
     WINDRES_LIB="$ARCH_DIR/data/icon.res"
   else
