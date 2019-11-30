@@ -690,7 +690,8 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 @section C64 emulator features
 
 As of version 2.3, two C64 emulators are provided: @samp{x64} (fast)
-and @samp{x64sc} (accurate).
+and @samp{x64sc} (accurate). As of version 3.4 @samp{x64} will no more get
+built by default and is not contained in the default binary packages.
 
 The fast C64 emulator, called @samp{x64}, features a fairly complete
 emulation of the VIC-II video chip: sprites, all registers and all video
@@ -742,14 +743,11 @@ The VIC20 emulates all the internal hardware, including the VIA chips.
 The VIC-I video chip is fully emulated except NTSC interlace mode, so most
 graphical effects will work correctly.
 
-Sound support is implemented, but is still at an experimental stage.  If
-you think it could be improved and know how to do so, feel
-free to contact us (@pxref{Contacts}).
-
-The VIC20 emulator now allows the use of the VIC1112 IEEE488
+The VIC20 emulator allows the use of the VIC1112 IEEE488
 interface. You have to enable the hardware (by menu, resource, or
 commandline option) and then load the IEEE488 ROM (see for
-example @uref{http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin}, but you have to double the size to 4k for now).
+example @uref{http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin}, 
+but you have to double the size to 4k for now).
 The IEEE-488 code is then started by @code{SYS45065}.
 
 
@@ -767,9 +765,6 @@ Both the 40 column and 80 column CRTC video chips are emulated (from the
 4032 onward), but a few of the features are not implemented yet (numbers
 of rasterlines per char and lines per screen).  Fortunately, they are
 not very important for average applications.
-
-Sound is available for the PET as well, but like the VIC20's it is still
-under construction.
 
 The PET 8096 is basically a PET 8032 with a 64k extension board which
 allows remapping the upper 32k with RAM.  You have to write to a special
@@ -920,27 +915,24 @@ the @emph{unshifted} @key{*} key pressed (as @key{*} is unshifted on the
 C64 keyboard).  Likewise, pressing @key{'} on the same U.S. keyboard
 without any shift key will cause the combination @kbd{Shift-7} to be
 pressed in the emulated C64.  This way, it becomes quite obvious what
-keys should be typed to obtain all the symbols.
+keys should be typed to obtain all the symbols. @dfn{The key printed on the 
+host keyboard will be pressed in the emulator}.
 
 There is, however, one problem with symbolic mapping: some keys really
-need to be mapped specially regardless.  The most important examples
-being, in the VIC20, C64 and C128 emulators, that @key{CTRL} is mapped
-to @key{Tab} and that the @key{Commodore} key is mapped to the left
-@key{Control}). The @key{RUN/STOP} key is mapped to the @key{ESC} key
-on the PC keyboard. The PET emulator, lacking the @key{Commodore} key
-but having an @key{ESC} key, uses the left @key{Control} key as
-@key{RUN/STOP} and the @key{ESC} key as @key{ESC} of course.
-
-@c FIXME: add a detailed list of all keys
+need to be mapped specially regardless (those that do not exist on a PC
+keyboard).  Some examples are the @key{Commodore} key, @key{RUN/STOP}, 
+@key{Clear/Home}. The exact mapping depends on your host layout, but should
+be easy to find out by try and error :) If in doubt, you can read the keyboard
+mapping files.
 
 The second way (@dfn{positional mapping}) is to map every key on the
-``real'' keyboard to the key which has the same position on the keyboard
-of the emulated machine.  This way, no @key{Shift} key is forced by the
-program (with the exception of the function keys @key{F2}, @key{F4},
-@key{F6} and @key{F8}, which require @key{Shift} on the Commodore
-keyboards), and the keyboard is more comfortable to use in those
-programs (such as some games) that require the keys to be in the correct
-positions.
+host keyboard to the key which has the same position on the keyboard
+of the emulated machine.  This way the keyboard is more comfortable to use 
+in those programs (such as some games) that require the keys to be in the 
+correct positions. On the other hand it can be quite confusing if you are not
+very familiar with the original emulated keyboards. Also not all keys can be
+mapped exactly this way either, which means some of them still need to be
+mapped to other keys (see above).
 
 @strong{Warning:} unlike the real C64, VICE ``presses'' the @key{Shift}
 key @emph{together} with the key to shift when the @key{Shift} must be
@@ -951,16 +943,18 @@ For instance, @kbd{F6} (which on the real C64 is obtained with
 the shift key manually (i.e., type @kbd{Shift + F5} in the example).
 Yes, we know this is a bug.
 
-The @kbd{RESTORE} key is mapped to @kbd{Page Up} (or @kbd{Prev}) by
-default.
+We depend a lot on your support to improve the keyboard maps, as we can not
+test all emulators in all possible configurations and using all host keyboard
+mappings. Please report any problems to us so we can fix them!
 
+To find out the keycodes to use, incase you want to edit the keymaps yourself,
+you can enable showing the keycodes in the status bar in the settings.
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
 
 Joysticks can be emulated both via the keyboard and via a real joystick
-connected to the host machine (the latter only works on GNU/Linux
-systems).
+connected to the host machine.
 
 There are two keyboard layouts for joystick use, known as @dfn{numpad}
 and @dfn{custom}.
@@ -969,10 +963,7 @@ The @dfn{numpad} layout uses the numeric keypad keys, i.e., the numbers
 @key{1}@dots{}@key{9} which emulate all the directions including the
 diagonal ones; @key{0} emulates the fire button.
 
-The @dfn{custom} layout uses the keys @key{w}, @key{e}, @key{r},
-@key{s}, @key{d}, @key{f}, @key{x}, @key{c}, @key{v} for the directions
-and @key{space} for the fire button instead.
-
+The @dfn{custom} layout is configurable to your liking.
 
 @node Disk drive emulation, Supported file formats, Joystick emulation, Preface
 @section The disk drive emulation
@@ -980,7 +971,7 @@ and @key{space} for the fire button instead.
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
 Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and
-8250 drives in one of four ways:
+8250 drives in one of the following ways:
 
 @itemize @bullet
 @item
@@ -994,19 +985,9 @@ without having to copy them to disk images; this also allows you to
 read and write files in the @code{P00} format (again, consult the
 @code{comp.emulators.cbm} FAQ for more info).
 @item
-accessing a real device connected to the host machine. As of VICE 1.11
-it is possible to connect real drives like Commodore 1541 to the
-printer port of the host using the XA1541 or XM1541 cable. Currently
-this only works on Linux or Windows using the OpenCBM library. You can
-get it from @uref{http://www.lb.shuttle.de/puffin/cbm4linux} (cbm4linux,
-Linux version) or from @uref{http://cbm4win.sf.net} (cbm4win, Windows
-version).
+accessing a real device connected to the host machine. This works using the 
+OpenCBM library. You can get it from @uref{http://cbm4win.sf.net}.
 
-@item
-directly using the disk drive of the host. The 3.5" disk drive of the
-host can be used to read or write Commodore 1581 formatted disks.
-Currently this raw drive access feature is only available for Linux
-hosts.
 @end itemize
 
 When using disk images there are two available types of drive
@@ -1146,6 +1127,9 @@ VICE supports the most popular Commodore file formats:
 @item
 @code{CRT} C64 cartridge image files
 
+@item
+@code{TCRT} tapecart image files
+
 @end itemize
 
 An utility (@code{c1541}, @pxref{c1541}) is provided to allow transfers
@@ -1194,29 +1178,8 @@ If the CPU usage is ok, try using a different sound driver. You may also try
 increasing the sound buffer size (although the default should be ok for modern
 systems).
 
-Linux, AIX and SGI systems should play sound without any problems; if
-you are running Linux please use a 2.x kernel, as VICE needs some
-features that were not implemented in older versions of the Linux sound
-driver.
-
-Windows should play sound ok.
-
-macOS is currently untested.
-
 All platforms that can run the SDL port (like Amiga, BeOS, etc) should be able
 to play sound via SDL.
-
-@cindex HP-UX and Solaris audio problems
-On the other hand, HP-UX and Solaris machines are known to cause
-troubles.  If you think you can help debugging the code for these
-systems, your help would be really appreciated.  We are having troubles
-finding HP-UX and SUN consoles to work at@dots{}
-
-@cindex OSS/Linux problems
-Some problems have been reported with the proprietary version of the
-Open Sound System for Linux.  With a Crystal sound card, sound output
-was significantly delayed and, apparently, the allocated buffer size was
-completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 @node Video problems, Printer problems , Sound problems, Common problems
 @subsection Video problems
@@ -1303,10 +1266,8 @@ The names of the available emulators are:
 You can run each of them by simply typing the name from a shell or by configuring
 your window manager for example to use them to open disk images.
 
-If you want to look at the log output, or use the monitor in a port which does
-not have a dedicated monitor UI yet, you should always
-run them from a terminal window such as @code{xterm} or @code{rxvt}.  For example,
-you could do
+If you want to look at the log output run them from a terminal window such as 
+@code{xterm} or @code{rxvt}.  For example, you could do
 
 @example
 xterm -e x64sc
@@ -1763,7 +1724,7 @@ Also the character generator ROMs have a format different from the
 above.  The other character ROMs have 8 bytes of pixel data per
 character.  Those ROMs have 16 bytes per character instead.  The C6x0
 only uses the first 8 of it, but the C7x0 uses 14 lines per character
-and needs those increased ROMs.  Both ROMs hold, like the PET, two
+and needs those larger ROMs.  Both ROMs hold, like the PET, two
 character sets with 128 characters each.  Again the second half of the
 full (256 char) character set is computed by inverting.
 
@@ -1815,7 +1776,7 @@ key (or combination of keys) must be mapped to each keysym.
 
 In other words, the keyboard emulation works like this: whenever the
 user presses or releases a key while the emulation window has the input
-focus, the emulator receives an X-Window event with a value that
+focus, the emulator receives an event with a value that
 identifies that key.  That value is called a @dfn{keysym} and is unique
 to that key.  The emulator then looks up that keysym in an internal
 table that tells it which key(s) to press or release on the emulated
@@ -1833,8 +1794,8 @@ Where:
 @itemize @bullet
 
 @item
-@code{KEYSYM} is a string identifying the keysym: you can use the
-@code{xev} utility (shipped with the X Window system) to see what keysym
+@code{KEYSYM} is a string (GTK) or number (SDL) identifying the keysym: you can 
+use the "show keycodes in statusbar" feature to see what keysym
 is bound to any key;
 
 @item
@@ -1859,6 +1820,39 @@ is bound to any key;
 
 @item
 @code{8}: the key can be (optionally) shifted by the user.
+
+@item
+@code{16}: deshift key for this keysym/scancode
+
+@item
+@code{32}: another definition for this keysym/scancode follows
+
+@item
+@code{64}: key is shift-lock on emulated machine
+
+@item
+@code{128}: shift modifier required on host
+
+@item
+@code{256}: key is used for an alternative keyboard mapping
+
+@item
+@code{512}: alt-r (alt-gr) modifier required on host
+
+@item
+@code{1024}: ctrl modifier required on host
+
+@item
+@code{2048}: key is combined with cbm for this keysym/scancode
+
+@item
+@code{4096}: key is combined with ctrl for this keysym/scancode
+
+@item
+@code{8192}: key is (left) cbm on emulated machine
+
+@item
+@code{16384}: key is (left) ctrl on emulated machine
 
 @end itemize
 
@@ -1889,6 +1883,14 @@ necessary to put this at the beginning of the file if you want the
 keymap file to override all of the current internal settings;
 
 @item
+@code{!INCLUDE} followed by "filename" reads (inserts) file as mapping file. This is useful
+when adding local mappings to an otherwise generic file (so you dont have to
+copy the while file, but just add/modify a few keys).
+
+@item
+@code{!UNDEF} keysym'        remove keysym from table
+
+@item
 @code{!LSHIFT}, @code{!RSHIFT}, followed by a row and a column
 value, specify where the left and right shift keys are located on the
 emulated keyboard; for example, C64 default keymaps will specify
@@ -1897,6 +1899,30 @@ emulated keyboard; for example, C64 default keymaps will specify
 !LSHIFT 1 7
 !RSHIFT 6 4
 @end example
+
+@item
+@code{!LCTRL}, followed by a row and a column value, specifiy where the left 
+control key is located on the emulated keyboard.
+
+@item
+@code{!LCBM}, followed by a row and a column value, specifiy where the left 
+CBM key is located on the emulated keyboard.
+
+@item
+@code{!VSHIFT}, followed by a shiftkey (RSHIFT or LSHIFT), specify what key will
+be used as a virtual shift key when the shift flag is set.
+
+@item
+@code{!SHIFTL}, followed by a shiftkey (RSHIFT or LSHIFT), specify what key will
+be used as a virtual shift-lock key.
+
+@item
+@code{!VCTRL}, followed by a ctrlkey (LCTRL), specify what key will
+be used as a virtual control key.
+
+@item
+@code{!VCBM}, followed by a cbmkey (LCBM), specify what key will
+be used as a virtual CBM key.
 
 @end itemize
 
@@ -2019,7 +2045,7 @@ has been fired up.
 @section The emulation window
 
 When the emulator is run, the screen of the emulated machine is
-displayed in a standard X Window which we will call the @dfn{emulation
+displayed in a window which we will call the @dfn{emulation
 window}.  This window will be updated in real time, displaying the same
 contents that a real monitor or TV set would.
 
