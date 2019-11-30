@@ -462,19 +462,18 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         /* FIXME this seems a bit messy and/or is in the wrong spot */
         if (vdc.row_counter == 1) { /* we think anything visible starts on internal row 1 */
             vdc.display_enable = 1;
-            vdc_set_video_mode();
         }
         
         /* check if we are at the end of the active area, e.g. after last visible row, normally #25 */
         if (vdc.row_counter > vdc.regs[6])  {
             vdc.display_enable = 0;
-            vdc.raster.video_mode = VDC_IDLE_MODE;
             /* FIXME handle prebuffering next line here and/or in draw section */
         }
         
         /* Check if we've hit past the last char row and we should restart
             FIXME comparison looks wrong, probably not a > ?
-            FIXME Also this draws the actual number of rows in reg 4, which is 1 less than what MTC128 says it should be drawing (even though the timing is then correct for e.g. RFO..) */
+            FIXME Also this draws the actual number of rows in reg 4, which is 1 less than what MTC128 says it should be drawing
+            (even though the timing is then correct for e.g. RFO..) */
         if (vdc.row_counter > (vdc.regs[4])) {
             /* FIXME handle vertical fine adjust (reg#5>0) a bit cleaner and handle edge cases */
             if (vdc_vert_fine_adj || vdc.regs[5] == 0 || vdc.regs[5] == vdc.regs[9]) {
@@ -508,8 +507,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         if (vdc.row_counter == vdc.regs[7]) {
             vdc.vsync = 1;
             vdc.vsync_counter = 0;
-            /*FIXME change this to black or some other mode so it works more obviously that you're in vsync and make sure it restarts drawing past the pulse */
-            vdc.raster.video_mode = VDC_IDLE_MODE;
         }
     } else {
         vdc.row_counter_y++;
@@ -527,7 +524,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         }
     }
     
-    /* Handle if we are in vertical sync pulse */    
+    /* Handle if we are in vertical sync pulse */
     if (vdc.vsync) {
         vdc.vsync_counter++;
         /* Check if we are now out of the pulse == at first visible raster line, and reset the raster to the top of the screen if so */
@@ -570,11 +567,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 vdc.force_repaint = 0;
                 raster_force_repaint(&vdc.raster);
             }
-        
-            /* Restart drawing if we're past the sync but we should still be drawing */
-            if (vdc.draw_active) {
-                vdc_set_video_mode();
-            }
+            /* The 'are we drawing or not' section further down handles restarting
+                drawing if we're past the sync but we should still be drawing */
         }
     }
     /* END Video signal handling section ----------------------------------------------------------------------------------------------------------*/
@@ -658,6 +652,25 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     }
     vdc.raster.ycounter = vdc.draw_counter_y;   /* FIXME quick hack. maybe just use ycounter in the first place? Check side effects with memory inc functions */
     /*  END drawing section ----------------------------------------------------------------------------------------------------------------*/
+
+
+    /* Decide if the current raster line is visible or not and set draw mode appropriately */
+    if (vdc.vsync) {    /* no, we're in vsync */
+        /*FIXME change this to always black or some other mode so it works more obviously that you're in vsync vs in the border and make sure it restarts drawing past the pulse */
+        vdc.raster.video_mode = VDC_IDLE_MODE;
+    } else if ( ((vdc.regs[25] & 0x0F) > ((vdc.regs[22] >> 4) & 0x0F)) ||    /* smooth scroll is > char with */
+                ((vdc.regs[25] & 0x10) && ((vdc.regs[25] & 0x0F) == ((vdc.regs[22] >> 4) & 0x0F))) ) { /* or double-pixel/40-column mode and smooth scroll = char width */
+        /*FIXME technically this should be black in the foreground area (border remains normal), not just border colour all the way across */
+        vdc.raster.video_mode = VDC_IDLE_MODE;
+    } else if ( ((vdc.regs[34] > vdc.regs[0]) && (vdc.regs[35] <= vdc.regs[0])) ) {    /* if #34> #0  and #35 <= #0, blank line, always */
+                /* || ((vdc.regs[34] <= vdc.regs[35]) && (vdc.regs[35] <= vdc.regs[0])) ) {*/ /* FIXME if #34<=#35 and both <= #0, blank line sometimes, depends on values relative to display area */
+        /*FIXME technically this should be black across the entire screen, not just border colour */
+        vdc.raster.video_mode = VDC_IDLE_MODE;
+    } else if (vdc.draw_active && vdc.display_enable) {
+        vdc_set_video_mode();   /* show stuff */
+    } else {
+        vdc.raster.video_mode = VDC_IDLE_MODE;  /* fall through for remaining combinations */
+    }
 
 
     /* FIXME this is a hack to get the "background" between the "left and right" top & bottom border areas actually drawn when the cache is on.
