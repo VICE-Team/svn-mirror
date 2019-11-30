@@ -67,10 +67,6 @@ static char **create_current_team_list(void)
     }
     list = lib_malloc(sizeof *list * (i + 1));
 
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s(): team members = %d\n", __func__, (int)i);
-#endif
-
     /* create list of current team members */
     for (i = 0; core_team[i].name != NULL; i++) {
         list[i] = core_team[i].name;
@@ -78,26 +74,6 @@ static char **create_current_team_list(void)
     list[i] = NULL;
     return list;
 }
-
-
-#if 0
-static char **create_translators_list(void)
-{
-    char **list = lib_malloc(sizeof *list * 256);
-    size_t i;
-
-    while (trans_team[i].name != NULL) {
-        char *member = lib_malloc(256);
-        snprintf(member, 256, "%s - %s (%s)",
-                trans_team[i].years,
-                trans_team[i].name,
-                trans_team[i].language);
-        list[i++] = member;
-    }
-    list[i] = NULL;
-    return list;
-}
-#endif
 
 
 /** \brief  Deallocate current team list
@@ -148,15 +124,9 @@ static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
 static void about_response_callback(GtkWidget *widget, gint response_id,
                                     gpointer user_data)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s(): response id: %d\n", __func__, response_id);
-#endif
     /* the GTK_RESPONSE_DELETE_EVENT is sent when the user clicks 'Close', but
      * also when the user clicks the 'X' */
     if (response_id == GTK_RESPONSE_DELETE_EVENT) {
-#ifdef HAVE_DEBUG_GTK3UI
-        g_print("[debug-gtk3ui] %s(): CLOSE button clicked\n", __func__);
-#endif
         gtk_widget_destroy(widget);
     }
 }
@@ -224,7 +194,8 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* destroy callback, called when the dialog is closed through the 'X',
      * but NOT when clicking 'Close' */
-    g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback), (gpointer)logo);
+    g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback),
+            (gpointer)logo);
 
     /* set up a generic handler for various buttons, this makes sure the
      * 'Close' button is handled properly */
