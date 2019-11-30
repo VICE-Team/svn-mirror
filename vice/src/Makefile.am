@@ -1366,7 +1366,6 @@ vsid_libs =  \
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@
 
-
 vsid_DEPENDENCIES = $(vsid_libs)
 vsid_LDFLAGS = @vsid_LDFLAGS@
 

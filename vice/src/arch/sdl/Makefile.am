@@ -1,7 +1,13 @@
 # Makefile.am for the SDL version of `libarch.a'.
 
+sdldatadir = $(VICEDIR)/common
+
 if WIN32_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
+# Icon
+WINDRES_RC_PROTO = $(top_srcdir)/src/arch/gtk3/data/icon.rc.proto
+WINDRES_RC_TARGET = $(top_builddir)/src/arch/sdl/icon.rc
+WINDRES_COFF = $(top_builddir)/src/arch/sdl/icon.res
 else
 extra_includes =
 endif
@@ -218,3 +224,18 @@ EXTRA_DIST = \
 	Resources/VICE.icns \
 	vice-launcher.sh \
 	x11-launcher.sh
+
+if WIN32_COMPILE
+
+sdldata_DATA = $(WINDRES_COFF)
+
+all: $(WINDRESS_COFF)
+
+$(WINDRES_RC_TARGET): $(WINDRES_RC_PROTO)
+	cat $< | sed -e "s@__PREFIX__@$(top_srcdir)@g" > $@
+
+$(WINDRES_COFF): $(WINDRES_RC_TARGET)
+	$(WINDRES) $< -O coff -o $@
+
+endif
+
