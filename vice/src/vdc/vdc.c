@@ -662,7 +662,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 ((vdc.regs[25] & 0x10) && ((vdc.regs[25] & 0x0F) == ((vdc.regs[22] >> 4) & 0x0F))) ) { /* or double-pixel/40-column mode and smooth scroll = char width */
         /*FIXME technically this should be black in the foreground area (border remains normal), not just border colour all the way across */
         vdc.raster.video_mode = VDC_IDLE_MODE;
-    } else if ( ((vdc.regs[34] > vdc.regs[0]) && (vdc.regs[35] <= vdc.regs[0])) ) {    /* if #34> #0  and #35 <= #0, blank line, always */
+    } else if ( ((vdc.regs[34] > vdc.regs[0]) && (vdc.regs[35] <= vdc.regs[0])) ||      /* if #34> #0  and #35 <= #0, blank line, always */
+                ((vdc.regs[34] == vdc.regs[35]) && (vdc.regs[35] <= vdc.regs[0])) ) {   /* if #34==#35 and both <= #0, blank line always */
                 /* || ((vdc.regs[34] <= vdc.regs[35]) && (vdc.regs[35] <= vdc.regs[0])) ) {*/ /* FIXME if #34<=#35 and both <= #0, blank line sometimes, depends on values relative to display area */
         /*FIXME technically this should be black across the entire screen, not just border colour */
         vdc.raster.video_mode = VDC_IDLE_MODE;
