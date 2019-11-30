@@ -173,10 +173,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *about = gtk_about_dialog_new();
     GdkPixbuf *logo = get_vice_logo();
-
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s() called\n", __func__);
-#endif
+    char version[1024];
 
     /* set toplevel window, Gtk doesn't like dialogs without parents */
     gtk_window_set_transient_for(GTK_WINDOW(about), ui_get_active_window());
@@ -188,13 +185,18 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_window_set_title(GTK_WINDOW(about), "About VICE");
 
     /* set version string */
-    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about),
 #ifdef USE_SVN_REVISION
-            VERSION " r" VICE_SVN_REV_STRING " (Gtk3)"
+    g_snprintf(version, 1024, "%s r%s (Gtk3 %d.%d.%d, GLib %d.%d.%d)",
+            VERSION, VICE_SVN_REV_STRING,
+            GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
+            GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
 #else
-            VERSION " (Gtk3)"
+    g_snprintf(version, 1024, "%s (Gtk3 %d.%d.%d, GLib %d.%d.%d)",
+            VERSION,,
+            GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
+            GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
 #endif
-            );
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), version);
 
     /* set license */
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
