@@ -214,6 +214,7 @@ char *image_contents_to_string(image_contents_t * contents, char out_charset)
 static char *image_contents_get_filename(image_contents_file_list_t * p)
 {
     int i;
+    /* WTF? */
     static char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 3] = { 0 };
     char encountered_a0 = 0;
 
