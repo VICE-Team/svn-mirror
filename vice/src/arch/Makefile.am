@@ -16,10 +16,17 @@ SUBDIRS = sdl shared
 
 else
 
+if HEADLESS_COMPILE
+
+SUBDIRS = headless
+
+else
+
 if WIN32_COMPILE
 
 SUBDIRS = mingw32-pcap shared
 
+endif
 endif
 endif
 endif
