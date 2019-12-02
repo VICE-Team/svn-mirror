@@ -32,6 +32,7 @@ VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use t
 VICE_ARG_WITH_LIST(pulse,         [  --without-pulse         do not use PulseAudio sound system])
 VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA sound system])
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
+VICE_ARG_WITH_LIST(sun,           [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(sdlsound,      [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(resid,         [  --without-resid         do not use the reSID engine])
 VICE_ARG_WITH_LIST(jpeg,          [  --without-jpeg          do not use the JPEG screenshot system])
@@ -2697,6 +2698,12 @@ if test x"$is_unix" = "xyes"; then
     if test x"$with_oss" = "xyes" -a x"$USE_OSS_SUPPORT" != "xyes"; then
       AC_MSG_ERROR([OSS support missing])
     fi
+  fi
+
+  dnl <sys/audioio.h> for sun / netbsd audio
+  if test x"$with_sun" != "xno" -a x"$host_os" != "openbsd"; then
+    AC_CHECK_HEADERS(sys/audioio.h,
+                    [SOUND_DRIVERS="$SOUND_DRIVERS soundsun.o"; break])
   fi
 
 fi
