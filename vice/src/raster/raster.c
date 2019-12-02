@@ -163,6 +163,9 @@ static int realize_canvas(raster_t *raster)
         if (new_canvas == NULL) {
             return -1;
         }
+        
+        /* Ensure that this canvas is ready to screenshot immediately */
+        video_color_update_palette(new_canvas);
 
         raster->canvas = new_canvas;
 

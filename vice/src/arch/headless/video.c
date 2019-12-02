@@ -127,8 +127,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->created = 1;
     canvas->initialized = 1;
 
-    video_color_update_palette(canvas);
-
     return canvas;
 }
 
