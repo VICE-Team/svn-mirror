@@ -2070,20 +2070,16 @@ track position of the drive's read/write head.
 @section Using the menus
 
 It is possible to execute some commands and change emulation parameters
-while the emulator is running: when the pointer is over the emulation
-window, two menus are available by pressing either the left or right
-mouse buttons.  The left mouse button will open the @dfn{command menu}
-from which several emulation-related commands can be executed; the right
-mouse button will open the @dfn{settings menu} from which emulation
-parameters can be changed.  The basic difference between the command and
-the settings menu is that, while commands have only effect on the
-current session, settings can be saved and later used with the ``Save
-settings'' and ``Load settings'' right-button menu items, respectively.
-``Restore default settings'' restores the factory defaults.
-@xref{Settings and resources}. for more information about how settings
+while the emulator is running: most emulation settings can be changed in
+the @dfn{options menu}. Additionally clicking on the various widgets in the
+status bar gives access to related settings.
+Settings can be saved and later used with the ``Save settings'' and ``Load settings'' 
+menu items, respectively. Also by default, settings will get saved when exiting
+the emulator. ``Restore default settings'' restores the factory defaults.
+See @xref{Settings and resources} for more information about how settings
 work in VICE.
 
-Sometimes commands can be reached via @dfn{shortcuts} or @dfn{hotkeys},
+A lot of settings and actions can be reached via @dfn{shortcuts} or @dfn{hotkeys},
 i.e., it is possible to execute them by pressing a sequence of keys
 instead of going through the menu with the mouse.  Where shortcuts
 exist, they are displayed in parentheses at the right edge of the menu
@@ -2094,7 +2090,6 @@ corresponding menu item displays ``M-8''), you have to press the
 
 Note that no other key presses are passed on to the emulated machine
 while either @key{Meta} or @key{Alt} are held down.
-
 
 @node Help, File Selector, Menus, Basics
 @section Getting help
@@ -2144,8 +2139,7 @@ disk or tape image is like ``virtually'' inserting a diskette or a
 cassette into the disk drive or the tape recorder: once an image is
 attached, the emulator is able to use it as a storage media.
 
-There are five commands (in the left button menu) that deal with disk
-and tape images:
+There are five commands that deal with disk and tape images:
 
 @itemize @bullet
 
@@ -2187,28 +2181,12 @@ written to; in the latter case, just remove the write permission for
 that file, e.g., by doing a @code{chmod a-w}.
 
 @menu
-* Previewing contents::         Looking into the image before attaching it.
 * Autostart::                   Starting a program automagically.
 * Compressed files::            Dealing with compressed files.
 * Zipcode and Lynx::            Using Zipcoded ([1-4]!*) and Lynx files.
 @end menu
 
-@node Previewing contents, Autostart, Disk and tape images, Disk and tape images
-@subsection Previewing the image contents
-
-It is possible to examine the directory of a disk or tape image before
-attaching it.  Just press the ``Contents'' button in the file selector
-window and a new window will pop up with the contents of the selected
-image.
-
-Notice that this function automatically translates the directory from
-PETSCII to ASCII; but, due to differences in the two encodings, it is
-not always possible to translate all the characters, so you might get
-funny results when ``weird'' characters such as the semi-graphical ones
-are being used.
-
-
-@node Autostart, Compressed files, Previewing contents, Disk and tape images
+@node Autostart, Compressed files, Disk and tape images
 @subsection ``Autostarting'' an image
 
 If you want to reset the machine and run the first program on a certain
@@ -2216,18 +2194,14 @@ image without typing any commands at the Commodore BASIC prompt, you can
 use the ``Autostart'' button in the file selector window after selecting
 a proper disk or tape image file.
 
-Notice that, if true drive emulation is turned on, it will be turned off
-before running the program and then turned on again after it has been
+If true drive emulation is turned on, and the @dfn{Handle TDE at Autostart}
+setting is enabled, true drive emulation will be turned off before running 
+the program and then turned on again after it has been
 loaded.  This way, you get the maximum possible speed while loading the
 file, but you do not lose compatibility once the program itself is
-running.
-
-This method is not completely safe, because some autostarting methods
-might cause the true drive emulation not to be turned on again.  In such
-cases, the best thing to do is to disable kernal traps (which will cause
-true drive emulation to be always kept turned on), or to manually load
-the program with true drive emulation turned on.
-
+running. This method is not completely safe, because some autostarting methods
+might cause the true drive emulation not to be turned on again, which is why
+it is disabled by default.
 
 @node Compressed files, Zipcode and Lynx, Autostart, Disk and tape images
 @subsection Using compressed files
@@ -2307,7 +2281,7 @@ the name) and then build a disk image using all four.
 @section Resetting the machine
 
 You can reset the emulated machine at any time by using the ``Reset''
-command from the command menu.  There are two types of reset:
+command from the file menu.  There are two types of reset:
 
 @itemize @bullet
 @item
@@ -2338,9 +2312,9 @@ be either an integer or a string.  Integer values are often used as
 boolean values with the usual convention of using zero for ``false''
 and any other value for ``true''.
 
-Resource values can be changed via the right-button menu (the
-@dfn{settings} menu), via command-line options or via the @dfn{resource
-file}.
+Resource values can be changed via the the
+@dfn{options} menu, via command-line options, using monitor commands, or via 
+the @dfn{resource file}.
 
 The @dfn{resource file} is a human-readable file containing resource
 values: it is called @file{vicerc} and is stored in the directory
@@ -2353,13 +2327,10 @@ Default Settings'', can be used to reset all the values to the factory
 defaults.
 
 A special resource, @code{SaveResourcesOnExit}, if set to a non zero
-value, causes the emulator to ask you if you want to save the current
+value, causes the emulator to save the current
 (changed) settings before exiting, and can be toggled with the ``Save
-settings on exit'' command from the right-button menu.
+settings on exit'' item from the options menu.
 
-Notice that not all the resources can be changed from the menus; some of
-them can only be changed by manually modifying the resource file or by
-using command-line options.
 
 @menu
 * Resource files::              Format of resource files.
@@ -2442,7 +2413,7 @@ with the same name, but with a minus sign; in that case, the option
 beginning with a minus sign is used to @emph{enable} a certain
 feature, while the one beginning with a plus sign is used to
 @emph{disable} the same feature (this is an X11 convention).  For
-example, @code{-mitshm} enables support of MITSHM, while @code{+mitshm}
+example, @code{-warp} enables warp mode, while @code{+warp}
 disables it.
 
 @c @node FIXME
@@ -2473,7 +2444,8 @@ Boolean, if true put a colon after the load command when autostarting
 @vindex AutostartHandleTrueDriveEmulation
 @item AutostartHandleTrueDriveEmulation
 Boolean, if true handle (enable/disable) True Drive Emulation on autostart
-(all emulators except vsid).
+(all emulators except vsid). This is disabled by default to ensure maximum
+compatibility.
 
 @vindex AutostartWarp
 @item AutostartWarp
@@ -2581,7 +2553,7 @@ that is too small results in autostart not happening.
 
 @cindex Limiting emulation speed
 It is possible to control the emulation speed by using the ``Maximum
-speed'' menu item in the right-button menu.  The default setting is
+speed'' item in the speed setting.  The default setting is
 @code{100}, which causes the emulation to never run faster than the real
 machine.  A higher value allows the emulator to run faster, a lower one
 may force it to run slower.  The setting ``No limit'' means to run as
@@ -2592,7 +2564,7 @@ It is also possible to control the emulator's rate of frame update using
 the ``Refresh rate'' setting; the value ranges from ``1/1'' (update 1/1
 of the frames of the real machine, that is 50 frames per second) to
 ``1/10'' (update 1 every 10 frames) and can be changed via the ``Refresh
-Rate'' submenu.  The ``Auto'' setting means to dynamically adapt the
+Rate'' setting.  The ``Auto'' setting means to dynamically adapt the
 refresh rate to the current speed of the host machine, making sure the
 maximum speed specified by the via ``Maxium speed'' is always reached if
 possible.  In any case, the refresh rate will never be worse than 1/10
@@ -2683,9 +2655,8 @@ would be wasted by not using it (if any).
 @cindex Double-size mode
 @item
 ``Double Size'' toggles @dfn{double-size mode}, which makes the
-emulation window twice as big.  When emulating an 80-column PET, only the
-height is doubled, so that the aspect ratio is closer to that of the
-real thing.
+emulation window twice as big.  It also selects a more accurate CRT emulation
+renderer with scanlines.
 
 @cindex Double-scan mode.
 @item
@@ -2700,80 +2671,6 @@ an old monitor).
 @menu
 * Video resources::
 @end menu
-
-@c @node FIXME
-@subsection using openGL Rastersynchronization under X11
-
-Warning: To get full retro experience with synchronization to the vertrical
-raster retrace messing with X11 modelines (resolution and refresh frequencies)
-is necessary. This description is a suggestion - Follow this instructions at
-your own risk!
-
-The following was tested under Ubuntu Linux (8.04) featuring Xorg Xserver 1:7.3+10ubuntu
-and mesa openGL including HW support (NVIDIA driver) supporting glx version 1.4
-supplying GLX_SGI_video_sync.
-
-It is assumed that this works also on other systems supporting the
-required extensions.
-
-Preconditions:
-@itemize @bullet
-@item openGL extension GLX_SGI_video_sync in your X11 setup.
-  The availability of the extension is checked at startup.
-
-@item XRandR extension to switch proper modes (50Hz for PAL, 60Hz for
-NTSC) is mandatory, proper modelines in your /etc/X11/xorg.conf must be present.
-@end itemize
-
-If your systems lacks 50 or 60Hz modes you might try using
-`gtf' (typcally shipped with Xorg, xserver) - see related man page.
-
-You might need to add the output such as:
-@example
-# 800x600 #@ 50.00 Hz (GTF) hsync: 30.90 kHz; pclk: 31.15 MHz
-Modeline "800x600_50.00" 31.15 800 824 904 1008 600 601 604 618 -HSync +Vsync
-@end example
-to you Monitor Section of /etc/X11/xorg.conf and add the resolution to the `Screen' section.
-
-Sometimes some consistency checks within the display driver drop
-this resolutions again.
-To drop e.g. the autodetection features in the NVIDIA driver you
-might add @code{Option "UseEDID" "FALSE"} in section @code{Device}.
-
-XRandR cannot cope properly with the DynamicTwinView feature of the
-proprietary nvidia driver. You might need
-
-@code{Option         "DynamicTwinView" "False"}
-
-to get proper results (in Screen or Device section of you xorg.conf).
-
-ATTENTION: Disabling such features might allow X11 to access your HW
-in a way that it gets damaged! You are at your own risk!
-
-Enable fullscreen (not necessary, but makes sense):
-@itemize @bullet
-@item choose your preferred resolution/refresh XRandR Resolutions and
-enable XRandR as fullscreen device (50Hz/PAL or 60Hz/NTSC mode).
-@item Activate fullscreen with `Alt-D'.
-@item choose `OpenGL Rastersynchronization' in the
-video chip menu (VIC-II Settings, VIC Setting, etc.)
-@end itemize
-
-Note that:
-@itemize @bullet
-@item the current implementation is dropping synchronization
-silently in case the display frequency isn't aligned (50Hz
-for PAL, 60Hz for NTSC).
-
-@item On some systems the XRandR system isn't informed about desktop
-display frequency changes if you switch resolutions via hotkeys like
-CTRL-Alt-+ (Numpad), which is possible e.g. with the X11
-implementation of Xorg.
-
-In that case you can override/tell the current frequency via menu:
-Settings->VICII Settings->Desktop Refreshrate (e.g. in x64)
-(this shouldn't be necessary if you use fullscreen via XRandR.
-@end itemize
 
 @node Video resources, , Video settings, Video settings
 @subsection Video resources
@@ -2828,7 +2725,7 @@ keyboard mapping should be used with the ``Keyboard mapping type''
 submenu (@pxref{Keyboard emulation} for an explanation of positional
 and symbolic mappings).
 
-The keyboard settings submenu also allows you to:
+The keyboard settings also allows you to:
 
 @itemize @bullet
 @item
@@ -4983,7 +4880,10 @@ If you have compatibility problems, you can completely disable Kernal
 traps with the ``Disable kernal traps'' option.  This will of course
 disable all the features that depend on it, such as the fast 1541
 emulation (so you will have to turn true 1541 emulation on if you want
-to be able to read or write disk images) and tape support.
+to be able to read or write disk images) and tape (t64) support.
+
+Since the 3.0 release kernal traps have been disabled by default to ensure
+maximum compatibility.
 
 @menu
 * No traps resources::
@@ -5117,7 +5017,8 @@ Strings specifying the RS232 devices (@pxref{RS232 settings}).
 @itemx RsDevice2ip232
 @itemx RsDevice3ip232
 @itemx RsDevice4ip232
-Boolean specifying whether the respective RS232 devices (@pxref{RS232 settings}) use the IP232 protocol.
+Boolean specifying whether the respective RS232 devices (@pxref{RS232 settings}) 
+use the IP232 protocol supported by tcpser.
 This only works with Socket connections.
 
 @end table
