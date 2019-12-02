@@ -5121,7 +5121,8 @@ Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 @findex -rsdev4ip232, +rsdev4ip232
 @item -rsdev4ip232
 @itemx +rsdev4ip232
-Enable/Disable whether the respective RS232 devices (@pxref{RS232 settings}) use the IP232 protocol.
+Enable/Disable whether the respective RS232 devices (@pxref{RS232 settings}) 
+use the IP232 protocol supported by tcpser.
 This only works with Socket connections.
 
 @end table
@@ -9804,11 +9805,11 @@ specified in the file name) and use the ``attach'' command twice.
 A special kind of cartridge file is where the two files mentioned
 above are concatenated (with removing the two byte load address of
 the second image) into one 16k image. There are only few of those
-images, though. Normally the second part is located at $A000.
+images, though.
 Vice can now attach such concatenated files at the start address
 $2000, $4000, and $6000. The second half of such an image is
-moved to $A000. If you encounter 16k images that have the second
-half not at $A000 you can split the image into two halfs
+moved to the memory block following the first block. If you encounter 
+16k images that have the second half at eg $A000 you can split the image into two halfs
 (i.e. one 8194 byte and one 8192 byte, because the first has the load
 address) and attach both files separately.
 
@@ -9850,6 +9851,14 @@ The following cartridge types are valid:
      5: IEEE-4888
 @item
      6: SIDCart
+@item
+     7: Ultimem
+@item
+     8: IO ram cart (IO2)
+@item
+     9: IO ram cart (IO3)
+@item
+    10: BehrBonz
 @item
 0x8000: Auto Detect
 @item
@@ -10539,8 +10548,7 @@ present a stock (``unexpanded'') machine.  Each of them is associated to
 a boolean @code{RamBlockX} resource (where @code{X} is the block number)
 that specifies whether the block is enabled or not.
 
-There are also some common memory configurations you can pick from the
-right-button menu:
+There are also some common memory configurations you can select:
 
 @itemize @bullet
 @item
@@ -10639,7 +10647,7 @@ enables memory in blocks 3 and 5, which is the usual configuration for
 @subsection VIC20 system ROM settings
 
 These settings can be used to control what system ROMs are loaded in the
-VIC20 emulator at startup.  They cannot be changed from the menus.
+VIC20 emulator at startup.
 
 @menu
 * VIC20 system ROM resources::
@@ -11288,8 +11296,8 @@ an expansion ROM image of 4k. This file overlays the lowest 4k of a BASIC 4 ROM.
 
 @end table
 
-Choosing a common PET model is done from the right-button menu instead,
-by choosing an item from the ``Model defaults'' submenu.  Available
+Choosing a common PET model is done from the setting dialog,
+by choosing an item from the ``Model'' selection.  Available
 models are:
 
 @itemize @bullet
@@ -13958,10 +13966,11 @@ when the emulation is enabled during the writing of the snapshot.
 This section shows the basic module framework and the contents of the
 different types of modules.
 
-The single chip modules contain the @b{chip} state, not the state of the
-emulator.  We tried to make the format as implementation-independent as
-possible, to allow reuse of snapshots in later versions of this
-emulator, or even in other emulators.
+The single chip modules contain the @b{chip} state, and sometimes additional
+state of the emulator.  In the past we tried to make the format as 
+implementation-independent as possible, to allow reuse of snapshots in later 
+versions of the emulator, that however proved to be very impractical and 
+insanely hard to maintain.
 
 @menu
 * Module Terminology::
@@ -14013,7 +14022,7 @@ in the tables, so no offset is given.
 The VICE snapshot file starts with the magic string and includes the
 fileformat version number.
 
-@multitable @columnfractions .1 .4 .5
+@multitable @columnfractions .2 .3 .5
 @item Type
 @tab Name
 @tab Description
@@ -14029,18 +14038,26 @@ fileformat version number.
 @item 16 BYTE
 @tab MACHINENAME
 @tab Name of emulated machine, like "PET", "CBM-II", "VIC20", "C64" or "C128". zerobyte-padded.
+@item 13 BYTE
+@tab VERSION MAGIC
+@tab "VICE Version\032", padded with 0
+@item 4 BYTE
+@tab VERSION
+@tab Release version
+@item 2 BYTE
+@tab SVNVERSION
+@tab SVN revision (or 0 if not available)
 @end multitable
 
 The file header is followed by a number of different snapshot modules.
 
 Each module has a header with the information given in the table below.
-The header includes two version numbers, VMAJOR and VMINOR.  Modules
-with the same VMAJOR should be able to be exchanged.  I.e. higher VMINOR
-numbers only append to the data for lower VMINOR.  This additional data
-is ignored by older restore routines.  The other way around newer
-restore routines must accept the fewer info from lower VMINOR dumps.
-Changes in VMAJOR might introduce any incompatibility you like, but
-that's what VMAJOR is for after all :-)
+The header includes two version numbers, VMAJOR and VMINOR.  In the past the
+idea was that modules with the same VMAJOR should be able to be exchanged. This
+however proved to be too difficult to maintain, and insanely hard to test for
+correctness, which is why now the emulator will reject the snapshot when it
+finds a module that is too old. @b{Because of this you should not use snapshots
+for permanent/long term storage.}
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -14067,10 +14084,6 @@ This module saves the core 6502 state.  You will find a clock value
 there.  All other modules save their own clock values relative to this
 value.  However, the drive modules save their clocks relative to their
 appropriate CPUs of course.
-
-@b{Warning:} This module is still under construction and saves some
-information that is not sure to be VICE-independent.  If in doubt, read
-the source.
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -14122,10 +14135,6 @@ This module saves the core 6809 state.  You will find a clock value
 there.  All other modules save their own clock values relative to this
 value.  However, the drive modules save their clocks relative to their
 appropriate CPUs of course.
-
-@b{Warning:} This module is still under construction and saves some
-information that is not sure to be VICE-independent.  If in doubt, read
-the source.
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -14453,8 +14462,6 @@ The RIOT 6532 is a chip with two I/O ports, some RAM and a Timer.
 The chip contains 128 byte RAM, but the RAM is not saved in the
 RIOT snapshot, but in the memory section.
 
-@b{Warning:} This module is still under construction
-
 Version numbers: Major 0, Minor 0.
 
 @multitable @columnfractions .1 .4 .5
@@ -14495,8 +14502,6 @@ Version numbers: Major 0, Minor 0.
 
 @node SID 6581 module, ACIA 6551 module, RIOT 6532 module, Module formats
 @subsubsection SID module
-
-@b{Warning:} This module is still under construction.
 
 @node ACIA 6551 module, VIC-I module, SID 6581 module, Module formats
 @subsubsection ACIA module
@@ -14540,24 +14545,15 @@ Version numbers: Major 1, Minor 0.
 @node VIC-I module, VIC-II module, ACIA 6551 module, Module formats
 @subsubsection VIC-I module
 
-@b{Warning:} This module is still under construction.
+@c FIXME: add description
 
 @node VIC-II module, CRTC module, VIC-I module, Module formats
 @subsubsection VIC-II module
 
-@b{Warning:} This module is still under construction.
+@c FIXME: add description
 
 @node CRTC module, C64 memory module, VIC-II module, Module formats
 @subsubsection CRTC module
-
-@b{Warning:} After VICE version 1.0 the CRTC emulation has improved
-considerably. Especially it is now cycle exact. Therefore a lot more
-variables must be saved. The snapshot module version jumped from
-0.0 to 1.0. Newer versions of VICE can read the old snapshots, but
-older versions (1.0 and below) cannot read the new snapshots.
-
-@b{Warning:} This module is still under construction.  Especially the
-RASTERY and RASTERLINE values might be bogus.
 
 Version numbers: Major 1, Minor 1.
 
@@ -14707,8 +14703,7 @@ and contains a dump of the ROM images.
 
 The size of the C64 memory modules differs with each different memory
 configuration. The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded. The attached cartridges are
-@b{not yet(!)} saved and not yet restored upon load.
+restored when the snapshot is loaded.
 
 Version numbers: Major 0, Minor 0
 
@@ -15362,11 +15357,6 @@ The main purpose for having an event history is to create game sessions, e.g. re
 how to solve a game. An example walkthrough for the well known game "Fort Apocalypse" is
 available.
 
-This brief chapter will advise you how to record and playback such a session.
-Although it is based on the WinVICE x64 release and its user interface, histories may be
-transferred to other machines and other ports that support event history, e.g. the
-Unix port.
-
 @c @node FIXME
 @section Recommended Settings
 
@@ -15541,12 +15531,13 @@ Enable/disable the inclusion of disk images in the event
 @node Monitor, c1541, Snapshots, Top
 @chapter Monitor
 
-Every VICE emulator has a complete built-in monitor, which can be used
+The VICE emulator has a complete built-in monitor, which can be used
 to examine, disassemble and assemble machine language programs, as
 well as debug them through breakpoints.  It can be activated by using
-the ``Activate monitor'' command (left button menu).  Notice that in some
-ports you have to run the emulator from a terminal emulation program (such as
-@code{rxvt} or @code{xterm}) in order to use the monitor.
+``Activate monitor'' from the menu.  The monitor will either run in a 
+seperate window, or in a terminal emulation program (such as
+@code{rxvt} or @code{xterm}) when ``native monitor'' has been enabled in
+the settings.
 
 @menu
 * Terminology::
@@ -16165,11 +16156,6 @@ Display the specified number in decimal, hex, octal and binary.
 
 VICE is provided with a complete stand-alone disk image maintenance
 utility, called @code{c1541}.
-
-You can either invoke it from the command
-line or from within one of the VICE emulators, using the ``Run c1541''
-menu item which will open a new terminal window with a running
-@code{c1541} in it.
 
 The syntax is:
 
@@ -27048,7 +27034,7 @@ SourceForge trackers at
 @itemize @bullet
 
 @item
-@uref{http://sourceforge.net/tracker/?group_id=223021}.
+@uref{https://sourceforge.net/p/vice-emu/bugs/}.
 @end itemize
 
 This way, you, the users, and we, the developers, can track what has
@@ -27078,9 +27064,10 @@ splitting and reduces chances that your message is unintentionally
 deleted, forgotten or lost.
 
 @item
-Please don't send any HTML mail (we really hate that!).  If you use
-M$ Outlook or Netscape Communicator, make sure you turn off the
-"rich text" (HTML) feature.
+Please don't send any HTML mail (we really hate that!). Be patient when your
+mail does not show up on the mailing list - it is moderated manually. Once your
+mail shows up you should be approved and be able to send mail without further
+delay.
 
 @item
 Please don't send @emph{any} binaries without asking first.
@@ -27117,7 +27104,8 @@ no, you cannot read C64 disks with your old 5"1/4 PC drive.
 
 @item
 Please don't ask us where to find games for the emulator on the
-Internet.
+Internet. It should be very easy to find them using your favourite search
+engine.
 
 @item
 Please don't ask us when the next version will be out, because we
@@ -27149,11 +27137,9 @@ to the very latest version, and provide us with the following:
 @itemize @bullet
 @item
 Make sure you are giving us a diff against the latest Subversion
-trunk version of VICE. For instructions on accessing the Subversion
-repository, first read @uref{http://sourceforge.net/svn/?group_id=223021} and
-get it with the command:
+trunk version of VICE. Get it with the command:
 @example
-@samp{svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk vice-src}
+@samp{svn checkout svn://svn.code.sf.net/p/vice-emu/code/trunk vice-src}
 @end example
 @item
 send a unified diff file against the trunk version of VICE (see above
@@ -27170,6 +27156,9 @@ GNU-style @file{ChangeLog} entries with a description of the changes you
 have made (look at the @file{ChangeLog}s provided with the original VICE
 sources for an example).
 @end itemize
+
+Preferably post your patch on the tracker:
+@uref{https://sourceforge.net/p/vice-emu/patches/}.
 
 This is very important, and makes adding patches much smoother and
 safer.
