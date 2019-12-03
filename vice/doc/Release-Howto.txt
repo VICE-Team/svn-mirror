@@ -15,15 +15,16 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 - update man pages and vice.texi
 
-- make sure (c) dates are correct (README, index.html, vice.texi, soundflac,
-  src/arch/gtk3/uiabout.c)
+- make sure (c) dates are correct (README, index.html, vice.texi,
+  src/sounddrv/soundflac.c, src/arch/gtk3/uiabout.c)
   
 - make sure the list of team members is correct (vice.texi, infocontrib.sed)
 
-- make sure the version in configure.proto is updated and it's updated in other
-  files (index.html)
-
 - ANNOUNCE A CODE FREEZE ;)
+
+- make sure the version in configure.proto is updated and it's updated in other
+  files (index.html). This actually updates the user-visible version in the
+  binary, so it should happen only immediatly before the release.
 
 
 generate tarball:
@@ -54,7 +55,7 @@ $ svn cp <url of svn trunk> <url of svn tag>
 publish the release
 -------------------
 
-- upload changes to the website on sf
+- upload changes to the website on sf (don't forget the html documentation)
 
 - upload the tarball to sf
 

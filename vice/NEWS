@@ -24,6 +24,9 @@ We are still looking for dedicated maintainers for the Windows port, if you
 want to help improving these and/or want to provide binaries, please get in
 touch.
 
+We also needs support in fixing the various keyboard mappings, please test the
+keyboard in your favourite OS and port and report any problems.
+
 We welcome dqh in the team, who will take care of the macOS port.
 
 
@@ -66,6 +69,10 @@ We welcome dqh in the team, who will take care of the macOS port.
 - ACIA IRQ fix
 
 - create empty half tracks when mounting d64. fixes skew.d64
+
+- new headless port that can be enabled by passing --enable-headlessui to
+  configure. this can be used to build an emulator without video output, which
+  may be useful for scripting.
 
 
 ** Autostart fixes

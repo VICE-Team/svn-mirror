@@ -1,5 +1,5 @@
 
-  VICE  3.3                                                        Dec 2018
+  VICE  3.4                                                        Dec 2019
 
 
                  _______________
@@ -18,17 +18,13 @@
 
  ----------------------------------------------------------------------------
 
- This release stabilizes and introduces the GTK3 UI as the primary user 
- interface for all major ports. For "lesser" platforms we still have the SDL 
- based interface. All other user interfaces have been removed. RIP
-
- We are still looking for dedicated maintainers for the Windows- and macOS 
- ports, if you want to help improving these and/or want to provide binaries, 
+ We are still looking for dedicated maintainers for the Windows port, if you 
+ want to help improving these and/or want to provide binaries,
  please get in touch.
 
  ----------------------------------------------------------------------------
 
- This is version 3.3 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 3.4 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  MSDOS, Win32, OS/2, BeOS, QNX 4.x, QNX 6.x, AmigaOS, Dingoo,
  Syllable, SkyOS and for most Unix systems provided with
@@ -84,8 +80,7 @@
    - in the doc directory:
 
      - vice.texi, the complete documentation; documentation in various different
-       formats may be generated from it (vice.txt, vice.pdf, vice.chm, vice.hlp, 
-       vice.guide, vice.inf, vice.info)
+       formats may be generated from it (vice.txt, vice.pdf)
      - iec-bus.txt, overview of the VICE IEC bus emulation;
      - CIA-README.txt, overview of the VICE CIA emulation;
      - coding-guidelines.txt, description of VICE coding style
@@ -110,11 +105,21 @@
 
      - Windows-MinGW-GTK3-Howto.txt, how to compile the Windows port using MingGW/MSYS2
      - Linux-GTK3-Howto.txt, how to compile the GTK3 port on Linux
-     - GTK3-macOS.txt, how to compile the Mac OSX port with GTK3 UI
      - SDL-Howto.txt, how to compile the SDL port on various platforms
      - Android-Howto, how to compile the Android SDL port
      - FreeBSD-GTK3-Howto.txt, hints on compiling the GTK3 port on FreeBSD
      - NetBSD-howto.txt, hints on compiling for NetBSD
+     - macOS-GTK3-Howto.txt, how to compile the Mac OSX port with GTK3 UI
+     - macOS-Distribution-Howto.txt, how to build the macOS binary distribution
+     - macOS-SDL2-Howto.txt, how to build the SDL2 port on macOS
+     - macOS-Xcode-Howto.txt, how to build the macOS port(s) using Xcode
+     - GTK3-cross-build-setup.md, (incomplete) instructions on how to set up
+       a windows crosscompiler on linux
+     - GTK3-debian-frankenvice.md, instructions on how to set up a windows
+       crosscompiler on debian using precompiled fedora mingw packages
+     - GTK3-Fedora-cross-build-setup.md, (incomplete) instructions on how to 
+       set up a windows crosscompiler on Fedora linux
+
 
  For the latest news, have a look at the VICE home page:
 
@@ -129,7 +134,10 @@
    - The list of known BUGS,
      http://vice-emu.sourceforge.net/wiki/index.php/Todo#Known_Issues
 
- New versions are made available quite often, so please stay tuned.
+ New versions are made available usually once per year, so please stay tuned.
+ 
+ You may also check out the automatic nightly builds, which are kindly provided
+ by the pokefinder crew: https://vice.pokefinder.org/
 
 
  Have fun!
