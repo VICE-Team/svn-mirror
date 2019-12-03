@@ -947,6 +947,11 @@ We depend a lot on your support to improve the keyboard maps, as we can not
 test all emulators in all possible configurations and using all host keyboard
 mappings. Please report any problems to us so we can fix them!
 
+If you experience problems with 'accent' keys such as acute, grave, tilde, 
+circumflex, diaresis (and possibly more/other, depending on your host keyboard
+layout) try switching to a "no deadkeys" layout in your OS. In any case, please
+also report these problems so we can fix them!
+
 To find out the keycodes to use, incase you want to edit the keymaps yourself,
 you can enable showing the keycodes in the status bar in the settings.
 
