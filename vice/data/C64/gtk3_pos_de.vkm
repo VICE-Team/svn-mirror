@@ -362,6 +362,11 @@ y 1 4 8
 F12 -3 0
 F12 -3 1
 
+# Dead keys support
+dead_acute      5 3 8  # ' -> pound
+dead_grave      5 3 8  # ` -> shift+pound
+dead_circumflex 7 1 8  # ^ -> arrow left
+
 #
 # joyport attached keypad
 #
