@@ -88,7 +88,12 @@ debdir=`basename $debname .deb`
 # Use alien to generate .deb
 echo -n "Running alien on $rpmpath ... "
 # DO NOT bump release (who the fuck considered this a good idea?)
-alien 2>/dev/null --to-deb --bump 0 $rpmpath > /dev/null
+alien 2>/dev/null --scripts --to-deb --bump 0 $rpmpath > /dev/null
+if [ $? != 0 ]; then
+    echo "Alien failed."
+    exit 1
+fi
+
 cp $debname /tmp
 # Sanity check:
 if [ -f /tmp/$debname ]; then

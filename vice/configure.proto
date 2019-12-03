@@ -3415,11 +3415,14 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   if test x"$enable_sdlui2" = "xyes"; then
     AM_CONDITIONAL(SDL2_COMPILE, true)
     SDL_VERSION=2
+    SDLCONFIG="$sdl2_config"
   else
     AM_CONDITIONAL(SDL2_COMPILE, false)
     SDL_VERSION=1
+    SDLCONFIG="$sdl_config"
   fi
   AC_SUBST(SDL_VERSION)
+  AC_SUBST(SDLCONFIG)
 else
   AM_CONDITIONAL(SDL_COMPILE, false)
   AM_CONDITIONAL(SDL2_COMPILE, false)

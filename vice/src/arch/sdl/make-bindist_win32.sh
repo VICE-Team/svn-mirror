@@ -1,11 +1,12 @@
 #!/bin/sh
 
 #
-# make-bindist.sh - make binary distribution for the windows SDL port
+# make-bindist_win32.sh - Make a binary distribution for the Windows SDL ports.
 #
 # Written by
 #  Marco van den Heuvel <blackystardust68@yahoo.com>
 #  Bas Wassink <b.wassink@ziggo.nl>
+#  Greg King <gregdk@users.sf.net>
 #
 # This file is part of VICE, the Versatile Commodore Emulator.
 # See README for copyright notice.
@@ -25,9 +26,9 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip=$1> <vice-version=$2> <--enable-arch=$3>
-#                        <zip|nozip=$4> <x64-included=$5> <top-srcdir=$6>
-#                        <top-builddir=$7> <cpu=$8> <SDL-version=$9>
+# Usage: make-bindist.sh <strip=$1> <vice-version=$2> <--enable-arch=$3> <zip|nozip=$4> <x64-included=$5>
+#                        <top-srcdir=$6> <top-builddir=$7> <cpu=$8> <SDL-version=$9> <sdl-config=$10>
+#                        <cross=$11> <objdump=$12> <compiler=$13>
 #
 
 STRIP=$1
@@ -40,121 +41,159 @@ TOPBUILDDIR=$7
 CPU=$8
 SDLVERSION=$9
 
+shift
+SDLCONFIG=$9
+
+shift
+CROSS=$9
+
+shift
+OBJDUMP=$9
+
+shift
+COMPILER=$9
+
 
 # Try to get the SVN revision
 #echo "Trying to get SVN revision"
 SVN_SUFFIX=""
 svnrev_string=`svnversion $TOPSRCDIR`
-if test "$?" != "0"; then
-    #echo "No svnversion found"
-    # nop:
-    :
-else
+if test "$?" = "0"; then
     # Choose the second number (usually higher) if it exists; drop letter suffixes.
     svnrev=`echo "$svnrev_string" | sed 's/^\([0-9]*:\)*\([0-9]*\)*.*/\2/'`
     #echo "svnrev string: $svnrev"
     # Only a number is extracted.
-    if test -n "$svnrev"
-        then SVN_SUFFIX="-r$svnrev"
-    fi
-fi
-
-
-# check if we have the old x64 binary
-if test x"$X64INC" = "xyes"; then
-  X64FILE="x64"
+    test -n "$svnrev"&&SVN_SUFFIX="-r$svnrev"
 else
-  X64FILE=""
+    #echo "No svnversion found"
+    # nop:
+    :
 fi
 
+
+if test x"$CPU" = "xx86_64" -o x"$CPU" = "xamd64"
+then WINXX="win64"
+else WINXX="win32"
+fi
+
+
+# Check if we have the old x64.exe binary.
+if test x"$X64INC" = "xyes"
+then X64FILE="x64"
+else X64FILE=""
+fi
 
 EMULATORS="$X64FILE x64sc xscpu64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
-for i in $EXECUTABLES
-do
-  if [ ! -e src/$i.exe ]
-  then
-    echo Error: executable file\(s\) not found, do a \"make\" first
+unset CONSOLE_TOOLS EMULATORS X64FILE svnrev svnrev_string CPU X64INC
+
+for i in $EXECUTABLES; do
+  if [ ! -e $TOPBUILDDIR/src/$i.exe ]; then
+    echo 'Error: executable files not found; do a "make" first.'
     exit 1
   fi
 done
 
-if test x"$CPU" = "xx86_64" -o x"$CPU" = "xamd64"; then
-  WINXX="win64"
-else
-  WINXX="win32"
-fi
 
 if test x"$SDLVERSION" = "x2"; then
-  echo Generating $WINXX SDL2 port binary distribution.
+  echo "Generating a $WINXX SDL2 port binary distribution..."
   SDLNAME="SDL2VICE"
 else
-  echo Generating $WINXX SDL port binary distribution.
+  echo "Generating a $WINXX SDL port binary distribution..."
   SDLNAME="SDLVICE"
 fi
 
 BINDIST_DIR="$SDLNAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
 
+echo "Removing an old $BINDIST_DIR"
 rm -f -r $BINDIST_DIR
 mkdir $BINDIST_DIR
 
-# strip binaries. FIXME: shouldn't this only happen with --disable-debug?
-for i in $EXECUTABLES
-do
-  $STRIP src/$i.exe
-  cp src/$i.exe $BINDIST_DIR
+
+# Copy binaries.  Strip them unless VICE is configured with "--enable-debug".
+for i in $EXECUTABLES; do
+  cp $TOPBUILDDIR/src/$i.exe $BINDIST_DIR
+  $STRIP $BINDIST_DIR/$i.exe
 done
 
 
 if test x"$CROSS" != "xtrue"; then
-  # assume MSYS2 on Windows here
-  BUILDPATH=$BINDIST_DIR
-  cp `ntldd -R $BUILDPATH/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
+  # Assume MSYS2 on Windows here.
+  dlls=`ntldd -R $BINDIST_DIR/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -`
+  test -n "$dlls"&&cp $dlls $BINDIST_DIR
+
+else
+  # Assume a cross-builder for Windows here.
+  get_dll_deps()
+  {
+    for j in `find $BINDIST_DIR -name '*.dll'`; do
+      dlls=`$OBJDUMP -p $j|gawk '/^\\tDLL N/{print " -o -name",$3;}'`
+      dlls=`find $dlldirs -false$dlls`
+      test -n "$dlls"&&cp -u $dlls $BINDIST_DIR||:
+    done
+  }
+
+  # Find the paths of DLL directories.
+  libm=`$COMPILER -print-file-name=libm.a`
+  location=`dirname $libm`
+  loc=`dirname $location`
+  dlldirs="$loc/bin $location"
+  test -d "$loc/dll"&&dlldirs="$dlldirs $loc/dll"
+  libgcc=`$COMPILER -print-file-name=libgcc.a`
+  gccdir=`dirname $libgcc`
+  sdldir=`$SDLCONFIG --exec-prefix`/bin
+  dlldirs="$dlldirs $gccdir $sdldir"
+  # Find the DLLs that are needed by VICE.
+  dlls=`$OBJDUMP -p $BINDIST_DIR/x64sc.exe|gawk '/^\\tDLL N/{print " -o -name",$3;}'`
+  echo "dlls = $dlls"
+  dlls=`find $dlldirs -false $dlls`
+  echo "dlls = $dlls"
+  test -n "$dlls"&&cp $dlls $BINDIST_DIR
+  # Find the DLLs that are needed by other DLLs.
+  get_dll_deps
 fi
+
 
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $BINDIST_DIR
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $BINDIST_DIR
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $BINDIST_DIR
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $BINDIST_DIR
 cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BINDIST_DIR
-cp -a $TOPSRCDIR/doc/html $BINDIST_DIR
-rm -f $BINDIST_DIR/html/checklinks.sh
-cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $BINDIST_DIR
-cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $BINDIST_DIR
-cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $BINDIST_DIR
 rm -f `find $BINDIST_DIR -name "Makefile*"`
-rm -f `find $BINDIST_DIR -name "amiga_*.vkm"`
-rm -f `find $BINDIST_DIR -name "osx*.vkm"`
-rm -f `find $BINDIST_DIR -name "beos_*.vkm"`
-rm -f `find $BINDIST_DIR -name "x11_*.vkm"`
-rm -f $BINDIST_DIR/html/texi2html
-
+rm -f `find $BINDIST_DIR -name "gtk3_*"`
 mkdir $BINDIST_DIR/doc
-# FIXME: This doesn't work with out-of-tree builds, we need a $TOPSRCDIR, but
-#        that isn't passed to this script.
-cp $TOPBUILDDIR/doc/vice.pdf $BINDIST_DIR/doc
+cp -a $TOPSRCDIR/doc/html/* $BINDIST_DIR/doc
+cp -a -u $TOPBUILDDIR/doc/html/* $BINDIST_DIR/doc
+rm -f $BINDIST_DIR/doc/Makefile* $BINDIST_DIR/doc/texi2html
+rm -f $BINDIST_DIR/doc/checklinks.sh $BINDIST_DIR/doc/sitemap.xml
+rm -f $BINDIST_DIR/doc/robots.txt $BINDIST_DIR/doc/COPYING $BINDIST_DIR/doc/NEWS
+cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/NEWS $BINDIST_DIR
+cp $TOPSRCDIR/COPYING $TOPSRCDIR/README $BINDIST_DIR
+cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $BINDIST_DIR
+test -e "$TOPBUILDDIR/doc/vice.pdf"&&cp "$TOPBUILDDIR/doc/vice.pdf" $BINDIST_DIR/doc
 
 if test x"$ZIPKIND" = "xzip"; then
-  if test x"$ZIP" = "x"; then
-    zip -r -9 -q $BINDIST_DIR.zip $BINDIST_DIR
-  else
-    $ZIP $BINDIST_DIR.zip $BINDIST_DIR
+  cd $BINDIST_DIR/..
+  rm -f $BINDIST_DIR.zip
+  if test x"$ZIP" = "x"
+  then zip -r -9 -q $BINDIST_DIR.zip $BINDIST_DIR
+  else $ZIP $BINDIST_DIR.zip $BINDIST_DIR
   fi
   rm -f -r $BINDIST_DIR
-  if test x"$SDLVERSION" = "x2"; then
-      echo $WINXX SDL2 port binary distribution archive generated as $BINDIST_DIR.zip
-  else
-    echo $WINXX SDL port binary distribution archive generated as $BINDIST_DIR.zip
-  fi
+  echo $WINXX SDL$SDLVERSION port binary distribution archive generated as
+  echo "(Bash path): $BINDIST_DIR.zip"
+  test x"$CROSS" != "xtrue"&&echo "(Windows path): '`cygpath -wa \"$BINDIST_DIR.zip\"`'"
 else
-  if test x"$SDLVERSION" = "x2"; then
-    echo $WINXX SDL2 port binary distribution directory generated as $BINDIST_DIR
-  else
-    echo $WINXX SDL port binary distribution directory generated as $BINDIST_DIR
-  fi
+  echo $WINXX SDL$SDLVERSION port binary distribution directory generated as
+  echo "(Bash path): $BINDIST_DIR/"
+  test x"$CROSS" != "xtrue"&&echo "(Windows path): '`cygpath -wa \"$BINDIST_DIR/\"`'"
 fi
 if test x"$ENABLEARCH" = "xyes"; then
-  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
+  echo ''
+  echo 'Warning: The binaries are optimized for your system.'
+  echo 'They might not run on a different system.'
+  echo 'Configure with --disable-arch to avoid it.'
+  echo ''
 fi
