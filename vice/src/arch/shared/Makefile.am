@@ -106,6 +106,7 @@ EXTRA_DIST = \
 	archdep_mkstemp_fd.h \
 	archdep_open_default_log_file.h \
 	archdep_path_is_relative.h \
+	archdep_pref_path.h \
 	archdep_program_name.h \
 	archdep_program_path.h \
 	archdep_quote_parameter.h \
