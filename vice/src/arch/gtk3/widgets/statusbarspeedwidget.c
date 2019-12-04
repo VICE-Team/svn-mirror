@@ -105,7 +105,13 @@ static void on_pause_toggled(GtkWidget *widget, gpointer data)
 static void on_refreshrate_toggled(GtkWidget *widget, gpointer data)
 {
     int refresh = GPOINTER_TO_INT(data);
+    int speed = 0;
 
+    resources_get_int("Speed", &speed);
+    if (speed == 0) {
+        /* unlimited speed, refresh rate must be 10 */
+        refresh = 10;
+    }
     resources_set_int("RefreshRate", refresh);
 }
 
@@ -118,6 +124,16 @@ static void on_refreshrate_toggled(GtkWidget *widget, gpointer data)
 static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 {
     int speed = GPOINTER_TO_INT(data);
+    int refresh = 0;
+
+    if (speed == 0) {
+        /* unlimited, check for Auto refresh */
+        resources_get_int("RefreshRate", &refresh);
+        if (refresh == 0) { /* Auto */
+            /* set to 1/10 */
+            resources_set_int("RefreshRate", 10);
+        }
+    }
 
     resources_set_int("Speed", speed);
 }
