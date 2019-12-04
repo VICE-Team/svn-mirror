@@ -209,6 +209,7 @@ noinst_HEADERS = \
 	mainc64cpu.h \
 	main65816cpu.c \
 	main65816cpu.h \
+	maincpu.c \
 	maincpu.h \
 	mainviccpu.c \
 	mem.h \

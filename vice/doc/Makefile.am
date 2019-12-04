@@ -69,25 +69,6 @@ $(builddir)/vice.pdf:	.vice-texi-charset-ok
 	rm -f vicepdf.texi
 endif
 
-if BUILD_AMIGAGUIDE
-VICE_DOX += vice.guide
-$(builddir)/vice.guide:	.vice-texi-charset-ok
-	cp $(srcdir)/vice.texi tmp.texi
-	$(srcdir)/fixdox.sh guide
-	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(builddir)/vice.guide vicetmp.texi $(host_cpu) $(host_os)
-	rm -f tmp.texi vicetmp.texi
-endif
-
-if BUILD_IPF
-VICE_DOX += vice.inf
-$(builddir)/vice.inf:	.vice-texi-charset-ok
-	cp $(srcdir)/vice.texi tmp.texi
-	$(srcdir)/fixdox.sh ipf
-	$(TEXI2IPF) $(srcdir)/vicetmp.texi >temp.ipf
-	$(IPFC) -i temp.ipf
-	mv temp.inf $(builddir)/vice.inf
-	rm -f temp.ipf vicetmp.texi
-endif
 
 # This doesn't appear to delete vice.pdf, vice.chm, vice.guide etc added
 # in this Makefile with VICE_DOX += FOO, perhaps just some ordinary `rm -f`
