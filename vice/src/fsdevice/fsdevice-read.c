@@ -352,8 +352,8 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
         *p++ = 1;
         *p++ = 1;
-        *p++ = 0;
-        *p++ = 0;
+        *p++ = 255; /* 65535 blocks free */
+        *p++ = 255;
         memcpy(p, "BLOCKS FREE.", 12);
         p += 12;
         memset(p, ' ', 13);
