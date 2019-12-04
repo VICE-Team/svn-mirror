@@ -84,6 +84,8 @@ EXTRA_DIST = \
 	archdep_create_user_config_dir.h \
 	archdep_default_autostart_disk_image_file_name.h \
 	archdep_default_fliplist_file_name.h \
+	archdep_default_hotkey_file_name.h \
+	archdep_default_joymap_file_name.h \
 	archdep_default_logger.h \
 	archdep_default_resource_file_name.h \
 	archdep_default_rtc_file_name.h \
