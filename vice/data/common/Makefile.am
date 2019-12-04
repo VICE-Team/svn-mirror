@@ -7,3 +7,4 @@ common_DATA = CBM_Logo.svg \
 			  icon.ico \
 			  icon.png
 
+EXTRA_DIST = $(common_DATA)
