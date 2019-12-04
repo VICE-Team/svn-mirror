@@ -38,6 +38,8 @@ STYLE_TOOLS = \
 # VICE_DOX is conditionally extended with vice.pdf, vice.hlp etc
 VICE_DOX = \
 	vice.txt
+	
+info_TEXINFOS = vice.texi
 
 dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
 
