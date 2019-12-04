@@ -2,6 +2,7 @@
  * \brief   GTK3 about dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Greg King <gregdk@users.sf.net>
  */
 
 /*
@@ -103,11 +104,6 @@ static GdkPixbuf *get_vice_logo(void)
 static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     destroy_current_team_list(authors);
-    /* GdkPixbuf mentions setting refcount to 1, but it appears the about
-     * dialog parent cleans it up somehow -- compyx */
-#if 0
-    g_object_unref(user_data);
-#endif
 }
 
 
@@ -124,8 +120,9 @@ static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
 static void about_response_callback(GtkWidget *widget, gint response_id,
                                     gpointer user_data)
 {
-    /* the GTK_RESPONSE_DELETE_EVENT is sent when the user clicks 'Close', but
-     * also when the user clicks the 'X' */
+    /* The GTK_RESPONSE_DELETE_EVENT is sent when the user clicks 'Close',
+     * but also when the user clicks the 'X' gadget.
+     */
     if (response_id == GTK_RESPONSE_DELETE_EVENT) {
         gtk_widget_destroy(widget);
     }
@@ -141,9 +138,9 @@ static void about_response_callback(GtkWidget *widget, gint response_id,
  */
 gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
+    char version[1024];
     GtkWidget *about = gtk_about_dialog_new();
     GdkPixbuf *logo = get_vice_logo();
-    char version[1024];
 
     /* set toplevel window, Gtk doesn't like dialogs without parents */
     gtk_window_set_transient_for(GTK_WINDOW(about), ui_get_active_window());
@@ -156,18 +153,21 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* set version string */
 #ifdef USE_SVN_REVISION
-    g_snprintf(version, 1024, "%s r%s (Gtk3 %d.%d.%d, GLib %d.%d.%d)",
+    g_snprintf(version, 1024, "%s r%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
             VERSION, VICE_SVN_REV_STRING,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
 #else
-    g_snprintf(version, 1024, "%s (Gtk3 %d.%d.%d, GLib %d.%d.%d)",
-            VERSION,,
+    g_snprintf(version, 1024, "%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
+            VERSION,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
 #endif
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), version);
 
+    /* Describe the program */
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about),
+            "Emulates an 8-bit Commodore computer.");
     /* set license */
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
     /* set website link and title */
@@ -183,10 +183,13 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
      *          so altering this file by hand won't be required anymore.
      */
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about),
-            "Copyright 1996-2019 VICE TEAM");
+            "Copyright 1996-2019, VICE team");
 
     /* set logo */
-    gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
+    if (logo != NULL) {
+        gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
+        g_object_unref(logo);
+    }
 
     /*
      * hook up event handlers
@@ -195,7 +198,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* destroy callback, called when the dialog is closed through the 'X',
      * but NOT when clicking 'Close' */
     g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback),
-            (gpointer)logo);
+            NULL);
 
     /* set up a generic handler for various buttons, this makes sure the
      * 'Close' button is handled properly */
