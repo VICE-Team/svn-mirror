@@ -3460,6 +3460,18 @@ else
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)
 fi
 
+if test x"$is_win32" = "xyes"; then
+  if test x"$enable_native_gtk3ui" = "xyes"; then
+    WINDRES_LIB="$ARCH_DIR/data/icon.res"
+  else
+    dnl SDL
+    WINDRES_LIB="$ARCH_DIR/icon.res"
+  fi
+else
+  WINDRES_LIB=""
+fi
+
+
 if test x"$enable_headlessui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/headless"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/headless"
@@ -3633,6 +3645,7 @@ case "$host_os" in
 esac
 AC_SUBST(VICEDIR)
 AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR", [Where should we lookup for data files?])
+
 
 dnl I think this is supposed to handle --enable-internal-ffmpeg
 dnl It does not check for that situation and internal-ffmpeg on Unix (the only
@@ -3842,17 +3855,6 @@ else
 fi
 
 
-if test x"$is_win32" = "xyes"; then
-  if test x"$enable_native_gtk3ui" = "xyes"; then
-    WINDRES_LIB="$ARCH_DIR/data/icon.res"
-  else
-    dnl SDL
-    WINDRES_LIB="$ARCH_DIR/icon.res"
-  fi
-else
-  WINDRES_LIB=""
-fi
-AC_SUBST(WINDRES_LIB)
 
 dnl construct show_gui
 show_gui="Unknown"
