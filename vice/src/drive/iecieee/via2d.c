@@ -320,7 +320,7 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
         }
 /* enable this for experimental fix related to extra stepping when the motor
    is turned on. (bug #1083 "Primitive 7 Sins") */
-#if 0
+#if 1
         if (new_stepper_position != old_stepper_position) {
             if ((byte & 0x04) != 0) {
 #ifdef DEBUG_STEP
