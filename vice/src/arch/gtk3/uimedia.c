@@ -243,8 +243,9 @@ static GtkWidget *undersize_widget = NULL;
 static GtkWidget *multicolor_widget = NULL;
 static GtkWidget *ted_luma_widget = NULL;
 static GtkWidget *crtc_textcolor_widget = NULL;
+#ifdef HAVE_FFMPEG
 static GtkWidget *video_driver_options_grid = NULL;
-
+#endif
 
 
 /*****************************************************************************
@@ -918,16 +919,18 @@ static GtkWidget *create_video_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
+#ifdef HAVE_FFMPEG
     GtkWidget *combo;
     int index;
-
     GtkWidget *selection_grid;
     GtkWidget *options_grid;
-
+#endif
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
+
+#ifdef HAVE_FFMPEG
     label = gtk_label_new("Video driver");
     g_object_set(label, "margin-left", 16, NULL);
 
@@ -970,16 +973,26 @@ static GtkWidget *create_video_widget(void)
 /* XXX: this obviously needs a cleaner solution which also handles QuickTime
  *      on MacOS
  */
-#ifdef HAVE_FFMPEG
     gtk_grid_attach(GTK_GRID(options_grid), ffmpeg_widget_create(), 0, 1, 1,1);
-#endif
     video_driver_options_grid = options_grid;
 
-
-
     gtk_grid_attach(GTK_GRID(grid), options_grid, 0, 1, 1, 1);
+#else
+    label = gtk_label_new(NULL);
+    gtk_label_set_line_wrap_mode(GTK_LABEL(label), GTK_WRAP_WORD);
+    g_object_set(G_OBJECT(label),
+            "margin-left", 16,
+            "margin-right", 16,
+            "margin-top", 16, NULL);
+    gtk_label_set_markup(GTK_LABEL(label),
+            "Video recording is unavailable due to VICE having being compiled"
+            " without FFMPEG support.\nPlease recompile with either"
+            " <tt>--enable-static-ffmpeg</tt> or"
+            " <tt>--enable-external-ffmpeg</tt>.\n\n"
+            "If you didn't compile VICE yourself, ask your provider.");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-
+#endif
     gtk_widget_show_all(grid);
     return grid;
 }
