@@ -239,7 +239,7 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
     if (byte & 0x4) {
 #ifdef DEBUG_STEP
         if (new_stepper_position != old_stepper_position) {
-            DBGSTEP(("trk: %d.%d, old: %d new: %d steps: %d\n", 
+            DBGSTEP(("trk: %d.%d, old: %d new: %d steps: %d", 
                    (track_number+1) / 2, (track_number+1) & 1, 
                    old_stepper_position, new_stepper_position,
                    step_count
@@ -324,7 +324,7 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
         if (new_stepper_position != old_stepper_position) {
             if ((byte & 0x04) != 0) {
 #ifdef DEBUG_STEP
-            DBGSTEP(("motor: %d trk: %d.%d, old: %d new: %d steps: %d\n",
+                DBGSTEP(("motor: %d trk: %d.%d, old: %d new: %d steps: %d",
                     byte & 0x04, (track_number+1) / 2, (track_number+1) & 1, 
                     old_stepper_position, new_stepper_position, step_count));
 #endif
