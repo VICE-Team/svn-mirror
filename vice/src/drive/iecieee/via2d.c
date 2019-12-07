@@ -33,11 +33,18 @@
 #define OLDCODE 0    /* set to 1 to use the old ca2/cb2 handling code */
 
 /* #define DEBUG_VIA2 */
+/* #define DEBUG_STEP */
 
 #ifdef DEBUG_VIA2
 #define DBG(_x_) log_debug _x_
 #else
 #define DBG(_x_)
+#endif
+
+#ifdef DEBUG_STEP
+#define DBGSTEP(_x_) log_debug _x_
+#else
+#define DBGSTEP(_x_)
 #endif
 
 #include "vice.h"
@@ -179,6 +186,7 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
     drivevia2_context_t *via2p = (drivevia2_context_t *)(via_context->prv);
     drive_t *drv = via2p->drive;
     int bra;
+    int track_number, new_stepper_position, old_stepper_position, step_count;
 
 
     DBG(("VIA2: store_prb (%02x to %02x) clock:%d", poldpb, byte, *(via_context->clk_ptr)));
@@ -200,43 +208,53 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
        suggests a binary counter circuitry, but that is not the case, the similarity is just a side effect.
        Note, how switching the drive motor on/off may move the stepper motor as well.
     */
+    
+    /* vice track numbering starts with 2... we need the real, physical track number */
+    track_number = drv->current_half_track - 2;
+
+    /* the new coil line activated */
+    new_stepper_position = byte & 3;
+
+    /*
+        track halftrack stepper
+        log.  log.phys. position
+        1     2   0     0
+        1.5   3   1     1
+        2     4   2     2
+        2.5   5   3     3
+        3     6   4     0
+        3.5   7   5     1
+        ... */
+
+    old_stepper_position = track_number & 3;
+
+    /* the steps travelled and the direction */
+    /* int step_count = (drv->stepper_new_position - old_stepper_position) & 3; */
+    step_count = (new_stepper_position - old_stepper_position) & 3;    
+    if (step_count == 3) {
+        step_count = -1;
+    }
+    
     /* Process stepper motor if the drive motor is on */
     if (byte & 0x4) {
-
-        /* vice track numbering starts with 2... we need the real, physical track number */
-        int track_number = drv->current_half_track - 2;
-
-        /* the new coil line activated */
-        int new_stepper_position = byte & 3;
-
-        /*
-          track halftrack stepper
-          log.  log.phys. position
-          1     2   0     0
-          1.5   3   1     1
-          2     4   2     2
-          2.5   5   3     3
-          3     6   4     0
-          3.5   7   5     1
-          ... */
-
-        int old_stepper_position = track_number & 3;
-
-        /* FIXME: emulating the mechanical delay with such naive approach does
-                  not work, as the actual step is delayed to the next write to pb.
-                  regardless how long that will take. for one example that does
-                  not work like this, see bug #508
-
-           FIXME: we should implement the intended behaviour using an alarm
-                  instead.
-         */
-
-        /* the steps travelled and the direction */
-        /* int step_count = (drv->stepper_new_position - old_stepper_position) & 3; */
-        int step_count = (new_stepper_position - old_stepper_position) & 3;
-        if (step_count == 3) {
-            step_count = -1;
+#ifdef DEBUG_STEP
+        if (new_stepper_position != old_stepper_position) {
+            DBGSTEP(("trk: %d.%d, old: %d new: %d steps: %d\n", 
+                   (track_number+1) / 2, (track_number+1) & 1, 
+                   old_stepper_position, new_stepper_position,
+                   step_count
+                  ));
         }
+#endif
+        /* FIXME: emulating the mechanical delay with such naive approach does
+                not work, as the actual step is delayed to the next write to pb.
+                regardless how long that will take. for one example that does
+                not work like this, see bug #508
+
+         FIXME: we should implement the intended behaviour using an alarm
+                instead.
+        */
+
         /*
             minimal simulation of mechanical delay.
 
@@ -300,6 +318,20 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
                drv->byte_ready_edge = 0;
             }
         }
+/* enable this for experimental fix related to extra stepping when the motor
+   is turned on. (bug #1083 "Primitive 7 Sins") */
+#if 0
+        if (new_stepper_position != old_stepper_position) {
+            if ((byte & 0x04) != 0) {
+#ifdef DEBUG_STEP
+            DBGSTEP(("motor: %d trk: %d.%d, old: %d new: %d steps: %d\n",
+                    byte & 0x04, (track_number+1) / 2, (track_number+1) & 1, 
+                    old_stepper_position, new_stepper_position, step_count));
+#endif
+                drive_move_head(step_count, drv);
+            }
+        }
+#endif
     }
 
     drv->byte_ready_level = 0;
