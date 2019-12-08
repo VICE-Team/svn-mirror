@@ -155,7 +155,7 @@ static void store_watch(uint16_t addr, uint8_t value)
     mem_write_tab[mem_config][addr >> 8](addr, value);
 }
 
-void mem_toggle_watchpoints(int flag, void *context)
+static void mem_update_tap_ptrs(int flag)
 {
     if (flag) {
         _mem_read_tab_ptr = mem_read_tab_watch;
@@ -164,6 +164,11 @@ void mem_toggle_watchpoints(int flag, void *context)
         _mem_read_tab_ptr = mem_read_tab[mem_config];
         _mem_write_tab_ptr = mem_write_tab[mem_config];
     }
+}
+
+void mem_toggle_watchpoints(int flag, void *context)
+{
+    mem_update_tap_ptrs(flag);
     watchpoints_active = flag;
 }
 
@@ -221,13 +226,7 @@ void mem_pla_config_changed(void)
 
     c64pla_config_changed(tape_sense, tape_write_in, tape_motor_in, 1, 0x17);
 
-    if (watchpoints_active) {
-        _mem_read_tab_ptr = mem_read_tab_watch;
-        _mem_write_tab_ptr = mem_write_tab_watch;
-    } else {
-        _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[mem_config];
-    }
+    mem_update_tap_ptrs(watchpoints_active);
 
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
@@ -715,11 +714,6 @@ void mem_initialize_memory(void)
         mem_write_tab[i][0x100] = mem_write_tab[i][0];
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
     }
-
-    _mem_read_tab_ptr = mem_read_tab[7];
-    _mem_write_tab_ptr = mem_write_tab[7];
-    _mem_read_base_tab_ptr = mem_read_base_tab[7];
-    mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 
