@@ -232,7 +232,7 @@ AS_IF([test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xye
     AS_IF([test $yasm_maj -gt $YASM_VERSION_MAJOR], [yasm_ok=true])
     AS_IF([test $yasm_maj -eq $YASM_VERSION_MAJOR -a $yasm_min -gt $YASM_VERSION_MINOR], [yasm_ok=true])
     AS_IF([test $yasm_maj -eq $YASM_VERSION_MAJOR -a $yasm_min -eq $YASM_VERSION_MINOR -a $yasm_rev -ge $YASM_VERSION_BUILD], [yasm_ok=true])
-    AS_IF([x"$yasm_ok" != x"true"],
+    AS_IF([test x"$yasm_ok" != "xtrue"],
           [AC_MSG_ERROR([yasm $YASM_VERSION_MAJOR.$YASM_VERSION_MINOR.$YASM_VERSION_BUILD or higher required])])
   ], [])
   make_cmd=""
