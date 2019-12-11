@@ -124,10 +124,12 @@ static int video_driver_count = 0;
 static int screenshot_driver_index = -1;
 
 
+#ifdef HAVE_FFMPEG
 /** \brief  Index of currently selected video driver
  *
  */
 static int video_driver_index = 0;
+#endif  /* HAVE_FFMPEG */
 
 
 /** \brief  Index of currently selected audio driver
