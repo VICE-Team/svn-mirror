@@ -490,7 +490,7 @@ mv $BUILD_DIR/doc/readmes/Readme-$UI_TYPE.txt $BUILD_DIR/
 FONTS="CBM.ttf"
 echo "  copying fonts"
 for FONT in $FONTS ; do
-  cp "$TOP_DIR/data/fonts/$FONT" "$APP_FONTS/"
+  cp "$TOP_DIR/data/common/$FONT" "$APP_FONTS/"
 done
 
 if [ "$UI_TYPE" = "GTK3" ]; then
