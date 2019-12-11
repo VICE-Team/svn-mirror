@@ -201,7 +201,7 @@ AC_SUBST(VTE_CXXFLAGS)
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_LEX
-AS_IF([x"$LEX" = "x:"], [AC_MSG_ERROR([Could not find either flex or lex!])])
+AS_IF([test x"$LEX" = "x:"], [AC_MSG_ERROR([Could not find either flex or lex!])])
 
 AC_LIB_PROG_LD
 
