@@ -223,6 +223,8 @@ We welcome dqh in the team, who will take care of the macOS port.
 - Added * (all files) filter to the fliplist attach dialog. This will allow
   people to use Pi1541 *.lst files at their own peril.
 
+- Add proper statusbar messages when using the fliplist.
+
 - Add howto about creating a Gtk3-Windows cross-compiler on Debian with Fedora
   packages (aka FrankenVICE)
 
