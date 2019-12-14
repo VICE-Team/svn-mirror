@@ -239,6 +239,8 @@ We welcome dqh in the team, who will take care of the macOS port.
 - allow better control of the filter settings by removing tick marks
   of the sliders and adding spinboxes (6581+ReSID only)
 
+- Fix the 'media recording' dialog to not show empty widgets when FFMPEG support
+  is missing, show hint on compiling in FFMPEG instead.
 
 
 ** SDL fixes
