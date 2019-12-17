@@ -140,3 +140,10 @@ EXTRA_DIST = \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c
+
+# Extra MacOS stuff
+EXTRA_DIST = macOS-redirect-launcher.sh \
+	     macOS-wrap-ar.sh \
+	     macOS-wrap-ranlib.sh \
+	     macOS-bindist_osx.sh
+
