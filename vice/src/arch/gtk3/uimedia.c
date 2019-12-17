@@ -328,8 +328,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                     save_audio_recording_handler();
                     ui_display_recording(1);
                 } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
+#ifdef HAVE_FFMPEG
                     debug_gtk3("Video recording requested, driver %d.",
                             video_driver_index);
+#endif
                     save_video_recording_handler();
                     ui_display_recording(1);
                 }
@@ -551,8 +553,9 @@ static void save_video_recording_handler(void)
     gchar *filename;
     char *title;
     char *proposed;
-
+#ifdef HAVE_FFMPEG
     debug_gtk3("video driver index = %d.", video_driver_index);
+#endif
 
 #if 0
     display = video_driver_list[video_driver_index].display;
