@@ -145,5 +145,5 @@ EXTRA_DIST = \
 EXTRA_DIST = macOS-redirect-launcher.sh \
 	     macOS-wrap-ar.sh \
 	     macOS-wrap-ranlib.sh \
-	     macOS-bindist_osx.sh
+	     make-bindist_osx.sh
 
