@@ -123,6 +123,7 @@ EXTRA_DIST = \
 	archdep_stat.h \
 	archdep_tmpnam.h \
 	archdep_user_config_path.h \
+	archdep_unix.h \
 	archdep_usleep.h \
 	archdep_xdg.h \
 	archdep_amiga.h \
