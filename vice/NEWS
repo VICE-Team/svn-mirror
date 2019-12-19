@@ -107,7 +107,7 @@ We welcome dqh in the team, who will take care of the macOS port.
 -------------
 
 - Accurate emulation of ANE#imm and LAX#imm "magic constant" dependency on RDY.
-  All occurances of unstable use are being logged now. LAX#imm "magic constant"
+  All occurrences of unstable use are being logged now. LAX#imm "magic constant"
   changed to 0xEF, which makes the problem cases "spectipede" and "turrican 3"
   work.
 
@@ -133,7 +133,7 @@ We welcome dqh in the team, who will take care of the macOS port.
 ** SID fixes
 ------------
 
-- use model dependend floating output ttl values like in residfp
+- use model dependent floating output ttl values like in residfp
 
 
 ** Monitor
@@ -163,6 +163,9 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - respect error info in disk images (only when reading right now). Should trick
   some simple protections.
+
+- report 65535 blocks free rather than 0 so that applications that query
+  available disk space before saving work as expected, e.g. some BBSs
 
 
 ** C-64 fixes
@@ -196,6 +199,8 @@ We welcome dqh in the team, who will take care of the macOS port.
   vdc-split technique is now fully emulated. This rewrite attempts to emulate
   more how the VDC works internally, and how the video signal/screen react, so
   the border height etc is now more naturally handled.
+
+- Various misc VDC fixes, e.g. show blank lines with certain register combinations
 
 
 ** Gtk3 UI
