@@ -474,6 +474,8 @@ in touch.
 
 - fix assignment of user keymaps
 
+- fix Shift+P pausing the emulator, it now properly pauses with Alt+Shift+P
+
 
 ** SDL UI
 ---------
