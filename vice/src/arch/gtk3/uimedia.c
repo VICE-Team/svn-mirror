@@ -984,7 +984,7 @@ static GtkWidget *create_video_widget(void)
     gtk_grid_attach(GTK_GRID(grid), options_grid, 0, 1, 1, 1);
 #else
     label = gtk_label_new(NULL);
-    gtk_label_set_line_wrap_mode(GTK_LABEL(label), GTK_WRAP_WORD);
+    gtk_label_set_line_wrap_mode(GTK_LABEL(label), PANGO_WRAP_WORD);
     g_object_set(G_OBJECT(label),
             "margin-left", 16,
             "margin-right", 16,
