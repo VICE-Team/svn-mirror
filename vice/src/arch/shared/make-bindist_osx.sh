@@ -151,7 +151,7 @@ APP_MACOS=$APP_CONTENTS/MacOS
 APP_RESOURCES=$APP_CONTENTS/Resources
 APP_ETC=$APP_RESOURCES/etc
 APP_SHARE=$APP_RESOURCES/share
-APP_GUI=$APP_RESOURCES/lib/vice/gui
+APP_COMMON=$APP_RESOURCES/lib/vice/common
 APP_FONTS=$APP_RESOURCES/lib/vice/fonts
 APP_ICONS=$APP_RESOURCES/lib/vice/icons
 APP_ROMS=$APP_RESOURCES/lib/vice
@@ -207,7 +207,7 @@ mkdir -p $APP_LIB
 mkdir -p $APP_SHARE
 mkdir -p $APP_FONTS
 mkdir -p $APP_ICONS
-mkdir -p $APP_GUI
+mkdir -p $APP_COMMON
 
 # copy roms and data into bundle
 echo -n "[common ROMs] "
@@ -496,7 +496,7 @@ done
 if [ "$UI_TYPE" = "GTK3" ]; then
   # --- copy vice.gresource ---
   echo "  copying vice.gresource"
-  cp "src/arch/gtk3/data/vice.gresource" "$APP_GUI/"
+  cp "src/arch/gtk3/data/vice.gresource" "$APP_COMMON/"
 fi
 
 # --- sign apps with apple developer id ---
@@ -510,10 +510,20 @@ else
   # image name
   BUILD_IMG=$BUILD_DIR.dmg
   BUILD_TMP_IMG=$BUILD_DIR.tmp.dmg
+  DMG_DIR=.dmg.tmp
+
+  # Want the dmg folder to contain a single draggable folder
+  rm -rf $DMG_DIR
+  mkdir $DMG_DIR
+  ln -s /Applications $DMG_DIR/
+  mv $BUILD_DIR $DMG_DIR
   
   # Create the image and format it
   echo "  creating DMG"
-  hdiutil create -fs HFS+ -srcfolder $BUILD_DIR $BUILD_TMP_IMG -volname $BUILD_DIR -ov -quiet
+  hdiutil create -fs HFS+ -srcfolder $DMG_DIR $BUILD_TMP_IMG -volname $BUILD_DIR -ov -quiet
+
+  mv $DMG_DIR/$BUILD_DIR .
+  rm -rf $DMG_DIR
 
   # Compress the image
   echo "  compressing DMG"
