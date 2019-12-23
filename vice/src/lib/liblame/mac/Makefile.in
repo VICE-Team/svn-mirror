@@ -194,7 +194,6 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = 1.11 foreign $(top_srcdir)/ansi2knr
 EXTRA_DIST = \
-	.DS_Store \
 	LAME.mcp \
 	LAME_Carbon_Debug.pch \
 	LAME_Carbon_Final.pch \
