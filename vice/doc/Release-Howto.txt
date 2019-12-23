@@ -22,9 +22,16 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 - ANNOUNCE A CODE FREEZE ;)
 
-- make sure the version in configure.proto is updated and it's updated in other
-  files (index.html). This actually updates the user-visible version in the
-  binary, so it should happen only immediatly before the release.
+- make sure the version in configure.proto is updated
+
+VICE_VERSION_MAJOR=3
+VICE_VERSION_MINOR=4
+VICE_VERSION_BUILD=0
+
+- make sure the version is updated in other files (html/index.html). 
+
+These actually update the user-visible version in the binary/docs, so it should 
+happen only immediatly before the release.
 
 
 generate tarball:
