@@ -53,7 +53,7 @@ echo "  binary format: $BIN_FORMAT"
 
 # setup BUILD dir
 BUILD_DIR=VICE-macOS-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
-TOOL_DIR=$BUILD_DIR/tools
+TOOL_DIR=$BUILD_DIR/bin
 
 if [ -d $BUILD_DIR ]; then
   rm -rf $BUILD_DIR
@@ -87,7 +87,6 @@ elif [ "$UI_TYPE" = "SDL2" ]; then
   ROM_REMOVE="gtk3_*.v?m"
 fi
 
-DOC_REMOVE="Makefile.* *.c *.mak *.sh *.tex *.texi *.pl *.chm *.guide *.hlp *.inf building readmes"
 # define droppable file types
 DROP_TYPES="x64|p64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"
 DROP_FORMATS="x64 p64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
@@ -480,11 +479,15 @@ done
 # --- copy docs ---
 echo "  copying documents"
 cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
-cp README $BUILD_DIR/README.txt
-mkdir "$BUILD_DIR/doc"
-copy_tree "$TOP_DIR/doc" "$BUILD_DIR/doc"
-mv $BUILD_DIR/doc/readmes/Readme-$UI_TYPE.txt $BUILD_DIR/
-(cd $BUILD_DIR/doc && eval "rm -rf $DOC_REMOVE")
+
+mkdir $BUILD_DIR/doc
+cp README $BUILD_DIR/doc/README.txt
+cp doc/vice.pdf $BUILD_DIR/doc/
+
+# Readme-GTK3.txt is pointless but the others have content
+if [ "$UI_TYPE" != "GTK3" ]; then
+  cp "$TOP_DIR/doc/readmes/Readme-$UI_TYPE.txt" $BUILD_DIR/doc/
+fi
 
 # --- copy fonts ---
 FONTS="CBM.ttf"
