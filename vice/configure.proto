@@ -25,7 +25,7 @@ dnl Command-line options
 VICE_ARG_INIT()
 
 VICE_VERSION_MAJOR=3
-VICE_VERSION_MINOR=3
+VICE_VERSION_MINOR=4
 VICE_VERSION_BUILD=0
 
 VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system readline library])
