@@ -16,21 +16,25 @@ sudo xcodebuild -license accept
 
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+#
+# Optional - if you want to build vice.pdf or binary distributions
+#
+
+brew cask install basictex
+
 
 ---------
 Building:
 ---------
 
-brew cask install basictex
-brew install autoconf automake pkg-config texinfo
-brew install xa sdl2 lame
+brew install autoconf automake pkg-config texinfo xa lame
+brew install sdl2 libpng
 
-# get pdftex in PATH
 source /etc/profile
-
 ./autogen.sh
 ./configure --enable-sdlui2
-make -j install
+make -j
+make install
 
 #
 # At this point you have x64sc, x128 etc. binaries in /usr/local/bin.

@@ -16,18 +16,21 @@ sudo xcodebuild -license accept
 
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+#
+# Optional - if you want to build vice.pdf or binary distributions
+#
+
+brew cask install basictex
+
 
 -------------------------
 Configure without OpenGL:
 -------------------------
 
-brew cask install basictex
-brew install autoconf automake pkg-config texinfo
-brew install xa lame gtk+3 librsvg adwaita-icon-theme
+brew install autoconf automake pkg-config texinfo xa lame
+brew install gtk+3 librsvg adwaita-icon-theme
 
-# get pdftex in PATH
 source /etc/profile
-
 ./autogen.sh
 ./configure --enable-native-gtk3ui --disable-hwscale
 
@@ -51,13 +54,10 @@ Configure with OpenGL:
 # is slow AF, possibly slower than software scaling on some systems.
 #
 
-brew cask install basictex
-brew install autoconf automake pkg-config texinfo
-brew install xa lame gtk+3 librsvg adwaita-icon-theme glew
+brew install autoconf automake pkg-config texinfo xa lame
+brew install gtk+3 librsvg adwaita-icon-theme glew
 
-# get pdftex in PATH
 source /etc/profile
-
 ./autogen.sh
 ./configure --enable-native-gtk3ui
 
@@ -70,7 +70,8 @@ source /etc/profile
 Build:
 ------
 
-make -j install
+make -j
+make install
 
 #
 # At this point you have x64sc, x128 etc. binaries in /usr/local/bin.
