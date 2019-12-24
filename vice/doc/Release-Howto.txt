@@ -58,6 +58,10 @@ create a tagged branch on the svn
 
 $ svn cp <url of svn trunk> <url of svn tag>
 
+eg
+
+$ svn cp --username=gpz svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/trunk/ svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/tags/v3.4/
+
 
 publish the release
 -------------------
