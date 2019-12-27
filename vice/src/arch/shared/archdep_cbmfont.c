@@ -59,7 +59,7 @@ int archdep_register_cbmfont(void)
     unsigned int isdir;
 
     fontPath = archdep_join_paths(archdep_boot_path(),
-            "..", "lib", "vice", "common", "CBM.ttf", NULL);
+            "..", "lib", "vice", "fonts", "CBM.ttf", NULL);
     if (-1 == archdep_stat(fontPath, &len, &isdir)) {
         lib_free(fontPath);
 
