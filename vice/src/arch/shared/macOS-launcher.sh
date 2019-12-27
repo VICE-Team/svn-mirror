@@ -6,6 +6,7 @@
 # Written by
 #  Christian Vogelgsang <chris@vogelgsang.org>
 #  Michael C. Martin <mcmartin@gmail.com>
+#  David Hogan <david.q.hogan@gmail.com>
 #
 # inspired by Gimp.app of Aaron Voisine <aaron@voisine.org>
 #
@@ -35,49 +36,17 @@ dbgecho () {
   [ "$LOG_VICE_LAUNCHER" != "" ] && echo "$@" >> $HOME/vice_launcher.log
 }
 
-# --- find bundle name and resource dir ---
-SCRIPT_DIR="`dirname \"$0\"`"
-RESOURCES_DIR="`cd \"$SCRIPT_DIR/../Resources\" && pwd`"
-BUNDLE_DIR="`cd \"$SCRIPT_DIR/../..\" && pwd`"
-BUNDLE_NAME="`basename \"$BUNDLE_DIR\" .app`"
-dbgecho "BUNDLE_DIR=$BUNDLE_DIR"
-dbgecho "BUNDLE=$BUNDLE_NAME"
-dbgecho "ARGS=""$@"
+cd "$(dirname "$0")"
 
-# --- determine launch environment ---
-LAUNCH=cmdline
-# finder always appends a -psn_ switch
-echo "$1" | grep -e -psn_ > /dev/null
-if [ "$?" == "0" ]; then
-  LAUNCH=finder
-fi
-
-# --- setup environment ---
-# setup dylib path
-LIB_DIR="$RESOURCES_DIR/lib"
-if [ -d "$LIB_DIR" ]; then
-  export DYLD_FALLBACK_LIBRARY_PATH="$LIB_DIR"
-fi
-dbgecho "export DYLD_FALLBACK_LIBRARY_PATH=\"$LIB_DIR\""
-# setup path
-BIN_DIR="$RESOURCES_DIR/bin"
-if [ ! -d "$BIN_DIR" ]; then
-  dbgecho "Directory $BIN_DIR not found!"
-  exit 1
-fi
-export PATH="$BIN_DIR:/usr/X11R6/bin:$PATH"
-
-# GTK: setup fontconfig
-ETC_DIR="$RESOURCES_DIR/etc"
-if [ -d "$ETC_DIR/fonts" ]; then
-  export "FONTCONFIG_PATH=$ETC_DIR/fonts"
-fi
+source bin/common-runtime.sh
+source bin/ui-runtime.sh
 
 # --- find VICE binary ---
-# derive emu name from bundle name
-if [ "x$PROGRAM" = "x" ]; then
+# if not provided via $PROGRAM, derive emu name from executing script name
+# and fall back to an interactive user choice.
+if [ -z "$PROGRAM" ]; then
   EMUS="x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic"
-  case "$BUNDLE_NAME" in
+  case "$(basename "$0")" in
   x128*)
     PROGRAM=x128
     ;;
@@ -102,26 +71,20 @@ if [ "x$PROGRAM" = "x" ]; then
   xvic*)
     PROGRAM=xvic
     ;;
-  VICE*)
+  script*)
     # pick emu name in dialog
     PROGRAM=`osascript -e 'first item of (choose from list {"x128","x64dtv","x64sc","xcbm2","xcbm5x0","xpet","xplus4","xvic"} with title "VICE Emulator" with prompt "Please select an Emulator to run:" default items {"x64sc"})'`
     ;;
   *)
     # invalid bundle name
-    osascript -e 'display alert "Invalid Bundle Name! (use: VICE,x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic" buttons {"Abort"} with icon stop'
+    osascript -e 'display alert "Invalid Bundle Name / PROGRAM var! (use: x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic" buttons {"Abort"} with icon stop'
     PROGRAM=""
     ;;
   esac
 fi
 
 if [ "$PROGRAM" != "" ]; then
-  dbgecho "PROGRAM=$PROGRAM"
-  PROGRAM_PATH="$BIN_DIR/$PROGRAM"
-  dbgecho "PROGRAM_PATH=$PROGRAM_PATH"
-
-  # launch in cmd line without xterm
-  dbgecho "CMDLINE ARGS=""$@"
-  nohup "$PROGRAM_PATH" "$@" </dev/null >/dev/null 2>&1 &
+  "$BUNDLE_BIN/$PROGRAM" "$@"
 fi
 
 exit 0

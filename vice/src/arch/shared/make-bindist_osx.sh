@@ -53,14 +53,14 @@ echo "  binary format: $BIN_FORMAT"
 
 # setup BUILD dir
 BUILD_DIR=VICE-macOS-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
-TOOL_DIR=$BUILD_DIR/bin
+BIN_DIR=$BUILD_DIR/bin
 
 if [ -d $BUILD_DIR ]; then
   rm -rf $BUILD_DIR
 fi
 
 mkdir $BUILD_DIR
-mkdir $TOOL_DIR
+mkdir $BIN_DIR
 
 # define emulators and command line tools
 EMULATORS="xscpu64 x64dtv x64sc x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
@@ -91,8 +91,9 @@ fi
 DROP_TYPES="x64|p64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"
 DROP_FORMATS="x64 p64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
 
-# launcher scripts
-LAUNCHER=macOS-launcher.sh
+# runtime scripts
+MACOS_SCRIPTS=macOS-runtime-scripts.inc
+LAUNCHER=../shared/macOS-launcher.sh
 REDIRECT_LAUNCHER=../shared/macOS-redirect-launcher.sh
 
 copy_tree () {
@@ -110,23 +111,39 @@ create_info_plist () {
       < "$SRC" > "$TGT"
 }
 
+resolve_link () {
+  local link=$1
+  local link_target=$(readlink $link)
+
+  echo "$(cd $(dirname $link) && cd $(dirname $link_target) && pwd -P)/$(basename $link_target)"
+}
+
 copy_lib_recursively () {
-    local lib=$1
-    local lib_basename=`basename $lib`
-    local lib_dest="$APP_LIB/$lib_basename"
+  local lib="$1"
+  local lib_basename=`basename "$lib"`
+  local lib_dest="$APP_LIB/$lib_basename"
 
-    if [ -e "$lib_dest" ]; then
-      return
-    fi
+  if [ -e "$lib_dest" ]; then
+    return
+  fi
 
-    cp $lib $lib_dest
+  if [ -L "$lib" ]; then
+    # Symbolic link! Create the link first, then deal with the target.
+    # <lib>.<version>.dylib often reference <lib>.dylib which would
+    # cause more recrursion if the link doesn't exit yet.
+    local link_target=$(resolve_link "$lib")
+    ln -s "$(basename $link_target)" "$lib_dest"
+    copy_lib_recursively "$link_target"
+  else
+    cp "$lib" "$lib_dest"
+  fi
 
-    # Process this lib's libs
-    LIB_LIBS=`otool -L $lib_dest | egrep '^\s+/(opt|usr)/local/' | grep -v $lib_basename | awk '{print $1}'`
+  # Process this lib's libs
+  LIB_LIBS=`otool -L "$lib_dest" | egrep '^\s+/(opt|usr)/local/' | grep -v "$lib_basename" | awk '{print $1}'`
 
-    for lib_lib in $LIB_LIBS; do
-        copy_lib_recursively $lib_lib
-    done
+  for lib_lib in $LIB_LIBS; do
+    copy_lib_recursively "$lib_lib"
+  done
 }
 
 # --- create bundle ---
@@ -192,11 +209,6 @@ if [ $PLATYPUS_STATUS -ne 0 ]; then
   echo "ERROR: platypus failed with $PLATYPUS_STATUS"
   exit $PLATYPUS_STATUS
 fi
-
-# # destination for launcher script
-# LAUNCHER_SCRIPT_REL="Resources/script"
-# # make launcher executable
-# chmod 755 $APP_RESOURCES/script
 
 echo -n "[dirs] "
 mkdir -p $APP_ROMS
@@ -335,13 +347,18 @@ done
 
 
 # --- runtime depenencies ---
+cp "$TOP_DIR/src/arch/shared/macOS-common-runtime.sh" "$APP_BIN/common-runtime.sh"
 
-
-# Can use dtrace in a terminal and run vsid.app to find these:
+# Can use dtrace in a terminal and run vsid.app to find runtime libs that aren't directly linked:
 # sudo dtrace -n 'syscall::stat*:entry /execname=="vsid"/ { printf("%s", copyinstr(arg0)); }'
 # sudo dtrace -n 'syscall::open*:entry /execname=="vsid"/ { printf("%s", copyinstr(arg0)); }'
 
-if [ "$UI_TYPE" = "GTK3" ]; then
+if [ "$UI_TYPE" = "SDL2" ]; then
+  cp "$TOP_DIR/src/arch/sdl/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
+elif [ "$UI_TYPE" = "GTK3" ]; then
+  cp "$TOP_DIR/src/arch/gtk3/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
+
+  # Gtk runtime stuff
   cp -r /usr/local/lib/gdk-pixbuf-* $APP_LIB
   cp -r /usr/local/lib/gtk-3.* $APP_LIB
   cp -r /usr/local/etc/gtk-3.* $APP_ETC
@@ -405,15 +422,22 @@ fi
 
 # .so libs need their libs too
 for lib in `find $APP_LIB -name '*.so'`; do
-    LIB_LIBS=`otool -L $lib | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
+  LIB_LIBS=`otool -L $lib | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
 
-    for lib_lib in $LIB_LIBS; do
-        copy_lib_recursively $lib_lib
-    done
+  for lib_lib in $LIB_LIBS; do
+    copy_lib_recursively $lib_lib
+  done
 done
 
-# Something loads this at runtime, thankfully DYLD_FALLBACK_LIBRARY_PATH will be searched for it
+# Some libs are loaded at runtime, thankfully DYLD_FALLBACK_LIBRARY_PATH will be searched for them
 copy_lib_recursively /usr/local/lib/libmp3lame.dylib
+
+copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libavformat.*.dylib')
+copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libavcodec.*.dylib')
+copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libavutil.*.dylib')
+copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libswscale.*.dylib')
+copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libswresample.*.dylib')
+
 
 # --- update lib linking ---
 
@@ -458,22 +482,28 @@ for tool in $TOOLS ; do
     echo "ERROR: missing binary: src/$tool"
     exit 1
   fi
-  cp src/$tool $TOOL_DIR/
+  cp src/$tool $BIN_DIR/
   
   # strip binary
   if [ x"$STRIP" = "xstrip" ]; then
     echo -n "[strip] "
-    /usr/bin/strip $TOOL_DIR/$tool
+    /usr/bin/strip $BIN_DIR/$tool
   fi
 
   # ready
   echo
 done
 
-# --- copy general command line launcher ---
-echo "  linking example command line launchers"
+# --- create general command line launchers ---
+echo "  creating command line launchers"
 for emu in $EMULATORS ; do
-  (cd $TOOL_DIR && ln -s ../VICE.app/Contents/Resources/bin/$emu)
+  cat <<-"  HEREDOC" > "$BIN_DIR/$emu"
+    #!/bin/bash
+    cd $(dirname "$0")
+    export PROGRAM="$(basename "$0")"
+    ../VICE.app/Contents/Resources/script
+  HEREDOC
+  chmod +x "$BIN_DIR/$emu"
 done
 
 # --- copy docs ---
