@@ -30,7 +30,7 @@
 # See https://gitlab.gnome.org/GNOME/gtk-mac-bundler
 
 # Fontconfig
-export "FONTCONFIG_PATH=$BUNDLE_LIB/vice/fonts"
+export FONTCONFIG_PATH="$BUNDLE_LIB/vice/fonts"
 
 export XDG_CONFIG_DIRS="$BUNDLE_ETC"/xdg
 export XDG_DATA_DIRS="$BUNDLE_SHARE"
