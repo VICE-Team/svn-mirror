@@ -142,6 +142,8 @@ EXTRA_DIST = \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
 	\
+	macOS-common-runtime.sh \
+	macOS-launcher.sh \
 	macOS-redirect-launcher.sh \
 	macOS-wrap-ar.sh \
 	macOS-wrap-ranlib.sh \

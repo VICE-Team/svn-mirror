@@ -220,7 +220,7 @@ EXTRA_DIST = \
 	make-bindist_skyos.sh \
 	make-bindist_win32.sh \
 	Info.plist \
-	macOS-launcher.sh \
+	macOS-ui-runtime.sh \
 	Resources/VICE.icns \
 	vice-launcher.sh \
 	x11-launcher.sh
