@@ -1268,7 +1268,9 @@ if test x"$check_sdl2" = "xyes"; then
                   [AC_MSG_RESULT(yes);
                    use_sdl_prefix=no;
                    use_sdl2_prefix=yes;
-                   found_sdl2=yes],
+                   found_sdl2=yes;
+                   VICE_CFLAGS="$CFLAGS";
+                   VICE_CXXFLAGS="$CXXFLAGS"],
                   [AC_MSG_RESULT(no)])
 
       if test x"$found_sdl2" != "xyes"; then
@@ -1278,7 +1280,9 @@ if test x"$check_sdl2" = "xyes"; then
                     [AC_MSG_RESULT(yes);
                      use_sdl_prefix=no;
                      use_sdl2_prefix=no;
-                     found_sdl2=yes],
+                     found_sdl2=yes;
+                     VICE_CFLAGS="$CFLAGS";
+                     VICE_CXXFLAGS="$CXXFLAGS"],
                     [AC_MSG_RESULT(no)])
       fi
 
@@ -1313,6 +1317,11 @@ if test x"$check_sdl2" = "xyes"; then
     else
         check_sdl2audio=yes
     fi
+
+	user_CFLAGS="$CFLAGS"
+	user_CXXFLAGS="$CXXFLAGS"
+	CFLAGS="$VICE_CFLAGS"
+	CXXFLAGS="$VICE_CXXFLAGS"
 
     dnl only do if audio needs to be checked
     if test x"$check_sdl2audio" = "xyes"; then
@@ -1374,6 +1383,9 @@ if test x"$check_sdl2" = "xyes"; then
           ;;
       esac
     fi
+
+	CFLAGS="$user_CFLAGS"
+	CXXFLAGS="$user_CXXFLAGS"
   fi
 fi
 
