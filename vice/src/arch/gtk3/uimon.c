@@ -71,6 +71,9 @@
 #include "uidata.h"
 
 
+#define VTE_CSS \
+    "vte-terminal { font-size: 300%; }"
+
 /** \brief  Monitor console window object
  *
  * Again, guess work. Someone, not me, should have documented this.
@@ -406,6 +409,8 @@ console_t *uimon_window_open(void)
     GtkWidget *scrollbar, *horizontal_container;
     GdkGeometry hints;
     GdkPixbuf *icon;
+    const PangoFontDescription *desc_tmp;
+    PangoFontDescription *desc;
 
     if (native_monitor()) {
         return uimonfb_window_open();
@@ -469,6 +474,14 @@ console_t *uimon_window_open(void)
             G_CALLBACK (screen_resize_window_cb2), NULL);
 
         vte_console.console_can_stay_open = 1;
+
+
+        desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
+        desc = pango_font_description_copy_static(desc_tmp);
+        /* pango_font_description_set_style(desc, PANGO_STYLE_ITALIC); */
+        pango_font_description_set_family(desc, "monospace");
+        vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
+        pango_font_description_free(desc);
     }
     return uimon_window_resume();
 }
@@ -702,9 +715,11 @@ int console_init(void)
     char *short_name;
     int takes_filename_as_arg;
 
+
     if (native_monitor()) {
         return consolefb_init();
     }
+
 
     while (mon_get_nth_command(i++,
                 &full_name,
