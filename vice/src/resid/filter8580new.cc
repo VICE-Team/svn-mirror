@@ -213,7 +213,7 @@ static model_filter_init_t model_filter_init[2] = {
     9.09,
     0.80,
     26.0e-3,
-    1.0,
+    1.40,
     50e-6, // 10e-6,
     // FIXME: 6581 only
     0,
