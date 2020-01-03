@@ -244,7 +244,7 @@ static void pet_io_callback(int state)
 /*
  * C64(sc) model change handling
  */
-
+static void c64_misc_widget_sync(void);
 
 static void machine_model_handler_c64(int model)
 {
@@ -263,6 +263,12 @@ static void machine_model_handler_c64(int model)
 
     /* synchronize CIA widget */
     cia_model_widget_sync(cia_widget);
+    
+    /* synchronize kernal-revision widget */
+    kernal_revision_widget_sync(kernal_widget);
+    
+    /* synchronize misc widget */
+    c64_misc_widget_sync();
 }
 
 
@@ -383,13 +389,15 @@ static void vic20_video_callback(int model)
 
 /** \brief  Callback for VIC-20 machine model changes
  *
- * \param[in]   model   VIC-29 model
+ * \param[in]   model   VIC-20 model
  */
 static void machine_model_handler_vic20(int model)
 {
-    /* update VIC-II model widget */
+    /* update VIC model widget */
     video_model_widget_update(video_widget);
 
+    /* FIXME: */
+    /* vic20_memory_expansion_widget_sync(); */
 }
 
 
@@ -567,7 +575,17 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
     }
 }
 
+static GtkWidget *reset_to_iec_widget = NULL;
 
+/** \brief  Sync "Reset-to-IEC" widget with the associated resource
+ *
+ */
+static void c64_reset_to_iec_sync(void)
+{
+    int iecreset = 0;
+    resources_get_int("IECReset", &iecreset);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(reset_to_iec_widget), iecreset);
+}
 
 /** \brief  Create widget to toggle "Reset-to-IEC"
  *
@@ -575,10 +593,9 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_reset_to_iec_widget(void)
 {
-    return vice_gtk3_resource_check_button_new("IECReset",
+    return reset_to_iec_widget = vice_gtk3_resource_check_button_new("IECReset",
             "Reset goes to IEC");
 }
-
 
 /** \brief  Create widget to toggle "Go64Mode"
  *
@@ -591,6 +608,23 @@ static GtkWidget *create_go64_widget(void)
 }
 
 
+GtkWidget *c64_discrete_radio = NULL;
+GtkWidget *c64_custom_radio = NULL;
+
+/** \brief  Sync "Glue Logic" widget with the associated resource
+ *
+ */
+static void c64_glue_widget_sync(void)
+{
+    int glue;
+    GtkWidget *radio;
+
+    resources_get_int("GlueLogic", &glue);
+    radio = (glue == 0) ? c64_discrete_radio : c64_custom_radio;
+    if (radio) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+    }
+}
 
 /** \brief  Create widget to select C64SC Glue Logic
  *
@@ -600,8 +634,6 @@ static GtkWidget *create_c64_glue_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *discrete_radio;
-    GtkWidget *custom_radio;
     GtkWidget *radio;
     GSList *group = NULL;
 
@@ -616,21 +648,21 @@ static GtkWidget *create_c64_glue_widget(void)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    discrete_radio = gtk_radio_button_new_with_label(group, "Discrete");
-    custom_radio = gtk_radio_button_new_with_label(group, "Custom IC");
-    gtk_radio_button_join_group(GTK_RADIO_BUTTON(custom_radio),
-            GTK_RADIO_BUTTON(discrete_radio));
+    c64_discrete_radio = gtk_radio_button_new_with_label(group, "Discrete");
+    c64_custom_radio = gtk_radio_button_new_with_label(group, "Custom IC");
+    gtk_radio_button_join_group(GTK_RADIO_BUTTON(c64_custom_radio),
+            GTK_RADIO_BUTTON(c64_discrete_radio));
 
-    radio = glue == 0 ? discrete_radio : custom_radio;
+    radio = glue == 0 ? c64_discrete_radio : c64_custom_radio;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
 
-    g_signal_connect(discrete_radio, "toggled",
+    g_signal_connect(c64_discrete_radio, "toggled",
             G_CALLBACK(on_c64_glue_toggled), GINT_TO_POINTER(0));
-    g_signal_connect(custom_radio, "toggled",
+    g_signal_connect(c64_custom_radio, "toggled",
             G_CALLBACK(on_c64_glue_toggled), GINT_TO_POINTER(1));
 
-    gtk_grid_attach(GTK_GRID(grid), discrete_radio, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), custom_radio, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), c64_discrete_radio, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), c64_custom_radio, 2, 0, 1, 1);
 
 
     gtk_widget_show_all(grid);
@@ -666,6 +698,12 @@ static GtkWidget *create_c64_misc_widget(void)
 
     gtk_widget_show_all(grid);
     return grid;
+}
+
+static void c64_misc_widget_sync(void)
+{
+    c64_glue_widget_sync();   
+    c64_reset_to_iec_sync();
 }
 
 

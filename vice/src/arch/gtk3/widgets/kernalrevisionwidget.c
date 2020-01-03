@@ -151,3 +151,15 @@ void kernal_revision_widget_update(GtkWidget *widget, int revision)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
     }
 }
+
+void kernal_revision_widget_sync(GtkWidget *widget)
+{
+    int revision, index;
+    GtkWidget *radio;
+
+    resources_get_int("KernalRev", &revision);
+    index = get_revision_index(revision);
+    /* when index == -1 the 'Unknown' radio button is activated */
+    radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, index + 2);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+}
