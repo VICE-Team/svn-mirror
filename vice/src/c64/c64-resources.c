@@ -183,7 +183,7 @@ static int set_kernal_revision(int val, void *param)
 {
     int trapfl;
 
-    log_verbose("set_kernal_revision val:%d kernal_revision: %d", val, kernal_revision);
+    log_verbose("set_kernal_revision (\"KernalRev\") val:%d kernal_revision: %d", val, kernal_revision);
     if(!c64rom_isloaded()) {
         return 0;
     }
@@ -205,7 +205,7 @@ static int set_kernal_revision(int val, void *param)
         resources_set_int("VirtualDevices", trapfl);
     }
     kernal_revision = val;
-    log_verbose("set_kernal_revision new kernal_revision: %d", kernal_revision);
+    log_verbose("set_kernal_revision (\"KernalRev\") new kernal_revision: %d", kernal_revision);
     return 0;
 }
 
