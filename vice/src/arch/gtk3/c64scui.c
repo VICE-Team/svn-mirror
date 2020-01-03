@@ -79,7 +79,7 @@ static const char *c64_model_list[] = {
     "C64 SX PAL", "C64 SX NTSC",
     "Japanese", "C64 GS",
     "PET64 PAL", "PET64 NTSC",
-    "Ultimax", NULL };
+    "MAX Machine", NULL };
 
 
 /** \brief  List of VIC-II models
