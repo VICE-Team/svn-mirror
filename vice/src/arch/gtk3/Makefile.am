@@ -113,7 +113,6 @@ libarch_a_SOURCES = \
 	vsyncarch.c
 
 EXTRA_DIST = \
-	Info.plist \
 	Resources/VICE.icns \
 	archdep.h \
 	cairo_renderer.h \

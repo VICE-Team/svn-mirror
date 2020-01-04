@@ -1,4 +1,6 @@
 #!/bin/bash
+set -o errexit
+set -o nounset
 
 #
 # make-bindist.sh - make binary distribution for the Mac OSX port
@@ -32,35 +34,23 @@
 echo "Generating macOS binary distribution."
 echo "  UI type: $UI_TYPE"
 
-# check binary type
-TEST_BIN=src/x64sc
-if [ ! -x $TEST_BIN ]; then
-  echo "error missing binary $TEST_BIN"
-  exit 1
-fi
-BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | sed -e 's/executable//g' -e 's/Mach-O//g' -e 's/64-bit//g' | awk '{print $2}'`
-if [ x"$BIN_TYPE" = "xi386" ]; then
-  BIN_FORMAT=i386
-elif [ x"$BIN_TYPE" = "xx86_64" ]; then
-  BIN_FORMAT=x86_64
-elif [ x"$BIN_TYPE" = "xppc" ]; then
-  BIN_FORMAT=ppc
-else
-  echo "fatal: unknown bin type '$BIN_TYPE'"
-  exit 1
-fi
-echo "  binary format: $BIN_FORMAT"
-
 # setup BUILD dir
-BUILD_DIR=VICE-macOS-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
-BIN_DIR=$BUILD_DIR/bin
+BUILD_DIR=VICE-$UI_TYPE-$VICE_VERSION
+
+SVN_VERSION=$(svn info --show-item revision "$TOP_DIR" 2>/dev/null || true)
+if [[ ! -z "$SVN_VERSION" ]]; then
+  BUILD_DIR="$BUILD_DIR-r$SVN_VERSION"
+  # if the source is not clean, add '-uncommitted-changes' to the name
+  if [[ ! -z "$(svn status -q "$TOP_DIR")" ]]; then
+    BUILD_DIR="$BUILD_DIR-uncommitted-changes"
+  fi
+fi
 
 if [ -d $BUILD_DIR ]; then
   rm -rf $BUILD_DIR
 fi
 
 mkdir $BUILD_DIR
-mkdir $BIN_DIR
 
 # define emulators and command line tools
 EMULATORS="xscpu64 x64dtv x64sc x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
@@ -79,8 +69,8 @@ ROM_xpet=PET
 ROM_xplus4=PLUS4
 ROM_xvic=VIC20
 ROM_vsid=C64
-# files to remove from ROM directory
 
+# files to remove from ROM directory
 if [ "$UI_TYPE" = "GTK3" ]; then
   ROM_REMOVE="sdl_*.v?m"
 elif [ "$UI_TYPE" = "SDL2" ]; then
@@ -100,17 +90,6 @@ copy_tree () {
   (cd "$1" && tar --exclude 'Makefile*' --exclude .svn -c -f - .) | (cd "$2" && tar xf -)
 }
 
-create_info_plist () {
-  SRC="$1"
-  TGT="$2"
-
-  # add filetypes to Info.plist
-  
-  sed -e "s/XVERSIONX/$VICE_VERSION/g" \
-      -e "s/XNAMEX/$BUNDLE/g" \
-      < "$SRC" > "$TGT"
-}
-
 resolve_link () {
   local link=$1
   local link_target=$(readlink $link)
@@ -127,16 +106,7 @@ copy_lib_recursively () {
     return
   fi
 
-  if [ -L "$lib" ]; then
-    # Symbolic link! Create the link first, then deal with the target.
-    # <lib>.<version>.dylib often reference <lib>.dylib which would
-    # cause more recrursion if the link doesn't exit yet.
-    local link_target=$(resolve_link "$lib")
-    ln -s "$(basename $link_target)" "$lib_dest"
-    copy_lib_recursively "$link_target"
-  else
-    cp "$lib" "$lib_dest"
-  fi
+  cp "$lib" "$lib_dest"
 
   # Process this lib's libs
   LIB_LIBS=`otool -L "$lib_dest" | egrep '^\s+/(opt|usr)/local/' | grep -v "$lib_basename" | awk '{print $1}'`
@@ -148,18 +118,6 @@ copy_lib_recursively () {
 
 # --- create bundle ---
 
-# make sure icon is available
-if [ ! -e $RUN_PATH/Resources/VICE.icns ]; then
-  echo "ERROR: missing icon: $RUNPATH/Resources/VICE.icns"
-  exit 1
-fi
-
-# make sure Info.plist is available
-if [ ! -e $RUN_PATH/Info.plist ]; then
-  echo "ERROR: missing: $RUN_PATH/Info.plist"
-  exit 1
-fi
-
 BUNDLE="VICE"
 APP_NAME=$BUILD_DIR/$BUNDLE.app
 APP_CONTENTS=$APP_NAME/Contents
@@ -168,7 +126,6 @@ APP_RESOURCES=$APP_CONTENTS/Resources
 APP_ETC=$APP_RESOURCES/etc
 APP_SHARE=$APP_RESOURCES/share
 APP_COMMON=$APP_RESOURCES/lib/vice/common
-APP_FONTS=$APP_RESOURCES/lib/vice/fonts
 APP_ICONS=$APP_RESOURCES/lib/vice/icons
 APP_ROMS=$APP_RESOURCES/lib/vice
 APP_DOCS=$APP_RESOURCES/lib/vice/doc
@@ -180,45 +137,52 @@ echo -n "    "
 
 # --- use platypus for bundling ---
 
-set +o errexit
-PLATYPUS_PATH="`which platypus`"
-set -o errexit
+
+PLATYPUS_PATH="/opt/local/bin/platypus"
 if [ -e "$PLATYPUS_PATH" ]; then
   PLATYPUS_VERSION=`$PLATYPUS_PATH -v | cut -f 3 -d ' '`
   echo "  using platypus: $PLATYPUS_PATH version $PLATYPUS_VERSION"
 else
-  echo "ERROR: platypus not found (brew install platypus)"
+  echo "ERROR: platypus not found (sudo port install platypus)"
   exit 1
 fi
 
-# create a dedicated .app bundle that launches via VICE.app
-echo -n "[platypus] "
-$PLATYPUS_PATH \
-    -a VICE \
-    -o None \
-    -i $RUN_PATH/Resources/VICE.icns \
-    -V "$VICE_VERSION" \
-    -u "The VICE Team" \
-    -I "org.viceteam.VICE" \
-    -c $RUN_PATH/$LAUNCHER \
-    -R \
-    -B \
-    $APP_NAME
-PLATYPUS_STATUS=$?
-if [ $PLATYPUS_STATUS -ne 0 ]; then
-  echo "ERROR: platypus failed with $PLATYPUS_STATUS"
-  exit $PLATYPUS_STATUS
-fi
+make_app_bundle() {
+  local app_name=$1
+  local app_path=$BUILD_DIR/$app_name.app
+  local app_launcher=$2
+
+  echo -n "[platypus] "
+  $PLATYPUS_PATH \
+      -a $app_name \
+      -o None \
+      -i "$RUN_PATH/Resources/VICE.icns" \
+      -V "$VICE_VERSION" \
+      -u "The VICE Team" \
+      -I "org.viceteam.$app_name" \
+      -c "$2" \
+      -R \
+      -B \
+      "$app_path"
+  PLATYPUS_STATUS=$?
+  if [ $PLATYPUS_STATUS -ne 0 ]; then
+    echo "ERROR: platypus failed with $PLATYPUS_STATUS"
+    exit $PLATYPUS_STATUS
+  fi
+}
+
+make_app_bundle $BUNDLE $RUN_PATH/$LAUNCHER
 
 echo -n "[dirs] "
+mkdir -p $APP_ETC
+mkdir -p $APP_SHARE
+mkdir -p $APP_COMMON
+mkdir -p $APP_ICONS
 mkdir -p $APP_ROMS
 mkdir -p $APP_DOCS
 mkdir -p $APP_BIN
 mkdir -p $APP_LIB
-mkdir -p $APP_SHARE
-mkdir -p $APP_FONTS
-mkdir -p $APP_ICONS
-mkdir -p $APP_COMMON
+
 
 # copy roms and data into bundle
 echo -n "[common ROMs] "
@@ -251,19 +215,6 @@ if [ x"$STRIP" = "xstrip" ]; then
   echo -n "[strip c1541] "
   /usr/bin/strip $APP_BIN/c1541
 fi
-
-# # any dylibs required?
-# if [ -d lib ]; then
-#   mkdir -p $APP_LIB
-#   DYLIBS=`find lib -name *.dylib`
-#   NUMDYLIBS=`echo $DYLIBS | wc -w`
-#   echo -n "[dylibs"
-#   for lib in $DYLIBS ; do
-#     echo -n "."
-#     cp $lib $APP_LIB
-#   done
-#   echo -n "] "
-# fi
 
 # any config files from /etc?
 if [ -d etc ]; then
@@ -325,24 +276,7 @@ for emu in $BINARIES ; do
   # ready
   echo
 
-  # create a dedicated .app bundle that launches via VICE.app
-  echo -n "[platypus] "
-  $PLATYPUS_PATH \
-      -a $emu \
-      -o None \
-      -i $RUN_PATH/Resources/VICE.icns \
-      -V "$VICE_VERSION" \
-      -u "The VICE Team" \
-      -I "org.viceteam.VICE" \
-      -c $RUN_PATH/$REDIRECT_LAUNCHER \
-      -R \
-      -B \
-      $BUILD_DIR/$emu
-  PLATYPUS_STATUS=$?
-  if [ $PLATYPUS_STATUS -ne 0 ]; then
-    echo "ERROR: platypus failed with $PLATYPUS_STATUS"
-    exit $PLATYPUS_STATUS
-  fi
+  make_app_bundle $emu $RUN_PATH/$REDIRECT_LAUNCHER
 done
 
 
@@ -350,8 +284,8 @@ done
 cp "$TOP_DIR/src/arch/shared/macOS-common-runtime.sh" "$APP_BIN/common-runtime.sh"
 
 # Can use dtrace in a terminal and run vsid.app to find runtime libs that aren't directly linked:
-# sudo dtrace -n 'syscall::stat*:entry /execname=="vsid"/ { printf("%s", copyinstr(arg0)); }'
-# sudo dtrace -n 'syscall::open*:entry /execname=="vsid"/ { printf("%s", copyinstr(arg0)); }'
+# sudo dtrace -n 'syscall::*stat*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
+# sudo dtrace -n 'syscall::*open*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
 
 if [ "$UI_TYPE" = "SDL2" ]; then
   cp "$TOP_DIR/src/arch/sdl/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
@@ -359,18 +293,15 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
   cp "$TOP_DIR/src/arch/gtk3/macOS-ui-runtime.sh" "$APP_BIN/ui-runtime.sh"
 
   # Gtk runtime stuff
-  cp -r /usr/local/lib/gdk-pixbuf-* $APP_LIB
-  cp -r /usr/local/lib/gtk-3.* $APP_LIB
-  cp -r /usr/local/etc/gtk-3.* $APP_ETC
-  cp -r /usr/local/share/glib-* $APP_SHARE
+  cp -r /opt/local/lib/gdk-pixbuf-2.0 $APP_LIB
+  cp -r /opt/local/etc/gtk-3.0 $APP_ETC
+  cp -r /opt/local/share/glib-2.0 $APP_SHARE
 
-  # various locale stuff
-  mkdir $APP_SHARE/locale
-  cp -r /usr/local/opt/gettext/share/locale/* $APP_SHARE/locale
-  cp -r /usr/local/opt/gtk+3/share/locale/* $APP_SHARE/locale
+  # Get rid of any compiled python that came with glib share
+  find $APP_SHARE -name '*.pyc' -exec rm {} \;
 
   import_scalable_gtk_icons() {
-    local in_icons="/usr/local/share/icons/$1"
+    local in_icons="/opt/local/share/icons/$1"
     local out_icons="$APP_SHARE/icons/$1"
 
     mkdir "$out_icons"
@@ -406,18 +337,16 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
     cp -r "$in_icons/scalable" "$out_icons/"
 
     # create the icon-theme.cache file
-    gtk3-update-icon-cache "$out_icons/"
+    gtk-update-icon-cache-3.0 "$out_icons/"
   }
 
   mkdir $APP_SHARE/icons
+
   import_scalable_gtk_icons Adwaita
 
-  # dqh: disabled hicolor on macos as i don't think it's the full version and it doesn't
-  # appear to be used ...
-  #
-  # # hicolor is small, just copy it. It doesn't have any scalable assets.
-  # cp -r /usr/local/share/icons/hicolor "$APP_SHARE/icons/"
-  # gtk3-update-icon-cache "$APP_SHARE/icons/hicolor"
+  # hicolor is small, just copy it. It doesn't have any scalable assets.
+  cp -r /opt/local/share/icons/hicolor "$APP_SHARE/icons/"
+  gtk-update-icon-cache-3.0 "$APP_SHARE/icons/hicolor"
 fi
 
 # .so libs need their libs too
@@ -430,13 +359,30 @@ for lib in `find $APP_LIB -name '*.so'`; do
 done
 
 # Some libs are loaded at runtime, thankfully DYLD_FALLBACK_LIBRARY_PATH will be searched for them
-copy_lib_recursively /usr/local/lib/libmp3lame.dylib
+copy_lib_recursively /opt/local/lib/libmp3lame.dylib
 
-copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libavformat.*.dylib')
-copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libavcodec.*.dylib')
-copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libavutil.*.dylib')
-copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libswscale.*.dylib')
-copy_lib_recursively $(find /usr/local/opt/ffmpeg/lib -type f -name 'libswresample.*.dylib')
+
+# --- deduplicate libs ---
+
+echo "Deduplicating libs ..."
+
+for lib in $(find $APP_LIB -name '*.dylib' | sort -V -r); do
+  if [ -L "$lib" ]; then
+    continue
+  fi
+
+  for potential_duplicate in $(find $APP_LIB -type f -name '*.dylib' | sort -V -r); do
+    if [ "$potential_duplicate" = "$lib" ]; then
+      continue
+    fi
+
+    if cmp -s "$potential_duplicate" "$lib"; then
+      echo "Replacing $(basename $potential_duplicate) with symlink to $(basename $lib)"
+      rm "$potential_duplicate"
+      ln -s "$(basename "$lib")" "$potential_duplicate"
+    fi
+  done
+done
 
 
 # --- update lib linking ---
@@ -456,23 +402,25 @@ relink_lib () {
     chmod 444 $lib
 }
 
-for lib in `find $APP_LIB -name '*.dylib'`; do
-    relink_lib $lib
-done
-for lib in `find $APP_LIB -name '*.so'`; do
+echo "Relinking libs to relative bundle paths ..."
+
+for lib in $(find $APP_LIB -type f -name '*.dylib' -or -name '*.so'); do
     relink_lib $lib
 done
 
 if [ "$UI_TYPE" = "GTK3" ]; then
   # these copied cache files would otherwise point to local files
-  sed -i '' -e 's,/usr/local/Cellar/gtk+3/[^/]*/,@executable_path/../,g' $(find $APP_LIB/gtk-* -name immodules.cache)
-  sed -i '' -e 's,/usr/local/lib,@executable_path/../lib,' $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
+  sed -i '' -e 's,/opt/local,@executable_path/..,' $APP_ETC/gtk-3.0/gtk.immodules
+  sed -i '' -e 's,/opt/local,@executable_path/..,' $APP_ETC/gtk-3.0/gdk-pixbuf.loaders
+  sed -i '' -e 's,/opt/local,@executable_path/..,' $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
 fi
 
-# print bundle size
-echo -n "    => " ; du -sh "$APP_NAME" | awk '{ print $1 }'
 
 # --- copy tools ---
+
+BIN_DIR=$BUILD_DIR/bin
+mkdir $BIN_DIR
+
 for tool in $TOOLS ; do
   echo -n "  copying tool $tool: "
 
@@ -523,7 +471,7 @@ fi
 FONTS="CBM.ttf"
 echo "  copying fonts"
 for FONT in $FONTS ; do
-  cp "$TOP_DIR/data/common/$FONT" "$APP_FONTS/"
+  cp "$TOP_DIR/data/common/$FONT" "$APP_COMMON/"
 done
 
 if [ "$UI_TYPE" = "GTK3" ]; then
@@ -532,14 +480,13 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   cp "src/arch/gtk3/data/vice.gresource" "$APP_COMMON/"
 fi
 
-# --- sign apps with apple developer id ---
-echo "  TODO: sign app bundles with apple developer id"
-
 # --- make dmg? ---
 if [ x"$ZIP" = "xnozip" ]; then
   echo "ready. created dist directory: $BUILD_DIR"
   du -sh $BUILD_DIR
 else
+  du -sh $BUILD_DIR
+
   # image name
   BUILD_IMG=$BUILD_DIR.dmg
   BUILD_TMP_IMG=$BUILD_DIR.tmp.dmg
@@ -567,6 +514,7 @@ else
   du -sh $BUILD_IMG
   md5 -q $BUILD_IMG
 fi
+
 if test x"$ENABLEARCH" = "xyes"; then
   echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

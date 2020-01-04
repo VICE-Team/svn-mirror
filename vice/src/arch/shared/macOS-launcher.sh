@@ -29,14 +29,12 @@
 #  02111-1307  USA.
 #
 
-# --- debug echo ---
-# only available if DEBUG_VICE_LAUNCHER is defined
-dbgecho () {
-  [ "$DEBUG_VICE_LAUNCHER" != "" ] && echo "$@"
-  [ "$LOG_VICE_LAUNCHER" != "" ] && echo "$@" >> $HOME/vice_launcher.log
-}
+# Strip macOS process serial number from args, if present
+if [[ "$1" = -psn_* ]]; then
+    shift
+fi
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")"/../Resources
 
 source bin/common-runtime.sh
 source bin/ui-runtime.sh
@@ -45,7 +43,6 @@ source bin/ui-runtime.sh
 # if not provided via $PROGRAM, derive emu name from executing script name
 # and fall back to an interactive user choice.
 if [ -z "$PROGRAM" ]; then
-  EMUS="x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic"
   case "$(basename "$0")" in
   x128*)
     PROGRAM=x128
@@ -77,14 +74,14 @@ if [ -z "$PROGRAM" ]; then
     ;;
   *)
     # invalid bundle name
-    osascript -e 'display alert "Invalid Bundle Name / PROGRAM var! (use: x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic" buttons {"Abort"} with icon stop'
+    osascript -e 'display dialog "Invalid Bundle Name / PROGRAM var! (use: x128,x64dtv,x64sc,xcbm2,xcbm5x0,xpet,xplus4,xvic)" buttons {"Abort"} with icon stop'
     PROGRAM=""
     ;;
   esac
 fi
 
 if [ "$PROGRAM" != "" ]; then
-  "$BUNDLE_BIN/$PROGRAM" "$@"
+  "bin/$PROGRAM" "$@"
 fi
 
 exit 0

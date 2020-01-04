@@ -25,6 +25,11 @@
 #  02111-1307  USA.
 #
 
+# Strip macOS process serial number from args, if present
+if [[ "$1" = -psn_* ]]; then
+    shift
+fi
+
 SCRIPT_DIR="`dirname \"$0\"`"
 RESOURCES_DIR="`cd \"$SCRIPT_DIR/../Resources\" && pwd`"
 BUNDLE_DIR="`cd \"$SCRIPT_DIR/../..\" && pwd`"
