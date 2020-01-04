@@ -141,6 +141,20 @@ static GtkWidget *create_double_scan_widget(int index)
 }
 
 
+/** \brief  Scheisse
+ */
+static GtkWidget *create_ruckel_widget(void)
+{
+    GtkWidget *checkbox;
+
+    checkbox = gtk_check_button_new_with_label("Ruckeln");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), TRUE);
+    gtk_widget_set_sensitive(checkbox, FALSE);
+    return checkbox;
+}
+
+
+
 static GtkWidget *create_video_cache_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
@@ -263,6 +277,7 @@ static GtkWidget *create_render_widget(int index, const char *chip)
     GtkWidget *double_scan_widget = NULL;
     GtkWidget *video_cache_widget = NULL;
     GtkWidget *vert_stretch_widget = NULL;
+    GtkWidget *ruckel_widget = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     double_size_widget = create_double_size_widget(index);
@@ -272,10 +287,12 @@ static GtkWidget *create_render_widget(int index, const char *chip)
     if (uivideo_chip_has_vert_stretch(chip)) {
         vert_stretch_widget = create_vert_stretch_widget(index);
     }
+    ruckel_widget = create_ruckel_widget();
 
     gtk_grid_attach(GTK_GRID(grid), double_size_widget, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), double_scan_widget, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), video_cache_widget, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ruckel_widget, 3, 0, 1, 1);
     if (uivideo_chip_has_vert_stretch(chip)) {
         gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 3, 0, 1, 1);
     }
