@@ -313,12 +313,23 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
     GtkStyleContext *style_context;
     GError *err = NULL;
 
+    /* Set stepping to 1, for now, to allow more finegrained control of the
+     * sliders. This only works in the settings menu, not in the popup CRT
+     * controls since the keyboard is captured for the running emulator.
+     */
+    step = 1;
+
     scale = vice_gtk3_resource_scale_int_new_sprintf("%s%s",
             GTK_ORIENTATION_HORIZONTAL, low, high, step,
             chip, resource);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+    /* Disable tickmarks. This looks nice and could help to quickly set a value,
+     * but in reality it screws with the user's mouse control over the sliders
+     */
+#if 0
     vice_gtk3_resource_scale_int_set_marks(scale, step);
+#endif
 
     /* set up custom CSS to make the scale take up less space */
     if (minimal) {
@@ -338,7 +349,9 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
     }
 
     /* don't draw the value next to the scale */
-    /* gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE); */
+#if 0
+    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE);
+#endif
 
     return scale;
 }
