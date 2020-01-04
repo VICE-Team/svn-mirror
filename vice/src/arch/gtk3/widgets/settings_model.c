@@ -113,7 +113,7 @@ static GtkWidget *pet_misc_widget = NULL;
 static GtkWidget *pet_io_widget = NULL;
 
 static GtkWidget *c64dtv_rev_widget = NULL;
-
+static GtkWidget *reset_with_iec_widget = NULL;
 
 static void video_model_callback(int model)
 {
@@ -168,6 +168,36 @@ static void sid_model_callback(int model)
         machine_model_widget_update(machine_widget);
     }
 }
+
+
+/** \brief  Custom callback for the Kernal Revision widget
+ *
+ * Triggers an update of the 'machine model' widget when a different kernal rev
+ * has been selected. Only valid for x64/x64sc as far as I know.
+ *
+ * \param[in]   rev     new KERNAL revision
+ */
+static void kernal_revision_callback(int rev)
+{
+#ifdef HAVE_DEBUG_GTK3UI
+    int true_model = -1;
+
+    if (get_model_func != NULL) {
+        true_model = get_model_func();
+        debug_gtk3("Got model ID: %d.", true_model);
+    }
+#endif
+    debug_gtk3("Got revision %d.", rev);
+    machine_model_widget_update(machine_widget);
+}
+
+
+static void iec_callback(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("Called.");
+    machine_model_widget_update(machine_widget);
+}
+
 
 
 /** \brief  Callback for CIA model changes
@@ -263,10 +293,9 @@ static void machine_model_handler_c64(int model)
 
     /* synchronize CIA widget */
     cia_model_widget_sync(cia_widget);
-    
+
     /* synchronize kernal-revision widget */
     kernal_revision_widget_sync(kernal_widget);
-    
     /* synchronize misc widget */
     c64_misc_widget_sync();
 }
@@ -572,29 +601,33 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
         debug_gtk3("setting GlueLogic to %s.",
                 glue == 0 ? "discrete" : "252535-01");
         resources_set_int("GlueLogic", glue);
+        machine_model_widget_update(machine_widget);
     }
 }
 
-static GtkWidget *reset_to_iec_widget = NULL;
 
 /** \brief  Sync "Reset-to-IEC" widget with the associated resource
  *
  */
-static void c64_reset_to_iec_sync(void)
+static void c64_reset_with_iec_sync(void)
 {
     int iecreset = 0;
     resources_get_int("IECReset", &iecreset);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(reset_to_iec_widget), iecreset);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(reset_with_iec_widget), iecreset);
 }
 
 /** \brief  Create widget to toggle "Reset-to-IEC"
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_reset_to_iec_widget(void)
+static GtkWidget *create_reset_with_iec_widget(void)
 {
-    return reset_to_iec_widget = vice_gtk3_resource_check_button_new("IECReset",
+    reset_with_iec_widget = vice_gtk3_resource_check_button_new("IECReset",
             "Reset goes to IEC");
+    g_signal_connect(GTK_WIDGET(reset_with_iec_widget), "toggled",
+            G_CALLBACK(iec_callback), NULL);
+
+    return reset_with_iec_widget;
 }
 
 /** \brief  Create widget to toggle "Go64Mode"
@@ -682,7 +715,7 @@ static GtkWidget *create_c64_misc_widget(void)
 
     grid = uihelpers_create_grid_with_label("Miscellaneous", 1);
 
-    iec_widget = create_reset_to_iec_widget();
+    iec_widget = create_reset_with_iec_widget();
     g_object_set(iec_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
 
@@ -702,8 +735,8 @@ static GtkWidget *create_c64_misc_widget(void)
 
 static void c64_misc_widget_sync(void)
 {
-    c64_glue_widget_sync();   
-    c64_reset_to_iec_sync();
+    c64_glue_widget_sync();
+    c64_reset_with_iec_sync();
 }
 
 
@@ -789,6 +822,8 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
     if (machine_class != VICE_MACHINE_SCPU64) {
         kernal_widget = kernal_revision_widget_create();
         gtk_grid_attach(GTK_GRID(grid), kernal_widget, 2, 0, 1, 1);
+        /* add custom callback */
+        kernal_revision_widget_add_callback(kernal_revision_callback);
     }
 
     /* C64 misc. model settings */

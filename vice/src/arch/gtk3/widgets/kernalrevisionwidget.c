@@ -2,6 +2,7 @@
  * \brief   GTK3 KERNAL revision widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Groepaz <groepaz@gmx.de>
  */
 
 /*
@@ -48,13 +49,16 @@
  * Taken from scr/c64/c64-resources.h
  */
 static const vice_gtk3_radiogroup_entry_t revisions[] = {
-    { "Revision 1", C64_KERNAL_REV1 },
-    { "Revision 2", C64_KERNAL_REV2 },
-    { "Revision 3", C64_KERNAL_REV3 },
-    { "SX-64", C64_KERNAL_SX64 },
-    { "PET64/Educator64", C64_KERNAL_4064 },
+    { "Revision 1",         C64_KERNAL_REV1 },
+    { "Revision 2",         C64_KERNAL_REV2 },
+    { "Revision 3",         C64_KERNAL_REV3 },
+    { "SX-64",              C64_KERNAL_SX64 },
+    { "PET64/Educator64",   C64_KERNAL_4064 },
     { NULL, -1 }
 };
+
+
+static void (*widget_callback)(int) = NULL;
 
 
 /** \brief  Look up index of revision ID \a rev
@@ -81,6 +85,11 @@ static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         debug_gtk3("setting KERNAL revision to %d.", rev);
         resources_set_int("KernalRev", rev);
+        if (widget_callback != NULL) {
+            debug_gtk3("Calling custom callback.");
+            widget_callback(rev);
+        }
+
     }
 }
 
@@ -152,6 +161,7 @@ void kernal_revision_widget_update(GtkWidget *widget, int revision)
     }
 }
 
+
 void kernal_revision_widget_sync(GtkWidget *widget)
 {
     int revision, index;
@@ -163,3 +173,15 @@ void kernal_revision_widget_sync(GtkWidget *widget)
     radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, index + 2);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
 }
+
+
+void kernal_revision_widget_add_callback(void (*callback)(int))
+{
+    widget_callback = callback;
+}
+
+
+
+
+
+

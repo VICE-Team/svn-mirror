@@ -33,5 +33,5 @@
 GtkWidget * kernal_revision_widget_create(void);
 void        kernal_revision_widget_update(GtkWidget *widget, int revision);
 void        kernal_revision_widget_sync(GtkWidget *widget);
-
+void        kernal_revision_widget_add_callback(void (*callback)(int));
 #endif
