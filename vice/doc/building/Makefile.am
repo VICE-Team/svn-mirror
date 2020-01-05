@@ -9,8 +9,7 @@ BUILDING_DOX = \
 	Windows-MinGW-GTK3-Howto.txt \
 	FreeBSD-GTK3-Howto.txt \
 	macOS-Distribution-Howto.txt \
-	macOS-GTK3-Howto.txt \
-	macOS-SDL2-Howto.txt \
+	macOS-Howto.txt \
 	macOS-Xcode-Howto.txt \
 	Linux-GTK3-Howto.txt \
 	GTK3-cross-build-setup.md \

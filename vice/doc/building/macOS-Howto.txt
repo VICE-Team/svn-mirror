@@ -1,0 +1,88 @@
+--------------------------------------------------------------------------------
+macOS builds require that Xcode command line tools be installed
+--------------------------------------------------------------------------------
+
+First install Xcode from the app store (or an older version, 10 is a good choice
+if you want to make binary distributions later), and make sure Xcode CLI tools
+are installed and licenses agreed.
+
+$ xcode-select --install
+$ sudo xcodebuild -license accept
+
+--------------------------------------------------------------------------------
+Install the build tools and dependencies
+--------------------------------------------------------------------------------
+
+Using either MacPorts or Homebrew to fetch dependencies is supported.
+
+You only need one of SDL2 or Gtk3 (actually neither if you are just building the
+headless port), but of course you can install both and you'll be able to do both
+SDL2 and Gtk3 builds.
+
+---------
+MacPorts:
+---------
+
+$ sudo port install autoconf automake pkgconfig xa lame texinfo texlive-basic
+
+SDL2:
+
+$ sudo port install libsdl2 libpng
+
+Gtk3:
+
+$ sudo port install gtk3 +quartz
+$ sudo port install librsvg adwaita-icon-theme
+
+---------
+Homebrew:
+---------
+
+$ brew install autoconf automake pkg-config xa lame texinfo
+$ brew cask install basictex
+
+SDL2:
+
+$ brew install sdl2 libpng
+
+Gtk3:
+
+$ brew install gtk+3 librsvg adwaita-icon-theme
+
+--------------------------------------------------------------------------------
+Configure the source and build:
+--------------------------------------------------------------------------------
+
+If you're going to be doing lots of building or various configurations (SDL2,
+Gtk3 etc) then you'll probably want to create a separate build directory for each
+configuration.
+
+$ BUILD_LOCATION="<BUILD LOCATION>""
+$ mkdir -p "$BUILD_LOCATION"
+$ cd "$BUILD_LOCATION"
+$ VICE_PATH="<VICE SOURCE PATH>"
+$ (cd "$VICE_PATH" && ./autogen.sh)
+
+SDL2:
+
+$ "$VICE_PATH"/configure --enable-sdlui2
+$ make -j
+$ sudo make install
+
+Gtk3:
+
+You can remove --disable-hwscale if you want to test OpenGL support. Whilst
+OpenGL support works, it doesn't improve things. It appears that gtkglarea will
+scale the texture using GPU, then copy it back into host memory to be
+layered in with the rest of the Gtk content - slow.
+
+$ "$VICE_PATH"/configure --enable-native-gtk3ui --disable-hwscale
+$ make -j
+$ sudo make install
+
+Once you have installed once, you can create a symlink that allows you to run
+the built binaries directly:
+
+$ ln -s /usr/local/lib
+$ ./src/x64sc
+
