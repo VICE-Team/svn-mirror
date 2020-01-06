@@ -294,6 +294,7 @@ elif [ "$UI_TYPE" = "GTK3" ]; then
 
   # Gtk runtime stuff
   cp -r /opt/local/lib/gdk-pixbuf-2.0 $APP_LIB
+  cp -r /opt/local/lib/gtk-3.0 $APP_LIB
   cp -r /opt/local/etc/gtk-3.0 $APP_ETC
   cp -r /opt/local/share/glib-2.0 $APP_SHARE
 
@@ -410,7 +411,7 @@ done
 
 if [ "$UI_TYPE" = "GTK3" ]; then
   # these copied cache files would otherwise point to local files
-  sed -i '' -e 's,/opt/local,@executable_path/..,' $APP_ETC/gtk-3.0/gtk.immodules
+  sed -i '' -e 's,/opt/local,@executable_path/..,' $APP_ETC/gtk-3.0/gtk.immodules 
   sed -i '' -e 's,/opt/local,@executable_path/..,' $APP_ETC/gtk-3.0/gdk-pixbuf.loaders
   sed -i '' -e 's,/opt/local,@executable_path/..,' $(find $APP_LIB/gdk-pixbuf-* -name loaders.cache)
 fi
