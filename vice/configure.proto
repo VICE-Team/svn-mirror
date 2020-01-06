@@ -929,9 +929,6 @@ darwin*)
   dnl disable toolchain checking for macosx
   toolchain_check=no
 
-  dnl disable hwscale for macosx, for now .. makes it worse.
-  enable_hwscale=no
-
   dnl The vice build system builds empty libs for things that are configured out,
   dnl then links all of them together. This causes ranlib to complain like:
   dnl
