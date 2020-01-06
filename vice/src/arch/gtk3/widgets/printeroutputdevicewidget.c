@@ -51,9 +51,9 @@
 /** \brief  List of text output devices
  */
 static const vice_gtk3_radiogroup_entry_t device_list[] = {
-    { "#1 (file dump)", 0 },
-    { "#2 (exec)", 1 },
-    { "#3 (exec)", 2 },
+    { "#1", 0 },
+    { "#2", 1 },
+    { "#3", 2 },
     { NULL, -1 }
 };
 

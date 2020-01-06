@@ -253,7 +253,7 @@ static GtkWidget *create_printer_text_devices_widget(void)
     GtkWidget *grid;
     int i;
 
-    grid = uihelpers_create_grid_with_label("Printer text output devices", 6);
+    grid = uihelpers_create_grid_with_label("Printer output devices", 6);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     for (i = 0; i < 3; i++) {
         GtkWidget *label;
