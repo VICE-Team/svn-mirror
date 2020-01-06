@@ -1,33 +1,96 @@
---------------------
+--------------------------------------------------------------------------------
 Binary Distribution:
---------------------
+--------------------------------------------------------------------------------
 
-#
-# Please note that the result will not run on an older version of macOS.
-# It remains to be tested whether building on an older macOS results in
-# a build that will run on a newer version of macOS.
-#
-# The binary distributions are not currently signed with an Apple developer ID
-# and therefore not that easy to run on other macs due to gatekeeper. It is
-# expected that this will get even harder in macOS 10.15 so we'll need to
-# address this issue soon. The solution will likely look like passing the name
-# of a signing identity to configure and using the codesign util to sign each
-# app.
-#
-# First, create an SDL2 or GTK3 build. For compatibility with other systems you
-# should build with --enable-arch=no passed to configure.
-#
+The binary distribution script now require that MacPorts be used for
+dependencies. MacPorts can be configured to compile for older versions
+of macOS.
 
-brew install platypus
+1. Make sure Xcode 10 or earlier is active, otherwise the .app files created by
+   platypus will require macOS 10.11. You can use xcode-select to choose which
+   Xcode.app is the active one.
 
-#
-# And then it's just:
-#
+2. Install platypus, which is used to generate .app wrappers:
 
-make bindistzip
+   $ sudo port install platypus
 
-#
-# Or to just make a bindist folder:
-#
+3. Follow macOS-Howto.txt to get a MacPorts VICE build environment working.
 
-make bindist
+4. Bundled dependencies need to be rebuilt to target macOS 10.9. First, set
+   macosx_deployment_target to 10.9 in /opt/local/etc/macports/macports.conf.
+
+   I usually then nuke all installed ports and start again with runtime deps
+   built from source, like this:
+
+   $ sudo port uninstall installed
+   $ sudo port -s install gtk3 +quartz
+   $ sudo port -s install libsdl2 xa lame glew
+   $ sudo port install rust cargo
+   $ sudo port -s install librsvg
+   $ sudo port install adwaita-icon-theme texinfo texlive-basic ffmpeg
+
+   But that is probably overkill and you wont want to do this if you have other
+   use of MacPorts on your system. You might be able to find a lighter way,
+   perhaps something like:
+
+   $ sudo port uninstall $(port rdeps gtk3 | sed 1d)
+   $ sudo port uninstall gtk3
+   $ sudo port -s install gtk3 +quartz
+
+4. Now build VICE against the reinstalled dependencies, and make the bindist:
+
+   $ cd <build folder>
+
+   SDL2:
+   $ <path to VICE source>/configure \
+       --enable-sdlui2 \
+       --enable-lame \
+       --enable-arch=no
+   
+   Gtk3:
+   $ <path to VICE source>/configure \
+       --enable-native-gtk3ui \
+       --enable-lame \
+       --enable-arch=no
+
+   $ make clean
+   $ make -j
+   $ make bindistzip
+
+   At some point soon it would be good to build with --enable-external-ffmpeg,
+   but without including the dylibs in the bindary distribution and rely on
+   locally installed version of ffmpeg. This works, however the app currently
+   segfaults if it doesn't find the libs somewhere.
+
+--------------------------------------------------------------------------------
+Codesigning and notarising:
+--------------------------------------------------------------------------------
+
+Without codesigning, all versions of macOS will complain when you install
+and launch. Without notarising, it's a huge pain the arse to try and run
+the builds on macOS 10.15 Catalina. You'll need an Apple developer ID for
+codesigning, and a paid up Apple developer subscription to make a notarised
+build. Sorry :(
+
+1. Find your code signing ids:
+
+   $ security find-identity -v -p codesigning
+
+   You are looking for something like:
+   "Developer ID Application: David Hogan (3RAEHPQQ6Z)"
+
+2. Sign the dmg file with your Apple developer id:
+
+   $ SIGN_ID="<Your code signing id>"
+   $ DMG=<Your DMG file>
+   $ codesign -s "$SIGN_ID" --timestamp --options runtime -f --deep $DMG
+   $ codesign -vvv --deep --strict "$DMG"
+
+3. Follow Apple steps for notarisation at the URL below. If your Apple ID
+   belongs to more than one team, you'll need to use the --asc-provider
+   argument when you xcrun altool. You can xcode-select back to Xcode 11
+   so that you can xcrun altool --list-providers to find the right id to
+   use.
+
+   https://tinyurl.com/macOS-notarisation
+   
