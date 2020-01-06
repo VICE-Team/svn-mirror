@@ -50,12 +50,16 @@ of macOS.
    Gtk3:
    $ <path to VICE source>/configure \
        --enable-native-gtk3ui \
+       --disable-hwscale \
        --enable-lame \
        --enable-arch=no
 
    $ make clean
    $ make -j
    $ make bindistzip
+
+   Gtk3 is built without hwscale at the moment due to a bug where fullscreen
+   mode only shows a portion of the screen.
 
    At some point soon it would be good to build with --enable-external-ffmpeg,
    but without including the dylibs in the bindary distribution and rely on
@@ -93,4 +97,3 @@ build. Sorry :(
    use.
 
    https://tinyurl.com/macOS-notarisation
-   
