@@ -982,9 +982,9 @@ darwin*)
   HAVE_LIGHTPEN_SUPPORT="yes"
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
-  VICE_CFLAGS="$VICE_CFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -DGL_SILENCE_DEPRECATION -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
-  LDFLAGS="$LDFLAGS -L/usr/local/lib"
+  VICE_CFLAGS="$VICE_CFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
+  LDFLAGS="$LDFLAGS -L/opt/local/lib -L/usr/local/lib -headerpad_max_install_names"
   LIBS="$LIBS -framework CoreText -framework CoreServices -framework OpenGL"
 
   ;;
@@ -2741,6 +2741,9 @@ fi
 dnl --- Lame ---
 if test x"$enable_lame" != "xno" ; then
 
+  old_CFLAGS="$CFLAGS"
+  CFLAGS="$VICE_CFLAGS"
+
   AC_CHECK_HEADER(lame/lame.h,,)
 
   dnl the header is available!
@@ -2775,6 +2778,8 @@ if test x"$enable_lame" != "xno" ; then
       fi
     fi
   fi
+
+  CFLAGS="$old_CFLAGS"
 fi
 
 AC_PATH_PROGS(FCCACHE, fc-cache, false)
