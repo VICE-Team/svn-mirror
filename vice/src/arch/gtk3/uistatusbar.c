@@ -228,9 +228,11 @@ typedef struct ui_statusbar_s {
     /** \brief The popup menus associated with each drive. */
     GtkWidget *drive_popups[DRIVE_NUM];
 
+    /* temporarily disabled until the layout code has been updated */
+#if 0
     /** \brief The volume control */
     GtkWidget *volume;
-
+#endif
     /** \brief The hand-shaped cursor to change to when popup menus
      *         are available. */
     GdkCursor *hand_ptr;
@@ -841,11 +843,12 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                     allocated_bars[i].drive_popups[j] = NULL;
                 }
             }
+#if 0
             if (allocated_bars[i].volume != NULL) {
                 g_object_unref(G_OBJECT(allocated_bars[i].volume));
                 allocated_bars[i].volume = NULL;
             }
-
+#endif
             /* why? */
             if (allocated_bars[i].kbd_debug != NULL) {
                 g_object_unref(G_OBJECT(allocated_bars[i].kbd_debug));
@@ -894,6 +897,7 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+#if 0
 /** \brief  Handler for the 'value-changed' event of the volume control
  *
  * Updates the master volume
@@ -909,7 +913,7 @@ static void on_volume_value_changed(GtkScaleButton *widget,
 {
     resources_set_int("SoundVolume", (int)(value * 100.0));
 }
-
+#endif
 
 /*****************************************************************************
  *                          Private functions                                *
@@ -1382,7 +1386,9 @@ void ui_statusbar_init(void)
             allocated_bars[i].drives[j] = NULL;
             allocated_bars[i].drive_popups[j] = NULL;
         }
+#if 0
         allocated_bars[i].volume = NULL;
+#endif
         allocated_bars[i].kbd_debug = NULL;
         allocated_bars[i].hand_ptr = NULL;
     }
@@ -1427,11 +1433,15 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *sb, *speed, *tape, *tape_events, *joysticks;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
+#if 0
     GtkWidget *volume;
+#endif
     GtkWidget *message;
     GtkWidget *recording;
     GtkWidget *kbd_debug_widget;
+#if 0
     int sound_vol;
+#endif
     int i, j;
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -1573,6 +1583,7 @@ GtkWidget *ui_statusbar_create(void)
      * that function will need to change as well. */
     layout_statusbar_drives(i);
 
+#if 0
     /*
      * Add volume control widget
      */
@@ -1596,6 +1607,7 @@ GtkWidget *ui_statusbar_create(void)
         gtk_grid_attach(GTK_GRID(sb), volume, 3, 0, 1 ,2); /* FIXME */
     }
     allocated_bars[i].volume = volume;
+#endif
 
     /*
      * Add keyboard debugging widget
