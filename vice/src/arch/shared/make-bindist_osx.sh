@@ -35,7 +35,7 @@ echo "Generating macOS binary distribution."
 echo "  UI type: $UI_TYPE"
 
 # setup BUILD dir
-BUILD_DIR=VICE-$UI_TYPE-$VICE_VERSION
+BUILD_DIR=$(echo "vice-$UI_TYPE-$VICE_VERSION" | tr '[:upper:]' '[:lower:]')
 
 SVN_VERSION=$(svn info --show-item revision "$TOP_DIR" 2>/dev/null || true)
 if [[ ! -z "$SVN_VERSION" ]]; then
