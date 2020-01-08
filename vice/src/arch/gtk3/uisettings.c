@@ -2385,6 +2385,7 @@ static gboolean on_dialog_configure_event(
         GdkEvent *event,
         gpointer data)
 {
+#if 0
     if (event->type == GDK_CONFIGURE) {
         GdkEventConfigure *cfg = (GdkEventConfigure *)event;
         int width = cfg->width;
@@ -2405,6 +2406,7 @@ static gboolean on_dialog_configure_event(
         debug_gtk3("XPOS: %d - YPOS: %d", cfg->x, cfg->y);
 #endif
     }
+#endif
     return FALSE;
 }
 
