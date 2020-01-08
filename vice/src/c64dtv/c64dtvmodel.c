@@ -35,6 +35,7 @@
 #include "c64dtvmodel.h"
 #include "machine.h"
 #include "resources.h"
+#include "sid.h"
 #include "types.h"
 
 struct model_s {
@@ -91,9 +92,9 @@ static int dtvmodel_get_temp(int video, int asic, int hummeradc, int sid)
 
     for (i = 0; i < DTVMODEL_NUM; ++i) {
         if ((dtvmodels[i].video == video)
-            && (dtvmodels[i].asic == asic)
-            && (dtvmodels[i].hummeradc == hummeradc)
-            && (sid == 4)   /* FIX */) {
+                && (dtvmodels[i].asic == asic)
+                && (dtvmodels[i].hummeradc == hummeradc)
+                && (sid == SID_MODEL_DTVSID)) {
             return i;
         }
     }

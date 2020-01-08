@@ -81,7 +81,7 @@ static const vice_gtk3_radiogroup_entry_t sid_models_c64[] = {
 /** \brief  SID models used in the C64DTV
  */
 static const vice_gtk3_radiogroup_entry_t sid_models_c64dtv[] = {
-    { "DTVSID (ReSID-DTV)", 4 },
+    { "DTVSID (ReSID-DTV)", 3 },
     { "6581", 0 },
     { "8580", 1 },
     { "8580D", 2 },
