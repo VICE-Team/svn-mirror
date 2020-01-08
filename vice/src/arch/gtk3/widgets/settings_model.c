@@ -556,8 +556,9 @@ static void machine_model_callback(int model)
     debug_gtk3("got model %d.", model);
 
     switch (machine_class) {
-        case VICE_MACHINE_C64:  /* fall through */
-        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:
             machine_model_handler_c64(model);
             break;
         case VICE_MACHINE_C64DTV:
