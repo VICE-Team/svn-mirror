@@ -72,7 +72,7 @@
  */
 static const char *c64scpu_model_list[] = {
     "C64 PAL", "C64C PAL", "C64 old PAL",
-    "C64 NTSC", "C64C NTSC" "C64 old NTSC",
+    "C64 NTSC", "C64C NTSC", "C64 old NTSC",
     "Drean",
     "C64 SX PAL", "C64 SX NTSC",
     "Japanese", "C64 GS",
