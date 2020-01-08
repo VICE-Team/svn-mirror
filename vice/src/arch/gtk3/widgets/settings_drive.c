@@ -206,12 +206,16 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
     /* drive options widget */
     option = drive_options[unit - DRIVE_UNIT_MIN];
     if (option != NULL) {
+#if 0
         GtkWidget *iec = gtk_grid_get_child_at(GTK_GRID(option), 1, 0);
+#endif
         GtkWidget *rtc = gtk_grid_get_child_at(GTK_GRID(option), 2, 0);
 
+#if 0
         if (iec != NULL) {
             gtk_widget_set_sensitive(iec, drive_check_iec(model));
         }
+#endif
         if (rtc != NULL) {
             gtk_widget_set_sensitive(rtc, drive_check_rtc(model));
         }
