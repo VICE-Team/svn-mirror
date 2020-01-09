@@ -294,7 +294,7 @@ static GtkWidget *create_render_widget(int index, const char *chip)
     gtk_grid_attach(GTK_GRID(grid), video_cache_widget, 2, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ruckel_widget, 3, 0, 1, 1);
     if (uivideo_chip_has_vert_stretch(chip)) {
-        gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 3, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 4, 0, 1, 1);
     }
 
     gtk_widget_show_all(grid);
