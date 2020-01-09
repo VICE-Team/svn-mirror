@@ -31,6 +31,8 @@ set -o nounset
 #                         $1           $2      $3             $4              $5         $6
 #
 
+[ -z ${CODE_SIGN_ID+set} ] && CODE_SIGN_ID=""
+
 echo "Generating macOS binary distribution."
 echo "  UI type: $UI_TYPE"
 
@@ -116,6 +118,10 @@ copy_lib_recursively () {
   done
 }
 
+code_sign_file () {
+  codesign -s "$CODE_SIGN_ID" --timestamp --options runtime -f "$1"
+}
+
 # --- create bundle ---
 
 BUNDLE="VICE"
@@ -132,16 +138,10 @@ APP_DOCS=$APP_RESOURCES/lib/vice/doc
 APP_BIN=$APP_RESOURCES/bin
 APP_LIB=$APP_RESOURCES/lib
 
-echo "  bundling $BUNDLE.app: "
-echo -n "    "
-
 # --- use platypus for bundling ---
-
-
 PLATYPUS_PATH="/opt/local/bin/platypus"
 if [ -e "$PLATYPUS_PATH" ]; then
   PLATYPUS_VERSION=`$PLATYPUS_PATH -v | cut -f 3 -d ' '`
-  echo "  using platypus: $PLATYPUS_PATH version $PLATYPUS_VERSION"
 else
   echo "ERROR: platypus not found (sudo port install platypus)"
   exit 1
@@ -151,8 +151,8 @@ make_app_bundle() {
   local app_name=$1
   local app_path=$BUILD_DIR/$app_name.app
   local app_launcher=$2
+  local output=$(mktemp)
 
-  echo -n "[platypus] "
   $PLATYPUS_PATH \
       -a $app_name \
       -o None \
@@ -163,13 +163,20 @@ make_app_bundle() {
       -c "$2" \
       -R \
       -B \
-      "$app_path"
-  PLATYPUS_STATUS=$?
-  if [ $PLATYPUS_STATUS -ne 0 ]; then
-    echo "ERROR: platypus failed with $PLATYPUS_STATUS"
-    exit $PLATYPUS_STATUS
+      "$app_path" \
+      2&>1 > $output
+  
+  if [ $? -ne 0 ]; then
+    echo "ERROR: platypus failed with $PLATYPUS_STATUS. Output:"
+    cat $output
+    rm $output
+
+    exit 1
   fi
 }
+
+echo "  bundling $BUNDLE.app: "
+echo -n "    "
 
 make_app_bundle $BUNDLE $RUN_PATH/$LAUNCHER
 
@@ -201,20 +208,6 @@ done
 # copy manual into bundle
 echo -n "[manual] "
 cp "doc/vice.pdf" "$APP_DOCS"
-
-# embed c1541
-echo -n "[c1541] "
-if [ ! -e src/c1541 ]; then
-  echo "ERROR: missing binary: src/c1541"
-  exit 1
-fi
-cp src/c1541 $APP_BIN/
-
-# strip embedded c1541 binary
-if [ x"$STRIP" = "xstrip" ]; then
-  echo -n "[strip c1541] "
-  /usr/bin/strip $APP_BIN/c1541
-fi
 
 # any config files from /etc?
 if [ -d etc ]; then
@@ -273,10 +266,17 @@ for emu in $BINARIES ; do
   copy_tree "$TOP_DIR/data/$ROM" "$APP_ROMS/$ROM"
   (cd $APP_ROMS/$ROM && eval "rm -f $ROM_REMOVE")
 
+  # Sign the relinked emu binary
+  if [ -n "$CODE_SIGN_ID" ]; then
+    echo -n "[sign] "
+    code_sign_file $APP_BIN/$emu
+  fi
+
+  echo -n "[platypus] "
+  make_app_bundle $emu $RUN_PATH/$REDIRECT_LAUNCHER
+
   # ready
   echo
-
-  make_app_bundle $emu $RUN_PATH/$REDIRECT_LAUNCHER
 done
 
 
@@ -365,7 +365,7 @@ copy_lib_recursively /opt/local/lib/libmp3lame.dylib
 
 # --- deduplicate libs ---
 
-echo "Deduplicating libs ..."
+echo "Deduplicating libs"
 
 for lib in $(find $APP_LIB -name '*.dylib' | sort -V -r); do
   if [ -L "$lib" ]; then
@@ -389,25 +389,33 @@ done
 # --- update lib linking ---
 
 relink_lib () {
-    local lib=$1
-    local lib_basename=`basename $lib`
+  local lib=$1
+  local lib_basename=`basename $lib`
 
-    LIB_LIBS=`otool -L $lib | egrep '^\s+/(opt|usr)/local/' | grep -v $lib_basename | awk '{print $1}'`
+  LIB_LIBS=`otool -L $lib | egrep '^\s+/(opt|usr)/local/' | grep -v $lib_basename | awk '{print $1}'`
 
-    chmod 644 $lib
+  chmod 644 $lib
 
-    for lib_lib in $LIB_LIBS; do
-        install_name_tool -change $lib_lib @executable_path/../lib/$(basename $lib_lib) $lib
-    done
+  for lib_lib in $LIB_LIBS; do
+    install_name_tool -change $lib_lib @executable_path/../lib/$(basename $lib_lib) $lib
+  done
 
-    chmod 444 $lib
+  chmod 444 $lib
 }
 
-echo "Relinking libs to relative bundle paths ..."
+echo "Relinking libs to relative bundle paths"
 
 for lib in $(find $APP_LIB -type f -name '*.dylib' -or -name '*.so'); do
-    relink_lib $lib
+  relink_lib $lib
 done
+
+if [ -n "$CODE_SIGN_ID" ]; then
+  echo "Signing the bundled libraries"
+
+  for lib in $(find $APP_LIB -type f -name '*.dylib' -or -name '*.so'); do
+    code_sign_file $lib
+  done
+fi
 
 if [ "$UI_TYPE" = "GTK3" ]; then
   # these copied cache files would otherwise point to local files
@@ -431,12 +439,28 @@ for tool in $TOOLS ; do
     echo "ERROR: missing binary: src/$tool"
     exit 1
   fi
-  cp src/$tool $BIN_DIR/
+  cp src/$tool $APP_BIN/$tool
   
   # strip binary
   if [ x"$STRIP" = "xstrip" ]; then
     echo -n "[strip] "
-    /usr/bin/strip $BIN_DIR/$tool
+    /usr/bin/strip $APP_BIN/$tool
+  fi
+
+  # copy any needed "local" libs
+  LOCAL_LIBS=`otool -L $APP_BIN/$tool | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
+
+  for lib in $LOCAL_LIBS; do
+      copy_lib_recursively $lib
+
+      # relink the emu binary to the relative lib copy
+      install_name_tool -change $lib @executable_path/../lib/$(basename $lib) $APP_BIN/$tool
+  done
+
+  # Sign binary
+  echo -n "[sign] "
+  if [ -n "$CODE_SIGN_ID" ]; then
+    code_sign_file $APP_BIN/$tool
   fi
 
   # ready
@@ -445,7 +469,7 @@ done
 
 # --- create general command line launchers ---
 echo "  creating command line launchers"
-for emu in $EMULATORS ; do
+for emu in $EMULATORS $TOOLS; do
   cat <<-"  HEREDOC" > "$BIN_DIR/$emu"
     #!/bin/bash
     cd $(dirname "$0")
@@ -481,6 +505,13 @@ if [ "$UI_TYPE" = "GTK3" ]; then
   cp "src/arch/gtk3/data/vice.gresource" "$APP_COMMON/"
 fi
 
+# --- codesign the .app bundles ---
+if [ -n "$CODE_SIGN_ID" ]; then
+  for app in $(find $BUILD_DIR -type d -name '*.app'); do
+    code_sign_file $app
+  done
+fi
+
 # --- make dmg? ---
 if [ x"$ZIP" = "xnozip" ]; then
   echo "ready. created dist directory: $BUILD_DIR"
@@ -493,7 +524,7 @@ else
   BUILD_TMP_IMG=$BUILD_DIR.tmp.dmg
   DMG_DIR=.dmg.tmp
 
-  # Want the dmg folder to contain a single draggable folder
+  # The dmg will contain a single draggable folder and a symlink to /Applications
   rm -rf $DMG_DIR
   mkdir $DMG_DIR
   ln -s /Applications $DMG_DIR/
@@ -511,11 +542,39 @@ else
   hdiutil convert $BUILD_TMP_IMG -format UDZO -o $BUILD_IMG -ov -quiet
   rm -f $BUILD_TMP_IMG
 
+  # Sign the final DMG
+  echo "  signing DMG"
+  if [ -n "$CODE_SIGN_ID" ]; then
+    code_sign_file $BUILD_IMG
+  fi
+
   echo "ready. created dist file: $BUILD_IMG"
   du -sh $BUILD_IMG
   md5 -q $BUILD_IMG
 fi
 
-if test x"$ENABLEARCH" = "xyes"; then
-  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
+if [ -z "$CODE_SIGN_ID" ]; then
+  cat <<-"  HEREDOC" | sed 's/^ *//'
+
+    ****
+    Bindist is not codesigned. To sign, export the CODE_SIGN_ID environment variable to
+    something like "Developer ID Application: <NAME> (<ID>)".
+
+    Run 'security find-identity -v -p codesigning' to list available identities.
+    ****
+
+  HEREDOC
 fi
+
+if test x"$ENABLEARCH" = "xyes"; then
+  cat <<-"  HEREDOC" | sed 's/^ *//'
+    
+    ****
+    Warning: binaries are optimized for your system and might not run on a different system,
+    use --enable-arch=no to avoid this.
+    ****
+
+  HEREDOC
+fi
+
+
