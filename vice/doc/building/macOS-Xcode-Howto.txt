@@ -10,9 +10,8 @@ build, launch and debug an emulator. Here's one way to do it:
 versions of GLib and GTK via https://github.com/dqh-github/homebrew-debug. This
 will allow you to step into and set breakpoints in GLib, GTK, GDK etc.
 
-2. Follow either macOS-GTK3-Howto.txt or macOS-SDL2-Howto.txt to configure,
-build and install a build and make sure you follow the step to symlink in
-/usr/local/lib.
+2. Follow either macOS-Howto.txt to configure, build and install a build and
+make sure you follow the step to symlink in /usr/local/lib.
 
 3. Create a make wrapper in your build folder that gets pdftex in the path. This
 allows the docs to build when make is invoked by Xcode:
