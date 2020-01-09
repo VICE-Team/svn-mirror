@@ -2,9 +2,8 @@
 Binary Distribution:
 --------------------------------------------------------------------------------
 
-The binary distribution script now require that MacPorts be used for
-dependencies. MacPorts can be configured to compile for older versions
-of macOS.
+The binary distribution script now requires that MacPorts be used for
+dependencies. MacPorts can be configured to compile for older versions of macOS.
 
 1. Make sure Xcode 10 or earlier is active, otherwise the .app files created by
    platypus will require macOS 10.11. You can use xcode-select to choose which
@@ -83,12 +82,11 @@ build. Sorry :(
    You are looking for something like:
    "Developer ID Application: David Hogan (3RAEHPQQ6Z)"
 
-2. Sign the dmg file with your Apple developer id:
+2. 'make bindist(zip)' will now code sign everything if the CODE_SIGN_ID
+   environment variable is set:
 
-   $ SIGN_ID="<Your code signing id>"
-   $ DMG=<Your DMG file>
-   $ codesign -s "$SIGN_ID" --timestamp --options runtime -f --deep $DMG
-   $ codesign -vvv --deep --strict "$DMG"
+   $ export CODE_SIGN_ID="<Your code signing id>"
+   $ make bindistzip
 
 3. Follow Apple steps for notarisation at the URL below. If your Apple ID
    belongs to more than one team, you'll need to use the --asc-provider
@@ -97,3 +95,55 @@ build. Sorry :(
    use.
 
    https://tinyurl.com/macOS-notarisation
+
+   See below for the notarisation script that I wrote the to automate the
+   notarisation process for the offical VICE dmg files.
+
+--------------------------------------------------------------------------------
+Notarisation script
+--------------------------------------------------------------------------------
+
+#!/bin/bash
+set -o errexit
+set -o nounset
+
+APPLE_ID_EMAIL="<your apple ID email address>"
+NOTARISATION_PASSWORD="<a single app password for your apple ID>"
+NOTARISATION_PROVIDER="<your asc provider, see below>"
+
+#
+# You don't need the --asc-provider part if your apple ID is only in one team.
+#
+
+# verify that the signing looks ok
+codesign -vvv --deep --strict "$1"
+
+OUTPUT="$(mktemp)"
+xcrun altool --notarize-app \
+             --primary-bundle-id "$1" \
+             --username "$APPLE_ID_EMAIL" \
+             --password "$NOTARISATION_PASSWORD" \
+             --asc-provider "$NOTARISATION_PROVIDER" \
+             --file "$1" \
+             2>&1 | tee "$OUTPUT"
+UUID=$(awk '/RequestUUID/ { print $3 }' "$OUTPUT")
+
+if [ -z "$UUID" ]
+then
+    echo "ERROR: Failed to capture RequestUUID from xcrun output".
+    exit 1
+fi
+
+echo "Waiting for Status: success"
+
+while [ -z "$(grep "Status: success" "$OUTPUT")" ]
+do
+    sleep 10
+    xcrun altool --notarization-info "$UUID" \
+                 -u "$APPLE_ID_EMAIL" \
+                 -p "$NOTARISATION_PASSWORD" \
+                 2>&1 | tee "$OUTPUT"
+done
+
+xcrun stapler staple "$1"
+
