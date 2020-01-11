@@ -256,7 +256,7 @@ AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
 AS_IF([test x"$YACC" = "xno"], [AC_MSG_ERROR([Could not find byacc, yacc or bison!])])
 AC_CHECK_PROGS(MAKEINFO, makeinfo, :)
 AC_CHECK_PROGS(TEXI2DVI, texi2dvi, :)
-dnl AC_CHECK_PROGS(PDFTEX, pdftex, :)
+AC_CHECK_PROGS(PDFTEX, pdftex, :)
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 AC_CHECK_PROGS(XA, [xa xa65], no)
 AS_IF([test x"$XA" = "xno"], [AC_MSG_ERROR([xa is missing])])
@@ -608,7 +608,7 @@ if test x"$ar_check" != "xno"; then
   rm -f libvicetest.a vicetest.o
 fi
 
-if test x"$TEXI2DVI" = "x:"; then
+if test x"$TEXI2DVI" = "x:" -o x"$PDFTEX" = "x:"; then
   AM_CONDITIONAL(BUILD_PDF, false)
 else
   AM_CONDITIONAL(BUILD_PDF, true)
@@ -4112,7 +4112,7 @@ else
     echo "yes"
 fi
 echo -n "Generate PDF      : "
-if test x"$TEXI2DVI" = "x:"; then
+if test x"$TEXI2DVI" = "x:" -a x"$PDFTEX" = "x:"; then
     echo "no (install texinfo)"
 else
     echo "yes"
