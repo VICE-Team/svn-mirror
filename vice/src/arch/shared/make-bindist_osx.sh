@@ -469,15 +469,27 @@ done
 
 # --- create general command line launchers ---
 echo "  creating command line launchers"
+# TODO replace these with a small C program that we can code sign.
 for emu in $EMULATORS $TOOLS; do
   cat << "  HEREDOC" | sed 's/^    //' > "$BIN_DIR/$emu"
     #!/bin/bash
     cd $(dirname "$0")
     export PROGRAM="$(basename "$0")"
-    ../VICE.app/Contents/Resources/script
+    ../VICE.app/Contents/Resources/script "$@"
   HEREDOC
   chmod +x "$BIN_DIR/$emu"
 done
+
+cat << "HEREDOC" | sed 's/^  //' > "$BIN_DIR/README.txt"
+  These launchers are intended to be invoked from a terminal and make
+  visible the log output that is hidden when lanching the *.app versions.
+
+  From macOS 10.15 (Catalina) onwards, double clicking these in Finder
+  will not initially work due to not being able to codesign a shell script.
+  But after trying, you can open the 'Security & Privacy' section of System
+  Preferences and there will be an 'Open Anyway' button that allows it.
+HEREDOC
+
 
 # --- copy docs ---
 echo "  copying documents"
