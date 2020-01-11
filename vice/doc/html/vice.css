@@ -89,30 +89,45 @@ body {
 }
 
 h1 {
-    margin:24px 0;
+    margin:.5em 0 .5em 0;
     border:0px solid white;
-    padding:0.1em 0.2em 0.2em 0.1em;
 
     font-size:32px;
     font-weight:normal;
-    text-align:left;
 }
 h2 {
-    margin:24px 0;
+    margin:.5em 0 .5em 0;
     border:0px solid white;
-    padding:0.2em 0.2em 0.2em 0.2em;
 
     font-size:130%;
     font-weight:normal;
-    text-align:justify;
 }
 h3{
     margin:.5em 0 .5em 0;
     border:0px solid;
-    padding:0.2em 0.2em 0.2em 0.2em;
 
     font-size:110%;
     font-weight:bold;
+}
+h4{
+    margin:1em 0 .5em .5em;
+    border:0px solid;
+
+    font-size:100%;
+    font-weight:bold;
+}
+p {
+    margin-left:0.5em;
+    padding:0;
+}
+ul {
+    padding-left:2.25em;
+}
+li {
+    list-style-type:square;
+}
+li p {
+    margin-left:0em;   
 }
 
 b {
@@ -128,13 +143,6 @@ pre {
     font-weight:bold;
     font-size:120%;
     font-style:fixed;
-}
-li {
-    list-style-type:square;
-}
-ul {
-    margin-left:1em;
-    padding-left:0em;
 }
 
 a {
