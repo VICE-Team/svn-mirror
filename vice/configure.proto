@@ -260,13 +260,17 @@ dnl AC_CHECK_PROGS(PDFTEX, pdftex, :)
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 AC_CHECK_PROGS(XA, [xa xa65], no)
 AS_IF([test x"$XA" = "xno"], [AC_MSG_ERROR([xa is missing])])
+
+dnl Seems to be used for AmigaOS:
 AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
-AC_CHECK_PROGS(HHC, hhc, no)
-AC_CHECK_PROGS(MAKERTF, makertf, no)
-AC_CHECK_PROGS(HCRTF, hcrtf, no)
-AC_CHECK_PROGS(TEXI2IPF, texi2ipf, no)
-AC_CHECK_PROGS(IPFC, wipfc, no)
-AC_CHECK_PROGS(IPFC, ipfc, no)
+dnl Can't find any mention of these in the buildsystem, except here:
+dnl AC_CHECK_PROGS(HHC, hhc, no)
+dnl AC_CHECK_PROGS(MAKERTF, makertf, no)
+dnl AC_CHECK_PROGS(HCRTF, hcrtf, no)
+dnl AC_CHECK_PROGS(TEXI2IPF, texi2ipf, no)
+dnl AC_CHECK_PROGS(IPFC, wipfc, no)
+dnl AC_CHECK_PROGS(IPFC, ipfc, no)
+
 AC_CHECK_PROGS(ICONV, iconv, no)
 AS_IF([test x"$ICONV" = x"no"], [AC_MSG_ERROR([iconv is missing])])
 AC_CHECK_TOOL(RANLIB, ranlib, :)
