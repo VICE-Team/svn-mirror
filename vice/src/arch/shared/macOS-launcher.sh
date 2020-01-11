@@ -34,8 +34,7 @@ if [[ "$1" = -psn_* ]]; then
     shift
 fi
 
-cd "$(dirname "$0")"/../Resources
-
+cd "$(dirname "$0")"
 source bin/common-runtime.sh
 source bin/ui-runtime.sh
 
@@ -81,7 +80,16 @@ if [ -z "$PROGRAM" ]; then
 fi
 
 if [ "$PROGRAM" != "" ]; then
-  "bin/$PROGRAM" "$@"
+
+  #
+  # The macOS hardened runtime (needed for notarisation) seems to ignore
+  # DYLD_FALLBACK_PATH, and looks only in CWD and app Contents/Resources for
+  # dylib files. Rather than make Resources folder messy, just change the
+  # working dir to the lib folder within VICE.app so that it can find dynamic
+  # libraries.
+  #
+
+  cd lib && "../bin/$PROGRAM" "$@"
 fi
 
 exit 0

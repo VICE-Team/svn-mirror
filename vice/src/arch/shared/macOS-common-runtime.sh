@@ -34,9 +34,3 @@ BUNDLE_LIB="$BUNDLE_RESOURCES/lib"
 BUNDLE_BIN="$BUNDLE_RESOURCES/bin"
 BUNDLE_SHARE="$BUNDLE_RESOURCES/share"
 BUNDLE_ETC="$BUNDLE_RESOURCES/etc"
-
-# Fontconfig
-export FONTCONFIG_PATH="$BUNDLE_LIB/vice/fonts"
-
-# setup path to .dylib files loaded at runtime by dlopen
-export DYLD_FALLBACK_LIBRARY_PATH="$BUNDLE_LIB"
