@@ -470,7 +470,7 @@ done
 # --- create general command line launchers ---
 echo "  creating command line launchers"
 for emu in $EMULATORS $TOOLS; do
-  cat <<-"  HEREDOC" > "$BIN_DIR/$emu"
+  cat << "  HEREDOC" | sed 's/^    //' > "$BIN_DIR/$emu"
     #!/bin/bash
     cd $(dirname "$0")
     export PROGRAM="$(basename "$0")"
@@ -554,7 +554,7 @@ else
 fi
 
 if [ -z "$CODE_SIGN_ID" ]; then
-  cat <<-"  HEREDOC" | sed 's/^ *//'
+  cat << "  HEREDOC" | sed 's/^ *//'
 
     ****
     Bindist is not codesigned. To sign, export the CODE_SIGN_ID environment variable to
@@ -567,7 +567,7 @@ if [ -z "$CODE_SIGN_ID" ]; then
 fi
 
 if test x"$ENABLEARCH" = "xyes"; then
-  cat <<-"  HEREDOC" | sed 's/^ *//'
+  cat << "  HEREDOC" | sed 's/^ *//'
     
     ****
     Warning: binaries are optimized for your system and might not run on a different system,
