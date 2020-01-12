@@ -248,6 +248,7 @@ HDIGIT  [0-9a-f]
 <CMD>[_a-zA-Z][_a-zA-Z0-9]* { BEGIN(LABEL_ASGN); yylval.str = lib_strdup(yytext); return CMD_LABEL_ASGN; }
 
 ;		{ new_cmd = 1; return CMD_SEP; }
+<REG_ASGN>;     { new_cmd = 1; BEGIN(INITIAL); return CMD_SEP; }
 
 on  		{ yylval.i = e_ON; return TOGGLE; }
 off 		{ yylval.i = e_OFF; return TOGGLE; }
@@ -357,7 +358,7 @@ if		{ BEGIN (COND_MODE); return IF; }
                 yylval.str = lib_strdup(yytext+1);
                 BEGIN (INITIAL); return FILENAME; }
 
-<BNAME>[_a-zA-Z0-9]*      { yylval.str = lib_strdup(yytext); return BANKNAME; }
+<BNAME>[_a-zA-Z0-9]*      { yylval.str = lib_strdup(yytext); BEGIN (INITIAL); return BANKNAME; }
 
 <ROL>[^ \t\n][^\n]*          { yylval.str = lib_strdup(yytext); return R_O_L; }
 
