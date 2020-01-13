@@ -3654,13 +3654,8 @@ case "$host_os" in
     AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
     ;;
   linux*)
-    if test x"$host_cpu" = "xx86_64"; then
-      VICEDIR="$PREFIX/lib64/vice"
-      AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
-    else
-      VICEDIR="$PREFIX/lib/vice"
-      AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
-    fi
+    VICEDIR="$PREFIX/share/vice"
+    AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
     ;;
   *)
     VICEDIR="$PREFIX/lib/vice"
