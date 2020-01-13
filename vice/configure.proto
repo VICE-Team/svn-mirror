@@ -316,7 +316,6 @@ is_unix=no
 is_unix_x11=no
 is_unix_macosx=no
 is_win32=no
-is_win32_x11=no
 is_win32_gtk3=no
 is_os2=no
 is_beos=no
@@ -1189,7 +1188,9 @@ if test x"$check_gtk3" = "xyes"; then
 
     esac
 
-    if test x"$is_unix_macosx" != "xyes"; then
+    dnl Don't check for fontconfig on MacOS or Windows, we don't use fontconfig
+    dnl directly on those platforms
+    if test x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes"; then
       dnl check for fontconfig
       PKG_CHECK_MODULES([FONTCONFIG], [fontconfig >= 2.0.0],
           [HAVE_FONTCONFIG_SUPPORT=yes; LIBS="$LIBS -lfontconfig"],
