@@ -3655,7 +3655,8 @@ case "$host_os" in
     ;;
   linux*)
     VICEDIR="$PREFIX/share/vice"
-    AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
+    dnl TODO: change to true and handle share/doc/vice vs share/vice/doc
+    AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
     ;;
   *)
     VICEDIR="$PREFIX/lib/vice"
