@@ -1189,11 +1189,13 @@ if test x"$check_gtk3" = "xyes"; then
 
     esac
 
-    dnl check for fontconfig
-    PKG_CHECK_MODULES([FONTCONFIG], [fontconfig >= 2.0.0],
-        [HAVE_FONTCONFIG_SUPPORT=yes; LIBS="$LIBS -lfontconfig"],
-        AC_MSG_ERROR([failed to find fontconfig]))
-    AC_DEFINE(HAVE_FONTCONFIG,,[Use fontconfig for custom fonts.])
+    if test x"$is_unix_macosx" != "xyes"; then
+      dnl check for fontconfig
+      PKG_CHECK_MODULES([FONTCONFIG], [fontconfig >= 2.0.0],
+          [HAVE_FONTCONFIG_SUPPORT=yes; LIBS="$LIBS -lfontconfig"],
+          AC_MSG_ERROR([failed to find fontconfig]))
+      AC_DEFINE(HAVE_FONTCONFIG,,[Use fontconfig for custom fonts.])
+    fi
 
     dnl now that the GTK3 UI support has been detected, define enable_native_gtk3ui and undefine the others to prevent checks
     enable_native_gtk3ui=yes
