@@ -448,7 +448,8 @@ void vdc_store(uint16_t addr, uint8_t value)
 #endif
             break;
 
-        case 28:
+        case 28:                /* Character pattern address and memory type */
+            /* FIXME reg28 bit 4 sets RAM addressing. it does *not* show how much ram is installed */
             vdc.chargen_adr = ((vdc.regs[28] << 8) & 0xe000) & vdc.vdc_address_mask;
 #ifdef REG_DEBUG
             log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);
@@ -517,15 +518,6 @@ uint8_t vdc_read(uint16_t addr)
              /* Set the clock for when the vdc status will be clear after this operation */
             vdc_status_clear_clock = maincpu_clk + 37;
             return retval;
-        }
-
-        /* reg28 bit 4 is how much ram is installed. Technically this is only half-right as this bit is not set for 16k setups upgraded to 64k */
-        if (vdc.update_reg == 28) {
-            if (vdc.vdc_address_mask == 0xffff) {
-                return vdc.regs[28] | 0x1f;
-            } else {
-                return vdc.regs[28] | 0x0f;
-            }
         }
 
         /* reset light pen flag if either light pen position register is read */
