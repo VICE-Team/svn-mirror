@@ -183,7 +183,7 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
      *          so altering this file by hand won't be required anymore.
      */
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about),
-            "Copyright 1996-2019, VICE team");
+            "Copyright 1996-2020, VICE team");
 
     /* set logo */
     if (logo != NULL) {
