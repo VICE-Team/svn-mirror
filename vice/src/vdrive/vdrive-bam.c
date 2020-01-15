@@ -49,6 +49,8 @@
 #include "vdrive-command.h"
 #include "vdrive.h"
 
+/* #define DEBUG_DRIVE */
+
 /*
     return Maximum distance from dir track to start/end of disk.
 
@@ -93,7 +95,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
         int max_sector;
         t = vdrive->Bam_Track - d;
 #ifdef DEBUG_DRIVE
-        log_error(LOG_ERR, "Allocate first free sector on track %d.", t);
+        log_message(LOG_DEFAULT, "Allocate first free sector on track %d.", t);
 #endif
         if (d && t >= 1) {
             max_sector = vdrive_get_max_sectors(vdrive, t);
@@ -102,7 +104,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
                     *track = t;
                     *sector = s;
 #ifdef DEBUG_DRIVE
-                    log_error(LOG_ERR,
+                    log_message(LOG_DEFAULT,
                               "Allocate first free sector: %d,%d.", t, s);
 #endif
                     return 0;
@@ -111,7 +113,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
         }
         t = vdrive->Dir_Track + d;
 #ifdef DEBUG_DRIVE
-        log_error(LOG_ERR, "Allocate first free sector on track %d.", t);
+        log_message(LOG_DEFAULT, "Allocate first free sector on track %d.", t);
 #endif
         if (t <= (int)(vdrive->num_tracks)) {
             max_sector = vdrive_get_max_sectors(vdrive, t);
@@ -127,7 +129,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
                     *track = t;
                     *sector = s;
 #ifdef DEBUG_DRIVE
-                    log_error(LOG_ERR,
+                    log_message(LOG_DEFAULT,
                               "Allocate first free sector: %d,%d.", t, s);
 #endif
                     return 0;
