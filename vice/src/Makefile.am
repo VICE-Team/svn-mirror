@@ -2261,6 +2261,11 @@ c1541_LDADD = \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
+if WIN32_COMPILE
+c1541_LDFLAGS = -mconsole
+endif
+
+
 .PHONY: c1541-all
 c1541-all: \
 	$(BUILT_SOURCES) \
@@ -2297,6 +2302,10 @@ petcat_LDADD = \
 	@SDL_EXTRA_LIBS@ \
 	@ZLIB_LIBS@
 
+if WIN32_COMPILE
+petcat_LDFLAGS = -mconsole
+endif
+
 .PHONY: petcat-all
 petcat-all: \
 	$(BUILT_SOURCES) \
@@ -2307,6 +2316,11 @@ petcat-all: \
 
 # cartconv
 cartconv_SOURCES = cartconv.c
+
+if WIN32_COMPILE
+cartconv_LDFLAGS = -mconsole
+endif
+
 
 # distclean
 DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
