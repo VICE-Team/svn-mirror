@@ -37,15 +37,39 @@ AM_CPPFLAGS = \
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES = archdep.c joy.c kbd.c console.c ui.c uimon.c uistatusbar.c main.c signals.c video.c vsidui.c \
-vsyncarch.c c64scui.c mousedrv.c c64dtvui.c scpu64ui.c c128ui.c vic20ui.c petui.c plus4ui.c cbm2ui.c cbm5x0ui.c
+libarch_a_SOURCES = \
+	archdep.c \
+	joy.c \
+	kbd.c \
+	console.c \
+	ui.c \
+	uimon.c \
+	uistatusbar.c \
+	main.c \
+	signals.c \
+	video.c \
+	vsidui.c \
+	vsyncarch.c \
+	c64scui.c \
+	mousedrv.c \
+	c64dtvui.c \
+	scpu64ui.c \
+	c128ui.c \
+	vic20ui.c \
+	petui.c \
+	plus4ui.c \
+	cbm2ui.c \
+	cbm5x0ui.c
 
-EXTRA_DIST = archdep.h \
-archdep_unix.h \
-archdep_win32.h \
-coproc.h \
-joy.h \
-kbd.h \
-mousedrv.h \
-ui.h \
-videoarch.h
+EXTRA_DIST = \
+	archdep.h \
+	archdep_unix.h \
+	archdep_win32.h \
+	coproc.h \
+	debug_headless.h \
+	joy.h \
+	kbd.h \
+	mousedrv.h \
+	ui.h \
+	uistatusbar.h \
+	videoarch.h
