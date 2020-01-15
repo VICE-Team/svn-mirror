@@ -142,7 +142,7 @@
 #define NUM_BLOCKS_8050        2083     /* 2052 free */
 #define MAX_TRACKS_8050        77
 #define MAX_BLOCKS_8050        2083
-#define BAM_TRACK_8050         39
+#define BAM_TRACK_8050         38
 #define BAM_SECTOR_8050        0
 #define BAM_NAME_8050          6        /* pos. of disk name in 1st BAM blk */
 #define BAM_ID_8050            24       /* pos. of disk id in 1st BAM blk */
@@ -153,7 +153,7 @@
 #define NUM_BLOCKS_8250        4166     /* 4133 free */
 #define MAX_TRACKS_8250        154
 #define MAX_BLOCKS_8250        4166
-#define BAM_TRACK_8250         39
+#define BAM_TRACK_8250         38
 #define BAM_SECTOR_8250        0
 #define BAM_NAME_8250          6        /* pos. of disk name in 1st BAM blk */
 #define BAM_ID_8250            24       /* pos. of disk id in 1st BAM blk */
