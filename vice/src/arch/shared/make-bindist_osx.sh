@@ -140,9 +140,7 @@ APP_LIB=$APP_RESOURCES/lib
 
 # --- use platypus for bundling ---
 PLATYPUS_PATH="/opt/local/bin/platypus"
-if [ -e "$PLATYPUS_PATH" ]; then
-  PLATYPUS_VERSION=`$PLATYPUS_PATH -v | cut -f 3 -d ' '`
-else
+if [ ! -e "$PLATYPUS_PATH" ]; then
   echo "ERROR: platypus not found (sudo port install platypus)"
   exit 1
 fi
@@ -160,7 +158,8 @@ make_app_bundle() {
       -V "$VICE_VERSION" \
       -u "The VICE Team" \
       -I "org.viceteam.$app_name" \
-      -c "$2" \
+      -c "$app_launcher" \
+      -D \
       -R \
       -B \
       "$app_path" \
@@ -173,6 +172,16 @@ make_app_bundle() {
 
     exit 1
   fi
+
+  #
+  # For some reason can't set the CFBundlePackageType key directly using platypus.
+  # Without this the codesigning works but spctl --assess --verbose *.app results
+  # in "rejected (the code is valid but does not seem to be an app)" -- which
+  # means it won't get past gatekeeper properly, at least on 10.14. But it will on
+  # 10.15 if it's notarised. Wtf Apple.
+  #
+
+  /usr/libexec/PlistBuddy -c "Add CFBundlePackageType string APPL" "$app_path/Contents/Info.plist"
 }
 
 echo "  bundling $BUNDLE.app: "
