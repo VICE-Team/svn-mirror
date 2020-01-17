@@ -1017,6 +1017,7 @@ be found that works for both.
         uint32_t trap_result;                                                            \
         EXPORT_REGISTERS();                                                           \
         if (!ROM_TRAP_ALLOWED() || (trap_result = ROM_TRAP_HANDLER()) == (uint32_t)-1) { \
+            cpu_is_jammed = 1;                                                        \
             REWIND_FETCH_OPCODE(CLK);                                                 \
             JAM();                                                                    \
         } else {                                                                      \
@@ -1970,6 +1971,8 @@ static const uint8_t rewind_fetch_tab[] = {
 /* Here, the CPU is emulated. */
 
 {
+    static int cpu_is_jammed = 0;
+
     /* handle 8502 fast mode refresh cycles */
     CPU_REFRESH_CLK
 
@@ -1982,6 +1985,17 @@ static const uint8_t rewind_fetch_tab[] = {
 
     PROCESS_ALARMS
 
+    /* HACK: when the CPU is jammed, no interrupts are served, the only way 
+       to recover is reset. so we clear the interrupt flags and force 
+       acknowledging them here in this case. */
+    if (cpu_is_jammed) {
+        interrupt_ack_irq(CPU_INT_STATUS);
+        CPU_INT_STATUS->global_pending_int &= ~(IK_IRQ | IK_NMI);
+        if (CPU_INT_STATUS->global_pending_int & IK_RESET) {
+            cpu_is_jammed = 0;
+        }
+    }
+    
     {
         enum cpu_int pending_interrupt;
 
@@ -2106,6 +2120,7 @@ trap_skipped:
             case 0x32:          /* JAM */
             case 0x42:          /* JAM */
 #endif
+                cpu_is_jammed = 1;
                 REWIND_FETCH_OPCODE(CLK);
                 JAM();
                 break;

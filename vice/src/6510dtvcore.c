@@ -967,6 +967,7 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
         uint32_t trap_result;                                                            \
         EXPORT_REGISTERS();                                                           \
         if (!ROM_TRAP_ALLOWED() || (trap_result = ROM_TRAP_HANDLER()) == (uint32_t)-1) { \
+            cpu_is_jammed = 1;                                                        \
             REWIND_FETCH_OPCODE(CLK);                                                 \
             JAM();                                                                    \
         } else {                                                                      \
@@ -1641,12 +1642,25 @@ static const uint8_t fetch_tab[] = {
 /* Here, the CPU is emulated. */
 
 {
+    static int cpu_is_jammed = 0;
+    
 #ifdef CHECK_AND_RUN_ALTERNATE_CPU
     CHECK_AND_RUN_ALTERNATE_CPU
 #endif
 
     while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
         alarm_context_dispatch(ALARM_CONTEXT, CLK);
+    }
+    
+    /* HACK: when the CPU is jammed, no interrupts are served, the only way 
+       to recover is reset. so we clear the interrupt flags and force 
+       acknowledging them here in this case. */
+    if (cpu_is_jammed) {
+        interrupt_ack_irq(CPU_INT_STATUS);
+        CPU_INT_STATUS->global_pending_int &= ~(IK_IRQ | IK_NMI);
+        if (CPU_INT_STATUS->global_pending_int & IK_RESET) {
+            cpu_is_jammed = 0;
+        }
     }
 
     {
@@ -1742,6 +1756,7 @@ trap_skipped:
             case 0x32:          /* JAM */
             case 0x42:          /* JAM */
 #endif
+                cpu_is_jammed = 1;
                 REWIND_FETCH_OPCODE(CLK);
                 JAM();
                 break;
