@@ -319,7 +319,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE#%i: OPEN: Name '%s' (%d) on ch %d.",
+    log_debug("VDRIVE#%u: OPEN: Name '%s' (%u) on ch %u.",
               vdrive->unit, name, length, secondary);
 #endif
 
@@ -352,7 +352,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
      */
     if (p->mode != BUFFER_NOT_IN_USE) {
 #ifdef DEBUG_DRIVE
-        log_debug("Cannot open channel %d. Mode is %d.", secondary, p->mode);
+        log_debug("Cannot open channel %u. Mode is %u.", secondary, p->mode);
 #endif
         vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_CHANNEL, 0, 0);
         return SERIAL_ERROR;
@@ -373,8 +373,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
             goto out;
         }
 #ifdef DEBUG_DRIVE
-        log_debug("Raw file name: `%s', length: %i.", name, length);
-        log_debug("Parsed file name: `%s', reallength: %i. drive: %i",
+        log_debug("Raw file name: `%s', length: %u.", name, length);
+        log_debug("Parsed file name: `%s', reallength: %u. drive: %i",
                   cmd_parse->parsecmd, cmd_parse->parselength, cmd_parse->drive);
 #endif
         if (cmd_parse->drive != -1) {
@@ -782,7 +782,7 @@ int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
 
 #ifdef DEBUG_DRIVE
     if (p->mode == BUFFER_COMMAND_CHANNEL) {
-        log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+        log_debug("Disk read  %u [%02d %02d] data %02x (%c).",
                   p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
     }
 #endif
@@ -802,7 +802,7 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 
 #ifdef DEBUG_DRIVE
     if (p->mode == BUFFER_COMMAND_CHANNEL) {
-        log_debug("Disk write %d [%02d %02d] data %02x (%c).",
+        log_debug("Disk write %u [%02d %02d] data %02x (%c).",
                   p->mode, 0, 0, data, (isprint(data) ? data : '.'));
     }
 #endif
@@ -864,8 +864,8 @@ void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
 #ifdef DEBUG_DRIVE
-    log_debug("FLUSH:, secondary = %d, buffer=%s\n "
-              "  bufptr=%d, length=%d, read?=%d.", secondary, p->buffer,
+    log_debug("FLUSH:, secondary = %u, buffer=%s\n "
+              "  bufptr=%u, length=%u, read?=%d.", secondary, p->buffer,
               p->bufptr, p->length, p->readmode == CBMDOS_FAM_READ);
 #endif
 

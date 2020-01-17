@@ -307,7 +307,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         default:
             return -1;
     }
-    DBG(("vdrive_attach_image image type:%d vdrive format:%d num_tracks:%d bam_size:%d",
+    DBG(("vdrive_attach_image image type:%u vdrive format:%u num_tracks:%u bam_size:%u",
          image->type, vdrive->image_format, vdrive->num_tracks, vdrive->bam_size));
 
     /* Initialise format constants */

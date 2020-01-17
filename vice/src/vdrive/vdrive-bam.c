@@ -105,7 +105,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
                     *sector = s;
 #ifdef DEBUG_DRIVE
                     log_message(LOG_DEFAULT,
-                              "Allocate first free sector: %d,%d.", t, s);
+                              "Allocate first free sector: %d,%u.", t, s);
 #endif
                     return 0;
                 }
@@ -130,7 +130,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
                     *sector = s;
 #ifdef DEBUG_DRIVE
                     log_message(LOG_DEFAULT,
-                              "Allocate first free sector: %d,%d.", t, s);
+                              "Allocate first free sector: %d,%u.", t, s);
 #endif
                     return 0;
                 }

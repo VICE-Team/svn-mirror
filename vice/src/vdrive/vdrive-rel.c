@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "cbmdos.h"
 #include "diskimage.h"
@@ -738,7 +739,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     uint8_t *slot;
 
 #ifdef DEBUG_DRIVE
-    log_debug("vdrive_rel_open_new: Name (%d) '%s'",
+    log_debug("vdrive_rel_open_new: Name (%u) '%s'",
               cmd_parse->parselength, cmd_parse->parsecmd);
 #endif
 
@@ -759,7 +760,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, cmd_parse->parsecmd, cmd_parse->parselength);
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: Created dir slot. Name (%d) '%s'",
+    log_debug("DIR: Created dir slot. Name (%u) '%s'",
               cmd_parse->parselength, cmd_parse->parsecmd);
 #endif
     p->slot[SLOT_TYPE_OFFSET] = cmd_parse->filetype | 0x80;       /* closed */
@@ -770,8 +771,12 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     memcpy(&(p->dir.buffer[p->dir.slot * 32 + 2]), p->slot + 2, 30);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DEBUG: write DIR slot (%d %d).",
+    log_debug("DEBUG: write DIR slot (%u %u).",
+#if 0
               vdrive->Curr_track, vdrive->Curr_sector);
+#endif
+            /* hope I got this right: */
+              p->dir.track, p->dir.sector);
 #endif
     /* Write the sector */
     vdrive_write_sector(vdrive, p->dir.buffer, p->dir.track, p->dir.sector);
@@ -1218,7 +1223,7 @@ int vdrive_rel_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
     #ifdef DEBUG_DRIVE
                 if (p->mode == BUFFER_COMMAND_CHANNEL) {
                     log_error(vdrive_rel_log,
-                              "Disk read  %d [%02d %02d] data %02x (%c).",
+                              "Disk read  %u [%02d %02d] data %02x (%c).",
                               p->mode, 0, 0, *data, (isprint(*data)
                                                      ? *data : '.'));
                 }
@@ -1364,7 +1369,7 @@ int vdrive_rel_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 #ifdef DEBUG_DRIVE
             if (p->mode == BUFFER_COMMAND_CHANNEL) {
                 log_error(vdrive_rel_log,
-                          "Disk read  %d [%02d %02d] data %02x (%c).",
+                          "Disk read  %u [%02d %02d] data %02x (%c).",
                           p->mode, 0, 0, data, (isprint(data)
                                                 ? data : '.'));
             }

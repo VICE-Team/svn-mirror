@@ -128,8 +128,9 @@ void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
 /* Tries to allocate the given track/sector and link it */
 /* to the current directory sector of vdrive.           */
 /* Returns NULL if the allocation failed.               */
-static uint8_t *find_next_directory_sector(vdrive_dir_context_t *dir, unsigned int track,
-                                        unsigned int sector)
+static uint8_t *find_next_directory_sector(vdrive_dir_context_t *dir,
+                                           unsigned int track,
+                                           unsigned int sector)
 {
     vdrive_t *vdrive = dir->vdrive;
 
@@ -138,7 +139,7 @@ static uint8_t *find_next_directory_sector(vdrive_dir_context_t *dir, unsigned i
         dir->buffer[1] = sector;
         vdrive_write_sector(vdrive, dir->buffer, dir->track, dir->sector);
 #ifdef DEBUG_DRIVE
-        log_debug("Found (%d %d) TR = %d SE = %d.",
+        log_debug("Found (%u %u) TR = %u SE = %u.",
                   track, sector, dir->track, dir->sector);
 #endif
         dir->slot = 0;
@@ -226,7 +227,7 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
     dir->buffer[1] = vdrive->Dir_Sector;
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_first_slot (curr t:%d/s:%d dir t:%d/s:%d)",
+    log_debug("DIR: vdrive_dir_find_first_slot (curr t:%u/s:%u dir t:%u/s:%u)",
               dir->track, dir->sector, vdrive->Dir_Track, vdrive->Dir_Sector);
 #endif
 }
@@ -237,7 +238,8 @@ uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
     vdrive_t *vdrive = dir->vdrive;
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot start (t:%d/s:%d) #%d", dir->track, dir->sector, dir->slot);
+    log_debug("DIR: vdrive_dir_find_next_slot start (t:%u/s:%u) #%u",
+            dir->track, dir->sector, dir->slot);
 #endif
     /*
      * Loop all directory blocks starting from track 18, sector 1 (1541).
@@ -276,7 +278,8 @@ uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
     } while (1);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot (t:%d/s:%d) #%d", dir->track, dir->sector, dir->slot);
+    log_debug("DIR: vdrive_dir_find_next_slot (t:%u/s:%u) #%u",
+            dir->track, dir->sector, dir->slot);
 #endif
 
     /*
