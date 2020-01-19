@@ -90,3 +90,113 @@ make
 make bindistzip
 
 TODO: Update instructions for readline, ffmpeg, etc. etc. as needed.
+
+
+
+Building on Windows with MSYS2
+==============================
+
+To build the SDL version on Windows, we use the MinGW toolchain as provided by
+the MSYS2 project: https://www.msys2.org/
+
+We'll be using the x86_64 version in this guide, and we'll install it into
+C:\opt\msys64. So download and install the lastest x86_64 installer and follow
+the instructions on the msys2 website.
+MSYS2 shell commands will be indicated with '$' from now on.
+
+
+Install development packages
+----------------------------
+
+After installing the msys2 base system we need a "few" more packages, so:
+
+$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: SDL2 libpng
+
+Select 'all' for the base-devel group, then proceed to install a few packages,
+perhaps grab a beer, have some coffee or tea while msys2 does its magic.
+
+Now we need the xa assembler to build the VSID driver, which isn't in the MSYS2
+repo, so we'll build it ourselves:
+
+$ wget https://www.floodgap.com/retrotech/xa/dists/xa-2.3.10.tar.gz
+$ tar -xvzf xa-2.3.10.tar.gz
+$ cd xa-2.3.10
+$ make
+$ make install
+$ cd ~
+
+
+Check out VICE via SVN and create a minimal SDL2 build
+------------------------------------------------------
+
+$ svn checkout https://svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
+
+(If you need write access to SVN, you'll need to install openssh and check out
+ trunk with the svn+ssh protocol)
+
+Change to the vice dir and see if we can build the SDL2 VICE UI:
+
+$ cd vice-trunk/vice
+# Generate the required build system files, such as configure:
+$ ./autogen.sh
+
+Now let's try to configure a minimal working SDL2 build:
+
+$ ./configure --enable-sdlui2
+(This will take a while on Windows, be patient)
+
+Once this passes succesfully, we can try to actually build SDL2-VICE:
+
+$ make
+(Or, to collect any warnings during building: make 2>&1 | tee build.log)
+
+Once this succesfully finishes, we can try to run x64sc:
+
+# Create a temorary dir with the files needed for x64sc (ROMs, keymaps, palette
+# files, etc):
+$ mkdir ~/alldata-c64
+$ cp data/C64/* ~/alldata-c64
+$ cp data/DRIVES/* ~/alldata-c64
+
+Now run x64sc using this directory for the data files:
+$ src/x64sc -directory ~/alldata-c64
+
+If that works, building SDL2-VICE worked!
+
+
+Creating a proper install
+-------------------------
+
+Now we can create a proper directory with all required files:
+$ make bindist
+
+If you see a warning about binaries being optimized for your system: if you
+won't redistribute your bindist then all is fine, if you do plan to
+redistribute, than you should pass --enable-arch=no to ./configure. (In that
+case you'll have to do a make clean first to make sure the new configure switch
+is properly used to rebuild all object files)
+
+Now start cmd.exe and CD into the bindist dir:
+
+$ cd \opt\msys64\home\compyx\vice-trunk\vice\SDL2VICE-3.4-win64-r37378
+# (Obviously alter the above to match your path)
+$ x64sc
+# Maybe test a few others, for example xpet:
+$ xpet
+
+If this works you can copy the SDL2VICE-3.* dir to where you want it and rename
+it if required. For example copy/movce it to C:\opt\vice-sdl2 and update your
+Windows' $PATH to contain 'C:\opt\vice-sdl2'
+
+
+Adding features (TODO)
+----------------------
+
+* building documentation (set up and use MikTeX)
+* network support (pcap)
+* screenshot support (jpeg, gif)
+
+-- Compyx, 20120-01-19
+
+
+
