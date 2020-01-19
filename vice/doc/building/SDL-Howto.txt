@@ -104,6 +104,9 @@ C:\opt\msys64. So download and install the lastest x86_64 installer and follow
 the instructions on the msys2 website.
 MSYS2 shell commands will be indicated with '$' from now on.
 
+Make sure to have at least 3-4 GB free, preferably a few more, msys2 takes up
+quite a bit of space (2GB+) and VICE's trunk is also nothing to sneeze at.
+
 
 Install development packages
 ----------------------------
@@ -176,7 +179,7 @@ redistribute, than you should pass --enable-arch=no to ./configure. (In that
 case you'll have to do a make clean first to make sure the new configure switch
 is properly used to rebuild all object files)
 
-Now start cmd.exe and CD into the bindist dir:
+Now start cmd.exe and cd into the bindist dir:
 
 $ cd \opt\msys64\home\compyx\vice-trunk\vice\SDL2VICE-3.4-win64-r37378
 # (Obviously alter the above to match your path)
@@ -196,7 +199,5 @@ Adding features (TODO)
 * network support (pcap)
 * screenshot support (jpeg, gif)
 
--- Compyx, 20120-01-19
-
-
+-- Compyx, 2020-01-19
 
