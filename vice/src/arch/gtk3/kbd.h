@@ -50,6 +50,8 @@ void kbd_arch_shutdown(void);
 void kbd_initialize_numpad_joykeys(int *joykeys);
 void kbd_connect_handlers(GtkWidget *widget, void *data);
 
+/** \brief  Prefix for the Gtk3 port keymap files
+ */
 #define KBD_PORT_PREFIX "gtk3"
 
 /* add more function prototypes as needed below */

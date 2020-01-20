@@ -173,7 +173,7 @@ static int kbd_get_modifier(GdkEvent *report)
 
 /** \brief  Gtk keyboard event handler
  *
- * \param[in]   widget  widget triggering the event
+ * \param[in]   w       widget triggering the event
  * \param[in]   report  event object
  * \param[in]   gp      extra data (unused)
  *
