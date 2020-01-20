@@ -37,8 +37,14 @@ FFMPEG libraries and headers.
 To build SDL1, pass --enable-sdlui to configure instead of --enable-sdlui2,
 and you will need OpenGL headers and libraries as well if you want free-scaling.
 
+
+
 Steps to set up the needed external SDL libs for building using with minGW
 --------------------------------------------------------------------------
+
+(For instructions on using MSYS2 and SDL2 on Windows, see further down this
+ document: "Building on Windows with MSYS2")
+
 1. You will need to download the current version of SDL headers and libs for minGW. 
    They can be found here https://www.libsdl.org/release/SDL-devel-1.2.15-mingw32.tar.gz
 2. Locate your minGW install include directory (ex. C:\MinGW\include), and
@@ -57,7 +63,7 @@ libstdc++.dll & libgcc.dll files from the minGW (ex. C:\MinGW\bin) directory to 
 windows path (ex. \WINDOWS\system32) or you can just drop them in the local SDLVICE 
 binary dir so they can be found during runtime.
 
-TODO: Update these instructions for MSYS2 and SDL2.
+
 
 Building on macOS
 -----------------

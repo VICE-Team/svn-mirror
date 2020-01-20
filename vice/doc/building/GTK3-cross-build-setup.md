@@ -1,6 +1,7 @@
 # Creating a cross-build system for building Gtk3-Windows on Linux
 
 **WARNING**: Work in progress, do not use these instructions yet!
+             You're better off using the 'GTK3-debian-frankenvice.md' document.
 
 
 ## Test machine setup details
