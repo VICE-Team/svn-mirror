@@ -151,7 +151,8 @@ typedef struct ui_resources_s {
  */
 static ui_resource_t ui_resources;
 
-
+/** \brief  Fullscreen state
+ */
 static int fullscreen_enabled = 0;
 
 
@@ -367,6 +368,8 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  * \param[in]   y       y position of drag event
  * \param[in]   time    (I don't have a clue)
  * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE
  */
 static gboolean ui_on_drag_drop(
         GtkWidget *widget,
@@ -501,6 +504,13 @@ static void ui_on_drag_data_received(
 }
 
 
+/** \brief  Set fullscreen state \a val
+ *
+ * \param[in]   val     fullscreen state (boolean)
+ * \param[in]   param   extra argument (unused(
+ *
+ * \return 0
+ */
 static int set_fullscreen_state(int val, void *param)
 {
     debug_gtk3("called with %d.", val);
@@ -1013,7 +1023,8 @@ void ui_set_create_controls_widget_func(GtkWidget *(*func)(int))
  * Looks like debug code. But better keep it here to debug the warnings about
  * GtkEventBox'es getting destroyed prematurely.
  *
- * \param[in]   widget  widget
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   data    extra event data (unused)
  */
 static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 {
@@ -1978,7 +1989,12 @@ void ui_enable_mixer_controls(int enabled)
 }
 
 
-
+/** \brief  Get GtkWindow instance by \a index
+ *
+ * \param[in]   index   index in the windows widgets array (0-2)
+ *
+ * \return  GtkWindow instance
+ */
 GtkWidget *ui_get_window_by_index(int index)
 {
     if (index < 0 || index >= NUM_WINDOWS) {

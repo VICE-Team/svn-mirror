@@ -2,6 +2,7 @@
  * \brief   Main Gtk3 UI code - header
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -50,6 +51,8 @@ enum {
 };
 
 
+/** \brief  Number of drag-n-drop targets
+ */
 #define UI_DRAG_TARGETS_COUNT   3
 
 
@@ -80,7 +83,6 @@ void ui_destroy_main_window(int index);
 
 void ui_dispatch_events(void);
 void ui_exit(void);
-void ui_show_text(const char *title, const char *text, int width, int height);
 
 void ui_display_paused(int flag);
 
