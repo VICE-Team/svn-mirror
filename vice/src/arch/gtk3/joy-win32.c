@@ -109,14 +109,14 @@ static BOOL CALLBACK EnumJoyAxes(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvRef)
 
     joy = (JoyInfo*)pvRef;
 
-    //  Save info about axis
+    /*  Save info about axis */
     axis = lib_malloc(sizeof(JoyAxis));
     axis->next = NULL;
     axis->id = DIDFT_GETINSTANCE(lpddoi->dwType);
     axis->name = lib_strdup(lpddoi->tszName);
     axis->dwOffs = lpddoi->dwOfs;
 
-    //  Link axis into list for this joystick
+    /*  Link axis into list for this joystick */
     if (joy->axes == NULL) {
         joy->axes = axis;
     } else {
@@ -137,14 +137,14 @@ static BOOL CALLBACK EnumJoyButtons(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvR
 
     joy = (JoyInfo*)pvRef;
 
-    //  Save info about button
+    /*  Save info about button */
     button = lib_malloc(sizeof(JoyButton));
     button->next = NULL;
     button->id = DIDFT_GETINSTANCE(lpddoi->dwType);
     button->name = lib_strdup(lpddoi->tszName);
     button->dwOffs = lpddoi->dwOfs;
 
-    //  Link button into list for this joystick
+    /*  Link button into list for this joystick */
     if (joy->buttons == NULL) {
         joy->buttons = button;
     } else {
@@ -164,7 +164,7 @@ static BOOL CALLBACK EnumJoyPOVs(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvRef)
 
     joy = (JoyInfo*)pvRef;
 
-    //  Save info about POV
+    /*  Save info about POV */
     joy->numPOVs += 1;
 
     return DIENUM_CONTINUE;
@@ -343,8 +343,9 @@ int joy_arch_set_device(int port_idx, int new_dev)
     int old_dev = joystick_port_map[port_idx];
 
 #if 1
-    //  FIXME: this assumes there are 2 hardware joysticks when
-    //  the real number may be more or less.
+    /*  FIXME: this assumes there are 2 hardware joysticks when
+     *  the real number may be more or less.
+     */
     switch (new_dev) {
         case JOYDEV_NONE:
         case JOYDEV_NUMPAD:
@@ -675,10 +676,10 @@ static BYTE joystick_di5_update(int joy_no)
     IDirectInputDevice2_Poll(joystick_di_devices2[joy_no]);
     IDirectInputDevice_GetDeviceState(joystick_di_devices[joy_no], sizeof(DIJOYSTATE), &js);
 
-    //  Get boundary values for X axis
+    /* Get boundary values for X axis */
     prop.diph.dwSize = sizeof(DIPROPRANGE);
     prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-    prop.diph.dwObj = 0;    // Offset of X axis
+    prop.diph.dwObj = 0;    /* Offset of X axis */
     prop.diph.dwHow = DIPH_BYOFFSET;
     IDirectInputDevice_GetProperty(joystick_di_devices[joy_no], DIPROP_RANGE, (DIPROPHEADER*)&prop);
     if (js.lX <= prop.lMin + (prop.lMax - prop.lMin) / 4) {
@@ -688,10 +689,10 @@ static BYTE joystick_di5_update(int joy_no)
         value |= 8;
     }
 
-    //  Get boundary values for Y axis
+    /* Get boundary values for Y axis */
     prop.diph.dwSize = sizeof(DIPROPRANGE);
     prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-    prop.diph.dwObj = 4;    // Offset of Y axis
+    prop.diph.dwObj = 4;    /* Offset of Y axis */
     prop.diph.dwHow = DIPH_BYOFFSET;
     IDirectInputDevice_GetProperty(joystick_di_devices[joy_no], DIPROP_RANGE, (DIPROPHEADER*)&prop);
     if (js.lY <= prop.lMin + (prop.lMax - prop.lMin) / 4) {
@@ -701,7 +702,7 @@ static BYTE joystick_di5_update(int joy_no)
         value |= 2;
     }
 
-    //  Find the joystick object
+    /*  Find the joystick object */
 
     afire_button = -1;
     fire_button = -1;
