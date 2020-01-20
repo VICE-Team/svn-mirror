@@ -134,6 +134,10 @@ static const cart_type_list_t c64_cart_types[] = {
 };
 
 
+/** \brief  List of VIC-20 'main' cart types
+ *
+ * The generic type will use the generic carts list in #vic20_cart_types_generic
+ */
 static const cart_type_list_t vic20_cart_types[] = {
     { "Smart-attach",               UICART_VIC20_SMART },
     { "Behr Bonz",                  UICART_VIC20_BEHRBONZ },
@@ -146,6 +150,9 @@ static const cart_type_list_t vic20_cart_types[] = {
     { NULL, -1 }
 };
 
+
+/** \brief  List of Plus4/C16/C116 cart types
+ */
 static const cart_type_list_t plus4_cart_types[] = {
     { "Smart-attach",               UICART_PLUS4_SMART },
     { "NewROM",                     UICART_PLUS4_NEWROM },
@@ -161,6 +168,9 @@ static const cart_type_list_t plus4_cart_types[] = {
     { NULL, -1 }
 };
 
+
+/** \brief  List of CBM-II cart types
+ */
 static const cart_type_list_t cbm2_cart_types[] = {
     /*{ "Smart-attach",               UICART_CBM2_SMART },*/
     { "8k at $1000",                UICART_CBM2_8KB_1000 },
@@ -171,6 +181,8 @@ static const cart_type_list_t cbm2_cart_types[] = {
 };
 
 
+/** \brief  List of VIC-20 cart types of the 'generic' variety
+ */
 static const cart_type_list_t vic20_cart_types_generic[] = {
     { "Add smart-attach cartridge image",   CARTRIDGE_VIC20_DETECT },
     { "Add 4/8/16KB cartridge at $2000",    CARTRIDGE_VIC20_16KB_2000 },
@@ -213,27 +225,65 @@ static gchar *last_dir = NULL;
 
 
 /* list of cartridge handling functions (to avoid vsid link errors) */
+
+/** \brief  Machine-specific cart type detection function pointer */
 static int  (*crt_detect_func)(const char *filename) = NULL;
+
+/** \brief  Machine-specific cart attach function pointer */
 static int  (*crt_attach_func)(int type, const char *filename) = NULL;
+
+/** \brief  Machine-specific cart freeze function pointer */
 static void (*crt_freeze_func)(void) = NULL;
+
+/** \brief  Machine-specific cart detach function pointer */
 static void (*crt_detach_func)(int type) = NULL;
+
+/** \brief  Machine-specific cart info retrieval function pointer */
 static cartridge_info_t *(*crt_list_func)(void) = NULL;
+
+/** \brief  Machine-specific cart set-default function pointer */
 static void (*crt_set_default_func)(void) = NULL;
+
+/** \brief  Machine-specific cart unset-default function pointer */
 static void (*crt_unset_default_func)(void) = NULL;
 
-/* references to widgets used in various event handlers */
+
+/* References to widgets used in various event handlers */
+
+/** \brief  Reference to the cart dialog */
 static GtkWidget *cart_dialog = NULL;
+
+
+/** \brief  Reference to the cart dialog */
 static GtkWidget *cart_type_widget = NULL;
+
+/** \brief  Reference to the cart-id widget */
 static GtkWidget *cart_id_widget = NULL;
+
+/** \brief  Reference to the cart content 'preview' widget
+ *
+ * This widget shows the contents of the cart selected in the dialog.
+ */
 static GtkWidget *cart_preview_widget = NULL;
+
+/** \brief  Reference to the cart-set-default widget */
 static GtkWidget *cart_set_default_widget = NULL;
 
+/** \brief  Reference to the cart ID widget */
 static GtkWidget *cart_id_label = NULL;
 
-static GtkFileFilter *flt_crt = NULL;
+/** \brief  Reference to the dialog file filter showing only .crt images */
+ GtkFileFilter *flt_crt = NULL;
+
+/** \brief  Reference to the dialog file filter showing only .bin images */
 static GtkFileFilter *flt_bin = NULL;
+
+/** \brief  Reference to the dialog file filter showing .bin + .prg images */
 static GtkFileFilter *flt_bin_prg = NULL;
+
+/** \brief  Reference to the dialog file filter showing all files */
 static GtkFileFilter *flt_all = NULL;
+
 
 /* forward declarations of functions */
 static GtkListStore *create_cart_id_model(unsigned int flags);
@@ -637,6 +687,8 @@ static GtkListStore *create_cart_type_model(void)
  *
  * Only valid for c64/c128/scpu
  *
+ * \param[in]   flags   flags determining what cart types to use
+ *
  * \return  Three-column list store (name, crtid, flags)
  */
 static GtkListStore *create_cart_id_model(unsigned int flags)
@@ -882,6 +934,9 @@ static GtkWidget *create_preview_widget(void)
 }
 
 /** \brief  Update the 'preview' widget for the dialog
+ *
+ * \param[in,out]   file_chooser    GtkFileChooser instance
+ * \param[in]       data            extra event data (unused)
  *
  * \return  GtkGrid
  */
