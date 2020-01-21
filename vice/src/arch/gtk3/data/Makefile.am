@@ -20,11 +20,11 @@ all: $(GRESOURCE_TARGET)
 endif
 
 $(GRESOURCE_XML): $(GRESOURCE_PROTO)
-	cat $(GRESOURCE_PROTO) | sed -e "s@VICE_SRC_DIR@$(srcdir)@g" \
+	$(AM_V_at) cat $(GRESOURCE_PROTO) | sed -e "s@VICE_SRC_DIR@$(srcdir)@g" \
 		> $(GRESOURCE_XML)
 
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
-	glib-compile-resources $< --target $@
+	$(AM_V_at) glib-compile-resources $< --target $@
 
 if WIN32_COMPILE
 $(WINDRES_RC_TARGET): $(WINDRES_RC_PROTO)

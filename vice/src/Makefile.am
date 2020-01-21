@@ -596,36 +596,36 @@ BUILT_SOURCES = $(EMBEDDED_H_FILES) $(SVN_VERSION_HEADER) infocontrib.h
 .PHONY: svnversion.h.indirect
 
 svnversion.h.indirect:
-	$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
+	@$(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
 
 svnversion.h: svnversion.h.indirect
 
 if NATIVE_TOOLS
 $(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed $(srcdir)/buildtools/geninfocontrib.c
-	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/buildtools/geninfocontrib.c
+	@$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/buildtools/geninfocontrib.c
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed $(builddir)/geninfocontrib
 	@echo "generating infocontrib.h..."
-	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS README doc/html/index.html man/vice.1
-	iconv -f ISO-8859-1 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
+	@$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS README doc/html/index.html man/vice.1
+	@iconv -f ISO-8859-1 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	@echo "generating infocontrib.h..."
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../AUTHORS
-	sed -e 's/\\/@/g' -e 's/ /%/g' <$(top_srcdir)/README >./README.tmp
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
-	sed -e 's/@/\\/g' -e 's/%/ /g' <README2.tmp >../README
-	rm -f README*.tmp
-	cp $(top_srcdir)/doc/html/index.html ./index.tmp
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
-	rm -f index.tmp
-	cp $(top_srcdir)/man/vice.1 man.tmp
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh vice1 <man.tmp >man2.tmp
-	cat man2.tmp | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../man/vice.1
-	rm -f man*.tmp
-	rm -f team.tmp
-	iconv -f ISO-8859-1 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../AUTHORS
+	@sed -e 's/\\/@/g' -e 's/ /%/g' <$(top_srcdir)/README >./README.tmp
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
+	@sed -e 's/@/\\/g' -e 's/%/ /g' <README2.tmp >../README
+	@rm -f README*.tmp
+	@cp $(top_srcdir)/doc/html/index.html ./index.tmp
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
+	@rm -f index.tmp
+	@cp $(top_srcdir)/man/vice.1 man.tmp
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh vice1 <man.tmp >man2.tmp
+	@cat man2.tmp | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../man/vice.1
+	@rm -f man*.tmp
+	@rm -f team.tmp
+	@iconv -f ISO-8859-1 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
 endif
 
 
@@ -2541,11 +2541,11 @@ libvsid:
 
 if HAVE_SHARED_FFMPEG
 $(top_builddir)/src/libffmpeg.a: libffmpeg
-	touch dummy.c
-	$(CC) -o dummy.o -c dummy.c
-	$(AR) cru $(top_builddir)/src/libffmpeg.a dummy.o
-	$(RANLIB) $(top_builddir)/src/libffmpeg.a
-	rm dummy.o dummy.c
+	@touch dummy.c
+	@$(CC) -o dummy.o -c dummy.c
+	@$(AR) cru $(top_builddir)/src/libffmpeg.a dummy.o
+	@$(RANLIB) $(top_builddir)/src/libffmpeg.a
+	@rm dummy.o dummy.c
 endif
 
 if HAVE_STATIC_FFMPEG
@@ -2565,7 +2565,7 @@ $(top_builddir)/src/lib/libffmpeg/lib/libx264.a: libffmpeg
 endif
 
 clean-ffmpeg:
-	rm -f $(top_builddir)/src/libffmpeg.a
+	@rm -f $(top_builddir)/src/libffmpeg.a
 
 if HAVE_SHARED_FFMPEG
 EXTRA_CLEAN = clean-ffmpeg

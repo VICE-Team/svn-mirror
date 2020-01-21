@@ -313,22 +313,22 @@ $(am__aclocal_m4_deps):
 
 config.h: stamp-h1
 	@if test ! -f $@; then \
-	  rm -f stamp-h1; \
-	  $(MAKE) $(AM_MAKEFLAGS) stamp-h1; \
+	  $(Q) rm -f stamp-h1; \
+	  $(Q) $(MAKE) $(AM_MAKEFLAGS) stamp-h1; \
 	else :; fi
 
 stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
-	@rm -f stamp-h1
-	cd $(top_builddir) && $(SHELL) ./config.status config.h
+	$(Q) rm -f stamp-h1
+	$(Q) cd $(top_builddir) && $(SHELL) ./config.status config.h
 $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
-	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
-	rm -f stamp-h1
-	touch $@
+	$(Q) ($(am__cd) $(top_srcdir) && $(AUTOHEADER))
+	$(Q) rm -f stamp-h1
+	$(Q) touch $@
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
 lame.spec: $(top_builddir)/config.status $(srcdir)/lame.spec.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
+	$(Q) cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
 	-rm -f *.lo

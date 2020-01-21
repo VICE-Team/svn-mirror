@@ -307,6 +307,12 @@ AC_SUBST(VICE_VERSION)
 AC_SUBST(VERSION_RC)
 
 AM_INIT_AUTOMAKE(vice, $VICE_VERSION)
+
+dnl The silent mode of automake silent rules is not nearly silent enough for vice normal method
+AM_SILENT_RULES([yes])
+m4_include([m4/quiet_cc.m4])
+VICE_QUIET_CC()
+
 AM_CONFIG_HEADER(src/config.h)
 
 VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
@@ -406,8 +412,6 @@ AS_IF([test x"$enable_cpuhistory" = "xyes"],
 AS_IF([test x"$enable_new8580filter" = "xyes"],
   [AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the experimental new 8580 filter])
   ])
-
-AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
 
 user_cflags=$CFLAGS
 

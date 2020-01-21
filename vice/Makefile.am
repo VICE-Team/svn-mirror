@@ -1,9 +1,5 @@
 ACLOCAL_AMFLAGS=-Im4
 
-if VICE_QUIET
-.SILENT:
-endif
-
 # Process this file with automake to produce Makefile.in
 
 SUBDIRS = src build data man doc
