@@ -78,7 +78,9 @@ static float vdc_get_pixel_aspect(void)
             return 0.75f;
     }
 */
-    return 1.0f; /* assume 1:1 for CGA */
+    return 1.0f;    /* CGA 320x200 aspect is 1:1.2 or 0.8333.. but this looks too tall & narrow when set */
+    /* If we were not using Stretch_Vertically by default we could be using the CGA 640x200 aspect of 2.4:1 or 0.41666.. */
+    /* FIXME calculate this to the extreme level that the VIC ratios above are based on the 16MHz VDC clock */
 }
 
 /* return type of monitor used for current video mode */
@@ -703,6 +705,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 ((vdc.regs[34] == vdc.regs[35]) && (vdc.regs[35] <= vdc.regs[0])) ) {   /* if #34==#35 and both <= #0, blank line always */
                 /* || ((vdc.regs[34] <= vdc.regs[35]) && (vdc.regs[35] <= vdc.regs[0])) ) {*/ /* FIXME if #34<=#35 and both <= #0, blank line sometimes, depends on values relative to display area */
         /*FIXME technically this should be black across the entire screen, not just border colour */
+        vdc.raster.video_mode = VDC_IDLE_MODE;
+    } else if ( vdc.charwidth < 8 ) {   /* can't do less than 8pixels wide in 80col or 4 pixels wide in 40col mode, both of which this covers */
         vdc.raster.video_mode = VDC_IDLE_MODE;
     } else if (vdc.draw_active && vdc.display_enable) {
         vdc_set_video_mode();   /* show stuff */
