@@ -167,14 +167,14 @@ static GtkWidget *create_prg_diskimage_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *image;
-    const char *patterns[] = { "*.d64", NULL };
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Autostart disk image", 1);
 
     image = vice_gtk3_resource_browser_new("AutostartPrgDiskImage",
-            patterns, "D64 disk images", "Select D64 image",
-            "autostart disk image", NULL);
+            file_chooser_pattern_floppy, "Disk images", "Select disk image",
+            "Path:", NULL);
+    g_object_set(G_OBJECT(image), "margin-left", 16, NULL);
     vice_resource_widget_manager_add_widget(&manager, image,
             NULL, NULL, NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), image, 0, 1, 1, 1);

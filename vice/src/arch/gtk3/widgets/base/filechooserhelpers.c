@@ -67,6 +67,17 @@ const char *file_chooser_pattern_disk[] = {
 };
 
 
+/** \brief  Patterns for disk images (non-GCR floppies only)
+ *
+ * Used in the AutostartPrgDiskImage widget
+ */
+const char *file_chooser_pattern_floppy[] = {
+    "*.[dD]64",     "*.[dD]67",     "*.[dD]71",     "*.[dD]8[0-2]",
+    NULL
+};
+
+
+
 /** \brief  Patterns for tapes
  *
  * T64 is NOT a tape, so probably should be moved to a 'archive' pattern group,

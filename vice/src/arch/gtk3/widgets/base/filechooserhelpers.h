@@ -43,6 +43,7 @@ typedef struct ui_file_filter_s {
 extern const char *file_chooser_pattern_all[];
 extern const char *file_chooser_pattern_cart[];
 extern const char *file_chooser_pattern_disk[];
+extern const char *file_chooser_pattern_floppy[];
 extern const char *file_chooser_pattern_tape[];
 extern const char *file_chooser_pattern_sid[];
 extern const char *file_chooser_pattern_fliplist[];
