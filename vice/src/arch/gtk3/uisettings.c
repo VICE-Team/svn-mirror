@@ -1840,6 +1840,18 @@ static GtkTreeStore *settings_model = NULL;
 static GtkWidget *settings_tree = NULL;
 
 
+/** \brief  Scroll window container for the settings treeview
+ */
+static GtkWidget *scrolled_window = NULL;
+
+
+/** \brief  Widget containing the treeview and the settings 'page'
+ *
+ * Allows resizing both the treeview and the setting with a 'grip'.
+ */
+static GtkWidget *paned_widget = NULL;
+
+
 /** \brief  Path to the last used settings page
  */
 static GtkTreePath *last_node_path = NULL;
@@ -2200,7 +2212,11 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
     GtkWidget *child;
 
     debug_gtk3("checking for child");
+#if 0
     child = gtk_grid_get_child_at(GTK_GRID(settings_grid), 1, 0);
+#else
+    child = gtk_paned_get_child2(GTK_PANED(paned_widget));
+#endif
     if (child != NULL) {
         debug_gtk3("got child widget, calling destroy on child (and setting"
                 " the resource_manager reference to NULL)");
@@ -2209,7 +2225,7 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
         resource_manager = NULL;
 #endif
     }
-    gtk_grid_attach(GTK_GRID(settings_grid), widget, 1, 0, 1, 1);
+    gtk_paned_pack2(GTK_PANED(paned_widget), widget, TRUE, FALSE);
     /* add a little space around the widget */
     g_object_set(widget, "margin", 16, NULL);
 }
@@ -2227,7 +2243,6 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
 static GtkWidget *create_content_widget(GtkWidget *widget)
 {
     GtkTreeSelection *selection;
-    GtkWidget *scroll;
     GtkWidget *extra;
 
     settings_grid = gtk_grid_new();
@@ -2236,10 +2251,24 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     /* pack the tree in a scrolled window to allow scrolling of the tree when
      * it gets too large for the dialog
      */
-    scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_container_add(GTK_CONTAINER(scroll), settings_tree);
+    scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+    gtk_container_add(GTK_CONTAINER(scrolled_window), settings_tree);
 
-    gtk_grid_attach(GTK_GRID(settings_grid), scroll, 0, 0, 1, 1);
+    /* pack the tree and the settings 'page' into a GtkPaned so we can resize
+     * the tree */
+    paned_widget = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_paned_set_wide_handle(GTK_PANED(paned_widget), TRUE);
+
+#if 0
+    gtk_grid_attach(GTK_GRID(settings_grid), scrolled_window, 0, 0, 1, 1);
+#else
+    gtk_paned_pack1(GTK_PANED(paned_widget), scrolled_window, FALSE, FALSE);
+#endif
+#if 0
+    gtk_grid_attach(GTK_GRID(settings_grid), scrolled_window, 0, 0, 1, 1);
+#endif
+    gtk_grid_attach(GTK_GRID(settings_grid), paned_widget, 0, 0, 1, 1);
+
 
     /* Remember the previously selected setting/widget and set it here */
 
@@ -2292,7 +2321,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scroll, 250, 500);
+    gtk_widget_set_size_request(scrolled_window, 250, 500);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
@@ -2443,6 +2472,7 @@ static GtkWidget *dialog_create_helper(void)
             NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    g_object_set(content, "border-width", 8, NULL);
     gtk_container_add(GTK_CONTAINER(content), create_content_widget(dialog));
 
     /* set default response to Close */
@@ -2450,7 +2480,7 @@ static GtkWidget *dialog_create_helper(void)
             GTK_DIALOG(dialog),
             GTK_RESPONSE_DELETE_EVENT);
 
-    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
+    gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
