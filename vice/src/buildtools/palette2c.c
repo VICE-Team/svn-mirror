@@ -108,7 +108,7 @@ static void pal2bin(char *in_filename, char *out_filename, char *array_name)
 
     infile = fopen(in_filename, "rb");
     if (infile == NULL) {
-        printf("cannot open %s for reading\n", infile);
+        printf("cannot open %s for reading\n", in_filename);
         return;
     }
 
