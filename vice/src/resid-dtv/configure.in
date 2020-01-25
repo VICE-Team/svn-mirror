@@ -5,11 +5,6 @@ dnl Use Automake
 AM_INIT_AUTOMAKE(resid, 0.16vice)
 LTVERSION=5:0:0
 
-dnl The silent mode of automake silent rules is not nearly silent enough for vice normal method
-AM_SILENT_RULES([yes])
-m4_include([../../m4/quiet_cc.m4])
-VICE_QUIET_CC()
-
 dnl Use C++ for tests.
 AC_LANG_CPLUSPLUS
 

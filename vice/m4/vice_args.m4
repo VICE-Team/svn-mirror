@@ -24,7 +24,7 @@
 # -------------
 AC_DEFUN([VICE_ARG_INIT],
 [
-vice_arg_enable_list="dependency-tracking silent-rules"
+vice_arg_enable_list="dependency-tracking"
 vice_arg_with_list="x"
 ])# VICE_ARG_INIT
 
