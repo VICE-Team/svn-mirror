@@ -407,7 +407,7 @@ AS_IF([test x"$enable_new8580filter" = "xyes"],
   [AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the experimental new 8580 filter])
   ])
 
-AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
+AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes" -a x"$enable_silent_rules" = "x")
 
 user_cflags=$CFLAGS
 
