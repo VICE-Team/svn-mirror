@@ -1,30 +1,30 @@
 if DUMMY_COMPILE
 
-SUBDIRS = android
+SUBDIRS = shared android
 
 endif
 
 if NATIVE_GTK3_COMPILE
 
-SUBDIRS = gtk3 shared
+SUBDIRS = shared gtk3
 
 else
 
 if SDL_COMPILE
 
-SUBDIRS = sdl shared
+SUBDIRS = shared sdl
 
 else
 
 if HEADLESS_COMPILE
 
-SUBDIRS = headless
+SUBDIRS = shared headless
 
 else
 
 if WIN32_COMPILE
 
-SUBDIRS = mingw32-pcap shared
+SUBDIRS = shared mingw32-pcap
 
 endif
 endif

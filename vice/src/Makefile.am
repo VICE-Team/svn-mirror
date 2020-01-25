@@ -59,7 +59,6 @@ SUBDIRS = \
 	pet \
 	plus4 \
 	cbm2 \
-	arch/shared \
 	arch \
 	lib \
 	hvsc
