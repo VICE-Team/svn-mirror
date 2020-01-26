@@ -484,16 +484,16 @@ static void add_sliders(GtkGrid *grid,
 
     for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
         crt_control_t *control = &(data->controls[i]);
-
+#if 0
         debug_gtk3("Adding slider '%s' [%d] ... ", control->res.label, (int)i);
-
+#endif
         label = create_label(control->res.label, minimal);
         gtk_grid_attach(grid, label, 0, row, 1, 1);
-
+#if 0
         debug_gtk3(".. resource '%s%s', lo=%d, hi=%d step=%d",
                 control->res.name, chip, control->res.low, control->res.high,
                 control->res.step);
-
+#endif
         control->scale = create_slider(control->res.name, chip,
                 control->res.low, control->res.high, control->res.step,
                 minimal);
@@ -545,8 +545,9 @@ static crt_control_data_t *create_control_data(const char *chip)
     data->chip = lib_strdup(chip);
     for (i = 0; i < RESOURCE_COUNT_MAX; i++) {
         crt_control_t *control = &(data->controls[i]);
-
+#if 0
         debug_gtk3("Adding label '%s'", resource_table[i].label);
+#endif
         control->res.label = resource_table[i].label;
         control->res.name = resource_table[i].name;
         control->res.low = resource_table[i].low;
