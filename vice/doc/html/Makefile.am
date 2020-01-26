@@ -11,7 +11,6 @@ doc_DATA = \
 	images/CIPS2008.png \
 	images/new.gif \
 	images/vice-logo.svg \
-	images/vice-logo-black.svg \
 	fonts/Lato-Bold.eot \
 	fonts/Lato-BoldItalic.eot \
 	fonts/Lato-BoldItalic.ttf \
