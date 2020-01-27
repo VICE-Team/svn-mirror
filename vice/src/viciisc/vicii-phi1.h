@@ -31,5 +31,6 @@
 #include "types.h"
 
 extern uint8_t vicii_read_phi1(void);
+extern uint8_t vicii_read_phi1_lowlevel(void);
 
 #endif
