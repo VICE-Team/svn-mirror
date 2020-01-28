@@ -89,20 +89,6 @@
 #include "util.h"
 #include "vsync.h"
 
-#ifndef HAVE_STPCPY
-char *stpcpy(char *dest, const char *src)
-{
-    char *d = dest;
-    const char *s = src;
-
-    do {
-        *d++ = *s;
-    } while (*s++ != '\0');
-
-    return d - 1;
-}
-#endif
-
 int mon_stop_output;
 
 int mon_init_break = -1;
