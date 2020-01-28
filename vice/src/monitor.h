@@ -241,8 +241,4 @@ extern uint8_t memmap_state;
 #  endif
 #endif
 
-#ifndef HAVE_STPCPY
-char *stpcpy(char *dest, const char *src);
-#endif
-
 #endif
