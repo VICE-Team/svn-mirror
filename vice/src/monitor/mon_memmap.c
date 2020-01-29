@@ -88,7 +88,7 @@ static int cpuhistory_i = 0;
 /* (re)allocate the buffer used for the cpu history info */
 int monitor_cpuhistory_allocate(int lines)
 {
-    cpuhistory = reallocarray(cpuhistory, lines, sizeof(cpuhistory_t));
+    cpuhistory = realloc(cpuhistory, lines * sizeof(cpuhistory_t));
     cpuhistory_lines = lines;
     cpuhistory_i = 0;
     return 0;
