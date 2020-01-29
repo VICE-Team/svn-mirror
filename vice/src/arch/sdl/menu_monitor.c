@@ -63,6 +63,10 @@ UI_MENU_DEFINE_STRING(MonitorServerAddress)
 UI_MENU_DEFINE_TOGGLE(MonitorLogEnabled)
 UI_MENU_DEFINE_STRING(MonitorLogFileName)
 
+#ifdef FEATURE_CPUMEMHISTORY
+UI_MENU_DEFINE_INT(MonitorChisLines)
+#endif
+
 const ui_menu_entry_t monitor_menu[] = {
     { "Start monitor",
       MENU_ENTRY_OTHER,
@@ -95,7 +99,15 @@ const ui_menu_entry_t monitor_menu[] = {
     { "Logfile name",
       MENU_ENTRY_RESOURCE_STRING,
       string_MonitorLogFileName_callback,
-      (ui_callback_data_t)"Set remote monitor server address" },
+      (ui_callback_data_t)"Set monitor logfile" },
+#ifdef FEATURE_CPUMEMHISTORY
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("CPU History"),
+    { "Number of lines",
+      MENU_ENTRY_RESOURCE_INT,
+      int_MonitorChisLines_callback,
+      (ui_callback_data_t)"Set number of lines in CPU history" },
+#endif
     SDL_MENU_LIST_END
 };
 
