@@ -5466,6 +5466,10 @@ Boolean specifying whether the output of the monitor will be logged to a file.
 @item MonitorLogFileName
 String specifying the logfile name for the monitor.
 
+@vindex MonitorChisLines
+@item MonitorChisLines
+Integer specifying the number of lines to keep in the cpu history. (only when enabled in configure)
+
 @end table
 
 @subsection Monitor command-line options
@@ -5513,6 +5517,11 @@ Enable/Disable logging monitor output to a file.
 @item -monlogname <name>
 Specify logfile name for the monitor.
 (@code{MonitorLogFileName}).
+
+@findex -monchislines
+@item -monchislines <value>
+Set number of lines to keep in the cpu history. (only when enabled in configure)
+(@code{MonitorChisLines}).
 
 @end table
 
