@@ -11,6 +11,7 @@
  * $VICERES NativeMonitor           all
  * $VICERES MonitorLogEnabled       all
  * $VICERES MonitorLogFileName      all
+ * $VICERES MonitorChisLines        all
  */
 
 /*
@@ -59,6 +60,10 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     GtkWidget *log_enable;
     GtkWidget *log_name;
     GtkWidget *log_label;
+#ifdef FEATURE_CPUMEMHISTORY
+    GtkWidget *chis_lines;
+    GtkWidget *chis_label;
+#endif
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -87,6 +92,14 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     log_name = vice_gtk3_resource_entry_full_new(
             "MonitorLogFileName");
     gtk_widget_set_hexpand(log_name, TRUE);
+
+#ifdef FEATURE_CPUMEMHISTORY
+    chis_label = gtk_label_new("Number of Lines in CPU History");
+    g_object_set(chis_label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(chis_label, GTK_ALIGN_START);
+    chis_lines = vice_gtk3_resource_spin_int_new(
+            "MonitorChisLines", 10, 0x0fffffff, 1);
+#endif
     
     gtk_grid_attach(GTK_GRID(grid), native, 0, 0, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), keep_open, 0, 1, 2, 1);
@@ -96,7 +109,10 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), log_enable, 0, 4, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), log_label, 0, 5, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), log_name, 1, 5, 1, 1);
-
+#ifdef FEATURE_CPUMEMHISTORY
+    gtk_grid_attach(GTK_GRID(grid), chis_label, 0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chis_lines, 1, 6, 1, 1);
+#endif
     gtk_widget_show_all(grid);
     return grid;
 }
