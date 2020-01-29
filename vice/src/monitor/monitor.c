@@ -1282,6 +1282,17 @@ static int set_monitor_chis_lines(int val, void *param)
 }
 #endif
 
+static int monitorscrollbacklines = 0;
+static int set_monitor_scrollback_lines(int val, void *param)
+{
+    /* -1 means no limit */
+    if (val < -1) {
+        val = -1;
+    }
+    monitorscrollbacklines = val;
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "MonitorLogFileName", "monitor.log", RES_EVENT_NO, NULL,
       &monitorlogfilename, set_monitor_log_filename, (void *)0 },
@@ -1299,6 +1310,8 @@ static const resource_int_t resources_int[] = {
     { "MonitorChisLines", 4096, RES_EVENT_NO, NULL,
       &monitorchislines, set_monitor_chis_lines, NULL },
 #endif
+    { "MonitorScrollbackLines", 4096, RES_EVENT_NO, NULL,
+      &monitorscrollbacklines, set_monitor_scrollback_lines, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -1335,9 +1348,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)0,
       NULL, "Do not keep the monitor open" },
 #endif
+    { "-monscrollbacklines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "MonitorScrollbackLines", NULL,
+      "<value>", "Set number of lines to keep in the monitor scrollback buffer" },
 #ifdef FEATURE_CPUMEMHISTORY
     { "-monchislines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "MonitorChisLines", (resource_value_t)1,
+      NULL, NULL, "MonitorChisLines", NULL,
       "<value>", "Set number of lines to keep in the cpu history" },
 #endif
     CMDLINE_LIST_END

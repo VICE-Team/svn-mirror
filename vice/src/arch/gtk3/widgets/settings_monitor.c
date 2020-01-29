@@ -60,6 +60,8 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     GtkWidget *log_enable;
     GtkWidget *log_name;
     GtkWidget *log_label;
+    GtkWidget *scroll_lines;
+    GtkWidget *scroll_label;
 #ifdef FEATURE_CPUMEMHISTORY
     GtkWidget *chis_lines;
     GtkWidget *chis_label;
@@ -93,9 +95,15 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
             "MonitorLogFileName");
     gtk_widget_set_hexpand(log_name, TRUE);
 
+    scroll_label = gtk_label_new("Number of lines in scrollback buffer\n(-1 for no limit)");
+    g_object_set(scroll_label, "margin-left", 8, NULL);
+    gtk_widget_set_halign(scroll_label, GTK_ALIGN_START);
+    scroll_lines = vice_gtk3_resource_spin_int_new(
+            "MonitorScrollbackLines", -1, 0x0fffffff, 1);
+    
 #ifdef FEATURE_CPUMEMHISTORY
-    chis_label = gtk_label_new("Number of Lines in CPU History");
-    g_object_set(chis_label, "margin-left", 16, NULL);
+    chis_label = gtk_label_new("Number of lines in CPU History");
+    g_object_set(chis_label, "margin-left", 8, NULL);
     gtk_widget_set_halign(chis_label, GTK_ALIGN_START);
     chis_lines = vice_gtk3_resource_spin_int_new(
             "MonitorChisLines", 10, 0x0fffffff, 1);
@@ -109,9 +117,11 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), log_enable, 0, 4, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), log_label, 0, 5, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), log_name, 1, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), scroll_label, 0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), scroll_lines, 1, 6, 1, 1);
 #ifdef FEATURE_CPUMEMHISTORY
-    gtk_grid_attach(GTK_GRID(grid), chis_label, 0, 6, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), chis_lines, 1, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chis_label, 0, 7, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chis_lines, 1, 7, 1, 1);
 #endif
     gtk_widget_show_all(grid);
     return grid;

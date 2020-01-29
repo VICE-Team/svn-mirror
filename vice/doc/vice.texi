@@ -5470,6 +5470,10 @@ String specifying the logfile name for the monitor.
 @item MonitorChisLines
 Integer specifying the number of lines to keep in the cpu history. (only when enabled in configure)
 
+@vindex MonitorScrollbackLines
+@item MonitorScrollbackLines
+Integer specifying the number of lines to keep in the monitor scrollback buffer (-1 for no limit).
+
 @end table
 
 @subsection Monitor command-line options
@@ -5522,6 +5526,11 @@ Specify logfile name for the monitor.
 @item -monchislines <value>
 Set number of lines to keep in the cpu history. (only when enabled in configure)
 (@code{MonitorChisLines}).
+
+@findex -monscrollbacklines
+@item -monscrollbacklines <value>
+Set number of lines to keep in the monitor scrollback buffer (-1 for no limit).
+(@code{MonitorScrollbackLines}).
 
 @end table
 

@@ -411,11 +411,14 @@ console_t *uimon_window_open(void)
     GdkPixbuf *icon;
     const PangoFontDescription *desc_tmp;
     PangoFontDescription *desc;
+    int sblines;
 
     if (native_monitor()) {
         return uimonfb_window_open();
     }
 
+    resources_get_int("MonitorScrollbackLines", &sblines);
+    
     if (fixed.window == NULL) {
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
@@ -430,7 +433,7 @@ console_t *uimon_window_open(void)
         }
 
         fixed.term = vte_terminal_new();
-        vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), 1000);
+        vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
         vte_terminal_set_scroll_on_output (VTE_TERMINAL(fixed.term), TRUE);
 
         /* allowed window widths are base_width + width_inc * N
@@ -482,6 +485,8 @@ console_t *uimon_window_open(void)
         pango_font_description_set_family(desc, "monospace");
         vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
         pango_font_description_free(desc);
+    } else {
+        vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
     return uimon_window_resume();
 }
