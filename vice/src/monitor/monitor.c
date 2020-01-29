@@ -1269,6 +1269,19 @@ static int set_monitor_log_enabled(int val, void *param)
     return 0;
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
+static int monitorchislines = 0;
+static int set_monitor_chis_lines(int val, void *param)
+{
+    /* 10 lines minimum */
+    if (val < 10) {
+        val = 10;
+    }
+    monitorchislines = val;
+    return monitor_cpuhistory_allocate(val);
+}
+#endif
+
 static const resource_string_t resources_string[] = {
     { "MonitorLogFileName", "monitor.log", RES_EVENT_NO, NULL,
       &monitorlogfilename, set_monitor_log_filename, (void *)0 },
@@ -1282,6 +1295,10 @@ static const resource_int_t resources_int[] = {
 #endif
     { "MonitorLogEnabled", 0, RES_EVENT_NO, NULL,
       &monitorlogenabled, set_monitor_log_enabled, NULL },
+#ifdef FEATURE_CPUMEMHISTORY
+    { "MonitorChisLines", 4096, RES_EVENT_NO, NULL,
+      &monitorchislines, set_monitor_chis_lines, NULL },
+#endif
     RESOURCE_INT_LIST_END
 };
 
@@ -1317,6 +1334,11 @@ static const cmdline_option_t cmdline_options[] =
     { "+keepmonopen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)0,
       NULL, "Do not keep the monitor open" },
+#endif
+#ifdef FEATURE_CPUMEMHISTORY
+    { "-monchislines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "MonitorChisLines", (resource_value_t)1,
+      "<value>", "Set number of lines to keep in the cpu history" },
 #endif
     CMDLINE_LIST_END
 };

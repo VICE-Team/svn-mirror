@@ -53,8 +53,6 @@ uint8_t memmap_state = 0;
 
 /* Defines */
 
-#define CPUHISTORY_SIZE 4096
-
 #define MEMMAP_SIZE 0x10000
 #define MEMMAP_PICX 0x100
 #define MEMMAP_PICY 0x100
@@ -83,8 +81,18 @@ struct cpuhistory_s {
 typedef struct cpuhistory_s cpuhistory_t;
 
 /* CPU history variables */
-static cpuhistory_t cpuhistory[CPUHISTORY_SIZE];
+static cpuhistory_t *cpuhistory = NULL;
+static int cpuhistory_lines = 0;
 static int cpuhistory_i = 0;
+
+/* (re)allocate the buffer used for the cpu history info */
+int monitor_cpuhistory_allocate(int lines)
+{
+    cpuhistory = reallocarray(cpuhistory, lines, sizeof(cpuhistory_t));
+    cpuhistory_lines = lines;
+    cpuhistory_i = 0;
+    return 0;
+}
 
 void monitor_cpuhistory_store(unsigned int addr, unsigned int op,
                               unsigned int p1, unsigned int p2,
@@ -95,7 +103,7 @@ void monitor_cpuhistory_store(unsigned int addr, unsigned int op,
                               unsigned int reg_st)
 {
     ++cpuhistory_i;
-    cpuhistory_i &= (CPUHISTORY_SIZE - 1);
+    cpuhistory_i %= cpuhistory_lines;
     cpuhistory[cpuhistory_i].addr = addr;
     cpuhistory[cpuhistory_i].op = op;
     cpuhistory[cpuhistory_i].p1 = p1;
@@ -122,11 +130,14 @@ void mon_cpuhistory(int count)
     unsigned opc_size;
     int i, pos;
 
-    if ((count < 1) || (count > CPUHISTORY_SIZE)) {
-        count = CPUHISTORY_SIZE;
+    if ((count < 1) || (count > cpuhistory_lines)) {
+        count = cpuhistory_lines;
     }
 
-    pos = (cpuhistory_i + 1 - count) & (CPUHISTORY_SIZE - 1);
+    pos = (cpuhistory_i + 1 - count);
+    if (pos < 0) {
+        pos += cpuhistory_lines;
+    }
 
     for (i = 0; i < count; ++i) {
         addr = cpuhistory[pos].addr;
@@ -153,7 +164,7 @@ void mon_cpuhistory(int count)
             ((cpuhistory[pos].reg_st & (1 << 0)) != 0) ? 'C' : ' '
             );
 
-        pos = (pos + 1) & (CPUHISTORY_SIZE - 1);
+        pos = (pos + 1) % cpuhistory_lines;
     }
 }
 
