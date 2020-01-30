@@ -7,6 +7,9 @@
 # Work in progress, use at your own risk.
 #
 # -- Compyx
+#
+# Vastly improved by Lars Kellogg-Stedman <lars@oddbit.com>
+#
 
 
 
@@ -57,19 +60,16 @@ check_root
 
 # Remember path to RPM and its name
 rpmpath="$1"
-rpmfile=`basename "$1"`
+rpmfile="${rpmpath##*/}"
 
 # cut doesn't cut it when it comes to splitting on separator scanning from the
 # end of a string, so we'll use Awk:
-rpmversion=`echo "$rpmfile" | awk -F- '{ print $(NF-1) }'`
-rpmrelease=`echo "$rpmfile" | awk -F- '{ print $(NF) }'`
-rpmname=`echo "$rpmfile" | \
-    awk -v fname="$rpmfile" -v version="$rpmversion" -v release="$rpmrelease" \
-    '{ print substr(fname, 0, length(fname) - length(version) - length(release) - 2) }'`
+rpmversion=$(rpm -qp $rpmpath --qf "%{VERSION}")
+rpmrelease=$(rpm -qp $rpmpath --qf "%{RELEASE}")
+rpmname=$(rpm -qp $rpmpath --qf "%{NAME}")
 
 # Fix release (strip off '.<fedora-version>.<arch>.rpm')
-rpmrelease=`echo "$rpmrelease" | cut -d'.' -f1`
-
+rpmrelease="${rpmrelease%%.*}"
 
 # Debug info
 echo "Working on RPM file $rpmfile"
@@ -80,15 +80,13 @@ echo "  release : $rpmrelease"
 debname="${rpmname}_${rpmversion}-${rpmrelease}_all.deb"
 echo "  deb file: $debname"
 # Generate .deb dirname
-debdir=`basename $debname .deb`
-
+debdir="${debname%.deb}"
 
 # Start actual work
 
 # Use alien to generate .deb
 echo -n "Running alien on $rpmpath ... "
-# DO NOT bump release (who the fuck considered this a good idea?)
-alien 2>/dev/null --scripts --to-deb --bump 0 $rpmpath > /dev/null
+alien --scripts --to-deb --bump 0 $rpmpath
 if [ $? != 0 ]; then
     echo "Alien failed."
     exit 1
@@ -108,7 +106,7 @@ echo -n "Extracting alien-generated files ... "
 if [ -d /tmp/$debdir ]; then
     rm -rfd /tmp/$debdir
 fi
-dpkg-deb -R /tmp/$debname /tmp/`basename $debname .deb`
+dpkg-deb -R /tmp/$debname /tmp/$debdir
 if [ "$?" -ne "0" ]; then
     echo "failed, aborting."
     exit 1
@@ -127,7 +125,7 @@ echo "Patching pkg-config files:"
 for pc in /tmp/$debdir/usr/x86_64-w64-mingw32/lib/pkgconfig/*.pc; do
     echo "  patching $pc"
     sed -i 's@/sys-root/mingw@@' "$pc"
-done;
+done
 
 
 # Build deb package for use with Debian 
@@ -135,4 +133,3 @@ echo "Generating .deb package."
 dpkg-deb --build /tmp/$debdir
 echo "Copying to current dir."
 cp -f /tmp/$debname .
-
