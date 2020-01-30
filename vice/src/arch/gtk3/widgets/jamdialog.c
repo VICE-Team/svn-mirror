@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 
 #include "debug_gtk3.h"
+#include "archdep.h"
 #include "uiapi.h"
 
 #include "jamdialog.h"
@@ -46,6 +47,7 @@ enum {
     RESPONSE_RESET_SOFT,    /**< trigger soft reset */
     RESPONSE_RESET_HARD,    /**< trigger hard reset */
     RESPONSE_MONITOR,       /**< open monitor */
+    RESPONSE_QUIT           /**< quit emulator */
 };
 
 
@@ -70,10 +72,11 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
      */
     dialog = gtk_dialog_new_with_buttons("D'OH!", GTK_WINDOW(parent),
             GTK_DIALOG_MODAL,
-            "None", RESPONSE_NONE,
+            "Continue", RESPONSE_NONE,
             "Soft reset", RESPONSE_RESET_SOFT,
             "Hard reset", RESPONSE_RESET_HARD,
-            "Activate monitor", RESPONSE_MONITOR,
+            "Monitor", RESPONSE_MONITOR,
+            "Quit", RESPONSE_QUIT,
             NULL);
 
     /*
@@ -100,6 +103,9 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
             break;
         case RESPONSE_MONITOR:
             result = UI_JAM_MONITOR;
+            break;
+        case RESPONSE_QUIT:
+            archdep_vice_exit(0);
             break;
         default:
             /* shouldn't get here */
