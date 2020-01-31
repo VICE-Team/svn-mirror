@@ -358,6 +358,38 @@ What it doesn't do is fix symlinks that use absolute paths, I haven't seen any p
 Another nasty thing is that it requires root to run, due to `alien` somehow requiring root access. The script also currently requires bash, due to my limited shell scripting skills.
 
 
+#### Patch Alien to work with current RPM's using zstd
+
+Patch alien's Rpm.pm to allow zstd handling:
+
+The file is located at `/usr/share/perl5/Alien/Package/Rpm.pm`
+
+The patch provided by Larsks is this:
+```diff
+diff --git a/Alien/Package/Rpm.pm b/Alien/Package/Rpm.pm
+index d53be2b..66ff3d6 100644
+--- a/Alien/Package/Rpm.pm
++++ b/Alien/Package/Rpm.pm
+@@ -159,10 +159,12 @@ sub unpack {
+ 	$this->SUPER::unpack(@_);
+ 	my $workdir=$this->unpacked_tree;
+ 	
+-	# Check if we need to use lzma to uncompress the cpio archive
++	# Check if we need to uncompress the cpio archive
+ 	my $decomp='';
+ 	if ($this->do("rpm2cpio '".$this->filename."' | lzma -t -q > /dev/null 2>&1")) {
+ 		$decomp = 'lzma -d -q |';
++	} elsif ($this->do("rpm2cpio '".$this->filename."' | zstd -t -q > /dev/null 2>&1")) {
++		$decomp = 'zstd -d -q |';
+ 	}
+ 
+```
+
+I already updated bits of the Perl code before writing this, so I manually added some of the patch. So good luck applying this one.
+
+But after this you should be able to use Gtk3-3.24.x RPMs (which will require installing a shitload of other .fc32 packages)
+
+
 #### Example use
 
 (This again assumes a normal user called 'vice', and ~/deb and ~/rpm dirs)
