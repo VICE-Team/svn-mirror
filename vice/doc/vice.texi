@@ -982,14 +982,11 @@ Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and
 @itemize @bullet
 @item
 using disk images, i.e., files that contain a dump of all the blocks
-contained in a real floppy disk (if you want more information about
-what a disk image is, consult the
-@code{comp.emulators.cbm} FAQ);
+contained in a real floppy disk;
 @item
 accessing file system directories, thus giving you the use of files
 without having to copy them to disk images; this also allows you to
-read and write files in the @code{P00} format (again, consult the
-@code{comp.emulators.cbm} FAQ for more info).
+read and write files in the @code{P00} format.
 @item
 accessing a real device connected to the host machine. This works using the 
 OpenCBM library. You can get it from @uref{http://cbm4win.sf.net}.
@@ -27016,8 +27013,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 * Sending feedback::            How to report impressions and
                                 bugs to the authors.
 * Contributing::                How to help developing VICE.
-* Newsgroups::                  VICE-related Usenet groups.
-* FAQs you should read::        VICE-related Frequently Asked Questions.
 @end menu
 
 @node Home page, Sending feedback, Contacts, Contacts
@@ -27107,9 +27102,6 @@ the VICE documentation (you are reading it!);
 the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
 @uref{http://vice-emu.sourceforge.net});
-@item
-the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
-you should read}).
 @end itemize
 
 @item
@@ -27147,7 +27139,7 @@ all of it.
 Thanks!
 
 
-@node Contributing, Newsgroups, Sending feedback, Contacts
+@node Contributing, Sending feedback, Contacts
 @section How to contribute
 
 If you want to make a major contribution, please @emph{ask} first.  It
@@ -27190,36 +27182,6 @@ safer.
 People willing to port VICE to other platforms are always welcome.
 But notice from experience it will take at least a full year of
 continuous work to write a well working and stable port.
-
-@node Newsgroups, FAQs you should read, Contributing, Contacts
-@section Interesting newsgroups
-
-There are some Usenet newsgroups you might be interested in:
-
-@itemize @bullet
-
-@item
-@code{comp.emulators.cbm}, discussing about emulators of Commodore 8-bit
-machines (definitely not Amiga emulators).
-
-@item
-@code{comp.sys.cbm}, discussing various topics regarding real Commodore
-8-bit machines.  This newsgroup is mainly for people who actually use
-original Commodore equipment (so please don't talk about emulation
-here).
-
-@item
-@code{comp.emulators.misc}, discussing emulators in general.
-
-@end itemize
-
-@node FAQs you should read, , Newsgroups, Contacts
-@section FAQs you should read
-
-We recommend reading the @code{comp.emulators.cbm} and
-@code{comp.sys.cbm} FAQs, which are posted regularly on the
-corresponding newsgroups and are also available via FTP from
-@uref{ftp://rtfm.mit.edu}.
 
 @node Concept Index, Resource Index, Contacts, Top
 @unnumbered Concept Index
