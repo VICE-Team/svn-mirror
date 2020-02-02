@@ -320,7 +320,6 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
      *
      *          -- compyx (2020-02-02)
      */
-     *
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
 #else
     final_uri = g_filename_to_uri(uri, NULL, &error);
