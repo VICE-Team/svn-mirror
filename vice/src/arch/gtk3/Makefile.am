@@ -47,7 +47,7 @@ AM_CFLAGS = @VICE_CFLAGS@
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libarch.a libtoolarch.a
 
 libarch_a_SOURCES = \
 	archdep.c \
@@ -111,6 +111,9 @@ libarch_a_SOURCES = \
 	video.c \
 	vsidui.c \
 	vsyncarch.c
+
+libtoolarch_a_SOURCES = \
+	archdep.c
 
 EXTRA_DIST = \
 	Resources/VICE.icns \

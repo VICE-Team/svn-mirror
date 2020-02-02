@@ -47,7 +47,7 @@ AM_CFLAGS = @VICE_CFLAGS@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libarch.a libtoolarch.a
 
 if SDL2_COMPILE
 
@@ -211,6 +211,9 @@ libarch_a_SOURCES = \
 	xplus4_ui.c \
 	xscpu64_ui.c \
 	xvic_ui.c
+
+libtoolarch_a_SOURCES = \
+	archdep.c
 
 EXTRA_DIST = \
 	make-bindist_amiga.sh \

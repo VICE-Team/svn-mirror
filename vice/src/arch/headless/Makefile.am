@@ -35,7 +35,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/hvsc
 
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libarch.a libtoolarch.a
 
 libarch_a_SOURCES = \
 	archdep.c \
@@ -60,6 +60,9 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	cbm2ui.c \
 	cbm5x0ui.c
+
+libtoolarch_a_SOURCES = \
+	archdep.c
 
 EXTRA_DIST = \
 	archdep.h \
