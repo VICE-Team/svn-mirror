@@ -1314,20 +1314,6 @@ emu_extlibs = @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS
 
 driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
-# Bit of a hack to make both Linux and BSD link agains dynlib
-# Someone with a better understand of the differences between Linux and BSD
-# should have a proper look at this issue.
-# -- compyx
-if HAVE_REALDEVICE
-if HAVE_BSD_FREE
-realdevice_lib = opencbmlib.o
-else
-realdevice_lib = opencbmlib.o $(top_builddir)/src/arch/shared/dynlib.o
-endif
-else
-realdevice_lib =
-endif
-
 if SUPPORT_X64
 x64_bin = x64
 else
@@ -2232,6 +2218,7 @@ c1541_SOURCES = \
 	ioutil.c \
 	lib.c \
 	log.c \
+	opencbmlib.c \
 	rawfile.c \
 	resources.c \
 	util.c \
@@ -2243,7 +2230,6 @@ c1541_LDADD = \
 	$(archdep_lib) \
 	$(p64_lib) \
 	$(blockdev_lib) \
-	$(realdevice_lib) \
 	$(vdrive_lib) \
 	$(imagecontents_lib) \
 	$(fileio_lib) \
