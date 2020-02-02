@@ -292,10 +292,12 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     gboolean res;
     char *uri;
     const char *path;
+#ifndef WIN32_COMPILE
     gchar *final_uri;
+#endif
 
     /*
-     * Gget arch-dependent documentation dir (doesn't contain the HTML docs
+     * Get arch-dependent documentation dir (doesn't contain the HTML docs
      * on Windows, but that's an other issue to fix.
      */
     path = archdep_get_vice_docsdir();
@@ -305,22 +307,22 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 
     debug_gtk3("URI before GTK3: %s", uri);
 
-    /*
-     * This should not be used, but rather a helper tool provided by Gtk:
-     * gspawn-winXX-helper-console.exe needs to be installed by the bindist
-     * script.
-     */
-#if 0
 #ifdef WIN32_COMPILE
-    /* Windows: the Gtk/GLib stuff fails whatever I do, so let's use actual
-     *          Windows code. --compyx
+    /* FIXME:   Breaks on Windows 10 Home x64 1903 (built with MSYS2)
+     *
+     *          I tried all sorts of forms of passing a simple URI/path to
+     *          make this work, no dice: "Operation Unsupported" and no futher
+     *          info. With an intentionally broken path Acrobat will start and
+     *          then complain about the broken path (it also doesn't accept
+     *          URI's such as 'file:///C:\bla\vice.pdf).
+     *
+     *          I'll leave this broken for our Windows experts to fix.
+     *
+     *          -- compyx (2020-02-02)
      */
-    ShellExecuteA(NULL, "open", uri, NULL, NULL, SW_SHOW);
-    /* that's right: no error checking and no fallback to HTML */
-    return;
-#endif
-#endif
-
+     *
+    res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
+#else
     final_uri = g_filename_to_uri(uri, NULL, &error);
     debug_gtk3("final URI (pdf): %s", final_uri);
     if (final_uri == NULL) {
@@ -339,25 +341,18 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     }
 
     debug_gtk3("pdf uri: '%s'.", final_uri);
-
-#ifdef WIN32_COMPILE
-
-    /*
-     * Silly hack: at least Acrobat reader can't make heads or tails from a
-     * URI, so we remove 'file:///C:' here to at least make Acrobat reader
-     * "work"
-     */
-    res = gtk_show_uri_on_window(NULL, final_uri + 8, GDK_CURRENT_TIME, &error);
-#else
     res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
 #endif
     if (!res) {
         vice_gtk3_message_error(
-                "Failed to load PDF, (No more joke here, guess the joke about Germans not having a sense of humor is at least partially true)",
+                "Failed to load PDF",
+                "Error message: %s",
                 error != NULL ? error->message : "<no message>");
     }
     lib_free(uri);
+#ifndef WIN32_COMPILE
     g_free(final_uri);
+#endif
     g_clear_error(&error);
     if (res) {
         /* We succesfully managed to open the PDF application, but there's no
