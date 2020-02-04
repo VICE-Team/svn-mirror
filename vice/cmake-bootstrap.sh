@@ -130,7 +130,7 @@ function extract_non_include_non_def_flags {
 		esac
 	done
 
-	echo -n -e "$flags" | unique_preserve_order | tr "\n" " "
+	echo -n -e "$flags" | tr "\n" " "
 }
 
 function extract_cxxflags {
@@ -196,7 +196,7 @@ function extract_external_libs {
 		esac
 	done
 
-	echo -n -e "$libs" | unique_preserve_order | tr "\n" " "
+	echo -n -e "$libs" | tr "\n" " "
 }
 
 function extract_sources {
