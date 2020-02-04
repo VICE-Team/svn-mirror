@@ -1,7 +1,6 @@
 SUBDIRS = building html readmes
 
-@ALTERNATE_DOCDIR_TRUE@realdocdir = $(prefix)/share/doc/vice
-@ALTERNATE_DOCDIR_FALSE@realdocdir = $(VICEDIR)/doc
+realdocdir = $(VICE_DOCDIR)
 
 docdir = $(realdocdir)
 

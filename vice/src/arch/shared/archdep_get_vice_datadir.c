@@ -40,22 +40,18 @@
 /** \brief  Get the absolute path to the directory that contains GUI data
  *
  * \return  Path to the gui data directory
+ *
+ * \FIXME:  This is not normal method, data dir should point to the DATA/ dir
+ *          containing the ROMs etc, not the UI stuff in common.
  */
 char *archdep_get_vice_datadir(void)
 {
     char *path;
-#ifdef ARCHDEP_OS_UNIX
-# ifdef ARCHDEP_OS_OSX
-    /* this would work on Linux, too.
-     * Probably not --cpx */
-    path = archdep_join_paths(archdep_boot_path(),
-            "..", "lib", "vice", "common", NULL);
-# else
-    path = archdep_join_paths(LIBDIR, "common", NULL);
-# endif
-#else
-    /* windows */
+
+#ifdef ARCHDEP_OS_WINDOWS
     path = archdep_join_paths(archdep_boot_path(), "common", NULL);
-#endif
+# else
+    path = archdep_join_paths(VICE_DATADIR, "common", NULL);
+# endif
     return path;
 }

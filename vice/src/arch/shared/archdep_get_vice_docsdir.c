@@ -25,6 +25,7 @@
  */
 
 #include "vice.h"
+#include "config.h"
 
 #include <stdlib.h>
 
@@ -43,16 +44,15 @@
 char *archdep_get_vice_docsdir(void)
 {
     char *path;
+    printf("VICE_DOCDIR = '%s'\n", VICE_DOCDIR);
 
-#ifdef ARCHDEP_OS_UNIX
-# ifdef ARCHDEP_OS_OSX
-    /* this would work on Linux, too. */
-    path = archdep_join_paths(archdep_boot_path(), "..", "lib", "vice", "doc", NULL);
-# else
-    path = lib_strdup(DOCDIR);
-# endif
-#else
+#ifdef ARCHDEP_OS_WINDOWS
+    /* Cannot use VICE_DOCDIR here since Windows installs assume any file to
+     * be relative to the emu binary.
+     */
     path = archdep_join_paths(archdep_boot_path(), "doc", NULL);
+#else
+    path = lib_strdup(VICE_DOCDIR);
 #endif
     return path;
 }

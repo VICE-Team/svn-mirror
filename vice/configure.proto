@@ -3641,29 +3641,29 @@ else
   PREFIX="$prefix"
 fi
 
+dnl Set up directories for the various OS'es
 AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX", [Where do we want to install the executable?])
 
-dnl Path for keymaps, ROMs etc.
-case "$host_os" in
-  netbsd*)
-    VICEDIR="$PREFIX/share/vice"
-    AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
-    ;;
-  freebsd*)
-    VICEDIR="$PREFIX/lib/vice"
-    AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
-    ;;
-  linux*)
-    VICEDIR="$PREFIX/share/vice"
-    dnl TODO: change to true and handle share/doc/vice vs share/vice/doc
-    AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
-    ;;
-  *)
-    VICEDIR="$PREFIX/lib/vice"
-    AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
-    ;;
-esac
+VICE_ROOTDIR="$PREFIX"
+VICE_BINDIR="$PREFIX"
+VICE_DATADIR="$PREFIX/share/vice"
+VICE_DOCDIR="$PREFIX/share/doc/vice"
+
+dnl Exceptions for Windows and perhaps MacOS need to be made in the code since
+dnl those are 'portable' (meaning any data is relative to the binary)
+
 AC_SUBST(VICEDIR)
+AC_SUBST(VICE_ROOTDIR)
+AC_SUBST(VICE_BINDIR)
+AC_SUBST(VICE_DATADIR)
+AC_SUBST(VICE_DOCDIR)
+
+AC_DEFINE_UNQUOTED(VICE_ROOTDIR, "$VICE_ROOTDIR", [Root directory (Windows + MaOS)])
+AC_DEFINE_UNQUOTED(VICE_BINDIR, "$VICE_BINDIR", [Binary directory (Windows + MacOS)])
+AC_DEFINE_UNQUOTED(VICE_DATADIR, "$VICE_DATADIR", [Data directory])
+AC_DEFINE_UNQUOTED(VICE_DOCDIR, "$VICE_DOCDIR", [Documentation directory])
+
+
 AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR", [Where should we lookup for data files?])
 
 
