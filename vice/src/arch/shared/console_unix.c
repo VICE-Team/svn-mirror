@@ -55,8 +55,14 @@ static FILE *mon_input, *mon_output;
 #endif
 
 #ifdef HAVE_READLINE
+#define _FUNCTION_DEF
+#define USE_VARARGS
+#define PREFER_STDARG
 #include <readline/readline.h>
 #include <readline/history.h>
+#undef _FUNCTION_DEF
+#undef USE_VARARGS
+#undef PREFER_STDARG
 #endif
 
 #ifdef WIN32_COMPILE
