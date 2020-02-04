@@ -421,6 +421,7 @@ echo "Creating top level CMakeLists.txt"
 cat <<-HEREDOC > CMakeLists.txt
 	cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 	project(VICE C CXX)
+	set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 	add_subdirectory(src)
 HEREDOC
