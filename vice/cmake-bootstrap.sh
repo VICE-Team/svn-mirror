@@ -166,7 +166,7 @@ function extract_internal_libs {
 		esac
 	done
 
-	echo -n -e "$libs" | unique_preserve_order | tr "\n" " "
+	echo -n -e "$libs" | tr "\n" " "
 }
 
 function extract_external_libs {
