@@ -101,16 +101,16 @@ function extract_non_include_non_def_flags {
 	# we exclude these from the extracted cflags/cxxflags.
 	#
 
-    while (( "$#" )); do
-        case "$1" in
-        	-I*)
-                shift 
-                ;;
-            -framework)
-                shift 2
-                ;;
-            -Wl,-framework,*)
-                shift
+	while (( "$#" )); do
+		case "$1" in
+			-I*)
+				shift 
+				;;
+			-framework)
+				shift 2
+				;;
+			-Wl,-framework,*)
+				shift
 				;;
 			-Wl,-framework)
 				shift 2
@@ -144,9 +144,9 @@ function extract_cflags {
 function extract_internal_libs {
 	local libs=""
 
-    while (( "$#" )); do
-        case "$1" in
-        	*.a)
+	while (( "$#" )); do
+		case "$1" in
+			*.a)
 				lib=$(echo $1 | sed -e 's/.*\(lib.*\)\.a/\1/')
 				if [ -z "$libs" ]
 				then
@@ -160,43 +160,43 @@ function extract_internal_libs {
 				>&2 echo "Error: Attempting to link to .o files is not currently supported ($1)."
 				exit 1
 				;;
-            *)
-                shift
-                ;;
-        esac
-    done
+			*)
+				shift
+				;;
+		esac
+	done
 
-    echo -n -e "$libs" | unique_preserve_order | tr "\n" " "
+	echo -n -e "$libs" | unique_preserve_order | tr "\n" " "
 }
 
 function extract_external_libs {
 	local libs=""
 
-    while (( "$#" )); do
-        case "$1" in
-            -l*)
-                libs="$libs\n$(echo "$1" | sed 's/^-l//')"
-                shift 
-                ;;
-            -framework)
-                libs="$libs\n$2"
-                shift 2
-                ;;
-            -Wl,-framework,*)
-                libs="$libs\n$(echo "$1" | sed 's/^-Wl,-framework,//')"
-                shift
+	while (( "$#" )); do
+		case "$1" in
+			-l*)
+				libs="$libs\n$(echo "$1" | sed 's/^-l//')"
+				shift 
+				;;
+			-framework)
+				libs="$libs\n$2"
+				shift 2
+				;;
+			-Wl,-framework,*)
+				libs="$libs\n$(echo "$1" | sed 's/^-Wl,-framework,//')"
+				shift
 				;;
 			-Wl,-framework)
 				libs="$libs\n$(echo "$2" | sed 's/^-Wl,//')"
-                shift 2
+				shift 2
 				;;
-            *)
-                shift
-                ;;
-        esac
-    done
+			*)
+				shift
+				;;
+		esac
+	done
 
-    echo -n -e "$libs" | unique_preserve_order | tr "\n" " "
+	echo -n -e "$libs" | unique_preserve_order | tr "\n" " "
 }
 
 function extract_sources {
