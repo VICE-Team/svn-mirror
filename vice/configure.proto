@@ -3649,6 +3649,8 @@ VICE_BINDIR="$PREFIX"
 VICE_DATADIR="$PREFIX/share/vice"
 VICE_DOCDIR="$PREFIX/share/doc/vice"
 
+VICEDIR="$VICE_DATADIR"
+
 dnl Exceptions for Windows and perhaps MacOS need to be made in the code since
 dnl those are 'portable' (meaning any data is relative to the binary)
 
@@ -3664,7 +3666,7 @@ AC_DEFINE_UNQUOTED(VICE_DATADIR, "$VICE_DATADIR", [Data directory])
 AC_DEFINE_UNQUOTED(VICE_DOCDIR, "$VICE_DOCDIR", [Documentation directory])
 
 
-AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR", [Where should we lookup for data files?])
+AC_DEFINE_UNQUOTED(VICEDIR, "$VICE_DATADIR", [Where should we lookup for data files?])
 
 
 dnl I think this is supposed to handle --enable-internal-ffmpeg
