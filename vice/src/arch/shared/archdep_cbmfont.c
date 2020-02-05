@@ -50,6 +50,7 @@
 
 int archdep_register_cbmfont(void)
 {
+    char *datadir;
     char *fontPath;
     CFStringRef fontPathStringRef;
     CFURLRef fontUrl;
@@ -58,8 +59,10 @@ int archdep_register_cbmfont(void)
     unsigned int len;
     unsigned int isdir;
 
-    fontPath = archdep_join_paths(archdep_boot_path(),
-            "..", "lib", "vice", "common", "CBM.ttf", NULL);
+    datadir = archdep_get_vice_datadir();
+    fontPath = archdep_join_paths(datadir, "CBM.ttf", NULL);
+    lib_free(datadir);
+
     if (-1 == archdep_stat(fontPath, &len, &isdir)) {
         lib_free(fontPath);
 
