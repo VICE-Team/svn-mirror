@@ -99,16 +99,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 #ifdef ARCHDEP_OS_UNIX
 
-# ifdef ARCHDEP_OS_OSX
-    /* ROM paths relative to the Contents/Resources/bin directory 
-       in the bundle */
-    lib_machine_roms = archdep_join_paths(
-            boot_path, "..", "lib", "vice", emu_id, NULL);
-    lib_drive_roms = archdep_join_paths(
-            boot_path, "..", "lib", "vice", "DRIVES", NULL);
-    lib_printer_roms = archdep_join_paths(
-            boot_path, "..", "lib", "vice", "PRINTER", NULL);
-# else
     lib_machine_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
     lib_drive_roms = archdep_join_paths(LIBDIR, "DRIVES", NULL);
     lib_printer_roms = archdep_join_paths(LIBDIR, "PRINTER", NULL);
@@ -116,7 +106,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
     boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
-# endif
 
     /* home path based paths */
     home_machine_roms = archdep_join_paths(home_path, emu_id, NULL);
