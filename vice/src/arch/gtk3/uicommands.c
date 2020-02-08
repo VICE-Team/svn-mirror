@@ -292,9 +292,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     gboolean res;
     char *uri;
     const char *path;
-#ifndef WIN32_COMPILE
     gchar *final_uri;
-#endif
 
     /*
      * Get arch-dependent documentation dir (doesn't contain the HTML docs
@@ -307,21 +305,6 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 
     debug_gtk3("URI before GTK3: %s", uri);
 
-#ifdef WIN32_COMPILE
-    /* FIXME:   Breaks on Windows 10 Home x64 1903 (built with MSYS2)
-     *
-     *          I tried all sorts of forms of passing a simple URI/path to
-     *          make this work, no dice: "Operation Unsupported" and no futher
-     *          info. With an intentionally broken path Acrobat will start and
-     *          then complain about the broken path (it also doesn't accept
-     *          URI's such as 'file:///C:\bla\vice.pdf).
-     *
-     *          I'll leave this broken for our Windows experts to fix.
-     *
-     *          -- compyx (2020-02-02)
-     */
-    res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
-#else
     final_uri = g_filename_to_uri(uri, NULL, &error);
     debug_gtk3("final URI (pdf): %s", final_uri);
     if (final_uri == NULL) {
@@ -340,8 +323,17 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     }
 
     debug_gtk3("pdf uri: '%s'.", final_uri);
+
+    /* NOTE:
+     *
+     * On Windows this at least opens Acrobat reader with a file-not-found
+     * error message, any other URI/path given to this call results in a
+     * "Operation not supported" message, which doesn't help much.
+     *
+     * Since Windows (or perhaps Gtk3 on Windows) fails, I've removed the
+     * Windows-specific code that didn't work anyway
+     */
     res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
-#endif
     if (!res) {
         vice_gtk3_message_error(
                 "Failed to load PDF",
@@ -349,9 +341,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
                 error != NULL ? error->message : "<no message>");
     }
     lib_free(uri);
-#ifndef WIN32_COMPILE
     g_free(final_uri);
-#endif
     g_clear_error(&error);
     if (res) {
         /* We succesfully managed to open the PDF application, but there's no
