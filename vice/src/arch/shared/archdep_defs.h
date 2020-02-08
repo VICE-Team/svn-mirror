@@ -170,22 +170,6 @@
 #endif
 
 
-/* set LIBDIR and DOCDIR */
-#ifdef ARCHDEP_OS_UNIX
-/** \brief  Set VICE library dir
- *
- * This is completely wrong
- */
-# define LIBDIR VICEDIR
-
-/** 'brief  Set documentation dir
- *
- * Equally wrong, we should use XDG
- */
-# define DOCDIR LIBDIR "/doc"
-#endif
-
-
 /*
  * Determine if we compile against SDL
  */

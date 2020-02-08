@@ -104,16 +104,6 @@
 
 const char *archdep_home_path(void);
 
-#define LIBDIR VICEDIR
-
-#if defined(__FreeBSD__) || defined(__NetBSD__)
-#define DOCDIR PREFIX "/share/doc/vice"
-#else
-#define DOCDIR LIBDIR "/doc"
-#endif
-
-#define VICEUSERDIR ".vice"
-
 /*
     these are used for socket send/recv. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.

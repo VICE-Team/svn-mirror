@@ -69,10 +69,10 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     const char *home_path = archdep_user_config_path();
 #endif
 
-    char *lib_root = NULL;
-    char *lib_machine_roms = NULL;
-    char *lib_drive_roms = NULL;
-    char *lib_printer_roms = NULL;
+    char *datadir_root = NULL;
+    char *datadir_machine_roms = NULL;
+    char *datadir_drive_roms = NULL;
+    char *datadir_printer_roms = NULL;
     char *boot_root = NULL;
     char *boot_machine_roms = NULL;
     char *boot_drive_roms = NULL;
@@ -99,9 +99,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 #ifdef ARCHDEP_OS_UNIX
 
-    lib_machine_roms = archdep_join_paths(LIBDIR, emu_id, NULL);
-    lib_drive_roms = archdep_join_paths(LIBDIR, "DRIVES", NULL);
-    lib_printer_roms = archdep_join_paths(LIBDIR, "PRINTER", NULL);
+    datadir_machine_roms = archdep_join_paths(VICE_DATADIR, emu_id, NULL);
+    datadir_drive_roms = archdep_join_paths(VICE_DATADIR, "DRIVES", NULL);
+    datadir_printer_roms = archdep_join_paths(VICE_DATADIR, "PRINTER", NULL);
 
     boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
@@ -130,18 +130,18 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     /* now join everything together */
     i = 0;
 
-    /* LIBDIR paths */
-    if (lib_root != NULL) {
-        paths[i++] = lib_root;
+    /* VICE_DATADIR paths */
+    if (datadir_root != NULL) {
+        paths[i++] = datadir_root;
     }
-    if (lib_machine_roms != NULL) {
-        paths[i++] = lib_machine_roms;
+    if (datadir_machine_roms != NULL) {
+        paths[i++] = datadir_machine_roms;
     }
-    if (lib_drive_roms != NULL) {
-        paths[i++] = lib_drive_roms;
+    if (datadir_drive_roms != NULL) {
+        paths[i++] = datadir_drive_roms;
     }
-    if (lib_printer_roms != NULL) {
-        paths[i++] = lib_printer_roms;
+    if (datadir_printer_roms != NULL) {
+        paths[i++] = datadir_printer_roms;
     }
     /* boot paths */
     if (boot_root != NULL) {
@@ -175,19 +175,17 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     paths[i] = NULL;
     sysfile_path = util_strjoin(paths, ARCHDEP_FINDPATH_SEPARATOR_STRING);
 
-    /* TODO: free intermediate strings */
-    /* LIBDIR paths */
-    if (lib_root != NULL) {
-        lib_free(lib_root);
+    if (datadir_root != NULL) {
+        lib_free(datadir_root);
     }
-    if (lib_machine_roms != NULL) {
-        lib_free(lib_machine_roms);
+    if (datadir_machine_roms != NULL) {
+        lib_free(datadir_machine_roms);
     }
-    if (lib_drive_roms != NULL) {
-        lib_free(lib_drive_roms);
+    if (datadir_drive_roms != NULL) {
+        lib_free(datadir_drive_roms);
     }
-    if (lib_printer_roms != NULL) {
-        lib_free(lib_printer_roms);
+    if (datadir_printer_roms != NULL) {
+        lib_free(datadir_printer_roms);
     }
     /* boot paths */
     if (boot_root != NULL) {

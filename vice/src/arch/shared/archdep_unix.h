@@ -102,17 +102,6 @@
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
-#define LIBDIR VICEDIR
-
-
-/* This is incorrect */
-#if 0
-# if defined(__FreeBSD__) || defined(__NetBSD__)
-#  define DOCDIR PREFIX "/share/doc/vice"
-# else
-#  define DOCDIR LIBDIR "/doc"
-# endif
-#endif
 
 #define VICEUSERDIR ".vice"
 
