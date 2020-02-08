@@ -525,6 +525,10 @@ void uimon_window_suspend(void)
         uimonfb_window_suspend();
         return;
     }
+
+    if (fixed.window != NULL) {
+        gtk_widget_hide(fixed.window);
+    }
 }
 
 int uimon_out(const char *buffer)
