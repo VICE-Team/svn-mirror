@@ -1,8 +1,3 @@
-@ALTERNATE_DOCDIR_TRUE@realdocdir = $(prefix)/share/doc/vice
-@ALTERNATE_DOCDIR_FALSE@realdocdir = $(VICEDIR)/doc
-
-docdir = $(realdocdir)
-
 BUILDING_DOX = \
 	Android-Howto.txt \
 	SDL-Howto.txt \

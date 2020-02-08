@@ -2,7 +2,16 @@
 #
 # Makefile.am for the shared archdep code
 
-
+# Set directory constants here as well. Somehow that seems to be the way
+# autotools wants us to handle bin/, data/, doc/ and such paths, not via
+# config.h.
+#
+# To properly handle bindists, we'll probably have to use a few branches here
+# depending on target and set some vars to relative paths for at least Windows
+# and MacOS dmg things.
+#
+# -- compyx, 2020-02-08
+#
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
@@ -10,7 +19,12 @@ AM_CPPFLAGS = \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/rs232drv
+	-I$(top_srcdir)/src/rs232drv \
+	-DVICEDIR='"$(datarootdir)/$(PACKAGE)"' \
+	-DVICE_BINDIR='"$(bindir)"' \
+	-DVICE_ROOTDIR='"$(PREFIX)"' \
+	-DVICE_DATADIR='"$(datadir)/$(PACKAGE)"' \
+	-DVICE_DOCDIR='"$(docdir)"'
 
 AM_CFLAGS = @VICE_CFLAGS@
 

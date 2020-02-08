@@ -1,9 +1,5 @@
 SUBDIRS = building html readmes
 
-realdocdir = $(VICE_DOCDIR)
-
-docdir = $(realdocdir)
-
 MISC_DOX = \
 	CIA-README.txt \
 	coding-guidelines.txt \
