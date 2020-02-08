@@ -1,4 +1,4 @@
-scpu64dir = $(VICEDIR)/SCPU64
+scpu64dir = $(VICE_DATADIR)/SCPU64
 
 roms = \
 	scpu64 \

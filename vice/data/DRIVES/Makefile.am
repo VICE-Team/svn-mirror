@@ -1,4 +1,4 @@
-drvdir = $(VICEDIR)/DRIVES
+drvdir = $(VICE_DATADIR)/DRIVES
 
 drv_DATA = \
 	dos1540 \

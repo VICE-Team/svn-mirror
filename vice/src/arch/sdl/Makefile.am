@@ -1,6 +1,6 @@
 # Makefile.am for the SDL version of `libarch.a'.
 
-sdldatadir = $(VICEDIR)/common
+sdldatadir = $(VICE_DATADIR)/common
 
 if WIN32_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap

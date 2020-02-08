@@ -1,4 +1,4 @@
-gtk3datadir = $(VICEDIR)/common
+gtk3datadir = $(VICE_DATADIR)/common
 
 GRESOURCE_TARGET = $(builddir)/vice.gresource
 # TODO: check the double backslash

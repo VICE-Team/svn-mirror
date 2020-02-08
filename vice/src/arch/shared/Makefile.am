@@ -20,9 +20,6 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/rs232drv \
-	-DVICEDIR='"$(datarootdir)/$(PACKAGE)"' \
-	-DVICE_BINDIR='"$(bindir)"' \
-	-DVICE_ROOTDIR='"$(PREFIX)"' \
 	-DVICE_DATADIR='"$(datadir)/$(PACKAGE)"' \
 	-DVICE_DOCDIR='"$(docdir)"'
 

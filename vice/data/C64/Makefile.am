@@ -1,4 +1,4 @@
-c64dir = $(VICEDIR)/C64
+c64dir = $(VICE_DATADIR)/C64
 
 roms = \
 	basic \

@@ -1,4 +1,4 @@
-plus4dir = $(VICEDIR)/PLUS4
+plus4dir = $(VICE_DATADIR)/PLUS4
 
 roms = \
 	3plus1hi \

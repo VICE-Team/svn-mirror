@@ -1,4 +1,4 @@
-c64dtvdir = $(VICEDIR)/C64DTV
+c64dtvdir = $(VICE_DATADIR)/C64DTV
 
 roms = \
 	basic \

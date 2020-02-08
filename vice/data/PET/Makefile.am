@@ -1,4 +1,4 @@
-petdir = $(VICEDIR)/PET
+petdir = $(VICE_DATADIR)/PET
 
 roms = \
 	basic1 \

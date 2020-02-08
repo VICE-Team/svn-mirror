@@ -1,4 +1,4 @@
-cbm2dir = $(VICEDIR)/CBM-II
+cbm2dir = $(VICE_DATADIR)/CBM-II
 
 roms = \
 	basic.128 \

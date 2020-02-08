@@ -52,10 +52,6 @@ static GResource *gresource = NULL;
 
 /** \brief  Intialize the GResource binary blob handling
  *
- * First tries to load from src/arch/gtk3/data and then from VICEDIR/data.
- * Loading from VICEDIR/data will fail, the vice.gresource file doesn't get
- * copied there yet with a make install, nor does the VICEDIR/data dir exist.
- *
  * \return  bool
  */
 int uidata_init(void)

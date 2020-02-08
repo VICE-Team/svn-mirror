@@ -3647,11 +3647,11 @@ AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX", [Where do we want to install the executabl
 dnl Exceptions for Windows and perhaps MacOS need to be made in the code since
 dnl those are 'portable' (meaning any data is relative to the binary)
 
-VICEDIR="$datadir/$PACKAGE"
-VICE_ROOTDIR="$PREFIX"
-VICE_BINDIR="$bindir"
-VICE_DATADIR="$datadir/$PACKAGE"
-VICE_DOCDIR="$docdir"
+dnl VICEDIR="$datadir/$PACKAGE"
+dnl VICE_ROOTDIR="$PREFIX"
+dnl VICE_BINDIR="$bindir"
+dnl VICE_DATADIR="$datadir/$PACKAGE"
+dnl VICE_DOCDIR="$docdir"
 
 dnl Set directories used by archdep
 dnl
@@ -3665,9 +3665,9 @@ dnl MacOS when doing the 'Unix thing'.
 dnl
 dnl -- compyx, 2020-02-08
 dnl
-AC_SUBST(VICEDIR, [$datadir/$PACKAGE])
-AC_SUBST(VICE_ROOTDIR, [$PREFIX])
-AC_SUBST(VICE_BINDIR, [$bindir])
+dnl AC_SUBST(VICEDIR, [$datadir/$PACKAGE])
+dnl AC_SUBST(VICE_ROOTDIR, [$PREFIX])
+dnl AC_SUBST(VICE_BINDIR, [$bindir])
 AC_SUBST(VICE_DATADIR, [$datadir/$PACKAGE])
 AC_SUBST(VICE_DOCDIR, [$docdir])
 

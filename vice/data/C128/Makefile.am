@@ -1,4 +1,4 @@
-c128dir = $(VICEDIR)/C128
+c128dir = $(VICE_DATADIR)/C128
 
 roms = \
 	basic64 \

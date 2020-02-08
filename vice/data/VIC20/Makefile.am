@@ -1,4 +1,4 @@
-vic20dir = $(VICEDIR)/VIC20
+vic20dir = $(VICE_DATADIR)/VIC20
 
 roms = \
 	basic \

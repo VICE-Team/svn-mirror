@@ -1,5 +1,5 @@
 # vim: set noet ts=8 sw=8 sts=8:
-commondir = $(VICEDIR)/common
+commondir = $(VICE_DATADIR)/common
 
 common_DATA = CBM_Logo.svg \
 	      CBM.ttf \
