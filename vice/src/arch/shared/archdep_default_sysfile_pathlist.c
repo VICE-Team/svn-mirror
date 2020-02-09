@@ -187,9 +187,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (datadir != NULL) {
         lib_free(datadir);
     }
-    if (home_path != NULL) {
-        lib_free(home_path);
-    }
 
     if (datadir_root != NULL) {
         lib_free(datadir_root);
