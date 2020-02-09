@@ -13,7 +13,8 @@ $ sudo xcodebuild -license accept
 Install the build tools and dependencies
 --------------------------------------------------------------------------------
 
-Using either MacPorts or Homebrew to fetch dependencies is supported.
+Using either MacPorts or Homebrew to fetch dependencies is supported. If both
+are installed, MacPorts (/opt/local) will be win over Homebrew (/usr/local).
 
 You only need one of SDL2 or Gtk3 (actually neither if you are just building the
 headless port), but of course you can install both and you'll be able to do both
@@ -80,9 +81,6 @@ $ "$VICE_PATH"/configure --enable-native-gtk3ui --disable-hwscale
 $ make -j
 $ sudo make install
 
-Once you have installed once, you can create a symlink that allows you to run
-the built binaries directly:
+Once you have installed once, you can run newly built binaries directly:
 
-$ ln -s /usr/local/lib
 $ ./src/x64sc
-
