@@ -141,6 +141,11 @@ function extract_cflags {
 	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS)
 }
 
+function extract_ldflags {
+	local executable=$1
+	echo "$(extract_make_var ${executable}_LDFLAGS) $(extract_make_var LDFLAGS)"
+}
+
 function extract_internal_libs {
 	local libs=""
 
@@ -373,10 +378,16 @@ do
 		    )
 		
 		target_compile_options(
-		    $lib_to_build
+		    $executable
 		    PRIVATE
 		        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxxflags)>
 		        \$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
+		    )
+		
+		target_link_options(
+		    $executable
+		    PRIVATE
+		        $(extract_ldflags $executable)
 		    )
 
 		target_sources(
