@@ -984,7 +984,7 @@ darwin*)
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
   VICE_CFLAGS="$VICE_CFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
   VICE_CXXFLAGS="$VICE_CXXFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
-  LDFLAGS="$LDFLAGS -L/opt/local/lib -L/usr/local/lib -headerpad_max_install_names"
+  LDFLAGS="$LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
   LIBS="$LIBS -framework CoreText -framework CoreServices -framework OpenGL"
 
   ;;
