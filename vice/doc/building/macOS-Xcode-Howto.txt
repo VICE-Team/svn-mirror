@@ -1,3 +1,6 @@
+THESE INSTRUCTIONS ARE NOW OBSOLETE - Refer to CMake-Howto.txt to see how
+an Xcode project can be generated for the configuration of your choice.
+
 -----------------------------------
 Building and Debugging using Xcode.
 -----------------------------------

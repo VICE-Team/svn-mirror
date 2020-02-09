@@ -1,0 +1,28 @@
+--------------------------------------------------------------------------------
+Building VICE with CMake
+--------------------------------------------------------------------------------
+
+It is now possible to build VICE using CMake.
+
+First configure the VICE sources as though you were going to build normally. Do
+this in-tree as it won't work via an external build folder. Then run a script to
+generate the CMakeLists.txt files from the Makefiles:
+
+$ ./configure <whatever configure arguments>
+$ ./cmake-bootsrap.sh
+
+Then create a build folder for the CMake build, then cd to that folder. You can
+now use CMake generate a build system:
+
+$ cmake <path to vice source folder>
+$ make -j
+
+Things get more interesting when you generate a different project type, for
+example, to generate an Xcode project that can build and debug VICE:
+
+$ cmake -G Xcode <path to vice source folder>
+$ open VICE.xcodeproj
+
+Invoke CMake help to see the project generators installed on your system:
+
+$ cmake --help
