@@ -35,6 +35,7 @@
 #include "util.h"
 
 #include "archdep_boot_path.h"
+#include "archdep_get_vice_datadir.h"
 #include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
 
@@ -64,9 +65,10 @@ static char *sysfile_path = NULL;
  */
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-    const char *boot_path = archdep_boot_path();
+    const char *boot_path = NULL;
+    char *datadir = NULL;
 #if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
-    const char *home_path = archdep_user_config_path();
+    char *home_path = NULL;
 #endif
 
     char *datadir_root = NULL;
@@ -90,6 +92,12 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         /* sysfile.c appears to free() this */
         return lib_strdup(sysfile_path);
     }
+    
+    boot_path = archdep_boot_path();
+    datadir = archdep_get_vice_datadir();
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
+    home_path = archdep_user_config_path();
+#endif
 
     /* zero out the array of paths to join later */
     for (i = 0; i <= TOTAL_PATHS; i++) {
@@ -99,9 +107,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 #ifdef ARCHDEP_OS_UNIX
 
-    datadir_machine_roms = archdep_join_paths(VICE_DATADIR, emu_id, NULL);
-    datadir_drive_roms = archdep_join_paths(VICE_DATADIR, "DRIVES", NULL);
-    datadir_printer_roms = archdep_join_paths(VICE_DATADIR, "PRINTER", NULL);
+    datadir_machine_roms = archdep_join_paths(datadir, emu_id, NULL);
+    datadir_drive_roms = archdep_join_paths(datadir, "DRIVES", NULL);
+    datadir_printer_roms = archdep_join_paths(datadir, "PRINTER", NULL);
 
     boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
@@ -174,6 +182,14 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     /* terminate list */
     paths[i] = NULL;
     sysfile_path = util_strjoin(paths, ARCHDEP_FINDPATH_SEPARATOR_STRING);
+
+    /* cleanup */
+    if (datadir != NULL) {
+        lib_free(datadir);
+    }
+    if (home_path != NULL) {
+        lib_free(home_path);
+    }
 
     if (datadir_root != NULL) {
         lib_free(datadir_root);
