@@ -1480,7 +1480,7 @@ int ui_init(int *argc, char **argv)
 
     if (!uidata_init()) {
         log_error(LOG_ERR,
-                "failed to initialize GResource data, don't expected much"
+                "failed to initialize GResource data, don't expect much"
                 " when it comes to icons, fonts or logos.");
     }
 
