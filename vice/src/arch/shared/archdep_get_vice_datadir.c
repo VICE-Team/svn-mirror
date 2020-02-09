@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "archdep_defs.h"
+#include "lib.h"
 #include "archdep_boot_path.h"
 #include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
@@ -47,9 +48,9 @@ char *archdep_get_vice_datadir(void)
     char *path;
     
 #ifdef ARCHDEP_OS_WINDOWS
-    path = archdep_boot_path();
+    path = lib_strdup(archdep_boot_path());
 # else
-    path = VICE_DATADIR;
+    path = lib_strdup(VICE_DATADIR);
 # endif
 
     printf("VICE_DATADIR = '%s'\n", path);

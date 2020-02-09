@@ -140,6 +140,7 @@ int archdep_init(int *argc, char **argv)
 # if 0
     lib_free(cfg_path);
 # endif
+    lib_free(datadir);
     lib_free(docsdir);
 #endif
 
