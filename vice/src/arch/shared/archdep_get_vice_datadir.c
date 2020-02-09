@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "archdep_defs.h"
 #include "lib.h"
@@ -43,17 +44,38 @@
  *
  * \return  Path to VICE data directory (typically /usr/local/share/vice)
  */
+#ifdef ARCHDEP_OS_OSX
+char *archdep_get_vice_datadir(void)
+{
+    /* If we are running within a bindist, use the bundled resources not VICE_DATADIR */
+    static char *BINDIST_BOOT_PATH = "/VICE.app/Contents/Resources/bin";
+
+    const char *boot_path = archdep_boot_path();
+    char *bindist_boot_path_ptr = strstr(boot_path, BINDIST_BOOT_PATH);
+    char *datadir = NULL;
+
+    if (bindist_boot_path_ptr && strlen(bindist_boot_path_ptr) == strlen(BINDIST_BOOT_PATH)) {
+        /* boot_path ends with BINDIST_BOOT_PATH - we are running in macOS bindist */
+        datadir = archdep_join_paths(boot_path, "..", "share", "vice", NULL);
+    }
+
+    if(!datadir) {
+        datadir = lib_strdup(VICE_DATADIR);
+    }
+
+    return datadir;
+}
+#else
 char *archdep_get_vice_datadir(void)
 {
     char *path;
-    
+   
 #ifdef ARCHDEP_OS_WINDOWS
     path = lib_strdup(archdep_boot_path());
-# else
+#else
     path = lib_strdup(VICE_DATADIR);
-# endif
-
-    printf("VICE_DATADIR = '%s'\n", path);
+#endif
 
     return path;
 }
+#endif
