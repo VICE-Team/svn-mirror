@@ -117,7 +117,7 @@ int archdep_init(int *argc, char **argv)
     debug_gtk3("user config dir = \"%s\"", cfg_path);
     debug_gtk3("prg boot path   = \"%s\"", archdep_boot_path());
     debug_gtk3("VICE searchpath = \"%s\"", searchpath);
-    debug_gtk3("VICE gui data   = \"%s\"", datadir);
+    debug_gtk3("VICE data path  = \"%s\"", datadir);
     debug_gtk3("VICE docs path  = \"%s\"", docsdir);
     debug_gtk3("vice.ini path   = \"%s\"", vice_ini);
 
@@ -140,7 +140,6 @@ int archdep_init(int *argc, char **argv)
 # if 0
     lib_free(cfg_path);
 # endif
-    lib_free(datadir);
     lib_free(docsdir);
 #endif
 

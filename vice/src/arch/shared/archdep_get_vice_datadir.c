@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "archdep_defs.h"
@@ -37,21 +38,21 @@
 #include "archdep_get_vice_datadir.h"
 
 
-/** \brief  Get the absolute path to the directory that contains GUI data
+/** \brief  Get the absolute path to the VICE data directory
  *
- * \return  Path to the gui data directory
- *
- * \FIXME:  This is not normal method, data dir should point to the DATA/ dir
- *          containing the ROMs etc, not the UI stuff in common.
+ * \return  Path to VICE data directory (typically /usr/local/share/vice)
  */
 char *archdep_get_vice_datadir(void)
 {
     char *path;
-
+    
 #ifdef ARCHDEP_OS_WINDOWS
-    path = archdep_join_paths(archdep_boot_path(), "common", NULL);
+    path = archdep_boot_path();
 # else
-    path = archdep_join_paths(VICE_DATADIR, "common", NULL);
+    path = VICE_DATADIR;
 # endif
+
+    printf("VICE_DATADIR = '%s'\n", path);
+
     return path;
 }
