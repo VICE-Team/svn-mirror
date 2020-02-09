@@ -80,16 +80,7 @@ if [ -z "$PROGRAM" ]; then
 fi
 
 if [ "$PROGRAM" != "" ]; then
-
-  #
-  # The macOS hardened runtime (needed for notarisation) seems to ignore
-  # DYLD_FALLBACK_PATH, and looks only in CWD and app Contents/Resources for
-  # dylib files. Rather than make Resources folder messy, just change the
-  # working dir to the lib folder within VICE.app so that it can find dynamic
-  # libraries.
-  #
-
-  cd lib && "../bin/$PROGRAM" "$@"
+  "./bin/$PROGRAM" "$@"
 fi
 
 exit 0

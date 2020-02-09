@@ -131,10 +131,10 @@ APP_MACOS=$APP_CONTENTS/MacOS
 APP_RESOURCES=$APP_CONTENTS/Resources
 APP_ETC=$APP_RESOURCES/etc
 APP_SHARE=$APP_RESOURCES/share
-APP_COMMON=$APP_RESOURCES/lib/vice/common
-APP_ICONS=$APP_RESOURCES/lib/vice/icons
-APP_ROMS=$APP_RESOURCES/lib/vice
-APP_DOCS=$APP_RESOURCES/lib/vice/doc
+APP_COMMON=$APP_SHARE/vice/common
+APP_ICONS=$APP_SHARE/vice/icons
+APP_ROMS=$APP_SHARE/vice
+APP_DOCS=$APP_SHARE/vice/doc
 APP_BIN=$APP_RESOURCES/bin
 APP_LIB=$APP_RESOURCES/lib
 
@@ -261,6 +261,11 @@ for emu in $BINARIES ; do
       # relink the emu binary to the relative lib copy
       install_name_tool -change $lib @executable_path/../lib/$(basename $lib) $APP_BIN/$emu
   done
+
+  # dlopen'd libs need to be loaded from bundle, not /(opt|usr)/local/lib
+  install_name_tool -delete_rpath /opt/local/lib          $APP_BIN/$emu
+  install_name_tool -delete_rpath /usr/local/lib          $APP_BIN/$emu
+  install_name_tool -add_rpath    @executable_path/../lib $APP_BIN/$emu
 
   # copy emulator ROM
   eval "ROM=\${ROM_$emu}"
