@@ -1,7 +1,7 @@
-/** \file   archdep_get_vice_datadir.c
- * \brief   Get path to data dir for Gtk3
+/** \file   archdep_is_macos_bindist.c
+ * \brief   Determine if running from a macOS binary distribution
  *
- * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  David Hogan <david.q.hogan@gmail.com>
  */
 
 /*
@@ -25,44 +25,21 @@
  *
  */
 
-#include "vice.h"
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "archdep_boot_path.h"
 #include "archdep_defs.h"
-#include "archdep_is_macos_bindist.h"
-#include "archdep_join_paths.h"
-#include "archdep_user_config_path.h"
 
-#include "lib.h"
+int archdep_is_macos_bindist(void) {
+#ifdef ARCHDEP_OS_OSX
+    static char *BINDIST_BOOT_PATH = "/VICE.app/Contents/Resources/bin";
 
-#include "archdep_get_vice_datadir.h"
+    char *bindist_boot_path_ptr = strstr(archdep_boot_path(), BINDIST_BOOT_PATH);
 
-
-/** \brief  Get the absolute path to the VICE data directory
- *
- * \return  Path to VICE data directory (typically /usr/local/share/vice)
- */
-char *archdep_get_vice_datadir(void)
-{
-    char *path;
-   
-#ifdef ARCHDEP_OS_WINDOWS
-    path = lib_strdup(archdep_boot_path());
-#else
-# ifdef ARCHDEP_OS_OSX
-    if (archdep_is_macos_bindist()) {
-        path = archdep_join_paths(archdep_boot_path(), "..", "share", "vice", NULL);
-    } else {
-        path = lib_strdup(VICE_DATADIR);    
+    if (bindist_boot_path_ptr && strlen(bindist_boot_path_ptr) == strlen(BINDIST_BOOT_PATH)) {
+        return 1;
     }
-# else
-    path = lib_strdup(VICE_DATADIR);
-# endif
 #endif
-
-    return path;
+    return 0;
 }

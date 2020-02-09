@@ -54,6 +54,7 @@ libarchdep_a_SOURCES = \
 	archdep_home_path.c \
 	archdep_is_haiku.c \
 	archdep_is_windows_nt.c \
+	archdep_is_macos_bindist.c \
 	archdep_join_paths.c \
 	archdep_kbd_get_host_mapping.c \
 	archdep_list_drives.c \
@@ -112,6 +113,7 @@ EXTRA_DIST = \
 	archdep_home_path.h \
 	archdep_is_haiku.h \
 	archdep_is_windows_nt.h \
+	archdep_is_macos_bindist.h \
 	archdep_join_paths.h \
 	archdep_kbd_get_host_mapping.h \
 	archdep_make_backup_filename.h \

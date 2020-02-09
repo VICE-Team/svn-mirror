@@ -29,10 +29,11 @@
 
 #include <stdlib.h>
 
-#include "archdep_defs.h"
-#include "lib.h"
 #include "archdep_boot_path.h"
+#include "archdep_defs.h"
+#include "archdep_is_macos_bindist.h"
 #include "archdep_join_paths.h"
+#include "lib.h"
 
 #include "archdep_get_vice_docsdir.h"
 
@@ -52,7 +53,16 @@ char *archdep_get_vice_docsdir(void)
      */
     path = archdep_join_paths(archdep_boot_path(), "doc", NULL);
 #else
+# ifdef ARCHDEP_OS_OSX
+    if (archdep_is_macos_bindist()) {
+        path = archdep_join_paths(archdep_boot_path(), "..", "share", "vice", "doc", NULL);
+    } else {
+        path = lib_strdup(VICE_DOCDIR);
+    }
+# else
     path = lib_strdup(VICE_DOCDIR);
+# endif
 #endif
+
     return path;
 }
