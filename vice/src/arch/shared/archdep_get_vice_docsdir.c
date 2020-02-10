@@ -52,16 +52,14 @@ char *archdep_get_vice_docsdir(void)
      * be relative to the emu binary.
      */
     path = archdep_join_paths(archdep_boot_path(), "doc", NULL);
-#else
-# ifdef ARCHDEP_OS_OSX
+#elif defined(ARCHDEP_OS_OSX)
     if (archdep_is_macos_bindist()) {
         path = archdep_join_paths(archdep_boot_path(), "..", "share", "vice", "doc", NULL);
     } else {
         path = lib_strdup(VICE_DOCDIR);
     }
-# else
+#else
     path = lib_strdup(VICE_DOCDIR);
-# endif
 #endif
 
     return path;
