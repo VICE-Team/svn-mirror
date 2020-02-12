@@ -41,8 +41,18 @@
 #include "svnversion.h"
 #endif
 #include "uidata.h"
+#include "archdep_get_runtime_info.h"
 
 #include "uiabout.h"
+
+
+#define VERSION_STRING_MAX 8192
+
+enum {
+    RESPONSE_RUNTIME = 1,
+    RESPONSE_COMPILE_TIME
+};
+
 
 
 /** \brief  List of current team members
@@ -123,8 +133,19 @@ static void about_response_callback(GtkWidget *widget, gint response_id,
     /* The GTK_RESPONSE_DELETE_EVENT is sent when the user clicks 'Close',
      * but also when the user clicks the 'X' gadget.
      */
-    if (response_id == GTK_RESPONSE_DELETE_EVENT) {
-        gtk_widget_destroy(widget);
+    switch (response_id) {
+        case GTK_RESPONSE_DELETE_EVENT:
+            gtk_widget_destroy(widget);
+            break;
+        case RESPONSE_RUNTIME:
+            debug_gtk3("Got RUNTIME! (TODO)");
+            break;
+        case RESPONSE_COMPILE_TIME:
+            debug_gtk3("Got COMPILE TIME! (TODO)");
+            break;
+        default:
+            debug_gtk3("Warning: Unsupported response ID %d", response_id);
+            break;
     }
 }
 
@@ -138,9 +159,12 @@ static void about_response_callback(GtkWidget *widget, gint response_id,
  */
 gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
-    char version[1024];
+    char version[VERSION_STRING_MAX];
     GtkWidget *about = gtk_about_dialog_new();
     GdkPixbuf *logo = get_vice_logo();
+
+    archdep_runtime_info_t runtime_info;
+
 
     /* set toplevel window, Gtk doesn't like dialogs without parents */
     gtk_window_set_transient_for(GTK_WINDOW(about), ui_get_active_window());
@@ -153,16 +177,31 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* set version string */
 #ifdef USE_SVN_REVISION
-    g_snprintf(version, 1024, "%s r%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
+    g_snprintf(version, VERSION_STRING_MAX,
+            "%s r%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
             VERSION, VICE_SVN_REV_STRING,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
 #else
-    g_snprintf(version, 1024, "%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
+    g_snprintf(version, VERSION_STRING_MAX,
+            "%s (GTK3 %d.%d.%d, GLib %d.%d.%d)",
             VERSION,
             GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
             GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
 #endif
+
+    if (archdep_get_runtime_info(&runtime_info)) {
+        size_t v = strlen(version);
+        g_snprintf(version + v, VERSION_STRING_MAX - v - 1UL,
+                "\n\n%s %s\n"
+                "%s\n"
+                "%s",
+                runtime_info.os_name,
+                runtime_info.os_release,
+                runtime_info.os_version,
+                runtime_info.machine);
+    }
+
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), version);
 
     /* Describe the program */
@@ -190,6 +229,8 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
         gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
         g_object_unref(logo);
     }
+
+    gtk_dialog_add_button(GTK_DIALOG(about), "Runtime info", RESPONSE_RUNTIME);
 
     /*
      * hook up event handlers
