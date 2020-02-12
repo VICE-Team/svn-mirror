@@ -69,23 +69,43 @@ static const char *autostart_diskimage;
 
 /** \brief  CSS style string to set the CBM font
  */
-static const char *DIRENT_CSS = "label { font-family: \"CBM\"; }";
+static const char *DIRENT_CSS = \
+    "label {" \
+    "font-family: \"CBM\";" \
+    "font-size: 16px;" \
+    "letter-spacing: 0;" \
+    "margin: 0;" \
+    "border: 0;" \
+    "}";
 
 /** \brief  Reference to the CSS provider used for directory entries
  */
 static GtkCssProvider *css_provider;
 
-
-/* FIXME: stole this from arch/unix/x11/gnome/x11ui.c
- *
- * And I still get warnings from Pango
+/** \brief  Convert petscii encoded string to utf8 string we can show using cbm.ttf
  */
-static unsigned char *convert_utf8(unsigned char *s)
+static unsigned char *convert_petscii_to_utf8(unsigned char *s)
 {
     unsigned char *d, *r;
 
     r = d = lib_malloc((size_t)(strlen((char *)s) * 2 + 1));
     while (*s) {
+        /* first fixup non printable petscii */
+        if (*s < 0x20) {
+            /* control chars, we dont have the right inverted glyphs for them yet,
+               so convert to the non inverted counterparts for the time being */
+            *s  = *s + 0x40; /* inverted @ABC..etc */
+        } else if (*s < 0x80) {
+            /* printable petscii codes */
+        } else if (*s < 0xa0) {
+            /* control chars, we dont have the right inverted glyphs for them yet,
+               so convert to the non inverted counterparts for the time being */
+            *s = *s - 0x20; /* inverted SHIFT+@ABC..etc */
+        } else {
+            /* printable petscii codes */
+        }
+
+        /* now copy to the destination string and convert to utf8 */
         if (*s < 0x80) {
             *d = *s;
         } else {
@@ -100,6 +120,7 @@ static unsigned char *convert_utf8(unsigned char *s)
                 *d = (*s & ~0xc0) | 0x80;
             }
         }
+
         s++;
         d++;
     }
@@ -151,7 +172,7 @@ static gboolean create_css_provider(void)
  *
  * \return  bool
  */
-static gboolean apply_css_provider(GtkWidget *widget)
+static gboolean apply_css_provider(GtkWidget *widget, GtkCssProvider *provider)
 {
     GtkStyleContext *css_context;
 
@@ -162,7 +183,7 @@ static gboolean apply_css_provider(GtkWidget *widget)
     }
 
     gtk_style_context_add_provider(css_context,
-            GTK_STYLE_PROVIDER(css_provider),
+            GTK_STYLE_PROVIDER(provider),
             GTK_STYLE_PROVIDER_PRIORITY_USER);
     return TRUE;
 }
@@ -282,11 +303,13 @@ GtkWidget *dir_menu_popup_create(
         } else {
             debug_gtk3("Getting disk name & ID:");
             /* DISK name & ID */
+            
+            /* FIXME: we want to show the header inverted */
             tmp = image_contents_to_string(contents, 0);
-            utf8 = (char *)convert_utf8((unsigned char *)tmp);
+            utf8 = (char *)convert_petscii_to_utf8((unsigned char *)tmp);
             item = gtk_menu_item_new_with_label(utf8);
             label = gtk_bin_get_child(GTK_BIN(item));
-            apply_css_provider(label);
+            apply_css_provider(label, css_provider);
 
             gtk_container_add(GTK_CONTAINER(menu), item);
             lib_free(tmp);
@@ -302,12 +325,17 @@ GtkWidget *dir_menu_popup_create(
                     entry = entry->next) {
 
                 tmp = image_contents_file_to_string(entry, 0);
-                utf8 = (char *)convert_utf8((unsigned char *)tmp);
+                utf8 = (char *)convert_petscii_to_utf8((unsigned char *)tmp);
                 item = gtk_menu_item_new_with_label(utf8);
                 label = gtk_bin_get_child(GTK_BIN(item));
-                apply_css_provider(label);
+                apply_css_provider(label, css_provider);
 
                 gtk_container_add(GTK_CONTAINER(menu), item);
+                /* try to remove the blank space between lines in the directory
+                   listing... none of these seems to have any effect though :/ */
+                gtk_container_set_border_width(GTK_CONTAINER(menu), 0);
+                gtk_widget_set_margin_top(GTK_WIDGET(menu),0);
+                gtk_widget_set_margin_bottom(GTK_WIDGET(menu),0);
 
                 g_signal_connect(item, "activate",
                         G_CALLBACK(on_item_activate), GINT_TO_POINTER(index));
