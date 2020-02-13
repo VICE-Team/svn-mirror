@@ -67,20 +67,37 @@ static void (*response_func)(const char *, int);
  */
 static const char *autostart_diskimage;
 
-/** \brief  CSS style string to set the CBM font
+/** \brief  CSS style string to set the CBM font and remove padding
  */
 static const char *DIRENT_CSS = \
     "label {" \
     "font-family: \"CBM\";" \
     "font-size: 16px;" \
     "letter-spacing: 0;" \
-    "margin: 0;" \
+    "margin: -2px;" \
     "border: 0;" \
+    "padding: 0;" \
     "}";
 
-/** \brief  Reference to the CSS provider used for directory entries
+
+/** \brief  CSS style string to remove padding from menu items
+ */
+static const char *MENUITEM_CSS = \
+    "menuitem {" \
+    "margin: 0;" \
+    "border: 0;" \
+    "padding: 0;" \
+    "}";
+
+
+/** \brief  CSS provider used for directory entry GtkMenuItem labels
  */
 static GtkCssProvider *css_provider;
+
+/** \brief  CSS provider used for directory entry GtkMenuItem's
+ */
+static GtkCssProvider *menuitem_css_provider;
+
 
 /** \brief  Convert petscii encoded string to utf8 string we can show using cbm.ttf
  */
@@ -166,6 +183,23 @@ static gboolean create_css_provider(void)
 }
 
 
+static gboolean create_menuitem_css_provider(void)
+{
+    GError *err = NULL;
+
+    /* instanciate CSS provider */
+    menuitem_css_provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(menuitem_css_provider,
+            MENUITEM_CSS, -1, &err);
+    if (err != NULL) {
+        log_error(LOG_ERR, "CSS error: %s", err->message);
+        g_error_free(err);
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
 /** \brief  Apply CSS provider to \a widget to set the CBM font
  *
  * \param[in,out]   widget  label in a GtkMenuItem
@@ -216,8 +250,12 @@ GtkWidget *dir_menu_popup_create(
 
     debug_gtk3("DEVICE = %d.", dev);
 
-    /* create style provider */
+    /* create style providers */
     if (!create_css_provider()) {
+        debug_gtk3("failed to create CSS provider, borking");
+        return NULL;
+    }
+    if (!create_menuitem_css_provider()) {
         debug_gtk3("failed to create CSS provider, borking");
         return NULL;
     }
@@ -276,7 +314,7 @@ GtkWidget *dir_menu_popup_create(
 
     tmp = NULL;
     if (autostart_diskimage) {
-        util_fname_split(autostart_diskimage, NULL, &tmp);        
+        util_fname_split(autostart_diskimage, NULL, &tmp);
     }
     if (dev >= 0) {
         g_snprintf(buffer, 1024, "Directory of unit %d: (%s)", 
@@ -290,7 +328,7 @@ GtkWidget *dir_menu_popup_create(
     if (tmp) {
         lib_free(tmp);
     }
-    
+
     debug_gtk3("Did we get some image?");
     if (autostart_diskimage != NULL) {
         /* read dir and add them as menu items */
@@ -303,13 +341,16 @@ GtkWidget *dir_menu_popup_create(
         } else {
             debug_gtk3("Getting disk name & ID:");
             /* DISK name & ID */
-            
+
             /* FIXME: we want to show the header inverted */
             tmp = image_contents_to_string(contents, 0);
             utf8 = (char *)convert_petscii_to_utf8((unsigned char *)tmp);
             item = gtk_menu_item_new_with_label(utf8);
+            g_object_set(item, "margin-top", 0,
+                    "margin-bottom", 0, NULL);
             label = gtk_bin_get_child(GTK_BIN(item));
             apply_css_provider(label, css_provider);
+            apply_css_provider(item, menuitem_css_provider);
 
             gtk_container_add(GTK_CONTAINER(menu), item);
             lib_free(tmp);
@@ -327,22 +368,24 @@ GtkWidget *dir_menu_popup_create(
                 tmp = image_contents_file_to_string(entry, 0);
                 utf8 = (char *)convert_petscii_to_utf8((unsigned char *)tmp);
                 item = gtk_menu_item_new_with_label(utf8);
+
+                g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);
                 label = gtk_bin_get_child(GTK_BIN(item));
                 apply_css_provider(label, css_provider);
+                apply_css_provider(item, menuitem_css_provider);
 
                 gtk_container_add(GTK_CONTAINER(menu), item);
-                /* try to remove the blank space between lines in the directory
-                   listing... none of these seems to have any effect though :/ */
-                gtk_container_set_border_width(GTK_CONTAINER(menu), 0);
-                gtk_widget_set_margin_top(GTK_WIDGET(menu),0);
-                gtk_widget_set_margin_bottom(GTK_WIDGET(menu),0);
-
                 g_signal_connect(item, "activate",
                         G_CALLBACK(on_item_activate), GINT_TO_POINTER(index));
                 index++;
                 lib_free(tmp);
                 lib_free(utf8);
             }
+            /*
+            gtk_container_set_border_width(GTK_CONTAINER(menu), 0);
+            gtk_widget_set_margin_top(GTK_WIDGET(menu),0);
+            gtk_widget_set_margin_bottom(GTK_WIDGET(menu),0);
+            */
         }
         if (contents != NULL) {
             image_contents_destroy(contents);
@@ -353,7 +396,6 @@ GtkWidget *dir_menu_popup_create(
         gtk_container_add(GTK_CONTAINER(menu), item);
     }
     gtk_widget_show_all(GTK_WIDGET(menu));
-
 
     return menu;
 }
