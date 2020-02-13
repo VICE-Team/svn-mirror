@@ -78,10 +78,14 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief The texture identifier for the GPU's copy of our
      *         machine display. */
     GLuint texture;
-    /** \brief Width of the texture, in pixels. */
+    /** \brief Width of the useful part of the texture, in pixels. */
     unsigned int width;
-    /** \brief Height of the texture, in pixels. */
+    /** \brief Height of the useful part of the texture, in pixels. */
     unsigned int height;
+    /** \brief Actual width of the texture. */
+    unsigned int true_width;
+    /** \brief Actual height of the texture. */
+    unsigned int true_height;
     /** \brief The raw pixel data that is the CPU's copy of our
      * machine display. */
     unsigned char *backbuffer;
@@ -91,6 +95,12 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief Fraction of the window height the scaled machine display
      *         takes up (1.0f=entire height). */
     float scale_y;
+    /** \brief Fraction of the (power-of-two) texture width that holds
+     *         the actual texture (1.0f=entire texture). */
+    float tex_scale_x;
+    /** \brief Fraction of the (power-of-two) texture height that holds
+     *         the actual texture (1.0f=entire texture). */
+    float tex_scale_y;
     /** \brief X coordinate of leftmost pixel that needs to be updated
      *         in the texture. */
     unsigned int dirty_x;
@@ -146,12 +156,13 @@ static float vertexData[] = {
  * world coordinates remain [-1, 1] in all dimensions. */
 static const char *vertexShader = "#version 150\n"
     "uniform vec4 scale;\n"
+    "uniform vec2 texScale;\n"
     "in vec4 position;\n"
     "in vec2 tex;\n"
     "smooth out vec2 texCoord;\n"
     "void main() {\n"
     "  gl_Position = position * scale;\n"
-    "  texCoord = tex;\n"
+    "  texCoord = tex * texScale;\n"
     "}\n";
 
 /** \brief Our renderer's fragment shader.
@@ -359,8 +370,8 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         }
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, ctx->width);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ctx->width, ctx->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, ctx->true_width);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ctx->true_width, ctx->true_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -371,8 +382,8 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
     } else if (ctx->render_mode == RENDER_MODE_DIRTY_RECT) {
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, ctx->width);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, ctx->dirty_x, ctx->dirty_y, ctx->dirty_w, ctx->dirty_h, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer + 4 * (ctx->width * ctx->dirty_y + ctx->dirty_x));
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, ctx->true_width);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, ctx->dirty_x, ctx->dirty_y, ctx->dirty_w, ctx->dirty_h, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer + 4 * (ctx->true_width * ctx->dirty_y + ctx->dirty_x));
         glBindTexture(GL_TEXTURE_2D, 0);
     }
     ctx->render_mode = RENDER_MODE_STATIC;
@@ -384,20 +395,20 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glEnable(GL_TEXTURE_2D);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         glBegin(GL_TRIANGLE_STRIP);
-        glTexCoord2f(0.0f, 1.0f);
+        glTexCoord2f(0.0f, ctx->tex_scale_y);
         glVertex2f(-ctx->scale_x, -ctx->scale_y);
-        glTexCoord2f(1.0f, 1.0f);
+        glTexCoord2f(ctx->tex_scale_x, ctx->tex_scale_y);
         glVertex2f(ctx->scale_x, -ctx->scale_y);
         glTexCoord2f(0.0f, 0.0f);
         glVertex2f(-ctx->scale_x, ctx->scale_y);
-        glTexCoord2f(1.0f, 0.0f);
+        glTexCoord2f(ctx->tex_scale_x, 0.0f);
         glVertex2f(ctx->scale_x, ctx->scale_y);
         glEnd();
         glDisable(GL_TEXTURE_2D);
     } else {
         /* Modern renderer */
         if (ctx->program) {
-            GLuint scale_uniform, sampler_uniform;
+            GLuint scale_uniform, tex_scale_uniform, sampler_uniform;
 
             glUseProgram(ctx->program);
 
@@ -411,6 +422,8 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
             /** \todo cache the uniform locations along with the vertex attributes */
             scale_uniform = glGetUniformLocation(ctx->program, "scale");
             glUniform4f(scale_uniform, ctx->scale_x, ctx->scale_y, 1.0f, 1.0f);
+            tex_scale_uniform = glGetUniformLocation(ctx->program, "texScale");
+            glUniform2f(tex_scale_uniform, ctx->tex_scale_x, ctx->tex_scale_y);
             sampler_uniform = glGetUniformLocation(ctx->program, "sampler");
             glUniform1i(sampler_uniform, 0);
 
@@ -529,6 +542,21 @@ static void vice_opengl_destroy_context(video_canvas_t *canvas)
     }
 }
 
+/** \brief Returns its argument, rounded up to the next power of two.
+ * \return The rounded value, or zero if it doesn't fit in an integer.
+ */
+static int round_up_to_power_of_two(int arg)
+{
+    int result = 1;
+    while (result < arg && result > 0) {
+        result <<= 1;
+    }
+    if (result <= 0) {
+        return 0;
+    }
+    return result;
+}
+
 /** \brief OpenGL implementation of update_context.
  * \param canvas The canvas being resized or initially created.
  * \param width The new width for the machine's screen.
@@ -550,7 +578,11 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         }
         ctx->width = width;
         ctx->height = height;
-        ctx->backbuffer = lib_malloc(width * height * 4);
+        ctx->true_width = round_up_to_power_of_two(ctx->width);
+        ctx->true_height = round_up_to_power_of_two(ctx->height);
+        ctx->tex_scale_x = (float)ctx->width / (float)ctx->true_width;
+        ctx->tex_scale_y = (float)ctx->height / (float)ctx->true_height;
+        ctx->backbuffer = lib_malloc(ctx->true_width * ctx->true_height * 4);
         ctx->render_mode = RENDER_MODE_NEW_TEXTURE;
 
         resources_get_int("KeepAspectRatio", &keepaspect);
@@ -596,7 +628,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
         return;
     }
 
-    video_canvas_render(canvas, ctx->backbuffer, w, h, xs, ys, xi, yi, ctx->width * 4, 32);
+    video_canvas_render(canvas, ctx->backbuffer, w, h, xs, ys, xi, yi, ctx->true_width * 4, 32);
 
     if (ctx->render_mode == RENDER_MODE_STATIC) {
         ctx->render_mode = RENDER_MODE_DIRTY_RECT;
