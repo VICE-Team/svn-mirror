@@ -7,6 +7,7 @@
  *
  *
  *  \author Bas Wassink <b.wassink@ziggo.nl>
+ *  \author Groepaz (groepaz@gmx.de>
  */
 
 /*
@@ -34,6 +35,7 @@
 
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
+#include "csshelpers.h"
 #include "lib.h"
 #include "log.h"
 #include "imagecontents/diskcontents.h"
@@ -45,7 +47,6 @@
 #include "attach.h"
 #include "autostart.h"
 #include "util.h"
-
 #include "tape.h"
 
 #include "dirmenupopup.h"
@@ -69,7 +70,7 @@ static const char *autostart_diskimage;
 
 /** \brief  CSS style string to set the CBM font and remove padding
  */
-static const char *DIRENT_CSS = \
+static const char *MENULABEL_CSS = \
     "label {" \
     "font-family: \"CBM\";" \
     "font-size: 16px;" \
@@ -92,7 +93,7 @@ static const char *MENUITEM_CSS = \
 
 /** \brief  CSS provider used for directory entry GtkMenuItem labels
  */
-static GtkCssProvider *css_provider;
+static GtkCssProvider *menulabel_css_provider;
 
 /** \brief  CSS provider used for directory entry GtkMenuItem's
  */
@@ -160,65 +161,20 @@ static void on_item_activate(GtkWidget *item, gpointer data)
 }
 
 
-
-/** \brief  Create CSS style provider for the directory entries
+/** \brief  Create reusable CSS providers
  *
- * This way we won't be (re)creating 144 or even 296 style provider
- *
- * \return  bool
+ * \return bool
  */
-static gboolean create_css_provider(void)
+static gboolean create_css_providers(void)
 {
-    GError *err = NULL;
-
-    /* instanciate CSS provider */
-    css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(css_provider, DIRENT_CSS, -1, &err);
-    if (err != NULL) {
-        log_error(LOG_ERR, "CSS error: %s", err->message);
-        g_error_free(err);
+    menulabel_css_provider = vice_gtk3_css_provider_new(MENULABEL_CSS);
+    if (menulabel_css_provider == NULL) {
         return FALSE;
     }
-    return TRUE;
-}
-
-
-static gboolean create_menuitem_css_provider(void)
-{
-    GError *err = NULL;
-
-    /* instanciate CSS provider */
-    menuitem_css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(menuitem_css_provider,
-            MENUITEM_CSS, -1, &err);
-    if (err != NULL) {
-        log_error(LOG_ERR, "CSS error: %s", err->message);
-        g_error_free(err);
+    menuitem_css_provider = vice_gtk3_css_provider_new(MENUITEM_CSS);
+    if (menuitem_css_provider == NULL) {
         return FALSE;
     }
-    return TRUE;
-}
-
-
-/** \brief  Apply CSS provider to \a widget to set the CBM font
- *
- * \param[in,out]   widget  label in a GtkMenuItem
- *
- * \return  bool
- */
-static gboolean apply_css_provider(GtkWidget *widget, GtkCssProvider *provider)
-{
-    GtkStyleContext *css_context;
-
-    css_context = gtk_widget_get_style_context(widget);
-    if (css_context == NULL) {
-        log_error(LOG_ERR, "Couldn't get style context of widget");
-        return FALSE;
-    }
-
-    gtk_style_context_add_provider(css_context,
-            GTK_STYLE_PROVIDER(provider),
-            GTK_STYLE_PROVIDER_PRIORITY_USER);
     return TRUE;
 }
 
@@ -251,12 +207,8 @@ GtkWidget *dir_menu_popup_create(
     debug_gtk3("DEVICE = %d.", dev);
 
     /* create style providers */
-    if (!create_css_provider()) {
-        debug_gtk3("failed to create CSS provider, borking");
-        return NULL;
-    }
-    if (!create_menuitem_css_provider()) {
-        debug_gtk3("failed to create CSS provider, borking");
+    if (!create_css_providers()) {
+        debug_gtk3("failed to create CSS providers, borking");
         return NULL;
     }
 
@@ -349,8 +301,8 @@ GtkWidget *dir_menu_popup_create(
             g_object_set(item, "margin-top", 0,
                     "margin-bottom", 0, NULL);
             label = gtk_bin_get_child(GTK_BIN(item));
-            apply_css_provider(label, css_provider);
-            apply_css_provider(item, menuitem_css_provider);
+            vice_gtk3_css_provider_add(label, menulabel_css_provider);
+            vice_gtk3_css_provider_add(item, menuitem_css_provider);
 
             gtk_container_add(GTK_CONTAINER(menu), item);
             lib_free(tmp);
@@ -371,8 +323,8 @@ GtkWidget *dir_menu_popup_create(
 
                 g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);
                 label = gtk_bin_get_child(GTK_BIN(item));
-                apply_css_provider(label, css_provider);
-                apply_css_provider(item, menuitem_css_provider);
+                vice_gtk3_css_provider_add(label, menulabel_css_provider);
+                vice_gtk3_css_provider_add(item, menuitem_css_provider);
 
                 gtk_container_add(GTK_CONTAINER(menu), item);
                 g_signal_connect(item, "activate",
