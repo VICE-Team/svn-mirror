@@ -36,6 +36,7 @@ libbasewidgets_a_SOURCES = \
 	carthelpers.c \
 	cartimagewidget.c \
 	clockportdevicewidget.c \
+	csshelpers.c \
 	filechooserhelpers.c \
 	lastdir.c \
 	openfiledialog.c \
@@ -60,6 +61,7 @@ EXTRA_DIST = \
 	carthelpers.h \
 	cartimagewidget.h \
 	clockportdevicewidget.h \
+	csshelpers.h \
 	filechooserhelpers.h \
 	lastdir.h \
 	openfiledialog.h \
