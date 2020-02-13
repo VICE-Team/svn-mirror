@@ -50,6 +50,7 @@
 #include "tape.h"
 
 #include "dirmenupopup.h"
+#include "widgethelpers.h"
 
 
 /** \brief  Function to read the contents of an image
@@ -98,53 +99,6 @@ static GtkCssProvider *menulabel_css_provider;
 /** \brief  CSS provider used for directory entry GtkMenuItem's
  */
 static GtkCssProvider *menuitem_css_provider;
-
-
-/** \brief  Convert petscii encoded string to utf8 string we can show using cbm.ttf
- */
-static unsigned char *convert_petscii_to_utf8(unsigned char *s)
-{
-    unsigned char *d, *r;
-
-    r = d = lib_malloc((size_t)(strlen((char *)s) * 2 + 1));
-    while (*s) {
-        /* first fixup non printable petscii */
-        if (*s < 0x20) {
-            /* control chars, we dont have the right inverted glyphs for them yet,
-               so convert to the non inverted counterparts for the time being */
-            *s  = *s + 0x40; /* inverted @ABC..etc */
-        } else if (*s < 0x80) {
-            /* printable petscii codes */
-        } else if (*s < 0xa0) {
-            /* control chars, we dont have the right inverted glyphs for them yet,
-               so convert to the non inverted counterparts for the time being */
-            *s = *s - 0x20; /* inverted SHIFT+@ABC..etc */
-        } else {
-            /* printable petscii codes */
-        }
-
-        /* now copy to the destination string and convert to utf8 */
-        if (*s < 0x80) {
-            *d = *s;
-        } else {
-            /* special latin1 character handling */
-            if (*s == 0xa0) {
-                *d = 0x20;
-            } else {
-                if (*s == 0xad) {
-                    *s = 0xed;
-                }
-                *d++ = 0xc0 | (*s >> 6);
-                *d = (*s & ~0xc0) | 0x80;
-            }
-        }
-
-        s++;
-        d++;
-    }
-    *d = '\0';
-    return r;
-}
 
 
 /** \brief  Handler for the "activate" event of a menu item
@@ -294,9 +248,8 @@ GtkWidget *dir_menu_popup_create(
             debug_gtk3("Getting disk name & ID:");
             /* DISK name & ID */
 
-            /* FIXME: we want to show the header inverted */
             tmp = image_contents_to_string(contents, 0);
-            utf8 = (char *)convert_petscii_to_utf8((unsigned char *)tmp);
+            utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1);
             item = gtk_menu_item_new_with_label(utf8);
             g_object_set(item, "margin-top", 0,
                     "margin-bottom", 0, NULL);
@@ -318,7 +271,7 @@ GtkWidget *dir_menu_popup_create(
                     entry = entry->next) {
 
                 tmp = image_contents_file_to_string(entry, 0);
-                utf8 = (char *)convert_petscii_to_utf8((unsigned char *)tmp);
+                utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0);
                 item = gtk_menu_item_new_with_label(utf8);
 
                 g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);

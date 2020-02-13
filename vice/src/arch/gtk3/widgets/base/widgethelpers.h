@@ -89,4 +89,6 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
                                                 const char *label,
                                                 int span);
 
+unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted);
+
 #endif

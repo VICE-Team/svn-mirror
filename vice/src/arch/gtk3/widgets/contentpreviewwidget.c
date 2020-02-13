@@ -37,6 +37,7 @@
 #include "imagecontents.h"
 
 #include "contentpreviewwidget.h"
+#include "widgethelpers.h"
 
 static read_contents_func_type content_func = NULL;
 static void (*response_func)(GtkWidget *, gint, gpointer);
@@ -89,37 +90,6 @@ static void on_row_activated(
     }
 }
 
-
-/* FIXME: stole this from arch/unix/x11/gnome/x11ui.c
- */
-static unsigned char *convert_utf8(unsigned char *s)
-{
-    unsigned char *d, *r;
-
-    r = d = lib_malloc((size_t)(strlen((char *)s) * 2 + 1));
-    while (*s) {
-        if (*s < 0x80) {
-            *d = *s;
-        } else {
-            /* special latin1 character handling */
-            if (*s == 0xa0) {
-                *d = 0x20;
-            } else {
-                if (*s == 0xad) {
-                    *s = 0xed;
-                }
-                *d++ = 0xc0 | (*s >> 6);
-                *d = (*s & ~0xc0) | 0x80;
-            }
-        }
-        s++;
-        d++;
-    }
-    *d = '\0';
-    return r;
-}
-
-
 /** \brief  Create the model for the view
  *
  * The model created has two columns, a string representing a file:
@@ -165,7 +135,7 @@ static GtkListStore *create_model(const char *path)
 
     /* disk name & ID */
     tmp = image_contents_to_string(contents, 0);
-    utf8 = (char *)convert_utf8((unsigned char *)tmp);
+    utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1);
     gtk_list_store_append(model, &iter);
     gtk_list_store_set(model, &iter, 0, utf8, 1, row, -1);
     row++;
@@ -175,7 +145,7 @@ static GtkListStore *create_model(const char *path)
     /* files, if any */
     for (entry = contents->file_list; entry != NULL; entry = entry->next) {
         tmp = image_contents_file_to_string(entry, 0);
-        utf8 = (char *)convert_utf8((unsigned char *)tmp);
+        utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter,
                 0, utf8,
@@ -190,7 +160,7 @@ static GtkListStore *create_model(const char *path)
     blocks = contents->blocks_free;
     if (blocks > 0) {
         tmp = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
-        utf8 = (char *)convert_utf8((unsigned char *)tmp);
+        utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0);
         gtk_list_store_append(model, &iter);
         gtk_list_store_set(model, &iter,
                 0, utf8,

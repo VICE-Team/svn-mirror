@@ -2,7 +2,7 @@
 commondir = $(VICE_DATADIR)/common
 
 common_DATA = CBM_Logo.svg \
-	      CBM.ttf \
+	      C64_Pro_Mono-STYLE.ttf \
 	      icon1024x1024.png \
 	      Icon-128@2x.png \
 	      icon.ico \
