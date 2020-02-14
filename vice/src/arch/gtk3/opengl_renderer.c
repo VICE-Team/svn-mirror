@@ -95,12 +95,6 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief Fraction of the window height the scaled machine display
      *         takes up (1.0f=entire height). */
     float scale_y;
-    /** \brief Fraction of the (power-of-two) texture width that holds
-     *         the actual texture (1.0f=entire texture). */
-    float tex_scale_x;
-    /** \brief Fraction of the (power-of-two) texture height that holds
-     *         the actual texture (1.0f=entire texture). */
-    float tex_scale_y;
     /** \brief X coordinate of leftmost pixel that needs to be updated
      *         in the texture. */
     unsigned int dirty_x;
@@ -156,13 +150,14 @@ static float vertexData[] = {
  * world coordinates remain [-1, 1] in all dimensions. */
 static const char *vertexShader = "#version 150\n"
     "uniform vec4 scale;\n"
-    "uniform vec2 texScale;\n"
+    "uniform vec2 validTex;\n"
+    "uniform vec2 texSize;\n"
     "in vec4 position;\n"
     "in vec2 tex;\n"
     "smooth out vec2 texCoord;\n"
     "void main() {\n"
     "  gl_Position = position * scale;\n"
-    "  texCoord = tex * texScale;\n"
+    "  texCoord = (tex * (validTex - 1.0) + 0.5) / texSize;\n"
     "}\n";
 
 /** \brief Our renderer's fragment shader.
@@ -388,6 +383,7 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
     }
     ctx->render_mode = RENDER_MODE_STATIC;
     if (ctx->legacy_renderer) {
+        float u1, v1, u2, v2;
         /* Legacy renderer */
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
         glDisable(GL_LIGHTING);
@@ -395,20 +391,26 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glEnable(GL_TEXTURE_2D);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         glBegin(GL_TRIANGLE_STRIP);
-        glTexCoord2f(0.0f, ctx->tex_scale_y);
+        /* Compute texture coordinates for half-pixel correction */
+        u1 = 0.5f / ctx->true_width;
+        u2 = (ctx->width - 0.5f) / ctx->true_width;
+        v1 = 0.5f / ctx->true_height;
+        v2 = (ctx->height - 0.5f) / ctx->true_height;
+        glTexCoord2f(u1, v2);
         glVertex2f(-ctx->scale_x, -ctx->scale_y);
-        glTexCoord2f(ctx->tex_scale_x, ctx->tex_scale_y);
+        glTexCoord2f(u2, v2);
         glVertex2f(ctx->scale_x, -ctx->scale_y);
-        glTexCoord2f(0.0f, 0.0f);
+        glTexCoord2f(u1, v1);
         glVertex2f(-ctx->scale_x, ctx->scale_y);
-        glTexCoord2f(ctx->tex_scale_x, 0.0f);
+        glTexCoord2f(u2, v1);
         glVertex2f(ctx->scale_x, ctx->scale_y);
         glEnd();
         glDisable(GL_TEXTURE_2D);
     } else {
         /* Modern renderer */
         if (ctx->program) {
-            GLuint scale_uniform, tex_scale_uniform, sampler_uniform;
+            GLuint scale_uniform, valid_tex_uniform, tex_size_uniform;
+            GLuint sampler_uniform;
 
             glUseProgram(ctx->program);
 
@@ -422,8 +424,10 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
             /** \todo cache the uniform locations along with the vertex attributes */
             scale_uniform = glGetUniformLocation(ctx->program, "scale");
             glUniform4f(scale_uniform, ctx->scale_x, ctx->scale_y, 1.0f, 1.0f);
-            tex_scale_uniform = glGetUniformLocation(ctx->program, "texScale");
-            glUniform2f(tex_scale_uniform, ctx->tex_scale_x, ctx->tex_scale_y);
+            valid_tex_uniform = glGetUniformLocation(ctx->program, "validTex");
+            glUniform2f(valid_tex_uniform, ctx->width, ctx->height);
+            tex_size_uniform = glGetUniformLocation(ctx->program, "texSize");
+            glUniform2f(tex_size_uniform, ctx->true_width, ctx->true_height);
             sampler_uniform = glGetUniformLocation(ctx->program, "sampler");
             glUniform1i(sampler_uniform, 0);
 
@@ -580,8 +584,6 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         ctx->height = height;
         ctx->true_width = round_up_to_power_of_two(ctx->width);
         ctx->true_height = round_up_to_power_of_two(ctx->height);
-        ctx->tex_scale_x = (float)ctx->width / (float)ctx->true_width;
-        ctx->tex_scale_y = (float)ctx->height / (float)ctx->true_height;
         ctx->backbuffer = lib_malloc(ctx->true_width * ctx->true_height * 4);
         ctx->render_mode = RENDER_MODE_NEW_TEXTURE;
 
