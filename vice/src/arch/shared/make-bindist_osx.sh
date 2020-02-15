@@ -519,7 +519,7 @@ if [ "$UI_TYPE" != "GTK3" ]; then
 fi
 
 # --- copy fonts ---
-FONTS="CBM.ttf"
+FONTS="C64_Pro_Mono-STYLE.ttf"
 echo "  copying fonts"
 for FONT in $FONTS ; do
   cp "$TOP_DIR/data/common/$FONT" "$APP_COMMON/"

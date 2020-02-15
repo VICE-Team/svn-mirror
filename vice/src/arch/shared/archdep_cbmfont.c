@@ -36,6 +36,11 @@
 #include "archdep_cbmfont.h"
 
 
+/** \brief  Filename of the TrueType CBM font used for directory display
+ */
+#define VICE_CBM_FONT_TTF "C64_Pro_Mono-STYLE.ttf"
+
+
 /** \fn  int archdep_register_cbmfont(void)
  * \brief    Try to register the CBM font with the OS
  *
@@ -60,7 +65,7 @@ int archdep_register_cbmfont(void)
     unsigned int isdir;
 
     datadir = archdep_get_vice_datadir();
-    fontPath = archdep_join_paths(datadir, "common", "CBM.ttf", NULL);
+    fontPath = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
     lib_free(datadir);
 
     if (-1 == archdep_stat(fontPath, &len, &isdir)) {
@@ -109,7 +114,7 @@ int archdep_register_cbmfont(void)
 
     fc_config = FcConfigGetCurrent();
     datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, "common", "CBM.ttf", NULL);
+    path = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
     lib_free(datadir);
 #if 0
     printf("Path = '%s'\n", path);
@@ -162,7 +167,7 @@ int archdep_register_cbmfont(void)
     int result;
 
     datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, "common", "CBM.ttf", NULL);
+    path = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
     lib_free(datadir);
 
     result = AddFontResourceEx(path, 0, 0);

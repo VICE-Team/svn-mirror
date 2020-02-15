@@ -73,7 +73,7 @@ static const char *autostart_diskimage;
  */
 #define MENULABEL_CSS \
     "label {\n" \
-    "  font-family: \"CBM\";\n" \
+    "  font-family: \"C64 Pro Mono\";\n" \
     "  font-size: 16px;\n" \
     "  letter-spacing: 0;\n" \
     "  margin: -2px;\n" \

@@ -204,7 +204,7 @@ rm -f `find $BUILDPATH -name "Makefile*"`
 rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/common
 cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/common
-cp $TOPSRCDIR/data/common/CBM.ttf $BUILDPATH/common
+cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
 cp -a $TOPSRCDIR/doc/html $BUILDPATH
 cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
 rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html

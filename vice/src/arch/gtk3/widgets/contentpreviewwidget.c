@@ -194,7 +194,7 @@ static GtkWidget *create_view(const char *path)
     view = GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(model)));
     g_object_unref(model);
     renderer = gtk_cell_renderer_text_new();
-    g_object_set(renderer, "font", "CBM 10", NULL);
+    g_object_set(renderer, "font", "C64 Pro Mono 10", NULL);
     column = gtk_tree_view_column_new_with_attributes("Contents", renderer,
             "text", 0, NULL);
     gtk_tree_view_append_column(view, column);
