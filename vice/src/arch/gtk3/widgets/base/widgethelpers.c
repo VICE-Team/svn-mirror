@@ -42,6 +42,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
+#include "charset.h"
 
 #include "vice_gtk3_settings.h"
 #include "debug_gtk3.h"
@@ -299,61 +300,23 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
     r = d = lib_malloc((size_t)(strlen((char *)s) * 3 + 1));
     
     while (*s) {
-        
-        /* first convert petscii to utf8 codepoint */
-        if (*s < 0x20) {
-            /* petscii 0x00-0x1f  control codes (inverted @ABC..etc) */
-            codepoint  = *s + 0x40;
-            if (!inverted) {
-                codepoint |= 0xe200;
-            }
-        } else if (*s < 0x80) {
-            /* petscii 0x20-0x7f  printable petscii codes */
-            codepoint = *s;
-            if (inverted) {
-                codepoint |= 0xe200;
-            }
-        } else if (*s < 0xa0) {
-            /* petscii 0x7f-0xbf  control codes (inverted SHIFT+@ABC..etc) */
-            codepoint = (*s - 0x80) + 0x60;
-            if (!inverted) {
-                codepoint |= 0xe200;
-            }
-        } else {
-            /* petscii 0xa0-0xff  printable petscii codes */
-            if (*s == 0xa0) {
-                codepoint = 0x20;   /* handle shifted space */
-            } else {
-                codepoint = *s;
-            }
-            if (inverted) {
-                codepoint |= 0xe200;
-            }
+        /* first convert petscii to screencode */
+#if 0
+        uint8_t p = charset_petcii_to_screencode(*s, (unsigned int)inverted);
+#endif
+        uint8_t p = charset_petcii_to_screencode(*s, 0);
+        codepoint = p | 0xee00;
+        if (inverted) {
+            codepoint |= 0x80;
         }
-        s++;
 
-        /* now copy to the destination string and convert to utf8 */
-        if (codepoint < 0x80) {
-            /* one byte form - 0xxxxxxx */
-            *d = codepoint;
-        } else if (codepoint < 0x800) {
-            /* two byte form - 110xxxxx 10xxxxxx */
-
-            /* for some reason 0xad will not result in output in the popup
-             * menu, so we remap it to 0xed, which works */
-            if (codepoint == 0xad) { /* Unicode U+00AD SOFT HYPHEN */
-                codepoint = 0xed;
-            }
-                
-            *d++ = 0xc0 | (codepoint >> 6);
-            *d = (codepoint & ~0xc0) | 0x80;
-        } else {
-            /* three byte form - 1110xxxx 10xxxxxx 10xxxxxx */
-            *d++ = 0xe0 | ((codepoint >> 12) & 0x0f);
-            *d++ = 0x80 | ((codepoint >> (6)) & 0x3f);
-            *d   = 0x80 | ((codepoint >> (0)) & 0x3f);
-        }
+        /* three byte form - 1110xxxx 10xxxxxx 10xxxxxx */
+        *d++ = 0xe0 | ((codepoint >> 12) & 0x0f);
+        *d++ = 0x80 | ((codepoint >> (6)) & 0x3f);
+        *d   = 0x80 | ((codepoint >> (0)) & 0x3f);
         d++;
+
+        s++;
     }
     *d = '\0';
     return r;
