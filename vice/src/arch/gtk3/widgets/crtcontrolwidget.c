@@ -113,7 +113,16 @@
  * Probably will require some testing/tweaking to get this to look acceptable
  * with various themes (and OSes).
  */
-#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -4px; margin-bottom: -4px; }"
+#define SLIDER_CSS \
+    "scale slider {\n" \
+    "  min-width: 10px;\n" \
+    "  min-height: 10px;\n" \
+    "  margin: -3px;\n" \
+    "}\n\n" \
+    "scale {\n" \
+    "  margin-top: -4px;\n" \
+    "  margin-bottom: -4px;\n" \
+    "}"
 
 
 /** \brief  CSS for the labels
@@ -122,7 +131,13 @@
  *
  * Here Be Dragons!
  */
-#define LABEL_CSS "label { font-size: 80%; margin-top: -2px; margin-bottom: -2px; }"
+#define LABEL_CSS \
+    "label {\n" \
+    "  font-size: 80%;\n" \
+    "  margin-top: -2px;\n" \
+    "  margin-bottom: -2px;\n" \
+    "}"
+
 
 /** \brief  Number of valid resources for PAL */
 #define RESOURCE_COUNT_PAL  9
@@ -212,6 +227,15 @@ static const chip_id_t chips[CHIP_ID_COUNT] = {
     { "VIC",    CHIP_VIC },
     { "VICII",  CHIP_VICII }
 };
+
+
+/** \brief  CSS provider for labels
+ */
+static GtkCssProvider *label_css_provider;
+
+/** \brief  CSS provider for scales
+ */
+static GtkCssProvider *scale_css_provider;
 
 
 /** \brief  Find chip ID by \a name
@@ -336,27 +360,12 @@ static void on_scale_value_changed(GtkWidget *scale, gpointer spin)
 static GtkWidget *create_label(const char *text, gboolean minimal)
 {
     GtkWidget *label;
-    GtkCssProvider *provider;
-    GtkStyleContext *context;
-    GError *err = NULL;
 
     label = gtk_label_new(text);
     gtk_widget_set_halign(label, GTK_ALIGN_END);
 
     if (minimal) {
-        provider = gtk_css_provider_new();
-        gtk_css_provider_load_from_data(provider, LABEL_CSS, -1, &err);
-        if (err != NULL) {
-            fprintf(stderr, "CSS error: %s\n", err->message);
-            g_error_free(err);
-        }
-
-        context = gtk_widget_get_style_context(label);
-        if (context != NULL) {
-            gtk_style_context_add_provider(context,
-                    GTK_STYLE_PROVIDER(provider),
-                    GTK_STYLE_PROVIDER_PRIORITY_USER);
-        }
+        vice_gtk3_css_provider_add(label, label_css_provider);
     }
 
     return label;
@@ -377,9 +386,6 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
         int low, int high, int step, gboolean minimal)
 {
     GtkWidget *scale;
-    GtkCssProvider *css_provider;
-    GtkStyleContext *style_context;
-    GError *err = NULL;
 
     /* Set stepping to 1, for now, to allow more finegrained control of the
      * sliders. This only works in the settings menu, not in the popup CRT
@@ -401,19 +407,7 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
 
     /* set up custom CSS to make the scale take up less space */
     if (minimal) {
-        css_provider = gtk_css_provider_new();
-        gtk_css_provider_load_from_data(css_provider, SLIDER_CSS, -1, &err);
-        if (err != NULL) {
-            fprintf(stderr, "CSS error: %s\n", err->message);
-            g_error_free(err);
-        }
-
-        style_context = gtk_widget_get_style_context(scale);
-        if (style_context != NULL) {
-            gtk_style_context_add_provider(style_context,
-                    GTK_STYLE_PROVIDER(css_provider),
-                    GTK_STYLE_PROVIDER_PRIORITY_USER);
-        }
+        vice_gtk3_css_provider_add(scale, scale_css_provider);
     }
 
     /* don't draw the value next to the scale */
@@ -578,6 +572,16 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     GtkWidget *button;
     gchar buffer[256];
     crt_control_data_t *data;
+
+    /* create reusable CSS providers */
+    label_css_provider = vice_gtk3_css_provider_new(LABEL_CSS);
+    if (label_css_provider == NULL) {
+        return NULL;
+    }
+    scale_css_provider = vice_gtk3_css_provider_new(SLIDER_CSS);
+    if (scale_css_provider == NULL) {
+        return NULL;
+    }
 
     data = create_control_data(chip);
 

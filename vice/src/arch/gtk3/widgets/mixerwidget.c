@@ -119,6 +119,16 @@ static GtkWidget *passband6581spin;
 
 #endif
 
+/** \brief  CSS provider for labels
+ */
+static GtkCssProvider *label_css_provider;
+
+/** \brief  CSS provider for scales (sliders)
+ */
+static GtkCssProvider *scale_css_provider;
+
+
+
 /* depending on what SID type is being used, show the right widgets */
 void mixer_widget_sid_type_changed(void)
 {
@@ -228,29 +238,13 @@ static GtkWidget *create_label(const char *text, gboolean minimal,
                                GtkAlign alignment)
 {
     GtkWidget *label;
-    GtkCssProvider *provider;
-    GtkStyleContext *context;
-    GError *err = NULL;
 
     label = gtk_label_new(text);
     gtk_widget_set_halign(label, alignment);
 
     if (minimal) {
-        provider = gtk_css_provider_new();
-        gtk_css_provider_load_from_data(provider, LABEL_CSS, -1, &err);
-        if (err != NULL) {
-            fprintf(stderr, "CSS error: %s\n", err->message);
-            g_error_free(err);
-        }
-
-        context = gtk_widget_get_style_context(label);
-        if (context != NULL) {
-            gtk_style_context_add_provider(context,
-                    GTK_STYLE_PROVIDER(provider),
-                    GTK_STYLE_PROVIDER_PRIORITY_USER);
-        }
+        vice_gtk3_css_provider_add(label, label_css_provider);
     }
-
     return label;
 }
 
@@ -271,9 +265,6 @@ static GtkWidget *create_slider(
         gboolean minimal)
 {
     GtkWidget *scale;
-    GtkCssProvider *provider;
-    GtkStyleContext *context;
-    GError *err = NULL;
 
     scale = vice_gtk3_resource_scale_int_new(resource,
             GTK_ORIENTATION_HORIZONTAL, low, high, step);
@@ -282,19 +273,8 @@ static GtkWidget *create_slider(
     /* vice_gtk3_resource_scale_int_set_marks(scale, step); */
 
     if (minimal) {
-        provider = gtk_css_provider_new();
-        gtk_css_provider_load_from_data(provider, SLIDER_CSS, -1, &err);
-        if (err != NULL) {
-            fprintf(stderr, "CSS error: %s\n", err->message);
-            g_error_free(err);
-        }
-
-        context = gtk_widget_get_style_context(scale);
-        if (context != NULL) {
-            gtk_style_context_add_provider(context,
-                    GTK_STYLE_PROVIDER(provider),
-                    GTK_STYLE_PROVIDER_PRIORITY_USER);
-        }
+        /* use CSS to make sliders use less space */
+        vice_gtk3_css_provider_add(scale, scale_css_provider);
     }
 
     /*    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE); */
@@ -439,6 +419,16 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     grid = vice_gtk3_grid_new_spaced(16, 0);
     g_object_set(G_OBJECT(grid), "margin-left", 8, "margin-right", 8, NULL);
     gtk_widget_set_hexpand(grid, TRUE);
+
+    /* create reusable CSS providers */
+    label_css_provider = vice_gtk3_css_provider_new(LABEL_CSS);
+    if (label_css_provider == NULL) {
+        return NULL;
+    }
+    scale_css_provider = vice_gtk3_css_provider_new(SLIDER_CSS);
+    if (scale_css_provider == NULL) {
+        return NULL;
+    }
 
     if (minimal) {
         /*

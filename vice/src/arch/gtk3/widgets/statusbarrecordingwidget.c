@@ -44,8 +44,16 @@
  */
 #define HIDE_ALL_TIMEOUT 5
 
-
-#define STOP_BUTTON_CSS "button { padding: 0; min-width: 14px; min-height: 10px; margin-top: 0px; margin-bottom: 2px; }"
+/** \brief  CSS rules for the media recording STOP button
+ */
+#define STOP_BUTTON_CSS \
+    "button { \n" \
+    "  padding: 0;\n" \
+    "  min-width: 14px;\n" \
+    "  min-height: 10px;\n" \
+    "  margin-top: 0px;\n" \
+    "  margin-bottom: 2px;\n" \
+    "}"
 
 
 /** \brief  Columns in the recording widget
@@ -141,27 +149,12 @@ static void on_stop_clicked(GtkWidget *button, gpointer data)
 static GtkWidget *create_stop_button(void)
 {
     GtkWidget *button;
-    GtkCssProvider *provider;
-    GtkStyleContext *context;
-    GError *err = NULL;
 
     button = gtk_button_new_from_icon_name("media-playback-stop-symbolic",
                                            GTK_ICON_SIZE_SMALL_TOOLBAR);
     g_object_set(button, "margin-top", 0, NULL);
     /* set up CSS to reduce button size */
-    provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(provider, STOP_BUTTON_CSS, -1, &err);
-    if (err != NULL) {
-        fprintf(stderr, "CSS error: %s\n", err->message);
-        g_error_free(err);
-    } else {
-        context = gtk_widget_get_style_context(button);
-        if (context != NULL) {
-            gtk_style_context_add_provider(context,
-                    GTK_STYLE_PROVIDER(provider),
-                    GTK_STYLE_PROVIDER_PRIORITY_USER);
-        }
-    }
+    vice_gtk3_css_add(button, STOP_BUTTON_CSS);
     return button;
 }
 

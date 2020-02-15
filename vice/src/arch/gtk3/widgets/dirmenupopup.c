@@ -71,25 +71,25 @@ static const char *autostart_diskimage;
 
 /** \brief  CSS style string to set the CBM font and remove padding
  */
-static const char *MENULABEL_CSS = \
-    "label {" \
-    "font-family: \"CBM\";" \
-    "font-size: 16px;" \
-    "letter-spacing: 0;" \
-    "margin: -2px;" \
-    "border: 0;" \
-    "padding: 0;" \
-    "}";
+#define MENULABEL_CSS \
+    "label {\n" \
+    "  font-family: \"CBM\";\n" \
+    "  font-size: 16px;\n" \
+    "  letter-spacing: 0;\n" \
+    "  margin: -2px;\n" \
+    "  border: 0;\n" \
+    "  padding: 0;\n" \
+    "}"
 
 
 /** \brief  CSS style string to remove padding from menu items
  */
-static const char *MENUITEM_CSS = \
-    "menuitem {" \
-    "margin: 0;" \
-    "border: 0;" \
-    "padding: 0;" \
-    "}";
+#define MENUITEM_CSS \
+    "menuitem {\n" \
+    "  margin: 0;\n" \
+    "  border: 0;\n" \
+    "  padding: 0;\n" \
+    "}"
 
 
 /** \brief  CSS provider used for directory entry GtkMenuItem labels
