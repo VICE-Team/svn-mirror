@@ -42,7 +42,6 @@
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
-#include "charset.h"
 
 #include "vice_gtk3_settings.h"
 #include "debug_gtk3.h"
@@ -300,23 +299,70 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
     r = d = lib_malloc((size_t)(strlen((char *)s) * 3 + 1));
     
     while (*s) {
-        /* first convert petscii to screencode */
-#if 0
-        uint8_t p = charset_petcii_to_screencode(*s, (unsigned int)inverted);
-#endif
-        uint8_t p = charset_petcii_to_screencode(*s, 0);
-        codepoint = p | 0xee00;
-        if (inverted) {
-            codepoint |= 0x80;
+        
+        /* 0xe000-0xe0ff codepoints cover the regular, uppercase, petscii codes
+                         in ranges 0x20-0x7f and 0xa0-0xff
+           0xe200-0xe2ff codepoints cover the same characters, but contain the
+                         respective inverted glyphs.
+        */
+        /* first convert petscii to utf8 codepoint */
+        if (*s < 0x20) {
+            /* petscii 0x00-0x1f  control codes (inverted @ABC..etc) */
+            codepoint  = *s + 0x40 + 0xe000;    /* 0xe040-0xe05f */
+            if (!inverted) {
+                codepoint |= 0xe200;            /* 0xe240-0xe25f */
+            }
+        } else if (*s < 0x80) {
+            /* petscii 0x20-0x7f  printable petscii codes */
+            codepoint = *s + 0xe000;            /* 0xe020-0xe07f */
+            if (inverted) {
+                codepoint |= 0xe200;            /* 0xe220-0xe27f */
+            }
+        } else if (*s < 0xa0) {
+            /* petscii 0x80-0x9f  control codes (inverted SHIFT+@ABC..etc) */
+            codepoint = (*s - 0x80) + 0x60 + 0xe000;    /* 0xe060-0xe07f */
+            if (!inverted) {
+                codepoint |= 0xe200;                    /* 0xe260-0xe27f */
+            }
+        } else {
+            /* petscii 0xa0-0xff  printable petscii codes */
+            if (*s == 0xa0) {
+                codepoint = 0x20 + 0xe000;   /* handle shifted space */
+            } else {
+                codepoint = *s + 0xe000;    /* 0xe0a0-0xe0ff */
+            }
+            if (inverted) {
+                codepoint |= 0xe200;        /* 0xe2a0-0xe2ff */
+            }
         }
-
-        /* three byte form - 1110xxxx 10xxxxxx 10xxxxxx */
-        *d++ = 0xe0 | ((codepoint >> 12) & 0x0f);
-        *d++ = 0x80 | ((codepoint >> (6)) & 0x3f);
-        *d   = 0x80 | ((codepoint >> (0)) & 0x3f);
-        d++;
-
         s++;
+
+        /* now copy to the destination string and convert to utf8 */
+#if 0        
+        if (codepoint < 0x80) {
+            /* one byte form - 0xxxxxxx */
+            *d = codepoint;
+        } else if (codepoint < 0x800) {
+            /* two byte form - 110xxxxx 10xxxxxx */
+
+            /* for some reason 0xad will not result in output in the popup
+             * menu, so we remap it to 0xed, which works */
+            if (codepoint == 0xad) { /* Unicode U+00AD SOFT HYPHEN */
+                codepoint = 0xed;
+            }
+                
+            *d++ = 0xc0 | (codepoint >> 6);
+            *d = (codepoint & ~0xc0) | 0x80;
+        } else 
+#endif
+        /* we can get away with just this, because all codepoints are > 4095 */
+        {
+            /* three byte form - 1110xxxx 10xxxxxx 10xxxxxx */
+            *d++ = 0xe0 | ((codepoint >> 12) & 0x0f);
+            *d++ = 0x80 | ((codepoint >> (6)) & 0x3f);
+            *d   = 0x80 | ((codepoint >> (0)) & 0x3f);
+        }
+        d++;
     }
     *d = '\0';
     return r;
