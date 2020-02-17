@@ -118,6 +118,12 @@ static uint8_t memmap_mem_read(unsigned int addr)
     return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
 }
 
+static uint8_t memmap_mem_read_dummy(unsigned int addr)
+{
+    memmap_mem_update(addr, 0);
+    return (*_mem_read_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr));
+}
+
 #ifndef STORE
 #define STORE(addr, value) \
     memmap_mem_store(addr, value)
@@ -126,6 +132,8 @@ static uint8_t memmap_mem_read(unsigned int addr)
 #ifndef LOAD
 #define LOAD(addr) \
     memmap_mem_read(addr)
+#define LOAD_DUMMY(addr) \
+    memmap_mem_read_dummy(addr)
 #endif
 
 #ifndef STORE_ZERO
@@ -136,6 +144,8 @@ static uint8_t memmap_mem_read(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     memmap_mem_read((addr) & 0xff)
+#define LOAD_ZERO_DUMMY(addr) \
+    memmap_mem_read_dummy((addr) & 0xff)
 #endif
 
 #endif /* FEATURE_CPUMEMHISTORY */
@@ -148,11 +158,15 @@ static uint8_t memmap_mem_read(unsigned int addr)
 #ifndef LOAD
 #define LOAD(addr) \
     (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr))
+#define LOAD_DUMMY(addr) \
+    (*_mem_read_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr))
 #endif
 
 #ifndef LOAD_CHECK_BA_LOW
 #define LOAD_CHECK_BA_LOW(addr) \
     (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr))
+#define LOAD_CHECK_BA_LOW_DUMMY(addr) \
+    (*_mem_read_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr))
 #endif
 
 #ifndef STORE_ZERO
@@ -163,6 +177,8 @@ static uint8_t memmap_mem_read(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     (*_mem_read_tab_ptr[0])((uint16_t)(addr))
+#define LOAD_ZERO_DUMMY(addr) \
+    (*_mem_read_tab_ptr_dummy[0])((uint16_t)(addr))
 #endif
 
 #ifndef DMA_FUNC

@@ -319,9 +319,9 @@
                 }                                                              \
                 interrupt_ack_nmi(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD(reg_pc);                                              \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
-                    LOAD(reg_pc);                                              \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
                 }                                                              \
                 LOCAL_SET_BREAK(0);                                            \
@@ -348,9 +348,9 @@
                 }                                                              \
                 interrupt_ack_irq(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD(reg_pc);                                              \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
-                    LOAD(reg_pc);                                              \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
                 }                                                              \
                 LOCAL_SET_BREAK(0);                                            \
@@ -507,7 +507,7 @@
 
 /* same as above, for NOOP */
 #define GET_ZERO_DUMMY()    \
-    LOAD_ZERO(p1); \
+    LOAD_ZERO_DUMMY(p1); \
     CLK_INC();
 
 #define SET_ZERO(value)    \
@@ -535,7 +535,7 @@
 /* same as above, for NOOP */
 #define GET_ZERO_X_DUMMY()        \
     INT_ZERO_I                    \
-    LOAD_ZERO(p1 + reg_x);        \
+    LOAD_ZERO_DUMMY(p1 + reg_x);        \
     CLK_INC();
 
 #define GET_ZERO_Y(dest)          \
@@ -595,7 +595,7 @@
     tmpa |= (LOAD_ZERO(p1 + 1) << 8);                        \
     CLK_INC();                                               \
     if (!SKIP_CYCLE && ((((tmpa) & 0xff) + reg_y) > 0xff)) { \
-        LOAD((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff));     \
+        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff));     \
         CLK_INC();                                           \
     }                                                        \
     addr = (tmpa + reg_y) & 0xffff;                          \
@@ -607,7 +607,7 @@
     tmpa |= (LOAD_ZERO(p1 + 1) << 8);                    \
     CLK_INC();                                           \
     if (!SKIP_CYCLE) {                                   \
-        LOAD((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff)); \
+        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff)); \
         CLK_INC();                                       \
     }                                                    \
     addr = (tmpa + reg_y) & 0xffff;
@@ -911,10 +911,10 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
             dest_addr = reg_pc + (signed char)(p1);               \
                                                                   \
             if (!SKIP_CYCLE) {                                    \
-                LOAD(reg_pc);                                     \
+                LOAD_DUMMY(reg_pc);                               \
                 CLK_INC();                                        \
                 if ((reg_pc ^ dest_addr) & 0xff00) {              \
-                    LOAD((reg_pc & 0xff00) | (dest_addr & 0xff)); \
+                    LOAD_DUMMY((reg_pc & 0xff00) | (dest_addr & 0xff)); \
                     CLK_INC();                                    \
                 } else {                                          \
                     OPCODE_DELAYS_INTERRUPT();                    \

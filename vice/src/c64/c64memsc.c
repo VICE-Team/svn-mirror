@@ -100,6 +100,7 @@ uint8_t *mem_chargen_rom_ptr;
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
+read_func_ptr_t *_mem_read_tab_ptr_dummy;
 static uint8_t **_mem_read_base_tab_ptr;
 static uint32_t *mem_read_limit_tab_ptr;
 
@@ -155,7 +156,7 @@ static void store_watch(uint16_t addr, uint8_t value)
     mem_write_tab[mem_config][addr >> 8](addr, value);
 }
 
-static void mem_update_tap_ptrs(int flag)
+static void mem_update_tab_ptrs(int flag)
 {
     if (flag) {
         _mem_read_tab_ptr = mem_read_tab_watch;
@@ -164,11 +165,12 @@ static void mem_update_tap_ptrs(int flag)
         _mem_read_tab_ptr = mem_read_tab[mem_config];
         _mem_write_tab_ptr = mem_write_tab[mem_config];
     }
+    _mem_read_tab_ptr_dummy = mem_read_tab[mem_config];
 }
 
 void mem_toggle_watchpoints(int flag, void *context)
 {
-    mem_update_tap_ptrs(flag);
+    mem_update_tab_ptrs(flag);
     watchpoints_active = flag;
 }
 
@@ -226,7 +228,7 @@ void mem_pla_config_changed(void)
 
     c64pla_config_changed(tape_sense, tape_write_in, tape_motor_in, 1, 0x17);
 
-    mem_update_tap_ptrs(watchpoints_active);
+    mem_update_tab_ptrs(watchpoints_active);
 
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];

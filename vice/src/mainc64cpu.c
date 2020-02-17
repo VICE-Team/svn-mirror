@@ -256,6 +256,13 @@ static uint8_t memmap_mem_read(unsigned int addr)
     return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
 }
 
+static uint8_t memmap_mem_read_dummy(unsigned int addr)
+{
+    check_ba();
+    memmap_mem_update(addr, 0);
+    return (*(_mem_read_tab_ptr_dummy[(addr) >> 8]))((uint16_t)(addr));
+}
+
 #ifndef STORE
 #define STORE(addr, value) \
     memmap_mem_store(addr, value)
@@ -264,12 +271,14 @@ static uint8_t memmap_mem_read(unsigned int addr)
 #ifndef LOAD
 #define LOAD(addr) \
     memmap_mem_read(addr)
+#define LOAD_DUMMY(addr) \
+    memmap_mem_read_dummy(addr)
 #endif
 
 #ifndef LOAD_CHECK_BA_LOW
 #define LOAD_CHECK_BA_LOW(addr) \
     check_ba_low = 1;           \
-    memmap_mem_read(addr);      \
+    memmap_mem_read_dummy(addr);\
     check_ba_low = 0
 #endif
 
@@ -281,13 +290,15 @@ static uint8_t memmap_mem_read(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     memmap_mem_read((addr) & 0xff)
+#define LOAD_ZERO_DUMMY(addr) \
+    memmap_mem_read_dummy((addr) & 0xff)
 #endif
 
 /* Route stack operations through memmap */
 
 #define PUSH(val) memmap_mem_store((0x100 + (reg_sp--)), (uint8_t)(val))
 #define PULL()    memmap_mem_read(0x100 + (++reg_sp))
-#define STACK_PEEK()  memmap_mem_read(0x100 + reg_sp)
+#define STACK_PEEK()  memmap_mem_read_dummy(0x100 + reg_sp)
 
 #endif /* FEATURE_CPUMEMHISTORY */
 
@@ -295,6 +306,12 @@ inline static uint8_t mem_read_check_ba(unsigned int addr)
 {
     check_ba();
     return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
+}
+
+inline static uint8_t mem_read_check_ba_dummy(unsigned int addr)
+{
+    check_ba();
+    return (*(_mem_read_tab_ptr_dummy[(addr) >> 8]))((uint16_t)(addr));
 }
 
 #ifndef STORE
@@ -305,6 +322,8 @@ inline static uint8_t mem_read_check_ba(unsigned int addr)
 #ifndef LOAD
 #define LOAD(addr) \
     mem_read_check_ba(addr)
+#define LOAD_DUMMY(addr) \
+    mem_read_check_ba_dummy(addr)
 #endif
 
 #ifndef LOAD_CHECK_BA_LOW
@@ -322,6 +341,8 @@ inline static uint8_t mem_read_check_ba(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     mem_read_check_ba((addr) & 0xff)
+#define LOAD_ZERO_DUMMY(addr) \
+    mem_read_check_ba_dummy((addr) & 0xff)
 #endif
 
 /* Route stack operations through read/write handlers */
@@ -335,7 +356,7 @@ inline static uint8_t mem_read_check_ba(unsigned int addr)
 #endif
 
 #ifndef STACK_PEEK
-#define STACK_PEEK()  mem_read_check_ba(0x100 + reg_sp)
+#define STACK_PEEK()  mem_read_check_ba_dummy(0x100 + reg_sp)
 #endif
 
 #ifndef DMA_FUNC
