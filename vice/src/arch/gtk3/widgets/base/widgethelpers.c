@@ -304,36 +304,28 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
                          in ranges 0x20-0x7f and 0xa0-0xff
            0xe200-0xe2ff codepoints cover the same characters, but contain the
                          respective inverted glyphs.
+                         
+           regular valid petscii codes are converted as is, petscii control 
+           codes will produce the glyph that the petscii code would produce
+           in so called "quote mode".
         */
+
         /* first convert petscii to utf8 codepoint */
         if (*s < 0x20) {
             /* petscii 0x00-0x1f  control codes (inverted @ABC..etc) */
-            codepoint  = *s + 0x40 + 0xe000;    /* 0xe040-0xe05f */
-            if (!inverted) {
-                codepoint |= 0xe200;            /* 0xe240-0xe25f */
-            }
+            codepoint  = *s + 0xe240;           /* 0xe240-0xe25f */
         } else if (*s < 0x80) {
             /* petscii 0x20-0x7f  printable petscii codes */
             codepoint = *s + 0xe000;            /* 0xe020-0xe07f */
-            if (inverted) {
-                codepoint |= 0xe200;            /* 0xe220-0xe27f */
-            }
         } else if (*s < 0xa0) {
             /* petscii 0x80-0x9f  control codes (inverted SHIFT+@ABC..etc) */
-            codepoint = (*s - 0x80) + 0x60 + 0xe000;    /* 0xe060-0xe07f */
-            if (!inverted) {
-                codepoint |= 0xe200;                    /* 0xe260-0xe27f */
-            }
+            codepoint = (*s - 0x80) + 0xe260;   /* 0xe260-0xe27f */
         } else {
             /* petscii 0xa0-0xff  printable petscii codes */
-            if (*s == 0xa0) {
-                codepoint = 0x20 + 0xe000;   /* handle shifted space */
-            } else {
-                codepoint = *s + 0xe000;    /* 0xe0a0-0xe0ff */
-            }
-            if (inverted) {
-                codepoint |= 0xe200;        /* 0xe2a0-0xe2ff */
-            }
+            codepoint = *s + 0xe000;            /* 0xe0a0-0xe0ff */
+        }
+        if (inverted) {
+            codepoint ^= 0x0200;                /* 0xe0XX <-> 0xe2XX */
         }
         s++;
 
