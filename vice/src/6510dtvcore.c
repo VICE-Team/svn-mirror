@@ -595,7 +595,7 @@
     tmpa |= (LOAD_ZERO(p1 + 1) << 8);                        \
     CLK_INC();                                               \
     if (!SKIP_CYCLE && ((((tmpa) & 0xff) + reg_y) > 0xff)) { \
-        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff));     \
+        LOAD((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff));     \
         CLK_INC();                                           \
     }                                                        \
     addr = (tmpa + reg_y) & 0xffff;                          \
