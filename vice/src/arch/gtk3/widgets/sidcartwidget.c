@@ -8,6 +8,7 @@
  * $VICERES SidCart     xvic xplus4 xpet
  * $VICERES SidAddress  xvic xplus4 xpet
  * $VICERES SidClock    xvic xplus4 xpet
+ * $VICERES SIDCartJoy  xplus4
  */
 
 /*
@@ -53,7 +54,7 @@ static GtkWidget *sidcart_enable = NULL;
 static GtkWidget *sid_model = NULL;
 static GtkWidget *sid_address = NULL;
 static GtkWidget *sid_clock = NULL;
-
+static GtkWidget *sid_joy = NULL;   /* Plus4 only */
 
 
 /** \brief  SID cart I/O base addresses for VIC-20
@@ -125,6 +126,9 @@ static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
     gtk_widget_set_sensitive(sid_model, state);
     gtk_widget_set_sensitive(sid_address, state);
     gtk_widget_set_sensitive(sid_clock, state);
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        gtk_widget_set_sensitive(sid_joy, state);
+    }
 }
 
 
@@ -213,6 +217,17 @@ static GtkWidget *create_sidcart_clock_widget(void)
 }
 
 
+/** \brief  Create SidCart joyport emulation widget (plus4 only)
+ *
+ * \return  GtkCheckButton
+ */
+GtkWidget *create_sidcart_joy_widget(void)
+{
+    return vice_gtk3_resource_check_button_new(
+            "SIDCartJoy", "Enable joystick port emulation");
+}
+
+
 
 /** \brief  Create widget to conrol SID cartridge settings
  *
@@ -232,6 +247,7 @@ GtkWidget *sidcart_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), sidcart_enable, 0, 0, 3, 1);
 
     sid_model = sid_model_widget_create(NULL);
+    g_object_set(sid_model, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), sid_model, 0, 1, 1, 1);
 
     sid_address = create_sidcart_address_widget();
@@ -239,6 +255,12 @@ GtkWidget *sidcart_widget_create(GtkWidget *parent)
 
     sid_clock = create_sidcart_clock_widget();
     gtk_grid_attach(GTK_GRID(grid), sid_clock, 2, 1, 1, 1);
+
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        sid_joy = create_sidcart_joy_widget();
+        g_object_set(sid_joy, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), sid_joy, 0, 2, 3, 1);
+    }
 
     g_signal_connect(sidcart_enable, "toggled",
             G_CALLBACK(on_sidcart_enable_toggled), NULL);
