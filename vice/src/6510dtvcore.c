@@ -507,7 +507,7 @@
 
 /* same as above, for NOOP */
 #define GET_ZERO_DUMMY()    \
-    LOAD_ZERO_DUMMY(p1); \
+    LOAD_ZERO(p1); \
     CLK_INC();
 
 #define SET_ZERO(value)    \
@@ -535,7 +535,7 @@
 /* same as above, for NOOP */
 #define GET_ZERO_X_DUMMY()        \
     INT_ZERO_I                    \
-    LOAD_ZERO_DUMMY(p1 + reg_x);        \
+    LOAD_ZERO(p1 + reg_x);        \
     CLK_INC();
 
 #define GET_ZERO_Y(dest)          \

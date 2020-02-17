@@ -144,8 +144,6 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     memmap_mem_read((addr) & 0xff)
-#define LOAD_ZERO_DUMMY(addr) \
-    memmap_mem_read_dummy((addr) & 0xff)
 #endif
 
 #endif /* FEATURE_CPUMEMHISTORY */
@@ -177,8 +175,6 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     (*_mem_read_tab_ptr[0])((uint16_t)(addr))
-#define LOAD_ZERO_DUMMY(addr) \
-    (*_mem_read_tab_ptr_dummy[0])((uint16_t)(addr))
 #endif
 
 #ifndef DMA_FUNC

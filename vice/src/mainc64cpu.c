@@ -290,8 +290,6 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     memmap_mem_read((addr) & 0xff)
-#define LOAD_ZERO_DUMMY(addr) \
-    memmap_mem_read_dummy((addr) & 0xff)
 #endif
 
 /* Route stack operations through memmap */
@@ -341,8 +339,6 @@ inline static uint8_t mem_read_check_ba_dummy(unsigned int addr)
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     mem_read_check_ba((addr) & 0xff)
-#define LOAD_ZERO_DUMMY(addr) \
-    mem_read_check_ba_dummy((addr) & 0xff)
 #endif
 
 /* Route stack operations through read/write handlers */
