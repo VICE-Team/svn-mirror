@@ -319,9 +319,9 @@
                 }                                                              \
                 interrupt_ack_nmi(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD_DUMMY(reg_pc);                                        \
+                    LOAD(reg_pc);                                        \
                     CLK_INC();                                                 \
-                    LOAD_DUMMY(reg_pc);                                        \
+                    LOAD(reg_pc);                                        \
                     CLK_INC();                                                 \
                 }                                                              \
                 LOCAL_SET_BREAK(0);                                            \
@@ -348,9 +348,9 @@
                 }                                                              \
                 interrupt_ack_irq(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD_DUMMY(reg_pc);                                        \
+                    LOAD(reg_pc);                                        \
                     CLK_INC();                                                 \
-                    LOAD_DUMMY(reg_pc);                                        \
+                    LOAD(reg_pc);                                        \
                     CLK_INC();                                                 \
                 }                                                              \
                 LOCAL_SET_BREAK(0);                                            \
@@ -911,10 +911,10 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
             dest_addr = reg_pc + (signed char)(p1);               \
                                                                   \
             if (!SKIP_CYCLE) {                                    \
-                LOAD_DUMMY(reg_pc);                               \
+                LOAD(reg_pc);                               \
                 CLK_INC();                                        \
                 if ((reg_pc ^ dest_addr) & 0xff00) {              \
-                    LOAD_DUMMY((reg_pc & 0xff00) | (dest_addr & 0xff)); \
+                    LOAD((reg_pc & 0xff00) | (dest_addr & 0xff)); \
                     CLK_INC();                                    \
                 } else {                                          \
                     OPCODE_DELAYS_INTERRUPT();                    \
