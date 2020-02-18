@@ -40,6 +40,7 @@ typedef store_func_t *store_func_ptr_t;
 extern read_func_ptr_t *_mem_read_tab_ptr;
 extern store_func_ptr_t *_mem_write_tab_ptr;
 extern read_func_ptr_t *_mem_read_tab_ptr_dummy;
+extern store_func_ptr_t *_mem_write_tab_ptr_dummy;
 
 extern uint8_t mem_ram[];
 extern uint8_t *mem_page_zero;

@@ -226,6 +226,7 @@ struct monitor_cpu_type_s;
 
 extern struct console_s *console_log;
 extern int sidefx;
+extern int break_on_dummy_access;
 extern int exit_mon;
 
 extern RADIXTYPE default_radix;
@@ -314,4 +315,5 @@ extern void mon_stopwatch_show(const char* prefix, const char* suffix);
 extern void mon_stopwatch_reset(void);
 extern void mon_maincpu_toggle_trace(int state);
 
+extern void mon_breakpoint_set_dummy_state(MEMSPACE mem, int state);
 #endif

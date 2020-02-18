@@ -248,6 +248,12 @@ static void memmap_mem_store(unsigned int addr, unsigned int value)
     (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value));
 }
 
+static void memmap_mem_store_dummy(unsigned int addr, unsigned int value)
+{
+    memmap_mem_update(addr, 1);
+    (*_mem_write_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value));
+}
+
 /* read byte, check BA and mark as read */
 static uint8_t memmap_mem_read(unsigned int addr)
 {
@@ -268,15 +274,30 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
     memmap_mem_store(addr, value)
 #endif
 
+#ifndef STORE_DUMMY
+#define STORE_DUMMY(addr, value) \
+    memmap_mem_store_dummy(addr, value)
+#endif
+
 #ifndef LOAD
 #define LOAD(addr) \
     memmap_mem_read(addr)
+#endif
+
+#ifndef LOAD_DUMMY
 #define LOAD_DUMMY(addr) \
     memmap_mem_read_dummy(addr)
 #endif
 
 #ifndef LOAD_CHECK_BA_LOW
 #define LOAD_CHECK_BA_LOW(addr) \
+    check_ba_low = 1;           \
+    memmap_mem_read(addr);\
+    check_ba_low = 0
+#endif
+
+#ifndef LOAD_CHECK_BA_LOW_DUMMY
+#define LOAD_CHECK_BA_LOW_DUMMY(addr) \
     check_ba_low = 1;           \
     memmap_mem_read_dummy(addr);\
     check_ba_low = 0
@@ -287,9 +308,19 @@ static uint8_t memmap_mem_read_dummy(unsigned int addr)
     memmap_mem_store((addr) & 0xff, value)
 #endif
 
+#ifndef STORE_ZERO_DUMMY
+#define STORE_ZERO_DUMMY(addr, value) \
+    memmap_mem_store_dummy((addr) & 0xff, value)
+#endif
+
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     memmap_mem_read((addr) & 0xff)
+#endif
+
+#ifndef LOAD_ZERO_DUMMY
+#define LOAD_ZERO_DUMMY(addr) \
+    memmap_mem_read_dummy((addr) & 0xff)
 #endif
 
 /* Route stack operations through memmap */
@@ -317,9 +348,17 @@ inline static uint8_t mem_read_check_ba_dummy(unsigned int addr)
     (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))
 #endif
 
+#ifndef STORE_DUMMY
+#define STORE_DUMMY(addr, value) \
+    (*_mem_write_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))
+#endif
+
 #ifndef LOAD
 #define LOAD(addr) \
     mem_read_check_ba(addr)
+#endif
+
+#ifndef LOAD_DUMMY
 #define LOAD_DUMMY(addr) \
     mem_read_check_ba_dummy(addr)
 #endif
@@ -331,14 +370,31 @@ inline static uint8_t mem_read_check_ba_dummy(unsigned int addr)
     check_ba_low = 0
 #endif
 
+#ifndef LOAD_CHECK_BA_LOW_DUMMY
+#define LOAD_CHECK_BA_LOW_DUMMY(addr) \
+    check_ba_low = 1;                 \
+    mem_read_check_ba_dummy(addr);    \
+    check_ba_low = 0
+#endif
+
 #ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
     (*_mem_write_tab_ptr[0])((uint16_t)(addr), (uint8_t)(value))
 #endif
 
+#ifndef STORE_ZERO_DUMMY
+#define STORE_ZERO_DUMMY(addr, value) \
+    (*_mem_write_tab_ptr_dummy[0])((uint16_t)(addr), (uint8_t)(value))
+#endif
+
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     mem_read_check_ba((addr) & 0xff)
+#endif
+
+#ifndef LOAD_ZERO_DUMMY
+#define LOAD_ZERO_DUMMY(addr) \
+    mem_read_check_ba_dummy((addr) & 0xff)
 #endif
 
 /* Route stack operations through read/write handlers */

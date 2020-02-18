@@ -144,13 +144,15 @@ static checkpoint_t *find_checkpoint(int brknum)
 
 static void update_checkpoint_state(MEMSPACE mem)
 {
-    if (watchpoints_load[mem] != NULL || watchpoints_store[mem] != NULL) {
+    /* calls mem_toggle_watchpoints() */
+    if (watchpoints_load[mem] != NULL || 
+        watchpoints_store[mem] != NULL) {
         monitor_mask[mem] |= MI_WATCH;
-        mon_interfaces[mem]->toggle_watchpoints_func(
-            1, mon_interfaces[mem]->context);
+        mon_interfaces[mem]->toggle_watchpoints_func( 
+            1 | (break_on_dummy_access << 1), mon_interfaces[mem]->context);
     } else {
         monitor_mask[mem] &= ~MI_WATCH;
-        mon_interfaces[mem]->toggle_watchpoints_func(
+        mon_interfaces[mem]->toggle_watchpoints_func( 
             0, mon_interfaces[mem]->context);
     }
 
@@ -165,6 +167,17 @@ static void update_checkpoint_state(MEMSPACE mem)
     } else {
         interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
     }
+}
+
+/* FIXME: some day we might want to toggle the break-on-dummy-access per MEMSPACE,
+          for now its a global option */
+void mon_breakpoint_set_dummy_state(MEMSPACE mem, int state)
+{
+    if (mem == e_default_space) {
+        mem = default_memspace;
+    }
+    break_on_dummy_access = state; /* this is redundant right now */
+    update_checkpoint_state(mem);
 }
 
 static void remove_checkpoint(checkpoint_t *cp)

@@ -101,6 +101,7 @@ uint8_t *mem_chargen_rom_ptr;
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 read_func_ptr_t *_mem_read_tab_ptr_dummy;
+store_func_ptr_t *_mem_write_tab_ptr_dummy;
 static uint8_t **_mem_read_base_tab_ptr;
 static uint32_t *mem_read_limit_tab_ptr;
 
@@ -126,7 +127,7 @@ static int tape_write_in = 0;
 static int tape_motor_in = 0;
 
 /* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
-static int watchpoints_active;
+static int watchpoints_active = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -156,16 +157,27 @@ static void store_watch(uint16_t addr, uint8_t value)
     mem_write_tab[mem_config][addr >> 8](addr, value);
 }
 
+/* called by mem_pla_config_changed(), mem_toggle_watchpoints() */
 static void mem_update_tab_ptrs(int flag)
 {
     if (flag) {
         _mem_read_tab_ptr = mem_read_tab_watch;
         _mem_write_tab_ptr = mem_write_tab_watch;
+        if (flag > 1) {
+            /* enable watchpoints on dummy accesses */
+            _mem_read_tab_ptr_dummy = mem_read_tab_watch;
+            _mem_write_tab_ptr_dummy = mem_write_tab_watch;
+        } else {
+            _mem_read_tab_ptr_dummy = mem_read_tab[mem_config];
+            _mem_write_tab_ptr_dummy = mem_write_tab[mem_config];
+        }
     } else {
+        /* all watchpoints disabled */
         _mem_read_tab_ptr = mem_read_tab[mem_config];
         _mem_write_tab_ptr = mem_write_tab[mem_config];
+        _mem_read_tab_ptr_dummy = mem_read_tab[mem_config];
+        _mem_write_tab_ptr_dummy = mem_write_tab[mem_config];
     }
-    _mem_read_tab_ptr_dummy = mem_read_tab[mem_config];
 }
 
 void mem_toggle_watchpoints(int flag, void *context)

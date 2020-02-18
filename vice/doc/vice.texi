@@ -15933,6 +15933,13 @@ monitor breaks. If not specified, the monitor breaks on "load" and
 A conditional expression can also be specified for the watchpoint.
 For more information on conditions, see the CONDITION command.
 
+@item dummy [on|off|toggle]
+Control whether the checkpoints will trigger on dummy accesses.
+If the argument is 'on' then dummy accesses will cause checkpoints
+to trigger. If the argument is 'off' then dummy accesses will not
+trigger any checkpoints. If the argument is 'toggle' then the current
+mode is switched.  No argument displays the current state.
+
 @end table
 
 

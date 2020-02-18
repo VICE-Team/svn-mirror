@@ -521,6 +521,16 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "dummy", "",
+      "[on|off|toggle]",
+      "Control whether the checkpoints will trigger on dummy accesses.\n"
+      "If the argument is 'on' then dummy accesses will cause checkpoints\n"
+      "to trigger. If the argument is 'off' then dummy accesses will not\n"
+      "trigger any checkpoints. If the argument is 'toggle' then the current\n"
+      "mode is switched.  No argument displays the current state.",
+      NO_FILENAME_ARG
+    },
+
     { "log", "",
       "[on|off|toggle]",
       "Control whether the monitor output is logged into a logfile. If the\n"

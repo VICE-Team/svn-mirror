@@ -307,8 +307,8 @@
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                                 \
     do {                                                                       \
-        uint8_t ik = (int_kind);                                                  \
-        uint16_t addr;                                                             \
+        uint8_t ik = (int_kind);                                               \
+        uint16_t addr;                                                         \
                                                                                \
         if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                             \
             if ((ik & IK_NMI)                                                  \
@@ -319,9 +319,9 @@
                 }                                                              \
                 interrupt_ack_nmi(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD(reg_pc);                                        \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
-                    LOAD(reg_pc);                                        \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
                 }                                                              \
                 LOCAL_SET_BREAK(0);                                            \
@@ -348,9 +348,9 @@
                 }                                                              \
                 interrupt_ack_irq(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD(reg_pc);                                        \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
-                    LOAD(reg_pc);                                        \
+                    LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
                 }                                                              \
                 LOCAL_SET_BREAK(0);                                            \
@@ -361,7 +361,7 @@
         if (ik & (IK_TRAP | IK_RESET)) {                                       \
             if (ik & IK_TRAP) {                                                \
                 EXPORT_REGISTERS();                                            \
-                interrupt_do_trap(CPU_INT_STATUS, (uint16_t)reg_pc);               \
+                interrupt_do_trap(CPU_INT_STATUS, (uint16_t)reg_pc);           \
                 IMPORT_REGISTERS();                                            \
                 if (CPU_INT_STATUS->global_pending_int & IK_RESET) {           \
                     ik |= IK_RESET;                                            \
@@ -387,11 +387,11 @@
                     EXPORT_REGISTERS();                                        \
                 }                                                              \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                        \
-                    monitor_check_icount((uint16_t)reg_pc);                        \
+                    monitor_check_icount((uint16_t)reg_pc);                    \
                     IMPORT_REGISTERS();                                        \
                 }                                                              \
                 if (monitor_mask[CALLER] & (MI_BREAK)) {                       \
-                    if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) {     \
+                    if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) { \
                         monitor_startup(CALLER);                               \
                         IMPORT_REGISTERS();                                    \
                     }                                                          \
@@ -421,13 +421,13 @@
 /* same as above, for NOOP */
 #define GET_IMM_DUMMY()
 
-#define GET_ABS(dest)        \
+#define GET_ABS(dest)           \
     dest = (uint8_t)(LOAD(p2)); \
     CLK_INC();
 
 /* same as above, for NOOP */
 #define GET_ABS_DUMMY()      \
-    LOAD(p2);                \
+    LOAD_DUMMY(p2);          \
     CLK_INC();
 
 #define SET_ABS(value) \
@@ -442,16 +442,16 @@
     STORE(p2, new_value);                 \
     CLK_INC();
 
-#define INT_ABS_I_R(reg_i)                                 \
-    if (!SKIP_CYCLE && ((((p2) & 0xff) + reg_i) > 0xff)) { \
-        LOAD((((p2) + reg_i) & 0xff) | ((p2) & 0xff00));   \
-        CLK_INC();                                         \
+#define INT_ABS_I_R(reg_i)                                     \
+    if (!SKIP_CYCLE && ((((p2) & 0xff) + reg_i) > 0xff)) {     \
+        LOAD_DUMMY((((p2) + reg_i) & 0xff) | ((p2) & 0xff00)); \
+        CLK_INC();                                             \
     }
 
-#define INT_ABS_I_W(reg_i)                               \
-    if (!SKIP_CYCLE) {                                   \
-        LOAD((((p2) + reg_i) & 0xff) | ((p2) & 0xff00)); \
-        CLK_INC();                                       \
+#define INT_ABS_I_W(reg_i)                                     \
+    if (!SKIP_CYCLE) {                                         \
+        LOAD_DUMMY((((p2) + reg_i) & 0xff) | ((p2) & 0xff00)); \
+        CLK_INC();                                             \
     }
 
 #define GET_ABS_X(dest)        \
@@ -461,7 +461,7 @@
 /* same as above, for NOOP */
 #define GET_ABS_X_DUMMY()      \
     INT_ABS_I_R(reg_x)         \
-    LOAD((p2) + reg_x);        \
+    LOAD_DUMMY((p2) + reg_x);  \
     CLK_INC();
 
 #define GET_ABS_Y(dest)        \
@@ -506,8 +506,8 @@
     CLK_INC();
 
 /* same as above, for NOOP */
-#define GET_ZERO_DUMMY()    \
-    LOAD_ZERO(p1); \
+#define GET_ZERO_DUMMY() \
+    LOAD_ZERO_DUMMY(p1); \
     CLK_INC();
 
 #define SET_ZERO(value)    \
@@ -535,7 +535,7 @@
 /* same as above, for NOOP */
 #define GET_ZERO_X_DUMMY()        \
     INT_ZERO_I                    \
-    LOAD_ZERO(p1 + reg_x);        \
+    LOAD_ZERO_DUMMY(p1 + reg_x);  \
     CLK_INC();
 
 #define GET_ZERO_Y(dest)          \
@@ -588,28 +588,28 @@
         CLK_INC();          \
     }
 
-#define INT_IND_Y_R()                                        \
-    unsigned int tmpa, addr;                                 \
-    tmpa = LOAD_ZERO(p1);                                    \
-    CLK_INC();                                               \
-    tmpa |= (LOAD_ZERO(p1 + 1) << 8);                        \
-    CLK_INC();                                               \
-    if (!SKIP_CYCLE && ((((tmpa) & 0xff) + reg_y) > 0xff)) { \
-        LOAD((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff));     \
-        CLK_INC();                                           \
-    }                                                        \
-    addr = (tmpa + reg_y) & 0xffff;                          \
-
-#define INT_IND_Y_W()                                    \
-    unsigned int tmpa, addr;                             \
-    tmpa = LOAD_ZERO(p1);                                \
-    CLK_INC();                                           \
-    tmpa |= (LOAD_ZERO(p1 + 1) << 8);                    \
-    CLK_INC();                                           \
-    if (!SKIP_CYCLE) {                                   \
+#define INT_IND_Y_R()                                          \
+    unsigned int tmpa, addr;                                   \
+    tmpa = LOAD_ZERO(p1);                                      \
+    CLK_INC();                                                 \
+    tmpa |= (LOAD_ZERO(p1 + 1) << 8);                          \
+    CLK_INC();                                                 \
+    if (!SKIP_CYCLE && ((((tmpa) & 0xff) + reg_y) > 0xff)) {   \
         LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff)); \
-        CLK_INC();                                       \
-    }                                                    \
+        CLK_INC();                                             \
+    }                                                          \
+    addr = (tmpa + reg_y) & 0xffff;                            \
+
+#define INT_IND_Y_W()                                          \
+    unsigned int tmpa, addr;                                   \
+    tmpa = LOAD_ZERO(p1);                                      \
+    CLK_INC();                                                 \
+    tmpa |= (LOAD_ZERO(p1 + 1) << 8);                          \
+    CLK_INC();                                                 \
+    if (!SKIP_CYCLE) {                                         \
+        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff)); \
+        CLK_INC();                                             \
+    }                                                          \
     addr = (tmpa + reg_y) & 0xffff;
 /* like above, for SHA_IND_Y */
 #define INT_IND_Y_W_NOADDR()                                          \
@@ -642,7 +642,7 @@
 
 #define SET_IND_RMW(old_value, new_value) \
     if (!SKIP_CYCLE) {                    \
-        STORE(addr, old_value);           \
+        STORE_DUMMY(addr, old_value);     \
         CLK_INC();                        \
     }                                     \
     STORE(addr, new_value);               \
@@ -911,7 +911,7 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
             dest_addr = reg_pc + (signed char)(p1);               \
                                                                   \
             if (!SKIP_CYCLE) {                                    \
-                LOAD(reg_pc);                               \
+                LOAD(reg_pc);                                     \
                 CLK_INC();                                        \
                 if ((reg_pc ^ dest_addr) & 0xff00) {              \
                     LOAD((reg_pc & 0xff00) | (dest_addr & 0xff)); \
@@ -1143,8 +1143,8 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
 
 #define JSR()                                     \
     do {                                          \
-        uint8_t addr_msb;                            \
-        uint16_t dest_addr;                           \
+        uint8_t addr_msb;                         \
+        uint16_t dest_addr;                       \
         if (!SKIP_CYCLE) {                        \
             STACK_PEEK();                         \
             CLK_INC();                            \
@@ -1407,26 +1407,26 @@ static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
    from 1 to 0 because the value of I is set 3 cycles before the end of the
    opcode, and thus the 6510 has enough time to call the interrupt routine as
    soon as the opcode ends, if necessary.  */
-#define RTI()                        \
-    do {                             \
-        uint16_t tmp;                    \
-        if (!SKIP_CYCLE) {           \
-            STACK_PEEK();            \
-            CLK_INC();               \
-        }                            \
-        tmp = (uint16_t)PULL();          \
-        CLK_INC();                   \
+#define RTI()                           \
+    do {                                \
+        uint16_t tmp;                   \
+        if (!SKIP_CYCLE) {              \
+            STACK_PEEK();               \
+            CLK_INC();                  \
+        }                               \
+        tmp = (uint16_t)PULL();         \
+        CLK_INC();                      \
         LOCAL_SET_STATUS((uint8_t)tmp); \
-        tmp = (uint16_t)PULL();          \
-        CLK_INC();                   \
-        tmp |= (uint16_t)PULL() << 8;    \
-        CLK_INC();                   \
-        JUMP(tmp);                   \
+        tmp = (uint16_t)PULL();         \
+        CLK_INC();                      \
+        tmp |= (uint16_t)PULL() << 8;   \
+        CLK_INC();                      \
+        JUMP(tmp);                      \
     } while (0)
 
 #define RTS()                 \
     do {                      \
-        uint16_t tmp;             \
+        uint16_t tmp;         \
         if (!SKIP_CYCLE) {    \
             STACK_PEEK();     \
             CLK_INC();        \

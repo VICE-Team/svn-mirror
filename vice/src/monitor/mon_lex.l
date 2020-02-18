@@ -233,6 +233,7 @@ HDIGIT  [0-9a-f]
         screenshot|scrsh { BEGIN(FNAME);        return CMD_SCREENSHOT; }
         show_labels|shl { BEGIN(INITIAL);       return CMD_SHOW_LABELS; }
         sidefx|sfx      { BEGIN(INITIAL);       return CMD_SIDEFX; }
+        dummy           { BEGIN(INITIAL);       return CMD_DUMMY; }
         step|z          { BEGIN(INITIAL);       return CMD_STEP; }
         stop            { BEGIN(INITIAL);       return CMD_MON_STOP; }
         stopwatch|sw    { BEGIN(INITIAL);       return CMD_STOPWATCH; }

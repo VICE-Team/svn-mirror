@@ -150,7 +150,8 @@ static int mon_console_suspend_on_leaving = 1;
  */
 static int mon_console_close_on_leaving = 0;
 
-int sidefx;
+int sidefx = 0;
+int break_on_dummy_access = 0;
 RADIXTYPE default_radix;
 MEMSPACE default_memspace;
 static bool inside_monitor = FALSE;
