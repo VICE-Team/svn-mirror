@@ -109,6 +109,26 @@
     memmap_mem_read((addr) & 0xff)
 #endif
 
+#ifndef STORE_DUMMY
+#define STORE_DUMMY(addr, value) \
+    memmap_mem_store_dummy(addr, value)
+#endif
+
+#ifndef LOAD_DUMMY
+#define LOAD_DUMMY(addr) \
+    memmap_mem_read_dummy(addr)
+#endif
+
+#ifndef STORE_ZERO_DUMMY
+#define STORE_ZERO_DUMMY(addr, value) \
+    memmap_mem_store_dummy((addr) & 0xff, value)
+#endif
+
+#ifndef LOAD_ZERO_DUMMY
+#define LOAD_ZERO_DUMMY(addr) \
+    memmap_mem_read_dummy((addr) & 0xff)
+#endif
+
 #endif /* C64DTV */
 #endif /* FEATURE_CPUMEMHISTORY */
 
@@ -138,6 +158,33 @@
 #define LOAD_ZERO_ADDR(addr) \
     ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
 
+#ifndef STORE_DUMMY
+#define STORE_DUMMY(addr, value) \
+    (*_mem_write_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))
+#endif
+
+#ifndef LOAD_DUMMY
+#define LOAD_DUMMY(addr) \
+    (*_mem_read_tab_ptr_dummy[(addr) >> 8])((uint16_t)(addr))
+#endif
+
+#ifndef STORE_ZERO_DUMMY
+#define STORE_ZERO_DUMMY(addr, value) \
+    (*_mem_write_tab_ptr_dummy[0])((uint16_t)(addr), (uint8_t)(value))
+#endif
+
+#ifndef LOAD_ZERO_DUMMY
+#define LOAD_ZERO_DUMMY(addr) \
+    (*_mem_read_tab_ptr_dummy[0])((uint16_t)(addr))
+#endif
+
+#define LOAD_ADDR_DUMMY(addr) \
+    ((LOAD_DUMMY((addr) + 1) << 8) | LOAD_DUMMY(addr))
+
+#define LOAD_ZERO_ADDR_DUMMY(addr) \
+    ((LOAD_ZERO_DUMMY((addr) + 1) << 8) | LOAD_ZERO_DUMMY(addr))
+
+    
 /* Those may be overridden by the machine stuff.  Probably we want them in
    the .def files, but if most of the machines do not use, we might keep it
    here and only override it where needed.  */

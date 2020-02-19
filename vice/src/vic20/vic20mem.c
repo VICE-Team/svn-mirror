@@ -95,7 +95,11 @@ store_func_ptr_t *_mem_write_tab_ptr_dummy;
 static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
 
-/* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
+/* Current watchpoint state. 
+          0 = no watchpoints
+    bit0; 1 = watchpoints active
+    bit1; 2 = watchpoints trigger on dummy accesses
+*/
 static int watchpoints_active = 0;
 
 /* ------------------------------------------------------------------------- */

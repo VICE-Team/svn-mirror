@@ -471,28 +471,28 @@
 
 #define LOAD_ABS(addr) LOAD(addr)
 
-#define LOAD_ABS_X(addr)                                          \
-    ((((addr) & 0xff) + reg_x_read) > 0xff                        \
-     ? (LOAD(((addr) & 0xff00) | (((addr) + reg_x_read) & 0xff)), \
-        CLK_ADD(CLK, CLK_INT_CYCLE),                              \
-        LOAD((addr) + reg_x_read))                                \
+#define LOAD_ABS_X(addr)                                                \
+    ((((addr) & 0xff) + reg_x_read) > 0xff                              \
+     ? (LOAD_DUMMY(((addr) & 0xff00) | (((addr) + reg_x_read) & 0xff)), \
+        CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
+        LOAD((addr) + reg_x_read))                                      \
      : LOAD((addr) + reg_x_read))
 
-#define LOAD_ABS_X_RMW(addr)                                   \
-    (LOAD(((addr) & 0xff00) | (((addr) + reg_x_read) & 0xff)), \
-     CLK_ADD(CLK, CLK_INT_CYCLE),                              \
+#define LOAD_ABS_X_RMW(addr)                                         \
+    (LOAD_DUMMY(((addr) & 0xff00) | (((addr) + reg_x_read) & 0xff)), \
+     CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
      LOAD((addr) + reg_x_read))
 
-#define LOAD_ABS_Y(addr)                                          \
-    ((((addr) & 0xff) + reg_y_read) > 0xff                        \
-     ? (LOAD(((addr) & 0xff00) | (((addr) + reg_y_read) & 0xff)), \
-        CLK_ADD(CLK, CLK_INT_CYCLE),                              \
-        LOAD((addr) + reg_y_read))                                \
+#define LOAD_ABS_Y(addr)                                                \
+    ((((addr) & 0xff) + reg_y_read) > 0xff                              \
+     ? (LOAD_DUMMY(((addr) & 0xff00) | (((addr) + reg_y_read) & 0xff)), \
+        CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
+        LOAD((addr) + reg_y_read))                                      \
      : LOAD((addr) + reg_y_read))
 
-#define LOAD_ABS_Y_RMW(addr)                                   \
-    (LOAD(((addr) & 0xff00) | (((addr) + reg_y_read) & 0xff)), \
-     CLK_ADD(CLK, CLK_INT_CYCLE),                              \
+#define LOAD_ABS_Y_RMW(addr)                                         \
+    (LOAD_DUMMY(((addr) & 0xff00) | (((addr) + reg_y_read) & 0xff)), \
+     CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
      LOAD((addr) + reg_y_read))
 
 #define LOAD_IND_X(addr) (CLK_ADD(CLK, 3), LOAD(LOAD_ZERO_ADDR((addr) + reg_x_read)))

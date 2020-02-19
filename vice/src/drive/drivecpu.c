@@ -135,6 +135,13 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
 #define STORE(a, b)       (*drv->cpud->store_func_ptr[(a) >> 8])(drv, (uint16_t)(a), (uint8_t)(b))
 #define STORE_ZERO(a, b)  (*drv->cpud->store_func_ptr[0])(drv, (uint16_t)(a), (uint8_t)(b))
 
+#define LOAD_DUMMY(a)           (*drv->cpud->read_func_ptr_dummy[(a) >> 8])(drv, (uint16_t)(a))
+#define LOAD_ZERO_DUMMY(a)      (*drv->cpud->read_func_ptr_dummy[0])(drv, (uint16_t)(a))
+#define LOAD_ADDR_DUMMY(a)      (LOAD_DUMMY((a)) | (LOAD_DUMMY((a) + 1) << 8))
+#define LOAD_ZERO_ADDR_DUMMY(a) (LOAD_ZERO_DUMMY((a)) | (LOAD_ZERO_DUMMY((a) + 1) << 8))
+#define STORE_DUMMY(a, b)       (*drv->cpud->store_func_ptr_dummy[(a) >> 8])(drv, (uint16_t)(a), (uint8_t)(b))
+#define STORE_ZERO_DUMMY(a, b)  (*drv->cpud->store_func_ptr_dummy[0])(drv, (uint16_t)(a), (uint8_t)(b))
+
 #define JUMP(addr)                                                         \
     do {                                                                   \
         reg_pc = (unsigned int)(addr);                                     \

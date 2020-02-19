@@ -110,6 +110,8 @@ static int mem_read_limit_tab[0x101];
 
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
+read_func_ptr_t *_mem_read_tab_ptr_dummy;
+store_func_ptr_t *_mem_write_tab_ptr_dummy;
 static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
 
@@ -138,6 +140,13 @@ store_func_ptr_t *_mem6809_write_tab_ptr;
 static log_t pet_mem_log = LOG_ERR;
 
 static uint8_t last_access = 0;
+
+/* Current watchpoint state. 
+          0 = no watchpoints
+    bit0; 1 = watchpoints active
+    bit1; 2 = watchpoints trigger on dummy accesses
+*/
+static int watchpoints_active = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -1061,7 +1070,7 @@ static void set_std_9tof(void)
     mem_read_limit_tab_ptr = mem_read_limit_tab;
 }
 
-void ramsel_changed()
+void ramsel_changed(void)
 {
     set_std_9tof();
     maincpu_resync_limits();
@@ -1075,19 +1084,41 @@ void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write, uin
     *limit = mem_read_limit_tab;
 }
 
-void mem_toggle_watchpoints(int flag, void *context)
+/* called by mem_update_config(), mem_toggle_watchpoints() */
+static void mem_update_tab_ptrs(int flag)
 {
     if (flag) {
         _mem_read_tab_ptr = _mem_read_tab_watch;
         _mem_write_tab_ptr = _mem_write_tab_watch;
+        if (flag > 1) {
+            /* enable watchpoints on dummy accesses */
+            _mem_read_tab_ptr_dummy = _mem_read_tab_watch;
+            _mem_write_tab_ptr_dummy = _mem_write_tab_watch;
+        } else {
+            _mem_read_tab_ptr_dummy = _mem_read_tab;
+            _mem_write_tab_ptr_dummy = _mem_write_tab;
+        }
+    } else {
+        /* all watchpoints disabled */
+        _mem_read_tab_ptr = _mem_read_tab;
+        _mem_write_tab_ptr = _mem_write_tab;
+        _mem_read_tab_ptr_dummy = _mem_read_tab;
+        _mem_write_tab_ptr_dummy = _mem_write_tab;
+    }
+}
+
+void mem_toggle_watchpoints(int flag, void *context)
+{
+    if (flag) {
         _mem6809_read_tab_ptr = _mem6809_read_tab_watch;
         _mem6809_write_tab_ptr = _mem6809_write_tab_watch;
     } else {
-        _mem_read_tab_ptr = _mem_read_tab;
-        _mem_write_tab_ptr = _mem_write_tab;
         _mem6809_read_tab_ptr = _mem6809_read_tab;
         _mem6809_write_tab_ptr = _mem6809_write_tab;
     }
+
+    mem_update_tab_ptrs(flag);
+    watchpoints_active = flag;
 }
 
 /*
@@ -1380,7 +1411,7 @@ static void mem_initialize_memory_6809_flat(void)
     /* maincpu_resync_limits(); notyet: 6809 doesn't use bank_base yet. */
 }
 
-void mem_initialize_memory_6809()
+void mem_initialize_memory_6809(void)
 {
     if (spet_flat_mode) {
         mem_initialize_memory_6809_flat();

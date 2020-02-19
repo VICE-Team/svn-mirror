@@ -95,10 +95,22 @@ read_func_ptr_t *_mem_read_tab_ptr;
 read_func_ptr_t *_mem_read_ind_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 store_func_ptr_t *_mem_write_ind_tab_ptr;
+read_func_ptr_t *_mem_read_tab_ptr_dummy;
+store_func_ptr_t *_mem_write_tab_ptr_dummy;
+read_func_ptr_t *_mem_read_ind_tab_ptr_dummy;
+store_func_ptr_t *_mem_write_ind_tab_ptr_dummy;
+
 static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
 
 int cbm2_init_ok = 0;
+
+/* Current watchpoint state. 
+          0 = no watchpoints
+    bit0; 1 = watchpoints active
+    bit1; 2 = watchpoints trigger on dummy accesses
+*/
+static int watchpoints_active = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -505,16 +517,45 @@ static uint8_t read_io(uint16_t addr)
     return last_access;
 }
 
+/* called by mem_toggle_watchpoints() */
+static void mem_update_tab_ptrs(int flag)
+{
+    if (flag) {
+        _mem_read_tab_ptr = _mem_read_tab_watch;
+        _mem_write_tab_ptr = _mem_write_tab_watch;
+        _mem_read_ind_tab_ptr = _mem_read_ind_tab_watch;
+        _mem_write_ind_tab_ptr = _mem_write_ind_tab_watch;
+        if (flag > 1) {
+            /* enable watchpoints on dummy accesses */
+            _mem_read_tab_ptr_dummy = _mem_read_tab_watch;
+            _mem_write_tab_ptr_dummy = _mem_write_tab_watch;
+            _mem_read_ind_tab_ptr_dummy = _mem_read_ind_tab_watch;
+            _mem_write_ind_tab_ptr_dummy = _mem_write_ind_tab_watch;
+        } else {
+            _mem_read_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_exec];
+            _mem_write_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_exec];
+            _mem_read_ind_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_ind];
+            _mem_write_ind_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_ind];
+        }
+    } else {
+        /* all watchpoints disabled */
+        _mem_read_tab_ptr = _mem_read_tab[cbm2mem_bank_exec];
+        _mem_write_tab_ptr = _mem_write_tab[cbm2mem_bank_exec];
+        _mem_read_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_exec];
+        _mem_write_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_exec];
+        _mem_read_ind_tab_ptr = _mem_read_tab[cbm2mem_bank_ind];
+        _mem_write_ind_tab_ptr = _mem_write_tab[cbm2mem_bank_ind];
+        _mem_read_ind_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_ind];
+        _mem_write_ind_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_ind];
+    }
+}
 
 /* FIXME: TODO! */
 void mem_toggle_watchpoints(int flag, void *context)
 {
-    if (flag) {
-        _mem_read_tab_ptr = _mem_read_tab_watch;
-        _mem_read_ind_tab_ptr = _mem_read_ind_tab_watch;
-        _mem_write_tab_ptr = _mem_write_tab_watch;
-        _mem_write_ind_tab_ptr = _mem_write_ind_tab_watch;
-    } else {
+    mem_update_tab_ptrs(flag);
+    watchpoints_active = flag;
+    if (!flag) {
         cbm2mem_set_bank_exec(cbm2mem_bank_exec);
         cbm2mem_set_bank_ind(cbm2mem_bank_ind);
     }

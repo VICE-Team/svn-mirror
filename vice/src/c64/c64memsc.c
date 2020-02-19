@@ -126,7 +126,11 @@ static int tape_sense = 0;
 static int tape_write_in = 0;
 static int tape_motor_in = 0;
 
-/* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
+/* Current watchpoint state. 
+          0 = no watchpoints
+    bit0; 1 = watchpoints active
+    bit1; 2 = watchpoints trigger on dummy accesses
+*/
 static int watchpoints_active = 0;
 
 /* ------------------------------------------------------------------------- */

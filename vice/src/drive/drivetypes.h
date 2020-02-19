@@ -116,6 +116,8 @@ typedef struct drivecpud_context_s {
     /* Pointers to the currently used memory read and write tables. */
     drive_read_func_ptr_t *read_func_ptr;
     drive_store_func_ptr_t *store_func_ptr;
+    drive_read_func_ptr_t *read_func_ptr_dummy;
+    drive_store_func_ptr_t *store_func_ptr_dummy;
     drive_peek_func_ptr_t *peek_func_ptr;
     uint8_t **read_base_tab_ptr;
     uint32_t *read_limit_tab_ptr;

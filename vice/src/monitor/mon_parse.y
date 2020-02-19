@@ -459,8 +459,8 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                      }
                    | CMD_DUMMY end_cmd
                      {
-                         mon_out("Checkpoints will %s trigger on dummy accesses.\n",
-                                   break_on_dummy_access ? "" : "not");
+                         mon_out("Checkpoints will %strigger on dummy accesses.\n",
+                                   break_on_dummy_access ? "" : "not ");
                          /* FIXME: some day we might want to toggle the break-on-dummy-access 
                                    per MEMSPACE, for now its a global option */                         
                          mon_breakpoint_set_dummy_state(e_default_space, break_on_dummy_access);
