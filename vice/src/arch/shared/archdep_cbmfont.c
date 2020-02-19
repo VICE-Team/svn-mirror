@@ -203,7 +203,7 @@ void archdep_unregister_cbmfont(void)
     char *path;
 
     datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, "common", "CBM.ttf", NULL);
+    path = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
     lib_free(datadir);
 
     RemoveFontResourceEx(path, 0, 0);
