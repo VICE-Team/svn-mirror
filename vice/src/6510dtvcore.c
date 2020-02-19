@@ -436,7 +436,7 @@
 
 #define SET_ABS_RMW(old_value, new_value) \
     if (!SKIP_CYCLE) {                    \
-        STORE(p2, old_value);             \
+        STORE_DUMMY(p2, old_value);       \
         CLK_INC();                        \
     }                                     \
     STORE(p2, new_value);                 \
@@ -491,7 +491,7 @@
 
 #define SET_ABS_I_RMW(reg_i, old_value, new_value) \
     if (!SKIP_CYCLE) {                             \
-        STORE(p2 + reg_i, old_value);              \
+        STORE_DUMMY(p2 + reg_i, old_value);        \
         CLK_INC();                                 \
     }                                              \
     STORE(p2 + reg_i, new_value);                  \
@@ -516,7 +516,7 @@
 
 #define SET_ZERO_RMW(old_value, new_value) \
     if (!SKIP_CYCLE) {                     \
-        STORE_ZERO(p1, old_value);         \
+        STORE_ZERO_DUMMY(p1, old_value);   \
         CLK_INC();                         \
     }                                      \
     STORE_ZERO(p1, new_value);             \
@@ -555,7 +555,7 @@
 
 #define SET_ZERO_I_RMW(reg_i, old_value, new_value) \
     if (!SKIP_CYCLE) {                              \
-        STORE_ZERO(p1 + reg_i, old_value);          \
+        STORE_ZERO_DUMMY(p1 + reg_i, old_value);    \
         CLK_INC();                                  \
     }                                               \
     STORE_ZERO(p1 + reg_i, new_value);              \
@@ -935,10 +935,10 @@ static int ane_log_level = 1; /* 0: none, 1: unstable only 2: all */
                                                               \
             dest_addr = reg_pc + (signed char)(p1);           \
                                                               \
-            LOAD(reg_pc);                                     \
+            LOAD_DUMMY(reg_pc);                               \
             CLK_INC();                                        \
             if ((reg_pc ^ dest_addr) & 0xff00) {              \
-                LOAD((reg_pc & 0xff00) | (dest_addr & 0xff)); \
+                LOAD_DUMMY((reg_pc & 0xff00) | (dest_addr & 0xff)); \
                 CLK_INC();                                    \
             } else {                                          \
                 OPCODE_DELAYS_INTERRUPT();                    \
@@ -1313,7 +1313,7 @@ static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
 
 #define PLP()                                                 \
     do {                                                      \
-        uint8_t s;                                               \
+        uint8_t s;                                            \
         if (!SKIP_CYCLE) {                                    \
             STACK_PEEK();                                     \
             CLK_INC();                                        \
