@@ -62,11 +62,6 @@
  */
 int main(int argc, char **argv)
 {
-#ifdef MACOSX_SUPPORT
-    id dictionary;
-    id defaults;
-#endif
-
     /*
      * Ugly hack to make the VTE-based monitor behave on 32-bit Windows.
      *
@@ -81,28 +76,6 @@ int main(int argc, char **argv)
      */
 #ifdef WIN32_COMPILE
     _putenv("LANG=C");
-#endif
-
-    /*
-     * Literally ugly hack to disable retina support, saving 20-25% host cpu.
-     *
-     * macOS Gtk is currently too slow for vice to run well in retina mode.
-     * This code needs to run before NSApplication is initialised which is
-     * why it is in here.
-     *
-     * --dqh
-     */
-#ifdef MACOSX_SUPPORT
-    /* [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"AppleMagnifiedMode" : @YES }]; */
-    dictionary =
-        OBJC_MSGSEND_FUNC_CAST(id, SEL, id, CFStringRef)(
-            (id)objc_getClass("NSDictionary"),
-            sel_getUid("dictionaryWithObject:forKey:"),
-            OBJC_MSGSEND_FUNC_CAST(id, SEL, BOOL)((id)objc_getClass("NSNumber"), sel_getUid("numberWithBool:"), YES),
-            CFSTR("AppleMagnifiedMode"));
-
-    defaults = OBJC_MSGSEND_FUNC_CAST(id, SEL)((id)objc_getClass("NSUserDefaults"), sel_getUid("standardUserDefaults"));
-    OBJC_MSGSEND_FUNC_CAST(id, SEL, id)(defaults, sel_getUid("registerDefaults:"), dictionary);
 #endif
 
     return main_program(argc, argv);
