@@ -104,50 +104,6 @@ static void drive_store_watch(drive_context_t *drv, uint16_t address, uint8_t va
     drv->cpud->store_tab[0][address >> 8](drv, address, value);
 }
 
-#if 0
-/* called by mem_pla_config_changed(), mem_toggle_watchpoints() */
-static void mem_update_tab_ptrs(int flag)
-{
-    if (flag) {
-        _mem_read_tab_ptr = mem_read_tab_watch;
-        _mem_write_tab_ptr = mem_write_tab_watch;
-        if (flag > 1) {
-            /* enable watchpoints on dummy accesses */
-            _mem_read_tab_ptr_dummy = mem_read_tab_watch;
-            _mem_write_tab_ptr_dummy = mem_write_tab_watch;
-        } else {
-            _mem_read_tab_ptr_dummy = mem_read_tab[mem_config];
-            _mem_write_tab_ptr_dummy = mem_write_tab[vbank][mem_config];
-        }
-    } else {
-        /* all watchpoints disabled */
-        _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
-        _mem_read_tab_ptr_dummy = mem_read_tab[mem_config];
-        _mem_write_tab_ptr_dummy = mem_write_tab[vbank][mem_config];
-    }
-}
-
-void mem_toggle_watchpoints(int flag, void *context)
-{
-    mem_update_tab_ptrs(flag);
-    watchpoints_active = flag;
-}
-
-void drivemem_toggle_watchpoints(int flag, void *context)
-{
-    drive_context_t *drv = (drive_context_t *)context;
-
-    if (flag) {
-        drv->cpud->read_func_ptr = read_tab_watch;
-        drv->cpud->store_func_ptr = store_tab_watch;
-    } else {
-        drv->cpud->read_func_ptr = drv->cpud->read_tab[0];
-        drv->cpud->store_func_ptr = drv->cpud->store_tab[0];
-    }
-}
-#endif
-
 void drivemem_toggle_watchpoints(int flag, void *context)
 {
     drive_context_t *drv = (drive_context_t *)context;
@@ -166,6 +122,8 @@ void drivemem_toggle_watchpoints(int flag, void *context)
     } else {
         drv->cpud->read_func_ptr = drv->cpud->read_tab[0];
         drv->cpud->store_func_ptr = drv->cpud->store_tab[0];
+        drv->cpud->read_func_ptr_dummy = drv->cpud->read_tab[0];
+        drv->cpud->store_func_ptr_dummy = drv->cpud->store_tab[0];
     }
     watchpoints_active = flag;
 }
@@ -263,6 +221,8 @@ void drivemem_init(drive_context_t *drv, unsigned int type)
 
     drv->cpud->read_func_ptr = drv->cpud->read_tab[0];
     drv->cpud->store_func_ptr = drv->cpud->store_tab[0];
+    drv->cpud->read_func_ptr_dummy = drv->cpud->read_tab[0];
+    drv->cpud->store_func_ptr_dummy = drv->cpud->store_tab[0];
     drv->cpud->peek_func_ptr = drv->cpud->peek_tab[0];
 
     drv->cpud->read_base_tab_ptr = drv->cpud->read_base_tab[0];
