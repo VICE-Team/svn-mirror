@@ -1619,7 +1619,7 @@ be found that works for both.
                                                                 \
         CLK_ADD(CLK, 2);                                        \
         tmp = LOAD_ZERO_ADDR(addr);                             \
-        LOAD_IND((tmp & 0xff00) | ((tmp + reg_y_read) & 0xff)); \
+        LOAD_DUMMY((tmp & 0xff00) | ((tmp + reg_y_read) & 0xff)); \
         CLK_ADD(CLK, CLK_IND_Y_W);                              \
         INC_PC(2);                                              \
         STORE_IND(tmp + reg_y_read, reg_a_read);                \
