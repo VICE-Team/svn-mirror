@@ -153,10 +153,10 @@
 #endif
 
 #define LOAD_ADDR(addr) \
-    ((LOAD((addr) + 1) << 8) | LOAD(addr))
+    (LOAD(addr) | (LOAD((addr) + 1) << 8))
 
 #define LOAD_ZERO_ADDR(addr) \
-    ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
+    (LOAD_ZERO(addr) | (LOAD_ZERO((addr) + 1) << 8))
 
 #ifndef STORE_DUMMY
 #define STORE_DUMMY(addr, value) \
@@ -179,11 +179,10 @@
 #endif
 
 #define LOAD_ADDR_DUMMY(addr) \
-    ((LOAD_DUMMY((addr) + 1) << 8) | LOAD_DUMMY(addr))
+    (LOAD_DUMMY(addr) | (LOAD_DUMMY((addr) + 1) << 8))
 
 #define LOAD_ZERO_ADDR_DUMMY(addr) \
-    ((LOAD_ZERO_DUMMY((addr) + 1) << 8) | LOAD_ZERO_DUMMY(addr))
-
+    (LOAD_ZERO_DUMMY(addr) | (LOAD_ZERO_DUMMY((addr) + 1) << 8))
     
 /* Those may be overridden by the machine stuff.  Probably we want them in
    the .def files, but if most of the machines do not use, we might keep it
