@@ -130,7 +130,7 @@ const char p00_header[] = "C64File";
 
 
 /* mostly useless crap, should go into c1541.h */
-char *kbd_get_menu_keyname(void);
+#if 0
 void enable_text(void);
 void disable_text(void);
 int machine_bus_device_attach(unsigned int device, const char *name,
@@ -146,28 +146,28 @@ int machine_bus_device_attach(unsigned int device, const char *name,
 struct vdrive_s *file_system_get_vdrive(unsigned int unit);
 void ui_error_string(const char *text);
 void vsync_suspend_speed_eval(void);
+#endif
 #if 0
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
-#endif
 int machine_bus_lib_directory(unsigned int unit, const char *pattern, uint8_t **buf);
 int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf);
 int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf);
 unsigned int machine_bus_device_type_get(unsigned int unit);
 void machine_drive_flush(void);
-#if 0
 const char *machine_get_name(void);
 #endif
 
 /** \brief  Machine name
  */
 const char machine_name[] = "C1541";
-int machine_class = VICE_MACHINE_C1541;
 
+/** \brief  Machine class
+ */
+int machine_class = VICE_MACHINE_C1541;
 
 /** \brief  Array of virtual drives
  */
 static vdrive_t *drives[DRIVE_NUM] = { NULL, NULL, NULL, NULL };
-
 
 /** \brief  Flags for each virtual drive indicating P00 mode
  *
@@ -176,13 +176,11 @@ static vdrive_t *drives[DRIVE_NUM] = { NULL, NULL, NULL, NULL };
  */
 static unsigned int p00save[DRIVE_NUM] = { 0, 0, 0, 0 };
 
-
 /** \brief  Current virtual drive used
  *
  * This is an index into the `drives` array, NOT a device/unit number
  */
 static int drive_index = 0;
-
 
 /** \brief  Flag indicating if c1541 is used in interactive mode
  */
