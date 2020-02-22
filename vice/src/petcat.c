@@ -72,7 +72,6 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "archdep.h"
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
 #include "cmdline.h"
 #include "lib.h"
@@ -923,8 +922,6 @@ int main(int argc, char **argv)
     int ctrls = -1, hdr = -1, show_words = 0;
     int fil = 0, outf = 0, overwrt = 0, textmode = 0;
     int flg = 0;                            /* files on stdin */
-
-    archdep_init(&argc, argv);
 
     /* Parse arguments */
     progname = argv[0];
