@@ -1141,29 +1141,77 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
     return mem_ram[addr];
 }
 
-/* read memory without side-effects */
+/* used by monitor if sfx off, and when disassembling/tracing. this function
+ * can NOT use the generic mem_read stuff, because that DOES have side effects,
+ * such as (re)triggering checkpoints in the monitor!
+ */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
-            /* we must check for which bank is currently active, and only use peek_bank_io
-               when needed to avoid side effects */
+            /* we must check for which bank is currently active */
             if (c64meminit_io_config[mem_config]) {
                 if ((addr >= 0xd000) && (addr < 0xe000)) {
                     return peek_bank_io(addr);
                 }
             }
-            return mem_read(addr);
-            break;
-        case 3:                   /* io */
-            if ((addr >= 0xd000) && (addr < 0xe000)) {
-                return peek_bank_io(addr);
+            if (c64meminit_roml_config[mem_config]) {
+                if (addr >= 0xa000 && addr <= 0xbfff) {
+                    cartridge_peek_mem(addr);
+                }
+            }
+            if (c64meminit_romh_config[mem_config]) {
+                unsigned int romhloc = c64meminit_romh_mapping[mem_config];
+                if (addr >= romhloc && addr <= (romhloc + 0x1fff)) {
+                    cartridge_peek_mem(addr);
+                }
+            }
+            if (c64meminit_io_config[mem_config] == 2) {
+                /* ultimax mode */
+                if (addr >= 0x0000 && addr <= 0x0fff) {
+                    return mem_ram[addr];
+                }
+                return cartridge_peek_mem(addr);
+            }
+            if((mem_config == 3) || (mem_config == 7) ||
+               (mem_config == 11) || (mem_config == 15)) {
+                if (addr >= 0xa000 && addr <= 0xbfff) {
+                    return c64memrom_basic64_rom[addr & 0x1fff];
+                }
+            }
+            if((mem_config & 3) > 1) {
+                if (addr >= 0xe000) {
+                    return c64memrom_kernal64_rom[addr & 0x1fff];
+                }
+            }
+            if((mem_config & 3) && (mem_config != 0x19)) {
+                if ((addr >= 0xd000) && (addr < 0xdfff)) {
+                    return mem_chargen_rom[addr & 0x0fff];
+                }
             }
             break;
+        case 3:                   /* io */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                return peek_bank_io(addr);
+            }
+            /* FALL THROUGH */
         case 4:                   /* cart */
             return cartridge_peek_mem(addr);
+        case 2:                   /* rom */
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return c64memrom_basic64_rom[addr & 0x1fff];
+            }
+            if (addr >= 0xd000 && addr <= 0xdfff) {
+                return mem_chargen_rom[addr & 0x0fff];
+            }
+            if (addr >= 0xe000) {
+                return c64memrom_kernal64_rom[addr & 0x1fff];
+            }
+            /* FALL THROUGH */
+        case 1:                   /* ram */
+            break;
     }
-    return mem_bank_read(bank, addr, context);
+    return mem_ram[addr];
 }
 
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
