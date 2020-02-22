@@ -175,6 +175,8 @@ extern int mon_out(const char *format, ...);
 
 /** Breakpoint interface.  */
 
+#define MONITOR_MAX_CHECKPOINTS 9
+
 /* Prototypes */
 extern int monitor_check_breakpoints(MEMSPACE mem, uint16_t addr);
 
