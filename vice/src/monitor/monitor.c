@@ -109,7 +109,7 @@ int mon_init_break = -1;
 #define MONITOR_GET_PC(mem) \
     ((uint16_t)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC)))
 
-#define MONITOR_GET_OPCODE(mem) (mon_get_mem_val(mem, MONITOR_GET_PC(mem)))
+#define MONITOR_GET_OPCODE(mem) (mon_get_mem_val_nosfx(mem, MONITOR_GET_PC(mem)))
 
 console_t *console_log = NULL;
 
@@ -662,6 +662,7 @@ uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr)
     if ((sidefx == 0) && (mon_interfaces[mem]->mem_bank_peek != NULL)) {
         return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
     } else {
+        log_error(LOG_ERR, "mon_get_mem_val_ex: mem_bank_peek() not implemented for memspace %u.", mem);
         return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
     }
 }
@@ -669,6 +670,29 @@ uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr)
 uint8_t mon_get_mem_val(MEMSPACE mem, uint16_t mem_addr)
 {
     return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
+}
+
+/* the _nosfx variants must be used when the monitor must absolutely not cause
+   any sideeffect, be it emulated I/O or (re)triggering checkpoints */
+uint8_t mon_get_mem_val_ex_nosfx(MEMSPACE mem, int bank, uint16_t mem_addr)
+{
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
+            return 0;
+        }
+    }
+
+    if (mon_interfaces[mem]->mem_bank_peek != NULL) {
+        return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
+    } else {
+        log_error(LOG_ERR, "mon_get_mem_val_ex_nosfx: mem_bank_peek() not implemented for memspace %u.", mem);
+        return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
+    }
+}
+
+uint8_t mon_get_mem_val_nosfx(MEMSPACE mem, uint16_t mem_addr)
+{
+    return mon_get_mem_val_ex_nosfx(mem, mon_interfaces[mem]->current_bank, mem_addr);
 }
 
 void mon_get_mem_block_ex(MEMSPACE mem, int bank, uint16_t start, uint16_t end, uint8_t *data)

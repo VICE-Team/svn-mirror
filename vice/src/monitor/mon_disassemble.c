@@ -1372,12 +1372,12 @@ static const char* mon_disassemble_instr_interal(unsigned *opc_size, MON_ADDR ad
     mem = addr_memspace(addr);
     loc = addr_location(addr);
 
-    opc[0] = mon_get_mem_val(mem, loc);
-    opc[1] = mon_get_mem_val(mem, (uint16_t)(loc + 1));
-    opc[2] = mon_get_mem_val(mem, (uint16_t)(loc + 2));
-    opc[3] = mon_get_mem_val(mem, (uint16_t)(loc + 3));
-    opc[4] = mon_get_mem_val(mem, (uint16_t)(loc + 4));
-
+    opc[0] = mon_get_mem_val_nosfx(mem, loc);
+    opc[1] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 1));
+    opc[2] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 2));
+    opc[3] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 3));
+    opc[4] = mon_get_mem_val_nosfx(mem, (uint16_t)(loc + 4));
+    
     dis_inst = mon_disassemble_to_string_internal(mem, loc, opc, hex_mode, opc_size, monitor_cpu_for_memspace[mem]);
 
     sprintf(buff, ".%s:%04x  %s", mon_memspace_string[mem], loc, dis_inst);
