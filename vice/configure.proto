@@ -72,11 +72,13 @@ VICE_ARG_ENABLE_LIST(debug,       [  --enable-debug          enable debug source
 VICE_ARG_ENABLE_LIST(native-tools,[  --enable-native-tools[[=compiler]]    enable native tools instead of scripts])
 
 dnl register ReSID options here to pass arg checks
-VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
+VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [[default=yes]]])
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 VICE_ARG_ENABLE_LIST(new8580filter, [  --enable-new8580filter  enable experimental 8580 filters [[default=no]]])
-VICE_ARG_ENABLE_LIST(x64,         [  --enable-x64  enable building of the old x64 emulator [default=no]])
+VICE_ARG_ENABLE_LIST(x64,         [  --enable-x64  enable building of the old x64 emulator [[default=no]]])
+VICE_ARG_ENABLE_LIST(pdf-docs,    [  --enable-pdf-docs       generate the PDF documentation [[default=if possible]]])
+VICE_ARG_ENABLE_LIST(html-docs,   [  --enable-html-docs      install the HTML documentation [[default=no]]])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -255,11 +257,32 @@ AS_IF([test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xye
 AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
 AS_IF([test x"$YACC" = "xno"], [AC_MSG_ERROR([Could not find byacc, yacc or bison!])])
 AC_CHECK_PROGS(MAKEINFO, makeinfo, :)
-AC_CHECK_PROGS(TEXI2DVI, texi2dvi, :)
-AC_CHECK_PROGS(PDFTEX, pdftex, :)
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 AC_CHECK_PROGS(XA, [xa xa65], no)
 AS_IF([test x"$XA" = "xno"], [AC_MSG_ERROR([xa is missing])])
+
+if test x"$enable_pdf_docs" != xno; then
+  AC_CHECK_PROGS(TEXI2DVI, texi2dvi)
+  AC_CHECK_PROGS(PDFTEX, pdftex)
+
+  if test x"$TEXI2DVI" = x -o x"$PDFTEX" = x; then
+    if test x"$enable_pdf_docs" != x; then
+      AC_MSG_ERROR([texinfo is required to generate the PDF documentation])]
+    else
+      enable_pdf_docs=no
+    fi
+  fi
+fi
+
+AC_CHECK_PROGS(PERL, perl)
+
+if test x"${enable_html_docs:-no}" != xno -a x"$PERL" = x; then
+  AC_MSG_ERROR([Perl is required to generate the HTML documentation])]
+fi
+
+AM_CONDITIONAL([ENABLE_PDF_DOCS], [test x"${enable_pdf_docs}" != xno])
+AM_CONDITIONAL([ENABLE_HTML_DOCS], [test x"${enable_html_docs:-no}" != xno])
+AM_CONDITIONAL([HAVE_PERL], [test x"$PERL" != x])
 
 dnl Seems to be used for AmigaOS:
 AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
@@ -605,12 +628,6 @@ if test x"$ar_check" != "xno"; then
     AC_MSG_RESULT(no)
   fi
   rm -f libvicetest.a vicetest.o
-fi
-
-if test x"$TEXI2DVI" = "x:" -o x"$PDFTEX" = "x:"; then
-  AM_CONDITIONAL(BUILD_PDF, false)
-else
-  AM_CONDITIONAL(BUILD_PDF, true)
 fi
 
 if test x"$SVN" != "x"; then
@@ -1762,10 +1779,6 @@ dnl Extension for executable files in this system
 AC_EXEEXT
 
 AC_CHECK_LIB(iconv, libiconv_open,,)
-
-dnl Check for a perl interpreter.
-AC_PATH_PROG(PERL, perl)
-AC_SUBST(PERL)
 
 dnl Check if --param inline-unit-growth=60 can be used.
 old_CFLAGS=$CFLAGS
@@ -4115,8 +4128,14 @@ else
     echo "yes"
 fi
 echo -n "Generate PDF      : "
-if test x"$TEXI2DVI" = "x:" -a x"$PDFTEX" = "x:"; then
+if test x"$enable_pdf_docs" = xno; then
     echo "no (install texinfo)"
+else
+    echo "yes"
+fi
+echo -n "Install HTML      : "
+if test x"${enable_html_docs:-no}" = xno; then
+    echo "no"
 else
     echo "yes"
 fi

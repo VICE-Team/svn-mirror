@@ -58,7 +58,7 @@ $(builddir)/vice.txt:	.vice-texi-charset-ok
 	$(srcdir)/fixdox.sh txt <vicetmp.txt | LC_ALL=C sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
 
-if BUILD_PDF
+if ENABLE_PDF_DOCS
 VICE_DOX += vice.pdf
 $(builddir)/vice.pdf:	.vice-texi-charset-ok
 	LC_ALL=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
