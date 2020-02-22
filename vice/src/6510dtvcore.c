@@ -33,9 +33,15 @@
  */
 
 /* This file is included by (some) CPU definition files */
-/* (mainc64cpu.c, mainviccpu.c) */
+/*  vic20cpu.c->mainviccpu.c
+    c64sccpu.c->mainc64cpu.c
+*/
 
+#ifdef DRIVE_CPU
+#define CPU_STR "Drive CPU"
+#else
 #define CPU_STR "Main CPU"
+#endif
 
 #include "traps.h"
 
@@ -269,7 +275,7 @@
 #define DO_IRQBRK()                                                                                                   \
     do {                                                                                                              \
         /* Interrupt vector to use. Assume regular IRQ/BRK. */                                                        \
-        uint16_t handler_vector = 0xfffe;                                                                                 \
+        uint16_t handler_vector = 0xfffe;                                                                             \
                                                                                                                       \
         PUSH(reg_pc >> 8);                                                                                            \
         CLK_INC();                                                                                                    \
@@ -319,7 +325,7 @@
                 }                                                              \
                 interrupt_ack_nmi(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD_DUMMY(reg_pc);                                        \
+                    LOAD_DUMMY(reg_pc);     /* dummy reads */                  \
                     CLK_INC();                                                 \
                     LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
@@ -348,7 +354,7 @@
                 }                                                              \
                 interrupt_ack_irq(CPU_INT_STATUS);                             \
                 if (!SKIP_CYCLE) {                                             \
-                    LOAD_DUMMY(reg_pc);                                        \
+                    LOAD_DUMMY(reg_pc);     /* dummy reads */                  \
                     CLK_INC();                                                 \
                     LOAD_DUMMY(reg_pc);                                        \
                     CLK_INC();                                                 \
@@ -522,12 +528,13 @@
     STORE_ZERO(p1, new_value);             \
     CLK_INC();
 
-#define INT_ZERO_I      \
-    if (!SKIP_CYCLE) {  \
-        LOAD_ZERO(p1);  \
-        CLK_INC();      \
+#define INT_ZERO_I            \
+    if (!SKIP_CYCLE) {        \
+        LOAD_ZERO_DUMMY(p1);  \
+        CLK_INC();            \
     }
 
+/* load zp, x */    
 #define GET_ZERO_X(dest)          \
     INT_ZERO_I                    \
     dest = LOAD_ZERO(p1 + reg_x); \
@@ -567,7 +574,7 @@
 
 #define INT_IND_X                   \
     unsigned int tmpa, addr;        \
-    LOAD_ZERO(p1);                  \
+    LOAD_ZERO_DUMMY(p1);            \
     CLK_INC();                      \
     tmpa = (p1 + reg_x) & 0xff;     \
     addr = LOAD_ZERO(tmpa);         \
@@ -576,6 +583,7 @@
     addr |= (LOAD_ZERO(tmpa) << 8); \
     CLK_INC();
 
+/* load (zp, x) */
 #define GET_IND_X(dest) \
     INT_IND_X           \
     dest = LOAD(addr);  \
@@ -623,6 +631,7 @@
         CLK_INC();                                                    \
     }
 
+/* load (zp),y */
 #define GET_IND_Y(dest) \
     INT_IND_Y_R()       \
     dest = LOAD(addr);  \
@@ -1517,14 +1526,14 @@ static int lxa_log_level = 1; /* 0: none, 1: unstable only 2: all */
         INC_PC(2);                                     \
     } while (0)
 
-#define SH_ABS_I(reg_and, reg_i)                                        \
-    do {                                                                \
-        if (!SKIP_CYCLE) {                                              \
-            LOAD_CHECK_BA_LOW(((p2 + reg_i) & 0xff) | ((p2) & 0xff00)); \
-            CLK_INC();                                                  \
-        }                                                               \
-        SET_ABS_SH_I(p2, reg_and, reg_i);                               \
-        INC_PC(3);                                                      \
+#define SH_ABS_I(reg_and, reg_i)                                              \
+    do {                                                                      \
+        if (!SKIP_CYCLE) {                                                    \
+            LOAD_CHECK_BA_LOW_DUMMY(((p2 + reg_i) & 0xff) | ((p2) & 0xff00)); \
+            CLK_INC();                                                        \
+        }                                                                     \
+        SET_ABS_SH_I(p2, reg_and, reg_i);                                     \
+        INC_PC(3);                                                            \
     } while (0)
 
 #define SHS_ABS_Y()                          \
