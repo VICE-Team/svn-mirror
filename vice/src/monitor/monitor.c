@@ -2137,39 +2137,38 @@ void monitor_watch_push_store_addr(uint16_t addr, MEMSPACE mem)
 
 static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
-    bool trap = FALSE;
-    unsigned count;
+    unsigned count, n;
     uint16_t addr = 0;
 
     count = watch_load_count[mem];
-    while (count) {
-        count--;
-        addr = watch_load_array[count][mem];
+    /* check from index 0 upwards, so when more than one checkpoint was triggered
+       they get printed in the right order */
+    for (n = 0; n < count; n++) {
+        addr = watch_load_array[n][mem];
         if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_load)) {
-            trap = TRUE;
+            return TRUE;
         }
     }
     watch_load_count[mem] = 0;
-    return trap;
+    return FALSE;
 }
 
 static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
-    bool trap = FALSE;
-    unsigned count;
+    unsigned count, n;
     uint16_t addr = 0;
 
     count = watch_store_count[mem];
-    watch_store_count[mem] = 0;
-
-    while (count) {
-        count--;
-        addr = watch_store_array[count][mem];
-        if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_store)) {
-            trap = TRUE;
+    /* check from index 0 upwards, so when more than one checkpoint was triggered
+       they get printed in the right order */
+    for (n = 0; n < count; n++) {
+        addr = watch_store_array[n][mem];
+        if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_load)) {
+            return TRUE;
         }
     }
-    return trap;
+    watch_store_count[mem] = 0;
+    return FALSE;
 }
 
 
