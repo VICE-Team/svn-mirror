@@ -2163,7 +2163,7 @@ static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned
        they get printed in the right order */
     for (n = 0; n < count; n++) {
         addr = watch_store_array[n][mem];
-        if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_load)) {
+        if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_store)) {
             return TRUE;
         }
     }
