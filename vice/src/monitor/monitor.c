@@ -163,8 +163,8 @@ const char *_mon_space_strings[] = {
     "Default", "Computer", "Disk8", "Disk9", "Disk10", "Disk11", "<<Invalid>>"
 };
 
-static uint16_t watch_load_array[10][NUM_MEMSPACES];
-static uint16_t watch_store_array[10][NUM_MEMSPACES];
+static uint16_t watch_load_array[MONITOR_MAX_CHECKPOINTS + 1][NUM_MEMSPACES];
+static uint16_t watch_store_array[MONITOR_MAX_CHECKPOINTS + 1][NUM_MEMSPACES];
 static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
@@ -2111,7 +2111,7 @@ void monitor_watch_push_load_addr(uint16_t addr, MEMSPACE mem)
         return;
     }
 
-    if (watch_load_count[mem] == 9) {
+    if (watch_load_count[mem] == MONITOR_MAX_CHECKPOINTS) {
         return;
     }
 
@@ -2126,7 +2126,7 @@ void monitor_watch_push_store_addr(uint16_t addr, MEMSPACE mem)
         return;
     }
 
-    if (watch_store_count[mem] == 9) {
+    if (watch_store_count[mem] == MONITOR_MAX_CHECKPOINTS) {
         return;
     }
 
