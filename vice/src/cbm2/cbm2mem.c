@@ -140,6 +140,9 @@ void cbm2mem_set_bank_exec(int val)
 
         _mem_read_tab_ptr = _mem_read_tab[cbm2mem_bank_exec];
         _mem_write_tab_ptr = _mem_write_tab[cbm2mem_bank_exec];
+        _mem_read_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_exec];
+        _mem_write_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_exec];
+        
         _mem_read_base_tab_ptr = _mem_read_base_tab[cbm2mem_bank_exec];
         mem_read_limit_tab_ptr = mem_read_limit_tab[(cbm2mem_bank_exec < 15)
                                                     ? 0 : 1];

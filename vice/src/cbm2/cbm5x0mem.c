@@ -215,6 +215,8 @@ void cbm2mem_set_bank_exec(int val)
 
         _mem_read_tab_ptr = _mem_read_tab[cbm2mem_bank_exec];
         _mem_write_tab_ptr = _mem_write_tab[cbm2mem_bank_exec];
+        _mem_read_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_exec];
+        _mem_write_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_exec];
         _mem_read_base_tab_ptr = _mem_read_base_tab[cbm2mem_bank_exec];
         mem_read_limit_tab_ptr = mem_read_limit_tab[(cbm2mem_bank_exec < 15)
                                                     ? 0 : 1];
@@ -256,6 +258,8 @@ void cbm2mem_set_bank_ind(int val)
         cbm2mem_bank_ind = val;
         _mem_read_ind_tab_ptr = _mem_read_tab[cbm2mem_bank_ind];
         _mem_write_ind_tab_ptr = _mem_write_tab[cbm2mem_bank_ind];
+        _mem_read_ind_tab_ptr_dummy = _mem_read_tab[cbm2mem_bank_ind];
+        _mem_write_ind_tab_ptr_dummy = _mem_write_tab[cbm2mem_bank_ind];
         /* set all register mirror locations */
         for (i = 0; i < 16; i++) {
             mem_ram[(i << 16) + 1] = val;

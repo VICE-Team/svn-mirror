@@ -1487,6 +1487,8 @@ void mem_initialize_memory(void)
     ram_size = petres.ramSize * 1024;
     _mem_read_tab_ptr = _mem_read_tab;
     _mem_write_tab_ptr = _mem_write_tab;
+    _mem_read_tab_ptr_dummy = _mem_read_tab;
+    _mem_write_tab_ptr_dummy = _mem_write_tab;
 
     /* setup watchpoint tables */
     _mem_read_tab_watch[0] = zero_read_watch;
