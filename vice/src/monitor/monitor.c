@@ -2161,6 +2161,7 @@ void monitor_watch_push_store_addr(uint16_t addr, MEMSPACE mem)
 
 static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
+    bool trap = FALSE;
     unsigned count, n;
     uint16_t addr = 0;
 
@@ -2170,15 +2171,16 @@ static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned 
     for (n = 0; n < count; n++) {
         addr = watch_load_array[n][mem];
         if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_load)) {
-            return TRUE;
+            trap = TRUE;
         }
     }
     watch_load_count[mem] = 0;
-    return FALSE;
+    return trap;
 }
 
 static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
+    bool trap = FALSE;
     unsigned count, n;
     uint16_t addr = 0;
 
@@ -2188,11 +2190,11 @@ static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned
     for (n = 0; n < count; n++) {
         addr = watch_store_array[n][mem];
         if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_store)) {
-            return TRUE;
+            trap = TRUE;
         }
     }
     watch_store_count[mem] = 0;
-    return FALSE;
+    return trap;
 }
 
 
