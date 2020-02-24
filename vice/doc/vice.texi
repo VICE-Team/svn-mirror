@@ -2247,13 +2247,13 @@ the PATH variable).
 
 Since version 0.15, the VICE emulators have been able to attach disks
 packed with Zipcode or Lynx directly, removing the need to manually
-convert them into @code{D64} or @code{X64} files with @code{c1541}.
+convert them into @code{D64} files with @code{c1541}.
 This is achieved by automatically invoking @code{c1541}, letting it
 decode the file into a temporary image and attaching the resulting
 temporary image read-only.  For this to work, the directory containing
 @code{c1541} must be in your @code{PATH}.
 
-This uses the @code{-unlynx} and @code{-zcreate} options of @code{c1541}
+This uses the @code{-unlynx} and @code{-unzip} options of @code{c1541}
 (@pxref{c1541 commands and options}); these commands are not very
 reliable yet, and could fail with certain kinds of Lynx and Zipcode
 images (for example, they cannot deal with @code{DEL} files properly).
@@ -16433,8 +16433,8 @@ Show C1541 version string
 Write @code{source} from the file system into @code{destination} on a
 disk image.
 
-@item zcreate <x64name> <zipname> [<label,id>]
-Create an X64 disk image out of a set of four Zipcoded files named
+@item unzip <d64name> <zipname> [<label,id>]
+Create a D64 disk image out of a set of four Zipcoded files named
 @code{1!zipname}, @code{2!zipname}, @code{3!zipname} and
 @code{4!zipname}.
 
