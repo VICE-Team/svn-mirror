@@ -664,31 +664,52 @@
         INC_PC(pc_inc);                          \
     } while (0)
 
+
 /*
 The result of the ANE opcode is A = ((A | CONST) & X & IMM), with CONST apparently
-being both chip- and temperature dependent.
+being both chip- and temperature dependent. There is also a dependency on the RDY
+line, ie somehow bit4 and bit0 are affected in the cycle when a DMA starts.
 
 The commonly used value for CONST in various documents is 0xee, which is however
 not to be taken for granted (as it is unstable). see here:
 http://visual6502.org/wiki/index.php?title=6502_Opcode_8B_(XAA,_ANE)
 
 as seen in the list, there are several possible values, and its origin is still
-kinda unknown. instead of the commonly used 0xee we use 0xff here, since this
-will make the only known occurance of this opcode in actual code work. see here:
-https://sourceforge.net/tracker/?func=detail&aid=2110948&group_id=223021&atid=1057617
+kinda unknown. instead of the commonly used 0xee we use 0xef here, since this
+appears to work with all known occurances of this opcode in real code:
 
+known occurances of this opcode in actual code are:
+
+- spectipede (original tape), use of ANE is unstable. bits 7,6,5,0 MUST be set
+  in the magic constant (that makes it not work with the common 0xee, but 0xef
+  works)
+- turrican 3 (by smash designs), use of ANE is unstable. bits 6,1,0 MUST be set
+  in the magic constant (that makes it not work with the common 0xee, but 0xef
+  works)
+- the ocean/imagine tape loader (yie ar kung fu, rambo first blood part ii,
+  comic bakery), use of ANE is stable.
+
+also see here:
+
+https://sourceforge.net/tracker/?func=detail&aid=2110948&group_id=223021&atid=1057617
+  
 FIXME: in the unlikely event that other code surfaces that depends on another
 CONST value, it probably has to be made configureable somehow if no value can
 be found that works for both.
+
+FIXME: perhaps we really have to add some randomness to (some) bits
 */
 
+#define ANE_MAGIC       0xef
+#define ANE_RDY_MAGIC   0xee
+
 #ifndef ANE
-#define ANE(value, pc_inc)                                               \
-    do {                                                                 \
-        uint8_t tmp = ((reg_a_read | 0xff) & reg_x_read & ((uint8_t)(value))); \
-        reg_a_write(tmp);                                                \
-        LOCAL_SET_NZ(tmp);                                               \
-        INC_PC(pc_inc);                                                  \
+#define ANE(value, pc_inc)                                                          \
+    do {                                                                            \
+        uint8_t tmp = ((reg_a_read | ANE_MAGIC) & reg_x_read & ((uint8_t)(value))); \
+        reg_a_write(tmp);                                                           \
+        LOCAL_SET_NZ(tmp);                                                          \
+        INC_PC(pc_inc);                                                             \
     } while (0)
 #endif
 
@@ -1146,16 +1167,32 @@ be found that works for both.
         INC_PC(1);                     \
     } while (0)
 
-/* Note: this is not always exact, as this opcode can be quite unstable!
-   Moreover, the behavior is different from the one described in 64doc. */
+/*
+The result of the LXA opcode is A = X = ((A | CONST) & IMM), with CONST apparently
+being both chip- and temperature dependent. There is also a dependency on the RDY
+line, ie somehow bit4 and bit0 are affected in the cycle when a DMA starts.
+
+The commonly used value for CONST in various documents is 0xee, which is however
+not to be taken for granted (as it is unstable).
+
+FIXME: in the unlikely event that other code surfaces that depends on another
+CONST value, it probably has to be made configureable somehow if no value can
+be found that works for both.
+
+FIXME: perhaps we really have to add some randomness to (some) bits
+*/
+
+#define LXA_MAGIC       0xef
+#define LXA_RDY_MAGIC   0xee
+
 #ifndef LXA
-#define LXA(value, pc_inc)                                  \
-    do {                                                    \
-        uint8_t tmp = ((reg_a_read | 0xee) & ((uint8_t)(value))); \
-        reg_x_write(tmp);                                   \
-        reg_a_write(tmp);                                   \
-        LOCAL_SET_NZ(tmp);                                  \
-        INC_PC(pc_inc);                                     \
+#define LXA(value, pc_inc)                                             \
+    do {                                                               \
+        uint8_t tmp = ((reg_a_read | LXA_MAGIC) & ((uint8_t)(value))); \
+        reg_x_write(tmp);                                              \
+        reg_a_write(tmp);                                              \
+        LOCAL_SET_NZ(tmp);                                             \
+        INC_PC(pc_inc);                                                \
     } while (0)
 #endif
 
