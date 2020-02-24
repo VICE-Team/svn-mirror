@@ -4,7 +4,9 @@ dnl
 dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
-AC_INIT(src/maincpu.c)
+AC_INIT([vice], [3.4])
+AC_CONFIG_SRCDIR([src/maincpu.c])
+AM_INIT_AUTOMAKE([-Wno-portability])
 
 dnl Make sure autotools doesn't add '-g -O2' by default when the user's CFLAGS
 dnl or CXXFLAGS are empty
