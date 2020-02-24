@@ -62,6 +62,12 @@
 #define DBG(x)
 #endif
 
+
+/** \brief  Initial size of the array holding resources
+ */
+#define NUM_ALLOCATED_RESOURCES_INIT    512
+
+
 typedef struct resource_ram_s {
     /* Resource name.  */
     char *name;
@@ -98,6 +104,7 @@ typedef struct resource_ram_s {
     int hash_next;
 } resource_ram_t;
 
+
 /* the type of the callback vector chain */
 typedef struct resource_callback_desc_s {
     resource_callback_func_t *func;
@@ -106,7 +113,8 @@ typedef struct resource_callback_desc_s {
 } resource_callback_desc_t;
 
 
-static unsigned int num_resources, num_allocated_resources;
+static unsigned int num_resources;
+static unsigned int num_allocated_resources;
 static resource_ram_t *resources;
 static char *machine_id = NULL;
 
@@ -282,7 +290,9 @@ int resources_register_int(const resource_int_t *r)
         dp->hash_next = hashTable[hashkey];
         hashTable[hashkey] = (int)(dp - resources);
 
-        num_resources++, sp++, dp++;
+        num_resources++;
+        sp++;
+        dp++;
     }
 
     return 0;
@@ -355,6 +365,8 @@ static void resources_free(void)
  */
 void resources_shutdown(void)
 {
+    fprintf(stderr, "resources registered/allocated: %u/%u\n",
+            num_resources, num_allocated_resources);
     resources_free();
 
     lib_free(resources);
@@ -440,12 +452,37 @@ static void resource_record_event(resource_ram_t *r,
 
 /* ------------------------------------------------------------------------- */
 
+
+/* Total resources registered per emu, using Gtk3 (2020-02-24)
+ *
+ * x128         509
+ * x64sc        471
+ * x64          469
+ * xscpu64      445
+ * xvic         364
+ * xplus4       321
+ * x64dtv       309
+ * xpet         300
+ * xcbm2        284
+ * xcbm5x0      272
+ * vsid         63
+ */
+
+
+/** \brief  Initialize resources module
+ *
+ * Allocated memory for resource objects and the hash table.
+ *
+ * \param[in]   machine machine name
+ *
+ * \return  0
+ */
 int resources_init(const char *machine)
 {
     unsigned int i;
 
     machine_id = lib_strdup(machine);
-    num_allocated_resources = 100;
+    num_allocated_resources = NUM_ALLOCATED_RESOURCES_INIT;
     num_resources = 0;
     resources = lib_malloc(num_allocated_resources * sizeof(resource_ram_t));
 
