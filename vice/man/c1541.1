@@ -115,6 +115,10 @@ transfer \fIfiles\fR from \fItapeimage\fR to \fIimage\fR (default is all files).
 .B \-unlynx \fIarchive\fR \fI[unit]\fR (unlynx \fIarchive\fR \fI[unit]\fR)
 dissolve Lynx \fIarchive\fR.
 .TP
+.B \-unzip \fId64name\fR \fIzipname\fR [\fIlabel,id\fR] (unzip \fId64name\fR \fIzipname\fR [\fIlabel,id\fR]
+create a D64 disk image from four Zipcoded files named \fI1!zipname\fR through
+\fI4!zipname\fR.
+.TP
 .B \-validate \fIimage\fR (validate)
 validate \fImage\fR.
 .TP
@@ -124,10 +128,6 @@ set verbose mode. Output extra logging information, disable with \fBverbose off\
 .B \-write \fIimage\fR \fIfsname\fR \fI[1541name]\fR (write \fIfsname\fR \fI[1541name]\fR)
 write \fIfsname\fR to \fIimage\fR as \fI1541name\fR (\fIfsname\fR by default).
 (works with \fIP00\fR files as well).
-.TP
-.B \-zcreate \fIx64name\fR \fIzipname\fR [\fIlabel,id\fR] (zcreate \fIx64name\fR \fIzipname\fR [\fIlabel,id\fR]
-create an X64 disk image from four Zipcoded files named \fI1!zipname\fR through
-\fI4!zipname\fR.
 .P
 When more than one command is specified in batch mode, all of them are
 executed in the same order they have on the command line.

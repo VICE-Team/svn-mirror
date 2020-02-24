@@ -231,12 +231,12 @@ static int show_cmd(int nargs, char **args);
 static int tape_cmd(int nargs, char **args);
 static int unit_cmd(int nargs, char **args);
 static int unlynx_cmd(int nargs, char **args);
+static int unzip_cmd(int nargs, char **args);
 static int validate_cmd(int nargs, char **args);
 static int verbose_cmd(int nargs, char **args);
 static int version_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int write_geos_cmd(int nargs, char **args);
-static int zcreate_cmd(int nargs, char **args);
 
 /* other functions */
 static int open_image(int dev, char *name, int create, int disktype);
@@ -496,7 +496,7 @@ const command_t command_list[] = {
       "Create a D64 disk image out of a set of four Zipcoded files named\n"
       "`1!<zipname>', `2!<zipname>', `3!<zipname>' and `4!<zipname>'.",
       2, 3,
-      zcreate_cmd },
+      unzip_cmd },
     { "validate",
       "validate [<unit>]",
       "Validate the disk in unit <unit>.  If <unit> is not specified, "
@@ -527,12 +527,14 @@ const command_t command_list[] = {
     /* FIXME: name is wrong: this doesn't create a zipcoded archive, but
      *        dissolves one, so a better name would be 'unzip' or 'zdecode'.
      * (BW) */
+#if 0
     { "zcreate",
       "zcreate <d64name> <zipname> [<label,id>]",
       "Create a D64 disk image out of a set of four Zipcoded files named\n"
       "`1!<zipname>', `2!<zipname>', `3!<zipname>' and `4!<zipname>'.",
       2, 3,
       zcreate_cmd },
+#endif
     { NULL, NULL, NULL, 0, 0, NULL }
 };
 
@@ -4525,7 +4527,7 @@ static int write_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-static int zcreate_cmd(int nargs, char **args)
+static int unzip_cmd(int nargs, char **args)
 {
     vdrive_t *vdrive = drives[drive_index];
     FILE *fsfd = NULL;
