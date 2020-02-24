@@ -361,12 +361,10 @@ static void resources_free(void)
 }
 
 
-/** \brief  Shutown resources
+/** \brief  Shutdown resources
  */
 void resources_shutdown(void)
 {
-    fprintf(stderr, "resources registered/allocated: %u/%u\n",
-            num_resources, num_allocated_resources);
     resources_free();
 
     lib_free(resources);
