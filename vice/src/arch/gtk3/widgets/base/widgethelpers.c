@@ -38,6 +38,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <string.h>
 
 #include "lib.h"
 #include "resources.h"
@@ -285,8 +286,9 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
     return grid;
 }
 
+
 /** \brief  Convert petscii encoded string to utf8 string we can show using the CBM font
- * 
+ *
  * this function handles all characters that may appear in a directory listing,
  * including "non printable" control characters, which appear as inverted characters
  * in so called "quote mode".
@@ -297,14 +299,14 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
     unsigned int codepoint;
 
     r = d = lib_malloc((size_t)(strlen((char *)s) * 3 + 1));
-    
+
     while (*s) {
-        
+
         /* 0xe000-0xe0ff codepoints cover the regular, uppercase, petscii codes
                          in ranges 0x20-0x7f and 0xa0-0xff
            0xe200-0xe2ff codepoints cover the same characters, but contain the
                          respective inverted glyphs.
-                         
+
            regular valid petscii codes are converted as is, petscii control 
            codes will produce the glyph that the petscii code would produce
            in so called "quote mode".
@@ -330,7 +332,7 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
         s++;
 
         /* now copy to the destination string and convert to utf8 */
-#if 0        
+#if 0
         if (codepoint < 0x80) {
             /* one byte form - 0xxxxxxx */
             *d = codepoint;
@@ -342,10 +344,10 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
             if (codepoint == 0xad) { /* Unicode U+00AD SOFT HYPHEN */
                 codepoint = 0xed;
             }
-                
+
             *d++ = 0xc0 | (codepoint >> 6);
             *d = (codepoint & ~0xc0) | 0x80;
-        } else 
+        } else
 #endif
         /* we can get away with just this, because all codepoints are > 4095 */
         {
@@ -359,6 +361,4 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
     *d = '\0';
     return r;
 }
-
-
 
