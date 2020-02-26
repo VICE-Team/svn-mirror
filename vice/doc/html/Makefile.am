@@ -1,3 +1,4 @@
+AUTOMAKE_OPTIONS = -Wno-portability
 VPATH =
 
 htmldir = $(VICE_DOCDIR)/html
@@ -66,10 +67,12 @@ IMAGES_FILES = \
 	images/new.gif \
 	images/vice-logo.svg
 
+COPIED_FILES = $(if $(subst x.x,,x$(srcdir)x),$(STATIC_FILES) $(FONTS_FILES) $(IMAGES_FILES))
+
 CLEANFILES = \
 	$(GEN_HTML) \
 	$(TEXT_FILES) \
-	$(if $(subst x.x,,x$(srcdir)x),$(STATIC_FILES) $(FONTS_FILES) $(IMAGES_FILES))
+	$(COPIED_FILES)
 
 EXTRA_DIST = \
 	checklinks.sh \
@@ -103,5 +106,5 @@ $(TEXT_FILES): %: $(top_srcdir)/%
 fonts images:
 	mkdir -p "$@"
 
-$(FONTS_FILES) $(IMAGES_FILES) $(STATIC_FILES): %: $(srcdir)/% | fonts images
+$(COPIED_FILES): %: $(srcdir)/% | fonts images
 	cp "$<" "$@"
