@@ -33,13 +33,44 @@
 #include <stdbool.h>
 
 #include "archdep_defs.h"
+#include "log.h"
 
 #ifdef ARCHDEP_OS_UNIX
 # include <sys/utsname.h>
+#elif defined(ARCHDEP_OS_WINDOWS)
+# include <windows.h>
 #endif
 
 
 #include "archdep_get_runtime_info.h"
+
+
+#ifdef ARCHDEP_OS_WINDOWS
+
+/* This was copied from MSDN or so
+ *
+ * Seems to not work properly: returns 32-bit on msys2 on Windows 10 64-bit :)
+ */
+
+typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
+
+
+static BOOL os_is_win64(void)
+{
+    BOOL amd64 = FALSE;
+
+    LPFN_ISWOW64PROCESS fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(
+            GetModuleHandle("kernel32.dll"), "IsWow64Process");
+
+    if (fnIsWow64Process != NULL) {
+        if (!fnIsWow64Process(GetCurrentProcess(), &amd64))  {
+            log_error(LOG_ERR, "failed to determine arch");
+            return FALSE;
+        }
+    }
+    return amd64;
+}
+#endif
 
 
 /** \brief  Get runtime info
@@ -55,7 +86,6 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
 #ifdef ARCHDEP_OS_UNIX
     struct utsname buf;
 #endif
-
     /* set defaults */
     memset(info->os_name, 0, ARCHDEP_RUNTIME_STRMAX);
     memset(info->os_version, 0, ARCHDEP_RUNTIME_STRMAX);
@@ -76,6 +106,16 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
         strncpy(info->machine, buf.machine, ARCHDEP_RUNTIME_STRMAX - 1U);
         return true;
     }
+#elif defined(ARCHDEP_OS_WINDOWS)
+    strcpy(info->os_name, "Windows");
+    strcpy(info->os_version, "[determining version blows]");
+    strcpy(info->os_release, "[determining release is absolutely retarded]");
+    if (os_is_win64()) {
+        strcpy(info->machine, "x86_64 (64-bit)");
+    } else {
+        strcpy(info->machine, "x86 (32-bit)");
+    }
+    return true;
 #endif
     return false;
 }
