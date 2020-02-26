@@ -37,6 +37,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __IBMC__
 #include <direct.h>
@@ -154,7 +156,7 @@ int sidefx = 0;
 int break_on_dummy_access = 0;
 RADIXTYPE default_radix;
 MEMSPACE default_memspace;
-static bool inside_monitor = FALSE;
+static bool inside_monitor = false;
 static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
@@ -431,15 +433,15 @@ bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
 static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
 {
     if (addr_memspace(start_addr) == e_invalid_space) {
-        return FALSE;
+        return false;
     }
 
     if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
         ((addr_memspace(start_addr) != e_default_space) ||
          (addr_memspace(end_addr) != e_default_space))) {
-        return FALSE;
+        return false;
     }
-    return TRUE;
+    return true;
 }
 
 static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
@@ -536,15 +538,15 @@ mon_reg_list_t *mon_register_list_get(int mem)
 bool check_drive_emu_level_ok(int drive_num)
 {
     if (drive_num < 8 || drive_num > 11) {
-        return FALSE;
+        return false;
     }
 
     if (mon_interfaces[monitor_diskspace_mem(drive_num - 8)] == NULL) {
         mon_out("True drive emulation not supported for this machine.\n");
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 void monitor_cpu_type_set(const char *cpu_type)
@@ -1136,13 +1138,13 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     default_radix = e_hexadecimal;
     default_memspace = e_comp_space;
     instruction_count = 0;
-    skip_jsrs = FALSE;
+    skip_jsrs = false;
     wait_for_return_level = 0;
     mon_breakpoint_init();
     data_buf_len = 0;
     asm_mode = 0;
     next_or_step_stop = 0;
-    recording = FALSE;
+    recording = false;
 
     mon_ui_init();
 
@@ -1182,8 +1184,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     /* Safety precaution */
     monitor_cpu_for_memspace[e_default_space] = monitor_cpu_for_memspace[e_comp_space];
 
-    watch_load_occurred = FALSE;
-    watch_store_occurred = FALSE;
+    watch_load_occurred = false;
+    watch_store_occurred = false;
 
     for (i = 1; i < NUM_MEMSPACES; i++) {
         dot_addr[i] = new_addr(e_default_space + i, 0);
@@ -1209,7 +1211,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     mon_memmap_init();
 
     if (mon_init_break != -1) {
-        mon_breakpoint_add_checkpoint((uint16_t)mon_init_break, BAD_ADDR, TRUE, e_exec, FALSE);
+        mon_breakpoint_add_checkpoint((uint16_t)mon_init_break, BAD_ADDR,
+                true, e_exec, false);
     }
 
     if (playback > 0) {
@@ -1608,7 +1611,7 @@ void mon_record_commands(char *filename)
 
     setbuf(recording_fp, NULL);
 
-    recording = TRUE;
+    recording = true;
 }
 
 void mon_end_recording(void)
@@ -1620,7 +1623,7 @@ void mon_end_recording(void)
 
     fclose(recording_fp);
     mon_out("Closed file %s.\n", recording_name);
-    recording = FALSE;
+    recording = false;
 }
 
 static int set_playback_name(const char *param, void *extra_param)
@@ -1915,7 +1918,7 @@ void mon_instructions_step(int count)
     }
     instruction_count = (count >= 0) ? count : 1;
     wait_for_return_level = 0;
-    skip_jsrs = FALSE;
+    skip_jsrs = false;
     exit_mon = 1;
 
     if (instruction_count == 1) {
@@ -1936,7 +1939,7 @@ void mon_instructions_next(int count)
         instruction_count = 1;
     }
     wait_for_return_level = (int)((MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 1 : 0);
-    skip_jsrs = TRUE;
+    skip_jsrs = true;
     exit_mon = 1;
 
     if (instruction_count == 1) {
@@ -1955,7 +1958,7 @@ void mon_instruction_return(void)
             (MONITOR_GET_OPCODE(default_memspace) == OP_RTS
              || MONITOR_GET_OPCODE(default_memspace) == OP_RTI) ?
             0 : (MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 2 : 1);
-    skip_jsrs = TRUE;
+    skip_jsrs = true;
     exit_mon = 1;
 
     monitor_mask[default_memspace] |= MI_STEP;
@@ -2139,7 +2142,7 @@ void monitor_watch_push_load_addr(uint16_t addr, MEMSPACE mem)
         return;
     }
 
-    watch_load_occurred = TRUE;
+    watch_load_occurred = true;
     watch_load_array[watch_load_count[mem]][mem] = addr;
     watch_load_count[mem]++;
 }
@@ -2154,14 +2157,14 @@ void monitor_watch_push_store_addr(uint16_t addr, MEMSPACE mem)
         return;
     }
 
-    watch_store_occurred = TRUE;
+    watch_store_occurred = true;
     watch_store_array[watch_store_count[mem]][mem] = addr;
     watch_store_count[mem]++;
 }
 
 static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
-    bool trap = FALSE;
+    bool trap = false;
     unsigned count, n;
     uint16_t addr = 0;
 
@@ -2171,7 +2174,7 @@ static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned 
     for (n = 0; n < count; n++) {
         addr = watch_load_array[n][mem];
         if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_load)) {
-            trap = TRUE;
+            trap = true;
         }
     }
     watch_load_count[mem] = 0;
@@ -2180,7 +2183,7 @@ static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned 
 
 static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
-    bool trap = FALSE;
+    bool trap = false;
     unsigned count, n;
     uint16_t addr = 0;
 
@@ -2190,7 +2193,7 @@ static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned
     for (n = 0; n < count; n++) {
         addr = watch_store_array[n][mem];
         if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_store)) {
-            trap = TRUE;
+            trap = true;
         }
     }
     watch_store_count[mem] = 0;
@@ -2206,7 +2209,7 @@ int monitor_force_import(MEMSPACE mem)
     bool result;
 
     result = force_array[mem];
-    force_array[mem] = FALSE;
+    force_array[mem] = false;
 
     return result;
 }
@@ -2222,7 +2225,7 @@ void monitor_check_icount(uint16_t pc)
         instruction_count--;
     }
 
-    if (skip_jsrs == TRUE) {
+    if (skip_jsrs == true) {
         /*
             maintain the return level while "trace over"
 
@@ -2269,7 +2272,7 @@ void monitor_check_icount_interrupt(void)
     active, i.e., we're in the single step mode.   */
 
     if (instruction_count) {
-        if (skip_jsrs == TRUE) {
+        if (skip_jsrs == true) {
             wait_for_return_level++;
         }
     }
@@ -2297,7 +2300,7 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
                 monitor_startup(monitor_diskspace_mem(dnr));
             }
         }
-        watch_load_occurred = FALSE;
+        watch_load_occurred = false;
     }
 
     if (watch_store_occurred) {
@@ -2309,7 +2312,7 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
                 monitor_startup(monitor_diskspace_mem(dnr));
             }
         }
-        watch_store_occurred = FALSE;
+        watch_store_occurred = false;
     }
 }
 
@@ -2391,15 +2394,15 @@ static void monitor_open(void)
     if (console_log == NULL) {
         log_error(LOG_DEFAULT, "monitor_open: could not open monitor console.");
         exit_mon = 1;
-        monitor_trap_triggered = FALSE;
+        monitor_trap_triggered = false;
         return;
     }
 
 #ifdef FEATURE_CPUHISTORY
     memmap_state |= MEMMAP_STATE_IN_MONITOR;
 #endif
-    inside_monitor = TRUE;
-    monitor_trap_triggered = FALSE;
+    inside_monitor = true;
+    monitor_trap_triggered = false;
     vsync_suspend_speed_eval();
 
     uimon_notify_change();
@@ -2471,7 +2474,7 @@ static int monitor_process(char *cmd)
                     mon_out("Error while recording commands. Output file closed.\n");
                     fclose(recording_fp);
                     recording_fp = NULL;
-                    recording = FALSE;
+                    recording = false;
                 }
             }
 
@@ -2501,7 +2504,7 @@ static void monitor_close(int check)
 #ifdef FEATURE_CPUHISTORY
     memmap_state &= ~(MEMMAP_STATE_IN_MONITOR);
 #endif
-    inside_monitor = FALSE;
+    inside_monitor = false;
     vsync_suspend_speed_eval();
 
     if (exit_mon) {
@@ -2581,7 +2584,7 @@ static void monitor_trap(uint16_t addr, void *unused_data)
 void monitor_startup_trap(void)
 {
     if (!monitor_trap_triggered && !inside_monitor) {
-        monitor_trap_triggered = TRUE;
+        monitor_trap_triggered = true;
         interrupt_maincpu_trigger_trap(monitor_trap, 0);
     }
 }
