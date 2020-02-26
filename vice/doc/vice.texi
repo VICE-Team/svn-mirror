@@ -1135,10 +1135,10 @@ VICE supports the most popular Commodore file formats:
 
 @end itemize
 
-An utility (@code{c1541}, @pxref{c1541}) is provided to allow transfers
+A utility (@code{c1541}, @pxref{c1541}) is provided to allow transfers
 and conversions between these formats.
 
-Notice that the use of the @code{X64} file format is depreciated now.
+Notice that the use of the @code{X64} file format is deprecated now.
 
 @cindex Converting X64 files into D64
 You can convert an @code{X64} file back into a @code{D64} file with the
