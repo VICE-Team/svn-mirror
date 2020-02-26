@@ -47,9 +47,19 @@
 
 #ifdef ARCHDEP_OS_WINDOWS
 
-/* This was copied from MSDN or so
+/* The following might seem weird and convoluted, and it is: Windows does not
+ * have a simple method to determine what arch a process is running on.
  *
- * Seems to not work properly: returns 32-bit on msys2 on Windows 10 64-bit :)
+ * IsWow64Process() doesn't test for a process being a 64-bit process, it
+ * tests if a 32-bit process is being run as a 64-bit process.
+ *
+ * We can check if we are compiled as 64-bit, in that case, we cannot run on
+ * 32-bit and thus we're running on 64-bit. Done.
+ *
+ * If we are compiled as 32-bit. we might be running as 64-bit, check that via
+ * IsWow64Process()
+ *
+ * By Loki, Windows is great!
  */
 
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
@@ -57,10 +67,14 @@ typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 
 static BOOL os_is_win64(void)
 {
+    /* IsWow64Process() returns FALSE when both OS and process are 64-bit */
+#ifdef _WIN64
+    return TRUE;
+#else
     BOOL amd64 = FALSE;
 
     LPFN_ISWOW64PROCESS fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(
-            GetModuleHandle("kernel32.dll"), "IsWow64Process");
+            GetModuleHandle("kernel32"), "IsWow64Process");
 
     if (fnIsWow64Process != NULL) {
         if (!fnIsWow64Process(GetCurrentProcess(), &amd64))  {
@@ -69,6 +83,7 @@ static BOOL os_is_win64(void)
         }
     }
     return amd64;
+#endif
 }
 #endif
 
