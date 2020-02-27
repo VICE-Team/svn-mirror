@@ -31,13 +31,13 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-int (*carthelpers_save_func)(int type, const char *filename);
-int (*carthelpers_flush_func)(int type);
-int (*carthelpers_is_enabled_func)(int type);
-int (*carthelpers_enable_func)(int type);
-int (*carthelpers_disable_func)(int type);
-int (*carthelpers_can_save_func)(int type);
-int (*carthelpers_can_flush_func)(int type);
+extern int (*carthelpers_save_func)(int type, const char *filename);
+extern int (*carthelpers_flush_func)(int type);
+extern int (*carthelpers_is_enabled_func)(int type);
+extern int (*carthelpers_enable_func)(int type);
+extern int (*carthelpers_disable_func)(int type);
+extern int (*carthelpers_can_save_func)(int type);
+extern int (*carthelpers_can_flush_func)(int type);
 
 
 void carthelpers_set_functions(
