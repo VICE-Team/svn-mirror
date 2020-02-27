@@ -13692,6 +13692,13 @@ complete emulator state into one file for later use.
 You can therefore save the emulator state - including the state of
 the game you are playing for example - in a single file.
 
+Important note: In the past the idea was that snapshots with the same major
+version can be exchanged with later versions of the emulator. However, this 
+proved to be too difficult to maintain, and insanely hard to test for
+correctness, which is why now the emulator will reject the snapshot when it
+finds a module that is too old. @b{Because of this you should not use snapshots
+for permanent/long term storage.}
+
 @menu
 * Snapshot usage::
 * Snapshot format::
