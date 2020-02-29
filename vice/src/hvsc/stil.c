@@ -365,7 +365,8 @@ static void stil_block_free(hvsc_stil_block_t *block)
 static int stil_block_add_field(hvsc_stil_block_t *block,
                                  hvsc_stil_field_t *field)
 {
-    hvsc_dbg("max = %zu, used = %zu\n", block->fields_max, block->fields_used);
+    hvsc_dbg("max = %" PRI_SIZE_T ", used = %" PRI_SIZE_T "\n",
+            `block->fields_max, block->fields_used);
     /* do we need to resize the array? */
     if (block->fields_max == block->fields_used) {
         /* yep */
@@ -597,7 +598,7 @@ static int hvsc_stil_entry_add_line(hvsc_stil_t *handle, const char *line)
     char *tmp;
 
     if (handle->entry_bufmax == handle->entry_bufused) {
-        hvsc_dbg("resizing line buffer to %zu entries\n",
+        hvsc_dbg("resizing line buffer to %" PRI_SIZE_T " entries\n",
                 handle->entry_bufmax * 2);
         buffer = realloc(handle->entry_buffer,
                 (handle->entry_bufmax * 2) * sizeof *(handle->entry_buffer));

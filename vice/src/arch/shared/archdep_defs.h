@@ -206,4 +206,21 @@
 #define ARCHDEP_AUTOSTART_DISKIMAGE_SUFFIX  ".d64"
 
 
+/* Declare extra printf specifiers for Windows since Microsoft's support for
+ * C99 fucking sucks.
+ *
+ * This declares PRI_SIZE_T for use on all platforms, aliasing to 'zu' on
+ * anything not Windows, and using PRIu[32|64] on Windows.
+ */
+#ifdef _WIN32
+# include <inttypes.h>
+# ifdef _WIN64
+#  define PRI_SIZE_T    PRIu64
+# else
+#  define PRI_SIZE_T    PRIu32
+# endif
+#else
+# define PRI_SIZE_T     "zu"
+#endif
+
 #endif

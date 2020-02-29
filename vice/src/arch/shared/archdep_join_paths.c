@@ -74,7 +74,7 @@ char *archdep_join_paths(const char *path, ...)
     va_end(ap);
 #if 0
     /* cannot use %zu here due to MS' garbage C lib */
-    printf("%s: result length: %lu\n", __func__, (unsigned long)result_len);
+    printf("%s: result length: %" PRI_SIZE_T "\n", __func__, result_len);
 #endif
     /* initialize result string */
     result = lib_calloc(result_len + 1, 1);
