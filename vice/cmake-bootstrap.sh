@@ -39,6 +39,17 @@ find . -type f -name 'CMakeCache.txt' -exec rm {} \;
 find . -type f -name 'cmake_install.cmake' -exec rm {} \;
 find . -type d -name 'CMakeFiles' | xargs -IQQQ rm -rf "QQQ"
 
+# Initialise user variables if not set
+if [ -z ${CFLAGS+x} ]
+then
+	CFLAGS=""
+fi
+
+if [ -z ${CXXFLAGS+x} ]
+then
+	CXXFLAGS=""
+fi
+
 # Quiet versions of pushd and popd
 function pushdq {
 	pushd $1 > /dev/null
@@ -50,6 +61,10 @@ function popdq {
 
 function unique_preserve_order {
 	awk '!x[$0]++'
+}
+
+function space {
+	echo -n ' '
 }
 
 function extract_make_var {
@@ -79,17 +94,17 @@ function extract_make_var {
 }
 
 function extract_include_dirs {
-	(extract_make_var VICE_CFLAGS; extract_make_var VICE_CXXFLAGS; extract_make_var AM_CPPFLAGS) \
+	(extract_make_var VICE_CFLAGS; space; extract_make_var VICE_CXXFLAGS; space; extract_make_var AM_CPPFLAGS) \
 		| sed $'s/ -/\\\n-/g' | grep '^-I' | sed 's/^-I//' | unique_preserve_order | tr "\n" " "
 }
 
 function extract_compile_definitions {
-	(extract_make_var COMPILE; extract_make_var CXXCOMPILE) \
+	(extract_make_var COMPILE; space; extract_make_var CXXCOMPILE) \
 		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
 }
 
 function extract_compile_definitions {
-	(extract_make_var COMPILE; extract_make_var CXXCOMPILE) \
+	(extract_make_var COMPILE; space; extract_make_var CXXCOMPILE) \
 		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
 }
 
@@ -134,11 +149,11 @@ function extract_non_include_non_def_flags {
 }
 
 function extract_cxxflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_CXXFLAGS)
+	extract_non_include_non_def_flags $(extract_make_var AM_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
 }
 
 function extract_cflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS)
+	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
 }
 
 function extract_ldflags {
