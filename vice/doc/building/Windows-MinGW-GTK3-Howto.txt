@@ -31,7 +31,7 @@ Don't log out of the shell.  After you download xa, go back to the shell.
 Alternatively use wget to download it:
 
 $ cd /c/Users/<login-name>/Downloads/
-$ wget http://www.floodgap.com/retrotech/xa/dists/xa-2.3.9.tar.gz
+$ wget http://www.floodgap.com/retrotech/xa/dists/xa-2.3.10.tar.gz
 
 Make the directory "/usr/local/src/".
 Use tar to unpack xa (use the MSys2 path to where you downloaded it):
@@ -39,11 +39,15 @@ Use tar to unpack xa (use the MSys2 path to where you downloaded it):
 $ cd /usr/local
 $ mkdir -p src
 $ cd src
-$ tar -xzf /c/Users/<login-name>/Downloads/xa-2.3.9.tar.gz
+$ tar -xzf /c/Users/<login-name>/Downloads/xa-2.3.10.tar.gz
+
+NOTE: if fetching the above mentioned tarball fails, then probably XA was 
+      updated, have a look at http://www.floodgap.com/retrotech/xa/dists/ and
+      change the name of the tarball accordingly.
 
 Then, build and install it:
 
-$ cd xa-2.3.9
+$ cd xa-2.3.10
 $ make mingw install
 $ mv ../../bin/xa.exe ../../bin/xa65.exe
 
