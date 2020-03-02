@@ -41,14 +41,6 @@
 # include "windows.h"
 #endif
 
-/* For the literally ugly hack below */
-#ifdef MACOSX_SUPPORT
-#include <objc/runtime.h>
-#include <objc/message.h>
-#include <CoreFoundation/CFString.h>
-#define OBJC_MSGSEND_FUNC_CAST(...) ((id (*)(__VA_ARGS__))objc_msgSend)
-#endif
-
 /** \brief  Program driver
  *
  * \param[in]   argc    argument count
