@@ -114,6 +114,12 @@ static char *kernal64_rom_name = NULL;
 /* Flag: Do we enable the emulation of banks 2 and 3 of ram? */
 int c128_full_banks;
 
+
+/* Hide the VDC window (Gtk only)
+ */
+static int c128_hide_vdc;
+
+
 /* Flag: Emulate new CIA */
 int cia1_model = CIA_MODEL_6526A;
 int cia2_model = CIA_MODEL_6526A;
@@ -515,6 +521,19 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
+/** \brief  Resource setter for the 'C128HideVDC' resource
+ *
+ * \param[in]   val     new value for the resource (bool)
+ * \param[in]   param   extra data (unused)
+ */
+static int set_c128_hide_vdc(int val, void *param)
+{
+    c128_hide_vdc = val ? 1 : 0;
+    return 0;
+}
+
+
+
 static const resource_string_t resources_string[] = {
     { "ChargenIntName", "chargen", RES_EVENT_NO, NULL,
       &chargen_int_rom_name, set_chargen_int_rom_name, NULL },
@@ -574,6 +593,8 @@ static const resource_int_t resources_int[] = {
       (int *)&sid_quad_address_start, sid_set_sid_quad_address, NULL },
     { "C128FullBanks", 0, RES_EVENT_NO, NULL,
       (int *)&c128_full_banks, set_c128_full_banks, NULL },
+    { "C128HideVDC", 0, RES_EVENT_NO, NULL,
+        &c128_hide_vdc, set_c128_hide_vdc, NULL },
     RESOURCE_INT_LIST_END
 };
 

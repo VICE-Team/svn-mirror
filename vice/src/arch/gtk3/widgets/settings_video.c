@@ -37,6 +37,7 @@
  * $VICERES VICIIHwScale        x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES KeepAspectRatio     -vsid
  * $VICERES TrueAspectRatio     -vsid
+ * $VICERES C128HideVDC         x128
  *
  *  (see included widgets for more resources)
  */
@@ -67,6 +68,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "ui.h"
 #include "basewidgets.h"
 #include "lib.h"
 #include "resourcecheckbutton.h"
@@ -99,6 +101,8 @@ static const char *chip_name[2] = { NULL, NULL };
 static GtkWidget *keep_aspect_widget[2] = { NULL, NULL };
 static GtkWidget *true_aspect_widget[2] = { NULL, NULL };
 
+
+static GtkWidget *parent_widget = NULL;
 
 
 /** \brief  Handler for the "destroy" event of the main widget
@@ -263,6 +267,31 @@ static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
+{
+    int hide;
+    GtkWidget *window;
+
+    hide = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+    window = ui_get_window_by_index(1);    /* FIXME: constant: VDC */
+    if (window != NULL) {
+        if (hide) {
+#if 0
+            /* segfault */
+            gtk_window_close(GTK_WINDOW(parent_widget));
+#endif
+
+            gtk_widget_hide(window);
+            window = ui_get_window_by_index(0);    /* FIXME: VICII */
+            gtk_window_present(GTK_WINDOW(window));
+
+        } else {
+            gtk_widget_show(window);
+        }
+    }
+}
+
+
 /** \brief  Create widget for double size/scan, video cache and vert stretch
  *
  * \param[in]   index   chip index (using in x128)
@@ -412,6 +441,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 {
     GtkWidget *layout;
     GtkWidget *wrapper;
+    GtkWidget *hide_vdc;
 
     widget_title[index] = lib_msprintf("%s Settings", chip);
     chip_name[index] = chip;
@@ -451,6 +481,20 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     wrapper = create_scaling_widget(index, chip);
     gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 4, 3, 1);
 
+    /* Hide VDC checkbox
+     *
+     * Only show when VICII window, VICII settings
+     */
+    if (machine_class == VICE_MACHINE_C128) {
+        /* compare 4 bytes, so perhaps an int cmp is faster? */
+        if (strcmp(chip, "VDC") == 0) {
+            hide_vdc = vice_gtk3_resource_check_button_new(
+                    "C128HideVDC", "Hide VDC display");
+            g_signal_connect(hide_vdc, "toggled",
+                    G_CALLBACK(on_hide_vdc_toggled), NULL);
+            gtk_grid_attach(GTK_GRID(layout), hide_vdc, 0, 5, 3, 1);
+        }
+    }
     gtk_widget_show_all(layout);
     return layout;
 }
@@ -504,6 +548,8 @@ GtkWidget *settings_video_create(GtkWidget *parent)
 GtkWidget *settings_video_create_vdc(GtkWidget *parent)
 {
     GtkWidget *grid;
+
+    parent_widget = parent;
 
     chip_name[0] = NULL;
     chip_name[1] = NULL;

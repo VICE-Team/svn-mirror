@@ -154,6 +154,7 @@ int c128ui_init_early(void)
 int c128ui_init(void)
 {
     int forty;
+    int hide_vdc;
 
     machine_model_widget_getter(c128model_get);
     machine_model_widget_setter(c128model_set);
@@ -201,9 +202,25 @@ int c128ui_init(void)
             }
         }
     }
+
+    /* Hide VDC window, ignoring the stuff before this */
+    if (resources_get_int("C128HideVDC", &hide_vdc) >= 0) {
+        GtkWidget *window;
+
+        if (hide_vdc) {
+            debug_gtk3("Attempting to hide the VDC window according to C128HideVDC");
+            window = ui_get_window_by_index(1); /* VDC */
+            if (window != NULL) {
+                gtk_widget_hide(window);
+            }
+        }
+    }
+
     /* crt preview widget functions */
     crt_preview_widget_set_open_func(crt_open);
     crt_preview_widget_set_chip_func(crt_read_chip_header);
+
+
     return 0;
 }
 
