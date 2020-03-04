@@ -404,6 +404,9 @@ int rs232dev_getc(int fd, uint8_t * b)
 /* set the status lines of the RS232 device */
 int rs232dev_set_status(int fd, enum rs232handshake_out status)
 {
+    if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
+        log_error(rs232dev_log, "Attempted to set status of invalid fd %d.", fd);
+    }    
     /*! \todo dummy */
     return -1;
 }
@@ -411,6 +414,9 @@ int rs232dev_set_status(int fd, enum rs232handshake_out status)
 /* get the status lines of the RS232 device */
 enum rs232handshake_in rs232dev_get_status(int fd)
 {
+    if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
+        log_error(rs232dev_log, "Attempted to get status of invalid fd %d.", fd);
+    }    
     /*! \todo dummy */
     return RS232_HSI_CTS | RS232_HSI_DSR;
 }
@@ -418,6 +424,9 @@ enum rs232handshake_in rs232dev_get_status(int fd)
 /* set the bps rate of the physical device */
 void rs232dev_set_bps(int fd, unsigned int bps)
 {
+    if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
+        log_error(rs232dev_log, "Attempted to set bps of invalid fd %d.", fd);
+    }    
     /*! \todo dummy */
 }
 
