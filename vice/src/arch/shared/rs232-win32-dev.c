@@ -439,6 +439,11 @@ int rs232dev_set_status(int fd, enum rs232handshake_out status)
     DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_set_status(): RTS:%s DTR:%s",
         new_rts ? "on" : "off", new_dtr ? "on" : "off"));
 
+    if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
+        log_error(rs232dev_log, "rs232dev_set_status(): Attempted to set status of invalid fd %d.", fd);
+        return -1;
+    }
+    
     if (fds[fd].type == T_TTY) {
         /* signal the RS232 device the current status, too */
         if (new_rts != fds[fd].rts) {
@@ -503,4 +508,7 @@ void rs232dev_set_bps(int fd, unsigned int bps)
 {
     /*! \todo set the physical bps rate */
     DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev_set_bps(): BPS: %u", bps));
+    if ((fd < 0) || (fd >= RS232_NUM_DEVICES)) {
+        log_error(rs232dev_log, "rs232dev_set_bps(): Attempted to set BPS of invalid fd %d.", fd);
+    }    
 }
