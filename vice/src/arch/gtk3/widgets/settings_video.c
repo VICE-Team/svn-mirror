@@ -267,6 +267,11 @@ static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+/** \brief  Event handler for the 'Hide VDC Window' checkbox
+ *
+ * \param[in]   check   checkbutton triggering the event
+ * \param[in]   data    settings dialog
+ */
 static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
 {
     int hide;
@@ -276,17 +281,17 @@ static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
     window = ui_get_window_by_index(1);    /* FIXME: constant: VDC */
     if (window != NULL) {
         if (hide) {
-#if 0
-            /* segfault */
-            gtk_window_close(GTK_WINDOW(parent_widget));
-#endif
-
+            /* close setting dialog on VDC and VICII window
+             *
+             * FIXME: only close on VICII, good luck with that ;)
+             */
+            gtk_window_close(GTK_WINDOW(data));
+            /* hide VDC window and show VICII window */
             gtk_widget_hide(window);
             window = ui_get_window_by_index(0);    /* FIXME: VICII */
             gtk_window_present(GTK_WINDOW(window));
-
         } else {
-            gtk_widget_show(window);
+                gtk_widget_show(window);
         }
     }
 }
@@ -491,7 +496,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
             hide_vdc = vice_gtk3_resource_check_button_new(
                     "C128HideVDC", "Hide VDC display");
             g_signal_connect(hide_vdc, "toggled",
-                    G_CALLBACK(on_hide_vdc_toggled), NULL);
+                    G_CALLBACK(on_hide_vdc_toggled), parent);
             gtk_grid_attach(GTK_GRID(layout), hide_vdc, 0, 5, 3, 1);
         }
     }
