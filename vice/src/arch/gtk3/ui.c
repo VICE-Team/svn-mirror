@@ -572,6 +572,16 @@ video_canvas_t *ui_get_active_canvas(void)
 }
 
 
+/** \brief  Get the active main window's index
+ *
+ * \return  index of a main emulator window
+ */
+int ui_get_main_window_index(void)
+{
+    return active_win_index;
+}
+
+
 /** \brief  Get a window's index
  *
  * \param[in]   widget      window to get the index of

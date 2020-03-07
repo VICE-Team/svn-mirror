@@ -281,17 +281,16 @@ static void on_hide_vdc_toggled(GtkWidget *check, gpointer data)
     window = ui_get_window_by_index(1);    /* FIXME: constant: VDC */
     if (window != NULL) {
         if (hide) {
-            /* close setting dialog on VDC and VICII window
-             *
-             * FIXME: only close on VICII, good luck with that ;)
-             */
-            gtk_window_close(GTK_WINDOW(data));
+            /* close setting dialog on VDC window */
+            if (ui_get_main_window_index() == SECONDARY_WINDOW) {
+                gtk_window_close(GTK_WINDOW(data));
+            }
             /* hide VDC window and show VICII window */
             gtk_widget_hide(window);
             window = ui_get_window_by_index(0);    /* FIXME: VICII */
             gtk_window_present(GTK_WINDOW(window));
         } else {
-                gtk_widget_show(window);
+            gtk_widget_show(window);
         }
     }
 }
