@@ -4,6 +4,9 @@ AR = @AR@
 
 AM_CFLAGS = @VICE_CFLAGS@
 
+AM_LDFLAGS = @VICE_LDFLAGS@
+
+
 #AM_CXXFLAGS = @VICE_CXXFLAGS@
 
 noinst_LIBRARIES = libresid.a

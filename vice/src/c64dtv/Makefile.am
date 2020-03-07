@@ -22,6 +22,9 @@ AM_CFLAGS = @VICE_CFLAGS@ @INLINE_UNIT_GROWTH@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
+AM_LDFLAGS = @VICE_LDFLAGS@
+
+
 noinst_LIBRARIES = libc64dtv.a libc64dtvstubs.a
 
 libc64dtvstubs_a_SOURCES = \

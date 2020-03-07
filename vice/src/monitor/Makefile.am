@@ -14,6 +14,8 @@ AM_CFLAGS = @VICE_CFLAGS@ -Wno-unused-label -Wno-unreachable-code
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
+AM_LDFLAGS = @VICE_LDFLAGS@
+
 AM_YFLAGS = -dt
 
 noinst_LIBRARIES = libmonitor.a

@@ -19,6 +19,9 @@ AM_CFLAGS = @VICE_CFLAGS@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
+AM_LDFLAGS = @VICE_LDFLAGS@
+
+
 noinst_LIBRARIES = libc64cartsystem.a libc64cart.a libc64commoncart.a
 
 libc64cartsystem_a_SOURCES = \

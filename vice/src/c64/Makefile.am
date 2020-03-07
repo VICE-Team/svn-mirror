@@ -29,6 +29,9 @@ AM_CFLAGS = @VICE_CFLAGS@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
 
+AM_LDFLAGS = @VICE_LDFLAGS@
+
+
 noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
 
 libvsid_a_SOURCES = \
