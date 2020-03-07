@@ -340,11 +340,22 @@
 
 /* Stack operations. */
 
+/* CAUTION: use STORE/LOAD macros instead of directly accessing the memory, 
+            else checkpoints may not trigger */
+#if 0
 #ifndef PUSH
 #define PUSH(val) ((PAGE_ONE)[(reg_sp--)] = ((uint8_t)(val)))
 #endif
 #ifndef PULL
 #define PULL()    ((PAGE_ONE)[(++reg_sp)])
+#endif
+#else
+#ifndef PUSH
+inline void PUSH(uint8_t val) { STORE(0x100 + reg_sp, (val)); reg_sp--; }
+#endif
+#ifndef PULL
+inline uint8_t PULL(void) { reg_sp++; return LOAD(0x100 + reg_sp); }
+#endif
 #endif
 
 #ifdef DEBUG
@@ -473,7 +484,7 @@
 
 /* FIXME: we need to check if this shortcut will not make checkpoints not
           trigger in certain cases. */
-#if 1
+#if 0
 #define FETCH_PARAM(addr) ((((int)(addr)) < bank_limit) ? bank_base[(addr)] : LOAD(addr))
 #define FETCH_PARAM_DUMMY(addr) ((((int)(addr)) < bank_limit) ? bank_base[(addr)] : LOAD_DUMMY(addr))
 #else
@@ -493,6 +504,13 @@
         LOAD((addr) + reg_x_read))                                      \
      : LOAD((addr) + reg_x_read))
 
+#define NOOP_LOAD_ABS_X(addr)                                           \
+    ((((addr) & 0xff) + reg_x_read) > 0xff                              \
+     ? (LOAD_DUMMY(((addr) & 0xff00) | (((addr) + reg_x_read) & 0xff)), \
+        CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
+        LOAD_DUMMY((addr) + reg_x_read))                                \
+     : LOAD_DUMMY((addr) + reg_x_read))
+
 #define LOAD_ABS_X_RMW(addr)                                         \
     (LOAD_DUMMY(((addr) & 0xff00) | (((addr) + reg_x_read) & 0xff)), \
      CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
@@ -510,8 +528,22 @@
      CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
      LOAD((addr) + reg_y_read))
 
+#if 0    
 #define LOAD_IND_X(addr) (CLK_ADD(CLK, 3), LOAD(LOAD_ZERO_ADDR((addr) + reg_x_read)))
+#else
+inline uint8_t LOAD_IND_X(unsigned int addr)
+{
+    unsigned int tmpa;
+    CLK_ADD(CLK, 3);
+    LOAD_ZERO_DUMMY(addr);
+    addr += reg_x_read;
+    tmpa = LOAD_ZERO(addr & 0xff);
+    tmpa |= (LOAD_ZERO((addr + 1) & 0xff) << 8);
+    return LOAD(tmpa);
+}
+#endif
 
+#if 0    
 #define LOAD_IND_Y(addr)                                                    \
     (CLK_ADD(CLK, 2), ((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y_read) > 0xff \
      ? (LOAD((LOAD_ZERO_ADDR((addr)) & 0xff00)                              \
@@ -519,11 +551,47 @@
         CLK_ADD(CLK, CLK_INT_CYCLE),                                        \
         LOAD(LOAD_ZERO_ADDR((addr)) + reg_y_read))                          \
      : LOAD(LOAD_ZERO_ADDR((addr)) + reg_y_read))
-
+#else
+inline uint8_t LOAD_IND_Y(unsigned int addr)
+{
+    unsigned int tmpa;
+    CLK_ADD(CLK, 2);
+    tmpa = LOAD_ZERO(addr);
+    tmpa |= (LOAD_ZERO((addr + 1)) << 8);
+    if (((tmpa & 0xff) + reg_y_read) > 0xff) {
+        CLK_ADD(CLK, CLK_INT_CYCLE);
+        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y_read) & 0xff));
+    }
+    return LOAD(tmpa + reg_y_read);
+}
+#endif
+    
+#if 0    
 #define LOAD_ZERO_X(addr) (LOAD_ZERO((addr) + reg_x_read))
+#define NOOP_LOAD_ZERO_X(addr) (LOAD_ZERO((addr) + reg_x_read))
 
 #define LOAD_ZERO_Y(addr) (LOAD_ZERO((addr) + reg_y_read))
+#else
+inline uint8_t LOAD_ZERO_X(unsigned int addr)
+{
+    LOAD_ZERO_DUMMY(addr);
+    return LOAD_ZERO(addr + reg_x_read);
+}
 
+inline uint8_t NOOP_LOAD_ZERO_X(unsigned int addr)
+{
+    LOAD_ZERO_DUMMY(addr);
+    return LOAD_ZERO_DUMMY(addr + reg_x_read);
+}
+
+inline uint8_t LOAD_ZERO_Y(unsigned int addr)
+{
+    LOAD_ZERO_DUMMY(addr);
+    return LOAD_ZERO(addr + reg_y_read);
+}
+#endif
+
+#if 0
 #define LOAD_IND_Y_BANK(addr)                                               \
     (CLK_ADD(CLK, 2), ((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y_read) > 0xff \
      ? (LOAD_IND((LOAD_ZERO_ADDR((addr)) & 0xff00)                          \
@@ -531,6 +599,20 @@
         CLK_ADD(CLK, CLK_INT_CYCLE),                                        \
         LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y_read))                      \
      : LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y_read))
+#else
+inline uint8_t LOAD_IND_Y_BANK(unsigned int addr)
+{
+    unsigned int tmpa;
+    CLK_ADD(CLK, 2);
+    tmpa = LOAD_ZERO(addr);
+    tmpa |= (LOAD_ZERO(addr + 1) << 8);
+    if (((tmpa & 0xff) + reg_y_read) > 0xff) {
+        CLK_ADD(CLK, CLK_INT_CYCLE);
+        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y_read) & 0xff));
+    }
+    return LOAD_IND(tmpa + reg_y_read);
+}
+#endif
 
 #define STORE_ABS(addr, value, inc) \
     do {                            \
@@ -1048,24 +1130,24 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 /* The 0x02 JAM opcode is also used to patch the ROM.  The function trap_handler()
    returns nonzero if this is not a patch, but a `real' JAM instruction. */
 
-#define JAM_02()                                                                      \
-    do {                                                                              \
+#define JAM_02()                                                                         \
+    do {                                                                                 \
         uint32_t trap_result;                                                            \
-        EXPORT_REGISTERS();                                                           \
+        EXPORT_REGISTERS();                                                              \
         if (!ROM_TRAP_ALLOWED() || (trap_result = ROM_TRAP_HANDLER()) == (uint32_t)-1) { \
-            cpu_is_jammed = 1;                                                        \
-            REWIND_FETCH_OPCODE(CLK);                                                 \
-            JAM();                                                                    \
-        } else {                                                                      \
-            if (trap_result) {                                                        \
-                REWIND_FETCH_OPCODE(CLK);                                             \
-                SET_OPCODE(trap_result);                                              \
-                IMPORT_REGISTERS();                                                   \
-                goto trap_skipped;                                                    \
-            } else {                                                                  \
-                IMPORT_REGISTERS();                                                   \
-            }                                                                         \
-        }                                                                             \
+            cpu_is_jammed = 1;                                                           \
+            REWIND_FETCH_OPCODE(CLK);                                                    \
+            JAM();                                                                       \
+        } else {                                                                         \
+            if (trap_result) {                                                           \
+                REWIND_FETCH_OPCODE(CLK);                                                \
+                SET_OPCODE(trap_result);                                                 \
+                IMPORT_REGISTERS();                                                      \
+                goto trap_skipped;                                                       \
+            } else {                                                                     \
+                IMPORT_REGISTERS();                                                      \
+            }                                                                            \
+        }                                                                                \
     } while (0)
 
 #define JMP(addr)   \
@@ -1083,16 +1165,27 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         JUMP(dest_addr);                                             \
     } while (0)
 
+/* HACK: fix JSR MSB in monitor CPU history */
+#ifdef FEATURE_CPUMEMHISTORY
+#define JSR_FIXUP_MSB(x)    monitor_cpuhistory_fix_p2(x)
+#else
+#define JSR_FIXUP_MSB(x)
+#endif
+
 #define JSR()                                         \
     do {                                              \
+        uint8_t addr_msb;                             \
         unsigned int tmp_addr;                        \
                                                       \
+        LOAD_DUMMY(0x100 + reg_sp);                   \
         CLK_ADD(CLK, 1);                              \
         INC_PC(2);                                    \
         CLK_ADD(CLK, 2);                              \
         PUSH(((reg_pc) >> 8) & 0xff);                 \
         PUSH((reg_pc) & 0xff);                        \
-        tmp_addr = (p1 | (FETCH_PARAM(reg_pc) << 8)); \
+        addr_msb = LOAD(reg_pc);                      \
+        JSR_FIXUP_MSB(addr_msb);                      \
+        tmp_addr = (p1 | (addr_msb << 8));            \
         CLK_ADD(CLK, CLK_JSR_INT_CYCLE);              \
         JUMP(tmp_addr);                               \
     } while (0)
@@ -1218,7 +1311,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 
 #define NOOP_ABS_X()     \
     do {                 \
-        LOAD_ABS_X(p2);  \
+        NOOP_LOAD_ABS_X(p2);  \
         CLK_ADD(CLK, 1); \
         INC_PC(3);       \
     } while (0)
@@ -1241,8 +1334,9 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 
 #define PLA()                         \
     do {                              \
-        uint8_t tmp;                     \
+        uint8_t tmp;                  \
         CLK_ADD(CLK, CLK_STACK_PULL); \
+        LOAD_DUMMY(0x100 + reg_sp);   \
         tmp = PULL();                 \
         reg_a_write(tmp);             \
         LOCAL_SET_NZ(tmp);            \
@@ -1252,7 +1346,9 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 /* FIXME: Rotate disk before executing LOCAL_SET_STATUS().  */
 #define PLP()                                                 \
     do {                                                      \
-        uint8_t s = PULL();                                      \
+        uint8_t s;                                            \
+        LOAD_DUMMY(0x100 + reg_sp);                           \
+        s = PULL();                                           \
                                                               \
         if (!(s & P_INTERRUPT) && LOCAL_INTERRUPT()) {        \
             OPCODE_ENABLES_IRQ();                             \
@@ -1404,23 +1500,25 @@ FIXME: perhaps we really have to add some randomness to (some) bits
    opcode, and thus the 6510 has enough time to call the interrupt routine as
    soon as the opcode ends, if necessary.  */
 /* FIXME: Rotate disk before executing LOCAL_SET_STATUS().  */
-#define RTI()                        \
-    do {                             \
-        uint16_t tmp;                    \
-                                     \
-        CLK_ADD(CLK, CLK_RTI);       \
-        tmp = (uint16_t)PULL();          \
+#define RTI()                           \
+    do {                                \
+        uint16_t tmp;                   \
+                                        \
+        CLK_ADD(CLK, CLK_RTI);          \
+        LOAD_DUMMY(0x100 + reg_sp);     \
+        tmp = (uint16_t)PULL();         \
         LOCAL_SET_STATUS((uint8_t)tmp); \
-        tmp = (uint16_t)PULL();          \
-        tmp |= (uint16_t)PULL() << 8;    \
-        JUMP(tmp);                   \
+        tmp = (uint16_t)PULL();         \
+        tmp |= (uint16_t)PULL() << 8;   \
+        JUMP(tmp);                      \
     } while (0)
 
 #define RTS()                        \
     do {                             \
-        uint16_t tmp;                    \
+        uint16_t tmp;                \
                                      \
         CLK_ADD(CLK, CLK_RTS);       \
+        LOAD_DUMMY(0x100 + reg_sp);  \
         tmp = PULL();                \
         tmp = tmp | (PULL() << 8);   \
         JUMP(tmp);                   \
@@ -2097,11 +2195,10 @@ static const uint8_t rewind_fetch_tab[] = {
             memmap_mark_read(reg_pc);
         }
 #endif
-        if (p0 == 0x20) {
-            monitor_cpuhistory_store(reg_pc, p0, p1, LOAD(reg_pc + 2), reg_a_read, reg_x_read, reg_y_read, reg_sp, LOCAL_STATUS());
-        } else {
-            monitor_cpuhistory_store(reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x_read, reg_y_read, reg_sp, LOCAL_STATUS());
-        }
+        /* If reg_pc >= bank_limit  then JSR (0x20) hasn't load p2 yet.
+           The earlier LOAD(reg_pc+2) hack can break stealing badly.
+           The fixing is now handled in JSR(). */
+        monitor_cpuhistory_store(reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x_read, reg_y_read, reg_sp, LOCAL_STATUS());
         memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
 #endif
 #endif
@@ -2126,7 +2223,7 @@ static const uint8_t rewind_fetch_tab[] = {
             uint8_t hi = (uint8_t)(p2 >> 8);
 
             if (op == 0x20) {
-                hi = LOAD(reg_pc + 2);
+                hi = LOAD(reg_pc + 2);  /* FIXME: this triggers watchpoints eventually */
             }
 
             debug_maincpu((uint32_t)(reg_pc), debug_clk,
@@ -2193,7 +2290,7 @@ trap_skipped:
 #endif
 
             case 0x03:          /* SLO ($nn,X) */
-                SLO(LOAD_ZERO_ADDR(p1 + reg_x_read), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
+                SLO((LOAD_ZERO_DUMMY(p1), LOAD_ZERO_ADDR(p1 + reg_x_read)), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
                 break;
 
             case 0x04:          /* NOOP $nn */
@@ -2272,7 +2369,7 @@ trap_skipped:
             case 0x74:          /* NOOP $nn,X */
             case 0xd4:          /* NOOP $nn,X */
             case 0xf4:          /* NOOP $nn,X */
-                NOOP(CLK_NOOP_ZERO_X, 2);
+                NOOP((NOOP_LOAD_ZERO_X(p1), CLK_NOOP_ZERO_X), 2);
                 break;
 
             case 0x15:          /* ORA $nn,X */
@@ -2280,10 +2377,12 @@ trap_skipped:
                 break;
 
             case 0x16:          /* ASL $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 ASL((p1 + reg_x_read) & 0xff, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
             case 0x17:          /* SLO $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 SLO((p1 + reg_x_read) & 0xff, 0, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
@@ -2338,7 +2437,7 @@ trap_skipped:
                 break;
 
             case 0x23:          /* RLA ($nn,X) */
-                RLA(LOAD_ZERO_ADDR(p1 + reg_x_read), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
+                RLA((LOAD_ZERO_DUMMY(p1), LOAD_ZERO_ADDR(p1 + reg_x_read)), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
                 break;
 
             case 0x24:          /* BIT $nn */
@@ -2402,10 +2501,12 @@ trap_skipped:
                 break;
 
             case 0x36:          /* ROL $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 ROL((p1 + reg_x_read) & 0xff, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
             case 0x37:          /* RLA $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 RLA((p1 + reg_x_read) & 0xff, 0, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
@@ -2442,7 +2543,7 @@ trap_skipped:
                 break;
 
             case 0x43:          /* SRE ($nn,X) */
-                SRE(LOAD_ZERO_ADDR(p1 + reg_x_read), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
+                SRE((LOAD_ZERO_DUMMY(p1), LOAD_ZERO_ADDR(p1 + reg_x_read)), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
                 break;
 
             case 0x45:          /* EOR $nn */
@@ -2515,10 +2616,12 @@ trap_skipped:
                 break;
 
             case 0x56:          /* LSR $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 LSR((p1 + reg_x_read) & 0xff, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
             case 0x57:          /* SRE $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 SRE((p1 + reg_x_read) & 0xff, 0, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
@@ -2555,7 +2658,7 @@ trap_skipped:
                 break;
 
             case 0x63:          /* RRA ($nn,X) */
-                RRA(LOAD_ZERO_ADDR(p1 + reg_x_read), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
+                RRA((LOAD_ZERO_DUMMY(p1), LOAD_ZERO_ADDR(p1 + reg_x_read)), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
                 break;
 
             case 0x65:          /* ADC $nn */
@@ -2628,10 +2731,12 @@ trap_skipped:
                 break;
 
             case 0x76:          /* ROR $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 ROR((p1 + reg_x_read) & 0xff, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
             case 0x77:          /* RRA $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 RRA((p1 + reg_x_read) & 0xff, 0, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
@@ -2668,11 +2773,11 @@ trap_skipped:
                 break;
 
             case 0x81:          /* STA ($nn,X) */
-                STA(LOAD_ZERO_ADDR(p1 + reg_x_read), 3, 1, 2, STORE_ABS);
+                STA((LOAD_ZERO_DUMMY(p1), LOAD_ZERO_ADDR(p1 + reg_x_read)), 3, 1, 2, STORE_ABS);
                 break;
 
             case 0x83:          /* SAX ($nn,X) */
-                SAX(LOAD_ZERO_ADDR(p1 + reg_x_read), 3, 1, 2);
+                SAX((LOAD_ZERO_DUMMY(p1), LOAD_ZERO_ADDR(p1 + reg_x_read)), 3, 1, 2);
                 break;
 
             case 0x84:          /* STY $nn */
@@ -2732,19 +2837,19 @@ trap_skipped:
                 break;
 
             case 0x94:          /* STY $nn,X */
-                STY_ZERO(p1 + reg_x_read, CLK_ZERO_I_STORE, 2);
+                STY_ZERO((LOAD_ZERO_DUMMY(p1), p1 + reg_x_read), CLK_ZERO_I_STORE, 2);
                 break;
 
             case 0x95:          /* STA $nn,X */
-                STA_ZERO(p1 + reg_x_read, CLK_ZERO_I_STORE, 2);
+                STA_ZERO((LOAD_ZERO_DUMMY(p1), p1 + reg_x_read), CLK_ZERO_I_STORE, 2);
                 break;
 
             case 0x96:          /* STX $nn,Y */
-                STX_ZERO(p1 + reg_y_read, CLK_ZERO_I_STORE, 2);
+                STX_ZERO((LOAD_ZERO_DUMMY(p1), p1 + reg_y_read), CLK_ZERO_I_STORE, 2);
                 break;
 
             case 0x97:          /* SAX $nn,Y */
-                SAX((p1 + reg_y_read) & 0xff, 0, CLK_ZERO_I_STORE, 2);
+                SAX((LOAD_ZERO_DUMMY(p1), (p1 + reg_y_read) & 0xff), 0, CLK_ZERO_I_STORE, 2);
                 break;
 
             case 0x98:          /* TYA */
@@ -2984,10 +3089,12 @@ trap_skipped:
                 break;
 
             case 0xd6:          /* DEC $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 DEC((p1 + reg_x_read) & 0xff, CLK_ZERO_I_RMW, 2, LOAD_ABS, STORE_ABS);
                 break;
 
             case 0xd7:          /* DCP $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 DCP((p1 + reg_x_read) & 0xff, 0, CLK_ZERO_I_RMW, 2, LOAD_ABS, STORE_ABS);
                 break;
 
@@ -3024,7 +3131,7 @@ trap_skipped:
                 break;
 
             case 0xe3:          /* ISB ($nn,X) */
-                ISB(LOAD_ZERO_ADDR(p1 + reg_x_read), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
+                ISB((LOAD_ZERO_DUMMY(p1), LOAD_ZERO_ADDR(p1 + reg_x_read)), 3, CLK_IND_X_RMW, 2, LOAD_ABS, STORE_ABS);
                 break;
 
             case 0xe4:          /* CPX $nn */
@@ -3092,10 +3199,12 @@ trap_skipped:
                 break;
 
             case 0xf6:          /* INC $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 INC((p1 + reg_x_read) & 0xff, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
             case 0xf7:          /* ISB $nn,X */
+                LOAD_ZERO_DUMMY(p1);
                 ISB((p1 + reg_x_read) & 0xff, 0, CLK_ZERO_I_RMW, 2, LOAD_ZERO, STORE_ABS);
                 break;
 
