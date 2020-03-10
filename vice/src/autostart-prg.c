@@ -238,7 +238,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     case DRIVE_TYPE_1001:
         disk_image_type = DISK_IMAGE_TYPE_D82;
         break;
-    default: 
+    default:
         log_error(log, "No idea what disk image format to use.");
         return -1;
     }
