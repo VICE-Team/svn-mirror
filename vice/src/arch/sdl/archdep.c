@@ -1,9 +1,11 @@
+/** \file   archdep.c
+ * \brief   Miscellaneous system-specific stuff for SDL
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * archdep.c - Miscellaneous system-specific stuff.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -250,7 +252,7 @@ static char *argv0 = NULL;
 #if defined(ARCHDEP_OS_BEOS)
 static char *orig_workdir = NULL;
 #endif
-#if defined(ARCHDEP_OS_AMIGA)    
+#if defined(ARCHDEP_OS_AMIGA)
 static int run_from_wb = 0;
 #endif
 
@@ -263,22 +265,22 @@ static int archdep_init_extra(int *argc, char **argv)
     _setmode(_fileno(stdin), O_BINARY);
     _setmode(_fileno(stdout), O_BINARY);
 #endif
-    
+
 #if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_BEOS) || defined(ARCHDEP_OS_OS2)
     argv0 = lib_strdup(argv[0]);
 #endif
 #if defined(ARCHDEP_OS_BEOS)
     orig_workdir = getcwd(NULL, PATH_MAX);
 #endif
-    
-#if defined(ARCHDEP_OS_AMIGA)    
+
+#if defined(ARCHDEP_OS_AMIGA)
     if (*argc == 0) { /* run from WB */
         run_from_wb = 1;
     } else { /* run from CLI */
         run_from_wb = 0;
     }
     load_libs();
-#endif    
+#endif
     return 0;
 }
 
@@ -288,10 +290,10 @@ static void archdep_shutdown_extra(void)
     if (argv0) {
         lib_free(argv0);
     }
-#if defined(ARCHDEP_OS_AMIGA)    
+#if defined(ARCHDEP_OS_AMIGA)
     lib_free(boot_path);
     close_libs();
-#endif    
+#endif
 }
 
 /******************************************************************************/
