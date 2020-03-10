@@ -149,7 +149,7 @@ int autostart_prg_with_virtual_fs(const char *file_name,
     char *directory;
     char *file;
 
-    DBG(("autostart_prg_with_virtual_fs"));    
+    DBG(("autostart_prg_with_virtual_fs"));
 
     /* Extract the directory path to allow FS-based drive emulation to
        work.  */
@@ -215,12 +215,12 @@ int autostart_prg_with_disk_image(const char *file_name,
     case DRIVE_TYPE_1551:
     case DRIVE_TYPE_1570:
     case DRIVE_TYPE_2031:
-        disk_image_type = DISK_IMAGE_TYPE_D64; 
+        disk_image_type = DISK_IMAGE_TYPE_D64;
         break;
     case DRIVE_TYPE_2040:
     case DRIVE_TYPE_3040:
     case DRIVE_TYPE_4040:
-        disk_image_type = DISK_IMAGE_TYPE_D67; 
+        disk_image_type = DISK_IMAGE_TYPE_D67;
         break;
     case DRIVE_TYPE_1571:
     case DRIVE_TYPE_1571CR:
@@ -229,7 +229,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     case DRIVE_TYPE_1581:
     case DRIVE_TYPE_2000:
     case DRIVE_TYPE_4000:
-        disk_image_type = DISK_IMAGE_TYPE_D81; 
+        disk_image_type = DISK_IMAGE_TYPE_D81;
         break;
     case DRIVE_TYPE_8050:
         disk_image_type = DISK_IMAGE_TYPE_D80;
@@ -289,7 +289,7 @@ int autostart_prg_with_disk_image(const char *file_name,
         if (file_name_size > 16) {
             file_name_size = 16;
         }
-            
+
         /* open file on disk */
         if (vdrive_iec_open(vdrive, (const uint8_t *)tempname, file_name_size, secondary, NULL) != SERIAL_OK) {
             log_error(log, "Could not open file");
