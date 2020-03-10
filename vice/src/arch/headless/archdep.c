@@ -42,6 +42,7 @@
 #include "lib.h"
 #include "log.h"
 
+#include "../shared/archdep_create_user_cache_dir.h"
 #include "../shared/archdep_create_user_config_dir.h"
 
 /** \brief  Reference to argv[0]
@@ -77,6 +78,7 @@ int archdep_init(int *argc, char **argv)
     /* set argv0 for program_name()/boot_path() calls (yes, not ideal) */
     archdep_program_path_set_argv0(argv[0]);
 
+    archdep_create_user_cache_dir();
     archdep_create_user_config_dir();
 
     /* needed for early log control (parses for -silent/-verbose) */
@@ -90,7 +92,7 @@ int archdep_init(int *argc, char **argv)
 void archdep_shutdown(void)
 {
     /* printf("%s\n", __func__); */
-    
+
     /* free memory used by the exec path */
     archdep_program_path_free();
     /* free memory used by the exec name */
@@ -99,6 +101,8 @@ void archdep_shutdown(void)
     archdep_boot_path_free();
     /* free memory used by the home path */
     archdep_home_path_free();
+    /* free memory used by the cache files path */
+    archdep_user_cache_path_free();
     /* free memory used by the config files path */
     archdep_user_config_path_free();
     /* free memory used by the sysfile pathlist */

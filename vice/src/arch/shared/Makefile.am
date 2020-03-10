@@ -36,6 +36,7 @@ libarchdep_a_SOURCES = \
 	archdep_atexit.c \
 	archdep_boot_path.c \
 	archdep_cbmfont.c \
+	archdep_create_user_cache_dir.c \
 	archdep_create_user_config_dir.c \
 	archdep_default_autostart_disk_image_file_name.c \
 	archdep_default_fliplist_file_name.c \
@@ -82,6 +83,7 @@ libarchdep_a_SOURCES = \
 	archdep_startup_log_error.c \
 	archdep_stat.c \
 	archdep_tmpnam.c \
+	archdep_user_cache_path.c \
 	archdep_user_config_path.c \
 	archdep_usleep.c \
 	archdep_xdg.c \
@@ -97,6 +99,7 @@ EXTRA_DIST = \
 	archdep_atexit.h \
 	archdep_boot_path.h \
 	archdep_cbmfont.h \
+	archdep_create_user_cache_dir.h \
 	archdep_create_user_config_dir.h \
 	archdep_default_autostart_disk_image_file_name.h \
 	archdep_default_fliplist_file_name.h \
@@ -140,6 +143,7 @@ EXTRA_DIST = \
 	archdep_startup_log_error.h \
 	archdep_stat.h \
 	archdep_tmpnam.h \
+	archdep_user_cache_path.h \
 	archdep_user_config_path.h \
 	archdep_unix.h \
 	archdep_usleep.h \

@@ -244,6 +244,8 @@ void close_libs(void)
  *      src/arch/shared
  */
 #include "../shared/archdep_atexit.h"
+#include "../shared/archdep_create_user_cache_dir.h"
+#include "../shared/archdep_user_cache_path.h"
 #include "../shared/archdep_create_user_config_dir.h"
 #include "../shared/archdep_user_config_path.h"
 
@@ -302,6 +304,7 @@ int archdep_init(int *argc, char **argv)
 {
     archdep_program_path_set_argv0(argv[0]);
 
+    archdep_create_user_cache_dir();
     archdep_create_user_config_dir();
 
     if (SDL_REALINIT(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
@@ -335,6 +338,8 @@ void archdep_shutdown(void)
     archdep_boot_path_free();
     /* free memory used by the home path */
     archdep_home_path_free();
+    /* free memory used by the cache files path */
+    archdep_user_cache_path_free();
     /* free memory used by the config files path */
     archdep_user_config_path_free();
     /* free memory used by the sysfile pathlist */

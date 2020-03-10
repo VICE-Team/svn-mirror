@@ -3,6 +3,7 @@
  *
  * \author  Andreas Boose <viceteam@t-online.de>
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -42,7 +43,7 @@
 extern int archdep_init(int *argc, char **argv);
 extern void archdep_startup_log_error(const char *format, ...);
 
-/* 
+/*
  * refactored into src/arch/shared/
  */
 
@@ -88,6 +89,9 @@ void        archdep_vice_exit(int excode);
 char *      archdep_get_vice_docsdir(void);
 /* Get the absolute path to the directory that contains resources, icons, etc */
 char *      archdep_get_vice_datadir(void);
+
+char *      archdep_user_cache_path(void);
+void        archdep_user_cache_path_free(void);
 
 char *      archdep_user_config_path(void);
 void        archdep_user_config_path_free(void);

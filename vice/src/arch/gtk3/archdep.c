@@ -52,6 +52,7 @@
 /* Will get fixed once the code in this file gets moved to its proper location */
 #include "../shared/archdep_xdg.h"
 #include "../shared/archdep_defs.h"
+#include "../shared/archdep_create_user_cache_dir.h"
 #include "../shared/archdep_create_user_config_dir.h"
 #include "../shared/archdep_join_paths.h"
 #include "../shared/archdep_get_vice_docsdir.h"
@@ -86,6 +87,7 @@ int archdep_init(int *argc, char **argv)
 #ifdef HAVE_DEBUG_GTK3UI
     const char *prg_name;
     char *cfg_path;
+    char *cache_path;
     char *searchpath;
     char *vice_ini;
     char *datadir;
@@ -101,6 +103,7 @@ int archdep_init(int *argc, char **argv)
     /* set argv0 for program_name()/boot_path() calls (yes, not ideal) */
     archdep_program_path_set_argv0(argv[0]);
 
+    archdep_create_user_cache_dir();
     archdep_create_user_config_dir();
 
 #ifdef HAVE_DEBUG_GTK3UI
@@ -108,12 +111,14 @@ int archdep_init(int *argc, char **argv)
     prg_name = archdep_program_name();
     searchpath = archdep_default_sysfile_pathlist(machine_name);
     cfg_path = archdep_user_config_path();
+    cache_path = archdep_user_cache_path();
     vice_ini = archdep_default_resource_file_name();
     datadir = archdep_get_vice_datadir();
     docsdir = archdep_get_vice_docsdir();
 
     debug_gtk3("program name    = \"%s\"", prg_name);
     debug_gtk3("user home dir   = \"%s\"", archdep_home_path());
+    debug_gtk3("user cache dir  = \"%s\"", cache_path);
     debug_gtk3("user config dir = \"%s\"", cfg_path);
     debug_gtk3("prg boot path   = \"%s\"", archdep_boot_path());
     debug_gtk3("VICE searchpath = \"%s\"", searchpath);
@@ -165,6 +170,8 @@ void archdep_shutdown(void)
     archdep_boot_path_free();
     /* free memory used by the home path */
     archdep_home_path_free();
+    /* free memory used by the cache files path */
+    archdep_user_cache_path_free();
     /* free memory used by the config files path */
     archdep_user_config_path_free();
     /* free memory used by the sysfile pathlist */

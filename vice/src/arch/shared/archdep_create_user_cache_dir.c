@@ -1,5 +1,5 @@
-/** \file   archdep_create_user_config_dir.c
- * \brief   Create user config dir if it doesn't exist already
+/** \file   archdep_create_user_cache_dir.c
+ * \brief   Create user cache dir if it doesn't exist already
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -39,43 +39,43 @@
 #include "archdep_home_path.h"
 #include "archdep_join_paths.h"
 #include "archdep_mkdir.h"
-#include "archdep_user_config_path.h"
+#include "archdep_user_cache_path.h"
 
 #ifdef ARCHDEP_OS_UNIX
 # include <sys/stat.h>
 # include <sys/types.h>
 #endif
 
-#include "archdep_create_user_config_dir.h"
+#include "archdep_create_user_cache_dir.h"
 
 
 /** \brief  Create user config dir if it doesn't exist
  */
-void archdep_create_user_config_dir(void)
+void archdep_create_user_cache_dir(void)
 {
-    char *cfg = archdep_user_config_path();
+    char *cache = archdep_user_cache_path();
 
 #if defined(ARCHDEP_OS_UNIX)
     const char *home = archdep_home_path();
     char *tmp;
 
     /*
-     * Brute force create XDG ~/.config dir
-     * Some systems without X11 don't have ~/.config, which makes sense since
+     * Brute force create XDG ~/.cache dir
+     * Some systems without X11 don't have ~/.cache, which makes sense since
      * XDG is a Freedesktop spec. We use it however for vicerc and other files
      * and it expected to be there
      */
-    tmp = archdep_join_paths(home, ".config", NULL);    /* TODO: use define */
+    tmp = archdep_join_paths(home, ".cache", NULL);    /* TODO: use define */
     mkdir(tmp, 0755);
     errno = 0;
     lib_free(tmp);
 #endif
 
-    if (archdep_mkdir(cfg, 0755) == 0) {
+    if (archdep_mkdir(cache, 0755) == 0) {
         return;     /* we created the dir */
     } else if (errno != EEXIST) {
-        log_error(LOG_ERR, "failed to create user config dir '%s': %d: %s.",
-                cfg, errno, strerror(errno));
+        log_error(LOG_ERR, "failed to create user cache dir '%s': %d: %s.",
+                cache, errno, strerror(errno));
         archdep_vice_exit(1);
     }
 }
