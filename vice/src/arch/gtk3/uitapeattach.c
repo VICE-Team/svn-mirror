@@ -131,12 +131,13 @@ static void on_response(GtkWidget *widget, gint response_id,
 
     debug_gtk3("got response ID %d, index %d.", response_id, index);
 
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+
     switch (response_id) {
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
             lastdir_update(widget, &last_dir);
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Attaching file '%s' to tape unit.", filename);
 
@@ -146,7 +147,6 @@ static void on_response(GtkWidget *widget, gint response_id,
                 /* failed */
                 debug_gtk3("tape attach failed.");
             }
-            g_free(filename);
             g_free(filename_locale);
             gtk_widget_destroy(widget);
             break;
@@ -154,21 +154,21 @@ static void on_response(GtkWidget *widget, gint response_id,
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
             lastdir_update(widget, &last_dir);
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            debug_gtk3("Autostarting file '%s'.", filename);
+            if (filename != NULL) {
+                debug_gtk3("Autostarting file '%s'.", filename);
 
-            filename_locale = file_chooser_convert_to_locale(filename);
-            if (autostart_tape(
-                        filename_locale,
-                        NULL,   /* program name */
-                        index,
-                        AUTOSTART_MODE_RUN) < 0) {
-                /* oeps */
-                debug_gtk3("autostart tape attach failed.");
+                filename_locale = file_chooser_convert_to_locale(filename);
+                if (autostart_tape(
+                            filename_locale,
+                            NULL,   /* program name */
+                            index,
+                            AUTOSTART_MODE_RUN) < 0) {
+                    /* oeps */
+                    debug_gtk3("autostart tape attach failed.");
+                }
+                g_free(filename_locale);
+                gtk_widget_destroy(widget);
             }
-            g_free(filename);
-            g_free(filename_locale);
-            gtk_widget_destroy(widget);
             break;
 
         /* 'Close'/'X' button */
@@ -179,6 +179,9 @@ static void on_response(GtkWidget *widget, gint response_id,
             break;
     }
 
+    if (filename != NULL) {
+        g_free(filename);
+    }
     ui_set_ignore_mouse_hide(FALSE);
 }
 

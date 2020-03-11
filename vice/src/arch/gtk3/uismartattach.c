@@ -218,12 +218,14 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     debug_gtk3("got response ID %d, index %d.", response_id, index);
 #endif
 
+    /* gonna needs this in multiple checks */
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+
     switch (response_id) {
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
             lastdir_update(widget, &last_dir);
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             filename_locale = file_chooser_convert_to_locale(filename);
 
             /* ui_message("Opening file '%s' ...", filename); */
@@ -239,7 +241,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                 debug_gtk3("smart attach failed.");
             }
 
-            g_free(filename);
             g_free(filename_locale);
             gtk_widget_destroy(widget);
             break;
@@ -247,33 +248,10 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
             /* do we actually have a file to autostart? */
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            if (filename == NULL || *filename == '\0') {
-                debug_gtk3("Autostart: didnt get a proper file.");
-                break;
+            if (filename != NULL) {
+                do_autostart(widget, user_data);
+                gtk_widget_destroy(widget);
             }
-            g_free(filename);
-
-            do_autostart(widget, user_data);
-#if 0
-            lastdir_update(widget, &last_dir);
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            debug_gtk3("Autostarting file '%s'.", filename);
-            /* if this function exists, why is there no attach_autodetect()
-             * or something similar? -- compyx */
-            if (autostart_autodetect(
-                        filename,
-                        NULL,   /* program name */
-                        index,  /* Program number? Probably used when clicking
-                                   in the preview widget to load the proper
-                                   file in an image */
-                        AUTOSTART_MODE_RUN) < 0) {
-                /* oeps */
-                debug_gtk3("autostart-smart-attach failed.");
-            }
-            g_free(filename);
-            gtk_widget_destroy(widget);
-#endif
             break;
 
         /* 'Close'/'X' button */
@@ -284,6 +262,9 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             break;
     }
 
+    if (filename != NULL) {
+        g_free(filename);
+    }
     ui_set_ignore_mouse_hide(FALSE);
 }
 

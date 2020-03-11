@@ -225,6 +225,8 @@ static void on_response(GtkWidget *widget, gint response_id,
     debug_gtk3("got response ID %d, index %d.", response_id, index);
 #endif
 
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+
     switch (response_id) {
 
         /* 'Open' button, double-click on file */
@@ -251,15 +253,18 @@ static void on_response(GtkWidget *widget, gint response_id,
                         unit_number, filename);
             }
             ui_display_statustext(buffer, 1);
-            g_free(filename);
             g_free(filename_locale);
             gtk_widget_destroy(widget);
             break;
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
-            do_autostart(widget, user_data);
-           break;
+            /* did we actually get a filename? */
+            if (filename != NULL) {
+                do_autostart(widget, user_data);
+                gtk_widget_destroy(widget);
+            }
+            break;
 
         /* 'Close'/'X' button */
         case GTK_RESPONSE_REJECT:
@@ -269,6 +274,9 @@ static void on_response(GtkWidget *widget, gint response_id,
             break;
     }
 
+    if (filename != NULL) {
+        g_free(filename);
+    }
     ui_set_ignore_mouse_hide(FALSE);
 }
 
