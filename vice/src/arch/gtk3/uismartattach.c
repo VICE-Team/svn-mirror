@@ -246,6 +246,14 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
+            /* do we actually have a file to autostart? */
+            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+            if (filename == NULL || *filename == '\0') {
+                debug_gtk3("Autostart: didnt get a proper file.");
+                break;
+            }
+            g_free(filename);
+
             do_autostart(widget, user_data);
 #if 0
             lastdir_update(widget, &last_dir);
@@ -340,6 +348,10 @@ static image_contents_t *read_contents_wrapper(const char *path)
  * \param[in]   parent  parent widget, used to get the top level window
  *
  * \return  GtkFileChooserDialog
+ *
+ * \todo    Figure out how to only enable the 'Autostart' button when an actual
+ *          file/image has been selected. And when I do, make sure it's somehow
+ *          reusable for other 'open file' dialogs'.
  */
 static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
 {
