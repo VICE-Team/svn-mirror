@@ -72,6 +72,9 @@ static GtkWidget *preview_widget = NULL;
 static gchar *last_dir = NULL;
 
 
+static GtkWidget *autostart_button;
+
+
 #if 0
 /** \brief  Update the last directory reference
  *
@@ -136,6 +139,22 @@ static void on_file_activated(GtkWidget *chooser, gpointer data)
 }
 #endif
 
+
+
+void on_selection_changed(GtkFileChooser *chooser, gpointer data)
+{
+    gchar *filename;
+
+    debug_gtk3("Called.");
+
+    filename = gtk_file_chooser_get_filename(chooser);
+    if (filename != NULL) {
+        gtk_widget_set_sensitive(autostart_button, TRUE);
+        g_free(filename);
+    } else {
+        gtk_widget_set_sensitive(autostart_button, FALSE);
+    }
+}
 
 
 /** \brief  Handler for the "update-preview" event
@@ -348,9 +367,14 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
             "Open", GTK_RESPONSE_ACCEPT,
-            "Autostart", VICE_RESPONSE_AUTOSTART,
             "Close", GTK_RESPONSE_REJECT,
             NULL, NULL);
+
+    autostart_button = gtk_dialog_add_button(
+            GTK_DIALOG(dialog),
+            "Autostart",
+            VICE_RESPONSE_AUTOSTART);
+    gtk_widget_set_sensitive(autostart_button, FALSE);
 
     /* set modal so mouse-grab doesn't get triggered */
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
@@ -378,6 +402,8 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
     g_signal_connect(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
+    g_signal_connect(dialog, "selection-changed",
+            G_CALLBACK(on_selection_changed), NULL);
 
 #if 0
     /* Autostart on double-click */
