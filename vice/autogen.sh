@@ -6,6 +6,7 @@
 # Written by
 #  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 #  Marco van den Heuvel <blackystardust68@yahoo.com>
+#  Bas Wassink <b.wassink@ziggo.nl>
 #
 # This file is part of VICE, the Versatile Commodore Emulator.
 # See README for copyright notice.
@@ -25,6 +26,12 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
+
+# VICE version, used generate configure.ac from configure.proto
+VICE_VERSION_MAJOR=42
+VICE_VERSION_MINOR=69
+VICE_VERSION_REV=64738
+
 
 # minimum autoconf version required
 ACONF_VERSION_REQ_MAJ=2
@@ -53,6 +60,7 @@ generate_configure_in() {
 
     if test x"$configure_needs_ac" = "xyes"; then
         sed s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g <configure.proto >configure.ac
+        sed -i "s/BURP_VICE_VERSION_MAJOR_POOT/$VICE_VERSION_MAJOR/g;s/BURP_VICE_VERSION_MINOR_POOT/$VICE_VERSION_MINOR/g;s/BURP_VICE_VERSION_REV_POOT/$VICE_VERSION_REV/g" configure.ac
     else
         cp configure.proto configure.ac
     fi

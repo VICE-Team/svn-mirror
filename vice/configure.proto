@@ -4,7 +4,8 @@ dnl
 dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
-AC_INIT([vice], [3.4])
+dnl The major/minor stuff gets replaced in autogen.sh
+AC_INIT([vice], [BURP_VICE_VERSION_MAJOR_POOT.BURP_VICE_VERSION_MINOR_POOT])
 AC_CONFIG_SRCDIR([src/maincpu.c])
 AM_INIT_AUTOMAKE([-Wno-portability])
 
@@ -23,13 +24,14 @@ VICE_LDFLAGS=""
 
 AC_CONFIG_MACRO_DIR([m4])
 
+dnl Again: sed substitutes this
+VICE_VERSION_MAJOR=BURP_VICE_VERSION_MAJOR_POOT
+VICE_VERSION_MINOR=BURP_VICE_VERSION_MINOR_POOT
+VICE_VERSION_BUILD=BURP_VICE_VERSION_REV_POOT
+
+
 dnl Command-line options
 VICE_ARG_INIT()
-
-VICE_VERSION_MAJOR=3
-VICE_VERSION_MINOR=4
-VICE_VERSION_BUILD=0
-
 VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system readline library])
 VICE_ARG_WITH_LIST(pulse,         [  --without-pulse         do not use PulseAudio sound system])
 VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA sound system])
