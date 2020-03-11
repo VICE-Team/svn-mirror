@@ -60,7 +60,7 @@ generate_configure_in() {
 
     if test x"$configure_needs_ac" = "xyes"; then
         sed s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g <configure.proto >configure.ac
-        sed -i "s/BURP_VICE_VERSION_MAJOR_POOT/$VICE_VERSION_MAJOR/g;s/BURP_VICE_VERSION_MINOR_POOT/$VICE_VERSION_MINOR/g;s/BURP_VICE_VERSION_REV_POOT/$VICE_VERSION_REV/g" configure.ac
+        sed -i "s/__VICE_VERSION_MAJOR__/$VICE_VERSION_MAJOR/g;s/__VICE_VERSION_MINOR__/$VICE_VERSION_MINOR/g;s/__VICE_VERSION_REV__/$VICE_VERSION_REV/g" configure.ac
     else
         cp configure.proto configure.ac
     fi
