@@ -28,9 +28,9 @@
 #
 
 # VICE version, used generate configure.ac from configure.proto
-VICE_VERSION_MAJOR=42
-VICE_VERSION_MINOR=69
-VICE_VERSION_REV=64738
+VICE_VERSION_MAJOR=3
+VICE_VERSION_MINOR=4
+VICE_VERSION_REV=0
 
 
 # minimum autoconf version required
