@@ -155,6 +155,33 @@ static GtkWidget *create_real_device7_checkbox(void)
 }
 
 
+static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
+{
+    int device;
+
+    device = GPOINTER_TO_INT(data);
+
+    debug_gtk3("Got device %d.", device);
+
+    /* can't be sure this works on Windows, windows handles lf very poorly */
+#ifndef ARCHDEP_OS_WINDOWS
+    debug_gtk3("Sending formfeed");
+    printer_formfeed(device - 4);   /* I hope this is like -8 for drives */
+#endif
+
+}
+
+
+static GtkWidget *create_formfeed_button(int device)
+{
+    GtkWidget *button;
+
+    button = gtk_button_new_with_label("Send formfeed");
+    g_signal_connect(button, "clicked", G_CALLBACK(on_formfeed_clicked),
+            GINT_TO_POINTER(device));
+    return button;
+}
+
 
 /** \brief  Create a widget for the settings of printer # \a device
  *
@@ -213,7 +240,8 @@ static GtkWidget *create_printer_widget(int device)
                 printer_output_mode_widget_create(device), 2, 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid),
                 printer_output_device_widget_create(device), 3, 1, 1, 1);
-
+        gtk_grid_attach(GTK_GRID(grid),
+                create_formfeed_button(device), 0, 6, 1, 1);
 
     } else if (device == 7) {
         /* device 7 is 'special' */
