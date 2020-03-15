@@ -68,6 +68,7 @@ uint8_t memmap_state = 0;
 #define MEMMAP_ELEM uint16_t
 
 struct cpuhistory_s {
+   uint32_t cycle;
    uint16_t addr;
    uint8_t op;
    uint8_t p1;
@@ -94,7 +95,7 @@ int monitor_cpuhistory_allocate(int lines)
     return 0;
 }
 
-void monitor_cpuhistory_store(unsigned int addr, unsigned int op,
+void monitor_cpuhistory_store(uint32_t cycle, unsigned int addr, unsigned int op,
                               unsigned int p1, unsigned int p2,
                               uint8_t reg_a,
                               uint8_t reg_x,
@@ -104,6 +105,7 @@ void monitor_cpuhistory_store(unsigned int addr, unsigned int op,
 {
     ++cpuhistory_i;
     cpuhistory_i %= cpuhistory_lines;
+    cpuhistory[cpuhistory_i].cycle = cycle;
     cpuhistory[cpuhistory_i].addr = addr;
     cpuhistory[cpuhistory_i].op = op;
     cpuhistory[cpuhistory_i].p1 = p1;
@@ -129,6 +131,7 @@ void mon_cpuhistory(int count)
     const char *dis_inst;
     unsigned opc_size;
     int i, pos;
+    uint32_t cycle;
 
     if ((count < 1) || (count > cpuhistory_lines)) {
         count = cpuhistory_lines;
@@ -140,6 +143,7 @@ void mon_cpuhistory(int count)
     }
 
     for (i = 0; i < count; ++i) {
+        cycle = cpuhistory[pos].cycle;
         addr = cpuhistory[pos].addr;
         op = cpuhistory[pos].op;
         p1 = cpuhistory[pos].p1;
@@ -148,11 +152,10 @@ void mon_cpuhistory(int count)
         mem = addr_memspace(addr);
         loc = addr_location(addr);
 
-        dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode,
-                                                &opc_size);
-
+        dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode, &opc_size);
+        
         /* Print the disassembled instruction */
-        mon_out("%04x  %-30s - A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c\n",
+        mon_out("%04x  %-30s - A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c %09u\n",
             loc, dis_inst,
             cpuhistory[pos].reg_a, cpuhistory[pos].reg_x, cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
             ((cpuhistory[pos].reg_st & (1 << 7)) != 0) ? 'N' : ' ',
@@ -161,7 +164,8 @@ void mon_cpuhistory(int count)
             ((cpuhistory[pos].reg_st & (1 << 3)) != 0) ? 'D' : ' ',
             ((cpuhistory[pos].reg_st & (1 << 2)) != 0) ? 'I' : ' ',
             ((cpuhistory[pos].reg_st & (1 << 1)) != 0) ? 'Z' : ' ',
-            ((cpuhistory[pos].reg_st & (1 << 0)) != 0) ? 'C' : ' '
+            ((cpuhistory[pos].reg_st & (1 << 0)) != 0) ? 'C' : ' ',
+            cycle
             );
 
         pos = (pos + 1) % cpuhistory_lines;
