@@ -1202,7 +1202,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
     } while (0)
 
 /* HACK: fix JSR MSB in monitor CPU history */
-#ifdef FEATURE_CPUMEMHISTORY
+#if defined(FEATURE_CPUMEMHISTORY) && !defined(DRIVE_CPU)
 #define JSR_FIXUP_MSB(x)    monitor_cpuhistory_fix_p2(x)
 #else
 #define JSR_FIXUP_MSB(x)
