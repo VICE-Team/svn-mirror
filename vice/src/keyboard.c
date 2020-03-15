@@ -1216,6 +1216,8 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
 
     sym = kbd_arch_keyname_to_keynum(key);
 
+    /* log_debug("%s: %s %i", __func__, key, sym); */
+    
     if (sym < 0) {
         log_error(keyboard_log, "Could not find key `%s'!", key);
         return;
@@ -1383,7 +1385,7 @@ static int check_modifiers(const char *filename)
 {
     int n = 0;
     char *ms[8] = {
-        "!LSHIFT ", "!RSHIFT ", "!VSHIFT! ", "!LCBM ", "!VCBM ", "!LCTRL ", "!VCTRL ", "!SHIFTL"
+        "!LSHIFT ", "!RSHIFT ", "!VSHIFT! ", "!LCBM ", "!VCBM ", "!LCTRL ", "!VCTRL ", "!SHIFTL "
     };
     
     if (!lshift_defined()) {
