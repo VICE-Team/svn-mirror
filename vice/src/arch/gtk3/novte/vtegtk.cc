@@ -2330,9 +2330,7 @@ void vte_terminal_set_color_background(NoVteTerminal *terminal,
                                   const GdkRGBA *background)
 {
     g_return_if_fail(VTE_IS_TERMINAL(terminal));
-#if 0
     g_return_if_fail(background != NULL);
-#endif
     g_return_if_fail(valid_color(background));
 
     auto impl = IMPL(terminal);
@@ -2900,9 +2898,7 @@ void vte_terminal_get_geometry_hints(NoVteTerminal *terminal,
     GtkBorder padding;
 
     g_return_if_fail(VTE_IS_TERMINAL(terminal));
-#if 0
     g_return_if_fail(hints != NULL);
-#endif
     widget = &terminal->widget;
     g_return_if_fail(gtk_widget_get_realized(widget));
 
