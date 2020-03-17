@@ -1164,6 +1164,31 @@ void macos_activate_application_workaround()
 #endif
 
 
+/** \brief  Event handler for the rendering area's button presses
+ *
+ * Currently switches fullscreen mode when double-clicking, but can also be
+ * used to present a context menu to for some video settings via right-click,
+ * which is one of our many TODO's.
+ *
+ * \param[in]   canvas  rendering area
+ * \param[in]   event   event object
+ * \param[in]   data    GtkWindow parent of \a canvas
+ *
+ * \return  TRUE (event accepted, don't propagate)
+ */
+static gboolean rendering_area_event_handler(GtkWidget *canvas,
+                                             GdkEventButton *event,
+                                             gpointer data)
+{
+    debug_gtk3("Called!");
+    if (event->type == GDK_DOUBLE_BUTTON_PRESS) {
+        ui_fullscreen_callback(canvas, event);
+    }
+    return TRUE;
+}
+
+
+
 /** \brief  Create a toplevel window to represent a video canvas
  *
  * This function takes a video canvas structure and builds the widgets
@@ -1379,8 +1404,17 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_widget_hide(kbd_widget);
     }
 
+    if (grid != NULL) {
+        /* get rendering area */
+        GtkWidget *render_area = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
 
-
+        /* set up event handler for clicks on the canvas */
+        g_signal_connect(
+                render_area,
+                "button-press-event",
+                G_CALLBACK(rendering_area_event_handler),
+                new_window);
+    }
 
 
 #ifdef MACOSX_SUPPORT
