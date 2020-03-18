@@ -575,8 +575,6 @@ static ui_menu_item_t settings_menu_head[] = {
         "frame-advance", (void *)(ui_advance_frame), NULL,
         GDK_KEY_P, VICE_MOD_MASK | GDK_SHIFT_MASK },
 #endif
-    UI_MENU_SEPARATOR,
-
     UI_MENU_TERMINATOR
 };
 
