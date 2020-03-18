@@ -339,25 +339,20 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
                 "Failed to load PDF",
                 "Error message: %s",
                 error != NULL ? error->message : "<no message>");
+
+        /* fallback to xdg-open */
+        debug_gtk3("Calling xgd-open");
+        char *args[3] = { "xdg-open", uri, NULL };
+        if (archdep_spawn("xdg-open", args, NULL, NULL) < 0) {
+            debug_gtk3("Failed!");
+        } else {
+            debug_gtk3("OK");
+        }
     }
+
     lib_free(uri);
     g_free(final_uri);
     g_clear_error(&error);
-    if (res) {
-        /* We succesfully managed to open the PDF application, but there's no
-         * way to determine if actually loading the PDF in that application
-         * worked. So we simply exit here to avoid also opening a HTML browser
-         * which on Windows at least seems to completely ignore the default and
-         * always starts Internet Explorer (or Edge, even better).
-         *
-         * Also how do we close the PDF application if we could determine it
-         * failed to load the PDF? We don't get any reference to the application
-         * to be able to terminate it. Gtk3 is awesome!
-         *
-         * -- compyx
-         */
-        return TRUE;
-    }
 
     /* No HTML for you! */
     return FALSE;

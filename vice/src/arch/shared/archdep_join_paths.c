@@ -88,7 +88,9 @@ char *archdep_join_paths(const char *path, ...)
         printf("%s: adding '%s' to the result.", __func__, arg);
 #endif
         len = strlen(arg);
-        *endptr++ = ARCHDEP_DIR_SEPARATOR;
+        if (*arg != ARCHDEP_DIR_SEPARATOR) {
+            *endptr++ = ARCHDEP_DIR_SEPARATOR;
+        }
         memcpy(endptr, arg, len + 1);
         endptr += (ptrdiff_t)len;
     }
