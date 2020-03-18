@@ -335,19 +335,30 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
      */
     res = gtk_show_uri_on_window(NULL, final_uri, GDK_CURRENT_TIME, &error);
     if (!res) {
+
+        /* will contain the args for the archep_spawn() call */
+        char *args[3];
+        char *tmp_name;
+
         vice_gtk3_message_error(
                 "Failed to load PDF",
                 "Error message: %s",
                 error != NULL ? error->message : "<no message>");
 
         /* fallback to xdg-open */
+        args[0] = lib_strdup("xdg-open");
+        args[1] = lib_strdup(uri);
+        args[2] = NULL;
+
         debug_gtk3("Calling xgd-open");
-        char *args[3] = { "xdg-open", uri, NULL };
-        if (archdep_spawn("xdg-open", args, NULL, NULL) < 0) {
+        if (archdep_spawn("xdg-open", args, &tmp_name, NULL) < 0) {
             debug_gtk3("Failed!");
         } else {
             debug_gtk3("OK");
         }
+        /* clean up */
+        lib_free(args[0]);
+        lib_free(args[1]);
     }
 
     lib_free(uri);
