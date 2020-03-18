@@ -340,7 +340,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
         char *tmp_name;
 
         debug_gtk3("gtk_show_uri_on_window Failed!");
-        
+
         /* fallback to xdg-open */
         args[0] = lib_strdup("xdg-open");
         args[1] = lib_strdup(uri);
@@ -355,7 +355,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
                     error != NULL ? error->message : "<no message>");
         } else {
             debug_gtk3("OK");
-            res = 1;
+            res = TRUE;
         }
         /* clean up */
         lib_free(args[0]);
@@ -366,7 +366,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     g_free(final_uri);
     g_clear_error(&error);
 
-    return (res == 0) ? FALSE : TRUE;
+    return res;
 }
 
 
