@@ -16072,6 +16072,7 @@ Stop recording commands.  See @code{record}.
 
 @table @code
 
+
 @item add_label <address> <label>
 @itemx al <address> <label>
 Map a given address to a label.  This label can be used when entering
@@ -16124,6 +16125,13 @@ all labels from default address space.
 
 
 @table @code
+
+@item ; <text>
+Add a comment to a file to be read by the monitor. For example:
+@example
+; Set border and background to black
+> d020 00 00
+@end example
 
 @item cartfreeze
 Use cartridge freeze.
