@@ -6,8 +6,8 @@ libraries to be available. E.g. the below doesn't work on LinuxMint 18.3 or
 earlier, though you may be able to manually download and compile GTK3.22 for
 your platform (untested).
 
-Tested on: 	Linux Mint 19, Ubuntu 17.10.1, Ubuntu 18.04, Ubuntu 19.04,
-		    Debian 9.0-9.8, Debian 10
+Tested on:  Linux Mint 19, Ubuntu 17.10.1, Ubuntu 18.04, Ubuntu 19.04,
+    Debian 9.0-9.8, Debian 10.0, Debian 10.3
 
 --------------------------------------------------------------------------------
 1. adhoc build from SVN
@@ -141,3 +141,17 @@ $ svn up
 $ make
 $ sudo make install
 
+--------------------------------------------------------------------------------
+4. For KDE users
+--------------------------------------------------------------------------------
+
+If opening the PDF doesn't work, you may have to register a KDE-based
+application to handle opening the PDF:
+
+In a normal-user shell, issue:
+
+$ gio mime application/x-pdf org.kde.okular.desktop
+
+This will register okular with GIO as the PDF handler.
+
+Hopefully this is a temporary solution which we can fix by using xdg-open.
