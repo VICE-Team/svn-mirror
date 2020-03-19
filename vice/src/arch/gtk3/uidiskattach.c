@@ -46,7 +46,7 @@
 
 #include "uidiskattach.h"
 
-
+#ifndef NATIVE_DIALOGS
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
@@ -55,11 +55,14 @@ static ui_file_filter_t filters[] = {
     { "All files", file_chooser_pattern_all },
     { NULL, NULL }
 };
+#endif
 
 
+#ifndef NATIVE_DIALOGS
 /** \brief  Preview widget reference
  */
 static GtkWidget *preview_widget = NULL;
+#endif
 
 
 /** \brief  Last directory used
@@ -97,6 +100,8 @@ static void update_last_dir(GtkWidget *widget)
 }
 #endif
 
+
+#ifndef NATIVE_DIALOGS
 /** \brief  Handler for the 'toggled' event of the 'show hidden files' checkbox
  *
  * \param[in]   widget      checkbox triggering the event
@@ -111,6 +116,7 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
+#endif
 
 
 #if 0
@@ -129,7 +135,7 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
 #endif
 
 
-
+#ifndef NATIVE_DIALOGS
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -155,8 +161,10 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         g_object_unref(file);
     }
 }
+#endif
 
 
+#ifndef NATIVE_DIALOGS
 /** \brief  Trigger autostarting a disk image
  *
  * \param[in,out]   widget      dialog
@@ -190,7 +198,7 @@ static void do_autostart(GtkWidget *widget, gpointer user_data)
     g_free(filename_locale);
     gtk_widget_destroy(widget);
 }
-
+#endif
 
 #if 0
 static void on_file_activated(GtkWidget *chooser, gpointer data)
@@ -200,7 +208,7 @@ static void on_file_activated(GtkWidget *chooser, gpointer data)
 #endif
 
 
-
+#ifndef NATIVE_DIALOGS
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
@@ -280,7 +288,60 @@ static void on_response(GtkWidget *widget, gint response_id,
     ui_set_ignore_mouse_hide(FALSE);
 }
 
+#else
 
+static void on_response(GtkWidget *widget, gint response_id,
+                        gpointer user_data)
+{
+    gchar *filename;
+    gchar *filename_locale;
+    gchar buffer[1024];
+    GtkFileChooser *chooser = GTK_FILE_CHOOSER(widget);
+
+    debug_gtk3("Reponse-ID: %d", response_id);
+
+    filename = gtk_file_chooser_get_filename(chooser);
+    debug_gtk3("FIlename: '%s'", filename);
+
+    switch (response_id) {
+        case GTK_RESPONSE_ACCEPT:
+
+            lastdir_update(widget, &last_dir);
+            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+            /* convert filename to current locale */
+            filename_locale = file_chooser_convert_to_locale(filename);
+
+            /* ui_message("Opening file '%s' ...", filename); */
+            debug_gtk3("Attaching file '%s' to unit #%d.",
+                    filename, unit_number);
+
+            /* copied from Gtk2: I fail to see how brute-forcing your way
+             * through file types is 'smart', but hell, it works */
+            if (file_system_attach_disk(unit_number, filename_locale) < 0) {
+                /* failed */
+                debug_gtk3("disk attach failed.");
+                g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
+                        unit_number, filename);
+            } else {
+                g_snprintf(buffer, 1024, "Unit #%d: attached '%s'",
+                        unit_number, filename);
+            }
+            ui_display_statustext(buffer, 1);
+            g_free(filename_locale);
+            break;
+        default:
+            break;
+    }
+
+    if (filename != NULL) {
+        g_free(filename);
+    }
+    gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(chooser));
+}
+#endif
+
+
+#ifndef NATIVE_DIALOGS
 /** \brief  Create the 'extra' widget
  *
  * \return  GtkGrid
@@ -321,7 +382,9 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_widget_show_all(grid);
     return grid;
 }
+#endif
 
+#ifndef NATIVE_DIALOGS
 
 /** \brief  Create the disk attach dialog
  *
@@ -386,6 +449,31 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 
 }
 
+#else
+
+static GtkFileChooserNative *create_disk_attach_dialog_native(GtkWidget *parent,
+                                                              int unit)
+{
+    GtkFileChooserNative *dialog;
+
+    ui_set_ignore_mouse_hide(TRUE);
+
+    /* create new dialog */
+    dialog = gtk_file_chooser_native_new(
+            "Attach a disk image (NATIVE)",
+            ui_get_active_window(),
+            GTK_FILE_CHOOSER_ACTION_OPEN,
+            NULL,
+            NULL);
+
+    g_signal_connect(dialog, "response",
+            G_CALLBACK(on_response),
+            GINT_TO_POINTER(0));    /* index of file to start? */
+
+    return dialog;
+}
+#endif
+
 
 /** \brief  Callback for the "smart-attach" and "attach to #%d" menu items
  *
@@ -399,10 +487,16 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
  */
 gboolean ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
 {
+#ifndef NATIVE_DIALOGS
     GtkWidget *dialog;
 
     dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));
     gtk_widget_show(dialog);
+#else
+    GtkFileChooserNative *dialog;
+    dialog = create_disk_attach_dialog_native(widget, GPOINTER_TO_INT(user_data));
+    gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
+#endif
     return TRUE;
 }
 
