@@ -410,7 +410,7 @@ checkpoint_rules: CMD_BREAK opt_mem_op address_opt_range opt_if_cond_expr end_cm
                       if ($2) {
                           temp = mon_breakpoint_add_checkpoint($3[0], $3[1], FALSE, $2, FALSE);
                       } else {
-                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], FALSE, e_load | e_store, FALSE);
+                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], FALSE, e_exec | e_load | e_store, FALSE);
                       }
                       mon_breakpoint_set_checkpoint_condition(temp, $4);
                   }
