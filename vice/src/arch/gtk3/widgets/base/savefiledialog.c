@@ -34,7 +34,7 @@
 
 #include "savefiledialog.h"
 
-
+#ifndef NATIVE_DIALOGS
 /** \brief  Create a 'save file' dialog
  *
  * \param[in]   title       dialog title
@@ -88,3 +88,44 @@ gchar *vice_gtk3_save_file_dialog(
     gtk_widget_destroy(dialog);
     return filename;
 }
+#else
+/** \brief  Create a 'save file' dialog
+ *
+ * \param[in]   title       dialog title
+ * \param[in]   proposed    proposed file name (optional)
+ * \param[in]   confirm     confirm overwriting an existing file
+ * \param[in]   path        set starting directory (optional)
+ *
+ * \return  filename or `NULL` on cancel
+ *
+ * \note    the filename returned is allocated by GLib and needs to be freed
+ *          after use with g_free()
+ */
+gchar *vice_gtk3_save_file_dialog(
+        const char *title,
+        const char *proposed,
+        gboolean confirm,
+        const char *path)
+{
+    GtkFileChooserNative *dialog;
+    gint result;
+    gchar *filename;
+
+    debug_gtk3("Warning: Using the GtkFileChooserNative!");
+
+    dialog = gtk_file_chooser_native_new(
+            title,
+            ui_get_active_window(),
+            GTK_FILE_CHOOSER_ACTION_SAVE,
+            NULL, NULL);
+
+    result = gtk_native_dialog_run(GTK_NATIVE_DIALOG(dialog));
+    if (result == GTK_RESPONSE_ACCEPT) {
+        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    } else {
+        filename = NULL;
+    }
+    g_object_unref(dialog);
+    return filename;
+}
+#endif

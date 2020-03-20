@@ -35,6 +35,7 @@
 #include "openfiledialog.h"
 
 
+#ifndef NATIVE_DIALOGS
 /** \brief  Create an 'open file' dialog
  *
  * \param[in]   title       dialog title
@@ -93,9 +94,37 @@ gchar *vice_gtk3_open_file_dialog(
     gtk_widget_destroy(dialog);
     return filename;
 }
+#else
+
+gchar *vice_gtk3_open_file_dialog(
+        const char *title,
+        const char *filter_desc,
+        const char **filter_list,
+        const char *path)
+{
+    GtkFileChooserNative *dialog;
+    gint result;
+    gchar *filename;
+
+    dialog = gtk_file_chooser_native_new(
+            title,
+            ui_get_active_window(),
+            GTK_FILE_CHOOSER_ACTION_OPEN,
+            NULL, NULL);
+
+    result = gtk_native_dialog_run(GTK_NATIVE_DIALOG(dialog));
+    if (result == GTK_RESPONSE_ACCEPT) {
+        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    } else {
+        filename = NULL;
+    }
+    g_object_unref(dialog);
+    return filename;
+}
+#endif
 
 
-
+#ifndef NATIVE_DIALOGS
 /** \brief  Create a 'open or create file' dialog
  *
  * \param[in]   title       dialog title
@@ -149,3 +178,33 @@ gchar *vice_gtk3_open_create_file_dialog(
     gtk_widget_destroy(dialog);
     return filename;
 }
+
+#else
+gchar *vice_gtk3_open_create_file_dialog(
+        const char *title,
+        const char *proposed,
+        gboolean confirm,
+        const char *path)
+{
+    GtkFileChooserNative *dialog;
+    gint result;
+    gchar *filename;
+
+    debug_gtk3("Warning: using GtkFileChooserNative!");
+
+    dialog = gtk_file_chooser_native_new(
+            title,
+            ui_get_active_window(),
+            GTK_FILE_CHOOSER_ACTION_SAVE,
+            NULL, NULL);
+
+    result = gtk_native_dialog_run(GTK_NATIVE_DIALOG(dialog));
+    if (result == GTK_RESPONSE_ACCEPT) {
+        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    } else {
+        filename = NULL;
+    }
+    g_object_unref(dialog);
+    return filename;
+}
+#endif
