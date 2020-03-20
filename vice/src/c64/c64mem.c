@@ -1156,14 +1156,14 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                 }
             }
             if (c64meminit_roml_config[mem_config]) {
-                if (addr >= 0xa000 && addr <= 0xbfff) {
-                    cartridge_peek_mem(addr);
+                if (addr >= 0x8000 && addr <= 0x9fff) {
+                    return cartridge_peek_mem(addr);
                 }
             }
             if (c64meminit_romh_config[mem_config]) {
-                unsigned int romhloc = c64meminit_romh_mapping[mem_config];
+                unsigned int romhloc = c64meminit_romh_mapping[mem_config] << 8;
                 if (addr >= romhloc && addr <= (romhloc + 0x1fff)) {
-                    cartridge_peek_mem(addr);
+                    return cartridge_peek_mem(addr);
                 }
             }
             if (c64meminit_io_config[mem_config] == 2) {

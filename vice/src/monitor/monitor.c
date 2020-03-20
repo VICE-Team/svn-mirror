@@ -664,7 +664,9 @@ uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr)
     if ((sidefx == 0) && (mon_interfaces[mem]->mem_bank_peek != NULL)) {
         return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
     } else {
-        log_error(LOG_ERR, "mon_get_mem_val_ex: mem_bank_peek() not implemented for memspace %u.", mem);
+        if (sidefx == 0) {
+            log_error(LOG_ERR, "mon_get_mem_val_ex: mem_bank_peek() not implemented for memspace %u.", mem);
+        }
         return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
     }
 }

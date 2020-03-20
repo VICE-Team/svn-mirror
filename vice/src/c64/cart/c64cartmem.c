@@ -2044,7 +2044,7 @@ static uint8_t cartridge_peek_mem_slotmain(uint16_t addr)
                 if (addr >= 0xe000) {
                     return ultimax_romh_read_hirom_slotmain(addr);
                 }
-            } else if (!export_slotmain.exrom && !export_slotmain.game) {
+            } else if (export_slotmain.exrom && export_slotmain.game) {
                 /* 16k Game */
                 if (addr >= 0x8000 && addr <= 0x9fff) {
                     return roml_read_slotmain(addr);
