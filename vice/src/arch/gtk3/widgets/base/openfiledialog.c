@@ -35,7 +35,7 @@
 #include "openfiledialog.h"
 
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  Create an 'open file' dialog
  *
  * \param[in]   title       dialog title
@@ -124,7 +124,7 @@ gchar *vice_gtk3_open_file_dialog(
 #endif
 
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  Create a 'open or create file' dialog
  *
  * \param[in]   title       dialog title

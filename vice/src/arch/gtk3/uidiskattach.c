@@ -46,7 +46,7 @@
 
 #include "uidiskattach.h"
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
@@ -58,7 +58,7 @@ static ui_file_filter_t filters[] = {
 #endif
 
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  Preview widget reference
  */
 static GtkWidget *preview_widget = NULL;
@@ -72,7 +72,6 @@ static GtkWidget *preview_widget = NULL;
  * ui_disk_attach_shutdown() on emulator shutdown.
  */
 static gchar *last_dir = NULL;
-
 
 
 /** \brief  Unit number to attach disk to
@@ -133,7 +132,7 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
 #endif
 
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -162,7 +161,7 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
 #endif
 
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  Trigger autostarting a disk image
  *
  * \param[in,out]   widget      dialog
@@ -206,7 +205,7 @@ static void on_file_activated(GtkWidget *chooser, gpointer data)
 #endif
 
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
@@ -384,7 +383,7 @@ static GtkWidget *create_extra_widget(void *parent, int unit)
     return grid;
 }
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 
 /** \brief  Create the disk attach dialog
  *
@@ -489,7 +488,7 @@ static GtkFileChooserNative *create_disk_attach_dialog_native(GtkWidget *parent,
  */
 gboolean ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
 {
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
     GtkWidget *dialog;
 
     dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));

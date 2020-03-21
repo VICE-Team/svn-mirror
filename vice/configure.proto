@@ -83,8 +83,8 @@ VICE_ARG_ENABLE_LIST(new8580filter, [  --enable-new8580filter  enable experiment
 VICE_ARG_ENABLE_LIST(x64,         [  --enable-x64  enable building of the old x64 emulator [[default=no]]])
 VICE_ARG_ENABLE_LIST(pdf-docs,    [  --enable-pdf-docs       generate the PDF documentation [[default=if possible]]])
 VICE_ARG_ENABLE_LIST(html-docs,   [  --enable-html-docs      install the HTML documentation [[default=no]]])
-VICE_ARG_ENABLE_LIST(native-dialogs,
-                                  [ --enable-native-dialogs     enable native dialogs for container formats [[default=no]]])
+VICE_ARG_ENABLE_LIST(sandbox-mode,
+                                  [ --enable-sandbox-mode    enable support for sandboxed mode on Linux [[default=no]]])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -424,7 +424,7 @@ USE_EMBEDDED_SUPPORT="no "
 
 HAVE_FONTCONFIG_SUPPORT="no"
 
-USE_NATIVE_DIALOGS="no "
+USE_SANDBOX_MODE="no "
 
 
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -3445,13 +3445,13 @@ else
   X64_INCLUDED="no"
 fi
 
-dnl Do we use native dialogs?
-if test x"$enable_native_dialogs" = "xyes"; then
-  USE_NATIVE_DIALOGS="yes"
-  AM_CONDITIONAL(NATIVE_DIALOGS, true)
-  AC_DEFINE(NATIVE_DIALOGS,,[Use Gtk3 native dialogs])
+dnl Do we use sandbox mode?
+if test x"$enable_sandbox_mode" = "xyes"; then
+  USE_SANDBOX_MODE="yes"
+  AM_CONDITIONAL(SANDBOX_MODE, true)
+  AC_DEFINE(SANDBOX_MODE,,[Use Linux sandbox mode])
 else
-  AM_CONDITIONAL(NATIVE_DIALOGS, false)
+  AM_CONDITIONAL(SANDBOX_MODE, false)
 fi
 
 
@@ -3980,7 +3980,7 @@ fi
 # Enabling Gtk3 native dialogs should help with Flatpack and other container
 # formats
 if test x"$real_arch" = "xUnix"; then
-    echo "Gtk3 Native dialogs            : $USE_NATIVE_DIALOGS (--enable/disable-native-dialogs)"
+    echo "Gtk3 sandbox mode              : $USE_SANDBOX_MODE (--enable/disable-sandbox-mode)"
 fi
 
 echo ""

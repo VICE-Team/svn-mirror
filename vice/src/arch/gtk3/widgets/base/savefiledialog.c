@@ -34,7 +34,7 @@
 
 #include "savefiledialog.h"
 
-#ifndef NATIVE_DIALOGS
+#ifndef SANDBOX_MODE
 /** \brief  Create a 'save file' dialog
  *
  * \param[in]   title       dialog title
