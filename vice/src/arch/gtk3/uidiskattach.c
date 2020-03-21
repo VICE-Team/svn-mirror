@@ -101,7 +101,6 @@ static void update_last_dir(GtkWidget *widget)
 #endif
 
 
-#ifndef NATIVE_DIALOGS
 /** \brief  Handler for the 'toggled' event of the 'show hidden files' checkbox
  *
  * \param[in]   widget      checkbox triggering the event
@@ -116,7 +115,6 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
-#endif
 
 
 #if 0
@@ -341,21 +339,24 @@ static void on_response(GtkWidget *widget, gint response_id,
 #endif
 
 
-#ifndef NATIVE_DIALOGS
 /** \brief  Create the 'extra' widget
+ *
+ * \param[in]   parent  parent widget
+ * \param[in]   unit    unit number
  *
  * \return  GtkGrid
  *
+ * \note    Do not change \a parent to `GtkWidget*`, this is also called from
+ *          the native dialogs/sandbox code and `GtkFileChooserNative` isn't
+ *          deterived from `GtkWidget`
+ *
  * TODO: 'grey-out'/disable units without a proper drive attached
  */
-static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
+static GtkWidget *create_extra_widget(void *parent, int unit)
 {
     GtkWidget *grid;
     GtkWidget *hidden_check;
     GtkWidget *readonly_check;
-#if 0
-    GtkWidget *preview_check;
-#endif
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -382,7 +383,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_widget_show_all(grid);
     return grid;
 }
-#endif
 
 #ifndef NATIVE_DIALOGS
 
@@ -465,6 +465,8 @@ static GtkFileChooserNative *create_disk_attach_dialog_native(GtkWidget *parent,
             GTK_FILE_CHOOSER_ACTION_OPEN,
             NULL,
             NULL);
+    gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
+                                      create_extra_widget(dialog, unit));
 
     g_signal_connect(dialog, "response",
             G_CALLBACK(on_response),
