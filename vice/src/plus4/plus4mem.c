@@ -1050,7 +1050,49 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                       when needed. doing this without checking is wrong, but we do it anyways to
                       avoid side effects
            */
-            if (addr >= 0xfd00) {
+            /*
+                $0000-$7fff   RAM
+                $8000-$9fff   RAM / BASIC / Function LO
+                $a000-$bfff   RAM / Kernal / Function HI
+                
+                $c000-$cfff   RAM / Basic Extension
+                
+                $d000-$d7ff   RAM / character ROM / Function HI
+                $d800-$fbff   RAM / operating system
+              
+                $FC00-        Kernal Routines for switching banks
+              
+                $FD00-$FF3F always I/O:
+
+                    $FD00-FD0F: 6551  (only on the +4.  4 registers.)
+                    $FD10-FD1F: 6529B (1 register)
+                    $FD30-FD3F: 6529B (1 register)
+                
+                $FDD0-$FDDF ROM bank select
+                
+                    a0 a1 bank
+                    0  0  BASIC (low internal #1)
+                    0  1  Function LO (low internal #2)
+                    1  0  Cartridge LO (low external #1)
+                    1  1  reserved
+                
+                    a2 a3 bank
+                    0  0  Kernal (hi internal #1)
+                    0  1  Function HI (hi internal #2)
+                    1  0  Cartridge HI (hi external #1)
+                    1  1  reserved
+                
+                $FF00-  TED registers
+                
+                $FF3E   ROM select, Write switches on ROM bank
+                $FF3F   RAM select, Write switches on RAM bank                
+                
+                $FF40-$FFFF RAM / Kernal / Function HI
+            */
+            if ((addr >= 0xfd00) && (addr <= 0xfd3f)) {
+                return peek_bank_io(addr);
+            }
+            if ((addr >= 0xff00) && (addr <= 0xff3f)) {
                 return peek_bank_io(addr);
             }
             break;
