@@ -348,7 +348,7 @@ static void on_response(GtkWidget *widget, gint response_id,
  *
  * \note    Do not change \a parent to `GtkWidget*`, this is also called from
  *          the native dialogs/sandbox code and `GtkFileChooserNative` isn't
- *          deterived from `GtkWidget`
+ *          derived from `GtkWidget`
  *
  * TODO: 'grey-out'/disable units without a proper drive attached
  */
