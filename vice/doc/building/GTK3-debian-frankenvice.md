@@ -25,6 +25,20 @@ Now click 'continue' until done (GRUB on MBR etc)
 **REBOOT**
 
 
+#### Enable sudo
+
+We need sudo for the frankenvice script (I think)
+
+So, we'll install sudo (on Debian 10.3) and add the 'vice' user to the sudoers:
+```sh
+$ su -i
+$ apt install sudo
+$ adduser vice sudo
+```
+
+Now log out completely and log back in to have the 'vice' user recognized as a sudoer.
+
+
 
 
 Make sure you have the basic development tools:
@@ -342,7 +356,7 @@ $ dpkg -i mingw64-cairo_1.14.10-6_all.deb
 
 ### Using vice-rpm-to-deb.sh
 
-In the build/mingw directory in trunk is a script `vice-rpm-to-deb.sh` which can convert Fedora RPMs to Debian DEBs for use with FrankenVice.
+In the build/mingw/frankenvice directory in trunk is a script `vice-rpm-to-deb.sh` which can convert Fedora RPMs to Debian DEBs for use with FrankenVice.
 
 What it basically does is this:
 
@@ -406,7 +420,7 @@ Use the script to convert to deb:
 ```sh
 $ cd ~/temp
 $ su
-$ /home/vice/vice-trunk/vice/build/mingw/vice-rpm-to-deb.sh ../rpm/mingw64-flac-1.3.2-6.fc30.noarch.rpm
+$ /home/vice/vice-trunk/vice/build/mingw/frankenvice/vice-rpm-to-deb.sh ../rpm/mingw64-flac-1.3.2-6.fc30.noarch.rpm
 ```
 
 This should result in:
@@ -453,26 +467,4 @@ $ grep -i 'flac' config.log
 ```
 
 If the grep output has '-lFLAC' and '#define HAVE\_LIBFLAC 1', flac will work.
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
