@@ -32,7 +32,7 @@ Make sure you have the basic development tools:
 ```sh
 $ su
 $ apt install autoconf autotools build-essential byacc flex git subversion \
-        vim xa65 alien p7zip-full zip texinfo gawk* zip unzip
+        vim xa65 alien p7zip-full texinfo gawk zip unzip yasm dos2unix
 ```
 (todo: probably a lot more
  Seems glib-compile-schemas and glib-compile-resources live in Debian's
@@ -40,7 +40,7 @@ $ apt install autoconf autotools build-essential byacc flex git subversion \
 
 Do **not** install any native Linux Gtk/GLib packages unless specifically told to do so, this might result in unwanted results.
 
-*) Make bindist uses gawk vs awk, not sure why.
+(Make bindist uses gawk vs awk, not sure why)
 
 
 #### Install Debian's mingw packages
