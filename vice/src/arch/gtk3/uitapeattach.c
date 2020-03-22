@@ -45,6 +45,7 @@
 #include "uitapeattach.h"
 
 
+#ifndef SANDBOX_MODE
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
@@ -54,6 +55,7 @@ static ui_file_filter_t filters[] = {
 };
 
 static GtkWidget *preview_widget = NULL;
+#endif
 
 
 /** \brief  Last directory used
@@ -65,6 +67,7 @@ static GtkWidget *preview_widget = NULL;
 static gchar *last_dir = NULL;
 
 
+#ifndef SANDBOX_MODE
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -106,8 +109,10 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
+#endif
 
 
+#ifndef SANDBOX_MODE
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
@@ -185,7 +190,88 @@ static void on_response(GtkWidget *widget, gint response_id,
     ui_set_ignore_mouse_hide(FALSE);
 }
 
+#else
 
+/** \brief  Handler for 'response' event of the dialog (sandbox mode)
+ *
+ * This handler is called when the user clicks a button in the dialog.
+ *
+ * \param[in]   widget      the dialog
+ * \param[in]   response_id response ID
+ * \param[in]   user_data   extra data (unused)
+ *
+ * TODO:    proper (error) messages, which requires implementing ui_error() and
+ *          ui_message() and moving them into gtk3/widgets to avoid circular
+ *          references
+ */
+static void on_response_native(GtkFileChooserNative *widget,
+                               gint response_id,
+                               gpointer user_data)
+{
+    gchar *filename;
+    gchar *filename_locale;
+    int index;
+
+    index = GPOINTER_TO_INT(user_data);
+
+    debug_gtk3("got response ID %d, index %d.", response_id, index);
+
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+
+    switch (response_id) {
+
+        /* 'Open' button, double-click on file */
+        case GTK_RESPONSE_ACCEPT:
+            /* ui_message("Opening file '%s' ...", filename); */
+            debug_gtk3("Attaching file '%s' to tape unit.", filename);
+
+            filename_locale = file_chooser_convert_to_locale(filename);
+
+            if (tape_image_attach(1, filename_locale) < 0) {
+                /* failed */
+                debug_gtk3("tape attach failed.");
+            }
+            g_free(filename_locale);
+            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
+            break;
+#if 0
+        /* 'Autostart' button clicked */
+        case VICE_RESPONSE_AUTOSTART:
+            lastdir_update(widget, &last_dir);
+            if (filename != NULL) {
+                debug_gtk3("Autostarting file '%s'.", filename);
+
+                filename_locale = file_chooser_convert_to_locale(filename);
+                if (autostart_tape(
+                            filename_locale,
+                            NULL,   /* program name */
+                            index,
+                            AUTOSTART_MODE_RUN) < 0) {
+                    /* oeps */
+                    debug_gtk3("autostart tape attach failed.");
+                }
+                g_free(filename_locale);
+                gtk_widget_destroy(widget);
+            }
+            break;
+#endif
+        /* 'Close'/'X' button */
+        case GTK_RESPONSE_REJECT:
+            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
+            break;
+        default:
+            break;
+    }
+
+    if (filename != NULL) {
+        g_free(filename);
+    }
+    ui_set_ignore_mouse_hide(FALSE);
+}
+#endif
+
+
+#ifndef SANDBOX_MODE
 /** \brief  Create the 'extra' widget
  *
  * \return  GtkGrid
@@ -221,8 +307,10 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+#endif
 
 
+#ifndef SANDBOX_MODE
 /** \brief  Create the tape attach dialog
  *
  * \param[in]   parent  parent widget, used to get the top level window
@@ -278,6 +366,56 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
 
 }
 
+#else
+
+/** \brief  Create the tape attach dialog (sandbox version)
+ *
+ * \param[in]   parent  parent widget, used to get the top level window
+ *
+ * \return  GtkFileChooserNative
+ */
+static GtkFileChooserNative *create_tape_attach_dialog_native(GtkWidget *parent)
+{
+    GtkFileChooserNative *dialog;
+
+    ui_set_ignore_mouse_hide(TRUE);
+
+    /* create new dialog */
+    dialog = gtk_file_chooser_native_new(
+            "Attach a tape image",
+            ui_get_active_window(),
+            GTK_FILE_CHOOSER_ACTION_OPEN,
+            /* buttons */
+            NULL, NULL);
+#if 0
+    /* set modal so mouse-grab doesn't get triggered */
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    /* set last directory */
+    lastdir_set(dialog, &last_dir);
+
+    /* add 'extra' widget: 'readonly' and 'show preview' checkboxes */
+    gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
+                                      create_extra_widget(dialog));
+
+    preview_widget = content_preview_widget_create(dialog, tapecontents_read,
+            on_response);
+    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
+            preview_widget);
+
+    /* add filters */
+    for (i = 0; filters[i].name != NULL; i++) {
+        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
+                create_file_chooser_filter(filters[i], FALSE));
+    }
+#endif
+    /* connect "reponse" handler: the `user_data` argument gets filled in when
+     * the "response" signal is emitted: a response ID */
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response_native), NULL);
+
+    return dialog;
+}
+#endif
+
 
 /** \brief  Callback for the "attach tape image" menu items
  *
@@ -288,11 +426,16 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
  */
 gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
 {
+#ifndef SANDBOX_MODE
     GtkWidget *dialog;
-
     debug_gtk3("called.");
     dialog = create_tape_attach_dialog(widget);
     gtk_widget_show(dialog);
+#else
+    GtkFileChooserNative *dialog;
+    dialog = create_tape_attach_dialog_native(widget);
+    gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
+#endif
     return TRUE;
 }
 
