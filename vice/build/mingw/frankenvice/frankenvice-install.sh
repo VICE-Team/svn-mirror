@@ -16,6 +16,9 @@ FRANKENVICE_DEB="$FRANKENVICE_ROOT/deb"
 RPM_REPO="https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/m"
 RPM_PACKAGES="rpm-packages.txt"
 
+SKIP_DOWNLOADS="no"
+
+
 
 # Check if we a root
 #
@@ -41,7 +44,8 @@ This script needs to run as a normal user.
 
 Command line options:
 
-    --help      show this text
+    --help              show this text
+    --skip-downloads    skip downloading RPMs
 EOF
 }
 
@@ -95,10 +99,28 @@ remove_unwanted_rpms()
 
 
 
-convert_rmps()
+# Convert RPMs to DEBs
+convert_rpms()
 {
-    echo ".. converting foo"
+    old_dir=`pwd`
+    cd "$FRANKENVICE_DEB"
+
+    for f in `ls "$FRANKENVICE_DOWNLOADS"`; do
+        echo "..converting $f"
+        # this is messed up:
+        sudo $HOME/`dirname $0`/vice-rpm-to-deb.sh "$FRANKENVICE_DOWNLOADS/$f" 2>/dev/null
+    done
+
+    cd "$old_dir"
 }
+
+
+# Install DEBs
+install_debs
+{
+    echo "TODO"
+}
+
 
 
 
@@ -116,16 +138,26 @@ if [ "$1" = "-h" -o "$1" = "--help" ]; then
 fi
 
 
+if [ "$1" = "--skip-downloads" ]; then
+    SKIP_DOWNLOADS="yes"
+fi
+
+
 echo "Setting up directories:"
 setup_directories
 echo "OK."
 
 echo "FIXME: Wiping downloads to avoid downloading and installing multiple versions of"
 echo "the same package. Perhaps add a --update switch or so?"
-rm -rfd "$FRANKENVICE_DOWNLOADS/*"
+if [ "$SKIP_DOWNLOADS" != "yes" ]; then
+    m -rfd "$FRANKENVICE_DOWNLOADS/*"
+    echo "Downloading mingw64 RPM packages:"
+    download_rpms
+    remove_unwanted_packages
+fi
 
-
-echo "Downloading mingw64 RPM packages:"
-download_rpms
-remove_unwanted_packages
+echo "Converting RPMs to DEB:"
+convert_rpms
+echo "Installing DEBs:"
+install_debs
 
