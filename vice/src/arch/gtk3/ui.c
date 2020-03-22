@@ -1182,9 +1182,19 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
 {
     debug_gtk3("Called!");
     if (event->type == GDK_DOUBLE_BUTTON_PRESS) {
-        ui_fullscreen_callback(canvas, event);
+        int mouse;
+
+        /* only trigger fullscreen switching when mouse-grab isn't active */
+        resources_get_int("Mouse", &mouse);
+        if (!mouse) {
+            ui_fullscreen_callback(canvas, event);
+        }
+        /* signal event handled */
+        return TRUE;
     }
-    return TRUE;
+    /* signal event not handled, avoids the host mouse pointer showing up
+     * during mouse grab */
+    return FALSE;
 }
 
 
