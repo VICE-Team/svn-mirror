@@ -59,6 +59,7 @@
 /* #define DEBUG */
 
 #include "vice.h"
+#include "archdep_defs.h"
 
 #include "version.h"
 
@@ -71,6 +72,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+
+#ifdef ARCHDEP_OS_WINDOWS
+#include <fcntl.h>
+#include <io.h>
+#endif
 
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
 #include "cmdline.h"
@@ -1052,6 +1058,15 @@ int main(int argc, char **argv)
     if (ctrls < 0) {
         ctrls = (textmode ? 0 : 1);     /*default ON for prgs, OFF for text */
     }
+	
+#ifdef ARCHDEP_OS_WINDOWS
+	/* HACK: when outputting a prg to stdout, switch stdout to binary mode, 
+	   else redirecting the binary output to a file will result in a broken 
+	   file due to translation of the line endings. */
+	if (!outf && !textmode) {
+		_setmode(STDOUT_FILENO, _O_BINARY);
+	}
+#endif
 
     if (!load_addr) {
         load_addr = basic_list[version - 1].load_address;
