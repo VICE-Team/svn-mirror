@@ -1174,7 +1174,7 @@ void macos_activate_application_workaround()
  * \param[in]   event   event object
  * \param[in]   data    GtkWindow parent of \a canvas
  *
- * \return  TRUE (event accepted, don't propagate)
+ * \return  TRUE if event accepted
  */
 static gboolean rendering_area_event_handler(GtkWidget *canvas,
                                              GdkEventButton *event,
