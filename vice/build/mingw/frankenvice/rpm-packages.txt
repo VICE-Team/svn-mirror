@@ -6,6 +6,7 @@ mingw64-expat
 mingw64-fontconfig
 mingw64-freeglut
 mingw64-freetype
+mingw64-fribidi
 mingw64-gdk-pixbuf
 mingw64-gettext
 mingw64-giflib

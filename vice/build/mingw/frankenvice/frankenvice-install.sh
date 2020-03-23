@@ -16,7 +16,10 @@ FRANKENVICE_DEB="$FRANKENVICE_ROOT/deb"
 RPM_REPO="https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/m"
 RPM_PACKAGES="rpm-packages.txt"
 
-SKIP_DOWNLOADS="no"
+# command line args
+ARG_SKIP_DOWNLOAD="no"
+ARG_SKIP_CONVERSION="no"
+ARG_SKIP_INSTALL="no"
 
 
 
@@ -44,9 +47,16 @@ This script needs to run as a normal user.
 
 Command line options:
 
-    --help              show this text
-    --skip-downloads    skip downloading RPMs
+    -h/--help           show this text and exit
+
+    The following options are meant for debugging, or when for some reason the
+    previous step failed:
+
+    --skip-download     skip downloading RPMs
+    --skip-conversion   skip converting RPMs to DEBs
+    --skip-install      skip-installing DEBs
 EOF
+    exit 0
 }
 
 
@@ -90,7 +100,7 @@ download_rpms()
 
 # Remove unwanted RPM packages (C++ etc)
 #
-remove_unwanted_rpms()
+remove_unwanted_packages()
 {
     echo ".. removing C++ packages:"
     rm -f "$FRANKENVICE_DOWNLOADS/mingw64-*mm-*.rpm"
@@ -116,9 +126,15 @@ convert_rpms()
 
 
 # Install DEBs
-install_debs
+install_debs()
 {
-    echo "TODO"
+    old_dir=`pwd`
+    cd "$FRANKENVICE_DEB"
+
+    for f in *.deb; do
+        echo ".. installing $f:"
+        sudo dpkg -i "$f"
+    done
 }
 
 
@@ -132,32 +148,45 @@ if [ "$?" -eq "0" ]; then
 fi
 # echo "OK, normal user"
 
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-    display_help
-    exit 0
-fi
 
+# parse command line args
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help) display_help;;
+        --skip-download) shift; ARG_SKIP_DOWNLOAD="yes";;
+        --skip-conversion) shift; ARG_SKIP_CONVERSION="yes";;
+        --skip-install) shift; ARG_SKIP_INSTALL="yes";;
+        -*) echo "Unknown option $1, aborting"; exit 1;;
+    esac
+done
 
-if [ "$1" = "--skip-downloads" ]; then
-    SKIP_DOWNLOADS="yes"
-fi
+echo "skip downloads  = $ARG_SKIP_DOWNLOAD"
+echo "skip conversion = $ARG_SKIP_CONVERSION"
+echo "skip install    = $ARG_SKIP_INSTALL"
 
 
 echo "Setting up directories:"
 setup_directories
 echo "OK."
 
-echo "FIXME: Wiping downloads to avoid downloading and installing multiple versions of"
-echo "the same package. Perhaps add a --update switch or so?"
-if [ "$SKIP_DOWNLOADS" != "yes" ]; then
-    m -rfd "$FRANKENVICE_DOWNLOADS/*"
-    echo "Downloading mingw64 RPM packages:"
+
+if [ "$ARG_SKIP_DOWNLOAD" = "no" ]; then
+
+    echo "FIXME: Wiping downloads to avoid downloading and installing multiple versions of"
+    echo "the same package. Perhaps add a --update switch or so?"
+    rm -rfd "$FRANKENVICE_DOWNLOADS/*"
+    echo "Downloading mingw64 RPM packages."
     download_rpms
+    echo "Removing unwanted packages."
     remove_unwanted_packages
 fi
 
-echo "Converting RPMs to DEB:"
-convert_rpms
-echo "Installing DEBs:"
-install_debs
+if [ "$ARG_SKIP_CONVERSION" = "no" ]; then
+    echo "Converting RPMs to DEB:"
+    convert_rpms
+fi
 
+if [ "$ARG_SKIP_INSTALL" = "no" ]; then
+    echo "Installing DEBs:"
+    install_debs
+fi
