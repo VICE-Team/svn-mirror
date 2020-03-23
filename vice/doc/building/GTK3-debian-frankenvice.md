@@ -66,6 +66,19 @@ $ apt install mingw-w64 mingw-w64-tools
 
 Hint: Debian mingw packages are called 'mingw-w64-\*" while Fedora mingw packages are called 'mingw64-\*'. This will come in handy later to see which packages came from Debian and which were installed via RPM's using 'alien'.
 
+#### Fix pkg-config for Windows cross-building
+
+Currently (2020-03-23), Debian has an issue with running pkg-config for Windows
+cross-builds. Whenever you run into a message like:
+
+    Please install dpkg-dev to use pkg-config when cross-building
+
+Don't bother installing dpkg-dev, it's already installed and reinstalling won't
+fix anything.
+
+Edit `/usr/share/pkg-config-crosswrapper` and comment out the 'if [ "$?" != 0 ]
+branch after the multiarch="...." line (line 13 on my box).
+
 
 #### Install Fedora packages
 
@@ -81,6 +94,7 @@ mingw64-expat
 mingw64-fontconfig
 mingw64-freeglut
 mingw64-freetype
+mingw64-fribidi
 mingw64-gdk-pixbuf
 mingw64-gettext
 mingw64-giflib
