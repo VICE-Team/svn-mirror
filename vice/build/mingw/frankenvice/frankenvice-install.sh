@@ -4,6 +4,21 @@
 # Frankenvice install script
 #
 # @author   Bas Wassink <b.wassink@ziggo.nl>
+#
+# FIXME:    Before this script can be run, there's a few issues to be fixed,
+#           and I'm not sure these should be handled by this script:
+#
+#           - Fix the alien Perl code to handle the latests RPMs.
+#           - Fix the pkg-config wrapper so it won't bitch about installing
+#             dpkg-dev (which won't help at all, still an issue on Debian 10.3)
+#           - Create symlinks to glib tools
+#           - Create gschema files, these do not get generated for some reason,
+#             so manual labour is required:
+#             $ su -
+#             $ cd /usr/x86_64-w64-mingw32/share/glib-2.0/schemas
+#             $ glib-compile-schemas .
+#             (this requires proper symlinks to the glib tools)
+
 
 
 # User directory to do the work
@@ -23,7 +38,7 @@ ARG_SKIP_INSTALL="no"
 
 
 
-# Check if we a root
+# Check if we are root
 #
 # @return   0 if root, 1 otherwise
 check_root()
@@ -110,6 +125,9 @@ remove_unwanted_packages()
 
 
 # Convert RPMs to DEBs
+#
+# Try to convert the RPM files to DEB files using the vice-rpm-to-deb script.
+#
 convert_rpms()
 {
     old_dir=`pwd`
@@ -126,6 +144,9 @@ convert_rpms()
 
 
 # Install DEBs
+#
+# Try to install the converted DEBs with dpkg
+#
 install_debs()
 {
     old_dir=`pwd`
@@ -141,6 +162,7 @@ install_debs()
 
 
 # Entry point
+#
 check_root
 if [ "$?" -eq "0" ]; then
     echo "This script needs to be started as a normal user, aborting."
