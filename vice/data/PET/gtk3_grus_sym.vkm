@@ -63,11 +63,11 @@
 #
 # The original gfx keyboard reflects the matrix perfectly:
 #
-#           !  "  #  $  %  '  &  \  (  )  <-     ^s ^q ^] ^t
-#           q  w  e  r  t  y  u  i  o  p  ^       7  8  9  /
-#           a  s  d  f  g  h  j  k  l  : ^m       4  5  6  *
-#           z  x  c  v  b  n  m  ,  ;  ? ^m       1  2  3  +
-#          LS ^r  @  [  ]  SPACE <  > ^c  RS      0  .  -  =
+#         @ !  "  #  $  %  '  &  \  (  )  <-     ^s ^q ^] ^t
+#       RVS  q  w  e  r  t  y  u  i  o  p  ^      7  8  9  /
+#         SL  a  s  d  f  g  h  j  k  l  : ^m     4  5  6  *
+#          LS  z  x  c  v  b  n  m  ,  ;  ? ^m    1  2  3  +
+#                 SPACE                           0  .  -  =
 #
 # http://www.6502.org/users/andre/petindex/keyboards.html
 
