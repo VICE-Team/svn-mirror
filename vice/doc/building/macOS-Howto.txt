@@ -33,7 +33,7 @@ $ sudo port install libsdl2 libpng
 Gtk3:
 
 $ sudo port install gtk3 +quartz
-$ sudo port install librsvg adwaita-icon-theme
+$ sudo port install librsvg adwaita-icon-theme glew
 
 ---------
 Homebrew:
