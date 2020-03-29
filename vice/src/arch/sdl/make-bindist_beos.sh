@@ -34,11 +34,17 @@ CPU=$3
 SYSTEM=$4
 ENABLEARCH=$5
 ZIPKIND=$6
-XSCPU64INCLUDED=$7
-TOPSRCDIR=$8
-SDLVERSION=$9
+TOPSRCDIR=$7
+SDLVERSION=$8
 
-EXTRAFILES="x64sc"
+#echo "1 STRIP = $STRIP"
+#echo "2 VICEVERSION = $VICEVERSION"
+#echo "3 CPU = $CPU"
+#echo "4 SYSTEM = $SYSTEM"
+#echo "5 ENABLEARCH = $ENABLEARCH"
+#echo "6 ZIPKIND = $ZIPKIND"
+#echo "7 TOPSRCDIR = $TOPSRCDIR"
+#echo "8 SDLVERSION = $SDLVERSION"
 
 # check if we told configure to build the old x64 emu:
 if test x"$X64INC" = "xyes"; then
@@ -47,11 +53,7 @@ else
   X64FILE=""
 fi
 
-if test x"$XSCPU64INCLUDED" = "xyes"; then
-  EXTRAFILES="$EXTRAFILES xscpu64"
-fi
-
-EMULATORS="$X64FILE x64dtv $EXTRAFILES x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="$X64FILE x64dtv x64sc xscpu64 x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
