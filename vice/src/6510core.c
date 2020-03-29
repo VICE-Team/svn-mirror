@@ -351,10 +351,10 @@
 #endif
 #else
 #ifndef PUSH
-inline void PUSH(uint8_t val) { STORE(0x100 + reg_sp, (val)); reg_sp--; }
+#define PUSH(val) { STORE(0x100 + reg_sp, (val)); reg_sp--; }
 #endif
 #ifndef PULL
-inline uint8_t PULL(void) { reg_sp++; return LOAD(0x100 + reg_sp); }
+#define PULL() (++reg_sp, LOAD(0x100 + reg_sp))
 #endif
 #endif
 
@@ -531,16 +531,13 @@ inline uint8_t PULL(void) { reg_sp++; return LOAD(0x100 + reg_sp); }
 #if 0    
 #define LOAD_IND_X(addr) (CLK_ADD(CLK, 3), LOAD(LOAD_ZERO_ADDR((addr) + reg_x_read)))
 #else
-inline uint8_t LOAD_IND_X(unsigned int addr)
-{
-    unsigned int tmpa;
-    CLK_ADD(CLK, 3);
-    LOAD_ZERO_DUMMY(addr);
-    addr += reg_x_read;
-    tmpa = LOAD_ZERO(addr & 0xff);
-    tmpa |= (LOAD_ZERO((addr + 1) & 0xff) << 8);
-    return LOAD(tmpa);
-}
+#define LOAD_IND_X(addr)                                        \
+    (CLK_ADD(CLK, 3),                                           \
+    LOAD_ZERO_DUMMY(addr),                                      \
+    tmpa = LOAD_ZERO((addr + reg_x_read) & 0xff),               \
+    tmpa |= (LOAD_ZERO(((addr + reg_x_read) + 1) & 0xff) << 8), \
+    LOAD(tmpa))
+
 #endif
 
 #if 0    
@@ -552,18 +549,15 @@ inline uint8_t LOAD_IND_X(unsigned int addr)
         LOAD(LOAD_ZERO_ADDR((addr)) + reg_y_read))                          \
      : LOAD(LOAD_ZERO_ADDR((addr)) + reg_y_read))
 #else
-inline uint8_t LOAD_IND_Y(unsigned int addr)
-{
-    unsigned int tmpa;
-    CLK_ADD(CLK, 2);
-    tmpa = LOAD_ZERO(addr);
-    tmpa |= (LOAD_ZERO((addr + 1)) << 8);
-    if (((tmpa & 0xff) + reg_y_read) > 0xff) {
-        CLK_ADD(CLK, CLK_INT_CYCLE);
-        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y_read) & 0xff));
-    }
-    return LOAD(tmpa + reg_y_read);
-}
+#define LOAD_IND_Y(addr)                                            \
+    (CLK_ADD(CLK, 2),                                               \
+    tmpa = LOAD_ZERO(addr),                                         \
+    tmpa |= (LOAD_ZERO((addr + 1)) << 8),                           \
+    ((((tmpa & 0xff) + reg_y_read) > 0xff) ?                        \
+        (CLK_ADD(CLK, CLK_INT_CYCLE),                               \
+        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y_read) & 0xff)), \
+        LOAD(tmpa + reg_y_read)) :                                  \
+        LOAD(tmpa + reg_y_read)))
 #endif
     
 #if 0    
@@ -572,23 +566,17 @@ inline uint8_t LOAD_IND_Y(unsigned int addr)
 
 #define LOAD_ZERO_Y(addr) (LOAD_ZERO((addr) + reg_y_read))
 #else
-inline uint8_t LOAD_ZERO_X(unsigned int addr)
-{
-    LOAD_ZERO_DUMMY(addr);
-    return LOAD_ZERO(addr + reg_x_read);
-}
+#define LOAD_ZERO_X(addr)               \
+    (LOAD_ZERO_DUMMY(addr),             \
+    LOAD_ZERO(addr + reg_x_read))
 
-inline uint8_t NOOP_LOAD_ZERO_X(unsigned int addr)
-{
-    LOAD_ZERO_DUMMY(addr);
-    return LOAD_ZERO_DUMMY(addr + reg_x_read);
-}
+#define NOOP_LOAD_ZERO_X(addr)          \
+    (LOAD_ZERO_DUMMY(addr),             \
+    LOAD_ZERO_DUMMY(addr + reg_x_read))
 
-inline uint8_t LOAD_ZERO_Y(unsigned int addr)
-{
-    LOAD_ZERO_DUMMY(addr);
-    return LOAD_ZERO(addr + reg_y_read);
-}
+#define LOAD_ZERO_Y(addr)               \
+    (LOAD_ZERO_DUMMY(addr),             \
+    LOAD_ZERO(addr + reg_y_read))
 #endif
 
 #if 0
@@ -600,18 +588,15 @@ inline uint8_t LOAD_ZERO_Y(unsigned int addr)
         LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y_read))                      \
      : LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y_read))
 #else
-inline uint8_t LOAD_IND_Y_BANK(unsigned int addr)
-{
-    unsigned int tmpa;
-    CLK_ADD(CLK, 2);
-    tmpa = LOAD_ZERO(addr);
-    tmpa |= (LOAD_ZERO(addr + 1) << 8);
-    if (((tmpa & 0xff) + reg_y_read) > 0xff) {
-        CLK_ADD(CLK, CLK_INT_CYCLE);
-        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y_read) & 0xff));
-    }
-    return LOAD_IND(tmpa + reg_y_read);
-}
+#define LOAD_IND_Y_BANK(addr)                                           \
+    (CLK_ADD(CLK, 2),                                                   \
+    tmpa = LOAD_ZERO(addr),                                             \
+    tmpa |= (LOAD_ZERO(addr + 1) << 8),                                 \
+    ((((tmpa & 0xff) + reg_y_read) > 0xff) ?                            \
+        (CLK_ADD(CLK, CLK_INT_CYCLE),                                   \
+        LOAD_DUMMY((tmpa & 0xff00) | ((tmpa + reg_y_read) & 0xff)),     \
+        LOAD_IND(tmpa + reg_y_read)) :                                  \
+        LOAD_IND(tmpa + reg_y_read)))
 #endif
 
 #define STORE_ABS(addr, value, inc) \
@@ -2171,6 +2156,7 @@ static const uint8_t rewind_fetch_tab[] = {
 
 {
     static int cpu_is_jammed = 0;
+    unsigned int tmpa; /* needed for some of the opcode macros */
 
     /* handle 8502 fast mode refresh cycles */
     CPU_REFRESH_CLK
