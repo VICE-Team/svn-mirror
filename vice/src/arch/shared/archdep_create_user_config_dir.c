@@ -55,7 +55,7 @@ void archdep_create_user_config_dir(void)
 {
     char *cfg = archdep_user_config_path();
 
-#if defined(ARCHDEP_OS_UNIX)
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_HAIKU)
     const char *home = archdep_home_path();
     char *tmp;
 
@@ -66,7 +66,7 @@ void archdep_create_user_config_dir(void)
      * and it expected to be there
      */
     tmp = archdep_join_paths(home, ".config", NULL);    /* TODO: use define */
-    mkdir(tmp, 0755);
+    archdep_mkdir(tmp, 0755);
     errno = 0;
     lib_free(tmp);
 #endif

@@ -105,7 +105,7 @@ char *archdep_user_cache_path(void)
         return user_cache_dir;
     }
 
-#if defined(ARCHDEP_OS_UNIX)
+#if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
     char *xdg_cache = archdep_xdg_cache_home();
     user_cache_dir = archdep_join_paths(xdg_cache, "vice", NULL);
     lib_free(xdg_cache);
@@ -127,9 +127,6 @@ char *archdep_user_cache_path(void)
 #endif
         user_cache_dir = NULL;
     }
-#elif defined(ARCHDEP_OS_BEOS)
-    user_cache_dir = archdep_join_paths(archdep_home_path(),
-                                        "cache", "settings", "vice", NULL);
 #else
     user_cache_dir = lib_strdup(archdep_boot_path());
 #endif
