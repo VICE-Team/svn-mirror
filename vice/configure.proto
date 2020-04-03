@@ -200,7 +200,8 @@ VTE_CXXFLAGS=""
 m4_foreach([flag],
            [[-Wno-address-of-packed-member],
             [-Wno-char-subscripts],
-            [-Wno-format-signedness]],
+            [-Wno-format-signedness],
+            [-Wno-c99-designator]],
            [TEST_FLAG=flag
             VICE_CXXFLAG_REQUEST([$TEST_FLAG], [VTE_CXXFLAGS])
             ])
