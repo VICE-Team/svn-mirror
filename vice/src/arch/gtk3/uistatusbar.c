@@ -1616,7 +1616,7 @@ GtkWidget *ui_statusbar_create(void)
     kbd_debug_widget = kbd_debug_widget_create();
     allocated_bars[i].kbd_debug = kbd_debug_widget;
     g_object_ref_sink(kbd_debug_widget);
-    gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, 2, 16, 1);
+    gtk_grid_attach(GTK_GRID(sb), kbd_debug_widget, 0, 3, 16, 1);
 
     /* Set an impossible number of joyports to enabled so that the status
      * is guarenteed to be updated. */
@@ -2134,7 +2134,7 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
     if (main_grid != NULL) {
         statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
         if (statusbar != NULL) {
-            kbd = gtk_grid_get_child_at(GTK_GRID(statusbar), 0, 2);
+            kbd = gtk_grid_get_child_at(GTK_GRID(statusbar), 0, 3);
             if (kbd != NULL) {
                 if (state) {
                     gtk_widget_show_all(kbd);
