@@ -219,8 +219,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_EASYCALC             59 /* easycalc.c */
 #define CARTRIDGE_GMOD2                60 /* gmod2.c */
 #define CARTRIDGE_MAX_BASIC            61 /* maxbasic.c */
+#define CARTRIDGE_GMOD3                62 /* gmod2.c */
 
-#define CARTRIDGE_LAST                 61 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 62 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -274,6 +275,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_GAME_KILLER        "Game Killer" /* http://rr.pokefinder.org/wiki/Game_Killer */
 #define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_GMOD2              "GMod2" /* http://wiki.icomp.de/wiki/GMod2 */
+#define CARTRIDGE_NAME_GMOD3              "GMod3" /* http://wiki.icomp.de/wiki/GMod3 */
 #define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
 #define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
 #define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
@@ -442,6 +444,11 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_SIZE_256KB   0x00040000
 #define CARTRIDGE_SIZE_512KB   0x00080000
 #define CARTRIDGE_SIZE_1024KB  0x00100000
+#define CARTRIDGE_SIZE_2048KB  0x00200000
+#define CARTRIDGE_SIZE_4096KB  0x00400000
+#define CARTRIDGE_SIZE_8192KB  0x00800000
+#define CARTRIDGE_SIZE_16384KB 0x01000000
+#define CARTRIDGE_SIZE_MAX     CARTRIDGE_SIZE_16384KB
 
 #define CARTRIDGE_FILETYPE_BIN  1
 #define CARTRIDGE_FILETYPE_CRT  2

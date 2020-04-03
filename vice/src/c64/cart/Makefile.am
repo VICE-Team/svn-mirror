@@ -106,6 +106,8 @@ libc64cart_a_SOURCES = \
 	gamekiller.h \
 	gmod2.c \
 	gmod2.h \
+	gmod3.c \
+	gmod3.h \
 	gs.c \
 	gs.h \
 	ide64.c \

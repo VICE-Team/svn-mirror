@@ -67,6 +67,7 @@
 #include "funplay.h"
 #include "gamekiller.h"
 #include "gmod2.h"
+#include "gmod3.h"
 #include "gs.h"
 #include "ide64.h"
 #include "isepic.h"
@@ -462,6 +463,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_GMOD2:
             rc = gmod2_crt_attach(fd, rawcart, filename);
+            break;
+        case CARTRIDGE_GMOD3:
+            rc = gmod3_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_GS:
             rc = gs_crt_attach(fd, rawcart);

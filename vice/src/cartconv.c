@@ -67,7 +67,7 @@ static unsigned char input_filenames = 0;
 static char loadfile_is_crt = 0;
 static char loadfile_is_ultimax = 0;
 static int loadfile_cart_type = 0;
-static unsigned char filebuffer[(1024 * 1024) + 2];
+static unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
 static unsigned char headerbuffer[0x40];
 static unsigned char extra_buffer_32kb[0x8000];
 static unsigned char chipbuffer[16];
@@ -191,6 +191,7 @@ static const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_24KB, 0, 0, 3, 0, CARTRIDGE_NAME_EASYCALC, "ecr", save_easycalc_crt},
     {0, 1, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, CARTRIDGE_NAME_GMOD2, "gmod2", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 0, 0, CARTRIDGE_NAME_MAX_BASIC, "max", save_generic_crt},
+    {0, 1, CARTRIDGE_SIZE_2048KB | CARTRIDGE_SIZE_4096KB | CARTRIDGE_SIZE_8192KB | CARTRIDGE_SIZE_16384KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_GMOD3, "gmod3", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -853,7 +854,7 @@ static void save_regular_crt(unsigned int length, unsigned int banks, unsigned i
     unsigned int i;
     unsigned int real_banks = banks;
 
-    /* printf("save_regular_crt length: %d banks:%d address: %d\n", length, banks, address); */
+     printf("save_regular_crt length: %d banks:%d address: %d\n", length, banks, address);
 
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
@@ -1179,7 +1180,8 @@ static int load_input_file(char *filename)
         }
     } else {
         loadfile_is_crt = 0;
-        loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, 0x100000 - 14, infile) + 0x10;
+        loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, CARTRIDGE_SIZE_MAX - 14, infile) + 0x10;
+        printf("loadfile_size: %x\n", loadfile_size);
         switch (loadfile_size) {
             case CARTRIDGE_SIZE_4KB:
             case CARTRIDGE_SIZE_8KB:
@@ -1194,6 +1196,10 @@ static int load_input_file(char *filename)
             case CARTRIDGE_SIZE_256KB:
             case CARTRIDGE_SIZE_512KB:
             case CARTRIDGE_SIZE_1024KB:
+            case CARTRIDGE_SIZE_2048KB:
+            case CARTRIDGE_SIZE_4096KB:
+            case CARTRIDGE_SIZE_8192KB:
+            case CARTRIDGE_SIZE_16384KB:
                 loadfile_offset = 0;
                 fclose(infile);
                 return 0;
@@ -1211,6 +1217,10 @@ static int load_input_file(char *filename)
             case CARTRIDGE_SIZE_256KB + 2:
             case CARTRIDGE_SIZE_512KB + 2:
             case CARTRIDGE_SIZE_1024KB + 2:
+            case CARTRIDGE_SIZE_2048KB + 2:
+            case CARTRIDGE_SIZE_4096KB + 2:
+            case CARTRIDGE_SIZE_8192KB + 2:
+            case CARTRIDGE_SIZE_16384KB + 2:
                 loadfile_size -= 2;
                 loadfile_offset = 2;
                 fclose(infile);

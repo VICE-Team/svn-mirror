@@ -78,6 +78,7 @@
 #include "gamekiller.h"
 #include "georam.h"
 #include "gmod2.h"
+#include "gmod3.h"
 #include "gs.h"
 #include "ide64.h"
 #include "isepic.h"
@@ -609,6 +610,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return freezemachine_roml_read(addr);
         case CARTRIDGE_GMOD2:
             return gmod2_roml_read(addr);
+        case CARTRIDGE_GMOD3:
+            return gmod3_roml_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_rom_read(addr);
         case CARTRIDGE_KINGSOFT:
@@ -840,6 +843,8 @@ static uint8_t romh_read_slotmain(uint16_t addr)
         case CARTRIDGE_GMOD2:
             /* fake ultimax hack, read from ram */
             return ram_read(addr);
+        case CARTRIDGE_GMOD3:
+            return gmod3_romh_read(addr);
         /* return mem_read_without_ultimax(addr); */
         case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_FINAL_III:
@@ -945,6 +950,8 @@ static uint8_t ultimax_romh_read_hirom_slotmain(uint16_t addr)
         case CARTRIDGE_GMOD2:
             /* ultimax only enabled on writes */
             return mem_read_without_ultimax(addr);
+        case CARTRIDGE_GMOD3:
+            return gmod3_romh_read(addr);
         case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:
