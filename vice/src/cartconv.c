@@ -854,8 +854,6 @@ static void save_regular_crt(unsigned int length, unsigned int banks, unsigned i
     unsigned int i;
     unsigned int real_banks = banks;
 
-     printf("save_regular_crt length: %d banks:%d address: %d\n", length, banks, address);
-
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);

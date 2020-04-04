@@ -68,8 +68,8 @@ static unsigned int input_count = 0;
 static unsigned int output_shiftreg = 0;
 static unsigned int output_count = 0;
 
-static int command = 0;
-static int addr = 0;
+static unsigned int command = 0;
+static unsigned int addr = 0;
 
 static int write_enable_status = 0;
 static int ready_busy_status = 1;
@@ -143,7 +143,6 @@ void spi_flash_write_data(uint8_t value)
 
 void spi_flash_write_select(uint8_t value)
 {
-    unsigned int addr;
     /* LOG(("spi_flash_write_select %d", value)); */
     
     /* Each instruction is preceded by a rising edge on Chip Select Input with Serial Clock being held low. */
@@ -355,8 +354,8 @@ int spi_flash_snapshot_read_module(snapshot_t *s)
         || SMR_B_INT(m, (int*)&input_count) < 0
         || SMR_B_INT(m, (int*)&output_shiftreg) < 0
         || SMR_B_INT(m, (int*)&output_count) < 0
-        || SMR_B_INT(m, &command) < 0
-        || SMR_B_INT(m, &addr) < 0
+        || SMR_B_INT(m, (int*)&command) < 0
+        || SMR_B_INT(m, (int*)&addr) < 0
         || SMR_B_INT(m, &write_enable_status) < 0
         || SMR_B_INT(m, &ready_busy_status) < 0
         || SMR_BA(m, spi_flash_data, MAX_ROM_SIZE) < 0) {

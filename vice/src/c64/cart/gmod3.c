@@ -123,13 +123,12 @@ static int gmod3_cmode = CMODE_8KGAME;
 
 /* current bank */
 static int gmod3_bank = 0;
-static int gmod3_flash_write = 0;
 
 static char *gmod3_filename = NULL;
 static int gmod3_filetype = 0;
 
 static char *gmod3_flash_filename = NULL;
-static int gmod3_flash_rw = 0;
+static int gmod3_flash_write = 0;
 
 static int eeprom_cs = 1; /* active low */
 static int eeprom_data_in = 0;
@@ -533,7 +532,6 @@ void gmod3_detach(void)
 /* ---------------------------------------------------------------------*/
 
 static char snap_module_name[] = "CARTGMOD3";
-static char spi_flash_snap_module_name[] = "SPIFLASHGMOD3";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 
