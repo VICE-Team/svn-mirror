@@ -351,7 +351,7 @@ static ui_menu_item_t reset_submenu[] = {
 /** \brief  'File' menu - head section
  */
 static ui_menu_item_t file_menu_head[] = {
-    { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
+    { "Smart attach disk/tape/cartridge ...", UI_MENU_TYPE_ITEM_ACTION,
         "smart-attach", ui_smart_attach_callback, NULL,
         GDK_KEY_A, VICE_MOD_MASK },
 

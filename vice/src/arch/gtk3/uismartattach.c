@@ -30,6 +30,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "cartridge.h"
 #include "drive.h"
 #include "tape.h"
 #include "debug_gtk3.h"
@@ -52,7 +53,9 @@ static ui_file_filter_t filters[] = {
     { "All files", file_chooser_pattern_all },
     { "Disk images", file_chooser_pattern_disk },
     { "Tape images", file_chooser_pattern_tape },
+    { "Cartridge images", file_chooser_pattern_cart },
     { "Program files", file_chooser_pattern_program },
+    { "Snapshot files", file_chooser_pattern_snapshot },
     { "Archives files", file_chooser_pattern_archive },
     { "Compressed files", file_chooser_pattern_compressed },
     { NULL, NULL }
@@ -266,6 +269,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, filename_locale) < 0
                     && tape_image_attach(1, filename_locale) < 0
                     && autostart_snapshot(filename_locale, NULL) < 0
+                    && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
                     && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
                 /* failed */
                 debug_gtk3("smart attach failed.");
