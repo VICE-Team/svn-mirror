@@ -13273,6 +13273,10 @@ Boolean specifying whether to use the true (non square pixels) aspect ratio.
 @item StartMinimized
 Boolean specifying whether the emulator should start minimized
 
+@vindex RestoreWindowGeometry
+@item RestoreWindowGeometry
+Boolean specifying whether to restore an emulator to its last-saved position and size.
+
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
 Boolean specifying whether the emulator should save changed settings
@@ -13497,6 +13501,12 @@ Enable/disable automatic saving of settings on exit
 @itemx +minimized
 Start/Do not start with minimized window
 (@code{StartMinimized=1}, @code{StartMinimized=0}).
+
+@findex -restore-window-geometry, +restore-window-geometry
+@item -restore-window-geometry
+@itemx +restore-window-geometry
+Restore/ignore Window position(s) and dimension(s) stored in vicerc
+(@code{RestoreWindowGeometry=1}, @code{RestoreWindowGeometry=0}).
 
 @findex -aspect
 @item -aspect <aspect ratio>

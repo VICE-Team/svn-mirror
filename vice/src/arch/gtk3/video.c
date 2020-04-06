@@ -68,6 +68,11 @@ static int display_filter = 1;
 static int render_backend = 1;
 
 
+/** \brief  Restore window geometry when booting emu
+ */
+static int restore_window_geometry = 0;
+
+
 /** \brief  Set KeepAspectRatio resource (bool)
  *
  * The display will be updated to reflect any changes this makes.
@@ -139,6 +144,15 @@ static int set_render_backend(int val, void *param)
     return 0;
 }
 
+
+static int set_window_restore_geometry(int val, void *param)
+{
+    restore_window_geometry = val ? 1 : 0;
+    return 0;
+}
+
+
+
 /** \brief  Command line options related to generic video output
  */
 static const cmdline_option_t cmdline_options[] =
@@ -161,6 +175,14 @@ static const cmdline_option_t cmdline_options[] =
     { "-gtkbackend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GTKBackend", NULL,
       "<mode>", "Set rendering mode (0 = Software, 1 = OpenGL)" },
+    { "-restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)1,
+      NULL, "Restore window geometry from resources" },
+    { "+restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)0,
+      NULL, "Do not restore window geometry from resources" },
+
+
     CMDLINE_LIST_END
 };
 
@@ -178,6 +200,8 @@ static const resource_int_t resources_int[] = {
       &display_filter, set_display_filter, NULL },
     { "GTKBackend", 1, RES_EVENT_NO, NULL,
       &render_backend, set_render_backend, NULL },
+    { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
+      &restore_window_geometry, set_window_restore_geometry, NULL },
     RESOURCE_INT_LIST_END
 };
 

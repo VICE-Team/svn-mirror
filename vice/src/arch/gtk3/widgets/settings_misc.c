@@ -64,6 +64,7 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
     GtkWidget *backend_widget = canvas_render_backend_widget_create();
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
     GtkWidget *minimized_widget;
+    GtkWidget *restore_window_widget;
 
 
     grid = gtk_grid_new();
@@ -78,6 +79,10 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
                 "StartMinimized",
                 "Start the emulator window minimized");
 
+        restore_window_widget = vice_gtk3_resource_check_button_new(
+                "RestoreWindowGeometry",
+                "Restore emulator window(s) position and size from settings");
+
         gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, 1, 2, 1);
         g_object_set(vdev_widget, "margin-left",8, NULL);
         gtk_grid_attach(GTK_GRID(grid), vdev_widget, 0, 2, 2, 1);
@@ -87,6 +92,9 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
         gtk_grid_attach(GTK_GRID(grid), backend_widget, 1, 4, 2, 1);
         g_object_set(minimized_widget, "margin-top", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 5, 2, 1);
+        g_object_set(restore_window_widget, "margin-top", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 6, 2, 1);
+
     } else {
          gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 0, 1, 1);
     }
