@@ -103,7 +103,11 @@ static void destroy_current_team_list(char **list)
  */
 static GdkPixbuf *get_vice_logo(void)
 {
+#ifndef FREE_MR_AMMO
     return uidata_get_pixbuf("vice-logo-black.svg");
+#else
+    return uidata_get_pixbuf("nerd_smoking.jpg");
+#endif
 }
 
 /** \brief  Handler for the "destroy" event
@@ -202,11 +206,20 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
                 runtime_info.machine);
     }
 
+#ifdef FREE_MR_AMMO
+    gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(about), "FREE MR AMMO");
+#endif
+
+
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), version);
 
     /* Describe the program */
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about),
+#ifndef FREE_MR_AMMO
             "Emulates an 8-bit Commodore computer.");
+#else
+            "Free's Mr. Ammo");
+#endif
     /* set license */
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
     /* set website link and title */
