@@ -1243,6 +1243,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     gchar title[256];
 
+    int minimized = 0;
     int full = 0;
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1393,13 +1394,31 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_window_resize(GTK_WINDOW(new_window), width, height);
     }
 
-    if (resources_get_int("FullscreenEnable", &full) < 0) {
-        debug_gtk3("failed to get FullscreenEnabled resource.");
+
+    /*
+     * Do we start minimized?
+     */
+    if (resources_get_int("StartMinimized", &minimized) < 0) {
+        debug_gtk3("failed to get resource 'StartMinimized', ignoring.");
+        minimized = 0;  /* fallback : not minimized */
+    }
+    if (minimized) {
+        /* there's no gtk_window_minimize() so we do this:
+         * (there is a gtk_window_maximize(), so for API consistency I'd would
+         *  probably have added gtk_window_minimize() to mirror the maximize
+         *  function)
+         */
+        gtk_window_iconify(GTK_WINDOW(new_window));
     } else {
-        if (full) {
-            gtk_window_fullscreen(GTK_WINDOW(new_window));
+        /* my guess is a minimized/iconified window cannot be fullscreen */
+        if (resources_get_int("FullscreenEnable", &full) < 0) {
+            debug_gtk3("failed to get FullscreenEnabled resource.");
         } else {
-            gtk_window_unfullscreen(GTK_WINDOW(new_window));
+            if (full) {
+                gtk_window_fullscreen(GTK_WINDOW(new_window));
+            } else {
+                gtk_window_unfullscreen(GTK_WINDOW(new_window));
+            }
         }
     }
 

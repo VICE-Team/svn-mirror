@@ -6,6 +6,7 @@
 
 /*
  * $VICERES VirtualDevices      -vsid
+ * $VICERES StartMinimized      -vsid
  */
 
 /*
@@ -62,6 +63,8 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
     GtkWidget *jam_widget = jam_action_widget_create();
     GtkWidget *backend_widget = canvas_render_backend_widget_create();
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
+    GtkWidget *minimized_widget;
+
 
     grid = gtk_grid_new();
 
@@ -71,6 +74,10 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
                 "Enable virtual devices");
         cwd_widget = cwd_widget_create();
 
+        minimized_widget = vice_gtk3_resource_check_button_new(
+                "StartMinimized",
+                "Start the emulator window minimized");
+
         gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, 1, 2, 1);
         g_object_set(vdev_widget, "margin-left",8, NULL);
         gtk_grid_attach(GTK_GRID(grid), vdev_widget, 0, 2, 2, 1);
@@ -78,6 +85,8 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
         gtk_grid_attach(GTK_GRID(grid), filter_widget, 0, 4, 2, 1);
         g_object_set(filter_widget, "margin-left",8, NULL);
         gtk_grid_attach(GTK_GRID(grid), backend_widget, 1, 4, 2, 1);
+        g_object_set(minimized_widget, "margin-top", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 5, 2, 1);
     } else {
          gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 0, 1, 1);
     }
