@@ -5,8 +5,10 @@
  */
 
 /*
- * $VICERES VirtualDevices      -vsid
- * $VICERES StartMinimized      -vsid
+ * $VICERES VirtualDevices          -vsid
+ * $VICERES StartMinimized          -vsid
+ * $VICERES RestoreWindowGeometry   -vsid
+ * (I guess VSID could also use this?)
  */
 
 /*
