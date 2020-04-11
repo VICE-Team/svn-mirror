@@ -94,9 +94,8 @@ static GtkWidget *create_content_widget(void)
     GtkTreeViewColumn *column_macro;
     GtkTreeViewColumn *column_state;
 
-
     scrolled = gtk_scrolled_window_new(NULL, NULL);
-   store = create_store();
+    store = create_store();
     view =  gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 
     text_renderer = gtk_cell_renderer_text_new();
