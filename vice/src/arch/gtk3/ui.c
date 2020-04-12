@@ -1267,7 +1267,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 #endif
 
     /* set title */
-#if 0
+#if 1
     g_snprintf(title, 256, "VICE (%s)", machine_get_name());
 #else
     g_snprintf(title, 256, "FREE MR AMMO (emu is %s, but who cares?)", machine_get_name());
