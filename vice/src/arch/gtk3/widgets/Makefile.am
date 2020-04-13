@@ -105,6 +105,8 @@ libwidgets_a_SOURCES = \
 	petdwwwidget.c \
 	pethrewidget.c \
 	petiosizewidget.c \
+	petram9widget.c \
+	petramawidget.c \
 	petkeyboardtypewidget.c \
 	petmiscwidget.c \
 	petramsizewidget.c \
@@ -255,6 +257,8 @@ EXTRA_DIST = \
 	petdwwwidget.h \
 	pethrewidget.h \
 	petiosizewidget.h \
+	petram9widget.h \
+	petramawidget.h \
 	petkeyboardtypewidget.h \
 	petmiscwidget.h \
 	petramsizewidget.h \

@@ -53,6 +53,8 @@
 #include "machine.h"
 #include "machinemodelwidget.h"
 #include "petiosizewidget.h"
+#include "petram9widget.h"
+#include "petramawidget.h"
 #include "petkeyboardtypewidget.h"
 #include "petmiscwidget.h"
 #include "petramsizewidget.h"
@@ -111,6 +113,8 @@ static GtkWidget *pet_video_size_widget = NULL;
 static GtkWidget *pet_keyboard_widget = NULL;
 static GtkWidget *pet_misc_widget = NULL;
 static GtkWidget *pet_io_widget = NULL;
+static GtkWidget *pet_ram9_widget = NULL;
+static GtkWidget *pet_rama_widget = NULL;
 
 static GtkWidget *c64dtv_rev_widget = NULL;
 static GtkWidget *reset_with_iec_widget = NULL;
@@ -265,6 +269,22 @@ static void pet_blank_callback(int state)
 static void pet_io_callback(int state)
 {
     debug_gtk3("called with IO size %d.", state);
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget);
+    }
+}
+
+static void pet_ram9_callback(int state)
+{
+    debug_gtk3("called with RAM9 type %d.", state);
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget);
+    }
+}
+
+static void pet_rama_callback(int state)
+{
+    debug_gtk3("called with RAMA type %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -543,6 +563,8 @@ static void machine_model_handler_pet(int model)
     pet_keyboard_type_widget_sync(pet_keyboard_widget);
     pet_misc_widget_sync(pet_misc_widget);
     pet_io_size_widget_sync(pet_io_widget);
+    pet_ram9_widget_sync(pet_ram9_widget);
+    pet_rama_widget_sync(pet_rama_widget);
 }
 
 
@@ -1017,6 +1039,14 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     pet_io_widget = pet_io_size_widget_create();
     pet_io_size_widget_set_callback(pet_io_widget, pet_io_callback);
     gtk_grid_attach(GTK_GRID(pet_grid), pet_io_widget, 2, 1, 1, 1);
+
+    pet_ram9_widget = pet_ram9_widget_create();
+    pet_ram9_widget_set_callback(pet_ram9_widget, pet_ram9_callback);
+    gtk_grid_attach(GTK_GRID(pet_grid), pet_ram9_widget, 3, 0, 1, 1);
+
+    pet_rama_widget = pet_rama_widget_create();
+    pet_rama_widget_set_callback(pet_rama_widget, pet_rama_callback);
+    gtk_grid_attach(GTK_GRID(pet_grid), pet_rama_widget, 3, 1, 1, 1);
 
     pet_misc_widget = pet_misc_widget_create();
     pet_misc_widget_set_crtc_callback(pet_misc_widget, pet_crtc_callback);
