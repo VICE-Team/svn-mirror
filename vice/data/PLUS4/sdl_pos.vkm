@@ -68,7 +68,7 @@
 # When a bigger-spaced key is used,
 # it uses the upper-left-most key value.
 
-# Symbolic Mapping, US Layout, Plus4, SDL
+# Positional Mapping, US Layout, Plus4, SDL
 
 #############################################################################
 #
