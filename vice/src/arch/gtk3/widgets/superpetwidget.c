@@ -6,8 +6,6 @@
 
 /*
  * $VICERES SuperPET        xpet
- * $VICERES Ram9            xpet
- * $VICERES RamA            xpet
  * $VICERES CPUswitch       xpet
  * $VICERES H6809RomAName   xpet
  * $VICERES H6809RomBName   xpet
@@ -58,8 +56,6 @@ static GtkWidget *superpet_enable_widget = NULL;
 static GtkWidget *acia1_widget = NULL;
 static GtkWidget *cpu_widget = NULL;
 static GtkWidget *rom_widget = NULL;
-static GtkWidget *ram_9xxx_widget = NULL;
-static GtkWidget *ram_axxx_widget = NULL;
 
 
 /** \brief  List of baud rates for the ACIA widget
@@ -216,26 +212,6 @@ static GtkWidget *create_superpet_rom_widget(void)
 }
 
 
-/** \brief  Create check button for the Ram9 resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_superpet_9xxx_ram_widget(void)
-{
-    return vice_gtk3_resource_check_button_new("Ram9", "$9XXX as RAM");
-}
-
-
-/** \brief  Create check button for the RamA resource
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_superpet_axxx_ram_widget(void)
-{
-    return vice_gtk3_resource_check_button_new("RamA", "$AXXX as RAM");
-}
-
-
 /** \brief  Create a SuperPET-specific widget to be used in the PET model widget
  *
  * \return  GtkGrid
@@ -263,17 +239,6 @@ GtkWidget *superpet_widget_create(void)
 
     rom_widget = create_superpet_rom_widget();
     gtk_grid_attach(GTK_GRID(grid), rom_widget, 1 ,3 , 2, 3);
-
-    ram_9xxx_widget = create_superpet_9xxx_ram_widget();
-    g_object_set(ram_9xxx_widget, "margin-left", 8, NULL);
-    gtk_widget_set_vexpand(ram_9xxx_widget, TRUE);
-    gtk_widget_set_valign(ram_9xxx_widget, GTK_ALIGN_END);
-    ram_axxx_widget = create_superpet_axxx_ram_widget();
-    g_object_set(ram_axxx_widget, "margin-left", 8, NULL);
-    gtk_widget_set_valign(ram_axxx_widget, GTK_ALIGN_END);
-
-    gtk_grid_attach(GTK_GRID(grid), ram_9xxx_widget, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), ram_axxx_widget, 0, 5, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
