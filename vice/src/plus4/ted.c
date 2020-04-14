@@ -96,6 +96,8 @@ void ted_change_timing(machine_timing_t *machine_timing, int bordermode)
         ted_set_geometry();
         raster_mode_change();
     }
+    /* this should go to ted_chip_model_init() incase we ever go that far */
+    ted_color_update_palette(ted.raster.canvas);
 }
 
 void ted_delay_oldclk(CLOCK num)
