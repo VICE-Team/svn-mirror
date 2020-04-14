@@ -315,6 +315,7 @@ static void plus4_debug_dump_resources(void)
     int video = 0;
     int ram = 0;
     int hack = -1;
+    const char *rom = NULL;
 
     const char *vidmodes[] = { "UNKNOWN", "PAL", "NTSC" };
 
@@ -341,6 +342,28 @@ static void plus4_debug_dump_resources(void)
             hack,
             get_memhack_func != NULL ?
             get_memhack_func(hack) : "get_memhack_func not set");
+
+    /* dump active ROMs */
+    resources_get_string("KernalName", &rom);
+    g_print("    KernalName          : %s\n", rom);
+    resources_get_string("BasicName", &rom);
+    g_print("    BasicName           : %s\n", rom);
+    resources_get_string("FunctionLoWName", &rom);
+    g_print("    FunctionLoWName     : %s\n", rom);
+    resources_get_string("FunctionHighName", &rom);
+    g_print("    FunctionHighName:   : %s\n", rom);
+    resources_get_string("c1loName", &rom);
+    g_print("    c1loName            : %s\n", rom);
+    resources_get_string("c1hiName", &rom);
+    g_print("    c1hiName            : %s\n", rom);
+    resources_get_string("c2loName", &rom);
+    g_print("    c2loName            : %s\n", rom);
+    resources_get_string("c2hiName", &rom);
+    g_print("    c2hiName            : %s\n", rom);
+
+
+
+
 #endif
 }
 
@@ -364,6 +387,7 @@ static void plus4_mem_size_callback(GtkWidget *widget, int value)
     } else {
         debug_gtk3("failed.");
     }
+    machine_model_widget_update(machine_widget);
     plus4_debug_dump_resources();
 }
 
@@ -393,6 +417,7 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
         debug_gtk3("failed.");
     }
 
+    machine_model_widget_update(machine_widget);
     plus4_debug_dump_resources();
 }
 
@@ -584,6 +609,7 @@ static void plus4_video_callback(int model)
 {
     debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
+    plus4_debug_dump_resources();
 }
 
 #if 0
@@ -604,6 +630,7 @@ static void machine_model_handler_plus4(int model)
 {
     debug_gtk3("called with model %d.", model);
     video_model_widget_update(video_widget);
+    plus4_debug_dump_resources();
 }
 
 
