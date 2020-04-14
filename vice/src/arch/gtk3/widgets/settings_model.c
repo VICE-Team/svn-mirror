@@ -57,6 +57,7 @@
 #include "petramawidget.h"
 #include "petkeyboardtypewidget.h"
 #include "petmiscwidget.h"
+#include "petmodel.h"
 #include "petramsizewidget.h"
 #include "petvideosizewidget.h"
 #include "plus4memoryexpansionwidget.h"
@@ -134,7 +135,6 @@ static void video_model_callback(int model)
         debug_gtk3("got true model %d", true_model);
         machine_model_widget_update(machine_widget);
     }
-
 }
 
 
@@ -555,6 +555,24 @@ static void machine_model_handler_cbm6x0(int model)
 }
 
 
+/** \brief  Set sensitivity of PET Ram9 and RamA widgets
+ *
+ * Only the 8096 model has the Ram9 and RamA resources
+ */
+static void pet_set_ram9a_sensitivity(void)
+{
+    gboolean model_is_8096;
+
+    if (get_model_func != NULL) {
+        int true_model = get_model_func();
+
+        model_is_8096 = true_model == PETMODEL_8096;
+        gtk_widget_set_sensitive(pet_ram9_widget, model_is_8096);
+        gtk_widget_set_sensitive(pet_rama_widget, model_is_8096);
+    }
+}
+
+
 static void machine_model_handler_pet(int model)
 {
     debug_gtk3("Called.");
@@ -565,6 +583,7 @@ static void machine_model_handler_pet(int model)
     pet_io_size_widget_sync(pet_io_widget);
     pet_ram9_widget_sync(pet_ram9_widget);
     pet_rama_widget_sync(pet_rama_widget);
+    pet_set_ram9a_sensitivity();
 }
 
 
@@ -1046,6 +1065,7 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
 
     pet_rama_widget = pet_rama_widget_create();
     pet_rama_widget_set_callback(pet_rama_widget, pet_rama_callback);
+    pet_set_ram9a_sensitivity();
     gtk_grid_attach(GTK_GRID(pet_grid), pet_rama_widget, 3, 1, 1, 1);
 
     pet_misc_widget = pet_misc_widget_create();
