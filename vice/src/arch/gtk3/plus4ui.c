@@ -36,12 +36,14 @@
 #include "crtcontrolwidget.h"
 #include "machine.h"
 #include "machinemodelwidget.h"
+#include "plus4memhacks.h"
 #include "plus4model.h"
 #include "sampler.h"
 #include "ted.h"
 #include "ui.h"
 #include "uicart.h"
 #include "uimachinewindow.h"
+#include "settings_model.h"
 #include "settings_sampler.h"
 #include "videomodelwidget.h"
 #include "widgethelpers.h"
@@ -147,6 +149,9 @@ int plus4ui_init(void)
     uicart_set_detach_func(cartridge_detach_image);
     /*uicart_set_set_default_func(cartridge_set_default);*/
     /*uicart_set_unset_default_func(cartridge_unset_default);*/
+
+    settings_model_widget_set_memhack_func(plus4_memory_hacks_desc);
+
     return 0;
 }
 

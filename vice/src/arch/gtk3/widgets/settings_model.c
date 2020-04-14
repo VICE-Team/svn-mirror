@@ -103,6 +103,8 @@ static GtkWidget *cia_widget = NULL;
 
 static int (*get_model_func)(void);
 
+static const char *(*get_memhack_func)(int hack);
+
 
 /** \brief  Video model widget
  */
@@ -123,6 +125,7 @@ static GtkWidget *pet_rama_widget = NULL;
 static GtkWidget *c64dtv_rev_widget = NULL;
 static GtkWidget *reset_with_iec_widget = NULL;
 
+
 static void video_model_callback(int model)
 {
 #ifdef HAVE_DEBUG_GTK3UI
@@ -141,6 +144,11 @@ static void video_model_callback(int model)
 }
 
 
+/* {{{ C128 glue logic
+ *
+ * x128-specific callbacks
+ */
+
 static void vdc_revision_callback(int revision)
 {
     debug_gtk3("got VDC revision %d.", revision);
@@ -151,13 +159,13 @@ static void vdc_revision_callback(int revision)
 
 
 static void vdc_ram_callback(int state)
-{
-    debug_gtk3("Got VDC 64KB RAM state %d.", state);
+{    debug_gtk3("Got VDC 64KB RAM state %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
 }
 
+/* }}} */
 
 static void sid_model_callback(int model)
 {
@@ -221,6 +229,8 @@ static void cia_model_callback(int cia_num, int cia_model)
     }
 }
 
+
+/* {{{ PET glue logic */
 
 /** \brief  Callback for PET RAM size changes
  *
@@ -292,6 +302,48 @@ static void pet_rama_callback(int state)
         machine_model_widget_update(machine_widget);
     }
 }
+/* }}} */
+
+
+/* {{{ Plus4 glue logic and helpers */
+
+
+static void plus4_debug_dump_resources(void)
+{
+#ifdef HAVE_DEBUG_GTK3UI
+    int model = -1;
+    int video = 0;
+    int ram = 0;
+    int hack = -1;
+
+    const char *vidmodes[] = { "UNKNOWN", "PAL", "NTSC" };
+
+    /* get model */
+    if (get_model_func != NULL) {
+        model = get_model_func();
+    }
+
+    /* get TED PAL/NTSC mode */
+    if (resources_get_int("MachineVideoStandard", &video) < 0) {
+        video = 0;
+    }
+
+    /* get RAM size */
+    resources_get_int("RamSize", &ram);
+    /* get memory exp hack */
+    resources_get_int("MemoryHack", &hack);
+
+    g_print("Plus4 resources dump:\n");
+    g_print("    get_model_func()    : %d\n", model);
+    g_print("    MachineVideoStandard: %d (%s)\n", video, vidmodes[video]);
+    g_print("    RAM size            : %dKB\n", ram);
+    g_print("    MemoryHack          : %d (%s)\n",
+            hack,
+            get_memhack_func != NULL ?
+            get_memhack_func(hack) : "get_memhack_func not set");
+#endif
+}
+
 
 /** \brief  Extra calback for the Plus4 memory size widget
  *
@@ -312,6 +364,7 @@ static void plus4_mem_size_callback(GtkWidget *widget, int value)
     } else {
         debug_gtk3("failed.");
     }
+    plus4_debug_dump_resources();
 }
 
 
@@ -339,8 +392,15 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
     } else {
         debug_gtk3("failed.");
     }
+
+    plus4_debug_dump_resources();
 }
 
+
+
+
+
+/* }}} */
 
 
 /*
@@ -1433,4 +1493,14 @@ GtkWidget *settings_model_widget_create(GtkWidget *parent)
 void settings_model_widget_set_model_func(int (*func)(void))
 {
     get_model_func = func;
+}
+
+
+/** \brief  Set function to get a memory hack description
+ *
+ * \param[in]   func    function to get a string for a memhack ID (int)
+ */
+void settings_model_widget_set_memhack_func(const char *(func)(int))
+{
+    get_memhack_func = func;
 }

@@ -38,6 +38,16 @@
 #include "resources.h"
 #include "types.h"
 
+
+static const char *hack_desc[] = {
+    "None",
+    "256KB CSORY",
+    "256KB Hannes",
+    "1024KB Hannes",
+    "4096KN Hannes"
+};
+
+
 static int memory_hack = 0;
 
 static int set_memory_hack(int val, void *param)
@@ -129,6 +139,23 @@ static const resource_int_t resources_int[] = {
       &memory_hack, set_memory_hack, NULL },
     RESOURCE_INT_LIST_END
 };
+
+
+/** \brief  Get description of \a hack
+ *
+ * \param[in]   hack    Plus4 hack ID
+ *
+ * \return  description of hack, to be used in UI or debug code
+ */
+const char *plus4_memory_hacks_desc(int hack)
+{
+    if (hack < 0 || hack >= (sizeof hack_desc / sizeof hack_desc[0])) {
+        return "Invalid";
+    }
+    return hack_desc[hack];
+}
+
+
 
 int plus4_memory_hacks_resources_init(void)
 {

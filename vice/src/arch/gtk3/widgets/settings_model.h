@@ -33,5 +33,6 @@
 
 GtkWidget * settings_model_widget_create(GtkWidget *parent);
 void        settings_model_widget_set_model_func(int (*func)(void));
+void        settings_model_widget_set_memhack_func(const char *(*func)(int));
 
 #endif
