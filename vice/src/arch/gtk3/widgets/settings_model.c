@@ -557,18 +557,18 @@ static void machine_model_handler_cbm6x0(int model)
 
 /** \brief  Set sensitivity of PET Ram9 and RamA widgets
  *
- * Only the 8096 model has the Ram9 and RamA resources
+ * Only the 8296 model has the Ram9 and RamA resources
  */
 static void pet_set_ram9a_sensitivity(void)
 {
-    gboolean model_is_8096;
+    gboolean model_is_8296;
 
     if (get_model_func != NULL) {
         int true_model = get_model_func();
 
-        model_is_8096 = true_model == PETMODEL_8096;
-        gtk_widget_set_sensitive(pet_ram9_widget, model_is_8096);
-        gtk_widget_set_sensitive(pet_rama_widget, model_is_8096);
+        model_is_8296 = true_model == PETMODEL_8296;
+        gtk_widget_set_sensitive(pet_ram9_widget, model_is_8296);
+        gtk_widget_set_sensitive(pet_rama_widget, model_is_8296);
     }
 }
 
