@@ -78,6 +78,12 @@
 #include "settings_model.h"
 
 
+/*
+ * Forward declarations
+ */
+static void plus4_debug_dump_resources(void);
+
+
 /** \brief  List of C64DTV revisions
  */
 static const vice_gtk3_radiogroup_entry_t c64dtv_revisions[] = {
@@ -140,6 +146,8 @@ static void video_model_callback(int model)
 #endif
         debug_gtk3("got true model %d", true_model);
         machine_model_widget_update(machine_widget);
+
+        plus4_debug_dump_resources();
     }
 }
 
@@ -361,9 +369,6 @@ static void plus4_debug_dump_resources(void)
     resources_get_string("c2hiName", &rom);
     g_print("    c2hiName            : %s\n", rom);
 
-
-
-
 #endif
 }
 
@@ -379,7 +384,7 @@ static void plus4_mem_size_callback(GtkWidget *widget, int value)
 {
     int hack = 0;
 
-    resources_get_int("MemoryHack", &hack);
+    resources_get_int("RamSize", &hack);
     debug_gtk3("Got new value: %dKB, MemoryHack = %d", value, hack);
     debug_gtk3("Calling plus4_memory_expansion_widget_sync(): ");
     if (plus4_memory_expansion_widget_sync()) {
@@ -420,10 +425,6 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
     machine_model_widget_update(machine_widget);
     plus4_debug_dump_resources();
 }
-
-
-
-
 
 /* }}} */
 
