@@ -1,5 +1,5 @@
-/** \file   plus4memoryexpansionwidget.h
- * \brief   Plus4 memory expansion widget - header
+/** \file   plus4memorysizewidget.h
+ * \brief   Plus4 memory size widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,14 +25,15 @@
  *
  */
 
-#ifndef VICE_PLUS4MEMORYEXPANSIONWIDGET_H
-#define VICE_PLUS4MEMORYEXPANSIONWIDGET_H
+#ifndef VICE_PLUS4MEMORYSIZEWIDGET_H
+#define VICE_PLUS4MEMORYSIZEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * plus4_memory_expansion_widget_create(void);
-void        plus4_memory_expansion_widget_add_callback(void (*cb)(GtkWidget *, int));
-gboolean    plus4_memory_expansion_widget_sync(void);
+
+GtkWidget * plus4_memory_size_widget_create(void);
+void        plus4_memory_size_widget_add_callback(void (*cb)(GtkWidget *, int));
+gboolean    plus4_memory_size_widget_sync(void);
 
 #endif

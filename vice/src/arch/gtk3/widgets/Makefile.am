@@ -115,6 +115,7 @@ libwidgets_a_SOURCES = \
 	plus4aciawidget.c \
 	plus4digiblasterwidget.c \
 	plus4memoryexpansionwidget.c \
+	plus4memorysizewidget.c \
 	printerdriverwidget.c \
 	printeremulationtypewidget.c \
 	printeroutputdevicewidget.c \
@@ -267,6 +268,7 @@ EXTRA_DIST = \
 	plus4aciawidget.h \
 	plus4digiblasterwidget.h \
 	plus4memoryexpansionwidget.h \
+	plus4memorysizewidget.h \
 	printerdriverwidget.h \
 	printeremulationtypewidget.h \
 	printeroutputdevicewidget.h \

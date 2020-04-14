@@ -60,7 +60,9 @@
 #include "petmodel.h"
 #include "petramsizewidget.h"
 #include "petvideosizewidget.h"
+#include "plus4memhacks.h"
 #include "plus4memoryexpansionwidget.h"
+#include "plus4memorysizewidget.h"
 #include "resourcecheckbutton.h"
 #include "resources.h"
 #include "sidmodelwidget.h"
@@ -107,6 +109,7 @@ static int (*get_model_func)(void);
 static GtkWidget *video_widget = NULL;
 
 static GtkWidget *ram_widget = NULL;
+static GtkWidget *memhack_widget = NULL;
 static GtkWidget *vdc_widget = NULL;
 static GtkWidget *sid_widget = NULL;
 static GtkWidget *kernal_widget = NULL;
@@ -289,6 +292,55 @@ static void pet_rama_callback(int state)
         machine_model_widget_update(machine_widget);
     }
 }
+
+/** \brief  Extra calback for the Plus4 memory size widget
+ *
+ * Triggered when the widget changes value.
+ *
+ * \param[in,out]   widget      plus4 ram size widget
+ * \param[in]       value       new size in KB
+ */
+static void plus4_mem_size_callback(GtkWidget *widget, int value)
+{
+    int hack = 0;
+
+    resources_get_int("MemoryHack", &hack);
+    debug_gtk3("Got new value: %dKB, MemoryHack = %d", value, hack);
+    debug_gtk3("Calling plus4_memory_expansion_widget_sync(): ");
+    if (plus4_memory_expansion_widget_sync()) {
+        debug_gtk3("OK.");
+    } else {
+        debug_gtk3("failed.");
+    }
+}
+
+
+/** \brief  Extra calback for the Plus4 memory expansion hack widget
+ *
+ * Triggered when the widget changes value.
+ *
+ * \param[in,out]   widget      plus4 memory expansion hack widget
+ * \param[in]       value       new size in KB
+ */
+static void plus4_mem_hack_callback(GtkWidget *widget, int value)
+{
+    int size = 0;
+
+    resources_get_int("RamSize", &size);
+    debug_gtk3("Got new MemoryHack value: %d, RamSize = %d", value, size);
+
+    plus4_memory_size_widget_sync();
+    debug_gtk3("Setting RamSize widget sensitivity to %s",
+            value == MEMORY_HACK_NONE ? "TRUE" : "FALSE");
+    gtk_widget_set_sensitive(ram_widget, value == MEMORY_HACK_NONE);
+    debug_gtk3("Calling plus4_memory_size_widget_sync(): ");
+    if (plus4_memory_size_widget_sync()) {
+        debug_gtk3("OK.");
+    } else {
+        debug_gtk3("failed.");
+    }
+}
+
 
 
 /*
@@ -474,7 +526,7 @@ static void plus4_video_callback(int model)
     machine_model_widget_update(machine_widget);
 }
 
-
+#if 0
 /** \brief  Callback for the Plus4 memory size/hack
  *
  * Calls model widget update
@@ -486,7 +538,7 @@ static void plus4_memory_callback(int ram, int hack)
 {
     machine_model_widget_update(machine_widget);
 }
-
+#endif
 
 static void machine_model_handler_plus4(int model)
 {
@@ -1004,6 +1056,8 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
  */
 static GtkWidget *create_plus4_layout(GtkWidget *grid)
 {
+    int hack;
+
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
@@ -1012,10 +1066,18 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     video_model_widget_set_callback(video_widget, plus4_video_callback);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
-    /* RAM size/expansion hacks */
-    ram_widget = plus4_memory_expansion_widget_create();
-    plus4_memory_expansion_widget_set_callback(plus4_memory_callback);
-    gtk_grid_attach(GTK_GRID(grid), ram_widget, 2, 0, 1, 1);
+    /* memory expansion hacks */
+    memhack_widget = plus4_memory_expansion_widget_create();
+    plus4_memory_expansion_widget_add_callback(plus4_mem_hack_callback);
+    gtk_grid_attach(GTK_GRID(grid), memhack_widget, 0, 1, 1, 1);
+
+    /* memory size */
+    ram_widget = plus4_memory_size_widget_create();
+    plus4_memory_size_widget_add_callback(plus4_mem_size_callback);
+    gtk_grid_attach(GTK_GRID(grid), ram_widget, 1, 1, 1, 1);
+
+    resources_get_int("MemoryHack", &hack);
+    gtk_widget_set_sensitive(memhack_widget, hack == MEMORY_HACK_NONE);
 
     gtk_widget_show_all(grid);
     return grid;

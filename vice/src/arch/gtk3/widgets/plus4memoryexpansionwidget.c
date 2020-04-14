@@ -5,7 +5,6 @@
  */
 
 /*
- * $VICERES RamSize     xplus4
  * $VICERES MemoryHack  xplus4
  */
 
@@ -36,105 +35,29 @@
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
+#include "resourceradiogroup.h"
 #include "plus4memhacks.h"
 
 #include "plus4memoryexpansionwidget.h"
 
 
-/** \brief  Helper constants
- */
-enum {
-    RAM_16KB,           /**< normal 16KB machine */
-    RAM_32KB,           /**< normal 32KB machine */
-    RAM_64KB,           /**< normal 64KB machine */
-    RAM_256KB_CSORY,    /**< 256KB machine with memory expansion hack */
-    RAM_256KB_HANNES,   /**< 256KB machine with memory expansion hack */
-    RAM_1MB_HANNES,     /**< 1024KB machine with memory expansion hack */
-    RAM_4MB_HANNES      /**< 4096KB machine with memory expansion hack */
-};
-
-
-/** \brief  List of memory sizes, including memory expansion hacks
+/** \brief  List of memory expansion hacks
  *
  * This list is used to build the radio button group
  */
 static const vice_gtk3_radiogroup_entry_t expansions[] = {
-    { "16KB",           RAM_16KB },
-    { "32KB",           RAM_32KB},
-    { "64KB",           RAM_64KB },
-    { "256KB (CSORY)",  RAM_256KB_CSORY },
-    { "256KB (HANNES)", RAM_256KB_HANNES },
-    { "1MB (HANNES)",   RAM_1MB_HANNES },
-    { "4MB (HANNES)",   RAM_4MB_HANNES },
+    { "None",           MEMORY_HACK_NONE },
+    { "256KB (CSORY)",  MEMORY_HACK_C256K },
+    { "256KB (HANNES)", MEMORY_HACK_H256K },
+    { "1MB (HANNES)",   MEMORY_HACK_H1024K },
+    { "4MB (HANNES)",   MEMORY_HACK_H4096K },
     { NULL, -1 }
 };
 
 
-/** \brief  User-defined callback
- *
- * Takes two arguments: ram-size in KB and memory hack type
+/** \brief  Reference to the radiogroup widget
  */
-static void (*extra_callback)(int, int) = NULL;
-
-
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * Sets memory size and enabled/disables memory expansion hacks, depending on
- * installed memory size
- *
- * \param[in]   widget      radio button
- * \param[in]   user_data   enum to determine what memory config to use
- */
-static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
-{
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        int ram = RAM_64KB;                     /* RAM size in KB */
-        int hack = MEMORY_HACK_NONE;            /* RAM expansion 'hacks' */
-        int index = GPOINTER_TO_INT(user_data); /* index in radio group */
-
-        switch (index) {
-            case RAM_16KB:
-                ram = 16;
-                break;
-            case RAM_32KB:
-                ram = 32;
-                break;
-            case RAM_64KB:
-                ram = 64;
-                break;
-            case RAM_256KB_CSORY:
-                ram = 256;
-                hack = MEMORY_HACK_C256K;
-                break;
-            case RAM_256KB_HANNES:
-                ram = 256;
-                hack = MEMORY_HACK_H256K;
-                break;
-            case RAM_1MB_HANNES:
-                ram = 1024;
-                hack = MEMORY_HACK_H1024K;
-                break;
-            case RAM_4MB_HANNES:
-                ram = 4096;
-                hack = MEMORY_HACK_H4096K;
-                break;
-            default:
-                /* should never get here */
-                fprintf(stderr, "%s:%d:%s(): invalid memory size index %d\n",
-                        __FILE__, __LINE__, __func__, index);
-        }
-
-        debug_gtk3("setting RamSize to %d, MemoryHack to %d.", ram, hack);
-
-        resources_set_int("RamSize", ram);
-        resources_set_int("MemoryHack", hack);
-
-        if (extra_callback != NULL) {
-            extra_callback(ram, hack);
-        }
-    }
-
-}
+static GtkWidget *memory_exp_widget = NULL;
 
 
 /** \brief  Create Plus/4 memory expansion widget
@@ -145,8 +68,13 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
 {
     GtkWidget *grid;
 
-    grid = uihelpers_radiogroup_create("RAM settings",
-            expansions, on_radio_toggled, 0);
+    grid = uihelpers_create_grid_with_label("Memory expansion hack", 1);
+    memory_exp_widget = vice_gtk3_resource_radiogroup_new(
+            "MemoryHack",
+            expansions,
+            GTK_ORIENTATION_VERTICAL);
+    gtk_grid_attach(GTK_GRID(grid), memory_exp_widget, 0, 1, 1, 1);
+    g_object_set(memory_exp_widget, "margin-left", 16, NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -157,9 +85,21 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
  *
  * This callback will be called with RAM-size and hack-type arguments
  *
- * \param[in]   callback    user-defined callback
+ * \param[in]   callback    function to trigger
  */
-void plus4_memory_expansion_widget_set_callback(void (*callback)(int, int))
+void plus4_memory_expansion_widget_add_callback(void (*cb)(GtkWidget *, int))
 {
-    extra_callback = callback;
+    vice_gtk3_resource_radiogroup_add_callback(memory_exp_widget, cb);
+}
+
+
+/** \brief  Synchronize the widget with its resource
+ *
+ * No need for passing in the widget reference, there shall be only one.
+ *
+ * \return  bool
+ */
+gboolean plus4_memory_expansion_widget_sync(void)
+{
+    return vice_gtk3_resource_radiogroup_sync(memory_exp_widget);
 }
