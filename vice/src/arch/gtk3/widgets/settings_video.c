@@ -67,6 +67,7 @@
 
 #include <gtk/gtk.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "ui.h"
 #include "basewidgets.h"
