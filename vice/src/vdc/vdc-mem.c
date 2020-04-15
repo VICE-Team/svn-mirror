@@ -40,7 +40,6 @@
 #include "monitor.h"
 #include "types.h"
 #include "vdc-mem.h"
-#include "vdc-resources.h"
 #include "vdc.h"
 #include "vdctypes.h"
 
@@ -68,7 +67,7 @@ static void vdc_write_data(void)
     ptr = (vdc.regs[18] << 8) + vdc.regs[19];
 
     /* Write data byte to update address. */
-    vdc_ram_store(ptr & vdc.vdc_address_mask, vdc.regs[31]);
+    vdc.ram[ptr & vdc.vdc_address_mask] = vdc.regs[31];
 #ifdef REG_DEBUG
     log_message(vdc.log, "STORE %04x %02x", ptr & vdc.vdc_address_mask,
                 vdc.regs[31]);
@@ -510,7 +509,7 @@ uint8_t vdc_read(uint16_t addr)
         /*log_message(vdc.log, "read: addr = %x", addr);*/
 
         if (vdc.update_reg == 31) {
-            retval = vdc_ram_read((vdc.regs[18] << 8) + vdc.regs[19]);
+            retval = vdc.ram[((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask];
             ptr = (1 + vdc.regs[19] + (vdc.regs[18] << 8))
                   & vdc.vdc_address_mask;
             vdc.regs[18] = (ptr >> 8) & 0xff;

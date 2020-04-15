@@ -516,6 +516,7 @@ uint8_t mouse_poll(void)
 
 static int up_down_counter = 0;
 
+/* http://wiki.icomp.de/wiki/Micromys_Protocol */
 uint8_t micromys_mouse_read(void)
 {
     /* update wheel until we're ahead */
@@ -865,11 +866,17 @@ static joyport_t mouse_smart_joyport_device = {
 static uint8_t joyport_mouse_micromys_value(int port)
 {
     uint8_t retval = 0xff;
+    uint8_t r = 0;
 
     if (_mouse_enabled) {
-        retval = (uint8_t)((~mouse_digital_val) & micromys_mouse_read());
-        if (retval != (uint8_t)~mouse_digital_val) {
-            joyport_display_joyport(mt_to_id(mouse_type), (uint8_t)(~retval));
+        r = micromys_mouse_read();
+        if (r == 0xff) {
+            joyport_display_joyport(mt_to_id(mouse_type), mouse_digital_val);
+        } else {
+            retval = (uint8_t)((~mouse_digital_val) & r);
+            if (retval != (uint8_t)~mouse_digital_val) {
+                joyport_display_joyport(mt_to_id(mouse_type), (uint8_t)(~retval));
+            }
         }
     }
     return retval;
