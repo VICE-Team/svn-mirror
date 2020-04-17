@@ -1,8 +1,8 @@
-/** \file   settings_misc.c
- * \brief   Widget to control resources that are hard to place properly
+/** \file   settings_host_machine.c
+ * \brief   Widget to control resources control host machine settings
  *
- * Currently doesn't contain a single widget, which is nice. Keeping this around
- * for future hard-to-place widgets. In the end this should go.
+ * These resources are hard to place, so if someone has a better idea, please
+ * do mention it.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -51,20 +51,22 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *settings_misc_widget_create(GtkWidget *widget)
+GtkWidget *settings_host_machine_widget_create(GtkWidget *widget)
 {
     GtkWidget *grid;
-    GtkWidget *label;
+    GtkWidget *cwd_widget = NULL;
+    GtkWidget *jam_widget = jam_action_widget_create();
 
     grid = gtk_grid_new();
 
-    label = gtk_label_new(NULL);
-    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-    gtk_label_set_markup(GTK_LABEL(label),
-            "Placeholder for settings where we can't think of a better place.\n\n"
-            "Ideally this is empty, but it can <b>temporarily</b> be used to store "
-            "some widgets until we figure out a proper place.");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    if (machine_class != VICE_MACHINE_VSID) {
+        cwd_widget = cwd_widget_create();
+
+        gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, 1, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 2, 2, 1);
+    } else {
+         gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 0, 1, 1);
+    }
 
     gtk_widget_show_all(grid);
     return grid;

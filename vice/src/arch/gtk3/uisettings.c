@@ -151,6 +151,7 @@
 /* TODO: move up and sort headers */
 #include "settings_peripherals_generic.h"
 #include "settings_host_display.h"
+#include "settings_host_machine.h"
 
 /* VSID stuff */
 #include "hvscsettingswidget.h"
@@ -755,6 +756,9 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 
 /* {{{ machine_nodes_c64 */
 static ui_settings_tree_node_t machine_nodes_c64[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -889,6 +893,9 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
 
 /* {{{ machine_nodes_c64dtv */
 static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1007,6 +1014,9 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
 /** \brief  Machine subnodes for c128
  */
 static ui_settings_tree_node_t machine_nodes_c128[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1151,6 +1161,9 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
 
 /* {{{ machine_nodes_scpu64 */
 static ui_settings_tree_node_t machine_nodes_scpu64[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL }, 
@@ -1277,6 +1290,9 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
 
 /* {{{ machine_nodes_vic20 */
 static ui_settings_tree_node_t machine_nodes_vic20[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1398,6 +1414,9 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
 
 /* {{{ machine_nodes_plus4 */
 static ui_settings_tree_node_t machine_nodes_plus4[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
        settings_model_widget_create, NULL },
@@ -1495,6 +1514,9 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
 /** \brief  Main tree nodes for xplus4
  */
 static ui_settings_tree_node_t main_nodes_plus4[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Machine", "machine", NULL, machine_nodes_plus4 },
     { "Display", "display", NULL, display_nodes_plus4 },
     { "Audio", "audio", NULL, audio_nodes_plus4 },
@@ -1644,6 +1666,9 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
 
 /* {{{ machine_nodes_cbm5x0 */
 static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1760,6 +1785,9 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
 
 /* {{{ machine_nodes_cbm6x0 */
 static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
+    { "Host",
+       "host",
+       settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
