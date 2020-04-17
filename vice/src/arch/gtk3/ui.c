@@ -1447,7 +1447,7 @@ void ui_create_main_window(video_canvas_t *canvas)
         debug_gtk3("Failed to get KbdStatusbar resource, defaulting to False.");
         kbd_status = 0;
     }
-    kbd_widget = gtk_grid_get_child_at(GTK_GRID(status_bar), 0, 2);
+    kbd_widget = gtk_grid_get_child_at(GTK_GRID(status_bar), 0, 3);
 
     if (kbd_status) {
         gtk_widget_show_all(kbd_widget);
