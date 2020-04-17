@@ -50,6 +50,42 @@
 #include "settings_misc.h"
 
 
+
+/** \brief  Die UI ist ganz Schrott
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_ruckeln_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *checkbox;
+    GtkWidget *header;
+    GtkWidget *restart;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    header = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(header), "<b>Gtk sync method</b>");
+    gtk_widget_set_halign(header, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), header, 0, 0, 1, 1);
+
+    checkbox = gtk_check_button_new_with_label("Ruckeln");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), TRUE);
+    gtk_widget_set_sensitive(checkbox, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), checkbox, 0, 1, 1, 1);
+    g_object_set(checkbox, "margin-left", 16, NULL);
+
+    restart = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(restart),
+            "<i>(Does <b>not</b> require restart</i>)");
+    g_object_set(restart, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), restart, 0, 2, 1, 1);
+
+    return grid;
+}
+
+
+
 /** \brief  Create host display settings widget
  *
  * \param[in]   widget  parent widget (used for dialogs)
@@ -63,7 +99,7 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
     GtkWidget *minimized_widget;
     GtkWidget *restore_window_widget;
-
+    GtkWidget *ruckeln_widget;
 
     grid = gtk_grid_new();
 
@@ -77,10 +113,15 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
                 "RestoreWindowGeometry",
                 "Restore emulator window(s) position and size from settings");
 
+        ruckeln_widget = create_ruckeln_widget();
+
         gtk_grid_attach(GTK_GRID(grid), filter_widget, 0, 1, 2, 1);
         g_object_set(filter_widget, "margin-left",8, NULL);
         gtk_grid_attach(GTK_GRID(grid), backend_widget, 1, 1, 2, 1);
         g_object_set(minimized_widget, "margin-top", 16, NULL);
+
+        gtk_grid_attach(GTK_GRID(grid), ruckeln_widget, 2, 1, 2, 1);
+
         gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 2, 2, 1);
         g_object_set(restore_window_widget, "margin-top", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 3, 2, 1);
