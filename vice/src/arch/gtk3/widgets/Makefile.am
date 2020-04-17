@@ -132,6 +132,7 @@ libwidgets_a_SOURCES = \
 	settings_crt.c \
 	settings_drive.c \
 	settings_ethernet.c \
+	settings_host_display.c \
 	settings_io.c \
 	settings_io_c64_memhacks.c \
 	settings_io_georam.c \
@@ -286,6 +287,7 @@ EXTRA_DIST = \
 	settings_crt.h \
 	settings_drive.h \
 	settings_ethernet.h \
+	settings_host_display.h \
 	settings_io.h \
 	settings_io_c64_memhacks.h \
 	settings_io_georam.h \

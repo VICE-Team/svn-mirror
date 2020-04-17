@@ -148,7 +148,9 @@
 #include "settings_crt.h"
 #include "uimachinewindow.h"
 
+/* TODO: move up and sort headers */
 #include "settings_peripherals_generic.h"
+#include "settings_host_display.h"
 
 /* VSID stuff */
 #include "hvscsettingswidget.h"
@@ -774,6 +776,9 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
 
 /* {{{ display_nodes_c64 */
 static ui_settings_tree_node_t display_nodes_c64[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -905,6 +910,9 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
 
 /* {{{ display_nodes_c64dtv */
 static ui_settings_tree_node_t display_nodes_c64dtv[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -1022,6 +1030,9 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
 /** \brief  C128 Display sub nodes
  */
 static ui_settings_tree_node_t display_nodes_c128[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -1164,6 +1175,9 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
 
 /* {{{ display_nodes_scpu64 */
 static ui_settings_tree_node_t display_nodes_scpu64[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -1284,6 +1298,9 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
 
 /* {{{ display_nodes_vic20 */
 static ui_settings_tree_node_t display_nodes_vic20[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "VIC",
       "vic",
       settings_video_create, NULL },
@@ -1402,6 +1419,9 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
 
 /* {{{ display_nodes_plus4 */
 static ui_settings_tree_node_t display_nodes_plus4[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "TED",
       "ted",
       settings_video_create, NULL },
@@ -1522,6 +1542,9 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
 
 /* {{{ display_nodes_pet */
 static ui_settings_tree_node_t display_nodes_pet[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "CRTC",
       "crtc",
       settings_video_create, NULL },
@@ -1642,6 +1665,9 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
 
 /* {{{ display_nodes_cbm5x0 */
 static ui_settings_tree_node_t display_nodes_cbm5x0[] = {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -1755,6 +1781,9 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
 
 /* {{{ display_nodes_cbm6x0 (*/
 static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
+    { "Host display",
+       "host-display",
+       settings_host_display_widget_create, NULL },
     { "CRTC",
       "crtc",
       settings_video_create, NULL },

@@ -5,9 +5,6 @@
  */
 
 /*
- * $VICERES StartMinimized          -vsid
- * $VICERES RestoreWindowGeometry   -vsid
- * (I guess VSID could also use this?)
  */
 
 /*
@@ -39,8 +36,6 @@
 #include "resources.h"
 #include "machine.h"
 
-#include "canvasrenderbackendwidget.h"
-#include "canvasrenderfilterwidget.h"
 #include "cwdwidget.h"
 #include "jamactionwidget.h"
 
@@ -61,35 +56,14 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
     GtkWidget *grid;
     GtkWidget *cwd_widget = NULL;
     GtkWidget *jam_widget = jam_action_widget_create();
-    GtkWidget *backend_widget = canvas_render_backend_widget_create();
-    GtkWidget *filter_widget = canvas_render_filter_widget_create();
-    GtkWidget *minimized_widget;
-    GtkWidget *restore_window_widget;
-
 
     grid = gtk_grid_new();
 
     if (machine_class != VICE_MACHINE_VSID) {
         cwd_widget = cwd_widget_create();
 
-        minimized_widget = vice_gtk3_resource_check_button_new(
-                "StartMinimized",
-                "Start the emulator window minimized");
-
-        restore_window_widget = vice_gtk3_resource_check_button_new(
-                "RestoreWindowGeometry",
-                "Restore emulator window(s) position and size from settings");
-
         gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, 1, 2, 1);
         gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 2, 2, 1);
-        gtk_grid_attach(GTK_GRID(grid), filter_widget, 0, 3, 2, 1);
-        g_object_set(filter_widget, "margin-left",8, NULL);
-        gtk_grid_attach(GTK_GRID(grid), backend_widget, 1, 3, 2, 1);
-        g_object_set(minimized_widget, "margin-top", 16, NULL);
-        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 4, 2, 1);
-        g_object_set(restore_window_widget, "margin-top", 16, NULL);
-        gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 5, 2, 1);
-
     } else {
          gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 0, 1, 1);
     }
