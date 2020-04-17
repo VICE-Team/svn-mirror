@@ -148,6 +148,8 @@
 #include "settings_crt.h"
 #include "uimachinewindow.h"
 
+#include "settings_peripherals_generic.h"
+
 /* VSID stuff */
 #include "hvscsettingswidget.h"
 
@@ -817,6 +819,9 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
 
 /* {{{ peripheral_nodes_c64 */
 static ui_settings_tree_node_t peripheral_nodes_c64[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
     /* "Output devices? drive is also input */
     { "Drive",
       "drive",
@@ -945,6 +950,9 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
 
 /* {{{ peripheral_nodes_c64dtv */
 static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
@@ -1068,6 +1076,9 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
 /** \brief  C128 Peripheral sub nodes
  */
 static ui_settings_tree_node_t peripheral_nodes_c128[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
     /* "Output devices? drive is also input */
     { "Drive",
       "drive",
@@ -1198,6 +1209,9 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
 
 /* {{{ peripheral_nodes_scpu64 */
 static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
@@ -1315,6 +1329,9 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
 
 /* {{{ peripheral_nodes_vic20 */
 static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
@@ -1430,6 +1447,9 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
 
 /* {{{ peripheral_nodes_plus4 */
 static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
@@ -1547,6 +1567,9 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
 
 /* {{{ peripheral_nodes_pet */
 static ui_settings_tree_node_t peripheral_nodes_pet[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
@@ -1665,6 +1688,9 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
 
 /* {{{ peripheral_nodes_cbm5x0 */
 static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
@@ -1775,6 +1801,9 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
 
 /* {{{ peripheral nodes_cbm6x0 */
 static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
+    { "Generic",
+      "generic",
+      settings_peripherals_generic_widget_create, NULL },
     { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
