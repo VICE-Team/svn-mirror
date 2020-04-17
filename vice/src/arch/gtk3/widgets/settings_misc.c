@@ -33,11 +33,6 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
-#include "resources.h"
-#include "machine.h"
-
-#include "cwdwidget.h"
-#include "jamactionwidget.h"
 
 #include "settings_misc.h"
 
