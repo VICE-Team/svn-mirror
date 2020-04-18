@@ -2086,9 +2086,11 @@ static void on_tree_selection_changed(
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter))
     {
-        gchar *name;
+        gchar *name = NULL;
+        gchar *parent_name = NULL;
         GtkWidget *(*callback)(void *) = NULL;
         const char *id;
+
 
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
@@ -2096,7 +2098,20 @@ static void on_tree_selection_changed(
         debug_gtk3("node name: %s", name);
         debug_gtk3("node ID: %s", id);
         if (callback != NULL) {
-            char *title = lib_msprintf("%s settings :: %s", machine_name, name);
+            GtkTreeIter parent;
+            char *title;
+
+            /* try to get parent's name */
+            if (gtk_tree_model_iter_parent(model, &parent, &iter)) {
+                gtk_tree_model_get(model, &parent, COLUMN_NAME, &parent_name, -1);
+            }
+
+            if (parent_name != NULL) {
+                title = lib_msprintf("%s settings :: %s :: %s",
+                        machine_name, parent_name, name);
+            } else {
+                title = lib_msprintf("%s settings :: %s", machine_name, name);
+            }
             gtk_window_set_title(GTK_WINDOW(settings_window), title);
             lib_free(title);
             /* create new central widget, using settings_window (this dialog)
@@ -2109,7 +2124,12 @@ static void on_tree_selection_changed(
                     GTK_TREE_MODEL(settings_model), &iter);
             ui_settings_set_central_widget(callback(settings_window));
         }
-        g_free(name);
+        if (name != NULL) {
+            g_free(name);
+        }
+        if (parent_name != NULL) {
+            g_free(parent_name);
+        }
     }
 }
 
