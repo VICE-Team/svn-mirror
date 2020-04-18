@@ -527,7 +527,13 @@ void uimon_window_suspend(void)
     }
 
     if (fixed.window != NULL) {
-        gtk_widget_hide(fixed.window);
+        /* do need to keep the monitor window open? */
+        int keep_open = 0;
+
+        resources_get_int("KeepMonitorOpen", &keep_open);
+        if (!keep_open) {
+            gtk_widget_hide(fixed.window);
+        }
     }
 }
 
