@@ -539,7 +539,7 @@ void uimon_window_suspend(void)
             gtk_widget_hide(fixed.window);
         } else {
             /* move monitor window behind the emu window */
-            GtkWidget *window = ui_get_window_by_index(0);
+            GtkWidget *window = ui_get_window_by_index(ui_get_main_window_index());
             gtk_window_present(GTK_WINDOW(window));
         }
     }
