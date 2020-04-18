@@ -88,6 +88,7 @@ static console_t vte_console;
 static linenoiseCompletions command_lc = {0, NULL};
 static linenoiseCompletions need_filename_lc = {0, NULL};
 
+
 /* FIXME: this should perhaps be done using some function from archdep */
 static int is_dir(struct dirent *de)
 {
@@ -418,7 +419,7 @@ console_t *uimon_window_open(void)
     }
 
     resources_get_int("MonitorScrollbackLines", &sblines);
-    
+
     if (fixed.window == NULL) {
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
@@ -493,7 +494,9 @@ console_t *uimon_window_open(void)
 
 console_t *uimon_window_resume(void)
 {
+#if 0
     GtkWindow *active;
+#endif
 
     if (native_monitor()) {
         return uimonfb_window_resume();
@@ -507,12 +510,13 @@ console_t *uimon_window_resume(void)
      * window. This makes the monitor window show when the emulated machine
      * window is in fullscreen mode. (only tested on Windows 10)
      */
+#if 0
     active = ui_get_active_window();
     if (active != GTK_WINDOW(fixed.window)) {
         debug_gtk3("setting monitor window transient for emulator window.");
         gtk_window_set_transient_for(GTK_WINDOW(fixed.window), active);
     }
-
+#endif
     gtk_window_present(GTK_WINDOW(fixed.window));
 
     ui_dispatch_events();
@@ -527,12 +531,16 @@ void uimon_window_suspend(void)
     }
 
     if (fixed.window != NULL) {
-        /* do need to keep the monitor window open? */
         int keep_open = 0;
 
+        /* do need to keep the monitor window open? */
         resources_get_int("KeepMonitorOpen", &keep_open);
         if (!keep_open) {
             gtk_widget_hide(fixed.window);
+        } else {
+            /* move monitor window behind the emu window */
+            GtkWidget *window = ui_get_window_by_index(0);
+            gtk_window_present(GTK_WINDOW(window));
         }
     }
 }
