@@ -29,6 +29,8 @@
 #ifndef VICE_MONTYPES_H
 #define VICE_MONTYPES_H
 
+#include <stdbool.h>
+
 #include "monitor.h"
 #include "types.h"
 
@@ -38,10 +40,6 @@
 #endif
 
 /* Types */
-
-#ifndef bool
-typedef int bool;
-#endif
 
 /* 65xx: 6502/6509/6510/7501/8500/8501/8502/65C02/65SC02
    658xx: 65802/65816
