@@ -144,7 +144,7 @@ struct sid_engine_model_s {
 };
 typedef struct sid_engine_model_s sid_engine_model_t;
 
-extern bool sid_sound_machine_set_engine_hooks();
+extern bool sid_sound_machine_set_engine_hooks(void);
 extern sound_t *sid_sound_machine_open(int chipno);
 extern int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int factor);
 extern int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
