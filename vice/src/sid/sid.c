@@ -343,12 +343,12 @@ void sid_reset(void)
 
 static int sidengine;
 
-sound_t *sid_sound_machine_open(int chipno)
+bool sid_sound_machine_set_engine_hooks()
 {
     sidengine = 0;
 
     if (resources_get_int("SidEngine", &sidengine) < 0) {
-        return NULL;
+        return false;
     }
 
     sid_engine = fastsid_hooks;
@@ -358,6 +358,15 @@ sound_t *sid_sound_machine_open(int chipno)
         sid_engine = resid_hooks;
     }
 #endif
+
+    return true;
+}
+
+sound_t *sid_sound_machine_open(int chipno)
+{
+    if (!sid_sound_machine_set_engine_hooks()) {
+        return NULL;
+    }
 
     return sid_engine.open(siddata[chipno]);
 }

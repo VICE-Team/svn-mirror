@@ -1094,8 +1094,18 @@ fail:
 
 int sid_snapshot_write_module(snapshot_t *s)
 {
+    int sound_enabled = 1;
     int sids = 0;
     int i;
+    
+    resources_get_int("Sound", &sound_enabled);
+    
+    if (!sound_enabled) {
+        /* Make sure the sid engine hooks are set. They wont be if we launched without sound. */
+        if (!sid_sound_machine_set_engine_hooks()) {
+            return -1;
+        }
+    }
 
     resources_get_int("SidStereo", &sids);
 
