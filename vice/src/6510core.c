@@ -390,7 +390,7 @@
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                                                 \
     do {                                                                                       \
-        uint8_t ik = (int_kind);                                                                  \
+        uint8_t ik = (int_kind);                                                               \
                                                                                                \
         if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                                             \
             if (((ik & IK_NMI)                                                                 \
@@ -433,7 +433,7 @@
         if (ik & (IK_TRAP | IK_RESET)) {                                                       \
             if (ik & IK_TRAP) {                                                                \
                 EXPORT_REGISTERS();                                                            \
-                interrupt_do_trap(CPU_INT_STATUS, (uint16_t)reg_pc);                               \
+                interrupt_do_trap(CPU_INT_STATUS, (uint16_t)reg_pc);                           \
                 IMPORT_REGISTERS();                                                            \
                 if (CPU_INT_STATUS->global_pending_int & IK_RESET) {                           \
                     ik |= IK_RESET;                                                            \
@@ -457,17 +457,17 @@
                     EXPORT_REGISTERS();                                                        \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                                        \
-                    monitor_check_icount((uint16_t)reg_pc);                                        \
+                    monitor_check_icount((uint16_t)reg_pc);                                    \
                     IMPORT_REGISTERS();                                                        \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_BREAK)) {                                       \
-                    if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) {                     \
+                    if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) {                 \
                         monitor_startup(CALLER);                                               \
                         IMPORT_REGISTERS();                                                    \
                     }                                                                          \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {                                       \
-                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)reg_pc);                 \
+                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)reg_pc);             \
                     IMPORT_REGISTERS();                                                        \
                 }                                                                              \
             }                                                                                  \
