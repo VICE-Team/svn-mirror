@@ -149,6 +149,8 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
  *
  * \param[in]   widget      menu item triggering the event (unused)
  * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
+ *
+ * \return  TRUE to indicate the event has been handled
  */
 gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -162,6 +164,8 @@ gboolean ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget      menu item triggering the event (unused)
  * \param[in]   user_data   drive unit number (8-11) (int)
+ *
+ * \return  TRUE
  */
 gboolean ui_drive_reset_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -285,6 +289,16 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
 
 
 /** \brief  Open the Manual
+ *
+ * Event handler for the 'Manual' menu item
+ *
+ * \param[in]   widget      parent widget triggering the event (unused)
+ * \param[in]   user_data   extra event data (unused)
+ *
+ * \return  TRUE if opening the manual succeeded, FALSE otherwise
+ *          (unreliable: gtk_show_uri_on_window() will return TRUE if the
+ *           associated application could be openened but not the actual
+ *           manual file)
  */
 gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -376,6 +390,8 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget  widget triggering the event (ignored)
  * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE to signal the event was handled
  */
 gboolean ui_restore_display(GtkWidget *widget, gpointer data)
 {

@@ -52,7 +52,7 @@
 
 /** \brief  Enum with various cart types, independent from cartridge.h
  *
- * The #define's in cartridge.h don't provide the values I need, so this will
+ * The define's in cartridge.h don't provide the values I need, so this will
  * have to do.
  */
 typedef enum uicart_type_e {

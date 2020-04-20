@@ -47,11 +47,15 @@
 #include "uiabout.h"
 
 
+/** \brief  Maximum length of generated version string
+ */
 #define VERSION_STRING_MAX 8192
 
+/** \brief  Custom response ID's for the dialog
+ */
 enum {
-    RESPONSE_RUNTIME = 1,
-    RESPONSE_COMPILE_TIME
+    RESPONSE_RUNTIME = 1,   /**< response ID for 'Runtime' button */
+    RESPONSE_COMPILE_TIME   /**< response ID for 'Compile time' button */
 };
 
 

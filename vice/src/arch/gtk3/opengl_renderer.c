@@ -547,7 +547,10 @@ static void vice_opengl_destroy_context(video_canvas_t *canvas)
 }
 
 /** \brief Returns its argument, rounded up to the next power of two.
- * \return The rounded value, or zero if it doesn't fit in an integer.
+ *
+ * \param[in]   arg value to round up
+ *
+ * \return  The rounded value, or zero if it doesn't fit in an integer.
  */
 static int round_up_to_power_of_two(int arg)
 {

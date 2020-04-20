@@ -49,6 +49,13 @@ static void on_configure_activate(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Datasette UI action callback
+ *
+ * \param[in]   widget  parent widget (unused)
+ * \param[in]   data    action value
+ *
+ * \return  TRUE to indicate the UI event was handled
+ */
 gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
 {
     int val = GPOINTER_TO_INT(data);
@@ -60,6 +67,11 @@ gboolean ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
+
+/** \brief  Create datasette control menu
+ *
+ * \return  GtkMenu with datasette controls
+ */
 GtkWidget *ui_create_datasette_control_menu(void)
 {
     GtkWidget *menu, *item, *menu_items[DATASETTE_CONTROL_RESET_COUNTER+1];

@@ -1,4 +1,4 @@
-/** \file   petioram9widget.h
+/** \file   petram9widget.h
  * \brief   Widget to set the PET RAM9 area type - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -578,6 +578,7 @@ video_canvas_t *ui_get_active_canvas(void)
  */
 int ui_get_main_window_index(void)
 {
+    /* SOMETHING CHANGED */
     return active_win_index;
 }
 

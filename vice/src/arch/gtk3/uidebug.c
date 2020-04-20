@@ -109,8 +109,6 @@ static GtkWidget *create_trace_widget(void)
 
 /** \brief  Create dialog to control trace mode
  *
- * \param[in]   parent  parent widget
- *
  * \return  GtkDialog
  */
 static GtkWidget *create_trace_mode_dialog(void)
@@ -131,8 +129,6 @@ static GtkWidget *create_trace_mode_dialog(void)
 
 
 /** \brief  Create dialog to control playback frames
- *
- * \param[in]   parent  parent widget
  *
  * \return  GtkDialog
  */
@@ -157,7 +153,7 @@ static GtkWidget *create_playback_frames_dialog(void)
  *
  * \param[in,out]   dialog      dialog triggering the event
  * \param[in]       response_id response ID
- * \param[in]       extra event data (unused)
+ * \param[in]       data        extra event data (unused)
  */
 static void on_response_trace_mode(GtkDialog *dialog,
                                    gint response_id,
@@ -174,7 +170,7 @@ static void on_response_trace_mode(GtkDialog *dialog,
  *
  * \param[in,out]   dialog      dialog triggering the event
  * \param[in]       response_id response ID
- * \param[in]       extra event data (unused)
+ * \param[in]       data        extra event data (unused)
  */
 static void on_response_playback_frames(GtkDialog *dialog,
                                         gint response_id,

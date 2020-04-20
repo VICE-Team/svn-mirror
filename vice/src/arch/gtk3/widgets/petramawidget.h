@@ -1,4 +1,4 @@
-/** \file   petioramawidget.h
+/** \file   petramawidget.h
  * \brief   Widget to set the PET RAMA area type - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
