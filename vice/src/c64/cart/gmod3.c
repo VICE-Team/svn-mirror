@@ -128,7 +128,7 @@ static char *gmod3_filename = NULL;
 static int gmod3_filetype = 0;
 
 static char *gmod3_flash_filename = NULL;
-static int gmod3_flash_write = 0;
+static int gmod3_flash_write = 1;
 
 static int eeprom_cs = 1; /* active low */
 static int eeprom_data_in = 0;
@@ -355,7 +355,7 @@ static int set_gmod3_flash_write(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "GMod3FlashWrite", 0, RES_EVENT_NO, NULL,
+    { "GMod3FlashWrite", 1, RES_EVENT_NO, NULL,
       &gmod3_flash_write, set_gmod3_flash_write, NULL },
     RESOURCE_INT_LIST_END
 };
