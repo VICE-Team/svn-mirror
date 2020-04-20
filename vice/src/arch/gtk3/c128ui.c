@@ -56,6 +56,7 @@
 #include "expertwidget.h"
 #include "isepicwidget.h"
 #include "gmod2widget.h"
+#include "gmod3widget.h"
 #include "mmcrwidget.h"
 #include "mmc64widget.h"
 #include "retroreplaywidget.h"

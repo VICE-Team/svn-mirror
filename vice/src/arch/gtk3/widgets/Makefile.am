@@ -78,6 +78,7 @@ libwidgets_a_SOURCES = \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
 	gmod2widget.c \
+	gmod3widget.c \
 	hvscsettingswidget.c \
 	hvscstilwidget.c \
 	ide64widget.c \
@@ -132,8 +133,6 @@ libwidgets_a_SOURCES = \
 	settings_crt.c \
 	settings_drive.c \
 	settings_ethernet.c \
-	settings_host_display.c \
-	settings_host_machine.c \
 	settings_io.c \
 	settings_io_c64_memhacks.c \
 	settings_io_georam.c \
@@ -144,7 +143,6 @@ libwidgets_a_SOURCES = \
 	settings_model.c \
 	settings_monitor.c \
 	settings_mouse.c \
-	settings_peripherals_generic.c \
 	settings_printer.c \
 	settings_ramreset.c \
 	settings_romset.c \
@@ -234,6 +232,7 @@ EXTRA_DIST = \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
 	gmod2widget.h \
+	gmod3widget.h \
 	hvscsettingswidget.h \
 	hvscstilwidget.h \
 	ide64widget.h \
@@ -288,8 +287,6 @@ EXTRA_DIST = \
 	settings_crt.h \
 	settings_drive.h \
 	settings_ethernet.h \
-	settings_host_display.h \
-	settings_host_machine.h \
 	settings_io.h \
 	settings_io_c64_memhacks.h \
 	settings_io_georam.h \
@@ -300,7 +297,6 @@ EXTRA_DIST = \
 	settings_model.h \
 	settings_monitor.h \
 	settings_mouse.h \
-	settings_peripherals_generic.h \
 	settings_printer.h \
 	settings_ramreset.h \
 	settings_romset.h \
