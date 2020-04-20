@@ -389,6 +389,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 /** \brief  Create the disk attach dialog
  *
  * \param[in]   parent  parent widget, used to get the top level window
+ * \param[in]   unit    drive unit
  *
  * \return  GtkFileChooserDialog
  */

@@ -61,19 +61,30 @@ typedef struct hotkey_info_s {
 } hotkey_info_t;
 
 
-/* List terminator */
+/** \brief  List terminator
+ */
 #define ARNIE   { 0, NULL, NULL }
 
 
 /*
  * Supported modifier description strings
  */
+
+/** \brief  Label for the control modifier
+ */
 static const char *mod_control = "Control";
+
 #ifdef ARCHDEP_OS_OSX
+/** \brief  Label for the MOD_VICE modifier ('Option on MacOS)
+ */
 static const char *mod_vice = "Option";
 #else
+/** \brief  Label for the MOD_VICE modifier ('Alt' on non-MacOS)
+ */
 static const char *mod_vice = "Alt";
 #endif
+/** \brief  Label for the shift modifier
+ */
 static const char *mod_shift = "Shift";
 
 
@@ -147,19 +158,23 @@ static const hotkey_info_t hotkeys_list[] = {
 };
 
 
-/*
- * References to the model and view of the hotkeys list
- *
- * Currently not needed, but once we implement custom hotkeys in Gtk3, we will
- * need this.
+/** \brief  Hotkeys tree model
  */
 static GtkTreeStore *hk_model;
+
+
+/** \brief  Hotkeys tree view
+ */
 static GtkWidget *hk_view;
 
 
 /** \brief  Handler for the 'response' event of the dialog
  *
  * Currently only responds to the 'Close' button.
+ *
+ * \param[in,out]   dialog      dialog
+ * \param[in]       response_id response ID
+ * \param[in]       data        extra event data
  */
 static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
@@ -172,7 +187,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 
 /** \brief  Generate a string from modifiers bits and key(s) used
  *
- * The \keys argument is a string to allow documenting closely related actions
+ * The \a keys argument is a string to allow documenting closely related actions
  * in a single table row, for example attaching disks: we can use "8,9,0,1"
  * in stead of having four separate entries for Alt+8, Alt+9, Alt+0 and Alt+1.
  *
@@ -272,6 +287,8 @@ static GtkWidget *create_view(GtkTreeStore *model)
  *
  * \param[in]   widget  parent widget
  * \param[in]   data    extra event data (unused)
+ *
+ * \return  TRUE
  */
 gboolean uihotkeys_dialog_show(GtkWidget *widget, gpointer data)
 {
@@ -300,10 +317,6 @@ gboolean uihotkeys_dialog_show(GtkWidget *widget, gpointer data)
     gtk_box_pack_start(GTK_BOX(content), scrolled, TRUE, TRUE, 0);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-
-
     gtk_widget_show_all(dialog);
     return TRUE;
 }
-
-

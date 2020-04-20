@@ -160,6 +160,10 @@ static void on_disk_image_type_changed(GtkComboBox *combo, gpointer data)
 }
 
 
+/** \brief  Attempt to set drive to match image type
+ *
+ * \return  TRUE if succesful
+ */
 static gboolean attempt_to_set_drive_type(void)
 {
     if (resources_set_int_sprintf("Drive%dType", image_type, unit_number) < 0) {

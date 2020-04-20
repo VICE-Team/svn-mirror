@@ -36,6 +36,15 @@
 #include "lib.h"
 #include "kbdbuf.h"
 
+
+/** \brief  Event handler for the 'paste' event
+ *
+ * Pastes \a text into the emulated machine via the machine's keyboard buffer.
+ *
+ * \param[in]   clipboard   clipboard (unused)
+ * \param[in]   text        text to paste into the emulated machine
+ * \param[in]   data        extra event data (unused)
+ */
 static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer data)
 {
     char *text_in_petscii;
@@ -54,8 +63,8 @@ static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer 
  *
  * Copies the screen of the emulated machine into the host clipboard
  *
- * \param[in]   widget  widget (unused)
- * \param[in]   data    extra data (unused)
+ * \param[in]   widget      widget (unused)
+ * \param[in]   user_data   extra data (unused)
  *
  * \return  TRUE so the key pressed doesn't go to the emulated machine
  */
@@ -74,8 +83,8 @@ gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data)
  *
  * Copies the host clipboard into the emulated machine's screen
  *
- * \param[in]   widget  widget (unused)
- * \param[in]   data    extra data (unused)
+ * \param[in]   widget      widget (unused)
+ * \param[in]   user_data   extra data (unused)
  *
  * \return  TRUE so the key pressed doesn't go to the emulated machine
  */
