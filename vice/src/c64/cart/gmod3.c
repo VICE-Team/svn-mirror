@@ -113,6 +113,7 @@
 #define GMOD3_16MB_FLASH_SIZE (16*1024*1024)
 
 static uint8_t gmod3_rom[GMOD3_16MB_FLASH_SIZE];    /* FIXME, should not be static */
+static uint32_t gmod3_flashsize = 0;
 
 static int gmod3_enabled = 0;
 
@@ -341,7 +342,7 @@ void gmod3_config_setup(uint8_t *rawcart)
     gmod3_cmode = CMODE_8KGAME;
     cart_config_changed_slotmain((uint8_t)gmod3_cmode, (uint8_t)gmod3_cmode, CMODE_READ);
 
-    spi_flash_set_image(gmod3_rom, GMOD3_16MB_FLASH_SIZE);
+    spi_flash_set_image(gmod3_rom, gmod3_flashsize);
     memcpy(gmod3_rom, rawcart, GMOD3_16MB_FLASH_SIZE);
 }
 
@@ -405,10 +406,26 @@ int gmod3_bin_attach(const char *filename, uint8_t *rawcart)
 {
     gmod3_filetype = 0;
     gmod3_filename = NULL;
-
+    gmod3_flashsize = 0;
+    memset(rawcart, 0xff, GMOD3_16MB_FLASH_SIZE);
+    
     if (util_file_load(filename, rawcart, GMOD3_16MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
-    }
+        if (util_file_load(filename, rawcart, GMOD3_8MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            if (util_file_load(filename, rawcart, GMOD3_4MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                if (util_file_load(filename, rawcart, GMOD3_2MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                    return -1;
+                } else {
+                    gmod3_flashsize = GMOD3_2MB_FLASH_SIZE;
+                }    
+            } else {
+                gmod3_flashsize = GMOD3_4MB_FLASH_SIZE;
+            }    
+        } else {
+            gmod3_flashsize = GMOD3_8MB_FLASH_SIZE;
+        }    
+    } else {
+        gmod3_flashsize = GMOD3_16MB_FLASH_SIZE;
+    }    
 
     gmod3_filetype = CARTRIDGE_FILETYPE_BIN;
     gmod3_filename = lib_strdup(filename);
@@ -420,18 +437,17 @@ int gmod3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
     crt_chip_header_t chip;
     int i;
 
-    memset(rawcart, 0xff, GMOD3_16MB_FLASH_SIZE);
-
     gmod3_filetype = 0;
     gmod3_filename = NULL;
+    gmod3_flashsize = 0;
+    memset(rawcart, 0xff, GMOD3_16MB_FLASH_SIZE);
     
-    for (i = 0; i <= 255; i++) { /* FIXME */
-        
+    for (i = 0; i < (GMOD3_16MB_FLASH_SIZE / 0x2000); i++) { /* FIXME */
         if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 
-        if (chip.bank > 255 /* FIXME */ || chip.size != 0x2000) {
+        if (chip.bank >= (GMOD3_16MB_FLASH_SIZE / 0x2000) || chip.size != 0x2000) {
             return -1;
         }
 
@@ -439,7 +455,16 @@ int gmod3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
             return -1;
         }
     }
+    
+    i *= 0x2000;
+    if ((i != GMOD3_16MB_FLASH_SIZE) &&
+        (i != GMOD3_8MB_FLASH_SIZE) &&
+        (i != GMOD3_4MB_FLASH_SIZE) &&
+        (i != GMOD3_2MB_FLASH_SIZE)) {
+        return -1;
+    }
 
+    gmod3_flashsize = i;
     gmod3_filetype = CARTRIDGE_FILETYPE_CRT;
     gmod3_filename = lib_strdup(filename);
 
@@ -460,7 +485,7 @@ int gmod3_bin_save(const char *filename)
         return -1;
     }
 
-    if (fwrite(gmod3_rom, 1, GMOD3_16MB_FLASH_SIZE, fd) != GMOD3_16MB_FLASH_SIZE) {
+    if (fwrite(gmod3_rom, 1, gmod3_flashsize, fd) != gmod3_flashsize) {
         fclose(fd);
         return -1;
     }
@@ -489,7 +514,7 @@ int gmod3_crt_save(const char *filename)
 
     data = gmod3_rom;
 
-    for (i = 0; i < 255 /* FIXME */; i++) {
+    for (i = 0; i < (gmod3_flashsize / 0x2000); i++) {
         chip.bank = i; /* bank */
 
         if (crt_write_chip(data, &chip, fd)) {

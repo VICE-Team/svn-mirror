@@ -55,6 +55,11 @@
 #define MAX_ROM_SIZE    (16 * 1024 * 1024)
 #define MAX_ROM_PAGES   (MAX_ROM_SIZE / (64 * 1024))
 
+#define SPI_2MB_FLASH_SIZE (2*1024*1024)
+#define SPI_4MB_FLASH_SIZE (4*1024*1024)
+#define SPI_8MB_FLASH_SIZE (8*1024*1024)
+#define SPI_16MB_FLASH_SIZE (16*1024*1024)
+
 static uint8_t *spi_flash_data = NULL;
 static uint32_t spi_flash_size = 0;
 
@@ -257,7 +262,24 @@ void spi_flash_write_clock(uint8_t value)
                                 1: device ID ($70)
                                 2: capacity ($18/24 - 2^24, 16MB)
                             */
-                            output_shiftreg = 0x1c701800;   /* FIXME */
+                            switch (spi_flash_size) {
+                                case SPI_2MB_FLASH_SIZE:
+                                    output_shiftreg = 0x1c700300;
+                                    break;
+                                case SPI_4MB_FLASH_SIZE:
+                                    output_shiftreg = 0x1c700600;
+                                    break;
+                                case SPI_8MB_FLASH_SIZE:
+                                    output_shiftreg = 0x1c700c00;
+                                    break;
+                                case SPI_16MB_FLASH_SIZE:
+                                    output_shiftreg = 0x1c701800;
+                                    break;
+                                default:
+                                    LOG(("unsupported flash size: %08x", spi_flash_size));
+                                    output_shiftreg = 0x1c701800;   /* FIXME */
+                                    break;
+                            }
                             output_count = (3 * 8);
                             command = STATUSBUSY;
                             LOG(("executing command FLASH_CMD_REMS"));
