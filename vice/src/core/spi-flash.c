@@ -195,7 +195,7 @@ void spi_flash_write_clock(uint8_t value)
                     /* LOG(("got byte 1: %02x\n", input_shiftreg)); */
                     if (command == FLASH_CMD_PAGE_PROGRAM) {
                         LOG(("writing byte: %02x %08x", input_shiftreg, addr & (MAX_ROM_SIZE - 1)));
-                        spi_flash_data[addr & (MAX_ROM_SIZE - 1)] = input_shiftreg;
+                        spi_flash_data[addr & (MAX_ROM_SIZE - 1)] &= input_shiftreg;
                         addr++;
                         reset_input_shiftreg();
                     } else if (command == FLASH_CMD_READ_DATA) {
@@ -252,7 +252,12 @@ void spi_flash_write_clock(uint8_t value)
                     switch(command) {
                         /* reading id will work without deselecting first */
                         case FLASH_CMD_REMS:
-                            output_shiftreg = 0x12345678;   /* FIXME */
+                            /*
+                                0: manufacturer ID ($1c)
+                                1: device ID ($70)
+                                2: capacity ($18/24 - 2^24, 16MB)
+                            */
+                            output_shiftreg = 0x1c701800;   /* FIXME */
                             output_count = (3 * 8);
                             command = STATUSBUSY;
                             LOG(("executing command FLASH_CMD_REMS"));
