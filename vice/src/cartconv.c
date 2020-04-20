@@ -799,13 +799,9 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
     return 0;
 }
 
-static int write_chip_package(unsigned int length, unsigned int bankint, unsigned int address, unsigned char type)
+static int write_chip_package(unsigned int length, unsigned int bank, unsigned int address, unsigned char type)
 {
     unsigned char chip_header[0x10] = "CHIP";
-    unsigned char bank = (unsigned char)bankint;
-
-    /* make sure the above conversion did not remove significant bits */
-    assert(bankint == bank);
 
     chip_header[4] = 0;
     chip_header[5] = 0;
@@ -815,8 +811,8 @@ static int write_chip_package(unsigned int length, unsigned int bankint, unsigne
     chip_header[8] = 0;
     chip_header[9] = type;
 
-    chip_header[0xa] = 0;
-    chip_header[0xb] = bank;
+    chip_header[0xa] = (unsigned char)(bank >> 8);
+    chip_header[0xb] = (unsigned char)(bank & 0xff);
 
     chip_header[0xc] = (unsigned char)(address >> 8);
     chip_header[0xd] = (unsigned char)(address & 0xff);
@@ -1179,7 +1175,7 @@ static int load_input_file(char *filename)
     } else {
         loadfile_is_crt = 0;
         loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, CARTRIDGE_SIZE_MAX - 14, infile) + 0x10;
-        printf("loadfile_size: %x\n", loadfile_size);
+
         switch (loadfile_size) {
             case CARTRIDGE_SIZE_4KB:
             case CARTRIDGE_SIZE_8KB:
