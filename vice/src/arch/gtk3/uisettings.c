@@ -247,7 +247,7 @@ enum {
 /* {{{ c64_io_extensions */
 /** \brief  List of C64 I/O extensions (x64, x64sc)
  *
- * Every empty line indicates a separator in the Gtk2 UI's menu
+ * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Memory Expansion Hacks",
@@ -351,7 +351,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 /* {{{ scpu64_io_extensions */
 /** \brief  List of SuperCPU64 extensions (xscpu64)
  *
- * Every empty line indicates a separator in the Gtk2 UI's menu
+ * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t scpu64_io_extensions[] = {
     { "GEO-RAM",
@@ -553,7 +553,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
 /* {{{ vic20_io_extensions */
 /** \brief  List of VIC-20 I/O extensions
  *
- * Every empty line indicates a separator in the Gtk2 UI's menu
+ * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Mega Cart",
@@ -620,7 +620,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
 /* {{{ plus4_io_extensions */
 /** \brief  List of Plus4 I/O extensions
  *
- * Every empty line indicates a separator in the Gtk2 UI's menu
+ * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
     { "ACIA",
@@ -650,7 +650,7 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 /* {{{ pet_io_extensions */
 /** \brief  List of PET I/O extensions
  *
- * Every empty line indicates a separator in the Gtk2 UI's menu
+ * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET RAM Expansion Unit",
@@ -684,7 +684,7 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 /* {{{ cbm5x0_io_extensions */
 /** \brief  List of CBM 5x0 I/O extensions
  *
- * Every empty line indicates a separator in the Gtk2 UI's menu
+ * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
     { "Tape port devices",
@@ -697,7 +697,7 @@ static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
 /* {{{ cbm6x0_io_extensions */
 /** \brief  List of CBM 6x0 I/O extensions
  *
- * Every empty line indicates a separator in the Gtk2 UI's menu
+ * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
     { "Userport devices",
