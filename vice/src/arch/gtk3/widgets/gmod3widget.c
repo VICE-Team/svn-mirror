@@ -72,7 +72,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (carthelpers_flush_func(CARTRIDGE_GMOD2) < 0) {
+    if (carthelpers_flush_func(CARTRIDGE_GMOD3) < 0) {
         debug_gtk3("Flusing GMod3 cart image.");
         vice_gtk3_message_error("Flushing failed",
                     "Failed to fush cartridge image");
@@ -105,13 +105,13 @@ static GtkWidget *create_cart_image_widget(void)
             NULL);
     gtk_grid_attach(GTK_GRID(grid), save_button, 1, 1, 1, 1);
     gtk_widget_set_sensitive(save_button,
-            (gboolean)(carthelpers_can_save_func(CARTRIDGE_GMOD2)));
+            (gboolean)(carthelpers_can_save_func(CARTRIDGE_GMOD3)));
 
     flush_button = gtk_button_new_with_label("Flush image now");
     g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
             NULL);
     gtk_widget_set_sensitive(flush_button,
-            (gboolean)(carthelpers_can_flush_func(CARTRIDGE_GMOD2)));
+            (gboolean)(carthelpers_can_flush_func(CARTRIDGE_GMOD3)));
     gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 1, 1, 1);
 
     gtk_widget_show_all(grid);
