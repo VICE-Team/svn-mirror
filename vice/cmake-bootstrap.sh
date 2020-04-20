@@ -233,19 +233,6 @@ function project_relative_folder {
 }
 
 #
-# Generate a few source files using the real build system
-#
-
-pushdq src
-make -s infocontrib.h svnversion.h
-
-pushdq arch/gtk3/novte
-make -s marshal.cc vtetypebuiltins.cc
-
-popdq
-popdq
-
-#
 # Recursively work though the configured Makefile tree, defining all the libs
 #
 
@@ -258,14 +245,6 @@ function process_source_makefile {
 
 	echo -n "Creating $(project_relative_folder)/CMakeLists.txt ("
 	touch CMakeLists.txt
-
-	#
-	# We have some .c files being included in other .c and .h files.
-	# To avoid cmake trying to build them directly, remove any .c file
-	# from HEADERS.
-	#
-
-	# local headers=$(grep -v '.c$' <((extract_make_var HEADERS ; extract_make_var extra_DIST) | tr " " "\n") | tr "\n" " ")
 
 	#
 	# Declare each built lib in the original Makefile
@@ -317,6 +296,21 @@ function process_source_makefile {
 	done
 
 	echo ")"
+
+	#
+	# Generate any necessary sources
+	#
+
+	local generated_sources=$(extract_make_var BUILT_SOURCES)
+	if [ ! -z "$generated_sources" ]
+	then
+		echo "- generating sources: $generated_sources"
+		make -s $generated_sources
+	fi
+
+	#
+	# Recursively process subdirs.
+	#
 
 	for subdir in $(extract_make_var SUBDIRS)
 	do
