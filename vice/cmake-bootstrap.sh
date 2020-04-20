@@ -273,7 +273,7 @@ function process_source_makefile {
 			target_include_directories(
 			    $lib_to_build
 			    PRIVATE
-			        \$(CMAKE_CURRENT_SOURCE_DIR)
+			        \${CMAKE_CURRENT_SOURCE_DIR}
 			        $(extract_include_dirs)
 			    )
 
@@ -382,7 +382,7 @@ do
 		target_include_directories(
 		    $executable
 		    PRIVATE
-		        \$(CMAKE_CURRENT_SOURCE_DIR)
+		        \${CMAKE_CURRENT_SOURCE_DIR}
 		        $(extract_include_dirs)
 		    )
 		
