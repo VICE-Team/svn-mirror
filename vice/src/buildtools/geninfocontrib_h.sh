@@ -449,7 +449,7 @@ if test x"$1" = "xindexhtml"; then
       $ECHO ""
       $ECHO "<p>Of course our warm thanks go to everyone who has helped us in developing"
       $ECHO "VICE during these past few years. For a more detailed list look in the"
-      $ECHO "<a href=\"vice_16.html\">documentation</a>."
+      $ECHO "<a href=\"vice_17.html\">documentation</a>."
       $ECHO ""
       $ECHO ""
       $ECHO "<hr>"
