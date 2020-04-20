@@ -133,6 +133,8 @@ libwidgets_a_SOURCES = \
 	settings_crt.c \
 	settings_drive.c \
 	settings_ethernet.c \
+	settings_host_display.c \
+	settings_host_machine.c \
 	settings_io.c \
 	settings_io_c64_memhacks.c \
 	settings_io_georam.c \
@@ -143,6 +145,7 @@ libwidgets_a_SOURCES = \
 	settings_model.c \
 	settings_monitor.c \
 	settings_mouse.c \
+	settings_peripherals_generic.c \
 	settings_printer.c \
 	settings_ramreset.c \
 	settings_romset.c \
@@ -287,6 +290,8 @@ EXTRA_DIST = \
 	settings_crt.h \
 	settings_drive.h \
 	settings_ethernet.h \
+	settings_host_display.h \
+	settings_host_machine.h \
 	settings_io.h \
 	settings_io_c64_memhacks.h \
 	settings_io_georam.h \
@@ -297,6 +302,7 @@ EXTRA_DIST = \
 	settings_model.h \
 	settings_monitor.h \
 	settings_mouse.h \
+	settings_peripherals_generic.h \
 	settings_printer.h \
 	settings_ramreset.h \
 	settings_romset.h \
