@@ -180,40 +180,80 @@ static gboolean plain_key_pressed(char **input_buffer, guint keyval)
                 *input_buffer = append_char_to_input_buffer(*input_buffer, (char)keyval);
                 return TRUE;
             }
+            if(keyval >= GDK_KEY_KP_0 && keyval <= GDK_KEY_KP_9) {
+                *input_buffer =
+                    append_char_to_input_buffer(
+                        *input_buffer,
+                        (char)keyval - GDK_KEY_KP_0 + 48);
+                return TRUE;
+            }
             return FALSE;
-        case GDK_KEY_Return:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 13);
-            return TRUE;
-        case GDK_KEY_BackSpace:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 127);
+        case GDK_KEY_Home:
+        case GDK_KEY_KP_Home:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 1);
             return TRUE;
         case GDK_KEY_Left:
+        case GDK_KEY_KP_Left:
             *input_buffer = append_char_to_input_buffer(*input_buffer, 2);
             return TRUE;
+        case GDK_KEY_Delete:
+        case GDK_KEY_KP_Delete:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 4);
+            return TRUE;
+        case GDK_KEY_End:
+        case GDK_KEY_KP_End:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
+            return TRUE;
         case GDK_KEY_Right:
+        case GDK_KEY_KP_Right:
             *input_buffer = append_char_to_input_buffer(*input_buffer, 6);
-            return TRUE;
-        case GDK_KEY_Up:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 16);
-            return TRUE;
-        case GDK_KEY_Down:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 14);
             return TRUE;
         case GDK_KEY_Tab:
             *input_buffer = append_char_to_input_buffer(*input_buffer, 9);
             return TRUE;
-        case GDK_KEY_Delete:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 4);
+        case GDK_KEY_Return:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 13);
             return TRUE;
-        case GDK_KEY_Home:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 1);
+        case GDK_KEY_Down:
+        case GDK_KEY_KP_Down:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 14);
             return TRUE;
-        case GDK_KEY_End:
-            *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
+        case GDK_KEY_Up:
+        case GDK_KEY_KP_Up:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 16);
+            return TRUE;
+        case GDK_KEY_dead_diaeresis:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 34);
+            return TRUE;
+        case GDK_KEY_dead_acute:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 39);
+            return TRUE;
+        case GDK_KEY_KP_Multiply:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 42);
+            return TRUE;
+        case GDK_KEY_KP_Add:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 43);
+            return TRUE;
+        case GDK_KEY_KP_Subtract:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 45);
+            return TRUE;
+        case GDK_KEY_KP_Decimal:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 46);
+            return TRUE;
+        case GDK_KEY_KP_Divide:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 47);
+            return TRUE;
+        case GDK_KEY_dead_circumflex:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 94);
+            return TRUE;
+        case GDK_KEY_dead_grave:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 96);
             return TRUE;
         case GDK_KEY_dead_tilde:
-            *input_buffer =
-                append_char_to_input_buffer(*input_buffer, GDK_KEY_asciitilde);
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 126);
+            return TRUE;
+        case GDK_KEY_BackSpace:
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 127);
             return TRUE;
     }
 }
