@@ -39,8 +39,52 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "resources.h"
+#include "uimon.h"
 
 #include "settings_monitor.h"
+
+
+/** \brief  Row number for the various widgets
+ *
+ * Using this enum makes it easy to reorder widgets and handle CHIS/no-CHIS.
+ */
+enum {
+    ROW_NATIVE = 0,     /**< row for 'use native monitor' */
+    ROW_KEEP_OPEN,      /**< row for 'keep monitor open' */
+    ROW_SERVER_ENABLE,  /**< row for 'enable monitor server' */
+    ROW_SERVER_ADDRESS, /**< row for 'monitor server address' */
+    ROW_LOG_ENABLE,     /**< row for 'enable logging to a file' */
+    ROW_LOG_NAME,       /**< row for 'log filename */
+    ROW_SCROLL_LINES,   /**< row for 'scrollback buffer lines' */
+#ifdef FEATURE_CPUMEMHISTORY
+    ROW_CHIS_LINES,     /**< row for 'cpu history lines */
+#endif
+    ROW_FONT            /**< row for 'monitor font' */
+};
+
+
+/** \brief  Handler for the 'font-set' event of the font chooser
+ *
+ * \param[in]   button      font chooser button
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_font_set(GtkFontButton *button, gpointer user_data)
+{
+    gchar *font_desc;
+
+    debug_gtk3("Called.");
+    font_desc = gtk_font_chooser_get_font(GTK_FONT_CHOOSER(button));
+    debug_gtk3("font desc = '%s'", font_desc);
+    if (font_desc != NULL) {
+        if (resources_set_string("MonitorFont", font_desc) == 0) {
+            /* try to 'live-update' the monitor font */
+            uimon_set_font();
+        }
+        g_free(font_desc);
+    }
+}
+
 
 
 /** \brief  Create widget to control monitor resources
@@ -66,6 +110,14 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     GtkWidget *chis_lines;
     GtkWidget *chis_label;
 #endif
+    GtkWidget *font_label;
+    GtkWidget *font_button;
+
+    const char *font_name = NULL;
+
+    debug_gtk3("Getting MonitorFont resource");
+    resources_get_string("MonitorFont", &font_name);
+    debug_gtk3("Font name = '%s'", font_name);
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -84,7 +136,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     server_address = vice_gtk3_resource_entry_full_new(
             "MonitorServerAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
-    
+
     log_enable = vice_gtk3_resource_check_button_new("MonitorLogEnabled",
             "Enable logging to a file");
     log_label = gtk_label_new("Logfile name");
@@ -100,7 +152,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(scroll_label, GTK_ALIGN_START);
     scroll_lines = vice_gtk3_resource_spin_int_new(
             "MonitorScrollbackLines", -1, 0x0fffffff, 1);
-    
+
 #ifdef FEATURE_CPUMEMHISTORY
     chis_label = gtk_label_new("Number of lines in CPU History");
     g_object_set(chis_label, "margin-left", 8, NULL);
@@ -108,21 +160,37 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     chis_lines = vice_gtk3_resource_spin_int_new(
             "MonitorChisLines", 10, 0x0fffffff, 1);
 #endif
-    
-    gtk_grid_attach(GTK_GRID(grid), native, 0, 0, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), keep_open, 0, 1, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), server_enable, 0, 2, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), server_address, 1, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), log_enable, 0, 4, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), log_label, 0, 5, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), log_name, 1, 5, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), scroll_label, 0, 6, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), scroll_lines, 1, 6, 1, 1);
+
+    /* font selection label and button */
+    font_label = gtk_label_new("Monitor font");
+    g_object_set(font_label, "margin-left", 8, NULL);
+    gtk_widget_set_halign(font_label, GTK_ALIGN_START);
+
+    /* create button that pops up a font selector */
+    font_button = gtk_font_button_new();
+    gtk_font_button_set_use_font(GTK_FONT_BUTTON(font_button), TRUE);
+    if (font_name != NULL) {
+        gtk_font_chooser_set_font(GTK_FONT_CHOOSER(font_button), font_name);
+    }
+    g_signal_connect(font_button, "font-set", G_CALLBACK(on_font_set), NULL);
+
+    gtk_grid_attach(GTK_GRID(grid), native, 0, ROW_NATIVE, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), keep_open, 0, ROW_KEEP_OPEN, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), server_enable, 0, ROW_SERVER_ENABLE, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, ROW_SERVER_ADDRESS, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), server_address, 1, ROW_SERVER_ADDRESS, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), log_enable, 0, ROW_LOG_ENABLE, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), log_label, 0, ROW_LOG_NAME, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), log_name, 1, ROW_LOG_NAME, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), scroll_label, 0, ROW_SCROLL_LINES, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), scroll_lines, 1, ROW_SCROLL_LINES, 1, 1);
 #ifdef FEATURE_CPUMEMHISTORY
-    gtk_grid_attach(GTK_GRID(grid), chis_label, 0, 7, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), chis_lines, 1, 7, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chis_label, 0, ROW_CHIS_LINES, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chis_lines, 1, ROW_CHIS_LINES, 1, 1);
 #endif
+    gtk_grid_attach(GTK_GRID(grid), font_label, 0, ROW_FONT, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), font_button, 1, ROW_FONT, 1, 1);
+
     gtk_widget_show_all(grid);
     return grid;
 }

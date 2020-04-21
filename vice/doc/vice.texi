@@ -5471,6 +5471,10 @@ Integer specifying the number of lines to keep in the cpu history. (only when en
 @item MonitorScrollbackLines
 Integer specifying the number of lines to keep in the monitor scrollback buffer (-1 for no limit).
 
+@vindex MonitorFont
+@item MonitorFont
+String specifying the font to use in the Gtk3 UI's VTE monitor window. Should be in the form accepted by Pango, for example "Liberation Mono 11".
+
 @end table
 
 @subsection Monitor command-line options
@@ -5528,6 +5532,11 @@ Set number of lines to keep in the cpu history. (only when enabled in configure)
 @item -monscrollbacklines <value>
 Set number of lines to keep in the monitor scrollback buffer (-1 for no limit).
 (@code{MonitorScrollbackLines}).
+
+@findex -monitorfont
+@item -monitorfont <font-description>
+Set the monitor font for the Gtk3 UI's VTE-monitor.
+(@code{MonitorFont}).
 
 @end table
 

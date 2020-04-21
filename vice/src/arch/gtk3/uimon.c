@@ -29,6 +29,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "novte/novte.h"
 
@@ -61,6 +62,7 @@
 #include "monitor.h"
 #include "resources.h"
 #include "lib.h"
+#include "log.h"
 #include "ui.h"
 #include "linenoise.h"
 #include "uimon.h"
@@ -445,13 +447,50 @@ static GdkPixbuf *get_default_icon(void)
 
 console_t *uimonfb_window_open(void);
 
+
+/** \brief  Try to set VTE monitor font
+ *
+ * \return  boolean
+ */
+bool uimon_set_font(void)
+{
+    const PangoFontDescription *desc_tmp;
+    PangoFontDescription* desc;
+    const char *monitor_font = NULL;
+
+    if (resources_get_string("MonitorFont", &monitor_font) < 0) {
+        log_error(LOG_ERR, "Failed to read 'MonitorFont' resource.");
+        return false;
+    }
+
+    if (fixed.term == NULL) {
+        log_error(LOG_ERR, "No monitor instance found.");
+        return false;
+    }
+
+    /* try to set monitor font */
+    desc = pango_font_description_from_string(monitor_font);
+    if (desc == NULL) {
+        /* fall back */
+        log_warning(LOG_ERR, "Failed to parse Pango font description, falling"
+                " back to default font.");
+
+        desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
+        desc = pango_font_description_copy_static(desc_tmp);
+        pango_font_description_set_family(desc, "Consolas,monospace");
+        pango_font_description_set_size(desc, 11 * PANGO_SCALE);
+    }
+    vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
+    pango_font_description_free(desc);
+    return true;
+}
+
+
 console_t *uimon_window_open(void)
 {
     GtkWidget *scrollbar, *horizontal_container;
     GdkGeometry hints;
     GdkPixbuf *icon;
-    const PangoFontDescription *desc_tmp;
-    PangoFontDescription *desc;
     int sblines;
 
     if (native_monitor()) {
@@ -519,18 +558,13 @@ console_t *uimon_window_open(void)
 
         vte_console.console_can_stay_open = 1;
 
-
-        desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
-        desc = pango_font_description_copy_static(desc_tmp);
-        pango_font_description_set_family(desc, "Consolas,monospace");
-        pango_font_description_set_size(desc, 11 * PANGO_SCALE);
-        vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
-        pango_font_description_free(desc);
+        uimon_set_font();
     } else {
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
     return uimon_window_resume();
 }
+
 
 console_t *uimon_window_resume(void)
 {
