@@ -522,8 +522,8 @@ console_t *uimon_window_open(void)
 
         desc_tmp = vte_terminal_get_font(VTE_TERMINAL(fixed.term));
         desc = pango_font_description_copy_static(desc_tmp);
-        /* pango_font_description_set_style(desc, PANGO_STYLE_ITALIC); */
-        pango_font_description_set_family(desc, "monospace");
+        pango_font_description_set_family(desc, "Consolas,monospace");
+        pango_font_description_set_size(desc, 11 * PANGO_SCALE);
         vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
         pango_font_description_free(desc);
     } else {
