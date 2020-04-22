@@ -98,13 +98,13 @@ function extract_include_dirs {
 		| sed $'s/ -/\\\n-/g' | grep '^-I' | sed 's/^-I//' | unique_preserve_order | tr "\n" " "
 }
 
-function extract_compile_definitions {
-	(extract_make_var COMPILE; space; extract_make_var CXXCOMPILE) \
+function extract_c_compile_definitions {
+	extract_make_var COMPILE \
 		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
 }
 
-function extract_compile_definitions {
-	(extract_make_var COMPILE; space; extract_make_var CXXCOMPILE) \
+function extract_cxx_compile_definitions {
+	extract_make_var CXXCOMPILE \
 		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
 }
 
@@ -267,7 +267,8 @@ function process_source_makefile {
 			target_compile_definitions(
 			    $lib_to_build
 			    PRIVATE
-			        $(extract_compile_definitions)
+			        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
+			        \$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
 			    )
 
 			target_include_directories(
@@ -376,7 +377,8 @@ do
 		target_compile_definitions(
 		    $executable
 		    PRIVATE
-		        $(extract_compile_definitions)
+				\$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
+				\$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
 		    )
 
 		target_include_directories(
