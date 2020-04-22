@@ -37,7 +37,7 @@
 /** \brief  Unicode text for the VICE_MOD_MASK (Alt/Command) modifier
  * TODO: figure out actual codepoint for the MacOS command symbol
  */
-# define VICE_MOD_MASK_TEXT "Bloemkool"
+# define VICE_MOD_MASK_TEXT "Control"
 
 /** \brief  HTML text for the MOD1_MASK (Winkey/Command) modifier
  */

@@ -78,6 +78,7 @@
 #include "mixerwidget.h"
 #include "uidata.h"
 #include "archdep.h"
+#include "widgethelpers.h"
 
 /* for the fullscreen_capability() stub */
 #include "fullscreen.h"
@@ -1303,8 +1304,8 @@ void ui_create_main_window(video_canvas_t *canvas)
     if (!mouse_grab) {
         g_snprintf(title, 256, "VICE (%s)", machine_get_name());
     } else {
-        g_snprintf(title, 256, "VICE (%s) (Use Alt+M to disable mouse grab)",
-                machine_get_name());
+        g_snprintf(title, 256, "VICE (%s) (Use %s+M to disable mouse grab)",
+                machine_get_name(), VICE_MOD_MASK_TEXT);
     }
 
     gtk_window_set_title(GTK_WINDOW(new_window), title);

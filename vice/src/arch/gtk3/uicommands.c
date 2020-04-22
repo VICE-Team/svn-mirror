@@ -59,7 +59,7 @@
 #include "ui.h"
 #include "uicommands.h"
 #include "uimachinewindow.h"
-
+#include "widgethelpers.h"
 
 /** \brief  Swap joysticks
  *
@@ -145,8 +145,8 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
 
     /* `mouse` still contains the old value */
     if (!mouse) {
-       g_snprintf(title, 256, "VICE (%s) (Use Alt+M to disable mouse grab)",
-               machine_get_name());
+       g_snprintf(title, 256, "VICE (%s) (Use %s+M to disable mouse grab)",
+               machine_get_name(), VICE_MOD_MASK_TEXT);
     } else {
        g_snprintf(title, 256, "VICE (%s)",
                machine_get_name());
