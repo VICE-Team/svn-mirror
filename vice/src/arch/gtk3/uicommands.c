@@ -131,7 +131,9 @@ gboolean ui_toggle_keyset_joysticks(GtkWidget *widget, gpointer data)
  */
 gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
 {
+    GtkWindow *window;
     int mouse;
+    gchar title[256];
 
     resources_get_int("Mouse", &mouse);
     resources_set_int("Mouse", !mouse);
@@ -140,6 +142,19 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
     } else {
         ui_mouse_ungrab_pointer();
     }
+
+    /* `mouse` still contains the old value */
+    if (!mouse) {
+       g_snprintf(title, 256, "VICE (%s) (Use Alt+M to disable mouse grab)",
+               machine_get_name());
+    } else {
+       g_snprintf(title, 256, "VICE (%s)",
+               machine_get_name());
+    }
+
+    window = ui_get_active_window();
+    gtk_window_set_title(window, title);
+
 
     return TRUE;    /* don't let any shortcut key end up in the emulated machine */
 }

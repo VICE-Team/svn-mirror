@@ -1268,7 +1268,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     GtkWidget *kbd_widget;
     int kbd_status = 0;
-
+    int mouse_grab;
 
     GdkPixbuf *icon;
 
@@ -1282,6 +1282,8 @@ void ui_create_main_window(video_canvas_t *canvas)
     int minimized = 0;
     int full = 0;
     int restore;
+
+    resources_get_int("Mouse", &mouse_grab);
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
@@ -1298,11 +1300,13 @@ void ui_create_main_window(video_canvas_t *canvas)
 #endif
 
     /* set title */
-#if 1
-    g_snprintf(title, 256, "VICE (%s)", machine_get_name());
-#else
-    g_snprintf(title, 256, "FREE MR AMMO (emu is %s, but who cares?)", machine_get_name());
-#endif
+    if (!mouse_grab) {
+        g_snprintf(title, 256, "VICE (%s)", machine_get_name());
+    } else {
+        g_snprintf(title, 256, "VICE (%s) (Use Alt+M to disable mouse grab)",
+                machine_get_name());
+    }
+
     gtk_window_set_title(GTK_WINDOW(new_window), title);
 
     grid = gtk_grid_new();
