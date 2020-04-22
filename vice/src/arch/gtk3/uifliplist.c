@@ -160,6 +160,11 @@ gboolean ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Handler for attaching an image from the fliplist
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   data    unit number and file index
+ */
 static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data) & 0xff;

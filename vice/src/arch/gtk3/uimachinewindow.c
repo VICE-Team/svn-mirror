@@ -51,6 +51,9 @@
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
 
+/* FIXME:   someone please add Doxygen docs for this, I can guess what it means
+ *          but I'll probably get it wrong. --compyx
+ */
 #ifdef DEBUGPOINTER
 #define VICE_EMPTY_POINTER  NULL
 #else

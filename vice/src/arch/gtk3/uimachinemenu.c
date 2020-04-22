@@ -174,7 +174,9 @@ static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
 /** \brief  Save settings to default file
  *
  * \param[in]   widget  menu item triggering the event (ignored)
- * \param[in]   data    extra even data (ignored)
+ * \param[in]   data    extra even datat (ignored)
+ *
+ * \return  TRUE to signal the event has been handled
  */
 static gboolean settings_save_callback(GtkWidget *widget, gpointer data)
 {
@@ -915,6 +917,8 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
 
 /** \brief  Add missing settings load/save items
+ *
+ * \param[in,out]   menu    GtkMenu
  */
 void ui_machine_menu_bar_vsid_patch(GtkWidget *menu)
 {
