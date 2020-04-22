@@ -45,16 +45,17 @@
  */
 char *archdep_quote_parameter(const char *name)
 {
-#if defined(ARCHDEP_OS_WINDOWS) || defined (ARCHDEP_OS_OS2)
-    char *a,*b,*c;
+    char *a;
+    char *c;
 
     a = util_subst(name, "[", "\\[");
-    b = util_subst(a, "]", "\\]");
-    c = util_concat("\"", b, "\"", NULL);
-    lib_free(a);
-    lib_free(b);
+
+#if defined(ARCHDEP_OS_WINDOWS) || defined (ARCHDEP_OS_OS2)
+    c = util_concat("\"", a, "\"", NULL);
     return c;
 #else
-    return lib_strdup(name);
+    c = lib_strdup(a);
 #endif
+    lib_free(a);
+    return c;
 }
