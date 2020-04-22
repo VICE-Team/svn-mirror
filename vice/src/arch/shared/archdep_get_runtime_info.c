@@ -62,9 +62,17 @@
  * By Loki, Windows is great!
  */
 
+
+/** \brief  No idea what this is supposed to do :)
+ *
+ */
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 
 
+/** \brief  Check if the Windows OS is x64
+ *
+ * \return  boolean
+ */
 static BOOL os_is_win64(void)
 {
     /* IsWow64Process() returns FALSE when both OS and process are 64-bit */

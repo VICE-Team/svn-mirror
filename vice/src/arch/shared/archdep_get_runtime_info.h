@@ -30,13 +30,18 @@
 
 #include <stdbool.h>
 
+/** \brief  Maximum size of a string in the archdep_runtime_info_t struct
+ */
 #define ARCHDEP_RUNTIME_STRMAX  1024
 
+
+/** \brief  Object to store runtime info
+ */
 typedef struct archdep_runtime_info_s {
-    char os_name[ARCHDEP_RUNTIME_STRMAX];
-    char os_version[ARCHDEP_RUNTIME_STRMAX];
-    char os_release[ARCHDEP_RUNTIME_STRMAX];
-    char machine[ARCHDEP_RUNTIME_STRMAX];
+    char os_name[ARCHDEP_RUNTIME_STRMAX];       /**< OS name */
+    char os_version[ARCHDEP_RUNTIME_STRMAX];    /**< OS version */
+    char os_release[ARCHDEP_RUNTIME_STRMAX];    /**< OS release */
+    char machine[ARCHDEP_RUNTIME_STRMAX];       /**< machine type */
 } archdep_runtime_info_t;
 
 bool archdep_get_runtime_info(archdep_runtime_info_t *info);
