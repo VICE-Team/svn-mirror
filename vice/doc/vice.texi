@@ -2189,7 +2189,7 @@ that file, e.g., by doing a @code{chmod a-w}.
 * Zipcode and Lynx::            Using Zipcoded ([1-4]!*) and Lynx files.
 @end menu
 
-@node Autostart, Compressed files, Disk and tape images
+@node Autostart, Compressed files, Disk and tape images, Disk and tape images
 @subsection ``Autostarting'' an image
 
 If you want to reset the machine and run the first program on a certain
@@ -27180,7 +27180,7 @@ all of it.
 Thanks!
 
 
-@node Contributing, Sending feedback, Contacts
+@node Contributing, , Sending feedback, Contacts
 @section How to contribute
 
 If you want to make a major contribution, please @emph{ask} first.  It
