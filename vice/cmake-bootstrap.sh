@@ -50,6 +50,11 @@ then
 	CXXFLAGS=""
 fi
 
+if [ -z ${LDFLAGS+x} ]
+then
+	LDFLAGS=""
+fi
+
 # Quiet versions of pushd and popd
 function pushdq {
 	pushd $1 > /dev/null
@@ -94,7 +99,7 @@ function extract_make_var {
 }
 
 function extract_include_dirs {
-	(extract_make_var VICE_CFLAGS; space; extract_make_var VICE_CXXFLAGS; space; extract_make_var AM_CPPFLAGS) \
+	(extract_make_var AM_CPPFLAGS; space; extract_make_var VICE_CFLAGS; space; extract_make_var VICE_CXXFLAGS) \
 		| sed $'s/ -/\\\n-/g' | grep '^-I' | sed 's/^-I//' | unique_preserve_order | tr "\n" " "
 }
 
@@ -149,16 +154,21 @@ function extract_non_include_non_def_flags {
 }
 
 function extract_cxxflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
+	extract_non_include_non_def_flags $(extract_make_var VICE_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
 }
 
 function extract_cflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
+	extract_non_include_non_def_flags $(extract_make_var VICE_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
 }
 
 function extract_ldflags {
 	local executable=$1
-	echo "$(extract_make_var ${executable}_LDFLAGS) $(extract_make_var LDFLAGS)"
+	extract_non_include_non_def_flags \
+		$(extract_make_var \
+			${executable}_LDFLAGS; space; \
+			extract_make_var VICE_LDFLAGS; space; \
+			extract_make_var LDFLAGS; \
+			echo -n " $LDFLAGS")
 }
 
 function extract_internal_libs {
@@ -337,7 +347,7 @@ function external_lib_label {
 
 pushdq src
 
-EXECUTABLES="x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 petcat cartconv"
+EXECUTABLES="x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 petcat cartconv vsid"
 
 #
 # Find all the libraries first
