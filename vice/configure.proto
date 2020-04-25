@@ -3670,6 +3670,9 @@ if test x"$enable_platformdox" = "xyes"; then
   if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
     PLATFORM_DOX_FLAGS="platformsdl"
   fi
+  if test x"$enable_native_gtk3ui" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformgtk3"
+  fi
 fi
 if test x"$PLATFORM_DOX_FLAGS" = "x"; then
   PLATFORM_DOX_FLAGS="platformall"
