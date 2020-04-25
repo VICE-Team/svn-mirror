@@ -154,24 +154,11 @@ compiled for will show up in the resulting documentation files.
 Certain variables are defined to indicate which platform the documentation
 needs to be generated for:
 
-- platformamigaos3 (amiga os 3.x)
-- platformamigaos4 (amiga os 4.x)
-- platformmorphos  (morphos)
-- platformaros     (aros)
-- platformamiga    (will be set when using platformamigaos3,
-                    platformamigaos4, platformmorphos or platformaros)
-- platformbeos     (beos, zeta or haiku)
-- platformdingoo   (dingoo)
-- platformdos      (dos)
 - platformos2      (os/2)
 - platformsdl      (sdl)
-- platformxaw      (xaw)
-- platformgtk2     (gtk2)
 - platformgtk3     (gtk3)
-- platformunix     (will be set when using platformxaw, platformgtk2,
-                    platformgtk3 or platformdingoo)
+- platformunix     (will be set when using platformgtk3)
 - platformosx      (mac os x)
-- platformwindows  (windows)
 - platformall      (sets all previous variables)
 
 An example of a platform specific section would be:

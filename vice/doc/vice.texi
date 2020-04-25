@@ -37,34 +37,22 @@ END-INFO-DIR-ENTRY
 @c @end ifinfo
 
 @c define platformunix if any of the following are set:
-@ifset platformxaw
-@set platformunix
-@end ifset
-@ifset platformgtk2
-@set platformunix
-@end ifset
+@c        platformgtk3
 @ifset platformgtk3
 @set platformunix
-@end ifset
-
-@c define platformgtk if any of the following are set:
-@ifset platformgtk2
-@set platformgtk
-@end ifset
-@ifset platformgtk3
-@set platformgtk
 @end ifset
 
 @c define platformsdl if any of the following are set:
-@ifset platformdingoo
-@set platformsdl
-@end ifset
 
 @c undef platformall if any of the following are set:
+@c       platformos2 platformsdl platformgtk3 platformunix platformosx
 @ifset platformos2
 @clear platformall
 @end ifset
 @ifset platformsdl
+@clear platformall
+@end ifset
+@ifset platformgtk3
 @clear platformall
 @end ifset
 @ifset platformunix
@@ -76,15 +64,11 @@ END-INFO-DIR-ENTRY
 
 @c set all platform defines if platformall is still defined
 @ifset platformall
-@set platformos2
-@set platformsdl
-@set platformdingoo
-@set platformunix
-@set platformxaw
-@set platformgtk
-@set platformgtk2
 @set platformgtk3
+@set platformos2
 @set platformosx
+@set platformsdl
+@set platformunix
 @end ifset
 
 @ifset txicommandconditionals
@@ -12537,26 +12521,16 @@ This section lists the settings and commands that are platform specific.
 @ifset platformsdl
 * SDL-specific features::
 @end ifset
-@ifset platformunix
+@ifset platformgtk3
 * GTK3 specific features::
 @end ifset
 @end menu
 
 @c -----------------------------------------------------------------
 
-@ifset platformall
-@node SDL-specific features, GTK3 specific features, , Platform-specific features
-@section SDL-specific features
-@end ifset
-
-@ifclear platformall
 @ifset platformsdl
-@node SDL-specific features, , Platform-specific features, Platform-specific features
+@node SDL-specific features
 @section SDL-specific features
-@end ifset
-@end ifclear
-
-@ifset platformsdl
 
 This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms.
 
@@ -13232,19 +13206,9 @@ Set the joystick fuzz
 @c end platformsdl
 @c -----------------------------------------------------------------
 
-@ifset platformall
-@node GTK3 specific features, SDL-specific features, Platform-specific features
+@ifset platformgtk3
+@node GTK3 specific features
 @section GTK3 specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformunix
-@node GTK3 specific features, , Platform-specific features, Platform-specific features
-@section GTK3 specific features
-@end ifset
-@end ifclear
-
-@ifset platformunix
 
 This section lists the settings and commands that are common and specific to Unix, and are thus not present in other platforms.
 

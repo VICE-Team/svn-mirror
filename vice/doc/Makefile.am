@@ -35,6 +35,7 @@ VICE_DOX = \
 	vice.txt
 	
 info_TEXINFOS = vice.texi
+AM_MAKEINFOFLAGS = -D$(PLATFORM_DOX_FLAGS)
 
 dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
 
