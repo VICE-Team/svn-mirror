@@ -83,8 +83,8 @@ VICE_ARG_ENABLE_LIST(new8580filter, [  --enable-new8580filter  enable experiment
 VICE_ARG_ENABLE_LIST(x64,         [  --enable-x64  enable building of the old x64 emulator [[default=no]]])
 VICE_ARG_ENABLE_LIST(pdf-docs,    [  --enable-pdf-docs       generate the PDF documentation [[default=if possible]]])
 VICE_ARG_ENABLE_LIST(html-docs,   [  --enable-html-docs      install the HTML documentation [[default=no]]])
-VICE_ARG_ENABLE_LIST(sandbox-mode,
-                                  [ --enable-sandbox-mode    enable support for sandboxed mode on Linux [[default=no]]])
+VICE_ARG_ENABLE_LIST(sandbox-mode, [ --enable-sandbox-mode    enable support for sandboxed mode on Linux [[default=no]]])
+VICE_ARG_ENABLE_LIST(cmake,      [  --enable-cmake           enable generation of CMakeLists.txt files [[default=no]]])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -106,6 +106,11 @@ VICE_ARG_LIST_AT_MOST_ONE([--enable-sdlui --enable-sdlui2 --enable-native-gtk3ui
 VICE_ARG_LIST_AT_MOST_ONE([--enable-static-ffmpeg --enable-shared-ffmpeg --enable-external-ffmpeg], [FFMPEG])
 AS_IF([test x"$enable_native_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno" -a x"$enable_headlessui" = "xno"],
       [AC_MSG_ERROR([You cannot disable all GUIs])])
+
+dnl cmake only works for in-tree configured source
+if test x"$enable_cmake" = x"yes" ; then
+  AC_CHECK_FILE(cmake-bootstrap.sh, [], [AC_MSG_ERROR([Out of source tree configure not supported with cmake])])
+fi
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -3881,6 +3886,10 @@ AC_OUTPUT([Makefile
            src/version.h
            src/vice-version.sh
            ])
+
+if test x"$enable_cmake" = x"yes" ; then
+  $(top_srcdir)/cmake-bootstrap.sh
+fi
 
 dnl Local Variables:
 dnl mode: autoconf
