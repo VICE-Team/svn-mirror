@@ -3888,7 +3888,7 @@ AC_OUTPUT([Makefile
            ])
 
 if test x"$enable_cmake" = x"yes" ; then
-  $(top_srcdir)/cmake-bootstrap.sh
+  ./cmake-bootstrap.sh
 fi
 
 dnl Local Variables:
