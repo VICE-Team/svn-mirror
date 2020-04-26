@@ -549,7 +549,7 @@ if [ -n "$CODE_SIGN_ID" ]; then
   done
 
   for bin in $BINARIES $TOOLS ; do
-    code_sign_file $APP_BIN/$tool
+    code_sign_file $APP_BIN/$bin
   done
 
   for app in $(find $BUILD_DIR -type d -name '*.app'); do
