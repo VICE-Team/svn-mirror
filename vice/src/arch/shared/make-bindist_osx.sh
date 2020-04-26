@@ -426,23 +426,23 @@ relink () {
   local thing_basename=`basename $lib`
 
   #
-  # Update the shared library identification name - ignores non shared libraries
-  # so we can blindly call it.
-  #
-
-  install_name_tool -id @rpath/$thing_basename $thing
-
-  #
   # Any link to a lib in /opt/local is updated to @rpath/$lib
   #
 
   set +o pipefail
-  THING_LIBS=`otool -L $thing | egrep '^\s+/(opt|usr)/local/' | grep -v $thing_basename | awk '{print $1}'`
+  THING_LIBS=`otool -L $thing | egrep '^\s+/(opt|usr)/local/' | awk '{print $1}'`
   set -o pipefail
 
   for thing_lib in $THING_LIBS; do
     install_name_tool -change $thing_lib @rpath/$(basename $thing_lib) $thing
   done
+
+  #
+  # Update the shared library identification name - ignores non shared libraries
+  # so we can blindly call it.
+  #
+
+  install_name_tool -id @rpath/$thing_basename $thing
 
   #
   # If any existing rpaths exist, remove them.
@@ -454,7 +454,6 @@ relink () {
   set -o pipefail
 
   for rpath in $THING_RPATHS; do
-    echo "Removing RPATH $rpath from $thing"
     install_name_tool -delete_rpath $rpath $thing
   done
   
