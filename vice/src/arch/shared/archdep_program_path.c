@@ -212,14 +212,15 @@ const char *archdep_program_path(void)
 
 #elif defined(ARCHDEP_OS_UNIX)
 
-    /* XXX: Only works on Linux and OSX, support for *BSD etc to be added later
+    /* XXX: Only works on Linux, OSX and FreeBSD/NetBSD, anyone wanting support
+     *      for OpenBSD or DragonflyBSD will have to add it.
      *
+     *      Linux:      readlink(/proc/self/exe)
      *      MacOS:      _NSGetExecutablePath()
-     *      Solaris:    getexecname()
      *      FreeBSD:    sysctl CTL_KERN_PROC KERN_PROC_PATHNAME - 1 (???)
-     *      NetBSD:     readlink /proc/curproc/exe
-     *      DFlyBSD:    readlink /proc/curproc/file
-     *      OpenBSD:    ???
+     *      NetBSD:     readlink(/proc/curproc/exe)
+     *      DFlyBSD:    ??? (errors out during build)
+     *      OpenBSD:    ??? (using argv[0] fallback)
      */
 
 # ifdef ARCHDEP_OS_OSX
@@ -234,8 +235,6 @@ const char *archdep_program_path(void)
             archdep_vice_exit(1);
         }
     }
-
-    /* TODO: other Unices */
 
 # elif defined(ARCHDEP_OS_LINUX)
 
