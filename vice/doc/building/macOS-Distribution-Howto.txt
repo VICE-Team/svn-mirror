@@ -49,7 +49,6 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
    Gtk3:
    $ <path to VICE source>/configure \
        --enable-native-gtk3ui \
-       --disable-hwscale \
        --enable-lame \
        --enable-arch=no
 
