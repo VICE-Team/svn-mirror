@@ -536,12 +536,10 @@ fi
 
 # --- wtf permissions. ---------------------------------------------------------
 
-#
 # platypus produces 777 binaries, which is awesome.
-# No reason for anything to be writable.
-#
 
-chmod -R a-w $BUILD_DIR
+find $BUILD_DIR -type f -exec chmod a-w {} \;
+find $BUILD_DIR -type d -exec chmod 755 {} \;
 
 
 # --- code signing (for Apple notarisation) ------------------------------------
