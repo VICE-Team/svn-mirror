@@ -534,6 +534,16 @@ if [ "$UI_TYPE" = "GTK3" ]; then
 fi
 
 
+# --- wtf permissions. ---------------------------------------------------------
+
+#
+# platypus produces 777 binaries, which is awesome.
+# No reason for anything to be writable.
+#
+
+chmod -R a-w $BUILD_DIR
+
+
 # --- code signing (for Apple notarisation) ------------------------------------
 
 code_sign_file () {
