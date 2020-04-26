@@ -109,6 +109,7 @@ copy_lib_recursively () {
   fi
 
   cp "$lib" "$lib_dest"
+  chmod 644 "$lib_dest"
 
   # copy this lib's libs
   LIB_LIBS=`otool -L "$lib_dest" | egrep '^\s+/(opt|usr)/local/' | grep -v "$lib_basename" | awk '{print $1}'`
