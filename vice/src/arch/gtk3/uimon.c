@@ -482,6 +482,15 @@ bool uimon_set_font(void)
     }
     vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
     pango_font_description_free(desc);
+
+    gtk_widget_set_size_request(GTK_WIDGET(fixed.window), -1, -1);
+    gtk_widget_set_size_request(GTK_WIDGET(fixed.term), -1, -1);
+
+    /* get GtkBox */
+    GList *widgets = gtk_container_get_children(GTK_CONTAINER(fixed.window));
+    GList *box = g_list_first(widgets);
+
+    gtk_widget_set_size_request(GTK_WIDGET(box->data), -1 , -1);
     return true;
 }
 
@@ -534,12 +543,21 @@ console_t *uimon_window_open(void)
                                      GDK_HINT_MIN_SIZE |
                                      GDK_HINT_BASE_SIZE);
         scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
-        gtk_scrollable_get_vadjustment (GTK_SCROLLABLE(fixed.term)));
+                gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(fixed.term)));
 
         horizontal_container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
+
+#if 0
         gtk_container_add(GTK_CONTAINER(horizontal_container), fixed.term);
         gtk_container_add(GTK_CONTAINER(horizontal_container), scrollbar);
+#else
+        gtk_box_pack_start(GTK_BOX(horizontal_container), fixed.term,
+                TRUE, TRUE, 0);
+        gtk_box_pack_end(GTK_BOX(horizontal_container), scrollbar,
+                FALSE, FALSE, 0);
+#endif
+
 
         g_signal_connect(G_OBJECT(fixed.window), "delete-event",
             G_CALLBACK(close_window), &fixed.input_buffer);
