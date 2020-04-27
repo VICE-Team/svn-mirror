@@ -52,8 +52,8 @@
 #define LOG(_x_)
 #endif
 
-#define MAX_ROM_SIZE    (16 * 1024 * 1024)
-#define MAX_ROM_PAGES   (MAX_ROM_SIZE / (64 * 1024))
+#define MAX_ROM_SIZE        (16 * 1024 * 1024)
+#define MAX_ROM_64K_PAGES   (MAX_ROM_SIZE / (64 * 1024))
 
 #define SPI_2MB_FLASH_SIZE (2*1024*1024)
 #define SPI_4MB_FLASH_SIZE (4*1024*1024)
@@ -83,7 +83,7 @@ static int ready_busy_status = 1;
 #define FLASH_CMD_READ_DATA     0x03
 #define FLASH_CMD_READ_STATUS   0x05
 #define FLASH_CMD_WRITE_ENABLE  0x06
-#define FLASH_CMD_ERASE         0xd8
+#define FLASH_CMD_BLOCK_ERASE   0xd8    /* 64k erase blocks */
 #define FLASH_CMD_REMS          0x9f
 
 #define STATUSREADY 1
@@ -160,9 +160,11 @@ void spi_flash_write_select(uint8_t value)
         switch(command) {
             case FLASH_CMD_REMS:
                 break;
-            case FLASH_CMD_ERASE:
-                addr = (input_shiftreg & (MAX_ROM_PAGES - 1)) * 0x10000;
-                LOG(("executing command FLASH_CMD_ERASE %08x (addr:%08x)", 
+            case FLASH_CMD_READ_STATUS:
+                break;
+            case FLASH_CMD_BLOCK_ERASE:
+                addr = (input_shiftreg & 0xff0000) & (spi_flash_size - 1);
+                LOG(("executing command FLASH_CMD_BLOCK_ERASE %08x (addr:%08x)", 
                      input_shiftreg, addr));
                 memset(spi_flash_data + addr, 0xff, 0x10000);
                 command = STATUSBUSY;
@@ -199,14 +201,19 @@ void spi_flash_write_clock(uint8_t value)
                 case 8:
                     /* LOG(("got byte 1: %02x\n", input_shiftreg)); */
                     if (command == FLASH_CMD_PAGE_PROGRAM) {
-                        LOG(("writing byte: %02x %08x", input_shiftreg, addr & (MAX_ROM_SIZE - 1)));
-                        spi_flash_data[addr & (MAX_ROM_SIZE - 1)] &= input_shiftreg;
+                        addr &= (spi_flash_size - 1);
+                        LOG(("writing byte: %02x->%02x %08x", 
+                             spi_flash_data[addr], 
+                             spi_flash_data[addr] & input_shiftreg, 
+                             addr));
+                        spi_flash_data[addr] &= input_shiftreg;
                         addr++;
                         reset_input_shiftreg();
                     } else if (command == FLASH_CMD_READ_DATA) {
-                        output_shiftreg = spi_flash_data[addr & (MAX_ROM_SIZE - 1)] << 24;
+                        addr &= (spi_flash_size - 1);
+                        output_shiftreg = spi_flash_data[addr] << 24;
                         output_count = 8;
-                        LOG(("reading byte: %02x %08x", output_shiftreg, addr & (MAX_ROM_SIZE - 1)));
+                        LOG(("reading byte: %02x %08x", output_shiftreg, addr));
                         addr++;
                         reset_input_shiftreg();
                     } else {
@@ -222,9 +229,9 @@ void spi_flash_write_clock(uint8_t value)
                                 output_shiftreg = 0x01000000;
                                 output_count = (1 * 8);
                                 break;
-                            case FLASH_CMD_ERASE:
-                                LOG(("got cmd FLASH_CMD_ERASE"));
-                                command = FLASH_CMD_ERASE;
+                            case FLASH_CMD_BLOCK_ERASE:
+                                LOG(("got cmd FLASH_CMD_BLOCK_ERASE"));
+                                command = FLASH_CMD_BLOCK_ERASE;
                                 break;
                             case FLASH_CMD_WRITE_ENABLE:
                                 LOG(("got cmd FLASH_CMD_WRITE_ENABLE"));
@@ -239,7 +246,7 @@ void spi_flash_write_clock(uint8_t value)
                                 command = FLASH_CMD_READ_DATA;
                                 break;
                             default:
-                                log_error(LOG_DEFAULT, "unknown flash command: %02x\n", input_shiftreg);
+                                log_error(LOG_DEFAULT, "spi_flash_write_clock: unknown flash command: %02x\n", input_shiftreg);
                                 reset_input_shiftreg();
                                 break;
                         }
@@ -284,21 +291,25 @@ void spi_flash_write_clock(uint8_t value)
                             command = STATUSBUSY;
                             LOG(("executing command FLASH_CMD_REMS"));
                             break;
-                        case FLASH_CMD_ERASE:
-                            LOG(("got addr command FLASH_CMD_ERASE %08x", input_shiftreg));
+                        case FLASH_CMD_BLOCK_ERASE:
+                            LOG(("got addr command FLASH_CMD_BLOCK_ERASE %08x", input_shiftreg));
                             break;
                         case FLASH_CMD_PAGE_PROGRAM:
                             LOG(("got addr command FLASH_CMD_PAGE_PROGRAM %08x", input_shiftreg));
-                            addr = input_shiftreg & 0x00ffffff;
+                            addr = input_shiftreg & (spi_flash_size - 1);
                             reset_input_shiftreg();
                             break;
                         case FLASH_CMD_READ_DATA:
                             LOG(("got addr command FLASH_CMD_READ_DATA %08x", input_shiftreg));
-                            addr = input_shiftreg & 0x00ffffff;
-                            output_shiftreg = spi_flash_data[addr & (MAX_ROM_SIZE - 1)] << 24;
+                            addr = input_shiftreg & (spi_flash_size - 1);
+                            output_shiftreg = spi_flash_data[addr] << 24;
                             output_count = 8;
-                            LOG(("reading byte: %02x %08x", output_shiftreg, addr & (MAX_ROM_SIZE - 1)));
+                            LOG(("reading byte: %02x %08x", output_shiftreg, addr));
                             addr++;
+                            reset_input_shiftreg();
+                            break;
+                        default:
+                            log_error(LOG_DEFAULT, "spi_flash_write_clock: unknown flash command: %02x\n", input_shiftreg);
                             reset_input_shiftreg();
                             break;
                     }
