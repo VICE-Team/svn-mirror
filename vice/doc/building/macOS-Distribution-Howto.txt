@@ -9,13 +9,9 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
    platypus will require macOS 10.11. You can use xcode-select to choose which
    Xcode.app is the active one.
 
-2. Install platypus, which is used to generate .app wrappers:
+2. Follow macOS-Howto.txt to get a MacPorts VICE build environment working.
 
-   $ sudo port install platypus
-
-3. Follow macOS-Howto.txt to get a MacPorts VICE build environment working.
-
-4. Bundled dependencies need to be rebuilt to target macOS 10.9. First, set
+3. Bundled dependencies need to be rebuilt to target macOS 10.9. First, set
    macosx_deployment_target to 10.9 in /opt/local/etc/macports/macports.conf.
 
    I usually then nuke all installed ports and start again with runtime deps
@@ -24,9 +20,9 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
    $ sudo port uninstall installed
    $ sudo port -s install gtk3 +quartz
    $ sudo port -s install libsdl2 xa lame glew
-   $ sudo port install rust cargo
+   $ sudo port install rust cargo platypus
    $ sudo port -s install librsvg
-   $ sudo port install adwaita-icon-theme texinfo texlive-basic ffmpeg
+   $ sudo port install adwaita-icon-theme texinfo texlive-basic
 
    But that is probably overkill and you wont want to do this if you have other
    use of MacPorts on your system. You might be able to find a lighter way,
@@ -55,9 +51,6 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
    $ make clean
    $ make -j
    $ make bindistzip
-
-   Gtk3 is built without hwscale at the moment due to a bug where fullscreen
-   mode only shows a portion of the screen.
 
    At some point soon it would be good to build with --enable-external-ffmpeg,
    but without including the dylibs in the bindary distribution and rely on
