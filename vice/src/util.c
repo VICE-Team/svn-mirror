@@ -435,7 +435,7 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
                    unsigned int load_flag)
 {
     FILE *fd;
-    size_t i, length, r = 0;
+    size_t length, r = 0;
     long start = 0;
 
     if (util_check_null_string(name)) {
@@ -456,34 +456,18 @@ int util_file_load(const char *name, uint8_t *dest, size_t size,
         length -= 2;
     }
 
-    if (length > size) {
+    if (length != size) {
         fclose(fd);
         return -1;
     }
 
-    if ((load_flag & UTIL_FILE_LOAD_FILL) == 0 && length != size) {
-        fclose(fd);
-        return -1;
-    }
-
-    for (i = 0; i < size; i += length) {
-        fseek(fd, start, SEEK_SET);
-        if (i + length > size) {
-            break;
-        }
-        r = fread((void *)&(dest[i]), length, 1, fd);
-/* log_debug("READ %i bytes to offset %i result %i.",length,i,r); */
-        if (r < 1) {
-            break;
-        }
-    }
-
+    fseek(fd, start, SEEK_SET);
+    r = fread(dest, 1, size, fd);
     fclose(fd);
 
-    if (r < 1) {
+    if (r < size) {
         return -1;
     }
-
     return 0;
 }
 

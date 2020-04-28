@@ -38,7 +38,6 @@
 
 #define UTIL_FILE_LOAD_RAW          0
 #define UTIL_FILE_LOAD_SKIP_ADDRESS 1
-#define UTIL_FILE_LOAD_FILL         2
 
 #define util_arraysize(_x) (sizeof(_x) / sizeof(_x[0]))
 
