@@ -219,7 +219,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_EASYCALC             59 /* easycalc.c */
 #define CARTRIDGE_GMOD2                60 /* gmod2.c */
 #define CARTRIDGE_MAX_BASIC            61 /* maxbasic.c */
-#define CARTRIDGE_GMOD3                62 /* gmod2.c */
+#define CARTRIDGE_GMOD3                62 /* gmod3.c */
 
 #define CARTRIDGE_LAST                 62 /* cartconv: last cartridge in list */
 
