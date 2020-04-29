@@ -523,6 +523,7 @@ void cart_romlbank_set_slotmain(unsigned int bank)
         exos
         final plus
         game killer
+        gmod3       (Uses ultimax to change the hw vectors at fff8-ffff)
         capture
         magicformel
         mmcreplay
@@ -552,7 +553,7 @@ void cart_romlbank_set_slotmain(unsigned int bank)
         midi
         acia
         clockport
-	ethernetcart
+        ethernetcart
 
               hook                    default
 
@@ -778,6 +779,7 @@ void roml_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FORMEL64:
         case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_STARDOS:
         case CARTRIDGE_MAGIC_FORMEL: /* ? */
             /* fake ultimax hack */
@@ -1042,6 +1044,7 @@ void romh_store(uint16_t addr, uint8_t value)
             return;
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_STARDOS:
         case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_MAGIC_FORMEL: /* ? */
@@ -1294,6 +1297,7 @@ static uint8_t ultimax_1000_7fff_read_slot1(uint16_t addr)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_GMOD2:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
@@ -1366,6 +1370,7 @@ void ultimax_1000_7fff_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_GMOD2:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
@@ -1408,6 +1413,7 @@ static uint8_t ultimax_a000_bfff_read_slot1(uint16_t addr)
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_GMOD2:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 basic, ram */
@@ -1469,11 +1475,12 @@ void ultimax_a000_bfff_store(uint16_t addr, uint8_t value)
             retroreplay_a000_bfff_store(addr, value);
             break;
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_MAGIC_FORMEL:
-        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FORMEL64:
-        case CARTRIDGE_EXOS:
+        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD3:
+        case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
@@ -1502,15 +1509,16 @@ static uint8_t ultimax_c000_cfff_read_slot1(uint16_t addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_c000_cfff_read(addr);
-        case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_GAME_KILLER:
-        case CARTRIDGE_GMOD2:
+        case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FORMEL64:
-        case CARTRIDGE_EXOS:
-        case CARTRIDGE_STARDOS:
+        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD2:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_KINGSOFT:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             return mem_read_without_ultimax(addr);
         case CARTRIDGE_CRT: /* invalid */
@@ -1568,14 +1576,15 @@ void ultimax_c000_cfff_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_c000_cfff_store(addr, value);
             break;
-        case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FORMEL64:
-        case CARTRIDGE_EXOS:
-        case CARTRIDGE_STARDOS:
+        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_KINGSOFT:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
             break;
@@ -1602,6 +1611,7 @@ static uint8_t ultimax_d000_dfff_read_slot1(uint16_t addr)
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FORMEL64:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
@@ -1664,6 +1674,7 @@ void ultimax_d000_dfff_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FORMEL64:
+        case CARTRIDGE_GMOD3:
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
@@ -1708,6 +1719,9 @@ static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
             break;
         case CARTRIDGE_FINAL_PLUS:
             res = final_plus_romh_phi1_read(addr, value);
+            break;
+        case CARTRIDGE_GMOD3:
+            res = gmod3_romh_phi1_read(addr, value);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             res = magicformel_romh_phi1_read(addr, value);
@@ -1811,6 +1825,9 @@ static int ultimax_romh_phi2_read_slotmain(uint16_t addr, uint8_t *value)
             break;
         case CARTRIDGE_FINAL_PLUS:
             res = final_plus_romh_phi2_read(addr, value);
+            break;
+        case CARTRIDGE_GMOD3:
+            res = gmod3_romh_phi2_read(addr, value);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             res = magicformel_romh_phi2_read(addr, value);
@@ -2023,6 +2040,9 @@ static uint8_t cartridge_peek_mem_slotmain(uint16_t addr)
             break;
         case CARTRIDGE_GMOD2:
             res = gmod2_peek_mem(&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_GMOD3:
+            res = gmod3_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             res = magicformel_peek_mem(&export_slotmain, addr, &value);

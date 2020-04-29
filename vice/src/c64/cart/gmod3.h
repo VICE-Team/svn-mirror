@@ -41,6 +41,8 @@ struct snapshot_s;
 
 extern uint8_t gmod3_roml_read(uint16_t addr);
 extern uint8_t gmod3_romh_read(uint16_t addr);
+extern int gmod3_romh_phi1_read(uint16_t addr, uint8_t *value);
+extern int gmod3_romh_phi2_read(uint16_t addr, uint8_t *value);
 
 extern int gmod3_peek_mem(export_t *export, uint16_t addr, uint8_t *value);
 extern void gmod3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);

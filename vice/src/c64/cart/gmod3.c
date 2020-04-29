@@ -35,6 +35,7 @@
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64mem.h"
+#include "c64pla.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -236,12 +237,16 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
         gmod3_bitbang_enabled = (value >> 7) & 1;
         gmod3_vectors_enabled = (value >> 5) & 1;
         if ((value & 0x40) == 0x00) {
-            gmod3_cmode = CMODE_8KGAME;
+            if (gmod3_vectors_enabled) {
+                gmod3_cmode = CMODE_ULTIMAX;
+            } else {
+                gmod3_cmode = CMODE_8KGAME;
+            }
         } else if ((value & 0x40) == 0x40) {
             gmod3_cmode = CMODE_RAM;
         }
-        DBG(("io1 w %04x %02x (bitbang: %d mode: %d)\n", 
-            addr, value, gmod3_bitbang_enabled, gmod3_cmode));
+        DBG(("io1 w %04x %02x (bitbang: %d vectors: %d mode: %d)\n", 
+            addr, value, gmod3_bitbang_enabled, gmod3_vectors_enabled, gmod3_cmode));
     }
     
     spi_flash_write_select((uint8_t)eeprom_cs);
@@ -257,8 +262,15 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
 
 uint8_t gmod3_roml_read(uint16_t addr)
 {
-    DBG(("gmod3_roml_read %04x\n", addr));
-    return gmod3_rom[(addr & 0x1fff) + (gmod3_bank << 13)];
+    int mem_config = ((~pport.dir | pport.data) & 0x7);
+    if (!gmod3_vectors_enabled) {
+        return gmod3_rom[(addr & 0x1fff) + (gmod3_bank << 13)];
+    }
+    /* handle fake ultimax */
+    if ((mem_config == 7) || (mem_config == 3)) {
+        return gmod3_rom[(addr & 0x1fff) + (gmod3_bank << 13)];
+    }
+    return ram_read(addr);
 }
 
 static uint8_t vectors[8] = { 0x08, 0x00, 0x08, 0x00, 0x0c, 0x80, 0x0c, 0x00 };
@@ -266,11 +278,21 @@ static uint8_t vectors[8] = { 0x08, 0x00, 0x08, 0x00, 0x0c, 0x80, 0x0c, 0x00 };
 uint8_t gmod3_romh_read(uint16_t addr)
 {
     DBG(("gmod3_romh_read %04x\n", addr));
-    if (gmod3_vectors_enabled) {
-        if (addr >= 0xfff8 && addr <= 0xffff) {
-            return vectors[addr & 7];
-        }
+    if (addr >= 0xfff8 && addr <= 0xffff) {
+        return vectors[addr & 7];
     }
+    return mem_read_without_ultimax(addr);
+}
+
+/* VIC reads */
+int gmod3_romh_phi1_read(uint16_t addr, uint8_t *value)
+{
+    return CART_READ_C64MEM;
+}
+/* CPU reads */
+int gmod3_romh_phi2_read(uint16_t addr, uint8_t *value)
+{
+    return CART_READ_C64MEM;
 }
 
 int gmod3_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
@@ -301,7 +323,7 @@ void gmod3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *lim
 static int gmod3_dump(void)
 {
     /* FIXME: incomplete */
-    mon_out("GAME/EXROM status: %s\n", cart_config_string(gmod3_cmode));
+    mon_out("status: %s\n", gmod3_cmode == CMODE_RAM ? "disabled": "8k Game");
     mon_out("ROM bank: %d\n", gmod3_bank);
     mon_out("bitbang mode is %s\n", gmod3_bitbang_enabled ? "enabled" : "disabled");
     mon_out("hw vectors are %s\n", gmod3_vectors_enabled ? "enabled" : "disabled");
