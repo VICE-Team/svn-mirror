@@ -323,7 +323,7 @@ void gmod3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *lim
 static int gmod3_dump(void)
 {
     /* FIXME: incomplete */
-    mon_out("status: %s\n", gmod3_cmode == CMODE_RAM ? "disabled": "8k Game");
+    mon_out("status: %s\n", gmod3_cmode == CMODE_RAM ? "disabled" : "8k Game");
     mon_out("ROM bank: %d\n", gmod3_bank);
     mon_out("bitbang mode is %s\n", gmod3_bitbang_enabled ? "enabled" : "disabled");
     mon_out("hw vectors are %s\n", gmod3_vectors_enabled ? "enabled" : "disabled");
