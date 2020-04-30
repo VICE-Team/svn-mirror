@@ -389,16 +389,20 @@ void mon_detach(int device)
     }
 }
 
-void mon_autostart(const char *image_name,
+int mon_autostart(const char *image_name,
                    int file_index,
                    int run)
 {
+    int result = 0;
+
     mon_out("auto%s %s #%d\n", run ? "starting" : "loading",
             image_name, file_index);
-    autostart_autodetect_opt_prgname(image_name, file_index,
+    result = autostart_autodetect_opt_prgname(image_name, file_index,
                                      run ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD);
 
     /* leave monitor but return after autostart */
     autostart_trigger_monitor(1);
     exit_mon = 1;
+
+    return result;
 }

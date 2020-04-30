@@ -55,6 +55,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "monitor_network.h"
+#include "monitor_binary.h"
 #include "network.h"
 #include "printer.h"
 #include "resources.h"
@@ -110,8 +111,14 @@ unsigned int machine_jam(const char *format, ...)
     log_message(LOG_DEFAULT, "*** %s", str);
 
     if (jam_action == MACHINE_JAM_ACTION_DIALOG) {
-        if (monitor_is_remote()) {
-            ret = monitor_network_ui_jam_dialog(str);
+        if (monitor_is_remote() || monitor_is_binary()) {
+            if (monitor_is_remote()) {
+                ret = monitor_network_ui_jam_dialog(str);
+            }
+
+            if (monitor_is_binary()) {
+                ret = monitor_binary_ui_jam_dialog(str);
+            }
         } else if (!console_mode) {
             ret = ui_jam_dialog(str);
         }
@@ -345,6 +352,7 @@ void machine_shutdown(void)
     romset_resources_shutdown();
 #ifdef HAVE_NETWORK
     monitor_network_resources_shutdown();
+    monitor_binary_resources_shutdown();
 #endif
     archdep_shutdown();
 

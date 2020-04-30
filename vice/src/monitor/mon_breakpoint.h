@@ -35,6 +35,23 @@ typedef enum mon_breakpoint_type_e {
     BP_ACTIVE
 } mon_breakpoint_type_t;
 
+struct mon_checkpoint_s {
+    int checknum;
+    MON_ADDR start_addr;
+    MON_ADDR end_addr;
+    int hit_count;
+    int ignore_count;
+    cond_node_t *condition;
+    char *command;
+    bool stop;
+    bool enabled;
+    bool check_load;
+    bool check_store;
+    bool check_exec;
+    bool temporary;
+};
+typedef struct mon_checkpoint_s mon_checkpoint_t;
+
 extern void mon_breakpoint_init(void);
 
 extern void mon_breakpoint_switch_checkpoint(int op, int breakpt_num);
@@ -54,7 +71,10 @@ extern void mon_breakpoint_unset(MON_ADDR address);
 extern void mon_breakpoint_enable(MON_ADDR address);
 extern void mon_breakpoint_disable(MON_ADDR address);
 
+extern mon_checkpoint_t *mon_breakpoint_find_checkpoint(int brknum);
+extern mon_checkpoint_t **mon_breakpoint_checkpoint_list_get(unsigned int *len);
+
 /* defined in mon_parse.y, and thus, in mon_parse.c */
-extern void parse_and_execute_line(char *input);
+extern int parse_and_execute_line(char *input);
 
 #endif

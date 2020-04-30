@@ -1091,7 +1091,7 @@ index_ureg:
 
 %%
 
-void parse_and_execute_line(char *input)
+int parse_and_execute_line(char *input)
 {
    char *temp_buf;
    int i, rc;
@@ -1166,6 +1166,8 @@ void parse_and_execute_line(char *input)
    }
    lib_free(temp_buf);
    free_buffer();
+
+   return rc;
 }
 
 static int yyerror(char *s)

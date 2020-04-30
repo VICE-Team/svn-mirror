@@ -83,6 +83,8 @@ extern store_func_t mem_store;
 
 /* Memory access functions for the monitor.  */
 extern const char **mem_bank_list(void);
+extern const int *mem_bank_list_nos(void);
+
 extern int mem_bank_from_name(const char *name);
 extern uint8_t mem_bank_read(int bank, uint16_t addr, void *context);
 extern uint8_t mem_bank_peek(int bank, uint16_t addr, void *context);

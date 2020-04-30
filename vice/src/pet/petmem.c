@@ -1701,12 +1701,16 @@ enum {
 
 static const int banknums[] = {
     bank_default, bank_cpu, bank_ram, bank_rom, bank_io, bank_extram,
-    bank_cpu6809,
+    bank_cpu6809, -1
 };
 
 const char **mem_bank_list(void)
 {
     return banknames;
+}
+
+const int *mem_bank_list_nos(void) {
+    return banknums;
 }
 
 int mem_bank_from_name(const char *name)

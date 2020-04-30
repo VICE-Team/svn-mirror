@@ -80,6 +80,7 @@
 #include "mon_util.h"
 #include "monitor.h"
 #include "monitor_network.h"
+#include "monitor_binary.h"
 #include "montypes.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -622,6 +623,39 @@ void mon_bank(MEMSPACE mem, const char *bankname)
     }
 }
 
+/*! \internal \brief check if the bank number is valid for memspace
+
+ \param mem
+   The memspace of the bank
+
+ \param banknum
+   The number of the bank
+
+ \return
+   -1: Memspace doesn't have banks
+   0: Bank number invalid
+   1: Bank number valid
+*/
+const int mon_banknum_validate(MEMSPACE mem, int banknum)
+{
+    const int *banknums;
+
+    if(!mon_interfaces[mem]->mem_bank_list_nos) {
+        mon_out("Banks not available in this memspace\n");
+        return -1;
+    }
+
+    banknums = mon_interfaces[mem]->mem_bank_list_nos();
+    while(*banknums != -1) {
+        if(banknum == *banknums) {
+            return 1;
+        }
+        ++banknums;
+    }
+
+    return 0;
+}
+
 const char *mon_get_bank_name_for_bank(MEMSPACE mem, int banknum)
 {
     const char **bnp = NULL;
@@ -726,6 +760,36 @@ void mon_set_mem_val(MEMSPACE mem, uint16_t mem_addr, uint8_t val)
 
     bank = mon_interfaces[mem]->current_bank;
 
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
+            return;
+        }
+    }
+    
+    if ((sidefx == 0) && (mon_interfaces[mem]->mem_bank_poke != NULL)) {
+        mon_interfaces[mem]->mem_bank_poke(bank, mem_addr, val, mon_interfaces[mem]->context);
+    } else {
+        mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val, mon_interfaces[mem]->context);
+    }    
+}
+
+/*! \internal \brief set a byte of memory in a specific bank, not the current.
+
+ \param mem
+   Memspace of bank
+
+ \param bank
+   The bank number
+
+ \param mem_addr
+   The 16 bit memory address
+
+ \param val
+   The byte to write
+
+*/
+void mon_set_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr, uint8_t val)
+{
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
@@ -2381,7 +2445,7 @@ static void monitor_open(void)
     mon_console_suspend_on_leaving = 1;
     mon_console_close_on_leaving = 0;
 
-    if (monitor_is_remote()) {
+    if (monitor_is_remote() || monitor_is_binary()) {
         static console_t console_log_remote = { 80, 25, 0, 0, NULL };
         console_log = &console_log_remote;
     } else {
@@ -2443,6 +2507,9 @@ static void monitor_open(void)
         int mem = monitor_diskspace_mem(dnr);
         dot_addr[mem] = new_addr(mem, ((uint16_t)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
     }
+
+    mon_event_opened();
+
     /* disassemble at monitor entry, for single stepping */
     if (disassemble_on_entry) {
         int monbank = mon_interfaces[default_memspace]->current_bank;
@@ -2524,7 +2591,7 @@ static void monitor_close(int check)
 
     /* last_cmd = NULL; */
 
-    if (!monitor_is_remote()) {
+    if (!monitor_is_remote() && !monitor_is_binary()) {
         if (mon_console_suspend_on_leaving) {
             /*
                 if there is no log, or if the console can not stay open when the emulation
@@ -2540,6 +2607,8 @@ static void monitor_close(int check)
             }
         }
     }
+
+    mon_event_closed();
 
     if (mon_console_suspend_on_leaving) {
         console_log = NULL;

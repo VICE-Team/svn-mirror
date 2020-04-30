@@ -613,11 +613,15 @@ void mem_inject_key(uint16_t addr, uint8_t value)
 
 static const char *banknames[] = { "default", "cpu", NULL };
 
-static const int banknums[] = { 0, 0 };
+static const int banknums[] = { 0, 0, -1 };
 
 const char **mem_bank_list(void)
 {
     return banknames;
+}
+
+const int *mem_bank_list_nos(void) {
+    return banknums;
 }
 
 int mem_bank_from_name(const char *name)

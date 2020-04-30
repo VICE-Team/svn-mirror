@@ -40,6 +40,6 @@ extern void mon_file_verify(const char *filename, int device,
 extern void mon_attach(const char *filename, int unit);
 extern void mon_detach(int unit);
 
-extern void mon_autostart(const char *image_name, int file_index, int run);
+extern int mon_autostart(const char *image_name, int file_index, int run);
 
 #endif

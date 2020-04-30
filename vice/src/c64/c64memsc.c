@@ -1051,11 +1051,15 @@ static const char *banknames[] = {
     NULL
 };
 
-static const int banknums[] = { 1, 0, 1, 2, 3, 4 };
+static const int banknums[] = { 1, 0, 1, 2, 3, 4, -1 };
 
 const char **mem_bank_list(void)
 {
     return banknames;
+}
+
+const int *mem_bank_list_nos(void) {
+    return banknums;
 }
 
 int mem_bank_from_name(const char *name)

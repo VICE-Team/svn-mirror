@@ -110,7 +110,15 @@ struct monitor_interface_s {
     CLOCK *clk;
 
     int current_bank;
+
+    /* Returns the string bank identifiers in a NULL terminated list. */
     const char **(*mem_bank_list)(void);
+
+    /* Returns the numeric bank identifiers in a -1 terminated list.
+     * These correspond to the string identifiers so there could be
+     * repeats.
+     */
+    const int *(*mem_bank_list_nos)(void);
     int (*mem_bank_from_name)(const char *name);
     uint8_t (*mem_bank_read)(int bank, uint16_t addr, void *context);
     uint8_t (*mem_bank_peek)(int bank, uint16_t addr, void *context);

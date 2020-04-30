@@ -106,6 +106,7 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
     mi->clk = &(drive_clk[drv->mynumber]);
     mi->current_bank = 0;
     mi->mem_bank_list = NULL;
+    mi->mem_bank_list_nos = NULL;
     mi->mem_bank_from_name = NULL;
     mi->get_line_cycle = NULL;
 

@@ -158,6 +158,7 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
 
     maincpu_monitor_interface->current_bank = 0;
     maincpu_monitor_interface->mem_bank_list = mem_bank_list;
+    maincpu_monitor_interface->mem_bank_list_nos = mem_bank_list_nos;
     maincpu_monitor_interface->mem_bank_from_name = mem_bank_from_name;
     maincpu_monitor_interface->mem_bank_read = mem_bank_read;
     maincpu_monitor_interface->mem_bank_peek = mem_bank_peek;

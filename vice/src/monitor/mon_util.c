@@ -32,6 +32,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "ui.h"
+
 #include "archdep.h"
 #include "console.h"
 #include "lib.h"
@@ -40,9 +42,10 @@
 #include "mon_util.h"
 #include "monitor.h"
 #include "monitor_network.h"
+#include "monitor_binary.h"
 #include "types.h"
 #include "uimon.h"
-
+#include "vsyncapi.h"
 
 static char *bigbuffer = NULL;
 static const unsigned int bigbuffersize = 10000;
@@ -139,6 +142,26 @@ static void mon_buffer_add(const char *buffer, unsigned int bufferlen)
 
         assert(bigbufferwrite <= bigbuffersize);
     }
+}
+
+/*! \internal \brief Notify interested interfaces that the monitor opened.
+*/
+void mon_event_opened(void) {
+    #ifdef HAVE_NETWORK
+        if (monitor_is_binary()) {
+            monitor_binary_event_opened();
+        }
+    #endif
+}
+
+/*! \internal \brief Notify interested interfaces that the monitor closed.
+*/
+void mon_event_closed(void) {
+    #ifdef HAVE_NETWORK
+        if (monitor_is_binary()) {
+            monitor_binary_event_closed();
+        }
+    #endif
 }
 
 static int mon_out_buffered(const char *buffer)
@@ -257,20 +280,43 @@ char *uimon_in(const char *prompt)
 {
     char *p = NULL;
 
+    if (monitor_is_remote()) {
+        if (monitor_network_transmit(prompt, strlen(prompt)) < 0) {
+            return NULL;
+        }
+    }
+    
     while (!p && !pchCommandLine) {
         /* as long as we don't have any return value... */
 
 #ifdef HAVE_NETWORK
-        if (monitor_is_remote()) {
-            if (monitor_network_transmit(prompt, strlen(prompt)) < 0) {
-              return NULL;
+        if (!monitor_is_remote()) {
+            monitor_check_remote();
+        }
+
+        if (!monitor_is_binary()) {
+            monitor_check_binary();
+        }
+
+        if (monitor_is_remote() || monitor_is_binary()) {
+            vsyncarch_sleep(100);
+
+            if (monitor_is_binary()) {
+                if (!monitor_binary_get_command_line()) {
+                    exit_mon = 1;
+                    p = NULL;
+                    break;
+                }
             }
 
-            p = monitor_network_get_command_line();
-            if (p == NULL) {
-                mon_set_command(NULL, "x", NULL);
-                return NULL;
+            if (monitor_is_remote()) {
+                if (!monitor_network_get_command_line(&p)) {
+                    mon_set_command(NULL, "x", NULL);
+                    break;
+                }
             }
+
+            ui_dispatch_events();
         } else {
 #endif
             /* make sure to flush the output buffer */
