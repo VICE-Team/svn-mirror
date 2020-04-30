@@ -822,7 +822,7 @@ static void generate_index_html(char *in_path, char *out_path, char *filename)
     fprintf(outfile, "</p>\n\n");
     fprintf(outfile, "<p>Of course our warm thanks go to everyone who has helped us in developing\n");
     fprintf(outfile, "VICE during these past few years. For a more detailed list look in the\n");
-    fprintf(outfile, "<a href=\"vice_17.html\">documentation</a>.\n\n\n");
+    fprintf(outfile, "<a href=\"vice_18.html\">documentation</a>.\n\n\n");
     fprintf(outfile, "<hr>\n\n");
     fprintf(outfile, "<h1><a NAME=\"copyright\"></a>Copyright</h1>\n\n");
     fprintf(outfile, "<p>\n");

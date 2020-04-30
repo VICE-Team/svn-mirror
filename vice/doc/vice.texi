@@ -5433,6 +5433,14 @@ Boolean specifying whether the remote monitor server is enabled.
 @item MonitorServerAddress
 String specifying the address the remote monitor server listens to (ip4://127.0.0.1:6510)
 
+@vindex BinaryMonitorServer
+@item BinaryMonitorServer
+Boolean specifying whether the binary monitor server is enabled.
+
+@vindex BinaryMonitorServerAddress
+@item BinaryMonitorServerAddress
+String specifying the address the binary monitor server listens to (ip4://127.0.0.1:6502)
+
 @vindex NativeMonitor
 @item NativeMonitor
 Boolean specifying whether the native monitor is enabled. When enabled, the monitor
@@ -5489,6 +5497,15 @@ Enable/Disable remote monitor
 @findex -remotemonitoraddress
 @item -remotemonitoraddress <name>
 The local address the remote monitor should bind to
+
+@findex -binarymonitor, +binarymonitor
+@item -binarymonitor
+@itemx +binarymonitor
+Enable/Disable binary monitor
+
+@findex -binarymonitoraddress
+@item -binarymonitoraddress <name>
+The local address the binary monitor should bind to
 
 @findex -nativemonitor, +nativemonitor
 @item -nativemonitor
@@ -16176,6 +16193,905 @@ Display the specified number in decimal, hex, octal and binary.
 
 @end table
 
+@chapter Binary monitor
+The binary remote monitor commands are sent over a dedicated connection, specified
+with the command line options @code{-binarymonitor} & @code{-binarymonitoraddress}. @xref{Monitor settings}.
+The remote monitor detects a binary command because it starts with ASCII STX
+(0x02). Note that there is no termination character. The command length acts as
+synchronisation point.
+
+All multibyte values are in little endian order unless otherwise specified.
+
+@node Binary Command Structure
+@section Command Structure
+
+@table @strong
+
+@item byte 0: 0x02 (STX)
+@item byte 1: API version ID (currently 0x01)
+
+@item byte 2-5: length
+Note that the command length does *not* count the STX, the command length, 
+the command byte, or the request ID. Basically nothing in the header, 
+just the body.
+
+@item byte 6-9: request id
+In little endian order. All multibyte values are in little endian order,
+unless otherwise specified. There is no requirement for this to be unique,
+but it makes it easier to match up the responses if you do.
+
+@item byte 10: The numeric command type
+@xref{Binary Commands}
+
+@item byte 11+: The command body. 
+@xref{Binary Commands}
+
+@end table
+
+@node Binary Response Structure
+@section Response Structure
+
+@table @strong
+
+@item byte 0: 0x02 (STX)
+@item byte 1: API version ID (currently 0x01)
+@item byte 2-5: response body length. Does not include any header fields
+
+@item byte 6: response type
+This is usually the same as the command ID
+
+@item byte 7: error code
+
+@table @code
+@item 0x00
+ok, everything worked
+
+@item 0x80
+command length is not correct for this command
+
+@item 0x81
+an invalid parameter occurred@*
+@*
+@xref{Binary Commands} for other error codes
+
+@end table
+
+@item byte 8-11: request ID
+This is the request ID given to initiate this response.
+If the value is 0xffffffff, Then the response was initiated by an event,
+such as hitting a checkpoint.
+
+@item byte 12+: response body.
+@xref{Binary Commands}.
+
+@end table
+
+@node Binary Monitor Example Exchange
+@section Example Exchange
+
+@enumerate
+
+@item Client connects to ip4://127.0.0.1:6502
+
+@item Client sends a command to set a temporary checkpoint:
+@*
+@* @code{02 | 01 | 08 00 00 00 | ad de 34 12 | 12 | e2 fc | e3 fc | 01 | 01 | 04 | 01 }
+@*
+@*
+
+@table @code
+@item 0x02
+Begin command
+
+@item 0x01
+API version 1
+
+@item 0x00000008
+The command excluding the header is 8 bytes long.
+
+@item 0x1234dead
+The request ID is 0x1234dead. The response will contain this ID.
+
+@item 0x12
+@xref{MON_CMD_CHECKPOINT_SET}
+
+@item 0xfce2
+The address range of the checkpoint starts at 0xfce2.
+
+@item 0xfce3
+The address range of the checkpoint ends at 0xfce3.
+
+@item 0x01
+The checkpoint will cause the emulator to stop.
+
+@item 0x01
+The checkpoint is enabled.
+
+@item 0x04
+The checkpoint will trigger on exec from 0xfce2 - 0xfce3.
+
+@item 0x01
+The checkpoint is temporary.
+
+@end table
+
+@item The transmission of any command causes the emulator to stop, similar to
+the regular monitor. This causes the server to respond with a list of register
+values. @*
+@*
+@code{02 | 01 | 26 00 00 00 | 31 | 00 | ff ff ff ff | 09 00 [ 03 @{ 03 | cf e5 @} 03 @{ 00 | 00 00 @} ... ] } @*
+@*
+
+@table @code
+@item 0x02
+Begin response
+
+@item 0x01
+API Version 1
+
+@item 0x00000026
+Response length is 38
+
+@item 0x31
+@xref{MON_RESPONSE_REGISTER_INFO}
+
+@item 0x00
+No error occurred
+
+@item 0xffffffff
+This response was not directly triggered by a command from the client.
+
+@item 0x0009
+The register array is 9 items long
+
+@item @strong{PC:}
+@table @code
+@item 0x03
+The register array item is 3 bytes long
+
+@item 0x03
+The register is the PC (ID 3) Note: you should find the names to these IDs using
+the MON_CMD_REGISTERS_AVAILABLE command. @xref{MON_CMD_REGISTERS_AVAILABLE}.
+Do not rely on them being consistent.
+
+@item 0xe5cf
+The register value is 0xe5cf
+
+@end table
+
+@item @strong{A:}
+@table @code
+@item 0x03
+The register array item is 3 bytes long
+
+@item 0x00
+The register is A (ID 0) Note: you should find the names to these IDs using
+the MON_CMD_REGISTERS_AVAILABLE command. @xref{MON_CMD_REGISTERS_AVAILABLE}.
+Do not rely on them being consistent.
+
+@item 0x0000
+The register value is 0x0000
+
+@end table
+
+@end table
+
+@item After the register information, the server sends a stopped event to indicate that the emulator is stopped. @*
+@*
+@code{02 | 01 | 02 00 00 00 | 62 | 00 | ff ff ff ff | cf e5 } @*
+@*
+
+@table @code
+@item 0x02
+Begin response
+
+@item 0x01
+API Version 1
+
+@item 0x00000002
+Response is two bytes long.
+
+@item 0x62
+Response type is 0x62, MON_RESPONSE_STOPPED.
+
+@item 0xffffffff
+This response was not directly triggered by a command from the client.
+
+@item 0xe5cf
+The current program counter
+
+@end table
+
+@item The server processes the checkpoint set command, and sends a response to the client. @*
+@*
+@code{ ... | 11 | ... | 02 00 00 00 | 00 | e2 fc | e3 fc | 01 | 01 | 04 | 01 | 00 00 00 00 | 00 00 00 00 | 00}@*
+(Some response header fields are omitted (...) for brevity.)@*
+@*
+
+@table @code
+@item 0x11
+@xref{MON_RESPONSE_CHECKPOINT_INFO}
+
+@item 0x00000002
+Checkpoint number is 2
+
+@item 0x00
+Checkpoint was not hit (as it was just created)
+
+@item 0xfce2
+Checkpoint start address
+
+@item 0xfce3
+Checkpoint end address
+
+@item 0x01
+The checkpoint will cause the emulator to stop.
+
+@item 0x01
+The checkpoint is enabled.
+
+@item 0x04
+The checkpoint will trigger on exec from 0xfce2 - 0xfce3.
+
+@item 0x01
+The checkpoint is temporary.
+
+@item 0x00000000
+The checkpoint has been hit zero times.
+
+@item 0x00000000
+The checkpoint has been ignored zero times.
+
+@end table
+
+@item Client sends a command to continue:@*
+@*
+@code{ ... | 71 }@*
+(Some command header fields are omitted (...) for brevity.)@*
+@*
+
+@table @code
+@item 0x71
+@xref{MON_CMD_EXIT}
+
+@end table
+
+@item Server acknowledges the command:@*
+@*
+@code{ ... | 71 | ... } @*
+(Some response header fields are omitted (...) for brevity.)@*
+@*
+
+@table @code
+@item 0x71
+@xref{MON_CMD_EXIT}
+
+@end table
+
+@item Server resumes execution and sends a resume event:@*
+@*
+@code{ ... | 63 | ... | cf e5 } @*
+(Some response header fields are omitted (...) for brevity.)@*
+@*
+
+@table @code
+@item 0x63
+@xref{MON_RESPONSE_RESUMED}
+
+@item 0xe5cf
+Program counter is currently at 0xe5cf
+
+@end table
+
+@item Some time later, the server hits the breakpoint. This causes it to emit
+a checkpoint response. This is identical to the previous checkpoint response,
+except that it is marked as "hit" and the hit and ignore counts are updated.
+
+@item The server emits the register information and the stopped event when
+reentering the monitor, as seen previously.
+
+@end enumerate
+
+@node Binary Commands
+@section Commands
+
+These are the possible command types and responses, without the header portions
+mentioned above.
+
+@node MON_CMD_MEM_GET
+@subsection Memory get (0x01)
+
+Reads a chunk of memory from a start address to an end address (inclusive).
+
+Command body:
+
+@table @strong
+@item byte 0: side effects?
+Should the read cause side effects?
+
+@item byte 1-2: start address
+
+@item byte 3-4: end address
+
+@item byte 5: memspace
+Describes which part of the computer you want to read:
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
+
+@item byte 6-7: bank ID
+Describes which bank you want. This is dependent on your
+machine. @xref{MON_CMD_BANKS_AVAILABLE}.  If the memspace selected
+doesn't support banks, this value is ignored.
+
+@end table
+
+Response type:
+
+0x01: MON_RESPONSE_MEM_GET
+
+Response body:
+
+@table @strong
+@item byte 0-1: The length of the memory segment.
+
+@item byte 2+: The memory at the address.
+
+@end table
+
+@node MON_CMD_MEM_SET
+@subsection Memory set (0x02)
+
+Writes a chunk of memory from a start address to an end address (inclusive).
+
+Command body:
+
+@table @strong
+@item byte 0: side effects?
+Should the write cause side effects?
+
+@item byte 1-2: start address
+
+@item byte 3-4: end address
+
+@item byte 5: memspace
+Describes which part of the computer you want to write:
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
+
+@item byte 6-7: bank ID
+Describes which bank you want. This is dependent on your machine. 
+@xref{MON_CMD_BANKS_AVAILABLE}.  
+If the memspace selected doesn't support banks, this byte is ignored.
+
+@item byte 8+: Memory contents to write
+
+@end table
+
+Response type:
+
+0x02: MON_RESPONSE_MEM_SET
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_CHECKPOINT_GET
+@subsection Checkpoint get (0x11)
+
+Gets any type of checkpoint. (break, watch, trace)
+
+Command body:
+
+@table @strong
+@item byte 0-3: checkpoint number
+
+@end table
+
+@xref{MON_RESPONSE_CHECKPOINT_INFO}.
+
+@node MON_CMD_CHECKPOINT_SET
+@subsection Checkpoint set (0x12)
+
+Sets any type of checkpoint. This combines the functionality of several
+textual commands (break, watch, trace) into one, as they are all the same
+with only minor variations. To set conditions, @pxref{MON_CMD_CONDITION_SET} after
+executing this one.
+
+Command body:
+
+@table @strong
+@item byte 0-1: start address
+
+@item byte 2-3: end address
+
+@item byte 4: stop when hit
+0x01: true, 0x00: false
+
+@item byte 5: enabled
+0x01: true, 0x00: false
+
+@item byte 6: CPU operation
+0x01: load, 0x02: store, 0x04: exec
+
+@item byte 7: temporary
+    Deletes the checkpoint after it has been hit once. This is similar to
+    "until" command, but it will not resume the emulator.
+
+@end table
+
+@xref{MON_RESPONSE_CHECKPOINT_INFO}.
+
+@node MON_CMD_CHECKPOINT_DELETE
+@subsection Checkpoint delete (0x13)
+
+Deletes any type of checkpoint. (break, watch, trace)
+
+Command body:
+
+@table @strong
+@item byte 0-3: checkpoint number
+
+@end table
+
+Response type:
+
+0x13: MON_RESPONSE_CHECKPOINT_DELETE
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_CHECKPOINT_LIST
+@subsection Checkpoint list (0x14)
+
+Command body:
+
+Currently empty.
+
+Response type:
+
+Emits a series of MON_RESPONSE_CHECKPOINT_INFO responses
+(@pxref{MON_RESPONSE_CHECKPOINT_INFO}) followed by
+
+0x14: MON_RESPONSE_CHECKPOINT_LIST
+
+Response body:
+
+@table @strong
+@item byte 0-3: The total number of checkpoints
+
+@end table
+
+@node MON_CMD_CHECKPOINT_TOGGLE
+@subsection Checkpoint toggle (0x15)
+
+Command body:
+
+@table @strong
+@item byte 0-3: Checkpoint number
+
+@item byte 4: Enabled?
+0x00: disabled, 0x01: enabled
+
+@end table
+
+Response type:
+
+0x15: MON_RESPONSE_CHECKPOINT_TOGGLE
+
+Response body:
+
+Currently empty.
+
+@table @strong
+@item byte 0-3: The total number of checkpoints
+
+@end table
+
+@node MON_CMD_CONDITION_SET
+@subsection Condition set (0x22)
+
+Sets a condition on an existing checkpoint. It is not currently possible to
+retrieve conditions after setting them.
+
+Command body:
+
+@table @strong
+@item byte 0-3: checkpoint number
+
+@item byte 4: condition expression length
+
+@item byte 5+: condition expression string
+This is the same format used on the command line. Not null terminated.
+
+@end table
+
+Response type:
+
+0x22: MON_RESPONSE_CONDITION_SET
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_REGISTERS_GET
+@subsection Registers get (0x31)
+
+Get details about the registers
+
+Command body:
+
+Currently empty.
+
+@xref{MON_RESPONSE_REGISTER_INFO}
+
+@node MON_CMD_REGISTERS_SET
+@subsection Registers set (0x32)
+
+Set the register values
+
+Command body:
+
+@table @strong
+@item byte 0-1: The count of the array items
+
+@item byte 2+: An array with items of structure:
+    byte 0: Size of the item, excluding this byte
+    byte 1: ID of the register
+    byte 2-3: register value
+
+@end table
+
+@xref{MON_RESPONSE_REGISTER_INFO}
+
+@node MON_CMD_ADVANCE_INSTRUCTIONS
+@subsection Advance Instructions (0x71)
+
+Step over a certain number of instructions.
+
+Command body:
+
+@table @strong
+@item byte 0: Step over subroutines?
+Should subroutines count as a single instruction?
+
+@item byte 1-2: How many instructions to step over.
+
+@end table
+
+Response type:
+
+0x71: MON_RESPONSE_ADVANCE_INSTRUCTIONS
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_KEYBOARD_FEED
+@subsection Keyboard feed (0x72)
+
+Add text to the keyboard buffer.
+
+Command body:
+
+@table @strong
+@item byte 0: Length of text
+
+@item byte 1+: The text
+Special characters such as return are escaped with backslashes.
+
+@end table
+
+Response type:
+
+0x75: MON_RESPONSE_KEYBOARD_FEED
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_PING
+@subsection Ping (0x81)
+
+Get an empty response
+
+Command body:
+
+Always empty
+
+Response type:
+
+0x81: MON_RESPONSE_PING
+
+Response body:
+
+Always empty
+
+@node MON_CMD_BANKS_AVAILABLE
+@subsection Banks Available (0x82)
+
+Gives a listing of all the bank IDs for the running machine with their names.
+
+Command body:
+
+Currently empty.
+
+Response type:
+
+0x82: MON_RESPONSE_BANKS_AVAILABLE
+
+Response body:
+
+@table @strong
+@item byte 0-1: The count of the array items
+@item byte 2+: An array with items of structure:
+
+@table @strong
+@item byte 0: Size of the item, excluding this byte
+
+@item byte 1-2: bank ID
+
+@item byte 3: Name length
+
+@item byte 4+: Name
+
+@end table
+
+@end table
+
+@node MON_CMD_REGISTERS_AVAILABLE
+@subsection Registers Available (0x83)
+
+Gives a listing of all the registers for the running machine with their names.
+
+Command body:
+
+Currently empty.
+
+Response type:
+
+0x82: MON_RESPONSE_REGISTERS_AVAILABLE
+
+Response body:
+
+@table @strong
+@item byte 0-1: The count of the array items
+@item byte 2+: An array with items of structure:
+
+@table @strong
+
+@item byte 0: Size of the item, excluding this byte
+
+@item byte 1: ID of the register
+
+@item byte 2: Size of the register in bits
+
+@item byte 3: Length of name
+
+@item byte 4+: Name
+
+@end table
+
+@end table
+
+@node MON_CMD_EXIT
+@subsection Exit (0xaa)
+
+Exit the monitor until the next breakpoint.
+
+Command body:
+
+Currently empty.
+
+Response type:
+
+0x71: MON_RESPONSE_EXIT
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_QUIT
+@subsection Quit (0xbb)
+
+Quits VICE.
+
+Command body:
+
+Currently empty.
+
+Response type:
+
+0x72: MON_RESPONSE_QUIT
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_RESET
+@subsection Reset (0xcc)
+
+Reset the system or a drive
+
+Command body:
+
+@table @strong
+@item byte 0: What to reset
+
+@itemize
+@item 0x00: Soft reset system
+@item 0x01: Hard reset system
+@item 0x08 - 0x0b: Reset drives 8 - 11
+@end itemize
+
+@end table
+
+Response type:
+
+0x74: MON_RESPONSE_RESET
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_AUTOSTART
+@subsection Autostart / autoload (0xdd)
+
+Load a program then return to the monitor
+
+Command body:
+
+@table @strong
+@item byte 0: Run after loading?
+0x01: true, 0x00: false
+
+@item byte 1-2: File index
+The index of the file to execute, if a disk image. 0x00 is the default value.
+
+@item byte 3: Length of filename
+
+@item byte 4+: Filename
+The filename to autoload.
+
+@end table
+
+Response type:
+
+0x76: MON_RESPONSE_AUTOSTART
+
+Response body:
+
+Currently empty.
+
+@node Binary Responses
+@section Responses
+
+@node MON_RESPONSE_REGISTER_INFO
+@subsection Register Response (0x31)
+
+Response type:
+
+0x31: MON_RESPONSE_REGISTER_INFO
+
+Response body:
+
+@table @strong
+@item byte 0-1: The count of the array items
+
+@item byte 2+: An array with items of structure:
+
+@table @strong
+@item byte 0: Size of the item, excluding this byte
+
+@item byte 1: ID of the register
+
+@item byte 2-3: register value
+
+@end table
+
+@end table
+
+@node MON_RESPONSE_CHECKPOINT_INFO
+@subsection Checkpoint Response (0x11)
+
+Response type:
+
+0x11: MON_RESPONSE_CHECKPOINT_INFO
+
+Response body:
+
+@table @strong
+@item byte 0-3: Checkpoint number
+
+@item byte 4: Currently hit?
+0x01: true, 0x00: false
+
+@item byte 5-6: start address
+
+@item byte 7-8: end address
+
+@item byte 9: stop when hit
+0x01: true, 0x00: false
+
+@item byte 10: enabled
+0x01: true, 0x00: false
+
+@item byte 11: CPU operation
+0x01: load, 0x02: store, 0x04: exec
+
+@item byte 12: temporary
+Deletes the checkpoint after it has been hit once. This is similar to
+"until" command, but it will not resume the emulator.
+
+@item byte 13-16: hit count
+
+@item byte 17-20: ignore count
+
+@item byte 21: Has condition?
+0x01: true, 0x00: false
+
+@end table
+
+@node MON_RESPONSE_JAM
+@subsection JAM Response (0x61)
+
+When the CPU jams
+
+Response type:
+
+0x61: MON_RESPONSE_JAM
+
+Response body:
+
+@table @strong
+@item byte 0-1: The current program counter position
+
+@end table
+
+@node MON_RESPONSE_STOPPED
+@subsection Stopped Response (0x62)
+
+When the machine stops for the monitor, 
+either due to hitting a checkpoint or stepping.
+
+Response type:
+
+0x62: MON_RESPONSE_STOPPED
+
+Response body:
+
+@table @strong
+@item byte 0-1: The current program counter position
+
+@end table
+
+@node MON_RESPONSE_RESUMED
+@subsection Resumed Response (0x63)
+
+When the machine resumes execution for any reason.
+
+Response type:
+
+0x63: MON_RESPONSE_RESUMED
+
+Response body:
+
+@table @strong
+@item byte 0-1: The current program counter position
+
+@end table
 
 @node c1541, File formats, Monitor, Top
 @chapter c1541
