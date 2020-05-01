@@ -1,7 +1,7 @@
 /** \file   rs232-unix-dev.c
  * \brief   RS232 Device emulation
  *
- * \author  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ * \author  Andre Fachat <fachat@web.de>
  *
  * The RS232 emulation captures the bytes sent to the RS232 interfaces
  * available (currently ACIA 6551, std C64 and Daniel Dallmanns fast RS232
@@ -9,6 +9,50 @@
  * The characters captured are sent to a file or an attached process.
  * Characters sent from a process are sent back to the
  * chip emulations.
+ * 
+ * There are four RS232 "output" devices that can be defined, so you can switch between
+ * them easily: rsdev1-4. Each device definition contains the output filename 
+ * (see rsdev1-4 cmdline options resp. RsDevice1-4 resources in rs232drv.c), that 
+ * determines the action when opening up a serial device. 
+ *
+ * If that name starts with a pipe symbol "|", the remaining name is interpreted as program
+ * to start and RS232 data from the emulation is piped to that program and vice versa.
+ *
+ * If that name is a Unix TTY device (and not a file), the emulator detects that and
+ * sets up the device as serial device, using the baud rate from the -rsdev[1-4]baud 
+ * command line option. So for example you can have the emulator talk to a serial port
+ * on the host PC using /dev/ttyS0 (name depending on your Linux/Unix distribution)
+ * and use the baud rate given in the -rsdev?baud for the external interface.
+ *
+ * If that name is a file, then just the RS232 output is written there.
+ * 
+ * Note: there seems to be some extension in rs232drv.c to use some network connection,
+ * but I don't know how that works.
+ *
+ * To use the output device, you have to select one for each of the emulated RS232 device.
+ * So, to use rsdev1 in the C64 userport RS232 emulation, you have to use the "-rsuser" to
+ * enable the userport emulation and "-rsuserdev 0" to select rsdev1 (unfortunately there is 
+ * an offset of one). And as the userport emulation can not detect the baud rate that is
+ * used to shift the bits (as opposed to the ACIA emulation where the baud rate is set
+ * in a register), you also have to use "-rsuserbaud 2400" to set this emulated baud rate.
+ *
+ * Example:
+ *   x64sc -rsuser -rsuserdev 2 -rsuserbaud 2400 -rsdev3 /dev/ttyUSB0 -rsdev3baud 9600
+ * lets you run your userport emulation with 2400 baud (OPEN 1,2,0,CHR$(10)+CHR$(0)), and
+ * connects it to a USB-to-serial port device under /dev/ttyUSB0, that runs its RS232
+ * with 9600 baud. If you have two USB-to-serial port devices connected to the same PC, you
+ * could then run a terminal program on the other serial port with 9600 baud to connect
+ * to the emulated C64.
+ *
+ * Implementation note:
+ * - the T_* definitions below determine the type of serial device, TTY, file, or program.
+ * - the fd[] array is a list of opened RS232 devices (where the index does not match
+ *   with the device number, but most likely the order in which the device was opened - so
+ *   the first opened device is in slot fd[0], the second one in fd[1] etc). Maybe a bit
+ *   oversophisticated, but you could use the same PROC device for multiple RS232 emulations,
+ *   e.g. use rsdev1 for both userport and ACIA, as for each opening of the device, a new
+ *   process is started. (not sure if that would work with a Unix pipe to have them talk to 
+ *   each other).
  */
 
 /*
@@ -33,7 +77,7 @@
  */
 
 
-#undef DEBUG
+#define DEBUG
 
 
 #include <stdint.h>
@@ -141,25 +185,27 @@ int rs232dev_cmdline_options_init(void)
 
 /** \brief  Whoever wrote this: please document this, thanks
  *
- * (that includes the members of this struct)
+ * This struct saves the status of the opened RS232 device.
+ * There are (currently) four (RS232_NUM_DEVICES) device slots that can be selected at the same time.
+ * The state is stored in the "fds[]" array of this type below.
  */
 typedef struct rs232 {
-    int inuse;
-    int type;
-    int fd_r;
-    int fd_w;
-    char *file;
+    int inuse;     /* device is in use */
+    int type;      /* what type of device is this, see T_* defines below */
+    int fd_r;      /* unix fd for reading; note for file and tty fd_r == fd_w, but PROC has it (potentially) different */
+    int fd_w;      /* unix fd for writing */
+    char *file;    /* filename */
     struct termios saved;
 } rs232_t;
 
 /* Also document this crap */
-#define T_FILE 0
-#define T_TTY  1
-#define T_PROC 2
+#define T_FILE 0   /* use a file, e.g. to dump RS232 output */
+#define T_TTY  1   /* a tty, like a real RS232 device /dev/ttyUSB0 */
+#define T_PROC 2   /* a process, where the RS232 data is piped to/from */
 
 /* And these things */
-static rs232_t fds[RS232_NUM_DEVICES];
-static log_t rs232dev_log = LOG_ERR;
+static rs232_t fds[RS232_NUM_DEVICES]; /* status for all open RS232_NUM_DEVICES devices */
+static log_t rs232dev_log = LOG_ERR;   /* logger */
 
 /* ------------------------------------------------------------------------- */
 
@@ -211,6 +257,9 @@ static void set_tty(int i, int baud)
     int fd = fds[i].fd_r;
     struct termios buf;
 
+    log_message(rs232dev_log, "rs232: trying to set device %s to %d baud.", 
+                fds[i].file, baud);
+
     if (tcgetattr(fd, &fds[i].saved) < 0) {
         return /* -1 */ ;
     }
@@ -218,7 +267,7 @@ static void set_tty(int i, int baud)
 
     buf.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 
-    /* echho off, cononical mode off, extended input processing
+    /* echho off, canonical mode off, extended input processing
      * off, signal chars off */
     buf.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 
@@ -277,7 +326,8 @@ int rs232dev_open(int device)
     }
 
 #ifdef DEBUG
-    log_message(rs232dev_log, "rs232dev_open(device=%d).", device);
+    log_message(rs232dev_log, "rs232dev_open(device '%s' as dev %d).", 
+                rs232_devfile[device], device);
 #endif
 
     if (rs232_devfile[device][0] == '|') {
@@ -291,7 +341,8 @@ int rs232dev_open(int device)
     } else {
         fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd < 0) {
-            log_error(rs232dev_log, "Cannot open file \"%s\": %s", rs232_devfile[device], strerror(errno));
+            log_error(rs232dev_log, "Cannot open file \"%s\": %s", 
+                      rs232_devfile[device], strerror(errno));
             return -1;
         }
         fds[i].fd_r = fds[i].fd_w = fd;
@@ -313,7 +364,7 @@ int rs232dev_open(int device)
 void rs232dev_close(int fd)
 {
 #ifdef DEBUG
-    log_debug(rs232dev_log, "close(fd=%d).", fd);
+    log_message(rs232dev_log, "close(fd=%d).", fd);
 #endif
 
     if (fd < 0 || fd >= RS232_NUM_DEVICES) {
