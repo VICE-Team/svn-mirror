@@ -241,13 +241,13 @@ static uint8_t lightpen_digital_val(int port)
 }
 
 #if 0
-static uint8_t lightpen_read_button_y(void)
+static uint8_t lightpen_read_button_y(int port)
 {
     return (lightpen_enabled && lightpen_button_y) ? 0x00 : 0xff;
 }
 #endif
 
-static uint8_t lightpen_read_button_x(void)
+static uint8_t lightpen_read_button_x(int port)
 {
     return (lightpen_enabled && lightpen_button_x) ? 0x00 : 0xff;
 }

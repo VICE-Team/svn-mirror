@@ -10,6 +10,8 @@
  * $VICERES KeySet1NorthEast    -vsid
  * $VICERES KeySet1West         -vsid
  * $VICERES KeySet1Fire         -vsid
+ * $VICERES KeySet1Fire2        -vsid
+ * $VICERES KeySet1Fire3        -vsid
  * $VICERES KeySet1East         -vsid
  * $VICERES KeySet1SouthWest    -vsid
  * $VICERES KeySet1South        -vsid
@@ -19,6 +21,8 @@
  * $VICERES KeySet2NorthEast    -vsid
  * $VICERES KeySet2West         -vsid
  * $VICERES KeySet2Fire         -vsid
+ * $VICERES KeySet2Fire2        -vsid
+ * $VICERES KeySet2Fire3        -vsid
  * $VICERES KeySet2East         -vsid
  * $VICERES KeySet2SouthWest    -vsid
  * $VICERES KeySet2South        -vsid
@@ -75,7 +79,7 @@ static int keyset_index = 0;
 
 /** \brief  GDK key codes for the current keyset
  */
-static guint keyset_codes[3][3];
+static guint keyset_codes[4][3];
 
 
 /** \brief  Names of the directions of the keyset keys
@@ -84,10 +88,11 @@ static guint keyset_codes[3][3];
  * Capitalization can be changed if required, since resources are not
  * case-sensitive.
  */
-static const char *keyset_labels[3][3] = {
+static const char *keyset_labels[4][3] = {
     { "NorthWest", "North", "NorthEast" },
     { "West",      "Fire",       "East" },
-    { "SouthWest", "South", "SouthEast" }
+    { "SouthWest", "South", "SouthEast" },
+    { NULL,        "Fire2",     "Fire3" }
 };
 
 
@@ -139,11 +144,13 @@ static void on_button_toggled(GtkWidget *button, gpointer data)
          * inactive (untoggled) */
         int row;
         int col;
-        for (row = 0; row < 3; row++) {
+        for (row = 0; row < 4; row++) {
             for (col = 0; col < 3; col++) {
-                if (keyset_buttons[row][col] != button) {
-                    gtk_toggle_button_set_active(
-                            GTK_TOGGLE_BUTTON(keyset_buttons[row][col]), FALSE);
+                if (keyset_labels[row][col]) {
+                    if (keyset_buttons[row][col] != button) {
+                        gtk_toggle_button_set_active(
+                                GTK_TOGGLE_BUTTON(keyset_buttons[row][col]), FALSE);
+                    }
                 }
             }
         }
@@ -178,15 +185,17 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
         key = 0;
     }
 
-    for (row = 0; row < 3; row++) {
+    for (row = 0; row < 4; row++) {
         for (col = 0; col < 3; col++) {
-            GtkWidget *button = keyset_buttons[row][col];
-            if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) {
-                keyset_codes[row][col] = key;
-                /* update button text and deacivate it */
-                set_button_text(button, row, col);
-                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
-                return TRUE;
+            if (keyset_labels[row][col]) {
+                GtkWidget *button = keyset_buttons[row][col];
+                if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) {
+                    keyset_codes[row][col] = key;
+                    /* update button text and deacivate it */
+                    set_button_text(button, row, col);
+                    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
+                    return TRUE;
+                }
             }
         }
     }
@@ -203,15 +212,17 @@ static gboolean get_keyset_resources(void)
     int row;
     int col;
 
-    for (row = 0; row < 3; row++) {
+    for (row = 0; row < 4; row++) {
         for (col = 0; col < 3; col++) {
-            int value;
-            if (resources_get_int_sprintf("KeySet%d%s", &value, keyset_index,
-                        keyset_labels[row][col]) < 0) {
-                log_error(LOG_ERR,
-                        "failed to retrieve value for resource 'KeySet%d%s\n",
-                        keyset_index, keyset_labels[row][col]);
-                return FALSE;
+            int value = -1;
+            if (keyset_labels[row][col]) {
+                if (resources_get_int_sprintf("KeySet%d%s", &value, keyset_index,
+                            keyset_labels[row][col]) < 0) {
+                    log_error(LOG_ERR,
+                            "failed to retrieve value for resource 'KeySet%d%s\n",
+                            keyset_index, keyset_labels[row][col]);
+                    return FALSE;
+                }
             }
             keyset_codes[row][col] = (guint)value;
         }
@@ -229,15 +240,17 @@ static gboolean set_keyset_resources(void)
     int row;
     int col;
 
-    for (row = 0; row < 3; row++) {
+    for (row = 0; row < 4; row++) {
         for (col = 0; col < 3; col++) {
             int value = (int)keyset_codes[row][col];
-            if (resources_set_int_sprintf("KeySet%d%s", value, keyset_index,
-                        keyset_labels[row][col]) < 0) {
-                log_error(LOG_ERR,
-                        "failed to set value for resource 'KeySet%d%s\n",
-                        keyset_index, keyset_labels[row][col]);
-                return FALSE;
+            if (keyset_labels[row][col]) {
+                if (resources_set_int_sprintf("KeySet%d%s", value, keyset_index,
+                            keyset_labels[row][col]) < 0) {
+                    log_error(LOG_ERR,
+                            "failed to set value for resource 'KeySet%d%s\n",
+                            keyset_index, keyset_labels[row][col]);
+                    return FALSE;
+                }
             }
         }
     }
@@ -314,11 +327,13 @@ static GtkWidget *create_content_widget(void)
     gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
 
     /* add buttons for each direction */
-    for (row = 0; row < 3; row++) {
+    for (row = 0; row < 4; row++) {
         for (col = 0; col < 3; col++) {
-            GtkWidget *button = create_button(row, col);
-            keyset_buttons[row][col] = button;
-            gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
+            if (keyset_labels[row][col]) {
+                GtkWidget *button = create_button(row, col);
+                keyset_buttons[row][col] = button;
+                gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
+            }
         }
     }
 

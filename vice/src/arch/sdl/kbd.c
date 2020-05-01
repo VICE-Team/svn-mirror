@@ -616,6 +616,8 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[6] = SDL2x_to_SDL1x_Keys(SDLK_KP7);
     joykeys[7] = SDL2x_to_SDL1x_Keys(SDLK_KP8);
     joykeys[8] = SDL2x_to_SDL1x_Keys(SDLK_KP9);
+    joykeys[9] = SDL2x_to_SDL1x_Keys(SDLK_KP_PERIOD);
+    joykeys[10] = SDL2x_to_SDL1x_Keys(SDLK_KP_ENTER);
 }
 
 const char *kbd_get_menu_keyname(void)

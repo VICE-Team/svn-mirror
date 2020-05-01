@@ -140,6 +140,8 @@ void kbd_initialize_numpad_joykeys(int *joykeys)
     joykeys[6] = GDK_KEY_KP_7;
     joykeys[7] = GDK_KEY_KP_8;
     joykeys[8] = GDK_KEY_KP_9;
+    joykeys[9] = GDK_KEY_KP_Decimal;
+    joykeys[10] = GDK_KEY_KP_Enter;
 }
 
 

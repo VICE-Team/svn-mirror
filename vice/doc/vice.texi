@@ -2986,6 +2986,8 @@ Boolean, specified whether to save real time clock data for the SmartMouse
 @vindex KeySet1SouthWest
 @vindex KeySet1West
 @vindex KeySet1Fire
+@vindex KeySet1Fire2
+@vindex KeySet1Fire3
 @item KeySet1NorthWest
 @itemx KeySet1North
 @itemx KeySet1NorthEast
@@ -2995,6 +2997,8 @@ Boolean, specified whether to save real time clock data for the SmartMouse
 @itemx KeySet1SouthWest
 @itemx KeySet1West
 @itemx KeySet1Fire
+@itemx KeySet1Fire2
+@itemx KeySet1Fire3
 Integers specifying the keycodes for keyset 1
 (all emulators except vsid).
 
@@ -3007,6 +3011,8 @@ Integers specifying the keycodes for keyset 1
 @vindex KeySet2SouthWest
 @vindex KeySet2West
 @vindex KeySet2Fire
+@vindex KeySet2Fire2
+@vindex KeySet2Fire3
 @item KeySet2NorthWest
 @itemx KeySet2North
 @itemx KeySet2NorthEast
@@ -3016,6 +3022,8 @@ Integers specifying the keycodes for keyset 1
 @itemx KeySet2SouthWest
 @itemx KeySet2West
 @itemx KeySet2Fire
+@itemx KeySet2Fire2
+@itemx KeySet2Fire3
 Integers specifying the keycodes for keyset 2
 (all emulators except vsid).
 

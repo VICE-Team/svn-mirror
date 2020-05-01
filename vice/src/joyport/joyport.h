@@ -105,8 +105,8 @@ typedef struct joyport_s {
     int (*enable)(int port, int val);                      /* pointer to the device enable function */
     uint8_t (*read_digital)(int port);                     /* pointer to the device digital lines read function */
     void (*store_digital)(uint8_t val);                    /* pointer to the device digital lines store function */
-    uint8_t (*read_potx)(void);                            /* pointer to the device X potentiometer read function */
-    uint8_t (*read_poty)(void);                            /* pointer to the device Y potentiometer read function */
+    uint8_t (*read_potx)(int port);                        /* pointer to the device X potentiometer read function */
+    uint8_t (*read_poty)(int port);                        /* pointer to the device Y potentiometer read function */
     int (*write_snapshot)(struct snapshot_s *s, int port); /* pointer to the device snapshot write function */
     int (*read_snapshot)(struct snapshot_s *s, int port);  /* pointer to the device snapshot read function */
 } joyport_t;
