@@ -698,6 +698,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
             SDL_SetWindowSize(sdl2_window, last_width, last_height);
         }
     }
+    ui_autohide_mouse_cursor();
 }
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
@@ -1021,4 +1022,5 @@ void sdl_ui_consume_mouse_event(SDL_Event *event)
         last_mouse_x = event->motion.x;
         last_mouse_y = event->motion.y;
     }
+    ui_autohide_mouse_cursor();
 }

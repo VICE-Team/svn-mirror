@@ -945,6 +945,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 #endif
 
     SDL_UpdateRect(canvas->screen, xi, yi, w, h);
+    ui_autohide_mouse_cursor();
 }
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
@@ -1244,4 +1245,5 @@ int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)
 void sdl_ui_consume_mouse_event(SDL_Event *event)
 {
     /* This is a no-op on SDL1 */
+    ui_autohide_mouse_cursor();
 }

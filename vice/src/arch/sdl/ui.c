@@ -541,6 +541,8 @@ static void set_crosshair_cursor(void)
 }
 #endif
 
+static int mouse_pointer_hidden = 0;
+
 void ui_check_mouse_cursor(void)
 {
     if (_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
@@ -572,8 +574,8 @@ void ui_check_mouse_cursor(void)
             SDL_SetRelativeMouseMode(SDL_FALSE);
 #endif
         } else {
-            /* windowed, TODO: disable pointer after time-out */
-            SDL_ShowCursor(SDL_DISABLE);
+            /* windowed */
+            SDL_ShowCursor(mouse_pointer_hidden ? SDL_DISABLE : SDL_ENABLE);
 #ifndef USE_SDLUI2
             SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
@@ -582,6 +584,31 @@ void ui_check_mouse_cursor(void)
 #endif
         }
     }
+}
+
+void ui_autohide_mouse_cursor(void)
+{
+    int local_x, local_y;
+    static int last_x = 0, last_y = 0;
+    static int hidecounter = 60;
+    SDL_GetMouseState(&local_x, &local_y);
+    if ((local_x != last_x) || (local_y != last_y)) {
+        /* mouse was moved, reset counter and unhide */
+        hidecounter = 60;
+        mouse_pointer_hidden = 0;
+        ui_check_mouse_cursor();
+    } else {
+        /* mouse was not moved, decrement counter and hide on underflow */
+        if (hidecounter > 0) {
+            hidecounter--;
+            if (hidecounter == 0) {
+                mouse_pointer_hidden = 1;
+                ui_check_mouse_cursor();
+            }
+        }
+    }
+    last_x = local_x;
+    last_y = local_y;
 }
 
 void ui_message(const char* format, ...)
