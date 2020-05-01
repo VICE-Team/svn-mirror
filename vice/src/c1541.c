@@ -104,14 +104,6 @@
 #include "p64.h"
 #include "fileio/p00.h"
 
-#ifndef ARCHDEP_OS_UNIX
-# error no archdep_os_unix
-#endif
-
-#ifdef ARCHDEP_OS_UNIX
-# include <unistd.h>
-#endif
-
 #include "lib/linenoise-ng/linenoise.h"
 
 /* #define DEBUG_DRIVE */
