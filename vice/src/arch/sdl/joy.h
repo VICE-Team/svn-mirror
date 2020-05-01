@@ -71,6 +71,8 @@ extern int sdljoy_get_swap_userport_ports(void) ;
 
 #ifdef ANDROID_COMPILE
 #define JOYDEV_DEFAULT JOYDEV_JOYSTICK
+#else
+#define JOYDEV_DEFAULT JOYDEV_NUMPAD
 #endif
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
