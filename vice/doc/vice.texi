@@ -6511,6 +6511,8 @@ The following cartridge types are valid:
 60: GMod2
 @item
 61: MAX Basic
+@item
+62: GMod3
 @end itemize
 
 @vindex CartridgeFile
@@ -6572,6 +6574,10 @@ Boolean that specifies wether writes to GMod2 EEPROM image are enabled.
 @vindex GMod2EEPROMRW
 @item GMod2EEPROMRW
 Boolean that specifies wether the GMod2 ROM is saved at exit
+
+@vindex GMod3FlashWrite
+@item GMod3FlashWrite
+Boolean that specifies wether changes to GMod3 EEPROM image are written back to the cartridge image.
 
 @vindex IDE64version
 @item IDE64version
@@ -7046,6 +7052,15 @@ Enable/Disable writes to GMod2 EEPROM image (@code{GMod2EEPROMRW=1}, @code{GMod2
 @item -gmod2flashwrite
 @itemx +gmod2flashwrite
 Enable/Disable saving of the GMod2 ROM at exit (@code{GMod2FlashWrite=1}, @code{GMod2FlashWrite=0}).
+
+@findex -cartgmod3
+@item -cartgmod3 <name>
+Attach raw GMod3 cartridge image.
+
+@findex -gmod3flashwrite, +gmod3flashwrite
+@item -gmod3flashwrite
+@itemx +gmod3flashwrite
+Enable/Disable saving of the GMod3 ROM at exit (@code{GMod3FlashWrite=1}, @code{GMod3FlashWrite=0}).
 
 @findex -cartgk
 @item -cartgk <name>
@@ -17519,6 +17534,8 @@ Fun Play .crt file
 Game Killer .crt file
 @item gmod2
 GMod2 .crt file
+@item gmod3
+GMod3 .crt file
 @item gs
 C64 Games System .crt file
 @item ide64
@@ -23165,6 +23182,7 @@ Camels"@dots{}
                       59 - EasyCalc
                       60 - GMod2
                       61 - MAX Basic
+                      62 - GMod3
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -26405,6 +26423,79 @@ This cartridge uses two 8k ROMs that contain BASIC and KERNAL for the MAX Machin
 It also provides additional 2k RAM which will be mapped to $0800.
 
 @c @node FIXME
+@subsubsection 62 - GMod3
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 2Mb/4Mb/8Mb/16Mb (256/512/1024/2048 banks of 8Kb)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+       -----------------------------------------------  ----------------
+00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+00010: 00 00 00 40 01 00 00 3E 00 01 00 00 00 00 00 00  ...@@...<........
+00020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART.......
+00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+00050: 09 80 09 80 C3 C2 CD 38 30 78 8E 16 D0 20 A3 FD  .......80x... ..
+@dots{}
+02050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP.. ....... .
+02060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+@dots{}
+001FF030: 43 48 49 50 00 00 20 10 00 00 00 FF 80 00 20 00 CHIP.. ....?.. .
+001FF040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+
+@end example
+
+GMod3 (Individual Computers)
+
+This cart uses 2Mb/4Mb/8Mb/16Mb Flash ROM (EN25QH128A(2T)) in 256/512/1024/2048 banks, 
+mapped in at $8000-$9fff.
+
+@example
+    io1
+        - register at de00-de07 (write)
+        
+        To select the ROM bank, write to de00-7. The lower 3 bits of the address
+        are the upper three bits of the bank, as in:
+        
+        ldx #bankhi  ; upper 3 bits of the bank number
+        lda #banklo  ; lower 8 bits of the bank number
+        sta $de00,x
+
+        - register at de00/de08 (read)
+        
+        The current ROM bank can be read from de00/de08, as in:
+        
+        ldx $de08    ; upper 3 bits of the bank number
+        lda $de00    ; lower 8 bits of the bank number
+        
+        - register at de08 (write)
+
+        bit7   (w)  bitbang mode enabled
+        bit6   (w)  EXROM (0=active)
+        bit5   (w)  enable cartridge irq vectors
+
+        - register at de00 (bitbang mode)
+        
+        bit7   (r)  EEPROM data output
+        bit6   (w)  EEPROM chip select (0=selected)
+        bit5   (w)  EEPROM clock 
+        bit4   (w)  EEPROM data input
+
+    see http://wiki.icomp.de/wiki/GMod3
+@end example
+
+@c @node FIXME
 @section The PSID image format for ripped SID tunes
 
 This section describes the SID file format used for SID tunes in the HVSC
@@ -26973,7 +27064,7 @@ files (mus/str) to vsid. Added new palette files. Added
 Added random tape wobble emulation. Added 64k RGCD cartridge
 emulation. Added psid v4 3sid support to vsid. Added single frame
 advance. Added drive RPM and wobble support. Added rrnet mk3
-emulation. Added GMod2 cartridge emulation. Added xvic BehrBonz
+emulation. Added GMod2 and GMod3 cartridge emulation. Added xvic BehrBonz
 cartridge emulation. Added VICII VSP-bug emulation. Wrote alot of
 test programs. Updated this document after a long period of
 outdated mess. And various fixes and improvements.
