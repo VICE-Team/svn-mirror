@@ -443,9 +443,11 @@ const command_t command_list[] = {
       1, 2,
       name_cmd },
     { "p00save",
-      "p00save <enable> [<unit>]",
-      "Save P00 files to the file system.",
-      1, 2,
+      "p00save [<enable> [<unit>]]",
+      "Save P00 files to the file system. If no argument is given, print the "
+      "state for all drives.\n"
+      "The <enable> argument should be either 0 or 1."
+      0, 2,
       p00save_cmd },
     { "quit",
       "quit",
@@ -4835,7 +4837,7 @@ int main(int argc, char **argv)
 
 /** \brief  Enable\disable saving of files as P00
  *
- * Syntax: p00save \<enable> [\<unit>]
+ * Syntax: p00save [\<enable> [\<unit>]]
  *
  * Where \a enable is either 0 or 1.
  *
@@ -4847,6 +4849,16 @@ int main(int argc, char **argv)
 static int p00save_cmd(int nargs, char **args)
 {
     int dnr = 0, enable = 0;
+
+    if (nargs == 1) {
+        /* display `p00save` state for all drives */
+        int i;
+        for (i = 0; i < DRIVE_NUM; i++) {
+            printf("#%2d: %s\n",
+                    i + DRIVE_UNIT_MIN, p00save[i] ? "enabled" : "disabled");
+        }
+        return FD_OK;
+    }
 
     arg_to_int(args[1], &enable);
 
