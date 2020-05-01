@@ -2356,7 +2356,12 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                     p00_name = p00_filename_create((const char *)name,
                             file_type & 7);
 #ifdef ARCHDEP_OS_UNIX
-                    getcwd(cwd, sizeof(cwd));
+                    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+                        fprintf(stderr,
+                                "Couldn't get the cwd, all bets are off. "
+                                "Aborting to get a stack dump.\n");
+                        abort();
+                    }
 #else
                     /* Assume crap */
                     _getcwd(cwd, sizeof(cwd));
