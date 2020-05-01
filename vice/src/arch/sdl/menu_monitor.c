@@ -58,6 +58,8 @@ UI_MENU_DEFINE_TOGGLE(NativeMonitor)
 #ifdef HAVE_NETWORK
 UI_MENU_DEFINE_TOGGLE(MonitorServer)
 UI_MENU_DEFINE_STRING(MonitorServerAddress)
+UI_MENU_DEFINE_TOGGLE(BinaryMonitorServer)
+UI_MENU_DEFINE_STRING(BinaryMonitorServerAddress)
 #endif
 
 UI_MENU_DEFINE_TOGGLE(MonitorLogEnabled)
@@ -89,6 +91,16 @@ const ui_menu_entry_t monitor_menu[] = {
       MENU_ENTRY_RESOURCE_STRING,
       string_MonitorServerAddress_callback,
       (ui_callback_data_t)"Set remote monitor server address" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Binary remote monitor"),
+    { "Enable binary remote monitor",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_BinaryMonitorServer_callback,
+      NULL },
+    { "Monitor address",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_BinaryMonitorServerAddress_callback,
+      (ui_callback_data_t)"Set remote binary monitor server address" },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Logging"),
