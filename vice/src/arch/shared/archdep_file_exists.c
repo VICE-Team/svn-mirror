@@ -37,6 +37,11 @@
 # include <unistd.h>
 #endif
 
+#ifdef ARCHDEP_OS_WINDOWS
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #include "archdep_file_exists.h"
 
 
@@ -48,6 +53,15 @@ bool archdep_file_exists(const char *path)
         return true;
     }
 #endif
+
+#ifdef ARCHDEP_OS_WINDOWS
+    /* Possible TODO: convert path from UTF-8 to UTF-16LE and use the
+     * more consistent GetFileAttributesW call */
+    if (GetFileAttributesA(path) != INVALID_FILE_ATTRIBUTES) {
+        return true;
+    }
+#endif
+    
     return false;
 
 }
