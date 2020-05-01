@@ -446,7 +446,7 @@ const command_t command_list[] = {
       "p00save [<enable> [<unit>]]",
       "Save P00 files to the file system. If no argument is given, print the "
       "state for all drives.\n"
-      "The <enable> argument should be either 0 or 1."
+      "The <enable> argument should be either 0 or 1.",
       0, 2,
       p00save_cmd },
     { "quit",
@@ -2342,6 +2342,10 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 if (p00save[dnr]) {
                     p00_name = p00_filename_create((const char *)name,
                             file_type & 7);
+                    printf("Trying filename '%s'\n", p00_name);
+                    if (archdep_file_exists(p00_name)) {
+                        printf("file existst, increment index\n");
+                    }
                     fd = fopen(p00_name, "wb");
                 } else {
                     fd = fopen((char *)name, MODE_WRITE);
