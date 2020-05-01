@@ -2355,19 +2355,31 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 
                     p00_name = p00_filename_create((const char *)name,
                             file_type & 7);
+#ifdef ARCHDEP_OS_UNIX
                     getcwd(cwd, sizeof(cwd));
+#else
+                    /* Assume crap */
+                    _getcwd(cwd, sizeof(cwd));
+#endif
                     total = archdep_join_paths(cwd, p00_name, NULL);
 
 
                     printf("Trying filename '%s'\n", total);
                     while (archdep_file_exists(total) && idx < 100) {
-                        printf("file existst, increment index\n");
+                        /* TODO: clean up this mess */
                         char *endptr;
                         size_t pathlen = strlen(total);
+#if 0
+                        printf("file exists, increment index\n");
+#endif
                         idx = strtol(total + pathlen - 2, &endptr, 10);
+#if 0
                         printf("got index %ld\n", idx);
+#endif
                         snprintf(total + pathlen - 2, 3, "%02d", (int)(idx + 1));
+#if 0
                         printf("new name = '%s'\n", total);
+#endif
                     }
                     fd = fopen(total, MODE_WRITE);
                     lib_free(total);
