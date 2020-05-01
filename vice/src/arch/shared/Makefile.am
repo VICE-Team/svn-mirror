@@ -48,6 +48,7 @@ libarchdep_a_SOURCES = \
 	archdep_default_sysfile_pathlist.c \
 	archdep_expand_path.c \
 	archdep_extra_title_text.c \
+	archdep_file_exists.c \
 	archdep_file_is_blockdev.c \
 	archdep_file_is_chardev.c \
 	archdep_filename_parameter.c \
@@ -111,6 +112,7 @@ EXTRA_DIST = \
 	archdep_default_sysfile_pathlist.h \
 	archdep_expand_path.h \
 	archdep_extra_title_text.h \
+	archdep_file_exists.h \
 	archdep_file_is_blockdev.h \
 	archdep_file_is_chardev.h \
 	archdep_filename_parameter.h \

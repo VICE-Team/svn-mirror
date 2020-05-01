@@ -545,7 +545,7 @@ static int monitor_binary_process_condition_set(binary_command_t *command) {
         return 1;
     }
 
-    monitor_binary_response(0, e_MON_CMD_CONDITION_SET, e_MON_ERR_OK, command->request_id, NULL);
+    monitor_binary_response(0, e_MON_RESPONSE_CONDITION_SET, e_MON_ERR_OK, command->request_id, NULL);
 
     lib_free(cmd);
 

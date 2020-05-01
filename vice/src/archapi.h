@@ -38,6 +38,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 /* Program start.  */
 extern int archdep_init(int *argc, char **argv);
@@ -159,6 +160,8 @@ FILE *      archdep_mkstemp_fd(char **filename, const char *mode);
 /* Check file name for block or char device.  */
 int         archdep_file_is_blockdev(const char *name);
 int         archdep_file_is_chardev(const char *name);
+
+bool        archdep_file_exists(const char *path);
 
 void        archdep_usleep(uint64_t waitTime);
 

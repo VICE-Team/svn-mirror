@@ -74,6 +74,7 @@
 #endif
 
 #include "archdep.h"
+#include "archdep_defs.h"
 #include "cbmdos.h"
 #include "cbmimage.h"
 #include "charset.h"
@@ -102,6 +103,14 @@
 #include "zipcode.h"
 #include "p64.h"
 #include "fileio/p00.h"
+
+#ifndef ARCHDEP_OS_UNIX
+# error no archdep_os_unix
+#endif
+
+#ifdef ARCHDEP_OS_UNIX
+# include <unistd.h>
+#endif
 
 #include "lib/linenoise-ng/linenoise.h"
 
@@ -2340,15 +2349,31 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 }
 
                 if (p00save[dnr]) {
+                    char cwd[4096];
+                    char *total;
+                    long idx = 0;
+
                     p00_name = p00_filename_create((const char *)name,
                             file_type & 7);
-                    printf("Trying filename '%s'\n", p00_name);
-                    if (archdep_file_exists(p00_name)) {
+                    getcwd(cwd, sizeof(cwd));
+                    total = archdep_join_paths(cwd, p00_name, NULL);
+
+
+                    printf("Trying filename '%s'\n", total);
+                    while (archdep_file_exists(total) && idx < 100) {
                         printf("file existst, increment index\n");
+                        char *endptr;
+                        size_t pathlen = strlen(total);
+                        idx = strtol(total + pathlen - 2, &endptr, 10);
+                        printf("got index %ld\n", idx);
+                        snprintf(total + pathlen - 2, 3, "%02d", (int)(idx + 1));
+                        printf("new name = '%s'\n", total);
                     }
-                    fd = fopen(p00_name, "wb");
+                    fd = fopen(total, MODE_WRITE);
+                    lib_free(total);
+
                 } else {
-                    fd = fopen((char *)name, MODE_WRITE);
+                    fd = fopen((const char *)name, MODE_WRITE);
                 }
                 if (fd == NULL) {
                     fprintf(stderr, "cannot create file `%s': %s.",
