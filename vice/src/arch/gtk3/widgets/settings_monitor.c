@@ -5,13 +5,15 @@
  */
 
 /*
- * $VICERES KeepMonitorOpen         all
- * $VICERES MonitorServer           all
- * $VICERES MonitorServerAddress    all
- * $VICERES NativeMonitor           all
- * $VICERES MonitorLogEnabled       all
- * $VICERES MonitorLogFileName      all
- * $VICERES MonitorChisLines        all
+ * $VICERES KeepMonitorOpen             all
+ * $VICERES MonitorServer               all
+ * $VICERES MonitorServerAddress        all
+ * $VICERES BinaryMonitorServer         all
+ * $VICERES BinaryMonitorServerAddress  all
+ * $VICERES NativeMonitor               all
+ * $VICERES MonitorLogEnabled           all
+ * $VICERES MonitorLogFileName          all
+ * $VICERES MonitorChisLines            all
  */
 
 /*
@@ -50,17 +52,19 @@
  * Using this enum makes it easy to reorder widgets and handle CHIS/no-CHIS.
  */
 enum {
-    ROW_NATIVE = 0,     /**< row for 'use native monitor' */
-    ROW_KEEP_OPEN,      /**< row for 'keep monitor open' */
-    ROW_SERVER_ENABLE,  /**< row for 'enable monitor server' */
-    ROW_SERVER_ADDRESS, /**< row for 'monitor server address' */
-    ROW_LOG_ENABLE,     /**< row for 'enable logging to a file' */
-    ROW_LOG_NAME,       /**< row for 'log filename */
-    ROW_SCROLL_LINES,   /**< row for 'scrollback buffer lines' */
+    ROW_NATIVE = 0,             /**< row for 'use native monitor' */
+    ROW_KEEP_OPEN,              /**< row for 'keep monitor open' */
+    ROW_SERVER_ENABLE,          /**< row for 'enable monitor server' */
+    ROW_SERVER_ADDRESS,         /**< row for 'monitor server address' */
+    ROW_BINARY_SERVER_ENABLE,   /**< row for 'enable monitor server' */
+    ROW_BINARY_SERVER_ADDRESS,  /**< row for 'monitor server address' */
+    ROW_LOG_ENABLE,             /**< row for 'enable logging to a file' */
+    ROW_LOG_NAME,               /**< row for 'log filename */
+    ROW_SCROLL_LINES,           /**< row for 'scrollback buffer lines' */
 #ifdef FEATURE_CPUMEMHISTORY
-    ROW_CHIS_LINES,     /**< row for 'cpu history lines */
+    ROW_CHIS_LINES,             /**< row for 'cpu history lines */
 #endif
-    ROW_FONT            /**< row for 'monitor font' */
+    ROW_FONT                    /**< row for 'monitor font' */
 };
 
 
@@ -101,6 +105,9 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     GtkWidget *server_enable;
     GtkWidget *server_address;
     GtkWidget *label;
+    GtkWidget *binary_server_enable;
+    GtkWidget *binary_server_address;
+    GtkWidget *binary_label;
     GtkWidget *log_enable;
     GtkWidget *log_name;
     GtkWidget *log_label;
@@ -127,6 +134,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
             "Use native monitor interface");
     keep_open = vice_gtk3_resource_check_button_new("KeepMonitorOpen",
             "Keep monitor open");
+
     server_enable = vice_gtk3_resource_check_button_new("MonitorServer",
             "Enable remote monitor");
     label = gtk_label_new("Server address");
@@ -136,6 +144,17 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     server_address = vice_gtk3_resource_entry_full_new(
             "MonitorServerAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
+
+
+    binary_server_enable = vice_gtk3_resource_check_button_new("BinaryMonitorServer",
+            "Enable binary remote monitor");
+    binary_label = gtk_label_new("Server address");
+    /* align with the rest, more or less */
+    g_object_set(binary_label, "margin-left", 8, NULL);
+    gtk_widget_set_halign(binary_label, GTK_ALIGN_START);
+    binary_server_address = vice_gtk3_resource_entry_full_new(
+            "BinaryMonitorServerAddress");
+    gtk_widget_set_hexpand(binary_server_address, TRUE);
 
     log_enable = vice_gtk3_resource_check_button_new("MonitorLogEnabled",
             "Enable logging to a file");
@@ -179,6 +198,9 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), server_enable, 0, ROW_SERVER_ENABLE, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 0, ROW_SERVER_ADDRESS, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server_address, 1, ROW_SERVER_ADDRESS, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), binary_server_enable, 0, ROW_BINARY_SERVER_ENABLE, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), binary_label, 0, ROW_BINARY_SERVER_ADDRESS, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), binary_server_address, 1, ROW_BINARY_SERVER_ADDRESS, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), log_enable, 0, ROW_LOG_ENABLE, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), log_label, 0, ROW_LOG_NAME, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), log_name, 1, ROW_LOG_NAME, 1, 1);
