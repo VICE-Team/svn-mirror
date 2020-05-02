@@ -185,12 +185,13 @@ static const cart_type_list_t cbm2_cart_types[] = {
 /** \brief  List of VIC-20 cart types of the 'generic' variety
  */
 static const cart_type_list_t vic20_cart_types_generic[] = {
-    { "Add smart-attach cartridge image",   CARTRIDGE_VIC20_DETECT },
-    { "Add 4/8/16KB cartridge at $2000",    CARTRIDGE_VIC20_16KB_2000 },
-    { "Add 4/8/16KB cartridge at $4000",    CARTRIDGE_VIC20_16KB_4000 },
-    { "Add 4/8/16KB cartridge at $6000",    CARTRIDGE_VIC20_16KB_6000 },
-    { "Add 4/8KB cartridge at $A000",       CARTRIDGE_VIC20_8KB_A000 },
-    { "Add 4KB cartridge at $B000",         CARTRIDGE_VIC20_4KB_B000 },
+    { "Smart-attach cartridge image",   CARTRIDGE_VIC20_DETECT },
+    { "32KB cartridge at $2000",        CARTRIDGE_VIC20_32KB_2000 },
+    { "4/8/16KB cartridge at $2000",    CARTRIDGE_VIC20_16KB_2000 },
+    { "4/8/16KB cartridge at $4000",    CARTRIDGE_VIC20_16KB_4000 },
+    { "4/8/16KB cartridge at $6000",    CARTRIDGE_VIC20_16KB_6000 },
+    { "4/8KB cartridge at $A000",       CARTRIDGE_VIC20_8KB_A000 },
+    { "4KB cartridge at $B000",         CARTRIDGE_VIC20_4KB_B000 },
     { NULL, -1 }
 };
 #endif
@@ -457,15 +458,16 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
 
             break;
         case VICE_MACHINE_VIC20:
-            if (crt_type == UICART_VIC20_ADD_GENERIC) {
+            if ((crt_type == UICART_VIC20_GENERIC) ||
+                (crt_type == UICART_VIC20_ADD_GENERIC)) {
                 id_model = create_cart_id_model_vic20();
-                //gtk_widget_set_sensitive(cart_id_widget, TRUE);
+                /* gtk_widget_set_sensitive(cart_id_widget, TRUE); */
                 gtk_widget_show(GTK_WIDGET(cart_id_widget));
                 gtk_widget_show(GTK_WIDGET(cart_id_label));
             } else {
                 /* empty model */
                 id_model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
-                //gtk_widget_set_sensitive(cart_id_widget, FALSE);
+                /* gtk_widget_set_sensitive(cart_id_widget, FALSE); */
                 gtk_widget_hide(GTK_WIDGET(cart_id_widget));
                 gtk_widget_hide(GTK_WIDGET(cart_id_label));
             }
@@ -531,6 +533,7 @@ static int get_cart_id(void)
             gtk_tree_model_get(model, &iter, 1, &crt_id, -1);
         }
     }
+    debug_gtk3("got crt_id: %d (%04x)\n", crt_id, crt_id);
     return crt_id;
 }
 #endif
@@ -573,7 +576,9 @@ static int attach_cart_image(int type, int id, const char *path)
                     id = CARTRIDGE_VIC20_DETECT;
                     break;
                 case UICART_VIC20_GENERIC:
-                    id = CARTRIDGE_VIC20_GENERIC;
+                    /* we also want to select an id for generic type. some day
+                       we need to fix "generic" vs "add to generic" */
+                    /* id = CARTRIDGE_VIC20_GENERIC; */
                     break;
                 case UICART_VIC20_BEHRBONZ:
                     id = CARTRIDGE_VIC20_BEHRBONZ;
