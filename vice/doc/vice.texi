@@ -9848,7 +9848,7 @@ several types of cartridge images:
 @end itemize
 
 This can all be done via the ``Attach cartridge image@dots{}'' command in
-the left-button menu.  It is also possible to let xvic ``guess'' the
+the menu.  It is also possible to let xvic ``guess'' the
 type of cartridge using ``Smart-attach cartridge image@dots{}''.
 
 Notice that several cartridges are actually made up of two pieces (and
@@ -9858,14 +9858,15 @@ specified in the file name) and use the ``attach'' command twice.
 
 A special kind of cartridge file is where the two files mentioned
 above are concatenated (with removing the two byte load address of
-the second image) into one 16k image. There are only few of those
-images, though.
-Vice can now attach such concatenated files at the start address
-$2000, $4000, and $6000. The second half of such an image is
-moved to the memory block following the first block. If you encounter 
-16k images that have the second half at eg $A000 you can split the image into two halfs
-(i.e. one 8194 byte and one 8192 byte, because the first has the load
-address) and attach both files separately.
+the second image) into one 16k image. Vice can attach such concatenated files 
+at the start address $2000, $4000, and $6000. The second half of such an image is
+moved to the memory block following the first block. It is also possible to 
+concatenate four 8k files, the resulting file will load into all 4 cartridge blocks.
+
+If you encounter 16k images that have the second half at eg $A000 you can split 
+the image into two halfs (i.e. one 8194 byte and one 8192 byte, because the first 
+has the load address) and attach both files separately. Alternatively you can
+create a 32k file with padding blocks in between.
 
 One cartridge that is currently only partially supported here is
 the VIC1112 IEEE488 interface. You have to load the ROM as a cartridge,
