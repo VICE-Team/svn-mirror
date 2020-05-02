@@ -106,6 +106,10 @@
 
 #include "lib/linenoise-ng/linenoise.h"
 
+#ifdef ARCHDEP_OS_UNIX
+#include <unistd.h>
+#endif
+
 /* #define DEBUG_DRIVE */
 
 #define MAXARG          256 + 5 /**< maximum number arguments to a command,
