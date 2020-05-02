@@ -1678,16 +1678,46 @@ int autostart_autodetect(const char *file_name, const char *program_name,
     }
 
     if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {
+        int datasette_temp, tapecart_temp;
+
+        if (resources_get_int("Datasette", &datasette_temp) < 0) {
+            log_error(LOG_ERR, "Failed to get Datasette status.");
+        }
+        if (resources_get_int("TapecartEnabled", &tapecart_temp) < 0) {
+            log_error(LOG_ERR, "Failed to get Tapecart status.");
+        }
+        
+        if (resources_set_int("TapecartEnabled", 0) < 0) {
+            log_error(LOG_ERR, "Failed to disable the Tapecart.");
+        }
+        if (resources_set_int("Datasette", 1) < 0) {
+            log_error(LOG_ERR, "Failed to enable the Datasette.");
+        }
+        
         if (autostart_tape(file_name, program_name, program_number, runmode) == 0) {
             log_message(autostart_log, "`%s' recognized as tape image.", file_name);
             return 0;
         }
 
+        if (resources_set_int("Datasette", 0) < 0) {
+            log_error(LOG_ERR, "Failed to enable the Datasette.");
+        }
+        if (resources_set_int("TapecartEnabled", 1) < 0) {
+            log_error(LOG_ERR, "Failed to disable the Tapecart.");
+        }
+        
         if (autostart_tapecart(file_name, NULL) == 0) {
             log_message(autostart_log, "`%s' recognized as tapecart image.", file_name);
             return 0;
         }
 
+        if (resources_set_int("Datasette", datasette_temp) < 0) {
+            log_error(LOG_ERR, "Failed to restore Datasette status.");
+        }
+        if (resources_set_int("TapecartEnabled", tapecart_temp) < 0) {
+            log_error(LOG_ERR, "Failed to restore Tapecart status.");
+        }
+        
     }
 
     if (autostart_snapshot(file_name, program_name) == 0) {
