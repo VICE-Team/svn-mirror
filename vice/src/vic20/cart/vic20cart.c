@@ -153,6 +153,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_VIC20_16KB_2000:
         case CARTRIDGE_VIC20_16KB_4000:
         case CARTRIDGE_VIC20_16KB_6000:
+        case CARTRIDGE_VIC20_32KB_2000:
             break;
         default:
             return -1;
