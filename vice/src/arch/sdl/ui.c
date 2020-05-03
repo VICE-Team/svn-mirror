@@ -951,10 +951,19 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     retval = message_box("VICE CPU JAM", "a CPU JAM has occured, choose the action to take", MESSAGE_CPUJAM);
     if (retval == 0) {
-        return UI_JAM_HARD_RESET;
+        return UI_JAM_RESET;
     }
     if (retval == 1) {
+        return UI_JAM_HARD_RESET;
+    }
+    if (retval == 2) {
+        return UI_JAM_NONE;
+    }
+    if (retval == 3) {
         return UI_JAM_MONITOR;
+    }
+    if (retval == 4) {
+        archdep_vice_exit(0);
     }
     return UI_JAM_NONE;
 }
