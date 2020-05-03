@@ -1652,6 +1652,28 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
     return result;
 }
 
+static void set_tapeport_device(int datasette, int tapecart)
+{
+    /* first disable all devices, so we dont get any conflicts */
+    if (resources_set_int("Datasette", 0) < 0) {
+        log_error(LOG_ERR, "Failed to disable the Datasette.");
+    }
+    if (resources_set_int("TapecartEnabled", 0) < 0) {
+        log_error(LOG_ERR, "Failed to disable the Tapecart.");
+    }
+    /* now enable the one we want to enable */
+    if (datasette) {
+        if (resources_set_int("Datasette", 1) < 0) {
+            log_error(LOG_ERR, "Failed to enable the Datasette.");
+        }
+    }
+    if (tapecart) {
+        if (resources_set_int("TapecartEnabled", 1) < 0) {
+            log_error(LOG_ERR, "Failed to enable the Tapecart.");
+        }
+    }
+}
+
 /* Autostart `file_name', trying to auto-detect its type.  */
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
@@ -1687,37 +1709,21 @@ int autostart_autodetect(const char *file_name, const char *program_name,
             log_error(LOG_ERR, "Failed to get Tapecart status.");
         }
         
-        if (resources_set_int("TapecartEnabled", 0) < 0) {
-            log_error(LOG_ERR, "Failed to disable the Tapecart.");
-        }
-        if (resources_set_int("Datasette", 1) < 0) {
-            log_error(LOG_ERR, "Failed to enable the Datasette.");
-        }
+        set_tapeport_device(1, 0);
         
         if (autostart_tape(file_name, program_name, program_number, runmode) == 0) {
             log_message(autostart_log, "`%s' recognized as tape image.", file_name);
             return 0;
         }
-
-        if (resources_set_int("Datasette", 0) < 0) {
-            log_error(LOG_ERR, "Failed to enable the Datasette.");
-        }
-        if (resources_set_int("TapecartEnabled", 1) < 0) {
-            log_error(LOG_ERR, "Failed to disable the Tapecart.");
-        }
+        
+        set_tapeport_device(0, 1);
         
         if (autostart_tapecart(file_name, NULL) == 0) {
             log_message(autostart_log, "`%s' recognized as tapecart image.", file_name);
             return 0;
         }
 
-        if (resources_set_int("Datasette", datasette_temp) < 0) {
-            log_error(LOG_ERR, "Failed to restore Datasette status.");
-        }
-        if (resources_set_int("TapecartEnabled", tapecart_temp) < 0) {
-            log_error(LOG_ERR, "Failed to restore Tapecart status.");
-        }
-        
+        set_tapeport_device(datasette_temp, tapecart_temp);
     }
 
     if (autostart_snapshot(file_name, program_name) == 0) {
