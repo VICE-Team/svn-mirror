@@ -533,7 +533,7 @@ static int get_cart_id(void)
             gtk_tree_model_get(model, &iter, 1, &crt_id, -1);
         }
     }
-    debug_gtk3("got crt_id: %d (%04x)\n", crt_id, crt_id);
+    debug_gtk3("got crt_id: %d (%04x)\n", crt_id, (unsigned int)crt_id);
     return crt_id;
 }
 #endif
