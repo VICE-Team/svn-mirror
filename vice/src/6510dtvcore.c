@@ -380,6 +380,7 @@
                 addr |= (LOAD(0xfffd) << 8);                                   \
                 bank_start = bank_limit = 0; /* prevent caching */             \
                 LOCAL_SET_INTERRUPT(1);                                        \
+                cpu_is_jammed = 0;                                             \
                 JUMP(addr);                                                    \
                 DMA_ON_RESET;                                                  \
             }                                                                  \

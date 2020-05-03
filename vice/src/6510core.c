@@ -444,6 +444,7 @@
                 cpu_reset();                                                                   \
                 bank_start = bank_limit = 0; /* prevent caching */                             \
                 LOCAL_SET_INTERRUPT(1);                                                        \
+                cpu_is_jammed = 0;                                                             \
                 JUMP(LOAD_ADDR(0xfffc));                                                       \
                 DMA_ON_RESET;                                                                  \
             }                                                                                  \
