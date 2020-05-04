@@ -213,6 +213,13 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             /* fprintf(stderr, "               %u %04x.\n",
                        report->key.keyval,  report->key.state); */
 #endif
+            /* On a german keyboard there is a comma on the "delete" key instead
+               of a decimal point, and we get KP_Seperator instead of KP_decimal.
+               Remap it here so we don't have to handle it elsewhere. */
+            if (report->key.keyval == GDK_KEY_KP_Separator) {
+                key = report->key.keyval = GDK_KEY_KP_Decimal;
+            }
+
             kdb_debug_widget_update(report);
 
             if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
@@ -257,6 +264,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 key == GDK_KEY_ISO_Level3_Shift) {
                 keyboard_key_clear();
             }
+
+            /* On a german keyboard there is a comma on the "delete" key instead
+               of a decimal point, and we get KP_Seperator instead of KP_decimal.
+               Remap it here so we don't have to handle it elsewhere. */
+            if (report->key.keyval == GDK_KEY_KP_Separator) {
+                key = report->key.keyval = GDK_KEY_KP_Decimal;
+            }
+            
             keyboard_key_released(key, kbd_get_modifier(report));
             break;
         case GDK_ENTER_NOTIFY:
