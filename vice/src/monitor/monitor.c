@@ -1497,6 +1497,10 @@ void mon_display_screen(void)
     mon_out("Displaying %dx%d screen at $%04x:\n", cols, rows, base);
 
     for (r = 0; r < rows; r++) {
+        /* Only show addresses of each line in non-SDL */
+#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
+        mon_out("%04x  ", r * cols + base);
+#endif
         for (c = 0; c < cols; c++) {
             uint8_t data;
 
