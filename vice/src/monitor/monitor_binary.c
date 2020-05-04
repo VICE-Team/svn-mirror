@@ -75,6 +75,7 @@ enum t_binary_command {
 
     e_MON_CMD_ADVANCE_INSTRUCTIONS = 0x71,
     e_MON_CMD_KEYBOARD_FEED = 0x72,
+    e_MON_CMD_EXECUTE_UNTIL_RETURN = 0x73,
 
     e_MON_CMD_PING = 0x81,
     e_MON_CMD_BANKS_AVAILABLE = 0x82,
@@ -107,6 +108,7 @@ enum t_binary_response {
 
     e_MON_RESPONSE_ADVANCE_INSTRUCTIONS = 0x71,
     e_MON_RESPONSE_KEYBOARD_FEED = 0x72,
+    e_MON_RESPONSE_EXECUTE_UNTIL_RETURN = 0x73,
 
     e_MON_RESPONSE_PING = 0x81,
     e_MON_RESPONSE_BANKS_AVAILABLE = 0x82,
@@ -625,6 +627,15 @@ static int monitor_binary_process_keyboard_feed(binary_command_t *command)
     return 1;
 }
 
+static int monitor_binary_process_execute_until_return(binary_command_t *command)
+{
+    mon_instruction_return();
+
+    monitor_binary_response(0, e_MON_RESPONSE_EXECUTE_UNTIL_RETURN, e_MON_ERR_OK, command->request_id, NULL);
+
+    return !exit_mon;
+}
+
 static int monitor_binary_process_autostart(binary_command_t *command)
 {
     unsigned char *body = command->body;
@@ -1036,16 +1047,19 @@ static int monitor_binary_process_command(unsigned char * pbuffer)
     } else if (command_type == e_MON_CMD_REGISTERS_SET) {
         cont = monitor_binary_process_registers_set(command);
 
+    } else if (command_type == e_MON_CMD_ADVANCE_INSTRUCTIONS) {
+        cont = monitor_binary_process_advance_instructions(command);
+    } else if (command_type == e_MON_CMD_KEYBOARD_FEED) {
+        cont = monitor_binary_process_keyboard_feed(command);
+    } else if (command_type == e_MON_CMD_EXECUTE_UNTIL_RETURN) {
+        cont = monitor_binary_process_execute_until_return(command);
+
     } else if (command_type == e_MON_CMD_EXIT) {
         cont = monitor_binary_process_exit(command);
     } else if (command_type == e_MON_CMD_QUIT) {
         cont = monitor_binary_process_quit(command);
-    } else if (command_type == e_MON_CMD_ADVANCE_INSTRUCTIONS) {
-        cont = monitor_binary_process_advance_instructions(command);
     } else if (command_type == e_MON_CMD_RESET) {
         cont = monitor_binary_process_reset(command);
-    } else if (command_type == e_MON_CMD_KEYBOARD_FEED) {
-        cont = monitor_binary_process_keyboard_feed(command);
     } else if (command_type == e_MON_CMD_AUTOSTART) {
         cont = monitor_binary_process_autostart(command);
 

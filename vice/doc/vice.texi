@@ -16826,6 +16826,25 @@ Response body:
 
 Currently empty.
 
+@node MON_CMD_EXECUTE_UNTIL_RETURN
+@subsection Execute until return (0x73)
+
+Continues execution and returns to the monitor just after the next RTS or RTI is executed.
+
+This command is the same as "return" in the text monitor.
+
+Command body:
+
+Currently empty.
+
+Response type:
+
+0x73: MON_RESPONSE_EXECUTE_UNTIL_RETURN
+
+Response body:
+
+Currently empty.
+
 @node MON_CMD_PING
 @subsection Ping (0x81)
 
