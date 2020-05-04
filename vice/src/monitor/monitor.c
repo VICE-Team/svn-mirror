@@ -1508,6 +1508,8 @@ void mon_display_screen(long addr)
     printf("Address = %ld\n", addr);
 
     mem_get_screen_parameter(&base, &rows, &cols, &bank);
+    printf("base: $%04x, rows: $%02x, cols: $%02x, bank: %d\n",
+            base, rows, cols, bank);
 
     /* hard core: change address vars */
     if (addr >= 0) {
@@ -1516,14 +1518,13 @@ void mon_display_screen(long addr)
     }
 
 
-
     /* We need something like bankname = something(e_comp_space, bank) here */
     mon_out("Displaying %dx%d screen at $%04x:\n", cols, rows, base);
 
     for (r = 0; r < rows; r++) {
         /* Only show addresses of each line in non-SDL */
 #if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
-        mon_out("%04x  ", r * cols + base);
+        mon_out("%04x  ", base);
 #endif
         for (c = 0; c < cols; c++) {
             uint8_t data;
