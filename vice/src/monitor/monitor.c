@@ -1485,14 +1485,38 @@ void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
 
 /* Memory.  */
 
-void mon_display_screen(void)
+
+/** \brief  Display screen memory
+ *
+ * Display (current) screen memory, converting PETSCII to ASCII.
+ *
+ * The lex/yuck stuff will pass in either -1 when no arg has been given or an
+ * address.
+ *
+ * \param[in]   address address of screen memory, -1 to show current screen
+ *
+ * \note    Currently doesn't show the addresses in the SDL monitor, since the
+ *          SDL monitor is only 40 columns
+ */
+void mon_display_screen(long addr)
 {
     uint16_t base;
     uint8_t rows, cols;
     unsigned int r, c;
     int bank;
 
+    printf("Address = %ld\n", addr);
+
     mem_get_screen_parameter(&base, &rows, &cols, &bank);
+
+    /* hard core: change address vars */
+    if (addr >= 0) {
+        bank = (addr >> 12);
+        base = addr;
+    }
+
+
+
     /* We need something like bankname = something(e_comp_space, bank) here */
     mon_out("Displaying %dx%d screen at $%04x:\n", cols, rows, base);
 
@@ -1507,7 +1531,7 @@ void mon_display_screen(void)
             /* Not sure this really neads to use mon_get_mem_val_ex()
                Do we want monitor sidefx in a function that's *supposed*
                to just read from screen memory? */
-            data = mon_get_mem_val_ex(e_comp_space, bank, (uint16_t)ADDR_LIMIT(base++));
+            data = mon_get_mem_val_ex_nosfx(e_comp_space, bank, (uint16_t)ADDR_LIMIT(base++));
             data = charset_p_toascii(charset_screencode_to_petcii(data), 1);
 
             mon_out("%c", data);

@@ -272,7 +272,9 @@ machine_state_rules: CMD_BANK end_cmd
                    | CMD_DOWN opt_sep expression end_cmd
                      { mon_stack_down($3); }
                    | CMD_SCREEN end_cmd
-                     { mon_display_screen(); }
+                     { mon_display_screen(-1); }
+                   | CMD_SCREEN address end_cmd
+                     { mon_display_screen($2); }
                    | register_mod
                    ;
 
