@@ -263,7 +263,8 @@ static void monitor_binary_response(uint32_t length, BINARY_RESPONSE response_ty
     }
 }
 
-static void monitor_binary_response_stopped(uint32_t request_id) {
+static void monitor_binary_response_stopped(uint32_t request_id)
+{
     unsigned char response[2];
     uint16_t addr = ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC)));
 
@@ -272,7 +273,8 @@ static void monitor_binary_response_stopped(uint32_t request_id) {
     monitor_binary_response(2, e_MON_RESPONSE_STOPPED, e_MON_ERR_OK, MON_EVENT_ID, response);
 }
 
-static void monitor_binary_response_resumed(uint32_t request_id) {
+static void monitor_binary_response_resumed(uint32_t request_id)
+{
     unsigned char response[2];
     uint16_t addr = ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC)));
 
@@ -293,9 +295,15 @@ ui_jam_action_t monitor_binary_ui_jam_dialog(const char *format, ...)
     return UI_JAM_MONITOR;
 }
 
-void monitor_binary_response_register_info(uint32_t request_id) {
+static bool ignore_fake_register(mon_reg_list_t *reg)
+{
+    return reg->flags & (MON_REGISTER_IS_FLAGS | MON_REGISTER_IS_MEMORY);
+}
+
+void monitor_binary_response_register_info(uint32_t request_id)
+{
     unsigned char *response;
-    uint16_t count;
+    uint16_t count = 0;
     uint32_t response_size = 2;
     uint8_t item_size = 3;
     /* FIXME: Should I add the memspace to the request? */
@@ -303,11 +311,11 @@ void monitor_binary_response_register_info(uint32_t request_id) {
     mon_reg_list_t *regs_cursor = regs;
     unsigned char *response_cursor;
 
-    do {
-        ++regs_cursor;
-    } while (regs_cursor->name);
-
-    count = regs_cursor - regs;
+    for( ; regs_cursor->name ; regs_cursor++) {
+        if (!ignore_fake_register(regs_cursor)) {
+            ++count;
+        }
+    }
 
     response_size += count * (item_size + 1);
     response = lib_malloc(response_size);
@@ -317,7 +325,11 @@ void monitor_binary_response_register_info(uint32_t request_id) {
 
     response_cursor = write_uint16(count, response_cursor);
 
-    do {
+    for( ; regs_cursor->name ; regs_cursor++) {
+        if (ignore_fake_register(regs_cursor)) {
+            continue;
+        }
+
         *response_cursor = item_size;
         ++response_cursor;
 
@@ -325,9 +337,7 @@ void monitor_binary_response_register_info(uint32_t request_id) {
         ++response_cursor;
 
         response_cursor = write_uint16((uint16_t)regs_cursor->val, response_cursor);
-
-        ++regs_cursor;
-    } while (regs_cursor->name);
+    }
 
     monitor_binary_response(response_size, e_MON_RESPONSE_REGISTER_INFO, e_MON_ERR_OK, request_id, response);
 
@@ -383,13 +393,15 @@ static void monitor_binary_error(BINARY_ERROR errorcode, uint32_t request_id)
     monitor_binary_response(0, 0, errorcode, request_id, NULL);
 }
 
-static int monitor_binary_process_ping(binary_command_t *command) {
+static int monitor_binary_process_ping(binary_command_t *command)
+{
     monitor_binary_response(0, e_MON_RESPONSE_PING, e_MON_ERR_OK, command->request_id, NULL);
 
     return 1;
 }
 
-static int monitor_binary_process_checkpoint_get(binary_command_t *command) {
+static int monitor_binary_process_checkpoint_get(binary_command_t *command)
+{
     uint32_t brknum = little_endian_to_uint32(command->body);
     mon_checkpoint_t *checkpt;
 
@@ -410,7 +422,8 @@ static int monitor_binary_process_checkpoint_get(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_checkpoint_set(binary_command_t *command) {
+static int monitor_binary_process_checkpoint_set(binary_command_t *command)
+{
     int brknum;
     mon_checkpoint_t *checkpt;
     unsigned char *body = command->body;
@@ -439,7 +452,8 @@ static int monitor_binary_process_checkpoint_set(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_checkpoint_delete(binary_command_t *command) {
+static int monitor_binary_process_checkpoint_delete(binary_command_t *command)
+{
     uint32_t brknum = little_endian_to_uint32(command->body);
     mon_checkpoint_t *checkpt;
 
@@ -462,7 +476,8 @@ static int monitor_binary_process_checkpoint_delete(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_checkpoint_list(binary_command_t *command) {
+static int monitor_binary_process_checkpoint_list(binary_command_t *command)
+{
     unsigned char response[sizeof(uint32_t)];
     unsigned int i, len;
     uint32_t request_id = command->request_id;
@@ -481,7 +496,8 @@ static int monitor_binary_process_checkpoint_list(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_checkpoint_toggle(binary_command_t *command) {
+static int monitor_binary_process_checkpoint_toggle(binary_command_t *command)
+{
     uint32_t brknum = little_endian_to_uint32(command->body);
     uint8_t enable = !!command->body[4];
     mon_checkpoint_t *checkpt;
@@ -505,7 +521,8 @@ static int monitor_binary_process_checkpoint_toggle(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_condition_set(binary_command_t *command) {
+static int monitor_binary_process_condition_set(binary_command_t *command)
+{
     const char* cmd_fmt = "cond %u if ( %s )";
 
     mon_checkpoint_t *checkpt;
@@ -552,7 +569,8 @@ static int monitor_binary_process_condition_set(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_advance_instructions(binary_command_t *command) {
+static int monitor_binary_process_advance_instructions(binary_command_t *command)
+{
     uint8_t step_over_subroutines = command->body[0];
     uint16_t count = little_endian_to_uint16(&command->body[1]);
 
@@ -572,7 +590,8 @@ static int monitor_binary_process_advance_instructions(binary_command_t *command
     return 0;
 }
 
-static int monitor_binary_process_reset(binary_command_t *command) {
+static int monitor_binary_process_reset(binary_command_t *command)
+{
     uint8_t reset_type = command->body[0];
 
     if (command->length < 1) {
@@ -587,7 +606,8 @@ static int monitor_binary_process_reset(binary_command_t *command) {
     return !exit_mon;
 }
 
-static int monitor_binary_process_keyboard_feed(binary_command_t *command) {
+static int monitor_binary_process_keyboard_feed(binary_command_t *command)
+{
     unsigned char *body = command->body;
     uint8_t length = body[0];
 
@@ -605,7 +625,8 @@ static int monitor_binary_process_keyboard_feed(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_autostart(binary_command_t *command) {
+static int monitor_binary_process_autostart(binary_command_t *command)
+{
     unsigned char *body = command->body;
     uint8_t run = !!body[0];
     uint16_t file_index = little_endian_to_uint16(&body[1]);
@@ -630,13 +651,15 @@ static int monitor_binary_process_autostart(binary_command_t *command) {
     return !exit_mon;
 }
 
-static int monitor_binary_process_registers_get(binary_command_t *command) {
+static int monitor_binary_process_registers_get(binary_command_t *command)
+{
     monitor_binary_response_register_info(command->request_id);
 
     return 1;
 }
 
-static int monitor_binary_process_registers_set(binary_command_t *command) {
+static int monitor_binary_process_registers_set(binary_command_t *command)
+{
     const int header_size = 2;
     unsigned int i = 0;
     unsigned char *body = command->body;
@@ -675,13 +698,15 @@ static int monitor_binary_process_registers_set(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_exit(binary_command_t *command) {
+static int monitor_binary_process_exit(binary_command_t *command)
+{
     monitor_binary_response(0, e_MON_RESPONSE_EXIT, e_MON_ERR_OK, command->request_id, NULL);
 
     return 0;
 }
 
-static int monitor_binary_process_quit(binary_command_t *command) {
+static int monitor_binary_process_quit(binary_command_t *command)
+{
     mon_quit();
 
     monitor_binary_response(0, e_MON_RESPONSE_QUIT, e_MON_ERR_OK, command->request_id, NULL);
@@ -689,7 +714,8 @@ static int monitor_binary_process_quit(binary_command_t *command) {
     return 0;
 }
 
-static int monitor_binary_process_banks_available(binary_command_t *command) {
+static int monitor_binary_process_banks_available(binary_command_t *command)
+{
     unsigned char *response;
     unsigned char *response_cursor;
     const int *banknums;
@@ -748,24 +774,34 @@ static int monitor_binary_process_banks_available(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_registers_available(binary_command_t *command) {
+static int monitor_binary_process_registers_available(binary_command_t *command)
+{
     unsigned char *response;
     unsigned char *response_cursor;
     size_t *item_sizes;
-    uint16_t count;
+    uint16_t count_all;
+    uint16_t count_response = 0;
     unsigned int i = 0;
     uint32_t response_size = 2;
     mon_reg_list_t *regs = mon_register_list_get(e_comp_space);
 
     while (regs[i].name) {
         ++i;
+
+        if(!ignore_fake_register(&regs[i])) {
+            ++count_response;
+        }
     }
 
-    count = i;
+    count_all = i;
 
-    item_sizes = lib_malloc(sizeof(size_t) * count);
+    item_sizes = lib_malloc(sizeof(size_t) * count_all);
 
-    for (i = 0; i < count; i++) {
+    for (i = 0; i < count_all; i++) {
+        if(ignore_fake_register(&regs[i])) {
+            continue;
+        }
+
         item_sizes[i] = strlen(regs[i].name) + 3;
         response_size += item_sizes[i] + 1;
     }
@@ -775,20 +811,26 @@ static int monitor_binary_process_registers_available(binary_command_t *command)
 
     i = 0;
 
-    response_cursor = write_uint16(count, response_cursor);
+    response_cursor = write_uint16(count_response, response_cursor);
 
-    for (i = 0; i < count; i++) {
+    for (i = 0; i < count_all; i++) {
+        mon_reg_list_t *reg = &regs[i];
         size_t item_size = item_sizes[i];
+
+        if(ignore_fake_register(reg)) {
+            continue;
+        }
+
         *response_cursor = item_size;
         ++response_cursor;
 
-        *response_cursor = regs[i].id;
+        *response_cursor = reg->id;
         ++response_cursor;
 
-        *response_cursor = regs[i].size;
+        *response_cursor = reg->size;
         ++response_cursor;
 
-        response_cursor = write_string(item_size - 3, (unsigned char *)regs[i].name, response_cursor);
+        response_cursor = write_string(item_size - 3, (unsigned char *)reg->name, response_cursor);
     }
 
     monitor_binary_response(response_size, e_MON_RESPONSE_REGISTERS_AVAILABLE, e_MON_ERR_OK, command->request_id, response);
@@ -799,7 +841,8 @@ static int monitor_binary_process_registers_available(binary_command_t *command)
     return 1;
 }
 
-static int monitor_binary_process_mem_get(binary_command_t *command) {
+static int monitor_binary_process_mem_get(binary_command_t *command)
+{
     unsigned char *response;
     unsigned char *response_cursor;
 
@@ -876,7 +919,8 @@ static int monitor_binary_process_mem_get(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_mem_set(binary_command_t *command) {
+static int monitor_binary_process_mem_set(binary_command_t *command)
+{
     unsigned int i;
 
     int banknum = 0;
@@ -943,7 +987,8 @@ static int monitor_binary_process_mem_set(binary_command_t *command) {
     return 1;
 }
 
-static int monitor_binary_process_command(unsigned char * pbuffer) {
+static int monitor_binary_process_command(unsigned char * pbuffer)
+{
     BINARY_COMMAND command_type;
     int cont = 1;
     binary_command_t *command = lib_malloc(sizeof(binary_command_t));

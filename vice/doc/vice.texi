@@ -16470,12 +16470,12 @@ The checkpoint has been ignored zero times.
 
 @item Client sends a command to continue:@*
 @*
-@code{ ... | 71 }@*
+@code{ ... | aa }@*
 (Some command header fields are omitted (...) for brevity.)@*
 @*
 
 @table @code
-@item 0x71
+@item 0xaa
 @xref{MON_CMD_EXIT}
 
 @end table
@@ -16487,7 +16487,7 @@ The checkpoint has been ignored zero times.
 @*
 
 @table @code
-@item 0x71
+@item 0xaa
 @xref{MON_CMD_EXIT}
 
 @end table
@@ -16820,7 +16820,7 @@ Special characters such as return are escaped with backslashes.
 
 Response type:
 
-0x75: MON_RESPONSE_KEYBOARD_FEED
+0x72: MON_RESPONSE_KEYBOARD_FEED
 
 Response body:
 
@@ -16921,7 +16921,7 @@ Currently empty.
 
 Response type:
 
-0x71: MON_RESPONSE_EXIT
+0xaa: MON_RESPONSE_EXIT
 
 Response body:
 
@@ -16938,7 +16938,7 @@ Currently empty.
 
 Response type:
 
-0x72: MON_RESPONSE_QUIT
+0xbb: MON_RESPONSE_QUIT
 
 Response body:
 
@@ -16964,7 +16964,7 @@ Command body:
 
 Response type:
 
-0x74: MON_RESPONSE_RESET
+0xcc: MON_RESPONSE_RESET
 
 Response body:
 
@@ -16993,7 +16993,7 @@ The filename to autoload.
 
 Response type:
 
-0x76: MON_RESPONSE_AUTOSTART
+0xdd: MON_RESPONSE_AUTOSTART
 
 Response body:
 
