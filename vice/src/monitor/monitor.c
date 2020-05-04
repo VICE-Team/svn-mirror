@@ -1504,13 +1504,14 @@ void mon_display_screen(long addr)
     uint8_t rows, cols;
     unsigned int r, c;
     int bank;
-
+#if 0
     printf("Address = %ld\n", addr);
-
+#endif
     mem_get_screen_parameter(&base, &rows, &cols, &bank);
+#if 0
     printf("base: $%04x, rows: $%02x, cols: $%02x, bank: %d\n",
             base, rows, cols, bank);
-
+#endif
     /* hard core: change address vars */
     if (addr >= 0) {
         bank = (addr >> 12);
