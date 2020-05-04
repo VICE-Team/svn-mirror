@@ -32,6 +32,7 @@
 #include <stdio.h>
 
 #include "kbd.h"
+#include "machine.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -500,9 +501,11 @@ void ui_display_kbd_status(SDL_Event *e)
     char *p = &kbdstatusbar_text[KBDSTATUSENTRYLEN * 2];
     int kbd_status;
 
-    if (resources_get_int("KbdStatusbar", & kbd_status) < 0) {
-        kbd_status = 0;
+    if (machine_class != VICE_MACHINE_VSID) {
+        return; /* vsid doesn't have a statusbar */
     }
+
+    resources_get_int("KbdStatusbar", & kbd_status);
 
 
     if (kbd_status) {
