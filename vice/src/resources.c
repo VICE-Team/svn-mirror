@@ -742,9 +742,22 @@ int resources_get_value(const char *name, void *value_return)
     return 0;
 }
 
+
+/** \brief  Get value for resource \a name and store in \a value_return
+ *
+ * If the resource is unknown, the return value is set to 0.
+ *
+ * \param[in]   name            resource name
+ * \param[out]  value_return    resource value target
+ *
+ * \return  0 on succes, -1 on failure
+ */
 int resources_get_int(const char *name, int *value_return)
 {
     resource_ram_t *r = lookup(name);
+
+    /* set some sane value */
+    *value_return = 0;
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -765,9 +778,24 @@ int resources_get_int(const char *name, int *value_return)
     return 0;
 }
 
+
+/** \brief  Get string resource \a name and store in \a value_return
+ *
+ * If the resource \a name is unknown, \a value_return is set to NULL.
+ *
+ * \param[in]   name            resource name
+ * \param[out]  value_return    resource value target
+ *
+ * \return  0 on success, -1 on failure
+ */
 int resources_get_string(const char *name, const char **value_return)
 {
     resource_ram_t *r = lookup(name);
+
+    /* don't return an unitialized value, NULL is probably a good choice to
+     * trace bugs
+     */
+    *value_return = NULL;
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
