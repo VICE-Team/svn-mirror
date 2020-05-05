@@ -47,6 +47,7 @@ gtk3_keymaps = \
 
 sdl_keymaps = \
 	sdl_joymap_ps3.vjm \
+	sdl_joymap_thec64.vjm \
 	sdl_hotkeys.vkm \
 	sdl_hotkeys_vsid.vkm \
 	sdl_pos.vkm \
