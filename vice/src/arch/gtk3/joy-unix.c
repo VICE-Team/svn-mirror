@@ -635,10 +635,29 @@ void new_joystick(void)
                    The following treats only the first four buttons on a joystick
                    as fire buttons and ignores the rest.
                 */
+                /* printf("e.number: %02x e.value: %02x\n", e.number, e.value); */
+                /* FIXME: we need a gui to let the user map this, see SDL port */
                 if (! (e.number & ~3)) { /* only first four buttons are fire */
-                    joystick_set_value_and(i, ~16); /* reset fire bit */
-                    if (e.value) {
-                        joystick_set_value_or(i, 16);
+                    if (e.number == 0) {
+                        /* regular fire button */
+                        joystick_set_value_and(i, ~16); /* reset fire bit */
+                        if (e.value) {
+                            joystick_set_value_or(i, 16);
+                        }
+                    }
+                    if (e.number == 1) {
+                        /* 2nd fire button (POTX) */
+                        joystick_set_value_and(i, ~32); /* reset fire bit */
+                        if (e.value) {
+                            joystick_set_value_or(i, 32);
+                        }
+                    }
+                    if (e.number == 2) {
+                        /* 3rd fire button (POTY) */
+                        joystick_set_value_and(i, ~64); /* reset fire bit */
+                        if (e.value) {
+                            joystick_set_value_or(i, 64);
+                        }
                     }
                 }
                 break;
