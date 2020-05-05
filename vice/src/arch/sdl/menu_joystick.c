@@ -185,7 +185,9 @@ static const char *joy_pin[] = {
     "Down",
     "Left",
     "Right",
-    "Fire"
+    "Fire",
+    "Fire 2 (POTX)",
+    "Fire 3 (POTY)"
 };
 
 static UI_MENU_CALLBACK(custom_joymap_callback)
@@ -238,6 +240,14 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
           MENU_ENTRY_DIALOG,                                       \
           custom_joymap_callback,                                  \
           (ui_callback_data_t)(4 | ((port - 1) << 4)) },           \
+        { "Fire 2 (POTX)",                                         \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(5 | ((port - 1) << 4)) },           \
+        { "Fire 3 (POTY)",                                         \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(6 | ((port - 1) << 4)) },           \
         SDL_MENU_LIST_END                                          \
     };
 
