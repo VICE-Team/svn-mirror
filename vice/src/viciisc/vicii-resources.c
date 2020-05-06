@@ -195,3 +195,30 @@ int vicii_resources_init(void)
     }
     return resources_register_int(resources_int);
 }
+
+void vicii_comply_with_video_standard(int machine_sync)
+{
+    /* We're assuming that the model has a sensible value already
+     * here, but that's an assumption we make everywhere so it's
+     * probably fine */
+    if (vicii_info[vicii_resources.model].video != machine_sync) {
+        int newmodel;
+        switch (machine_sync) {
+        case MACHINE_SYNC_PAL:
+            newmodel = VICII_MODEL_6569;
+            break;
+        case MACHINE_SYNC_NTSC:
+            newmodel = VICII_MODEL_6567;
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            newmodel = VICII_MODEL_6567R56A;
+            break;
+        case MACHINE_SYNC_PALN:
+            newmodel = VICII_MODEL_6572;
+            break;
+        default:
+            return;
+        }
+        resources_set_int("VICIIModel", newmodel);
+    }
+}
