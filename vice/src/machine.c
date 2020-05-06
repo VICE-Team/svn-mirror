@@ -354,6 +354,8 @@ void machine_shutdown(void)
     monitor_network_resources_shutdown();
     monitor_binary_resources_shutdown();
 #endif
+    monitor_resources_shutdown();
+
     archdep_shutdown();
 
     lib_debug_check();

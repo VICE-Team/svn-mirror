@@ -153,6 +153,7 @@ extern void monitor_init(monitor_interface_t * maincpu_interface,
 extern void monitor_shutdown(void);
 extern int monitor_cmdline_options_init(void);
 extern int monitor_resources_init(void);
+extern void monitor_resources_shutdown(void);
 void monitor_startup(MEMSPACE mem);
 extern void monitor_startup_trap(void);
 

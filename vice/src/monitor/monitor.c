@@ -1417,6 +1417,16 @@ int monitor_resources_init(void)
     return resources_register_int(resources_int);
 }
 
+
+void monitor_resources_shutdown(void)
+{
+    if (monitorlogfilename != NULL) {
+        lib_free(monitorlogfilename);
+        monitorlogfilename = NULL;
+    }
+}
+
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-moncommands", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
