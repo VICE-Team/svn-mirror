@@ -303,7 +303,6 @@ char *uimon_in(const char *prompt)
 
             if (monitor_is_binary()) {
                 if (!monitor_binary_get_command_line()) {
-                    exit_mon = 1;
                     p = NULL;
                     break;
                 }

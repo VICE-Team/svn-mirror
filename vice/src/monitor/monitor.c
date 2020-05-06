@@ -2674,7 +2674,7 @@ void monitor_startup(MEMSPACE mem)
         p = uimon_in(prompt);
         if (p) {
             exit_mon = monitor_process(p);
-        } else {
+        } else if (exit_mon < 1) {
             exit_mon = 1;
         }
 

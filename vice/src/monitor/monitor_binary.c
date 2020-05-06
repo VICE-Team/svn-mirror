@@ -395,36 +395,32 @@ static void monitor_binary_error(BINARY_ERROR errorcode, uint32_t request_id)
     monitor_binary_response(0, 0, errorcode, request_id, NULL);
 }
 
-static int monitor_binary_process_ping(binary_command_t *command)
+static void monitor_binary_process_ping(binary_command_t *command)
 {
     monitor_binary_response(0, e_MON_RESPONSE_PING, e_MON_ERR_OK, command->request_id, NULL);
-
-    return 1;
 }
 
-static int monitor_binary_process_checkpoint_get(binary_command_t *command)
+static void monitor_binary_process_checkpoint_get(binary_command_t *command)
 {
     uint32_t brknum = little_endian_to_uint32(command->body);
     mon_checkpoint_t *checkpt;
 
     if (command->length < sizeof(brknum)) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     checkpt = mon_breakpoint_find_checkpoint((int)brknum);
 
     if (!checkpt) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        return 1;
+        return;
     }
 
     monitor_binary_response_checkpoint_info(command->request_id, checkpt, 0);
-
-    return 1;
 }
 
-static int monitor_binary_process_checkpoint_set(binary_command_t *command)
+static void monitor_binary_process_checkpoint_set(binary_command_t *command)
 {
     int brknum;
     mon_checkpoint_t *checkpt;
@@ -432,7 +428,7 @@ static int monitor_binary_process_checkpoint_set(binary_command_t *command)
 
     if (command->length < 8) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     brknum = mon_breakpoint_add_checkpoint(
@@ -450,35 +446,31 @@ static int monitor_binary_process_checkpoint_set(binary_command_t *command)
     checkpt = mon_breakpoint_find_checkpoint(brknum);
 
     monitor_binary_response_checkpoint_info(command->request_id, checkpt, 0);
-
-    return 1;
 }
 
-static int monitor_binary_process_checkpoint_delete(binary_command_t *command)
+static void monitor_binary_process_checkpoint_delete(binary_command_t *command)
 {
     uint32_t brknum = little_endian_to_uint32(command->body);
     mon_checkpoint_t *checkpt;
 
     if (command->length < sizeof(brknum)) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     checkpt = mon_breakpoint_find_checkpoint((int)brknum);
 
     if (!checkpt) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        return 1;
+        return;
     }
 
     mon_breakpoint_delete_checkpoint((int)brknum);
 
     monitor_binary_response(0, e_MON_RESPONSE_CHECKPOINT_DELETE, e_MON_ERR_OK, command->request_id, NULL);
-
-    return 1;
 }
 
-static int monitor_binary_process_checkpoint_list(binary_command_t *command)
+static void monitor_binary_process_checkpoint_list(binary_command_t *command)
 {
     unsigned char response[sizeof(uint32_t)];
     unsigned int i, len;
@@ -494,11 +486,9 @@ static int monitor_binary_process_checkpoint_list(binary_command_t *command)
     monitor_binary_response(sizeof(uint32_t), e_MON_RESPONSE_CHECKPOINT_LIST, e_MON_ERR_OK, request_id, response);
 
     lib_free(checkpts);
-
-    return 1;
 }
 
-static int monitor_binary_process_checkpoint_toggle(binary_command_t *command)
+static void monitor_binary_process_checkpoint_toggle(binary_command_t *command)
 {
     uint32_t brknum = little_endian_to_uint32(command->body);
     uint8_t enable = !!command->body[4];
@@ -506,24 +496,22 @@ static int monitor_binary_process_checkpoint_toggle(binary_command_t *command)
     
     if (command->length < 5) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     checkpt = mon_breakpoint_find_checkpoint((int)brknum);
 
     if (!checkpt) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        return 1;
+        return;
     }
 
     mon_breakpoint_switch_checkpoint((int)enable, (int)brknum);
 
     monitor_binary_response(0, e_MON_RESPONSE_CHECKPOINT_TOGGLE, e_MON_ERR_OK, command->request_id, NULL);
-
-    return 1;
 }
 
-static int monitor_binary_process_condition_set(binary_command_t *command)
+static void monitor_binary_process_condition_set(binary_command_t *command)
 {
     const char* cmd_fmt = "cond %u if ( %s )";
 
@@ -538,14 +526,14 @@ static int monitor_binary_process_condition_set(binary_command_t *command)
 
     if (command->length < 5 + length) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     checkpt = mon_breakpoint_find_checkpoint(brknum);
 
     if (!checkpt) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        return 1;
+        return;
     }
 
     cond = &body[5];
@@ -561,24 +549,22 @@ static int monitor_binary_process_condition_set(binary_command_t *command)
 
     if (parse_and_execute_line(cmd) != 0) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        return 1;
+        return;
     }
 
     monitor_binary_response(0, e_MON_RESPONSE_CONDITION_SET, e_MON_ERR_OK, command->request_id, NULL);
 
     lib_free(cmd);
-
-    return 1;
 }
 
-static int monitor_binary_process_advance_instructions(binary_command_t *command)
+static void monitor_binary_process_advance_instructions(binary_command_t *command)
 {
     uint8_t step_over_subroutines = command->body[0];
     uint16_t count = little_endian_to_uint16(&command->body[1]);
 
     if (command->length < 3) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     if (step_over_subroutines) {
@@ -588,34 +574,30 @@ static int monitor_binary_process_advance_instructions(binary_command_t *command
     }
 
     monitor_binary_response(0, e_MON_RESPONSE_ADVANCE_INSTRUCTIONS, e_MON_ERR_OK, command->request_id, NULL);
-
-    return 0;
 }
 
-static int monitor_binary_process_reset(binary_command_t *command)
+static void monitor_binary_process_reset(binary_command_t *command)
 {
     uint8_t reset_type = command->body[0];
 
     if (command->length < 1) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     mon_reset_machine((int)reset_type);
 
     monitor_binary_response(0, e_MON_RESPONSE_RESET, e_MON_ERR_OK, command->request_id, NULL);
-
-    return !exit_mon;
 }
 
-static int monitor_binary_process_keyboard_feed(binary_command_t *command)
+static void monitor_binary_process_keyboard_feed(binary_command_t *command)
 {
     unsigned char *body = command->body;
     uint8_t length = body[0];
 
     if(command->length < 1 + length) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     body[1 + length] = '\0';
@@ -623,20 +605,16 @@ static int monitor_binary_process_keyboard_feed(binary_command_t *command)
     mon_keyboard_feed((char *)&body[1]);
 
     monitor_binary_response(0, e_MON_RESPONSE_KEYBOARD_FEED, e_MON_ERR_OK, command->request_id, NULL);
-
-    return 1;
 }
 
-static int monitor_binary_process_execute_until_return(binary_command_t *command)
+static void monitor_binary_process_execute_until_return(binary_command_t *command)
 {
     mon_instruction_return();
 
     monitor_binary_response(0, e_MON_RESPONSE_EXECUTE_UNTIL_RETURN, e_MON_ERR_OK, command->request_id, NULL);
-
-    return !exit_mon;
 }
 
-static int monitor_binary_process_autostart(binary_command_t *command)
+static void monitor_binary_process_autostart(binary_command_t *command)
 {
     unsigned char *body = command->body;
     uint8_t run = !!body[0];
@@ -646,7 +624,7 @@ static int monitor_binary_process_autostart(binary_command_t *command)
 
     if(command->length < 4 + filename_length) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     /* This should be changed later if other fields are added after it */
@@ -654,22 +632,18 @@ static int monitor_binary_process_autostart(binary_command_t *command)
 
     if(mon_autostart((char *)filename, file_index, run) < 0) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        return 1;
+        return;
     }
 
     monitor_binary_response(0, e_MON_RESPONSE_AUTOSTART, e_MON_ERR_OK, command->request_id, NULL);
-
-    return !exit_mon;
 }
 
-static int monitor_binary_process_registers_get(binary_command_t *command)
+static void monitor_binary_process_registers_get(binary_command_t *command)
 {
     monitor_binary_response_register_info(command->request_id);
-
-    return 1;
 }
 
-static int monitor_binary_process_registers_set(binary_command_t *command)
+static void monitor_binary_process_registers_set(binary_command_t *command)
 {
     const int header_size = 2;
     unsigned int i = 0;
@@ -679,7 +653,7 @@ static int monitor_binary_process_registers_set(binary_command_t *command)
 
     if (command->length < header_size + count * (3 + 1)) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     body_cursor += header_size;
@@ -691,12 +665,12 @@ static int monitor_binary_process_registers_set(binary_command_t *command)
 
         if (item_size < 3) {
             monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-            return 1;
+            return;
         }
 
         if (!mon_register_valid(e_comp_space, (int)reg_id)) {
             monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-            return 1;
+            return;
         }
 
         monitor_cpu_for_memspace[e_comp_space]->mon_register_set_val(e_comp_space, reg_regid(reg_id), reg_val);
@@ -705,27 +679,23 @@ static int monitor_binary_process_registers_set(binary_command_t *command)
     }
 
     monitor_binary_response_register_info(command->request_id);
-
-    return 1;
 }
 
-static int monitor_binary_process_exit(binary_command_t *command)
+static void monitor_binary_process_exit(binary_command_t *command)
 {
-    monitor_binary_response(0, e_MON_RESPONSE_EXIT, e_MON_ERR_OK, command->request_id, NULL);
+    exit_mon = 1;
 
-    return 0;
+    monitor_binary_response(0, e_MON_RESPONSE_EXIT, e_MON_ERR_OK, command->request_id, NULL);
 }
 
-static int monitor_binary_process_quit(binary_command_t *command)
+static void monitor_binary_process_quit(binary_command_t *command)
 {
     mon_quit();
 
     monitor_binary_response(0, e_MON_RESPONSE_QUIT, e_MON_ERR_OK, command->request_id, NULL);
-
-    return 0;
 }
 
-static int monitor_binary_process_banks_available(binary_command_t *command)
+static void monitor_binary_process_banks_available(binary_command_t *command)
 {
     unsigned char *response;
     unsigned char *response_cursor;
@@ -743,7 +713,7 @@ static int monitor_binary_process_banks_available(binary_command_t *command)
         ) {
             /* TODO: Better error codes? */
             monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-            return 1;
+            return;
         }
 
     banknums = mon_interfaces[e_comp_space]->mem_bank_list_nos();
@@ -781,11 +751,9 @@ static int monitor_binary_process_banks_available(binary_command_t *command)
 
     lib_free(response);
     lib_free(item_sizes);
-
-    return 1;
 }
 
-static int monitor_binary_process_registers_available(binary_command_t *command)
+static void monitor_binary_process_registers_available(binary_command_t *command)
 {
     unsigned char *response;
     unsigned char *response_cursor;
@@ -848,11 +816,9 @@ static int monitor_binary_process_registers_available(binary_command_t *command)
 
     lib_free(response);
     lib_free(item_sizes);
-
-    return 1;
 }
 
-static int monitor_binary_process_mem_get(binary_command_t *command)
+static void monitor_binary_process_mem_get(binary_command_t *command)
 {
     unsigned char *response;
     unsigned char *response_cursor;
@@ -878,12 +844,12 @@ static int monitor_binary_process_mem_get(binary_command_t *command)
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memget: wrong start and/or end address %04x - %04x",
                     startaddress, endaddress);
-        return 1;
+        return;
     }
 
     if (command->length < 8) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     if (requested_memspace == 0) {
@@ -899,13 +865,13 @@ static int monitor_binary_process_mem_get(binary_command_t *command)
     } else {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memget: Unknown memspace %u", requested_memspace);
-        return 1;
+        return;
     }
 
     if (mon_banknum_validate(memspace, requested_banknum) == 0) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memget: Unknown bank %u", requested_banknum);
-        return 1;
+        return;
     }
 
     banknum = requested_banknum;
@@ -926,11 +892,9 @@ static int monitor_binary_process_mem_get(binary_command_t *command)
     monitor_binary_response(response_size, e_MON_RESPONSE_MEM_GET, e_MON_ERR_OK, command->request_id, response);
 
     lib_free(response);
-
-    return 1;
 }
 
-static int monitor_binary_process_mem_set(binary_command_t *command)
+static void monitor_binary_process_mem_set(binary_command_t *command)
 {
     unsigned int i;
 
@@ -955,12 +919,12 @@ static int monitor_binary_process_mem_set(binary_command_t *command)
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memset: wrong start and/or end address %04x - %04x",
                     startaddress, endaddress);
-        return 1;
+        return;
     }
 
     if (command->length < length + header_size) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
-        return 1;
+        return;
     }
 
     if (requested_memspace == 0) {
@@ -976,13 +940,13 @@ static int monitor_binary_process_mem_set(binary_command_t *command)
     } else {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memset: Unknown memspace %u", requested_memspace);
-        return 1;
+        return;
     }
 
     if (mon_banknum_validate(memspace, requested_banknum) == 0) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memset: Unknown bank %u", requested_banknum);
-        return 1;
+        return;
     }
 
     banknum = requested_banknum;
@@ -994,21 +958,18 @@ static int monitor_binary_process_mem_set(binary_command_t *command)
     sidefx = old_sidefx;
 
     monitor_binary_response(0, e_MON_RESPONSE_MEM_SET, e_MON_ERR_OK, command->request_id, NULL);
-
-    return 1;
 }
 
-static int monitor_binary_process_command(unsigned char * pbuffer)
+static void monitor_binary_process_command(unsigned char * pbuffer)
 {
     BINARY_COMMAND command_type;
-    int cont = 1;
     binary_command_t *command = lib_malloc(sizeof(binary_command_t));
 
     command->api_version = (uint8_t)pbuffer[1];
 
     if (command->api_version != 0x01) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
-        return 1;
+        return;
     }
 
     command->length = little_endian_to_uint32(&pbuffer[2]);
@@ -1021,52 +982,52 @@ static int monitor_binary_process_command(unsigned char * pbuffer)
 
     command_type = command->type;
     if (command_type == e_MON_CMD_PING) {
-        cont = monitor_binary_process_ping(command);
+        monitor_binary_process_ping(command);
 
     } else if (command_type == e_MON_CMD_MEM_GET) {
-        cont = monitor_binary_process_mem_get(command);
+        monitor_binary_process_mem_get(command);
     } else if (command_type == e_MON_CMD_MEM_SET) {
-        cont = monitor_binary_process_mem_set(command);
+        monitor_binary_process_mem_set(command);
 
     } else if (command_type == e_MON_CMD_CHECKPOINT_GET) {
-        cont = monitor_binary_process_checkpoint_get(command);
+        monitor_binary_process_checkpoint_get(command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_SET) {
-        cont = monitor_binary_process_checkpoint_set(command);
+        monitor_binary_process_checkpoint_set(command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_DELETE) {
-        cont = monitor_binary_process_checkpoint_delete(command);
+        monitor_binary_process_checkpoint_delete(command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_LIST) {
-        cont = monitor_binary_process_checkpoint_list(command);
+        monitor_binary_process_checkpoint_list(command);
     } else if (command_type == e_MON_CMD_CHECKPOINT_TOGGLE) {
-        cont = monitor_binary_process_checkpoint_toggle(command);
+        monitor_binary_process_checkpoint_toggle(command);
 
     } else if (command_type == e_MON_CMD_CONDITION_SET) {
-        cont = monitor_binary_process_condition_set(command);
+        monitor_binary_process_condition_set(command);
 
     } else if (command_type == e_MON_CMD_REGISTERS_GET) {
-        cont = monitor_binary_process_registers_get(command);
+        monitor_binary_process_registers_get(command);
     } else if (command_type == e_MON_CMD_REGISTERS_SET) {
-        cont = monitor_binary_process_registers_set(command);
+        monitor_binary_process_registers_set(command);
 
     } else if (command_type == e_MON_CMD_ADVANCE_INSTRUCTIONS) {
-        cont = monitor_binary_process_advance_instructions(command);
+        monitor_binary_process_advance_instructions(command);
     } else if (command_type == e_MON_CMD_KEYBOARD_FEED) {
-        cont = monitor_binary_process_keyboard_feed(command);
+        monitor_binary_process_keyboard_feed(command);
     } else if (command_type == e_MON_CMD_EXECUTE_UNTIL_RETURN) {
-        cont = monitor_binary_process_execute_until_return(command);
+        monitor_binary_process_execute_until_return(command);
 
     } else if (command_type == e_MON_CMD_EXIT) {
-        cont = monitor_binary_process_exit(command);
+        monitor_binary_process_exit(command);
     } else if (command_type == e_MON_CMD_QUIT) {
-        cont = monitor_binary_process_quit(command);
+        monitor_binary_process_quit(command);
     } else if (command_type == e_MON_CMD_RESET) {
-        cont = monitor_binary_process_reset(command);
+        monitor_binary_process_reset(command);
     } else if (command_type == e_MON_CMD_AUTOSTART) {
-        cont = monitor_binary_process_autostart(command);
+        monitor_binary_process_autostart(command);
 
     } else if (command_type == e_MON_CMD_BANKS_AVAILABLE) {
-        cont = monitor_binary_process_banks_available(command);
+        monitor_binary_process_banks_available(command);
     } else if (command_type == e_MON_CMD_REGISTERS_AVAILABLE) {
-        cont = monitor_binary_process_registers_available(command);
+        monitor_binary_process_registers_available(command);
     } else {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT,
@@ -1078,8 +1039,6 @@ static int monitor_binary_process_command(unsigned char * pbuffer)
     pbuffer[0] = 0;
 
     lib_free(command);
-
-    return cont;
 }
 
 static int monitor_binary_activate(void)
@@ -1174,7 +1133,9 @@ int monitor_binary_get_command_line(void)
             n += o;
         }
 
-        if (!monitor_binary_process_command(buffer)) {
+        monitor_binary_process_command(buffer);
+
+        if (exit_mon) {
             return 0;
         }
     }
