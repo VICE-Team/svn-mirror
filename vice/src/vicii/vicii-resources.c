@@ -150,3 +150,8 @@ int vicii_resources_init(void)
 
     return resources_register_int(resources_int);
 }
+
+void vicii_comply_with_video_standard(int machine_sync)
+{
+    /* dummy function */
+}
