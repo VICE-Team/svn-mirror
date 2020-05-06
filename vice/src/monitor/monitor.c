@@ -682,7 +682,7 @@ const char *mon_get_current_bank_name(MEMSPACE mem)
     main entry point for the monitor to read a value from memory
 
     mem_bank_peek and mem_bank_read are set up in src/drive/drivecpu.c,
-    src/drive/drivecpu65c02.c, src/mainc64cpu.c, src/mainviccpu.c, 
+    src/drive/drivecpu65c02.c, src/mainc64cpu.c, src/mainviccpu.c,
     src/maincpu.c, src/main65816cpu.c
 */
 
