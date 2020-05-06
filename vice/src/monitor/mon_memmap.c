@@ -86,14 +86,36 @@ static cpuhistory_t *cpuhistory = NULL;
 static int cpuhistory_lines = 0;
 static int cpuhistory_i = 0;
 
-/* (re)allocate the buffer used for the cpu history info */
+
+/** \brief  (re)allocate the buffer used for the cpu history info
+ *
+ * \param[in]   lines   new number of lines of the cpu history info
+ */
 int monitor_cpuhistory_allocate(int lines)
 {
-    cpuhistory = realloc(cpuhistory, lines * sizeof(cpuhistory_t));
+    if (lines <= 0) {
+        fprintf(stderr, "%s(): illegal cpuhistory line count: %d\n",
+                __func__, lines);
+        return -1;
+    }
+
+    cpuhistory = lib_realloc(cpuhistory, (size_t)lines * sizeof(cpuhistory_t));
+
+    /* do we resize the array? */
+    if (cpuhistory_lines != lines) {
+        /* Initialize array to avoid mon_memmap_store() using unitialized
+         * data when reading the RESET vector on boot.
+         * WHY reading the RESET vector causes a STORE is another issue.
+         * -- Compyx
+         * */
+        memset((void *)cpuhistory, 0, sizeof(cpuhistory_t) * (size_t)lines);
+    }
+
     cpuhistory_lines = lines;
     cpuhistory_i = 0;
     return 0;
 }
+
 
 void monitor_cpuhistory_store(uint32_t cycle, unsigned int addr, unsigned int op,
                               unsigned int p1, unsigned int p2,
@@ -235,6 +257,14 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
 void monitor_memmap_store(unsigned int addr, unsigned int type)
 {
     uint8_t op = cpuhistory[cpuhistory_i].op;
+#if 0
+    static int repeat = 0;
+
+    if (repeat < 4) {
+        printf("%s(): addr = $%04x, type = %u\n", __func__, addr, type);
+        repeat++;
+    }
+#endif
 
     if (memmap_state & MEMMAP_STATE_IN_MONITOR) {
         return;
@@ -320,6 +350,9 @@ void mon_memmap_shutdown(void)
 {
     lib_free(mon_memmap);
     mon_memmap = NULL;
+    if (cpuhistory != NULL) {
+        lib_free(cpuhistory);
+    }
 }
 
 
