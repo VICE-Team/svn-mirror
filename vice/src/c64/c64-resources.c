@@ -219,35 +219,17 @@ static int set_sync_factor(int val, void *param)
 
     switch (val) {
         case MACHINE_SYNC_PAL:
-            sync_factor = val;
-            if (change_timing) {
-                vicii_comply_with_video_standard(val);
-                machine_change_timing(MACHINE_SYNC_PAL, vicii_resources.border_mode);
-            }
-            break;
         case MACHINE_SYNC_NTSC:
-            sync_factor = val;
-            if (change_timing) {
-                vicii_comply_with_video_standard(val);
-                machine_change_timing(MACHINE_SYNC_NTSC, vicii_resources.border_mode);
-            }
-            break;
         case MACHINE_SYNC_NTSCOLD:
-            sync_factor = val;
-            if (change_timing) {
-                vicii_comply_with_video_standard(val);
-                machine_change_timing(MACHINE_SYNC_NTSCOLD, vicii_resources.border_mode);
-            }
-            break;
         case MACHINE_SYNC_PALN:
-            sync_factor = val;
-            if (change_timing) {
-                vicii_comply_with_video_standard(val);
-                machine_change_timing(MACHINE_SYNC_PALN, vicii_resources.border_mode);
-            }
             break;
         default:
             return -1;
+    }
+    sync_factor = val;
+    if (change_timing) {
+        vicii_comply_with_video_standard(val);
+        machine_change_timing(val, vicii_resources.border_mode);
     }
 
     return 0;
