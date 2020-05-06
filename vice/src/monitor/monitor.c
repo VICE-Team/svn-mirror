@@ -289,7 +289,6 @@ static const char *register_string[] = {
     "D",
     "U",
     "DP",
-    
     "E",    /* 658xx/6309/z80 */
 /* 6309 */
     "F",
@@ -304,7 +303,7 @@ static const char *register_string[] = {
     "IXH",
     "IYL",
     "IYH",
-    
+
     /* "CC", */ /* 6x09 */ /* FIXME: same as flags? */
     
     "RL",   /* Rasterline */
