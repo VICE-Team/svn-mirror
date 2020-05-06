@@ -305,7 +305,7 @@ static const char *register_string[] = {
     "IYH",
 
     /* "CC", */ /* 6x09 */ /* FIXME: same as flags? */
-    
+
     "RL",   /* Rasterline */
     "CY",   /* Cycle in line */
 };
