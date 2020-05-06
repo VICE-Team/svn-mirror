@@ -63,6 +63,7 @@ enum {
     ROW_SCROLL_LINES,           /**< row for 'scrollback buffer lines' */
 #ifdef FEATURE_CPUMEMHISTORY
     ROW_CHIS_LINES,             /**< row for 'cpu history lines */
+    ROW_CHIS_WARNING,           /**< row for warning about clearing chis */
 #endif
     ROW_FONT                    /**< row for 'monitor font' */
 };
@@ -116,6 +117,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 #ifdef FEATURE_CPUMEMHISTORY
     GtkWidget *chis_lines;
     GtkWidget *chis_label;
+    GtkWidget *chis_warning;
 #endif
     GtkWidget *font_label;
     GtkWidget *font_button;
@@ -178,6 +180,9 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(chis_label, GTK_ALIGN_START);
     chis_lines = vice_gtk3_resource_spin_int_new(
             "MonitorChisLines", 10, 0x0fffffff, 1);
+    chis_warning = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(chis_warning),
+            "<i>Changing this setting will clear the CPU history</i>");
 #endif
 
     /* font selection label and button */
@@ -209,6 +214,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 #ifdef FEATURE_CPUMEMHISTORY
     gtk_grid_attach(GTK_GRID(grid), chis_label, 0, ROW_CHIS_LINES, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), chis_lines, 1, ROW_CHIS_LINES, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), chis_warning, 1, ROW_CHIS_WARNING ,1 ,1);
 #endif
     gtk_grid_attach(GTK_GRID(grid), font_label, 0, ROW_FONT, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), font_button, 1, ROW_FONT, 1, 1);
