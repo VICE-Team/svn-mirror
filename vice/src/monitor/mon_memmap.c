@@ -175,7 +175,7 @@ void mon_cpuhistory(int count)
         loc = addr_location(addr);
 
         dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode, &opc_size);
-        
+
         /* Print the disassembled instruction */
         mon_out("%04x  %-30s - A:%02x X:%02x Y:%02x SP:%02x %c%c-%c%c%c%c%c %09u\n",
             loc, dis_inst,
