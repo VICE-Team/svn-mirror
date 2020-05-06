@@ -94,8 +94,29 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
 static void ui_accel_data_delete(gpointer data, GClosure *closure)
 {
     debug_gtk3("Freeing accelerator data\n");
+#if 0
     lib_free(data);
+#endif
 }
+
+
+/** \brief  Handler for the 'destroy' event of a menu item
+ *
+ * This 'hack' is needed since the 'finalize' callback of the GClosures we use
+ * for accelerators doesn't get called, which means the accelerator data doesn't
+ * get cleaned up, which means we leak memory.
+ *
+ * \param[in]       item        menu item
+ * \param[in,out]   accel_data  accelator data (optional)
+ */
+static void on_menu_item_destroy(GtkWidget *item, gpointer accel_data)
+{
+    debug_gtk3("CALLED!");
+    if (accel_data != NULL) {
+        lib_free(accel_data);
+    }
+}
+
 
 /** \brief  Callback that forwards accelerator codes.
  */
@@ -122,6 +143,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
     while (items[i].label != NULL || items[i].type >= 0) {
         GtkWidget *item = NULL;
         GtkWidget *submenu;
+        ui_accel_data_t *accel_data = NULL;
 
         switch (items[i].type) {
             case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
@@ -186,24 +208,31 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 
             if (items[i].keysym != 0 && items[i].callback != NULL) {
                 GClosure *accel_closure;
-#if 0
                 debug_gtk3("adding accelerator %d to item %s'\n",
                         items[i].keysym, items[i].label);
-#endif
                 /* Normally you would use gtk_widget_add_accelerator
                  * here, but that will disable the accelerators if the
                  * menu is hidden, which can be configured to happen
                  * while in fullscreen. We instead create the closure
                  * by hand, add it to the GtkAccelGroup, and update
                  * the accelerator information. */
+                accel_data = ui_accel_data_new(item, &items[i]);
                 accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
+#if 0
                                                ui_accel_data_new(item, &items[i]),
+#endif
+                                               accel_data,
                                                ui_accel_data_delete);
                 gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
                 gtk_accel_label_set_accel(GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item))), items[i].keysym, items[i].modifier);
             }
 
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+            /* the closure's callback doesn't trigger due to mysterious reasons,
+             * so we use the menu item to free the accelerator's data
+             */
+            g_signal_connect(item, "destroy", G_CALLBACK(on_menu_item_destroy),
+                    accel_data);
         }
         i++;
     }
@@ -220,3 +249,4 @@ void ui_menu_init_accelerators(GtkWidget *window)
     accel_group = gtk_accel_group_new();
     gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 }
+
