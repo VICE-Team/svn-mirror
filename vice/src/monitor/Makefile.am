@@ -5,6 +5,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/arch/unix/readline \
+	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/vdrive \

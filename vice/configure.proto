@@ -3838,6 +3838,7 @@ AC_OUTPUT([Makefile
            src/cbm2/Makefile
            src/core/Makefile
            src/crtc/Makefile
+           src/datasette/Makefile
            src/diag/Makefile
            src/diskimage/Makefile
            src/drive/Makefile
