@@ -1382,6 +1382,7 @@ vsid-all: \
 	libserial \
 	libcore \
 	libjoyport \
+	libdatasette \
 	vsid$(EXEEXT)
 
 # x64
