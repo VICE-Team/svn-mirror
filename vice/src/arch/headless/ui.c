@@ -189,11 +189,12 @@ int ui_init_finalize(void)
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
     /* printf("%s\n", __func__); */
-    
+
     va_list args;
     char *buffer;
+#if 0
     int result;
-
+#endif
     va_start(args, format);
     buffer = lib_mvsprintf(format, args);
     va_end(args);
@@ -202,7 +203,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     lib_free(buffer);
 
-    return result;
+    /* the headless UI ignores this */
+    return MACHINE_JAM_ACTION_QUIT; /* quit emulator */
 }
 
 

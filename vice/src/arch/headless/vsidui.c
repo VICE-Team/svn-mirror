@@ -204,7 +204,7 @@ void vsid_ui_set_data_size(uint16_t size)
 }
 
 
-
+#if 0
 /** \brief  Identify the canvas used to create a window
  *
  * \return  window index on success, -1 on failure
@@ -218,6 +218,7 @@ static int identify_canvas(video_canvas_t *canvas)
     }
     return PRIMARY_WINDOW;
 }
+#endif
 
 
 /** \brief  Initialize the VSID UI
