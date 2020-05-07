@@ -1351,7 +1351,8 @@ vsid_libs =  \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
 	$(joyport_lib) \
-	$(hvsc_lib)
+	$(hvsc_lib) \
+	$(datasette_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@ @WINDRES_LIB@

@@ -41,6 +41,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/gfxoutputdrv \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/imagecontents \
+	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src
 
 AM_CFLAGS = @VICE_CFLAGS@
