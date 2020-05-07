@@ -64,7 +64,7 @@ typedef struct {
     vdrive_t *vdrive;
 } file_system_t;
 
-static file_system_t file_system[4];
+static file_system_t file_system[4][2];
 
 static log_t attach_log = LOG_DEFAULT;
 
@@ -75,11 +75,12 @@ static int set_attach_device_readonly(int val, void *param);
 static int set_file_system_device(int val, void *param);
 
 static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
-                              unsigned int unit);
+                              unsigned int unit, unsigned int drive);
 static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
-                                       unsigned int unit);
+                                       unsigned int unit, unsigned int drive);
 static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
                              const char *filename, unsigned int unit,
+                             unsigned int drive,
                              int devicetype);
 
 static const resource_int_t resources_int[] = {
@@ -173,6 +174,9 @@ static int file_system_set_serial_hooks(unsigned int unit, int fs)
 {
     DBG(("file_system_set_serial_hooks dev %d: %s\n", unit, !fs ? "vdrive" : "fsdevice"));
 
+    /* TODO: drive 1 */
+    unsigned int drive = 0;
+
     if (!fs) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
             log_error(attach_log,
@@ -181,7 +185,7 @@ static int file_system_set_serial_hooks(unsigned int unit, int fs)
             return -1;
         }
     } else {
-        if (fsdevice_attach(unit, "FS Drive")) {
+        if (fsdevice_attach(unit, drive, "FS Drive")) {
             log_error(attach_log,
                       "Could not initialize FS drive for device #%u.",
                       unit);
@@ -193,7 +197,7 @@ static int file_system_set_serial_hooks(unsigned int unit, int fs)
 
 void file_system_init(void)
 {
-    unsigned int i;
+    unsigned int i, j;
 
     attach_log = log_open("Attach");
 
@@ -202,52 +206,64 @@ void file_system_init(void)
     }
 
     for (i = 0; i < 4; i++) {
-        file_system[i].serial = serial_device_get(i + 8);
-        file_system[i].vdrive = lib_calloc(1, sizeof(vdrive_t));
-        switch (file_system_device_enabled[i]) {
-            case ATTACH_DEVICE_NONE:
-                vdrive_device_setup(file_system[i].vdrive, i + 8);
-                serial_device_type_set(SERIAL_DEVICE_NONE, i + 8);
-                break;
-            case ATTACH_DEVICE_FS:
-                vdrive_device_setup(file_system[i].vdrive, i + 8);
-                serial_device_type_set(SERIAL_DEVICE_FS, i + 8);
-                break;
-            case ATTACH_DEVICE_REAL:
-                vdrive_device_setup(file_system[i].vdrive, i + 8);
-                serial_device_type_set(SERIAL_DEVICE_REAL, i + 8);
-                break;
+        for (j = 0; j < 2; j++) {
+            file_system[i][j].serial = serial_device_get(i + 8);
+            file_system[i][j].vdrive = lib_calloc(1, sizeof(vdrive_t));
+            switch (file_system_device_enabled[i]) {
+                case ATTACH_DEVICE_NONE:
+                    vdrive_device_setup(file_system[i][j].vdrive, i + 8);
+                    serial_device_type_set(SERIAL_DEVICE_NONE, i + 8);
+                    break;
+                case ATTACH_DEVICE_FS:
+                    vdrive_device_setup(file_system[i][j].vdrive, i + 8);
+                    serial_device_type_set(SERIAL_DEVICE_FS, i + 8);
+                    break;
+                case ATTACH_DEVICE_REAL:
+                    vdrive_device_setup(file_system[i][j].vdrive, i + 8);
+                    serial_device_type_set(SERIAL_DEVICE_REAL, i + 8);
+                    break;
+            }
+            file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
         }
-        file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
     }
 }
 
 void file_system_shutdown(void)
 {
-    unsigned int i;
+    unsigned int i, j;
 
     for (i = 0; i < 4; i++) {
-        vdrive_device_shutdown(file_system[i].vdrive);
-        lib_free(file_system[i].vdrive);
-        machine_bus_device_detach(i + 8); /* free memory allocated by file_system_set_serial_hooks() */
+        for (j = 0; j < 2; j++) {
+
+            vdrive_device_shutdown(file_system[i][j].vdrive);
+            lib_free(file_system[i][j].vdrive);
+            if (j == 1) {
+                machine_bus_device_detach(i + 8); /* free memory allocated by file_system_set_serial_hooks() */
+            }
+        }
     }
 }
 
-struct vdrive_s *file_system_get_vdrive(unsigned int unit)
+struct vdrive_s *file_system_get_vdrive(unsigned int unit, unsigned int drive)
 {
     if (unit < 8 || unit > 11) {
         log_error(attach_log, "Wrong unit for vdrive");
         return NULL;
     }
 
-    return file_system[unit - 8].vdrive;
+    if (drive > 1) {
+        log_error(attach_log, "Wrong drive number for vdrive");
+        return NULL;
+    }
+
+    return file_system[unit - 8][drive].vdrive;
 }
 
-const char *file_system_get_disk_name(unsigned int unit)
+const char *file_system_get_disk_name(unsigned int unit, unsigned int drive)
 {
     vdrive_t *vdrive;
 
-    vdrive = file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit, drive);
 
     if (vdrive == NULL) {
         return NULL;
@@ -262,14 +278,14 @@ const char *file_system_get_disk_name(unsigned int unit)
     return disk_image_fsimage_name_get(vdrive->image);
 }
 
-int file_system_bam_get_disk_id(unsigned int unit, uint8_t *id)
+int file_system_bam_get_disk_id(unsigned int unit, unsigned int drive, uint8_t *id)
 {
-    return vdrive_bam_get_disk_id(unit, id);
+    return vdrive_bam_get_disk_id(unit, drive, id);
 }
 
-int file_system_bam_set_disk_id(unsigned int unit, uint8_t *id)
+int file_system_bam_set_disk_id(unsigned int unit, unsigned int drive, uint8_t *id)
 {
-    return vdrive_bam_set_disk_id(unit, id);
+    return vdrive_bam_set_disk_id(unit, drive, id);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -281,16 +297,19 @@ static int set_attach_device_readonly(int value, void *param)
     char *new_filename;
     int rc;
     int val = value ? 1 : 0;
+    /* TODO: drive 1 */
+    unsigned int drive = 0;
 
     /* Do nothing if resource is unchanged. */
     if (attach_device_readonly_enabled[unit - 8] == val) {
         return 0;
     }
 
-    old_filename = file_system_get_disk_name(unit);
+    old_filename = file_system_get_disk_name(unit, drive);
 
     /* If no disk is attached, just changed the resource.  */
     if (old_filename == NULL) {
+        /* TODO: drive 1? */
         attach_device_readonly_enabled[unit - 8] = val;
         return 0;
     }
@@ -298,10 +317,11 @@ static int set_attach_device_readonly(int value, void *param)
     /* Old filename will go away after the image is detached.  */
     new_filename = lib_strdup(old_filename);
 
-    file_system_detach_disk(unit);
+    file_system_detach_disk(unit, drive);
+    /* TODO: drive 1? */
     attach_device_readonly_enabled[unit - 8] = val;
 
-    rc = file_system_attach_disk(unit, new_filename);
+    rc = file_system_attach_disk(unit, drive, new_filename);
 
     lib_free(new_filename);
 
@@ -314,6 +334,7 @@ static int set_file_system_device(int val, void *param)
 {
     vdrive_t *vdrive;
     unsigned int unit = vice_ptr_to_uint(param);
+    unsigned int drive = 0;
     unsigned int idx;
     int old_device_enabled;
 
@@ -324,7 +345,10 @@ static int set_file_system_device(int val, void *param)
     idx = unit - 8;
     old_device_enabled = file_system_device_enabled[idx];
 
-    vdrive = file_system_get_vdrive(unit);
+    /* TODO: drive 1? */
+    drive = 0;
+
+    vdrive = file_system_get_vdrive(unit, drive);
 
     DBG(("set_file_system_device dev #%d old dev:%d new dev:%d\n", unit, old_device_enabled, val));
 
@@ -357,7 +381,7 @@ static int set_file_system_device(int val, void *param)
             }
 
             if (vdrive != NULL && vdrive->image != NULL) {
-                detach_disk_image_and_free(vdrive->image, vdrive, unit);
+                detach_disk_image_and_free(vdrive->image, vdrive, unit, drive);
                 ui_display_drive_current_image(idx, "");
             }
             if (vdrive != NULL && vdrive->image == NULL) {
@@ -373,7 +397,7 @@ static int set_file_system_device(int val, void *param)
                 return set_file_system_device(ATTACH_DEVICE_FS, param);
             }
             if (vdrive != NULL && vdrive->image != NULL) {
-                detach_disk_image_and_free(vdrive->image, vdrive, unit);
+                detach_disk_image_and_free(vdrive->image, vdrive, unit, drive);
                 ui_display_drive_current_image(idx, "");
                 vdrive_device_setup(vdrive, unit);
             }
@@ -392,28 +416,16 @@ static int set_file_system_device(int val, void *param)
 /* ------------------------------------------------------------------------- */
 
 static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
-                              unsigned int unit)
+                              unsigned int unit, unsigned int drive)
 {
     switch (unit) {
-        case 8:
-            machine_drive_image_detach(image, 8);
-            drive_image_detach(image, 8);
-            vdrive_detach_image(image, 8, floppy);
-            break;
-        case 9:
-            machine_drive_image_detach(image, 9);
-            drive_image_detach(image, 9);
-            vdrive_detach_image(image, 9, floppy);
-            break;
-        case 10:
-            machine_drive_image_detach(image, 10);
-            drive_image_detach(image, 10);
-            vdrive_detach_image(image, 10, floppy);
-            break;
+        case 8:     /* fall through */
+        case 9:     /* fall through */
+        case 10:    /* fall through */
         case 11:
-            machine_drive_image_detach(image, 11);
-            drive_image_detach(image, 11);
-            vdrive_detach_image(image, 11, floppy);
+            machine_drive_image_detach(image, unit, drive);
+            drive_image_detach(image, unit, drive);
+            vdrive_detach_image(image, unit, drive, floppy);
             break;
     }
     disk_image_close(image);
@@ -428,7 +440,7 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
 }
 
 static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
-                                       unsigned int unit)
+                                       unsigned int unit, unsigned int drive)
 {
     disk_image_t *oldimg;
 
@@ -438,7 +450,7 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
 
     oldimg = floppy->image;
 
-    detach_disk_image(image, floppy, unit);
+    detach_disk_image(image, floppy, unit, drive);
 
     if ((image != NULL) && (image == oldimg)) {
         disk_image_destroy(image);
@@ -447,7 +459,7 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
 
 static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
                              const char *filename, unsigned int unit,
-                             int devicetype)
+                             unsigned int drive, int devicetype)
 {
     disk_image_t *image;
     disk_image_t new_image;
@@ -487,7 +499,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
         return -1;
     }
 
-    detach_disk_image_and_free(*imgptr, floppy, unit);
+    detach_disk_image_and_free(*imgptr, floppy, unit, drive);
 
     *imgptr = disk_image_create();
     image = *imgptr;
@@ -502,9 +514,10 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
         case 9:
         case 10:
         case 11:
-            err = drive_image_attach(image, unit);
-            err &= vdrive_attach_image(image, unit, floppy);
-            err &= machine_drive_image_attach(image, unit);
+            /* "wired OR". If any of the three succeeds, err becomes 0 */
+            err = drive_image_attach(image, unit, drive);
+            err &= vdrive_attach_image(image, unit, drive, floppy);
+            err &= machine_drive_image_attach(image, unit, drive);
             break;
     }
     if (err) {
@@ -522,82 +535,89 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
 /* ------------------------------------------------------------------------- */
 
-static int file_system_attach_disk_internal(unsigned int unit,
+static int file_system_attach_disk_internal(unsigned int unit, unsigned int drive,
                                             const char *filename)
 {
     vdrive_t *vdrive;
 
-    vdrive = file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit, drive);
     /* FIXME: Is this clever?  */
     vdrive_device_setup(vdrive, unit);
     serial_device_type_set(SERIAL_DEVICE_VIRT, unit);
 
-    if (attach_disk_image(&(vdrive->image), vdrive, filename, unit,
+    if (attach_disk_image(&(vdrive->image), vdrive, filename, unit, drive,
                           file_system_device_enabled[unit - 8]) < 0) {
         return -1;
     } else {
         file_system_set_serial_hooks(unit, 0);
         fliplist_set_current(unit, filename);
-        ui_display_drive_current_image(unit - 8, filename);
+        /* TODO: drive 1? */
+        if (drive == 0) {
+            ui_display_drive_current_image(unit - 8, filename);
+        }
     }
 
-    event_record_attach_image(unit, filename, vdrive->image->read_only);
+    event_record_attach_image(unit, drive, filename, vdrive->image->read_only);
 
     return 0;
 }
 
-int file_system_attach_disk(unsigned int unit, const char *filename)
+int file_system_attach_disk(unsigned int unit, unsigned int drive, const char *filename)
 {
     if (event_playback_active()) {
         return -1;
     }
 
-    if (network_connected()) {
+    /* TODO: drive 1? */
+    if (network_connected() && drive == 0) {
         network_attach_image(unit, filename);
         return 0;
     }
 
-    return file_system_attach_disk_internal(unit, filename);
+    return file_system_attach_disk_internal(unit, drive, filename);
 }
 
-static void file_system_detach_disk_single(unsigned int unit)
+static void file_system_detach_disk_single(unsigned int unit, unsigned int drive)
 {
     vdrive_t *vdrive;
 
-    vdrive = file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit, drive);
     if (vdrive != NULL && vdrive->image != NULL) {
-        detach_disk_image_and_free(vdrive->image, vdrive, (unsigned int)unit);
+        detach_disk_image_and_free(vdrive->image, vdrive, unit, drive);
         ui_display_drive_current_image(unit - 8, "");
     }
 
     set_file_system_device(file_system_device_enabled[unit - 8], uint_to_void_ptr(unit));
 }
 
-static void file_system_detach_disk_internal(int unit)
+static void file_system_detach_disk_internal(int unit, unsigned int drive)
 {
     char event_data[2];
 
     if (unit < 0) {
-        unsigned int i;
+        unsigned int i, j;
 
         for (i = 8; i <= 11; i++) {
-            file_system_detach_disk_single(i);
+            for (j = 0; j <= 1; j++) {
+                file_system_detach_disk_single(i, j);
+            }
         }
     } else {
         if (unit >= 8 && unit <= 11) {
-            file_system_detach_disk_single((unsigned int)unit);
+            file_system_detach_disk_single((unsigned int)unit, drive);
         } else {
-            log_error(attach_log, "Cannot detach unit %i.", unit);
+            log_error(attach_log, "Cannot detach unit %i drive %u.", unit, drive);
         }
     }
 
+    /* TODO: drive 1 for EVENT_ATTACHDISK */
     event_data[0] = (char)unit;
     event_data[1] = 0;
 
     event_record(EVENT_ATTACHDISK, (void *)event_data, 2);
 }
 
-void file_system_detach_disk(int unit)
+void file_system_detach_disk(int unit, unsigned int drive)
 {
     char event_data[2];
 
@@ -613,31 +633,45 @@ void file_system_detach_disk(int unit)
         return;
     }
 
-    file_system_detach_disk_internal(unit);
+    file_system_detach_disk_internal(unit, drive);
 }
 
 void file_system_detach_disk_shutdown(void)
 {
     vdrive_t *vdrive;
-    unsigned int i;
+    unsigned int i, j;
 
     for (i = 0; i <= 3; i++) {
-        vdrive = file_system_get_vdrive(i + 8);
+        vdrive = file_system_get_vdrive(i + 8, 0);
         if (vdrive != NULL) {
             if (file_system_device_enabled[i] == ATTACH_DEVICE_REAL) {
                 serial_realdevice_disable();
             } else {
-                detach_disk_image_and_free(vdrive->image, vdrive, i + 8);
+                /* TODO: check drive 1 */
+                for (j = 0; j <= 1; j++) {
+                    detach_disk_image_and_free(vdrive->image, vdrive, i + 8, j);
+                }
+            }
+        }
+        vdrive = file_system_get_vdrive(i + 8, 1);
+        if (vdrive != NULL) {
+            if (file_system_device_enabled[i] == ATTACH_DEVICE_REAL) {
+                serial_realdevice_disable();
+            } else {
+                /* TODO: check drive 1 */
+                for (j = 0; j <= 1; j++) {
+                    detach_disk_image_and_free(vdrive->image, vdrive, i + 8, j);
+                }
             }
         }
     }
 }
 
-void file_system_event_playback(unsigned int unit, const char *filename)
+void file_system_event_playback(unsigned int unit, unsigned int drive, const char *filename)
 {
     if (filename == NULL || filename[0] == 0) {
-        file_system_detach_disk_internal(unit);
+        file_system_detach_disk_internal(unit, drive);
     } else {
-        file_system_attach_disk_internal(unit, filename);
+        file_system_attach_disk_internal(unit, drive, filename);
     }
 }

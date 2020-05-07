@@ -48,8 +48,8 @@ extern int iec_drive_rom_check_loaded(unsigned int type);
 extern void iec_drive_rom_do_checksum(unsigned int dnr);
 extern int iec_drive_snapshot_read(struct drive_context_s *ctxptr, struct snapshot_s *s);
 extern int iec_drive_snapshot_write(struct drive_context_s *ctxptr, struct snapshot_s *s);
-extern int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit);
-extern int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit);
+extern int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit, unsigned int drive);
+extern int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit, unsigned int drive);
 extern void iec_drive_port_default(struct drive_context_s *drv);
 
 #endif

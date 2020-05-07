@@ -86,12 +86,12 @@ void c64_256k_cia_set_vbank(int ciabank)
     Drive related
 *******************************************************************************/
 
-int machine_drive_image_attach(struct disk_image_s *image, unsigned int unit)
+int machine_drive_image_attach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
     return -1;
 }
 
-int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit)
+int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
     return -1;
 }
@@ -478,7 +478,7 @@ image_contents_t *tapecontents_read(const char *file_name)
     return NULL;
 }
 
-image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
+image_contents_t *diskcontents_read(const char *file_name, unsigned int unit, unsigned int drive)
 {
     return NULL;
 }
@@ -559,7 +559,7 @@ void fsdevice_shutdown(void)
 {
 }
 
-int fsdevice_attach(unsigned int device, const char *name)
+int fsdevice_attach(unsigned int device, unsigned int drive, const char *name)
 {
     return 0;
 }
@@ -764,12 +764,12 @@ void drive_shutdown(void)
 {
 }
 
-int drive_image_detach(disk_image_t *image, unsigned int unit)
+int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drive)
 {
     return 0;
 }
 
-int drive_image_attach(disk_image_t *image, unsigned int unit)
+int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int drive)
 {
     return 0;
 }
@@ -842,21 +842,21 @@ int vdrive_iec_attach(unsigned int unit, const char *name)
     return 0;
 }
 
-int vdrive_bam_get_disk_id(unsigned int unit, uint8_t *id)
+int vdrive_bam_get_disk_id(unsigned int unit, unsigned int drive, uint8_t *id)
 {
     return 0;
 }
 
-int vdrive_bam_set_disk_id(unsigned int unit, uint8_t *id)
+int vdrive_bam_set_disk_id(unsigned int unit, unsigned int drive, uint8_t *id)
 {
     return 0;
 }
 
-void vdrive_detach_image(disk_image_t *image, unsigned int unit, vdrive_t *vdrive)
+void vdrive_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive, vdrive_t *vdrive)
 {
 }
 
-int vdrive_attach_image(disk_image_t *image, unsigned int unit, vdrive_t *vdrive)
+int vdrive_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive, vdrive_t *vdrive)
 {
     return 0;
 }

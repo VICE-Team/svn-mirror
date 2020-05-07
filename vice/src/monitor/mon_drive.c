@@ -54,7 +54,8 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 
     mon_evaluate_default_addr(&addr);
 
-    vdrive = file_system_get_vdrive(8);
+    /* TODO: other units, drive 1? */
+    vdrive = file_system_get_vdrive(8, 0);
 
     if (!vdrive || vdrive->image == NULL) {
         mon_out("No disk attached\n");
@@ -124,33 +125,35 @@ void mon_drive_execute_disk_cmd(char *cmd)
     vdrive_t *vdrive;
 
     /* FIXME */
-    vdrive = file_system_get_vdrive(8);
+    vdrive = file_system_get_vdrive(8, 0);
 
     len = (unsigned int)strlen(cmd);
 
     vdrive_command_execute(vdrive, (uint8_t *)cmd, len);
 }
 
-void mon_drive_list(int drive_number)
+void mon_drive_list(int drive_unit)
 {
     const char *name;
     image_contents_t *listing;
     vdrive_t *vdrive;
+    /* TODO: drive 1? */
+    unsigned int drive = 0;
 
-    if ((drive_number < 8) || (drive_number > 11)) {
-        drive_number = 8;
+    if ((drive_unit < 8) || (drive_unit > 11)) {
+        drive_unit = 8;
     }
 
-    vdrive = file_system_get_vdrive(drive_number);
+    vdrive = file_system_get_vdrive(drive_unit, drive);
 
     if (vdrive == NULL || vdrive->image == NULL) {
-        mon_out("Drive %i not ready.\n", drive_number);
+        mon_out("Drive %i not ready.\n", drive_unit);
         return;
     }
 
     name = disk_image_name_get(vdrive->image);
 
-    listing = diskcontents_read(name, drive_number);
+    listing = diskcontents_read(name, drive_unit, drive);
 
     if (listing != NULL) {
         char *string = image_contents_to_string(listing, 1);

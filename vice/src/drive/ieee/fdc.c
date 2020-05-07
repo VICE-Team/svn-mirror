@@ -43,7 +43,7 @@
 #include "types.h"
 
 
-#undef FDC_DEBUG
+/* #define FDC_DEBUG */
 
 #define DOS_IS_80(type)  (type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250 || type == DRIVE_TYPE_1001)
 #define DOS_IS_40(type)  (type == DRIVE_TYPE_4040)
@@ -52,7 +52,7 @@
 
 /************************************************************************/
 
-#define NUM_FDC DRIVE_NUM
+#define NUM_FDC DRIVE_NUM   /* dual disk drives */
 
 static log_t fdc_log = LOG_ERR;
 
@@ -71,59 +71,59 @@ typedef struct fdc_t {
     disk_image_t *realimage;
 } fdc_t;
 
-static fdc_t fdc[NUM_FDC];
+/*
+ * The fdc[] array contains an fdc_t struct for every drive, i.e. two structs
+ * for every unit, as each unit could be dual drive. 
+ */
+static fdc_t fdc[NUM_FDC][2];
 
 void fdc_reset(unsigned int fnum, unsigned int drive_type)
 {
-    fdc_t *thefdc = &fdc[fnum];
-    int drive1 = mk_drive1(fnum);
+    fdc_t *thefdc0 = &fdc[fnum][0];
+    fdc_t *thefdc1 = &fdc[fnum][1];
     disk_image_t *saved_image0, *saved_image1;
 
 #ifdef FDC_DEBUG
-    log_message(fdc_log, "fdc_reset: drive %d type=%d\n", fnum, drive_type);
+    log_message(fdc_log, "fdc_reset: drive %u type=%u", fnum, drive_type);
 #endif
 
-    saved_image0 = fdc[fnum].realimage;
-    saved_image1 = NULL;
+    saved_image0 = thefdc0->realimage;
+    saved_image1 = thefdc1->realimage;
 
     /* detach disk images */
-    if (thefdc->image) {
-        thefdc->wps_change = 0;
-        fdc_detach_image(thefdc->image, fnum + 8);
+    if (thefdc0->image) {
+        thefdc0->wps_change = 0;
+        fdc_detach_image(thefdc0->image, fnum + 8, 0);
     }
-    if (thefdc->num_drives == 2) {
-        saved_image1 = fdc[drive1].realimage;
-        if (fdc[drive1].image) {
-            fdc[drive1].wps_change = 0;
-            fdc_detach_image(fdc[drive1].image, drive1 + 8);
-        }
+    if (thefdc1->image) {
+        thefdc1->wps_change = 0;
+        fdc_detach_image(thefdc1->image, fnum + 8, 1);
     }
 
     if (drive_check_old(drive_type)) {
-        thefdc->drive_type = drive_type;
-        thefdc->num_drives = is_drive1(fnum) ? 1 :
-                             drive_check_dual(drive_type) ? 2 : 1;
-        thefdc->fdc_state = FDC_RESET0;
-        alarm_set(thefdc->fdc_alarm, drive_clk[fnum] + 20);
+        thefdc0->drive_type = drive_type;
+        thefdc0->num_drives = drive_check_dual(drive_type) ? 2 : 1;
+        thefdc0->fdc_state = FDC_RESET0;
+        alarm_set(thefdc0->fdc_alarm, drive_clk[fnum] + 20);
     } else {
-        thefdc->drive_type = DRIVE_TYPE_NONE;
-        alarm_unset(thefdc->fdc_alarm);
-        thefdc->fdc_state = FDC_UNUSED;
-        thefdc->num_drives = 0;
+        thefdc0->drive_type = DRIVE_TYPE_NONE;
+        alarm_unset(thefdc0->fdc_alarm);
+        thefdc0->fdc_state = FDC_UNUSED;
+        thefdc0->num_drives = 0;
     }
 
     /* re-attach disk images */
     if (saved_image0) {
 #ifdef FDC_DEBUG
-        printf("ieee/fdc.c:fdc_reset dev %d type %d drive 0 re-attach image %p (drive: %p)\n", fnum + 8, drive_type, saved_image0, drive_context[fnum]->drive->image);
+        log_message(fdc_log, "ieee/fdc.c:fdc_reset dev %u type %u drive 0 re-attach image %p (drive: %p)", fnum + 8, drive_type, saved_image0, drive_context[fnum]->drives[0]->image);
 #endif
-        fdc_attach_image(saved_image0, fnum + 8);
+        fdc_attach_image(saved_image0, fnum + 8, 0);
     }
     if (saved_image1) {
 #ifdef FDC_DEBUG
-        printf("ieee/fdc.c:fdc_reset dev %d type %d drive 1 re-attach image %p (drive: %p)\n", fnum + 8, drive_type, saved_image0, drive_context[drive1]->drive->image);
+        log_message(fdc_log, "ieee/fdc.c:fdc_reset dev %u type %u drive 1 re-attach image %p (drive: %p)", fnum + 8, drive_type, saved_image0, drive_context[fnum+1]->drives[1]->image);
 #endif
-        fdc_attach_image(saved_image1, drive1 + 8);
+        fdc_attach_image(saved_image1, fnum + 8, 1);
     }
 }
 
@@ -131,7 +131,7 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
  * Format a disk in DOS1 format
  */
 
-static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int dnr,
+static uint8_t fdc_do_format_D20(unsigned int fnum, unsigned int dnr,
                               unsigned int track, unsigned int sector,
                               int buf, uint8_t *header)
 {
@@ -141,7 +141,11 @@ static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int 
     disk_addr_t dadr;
     uint8_t sector_data[256];
 
-    if (!memcmp(thefdc[fnum].iprom + 0x2040, &thefdc[fnum].buffer[0x100], 0x200)) {
+    fdc_t *sysfdc = &fdc[fnum][0];
+    fdc_t *imgfdc = &fdc[fnum][dnr];
+
+    if (!memcmp(sysfdc->iprom + 0x2040, &sysfdc->buffer[0x100], 0x200)) {
+
         static const unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
         static const unsigned int nsecs[] = { 21, 20, 18, 17 };
         unsigned int ntracks, nsectors = 0;
@@ -152,11 +156,11 @@ static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int 
         */
 #ifdef FDC_DEBUG
         log_message(fdc_log, "format code: ");
-        log_message(fdc_log, "   track=%d, sector=%d", track, sector);
+        log_message(fdc_log, "   track=%u, sector=%u", track, sector);
         log_message(fdc_log, "   id=%02x,%02x (%c%c)",
                     header[0], header[1], header[0], header[1]);
 #endif
-        if (thefdc[dnr].image->read_only) {
+        if (imgfdc->image->read_only) {
             rc = FDC_ERR_WPROT;
             return rc;
         }
@@ -172,11 +176,11 @@ static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int 
                 }
             }
 #ifdef FDC_DEBUG
-            log_message(fdc_log, "   track %d, -> %d sectors",
+            log_message(fdc_log, "   track %u, -> %u sectors",
                         dadr.track, nsectors);
 #endif
             for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector++) {
-                ret = disk_image_write_sector(thefdc[dnr].image, sector_data, &dadr);
+                ret = disk_image_write_sector(imgfdc->image, sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
                               "Could not update T:%u S:%u on disk image.",
@@ -187,7 +191,7 @@ static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int 
             }
         }
 
-        file_system_bam_set_disk_id(dnr + 8, header);
+        file_system_bam_set_disk_id(fnum + 8, dnr, header);
     }
     if (!rc) {
         rc = FDC_ERR_OK;
@@ -200,7 +204,7 @@ static uint8_t fdc_do_format_D20(fdc_t *thefdc, unsigned int fnum, unsigned int 
  * Format a disk in DOS2 format
  */
 
-static uint8_t fdc_do_format_D40(fdc_t *thefdc, unsigned int fnum, unsigned int dnr,
+static uint8_t fdc_do_format_D40(unsigned int fnum, unsigned int dnr,
                               unsigned int track, unsigned int sector,
                               int buf, uint8_t *header)
 {
@@ -210,21 +214,25 @@ static uint8_t fdc_do_format_D40(fdc_t *thefdc, unsigned int fnum, unsigned int 
     disk_addr_t dadr;
     uint8_t sector_data[256];
 
-    if (!memcmp(thefdc[fnum].iprom + 0x1000, &thefdc[fnum].buffer[0x100], 0x200)) {
+    fdc_t *sysfdc = &fdc[fnum][0];
+    fdc_t *imgfdc = &fdc[fnum][dnr];
+
+    if (!memcmp(sysfdc->iprom + 0x1000, &sysfdc->buffer[0x100], 0x200)) {
+
         static const unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
         unsigned int ntracks, nsectors = 0;
 
 #ifdef FDC_DEBUG
         log_message(fdc_log, "format code: ");
         log_message(fdc_log, "   secs per track: %d %d %d %d",
-                    thefdc[fnum].buffer[0x99], thefdc[fnum].buffer[0x9a],
-                    thefdc[fnum].buffer[0x9b], thefdc[fnum].buffer[0x9c]);
-        log_message(fdc_log, "   track=%d, sector=%d",
+                    sysfdc->buffer[0x99], sysfdc->buffer[0x9a],
+                    sysfdc->buffer[0x9b], sysfdc->buffer[0x9c]);
+        log_message(fdc_log, "   track=%u, sector=%u",
                     track, sector);
         log_message(fdc_log, "   id=%02x,%02x (%c%c)",
                     header[0], header[1], header[0], header[1]);
 #endif
-        if (thefdc[dnr].image->read_only) {
+        if (imgfdc->image->read_only) {
             rc = FDC_ERR_WPROT;
             return rc;
         }
@@ -235,16 +243,16 @@ static uint8_t fdc_do_format_D40(fdc_t *thefdc, unsigned int fnum, unsigned int 
         for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track++) {
             for (i = 3; i >= 0; i--) {
                 if (dadr.track > sectorchangeat[i]) {
-                    nsectors = thefdc[fnum].buffer[0x99 + 3 - i];
+                    nsectors = sysfdc->buffer[0x99 + 3 - i];
                     break;
                 }
             }
 #ifdef FDC_DEBUG
-            log_message(fdc_log, "   track %d, -> %d sectors",
+            log_message(fdc_log, "   track %u, -> %u sectors",
                         dadr.track, nsectors);
 #endif
             for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector++) {
-                ret = disk_image_write_sector(thefdc[dnr].image, sector_data, &dadr);
+                ret = disk_image_write_sector(imgfdc->image, sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
                               "Could not update T:%u S:%u on disk image.",
@@ -255,7 +263,7 @@ static uint8_t fdc_do_format_D40(fdc_t *thefdc, unsigned int fnum, unsigned int 
             }
         }
 
-        file_system_bam_set_disk_id(dnr + 8, header);
+        file_system_bam_set_disk_id(fnum + 8, dnr, header);
     }
     if (!rc) {
         rc = FDC_ERR_OK;
@@ -268,7 +276,7 @@ static uint8_t fdc_do_format_D40(fdc_t *thefdc, unsigned int fnum, unsigned int 
  * Format a disk in DOS2/80 track format
  */
 
-static uint8_t fdc_do_format_D80(fdc_t *thefdc, unsigned int fnum, unsigned int dnr,
+static uint8_t fdc_do_format_D80(unsigned int fnum, unsigned int dnr,
                               unsigned int track, unsigned int sector,
                               int buf, uint8_t *header)
 {
@@ -278,56 +286,60 @@ static uint8_t fdc_do_format_D80(fdc_t *thefdc, unsigned int fnum, unsigned int 
     disk_addr_t dadr;
     uint8_t sector_data[256];
 
-    if (!memcmp(thefdc[fnum].iprom, &thefdc[fnum].buffer[0x100], 0x300)) {
+    fdc_t *sysfdc = &fdc[fnum][0];
+    fdc_t *imgfdc = &fdc[fnum][dnr];
+
+    if (!memcmp(sysfdc->iprom, &sysfdc->buffer[0x100], 0x300)) {
+
         unsigned int ntracks, nsectors = 0;
         /* detected format code */
 #ifdef FDC_DEBUG
         log_message(fdc_log, "format code: ");
         log_message(fdc_log, "   track for zones side 0: %d %d %d %d",
-                    thefdc[fnum].buffer[0xb0], thefdc[fnum].buffer[0xb1],
-                    thefdc[fnum].buffer[0xb2], thefdc[fnum].buffer[0xb3]);
+                    sysfdc->buffer[0xb0], sysfdc->buffer[0xb1],
+                    sysfdc->buffer[0xb2], sysfdc->buffer[0xb3]);
         log_message(fdc_log, "   track for zones side 1: %d %d %d %d",
-                    thefdc[fnum].buffer[0xb4], thefdc[fnum].buffer[0xb5],
-                    thefdc[fnum].buffer[0xb6], thefdc[fnum].buffer[0xb7]);
+                    sysfdc->buffer[0xb4], sysfdc->buffer[0xb5],
+                    sysfdc->buffer[0xb6], sysfdc->buffer[0xb7]);
         log_message(fdc_log, "   secs per track: %d %d %d %d",
-                    thefdc[fnum].buffer[0x99], thefdc[fnum].buffer[0x9a],
-                    thefdc[fnum].buffer[0x9b], thefdc[fnum].buffer[0x9c]);
+                    sysfdc->buffer[0x99], sysfdc->buffer[0x9a],
+                    sysfdc->buffer[0x9b], sysfdc->buffer[0x9c]);
         log_message(fdc_log, "   vars: 870=%d 873=%d 875=%d",
-                    thefdc[fnum].buffer[0x470], thefdc[fnum].buffer[0x473],
-                    thefdc[fnum].buffer[0x475]);
-        log_message(fdc_log, "   track=%d, sector=%d",
+                    sysfdc->buffer[0x470], sysfdc->buffer[0x473],
+                    sysfdc->buffer[0x475]);
+        log_message(fdc_log, "   track=%u, sector=%u",
                     track, sector);
         log_message(fdc_log, "   id=%02x,%02x (%c%c)",
                     header[0], header[1], header[0], header[1]);
         log_message(fdc_log, "   sides=%d",
-                    thefdc[fnum].buffer[0xac]);
+                    sysfdc->buffer[0xac]);
 #endif
-        if (thefdc[dnr].image->read_only) {
+        if (imgfdc->image->read_only) {
             rc = FDC_ERR_WPROT;
             return rc;
         }
-        ntracks = (thefdc[fnum].buffer[0xac] > 1) ? 154 : 77;
+        ntracks = (sysfdc->buffer[0xac] > 1) ? 154 : 77;
 
         memset(sector_data, 0, 256);
 
         for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track++) {
             if (dadr.track < 78) {
                 for (i = 3; i >= 0; i--) {
-                    if (dadr.track < thefdc[fnum].buffer[0xb0 + i]) {
-                        nsectors = thefdc[fnum].buffer[0x99 + i];
+                    if (dadr.track < sysfdc->buffer[0xb0 + i]) {
+                        nsectors = sysfdc->buffer[0x99 + i];
                         break;
                     }
                 }
             } else {
                 for (i = 3; i >= 0; i--) {
-                    if (dadr.track < thefdc[fnum].buffer[0xb4 + i]) {
-                        nsectors = thefdc[fnum].buffer[0x99 + i];
+                    if (dadr.track < sysfdc->buffer[0xb4 + i]) {
+                        nsectors = sysfdc->buffer[0x99 + i];
                         break;
                     }
                 }
             }
             for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector++) {
-                ret = disk_image_write_sector(thefdc[dnr].image, sector_data,
+                ret = disk_image_write_sector(imgfdc->image, sector_data,
                                               &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
@@ -339,7 +351,8 @@ static uint8_t fdc_do_format_D80(fdc_t *thefdc, unsigned int fnum, unsigned int 
             }
         }
 
-        file_system_bam_set_disk_id(dnr + 8, header);
+        /* TODO: bug for drive 9 (was unit = 8+dnr)? */
+        file_system_bam_set_disk_id(8, dnr, header);
     }
     if (!rc) {
         rc = FDC_ERR_OK;
@@ -370,9 +383,9 @@ static uint8_t fdc_do_job(unsigned int fnum, int buf,
           "BLENGTH", "ID", "FSPEED", "DRIVE",
           "DECODE" };
 
-    log_message(fdc_log, "  fdc_do_job (%s %02x) -> %02x (%s)\n",
+    log_message(fdc_log, "  fdc_do_job (%s %02x) -> %02x (%s)",
                 jobs[(job >> 4) & 7], job, retval,
-                (retval <= 16) ? errors[retval] : "Unknown");
+                (retval <= 14) ? errors[retval] : "Unknown");
     return retval;
 }
 
@@ -380,7 +393,6 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                         unsigned int drv, uint8_t job, uint8_t *header)
 {
 #endif
-    unsigned int dnr;
     uint8_t rc;
     int ret;
     int i;
@@ -393,33 +405,28 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
     dadr.track = header[2];
     dadr.sector = header[3];
 
-    /* determine drive/disk image to use */
-    if (drv < fdc[fnum].num_drives) {
-        dnr = fnum + drv;
-    } else {
-        /* drive 1 on a single disk drive */
-        return FDC_ERR_SYNC;
-    }
+    fdc_t *sysfdc = &fdc[fnum][0];
+    fdc_t *imgfdc = &fdc[fnum][drv];
 
     rc = 0;
-    base = &(fdc[fnum].buffer[(buf + 1) << 8]);
+    base = &(sysfdc->buffer[(buf + 1) << 8]);
 
 #ifdef FDC_DEBUG
-    log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%d t%d s%d, "
-                "image=%p, type=%04d",
-                job, buf, (buf + 1) << 8, dnr, dadr.track, dadr.sector,
-                fdc[dnr].image,
-                fdc[dnr].image ? fdc[dnr].image->type : 0);
+    log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%u t%u s%u, "
+                "image=%p, type=%04u",
+                job, buf, (buf + 1) << 8, drv, dadr.track, dadr.sector,
+                imgfdc->image,
+                imgfdc->image ? imgfdc->image->type : 0);
 #endif
 
-    if (fdc[dnr].image == NULL && job != 0xd0) {
+    if (imgfdc->image == NULL && job != 0xd0) {
 #ifdef FDC_DEBUG
-        log_message(fdc_log, "dnr=%d, image=NULL -> no disk!", dnr);
+        log_message(fdc_log, "dnr=%u, image=NULL -> no disk!", drv);
 #endif
         return FDC_ERR_SYNC;
     }
 
-    file_system_bam_get_disk_id(dnr + 8, disk_id);
+    file_system_bam_get_disk_id(fnum + 8, drv, disk_id);
 
     switch (job) {
         case 0x80:        /* read */
@@ -427,7 +434,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                 rc = FDC_ERR_ID;
                 break;
             }
-            ret = disk_image_read_sector(fdc[dnr].image, sector_data, &dadr);
+            ret = disk_image_read_sector(imgfdc->image, sector_data, &dadr);
             if (ret < 0) {
                 log_error(LOG_DEFAULT,
                           "Cannot read T:%u S:%u from disk image.",
@@ -443,12 +450,12 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                 rc = FDC_ERR_ID;
                 break;
             }
-            if (fdc[dnr].image->read_only) {
+            if (imgfdc->image->read_only) {
                 rc = FDC_ERR_WPROT;
                 break;
             }
             memcpy(sector_data, base, 256);
-            ret = disk_image_write_sector(fdc[dnr].image, sector_data, &dadr);
+            ret = disk_image_write_sector(imgfdc->image, sector_data, &dadr);
             if (ret < 0) {
                 log_error(LOG_DEFAULT,
                           "Could not update T:%u S:%u on disk image.",
@@ -463,7 +470,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                 rc = FDC_ERR_ID;
                 break;
             }
-            ret = disk_image_read_sector(fdc[dnr].image, sector_data, &dadr);
+            ret = disk_image_read_sector(imgfdc->image, sector_data, &dadr);
             if (ret < 0) {
                 log_error(LOG_DEFAULT,
                           "Cannot read T:%u S:%u from disk image.",
@@ -487,39 +494,39 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
         case 0xB0:        /* seek - move to track and read ID(?) */
             header[0] = disk_id[0];
             header[1] = disk_id[1];
-            /* header[2] = fdc[dnr].last_track; */
+            /* header[2] = fdc[dnri].last_track; */
             dadr.track = header[2];
             header[3] = 1;
             rc = FDC_ERR_OK;
             break;
         case 0xC0:        /* bump (to track 0 and back to 18?) */
             dadr.track = 1;
-            if (DOS_IS_20(fdc[fnum].drive_type)) {
+            if (DOS_IS_20(sysfdc->drive_type)) {
                 header[2] = 18;
             }
             rc = FDC_ERR_OK;
             break;
         case 0xD0:        /* jump to buffer - but we do not emulate FDC CPU */
 #ifdef FDC_DEBUG
-            log_message(fdc_log, "exec buffer %d ($%04x): %02x %02x %02x %02x %02x",
+            log_message(fdc_log, "exec buffer %d ($%04x): %02x %02x %02x %02x",
                         buf, (buf + 1) << 8,
                         base[0], base[1], base[2], base[3]
                         );
 #endif
-            if (DOS_IS_40(fdc[fnum].drive_type)
-                || DOS_IS_30(fdc[fnum].drive_type)) {
-                if (!memcmp(fdc[fnum].iprom + 0x12f8, &fdc[fnum].buffer[0x100],
+            if (DOS_IS_40(sysfdc->drive_type)
+                || DOS_IS_30(sysfdc->drive_type)) {
+                if (!memcmp(sysfdc->iprom + 0x12f8, &sysfdc->buffer[0x100],
                             0x100)) {
-                    fdc[fnum].fdc_state = FDC_RESET2;
+                    sysfdc->fdc_state = FDC_RESET2;
                     return 0;
                 }
             }
-            if (DOS_IS_80(fdc[fnum].drive_type)) {
+            if (DOS_IS_80(sysfdc->drive_type)) {
                 static const uint8_t jumpseq[] = {
                     0x78, 0x6c, 0xfc, 0xff
                 };
-                if (!memcmp(jumpseq, &fdc[fnum].buffer[0x100], 4)) {
-                    fdc[fnum].fdc_state = FDC_RESET0;
+                if (!memcmp(jumpseq, &sysfdc->buffer[0x100], 4)) {
+                    sysfdc->fdc_state = FDC_RESET0;
                     return 0;
                 }
             }
@@ -530,15 +537,15 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                              formatted */
             /* we have to check for standard format code that is copied
                to buffers 0-3 */
-            if (DOS_IS_80(fdc[fnum].drive_type)) {
-                rc = fdc_do_format_D80(fdc, fnum, dnr, dadr.track, dadr.sector, buf, header);
+            if (DOS_IS_80(sysfdc->drive_type)) {
+                rc = fdc_do_format_D80(fnum, drv, dadr.track, dadr.sector, buf, header);
             } else
-            if (DOS_IS_40(fdc[fnum].drive_type)
-                || DOS_IS_30(fdc[fnum].drive_type)) {
-                rc = fdc_do_format_D40(fdc, fnum, dnr, dadr.track, dadr.sector, buf, header);
+            if (DOS_IS_40(sysfdc->drive_type)
+                || DOS_IS_30(sysfdc->drive_type)) {
+                rc = fdc_do_format_D40(fnum, drv, dadr.track, dadr.sector, buf, header);
             } else
-            if (DOS_IS_20(fdc[fnum].drive_type)) {
-                rc = fdc_do_format_D20(fdc, fnum, dnr, dadr.track, dadr.sector, buf, header);
+            if (DOS_IS_20(sysfdc->drive_type)) {
+                rc = fdc_do_format_D20(fnum, drv, dadr.track, dadr.sector, buf, header);
             } else {
                 rc = FDC_ERR_DRIVE;
             }
@@ -553,10 +560,10 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             break;
     }
 
-    drive = drive_context[dnr]->drive;
+    drive = drive_context[fnum]->drives[drv];
     drive->current_half_track = 2 * dadr.track;
-    fdc[dnr].last_track = dadr.track;
-    fdc[dnr].last_sector = dadr.sector;
+    imgfdc->last_track = dadr.track;
+    imgfdc->last_sector = dadr.sector;
 
     return rc;
 }
@@ -573,103 +580,103 @@ static void int_fdc(CLOCK offset, void *data)
     fnum = drv->mynumber;
     rclk = drive_clk[fnum] - offset;
 
+    fdc_t *sysfdc = &fdc[fnum][0];
+    fdc_t *imgfdc = &fdc[fnum][1];
+
 #ifdef FDC_DEBUG
-    if (fdc[fnum].fdc_state < FDC_RUN) {
-        static int old_state[NUM_FDC] = { -1, -1 };
-        if (fdc[fnum].fdc_state != old_state[fnum])
-            log_message(fdc_log, "int_fdc%d %d: state=%d\n",
-                        fnum, rclk, fdc[fnum].fdc_state);
+    static int old_state[NUM_FDC] = { -1, -1 };
+    if (sysfdc->fdc_state < FDC_RUN) {
+        if (sysfdc->fdc_state != old_state[fnum]) {
+            log_message(fdc_log, "int_fdc%u %u: state=%d",
+                        fnum, rclk, sysfdc->fdc_state);
         }
-        /* FIXME: this causes an `'old_state' undeclared` error with
-         * FDC_DEBUG enabled
-         */
-        old_state[fnum] = fdc[fnum].fdc_state;
+        old_state[fnum] = sysfdc->fdc_state;
     }
 #endif
 
-    switch (fdc[fnum].fdc_state) {
+    switch (sysfdc->fdc_state) {
         case FDC_RESET0:
-            drive = drive_context[fnum]->drive;
-            if (DOS_IS_80(fdc[fnum].drive_type)) {
+            drive = drive_context[fnum]->drives[0];
+            if (DOS_IS_80(sysfdc->drive_type)) {
                 drive->current_half_track = 2 * 38;
-                fdc[fnum].buffer[0] = 2;
+                sysfdc->buffer[0] = 2;
             } else {
                 drive->current_half_track = 2 * 18;
-                fdc[fnum].buffer[0] = 0x3f;
+                sysfdc->buffer[0] = 0x3f;
             }
 
-            if (DOS_IS_20(fdc[fnum].drive_type)) {
-                fdc[fnum].fdc_state = FDC_RUN;
+            if (DOS_IS_20(sysfdc->drive_type)) {
+                sysfdc->fdc_state = FDC_RUN;
             } else {
-                fdc[fnum].fdc_state++;
+                sysfdc->fdc_state++;
             }
-            fdc[fnum].alarm_clk = rclk + 2000;
-            alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+            sysfdc->alarm_clk = rclk + 2000;
+            alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
             break;
         case FDC_RESET1:
-            if (DOS_IS_80(fdc[fnum].drive_type)) {
-                if (fdc[fnum].buffer[0] == 0) {
-                    fdc[fnum].buffer[0] = 1;
-                    fdc[fnum].fdc_state++;
+            if (DOS_IS_80(sysfdc->drive_type)) {
+                if (sysfdc->buffer[0] == 0) {
+                    sysfdc->buffer[0] = 1;
+                    sysfdc->fdc_state++;
                 }
             } else {
-                if (fdc[fnum].buffer[3] == 0xd0) {
-                    fdc[fnum].buffer[3] = 0;
-                    fdc[fnum].fdc_state++;
+                if (sysfdc->buffer[3] == 0xd0) {
+                    sysfdc->buffer[3] = 0;
+                    sysfdc->fdc_state++;
                 }
             }
-            fdc[fnum].alarm_clk = rclk + 2000;
-            alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+            sysfdc->alarm_clk = rclk + 2000;
+            alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
             break;
         case FDC_RESET2:
-            if (DOS_IS_80(fdc[fnum].drive_type)) {
-                if (fdc[fnum].buffer[0] == 0) {
+            if (DOS_IS_80(sysfdc->drive_type)) {
+                if (sysfdc->buffer[0] == 0) {
                     /* emulate routine written to buffer RAM */
-                    fdc[fnum].buffer[1] = 0x0e;
-                    fdc[fnum].buffer[2] = 0x2d;
+                    sysfdc->buffer[1] = 0x0e;
+                    sysfdc->buffer[2] = 0x2d;
                     /* number of sides on disk drive */
-                    fdc[fnum].buffer[0xac] =
-                        (fdc[fnum].drive_type == DRIVE_TYPE_8050) ? 1 : 2;
+                    sysfdc->buffer[0xac] =
+                        (sysfdc->drive_type == DRIVE_TYPE_8050) ? 1 : 2;
                     /* 0 = 4040 (2A), 1 = 8x80 (2C) drive type */
-                    fdc[fnum].buffer[0xea] = 1;
-                    fdc[fnum].buffer[0xee] = 5; /* 3 for 4040, 5 for 8x50 */
-                    fdc[fnum].buffer[0] = 3;    /* 5 for 4040, 3 for 8x50 */
+                    sysfdc->buffer[0xea] = 1;
+                    sysfdc->buffer[0xee] = 5; /* 3 for 4040, 5 for 8x50 */
+                    sysfdc->buffer[0] = 3;    /* 5 for 4040, 3 for 8x50 */
 
-                    fdc[fnum].fdc_state = FDC_RUN;
-                    fdc[fnum].alarm_clk = rclk + 10000;
+                    sysfdc->fdc_state = FDC_RUN;
+                    sysfdc->alarm_clk = rclk + 10000;
                 } else {
-                    fdc[fnum].alarm_clk = rclk + 2000;
+                    sysfdc->alarm_clk = rclk + 2000;
                 }
             } else
-            if (DOS_IS_40(fdc[fnum].drive_type)
-                || DOS_IS_30(fdc[fnum].drive_type)
+            if (DOS_IS_40(sysfdc->drive_type)
+                || DOS_IS_30(sysfdc->drive_type)
                 ) {
-                if (fdc[fnum].buffer[0] == 0) {
-                    fdc[fnum].buffer[0] = 0x0f;
-                    fdc[fnum].fdc_state = FDC_RUN;
-                    fdc[fnum].alarm_clk = rclk + 10000;
+                if (sysfdc->buffer[0] == 0) {
+                    sysfdc->buffer[0] = 0x0f;
+                    sysfdc->fdc_state = FDC_RUN;
+                    sysfdc->alarm_clk = rclk + 10000;
                 } else {
-                    fdc[fnum].alarm_clk = rclk + 2000;
+                    sysfdc->alarm_clk = rclk + 2000;
                 }
             }
-            alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+            alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
             break;
         case FDC_RUN:
             /* check write protect switch */
-            if (fdc[fnum].wps_change) {
-                fdc[fnum].buffer[0xA6] = 1;
-                fdc[fnum].wps_change--;
+            if (sysfdc->wps_change) {
+                sysfdc->buffer[0xA6] = 1;
+                sysfdc->wps_change--;
 #ifdef FDC_DEBUG
-                log_message(fdc_log, "Detect Unit %d Drive %d wps change",
-                            fnum + 8, fnum);
+                log_message(fdc_log, "Detect Unit %u Drive 0 wps change",
+                            fnum + 8);
 #endif
             }
-            if (fdc[fnum].num_drives == 2) {
-                if (fdc[mk_drive1(fnum)].wps_change) {
-                    fdc[fnum].buffer[0xA6 + 1] = 1;
-                    fdc[mk_drive1(fnum)].wps_change--;
+            if (sysfdc->num_drives == 2) {
+                if (imgfdc->wps_change) {
+                    sysfdc->buffer[0xA6 + 1] = 1;
+                    imgfdc->wps_change--;
 #ifdef FDC_DEBUG
-                    log_message(fdc_log, "Detect Unit %d Drive 1 wps change",
+                    log_message(fdc_log, "Detect Unit %u Drive 1 wps change",
                                 fnum + 8);
 #endif
                 }
@@ -678,7 +685,7 @@ static void int_fdc(CLOCK offset, void *data)
             /* check buffers */
             for (i = 14; i >= 0; i--) {
                 /* job there? */
-                if (fdc[fnum].buffer[i + 3] > 127) {
+                if (sysfdc->buffer[i + 3] > 127) {
                     /* pointer to buffer/block header:
                         +0 = ID1
                         +1 = ID2
@@ -687,35 +694,35 @@ static void int_fdc(CLOCK offset, void *data)
                     */
                     j = 0x21 + (i << 3);
 #ifdef FDC_DEBUG
-                    log_message(fdc_log, "D/Buf %d/%x: Job code %02x t:%02d s:%02d", fnum, i, fdc[fnum].buffer[i + 3],
-                                fdc[fnum].buffer[j + 2], fdc[fnum].buffer[j + 3]);
+                    log_message(fdc_log, "D/Buf %u/%d: Job code %02x t:%02d s:%02d", fnum, i, sysfdc->buffer[i + 3],
+                                sysfdc->buffer[j + 2], sysfdc->buffer[j + 3]);
 #endif
-                    fdc[fnum].buffer[i + 3] =
+                    sysfdc->buffer[i + 3] =
                         fdc_do_job(fnum,                        /* FDC# */
                                    i,                           /* buffer# */
-                                   (unsigned int)fdc[fnum].buffer[i + 3] & 1,
+                                   (unsigned int)sysfdc->buffer[i + 3] & 1,
                                    /* drive */
-                                   (uint8_t)(fdc[fnum].buffer[i + 3] & 0xfe),
+                                   (uint8_t)(sysfdc->buffer[i + 3] & 0xfe),
                                    /* job code */
-                                   &(fdc[fnum].buffer[j])       /* header */
+                                   &(sysfdc->buffer[j])       /* header */
                                    );
                 }
             }
             /* check "move head", by half tracks I guess... */
             for (i = 0; i < 2; i++) {
-                if (fdc[fnum].buffer[i + 0xa1]) {
+                if (sysfdc->buffer[i + 0xa1]) {
 #ifdef FDC_DEBUG
-                    log_message(fdc_log, "D %d: move head %d",
-                                fnum, fdc[fnum].buffer[i + 0xa1]);
+                    log_message(fdc_log, "D %u: move head %d",
+                                fnum, sysfdc->buffer[i + 0xa1]);
 #endif
-                    fdc[fnum].buffer[i + 0xa1] = 0;
+                    sysfdc->buffer[i + 0xa1] = 0;
                 }
             }
-            fdc[fnum].alarm_clk = rclk + 30000;
-            alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+            sysfdc->alarm_clk = rclk + 30000;
             /* job loop */
             break;
     }
+    alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
 }
 
 static void clk_overflow_callback(CLOCK sub, void *data)
@@ -724,11 +731,13 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
     fnum = vice_ptr_to_uint(data);
 
-    if (fdc[fnum].fdc_state != FDC_UNUSED) {
-        if (fdc[fnum].alarm_clk > sub) {
-            fdc[fnum].alarm_clk -= sub;
+    fdc_t *sysfdc = &fdc[fnum][0];
+
+    if (sysfdc->fdc_state != FDC_UNUSED) {
+        if (sysfdc->alarm_clk > sub) {
+            sysfdc->alarm_clk -= sub;
         } else {
-            fdc[fnum].alarm_clk = 0;
+            sysfdc->alarm_clk = 0;
         }
     }
 }
@@ -739,23 +748,30 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 void fdc_init(drive_context_t *drv)
 {
     unsigned int fnum = drv->mynumber;
-    uint8_t *buffermem = drv->drive->drive_ram + 0x100;
-    uint8_t *ipromp = &(drv->drive->rom[0x4000]);
+    uint8_t *buffermem = drv->drives[0]->drive_ram + 0x100;
+    uint8_t *ipromp = &(drv->drives[0]->rom[0x4000]);
     char *buffer;
 
-    fdc[fnum].buffer = buffermem;
-    fdc[fnum].iprom = ipromp;
+    fdc_t *sysfdc = &fdc[fnum][0];
+    fdc_t *imgfdc = &fdc[fnum][1];
+
+    sysfdc->buffer = buffermem;
+    sysfdc->iprom = ipromp;
+
+    /* defensive. should not be used so trigger segfault */
+    imgfdc->buffer = NULL;
+    imgfdc->iprom = NULL;
 
     if (fdc_log == LOG_ERR) {
         fdc_log = log_open("fdc");
     }
 
 #ifdef FDC_DEBUG
-    log_message(fdc_log, "fdc_init(drive %d)", fnum);
+    log_message(fdc_log, "fdc_init(drive %u)", fnum);
 #endif
 
     buffer = lib_msprintf("fdc%i", drv->mynumber);
-    fdc[fnum].fdc_alarm = alarm_new(drv->cpu->alarm_context, buffer, int_fdc,
+    sysfdc->fdc_alarm = alarm_new(drv->cpu->alarm_context, buffer, int_fdc,
                                     drv);
     lib_free(buffer);
 
@@ -765,43 +781,37 @@ void fdc_init(drive_context_t *drv)
 
 /************************************************************************/
 
-int fdc_attach_image(disk_image_t *image, unsigned int unit)
+int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
 {
-    int drive_no, imgno;
-
 #ifdef FDC_DEBUG
-    log_message(fdc_log, "fdc_attach_image(image=%p, unit=%d)",
-                image, unit);
+    log_message(fdc_log, "fdc_attach_image(image=%p, unit=%u, drive=%u)",
+                image, unit, drive);
 #endif
 
     if (unit < 8 || unit >= 8 + DRIVE_NUM) {
         return -1;
     }
-
-    {
-        int drive0 = mk_drive0(unit - 8);
-
-        if (fdc[drive0].num_drives == 2) {
-            drive_no = drive0;
-        } else {
-            drive_no = unit - 8;
-        }
+    if (drive > 1) {
+        return -1;
     }
 
-    imgno = unit - 8;
+    fdc_t *sysfdc = &fdc[unit - 8][0];
+    fdc_t *imgfdc = &fdc[unit - 8][drive];
 
     /* FIXME: hack - we need to save the image to be able to re-attach
        when the disk drive type changes, in particular from the initial
        DRIVE_TYPE_NONE to a proper drive. */
-    fdc[imgno].realimage = image;
+    imgfdc->realimage = image;
 
-    if (fdc[drive_no].drive_type == DRIVE_TYPE_NONE) {
+    if (sysfdc->drive_type == DRIVE_TYPE_NONE) {
+        log_message(fdc_log, "Could not attach image type %u to disk #%u without type.",
+                            image->type, unit);
         return -1;
     }
 
-    if (fdc[drive_no].drive_type == DRIVE_TYPE_8050
-        || fdc[drive_no].drive_type == DRIVE_TYPE_8250
-        || fdc[drive_no].drive_type == DRIVE_TYPE_1001) {
+    if (sysfdc->drive_type == DRIVE_TYPE_8050
+        || sysfdc->drive_type == DRIVE_TYPE_8250
+        || sysfdc->drive_type == DRIVE_TYPE_1001) {
         switch (image->type) {
             case DISK_IMAGE_TYPE_D80:
             case DISK_IMAGE_TYPE_D82:
@@ -809,8 +819,8 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
                 break;
             default:
 #ifdef FDC_DEBUG
-                log_message(fdc_log, "Could not attach image type %d to disk %d.",
-                            image->type, fdc[drive_no].drive_type);
+                log_message(fdc_log, "Could not attach image type %u to disk %u.",
+                            image->type, sysfdc->drive_type);
 #endif
                 return -1;
         }
@@ -826,48 +836,40 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
                 break;
             default:
 #ifdef FDC_DEBUG
-                log_message(fdc_log, "Could not attach image type %d to disk %d.",
-                            image->type, fdc[drive_no].drive_type);
+                log_message(fdc_log, "Could not attach image type %u to disk %u.",
+                            image->type, sysfdc->drive_type);
 #endif
                 return -1;
         }
     }
 
-    fdc[imgno].wps_change += 2;
-    fdc[imgno].image = image;
+    imgfdc->wps_change += 2;
+    imgfdc->image = image;
     return 0;
 }
 
-int fdc_detach_image(disk_image_t *image, unsigned int unit)
+int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
 {
-    int drive_no, imgno;
-
 #ifdef FDC_DEBUG
-    log_message(fdc_log, "fdc_detach_image(image=%p, unit=%d)",
-                image, unit);
+    log_message(fdc_log, "fdc_detach_image(image=%p, unit=%u, drive=%u)",
+                image, unit, drive);
 #endif
 
     if (image == NULL || unit < 8 || unit >= (8 + DRIVE_NUM)) {
         return -1;
     }
-
-    {
-        int drive0 = mk_drive0(unit - 8);
-
-        if (fdc[drive0].num_drives == 2) {
-            drive_no = drive0;
-        } else {
-            drive_no = unit - 8;
-        }
+    if (drive > 1) {
+        return -1;
     }
 
-    imgno = unit - 8;
+    fdc_t *sysfdc = &fdc[unit - 8][0];
+    fdc_t *imgfdc = &fdc[unit - 8][drive];
 
-    fdc[imgno].realimage = NULL;
+    imgfdc->realimage = NULL;
 
-    if (fdc[drive_no].drive_type == DRIVE_TYPE_8050
-        || fdc[drive_no].drive_type == DRIVE_TYPE_8250
-        || fdc[drive_no].drive_type == DRIVE_TYPE_1001) {
+    if (sysfdc->drive_type == DRIVE_TYPE_8050
+        || sysfdc->drive_type == DRIVE_TYPE_8250
+        || sysfdc->drive_type == DRIVE_TYPE_1001) {
         switch (image->type) {
             case DISK_IMAGE_TYPE_D80:
             case DISK_IMAGE_TYPE_D82:
@@ -891,8 +893,8 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
         }
     }
 
-    fdc[imgno].wps_change += 2;
-    fdc[imgno].image = NULL;
+    imgfdc->wps_change += 2;
+    imgfdc->image = NULL;
     return 0;
 }
 
@@ -919,7 +921,10 @@ int fdc_snapshot_write_module(snapshot_t *p, int fnum)
     snapshot_module_t *m;
     char *name;
 
-    if (fdc[fnum].fdc_state == FDC_UNUSED) {
+    fdc_t *sysfdc = &fdc[fnum][0];
+    /* fdc_t *imgfdc = &fdc[fnum][1]; */
+
+    if (sysfdc->fdc_state == FDC_UNUSED) {
         return 0;
     }
 
@@ -933,15 +938,16 @@ int fdc_snapshot_write_module(snapshot_t *p, int fnum)
         return -1;
     }
 
+    /* TODO: drive 1 */
     if (0
-        || SMW_B(m, (uint8_t)(fdc[fnum].fdc_state)) < 0
+        || SMW_B(m, (uint8_t)(sysfdc->fdc_state)) < 0
         /* clk till next invocation */
-        || SMW_DW(m, (uint32_t)(fdc[fnum].alarm_clk - drive_clk[fnum])) < 0
+        || SMW_DW(m, (uint32_t)(sysfdc->alarm_clk - drive_clk[fnum])) < 0
         /* number of drives - so far 1 only */
         || SMW_B(m, 1) < 0
         /* last accessed track/sector */
-        || SMW_B(m, ((uint8_t)(fdc[fnum].last_track))) < 0
-        || SMW_B(m, ((uint8_t)(fdc[fnum].last_sector))) < 0) {
+        || SMW_B(m, ((uint8_t)(sysfdc->last_track))) < 0
+        || SMW_B(m, ((uint8_t)(sysfdc->last_sector))) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -960,6 +966,9 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
 
     name = lib_msprintf("FDC%d", fnum);
 
+    fdc_t *sysfdc = &fdc[fnum][0];
+    /*fdc_t *imgfdc = &fdc[fnum][1];*/
+
     m = snapshot_module_open(p, name, &vmajor, &vminor);
     lib_free(name);
 
@@ -974,6 +983,7 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
         goto fail;
     }
 
+    /* TODO: drive 1 */
     if (0
         || SMR_B(m, &byte) < 0
         /* clk till next invocation */
@@ -988,14 +998,14 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
     if (byte > FDC_LAST_STATE) {
         goto fail;
     }
-    fdc[fnum].fdc_state = byte;
+    sysfdc->fdc_state = byte;
 
-    fdc[fnum].alarm_clk = drive_clk[fnum] + dword;
-    alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+    sysfdc->alarm_clk = drive_clk[fnum] + dword;
+    alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
 
     /* last accessed track/sector */
-    fdc[fnum].last_track = ltrack;
-    fdc[fnum].last_sector = lsector;
+    sysfdc->last_track = ltrack;
+    sysfdc->last_sector = lsector;
 
     if (ndrv > 1) {
         /* ignore drv 0 values */

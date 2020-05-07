@@ -70,6 +70,7 @@ libwidgets_a_SOURCES = \
 	driveramwidget.c \
 	driverpmwidget.c \
 	driveunitwidget.c \
+	drivenowidget.c \
 	drivewidgethelpers.c \
 	ds12c887widget.c \
 	easyflashwidget.c \
@@ -227,6 +228,7 @@ EXTRA_DIST = \
 	driveramwidget.h \
 	driverpmwidget.h \
 	driveunitwidget.h \
+	drivenowidget.h \
 	drivewidgethelpers.h \
 	ds12c887widget.h \
 	easyflashwidget.h \

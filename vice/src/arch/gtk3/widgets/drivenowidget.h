@@ -1,9 +1,10 @@
+/** \file   drivenumberwidget.h
+ * \brief   Drive number selection widget - header
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * diskcontents.h
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -21,20 +22,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_DISKCONTENTS_H
-#define VICE_DISKCONTENTS_H
+#ifndef VICE_DRIVENOWIDGET_H
+#define VICE_DRIVENOWIDGET_H
 
-struct image_contents_s;
+#include "vice.h"
+#include <gtk/gtk.h>
 
-extern struct image_contents_s *diskcontents_read(const char *file_name,
-                                                  unsigned int unit, unsigned int drive);
-extern struct image_contents_s *diskcontents_filesystem_read(const char *file_name);
-extern struct image_contents_s *diskcontents_read_unit8(const char *file_name);
-extern struct image_contents_s *diskcontents_read_unit9(const char *file_name);
-extern struct image_contents_s *diskcontents_read_unit10(const char *file_name);
-extern struct image_contents_s *diskcontents_read_unit11(const char *file_name);
+GtkWidget * drive_no_widget_create(int number, int *target, void (*callback)(int));
 
 #endif

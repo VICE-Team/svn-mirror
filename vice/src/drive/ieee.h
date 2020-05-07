@@ -50,9 +50,9 @@ extern int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
 extern int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
                                      struct snapshot_s *s);
 extern int ieee_drive_image_attach(struct disk_image_s *image,
-                                   unsigned int unit);
+                                   unsigned int unit, unsigned int drive);
 extern int ieee_drive_image_detach(struct disk_image_s *image,
-                                   unsigned int unit);
+                                   unsigned int unit, unsigned int drive);
 
 extern void ieee_drive_parallel_set_atn(int state, struct drive_context_s *drv);
 

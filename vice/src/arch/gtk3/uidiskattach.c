@@ -39,6 +39,7 @@
 #include "diskcontents.h"
 #include "filechooserhelpers.h"
 #include "driveunitwidget.h"
+#include "drivenowidget.h"
 #include "ui.h"
 #include "uistatusbar.h"
 #include "uimachinewindow.h"
@@ -77,6 +78,10 @@ static gchar *last_dir = NULL;
 /** \brief  Unit number to attach disk to
  */
 static int unit_number = DRIVE_UNIT_DEFAULT;
+
+/** \brief  Drive number in unit to attach disk to
+ */
+static int drive_number = 0;
 
 #if 0
 /** \brief  Update the last directory reference
@@ -250,7 +255,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
             /* copied from Gtk2: I fail to see how brute-forcing your way
              * through file types is 'smart', but hell, it works */
-            if (file_system_attach_disk(unit_number, filename_locale) < 0) {
+            if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
                 /* failed */
                 debug_gtk3("disk attach failed.");
                 g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
@@ -377,6 +382,10 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_grid_attach(GTK_GRID(grid),
             drive_unit_widget_create(unit, &unit_number, NULL),
             0, 1, 3, 1);
+
+    gtk_grid_attach(GTK_GRID(grid),
+            drive_no_widget_create(0, &drive_number, NULL),
+            3, 1, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -518,7 +527,8 @@ gboolean ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
     /* This function does its own interpretation and input validation,
      * so we can simply forward the call directly. */
     debug_gtk3("Detaching unit #%d.", GPOINTER_TO_INT(user_data));
-    file_system_detach_disk(GPOINTER_TO_INT(user_data));
+    /* TODO: drive 1? */
+    file_system_detach_disk(GPOINTER_TO_INT(user_data), 0);
     return TRUE;
 }
 
@@ -535,7 +545,8 @@ gboolean ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
     int unit;
 
     for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-        file_system_detach_disk(unit);
+        file_system_detach_disk(unit, 0);
+        file_system_detach_disk(unit, 1);
     }
     return TRUE;
 }

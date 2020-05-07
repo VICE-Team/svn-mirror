@@ -375,7 +375,7 @@ void via1d1541_setup_context(drive_context_t *ctxptr)
 
     via->irq_line = IK_IRQ;
 
-    via1p->drive = ctxptr->drive;
+    via1p->drive = ctxptr->drives[0];
     iecbus = iecbus_drive_port();
 
     via->undump_pra = undump_pra;

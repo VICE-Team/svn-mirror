@@ -86,7 +86,7 @@ void profdos_mem_init(struct drive_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 
-    if (!drv->drive->profdos) {
+    if (!drv->drives[0]->profdos) {
         return;
     }
 

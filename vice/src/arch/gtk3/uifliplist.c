@@ -173,7 +173,7 @@ static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
     if (index == 0) {
         fliplist_t list = fliplist_init_iterate(unit);
         const char *image = fliplist_get_image(list);
-        file_system_attach_disk(unit, image);
+        file_system_attach_disk(unit, 0, image);
     } else {
         for (i = 0; i < index; ++i) {
             fliplist_attach_head(unit, 1);

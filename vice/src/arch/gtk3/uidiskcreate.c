@@ -33,6 +33,7 @@
 #include "debug_gtk3.h"
 #include "widgethelpers.h"
 #include "driveunitwidget.h"
+#include "drivenowidget.h"
 #include "drive.h"
 #include "diskimage.h"
 #include "filechooserhelpers.h"
@@ -87,6 +88,8 @@ static disk_image_type_t disk_image_types[] = {
 
 /** \brief  Drive unit to attach image to */
 static int unit_number = DRIVE_UNIT_MIN;
+/** \brief  Drive number to attach image to in unit*/
+static int drive_number = 0;
 /** \brief  Disk image type to create */
 static int image_type = 1541;
 
@@ -257,7 +260,7 @@ static gboolean create_disk_image(const char *filename)
         }
 
         /* finally attach the disk image */
-        if (file_system_attach_disk(unit_number, fname_copy) < 0) {
+        if (file_system_attach_disk(unit_number, drive_number, fname_copy) < 0) {
             vice_gtk3_message_error("fail", "Could not attach image '%s'",
                     fname_copy);
             status = FALSE;
@@ -329,6 +332,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 {
     GtkWidget *grid;
     GtkWidget *unit_widget;
+    GtkWidget *drive_widget;
     GtkWidget *type_widget;
     GtkWidget *label;
 
@@ -340,6 +344,10 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     unit_widget = drive_unit_widget_create(unit, &unit_number, NULL);
     gtk_widget_set_valign(unit_widget, GTK_ALIGN_CENTER);
     gtk_grid_attach(GTK_GRID(grid), unit_widget, 0, 0, 1, 1);
+
+    drive_widget = drive_no_widget_create(0, &drive_number, NULL);
+    gtk_widget_set_valign(drive_widget, GTK_ALIGN_CENTER);
+    gtk_grid_attach(GTK_GRID(grid), drive_widget, 0, 1, 1, 1);
 
     /* disk name */
     label = gtk_label_new("Name:");
@@ -370,7 +378,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
             "Set proper drive type when attaching image");
     /* disable by default */
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(set_drive_type), FALSE);
-    gtk_grid_attach(GTK_GRID(grid), set_drive_type, 0, 1, 4, 1);
+    gtk_grid_attach(GTK_GRID(grid), set_drive_type, 4, 1, 4, 1);
 
     gtk_widget_show_all(grid);
     return grid;

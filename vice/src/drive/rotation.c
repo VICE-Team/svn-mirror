@@ -143,13 +143,15 @@ void rotation_speed_zone_set(unsigned int zone, unsigned int dnr)
 
 void rotation_table_get(uint32_t *rotation_table_ptr)
 {
-    unsigned int dnr;
+    unsigned int dnr, j;
     drive_t *drive;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive = drive_context[dnr]->drive;
-
         rotation_table_ptr[dnr] = rotation[dnr].speed_zone;
+
+      for (j = 0; j < 2; j++) {
+        drive = drive_context[dnr]->drives[j];
+
 
         drive->snap_accum = rotation[dnr].accum;
         drive->snap_rotation_last_clk = rotation[dnr].rotation_last_clk;
@@ -173,16 +175,18 @@ void rotation_table_get(uint32_t *rotation_table_ptr)
         drive->snap_cycle_index = rotation[dnr].cycle_index;
         drive->snap_ref_advance = rotation[dnr].ref_advance;
         drive->snap_req_ref_cycles = drive->req_ref_cycles;
+      }
     }
 }
 
 void rotation_table_set(uint32_t *rotation_table_ptr)
 {
-    unsigned int dnr;
+    unsigned int dnr, j;
     drive_t *drive;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive = drive_context[dnr]->drive;
+      for (j = 0; j < 2; j++) {
+        drive = drive_context[dnr]->drives[j];
 
         rotation[dnr].speed_zone = rotation_table_ptr[dnr];
 
@@ -208,6 +212,7 @@ void rotation_table_set(uint32_t *rotation_table_ptr)
         rotation[dnr].cycle_index = drive->snap_cycle_index;
         rotation[dnr].ref_advance = drive->snap_ref_advance;
         drive->req_ref_cycles = drive->snap_req_ref_cycles;
+      }
     }
 }
 

@@ -159,14 +159,14 @@ int machine_drive_snapshot_write(struct drive_context_s *ctxptr, struct snapshot
     return 0;
 }
 
-int machine_drive_image_attach(struct disk_image_s *image, unsigned int unit)
+int machine_drive_image_attach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
-    return iec_drive_image_attach(image, unit) & ieee_drive_image_attach(image, unit);
+    return iec_drive_image_attach(image, unit, drive) & ieee_drive_image_attach(image, unit, drive);
 }
 
-int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit)
+int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
-    return iec_drive_image_detach(image, unit) & ieee_drive_image_detach(image, unit);
+    return iec_drive_image_detach(image, unit, drive) & ieee_drive_image_detach(image, unit, drive);
 }
 
 void machine_drive_port_default(struct drive_context_s *drv)

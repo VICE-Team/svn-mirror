@@ -42,7 +42,7 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     drive_t *drive;
 
     dnr = vice_ptr_to_uint(data);
-    drive = drive_context[dnr]->drive;
+    drive = drive_context[dnr]->drives[0];
 
     drive_context[dnr]->cpu->stop_clk -= sub;
 

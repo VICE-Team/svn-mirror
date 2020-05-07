@@ -63,10 +63,10 @@ extern void vdrive_bam_create_empty_bam(struct vdrive_s *vdrive,
 extern int unsigned vdrive_bam_free_block_count(struct vdrive_s *vdrive);
 extern int vdrive_bam_free_sector(struct vdrive_s *vdrive,
                                   unsigned int track, unsigned int sector);
-extern int vdrive_bam_get_disk_id(unsigned int unit, uint8_t *id);
-extern int vdrive_bam_set_disk_id(unsigned int unit, uint8_t *id);
+extern int vdrive_bam_get_disk_id(unsigned int unit, unsigned int drive, uint8_t *id);
+extern int vdrive_bam_set_disk_id(unsigned int unit, unsigned int drive, uint8_t *id);
 extern int vdrive_bam_read_bam(struct vdrive_s *vdrive);
-extern int vdrive_bam_reread_bam(unsigned int unit);
+extern int vdrive_bam_reread_bam(unsigned int unit, unsigned int drive);
 extern int vdrive_bam_write_bam(struct vdrive_s *vdrive);
 extern int vdrive_bam_get_interleave(unsigned int type);
 

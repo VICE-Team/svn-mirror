@@ -56,8 +56,9 @@
 #define DBG(x)
 #endif
 
+#define NUM_STARTUP_DISK_IMAGES 8
 static char *autostart_string = NULL;
-static char *startup_disk_images[4];
+static char *startup_disk_images[NUM_STARTUP_DISK_IMAGES];
 static char *startup_tape_image;
 static unsigned int autostart_mode = AUTOSTART_MODE_NONE;
 
@@ -76,7 +77,7 @@ static void cmdline_free_startup_images(void)
 {
     int unit;
 
-    for (unit = 0; unit < 4; unit++) {
+    for (unit = 0; unit < NUM_STARTUP_DISK_IMAGES; unit++) {
         if (startup_disk_images[unit] != NULL) {
             lib_free(startup_disk_images[unit]);
         }
@@ -192,6 +193,13 @@ static int cmdline_attach(const char *param, void *extra_param)
             lib_free(startup_disk_images[unit - 8]);
             startup_disk_images[unit - 8] = lib_strdup(param);
             break;
+        case 64:
+        case 65:
+        case 66:
+        case 67:
+            lib_free(startup_disk_images[unit - 64 + 4]);
+            startup_disk_images[unit - 64 + 4] = lib_strdup(param);
+            break;
         default:
             archdep_startup_log_error("cmdline_attach(): unexpected unit number %d?!\n", unit);
     }
@@ -255,16 +263,28 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Attach <name> as a tape image" },
     { "-8", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)8, NULL, NULL,
-      "<Name>", "Attach <name> as a disk image in drive #8" },
+      "<Name>", "Attach <name> as a disk image in unit #8" },
+    { "-8d1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cmdline_attach, (void *)64, NULL, NULL,
+      "<Name>", "Attach <name> as a disk image in unit #8 drive #1" },
     { "-9", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)9, NULL, NULL,
-      "<Name>", "Attach <name> as a disk image in drive #9" },
+      "<Name>", "Attach <name> as a disk image in unit #9" },
+    { "-9d1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cmdline_attach, (void *)65, NULL, NULL,
+      "<Name>", "Attach <name> as a disk image in unit #9 drive #1" },
     { "-10", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)10, NULL, NULL,
-      "<Name>", "Attach <name> as a disk image in drive #10" },
+      "<Name>", "Attach <name> as a disk image in unit #10" },
+    { "-10d1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cmdline_attach, (void *)66, NULL, NULL,
+      "<Name>", "Attach <name> as a disk image in unit #10 drive #1" },
     { "-11", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)11, NULL, NULL,
-      "<Name>", "Attach <name> as a disk image in drive #11" },
+      "<Name>", "Attach <name> as a disk image in unit #11" },
+    { "-11d1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cmdline_attach, (void *)67, NULL, NULL,
+      "<Name>", "Attach <name> as a disk image in unit #11 drive #1" },
     CMDLINE_LIST_END
 };
 
@@ -357,11 +377,20 @@ void initcmdline_check_attach(void)
 
             for (i = 0; i < 4; i++) {
                 if (startup_disk_images[i] != NULL
-                    && file_system_attach_disk(i + 8, startup_disk_images[i])
+                    && file_system_attach_disk(i + 8, 0, startup_disk_images[i])
                     < 0) {
                     log_error(LOG_DEFAULT,
                               "Cannot attach disk image `%s' to unit %d.",
                               startup_disk_images[i], i + 8);
+                }
+            }
+            for (i = 4; i < 8; i++) {
+                if (startup_disk_images[i] != NULL
+                    && file_system_attach_disk(i + 4, 1, startup_disk_images[i])
+                    < 0) {
+                    log_error(LOG_DEFAULT,
+                              "Cannot attach disk image `%s' to unit %d drive 1.",
+                              startup_disk_images[i], i + 4);
                 }
             }
         }

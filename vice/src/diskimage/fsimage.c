@@ -72,9 +72,9 @@ const char *fsimage_name_get(const disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = image->media.fsimage;
+    fsimage = image ? image->media.fsimage : NULL;
 
-    return fsimage->name;
+    return fsimage ? fsimage->name : NULL;
 }
 
 
@@ -188,7 +188,7 @@ int fsimage_read_sector(const disk_image_t *image, uint8_t *buf, const disk_addr
 
     fsimage = image->media.fsimage;
 
-    if (fsimage->fd == NULL) {
+    if (fsimage == NULL || fsimage->fd == NULL) {
         log_error(fsimage_log, "Attempt to read without disk image.");
         return CBMDOS_IPE_NOT_READY;
     }

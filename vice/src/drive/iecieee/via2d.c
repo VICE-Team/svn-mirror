@@ -476,7 +476,7 @@ void via2d_setup_context(drive_context_t *ctxptr)
 
     via2p = (drivevia2_context_t *)(via->prv);
     via2p->number = ctxptr->mynumber;
-    via2p->drive = ctxptr->drive;
+    via2p->drive = ctxptr->drives[0];
 
     via->context = (void *)ctxptr;
 

@@ -183,8 +183,8 @@ typedef struct vdrive_s {
 extern void vdrive_init(void);
 extern int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit);
 extern void vdrive_device_shutdown(vdrive_t *vdrive);
-extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit, vdrive_t *vdrive);
-extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit, vdrive_t *vdrive);
+extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit, unsigned int drive, vdrive_t *vdrive);
+extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit, unsigned int drive, vdrive_t *vdrive);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track);
 extern void vdrive_get_last_read(unsigned int *track, unsigned int *sector, uint8_t **buffer);

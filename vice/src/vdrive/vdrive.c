@@ -218,12 +218,17 @@ int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track)
  */
 
 void vdrive_detach_image(disk_image_t *image, unsigned int unit,
-                         vdrive_t *vdrive)
+                         unsigned int drive, vdrive_t *vdrive)
 {
     if (image == NULL) {
         return;
     }
 
+    /* TODO: drive only has one drive per unit */
+    if (drive) {
+        return;
+    }
+   
     disk_image_detach_log(image, vdrive_log, unit);
     vdrive_close_all_channels(vdrive);
     lib_free(vdrive->bam);
@@ -232,9 +237,16 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
 }
 
 int vdrive_attach_image(disk_image_t *image, unsigned int unit,
-                        vdrive_t *vdrive)
+                        unsigned int drive, vdrive_t *vdrive)
 {
     vdrive->unit = unit;
+
+    /* TODO: drive only has one drive per unit */
+    if (drive) {
+    /* TODO: hack - let it succeed, as otherwise image is destroyed in 
+       attach disk image */
+        return 0;
+    }
 
     disk_image_attach_log(image, vdrive_log, unit);
 

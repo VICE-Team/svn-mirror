@@ -81,36 +81,36 @@ void iec_drive_init(struct drive_context_s *drv)
 
 void iec_drive_reset(struct drive_context_s *drv)
 {
-    if (drv->drive->type == DRIVE_TYPE_1540
-        || drv->drive->type == DRIVE_TYPE_1541
-        || drv->drive->type == DRIVE_TYPE_1541II
-        || drv->drive->type == DRIVE_TYPE_1570
-        || drv->drive->type == DRIVE_TYPE_1571
-        || drv->drive->type == DRIVE_TYPE_1571CR) {
+    if (drv->drives[0]->type == DRIVE_TYPE_1540
+        || drv->drives[0]->type == DRIVE_TYPE_1541
+        || drv->drives[0]->type == DRIVE_TYPE_1541II
+        || drv->drives[0]->type == DRIVE_TYPE_1570
+        || drv->drives[0]->type == DRIVE_TYPE_1571
+        || drv->drives[0]->type == DRIVE_TYPE_1571CR) {
         viacore_reset(drv->via1d1541);
     } else {
         viacore_disable(drv->via1d1541);
     }
 
-    if (drv->drive->type == DRIVE_TYPE_1570
-        || drv->drive->type == DRIVE_TYPE_1571
-        || drv->drive->type == DRIVE_TYPE_1571CR) {
+    if (drv->drives[0]->type == DRIVE_TYPE_1570
+        || drv->drives[0]->type == DRIVE_TYPE_1571
+        || drv->drives[0]->type == DRIVE_TYPE_1571CR) {
         ciacore_reset(drv->cia1571);
     } else {
         ciacore_disable(drv->cia1571);
     }
 
-    if (drv->drive->type == DRIVE_TYPE_1581) {
+    if (drv->drives[0]->type == DRIVE_TYPE_1581) {
         ciacore_reset(drv->cia1581);
         wd1770_reset(drv->wd1770);
     } else {
         ciacore_disable(drv->cia1581);
     }
 
-    if (drv->drive->type == DRIVE_TYPE_2000
-        || drv->drive->type == DRIVE_TYPE_4000) {
+    if (drv->drives[0]->type == DRIVE_TYPE_2000
+        || drv->drives[0]->type == DRIVE_TYPE_4000) {
         viacore_reset(drv->via4000);
-        pc8477_reset(drv->pc8477, drv->drive->type == DRIVE_TYPE_4000);
+        pc8477_reset(drv->pc8477, drv->drives[0]->type == DRIVE_TYPE_4000);
     } else {
         viacore_disable(drv->via4000);
     }
@@ -165,7 +165,7 @@ void iec_drive_rom_load(void)
 
 void iec_drive_rom_setup_image(unsigned int dnr)
 {
-    iecrom_setup_image(drive_context[dnr]->drive);
+    iecrom_setup_image(drive_context[dnr]->drives[0]);
 }
 
 int iec_drive_rom_check_loaded(unsigned int type)
@@ -175,13 +175,13 @@ int iec_drive_rom_check_loaded(unsigned int type)
 
 void iec_drive_rom_do_checksum(unsigned int dnr)
 {
-    iecrom_do_checksum(drive_context[dnr]->drive);
+    iecrom_do_checksum(drive_context[dnr]->drives[0]);
 }
 
 int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
                             struct snapshot_s *s)
 {
-    switch (ctxptr->drive->type) {
+    switch (ctxptr->drives[0]->type) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
@@ -223,7 +223,7 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
 int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
                              struct snapshot_s *s)
 {
-    switch (ctxptr->drive->type) {
+    switch (ctxptr->drives[0]->type) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
@@ -262,13 +262,19 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
     return 0;
 }
 
-int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit)
+int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
+    if (drive) {
+        return -1;
+    }
     return wd1770_attach_image(image, unit) & pc8477_attach_image(image, unit);
 }
 
-int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit)
+int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
+    if (drive) {
+        return -1;
+    }
     return wd1770_detach_image(image, unit) & pc8477_detach_image(image, unit);
 }
 

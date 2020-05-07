@@ -72,7 +72,7 @@ void c64fastiec_fast_cpu_write(uint8_t data)
     unsigned int dnr;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive = drive_context[dnr]->drive;
+        drive = drive_context[dnr]->drives[0];
         if (drive->enable) {
             drive_cpu_execute_one(drive_context[dnr], maincpu_clk);
             switch (drive->type) {

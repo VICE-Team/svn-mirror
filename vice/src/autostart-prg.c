@@ -196,7 +196,7 @@ int autostart_prg_with_disk_image(const char *file_name,
                                   log_t log,
                                   const char *image_name)
 {
-    const int drive = 8;
+    const int unit = 8;
     const int secondary = 1;
     autostart_prg_t *prg;
     vdrive_t *vdrive;
@@ -207,8 +207,11 @@ int autostart_prg_with_disk_image(const char *file_name,
     int result, result2;
     char tempname[32];
 
+    /* TODO: drive 1? */
+    unsigned int drive = 0;
+
     /* identify disk image type */
-    switch (drive_get_disk_drive_type(drive - 8)) {
+    switch (drive_get_disk_drive_type(unit - 8)) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
@@ -259,13 +262,13 @@ int autostart_prg_with_disk_image(const char *file_name,
         }
 
         /* attach disk image */
-        if (file_system_attach_disk(drive, image_name) < 0) {
+        if (file_system_attach_disk(unit, 0, image_name) < 0) {
             log_error(log, "Could not attach disk image: %s", image_name);
             break;
         }
 
         /* get vdrive */
-        vdrive = file_system_get_vdrive((unsigned int)drive);
+        vdrive = file_system_get_vdrive((unsigned int)unit, drive);
         if (vdrive == NULL) {
             break;
         }

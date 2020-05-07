@@ -234,7 +234,7 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
     unsigned int type;
     mem_ioreg_list_t *drivemem_ioreg_list = NULL;
 
-    type = ((drive_context_t *)context)->drive->type;
+    type = ((drive_context_t *)context)->drives[0]->type;
 
     switch (type) {
         case DRIVE_TYPE_1540:

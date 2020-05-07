@@ -46,7 +46,7 @@ static void drive_sync_cpu_set_factor(drive_context_t *drv,
 
 void drivesync_factor(struct drive_context_s *drv)
 {
-    drive_sync_cpu_set_factor(drv, drv->drive->clock_frequency
+    drive_sync_cpu_set_factor(drv, drv->drives[0]->clock_frequency
                               * sync_factor);
 }
 
@@ -68,17 +68,17 @@ void drivesync_set_1571(int new_sync, struct drive_context_s *drv)
     dnr = drv->mynumber;
 
     if (rom_loaded) {
-        rotation_rotate_disk(drv->drive);
+        rotation_rotate_disk(drv->drives[0]);
         rotation_init(new_sync ? 1 : 0, dnr);
-        drv->drive->clock_frequency = (new_sync) ? 2 : 1;
+        drv->drives[0]->clock_frequency = (new_sync) ? 2 : 1;
         drivesync_factor(drv);
     }
 }
 
 void drivesync_set_4000(struct drive_context_s *drv, int new_sync)
 {
-    if (rom_loaded && drv->drive->type == DRIVE_TYPE_4000) {
-        drv->drive->clock_frequency = (new_sync) ? 4 : 2;
+    if (rom_loaded && drv->drives[0]->type == DRIVE_TYPE_4000) {
+        drv->drives[0]->clock_frequency = (new_sync) ? 4 : 2;
         drivesync_factor(drv);
     }
 }

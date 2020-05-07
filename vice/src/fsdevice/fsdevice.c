@@ -175,11 +175,11 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, uint8_t *data)
     return rc;
 }
 
-int fsdevice_attach(unsigned int device, const char *name)
+int fsdevice_attach(unsigned int device, unsigned int drive, const char *name)
 {
     vdrive_t *vdrive;
 
-    vdrive = file_system_get_vdrive(device);
+    vdrive = file_system_get_vdrive(device, drive);
 
     if (machine_bus_device_attach(device, name, fsdevice_read, fsdevice_write,
                                   fsdevice_open, fsdevice_close,

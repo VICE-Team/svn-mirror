@@ -46,8 +46,8 @@
 #define debug(_x_)
 #endif
 
-#define STEP_RATE ((16 - drv->step_rate) * drv->mycontext->drive->clock_frequency * 500000 / drv->rate)
-#define BYTE_RATE (drv->mycontext->drive->clock_frequency * 8000 / drv->rate)
+#define STEP_RATE ((16 - drv->step_rate) * drv->mycontext->drives[0]->clock_frequency * 500000 / drv->rate)
+#define BYTE_RATE (drv->mycontext->drives[0]->clock_frequency * 8000 / drv->rate)
 
 typedef enum pc8477_state_e {
     PC8477_WAIT, PC8477_COMMAND, PC8477_READ, PC8477_WRITE, PC8477_EXEC, PC8477_RESULT
@@ -268,7 +268,7 @@ void pc8477_setup_context(drive_context_t *drv)
     }
     drv->pc8477->fdds[0].motor_on = (pc8477_motor_on_callback_t)drivesync_set_4000;
     drv->pc8477->fdds[0].motor_on_data = (void *)drv;
-    drv->pc8477->fdds[1].fdd = fdd_init(1, drv->drive);
+    drv->pc8477->fdds[1].fdd = fdd_init(1, drv->drives[0]);
     drv->pc8477->fdds[1].motor_on = (pc8477_motor_on_callback_t)fdd_set_motor;
     drv->pc8477->fdds[1].motor_on_data = (void *)drv->pc8477->fdds[1].fdd;
     drv->pc8477->mycontext = drv;

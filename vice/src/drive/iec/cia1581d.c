@@ -270,7 +270,7 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->irq_line = IK_IRQ;
     cia->myname = lib_msprintf("CIA1581D%d", ctxptr->mynumber);
 
-    cia1581p->drive = ctxptr->drive;
+    cia1581p->drive = ctxptr->drives[0];
     cia1581p->iecbus = iecbus_drive_port();
 
     cia->undump_ciapa = undump_ciapa;

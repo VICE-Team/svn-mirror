@@ -49,8 +49,8 @@ uint8_t parallel_cable_drive_read(int type, int handshake)
 
 void parallel_cable_cpu_write(int type, uint8_t data)
 {
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable)) {
+    if (!(drive_context[0]->drives[0]->enable)
+        && !(drive_context[1]->drives[0]->enable)) {
         return;
     }
 
@@ -61,8 +61,8 @@ void parallel_cable_cpu_write(int type, uint8_t data)
 
 uint8_t parallel_cable_cpu_read(int type, uint8_t data)
 {
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable)) {
+    if (!(drive_context[0]->drives[0]->enable)
+        && !(drive_context[1]->drives[0]->enable)) {
         return 0;
     }
 

@@ -299,7 +299,7 @@ void via4000_setup_context(drive_context_t *ctxptr)
 
     via->irq_line = IK_IRQ;
 
-    viap->drive = ctxptr->drive;
+    viap->drive = ctxptr->drives[0];
     iecbus = iecbus_drive_port();
 
     via->undump_pra = undump_pra;

@@ -183,10 +183,12 @@ static void undump_prb(riot_context_t *riot_context, uint8_t byte)
     /* 1001 only needs LED 0 and Error LED */
     riot2p->drive->led_status = (byte >> 4) & 0x03;
 
+/* TODO: drive 1
     if ((is_drive0(riot2p->number)) && (drive_check_dual(riot2p->drive->type))) {
         drive_context[mk_drive1(riot2p->number)]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
+*/
 
     if (riot2p->drive->led_status & 1) {
         riot2p->drive->led_active_ticks += *(riot_context->clk_ptr)
@@ -208,10 +210,12 @@ static void store_prb(riot_context_t *riot_context, uint8_t byte)
     /* 1001 only needs LED 0 and Error LED */
     riot2p->drive->led_status = (byte >> 4) & 0x03;
 
+/* TODO: drive 1
     if ((is_drive0(riot2p->number)) && (drive_check_dual(riot2p->drive->type))) {
         drive_context[mk_drive1(riot2p->number)]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
+*/
 }
 
 static void reset(riot_context_t *riot_context)
@@ -299,7 +303,8 @@ void riot2_setup_context(drive_context_t *ctxptr)
 
     riot->myname = lib_msprintf("RIOT2D%d", ctxptr->mynumber);
 
-    riot2p->drive = ctxptr->drive;
+    /* TODO: drive 1 correct? */
+    riot2p->drive = ctxptr->drives[0];
     riot2p->r_atn_active = 0;
     riot2p->int_num = interrupt_cpu_status_int_new(ctxptr->cpu->int_status,
                                                    ctxptr->riot2->myname);

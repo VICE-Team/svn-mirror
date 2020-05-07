@@ -80,14 +80,15 @@ static int parallelcommand(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drive->enable) {
+            && drive_context[dnr]->drives[0]->enable) {
             return 0x83;    /* device not present */
         }
     }
 
     /* which device ? */
     p = serial_device_get(TrapDevice & 0x0f);
-    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
+    /* TODO: drive 1? */
+    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f, 0);
     channel = TrapSecondary & 0x0f;
 
     /* if command on a channel, reset output buffer... */
@@ -198,7 +199,8 @@ int parallel_trap_attention(int b)
                 TrapSecondary = b;
                 p = serial_device_get(TrapDevice & 0x0f);
 #ifndef DELAYEDCLOSE
-                vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
+                /* TODO drive 1? */
+                vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f, 0);
                 if (p->isopen[b & 0x0f] == 2) {
                     (*(p->closef))(vdrive, b & 0x0f);
                 }
@@ -219,7 +221,8 @@ int parallel_trap_attention(int b)
             /* send talk/listen/unlisten to emulated devices for
                flushing of REL file write buffer. */
             if ((TrapDevice & 0x0f) >= 8) {
-                vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
+                /* TODO drive 1? */
+                vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f, 0);
                 (*(p->listenf))(vdrive, TrapSecondary & 0x0f);
             }
         }
@@ -248,13 +251,14 @@ int parallel_trap_sendbyte(uint8_t data)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drive->enable) {
+            && drive_context[dnr]->drives[0]->enable) {
             return 0x83;    /* device not present */
         }
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
-    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
+    /* TODO drive 1 */
+    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f, 0);
 
     if (p->inuse) {
         if (p->isopen[TrapSecondary & 0x0f] == 1) {
@@ -287,13 +291,14 @@ int parallel_trap_receivebyte(uint8_t *data, int fake)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drive->enable) {
+            && drive_context[dnr]->drives[0]->enable) {
             return 0x83;    /* device not present */
         }
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
-    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
+    /* TODO: drive 1 */
+    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f, 0);
 
     /* first fill up buffers */
 #if 0

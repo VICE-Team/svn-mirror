@@ -58,42 +58,42 @@ static void glue_pport_update(drive_context_t *drv)
     static uint8_t old_output = 0;
     uint8_t output, input;
 
-    output = (drv->drive->drive_ram[1] & drv->drive->drive_ram[0])
-             | ~(drv->drive->drive_ram[0]);
+    output = (drv->drives[0]->drive_ram[1] & drv->drives[0]->drive_ram[0])
+             | ~(drv->drives[0]->drive_ram[0]);
 
     /* Stepper motor.  */
     if (((old_output ^ output) & 0x3) && (output & 0x4)) {
-        drive_move_head(((output - drv->drive->current_half_track + 3) & 3) - 1, drv->drive);
+        drive_move_head(((output - drv->drives[0]->current_half_track + 3) & 3) - 1, drv->drives[0]);
     }
 
     /* Motor on/off.  */
     if ((old_output ^ output) & 0x04) {
         drive_sound_update((output & 4) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, drv->mynumber);
-        drv->drive->byte_ready_active = (output & 0x04) ? 0x06 : 0;
-        if (drv->drive->byte_ready_active == 0x06) {
-            rotation_begins(drv->drive);
+        drv->drives[0]->byte_ready_active = (output & 0x04) ? 0x06 : 0;
+        if (drv->drives[0]->byte_ready_active == 0x06) {
+            rotation_begins(drv->drives[0]);
         }
     }
 
     /* Drive active LED.  */
-    drv->drive->led_status = (output & 8) ? 0 : 1;
+    drv->drives[0]->led_status = (output & 8) ? 0 : 1;
 
-    if (drv->drive->led_status) {
-        drv->drive->led_active_ticks += *(drv->clk_ptr)
-                                        - drv->drive->led_last_change_clk;
+    if (drv->drives[0]->led_status) {
+        drv->drives[0]->led_active_ticks += *(drv->clk_ptr)
+                                        - drv->drives[0]->led_last_change_clk;
     }
-    drv->drive->led_last_change_clk = *(drv->clk_ptr);
+    drv->drives[0]->led_last_change_clk = *(drv->clk_ptr);
 
     if ((old_output ^ output) & 0x60) {
         rotation_speed_zone_set((output >> 5) & 0x3, drv->mynumber);
     }
 
-    rotation_rotate_disk(drv->drive);
+    rotation_rotate_disk(drv->drives[0]);
 
-    input = drive_writeprotect_sense(drv->drive)
-            | (drv->drive->byte_ready_level ? 0x80 : 0);
+    input = drive_writeprotect_sense(drv->drives[0])
+            | (drv->drives[0]->byte_ready_level ? 0x80 : 0);
 
-    drv->drive->drive_ram[1] = output & (input | ~0x90);
+    drv->drives[0]->drive_ram[1] = output & (input | ~0x90);
 
     old_output = output;
 }
@@ -101,24 +101,24 @@ static void glue_pport_update(drive_context_t *drv)
 uint8_t glue1551_port0_read(drive_context_t *drv)
 {
     glue_pport_update(drv);
-    return drv->drive->drive_ram[0];
+    return drv->drives[0]->drive_ram[0];
 }
 
 uint8_t glue1551_port1_read(drive_context_t *drv)
 {
     glue_pport_update(drv);
-    return drv->drive->drive_ram[1];
+    return drv->drives[0]->drive_ram[1];
 }
 
 void glue1551_port0_store(drive_context_t *drv, uint8_t value)
 {
-    drv->drive->drive_ram[0] = value;
+    drv->drives[0]->drive_ram[0] = value;
     glue_pport_update(drv);
 }
 
 void glue1551_port1_store(drive_context_t *drv, uint8_t value)
 {
-    drv->drive->drive_ram[1] = value;
+    drv->drives[0]->drive_ram[1] = value;
     glue_pport_update(drv);
 }
 
@@ -165,6 +165,6 @@ void glue1551_reset(drive_context_t *drv)
               *(drv->clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
     glue1551[drv->mynumber].irq_line = 0;
 
-    drv->drive->led_status = 1;
+    drv->drives[0]->led_status = 1;
     drive_update_ui_status();
 }

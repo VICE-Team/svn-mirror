@@ -250,7 +250,7 @@ static UI_MENU_CALLBACK(attach_disk_callback)
     if (activated) {
         name = sdl_ui_file_selection_dialog("Select disk image", FILEREQ_MODE_CHOOSE_FILE);
         if (name != NULL) {
-            if (file_system_attach_disk(vice_ptr_to_int(param), name) < 0) {
+            if (file_system_attach_disk(vice_ptr_to_int(param), 0 /* FIXME: drive */, name) < 0) {
                 ui_error("Cannot attach disk image.");
             }
             lib_free(name);
@@ -266,12 +266,12 @@ static UI_MENU_CALLBACK(detach_disk_callback)
     if (activated) {
         parameter = vice_ptr_to_int(param);
         if (parameter == 0) {
-            file_system_detach_disk(8);
-            file_system_detach_disk(9);
-            file_system_detach_disk(10);
-            file_system_detach_disk(11);
+            file_system_detach_disk(8, 0 /* FIXME: drive */);
+            file_system_detach_disk(9, 0 /* FIXME: drive */);
+            file_system_detach_disk(10, 0 /* FIXME: drive */);
+            file_system_detach_disk(11, 0 /* FIXME: drive */);
         } else {
-            file_system_detach_disk(parameter);
+            file_system_detach_disk(parameter, 0 /* FIXME: drive */);
         }
     }
     return NULL;
@@ -738,7 +738,7 @@ static UI_MENU_CALLBACK(create_disk_image_callback)
                 /* 0-3 = unit #8 - unit #11, 4 = SKIP */
                 if (result >= 0 && result <= 3) {
                     /* try to attach disk image */
-                    if (file_system_attach_disk(result + 8, name) < 0) {
+                    if (file_system_attach_disk(result + 8, 0 /* FIXME: drive */, name) < 0) {
                         ui_error("Cannot attach disk image.");
                     }
                 }

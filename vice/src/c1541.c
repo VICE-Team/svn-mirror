@@ -1066,7 +1066,8 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 
     vdrive_device_setup(vdrive, unit);
     vdrive->image = image;
-    vdrive_attach_image(image, unit, vdrive);
+    /* TODO: do we need a drive 1 here? */
+    vdrive_attach_image(image, unit, 0, vdrive);
     return 0;
 }
 
@@ -1082,8 +1083,9 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
 
     image = vdrive->image;
 
+    /* TODO: do we need a drive 1 here? */
     if (image != NULL) {
-        vdrive_detach_image(image, (unsigned int)unit, vdrive);
+        vdrive_detach_image(image, (unsigned int)unit, 0, vdrive);
         P64ImageDestroy((PP64Image)image->p64);
         lib_free(image->p64);
         if (image->device == DISK_IMAGE_DEVICE_REAL) {
@@ -2814,6 +2816,8 @@ static int list_cmd(int nargs, char **args)
     vdrive_t *vdrive;
     int unit = DRIVE_UNIT_MIN;
 
+    unsigned int drive = 0;
+
     if (nargs > 1) {
         /* use new version call untill all old calls are replaced */
         unit = extract_unit_from_file_name(args[1], &pattern);
@@ -2842,7 +2846,7 @@ static int list_cmd(int nargs, char **args)
     vdrive = drives[dnr];
     name = disk_image_name_get(vdrive->image);
 
-    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN));
+    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN), drive);
 
     if (listing != NULL) {
         char *string = image_contents_to_string(listing, 1);

@@ -152,12 +152,13 @@ static void cpu_reset(drive_context_t *drv)
 
     preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
-    log_message(drv->drive->log, "RESET.");
+    log_message(drv->drives[0]->log, "RESET.");
 
     interrupt_cpu_status_reset(drv->cpu->int_status);
 
     *(drv->clk_ptr) = 6;
-    rotation_reset(drv->drive);
+    rotation_reset(drv->drives[0]);
+    rotation_reset(drv->drives[1]);
     machine_drive_reset(drv);
 
     if (preserve_monitor) {
@@ -234,7 +235,7 @@ void drivecpu65c02_wake_up(drive_context_t *drv)
        others.  Maybe we should put it into a user-definable resource.  */
     if (maincpu_clk - drv->cpu->last_clk > 0xffffff
         && *(drv->clk_ptr) > 934639) {
-        log_message(drv->drive->log, "Skipping cycles.");
+        log_message(drv->drives[0]->log, "Skipping cycles.");
         drv->cpu->last_clk = maincpu_clk;
     }
 }
@@ -251,7 +252,7 @@ CLOCK drivecpu65c02_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
     if (sub != 0) {
         /* First, get in sync with what the main CPU has done.  Notice that
            `clk' has already been decremented at this point.  */
-        if (drv->drive->enable) {
+        if (drv->drives[0]->enable) {
             if (drv->cpu->last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
                 drive_cpu_execute_all(maincpu_clk + sub);
@@ -269,9 +270,9 @@ CLOCK drivecpu65c02_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 /* Handle a ROM trap. */
 inline static uint32_t drive_trap_handler(drive_context_t *drv)
 {
-    if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (uint16_t)drv->drive->trap) {
-        R65C02_REGS_SET_PC(&(drv->cpu->cpu_R65C02_regs), drv->drive->trapcont);
-        if (drv->drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+    if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (uint16_t)drv->drives[0]->trap) {
+        R65C02_REGS_SET_PC(&(drv->cpu->cpu_R65C02_regs), drv->drives[0]->trapcont);
+        if (drv->drives[0]->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
             next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
@@ -487,9 +488,9 @@ int drivecpu65c02_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drive->type == DRIVE_TYPE_2000
-        || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMW_BA(m, drv->drive->drive_ram, 0x2000) < 0) {
+    if (drv->drives[0]->type == DRIVE_TYPE_2000
+        || drv->drives[0]->type == DRIVE_TYPE_4000) {
+        if (SMW_BA(m, drv->drives[0]->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
@@ -550,7 +551,7 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     R65C02_REGS_SET_PC(&(cpu->cpu_R65C02_regs), pc);
     R65C02_REGS_SET_STATUS(&(cpu->cpu_R65C02_regs), status);
 
-    log_message(drv->drive->log, "RESET (For undump).");
+    log_message(drv->drives[0]->log, "RESET (For undump).");
 
     interrupt_cpu_status_reset(cpu->int_status);
 
@@ -560,9 +561,9 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drive->type == DRIVE_TYPE_2000
-        || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMR_BA(m, drv->drive->drive_ram, 0x2000) < 0) {
+    if (drv->drives[0]->type == DRIVE_TYPE_2000
+        || drv->drives[0]->type == DRIVE_TYPE_4000) {
+        if (SMR_BA(m, drv->drives[0]->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }

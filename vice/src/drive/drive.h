@@ -49,6 +49,17 @@
  */
 #define DRIVE_UNIT_DEFAULT  DRIVE_UNIT_MIN
 
+/** \brief  Minimum drive number
+ */
+#define DRIVE_NUMBER_MIN  0
+
+/** \brief  Maximum drive number
+ */
+#define DRIVE_NUMBER_MAX  1
+
+/** \brief  Default drive number
+ */
+#define DRIVE_NUMBER_DEFAULT  DRIVE_NUMBER_MIN
 
 #define MAX_PWM 1000
 
@@ -168,6 +179,10 @@ typedef struct drive_type_info_s {
 struct gcr_s;
 struct disk_image_s;
 
+/* TODO: part of that struct should go into drive_context_s
+   candidates: type, memory stuff (drive_ram*, *rom), enable, rtc_save?, trap*, log?
+   candidates: clock_frequency, idling_method, parallel_cable, profdos, supercard, stardos,
+   candidates: ds1216, */
 typedef struct drive_s {
     unsigned int mynumber;
 
@@ -203,10 +218,6 @@ typedef struct drive_s {
     /* FD2000/4000 RTC save? */
     int rtc_save;
 
-    /* pointers for detecting dual drives and finding the other one */
-    /* (only needed as long as we abuse the odd devices for drive 1:) */
-    struct drive_s *drive0;
-    struct drive_s *drive1;
     int trap, trapcont;
 
     /* Byte ready line.  */

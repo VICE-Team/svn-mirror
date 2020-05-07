@@ -72,8 +72,8 @@ static uint8_t parallel_cable_value(int type)
     val = parallel_cable_cpu_value[port];
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive_context[dnr]->drive->enable && drive_context[dnr]->drive->parallel_cable) {
-            if (portmap[drive_context[dnr]->drive->parallel_cable] == (int)port) {
+        if (drive_context[dnr]->drives[0]->enable && drive_context[dnr]->drives[0]->parallel_cable) {
+            if (portmap[drive_context[dnr]->drives[0]->parallel_cable] == (int)port) {
                 val &= parallel_cable_drive_value[dnr];
             }
         }
@@ -137,7 +137,7 @@ void parallel_cable_cpu_execute(int type)
     port = portmap[type];
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive = drive_context[dnr]->drive;
+        drive = drive_context[dnr]->drives[0];
         if (drive->enable && drive->parallel_cable) {
             if (portmap[drive->parallel_cable] == port) {
                 drive_cpu_execute_one(drive_context[dnr], maincpu_clk);
@@ -182,7 +182,7 @@ void parallel_cable_cpu_pulse(int type)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_t *drive;
 
-        drive = drive_context[dnr]->drive;
+        drive = drive_context[dnr]->drives[0];
 
         if (drive->enable && drive->parallel_cable) {
             switch (drive->parallel_cable) {

@@ -77,7 +77,7 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 
     vdrive_device_setup(vdrive, 100);
     vdrive->image = image;
-    vdrive_attach_image(image, 100, vdrive);
+    vdrive_attach_image(image, 100, 0, vdrive);
     return vdrive;
 }
 
@@ -86,7 +86,7 @@ int vdrive_internal_close_disk_image(vdrive_t *vdrive)
     disk_image_t *image = vdrive->image;
 
     if (vdrive->unit != 8 && vdrive->unit != 9 && vdrive->unit != 10 && vdrive->unit != 11) {
-        vdrive_detach_image(image, 100, vdrive);
+        vdrive_detach_image(image, 100, 0, vdrive);
 
         if (disk_image_close(image) < 0) {
             return -1;

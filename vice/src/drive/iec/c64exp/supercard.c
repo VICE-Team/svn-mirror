@@ -91,7 +91,7 @@ void supercard_mem_init(struct drive_context_s *drv, unsigned int type)
 
     DBG(("supercard_mem_init <type:%d> <sc:%d>\n", type, drv->drive->supercard));
 
-    if (!drv->drive->supercard) {
+    if (!drv->drives[0]->supercard) {
         return;
     }
 

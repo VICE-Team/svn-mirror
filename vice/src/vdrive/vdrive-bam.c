@@ -631,11 +631,11 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, uint8_t *id
     return;
 }
 
-int vdrive_bam_get_disk_id(unsigned int unit, uint8_t *id)
+int vdrive_bam_get_disk_id(unsigned int unit, unsigned int drive, uint8_t *id)
 {
     vdrive_t *vdrive;
 
-    vdrive = file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit, drive);
 
     if (vdrive == NULL || id == NULL || vdrive->bam == NULL) {
         return -1;
@@ -646,11 +646,11 @@ int vdrive_bam_get_disk_id(unsigned int unit, uint8_t *id)
     return 0;
 }
 
-int vdrive_bam_set_disk_id(unsigned int unit, uint8_t *id)
+int vdrive_bam_set_disk_id(unsigned int unit, unsigned int drive, uint8_t *id)
 {
     vdrive_t *vdrive;
 
-    vdrive = file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit, drive);
 
     if (vdrive == NULL || id == NULL || vdrive->bam == NULL) {
         return -1;
@@ -768,9 +768,9 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
 }
 
 /* Temporary hack.  */
-int vdrive_bam_reread_bam(unsigned int unit)
+int vdrive_bam_reread_bam(unsigned int unit, unsigned int drive)
 {
-    return vdrive_bam_read_bam(file_system_get_vdrive(unit));
+    return vdrive_bam_read_bam(file_system_get_vdrive(unit, drive));
 }
 /*
     FIXME: partition support

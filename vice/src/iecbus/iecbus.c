@@ -228,7 +228,7 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
 {
     drive_t *drive;
 
-    drive = drive_context[0]->drive;
+    drive = drive_context[0]->drives[0];
     drive_cpu_execute_one(drive_context[0], clock);
 
     DEBUG_IEC_CPU_WRITE(data);
@@ -286,7 +286,7 @@ static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
 {
     drive_t *drive;
 
-    drive = drive_context[1]->drive;
+    drive = drive_context[1]->drives[0];
     drive_cpu_execute_one(drive_context[1], clock);
 
     DEBUG_IEC_CPU_WRITE(data);
@@ -357,7 +357,7 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
 
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
-                switch (drive_context[dnr]->drive->type) {
+                switch (drive_context[dnr]->drives[0]->type) {
                     case DRIVE_TYPE_1581:
                         if (!iec_old_atn) {
                             ciacore_set_flag(drive_context[dnr]->cia1581);
@@ -380,7 +380,7 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
         if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
             unsigned int unit;
             unit = dnr + 8;
-            switch (drive_context[dnr]->drive->type) {
+            switch (drive_context[dnr]->drives[0]->type) {
                 case DRIVE_TYPE_1581:
                 case DRIVE_TYPE_2000:
                 case DRIVE_TYPE_4000:

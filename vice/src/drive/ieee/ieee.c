@@ -76,19 +76,19 @@ void ieee_drive_shutdown(struct drive_context_s *drv)
 
 void ieee_drive_reset(struct drive_context_s *drv)
 {
-    if (drv->drive->type == DRIVE_TYPE_2031) {
+    if (drv->drives[0]->type == DRIVE_TYPE_2031) {
         viacore_reset(drv->via1d2031);
     } else {
         viacore_disable(drv->via1d2031);
     }
 
-    if (drive_check_old(drv->drive->type)) {
-        fdc_reset(drv->mynumber, drv->drive->type);
+    if (drive_check_old(drv->drives[0]->type)) {
+        fdc_reset(drv->mynumber, drv->drives[0]->type);
         riotcore_reset(drv->riot1);
         riotcore_reset(drv->riot2);
     } else {
         /* alarm is unset by fdc_reset */
-        fdc_reset(drv->mynumber, drv->drive->type);
+        fdc_reset(drv->mynumber, drv->drives[0]->type);
         riotcore_disable(drv->riot1);
         riotcore_disable(drv->riot2);
     }
@@ -121,7 +121,7 @@ void ieee_drive_rom_load(void)
 
 void ieee_drive_rom_setup_image(unsigned int dnr)
 {
-    ieeerom_setup_image(drive_context[dnr]->drive);
+    ieeerom_setup_image(drive_context[dnr]->drives[0]);
 }
 
 int ieee_drive_rom_check_loaded(unsigned int type)
@@ -136,13 +136,13 @@ void ieee_drive_rom_do_checksum(unsigned int dnr)
 int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
                              struct snapshot_s *s)
 {
-    if (ctxptr->drive->type == DRIVE_TYPE_2031) {
+    if (ctxptr->drives[0]->type == DRIVE_TYPE_2031) {
         if (viacore_snapshot_read_module(ctxptr->via1d2031, s) < 0) {
             return -1;
         }
     }
 
-    if (drive_check_old(ctxptr->drive->type)) {
+    if (drive_check_old(ctxptr->drives[0]->type)) {
         if (riotcore_snapshot_read_module(ctxptr->riot1, s) < 0
             || riotcore_snapshot_read_module(ctxptr->riot2, s) < 0
             || fdc_snapshot_read_module(s, ctxptr->mynumber) < 0) {
@@ -156,13 +156,13 @@ int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
 int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
                               struct snapshot_s *s)
 {
-    if (ctxptr->drive->type == DRIVE_TYPE_2031) {
+    if (ctxptr->drives[0]->type == DRIVE_TYPE_2031) {
         if (viacore_snapshot_write_module(ctxptr->via1d2031, s) < 0) {
             return -1;
         }
     }
 
-    if (drive_check_old(ctxptr->drive->type)) {
+    if (drive_check_old(ctxptr->drives[0]->type)) {
         if (riotcore_snapshot_write_module(ctxptr->riot1, s) < 0
             || riotcore_snapshot_write_module(ctxptr->riot2, s) < 0
             || fdc_snapshot_write_module(s, ctxptr->mynumber) < 0) {
@@ -173,14 +173,14 @@ int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
     return 0;
 }
 
-int ieee_drive_image_attach(struct disk_image_s *image, unsigned int unit)
+int ieee_drive_image_attach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
-    return fdc_attach_image(image, unit);
+    return fdc_attach_image(image, unit, drive);
 }
 
-int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit)
+int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit, unsigned int drive)
 {
-    return fdc_detach_image(image, unit);
+    return fdc_detach_image(image, unit, drive);
 }
 
 void ieee_drive_parallel_set_atn(int state, drive_context_t *drv)

@@ -232,7 +232,7 @@ void tpid_setup_context(drive_context_t *ctxptr)
     tpi->tpi_int_num = interrupt_cpu_status_int_new(ctxptr->cpu->int_status,
                                                     tpi->myname);
     tpi->irq_line = IK_IRQ;
-    tpip->drive = ctxptr->drive;
+    tpip->drive = ctxptr->drives[0];
 
     tpi->store_pa = store_pa;
     tpi->store_pb = store_pb;

@@ -61,7 +61,7 @@ static inline void resolve_bus_signals(void)
     bus_data = NOT(cpu_data);
 
     for (i = 0; i < DRIVE_NUM; i++) {
-        drive = drive_context[i]->drive;
+        drive = drive_context[i]->drives[0];
 
         bus_clock &= drive->enable ? NOT(drive_clock[i]) : 0x01;
         bus_data &= drive->enable ? NOT(drive_data[i])
@@ -91,7 +91,7 @@ void iec_update_ports_embedded(void)
 
 static void iec_calculate_data_modifier(unsigned int dnr)
 {
-    switch (drive_context[dnr]->drive->type) {
+    switch (drive_context[dnr]->drives[0]->type) {
         case DRIVE_TYPE_1581:
         case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
@@ -154,7 +154,7 @@ void iec_pa_write(uint8_t data)
     /* Signal ATN interrupt to the drives.  */
     if ((cpu_atn == 0) && (data & 128)) {
         for (i = 0; i < DRIVE_NUM; i++) {
-            drive = drive_context[i]->drive;
+            drive = drive_context[i]->drives[0];
 
             if (drive->enable) {
                 switch (drive->type) {
@@ -175,7 +175,7 @@ void iec_pa_write(uint8_t data)
     /* Release ATN signal.  */
     if (!(data & 128)) {
         for (i = 0; i < DRIVE_NUM; i++) {
-            drive = drive_context[i]->drive;
+            drive = drive_context[i]->drives[0];
 
             if (drive->enable) {
                 switch (drive->type) {

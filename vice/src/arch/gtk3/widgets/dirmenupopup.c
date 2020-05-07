@@ -158,6 +158,10 @@ GtkWidget *dir_menu_popup_create(
     int index;
     GtkWidget *label;
 
+    /* TODO: drive 1? */
+    unsigned int drive = 0;
+
+
     debug_gtk3("DEVICE = %d.", dev);
 
     /* create style providers */
@@ -187,7 +191,7 @@ GtkWidget *dir_menu_popup_create(
         autostart_diskimage = NULL;
 
         debug_gtk3("Getting vdrive reference for unit #%d.", dev + DRIVE_UNIT_MIN);
-        vdrive = file_system_get_vdrive(dev + DRIVE_UNIT_MIN);
+        vdrive = file_system_get_vdrive(dev + DRIVE_UNIT_MIN, drive);
         if (vdrive == NULL) {
             debug_gtk3("failed: got NULL.");
         } else {
@@ -223,8 +227,8 @@ GtkWidget *dir_menu_popup_create(
         util_fname_split(autostart_diskimage, NULL, &tmp);
     }
     if (dev >= 0) {
-        g_snprintf(buffer, 1024, "Directory of unit %d: (%s)", 
-                   dev + DRIVE_UNIT_MIN, tmp ? tmp : "n/a");
+        g_snprintf(buffer, 1024, "Directory of unit %d drive %u (%s):",
+                   dev + DRIVE_UNIT_MIN, drive, tmp ? tmp : "n/a");
     } else {
         g_snprintf(buffer, 1024, "Directory of attached tape: (%s)",
             tmp ? tmp : "n/a");

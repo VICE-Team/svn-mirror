@@ -291,7 +291,9 @@ bool fliplist_attach_head(unsigned int unit, int direction)
         fliplist[unit - 8] = fliplist[unit - 8]->prev;
     }
 
-    if (file_system_attach_disk(fliplist[unit - 8]->unit,
+    if (file_system_attach_disk(
+                fliplist[unit - 8]->unit,
+                0,  /* drive */
                 fliplist[unit - 8]->image) < 0) {
         /* shouldn't happen, so ignore it */
         return false;   /* handle it anyway */

@@ -36,17 +36,17 @@
 
 static uint8_t drive_read_rom(drive_context_t *drv, uint16_t address)
 {
-    return drv->drive->rom[address & 0x7fff];
+    return drv->drives[0]->rom[address & 0x7fff];
 }
 
 static uint8_t drive_read_1551ram(drive_context_t *drv, uint16_t address)
 {
-    return drv->drive->drive_ram[address & 0x7ff];
+    return drv->drives[0]->drive_ram[address & 0x7ff];
 }
 
 static void drive_store_1551ram(drive_context_t *drv, uint16_t address, uint8_t value)
 {
-    drv->drive->drive_ram[address & 0x7ff] = value;
+    drv->drives[0]->drive_ram[address & 0x7ff] = value;
 }
 
 static uint8_t drive_read_zero(drive_context_t *drv, uint16_t address)
@@ -58,7 +58,7 @@ static uint8_t drive_read_zero(drive_context_t *drv, uint16_t address)
             return glue1551_port1_read(drv);
     }
 
-    return drv->drive->drive_ram[address & 0xff];
+    return drv->drives[0]->drive_ram[address & 0xff];
 }
 
 static void drive_store_zero(drive_context_t *drv, uint16_t address, uint8_t value)
@@ -72,7 +72,7 @@ static void drive_store_zero(drive_context_t *drv, uint16_t address, uint8_t val
             return;
     }
 
-    drv->drive->drive_ram[address & 0xff] = value;
+    drv->drives[0]->drive_ram[address & 0xff] = value;
 }
 
 void mem1551_init(struct drive_context_s *drv, unsigned int type)
@@ -81,11 +81,11 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
 
     switch (type) {
     case DRIVE_TYPE_1551:
-        drv->cpu->pageone = drv->drive->drive_ram + 0x100;
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, NULL, drv->drive->drive_ram, 0x000207fd);
-        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1551ram, drive_store_1551ram, NULL, &drv->drive->drive_ram[0x0100], 0x000207fd);
+        drv->cpu->pageone = drv->drives[0]->drive_ram + 0x100;
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, NULL, drv->drives[0]->drive_ram, 0x000207fd);
+        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1551ram, drive_store_1551ram, NULL, &drv->drives[0]->drive_ram[0x0100], 0x000207fd);
         drivemem_set_func(cpud, 0x40, 0x80, tpid_read, tpid_store, tpid_peek, NULL, 0);
-        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL, NULL, &drv->drive->trap_rom[0x4000], 0xc000fffd);
+        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL, NULL, &drv->drives[0]->trap_rom[0x4000], 0xc000fffd);
         break;
     default:
         break;

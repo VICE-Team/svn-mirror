@@ -766,7 +766,7 @@ static void disk_eof_callback(void)
         /* FIXME: what exactly is this stuff supposed to do? */
         if (orig_drive_true_emulation_state) {
             /* log_message(autostart_log, "Turning true drive emulation on."); */
-            if (vdrive_bam_get_disk_id(8, id) == 0) {
+            if (vdrive_bam_get_disk_id(8, 0, id) == 0) {
                 vdrive_get_last_read(&track, &sector, &buffer);
             }
         }
@@ -1396,7 +1396,7 @@ int autostart_disk(const char *file_name, const char *program_name,
 
     if (name) {
         autostart_disk_cook_name(&name);
-        if (!(file_system_attach_disk(8, file_name) < 0)) {
+        if (!(file_system_attach_disk(8, 0, file_name) < 0)) {
 #if 1
             vdrive_t *vdrive;
             struct disk_image_s *diskimg;
@@ -1413,7 +1413,7 @@ int autostart_disk(const char *file_name, const char *program_name,
             /* shitty code, we really need to extend the drive API to
              * get at these sorts for things without breaking into core code
              */
-            vdrive = file_system_get_vdrive(8);
+            vdrive = file_system_get_vdrive(8, 0);
             if (vdrive == NULL) {
                 log_error(LOG_ERR, "Failed to get vdrive reference for unit 8.");
             } else {
@@ -1430,7 +1430,7 @@ int autostart_disk(const char *file_name, const char *program_name,
                             log_error(LOG_ERR, "Failed to set drive type.");
                         }
                     }
-                    if (file_system_attach_disk(8, file_name) < 0) goto exiterror;
+                    if (file_system_attach_disk(8, 0, file_name) < 0) goto exiterror;
                     drive_cpu_trigger_reset(0);
                 }
             }
@@ -1475,7 +1475,7 @@ static void setup_for_prg(int mode)
             
             /* resources_set_int("VirtualDevices", 1); */
             resources_set_int("FSDevice8ConvertP00", 1); /* FIXME: not preserved */
-            file_system_detach_disk(8);
+            file_system_detach_disk(8, 0);
             resources_set_int("FileSystemDevice8", ATTACH_DEVICE_FS); /* FIXME: not preserved */
             break;
         case AUTOSTART_PRG_MODE_INJECT:

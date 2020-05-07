@@ -274,7 +274,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                     || (machine_class == VICE_MACHINE_C64SC)
                     || (machine_class == VICE_MACHINE_SCPU64)
                     || (machine_class == VICE_MACHINE_C128)) {
-                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, filename_locale) < 0
+                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                         && tape_image_attach(1, filename_locale) < 0
                         && autostart_snapshot(filename_locale, NULL) < 0
                         && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
@@ -286,7 +286,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                 /* Smart attach for other emulators: don't try to attach a file
                  * as a cartidge, it'll result in false positives
                  */
-                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, filename_locale) < 0
+                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                         && tape_image_attach(1, filename_locale) < 0
                         && autostart_snapshot(filename_locale, NULL) < 0
                         && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {

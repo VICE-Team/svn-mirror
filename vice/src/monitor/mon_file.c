@@ -63,6 +63,9 @@ static int mon_file_open(const char *filename, unsigned int secondary,
     const char *s;
     int i;
 
+    /* TODO: drive 1 */
+    unsigned int drive = 0;
+
     switch (device) {
         case 0:
             if (secondary == 0) {
@@ -78,7 +81,7 @@ static int mon_file_open(const char *filename, unsigned int secondary,
         case 9:
         case 10:
         case 11:
-            vdrive = file_system_get_vdrive((unsigned int)device);
+            vdrive = file_system_get_vdrive((unsigned int)device, drive);
             if (vdrive == NULL) {
                 return -1;
             }
@@ -341,7 +344,8 @@ void mon_attach(const char *filename, int device)
         case 9:
         case 10:
         case 11:
-            if (file_system_attach_disk(device, filename)) {
+            /* TODO: drive 1? */
+            if (file_system_attach_disk(device, 0, filename)) {
                 mon_out("Failed.\n");
             }
             break;
@@ -374,7 +378,8 @@ void mon_detach(int device)
         case 9:
         case 10:
         case 11:
-            file_system_detach_disk(device);
+            /* TODO: drive 1? */
+            file_system_detach_disk(device, 0);
             break;
         case 32:
             if (mon_cart_cmd.cartridge_detach_image != NULL) {

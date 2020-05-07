@@ -87,8 +87,8 @@ void stardos_exp_mem_init(struct drive_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 
-    DBG(("stardos_exp_mem_init <type:%d> <sc:%d>\n", type, drv->drive->stardos));
-    if (!drv->drive->stardos) {
+    DBG(("stardos_exp_mem_init <type:%d> <sc:%d>\n", type, drv->drives[0]->stardos));
+    if (!drv->drives[0]->stardos) {
         return;
     }
 

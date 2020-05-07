@@ -335,7 +335,8 @@ void via1d2031_setup_context(drive_context_t *ctxptr)
 
     via->irq_line = IK_IRQ;
 
-    via1p->drive = ctxptr->drive;
+    /* TODO: drive 1 correct? */
+    via1p->drive = ctxptr->drives[0];
     via1p->v_parieee_is_out = 1;
 
     via->undump_pra = undump_pra;
