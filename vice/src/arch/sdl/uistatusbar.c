@@ -48,6 +48,10 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
+/*  00000000001111111111222222222233333333334444444444555555555566666666667777777777  */
+/*  01234567890123456789012345678901234567890123456789012345678901234567890123456789  */
+/* "100%P50fps  000>  8:0T35  8:1T35  9:0T35  9:1T35 10:0T35 10:1T35 11:0T35 11:1T35" */
+
 #define MAX_STATUSBAR_LEN           128
 #define STATUSBAR_SPEED_POS         0
 #define STATUSBAR_PAUSE_POS         4
@@ -216,6 +220,8 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
+    /* printf("ui_display_drive_track drive_number:%d drive_base:%d half_track_number:%d\n",
+           drive_number, drive_base, half_track_number); */
 
     switch (drive_number) {
         case 1:
@@ -243,18 +249,20 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
 }
 
 /* The pwm value will vary between 0 and 1000.  */
-void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
+void ui_display_drive_led(unsigned int drive_number, unsigned int led_pwm1, unsigned int led_pwm2)
 {
     int high;
     int low;
     int offset;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: drive %i, pwm1 = %i, led_pwm2 = %u\n", __func__, drive_number, pwm1, led_pwm2);
+    fprintf(stderr, "%s: drive %i, led_pwm1 = %i, led_pwm2 = %u\n", __func__, drive_number, led_pwm1, led_pwm2);
 #endif
+    /* printf("ui_display_drive_led drive_number:%d drive_base:%d led_pwm1:%d led_pwm2:%d\n",
+           drive_number, drive_base, led_pwm1, led_pwm2); */
 
-    low = "8901"[drive_number] | ((pwm1 > 500) ? 0x80 : 0);
-    high = '1' | ((pwm1 > 500) ? 0x80: 0);
+    low = "8901"[drive_number] | ((led_pwm1 > 500) ? 0x80 : 0);
+    high = '1' | ((led_pwm1 > 500) ? 0x80: 0);
     switch (drive_number) {
         case 0:
             offset = STATUSBAR_DRIVE8_TRACK_POS - 2;

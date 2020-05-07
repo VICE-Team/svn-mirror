@@ -736,11 +736,11 @@ void drive_gcr_data_writeback_all(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void drive_led_update(drive_t *drive, drive_t *drive0)
+static void drive_led_update(drive_t *drive, drive_t *drive0, int base)
 {
     int my_led_status = 0;
     CLOCK led_period;
-    unsigned int led_pwm;
+    unsigned int led_pwm1;
 
     /* Actually update the LED status only if the `trap idle'
        idling method is being used, as the LED status could be
@@ -765,26 +765,26 @@ static void drive_led_update(drive_t *drive, drive_t *drive0)
     }
 
     if (drive->led_active_ticks > led_period) {
-        /* during startup it has been observer that led_pwm > 1000,
+        /* during startup it has been observer that led_pwm1 > 1000,
            which potentially breaks several UIs */
         /* this also happens when the drive is reset from UI
            and the LED was on */
-        led_pwm = 1000;
+        led_pwm1 = 1000;
     } else {
-        led_pwm = drive->led_active_ticks * 1000 / led_period;
+        led_pwm1 = drive->led_active_ticks * 1000 / led_period;
     }
-    assert(led_pwm <= MAX_PWM);
-    if (led_pwm > MAX_PWM) {
-        led_pwm = MAX_PWM;
+    assert(led_pwm1 <= MAX_PWM);
+    if (led_pwm1 > MAX_PWM) {
+        led_pwm1 = MAX_PWM;
     }
 
     drive->led_active_ticks = 0;
 
-    if (led_pwm != drive->led_last_pwm
+    if (led_pwm1 != drive->led_last_pwm
         || my_led_status != drive->old_led_status) {
-        ui_display_drive_led(drive->mynumber, led_pwm,
+        ui_display_drive_led(drive->mynumber, led_pwm1,
                              (my_led_status & 2) ? 1000 : 0);
-        drive->led_last_pwm = led_pwm;
+        drive->led_last_pwm = led_pwm1;
         drive->old_led_status = my_led_status;
     }
 }
@@ -800,21 +800,29 @@ void drive_update_ui_status(void)
 
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < DRIVE_NUM; i++) {
-        drive_t *drive = drive_context[i]->drives[0];
+        drive_t *drive0 = drive_context[i]->drives[0];
         drive_t *drive1 = drive_context[i]->drives[1];
-        int dual = drive_check_dual(drive->type);
+        if (drive0->enable) {
 
-        if (drive->enable || dual) {
-
-            drive_led_update(drive, drive1);
-
-            if (drive->current_half_track != drive->old_half_track
-                || drive->side != drive->old_side) {
-                drive->old_half_track = drive->current_half_track;
-                drive->old_side = drive->side;
-                ui_display_drive_track(i,
-                                       dual ? 0 : 8,
-                                       drive->current_half_track + (drive->side * DRIVE_HALFTRACKS_1571));
+            drive_led_update(drive0, drive1, 0);
+            /* drive_led_update(drive0, drive0, 0); */ /* FIXME */
+            if (drive0->current_half_track != drive0->old_half_track
+                || drive0->side != drive0->old_side) {
+                drive0->old_half_track = drive0->current_half_track;
+                drive0->old_side = drive0->side;
+                ui_display_drive_track(i, 0,
+                                       drive0->current_half_track + (drive0->side * DRIVE_HALFTRACKS_1571));
+            }
+            /* update LED and track of the second drive for dual drives */
+            if (drive_check_dual(drive0->type)) {
+                /* drive_led_update(drive1, drive0, 1); */ /* FIXME */
+                if (drive1->current_half_track != drive1->old_half_track
+                    || drive1->side != drive1->old_side) {
+                    drive1->old_half_track = drive1->current_half_track;
+                    drive1->old_side = drive1->side;
+                    ui_display_drive_track(i, 1,
+                                        drive1->current_half_track + (drive1->side * DRIVE_HALFTRACKS_1571));
+                }
             }
         }
     }
