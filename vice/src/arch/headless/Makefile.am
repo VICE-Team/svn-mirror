@@ -65,7 +65,8 @@ libarch_a_SOURCES = \
 	petui.c \
 	plus4ui.c \
 	cbm2ui.c \
-	cbm5x0ui.c
+	cbm5x0ui.c \
+	c64ui.c
 
 libtoolarch_a_SOURCES = \
 	archdep.c
