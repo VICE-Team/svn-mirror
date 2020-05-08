@@ -34,7 +34,4 @@
 extern ui_menu_entry_t drive_menu[];
 extern void uidrive_menu_create(void);
 
-/* FIXME: make this a common function? */
-extern int drive_is_dualdrive_by_devnr(int devnr);
-
 #endif

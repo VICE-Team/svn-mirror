@@ -42,6 +42,7 @@
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "uipoll.h"
+#include "uistatusbar.h"
 
 static UI_MENU_CALLBACK(save_settings_callback)
 {

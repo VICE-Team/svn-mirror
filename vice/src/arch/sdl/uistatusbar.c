@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#include "drive.h"
 #include "kbd.h"
 #include "machine.h"
 #include "resources.h"
@@ -55,12 +56,11 @@
 #define MAX_STATUSBAR_LEN           128
 #define STATUSBAR_SPEED_POS         0
 #define STATUSBAR_PAUSE_POS         4
-#define STATUSBAR_DRIVE_POS         12
-#define STATUSBAR_DRIVE8_TRACK_POS  14
-#define STATUSBAR_DRIVE9_TRACK_POS  19
-#define STATUSBAR_DRIVE10_TRACK_POS 25
-#define STATUSBAR_DRIVE11_TRACK_POS 31
-#define STATUSBAR_TAPE_POS          37
+#define STATUSBAR_TAPE_POS          12
+#define STATUSBAR_DRIVE_POS         17
+
+static int statusbar_drive_offset[4][2];    /* points to the position of the T in the widget */
+static int statusbar_drive_track[4][2];
 
 static char statusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
 static char kbdstatusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
@@ -168,7 +168,11 @@ void ui_display_statustext(const char *text, int fade_out)
 #endif
 }
 
-/* Drive related UI.  */
+/* Drive related UI. */
+
+/* Build the drive status widget
+   state        bitfield, one drive for each drive (dual drive has one bit!)
+ */
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     int drive_number;
@@ -176,36 +180,27 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
     size_t offset;  /* offset in status text */
     size_t size;    /* number of bytes to bleep out */
 
+    offset = STATUSBAR_DRIVE_POS + 1; /* point to the T */
+
     for (drive_number = 0; drive_number < 4; ++drive_number) {
         if (drive_state & 1) {
+            statusbar_drive_offset[drive_number][0] = offset;
             ui_display_drive_led(drive_number, 0, 0, 0);
-            ui_display_drive_led(drive_number, 1, 0, 0);
-        } else {
-            switch (drive_number) {
-                case 0:
-                    offset = STATUSBAR_DRIVE8_TRACK_POS - 2;
-                    size = 4;
-                    break;
-                case 1:
-                    offset = STATUSBAR_DRIVE9_TRACK_POS - 2;
-                    size = 4;
-                    break;
-                case 2:
-                    offset = STATUSBAR_DRIVE10_TRACK_POS - 3;
-                    size = 5;
-                    break;
-                case 3:
-                    offset = STATUSBAR_DRIVE11_TRACK_POS - 3;
-                    size = 5;
-                    break;
-                default:
-                    /* should never get here */
-                    offset = 0;
-                    size = 40;
-                    break;
+            ui_display_drive_track(drive_number, 0, 
+                                   statusbar_drive_track[drive_number][0]);
+            if (drive_is_dualdrive_by_devnr(drive_number + 8)) {
+                offset += (drive_number > 1) ? 6 : 5;
+                statusbar_drive_offset[drive_number][1] = offset;
+                ui_display_drive_led(drive_number, 1, 0, 0);
+                ui_display_drive_track(drive_number, 1, 
+                                    statusbar_drive_track[drive_number][1]);
+            } else {
+                statusbar_drive_offset[drive_number][1] = 0;
             }
-            memset(statusbar_text + offset, 0x20, size);    /* space out man */
+            offset += (drive_number > 0) ? 6 : 5;
         }
+        size = MAX_STATUSBAR_LEN - offset;
+        memset(statusbar_text + offset, ' ', size);    /* space out man */
         drive_state >>= 1;
     }
 
@@ -214,9 +209,12 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
     }
 }
 
-void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
+void ui_display_drive_track(unsigned int drive_number, 
+                            unsigned int drive_base, 
+                            unsigned int half_track_number)
 {
     unsigned int track_number = half_track_number / 2;
+    unsigned int offset;
 
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
@@ -224,36 +222,25 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
     /* printf("ui_display_drive_track drive_number:%d drive_base:%d half_track_number:%d\n",
            drive_number, drive_base, half_track_number); */
 
-    switch (drive_number) {
-        case 1:
-            statusbar_text[STATUSBAR_DRIVE9_TRACK_POS] = (track_number / 10) + '0';
-            statusbar_text[STATUSBAR_DRIVE9_TRACK_POS + 1] = (track_number % 10) + '0';
-            break;
-        case 2:
-            statusbar_text[STATUSBAR_DRIVE10_TRACK_POS] = (track_number / 10) + '0';
-            statusbar_text[STATUSBAR_DRIVE10_TRACK_POS + 1] = (track_number % 10) + '0';
-            break;
-        case 3:
-            statusbar_text[STATUSBAR_DRIVE11_TRACK_POS] = (track_number / 10) + '0';
-            statusbar_text[STATUSBAR_DRIVE11_TRACK_POS + 1] = (track_number % 10) + '0';
-            break;
-        default:
-        case 0:
-            statusbar_text[STATUSBAR_DRIVE8_TRACK_POS] = (track_number / 10) + '0';
-            statusbar_text[STATUSBAR_DRIVE8_TRACK_POS + 1] = (track_number % 10) + '0';
-            break;
-    }
-
+    /* remember for when we need to refresh it */
+    statusbar_drive_track[drive_number][drive_base] = half_track_number;
+    
+    offset = statusbar_drive_offset[drive_number][drive_base] + 1;
+    statusbar_text[offset] = (track_number / 10) + '0';
+    statusbar_text[offset + 1] = (track_number % 10) + '0';
+    
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
 }
 
 /* The pwm value will vary between 0 and 1000.  */
-void ui_display_drive_led(unsigned int drive_number, unsigned int drive_base, unsigned int led_pwm1, unsigned int led_pwm2)
+void ui_display_drive_led(unsigned int drive_number, 
+                          unsigned int drive_base, 
+                          unsigned int led_pwm1, 
+                          unsigned int led_pwm2)
 {
-    int high;
-    int low;
+    int high, low, trk;
     int offset;
 
 #ifdef SDL_DEBUG
@@ -262,34 +249,21 @@ void ui_display_drive_led(unsigned int drive_number, unsigned int drive_base, un
     /* printf("ui_display_drive_led drive_number:%d drive_base:%d led_pwm1:%d led_pwm2:%d\n",
            drive_number, drive_base, led_pwm1, led_pwm2); */
 
+    /* LED1 highlights the drive number, LED2 highlights the T */
     low = "8901"[drive_number] | ((led_pwm1 > 500) ? 0x80 : 0);
     high = '1' | ((led_pwm1 > 500) ? 0x80: 0);
-    switch (drive_number) {
-        case 0:
-            offset = STATUSBAR_DRIVE8_TRACK_POS - 2;
-            break;
-        case 1:
-            offset = STATUSBAR_DRIVE9_TRACK_POS - 2;
-            break;
-        case 2:
-            offset = STATUSBAR_DRIVE10_TRACK_POS - 3;
-            break;
-        case 3:
-            offset = STATUSBAR_DRIVE11_TRACK_POS - 3;
-            break;
-        default:
-            offset = 0;
-    }
+    trk = 'T' | ((led_pwm2 > 500) ? 0x80: 0);
+    
+    offset = statusbar_drive_offset[drive_number][drive_base];
 
     if (drive_number < 2) {
-        statusbar_text[offset] = low;
-        statusbar_text[offset + 1] = 'T';
+        statusbar_text[offset - 1] = low;
+        statusbar_text[offset] = trk;
     } else {
-        statusbar_text[offset] = high;
-        statusbar_text[offset + 1] = low;
-        statusbar_text[offset + 2] = 'T';
+        statusbar_text[offset - 2] = high;
+        statusbar_text[offset - 1] = low;
+        statusbar_text[offset] = trk;
     }
-
 
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
@@ -452,7 +426,7 @@ void uistatusbar_draw(void)
 {
     int i;
     uint8_t c, color_f, color_b;
-    unsigned int line;
+    unsigned int line, maxchars;
     menu_draw_t *limits = NULL;
     menufont = sdl_ui_get_menu_font();
     int kbd_status;
@@ -468,14 +442,17 @@ void uistatusbar_draw(void)
     color_b = limits->color_default_back;
     pitch = limits->pitch;
 
-    line = MIN(sdl_active_canvas->viewport->last_line, sdl_active_canvas->geometry->last_displayed_line);
+    line = MIN(sdl_active_canvas->viewport->last_line, 
+               sdl_active_canvas->geometry->last_displayed_line);
 
     draw_offset = (line - menufont->h + 1) * pitch
                   + sdl_active_canvas->geometry->extra_offscreen_border_left
                   + sdl_active_canvas->viewport->first_x;
 
+    maxchars = pitch / menufont->w;
+
     if (kbd_status) {
-        for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {
+        for (i = 0; i < maxchars; ++i) {
             c = kbdstatusbar_text[i];
 
             if (c == 0) {
@@ -490,7 +467,7 @@ void uistatusbar_draw(void)
         }
     }
 
-    for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {
+    for (i = 0; i < maxchars; ++i) {
         c = statusbar_text[i];
 
         if (c == 0) {

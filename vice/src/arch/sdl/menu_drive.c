@@ -80,7 +80,9 @@ static int check_memory_expansion(int memory, int type)
 
 static int has_fs(void)
 {
-    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET) {
+    if (machine_class == VICE_MACHINE_CBM5x0 || 
+        machine_class == VICE_MACHINE_CBM6x0 || 
+        machine_class == VICE_MACHINE_PET) {
         return 0;
     }
     return 1;
@@ -89,30 +91,6 @@ static int has_fs(void)
 static int is_fs(int type)
 {
     return ((type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL) && has_fs());
-}
-
-static int get_drive_type(int drive)
-{
-    int iecdevice = 0;
-    int fsdevice;
-    int drivetype;
-
-    if (has_fs()) {
-        resources_get_int_sprintf("IECDevice%i", &iecdevice, drive);
-        resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
-    }
-    resources_get_int_sprintf("Drive%iType", &drivetype, drive);
-    if (iecdevice) {
-        return fsdevice;
-    } else {
-        return drivetype;
-    }
-}
-
-/* FIXME: make this a common function? */
-int drive_is_dualdrive_by_devnr(int devnr)
-{
-    return drive_check_dual(get_drive_type(devnr));
 }
 
 static int check_current_drive_type(int type, int drive)
@@ -142,7 +120,7 @@ static char *get_drive_type_string(int drive)
 {
     int type;
 
-    type = get_drive_type(drive);
+    type = drive_get_type_by_devnr(drive);
     switch (type) {
         case 0:                  return MENU_SUBMENU_STRING " none";
         case ATTACH_DEVICE_FS:   return MENU_SUBMENU_STRING " directory";
@@ -337,7 +315,7 @@ static UI_MENU_CALLBACK(fliplist_callback)
     {                                                       \
         int type;                                           \
                                                             \
-        type = get_drive_type(x);                           \
+        type = drive_get_type_by_devnr(x);                  \
                                                             \
         if (drive_check_idle_method(type)) {                \
             return MENU_SUBMENU_STRING;                     \
@@ -355,7 +333,7 @@ DRIVE_SHOW_IDLE_CALLBACK(11)
     {                                                         \
         int type;                                             \
                                                               \
-        type = get_drive_type(x);                             \
+        type = drive_get_type_by_devnr(x);                    \
                                                               \
         if (drive_check_extend_policy(type)) {                \
             return MENU_SUBMENU_STRING;                       \
@@ -373,7 +351,7 @@ DRIVE_SHOW_EXTEND_CALLBACK(11)
     {                                                         \
         int type;                                             \
                                                               \
-        type = get_drive_type(x);                             \
+        type = drive_get_type_by_devnr(x);                    \
                                                               \
         if (drive_check_expansion(type)) {                    \
             return MENU_SUBMENU_STRING;                       \
@@ -391,7 +369,7 @@ DRIVE_SHOW_EXPAND_CALLBACK(11)
     {                                                                   \
         int type;                                                       \
                                                                         \
-        type = get_drive_type(x);                                       \
+        type = drive_get_type_by_devnr(x);                              \
                                                                         \
         if (drive_check_profdos(type) || drive_check_supercard(type)) { \
             return MENU_SUBMENU_STRING;                                 \
@@ -424,7 +402,7 @@ static UI_MENU_CALLBACK(set_idle_callback)
 
     drive = (int)(vice_ptr_to_int(param) >> 8);
     parameter = (int)(vice_ptr_to_int(param) & 0xff);
-    current = get_drive_type(drive);
+    current = drive_get_type_by_devnr(drive);
 
     if (activated) {
         if (drive_check_idle_method(current)) {
@@ -452,7 +430,7 @@ static UI_MENU_CALLBACK(set_extend_callback)
 
     drive = (int)(vice_ptr_to_int(param) >> 8);
     parameter = (int)(vice_ptr_to_int(param) & 0xff);
-    current = get_drive_type(drive);
+    current = drive_get_type_by_devnr(drive);
 
     if (activated) {
         if (drive_check_extend_policy(current)) {
@@ -476,7 +454,7 @@ static UI_MENU_CALLBACK(set_extend_callback)
     {                                                           \
         int type;                                               \
                                                                 \
-        type = get_drive_type(x);                               \
+        type = drive_get_type_by_devnr(x);                      \
                                                                 \
         if (drive_check_parallel_cable(type)) {                 \
             return MENU_SUBMENU_STRING;                         \
@@ -497,7 +475,7 @@ static UI_MENU_CALLBACK(set_par_callback)
 
     drive = vice_ptr_to_int(param) >> 16;
     type = vice_ptr_to_int(param) & 0x0f;
-    current = get_drive_type(drive);
+    current = drive_get_type_by_devnr(drive);
 
     if (activated) {
         if (machine_class != VICE_MACHINE_VIC20 && drive_check_parallel_cable(current)) {
@@ -573,7 +551,7 @@ void uidrive_menu_create(void)
        menu items in the drive menu */
     for (i = 0; i < 4; i++) {
         d0 = d1 = MENU_STATUS_INACTIVE;
-        if (get_drive_type(8 + i) != 0) {
+        if (drive_get_type_by_devnr(8 + i) != 0) {
             d0 = MENU_STATUS_ACTIVE;
             if (drive_is_dualdrive_by_devnr(8 + i)) {
                 d1 = MENU_STATUS_ACTIVE;
@@ -596,7 +574,7 @@ static UI_MENU_CALLBACK(set_expand_callback)
     drive = (int)(vice_ptr_to_int(param) >> 16);
     parameter = (int)(vice_ptr_to_int(param) & 0xffff);
 
-    current = get_drive_type(drive);
+    current = drive_get_type_by_devnr(drive);
 
     if (activated) {
         if (drive_check_expansion(current) && check_memory_expansion(parameter, current)) {
@@ -627,7 +605,7 @@ static UI_MENU_CALLBACK(set_exboard_callback)
     drive = (int)(vice_ptr_to_int(param) >> 16);
     parameter = (int)(vice_ptr_to_int(param) & 0xffff);
 
-    type = get_drive_type(drive);
+    type = drive_get_type_by_devnr(drive);
 
     switch (parameter) {
         case 0:
