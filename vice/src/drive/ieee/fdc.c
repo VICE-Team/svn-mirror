@@ -804,8 +804,10 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
     imgfdc->realimage = image;
 
     if (sysfdc->drive_type == DRIVE_TYPE_NONE) {
+#ifdef FDC_DEBUG
         log_message(fdc_log, "Could not attach image type %u to disk #%u without type.",
                             image->type, unit);
+#endif
         return -1;
     }
 
