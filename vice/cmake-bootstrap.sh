@@ -154,11 +154,11 @@ function extract_non_include_non_def_flags {
 }
 
 function extract_cxxflags {
-	extract_non_include_non_def_flags $(extract_make_var VICE_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
+	extract_non_include_non_def_flags $(extract_make_var AM_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
 }
 
 function extract_cflags {
-	extract_non_include_non_def_flags $(extract_make_var VICE_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
+	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
 }
 
 function extract_ldflags {
@@ -166,7 +166,7 @@ function extract_ldflags {
 	extract_non_include_non_def_flags \
 		$(extract_make_var \
 			${executable}_LDFLAGS; space; \
-			extract_make_var VICE_LDFLAGS; space; \
+			extract_make_var AM_LDFLAGS; space; \
 			extract_make_var LDFLAGS; \
 			echo -n " $LDFLAGS")
 }
