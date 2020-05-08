@@ -1881,6 +1881,7 @@ void ui_display_tape_current_image(const char *image)
 /** \brief  Statusbar API function to report changes in drive LED intensity.
  *
  *  \param  drive_number    The unit to update (0-3 for drives 8-11)
+ *  \param  drive_base      Drive 0 or 1 of dualdrives
  *  \param  led_pwm1        The intensity of the first LED (0=off,
  *                          1000=maximum intensity)
  *  \param  led_pwm2        The intensity of the second LED (0=off,
@@ -1889,6 +1890,7 @@ void ui_display_tape_current_image(const char *image)
  *          drives.
  */
 void ui_display_drive_led(unsigned int drive_number,
+                          unsigned int drive_base,
                           unsigned int led_pwm1,
                           unsigned int led_pwm2)
 {

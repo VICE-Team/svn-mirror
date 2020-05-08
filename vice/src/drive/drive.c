@@ -782,7 +782,7 @@ static void drive_led_update(drive_t *drive, drive_t *drive0, int base)
 
     if (led_pwm1 != drive->led_last_pwm
         || my_led_status != drive->old_led_status) {
-        ui_display_drive_led(drive->mynumber, led_pwm1,
+        ui_display_drive_led(drive->mynumber, base, led_pwm1,
                              (my_led_status & 2) ? 1000 : 0);
         drive->led_last_pwm = led_pwm1;
         drive->old_led_status = my_led_status;

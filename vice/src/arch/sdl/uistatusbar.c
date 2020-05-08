@@ -178,7 +178,8 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 
     for (drive_number = 0; drive_number < 4; ++drive_number) {
         if (drive_state & 1) {
-            ui_display_drive_led(drive_number, 0, 0);
+            ui_display_drive_led(drive_number, 0, 0, 0);
+            ui_display_drive_led(drive_number, 1, 0, 0);
         } else {
             switch (drive_number) {
                 case 0:
@@ -249,7 +250,7 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
 }
 
 /* The pwm value will vary between 0 and 1000.  */
-void ui_display_drive_led(unsigned int drive_number, unsigned int led_pwm1, unsigned int led_pwm2)
+void ui_display_drive_led(unsigned int drive_number, unsigned int drive_base, unsigned int led_pwm1, unsigned int led_pwm2)
 {
     int high;
     int low;
