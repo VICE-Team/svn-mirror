@@ -52,6 +52,8 @@
 /*  00000000001111111111222222222233333333334444444444555555555566666666667777777777  */
 /*  01234567890123456789012345678901234567890123456789012345678901234567890123456789  */
 /* "100%P50fps  000>  8:0T35  8:1T35  9:0T35  9:1T35 10:0T35 10:1T35 11:0T35 11:1T35" */
+#define BLANKLINE \
+   "                                                                                "
 
 #define MAX_STATUSBAR_LEN           128
 #define STATUSBAR_SPEED_POS         0
@@ -62,8 +64,8 @@
 static int statusbar_drive_offset[4][2];    /* points to the position of the T in the widget */
 static int statusbar_drive_track[4][2];
 
-static char statusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
-static char kbdstatusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
+static char statusbar_text[MAX_STATUSBAR_LEN + 1] = BLANKLINE;
+static char kbdstatusbar_text[MAX_STATUSBAR_LEN + 1] = BLANKLINE;
 
 static menufont_t *menufont = NULL;
 static int pitch;
@@ -200,7 +202,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
             offset += (drive_number > 0) ? 6 : 5;
         }
         size = MAX_STATUSBAR_LEN - offset;
-        memset(statusbar_text + offset, ' ', size);    /* space out man */
+        memset(statusbar_text + offset, ' ', size);
         drive_state >>= 1;
     }
 
@@ -454,7 +456,6 @@ void uistatusbar_draw(void)
     if (kbd_status) {
         for (i = 0; i < maxchars; ++i) {
             c = kbdstatusbar_text[i];
-
             if (c == 0) {
                 break;
             }
@@ -487,15 +488,16 @@ void ui_display_kbd_status(SDL_Event *e)
     char *p = &kbdstatusbar_text[KBDSTATUSENTRYLEN * 2];
     int kbd_status;
 
-    if (machine_class != VICE_MACHINE_VSID) {
+    if (machine_class == VICE_MACHINE_VSID) {
         return; /* vsid doesn't have a statusbar */
     }
 
-    resources_get_int("KbdStatusbar", & kbd_status);
-
-
+    resources_get_int("KbdStatusbar", &kbd_status);
+    
     if (kbd_status) {
-        memmove(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN], 40);
+        memmove(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN], 
+                MAX_STATUSBAR_LEN - KBDSTATUSENTRYLEN);
+        memset(p + KBDSTATUSENTRYLEN, ' ', MAX_STATUSBAR_LEN - (KBDSTATUSENTRYLEN * 3));
         sprintf(p, "%c%03d>%03d %c%04x    ", 
                 (e->type == SDL_KEYUP) ? 'U' : 'D',
                 e->key.keysym.sym & 0xffff, 
