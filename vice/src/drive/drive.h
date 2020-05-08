@@ -417,6 +417,9 @@ extern int drive_check_rtc(int drive_type);
 extern int drive_check_iec(int drive_type);
 extern int drive_num_leds(unsigned int dnr);
 
+int drive_get_type_by_devnr(int devnr);
+int drive_is_dualdrive_by_devnr(int devnr);
+
 extern void drive_setup_context(void);
 
 extern int drive_resources_type_init(unsigned int default_type);

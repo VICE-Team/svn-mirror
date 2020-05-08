@@ -30,7 +30,9 @@
 #include "drive.h"
 #include "drivetypes.h"
 #include "iecdrive.h"
+#include "machine.h"
 #include "machine-drive.h"
+#include "resources.h"
 
 
 static unsigned int drive_check_ieee(unsigned int type)
@@ -324,4 +326,29 @@ int drive_check_rtc(int drive_type)
         default:
             return 0;
     }
+}
+
+int drive_get_type_by_devnr(int devnr)
+{
+    int iecdevice = 0;
+    int fsdevice;
+    int drivetype;
+
+    if ((machine_class != VICE_MACHINE_CBM5x0) && 
+        (machine_class != VICE_MACHINE_CBM6x0) && 
+        (machine_class != VICE_MACHINE_PET)) {
+        resources_get_int_sprintf("IECDevice%i", &iecdevice, devnr);
+        resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, devnr);
+    }
+    resources_get_int_sprintf("Drive%iType", &drivetype, devnr);
+    if (iecdevice) {
+        return fsdevice;
+    } else {
+        return drivetype;
+    }
+}
+
+int drive_is_dualdrive_by_devnr(int devnr)
+{
+    return drive_check_dual(drive_get_type_by_devnr(devnr));
 }
