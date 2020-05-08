@@ -59,7 +59,11 @@ sdl_keymaps = \
 	sdl_hotkeys.vkm \
 	sdl_sym.vkm \
 	sdl_buuk_sym.vkm \
-	sdl_grus_sym.vkm
+	sdl_buuk_sym_de.vkm \
+	sdl_buuk_pos.vkm \
+	sdl_grus_sym.vkm \
+	sdl_grus_sym_de.vkm \
+	sdl_grus_pos.vkm
 
 if SDL_COMPILE
 pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
