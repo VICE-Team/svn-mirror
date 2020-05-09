@@ -332,8 +332,8 @@ const char *joystick_ui_get_next_device_name(int *id)
             if ((*id >= JOYDEV_ANALOG_0) && (*id <= JOYDEV_ANALOG_5)) {
                 idx = *id - JOYDEV_ANALOG_0;
                 if (ajoyfd[idx] >= 0) {
-                    sprintf(jname, "%d: ", idx);
                     ioctl(ajoyfd[idx], JSIOCGNAME (sizeof (jname) - 4), &jname[3]);
+                    sprintf(jname, "%d: ", idx);
                     *id = idx + JOYDEV_ANALOG_0;
                     /* printf("joystick_ui_get_next_device_name  got name: %d: %s: %s\n", *id, name, jname); */
                     return jname;
