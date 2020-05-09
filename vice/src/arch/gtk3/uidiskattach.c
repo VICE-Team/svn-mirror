@@ -58,6 +58,11 @@ static ui_file_filter_t filters[] = {
 };
 #endif
 
+#ifndef SANDBOX_MODE
+/** \brief  Array to keep track of drive numbers for each unit
+ */
+static int unit_drive_nums[DRIVE_NUM] = { 0, 0, 0, 0};
+#endif
 
 #ifndef SANDBOX_MODE
 /** \brief  Preview widget reference
@@ -187,15 +192,28 @@ static void on_unit_changed(int unit)
 
     debug_gtk3("Unit #%d: dual-drive: %s.", unit, dual ? "TRUE" : "FALSE");
     gtk_widget_set_sensitive(driveno_widget, dual);
-    if (!dual) {
-        /* another visual clue that the current unit doesn't support dual
-         * drives
-         */
-        drive_no_widget_update(driveno_widget, 0);
-    }
+    drive_no_widget_update(driveno_widget,
+                           unit_drive_nums[unit - DRIVE_UNIT_MIN]);
 }
 #endif
 
+
+#ifndef SANDBOX_MODE
+/** \brief  Callback for the drive number widget
+ *
+ * Update drive number for the current unit, to later be used to restore the
+ * drive number widget when changing units.
+ *
+ * \param[in]   drive   drive number
+ */
+static void on_drive_num_changed(int drive)
+{
+    debug_gtk3("Got drive number %d for unit #%d.", drive, unit_number);
+
+    unit_drive_nums[unit_number - DRIVE_UNIT_MIN] = drive;
+
+}
+#endif
 
 
 #ifndef SANDBOX_MODE
@@ -414,7 +432,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
             0, 1, 3, 1);
 
     /* add drive number widget */
-    driveno_widget = drive_no_widget_create(0, &drive_number, NULL);
+    driveno_widget = drive_no_widget_create(0, &drive_number, on_drive_num_changed);
 #if 0
     drive_type = drive_get_type_by_devnr(unit);
     debug_gtk3("Drive type for unit #%d: %d.", unit, drive_type);
