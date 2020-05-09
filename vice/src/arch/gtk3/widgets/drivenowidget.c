@@ -173,3 +173,33 @@ GtkWidget *drive_no_widget_create(int number, int *target, void (*callback)(int)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+/** \brief  Update widget by setting a \a drive number
+ *
+ * \param[in,out]   drive number widget
+ * \param[in]       drive number
+ */
+void drive_no_widget_update(GtkWidget *widget, int drive)
+{
+    GtkWidget *group;
+
+    /* XXX: change this if we ever find drive units with more than two drives,
+     *      which seems highly unlikely
+     */
+    if (drive != 0) {
+        drive = 1;
+    }
+
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 1, 0);
+    if (group != NULL) {
+        GtkWidget *radio;
+
+        radio = gtk_grid_get_child_at(GTK_GRID(group), drive, 0);
+        if (radio != NULL) {
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+        }
+    }
+}
+
+

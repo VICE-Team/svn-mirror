@@ -63,6 +63,10 @@ static ui_file_filter_t filters[] = {
 /** \brief  Preview widget reference
  */
 static GtkWidget *preview_widget = NULL;
+
+/** \brief  Drive number widget reference
+ */
+static GtkWidget *driveno_widget = NULL;
 #endif
 
 
@@ -166,6 +170,32 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
     }
 }
 #endif
+
+
+#ifndef SANDBOX_MODE
+/** \brief  Callback for the drive unit widget
+ *
+ * Updates the drive number widget, depending on the drive unit's type:
+ * 'greys-out' the drive number widget and sets drive number to 0 if the current
+ * unit doesn't support dual drives.
+ *
+ * \param[in]   unit    drive unit number
+ */
+static void on_unit_changed(int unit)
+{
+    int dual = drive_is_dualdrive_by_devnr(unit);
+
+    debug_gtk3("Unit #%d: dual-drive: %s.", unit, dual ? "TRUE" : "FALSE");
+    gtk_widget_set_sensitive(driveno_widget, dual);
+    if (!dual) {
+        /* another visual clue that the current unit doesn't support dual
+         * drives
+         */
+        drive_no_widget_update(driveno_widget, 0);
+    }
+}
+#endif
+
 
 
 #ifndef SANDBOX_MODE
@@ -380,11 +410,19 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 #endif
     /* second row, three cols wide */
     gtk_grid_attach(GTK_GRID(grid),
-            drive_unit_widget_create(unit, &unit_number, NULL),
+            drive_unit_widget_create(unit, &unit_number, on_unit_changed),
             0, 1, 3, 1);
 
+    /* add drive number widget */
+    driveno_widget = drive_no_widget_create(0, &drive_number, NULL);
+#if 0
+    drive_type = drive_get_type_by_devnr(unit);
+    debug_gtk3("Drive type for unit #%d: %d.", unit, drive_type);
+#endif
+    gtk_widget_set_sensitive(driveno_widget, drive_is_dualdrive_by_devnr(unit));
+
     gtk_grid_attach(GTK_GRID(grid),
-            drive_no_widget_create(0, &drive_number, NULL),
+            driveno_widget,
             3, 1, 3, 1);
 
     gtk_widget_show_all(grid);

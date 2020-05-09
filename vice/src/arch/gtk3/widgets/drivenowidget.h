@@ -31,5 +31,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget * drive_no_widget_create(int number, int *target, void (*callback)(int));
+void drive_no_widget_update(GtkWidget *widget, int drive);
 
 #endif
