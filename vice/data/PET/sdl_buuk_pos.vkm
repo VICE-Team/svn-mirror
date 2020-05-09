@@ -81,7 +81,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# this is a PET business (uk) keyboard mapping (symbolic) for US keyboard
+# this is a PET business (uk) keyboard mapping (positional) for US keyboard
 
 # Business (UK) keyboard matrix:
 #
@@ -132,8 +132,6 @@
 !RSHIFT 6 6
 !VSHIFT RSHIFT
 !SHIFTL LSHIFT
-
-# fixme: the following seems to be a positional layout
 
 27 2 0 8        /*          ESC -> ESC          */
 49 1 0 8        /*            1 -> 1            */

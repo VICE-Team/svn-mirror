@@ -125,8 +125,9 @@
 !LSHIFT 8 0
 !RSHIFT 8 5
 !VSHIFT RSHIFT
+!SHIFTL LSHIFT
 
-# fixme: the following seems to be a positional layout
+# FIXME: the following seems to be a positional layout
 
 27 9 4 8        /*          ESC -> Run/Stop     */
 49 0 0 8        /*            1 -> !            */

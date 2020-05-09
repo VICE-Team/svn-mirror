@@ -133,7 +133,7 @@
 !VSHIFT RSHIFT
 !SHIFTL LSHIFT
 
-# fixme: the following seems to be a positional layout
+# FIXME: the following seems to be a positional layout
 
 27 2 0 8        /*          ESC -> ESC          */
 49 1 0 8        /*            1 -> 1            */

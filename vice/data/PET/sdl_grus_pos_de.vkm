@@ -81,7 +81,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# this is a PET graphics keyboard mapping (positional) for US keyboard
+# this is a PET graphics keyboard mapping (positional) for german keyboard
 
 #
 # Graphics keyboard matrix:
@@ -127,6 +127,7 @@
 !VSHIFT RSHIFT
 !SHIFTL LSHIFT
 
+94 8 1 8        /*            ^ -> @            */
 49 0 0 8        /*            1 -> !            */
 50 1 0 8        /*            2 -> "            */
 51 0 1 8        /*            3 -> #            */
@@ -137,26 +138,26 @@
 56 1 3 8        /*            8 -> \            */
 57 0 4 8        /*            9 -> (            */
 48 1 4 8        /*            0 -> )            */
-45 0 5 8        /*        Minus -> Left arrow   */
-278 9 1 8       /*         Home -> [            */
-280 8 2 8       /*         PgUp -> ]            */
+223 0 5 8       /*            ß -> Left arrow   */
+180 9 1 8       /*            ´ -> [            */
+8 8 2 8         /*    backspace -> ]            */
 
-306 9 0 8       /*    Left Ctrl -> RVS ON/OFF   */
-113 2 0 8       /*            Q -> Q            */
+9 9 0 8         /*       TAB    -> RVS ON/OFF   */
+113 2 0 40      /*            Q -> Q            */
 119 3 0 8       /*            W -> W            */
 101 2 1 8       /*            E -> E            */
 114 3 1 8       /*            R -> R            */
 116 2 2 8       /*            T -> T            */
-121 3 2 8       /*            Y -> Y            */
+122 3 2 8       /*            Z -> Y            */
 117 2 3 8       /*            U -> U            */
 105 3 3 8       /*            I -> I            */
 111 2 4 8       /*            O -> O            */
 112 3 4 8       /*            P -> P            */
-91 2 5 8        /*            [ -> Up arrow     */
-279 9 3 8       /*          End -> <            */
-281 8 4 8       /*       PgDown -> >            */
+252 2 5 8       /*            ü -> Up arrow     */
+43 9 3 8        /*            + -> <            */
+228 8 4 8       /*            ä -> >            */
 
-# FIXME: shift-lock
+301 8 0 64      /*  Shift lock  -> Shift lock   */
 97 4 0 8        /*            A -> A            */
 115 5 0 8       /*            S -> S            */
 100 4 1 8       /*            D -> D            */
@@ -166,12 +167,12 @@
 106 4 3 8       /*            J -> J            */
 107 5 3 8       /*            K -> K            */
 108 4 4 8       /*            L -> L            */
-59 5 4 8        /*            ; -> :            */
-27 9 4 8        /*          ESC -> Run/Stop     */
+246 5 4 8       /*            ö -> :            */
+35 9 4 8        /*            # -> Run/Stop     */
 13 6 5 8        /*       Return -> Return       */
 
 304 8 0 2       /*   Left Shift -> Left Shift   */
-122 6 0 8       /*            Z -> Z            */
+121 6 0 8       /*            Y -> Z            */
 120 7 0 8       /*            X -> X            */
 99 6 1 8        /*            C -> C            */
 118 7 1 8       /*            V -> V            */
@@ -180,39 +181,44 @@
 109 6 3 8       /*            M -> M            */
 44 7 3 8        /*            , -> ,            */
 46 6 4 8        /*            . -> ;            */
-47 7 4 8        /*            / -> ?            */
+45 7 4 8        /*            - -> ?            */
 303 8 5 4       /*  Right Shift -> Right Shift  */
 
 32 9 2 8        /*        Space -> Space        */
 
+300 0 6 8       /*      Numlock -> CLR/HOME     */
+267 1 6 8       /*         Down -> CRSR DOWN    */
+268 0 7 8       /*        Right -> CRSR RIGHT   */
+269 1 7 8       /*       Delete -> Del          */
+
 263 2 6 8       /*     Numpad 7 -> 7            */
 264 3 6 8       /*     Numpad 8 -> 8            */
 265 2 7 8       /*     Numpad 9 -> 9            */
-267 3 7 8       /*     Numpad / -> /            */
+277 3 7 8       /*      Insert  -> /            */
 
 260 4 6 8       /*     Numpad 4 -> 4            */
 261 5 6 8       /*     Numpad 5 -> 5            */
 262 4 7 8       /*     Numpad 6 -> 6            */
-# FIXME: *
+280 5 7 8       /*      Page up -> *            */
 
 257 6 6 8       /*     Numpad 1 -> 1            */
 258 7 6 8       /*     Numpad 2 -> 2            */
 259 6 7 8       /*     Numpad 3 -> 3            */
-270 7 7 8       /*     Numpad + -> +            */
+279 7 7 8       /*          End -> +            */
 
 256 8 6 8       /*     Numpad 0 -> 0            */
 266 9 6 8       /*     Numpad . -> .            */
-269 8 7 8       /*     Numpad - -> Minus        */
+281 8 7 8       /*    Page down -> -            */
 271 9 7 8       /* Numpad Enter -> =            */
 
-# additional non positional keys:
+# extra non positional keys
+27 9 4 8        /*          ESC -> Run/Stop     */
+113 8 1 544     /* altgr+Q    @ -> @            */
+
+278 0 6 8       /*         Home -> CLR/HOME     */
+127 1 7 8       /*       Delete -> Del          */
 
 273 1 6 1       /*           Up -> CRSR UP      */
 276 0 7 1       /*         Left -> CRSR LEFT    */
 275 0 7 8       /*        Right -> CRSR RIGHT   */
 274 1 6 8       /*         Down -> CRSR DOWN    */
-
-8 1 8 8         /*    Backspace -> Del          */
-277 8 1 8       /*          Ins -> @            */
-127 0 6 8       /*          Del -> CLR/HOME     */
-305 9 4 8       /*   Right Ctrl -> RUN/STOP     */
