@@ -260,14 +260,14 @@ static UI_MENU_CALLBACK(radio_KeyboardType_callback)
 
 /* FIXME: this should be dynamic/generated */
 static const ui_menu_entry_t pet_keyboard_menu[] = {
-    { "Business (US)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KeyboardType_callback,
-      (ui_callback_data_t)KBD_TYPE_BUSINESS_US },
     { "Business (UK)",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_KeyboardType_callback,
       (ui_callback_data_t)KBD_TYPE_BUSINESS_UK },
+    { "Business (US)",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_KeyboardType_callback,
+      (ui_callback_data_t)KBD_TYPE_BUSINESS_US },
     { "Business (DE)",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_KeyboardType_callback,

@@ -62,6 +62,19 @@ struct pet_table_s {
 };
 typedef struct pet_table_s pet_table_t;
 
+/*
+    "small" PETs use(d) the "graphics keyboard" (up to 4032). "big" PETs use(d)
+    the "business keyboard" (8032 and up). there also existed versions of the
+    "business keyboard" for the 4032 ("4032B").
+    
+    since the different keyboards actually use different matrix positions for
+    the keys, loading a new keymap is not enough, also the respective matching
+    editor ROM must be used. this detail is NOT handled here, simply because
+    that would inflate the list of models too much.
+    
+    also see http://www.6502.org/users/andre/petindex/keyboards.html
+*/ 
+
 static pet_table_t pet_table[] = {
     { "2001",
       { RAM_8K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
@@ -84,7 +97,7 @@ static pet_table_t pet_table[] = {
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
         NULL, NULL, NULL, { NULL } } },
     { "3032B",
-      { RAM_32K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
+      { RAM_32K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_UK,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2B40NAME, PET_BASIC2NAME,
         NULL, NULL, NULL, { NULL } } },
@@ -99,27 +112,27 @@ static pet_table_t pet_table[] = {
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4G40NAME, PET_BASIC4NAME,
         NULL, NULL, NULL, { NULL } } },
     { "4032B",
-      { RAM_32K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
+      { RAM_32K, IO_256, HAS_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_UK,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B40NAME, PET_BASIC4NAME,
         NULL, NULL, NULL, { NULL } } },
     { "8032",
-      { RAM_32K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
+      { RAM_32K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_UK,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL, { NULL } } },
     { "8096",
-      { RAM_96K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
+      { RAM_96K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_UK,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL, { NULL } } },
     { "8296",
-      { RAM_128K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
+      { RAM_128K, IO_256, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_UK,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, NORMAL_IO,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL, { NULL } } },
     { "SuperPET",
-      { RAM_32K, IO_2048, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_US,
+      { RAM_32K, IO_2048, HAS_CRTC, COLS_80, NO_RAM_9, NO_RAM_A, KBD_TYPE_BUSINESS_UK,
         NO_KERNAL_PATCH, NO_CHARGEN_PATCH, NO_EOI, SUPERPET_IO,
         SUPERPET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL,

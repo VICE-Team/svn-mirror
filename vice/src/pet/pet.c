@@ -143,8 +143,13 @@ int machine_get_keyboard_type(void)
 
 char *machine_get_keyboard_type_name(int type)
 {
-    static char names[KBD_TYPE_NUM][5] = { KBD_TYPE_STR_BUSINESS_US, KBD_TYPE_STR_BUSINESS_UK,
-        KBD_TYPE_STR_BUSINESS_DE, KBD_TYPE_STR_BUSINESS_JP, KBD_TYPE_STR_GRAPHICS_US };
+    static char names[KBD_TYPE_NUM][5] = { 
+        KBD_TYPE_STR_BUSINESS_UK,
+        KBD_TYPE_STR_BUSINESS_US, 
+        KBD_TYPE_STR_BUSINESS_DE, 
+        KBD_TYPE_STR_BUSINESS_JP, 
+        KBD_TYPE_STR_GRAPHICS_US 
+    };
     return names[type]; /* return 0 if no different types exist */
 }
 
@@ -156,8 +161,8 @@ int machine_get_num_keyboard_types(void)
 
 /* FIXME: adjust this to reality :) */
 static kbdtype_info_t kbdinfo[KBD_TYPE_NUM + 1] = {
-    { "Business (us)", KBD_TYPE_BUSINESS_US, 0 },
     { "Business (uk)", KBD_TYPE_BUSINESS_UK, 0 },
+    { "Business (us)", KBD_TYPE_BUSINESS_US, 0 },
     { "Business (de)", KBD_TYPE_BUSINESS_DE, 0 },
     { "Business (jp)", KBD_TYPE_BUSINESS_JP, 0 },
     { "Graphics (us)", KBD_TYPE_GRAPHICS_US, 0 },
