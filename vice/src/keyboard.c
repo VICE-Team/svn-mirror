@@ -1888,7 +1888,7 @@ int keyboard_set_keymap_index(int val, void *param)
     return 0;
 }
 
-/* handle change if "KeyboardType" */
+/* handle change of "KeyboardType" */
 static int keyboard_set_keyboard_type(int val, void *param)
 {
     int idx, mapping;
@@ -2136,7 +2136,9 @@ ok:
     return 0;
 }
 
-/* called by keyboard_resources_init to create the default keymap(s) */
+/* called by keyboard_resources_init to create the default keymap(s) 
+   idx is the index to the resource for the setting ("KeymapIndex") 
+ */
 static int keyboard_set_default_keymap_file(int idx)
 {
     int mapping = 0;
@@ -2145,15 +2147,18 @@ static int keyboard_set_default_keymap_file(int idx)
     DBG((">keyboard_set_default_keymap_file(%d)\n", idx));
 
     if ((idx != KBD_INDEX_SYM) && (idx != KBD_INDEX_POS)) {
+        /* it's a user keymap, do not set a default */
         return -1;
     }
+    /* host keyboard layout type */
     if (resources_get_int("KeyboardMapping", &mapping) < 0) {
         return -1;
     }
+    /* emulated keyboard tyoe */
     if (resources_get_int("KeyboardType", &type) < 0) {
         return -1;
     }
-
+    
     if(switch_keymap_file(KBD_SWITCH_DEFAULT, &idx, &mapping, &type) < 0) {
         /* return -1; */
         DBG(("<keyboard_set_default_keymap_file(FAILURE: idx: %d type: %d mapping: %d)\n", idx, type, mapping));
@@ -2235,9 +2240,11 @@ int keyboard_resources_init(void)
         if (resources_set_int("KeymapIndex", KBD_INDEX_SYM) < 0) {
             /* return -1; */
         }
+        /* host keyboard mapping */
         if (resources_set_int("KeyboardMapping", mapping) < 0) {
             /* return -1; */
         }
+        
         keyboard_set_default_keymap_file(KBD_INDEX_POS);
         if (resources_get_string("KeymapPosFile", &name) < 0) {
             DBG(("<<keyboard_resources_init(error)\n"));
@@ -2253,6 +2260,7 @@ int keyboard_resources_init(void)
             return -1;
         }
         log_verbose("Default symbolic map is: %s", name);
+
         util_string_set(&resources_string_d0, name);
         util_string_set(&resources_string_d2, name);
 
