@@ -968,11 +968,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     return UI_JAM_NONE;
 }
 
-/* Update all menu entries.  */
-void ui_update_menus(void)
-{
-}
-
 /* ----------------------------------------------------------------- */
 /* uicolor.h */
 

@@ -85,9 +85,6 @@ extern void ui_display_tape_current_image(const char *image);
 /* Show a CPU JAM dialog.  */
 extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
 
-/* Update all menu entries.  */
-extern void ui_update_menus(void);
-
 /* Recording UI */
 extern void ui_display_playback(int playback_status, char *version);
 extern void ui_display_recording(int recording_status);

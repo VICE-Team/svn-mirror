@@ -88,7 +88,6 @@ static void io_source_detach(io_source_detach_t *source)
             resources_set_int(source->det_name, 0);
             break;
     }
-    ui_update_menus();
 }
 
 /*

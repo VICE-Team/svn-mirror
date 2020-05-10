@@ -462,7 +462,6 @@ static CHECKYESNO check(const char *s, unsigned int blink_mode)
 static void set_true_drive_emulation_mode(int on)
 {
     resources_set_int("DriveTrueEmulation", on);
-    ui_update_menus();
 }
 
 static int get_true_drive_emulation_state(void)
@@ -479,7 +478,6 @@ static int get_true_drive_emulation_state(void)
 static void set_warp_mode(int on)
 {
     resources_set_int("WarpMode", on);
-    ui_update_menus();
 }
 
 static int get_warp_state(void)
@@ -507,7 +505,6 @@ static int get_device_traps_state(void)
 static void set_device_traps_state(int on)
 {
     resources_set_int("VirtualDevices", on);
-    ui_update_menus();
 }
 
 static void enable_warp_if_requested(void)
@@ -650,8 +647,6 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0) {
         snapshot_display_error();
     }
-
-    ui_update_menus();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1576,7 +1571,6 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 
     /* Now either proceed with disk image booting or prg injection after reset */
     if (result >= 0) {
-        ui_update_menus();
         reboot_for_autostart(boot_file_name, mode, runmode);
     }
 

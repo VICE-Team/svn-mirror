@@ -230,7 +230,6 @@ int pet_set_model(const char *model_name, void *extra)
     while (pet_table[i].model) {
         if (!strcmp(pet_table[i].model, model_name)) {
             petmodel_set(i);
-            ui_update_menus();
             return 0;
         }
         i++;

@@ -1059,7 +1059,6 @@ void mon_resource_set(const char *name, const char* value)
             if (resources_set_value_string(name, value)) {
                 mon_out("Failed.\n");
             }
-            ui_update_menus();
             break;
         default:
             mon_out("Unknown resource \"%s\".\n", name);

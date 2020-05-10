@@ -84,7 +84,10 @@ iecbus_t *iecbus_drive_port(void)
     return &iecbus;
 }
 
-/* This function is called from ui_update_menus() */
+/* This function is called from ui_update_menus()
+ *
+ * Not anymore
+ */
 int iec_available_busses(void)
 {
     return IEC_BUS_IEC;

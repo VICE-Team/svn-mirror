@@ -1747,20 +1747,6 @@ void ui_shutdown(void)
     ui_statusbar_shutdown();
 }
 
-/** \brief  Update all menu item checkmarks on all windows
- *
- * \note    This is called from multiple functions in autostart.c and also
- *          mon_resource_set() in monitor/monitor.c when they change the
- *          value of resources.
- *
- * \todo    This is unimplemented, but will be much easier to implement if we
- *          switch to using a GtkApplication/GMenu based UI.
- */
-void ui_update_menus(void)
-{
-    /* NOP: Gtk3 doesn't need this */
-}
-
 
 /** \brief  Dispatch next GLib main context event
  *

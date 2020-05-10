@@ -799,10 +799,6 @@ static int sound_error(const char *msg)
 
     playback_enabled = 0;
 
-    if (!console_mode) {
-        ui_update_menus();
-    }
-
     return 1;
 }
 
