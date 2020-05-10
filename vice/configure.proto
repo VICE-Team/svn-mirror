@@ -17,8 +17,8 @@ dnl This has to happen before any other AC_* calls, so leave it here please.
 
 dnl Set VICE's compiler flags (can be overridden by the user)
 VICE_CPPFLAGS=""
-VICE_CFLAGS="-g -O3"
-VICE_CXXFLAGS="-g -O3"
+VICE_CFLAGS="${VICE_CFLAGS:--g -O3}"
+VICE_CXXFLAGS="${VICE_CXXFLAGS:--g -O3}"
 VICE_LDFLAGS=""
 
 
