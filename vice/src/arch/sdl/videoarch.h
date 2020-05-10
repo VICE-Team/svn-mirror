@@ -121,4 +121,6 @@ extern uint8_t *draw_buffer_vsid;
 #define SDL_FILTER_LINEAR      1
 #endif
 
+extern void sdl_ui_set_window_title(char *title);
+
 #endif

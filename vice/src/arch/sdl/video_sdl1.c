@@ -1247,3 +1247,8 @@ void sdl_ui_consume_mouse_event(SDL_Event *event)
     /* This is a no-op on SDL1 */
     ui_autohide_mouse_cursor();
 }
+
+void sdl_ui_set_window_title(char *title)
+{
+    /* we cant do this in SDL1 without also setting the icon? */
+}

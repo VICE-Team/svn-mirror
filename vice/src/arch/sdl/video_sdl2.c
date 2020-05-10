@@ -1024,3 +1024,10 @@ void sdl_ui_consume_mouse_event(SDL_Event *event)
     }
     ui_autohide_mouse_cursor();
 }
+
+void sdl_ui_set_window_title(char *title)
+{
+    if (sdl2_window) {
+        SDL_SetWindowTitle(sdl2_window, title);
+    }
+}

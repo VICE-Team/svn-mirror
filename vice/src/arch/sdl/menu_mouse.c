@@ -32,11 +32,52 @@
 
 #ifdef HAVE_MOUSE
 
+#include "vice_sdl.h"
+
+#include "archdep.h"
+#include "machine.h"
 #include "menu_common.h"
 #include "mouse.h"
+#include "resources.h"
 #include "uimenu.h"
+#include "videoarch.h"
 
-UI_MENU_DEFINE_TOGGLE(Mouse)
+#ifdef MACOSX_SUPPORT
+#define VICE_MOD_MASK_TEXT "Option"
+#else
+#define VICE_MOD_MASK_TEXT "Alt"
+#endif
+
+static UI_MENU_CALLBACK(toggle_Mouse_callback)
+{
+    int mouse;
+    char title[256];
+    char name[32];
+    if (activated) {
+        resources_get_int("Mouse", &mouse);
+        resources_set_int("Mouse", !mouse);
+        /* hack copied from raster.c */
+        if (machine_class != VICE_MACHINE_C64SC) {
+            strcpy(name, machine_get_name());
+        } else {
+            strcpy(name, "C64 (x64sc)");
+        }
+        if (!mouse) {
+            snprintf(title, 256, "VICE: %s%s Use %s+M to disable mouse grab.",
+                name, archdep_extra_title_text(), VICE_MOD_MASK_TEXT);
+        } else {
+            snprintf(title, 256, "VICE: %s%s", name, archdep_extra_title_text());
+        }        
+        sdl_ui_set_window_title(title);
+    } else {
+        resources_get_int("Mouse", &mouse);
+        if (mouse) {
+            return sdl_menu_text_tick;
+        }
+    }
+    return NULL;
+}
+
 UI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
 
 const ui_menu_entry_t mouse_menu[] = {
