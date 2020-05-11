@@ -233,6 +233,8 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 {
     int i;
     int temp;
+    int initial_delta_t = *delta_t;
+    int delta_t_for_other_chips;
 
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
         temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, soc, scc, delta_t);
@@ -243,7 +245,8 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
-            sound_calls[i]->calculate_samples(psid, pbuf, temp, soc, scc, delta_t);
+            delta_t_for_other_chips = initial_delta_t;
+            sound_calls[i]->calculate_samples(psid, pbuf, temp, soc, scc, &delta_t_for_other_chips);
         }
     }
     return temp;
