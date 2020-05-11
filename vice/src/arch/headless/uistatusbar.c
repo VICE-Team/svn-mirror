@@ -208,7 +208,8 @@ void ui_display_tape_current_image(const char *image)
  *  \todo   The statusbar API does not yet support dual-unit disk
  *          drives.
  */
-void ui_display_drive_led(int drive_number,
+void ui_display_drive_led(unsigned int drive_number,
+                          unsigned int drive_base,
                           unsigned int pwm1,
                           unsigned int led_pwm2)
 {
