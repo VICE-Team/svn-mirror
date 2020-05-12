@@ -2154,7 +2154,7 @@ static int keyboard_set_default_keymap_file(int idx)
     if (resources_get_int("KeyboardMapping", &mapping) < 0) {
         return -1;
     }
-    /* emulated keyboard tyoe */
+    /* emulated keyboard type */
     if (resources_get_int("KeyboardType", &type) < 0) {
         return -1;
     }
