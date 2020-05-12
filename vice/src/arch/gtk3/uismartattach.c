@@ -406,7 +406,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
-            NULL);
+            NULL, NULL);
 
     /* We need to manually add the buttons here, not using the constructor
      * above, to keep the order of the buttons the same as in the other
