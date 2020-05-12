@@ -257,47 +257,38 @@ static int get_chip_id(const char *name)
 }
 
 
-/** \brief  Reset all sliders to the resource value when creating the widget
+/** \brief  Reset all sliders to their factory value
  *
  * \param[in]   widget      reset button
  * \param[in]   user_data   extra event data (unused)
  */
 static void on_reset_clicked(GtkWidget *widget, gpointer user_data)
 {
-    /* TODO: implement reset with the new state object */
-#if 0
-    /* parent widget (grid), contains the InternalState object */
+    GtkWidget *parent;
+    crt_control_data_t *data;
+    int i;
+
     parent = gtk_widget_get_parent(widget);
     data = g_object_get_data(G_OBJECT(parent), "InternalState");
 
-    if (data->color_brightness != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->color_brightness);
+    debug_gtk3("CHIP: %s.", data->chip);
+
+    for (i = 0; i < RESOURCE_COUNT_MAX; i++) {
+        crt_control_t control = data->controls[i];
+        crt_control_resource_t res = control.res;
+        if (control.scale != NULL) {
+            debug_gtk3("Resetting '%s' to factory value.",
+                    res.label);
+            if (vice_gtk3_resource_scale_int_factory(control.scale)) {
+                debug_gtk3("OK.");
+            } else {
+                debug_gtk3("Failed.");
+            }
+            /* No need to reset the spin button, that gets triggered via
+             * the scale widget
+             */
+        }
     }
-    if (data->color_contrast != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->color_contrast);
-    }
-    if (data->color_gamma != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->color_gamma);
-    }
-    if (data->color_saturation != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->color_saturation);
-    }
-    if (data->color_tint != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->color_tint);
-    }
-    if (data->pal_blur != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->pal_blur);
-    }
-    if (data->pal_scanline_shade != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->pal_scanline_shade);
-    }
-    if (data->pal_oddline_offset != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->pal_oddline_offset);
-    }
-    if (data->pal_oddline_phase != NULL) {
-        vice_gtk3_resource_scale_int_reset(data->pal_oddline_phase);
-    }
-#endif
 }
 
 
