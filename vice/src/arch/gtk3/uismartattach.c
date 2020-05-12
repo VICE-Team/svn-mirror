@@ -406,15 +406,20 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
-            "Open", GTK_RESPONSE_ACCEPT,
-            "Close", GTK_RESPONSE_REJECT,
-            NULL, NULL);
+            NULL);
 
-    autostart_button = gtk_dialog_add_button(
-            GTK_DIALOG(dialog),
-            "Autostart",
-            VICE_RESPONSE_AUTOSTART);
+    /* We need to manually add the buttons here, not using the constructor
+     * above, to keep the order of the buttons the same as in the other
+     * 'attach' dialogs. Gtk doesn't allow getting references to buttons when
+     * added via the constructor, meaning we cannot get a reference to the
+     * "Autostart" button in order to "grey it out".
+     */
+    gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", GTK_RESPONSE_ACCEPT);
+    autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                             "Autostart",
+                                             VICE_RESPONSE_AUTOSTART);
     gtk_widget_set_sensitive(autostart_button, FALSE);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), "Close", GTK_RESPONSE_REJECT);
 
     /* set modal so mouse-grab doesn't get triggered */
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
