@@ -1661,10 +1661,10 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
 void mon_change_dir(const char *path)
 {
     if (ioutil_chdir(path) < 0) {
-        mon_out("Cannot change to directory `%s':\n", path);
+        mon_out("Cannot change to directory: '%s'\n", path);
+    } else {
+        mon_out("Changing to directory: '%s'\n", path);
     }
-
-    mon_out("Changing to directory: `%s'\n", path);
 }
 
 void mon_save_symbols(MEMSPACE mem, const char *filename)
