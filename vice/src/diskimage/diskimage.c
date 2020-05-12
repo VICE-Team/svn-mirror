@@ -334,7 +334,7 @@ void disk_image_attach_log(const disk_image_t *image, signed int lognum,
 
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
-            log_verbose("Unit %u drive %d: %s disk image attached: %s.",
+            log_verbose("Unit %u drive %u: %s disk image attached: %s.",
                         unit, drive, type, fsimage_name_get(image));
             break;
     }
@@ -358,7 +358,7 @@ void disk_image_detach_log(const disk_image_t *image, signed int lognum,
 
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
-            log_verbose("Unit %u drive %d: %s disk image detached: %s.",
+            log_verbose("Unit %u drive %u: %s disk image detached: %s.",
                         unit, drive, type, fsimage_name_get(image));
             break;
     }
