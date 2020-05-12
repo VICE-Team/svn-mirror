@@ -647,11 +647,11 @@ int disk_image_write_p64_image(const disk_image_t *image)
     return 0;
 }
 
-void disk_image_attach_log(const disk_image_t *image, signed int lognum, unsigned int unit)
+void disk_image_attach_log(const disk_image_t *image, signed int lognum, unsigned int unit, unsigned int drive)
 {
 }
 
-void disk_image_detach_log(const disk_image_t *image, signed int lognum, unsigned int unit)
+void disk_image_detach_log(const disk_image_t *image, signed int lognum, unsigned int unit, unsigned int drive)
 {
 }
 

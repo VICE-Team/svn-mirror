@@ -224,12 +224,7 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
         return;
     }
 
-    /* TODO: drive only has one drive per unit */
-    if (drive) {
-        return;
-    }
-   
-    disk_image_detach_log(image, vdrive_log, unit);
+    disk_image_detach_log(image, vdrive_log, unit, drive);
     vdrive_close_all_channels(vdrive);
     lib_free(vdrive->bam);
     vdrive->bam = NULL;
@@ -240,15 +235,9 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
                         unsigned int drive, vdrive_t *vdrive)
 {
     vdrive->unit = unit;
+    /* vdrive->drive = drive; */
 
-    /* TODO: drive only has one drive per unit */
-    if (drive) {
-    /* TODO: hack - let it succeed, as otherwise image is destroyed in 
-       attach disk image */
-        return 0;
-    }
-
-    disk_image_attach_log(image, vdrive_log, unit);
+    disk_image_attach_log(image, vdrive_log, unit, drive);
 
     switch (image->type) {
         case DISK_IMAGE_TYPE_D64:

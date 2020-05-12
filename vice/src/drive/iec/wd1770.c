@@ -949,7 +949,7 @@ int wd1770_attach_image(disk_image_t *image, unsigned int unit)
     switch (image->type) {
         case DISK_IMAGE_TYPE_D81:
         case DISK_IMAGE_TYPE_D1M:
-            disk_image_attach_log(image, wd1770_log, unit);
+            disk_image_attach_log(image, wd1770_log, unit, 0);
             break;
         default:
             return -1;
@@ -968,7 +968,7 @@ int wd1770_detach_image(disk_image_t *image, unsigned int unit)
     switch (image->type) {
         case DISK_IMAGE_TYPE_D81:
         case DISK_IMAGE_TYPE_D1M:
-            disk_image_detach_log(image, wd1770_log, unit);
+            disk_image_detach_log(image, wd1770_log, unit, 0);
             break;
         default:
             return -1;

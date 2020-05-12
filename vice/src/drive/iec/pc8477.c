@@ -1287,7 +1287,7 @@ int pc8477_attach_image(disk_image_t *image, unsigned int unit)
         case DISK_IMAGE_TYPE_D1M:
         case DISK_IMAGE_TYPE_D2M:
         case DISK_IMAGE_TYPE_D4M:
-            disk_image_attach_log(image, pc8477_log, unit);
+            disk_image_attach_log(image, pc8477_log, unit, 0);
             break;
         default:
             return -1;
@@ -1308,7 +1308,7 @@ int pc8477_detach_image(disk_image_t *image, unsigned int unit)
         case DISK_IMAGE_TYPE_D1M:
         case DISK_IMAGE_TYPE_D2M:
         case DISK_IMAGE_TYPE_D4M:
-            disk_image_detach_log(image, pc8477_log, unit);
+            disk_image_detach_log(image, pc8477_log, unit, 0);
             break;
         default:
             return -1;

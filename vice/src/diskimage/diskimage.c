@@ -324,7 +324,7 @@ static const char *disk_image_type(const disk_image_t *image)
  * \param[in]   unit    unit the image is attached to
  */
 void disk_image_attach_log(const disk_image_t *image, signed int lognum,
-                           unsigned int unit)
+                           unsigned int unit, unsigned int drive)
 {
     const char *type = disk_image_type(image);
 
@@ -334,8 +334,8 @@ void disk_image_attach_log(const disk_image_t *image, signed int lognum,
 
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
-            log_verbose("Unit %u: %s disk image attached: %s.",
-                        unit, type, fsimage_name_get(image));
+            log_verbose("Unit %u drive %d: %s disk image attached: %s.",
+                        unit, drive, type, fsimage_name_get(image));
             break;
     }
 }
@@ -348,7 +348,7 @@ void disk_image_attach_log(const disk_image_t *image, signed int lognum,
  * \param[in]   unit    unit the image is detached from
  */
 void disk_image_detach_log(const disk_image_t *image, signed int lognum,
-                           unsigned int unit)
+                           unsigned int unit, unsigned int drive)
 {
     const char *type = disk_image_type(image);
 
@@ -358,8 +358,8 @@ void disk_image_detach_log(const disk_image_t *image, signed int lognum,
 
     switch (image->device) {
         case DISK_IMAGE_DEVICE_FS:
-            log_verbose("Unit %u: %s disk image detached: %s.",
-                        unit, type, fsimage_name_get(image));
+            log_verbose("Unit %u drive %d: %s disk image detached: %s.",
+                        unit, drive, type, fsimage_name_get(image));
             break;
     }
 }

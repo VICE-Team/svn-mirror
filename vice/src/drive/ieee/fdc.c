@@ -351,8 +351,7 @@ static uint8_t fdc_do_format_D80(unsigned int fnum, unsigned int dnr,
             }
         }
 
-        /* TODO: bug for drive 9 (was unit = 8+dnr)? */
-        file_system_bam_set_disk_id(8, dnr, header);
+        file_system_bam_set_disk_id(fnum + 8, dnr, header);
     }
     if (!rc) {
         rc = FDC_ERR_OK;
@@ -414,7 +413,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
 #ifdef FDC_DEBUG
     log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%u t%u s%u, "
                 "image=%p, type=%04u",
-                job, buf, (buf + 1) << 8, drv, dadr.track, dadr.sector,
+                job, buf, (unsigned int)(buf + 1) << 8, drv, dadr.track, dadr.sector,
                 imgfdc->image,
                 imgfdc->image ? imgfdc->image->type : 0);
 #endif
@@ -427,10 +426,18 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
     }
 
     file_system_bam_get_disk_id(fnum + 8, drv, disk_id);
+#ifdef FDC_DEBUG
+    log_message(fdc_log, "fdc_do_job_: header '%c%c', disk_id '%c%c'",
+	        header[0], header[1], disk_id[0], disk_id[1]);
+#endif
 
     switch (job) {
         case 0x80:        /* read */
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
+#ifdef FDC_DEBUG
+		log_message(fdc_log, "do job read: header '%c%c' != disk_id '%c%c'",
+			header[0], header[1], disk_id[0], disk_id[1]);
+#endif
                 rc = FDC_ERR_ID;
                 break;
             }
@@ -447,6 +454,10 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             break;
         case 0x90:        /* write */
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
+#ifdef FDC_DEBUG
+		log_message(fdc_log, "do job write: header '%c%c' != disk_id '%c%c'",
+			header[0], header[1], disk_id[0], disk_id[1]);
+#endif
                 rc = FDC_ERR_ID;
                 break;
             }
@@ -467,6 +478,10 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             break;
         case 0xA0:        /* verify */
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
+#ifdef FDC_DEBUG
+		log_message(fdc_log, "do job verify: header '%c%c' != disk_id '%c%c'",
+			header[0], header[1], disk_id[0], disk_id[1]);
+#endif
                 rc = FDC_ERR_ID;
                 break;
             }
@@ -492,6 +507,10 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             }
             break;
         case 0xB0:        /* seek - move to track and read ID(?) */
+#ifdef FDC_DEBUG
+		log_message(fdc_log, "do job seek: header was '%c%c' becomes disk_id '%c%c'",
+			header[0], header[1], disk_id[0], disk_id[1]);
+#endif
             header[0] = disk_id[0];
             header[1] = disk_id[1];
             /* header[2] = fdc[dnri].last_track; */
@@ -509,7 +528,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
         case 0xD0:        /* jump to buffer - but we do not emulate FDC CPU */
 #ifdef FDC_DEBUG
             log_message(fdc_log, "exec buffer %d ($%04x): %02x %02x %02x %02x",
-                        buf, (buf + 1) << 8,
+                        buf, (unsigned int)(buf + 1) << 8,
                         base[0], base[1], base[2], base[3]
                         );
 #endif
@@ -552,6 +571,10 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             break;
         case 0xF0:
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
+#ifdef FDC_DEBUG
+		log_message(fdc_log, "do job F0: header '%c%c' != disk_id '%c%c'",
+			header[0], header[1], disk_id[0], disk_id[1]);
+#endif
                 rc = FDC_ERR_ID;
                 break;
             }
@@ -817,7 +840,7 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
         switch (image->type) {
             case DISK_IMAGE_TYPE_D80:
             case DISK_IMAGE_TYPE_D82:
-                disk_image_attach_log(image, fdc_log, unit);
+                disk_image_attach_log(image, fdc_log, unit, drive);
                 break;
             default:
 #ifdef FDC_DEBUG
@@ -834,7 +857,7 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
             case DISK_IMAGE_TYPE_G71:
             case DISK_IMAGE_TYPE_P64:
             case DISK_IMAGE_TYPE_X64:
-                disk_image_attach_log(image, fdc_log, unit);
+                disk_image_attach_log(image, fdc_log, unit, drive);
                 break;
             default:
 #ifdef FDC_DEBUG
@@ -875,7 +898,7 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
         switch (image->type) {
             case DISK_IMAGE_TYPE_D80:
             case DISK_IMAGE_TYPE_D82:
-                disk_image_detach_log(image, fdc_log, unit);
+                disk_image_detach_log(image, fdc_log, unit, drive);
                 break;
             default:
                 return -1;
@@ -888,7 +911,7 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
             case DISK_IMAGE_TYPE_G71:
             case DISK_IMAGE_TYPE_P64:
             case DISK_IMAGE_TYPE_X64:
-                disk_image_detach_log(image, fdc_log, unit);
+                disk_image_detach_log(image, fdc_log, unit, drive);
                 break;
             default:
                 return -1;

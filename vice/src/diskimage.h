@@ -143,8 +143,8 @@ extern int disk_image_write_half_track(disk_image_t *image, unsigned int half_tr
 extern unsigned int disk_image_speed_map(unsigned int format, unsigned int track);
 
 extern void disk_image_attach_log(const disk_image_t *image, signed int lognum,
-                                  unsigned int unit);
+                                  unsigned int unit, unsigned int drive);
 extern void disk_image_detach_log(const disk_image_t *image, signed int lognum,
-                                  unsigned int unit);
+                                  unsigned int unit, unsigned int drive);
 
 #endif
