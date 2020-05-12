@@ -144,6 +144,65 @@ void kbd_initialize_numpad_joykeys(int *joykeys)
     joykeys[10] = GDK_KEY_KP_Enter;
 }
 
+/* since GDK will not make a difference between left and right shift in the
+   modifiers reported in the key event, we track the state of the shift keys
+   ourself.
+  
+   FIXME: perhaps the caps-lock state can be tracked better by using
+          gdk_keymap_get_caps_lock_state() instead - however this will then
+          actually consider the "locking". this still has to be fixed in the
+          common code handling this.
+*/
+static int shiftl_state = 0;
+static int shiftr_state = 0;
+static int capslock_state = 0;
+
+/** \brief  Set shift flags on key press
+ *
+ * \param[in]   report  GDK keypress event
+ */
+static void kbd_fix_shift_press(GdkEvent *report)
+{
+    switch (report->key.keyval) {
+        case GDK_KEY_Shift_L:
+            shiftl_state = 1;
+            break;
+        case GDK_KEY_Shift_R:
+            shiftr_state = 1;
+            break;
+        case GDK_KEY_Caps_Lock:
+            capslock_state = 1;
+            break;
+    }
+}
+
+/** \brief  Unset shift flags on key release
+ *
+ * \param[in]   report  GDK keypress event
+ */
+static void kbd_fix_shift_release(GdkEvent *report)
+{
+    switch (report->key.keyval) {
+        case GDK_KEY_Shift_L:
+            shiftl_state = 0;
+            break;
+        case GDK_KEY_Shift_R:
+            shiftr_state = 0;
+            break;
+        case GDK_KEY_Caps_Lock:
+            capslock_state = 0;
+            break;
+    }
+}
+
+/** \brief  Clear shift flags                    
+ */
+static void kbd_fix_shift_clear(void)
+{
+    shiftl_state = 0;
+    shiftr_state = 0;
+    capslock_state = 0;
+}
 
 /** \brief  Get modifiers keys for keyboard event
  *
@@ -154,11 +213,16 @@ void kbd_initialize_numpad_joykeys(int *joykeys)
 static int kbd_get_modifier(GdkEvent *report)
 {
     int ret = 0;
+    /* printf("key.state: %04x key.keyval: %04x (%s) key.hardware_keycode: %04x\n", 
+            report->key.state, report->key.keyval, gdk_keyval_name(report->key.keyval), 
+            report->key.hardware_keycode); */
     if (report->key.state & GDK_SHIFT_MASK) {
-        ret |= KBD_MOD_LSHIFT;
-    }
-    if (report->key.state & GDK_SHIFT_MASK) {
-        ret |= KBD_MOD_RSHIFT;
+        if (shiftl_state || capslock_state) {
+            ret |= KBD_MOD_LSHIFT;
+        }
+        if (shiftr_state) {
+            ret |= KBD_MOD_RSHIFT;
+        }
     }
     if (report->key.state & GDK_MOD1_MASK) {
         ret |= KBD_MOD_LALT;
@@ -190,6 +254,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
         case GDK_KEY_PRESS:
             /* fprintf(stderr, "GDK_KEY_PRESS: %u %04x.\n",
                        report->key.keyval,  report->key.state); */
+            kbd_fix_shift_press(report);
 #ifdef WIN32_COMPILE
 /* HACK: The Alt-Gr Key seems to work differently on windows and linux.
          On Linux one Keypress "ISO_Level3_Shift" will be produced, and
@@ -251,6 +316,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
         case GDK_KEY_RELEASE:
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
                        report->key.keyval,  report->key.state); */
+            kbd_fix_shift_release(report);
 #ifdef WIN32_COMPILE
             /* HACK: remap control,alt+r to alt-gr, see above */
             if (report->key.keyval == GDK_KEY_Alt_R) {
@@ -259,12 +325,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             /* fprintf(stderr, "                 %u %04x.\n",
                        report->key.keyval,  report->key.state); */
 #endif
+#if 0
+            /* WTH was this supposed to fix? */
             if (key == GDK_KEY_Shift_L ||
                 key == GDK_KEY_Shift_R ||
                 key == GDK_KEY_ISO_Level3_Shift) {
                 keyboard_key_clear();
             }
-
+#endif
             /* On a german keyboard there is a comma on the "delete" key instead
                of a decimal point, and we get KP_Seperator instead of KP_decimal.
                Remap it here so we don't have to handle it elsewhere. */
@@ -277,6 +345,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
         case GDK_ENTER_NOTIFY:
         case GDK_LEAVE_NOTIFY:
         case GDK_FOCUS_CHANGE:
+            kbd_fix_shift_clear();
             keyboard_key_clear();
             break;
         default:
