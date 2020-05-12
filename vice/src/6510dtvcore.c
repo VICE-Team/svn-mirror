@@ -1229,7 +1229,7 @@ be found that works for both.
 FIXME: perhaps we really have to add some randomness to (some) bits
 */
 
-#define LXA_MAGIC       0xef
+#define LXA_MAGIC       0xee    /* needs to be 0xee for wizball */
 #define LXA_RDY_MAGIC   0xee
 
 /* FIXME: perhaps we should make the log level a user setting */
