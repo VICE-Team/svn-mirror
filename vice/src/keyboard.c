@@ -476,7 +476,14 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
                 right_shift_down = 1;
             }
             if (shift & SHIFT_LOCK) {
-                keyboard_shiftlock = 1;
+                keyboard_shiftlock ^= 1;
+                printf("shiftlock: %d\n", keyboard_shiftlock);
+//                 if (keyboard_shiftlock) {
+//                     if (((shiftl == KEY_RSHIFT) && right_shift_down)
+//                         || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
+//                         skip_release = 1;
+//                     }
+//                 }
             }
             if (lcbm_defined()) {
                 if (shift & VIRTUAL_CBM) {
@@ -697,13 +704,15 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
                 skip_release = 1;
             }
         }
-        if (shift & SHIFT_LOCK) {
-            keyboard_shiftlock = 0;
-            if (((shiftl == KEY_RSHIFT) && right_shift_down)
-                || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
-                skip_release = 1;
-            }
-        }
+//         if (shift & SHIFT_LOCK) {
+//             keyboard_shiftlock ^= 1;
+//             printf("shiftlock: %d\n", keyboard_shiftlock);
+//             
+//             if (((shiftl == KEY_RSHIFT) && right_shift_down)
+//                 || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
+//                 skip_release = 1;
+//             }
+//         }
         
         if (lcbm_defined()) {
             if (shift & VIRTUAL_CBM) {
