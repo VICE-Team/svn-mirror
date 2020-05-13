@@ -38,6 +38,7 @@
 #include "archdep_get_vice_datadir.h"
 #include "archdep_join_paths.h"
 #include "archdep_user_config_path.h"
+#include "archdep_xdg.h"
 
 
 #include "archdep_default_sysfile_pathlist.h"
@@ -92,11 +93,18 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         /* sysfile.c appears to free() this */
         return lib_strdup(sysfile_path);
     }
-    
+
     boot_path = archdep_boot_path();
     datadir = archdep_get_vice_datadir();
 #if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
+
+# ifdef USE_NATIVE_GTK3
+    char *xdg_home = archdep_xdg_data_home();
+    home_path = archdep_join_paths(xdg_home, "vice", NULL);
+    lib_free(xdg_home);
+# else
     home_path = archdep_user_config_path();
+# endif
 #endif
 
     /* zero out the array of paths to join later */
@@ -226,6 +234,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     }
     if (home_printer_roms != NULL) {
         lib_free(home_printer_roms);
+    }
+    if (home_path != NULL) {
+        lib_free(home_path);
     }
 
 #if 0
