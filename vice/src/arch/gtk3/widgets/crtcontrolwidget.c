@@ -275,7 +275,7 @@ static void on_reset_clicked(GtkWidget *widget, gpointer user_data)
 
     for (i = 0; i < RESOURCE_COUNT_MAX; i++) {
         crt_control_t control = data->controls[i];
-        crt_control_resource_t res = control.res;
+        
         if (control.scale != NULL) {
             debug_gtk3("Resetting '%s' to factory value.",
                     res.label);
