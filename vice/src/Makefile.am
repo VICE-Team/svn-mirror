@@ -199,7 +199,6 @@ noinst_HEADERS = \
 	kbdbuf.h \
 	keyboard.h \
 	lib.h \
-	libm_math.h \
 	log.h \
 	machine-bus.h \
 	machine-drive.h \
@@ -308,7 +307,6 @@ base_sources = \
 	kbdbuf.c \
 	keyboard.c \
 	lib.c \
-	libm_math.c \
 	log.c \
 	machine-bus.c \
 	machine.c \
