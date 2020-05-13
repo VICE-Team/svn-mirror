@@ -210,23 +210,45 @@ static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Encode unit and drive number for a detach callback argument
+ *
+ * Encodes unit and drive number into a value to be used in the
+ * ui_disk_detach_callback() calls.
+ *
+ * \param[in]   U   unit number (8-11)
+ * \param[in]   D   drive number (0 or 1)
+ */
+#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
+
 
 /** \brief  File->Detach disk submenu
  */
 static ui_menu_item_t detach_submenu[] = {
-    { "Drive #8", UI_MENU_TYPE_ITEM_ACTION,
-        "detach-drive8", ui_disk_detach_callback, GINT_TO_POINTER(8),
+    { "Drive 8:0", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive8:0", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(8, 0),
         GDK_KEY_8, VICE_MOD_MASK|GDK_CONTROL_MASK },
-    { "Drive #9", UI_MENU_TYPE_ITEM_ACTION,
-        "detach-drive9", ui_disk_detach_callback, GINT_TO_POINTER(9),
+    { "Drive 8:1", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive8:1", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(8, 1),
+        0, 0 },
+    { "Drive 9:0", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive9:0", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(9, 0),
         GDK_KEY_9, VICE_MOD_MASK|GDK_CONTROL_MASK },
-    { "Drive #10", UI_MENU_TYPE_ITEM_ACTION,
-        "detach-drive10", ui_disk_detach_callback, GINT_TO_POINTER(10),
+    { "Drive 9:1", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive9:0", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(9, 1),
+        0, 0 },
+    { "Drive 10:0", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive10", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(10, 0),
         GDK_KEY_0, VICE_MOD_MASK|GDK_CONTROL_MASK },
-    { "Drive #11", UI_MENU_TYPE_ITEM_ACTION,
-        "detach-drive11", ui_disk_detach_callback, GINT_TO_POINTER(11),
+    { "Drive 10:1", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive10", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(10, 1),
+        0, 0 },
+    { "Drive 11:0", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive11", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(11, 0),
         GDK_KEY_1, VICE_MOD_MASK|GDK_CONTROL_MASK },
-
+    { "Drive 11:1", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-drive11", ui_disk_detach_callback, UNIT_DRIVE_TO_PTR(11, 1),
+        0, 0 },
+    /* Detach all, do we even have code to do that? */
     { "Detach all", UI_MENU_TYPE_ITEM_ACTION,
         "detach-all", ui_disk_detach_all_callback, NULL,
         0, 0 },

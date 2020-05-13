@@ -38,6 +38,9 @@ $ adduser vice sudo
 
 Now log out completely and log back in to have the 'vice' user recognized as a sudoer.
 
+**UPDATE 2020-05-13**
+
+When selecting an empty password, the debian installer will lock out root and automagically add the normal user to sudoers. This is actually preferred since we need sudo anyway for some scripts.
 
 
 
