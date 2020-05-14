@@ -23,6 +23,7 @@ mingw64-libffi
 mingw64-libjpeg-turbo
 mingw64-libpng
 mingw64-librsvg2
+mingw64-libtiff
 mingw64-libxml2
 mingw64-pango
 mingw64-pcre
