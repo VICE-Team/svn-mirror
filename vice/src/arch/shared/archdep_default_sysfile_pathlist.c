@@ -70,8 +70,10 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     char *datadir = NULL;
 #if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
     char *home_path = NULL;
+# ifdef ARCHDEP_OS_UNIX
+    char *xdg_data = NULL;
+# endif
 #endif
-
     char *datadir_root = NULL;
     char *datadir_machine_roms = NULL;
     char *datadir_drive_roms = NULL;
@@ -98,10 +100,10 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     datadir = archdep_get_vice_datadir();
 #if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
 
-# ifdef USE_NATIVE_GTK3
-    char *xdg_home = archdep_xdg_data_home();
-    home_path = archdep_join_paths(xdg_home, "vice", NULL);
-    lib_free(xdg_home);
+# ifdef ARCHDEP_OS_UNIX
+    xdg_data = archdep_xdg_data_home();
+    home_path = archdep_join_paths(xdg_data, "vice", NULL);
+    lib_free(xdg_data);
 # else
     home_path = archdep_user_config_path();
 # endif
@@ -235,9 +237,12 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (home_printer_roms != NULL) {
         lib_free(home_printer_roms);
     }
+
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
     if (home_path != NULL) {
         lib_free(home_path);
     }
+#endif
 
 #if 0
     log_message(LOG_DEFAULT, "Search path = %s", sysfile_path);
