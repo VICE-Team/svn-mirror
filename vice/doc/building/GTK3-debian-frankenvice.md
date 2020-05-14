@@ -43,17 +43,17 @@ Now log out completely and log back in to have the 'vice' user recognized as a s
 When selecting an empty password, the debian installer will lock out root and automagically add the normal user to sudoers. This is actually preferred since we need sudo anyway for some scripts.
 
 
+### Install required packages
 
 Make sure you have the basic development tools:
 
 ```sh
 $ su
-$ apt install autoconf autotools build-essential byacc flex git subversion \
-        vim xa65 alien p7zip-full texinfo gawk zip unzip yasm dos2unix
+$ apt install autoconf automake build-essential byacc flex git subversion \
+        vim xa65 alien p7zip-full texinfo gawk zip unzip yasm dos2unix \
+        libglib2.0-dev-bin
 ```
-(todo: probably a lot more
- Seems glib-compile-schemas and glib-compile-resources live in Debian's
- libglib-2.0)
+(todo: probably a lot more)
 
 Do **not** install any native Linux Gtk/GLib packages unless specifically told to do so, this might result in unwanted results.
 
