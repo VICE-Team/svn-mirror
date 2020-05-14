@@ -148,19 +148,20 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     /* now join everything together */
     i = 0;
 
-    /* VICE_DATADIR paths */
-    if (datadir_root != NULL) {
-        paths[i++] = datadir_root;
+    /* home paths */
+    if (home_root != NULL) {
+        paths[i++] = home_root;
     }
-    if (datadir_machine_roms != NULL) {
-        paths[i++] = datadir_machine_roms;
+    if (home_machine_roms != NULL) {
+        paths[i++] = home_machine_roms;
     }
-    if (datadir_drive_roms != NULL) {
-        paths[i++] = datadir_drive_roms;
+    if (home_drive_roms != NULL) {
+        paths[i++] = home_drive_roms;
     }
-    if (datadir_printer_roms != NULL) {
-        paths[i++] = datadir_printer_roms;
+    if (home_printer_roms != NULL) {
+        paths[i++] = home_printer_roms;
     }
+
     /* boot paths */
     if (boot_root != NULL) {
         paths[i++] = boot_root;
@@ -175,19 +176,20 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         paths[i++] = boot_printer_roms;
     }
 
-    /* home paths */
-    if (home_root != NULL) {
-        paths[i++] = home_root;
+    /* VICE_DATADIR paths */
+    if (datadir_root != NULL) {
+        paths[i++] = datadir_root;
     }
-    if (home_machine_roms != NULL) {
-        paths[i++] = home_machine_roms;
+    if (datadir_machine_roms != NULL) {
+        paths[i++] = datadir_machine_roms;
     }
-    if (home_drive_roms != NULL) {
-        paths[i++] = home_drive_roms;
+    if (datadir_drive_roms != NULL) {
+        paths[i++] = datadir_drive_roms;
     }
-    if (home_printer_roms != NULL) {
-        paths[i++] = home_printer_roms;
+    if (datadir_printer_roms != NULL) {
+        paths[i++] = datadir_printer_roms;
     }
+
 
     /* terminate list */
     paths[i] = NULL;
