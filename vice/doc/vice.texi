@@ -1460,7 +1460,7 @@ path list, like the @sc{unix} @code{PATH} environment variable.  The
 default value is
 
 @example
-PREFIX/lib/vice/EMU:$HOME/.vice/EMU:BOOTPATH/EMU
+$HOME/.local/share/vice/EMU:PREFIX/lib/vice/EMU:BOOTPATH/EMU
 @end example
 
 Where @code{PREFIX} is the installation prefix (usually
@@ -1479,7 +1479,7 @@ For example, if you have the C64 emulator installed in
 then the value will be
 
 @example
-/usr/local/lib/vice/C64:$HOME/.vice/C64:/usr/local/bin/C64
+$HOME/.local/share/vice/C64:/usr/local/lib/vice/C64:/usr/local/bin/C64
 @end example
 
 And system files will be searched for under the following directories,
@@ -1487,9 +1487,9 @@ in the specified order:
 
 @enumerate 1
 @item
-@code{/usr/local/lib/VICE/C64}
+@code{$HOME/.local/share/vice/C64}
 @item
-@code{$HOME/.vice/C64}
+@code{/usr/local/lib/VICE/C64}
 @item
 @code{/usr/local/bin/C64}
 @end enumerate
