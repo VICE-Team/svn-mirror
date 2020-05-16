@@ -1660,6 +1660,9 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
 
 void mon_change_dir(const char *path)
 {
+    if (path != NULL && path[0] == '~' && path[1] == '\0') {
+        path = archdep_home_path();
+    }
     if (ioutil_chdir(path) < 0) {
         mon_out("Cannot change to directory: '%s'\n", path);
     } else {
