@@ -838,7 +838,7 @@ void vdrive_init(void)
 {
 }
 
-int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
+int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit, unsigned int drive)
 {
     return 0;
 }
