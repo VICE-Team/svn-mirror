@@ -1064,7 +1064,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
         return -1;
     }
 
-    vdrive_device_setup(vdrive, unit);
+    vdrive_device_setup(vdrive, unit, 0);
     vdrive->image = image;
     /* TODO: do we need a drive 1 here? */
     vdrive_attach_image(image, unit, 0, vdrive);
