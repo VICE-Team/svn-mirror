@@ -272,7 +272,7 @@ void ui_display_drive_led(unsigned int drive_number,
     }
 }
 
-void ui_display_drive_current_image(unsigned int drive_number, const char *image)
+void ui_display_drive_current_image(unsigned int init_number, unsigned int drive_number, const char *image)
 {
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);

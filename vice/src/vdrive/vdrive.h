@@ -118,7 +118,8 @@ typedef struct vdrive_s {
     /* Current image file */
     unsigned int mode;         /* Read/Write */
     unsigned int image_format; /* 1541/71/81 */
-    unsigned int unit;
+    unsigned int unit;	       /* IEC bus device number */
+    unsigned int drive;        /* Drive 0 or 1 (for dual drive units) */
 
     unsigned int Bam_Track;
     unsigned int Bam_Sector;
@@ -181,7 +182,7 @@ typedef struct vdrive_s {
 /* ------------------------------------------------------------------------- */
 
 extern void vdrive_init(void);
-extern int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit);
+extern int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit, unsigned int drive);
 extern void vdrive_device_shutdown(vdrive_t *vdrive);
 extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit, unsigned int drive, vdrive_t *vdrive);
 extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit, unsigned int drive, vdrive_t *vdrive);

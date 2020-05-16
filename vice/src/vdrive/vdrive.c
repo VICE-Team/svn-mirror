@@ -122,11 +122,18 @@ void vdrive_free_buffer(bufferinfo_t *p)
 
 /* ------------------------------------------------------------------------- */
 
-int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
+int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit, unsigned int drive)
 {
     unsigned int i;
 
+    /* Check if the vdrive_t teleports to another unit. Should never happen. */
+    if (vdrive->unit && vdrive->unit != unit) {
+        log_error(vdrive_log, "**** vdrive_device_setup: vdrive changes from %u:%u to %u:%u!",
+                vdrive->unit, vdrive->drive, unit, drive);
+    }
+
     vdrive->unit = unit;
+    vdrive->drive = drive;
 
     /* init buffers */
     for (i = 0; i < 15; i++) {
@@ -223,6 +230,14 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
     if (image == NULL) {
         return;
     }
+    /*
+     * TODO: This doesn't really need the parameters unit and drive,
+     * since they are remembered in the vdrive. For now, check the consistency.
+     */
+    if (vdrive->unit != unit || vdrive->drive != drive) {
+        log_error(vdrive_log, "**** vdrive_detach_image: vdrive->unit %u:%u != unit %u:%u",
+                vdrive->unit, vdrive->drive, unit, drive);
+    }
 
     disk_image_detach_log(image, vdrive_log, unit, drive);
     vdrive_close_all_channels(vdrive);
@@ -234,8 +249,16 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
 int vdrive_attach_image(disk_image_t *image, unsigned int unit,
                         unsigned int drive, vdrive_t *vdrive)
 {
+    /*
+     * TODO: This doesn't really need the parameters unit and drive,
+     * since they are remembered in the vdrive.
+     */
+    if (vdrive->unit != unit || vdrive->drive != drive) {
+        log_error(vdrive_log, "**** vdrive_attach_image: vdrive->unit %u:%u != unit %u:%u",
+                vdrive->unit, vdrive->drive, unit, drive);
+    }
     vdrive->unit = unit;
-    /* vdrive->drive = drive; */
+    vdrive->drive = drive;
 
     disk_image_attach_log(image, vdrive_log, unit, drive);
 

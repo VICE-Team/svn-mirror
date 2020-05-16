@@ -2008,19 +2008,20 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 /** \brief  Statusbar API function to report mounting or unmounting of
  *          a disk image.
  *
- *  \param  drive_number    0-3 to represent drives at device 8-11.
+ *  \param  unit_number     0-3 to represent disk units at device 8-11.
+ *  \param  drive_number    0-1 to represent the drives in a unit
  *  \param  image           The filename of the disk image (if mounted),
  *                          or the empty string or NULL (if unmounting).
  *  \todo This API is insufficient to describe drives with two disk units.
  */
-void ui_display_drive_current_image(unsigned int drive_number, const char *image)
+void ui_display_drive_current_image(unsigned int unit_number, unsigned int drive_number, const char *image)
 {
 #if 0
     char buf[256];
     if (image && *image) {
-        snprintf(buf, 256, "Attached %s to unit %d", image, drive_number + 8);
+        snprintf(buf, 256, "Attached %s to unit %d", image, unit_number + 8);
     } else {
-        snprintf(buf, 256, "Unit %d is empty", drive_number + 8);
+        snprintf(buf, 256, "Unit %d is empty", unit_number + 8);
     }
     buf[255] = 0;
     ui_display_statustext(buf, 1);
