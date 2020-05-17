@@ -120,8 +120,8 @@
     "  margin: -3px;\n" \
     "}\n\n" \
     "scale {\n" \
-    "  margin-top: -4px;\n" \
-    "  margin-bottom: -4px;\n" \
+    "  margin-top: -8px;\n" \
+    "  margin-bottom: -8px;\n" \
     "}"
 
 
@@ -400,11 +400,10 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
         vice_gtk3_css_provider_add(scale, scale_css_provider);
     }
 
-    /* don't draw the value next to the scale */
 #if 0
-    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE);
+    /* don't draw the value next to the scale if used a statusbar popup */
+    gtk_scale_set_draw_value(GTK_SCALE(scale), !minimal);
 #endif
-
     return scale;
 }
 
@@ -466,24 +465,22 @@ static void add_sliders(GtkGrid *grid,
         return;
     }
 
-    for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
-        crt_control_t *control = &(data->controls[i]);
+    if (!minimal) {
+        for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
+            crt_control_t *control = &(data->controls[i]);
+            debug_gtk3("Adding slider '%s' [%d] ... ", control->res.label, (int)i);
+            label = create_label(control->res.label, minimal);
+            gtk_grid_attach(grid, label, 0, row, 1, 1);
 #if 0
-        debug_gtk3("Adding slider '%s' [%d] ... ", control->res.label, (int)i);
+            debug_gtk3(".. resource '%s%s', lo=%d, hi=%d step=%d",
+                    control->res.name, chip, control->res.low, control->res.high,
+                    control->res.step);
 #endif
-        label = create_label(control->res.label, minimal);
-        gtk_grid_attach(grid, label, 0, row, 1, 1);
-#if 0
-        debug_gtk3(".. resource '%s%s', lo=%d, hi=%d step=%d",
-                control->res.name, chip, control->res.low, control->res.high,
-                control->res.step);
-#endif
-        control->scale = create_slider(control->res.name, chip,
-                control->res.low, control->res.high, control->res.step,
-                minimal);
-        gtk_grid_attach(grid, control->scale, 1, row, 1, 1);
+            control->scale = create_slider(control->res.name, chip,
+                    control->res.low, control->res.high, control->res.step,
+                    minimal);
+            gtk_grid_attach(grid, control->scale, 1, row, 1, 1);
 
-        if (!minimal) {
             control->spin = create_spin(control->res.name, chip,
                     control->res.low, control->res.high, control->res.step,
                     minimal);
@@ -495,8 +492,29 @@ static void add_sliders(GtkGrid *grid,
             g_signal_connect(control->spin, "value-changed",
                     G_CALLBACK(on_spin_value_changed),
                     (gpointer)(control->scale));
+            row++;
         }
-        row++;
+    } else {
+        /* Add sliders for statusbar popup */
+        for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
+            int col = (i % 2) * 2;
+            crt_control_t *control = &(data->controls[i]);
+            debug_gtk3("Adding slider '%s' [%d] ... ", control->res.label, (int)i);
+            label = create_label(control->res.label, minimal);
+            gtk_grid_attach(grid, label, col + 0, row, 1, 1);
+#if 0
+            debug_gtk3(".. resource '%s%s', lo=%d, hi=%d step=%d",
+                    control->res.name, chip, control->res.low, control->res.high,
+                    control->res.step);
+#endif
+            control->scale = create_slider(control->res.name, chip,
+                    control->res.low, control->res.high, control->res.step,
+                    minimal);
+            gtk_grid_attach(grid, control->scale, col + 1, row, 1, 1);
+            if (col > 0) {
+                row++;
+            }
+        }
     }
 
 /* TODO: make this work again */
