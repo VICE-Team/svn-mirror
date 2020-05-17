@@ -518,15 +518,24 @@ static void add_sliders(GtkGrid *grid,
     }
 
 /* TODO: make this work again */
-#if 0
-    enabled = ((video_standard == 0 /* PAL */
+    int is_pal = ((video_standard == 0 /* PAL */
                 || video_standard == 1 /* Old PAL */
                 || video_standard == 4 /* PAL-N/Drean */
                 ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
 
-    gtk_widget_set_sensitive(data->pal_oddline_phase, enabled);
-    gtk_widget_set_sensitive(data->pal_oddline_offset, enabled);
-#endif
+    if (!is_pal) {
+        for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
+            crt_control_t *control = &(data->controls[i]);
+            int is_ntsc = strncmp(control->res.name, "PAL", 3) != 0;
+
+            if (control->scale != NULL) {
+                gtk_widget_set_sensitive(control->scale, is_ntsc);
+                if (control->spin != NULL) {
+                    gtk_widget_set_sensitive(control->spin, is_ntsc);
+                }
+            }
+        }
+    }
 }
 
 
