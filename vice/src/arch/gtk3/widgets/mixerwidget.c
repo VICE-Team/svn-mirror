@@ -47,6 +47,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#include "sid/sid.h"
 
 #include "mixerwidget.h"
 
@@ -133,6 +134,7 @@ static GtkCssProvider *scale_css_provider;
 void mixer_widget_sid_type_changed(void)
 {
     int model = 0;
+    int engine;
 #ifdef HAVE_RESID
 # ifdef HAVE_NEW_8580_FILTER
     gboolean enabled = TRUE;
@@ -153,7 +155,7 @@ void mixer_widget_sid_type_changed(void)
     }
 
 #ifdef HAVE_RESID
-    if ((model == 1) || (model == 2)) {
+    if ((model == SID_MODEL_8580) || (model == SID_MODEL_8580D)) {
         gtk_widget_hide(passband6581);
         gtk_widget_hide(gain6581);
         gtk_widget_hide(bias6581);
@@ -166,9 +168,6 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_show(passband8580label);
         gtk_widget_show(gain8580label);
         gtk_widget_show(bias8580label);
-#if 0
-        gtk_widget_hide(passband6581pin);
-#endif
     } else {
         gtk_widget_hide(passband8580);
         gtk_widget_hide(gain8580);
@@ -182,17 +181,33 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_show(passband6581label);
         gtk_widget_show(gain6581label);
         gtk_widget_show(bias6581label);
-#if 0
-        gtk_widget_show(passband6581spin);
-#endif
     }
 
     /* enable/disable 8580 filter controls based on --enable-new8580filter */
     gtk_widget_set_sensitive(passband8580, enabled);
     gtk_widget_set_sensitive(gain8580, enabled);
     gtk_widget_set_sensitive(bias8580, enabled);
-
 #endif
+
+    /* disable sliders when not ReSID */
+    debug_gtk3("Getting SID engine...");
+    if (resources_get_int("SidEngine", & engine) < 0) {
+        debug_gtk3("Failed, using FastSID.");
+        engine = SID_ENGINE_FASTSID;
+    } else {
+        debug_gtk3("OK: engine = %d.", engine);
+    }
+    enabled = engine == SID_ENGINE_FASTSID ? 0 : 1;
+
+    if (engine == SID_ENGINE_FASTSID) {
+        gtk_widget_set_sensitive(passband6581, enabled);
+        gtk_widget_set_sensitive(gain6581, enabled);
+        gtk_widget_set_sensitive(bias6581, enabled);
+        gtk_widget_set_sensitive(passband8580, enabled);
+        gtk_widget_set_sensitive(gain8580, enabled);
+        gtk_widget_set_sensitive(bias8580, enabled);
+    }
+
 }
 
 /** \brief  Handler for the 'clicked' event of the reset button
