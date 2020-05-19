@@ -61,7 +61,7 @@
  * Probably will require some testing/tweaking to get this to look acceptable
  * with various themes (and OSes).
  */
-#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -4px; margin-bottom: -4px; } scale value { min-width: 4em; }"
+#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -8px; margin-bottom: -8px; } scale value { min-width: 4em; }"
 
 
 /** \brief  CSS for the labels
