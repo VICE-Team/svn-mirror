@@ -113,6 +113,7 @@
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"
+#include "zippcode48.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /* #define DEBUGCART */
@@ -641,6 +642,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return se5_roml_read(addr);
         case CARTRIDGE_ZAXXON:
             return zaxxon_roml_read(addr);
+        case CARTRIDGE_ZIPPCODE48:
+            return zippcode48_roml_read(addr);
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_FORMEL64:

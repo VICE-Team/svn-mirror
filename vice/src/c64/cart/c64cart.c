@@ -216,6 +216,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_WARPSPEED,           CARTRIDGE_WARPSPEED,           CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_WESTERMANN,          CARTRIDGE_WESTERMANN,          CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_ZAXXON,              CARTRIDGE_ZAXXON,              CARTRIDGE_GROUP_GAME },
+    { CARTRIDGE_NAME_ZIPPCODE48,          CARTRIDGE_ZIPPCODE48,          CARTRIDGE_GROUP_UTIL },
 
     /* cartridges that have only RAM, these do not have a CRT ID */
     { CARTRIDGE_NAME_DQBB,                CARTRIDGE_DQBB,                CARTRIDGE_GROUP_RAMEX },

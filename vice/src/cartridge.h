@@ -220,8 +220,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_GMOD2                60 /* gmod2.c */
 #define CARTRIDGE_MAX_BASIC            61 /* maxbasic.c */
 #define CARTRIDGE_GMOD3                62 /* gmod3.c */
+#define CARTRIDGE_ZIPPCODE48           63 /* zippcode48.c */
 
-#define CARTRIDGE_LAST                 62 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 63 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -322,6 +323,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
 #define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
+#define CARTRIDGE_NAME_ZIPPCODE48         "ZIPP-CODE 48"
 
 #define CARTRIDGE_NAME_GENERIC_8KB        "8k game"
 #define CARTRIDGE_NAME_GENERIC_16KB       "16k game"

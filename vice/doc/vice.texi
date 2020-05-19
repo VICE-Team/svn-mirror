@@ -6297,6 +6297,8 @@ Warp Speed
 Westermann Learning
 @item
 Zaxxon
+@item
+ZIPP-CODE 48
 @end itemize
 
 @c @node FIXME
@@ -6569,6 +6571,8 @@ The following cartridge types are valid:
 61: MAX Basic
 @item
 62: GMod3
+@item
+63: ZIPP-CODE 48
 @end itemize
 
 @vindex CartridgeFile
@@ -7611,6 +7615,10 @@ Attach raw 8kB Warp Speed cartridge image.
 @findex -cartzaxxon
 @item -cartzaxxon <name>
 Attach raw 16kB Zaxxon cartridge image.
+
+@findex -cartzipp
+@item -cartzipp <name>
+Attach raw 8KB ZIPP-CODE 48 cartridge image.
 @end table
 
 @c @node FIXME
@@ -17624,6 +17632,8 @@ Westermann Learning .crt file
 Warp Speed .crt file
 @item zaxxon
 Zaxxon .crt file
+@item zipp
+ZIPP-CODE 48 .crt file
 @end table
 
 @itemize @bullet
@@ -23203,6 +23213,7 @@ Camels"@dots{}
                       60 - GMod2
                       61 - MAX Basic
                       62 - GMod3
+                      63 - ZIPP-CODE 48
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -26514,6 +26525,35 @@ mapped in at $8000-$9fff.
 
     see http://wiki.icomp.de/wiki/GMod3
 @end example
+
+@c @node FIXME
+@subsubsection 63 - ZIPP-CODE 48 
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 3f 00 01 00 00 00 00 00 00  ...@...?........
+0020: 5a 49 50 50 2d 43 4f 44 45 20 34 38 00 00 00 00  ZIPP-CODE 48....
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050: 11 de 7b e3 c3 c2 cd 38 30 41 80 00 00 03 81 31  ..?....80A.....1
+
+@end example
+
+    reading IO1 enables the cartridge ROM
+    reading IO2 disables the cartridge ROM
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

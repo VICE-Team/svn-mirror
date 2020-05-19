@@ -137,6 +137,7 @@
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"
+#include "zippcode48.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /* #define DEBUGCART */
@@ -403,6 +404,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartzaxxon", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_ZAXXON, NULL, NULL,
       "<Name>", "Attach raw 16kB Zaxxon cartridge image" },
+    { "-cartzipp", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_ZIPPCODE48, NULL, NULL,
+      "<Name>", "Attach raw 8KB " CARTRIDGE_NAME_ZIPPCODE48 " cartridge image" },
     CMDLINE_LIST_END
 };
 
@@ -916,6 +920,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return westermann_bin_attach(filename, rawcart);
         case CARTRIDGE_ZAXXON:
             return zaxxon_bin_attach(filename, rawcart);
+        case CARTRIDGE_ZIPPCODE48:
+            return zippcode48_bin_attach(filename, rawcart);
     }
     return -1;
 }
@@ -1141,6 +1147,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_ZAXXON:
             zaxxon_config_setup(rawcart);
+            break;
+        case CARTRIDGE_ZIPPCODE48:
+            zippcode48_config_setup(rawcart);
             break;
         default:
             DBG(("CART: no attach hook %d\n", type));
@@ -1666,6 +1675,9 @@ void cart_detach(int type)
         case CARTRIDGE_ZAXXON:
             zaxxon_detach();
             break;
+        case CARTRIDGE_ZIPPCODE48:
+            zippcode48_detach();
+            break;
         default:
             DBG(("CART: no detach hook ID: %d\n", type));
             break;
@@ -1916,6 +1928,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_ZAXXON:
             zaxxon_config_init();
             break;
+        case CARTRIDGE_ZIPPCODE48:
+            zippcode48_config_init();
+            break;
         /* FIXME: add all missing ones instead of using the default */
         case CARTRIDGE_NONE:
             break;
@@ -2052,6 +2067,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_reset();
+            break;
+        case CARTRIDGE_ZIPPCODE48:
+            zippcode48_reset();
             break;
     }
     /* "Slot 1" */
@@ -2495,6 +2513,7 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
             supersnapshot_v5_mmu_translate(addr, base, start, limit);
             return;
         case CARTRIDGE_EPYX_FASTLOAD: /* must go through roml_read to discharge capacitor */
+        case CARTRIDGE_ZIPPCODE48: /* must go through roml_read to discharge capacitor */
         default:
             *base = NULL;
             *start = 0;
@@ -2940,6 +2959,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_ZAXXON:
                 if (zaxxon_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_ZIPPCODE48:
+                if (zippcode48_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -3441,6 +3465,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_ZAXXON:
                 if (zaxxon_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_ZIPPCODE48:
+                if (zippcode48_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

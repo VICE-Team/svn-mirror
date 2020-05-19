@@ -185,7 +185,9 @@ libc64cart_a_SOURCES = \
 	westermann.c \
 	westermann.h \
 	zaxxon.c \
-	zaxxon.h
+	zaxxon.h \
+	zippcode48.c \
+	zippcode48.h
 
 libc64commoncart_a_SOURCES = \
 	c64acia.h \

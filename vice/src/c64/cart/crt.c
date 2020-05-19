@@ -102,6 +102,7 @@
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"
+#include "zippcode48.h"
 #include "util.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
@@ -573,6 +574,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_ZAXXON:
             rc = zaxxon_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_ZIPPCODE48:
+            rc = zippcode48_crt_attach(fd, rawcart);
             break;
         default:
             archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
