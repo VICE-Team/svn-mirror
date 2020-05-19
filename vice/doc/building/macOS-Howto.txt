@@ -58,7 +58,7 @@ If you're going to be doing lots of building or various configurations (SDL2,
 Gtk3 etc) then you'll probably want to create a separate build directory for each
 configuration.
 
-$ BUILD_LOCATION="<BUILD LOCATION>""
+$ BUILD_LOCATION="<BUILD LOCATION>"
 $ mkdir -p "$BUILD_LOCATION"
 $ cd "$BUILD_LOCATION"
 $ VICE_PATH="<VICE SOURCE PATH>"
@@ -72,12 +72,10 @@ $ sudo make install
 
 Gtk3:
 
-You can remove --disable-hwscale if you want to test OpenGL support. Whilst
-OpenGL support works, it doesn't improve things. It appears that gtkglarea will
-scale the texture using GPU, then copy it back into host memory to be
-layered in with the rest of the Gtk content - slow.
+Now that a bug in GTK3 has been fixed, OpenGL rendering on macOS is now fast.
+No need to diable it anymore.
 
-$ "$VICE_PATH"/configure --enable-native-gtk3ui --disable-hwscale
+$ "$VICE_PATH"/configure --enable-native-gtk3ui
 $ make -j
 $ sudo make install
 
