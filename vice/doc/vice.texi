@@ -17358,6 +17358,9 @@ Change image name.
 @item p00save <enable> [<unit>]
 Save P00 files to the file system.
 
+@item pwd
+Print current working directory.
+
 @item quit
 Exit (same as @code{exit}).
 

@@ -226,6 +226,7 @@ static int info_cmd(int nargs, char **args);
 static int list_cmd(int nargs, char **args);
 static int name_cmd(int nargs, char **args);
 static int p00save_cmd(int nargs, char **args);
+static int pwd_cmd(int nargs, char **args);
 static int quit_cmd(int nargs, char **args);
 static int raw_cmd(int nargs, char **args); /* @ */
 static int read_cmd(int nargs, char **args);
@@ -454,6 +455,11 @@ const command_t command_list[] = {
       "The <enable> argument should be either 0 or 1.",
       0, 2,
       p00save_cmd },
+    { "pwd",
+      "pwd",
+      "Show current host directory path",
+      0, 0,
+      pwd_cmd },
     { "quit",
       "quit",
       "Exit (same as `exit').",
@@ -4921,6 +4927,24 @@ static int p00save_cmd(int nargs, char **args)
     p00save[dnr] = (unsigned int)enable;
     return FD_OK;
 }
+
+
+/** \brief  Print current working directory
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    optional arguments (unused
+ *
+ * \return 0
+ */
+static int pwd_cmd(int nargs, char **args)
+{
+    char buffer[4096];
+
+    ioutil_getcwd(buffer, (int)(sizeof(buffer) - 1));
+    printf("%s\n", buffer);
+    return FD_OK;
+}
+
 
 /* ------------------------------------------------------------------------- */
 /* FIXME: Can we get rid of this stuff?  */
