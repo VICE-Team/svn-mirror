@@ -1085,12 +1085,14 @@ void romh_no_ultimax_store(uint16_t addr, uint8_t value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_romh_store(addr, value);
+            return; /* writes to cartridge RAM should not fall through to C64 RAM in mode 0x22 */
             break;
         case CARTRIDGE_PAGEFOX:
             pagefox_romh_store(addr, value);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_romh_store(addr, value);
+            return; /* writes to cartridge RAM should not fall through to C64 RAM in mode 0x22 */
             break;
         case CARTRIDGE_IDE64:
             ide64_rom_store(addr, value);

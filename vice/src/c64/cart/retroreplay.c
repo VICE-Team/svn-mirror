@@ -630,8 +630,10 @@ void retroreplay_romh_store(uint16_t addr, uint8_t value)
             } else {
                 export_ram0[addr & 0x1fff] = value;
             }
+            return;
         }
     }
+    mem_store_without_romlh(addr, value);
 }
 
 int retroreplay_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)

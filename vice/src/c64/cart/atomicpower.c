@@ -259,6 +259,8 @@ void atomicpower_romh_store(uint16_t addr, uint8_t value)
 {
     if (export_ram_at_a000) {
         export_ram0[addr & 0x1fff] = value;
+    } else {
+        mem_store_without_romlh(addr, value);
     }
 }
 
