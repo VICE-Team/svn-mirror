@@ -6210,6 +6210,8 @@ Action Replay MK4
 @item
 Atomic Power
 @item
+Blackbox V8
+@item
 C64 Games System
 @item
 Capture
@@ -6573,6 +6575,8 @@ The following cartridge types are valid:
 62: GMod3
 @item
 63: ZIPP-CODE 48
+@item
+64: Blackbox V8
 @end itemize
 
 @vindex CartridgeFile
@@ -6956,6 +6960,10 @@ Attach raw 32KB Action Replay MK4 cartridge image.
 @findex -cartar5
 @item -cartar5 <name>
 Attach raw 32KB Action Replay cartridge image.
+
+@findex -cartbb8
+@item -cartbb8 <name>
+Attach raw 32/64KB Blackbox V8 cartridge image.
 
 @findex -cartcap
 @item -cartcap <name>
@@ -17523,6 +17531,8 @@ Action Replay MK3 .crt file
 Action Replay MK4 .crt file
 @item ar5
 Action Replay V5 .crt file
+@item bb8
+Blackbox V8 .crt file
 @item cap
 Capture .crt file
 @item comal
@@ -23217,6 +23227,7 @@ Camels"@dots{}
                       61 - MAX Basic
                       62 - GMod3
                       63 - ZIPP-CODE 48
+                      64 - Blackbox V8
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -26557,6 +26568,37 @@ mapped in at $8000-$9fff.
 
     reading IO1 enables the cartridge ROM
     reading IO2 disables the cartridge ROM
+
+@subsubsection 64 - Blackbox V8
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb or 64Kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab active (hi) (0)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 40 00 00 00 00 00 00 00 00  ...@...@........
+0020: 42 4c 41 43 4b 42 4f 58 20 56 38 00 00 00 00 00  BLACKBOX V8.....
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: 09 80 22 80 c3 c2 cd 38 30 8e 16 d0 20 a3 fd 20  ..?....80... .. 
+
+@end example
+
+    writing to IO2 sets the cartridge config:
+    A0 - EXROM
+    A1 - GAME
+    A2 - bank lsb
+    A3 - bank msb
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

@@ -44,6 +44,8 @@ libc64cart_a_SOURCES = \
 	actionreplay.h \
 	atomicpower.c \
 	atomicpower.h \
+	blackbox8.c \
+	blackbox8.h \
 	c64-generic.c \
 	c64-generic.h \
 	c64-midi.c \

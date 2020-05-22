@@ -193,6 +193,7 @@ static const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 0, 0, CARTRIDGE_NAME_MAX_BASIC, "max", save_generic_crt},
     {0, 1, CARTRIDGE_SIZE_2048KB | CARTRIDGE_SIZE_4096KB | CARTRIDGE_SIZE_8192KB | CARTRIDGE_SIZE_16384KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_GMOD3, "gmod3", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_ZIPPCODE48, "zipp", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_BLACKBOX8, "bb8", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
