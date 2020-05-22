@@ -26568,6 +26568,7 @@ mapped in at $8000-$9fff.
 
     reading IO1 enables the cartridge ROM
     reading IO2 disables the cartridge ROM
+    the second last page of the ROM is mirrored in IO1    
 
 @subsubsection 64 - Blackbox V8
 
@@ -26577,7 +26578,7 @@ mapped in at $8000-$9fff.
 @item EXROM
 @tab active (lo) (0)
 @item GAME
-@tab active (hi) (0)
+@tab active (lo) (0)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -26599,6 +26600,62 @@ mapped in at $8000-$9fff.
     A1 - GAME
     A2 - bank lsb
     A3 - bank msb
+
+@subsubsection 65 - Blackbox V3
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 41 00 01 00 00 00 00 00 00  ...@...A........
+0020: 42 4c 41 43 4b 42 4f 58 20 56 33 00 00 00 00 00  BLACKBOX V3.....
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050: a7 85 2b 80 c3 c2 cd 38 30 8e 16 d0 20 a3 fd 20  ..+....80... .. 
+
+@end example
+
+    writing IO1 disables the cartridge ROM
+    writing IO2 enables the cartridge ROM
+
+@subsubsection 66 - Blackbox V4
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 42 00 00 00 00 00 00 00 00  ...@...B........
+0020: 42 4c 41 43 4b 42 4f 58 20 56 34 00 00 00 00 00  BLACKBOX V4.....
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: a7 85 2b 80 c3 c2 cd 38 30 8e 16 d0 20 a3 fd 20  ..+....80... .. 
+
+@end example
+
+    reading IO1 enables the cartridge ROM
+    reading IO2 disables the cartridge ROM
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

@@ -222,8 +222,10 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_GMOD3                62 /* gmod3.c */
 #define CARTRIDGE_ZIPPCODE48           63 /* zippcode48.c */
 #define CARTRIDGE_BLACKBOX8            64 /* blackbox8.c */
+#define CARTRIDGE_BLACKBOX3            65 /* blackbox3.c */
+#define CARTRIDGE_BLACKBOX4            66 /* blackbox4.c */
 
-#define CARTRIDGE_LAST                 64 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 66 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -245,6 +247,8 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_ACTION_REPLAY3     "Action Replay MK3" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_ACTION_REPLAY4     "Action Replay MK4" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* also: "Nordic Power" */ /* http://rr.pokefinder.org/wiki/Nordic_Power */
+#define CARTRIDGE_NAME_BLACKBOX3          "Blackbox V3"
+#define CARTRIDGE_NAME_BLACKBOX4          "Blackbox V4"
 #define CARTRIDGE_NAME_BLACKBOX8          "Blackbox V8"
 #define CARTRIDGE_NAME_GS                 "C64 Games System" /* http://retro.lonningdal.net/home.php?page=Computers&select=c64gs&image=c64gs4.jpg */
 #define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */

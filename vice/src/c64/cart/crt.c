@@ -44,6 +44,8 @@
 #include "actionreplay3.h"
 #include "actionreplay4.h"
 #include "atomicpower.h"
+#include "blackbox3.h"
+#include "blackbox4.h"
 #include "blackbox8.h"
 #include "c64-generic.h"
 #include "c64tpi.h"
@@ -402,6 +404,12 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_ATOMIC_POWER:
             rc = atomicpower_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_BLACKBOX3:
+            rc = blackbox3_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_BLACKBOX4:
+            rc = blackbox4_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_BLACKBOX8:
             rc = blackbox8_crt_attach(fd, rawcart);

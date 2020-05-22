@@ -63,6 +63,8 @@
 #include "actionreplay4.h"
 #include "actionreplay.h"
 #include "atomicpower.h"
+#include "blackbox3.h"
+#include "blackbox4.h"
 #include "blackbox8.h"
 #include "c64acia.h"
 #include "c64-generic.h"
@@ -219,6 +221,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartar5", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
       "<Name>", "Attach raw 32KB Action Replay cartridge image" },
+    { "-cartbb3", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_BLACKBOX3, NULL, NULL,
+      "<Name>", "Attach raw 8KB " CARTRIDGE_NAME_BLACKBOX3 " cartridge image" },
+    { "-cartbb4", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_BLACKBOX4, NULL, NULL,
+      "<Name>", "Attach raw 16KB " CARTRIDGE_NAME_BLACKBOX4 " cartridge image" },
     { "-cartbb8", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_BLACKBOX8, NULL, NULL,
       "<Name>", "Attach raw 32/64KB " CARTRIDGE_NAME_BLACKBOX8 " cartridge image" },
@@ -810,6 +818,10 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return actionreplay4_bin_attach(filename, rawcart);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_bin_attach(filename, rawcart);
+        case CARTRIDGE_BLACKBOX3:
+            return blackbox3_bin_attach(filename, rawcart);
+        case CARTRIDGE_BLACKBOX4:
+            return blackbox4_bin_attach(filename, rawcart);
         case CARTRIDGE_BLACKBOX8:
             return blackbox8_bin_attach(filename, rawcart);
         case CARTRIDGE_CAPTURE:
@@ -986,6 +998,12 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_config_setup(rawcart);
+            break;
+        case CARTRIDGE_BLACKBOX3:
+            blackbox3_config_setup(rawcart);
+            break;
+        case CARTRIDGE_BLACKBOX4:
+            blackbox4_config_setup(rawcart);
             break;
         case CARTRIDGE_BLACKBOX8:
             blackbox8_config_setup(rawcart);
@@ -1517,6 +1535,12 @@ void cart_detach(int type)
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_detach();
             break;
+        case CARTRIDGE_BLACKBOX3:
+            blackbox3_detach();
+            break;
+        case CARTRIDGE_BLACKBOX4:
+            blackbox4_detach();
+            break;
         case CARTRIDGE_BLACKBOX8:
             blackbox8_detach();
             break;
@@ -1775,6 +1799,12 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_config_init();
+            break;
+        case CARTRIDGE_BLACKBOX3:
+            blackbox3_config_init();
+            break;
+        case CARTRIDGE_BLACKBOX4:
+            blackbox4_config_init();
             break;
         case CARTRIDGE_BLACKBOX8:
             blackbox8_config_init();
@@ -2708,6 +2738,16 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_BLACKBOX3:
+                if (blackbox3_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_BLACKBOX4:
+                if (blackbox4_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_BLACKBOX8:
                 if (blackbox8_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3216,6 +3256,16 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_ATOMIC_POWER:
                 if (atomicpower_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_BLACKBOX3:
+                if (blackbox3_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_BLACKBOX4:
+                if (blackbox4_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;
