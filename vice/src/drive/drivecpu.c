@@ -293,8 +293,8 @@ CLOCK drivecpu_prevent_clk_overflow(diskunit_context_t *drv, CLOCK sub)
 /* Handle a ROM trap. */
 inline static uint32_t drive_trap_handler(diskunit_context_t *drv)
 {
-    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == (uint16_t)drv->drives[0]->trap) {
-        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), drv->drives[0]->trapcont);
+    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == (uint16_t)drv->trap) {
+        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), drv->trapcont);
         if (drv->drives[0]->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
@@ -602,7 +602,7 @@ int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
         || drv->drives[0]->type == DRIVE_TYPE_1571
         || drv->drives[0]->type == DRIVE_TYPE_1571CR
         || drv->drives[0]->type == DRIVE_TYPE_2031) {
-        if (SMW_BA(m, drv->drives[0]->drive_ram, 0x800) < 0) {
+        if (SMW_BA(m, drv->drive_ram, 0x800) < 0) {
             goto fail;
         }
     }
@@ -610,12 +610,12 @@ int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
     if (drv->drives[0]->type == DRIVE_TYPE_1581
         || drv->drives[0]->type == DRIVE_TYPE_2000
         || drv->drives[0]->type == DRIVE_TYPE_4000) {
-        if (SMW_BA(m, drv->drives[0]->drive_ram, 0x2000) < 0) {
+        if (SMW_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
     if (drive_check_old(drv->drives[0]->type)) {
-        if (SMW_BA(m, drv->drives[0]->drive_ram, 0x1100) < 0) {
+        if (SMW_BA(m, drv->drive_ram, 0x1100) < 0) {
             goto fail;
         }
     }
@@ -694,7 +694,7 @@ int drivecpu_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
         || drv->drives[0]->type == DRIVE_TYPE_1571
         || drv->drives[0]->type == DRIVE_TYPE_1571CR
         || drv->drives[0]->type == DRIVE_TYPE_2031) {
-        if (SMR_BA(m, drv->drives[0]->drive_ram, 0x800) < 0) {
+        if (SMR_BA(m, drv->drive_ram, 0x800) < 0) {
             goto fail;
         }
     }
@@ -702,13 +702,13 @@ int drivecpu_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
     if (drv->drives[0]->type == DRIVE_TYPE_1581
         || drv->drives[0]->type == DRIVE_TYPE_2000
         || drv->drives[0]->type == DRIVE_TYPE_4000) {
-        if (SMR_BA(m, drv->drives[0]->drive_ram, 0x2000) < 0) {
+        if (SMR_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
 
     if (drive_check_old(drv->drives[0]->type)) {
-        if (SMR_BA(m, drv->drives[0]->drive_ram, 0x1100) < 0) {
+        if (SMR_BA(m, drv->drive_ram, 0x1100) < 0) {
             goto fail;
         }
     }

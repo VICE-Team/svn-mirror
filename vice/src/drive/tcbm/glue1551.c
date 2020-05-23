@@ -58,8 +58,8 @@ static void glue_pport_update(diskunit_context_t *drv)
     static uint8_t old_output = 0;
     uint8_t output, input;
 
-    output = (drv->drives[0]->drive_ram[1] & drv->drives[0]->drive_ram[0])
-             | ~(drv->drives[0]->drive_ram[0]);
+    output = (drv->drive_ram[1] & drv->drive_ram[0])
+             | ~(drv->drive_ram[0]);
 
     /* Stepper motor.  */
     if (((old_output ^ output) & 0x3) && (output & 0x4)) {
@@ -93,7 +93,7 @@ static void glue_pport_update(diskunit_context_t *drv)
     input = drive_writeprotect_sense(drv->drives[0])
             | (drv->drives[0]->byte_ready_level ? 0x80 : 0);
 
-    drv->drives[0]->drive_ram[1] = output & (input | ~0x90);
+    drv->drive_ram[1] = output & (input | ~0x90);
 
     old_output = output;
 }
@@ -101,24 +101,24 @@ static void glue_pport_update(diskunit_context_t *drv)
 uint8_t glue1551_port0_read(diskunit_context_t *drv)
 {
     glue_pport_update(drv);
-    return drv->drives[0]->drive_ram[0];
+    return drv->drive_ram[0];
 }
 
 uint8_t glue1551_port1_read(diskunit_context_t *drv)
 {
     glue_pport_update(drv);
-    return drv->drives[0]->drive_ram[1];
+    return drv->drive_ram[1];
 }
 
 void glue1551_port0_store(diskunit_context_t *drv, uint8_t value)
 {
-    drv->drives[0]->drive_ram[0] = value;
+    drv->drive_ram[0] = value;
     glue_pport_update(drv);
 }
 
 void glue1551_port1_store(diskunit_context_t *drv, uint8_t value)
 {
-    drv->drives[0]->drive_ram[1] = value;
+    drv->drive_ram[1] = value;
     glue_pport_update(drv);
 }
 

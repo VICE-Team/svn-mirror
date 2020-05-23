@@ -98,30 +98,30 @@ int ieeerom_load_1001(void)
             DRIVE_TYPE_1001, NULL);
 }
 
-void ieeerom_setup_image(drive_t *drive)
+void ieeerom_setup_image(diskunit_context_t *unit)
 {
     if (rom_loaded) {
-        switch (drive->type) {
+        switch (unit->drives[0]->type) {
             case DRIVE_TYPE_2031:
-                memcpy(&(drive->rom[0x4000]), drive_rom2031,
+                memcpy(&(unit->rom[0x4000]), drive_rom2031,
                        DRIVE_ROM2031_SIZE);
                 break;
             case DRIVE_TYPE_2040:
-                memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]),
+                memcpy(&(unit->rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]),
                        drive_rom2040, DRIVE_ROM2040_SIZE);
                 break;
             case DRIVE_TYPE_3040:
-                memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]),
+                memcpy(&(unit->rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]),
                        drive_rom3040, DRIVE_ROM3040_SIZE);
                 break;
             case DRIVE_TYPE_4040:
-                memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]),
+                memcpy(&(unit->rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]),
                        drive_rom4040, DRIVE_ROM4040_SIZE);
                 break;
             case DRIVE_TYPE_1001:
             case DRIVE_TYPE_8050:
             case DRIVE_TYPE_8250:
-                memcpy(&(drive->rom[0x4000]), drive_rom1001,
+                memcpy(&(unit->rom[0x4000]), drive_rom1001,
                        DRIVE_ROM1001_SIZE);
                 break;
         }

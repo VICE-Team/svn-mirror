@@ -270,8 +270,8 @@ CLOCK drivecpu65c02_prevent_clk_overflow(diskunit_context_t *drv, CLOCK sub)
 /* Handle a ROM trap. */
 inline static uint32_t drive_trap_handler(diskunit_context_t *drv)
 {
-    if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (uint16_t)drv->drives[0]->trap) {
-        R65C02_REGS_SET_PC(&(drv->cpu->cpu_R65C02_regs), drv->drives[0]->trapcont);
+    if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (uint16_t)drv->trap) {
+        R65C02_REGS_SET_PC(&(drv->cpu->cpu_R65C02_regs), drv->trapcont);
         if (drv->drives[0]->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
@@ -490,7 +490,7 @@ int drivecpu65c02_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
 
     if (drv->drives[0]->type == DRIVE_TYPE_2000
         || drv->drives[0]->type == DRIVE_TYPE_4000) {
-        if (SMW_BA(m, drv->drives[0]->drive_ram, 0x2000) < 0) {
+        if (SMW_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
@@ -563,7 +563,7 @@ int drivecpu65c02_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
 
     if (drv->drives[0]->type == DRIVE_TYPE_2000
         || drv->drives[0]->type == DRIVE_TYPE_4000) {
-        if (SMR_BA(m, drv->drives[0]->drive_ram, 0x2000) < 0) {
+        if (SMR_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }

@@ -200,7 +200,7 @@ static int drive_resources_type(int val, void *param)
                 drive_enable_update_ui(diskunit_context[dnr]);
             }
             drive_set_disk_drive_type(type, diskunit_context[dnr]);
-            driverom_initialize_traps(drive);
+            driverom_initialize_traps(diskunit_context[dnr]);
             machine_drive_idling_method(dnr);
             return 0;
         case DRIVE_TYPE_NONE:
@@ -255,8 +255,11 @@ static int set_drive_idling_method(int val, void *param)
 
     dnr = vice_ptr_to_uint(param);
     /* TODO: drive 1? */
-    drive = diskunit_context[dnr]->drives[0];
-    drive1 = diskunit_context[dnr]->drives[1];
+
+    diskunit_context_t *unit = diskunit_context[dnr];
+
+    drive = unit->drives[0];
+    drive1 = unit->drives[1];
 
     /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
     switch (val) {
@@ -275,7 +278,8 @@ static int set_drive_idling_method(int val, void *param)
         return 0;
     }
 
-    driverom_initialize_traps(drive);
+    driverom_initialize_traps(unit);
+
     return 0;
 }
 

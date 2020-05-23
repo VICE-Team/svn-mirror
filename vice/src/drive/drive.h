@@ -181,13 +181,16 @@ typedef struct drive_type_info_s {
 struct gcr_s;
 struct disk_image_s;
 
-/* TODO: part of that struct should go into diskunit_context_s
-   candidates: type, memory stuff (drive_ram*, *rom), enable, rtc_save?, trap*, log?
+/* TODO: more parts of that struct should go into diskunit_context_s.
+   candidates: type, enable, rtc_save?, log?
    candidates: clock_frequency, idling_method, parallel_cable, profdos, supercard, stardos,
    candidates: ds1216, */
 typedef struct drive_s {
-    unsigned int unit;	/* 0 ... NUM_DISK_UNITS-1 */
-    unsigned int drive;	/* DRIVE_NUMBER_MIN ... DRIVE_NUMBER_MAX */
+    unsigned int unit;  /* 0 ... NUM_DISK_UNITS-1 */
+    unsigned int drive; /* DRIVE_NUMBER_MIN ... DRIVE_NUMBER_MAX */
+
+    /* Pointer to the containing diskunit_context */
+    struct diskunit_context_s *diskunit;
 
     /* Pointer to the drive clock.  */
     CLOCK *clk;
@@ -220,8 +223,6 @@ typedef struct drive_s {
 
     /* FD2000/4000 RTC save? */
     int rtc_save;
-
-    int trap, trapcont;
 
     /* Byte ready line.  */
     unsigned int byte_ready_level;
@@ -346,21 +347,13 @@ typedef struct drive_s {
     /* RTC context */
     rtc_ds1216e_t *ds1216;
 
-    /* Current ROM image.  */
-    uint8_t rom[DRIVE_ROM_SIZE];
-
-    /* Current trap ROM image.  */
-    uint8_t trap_rom[DRIVE_ROM_SIZE];
-
-    /* Drive RAM */
-    uint8_t drive_ram[DRIVE_RAM_SIZE];
-
     /* rotations per minute (300rpm = 30000) */
     int rpm;
     int rpm_wobble;
 } drive_t;
 
 
+/* diskunit_clk */
 extern CLOCK drive_clk[NUM_DISK_UNITS];
 
 /* Drive context structure for low-level drive emulation.

@@ -76,7 +76,7 @@ void iec128dcr_drive_rom_load(void)
 
 void iec128dcr_drive_rom_setup_image(unsigned int dnr)
 {
-    iec128dcrrom_setup_image(diskunit_context[dnr]->drives[0]);
+    iec128dcrrom_setup_image(diskunit_context[dnr]);
 }
 
 int iec128dcr_drive_rom_check_loaded(unsigned int type)

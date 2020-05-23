@@ -177,6 +177,19 @@ typedef struct diskunit_context_s {
     struct tpi_context_s *tpid;
     struct pc8477_s *pc8477;
     struct wd1770_s *wd1770;
+
+    /* Here is some data which used to be stored in drives[0]. */
+
+    /* Current ROM image.  */
+    uint8_t rom[DRIVE_ROM_SIZE];
+
+    /* Current trap ROM image.  */
+    uint8_t trap_rom[DRIVE_ROM_SIZE];
+    int trap, trapcont;
+
+    /* Drive RAM */
+    uint8_t drive_ram[DRIVE_RAM_SIZE];
+
 } diskunit_context_t;
 
 #endif

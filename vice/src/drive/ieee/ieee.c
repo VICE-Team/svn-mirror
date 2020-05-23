@@ -121,7 +121,7 @@ void ieee_drive_rom_load(void)
 
 void ieee_drive_rom_setup_image(unsigned int dnr)
 {
-    ieeerom_setup_image(diskunit_context[dnr]->drives[0]);
+    ieeerom_setup_image(diskunit_context[dnr]);
 }
 
 int ieee_drive_rom_check_loaded(unsigned int type)

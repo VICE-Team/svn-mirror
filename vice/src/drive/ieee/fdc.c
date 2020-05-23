@@ -771,8 +771,8 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 void fdc_init(diskunit_context_t *drv)
 {
     unsigned int fnum = drv->mynumber;
-    uint8_t *buffermem = drv->drives[0]->drive_ram + 0x100;
-    uint8_t *ipromp = &(drv->drives[0]->rom[0x4000]);
+    uint8_t *buffermem = drv->drive_ram + 0x100;
+    uint8_t *ipromp = &(drv->rom[0x4000]);
     char *buffer;
 
     fdc_t *sysfdc = &fdc[fnum][0];

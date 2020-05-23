@@ -102,13 +102,13 @@ void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector,
         || drive->type == DRIVE_TYPE_1570
         || drive->type == DRIVE_TYPE_1571
         || drive->type == DRIVE_TYPE_1571CR) {
-        drv->drives[0]->drive_ram[0x12] = id[0];
-        drv->drives[0]->drive_ram[0x13] = id[1];
-        drv->drives[0]->drive_ram[0x16] = id[0];
-        drv->drives[0]->drive_ram[0x17] = id[1];
-        drv->drives[0]->drive_ram[0x18] = track;
-        drv->drives[0]->drive_ram[0x19] = sector;
-        drv->drives[0]->drive_ram[0x22] = track;
+        drv->drive_ram[0x12] = id[0];
+        drv->drive_ram[0x13] = id[1];
+        drv->drive_ram[0x16] = id[0];
+        drv->drive_ram[0x17] = id[1];
+        drv->drive_ram[0x18] = track;
+        drv->drive_ram[0x19] = sector;
+        drv->drive_ram[0x22] = track;
     }
 }
 
@@ -138,7 +138,7 @@ void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffe
         || drive->type == DRIVE_TYPE_1570
         || drive->type == DRIVE_TYPE_1571
         || drive->type == DRIVE_TYPE_1571CR) {
-        memcpy(&(drv->drives[0]->drive_ram[0x0400]), buffer, 256);
+        memcpy(&(drv->drive_ram[0x0400]), buffer, 256);
     }
 }
 
@@ -164,18 +164,19 @@ int drive_init(void)
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         char *logname;
-	unsigned int d;
+        unsigned int d;
 
-	for (d = 0; d < NUM_DRIVES; d++) {
-	    drive = diskunit_context[unit]->drives[d];
-	    logname = lib_msprintf("Unit %u Drive %u", unit + 8, d);
-	    drive->log = log_open(logname);
-	    lib_free(logname);
+        for (d = 0; d < NUM_DRIVES; d++) {
+            drive = diskunit_context[unit]->drives[d];
+            logname = lib_msprintf("Unit %u Drive %u", unit + 8, d);
+            drive->log = log_open(logname);
+            lib_free(logname);
 
-	    drive->clk = &drive_clk[unit];
-	    drive->unit = unit;
-	    drive->drive = d;
-	}
+            drive->clk = &drive_clk[unit];
+            drive->unit = unit;
+            drive->drive = d;
+            drive->diskunit = diskunit_context[unit];
+        }
 
         drive_clk[unit] = 0L;
     }
@@ -206,6 +207,7 @@ int drive_init(void)
     }
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
+        /* TODO: make loop for drives. */
         drive = diskunit_context[unit]->drives[0];
         drive->gcr = gcr_create_image();
         drive->p64 = lib_calloc(1, sizeof(TP64Image));
@@ -232,6 +234,7 @@ int drive_init(void)
         drive->led_active_ticks = 0;
         drive->read_write_mode = 1;
 
+        /* TODO: rotation code is not drive1 aware */
         rotation_reset(drive);
 
         /* Position the R/W head on the directory track.  */
@@ -266,17 +269,18 @@ int drive_init(void)
         drive->led_active_ticks = 0;
         drive->read_write_mode = 1;
 
+        /* TODO: rotation code is not drive1 aware */
         rotation_reset(drive);
     }
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         drive = diskunit_context[unit]->drives[0];
         drive1 = diskunit_context[unit]->drives[1];
-        driverom_initialize_traps(drive);
+        driverom_initialize_traps(diskunit_context[unit]);
 
         drivesync_clock_frequency(drive->type, drive);
 
-	/* TODO: rotation code is not drive1 aware */
+        /* TODO: rotation code is not drive1 aware */
         rotation_init((drive->clock_frequency == 2) ? 1 : 0, unit);
         rotation_init((drive1->clock_frequency == 2) ? 1 : 0, unit);
 
@@ -915,11 +919,12 @@ static void drive_setup_context_for_unit(diskunit_context_t *drv,
     drv->mynumber = unr;
 
     for (d = 0; d < NUM_DRIVES; d++) {
-	drv->drives[d] = lib_calloc(1, sizeof(drive_t));
-	/* TODO: init functions for allocated memory */
-	drv->drives[d]->image = NULL;
-	drv->drives[d]->unit = unr;
-	drv->drives[d]->drive = d;
+        drv->drives[d] = lib_calloc(1, sizeof(drive_t));
+        /* TODO: init functions for allocated memory */
+        drv->drives[d]->image = NULL;
+        drv->drives[d]->diskunit = drv;
+        drv->drives[d]->unit = unr;
+        drv->drives[d]->drive = d;
     }
 
     drv->clk_ptr = &drive_clk[unr];

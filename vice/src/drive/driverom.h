@@ -30,6 +30,7 @@
 #include "types.h"
 
 struct drive_s;
+struct diskunit_context_s;
 struct snapshot_s;
 
 #define DRIVE_ROM1540_SIZE            0x4000
@@ -52,7 +53,7 @@ struct snapshot_s;
 #define DRIVE_ROM4040_SIZE            0x3000
 
 extern void driverom_init(void);
-extern void driverom_initialize_traps(struct drive_s *drive);
+extern void driverom_initialize_traps(struct diskunit_context_s *drive);
 extern int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
                          int *loaded, int min, int max, const char *name,
                          unsigned int type, unsigned int *size);
