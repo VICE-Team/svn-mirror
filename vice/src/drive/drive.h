@@ -57,6 +57,8 @@
  */
 #define DRIVE_NUMBER_MAX  1
 
+#define NUM_DRIVES	2
+
 /** \brief  Default drive number
  */
 #define DRIVE_NUMBER_DEFAULT  DRIVE_NUMBER_MIN
@@ -184,7 +186,8 @@ struct disk_image_s;
    candidates: clock_frequency, idling_method, parallel_cable, profdos, supercard, stardos,
    candidates: ds1216, */
 typedef struct drive_s {
-    unsigned int mynumber;
+    unsigned int unit;	/* 0 ... NUM_DISK_UNITS-1 */
+    unsigned int drive;	/* DRIVE_NUMBER_MIN ... DRIVE_NUMBER_MAX */
 
     /* Pointer to the drive clock.  */
     CLOCK *clk;

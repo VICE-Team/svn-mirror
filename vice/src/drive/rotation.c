@@ -111,7 +111,7 @@ void rotation_reset(drive_t *drive)
 {
     unsigned int dnr;
 
-    dnr = drive->mynumber;
+    dnr = drive->unit;
 
     rotation[dnr].last_read_data = 0;
     rotation[dnr].last_write_data = 0;
@@ -291,7 +291,7 @@ inline static uint32_t RANDOM_nextUInt(rotation_t *rptr)
 
 void rotation_begins(drive_t *dptr)
 {
-    unsigned int dnr = dptr->mynumber;
+    unsigned int dnr = dptr->unit;
     rotation[dnr].rotation_last_clk = *(dptr->clk);
     rotation[dnr].cycle_index = 0;
 }
@@ -307,11 +307,11 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
     unsigned int todo;
     int32_t delta;
     uint32_t count_new_bitcell, cyc_sum_frv /*, sum_new_bitcell*/;
-    unsigned int dnr = dptr->mynumber;
+    unsigned int dnr = dptr->unit;
     int wobble;
     uint64_t tmp = 30000UL;
 
-    rptr = &rotation[dptr->mynumber];
+    rptr = &rotation[dptr->unit];
 
     /* drive speed is 300RPM, that is 300/60=5 revolutions per second
      * reference clock is 16MHz, one revolution has 16MHz/5 reference cycles
@@ -536,7 +536,7 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
 
 static void rotation_1541_gcr_cycle(drive_t *dptr)
 {
-    rotation_t *rptr = &rotation[dptr->mynumber];
+    rotation_t *rptr = &rotation[dptr->unit];
     CLOCK cpu_cycles;
     int ref_cycles, ref_advance_cycles;
     CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
@@ -586,7 +586,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
     PP64PulseStream P64PulseStream;
     uint32_t DeltaPositionToNextPulse, ToDo;
 
-    rptr = &rotation[dptr->mynumber];
+    rptr = &rotation[dptr->unit];
 
     P64PulseStream = &dptr->p64->PulseStreams[dptr->side][dptr->current_half_track];
 
@@ -906,7 +906,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
 
 static void rotation_1541_p64_cycle(drive_t *dptr)
 {
-    rotation_t *rptr = &rotation[dptr->mynumber];
+    rotation_t *rptr = &rotation[dptr->unit];
     CLOCK cpu_cycles;
     int ref_cycles, ref_advance_cycles;
     CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
@@ -959,7 +959,7 @@ static void rotation_1541_simple(drive_t *dptr)
 
     dptr->req_ref_cycles = 0;
 
-    rptr = &rotation[dptr->mynumber];
+    rptr = &rotation[dptr->unit];
 
     /* Calculate the number of bits that have passed under the R/W head since
        the last time.  */
@@ -1092,7 +1092,7 @@ void rotation_rotate_disk(drive_t *dptr)
    is found.  */
 uint8_t rotation_sync_found(drive_t *dptr)
 {
-    unsigned int dnr = dptr->mynumber;
+    unsigned int dnr = dptr->unit;
 
     if (dptr->read_write_mode == 0 || dptr->attach_clk != (CLOCK)0) {
         return 0x80;

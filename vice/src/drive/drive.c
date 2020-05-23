@@ -148,7 +148,7 @@ void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffe
    once before anything else).  Return 0 on success, -1 on error.  */
 int drive_init(void)
 {
-    unsigned int dnr;
+    unsigned int unit;
     drive_t *drive, *drive1;
 
     if (rom_loaded) {
@@ -162,26 +162,22 @@ int drive_init(void)
 
     drive_log = log_open("Drive");
 
-    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+    for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         char *logname;
+	unsigned int d;
 
-        drive = diskunit_context[dnr]->drives[0];
-        logname = lib_msprintf("Drive %i", dnr + 8);
-        drive->log = log_open(logname);
-        lib_free(logname);
+	for (d = 0; d < NUM_DRIVES; d++) {
+	    drive = diskunit_context[unit]->drives[d];
+	    logname = lib_msprintf("Unit %u Drive %u", unit + 8, d);
+	    drive->log = log_open(logname);
+	    lib_free(logname);
 
-        drive->clk = &drive_clk[dnr];
-        drive->mynumber = dnr;
+	    drive->clk = &drive_clk[unit];
+	    drive->unit = unit;
+	    drive->drive = d;
+	}
 
-        drive = diskunit_context[dnr]->drives[1];
-        logname = lib_msprintf("Drive %i", dnr + 8);
-        drive->log = log_open(logname);
-        lib_free(logname);
-
-        drive->clk = &drive_clk[dnr];
-        drive->mynumber = dnr;
-
-        drive_clk[dnr] = 0L;
+        drive_clk[unit] = 0L;
     }
 
     if (driverom_load_images() < 0) {
@@ -197,20 +193,20 @@ int drive_init(void)
 
     drive_overflow_init();
 
-    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = diskunit_context[dnr]->drives[0];
+    for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
+        drive = diskunit_context[unit]->drives[0];
 
-        machine_drive_port_default(diskunit_context[dnr]);
+        machine_drive_port_default(diskunit_context[unit]);
 
-        if (drive_check_type(drive->type, dnr) < 1) {
-            resources_set_int_sprintf("Drive%iType", DRIVE_TYPE_NONE, dnr + 8);
+        if (drive_check_type(drive->type, unit) < 1) {
+            resources_set_int_sprintf("Drive%iType", DRIVE_TYPE_NONE, unit + 8);
         }
 
-        machine_drive_rom_setup_image(dnr);
+        machine_drive_rom_setup_image(unit);
     }
 
-    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = diskunit_context[dnr]->drives[0];
+    for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
+        drive = diskunit_context[unit]->drives[0];
         drive->gcr = gcr_create_image();
         drive->p64 = lib_calloc(1, sizeof(TP64Image));
         P64ImageCreate(drive->p64);
@@ -240,11 +236,11 @@ int drive_init(void)
 
         /* Position the R/W head on the directory track.  */
         drive_set_half_track(36, 0, drive);
-        drive_set_active_led_color(drive->type, dnr);
+        drive_set_active_led_color(drive->type, unit);
 
         /* drive 1 */
 
-        drive = diskunit_context[dnr]->drives[1];
+        drive = diskunit_context[unit]->drives[1];
         drive->gcr = gcr_create_image();
         drive->p64 = lib_calloc(1, sizeof(TP64Image));
         P64ImageCreate(drive->p64);
@@ -273,29 +269,29 @@ int drive_init(void)
         rotation_reset(drive);
     }
 
-    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = diskunit_context[dnr]->drives[0];
-        drive1 = diskunit_context[dnr]->drives[1];
+    for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
+        drive = diskunit_context[unit]->drives[0];
+        drive1 = diskunit_context[unit]->drives[1];
         driverom_initialize_traps(drive);
 
         drivesync_clock_frequency(drive->type, drive);
 
 	/* TODO: rotation code is not drive1 aware */
-        rotation_init((drive->clock_frequency == 2) ? 1 : 0, dnr);
-        rotation_init((drive1->clock_frequency == 2) ? 1 : 0, dnr);
+        rotation_init((drive->clock_frequency == 2) ? 1 : 0, unit);
+        rotation_init((drive1->clock_frequency == 2) ? 1 : 0, unit);
 
         if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-            drivecpu65c02_init(diskunit_context[dnr], drive->type);
+            drivecpu65c02_init(diskunit_context[unit], drive->type);
         } else {
-            drivecpu_init(diskunit_context[dnr], drive->type);
+            drivecpu_init(diskunit_context[unit], drive->type);
         }
 
         /* Make sure the sync factor is acknowledged correctly.  */
-        drivesync_factor(diskunit_context[dnr]);
+        drivesync_factor(diskunit_context[unit]);
 
         /* Make sure the traps are moved as needed.  */
         if (drive->enable) {
-            drive_enable(diskunit_context[dnr]);
+            drive_enable(diskunit_context[unit]);
         }
     }
 
@@ -643,7 +639,7 @@ void drive_move_head(int step, drive_t *drive)
         log_warning(drive_log, "ambiguous step count (%d)", step);
     }
     drive_gcr_data_writeback(drive);
-    drive_sound_head(drive->current_half_track, step, drive->mynumber);
+    drive_sound_head(drive->current_half_track, step, drive->unit);
     drive_set_half_track(drive->current_half_track + step, drive->side, drive);
 }
 
@@ -785,7 +781,7 @@ static void drive_led_update(drive_t *drive, drive_t *drive0, int base)
 
     if (led_pwm1 != drive->led_last_pwm
         || my_led_status != drive->old_led_status) {
-        ui_display_drive_led(drive->mynumber, base, led_pwm1,
+        ui_display_drive_led(drive->unit, base, led_pwm1,
                              (my_led_status & 2) ? 1000 : 0);
         drive->led_last_pwm = led_pwm1;
         drive->old_led_status = my_led_status;
@@ -911,16 +907,22 @@ void drive_vsync_hook(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void drive_setup_context_for_drive(diskunit_context_t *drv,
-                                          unsigned int dnr)
+static void drive_setup_context_for_unit(diskunit_context_t *drv,
+                                          unsigned int unr)
 {
-    drv->mynumber = dnr;
-    drv->drives[0] = lib_calloc(1, sizeof(drive_t));
-    /* TODO: init functions for allocated memory */
-    drv->drives[0]->image = NULL;
-    drv->drives[1] = lib_calloc(1, sizeof(drive_t));
-    drv->drives[1]->image = NULL;
-    drv->clk_ptr = &drive_clk[dnr];
+    unsigned int d;
+
+    drv->mynumber = unr;
+
+    for (d = 0; d < NUM_DRIVES; d++) {
+	drv->drives[d] = lib_calloc(1, sizeof(drive_t));
+	/* TODO: init functions for allocated memory */
+	drv->drives[d]->image = NULL;
+	drv->drives[d]->unit = unr;
+	drv->drives[d]->drive = d;
+    }
+
+    drv->clk_ptr = &drive_clk[unr];
 
     drivecpu_setup_context(drv, 1); /* no need for 65c02, only allocating common stuff */
 
@@ -929,10 +931,10 @@ static void drive_setup_context_for_drive(diskunit_context_t *drv,
 
 void drive_setup_context(void)
 {
-    unsigned int dnr;
+    unsigned int unr;
 
-    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        diskunit_context[dnr] = lib_calloc(1, sizeof(diskunit_context_t));
-        drive_setup_context_for_drive(diskunit_context[dnr], dnr);
+    for (unr = 0; unr < NUM_DISK_UNITS; unr++) {
+        diskunit_context[unr] = lib_calloc(1, sizeof(diskunit_context_t));
+        drive_setup_context_for_unit(diskunit_context[unr], unr);
     }
 }
