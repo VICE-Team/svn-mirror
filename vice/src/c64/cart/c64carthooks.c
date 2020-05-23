@@ -120,6 +120,7 @@
 #include "retroreplay.h"
 #include "reu.h"
 #include "rexep256.h"
+#include "rexramfloppy.h"
 #include "rexutility.h"
 #include "rgcd.h"
 #include "rrnetmk3.h"
@@ -363,6 +364,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartrep256", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_REX_EP256, NULL, NULL,
       "<Name>", "Attach raw REX EP256 cartridge image" },
+    { "-cartrrf", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_REX_RAMFLOPPY, NULL, NULL,
+      "<Name>", "Attach raw " CARTRIDGE_NAME_REX_RAMFLOPPY " cartridge image" },
     { "-cartrgcd", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_RGCD, NULL, NULL,
       "<Name>", "Attach raw 64kB RGCD cartridge image" },
@@ -904,6 +908,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return rex_bin_attach(filename, rawcart);
         case CARTRIDGE_REX_EP256:
             return rexep256_bin_attach(filename, rawcart);
+        case CARTRIDGE_REX_RAMFLOPPY:
+            return rexramfloppy_bin_attach(filename, rawcart);
         case CARTRIDGE_RGCD:
             return rgcd_bin_attach(filename, rawcart);
 #ifdef HAVE_RAWNET
@@ -1124,6 +1130,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_REX_EP256:
             rexep256_config_setup(rawcart);
+            break;
+        case CARTRIDGE_REX_RAMFLOPPY:
+            rexramfloppy_config_setup(rawcart);
             break;
         case CARTRIDGE_RGCD:
             rgcd_config_setup(rawcart);
@@ -1661,6 +1670,9 @@ void cart_detach(int type)
         case CARTRIDGE_REX_EP256:
             rexep256_detach();
             break;
+        case CARTRIDGE_REX_RAMFLOPPY:
+            rexramfloppy_detach();
+            break;
         case CARTRIDGE_RGCD:
             rgcd_detach();
             break;
@@ -1926,6 +1938,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_REX_EP256:
             rexep256_config_init();
             break;
+        case CARTRIDGE_REX_RAMFLOPPY:
+            rexramfloppy_config_init();
+            break;
         case CARTRIDGE_RGCD:
             rgcd_config_init();
             break;
@@ -2101,6 +2116,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_reset();
+            break;
+        case CARTRIDGE_REX_RAMFLOPPY:
+            rexramfloppy_reset();
             break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
@@ -2945,6 +2963,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_REX_RAMFLOPPY:
+                if (rexramfloppy_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_RGCD:
                 if (rgcd_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3463,6 +3486,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_REX_EP256:
                 if (rexep256_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_REX_RAMFLOPPY:
+                if (rexramfloppy_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

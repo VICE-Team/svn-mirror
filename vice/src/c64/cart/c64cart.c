@@ -202,6 +202,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_RETRO_REPLAY,        CARTRIDGE_RETRO_REPLAY,        CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_REX,                 CARTRIDGE_REX,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_REX_EP256,           CARTRIDGE_REX_EP256,           CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_NAME_REX_RAMFLOPPY,       CARTRIDGE_REX_RAMFLOPPY,       CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_RGCD,                CARTRIDGE_RGCD,                CARTRIDGE_GROUP_GAME },
 #ifdef HAVE_RAWNET
     { CARTRIDGE_NAME_RRNETMK3,            CARTRIDGE_RRNETMK3,            CARTRIDGE_GROUP_UTIL },
@@ -328,6 +329,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_RETRO_REPLAY:
         case CARTRIDGE_REX:
         case CARTRIDGE_REX_EP256:
+        case CARTRIDGE_REX_RAMFLOPPY:
         case CARTRIDGE_RGCD:
         case CARTRIDGE_RRNETMK3:
         case CARTRIDGE_ROSS:

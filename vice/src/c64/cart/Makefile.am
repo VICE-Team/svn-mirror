@@ -154,6 +154,8 @@ libc64cart_a_SOURCES = \
 	reu.h \
 	rexep256.c \
 	rexep256.h \
+	rexramfloppy.c \
+	rexramfloppy.h \
 	rexutility.c \
 	rexutility.h \
 	rgcd.c \

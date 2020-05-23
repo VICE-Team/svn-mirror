@@ -26566,9 +26566,11 @@ mapped in at $8000-$9fff.
 
 @end example
 
+@example
     reading IO1 enables the cartridge ROM
     reading IO2 disables the cartridge ROM
     the second last page of the ROM is mirrored in IO1    
+@end example
 
 @subsubsection 64 - Blackbox V8
 
@@ -26595,11 +26597,13 @@ mapped in at $8000-$9fff.
 
 @end example
 
+@example
     writing to IO2 sets the cartridge config:
     A0 - EXROM
     A1 - GAME
     A2 - bank lsb
     A3 - bank msb
+@end example
 
 @subsubsection 65 - Blackbox V3
 
@@ -26626,8 +26630,10 @@ mapped in at $8000-$9fff.
 
 @end example
 
+@example
     writing IO1 disables the cartridge ROM
     writing IO2 enables the cartridge ROM
+@end example
 
 @subsubsection 66 - Blackbox V4
 
@@ -26654,9 +26660,48 @@ mapped in at $8000-$9fff.
 
 @end example
 
+@example
     reading IO1 enables the cartridge ROM
     reading IO2 disables the cartridge ROM
+@end example
 
+@subsubsection 67 - REX RAM-Floppy
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 43 00 01 00 00 00 00 00 00  ...@...C........
+0020: 52 45 58 20 52 41 4d 2d 46 4c 4f 50 50 59 00 00  REX RAM-FLOPPY..
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050: 09 80 09 fe c3 c2 cd 38 30 20 a3 fd 20 50 fd 20  .......80 .. P. 
+
+@end example
+
+This cartridge contains an 8k ROM which contains the software, plus up to 256k
+RAM which can then be used to store up to 100 programs. The RAM is battery
+buffered, and the cartridge can be disabled with a switch on the board.
+
+@example
+    dfa0    (write) selects RAM bank
+    df50    (read) toggles RAM writeable
+    dfc0    (read) toggles cartridge enable
+    dfe0    (read) toggles RAM enable
+@end example
+    
+    
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
 

@@ -224,8 +224,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_BLACKBOX8            64 /* blackbox8.c */
 #define CARTRIDGE_BLACKBOX3            65 /* blackbox3.c */
 #define CARTRIDGE_BLACKBOX4            66 /* blackbox4.c */
+#define CARTRIDGE_REX_RAMFLOPPY        67 /* rexramfloppy.c */
 
-#define CARTRIDGE_LAST                 66 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 67 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -308,6 +309,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
 #define CARTRIDGE_NAME_REX_EP256          "REX 256k EPROM Cart" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_REX                "REX Utility"
+#define CARTRIDGE_NAME_REX_RAMFLOPPY      "REX RAM-Floppy"
 #define CARTRIDGE_NAME_RGCD               "RGCD"
 #define CARTRIDGE_NAME_RRNET              "RR-Net" /* see manual */
 #define CARTRIDGE_NAME_RRNETMK3           "RR-Net MK3" /* see manual */

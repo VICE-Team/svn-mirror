@@ -89,6 +89,7 @@
 #include "prophet64.h"
 #include "retroreplay.h"
 #include "rexep256.h"
+#include "rexramfloppy.h"
 #include "rexutility.h"
 #include "rgcd.h"
 #include "rrnetmk3.h"
@@ -539,6 +540,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_REX:
             rc = rex_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_REX_RAMFLOPPY:
+            rc = rexramfloppy_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_RGCD:
             rc = rgcd_crt_attach(fd, rawcart);

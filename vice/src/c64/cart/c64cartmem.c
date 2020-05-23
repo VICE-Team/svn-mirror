@@ -102,6 +102,7 @@
 #include "retroreplay.h"
 #include "reu.h"
 #include "rexep256.h"
+#include "rexramfloppy.h"
 #include "rexutility.h"
 #include "rrnetmk3.h"
 #include "ross.h"
@@ -629,6 +630,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return pagefox_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
+        case CARTRIDGE_REX_RAMFLOPPY:
+            return rexramfloppy_roml_read(addr);
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_roml_read(addr);
@@ -1149,6 +1152,10 @@ void roml_no_ultimax_store(uint16_t addr, uint8_t value)
             if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
             }
+            break;
+        case CARTRIDGE_REX_RAMFLOPPY:
+            rexramfloppy_roml_store(addr, value);
+            return; /* writes to cartridge RAM should not fall through to C64 RAM */
             break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
