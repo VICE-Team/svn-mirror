@@ -36,7 +36,7 @@
 #include "maincpu.h"
 #include "types.h"
 
-static int fast_cpu_direction, fast_drive_direction[DRIVE_NUM];
+static int fast_cpu_direction, fast_drive_direction[NUM_DISK_UNITS];
 int burst_mod = 0;
 
 void c128fastiec_init(void)
@@ -45,7 +45,7 @@ void c128fastiec_init(void)
 
     fast_cpu_direction = 0;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         fast_drive_direction[dnr] = 1;
     }
 }
@@ -56,7 +56,7 @@ void c128fastiec_fast_cpu_write(uint8_t data)
     unsigned int dnr;
 
     if (fast_cpu_direction) {
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             drive = drive_context[dnr]->drives[0];
             if (drive->enable) {
                 drive_cpu_execute_one(drive_context[dnr], maincpu_clk);

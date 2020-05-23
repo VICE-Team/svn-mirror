@@ -44,7 +44,6 @@
 
 
 /* #define FDC_DEBUG */
-#define FDC_DEBUG
 
 #define DOS_IS_80(type)  (type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250 || type == DRIVE_TYPE_1001)
 #define DOS_IS_40(type)  (type == DRIVE_TYPE_4040)
@@ -53,7 +52,7 @@
 
 /************************************************************************/
 
-#define NUM_FDC DRIVE_NUM   /* dual disk drives */
+#define NUM_FDC NUM_DISK_UNITS   /* dual disk drives */
 
 static log_t fdc_log = LOG_ERR;
 
@@ -812,7 +811,7 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
                 image, unit, drive);
 #endif
 
-    if (unit < 8 || unit >= 8 + DRIVE_NUM) {
+    if (unit < 8 || unit >= 8 + NUM_DISK_UNITS) {
         return -1;
     }
     if (drive > 1) {
@@ -881,7 +880,7 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
                 image, unit, drive);
 #endif
 
-    if (image == NULL || unit < 8 || unit >= (8 + DRIVE_NUM)) {
+    if (image == NULL || unit < 8 || unit >= (8 + NUM_DISK_UNITS)) {
         return -1;
     }
     if (drive > 1) {

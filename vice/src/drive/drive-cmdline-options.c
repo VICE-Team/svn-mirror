@@ -138,7 +138,7 @@ int drive_cmdline_options_init(void)
             has_iec = 1;
     }
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         cmd_drive[0].name = lib_msprintf("-drive%itype", dnr + 8);
         cmd_drive[0].resource_name = lib_msprintf("Drive%iType", dnr + 8);
         for (j = 0; machine_drives[j].machine != 0; j++) {

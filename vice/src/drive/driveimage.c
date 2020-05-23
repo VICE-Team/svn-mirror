@@ -130,7 +130,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int drv)
     unsigned int dnr;
     drive_t *drive;
 
-    if (unit < 8 || unit >= 8 + DRIVE_NUM) {
+    if (unit < 8 || unit >= 8 + NUM_DISK_UNITS) {
         return -1;
     }
 
@@ -190,7 +190,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drv)
     unsigned int dnr, i;
     drive_t *drive;
 
-    if (unit < 8 || unit >= 8 + DRIVE_NUM) {
+    if (unit < 8 || unit >= 8 + NUM_DISK_UNITS) {
         return -1;
     }
 

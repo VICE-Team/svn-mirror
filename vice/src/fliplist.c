@@ -54,7 +54,7 @@ struct fliplist_s {
     unsigned int unit;
 };
 
-static fliplist_t fliplist[DRIVE_NUM] = {
+static fliplist_t fliplist[NUM_DISK_UNITS] = {
     (fliplist_t)NULL,
     (fliplist_t)NULL
 };
@@ -112,7 +112,7 @@ void fliplist_resources_shutdown(void)
 {
     int i;
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         fliplist_clear_list(8 + i);
     }
 
@@ -382,7 +382,7 @@ int fliplist_save_list(unsigned int unit, const char *filename)
             while (flip != fliplist[unit - 8]);
         }
         unit++;
-    } while (all_units && ((unit - 8) < DRIVE_NUM));
+    } while (all_units && ((unit - 8) < NUM_DISK_UNITS));
 
     if (fp) {
         fclose(fp);
@@ -414,7 +414,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     }
     if (unit == FLIPLIST_ALL_UNITS) {
         all_units = 1;
-        for (i = 0; i < DRIVE_NUM; i++) {
+        for (i = 0; i < NUM_DISK_UNITS; i++) {
             fliplist_clear_list(i + 8);
         }
     } else {
@@ -488,7 +488,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
         current_drive = unit;
 
         if (all_units) {
-            for (i = 0; i < DRIVE_NUM; i++) {
+            for (i = 0; i < NUM_DISK_UNITS; i++) {
                 show_fliplist(i + 8);
             }
         } else {

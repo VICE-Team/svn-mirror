@@ -152,7 +152,7 @@ GtkWidget *drive_no_widget_create(int number, int *target, void (*callback)(int)
     /* connect signal handlers */
     debug_gtk3("Connecting event handlers");
 
-    /* The limit used to be DRIVE_NUM, but that indicates the number of
+    /* The limit used to be NUM_DISK_UNITS, but that indicates the number of
      * units, not drives, so we may have to rename a few defines to cope with
      * having both units and drives in a unit. And also apply these constants
      * in the other code the patch fixes (ie all the 0-2 loops and drive > 1

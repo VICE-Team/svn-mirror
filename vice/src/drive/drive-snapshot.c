@@ -112,8 +112,8 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     int i;
     char snap_module_name[] = "DRIVE";
     snapshot_module_t *m;
-    uint32_t rotation_table_ptr[DRIVE_NUM];
-    uint8_t GCR_image[DRIVE_NUM], P64_image[DRIVE_NUM];
+    uint32_t rotation_table_ptr[NUM_DISK_UNITS];
+    uint8_t GCR_image[NUM_DISK_UNITS], P64_image[NUM_DISK_UNITS];
     int drive_true_emulation;
     int sync_factor;
     drive_t *drive;
@@ -136,7 +136,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
     rotation_table_get(rotation_table_ptr);
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         GCR_image[i] = (drive->GCR_image_loaded == 0 || !save_disks) ? 0 : 1;
         P64_image[i] = (drive->P64_image_loaded == 0 || !save_disks) ? 0 : 1;
@@ -157,7 +157,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         return -1;
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_clk)) < 0
@@ -210,7 +210,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     /* new snapshot members */
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_detach_clk)) < 0
@@ -222,7 +222,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         }
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         if (0
             || SMW_B(m, (uint8_t)(drive->byte_ready_edge)) < 0
@@ -239,7 +239,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         return -1;
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         if (drive->enable) {
             if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
@@ -259,7 +259,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
     if (save_disks) {
         int d;
-        for (d = 0; d < DRIVE_NUM; d++) {
+        for (d = 0; d < NUM_DISK_UNITS; d++) {
             if (GCR_image[d] > 0) {
                 if (drive_snapshot_write_gcrimage_module(s, d) < 0) {
                     return -1;
@@ -276,7 +276,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         }
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         if (save_roms && drive->enable) {
             if (driverom_snapshot_write(s, drive) < 0) {
@@ -294,15 +294,15 @@ int drive_snapshot_read_module(snapshot_t *s)
     int i;
     snapshot_module_t *m;
     char snap_module_name[] = "DRIVE";
-    uint32_t rotation_table_ptr[DRIVE_NUM];
-    CLOCK attach_clk[DRIVE_NUM];
-    CLOCK detach_clk[DRIVE_NUM];
-    CLOCK attach_detach_clk[DRIVE_NUM];
+    uint32_t rotation_table_ptr[NUM_DISK_UNITS];
+    CLOCK attach_clk[NUM_DISK_UNITS];
+    CLOCK detach_clk[NUM_DISK_UNITS];
+    CLOCK attach_detach_clk[NUM_DISK_UNITS];
     int drive_true_emulation;
     int sync_factor;
     drive_t *drive;
     int dummy;
-    int half_track[DRIVE_NUM];
+    int half_track[NUM_DISK_UNITS];
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -337,7 +337,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
 
         /* Partially read 1.0 snapshots */
@@ -534,13 +534,13 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     /* this one is new, so don't test so stay compatible with old snapshots */
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         SMR_DW(m, &(attach_detach_clk[i]));
     }
 
     /* these are even newer */
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         SMR_B_INT(m, (int *)&(drive->byte_ready_edge));
         SMR_B_INT(m, (int *)&(drive->byte_ready_active));
@@ -694,7 +694,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     /* TODO(rhialto): Drive 1? */
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         if (drive->enable) {
             if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
@@ -712,7 +712,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         }
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         if (drive_snapshot_read_image_module(s, i) < 0
             || drive_snapshot_read_gcrimage_module(s, i) < 0
             || drive_snapshot_read_p64image_module(s, i) < 0) {
@@ -720,13 +720,13 @@ int drive_snapshot_read_module(snapshot_t *s)
         }
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         if (driverom_snapshot_read(s, drive_context[i]->drives[0]) < 0) {
             return -1;
         }
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drive = drive_context[i]->drives[0];
         if (drive->type != DRIVE_TYPE_NONE) {
             drive_enable(drive_context[i]);
@@ -736,7 +736,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         }
     }
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         int side = 0;
         drive = drive_context[i]->drives[0];
         if (drive->type == DRIVE_TYPE_1570

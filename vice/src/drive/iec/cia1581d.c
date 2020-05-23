@@ -164,7 +164,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
                                     | cia1581p->iecbus->cpu_bus) << 3) & 0x80)));
 
             cia1581p->iecbus->cpu_port = cia1581p->iecbus->cpu_bus;
-            for (unit = 4; unit < 8 + DRIVE_NUM; unit++) {
+            for (unit = 4; unit < 8 + NUM_DISK_UNITS; unit++) {
                 cia1581p->iecbus->cpu_port
                     &= cia1581p->iecbus->drv_bus[unit];
             }

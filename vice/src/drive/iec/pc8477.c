@@ -1278,7 +1278,7 @@ uint8_t pc8477d_peek(diskunit_context_t *drv, uint16_t addr)
 
 int pc8477_attach_image(disk_image_t *image, unsigned int unit)
 {
-    if (unit < 8 || unit > 8 + DRIVE_NUM) {
+    if (unit < 8 || unit > 8 + NUM_DISK_UNITS) {
         return -1;
     }
 
@@ -1299,7 +1299,7 @@ int pc8477_attach_image(disk_image_t *image, unsigned int unit)
 
 int pc8477_detach_image(disk_image_t *image, unsigned int unit)
 {
-    if (image == NULL || unit < 8 || unit > 8 + DRIVE_NUM) {
+    if (image == NULL || unit < 8 || unit > 8 + NUM_DISK_UNITS) {
         return -1;
     }
 

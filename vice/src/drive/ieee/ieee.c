@@ -101,7 +101,7 @@ void ieee_drive_mem_init(struct diskunit_context_s *drv, unsigned int type)
 
 void ieee_drive_setup_context(struct diskunit_context_s *drv)
 {
-    if (drv->mynumber < DRIVE_NUM) {
+    if (drv->mynumber < NUM_DISK_UNITS) {
         *drv->func = drive_funcs[drv->mynumber];
     }
 

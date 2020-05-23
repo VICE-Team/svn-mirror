@@ -157,10 +157,10 @@ typedef struct ui_sb_state_s {
      *  corresponding LED is green. Otherwise it is red. Drives that
      *  only have one LED will have their 'second' LED permanently at
      *  intensity zero so the value is irrelevant in that case. */
-    int drive_led_types[DRIVE_NUM];
+    int drive_led_types[NUM_DISK_UNITS];
     /** \brief Current intensity of each drive LED, 0=off,
      *         1000=max. */
-    unsigned int current_drive_leds[DRIVE_NUM][2];
+    unsigned int current_drive_leds[NUM_DISK_UNITS][2];
     /** \brief Current state for each of the joyports.
      *
      *  This is an 7-bit bitmask, representing, from least to most
@@ -223,10 +223,10 @@ typedef struct ui_statusbar_s {
     GtkWidget *joysticks;
 
     /** \brief The drive status widgets. */
-    GtkWidget *drives[DRIVE_NUM];
+    GtkWidget *drives[NUM_DISK_UNITS];
 
     /** \brief The popup menus associated with each drive. */
-    GtkWidget *drive_popups[DRIVE_NUM];
+    GtkWidget *drive_popups[NUM_DISK_UNITS];
 
     /* temporarily disabled until the layout code has been updated */
 #if 0
@@ -835,7 +835,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                 g_object_unref(G_OBJECT(allocated_bars[i].joysticks));
                 allocated_bars[i].joysticks = NULL;
             }
-            for (j = 0; j < DRIVE_NUM; ++j) {
+            for (j = 0; j < NUM_DISK_UNITS; ++j) {
                 if (allocated_bars[i].drives[j]) {
                     g_object_unref(G_OBJECT(allocated_bars[i].drives[j]));
                     g_object_unref(G_OBJECT(allocated_bars[i].drive_popups[j]));
@@ -929,7 +929,7 @@ static int compute_drives_enabled_mask(void)
 {
     int unit, mask;
     int result = 0;
-    for (unit = 0, mask = 1; unit < DRIVE_NUM; ++unit, mask <<= 1) {
+    for (unit = 0, mask = 1; unit < NUM_DISK_UNITS; ++unit, mask <<= 1) {
         int status = 0, value = 0;
         status = resources_get_int_sprintf("Drive%dType", &value, unit + DRIVE_UNIT_MIN);
         if (status == 0 && value != 0) {
@@ -1252,7 +1252,7 @@ static void layout_statusbar_drives(int bar_index)
     /* Delete all the drives and dividers that may exist. WARNING:
      * This code assumes that the drive widgets are the rightmost
      * elements of the status bar. */
-    for (i = 0; i < ((DRIVE_NUM + 1) / 2) * 2; ++i) {
+    for (i = 0; i < ((NUM_DISK_UNITS + 1) / 2) * 2; ++i) {
         for (j = 0; j < 2; ++j) {
             GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar),
                     SB_COL_DRIVE + i, j);
@@ -1276,7 +1276,7 @@ static void layout_statusbar_drives(int bar_index)
     }
     state = sb_state.drives_enabled;
     tde = sb_state.drives_tde_enabled;
-    for (i = 0; i < DRIVE_NUM; ++i) {
+    for (i = 0; i < NUM_DISK_UNITS; ++i) {
         if (state & 1) {
             GtkWidget *drive = allocated_bars[bar_index].drives[i];
             GtkWidget *event_box = gtk_event_box_new();
@@ -1382,7 +1382,7 @@ void ui_statusbar_init(void)
         allocated_bars[i].tape = NULL;
         allocated_bars[i].tape_menu = NULL;
         allocated_bars[i].joysticks = NULL;
-        for (j = 0; j < DRIVE_NUM; ++j) {
+        for (j = 0; j < NUM_DISK_UNITS; ++j) {
             allocated_bars[i].drives[j] = NULL;
             allocated_bars[i].drive_popups[j] = NULL;
         }
@@ -1399,7 +1399,7 @@ void ui_statusbar_init(void)
     sb_state.tape_counter = 0;
     sb_state.drives_enabled = 0;
     sb_state.drives_tde_enabled = 0;
-    for (i = 0; i < DRIVE_NUM; ++i) {
+    for (i = 0; i < NUM_DISK_UNITS; ++i) {
         sb_state.drive_led_types[i] = 0;
         sb_state.current_drive_leds[i][0] = 0;
         sb_state.current_drive_leds[i][1] = 0;
@@ -1569,7 +1569,7 @@ GtkWidget *ui_statusbar_create(void)
     }
 
     /* Third column on: Drives. */
-    for (j = 0; j < DRIVE_NUM; ++j) {
+    for (j = 0; j < NUM_DISK_UNITS; ++j) {
         GtkWidget *drive = ui_drive_widget_create(j);
         GtkWidget *drive_menu = ui_drive_menu_create(j);
         g_object_ref_sink(G_OBJECT(drive));
@@ -1895,7 +1895,7 @@ void ui_display_drive_led(unsigned int drive_number,
                           unsigned int led_pwm2)
 {
     int i;
-    if (drive_number < 0 || drive_number > DRIVE_NUM - 1) {
+    if (drive_number < 0 || drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
     }
@@ -1930,7 +1930,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int half_track_number)
 {
     int i;
-    if (drive_number > DRIVE_NUM - 1) {
+    if (drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
     }
@@ -1956,7 +1956,7 @@ void ui_display_drive_track(unsigned int drive_number,
  *                         whether or not drives 8-11 respectively are
  *                         being emulated carefully enough to provide
  *                         LED information.
- *  \param drive_led_color An array of size at least DRIVE_NUM that
+ *  \param drive_led_color An array of size at least NUM_DISK_UNITS that
  *                         provides information about the LEDs on this
  *                         drive. An element of this array will only
  *                         be checked if the corresponding bit in
@@ -1979,7 +1979,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 
     /* Update the drive LEDs first, unconditionally. */
     enabled = state;
-    for (i = 0; i < DRIVE_NUM; ++i) {
+    for (i = 0; i < NUM_DISK_UNITS; ++i) {
         if (enabled & 1) {
             sb_state.drive_led_types[i] = drive_led_color[i];
             sb_state.current_drive_leds[i][0] = 0;

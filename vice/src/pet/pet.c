@@ -590,7 +590,7 @@ static void pet_monitor_init(void)
     unsigned int dnr;
     monitor_cpu_type_t asm6502;
     monitor_cpu_type_t asm6809;
-    monitor_interface_t *drive_interface_init[DRIVE_NUM];
+    monitor_interface_t *drive_interface_init[NUM_DISK_UNITS];
     monitor_cpu_type_t *asmarray[3];
 
     asmarray[0] = &asm6502;
@@ -600,7 +600,7 @@ static void pet_monitor_init(void)
     asm6502_init(&asm6502);
     asm6809_init(&asm6809);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drive_interface_init[dnr] = drive_cpu_monitor_interface_get(dnr);
     }
 

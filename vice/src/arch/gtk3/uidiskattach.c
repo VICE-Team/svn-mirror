@@ -61,7 +61,7 @@ static ui_file_filter_t filters[] = {
 #ifndef SANDBOX_MODE
 /** \brief  Array to keep track of drive numbers for each unit
  */
-static int unit_drive_nums[DRIVE_NUM] = { 0, 0, 0, 0};
+static int unit_drive_nums[NUM_DISK_UNITS] = { 0, 0, 0, 0};
 #endif
 
 #ifndef SANDBOX_MODE

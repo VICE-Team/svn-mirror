@@ -46,7 +46,7 @@
 #include "log.h"
 #include "mc6821core.h"
 
-static mc6821_state my6821[DRIVE_NUM];
+static mc6821_state my6821[NUM_DISK_UNITS];
 
 /*-----------------------------------------------------------------------*/
 /* MC6821 hooks */

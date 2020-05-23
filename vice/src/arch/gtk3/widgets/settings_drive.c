@@ -80,16 +80,16 @@ static const vice_gtk3_combo_entry_int_t device_types[] = {
 
 
 /* FIXME: this needs proper documentation */
-static GtkWidget *drive_model[DRIVE_NUM];
-static GtkWidget *drive_options[DRIVE_NUM];
-static GtkWidget *drive_extend[DRIVE_NUM];
-static GtkWidget *drive_idle[DRIVE_NUM];
-static GtkWidget *drive_parallel[DRIVE_NUM];
-static GtkWidget *drive_rpm[DRIVE_NUM];
-static GtkWidget *drive_ram[DRIVE_NUM];
-static GtkWidget *drive_dos[DRIVE_NUM];
-static GtkWidget *drive_fsdevice[DRIVE_NUM];
-static GtkWidget *drive_device_type[DRIVE_NUM];
+static GtkWidget *drive_model[NUM_DISK_UNITS];
+static GtkWidget *drive_options[NUM_DISK_UNITS];
+static GtkWidget *drive_extend[NUM_DISK_UNITS];
+static GtkWidget *drive_idle[NUM_DISK_UNITS];
+static GtkWidget *drive_parallel[NUM_DISK_UNITS];
+static GtkWidget *drive_rpm[NUM_DISK_UNITS];
+static GtkWidget *drive_ram[NUM_DISK_UNITS];
+static GtkWidget *drive_dos[NUM_DISK_UNITS];
+static GtkWidget *drive_fsdevice[NUM_DISK_UNITS];
+static GtkWidget *drive_device_type[NUM_DISK_UNITS];
 
 
 /** \brief  Callback for changes in the drive type widget

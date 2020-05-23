@@ -1233,7 +1233,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
      * require a bunch of changes, so for now we detect it based on the available registers. */
     find_supported_monitor_cpu_types(&monitor_cpu_type_supported[e_comp_space], maincpu_interface_init);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         find_supported_monitor_cpu_types(&monitor_cpu_type_supported[monitor_diskspace_mem(dnr)],
                                          drive_interface_init[dnr]);
     }
@@ -1241,7 +1241,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     /* Build array of pointers to monitor_cpu_type structs */
     monitor_cpu_for_memspace[e_comp_space] =
         monitor_cpu_type_supported[e_comp_space]->monitor_cpu_type_p;
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)] =
             monitor_cpu_type_supported[monitor_diskspace_mem(dnr)]->monitor_cpu_type_p;
     }
@@ -1268,7 +1268,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     mon_interfaces[e_comp_space] = maincpu_interface_init;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         mon_interfaces[monitor_diskspace_mem(dnr)] = drive_interface_init[dnr];
     }
 
@@ -2402,7 +2402,7 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
         if (watchpoints_check_loads(e_comp_space, lastpc, pc)) {
             monitor_startup(e_comp_space);
         }
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             if (watchpoints_check_loads(monitor_diskspace_mem(dnr), lastpc, pc)) {
                 monitor_startup(monitor_diskspace_mem(dnr));
             }
@@ -2414,7 +2414,7 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
         if (watchpoints_check_stores(e_comp_space, lastpc, pc)) {
             monitor_startup(e_comp_space);
         }
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             if (watchpoints_check_stores(monitor_diskspace_mem(dnr), lastpc, pc)) {
                 monitor_startup(monitor_diskspace_mem(dnr));
             }
@@ -2527,7 +2527,7 @@ static void monitor_open(void)
      * require a bunch of changes, so for now we detect it based on the available registers. */
     find_supported_monitor_cpu_types(&monitor_cpu_type_supported[e_comp_space], mon_interfaces[e_comp_space]);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         find_supported_monitor_cpu_types(&monitor_cpu_type_supported[monitor_diskspace_mem(dnr)],
                                          mon_interfaces[monitor_diskspace_mem(dnr)]);
     }
@@ -2535,7 +2535,7 @@ static void monitor_open(void)
     /* Build array of pointers to monitor_cpu_type structs */
     monitor_cpu_for_memspace[e_comp_space] =
         monitor_cpu_type_supported[e_comp_space]->monitor_cpu_type_p;
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)] =
             monitor_cpu_type_supported[monitor_diskspace_mem(dnr)]->monitor_cpu_type_p;
     }
@@ -2544,7 +2544,7 @@ static void monitor_open(void)
 
     dot_addr[e_comp_space] = new_addr(e_comp_space, ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         int mem = monitor_diskspace_mem(dnr);
         dot_addr[mem] = new_addr(mem, ((uint16_t)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
     }

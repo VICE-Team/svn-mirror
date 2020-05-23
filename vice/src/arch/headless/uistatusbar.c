@@ -242,7 +242,7 @@ void ui_display_drive_track(unsigned int drive_number,
  *                         whether or not drives 8-11 respectively are
  *                         being emulated carefully enough to provide
  *                         LED information.
- *  \param drive_led_color An array of size at least DRIVE_NUM that
+ *  \param drive_led_color An array of size at least NUM_DISK_UNITS that
  *                         provides information about the LEDs on this
  *                         drive. An element of this array will only
  *                         be checked if the corresponding bit in

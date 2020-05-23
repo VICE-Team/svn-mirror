@@ -56,7 +56,7 @@ void drive_set_machine_parameter(long cycles_per_sec)
 
     sync_factor = (unsigned int)floor(65536.0 * (1000000.0 / ((double)cycles_per_sec)));
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drivesync_factor(drive_context[dnr]);
     }
 }

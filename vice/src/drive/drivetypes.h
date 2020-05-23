@@ -145,7 +145,7 @@ typedef struct drivefunc_context_s {
     void (*parallel_set_nrfd)(uint8_t);
 } drivefunc_context_t;
 
-extern drivefunc_context_t drive_funcs[DRIVE_NUM];
+extern drivefunc_context_t drive_funcs[NUM_DISK_UNITS];
 
 /*
  * The context for an entire disk unit (may have 1 or 2 drives).

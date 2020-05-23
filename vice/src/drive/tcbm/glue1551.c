@@ -49,7 +49,7 @@ struct glue1551_s {
 };
 typedef struct glue1551_s glue1551_t;
 
-static glue1551_t glue1551[DRIVE_NUM];
+static glue1551_t glue1551[NUM_DISK_UNITS];
 
 /*-----------------------------------------------------------------------*/
 

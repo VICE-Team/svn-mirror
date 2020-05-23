@@ -33,9 +33,9 @@
 #include "rtc/ds1216e.h"
 #include "p64.h"
 
-/** \brief  Number of supported drives
+/** \brief  Number of supported disk units
  */
-#define DRIVE_NUM   4
+#define NUM_DISK_UNITS   4
 
 /** \brief  Minimum drive unit number
  */
@@ -43,7 +43,7 @@
 
 /** \brief  Maximum drive unit number
  */
-#define DRIVE_UNIT_MAX  (DRIVE_UNIT_MIN + DRIVE_NUM - 1)
+#define DRIVE_UNIT_MAX  (DRIVE_UNIT_MIN + NUM_DISK_UNITS - 1)
 
 /** \brief  Default drive unit number
  */
@@ -358,12 +358,12 @@ typedef struct drive_s {
 } drive_t;
 
 
-extern CLOCK drive_clk[DRIVE_NUM];
+extern CLOCK drive_clk[NUM_DISK_UNITS];
 
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */
 #include "drivetypes.h"
-extern struct diskunit_context_s *drive_context[DRIVE_NUM];
+extern struct diskunit_context_s *drive_context[NUM_DISK_UNITS];
 
 extern int rom_loaded;
 

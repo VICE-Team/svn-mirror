@@ -121,7 +121,7 @@ static void undump_pra(via_context_t *via_context, uint8_t byte)
                          & (((*drive_data) | iecbus->cpu_bus) << 3) & 0x80));
 
         iecbus->cpu_port = iecbus->cpu_bus;
-        for (unit = 4; unit < 8 + DRIVE_NUM; unit++) {
+        for (unit = 4; unit < 8 + NUM_DISK_UNITS; unit++) {
             iecbus->cpu_port &= iecbus->drv_bus[unit];
         }
 
@@ -156,7 +156,7 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t oldpa,
                              & (((*drive_data) | iecbus->cpu_bus) << 3) & 0x80));
 
             iecbus->cpu_port = iecbus->cpu_bus;
-            for (unit = 4; unit < 8 + DRIVE_NUM; unit++) {
+            for (unit = 4; unit < 8 + NUM_DISK_UNITS; unit++) {
                 iecbus->cpu_port &= iecbus->drv_bus[unit];
             }
 

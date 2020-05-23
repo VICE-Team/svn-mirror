@@ -58,13 +58,13 @@
 #define DRIVE_CPU
 
 /* Global clock counters.  */
-CLOCK drive_clk[DRIVE_NUM];
+CLOCK drive_clk[NUM_DISK_UNITS];
 
 static void drive_jam(diskunit_context_t *drv);
 
 static void drivecpu_set_bank_base(void *context);
 
-static interrupt_cpu_status_t *drivecpu_int_status_ptr[DRIVE_NUM];
+static interrupt_cpu_status_t *drivecpu_int_status_ptr[NUM_DISK_UNITS];
 
 void drivecpu_setup_context(struct diskunit_context_s *drv, int i)
 {

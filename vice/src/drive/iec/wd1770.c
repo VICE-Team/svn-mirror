@@ -942,7 +942,7 @@ void wd1770_reset(wd1770_t *drv)
 
 int wd1770_attach_image(disk_image_t *image, unsigned int unit)
 {
-    if (unit < 8 || unit > 8 + DRIVE_NUM) {
+    if (unit < 8 || unit > 8 + NUM_DISK_UNITS) {
         return -1;
     }
 
@@ -961,7 +961,7 @@ int wd1770_attach_image(disk_image_t *image, unsigned int unit)
 
 int wd1770_detach_image(disk_image_t *image, unsigned int unit)
 {
-    if (image == NULL || unit < 8 || unit > 8 + DRIVE_NUM) {
+    if (image == NULL || unit < 8 || unit > 8 + NUM_DISK_UNITS) {
         return -1;
     }
 

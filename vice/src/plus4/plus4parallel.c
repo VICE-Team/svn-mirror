@@ -35,7 +35,7 @@
 #include "types.h"
 
 static uint8_t parallel_cable_cpu_value = 0xff;
-static uint8_t parallel_cable_drive_value[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
+static uint8_t parallel_cable_drive_value[NUM_DISK_UNITS] = { 0xff, 0xff, 0xff, 0xff };
 
 void parallel_cable_drive_write(int port, uint8_t data, int handshake, unsigned int dnr)
 {

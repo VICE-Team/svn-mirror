@@ -218,7 +218,7 @@ int iec_resources_init(void)
     unsigned int dnr;
     drive_t *drive;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drive = drive_context[dnr]->drives[0];
 
         res_drive[0].name = lib_msprintf("Drive%iRAM2000", dnr + 8);

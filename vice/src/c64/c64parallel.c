@@ -53,7 +53,7 @@
 
 #define PC_PORT_NUM             2
 
-static uint8_t parallel_cable_drive_value[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
+static uint8_t parallel_cable_drive_value[NUM_DISK_UNITS] = { 0xff, 0xff, 0xff, 0xff };
 static uint8_t parallel_cable_cpu_value[PC_PORT_NUM] = { 0xff, 0xff };
 
 static int portmap[DRIVE_PC_NUM] = {
@@ -71,7 +71,7 @@ static uint8_t parallel_cable_value(int type)
     port = portmap[type];
     val = parallel_cable_cpu_value[port];
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         if (drive_context[dnr]->drives[0]->enable && drive_context[dnr]->drives[0]->parallel_cable) {
             if (portmap[drive_context[dnr]->drives[0]->parallel_cable] == (int)port) {
                 val &= parallel_cable_drive_value[dnr];
@@ -136,7 +136,7 @@ void parallel_cable_cpu_execute(int type)
 
     port = portmap[type];
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drive = drive_context[dnr]->drives[0];
         if (drive->enable && drive->parallel_cable) {
             if (portmap[drive->parallel_cable] == port) {
@@ -179,7 +179,7 @@ void parallel_cable_cpu_pulse(int type)
 
     DBG(("PARCABLE (%d:%d) CPU Pulse", type, portmap[type]));
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drive_t *drive;
 
         drive = drive_context[dnr]->drives[0];

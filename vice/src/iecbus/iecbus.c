@@ -355,7 +355,7 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
     if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
         iec_old_atn = iecbus.cpu_bus & 0x10;
 
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
                 switch (drive_context[dnr]->drives[0]->type) {
                     case DRIVE_TYPE_1581:
@@ -376,7 +376,7 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
         }
     }
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
             unsigned int unit;
             unit = dnr + 8;

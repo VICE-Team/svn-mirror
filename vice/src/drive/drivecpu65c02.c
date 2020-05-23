@@ -54,7 +54,7 @@
 
 static void drivecpu65c02_set_bank_base(void *context);
 
-static interrupt_cpu_status_t *drivecpu_int_status_ptr[DRIVE_NUM];
+static interrupt_cpu_status_t *drivecpu_int_status_ptr[NUM_DISK_UNITS];
 
 void drivecpu65c02_setup_context(struct diskunit_context_s *drv, int i)
 {

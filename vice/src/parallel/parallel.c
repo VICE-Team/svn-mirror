@@ -466,7 +466,7 @@ static void parallel_atn_signal(int st)
 {
     unsigned int dnr;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         if (drive_context[dnr]->drives[0]->enable) {
             ieee_drive_parallel_set_atn(st, drive_context[dnr]);
         }
@@ -614,7 +614,7 @@ void parallel_clr_ndac(uint8_t mask)
 
 static uint8_t par_emu_bus = 0xff;
 static uint8_t par_cpu_bus = 0xff;
-static uint8_t par_drv_bus[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
+static uint8_t par_drv_bus[NUM_DISK_UNITS] = { 0xff, 0xff, 0xff, 0xff };
 
 void parallel_emu_set_bus(uint8_t b)
 {
@@ -676,7 +676,7 @@ void parallel_drv3_set_bus(uint8_t b)
     PARALLEL_DEBUG_SET_BUS(drv3)
 }
 
-drivefunc_context_t drive_funcs[DRIVE_NUM] = {
+drivefunc_context_t drive_funcs[NUM_DISK_UNITS] = {
     { parallel_drv0_set_bus,
       parallel_drv0_set_eoi,
       parallel_drv0_set_dav,

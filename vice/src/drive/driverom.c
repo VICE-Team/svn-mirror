@@ -99,7 +99,7 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
         memcpy(drive_rom, &drive_rom[max - min], min);
     }
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drive = drive_context[dnr]->drives[0];
 
         if (drive->type == type) {

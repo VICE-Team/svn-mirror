@@ -172,14 +172,14 @@ int machine_class = VICE_MACHINE_C1541;
 
 /** \brief  Array of virtual drives
  */
-static vdrive_t *drives[DRIVE_NUM] = { NULL, NULL, NULL, NULL };
+static vdrive_t *drives[NUM_DISK_UNITS] = { NULL, NULL, NULL, NULL };
 
 /** \brief  Flags for each virtual drive indicating P00 mode
  *
  * When zero, reading files from the host OS is done with FILEIO_MODE_RAW, if
  * non-zero, reading files is done with FILEIO_MODE_P00
  */
-static unsigned int p00save[DRIVE_NUM] = { 0, 0, 0, 0 };
+static unsigned int p00save[NUM_DISK_UNITS] = { 0, 0, 0, 0 };
 
 /** \brief  Current virtual drive used
  *
@@ -1114,7 +1114,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
  * units 8-11 can be used.
  *
  * \param[in]   dev         index in the virtual drive array, must be in the
- *                          range [0 .. DRIVE_NUM-1]
+ *                          range [0 .. NUM_DISK_UNITS-1]
  * \param[in]   name        disk/device name
  * \param[in]   create      create image (boolean)
  * \param[in]   disktype    disk type enumerator
@@ -1123,7 +1123,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
  */
 static int open_image(int dev, char *name, int create, int disktype)
 {
-    if (dev < 0 || dev >= DRIVE_NUM) {
+    if (dev < 0 || dev >= NUM_DISK_UNITS) {
         return -1;
     }
 
@@ -1162,7 +1162,7 @@ static int check_drive_unit(int unit)
  */
 static int check_drive_index(int index)
 {
-    return (index >= 0 && index < DRIVE_NUM) ? FD_OK : FD_BADDEV;
+    return (index >= 0 && index < NUM_DISK_UNITS) ? FD_OK : FD_BADDEV;
 }
 
 
@@ -2949,7 +2949,7 @@ static int quit_cmd(int nargs, char **args)
 {
     int i;
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         close_disk_image(drives[i], i + DRIVE_UNIT_MIN);
     }
 
@@ -4767,14 +4767,14 @@ int main(int argc, char **argv)
     }
     nargs = 0;
 
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         drives[i] = lib_calloc(1, sizeof *drives[i]);
     }
 
     /* The first arguments without leading `-' are interpreted as disk images
        to attach.  */
     for (i = 1; i < argc && *argv[i] != '-'; i++) {
-        if ((i - 1) == DRIVE_NUM) {
+        if ((i - 1) == NUM_DISK_UNITS) {
             fprintf(stderr, "Ignoring disk image `%s'\n", argv[i]);
         } else {
             open_disk_image(drives[i - 1], argv[i], (unsigned int)(i - 1 + 8));
@@ -4870,7 +4870,7 @@ int main(int argc, char **argv)
     }
 
     /* free memory used by the virtual drives */
-    for (i = 0; i < DRIVE_NUM; i++) {
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
         if (drives[i]) {
             close_disk_image(drives[i], i + 8);
             lib_free(drives[i]);
@@ -4905,7 +4905,7 @@ static int p00save_cmd(int nargs, char **args)
     if (nargs == 1) {
         /* display `p00save` state for all drives */
         int i;
-        for (i = 0; i < DRIVE_NUM; i++) {
+        for (i = 0; i < NUM_DISK_UNITS; i++) {
             printf("#%2d: %s\n",
                     i + DRIVE_UNIT_MIN, p00save[i] ? "enabled" : "disabled");
         }

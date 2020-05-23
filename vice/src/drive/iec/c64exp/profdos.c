@@ -44,7 +44,7 @@
 
 static uint8_t profdos_1571_rom[PROFDOS_ROM_SIZE];
 
-static unsigned int profdos_al[DRIVE_NUM];
+static unsigned int profdos_al[NUM_DISK_UNITS];
 
 
 int profdos_load_1571(const char *name)

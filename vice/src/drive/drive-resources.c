@@ -65,7 +65,7 @@ static int set_drive_true_emulation(int val, void *param)
     machine_bus_status_truedrive_set((unsigned int)drive_true_emulation);
 
     if (val) {
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             drive = drive_context[dnr]->drives[0];
             if (drive->type != DRIVE_TYPE_NONE) {
                 drive->enable = 1;
@@ -76,11 +76,11 @@ static int set_drive_true_emulation(int val, void *param)
                 }
             }
         }
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             drive_enable(drive_context[dnr]);
         }
     } else {
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             drive = drive_context[dnr]->drives[0];
             drive_disable(drive_context[dnr]);
             if (drive->image != NULL) {
@@ -224,7 +224,7 @@ int drive_resources_type_init(unsigned int default_type)
     unsigned int dnr, type;
     drive_t *drive;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         /* TODO: drive 1? */
         drive = drive_context[dnr]->drives[0];
         if (dnr == 0) {
@@ -370,7 +370,7 @@ int drive_resources_init(void)
             has_iec = 1;
     }
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         /* TODO: drive 1? */
         drive = drive_context[dnr]->drives[0];
 
