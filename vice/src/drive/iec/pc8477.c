@@ -143,7 +143,7 @@ struct pc8477_s {
     pc8477_cmd_t command;
     pc8477_state_t state;
     int int_step, sub_step;
-    struct drive_context_s *mycontext;
+    struct diskunit_context_s *mycontext;
 
     /* Floppy drives */
     struct {
@@ -240,7 +240,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 }
 
 /* Functions using drive context.  */
-void pc8477d_init(drive_context_t *drv)
+void pc8477d_init(diskunit_context_t *drv)
 {
     char *name;
 
@@ -255,7 +255,7 @@ void pc8477d_init(drive_context_t *drv)
     lib_free(name);
 }
 
-void pc8477_setup_context(drive_context_t *drv)
+void pc8477_setup_context(diskunit_context_t *drv)
 {
     int i;
     drv->pc8477 = lib_calloc(1, sizeof(pc8477_t));
@@ -1259,17 +1259,17 @@ int pc8477_irq(pc8477_t *drv)
     return drv->irq;
 }
 
-void pc8477d_store(drive_context_t *drv, uint16_t addr, uint8_t byte)
+void pc8477d_store(diskunit_context_t *drv, uint16_t addr, uint8_t byte)
 {
     pc8477_store(drv->pc8477, (uint16_t)(addr & 7), byte);
 }
 
-uint8_t pc8477d_read(drive_context_t *drv, uint16_t addr)
+uint8_t pc8477d_read(diskunit_context_t *drv, uint16_t addr)
 {
     return pc8477_read(drv->pc8477, (uint16_t)(addr & 7));
 }
 
-uint8_t pc8477d_peek(drive_context_t *drv, uint16_t addr)
+uint8_t pc8477d_peek(diskunit_context_t *drv, uint16_t addr)
 {
     return pc8477_peek(drv->pc8477, (uint16_t)(addr & 7));
 }

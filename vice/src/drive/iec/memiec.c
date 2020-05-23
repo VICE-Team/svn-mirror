@@ -41,49 +41,49 @@
 #include "via4000.h"
 #include "pc8477.h"
 
-static uint8_t drive_read_rom(drive_context_t *drv, uint16_t address)
+static uint8_t drive_read_rom(diskunit_context_t *drv, uint16_t address)
 {
     return drv->drives[0]->rom[address & 0x7fff];
 }
 
-static uint8_t drive_read_rom_ds1216(drive_context_t *drv, uint16_t address)
+static uint8_t drive_read_rom_ds1216(diskunit_context_t *drv, uint16_t address)
 {
     return ds1216e_read(drv->drives[0]->ds1216, address, drv->drives[0]->rom[address & 0x7fff]);
 }
 
-static uint8_t drive_read_ram(drive_context_t *drv, uint16_t address)
+static uint8_t drive_read_ram(diskunit_context_t *drv, uint16_t address)
 {
     return drv->drives[0]->drive_ram[address];
 }
 
-static void drive_store_ram(drive_context_t *drv, uint16_t address, uint8_t value)
+static void drive_store_ram(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
     drv->drives[0]->drive_ram[address] = value;
 }
 
-static uint8_t drive_read_1541ram(drive_context_t *drv, uint16_t address)
+static uint8_t drive_read_1541ram(diskunit_context_t *drv, uint16_t address)
 {
     return drv->drives[0]->drive_ram[address & 0x7ff];
 }
 
-static void drive_store_1541ram(drive_context_t *drv, uint16_t address, uint8_t value)
+static void drive_store_1541ram(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
     drv->drives[0]->drive_ram[address & 0x7ff] = value;
 }
 
-static uint8_t drive_read_zero(drive_context_t *drv, uint16_t address)
+static uint8_t drive_read_zero(diskunit_context_t *drv, uint16_t address)
 {
     return drv->drives[0]->drive_ram[address & 0xff];
 }
 
-static void drive_store_zero(drive_context_t *drv, uint16_t address, uint8_t value)
+static void drive_store_zero(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
     drv->drives[0]->drive_ram[address & 0xff] = value;
 }
 
 /* ------------------------------------------------------------------------- */
 
-void memiec_init(struct drive_context_s *drv, unsigned int type)
+void memiec_init(struct diskunit_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 

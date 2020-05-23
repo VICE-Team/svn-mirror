@@ -60,13 +60,13 @@
 /* Global clock counters.  */
 CLOCK drive_clk[DRIVE_NUM];
 
-static void drive_jam(drive_context_t *drv);
+static void drive_jam(diskunit_context_t *drv);
 
 static void drivecpu_set_bank_base(void *context);
 
 static interrupt_cpu_status_t *drivecpu_int_status_ptr[DRIVE_NUM];
 
-void drivecpu_setup_context(struct drive_context_s *drv, int i)
+void drivecpu_setup_context(struct diskunit_context_s *drv, int i)
 {
     monitor_interface_t *mi;
     drivecpu_context_t *cpu;
@@ -163,7 +163,7 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
 
 /* ------------------------------------------------------------------------- */
 
-static void cpu_reset(drive_context_t *drv)
+static void cpu_reset(diskunit_context_t *drv)
 {
     int preserve_monitor;
 
@@ -183,14 +183,14 @@ static void cpu_reset(drive_context_t *drv)
     }
 }
 
-void drivecpu_reset_clk(drive_context_t *drv)
+void drivecpu_reset_clk(diskunit_context_t *drv)
 {
     drv->cpu->last_clk = maincpu_clk;
     drv->cpu->last_exc_cycles = 0;
     drv->cpu->stop_clk = 0;
 }
 
-void drivecpu_reset(drive_context_t *drv)
+void drivecpu_reset(diskunit_context_t *drv)
 {
     int preserve_monitor;
 
@@ -214,13 +214,13 @@ void drivecpu_trigger_reset(unsigned int dnr)
     interrupt_trigger_reset(drivecpu_int_status_ptr[dnr], drive_clk[dnr] + 1);
 }
 
-void drivecpu_set_overflow(drive_context_t *drv)
+void drivecpu_set_overflow(diskunit_context_t *drv)
 {
     drivecpu_context_t *cpu = drv->cpu;
     cpu->cpu_regs.p |= P_OVERFLOW;
 }
 
-void drivecpu_shutdown(drive_context_t *drv)
+void drivecpu_shutdown(diskunit_context_t *drv)
 {
     drivecpu_context_t *cpu;
 
@@ -246,13 +246,13 @@ void drivecpu_shutdown(drive_context_t *drv)
     lib_free(cpu);
 }
 
-void drivecpu_init(drive_context_t *drv, int type)
+void drivecpu_init(diskunit_context_t *drv, int type)
 {
     drivemem_init(drv, type);
     drivecpu_reset(drv);
 }
 
-inline void drivecpu_wake_up(drive_context_t *drv)
+inline void drivecpu_wake_up(diskunit_context_t *drv)
 {
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
@@ -263,14 +263,14 @@ inline void drivecpu_wake_up(drive_context_t *drv)
     }
 }
 
-inline void drivecpu_sleep(drive_context_t *drv)
+inline void drivecpu_sleep(diskunit_context_t *drv)
 {
     /* Currently does nothing.  But we might need this hook some day.  */
 }
 
 /* Make sure the drive clock counters never overflow; return nonzero if
    they have been decremented to prevent overflow.  */
-CLOCK drivecpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
+CLOCK drivecpu_prevent_clk_overflow(diskunit_context_t *drv, CLOCK sub)
 {
     if (sub != 0) {
         /* First, get in sync with what the main CPU has done.  Notice that
@@ -291,7 +291,7 @@ CLOCK drivecpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 }
 
 /* Handle a ROM trap. */
-inline static uint32_t drive_trap_handler(drive_context_t *drv)
+inline static uint32_t drive_trap_handler(diskunit_context_t *drv)
 {
     if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == (uint16_t)drv->drives[0]->trap) {
         MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), drv->drives[0]->trapcont);
@@ -375,7 +375,7 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 /* -------------------------------------------------------------------------- */
 /* Execute up to the current main CPU clock value.  This automatically
    calculates the corresponding number of clock ticks in the drive.  */
-void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
+void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
 {
     CLOCK cycles;
     int tcycles;
@@ -469,17 +469,17 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 static void drivecpu_set_bank_base(void *context)
 {
-    drive_context_t *drv;
+    diskunit_context_t *drv;
     drivecpu_context_t *cpu;
 
-    drv = (drive_context_t *)context;
+    drv = (diskunit_context_t *)context;
     cpu = drv->cpu;
 
     JUMP(reg_pc);
 }
 
 /* Inlining this fuction makes no sense and would only bloat the code.  */
-static void drive_jam(drive_context_t *drv)
+static void drive_jam(diskunit_context_t *drv)
 {
     unsigned int tmp;
     char *dname = "  Drive";
@@ -560,7 +560,7 @@ static void drive_jam(drive_context_t *drv)
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
 
-int drivecpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
+int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
     drivecpu_context_t *cpu;
@@ -633,7 +633,7 @@ fail:
     return -1;
 }
 
-int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
+int drivecpu_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
 {
     uint8_t major, minor;
     snapshot_module_t *m;

@@ -79,13 +79,13 @@ int supercard_load(const char *name)
     return 0;
 }
 
-static uint8_t supercard_read(drive_context_t *drv, uint16_t addr)
+static uint8_t supercard_read(diskunit_context_t *drv, uint16_t addr)
 {
     DBG(("supercard_read <%04x> <%02x>\n", addr, supercard_rom[addr & 0x07ff]));
     return supercard_rom[addr & 0x07ff];
 }
 
-void supercard_mem_init(struct drive_context_s *drv, unsigned int type)
+void supercard_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 
@@ -110,10 +110,10 @@ void supercard_mem_init(struct drive_context_s *drv, unsigned int type)
     }
 }
 
-void supercard_init(drive_context_t *drv)
+void supercard_init(diskunit_context_t *drv)
 {
 }
 
-void supercard_reset(drive_context_t *drv)
+void supercard_reset(diskunit_context_t *drv)
 {
 }

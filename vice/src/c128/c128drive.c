@@ -84,7 +84,7 @@ int machine_drive_cmdline_options_init(void)
     return 0;
 }
 
-void machine_drive_init(struct drive_context_s *drv)
+void machine_drive_init(struct diskunit_context_s *drv)
 {
     iec_drive_init(drv);
     iec128dcr_drive_init(drv);
@@ -93,7 +93,7 @@ void machine_drive_init(struct drive_context_s *drv)
     ieee_drive_init(drv);
 }
 
-void machine_drive_shutdown(struct drive_context_s *drv)
+void machine_drive_shutdown(struct diskunit_context_s *drv)
 {
     iec_drive_shutdown(drv);
     iec128dcr_drive_shutdown(drv);
@@ -101,7 +101,7 @@ void machine_drive_shutdown(struct drive_context_s *drv)
     ieee_drive_shutdown(drv);
 }
 
-void machine_drive_reset(struct drive_context_s *drv)
+void machine_drive_reset(struct diskunit_context_s *drv)
 {
     iec_drive_reset(drv);
     iec128dcr_drive_reset(drv);
@@ -110,7 +110,7 @@ void machine_drive_reset(struct drive_context_s *drv)
     ieee_drive_reset(drv);
 }
 
-void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
+void machine_drive_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     iec_drive_mem_init(drv, type);
     iec128dcr_drive_mem_init(drv, type);
@@ -118,7 +118,7 @@ void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
     ieee_drive_mem_init(drv, type);
 }
 
-void machine_drive_setup_context(struct drive_context_s *drv)
+void machine_drive_setup_context(struct diskunit_context_s *drv)
 {
     iec_drive_setup_context(drv);
     iec128dcr_drive_setup_context(drv);
@@ -166,7 +166,7 @@ void machine_drive_rom_do_checksum(unsigned int dnr)
     ieee_drive_rom_do_checksum(dnr);
 }
 
-int machine_drive_snapshot_read(struct drive_context_s *ctxptr, struct snapshot_s *s)
+int machine_drive_snapshot_read(struct diskunit_context_s *ctxptr, struct snapshot_s *s)
 {
     if (iec_drive_snapshot_read(ctxptr, s) < 0) {
         return -1;
@@ -181,7 +181,7 @@ int machine_drive_snapshot_read(struct drive_context_s *ctxptr, struct snapshot_
     return 0;
 }
 
-int machine_drive_snapshot_write(struct drive_context_s *ctxptr, struct snapshot_s *s)
+int machine_drive_snapshot_write(struct diskunit_context_s *ctxptr, struct snapshot_s *s)
 {
     if (iec_drive_snapshot_write(ctxptr, s) < 0) {
         return -1;
@@ -206,7 +206,7 @@ int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit, un
     return iec_drive_image_detach(image, unit, drive) & ieee_drive_image_detach(image, unit, drive);
 }
 
-void machine_drive_port_default(struct drive_context_s *drv)
+void machine_drive_port_default(struct diskunit_context_s *drv)
 {
     iec_drive_port_default(drv);
 }

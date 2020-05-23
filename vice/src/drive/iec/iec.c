@@ -68,7 +68,7 @@ int iec_drive_cmdline_options_init(void)
     return iec_cmdline_options_init();
 }
 
-void iec_drive_init(struct drive_context_s *drv)
+void iec_drive_init(struct diskunit_context_s *drv)
 {
     iecrom_init();
     via1d1541_init(drv);
@@ -79,7 +79,7 @@ void iec_drive_init(struct drive_context_s *drv)
     pc8477d_init(drv);
 }
 
-void iec_drive_reset(struct drive_context_s *drv)
+void iec_drive_reset(struct diskunit_context_s *drv)
 {
     if (drv->drives[0]->type == DRIVE_TYPE_1540
         || drv->drives[0]->type == DRIVE_TYPE_1541
@@ -116,12 +116,12 @@ void iec_drive_reset(struct drive_context_s *drv)
     }
 }
 
-void iec_drive_mem_init(struct drive_context_s *drv, unsigned int type)
+void iec_drive_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     memiec_init(drv, type);
 }
 
-void iec_drive_setup_context(struct drive_context_s *drv)
+void iec_drive_setup_context(struct diskunit_context_s *drv)
 {
     via1d1541_setup_context(drv);
     cia1571_setup_context(drv);
@@ -130,7 +130,7 @@ void iec_drive_setup_context(struct drive_context_s *drv)
     pc8477_setup_context(drv);
 }
 
-void iec_drive_shutdown(struct drive_context_s *drv)
+void iec_drive_shutdown(struct diskunit_context_s *drv)
 {
     viacore_shutdown(drv->via1d1541);
     ciacore_shutdown(drv->cia1571);
@@ -178,7 +178,7 @@ void iec_drive_rom_do_checksum(unsigned int dnr)
     iecrom_do_checksum(drive_context[dnr]->drives[0]);
 }
 
-int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
+int iec_drive_snapshot_read(struct diskunit_context_s *ctxptr,
                             struct snapshot_s *s)
 {
     switch (ctxptr->drives[0]->type) {
@@ -220,7 +220,7 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
     return 0;
 }
 
-int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
+int iec_drive_snapshot_write(struct diskunit_context_s *ctxptr,
                              struct snapshot_s *s)
 {
     switch (ctxptr->drives[0]->type) {
@@ -278,7 +278,7 @@ int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit, unsign
     return wd1770_detach_image(image, unit) & pc8477_detach_image(image, unit);
 }
 
-void iec_drive_port_default(struct drive_context_s *drv)
+void iec_drive_port_default(struct diskunit_context_s *drv)
 {
     drive_iecbus = iecbus_drive_port();
 

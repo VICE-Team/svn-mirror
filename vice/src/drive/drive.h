@@ -179,7 +179,7 @@ typedef struct drive_type_info_s {
 struct gcr_s;
 struct disk_image_s;
 
-/* TODO: part of that struct should go into drive_context_s
+/* TODO: part of that struct should go into diskunit_context_s
    candidates: type, memory stuff (drive_ram*, *rom), enable, rtc_save?, trap*, log?
    candidates: clock_frequency, idling_method, parallel_cable, profdos, supercard, stardos,
    candidates: ds1216, */
@@ -363,13 +363,13 @@ extern CLOCK drive_clk[DRIVE_NUM];
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */
 #include "drivetypes.h"
-extern struct drive_context_s *drive_context[DRIVE_NUM];
+extern struct diskunit_context_s *drive_context[DRIVE_NUM];
 
 extern int rom_loaded;
 
 extern int drive_init(void);
-extern int drive_enable(struct drive_context_s *drv);
-extern void drive_disable(struct drive_context_s *drv);
+extern int drive_enable(struct diskunit_context_s *drv);
+extern void drive_disable(struct diskunit_context_s *drv);
 extern void drive_move_head(int step, struct drive_s *drive);
 /* Don't use these pointers before the context is set up!  */
 extern struct monitor_interface_s *drive_cpu_monitor_interface_get(unsigned int dnr);
@@ -378,26 +378,26 @@ extern void drive_cpu_prevent_clk_overflow_all(CLOCK sub);
 extern void drive_cpu_trigger_reset(unsigned int dnr);
 extern void drive_reset(void);
 extern void drive_shutdown(void);
-extern void drive_cpu_execute_one(struct drive_context_s *drv, CLOCK clk_value);
+extern void drive_cpu_execute_one(struct diskunit_context_s *drv, CLOCK clk_value);
 extern void drive_cpu_execute_all(CLOCK clk_value);
-extern void drive_cpu_set_overflow(struct drive_context_s *drv);
+extern void drive_cpu_set_overflow(struct diskunit_context_s *drv);
 extern void drive_vsync_hook(void);
 extern int drive_get_disk_drive_type(int dnr);
-extern void drive_enable_update_ui(struct drive_context_s *drv);
+extern void drive_enable_update_ui(struct diskunit_context_s *drv);
 extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(struct drive_s *drive);
 extern void drive_gcr_data_writeback_all(void);
 extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
 extern int drive_set_disk_drive_type(unsigned int drive_type,
-                                     struct drive_context_s *drv);
+                                     struct diskunit_context_s *drv);
 
 extern void drive_set_half_track(int num, int side, drive_t *dptr);
 extern void drive_set_machine_parameter(long cycles_per_sec);
 extern void drive_set_disk_memory(uint8_t *id, unsigned int track,
                                   unsigned int sector,
-                                  struct drive_context_s *drv);
+                                  struct diskunit_context_s *drv);
 extern void drive_set_last_read(unsigned int track, unsigned int sector,
-                                uint8_t *buffer, struct drive_context_s *drv);
+                                uint8_t *buffer, struct diskunit_context_s *drv);
 
 extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
 extern int drive_check_extend_policy(int drive_type);

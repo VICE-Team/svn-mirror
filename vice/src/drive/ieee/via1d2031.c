@@ -54,17 +54,17 @@ typedef struct drivevia1_context_s {
 } drivevia1_context_t;
 
 
-void via1d2031_store(drive_context_t *ctxptr, uint16_t addr, uint8_t data)
+void via1d2031_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
     viacore_store(ctxptr->via1d2031, addr, data);
 }
 
-uint8_t via1d2031_read(drive_context_t *ctxptr, uint16_t addr)
+uint8_t via1d2031_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
     return viacore_read(ctxptr->via1d2031, addr);
 }
 
-uint8_t via1d2031_peek(drive_context_t *ctxptr, uint16_t addr)
+uint8_t via1d2031_peek(diskunit_context_t *ctxptr, uint16_t addr)
 {
     return viacore_peek(ctxptr->via1d2031, addr);
 }
@@ -80,28 +80,28 @@ static void set_cb2(via_context_t *via_context, int state)
 static void set_int(via_context_t *via_context, unsigned int int_num,
                     int value, CLOCK rclk)
 {
-    drive_context_t *dc;
+    diskunit_context_t *dc;
 
-    dc = (drive_context_t *)(via_context->context);
+    dc = (diskunit_context_t *)(via_context->context);
 
     interrupt_set_irq(dc->cpu->int_status, int_num, value, rclk);
 }
 
 static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
-    drive_context_t *dc;
+    diskunit_context_t *dc;
 
-    dc = (drive_context_t *)(via_context->context);
+    dc = (diskunit_context_t *)(via_context->context);
 
     interrupt_restore_irq(dc->cpu->int_status, int_num, value);
 }
 
 
-#define parallel_drivex_set_bus(a)      (((drive_context_t *)(via_context->context))->func->parallel_set_bus(a))
-#define parallel_drivex_set_eoi(a)      (((drive_context_t *)(via_context->context))->func->parallel_set_eoi(a))
-#define parallel_drivex_set_dav(a)      (((drive_context_t *)(via_context->context))->func->parallel_set_dav(a))
-#define parallel_drivex_set_ndac(a)     (((drive_context_t *)(via_context->context))->func->parallel_set_ndac(a))
-#define parallel_drivex_set_nrfd(a)     (((drive_context_t *)(via_context->context))->func->parallel_set_nrfd(a))
+#define parallel_drivex_set_bus(a)      (((diskunit_context_t *)(via_context->context))->func->parallel_set_bus(a))
+#define parallel_drivex_set_eoi(a)      (((diskunit_context_t *)(via_context->context))->func->parallel_set_eoi(a))
+#define parallel_drivex_set_dav(a)      (((diskunit_context_t *)(via_context->context))->func->parallel_set_dav(a))
+#define parallel_drivex_set_ndac(a)     (((diskunit_context_t *)(via_context->context))->func->parallel_set_ndac(a))
+#define parallel_drivex_set_nrfd(a)     (((diskunit_context_t *)(via_context->context))->func->parallel_set_nrfd(a))
 
 
 void via1d2031_set_atn(via_context_t *via_context, int state)
@@ -301,13 +301,13 @@ static uint8_t read_prb(via_context_t *via_context)
     return byte;
 }
 
-void via1d2031_init(drive_context_t *ctxptr)
+void via1d2031_init(diskunit_context_t *ctxptr)
 {
     viacore_init(ctxptr->via1d2031, ctxptr->cpu->alarm_context,
                  ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
 }
 
-void via1d2031_setup_context(drive_context_t *ctxptr)
+void via1d2031_setup_context(diskunit_context_t *ctxptr)
 {
     drivevia1_context_t *via1p;
     via_context_t *via;

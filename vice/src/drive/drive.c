@@ -75,7 +75,7 @@
 
 static int drive_init_was_called = 0;
 
-drive_context_t *drive_context[DRIVE_NUM];
+diskunit_context_t *drive_context[DRIVE_NUM];
 
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
@@ -90,7 +90,7 @@ static int drive_led_color[DRIVE_NUM];
 /* ------------------------------------------------------------------------- */
 
 void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector,
-                           struct drive_context_s *drv)
+                           struct diskunit_context_s *drv)
 {
     drive_t *drive;
 
@@ -113,7 +113,7 @@ void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector,
 }
 
 void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffer,
-                         struct drive_context_s *drv)
+                         struct diskunit_context_s *drv)
 {
     drive_t *drive;
     int side = 0;
@@ -381,7 +381,7 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
     }
 }
 
-int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
+int drive_set_disk_drive_type(unsigned int type, struct diskunit_context_s *drv)
 {
     unsigned int dnr;
     drive_t *drive;
@@ -429,7 +429,7 @@ int drive_get_disk_drive_type(int dnr)
     return DRIVE_TYPE_NONE;
 }
 
-void drive_enable_update_ui(drive_context_t *drv)
+void drive_enable_update_ui(diskunit_context_t *drv)
 {
     int i;
     unsigned int enabled_drives = 0;
@@ -453,7 +453,7 @@ void drive_enable_update_ui(drive_context_t *drv)
 }
 
 /* Activate full drive emulation. */
-int drive_enable(drive_context_t *drv)
+int drive_enable(diskunit_context_t *drv)
 {
     int drive_true_emulation = 0;
     unsigned int dnr;
@@ -481,7 +481,7 @@ int drive_enable(drive_context_t *drv)
 
     /* Recalculate drive geometry.  */
     if (drive->image != NULL) {
-        /* TODO: bug for unit 9? */
+        /* TODO: bug for unit 9? Should be image, 8+dnr, 0 ? How about drive1? */
         drive_image_attach(drive->image, 8, dnr);
     }
 
@@ -500,7 +500,7 @@ int drive_enable(drive_context_t *drv)
 }
 
 /* Disable full drive emulation.  */
-void drive_disable(drive_context_t *drv)
+void drive_disable(diskunit_context_t *drv)
 {
     int drive_true_emulation = 0;
     drive_t *drive;
@@ -848,7 +848,7 @@ int drive_num_leds(unsigned int dnr)
     }
 }
 
-void drive_cpu_execute_one(drive_context_t *drv, CLOCK clk_value)
+void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
 {
     drive_t *drive = drv->drives[0];
 
@@ -872,7 +872,7 @@ void drive_cpu_execute_all(CLOCK clk_value)
     }
 }
 
-void drive_cpu_set_overflow(drive_context_t *drv)
+void drive_cpu_set_overflow(diskunit_context_t *drv)
 {
     drive_t *drive = drv->drives[0];
 
@@ -910,7 +910,7 @@ void drive_vsync_hook(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void drive_setup_context_for_drive(drive_context_t *drv,
+static void drive_setup_context_for_drive(diskunit_context_t *drv,
                                           unsigned int dnr)
 {
     drv->mynumber = dnr;
@@ -931,7 +931,7 @@ void drive_setup_context(void)
     unsigned int dnr;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive_context[dnr] = lib_calloc(1, sizeof(drive_context_t));
+        drive_context[dnr] = lib_calloc(1, sizeof(diskunit_context_t));
         drive_setup_context_for_drive(drive_context[dnr], dnr);
     }
 }

@@ -53,7 +53,7 @@ static glue1551_t glue1551[DRIVE_NUM];
 
 /*-----------------------------------------------------------------------*/
 
-static void glue_pport_update(drive_context_t *drv)
+static void glue_pport_update(diskunit_context_t *drv)
 {
     static uint8_t old_output = 0;
     uint8_t output, input;
@@ -98,25 +98,25 @@ static void glue_pport_update(drive_context_t *drv)
     old_output = output;
 }
 
-uint8_t glue1551_port0_read(drive_context_t *drv)
+uint8_t glue1551_port0_read(diskunit_context_t *drv)
 {
     glue_pport_update(drv);
     return drv->drives[0]->drive_ram[0];
 }
 
-uint8_t glue1551_port1_read(drive_context_t *drv)
+uint8_t glue1551_port1_read(diskunit_context_t *drv)
 {
     glue_pport_update(drv);
     return drv->drives[0]->drive_ram[1];
 }
 
-void glue1551_port0_store(drive_context_t *drv, uint8_t value)
+void glue1551_port0_store(diskunit_context_t *drv, uint8_t value)
 {
     drv->drives[0]->drive_ram[0] = value;
     glue_pport_update(drv);
 }
 
-void glue1551_port1_store(drive_context_t *drv, uint8_t value)
+void glue1551_port1_store(diskunit_context_t *drv, uint8_t value)
 {
     drv->drives[0]->drive_ram[1] = value;
     glue_pport_update(drv);
@@ -126,7 +126,7 @@ void glue1551_port1_store(drive_context_t *drv, uint8_t value)
 
 static void glue1551_timer(CLOCK offset, void *data)
 {
-    drive_context_t *drv = (drive_context_t *)data;
+    diskunit_context_t *drv = (diskunit_context_t *)data;
 
     if (glue1551[drv->mynumber].irq_line == 0) {
         alarm_set(glue1551[drv->mynumber].timer_alarm, *(drv->clk_ptr)
@@ -144,7 +144,7 @@ static void glue1551_timer(CLOCK offset, void *data)
     glue1551[drv->mynumber].irq_line ^= 1;
 }
 
-void glue1551_init(drive_context_t *drv)
+void glue1551_init(diskunit_context_t *drv)
 {
     char *buffer;
 
@@ -158,7 +158,7 @@ void glue1551_init(drive_context_t *drv)
     lib_free(buffer);
 }
 
-void glue1551_reset(drive_context_t *drv)
+void glue1551_reset(diskunit_context_t *drv)
 {
     alarm_unset(glue1551[drv->mynumber].timer_alarm);
     alarm_set(glue1551[drv->mynumber].timer_alarm,

@@ -51,30 +51,30 @@ int machine_drive_cmdline_options_init(void)
     return ieee_drive_cmdline_options_init();
 }
 
-void machine_drive_init(struct drive_context_s *drv)
+void machine_drive_init(struct diskunit_context_s *drv)
 {
     iecieee_drive_init(drv);
     ieee_drive_init(drv);
 }
 
-void machine_drive_shutdown(struct drive_context_s *drv)
+void machine_drive_shutdown(struct diskunit_context_s *drv)
 {
     iecieee_drive_shutdown(drv);
     ieee_drive_shutdown(drv);
 }
 
-void machine_drive_reset(struct drive_context_s *drv)
+void machine_drive_reset(struct diskunit_context_s *drv)
 {
     iecieee_drive_reset(drv);
     ieee_drive_reset(drv);
 }
 
-void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
+void machine_drive_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     ieee_drive_mem_init(drv, type);
 }
 
-void machine_drive_setup_context(struct drive_context_s *drv)
+void machine_drive_setup_context(struct diskunit_context_s *drv)
 {
     iecieee_drive_setup_context(drv);
     ieee_drive_setup_context(drv);
@@ -109,7 +109,7 @@ void machine_drive_rom_do_checksum(unsigned int dnr)
     ieee_drive_rom_do_checksum(dnr);
 }
 
-int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
+int machine_drive_snapshot_read(struct diskunit_context_s *ctxptr,
                                 struct snapshot_s *s)
 {
     if (iecieee_drive_snapshot_read(ctxptr, s) < 0) {
@@ -122,7 +122,7 @@ int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
     return 0;
 }
 
-int machine_drive_snapshot_write(struct drive_context_s *ctxptr,
+int machine_drive_snapshot_write(struct diskunit_context_s *ctxptr,
                                  struct snapshot_s *s)
 {
     if (iecieee_drive_snapshot_write(ctxptr, s) < 0) {
@@ -145,7 +145,7 @@ int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit, un
     return ieee_drive_image_detach(image, unit, drive);
 }
 
-void machine_drive_port_default(struct drive_context_s *drv)
+void machine_drive_port_default(struct diskunit_context_s *drv)
 {
 }
 

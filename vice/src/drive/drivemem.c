@@ -60,17 +60,17 @@ static int watchpoints_active = 0;
 /* ------------------------------------------------------------------------- */
 /* Common memory access.  */
 
-static uint8_t drive_read_free(drive_context_t *drv, uint16_t address)
+static uint8_t drive_read_free(diskunit_context_t *drv, uint16_t address)
 {
     return address >> 8;
 }
 
-static void drive_store_free(drive_context_t *drv, uint16_t address, uint8_t value)
+static void drive_store_free(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
     return;
 }
 
-static uint8_t drive_peek_free(drive_context_t *drv, uint16_t address)
+static uint8_t drive_peek_free(diskunit_context_t *drv, uint16_t address)
 {
     return 0;
 }
@@ -78,27 +78,27 @@ static uint8_t drive_peek_free(drive_context_t *drv, uint16_t address)
 /* ------------------------------------------------------------------------- */
 /* Watchpoint memory access.  */
 
-static uint8_t drive_zero_read_watch(drive_context_t *drv, uint16_t addr)
+static uint8_t drive_zero_read_watch(diskunit_context_t *drv, uint16_t addr)
 {
     addr &= 0xff;
     monitor_watch_push_load_addr(addr, drv->cpu->monspace);
     return drv->cpud->read_tab[0][0](drv, addr);
 }
 
-static void drive_zero_store_watch(drive_context_t *drv, uint16_t addr, uint8_t value)
+static void drive_zero_store_watch(diskunit_context_t *drv, uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
     monitor_watch_push_store_addr(addr, drv->cpu->monspace);
     drv->cpud->store_tab[0][0](drv, addr, value);
 }
 
-static uint8_t drive_read_watch(drive_context_t *drv, uint16_t address)
+static uint8_t drive_read_watch(diskunit_context_t *drv, uint16_t address)
 {
     monitor_watch_push_load_addr(address, drv->cpu->monspace);
     return drv->cpud->read_tab[0][address >> 8](drv, address);
 }
 
-static void drive_store_watch(drive_context_t *drv, uint16_t address, uint8_t value)
+static void drive_store_watch(diskunit_context_t *drv, uint16_t address, uint8_t value)
 {
     monitor_watch_push_store_addr(address, drv->cpu->monspace);
     drv->cpud->store_tab[0][address >> 8](drv, address, value);
@@ -106,7 +106,7 @@ static void drive_store_watch(drive_context_t *drv, uint16_t address, uint8_t va
 
 void drivemem_toggle_watchpoints(int flag, void *context)
 {
-    drive_context_t *drv = (drive_context_t *)context;
+    diskunit_context_t *drv = (diskunit_context_t *)context;
 
     if (flag) {
         drv->cpud->read_func_ptr = read_tab_watch;
@@ -169,7 +169,7 @@ void drivemem_set_func(drivecpud_context_t *cpud,
 
 uint8_t drivemem_bank_read(int bank, uint16_t addr, void *context)
 {
-    drive_context_t *drv = (drive_context_t *)context;
+    diskunit_context_t *drv = (diskunit_context_t *)context;
 
     return drv->cpud->read_func_ptr[addr >> 8](drv, addr);
 }
@@ -177,14 +177,14 @@ uint8_t drivemem_bank_read(int bank, uint16_t addr, void *context)
 /* used by monitor when sfx off */
 uint8_t drivemem_bank_peek(int bank, uint16_t addr, void *context)
 {
-    drive_context_t *drv = (drive_context_t *)context;
+    diskunit_context_t *drv = (diskunit_context_t *)context;
 
     return drv->cpud->peek_func_ptr[addr >> 8](drv, addr);
 }
 
 void drivemem_bank_store(int bank, uint16_t addr, uint8_t value, void *context)
 {
-    drive_context_t *drv = (drive_context_t *)context;
+    diskunit_context_t *drv = (diskunit_context_t *)context;
 
     drv->cpud->store_func_ptr[addr >> 8](drv, addr, value);
 }
@@ -197,7 +197,7 @@ void drivemem_bank_poke(int bank, uint16_t addr, uint8_t value, void *context)
 
 /* ------------------------------------------------------------------------- */
 
-void drivemem_init(drive_context_t *drv, unsigned int type)
+void drivemem_init(diskunit_context_t *drv, unsigned int type)
 {
     int i;
 
@@ -234,7 +234,7 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
     unsigned int type;
     mem_ioreg_list_t *drivemem_ioreg_list = NULL;
 
-    type = ((drive_context_t *)context)->drives[0]->type;
+    type = ((diskunit_context_t *)context)->drives[0]->type;
 
     switch (type) {
         case DRIVE_TYPE_1540:

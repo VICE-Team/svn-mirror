@@ -35,21 +35,21 @@
 
 /*
  *  The philosophy behind this approach is that only the drive module knows
- *  the exact layout of the drive_context_t structure. Therefore only include
+ *  the exact layout of the diskunit_context_t structure. Therefore only include
  *  drivetypes.h from source files within the drive module. All other modules
  *  only need to use pointers transparently, which only requires a forward
- *  declaration of struct drive_context_s (see below).
+ *  declaration of struct diskunit_context_s (see below).
  */
 
-struct drive_context_s;         /* forward declaration */
+struct diskunit_context_s;         /* forward declaration */
 struct monitor_interface_s;
 
 /* This defines the memory access for the drive CPU.  */
-typedef uint8_t drive_read_func_t (struct drive_context_s *, uint16_t);
+typedef uint8_t drive_read_func_t (struct diskunit_context_s *, uint16_t);
 typedef drive_read_func_t *drive_read_func_ptr_t;
-typedef void drive_store_func_t (struct drive_context_s *, uint16_t, uint8_t);
+typedef void drive_store_func_t (struct diskunit_context_s *, uint16_t, uint8_t);
 typedef drive_store_func_t *drive_store_func_ptr_t;
-typedef uint8_t drive_peek_func_t (struct drive_context_s *, uint16_t);
+typedef uint8_t drive_peek_func_t (struct diskunit_context_s *, uint16_t);
 typedef drive_peek_func_t *drive_peek_func_ptr_t;
 
 /*
@@ -148,15 +148,7 @@ typedef struct drivefunc_context_s {
 extern drivefunc_context_t drive_funcs[DRIVE_NUM];
 
 /*
- * Helper macros for dual disk drives.
- */
-#define is_drive0(d)    (!is_drive1(d))
-#define is_drive1(d)    ((d) & 1)
-#define mk_drive0(d)    ((d) & ~1)
-#define mk_drive1(d)    ((d) | 1)
-
-/*
- * The context for an entire drive.
+ * The context for an entire disk unit (may have 1 or 2 drives).
  */
 
 struct cia_context_s;
@@ -166,7 +158,7 @@ struct via_context_s;
 struct pc8477_s;
 struct wd1770_s;
 
-typedef struct drive_context_s {
+typedef struct diskunit_context_s {
     int mynumber;         /* init to [0123] */
     CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
     struct drive_s *drives[2];
@@ -185,6 +177,6 @@ typedef struct drive_context_s {
     struct tpi_context_s *tpid;
     struct pc8477_s *pc8477;
     struct wd1770_s *wd1770;
-} drive_context_t;
+} diskunit_context_t;
 
 #endif

@@ -38,13 +38,13 @@
 
 static unsigned int sync_factor;
 
-static void drive_sync_cpu_set_factor(drive_context_t *drv,
+static void drive_sync_cpu_set_factor(diskunit_context_t *drv,
                                       unsigned int sf)
 {
     drv->cpud->sync_factor = sf;
 }
 
-void drivesync_factor(struct drive_context_s *drv)
+void drivesync_factor(struct diskunit_context_s *drv)
 {
     drive_sync_cpu_set_factor(drv, drv->drives[0]->clock_frequency
                               * sync_factor);
@@ -61,7 +61,7 @@ void drive_set_machine_parameter(long cycles_per_sec)
     }
 }
 
-void drivesync_set_1571(int new_sync, struct drive_context_s *drv)
+void drivesync_set_1571(int new_sync, struct diskunit_context_s *drv)
 {
     unsigned int dnr;
 
@@ -75,7 +75,7 @@ void drivesync_set_1571(int new_sync, struct drive_context_s *drv)
     }
 }
 
-void drivesync_set_4000(struct drive_context_s *drv, int new_sync)
+void drivesync_set_4000(struct diskunit_context_s *drv, int new_sync)
 {
     if (rom_loaded && drv->drives[0]->type == DRIVE_TYPE_4000) {
         drv->drives[0]->clock_frequency = (new_sync) ? 4 : 2;

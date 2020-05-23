@@ -59,22 +59,22 @@ typedef struct drivevia_context_s {
 } drivevia_context_t;
 
 
-void via4000_store(drive_context_t *ctxptr, uint16_t addr, uint8_t data)
+void via4000_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
     viacore_store(ctxptr->via4000, addr, data);
 }
 
-uint8_t via4000_read(drive_context_t *ctxptr, uint16_t addr)
+uint8_t via4000_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
     return viacore_read(ctxptr->via4000, addr);
 }
 
-uint8_t via4000_peek(drive_context_t *ctxptr, uint16_t addr)
+uint8_t via4000_peek(diskunit_context_t *ctxptr, uint16_t addr)
 {
     return viacore_peek(ctxptr->via4000, addr);
 }
 
-int via4000_dump(drive_context_t *ctxptr, uint16_t addr)
+int via4000_dump(diskunit_context_t *ctxptr, uint16_t addr)
 {
     viacore_dump(ctxptr->via4000);
     return 0;
@@ -91,7 +91,7 @@ static void set_cb2(via_context_t *via_context, int state)
 static void set_int(via_context_t *via_context, unsigned int int_num,
                     int value, CLOCK rclk)
 {
-    drive_context_t *dc = (drive_context_t *)(via_context->context);
+    diskunit_context_t *dc = (diskunit_context_t *)(via_context->context);
 
     interrupt_set_irq(dc->cpu->int_status, int_num, value, rclk);
 }
@@ -99,7 +99,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
 static void restore_int(via_context_t *via_context, unsigned int int_num,
                         int value)
 {
-    drive_context_t *dc = (drive_context_t *)(via_context->context);
+    diskunit_context_t *dc = (diskunit_context_t *)(via_context->context);
 
     interrupt_restore_irq(dc->cpu->int_status, int_num, value);
 }
@@ -255,23 +255,23 @@ static uint8_t read_prb(via_context_t *via_context)
 {
     uint8_t byte;
     drivevia_context_t *viap;
-    drive_context_t *drive;
+    diskunit_context_t *drive;
 
     viap = (drivevia_context_t *)(via_context->prv);
-    drive = (drive_context_t *)(via_context->context);
+    drive = (diskunit_context_t *)(via_context->context);
 
     byte = (viap->number << 3) | (pc8477_irq(drive->pc8477) ? 0x80 : 0);
 
     return byte;
 }
 
-void via4000_init(drive_context_t *ctxptr)
+void via4000_init(diskunit_context_t *ctxptr)
 {
     viacore_init(ctxptr->via4000, ctxptr->cpu->alarm_context,
                  ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
 }
 
-void via4000_setup_context(drive_context_t *ctxptr)
+void via4000_setup_context(diskunit_context_t *ctxptr)
 {
     drivevia_context_t *viap;
     via_context_t *via;

@@ -746,7 +746,7 @@ uint8_t iecbus_device_read(void)
     drive
 *******************************************************************************/
 
-drive_context_t *drive_context[DRIVE_NUM];
+diskunit_context_t *drive_context[DRIVE_NUM];
 
 void drive_setup_context(void)
 {
@@ -774,15 +774,15 @@ int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int driv
     return 0;
 }
 
-void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffer, struct drive_context_s *drv)
+void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffer, struct diskunit_context_s *drv)
 {
 }
 
-void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector, struct drive_context_s *drv)
+void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector, struct diskunit_context_s *drv)
 {
 }
 
-void drive_cpu_execute_one(drive_context_t *drv, CLOCK clk_value)
+void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
 {
 }
 

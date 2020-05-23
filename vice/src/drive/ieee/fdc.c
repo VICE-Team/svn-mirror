@@ -44,6 +44,7 @@
 
 
 /* #define FDC_DEBUG */
+#define FDC_DEBUG
 
 #define DOS_IS_80(type)  (type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250 || type == DRIVE_TYPE_1001)
 #define DOS_IS_40(type)  (type == DRIVE_TYPE_4040)
@@ -598,7 +599,7 @@ static void int_fdc(CLOCK offset, void *data)
     int i, j;
     drive_t *drive;
     unsigned int fnum;
-    drive_context_t *drv = (drive_context_t *)data;
+    diskunit_context_t *drv = (diskunit_context_t *)data;
 
     fnum = drv->mynumber;
     rclk = drive_clk[fnum] - offset;
@@ -768,7 +769,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 /* FIXME: hack, because 0x4000 is only ok for 1001/8050/8250.
    fdc.c:fdc_do_job() adds an offset for 2040/3040/4040 by itself :-(
    Why donlly get a table for that...! */
-void fdc_init(drive_context_t *drv)
+void fdc_init(diskunit_context_t *drv)
 {
     unsigned int fnum = drv->mynumber;
     uint8_t *buffermem = drv->drives[0]->drive_ram + 0x100;

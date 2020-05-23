@@ -61,12 +61,12 @@ int profdos_load_1571(const char *name)
     return 0;
 }
 
-static uint8_t profdos_read(drive_context_t *drv, uint16_t addr)
+static uint8_t profdos_read(diskunit_context_t *drv, uint16_t addr)
 {
     return profdos_1571_rom[addr & 0x1fff];
 }
 
-static uint8_t profdos_read2(drive_context_t *drv, uint16_t addr)
+static uint8_t profdos_read2(diskunit_context_t *drv, uint16_t addr)
 {
     if (addr >= 0x7000) {
         if (!(addr & 0x0800)) {
@@ -82,7 +82,7 @@ static uint8_t profdos_read2(drive_context_t *drv, uint16_t addr)
     return profdos_1571_rom[addr & 0x1fff];
 }
 
-void profdos_mem_init(struct drive_context_s *drv, unsigned int type)
+void profdos_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 
@@ -103,11 +103,11 @@ void profdos_mem_init(struct drive_context_s *drv, unsigned int type)
     }
 }
 
-void profdos_init(drive_context_t *drv)
+void profdos_init(diskunit_context_t *drv)
 {
 }
 
-void profdos_reset(drive_context_t *drv)
+void profdos_reset(diskunit_context_t *drv)
 {
     profdos_al[drv->mynumber] = 0;
 }

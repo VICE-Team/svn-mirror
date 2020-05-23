@@ -83,7 +83,7 @@ static void set_ca2(via_context_t *via_context, int state)
         drv->byte_ready_active &= ~(1 << 1);
         drv->byte_ready_active |= state << 1;
         if (drv->byte_ready_edge) {
-           drive_context_t *dc = (drive_context_t *)(via_context->context);
+           diskunit_context_t *dc = (diskunit_context_t *)(via_context->context);
            drive_cpu_set_overflow(dc);
            drv->byte_ready_edge = 0;
         }
@@ -112,38 +112,38 @@ static void set_cb2(via_context_t *via_context, int state)
 static void set_int(via_context_t *via_context, unsigned int int_num,
                     int value, CLOCK rclk)
 {
-    drive_context_t *dc;
+    diskunit_context_t *dc;
 
-    dc = (drive_context_t *)(via_context->context);
+    dc = (diskunit_context_t *)(via_context->context);
 
     interrupt_set_irq(dc->cpu->int_status, int_num, value, rclk);
 }
 
 static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
-    drive_context_t *dc;
+    diskunit_context_t *dc;
 
-    dc = (drive_context_t *)(via_context->context);
+    dc = (diskunit_context_t *)(via_context->context);
 
     interrupt_restore_irq(dc->cpu->int_status, int_num, value);
 }
 
-void via2d_store(drive_context_t *ctxptr, uint16_t addr, uint8_t data)
+void via2d_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
     viacore_store(ctxptr->via2, addr, data);
 }
 
-uint8_t via2d_read(drive_context_t *ctxptr, uint16_t addr)
+uint8_t via2d_read(diskunit_context_t *ctxptr, uint16_t addr)
 {
     return viacore_read(ctxptr->via2, addr);
 }
 
-uint8_t via2d_peek(drive_context_t *ctxptr, uint16_t addr)
+uint8_t via2d_peek(diskunit_context_t *ctxptr, uint16_t addr)
 {
     return viacore_peek(ctxptr->via2, addr);
 }
 
-int via2d_dump(drive_context_t *ctxptr, uint16_t addr)
+int via2d_dump(diskunit_context_t *ctxptr, uint16_t addr)
 {
     viacore_dump(ctxptr->via2);
     return 0;
@@ -159,6 +159,7 @@ void via2d_update_pcr(int pcrval, drive_t *dptr)
     int bra = dptr->byte_ready_active;
     rotation_rotate_disk(dptr);
     dptr->read_write_mode = pcrval & 0x20;
+    DBG(("via2d.c: via2d_update_pcr: drv->read_write_mode = %x", drv->read_write_mode))
     dptr->byte_ready_active = (bra & ~0x02) | (pcrval & 0x02);
 }
 
@@ -313,7 +314,7 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
             rotation_begins(drv);
         } else {
             if (drv->byte_ready_edge) {
-               drive_context_t *dc = (drive_context_t *)(via_context->context);
+               diskunit_context_t *dc = (diskunit_context_t *)(via_context->context);
                drive_cpu_set_overflow(dc);
                drv->byte_ready_edge = 0;
             }
@@ -457,13 +458,13 @@ static uint8_t read_prb(via_context_t *via_context)
     return byte;
 }
 
-void via2d_init(drive_context_t *ctxptr)
+void via2d_init(diskunit_context_t *ctxptr)
 {
     viacore_init(ctxptr->via2, ctxptr->cpu->alarm_context,
                  ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
 }
 
-void via2d_setup_context(drive_context_t *ctxptr)
+void via2d_setup_context(diskunit_context_t *ctxptr)
 {
     drivevia2_context_t *via2p;
     via_context_t *via;

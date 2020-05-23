@@ -58,7 +58,7 @@ int ieee_drive_cmdline_options_init(void)
     return ieee_cmdline_options_init();
 }
 
-void ieee_drive_init(struct drive_context_s *drv)
+void ieee_drive_init(struct diskunit_context_s *drv)
 {
     ieeerom_init();
     via1d2031_init(drv);
@@ -67,14 +67,14 @@ void ieee_drive_init(struct drive_context_s *drv)
     riot2_init(drv);
 }
 
-void ieee_drive_shutdown(struct drive_context_s *drv)
+void ieee_drive_shutdown(struct diskunit_context_s *drv)
 {
     viacore_shutdown(drv->via1d2031);
     riotcore_shutdown(drv->riot1);
     riotcore_shutdown(drv->riot2);
 }
 
-void ieee_drive_reset(struct drive_context_s *drv)
+void ieee_drive_reset(struct diskunit_context_s *drv)
 {
     if (drv->drives[0]->type == DRIVE_TYPE_2031) {
         viacore_reset(drv->via1d2031);
@@ -94,12 +94,12 @@ void ieee_drive_reset(struct drive_context_s *drv)
     }
 }
 
-void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type)
+void ieee_drive_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     memieee_init(drv, type);
 }
 
-void ieee_drive_setup_context(struct drive_context_s *drv)
+void ieee_drive_setup_context(struct diskunit_context_s *drv)
 {
     if (drv->mynumber < DRIVE_NUM) {
         *drv->func = drive_funcs[drv->mynumber];
@@ -133,7 +133,7 @@ void ieee_drive_rom_do_checksum(unsigned int dnr)
 {
 }
 
-int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
+int ieee_drive_snapshot_read(struct diskunit_context_s *ctxptr,
                              struct snapshot_s *s)
 {
     if (ctxptr->drives[0]->type == DRIVE_TYPE_2031) {
@@ -153,7 +153,7 @@ int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
     return 0;
 }
 
-int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
+int ieee_drive_snapshot_write(struct diskunit_context_s *ctxptr,
                               struct snapshot_s *s)
 {
     if (ctxptr->drives[0]->type == DRIVE_TYPE_2031) {
@@ -183,7 +183,7 @@ int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit, unsig
     return fdc_detach_image(image, unit, drive);
 }
 
-void ieee_drive_parallel_set_atn(int state, drive_context_t *drv)
+void ieee_drive_parallel_set_atn(int state, diskunit_context_t *drv)
 {
     via1d2031_set_atn(drv->via1d2031, state);
     riot2_set_atn(drv->riot2, state);

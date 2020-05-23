@@ -181,7 +181,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 }
 
 /* Functions using drive context.  */
-void wd1770d_init(drive_context_t *drv)
+void wd1770d_init(diskunit_context_t *drv)
 {
     if (wd1770_log == LOG_ERR) {
         wd1770_log = log_open("WD1770");
@@ -993,17 +993,17 @@ int wd1770_disk_change(wd1770_t *drv)
     return fdd_disk_change(drv->fdd);
 }
 
-void wd1770d_store(drive_context_t *drv, uint16_t addr, uint8_t byte)
+void wd1770d_store(diskunit_context_t *drv, uint16_t addr, uint8_t byte)
 {
     wd1770_store(drv->wd1770, (uint16_t)(addr & 3), byte);
 }
 
-uint8_t wd1770d_read(drive_context_t *drv, uint16_t addr)
+uint8_t wd1770d_read(diskunit_context_t *drv, uint16_t addr)
 {
     return wd1770_read(drv->wd1770, (uint16_t)(addr & 3));
 }
 
-uint8_t wd1770d_peek(drive_context_t *drv, uint16_t addr)
+uint8_t wd1770d_peek(diskunit_context_t *drv, uint16_t addr)
 {
     return wd1770_peek(drv->wd1770, (uint16_t)(addr & 3));
 }
