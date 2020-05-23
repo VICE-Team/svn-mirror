@@ -52,6 +52,7 @@
 typedef struct drivevia1_context_s {
     unsigned int number;
     struct drive_s *drive;
+    struct diskunit_context_s *diskunit;
     int parallel_id;
     int v_parieee_is_out;         /* init to 1 */
     struct iecbus_s *v_iecbus;
@@ -121,13 +122,13 @@ static void undump_pra(via_context_t *via_context, uint8_t byte)
         drivesync_set_1571(byte & 0x20, dc);
         glue1571_side_set((byte >> 2) & 1, via1p->drive);
     } else {
-        switch (via1p->drive->parallel_cable) {
+        switch (via1p->diskunit->parallel_cable) {
             case DRIVE_PC_STANDARD:
             case DRIVE_PC_FORMEL64:
                 if (via1p->drive->type == DRIVE_TYPE_1540
                     || via1p->drive->type == DRIVE_TYPE_1541
                     || via1p->drive->type == DRIVE_TYPE_1541II) {
-                    parallel_cable_drive_write(via1p->drive->parallel_cable, byte,
+                    parallel_cable_drive_write(via1p->diskunit->parallel_cable, byte,
                                                PARALLEL_WRITE, via1p->number);
                 }
                 break;
@@ -157,13 +158,13 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t oldpa_va
             iec_fast_drive_direction(byte & 2, via1p->number);
         }
     } else {
-        switch (via1p->drive->parallel_cable) {
+        switch (via1p->diskunit->parallel_cable) {
             case DRIVE_PC_STANDARD:
             case DRIVE_PC_FORMEL64:
                 if (via1p->drive->type == DRIVE_TYPE_1540
                     || via1p->drive->type == DRIVE_TYPE_1541
                     || via1p->drive->type == DRIVE_TYPE_1541II) {
-                    parallel_cable_drive_write(via1p->drive->parallel_cable, byte,
+                    parallel_cable_drive_write(via1p->diskunit->parallel_cable, byte,
                                                (((addr == VIA_PRA) && ((via_context->via[VIA_PCR]
                                                                         & 0xe) == 0xa)) ? PARALLEL_WRITE_HS : PARALLEL_WRITE),
                                                via1p->number);
@@ -300,10 +301,10 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
                | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]);
     }
 
-    switch (via1p->drive->parallel_cable) {
+    switch (via1p->diskunit->parallel_cable) {
         case DRIVE_PC_STANDARD:
         case DRIVE_PC_FORMEL64:
-            byte = parallel_cable_drive_read(via1p->drive->parallel_cable,
+            byte = parallel_cable_drive_read(via1p->diskunit->parallel_cable,
                                              (((addr == VIA_PRA) && (via_context->via[VIA_PCR] & 0xe) == 0xa)) ? 1 : 0);
             break;
         default:
@@ -376,6 +377,8 @@ void via1d1541_setup_context(diskunit_context_t *ctxptr)
     via->irq_line = IK_IRQ;
 
     via1p->drive = ctxptr->drives[0];
+    via1p->diskunit = ctxptr;
+
     iecbus = iecbus_drive_port();
 
     via->undump_pra = undump_pra;

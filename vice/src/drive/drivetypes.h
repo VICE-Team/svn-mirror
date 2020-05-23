@@ -190,6 +190,20 @@ typedef struct diskunit_context_s {
     /* Drive RAM */
     uint8_t drive_ram[DRIVE_RAM_SIZE];
 
+    /* Which RAM expansion is enabled?  */
+    int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
+        drive_ram8_enabled, drive_rama_enabled;
+
+    /* Flag: What parallel cable do we emulate?  */
+    int parallel_cable;
+
+    /* Is the Professional DOS extension enabled?  */
+    int profdos;
+    /* Is the Supercard+ extension enabled? */
+    int supercard;
+    /* Is the StarDOS extension enabled? */
+    int stardos;
+
 } diskunit_context_t;
 
 #endif

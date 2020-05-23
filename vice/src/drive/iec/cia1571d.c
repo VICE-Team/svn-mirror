@@ -41,7 +41,7 @@
 
 typedef struct drivecia1571_context_s {
     unsigned int number;
-    struct drive_s *drive;
+    struct diskunit_context_s *diskunit;
 } drivecia1571_context_t;
 
 
@@ -100,7 +100,7 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 
     ciap = (drivecia1571_context_t *)(cia_context->prv);
 
-    if (ciap->drive->parallel_cable == DRIVE_PC_STANDARD) {
+    if (ciap->diskunit->parallel_cable == DRIVE_PC_STANDARD) {
         parallel_cable_drive_write(DRIVE_PC_STANDARD, 0, PARALLEL_HS, ciap->number);
     }
 }
@@ -115,7 +115,7 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 
     ciap = (drivecia1571_context_t *)(cia_context->prv);
 
-    if (ciap->drive->parallel_cable == DRIVE_PC_STANDARD) {
+    if (ciap->diskunit->parallel_cable == DRIVE_PC_STANDARD) {
         parallel_cable_drive_write(DRIVE_PC_STANDARD, byte, PARALLEL_WRITE, ciap->number);
     }
 }
@@ -130,7 +130,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, uint8_t byte)
 
     ciap = (drivecia1571_context_t *)(cia_context->prv);
 
-    if (ciap->drive->parallel_cable == DRIVE_PC_STANDARD) {
+    if (ciap->diskunit->parallel_cable == DRIVE_PC_STANDARD) {
         parallel_cable_drive_write(DRIVE_PC_STANDARD, byte, PARALLEL_WRITE, ciap->number);
     }
 }
@@ -148,8 +148,8 @@ static uint8_t read_ciapb(cia_context_t *cia_context)
 
     ciap = (drivecia1571_context_t *)(cia_context->prv);
 
-    if (ciap->drive->parallel_cable == DRIVE_PC_STANDARD) {
-        byte = parallel_cable_drive_read(ciap->drive->parallel_cable, 1);
+    if (ciap->diskunit->parallel_cable == DRIVE_PC_STANDARD) {
+        byte = parallel_cable_drive_read(ciap->diskunit->parallel_cable, 1);
     }
 
     return (uint8_t)((byte & ~(cia_context->c_cia[CIA_DDRB]))
@@ -204,7 +204,7 @@ void cia1571_setup_context(diskunit_context_t *ctxptr)
     cia->irq_line = IK_IRQ;
     cia->myname = lib_msprintf("CIA1571D%d", ctxptr->mynumber);
 
-    cia1571p->drive = ctxptr->drives[0];
+    cia1571p->diskunit = ctxptr;
 
     cia->undump_ciapa = undump_ciapa;
     cia->undump_ciapb = undump_ciapb;

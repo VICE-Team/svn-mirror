@@ -183,7 +183,7 @@ struct disk_image_s;
 
 /* TODO: more parts of that struct should go into diskunit_context_s.
    candidates: type, enable, rtc_save?, log?
-   candidates: clock_frequency, idling_method, parallel_cable, profdos, supercard, stardos,
+   candidates: clock_frequency, idling_method
    candidates: ds1216, */
 typedef struct drive_s {
     unsigned int unit;  /* 0 ... NUM_DISK_UNITS-1 */
@@ -315,9 +315,6 @@ typedef struct drive_s {
     /* What extension policy?  */
     int extend_image_policy;
 
-    /* Flag: What parallel cable do we emulate?  */
-    int parallel_cable;
-
     /* If the user does not want to extend the disk image and `ask mode' is
     selected this flag gets cleared.  */
     int ask_extend_disk_image;
@@ -332,17 +329,6 @@ typedef struct drive_s {
     struct gcr_s *gcr;
 
     PP64Image p64;
-
-    /* Which RAM expansion is enabled?  */
-    int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
-        drive_ram8_enabled, drive_rama_enabled;
-
-    /* Is the Professional DOS extension enabled?  */
-    int profdos;
-    /* Is the Supercard+ extension enabled? */
-    int supercard;
-    /* Is the StarDOS extension enabled? */
-    int stardos;
 
     /* RTC context */
     rtc_ds1216e_t *ds1216;

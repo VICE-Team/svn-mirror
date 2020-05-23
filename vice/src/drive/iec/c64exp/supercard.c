@@ -89,9 +89,9 @@ void supercard_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 
-    DBG(("supercard_mem_init <type:%d> <sc:%d>\n", type, drv->drive->supercard));
+    DBG(("supercard_mem_init <type:%d> <sc:%d>\n", type, drv->supercard));
 
-    if (!drv->drives[0]->supercard) {
+    if (!drv->supercard) {
         return;
     }
 

@@ -158,7 +158,8 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = diskunit_context[i]->drives[0];
+        diskunit_context_t *unit = diskunit_context[i];
+        drive = unit->drives[0];
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_clk)) < 0
             || SMW_B(m, (uint8_t)(drive->byte_ready_level)) < 0
@@ -172,7 +173,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_B(m, (uint8_t)(drive->GCR_read)) < 0
             || SMW_B(m, (uint8_t)(drive->GCR_write_value)) < 0
             || SMW_B(m, (uint8_t)(drive->idling_method)) < 0
-            || SMW_B(m, (uint8_t)(drive->parallel_cable)) < 0
+            || SMW_B(m, (uint8_t)(unit->parallel_cable)) < 0
             || SMW_B(m, (uint8_t)(drive->read_only)) < 0
             || SMW_DW(m, (uint32_t)(rotation_table_ptr[i])) < 0
             || SMW_DW(m, (uint32_t)(drive->type)) < 0
@@ -338,7 +339,8 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = diskunit_context[i]->drives[0];
+        diskunit_context_t *unit = diskunit_context[i];
+        drive = unit->drives[0];
 
         /* Partially read 1.0 snapshots */
         if (snapshot_version_is_equal(major_version, minor_version, 1, 0)) {
@@ -359,7 +361,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B(m, &(drive->GCR_write_value)) < 0
                 || SMR_B_INT(m, &(drive->idling_method)) < 0
                 || SMR_B_INT(m, &dummy) < 0
-                || SMR_B_INT(m, &(drive->parallel_cable)) < 0
+                || SMR_B_INT(m, &(unit->parallel_cable)) < 0
                 || SMR_B_INT(m, &(drive->read_only)) < 0
                 || SMR_DW(m, &(drive->snap_rotation_last_clk)) < 0
                 || SMR_DW(m, &rotation_table_ptr[i]) < 0
@@ -384,7 +386,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B(m, &(drive->GCR_read)) < 0
                 || SMR_B(m, &(drive->GCR_write_value)) < 0
                 || SMR_B_INT(m, &(drive->idling_method)) < 0
-                || SMR_B_INT(m, &(drive->parallel_cable)) < 0
+                || SMR_B_INT(m, &(unit->parallel_cable)) < 0
                 || SMR_B_INT(m, &(drive->read_only)) < 0
                 || SMR_DW(m, &rotation_table_ptr[i]) < 0
                 || SMR_DW_UINT(m, &(drive->type)) < 0
@@ -416,7 +418,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B(m, &(drive->GCR_read)) < 0
                 || SMR_B(m, &(drive->GCR_write_value)) < 0
                 || SMR_B_INT(m, &(drive->idling_method)) < 0
-                || SMR_B_INT(m, &(drive->parallel_cable)) < 0
+                || SMR_B_INT(m, &(unit->parallel_cable)) < 0
                 || SMR_B_INT(m, &(drive->read_only)) < 0
                 || SMR_DW(m, &rotation_table_ptr[i]) < 0
                 || SMR_DW_UINT(m, &(drive->type)) < 0
@@ -457,7 +459,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B(m, &(drive->GCR_read)) < 0
                 || SMR_B(m, &(drive->GCR_write_value)) < 0
                 || SMR_B_INT(m, &(drive->idling_method)) < 0
-                || SMR_B_INT(m, &(drive->parallel_cable)) < 0
+                || SMR_B_INT(m, &(unit->parallel_cable)) < 0
                 || SMR_B_INT(m, &(drive->read_only)) < 0
                 || SMR_DW(m, &rotation_table_ptr[i]) < 0
                 || SMR_DW_UINT(m, &(drive->type)) < 0
@@ -499,7 +501,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B(m, &(drive->GCR_read)) < 0
                 || SMR_B(m, &(drive->GCR_write_value)) < 0
                 || SMR_B_INT(m, &(drive->idling_method)) < 0
-                || SMR_B_INT(m, &(drive->parallel_cable)) < 0
+                || SMR_B_INT(m, &(unit->parallel_cable)) < 0
                 || SMR_B_INT(m, &(drive->read_only)) < 0
                 || SMR_DW(m, &rotation_table_ptr[i]) < 0
                 || SMR_DW_UINT(m, &(drive->type)) < 0
@@ -551,7 +553,7 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     rotation_table_set(rotation_table_ptr);
 
-    /* TODO: drive 1? */
+    /* TODO: drive 1? TODO: make a loop */
     drive = diskunit_context[0]->drives[0];
     switch (drive->type) {
         case DRIVE_TYPE_1540:
@@ -575,7 +577,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             machine_drive_rom_setup_image(0);
             drivemem_init(diskunit_context[0], drive->type);
             resources_set_int("Drive8IdleMethod", drive->idling_method);
-            driverom_initialize_traps(drive);
+            driverom_initialize_traps(diskunit_context[0]);
             drive_set_active_led_color(drive->type, 0);
             machine_bus_status_drivetype_set(8, 1);
             break;
@@ -606,7 +608,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             machine_drive_rom_setup_image(1);
             drivemem_init(diskunit_context[1], drive->type);
             resources_set_int("Drive9IdleMethod", drive->idling_method);
-            driverom_initialize_traps(drive);
+            driverom_initialize_traps(diskunit_context[1]);
             drive_set_active_led_color(drive->type, 1);
             machine_bus_status_drivetype_set(9, 1);
             break;
@@ -643,7 +645,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             machine_drive_rom_setup_image(2);
             drivemem_init(diskunit_context[2], drive->type);
             resources_set_int("Drive10IdleMethod", drive->idling_method);
-            driverom_initialize_traps(drive);
+            driverom_initialize_traps(diskunit_context[2]);
             drive_set_active_led_color(drive->type, 0);
             machine_bus_status_drivetype_set(10, 1);
             break;
@@ -673,7 +675,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             machine_drive_rom_setup_image(3);
             drivemem_init(diskunit_context[3], drive->type);
             resources_set_int("Drive11IdleMethod", drive->idling_method);
-            driverom_initialize_traps(drive);
+            driverom_initialize_traps(diskunit_context[3]);
             drive_set_active_led_color(drive->type, 1);
             machine_bus_status_drivetype_set(11, 1);
             break;

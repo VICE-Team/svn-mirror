@@ -161,7 +161,7 @@ void dd3_mem_init(struct diskunit_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 
-    if (drv->drives[0]->parallel_cable != DRIVE_PC_DD3) {
+    if (drv->parallel_cable != DRIVE_PC_DD3) {
         return;
     }
 
