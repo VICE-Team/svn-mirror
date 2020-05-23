@@ -769,8 +769,8 @@ static void disk_eof_callback(void)
         if (orig_drive_true_emulation_state) {
             if (buffer) {
                 log_message(autostart_log, "Restoring true drive state of drive 8.");
-                drive_set_disk_memory(id, track, sector, drive_context[0]);
-                drive_set_last_read(track, sector, buffer, drive_context[0]);
+                drive_set_disk_memory(id, track, sector, diskunit_context[0]);
+                drive_set_last_read(track, sector, buffer, diskunit_context[0]);
             } else {
                 log_message(autostart_log, "No Disk Image in drive 8.");
             }

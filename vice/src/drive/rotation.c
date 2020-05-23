@@ -150,7 +150,7 @@ void rotation_table_get(uint32_t *rotation_table_ptr)
         rotation_table_ptr[dnr] = rotation[dnr].speed_zone;
 
       for (j = 0; j < 2; j++) {
-        drive = drive_context[dnr]->drives[j];
+        drive = diskunit_context[dnr]->drives[j];
 
 
         drive->snap_accum = rotation[dnr].accum;
@@ -186,7 +186,7 @@ void rotation_table_set(uint32_t *rotation_table_ptr)
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
       for (j = 0; j < 2; j++) {
-        drive = drive_context[dnr]->drives[j];
+        drive = diskunit_context[dnr]->drives[j];
 
         rotation[dnr].speed_zone = rotation_table_ptr[dnr];
 

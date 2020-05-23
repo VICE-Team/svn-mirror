@@ -1293,7 +1293,7 @@ int pc8477_attach_image(disk_image_t *image, unsigned int unit)
             return -1;
     }
 
-    fdd_image_attach(drive_context[unit - 8]->pc8477->fdds[1].fdd, image);
+    fdd_image_attach(diskunit_context[unit - 8]->pc8477->fdds[1].fdd, image);
     return 0;
 }
 
@@ -1314,6 +1314,6 @@ int pc8477_detach_image(disk_image_t *image, unsigned int unit)
             return -1;
     }
 
-    fdd_image_detach(drive_context[unit - 8]->pc8477->fdds[1].fdd);
+    fdd_image_detach(diskunit_context[unit - 8]->pc8477->fdds[1].fdd);
     return 0;
 }

@@ -228,8 +228,8 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
 {
     drive_t *drive;
 
-    drive = drive_context[0]->drives[0];
-    drive_cpu_execute_one(drive_context[0], clock);
+    drive = diskunit_context[0]->drives[0];
+    drive_cpu_execute_one(diskunit_context[0], clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 
@@ -240,16 +240,16 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
         switch (drive->type) {
             case DRIVE_TYPE_1581:
                 if (!iec_old_atn) {
-                    ciacore_set_flag(drive_context[0]->cia1581);
+                    ciacore_set_flag(diskunit_context[0]->cia1581);
                 }
                 break;
             case DRIVE_TYPE_2000:
             case DRIVE_TYPE_4000:
-                viacore_signal(drive_context[0]->via4000, VIA_SIG_CA2,
+                viacore_signal(diskunit_context[0]->via4000, VIA_SIG_CA2,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
                 break;
             default:
-                viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
+                viacore_signal(diskunit_context[0]->via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
         }
     }
@@ -286,8 +286,8 @@ static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
 {
     drive_t *drive;
 
-    drive = drive_context[1]->drives[0];
-    drive_cpu_execute_one(drive_context[1], clock);
+    drive = diskunit_context[1]->drives[0];
+    drive_cpu_execute_one(diskunit_context[1], clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 
@@ -298,16 +298,16 @@ static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
         switch (drive->type) {
             case DRIVE_TYPE_1581:
                 if (!iec_old_atn) {
-                    ciacore_set_flag(drive_context[1]->cia1581);
+                    ciacore_set_flag(diskunit_context[1]->cia1581);
                 }
                 break;
             case DRIVE_TYPE_2000:
             case DRIVE_TYPE_4000:
-                viacore_signal(drive_context[1]->via4000, VIA_SIG_CA2,
+                viacore_signal(diskunit_context[1]->via4000, VIA_SIG_CA2,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
                 break;
             default:
-                viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
+                viacore_signal(diskunit_context[1]->via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
         }
     }
@@ -357,19 +357,19 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
 
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
-                switch (drive_context[dnr]->drives[0]->type) {
+                switch (diskunit_context[dnr]->drives[0]->type) {
                     case DRIVE_TYPE_1581:
                         if (!iec_old_atn) {
-                            ciacore_set_flag(drive_context[dnr]->cia1581);
+                            ciacore_set_flag(diskunit_context[dnr]->cia1581);
                         }
                         break;
                     case DRIVE_TYPE_2000:
                     case DRIVE_TYPE_4000:
-                        viacore_signal(drive_context[dnr]->via4000, VIA_SIG_CA2,
+                        viacore_signal(diskunit_context[dnr]->via4000, VIA_SIG_CA2,
                                        iec_old_atn ? 0 : VIA_SIG_RISE);
                         break;
                     default:
-                        viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CA1,
+                        viacore_signal(diskunit_context[dnr]->via1d1541, VIA_SIG_CA1,
                                        iec_old_atn ? 0 : VIA_SIG_RISE);
                 }
             }
@@ -380,7 +380,7 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
         if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
             unsigned int unit;
             unit = dnr + 8;
-            switch (drive_context[dnr]->drives[0]->type) {
+            switch (diskunit_context[dnr]->drives[0]->type) {
                 case DRIVE_TYPE_1581:
                 case DRIVE_TYPE_2000:
                 case DRIVE_TYPE_4000:

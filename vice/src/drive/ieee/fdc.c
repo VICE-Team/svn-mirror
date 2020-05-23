@@ -115,13 +115,13 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
     /* re-attach disk images */
     if (saved_image0) {
 #ifdef FDC_DEBUG
-        log_message(fdc_log, "ieee/fdc.c:fdc_reset dev %u type %u drive 0 re-attach image %p (drive: %p)", fnum + 8, drive_type, saved_image0, drive_context[fnum]->drives[0]->image);
+        log_message(fdc_log, "ieee/fdc.c:fdc_reset dev %u type %u drive 0 re-attach image %p (drive: %p)", fnum + 8, drive_type, saved_image0, diskunit_context[fnum]->drives[0]->image);
 #endif
         fdc_attach_image(saved_image0, fnum + 8, 0);
     }
     if (saved_image1) {
 #ifdef FDC_DEBUG
-        log_message(fdc_log, "ieee/fdc.c:fdc_reset dev %u type %u drive 1 re-attach image %p (drive: %p)", fnum + 8, drive_type, saved_image0, drive_context[fnum+1]->drives[1]->image);
+        log_message(fdc_log, "ieee/fdc.c:fdc_reset dev %u type %u drive 1 re-attach image %p (drive: %p)", fnum + 8, drive_type, saved_image0, diskunit_context[fnum+1]->drives[1]->image);
 #endif
         fdc_attach_image(saved_image1, fnum + 8, 1);
     }
@@ -583,7 +583,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             break;
     }
 
-    drive = drive_context[fnum]->drives[drv];
+    drive = diskunit_context[fnum]->drives[drv];
     drive->current_half_track = 2 * dadr.track;
     imgfdc->last_track = dadr.track;
     imgfdc->last_sector = dadr.sector;
@@ -619,7 +619,7 @@ static void int_fdc(CLOCK offset, void *data)
 
     switch (sysfdc->fdc_state) {
         case FDC_RESET0:
-            drive = drive_context[fnum]->drives[0];
+            drive = diskunit_context[fnum]->drives[0];
             if (DOS_IS_80(sysfdc->drive_type)) {
                 drive->current_half_track = 2 * 38;
                 sysfdc->buffer[0] = 2;

@@ -467,8 +467,8 @@ static void parallel_atn_signal(int st)
     unsigned int dnr;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        if (drive_context[dnr]->drives[0]->enable) {
-            ieee_drive_parallel_set_atn(st, drive_context[dnr]);
+        if (diskunit_context[dnr]->drives[0]->enable) {
+            ieee_drive_parallel_set_atn(st, diskunit_context[dnr]);
         }
     }
 }

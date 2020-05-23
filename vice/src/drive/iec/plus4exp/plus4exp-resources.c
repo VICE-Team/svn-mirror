@@ -37,21 +37,21 @@
 
 static void set_drive_ram(unsigned int dnr)
 {
-    drive_t *drive = drive_context[dnr]->drives[0];
+    drive_t *drive = diskunit_context[dnr]->drives[0];
 
     if (drive->type != DRIVE_TYPE_1570 && drive->type != DRIVE_TYPE_1571
         && drive->type != DRIVE_TYPE_1571CR) {
         return;
     }
 
-    drivemem_init(drive_context[dnr], drive->type);
+    drivemem_init(diskunit_context[dnr], drive->type);
 
     return;
 }
 
 static int set_drive_parallel_cable(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drives[0];
+    drive_t *drive = diskunit_context[vice_ptr_to_uint(param)]->drives[0];
 
     switch (val) {
         case DRIVE_PC_NONE:
@@ -79,7 +79,7 @@ int plus4exp_resources_init(void)
     drive_t *drive;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
 
         res_drive[0].name = lib_msprintf("Drive%iParallelCable", dnr + 8);
         res_drive[0].value_ptr = &(drive->parallel_cable);

@@ -33,6 +33,6 @@ extern void dd3_init(struct diskunit_context_s *drv);
 extern void dd3_reset(struct diskunit_context_s *drv);
 extern void dd3_mem_init(struct diskunit_context_s *drv, unsigned int type);
 
-extern void dd3_set_signal(struct diskunit_context_s *drive_context);
+extern void dd3_set_signal(struct diskunit_context_s *diskunit_context);
 
 #endif

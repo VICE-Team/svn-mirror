@@ -363,7 +363,7 @@ extern CLOCK drive_clk[NUM_DISK_UNITS];
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */
 #include "drivetypes.h"
-extern struct diskunit_context_s *drive_context[NUM_DISK_UNITS];
+extern struct diskunit_context_s *diskunit_context[NUM_DISK_UNITS];
 
 extern int rom_loaded;
 

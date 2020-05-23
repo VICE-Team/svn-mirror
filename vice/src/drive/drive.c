@@ -75,7 +75,7 @@
 
 static int drive_init_was_called = 0;
 
-diskunit_context_t *drive_context[NUM_DISK_UNITS];
+diskunit_context_t *diskunit_context[NUM_DISK_UNITS];
 
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
@@ -165,7 +165,7 @@ int drive_init(void)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         char *logname;
 
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
         logname = lib_msprintf("Drive %i", dnr + 8);
         drive->log = log_open(logname);
         lib_free(logname);
@@ -173,7 +173,7 @@ int drive_init(void)
         drive->clk = &drive_clk[dnr];
         drive->mynumber = dnr;
 
-        drive = drive_context[dnr]->drives[1];
+        drive = diskunit_context[dnr]->drives[1];
         logname = lib_msprintf("Drive %i", dnr + 8);
         drive->log = log_open(logname);
         lib_free(logname);
@@ -198,9 +198,9 @@ int drive_init(void)
     drive_overflow_init();
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
 
-        machine_drive_port_default(drive_context[dnr]);
+        machine_drive_port_default(diskunit_context[dnr]);
 
         if (drive_check_type(drive->type, dnr) < 1) {
             resources_set_int_sprintf("Drive%iType", DRIVE_TYPE_NONE, dnr + 8);
@@ -210,7 +210,7 @@ int drive_init(void)
     }
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
         drive->gcr = gcr_create_image();
         drive->p64 = lib_calloc(1, sizeof(TP64Image));
         P64ImageCreate(drive->p64);
@@ -244,7 +244,7 @@ int drive_init(void)
 
         /* drive 1 */
 
-        drive = drive_context[dnr]->drives[1];
+        drive = diskunit_context[dnr]->drives[1];
         drive->gcr = gcr_create_image();
         drive->p64 = lib_calloc(1, sizeof(TP64Image));
         P64ImageCreate(drive->p64);
@@ -274,8 +274,8 @@ int drive_init(void)
     }
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
-        drive1 = drive_context[dnr]->drives[1];
+        drive = diskunit_context[dnr]->drives[0];
+        drive1 = diskunit_context[dnr]->drives[1];
         driverom_initialize_traps(drive);
 
         drivesync_clock_frequency(drive->type, drive);
@@ -285,17 +285,17 @@ int drive_init(void)
         rotation_init((drive1->clock_frequency == 2) ? 1 : 0, dnr);
 
         if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-            drivecpu65c02_init(drive_context[dnr], drive->type);
+            drivecpu65c02_init(diskunit_context[dnr], drive->type);
         } else {
-            drivecpu_init(drive_context[dnr], drive->type);
+            drivecpu_init(diskunit_context[dnr], drive->type);
         }
 
         /* Make sure the sync factor is acknowledged correctly.  */
-        drivesync_factor(drive_context[dnr]);
+        drivesync_factor(diskunit_context[dnr]);
 
         /* Make sure the traps are moved as needed.  */
         if (drive->enable) {
-            drive_enable(drive_context[dnr]);
+            drive_enable(diskunit_context[dnr]);
         }
     }
 
@@ -312,37 +312,37 @@ void drive_shutdown(void)
     }
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        if (drive_context[dnr]->drives[0]->type == DRIVE_TYPE_2000 || drive_context[dnr]->drives[0]->type == DRIVE_TYPE_4000) {
-            drivecpu65c02_shutdown(drive_context[dnr]);
+        if (diskunit_context[dnr]->drives[0]->type == DRIVE_TYPE_2000 || diskunit_context[dnr]->drives[0]->type == DRIVE_TYPE_4000) {
+            drivecpu65c02_shutdown(diskunit_context[dnr]);
         } else {
-            drivecpu_shutdown(drive_context[dnr]);
+            drivecpu_shutdown(diskunit_context[dnr]);
         }
-        if (drive_context[dnr]->drives[0]->gcr) {
-            gcr_destroy_image(drive_context[dnr]->drives[0]->gcr);
+        if (diskunit_context[dnr]->drives[0]->gcr) {
+            gcr_destroy_image(diskunit_context[dnr]->drives[0]->gcr);
         }
-        if (drive_context[dnr]->drives[1]->gcr) {
-            gcr_destroy_image(drive_context[dnr]->drives[1]->gcr);
+        if (diskunit_context[dnr]->drives[1]->gcr) {
+            gcr_destroy_image(diskunit_context[dnr]->drives[1]->gcr);
         }
-        if (drive_context[dnr]->drives[0]->p64) {
-            P64ImageDestroy(drive_context[dnr]->drives[0]->p64);
-            lib_free(drive_context[dnr]->drives[0]->p64);
+        if (diskunit_context[dnr]->drives[0]->p64) {
+            P64ImageDestroy(diskunit_context[dnr]->drives[0]->p64);
+            lib_free(diskunit_context[dnr]->drives[0]->p64);
         }
-        if (drive_context[dnr]->drives[1]->p64) {
-            P64ImageDestroy(drive_context[dnr]->drives[1]->p64);
-            lib_free(drive_context[dnr]->drives[1]->p64);
+        if (diskunit_context[dnr]->drives[1]->p64) {
+            P64ImageDestroy(diskunit_context[dnr]->drives[1]->p64);
+            lib_free(diskunit_context[dnr]->drives[1]->p64);
         }
-        if (drive_context[dnr]->drives[0]->ds1216) {
-            ds1216e_destroy(drive_context[dnr]->drives[0]->ds1216, drive_context[dnr]->drives[0]->rtc_save);
+        if (diskunit_context[dnr]->drives[0]->ds1216) {
+            ds1216e_destroy(diskunit_context[dnr]->drives[0]->ds1216, diskunit_context[dnr]->drives[0]->rtc_save);
         }
-        if (drive_context[dnr]->drives[1]->ds1216) {
-            ds1216e_destroy(drive_context[dnr]->drives[1]->ds1216, drive_context[dnr]->drives[1]->rtc_save);
+        if (diskunit_context[dnr]->drives[1]->ds1216) {
+            ds1216e_destroy(diskunit_context[dnr]->drives[1]->ds1216, diskunit_context[dnr]->drives[1]->rtc_save);
         }
     }
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        lib_free(drive_context[dnr]->drives[0]);
-        lib_free(drive_context[dnr]->drives[1]);
-        lib_free(drive_context[dnr]);
+        lib_free(diskunit_context[dnr]->drives[0]);
+        lib_free(diskunit_context[dnr]->drives[1]);
+        lib_free(diskunit_context[dnr]);
     }
 }
 
@@ -424,7 +424,7 @@ int drive_set_disk_drive_type(unsigned int type, struct diskunit_context_s *drv)
 int drive_get_disk_drive_type(int dnr)
 {
     if (dnr >= 0 && dnr < NUM_DISK_UNITS) {
-        return drive_context[dnr]->drives[0]->type;
+        return diskunit_context[dnr]->drives[0]->type;
     }
 
     return DRIVE_TYPE_NONE;
@@ -437,7 +437,7 @@ void drive_enable_update_ui(diskunit_context_t *drv)
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
         unsigned int the_drive;
-        drive_t *drive = drive_context[i]->drives[0];
+        drive_t *drive = diskunit_context[i]->drives[0];
 
         the_drive = 1 << i;
 
@@ -531,7 +531,7 @@ void drive_disable(diskunit_context_t *drv)
 
 monitor_interface_t *drive_cpu_monitor_interface_get(unsigned int dnr)
 {
-    return drive_context[dnr]->cpu->monitor_interface;
+    return diskunit_context[dnr]->cpu->monitor_interface;
 }
 
 void drive_cpu_early_init_all(void)
@@ -539,7 +539,7 @@ void drive_cpu_early_init_all(void)
     unsigned int dnr;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        machine_drive_init(drive_context[dnr]);
+        machine_drive_init(diskunit_context[dnr]);
     }
 }
 
@@ -548,18 +548,18 @@ void drive_cpu_prevent_clk_overflow_all(CLOCK sub)
     unsigned int dnr;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive_t *drive = drive_context[dnr]->drives[0];
+        drive_t *drive = diskunit_context[dnr]->drives[0];
         if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-            drivecpu65c02_prevent_clk_overflow(drive_context[dnr], sub);
+            drivecpu65c02_prevent_clk_overflow(diskunit_context[dnr], sub);
         } else {
-            drivecpu_prevent_clk_overflow(drive_context[dnr], sub);
+            drivecpu_prevent_clk_overflow(diskunit_context[dnr], sub);
         }
     }
 }
 
 void drive_cpu_trigger_reset(unsigned int dnr)
 {
-    drive_t *drive = drive_context[dnr]->drives[0];
+    drive_t *drive = diskunit_context[dnr]->drives[0];
     if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
         drivecpu65c02_trigger_reset(dnr);
     } else {
@@ -574,12 +574,12 @@ void drive_reset(void)
     drive_t *drive;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
 
         if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-            drivecpu65c02_reset(drive_context[dnr]);
+            drivecpu65c02_reset(diskunit_context[dnr]);
         } else {
-            drivecpu_reset(drive_context[dnr]);
+            drivecpu_reset(diskunit_context[dnr]);
         }
 
         drive->led_last_change_clk = *(drive->clk);
@@ -721,7 +721,7 @@ void drive_gcr_data_writeback_all(void)
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
         for (j = 0; j < 2; j++) {
-            drive = drive_context[i]->drives[j];
+            drive = diskunit_context[i]->drives[j];
             if (drive) {
                 drive_gcr_data_writeback(drive);
                 if (drive->P64_image_loaded && drive->image && drive->image->p64) {
@@ -803,8 +803,8 @@ void drive_update_ui_status(void)
 
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive_t *drive0 = drive_context[i]->drives[0];
-        drive_t *drive1 = drive_context[i]->drives[1];
+        drive_t *drive0 = diskunit_context[i]->drives[0];
+        drive_t *drive1 = diskunit_context[i]->drives[1];
         if (drive0->enable) {
 
             drive_led_update(drive0, drive1, 0);
@@ -833,7 +833,7 @@ void drive_update_ui_status(void)
 
 int drive_num_leds(unsigned int dnr)
 {
-    drive_t *drive = drive_context[dnr]->drives[0];
+    drive_t *drive = diskunit_context[dnr]->drives[0];
 
     switch (drive->type) {
     case DRIVE_TYPE_2040:
@@ -866,9 +866,9 @@ void drive_cpu_execute_all(CLOCK clk_value)
     drive_t *drive;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
         if (drive->enable) {
-            drive_cpu_execute_one(drive_context[dnr], clk_value);
+            drive_cpu_execute_one(diskunit_context[dnr], clk_value);
         }
     }
 }
@@ -892,10 +892,10 @@ void drive_vsync_hook(void)
     drive_update_ui_status();
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive_t *drive = drive_context[dnr]->drives[0];
+        drive_t *drive = diskunit_context[dnr]->drives[0];
         if (drive->enable) {
             if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
-                drive_cpu_execute_one(drive_context[dnr], maincpu_clk);
+                drive_cpu_execute_one(diskunit_context[dnr], maincpu_clk);
             }
             if (drive->idling_method == DRIVE_IDLE_NO_IDLE) {
                 /* if drive is never idle, also rotate the disk. this prevents
@@ -932,7 +932,7 @@ void drive_setup_context(void)
     unsigned int dnr;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive_context[dnr] = lib_calloc(1, sizeof(diskunit_context_t));
-        drive_setup_context_for_drive(drive_context[dnr], dnr);
+        diskunit_context[dnr] = lib_calloc(1, sizeof(diskunit_context_t));
+        drive_setup_context_for_drive(diskunit_context[dnr], dnr);
     }
 }

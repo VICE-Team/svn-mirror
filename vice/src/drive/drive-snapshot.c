@@ -137,7 +137,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     rotation_table_get(rotation_table_ptr);
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         GCR_image[i] = (drive->GCR_image_loaded == 0 || !save_disks) ? 0 : 1;
         P64_image[i] = (drive->P64_image_loaded == 0 || !save_disks) ? 0 : 1;
     }
@@ -158,7 +158,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_clk)) < 0
             || SMW_B(m, (uint8_t)(drive->byte_ready_level)) < 0
@@ -211,7 +211,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
     /* new snapshot members */
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_detach_clk)) < 0
             ) {
@@ -223,7 +223,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (0
             || SMW_B(m, (uint8_t)(drive->byte_ready_edge)) < 0
             || SMW_B(m, (uint8_t)(drive->byte_ready_active)) < 0
@@ -240,18 +240,18 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (drive->enable) {
             if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-                if (drivecpu65c02_snapshot_write_module(drive_context[i], s) < 0) {
+                if (drivecpu65c02_snapshot_write_module(diskunit_context[i], s) < 0) {
                     return -1;
                 }
             } else {
-                if (drivecpu_snapshot_write_module(drive_context[i], s) < 0) {
+                if (drivecpu_snapshot_write_module(diskunit_context[i], s) < 0) {
                     return -1;
                 }
             }
-            if (machine_drive_snapshot_write(drive_context[i], s) < 0) {
+            if (machine_drive_snapshot_write(diskunit_context[i], s) < 0) {
                 return -1;
             }
         }
@@ -277,7 +277,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (save_roms && drive->enable) {
             if (driverom_snapshot_write(s, drive) < 0) {
                 return -1;
@@ -338,7 +338,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
 
         /* Partially read 1.0 snapshots */
         if (snapshot_version_is_equal(major_version, minor_version, 1, 0)) {
@@ -535,13 +535,13 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     /* this one is new, so don't test so stay compatible with old snapshots */
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         SMR_DW(m, &(attach_detach_clk[i]));
     }
 
     /* these are even newer */
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         SMR_B_INT(m, (int *)&(drive->byte_ready_edge));
         SMR_B_INT(m, (int *)&(drive->byte_ready_active));
     }
@@ -552,7 +552,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     rotation_table_set(rotation_table_ptr);
 
     /* TODO: drive 1? */
-    drive = drive_context[0]->drives[0];
+    drive = diskunit_context[0]->drives[0];
     switch (drive->type) {
         case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
@@ -573,14 +573,14 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_8250:
             drive->enable = 1;
             machine_drive_rom_setup_image(0);
-            drivemem_init(drive_context[0], drive->type);
+            drivemem_init(diskunit_context[0], drive->type);
             resources_set_int("Drive8IdleMethod", drive->idling_method);
             driverom_initialize_traps(drive);
             drive_set_active_led_color(drive->type, 0);
             machine_bus_status_drivetype_set(8, 1);
             break;
         case DRIVE_TYPE_NONE:
-            drive_disable(drive_context[0]);
+            drive_disable(diskunit_context[0]);
             machine_bus_status_drivetype_set(8, 0);
             break;
         default:
@@ -588,7 +588,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     /* TODO: drive 1? */
-    drive = drive_context[1]->drives[0];
+    drive = diskunit_context[1]->drives[0];
     switch (drive->type) {
         case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
@@ -604,7 +604,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             /* drive 1 does not allow dual disk drive */
             drive->enable = 1;
             machine_drive_rom_setup_image(1);
-            drivemem_init(drive_context[1], drive->type);
+            drivemem_init(diskunit_context[1], drive->type);
             resources_set_int("Drive9IdleMethod", drive->idling_method);
             driverom_initialize_traps(drive);
             drive_set_active_led_color(drive->type, 1);
@@ -613,14 +613,14 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_NONE:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
-            drive_disable(drive_context[1]);
+            drive_disable(diskunit_context[1]);
             machine_bus_status_drivetype_set(9, 0);
             break;
         default:
             return -1;
     }
 
-    drive = drive_context[2]->drives[0];
+    drive = diskunit_context[2]->drives[0];
     switch (drive->type) {
         case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
@@ -641,21 +641,21 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_8250:
             drive->enable = 1;
             machine_drive_rom_setup_image(2);
-            drivemem_init(drive_context[2], drive->type);
+            drivemem_init(diskunit_context[2], drive->type);
             resources_set_int("Drive10IdleMethod", drive->idling_method);
             driverom_initialize_traps(drive);
             drive_set_active_led_color(drive->type, 0);
             machine_bus_status_drivetype_set(10, 1);
             break;
         case DRIVE_TYPE_NONE:
-            drive_disable(drive_context[2]);
+            drive_disable(diskunit_context[2]);
             machine_bus_status_drivetype_set(10, 0);
             break;
         default:
             return -1;
     }
 
-    drive = drive_context[3]->drives[0];
+    drive = diskunit_context[3]->drives[0];
     switch (drive->type) {
         case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
@@ -671,7 +671,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             /* drive 1 does not allow dual disk drive */
             drive->enable = 1;
             machine_drive_rom_setup_image(3);
-            drivemem_init(drive_context[3], drive->type);
+            drivemem_init(diskunit_context[3], drive->type);
             resources_set_int("Drive11IdleMethod", drive->idling_method);
             driverom_initialize_traps(drive);
             drive_set_active_led_color(drive->type, 1);
@@ -680,7 +680,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_NONE:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
-            drive_disable(drive_context[3]);
+            drive_disable(diskunit_context[3]);
             machine_bus_status_drivetype_set(11, 0);
             break;
         default:
@@ -695,18 +695,18 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     /* TODO(rhialto): Drive 1? */
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (drive->enable) {
             if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-                if (drivecpu65c02_snapshot_read_module(drive_context[i], s) < 0) {
+                if (drivecpu65c02_snapshot_read_module(diskunit_context[i], s) < 0) {
                     return -1;
                 }
             } else {
-                if (drivecpu_snapshot_read_module(drive_context[i], s) < 0) {
+                if (drivecpu_snapshot_read_module(diskunit_context[i], s) < 0) {
                     return -1;
                 }
             }
-            if (machine_drive_snapshot_read(drive_context[i], s) < 0) {
+            if (machine_drive_snapshot_read(diskunit_context[i], s) < 0) {
                 return -1;
             }
         }
@@ -721,15 +721,15 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        if (driverom_snapshot_read(s, drive_context[i]->drives[0]) < 0) {
+        if (driverom_snapshot_read(s, diskunit_context[i]->drives[0]) < 0) {
             return -1;
         }
     }
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (drive->type != DRIVE_TYPE_NONE) {
-            drive_enable(drive_context[i]);
+            drive_enable(diskunit_context[i]);
             drive->attach_clk = attach_clk[i];
             drive->detach_clk = detach_clk[i];
             drive->attach_detach_clk = attach_detach_clk[i];
@@ -738,7 +738,7 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
         int side = 0;
-        drive = drive_context[i]->drives[0];
+        drive = diskunit_context[i]->drives[0];
         if (drive->type == DRIVE_TYPE_1570
             || drive->type == DRIVE_TYPE_1571
             || drive->type == DRIVE_TYPE_1571CR) {
@@ -795,7 +795,7 @@ static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
     drive_t *drive;
 
     /* TODO: drive 1? */
-    drive = drive_context[dnr]->drives[0];
+    drive = diskunit_context[dnr]->drives[0];
 
     if (drive->image == NULL) {
         sprintf(snap_module_name, "NOIMAGE%u", dnr);
@@ -859,7 +859,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     drive_t *drive;
 
     /* TODO: drive 1? */
-    drive = drive_context[dnr]->drives[0];
+    drive = diskunit_context[dnr]->drives[0];
 
     sprintf(snap_module_name, "NOIMAGE%u", dnr);
 
@@ -994,7 +994,7 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
     drive_t *drive;
     uint32_t num_half_tracks, track_size;
 
-    drive = drive_context[dnr]->drives[0];
+    drive = diskunit_context[dnr]->drives[0];
     sprintf(snap_module_name, "GCRIMAGE%u", dnr);
 
     m = snapshot_module_create(s, snap_module_name, GCRIMAGE_SNAP_MAJOR,
@@ -1040,7 +1040,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
     drive_t *drive;
     uint32_t num_half_tracks, track_size;
 
-    drive = drive_context[dnr]->drives[0];
+    drive = diskunit_context[dnr]->drives[0];
     sprintf(snap_module_name, "GCRIMAGE%u", dnr);
 
     m = snapshot_module_open(s, snap_module_name,
@@ -1128,7 +1128,7 @@ static int drive_snapshot_write_p64image_module(snapshot_t *s, unsigned int dnr)
     TP64MemoryStream P64MemoryStreamInstance;
     PP64Image P64Image;
 
-    drive = drive_context[dnr]->drives[0];
+    drive = diskunit_context[dnr]->drives[0];
     sprintf(snap_module_name, "P64IMAGE%u", dnr);
 
     m = snapshot_module_create(s, snap_module_name, GCRIMAGE_SNAP_MAJOR,
@@ -1182,7 +1182,7 @@ static int drive_snapshot_read_p64image_module(snapshot_t *s, unsigned int dnr)
     PP64Image P64Image;
     uint32_t size;
 
-    drive = drive_context[dnr]->drives[0];
+    drive = diskunit_context[dnr]->drives[0];
     sprintf(snap_module_name, "P64IMAGE%u", dnr);
 
     m = snapshot_module_open(s, snap_module_name,

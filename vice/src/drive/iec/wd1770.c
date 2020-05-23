@@ -955,7 +955,7 @@ int wd1770_attach_image(disk_image_t *image, unsigned int unit)
             return -1;
     }
 
-    fdd_image_attach(drive_context[unit - 8]->wd1770->fdd, image);
+    fdd_image_attach(diskunit_context[unit - 8]->wd1770->fdd, image);
     return 0;
 }
 
@@ -974,7 +974,7 @@ int wd1770_detach_image(disk_image_t *image, unsigned int unit)
             return -1;
     }
 
-    fdd_image_detach(drive_context[unit - 8]->wd1770->fdd);
+    fdd_image_detach(diskunit_context[unit - 8]->wd1770->fdd);
     return 0;
 }
 

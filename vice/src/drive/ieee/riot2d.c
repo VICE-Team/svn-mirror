@@ -185,7 +185,7 @@ static void undump_prb(riot_context_t *riot_context, uint8_t byte)
 
 /* TODO: drive 1
     if ((is_drive0(riot2p->number)) && (drive_check_dual(riot2p->drive->type))) {
-        drive_context[mk_drive1(riot2p->number)]->drive->led_status
+        diskunit_context[mk_drive1(riot2p->number)]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 */
@@ -212,7 +212,7 @@ static void store_prb(riot_context_t *riot_context, uint8_t byte)
 
 /* TODO: drive 1
     if ((is_drive0(riot2p->number)) && (drive_check_dual(riot2p->drive->type))) {
-        drive_context[mk_drive1(riot2p->number)]->drive->led_status
+        diskunit_context[mk_drive1(riot2p->number)]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 */

@@ -80,7 +80,7 @@ static int parallelcommand(void)
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drives[0]->enable) {
+            && diskunit_context[dnr]->drives[0]->enable) {
             return 0x83;    /* device not present */
         }
     }
@@ -251,7 +251,7 @@ int parallel_trap_sendbyte(uint8_t data)
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drives[0]->enable) {
+            && diskunit_context[dnr]->drives[0]->enable) {
             return 0x83;    /* device not present */
         }
     }
@@ -291,7 +291,7 @@ int parallel_trap_receivebyte(uint8_t *data, int fake)
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drives[0]->enable) {
+            && diskunit_context[dnr]->drives[0]->enable) {
             return 0x83;    /* device not present */
         }
     }

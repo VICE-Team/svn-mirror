@@ -746,7 +746,7 @@ uint8_t iecbus_device_read(void)
     drive
 *******************************************************************************/
 
-diskunit_context_t *drive_context[NUM_DISK_UNITS];
+diskunit_context_t *diskunit_context[NUM_DISK_UNITS];
 
 void drive_setup_context(void)
 {

@@ -46,7 +46,7 @@ int drive_check_image_format(unsigned int format, unsigned int dnr)
 {
     drive_t *drive;
 
-    drive = drive_context[dnr]->drives[0];
+    drive = diskunit_context[dnr]->drives[0];
 
     switch (format) {
         case DISK_IMAGE_TYPE_D64:
@@ -136,7 +136,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int drv)
 
     /* TODO: drive 1 */
     dnr = unit - 8;
-    drive = drive_context[dnr]->drives[drv];
+    drive = diskunit_context[dnr]->drives[drv];
 
     if (drive_check_image_format(image->type, dnr) < 0) {
         return -1;
@@ -196,7 +196,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drv)
 
     /* TODO: drive 1 */
     dnr = unit - 8;
-    drive = drive_context[dnr]->drives[drv];
+    drive = diskunit_context[dnr]->drives[drv];
 
     if (drive->image != NULL) {
         switch (image->type) {

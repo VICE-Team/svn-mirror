@@ -165,7 +165,7 @@ void iec_drive_rom_load(void)
 
 void iec_drive_rom_setup_image(unsigned int dnr)
 {
-    iecrom_setup_image(drive_context[dnr]->drives[0]);
+    iecrom_setup_image(diskunit_context[dnr]->drives[0]);
 }
 
 int iec_drive_rom_check_loaded(unsigned int type)
@@ -175,7 +175,7 @@ int iec_drive_rom_check_loaded(unsigned int type)
 
 void iec_drive_rom_do_checksum(unsigned int dnr)
 {
-    iecrom_do_checksum(drive_context[dnr]->drives[0]);
+    iecrom_do_checksum(diskunit_context[dnr]->drives[0]);
 }
 
 int iec_drive_snapshot_read(struct diskunit_context_s *ctxptr,

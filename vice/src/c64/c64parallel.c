@@ -72,8 +72,8 @@ static uint8_t parallel_cable_value(int type)
     val = parallel_cable_cpu_value[port];
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        if (drive_context[dnr]->drives[0]->enable && drive_context[dnr]->drives[0]->parallel_cable) {
-            if (portmap[drive_context[dnr]->drives[0]->parallel_cable] == (int)port) {
+        if (diskunit_context[dnr]->drives[0]->enable && diskunit_context[dnr]->drives[0]->parallel_cable) {
+            if (portmap[diskunit_context[dnr]->drives[0]->parallel_cable] == (int)port) {
                 val &= parallel_cable_drive_value[dnr];
             }
         }
@@ -137,10 +137,10 @@ void parallel_cable_cpu_execute(int type)
     port = portmap[type];
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
         if (drive->enable && drive->parallel_cable) {
             if (portmap[drive->parallel_cable] == port) {
-                drive_cpu_execute_one(drive_context[dnr], maincpu_clk);
+                drive_cpu_execute_one(diskunit_context[dnr], maincpu_clk);
             }
         }
     }
@@ -182,23 +182,23 @@ void parallel_cable_cpu_pulse(int type)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drive_t *drive;
 
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
 
         if (drive->enable && drive->parallel_cable) {
             switch (drive->parallel_cable) {
                 case DRIVE_PC_DD3:
-                    dd3_set_signal(drive_context[dnr]);
+                    dd3_set_signal(diskunit_context[dnr]);
                     break;
                 case DRIVE_PC_FORMEL64:
-                    viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
+                    viacore_signal(diskunit_context[dnr]->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
                     break;
                 default:
                     if (drive->type == DRIVE_TYPE_1570 ||
                         drive->type == DRIVE_TYPE_1571 ||
                         drive->type == DRIVE_TYPE_1571CR) {
-                        ciacore_set_flag(drive_context[dnr]->cia1571);
+                        ciacore_set_flag(diskunit_context[dnr]->cia1571);
                     } else {
-                        viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
+                        viacore_signal(diskunit_context[dnr]->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
                     }
                     break;
             }

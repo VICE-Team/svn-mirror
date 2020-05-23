@@ -50,13 +50,13 @@ static char *dos_rom_name_4000 = NULL;
 
 static void set_drive_ram(unsigned int dnr)
 {
-    drive_t *drive = drive_context[dnr]->drives[0];
+    drive_t *drive = diskunit_context[dnr]->drives[0];
 
     if (drive->type == DRIVE_TYPE_NONE) {
         return;
     }
 
-    drivemem_init(drive_context[dnr], drive->type);
+    drivemem_init(diskunit_context[dnr], drive->type);
 
     return;
 }
@@ -135,7 +135,7 @@ static int set_dos_rom_name_4000(const char *val, void *param)
 
 static int set_drive_ram2(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drives[0];
+    drive_t *drive = diskunit_context[vice_ptr_to_uint(param)]->drives[0];
 
     drive->drive_ram2_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
@@ -144,7 +144,7 @@ static int set_drive_ram2(int val, void *param)
 
 static int set_drive_ram4(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drives[0];
+    drive_t *drive = diskunit_context[vice_ptr_to_uint(param)]->drives[0];
 
     drive->drive_ram4_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
@@ -153,7 +153,7 @@ static int set_drive_ram4(int val, void *param)
 
 static int set_drive_ram6(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drives[0];
+    drive_t *drive = diskunit_context[vice_ptr_to_uint(param)]->drives[0];
 
     drive->drive_ram6_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
@@ -162,7 +162,7 @@ static int set_drive_ram6(int val, void *param)
 
 static int set_drive_ram8(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drives[0];
+    drive_t *drive = diskunit_context[vice_ptr_to_uint(param)]->drives[0];
 
     drive->drive_ram8_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
@@ -171,7 +171,7 @@ static int set_drive_ram8(int val, void *param)
 
 static int set_drive_rama(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drives[0];
+    drive_t *drive = diskunit_context[vice_ptr_to_uint(param)]->drives[0];
 
     drive->drive_rama_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
@@ -219,7 +219,7 @@ int iec_resources_init(void)
     drive_t *drive;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = drive_context[dnr]->drives[0];
+        drive = diskunit_context[dnr]->drives[0];
 
         res_drive[0].name = lib_msprintf("Drive%iRAM2000", dnr + 8);
         res_drive[0].value_ptr = &(drive->drive_ram2_enabled);
