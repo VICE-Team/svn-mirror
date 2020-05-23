@@ -239,7 +239,7 @@ typedef struct drive_s {
     /* Offset of the R/W head on the current track (bytes).  */
     unsigned int GCR_head_offset;
 
-    /* Are we in read or write mode?  */
+    /* Are we in read or write mode? 0 is write, <>0 is read */
     int read_write_mode;
 
     /* Activates the byte ready line.  */

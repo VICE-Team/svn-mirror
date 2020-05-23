@@ -234,6 +234,7 @@ int drive_init(void)
         drive->led_last_change_clk = *(drive->clk);
         drive->led_last_uiupdate_clk = *(drive->clk);
         drive->led_active_ticks = 0;
+        drive->read_write_mode = 1;
 
         rotation_reset(drive);
 
@@ -267,6 +268,7 @@ int drive_init(void)
         drive->led_last_change_clk = *(drive->clk);
         drive->led_last_uiupdate_clk = *(drive->clk);
         drive->led_active_ticks = 0;
+        drive->read_write_mode = 1;
 
         rotation_reset(drive);
     }
