@@ -95,7 +95,7 @@ static io_source_list_t *blackbox3_io1_list_item = NULL;
 static io_source_list_t *blackbox3_io2_list_item = NULL;
 
 static const export_resource_t export_res_v3 = {
-    CARTRIDGE_NAME_BLACKBOX3, 1, 1, &blackbox3_io1_device, &blackbox3_io2_device, CARTRIDGE_BLACKBOX3
+    CARTRIDGE_NAME_BLACKBOX3, 0, 1, &blackbox3_io1_device, &blackbox3_io2_device, CARTRIDGE_BLACKBOX3
 };
 
 /* ---------------------------------------------------------------------*/
