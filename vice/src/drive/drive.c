@@ -323,6 +323,11 @@ void drive_shutdown(void)
             drivecpu_shutdown(diskunit_context[unr]);
         }
 
+        if (unit->ds1216) {
+            ds1216e_destroy(unit->ds1216, unit->rtc_save);
+            unit->ds1216 = NULL;
+        }
+
         for (dnr = 0; dnr < NUM_DRIVES; dnr++) {
             drive_t *drive = unit->drives[dnr];
 
@@ -333,10 +338,6 @@ void drive_shutdown(void)
                 P64ImageDestroy(drive->p64);
                 lib_free(drive->p64);
                 drive->p64 = NULL;
-            }
-            if (drive->ds1216) {
-                ds1216e_destroy(drive->ds1216, drive->rtc_save);
-                drive->ds1216 = NULL;
             }
         }
     }

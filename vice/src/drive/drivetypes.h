@@ -213,6 +213,12 @@ typedef struct diskunit_context_s {
     /* Is the StarDOS extension enabled? */
     int stardos;
 
+    /* RTC context */
+    rtc_ds1216e_t *ds1216;
+
+    /* FD2000/4000 RTC save? */
+    int rtc_save;
+
 } diskunit_context_t;
 
 #endif

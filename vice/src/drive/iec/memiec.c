@@ -48,7 +48,7 @@ static uint8_t drive_read_rom(diskunit_context_t *drv, uint16_t address)
 
 static uint8_t drive_read_rom_ds1216(diskunit_context_t *drv, uint16_t address)
 {
-    return ds1216e_read(drv->drives[0]->ds1216, address, drv->rom[address & 0x7fff]);
+    return ds1216e_read(drv->ds1216, address, drv->rom[address & 0x7fff]);
 }
 
 static uint8_t drive_read_ram(diskunit_context_t *drv, uint16_t address)

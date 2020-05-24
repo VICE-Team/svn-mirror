@@ -156,15 +156,15 @@ static int drive_resources_type(int val, void *param)
     if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
         if (unit->type != DRIVE_TYPE_2000 && unit->type != DRIVE_TYPE_4000) {
             rtc_device = lib_msprintf("FD%d", dnr + 8);
-            drive->ds1216 = ds1216e_init(rtc_device);
-            drive->ds1216->hours12 = 1;
+            unit->ds1216 = ds1216e_init(rtc_device);
+            unit->ds1216->hours12 = 1;
             lib_free(rtc_device);
         }
     } else {
         if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
-            if (drive->ds1216) {
-                ds1216e_destroy(drive->ds1216, drive->rtc_save);
-                drive->ds1216 = NULL;
+            if (unit->ds1216) {
+                ds1216e_destroy(unit->ds1216, unit->rtc_save);
+                unit->ds1216 = NULL;
             }
         }
     }
@@ -312,14 +312,12 @@ static int set_drive_rpm_wobble(int val, void *param)
 static int set_drive_rtc_save(int val, void *param)
 {
     unsigned int dnr;
-    drive_t *drive, *drive1;
+    diskunit_context_t *unit;
 
     dnr = vice_ptr_to_uint(param);
-    drive = diskunit_context[dnr]->drives[0];
-    drive1 = diskunit_context[dnr]->drives[1];
+    unit = diskunit_context[dnr];
 
-    drive->rtc_save = val ? 1 : 0;
-    drive1->rtc_save = val ? 1 : 0;
+    unit->rtc_save = val ? 1 : 0;
 
     return 0;
 }
@@ -372,25 +370,25 @@ int drive_resources_init(void)
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
-        drive_t *drive = unit->drives[0];
+        drive_t *drive0 = unit->drives[0];
 
         /* TODO: add resources for drive 1 */
         res_drive[0].name = lib_msprintf("Drive%iExtendImagePolicy", dnr + 8);
-        res_drive[0].value_ptr = (int *)&(drive->extend_image_policy);
+        res_drive[0].value_ptr = (int *)&(drive0->extend_image_policy);
         res_drive[0].param = uint_to_void_ptr(dnr);
         res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
         res_drive[1].value_ptr = &(unit->idling_method);
         res_drive[1].param = uint_to_void_ptr(dnr);
         res_drive[2].name = lib_msprintf("Drive%iRPM", dnr + 8);
-        res_drive[2].value_ptr = &(drive->rpm);
+        res_drive[2].value_ptr = &(drive0->rpm);
         res_drive[2].param = uint_to_void_ptr(dnr);
         res_drive[3].name = lib_msprintf("Drive%iWobble", dnr + 8);
-        res_drive[3].value_ptr = &(drive->rpm_wobble);
+        res_drive[3].value_ptr = &(drive0->rpm_wobble);
         res_drive[3].param = uint_to_void_ptr(dnr);
 
         if (has_iec) {
             res_drive_rtc[0].name = lib_msprintf("Drive%iRTCSave", dnr + 8);
-            res_drive_rtc[0].value_ptr = &(drive->rtc_save);
+            res_drive_rtc[0].value_ptr = &(unit->rtc_save);
             res_drive_rtc[0].param = uint_to_void_ptr(dnr);
             if (resources_register_int(res_drive_rtc) < 0) {
                 return -1;

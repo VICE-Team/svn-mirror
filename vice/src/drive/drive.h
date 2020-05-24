@@ -183,7 +183,7 @@ struct disk_image_s;
 
 /* TODO: more parts of that struct should go into diskunit_context_s.
    candidates: rtc_save, log?
-   candidates: clk, clock_frequency, idling_method
+   candidates: clk, clock_frequency
    candidates: ds1216, */
 typedef struct drive_s {
     unsigned int unit;  /* 0 ... NUM_DISK_UNITS-1 */
@@ -211,9 +211,6 @@ typedef struct drive_s {
 
     /* Disk side.  */
     unsigned int side;
-
-    /* FD2000/4000 RTC save? */
-    int rtc_save;
 
     /* Byte ready line.  */
     unsigned int byte_ready_level;
@@ -320,9 +317,6 @@ typedef struct drive_s {
     struct gcr_s *gcr;
 
     PP64Image p64;
-
-    /* RTC context */
-    rtc_ds1216e_t *ds1216;
 
     /* rotations per minute (300rpm = 30000) */
     int rpm;
