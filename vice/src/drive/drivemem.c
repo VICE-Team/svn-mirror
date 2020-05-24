@@ -197,7 +197,7 @@ void drivemem_bank_poke(int bank, uint16_t addr, uint8_t value, void *context)
 
 /* ------------------------------------------------------------------------- */
 
-void drivemem_init(diskunit_context_t *drv, unsigned int type)
+void drivemem_init(diskunit_context_t *unit)
 {
     int i;
 
@@ -211,22 +211,22 @@ void drivemem_init(diskunit_context_t *drv, unsigned int type)
         }
     }
 
-    drivemem_set_func(drv->cpud, 0x00, 0x101, drive_read_free, drive_store_free, drive_peek_free, NULL, 0);
+    drivemem_set_func(unit->cpud, 0x00, 0x101, drive_read_free, drive_store_free, drive_peek_free, NULL, 0);
 
-    machine_drive_mem_init(drv, type);
+    machine_drive_mem_init(unit, unit->type);
 
-    drv->cpud->read_tab[0][0x100] = drv->cpud->read_tab[0][0];
-    drv->cpud->store_tab[0][0x100] = drv->cpud->store_tab[0][0];
-    drv->cpud->peek_tab[0][0x100] = drv->cpud->peek_tab[0][0];
+    unit->cpud->read_tab[0][0x100] = unit->cpud->read_tab[0][0];
+    unit->cpud->store_tab[0][0x100] = unit->cpud->store_tab[0][0];
+    unit->cpud->peek_tab[0][0x100] = unit->cpud->peek_tab[0][0];
 
-    drv->cpud->read_func_ptr = drv->cpud->read_tab[0];
-    drv->cpud->store_func_ptr = drv->cpud->store_tab[0];
-    drv->cpud->read_func_ptr_dummy = drv->cpud->read_tab[0];
-    drv->cpud->store_func_ptr_dummy = drv->cpud->store_tab[0];
-    drv->cpud->peek_func_ptr = drv->cpud->peek_tab[0];
+    unit->cpud->read_func_ptr = unit->cpud->read_tab[0];
+    unit->cpud->store_func_ptr = unit->cpud->store_tab[0];
+    unit->cpud->read_func_ptr_dummy = unit->cpud->read_tab[0];
+    unit->cpud->store_func_ptr_dummy = unit->cpud->store_tab[0];
+    unit->cpud->peek_func_ptr = unit->cpud->peek_tab[0];
 
-    drv->cpud->read_base_tab_ptr = drv->cpud->read_base_tab[0];
-    drv->cpud->read_limit_tab_ptr = drv->cpud->read_limit_tab[0];
+    unit->cpud->read_base_tab_ptr = unit->cpud->read_base_tab[0];
+    unit->cpud->read_limit_tab_ptr = unit->cpud->read_limit_tab[0];
 }
 
 mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
@@ -234,7 +234,7 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
     unsigned int type;
     mem_ioreg_list_t *drivemem_ioreg_list = NULL;
 
-    type = ((diskunit_context_t *)context)->drives[0]->type;
+    type = ((diskunit_context_t *)context)->type;
 
     switch (type) {
         case DRIVE_TYPE_1540:

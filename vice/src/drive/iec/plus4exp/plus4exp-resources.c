@@ -37,14 +37,14 @@
 
 static void set_drive_ram(unsigned int dnr)
 {
-    drive_t *drive = diskunit_context[dnr]->drives[0];
+    diskunit_context_t *unit = diskunit_context[dnr];
 
-    if (drive->type != DRIVE_TYPE_1570 && drive->type != DRIVE_TYPE_1571
-        && drive->type != DRIVE_TYPE_1571CR) {
+    if (unit->type != DRIVE_TYPE_1570 && unit->type != DRIVE_TYPE_1571
+        && unit->type != DRIVE_TYPE_1571CR) {
         return;
     }
 
-    drivemem_init(diskunit_context[dnr], drive->type);
+    drivemem_init(unit);
 
     return;
 }

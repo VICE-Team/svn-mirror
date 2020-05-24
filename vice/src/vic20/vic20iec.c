@@ -53,7 +53,6 @@ static uint8_t cpu_bus_val;
 
 static inline void resolve_bus_signals(void)
 {
-    drive_t *drive;
     unsigned int i;
 
     bus_atn = NOT(cpu_atn);
@@ -61,10 +60,10 @@ static inline void resolve_bus_signals(void)
     bus_data = NOT(cpu_data);
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        drive = diskunit_context[i]->drives[0];
+        diskunit_context_t *unit = diskunit_context[i];
 
-        bus_clock &= drive->enable ? NOT(drive_clock[i]) : 0x01;
-        bus_data &= drive->enable ? NOT(drive_data[i])
+        bus_clock &= unit->enable ? NOT(drive_clock[i]) : 0x01;
+        bus_data &= unit->enable ? NOT(drive_data[i])
                     & NOT(drive_data_modifier[i]) : 0x01;
     }
 }
@@ -91,7 +90,7 @@ void iec_update_ports_embedded(void)
 
 static void iec_calculate_data_modifier(unsigned int dnr)
 {
-    switch (diskunit_context[dnr]->drives[0]->type) {
+    switch (diskunit_context[dnr]->type) {
         case DRIVE_TYPE_1581:
         case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
@@ -146,7 +145,6 @@ uint8_t iec_pa_read(void)
 
 void iec_pa_write(uint8_t data)
 {
-    drive_t *drive;
     unsigned int i;
 
     drive_cpu_execute_all(maincpu_clk);
@@ -154,19 +152,19 @@ void iec_pa_write(uint8_t data)
     /* Signal ATN interrupt to the drives.  */
     if ((cpu_atn == 0) && (data & 128)) {
         for (i = 0; i < NUM_DISK_UNITS; i++) {
-            drive = diskunit_context[i]->drives[0];
+            diskunit_context_t *unit = diskunit_context[i];
 
-            if (drive->enable) {
-                switch (drive->type) {
+            if (unit->enable) {
+                switch (unit->type) {
                     case DRIVE_TYPE_1581:
-                        ciacore_set_flag(diskunit_context[i]->cia1581);
+                        ciacore_set_flag(unit->cia1581);
                         break;
                     case DRIVE_TYPE_2000:
                     case DRIVE_TYPE_4000:
-                        viacore_signal(diskunit_context[i]->via4000, VIA_SIG_CA2, VIA_SIG_RISE);
+                        viacore_signal(unit->via4000, VIA_SIG_CA2, VIA_SIG_RISE);
                         break;
                     default:
-                        viacore_signal(diskunit_context[i]->via1d1541, VIA_SIG_CA1, VIA_SIG_RISE);
+                        viacore_signal(unit->via1d1541, VIA_SIG_CA1, VIA_SIG_RISE);
                 }
             }
         }
@@ -175,18 +173,18 @@ void iec_pa_write(uint8_t data)
     /* Release ATN signal.  */
     if (!(data & 128)) {
         for (i = 0; i < NUM_DISK_UNITS; i++) {
-            drive = diskunit_context[i]->drives[0];
+            diskunit_context_t *unit = diskunit_context[i];
 
-            if (drive->enable) {
-                switch (drive->type) {
+            if (unit->enable) {
+                switch (unit->type) {
                     case DRIVE_TYPE_1581:
                         break;
                     case DRIVE_TYPE_2000:
                     case DRIVE_TYPE_4000:
-                        viacore_signal(diskunit_context[i]->via4000, VIA_SIG_CA2, 0);
+                        viacore_signal(unit->via4000, VIA_SIG_CA2, 0);
                         break;
                     default:
-                        viacore_signal(diskunit_context[i]->via1d1541, VIA_SIG_CA1, 0);
+                        viacore_signal(unit->via1d1541, VIA_SIG_CA1, 0);
                 }
             }
         }

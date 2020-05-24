@@ -81,36 +81,36 @@ void iec_drive_init(struct diskunit_context_s *drv)
 
 void iec_drive_reset(struct diskunit_context_s *drv)
 {
-    if (drv->drives[0]->type == DRIVE_TYPE_1540
-        || drv->drives[0]->type == DRIVE_TYPE_1541
-        || drv->drives[0]->type == DRIVE_TYPE_1541II
-        || drv->drives[0]->type == DRIVE_TYPE_1570
-        || drv->drives[0]->type == DRIVE_TYPE_1571
-        || drv->drives[0]->type == DRIVE_TYPE_1571CR) {
+    if (drv->type == DRIVE_TYPE_1540
+        || drv->type == DRIVE_TYPE_1541
+        || drv->type == DRIVE_TYPE_1541II
+        || drv->type == DRIVE_TYPE_1570
+        || drv->type == DRIVE_TYPE_1571
+        || drv->type == DRIVE_TYPE_1571CR) {
         viacore_reset(drv->via1d1541);
     } else {
         viacore_disable(drv->via1d1541);
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_1570
-        || drv->drives[0]->type == DRIVE_TYPE_1571
-        || drv->drives[0]->type == DRIVE_TYPE_1571CR) {
+    if (drv->type == DRIVE_TYPE_1570
+        || drv->type == DRIVE_TYPE_1571
+        || drv->type == DRIVE_TYPE_1571CR) {
         ciacore_reset(drv->cia1571);
     } else {
         ciacore_disable(drv->cia1571);
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_1581) {
+    if (drv->type == DRIVE_TYPE_1581) {
         ciacore_reset(drv->cia1581);
         wd1770_reset(drv->wd1770);
     } else {
         ciacore_disable(drv->cia1581);
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_2000
-        || drv->drives[0]->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_2000
+        || drv->type == DRIVE_TYPE_4000) {
         viacore_reset(drv->via4000);
-        pc8477_reset(drv->pc8477, drv->drives[0]->type == DRIVE_TYPE_4000);
+        pc8477_reset(drv->pc8477, drv->type == DRIVE_TYPE_4000);
     } else {
         viacore_disable(drv->via4000);
     }
@@ -165,7 +165,7 @@ void iec_drive_rom_load(void)
 
 void iec_drive_rom_setup_image(unsigned int dnr)
 {
-    iecrom_setup_image(diskunit_context[dnr]->drives[0]);
+    iecrom_setup_image(diskunit_context[dnr]);
 }
 
 int iec_drive_rom_check_loaded(unsigned int type)
@@ -175,13 +175,13 @@ int iec_drive_rom_check_loaded(unsigned int type)
 
 void iec_drive_rom_do_checksum(unsigned int dnr)
 {
-    iecrom_do_checksum(diskunit_context[dnr]->drives[0]);
+    iecrom_do_checksum(diskunit_context[dnr]);
 }
 
 int iec_drive_snapshot_read(struct diskunit_context_s *ctxptr,
                             struct snapshot_s *s)
 {
-    switch (ctxptr->drives[0]->type) {
+    switch (ctxptr->type) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
@@ -223,7 +223,7 @@ int iec_drive_snapshot_read(struct diskunit_context_s *ctxptr,
 int iec_drive_snapshot_write(struct diskunit_context_s *ctxptr,
                              struct snapshot_s *s)
 {
-    switch (ctxptr->drives[0]->type) {
+    switch (ctxptr->type) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:

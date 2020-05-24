@@ -214,7 +214,7 @@ static void iecbus_cpu_write_conf0(uint8_t data, CLOCK clock)
     iecbus.iec_fast_1541 = data;
 }
 
-/* Only the first drive is enabled.  */
+/* Only the first disk unit is enabled.  */
 static uint8_t iecbus_cpu_read_conf1(CLOCK clock)
 {
     drive_cpu_execute_all(clock);
@@ -226,10 +226,9 @@ static uint8_t iecbus_cpu_read_conf1(CLOCK clock)
 
 static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
 {
-    drive_t *drive;
+    diskunit_context_t *unit = diskunit_context[0];
 
-    drive = diskunit_context[0]->drives[0];
-    drive_cpu_execute_one(diskunit_context[0], clock);
+    drive_cpu_execute_one(unit, clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 
@@ -237,24 +236,24 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
 
     if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
         iec_old_atn = iecbus.cpu_bus & 0x10;
-        switch (drive->type) {
+        switch (unit->type) {
             case DRIVE_TYPE_1581:
                 if (!iec_old_atn) {
-                    ciacore_set_flag(diskunit_context[0]->cia1581);
+                    ciacore_set_flag(unit->cia1581);
                 }
                 break;
             case DRIVE_TYPE_2000:
             case DRIVE_TYPE_4000:
-                viacore_signal(diskunit_context[0]->via4000, VIA_SIG_CA2,
+                viacore_signal(unit->via4000, VIA_SIG_CA2,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
                 break;
             default:
-                viacore_signal(diskunit_context[0]->via1d1541, VIA_SIG_CA1,
+                viacore_signal(unit->via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
         }
     }
 
-    switch (drive->type) {
+    switch (unit->type) {
         case DRIVE_TYPE_1581:
         case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
@@ -272,7 +271,7 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
     iec_update_ports();
 }
 
-/* Only the second drive is enabled.  */
+/* Only the second disk unit is enabled.  */
 static uint8_t iecbus_cpu_read_conf2(CLOCK clock)
 {
     drive_cpu_execute_all(clock);
@@ -284,10 +283,9 @@ static uint8_t iecbus_cpu_read_conf2(CLOCK clock)
 
 static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
 {
-    drive_t *drive;
+    diskunit_context_t *unit = diskunit_context[1];
 
-    drive = diskunit_context[1]->drives[0];
-    drive_cpu_execute_one(diskunit_context[1], clock);
+    drive_cpu_execute_one(unit, clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 
@@ -295,24 +293,24 @@ static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
 
     if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
         iec_old_atn = iecbus.cpu_bus & 0x10;
-        switch (drive->type) {
+        switch (unit->type) {
             case DRIVE_TYPE_1581:
                 if (!iec_old_atn) {
-                    ciacore_set_flag(diskunit_context[1]->cia1581);
+                    ciacore_set_flag(unit->cia1581);
                 }
                 break;
             case DRIVE_TYPE_2000:
             case DRIVE_TYPE_4000:
-                viacore_signal(diskunit_context[1]->via4000, VIA_SIG_CA2,
+                viacore_signal(unit->via4000, VIA_SIG_CA2,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
                 break;
             default:
-                viacore_signal(diskunit_context[1]->via1d1541, VIA_SIG_CA1,
+                viacore_signal(unit->via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
         }
     }
 
-    switch (drive->type) {
+    switch (unit->type) {
         case DRIVE_TYPE_1581:
         case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
@@ -357,19 +355,21 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
 
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
-                switch (diskunit_context[dnr]->drives[0]->type) {
+                diskunit_context_t *unit = diskunit_context[dnr];
+
+                switch (diskunit_context[dnr]->type) {
                     case DRIVE_TYPE_1581:
                         if (!iec_old_atn) {
-                            ciacore_set_flag(diskunit_context[dnr]->cia1581);
+                            ciacore_set_flag(unit->cia1581);
                         }
                         break;
                     case DRIVE_TYPE_2000:
                     case DRIVE_TYPE_4000:
-                        viacore_signal(diskunit_context[dnr]->via4000, VIA_SIG_CA2,
+                        viacore_signal(unit->via4000, VIA_SIG_CA2,
                                        iec_old_atn ? 0 : VIA_SIG_RISE);
                         break;
                     default:
-                        viacore_signal(diskunit_context[dnr]->via1d1541, VIA_SIG_CA1,
+                        viacore_signal(unit->via1d1541, VIA_SIG_CA1,
                                        iec_old_atn ? 0 : VIA_SIG_RISE);
                 }
             }
@@ -380,7 +380,8 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
         if (iecbus_device[8 + dnr] == IECBUS_DEVICE_TRUEDRIVE) {
             unsigned int unit;
             unit = dnr + 8;
-            switch (diskunit_context[dnr]->drives[0]->type) {
+
+            switch (diskunit_context[dnr]->type) {
                 case DRIVE_TYPE_1581:
                 case DRIVE_TYPE_2000:
                 case DRIVE_TYPE_4000:
@@ -420,11 +421,11 @@ static void calculate_callback_index(void)
             iecbus_callback_write = iecbus_cpu_write_conf0;
             break;
         case IECBUS_DEVICE_TRUEDRIVE << 0:
-                iecbus_callback_read = iecbus_cpu_read_conf1;
+            iecbus_callback_read = iecbus_cpu_read_conf1;
             iecbus_callback_write = iecbus_cpu_write_conf1;
             break;
         case IECBUS_DEVICE_TRUEDRIVE << 2:
-                iecbus_callback_read = iecbus_cpu_read_conf2;
+            iecbus_callback_read = iecbus_cpu_read_conf2;
             iecbus_callback_write = iecbus_cpu_write_conf2;
             break;
         default:

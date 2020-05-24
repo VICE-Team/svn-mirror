@@ -209,8 +209,8 @@ static uint8_t tiatcbm_read(uint16_t addr, unsigned int dnr)
 
 uint8_t plus4tcbm1_read(uint16_t addr)
 {
-    if (diskunit_context[0]->drives[0]->enable
-        && diskunit_context[0]->drives[0]->type == DRIVE_TYPE_1551) {
+    if (diskunit_context[0]->enable
+        && diskunit_context[0]->type == DRIVE_TYPE_1551) {
         drive_cpu_execute_one(diskunit_context[0], maincpu_clk);
         return tiatcbm_read(addr, 0);
     }
@@ -219,8 +219,8 @@ uint8_t plus4tcbm1_read(uint16_t addr)
 
 void plus4tcbm1_store(uint16_t addr, uint8_t value)
 {
-    if (diskunit_context[0]->drives[0]->enable
-        && diskunit_context[0]->drives[0]->type == DRIVE_TYPE_1551) {
+    if (diskunit_context[0]->enable
+        && diskunit_context[0]->type == DRIVE_TYPE_1551) {
         drive_cpu_execute_one(diskunit_context[0], maincpu_clk);
         tiatcbm_store(addr, value, 0);
     }
@@ -228,8 +228,8 @@ void plus4tcbm1_store(uint16_t addr, uint8_t value)
 
 uint8_t plus4tcbm2_read(uint16_t addr)
 {
-    if (diskunit_context[1]->drives[0]->enable
-        && diskunit_context[1]->drives[0]->type == DRIVE_TYPE_1551) {
+    if (diskunit_context[1]->enable
+        && diskunit_context[1]->type == DRIVE_TYPE_1551) {
         drive_cpu_execute_one(diskunit_context[1], maincpu_clk);
         return tiatcbm_read(addr, 1);
     }
@@ -238,8 +238,8 @@ uint8_t plus4tcbm2_read(uint16_t addr)
 
 void plus4tcbm2_store(uint16_t addr, uint8_t value)
 {
-    if (diskunit_context[1]->drives[0]->enable
-        && diskunit_context[1]->drives[0]->type == DRIVE_TYPE_1551) {
+    if (diskunit_context[1]->enable
+        && diskunit_context[1]->type == DRIVE_TYPE_1551) {
         drive_cpu_execute_one(diskunit_context[1], maincpu_clk);
         tiatcbm_store(addr, value, 1);
     }

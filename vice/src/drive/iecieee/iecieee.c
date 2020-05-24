@@ -46,7 +46,7 @@ void iecieee_drive_shutdown(struct diskunit_context_s *drv)
 
 void iecieee_drive_reset(struct diskunit_context_s *drv)
 {
-    switch (drv->drives[0]->type) {
+    switch (drv->type) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
@@ -71,7 +71,7 @@ void iecieee_drive_setup_context(struct diskunit_context_s *drv)
 int iecieee_drive_snapshot_read(struct diskunit_context_s *ctxptr,
                                 struct snapshot_s *s)
 {
-    switch (ctxptr->drives[0]->type) {
+    switch (ctxptr->type) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
@@ -93,7 +93,7 @@ int iecieee_drive_snapshot_read(struct diskunit_context_s *ctxptr,
 int iecieee_drive_snapshot_write(struct diskunit_context_s *ctxptr,
                                  struct snapshot_s *s)
 {
-    switch (ctxptr->drives[0]->type) {
+    switch (ctxptr->type) {
     case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:

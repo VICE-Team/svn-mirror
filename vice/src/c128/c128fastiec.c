@@ -52,26 +52,26 @@ void c128fastiec_init(void)
 
 void c128fastiec_fast_cpu_write(uint8_t data)
 {
-    drive_t *drive;
     unsigned int dnr;
 
     if (fast_cpu_direction) {
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-            drive = diskunit_context[dnr]->drives[0];
-            if (drive->enable) {
-                drive_cpu_execute_one(diskunit_context[dnr], maincpu_clk);
-                switch (drive->type) {
+            diskunit_context_t *unit = diskunit_context[dnr];
+
+            if (unit->enable) {
+                drive_cpu_execute_one(unit, maincpu_clk);
+                switch (unit->type) {
                     case DRIVE_TYPE_1570:
                     case DRIVE_TYPE_1571:
                     case DRIVE_TYPE_1571CR:
-                        ciacore_set_sdr(diskunit_context[dnr]->cia1571, data);
+                        ciacore_set_sdr(unit->cia1571, data);
                         break;
                     case DRIVE_TYPE_1581:
-                        ciacore_set_sdr(diskunit_context[dnr]->cia1581, data);
+                        ciacore_set_sdr(unit->cia1581, data);
                         break;
                     case DRIVE_TYPE_2000:
                     case DRIVE_TYPE_4000:
-                        viacore_set_sr(diskunit_context[dnr]->via4000, data);
+                        viacore_set_sr(unit->via4000, data);
                         break;
                 }
             }

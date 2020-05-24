@@ -180,6 +180,12 @@ typedef struct diskunit_context_s {
 
     /* Here is some data which used to be stored in drives[0]. */
 
+    /* Is this drive enabled for True Drive Emulation?  */
+    unsigned int enable;
+
+    /* What drive type we have to emulate?  */
+    unsigned int type;
+
     /* Current ROM image.  */
     uint8_t rom[DRIVE_ROM_SIZE];
 
@@ -193,6 +199,9 @@ typedef struct diskunit_context_s {
     /* Which RAM expansion is enabled?  */
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
         drive_ram8_enabled, drive_rama_enabled;
+
+    /* What idling method?  (See `DRIVE_IDLE_*')  */
+    int idling_method;
 
     /* Flag: What parallel cable do we emulate?  */
     int parallel_cable;

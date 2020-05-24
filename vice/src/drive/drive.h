@@ -182,8 +182,8 @@ struct gcr_s;
 struct disk_image_s;
 
 /* TODO: more parts of that struct should go into diskunit_context_s.
-   candidates: type, enable, rtc_save?, log?
-   candidates: clock_frequency, idling_method
+   candidates: rtc_save, log?
+   candidates: clk, clock_frequency, idling_method
    candidates: ds1216, */
 typedef struct drive_s {
     unsigned int unit;  /* 0 ... NUM_DISK_UNITS-1 */
@@ -209,17 +209,8 @@ typedef struct drive_s {
     CLOCK stepper_last_change_clk;
     int stepper_new_position;
 
-    /* Is this drive enabled?  */
-    unsigned int enable;
-
-    /* What drive type we have to emulate?  */
-    unsigned int type;
-
     /* Disk side.  */
     unsigned int side;
-
-    /* What idling method?  (See `DRIVE_IDLE_*')  */
-    int idling_method;
 
     /* FD2000/4000 RTC save? */
     int rtc_save;

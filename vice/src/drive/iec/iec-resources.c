@@ -50,13 +50,13 @@ static char *dos_rom_name_4000 = NULL;
 
 static void set_drive_ram(unsigned int dnr)
 {
-    drive_t *drive = diskunit_context[dnr]->drives[0];
+    diskunit_context_t *unit = diskunit_context[dnr];
 
-    if (drive->type == DRIVE_TYPE_NONE) {
+    if (unit->type == DRIVE_TYPE_NONE) {
         return;
     }
 
-    drivemem_init(diskunit_context[dnr], drive->type);
+    drivemem_init(unit);
 
     return;
 }

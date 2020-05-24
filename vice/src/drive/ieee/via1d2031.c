@@ -49,7 +49,7 @@
 typedef struct drivevia1_context_s {
     unsigned int number;
     uint8_t drivenumberjumper;
-    struct drive_s *drive;
+    struct diskunit_context_s *diskunit;
     int v_parieee_is_out;         /* init to 1 */
 } drivevia1_context_t;
 
@@ -110,7 +110,7 @@ void via1d2031_set_atn(via_context_t *via_context, int state)
 
     via1p = (drivevia1_context_t *)(via_context->prv);
 
-    if (via1p->drive->type == DRIVE_TYPE_2031) {
+    if (via1p->diskunit->type == DRIVE_TYPE_2031) {
         viacore_signal(via_context, VIA_SIG_CA1, state ? VIA_SIG_RISE : 0);
         parallel_drivex_set_nrfd((uint8_t)(((!parieee_is_out)
                                          && (!(via_context->oldpb & 0x02)))
@@ -335,8 +335,7 @@ void via1d2031_setup_context(diskunit_context_t *ctxptr)
 
     via->irq_line = IK_IRQ;
 
-    /* TODO: drive 1 correct? */
-    via1p->drive = ctxptr->drives[0];
+    via1p->diskunit = ctxptr;
     via1p->v_parieee_is_out = 1;
 
     via->undump_pra = undump_pra;

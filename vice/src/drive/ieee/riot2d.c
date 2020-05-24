@@ -129,7 +129,7 @@ void riot2_set_atn(riot_context_t *riot_context, int state)
     dc = (diskunit_context_t *)(riot_context->context);
     riot2p = (driveriot2_context_t *)(riot_context->prv);
 
-    if (drive_check_old(riot2p->drive->type)) {
+    if (drive_check_old(dc->type)) {
         if (riot2p->r_atn_active && !state) {
             riotcore_signal(riot_context, RIOT_SIG_PA7, RIOT_SIG_FALL);
         } else

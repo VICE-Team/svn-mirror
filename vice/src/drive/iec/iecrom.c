@@ -146,13 +146,11 @@ int iecrom_load_4000(void)
             DRIVE_ROM4000_SIZE, DRIVE_ROM4000_SIZE, "4000", DRIVE_TYPE_4000, NULL);
 }
 
-void iecrom_setup_image(drive_t *drive)
+void iecrom_setup_image(diskunit_context_t *unit)
 {
     if (rom_loaded) {
-	/* TODO: change function to receive diskunit_context_t */
-	diskunit_context_t *unit = drive->diskunit;
 
-        switch (drive->type) {
+        switch (unit->type) {
             case DRIVE_TYPE_1540:
                 if (drive_rom1540_size <= DRIVE_ROM1540_SIZE) {
                     memcpy(unit->rom, &drive_rom1540[DRIVE_ROM1540_SIZE],
@@ -270,9 +268,9 @@ int iecrom_check_loaded(unsigned int type)
     return 0;
 }
 
-void iecrom_do_checksum(drive_t *drive)
+void iecrom_do_checksum(diskunit_context_t *unit)
 {
-    if (drive->type == DRIVE_TYPE_1541) {
+    if (unit->type == DRIVE_TYPE_1541) {
         iecrom_do_1541_checksum();
     }
 }

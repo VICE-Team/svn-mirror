@@ -223,9 +223,11 @@ void drivecpu65c02_shutdown(diskunit_context_t *drv)
     lib_free(cpu);
 }
 
+/* TODO: check type is always already set, and remove it as parameter */
 void drivecpu65c02_init(diskunit_context_t *drv, int type)
 {
-    drivemem_init(drv, type);
+    drv->type = type;
+    drivemem_init(drv);
     drivecpu65c02_reset(drv);
 }
 
@@ -252,7 +254,7 @@ CLOCK drivecpu65c02_prevent_clk_overflow(diskunit_context_t *drv, CLOCK sub)
     if (sub != 0) {
         /* First, get in sync with what the main CPU has done.  Notice that
            `clk' has already been decremented at this point.  */
-        if (drv->drives[0]->enable) {
+        if (drv->enable) {
             if (drv->cpu->last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
                 drive_cpu_execute_all(maincpu_clk + sub);
@@ -272,7 +274,7 @@ inline static uint32_t drive_trap_handler(diskunit_context_t *drv)
 {
     if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (uint16_t)drv->trap) {
         R65C02_REGS_SET_PC(&(drv->cpu->cpu_R65C02_regs), drv->trapcont);
-        if (drv->drives[0]->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+        if (drv->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
             next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
@@ -488,8 +490,8 @@ int drivecpu65c02_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_2000
-        || drv->drives[0]->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_2000
+        || drv->type == DRIVE_TYPE_4000) {
         if (SMW_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }
@@ -561,8 +563,8 @@ int drivecpu65c02_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_2000
-        || drv->drives[0]->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_2000
+        || drv->type == DRIVE_TYPE_4000) {
         if (SMR_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }

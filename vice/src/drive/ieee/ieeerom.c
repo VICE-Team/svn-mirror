@@ -101,7 +101,7 @@ int ieeerom_load_1001(void)
 void ieeerom_setup_image(diskunit_context_t *unit)
 {
     if (rom_loaded) {
-        switch (unit->drives[0]->type) {
+        switch (unit->type) {
             case DRIVE_TYPE_2031:
                 memcpy(&(unit->rom[0x4000]), drive_rom2031,
                        DRIVE_ROM2031_SIZE);

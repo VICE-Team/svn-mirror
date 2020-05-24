@@ -127,8 +127,8 @@ typedef struct via_context_s {
 
     int enabled;
 
-    void *prv;
-    void *context;
+    void *prv;                /* typically drivevia1_context_t */
+    void *context;            /* typically diskunit_context_t */
 
     void (*undump_pra)(struct via_context_s *, uint8_t);
     void (*undump_prb)(struct via_context_s *, uint8_t);

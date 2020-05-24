@@ -66,13 +66,15 @@ static int set_drive_true_emulation(int val, void *param)
 
     if (val) {
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-            drive = diskunit_context[dnr]->drives[0];
-            if (drive->type != DRIVE_TYPE_NONE) {
-                drive->enable = 1;
-                if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-                    drivecpu65c02_reset_clk(diskunit_context[dnr]);
+            diskunit_context_t *unit = diskunit_context[dnr];
+            drive = unit->drives[0];
+
+            if (unit->type != DRIVE_TYPE_NONE) {
+                unit->enable = 1;
+                if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
+                    drivecpu65c02_reset_clk(unit);
                 } else {
-                    drivecpu_reset_clk(diskunit_context[dnr]);
+                    drivecpu_reset_clk(unit);
                 }
             }
         }
@@ -81,7 +83,9 @@ static int set_drive_true_emulation(int val, void *param)
         }
     } else {
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-            drive = diskunit_context[dnr]->drives[0];
+            diskunit_context_t *unit = diskunit_context[dnr];
+            drive = unit->drives[0];
+
             drive_disable(diskunit_context[dnr]);
             if (drive->image != NULL) {
                 /* TODO: drive 1? */
@@ -126,11 +130,13 @@ static int drive_resources_type(int val, void *param)
 {
     unsigned int type, dnr;
     int busses;
+    diskunit_context_t *unit;
     drive_t *drive;
     char *rtc_device = NULL;
 
     dnr = vice_ptr_to_uint(param);
-    drive = diskunit_context[dnr]->drives[0];
+    unit = diskunit_context[dnr];
+    drive = unit->drives[0];
 
     type = (unsigned int)val;
     busses = iec_available_busses();
@@ -148,14 +154,14 @@ static int drive_resources_type(int val, void *param)
     }
 
     if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
-        if (drive->type != DRIVE_TYPE_2000 && drive->type != DRIVE_TYPE_4000) {
+        if (unit->type != DRIVE_TYPE_2000 && unit->type != DRIVE_TYPE_4000) {
             rtc_device = lib_msprintf("FD%d", dnr + 8);
             drive->ds1216 = ds1216e_init(rtc_device);
             drive->ds1216->hours12 = 1;
             lib_free(rtc_device);
         }
     } else {
-        if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
             if (drive->ds1216) {
                 ds1216e_destroy(drive->ds1216, drive->rtc_save);
                 drive->ds1216 = NULL;
@@ -181,7 +187,8 @@ static int drive_resources_type(int val, void *param)
         case DRIVE_TYPE_4040:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
-            if (drive->type != type) {
+            if (unit->type != type) {
+                /* the drives that support half tracks are all single drives */
                 drive->current_half_track = 2 * 18;
                 if ((type == DRIVE_TYPE_1001)
                     || (type == DRIVE_TYPE_8050)
@@ -189,9 +196,9 @@ static int drive_resources_type(int val, void *param)
                     drive->current_half_track = 2 * 38;
                 }
             }
-            drive->type = type;
+            unit->type = type;
             if (drive_true_emulation) {
-                drive->enable = 1;
+                unit->enable = 1;
                 drive_enable(diskunit_context[dnr]);
                 /* 1551 drive does not use the IEC bus */
                 machine_bus_status_drivetype_set(dnr + 8, drive_check_bus(type,
@@ -204,7 +211,7 @@ static int drive_resources_type(int val, void *param)
             machine_drive_idling_method(dnr);
             return 0;
         case DRIVE_TYPE_NONE:
-            drive->type = type;
+            unit->type = type;
             drive_disable(diskunit_context[dnr]);
             machine_bus_status_drivetype_set(dnr + 8, 0);
             return 0;
@@ -222,11 +229,10 @@ static resource_int_t res_drive_type[] = {
 int drive_resources_type_init(unsigned int default_type)
 {
     unsigned int dnr, type;
-    drive_t *drive;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        /* TODO: drive 1? */
-        drive = diskunit_context[dnr]->drives[0];
+        diskunit_context_t *unit = diskunit_context[dnr];
+
         if (dnr == 0) {
             type = default_type;
         } else {
@@ -235,7 +241,7 @@ int drive_resources_type_init(unsigned int default_type)
 
         res_drive_type[0].name = lib_msprintf("Drive%iType", dnr + 8);
         res_drive_type[0].factory_value = (int)type;
-        res_drive_type[0].value_ptr = (int *)&(drive->type);
+        res_drive_type[0].value_ptr = (int *)&(unit->type);
         res_drive_type[0].param = uint_to_void_ptr(dnr);
 
         if (resources_register_int(res_drive_type) < 0) {
@@ -250,16 +256,8 @@ int drive_resources_type_init(unsigned int default_type)
 
 static int set_drive_idling_method(int val, void *param)
 {
-    unsigned int dnr;
-    drive_t *drive, *drive1;
-
-    dnr = vice_ptr_to_uint(param);
-    /* TODO: drive 1? */
-
+    unsigned int dnr = vice_ptr_to_uint(param);
     diskunit_context_t *unit = diskunit_context[dnr];
-
-    drive = unit->drives[0];
-    drive1 = unit->drives[1];
 
     /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
     switch (val) {
@@ -271,8 +269,7 @@ static int set_drive_idling_method(int val, void *param)
             return -1;
     }
 
-    drive->idling_method = val;
-    drive1->idling_method = val;
+    unit->idling_method = val;
 
     if (!rom_loaded) {
         return 0;
@@ -358,7 +355,6 @@ static resource_int_t res_drive_rtc[] = {
 int drive_resources_init(void)
 {
     unsigned int dnr;
-    drive_t *drive;
     int has_iec;
     int i;
 
@@ -375,14 +371,15 @@ int drive_resources_init(void)
     }
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        /* TODO: drive 1? */
-        drive = diskunit_context[dnr]->drives[0];
+        diskunit_context_t *unit = diskunit_context[dnr];
+        drive_t *drive = unit->drives[0];
 
+        /* TODO: add resources for drive 1 */
         res_drive[0].name = lib_msprintf("Drive%iExtendImagePolicy", dnr + 8);
         res_drive[0].value_ptr = (int *)&(drive->extend_image_policy);
         res_drive[0].param = uint_to_void_ptr(dnr);
         res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-        res_drive[1].value_ptr = &(drive->idling_method);
+        res_drive[1].value_ptr = &(unit->idling_method);
         res_drive[1].param = uint_to_void_ptr(dnr);
         res_drive[2].name = lib_msprintf("Drive%iRPM", dnr + 8);
         res_drive[2].value_ptr = &(drive->rpm);

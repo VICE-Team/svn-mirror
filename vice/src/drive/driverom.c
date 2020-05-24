@@ -72,7 +72,6 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
     const char *rom_name = NULL;
     int filesize;
     unsigned int dnr;
-    drive_t *drive;
 
     if (!drive_rom_load_ok) {
         return 0;
@@ -100,9 +99,9 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
     }
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive = diskunit_context[dnr]->drives[0];
+        diskunit_context_t *unit = diskunit_context[dnr];
 
-        if (drive->type == type) {
+        if (unit->type == type) {
             machine_drive_rom_setup_image(dnr);
         }
     }
@@ -127,18 +126,16 @@ int driverom_load_images(void)
 
 void driverom_initialize_traps(diskunit_context_t *unit)
 {
-    drive_t *drive = unit->drives[0];
-
     memcpy(unit->trap_rom, unit->rom, DRIVE_ROM_SIZE);
 
     unit->trap = -1;
     unit->trapcont = -1;
 
-    if (drive->idling_method != DRIVE_IDLE_TRAP_IDLE) {
+    if (unit->idling_method != DRIVE_IDLE_TRAP_IDLE) {
         return;
     }
 
-    switch (drive->type) {
+    switch (unit->type) {
         case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1541II:
@@ -188,7 +185,7 @@ void driverom_initialize_traps(diskunit_context_t *unit)
         && unit->trap_rom[unit->trap - 0x8000 + 1] == (unit->trapcont & 0xff)
         && unit->trap_rom[unit->trap - 0x8000 + 2] == (unit->trapcont >> 8)) {
         unit->trap_rom[unit->trap - 0x8000] = TRAP_OPCODE;
-        if (drive->type == DRIVE_TYPE_1551) {
+        if (unit->type == DRIVE_TYPE_1551) {
             unit->trap_rom[0xeabf - 0x8000] = 0xea;
             unit->trap_rom[0xeac0 - 0x8000] = 0xea;
             unit->trap_rom[0xead0 - 0x8000] = 0x08;
@@ -204,6 +201,7 @@ void driverom_initialize_traps(diskunit_context_t *unit)
 #define ROM_SNAP_MAJOR 1
 #define ROM_SNAP_MINOR 0
 
+/* TODO: pass diskunit_context_t as parameter instead */
 int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
 {
     char snap_module_name[10];
@@ -220,7 +218,7 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
         return -1;
     }
 
-    switch (drive->type) {
+    switch (unit->type) {
         case DRIVE_TYPE_1540:
             base = &(unit->rom[0x4000]);
             len = DRIVE_ROM1540_SIZE;
@@ -324,7 +322,7 @@ int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
         return -1;
     }
 
-    switch (drive->type) {
+    switch (unit->type) {
         case DRIVE_TYPE_1540:
             base = &(unit->rom[0x4000]);
             len = DRIVE_ROM1540_SIZE;

@@ -246,9 +246,10 @@ void drivecpu_shutdown(diskunit_context_t *drv)
     lib_free(cpu);
 }
 
+/* TODO: check type is already set, and remove type from parameters */
 void drivecpu_init(diskunit_context_t *drv, int type)
 {
-    drivemem_init(drv, type);
+    drivemem_init(drv);
     drivecpu_reset(drv);
 }
 
@@ -275,7 +276,7 @@ CLOCK drivecpu_prevent_clk_overflow(diskunit_context_t *drv, CLOCK sub)
     if (sub != 0) {
         /* First, get in sync with what the main CPU has done.  Notice that
            `clk' has already been decremented at this point.  */
-        if (drv->drives[0]->enable) {
+        if (drv->enable) {
             if (drv->cpu->last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
                 drive_cpu_execute_all(maincpu_clk + sub);
@@ -295,7 +296,7 @@ inline static uint32_t drive_trap_handler(diskunit_context_t *drv)
 {
     if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == (uint16_t)drv->trap) {
         MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), drv->trapcont);
-        if (drv->drives[0]->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+        if (drv->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
             next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
@@ -487,7 +488,7 @@ static void drive_jam(diskunit_context_t *drv)
 
     cpu = drv->cpu;
 
-    switch (drv->drives[0]->type) {
+    switch (drv->type) {
         case DRIVE_TYPE_1540:
             dname = "  1540";
             break;
@@ -594,27 +595,27 @@ int drivecpu_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_1540
-        || drv->drives[0]->type == DRIVE_TYPE_1541
-        || drv->drives[0]->type == DRIVE_TYPE_1541II
-        || drv->drives[0]->type == DRIVE_TYPE_1551
-        || drv->drives[0]->type == DRIVE_TYPE_1570
-        || drv->drives[0]->type == DRIVE_TYPE_1571
-        || drv->drives[0]->type == DRIVE_TYPE_1571CR
-        || drv->drives[0]->type == DRIVE_TYPE_2031) {
+    if (drv->type == DRIVE_TYPE_1540
+        || drv->type == DRIVE_TYPE_1541
+        || drv->type == DRIVE_TYPE_1541II
+        || drv->type == DRIVE_TYPE_1551
+        || drv->type == DRIVE_TYPE_1570
+        || drv->type == DRIVE_TYPE_1571
+        || drv->type == DRIVE_TYPE_1571CR
+        || drv->type == DRIVE_TYPE_2031) {
         if (SMW_BA(m, drv->drive_ram, 0x800) < 0) {
             goto fail;
         }
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_1581
-        || drv->drives[0]->type == DRIVE_TYPE_2000
-        || drv->drives[0]->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_1581
+        || drv->type == DRIVE_TYPE_2000
+        || drv->type == DRIVE_TYPE_4000) {
         if (SMW_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
-    if (drive_check_old(drv->drives[0]->type)) {
+    if (drive_check_old(drv->type)) {
         if (SMW_BA(m, drv->drive_ram, 0x1100) < 0) {
             goto fail;
         }
@@ -686,28 +687,28 @@ int drivecpu_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_1540
-        || drv->drives[0]->type == DRIVE_TYPE_1541
-        || drv->drives[0]->type == DRIVE_TYPE_1541II
-        || drv->drives[0]->type == DRIVE_TYPE_1551
-        || drv->drives[0]->type == DRIVE_TYPE_1570
-        || drv->drives[0]->type == DRIVE_TYPE_1571
-        || drv->drives[0]->type == DRIVE_TYPE_1571CR
-        || drv->drives[0]->type == DRIVE_TYPE_2031) {
+    if (drv->type == DRIVE_TYPE_1540
+        || drv->type == DRIVE_TYPE_1541
+        || drv->type == DRIVE_TYPE_1541II
+        || drv->type == DRIVE_TYPE_1551
+        || drv->type == DRIVE_TYPE_1570
+        || drv->type == DRIVE_TYPE_1571
+        || drv->type == DRIVE_TYPE_1571CR
+        || drv->type == DRIVE_TYPE_2031) {
         if (SMR_BA(m, drv->drive_ram, 0x800) < 0) {
             goto fail;
         }
     }
 
-    if (drv->drives[0]->type == DRIVE_TYPE_1581
-        || drv->drives[0]->type == DRIVE_TYPE_2000
-        || drv->drives[0]->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_1581
+        || drv->type == DRIVE_TYPE_2000
+        || drv->type == DRIVE_TYPE_4000) {
         if (SMR_BA(m, drv->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
 
-    if (drive_check_old(drv->drives[0]->type)) {
+    if (drive_check_old(drv->type)) {
         if (SMR_BA(m, drv->drive_ram, 0x1100) < 0) {
             goto fail;
         }
