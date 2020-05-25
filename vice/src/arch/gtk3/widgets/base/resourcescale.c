@@ -35,7 +35,6 @@
 #include <stdarg.h>
 
 #include "basewidget_types.h"
-#include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -79,9 +78,6 @@ static void on_scale_int_changed(GtkWidget *widget, gpointer user_data)
     new_val = (int)gtk_range_get_value(GTK_RANGE(widget));
     /* only update resource when required */
     if (old_val != new_val) {
-#if 0
-        debug_gtk3("setting %s to %d\n", resource, new_val);
-#endif
         resources_set_int(resource, new_val);
     }
 }
@@ -253,7 +249,6 @@ gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_default_value(resource, &factory) < 0) {
-        debug_gtk3("failed to get factory value for resource '%s'\n", resource);
         return FALSE;
     }
     return vice_gtk3_resource_scale_int_set(widget, factory);
@@ -273,7 +268,6 @@ gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, &current) < 0) {
-        debug_gtk3("failed to get value for resource '%s'\n", resource);
         return FALSE;
     }
     return vice_gtk3_resource_scale_int_set(widget, current);
@@ -288,6 +282,8 @@ gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget)
  */
 gboolean vice_gtk3_resource_scale_int_apply(GtkWidget *widget)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    abort();    /* never get's triggered, and if it does, we'll sure know about
+                   it
+                 */
     return FALSE;
 }
