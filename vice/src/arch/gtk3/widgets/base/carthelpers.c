@@ -47,33 +47,6 @@ int (*carthelpers_disable_func)(int type);
 int (*carthelpers_can_save_func)(int type);
 int (*carthelpers_can_flush_func)(int type);
 
-/** \brief  Placeholder function for functions accepting (int)
- *
- * Makes sure calling for example, carthelpers_flush_func() doesn't dereference
- * a NULL pointer when that was passed into carthelpers_set_functions()
- *
- * \return  -1
- */
-static int null_handler(int type)
-{
-    debug_gtk3("warning: not implemented (NULL).");
-    return -1;
-}
-
-
-/** \brief  Placeholder function for functions accepting (int, const char *)
- *
- * Makes sure calling for example, carthelpers_save_func() doesn't dereference
- * a NULL pointer when that was passed into carthelpers_set_functions()
- *
- * \return  -1
- */
-static int null_handler_save(int type, const char *filename)
-{
-    debug_gtk3("warning: not implemented (NULL).");
-    return -1;
-}
-
 
 /** \brief  Set cartridge helper functions
  *
@@ -84,7 +57,10 @@ static int null_handler_save(int type, const char *filename)
  * Passing in pointers to the cart functions in ${emu}ui.c (except vsidui.c)
  * 'solves' this problem.
  *
- * Normally \a save_func should be cartridge_save_image(), \a fush_func should
+ * I wish Hans Andersen or the Brother Grimm had written some allegory about
+ * perhaps not pretending vsid is a full emulator and linking as such.
+ *
+ * Normally \a save_func should be cartridge_save_image(), \a flush_func should
  * be cartridge_flush_image() and \a enabled_func should be
  * \a cartridge_type_enabled.
  * These are the functions used by many/all(?) cartridge widgets
@@ -105,13 +81,13 @@ void carthelpers_set_functions(
         int (*can_save_func)(int),
         int (*can_flush_func)(int))
 {
-    carthelpers_save_func = save_func ? save_func : null_handler_save;
-    carthelpers_flush_func = flush_func ? flush_func : null_handler;
-    carthelpers_is_enabled_func = is_enabled_func ? is_enabled_func : null_handler;
-    carthelpers_enable_func = enable_func ? enable_func : null_handler;
-    carthelpers_disable_func = disable_func ? disable_func : null_handler;
-    carthelpers_can_save_func = can_save_func ? can_save_func : null_handler;
-    carthelpers_can_flush_func = can_flush_func ? can_flush_func : null_handler;
+    carthelpers_save_func = save_func;
+    carthelpers_flush_func = flush_func;
+    carthelpers_is_enabled_func = is_enabled_func;
+    carthelpers_enable_func = enable_func;
+    carthelpers_disable_func = disable_func;
+    carthelpers_can_save_func = can_save_func;
+    carthelpers_can_flush_func = can_flush_func;
 }
 
 
