@@ -1952,12 +1952,6 @@ static GtkWidget *paned_widget = NULL;
  */
 static GtkTreePath *last_node_path = NULL;
 
-#if 0
-/** \brief  Reference to the resource widget manager of the current page
- */
-static resource_widget_manager_t *resource_manager = NULL;
-#endif
-
 
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
 {
@@ -1991,51 +1985,6 @@ static void on_row_activated(GtkTreeView *tree_view,
     }
 }
 
-
-#if 0
-/** \brief  Reset widgets in the central widget to their initial state
- *
- * Restores all widgets in the central widget to the state they were in when\
- * the central widget was instanciated. This requires a call from the central
- * widget registering its "resource manager widget".
- *
- * \param[in]   widget  settings dialog
- * \param[in]   data    extra event data (unused at the moment)
- */
-static void ui_settings_central_widget_reset(GtkWidget *widget, gpointer data)
-{
-    debug_gtk3("Resetting current page's widgets to their initial state");
-    if (resource_manager != NULL) {
-        vice_resource_widget_manager_reset(resource_manager);
-    } else {
-        debug_gtk3("No resource widget manager registered, skipping");
-    }
-}
-#endif
-
-
-#if 0
-/** \brief  Reset widgets in the central widget to their factory state
- *
- * Restores all widgets in the central widget to the factory state of the
- * resources they are bound to.
- * This requires a call from the central widget registering its
- * "resource manager widget".
- *
- * \param[in]   widget  settings dialog
- * \param[in]   data    extra event data (unused at the moment)
- */
-static void ui_settings_central_widget_factory(GtkWidget *widget, gpointer data)
-{
-    debug_gtk3("Resetting current page's widgets to their factory value");
-    if (resource_manager != NULL) {
-        vice_resource_widget_manager_factory(resource_manager);
-    } else {
-        debug_gtk3("No resource widget manager registered, skipping");
-    }
-
-}
-#endif
 
 /** \brief  Create the widget that is initially shown in the settings UI
  *
