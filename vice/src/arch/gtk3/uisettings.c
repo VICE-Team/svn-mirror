@@ -2030,8 +2030,7 @@ static void on_tree_selection_changed(
     GtkTreeIter iter;
     GtkTreeModel *model;
 
-    if (gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gchar *name = NULL;
         gchar *parent_name = NULL;
         GtkWidget *(*callback)(void *) = NULL;
