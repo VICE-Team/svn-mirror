@@ -6210,6 +6210,12 @@ Action Replay MK4
 @item
 Atomic Power
 @item
+BIS-Plus
+@item
+Blackbox V3
+@item
+Blackbox V4
+@item
 Blackbox V8
 @item
 C64 Games System
@@ -6267,6 +6273,8 @@ Ocean
 Prophet64
 @item
 REX 256k EPROM Cart
+@item
+REX RAM-Floppy
 @item
 REX Utility
 @item
@@ -6577,6 +6585,14 @@ The following cartridge types are valid:
 63: ZIPP-CODE 48
 @item
 64: Blackbox V8
+@item
+65: Blackbox V3
+@item
+66: Blackbox V4
+@item
+67: REX RAM-Floppy
+@item
+68: BIS-Plus      
 @end itemize
 
 @vindex CartridgeFile
@@ -6960,6 +6976,18 @@ Attach raw 32KB Action Replay MK4 cartridge image.
 @findex -cartar5
 @item -cartar5 <name>
 Attach raw 32KB Action Replay cartridge image.
+
+@findex -cartbis
+@item -cartbis <name>
+Attach raw 8KB BIS-Plus cartridge image.
+
+@findex -cartbb3
+@item -cartbb3 <name>
+Attach raw 8KB Blackbox V3 cartridge image.
+
+@findex -cartbb4
+@item -cartbb4 <name>
+Attach raw 16KB Blackbox V4 cartridge image.
 
 @findex -cartbb8
 @item -cartbb8 <name>
@@ -7565,6 +7593,10 @@ SetRemove the RRNETMK3 Flash Jumper
 @itemx +rrnetmk3bioswrite
 Save/Do not save the RRNETMK3 bios when changed
 (@code{RRNETMK3_bios_write=1}, @code{RRNETMK3_bios_write=0}).
+
+@findex -cartrrf
+@item -cartrrf <name>
+Attach raw 8kB REX RAM-Floppy cartridge image.
 
 @findex -cartru
 @item -cartru <name>
@@ -17531,6 +17563,12 @@ Action Replay MK3 .crt file
 Action Replay MK4 .crt file
 @item ar5
 Action Replay V5 .crt file
+@item bis
+BIS-Plus .crt file
+@item bb3
+Blackbox V3 .crt file
+@item bb4
+Blackbox V4 .crt file
 @item bb8
 Blackbox V8 .crt file
 @item cap
@@ -17619,6 +17657,8 @@ ROSS .crt file
 Retro Replay .crt file
 @item rrnet
 RR-Net MK3 .crt file
+@item rrf
+REX RAM-Floppy .crt file
 @item ru
 REX Utility .crt file
 @item s64
@@ -23228,6 +23268,10 @@ Camels"@dots{}
                       62 - GMod3
                       63 - ZIPP-CODE 48
                       64 - Blackbox V8
+                      65 - Blackbox V3
+                      66 - Blackbox V4
+                      67 - REX RAM-Floppy
+                      68 - BIS-Plus
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -26701,6 +26745,33 @@ buffered, and the cartridge can be disabled with a switch on the board.
     dfe0    (read) toggles RAM enable
 @end example
     
+@subsubsection 68 - BIS-Plus Cartridge
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 2, 4 or 8Kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 44 00 01 00 00 00 00 00 00  ...@...D........
+0020: 42 49 53 2d 50 4c 55 53 00 00 00 00 00 00 00 00  BIS-PLUS........
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050: 09 80 5e fe c3 c2 cd 38 30 8e 16 d0 20 a3 fd a0  ..^....80... ...
+
+@end example
+
+This cartridge contains a 2, 4 or 8k ROM. The software is copied to RAM and then
+the cartridge disables itself by writing to IO1 (de00).
     
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

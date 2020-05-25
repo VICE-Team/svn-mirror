@@ -63,6 +63,7 @@
 #include "actionreplay4.h"
 #include "actionreplay.h"
 #include "atomicpower.h"
+#include "bisplus.h"
 #include "blackbox3.h"
 #include "blackbox4.h"
 #include "blackbox8.h"
@@ -231,6 +232,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartbb8", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_BLACKBOX8, NULL, NULL,
       "<Name>", "Attach raw 32/64KB " CARTRIDGE_NAME_BLACKBOX8 " cartridge image" },
+    { "-cartbis", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_BISPLUS, NULL, NULL,
+      "<Name>", "Attach raw 2/4/8KB " CARTRIDGE_NAME_BISPLUS " cartridge image" },
     { "-cartcap", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_CAPTURE, NULL, NULL,
       "<Name>", "Attach raw 8kB Capture cartridge image" },
@@ -822,6 +826,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return actionreplay4_bin_attach(filename, rawcart);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_bin_attach(filename, rawcart);
+        case CARTRIDGE_BISPLUS:
+            return bisplus_bin_attach(filename, rawcart);
         case CARTRIDGE_BLACKBOX3:
             return blackbox3_bin_attach(filename, rawcart);
         case CARTRIDGE_BLACKBOX4:
@@ -1004,6 +1010,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_config_setup(rawcart);
+            break;
+        case CARTRIDGE_BISPLUS:
+            bisplus_config_setup(rawcart);
             break;
         case CARTRIDGE_BLACKBOX3:
             blackbox3_config_setup(rawcart);
@@ -1546,6 +1555,9 @@ void cart_detach(int type)
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_detach();
             break;
+        case CARTRIDGE_BISPLUS:
+            bisplus_detach();
+            break;
         case CARTRIDGE_BLACKBOX3:
             blackbox3_detach();
             break;
@@ -1813,6 +1825,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_config_init();
+            break;
+        case CARTRIDGE_BISPLUS:
+            bisplus_config_init();
             break;
         case CARTRIDGE_BLACKBOX3:
             blackbox3_config_init();
@@ -2758,6 +2773,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_BISPLUS:
+                if (bisplus_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_BLACKBOX3:
                 if (blackbox3_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3281,6 +3301,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_ATOMIC_POWER:
                 if (atomicpower_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_BISPLUS:
+                if (bisplus_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

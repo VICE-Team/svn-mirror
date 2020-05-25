@@ -53,6 +53,7 @@
 #include "actionreplay4.h"
 #include "actionreplay.h"
 #include "atomicpower.h"
+#include "bisplus.h"
 #include "blackbox3.h"
 #include "blackbox4.h"
 #include "blackbox8.h"

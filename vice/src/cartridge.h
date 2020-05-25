@@ -225,8 +225,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_BLACKBOX3            65 /* blackbox3.c */
 #define CARTRIDGE_BLACKBOX4            66 /* blackbox4.c */
 #define CARTRIDGE_REX_RAMFLOPPY        67 /* rexramfloppy.c */
+#define CARTRIDGE_BISPLUS              68 /* rexramfloppy.c */
 
-#define CARTRIDGE_LAST                 67 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 68 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -248,6 +249,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_ACTION_REPLAY3     "Action Replay MK3" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_ACTION_REPLAY4     "Action Replay MK4" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* also: "Nordic Power" */ /* http://rr.pokefinder.org/wiki/Nordic_Power */
+#define CARTRIDGE_NAME_BISPLUS            "BIS-Plus"
 #define CARTRIDGE_NAME_BLACKBOX3          "Blackbox V3"
 #define CARTRIDGE_NAME_BLACKBOX4          "Blackbox V4"
 #define CARTRIDGE_NAME_BLACKBOX8          "Blackbox V8"
@@ -467,6 +469,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_CBM2_16KB_6000       0x9008
 
 /* FIXME: cartconv: the sizes are used in a bitfield and also by their absolute values */
+#define CARTRIDGE_SIZE_2KB     0x00000800
 #define CARTRIDGE_SIZE_4KB     0x00001000
 #define CARTRIDGE_SIZE_8KB     0x00002000
 #define CARTRIDGE_SIZE_12KB    0x00003000

@@ -197,6 +197,7 @@ static const cart_t cart_info[] = {
     {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_BLACKBOX3, "bb3", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, CARTRIDGE_NAME_BLACKBOX4, "bb4", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_REX_RAMFLOPPY, "rrf", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_2KB | CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_BISPLUS, "bis", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -861,12 +862,14 @@ static void save_regular_crt(unsigned int length, unsigned int banks, unsigned i
     }
 
     if (real_banks == 0) {
-        /* handle the case when a chip of half the regular size
-           is used on an otherwise identical hardware (eg 4k
+        /* handle the case when a chip of half/4th the regular size
+           is used on an otherwise identical hardware (eg 2k/4k
            chip on a 8k cart)
         */
         if (loadfile_size == (length / 2)) {
             length /= 2;
+        } else if (loadfile_size == (length / 4)) {
+            length /= 4;
         }
         real_banks = loadfile_size / length;
     }
@@ -1182,6 +1185,7 @@ static int load_input_file(char *filename)
         loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, CARTRIDGE_SIZE_MAX - 14, infile) + 0x10;
 
         switch (loadfile_size) {
+            case CARTRIDGE_SIZE_2KB:
             case CARTRIDGE_SIZE_4KB:
             case CARTRIDGE_SIZE_8KB:
             case CARTRIDGE_SIZE_12KB:
@@ -1203,6 +1207,7 @@ static int load_input_file(char *filename)
                 fclose(infile);
                 return 0;
                 break;
+            case CARTRIDGE_SIZE_2KB + 2:
             case CARTRIDGE_SIZE_4KB + 2:
             case CARTRIDGE_SIZE_8KB + 2:
             case CARTRIDGE_SIZE_12KB + 2:
@@ -1687,6 +1692,9 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
     /* printf("save_generic_crt ultimax: %d size: %08x\n", convert_to_ultimax, loadfile_size); */
     if (convert_to_ultimax == 1) {
         switch (loadfile_size) {
+            case CARTRIDGE_SIZE_2KB:
+                save_regular_crt(0x0800, 1, 0xf800, 0, 0, 1);
+                break;
             case CARTRIDGE_SIZE_4KB:
                 save_regular_crt(0x1000, 1, 0xf000, 0, 0, 1);
                 break;
@@ -1701,6 +1709,9 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
         }
     } else {
         switch (loadfile_size) {
+            case CARTRIDGE_SIZE_2KB:
+                save_regular_crt(0x0800, 0, 0x8000, 0, 1, 0);
+                break;
             case CARTRIDGE_SIZE_4KB:
                 save_regular_crt(0x1000, 0, 0x8000, 0, 1, 0);
                 break;
