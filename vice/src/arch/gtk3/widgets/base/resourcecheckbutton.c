@@ -51,7 +51,6 @@
 #include <gtk/gtk.h>
 #include <stdarg.h>
 
-#include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -229,7 +228,6 @@ gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, &value) < 0) {
-        debug_gtk3("failed to get resource value for %s.", resource);
         *dest = FALSE;
         return FALSE;
     }
@@ -251,10 +249,6 @@ gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget)
     if (resources_get_default_value(resource, &value) < 0) {
         return FALSE;
     }
-#if 0
-    debug_gtk3("resetting %s to factory value %s.",
-            resource, value ? "True" : "False");
-#endif
     return vice_gtk3_resource_check_button_set(widget, (gboolean)value);
 }
 
@@ -293,7 +287,6 @@ gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget)
     /* get resource state */
     resource_name = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource_name, &resource_val) < 0) {
-        debug_gtk3("failed to get value for resource '%s'.", resource_name);
         return FALSE;
     }
 
@@ -329,9 +322,6 @@ gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget)
     /* make sure we don't update a resource when the UI happens to be out of
      * sync for some reason */
     if (state != current) {
-#if 0
-        debug_gtk3("setting %s to %s.", resource, state ? "True": "False");
-#endif
         if (resources_set_int(resource, state ? 1 : 0) < 0) {
             log_error(LOG_ERR,
                     "setting %s to %s failed\n",

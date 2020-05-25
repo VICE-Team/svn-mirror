@@ -34,7 +34,6 @@
 #include <gtk/gtk.h>
 
 #include "basewidget_types.h"
-#include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -83,9 +82,6 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))
             && (old_val != new_val)) {
-#if 0
-        debug_gtk3("setting %s to %d.", resource, new_val);
-#endif
         if (resources_set_int(resource, new_val) < 0) {
             log_error(LOG_ERR, "failed to set resource '%s' to %d\n",
                     resource, new_val);
@@ -122,8 +118,6 @@ static GtkWidget *resource_radiogroup_new_helper(
 
     resource = resource_widget_get_resource_name(grid);
     if (resources_get_int(resource, &current) < 0) {
-        debug_gtk3("failed to get value for resource '%s', defaulting to 0.",
-                resource);
         current = 0;
     }
     /* store current resource value in object, for use with reset() */
@@ -298,7 +292,6 @@ gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id)
     const char *resource = resource_widget_get_resource_name(widget);
 
     if (resources_get_int(resource, id) < 0) {
-        debug_gtk3("failed to get value for resource '%s'.", resource);
         *id = 0;
         return FALSE;
     }
@@ -320,10 +313,10 @@ gboolean vice_gtk3_resource_radiogroup_item_set_sensitive(GtkWidget *widget, int
     GtkWidget *radio;
     vice_gtk3_radiogroup_entry_t *entries;
 
-    debug_gtk3("idx:%d sensitive:%d", index, sensitive);
-    
-    orientation = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "Orientation"));    
-    entries = (vice_gtk3_radiogroup_entry_t *)(g_object_get_data(G_OBJECT(widget), "Entries"));
+    orientation = GPOINTER_TO_INT(g_object_get_data(
+                G_OBJECT(widget), "Orientation"));
+    entries = (vice_gtk3_radiogroup_entry_t *)(g_object_get_data(
+                G_OBJECT(widget), "Entries"));
 
     /* first set up the child at index */
     if (orientation == GTK_ORIENTATION_VERTICAL) {
@@ -365,7 +358,6 @@ gboolean vice_gtk3_resource_radiogroup_sync(GtkWidget *widget)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, &value) < 0) {
-        debug_gtk3("failed to get value for resource '%s'.", resource);
         return FALSE;
     }
     return vice_gtk3_resource_radiogroup_set(widget, value);
@@ -385,12 +377,8 @@ gboolean vice_gtk3_resource_radiogroup_factory(GtkWidget *widget)
 
     resource = resource_widget_get_resource_name(widget);
     if (resources_get_default_value(resource, &value) < 0) {
-        debug_gtk3("failed to get factory value for resource '%s'.", resource);
         return FALSE;
     }
-#if 0
-    debug_gtk3("resetting %s to factory value %d.", resource, value);
-#endif
     return vice_gtk3_resource_radiogroup_set(widget, value);
 }
 
@@ -416,7 +404,10 @@ gboolean vice_gtk3_resource_radiogroup_reset(GtkWidget *widget)
  */
 gboolean vice_gtk3_resource_radiogroup_apply(GtkWidget *widget)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    /* Never seen this actually getting triggered, so just abort() in case it
+     * happens. Worst case Ontario it'll trigger gdb.
+     */
+    abort();
     return FALSE;
 }
 

@@ -28,7 +28,6 @@
 
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
 
@@ -189,8 +188,6 @@ gchar *vice_gtk3_open_create_file_dialog(
     GtkFileChooserNative *dialog;
     gint result;
     gchar *filename;
-
-    debug_gtk3("Warning: using GtkFileChooserNative!");
 
     dialog = gtk_file_chooser_native_new(
             title,
