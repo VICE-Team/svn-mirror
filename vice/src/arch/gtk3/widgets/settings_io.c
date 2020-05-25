@@ -42,7 +42,6 @@
 #include "basedialogs.h"
 #include "cartio.h"
 #include "cartridge.h"
-#include "resourcewidgetmanager.h"
 #include "uisettings.h"
 
 #include "settings_io.h"
@@ -56,23 +55,6 @@ static const vice_gtk3_radiogroup_entry_t io_collision_methods[] = {
     { "AND values",     IO_COLLISION_METHOD_AND_WIRES },
     { NULL, -1 }
 };
-
-
-/** \brief  Resource widget manager instance
- */
-static resource_widget_manager_t manager;
-
-
-/** \brief  Handler for the "destroy" event of the main widget
- *
- * \param[in]   widget  main widget (unused)
- * \param[in]   data    extra even data (unused)
- */
-static void on_settings_io_destroy(GtkWidget *widget, gpointer data)
-{
-    debug_gtk3("calling vice_resource_widget_manager_exit()");
-    vice_resource_widget_manager_exit(&manager);
-}
 
 
 /** \brief  Create widget to specify I/O collision handling method
@@ -104,8 +86,6 @@ static GtkWidget *create_collision_widget(const char *desc)
             io_collision_methods, GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
-    vice_resource_widget_manager_add_widget(&manager, group, NULL,
-            NULL, NULL, NULL);
 
     label = gtk_label_new(NULL);
     g_snprintf(buffer, 256, "<i>(%s)</i>", desc);
@@ -114,7 +94,6 @@ static GtkWidget *create_collision_widget(const char *desc)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-
 
     gtk_widget_show_all(grid);
     return grid;
@@ -132,8 +111,6 @@ static GtkWidget *create_cart_reset_widget(void)
     check = vice_gtk3_resource_check_button_new("CartridgeReset",
             "Reset machine on cartridge change");
     g_object_set(check, "margin-left", 16, NULL);
-    vice_resource_widget_manager_add_widget(&manager, check, NULL,
-            NULL, NULL, NULL);
     return check;
 }
 
@@ -193,8 +170,6 @@ static void create_c64dtv_layout(GtkWidget *grid)
             "Enable Hummer ADC");
     g_object_set(hummer, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), hummer, 0, 1, 3, 1);
-    vice_resource_widget_manager_add_widget(&manager, hummer, NULL,
-            NULL, NULL, NULL);
 }
 
 
@@ -269,13 +244,6 @@ GtkWidget *settings_io_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    /*
-     * Initialize and register resource widget manager. The various widgets
-     * register themselves in the create_bla() calls.
-     */
-    vice_resource_widget_manager_init(&manager);
-    ui_settings_set_resource_widget_manager(&manager);
-
     grid = uihelpers_create_grid_with_label(
             "Generic I/O extension settings", 3);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
@@ -320,11 +288,6 @@ GtkWidget *settings_io_widget_create(GtkWidget *parent)
             /* NOP */
             break;
     }
-
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_settings_io_destroy),
-            NULL);
-
-    vice_resource_widget_manager_dump(&manager);
 
     gtk_widget_show_all(grid);
     return grid;

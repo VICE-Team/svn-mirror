@@ -46,7 +46,6 @@
 #include "machine.h"
 #include "resources.h"
 #include "joyport.h"
-#include "resourcewidgetmanager.h"
 #include "uisettings.h"
 
 #include "settings_controlport.h"
@@ -58,11 +57,6 @@
 
 static void joyport_devices_list_shutdown(void);
 static void free_combo_list(int port);
-
-
-/** \brief  Resource widget manager object
- */
-resource_widget_manager_t manager;
 
 
 
@@ -89,8 +83,6 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
     for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
         free_combo_list(port);
     }
-
-    vice_resource_widget_manager_exit(&manager);
 }
 
 
@@ -210,10 +202,6 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
     gtk_widget_set_hexpand(combo, TRUE);
 
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
-
-    /* add widget to the resource manager */
-    vice_resource_widget_manager_add_widget(&manager, combo, NULL,
-            NULL, NULL, NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -443,9 +431,6 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
 
     joyport_devices_list_init();
 
-    vice_resource_widget_manager_init(&manager);
-    ui_settings_set_resource_widget_manager(&manager);
-
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
@@ -482,10 +467,7 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
     /* add BBRTC checkbox */
     if (rows > 0) {
         GtkWidget *bbrtc_widget = create_bbrtc_widget();
-
         gtk_grid_attach(GTK_GRID(layout), bbrtc_widget, 0, rows, 2, 1);
-        vice_resource_widget_manager_add_widget(&manager, bbrtc_widget, NULL,
-                NULL, NULL, NULL);
     }
 
     g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);

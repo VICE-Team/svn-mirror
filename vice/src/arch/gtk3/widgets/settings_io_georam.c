@@ -47,7 +47,6 @@
 #include "cartimagewidget.h"
 #include "carthelpers.h"
 #include "cartridge.h"
-#include "resourcewidgetmanager.h"
 #include "uisettings.h"
 
 #include "settings_io_georam.h"
@@ -66,21 +65,6 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
 };
 
 
-/** \brief  Resource widget manager instance
- */
-static resource_widget_manager_t manager;
-
-
-/** \brief  Clean up resources used by the main widget
- *
- * \param[in]   widget  main widget (unused)
- * \param[in]   data    extra event data (unused
- */
-static void on_main_widget_destroy(GtkWidget *widget, gpointer data)
-{
-    vice_resource_widget_manager_exit(&manager);
-}
-
 
 /** \brief  Create IO-swap check button (seems to be valid for xvic only)
  *
@@ -92,8 +76,6 @@ static GtkWidget *create_georam_ioswap_widget(void)
 
     check = vice_gtk3_resource_check_button_new("GEORAMIOSwap",
             "MasC=uarade I/O swap");
-    vice_resource_widget_manager_add_widget(&manager, check, NULL,
-            NULL, NULL, NULL);
     return check;
 }
 
@@ -110,8 +92,6 @@ static GtkWidget *create_georam_size_widget(void)
     grid = uihelpers_create_grid_with_label("RAM Size", 1);
     radio_group = vice_gtk3_resource_radiogroup_new("GEORAMsize", ram_sizes,
             GTK_ORIENTATION_VERTICAL);
-    vice_resource_widget_manager_add_widget(&manager, radio_group, NULL,
-            NULL, NULL, NULL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
@@ -148,17 +128,11 @@ GtkWidget *settings_io_georam_widget_create(GtkWidget *parent)
     GtkWidget *georam_ioswap;
     GtkWidget *georam_image;
 
-    vice_resource_widget_manager_init(&manager);
-    ui_settings_set_resource_widget_manager(&manager);
-
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /*    georam_enable = create_georam_enable_widget(); */
-    /* TODO: this also needs the sync()/reset()/factory() methods so it'll
-     *       work with the resource manager widget
-     */
     georam_enable = carthelpers_create_enable_check_button(
             CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
     gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 1, 1);
@@ -174,8 +148,6 @@ GtkWidget *settings_io_georam_widget_create(GtkWidget *parent)
     georam_image = create_georam_image_widget(parent);
     gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
 
-
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_main_widget_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

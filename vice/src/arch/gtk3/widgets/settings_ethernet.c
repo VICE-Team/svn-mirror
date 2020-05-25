@@ -43,7 +43,6 @@
 #ifdef HAVE_RAWNET
 # include "rawnet.h"
 #endif
-#include "resourcewidgetmanager.h"
 #include "uisettings.h"
 
 #include "settings_ethernet.h"
@@ -53,10 +52,6 @@
 static void clean_iface_list(void);
 #endif
 
-
-/** \brief  Resource widget manager instance
- */
-static resource_widget_manager_t manager;
 
 
 /** \brief  Handler for the 'destroy' event of the main widget
@@ -69,7 +64,6 @@ static void on_settings_ethernet_destroy(GtkWidget *widget, gpointer data)
 #ifdef HAVE_RAWNET
     clean_iface_list();
 #endif
-    vice_resource_widget_manager_exit(&manager);
 }
 
 
@@ -196,11 +190,6 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     GtkWidget *combo;
 #endif
 
-    /* initialize and register resource widget manager */
-    vice_resource_widget_manager_init(&manager);
-    ui_settings_set_resource_widget_manager(&manager);
-
-
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     switch (machine_class) {
@@ -231,8 +220,6 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
     combo = create_device_combo();
-    vice_resource_widget_manager_add_widget(&manager, combo, NULL,
-            NULL, NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
 
@@ -244,7 +231,6 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_settings_ethernet_destroy),
             NULL);
-
 
     gtk_widget_show_all(grid);
     return grid;

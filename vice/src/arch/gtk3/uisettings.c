@@ -1958,19 +1958,6 @@ static GtkTreePath *last_node_path = NULL;
 static resource_widget_manager_t *resource_manager = NULL;
 #endif
 
-/** \brief  Set reference to the resource widget manager of the current page
- *
- * \param[in]   manager resource widget manager reference
- */
-void ui_settings_set_resource_widget_manager(resource_widget_manager_t *manager)
-{
-    debug_gtk3("Setting resource-manager-widget reference temporarily"
-            " disabled.");
-#if 0
-    resource_manager = manager;
-#endif
-}
-
 
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
 {
