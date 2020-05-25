@@ -45,12 +45,8 @@
  */
 static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 {
-    GtkWidget *window = GTK_WIDGET(data);
-#if 0
-    debug_gtk3("RESTORE MOUSE HIDE");
-#endif
     ui_set_ignore_mouse_hide(FALSE);
-    gtk_widget_destroy(window);
+    gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 
@@ -308,7 +304,8 @@ gboolean vice_gtk3_integer_input_box(
             if (*new_value >= min && *new_value <= max) {
                 return TRUE;
             } else {
-                debug_gtk3("value entered out of bounds (%d-%d): %d.",
+                vice_gtk3_message_error("VICE Error",
+                        "Value entered out of bounds (%d-%d): %d.",
                         min, max, *new_value);
                 return FALSE;
             }
