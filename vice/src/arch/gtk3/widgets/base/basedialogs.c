@@ -29,7 +29,6 @@
 #include <string.h>
 
 #include "lib.h"
-#include "debug_gtk3.h"
 #include "uimachinewindow.h"
 #include "ui.h"
 
