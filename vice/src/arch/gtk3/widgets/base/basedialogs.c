@@ -149,9 +149,6 @@ gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...)
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
     gtk_widget_destroy(dialog);
-#if 0
-    debug_gtk3("got response ID %d.", result);
-#endif
     return (result == GTK_RESPONSE_OK ? TRUE : FALSE);
 }
 
@@ -173,23 +170,6 @@ gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
-#if 0
-    size_t len = strlen(buffer);
-    unsigned int x = 0;
-    unsigned int y = 0;
-    for (y = 0; y < 256 && x + y < (int)len; y += 16) {
-
-        char textbuf[17];
-
-        printf("%02x:  ", y);
-        memset(textbuf, 0, 17);
-        for (x = 0; x < 16 && x + y < (int)len; x++) {
-            printf("%02x ", buffer[x + y]);
-            textbuf[x] = buffer[x + y];
-        }
-        puts("");
-    }
-#endif
 
     dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));
@@ -322,7 +302,7 @@ gboolean vice_gtk3_integer_input_box(
 
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     if (response == GTK_RESPONSE_ACCEPT) {
-        /* TODO set *new_value */
+        /* set *new_value */
         if (entry_get_int(entry, new_value)) {
             gtk_widget_destroy(dialog);
             if (*new_value >= min && *new_value <= max) {
@@ -337,4 +317,3 @@ gboolean vice_gtk3_integer_input_box(
     gtk_widget_destroy(dialog);
     return FALSE;
 }
-

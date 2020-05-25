@@ -61,7 +61,7 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
     gchar *filename;
     char buffer[256];
 
-    g_snprintf(buffer, 256, "Open or create %s image file", crt_name);
+    g_snprintf(buffer, sizeof(buffer), "Open or create %s image file", crt_name);
 
     filename = vice_gtk3_open_create_file_dialog(buffer, NULL, FALSE, NULL);
     if (filename != NULL) {
@@ -101,7 +101,7 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     }
 #endif
 
-    g_snprintf(buffer, 256, "Save %s image file", crt_name);
+    g_snprintf(buffer, sizeof(buffer), "Save %s image file", crt_name);
     new_filename = vice_gtk3_save_file_dialog(buffer, fname, TRUE, dname);
     if (new_filename != NULL) {
 #if 0

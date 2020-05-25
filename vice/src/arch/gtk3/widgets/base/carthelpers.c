@@ -33,6 +33,7 @@
 #include "resources.h"
 #include "lib.h"
 #include "debug_gtk3.h"
+#include "basedialogs.h"
 #include "cartridge.h"
 
 #include "carthelpers.h"
@@ -146,11 +147,9 @@ static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
 {
     int id;
     int state;
-#ifdef HAVE_DEBUG_GTK3UI
     const char *name;
-    name = (const char *)g_object_get_data(G_OBJECT(check), "CartridgeName");
-#endif
 
+    name = (const char *)g_object_get_data(G_OBJECT(check), "CartridgeName");
     id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(check), "CartridgeId"));
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
 #if 0
@@ -159,12 +158,14 @@ static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
 #endif
     if (state) {
         if (carthelpers_enable_func(id) < 0) {
-            debug_gtk3("failed to enable %s cartridge.", name);
+            vice_gtk3_message_error("VICE core error",
+                    "Failed to enable %s cartridge", name);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
         }
     } else {
         if (carthelpers_disable_func(id) < 0) {
-            debug_gtk3("failed to disable %s cartridge.", name);
+            vice_gtk3_message_error("VICE core error",
+                    "Failed to disable %s cartridge", name);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
         }
     }
