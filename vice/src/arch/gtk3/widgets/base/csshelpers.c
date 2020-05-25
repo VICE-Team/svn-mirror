@@ -31,7 +31,6 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include "debug_gtk3.h"
 #include "log.h"
 
 #include "csshelpers.h"
