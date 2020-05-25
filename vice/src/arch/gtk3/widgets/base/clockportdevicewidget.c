@@ -31,7 +31,6 @@
 
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
 #include "basewidgets.h"
 #include "widgethelpers.h"
 #include "resourcehelpers.h"
@@ -78,9 +77,6 @@ static void on_device_changed(GtkWidget *widget, gpointer user_data)
 
     value = (int)strtol(id, &endptr, 10);
     if (*endptr == '\0') {
-#if 0
-        debug_gtk3("setting %s to %d.", resource, value);
-#endif
         resources_set_int(resource, value);
     }
 }
@@ -112,7 +108,7 @@ GtkWidget *clockport_device_widget_create(const char *resource)
         char *name = clockport_devices[i].name;
 
         /* combo boxes have a string ID */
-        g_snprintf(id_str, 80, "%d", id);
+        g_snprintf(id_str, sizeof(id_str), "%d", id);
 
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), id_str, name);
 
