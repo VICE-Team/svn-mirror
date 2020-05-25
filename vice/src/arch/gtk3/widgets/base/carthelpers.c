@@ -158,14 +158,10 @@ static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
 #endif
     if (state) {
         if (carthelpers_enable_func(id) < 0) {
-            vice_gtk3_message_error("VICE core error",
-                    "Failed to enable %s cartridge", name);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
         }
     } else {
         if (carthelpers_disable_func(id) < 0) {
-            vice_gtk3_message_error("VICE core error",
-                    "Failed to disable %s cartridge", name);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
         }
     }
