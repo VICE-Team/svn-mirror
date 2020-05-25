@@ -49,7 +49,6 @@ gboolean vice_gtk3_resource_spin_int_get(GtkWidget *widget, int *value);
 gboolean vice_gtk3_resource_spin_int_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_spin_int_sync(GtkWidget *widget);
 gboolean vice_gtk3_resource_spin_int_factory(GtkWidget *widget);
-gboolean vice_gtk3_resource_spin_int_apply(GtkWidget *widget);
 
 void     vice_gtk3_resource_spin_int_set_fake_digits(GtkWidget *spin,
                                                      int digits);

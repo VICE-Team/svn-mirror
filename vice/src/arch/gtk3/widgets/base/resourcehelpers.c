@@ -152,13 +152,11 @@ void resource_widget_register_methods(
         GtkWidget *widget,
         gboolean (*reset)(GtkWidget *),
         gboolean (*factory)(GtkWidget *),
-        gboolean (*sync)(GtkWidget *),
-        gboolean (*apply)(GtkWidget *))
+        gboolean (*sync)(GtkWidget *))
 {
     g_object_set_data(G_OBJECT(widget), "MethodReset", (gpointer)reset);
     g_object_set_data(G_OBJECT(widget), "MethodFactory", (gpointer)factory);
     g_object_set_data(G_OBJECT(widget), "MethodSync", (gpointer)sync);
-    g_object_set_data(G_OBJECT(widget), "MethodApply", (gpointer)apply);
 }
 
 

@@ -44,6 +44,5 @@ gboolean vice_gtk3_resource_browser_get(GtkWidget *widget, const char **dest);
 gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget);
 gboolean vice_gtk3_resource_browser_sync(GtkWidget *widget);
 gboolean vice_gtk3_resource_browser_factory(GtkWidget *widget);
-gboolean vice_gtk3_resource_browser_apply(GtkWidget *widget);
 
 #endif

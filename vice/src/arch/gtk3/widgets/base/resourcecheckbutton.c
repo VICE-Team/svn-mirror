@@ -79,9 +79,15 @@ static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
  */
 static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 {
-    if (resource_widget_get_auto_update(check)) {
-        vice_gtk3_resource_check_button_apply(check);
+    int state;
+    const gchar *resname;
+
+    resname = resource_widget_get_resource_name(check);
+    if (resources_get_int(resname, &state) > 0) {
+        /* warning */
+        return;
     }
+    resources_set_int(resname, !state);
 }
 
 
@@ -121,8 +127,7 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
             check,
             vice_gtk3_resource_check_button_reset,
             vice_gtk3_resource_check_button_factory,
-            vice_gtk3_resource_check_button_sync,
-            vice_gtk3_resource_check_button_apply);
+            vice_gtk3_resource_check_button_sync);
 
     g_signal_connect(check, "toggled", G_CALLBACK(on_check_button_toggled),
             (gpointer)resource);

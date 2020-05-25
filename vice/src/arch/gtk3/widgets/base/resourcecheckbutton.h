@@ -39,17 +39,11 @@ GtkWidget * vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
                                                         ...);
 
 void vice_gtk3_resource_check_button_disable_auto_update(GtkWidget *widget);
-
 gboolean vice_gtk3_resource_check_button_set(GtkWidget *check, gboolean value);
-
 gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest);
-
 gboolean vice_gtk3_resource_check_button_reset(GtkWidget *widget);
-
 gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget);
-
 gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget);
 
-gboolean vice_gtk3_resource_check_button_apply(GtkWidget *widget);
 
 #endif

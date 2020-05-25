@@ -289,8 +289,7 @@ GtkWidget *vice_gtk3_resource_browser_new(
             grid,
             vice_gtk3_resource_browser_reset,
             vice_gtk3_resource_browser_factory,
-            vice_gtk3_resource_browser_sync,
-            vice_gtk3_resource_browser_apply);
+            vice_gtk3_resource_browser_sync);
 
     /* connect signal handlers */
     g_signal_connect(state->button, "clicked",
@@ -415,17 +414,4 @@ gboolean vice_gtk3_resource_browser_factory(GtkWidget *widget)
         return FALSE;
     }
     return vice_gtk3_resource_browser_set(widget, value);
-}
-
-
-/** \brief  Apply the widget's setting to its resource
- *
- * \param[in]   resource browser widget
- *
- * \return  bool
- */
-gboolean vice_gtk3_resource_browser_apply(GtkWidget *widget)
-{
-    NOT_IMPLEMENTED_WARN_ONLY();
-    return FALSE;
 }
