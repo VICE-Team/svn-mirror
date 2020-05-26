@@ -209,6 +209,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_RRNETMK3,            CARTRIDGE_RRNETMK3,            CARTRIDGE_GROUP_UTIL },
 #endif
     { CARTRIDGE_NAME_ROSS,                CARTRIDGE_ROSS,                CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_NAME_SDBOX,               CARTRIDGE_SDBOX,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_SILVERROCK_128,      CARTRIDGE_SILVERROCK_128,      CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_SIMONS_BASIC,        CARTRIDGE_SIMONS_BASIC,        CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_SNAPSHOT64,          CARTRIDGE_SNAPSHOT64,          CARTRIDGE_GROUP_FREEZER },
@@ -335,6 +336,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_RGCD:
         case CARTRIDGE_RRNETMK3:
         case CARTRIDGE_ROSS:
+        case CARTRIDGE_SDBOX:
         case CARTRIDGE_SNAPSHOT64:
         case CARTRIDGE_SIMONS_BASIC:
         case CARTRIDGE_SILVERROCK_128:

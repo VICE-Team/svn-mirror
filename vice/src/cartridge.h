@@ -225,9 +225,10 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_BLACKBOX3            65 /* blackbox3.c */
 #define CARTRIDGE_BLACKBOX4            66 /* blackbox4.c */
 #define CARTRIDGE_REX_RAMFLOPPY        67 /* rexramfloppy.c */
-#define CARTRIDGE_BISPLUS              68 /* rexramfloppy.c */
+#define CARTRIDGE_BISPLUS              68 /* bisplus.c */
+#define CARTRIDGE_SDBOX                69 /* sdbox.c */
 
-#define CARTRIDGE_LAST                 68 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 69 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -317,6 +318,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_RRNETMK3           "RR-Net MK3" /* see manual */
 #define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
 #define CARTRIDGE_NAME_ROSS               "ROSS"
+#define CARTRIDGE_NAME_SDBOX              "SD-BOX" /* http://c64.com.pl/index.php/sdbox106.html */
 #define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
 #define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
 #define CARTRIDGE_NAME_SILVERROCK_128     "Silverrock 128K Cartridge"

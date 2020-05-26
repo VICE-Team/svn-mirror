@@ -6286,6 +6286,8 @@ RR-Net MK3
 @item
 ROSS
 @item
+SD-BOX
+@item
 Simons' BASIC
 @item
 Snapshot 64
@@ -6593,6 +6595,8 @@ The following cartridge types are valid:
 67: REX RAM-Floppy
 @item
 68: BIS-Plus      
+@item
+69: SD-BOX
 @end itemize
 
 @vindex CartridgeFile
@@ -7601,6 +7605,10 @@ Attach raw 8kB REX RAM-Floppy cartridge image.
 @findex -cartru
 @item -cartru <name>
 Attach raw 8kB REX Utility cartridge image.
+
+@findex -cartsdbox
+@item -cartsdbox <name>
+Attach raw 128kB SD-BOX cartridge image.
 
 @findex -carts64
 @item -carts64 <name>
@@ -17661,6 +17669,8 @@ RR-Net MK3 .crt file
 REX RAM-Floppy .crt file
 @item ru
 REX Utility .crt file
+@item sdbox
+SD-BOX .crt file
 @item s64
 Snapshot 64 .crt file
 @item sb
@@ -23272,6 +23282,7 @@ Camels"@dots{}
                       66 - Blackbox V4
                       67 - REX RAM-Floppy
                       68 - BIS-Plus
+                      69 - SD-BOX
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -26772,6 +26783,47 @@ buffered, and the cartridge can be disabled with a switch on the board.
 
 This cartridge contains a 2, 4 or 8k ROM. The software is copied to RAM and then
 the cartridge disables itself by writing to IO1 (de00).
+    
+@subsubsection 69 - SD-BOX
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 128Kb
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 45 00 00 00 00 00 00 00 00  ...@...E........
+0020: 53 44 2d 42 4f 58 00 00 00 00 00 00 00 00 00 00  SD-BOX..........
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: 09 80 81 ea c3 c2 cd 38 30 a9 00 8d 00 de a9 40  .......80......@
+
+@end example
+
+This cartridge contains a 128k banked ROM with a filebrowser and some extra
+software on it. It also contains a sd2iec clone, which seems to be seperate
+and runs the original sd2iec firmware.
+
+@example
+    there is one register at de00:
+    
+    bit 0-3     ROM bank
+    bit 4       reset SD
+    bit 5       CE ROM
+    bit 6       EXROM
+    bit 7       register enable
+    
+    additionally there are 3 "ram cells" at de01-de03
+@end example    
     
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

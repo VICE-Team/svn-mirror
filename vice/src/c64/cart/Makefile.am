@@ -166,6 +166,8 @@ libc64cart_a_SOURCES = \
 	ross.h \
 	rrnetmk3.c \
 	rrnetmk3.h \
+	sdbox.c \
+	sdbox.h \
 	shortbus.c \
 	shortbus.h \
 	shortbus_digimax.c \

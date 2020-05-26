@@ -126,6 +126,7 @@
 #include "rgcd.h"
 #include "rrnetmk3.h"
 #include "ross.h"
+#include "sdbox.h"
 #include "shortbus_digimax.h"
 #include "silverrock128.h"
 #include "simonsbasic.h"
@@ -388,6 +389,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartru", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_REX, NULL, NULL,
       "<Name>", "Attach raw 8kB REX Utility cartridge image" },
+    { "-cartsdbox", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_SDBOX, NULL, NULL,
+      "<Name>", "Attach raw 128kB " CARTRIDGE_NAME_SDBOX " cartridge image" },
     { "-carts64", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_SNAPSHOT64, NULL, NULL,
       "<Name>", "Attach raw 4kB Snapshot 64 cartridge image" },
@@ -924,6 +928,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
 #endif
         case CARTRIDGE_ROSS:
             return ross_bin_attach(filename, rawcart);
+        case CARTRIDGE_SDBOX:
+            return sdbox_bin_attach(filename, rawcart);
         case CARTRIDGE_SILVERROCK_128:
             return silverrock128_bin_attach(filename, rawcart);
         case CARTRIDGE_SIMONS_BASIC:
@@ -1154,6 +1160,9 @@ void cart_attach(int type, uint8_t *rawcart)
             rrnetmk3_config_setup(rawcart);
             break;
 #endif
+        case CARTRIDGE_SDBOX:
+            sdbox_config_setup(rawcart);
+            break;
         case CARTRIDGE_SILVERROCK_128:
             silverrock128_config_setup(rawcart);
             break;
@@ -1698,6 +1707,9 @@ void cart_detach(int type)
         case CARTRIDGE_ROSS:
             ross_detach();
             break;
+        case CARTRIDGE_SDBOX:
+            sdbox_detach();
+            break;
         case CARTRIDGE_SILVERROCK_128:
             silverrock128_detach();
             break;
@@ -1968,6 +1980,9 @@ void cartridge_init_config(void)
 #endif
         case CARTRIDGE_ROSS:
             ross_config_init();
+            break;
+        case CARTRIDGE_SDBOX:
+            sdbox_config_init();
             break;
         case CARTRIDGE_SILVERROCK_128:
             silverrock128_config_init();
@@ -3007,6 +3022,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_SDBOX:
+                if (sdbox_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_SILVERROCK_128:
                 if (silverrock128_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3536,6 +3556,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             case CARTRIDGE_ROSS:
                 if (ross_snapshot_read_module(s) < 0) {
                     goto fail2;
+                }
+                break;
+            case CARTRIDGE_SDBOX:
+                if (sdbox_snapshot_read_module(s) < 0) {
+                    return -1;
                 }
                 break;
             case CARTRIDGE_SILVERROCK_128:

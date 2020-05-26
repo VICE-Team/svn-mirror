@@ -107,6 +107,7 @@
 #include "rexutility.h"
 #include "rrnetmk3.h"
 #include "ross.h"
+#include "sdbox.h"
 #include "simonsbasic.h"
 #include "snapshot64.h"
 #include "stardos.h"

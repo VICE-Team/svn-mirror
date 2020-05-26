@@ -95,6 +95,7 @@
 #include "rgcd.h"
 #include "rrnetmk3.h"
 #include "ross.h"
+#include "sdbox.h"
 #include "silverrock128.h"
 #include "simonsbasic.h"
 #include "stardos.h"
@@ -558,6 +559,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
 #endif
         case CARTRIDGE_ROSS:
             rc = ross_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_SDBOX:
+            rc = sdbox_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_SILVERROCK_128:
             rc = silverrock128_crt_attach(fd, rawcart);
