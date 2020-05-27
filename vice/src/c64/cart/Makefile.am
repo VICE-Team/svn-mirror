@@ -142,6 +142,8 @@ libc64cart_a_SOURCES = \
 	mmcreplay.h \
 	mmc64.c \
 	mmc64.h \
+	multimax.c \
+	multimax.h \
 	ocean.c \
 	ocean.h \
 	pagefox.c \

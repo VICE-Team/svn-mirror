@@ -197,6 +197,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_MIKRO_ASSEMBLER,     CARTRIDGE_MIKRO_ASSEMBLER,     CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MMC64,               CARTRIDGE_MMC64,               CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_MMC_REPLAY,          CARTRIDGE_MMC_REPLAY,          CARTRIDGE_GROUP_FREEZER },
+    { CARTRIDGE_NAME_MULTIMAX,            CARTRIDGE_MULTIMAX,            CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_OCEAN,               CARTRIDGE_OCEAN,               CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_P64,                 CARTRIDGE_P64,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_PAGEFOX,             CARTRIDGE_PAGEFOX,             CARTRIDGE_GROUP_UTIL },
@@ -326,6 +327,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_MIKRO_ASSEMBLER:
         case CARTRIDGE_MMC64:
         case CARTRIDGE_MMC_REPLAY:
+        case CARTRIDGE_MULTIMAX:
         case CARTRIDGE_OCEAN:
         case CARTRIDGE_P64:
         case CARTRIDGE_PAGEFOX:

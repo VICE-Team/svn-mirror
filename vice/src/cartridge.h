@@ -227,8 +227,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_REX_RAMFLOPPY        67 /* rexramfloppy.c */
 #define CARTRIDGE_BISPLUS              68 /* bisplus.c */
 #define CARTRIDGE_SDBOX                69 /* sdbox.c */
+#define CARTRIDGE_MULTIMAX             70 /* multimax.c */
 
-#define CARTRIDGE_LAST                 69 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 70 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -304,6 +305,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
 #define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
 #define CARTRIDGE_NAME_MIDI_SEQUENTIAL    "Sequential MIDI"
+#define CARTRIDGE_NAME_MULTIMAX           "MultiMAX" /* http://www.multimax.co/ */
 #define CARTRIDGE_NAME_NORDIC_REPLAY      "Nordic Replay" /* "Retro Replay v2" see manual */
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_PAGEFOX            "Pagefox"

@@ -85,6 +85,7 @@
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
+#include "multimax.h"
 #include "ocean.h"
 #include "pagefox.h"
 #include "prophet64.h"
@@ -527,6 +528,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_MMC_REPLAY:
             rc = mmcreplay_crt_attach(fd, rawcart, filename);
+            break;
+        case CARTRIDGE_MULTIMAX:
+            rc = multimax_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_OCEAN:
             rc = ocean_crt_attach(fd, rawcart);

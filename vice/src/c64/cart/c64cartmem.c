@@ -96,6 +96,7 @@
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
+#include "multimax.h"
 #include "ocean.h"
 #include "pagefox.h"
 #include "prophet64.h"
@@ -628,6 +629,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return maxbasic_roml_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_roml_read(addr);
+        case CARTRIDGE_MULTIMAX:
+            return multimax_roml_read(addr);
         case CARTRIDGE_PAGEFOX:
             return pagefox_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
@@ -843,6 +846,8 @@ static uint8_t romh_read_slotmain(uint16_t addr)
             return maxbasic_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_romh_read(addr);
+        case CARTRIDGE_MULTIMAX:
+            return multimax_romh_read(addr);
         case CARTRIDGE_OCEAN:
             return ocean_romh_read(addr);
         case CARTRIDGE_PAGEFOX:
@@ -952,6 +957,8 @@ static uint8_t ultimax_romh_read_hirom_slotmain(uint16_t addr)
             return maxbasic_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_romh_read(addr);
+        case CARTRIDGE_MULTIMAX:
+            return multimax_romh_read(addr);
         case CARTRIDGE_OCEAN:
             return ocean_romh_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
@@ -1267,6 +1274,8 @@ uint8_t ultimax_0800_0fff_read(uint16_t addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_MAX_BASIC:
             return maxbasic_0800_0fff_read(addr);
+        case CARTRIDGE_MULTIMAX:
+            return multimax_0800_0fff_read(addr);
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
@@ -1282,6 +1291,9 @@ void ultimax_0800_0fff_store(uint16_t addr, uint8_t value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_MAX_BASIC:
             maxbasic_0800_0fff_store(addr, value);
+            break;
+        case CARTRIDGE_MULTIMAX:
+            multimax_0800_0fff_store(addr, value);
             break;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));

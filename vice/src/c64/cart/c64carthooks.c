@@ -112,6 +112,7 @@
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
+#include "multimax.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
 #include "ocean.h"
@@ -351,6 +352,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartmv", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_VOICE, NULL, NULL,
       "<Name>", "Attach raw 16kB Magic Voice cartridge image" },
+    { "-cartmm", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_MULTIMAX, NULL, NULL,
+      "<Name>", "Attach raw 1MB " CARTRIDGE_NAME_MULTIMAX " cartridge image" },
     { "-cartocean", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_OCEAN, NULL, NULL,
       "<Name>", "Attach raw Ocean cartridge image" },
@@ -906,6 +910,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return mikroass_bin_attach(filename, rawcart);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_bin_attach(filename, rawcart);
+        case CARTRIDGE_MULTIMAX:
+            return multimax_bin_attach(filename, rawcart);
         case CARTRIDGE_OCEAN:
             return ocean_bin_attach(filename, rawcart);
         case CARTRIDGE_P64:
@@ -1127,6 +1133,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MULTIMAX:
+            multimax_config_setup(rawcart);
             break;
         case CARTRIDGE_OCEAN:
             ocean_config_setup(rawcart);
@@ -1675,6 +1684,9 @@ void cart_detach(int type)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_detach();
             break;
+        case CARTRIDGE_MULTIMAX:
+            multimax_detach();
+            break;
         case CARTRIDGE_OCEAN:
             ocean_detach();
             break;
@@ -1948,6 +1960,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_config_init();
+            break;
+        case CARTRIDGE_MULTIMAX:
+            multimax_config_init();
             break;
         case CARTRIDGE_OCEAN:
             ocean_config_init();
@@ -2970,6 +2985,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_MULTIMAX:
+                if (multimax_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3503,6 +3523,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_MMC_REPLAY:
                 if (mmcreplay_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_MULTIMAX:
+                if (multimax_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

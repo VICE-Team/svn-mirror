@@ -199,6 +199,7 @@ static const cart_t cart_info[] = {
     {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_REX_RAMFLOPPY, "rrf", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_2KB | CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_BISPLUS, "bis", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_128KB, 0x4000, 0x8000, 8, 0, CARTRIDGE_NAME_SDBOX, "sdbox", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_1024KB, 0x4000, 0x8000, 64, 0, CARTRIDGE_NAME_MULTIMAX, "mm", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -1706,6 +1707,9 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
                 save_2_blocks_crt(0x2000, 0x2000, 0x8000, 0xe000, 0, 1);
                 break;
             default:
+                fprintf(stderr, "Error: invalid size for generic ultimax cartridge\n");
+                cleanup();
+                exit(1);
                 break;
         }
     } else {
@@ -1726,6 +1730,9 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
                 save_regular_crt(0x4000, 1, 0x8000, 0, 0, 0);
                 break;
             default:
+                fprintf(stderr, "Error: invalid size for generic cartridge\n");
+                cleanup();
+                exit(1);
                 break;
         }
     }

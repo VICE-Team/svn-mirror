@@ -6597,6 +6597,8 @@ The following cartridge types are valid:
 68: BIS-Plus      
 @item
 69: SD-BOX
+@item
+70: MultiMAX
 @end itemize
 
 @vindex CartridgeFile
@@ -7353,6 +7355,10 @@ Attach raw Magic Formel cartridge image.
 @findex -cartmax
 @item -cartmax <name>
 Attach raw MAX Basic cartridge image.
+
+@findex -cartmm
+@item -cartmm <name>
+Attach raw MultiMAX cartridge image.
 
 @findex -cartmikro
 @item -cartmikro <name>
@@ -17649,6 +17655,8 @@ MMC64 .crt file
 MMC Replay .crt file
 @item mv
 Magic Voice .crt file
+@item mm
+MultiMAX .crt file
 @item ocean
 Ocean .crt file
 @item p64
@@ -23283,6 +23291,7 @@ Camels"@dots{}
                       67 - REX RAM-Floppy
                       68 - BIS-Plus
                       69 - SD-BOX
+                      70 - MultiMAX
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -26824,7 +26833,44 @@ and runs the original sd2iec firmware.
     
     additionally there are 3 "ram cells" at de01-de03
 @end example    
+
+@c @node FIXME
+@subsubsection 70 - MultiMAX
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 1MB, 64*16Kb (ULTIMAX mode)
+@item EXROM
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $8000-$9FFF (odd banks),
+     $E000-$FFFF (even banks)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 46 01 00 00 00 00 00 00 00  ...@...F........
+0020: 4d 55 4c 54 49 4d 41 58 00 00 00 00 00 00 00 00  MULTIMAX........
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: 48 80 48 83 48 83 48 83 64 85 64 85 f5 87 aa 88  H.H.H.H.d.d.....
+@end example
+
+This cartridge contains 1MB ROM organised in 64 16K banks. It operates in 
+ultimax mode and contains all known ultimax releases.
+It also provides additional 2k RAM for MAX-Basic, which will be mapped to $0800.
+
+@example
+    there is one register mirrored in the entire IO1 space:
     
+    bit 7       when set, the register is disabled and can only be reenabled by reset
+    bit 0-5     select ROM bank 0-63    
+@end example
+
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
 
