@@ -123,9 +123,11 @@ static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
 {
     int id;
     int state;
+#if 0
     const char *name;
 
     name = (const char *)g_object_get_data(G_OBJECT(check), "CartridgeName");
+#endif
     id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(check), "CartridgeId"));
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
 #if 0
