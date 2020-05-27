@@ -67,6 +67,7 @@
 #include "blackbox3.h"
 #include "blackbox4.h"
 #include "blackbox8.h"
+#include "blackbox9.h"
 #include "c64acia.h"
 #include "c64-generic.h"
 #include "c64-midi.h"
@@ -234,6 +235,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartbb8", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_BLACKBOX8, NULL, NULL,
       "<Name>", "Attach raw 32/64KB " CARTRIDGE_NAME_BLACKBOX8 " cartridge image" },
+    { "-cartbb9", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_BLACKBOX9, NULL, NULL,
+      "<Name>", "Attach raw 32KB " CARTRIDGE_NAME_BLACKBOX9 " cartridge image" },
     { "-cartbis", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_BISPLUS, NULL, NULL,
       "<Name>", "Attach raw 2/4/8KB " CARTRIDGE_NAME_BISPLUS " cartridge image" },
@@ -842,6 +846,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return blackbox4_bin_attach(filename, rawcart);
         case CARTRIDGE_BLACKBOX8:
             return blackbox8_bin_attach(filename, rawcart);
+        case CARTRIDGE_BLACKBOX9:
+            return blackbox9_bin_attach(filename, rawcart);
         case CARTRIDGE_CAPTURE:
             return capture_bin_attach(filename, rawcart);
         case CARTRIDGE_COMAL80:
@@ -1034,6 +1040,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_BLACKBOX8:
             blackbox8_config_setup(rawcart);
+            break;
+        case CARTRIDGE_BLACKBOX9:
+            blackbox9_config_setup(rawcart);
             break;
         case CARTRIDGE_CAPTURE:
             capture_config_setup(rawcart);
@@ -1585,6 +1594,9 @@ void cart_detach(int type)
         case CARTRIDGE_BLACKBOX8:
             blackbox8_detach();
             break;
+        case CARTRIDGE_BLACKBOX9:
+            blackbox9_detach();
+            break;
         case CARTRIDGE_CAPTURE:
             capture_detach();
             break;
@@ -1861,6 +1873,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_BLACKBOX8:
             blackbox8_config_init();
+            break;
+        case CARTRIDGE_BLACKBOX9:
+            blackbox9_config_init();
             break;
         case CARTRIDGE_CAPTURE:
             capture_config_init();

@@ -6218,6 +6218,8 @@ Blackbox V4
 @item
 Blackbox V8
 @item
+Blackbox V9
+@item
 C64 Games System
 @item
 Capture
@@ -6599,6 +6601,8 @@ The following cartridge types are valid:
 69: SD-BOX
 @item
 70: MultiMAX
+@item
+71: Blackbox V9
 @end itemize
 
 @vindex CartridgeFile
@@ -6998,6 +7002,10 @@ Attach raw 16KB Blackbox V4 cartridge image.
 @findex -cartbb8
 @item -cartbb8 <name>
 Attach raw 32/64KB Blackbox V8 cartridge image.
+
+@findex -cartbb9
+@item -cartbb9 <name>
+Attach raw 32KB Blackbox V9 cartridge image.
 
 @findex -cartcap
 @item -cartcap <name>
@@ -17585,6 +17593,8 @@ Blackbox V3 .crt file
 Blackbox V4 .crt file
 @item bb8
 Blackbox V8 .crt file
+@item bb9
+Blackbox V9 .crt file
 @item cap
 Capture .crt file
 @item comal
@@ -23292,6 +23302,7 @@ Camels"@dots{}
                       68 - BIS-Plus
                       69 - SD-BOX
                       70 - MultiMAX
+                      71 - Blackbox V9
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -26869,6 +26880,44 @@ It also provides additional 2k RAM for MAX-Basic, which will be mapped to $0800.
     
     bit 7       when set, the register is disabled and can only be reenabled by reset
     bit 0-5     select ROM bank 0-63    
+@end example
+
+@c @node FIXME
+@subsubsection 71 - Blackbox V9
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb, 2*16Kb
+@item EXROM
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
+@item Load address
+@tab $8000-$9FFF
+     $E000-$FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 47 00 00 00 00 00 00 00 00  ...@...G........
+0020: 42 4c 41 43 4b 42 4f 58 20 56 39 00 00 00 00 00  BLACKBOX V9.....
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP..@.......@.
+0050: 00 9a b6 fe c3 c2 cd 38 30 c3 ff 00 ff 00 ff 00  .......80.......
+@end example
+
+The cartridge starts in ultimax mode in the last bank. The IO1 area also contains
+a mirror of the second last ROM page.
+    
+@example
+    a register is mapped to IO1, which is changed by accessing an address in
+    the IO space, the address bits are mapped like this:
+    
+    bit 7   -   bank    (inverted on write)
+    bit 6   -   exrom
+    bit 0   -   game
 @end example
 
 @c @node FIXME

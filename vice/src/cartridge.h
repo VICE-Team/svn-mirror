@@ -228,8 +228,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_BISPLUS              68 /* bisplus.c */
 #define CARTRIDGE_SDBOX                69 /* sdbox.c */
 #define CARTRIDGE_MULTIMAX             70 /* multimax.c */
+#define CARTRIDGE_BLACKBOX9            71 /* blackbox9.c */
 
-#define CARTRIDGE_LAST                 70 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 71 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -255,6 +256,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_BLACKBOX3          "Blackbox V3"
 #define CARTRIDGE_NAME_BLACKBOX4          "Blackbox V4"
 #define CARTRIDGE_NAME_BLACKBOX8          "Blackbox V8"
+#define CARTRIDGE_NAME_BLACKBOX9          "Blackbox V9"
 #define CARTRIDGE_NAME_GS                 "C64 Games System" /* http://retro.lonningdal.net/home.php?page=Computers&select=c64gs&image=c64gs4.jpg */
 #define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
 #define CARTRIDGE_NAME_COMAL80            "Comal 80" /* http://www.retroport.de/C64_C128_Hardware.html */

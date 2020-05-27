@@ -48,6 +48,7 @@
 #include "blackbox3.h"
 #include "blackbox4.h"
 #include "blackbox8.h"
+#include "blackbox9.h"
 #include "c64-generic.h"
 #include "c64tpi.h"
 #include "comal80.h"
@@ -420,6 +421,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_BLACKBOX8:
             rc = blackbox8_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_BLACKBOX9:
+            rc = blackbox9_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_CAPTURE:
             rc = capture_crt_attach(fd, rawcart);

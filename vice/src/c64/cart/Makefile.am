@@ -50,6 +50,8 @@ libc64cart_a_SOURCES = \
 	blackbox4.h \
 	blackbox8.c \
 	blackbox8.h \
+	blackbox9.c \
+	blackbox9.h \
 	bisplus.c \
 	bisplus.h \
 	c64-generic.c \
