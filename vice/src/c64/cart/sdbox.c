@@ -176,6 +176,11 @@ void sdbox_config_init(void)
     currbank = 0;
 }
 
+void sdbox_ram_init(void)
+{
+    memset(regs, 0, 4);
+}
+
 void sdbox_config_setup(uint8_t *rawcart)
 {
     int i;

@@ -1821,7 +1821,12 @@ void cart_init(void)
 /* Initialize RAM for power-up.  */
 void cartridge_ram_init(void)
 {
+    /* "Slot 0" */
+    /* "Main Slot" */
+    sdbox_ram_init();
     memset(export_ram0, 0xff, C64CART_RAM_LIMIT);
+    /* "Slot 1" */
+    /* "IO Slot" */
 }
 
 /* called once by c64.c:machine_specific_shutdown at machine shutdown */
