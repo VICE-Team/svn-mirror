@@ -4453,6 +4453,11 @@ Booleans specifying whether non-P00 files should be invisible for drives 8, 9, 1
 Strings specifying the directories to which drives 8, 9, 10 and 11 have access
 (all emulators except vsid).
 
+@item FSDeviceLongNames
+@itemx FSDeviceLongNames
+Boolean specifying whether filenames will get converted to 16 character long short names
+or not. Disabled by default.
+
 @end table
 
 
@@ -4593,6 +4598,13 @@ Enable/disable hiding of CBM files for drive 10
 @itemx +fs11hidecbm
 Enable/disable hiding of CBM files for drive 11
 (@code{FSDevice11HideCBMFiles=1}, @code{FSDevice11HideCBMFiles=0})
+(all emulators except vsid).
+
+@findex -fslongnames, +fslongnames
+@item -fslongnames
+@itemx +fslongnames
+Enable/disable whether filenames will get converted to 16 character long short names
+(@code{FSDeviceLongNames=1}, @code{FSDeviceLongNames=0})
 (all emulators except vsid).
 
 @findex -flipname
