@@ -8,10 +8,6 @@
  * $VICERES DriveTrueEmulation          -vsid
  * $VICERES DriveSoundEmulation         -vsid
  * $VICERES DriveSoundEmulationVolume   -vsid
- * $VICERES FileSystemDevice8           -vsid
- * $VICERES FileSystemDevice9           -vsid
- * $VICERES FileSystemDevice10          -vsid
- * $VICERES FileSystemDevice11          -vsid
  *
  *  (for more, see used widgets)
  */
@@ -61,7 +57,6 @@
 #include "driverpmwidget.h"
 #include "driveramwidget.h"
 #include "drivedoswidget.h"
-#include "drivefsdevicewidget.h"
 #include "driveoptionswidget.h"
 
 #include "settings_drive.h"
@@ -88,7 +83,6 @@ static GtkWidget *drive_parallel[NUM_DISK_UNITS];
 static GtkWidget *drive_rpm[NUM_DISK_UNITS];
 static GtkWidget *drive_ram[NUM_DISK_UNITS];
 static GtkWidget *drive_dos[NUM_DISK_UNITS];
-static GtkWidget *drive_fsdevice[NUM_DISK_UNITS];
 static GtkWidget *drive_device_type[NUM_DISK_UNITS];
 
 
@@ -345,10 +339,6 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
     drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
 
-    /* row 2, column 1 & 2 */
-    drive_fsdevice[unit - DRIVE_UNIT_MIN] = drive_fsdevice_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid),
-            drive_fsdevice[unit - DRIVE_UNIT_MIN], 1, 2, 2, 1);
     drive_model_widget_add_callback(drive_model[unit - DRIVE_UNIT_MIN],
             on_model_changed, GINT_TO_POINTER(unit));
     return grid;
@@ -417,11 +407,6 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
             drive_parallel[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
     gtk_widget_show_all(wrapper);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
-
-    /* row 2, column 0 */
-    drive_fsdevice[unit - DRIVE_UNIT_MIN] = drive_fsdevice_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid),
-            drive_fsdevice[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
 
     /* row 2, column 1 & 2 */
     drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
@@ -499,11 +484,6 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
     /* row 2, column 0 */
     drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
-
-    /* row 2, column 1 & 2 */
-    drive_fsdevice[unit - DRIVE_UNIT_MIN] = drive_fsdevice_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid),
-            drive_fsdevice[unit - DRIVE_UNIT_MIN], 1, 2, 2, 1);
 
     drive_model_widget_add_callback(
             drive_model[unit - DRIVE_UNIT_MIN],
