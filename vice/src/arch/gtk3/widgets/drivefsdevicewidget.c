@@ -156,7 +156,7 @@ static GtkWidget *create_p00_widget(int unit)
 
     g_snprintf(resource, 256, "FSDevice%dConvertP00", unit);
     p00_convert = vice_gtk3_resource_check_button_new(resource,
-            "Access P00 with their built-in name");
+            "Access P00 files with their built-in name");
     gtk_grid_attach(GTK_GRID(grid), p00_convert, 0, 0, 1, 1);
 
     g_snprintf(resource, 256, "FSDevice%dSaveP00", unit);
@@ -166,7 +166,7 @@ static GtkWidget *create_p00_widget(int unit)
 
     g_snprintf(resource, 256, "FSDevice%dHideCBMFiles", unit);
     p00_only = vice_gtk3_resource_check_button_new(resource,
-            "Do not show P00 files");
+            "Do not show non-P00 files | Only show P00 files");
     gtk_grid_attach(GTK_GRID(grid), p00_only, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -189,12 +189,12 @@ GtkWidget *drive_fsdevice_widget_create(int unit)
     GtkWidget *p00;
 
     grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     label = gtk_label_new("Directory");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
+    g_object_set(label, "margin-left", 8, NULL);
     entry = create_fsdir_entry_widget(unit);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_fsdir_browse_clicked),

@@ -9,6 +9,7 @@
  * $VICERES FileSystemDevice9           -vsid
  * $VICERES FileSystemDevice10          -vsid
  * $VICERES FileSystemDevice11          -vsid
+ * $VICERES FSDeviceLongNames           -vsid
  *
  *  (for more, see used widgets)
  */
@@ -44,12 +45,8 @@
 
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
-#include "attach.h"
 #include "drive.h"
-#include "drive-check.h"
-#include "machine.h"
 #include "resources.h"
-#include "drivewidgethelpers.h"
 #include "drivefsdevicewidget.h"
 
 #include "settings_fsdevice.h"
@@ -62,17 +59,10 @@ static GtkWidget *fsdevice_widgets[NUM_DISK_UNITS];
 GtkWidget *create_stack_child_widget(int unit)
 {
     GtkWidget *layout;
-    GtkWidget *temp;
-    gchar buffer[1024];
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 16);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 16);
-#if 0
-    g_snprintf(buffer, sizeof(buffer), "FSDrive #%02d", unit);
-    temp = gtk_label_new(buffer);
-    gtk_grid_attach(GTK_GRID(layout), temp, 0, 0, 3, 1);
-#endif
 
     fsdevice_widgets[unit - DRIVE_UNIT_MIN] = drive_fsdevice_widget_create(unit);
     gtk_grid_attach(GTK_GRID(layout), fsdevice_widgets[unit - DRIVE_UNIT_MIN],
