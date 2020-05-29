@@ -67,9 +67,10 @@
         testfoobartestest.prg   becomes     testfoobartest0/
         testfoobartestAB.prg    becomes     testfoobartest1/
         
-   - when opening an existing file, we convert it's name into a long name by
-     using the algorithm above, and then look up if a file with that name
-     exists. if so, we use the resulting long name.
+   - when opening an existing file, we iterate through the current work 
+     directory, convert each filename to a short name using the algorithm above,
+     and then compare if the result matches the filename we want to open. if so,
+     we can use the long name of the file to open it.
      
     all functions below should be completely transparent (ie not change the
     provided names in any way) when "FSDeviceLongNames" is set to "1".
