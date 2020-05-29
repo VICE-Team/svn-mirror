@@ -94,14 +94,16 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
     if (size != NULL) {
         *size = (unsigned int)filesize;
     }
+    /* Align to the end of available space */
     if (filesize <= min && min < max) {
-        memcpy(drive_rom, &drive_rom[max - min], min);
+        memmove(drive_rom, &drive_rom[max - min], min);
     }
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
         if (unit->type == type) {
+            printf("machine_drive_rom_setup_image %u", type);
             machine_drive_rom_setup_image(dnr);
         }
     }
