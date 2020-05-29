@@ -152,7 +152,7 @@ static void cpu_reset(diskunit_context_t *drv)
 
     preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
-    log_message(drv->drives[0]->log, "RESET.");
+    log_message(drv->log, "RESET.");
 
     interrupt_cpu_status_reset(drv->cpu->int_status);
 
@@ -237,7 +237,7 @@ void drivecpu65c02_wake_up(diskunit_context_t *drv)
        others.  Maybe we should put it into a user-definable resource.  */
     if (maincpu_clk - drv->cpu->last_clk > 0xffffff
         && *(drv->clk_ptr) > 934639) {
-        log_message(drv->drives[0]->log, "Skipping cycles.");
+        log_message(drv->log, "Skipping cycles.");
         drv->cpu->last_clk = maincpu_clk;
     }
 }
@@ -553,7 +553,7 @@ int drivecpu65c02_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
     R65C02_REGS_SET_PC(&(cpu->cpu_R65C02_regs), pc);
     R65C02_REGS_SET_STATUS(&(cpu->cpu_R65C02_regs), status);
 
-    log_message(drv->drives[0]->log, "RESET (For undump).");
+    log_message(drv->log, "RESET (For undump).");
 
     interrupt_cpu_status_reset(cpu->int_status);
 

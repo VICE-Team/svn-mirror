@@ -185,6 +185,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int drv)
 int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drv)
 {
     unsigned int dnr, i;
+    diskunit_context_t *diskunit;
     drive_t *drive;
 
     if (unit < 8 || unit >= 8 + NUM_DISK_UNITS) {
@@ -192,7 +193,8 @@ int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drv)
     }
 
     dnr = unit - 8;
-    drive = diskunit_context[dnr]->drives[drv];
+    diskunit = diskunit_context[dnr];
+    drive = diskunit->drives[drv];
 
     if (drive->image != NULL) {
         switch (image->type) {
@@ -213,7 +215,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drv)
     if (drive->P64_image_loaded && drive->P64_dirty) {
         drive->P64_dirty = 0;
         if (disk_image_write_p64_image(drive->image) < 0) {
-            log_error(drive->log, "Cannot write disk image back.");
+            log_error(diskunit->log, "Cannot write disk image back.");
         }
     } else {
         drive_gcr_data_writeback(drive);

@@ -161,14 +161,18 @@ int drive_init(void)
     drive_log = log_open("Drive");
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
+        diskunit_context_t *diskunit =  diskunit_context[unit];
         char *logname;
         unsigned int d;
 
+        logname = lib_msprintf("Unit %u", unit + 8);
+        diskunit->log = log_open(logname);
+        lib_free(logname);
+
+        diskunit_clk[unit] = 0L;
+
         for (d = 0; d < NUM_DRIVES; d++) {
-            drive = diskunit_context[unit]->drives[d];
-            logname = lib_msprintf("Unit %u Drive %u", unit + 8, d);
-            drive->log = log_open(logname);
-            lib_free(logname);
+            drive = diskunit->drives[d];
 
             drive->clk = &diskunit_clk[unit];
             drive->unit = unit;
@@ -176,7 +180,6 @@ int drive_init(void)
             drive->diskunit = diskunit_context[unit];
         }
 
-        diskunit_clk[unit] = 0L;
     }
 
     if (driverom_load_images() < 0) {
