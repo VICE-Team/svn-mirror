@@ -23,6 +23,8 @@ libfsdevice_a_SOURCES = \
 	fsdevice-cmdline-options.h \
 	fsdevice-flush.c \
 	fsdevice-flush.h \
+	fsdevice-filename.c \
+	fsdevice-filename.h \
 	fsdevice-open.c \
 	fsdevice-open.h \
 	fsdevice-read.c \
