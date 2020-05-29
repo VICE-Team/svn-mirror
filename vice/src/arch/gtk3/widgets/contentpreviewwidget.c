@@ -158,7 +158,7 @@ static GtkListStore *create_model(const char *path)
 
     /* blocks free */
     blocks = contents->blocks_free;
-    if (blocks > 0) {
+    if (blocks >= 0) {
         tmp = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
         utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0);
         gtk_list_store_append(model, &iter);

@@ -133,6 +133,23 @@ static gboolean create_css_providers(void)
 }
 
 
+/** \brief  Apply CSS style and margins to a directory listing item
+ *
+ * \param[in,out]   item    direct list item
+ */
+void dir_item_apply_style(GtkWidget *item)
+{
+    GtkWidget *label;
+
+    g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);
+    label = gtk_bin_get_child(GTK_BIN(item));
+    vice_gtk3_css_provider_add(label, menulabel_css_provider);
+    vice_gtk3_css_provider_add(item, menuitem_css_provider);
+}
+
+
+
+
 /** \brief  Create a popup menu to select a file to autostart
  *
  * XXX: This is an UNHOLY MESS, and should be refactored
@@ -156,7 +173,10 @@ GtkWidget *dir_menu_popup_create(
     char *utf8;
     char *tmp;
     int index;
+#if 0
     GtkWidget *label;
+#endif
+    int blocks;
 
     /* TODO: drive 1? */
     unsigned int drive = 0;
@@ -255,11 +275,15 @@ GtkWidget *dir_menu_popup_create(
             tmp = image_contents_to_string(contents, 0);
             utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1);
             item = gtk_menu_item_new_with_label(utf8);
+
+#if 0
             g_object_set(item, "margin-top", 0,
                     "margin-bottom", 0, NULL);
             label = gtk_bin_get_child(GTK_BIN(item));
             vice_gtk3_css_provider_add(label, menulabel_css_provider);
             vice_gtk3_css_provider_add(item, menuitem_css_provider);
+#endif
+            dir_item_apply_style(item);
 
             gtk_container_add(GTK_CONTAINER(menu), item);
             lib_free(tmp);
@@ -277,11 +301,13 @@ GtkWidget *dir_menu_popup_create(
                 tmp = image_contents_file_to_string(entry, 0);
                 utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0);
                 item = gtk_menu_item_new_with_label(utf8);
-
+#if 0
                 g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);
                 label = gtk_bin_get_child(GTK_BIN(item));
                 vice_gtk3_css_provider_add(label, menulabel_css_provider);
                 vice_gtk3_css_provider_add(item, menuitem_css_provider);
+#endif
+                dir_item_apply_style(item);
 
                 gtk_container_add(GTK_CONTAINER(menu), item);
                 g_signal_connect(item, "activate",
@@ -290,6 +316,20 @@ GtkWidget *dir_menu_popup_create(
                 lib_free(tmp);
                 lib_free(utf8);
             }
+
+            /* add BLOCKS FREE. */
+            blocks = contents->blocks_free;
+            if (blocks >= 0) {
+                tmp = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
+                item = gtk_menu_item_new_with_label(tmp);
+
+                /* move this into separate function: */
+                dir_item_apply_style(item);
+                gtk_container_add(GTK_CONTAINER(menu), item);
+                g_free(tmp);
+            }
+
+
             /*
             gtk_container_set_border_width(GTK_CONTAINER(menu), 0);
             gtk_widget_set_margin_top(GTK_WIDGET(menu),0);
