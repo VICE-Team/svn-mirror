@@ -186,20 +186,6 @@ typedef struct diskunit_context_s {
     /* What drive type we have to emulate?  */
     unsigned int type;
 
-    /* Current ROM image.  */
-    uint8_t rom[DRIVE_ROM_SIZE];
-
-    /* Current trap ROM image.  */
-    uint8_t trap_rom[DRIVE_ROM_SIZE];
-    int trap, trapcont;
-
-    /* Drive RAM */
-    uint8_t drive_ram[DRIVE_RAM_SIZE];
-
-    /* Which RAM expansion is enabled?  */
-    int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
-        drive_ram8_enabled, drive_rama_enabled;
-
     /* What idling method?  (See `DRIVE_IDLE_*')  */
     int idling_method;
 
@@ -218,6 +204,23 @@ typedef struct diskunit_context_s {
 
     /* FD2000/4000 RTC save? */
     int rtc_save;
+
+    /* Drive-specific logging goes here.  */
+    signed int log;
+
+    /* Which RAM expansion is enabled?  */
+    int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
+        drive_ram8_enabled, drive_rama_enabled;
+
+    /* Current ROM image.  */
+    uint8_t rom[DRIVE_ROM_SIZE];
+
+    /* Current trap ROM image.  */
+    uint8_t trap_rom[DRIVE_ROM_SIZE];
+    int trap, trapcont;
+
+    /* Drive RAM */
+    uint8_t drive_ram[DRIVE_RAM_SIZE];
 
 } diskunit_context_t;
 

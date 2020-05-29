@@ -182,7 +182,7 @@ struct gcr_s;
 struct disk_image_s;
 
 /* TODO: more parts of that struct should go into diskunit_context_s.
-   candidates: log?, clk, clock_frequency
+   candidates: clk, clock_frequency
  */
 typedef struct drive_s {
     unsigned int unit;  /* 0 ... NUM_DISK_UNITS-1 */
@@ -308,9 +308,6 @@ typedef struct drive_s {
     /* If the user does not want to extend the disk image and `ask mode' is
     selected this flag gets cleared.  */
     int ask_extend_disk_image;
-
-    /* Drive-specific logging goes here.  */
-    signed int log;
 
     /* Pointer to the attached disk image.  */
     struct disk_image_s *image;
