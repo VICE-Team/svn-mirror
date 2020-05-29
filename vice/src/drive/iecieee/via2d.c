@@ -344,10 +344,10 @@ static void undump_prb(via_context_t *via_context, uint8_t byte)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    via2p->drive->led_status = (byte & 8) ? 1 : 0;
-    rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
+    via2p->drive->led_status = (byte & 0x08) ? 1 : 0;
+    rotation_speed_zone_set((byte >> 5) & 0x03, via2p->number);
     via2p->drive->byte_ready_active
-        = (via2p->drive->byte_ready_active & ~0x04) | (byte & 0x04);
+        = (via2p->drive->byte_ready_active & ~BRA_MOTOR_ON) | (byte & BRA_MOTOR_ON);
 }
 
 static uint8_t store_pcr(via_context_t *via_context, uint8_t byte, uint16_t addr)
@@ -416,6 +416,7 @@ static void reset(via_context_t *via_context)
 
 static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
 {
+    /* GCR data port */
     uint8_t byte;
     drivevia2_context_t *via2p;
 

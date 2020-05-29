@@ -104,7 +104,7 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
         thefdc0->drive_type = drive_type;
         thefdc0->num_drives = drive_check_dual(drive_type) ? 2 : 1;
         thefdc0->fdc_state = FDC_RESET0;
-        alarm_set(thefdc0->fdc_alarm, drive_clk[fnum] + 20);
+        alarm_set(thefdc0->fdc_alarm, diskunit_clk[fnum] + 20);
     } else {
         thefdc0->drive_type = DRIVE_TYPE_NONE;
         alarm_unset(thefdc0->fdc_alarm);
@@ -601,7 +601,7 @@ static void int_fdc(CLOCK offset, void *data)
     diskunit_context_t *drv = (diskunit_context_t *)data;
 
     fnum = drv->mynumber;
-    rclk = drive_clk[fnum] - offset;
+    rclk = diskunit_clk[fnum] - offset;
 
     fdc_t *sysfdc = &fdc[fnum][0];
     fdc_t *imgfdc = &fdc[fnum][1];
@@ -967,7 +967,7 @@ int fdc_snapshot_write_module(snapshot_t *p, int fnum)
     if (0
         || SMW_B(m, (uint8_t)(sysfdc->fdc_state)) < 0
         /* clk till next invocation */
-        || SMW_DW(m, (uint32_t)(sysfdc->alarm_clk - drive_clk[fnum])) < 0
+        || SMW_DW(m, (uint32_t)(sysfdc->alarm_clk - diskunit_clk[fnum])) < 0
         /* number of drives - so far 1 only */
         || SMW_B(m, 1) < 0
         /* last accessed track/sector */
@@ -1025,7 +1025,7 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
     }
     sysfdc->fdc_state = byte;
 
-    sysfdc->alarm_clk = drive_clk[fnum] + dword;
+    sysfdc->alarm_clk = diskunit_clk[fnum] + dword;
     alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
 
     /* last accessed track/sector */

@@ -170,13 +170,13 @@ int drive_init(void)
             drive->log = log_open(logname);
             lib_free(logname);
 
-            drive->clk = &drive_clk[unit];
+            drive->clk = &diskunit_clk[unit];
             drive->unit = unit;
             drive->drive = d;
             drive->diskunit = diskunit_context[unit];
         }
 
-        drive_clk[unit] = 0L;
+        diskunit_clk[unit] = 0L;
     }
 
     if (driverom_load_images() < 0) {
@@ -206,72 +206,44 @@ int drive_init(void)
     }
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
-        /* TODO: make loop for drives. */
         diskunit_context_t *diskunit = diskunit_context[unit];
-        drive = diskunit->drives[0];
+        int d;
 
-        drive->gcr = gcr_create_image();
-        drive->p64 = lib_calloc(1, sizeof(TP64Image));
-        P64ImageCreate(drive->p64);
-        drive->byte_ready_level = 1;
-        drive->byte_ready_edge = 1;
-        drive->GCR_dirty_track = 0;
-        drive->GCR_write_value = 0x55;
-        drive->GCR_track_start_ptr = NULL;
-        drive->GCR_current_track_size = 0;
-        drive->attach_clk = (CLOCK)0;
-        drive->detach_clk = (CLOCK)0;
-        drive->attach_detach_clk = (CLOCK)0;
-        drive->old_led_status = 0;
-        drive->old_half_track = 0;
-        drive->side = 0;
-        drive->GCR_image_loaded = 0;
-        drive->P64_image_loaded = 0;
-        drive->P64_dirty = 0;
-        drive->read_only = 0;
-        drive->clock_frequency = 1;
-        drive->led_last_change_clk = *(drive->clk);
-        drive->led_last_uiupdate_clk = *(drive->clk);
-        drive->led_active_ticks = 0;
-        drive->read_write_mode = 1;
+        for (d = 0; d < NUM_DRIVES; d++) {
+            drive = diskunit->drives[d];
 
-        /* TODO: rotation code is not drive1 aware */
-        rotation_reset(drive);
+            drive->gcr = gcr_create_image();
+            drive->p64 = lib_calloc(1, sizeof(TP64Image));
+            P64ImageCreate(drive->p64);
+            drive->byte_ready_level = 1;
+            drive->byte_ready_edge = 1;
+            drive->GCR_dirty_track = 0;
+            drive->GCR_write_value = 0x55;
+            drive->GCR_track_start_ptr = NULL;
+            drive->GCR_current_track_size = 0;
+            drive->attach_clk = (CLOCK)0;
+            drive->detach_clk = (CLOCK)0;
+            drive->attach_detach_clk = (CLOCK)0;
+            drive->old_led_status = 0;
+            drive->old_half_track = 0;
+            drive->side = 0;
+            drive->GCR_image_loaded = 0;
+            drive->P64_image_loaded = 0;
+            drive->P64_dirty = 0;
+            drive->read_only = 0;
+            drive->clock_frequency = 1;
+            drive->led_last_change_clk = *(drive->clk);
+            drive->led_last_uiupdate_clk = *(drive->clk);
+            drive->led_active_ticks = 0;
+            drive->read_write_mode = 1;
 
-        /* Position the R/W head on the directory track.  */
-        drive_set_half_track(36, 0, drive);
-        drive_set_active_led_color(diskunit->type, unit);
+            /* Position the R/W head on the directory track.  */
+            drive_set_half_track(36, 0, drive);
+            drive_set_active_led_color(diskunit->type, unit);
 
-        /* drive 1 */
-
-        drive = diskunit->drives[0];
-        drive->gcr = gcr_create_image();
-        drive->p64 = lib_calloc(1, sizeof(TP64Image));
-        P64ImageCreate(drive->p64);
-        drive->byte_ready_level = 1;
-        drive->byte_ready_edge = 1;
-        drive->GCR_dirty_track = 0;
-        drive->GCR_write_value = 0x55;
-        drive->GCR_track_start_ptr = NULL;
-        drive->GCR_current_track_size = 0;
-        drive->attach_clk = (CLOCK)0;
-        drive->detach_clk = (CLOCK)0;
-        drive->attach_detach_clk = (CLOCK)0;
-        drive->old_led_status = 0;
-        drive->old_half_track = 0;
-        drive->side = 0;
-        drive->GCR_image_loaded = 0;
-        drive->P64_image_loaded = 0;
-        drive->P64_dirty = 0;
-        drive->read_only = 0;
-        drive->clock_frequency = 1;
-        drive->led_last_change_clk = *(drive->clk);
-        drive->led_last_uiupdate_clk = *(drive->clk);
-        drive->led_active_ticks = 0;
-        drive->read_write_mode = 1;
-
-        /* TODO: rotation code is not drive1 aware */
-        rotation_reset(drive);
+            /* TODO: rotation code is not drive1 aware */
+            rotation_reset(drive);
+        }
     }
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
@@ -949,7 +921,7 @@ static void drive_setup_context_for_unit(diskunit_context_t *drv,
         drv->drives[d]->drive = d;
     }
 
-    drv->clk_ptr = &drive_clk[unr];
+    drv->clk_ptr = &diskunit_clk[unr];
 
     drivecpu_setup_context(drv, 1); /* no need for 65c02, only allocating common stuff */
 

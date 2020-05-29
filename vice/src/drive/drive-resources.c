@@ -67,7 +67,6 @@ static int set_drive_true_emulation(int val, void *param)
     if (val) {
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             diskunit_context_t *unit = diskunit_context[dnr];
-            drive = unit->drives[0];
 
             if (unit->type != DRIVE_TYPE_NONE) {
                 unit->enable = 1;
@@ -118,8 +117,9 @@ static int set_drive_extend_image_policy(int val, void *param)
         case DRIVE_EXTEND_NEVER:
         case DRIVE_EXTEND_ASK:
         case DRIVE_EXTEND_ACCESS:
-            /* TODO: drive 1? */
+            /* TODO: add resource for drive 1 */
             diskunit_context[vice_ptr_to_int(param)]->drives[0]->extend_image_policy = val;
+            diskunit_context[vice_ptr_to_int(param)]->drives[1]->extend_image_policy = val;
             return 0;
         default:
             return -1;
@@ -148,6 +148,9 @@ static int drive_resources_type(int val, void *param)
         } else
         if (busses & IEC_BUS_IEEE) {
             type = DRIVE_TYPE_2031;
+        } else
+        if (busses & IEC_BUS_TCBM) {
+            type = DRIVE_TYPE_1551;
         } else {
             type = DRIVE_TYPE_NONE;
         }

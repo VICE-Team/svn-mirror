@@ -182,9 +182,8 @@ struct gcr_s;
 struct disk_image_s;
 
 /* TODO: more parts of that struct should go into diskunit_context_s.
-   candidates: rtc_save, log?
-   candidates: clk, clock_frequency
-   candidates: ds1216, */
+   candidates: log?, clk, clock_frequency
+ */
 typedef struct drive_s {
     unsigned int unit;  /* 0 ... NUM_DISK_UNITS-1 */
     unsigned int drive; /* DRIVE_NUMBER_MIN ... DRIVE_NUMBER_MAX */
@@ -192,7 +191,7 @@ typedef struct drive_s {
     /* Pointer to the containing diskunit_context */
     struct diskunit_context_s *diskunit;
 
-    /* Pointer to the drive clock.  */
+    /* Pointer to the diskunit clock.  */
     CLOCK *clk;
 
     int led_status;
@@ -236,6 +235,9 @@ typedef struct drive_s {
 
     /* Activates the byte ready line.  */
     int byte_ready_active;
+#define BRA_BYTE_READY  0x02
+#define BRA_MOTOR_ON    0x04
+#define BRA_LED         0x08
 
     /* Clock frequency of this drive in 1MHz units.  */
     int clock_frequency;
@@ -324,8 +326,7 @@ typedef struct drive_s {
 } drive_t;
 
 
-/* diskunit_clk */
-extern CLOCK drive_clk[NUM_DISK_UNITS];
+extern CLOCK diskunit_clk[NUM_DISK_UNITS];
 
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */

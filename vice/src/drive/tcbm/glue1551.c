@@ -62,21 +62,21 @@ static void glue_pport_update(diskunit_context_t *drv)
              | ~(drv->drive_ram[0]);
 
     /* Stepper motor.  */
-    if (((old_output ^ output) & 0x3) && (output & 0x4)) {
+    if (((old_output ^ output) & 0x03) && (output & 0x04)) {
         drive_move_head(((output - drv->drives[0]->current_half_track + 3) & 3) - 1, drv->drives[0]);
     }
 
     /* Motor on/off.  */
     if ((old_output ^ output) & 0x04) {
-        drive_sound_update((output & 4) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, drv->mynumber);
-        drv->drives[0]->byte_ready_active = (output & 0x04) ? 0x06 : 0;
-        if (drv->drives[0]->byte_ready_active == 0x06) {
+        drive_sound_update((output & 0x04) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, drv->mynumber);
+        drv->drives[0]->byte_ready_active = (output & 0x04) ? BRA_MOTOR_ON|BRA_BYTE_READY : 0;
+        if (drv->drives[0]->byte_ready_active == (BRA_MOTOR_ON|BRA_BYTE_READY)) {
             rotation_begins(drv->drives[0]);
         }
     }
 
     /* Drive active LED.  */
-    drv->drives[0]->led_status = (output & 8) ? 0 : 1;
+    drv->drives[0]->led_status = (output & 0x08) ? 0 : 1;
 
     if (drv->drives[0]->led_status) {
         drv->drives[0]->led_active_ticks += *(drv->clk_ptr)

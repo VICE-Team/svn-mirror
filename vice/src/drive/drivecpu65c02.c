@@ -93,7 +93,7 @@ void drivecpu65c02_setup_context(struct diskunit_context_s *drv, int i)
     mi->z80_cpu_regs = NULL;
     mi->h6809_cpu_regs = NULL;
     mi->int_status = cpu->int_status;
-    mi->clk = &(drive_clk[drv->mynumber]);
+    mi->clk = &(diskunit_clk[drv->mynumber]);
     mi->current_bank = 0;
     mi->mem_bank_list = NULL;
     mi->mem_bank_list_nos = NULL;
@@ -194,7 +194,7 @@ void drivecpu65c02_reset(diskunit_context_t *drv)
 
 void drivecpu65c02_trigger_reset(unsigned int dnr)
 {
-    interrupt_trigger_reset(drivecpu_int_status_ptr[dnr], drive_clk[dnr] + 1);
+    interrupt_trigger_reset(drivecpu_int_status_ptr[dnr], diskunit_clk[dnr] + 1);
 }
 
 void drivecpu65c02_shutdown(diskunit_context_t *drv)

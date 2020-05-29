@@ -140,9 +140,9 @@ int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int drv)
     }
 
     drive->read_only = image->read_only;
-    drive->attach_clk = drive_clk[dnr];
+    drive->attach_clk = diskunit_clk[dnr];
     if (drive->detach_clk > (CLOCK)0) {
-        drive->attach_detach_clk = drive_clk[dnr];
+        drive->attach_detach_clk = diskunit_clk[dnr];
     }
     drive->ask_extend_disk_image = 1;
 
@@ -226,7 +226,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drv)
             drive->gcr->tracks[i].size = 0;
         }
     }
-    drive->detach_clk = drive_clk[dnr];
+    drive->detach_clk = diskunit_clk[dnr];
     drive->GCR_image_loaded = 0;
     drive->P64_image_loaded = 0;
     drive->read_only = 0;
