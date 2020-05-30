@@ -17301,9 +17301,10 @@ exit.
 * c1541 quoting::
 * c1541 commands and options::
 * c1541 executing shell commands::
+* c1541 examples::
 @end menu
 
-@node c1541 file specification, c1541 quoting, c1541, c1541
+@node c1541 file specification
 @section Specifying files in c1541
 
 When accessing CBM DOS files (i.e. files that reside on disk images),
@@ -17326,7 +17327,7 @@ will name file named @code{somefile} on unit 8, while
 
 will name file named @code{somefile} on unit 9.
 
-@node c1541 quoting, c1541 commands and options, c1541 file specification, c1541
+@node c1541 quoting
 @section Using quotes and backslashes
 
 You can use quotes (@code{"}) in a command to embed spaces into file
@@ -17364,7 +17365,7 @@ will copy @code{some file} into the file system with name
 @code{this"file} (with an embedded quote).
 
 
-@node c1541 commands and options, c1541 executing shell commands, c1541 quoting, c1541
+@node c1541 commands and options
 @section c1541 commands and options
 
 This is a list of the @code{c1541} commands.  They are shown in their
@@ -17527,7 +17528,7 @@ Create a D64 disk image out of a set of four Zipcoded files named
 
 @end table
 
-@node c1541 executing shell commands,  , c1541 commands and options, c1541
+@node c1541 executing shell commands
 @section Executing shell commands
 
 If you want to execute a shell command from within @code{c1541}, just
@@ -17540,7 +17541,7 @@ prepend it with an exclamation mark (@code{!}).  For example,
 will execute the command @code{ls -la}, which will show you all the
 files in the current directory.
 
-@c @node FIXME
+@node c1541 examples
 @section c1541 examples
 
 @c FIXME: add more c1541 examples
