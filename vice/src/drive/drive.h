@@ -235,8 +235,8 @@ typedef struct drive_s {
 
     /* Activates the byte ready line.  */
     int byte_ready_active;
-#define BRA_BYTE_READY  0x02
-#define BRA_MOTOR_ON    0x04
+#define BRA_BYTE_READY  0x02    /* chosen for the bit in the VIA2 PCR register */
+#define BRA_MOTOR_ON    0x04    /* chosen for the bit in the VIA2 PB  register */
 #define BRA_LED         0x08
 
     /* Clock frequency of this drive in 1MHz units.  */

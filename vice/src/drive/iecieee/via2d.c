@@ -76,7 +76,7 @@ static void set_ca2(via_context_t *via_context, int state)
     drive_t *drv;
     via2p = (drivevia2_context_t *)(via_context->prv);
     drv = via2p->drive;
-    curr = ((drv->byte_ready_active >> 1) & 1);
+    curr = ((drv->byte_ready_active >> 1) & 1); /* selects BRA_BYTE_READY */
     if (state != curr) {
         DBG(("VIA2: set_ca2 (%d to %d) (byte rdy)", curr, state));
         rotation_rotate_disk(drv);
@@ -160,7 +160,8 @@ void via2d_update_pcr(int pcrval, drive_t *dptr)
     rotation_rotate_disk(dptr);
     dptr->read_write_mode = pcrval & 0x20;
     DBG(("via2d.c: via2d_update_pcr: drv->read_write_mode = %x", drv->read_write_mode))
-    dptr->byte_ready_active = (bra & ~0x02) | (pcrval & 0x02);
+#define PCR_BYTE_READY    BRA_BYTE_READY    /* 0x02 */
+    dptr->byte_ready_active = (bra & ~BRA_BYTE_READY) | (pcrval & PCR_BYTE_READY);
 }
 
 static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t oldpa_value,
@@ -306,11 +307,12 @@ static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
     if ((poldpb ^ byte) & 0x60) {   /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
     }
-    if ((poldpb ^ byte) & 0x04) {   /* Motor on/off */
+#define PB_MOTOR_ON     BRA_MOTOR_ON
+    if ((poldpb ^ byte) & PB_MOTOR_ON) {   /* Motor on/off */
         drive_sound_update((byte & 4) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, via2p->number);
         bra = drv->byte_ready_active;
-        drv->byte_ready_active = (bra & ~0x04) | (byte & 0x04);
-        if ((byte & 0x04) != 0) {
+        drv->byte_ready_active = (bra & ~BRA_MOTOR_ON) | (byte & BRA_MOTOR_ON);
+        if ((byte & BRA_MOTOR_ON) != 0) {
             rotation_begins(drv);
         } else {
             if (drv->byte_ready_edge) {
@@ -429,6 +431,8 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
 
     byte = ((via2p->drive->GCR_read & ~(via_context->via[VIA_DDRA]))
            | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));
+    printf("(%u)%02x", via2p->drive->GCR_head_offset/8, via2p->drive->GCR_read);
+    if (byte != via2p->drive->GCR_read) printf("[%02x]", byte);
 
     via2p->drive->byte_ready_level = 0;
 

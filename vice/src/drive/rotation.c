@@ -91,6 +91,7 @@ static const unsigned int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 3076
 
 void rotation_init(int freq, unsigned int dnr)
 {
+    printf("rotation_init: drive %d freq %d\n", dnr, freq);
     rotation[dnr].frequency = freq;
     rotation[dnr].accum = 0;
     rotation[dnr].ue7_counter = 0;
@@ -149,7 +150,8 @@ void rotation_table_get(uint32_t *rotation_table_ptr)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         rotation_table_ptr[dnr] = rotation[dnr].speed_zone;
 
-      for (j = 0; j < 2; j++) {
+      /* Only 1 drive is really supported... */
+      for (j = 0; j < 1; j++) {
         drive = diskunit_context[dnr]->drives[j];
 
 
@@ -185,7 +187,8 @@ void rotation_table_set(uint32_t *rotation_table_ptr)
     drive_t *drive;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-      for (j = 0; j < 2; j++) {
+      /* Only 1 drive is really supported... */
+      for (j = 0; j < 1; j++) {
         drive = diskunit_context[dnr]->drives[j];
 
         rotation[dnr].speed_zone = rotation_table_ptr[dnr];
@@ -428,7 +431,7 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
                             rptr->last_write_data = dptr->GCR_read;
 
                             /* BYTE READY signal if enabled */
-                            if ((dptr->byte_ready_active & 2) != 0) {
+                            if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
                                 rptr->so_delay = 16 - ((rptr->cycle_index + (todo - 1)) & 15);
                                 if (rptr->so_delay < 10) {
                                     rptr->so_delay += 16;
@@ -518,7 +521,7 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
                         rptr->last_write_data = dptr->GCR_write_value;
 
                         /* BYTE READY signal if enabled */
-                        if ((dptr->byte_ready_active & 2) != 0) {
+                        if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
                             rptr->so_delay = 16 - ((rptr->cycle_index + (todo - 1)) & 15);
                             if (rptr->so_delay < 10) {
                                 rptr->so_delay += 16;
@@ -708,7 +711,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                                     rptr->last_write_data = dptr->GCR_read;
 
                                     /* BYTE READY signal if enabled */
-                                    if ((dptr->byte_ready_active & 2) != 0) {
+                                    if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
                                         rptr->so_delay = 16 - ((rptr->cycle_index + (ToDo - 1)) & 15);
                                         if (rptr->so_delay < 10) {
                                             rptr->so_delay += 16;
@@ -838,7 +841,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                             rptr->last_write_data = dptr->GCR_write_value;
 
                             /* BYTE READY signal if enabled */
-                            if ((dptr->byte_ready_active & 2) != 0) {
+                            if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
                                 rptr->so_delay = 16 - ((rptr->cycle_index + (ToDo - 1)) & 15);
                                 if (rptr->so_delay < 10) {
                                     rptr->so_delay += 16;
@@ -1018,7 +1021,7 @@ static void rotation_1541_simple(drive_t *dptr)
                      * byte boundary, and since the bus is shared, it's reasonable
                      * to guess that it would be loaded with whatever was last read. */
                     rptr->last_write_data = dptr->GCR_read;
-                    if ((dptr->byte_ready_active & 2) != 0) {
+                    if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
                         dptr->byte_ready_edge = 1;
                         dptr->byte_ready_level = 1;
                     }
@@ -1049,7 +1052,7 @@ static void rotation_1541_simple(drive_t *dptr)
             if (++rptr->bit_counter == 8) {
                 rptr->bit_counter = 0;
                 rptr->last_write_data = dptr->GCR_write_value;
-                if ((dptr->byte_ready_active & 2) != 0) {
+                if ((dptr->byte_ready_active & BRA_BYTE_READY) != 0) {
                     dptr->byte_ready_edge = 1;
                     dptr->byte_ready_level = 1;
                 }
@@ -1066,7 +1069,7 @@ static void rotation_1541_simple(drive_t *dptr)
  ******************************************************************************/
 void rotation_rotate_disk(drive_t *dptr)
 {
-    if ((dptr->byte_ready_active & 4) == 0) {
+    if ((dptr->byte_ready_active & BRA_MOTOR_ON) == 0) {
         dptr->req_ref_cycles = 0;
         return;
     }
