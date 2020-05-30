@@ -431,9 +431,10 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
 
     byte = ((via2p->drive->GCR_read & ~(via_context->via[VIA_DDRA]))
            | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));
+#if 0
     printf("(%u)%02x", via2p->drive->GCR_head_offset/8, via2p->drive->GCR_read);
     if (byte != via2p->drive->GCR_read) printf("[%02x]", byte);
-
+#endif
     via2p->drive->byte_ready_level = 0;
 
     return byte;
