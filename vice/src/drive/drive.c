@@ -234,7 +234,6 @@ int drive_init(void)
             drive->P64_image_loaded = 0;
             drive->P64_dirty = 0;
             drive->read_only = 0;
-            drive->clock_frequency = 1;
             drive->led_last_change_clk = *(drive->clk);
             drive->led_last_uiupdate_clk = *(drive->clk);
             drive->led_active_ticks = 0;
@@ -243,24 +242,21 @@ int drive_init(void)
             /* Position the R/W head on the directory track.  */
             drive_set_half_track(36, 0, drive);
             drive_set_active_led_color(diskunit->type, unit);
-
-            /* TODO: rotation code is not drive1 aware */
-            rotation_reset(drive);
         }
     }
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];
         drive = diskunit->drives[0];
-        drive1 = diskunit->drives[1];
 
         driverom_initialize_traps(diskunit);
 
+        /* Sets drive->clock_frequency */
         drivesync_clock_frequency(diskunit->type, drive);
 
         /* TODO: rotation code is not drive1 aware */
         rotation_init((drive->clock_frequency == 2) ? 1 : 0, unit);
-        rotation_init((drive1->clock_frequency == 2) ? 1 : 0, unit);
+        rotation_reset(drive);
 
         if (diskunit->type == DRIVE_TYPE_2000 || diskunit->type == DRIVE_TYPE_4000) {
             drivecpu65c02_init(diskunit, diskunit->type);
