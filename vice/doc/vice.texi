@@ -183,7 +183,7 @@ notice identical to this one.
 
 @c @ifinfo
 @node Top, License, (dir), (dir)
-@c @top Version
+@top
 
 @c Last updated @value{lastupdate}.
 @c @end ifinfo
@@ -214,9 +214,14 @@ Commodore Emulator.
 
 * Platform-specific features::  Host platform specific features.
 
-* Snapshots::                   Save the emulator state in one file
+* Snapshots::                   Save the emulator state in one file.
+* Media images::                Saving audio and/or video.
+* Event history::               Recording and replaying a session.
 * Monitor::                     The VICE built-in monitor.
+* Binary monitor::              For remote control.
 * c1541::                       The disk-image maintenance utility.
+* Cartconv::                    Cartridge conversion utility.
+* Petcat::                      Text conversion utility.
 
 * File formats::                Technical description of file formats.
 
@@ -13790,7 +13795,7 @@ Specify MIDI driver
 
 @c -----------------------------------------------------------------
 
-@node Snapshots, Monitor, Platform-specific features, Top
+@node Snapshots
 @chapter Snapshots
 
 Every VICE emulator has a built-in snapshot feature, that saves the
@@ -15303,7 +15308,7 @@ Version numbers: Major 0, Minor 0
 @end multitable
 
 @c -----------------------------------------------------------------
-@c @node FIXME
+@node Media images
 @chapter Media images
 
 @c FIXME: add some info on making screenshots, wav- and avi recordings
@@ -15478,7 +15483,7 @@ Set bitrate for video stream in media file
 @end table
 
 @c -----------------------------------------------------------------
-@c @node FIXME
+@node Event history
 @chapter Event history
 
 @c FIXME: the "Event history" section needs to be style-checked.
@@ -15662,7 +15667,7 @@ Enable/disable the inclusion of disk images in the event
 
 @c -----------------------------------------------------------------
 
-@node Monitor, c1541, Snapshots, Top
+@node Monitor
 @chapter Monitor
 
 The VICE emulator has a complete built-in monitor, which can be used
@@ -16299,6 +16304,7 @@ Display the specified number in decimal, hex, octal and binary.
 
 @end table
 
+@node Binary monitor
 @chapter Binary monitor
 The binary remote monitor commands are sent over a dedicated connection, specified
 with the command line options @code{-binarymonitor} & @code{-binarymonitoraddress}. @xref{Monitor settings}.
@@ -16307,6 +16313,14 @@ The remote monitor detects a binary command because it starts with ASCII STX
 synchronisation point.
 
 All multibyte values are in little endian order unless otherwise specified.
+
+@menu
+* Binary Command Structure::
+* Binary Response Structure::
+* Binary Monitor Example Exchange::
+* Binary Commands::
+* Binary Responses::
+@end menu
 
 @node Binary Command Structure
 @section Command Structure
@@ -16327,10 +16341,10 @@ unless otherwise specified. There is no requirement for this to be unique,
 but it makes it easier to match up the responses if you do.
 
 @item byte 10: The numeric command type
-@xref{Binary Commands}
+@xref{Binary Commands}.
 
 @item byte 11+: The command body. 
-@xref{Binary Commands}
+@xref{Binary Commands}.
 
 @end table
 
@@ -16399,7 +16413,7 @@ The command excluding the header is 8 bytes long.
 The request ID is 0x1234dead. The response will contain this ID.
 
 @item 0x12
-@xref{MON_CMD_CHECKPOINT_SET}
+@xref{MON_CMD_CHECKPOINT_SET}.
 
 @item 0xfce2
 The address range of the checkpoint starts at 0xfce2.
@@ -16439,7 +16453,7 @@ API Version 1
 Response length is 38
 
 @item 0x31
-@xref{MON_RESPONSE_REGISTER_INFO}
+@xref{MON_RESPONSE_REGISTER_INFO}.
 
 @item 0x00
 No error occurred
@@ -16516,7 +16530,7 @@ The current program counter
 
 @table @code
 @item 0x11
-@xref{MON_RESPONSE_CHECKPOINT_INFO}
+@xref{MON_RESPONSE_CHECKPOINT_INFO}.
 
 @item 0x00000002
 Checkpoint number is 2
@@ -16558,7 +16572,7 @@ The checkpoint has been ignored zero times.
 
 @table @code
 @item 0xaa
-@xref{MON_CMD_EXIT}
+@xref{MON_CMD_EXIT}.
 
 @end table
 
@@ -16570,7 +16584,7 @@ The checkpoint has been ignored zero times.
 
 @table @code
 @item 0xaa
-@xref{MON_CMD_EXIT}
+@xref{MON_CMD_EXIT}.
 
 @end table
 
@@ -16582,7 +16596,7 @@ The checkpoint has been ignored zero times.
 
 @table @code
 @item 0x63
-@xref{MON_RESPONSE_RESUMED}
+@xref{MON_RESPONSE_RESUMED}.
 
 @item 0xe5cf
 Program counter is currently at 0xe5cf
@@ -16603,6 +16617,29 @@ reentering the monitor, as seen previously.
 
 These are the possible command types and responses, without the header portions
 mentioned above.
+
+@menu
+* MON_CMD_MEM_GET::
+* MON_CMD_MEM_SET::
+* MON_CMD_CHECKPOINT_GET::
+* MON_CMD_CHECKPOINT_SET::
+* MON_CMD_CHECKPOINT_DELETE::
+* MON_CMD_CHECKPOINT_LIST::
+* MON_CMD_CHECKPOINT_TOGGLE::
+* MON_CMD_CONDITION_SET::
+* MON_CMD_REGISTERS_GET::
+* MON_CMD_REGISTERS_SET::
+* MON_CMD_ADVANCE_INSTRUCTIONS::
+* MON_CMD_KEYBOARD_FEED::
+* MON_CMD_EXECUTE_UNTIL_RETURN::
+* MON_CMD_PING::
+* MON_CMD_BANKS_AVAILABLE::
+* MON_CMD_REGISTERS_AVAILABLE::
+* MON_CMD_EXIT::
+* MON_CMD_QUIT::
+* MON_CMD_RESET::
+* MON_CMD_AUTOSTART::
+@end menu
 
 @node MON_CMD_MEM_GET
 @subsection Memory get (0x01)
@@ -16841,7 +16878,7 @@ Command body:
 
 Currently empty.
 
-@xref{MON_RESPONSE_REGISTER_INFO}
+@xref{MON_RESPONSE_REGISTER_INFO}.
 
 @node MON_CMD_REGISTERS_SET
 @subsection Registers set (0x32)
@@ -16860,7 +16897,7 @@ Command body:
 
 @end table
 
-@xref{MON_RESPONSE_REGISTER_INFO}
+@xref{MON_RESPONSE_REGISTER_INFO}.
 
 @node MON_CMD_ADVANCE_INSTRUCTIONS
 @subsection Advance Instructions (0x71)
@@ -17103,6 +17140,14 @@ Currently empty.
 @node Binary Responses
 @section Responses
 
+@menu
+* MON_RESPONSE_REGISTER_INFO::
+* MON_RESPONSE_CHECKPOINT_INFO::
+* MON_RESPONSE_JAM::
+* MON_RESPONSE_STOPPED::
+* MON_RESPONSE_RESUMED::
+@end menu
+
 @node MON_RESPONSE_REGISTER_INFO
 @subsection Register Response (0x31)
 
@@ -17218,7 +17263,7 @@ Response body:
 
 @end table
 
-@node c1541, File formats, Monitor, Top
+@node c1541
 @chapter c1541
 
 VICE is provided with a complete stand-alone disk image maintenance
@@ -17511,7 +17556,7 @@ Write @code{test.prg} to @code{test.d64} as @code{testfile}.
 Create a disk image in @code{d64} format, format it with the @code{name} and @code{id} and save it to @code{disk.d64}.
 @end table
 
-@c @node FIXME
+@node Cartconv
 @chapter cartconv
 
 The cartconv program is a cartridge conversion utility, it can convert
@@ -17763,7 +17808,7 @@ Insert multiple 8kB .crt files into a rep256 type cartridge.
 Get information about a .crt file.
 @end table
 
-@c @node FIXME
+@node Petcat
 @chapter petcat
 
 The petcat program is a text conversion utility, it can convert
@@ -17934,7 +17979,7 @@ Convert inputfile.seq to a Ascii text file in outputfile.txt.
 Convert inputfile.txt to a Petscii text SEQ file in outputfile.seq.
 @end table
 
-@node File formats, Acknowledgments, c1541, Top
+@node File formats
 @chapter The emulator file formats
 
 This chapter gives a technical description of the various files
@@ -27410,7 +27455,7 @@ number to be played (0x00 for song 1).
 @end itemize
 
 @c section used in file generation, keep to the format used.
-@node Acknowledgments, Copyright, File formats, Top
+@node Acknowledgments
 @chapter Acknowledgments
 
 VICE derives from X64, the first Commodore 64 emulator for the
@@ -28369,7 +28414,7 @@ Peternel, Per Håkan Sundell, David Horrocks, Benjamin Rosseaux and William McCab
 for writing cool emulators to compete with.  @t{:-)}
 
 @c end of file generation section.
-@node Copyright, Contacts, Acknowledgments, Top
+@node Copyright
 @chapter Copyright
 
 @itemize @bullet
@@ -28462,7 +28507,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 02111-1307  USA
 
 
-@node Contacts, Concept Index, Copyright, Top
+@node Contacts
 @chapter Contact information
 
 @menu
@@ -28640,7 +28685,7 @@ People willing to port VICE to other platforms are always welcome.
 But notice from experience it will take at least a full year of
 continuous work to write a well working and stable port.
 
-@node Concept Index, Resource Index, Contacts, Top
+@node Concept Index
 @unnumbered Concept Index
 
 @printindex cp
