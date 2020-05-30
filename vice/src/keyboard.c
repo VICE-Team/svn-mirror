@@ -140,6 +140,7 @@ static int keyboard_set_latch_keyarr(int row, int col, int value)
     if (row < 0 || col < 0) {
         return -1;
     }
+    /* printf("keyboard_set_latch_keyarr %d: %d %d\n", value, row, col); */
     if (value) {
         latch_keyarr[row] |= 1 << col;
         latch_rev_keyarr[col] |= 1 << row;
@@ -147,7 +148,17 @@ static int keyboard_set_latch_keyarr(int row, int col, int value)
         latch_keyarr[row] &= ~(1 << col);
         latch_rev_keyarr[col] &= ~(1 << row);
     }
-
+#if 0
+    {
+        int r, c;
+        for (r = 0; r < 8; r++) {
+            for (c = 0; c < 8; c++) {
+                printf("%c", latch_keyarr[r] & (1 << c) ? '*' : '.');
+            }
+            printf("\n");
+        }
+    }
+#endif
     return 0;
 }
 
