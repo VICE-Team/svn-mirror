@@ -479,7 +479,7 @@ static void generate_infocontrib(char *in_path, char *out_path, char *in_filenam
             fprintf(outfile, "\"\\n\"\n");
 #endif
         } else {
-            if (!strncmp(line_buffer, "@node Copyright, Contacts, Acknowledgments, Top", 47)) {
+            if (!strncmp(line_buffer, "@node Copyright", 15)) {
                 found_end = 1;
             } else {
                 if (found_trans == 1) {
