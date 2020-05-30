@@ -37,8 +37,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-#include <string.h>
 #include <gtk/gtk.h>
 
 #include "vice.h"
@@ -52,10 +50,17 @@
 #include "settings_fsdevice.h"
 
 
+/** \brief  References to the stack widgets
+ */
 static GtkWidget *fsdevice_widgets[NUM_DISK_UNITS];
 
 
-
+/** \brief  Create a stack child widget for \a unit
+ *
+ * \param[in]   unit    unit number (8-11)
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *create_stack_child_widget(int unit)
 {
     GtkWidget *layout;

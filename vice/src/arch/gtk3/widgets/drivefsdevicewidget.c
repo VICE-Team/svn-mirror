@@ -59,19 +59,6 @@
 
 #include "drivefsdevicewidget.h"
 
-#if 0
-/** \brief  List of file system types
- */
-static const vice_gtk3_combo_entry_int_t device_types[] = {
-    { "None", ATTACH_DEVICE_NONE },
-    { "File system", ATTACH_DEVICE_FS },
-#ifdef HAVE_REALDEVICE
-    { "Real device (OpenCBM)", ATTACH_DEVICE_REAL },
-#endif
-    { NULL, -1 }
-};
-#endif
-
 
 /*
  * TODO:    refactor the fsdir entry code into a `resourceentrywidget` in
@@ -96,21 +83,6 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
         g_free(filename);
     }
 }
-
-
-#if 0
-/** \brief  Create a combo box with device types
- *
- * \param[in]   unit    unit number
- *
- * \return  GtkComboBoxText
- */
-static GtkWidget *create_device_type_widget(int unit)
-{
-    return vice_gtk3_resource_combo_box_int_new_sprintf(
-            "FileSystemDevice%d", device_types, unit);
-}
-#endif
 
 
 /** \brief  Create text entry for file system directory for \a unit
@@ -166,7 +138,7 @@ static GtkWidget *create_p00_widget(int unit)
 
     g_snprintf(resource, 256, "FSDevice%dHideCBMFiles", unit);
     p00_only = vice_gtk3_resource_check_button_new(resource,
-            "Do not show non-P00 files | Only show P00 files");
+            "Only show P00 files");
     gtk_grid_attach(GTK_GRID(grid), p00_only, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
