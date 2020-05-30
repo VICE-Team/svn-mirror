@@ -91,7 +91,6 @@ static const unsigned int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 3076
 
 void rotation_init(int freq, unsigned int dnr)
 {
-    printf("rotation_init: drive %d freq %d\n", dnr, freq);
     rotation[dnr].frequency = freq;
     rotation[dnr].accum = 0;
     rotation[dnr].ue7_counter = 0;

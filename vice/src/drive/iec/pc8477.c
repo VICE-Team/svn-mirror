@@ -46,8 +46,8 @@
 #define debug(_x_)
 #endif
 
-#define STEP_RATE ((16 - drv->step_rate) * drv->mycontext->drives[0]->clock_frequency * 500000 / drv->rate)
-#define BYTE_RATE (drv->mycontext->drives[0]->clock_frequency * 8000 / drv->rate)
+#define STEP_RATE ((16 - drv->step_rate) * drv->mycontext->clock_frequency * 500000 / drv->rate)
+#define BYTE_RATE (drv->mycontext->clock_frequency * 8000 / drv->rate)
 
 typedef enum pc8477_state_e {
     PC8477_WAIT, PC8477_COMMAND, PC8477_READ, PC8477_WRITE, PC8477_EXEC, PC8477_RESULT

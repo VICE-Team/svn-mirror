@@ -185,7 +185,4 @@
 #define BAM_NAME_4000          4
 #define BAM_ID_4000            22
 
-#define MAX_TRACKS_ANY         MAX_TRACKS_8250
-#define MAX_BLOCKS_ANY         MAX_BLOCKS_8250
-
 #endif

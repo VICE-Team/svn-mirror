@@ -186,6 +186,9 @@ typedef struct diskunit_context_s {
     /* What drive type we have to emulate?  */
     unsigned int type;
 
+    /* Clock frequency of this disk unit in 1MHz units.  */
+    int clock_frequency;
+
     /* What idling method?  (See `DRIVE_IDLE_*')  */
     int idling_method;
 

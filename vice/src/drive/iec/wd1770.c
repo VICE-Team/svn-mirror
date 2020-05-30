@@ -56,6 +56,7 @@ static const int wd1770_step_rate[2][4] = {
     {6000, 12000, 2000, 3000},   /* WD1772 */
 };
 
+/* Macros for wd1770_t *drv; */
 #define SETTLING (drv->clock_frequency * 30000)
 #define BYTE_RATE (drv->clock_frequency * 8000 / 250)
 #define STEP_RATE (drv->clock_frequency * wd1770_step_rate[drv->is1772][drv->cmd & WD_R])
@@ -180,7 +181,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
     }
 }
 
-/* Functions using drive context.  */
+/* Functions using disk unit context.  */
 void wd1770d_init(diskunit_context_t *drv)
 {
     if (wd1770_log == LOG_ERR) {
@@ -193,6 +194,13 @@ void wd1770d_init(diskunit_context_t *drv)
     drv->wd1770->cpu_clk_ptr = drv->clk_ptr;
     drv->wd1770->is1772 = 0;
     drv->wd1770->clock_frequency = 2;
+    /*
+     * Programming note: we should be able to get the clock_frequency from
+     * drv->clock_frequency. However we are called only once at the beginning,
+     * for any type of drive, and not when a drive of our type is actually
+     * connected. It just so happens that all drives with a wd177x have
+     * this clock frequency.
+     */
 
     clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
                            drv->wd1770);

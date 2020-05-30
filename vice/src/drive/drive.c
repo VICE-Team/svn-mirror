@@ -251,11 +251,11 @@ int drive_init(void)
 
         driverom_initialize_traps(diskunit);
 
-        /* Sets drive->clock_frequency */
-        drivesync_clock_frequency(diskunit->type, drive);
+        /* Sets diskunit->clock_frequency */
+        drivesync_clock_frequency(diskunit, diskunit->type);
 
         /* TODO: rotation code is not drive1 aware */
-        rotation_init((drive->clock_frequency == 2) ? 1 : 0, unit);
+        rotation_init((diskunit->clock_frequency == 2) ? 1 : 0, unit);
         rotation_reset(drive);
 
         if (diskunit->type == DRIVE_TYPE_2000 || diskunit->type == DRIVE_TYPE_4000) {
@@ -379,7 +379,7 @@ int drive_set_disk_drive_type(unsigned int type, struct diskunit_context_s *drv)
 
     /* TODO: drive 1? */
     rotation_rotate_disk(drive0);
-    drivesync_clock_frequency(type, drive0);
+    drivesync_clock_frequency(drv, type);
 
     rotation_init(0, dnr);
     drv->type = type;

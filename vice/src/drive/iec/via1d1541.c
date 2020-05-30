@@ -119,7 +119,7 @@ static void undump_pra(via_context_t *via_context, uint8_t byte)
     if (dc->type == DRIVE_TYPE_1570
         || dc->type == DRIVE_TYPE_1571
         || dc->type == DRIVE_TYPE_1571CR) {
-        drivesync_set_1571(byte & 0x20, dc);
+        drivesync_set_1571(dc, byte & 0x20);
         glue1571_side_set((byte >> 2) & 1, via1p->drive);
     } else {
         switch (via1p->diskunit->parallel_cable) {
@@ -150,7 +150,7 @@ static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t oldpa_va
         || dc->type == DRIVE_TYPE_1571
         || dc->type == DRIVE_TYPE_1571CR) {
         if ((oldpa_value ^ byte) & 0x20) {
-            drivesync_set_1571(byte & 0x20, dc);
+            drivesync_set_1571(dc, byte & 0x20);
         }
         if ((oldpa_value ^ byte) & 0x04) {
             glue1571_side_set((byte >> 2) & 1, via1p->drive);

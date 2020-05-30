@@ -239,9 +239,6 @@ typedef struct drive_s {
 #define BRA_MOTOR_ON    0x04    /* chosen for the bit in the VIA2 PB  register */
 #define BRA_LED         0x08
 
-    /* Clock frequency of this drive in 1MHz units.  */
-    int clock_frequency;
-
     /* Tick when the disk image was attached.  */
     CLOCK attach_clk;
 

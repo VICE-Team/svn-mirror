@@ -163,7 +163,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         if (0
             || SMW_DW(m, (uint32_t)(drive->attach_clk)) < 0
             || SMW_B(m, (uint8_t)(drive->byte_ready_level)) < 0
-            || SMW_B(m, (uint8_t)(drive->clock_frequency)) < 0
+            || SMW_B(m, (uint8_t)(unit->clock_frequency)) < 0
             || SMW_W(m, (uint16_t)(drive->current_half_track + (drive->side * DRIVE_HALFTRACKS_1571))) < 0
             || SMW_DW(m, (uint32_t)(drive->detach_clk)) < 0
             || SMW_B(m, (uint8_t)0) < 0
@@ -354,7 +354,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_DW_INT(m, &dummy) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
-                || SMR_B_INT(m, &(drive->clock_frequency)) < 0
+                || SMR_B_INT(m, &(unit->clock_frequency)) < 0
                 || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (uint8_t *)&dummy) < 0
@@ -381,7 +381,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             if (0
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
-                || SMR_B_INT(m, &(drive->clock_frequency)) < 0
+                || SMR_B_INT(m, &(unit->clock_frequency)) < 0
                 || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (uint8_t *)&dummy) < 0
@@ -413,7 +413,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             if (0
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
-                || SMR_B_INT(m, &(drive->clock_frequency)) < 0
+                || SMR_B_INT(m, &(unit->clock_frequency)) < 0
                 || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (uint8_t *)&dummy) < 0
@@ -454,7 +454,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             if (0
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
-                || SMR_B_INT(m, &(drive->clock_frequency)) < 0
+                || SMR_B_INT(m, &(unit->clock_frequency)) < 0
                 || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (uint8_t *)&dummy) < 0
@@ -496,7 +496,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             if (0
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
-                || SMR_B_INT(m, &(drive->clock_frequency)) < 0
+                || SMR_B_INT(m, &(unit->clock_frequency)) < 0
                 || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (uint8_t *)&dummy) < 0
