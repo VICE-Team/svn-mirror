@@ -19,6 +19,8 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
   src/sounddrv/soundflac.c, src/arch/gtk3/uiabout.c)
   
 - make sure the list of team members is correct (vice.texi, infocontrib.sed)
+  vice.texi contains the author list twice, once under "@c
+  ---vice-core-team---", and once under "@node Copyright"
 
 - ANNOUNCE A CODE FREEZE ;)
 
