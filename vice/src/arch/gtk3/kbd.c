@@ -236,6 +236,79 @@ static int kbd_get_modifier(GdkEvent *report)
     return ret;
 }
 
+/* when shift is pressed, then a regular key, then shift released, and then
+   the regular key, the key-release event of the last key will not match the
+   key-press event. this will confuse our generic keyboard handling. to fight
+   agains this problem, we remember what keys were pressed and alter the
+   events accordingly. */
+
+static int keyspressed = 0;
+#define KEYS_PRESSED_MAX 200
+
+static int pressedkeys[KEYS_PRESSED_MAX];
+static int pressedkeysmod[KEYS_PRESSED_MAX];
+static int pressedkeyshw[KEYS_PRESSED_MAX];
+static int pressedkeysstate[KEYS_PRESSED_MAX];
+
+static int findpressedkey(GdkEvent *report)
+{
+    int i;
+    for (i = 0; i < keyspressed; i++) {
+        if(report->key.hardware_keycode == pressedkeyshw[i]) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+static int addpressedkey(GdkEvent *report, int *key, int *mod)
+{
+    int idx;
+    *mod = kbd_get_modifier(report);
+    if (keyspressed < KEYS_PRESSED_MAX) {
+        idx = findpressedkey(report);
+        if (idx == -1) {
+            pressedkeys[keyspressed] = *key;
+            pressedkeyshw[keyspressed] = report->key.hardware_keycode;
+            pressedkeysmod[keyspressed] = *mod;
+            pressedkeysstate[keyspressed] = report->key.state;
+#if 0
+            printf("addpressedkey    val:%5d hw:%04x mod:%04x state:%04x\n",
+                *key, report->key.hardware_keycode, *mod, report->key.state);
+#endif
+            keyspressed++;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int removepressedkey(GdkEvent *report, int *key, int *mod)
+{
+    int i, idx;
+    *mod = 0;
+    if (keyspressed > 0) {
+        idx = findpressedkey(report);
+        if (idx != -1) {
+            *key = pressedkeys[idx];
+            *mod = pressedkeysmod[idx];
+            report->key.state = pressedkeysstate[idx];
+#if 0
+            printf("removepressedkey val:%5d hw:%04x mod:%04x state:%04x\n",
+                *key, report->key.hardware_keycode, *mod, report->key.state);
+#endif
+            for (i = idx; i < keyspressed; i++) {
+                pressedkeys[i] = pressedkeys[i + 1];
+                pressedkeyshw[i] = pressedkeyshw[i + 1];
+                pressedkeysmod[i] = pressedkeysmod[i + 1];
+                pressedkeysstate[i] = pressedkeysstate[i + 1];
+            }
+            keyspressed--;
+            return 1;
+        }
+    }
+    return 0;
+}
 
 /** \brief  Gtk keyboard event handler
  *
@@ -248,6 +321,7 @@ static int kbd_get_modifier(GdkEvent *report)
 static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint key;
+    int mod;
 
     key = report->key.keyval;
     switch (report->type) {
@@ -310,8 +384,16 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 return TRUE;
             }
 #endif
-
-            keyboard_key_pressed((signed long)key, kbd_get_modifier(report));
+            /* only press keys that were not yet pressed */
+            if(addpressedkey(report, &key, &mod)) {
+#if 0
+                printf("%2d key press,   %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
+                    keyspressed,
+                    report->key.keyval, report->key.state, report->key.hardware_keycode,
+                    shiftl_state, shiftr_state, capslock_state, mod);
+#endif
+                keyboard_key_pressed((signed long)key, mod);
+            }
             return TRUE;
         case GDK_KEY_RELEASE:
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
@@ -339,12 +421,25 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             if (report->key.keyval == GDK_KEY_KP_Separator) {
                 key = report->key.keyval = GDK_KEY_KP_Decimal;
             }
-            
-            keyboard_key_released(key, kbd_get_modifier(report));
+                
+            if(removepressedkey(report, &key, &mod)) {
+#if 0
+                printf("%2d key release, %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
+                    keyspressed, report->key.keyval, report->key.state, report->key.hardware_keycode,
+                    shiftl_state, shiftr_state, capslock_state, mod);
+#endif
+                keyboard_key_released(key, mod);
+            } else {
+                /* we released a key that was not pressed, something is wrong */
+                keyspressed = 0;
+                kbd_fix_shift_clear();
+                keyboard_key_clear();
+            }
             break;
         case GDK_ENTER_NOTIFY:
         case GDK_LEAVE_NOTIFY:
         case GDK_FOCUS_CHANGE:
+            keyspressed = 0;
             kbd_fix_shift_clear();
             keyboard_key_clear();
             break;
