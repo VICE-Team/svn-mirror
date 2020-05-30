@@ -147,7 +147,7 @@ void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffe
 int drive_init(void)
 {
     unsigned int unit;
-    drive_t *drive, *drive1;
+    drive_t *drive;
 
     if (rom_loaded) {
         return 0;
