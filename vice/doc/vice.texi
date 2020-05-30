@@ -28419,32 +28419,40 @@ for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1999-2016 Andreas Matthies
+Copyright @copyright{} 1999-2020 Martin Pottendorfer
 @item
-Copyright @copyright{} 1999-2018 Martin Pottendorfer
+Copyright @copyright{} 2005-2020 Marco van den Heuvel
 @item
-Copyright @copyright{} 2005-2018 Marco van den Heuvel
+Copyright @copyright{} 2007-2020 Fabrizio Gennari
 @item
-Copyright @copyright{} 2007-2018 Fabrizio Gennari
+Copyright @copyright{} 2009-2020 Groepaz
 @item
-Copyright @copyright{} 2009-2018 Groepaz
+Copyright @copyright{} 2009-2020 Errol Smith
 @item
-Copyright @copyright{} 2009-2018 Errol Smith
+Copyright @copyright{} 2009-2020 Ingo Korb
 @item
-Copyright @copyright{} 2010-2018 Olaf Seibert
+Copyright @copyright{} 2010-2020 Olaf Seibert
 @item
-Copyright @copyright{} 2011-2018 Marcus Sutton
+Copyright @copyright{} 2011-2020 Marcus Sutton
 @item
-Copyright @copyright{} 2011-2018 Kajtar Zsolt
+Copyright @copyright{} 2011-2020 Kajtar Zsolt
 @item
-Copyright @copyright{} 2016-2018 AreaScout
+Copyright @copyright{} 2016-2020 AreaScout
 @item
-Copyright @copyright{} 2016-2018 Bas Wassink
+Copyright @copyright{} 2016-2020 Bas Wassink
+@item
+Copyright @copyright{} 2017-2020 Michael C. Martin
+@item
+Copyright @copyright{} 2018-2020 Christopher Phillips
+@item
+Copyright @copyright{} 2019-2020 David Hogan
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
 @item
 Copyright @copyright{} 2015-2016 BSzili
+@item
+Copyright @copyright{} 1999-2016 Andreas Matthies
 @item
 Copyright @copyright{} 2007-2015 Daniel Kahlin
 @item
@@ -28453,8 +28461,6 @@ Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 Copyright @copyright{} 2011-2014 Ulrich Schulz
 @item
 Copyright @copyright{} 2011-2014 Thomas Giesel
-@item
-Copyright @copyright{} 2009-2014 Ingo Korb
 @item
 Copyright @copyright{} 2006-2014 Christian Vogelgsang
 @item
