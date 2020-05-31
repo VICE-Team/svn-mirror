@@ -468,7 +468,9 @@ static void add_sliders(GtkGrid *grid,
     if (!minimal) {
         for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
             crt_control_t *control = &(data->controls[i]);
+#if 0
             debug_gtk3("Adding slider '%s' [%d] ... ", control->res.label, (int)i);
+#endif
             label = create_label(control->res.label, minimal);
             gtk_grid_attach(grid, label, 0, row, 1, 1);
 #if 0
