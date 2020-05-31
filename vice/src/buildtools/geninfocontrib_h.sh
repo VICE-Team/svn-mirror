@@ -273,7 +273,7 @@ if test x"$1" = "xinfocontrib.h"; then
       docteamsection=yes
     fi
 
-    if test x"$data" = "x@node Copyright, Contacts, Acknowledgments, Top"; then
+    if test x"$data" = "x@node Copyright"; then
       $ECHO "\"$linefeed\";"
       outputok=no
     fi
