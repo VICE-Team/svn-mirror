@@ -60,7 +60,7 @@ typedef void (*joystick_machine_func_t)(void);
 extern void joystick_register_machine(joystick_machine_func_t func);
 
 /*! the number of joysticks that can be attached to the emu */
-#define JOYSTICK_NUM 5
+#define JOYSTICK_NUM 8
 
 /* the values used internally to represent joystick state
 FIXME: this is only an extern because of

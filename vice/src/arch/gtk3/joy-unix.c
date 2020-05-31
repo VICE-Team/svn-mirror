@@ -200,7 +200,7 @@ int joy_arch_cmdline_options_init(void)
 #        include <errno.h>
 #        define NEW_JOYSTICK 1
 #        undef HAS_DIGITAL_JOYSTICK
-static int use_old_api=0;
+static int use_old_api=0;       /**< FIXME: make this a #define? */
 #      else
 static int use_old_api=1;
 #      endif
@@ -219,11 +219,11 @@ int use_old_api=1;
 #      error Unknown Joystick
 #    endif
 
-#    define ANALOG_JOY_NUM (JOYDEV_ANALOG_5-JOYDEV_ANALOG_0+1)
+#    define ANALOG_JOY_NUM (JOYDEV_ANALOG_7 - JOYDEV_ANALOG_0 + 1)
 
 /* file handles for the joystick device files */
 
-static int ajoyfd[ANALOG_JOY_NUM] = { -1, -1, -1, -1, -1, -1 };
+static int ajoyfd[ANALOG_JOY_NUM] = { -1, -1, -1, -1, -1, -1, -1, -1 };
 static int djoyfd[2] = { -1, -1 };
 
 #    define JOYCALLOOPS 100
@@ -293,6 +293,8 @@ static device_info_t predefined_device_list[] = {
     { "Analog joystick 3",  JOYDEV_ANALOG_3 },
     { "Analog joystick 4",  JOYDEV_ANALOG_4 },
     { "Analog joystick 5",  JOYDEV_ANALOG_5 },
+    { "Analog joystick 6",  JOYDEV_ANALOG_6 },
+    { "Analog joystick 7",  JOYDEV_ANALOG_7 },
 #ifdef HAS_DIGITAL_JOYSTICK
     { "Digital joystick 0", JOYDEV_DIGITAL_0 },
     { "Digital joystick 1", JOYDEV_DIGITAL_1 },
@@ -537,7 +539,9 @@ void new_joystick_init(void)
         { "/dev/js2", "/dev/input/js2" },
         { "/dev/js3", "/dev/input/js3" },
         { "/dev/js4", "/dev/input/js4" },
-        { "/dev/js5", "/dev/input/js5" }
+        { "/dev/js5", "/dev/input/js5" },
+        { "/dev/js6", "/dev/input/js6" },
+        { "/dev/js7", "/dev/input/js7" }
     };
 
     if (joystick_log == LOG_ERR) {
@@ -599,7 +603,7 @@ void new_joystick_close(void)
 {
     int i;
 
-    for (i=0; i<ANALOG_JOY_NUM; ++i) {
+    for (i = 0; i < ANALOG_JOY_NUM; ++i) {
         if (ajoyfd[i] > 0) {
             close (ajoyfd[i]);
         }
@@ -612,10 +616,10 @@ void new_joystick(void)
     struct js_event e;
     int ajoyport;
 
-    for (i = 1; i <= 5; i++) {
+    for (i = 1; i <= ANALOG_JOY_NUM; i++) {
         int joyport = joystick_port_map[i - 1];
 
-        if ((joyport < JOYDEV_ANALOG_0) || (joyport > JOYDEV_ANALOG_5)) {
+        if ((joyport < JOYDEV_ANALOG_0) || (joyport > JOYDEV_ANALOG_7)) {
             continue;
         }
 
