@@ -16578,7 +16578,7 @@ The checkpoint has been ignored zero times.
 
 @item Server acknowledges the command:@*
 @*
-@code{ ... | 71 | ... } @*
+@code{ ... | aa | ... } @*
 (Some response header fields are omitted (...) for brevity.)@*
 @*
 
