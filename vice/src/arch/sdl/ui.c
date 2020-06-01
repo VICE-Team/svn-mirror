@@ -42,6 +42,7 @@
 #include "fullscreenarch.h"
 #include "joy.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "lightpen.h"
 #include "log.h"
@@ -94,7 +95,8 @@ void ui_handle_misc_sdl_event(SDL_Event e)
     if (e.type == SDL_WINDOWEVENT) {
         switch (e.window.event) {
             case SDL_WINDOWEVENT_RESIZED:
-                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)", (unsigned int)e.window.data1, (unsigned int)e.window.data2));
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_RESIZED (%d,%d)", 
+                     e.window.data1, e.window.data2));
                 sdl_video_resize_event((unsigned int)e.window.data1, (unsigned int)e.window.data2);
                 video_canvas_refresh_all(sdl_active_canvas);
                 break;
@@ -105,6 +107,10 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             case SDL_WINDOWEVENT_EXPOSED:
                 DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_EXPOSED"));
                 video_canvas_refresh_all(sdl_active_canvas);
+                break;
+            case SDL_WINDOWEVENT_FOCUS_LOST:
+                DBG(("ui_handle_misc_sdl_event: SDL_WINDOWEVENT_FOCUS_LOST"));
+                keyboard_key_clear();
                 break;
         }
     }

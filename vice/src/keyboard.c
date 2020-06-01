@@ -241,6 +241,7 @@ void keyboard_clear_keymatrix(void)
     memset(rev_keyarr, 0, sizeof(rev_keyarr));
     memset(latch_keyarr, 0, sizeof(latch_keyarr));
     memset(latch_rev_keyarr, 0, sizeof(latch_rev_keyarr));
+    keyboard_shiftlock = 0;
 }
 
 void keyboard_register_machine(keyboard_machine_func_t func)
@@ -289,18 +290,18 @@ void keyboard_register_joy_keypad(key_joy_keypad_func_t func)
 /*-----------------------------------------------------------------------*/
 
 enum shift_type {
-    NO_SHIFT = 0,             /* Key is not shifted. Keys will be deshifted,
-                                 no other flags will be checked */
+    NO_SHIFT = 0,                 /* Key is not shifted. Keys will be deshifted,
+                                     no other flags will be checked */
 
-    VIRTUAL_SHIFT     = (1 << 0), /* The key needs a shift on the real machine. */
-    LEFT_SHIFT        = (1 << 1), /* Key is left shift. */
-    RIGHT_SHIFT       = (1 << 2), /* Key is right shift. */
+    VIRTUAL_SHIFT     = (1 << 0), /* The key needs a shift on the emulated machine. */
+    LEFT_SHIFT        = (1 << 1), /* Key is left shift on the emulated machine. */
+    RIGHT_SHIFT       = (1 << 2), /* Key is right shift on the emulated machine. */
     ALLOW_SHIFT       = (1 << 3), /* Allow key to be shifted. */
     DESHIFT_SHIFT     = (1 << 4), /* Although SHIFT might be pressed, do not
-                                 press shift on the real machine. */
+                                     press shift on the emulated machine. */
     ALLOW_OTHER       = (1 << 5), /* Allow another key code to be assigned if
-                                 SHIFT is pressed. */
-    SHIFT_LOCK        = (1 << 6), /* Key is shift lock on the real machine */
+                                     SHIFT is pressed. */
+    SHIFT_LOCK        = (1 << 6), /* Key is shift lock on the emulated machine */
     MAP_MOD_SHIFT     = (1 << 7), /* Key requires SHIFT to be pressed on host */
 
     ALT_MAP           = (1 << 8), /* Key is used for an alternative keyboard mapping (x128) */
@@ -311,8 +312,8 @@ enum shift_type {
     VIRTUAL_CBM      = (1 << 11), /* The key is combined with CBM on the emulated machine */
     VIRTUAL_CTRL     = (1 << 12), /* The key is combined with CTRL on the emulated machine */
 
-    LEFT_CBM         = (1 << 13), /* Key is CBM on the real machine */
-    LEFT_CTRL        = (1 << 14)  /* Key is CTRL on the real machine */
+    LEFT_CBM         = (1 << 13), /* Key is CBM on the emulated machine */
+    LEFT_CTRL        = (1 << 14)  /* Key is CTRL on the emulated machine */
 };
 
 struct keyboard_conv_s {
@@ -487,7 +488,7 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
                 right_shift_down = 1;
             }
             if (shift & SHIFT_LOCK) {
-                keyboard_shiftlock = 1;
+                keyboard_shiftlock ^= 1;
             }
             if (lcbm_defined()) {
                 if (shift & VIRTUAL_CBM) {
@@ -583,11 +584,12 @@ static void keyboard_restore_released(void)
     restore_raw = 0;
 }
 
+/* press a key, this is called by the UI */
 void keyboard_key_pressed(signed long key, int mod)
 {
     int i, j, latch;
 
-    /* log_debug("%s: %i %04x", __func__, key, mod); */
+    /* log_debug("%s:  %3i %04x", __func__, key, mod); */
 
     if (event_playback_active()) {
         return;
@@ -600,6 +602,7 @@ void keyboard_key_pressed(signed long key, int mod)
         return;
     }
 
+    /* c128 40/80 column key */
     if (key == key_ctrl_column4080) {
         if (key_ctrl_column4080_func != NULL) {
             key_ctrl_column4080_func();
@@ -607,6 +610,7 @@ void keyboard_key_pressed(signed long key, int mod)
         return;
     }
 
+    /* c128 caps lock key */
     if (key == key_ctrl_caps) {
         if (key_ctrl_caps_func != NULL) {
             key_ctrl_caps_func();
@@ -708,11 +712,20 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
                 skip_release = 1;
             }
         }
+#if 0
         if (shift & SHIFT_LOCK) {
             keyboard_shiftlock = 0;
             if (((shiftl == KEY_RSHIFT) && right_shift_down)
                 || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
                 skip_release = 1;
+            }
+        }
+#endif
+        /* when shift lock is released and shift lock is "locked", then exit
+           early and do nothing */
+        if (shift & SHIFT_LOCK) {
+            if (keyboard_shiftlock) {
+                return 0;
             }
         }
         
@@ -774,11 +787,12 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
     return 0;
 }
 
+/* release a key, this is called by the UI */
 void keyboard_key_released(signed long key, int mod)
 {
     int i, j, latch;
 
-    /* log_debug("%s: %i %04x", __func__, key, mod); */
+    /* log_debug("%s: %3i %04x", __func__, key, mod); */
 
     if (event_playback_active()) {
         return;

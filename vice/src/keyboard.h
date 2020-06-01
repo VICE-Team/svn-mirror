@@ -78,12 +78,13 @@ extern mapping_info_t *keyboard_get_info_list(void);
 extern int keyboard_is_keymap_valid(int sympos, int hosttype, int kbdtype);
 extern int keyboard_is_hosttype_valid(int hosttype);
 
-#define KBD_MOD_LSHIFT   (1 << 0)
-#define KBD_MOD_RSHIFT   (1 << 1)
-#define KBD_MOD_LCTRL    (1 << 2)
-#define KBD_MOD_RCTRL    (1 << 3)
-#define KBD_MOD_LALT     (1 << 4)
-#define KBD_MOD_RALT     (1 << 5)
+#define KBD_MOD_LSHIFT      (1 << 0)
+#define KBD_MOD_RSHIFT      (1 << 1)
+#define KBD_MOD_LCTRL       (1 << 2)
+#define KBD_MOD_RCTRL       (1 << 3)
+#define KBD_MOD_LALT        (1 << 4)
+#define KBD_MOD_RALT        (1 << 5)
+#define KBD_MOD_SHIFTLOCK   (1 << 6)
 
 struct snapshot_s;
 
@@ -128,7 +129,7 @@ extern void keyboard_alternative_set(int alternative);
 /* These ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
-extern int keyboard_shiftlock;
+extern int keyboard_shiftlock;      /* FIXME: c64 and c128 CIA1 code uses this */
 
 extern int keyboard_resources_init(void);
 extern int keyboard_cmdline_options_init(void);
