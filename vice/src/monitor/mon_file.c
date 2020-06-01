@@ -219,8 +219,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
         mem = addr_memspace(start_addr);
     }
 
-    mon_out("Loading %s", filename);
-    mon_out(" from %04X\n", adr);
+    mon_out("Loading %s from %04X ", filename, adr);
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         origbank = curbank;
