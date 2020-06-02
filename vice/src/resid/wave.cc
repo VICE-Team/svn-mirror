@@ -173,6 +173,8 @@ bool do_pre_writeback(reg8 waveform_prev, reg8 waveform, bool is6581)
     // This need more investigation
     if (waveform == 8)
         return false;
+    if (waveform_prev == 0xc)
+        return false;
     // What's happening here?
     if (is6581 &&
             ((((waveform_prev & 0x3) == 0x1) && ((waveform & 0x3) == 0x2))

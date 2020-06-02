@@ -449,6 +449,16 @@ RESID_INLINE void WaveformGenerator::set_noise_output()
 // since the waveform bits are and'ed into the shift register via the shift
 // register outputs.
 
+static reg12 noise_pulse6581(reg12 noise)
+{
+    return (noise < 0xf00) ? 0x000 : noise & (noise<<1) & (noise<<2);
+}
+
+static reg12 noise_pulse8580(reg12 noise)
+{
+    return (noise < 0xfc0) ? noise & (noise << 1) : 0xfc0;
+}
+
 RESID_INLINE
 void WaveformGenerator::set_waveform_output()
 {
@@ -459,6 +469,12 @@ void WaveformGenerator::set_waveform_output()
     int ix = (accumulator ^ (~sync_source->accumulator & ring_msb_mask)) >> 12;
 
     waveform_output = wave[ix] & (no_pulse | pulse_output) & no_noise_or_noise_output;
+
+    if (unlikely((waveform & 0xc) == 0xc))
+    {
+        waveform_output = (sid_model == MOS6581) ?
+            noise_pulse6581(waveform_output) : noise_pulse8580(waveform_output);
+    }
 
     // Triangle/Sawtooth output is delayed half cycle on 8580.
     // This will appear as a one cycle delay on OSC3 as it is
