@@ -38,6 +38,7 @@ VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
 VICE_ARG_WITH_LIST(sun,           [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(sdlsound,      [  --with-sdlsound         use SDL sound system])
+VICE_ARG_WITH_LIST(fastsid,       [  --with-fastsid          use the FastSID engine])
 VICE_ARG_WITH_LIST(resid,         [  --without-resid         do not use the reSID engine])
 VICE_ARG_WITH_LIST(jpeg,          [  --without-jpeg          do not use the JPEG screenshot system])
 VICE_ARG_WITH_LIST(png,           [  --without-png           do not use the PNG screenshot system])
@@ -434,6 +435,7 @@ HAVE_ZLIB_SUPPORT="no "
 HAVE_LIBIEEE1284_SUPPORT="no "
 HAVE_PROTO_OPENPCI_H_SUPPORT="no "
 
+HAVE_FASTSID_SUPPORT="no"
 HAVE_RESID_SUPPORT="no "
 FEATURE_CPUMEMHISTORY_SUPPORT="no "
 DEBUG_SUPPORT="no "
@@ -1840,6 +1842,13 @@ AC_TRY_COMPILE([],
                 ])
 CFLAGS=$old_CFLAGS
 AC_SUBST(MAX_INLINE_INSN_SINGLE)
+
+dnl FastSID
+AM_CONDITIONAL(HAVE_FASTSID, test x"$with_fastsid" = "xyes")
+if test x"$with_fastsid" = "xyes"; then
+  HAVE_FASTSID_SUPPORT="yes"
+  AC_DEFINE(HAVE_FASTSID,,[This version provides FastSID support.])
+fi
 
 dnl Set output drivers to none
 GFXOUTPUT_DRIVERS=""
@@ -4199,6 +4208,7 @@ echo ""
 echo "MISC"
 echo "----"
 
+echo "FastSID support            : $HAVE_FASTSID_SUPPORT (--with/without-fastsid)"
 echo "ReSID support              : $HAVE_RESID_SUPPORT (--with/without-resid)"
 echo "65xx CPU history support   : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
 echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
