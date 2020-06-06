@@ -69,6 +69,7 @@ struct engine_s {
 };
 
 static struct engine_s engine_match[] = {
+#ifdef HAVE_FASTSID
     { "0", SID_FASTSID_6581 },
     { "fast", SID_FASTSID_6581 },
     { "fastold", SID_FASTSID_6581 },
@@ -76,6 +77,7 @@ static struct engine_s engine_match[] = {
     { "1", SID_FASTSID_8580 },
     { "fastnew", SID_FASTSID_8580 },
     { "fast8580", SID_FASTSID_8580 },
+#endif
 #ifdef HAVE_RESID
     { "256", SID_RESID_6581 },
     { "resid", SID_RESID_6581 },
@@ -290,16 +292,21 @@ static char *build_sid_cmdline_option(int sid_type)
     /* start building up the command-line */
     old = lib_strdup("Specify SID engine and model (");
 
+#ifdef HAVE_FASTSID
     /* add fast sid options */
     new = util_concat(old, "0: FastSID 6581, 1: FastSID 8580", NULL);
     lib_free(old);
     old = new;
-
+#endif
 
 #ifdef HAVE_RESID
     /* add resid options if available */
     if (sid_type != SIDTYPE_SIDCART) {
+#ifdef HAVE_FASTSID
         new = util_concat(old, ", 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost", NULL);
+#else
+        new = util_concat(old, "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost", NULL);
+#endif
         lib_free(old);
         old = new;
     }

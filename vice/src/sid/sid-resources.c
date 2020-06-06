@@ -90,7 +90,9 @@ static int set_sid_engine(int set_engine, void *param)
     }
 
     switch (engine) {
+#ifdef HAVE_FASTSID
         case SID_ENGINE_FASTSID:
+#endif
 #ifdef HAVE_RESID
         case SID_ENGINE_RESID:
 #endif
@@ -366,9 +368,12 @@ void sid_set_enable(int value)
         return;
     }
 
+#ifdef HAVE_FASTSID
     if (val) {
         sid_engine_set(SID_ENGINE_FASTSID);
-    } else {
+    } else 
+#endif
+    {
         sid_engine_set(sid_engine);
     }
     sid_enabled = val;
@@ -468,19 +473,38 @@ static sid_engine_model_t sid_engine_models_resid_dtv[] = {
 };
 #endif
 
+#ifdef HAVE_FASTSID
+#ifdef HAVE_RESID
 static sid_engine_model_t sid_engine_models_fastsid[] = {
     { "6581 (Fast SID)", SID_FASTSID_6581 },
     { "8580 (Fast SID)", SID_FASTSID_8580 },
     { NULL, -1 }
 };
+#else
+static sid_engine_model_t sid_engine_models_fastsid[] = {
+    { "6581", SID_FASTSID_6581 },
+    { "8580", SID_FASTSID_8580 },
+    { NULL, -1 }
+};
+#endif
+#endif
 
 #ifdef HAVE_RESID
+#ifdef HAVE_FASTSID
 static sid_engine_model_t sid_engine_models_resid[] = {
     { "6581 (ReSID)", SID_RESID_6581 },
     { "8580 (ReSID)", SID_RESID_8580 },
     { "8580 + digi boost (ReSID)", SID_RESID_8580D },
     { NULL, -1 }
 };
+#else
+static sid_engine_model_t sid_engine_models_resid[] = {
+    { "6581", SID_RESID_6581 },
+    { "8580", SID_RESID_8580 },
+    { "8580 + digi boost", SID_RESID_8580D },
+    { NULL, -1 }
+};
+#endif
 #endif
 
 #ifdef HAVE_CATWEASELMKIII
@@ -530,7 +554,9 @@ sid_engine_model_t **sid_get_engine_model_list(void)
     }
 #endif
 
+#ifdef HAVE_FASTSID
     add_sid_engine_models(sid_engine_models_fastsid);
+#endif
 
 #ifdef HAVE_RESID
     /* Should we have if (machine_class != VICE_MACHINE_C64DTV) here? */
@@ -580,8 +606,10 @@ static int sid_check_engine_model(int engine, int model)
     }
 
     switch (engine << 8 | model) {
+#ifdef HAVE_FASTSID
         case SID_FASTSID_6581:
         case SID_FASTSID_8580:
+#endif
 #ifdef HAVE_RESID
         case SID_RESID_6581:
         case SID_RESID_8580:
