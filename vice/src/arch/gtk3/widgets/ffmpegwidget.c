@@ -186,9 +186,11 @@ static int get_format_index_by_name(const char *fmt)
 {
     int i;
 
-    for (i = 0; driver_info->formatlist[i].name != NULL; i++) {
-        if (strcmp(driver_info->formatlist[i].name, fmt) == 0) {
-            return i;
+    if (driver_info != NULL) {
+        for (i = 0; driver_info->formatlist[i].name != NULL; i++) {
+            if (strcmp(driver_info->formatlist[i].name, fmt) == 0) {
+                return i;
+            }
         }
     }
     return -1;
@@ -207,12 +209,14 @@ static GtkListStore *create_format_model(void)
 
     model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
-    for (i = 0; driver_info->formatlist[i].name != NULL; i++) {
-        const char *name = driver_info->formatlist[i].name;
+    if (driver_info != NULL) {
+        for (i = 0; driver_info->formatlist[i].name != NULL; i++) {
+            const char *name = driver_info->formatlist[i].name;
 
-        /*debug_gtk3("adding FFMPEG format '%s'.", name);*/
-        gtk_list_store_append(model, &iter);
-        gtk_list_store_set(model, &iter, 0, name, 1, i, -1);
+            /*debug_gtk3("adding FFMPEG format '%s'.", name);*/
+            gtk_list_store_append(model, &iter);
+            gtk_list_store_set(model, &iter, 0, name, 1, i, -1);
+        }
     }
 
     return model;
@@ -230,10 +234,14 @@ static GtkListStore *create_video_model(int fmt)
     gfxoutputdrv_codec_t *codec_list;
     int i;
 
+    store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+    if (driver_info == NULL) {
+        return store;
+    }
 
     codec_list = driver_info->formatlist[fmt].video_codecs;
 
-    store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     if (codec_list == NULL) {
         return store;
     }
@@ -262,10 +270,13 @@ static GtkListStore *create_audio_model(int fmt)
     gfxoutputdrv_codec_t *codec_list;
     int i;
 
+    store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+    if (driver_info == NULL) {
+        return store;
+    }
 
     codec_list = driver_info->formatlist[fmt].audio_codecs;
-
-    store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
     if (codec_list == NULL) {
         return store;
