@@ -1843,6 +1843,16 @@ AC_TRY_COMPILE([],
 CFLAGS=$old_CFLAGS
 AC_SUBST(MAX_INLINE_INSN_SINGLE)
 
+
+dnl Check for SID engines
+dnl
+dnl Remove this check to allow building without a SID engine
+dnl
+if test x"$with_fastsid" != "xyes" -a x"$with_resid" != "xyes"; then
+  AC_MSG_ERROR([Neither FastSID nor ReSID sound engine enabled, please enable at least one.])
+fi
+
+
 dnl FastSID
 AM_CONDITIONAL(HAVE_FASTSID, test x"$with_fastsid" = "xyes")
 if test x"$with_fastsid" = "xyes"; then
