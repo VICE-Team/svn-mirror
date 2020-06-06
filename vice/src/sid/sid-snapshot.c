@@ -409,6 +409,8 @@ fail:
    ARRAY  | voice filtRef   | 3 DOUBLES of filtRef data
  */
 
+#ifdef HAVE_FASTSID
+
 static int sid_snapshot_write_fastsid_module(snapshot_module_t *m, int sidnr)
 {
     sid_fastsid_snapshot_state_t sid_state;
@@ -581,6 +583,8 @@ static int sid_snapshot_read_fastsid_module(snapshot_module_t *m, int sidnr)
 
     return 0;
 }
+
+#endif /* HAVE_FASTSID */
 
 /* ---------------------------------------------------------------------*/
 
@@ -965,11 +969,13 @@ static int sid_snapshot_write_module_extended(snapshot_t *s, int sidnr)
             }
             break;
 #endif
+#ifdef HAVE_FASTSID
         case SID_ENGINE_FASTSID:
             if (sid_snapshot_write_fastsid_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;
+#endif
     }
 
     return snapshot_module_close(m);
@@ -1078,11 +1084,13 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
             }
             break;
 #endif
+#ifdef HAVE_FASTSID
         case SID_ENGINE_FASTSID:
             if (sid_snapshot_read_fastsid_module(m, sidnr) < 0) {
                 goto fail;
             }
             break;
+#endif
     }
 
     return snapshot_module_close(m);

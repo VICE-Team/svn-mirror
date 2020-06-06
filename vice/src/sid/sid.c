@@ -343,7 +343,7 @@ void sid_reset(void)
 
 static int sidengine;
 
-bool sid_sound_machine_set_engine_hooks()
+bool sid_sound_machine_set_engine_hooks(void)
 {
     sidengine = 0;
 
@@ -351,15 +351,19 @@ bool sid_sound_machine_set_engine_hooks()
         return false;
     }
 
+#ifdef HAVE_FASTSID
     sid_engine = fastsid_hooks;
+#endif
 
 #ifdef HAVE_RESID
     if (sidengine == SID_ENGINE_RESID) {
         sid_engine = resid_hooks;
     }
 #endif
-
-    return true;
+    if (sidengine) {
+        return true;
+    }
+    return false;
 }
 
 sound_t *sid_sound_machine_open(int chipno)
