@@ -61,6 +61,7 @@
 #include "clkguard.h"
 #include "clockport-mp3at64.h"
 #include "datasette.h"
+#include "datasette-sound.h"
 #include "debug.h"
 #include "diskimage.h"
 #include "drive-cmdline-options.h"
@@ -1122,6 +1123,7 @@ int machine_specific_init(void)
 #endif
 
     drive_sound_init();
+    datasette_sound_init();
     video_sound_init();
 
     /* Initialize sound.  Notice that this does not really open the audio

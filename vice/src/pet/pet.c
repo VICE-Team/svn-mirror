@@ -41,6 +41,7 @@
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "datasette.h"
+#include "datasette-sound.h"
 #include "debug.h"
 #include "debugcart.h"
 #include "diskimage.h"
@@ -686,6 +687,7 @@ int machine_specific_init(void)
     userport_dac_sound_chip_init();
 
     drive_sound_init();
+    datasette_sound_init();
     video_sound_init();
 
     /* Initialize sound.  Notice that this does not really open the audio

@@ -38,6 +38,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
+#include "datasette-sound.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -121,6 +122,12 @@ static int datasette_tape_wobble = 0;
 
 /* datasette device enable */
 static int datasette_enable = 0;
+
+/* audible sound from datasette device */
+int datasette_sound_emulation = 1;
+
+/* volume of sound from datasette device */
+int datasette_sound_emulation_volume;
 
 static log_t datasette_log = LOG_ERR;
 
@@ -232,6 +239,24 @@ static int set_datasette_enable(int value, void *param)
     return 0;
 }
 
+static int set_datasette_sound_emulation(int val, void *param)
+{
+    datasette_sound_emulation = val ? 1 : 0;
+
+    return 0;
+}
+
+static int set_datasette_sound_emulation_volume(int val, void *param)
+{
+    if (val < 0) {
+        return -1;
+    }
+
+    datasette_sound_emulation_volume = val;
+
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
     { "Datasette", 1, RES_EVENT_SAME, NULL,
       &datasette_enable,
@@ -248,6 +273,12 @@ static const resource_int_t resources_int[] = {
     { "DatasetteTapeWobble", 10, RES_EVENT_SAME, NULL,
       &datasette_tape_wobble,
       set_datasette_tape_wobble, NULL },
+    { "DatasetteSound", 0, RES_EVENT_SAME, NULL,
+      &datasette_sound_emulation,
+      set_datasette_sound_emulation, NULL },
+    { "DatasetteSoundVolume", 1024, RES_EVENT_SAME, NULL,
+      &datasette_sound_emulation_volume,
+      set_datasette_sound_emulation_volume, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -677,6 +708,10 @@ static void datasette_read_bit(CLOCK offset, void *data)
         current_image->cycle_counter -= gap / 8;
     }
 
+    if (current_image->mode == DATASETTE_CONTROL_START) {
+        datasette_sound_add_to_circular_buffer(gap);
+    }
+
     gap -= offset;
 
     if (gap > 0) {
@@ -741,6 +776,7 @@ void datasette_set_tape_image(tap_t *image)
             current_image->cycle_counter_total += gap / 8;
         } while (gap);
         current_image->current_file_seek_position = 0;
+        datasette_sound_set_halfwaves(current_image->version == 2);
     }
     if (datasette_list_item) {
         tapeport_set_tape_sense(0, datasette_device.id);

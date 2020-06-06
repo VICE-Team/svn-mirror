@@ -17,5 +17,7 @@ noinst_LIBRARIES = libdatasette.a
 
 libdatasette_a_SOURCES = \
 	datasette.c \
-	datasette.h
+	datasette.h \
+	datasette-sound.c \
+	datasette-sound.h
 
