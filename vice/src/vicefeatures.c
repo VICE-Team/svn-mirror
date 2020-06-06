@@ -311,6 +311,13 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
+    { "HAVE_FASTSID", "Enable FASTSID support.",
+#ifndef HAVE_FASTSID
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
     { "HAVE_RESID", "Enable ReSID support.",
 #ifndef HAVE_RESID
         0 },
