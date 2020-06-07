@@ -1846,9 +1846,12 @@ AC_SUBST(MAX_INLINE_INSN_SINGLE)
 
 dnl Check for SID engines
 dnl
-dnl Remove this check to allow building without a SID engine
+dnl FastSID is disabled by default, so we check against "yes", ReSID is enabled
+dnl by default so we check against "no" ($with_resid being empty means the
+dnl default, ie "yes")
 dnl
-if test x"$with_fastsid" != "xyes" -a x"$with_resid" != "xyes"; then
+dnl Remove this check to allow building without a SID engine
+if test x"$with_fastsid" != "xyes" -a x"$with_resid" = "xno"; then
   AC_MSG_ERROR([Neither FastSID nor ReSID sound engine enabled, please enable at least one.])
 fi
 
