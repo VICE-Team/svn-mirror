@@ -36,11 +36,13 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "export.h"
+#include "log.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
+#include "vicii-phi1.h"
 
 /*
     Action Replay 4.2, 5, 6 (Hardware stayed the same)
@@ -70,6 +72,7 @@ static int ar_active;
 
 /* some prototypes are needed */
 static uint8_t actionreplay_io1_peek(uint16_t addr);
+static uint8_t actionreplay_io1_read(uint16_t addr);
 static void actionreplay_io1_store(uint16_t addr, uint8_t value);
 static uint8_t actionreplay_io2_read(uint16_t addr);
 static uint8_t actionreplay_io2_peek(uint16_t addr);
@@ -84,7 +87,7 @@ static io_source_t action_replay_io1_device = {
     0,                            /* read is never valid */
     actionreplay_io1_store,       /* store function */
     NULL,                         /* NO poke function */
-    NULL,                         /* NO read function */
+    actionreplay_io1_read,        /* read function */
     actionreplay_io1_peek,        /* peek function */
     actionreplay_dump,            /* device state information dump function */
     CARTRIDGE_ACTION_REPLAY,      /* cartridge ID */
@@ -137,6 +140,21 @@ static void actionreplay_io1_store(uint16_t addr, uint8_t value)
             ar_active = 0;
         }
     }
+}
+
+static uint8_t actionreplay_io1_read(uint16_t addr)
+{
+    /* the read is really never valid */
+    action_replay_io1_device.io_source_valid = 0;
+    if (!ar_active) {
+        return 0;
+    }
+    /* since the r/w line is not decoded, a read still changes the register,
+       to whatever was on the bus before */
+    actionreplay_io1_store(addr, vicii_read_phi1());
+    log_warning(LOG_DEFAULT, "AR5: reading IO1 area at 0xde%02x, this corrupts the register\n", addr & 0xffu);
+    
+    return regvalue;
 }
 
 static uint8_t actionreplay_io1_peek(uint16_t addr)
