@@ -316,6 +316,15 @@ static const cmdline_option_t cmdline_options[] =
     { "-dstapewobble", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteTapeWobble", NULL,
       "<value>", "Set maximum random number of cycles added to each gap in the tap" },
+    { "-datasettesound", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "DatasetteSound", (resource_value_t)1,
+      NULL, "Enable Datasette sound" },
+    { "+datasettesound", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "DatasetteSound", (resource_value_t)0,
+      NULL, "Disable Datasette sound" },
+    { "-dssoundvolume", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "DatasetteSoundVolume", NULL,
+      "<value>", "Set volume of Datasette sound" },
     CMDLINE_LIST_END
 };
 
