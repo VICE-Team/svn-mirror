@@ -45,16 +45,19 @@ static char datasette_halfwaves;
 extern int datasette_sound_emulation;
 extern int datasette_sound_emulation_volume;
 
-static void datasette_sound_flush_circular_buffer(void) {
+static void datasette_sound_flush_circular_buffer(void)
+{
     datasette_sound.chip_enabled = 0;
     gap_circular_buffer_end = gap_circular_buffer_start;
 }
 
-void datasette_sound_set_halfwaves(char halfwaves) {
+void datasette_sound_set_halfwaves(char halfwaves)
+{
     datasette_halfwaves = halfwaves;
 }
 
-void datasette_sound_add_to_circular_buffer(CLOCK gap) {
+void datasette_sound_add_to_circular_buffer(CLOCK gap)
+{
     if (!datasette_sound_emulation) {
         datasette_sound_flush_circular_buffer();
         return;
@@ -70,7 +73,8 @@ void datasette_sound_add_to_circular_buffer(CLOCK gap) {
     }
 }
 
-static CLOCK datasette_sound_remove_from_circular_buffer(CLOCK max_amount_to_remove, char divide_by_two, char *must_flip) {
+static CLOCK datasette_sound_remove_from_circular_buffer(CLOCK max_amount_to_remove, char divide_by_two, char *must_flip)
+{
     CLOCK gap = 0;
     *must_flip = 0;
     if (gap_circular_buffer_end != gap_circular_buffer_start) {

@@ -105,6 +105,7 @@ UI_MENU_DEFINE_INT(DatasetteSpeedTuning)
 UI_MENU_DEFINE_INT(DatasetteZeroGapDelay)
 UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
 UI_MENU_DEFINE_INT(DatasetteTapeWobble)
+UI_MENU_DEFINE_TOGGLE(DatasetteSound)
 
 const ui_menu_entry_t tape_menu[] = {
     { "Attach tape image",
@@ -161,6 +162,10 @@ const ui_menu_entry_t tape_menu[] = {
     { "Reset Datasette on CPU Reset",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DatasetteResetWithCPU_callback,
+      NULL },
+    { "Enable Datasette sound",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DatasetteSound_callback,
       NULL },
     SDL_MENU_LIST_END
 };

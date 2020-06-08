@@ -3476,6 +3476,14 @@ Integer specifying the number of cycles added to each gap in the tap.
 @vindex DatasetteTapeWobble
 @item DatasetteTapeWobble
 Integer specifying the maximum random number of cycles added to each gap in the tap.
+
+@vindex DatasetteSound
+@item DatasetteSound
+Boolean specifying whether to produce audible sound when playing a tape on the datasette
+
+@vindex DatasetteSoundVolume
+@item DatasetteSoundVolume
+Integer specifying the volume of the tape sound. Meaningful values are in the range 1-32767
 @end table
 
 @subsection Tape command-line options
