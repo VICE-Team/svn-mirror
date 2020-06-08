@@ -38,11 +38,13 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "export.h"
+#include "log.h"
 #include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
+#include "vicii-phi1.h"
 
 /* #define DEBUGAP */
 
@@ -94,6 +96,7 @@ static int ap_active;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
+static uint8_t atomicpower_io1_read(uint16_t addr);
 static void atomicpower_io1_store(uint16_t addr, uint8_t value);
 static uint8_t atomicpower_io2_read(uint16_t addr);
 static void atomicpower_io2_store(uint16_t addr, uint8_t value);
@@ -107,7 +110,7 @@ static io_source_t atomicpower_io1_device = {
     0,                           /* read is never valid, there is no read or peek function */
     atomicpower_io1_store,       /* store function */
     NULL,                        /* NO poke function */
-    NULL,                        /* NO read function */
+    atomicpower_io1_read,        /* read function */
     NULL,                        /* TODO: peek function */
     atomicpower_dump,            /* device state information dump function */
     CARTRIDGE_ATOMIC_POWER,      /* cartridge ID */
@@ -171,6 +174,23 @@ static void atomicpower_io1_store(uint16_t addr, uint8_t value)
 
         cart_config_changed_slotmain((uint8_t) 2, (uint8_t) (mode | (bank << CMODE_BANK_SHIFT)), flags);
     }
+}
+
+static uint8_t atomicpower_io1_read(uint16_t addr)
+{
+    uint8_t value;
+    /* the read is really never valid */
+    atomicpower_io1_device.io_source_valid = 0;
+    if (!ap_active) {
+        return 0;
+    }
+    /* since the r/w line is not decoded, a read still changes the register,
+       to whatever was on the bus before */
+    value = vicii_read_phi1();    
+    atomicpower_io1_store(addr, value);
+    log_warning(LOG_DEFAULT, "AP: reading IO1 area at 0xde%02x, this corrupts the register\n", addr & 0xffu);
+    
+    return value;
 }
 
 static uint8_t atomicpower_io2_read(uint16_t addr)
