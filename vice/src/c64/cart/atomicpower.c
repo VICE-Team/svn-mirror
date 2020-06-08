@@ -336,6 +336,7 @@ void atomicpower_freeze(void)
 void atomicpower_config_init(void)
 {
     ap_active = 1;
+    atomicpower_control_reg = 0;
     export_ram_at_a000 = 0;
     cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
@@ -343,6 +344,7 @@ void atomicpower_config_init(void)
 void atomicpower_reset(void)
 {
     ap_active = 1;
+    atomicpower_control_reg = 0;
 }
 
 void atomicpower_config_setup(uint8_t *rawcart)

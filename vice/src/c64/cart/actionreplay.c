@@ -277,12 +277,14 @@ void actionreplay_freeze(void)
 void actionreplay_config_init(void)
 {
     ar_active = 1;
+    regvalue = 0;
     cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void actionreplay_reset(void)
 {
     ar_active = 1;
+    regvalue = 0;
 }
 
 void actionreplay_config_setup(uint8_t *rawcart)
