@@ -144,6 +144,7 @@ static void actionreplay_io1_store(uint16_t addr, uint8_t value)
 
 static uint8_t actionreplay_io1_read(uint16_t addr)
 {
+    uint8_t value;
     /* the read is really never valid */
     action_replay_io1_device.io_source_valid = 0;
     if (!ar_active) {
@@ -151,10 +152,11 @@ static uint8_t actionreplay_io1_read(uint16_t addr)
     }
     /* since the r/w line is not decoded, a read still changes the register,
        to whatever was on the bus before */
-    actionreplay_io1_store(addr, vicii_read_phi1());
+    value = vicii_read_phi1();
+    actionreplay_io1_store(addr, value);
     log_warning(LOG_DEFAULT, "AR5: reading IO1 area at 0xde%02x, this corrupts the register\n", addr & 0xffu);
     
-    return regvalue;
+    return value;
 }
 
 static uint8_t actionreplay_io1_peek(uint16_t addr)
