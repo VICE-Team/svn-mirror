@@ -18,6 +18,7 @@ gtk3_keymaps = \
 	gtk3_the64_de.vkm \
 	gtk3_pos.vkm \
 	gtk3_pos_de.vkm \
+	gtk3_pos_se.vkm \
 	gtk3_sym.vkm \
 	gtk3_sym_de.vkm \
 	gtk3_sym_da.vkm \
