@@ -79,35 +79,35 @@ static CLOCK datasette_sound_remove_from_circular_buffer(CLOCK max_amount_to_rem
     *must_flip = 0;
     if (gap_circular_buffer_end != gap_circular_buffer_start) {
         char try_again;
-	    do {
+        do {
             try_again = 0;
-		    gap = gap_circular_buffer[gap_circular_buffer_start];
-		    if (divide_by_two && !last_was_split_in_two) {
-		        gap /= 2;
-		    }
-		    if (gap > max_amount_to_remove) {
-		        if (divide_by_two && !last_was_split_in_two) {
-		            if (gap_circular_buffer_start == ((gap_circular_buffer_end + 1) % gap_circular_buffer_size)) {
-		                gap_circular_buffer_start = (gap_circular_buffer_start + 1) % gap_circular_buffer_size;
-		                try_again = 1;
-		                continue;
-	                }
-	                gap_circular_buffer[gap_circular_buffer_start] -= gap;
-	                gap_circular_buffer_start = gap_circular_buffer_start
-	                    ? gap_circular_buffer_start - 1
-	                    : gap_circular_buffer_size - 1;
-	                gap_circular_buffer[gap_circular_buffer_start] = gap;
-		            last_was_split_in_two = 1;
+            gap = gap_circular_buffer[gap_circular_buffer_start];
+            if (divide_by_two && !last_was_split_in_two) {
+                gap /= 2;
+            }
+            if (gap > max_amount_to_remove) {
+                if (divide_by_two && !last_was_split_in_two) {
+                    if (gap_circular_buffer_start == ((gap_circular_buffer_end + 1) % gap_circular_buffer_size)) {
+                        gap_circular_buffer_start = (gap_circular_buffer_start + 1) % gap_circular_buffer_size;
+                        try_again = 1;
+                        continue;
+                    }
+                    gap_circular_buffer[gap_circular_buffer_start] -= gap;
+                    gap_circular_buffer_start = gap_circular_buffer_start
+                        ? gap_circular_buffer_start - 1
+                        : gap_circular_buffer_size - 1;
+                    gap_circular_buffer[gap_circular_buffer_start] = gap;
+                    last_was_split_in_two = 1;
                 }
-    	        gap = max_amount_to_remove;
+                gap = max_amount_to_remove;
             } else {
                 *must_flip = 1;
                 last_was_split_in_two = 0;
             }
         } while (try_again);
-	    gap_circular_buffer[gap_circular_buffer_start] -= gap;
-	    if (!gap_circular_buffer[gap_circular_buffer_start]) {
-	        gap_circular_buffer_start = (gap_circular_buffer_start + 1) % gap_circular_buffer_size;
+        gap_circular_buffer[gap_circular_buffer_start] -= gap;
+        if (!gap_circular_buffer[gap_circular_buffer_start]) {
+            gap_circular_buffer_start = (gap_circular_buffer_start + 1) % gap_circular_buffer_size;
             if (gap_circular_buffer_end == gap_circular_buffer_start) {
                 datasette_sound.chip_enabled = 0;
             }
