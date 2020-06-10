@@ -41,6 +41,7 @@
 #include "keyboard.h"
 #include "kbd.h"
 #include "uimenu.h"
+#include "uimedia.h"
 
 /*
  * Forward declarations
@@ -384,7 +385,12 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 return TRUE;
             }
 #endif
-            /* only press keys that were not yet pressed */
+	    if (key == GDK_KEY_Pause) {
+		uimedia_auto_screenshot();
+		return TRUE;
+	    }
+
+/* only press keys that were not yet pressed */
             if(addpressedkey(report, &key, &mod)) {
 #if 0
                 printf("%2d key press,   %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
