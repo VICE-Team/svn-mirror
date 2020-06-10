@@ -407,9 +407,15 @@ static const resource_int_t resid_resources_int[] = {
 #endif
 
 static const resource_int_t common_resources_int[] = {
+#ifdef HAVE_RESID
     { "SidEngine", SID_ENGINE_DEFAULT,
       RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
       &sid_engine, set_sid_engine, NULL },
+#else
+    { "SidEngine", SID_ENGINE_DEFAULT,
+      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_FASTSID,
+      &sid_engine, set_sid_engine, NULL },
+#endif
     { "SidFilters", 1, RES_EVENT_SAME, NULL,
       &sid_filters_enabled, set_sid_filters_enabled, NULL },
     { "SidModel", SID_MODEL_DEFAULT, RES_EVENT_SAME, NULL,

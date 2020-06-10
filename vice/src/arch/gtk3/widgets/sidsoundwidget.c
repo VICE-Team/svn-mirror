@@ -379,15 +379,16 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 }
 #endif
 
-
+#ifdef HAVE_RESID
 static void on_spin_value_changed(GtkWidget *spin, gpointer data)
 {
     debug_gtk3("Callled.");
     vice_gtk3_resource_scale_int_sync(data);
 }
+#endif
 
 
-
+#ifdef HAVE_RESID
 /** \brief  Create spinbutton controlling \a resource and updating \a slider
  *
  * \param[in]       resource    resource name
@@ -412,6 +413,7 @@ static GtkWidget *create_spin(
     g_object_set(G_OBJECT(spin), "margin-left", 16 , NULL);
     return spin;
 }
+#endif
 
 
 /** \brief  Extra callback for the SID engine/model widget
@@ -421,8 +423,9 @@ static GtkWidget *create_spin(
  */
 static void engine_model_changed_callback(int engine, int model)
 {
+#ifdef HAVE_RESID
     gboolean is_resid = engine == SID_ENGINE_RESID;
-
+#endif
     debug_gtk3("engine: %d, model = %d.", engine, model);
 
     /* Show proper ReSID slider widgets
@@ -443,14 +446,12 @@ static void engine_model_changed_callback(int engine, int model)
      * Update mixer widget in the statusbar
      */
     mixer_widget_sid_type_changed();
-
 #endif
 
+#ifdef HAVE_RESID
     gtk_widget_set_sensitive(filters, is_resid);
     gtk_widget_set_sensitive(resid_6581_grid, is_resid);
     gtk_widget_set_sensitive(resid_8580_grid, is_resid);
-
-#ifdef HAVE_RESID
     gtk_widget_set_sensitive(resid_sampling, is_resid);
 #endif
 }
@@ -620,6 +621,8 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
 }
 
 
+#ifdef HAVE_RESID
+
 static void on_resid_6581_passband_change(GtkWidget *widget, gpointer data)
 {
     double value = gtk_range_get_value(GTK_RANGE(widget));
@@ -668,7 +671,7 @@ static void on_resid_6581_bias_spin_change(GtkWidget *widget, gpointer data)
     debug_gtk3("Settubg to %lf", value);
     gtk_range_set_value(GTK_RANGE(resid_6581_bias), value);
 }
-
+#endif
 
 
 
@@ -852,7 +855,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     int row;
     int i;
     int model;
+#ifdef HAVE_RESID
     int is_resid;
+#endif
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
@@ -883,8 +888,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 #endif
     resources_get_int("SidEngine", &current_engine);
     debug_gtk3("SidEngine = %d.", current_engine);
+#ifdef HAVE_RESID
     is_resid = current_engine == SID_ENGINE_RESID;
-
+#endif
     sids = create_num_sids_widget();
     gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
     /* Plus4, CBM5x0/CBM6x0, PET, DTV only support a single SID */
@@ -920,9 +926,11 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
         row = 2;
     }
 
+#ifdef HAVE_RESID
     filters = vice_gtk3_resource_check_button_new("SidFilters",
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
+#endif
 
 #ifdef HAVE_RESID
     gtk_widget_set_sensitive(resid_sampling, current_engine == SID_ENGINE_RESID);

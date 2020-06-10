@@ -114,10 +114,6 @@ static GtkWidget *gain8580label;
 /** \brief  ReSID 8580 filter bias label */
 static GtkWidget *bias8580label;
 
-#if 0
-static GtkWidget *passband6581spin;
-#endif
-
 #endif
 
 /** \brief  CSS provider for labels
@@ -141,6 +137,8 @@ void mixer_widget_sid_type_changed(void)
 # else
     gboolean enabled = FALSE;
 # endif
+#else
+    gboolean enabled = FALSE;
 #endif
 
     if (resources_get_int("SidModel", &model) < 0) {
@@ -199,6 +197,7 @@ void mixer_widget_sid_type_changed(void)
     }
     enabled = engine == SID_ENGINE_FASTSID ? 0 : 1;
 
+#ifdef HAVE_RESID
     if (engine == SID_ENGINE_FASTSID) {
         gtk_widget_set_sensitive(passband6581, enabled);
         gtk_widget_set_sensitive(gain6581, enabled);
@@ -207,7 +206,7 @@ void mixer_widget_sid_type_changed(void)
         gtk_widget_set_sensitive(gain8580, enabled);
         gtk_widget_set_sensitive(bias8580, enabled);
     }
-
+#endif
 }
 
 /** \brief  Handler for the 'clicked' event of the reset button
@@ -533,8 +532,6 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     gtk_grid_attach(GTK_GRID(grid), bias8580label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias8580, 1, row, 1, 1);
     row++;
-
-
 #endif
 
     gtk_widget_show_all(grid);
