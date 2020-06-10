@@ -352,8 +352,8 @@ static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
         return vicii_read_phi1();
     }
     /* only one valid I/O source was read, return value */
-    if (!(io_source_counter > 1)) {
-        return retval;
+    if (io_source_valid == 1) {
+        return firstval;
     }
     /* more than one I/O source was read, handle collision */
     if (io_source_collision_handling == IO_COLLISION_METHOD_DETACH_ALL) {
