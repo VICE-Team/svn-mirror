@@ -209,17 +209,19 @@ static const export_resource_t export_res = {
 
 static uint8_t retroreplay_clockport_read(uint16_t address)
 {
+    retroreplay_clockport_io1_device.io_source_valid = 0;
     if (rr_clockport_enabled) {
         if (address < 0x02) {
-            retroreplay_clockport_io1_device.io_source_valid = 0;
             return 0;
         }
+        retroreplay_clockport_io1_device.io_source_valid = 1;
         /* read from clockport device */
         if (clockport_device) {
-            return clockport_device->read(address, &retroreplay_clockport_io1_device.io_source_valid, clockport_device->device_context);
+            return clockport_device->read(address, 
+                    &retroreplay_clockport_io1_device.io_source_valid, 
+                    clockport_device->device_context);
         }
         /* read open clock port */
-        retroreplay_clockport_io1_device.io_source_valid = 1;
         return 0;
     }
     return 0;
@@ -290,7 +292,7 @@ uint8_t retroreplay_io1_read(uint16_t addr)
                     return 0;
                 }
                 if ((reu_mapping) && (!rr_frozen)) {
-                    if (export_ram || ((rr_revision == RR_REV_NORDIC_REPLAY) && export_ram_at_a000)) {
+                    if (export_ram || (/* (rr_revision == RR_REV_NORDIC_REPLAY) && */ export_ram_at_a000)) {
                         retroreplay_io1_device.io_source_valid = 1;
                         if (allow_bank) {
                             return export_ram0[0x1e00 + (addr & 0xff) + ((roml_bank & 3) << 13)];
@@ -375,6 +377,11 @@ void retroreplay_io1_store(uint16_t addr, uint8_t value)
                     if (value & 0x20) { /* bit 5 */
                         mode |= CMODE_EXPORT_RAM;
                     }
+                    /* mode 0x22 is kinda broken in Retro Replay, mimic this here */
+                    if ((rr_revision == RR_REV_RETRO_REPLAY) && ((value & 0x67) == 0x22)) {
+                        export_ram_at_a000 = 1;
+                        rr_cmode = CMODE_RAM;
+                    }
                 }
                 /* after freezing writing to bit 0 and 1 has no effect until freeze
                    was acknowledged by setting bit 6 */
@@ -431,9 +438,7 @@ void retroreplay_io1_store(uint16_t addr, uint8_t value)
                     cart_romhbank_set_slotmain(rr_bank);
                     cart_romlbank_set_slotmain(rr_bank);
                     cart_port_config_changed_slotmain();
-                    if (rr_clockport_enabled != (value & 1)) {
-                        rr_clockport_enabled = value & 1;
-                    }
+                    rr_clockport_enabled = value & 1;
                 }
                 break;
             default:
@@ -461,7 +466,7 @@ uint8_t retroreplay_io2_read(uint16_t addr)
 
     if (rr_active) {
         if ((!reu_mapping) && (!rr_frozen)) {
-            if (export_ram || ((rr_revision == RR_REV_NORDIC_REPLAY) && export_ram_at_a000)) {
+            if (export_ram || (/* (rr_revision == RR_REV_NORDIC_REPLAY) && */ export_ram_at_a000)) {
                 retroreplay_io2_device.io_source_valid = 1;
                 if (allow_bank) {
                     return export_ram0[0x1f00 + (addr & 0xff) + ((roml_bank & 3) << 13)];
