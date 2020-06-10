@@ -27,15 +27,14 @@
 
 #include "archdep_defs.h"
 
-#include <strings.h>
+#include "archdep_is_haiku.h"
+
 
 /* FIXME: includes for beos */
 
 #ifdef ARCHDEP_OS_BEOS
-
 #include <sys/utsname.h>
-
-#include "archdep_is_haiku.h"
+#include <strings.h>
 
 /* This check is needed for haiku, since it always returns 1 on
    SupportsWindowMode() */
@@ -50,4 +49,11 @@ int archdep_is_haiku(void)
     return 0;
 }
 
+#else
+
+int archdep_is_haiku(void)
+{
+    return -1;
+}
 #endif
+

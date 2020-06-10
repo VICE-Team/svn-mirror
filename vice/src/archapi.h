@@ -165,6 +165,11 @@ bool        archdep_file_exists(const char *path);
 
 void        archdep_usleep(uint64_t waitTime);
 
+
+/* Runtime OS checks, shouldn't be required */
+int         archdep_is_haiku(void);
+int         archdep_is_windows_nt(void);
+
 /*
  * Not yet moved to arch/shared/
  */

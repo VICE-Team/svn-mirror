@@ -27,13 +27,19 @@
 
 #include "archdep_defs.h"
 
+#include "archdep_is_windows_nt.h"
+
+
 #ifdef ARCHDEP_OS_WINDOWS
 
 #include <windows.h>
 
-#include "archdep_is_windows_nt.h"
-
-
+/** \brief  Check if the current OS is Window NT
+ *
+ * No idea if this is useful anymore.
+ *
+ * \return  1 if true, 0 if not
+ */
 int archdep_is_windows_nt(void)
 {
     OSVERSIONINFO os_version_info;
@@ -46,6 +52,13 @@ int archdep_is_windows_nt(void)
     if (os_version_info.dwPlatformId == VER_PLATFORM_WIN32_NT) {
         return 1;
     }
+    return 0;
+}
+
+#else
+
+int archdep_is_windows_nt(void)
+{
     return 0;
 }
 
