@@ -18579,6 +18579,9 @@ Followed by 16 bytes of extra info for each track in the image:
 @tab format extension
 @end multitable
 
+A zero value in any of these fields means that the respective default/standard
+value applies.
+
 Format codes:
 
 @multitable @columnfractions .2 .8
