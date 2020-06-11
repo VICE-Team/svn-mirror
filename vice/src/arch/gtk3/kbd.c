@@ -385,10 +385,16 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 return TRUE;
             }
 #endif
-	    if (key == GDK_KEY_Pause) {
-		uimedia_auto_screenshot();
-		return TRUE;
-	    }
+            /* XXX: hack because the hotkeys have to check for Alt so they
+             *      don't end up in the emulated machine.
+             *
+             *      Once I refactor the UI code, the custom hotkeys via this
+             *      code path shouldn't be required anymore.    -- compyx
+             */
+            if (key == GDK_KEY_Pause) {
+                uimedia_auto_screenshot();
+                return TRUE;
+            }
 
 /* only press keys that were not yet pressed */
             if(addpressedkey(report, &key, &mod)) {

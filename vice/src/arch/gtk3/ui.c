@@ -186,8 +186,10 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
      */
     { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
 
+    /* Removed, Pause has taken over this function, see commit 37965 */
+#if 0
     { GDK_KEY_F12, VICE_MOD_MASK|GDK_SHIFT_MASK, uimedia_auto_screenshot },
-
+#endif
     /* Alt+J = swap joysticks */
     { GDK_KEY_j, VICE_MOD_MASK,
         (void *)ui_swap_joysticks_callback },
