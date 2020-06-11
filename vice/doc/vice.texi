@@ -18568,7 +18568,7 @@ Followed by 16 bytes of extra info for each track in the image:
 @item $04
 @tab write area size
 @item $08
-@tab bitcell size
+@tab bitcell size in nanoseconds (eg 3500 means 3.5us)
 @item $0c
 @tab track fill value
 @item $0d
