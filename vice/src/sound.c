@@ -396,7 +396,7 @@ static int set_device_name(const char *val, void *param)
 {
     if (!val || val[0] == '\0') {
         /* Use the default sound device */
-        if (archdep_is_haiku()) {
+        if (archdep_is_haiku() == 0) {
             util_string_set(&device_name, "bsp");
         } else {
             util_string_set(&device_name, sound_register_devices[0].name);

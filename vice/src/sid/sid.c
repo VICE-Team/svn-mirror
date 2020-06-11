@@ -345,7 +345,7 @@ static int sidengine;
 
 bool sid_sound_machine_set_engine_hooks(void)
 {
-    sidengine = 0;
+    sidengine = -1;
 
     if (resources_get_int("SidEngine", &sidengine) < 0) {
         return false;
@@ -360,7 +360,7 @@ bool sid_sound_machine_set_engine_hooks(void)
         sid_engine = resid_hooks;
     }
 #endif
-    if (sidengine) {
+    if (sidengine >= 0) {
         return true;
     }
     return false;
