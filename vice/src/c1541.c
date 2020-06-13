@@ -2368,7 +2368,11 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                     }
 #else
                     /* Assume crap */
+#ifdef ARCHDEP_OS_HAIKU
+		    getcwd(cwd, sizeof(cwd));
+#else
                     _getcwd(cwd, sizeof(cwd));
+#endif
 #endif
                     total = archdep_join_paths(cwd, p00_name, NULL);
 
