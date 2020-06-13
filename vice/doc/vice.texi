@@ -2309,9 +2309,16 @@ Resource values can be changed via the the
 the @dfn{resource file}.
 
 The @dfn{resource file} is a human-readable file containing resource
-values: it is called @file{vicerc} and is stored in the directory
-@file{.vice/} in the user's home
-directory.  It is possible to dump the current values of the resources
+values: On windows systems it is called @file{vice.ini} and is usually stored
+in the users roaming profile directory (something like 
+@file{C:\Users\}<username>@file{\AppData\Roaming\vice}). Additionally the emulators
+will look in the program directory at startup, and use @file{vice.ini} if it
+exists there. On unix systems the resource file is called @file{vicerc} and is 
+stored in the users config directory according to the XDG specification (usually
+@file{/home/}<username>@file{/.config/vice/}). Additionally the emulators will look
+if @file{.vicerc} exists in the users home directory, and use that if so.
+
+It is possible to dump the current values of the resources
 into that file or load the values stored into that file as the current
 values, at any time.  This is achieved with the ``Save settings'' and
 ``Load settings'' right menu items.  A third menu item, ``Restore
