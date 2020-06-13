@@ -1,6 +1,6 @@
 /** \file   archdep_default_portable_resource_file_name.c
  * \brief   Retrieve default portable resource file path
- * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  groepaz <groepaz@gmx.de>
  *
  * Get path to default portable resource file (vicerc/vice.ini)
  *
