@@ -1166,7 +1166,12 @@ int resources_load(const char *fname)
 
     if (fname == NULL) {
         if (vice_config_file == NULL) {
-            default_name = archdep_default_resource_file_name();
+            /* try the alternative name/location first */
+            default_name = archdep_default_portable_resource_file_name();
+            if (!((default_name != NULL) && (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) == 0)))  {
+                /* if not found at alternative location, try the normal one */
+                default_name = archdep_default_resource_file_name();
+            }
         } else {
             default_name = lib_strdup(vice_config_file);
         }
@@ -1314,8 +1319,13 @@ int resources_save(const char *fname)
     /* get name for config file */
     if (fname == NULL) {
         if (vice_config_file == NULL) {
-            /* get default filename. this also creates the .vice directory if not present */
-            default_name = archdep_default_resource_file_name();
+            /* try the alternative name/location first */
+            default_name = archdep_default_portable_resource_file_name();
+            if (!((default_name != NULL) && (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) == 0)))  {
+                /* if not found at alternative location, try the normal one
+                   this also creates the .vice directory if not present */
+                default_name = archdep_default_resource_file_name();
+            }
         } else {
             default_name = lib_strdup(vice_config_file);
         }

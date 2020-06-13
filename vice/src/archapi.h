@@ -110,6 +110,7 @@ int         archdep_fix_permissions(const char *file_name);
 
 /* Resource handling.  */
 char *      archdep_default_resource_file_name(void);
+char *      archdep_default_portable_resource_file_name(void);
 
 /* Fliplist.  */
 char *      archdep_default_fliplist_file_name(void);

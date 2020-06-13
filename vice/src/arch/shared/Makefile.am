@@ -44,6 +44,7 @@ libarchdep_a_SOURCES = \
 	archdep_default_joymap_file_name.c \
 	archdep_default_logger.c \
 	archdep_default_resource_file_name.c \
+	archdep_default_portable_resource_file_name.c \
 	archdep_default_rtc_file_name.c \
 	archdep_default_sysfile_pathlist.c \
 	archdep_expand_path.c \
@@ -108,6 +109,7 @@ EXTRA_DIST = \
 	archdep_default_joymap_file_name.h \
 	archdep_default_logger.h \
 	archdep_default_resource_file_name.h \
+	archdep_default_portable_resource_file_name.h \
 	archdep_default_rtc_file_name.h \
 	archdep_default_sysfile_pathlist.h \
 	archdep_expand_path.h \
