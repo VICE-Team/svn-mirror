@@ -296,7 +296,8 @@ static const mon_cmds_t mon_cmd_array[] = {
       "<address_range> <data_list>",
       "Hunt memory in the specified address range for the data in\n"
       "<data_list>.  If the data is found, the starting address of the match\n"
-      "is displayed.  The entire range is searched for all possible matches.",
+      "is displayed.  The entire range is searched for all possible matches.\n"
+      "xx can be used as a wildcard for a single byte.",
       NO_FILENAME_ARG
     },
 
