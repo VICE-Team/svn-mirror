@@ -362,7 +362,10 @@ static void usage_types(void)
     /* output the sorted list */
     for (i = 0; i < amount; i++) {
         n = sorted_option_elements[i].insertion;
-        printf("%-8s %s .crt file%s\n", sorted_option_elements[i].opt, sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
+        printf("%-8s %2d %s .crt file%s\n", 
+               sorted_option_elements[i].opt, 
+               sorted_option_elements[i].crt_id, 
+               sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
     }
     free(sorted_option_elements);
     exit(1);
