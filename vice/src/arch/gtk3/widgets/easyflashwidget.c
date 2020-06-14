@@ -34,16 +34,16 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "basedialogs.h"
-#include "openfiledialog.h"
-#include "savefiledialog.h"
-#include "cartridge.h"
+#include "basewidgets.h"
 #include "carthelpers.h"
+#include "cartridge.h"
+#include "debug_gtk3.h"
+#include "machine.h"
+#include "openfiledialog.h"
+#include "resources.h"
+#include "savefiledialog.h"
+#include "widgethelpers.h"
 
 #include "easyflashwidget.h"
 
@@ -60,7 +60,6 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     filename = vice_gtk3_save_file_dialog("Save EasyFlasg image as ...",
             NULL, TRUE, NULL);
     if (filename != NULL) {
-        debug_gtk3("writing EF image file as '%s'.", filename);
         if (carthelpers_save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
             vice_gtk3_message_error("VICE core",
                     "Failed to save '%s'", filename);

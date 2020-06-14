@@ -69,12 +69,15 @@
 
 #include "driveramwidget.h"
 
+
+/** \brief  Enum for RAM slabs
+ */
 enum {
-    RAM2000_INDEX = 1,
-    RAM4000_INDEX,
-    RAM6000_INDEX,
-    RAM8000_INDEX,
-    RAMA000_INDEX
+    RAM2000_INDEX = 1,  /**< RAM at $2000 */
+    RAM4000_INDEX,      /**< RAM at $4000 */
+    RAM6000_INDEX,      /**< RAM at $6000 */
+    RAM8000_INDEX,      /**< RAM at $8000 */
+    RAMA000_INDEX       /**< RAM at $A000 */
 };
 
 
@@ -99,6 +102,12 @@ static GtkWidget *create_ram_check_button(int unit, unsigned int base)
 }
 
 
+/** \brief  Create extra drive RAM widget
+ *
+ * \param[in]   unit    drive unit (8-11)
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *drive_ram_widget_create(int unit)
 {
     GtkWidget *grid;

@@ -32,13 +32,13 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
+#include "carthelpers.h"
+#include "cartimagewidget.h"
+#include "cartridge.h"
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "cartridge.h"
-#include "cartimagewidget.h"
-#include "carthelpers.h"
+#include "vice_gtk3.h"
 
 #include "gmod3widget.h"
 
@@ -54,7 +54,6 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     gchar *filename = vice_gtk3_save_file_dialog("Save Cartridge image",
             NULL, TRUE, NULL);
     if (filename != NULL) {
-        debug_gtk3("saving GMod3 cart image as '%s'.", filename);
         if (carthelpers_save_func(CARTRIDGE_GMOD3, filename) < 0) {
             vice_gtk3_message_error("Saving failed",
                     "Failed to save cartridge image '%s'",
@@ -73,7 +72,6 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (carthelpers_flush_func(CARTRIDGE_GMOD3) < 0) {
-        debug_gtk3("Flusing GMod3 cart image.");
         vice_gtk3_message_error("Flushing failed",
                     "Failed to fush cartridge image");
     }

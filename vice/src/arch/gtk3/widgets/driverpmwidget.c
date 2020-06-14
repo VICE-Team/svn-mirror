@@ -40,16 +40,12 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "debug_gtk3.h"
-#if 0
-#include "drive.h"
-#include "drive-check.h"
-#endif
+#include "drivewidgethelpers.h"
 #include "machine.h"
 #include "resources.h"
-#include "basewidgets.h"
 #include "widgethelpers.h"
-#include "drivewidgethelpers.h"
 
 #include "driverpmwidget.h"
 

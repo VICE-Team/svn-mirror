@@ -34,23 +34,24 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include "debug_gtk3.h"
-#include "csshelpers.h"
-#include "lib.h"
-#include "log.h"
-#include "imagecontents/diskcontents.h"
-#include "drive.h"
-#include "drivetypes.h"
-#include "diskimage.h"
-#include "diskimage/fsimage.h"
-#include "vdrive/vdrive.h"
+
 #include "attach.h"
 #include "autostart.h"
-#include "util.h"
+#include "csshelpers.h"
+#include "debug_gtk3.h"
+#include "diskimage.h"
+#include "diskimage/fsimage.h"
+#include "drive.h"
+#include "drivetypes.h"
+#include "imagecontents/diskcontents.h"
+#include "lib.h"
+#include "log.h"
 #include "tape.h"
+#include "util.h"
+#include "vdrive/vdrive.h"
+#include "widgethelpers.h"
 
 #include "dirmenupopup.h"
-#include "widgethelpers.h"
 
 
 /** \brief  Function to read the contents of an image
@@ -59,8 +60,7 @@
  */
 static read_contents_func_type content_func;
 
-/** \brief  Function to call when a file in the directory is selected
- */
+/** \brief  Function to call when a file in the directory is selected */
 static void (*response_func)(const char *, int);
 
 /** \brief  Disk image being used
@@ -68,6 +68,7 @@ static void (*response_func)(const char *, int);
  * FIXME:   Somehow pass this via the event handlers
  */
 static const char *autostart_diskimage;
+
 
 /** \brief  CSS style string to set the CBM font and remove padding
  */
@@ -81,7 +82,6 @@ static const char *autostart_diskimage;
     "  padding: 0;\n" \
     "}"
 
-
 /** \brief  CSS style string to remove padding from menu items
  */
 #define MENUITEM_CSS \
@@ -92,12 +92,10 @@ static const char *autostart_diskimage;
     "}"
 
 
-/** \brief  CSS provider used for directory entry GtkMenuItem labels
- */
+/** \brief  CSS provider used for directory entry GtkMenuItem labels */
 static GtkCssProvider *menulabel_css_provider;
 
-/** \brief  CSS provider used for directory entry GtkMenuItem's
- */
+/** \brief  CSS provider used for directory entry GtkMenuItem's */
 static GtkCssProvider *menuitem_css_provider;
 
 
@@ -110,7 +108,6 @@ static void on_item_activate(GtkWidget *item, gpointer data)
 {
     int index = GPOINTER_TO_INT(data);
 
-    debug_gtk3("Got index %d, triggering response function", index);
     response_func(autostart_diskimage, index);
 }
 
@@ -148,8 +145,6 @@ void dir_item_apply_style(GtkWidget *item)
 }
 
 
-
-
 /** \brief  Create a popup menu to select a file to autostart
  *
  * XXX: This is an UNHOLY MESS, and should be refactored
@@ -182,7 +177,7 @@ GtkWidget *dir_menu_popup_create(
     unsigned int drive = 0;
 
 
-    debug_gtk3("DEVICE = %d.", dev);
+    debug_gtk3("DEVICE = %d, DRIVE = %d", dev, drive);
 
     /* create style providers */
     if (!create_css_providers()) {
@@ -328,13 +323,6 @@ GtkWidget *dir_menu_popup_create(
                 gtk_container_add(GTK_CONTAINER(menu), item);
                 g_free(tmp);
             }
-
-
-            /*
-            gtk_container_set_border_width(GTK_CONTAINER(menu), 0);
-            gtk_widget_set_margin_top(GTK_WIDGET(menu),0);
-            gtk_widget_set_margin_bottom(GTK_WIDGET(menu),0);
-            */
         }
         if (contents != NULL) {
             image_contents_destroy(contents);

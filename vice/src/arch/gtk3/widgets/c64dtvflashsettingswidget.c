@@ -38,8 +38,8 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
 #include "resources.h"
+#include "vice_gtk3.h"
 
 #include "c64dtvflashsettingswidget.h"
 

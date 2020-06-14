@@ -34,14 +34,14 @@
 
 #include <gtk/gtk.h>
 
-#include "lib.h"
 #include "basewidgets.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "resources.h"
 #include "cia.h"
+#include "debug_gtk3.h"
+#include "lib.h"
 #include "machine.h"
 #include "machinemodelwidget.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "ciamodelwidget.h"
 
@@ -61,11 +61,17 @@ static const vice_gtk3_radiogroup_entry_t cia_models[] = {
  */
 static GtkWidget *machine_widget = NULL;
 
+/** \brief  Reference to the radiobutton group used for CIA1
+ */
 static GtkWidget *cia1_group;
+
+/** \brief  Reference to the radiobutton group used for CIA2
+ */
 static GtkWidget *cia2_group;
 
+/** \brief  Optional extra callback for widget changes
+ */
 static void (*cia_model_callback)(int, int);
-
 
 
 /** \brief  Handler for the radiogroup callbacks for the CIA models
@@ -77,13 +83,10 @@ static void (*cia_model_callback)(int, int);
  */
 static void on_cia_model_callback_internal(GtkWidget *widget, int model)
 {
-    debug_gtk3("got value %d.", model);
     if (cia_model_callback != NULL) {
         cia_model_callback(widget == cia1_group ? 1 : 2, model);
     }
 }
-
-
 
 
 /** \brief  Create a widget for CIA \a num
@@ -141,6 +144,7 @@ GtkWidget *cia_model_widget_create(GtkWidget *machine_model_widget, int count)
     GtkWidget *cia2_widget;
 
     machine_widget = machine_model_widget;
+    cia_model_callback = NULL;
 
     grid = uihelpers_create_grid_with_label("CIA Model", 1);
 
@@ -174,6 +178,14 @@ void cia_model_widget_sync(GtkWidget *widget)
 }
 
 
+/** \brief  Set extra callback for changes in the widget
+ *
+ * The callback \a func get called with two arguments: CIA number (1 or 2) and
+ * CIA model ID.
+ *
+ * \param[in,out]   widget  CIA model widget
+ * \param[in]       func    callback
+ */
 void cia_model_widget_set_callback(GtkWidget *widget,
                                    void (*func)(int cia_num, int cia_model))
 {

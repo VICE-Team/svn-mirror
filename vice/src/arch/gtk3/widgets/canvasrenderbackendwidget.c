@@ -37,6 +37,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+
 #include "vice_gtk3.h"
 
 #include "canvasrenderbackendwidget.h"

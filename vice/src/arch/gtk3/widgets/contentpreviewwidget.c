@@ -31,17 +31,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "debug_gtk3.h"
 #include "basedialogs.h"
-#include "lib.h"
+#include "debug_gtk3.h"
 #include "imagecontents.h"
-
-#include "contentpreviewwidget.h"
+#include "lib.h"
 #include "widgethelpers.h"
 
+#include "contentpreviewwidget.h"
+
+
+/** \brief  Function to read image contents
+ */
 static read_contents_func_type content_func = NULL;
+
+
+/** \brief  Callback to trigger on the "response" event of the widget
+ */
 static void (*response_func)(GtkWidget *, gint, gpointer);
+
+
+/** \brief  reference to the content view widget
+ */
 static GtkWidget *content_view = NULL;
+
+
+/** \brief  Reference to the parent dialog
+ */
 static GtkWidget *parent_dialog;
 
 
@@ -73,7 +88,6 @@ static void on_row_activated(
         int row;
 
         gtk_tree_model_get(model, &iter, 1, &row, -1);
-        debug_gtk3("got row %d in the image.", row);
         if (row < 0) {
             debug_gtk3("index -1, nope.");
             return;
@@ -89,6 +103,7 @@ static void on_row_activated(
         }
     }
 }
+
 
 /** \brief  Create the model for the view
  *

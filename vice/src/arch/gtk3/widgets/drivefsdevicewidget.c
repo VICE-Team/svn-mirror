@@ -47,15 +47,15 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "resources.h"
-#include "drive.h"
-#include "drive-check.h"
-#include "machine.h"
 #include "attach.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
+#include "drive-check.h"
+#include "drive.h"
+#include "machine.h"
+#include "resources.h"
 #include "selectdirectorydialog.h"
+#include "widgethelpers.h"
 
 #include "drivefsdevicewidget.h"
 
@@ -117,7 +117,6 @@ static GtkWidget *create_p00_widget(int unit)
     GtkWidget *p00_convert;
     GtkWidget *p00_only;
     GtkWidget *p00_save;
-    char resource[256];
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -125,20 +124,22 @@ static GtkWidget *create_p00_widget(int unit)
     /* Label texts have been converted to shorter strings, using vice.texi
      * So don't blame me.
      */
-
-    g_snprintf(resource, 256, "FSDevice%dConvertP00", unit);
-    p00_convert = vice_gtk3_resource_check_button_new(resource,
-            "Access P00 files with their built-in name");
+    p00_convert = vice_gtk3_resource_check_button_new_sprintf(
+            "FSDevice%dConvertP00",
+            "Access P00 files with their built-in filename",
+            unit);
     gtk_grid_attach(GTK_GRID(grid), p00_convert, 0, 0, 1, 1);
 
-    g_snprintf(resource, 256, "FSDevice%dSaveP00", unit);
-    p00_save = vice_gtk3_resource_check_button_new(resource, 
-            "Create P00 files on save");
+    p00_save = vice_gtk3_resource_check_button_new_sprintf(
+            "FSDevice%dSaveP00",
+            "Create P00 files on save",
+            unit);
     gtk_grid_attach(GTK_GRID(grid), p00_save, 0, 1, 1, 1);
 
-    g_snprintf(resource, 256, "FSDevice%dHideCBMFiles", unit);
-    p00_only = vice_gtk3_resource_check_button_new(resource,
-            "Only show P00 files");
+    p00_only = vice_gtk3_resource_check_button_new_sprintf(
+            "FSDevice%dHideCBMFiles",
+            "Only show P00 files",
+            unit);
     gtk_grid_attach(GTK_GRID(grid), p00_only, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);

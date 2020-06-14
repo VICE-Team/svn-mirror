@@ -9,9 +9,6 @@
  */
 
 /*
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -37,10 +34,10 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
 #include "machine.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "cbm2memorysizewidget.h"
 
@@ -53,7 +50,7 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes_cbm5x0[] = {
     { "256KB",  256 },
     { "512KB",  512 },
     { "1024KB", 1024 },
-    { NULL, -1 }
+    { NULL,     -1 }
 };
 
 

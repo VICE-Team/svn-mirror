@@ -31,11 +31,11 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
-#include "lib.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
+#include "lib.h"
 #include "resources.h"
 #include "selectdirectorydialog.h"
+#include "widgethelpers.h"
 
 #include "cwdwidget.h"
 
@@ -54,7 +54,6 @@ static void on_entry_changed(GtkWidget *widget, gpointer user_data)
 {
     const char *cwd = gtk_entry_get_text(GTK_ENTRY(widget));
 
-    debug_gtk3("setting cwd to '%s'.", cwd);
     /* TODO: make the entry background 'red' or so when chdir() fails */
     g_chdir(cwd);
 }
@@ -75,7 +74,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
         gtk_entry_set_text(GTK_ENTRY(entry), filename);
     }
 }
-
 
 
 /** \brief  Create widget to change the current working directory

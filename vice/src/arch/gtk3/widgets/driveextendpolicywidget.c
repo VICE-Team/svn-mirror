@@ -37,12 +37,12 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
-#include "drive.h"
 #include "drive-check.h"
+#include "drive.h"
 #include "drivewidgethelpers.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "driveextendpolicywidget.h"
 
@@ -50,10 +50,10 @@
 /** \brief  List of (name,id) tuples for the radio buttons
  */
 static vice_gtk3_combo_entry_int_t policies[] = {
-    { "Never extend", 0 },
-    { "Ask on extend", 1 },
-    { "Extend on access", 2 },
-    { NULL, -1 }
+    { "Never extend",       0 },
+    { "Ask on extend",      1 },
+    { "Extend on access",   2 },
+    { NULL,                 -1 }
 };
 
 

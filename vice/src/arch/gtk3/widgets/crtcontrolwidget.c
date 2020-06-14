@@ -93,16 +93,16 @@
 
 #include "vice.h"
 
-#include <string.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
-#include "vice_gtk3.h"
-#include "resources.h"
 #include "lib.h"
 #include "machine.h"
-
+#include "resources.h"
+#include "vice_gtk3.h"
 
 #include "crtcontrolwidget.h"
+
 
 /** \brief  CSS for the scales
  *
@@ -519,7 +519,11 @@ static void add_sliders(GtkGrid *grid,
         }
     }
 
-/* TODO: make this work again */
+    /* TODO: make this work again
+     *
+     * What the hell am I doing here?
+     * --compyx, 2020-06-14
+     */
     int is_pal = ((video_standard == 0 /* PAL */
                 || video_standard == 1 /* Old PAL */
                 || video_standard == 4 /* PAL-N/Drean */
@@ -558,9 +562,6 @@ static crt_control_data_t *create_control_data(const char *chip)
     data->chip = lib_strdup(chip);
     for (i = 0; i < RESOURCE_COUNT_MAX; i++) {
         crt_control_t *control = &(data->controls[i]);
-#if 0
-        debug_gtk3("Adding label '%s'", resource_table[i].label);
-#endif
         control->res.label = resource_table[i].label;
         control->res.name = resource_table[i].name;
         control->res.low = resource_table[i].low;

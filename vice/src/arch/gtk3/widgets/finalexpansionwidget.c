@@ -2,9 +2,10 @@
  * \brief   VIC-20 Final Expansion widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  FinalExpansionWriteBack (xvic)
+ */
+
+/*
+ * $VICERES FinalExpansionWriteBack     xvic
  */
 
 /*
@@ -31,11 +32,11 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
+#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
 #include "widgethelpers.h"
-#include "basewidgets.h"
 
 #include "finalexpansionwidget.h"
 

@@ -32,6 +32,5 @@
 #include <gtk/gtk.h>
 
 GtkWidget * drive_options_widget_create(int unit);
-void        drive_options_widget_update(GtkWidget *widget, int unit);
 
 #endif

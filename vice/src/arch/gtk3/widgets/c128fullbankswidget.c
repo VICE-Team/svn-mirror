@@ -32,13 +32,14 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
+#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
 #include "widgethelpers.h"
-#include "basewidgets.h"
 
 #include "c128fullbankswidget.h"
+
 
 /** \brief  Create widget to control C128 full banks
  *

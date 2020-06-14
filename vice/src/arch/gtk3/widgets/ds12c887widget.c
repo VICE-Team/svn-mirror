@@ -33,15 +33,16 @@
  */
 
 #include "vice.h"
+
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "basedialogs.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
 #include "widgethelpers.h"
-#include "basedialogs.h"
 
 #include "ds12c887widget.h"
 
@@ -70,12 +71,19 @@ static vice_gtk3_combo_entry_int_t vic20_base[] = {
 };
 
 
-
+/** \brief  Reference to the oscilattor checkbox */
 static GtkWidget *oscil_widget = NULL;
+/** \brief  Reference to the base widget */
 static GtkWidget *base_widget = NULL;
+/** \brief  Reference to the 'RTC' widget */
 static GtkWidget *rtc_widget = NULL;
 
 
+/** \brief  Handler for the "toggled" event of the enable widget
+ *
+ * \param[in,out]   widget      "enable" toggle button
+ * \param[in]       user_data   extra event data (unused)
+ */
 static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
@@ -87,6 +95,12 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Create widget to set I/O base for the RTC thing
+ *
+ * Sets the correct I/O base list for the current machine
+ *
+ * \return  GktComboBox
+ */
 static GtkWidget *create_base_widget(void)
 {
     vice_gtk3_combo_entry_int_t *list;

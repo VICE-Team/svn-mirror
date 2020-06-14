@@ -37,11 +37,11 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
-#include "drive.h"
 #include "drive-check.h"
+#include "drive.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "driveidlemethodwidget.h"
 
@@ -50,10 +50,10 @@
 /** \brief  Idle method (name,id) tuples
  */
 static const vice_gtk3_combo_entry_int_t idle_methods[] = {
-    { "None", 0 },
-    { "Skip cycles", 1 },
-    { "Trap idle", 2 },
-    { NULL, -1 }
+    { "None",           0 },
+    { "Skip cycles",    1 },
+    { "Trap idle",      2 },
+    { NULL,             -1 }
 };
 
 

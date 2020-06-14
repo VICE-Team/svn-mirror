@@ -36,12 +36,12 @@
 
 #include <gtk/gtk.h>
 
-#include "lib.h"
 #include "basewidgets.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
+#include "lib.h"
 #include "openfiledialog.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "aciawidget.h"
 
@@ -129,8 +129,6 @@ static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
 {
     int device = GPOINTER_TO_INT(user_data);
     const gchar *text = gtk_entry_get_text(GTK_ENTRY(widget));
-
-    debug_gtk3("setting RsDevice%d to '%s'.", device, text);
     resources_set_string_sprintf("RsDevice%d", text, device);
 }
 
@@ -156,9 +154,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 
         GtkWidget *grid;
         GtkWidget *entry;
-
-        debug_gtk3("setting RsDevice%d to '%s'.", device, filename);
-        /* resources_set_string_sprintf("RsDevice%d", filename, device); */
 
         /* update text entry box, forces an update of the resource */
         grid = gtk_widget_get_parent(widget);

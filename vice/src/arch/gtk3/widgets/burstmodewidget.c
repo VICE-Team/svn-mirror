@@ -33,13 +33,13 @@
 
 #include <gtk/gtk.h>
 
-#include "lib.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "resources.h"
 #include "basewidgets.h"
-#include "openfiledialog.h"
+#include "debug_gtk3.h"
+#include "lib.h"
 #include "machine.h"
+#include "openfiledialog.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "burstmodewidget.h"
 

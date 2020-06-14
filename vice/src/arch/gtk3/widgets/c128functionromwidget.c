@@ -36,11 +36,11 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
 #include "basewidgets.h"
-#include "widgethelpers.h"
-#include "openfiledialog.h"
+#include "debug_gtk3.h"
 #include "functionrom.h"
+#include "openfiledialog.h"
+#include "widgethelpers.h"
 
 #include "c128functionromwidget.h"
 

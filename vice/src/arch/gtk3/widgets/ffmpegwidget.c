@@ -39,14 +39,14 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "debug_gtk3.h"
-#include "lib.h"
-#include "resources.h"
-#include "machine.h"
-#include "widgethelpers.h"
 #include "basewidgets.h"
-#include "ui.h"
+#include "debug_gtk3.h"
 #include "gfxoutput.h"
+#include "lib.h"
+#include "machine.h"
+#include "resources.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "ffmpegwidget.h"
 
@@ -63,7 +63,7 @@ static GtkWidget *format_widget = NULL;
 static GtkWidget *video_widget = NULL;
 static GtkWidget *audio_widget = NULL;
 
-
+/* forward declarations of functions */
 static GtkListStore *create_video_model(int fmt);
 static GtkListStore *create_audio_model(int fmt);
 static void update_video_combo_box(int id);
@@ -96,7 +96,6 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
         gtk_tree_model_get(model, &iter, 0, &fmt_name, -1);
     }
 
-    debug_gtk3("called, index %d: '%s'.", fmt_id, fmt_name);
     if (fmt_name != NULL && *fmt_name != '\0') {
         resources_set_string("FFMPEGFormat", fmt_name);
     }
@@ -250,7 +249,6 @@ static GtkListStore *create_video_model(int fmt)
         const char *name = codec_list[i].name;
         int id = codec_list[i].id;
 
-        debug_gtk3("adding FFMPEG video codec '%s' (%d).", name, id);
         gtk_list_store_append(store, &iter);
         gtk_list_store_set(store, &iter, 0, name, 1, id, -1);
     }
@@ -286,7 +284,6 @@ static GtkListStore *create_audio_model(int fmt)
         const char *name = codec_list[i].name;
         int id = codec_list[i].id;
 
-        /*debug_gtk3("adding FFMPEG audio codec '%s' (%d).", name, id);*/
         gtk_list_store_append(store, &iter);
         gtk_list_store_set(store, &iter, 0, name, 1, id, -1);
     }

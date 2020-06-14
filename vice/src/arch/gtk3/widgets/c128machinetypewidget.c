@@ -34,12 +34,13 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
-#include "widgethelpers.h"
+#include "c128.h"
 #include "debug_gtk3.h"
 #include "resources.h"
-#include "c128.h"
+#include "widgethelpers.h"
 
 #include "c128machinetypewidget.h"
+
 
 /** \brief  List of C128 machine types
  */

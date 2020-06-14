@@ -44,12 +44,12 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
-#include "drive.h"
 #include "drive-check.h"
+#include "drive.h"
 #include "machine.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "drivedoswidget.h"
 
@@ -74,6 +74,14 @@ static GtkWidget *create_dos_check_button(int unit, const char *dos,
 }
 
 
+/** \brief  Create drive DOS widget
+ *
+ * Create widget to select a DOS expansion for \a unit.
+ *
+ * \param[in]   unit    drive unit (8-11)
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *drive_dos_widget_create(int unit)
 {
     GtkWidget *grid;

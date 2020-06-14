@@ -46,14 +46,14 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "debug_gtk3.h"
-#include "drive.h"
 #include "drive-check.h"
+#include "drive.h"
+#include "drivewidgethelpers.h"
 #include "machine.h"
 #include "resources.h"
-#include "basewidgets.h"
 #include "widgethelpers.h"
-#include "drivewidgethelpers.h"
 
 #include "driveoptionswidget.h"
 
@@ -149,53 +149,4 @@ GtkWidget *drive_options_widget_create(int unit)
     }
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Update the options widget using the resources for \a unit
- *
- * \param[in,out]   widget  drive options widget
- * \param[in]       unit    drive unit number (8-11)
- */
-void drive_options_widget_update(GtkWidget *widget, int unit)
-{
-
-    /* XXX: what was this suppposed to do? Probably deprecated */
-
-#if 0
-    unit_number = unit;
-
-    int value;
-    char res_name[256];
-    GtkWidget *spin;
-
-    uihelpers_get_drive_resource_from_check_button(
-            iec_widget, "IECDevice%d", unit);
-    uihelpers_get_drive_resource_from_check_button(
-            readonly_widget, "AttachDevice%dReadonly", unit);
-
-    /* RPM */
-    g_snprintf(res_name, 256, "Drive%dRPM", unit);
-    resources_get_int(res_name, &value);
-    spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 0);
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)(value / 100));
-
-    /* Wobble */
-    g_snprintf(res_name, 256, "Drive%dWobble", unit);
-    resources_get_int(res_name, &value);
-    spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 1);
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)(value / 100));
-
-    /* RTC */
-    if (drive_check_rtc(ui_get_drive_type(unit))) {
-        /* supported */
-        int state;
-
-        resources_get_int_sprintf("Drive%dRTCSave", &state, unit);
-        gtk_widget_set_sensitive(rtc_widget, TRUE);
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rtc_widget), state);
-    } else {
-        gtk_widget_set_sensitive(rtc_widget, FALSE);
-    }
-#endif
 }
