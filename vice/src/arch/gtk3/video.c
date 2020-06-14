@@ -187,6 +187,21 @@ static const cmdline_option_t cmdline_options[] =
 };
 
 
+/** \brief  Command line options related VSID
+ */
+static const cmdline_option_t cmdline_options_vsid[] =
+{
+    { "-restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)1,
+      NULL, "Restore window geometry from resources" },
+    { "+restore-window-geometry", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RestoreWindowGeometry", (resource_value_t)0,
+      NULL, "Do not restore window geometry from resources" },
+
+    CMDLINE_LIST_END
+};
+
+
 /** \brief  Integer/boolean resources related to video output
  */
 static const resource_int_t resources_int[] = {
@@ -204,6 +219,16 @@ static const resource_int_t resources_int[] = {
       &restore_window_geometry, set_window_restore_geometry, NULL },
     RESOURCE_INT_LIST_END
 };
+
+
+/** \brief  Integer/boolean resources related to VSID
+ */
+static const resource_int_t resources_int_vsid[] = {
+    { "RestoreWindowGeometry", 1, RES_EVENT_NO, NULL,
+      &restore_window_geometry, set_window_restore_geometry, NULL },
+    RESOURCE_INT_LIST_END
+};
+
 
 /** \brief  Arch-specific initialization for a video canvas
  *  \param[inout] canvas The canvas being initialized
@@ -223,8 +248,9 @@ int video_arch_cmdline_options_init(void)
 {
     if (machine_class != VICE_MACHINE_VSID) {
         return cmdline_register_options(cmdline_options);
+    } else {
+        return cmdline_register_options(cmdline_options_vsid);
     }
-    return 0;
 }
 
 
@@ -236,8 +262,9 @@ int video_arch_resources_init(void)
 {
     if (machine_class != VICE_MACHINE_VSID) {
         return resources_register_int(resources_int);
+    } else {
+        return resources_register_int(resources_int_vsid);
     }
-    return 0;
 }
 
 /** \brief Clean up any memory held by arch-specific video resources. */
