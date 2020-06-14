@@ -1,8 +1,6 @@
 /** \file   jamdialog.c
  * \brief   Gtk3 CPU jam dialog
  *
- * GTK3 CPU Jam dialog
- *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -28,10 +26,11 @@
 
 
 #include "vice.h"
+
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
 #include "archdep.h"
+#include "debug_gtk3.h"
 #include "uiapi.h"
 
 #include "jamdialog.h"

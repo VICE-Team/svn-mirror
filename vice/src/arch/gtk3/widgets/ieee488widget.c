@@ -31,16 +31,17 @@
  */
 
 #include "vice.h"
+
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "basedialogs.h"
-#include "openfiledialog.h"
+#include "basewidgets.h"
 #include "cartridge.h"
+#include "debug_gtk3.h"
+#include "machine.h"
+#include "openfiledialog.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "ieee488widget.h"
 
@@ -103,8 +104,9 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
             NULL);
     if (filename != NULL) {
         GtkEntry *entry = GTK_ENTRY(user_data);
-        debug_gtk3("setting IEEE488Image to '%s'.", filename);
+
         gtk_entry_set_text(entry, filename);
+
         /* required, since setting the text of the entry doesn't trigger an
          * update of the connected resource (it only responds to focus-out and
          * pressing 'Enter' */

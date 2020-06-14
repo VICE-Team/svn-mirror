@@ -55,10 +55,10 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
 #include "log.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "keysetdialog.h"
 

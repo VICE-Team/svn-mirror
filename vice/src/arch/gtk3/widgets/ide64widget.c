@@ -62,10 +62,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
+#include "ide64.h"
 #include "machine.h"
 #include "resources.h"
-#include "ide64.h"
+#include "vice_gtk3.h"
 
 #include "ide64widget.h"
 
@@ -76,26 +76,26 @@ static const vice_gtk3_radiogroup_entry_t revisions[] = {
     { "Version 3",      IDE64_VERSION_3 },
     { "Version 4.1",    IDE64_VERSION_4_1 },
     { "Version 4.2",    IDE64_VERSION_4_2 },
-    { NULL, -1 }
+    { NULL,             -1 }
 };
 
 
 /** \brief  List of ShortBus DIGIMAX I/O bases
  */
 static const vice_gtk3_combo_entry_int_t digimax_addresses[] = {
-    { "$DE40", 0xde40 },
-    { "$DE48", 0xde48 },
-    { NULL, -1 }
+    { "$DE40",  0xde40 },
+    { "$DE48",  0xde48 },
+    { NULL,     -1 }
 };
 
 #ifdef HAVE_RAWNET
 /** \brief  List of ShortBus ETFE I/O bases
  */
 static const vice_gtk3_combo_entry_int_t etfe_addresses[] = {
-    { "$DE00", 0xde00 },
-    { "$DE10", 0xde10 },
-    { "$DF00", 0xdf00 },
-    { NULL, -1 }
+    { "$DE00",  0xde00 },
+    { "$DE10",  0xde10 },
+    { "$DF00",  0xdf00 },
+    { NULL,     -1 }
 };
 #endif
 

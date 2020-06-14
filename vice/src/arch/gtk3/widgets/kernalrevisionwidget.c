@@ -34,12 +34,12 @@
 
 #include <gtk/gtk.h>
 
+#include "c64-resources.h"
+#include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
-#include "c64-resources.h"
 #include "vsync.h"
 #include "widgethelpers.h"
-#include "debug_gtk3.h"
 
 #include "kernalrevisionwidget.h"
 
@@ -58,6 +58,8 @@ static const vice_gtk3_radiogroup_entry_t revisions[] = {
 };
 
 
+/** \brief  Optional extra callback function
+ */
 static void (*widget_callback)(int) = NULL;
 
 
@@ -83,10 +85,8 @@ static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
     int rev = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting KERNAL revision to %d.", rev);
         resources_set_int("KernalRev", rev);
         if (widget_callback != NULL) {
-            debug_gtk3("Calling custom callback.");
             widget_callback(rev);
         }
 
@@ -162,6 +162,10 @@ void kernal_revision_widget_update(GtkWidget *widget, int revision)
 }
 
 
+/** \brief  Synchronize the KERNAL widget with its current value
+ *
+ * \param[in,out]   widget  KERNAL version widget
+ */
 void kernal_revision_widget_sync(GtkWidget *widget)
 {
     int revision, index;
@@ -175,13 +179,11 @@ void kernal_revision_widget_sync(GtkWidget *widget)
 }
 
 
+/** \brief  Add extra callback
+ *
+ * \param[in[   callback    extra callback for widget changes
+ */
 void kernal_revision_widget_add_callback(void (*callback)(int))
 {
     widget_callback = callback;
 }
-
-
-
-
-
-

@@ -61,7 +61,8 @@
 # if defined(MACOSX_SUPPORT)
 
 /** \brief  OS is Unix and OSX */
-#  define ARCHDEP_OS_OSX
+#  define ARCHDEP_OS_OSX        /* OLD, should be removed */
+#  define ARCHDEP_OS_MACOS      /* NEW, should be added */
 
 # elif defined(__linux__)
 

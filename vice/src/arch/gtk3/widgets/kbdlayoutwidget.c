@@ -38,9 +38,9 @@
 #include "lib.h"
 #include "resources.h"
 #include "widgethelpers.h"
+#include "kbdmappingwidget.h"
 
 #include "kbdlayoutwidget.h"
-#include "kbdmappingwidget.h"
 
 
 /** \brief  Keyboard layout types
@@ -117,7 +117,7 @@ GtkWidget *kbdlayout_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     g_signal_connect(group, "button-release-event", G_CALLBACK(on_changed), NULL);
-    
+
     /* connect signal handler to free memory used by the radio buttons list
      * when the widget is destroyed */
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);

@@ -29,10 +29,10 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
 #include "machine.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "machinemodelwidget.h"
 
@@ -64,10 +64,8 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 
     if (model_set != NULL &&
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting model to %d.", model);
         model_set(model);
         if (user_callback != NULL) {
-            debug_gtk3("calling user-callback with model %d.", model);
             user_callback(model);
         }
     }

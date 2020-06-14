@@ -34,14 +34,14 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-#include "lib.h"
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
+#include "joy.h"
+#include "joystick.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "joystick.h"
-#include "joy.h"
 #include "userport_joystick.h"
+#include "widgethelpers.h"
 
 #include "joystickuserportadapterwidget.h"
 
@@ -104,7 +104,6 @@ static void on_adapter_changed(GtkComboBoxText *combo, gpointer user_data)
     id_val = (int)strtol(id_str, &endptr, 10);
 
     if (*endptr == '\0') {
-        debug_gtk3("setting UserportJoyType to %d.", id_val);
         resources_set_int("UserportJoyType", id_val);
     }
 }

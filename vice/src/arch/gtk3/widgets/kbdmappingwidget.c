@@ -35,16 +35,15 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
+#include "debug_gtk3.h"
 #include "keyboard.h"
 #include "lib.h"
-#include "ui.h"
-#include "resources.h"
-#include "vsync.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "openfiledialog.h"
-
-#include "debug_gtk3.h"
+#include "resources.h"
+#include "ui.h"
+#include "vsync.h"
+#include "widgethelpers.h"
 
 #include "kbdmappingwidget.h"
 
@@ -65,11 +64,11 @@ static GtkWidget *radio_group = NULL;
 /** \brief  Keyboard mapping types
  */
 static const vice_gtk3_radiogroup_entry_t mappings[] = {
-    { "Symbolic", 0 },
-    { "Positional", 1 },
-    { "Symbolic (user)", 2 },
-    { "Positional (user)", 3 },
-    { NULL, -1 }
+    { "Symbolic",           0 },
+    { "Positional",         1 },
+    { "Symbolic (user)",    2 },
+    { "Positional (user)",  3 },
+    { NULL,                 -1 }
 };
 
 
@@ -128,6 +127,7 @@ static GtkWidget *create_positional_keymap_browser(void)
     return browser;
 }
 
+
 /** \brief  Update the widget depending on external dependencies
  *
  */
@@ -149,6 +149,7 @@ void kbdmapping_widget_update(void)
        currently selected index */
     resources_set_int("KeymapIndex", kbdindex);
 }
+
 
 /** \brief  Create a keyboard mapping selection widget
  *

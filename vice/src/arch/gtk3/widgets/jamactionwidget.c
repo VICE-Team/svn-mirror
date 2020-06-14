@@ -34,6 +34,7 @@
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
 #include "basewidgets.h"
+#include "machine.h"
 #include "widgethelpers.h"
 
 #include "jamactionwidget.h"
@@ -42,12 +43,12 @@
 /** \brief  List of possible actions on a CPU JAM
  */
 static const vice_gtk3_radiogroup_entry_t actions[] = {
-    { "Show dialog", 0 },
-    { "Continue emulation", 1 },
-    { "Start monitor", 2 },
-    { "Soft RESET", 3 },
-    { "Hard RESET", 4 },
-    { "Quit emulator", 5 },
+    { "Show dialog",        MACHINE_JAM_ACTION_DIALOG },
+    { "Continue emulation", MACHINE_JAM_ACTION_CONTINUE },
+    { "Start monitor",      MACHINE_JAM_ACTION_MONITOR },
+    { "Soft RESET",         MACHINE_JAM_ACTION_RESET },
+    { "Hard RESET",         MACHINE_JAM_ACTION_HARD_RESET },
+    { "Quit emulator",      MACHINE_JAM_ACTION_QUIT },
     { NULL, -1 }
 };
 

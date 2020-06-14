@@ -38,14 +38,14 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-#include "lib.h"
-#include "widgethelpers.h"
+
 #include "debug_gtk3.h"
+#include "joy.h"
+#include "joystick.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "joystick.h"
-#include "joy.h"
-
+#include "widgethelpers.h"
 #include "joystickdevicewidget.h"
 
 
@@ -56,13 +56,21 @@ typedef struct device_info_s {
     int         id;     /**< device ID (\see joy.h) */
 } device_info_t;
 
+
+/** \brief  Maximum devices
+ *
+ * More than enough, currently Linux will return 8 devices and Windows 5.
+ */
 #define MAX_EXTRA_DEVICES 32
+
 
 /** \brief  List of detected input devices on the host
  */
 static device_info_t device_list[MAX_EXTRA_DEVICES] = {
     { NULL, -1 }
 };
+
+
 /** \brief  List of available input devices on the host
  */
 static device_info_t predefined_device_list[] = {
@@ -91,7 +99,6 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
     device = GPOINTER_TO_INT(user_data) + 1;
 
     if (*endptr == '\0') {
-        debug_gtk3("setting JoyDevice%d to %d.", device, id_val);
         resources_set_int_sprintf("JoyDevice%d", id_val, device);
     }
 }
@@ -123,10 +130,6 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
         char idstr[32];
 
         g_snprintf(idstr, 32, "%d", predefined_device_list[i1].id);
-        debug_gtk3("%d %s.",
-                predefined_device_list[i1].id,
-                predefined_device_list[i1].name);
-
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                 idstr, predefined_device_list[i1].name);
         if (predefined_device_list[i1].id == current) {
@@ -144,15 +147,17 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
 
         device_list[i2].id = id;
         g_snprintf(idstr, 32, "%d", device_list[i2].id);
-        debug_gtk3( "%d %s\n", device_list[i2].id, device_list[i2].name);
 
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), idstr, device_list[i2].name);
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
+                                  idstr,
+                                  device_list[i2].name);
         if (device_list[i2].id == current) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i1+i2);
         }
     }
 
-    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), GINT_TO_POINTER(device));
+    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed),
+                     GINT_TO_POINTER(device));
 
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
     gtk_widget_show_all(grid);

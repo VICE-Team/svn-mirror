@@ -33,16 +33,15 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "basedialogs.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
+#include "machine.h"
 #include "openfiledialog.h"
+#include "resources.h"
+#include "widgethelpers.h"
 
 #include "megacartwidget.h"
-
 
 
 /** \brief  Handler for the "clicked" event of the browse button
@@ -60,7 +59,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = vice_gtk3_open_file_dialog("Open NvRAM image file", NULL, NULL,
             NULL);
     if (filename != NULL) {
-        debug_gtk3("setting 'MegaCartNvRAMfilename' to '%s'.", filename);
         vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }

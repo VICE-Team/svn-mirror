@@ -31,12 +31,13 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+
 #include "debug_gtk3.h"
-#include "widgethelpers.h"
 #include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uisettings.h"
+#include "widgethelpers.h"
 
 #include "joystickmenupopup.h"
 

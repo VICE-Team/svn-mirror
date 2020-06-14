@@ -36,16 +36,18 @@
 /** \brief  Column indici of the various widgets
  */
 enum {
-    COL_TITLE = 0,
-    COL_KEYVAL,
-    COL_KEYSYM,
-    COL_KEYMOD
+    COL_TITLE = 0,      /**< title */
+    COL_KEYVAL,         /**< raw key value */
+    COL_KEYSYM,         /**< key symbol as string */
+    COL_KEYMOD          /**< modifiers */
 };
 
 
-
+/** \brief  Label displaying the key value */
 static GtkWidget *keyval_widget;
+/** \brief  Label displaying the string representation of the key value */
 static GtkWidget *keysym_widget;
+/** \brief  Label displaying the various modifiers for a key */
 static GtkWidget *keymod_widget;
 
 
@@ -78,13 +80,17 @@ GtkWidget *kbd_debug_widget_create(void)
 }
 
 
+/** \brief  Update keyboard debug widget with \a event
+ *
+ * \param[in]   event   GDK event structure
+ */
 void kdb_debug_widget_update(GdkEvent *event)
 {
     gchar buffer[666];
     guint keyval = event->key.keyval;
     guint mods = event->key.state;
 
-    g_snprintf(buffer, 666, "<tt>%u, 0x%04x</tt>", keyval, keyval);
+    g_snprintf(buffer, sizeof(buffer), "<tt>%u, 0x%04x</tt>", keyval, keyval);
     gtk_label_set_markup(GTK_LABEL(keyval_widget), buffer);
 
     g_snprintf(buffer, 666, "<tt>%s</tt>", gdk_keyval_name(keyval));
