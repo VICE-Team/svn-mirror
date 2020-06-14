@@ -650,7 +650,7 @@ static void on_resid_6581_passband_spin_change(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("Callled!");
     double value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-    debug_gtk3("Settubg to %lf", value);
+    debug_gtk3("Setting to %lf", value);
     gtk_range_set_value(GTK_RANGE(resid_6581_passband), value);
 }
 
@@ -659,7 +659,7 @@ static void on_resid_6581_gain_spin_change(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("Callled!");
     double value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-    debug_gtk3("Settubg to %lf", value);
+    debug_gtk3("Setting to %lf", value);
     gtk_range_set_value(GTK_RANGE(resid_6581_gain), value);
 }
 
@@ -668,7 +668,7 @@ static void on_resid_6581_bias_spin_change(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("Callled!");
     double value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-    debug_gtk3("Settubg to %lf", value);
+    debug_gtk3("Setting to %lf", value);
     gtk_range_set_value(GTK_RANGE(resid_6581_bias), value);
 }
 #endif
