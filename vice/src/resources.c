@@ -1170,6 +1170,7 @@ int resources_load(const char *fname)
             default_name = archdep_default_portable_resource_file_name();
             if (!((default_name != NULL) && (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) == 0)))  {
                 /* if not found at alternative location, try the normal one */
+                lib_free(default_name);
                 default_name = archdep_default_resource_file_name();
             }
         } else {
