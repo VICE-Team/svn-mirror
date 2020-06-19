@@ -93,10 +93,10 @@ void kdb_debug_widget_update(GdkEvent *event)
     g_snprintf(buffer, sizeof(buffer), "<tt>%u, 0x%04x</tt>", keyval, keyval);
     gtk_label_set_markup(GTK_LABEL(keyval_widget), buffer);
 
-    g_snprintf(buffer, 666, "<tt>%s</tt>", gdk_keyval_name(keyval));
+    g_snprintf(buffer, sizeof(buffer), "<tt>%s</tt>", gdk_keyval_name(keyval));
     gtk_label_set_markup(GTK_LABEL(keysym_widget), buffer);
 
-    g_snprintf(buffer, 666, "<tt>%c%c%c %c%c%c%c%c</tt>",
+    g_snprintf(buffer, sizeof(buffer), "<tt>%c%c%c %c%c%c%c%c</tt>",
             mods & GDK_SHIFT_MASK ? 'S' : '-',    /* shift (left or right) */
             mods & GDK_LOCK_MASK ? 'L' : '-',     /* shift-lock */
             mods & GDK_CONTROL_MASK ? 'C' : '-',  /* control */

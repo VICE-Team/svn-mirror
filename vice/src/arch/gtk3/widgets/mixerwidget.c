@@ -189,7 +189,7 @@ void mixer_widget_sid_type_changed(void)
 
     /* disable sliders when not ReSID */
     debug_gtk3("Getting SID engine...");
-    if (resources_get_int("SidEngine", & engine) < 0) {
+    if (resources_get_int("SidEngine", &engine) < 0) {
         debug_gtk3("Failed, using FastSID.");
         engine = SID_ENGINE_FASTSID;
     } else {
