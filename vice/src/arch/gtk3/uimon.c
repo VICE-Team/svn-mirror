@@ -134,7 +134,7 @@ static int native_monitor(void)
 static gboolean uimon_write_to_terminal_impl(gpointer user_data)
 {
     pthread_mutex_lock(&fixed.output_lock);
-    
+
     vte_terminal_feed(VTE_TERMINAL(fixed.term), fixed.output_buffer, fixed.output_buffer_used_size);
 
     lib_free(fixed.output_buffer);
@@ -159,7 +159,7 @@ void uimon_write_to_terminal(struct console_private_s *t,
 
     pthread_mutex_lock(&fixed.output_lock);
 
-    /* 
+    /*
      * If the output buffer exists, we've already scheduled a write
      * so we just append to the existing buffer.
      */
@@ -179,10 +179,10 @@ void uimon_write_to_terminal(struct console_private_s *t,
         }
 
         fixed.output_buffer_allocated_size = output_buffer_required_size;
-    }   
+    }
 
     memcpy(fixed.output_buffer + fixed.output_buffer_used_size, data, length);
-    fixed.output_buffer_used_size += length;    
+    fixed.output_buffer_used_size += length;
 
     pthread_mutex_unlock(&fixed.output_lock);
 }
@@ -443,7 +443,7 @@ int uimon_get_string(struct console_private_s *t, char* string, int string_len)
         /* give the ui a chance to do stuff, and also don't max out the CPU waiting for input */
         vsyncarch_sleep(vsyncarch_frequency() / 60);
         mainlock_yield();
-        
+
         if (!t->input_buffer) {
             return -1;
         }
@@ -636,9 +636,9 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     } else {
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
-    
+
     uimon_window_resume_impl(user_data);
-    
+
     return FALSE;
 }
 
@@ -660,7 +660,7 @@ static gboolean uimon_window_resume_impl(gpointer user_data)
     }
 #endif
     gtk_window_present(GTK_WINDOW(fixed.window));
-    
+
     return FALSE;
 }
 
@@ -687,14 +687,14 @@ static gboolean uimon_out_impl(gpointer user_data)
 {
     char *buffer = (char*)user_data;
     const char *c;
-    
+
     for(c = buffer; *c; c++) {
         if(*c == '\n') {
             uimon_write_to_terminal(&fixed, "\r", 1);
         }
         uimon_write_to_terminal(&fixed, c, 1);
     }
-    
+
     lib_free(buffer);
 
     return FALSE;
@@ -707,31 +707,31 @@ static gboolean uimon_window_close_impl(gpointer user_data)
     if (fixed.window != NULL) {
         gtk_widget_hide(fixed.window);
     }
-    
+
     return FALSE;
 }
-    
+
 console_t *uimon_window_open(void)
 {
     if (native_monitor()) {
         return uimonfb_window_open();
     }
-    
+
     /* call from ui thread */
     gdk_threads_add_timeout(0, uimon_window_open_impl, NULL);
-    
+
     return &vte_console;
 }
-    
+
 console_t *uimon_window_resume(void)
 {
     if (native_monitor()) {
         return uimonfb_window_resume();
     }
-    
+
     /* call from ui thread */
     gdk_threads_add_timeout(0, uimon_window_resume_impl, NULL);
-    
+
     return &vte_console;
 }
 
@@ -751,7 +751,7 @@ int uimon_out(const char *buffer)
     if (native_monitor()) {
         return uimonfb_out(buffer);
     }
-    
+
     /* call from ui thread */
     gdk_threads_add_timeout(0, uimon_out_impl, (gpointer)lib_strdup(buffer));
 
