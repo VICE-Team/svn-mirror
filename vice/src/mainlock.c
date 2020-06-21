@@ -128,9 +128,11 @@ void mainlock_yield(void)
     pthread_mutex_unlock(&lock);
 
     yield_time_delta_ms = (vsyncarch_gettime() - yield_tick) / tick_per_ms;
+    /*
     if (yield_time_delta_ms > 0) {
         printf("Yielded for %lu ms\n", yield_time_delta_ms);
     }
+    */
 }
 
 void mainlock_obtain(void)
@@ -144,7 +146,7 @@ void mainlock_obtain(void)
          * The solution is ALWAYS to make VICE asynchronously trigger the
          * UI code.
          */
-        printf("FIXME! VICE thread is trying to obtain the mainlock!\n");
+        printf("FIXME! VICE thread is trying to obtain the mainlock!\n"); fflush(stderr);
         return;
     }
     
@@ -153,7 +155,7 @@ void mainlock_obtain(void)
     /* If we have already obtained the lock, we're done */
     if (ui_thread_lock_count) {
         ui_thread_lock_count++;
-        printf("lock count now %d, (already locked)\n", ui_thread_lock_count);
+        /* printf("lock count now %d, (already locked)\n", ui_thread_lock_count); */
 
         pthread_mutex_unlock(&lock);
         return;
@@ -201,7 +203,7 @@ void mainlock_assert_lock_obtained(void)
     
     if (pthread_equal(pthread_self(), vice_thread)) {
         /* See detailed comment in mainlock_obtain() */
-        printf("FIXME! VICE thread is trying to assert_obtained the mainlock!\n");
+        printf("FIXME! VICE thread is trying to assert_obtained the mainlock!\n"); fflush(stdout);
         pthread_mutex_unlock(&lock);
         return;
     }
@@ -224,14 +226,14 @@ void mainlock_release(void)
     
     if (pthread_equal(pthread_self(), vice_thread)) {
         /* See detailed comment in mainlock_obtain() */
-        printf("FIXME! VICE thread is trying to release the mainlock!\n");
+        printf("FIXME! VICE thread is trying to release the mainlock!\n"); fflush(stdout);
         return;
     }
     
     ui_thread_lock_count--;
     
     if (ui_thread_lock_count) {
-        printf("lock count now %d, (still locked)\n", ui_thread_lock_count);
+        /* printf("lock count now %d, (still locked)\n", ui_thread_lock_count); */
         pthread_mutex_unlock(&lock);
         return;
     }

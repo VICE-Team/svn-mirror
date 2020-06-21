@@ -36,7 +36,7 @@
  */
 void vice_gtk3_lock(gpointer data, GClosure *closure)
 {
-    printf("locking: %s\n", (const char *)data); fflush(stdout);
+    /* printf("locking: %s\n", (const char *)data); fflush(stdout); */
     mainlock_obtain();
 }
 
@@ -45,7 +45,7 @@ void vice_gtk3_lock(gpointer data, GClosure *closure)
  */
 void vice_gtk3_unlock(gpointer data, GClosure *closure)
 {
-    // printf("unlocking: %s\n", (const char *)data);
+    /* printf("unlocking: %s\n", (const char *)data); */
     mainlock_release();
 }
 
