@@ -316,8 +316,6 @@ static void update_performance_metrics(unsigned long frame_time)
     double clock_delta_seconds;
     
     if (sync_reset) {
-        sync_reset = 0;
-
         /*
          * The emulator is just starting, or resuming from pause, or entering
          * warp, or exiting warp. So we reset the fps calculations. We also
@@ -450,6 +448,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         next_frame_start = now;
     } else {
         update_performance_metrics(now);
+        if (sync_reset) {
+            sync_reset = 0;
+        }
     }
 
     /* This is the time between the start of the next frame and now. */
@@ -567,7 +568,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     /* Get current time, directly after getting the sound delay. */
     now = vsyncarch_gettime();
-
+    
     /* Start afresh after pause in frame output. */
     if (speed_eval_suspended) {
         speed_eval_suspended = 0;
@@ -577,6 +578,8 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
         next_frame_start = now;
         skipped_redraw = 0;
+    } else {
+        update_performance_metrics(now);
     }
 
     /* Start afresh after "out of sync" cases. */

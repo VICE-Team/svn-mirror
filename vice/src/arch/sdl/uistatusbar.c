@@ -41,6 +41,7 @@
 #include "uimenu.h"
 #include "uistatusbar.h"
 #include "videoarch.h"
+#include "vsyncapi.h"
 
 /* ----------------------------------------------------------------- */
 /* static functions/variables */
@@ -114,17 +115,12 @@ static void display_tape(void)
     }
 }
 
-static int per = 0;
-static int fps = 0;
-static int warp = 0;
-static int paused = 0;
-
 static void display_speed(void)
 {
     int len;
-    unsigned char sep = paused ? ('P' | 0x80) : warp ? ('W' | 0x80) : '/';
+    unsigned char sep = ui_pause_active() ? ('P' | 0x80) : vsync_metric_warp_enabled ? ('W' | 0x80) : '/';
 
-    len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "%3d%%%c%2dfps", per, sep, fps);
+    len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "%3d%%%c%2dfps", (int)(vsync_metric_cpu_percent + 0.5), sep, (int)(vsync_metric_emulated_fps + 0.5));
     statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
 
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
@@ -409,6 +405,9 @@ void uistatusbar_draw(void)
     if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
         kbd_status = 0;
     }
+    
+    /* Update the cpu/fps each frame */
+    display_speed();
 
     sdl_ui_init_draw_params();
     limits = sdl_ui_get_menu_param();
