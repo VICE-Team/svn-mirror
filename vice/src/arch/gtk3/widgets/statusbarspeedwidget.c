@@ -209,8 +209,8 @@ static void on_fps_custom_toggled(GtkWidget *widget, gpointer data)
 
     old_val = 0 - old_val;
     if (vice_gtk3_integer_input_box(
-                "Set new fps target",
-                "Enter a new custom fps target",
+                "Set new Fps target",
+                "Enter a new custom Fps target",
                 old_val, &new_val,
                 1, 100000)) {
         /* OK: */
@@ -265,11 +265,11 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     /* custom speed */
     if (!found && curr_speed > 0) {
-        g_snprintf(buffer, 256, "Custom cpu speed (%d%%) ...", curr_speed);
+        g_snprintf(buffer, 256, "Custom CPU speed (%d%%) ...", curr_speed);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     } else {
-        item = gtk_check_menu_item_new_with_label("Custom cpu speed ...");
+        item = gtk_check_menu_item_new_with_label("Custom CPU speed ...");
     }
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
     gtk_container_add(GTK_CONTAINER(menu), item);
@@ -282,7 +282,7 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     /* predefined fps targets */
     for (i = 0; fps_targets[i] != 0; i++) {
-        g_snprintf(buffer, 256, "%d fps", 0 - fps_targets[i]);
+        g_snprintf(buffer, 256, "%d Fps", 0 - fps_targets[i]);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
         if (curr_speed == fps_targets[i]) {
@@ -298,11 +298,11 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
     /* custom fps target */
     if (!found && curr_speed < 0) {
-        g_snprintf(buffer, 256, "Custom fps (%d fps) ...", 0 - curr_speed);
+        g_snprintf(buffer, 256, "Custom Fps (%d Fps) ...", 0 - curr_speed);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     } else {
-        item = gtk_check_menu_item_new_with_label("Custom fps ...");
+        item = gtk_check_menu_item_new_with_label("Custom Fps ...");
     }
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
     gtk_container_add(GTK_CONTAINER(menu), item);
@@ -588,7 +588,7 @@ void statusbar_speed_widget_update(GtkWidget *widget)
     GtkWidget *label;
     char buffer[1024];
 
-    g_snprintf(buffer, 1024, "%8.1f%% cpu, %8.3f fps %s%s",
+    g_snprintf(buffer, 1024, "%8.1f%% CPU, %8.3f Fps %s%s",
             vsync_metric_cpu_percent,
             vsync_metric_emulated_fps,
             vsync_metric_warp_enabled ? " (warp)" : "",
