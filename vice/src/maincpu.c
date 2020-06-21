@@ -39,6 +39,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mainlock.h"
 #include "mem.h"
 #include "monitor.h"
 #ifdef C64DTV

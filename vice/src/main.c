@@ -37,6 +37,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef WIN32_COMPILE
+#include <Objbase.h>
+#endif
+#ifdef USE_VICE_THREAD
+#include <pthread.h>
+#endif
 
 #include "archdep.h"
 #include "cmdline.h"
@@ -53,12 +59,14 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "main.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
 #include "uiapi.h"
 #include "version.h"
 #include "video.h"
+#include "vsyncapi.h"
 
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
@@ -75,8 +83,17 @@ const
 #endif
 int console_mode = 0;
 int video_disabled_mode = 0;
-static int init_done = 0;
 
+void main_loop_forever(void);
+
+#ifdef USE_VICE_THREAD
+void *vice_thread_main(void *);
+static pthread_t vice_thread = 0;
+#endif
+
+#ifdef WIN32_COMPILE
+static void shutdown_com(void);
+#endif
 
 /** \brief  Size of buffer used to write core team members' names to log/stdout
  *
@@ -98,8 +115,13 @@ int main_program(int argc, char **argv)
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
 
+#ifdef WIN32_COMPILE
+    /* Something on the main thread does something with COM that causes complaint in a debugger. */
+    CoInitializeEx(NULL, COINIT_MULTITHREADED);
+    archdep_vice_atexit(shutdown_com);
+#endif
 
-    lib_init_rand();
+    lib_init();
 
     /* Check for some options at the beginning of the commandline before 
        initializing the user interface or loading the config file.
@@ -156,6 +178,7 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
+    vsyncarch_init();
     maincpu_early_init();
     machine_setup_context();
     drive_setup_context();
@@ -272,20 +295,71 @@ int main_program(int argc, char **argv)
     if (initcmdline_check_psid() < 0) {
         return -1;
     }
-
+    
     if (init_main() < 0) {
         return -1;
     }
-
+    
     initcmdline_check_attach();
 
-    init_done = 1;
+#ifdef USE_VICE_THREAD
 
-    /* Let's go...  */
-    log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
-    maincpu_mainloop();
+    if (pthread_create(&vice_thread, NULL, vice_thread_main, NULL)) {
+        log_error(LOG_DEFAULT, "Fatal: failed to launch main thread");
+        return 1;
+    }
 
-    log_error(LOG_DEFAULT, "perkele!");
+#else /* #ifdef USE_VICE_THREAD */
+
+    main_loop_forever();
+
+#endif /* #ifdef USE_VICE_THREAD */
 
     return 0;
 }
+
+void main_loop_forever(void)
+{
+    log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
+
+    /* This doesn't return. The thread will directly exit when requested. */
+    maincpu_mainloop();
+
+    log_error(LOG_DEFAULT, "perkele! (THREAD)");
+}
+
+#ifdef USE_VICE_THREAD
+
+void vice_thread_shutdown(void)
+{
+    log_message(LOG_DEFAULT, "\nExiting...");
+    
+     if (!vice_thread) {
+         /* We're exiting early in program life, such as when invoked with -help */
+         return;
+     }
+    
+    mainlock_obtain();
+    mainlock_initiate_shutdown();
+    mainlock_release();
+    
+    pthread_join(vice_thread, NULL);
+}
+
+void *vice_thread_main(void *unused)
+{
+    mainlock_init();
+
+    main_loop_forever();
+
+    return NULL;
+}
+
+#endif /* #ifdef USE_VICE_THREAD */
+
+#ifdef WIN32_COMPILE
+static void shutdown_com(void)
+{
+    CoUninitialize();
+}
+#endif

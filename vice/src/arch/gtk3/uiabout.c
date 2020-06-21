@@ -258,12 +258,12 @@ gboolean ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* destroy callback, called when the dialog is closed through the 'X',
      * but NOT when clicking 'Close' */
-    g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback),
+    g_signal_connect_unlocked(about, "destroy", G_CALLBACK(about_destroy_callback),
             NULL);
 
     /* set up a generic handler for various buttons, this makes sure the
      * 'Close' button is handled properly */
-    g_signal_connect(about, "response", G_CALLBACK(about_response_callback),
+    g_signal_connect_unlocked(about, "response", G_CALLBACK(about_response_callback),
             NULL);
 
     /* make the about dialog modal */

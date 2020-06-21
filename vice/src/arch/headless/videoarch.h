@@ -32,9 +32,6 @@
 #define VICE_VIDEOARCH_H
 
 typedef struct video_canvas_s {
-    /** \brief Nonzero if it is safe to access other members of the
-     *         structure. */
-    unsigned int initialized;
 
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;

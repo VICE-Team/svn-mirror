@@ -2399,7 +2399,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-    g_signal_connect(G_OBJECT(selection), "changed",
+    g_signal_connect_unlocked(G_OBJECT(selection), "changed",
             G_CALLBACK(on_tree_selection_changed), NULL);
 
     /* handler for the double click event on a node */
@@ -2554,10 +2554,10 @@ static GtkWidget *dialog_create_helper(void)
             GTK_RESPONSE_DELETE_EVENT);
 
     gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
-    g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
-    g_signal_connect(dialog, "configure-event",
+    g_signal_connect_unlocked(dialog, "response", G_CALLBACK(response_callback), NULL);
+    g_signal_connect_unlocked(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
-    g_signal_connect(dialog, "destroy", G_CALLBACK(on_settings_dialog_destroy),
+    g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_settings_dialog_destroy),
             NULL);
 
     return dialog;
@@ -2580,11 +2580,8 @@ static GtkWidget *dialog_create_helper(void)
  */
 gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {
-    GtkWidget *dialog;
+    ui_settings_dialog_create_and_activate_node(NULL);
 
-    dialog = dialog_create_helper();
-    settings_window = dialog;
-    gtk_widget_show_all(dialog);
     return TRUE;
 }
 
@@ -2729,26 +2726,41 @@ gboolean ui_settings_dialog_activate_node(const char *path)
     return FALSE;
 }
 
-
-
-/** \brief  Show settings main dialog and activate a node
- *
- * \param[in]   path    path to name ("foo/bar/blah")
- *
- * \return  TRUE if node found, false otherwise
- */
-gboolean ui_settings_dialog_create_and_activate_node(const char *path)
+gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_data)
 {
+    const char *path = (const char *)user_data;
     GtkWidget *dialog;
 
     dialog = dialog_create_helper();
     settings_window = dialog;
 
     /* find and activate the node */
-    if (!ui_settings_dialog_activate_node(path)) {
+    if (path && !ui_settings_dialog_activate_node(path)) {
         debug_gtk3("failed to locate node, showing dialog anyway for now.");
     }
 
     gtk_widget_show_all(dialog);
+
+    return FALSE;
+}
+
+/** \brief  Show settings main dialog and activate a node
+ *
+ * \param[in]   path    NULL or path to name ("foo/bar/blah")
+ *
+ * \return  TRUE which means nothing.
+ */
+gboolean ui_settings_dialog_create_and_activate_node(const char *path)
+{
+    /* call from ui thread without locking - creating the settings dialog is heavy */
+    gdk_threads_add_timeout(0, ui_settings_dialog_create_and_activate_node_impl, (gpointer)path);
+
+    return TRUE;
+}
+
+gboolean ui_settings_dialog_create_and_activate_node_callback(GtkWidget *_, gpointer user_data)
+{
+    ui_settings_dialog_create_and_activate_node((const char *)user_data);
+
     return TRUE;
 }

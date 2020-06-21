@@ -28,6 +28,7 @@
 #include "vice.h"
 
 
+#include <pthread.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,13 +78,13 @@
 # endif
 #endif
 
+#define LIB_DEBUG_LOCK()
+#define LIB_DEBUG_UNLOCK()
 
 #ifdef LIB_DEBUG
 #define LIB_DEBUG_SIZE  0x10000
 #define LIB_DEBUG_GUARD 0x1000
 #define LIB_DEBUG_TOPMAX 50
-
-static bool lib_debug_initialized = false;
 
 #ifdef LIB_DEBUG_PINPOINT
 static const char *lib_debug_filename[LIB_DEBUG_SIZE];
@@ -109,8 +110,18 @@ static char *lib_debug_guard_base[LIB_DEBUG_SIZE];
 static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
 #endif
 
+#ifdef USE_VICE_THREAD
+#include <pthread.h>
+static pthread_mutex_t lib_debug_lock;
+#undef LIB_DEBUG_LOCK
+#undef LIB_DEBUG_UNLOCK
+#define LIB_DEBUG_LOCK() pthread_mutex_lock(&lib_debug_lock)
+#define LIB_DEBUG_UNLOCK() pthread_mutex_unlock(&lib_debug_lock)
+#endif
+
 /*----------------------------------------------------------------------------*/
 
+#ifdef DEBUG
 static void lib_debug_init(void)
 {
     memset(lib_debug_address, 0, sizeof(lib_debug_address));
@@ -125,8 +136,8 @@ static void lib_debug_init(void)
     memset(lib_debug_line, 0, sizeof(lib_debug_line));
     memset(lib_debug_top_size, 0, sizeof(lib_debug_top_size));
 #endif
-    lib_debug_initialized = true;
 }
+#endif
 
 static void lib_debug_add_top(const char *filename, unsigned int line, unsigned int size)
 {
@@ -151,10 +162,6 @@ static void lib_debug_add_top(const char *filename, unsigned int line, unsigned 
 static void lib_debug_alloc(void *ptr, size_t size, int level)
 {
     unsigned int index;
-
-    if (!lib_debug_initialized) {
-        lib_debug_init();
-    }
 
     index = 0;
 
@@ -229,10 +236,6 @@ static void lib_debug_free(void *ptr, unsigned int level, bool fill)
 static void lib_debug_guard_add(char *ptr, unsigned int size)
 {
     unsigned int index;
-
-    if (!lib_debug_initialized) {
-        lib_debug_init();
-    }
 
     index = 0;
 
@@ -565,6 +568,8 @@ static
 #endif
 void *lib_malloc(size_t size)
 {
+    LIB_DEBUG_LOCK();
+    
 #ifdef LIB_DEBUG
     void *ptr = lib_debug_libc_malloc(size);
 #else
@@ -587,6 +592,9 @@ void *lib_malloc(size_t size)
         memset(ptr, 0, size);
     }
 #endif
+    
+    LIB_DEBUG_UNLOCK();
+    
     return ptr;
 }
 
@@ -652,6 +660,8 @@ static
 #endif
 void *lib_calloc(size_t nmemb, size_t size)
 {
+    LIB_DEBUG_LOCK();
+    
 #ifdef LIB_DEBUG
     void *ptr = lib_debug_libc_calloc(nmemb, size);
 #else
@@ -667,6 +677,8 @@ void *lib_calloc(size_t nmemb, size_t size)
 #ifdef LIB_DEBUG
     lib_debug_alloc(ptr, size * nmemb, 1);
 #endif
+    
+    LIB_DEBUG_UNLOCK();
 
     return ptr;
 }
@@ -677,6 +689,8 @@ static
 #endif
 void *lib_realloc(void *ptr, size_t size)
 {
+    LIB_DEBUG_LOCK();
+    
 #ifdef LIB_DEBUG
     void *new_ptr = lib_debug_libc_realloc(ptr, size);
 #else
@@ -693,6 +707,8 @@ void *lib_realloc(void *ptr, size_t size)
     lib_debug_free(ptr, 1, false);
     lib_debug_alloc(new_ptr, size, 1);
 #endif
+    
+    LIB_DEBUG_UNLOCK();
 
     return new_ptr;
 }
@@ -703,6 +719,8 @@ static
 #endif
 void lib_free(void *ptr)
 {
+    LIB_DEBUG_LOCK();
+    
 #ifdef LIB_DEBUG
     lib_debug_free(ptr, 1, true);
 #endif
@@ -712,6 +730,8 @@ void lib_free(void *ptr)
 #else
     free(ptr);
 #endif
+    
+    LIB_DEBUG_UNLOCK();
 }
 
 #ifdef AMIGA_SUPPORT
@@ -1179,37 +1199,73 @@ char *lib_msprintf(const char *fmt, ...)
 #ifdef LIB_DEBUG_PINPOINT
 void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line)
 {
+    LIB_DEBUG_LOCK();
+    
+    void *result;
+    
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
-    return lib_malloc(size);
+    result = lib_malloc(size);
+    
+    LIB_DEBUG_UNLOCK();
+    
+    return result;
 }
 
 void lib_free_pinpoint(void *p, const char *name, unsigned int line)
 {
+    LIB_DEBUG_LOCK();
+    
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     lib_free(p);
+    
+    LIB_DEBUG_UNLOCK();
 }
 
 void *lib_calloc_pinpoint(size_t nmemb, size_t size, const char *name, unsigned int line)
 {
+    LIB_DEBUG_LOCK();
+    
+    void *result;
+    
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
-    return lib_calloc(nmemb, size);
+    result = lib_calloc(nmemb, size);
+    
+    LIB_DEBUG_UNLOCK();
+    
+    return result;
 }
 
 void *lib_realloc_pinpoint(void *p, size_t size, const char *name, unsigned int line)
 {
+    LIB_DEBUG_LOCK();
+    
+    void *result;
+    
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
-    return lib_realloc(p, size);
+    result = lib_realloc(p, size);
+    
+    LIB_DEBUG_UNLOCK();
+    
+    return result;
 }
 
 char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int line)
 {
+    LIB_DEBUG_LOCK();
+    
+    void *result;
+    
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
-    return lib_strdup(str);
+    result = lib_strdup(str);
+    
+    LIB_DEBUG_UNLOCK();
+    
+    return result;
 }
 
 #ifdef AMIGA_SUPPORT
@@ -1252,13 +1308,6 @@ void lib_FreeMem_pinpoint(void *ptr, unsigned long size, char *name, unsigned in
     see http://c-faq.com/lib/randrange.html
 */
 
-/* set random seed for rand() from current time, so things like random startup
-   delay are actually random, ie different on each startup, at all. */
-void lib_init_rand(void)
-{
-    srand((unsigned int)time(NULL));
-}
-
 unsigned int lib_unsigned_rand(unsigned int min, unsigned int max)
 {
     return min + (rand() / ((RAND_MAX / (max - min + 1)) + 1));
@@ -1268,3 +1317,29 @@ float lib_float_rand(float min, float max)
 {
     return min + ((float)rand() / (((float)RAND_MAX / (max - min + 1.0f)) + 1.0f));
 }
+
+void lib_init(void)
+{
+    /*
+     * set random seed for rand() from current time, so things like random startup
+     * delay are actually random, ie different on each startup, at all.
+     */
+    srand((unsigned int)time(NULL));
+    
+#ifdef DEBUG
+    
+#ifdef USE_VICE_THREAD
+    {
+        pthread_mutexattr_t lock_attributes;
+        
+        pthread_mutexattr_init(&lock_attributes);
+        pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+        pthread_mutex_init(&lib_debug_lock, &lock_attributes);
+    }
+#endif
+    
+    lib_debug_init();
+#endif
+}
+
+

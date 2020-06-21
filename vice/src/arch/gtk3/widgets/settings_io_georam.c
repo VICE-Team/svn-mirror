@@ -148,7 +148,6 @@ GtkWidget *settings_io_georam_widget_create(GtkWidget *parent)
     georam_image = create_georam_image_widget(parent);
     gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
 
-
     gtk_widget_show_all(grid);
     return grid;
 }

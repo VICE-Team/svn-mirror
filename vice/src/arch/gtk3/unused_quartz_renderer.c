@@ -311,6 +311,7 @@ vice_renderer_backend_t vice_quartz_backend = {
     vice_quartz_update_context,
     vice_quartz_destroy_context,
     vice_quartz_refresh_rect,
+    NULL,
     vice_quartz_set_palette
 };
 

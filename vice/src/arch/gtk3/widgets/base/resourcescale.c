@@ -123,7 +123,7 @@ static GtkWidget *resource_scale_int_new_helper(GtkWidget *widget)
 
     g_signal_connect(widget, "value-changed", G_CALLBACK(on_scale_int_changed),
             NULL);
-    g_signal_connect(widget, "destroy", G_CALLBACK(on_scale_int_destroy), NULL);
+    g_signal_connect_unlocked(widget, "destroy", G_CALLBACK(on_scale_int_destroy), NULL);
 
     gtk_widget_show(widget);
     return widget;

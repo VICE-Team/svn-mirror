@@ -38,6 +38,7 @@
 #include "monitor_network.h"
 #include "montypes.h"
 #include "resources.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vicesocket.h"
@@ -201,6 +202,8 @@ int monitor_network_get_command_line(char **prompt)
             /* if no cmd was returned - reset buffer to start and fetch new cmd. */
             bufferpos = 0;
         }
+
+        ui_dispatch_events();
     } while (1);
 
     return 1;

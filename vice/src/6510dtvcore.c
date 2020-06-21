@@ -1706,6 +1706,7 @@ static const uint8_t fetch_tab[] = {
 #endif
 
         SET_LAST_ADDR(reg_pc);
+
         FETCH_OPCODE(opcode);
 
 #ifdef FEATURE_CPUMEMHISTORY

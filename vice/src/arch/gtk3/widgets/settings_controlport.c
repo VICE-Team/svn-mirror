@@ -470,7 +470,7 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
         gtk_grid_attach(GTK_GRID(layout), bbrtc_widget, 0, rows, 2, 1);
     }
 
-    g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(layout, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(layout);
     return layout;
 }

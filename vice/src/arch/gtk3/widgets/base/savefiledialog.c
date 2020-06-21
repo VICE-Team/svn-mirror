@@ -31,6 +31,7 @@
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
+#include "mainlock.h"
 
 #include "savefiledialog.h"
 
@@ -56,6 +57,8 @@ gchar *vice_gtk3_save_file_dialog(
     GtkWidget *dialog;
     gint result;
     gchar *filename;
+
+    mainlock_assert_is_not_vice_thread();
 
     dialog = gtk_file_chooser_dialog_new(
             title,

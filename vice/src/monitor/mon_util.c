@@ -299,7 +299,7 @@ char *uimon_in(const char *prompt)
         }
 
         if (monitor_is_remote() || monitor_is_binary()) {
-            vsyncarch_sleep(100);
+            vsyncarch_sleep(vsyncarch_frequency() / 1000);
 
             if (monitor_is_binary()) {
                 if (!monitor_binary_get_command_line()) {

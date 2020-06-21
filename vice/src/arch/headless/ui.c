@@ -309,24 +309,12 @@ static void pause_trap(uint16_t addr, void *data)
 {
     /* printf("%s\n", __func__); */
     
-    // ui_display_paused(1);
     // vsync_suspend_speed_eval();
+    // sound_suspend();
     // while (is_paused) {
     //     ui_dispatch_next_event();
     //     g_usleep(10000);
     // }
-}
-
-
-/** \brief  This should display some 'pause' status indicator on the statusbar
- *
- * \param[in]   flag    pause state
- */
-void ui_display_paused(int flag)
-{
-    /* printf("%s\n", __func__); */
-    
-    ui_display_speed(0.0, 0.0, 0);
 }
 
 
@@ -351,7 +339,6 @@ void ui_pause_enable(void)
     if (!ui_pause_active()) {
         is_paused = 1;
         interrupt_maincpu_trigger_trap(pause_trap, 0);
-        ui_display_paused(1);
     }
 }
 
@@ -364,7 +351,6 @@ void ui_pause_disable(void)
     
     if (ui_pause_active()) {
         is_paused = 0;
-        ui_display_paused(0);
     }
 }
 

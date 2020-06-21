@@ -55,6 +55,8 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "mainlock.h"
+#include "monitor.h"
 #include "lightpen.h"
 #include "resources.h"
 #include "util.h"
@@ -334,6 +336,10 @@ static const cmdline_option_t cmdline_options_common[] =
 /** \brief  Flag indicating pause mode
  */
 static int is_paused = 0;
+
+/** \brief  Flag indicating that the monitor should be entered whilst paused
+ */
+static int enter_monitor_while_paused = 0;
 
 /** \brief  Index of the most recently focused main window
  */
@@ -1137,7 +1143,7 @@ void macos_activate_application_workaround(void);
 /** \brief  Set the macOS dock icon
  *
  * Gtk dock icon support doesn't work on macos (last tested with Gtk 3.24.8)
- * Therefore we get it done via the obj-c API. Except rather than integrate 
+ * Therefore we get it done via the obj-c API. Except rather than integrate
  * support for obj-c into the project, leverage some low level C functionality
  * to interact with the obj-c runtime.
  */
@@ -1367,18 +1373,19 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_widget_set_no_show_all(mixer_controls, TRUE);
     }
 
-    g_signal_connect(new_window, "focus-in-event",
+    g_signal_connect_unlocked(new_window, "focus-in-event",
                      G_CALLBACK(on_focus_in_event), NULL);
-    g_signal_connect(new_window, "focus-out-event",
+    g_signal_connect_unlocked(new_window, "focus-out-event",
                      G_CALLBACK(on_focus_out_event), NULL);
-    g_signal_connect(new_window, "window-state-event",
+    g_signal_connect_unlocked(new_window, "window-state-event",
                      G_CALLBACK(on_window_state_event), NULL);
-    g_signal_connect(new_window, "delete-event",
+    /* This event never returns so must not hold the vice lock */
+    g_signal_connect_unlocked(new_window, "delete-event",
                      G_CALLBACK(ui_main_window_delete_event), NULL);
     g_signal_connect(new_window, "destroy",
                      G_CALLBACK(ui_main_window_destroy_callback), NULL);
     /* can probably use the `user_data` to pass window index */
-    g_signal_connect(new_window, "configure-event",
+    g_signal_connect_unlocked(new_window, "configure-event",
                      G_CALLBACK(on_window_configure_event),
                      GINT_TO_POINTER(target_window));
     /*
@@ -1407,7 +1414,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     canvas->window_index = target_window;
 
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
-    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
 
     /* Connect keyboard handlers, except for VSID
      *
@@ -1498,17 +1504,12 @@ void ui_create_main_window(video_canvas_t *canvas)
         GtkWidget *render_area = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
 
         /* set up event handler for clicks on the canvas */
-        g_signal_connect(
+        g_signal_connect_unlocked(
                 render_area,
                 "button-press-event",
                 G_CALLBACK(rendering_area_event_handler),
                 new_window);
     }
-
-
-#ifdef MACOSX_SUPPORT
-    macos_activate_application_workaround();
-#endif
 }
 
 
@@ -1520,14 +1521,37 @@ void ui_create_main_window(video_canvas_t *canvas)
  */
 void ui_display_main_window(int index)
 {
-    if (ui_resources.window_widget[index]) {
-        /* Normally this would show everything in the window,
-         * including hidden status bar displays, but we've
-         * disabled secondary displays in the status bar code with
-         * gtk_widget_set_no_show_all(). */
-        gtk_widget_show_all(ui_resources.window_widget[index]);
-        active_win_index = index;
+    GtkWidget *window;
+    GdkFrameClock *frame_clock;
+    video_canvas_t *canvas;
+
+    window = ui_resources.window_widget[index];
+
+    if (!window) {
+        /* This function is called blindly for both primary and secondary windows */
+        return;
     }
+
+    /* Normally this would show everything in the window,
+     * including hidden status bar displays, but we've
+     * disabled secondary displays in the status bar code with
+     * gtk_widget_set_no_show_all(). */
+    gtk_widget_show_all(window);
+
+#ifdef MACOSX_SUPPORT
+    macos_activate_application_workaround();
+#endif
+
+    /* Queue up a redraw opportunity each frame */
+    canvas = ui_resources.canvas[index];
+    if (canvas->drawing_area) {
+        /* no canvas for vsid */
+        frame_clock = gdk_window_get_frame_clock(gtk_widget_get_window(window));
+        g_signal_connect_unlocked(frame_clock, "update", G_CALLBACK(canvas->renderer_backend->queue_redraw), canvas);
+        gdk_frame_clock_begin_updating(frame_clock);
+    }
+
+    active_win_index = index;
 }
 
 /** \brief  Destroy a main window
@@ -1538,9 +1562,26 @@ void ui_display_main_window(int index)
  */
 void ui_destroy_main_window(int index)
 {
-    if (ui_resources.window_widget[index]) {
-        gtk_widget_destroy(ui_resources.window_widget[index]);
+    GtkWidget *window;
+    GdkFrameClock *frame_clock;
+    video_canvas_t *canvas;
+
+    window = ui_resources.window_widget[index];
+
+    if (!window) {
+        /* This function is called blindly for both primary and secondary windows */
+        return;
     }
+
+    /* Explicitly shut down the frame clock based rendering updates - not sure if necessary but cleaner. */
+    canvas = ui_resources.canvas[index];
+    if (canvas->drawing_area) {
+        /* no canvas for vsid */
+        frame_clock = gdk_window_get_frame_clock(gtk_widget_get_window(window));
+        gdk_frame_clock_end_updating(frame_clock);
+    }
+
+    gtk_widget_destroy(window);
 }
 
 
@@ -1670,6 +1711,19 @@ int ui_init_finalize(void)
     return 0;
 }
 
+static ui_jam_action_t jam_dialog_result;
+
+gboolean ui_jam_dialog_impl(gpointer user_data)
+{
+    ui_set_ignore_mouse_hide(TRUE);
+
+    /* XXX: this probably needs a variable index into the window_widget array */
+    jam_dialog_result = jam_dialog(ui_resources.window_widget[PRIMARY_WINDOW], (char *)user_data);
+
+    ui_set_ignore_mouse_hide(FALSE);
+
+    return FALSE;
+}
 
 /** \brief  Display a dialog box in response to a CPU jam
  *
@@ -1681,21 +1735,28 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
     va_list args;
     char *buffer;
-    int result;
 
     va_start(args, format);
     buffer = lib_mvsprintf(format, args);
     va_end(args);
 
-    ui_set_ignore_mouse_hide(TRUE);
+    /*
+     * We need to use the main thread to do UI stuff. And we
+     * also need to block the VICE thread until we get the
+     * user decision.
+     */
+    jam_dialog_result = UI_JAM_INVALID;
+    gdk_threads_add_timeout(0, ui_jam_dialog_impl, (gpointer)buffer);
 
-    /* XXX: this probably needs a variable index into the window_widget array */
-    result = jam_dialog(ui_resources.window_widget[PRIMARY_WINDOW], buffer);
+    /* block until the result is set */
+    while (jam_dialog_result == UI_JAM_INVALID) {
+        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        mainlock_yield();
+    }
+
     lib_free(buffer);
 
-    ui_set_ignore_mouse_hide(FALSE);
-
-    return result;
+    return jam_dialog_result;
 }
 
 
@@ -1749,30 +1810,6 @@ void ui_shutdown(void)
     ui_statusbar_shutdown();
 }
 
-
-/** \brief  Dispatch next GLib main context event
- *
- * \warning According to the Gtk3/GLib devs, this will at some point
- *          bite us in the arse.
- */
-void ui_dispatch_next_event(void)
-{
-    g_main_context_iteration(NULL, FALSE);
-}
-
-
-/** \brief  Dispatch events pending in the GLib main context loop
- *
- * \warning According to the Gtk3/GLib devs, this will at some point
- *          bite us in the arse.
- */
-void ui_dispatch_events(void)
-{
-    while (g_main_context_iteration(NULL, FALSE)) {
-        /* NOP */
-    }
-}
-
 /** \brief  Display the "Do you want to extend the disk image to
  *          40-track format?" dialog
  *
@@ -1789,6 +1826,28 @@ int ui_extend_image_dialog(void)
 }
 
 
+ /** \brief  Allow UI to handle a lock-blocked event */
+ void ui_dispatch_events(void)
+{
+    /*
+     * Original contract was that this would dispatch all pending events,
+     * which this will not do. However in the GTK3 build this function is
+     * only used for network monitor code, which I think will be ok.
+     */
+     mainlock_yield();
+ }
+
+static gboolean ui_error_impl(gpointer user_data)
+{
+    char *buffer = (char *)user_data;
+
+    vice_gtk3_message_error("VICE Error", buffer);
+    lib_free(buffer);
+
+    return FALSE;
+}
+
+
 /** \brief  Display error message through the UI
  *
  * \param[in]   format  format string for the error
@@ -1802,8 +1861,8 @@ void ui_error(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    vice_gtk3_message_error("VICE Error", buffer);
-    lib_free(buffer);
+    /* call from ui thread */
+    gdk_threads_add_timeout(0, ui_error_impl, (gpointer)buffer);
 }
 
 
@@ -1824,43 +1883,6 @@ void ui_message(const char *format, ...)
     lib_free(buffer);
 }
 
-#if 0
-/** \brief  Display FPS (and some other stuff) in the title bar of each
- *          window
- *
- * \param[in]   percent    CPU speed ratio
- * \param[in]   framerate  frame rate
- * \param[in]   warp_flag  nonzero if warp mode is active
- */
-void ui_display_speed(float percent, float framerate, int warp_flag)
-{
-    int i;
-    char str[128];
-    int percent_int = (int)(percent + 0.5);
-    int framerate_int = (int)(framerate + 0.5);
-    char *warp, *mode[3] = {"", " (VDC)", " (Monitor)"};
-
-    for (i = 0; i < NUM_WINDOWS; i++) {
-        if (ui_resources.canvas[i] && GTK_WINDOW(ui_resources.window_widget[i])) {
-            warp = (warp_flag ? "(warp)" : "");
-            str[0] = 0;
-            if (machine_class != VICE_MACHINE_VSID) {
-                snprintf(str, 128, "%s%s - %3d%%, %2d fps %s%s",
-                         ui_resources.canvas[i]->viewport->title, mode[i],
-                         percent_int, framerate_int, warp,
-                         is_paused ? " (Paused)" : "");
-            } else {
-                snprintf(str, 128, "VSID - %3d%% %s%s",
-                         percent_int, warp,
-                         is_paused ? " (Paused)" : "");
-            }
-            str[127] = 0;
-            gtk_window_set_title(GTK_WINDOW(ui_resources.window_widget[i]), str);
-        }
-    }
-}
-#endif
-
 
 /** \brief  Keeps the ui events going while the emulation is paused
  *
@@ -1869,22 +1891,22 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
  */
 static void pause_trap(uint16_t addr, void *data)
 {
-    ui_display_paused(1);
     vsync_suspend_speed_eval();
-    while (is_paused) {
-        ui_dispatch_next_event();
-        g_usleep(10000);
+    sound_suspend();
+
+    is_paused = 1;
+
+    while (is_paused)
+    {
+        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        mainlock_yield();
+
+        /* Enter monitor directly if needed. */
+        if (enter_monitor_while_paused) {
+            enter_monitor_while_paused = 0;
+            monitor_startup(e_default_space);
+        }
     }
-}
-
-
-/** \brief  This should display some 'pause' status indicator on the statusbar
- *
- * \param[in]   flag    pause state
- */
-void ui_display_paused(int flag)
-{
-    ui_display_speed(0.0, 0.0, 0);
 }
 
 
@@ -1902,11 +1924,7 @@ int ui_pause_active(void)
  */
 void ui_pause_enable(void)
 {
-    if (!ui_pause_active()) {
-        is_paused = 1;
-        interrupt_maincpu_trigger_trap(pause_trap, 0);
-        ui_display_paused(1);
-    }
+    interrupt_maincpu_trigger_trap(pause_trap, 0);
 }
 
 
@@ -1914,10 +1932,14 @@ void ui_pause_enable(void)
  */
 void ui_pause_disable(void)
 {
-    if (ui_pause_active()) {
-        is_paused = 0;
-        ui_display_paused(0);
-    }
+    is_paused = 0;
+}
+
+/** \brief  The pause loop should trigger the monitor
+ */
+void ui_pause_enter_monitor(void)
+{
+    enter_monitor_while_paused = 1;
 }
 
 
@@ -1985,6 +2007,8 @@ void ui_exit(void)
 {
     int soe;    /* save on exit */
 
+    mainlock_obtain();
+
     /* clean up UI resources */
     if (machine_class != VICE_MACHINE_VSID) {
         uicart_shutdown();
@@ -2020,6 +2044,10 @@ void ui_exit(void)
         debug_gtk3("processing pending event.");
         g_main_context_iteration(g_main_context_default(), TRUE);
     }
+
+    /* Don't hold the vice lock while doing the vice shutdown stuff. Deadlock */
+    mainlock_release();
+
     archdep_vice_exit(0);
 }
 

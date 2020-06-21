@@ -320,7 +320,7 @@ gboolean uihotkeys_dialog_show(GtkWidget *widget, gpointer data)
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_box_pack_start(GTK_BOX(content), scrolled, TRUE, TRUE, 0);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect_unlocked(dialog, "response", G_CALLBACK(on_response), NULL);
     gtk_widget_show_all(dialog);
     return TRUE;
 }

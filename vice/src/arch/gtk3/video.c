@@ -140,7 +140,11 @@ static int set_display_filter(int val, void *param)
  */
 static int set_render_backend(int val, void *param)
 {
+#if 0
     render_backend = val ? 1 : 0;
+#else
+    render_backend = 1; /* always dx / gl now */
+#endif
     return 0;
 }
 
@@ -295,8 +299,12 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    canvas->initialized = 0;
-    canvas->created = 0;
+    pthread_mutexattr_t lock_attributes;
+        
+    pthread_mutexattr_init(&lock_attributes);
+    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&canvas->lock, &lock_attributes);
+
     canvas->renderer_context = NULL;
     canvas->blank_ptr = NULL;
     canvas->pen_ptr = NULL;
@@ -312,7 +320,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     ui_display_main_window(canvas->window_index);
 
     canvas->created = 1;
-    canvas->initialized = 1;
     return canvas;
 }
 
@@ -334,6 +341,8 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
             g_object_unref(G_OBJECT(canvas->pen_ptr));
             canvas->pen_ptr = NULL;
         }
+
+        pthread_mutex_destroy(&canvas->lock);
     }
 }
 

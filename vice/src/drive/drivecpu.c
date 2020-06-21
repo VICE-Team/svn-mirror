@@ -47,6 +47,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "mem.h"
 #include "monitor.h"
 #include "mos6510.h"

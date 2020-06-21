@@ -59,6 +59,7 @@
 #include "joyport.h"
 #include "lib.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -174,6 +175,7 @@ typedef struct ui_sb_state_s {
      *  control port on a Plus/4 without other userport control ports
      *  mean that the set of active joyports may be discontinuous. */
     int joyports_enabled;
+    /** \brief Currently emulated CPU speed in percent */
 } ui_sb_state_t;
 
 
@@ -260,7 +262,6 @@ static GdkCursor *joywidget_mouse_ptr = NULL;
 /** \brief  Timeout ID of the message widget
  */
 static guint timeout_id = 0;
-
 
 
 /* Forward decl. */
@@ -976,7 +977,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
     /* Labels will notice clicks by default, but drawing areas need to
      * be told to. */
     gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK);
-    g_signal_connect(led, "draw", G_CALLBACK(draw_drive_led_cb),
+    g_signal_connect_unlocked(led, "draw", G_CALLBACK(draw_drive_led_cb),
             GINT_TO_POINTER(unit));
     return grid;
 }
@@ -1052,7 +1053,7 @@ static GtkWidget *ui_tape_widget_create(void)
     gtk_container_add(GTK_CONTAINER(grid), header);
     gtk_container_add(GTK_CONTAINER(grid), counter);
     gtk_container_add(GTK_CONTAINER(grid), state);
-    g_signal_connect(state, "draw", G_CALLBACK(draw_tape_icon_cb),
+    g_signal_connect_unlocked(state, "draw", G_CALLBACK(draw_tape_icon_cb),
             GINT_TO_POINTER(0));
     return grid;
 }
@@ -1205,7 +1206,7 @@ static GtkWidget *ui_joystick_widget_create(void)
                 GDK_ENTER_NOTIFY_MASK|GDK_LEAVE_NOTIFY_MASK);
         gtk_widget_set_size_request(joyport,20,20);
         gtk_container_add(GTK_CONTAINER(grid), joyport);
-        g_signal_connect(joyport, "draw", G_CALLBACK(draw_joyport_cb),
+        g_signal_connect_unlocked(joyport, "draw", G_CALLBACK(draw_joyport_cb),
                 GINT_TO_POINTER(i));
         gtk_widget_set_no_show_all(joyport, TRUE);
         gtk_widget_hide(joyport);
@@ -1361,7 +1362,6 @@ static GtkWidget *ui_drive_menu_create(int unit)
  *                              Public functions                             *
  ****************************************************************************/
 
-
 /** \brief Initialize the status bar subsystem.
  *
  *  \warning This function _must_ be called before any call to
@@ -1416,7 +1416,6 @@ void ui_statusbar_init(void)
  *         destroyed. */
 void ui_statusbar_shutdown(void)
 {
-    /* There are no such resources, so this is a no-op */
 }
 
 
@@ -1622,6 +1621,7 @@ GtkWidget *ui_statusbar_create(void)
      * is guarenteed to be updated. */
     sb_state.joyports_enabled = ~0;
     vice_gtk3_update_joyport_layout();
+
     return sb;
 }
 
@@ -1691,10 +1691,7 @@ void ui_display_recording(int recording_status)
  */
 void ui_display_statustext(const char *text, int fade_out)
 {
-    /*
-     * No longer used, but needs to remain here since it's called from
-     * src/network.c
-     */
+    mainlock_assert_is_not_vice_thread();
 
     GtkWidget *widget = allocated_bars[0].msg;
 
@@ -2099,23 +2096,18 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 }
 
 
-/** \brief  Statusbar API to display emulation speed, framerate and warp mode
- *
- * \param[in]   percent     emulation speed in percentage
- * \param[in]   framerate   framerate in frames per second
- * \param[in]   warp_flag   warp mode is enabled
- */
-void ui_display_speed(float percent, float framerate, int warp_flag)
+/** \brief  Statusbar API to display emulation speed, framerate and warp mode */
+void ui_update_speed_widgets(void)
 {
-    GtkWidget *speed;
+    GtkWidget *speed_widget;
 
-    speed = allocated_bars[0].speed;
-    if (speed != NULL) {
-        statusbar_speed_widget_update(speed, percent, framerate, warp_flag);
+    speed_widget = allocated_bars[0].speed;
+    if (speed_widget != NULL) {
+        statusbar_speed_widget_update(speed_widget);
     }
-    speed = allocated_bars[1].speed;
-    if (speed != NULL) {
-        statusbar_speed_widget_update(speed, percent, framerate, warp_flag);
+    speed_widget = allocated_bars[1].speed;
+    if (speed_widget != NULL) {
+        statusbar_speed_widget_update(speed_widget);
     }
 }
 

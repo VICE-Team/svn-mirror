@@ -82,7 +82,7 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
 
     /* set up signal handler to destroy the temporary parent window */
     if (no_parent) {
-        g_signal_connect(dialog, "destroy", G_CALLBACK(on_dialog_destroy),
+        g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_dialog_destroy),
                 (gpointer)parent);
     }
 

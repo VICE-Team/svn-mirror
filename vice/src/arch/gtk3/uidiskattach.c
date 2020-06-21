@@ -40,6 +40,7 @@
 #include "filechooserhelpers.h"
 #include "driveunitwidget.h"
 #include "drivenowidget.h"
+#include "mainlock.h"
 #include "ui.h"
 #include "uistatusbar.h"
 #include "uimachinewindow.h"
@@ -233,6 +234,8 @@ static void do_autostart(GtkWidget *widget, gpointer user_data)
     gchar *filename_locale;
     int index = GPOINTER_TO_INT(user_data);
 
+    mainlock_assert_lock_obtained();
+
     lastdir_update(widget, &last_dir);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     /* convert filename to current locale */
@@ -327,13 +330,17 @@ static void on_response(GtkWidget *widget, gint response_id,
             /* did we actually get a filename? */
             if (filename != NULL) {
                 do_autostart(widget, user_data);
+                mainlock_release();
                 gtk_widget_destroy(widget);
+                mainlock_obtain();
             }
             break;
 
         /* 'Close'/'X' button */
         case GTK_RESPONSE_REJECT:
+            mainlock_release();
             gtk_widget_destroy(widget);
+            mainlock_obtain();
             break;
         default:
             break;
@@ -393,7 +400,9 @@ static void on_response(GtkWidget *widget, gint response_id,
     if (filename != NULL) {
         g_free(filename);
     }
+    mainlock_release();
     gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(chooser));
+    mainlock_obtain();
 }
 #endif
 

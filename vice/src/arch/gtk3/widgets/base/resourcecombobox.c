@@ -224,7 +224,7 @@ static GtkWidget *resource_combo_box_int_new_helper(
 
     /* connect signal handlers */
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_int_changed), NULL);
-    g_signal_connect(combo, "destroy", G_CALLBACK(on_combo_int_destroy), NULL);
+    g_signal_connect_unlocked(combo, "destroy", G_CALLBACK(on_combo_int_destroy), NULL);
 
     gtk_widget_show(combo);
     return combo;

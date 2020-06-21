@@ -278,15 +278,3 @@ void ui_display_drive_current_image(unsigned int unit_number, unsigned int drive
 {
     /* printf("%s\n", __func__); */
 }
-
-
-/** \brief  Statusbar API to display emulation speed, framerate and warp mode
- *
- * \param[in]   percent     emulation speed in percentage
- * \param[in]   framerate   framerate in frames per second
- * \param[in]   warp_flag   warp mode is enabled
- */
-void ui_display_speed(float percent, float framerate, int warp_flag)
-{
-    /* printf("%s\n", __func__); */
-}

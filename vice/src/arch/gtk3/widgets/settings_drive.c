@@ -247,7 +247,7 @@ static GtkWidget *create_drive_volume_widget(void)
             GTK_ORIENTATION_HORIZONTAL, 0, 4000, 100);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
-    g_signal_connect(scale, "format-value", G_CALLBACK(on_drive_volume_format),
+    g_signal_connect_unlocked(scale, "format-value", G_CALLBACK(on_drive_volume_format),
             NULL);
     return scale;
 }

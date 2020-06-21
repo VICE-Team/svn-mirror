@@ -30,11 +30,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <gtk/gtk.h>
 
 #include "log.h"
 #include "machine.h"
 #include "main.h"
 #include "video.h"
+
+#if defined(USE_VICE_THREAD) && defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+#include <X11/Xlib.h>
+#endif
 
 /* For the ugly hack below */
 #ifdef WIN32_COMPILE
@@ -70,9 +75,23 @@ int main(int argc, char **argv)
     _putenv("LANG=C");
 #endif
 
-    return main_program(argc, argv);
-}
+#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+    /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
+    putenv("GDK_BACKEND=x11");
 
+    /* We're calling xlib from our own thread so need this to avoid problems */
+    XInitThreads();
+#endif
+
+    int init_result = main_program(argc, argv);
+    if (init_result) {
+        return init_result;
+    }
+
+    gtk_main();
+    
+    return 0;
+}
 
 /** \brief  Exit handler
  */
@@ -81,9 +100,7 @@ void main_exit(void)
     /* Disable SIGINT.  This is done to prevent the user from keeping C-c
        pressed and thus breaking the cleanup process, which might be
        dangerous.  */
-    signal(SIGINT, SIG_IGN);
+    signal (SIGINT, SIG_IGN);
 
-    log_message(LOG_DEFAULT, "\nExiting...");
-
-    machine_shutdown();
+    vice_thread_shutdown();
 }

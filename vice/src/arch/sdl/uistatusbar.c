@@ -133,33 +133,6 @@ static void display_speed(void)
 }
 
 /* ----------------------------------------------------------------- */
-/* ui.h */
-
-void ui_display_speed(float percent, float framerate, int warp_flag)
-{
-    per = (int)(percent + .5);
-    if (per > 999) {
-        per = 999;
-    }
-
-    fps = (int)(framerate + .5);
-    if (fps > 99) {
-        fps = 99;
-    }
-
-    warp = warp_flag;
-
-    display_speed();
-}
-
-void ui_display_paused(int flag)
-{
-    paused = flag;
-
-    display_speed();
-}
-
-/* ----------------------------------------------------------------- */
 /* uiapi.h */
 
 /* Display a mesage without interrupting emulation */

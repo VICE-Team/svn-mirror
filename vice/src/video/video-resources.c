@@ -143,7 +143,6 @@ static int set_double_size_enabled(int value, void *param)
     if ((canvas->videoconfig->double_size_enabled != val
          || old_scalex != canvas->videoconfig->scalex
          || old_scaley != canvas->videoconfig->scaley)
-        && canvas->initialized
         && canvas->viewport->update_canvas > 0) {
         video_viewport_resize(canvas, 1);
     }
@@ -168,9 +167,8 @@ static int set_double_scan_enabled(int val, void *param)
     canvas->videoconfig->doublescan = val ? 1 : 0;
     canvas->videoconfig->color_tables.updated = 0;
 
-    if (canvas->initialized) {
-        video_canvas_refresh_all(canvas);
-    }
+    video_canvas_refresh_all(canvas);
+    
     return 0;
 }
 
@@ -200,9 +198,8 @@ static int set_hwscale_enabled(int val, void *param)
     canvas->videoconfig->hwscale = val ? 1 : 0;
     canvas->videoconfig->color_tables.updated = 0;
 
-    if (canvas->initialized) {
-        video_viewport_resize(canvas, 1);
-    }
+    video_viewport_resize(canvas, 1);
+    
     return 0;
 }
 
@@ -260,9 +257,8 @@ static int set_chip_rendermode(int val, void *param)
 
     lib_free(dsize);
 
-    if (canvas->initialized) {
-        video_canvas_refresh_all(canvas);
-    }
+    video_canvas_refresh_all(canvas);
+    
     return 0;
 }
 
@@ -284,20 +280,16 @@ static int set_fullscreen_enabled(int value, void *param)
 
     canvas->videoconfig->fullscreen_enabled = val;
 
-#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
-    if (canvas->initialized)
-#endif
-    {
-        if (val) {
-            r = (video_chip_cap->fullscreen.enable)(canvas, val);
-            (void) (video_chip_cap->fullscreen.statusbar)
-                (canvas, canvas->videoconfig->fullscreen_statusbar_enabled);
-        } else {
-            /* always show statusbar when coming back to window mode */
-            (void) (video_chip_cap->fullscreen.statusbar)(canvas, 1);
-            r = (video_chip_cap->fullscreen.enable)(canvas, val);
-        }
+    if (val) {
+        r = (video_chip_cap->fullscreen.enable)(canvas, val);
+        (void) (video_chip_cap->fullscreen.statusbar)
+            (canvas, canvas->videoconfig->fullscreen_statusbar_enabled);
+    } else {
+        /* always show statusbar when coming back to window mode */
+        (void) (video_chip_cap->fullscreen.statusbar)(canvas, 1);
+        r = (video_chip_cap->fullscreen.enable)(canvas, val);
     }
+    
     return r;
 }
 

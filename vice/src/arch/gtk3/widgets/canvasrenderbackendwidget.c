@@ -47,7 +47,11 @@
  */
 static const vice_gtk3_radiogroup_entry_t backends[] = {
     { "Cairo",  0 },
+#ifdef WIN32_COMPILE
+    { "DirectX", 1 },
+#else
     { "OpenGL", 1 },
+#endif
     { NULL,     -1 }
 };
 

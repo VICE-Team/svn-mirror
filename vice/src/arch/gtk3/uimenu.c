@@ -153,11 +153,19 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                 /* debug_gtk3("adding menu item '%s'\n", items[i].label); */
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
-                    g_signal_connect(
+                    if (items[i].unlocked) {
+                        g_signal_connect_unlocked(
                             item,
                             "activate",
                             G_CALLBACK(items[i].callback),
                             (gpointer)(items[i].data));
+                    } else {
+                        g_signal_connect(
+                            item,
+                            "activate",
+                            G_CALLBACK(items[i].callback),
+                            (gpointer)(items[i].data));
+                    }
                 } else {
                     /* no callback: 'grey-out'/'ghost' the item */
                     gtk_widget_set_sensitive(item, FALSE);
@@ -178,11 +186,19 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                     }
                     /* connect signal handler AFTER setting the state, otherwise
                      * the callback gets triggered, leading to odd results */
-                    g_signal_connect(
+                    if (items[i].unlocked) {
+                        g_signal_connect_unlocked(
                             item,
                             "activate",
                             G_CALLBACK(items[i].callback),
                             items[i].data);
+                    } else {
+                        g_signal_connect(
+                            item,
+                            "activate",
+                            G_CALLBACK(items[i].callback),
+                            items[i].data);
+                    }
                 } else {
                     /* grey out */
                     gtk_widget_set_sensitive(item, FALSE);
@@ -227,7 +243,11 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 #endif
                                                accel_data,
                                                ui_accel_data_delete);
-                gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
+                if (items[i].unlocked) {
+                    gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
+                } else {
+                    vice_locking_gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
+                }
                 gtk_accel_label_set_accel(GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item))), items[i].keysym, items[i].modifier);
             }
 
@@ -235,7 +255,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
             /* the closure's callback doesn't trigger due to mysterious reasons,
              * so we use the menu item to free the accelerator's data
              */
-            g_signal_connect(item, "destroy", G_CALLBACK(on_menu_item_destroy),
+            g_signal_connect_unlocked(item, "destroy", G_CALLBACK(on_menu_item_destroy),
                     accel_data);
         }
         i++;

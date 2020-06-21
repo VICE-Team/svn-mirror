@@ -871,7 +871,7 @@ GtkWidget *vsid_playlist_widget_create(void)
             vsid_playlist_controls_create(),
             0, 2, 1, 1);
 
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

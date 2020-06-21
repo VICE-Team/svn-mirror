@@ -50,6 +50,11 @@ then
 	CXXFLAGS=""
 fi
 
+if [ -z ${OBJCFLAGS+x} ]
+then
+	OBJCFLAGS=""
+fi
+
 if [ -z ${LDFLAGS+x} ]
 then
 	LDFLAGS=""
@@ -113,6 +118,11 @@ function extract_cxx_compile_definitions {
 		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
 }
 
+function extract_objc_compile_definitions {
+	extract_make_var OBJCCOMPILE \
+		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
+}
+
 function extract_non_include_non_def_flags {
 	local flags=""
 
@@ -153,12 +163,16 @@ function extract_non_include_non_def_flags {
 	echo -n -e "$flags" | tr "\n" " "
 }
 
+function extract_cflags {
+	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
+}
+
 function extract_cxxflags {
 	extract_non_include_non_def_flags $(extract_make_var AM_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
 }
 
-function extract_cflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
+function extract_objcflags {
+	extract_non_include_non_def_flags $(extract_make_var AM_OBJCFLAGS; space; extract_make_var OBJCFLAGS; echo -n " $OBJCFLAGS")
 }
 
 function extract_ldflags {
@@ -232,7 +246,7 @@ function extract_external_libs {
 function extract_sources {
 	extract_make_var $1 \
 		| tr " " "\n" \
-		| grep '\.\(c\|cc\|cpp\)$' \
+		| grep '\.\(c\|cc\|cpp\|m\)$' \
 		| tr "\n" " " \
 		| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
 }
@@ -277,8 +291,9 @@ function process_source_makefile {
 			target_compile_definitions(
 			    $lib_to_build
 			    PRIVATE
+					\$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
 			        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
-			        \$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
+					\$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objc_compile_definitions)>
 			    )
 
 			target_include_directories(
@@ -291,8 +306,9 @@ function process_source_makefile {
 			target_compile_options(
 			    $lib_to_build
 			    PRIVATE
+					\$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
 			        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxxflags)>
-			        \$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
+			        \$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objcflags)>
 			    )
 
 			target_sources(
@@ -387,8 +403,9 @@ do
 		target_compile_definitions(
 		    $executable
 		    PRIVATE
-				\$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
 				\$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
+				\$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
+				\$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objc_compile_definitions)>
 		    )
 
 		target_include_directories(
@@ -401,8 +418,9 @@ do
 		target_compile_options(
 		    $executable
 		    PRIVATE
+				\$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
 		        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxxflags)>
-		        \$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
+		        \$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objcflags)>
 		    )
 		
 		target_link_options(
@@ -452,6 +470,7 @@ echo "Creating top level CMakeLists.txt"
 
 cat <<-HEREDOC > CMakeLists.txt
 	cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment version")
 	project(VICE C CXX)
 	set(CMAKE_STATIC_LIBRARY_PREFIX "")
 

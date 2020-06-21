@@ -394,8 +394,6 @@ static void network_test_delay(void)
     long packet_delay[NUM_OF_TESTPACKETS];
     char st[256];
 
-    vsyncarch_init();
-
     ui_display_statustext("Testing best frame delay...", 0);
 
     buf = (unsigned char*)&pkt;
@@ -461,6 +459,7 @@ static void network_server_connect_trap(uint16_t addr, void *data)
     event_list_state_t settings_list;
 
     vsync_suspend_speed_eval();
+    sound_suspend();
 
     /* Create snapshot and send it */
     snapshotfilename = archdep_tmpnam();
@@ -521,6 +520,9 @@ static void network_client_connect_trap(uint16_t addr, void *data)
     size_t buf_size;
     uint8_t recv_buf4[4];
     event_list_state_t *settings_list;
+
+    vsync_suspend_speed_eval();
+    sound_suspend();
 
     /* Set proper settings */
     if (resources_set_event_safe() < 0) {
@@ -671,6 +673,8 @@ int network_start_server(void)
         network_mode = NETWORK_SERVER;
 
         vsync_suspend_speed_eval();
+        sound_suspend();
+        
         ui_display_statustext("Server is waiting for a client...", 1);
 
         ret = 0;

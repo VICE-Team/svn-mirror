@@ -47,6 +47,7 @@
 #include "drive.h"
 #include "log.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "util.h"
 #include "vsync.h"
 
@@ -452,7 +453,9 @@ gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data)
                 " settings' menu item, or having 'Save on exit' enabled and"
                 " exiting VICE.")) {
         debug_gtk3("Resetting resources to default.");
+        mainlock_obtain();
         resources_set_defaults();
+        mainlock_release();
     }
     return TRUE;
 }

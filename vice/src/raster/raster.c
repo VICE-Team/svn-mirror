@@ -244,7 +244,7 @@ int raster_init(raster_t *raster,
     raster->cache = NULL;
     raster->cache_enabled = 0;
     raster->dont_cache = 1;
-    raster->dont_cache_all = 0;
+    raster->dont_cache_all = 1;
     raster->num_cached_lines = 0;
 
     raster->fake_draw_buffer_line = NULL;
@@ -262,7 +262,6 @@ int raster_init(raster_t *raster,
 
     video_viewport_get(raster->canvas, &raster->viewport, &raster->geometry);
 
-    raster->canvas->initialized = 1;
     raster_set_canvas_refresh(raster, 1);
 
     return 0;
@@ -502,8 +501,10 @@ void raster_skip_frame(raster_t *raster, int skip)
 
 void raster_enable_cache(raster_t *raster, int enable)
 {
+#if 0 /* disabled cache hack */
     raster->cache_enabled = enable;
     raster_force_repaint(raster);
+#endif
 }
 
 void raster_set_canvas_refresh(raster_t *raster, int enable)

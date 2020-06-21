@@ -1,4 +1,4 @@
-/** \file   archdep_is_macos_bindist.c
+/** \file   archdep_is_macos_bindist.h
  * \brief   Determine if running from a macOS binary distribution - header
  *
  * \author  David Hogan <david.q.hogan@gmail.com>

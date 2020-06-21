@@ -621,6 +621,11 @@ static void audio_close(void)
     converter_close();
 
     /* Uninit unit */
+    err = AudioOutputUnitStop(outputUnit);
+    if (err) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_close): error stopping audio unit");
+    }
+    
     err = AudioUnitUninitialize(outputUnit);
     if (err) {
         log_error(LOG_DEFAULT, "sound (coreaudio_close): error uninitializing audio unit");

@@ -679,12 +679,12 @@ static void vte_terminal_accessible_initialize (AtkObject *obj, gpointer data)
     auto impl = IMPL(terminal);
     impl->subscribe_accessible_events();
 
-    g_signal_connect(terminal, "text-inserted", G_CALLBACK(vte_terminal_accessible_text_modified), obj);
-    g_signal_connect(terminal, "text-deleted", G_CALLBACK(vte_terminal_accessible_text_modified), obj);
-    g_signal_connect(terminal, "text-modified", G_CALLBACK(vte_terminal_accessible_text_modified), obj);
-    g_signal_connect(terminal, "text-scrolled", G_CALLBACK(vte_terminal_accessible_text_scrolled), obj);
-    g_signal_connect(terminal, "cursor-moved", G_CALLBACK(vte_terminal_accessible_invalidate_cursor), obj);
-    g_signal_connect(terminal, "window-title-changed", G_CALLBACK(vte_terminal_accessible_title_changed), obj);
+    g_signal_connect_unlocked(terminal, "text-inserted", G_CALLBACK(vte_terminal_accessible_text_modified), obj);
+    g_signal_connect_unlocked(terminal, "text-deleted", G_CALLBACK(vte_terminal_accessible_text_modified), obj);
+    g_signal_connect_unlocked(terminal, "text-modified", G_CALLBACK(vte_terminal_accessible_text_modified), obj);
+    g_signal_connect_unlocked(terminal, "text-scrolled", G_CALLBACK(vte_terminal_accessible_text_scrolled), obj);
+    g_signal_connect_unlocked(terminal, "cursor-moved", G_CALLBACK(vte_terminal_accessible_invalidate_cursor), obj);
+    g_signal_connect_unlocked(terminal, "window-title-changed", G_CALLBACK(vte_terminal_accessible_title_changed), obj);
 
     g_signal_connect(terminal, "visibility-notify-event", G_CALLBACK(vte_terminal_accessible_visibility_notify), obj);
     g_signal_connect(terminal, "selection-changed", G_CALLBACK(vte_terminal_accessible_selection_changed), obj);

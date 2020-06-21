@@ -40,6 +40,7 @@
 #include "kbddebugwidget.h"
 #include "keyboard.h"
 #include "kbd.h"
+#include "mainlock.h"
 #include "uimenu.h"
 #include "uimedia.h"
 
@@ -469,19 +470,27 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
  */
 void kbd_connect_handlers(GtkWidget *widget, void *data)
 {
-    g_signal_connect(
+    /*
+     * g_signal_connect_unlocked is used here so that key events are
+     * directly visible to the emulator - no waiting / locking.
+     *
+     * That is, assuming that some other event isn't already waiting
+     * for the vice lock, however this is rare.
+     */
+    
+    g_signal_connect_unlocked(
             G_OBJECT(widget),
             "key-press-event",
             G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect(
+    g_signal_connect_unlocked(
             G_OBJECT(widget),
             "key-release-event",
             G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect(
+    g_signal_connect_unlocked(
             G_OBJECT(widget),
             "enter-notify-event",
             G_CALLBACK(kbd_event_handler), data);
-    g_signal_connect(
+    g_signal_connect_unlocked(
             G_OBJECT(widget),
             "leave-notify-event",
             G_CALLBACK(kbd_event_handler), data);
@@ -572,7 +581,10 @@ static gboolean kbd_hotkey_handle(GdkEvent *report)
                         debug_gtk3("got modifers");
                         debug_gtk3("triggering callback of hotkey with index %d.", i);
 #endif
+                        mainlock_obtain();
                         hotkeys_list[i].callback();
+                        mainlock_release();
+                    
                         return TRUE;
                     }
             }

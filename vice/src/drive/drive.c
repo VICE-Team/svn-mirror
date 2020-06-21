@@ -787,6 +787,7 @@ static void drive_led_update(diskunit_context_t *unit, drive_t *drive, int base)
 /* Update the status bar in the UI.  */
 void drive_update_ui_status(void)
 {
+#ifndef USE_VICE_THREAD
     int i;
 
     if (console_mode || (machine_class == VICE_MACHINE_VSID)) {
@@ -823,6 +824,7 @@ void drive_update_ui_status(void)
             }
         }
     }
+#endif
 }
 
 int drive_num_leds(unsigned int dnr)

@@ -2,6 +2,7 @@
  * \brief   Native GTK3 UI monitor stuff
  *
  * \author  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+ * \author  David Hogan <david.q.hogan@gmail.com>
  */
 
 /*
@@ -27,6 +28,7 @@
 
 #include "vice.h"
 
+#include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -60,6 +62,7 @@
 #include "console.h"
 #include "debug_gtk3.h"
 #include "monitor.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "lib.h"
 #include "log.h"
@@ -70,8 +73,11 @@
 #include "uimon-fallback.h"
 #include "mon_command.h"
 #include "vsync.h"
+#include "vsyncapi.h"
 #include "uidata.h"
 
+static gboolean uimon_window_open_impl(gpointer user_data);
+static gboolean uimon_window_resume_impl(gpointer user_data);
 
 #define VTE_CSS \
     "vte-terminal { font-size: 300%; }"
@@ -84,7 +90,12 @@ struct console_private_s {
     GtkWidget *window;  /**< windows */
     GtkWidget *term;    /**< could be a VTE instance? */
     char *input_buffer;
-} fixed = {NULL, NULL, NULL};
+
+    pthread_mutex_t output_lock;
+    char *output_buffer;
+    unsigned int output_buffer_allocated_size;
+    unsigned int output_buffer_used_size;
+} fixed = {NULL, NULL, NULL, PTHREAD_MUTEX_INITIALIZER, NULL, 0, 0};
 
 static console_t vte_console;
 static linenoiseCompletions command_lc = {0, NULL};
@@ -120,13 +131,60 @@ static int native_monitor(void)
     return res;
 }
 
-void uimon_write_to_terminal(struct console_private_s *t,
-                       const char *data,
-                       glong length)
+static gboolean uimon_write_to_terminal_impl(gpointer user_data)
 {
-    if(t->term) {
-        vte_terminal_feed(VTE_TERMINAL(t->term), data, length);
+    pthread_mutex_lock(&fixed.output_lock);
+    
+    vte_terminal_feed(VTE_TERMINAL(fixed.term), fixed.output_buffer, fixed.output_buffer_used_size);
+
+    lib_free(fixed.output_buffer);
+    fixed.output_buffer = NULL;
+    fixed.output_buffer_allocated_size = 0;
+    fixed.output_buffer_used_size = 0;
+
+    pthread_mutex_unlock(&fixed.output_lock);
+
+    return FALSE;
+}
+
+void uimon_write_to_terminal(struct console_private_s *t,
+                             const char *data,
+                             glong length)
+{
+    if (!t->term) {
+        return;
     }
+
+    unsigned int output_buffer_required_size;
+
+    pthread_mutex_lock(&fixed.output_lock);
+
+    /* 
+     * If the output buffer exists, we've already scheduled a write
+     * so we just append to the existing buffer.
+     */
+
+    output_buffer_required_size = fixed.output_buffer_used_size + length;
+
+    if (output_buffer_required_size > fixed.output_buffer_allocated_size) {
+        output_buffer_required_size += 4096;
+
+        if (fixed.output_buffer) {
+            fixed.output_buffer = lib_realloc(fixed.output_buffer, output_buffer_required_size);
+        } else {
+            fixed.output_buffer = lib_malloc(output_buffer_required_size);
+
+            /* schedule a call on the ui thread */
+            gdk_threads_add_timeout(10, uimon_write_to_terminal_impl, NULL);
+        }
+
+        fixed.output_buffer_allocated_size = output_buffer_required_size;
+    }   
+
+    memcpy(fixed.output_buffer + fixed.output_buffer_used_size, data, length);
+    fixed.output_buffer_used_size += length;    
+
+    pthread_mutex_unlock(&fixed.output_lock);
 }
 
 
@@ -375,14 +433,17 @@ static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_d
     return gtk_widget_hide_on_delete(widget);
 }
 
-
+/* \brief Block until some monitor input event happens */
 int uimon_get_string(struct console_private_s *t, char* string, int string_len)
 {
     int retval=0;
     while(retval<string_len) {
         int i;
 
-        gtk_main_iteration();
+        /* give the ui a chance to do stuff, and also don't max out the CPU waiting for input */
+        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        mainlock_yield();
+        
         if (!t->input_buffer) {
             return -1;
         }
@@ -494,17 +555,12 @@ bool uimon_set_font(void)
     return true;
 }
 
-
-console_t *uimon_window_open(void)
+static gboolean uimon_window_open_impl(gpointer user_data)
 {
     GtkWidget *scrollbar, *horizontal_container;
     GdkGeometry hints;
     GdkPixbuf *icon;
     int sblines;
-
-    if (native_monitor()) {
-        return uimonfb_window_open();
-    }
 
     resources_get_int("MonitorScrollbackLines", &sblines);
 
@@ -562,16 +618,16 @@ console_t *uimon_window_open(void)
         g_signal_connect(G_OBJECT(fixed.window), "delete-event",
             G_CALLBACK(close_window), &fixed.input_buffer);
 
-        g_signal_connect(G_OBJECT(fixed.term), "key-press-event",
+        g_signal_connect_unlocked(G_OBJECT(fixed.term), "key-press-event",
             G_CALLBACK(key_press_event), &fixed.input_buffer);
 
         g_signal_connect(G_OBJECT(fixed.term), "button-press-event",
             G_CALLBACK(button_press_event), &fixed.input_buffer);
 
-        g_signal_connect(G_OBJECT(fixed.term), "text-modified",
+        g_signal_connect_unlocked(G_OBJECT(fixed.term), "text-modified",
             G_CALLBACK (screen_resize_window_cb), NULL);
 
-        g_signal_connect(G_OBJECT(fixed.window), "configure-event",
+        g_signal_connect_unlocked(G_OBJECT(fixed.window), "configure-event",
             G_CALLBACK (screen_resize_window_cb2), NULL);
 
         vte_console.console_can_stay_open = 1;
@@ -580,20 +636,14 @@ console_t *uimon_window_open(void)
     } else {
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
-    return uimon_window_resume();
+    
+    uimon_window_resume_impl(user_data);
+    
+    return FALSE;
 }
 
-
-console_t *uimon_window_resume(void)
+static gboolean uimon_window_resume_impl(gpointer user_data)
 {
-#if 0
-    GtkWindow *active;
-#endif
-
-    if (native_monitor()) {
-        return uimonfb_window_resume();
-    }
-
     gtk_widget_show_all(fixed.window);
     screen_resize_window_cb (VTE_TERMINAL(fixed.term), NULL);
 
@@ -610,18 +660,12 @@ console_t *uimon_window_resume(void)
     }
 #endif
     gtk_window_present(GTK_WINDOW(fixed.window));
-
-    ui_dispatch_events();
-    return &vte_console;
+    
+    return FALSE;
 }
 
-void uimon_window_suspend(void)
+static gboolean uimon_window_suspend_impl(gpointer user_data)
 {
-    if (native_monitor()) {
-        uimonfb_window_suspend();
-        return;
-    }
-
     if (fixed.window != NULL) {
         int keep_open = 0;
 
@@ -635,20 +679,82 @@ void uimon_window_suspend(void)
             gtk_window_present(GTK_WINDOW(window));
         }
     }
+
+    return FALSE;
 }
 
-int uimon_out(const char *buffer)
+static gboolean uimon_out_impl(gpointer user_data)
 {
+    char *buffer = (char*)user_data;
     const char *c;
-    if (native_monitor()) {
-        return uimonfb_out(buffer);
-    }
+    
     for(c = buffer; *c; c++) {
         if(*c == '\n') {
             uimon_write_to_terminal(&fixed, "\r", 1);
         }
         uimon_write_to_terminal(&fixed, c, 1);
     }
+    
+    lib_free(buffer);
+
+    return FALSE;
+}
+
+static gboolean uimon_window_close_impl(gpointer user_data)
+{
+    /* only close window if there is one: this avoids a GTK_CRITICAL warning
+     * when using a remote monitor */
+    if (fixed.window != NULL) {
+        gtk_widget_hide(fixed.window);
+    }
+    
+    return FALSE;
+}
+    
+console_t *uimon_window_open(void)
+{
+    if (native_monitor()) {
+        return uimonfb_window_open();
+    }
+    
+    /* call from ui thread */
+    gdk_threads_add_timeout(0, uimon_window_open_impl, NULL);
+    
+    return &vte_console;
+}
+    
+console_t *uimon_window_resume(void)
+{
+    if (native_monitor()) {
+        return uimonfb_window_resume();
+    }
+    
+    /* call from ui thread */
+    gdk_threads_add_timeout(0, uimon_window_resume_impl, NULL);
+    
+    return &vte_console;
+}
+
+void uimon_window_suspend(void)
+{
+    if (native_monitor()) {
+        uimonfb_window_suspend();
+        return;
+    }
+
+    /* call from ui thread */
+    gdk_threads_add_timeout(0, uimon_window_suspend_impl, NULL);
+}
+
+int uimon_out(const char *buffer)
+{
+    if (native_monitor()) {
+        return uimonfb_out(buffer);
+    }
+    
+    /* call from ui thread */
+    gdk_threads_add_timeout(0, uimon_out_impl, (gpointer)lib_strdup(buffer));
+
     return 0;
 }
 
@@ -659,11 +765,8 @@ void uimon_window_close(void)
         return;
     }
 
-    /* only close window if there is one: this avoids a GTK_CRITICAL warning
-     * when using a remote monitor */
-    if (fixed.window != NULL) {
-        gtk_widget_hide(fixed.window);
-    }
+    /* call from ui thread */
+    gdk_threads_add_timeout(0, uimon_window_close_impl, NULL);
 }
 
 void uimon_notify_change(void)
@@ -904,10 +1007,11 @@ gboolean ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
         /* FIXME: restore mouse in case it was grabbed */
         /* ui_restore_mouse(); */
 #endif
-        if (!ui_pause_active()) {
-            monitor_startup_trap();
+
+        if (ui_pause_active()) {
+            ui_pause_enter_monitor();
         } else {
-            monitor_startup(e_default_space);
+            monitor_startup_trap();
         }
     }
     return TRUE;

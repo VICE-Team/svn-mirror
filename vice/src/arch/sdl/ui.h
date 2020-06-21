@@ -51,8 +51,6 @@ typedef enum {
 struct video_canvas_s;
 struct palette_s;
 
-extern void ui_display_speed(float percent, float framerate, int warp_flag);
-extern void ui_display_paused(int flag);
 extern void ui_handle_misc_sdl_event(SDL_Event e);
 extern ui_menu_action_t ui_dispatch_events(void);
 extern void ui_exit(void);

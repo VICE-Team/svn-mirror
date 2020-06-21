@@ -38,9 +38,12 @@
 
 #include <gtk/gtk.h>
 
-#include "cairo_renderer.h"
-#include "opengl_renderer.h"
-#include "quartz_renderer.h"
+#ifdef WIN32_COMPILE
+#   include "directx_renderer.h"
+#else
+#   include "opengl_renderer.h"
+# endif
+
 #include "lightpen.h"
 #include "log.h"
 #include "mousedrv.h"
@@ -510,20 +513,38 @@ static void machine_window_create(video_canvas_t *canvas)
     GtkWidget *new_drawing_area, *new_event_box;
     GtkWidget *menu_bar;
     int backend = 0;
+    char *backend_label;
 
+    resources_get_int("GTKBackend", &backend);
+
+#if 0 /* disabled backend selection. maybe cairo can die now */
     /* TODO: Make the rendering process transparent enough that this can be
              changed when the emulator is running */
-#ifdef HAVE_GTK3_OPENGL
-    resources_get_int("GTKBackend", &backend);
+    canvas->renderer_backend = &vice_cairo_backend;
+    backend_label = "Software";
+
+#ifdef WIN32_COMPILE
+    if (backend) {
+        canvas->renderer_backend = &vice_directx_backend;
+        backend_label = "DirectX";
+    }
+#elif defined(HAVE_GTK3_OPENGL)
     if (backend) {
         canvas->renderer_backend = &vice_opengl_backend;
-    } else {
-        canvas->renderer_backend = &vice_cairo_backend;
+        backend_label = "OpenGL";
     }
-#else
-    canvas->renderer_backend = &vice_cairo_backend;
 #endif
-    log_message(LOG_DEFAULT, "using GTK3 backend: %s", backend ? "OpenGL" : "Software");
+#else
+# ifdef WIN32_COMPILE
+    canvas->renderer_backend = &vice_directx_backend;
+    backend_label = "DirectX";
+# else
+    canvas->renderer_backend = &vice_opengl_backend;
+    backend_label = "OpenGL";
+# endif
+#endif
+
+    log_message(LOG_DEFAULT, "using GTK3 backend: %s", backend_label);
 
     new_drawing_area = canvas->renderer_backend->create_widget(canvas);
     canvas->drawing_area = new_drawing_area;
@@ -536,12 +557,14 @@ static void machine_window_create(video_canvas_t *canvas)
     gtk_widget_add_events(new_event_box, GDK_BUTTON_RELEASE_MASK);
     gtk_widget_add_events(new_event_box, GDK_SCROLL_MASK);
 
-    g_signal_connect(new_event_box, "enter-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
-    g_signal_connect(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
-    g_signal_connect(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
-    g_signal_connect(new_event_box, "button-press-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
-    g_signal_connect(new_event_box, "button-release-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
-    g_signal_connect(new_event_box, "scroll-event", G_CALLBACK(event_box_scroll_cb), canvas);
+    g_signal_connect_unlocked(new_event_box, "enter-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
+    g_signal_connect_unlocked(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
+    
+    /* Important mouse event handling to bypass the lock and be immediately visible to the emulator */
+    g_signal_connect_unlocked(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
+    g_signal_connect_unlocked(new_event_box, "button-press-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
+    g_signal_connect_unlocked(new_event_box, "button-release-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
+    g_signal_connect_unlocked(new_event_box, "scroll-event", G_CALLBACK(event_box_scroll_cb), canvas);
 
     /* I'm pretty sure when running x128 we get two menu instances, so this
      * should go somewhere else: call ui_menu_bar_create() once and attach the

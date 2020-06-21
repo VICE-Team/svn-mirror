@@ -1096,7 +1096,7 @@ gboolean uimedia_dialog_show(GtkWidget *parent, gpointer data)
 
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect(dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
+    g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
 
     gtk_widget_show_all(dialog);
     return TRUE;

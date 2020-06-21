@@ -282,7 +282,7 @@ GtkWidget *acia_widget_create(int *baud)
     serial2_widget = create_acia_serial_device_widget(2);
     gtk_grid_attach(GTK_GRID(grid), serial2_widget, 2, 1, 1, 1);
 
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

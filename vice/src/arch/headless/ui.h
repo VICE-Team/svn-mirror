@@ -45,7 +45,6 @@ enum {
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 
-void ui_display_paused(int flag);
 void ui_dispatch_events(void);
 
 /*

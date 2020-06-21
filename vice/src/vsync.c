@@ -38,8 +38,6 @@
    overflow handling.
 */
 
-int vsync_frame_counter;
-
 #include "vice.h"
 
 /* Port me... */
@@ -68,6 +66,13 @@ int vsync_frame_counter;
 #include "vsync.h"
 #include "vsyncapi.h"
 
+#include "ui.h"
+
+/* public metrics, updated every vsync */
+double vsync_metric_cpu_percent;
+double vsync_metric_emulated_fps;
+int    vsync_metric_warp_enabled;
+
 /* ------------------------------------------------------------------------- */
 
 static int set_timer_speed(int speed);
@@ -80,7 +85,6 @@ static int refresh_rate;
 
 /* "Warp mode".  If nonzero, attempt to run as fast as possible. */
 static int warp_mode_enabled;
-
 
 static int set_relative_speed(int val, void *param)
 {
@@ -108,6 +112,9 @@ static int set_warp_mode(int val, void *param)
 
     sound_set_warp_mode(warp_mode_enabled);
     set_timer_speed(relative_speed);
+
+    /* resid(-dtv).cc use fast resampling for warp mode */
+    sid_state_changed = 1;
 
     return 0;
 }
@@ -209,13 +216,11 @@ static void (*vsync_hook)(void);
 /* static guarantees zero values. */
 static long vsyncarch_freq = 0;
 static unsigned long now;
-static unsigned long display_start;
-static long frame_ticks, frame_ticks_orig;
+static double frame_ticks, frame_ticks_orig;
 
 static int timer_speed = 0;
 static int speed_eval_suspended = 1;
 static int sync_reset = 1;
-static CLOCK speed_eval_prev_clk;
 
 /* Initialize vsync timers and set relative speed of emulation in percent. */
 static int set_timer_speed(int speed)
@@ -223,47 +228,26 @@ static int set_timer_speed(int speed)
     speed_eval_suspended = 1;
     vsync_sync_reset();
 
-    if (speed > 0 && refresh_frequency > 0) {
+    if (speed && refresh_frequency > 0) {
         timer_speed = speed;
-        frame_ticks = (long)(((vsyncarch_freq / refresh_frequency) * 100) / speed);
+        if (speed < 0) {
+            /* negative speeds are fps targets */
+            frame_ticks = ((double)vsyncarch_freq / (0.0 - speed));
+        } else {
+            /* positive speeds are cpu percent targets */
+            frame_ticks = (long)(((vsyncarch_freq / refresh_frequency) * 100) / speed);
+        }
         frame_ticks_orig = frame_ticks;
-    } else {
-        timer_speed = 0;
-        frame_ticks = 0;
+        
+        printf("new frame ticks: %f)\n", frame_ticks); fflush(stdout);
+
+        return 0;
     }
+
+    timer_speed = 0;
+    frame_ticks = 0;
 
     return 0;
-}
-
-/* Display speed (percentage) and frame rate (frames per second). */
-static void display_speed(int num_frames)
-{
-    CLOCK diff_clk;
-    double diff_sec;
-    double speed_index;
-    double frame_rate;
-
-    /* Lie a bit by correcting for sound speed.  This yields a nice
-       100%, 50 fps instead of e.g. 98%, 49fps if the sound hardware
-       should have a slightly different understanding of time. */
-    double factor = timer_speed ? (double)frame_ticks / frame_ticks_orig : 1.0;
-
-    diff_clk = maincpu_clk - speed_eval_prev_clk;
-    diff_sec = (double)(signed long)(now - display_start) / vsyncarch_freq
-               / factor;
-    frame_rate = num_frames / diff_sec;
-    speed_index = 100.0 * diff_clk / (cycles_per_sec * diff_sec);
-
-    if (!console_mode && machine_class != VICE_MACHINE_VSID) {
-        vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
-    }
-
-    speed_eval_prev_clk = maincpu_clk;
-}
-
-static void clk_overflow_callback(CLOCK amount, void *data)
-{
-    speed_eval_prev_clk -= amount;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -284,12 +268,8 @@ void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;
     vsync_suspend_speed_eval();
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
-
-    vsyncarch_init();
 
     vsyncarch_freq = vsyncarch_frequency();  /* number of units per second */
-    /* log_message(LOG_DEFAULT, "VSYNC Init freq: %u", (unsigned int)vsyncarch_freq); */
 }
 
 /* FIXME: This function is not needed here anymore, however it is
@@ -304,58 +284,127 @@ int vsync_disable_timer(void)
    emulation happens, so that we don't display bogus speed values. */
 void vsync_suspend_speed_eval(void)
 {
-    network_suspend();
-    sound_suspend();
+    network_suspend();;
     vsync_sync_reset();
     speed_eval_suspended = 1;
 }
 
-/* This resets sync calculation after a "too slow" or "sound buffer
-   drained" case. */
 void vsync_sync_reset(void)
 {
     sync_reset = 1;
 }
 
-/* This is called at the end of each screen frame. It flushes the
-   audio buffer and keeps control of the emulation speed. */
+#define MEASUREMENT_SMOOTH_FACTOR 0.97
+#define MEASUREMENT_FRAME_WINDOW  250
+
+static void update_performance_metrics(unsigned long frame_time)
+{
+    static int oldest_measurement_index;
+    static int next_measurement_index;
+    static int frames_counted;
+
+    /* For knowing the relevant timespan */
+    static unsigned long frame_times[MEASUREMENT_FRAME_WINDOW];
+    
+    /* For measuring emulator cpu cycles per second */
+    static CLOCK clocks[MEASUREMENT_FRAME_WINDOW];
+    
+    /* how many seconds of wallclock time the measurement window covers */
+    double frame_timespan_seconds;
+    
+    /* how many emulated seconds of cpu time have been emulated */
+    double clock_delta_seconds;
+    
+    if (sync_reset) {
+        sync_reset = 0;
+
+        /*
+         * The emulator is just starting, or resuming from pause, or entering
+         * warp, or exiting warp. So we reset the fps calculations. We also
+         * throw away this initial measurement, because the emulator is just
+         * about to skip the timing sleep and immediately produce the next frame.
+         *
+         * TODO: Don't reset numbers on unpause, and account for the gap.
+         */
+        
+        frame_times[0] = frame_time;
+        clocks[0] = maincpu_clk;
+        
+        next_measurement_index = 1;
+        
+        if (warp_mode_enabled) {
+            /* Don't bother with seed measurements when entering warp mode, just reset */
+            oldest_measurement_index = 0;
+            frames_counted = 1;
+        } else {
+            /*
+             * For normal speed changes, exiting warp etc, initialise with a full set
+             * of fake perfect measurements
+             */
+            for (int i = 1; i < MEASUREMENT_FRAME_WINDOW; i++) {
+                frame_times[i] = frame_time - ((MEASUREMENT_FRAME_WINDOW - i) * frame_ticks);
+                clocks[i] = maincpu_clk - ((MEASUREMENT_FRAME_WINDOW - i) * cycles_per_sec / refresh_frequency);
+            }
+            
+            oldest_measurement_index = 1;
+            frames_counted = MEASUREMENT_FRAME_WINDOW;
+        }
+    
+        /* The final smoothing function requires that we initialise the public metrics */
+        if (timer_speed > 0) {
+            vsync_metric_emulated_fps = (double)timer_speed * refresh_frequency / 100.0;
+            vsync_metric_cpu_percent  = timer_speed;
+        } else {
+            vsync_metric_emulated_fps = (0.0 - timer_speed);
+            vsync_metric_cpu_percent  = (0.0 - timer_speed) / refresh_frequency * 100;
+        }
+        
+        //printf("INIT frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout);
+
+        return;
+    }
+    
+    /* Capure this frame's measurements */
+    frame_times[next_measurement_index] = frame_time;
+    clocks[next_measurement_index] = maincpu_clk;
+
+    if(frames_counted == MEASUREMENT_FRAME_WINDOW) {
+        if (++oldest_measurement_index == MEASUREMENT_FRAME_WINDOW) {
+            oldest_measurement_index = 0;
+        }
+    } else {
+        frames_counted++;
+    }
+    
+    /* Calculate our final metrics */
+    frame_timespan_seconds = (double)(frame_time - frame_times[oldest_measurement_index]) / vsyncarch_freq;
+    clock_delta_seconds = (double)(maincpu_clk - clocks[oldest_measurement_index]) / cycles_per_sec;
+
+    /* smooth and make public */
+    vsync_metric_cpu_percent  = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_cpu_percent)  + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * (clock_delta_seconds / frame_timespan_seconds * 100.0);
+    vsync_metric_emulated_fps = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_emulated_fps) + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * ((double)(frames_counted - 1) / frame_timespan_seconds);
+    vsync_metric_warp_enabled = warp_mode_enabled;
+    
+    //printf("frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout);
+    
+    /* Get ready for next invoke */
+    if (++next_measurement_index == MEASUREMENT_FRAME_WINDOW) {
+        next_measurement_index = 0;
+    }
+}
+
+/* This is called at the end of each screen frame. It flushes the audio buffer. */
 int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
     static unsigned long next_frame_start = 0;
     unsigned long network_hook_time = 0;
-
-    /*
-     * these are the counters to show how many frames are skipped
-     * since the last vsync_display_speed
-     */
-    static int frame_counter = 0;
-    static int skipped_frames = 0;
-
-    /*
-     * This are the frames which are skipped in a row
-     */
-    static int skipped_redraw = 0;
-
-    /* Adjustment of frame output frequency. */
-    static unsigned long adjust_start;
-    static int frames_adjust;
-    static signed long avg_sdelay, prev_sdelay;
-
-    double sound_delay;
-    int skip_next_frame;
-
-    signed long delay;
-
-    long frame_ticks_remainder, frame_ticks_integer;
-    long compval;
+    long delay;
 
 #ifdef HAVE_NETWORK
     /* check if someone wants to connect remotely to the monitor */
     monitor_check_remote();
     monitor_check_binary();
 #endif
-
-    vsync_frame_counter++;
 
     /*
      * process everything wich should be done before the synchronisation
@@ -384,33 +433,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     debug_check_autoplay_mode();
 #endif
 
-    /*
-     * Update display every two second (pc system time)
-     * This has some reasons:
-     *  - we have a better statistic in case of a fastly running emulator
-     *  - we don't slow down fast emulations by updating this value
-     *    too often (eg more then 10 times a second)
-     *  - I don't want to have a value jumping around for example
-     *    between 99% and 101% if the user chooses 100% (s.above)
-     *  - We need some statistict to get an avarage number for the
-     *    frame-rate without staticstics it would also jump around
-     */
-    frame_counter++;
-
-    if (!speed_eval_suspended &&
-        (signed long)(now - display_start) >= (2 * vsyncarch_freq)) {
-        display_speed(frame_counter - skipped_frames);
-        display_start = now;
-        frame_counter = 0;
-        skipped_frames = 0;
-    }
-
-    if (been_skipped) {
-        skipped_frames++;
-    }
-
     /* Flush sound buffer, get delay in seconds. */
-    sound_delay = sound_flush();
+    // sound_delay = sound_flush();
+    sound_flush();
 
     /* Get current time, directly after getting the sound delay. */
     now = vsyncarch_gettime();
@@ -418,32 +443,15 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     /* Start afresh after pause in frame output. */
     if (speed_eval_suspended) {
         speed_eval_suspended = 0;
-
-        speed_eval_prev_clk = maincpu_clk;
-
-        display_start = now;
-        frame_counter = 0;
-        skipped_frames = 0;
+        vsync_sync_reset();
 
         next_frame_start = now;
-        skipped_redraw = 0;
+    } else {
+        update_performance_metrics(now);
     }
-
-    /* Start afresh after "out of sync" cases. */
-    if (sync_reset) {
-        sync_reset = 0;
-
-        adjust_start = now;
-        frames_adjust = 0;
-        avg_sdelay = 0;
-        prev_sdelay = 0;
-
-        frame_ticks = (frame_ticks_orig + frame_ticks) / 2;
-    }
-
 
     /* This is the time between the start of the next frame and now. */
-    delay = (signed long)(now - next_frame_start);
+    delay = next_frame_start - now;
     /*
      * We sleep until the start of the next frame, if:
      *  - warp_mode is disabled
@@ -452,102 +460,11 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
      *
      * We could optimize by sleeping only if a frame is to be output.
      */
-    /*log_debug("vsync_do_vsync: sound_delay=%f  frame_ticks=%d  delay=%d", sound_delay, frame_ticks, delay);*/
-    if (!warp_mode_enabled && timer_speed && (skipped_redraw == 0) && (delay < 0)) {
-        /* FIXME: this is likely implemented as a regular sleep(), which means
-           it will wait *at least* the given time (but may just as well wait
-           much longer. its doomed to break on those archs - we should instead
-           "lean against" the sound output, and let the sound hardware be the
-           timing reference */
-        vsyncarch_sleep(-delay);
+    if (!warp_mode_enabled && timer_speed && delay > 0) {
+        vsyncarch_sleep(delay);
     }
-    /*
-     * Check whether we should skip the next frame or not.
-     * Allow delay of up to one frame before skipping frames.
-     * Frames are skipped:
-     *  - only if maximum skipped frames are not reached
-     *  - if warp_mode enabled
-     *  - if speed is not limited or we are too slow and
-     *    refresh rate is automatic or fixed and needs correction
-     *
-     * Remark: The time_deviation should be the equivalent of two
-     *         frames and must be scaled to make sure, that we
-     *         don't start skipping frames before the CPU reaches 100%.
-     *         If we are becoming faster a small deviation because of
-     *         threading results in a frame rate correction suddenly.
-     */
-
-    /* this doesnt really work correctly, and it shouldnt be neceassary either */
-    frame_ticks_remainder = frame_ticks % 100;
-    frame_ticks_integer = frame_ticks / 100;
-    compval = (frame_ticks_integer * 3 * timer_speed)
-              + ((frame_ticks_remainder * 3 * timer_speed) / 100);
-
-    if ((skipped_redraw < MAX_SKIPPED_FRAMES)
-        && (warp_mode_enabled
-            || (skipped_redraw < (refresh_rate - 1))
-            || ((!timer_speed || delay > compval) && !refresh_rate))
-        ) {
-        /* printf("skipped redraw:%d timer_speed:%3d refresh_rate:%2d delay:%6lx compval:%6lx frame_ticks:%lx\n",
-               skipped_redraw,timer_speed,refresh_rate,delay,compval,frame_ticks); */
-        skip_next_frame = 1;
-        skipped_redraw++;
-    } else {
-        skip_next_frame = 0;
-        skipped_redraw = 0;
-    }
-
-    /*
-     * Check whether the hardware can keep up.
-     * Allow up to 0,25 second error before forcing a correction.
-     */
-    if ((signed long)(now - next_frame_start) >= vsyncarch_freq / 8) {
-        vsync_sync_reset();
-        next_frame_start = now;
-    }
-
-    /* Adjust frame output frequency to match sound speed.
-       This only kicks in for cycle based sound and SOUND_ADJUST_EXACT. */
-    if (frames_adjust < INT_MAX) {
-        frames_adjust++;
-    }
-
-    /* Adjust audio-video sync */
-    if (!network_connected()
-        && (signed long)(now - adjust_start) >= vsyncarch_freq / 5) {
-        signed long adjust;
-        avg_sdelay /= frames_adjust;
-        /* Account for both relative and absolute delay. */
-        adjust = (avg_sdelay - prev_sdelay + avg_sdelay / 8) / frames_adjust;
-        /* Maximum adjustment step 1%. */
-        if (labs(adjust) > (frame_ticks / 100)) {
-            adjust = adjust / labs(adjust) * frame_ticks / 100;
-        }
-        frame_ticks -= adjust;
-
-        frames_adjust = 0;
-        prev_sdelay = avg_sdelay;
-        avg_sdelay = 0;
-
-        adjust_start = now;
-    } else {
-        /* Actual sound delay is sound delay minus vsync delay. */
-        signed long sdelay = (signed long)(sound_delay * vsyncarch_freq);
-        avg_sdelay += sdelay;
-    }
-
-    /* FIXME: The #if 0ed code below improves the FPS rate when
-       "SoundDeviceName" == "pulse" && "RefreshRate" == 0 ("auto") but 
-       seems to cause problems with every other sound driver I have tested. */
-#if 0
-    /* if the frame was skipped, don't advance the time for the next frame, this
-       helps with catching up when rendering falls behind */
-    if ((frame_ticks > 0) && (skipped_redraw < 1)) {
-        next_frame_start += frame_ticks;
-    }
-#else
+    
     next_frame_start += frame_ticks;
-#endif
 
     vsyncarch_postsync();
 
@@ -555,5 +472,6 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     log_debug("vsync: start:%lu  delay:%ld  sound-delay:%lf  end:%lu  next-frame:%lu  frame-ticks:%lu", 
                 now, delay, sound_delay * 1000000, vsyncarch_gettime(), next_frame_start, frame_ticks);
 #endif
-    return skip_next_frame;
+
+    return 0;
 }

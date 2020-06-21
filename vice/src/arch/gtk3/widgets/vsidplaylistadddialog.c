@@ -129,7 +129,7 @@ static GtkWidget *vsid_playlist_add_dialog_create(void)
     lastdir_set(dialog, &last_used_dir);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect(dialog, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_destroy), NULL);
     return dialog;
 }
 

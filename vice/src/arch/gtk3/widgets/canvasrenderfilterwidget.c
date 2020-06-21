@@ -66,7 +66,6 @@ GtkWidget *canvas_render_filter_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *header;
-    GtkWidget *restart;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -80,13 +79,9 @@ GtkWidget *canvas_render_filter_widget_create(void)
             GTK_ORIENTATION_VERTICAL);
     g_object_set(resource_widget, "margin-left", 16, NULL);
 
-    restart = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(restart), "<i>(requires restart)</i>");
-
     gtk_grid_attach(GTK_GRID(grid), header, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), resource_widget, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), restart, 0, 2, 1, 1);
-
+    
     return grid;
 }
 

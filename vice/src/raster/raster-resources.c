@@ -69,6 +69,9 @@ static int set_video_cache_enabled(int val, void *param)
         val = 0;
     }
 
+    /* no more video cache support */
+    val = 0;
+
     if (val >= 0) {
         raster_resource_chip->video_cache_enabled = val;
     }

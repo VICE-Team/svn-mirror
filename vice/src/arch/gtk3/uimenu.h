@@ -31,7 +31,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
-
+#include <stdbool.h>
 
 /** \brief  Menu item types
  *
@@ -91,6 +91,9 @@ typedef struct ui_menu_item_s {
 
     /** modifier (ie Alt) */
     GdkModifierType modifier;
+
+    /** whether the callback should be called while holding the vice mainlock */
+    bool unlocked;
 
 } ui_menu_item_t;
 

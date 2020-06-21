@@ -294,7 +294,7 @@ GtkWidget *vice_gtk3_resource_browser_new(
     /* connect signal handlers */
     g_signal_connect(state->button, "clicked",
             G_CALLBACK(on_resource_browser_browse_clicked), NULL);
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_resource_browser_destroy),
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_resource_browser_destroy),
             NULL);
 
     gtk_widget_show_all(grid);

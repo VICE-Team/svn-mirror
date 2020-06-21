@@ -120,7 +120,7 @@ GtkWidget *kbdlayout_widget_create(void)
 
     /* connect signal handler to free memory used by the radio buttons list
      * when the widget is destroyed */
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

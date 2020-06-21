@@ -41,7 +41,7 @@
 #define LIB_DEBUG_PINPOINT
 #endif
 
-extern void lib_init_rand(void);
+extern void lib_init(void);
 extern unsigned int lib_unsigned_rand(unsigned int min, unsigned int max);
 extern float lib_float_rand(float min, float max);
 

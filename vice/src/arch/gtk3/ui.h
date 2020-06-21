@@ -84,7 +84,7 @@ void ui_destroy_main_window(int index);
 void ui_dispatch_events(void);
 void ui_exit(void);
 
-void ui_display_paused(int flag);
+void ui_update_speed_widgets(void);
 
 int  ui_is_fullscreen(void);
 void ui_trigger_resize(void);
@@ -99,6 +99,7 @@ video_canvas_t *ui_get_active_canvas(void);
  */
 int  ui_pause_active(void);
 void ui_pause_enable(void);
+void ui_pause_enter_monitor(void);
 void ui_pause_disable(void);
 void ui_pause_toggle(void);
 

@@ -666,7 +666,7 @@ static unsigned int cycles_per_rfsh;
 static double rfsh_per_sec;
 
 /* Speed in percent, tracks relative_speed from vsync.c */
-static int speed_percent;
+static double speed_percent;
 
 /* Flag: Is warp mode enabled?  */
 static int warp_mode_enabled;
@@ -875,7 +875,8 @@ static int sid_open(void)
 /* initialize SID engine */
 static int sid_init(void)
 {
-    int c, speed, speed_factor;
+    double speed_factor;
+    int c, speed;
 
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
@@ -1381,7 +1382,6 @@ double sound_flush()
                     drained_warning_count++;
                 }
             }
-            vsync_sync_reset();
         }
         if (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
             if (speed_percent > 0) {
@@ -1625,11 +1625,22 @@ void sound_store(uint16_t addr, uint8_t val, int chipno)
 
 void sound_set_relative_speed(int value)
 {
-    if (value != speed_percent) {
-        sid_state_changed = TRUE;
+    double natural_fps;
+    double new_percent;
+    
+    if (value < 0) {
+        natural_fps = (double)machine_get_cycles_per_second() / machine_get_cycles_per_frame();
+        new_percent = 100.0 * (double)(0 - value) / natural_fps;
+    } else {
+        new_percent = value;
     }
 
-    speed_percent = value;
+    printf("sound new percent: %f\n", new_percent);
+    
+    if (new_percent != speed_percent) {
+        sid_state_changed = TRUE;
+        speed_percent = new_percent;
+    }
 }
 
 void sound_set_warp_mode(int value)

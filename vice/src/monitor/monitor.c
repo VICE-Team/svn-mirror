@@ -2511,6 +2511,7 @@ static void monitor_open(void)
     inside_monitor = true;
     monitor_trap_triggered = false;
     vsync_suspend_speed_eval();
+    sound_suspend();
 
     uimon_notify_change();
 
@@ -2615,7 +2616,6 @@ static void monitor_close(int check)
     memmap_state &= ~(MEMMAP_STATE_IN_MONITOR);
 #endif
     inside_monitor = false;
-    vsync_suspend_speed_eval();
 
     if (exit_mon) {
         exit_mon--;

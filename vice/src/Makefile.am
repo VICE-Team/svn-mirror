@@ -212,6 +212,7 @@ noinst_HEADERS = \
 	main65816cpu.h \
 	maincpu.c \
 	maincpu.h \
+	mainlock.h \
 	mainviccpu.c \
 	mem.h \
 	midi.h \
@@ -311,6 +312,7 @@ base_sources = \
 	machine-bus.c \
 	machine.c \
 	main.c \
+	mainlock.c \
 	network.c \
 	opencbmlib.c \
 	palette.c \
@@ -346,6 +348,7 @@ cpudtvcore_sources = \
 	6510dtvcore.c
 
 COMMON_EXTRA_DIST = \
+	systemheaderoverride/gtk/gtk.h \
 	6510core.c \
 	65816core.c \
 	65c02core.c \

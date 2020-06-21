@@ -102,7 +102,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <gtk/gtk.h> /* for gtk_main_iteration() */
 
 #include "linenoise.h"
 #include "uimon.h"
@@ -246,12 +245,10 @@ void vte_linenoiseClearScreen(struct console_private_s *term) {
 }
 
 static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buflen, const char *prompt) {
-    size_t plen = strlen(prompt);
     size_t pos = 0;
     size_t len = 0;
     size_t cols = uimon_get_columns(term);
     int history_index = 0;
-    int i;
 
     buf[0] = '\0';
     buflen--; /* Make sure there is always space for the nulterm */
@@ -260,22 +257,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
      * initially is just an empty string. */
     vte_linenoiseHistoryAdd("");
 
-    /* HACK HACK HACK
-
-       what we really want to do here is writing the prompt, and then tell VTE
-       to flush its buffers and redraw its terminal. (necessary to make the
-       initial prompt show up reliably, else it may be delayed until a key is
-       pressed, which is confusing and annoying) unfortunately there seems to be
-       no distinct way to do this, however.
-
-       the following loop seems to do the trick (using about 10 iterations, so
-       i am using 20 to be on the safe side). yes its ugly :(
-    */
-    for(i = 0; i < 20; i++) {
-        uimon_write_to_terminal(term, "\r", 1);
-        uimon_write_to_terminal(term, prompt, plen);
-        gtk_main_iteration();
-    }
+    uimon_out(prompt);
 
     while(1) {
         int c;

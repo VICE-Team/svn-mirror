@@ -36,6 +36,4 @@
 
 #include "vice.h"
 
-void ui_display_speed(float percent, float framerate, int warp_flag);
-
 #endif

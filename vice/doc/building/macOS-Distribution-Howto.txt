@@ -18,6 +18,7 @@ dependencies. MacPorts can be configured to compile for older versions of macOS.
    built from source, like this:
 
    $ sudo port uninstall installed
+   $ sudo port install autoconf automake pkgconfig
    $ sudo port -s install gtk3 +quartz
    $ sudo port -s install libsdl2 xa lame glew
    $ sudo port install rust cargo platypus

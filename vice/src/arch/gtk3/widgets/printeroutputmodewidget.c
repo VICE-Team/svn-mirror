@@ -133,7 +133,7 @@ GtkWidget *printer_output_mode_widget_create(int device)
     g_signal_connect(radio_gfx, "toggled", G_CALLBACK(on_radio_toggled),
             (gpointer)"graphics");
 
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -516,7 +516,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), sldb_widget, 1, 9, 1, 1);
 #endif
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     tune_info_grid = grid;

@@ -120,7 +120,7 @@ GtkWidget *vice_gtk3_resource_entry_new(const char *resource)
             vice_gtk3_resource_entry_sync);
 
     g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
-    g_signal_connect(entry, "destroy", G_CALLBACK(on_entry_destroy), NULL);
+    g_signal_connect_unlocked(entry, "destroy", G_CALLBACK(on_entry_destroy), NULL);
 
     gtk_widget_show(entry);
     return entry;
@@ -413,7 +413,7 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
             vice_gtk3_resource_entry_full_reset,
             vice_gtk3_resource_entry_full_factory,
             vice_gtk3_resource_entry_full_sync);
-    g_signal_connect(entry, "destroy",
+    g_signal_connect_unlocked(entry, "destroy",
             G_CALLBACK(on_resource_entry_full_destroy), NULL);
     g_signal_connect(entry, "focus-out-event",
             G_CALLBACK(on_focus_out_event), NULL);

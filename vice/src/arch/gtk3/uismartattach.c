@@ -39,6 +39,7 @@
 #include "diskcontents.h"
 #include "tapecontents.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
 #include "uimachinewindow.h"
@@ -303,13 +304,17 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             /* do we actually have a file to autostart? */
             if (filename != NULL) {
                 do_autostart(widget, user_data);
+                mainlock_release();
                 gtk_widget_destroy(widget);
+                mainlock_obtain();
             }
             break;
 
         /* 'Close'/'X' button */
         case GTK_RESPONSE_REJECT:
+            mainlock_release();
             gtk_widget_destroy(widget);
+            mainlock_obtain();
             break;
         default:
             break;
@@ -445,9 +450,9 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect(dialog, "update-preview",
+    g_signal_connect_unlocked(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
-    g_signal_connect(dialog, "selection-changed",
+    g_signal_connect_unlocked(dialog, "selection-changed",
             G_CALLBACK(on_selection_changed), NULL);
 
 #if 0

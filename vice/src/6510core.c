@@ -2221,6 +2221,7 @@ static const uint8_t rewind_fetch_tab[] = {
 #endif
 #endif
         SET_LAST_ADDR(reg_pc);
+
         FETCH_OPCODE(opcode);
 
 #ifdef FEATURE_CPUMEMHISTORY

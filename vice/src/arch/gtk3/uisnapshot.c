@@ -37,6 +37,7 @@
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "filechooserhelpers.h"
 #include "openfiledialog.h"
@@ -45,6 +46,7 @@
 #include "basedialogs.h"
 #include "interrupt.h"
 #include "vsync.h"
+#include "vsyncapi.h"
 #include "snapshot.h"
 #include "vice-event.h"
 #include "uistatusbar.h"
@@ -153,19 +155,13 @@ static void save_snapshot_dialog(void)
  *                              CPU trap handlers                            *
  ****************************************************************************/
 
+static bool ui_done;
 
-/** \brief  CPU trap handler for the load snapshot dialog
- *
- * \param[in]   addr    memory address (unused)
- * \param[in]   data    unused
- */
-static void load_snapshot_trap(uint16_t addr, void *data)
+static gboolean load_snapshot_trap_impl(gpointer user_data)
 {
     const char *filters[] = { "*.vsf", NULL };
     gchar *filename;
     gchar buffer[1024];
-
-    vsync_suspend_speed_eval();
 
     filename = vice_gtk3_open_file_dialog("Open snapshot file",
             "Snapshot files", filters, NULL);
@@ -179,8 +175,47 @@ static void load_snapshot_trap(uint16_t addr, void *data)
         }
         g_free(filename);
     }
+
+    ui_done = true;
+
+    return FALSE;
 }
 
+/** \brief  CPU trap handler for the load snapshot dialog
+ *
+ * \param[in]   addr    memory address (unused)
+ * \param[in]   data    unused
+ */
+static void load_snapshot_trap(uint16_t addr, void *data)
+{
+    vsync_suspend_speed_eval();
+    sound_suspend();
+
+    /*
+     * We need to use the main thread to do UI stuff. And we
+     * also need to block the VICE thread until we get the
+     * user decision.
+     */
+    ui_done = false;
+    gdk_threads_add_timeout(0, load_snapshot_trap_impl, NULL);
+
+    /* block until the operation is done */
+    while (!ui_done) {
+        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        mainlock_yield();
+    }
+}
+
+/****/
+
+static gboolean save_snapshot_trap_impl(gpointer user_data)
+{
+    save_snapshot_dialog();
+
+    ui_done = true;
+
+    return FALSE;
+}
 
 /** \brief  CPU trap handler to trigger the Save dialog
  *
@@ -190,7 +225,21 @@ static void load_snapshot_trap(uint16_t addr, void *data)
 static void save_snapshot_trap(uint16_t addr, void *data)
 {
     vsync_suspend_speed_eval();
-    save_snapshot_dialog();
+    sound_suspend();
+
+    /*
+     * We need to use the main thread to do UI stuff. And we
+     * also need to block the VICE thread until we get the
+     * user decision.
+     */
+    ui_done = false;
+    gdk_threads_add_timeout(0, save_snapshot_trap_impl, NULL);
+
+    /* block until the operation is done */
+    while (!ui_done) {
+        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        mainlock_yield();
+    }
 }
 
 
@@ -204,6 +253,7 @@ static void quickload_snapshot_trap(uint16_t addr, void *data)
     char *filename = (char *)data;
 
     vsync_suspend_speed_eval();
+    sound_suspend();
 
     debug_gtk3("Quickloading file '%s'.", filename);
     if (machine_read_snapshot(filename, 0) < 0) {
@@ -223,6 +273,7 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
     char *filename = (char *)data;
 
     vsync_suspend_speed_eval();
+    sound_suspend();
 
     debug_gtk3("Quicksaving file '%s'.", filename);
     if (machine_write_snapshot(filename, TRUE, TRUE, 0) < 0) {
@@ -249,7 +300,7 @@ gboolean uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
     if (!ui_pause_active()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, NULL);
     } else {
-        load_snapshot_trap(0, NULL);
+        load_snapshot_trap_impl(NULL);
     }
     return TRUE;
 }
@@ -267,7 +318,7 @@ gboolean uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
     if (!ui_pause_active()) {
         interrupt_maincpu_trigger_trap(save_snapshot_trap, NULL);
     } else {
-        save_snapshot_trap(0, NULL);
+        save_snapshot_trap_impl(NULL);
     }
     return TRUE;
 }

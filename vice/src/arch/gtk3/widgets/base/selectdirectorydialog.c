@@ -31,6 +31,7 @@
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
+#include "mainlock.h"
 
 #include "selectdirectorydialog.h"
 
@@ -57,6 +58,8 @@ gchar *vice_gtk3_select_directory_dialog(
     gint result;
     gchar *filename;
     GtkFileFilter *filter;
+
+    mainlock_assert_is_not_vice_thread();
 
     dialog = gtk_file_chooser_dialog_new(
             title,

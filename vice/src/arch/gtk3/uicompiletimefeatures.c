@@ -150,7 +150,7 @@ gboolean uicompiletimefeatures_dialog_show(GtkWidget *widget, gpointer user_data
     gtk_box_pack_start(GTK_BOX(content), create_content_widget(),
             TRUE, TRUE, 0);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect_unlocked(dialog, "response", G_CALLBACK(on_response), NULL);
     gtk_widget_show_all(dialog);
     return TRUE;
 }

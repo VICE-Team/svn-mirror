@@ -37,6 +37,7 @@
 #include "video.h"
 
 #include <gtk/gtk.h>
+#include <pthread.h>
 
 struct vice_renderer_backend_s;
 
@@ -44,11 +45,11 @@ struct vice_renderer_backend_s;
  * \brief Master data structure for a machine window's primary display.
  */
 typedef struct video_canvas_s {
-    /** \brief Nonzero if it is safe to access other members of the
-     *         structure. */
-    unsigned int initialized;
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
+    
+    /** \brief Used to coordinate vice thread access */
+    pthread_mutex_t lock;
 
     /** \brief Top-level widget that contains the full contents of the
      *         machine window. */
@@ -137,7 +138,7 @@ typedef struct vice_renderer_backend_s {
      *  field if needed, and sets other necessary fields.
      *
      *  \param canvas The canvas to create the widget for.
-     *  \return The newly created canvas.
+     *  \return The newly created widget.
      */
     GtkWidget *(*create_widget)(video_canvas_t *canvas);
     /** \brief Creates or resizes the pixel buffer that this renderer
@@ -161,8 +162,7 @@ typedef struct vice_renderer_backend_s {
     void (*destroy_context)(video_canvas_t *canvas);
     /** \brief Render pixels in the specified rectangle.
      *
-     * This both asks the emulator core to update the renderer context
-     * and asks the UI to display the changed results.
+     * This asks the emulator core to update the renderer context.
      *
      * \param canvas The canvas being rendered to
      * \param xs     A parameter to forward to video_canvas_render()
@@ -176,6 +176,12 @@ typedef struct vice_renderer_backend_s {
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h);
+    /** \brief Queue a redraw operation from the UI thread
+     *
+     * \param clock The window GtkFrameClock generating the event 
+     * \param widget UI widget to queue a redraw for
+     */
+    void (*queue_redraw)(GdkFrameClock *clock, video_canvas_t *canvas);
     /** \brief Initialize the palette for this renderer.
      *
      * \param canvas The canvas being initialized

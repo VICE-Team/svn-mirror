@@ -32,7 +32,7 @@
 #include "types.h"
 
 typedef enum {
-    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_NONE
+    UI_JAM_INVALID = -1, UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_NONE
 } ui_jam_action_t;
 
 typedef enum {
@@ -95,8 +95,5 @@ extern void ui_display_joyport(uint8_t *joyport);
 
 /* Volume UI */
 void ui_display_volume(int vol);
-
-/* Event related UI. */
-extern void ui_dispatch_next_event(void);
 
 #endif

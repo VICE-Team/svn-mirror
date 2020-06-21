@@ -31,6 +31,11 @@
 
 struct video_canvas_s;
 
+/* public metrics, updated every vsync */
+extern double vsync_metric_cpu_percent;
+extern double vsync_metric_emulated_fps;
+extern int    vsync_metric_warp_enabled;
+
 typedef void (*void_hook_t)(void);
 
 /* number of timer units per second - used to calc speed and fps */
@@ -41,9 +46,6 @@ extern unsigned long vsyncarch_gettime(void);
 
 /* call when vsync_init is called */
 extern void vsyncarch_init(void);
-
-/* display speed(%) and framerate(fps) */
-extern void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 
 /* sleep the given amount of timer units */
 extern void vsyncarch_sleep(unsigned long delay);
@@ -56,9 +58,6 @@ extern void vsyncarch_postsync(void);
 
 /* called to advance the emulation by one frame */
 extern void vsyncarch_advance_frame(void);
-
-/* set ui dispatcher function */
-extern void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 
 extern int vsyncarch_vbl_sync_enabled(void);
 

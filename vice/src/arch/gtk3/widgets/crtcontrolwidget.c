@@ -627,7 +627,7 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
 
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -1,8 +1,8 @@
 /**
- * \file opengl_renderer.h
- * \brief   OpenGL-based renderer for the GTK3 backend.
+ * \file directx_renderer.h
+ * \brief   DirectX-based renderer for the GTK3 backend.
  *
- * \author Michael C. Martin <mcmartin@gmail.com>
+ * \author David Hogan <david.q.hogan@gmail.com>
  */
 
 /* This file is part of VICE, the Versatile Commodore Emulator.
@@ -27,17 +27,124 @@
 #ifndef VICE_OPENGL_RENDERER_H
 #define VICE_OPENGL_RENDERER_H
 
+#ifdef HAVE_GTK3_GLEW
+#include <GL/glew.h>
+#endif
+
+#ifndef MACOSX_SUPPORT
+#include <X11/Xlib.h>
+#include <GL/glxew.h>
+#endif
+
 #include "videoarch.h"
 
-#ifdef HAVE_GTK3_OPENGL
-/** \brief A renderer that uses OpenGL to render to a GtkGLArea.
+/** \brief A renderer that uses OpenGL to render to a native child window.
  *
- * This is a very fast and efficient hardware-accelerated renderer. As
- * required by Gtk3, it is implemented against the OpenGL 3.2 core
- * profile and requires nothing else outside of it.
- *
+ * Because OpenGL + GTK3 just doesn't work that well, this.
  */
 extern vice_renderer_backend_t vice_opengl_backend;
-#endif
 
+/** \brief Rendering context for the OpenGL backend.
+ *  \sa video_canvas_s::renderer_context */
+typedef struct vice_opengl_renderer_context_s {
+    /** \brief needed to coordinate access to the context between vice and main threads */
+    pthread_mutex_t canvas_lock;
+
+    /** \brief used to coordinate access to native rendering resources */
+    pthread_mutex_t render_lock;
+
+    /** \brief A 'pool' of one thread used to render backbuffers */
+    GThreadPool *render_thread;
+
+    /** \brief A queue of backbuffers ready for painting to the widget */
+    void *render_queue;
+    
+#ifdef MACOSX_SUPPORT
+    /** \brief native child window for OpenGL to draw on */
+    void *native_view;
+#else
+    /** \brief connection to the x server */
+    Display *x_display;
+
+    /** \brief native child window for OpenGL to draw on */
+    Window x_overlay_window;
+
+    /** \brief native graphics context for OpenGL to draw on */
+    GC x_overlay_graphics_context;
+
+    /** \brief OpenGL graphics context */
+    GLXContext gl_context;
 #endif
+    /** \brief size of the backing layer in pixels. Can be higher than native_view_width (high dpi) */
+    unsigned int gl_backing_layer_width;
+    
+    /** \brief size of the backing layer in pixels. Can be higher than native_view_height (high dpi) */
+    unsigned int gl_backing_layer_height;
+
+    /** \brief location of the native view in gtk coordinates (which are not pixels) */
+    int native_view_x;
+
+    /** \brief location of the native view in gtk coordinates (which are not pixels) */
+    int native_view_y;
+
+    /** \brief size of the native view in gtk coordinates (which are not pixels) */
+    unsigned int native_view_width;
+    
+    /** \brief size of the native view in gtk coordinates (which are not pixels) */
+    unsigned int native_view_height;
+
+    /** \brief minimum size for the drawing area, based on emu and aspect ratio settings */
+    unsigned int native_view_min_width;
+
+    /** \brief minimum size for the drawing area, based on emu and aspect ratio settings */
+    unsigned int native_view_min_height;
+    
+    /** \brief background colour for the native view */
+    float native_view_bg_r;
+    
+    /** \brief background colour for the native view */
+    float native_view_bg_g;
+    
+    /** \brief background colour for the native view */
+    float native_view_bg_b;
+
+    /** \brief The OpenGL program that comprises our vertex and fragment shaders. */
+    GLuint program;
+
+    /** \brief The index of the "position" parameter in the shader program. */
+    GLuint position_index;
+
+    /** \brief The index of the "texCoord" parameter in the shader program. */
+    GLuint tex_coord_index;
+
+    /** \brief The vertex buffer object that holds our vertex data. */
+    GLuint vbo;
+
+    /** \brief The vertex array object that gives structure to our vertex data. */
+    GLuint vao;
+
+    /** \brief The texture identifier for the GPU's copy of our  machine display. */
+    GLuint texture;
+
+    /** \brief size of the next emulated frame */
+    unsigned int emulated_width_next;
+    
+    /** \brief size of the NEXT emulated frame */
+    unsigned int emulated_height_next;
+
+    /** \brief pixel aspect ratio of the next emulated frame */
+    float pixel_aspect_ratio_next;
+
+} vice_opengl_renderer_context_t;
+
+void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context);
+     
+void vice_opengl_renderer_make_current(vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_set_viewport(vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_render(vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context);
+
+#endif /* #ifndef VICE_OPENGL_RENDERER_H */

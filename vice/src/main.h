@@ -30,4 +30,8 @@
 extern int main_program(int argc, char **argv);
 extern void main_exit(void);
 
+#ifdef USE_VICE_THREAD
+extern void vice_thread_shutdown(void);
+#endif
+
 #endif

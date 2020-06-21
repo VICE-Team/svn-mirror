@@ -44,6 +44,7 @@
 #include "machine.h"
 #include "mainc64cpu.h"
 #include "maincpu.h"
+#include "mainlock.h"
 #include "mem.h"
 #include "monitor.h"
 #include "mos6510.h"

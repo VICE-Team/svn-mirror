@@ -144,7 +144,7 @@ static GtkWidget *resource_switch_new_helper(GtkWidget *widget)
             vice_gtk3_resource_switch_sync);
     g_signal_connect(widget, "state-set", G_CALLBACK(on_switch_state_set),
             (gpointer)resource);
-    g_signal_connect(widget, "destroy", G_CALLBACK(on_switch_destroy),
+    g_signal_connect_unlocked(widget, "destroy", G_CALLBACK(on_switch_destroy),
             NULL);
 
     gtk_widget_show(widget);

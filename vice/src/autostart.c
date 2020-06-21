@@ -63,6 +63,7 @@
 #include "machine-bus.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mainlock.h"
 #include "mem.h"
 #include "monitor.h"
 #include "network.h"
@@ -1368,6 +1369,8 @@ int autostart_disk(const char *file_name, const char *program_name,
     char *name = NULL;
 
     DBG(("autostart_disk"));
+    mainlock_assert_is_not_vice_thread();
+    mainlock_assert_lock_obtained();
     
     if (network_connected() || event_record_active() || event_playback_active()
         || !file_name || !autostart_enabled) {
@@ -1672,6 +1675,9 @@ static void set_tapeport_device(int datasette, int tapecart)
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {
+    mainlock_assert_is_not_vice_thread();
+    mainlock_assert_lock_obtained();
+
     if (network_connected() || event_record_active() || event_playback_active()
         || file_name == NULL) {
         return -1;
@@ -1748,6 +1754,9 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 /* Autostart the image attached to device `num'.  */
 int autostart_device(int num)
 {
+    mainlock_assert_is_not_vice_thread();
+    mainlock_assert_lock_obtained();
+    
     if (network_connected() || event_playback_active() || event_record_active()
         || !autostart_enabled) {
         return -1;

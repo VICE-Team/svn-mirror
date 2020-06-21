@@ -30,6 +30,7 @@
 
 #include "filechooserhelpers.h"
 #include "ui.h"
+#include "mainlock.h"
 
 #include "openfiledialog.h"
 
@@ -57,6 +58,8 @@ gchar *vice_gtk3_open_file_dialog(
     GtkFileFilter *filter;
     gint result;
     gchar *filename;
+
+    mainlock_assert_is_not_vice_thread();
 
     dialog = gtk_file_chooser_dialog_new(
             title,
@@ -145,6 +148,8 @@ gchar *vice_gtk3_open_create_file_dialog(
     GtkWidget *dialog;
     gint result;
     gchar *filename;
+
+    mainlock_assert_is_not_vice_thread();
 
     dialog = gtk_file_chooser_dialog_new(
             title,

@@ -160,7 +160,7 @@ static GtkWidget *resource_radiogroup_new_helper(
             vice_gtk3_resource_radiogroup_reset,
             vice_gtk3_resource_radiogroup_factory,
             vice_gtk3_resource_radiogroup_sync);
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_radiogroup_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_radiogroup_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

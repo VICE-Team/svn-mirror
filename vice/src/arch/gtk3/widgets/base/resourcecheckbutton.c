@@ -131,7 +131,7 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
 
     g_signal_connect(check, "toggled", G_CALLBACK(on_check_button_toggled),
             (gpointer)resource);
-    g_signal_connect(check, "destroy", G_CALLBACK(on_check_button_destroy),
+    g_signal_connect_unlocked(check, "destroy", G_CALLBACK(on_check_button_destroy),
             NULL);
 
     gtk_widget_show(check);

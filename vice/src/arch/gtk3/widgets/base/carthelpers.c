@@ -180,7 +180,7 @@ GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
     g_object_set_data(G_OBJECT(check), "CartridgeName", (gpointer)name);
     g_object_set_data(G_OBJECT(check), "CartridgeId", GINT_TO_POINTER(cart_id));
 
-    g_signal_connect(check, "destroy",
+    g_signal_connect_unlocked(check, "destroy",
             G_CALLBACK(on_cart_enable_check_button_destroy), NULL);
     g_signal_connect(check, "toggled",
             G_CALLBACK(on_cart_enable_check_button_toggled), NULL);

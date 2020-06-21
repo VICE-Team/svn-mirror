@@ -46,6 +46,8 @@ static int is_paused = 0;
 static void pause_trap(uint16_t addr, void *data)
 {
     vsync_suspend_speed_eval();
+    sound_suspend();
+    
     while (is_paused) {
         ui_dispatch_events();
         SDL_Delay(10);
@@ -67,7 +69,6 @@ int ui_pause_active(void)
  */
 void ui_pause_enable(void)
 {
-    ui_display_paused(1);
     is_paused = 1;
     interrupt_maincpu_trigger_trap(pause_trap, 0);
 }
@@ -77,7 +78,6 @@ void ui_pause_enable(void)
  */
 void ui_pause_disable(void)
 {
-    ui_display_paused(0);
     is_paused = 0;
 }
 

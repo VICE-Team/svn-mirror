@@ -14,9 +14,10 @@ dnl or CXXFLAGS are empty
 dnl This has to happen before any other AC_* calls, so leave it here please.
 : ${CFLAGS=""}
 : ${CXXFLAGS=""}
+: ${OBJCFLAGS=""}
 
 dnl Set VICE's compiler flags (can be overridden by the user)
-VICE_CPPFLAGS=""
+VICE_CPPFLAGS="-I\$(top_srcdir)/src/systemheaderoverride"
 VICE_CFLAGS="-g -O3"
 VICE_CXXFLAGS="-g -O3"
 VICE_LDFLAGS=""
@@ -125,6 +126,7 @@ AC_PROG_CPP
 AC_PROG_CXX([g++ clang++ cc])
 AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
 AC_PROG_CXXCPP
+AC_PROG_OBJC([gcc clang cc])
 
 dnl Set default CFLAGS
 dnl if test x"$CFLAGS" = "x"; then
@@ -820,9 +822,9 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
   HAVE_RS232NET_SUPPORT="yes"
   if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-    LIBS="$LIBS -lwinmm -lws2_32 -lntdll"
+    LIBS="$LIBS -lwinmm -lws2_32 -lntdll -ld2d1"
   else
-    LIBS="$LIBS -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll"
+    LIBS="$LIBS -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll -ld2d1"
   fi
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -975,6 +977,8 @@ case "$host_os" in
 dnl Mac OS X Host
 darwin*)
 
+  AC_PROG_OBJCPP
+
   is_unix=yes
   is_unix_macosx=yes
   is_unix_x11=yes
@@ -1032,11 +1036,12 @@ darwin*)
   HAVE_LIGHTPEN_SUPPORT="yes"
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
-  VICE_CFLAGS="$VICE_CFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers"
+  VICE_CFLAGS="$VICE_CFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include"
   VICE_LDFLAGS="$VICE_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
-  LIBS="$LIBS -framework CoreText -framework CoreServices -framework OpenGL"
-
+  
+  FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit"
+  LIBS+=" $FRAMEWORKS"
   ;;
 
 dnl All other UN*X systems
@@ -1121,6 +1126,7 @@ if test x"$check_gtk3" = "xyes"; then
   if test x"$have_gtk3_module" = "xyes" -a x"$have_glib2_module" = "xyes"; then
 
     VICE_CFLAGS="$VICE_CFLAGS $GLIB_CFLAGS $GTK_CFLAGS"
+    VICE_CXXFLAGS="$VICE_CXXFLAGS $GLIB_CFLAGS $GTK_CFLAGS"
     LIBS="$LIBS $GTK_LIBS $GLIB_LIBS"
 
     if test x"$is_unix_macosx" = "xyes"; then
@@ -1762,6 +1768,23 @@ if test x"$with_sdlsound" = "xyes"; then
   if test x"$USE_SDL_AUDIO_SUPPORT" != "xyes"; then
     AC_MSG_ERROR([No SDL sound support found])
   fi
+fi
+
+dnl are we putting emu into a background thread (requires UI code support)
+if test x"$enable_native_gtk3ui" = "xyes"; then
+  AC_DEFINE(USE_VICE_THREAD,,[UI and emu each on different threads])
+  VICE_CFLAGS+=" -pthread"
+  VICE_CXXFLAGS+=" -pthread"
+  VICE_LDFLAGS+=" -pthread"
+  show_multithreaded="yes"
+
+  if test x"$is_unix_x11" = x"yes" -a x"$is_unix_macosx" != x"yes"; then
+    dnl xlib is used for adding a native child window for opengl rendering
+    LIBS+=" -lX11"
+  fi
+  
+else
+  show_multithreaded="no"
 fi
 
 dnl This enables the embedded data files feature, which should
@@ -3326,7 +3349,7 @@ if test x"$with_png" != "xno" ; then
       if test x"$HAVE_PNG_SUPPORT" = "xyes"; then
           GFXOUTPUT_LIBS="$PNG_LIBS $GFXOUTPUT_LIBS"
           GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-          VICE_CFLAGS="$PNG_CFLAGS $VICE_CFLAGS";
+          VICE_CFLAGS="$VICE_CFLAGS $PNG_CFLAGS";
           AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
           AC_MSG_RESULT([yes])
       else
@@ -3464,6 +3487,12 @@ AC_SUBST(VICE_CPPFLAGS)
 AC_SUBST(VICE_CFLAGS)
 AC_SUBST(VICE_CXXFLAGS)
 AC_SUBST(VICE_LDFLAGS)
+
+if test x"$is_unix_macosx" = "xyes"; then
+  dnl For now, OBJCFLAGS is the same as CFLAGS
+  VICE_OBJCFLAGS="$VICE_CFLAGS $OBJCFLAGS"
+  AC_SUBST(VICE_OBJCFLAGS)
+fi
 
 AC_SUBST(vsid_LDFLAGS)
 AC_SUBST(x64_LDFLAGS)
@@ -4010,6 +4039,7 @@ echo ""
 echo "Platform canonical: $ac_cv_host"
 echo "Architecture      : $show_arch"
 echo "GUI               : $show_gui"
+echo "Multithreaded     : $show_multithreaded"
 echo ""
 
 echo "SCREEN/UI"
@@ -4235,6 +4265,10 @@ echo "User CFLAGS:    $CFLAGS"
 echo "VICE CFLAGS:    $VICE_CFLAGS"
 echo "User CXXFLAGS:  $CXXFLAGS"
 echo "VICE CXXFLAGS:  $VICE_CXXFLAGS"
+if test x"$is_unix_macosx" = "xyes"; then
+  echo "User OBJCFLAGS: $OBJCFLAGS"
+  echo "VICE OBJCFLAGS: $VICE_OBJCFLAGS"
+fi
 echo "VTE_CXXFLAGS:   $VTE_CXXFLAGS"
 echo "MONITOR_CFLAGS: $MONITOR_CFLAGS"
 echo "User LDFLAGS:   $LDFLAGS"

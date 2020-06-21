@@ -67,36 +67,8 @@ binary dir so they can be found during runtime.
 
 Building on macOS
 -----------------
-Building on Mac requires a number of preconditions for best results.
 
-Due to Apple's deprecation of OpenGL in 10.14, we recommend using SDL2
-exclusively on macOS. SDL2 includes a native Metal-based backend that
-should ensure some level of future-proofing. In the meantime, it also
-transparently uses OpenGL on legacy systems.
-
-We also recommend that third-party package managers such as Brew or
-MacPorts not be present on your build system. These package managers
-tend to interfere with command-line-based compilation and linkage of
-projects that are intended to be wholly self-contained.
-
-The build scripts for VICE require macOS 10.9 Mavericks or later -
-this is the earliest version of macOS that includes the C++ runtime
-present on contemporary Macs.
-
-The only external requirement strictly needed is the SDL2 framework.
-Download it from https://www.libsdl.org, and install it in some
-directory. For the purposes of these instructions, we will assume you
-copy the framework into ~/Frameworks.
-
-Once that has been done, a .dmg may be built by executing the following commands:
-
-./autogen.sh
-FW_DIR=~/Frameworks ./configure --enable-sdlui2 --enable-arch=no
-make
-make bindistzip
-
-TODO: Update instructions for readline, ffmpeg, etc. etc. as needed.
-
+See macOS-Howto.txt
 
 
 Building on Windows with MSYS2

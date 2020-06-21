@@ -125,7 +125,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     /* printf("%s\n", __func__); */
 
     canvas->created = 1;
-    canvas->initialized = 1;
 
     return canvas;
 }

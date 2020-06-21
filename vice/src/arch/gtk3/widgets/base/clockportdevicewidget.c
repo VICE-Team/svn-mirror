@@ -119,7 +119,7 @@ GtkWidget *clockport_device_widget_create(const char *resource)
     }
 
     g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
-    g_signal_connect(combo, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(combo, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(combo);
     return combo;

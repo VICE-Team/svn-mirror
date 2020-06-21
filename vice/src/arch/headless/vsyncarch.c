@@ -55,10 +55,6 @@
 #include <mach/mach_time.h>
 #endif
 
-/* for ui_display_speed() */
-#include "uistatusbar.h"
-
-
 /* hook to ui event dispatcher */
 static void_hook_t ui_dispatch_hook;
 static int pause_pending = 0;
@@ -117,17 +113,6 @@ unsigned long vsyncarch_gettime(void)
 void vsyncarch_init(void)
 {
     /* printf("%s\n", __func__); */
-
-    vsync_set_event_dispatcher(ui_dispatch_events);
-}
-
-/* Display speed (percentage) and frame rate (frames per second). */
-/* TODO: Why does this exist? ui_* is more generic and more widely exposed! */
-void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
-{
-    /* printf("%s\n", __func__); */
-
-    ui_display_speed((float)speed, (float)frame_rate, warp_enabled);
 }
 
 /* for error measurement */
@@ -197,19 +182,6 @@ void vsyncarch_presync(void)
 
 }
 
-void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
-{
-    /* printf("%s\n", __func__); */
-
-    void_hook_t t = ui_dispatch_hook;
-
-    ui_dispatch_hook = hook;
-    return t;
-}
-
-/* FIXME: ui_pause_emulation is not implemented in the OSX port
- *        (Not true anymore I think)
- */
 void vsyncarch_postsync(void)
 {
     /* printf("%s\n", __func__); */

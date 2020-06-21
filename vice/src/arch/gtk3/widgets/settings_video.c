@@ -518,7 +518,7 @@ GtkWidget *settings_video_create(GtkWidget *parent)
             create_layout(parent, chip, 0),
             0, 0, 1, 1);
 
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -553,7 +553,7 @@ GtkWidget *settings_video_create_vdc(GtkWidget *parent)
             create_layout(parent, "VDC", 0),
             0, 0, 1, 1);
 
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    g_signal_connect_unlocked(grid, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(grid);
     return grid;
 }
