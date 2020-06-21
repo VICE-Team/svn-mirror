@@ -2291,8 +2291,6 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
     child = gtk_paned_get_child2(GTK_PANED(paned_widget));
 #endif
     if (child != NULL) {
-        debug_gtk3("got child widget, calling destroy on child (and setting"
-                " the resource_manager reference to NULL)");
         gtk_widget_destroy(child);
 #if 0
         resource_manager = NULL;

@@ -146,8 +146,9 @@ static void video_model_callback(int model)
 #endif
         debug_gtk3("got true model %d", true_model);
         machine_model_widget_update(machine_widget);
-
-        plus4_debug_dump_resources();
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            plus4_debug_dump_resources();
+        }
     }
 }
 
