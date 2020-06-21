@@ -38,7 +38,7 @@
 #include <stdlib.h>
 #include <string.h>
 #ifdef WIN32_COMPILE
-#include <Objbase.h>
+#include <objbase.h>
 #endif
 #ifdef USE_VICE_THREAD
 #include <pthread.h>
