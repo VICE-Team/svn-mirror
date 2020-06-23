@@ -3821,7 +3821,6 @@ AC_OUTPUT([Makefile
            doc/building/Makefile
            doc/html/Makefile
            doc/readmes/Makefile
-           man/Makefile
            src/Makefile
            src/debug.h
            src/arch/Makefile
