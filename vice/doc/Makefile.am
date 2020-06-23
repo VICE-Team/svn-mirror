@@ -30,12 +30,11 @@ STYLE_TOOLS = \
 	indent-test.c \
 	uncrustify.cfg
 
-# VICE_DOX is conditionally extended with vice.pdf, vice.hlp etc
-VICE_DOX = \
-	vice.txt
-	
-info_TEXINFOS = vice.texi
-AM_MAKEINFOFLAGS = -D$(PLATFORM_DOX_FLAGS)
+# VICE_DOX is conditionally extended with vice.pdf
+VICE_DOX =
+
+# info_TEXINFOS = vice.texi
+# AM_MAKEINFOFLAGS = -D$(PLATFORM_DOX_FLAGS)
 
 dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
 
@@ -53,11 +52,13 @@ endif
 	fi
 	touch .vice-texi-charset-ok
 
+#if 0
 $(builddir)/vice.txt:	.vice-texi-charset-ok
 	touch vicetmp.txt
 	LC_ALL=C $(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o vicetmp.txt --no-validate --no-headers $(srcdir)/vice.texi
 	$(srcdir)/fixdox.sh txt <vicetmp.txt | LC_ALL=C sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
+#endif
 
 if ENABLE_PDF_DOCS
 VICE_DOX += vice.pdf
