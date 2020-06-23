@@ -54,6 +54,13 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+/* all */
+    { "HAVE_DEBUG_THREADS", "Enable thread debugging code",
+#ifdef HAVE_DEBUG_THREADS
+        1 },
+#else
+        0 },
+#endif
 /* (all) */
     { "FEATURE_CPUMEMHISTORY", "Use the memmap feature.",
 #ifndef FEATURE_CPUMEMHISTORY

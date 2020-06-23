@@ -87,6 +87,7 @@ VICE_ARG_ENABLE_LIST(pdf-docs,    [  --enable-pdf-docs       generate the PDF do
 VICE_ARG_ENABLE_LIST(html-docs,   [  --enable-html-docs      install the HTML documentation [[default=no]]])
 VICE_ARG_ENABLE_LIST(sandbox-mode, [ --enable-sandbox-mode    enable support for sandboxed mode on Linux [[default=no]]])
 VICE_ARG_ENABLE_LIST(cmake,      [  --enable-cmake           enable generation of CMakeLists.txt files [[default=no]]])
+VICE_ARG_ENABLE_LIST(debug-threads, [ --enable-debug-threads    enable debug messages about the threading code [[default=no]]])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -441,6 +442,7 @@ HAVE_FASTSID_SUPPORT="no"
 HAVE_RESID_SUPPORT="no "
 FEATURE_CPUMEMHISTORY_SUPPORT="no "
 DEBUG_SUPPORT="no "
+DEBUG_THREADS_SUPPORT="no"
 USE_EMBEDDED_SUPPORT="no "
 
 HAVE_FONTCONFIG_SUPPORT="no"
@@ -1106,6 +1108,15 @@ else
 fi
 
 AC_SUBST(DEBUGBUILD)
+
+
+dnl Check for threading code debugging
+AM_CONDITIONAL(HAVE_DEBUG_THREADS, test x"$enable_debug_threads" = "xyes")
+if test x"$enable_debug_threads" = x"yes"; then
+  DEBUG_THREADS_SUPPORT="yes"
+  AC_DEFINE(HAVE_DEBUG_THREADS,,[Enable threading debug support])
+fi
+
 
 dnl Check and setup native GTK3 compilation, only fail if the gtk3 ui was requested
 if test x"$check_gtk3" = "xyes"; then
@@ -4255,6 +4266,7 @@ echo "FastSID support            : $HAVE_FASTSID_SUPPORT (--with/without-fastsid
 echo "ReSID support              : $HAVE_RESID_SUPPORT (--with/without-resid)"
 echo "65xx CPU history support   : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
 echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
+echo "Threading debug support    : $DEBUG_THREADS_SUPPORT (--enable/disable-debug-threads"
 echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embedded)"
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 
