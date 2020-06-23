@@ -926,7 +926,7 @@ static void generate_vice_1(char *in_path, char *out_path, char *filename)
 int main(int argc, char *argv[])
 {
     int i;
-    if (argc < 10) {
+    if (argc < 9) {
         printf("too few arguments\n");
         exit(1);
     }
@@ -940,8 +940,6 @@ int main(int argc, char *argv[])
     /* argv[7] = Credits.html file for writing */
     /* argv[8] = README file for reading and writing */
     /* argv[9] = index.html file for reading and writing */
-    /* argv[10] = dialogs.rc file for reading and writing */
-    /* argv[11] = vice.1 file for writing */
 
     generate_infocontrib(argv[1], argv[2], argv[3], argv[4], argv[5]);
 
@@ -950,9 +948,9 @@ int main(int argc, char *argv[])
     generate_readme(argv[1], argv[2], argv[7]);
 
     generate_index_html(argv[1], argv[2], argv[8]);
-
+#if 0
     generate_vice_1(argv[1], argv[2], argv[9]);
-
+#endif
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);
     }
