@@ -85,6 +85,13 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
             lib_free(complete);
             return NULL;
         }
+    } else {
+        if (command == FILEIO_COMMAND_WRITE) {
+        /* A real drive doesn't overwrite an existing file,
+           so we should not either.  */
+            lib_free(complete);
+            return NULL;
+        }
     }
 
     info = lib_malloc(sizeof(rawfile_info_t));

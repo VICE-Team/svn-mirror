@@ -248,6 +248,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     }
 
     /* Open file for write mode access.  */
+    /* TODO: check for @0:filename to overwrite. */
     if (bufinfo[secondary].mode == Write) {
         if (fsdevice_save_p00_enabled[vdrive->unit - 8]) {
             format = FILEIO_FORMAT_P00;
