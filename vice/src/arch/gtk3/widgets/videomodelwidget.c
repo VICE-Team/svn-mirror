@@ -5,7 +5,7 @@
  */
 
 /*
- * FIXME:   This widget get's its resource name from another widget, so its
+ * FIXME:   This widget gets its resource name from another widget, so its
  *          a little more involved to figure out exacly what resources are
  *          set for which video chip.
  * Controls the following resource(s):
@@ -69,10 +69,13 @@ static int get_model_index(int model)
 static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 {
     int model_id = GPOINTER_TO_INT(user_data);
+#if 0
     debug_gtk3("got model ID %d.", model_id);
-
+#endif
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
+#if 0
         debug_gtk3("setting '%s' to %d.", resource_name, model_id);
+#endif
         if (resources_set_int(resource_name, model_id) < 0) {
             log_error(LOG_ERR, "failed to set %s to %d\n",
                     resource_name, model_id);
@@ -84,7 +87,9 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
             if (parent != NULL) {
                 callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
                 if (callback != NULL) {
+#if 0
                     debug_gtk3("triggering extra callback with %d.", model_id);
+#endif
                     callback(model_id);
                 }
             }
@@ -176,8 +181,9 @@ void video_model_widget_update(GtkWidget *widget)
 
     resources_get_int(resource_name, &model_id);
     index = get_model_index(model_id);
+#if 0
     debug_gtk3("got resource %d, index %d.", model_id, index);
-
+#endif
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio) && (index == i)) {
             /* don't update radio button when it's already active, inhibiting
@@ -203,7 +209,9 @@ void video_model_widget_connect_signals(GtkWidget *widget)
 
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
+#if 0
             debug_gtk3("adding model ID %d.", model_list[i].id);
+#endif
             g_signal_connect(radio, "toggled", G_CALLBACK(on_model_toggled),
                     GINT_TO_POINTER(model_list[i].id));
         } else {

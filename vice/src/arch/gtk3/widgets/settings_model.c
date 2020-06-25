@@ -467,8 +467,37 @@ static void machine_model_handler_c64(int model)
 static void machine_model_handler_c128(int model)
 {
     GtkWidget *sid_group;
+#ifdef HAVE_DEBUG_GTK3UI
+    int res_board_type = -1;
+    int res_vdc_revision = -1;
+    int res_vdc_64kb = -1;
+    int res_machine_type = -1;
+    int res_video_standard = -1;
+    int res_cia1 = -1;
+    int res_cia2 = -1;
+    int res_sid = -1;
 
     debug_gtk3("Got model change for C128: %d.", model);
+
+    resources_get_int("BoardType",      &res_board_type);
+    resources_get_int("VDCRevision",    &res_vdc_revision);
+    resources_get_int("VDC64KB",        &res_vdc_64kb);
+    resources_get_int("MachineType",    &res_machine_type);
+    resources_get_int("MachineVideoStandard",    &res_video_standard);
+    resources_get_int("CIA1Model",      &res_cia1);
+    resources_get_int("CIA2Model",      &res_cia2);
+    resources_get_int("SIDModel",       &res_sid);
+
+    printf("=== %s ===\n", __func__);
+    printf("    BoardType             : %d\n", res_board_type);
+    printf("    VDCRevision           : %d\n", res_vdc_revision);
+    printf("    VDC64KB               : %d\n", res_vdc_64kb);
+    printf("    MachineType           : %d\n", res_machine_type);
+    printf("    MachineVideoStandard: : %d\n", res_video_standard);
+    printf("    CIA1                  : %d\n", res_cia1);
+    printf("    CIA2                  : %d\n", res_cia2);
+    printf("    SIDModel              : %d\n", res_sid);
+#endif
 
     /* sync video chip (VICIIe) widget */
     video_model_widget_update(video_widget);

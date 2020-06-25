@@ -2068,8 +2068,10 @@ static void on_tree_selection_changed(
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
         gtk_tree_model_get(model, &iter, COLUMN_ID, &id, -1);
+#if 0
         debug_gtk3("node name: %s", name);
         debug_gtk3("node ID: %s", id);
+#endif
         if (callback != NULL) {
             GtkTreeIter parent;
             char *title;
@@ -2284,8 +2286,8 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
 {
     GtkWidget *child;
 
-    debug_gtk3("checking for child");
 #if 0
+    debug_gtk3("checking for child");
     child = gtk_grid_get_child_at(GTK_GRID(settings_grid), 1, 0);
 #else
     child = gtk_paned_get_child2(GTK_PANED(paned_widget));
@@ -2350,8 +2352,9 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     } else {
         /* try to restore the page last shown */
         GtkTreeIter iter;
-
+#if 0
         debug_gtk3("Attempting to get previous settings page");
+#endif
         if (!gtk_tree_model_get_iter(GTK_TREE_MODEL(settings_model), &iter,
                     last_node_path)) {
             debug_gtk3("Oops");
@@ -2662,8 +2665,9 @@ gboolean ui_settings_dialog_activate_node(const char *path)
 
                     GtkTreeSelection *selection;
                     GtkTreePath *tree_path;
-
+#if 0
                     debug_gtk3("GOT THE ITEM!");
+#endif
                     selection = gtk_tree_view_get_selection(
                             GTK_TREE_VIEW(settings_tree));
                     tree_path = gtk_tree_model_get_path(

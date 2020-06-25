@@ -187,10 +187,14 @@ void vdc_model_widget_update(GtkWidget *widget)
 
         while ((radio = gtk_grid_get_child_at(
                         GTK_GRID(rev_widget), 0, i)) != NULL) {
+#if 0
             debug_gtk3("index = %d, i = %d.", index, i);
+#endif
             if (GTK_IS_RADIO_BUTTON(radio)) {
                 if (i == index) {
+#if 0
                     debug_gtk3("setting toggle button.");
+#endif
                     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio),
                             TRUE);
                     break;
@@ -226,9 +230,13 @@ void vdc_model_widget_connect_signals(GtkWidget *widget)
     grid = gtk_grid_get_child_at(GTK_GRID(widget), 0, 2);
     while ((radio = gtk_grid_get_child_at(
                     GTK_GRID(grid), 0, i)) != NULL) {
+#if 0
         debug_gtk3("Connection signsal handler %d", i);
+#endif
         if (GTK_IS_RADIO_BUTTON(radio)) {
+#if 0
             debug_gtk3("IS RADIO");
+#endif
             g_signal_connect(radio, "toggled", G_CALLBACK(on_revision_toggled),
                     GINT_TO_POINTER(vdc_revs[i].id));
         }
