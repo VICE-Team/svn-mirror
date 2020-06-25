@@ -28,7 +28,7 @@
 #
 # Usage: make-bindist.sh <strip=$1> <vice-version=$2> <--enable-arch=$3> <zip|nozip=$4> <x64-included=$5>
 #                        <top-srcdir=$6> <top-builddir=$7> <cpu=$8> <SDL-version=$9> <sdl-config=$10>
-#                        <cross=$11> <objdump=$12> <compiler=$13>
+#                        <cross=$11> <objdump=$12> <compiler=$13> <--enable-html-docs=$14>
 #
 
 STRIP=$1
@@ -41,17 +41,20 @@ TOPBUILDDIR=$7
 CPU=$8
 SDLVERSION=$9
 
-shift
+shift   # $10
 SDLCONFIG=$9
 
-shift
+shift   # $11
 CROSS=$9
 
-shift
+shift   # $12
 OBJDUMP=$9
 
-shift
+shift   # $13
 COMPILER=$9
+
+shift   # $14
+HTML_DOCS=$9
 
 
 # Try to get the SVN revision
@@ -107,8 +110,10 @@ fi
 
 BINDIST_DIR="$SDLNAME-$VICEVERSION-$WINXX$SVN_SUFFIX"
 
-echo "Removing an old $BINDIST_DIR"
-rm -f -r $BINDIST_DIR
+if test -e "$BINDIST_DIR"; then
+    echo "Removing an old $BINDIST_DIR"
+    rm -f -r $BINDIST_DIR
+fi
 mkdir $BINDIST_DIR
 
 
@@ -164,8 +169,10 @@ cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BINDIST_DIR
 rm -f `find $BINDIST_DIR -name "Makefile*"`
 rm -f `find $BINDIST_DIR -name "gtk3_*"`
 mkdir $BINDIST_DIR/doc
-cp -a $TOPSRCDIR/doc/html/* $BINDIST_DIR/doc
-cp -a -u $TOPBUILDDIR/doc/html/* $BINDIST_DIR/doc
+if test x"$HTML_DOCS" = "xyes"; then
+    cp -a $TOPSRCDIR/doc/html/* $BINDIST_DIR/doc
+    cp -a -u $TOPBUILDDIR/doc/html/* $BINDIST_DIR/doc
+fi
 rm -f $BINDIST_DIR/doc/Makefile* $BINDIST_DIR/doc/texi2html
 rm -f $BINDIST_DIR/doc/checklinks.sh $BINDIST_DIR/doc/sitemap.xml
 rm -f $BINDIST_DIR/doc/robots.txt $BINDIST_DIR/doc/COPYING $BINDIST_DIR/doc/NEWS

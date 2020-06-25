@@ -1,5 +1,13 @@
 ACLOCAL_AMFLAGS=-Im4
 
+# Install HTML docs?
+if ENABLE_HTML_DOCS
+HTML_DOCS=yes
+else
+HTML_DOCS=no
+endif
+
+
 if VICE_QUIET
 .SILENT:
 endif
@@ -146,10 +154,10 @@ bindistzip:
 else
 if SDL_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ nozip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
 endif
 endif
 endif
