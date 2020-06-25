@@ -60,27 +60,33 @@ vdc_t vdc;
 
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data);
 
-/* return pixel aspect ratio for current video mode */
-/* FIXME: calculate proper values.
-   look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
-   for an example calculation
+/* return pixel aspect ratio for current video mode
+ * Based on http://codebase64.com/doku.php?id=base:pixel_aspect_ratio
+   ..but modified for VDC timing with VDC pixel clock of 16MHz.
+ * For a PAL signal with square pixels you need a pixel clock of 14.75MHz
+   so that means that the ratio is 14.75 / 16 = 0.921875
+ * For a NTSC signal with square pixels you need a pixel clock of 12.2727MHz
+   so that means that the ratio is 12.2727 / 16 = 0.76704375
+ * The article above compensates for the VIC-II's not quite standard line
+   frequency but that is not necessary here as the VDC produces exact PAL & NTSC
+   line frequency of 64µs & 63.5µs respectively with default kernal values.
+ * NOTE if we were not using Stretch_Vertically by default we could be halving
+   the value here to achieve the correct aspect naturally..
 */
 static float vdc_get_pixel_aspect(void)
 {
-/*
     int video;
     resources_get_int("MachineVideoStandard", &video);
     switch (video) {
         case MACHINE_SYNC_PAL:
         case MACHINE_SYNC_PALN:
-            return 0.936f;
+            return 0.92187500f;
+        case MACHINE_SYNC_NTSC:
+        case MACHINE_SYNC_NTSCOLD:
+            return 0.76704375f;
         default:
-            return 0.75f;
+            return 1.0f;
     }
-*/
-    return 1.0f;    /* CGA 320x200 aspect is 1:1.2 or 0.8333.. but this looks too tall & narrow when set */
-    /* If we were not using Stretch_Vertically by default we could be using the CGA 640x200 aspect of 2.4:1 or 0.41666.. */
-    /* FIXME calculate this to the extreme level that the VIC ratios above are based on the 16MHz VDC clock */
 }
 
 /* return type of monitor used for current video mode */
