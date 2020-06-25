@@ -255,15 +255,16 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
             format = FILEIO_FORMAT_RAW;
         }
 
+        DBG(("fsdevice_open_file write '%s'\n", rname));
+        fsdevice_limit_createnamelength(vdrive, rname);
+        DBG(("fsdevice_open_file write limited: '%s'\n", rname));
+
         if (cmd_parse->atsign) {
             /* TODO: maybe rename to a backup name */
             DBG(("fsdevice_open_file scratch @'%s'\n", rname));
             fileio_scratch(rname, fsdevice_get_path(vdrive->unit), format);
         }
 
-        DBG(("fsdevice_open_file write '%s'\n", rname));
-        fsdevice_limit_createnamelength(vdrive, rname);
-        DBG(("fsdevice_open_file write limited: '%s'\n", rname));
         finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
                             FILEIO_COMMAND_WRITE, bufinfo[secondary].type);
 
