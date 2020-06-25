@@ -248,13 +248,19 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     }
 
     /* Open file for write mode access.  */
-    /* TODO: check for @0:filename to overwrite. */
     if (bufinfo[secondary].mode == Write) {
         if (fsdevice_save_p00_enabled[vdrive->unit - 8]) {
             format = FILEIO_FORMAT_P00;
         } else {
             format = FILEIO_FORMAT_RAW;
         }
+
+        if (cmd_parse->atsign) {
+            /* TODO: maybe rename to a backup name */
+            DBG(("fsdevice_open_file scratch @'%s'\n", rname));
+            fileio_scratch(rname, fsdevice_get_path(vdrive->unit), format);
+        }
+
         DBG(("fsdevice_open_file write '%s'\n", rname));
         fsdevice_limit_createnamelength(vdrive, rname);
         DBG(("fsdevice_open_file write limited: '%s'\n", rname));
@@ -378,12 +384,23 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     cmd_parse.cmd = name;
     cmd_parse.cmdlength = length;
     cmd_parse.secondary = secondary;
+
     DBG(("fsdevice_open cmd_parse '%s'\n", name));
 
     rc = cbmdos_command_parse(&cmd_parse);
     if (rc != SERIAL_OK) {
         status = SERIAL_ERROR;
         goto out;
+    }
+
+    /*
+       Check for '@0:filename' or '@:filename'. Must include a ':'.
+       (original filename starts with '@', but parsed version doesn't)
+       '@filename' will open a file starting with '@'!
+     */
+    if (length > 0 && name[0] == '@' &&
+          !(cmd_parse.parselength > 0 && cmd_parse.parsecmd[0] == '@')) {
+        cmd_parse.atsign = 1;
     }
 
     bufinfo[secondary].type = cmd_parse.filetype;

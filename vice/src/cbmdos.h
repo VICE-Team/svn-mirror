@@ -125,6 +125,7 @@ struct cbmdos_cmd_parse_s {
     unsigned int filetype; /* output */
     unsigned int recordlength; /* output */
     int drive; /* output: drive number */
+    unsigned int atsign; /* @0:filename, detected in fsdevice_open() */
 };
 typedef struct cbmdos_cmd_parse_s cbmdos_cmd_parse_t;
 

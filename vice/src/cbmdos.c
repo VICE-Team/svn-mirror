@@ -176,6 +176,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     log_debug("CBMDOS parse cmd: '%s' cmdlen: %d", cmd_parse->cmd, cmd_parse->cmdlength);
 #endif
 
+    cmd_parse->atsign = 0;
     cmd_parse->parsecmd = NULL;
     cmd_parse->readmode = (cmd_parse->secondary == 1)
                           ? CBMDOS_FAM_WRITE : CBMDOS_FAM_READ;
@@ -229,12 +230,6 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 
 #ifdef DEBUG_CBMDOS
     log_debug("CBMDOS parse pattern: '%s' drive:%d", p, cmd_parse->drive);
-#endif
-
-#if 0
-    if (cmd_parse->cmd[0] == '@' && p == cmd_parse->cmd) {
-        p++;
-    }
 #endif
 
     cmdlen = cmd_parse->cmdlength - (int)(p - cmd_parse->cmd);
