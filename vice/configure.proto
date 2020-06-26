@@ -1363,9 +1363,9 @@ if test x"$check_sdl2" = "xyes"; then
 
   dnl fail if SDL2 ui was requested, otherwise restore flags and continue
   if test x"$found_sdl2" = "xno"; then
-    CFLAGS=$old_cflags
-    CXXFLAGS=$old_cxxflags
-    LIBS=$old_libs
+    CFLAGS="$old_cflags"
+    CXXFLAGS="$old_cxxflags"
+    LIBS="$old_libs"
 
     if test x"$enable_sdlui2" = "xyes"; then
       AC_MSG_ERROR([SDL2 UI requested, but SDL2 is missing])
@@ -1388,10 +1388,10 @@ if test x"$check_sdl2" = "xyes"; then
         check_sdl2audio=yes
     fi
 
-	user_CFLAGS="$CFLAGS"
-	user_CXXFLAGS="$CXXFLAGS"
-	CFLAGS="$VICE_CFLAGS"
-	CXXFLAGS="$VICE_CXXFLAGS"
+    user_CFLAGS="$CFLAGS"
+    user_CXXFLAGS="$CXXFLAGS"
+    CFLAGS="$VICE_CFLAGS"
+    CXXFLAGS="$VICE_CXXFLAGS"
 
     dnl only do if audio needs to be checked
     if test x"$check_sdl2audio" = "xyes"; then
@@ -1452,10 +1452,12 @@ if test x"$check_sdl2" = "xyes"; then
           LIBS="$LIBS -luserenv"
           ;;
       esac
+
+        LIBS="$LIBS -static-libstdc++"
     fi
 
-	CFLAGS="$user_CFLAGS"
-	CXXFLAGS="$user_CXXFLAGS"
+    CFLAGS="$user_CFLAGS"
+    CXXFLAGS="$user_CXXFLAGS"
   fi
 fi
 
@@ -1910,8 +1912,8 @@ RESID_DTV_LIBS=
 RESID_DTV_INCLUDES=
 RESID_DTV_DEP=
 
-
-LINKCC='$(CC)'
+dnl Set linker to C++ compiler/linker: even SDL builds use C++ code (linenoise-ng)
+LINKCC='$(CXX)'
 
 dnl disable reSID for certain platforms
 
