@@ -80,14 +80,17 @@ static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
 static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 {
     int state;
-    const gchar *resname;
+    const gchar *resource;
 
-    resname = resource_widget_get_resource_name(check);
-    if (resources_get_int(resname, &state) > 0) {
+    resource = resource_widget_get_resource_name(check);
+    if (resources_get_int(resource, &state) > 0) {
         /* warning */
+        log_error(LOG_ERR, "invalid resource name '%s'\n", resource);
         return;
     }
-    resources_set_int(resname, !state);
+    /* Whatever value the check button is now, use as the new resource value */
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)) ? 1 : 0;
+    resources_set_int(resource, state);
 }
 
 
