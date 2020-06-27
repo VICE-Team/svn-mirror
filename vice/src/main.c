@@ -37,7 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef WIN32_COMPILE
+#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
 #include <objbase.h>
 #endif
 #ifdef USE_VICE_THREAD
@@ -91,7 +91,7 @@ void *vice_thread_main(void *);
 static pthread_t vice_thread = 0;
 #endif
 
-#ifdef WIN32_COMPILE
+#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
 static void shutdown_com(void);
 #endif
 
@@ -357,7 +357,7 @@ void *vice_thread_main(void *unused)
 
 #endif /* #ifdef USE_VICE_THREAD */
 
-#ifdef WIN32_COMPILE
+#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
 static void shutdown_com(void)
 {
     CoUninitialize();
