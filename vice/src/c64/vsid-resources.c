@@ -212,6 +212,9 @@ static const resource_int_t resources_int[] = {
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
     { "SidTripleAddressStart", 0xdf00, RES_EVENT_SAME, NULL,
       (int *)&sid_triple_address_start, sid_set_sid_triple_address, NULL },
+    { "SidQuadAddressStart", 0xdf80, RES_EVENT_SAME, NULL,
+      (int *)&sid_quad_address_start, sid_set_sid_quad_address, NULL },
+
     RESOURCE_INT_LIST_END
 };
 
