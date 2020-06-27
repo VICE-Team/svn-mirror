@@ -223,8 +223,6 @@ EXTRA_DIST = \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_osx.sh \
-	make-bindist_scosol.sh \
-	make-bindist_skyos.sh \
 	make-bindist_win32.sh \
 	macOS-ui-runtime.sh \
 	Resources/VICE.icns \
