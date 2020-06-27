@@ -96,11 +96,6 @@ Welcome to x64, the free portable C64 emulator.
 
 install additional packages:
 
-$ sudo apt-get install libvte-dev         # (NOT libvte-2.90/2.91-dev) for GUI
-                                          # monitor terminal window
-
-$ sudo apt-get install libpulse-dev       # for pulse audio support
-
 $ sudo apt-get install libpcap-dev        # for ethernet emulation
 
 $ sudo apt-get install libavcodec-dev     # for video capturing support
