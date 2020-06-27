@@ -115,7 +115,7 @@ int main_program(int argc, char **argv)
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
 
-#ifdef WIN32_COMPILE
+#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
     /* Something on the main thread does something with COM that causes complaint in a debugger. */
     CoInitializeEx(NULL, COINIT_MULTITHREADED);
     archdep_vice_atexit(shutdown_com);
