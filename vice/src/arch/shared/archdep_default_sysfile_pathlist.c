@@ -148,7 +148,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     || defined(ARCHDEP_OS_MSDOS)
     boot_machine_roms = archdep_join_paths(boot_path, "..", emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "..", "DRIVES", NULL);
-    boot_printer_roms = archdep_join_paths(boot_path, ",,", "PRINTER", NULL);
+    boot_printer_roms = archdep_join_paths(boot_path, "..", "PRINTER", NULL);
 #if 0
     home_machine_roms = archdep_join_paths(home_path, emu_id, NULL);
     home_drive_roms = archdep_join_paths(home_path, "DRIVES", NULL);
