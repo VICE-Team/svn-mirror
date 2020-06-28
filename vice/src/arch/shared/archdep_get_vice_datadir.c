@@ -51,7 +51,7 @@ char *archdep_get_vice_datadir(void)
     char *path;
 
 #ifdef ARCHDEP_OS_WINDOWS
-    path = lib_strdup(archdep_boot_path());
+    path = archdep_join_paths(archdep_boot_path(), "..", NULL);
 #elif defined(ARCHDEP_OS_OSX)
     if (archdep_is_macos_bindist()) {
         path = archdep_join_paths(archdep_boot_path(), "..", "share", "vice", NULL);

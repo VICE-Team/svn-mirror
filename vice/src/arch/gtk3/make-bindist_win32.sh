@@ -113,20 +113,20 @@ echo "Removing an old $BUILDPATH ..."
 rm -r -f $BUILDPATH
 
 echo "Generating a $WINXX GTK3 port binary distribution..."
-mkdir $BUILDPATH
+mkdir -p $BUILDPATH/bin
 
 # Copy binaries.  Strip them unless VICE is configured with "--enable-debug".
 for i in $EXECUTABLES; do
-  cp $TOPBUILDDIR/src/$i.exe $BUILDPATH
-  $STRIP $BUILDPATH/$i.exe
+  cp $TOPBUILDDIR/src/$i.exe $BUILDPATH/bin
+  $STRIP $BUILDPATH/bin/$i.exe
 done
 
 if test x"$CROSS" != "xtrue"; then
 
 # The following lines assume that this script is run by MSYS2.
-  cp `ntldd -R $BUILDPATH/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
+  cp `ntldd -R $BUILDPATH/bin/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
   cd $MINGW_PREFIX
-  cp bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
+  cp bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
   # GTK3 accepts having only scalable icons,
   # which reduces the bindist size considerably.
@@ -134,7 +134,7 @@ if test x"$CROSS" != "xtrue"; then
   rm -r $BUILDPATH/share/icons/Adwaita/scalable/emotes
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
-  cp bin/gspawn-win??-helper*.exe $BUILDPATH
+  cp bin/gspawn-win??-helper*.exe $BUILDPATH/bin
   cd - >/dev/null
 else
 
@@ -161,7 +161,7 @@ else
   done
   # A few of these libs cannot be found by frankenvice, so perhaps we need to install
   # these or alter this command:
-  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_*,croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
+  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_*,croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
   gccname=`$COMPILER -print-file-name=libgcc.a`
   gccdir=`dirname $gccname`
   dlls=`find $gccdir -name 'libgcc*.dll' -o -name 'libstdc*.dll'`

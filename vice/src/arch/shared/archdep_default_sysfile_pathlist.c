@@ -1,5 +1,19 @@
 /** \file   archdep_default_sysfile_pathlist.c
  * \brief   Get a list of paths of required data files
+ *
+ * A note about Gtk3 on Windows:
+ *
+ * For some reason Gtk3/GLib checks the path of a running binary to see if it's
+ * running from a bin/ dir, so it can load stuff from bin/..
+ * Unfortunately this also means running a binary from, say 'C:/bin/foo/bar/vice'
+ * will try to load DLL's and other data from C:/bin/{lib,share} or so, which in
+ * my opinion is a seriouse bug. 
+ * So we had to change the bindist script for Winows, and alter a few archdep
+ * functions to support this weirdness.
+ *
+ * -- compyx, 2020-06-28
+ *    (perhaps move this note/rant somewhere more public?)
+ *
  */
 
 /*
@@ -132,9 +146,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 #elif defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
     || defined(ARCHDEP_OS_MSDOS)
-    boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
-    boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
-    boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);
+    boot_machine_roms = archdep_join_paths(boot_path, "..", emu_id, NULL);
+    boot_drive_roms = archdep_join_paths(boot_path, "..", "DRIVES", NULL);
+    boot_printer_roms = archdep_join_paths(boot_path, ",,", "PRINTER", NULL);
 #if 0
     home_machine_roms = archdep_join_paths(home_path, emu_id, NULL);
     home_drive_roms = archdep_join_paths(home_path, "DRIVES", NULL);

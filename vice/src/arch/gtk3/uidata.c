@@ -66,7 +66,7 @@ int uidata_init(void)
 
     /* try directory with VICE's data files */
     dir = archdep_get_vice_datadir();
-    debug_gtk3("trying archdep_get_vice_datadir() (%s)/common", dir);
+    debug_gtk3("trying archdep_get_vice_datadir() %s/common", dir);
     path = archdep_join_paths(dir, "common", "vice.gresource", NULL);
     lib_free(dir);
 
