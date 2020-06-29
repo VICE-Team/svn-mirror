@@ -181,12 +181,23 @@ cp $TOPSRCDIR/COPYING $TOPSRCDIR/README $BINDIST_DIR
 cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $BINDIST_DIR
 test -e "$TOPBUILDDIR/doc/vice.pdf"&&cp "$TOPBUILDDIR/doc/vice.pdf" $BINDIST_DIR/doc
 
-if test x"$ZIPKIND" = "xzip"; then
-  cd $BINDIST_DIR/..
-  rm -f $BINDIST_DIR.zip
-  if test x"$ZIP" = "x"
-  then zip -r -9 -q $BINDIST_DIR.zip $BINDIST_DIR
-  else $ZIP $BINDIST_DIR.zip $BINDIST_DIR
+
+if test x"$ZIPKIND" = "xzip" -o x"$ZIPKIND" = "x7zip"; then
+  if test x"$ZIPKIND" = "xzip" -o x"$ZIPKIND" = "x"; then
+    ZIPEXT=zip
+  else
+    ZIPEXT=7z
+  fi
+  rm -f $BINDIST_DIR.$ZIPEXT
+
+  if test x"$ZIPKIND" = "x7zip"; then
+    7z a -t7z -m0=lzma2 -mx=9 -ms=on $BINDIST_DIR.$ZIPEXT $BINDIST_DIR
+  else
+    if test x"$ZIP" = "x"; then
+      zip -r -9 -q $BINDIST_DIR.zip $BINDIST_DIR
+    else
+      $ZIP $BINDIST_DIR.zip $BINDIST_DIR
+    fi
   fi
   rm -f -r $BINDIST_DIR
   echo $WINXX SDL$SDLVERSION port binary distribution archive generated as
