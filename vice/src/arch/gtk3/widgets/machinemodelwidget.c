@@ -61,7 +61,7 @@ static void (*user_callback)(int) = NULL;
 static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 {
     int model = GPOINTER_TO_INT(user_data);
-
+#if 0
 #ifdef HAVE_DEBUG_GTK3UI
     if (machine_class == VICE_MACHINE_C128) {
         int res_board_type = -1;
@@ -95,7 +95,7 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
         printf("    SIDModel              : %d\n", res_sid);
     }
 #endif
-
+#endif
 
     if (model_set != NULL &&
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
