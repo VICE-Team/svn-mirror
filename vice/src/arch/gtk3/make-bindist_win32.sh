@@ -216,17 +216,30 @@ mkdir $BUILDPATH/doc
 test -e $TOPBUILDDIR/doc/vice.pdf&&cp $TOPBUILDDIR/doc/vice.pdf $BUILDPATH/doc
 
 
-if test x"$ZIPKIND" = "xzip"; then
-  rm -f $BUILDPATH.zip
+if test x"$ZIPKIND" = "xzip" -o x"$ZIPKIND" = "x7zip"; then
+  if test x"$ZIPKIND" = "xzip" -o x"$ZIPKIND" = "x"; then
+    ZIPEXT=zip
+  else
+    ZIPEXT=7z
+  fi
+  rm -f $BUILDPATH.$ZIPEXT
+  
   cd $BUILDPATH/..
-  if test x"$ZIP" = "x"
-    then zip -r -9 -q $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
-    else $ZIP $BUILDPATH.zip $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
+
+  if test x"$ZIPKIND" = "x7zip"; then
+    # these args need investigating for max compression:
+    7z a -t7z -m0=lzma2 -mx=9 -ms=on $BUILDPATH.$ZIPEXT $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
+  else
+    if test x"$ZIP" = "x"; then
+      zip -r -9 -q $BUILDPATH.$ZIPEXT $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
+    else
+      $ZIP $BUILDPATH.$ZIPEXT $GTK3NAME-$VICEVERSION-$WINXX$SVN_SUFFIX
+    fi
   fi
   rm -r -f $BUILDPATH
   echo "$WINXX GTK3 port binary distribution archive generated as:"
-  echo "(Bash path): $BUILDPATH.zip"
-  test x"$CROSS" != "xtrue"&&echo "(Windows path): '`cygpath -wa \"$BUILDPATH.zip\"`'"
+  echo "(Bash path): $BUILDPATH.$ZIPEXT"
+  test x"$CROSS" != "xtrue"&&echo "(Windows path): '`cygpath -wa \"$BUILDPATH.$ZIPEXT\"`'"
 else
   echo "$WINXX GTK3 port binary distribution directory generated as:"
   echo "(Bash path): $BUILDPATH/"
