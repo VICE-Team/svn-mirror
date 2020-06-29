@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "alarm.h"
 #include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
@@ -133,6 +134,9 @@ static int clockport_device_id = CLOCKPORT_DEVICE_NONE;
 static clockport_device_t *clockport_device = NULL;
 
 static char *clockport_device_names = NULL;
+
+static struct alarm_s *nofreeze_alarm;
+static int freeze_button_pressed = 0;
 
 /* ---------------------------------------------------------------------*/
 
@@ -286,7 +290,9 @@ uint8_t retroreplay_io1_read(uint16_t addr)
             case 0:
             case 1:
                 retroreplay_io1_device.io_source_valid = 1;
-                return ((roml_bank & 3) << 3) | ((roml_bank & 4) << 5) | ((roml_bank & 8) << 2) | allow_bank | reu_mapping | rr_hw_flashjumper;
+                return ((roml_bank & 3) << 3) | ((roml_bank & 4) << 5) | 
+                ((roml_bank & 8) << 2) | allow_bank | reu_mapping | 
+                rr_hw_flashjumper | (freeze_button_pressed << 2);
             default:
                 if (rr_clockport_enabled && (addr & 0xff) < 0x10) {
                     return 0;
@@ -755,8 +761,20 @@ void retroreplay_freeze(void)
     }
 }
 
+static void nofreeze_alarm_handler(CLOCK offset, void *data)
+{
+    freeze_button_pressed = 0;
+    alarm_unset(nofreeze_alarm);
+}
+
 int retroreplay_freeze_allowed(void)
 {
+    freeze_button_pressed = 1;
+    alarm_unset(nofreeze_alarm);
+    /* HACK: we keep the button pressed for 30 frames, because we do not get the
+             "release" event for the hotkey. this enables us to keep it pressed
+             continously when the hotkey is being held down */
+    alarm_set(nofreeze_alarm, maincpu_clk + (312 * 65 * 30));
     if (no_freeze) {
         return 0;
     }
@@ -1043,6 +1061,8 @@ static int retroreplay_common_attach(void)
 
     rr_enabled = 1;
 
+    nofreeze_alarm = alarm_new(maincpu_alarm_context, "NoFreezeAlarm", nofreeze_alarm_handler, NULL);
+    
     return 0;
 }
 
