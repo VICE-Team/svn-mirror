@@ -51,7 +51,11 @@ char *archdep_get_vice_docsdir(void)
     /* Cannot use VICE_DOCDIR here since Windows installs assume any file to
      * be relative to the emu binary.
      */
+# if defined(USE_SDLUI) || defined(USE_SDLUI2)
     path = archdep_join_paths(archdep_boot_path(), "doc", NULL);
+# else
+    path = archdep_join_paths(archdep_boot_path(), "..", "doc", NULL);
+# endif
 #elif defined(ARCHDEP_OS_OSX)
     if (archdep_is_macos_bindist()) {
         path = archdep_join_paths(archdep_boot_path(), "..", "share", "vice", "doc", NULL);
