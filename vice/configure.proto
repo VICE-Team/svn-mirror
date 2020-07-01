@@ -283,7 +283,14 @@ AS_IF([test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xye
 ])
 AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
 AS_IF([test x"$YACC" = "xno"], [AC_MSG_ERROR([Could not find byacc, yacc or bison!])])
-AC_CHECK_PROGS(MAKEINFO, makeinfo, :)
+
+dnl Check for makeinfo, might only be required for AmigaOS since we don't
+dnl generate info pages anymore ?
+AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
+AS_IF([test x"$MAKEINFO" = "xno"],
+      [AC_MSG_ERROR([makeinfo is missing, please install texinfo])])
+
+
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 AC_CHECK_PROGS(XA, [xa xa65], no)
 AS_IF([test x"$XA" = "xno"], [AC_MSG_ERROR([xa is missing])])
