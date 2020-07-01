@@ -79,10 +79,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
         resources_get_string(resource, &old_val);
         new_val = (const char *)user_data;
 
-        debug_gtk3("resource = %s, old_val = %s, new_val = %s",
-                resource, old_val, new_val);
         if (strcmp(new_val, old_val) != 0) {
-            debug_gtk3("setting %s to '%s'.", resource, new_val);
             resources_set_string(resource, new_val);
         }
     }
@@ -120,7 +117,6 @@ GtkWidget *printer_output_mode_widget_create(int device)
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_gfx),
             GTK_RADIO_BUTTON(radio_text));
 
-    debug_gtk3("resource = %s, value= %s", resource, value);
     resources_get_string(resource, &value);
     if (strcmp(value, "text") == 0) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_text), TRUE);

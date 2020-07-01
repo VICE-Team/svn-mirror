@@ -40,6 +40,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "vice_gtk3.h"
 #include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
@@ -89,23 +90,6 @@ static void on_output_mode_toggled(GtkRadioButton *radio, gpointer user_data)
 
         debug_gtk3("setting 'PrinterUserportOutput' to '%s'.", mode);
         resources_set_string("PrinterUserportOutput", mode);
-    }
-}
-
-
-/** \brief  Handler for the "toggled" event of the text device widget
- *
- * \param[in]   radio       radio button
- * \param[in]   user_data   new value for the resource (`int`)
- */
-static void on_text_device_toggled(GtkWidget *radio, gpointer user_data)
-{
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
-        int device = GPOINTER_TO_INT(user_data);
-
-        debug_gtk3("setting 'PrinterUserportTextDevice' to %d.", device);
-        resources_set_int("PrinterUserportTextDevice", device);
     }
 }
 
@@ -223,13 +207,15 @@ static GtkWidget *create_output_mode_widget(void)
 static GtkWidget *create_text_device_widget(void)
 {
     GtkWidget *grid;
-    int current;
+    GtkWidget *group;
 
-    resources_get_int("PrinterUserportTextDevice", &current);
-
-    grid = uihelpers_radiogroup_create("Output device",
-            text_devices, on_text_device_toggled, current);
-
+    grid = uihelpers_create_grid_with_label("Output device", 1);
+    group = vice_gtk3_resource_radiogroup_new(
+            "PrinterUserPortTextDevice",
+            text_devices,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
