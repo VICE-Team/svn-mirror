@@ -154,6 +154,7 @@ int         archdep_spawn(const char *name, char **argv,
 /* Spawn need quoting the params or expanding the filename in some archs.  */
 char *      archdep_filename_parameter(const char *name);
 char *      archdep_quote_parameter(const char *name);
+char *      archdep_quote_unzip(const char *name);
 
 /* Allocates a filename and creates a tempfile.  */
 FILE *      archdep_mkstemp_fd(char **filename, const char *mode);

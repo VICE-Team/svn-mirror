@@ -529,7 +529,16 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         argv[5][0] = '3';
         argv[6][0] = '4';
     } else {
-        argv[3] = archdep_quote_parameter(tmp + nameoffset);
+        /* Check for info-zip's unzip
+         *
+         * Unzip needs special quoting of left brackets: [[], not \\[,
+         * see bug #1215.
+         */
+        if (strcmp(program, "unzip") == 0) {
+            argv[3] = archdep_quote_unzip(tmp + nameoffset);
+        } else {
+            argv[3] = archdep_quote_parameter(tmp + nameoffset);
+        }
         argv[4] = NULL;
     }
 
