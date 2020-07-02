@@ -91,9 +91,11 @@ char *      archdep_get_vice_docsdir(void);
 /* Get the absolute path to the directory that contains resources, icons, etc */
 char *      archdep_get_vice_datadir(void);
 
+void        archdep_create_user_cache_dir(void);
 char *      archdep_user_cache_path(void);
 void        archdep_user_cache_path_free(void);
 
+void        archdep_create_user_config_dir(void);
 char *      archdep_user_config_path(void);
 void        archdep_user_config_path_free(void);
 

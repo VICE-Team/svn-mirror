@@ -49,13 +49,6 @@
 #include "util.h"
 #include "uiapi.h"
 
-/* Will get fixed once the code in this file gets moved to its proper location */
-#include "../shared/archdep_xdg.h"
-#include "../shared/archdep_defs.h"
-#include "../shared/archdep_create_user_cache_dir.h"
-#include "../shared/archdep_create_user_config_dir.h"
-#include "../shared/archdep_join_paths.h"
-#include "../shared/archdep_get_vice_docsdir.h"
 
 #if 0
 /** \brief  Prefix used for autostart disk images
