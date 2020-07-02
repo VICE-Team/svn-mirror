@@ -1,13 +1,14 @@
-/*
- * zfile.c - Transparent handling of compressed files.
- *
- * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
+/** \file   zfile.c
+ * \brief   Transparent handling of compressed files
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * ARCHIVE, ZIPCODE and LYNX supports added by
  *  Teemu Rantanen <tvr@cs.hut.fi>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -50,8 +51,6 @@
 #endif
 
 #include "archdep.h"
-/* XXX: update once all archdep stuff is in src/arch/shared */
-#include "arch/shared/archdep_spawn.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
