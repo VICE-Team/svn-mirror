@@ -42,8 +42,6 @@
 #include "lib.h"
 #include "log.h"
 
-#include "../shared/archdep_create_user_cache_dir.h"
-#include "../shared/archdep_create_user_config_dir.h"
 
 /** \brief  Reference to argv[0]
  *
