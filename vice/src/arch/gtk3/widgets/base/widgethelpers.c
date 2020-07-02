@@ -95,56 +95,6 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
     return grid;
 }
 
-/** \brief  Create a GtkGrid with a label radio buttons with text/id pairs
- *
- * \param[in]   label       label text
- * \param[in]   data        text/value pairs for the radio buttons
- * \param[in]   callback    optional callback to trigger when a radio button
- *                          is toggled (`NULL` == no callback)
- *
- * \note    keep in mind that the callback is also triggered when a radio button
- *          is deactivated, so use gtk_toggle_button_get_active() if you only
- *          want to respond to the currently activated radio button
- *
- * \return  GtkGrid
- */
-GtkWidget *uihelpers_radiogroup_create(
-        const gchar *label,
-        const vice_gtk3_radiogroup_entry_t *data,
-        void (*callback)(GtkWidget *, gpointer),
-        int active)
-{
-    GtkWidget *grid;
-    GtkRadioButton *last;
-    GSList *group = NULL;
-    size_t i;
-
-    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_radiogroup!");
-    grid = uihelpers_create_grid_with_label(label, 1);
-
-    last = NULL;
-    for (i = 0; data[i].name != NULL; i++) {
-        GtkWidget *radio = gtk_radio_button_new_with_label(group, data[i].name);
-        gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-        gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
-        g_object_set(radio, "margin-left", 16, NULL);  /* indent 16 units */
-
-        if (active == i) {
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-        }
-
-        if (callback != NULL) {
-            g_signal_connect(radio, "toggled", G_CALLBACK(callback),
-                    GINT_TO_POINTER(data[i].id));
-        }
-        gtk_widget_show(radio);
-        last = GTK_RADIO_BUTTON(radio);
-    }
-    g_object_set(grid, "margin", 8, NULL);
-    gtk_widget_show(grid);
-    return grid;
-}
-
 
 /** \brief  Get index of \a value in \a list
  *

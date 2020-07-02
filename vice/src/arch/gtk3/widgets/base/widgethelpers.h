@@ -54,21 +54,10 @@
 #endif
 
 
-/* XXX: either deprecated or needs renaming */
-
-
 GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns);
-
-GtkWidget *uihelpers_radiogroup_create(
-        const gchar *label,
-        const vice_gtk3_radiogroup_entry_t *data,
-        void (*callback)(GtkWidget *, gpointer),
-        int active);
-
 
 /* only useful for custom built radio groups, don't use on resourceradiogroup.c
  * generated stuff */
-
 int vice_gtk3_radiogroup_get_list_index(
         const vice_gtk3_radiogroup_entry_t *list,
         int value);
