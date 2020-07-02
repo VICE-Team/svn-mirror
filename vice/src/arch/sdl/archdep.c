@@ -239,15 +239,6 @@ void close_libs(void)
 #define SDL_REALINIT SDL_Init
 #endif
 
-/*
- * XXX: this will get fixed once the code in this file is moved into
- *      src/arch/shared
- */
-#include "../shared/archdep_atexit.h"
-#include "../shared/archdep_create_user_cache_dir.h"
-#include "../shared/archdep_user_cache_path.h"
-#include "../shared/archdep_create_user_config_dir.h"
-#include "../shared/archdep_user_config_path.h"
 
 /******************************************************************************/
 static char *argv0 = NULL;
