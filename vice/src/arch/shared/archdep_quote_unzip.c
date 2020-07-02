@@ -43,6 +43,7 @@
  */
 char *archdep_quote_unzip(const char *name)
 {
+#ifdef ARCHDEP_OS_WINDOWS
     char *a;
     char *b;
 
@@ -50,4 +51,7 @@ char *archdep_quote_unzip(const char *name)
     b = util_concat("\"", a, "\"", NULL);
     lib_free(a);
     return b;
+#else
+    return util_subst(name, "[", "\\[");
+#endif
 }
