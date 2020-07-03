@@ -38,6 +38,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
@@ -405,10 +406,6 @@ static int is_valid_extension(char *end, size_t l, int nameoffset)
     return 0;
 }
 
-/* define SIZE_MAX if it does not exist (only in C99) */
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#endif
 
 /* If `name' has a correct extension, try to list its contents and search for
    the first file with a proper extension; if found, extract it.  If this
