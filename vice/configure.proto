@@ -1050,7 +1050,7 @@ darwin*)
   VICE_LDFLAGS="$VICE_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
   
   FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit"
-  LIBS+=" $FRAMEWORKS"
+  LIBS="$LIBS $FRAMEWORKS"
   ;;
 
 dnl All other UN*X systems
@@ -1793,14 +1793,14 @@ fi
 dnl are we putting emu into a background thread (requires UI code support)
 if test x"$enable_native_gtk3ui" = "xyes"; then
   AC_DEFINE(USE_VICE_THREAD,,[UI and emu each on different threads])
-  VICE_CFLAGS+=" -pthread"
-  VICE_CXXFLAGS+=" -pthread"
-  VICE_LDFLAGS+=" -pthread"
+  VICE_CFLAGS="$VICE_CFLAGS -pthread"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -pthread"
+  VICE_LDFLAGS="$VICE_LDFLAGS -pthread"
   show_multithreaded="yes"
 
   if test x"$is_unix_x11" = x"yes" -a x"$is_unix_macosx" != x"yes"; then
     dnl xlib is used for adding a native child window for opengl rendering
-    LIBS+=" -lX11"
+    LIBS="$LIBS -lX11"
   fi
   
 else
