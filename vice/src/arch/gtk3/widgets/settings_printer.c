@@ -155,23 +155,28 @@ static GtkWidget *create_real_device7_checkbox(void)
 }
 
 
+/** \brief  Handler for the 'clicked event of the "formfeed" button
+ *
+ * \param[in]   widget  button
+ * \param[in]   data    device number (4-7)
+ */
 static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
 {
     int device;
 
     device = GPOINTER_TO_INT(data);
 
-    debug_gtk3("Got device %d.", device);
-
-    /* can't be sure this works on Windows, windows handles lf very poorly */
-#ifndef ARCHDEP_OS_WINDOWS
-    debug_gtk3("Sending formfeed");
-    printer_formfeed(device - 4);   /* I hope this is like -8 for drives */
-#endif
-
+    debug_gtk3("Sending formfeed to device %d.", device);
+    printer_formfeed((unsigned int)device - 4);
 }
 
 
+/** \brief  Create button to send formfeed to the printer
+ *
+ * \param[in]   device  device number (4-7)
+ *
+ * \return  GtkButton
+ */
 static GtkWidget *create_formfeed_button(int device)
 {
     GtkWidget *button;

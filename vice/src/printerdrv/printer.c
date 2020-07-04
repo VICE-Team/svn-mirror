@@ -119,6 +119,10 @@ void printer_shutdown(void)
     machine_printer_shutdown();
 }
 
+/** \brief  Send formfeed to printer
+ *
+ * \param[in]   prnr    device number (4-7)
+ */
 void printer_formfeed(unsigned int prnr)
 {
     driver_select_formfeed(prnr);

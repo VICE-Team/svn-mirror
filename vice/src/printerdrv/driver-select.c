@@ -264,7 +264,8 @@ int driver_select_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 int driver_select_flush(unsigned int prnr, unsigned int secondary)
 {
 #ifdef DEBUG_PRINTER
-    log_message(driver_select_log, "Flush device #%i secondary %i.", prnr + 4, secondary);
+    log_message(driver_select_log, "Flush device #%u secondary %u.",
+            prnr + 4, secondary);
 #endif
     return driver_select[prnr].drv_flush(prnr, secondary);
 }
@@ -273,7 +274,7 @@ int driver_select_flush(unsigned int prnr, unsigned int secondary)
 int driver_select_formfeed(unsigned int prnr)
 {
 #ifdef DEBUG_PRINTER
-    log_message(driver_select_log, "Formfeed device #%i", prnr + 4);
+    log_message(driver_select_log, "Formfeed device #%u", prnr + 4);
 #endif
     return driver_select[prnr].drv_formfeed(prnr);
 }
