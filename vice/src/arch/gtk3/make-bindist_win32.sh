@@ -46,6 +46,9 @@ OBJDUMP=$9
 shift
 COMPILER=$9
 
+shift
+HTML_DOCS=$9
+
 
 # Try to get the SVN revision
 #echo "Trying to get SVN revision"
@@ -205,11 +208,15 @@ rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/common
 cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/common
 cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
-cp -a $TOPSRCDIR/doc/html $BUILDPATH
-cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
-rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html
-rm -f $BUILDPATH/html/robots.txt $BUILDPATH/html/sitemap.xml
-rm -f $BUILDPATH/html/COPYING $BUILDPATH/html/NEWS
+
+if test x"$HTML_DOCS" = "xyes"; then
+    cp -a $TOPSRCDIR/doc/html $BUILDPATH
+    cp -a -u $TOPBUILDDIR/doc/html $BUILDPATH
+    rm -f $BUILDPATH/html/Makefile* $BUILDPATH/html/checklinks.sh $BUILDPATH/html/texi2html
+    rm -f $BUILDPATH/html/robots.txt $BUILDPATH/html/sitemap.xml
+    rm -f $BUILDPATH/html/COPYING $BUILDPATH/html/NEWS
+fi
+
 cp $TOPSRCDIR/COPYING $TOPSRCDIR/FEEDBACK $TOPSRCDIR/NEWS $TOPSRCDIR/README $BUILDPATH
 cp $TOPSRCDIR/doc/readmes/Readme-GTK3.txt $BUILDPATH
 mkdir $BUILDPATH/doc
