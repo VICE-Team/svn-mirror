@@ -138,6 +138,26 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
     return buf;
 }
 
+
+GdkPixbufAnimation *uidata_get_pixbuf_animated(const char *name, gboolean loop)
+{
+    GdkPixbufAnimation *buf;
+    GError *err = NULL;
+    char *path;
+
+    path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
+    debug_gtk3("attempting to load resource '%s'.", path);
+    buf = gdk_pixbuf_animation_new_from_resource(path, &err);
+    lib_free(path);
+    if (buf == NULL) {
+        debug_gtk3("failed: %s.", err->message);
+        /* TODO: log error */
+        g_clear_error(&err);
+    }
+    return buf;
+}
+
+
 /** \brief  Get a bytes from the GResource blob
  *
  * \param   name    virtual path to the file

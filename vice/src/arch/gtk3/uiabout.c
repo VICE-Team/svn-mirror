@@ -108,10 +108,12 @@ static void destroy_current_team_list(char **list)
  */
 static GdkPixbuf *get_vice_logo(void)
 {
-#ifndef FREE_MR_AMMO
+#if !defined(FREE_MR_AMMO) && ! defined(COMPYX_ANGRY)
     return uidata_get_pixbuf("vice-logo-black.svg");
-#else
+#elif defined(FREEM_MR_AMMO)
     return uidata_get_pixbuf("nerd_smoking.jpg");
+#else
+    return uidata_get_pixbuf("vice-team.gif");
 #endif
 }
 
