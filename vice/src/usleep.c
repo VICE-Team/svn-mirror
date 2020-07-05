@@ -62,7 +62,8 @@ int usleep(unsigned long int microSeconds)
     int nfds, readfds, writefds, exceptfds;
     struct timeval Timer;
 
-    fprintf("%s:%d:%s(): I'm surprised anyone actually compiled VICE for an OS"
+    fprintf(stderr,
+            "%s:%d:%s(): I'm surprised anyone actually compiled VICE for an OS"
             " that doesn't supply usleep(). -- compyx 2020-07-05\n",
             __FILE__, __LINE__, __func__);
     abort();
