@@ -4757,6 +4757,11 @@ int main(int argc, char **argv)
     int i;
     int retval = EXIT_SUCCESS;
 
+    /* Needed to initialize the threading stuff in lib.c when creating a debug
+     * build. We don't need any threading for c1541, but c1541 gets built as
+     * an emulator, so now we do.
+     */
+    lib_init();
 
     archdep_init(&argc, argv);
 
@@ -4843,6 +4848,7 @@ int main(int argc, char **argv)
                     lookup_and_execute_command(nargs, args);
                }
             }
+            linenoiseHistoryAdd(line);
         }
         lib_free(buf);
         /* free memory used by the argument 'parser' */
