@@ -98,7 +98,7 @@ const char *archdep_boot_path(void)
     full_path = archdep_program_path();
 
 
-#if defined(ARCHDEP_OS_WINDOWS) || (ARCHDEP_OS_OS2)
+#if defined(ARCHDEP_OS_WINDOWS)
     p = strrchr(full_path, '\\');
 #else
     p = strrchr(full_path, '/');

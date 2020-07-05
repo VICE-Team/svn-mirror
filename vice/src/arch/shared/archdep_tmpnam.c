@@ -60,8 +60,6 @@ char *archdep_tmpnam(void)
     return lib_strdup(tmpnam(NULL));
 #elif defined(ARCHDEP_OS_BEOS)
     return lib_strdup(tmpnam(NULL));
-#elif defined(ARCHDEP_OS_OS2)
-    return = lib_strdup(tmpnam(NULL));
 #elif defined(ARCHDEP_OS_UNIX)
     /*
      * Linux manpage for tmpnam(3) says to never use it, FreeBSD indicates the

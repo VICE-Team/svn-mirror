@@ -1,4 +1,3 @@
-
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,10 +29,9 @@
 #include "archdep.h"
 #include "ui.h"
 
-/* FIXME: includes for os/2 */
 /* FIXME: includes for amiga */
 
-#if defined(__OS2__) || defined(ARCHDEP_OS_WINDOWS)
+#if defined(ARCHDEP_OS_WINDOWS)
 
 /* FIXME: is this needed* */
 #ifdef SDL_CHOOSE_DRIVES
@@ -43,7 +41,7 @@ void archdep_set_current_drive(const char *drive)
         ui_error("Failed to change drive to %s", drive);
     }
 }
-#endif 
+#endif
 
 #endif
 
@@ -62,6 +60,6 @@ void archdep_set_current_drive(const char *drive)
         ui_error("Failed to change to drive %s", drive);
     }
 }
-#endif 
+#endif
 
 #endif

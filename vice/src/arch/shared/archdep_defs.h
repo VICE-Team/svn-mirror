@@ -47,7 +47,6 @@
  *      ARCHDEP_OS_BSD_OPEN
  *      ARCHDEP_OS_BSD_DRAGON
  *  ARCHDEP_OS_WINDOWS
- *  ARCHDEP_OS_OS2 (?)
  *  ARCHDEP_OS_BEOS
  *  ARCHDEP_OS_MSDOS (?)
  *  ARCHDEP_OS_AMIGA
@@ -103,11 +102,6 @@
 /** \brief  OS is Windows */
 # define ARCHDEP_OS_WINDOWS
 
-#elif defined(OS2_COMPILE)
-
-/** \brief  OS is OS/2 (again: has anyone even tested this?) */
-# define ARCHDEP_OS_OS2
-
 #elif defined(BEOS_COMPILE)
 
 /** \brief  OS is in the BeOS family */
@@ -142,8 +136,7 @@
 
 /** \brief  Arch-dependent directory separator used in paths
  */
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
-    || defined(ARCHDEP_OS_DOS)
+#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_DOS)
 
 /** \brief  OS-dependent directory separator
  */
@@ -158,7 +151,7 @@
 
 
 #if defined(ARCHEP_OS_AMIGA) || defined(ARCHDEP_OS_MSDOS) \
-    || defined(ARCHDEP_OS_OS2) || defined(ARCHDEP_OS_WINDOWS)
+    || defined(ARCHDEP_OS_WINDOWS)
 /** \brief  Separator used for a pathlist
  */
 # define ARCHDEP_FINDPATH_SEPARATOR_STRING  ";"
@@ -178,8 +171,9 @@
 # define ARCHDEP_USE_SDL
 #endif
 
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
-    || defined(ARCHDEP_OS_MSDOS) || defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_WINDOWS) \
+    || defined(ARCHDEP_OS_MSDOS) \
+    || defined(ARCHDEP_OS_BEOS)
 # ifdef ARCHDEP_USE_SDL
 #  define ARCHDEP_VICERC_NAME   "sdl-vice.ini"
 /* Just copying stuff, I'm backwards */

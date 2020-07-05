@@ -1,5 +1,5 @@
 /** \file   archdep_require_vkbd.c
- * \brief   
+ * \brief   Wut?
  * \author  groepaz <groepaz@gmx.net>
  */
 
@@ -29,7 +29,12 @@
 
 #include "archdep_require_vkbd.h"
 
-/* amiga, beos, os2, unix, win32 */
+/* amiga, beos, os2, unix, win32
+ *
+ * What the hell does this do?
+ *
+ * \return  false?
+ */
 int archdep_require_vkbd(void)
 {
     return 0;

@@ -46,11 +46,11 @@
  *
  * \param[in]   name    string to quote
  *
- * \return  quoted (win32/os2 only) and heap-allocated copy of \a name
+ * \return  quoted (win32) and heap-allocated copy of \a name
  */
 char *archdep_filename_parameter(const char *name)
 {
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2)
+#if defined(ARCHDEP_OS_WINDOWS)
     char *path;
     char *result;
 

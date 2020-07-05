@@ -3660,7 +3660,6 @@ if test x"$is_unix" = "xyes"; then
   else
      AM_CONDITIONAL(WIN32_COMPILE, false)
   fi
-  AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
 
@@ -3686,7 +3685,6 @@ elif test x"$is_win32" = "xyes"; then
 
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
@@ -3695,29 +3693,14 @@ elif test x"$is_win32" = "xyes"; then
 elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
-  AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, true)
-  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
-  AM_CONDITIONAL(MAKE_INSTALL, false)
-  AM_CONDITIONAL(MAKE_BINDIST, true)
-elif test x"$is_os2" = "xyes"; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
-  ARCH_DIR="\$(top_builddir)/src/arch/os2"
-  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/os2"
-  ARCH_LIBS="$ARCH_DIR/libarch.a"
-  AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(WIN32_COMPILE, false)
-  AM_CONDITIONAL(OS2_COMPILE, true)
-  AM_CONDITIONAL(BEOS_COMPILE, false)
-  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
-  AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
@@ -3982,7 +3965,7 @@ dnl compile-command: "autoconf"
 dnl End:
 
 dnl construct show_arch
-if test x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_win32_gtk3" != "xyes"; then
+if test x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_win32_gtk3" != "xyes"; then
     show_arch="Unix"
     real_arch="Unix"
 else
@@ -3993,10 +3976,6 @@ else
     if test x"$is_beos" = "xyes"; then
         show_arch="BeOS"
         real_arch="BeOS"
-    fi
-    if test x"$is_os2" = "xyes"; then
-        show_arch="OS/2"
-        real_arch="OS/2"
     fi
     if test x"$is_unix_macosx" = "xyes"; then
         show_arch="Mac OS X"

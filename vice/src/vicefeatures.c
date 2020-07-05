@@ -34,8 +34,8 @@
 #include "vicefeatures.h"
 
 /* FIXME: define "UNIX" for all supported unixish OS */
-#if !defined(__OS2__) && !defined(BEOS_COMPILE) && !defined(AMIGA_SUPPORT) && !defined(WIN32)
-#define UNIX
+#if !defined(BEOS_COMPILE) && !defined(AMIGA_SUPPORT) && !defined(WIN32)
+# define UNIX
 #endif
 
 static feature_list_t featurelist[] = {

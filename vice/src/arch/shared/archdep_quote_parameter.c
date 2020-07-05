@@ -50,7 +50,7 @@ char *archdep_quote_parameter(const char *name)
 
     a = util_subst(name, "[", "\\[");
 
-#if defined(ARCHDEP_OS_WINDOWS) || defined (ARCHDEP_OS_OS2)
+#if defined(ARCHDEP_OS_WINDOWS)
     c = util_concat("\"", a, "\"", NULL);
     return c;
 #else

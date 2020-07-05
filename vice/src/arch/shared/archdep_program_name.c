@@ -10,7 +10,6 @@
  *  - MacOS
  *  - BeOS/Haiku
  *  - AmigaOS (untested)
- *  - OS/2 (untested)
  *  - MS-DOS (untested)
  *
  */
@@ -78,15 +77,17 @@
 static char *program_name = NULL;
 
 
-#if defined(WIN32_COMPILE) || defined(OS2_COMPILE) || \
-    defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-/** \brief  Helper function for Windows and OS/2
+#if defined(WIN32_COMPILE) || defined(MSDOS) || defined(_MSDOS) \
+    || defined(__MSDOS__) || defined(__DOS__)
+/** \brief  Helper function for Windows and perhaps MS-DOS?
  *
  * \param[in]   buf string to parse binary name from
  *
  * \return  heap-allocated binary name, free with lib_free()
+ *
+ * \todo    Rename!
  */
-static char *prg_name_win32_os2(const char *buf)
+static char *prg_name_win32(const char *buf)
 {
     const char *s;
     const char *e;
@@ -185,9 +186,9 @@ const char *archdep_program_name(void)
     program_name = prg_name_unix(execpath);
 #endif
 
-#if defined(WIN32_COMPILE) || defined(OS2_COMPILE) || \
-    defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-    program_name = prg_name_win32_os2(execpath);
+#if defined(WIN32_COMPILE) || defined(MSDOS) || defined(_MSDOS) \
+    || defined(__MSDOS__) || defined(__DOS__)
+    program_name = prg_name_win32(execpath);
 #endif
 
 #ifdef BEOS_COMPILE

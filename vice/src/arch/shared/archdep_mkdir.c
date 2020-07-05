@@ -62,9 +62,6 @@ int archdep_mkdir(const char *pathname, int mode)
 {
 #if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(UNIX_COMPILE)
     return mkdir(pathname, (mode_t)mode);
-#elif defined(OS2_COMPILE)
-    return mkdir(pathname); /* appears to need char*, let's see how long it
-                               takes for an OS/2 user to notice this */
 #elif defined(WIN32_COMPILE)
     return _mkdir(pathname);
 #else

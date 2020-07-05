@@ -28,10 +28,9 @@
 #include "archdep.h"
 #include "ioutil.h"
 
-/* FIXME: includes for os/2 */
 /* FIXME: includes for amiga */
 
-#if defined(ARCHDEP_OS_WINDOWS) || defined(__OS2__)
+#if defined(ARCHDEP_OS_WINDOWS)
 
 /* FIXME: is this needed* */
 #ifdef SDL_CHOOSE_DRIVES

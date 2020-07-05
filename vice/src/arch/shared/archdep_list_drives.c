@@ -1,4 +1,3 @@
-
 /*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,15 +25,14 @@
 #include "archdep.h"
 #include "lib.h"
 
-/* FIXME: includes for os/2 */
 /* FIXME: includes for amiga */
 
 #if defined(ARCHDEP_OS_WINDOWS)
 
 /* FIXME: is this needed* */
-#ifdef SDL_CHOOSE_DRIVES
+# ifdef SDL_CHOOSE_DRIVES
 
-#include <windows.h>
+#  include <windows.h>
 
 char **archdep_list_drives(void)
 {
@@ -66,54 +64,10 @@ char **archdep_list_drives(void)
 
     return result;
 }
-#endif
+# endif /* SDL_CHOOSE_DRIVES */
 
-#endif
+#endif  /* ARCHDEP_OS_WINDOWS */
 
-#if defined(ARCHDEP_OS_OS2)
-
-/* FIXME: is this needed* */
-#ifdef SDL_CHOOSE_DRIVES
-char **archdep_list_drives(void)
-{
-    char **result, **p;
-    ULONG dn = 0;
-    FSINFO buffer = {0};
-    APIRET rc = NO_ERROR;
-    int drive_count = 1;
-    int i;
-    int drives[26];
-
-    drives[0] = 0;
-    drives[1] = 0;
-    for (i = 3; i <= 26; ++i) {
-        dn = (ULONG)i;
-        rc = DosQueryFSInfo(dn, FSIL_VOLSER, &buffer, sizeof(FSINFO));
-        if (rc == NO_ERROR) {
-            drives[i - 1] = 1;
-            ++drive_count;
-        } else {
-            drives[i - 1] = 0;
-        }
-    }
-
-    result = lib_malloc(sizeof(char*) * drive_count);
-    p = result;
-
-    for (i = 2; i < 26; ++i) {
-        if (drives[i]) {
-            char buf[16];
-            sprintf(buf, "%c:/", 'a' + i);
-            *p++ = lib_strdup(buf);
-        }
-    }
-    *p = NULL;
-
-    return result;
-}
-#endif
-
-#endif
 
 #if defined (ARCHDEP_OS_AMIGA)
 

@@ -38,10 +38,6 @@
 # include "ui.h"
 #endif
 
-/* why do I even bother */
-#ifdef ARCHDEP_OS_OS2
-# include <os2.h>
-#endif
 
 #include "archdep_startup_log_error.h"
 
@@ -62,11 +58,6 @@ void archdep_startup_log_error(const char *format, ...)
 #ifdef USE_NATIVE_GTK3K
     ui_error(tmp);
 #endif
-#ifdef __OS2__
-    WinMessageBox(HWND_DESKTOP, HDWND_DESKTOP, tmp,
-            "SDLVICE/2 Startup Error", 0, MB_OK);
-#endif
-
     fprintf(stderr, "%s", tmp);
     lib_free(tmp);
 }

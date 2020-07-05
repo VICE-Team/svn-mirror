@@ -144,8 +144,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     home_drive_roms = archdep_join_paths(home_path, "DRIVES", NULL);
     home_printer_roms = archdep_join_paths(home_path, "PRINTER", NULL);
 
-#elif defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2) \
-    || defined(ARCHDEP_OS_MSDOS)
+#elif defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_MSDOS)
 # if defined(USE_SDLUI) || defined(USE_SDLUI2)
     boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);

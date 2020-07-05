@@ -55,7 +55,7 @@
  */
 #if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
 static const char *illegal_name_tokens = "/";
-#elif defined(WIN32_COMPILE) || defined(OS2_COMPILE) || defined(ARCHDEP_HAVE_DOS)
+#elif defined(WIN32_COMPILE) || defined(ARCHDEP_HAVE_DOS)
 static const char *illegal_name_tokens = "/\\?*:|\"<>";
 #elif defined(AMIGA_SUPPORT)
 static const char *illegal_name_tokens = "/?*:";

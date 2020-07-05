@@ -22,35 +22,16 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
- */ 
+ */
+
+#if defined(ARCHDEP_OS_WINDOWS)
 
 #include "vice.h"
 #include "archdep_defs.h"
-
-/* FIXME: includes for OS2 */
-
-#if defined(ARCHDEP_OS_WINDOWS)
-# include <windows.h>
-#endif
+#include <windows.h>
 
 #include "archdep_rtc_get_centisecond.h"
 
-#if defined(ARCHDEP_OS_OS2)
-
-#ifndef HAVE_GETTIMEOFDAY
-int archdep_rtc_get_centisecond(void)
-{
-    struct timeb tb;
-
-    __ftime(&tb);
-
-    return (int)tb.millitm / 10;
-}
-#endif
-
-#endif
-
-#if defined(ARCHDEP_OS_WINDOWS)
 
 int archdep_rtc_get_centisecond(void)
 {

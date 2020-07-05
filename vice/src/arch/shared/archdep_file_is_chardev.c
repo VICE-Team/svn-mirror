@@ -61,13 +61,6 @@ int archdep_file_is_chardev(const char *name)
     if (S_ISCHR(buf.st_mode)) {
         return 1;
     }
-#elif defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_OS2)
-    /*
-     * Seems like total bollocks to me, but probably used to support OpenCBM
-     */
-    if (strcmp(name, "/dev/cbm") == 0) {
-        return 1;
-    }
 #endif
     return 0;
 }
