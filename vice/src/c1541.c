@@ -2954,9 +2954,23 @@ static int quit_cmd(int nargs, char **args)
     int i;
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        close_disk_image(drives[i], i + DRIVE_UNIT_MIN);
+        if (drives[i] != NULL) {
+            close_disk_image(drives[i], i + DRIVE_UNIT_MIN);
+            lib_free(drives[i]);
+        }
+
     }
 
+    /* weird: free **args */
+    for (i = 0; i < nargs; i++) {
+        lib_free(args[i]);
+    }
+
+    if (interactive_mode) {
+        archdep_shutdown();
+        log_close_all();    /* do we need this? */
+        lib_debug_check();
+    }
     exit(0);
     return 0;   /* OSF1 cc complains */
 }
@@ -4824,12 +4838,7 @@ int main(int argc, char **argv)
             fflush(stderr);
             lib_free(buf);
             buf = lib_msprintf("c1541 #%d> ", drive_index | 8);
-#if 0
-            line = read_line(buf);
-#endif
-#if 0
-            fflush(stdout); /* required for Windows */
-#endif
+
             line = linenoise(buf);
 
             if (line == NULL) {
@@ -4845,6 +4854,22 @@ int main(int argc, char **argv)
             } else {
                 split_args(line, &nargs, args);
                 if (nargs > 0) {
+                    /* This is obviously seriously fucked, but currently the
+                     * only way to free `buf` in interactive mode without
+                     * rewriting large portions of code.
+                     *
+                     * It would be better if look_and_execute_command() would
+                     * return some value to indicate x/exit/q/quit was the
+                     * command, to properly clean up.
+                     *
+                     * Also: linenoise-ng leaks like hell
+                     */
+                    if ((strcmp(args[0], "x") == 0)
+                        || strcmp(args[0], "q") == 0
+                        || strcmp(args[0], "quit") == 0
+                        || strcmp(args[0], "exit") == 0) {
+                        lib_free(buf);
+                    }
                     lookup_and_execute_command(nargs, args);
                }
             }
@@ -4892,6 +4917,7 @@ int main(int argc, char **argv)
     log_close_all();
 
     /* dump some information on memory allocations and possible memory leaks */
+    printf("Calling lib_debug_check();\n");
     lib_debug_check();
     return retval;
 }
