@@ -354,8 +354,9 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary, unsig
                 p->buffer[o] = 0x00;
             }
             k = ( k + 1 ) % m;
-            /* increment the maximum records each time we complete a full
-                record. */
+            /* Increment the maximum records each time we complete a full
+                record. This does tend to create never-requested empty
+                records at the end of the file though. */
             if (k == 0) {
                 p->record_max++;
             }
@@ -377,8 +378,9 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary, unsig
             p->buffer_next[o] = 0x00;
         }
         k = ( k + 1 ) % m;
-        /* increment the maximum records each time we complete a full
-            record. */
+        /* Increment the maximum records each time we complete a full
+            record.  This does tend to create never-requested empty
+            records at the end of the file though. */
         if (k == 0) {
             p->record_max++;
         }
@@ -1020,7 +1022,7 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
        length */
     if (position >= rec_len) {
         log_error(vdrive_rel_log, "Position larger than record!?");
-        return 51;
+        return CBMDOS_IPE_OVERFLOW;
     }
 
     /* generate a 16 bit value for the record from the two 8-bit values */

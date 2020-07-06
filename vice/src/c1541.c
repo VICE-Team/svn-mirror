@@ -12,7 +12,7 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Patches by
- *  Olaf Seibert <rhialto@mbfys.kun.nl>
+ *  Olaf Seibert <rhialto@falu.nl>
  *  Dirk Schnorpfeil <D.Schnorpfeil@web.de> (GEOS stuff)
  *
  * Zipcode implementation based on `zip2disk' by
@@ -98,6 +98,7 @@
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
+#include "vdrive-rel.h"
 #include "vdrive.h"
 #include "vice-event.h"
 #include "zipcode.h"
@@ -3019,6 +3020,8 @@ static int read_cmd(int nargs, char **args)
     unsigned int format = FILEIO_FORMAT_RAW;
     uint8_t c;
     int status = 0;
+    uint8_t *slot;
+    uint8_t file_type;
 
     unit = extract_unit_from_file_name(args[1], &p);
     if (unit <= 0) {
@@ -3063,10 +3066,13 @@ static int read_cmd(int nargs, char **args)
 
     /* Get real filename from the disk file.  Slot must be defined by
        vdrive_iec_open().  */
+    bufferinfo_t *bufferinfo = &drives[dnr]->buffers[0];        /* 0 = secadr */
+    slot = bufferinfo->slot;
     actual_name = lib_malloc(IMAGE_CONTENTS_FILE_NAME_LEN + 1);
-    memcpy(actual_name, drives[dnr]->buffers[0].slot + SLOT_NAME_OFFSET,
-            IMAGE_CONTENTS_FILE_NAME_LEN);
+    memcpy(actual_name, slot + SLOT_NAME_OFFSET, IMAGE_CONTENTS_FILE_NAME_LEN);
     actual_name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
+
+    file_type = slot[SLOT_TYPE_OFFSET] & 7;
 
     if (nargs == 3) {
         if (strcmp(args[2], "-") == 0) {
@@ -3114,14 +3120,53 @@ static int read_cmd(int nargs, char **args)
 
     printf("reading file `%s' from unit %d\n", src_name_ascii, dnr + DRIVE_UNIT_MIN);
 
-    do {
-        status = vdrive_iec_read(drives[dnr], &c, 0);
-        if (dest_name_ascii == NULL) {
-            fputc(c, outf);
-        } else {
-            fileio_write(finfo, &c, 1);
+    if (file_type == CBMDOS_FT_REL) {
+        unsigned int rel_record_length = slot[SLOT_RECORD_LENGTH];
+        unsigned int num_rel_records = bufferinfo->record_max;
+        unsigned int record;
+
+        for (record = 0; record < num_rel_records; record++) {
+            int bytes = 0;
+            do {
+                status = vdrive_iec_read(drives[dnr], &c, 0);
+                if (status == SERIAL_ERROR && bytes == 0) {
+                    fprintf(stderr, "dummy record CR; should not happen.\n");
+                    break; /* record after EOF; we get a dummy CR */
+                }
+                if (dest_name_ascii == NULL) {
+                    fputc(c, outf);
+                } else {
+                    fileio_write(finfo, &c, 1);
+                }
+                bytes++;
+            } while (status == SERIAL_OK);
+
+            /*
+             * Pad REL records to full record length.
+             * For the last record the drive may in theory know how many
+             * bytes are really used (rather than relying on 0-padding),
+             * but it has no way of letting the user know.
+             */
+            c = 0;
+            while (bytes < rel_record_length) {
+                if (dest_name_ascii == NULL) {
+                    fputc(c, outf);
+                } else {
+                    fileio_write(finfo, &c, 1);
+                }
+                bytes++;
+            }
         }
-    } while (status == SERIAL_OK);
+    } else {
+        do {
+            status = vdrive_iec_read(drives[dnr], &c, 0);
+            if (dest_name_ascii == NULL) {
+                fputc(c, outf);
+            } else {
+                fileio_write(finfo, &c, 1);
+            }
+        } while (status == SERIAL_OK);
+    }
 
     if (dest_name_ascii != NULL) {
         fileio_close(finfo);
@@ -4504,6 +4549,7 @@ static int write_cmd(int nargs, char **args)
     char *p;
     fileio_info_t *finfo;
     char *src_name;
+    unsigned int rel_record_length = 0;
 
     if (nargs == 3) {
         /* write <source> <dest> */
@@ -4522,7 +4568,27 @@ static int write_cmd(int nargs, char **args)
         }
 
         if (dest_name != NULL) {
+            char *lenptr;
+
             charset_petconvstring((uint8_t *)dest_name, 0);
+
+            /* Convert "NAME,L,100" to "NAME,L,"+CHR$(100) */
+            if ((lenptr = strstr(dest_name, ",L,"))) {
+                char *endptr;
+                lenptr += 3;      /* after the second comma */
+
+                rel_record_length = strtol(lenptr, &endptr, 10);
+                if (endptr > lenptr && endptr[0] == '\0' &&
+                    rel_record_length >= 1 && rel_record_length <= 254) {
+                    lenptr[0] = (char)(uint8_t)rel_record_length;
+                    if ((endptr - lenptr) > 1) {
+                        lenptr[1] = '\0';
+                    }
+                    fprintf(stderr, "Converted record length %u\n", rel_record_length);
+                } else {
+                    rel_record_length = 0;
+                }
+            }
         }
     } else {
         /* write <source> */
@@ -4578,16 +4644,69 @@ static int write_cmd(int nargs, char **args)
                dest_name, dnr + 8);
     }
 
-    while (1) {
-        uint8_t c;
+    if (rel_record_length == 0) {
+        while (1) {
+            uint8_t c;
 
-        if (fileio_read(finfo, &c, 1) != 1) {
-            break;
+            if (fileio_read(finfo, &c, 1) != 1) {
+                break;
+            }
+
+            if (vdrive_iec_write(drives[dnr], c, 1)) {
+                fprintf(stderr, "no space on image?\n");
+                break;
+            }
         }
+    } else {
+        unsigned int length = fileio_get_bytes_left(finfo);
+        /* Records and positions start counting at 1 */
+        unsigned int max_record = 
+            ((length + rel_record_length - 1) / rel_record_length);
+        unsigned int record;
+        int err;
 
-        if (vdrive_iec_write(drives[dnr], c, 1)) {
-            fprintf(stderr, "no space on image?\n");
-            break;
+        /* First allocate space for the whole file */
+        err = vdrive_rel_position(drives[dnr], 1,
+                (max_record & 0xFF), (max_record >> 8) & 0xFF,
+                1);
+        if (err && err != CBMDOS_IPE_NO_RECORD) {
+            fprintf(stderr, "Cannot Position to record %u (err %d)\n",
+                    max_record, err);
+        }
+        err = vdrive_iec_write(drives[dnr], 0, 1);
+        if (err != SERIAL_OK) {
+            fprintf(stderr, "Cannot write in record %u (err %d)\n",
+                    max_record, err);
+        }
+        /*
+         * Bug/annoyance: given the way that sectors are added at the
+         * end of a REL file, filled with as many records as will fit,
+         * there may be too many records in the file now. This is not
+         * avoided by growing the file piece by piece.
+         */
+
+        for (record = 1; record <= max_record; record++) {
+            int pos;
+
+            err = vdrive_rel_position(drives[dnr], 1,   /* 1 = secadr */
+                    (record & 0xFF), (record >> 8) & 0xFF,
+                    1);
+            if (err && err != CBMDOS_IPE_NO_RECORD) {
+                fprintf(stderr, "Cannot Position to record %u (err %d)\n",
+                        record, err);
+            }
+            for (pos = 0; pos < rel_record_length; pos++) {
+                uint8_t c;
+
+                if (fileio_read(finfo, &c, 1) != 1) {
+                    break;
+                }
+
+                if ((err = vdrive_iec_write(drives[dnr], c, 1)) != SERIAL_OK) {
+                    fprintf(stderr, "no space on image? (err %d)\n", err);
+                    break;
+                }
+            }
         }
     }
 

@@ -17502,7 +17502,11 @@ Exit (same as @code{exit}).
 @item read <source> [<destination>]
 Read @code{source} from the disk image and copy it into @code{destination} in
 the file system.  If @code{destination} is not specified, copy it into a
-file with the same name as @code{source}.",
+file with the same name as @code{source}.
+By default PRG files are copied. To copy SEQ files add @code{,s}
+(i.e. the usual DOS file specification syntax).
+REL files can be copied by adding @code{,l}. Don't specify the record length,
+@code{c1541} will determine it automatically.
 
 @item rename <oldname> <newname>
 Rename @code{oldname} into @code{newname}.  The files must be on the
@@ -17535,6 +17539,12 @@ Show C1541 version string
 @item write <source> [<destination>]
 Write @code{source} from the file system into @code{destination} on a
 disk image.
+
+To create a REL file, you must specify the @code{destination} including the
+record length.
+As a special convenience, you can give it in decimal.
+Example: @code{write fsname imgname,l,100}
+Note that the size of the file may be rounded up to fill the last sector.
 
 @item unzip <d64name> <zipname> [<label,id>]
 Create a D64 disk image out of a set of four Zipcoded files named
@@ -19705,7 +19715,7 @@ examples only. The "type" field is where the error usually
 occurs, whether it's searching for any SYNC mark, any header
 ID, any valid header, or reading a sector.
 
-@multitable @columnfractions .2 .2 .2 .2 .2
+@multitable @columnfractions .15 .15 .15 .15 .4
 @item @b{Code}
 @tab @b{Error}
 @tab @b{Type}
