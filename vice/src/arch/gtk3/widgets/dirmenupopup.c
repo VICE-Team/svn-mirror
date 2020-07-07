@@ -1,4 +1,4 @@
-/** \file   dirmenupopup.c
+    /** \file   dirmenupopup.c
  *  \brief  Create a menu to show a directory of a drive or tape deck
  *
  * FIXME: The current code depends way too much on internal/core code. The code
@@ -177,7 +177,7 @@ GtkWidget *dir_menu_popup_create(
     unsigned int drive = 0;
 
 
-    debug_gtk3("DEVICE = %d, DRIVE = %d", dev, drive);
+    debug_gtk3("DEVICE = %d, DRIVE = %u", dev, drive);
 
     /* create style providers */
     if (!create_css_providers()) {
