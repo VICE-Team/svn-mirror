@@ -296,15 +296,11 @@ AC_CHECK_PROGS(XA, [xa xa65], no)
 AS_IF([test x"$XA" = "xno"], [AC_MSG_ERROR([xa is missing])])
 
 if test x"$enable_pdf_docs" != xno; then
-  AC_CHECK_PROGS(TEXI2DVI, texi2dvi)
-  AC_CHECK_PROGS(PDFTEX, pdftex)
+  AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
+  AC_CHECK_PROGS(PDFTEX, pdftex, no)
 
-  if test x"$TEXI2DVI" = x -o x"$PDFTEX" = x; then
-    if test x"$enable_pdf_docs" != x; then
-      AC_MSG_ERROR([texinfo is required to generate the PDF documentation])]
-    else
-      enable_pdf_docs=no
-    fi
+  if test x"$TEXI2DVI" = "xno" -o x"$PDFTEX" = "xno"; then
+    AC_MSG_ERROR([texinfo and perhaps texlive-binaries are required to generate the PDF documentation])]
   fi
 fi
 
