@@ -147,6 +147,12 @@ else
 # 2019-10-02: Updated to work with FrankenVICE (Debian cross-compiler using
 #             Fedora packages for Gtk3/GLib)
 #             Currently a bit flakey, but it seems to work.
+#
+# 2020-07-07: More hacks added, makes the bindist run again, but on Windows 7
+#             with 'Aero' or Win10, this still displays the white screen and
+#             the screwed up 'X' in the window decorations
+#             Also: liblzma-5.dll is missing, but this doesn't seem to matter
+#             when I copy that DLL's from an msys2 build.
 
 
   libm=`$COMPILER -print-file-name=libm.a`
@@ -195,6 +201,18 @@ EOF
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
   cp bin/gspawn-win??-helper*.exe $BUILDPATH
+
+  # Ugly hack since we now have all emulators in bin/ and updating the above
+  # with BUILDDIR/bin seems to miss some DLL's:
+  mv $BUILDPATH/*.dll $BUILDPATH/bin/
+
+  # Some hardcoded stuff, we really should improve this script, separate it
+  # into a new file. (libwinpthread-1.dll is symlinked from libwinphread-1.dll
+  # (note the absence of the 't' in the latter)
+  cp $loc/lib/libwinpthread-1.dll $BUILDPATH/bin
+  cp $loc/lib/libcroco*.dll $BUILDPATH/bin
+  # XXX: perhaps also libgcc* ? These are not in $loc
+
   cd $current
 fi
 
