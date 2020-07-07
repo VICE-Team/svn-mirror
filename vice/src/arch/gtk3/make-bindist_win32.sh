@@ -200,7 +200,7 @@ EOF
   # Breaks: no hicolor/ in either Debian or Fedora, but doesn't seem to matter
   cp --parents share/icons/hicolor/index.theme $BUILDPATH
   cp --parents share/glib-2.0/schemas/gschemas.compiled $BUILDPATH
-  cp bin/gspawn-win??-helper*.exe $BUILDPATH
+  cp bin/gspawn-win??-helper*.exe $BUILDPATH/bin
 
   # Ugly hack since we now have all emulators in bin/ and updating the above
   # with BUILDDIR/bin seems to miss some DLL's:
@@ -213,7 +213,13 @@ EOF
   cp $loc/lib/libcroco*.dll $BUILDPATH/bin
   # XXX: perhaps also libgcc* ? These are not in $loc
 
+  # 2020-07-07: Overwrite DLL's with MSYS2 DLL's since the ones provided by
+  #             Fedora won't "work" for some reason (blank screen with DirectX)
+  #             TODO: perhaps also support win32?
+  echo "HACK: copying MSYS2 DLL's over the Fedora-provides DLL's"
   cd $current
+  cp -vf $TOPSRCDIR/build/mingw/frankenvice/lib/win64/*.dll $BUILDPATH/bin
+
 fi
 
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $BUILDPATH
@@ -248,7 +254,7 @@ if test x"$ZIPKIND" = "xzip" -o x"$ZIPKIND" = "x7zip"; then
     ZIPEXT=7z
   fi
   rm -f $BUILDPATH.$ZIPEXT
-  
+
   cd $BUILDPATH/..
 
   if test x"$ZIPKIND" = "x7zip"; then
