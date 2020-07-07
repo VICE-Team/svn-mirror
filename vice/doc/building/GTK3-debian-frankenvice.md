@@ -1,5 +1,16 @@
 # FrankenVICE
 
+**UPDATE 2020-07-07**
+
+Frankenvice broke after DQH's threaded-UI commit, so I (compyx) had to add a few hacks to the src/arch/gtk3/make-bindist_win32.sh script.
+Among those was copying two DLL's from an MSYS2 install: libgtk-3.0.dll and libgdk-3.0.dll, both which are currently in ./build/mingw/frankenvice/lib/win{32,64}.
+Without those the emulators won't properly init DirectX. I've tried contacting both the msys2 devs and the gtk3 devs via various ways but got zero response.
+
+I also noticed that on Debian 10.4, we need to install texlive-binaries to get the `pdftex` binary required to build the pdf file. This unfortunately pulls in a lot of useless X11 stuff, I haven't found a way to avoid that, yet.
+
+Finally, the current src/arch/gtk3/make-bindist_win32.sh script is a huge mess, which requires a lot of cleaning up. It can and will break at any time =)
+
+
 ## Creating a Gtk3 Window cross compiler on Debian with Fedora packages
 
 All this assumes a 64-bit box and also a 64-bit target when compiling.
