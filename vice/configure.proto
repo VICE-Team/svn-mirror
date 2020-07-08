@@ -964,6 +964,9 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
     HAVE_SSI2001_SUPPORT="yes"
   fi
 
+  dnl Haiku needs a few compiler flags to compile:
+  VICE_CFLAGS="$VICE_CFLAGS -static -static-libgcc -static-libstdc++"
+
 else
 
 dnl check for darwin first.
