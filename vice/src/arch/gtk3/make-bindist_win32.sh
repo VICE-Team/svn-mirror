@@ -152,7 +152,7 @@ else
 #             with 'Aero' or Win10, this still displays the white screen and
 #             the screwed up 'X' in the window decorations
 #             Also: liblzma-5.dll is missing, but this doesn't seem to matter
-#             when I copy that DLL's from an msys2 build.
+#             when I copy that DLL from an msys2 build.
 
 
   libm=`$COMPILER -print-file-name=libm.a`
@@ -213,12 +213,7 @@ EOF
   cp $loc/lib/libcroco*.dll $BUILDPATH/bin
   # XXX: perhaps also libgcc* ? These are not in $loc
 
-  # 2020-07-07: Overwrite DLL's with MSYS2 DLL's since the ones provided by
-  #             Fedora won't "work" for some reason (blank screen with DirectX)
-  #             TODO: perhaps also support win32?
-  echo "HACK: copying MSYS2 DLL's over the Fedora-provides DLL's"
   cd $current
-  cp -vf $TOPSRCDIR/build/mingw/frankenvice/lib/win64/*.dll $BUILDPATH/bin
 
 fi
 
