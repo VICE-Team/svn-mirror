@@ -292,8 +292,13 @@ AS_IF([test x"$MAKEINFO" = "xno"],
 
 
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
+
+dnl Check for xa[65]
 AC_CHECK_PROGS(XA, [xa xa65], no)
-AS_IF([test x"$XA" = "xno"], [AC_MSG_ERROR([xa is missing])])
+AS_IF([test x"$XA" = "xno"],
+      [AC_MSG_ERROR([The xa assembler is missing, either install it via your
+                  distribution or build and install it using the latest source
+                  from https://www.floodgap.com/retrotech/xa/])])
 
 if test x"$enable_pdf_docs" != xno; then
   AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
