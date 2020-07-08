@@ -826,7 +826,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
         if (vdrive_rel_open_existing(vdrive, secondary)) {
             return SERIAL_ERROR;
         }
-    } else {
+    } else if (cmd_parse->recordlength > 0) {
         log_debug(
             "Open new REL file '%s' with record length %u on channel %u.",
             name, cmd_parse->recordlength, secondary);
@@ -843,6 +843,12 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
         }
         /* set a flag so we can expand the rel file to 1 record later. */
         newrelfile++;
+    } else {
+        log_debug(
+            "Open non-existing REL file '%s' with unspecified record length on channel %u.",
+            name, secondary);
+        vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_FOUND, 0, 0);
+        return SERIAL_ERROR;
     }
 
     /* Allocate dual buffers to improve performance */

@@ -275,19 +275,28 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                 cmd_parse->filetype = CBMDOS_FT_USR;
                 break;
             case 'L':                   /* L,(#record length)  max 254 */
-                if (p[1] == ',') {
-                    cmd_parse->recordlength = p[2]; /* Changing RL causes error */
+                /*
+                 * Allow extra text between L and the comma,
+                 * like with other file types.
+                 */
+                {
+                    uint8_t *comma = memchr(p+1, ',', cmdlen);
+                    if (comma && p + cmdlen > comma + 1) {
+                        cmd_parse->recordlength = comma[1]; /* Changing RL causes error */
 
-                    /* Don't allow REL file record lengths less than 2 or
-                       greater than 254.  The 1541/71/81 lets you create a
-                       REL file of record length 0, but it locks up the CPU
-                       on the drive - nice. */
-                    if (cmd_parse->recordlength < 2 || cmd_parse->recordlength > 254) {
-                        return CBMDOS_IPE_OVERFLOW;
+#ifdef DEBUG_CBMDOS
+                        log_debug("L recordlength=%d", cmd_parse->recordlength);
+#endif
+                        /* Don't allow REL file record lengths less than 2 or
+                           greater than 254.  The 1541/71/81 lets you create a
+                           REL file of record length 0, but it locks up the CPU
+                           on the drive - nice. */
+                        if (cmd_parse->recordlength < 2 || cmd_parse->recordlength > 254) {
+                            return CBMDOS_IPE_OVERFLOW;
+                        }
+                        /* skip the rest */
+                        cmdlen = 0;
                     }
-                    /* skip the REL length */
-                    p += 3;
-                    cmdlen -= 3;
                 }
                 cmd_parse->filetype = CBMDOS_FT_REL;
                 break;
