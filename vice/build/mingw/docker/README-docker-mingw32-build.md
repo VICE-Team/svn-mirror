@@ -24,13 +24,12 @@ Setup your container:
   docker build --tag vice-buildcontainer:0.2 .
   
 Start the build process:
-  ./doch-run.sh <vice-checkout-directory>
+  ./doch-run.sh vice-checkout-directory
 
 The parameter shall point to the directory you've checked out vice
 from sourceforge. Normally this contains two files:
 "svn-instructions.txt" and the directory "vice"
 
 If all went well, you'll find packaged binary distro (.zip) for
-win32/64bit under <vice-checkout-directory>/docker-build
+win32/64bit under vice-checkout-directory/docker-build
 
-TODO: fix permissions to not use 'root' for docker-build directory
