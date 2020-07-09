@@ -4630,7 +4630,7 @@ static int write_cmd(int nargs, char **args)
     if (vdrive_iec_open(drives[dnr], (uint8_t *)dest_name, (unsigned int)dest_len,
                 1, NULL)) {
         fprintf(stderr, "cannot open `%s' for writing on image\n",
-                finfo->name);
+                dest_name);
         fileio_close(finfo);
         lib_free(dest_name);
         lib_free(src_name);
