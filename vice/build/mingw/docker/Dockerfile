@@ -1,4 +1,4 @@
-FROM fedora:33
+FROM fedora:32
 WORKDIR /vice
 COPY build-vice.sh /
 RUN yum install gcc -y && \
@@ -11,6 +11,7 @@ RUN yum install gcc -y && \
     	yum install texinfo -y && \
     	yum install texinfo-tex -y && \
 	yum install diffutils -y && \
+	yum install dos2unix -y && \
 	yum install mingw64-gcc -y && \
 	yum install mingw64-gcc-c++ -y && \
 	yum install mingw64-gtk3  -y && \
@@ -24,3 +25,4 @@ RUN yum install gcc -y && \
 	yum install zip -y && \
 	yum install glib2-devel -y && \
 	chmod +x /build-vice.sh
+USER nobody
