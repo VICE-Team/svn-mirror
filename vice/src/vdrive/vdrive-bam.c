@@ -93,7 +93,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
 
     for (d = 0; d <= max_tracks; d++) {
         int max_sector;
-        t = vdrive->Bam_Track - d;
+        t = vdrive->Dir_Track - d;
 #ifdef DEBUG_DRIVE
         log_message(LOG_DEFAULT, "Allocate first free sector on track %d.", t);
 #endif
@@ -122,7 +122,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
             } else if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) {
                 s = 64; /* after root directory */
             } else {
-                s = max_sector; /* skip bam track */
+                s = max_sector; /* skip dir track */
             }
             for (; s < (unsigned int)max_sector; s++) {
                 if (vdrive_bam_allocate_sector(vdrive, t, s)) {
@@ -185,7 +185,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
 {
     unsigned int max_sector, i, t, s;
 
-    if (*track == vdrive->Bam_Track) {
+    if (*track == vdrive->Dir_Track) {
         if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_4000 || *sector < 64) {
             return -1;
         }
@@ -203,7 +203,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
     }
     /* Look for a sector on the same track */
     for (i = 0; i < max_sector; i++) {
-        if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000 && *track == vdrive->Bam_Track && s < 64) {
+        if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000 && *track == vdrive->Dir_Track && s < 64) {
             s = 64;
         }
         if (vdrive_bam_allocate_sector(vdrive, t, s)) {
@@ -216,7 +216,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
             s = 0;
         }
     }
-    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000 && *track == vdrive->Bam_Track) {
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000 && *track == vdrive->Dir_Track) {
         (*track)++;
     }
 
@@ -226,7 +226,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
         if (vdrive_bam_alloc_down(vdrive, track, sector) == 0) {
             return 0;
         }
-        *track = vdrive->Bam_Track - 1;
+        *track = vdrive->Dir_Track - 1;
         if (vdrive_bam_alloc_down(vdrive, track, sector) == 0) {
             return 0;
         }
@@ -242,7 +242,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
         if (vdrive_bam_alloc_up(vdrive, track, sector) == 0) {
             return 0;
         }
-        *track = vdrive->Bam_Track - 1;
+        *track = vdrive->Dir_Track - 1;
         if (vdrive_bam_alloc_down(vdrive, track, sector) == 0) {
             return 0;
         }
@@ -561,8 +561,8 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, uint8_t *id
                points to the first bitmap BAM block at 38/0 ...
                Only the last BAM block at 38/3 resp. 38/9 points to the
                first dir block at 39/1 */
-            vdrive->bam[0] = 38;
-            vdrive->bam[1] = 0;
+            vdrive->bam[0] = BAM_TRACK_8050;
+            vdrive->bam[1] = BAM_SECTOR_8050;
             vdrive->bam[2] = 67;
             /* byte 3-5 unused */
             /* bytes 6- disk name + id + version */
@@ -574,7 +574,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, uint8_t *id
             /* rest of first block unused */
 
             /* first bitmap block at 38/0 */
-            vdrive->bam[0x100] = 38;
+            vdrive->bam[0x100] = BAM_TRACK_8050;
             vdrive->bam[0x100 + 1] = 3;
             vdrive->bam[0x100 + 2] = 67;
             vdrive->bam[0x100 + 4] = 1; /* In this block from track ... */
@@ -582,7 +582,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, uint8_t *id
 
             if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8050) {
                 /* second bitmap block at 38/3 */
-                vdrive->bam[0x200] = 39;
+                vdrive->bam[0x200] = DIR_TRACK_8050;
                 vdrive->bam[0x200 + 1] = 1;
                 vdrive->bam[0x200 + 2] = 67;
                 vdrive->bam[0x200 + 4] = 51; /* In this block from track ... */
@@ -590,19 +590,19 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, uint8_t *id
             } else
             if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8250) {
                 /* second bitmap block at 38/3 */
-                vdrive->bam[0x200] = 38;
+                vdrive->bam[0x200] = BAM_TRACK_8050;
                 vdrive->bam[0x200 + 1] = 6;
                 vdrive->bam[0x200 + 2] = 67;
                 vdrive->bam[0x200 + 4] = 51; /* In this block from track ... */
                 vdrive->bam[0x200 + 5] = 101; /* till excluding track ... */
                 /* third bitmap block at 38/6 */
-                vdrive->bam[0x300] = 38;
+                vdrive->bam[0x300] = BAM_TRACK_8050;
                 vdrive->bam[0x300 + 1] = 9;
                 vdrive->bam[0x300 + 2] = 67;
                 vdrive->bam[0x300 + 4] = 101; /* In this block from track ... */
                 vdrive->bam[0x300 + 5] = 151; /* till excluding track ... */
                 /* fourth bitmap block at 38/9 */
-                vdrive->bam[0x400] = 39;
+                vdrive->bam[0x400] = DIR_TRACK_8050;
                 vdrive->bam[0x400 + 1] = 1;
                 vdrive->bam[0x400 + 2] = 67;
                 vdrive->bam[0x400 + 4] = 151; /* In this block from track ... */
