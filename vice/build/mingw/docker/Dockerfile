@@ -1,4 +1,4 @@
-FROM fedora:32
+FROM fedora:33
 WORKDIR /vice
 COPY build-vice.sh /
 RUN yum install gcc -y && \

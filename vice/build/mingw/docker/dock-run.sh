@@ -15,6 +15,7 @@ echo "Building here: ${base}"
 
 docker run -a STDOUT -a STDERR -it \
        --user `id -u`:`id -g` \
+       --env HOME='/tmp' \
        --name vice-build \
        --mount type=bind,source="${base}",target=/vice \
        vice-buildcontainer:0.2 \
