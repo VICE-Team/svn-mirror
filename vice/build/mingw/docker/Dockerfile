@@ -2,6 +2,7 @@ FROM fedora:33
 WORKDIR /vice
 COPY build-vice.sh /
 RUN yum install gcc -y && \
+    	yum install yasm -y && \
     	yum install gcc-c++ -y && \
     	yum install automake -y && \
     	yum install svn -y && \
@@ -25,4 +26,4 @@ RUN yum install gcc -y && \
 	yum install zip -y && \
 	yum install glib2-devel -y && \
 	chmod +x /build-vice.sh
-USER nobody
+#USER nobody

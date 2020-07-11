@@ -24,11 +24,18 @@ Setup your container:
   docker build --tag vice-buildcontainer:0.2 .
   
 Start the build process:
-  ./doch-run.sh vice-checkout-directory
+  ./doch-run.sh [-i] vice-checkout-directory
 
 The parameter shall point to the directory you've checked out vice
 from sourceforge. Normally this contains two files:
 "svn-instructions.txt" and the directory "vice"
+
+if option -i is given, the container is run interactively and vice is
+not built. This is useful to check different configure options, or
+adding of packages.
+
+Currently vice is built with this configure commandline:
+  ../vice/configure -v --host=x86_64-w64-mingw32 --enable-native-gtk3ui --enable-cpuhistory --enable-arch=no 2>&1 |tee conf.log
 
 If all went well, you'll find packaged binary distro (.zip) for
 win32/64bit under vice-checkout-directory/docker-build
