@@ -373,7 +373,6 @@ is_unix_macosx=no
 is_win32=no
 is_win32_gtk3=no
 is_beos=no
-is_amiga=no
 
 
 BSD_JOYSTICK_SUPPORT="no "
@@ -674,132 +673,7 @@ fi
 
 dnl Setup crosscompiling.
 
-if test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
-  dnl
-  dnl The VICE_*CFLAGS stuff will ignore and thus break this
-  dnl
-  AC_DEFINE(AMIGA_SUPPORT,,[Should we enable Amigaos support.])
-
-  is_amigaos4=yes
-  is_amigaos3=no
-  is_amiga_aros=no
-  is_amiga_morphos=no
-  openpci_present=no
-
-  if test x"$host_os" = "xmorphos"; then
-    AC_DEFINE(AMIGA_MORPHOS,,[Should we enable Amiga Morphos support.])
-    CFLAGS="$CFLAGS -noixemul"
-    AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
-    AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-    HAVE_NETWORK_SUPPORT="yes"
-    AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
-    HAVE_RS232NET_SUPPORT="yes"
-    AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
-    if test x"$openpci_present" = "xyes"; then
-      if test x"$enable_catweasel" != "xno"; then
-        AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-        HAVE_CATWEASELMKIII_SUPPORT="yes"
-      fi
-      if test x"$enable_hardsid" != "xno"; then
-        AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-        HAVE_HARDSID_SUPPORT="yes"
-      fi
-    else
-      if test x"$enable_catweasel" = "xyes" -a x"$HAVE_CATWEASELMKIII_SUPPORT" != "xyes"; then
-        AC_MSG_ERROR([CatWeaselMKIII support is missing])
-      fi
-      if test x"$enable_hardsid" = "xyes" -a x"$HAVE_HARDSID_SUPPORT" != "xyes"; then
-        AC_MSG_ERROR([HardSID support is missing])
-      fi
-    fi
-    is_amiga_morphos=yes
-    is_amigaos4=no
-  fi
-
-  if test x"$host_os" = "xaros"; then
-    AC_DEFINE(AMIGA_AROS,,[Should we enable AROS support.])
-    AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
-    AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-    HAVE_NETWORK_SUPPORT="yes"
-    AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
-    HAVE_RS232NET_SUPPORT="yes"
-    AC_CHECK_HEADERS(aros/_timeval.h)
-    AC_MSG_CHECKING(if common library bases are auto resolved)
-    aros_common_resolve=no
-    AC_TRY_LINK([#include <proto/asl.h>],
-                [AbortAslRequest(0)],
-                aros_common_resolve=yes)
-    if test x"$aros_common_resolve" = "xyes"; then
-       AC_MSG_RESULT(yes)
-       AC_DEFINE(WORKING_AROS_AUTO,,[Define to 1 if aros can handle auto resolving of library bases.])
-    else
-       AC_MSG_RESULT(no)
-    fi
-    is_amigaos4=no
-    is_amiga_aros=yes
-  fi
-
-  if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
-    CFLAGS="$CFLAGS -mc68020 -noixemul"
-    AC_DEFINE(AMIGA_M68K,,[Should we enable M68K AmigaOS support.])
-    AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
-    AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-    HAVE_NETWORK_SUPPORT="yes"
-    AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
-    HAVE_RS232NET_SUPPORT="yes"
-    AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
-    if test x"$openpci_present" = "xyes"; then
-      if test x"$enable_catweasel" != "xno"; then
-        AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-        HAVE_CATWEASELMKIII_SUPPORT="yes"
-      fi
-      if test x"$enable_hardsid" != "xno"; then
-        AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-        HAVE_HARDSID_SUPPORT="yes"
-      fi
-      if test x"$enable_ssi2001" != "xno"; then
-        AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001.])
-        HAVE_SSI2001_SUPPORT="yes"
-      fi
-    else
-      if test x"$enable_catweasel" = "xyes" -a x"$HAVE_CATWEASELMKIII" != "xyes"; then
-        AC_MSG_ERROR([CatWeaselMKIII support is missing])
-      fi
-      if test x"$enable_hardsid" = "xyes" -a x"$HAVE_HARDSID_SUPPORT" != "xyes"; then
-        AC_MSG_ERROR([HardSID support is missing])
-      fi
-    fi
-    is_amigaos4=no
-    is_amigaos3=yes
-  fi
-
-  if test x"$is_amigaos4" = "xyes"; then
-    AC_DEFINE(AMIGA_OS4,,[Should we enable AmigaOS4 support.])
-    if test x"$enable_catweasel" != "xno"; then
-      AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-      HAVE_CATWEASELMKIII_SUPPORT="yes"
-    fi
-    if test x"$enable_hardsid" != "xno"; then
-      AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-      HAVE_HARDSID_SUPPORT="yes"
-    fi
-    LIBS="$LIBS -lsupc++ -lgcc_eh"
-  fi
-
-  is_amiga=yes
-
-  CFLAGS="$CFLAGS -finline-functions"
-
-  if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
-    if test x"is_amigaos4" = "xyes"; then
-      LIBS="$LIBS -lunix"
-    fi
-  fi
-
-elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc" -o x"$is_win32_gtk3" = "xyes"; then
+if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc" -o x"$is_win32_gtk3" = "xyes"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
@@ -1494,69 +1368,6 @@ if test x"$check_sdl1" = "xyes"; then
       AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
     fi
     AC_DEFINE(CEGCC_COMPILE,,[Enable cegcc support.])
-  elif test x"$is_amiga" = "xyes" -a x"$is_amiga_aros" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-    if test x"$enable_sdlui" != "xno"; then
-      AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
-    fi
-    AC_CHECK_HEADER(inline/SDL.h,[SDL_AMIGA_INLINE=yes], [SDL_AMIGA_INLINE=no],)
-    AC_CHECK_HEADER(ppcinline/powersdl.h,[POWERSDL_AMIGA_INLINE=yes], [POWERSDL_AMIGA_INLINE=no],)
-    AC_CHECK_LIB(debug, kprintf, [LIBS="$LIBS -ldebug"])
-    if test x"$enable_sdlui" != "xno"; then
-      AC_CHECK_LIB(GL, AROSMesaCreateContext, [LIBS="$LIBS -lGL"])
-    fi
-    if test x"$SDL_AMIGA_INLINE" = "xyes"; then
-      AC_DEFINE(SDL_AMIGA_INLINE,,[Enable amiga shared SDL library support.])
-      if test x"$enable_sdlui" != "xno"; then
-        AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,,
-                  [Define to 1 if you have the 'SDL_NumJoysticks' function.])
-        HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes";
-      fi
-    elif test x"$POWERSDL_AMIGA_INLINE" = "xyes"; then
-      AC_DEFINE(POWERSDL_AMIGA_INLINE,,[Enable morphos shared SDL library support.])
-      if test x"$enable_sdlui" != "xno"; then
-        AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the 'SDL_NumJoysticks' function.])
-        HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes";
-      fi
-    else
-      if test x"$check_sdlaudio" = "xyes"; then
-        AC_CHECK_LIB(SDL, SDL_OpenAudio, [found_sdl_sound=yes], [found_sdl_sound=no])
-        if test x"$found_sdl_sound" = "xyes"; then
-           SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
-           USE_SDL_AUDIO_SUPPORT="yes";
-           AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
-        fi
-      fi
-
-      if test x"$enable_sdlui" != "xno"; then
-        AC_CHECK_LIB(SDL, SDL_SetVideoMode, [found_sdl_lib=yes], [found_sdl_lib=no])
-        if test x"$found_sdl_lib" = "xno"; then
-          AC_MSG_ERROR([static SDL lib missing])
-        fi
-      fi
-
-      if test x"$found_sdl_lib" = "xyes" -o x"$found_sdl_sound" = "xyes"; then
-        LIBS="-lSDL $LIBS"
-      fi
-
-      if test x"$enable_sdlui" != "xno"; then
-        AC_CHECK_FUNCS(SDL_NumJoysticks)
-      fi
-    fi
-    AC_CHECK_HEADER(SDL/SDL.h, [found_sdl_h=yes], [found_sdl_h=no],)
-    if test x"$found_sdl_h" = "xyes"; then
-      AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
-      if test x"$found_sdl_sound" = "xyes"; then
-        AC_CHECK_HEADERS(SDL/SDL_audio.h, [], [AC_MSG_ERROR([SDL headers missing])],)
-      fi
-    else
-      AC_CHECK_HEADERS(SDL.h, [found_sdl_h=yes], [found_sdl_h=no],)
-      if test x"$found_sdl_h" = "xno"; then
-        AC_MSG_ERROR([SDL headers missing])
-      fi
-      if test x"$found_sdl_sound" = "xyes"; then
-        AC_CHECK_HEADERS(SDL_audio.h, [], [AC_MSG_ERROR([SDL headers missing])],)
-      fi
-    fi
   else
 
     dnl fail if SDL ui was requested
@@ -1806,38 +1617,6 @@ else
   AM_CONDITIONAL(EMBEDDED, false)
 fi
 
-dnl check for texi to amigaguide program
-if test x"$MAKEGUIDE" != "xno"; then
-  AM_CONDITIONAL(BUILD_AMIGAGUIDE, true)
-else
-  if test x"$MAKEINFO" != "xno"; then
-    AC_MSG_CHECKING([if the makeinfo supports amigaguide])
-    agresult=`$MAKEINFO --help 2>&1 | grep amiga`
-    if test x"$agresult" != "x"; then
-      AC_MSG_RESULT([yes])
-      MAKEGUIDE=$MAKEINFO
-      AM_CONDITIONAL(BUILD_AMIGAGUIDE, true)
-    else
-      AC_MSG_RESULT([no])
-      AM_CONDITIONAL(BUILD_AMIGAGUIDE, false)
-    fi
-  else
-    AM_CONDITIONAL(BUILD_AMIGAGUIDE, false)
-  fi
-fi
-AC_SUBST(MAKEGUIDE)
-
-
-dnl check for os/2 ipf compiler programs
-if test x"$TEXI2IPF" != "xno"; then
-  if test x"$IPFC" != "xno"; then
-    AM_CONDITIONAL(BUILD_IPF, true)
-  else
-    AM_CONDITIONAL(BUILD_IPF, false)
-  fi
-else
-  AM_CONDITIONAL(BUILD_IPF, false)
-fi
 
 dnl Extension for executable files in this system
 AC_EXEEXT
@@ -2824,20 +2603,6 @@ if test x"$is_unix" = "xyes"; then
 
 fi
 
-if test x"$is_amiga" = "xyes"; then
-  if test x"$enable_ahi" != "xno"; then
-    AC_CHECK_HEADERS(devices/ahi.h,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundahi.o"; break])
-
-    if test "x$ac_cv_header_devices_ahi_h" = xyes; then
-      HAVE_DEVICES_AHI_H_SUPPORT="yes"
-    else
-      if test x"$enable_ahi" = "xyes"; then
-        AC_MSG_ERROR([AHI support is missing])
-      fi
-    fi
-  fi
-fi
 
 dnl --- Lame ---
 if test x"$enable_lame" != "xno" ; then
@@ -2888,13 +2653,6 @@ if test x"$FCCACHE" = "xfalse"; then
   AM_CONDITIONAL(HAVE_FC_CACHE, false)
 else
   AM_CONDITIONAL(HAVE_FC_CACHE, true)
-fi
-
-if test x"$is_amigaos4" = "xyes"; then
-  dnl for AmigaOS4 native resid needs to be configured without dependency tracking
-    if test x"$cross_compiling" != "xyes"; then
-    ac_configure_args="$ac_configure_args --disable-dependency-tracking"
-  fi
 fi
 
 dsound_header_no_lib="no"
@@ -3248,8 +3006,8 @@ fi
 
 AC_SUBST(LIBS)
 
-dnl check for usleep
-if test x"$is_win32" != "xyes" -a x"$is_amiga_aros" != "xyes"; then
+dnl check for usleep (do we need this anymore?)
+if test x"$is_win32" != "xyes" ; then
   AC_REPLACE_FUNCS(usleep)
 fi
 
@@ -3444,17 +3202,7 @@ AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(mpg123, mpg123_init,
                       AC_DEFINE(USE_MPG123,,[Enable mpg123 mp3 decoding support.])],,)])
 
 dnl Check for libraries and header files
-if test x"$is_amiga" = "xyes"; then
-
-  dnl On Amiga, we already know what we want.
-  if test x"$is_amiga_aros" != "xyes"; then
-    if test x"$host_os" != "xmorphos" -a x"$host_os" != "xwarpos" -a x"$host_os" != "xpowerup"; then
-      LIBS="$LIBS -lauto"
-    fi
-  fi
-  dnl AC_SUBST(LDFLAGS)
-
-elif test x"$is_beos" = "xyes"; then
+if test x"$is_beos" = "xyes"; then
 
   dnl On BEOS, we already know what we want.
 
@@ -3675,14 +3423,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
-  AM_CONDITIONAL(MAKE_INSTALL, false)
-  AM_CONDITIONAL(MAKE_BINDIST, true)
-elif test x"$is_amiga" = "xyes"; then
-  AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(WIN32_COMPILE, false)
-  AM_CONDITIONAL(BEOS_COMPILE, false)
-  AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(MAKE_INSTALL, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
@@ -3953,14 +3693,10 @@ dnl compile-command: "autoconf"
 dnl End:
 
 dnl construct show_arch
-if test x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_win32_gtk3" != "xyes"; then
+if test "$is_beos" != "xyes" -a x"$is_unix_macosx" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_win32_gtk3" != "xyes"; then
     show_arch="Unix"
     real_arch="Unix"
 else
-    if test x"$is_amiga" = "xyes"; then
-        show_arch="Amiga"
-        real_arch="Amiga"
-    fi
     if test x"$is_beos" = "xyes"; then
         show_arch="BeOS"
         real_arch="BeOS"
