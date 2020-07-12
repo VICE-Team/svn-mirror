@@ -357,7 +357,7 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 {
     context_t *context = canvas->renderer_context;
 
-    ui_update_speed_widgets();
+    ui_update_statusbars();
 
     gtk_widget_set_size_request(canvas->drawing_area, context->native_view_min_width, context->native_view_min_height);
 }

@@ -137,21 +137,27 @@ typedef struct ui_sb_state_s {
      * Used to correlate timeout events so that a new message
      * isn't erased by some older message timing out. */
     intptr_t statustext_msgid;
+    
     /** \brief Current tape state (play, rewind, etc) */
     int tape_control;
+    
     /** \brief Nonzero if the tape motor is powered. */
     int tape_motor_status;
+    
     /** \brief Location on the tape */
     int tape_counter;
+    
     /** \brief Which drives are to be displayed in the status bar.
      *
      *  This is a bitmask, with bits 0-3 representing drives 8-11,
      *  respectively.
      */
     int drives_enabled;
+    
     /** \brief Nonzero if True Drive Emulation is active and drive
      *         LEDs should be drawn. */
     int drives_tde_enabled;
+    
     /** \brief Color descriptors for the drive LED colors.
      *
      *  This value is a bitmask, with bit 0 and 1 set if the
@@ -159,15 +165,22 @@ typedef struct ui_sb_state_s {
      *  only have one LED will have their 'second' LED permanently at
      *  intensity zero so the value is irrelevant in that case. */
     int drive_led_types[NUM_DISK_UNITS];
+    
     /** \brief Current intensity of each drive LED, 0=off,
      *         1000=max. */
     unsigned int current_drive_leds[NUM_DISK_UNITS][2];
+    
+    /** \brief device:track.halftrack label for each disk unit.
+     *         probably need to add support for dualdrive here. */
+    char current_drive_track_str[NUM_DISK_UNITS][16];
+    
     /** \brief Current state for each of the joyports.
      *
      *  This is an 7-bit bitmask, representing, from least to most
      *  significant bits: up, down, left, right, fire button,
      *  secondary fire button, tertiary fire button. */
     int current_joyports[JOYPORT_MAX_PORTS];
+    
     /** \brief Which joystick ports are actually available.
      *
      *  This is a bitmask representing notional ports 0-4, which are
@@ -175,7 +188,6 @@ typedef struct ui_sb_state_s {
      *  control port on a Plus/4 without other userport control ports
      *  mean that the set of active joyports may be discontinuous. */
     int joyports_enabled;
-    /** \brief Currently emulated CPU speed in percent */
 } ui_sb_state_t;
 
 
@@ -1403,6 +1415,7 @@ void ui_statusbar_init(void)
         sb_state.drive_led_types[i] = 0;
         sb_state.current_drive_leds[i][0] = 0;
         sb_state.current_drive_leds[i][1] = 0;
+        sb_state.current_drive_track_str[i][0] = '\0';
     }
 
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
@@ -1877,6 +1890,8 @@ void ui_display_tape_current_image(const char *image)
 
 /** \brief  Statusbar API function to report changes in drive LED intensity.
  *
+ * This function simply updates global state, rendering occurs in ui_update_statusbars().
+ * 
  *  \param  drive_number    The unit to update (0-3 for drives 8-11)
  *  \param  drive_base      Drive 0 or 1 of dualdrives
  *  \param  led_pwm1        The intensity of the first LED (0=off,
@@ -1891,27 +1906,18 @@ void ui_display_drive_led(unsigned int drive_number,
                           unsigned int led_pwm1,
                           unsigned int led_pwm2)
 {
-    int i;
     if (drive_number < 0 || drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
     }
     sb_state.current_drive_leds[drive_number][0] = led_pwm1;
     sb_state.current_drive_leds[drive_number][1] = led_pwm2;
-    for (i = 0; i < MAX_STATUS_BARS; ++i) {
-        if (allocated_bars[i].bar) {
-            GtkWidget *drive, *led;
-            drive = allocated_bars[i].drives[drive_number];
-            led = gtk_grid_get_child_at(GTK_GRID(drive), 2, 0);
-            if (led) {
-                gtk_widget_queue_draw(led);
-            }
-        }
-    }
 }
 
 
 /** \brief  Statusbar API function to report changes in drive head location.
+ *
+ * This function simply updates global state, rendering occurs in ui_update_statusbars().
  *
  *  \param  drive_number        The unit to update (0-3 for drives 8-11)
  *  \param  drive_base          Drive 0 or 1 of dualdrives
@@ -1926,24 +1932,15 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    int i;
     if (drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
     }
-    for (i = 0; i < MAX_STATUS_BARS; ++i) {
-        if (allocated_bars[i].bar) {
-            GtkWidget *drive, *track;
-            drive = allocated_bars[i].drives[drive_number];
-            track = gtk_grid_get_child_at(GTK_GRID(drive), 1, 0);
-            if (track) {
-                char track_str[16];
-                snprintf(track_str, 16, "%.1lf", half_track_number / 2.0);
-                track_str[15] = 0;
-                gtk_label_set_text(GTK_LABEL(track), track_str);
-            }
-        }
-    }
+    snprintf(
+        sb_state.current_drive_track_str[drive_number],
+        sizeof(sb_state.current_drive_track_str[drive_number]),
+        "%.1lf",
+        half_track_number / 2.0);
 }
 
 
@@ -2096,18 +2093,41 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 }
 
 
-/** \brief  Statusbar API to display emulation speed, framerate and warp mode */
-void ui_update_speed_widgets(void)
+/** \brief  Statusbar API to display emulation metrics and drive status */
+void ui_update_statusbars(void)
 {
-    GtkWidget *speed_widget;
+    /* TODO: Don't call this for each top level window as it updates all statusbars */
+    GtkWidget *speed_widget, *drive, *track, *led;
+    int i, j;
 
-    speed_widget = allocated_bars[0].speed;
-    if (speed_widget != NULL) {
-        statusbar_speed_widget_update(speed_widget);
-    }
-    speed_widget = allocated_bars[1].speed;
-    if (speed_widget != NULL) {
-        statusbar_speed_widget_update(speed_widget);
+    for (i = 0; i < MAX_STATUS_BARS; ++i) {
+        if (!allocated_bars[i].bar) {
+            continue;
+        }
+
+        /* Emulation speed, fps, warp */
+        speed_widget = allocated_bars[i].speed;
+        if (speed_widget != NULL) {
+            statusbar_speed_widget_update(speed_widget);
+        }
+
+        /* Drive track, half track, and led  */
+        for (j = 0; j < NUM_DISK_UNITS; ++j) {
+            drive = allocated_bars[i].drives[j];
+            if (!drive) {
+                continue;
+            }
+            
+            track = gtk_grid_get_child_at(GTK_GRID(drive), 1, 0);
+            if (track) {
+                gtk_label_set_text(GTK_LABEL(track), sb_state.current_drive_track_str[i]);
+            }
+
+            led = gtk_grid_get_child_at(GTK_GRID(drive), 2, 0);
+            if (led) {
+                gtk_widget_queue_draw(led);
+            }
+        }
     }
 }
 
