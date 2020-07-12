@@ -111,8 +111,8 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     printf( "Getting matching framebuffer configs\n" );
     int fbcount;
-    PFNGLXCHOOSEFBCONFIGPROC glXChooseFBConfig = (PFNGLXCHOOSEFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXChooseFBConfig");
-    GLXFBConfig *framebuffer_configs = glXChooseFBConfig(context->x_display, DefaultScreen(context->x_display), visual_attribs, &fbcount);
+    PFNGLXCHOOSEFBCONFIGPROC vice_glXChooseFBConfig = (PFNGLXCHOOSEFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXChooseFBConfig");
+    GLXFBConfig *framebuffer_configs = vice_glXChooseFBConfig(context->x_display, DefaultScreen(context->x_display), visual_attribs, &fbcount);
     if (!framebuffer_configs) {
         printf( "Failed to retrieve a framebuffer config\n");
         exit(1);
@@ -124,8 +124,8 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     XFree(framebuffer_configs);
 
     // Get a visual
-    PFNGLXGETVISUALFROMFBCONFIGPROC glXGetVisualFromFBConfig = (PFNGLXGETVISUALFROMFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXGetVisualFromFBConfig");
-    XVisualInfo *x_visual = glXGetVisualFromFBConfig(context->x_display, framebuffer_config);
+    PFNGLXGETVISUALFROMFBCONFIGPROC vice_glXGetVisualFromFBConfig = (PFNGLXGETVISUALFROMFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXGetVisualFromFBConfig");
+    XVisualInfo *x_visual = vice_glXGetVisualFromFBConfig(context->x_display, framebuffer_config);
     
     XSetWindowAttributes x_set_window_attributes;
 
@@ -159,14 +159,14 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     // Get the screen's GLX extension list
     const char *glx_extensions = glXQueryExtensionsString(context->x_display, DefaultScreen(context->x_display));
 
-    PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateContextAttribsARB");
+    PFNGLXCREATECONTEXTATTRIBSARBPROC vice_glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateContextAttribsARB");
 
     // Check for the GLX_ARB_create_context extension string and the function.
     // If either is not present, use GLX 1.3 context creation method.
-    if (!isExtensionSupported(glx_extensions, "GLX_ARB_create_context") || !glXCreateContextAttribsARB) {
+    if (!isExtensionSupported(glx_extensions, "GLX_ARB_create_context") || !vice_glXCreateContextAttribsARB) {
         /* Legact context -- TODO, actually support using this */
-        PFNGLXCREATENEWCONTEXTPROC glXCreateNewContext = (PFNGLXCREATENEWCONTEXTPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateNewContext");
-        context->gl_context = glXCreateNewContext(context->x_display, framebuffer_config, GLX_RGBA_TYPE, NULL, True);
+        PFNGLXCREATENEWCONTEXTPROC vice_glXCreateNewContext = (PFNGLXCREATENEWCONTEXTPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateNewContext");
+        context->gl_context = vice_glXCreateNewContext(context->x_display, framebuffer_config, GLX_RGBA_TYPE, NULL, True);
     }
     else
     {
@@ -177,8 +177,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
                 None
             };
         
-        PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateContextAttribsARB");
-        context->gl_context = glXCreateContextAttribsARB(context->x_display, framebuffer_config, NULL, True, context_attribs);
+        context->gl_context = vice_glXCreateContextAttribsARB(context->x_display, framebuffer_config, NULL, True, context_attribs);
 
         // Sync to ensure any errors generated are processed.
         XSync(context->x_display, False);
@@ -200,7 +199,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
             context_attribs[1] = 1;
             context_attribs[3] = 0;
 
-            context->gl_context = glXCreateContextAttribsARB(context->x_display, framebuffer_config, NULL, True, context_attribs);
+            context->gl_context = vice_glXCreateContextAttribsARB(context->x_display, framebuffer_config, NULL, True, context_attribs);
         }
     }
 
@@ -225,8 +224,8 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* Enable vsync */
     if (GLX_EXT_swap_control) {
         GLint gl_int = 1;
-        PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddressARB((const GLubyte*)"glXSwapIntervalEXT");
-        glXSwapIntervalEXT(context->x_display, glXGetCurrentDrawable(), gl_int);
+        PFNGLXSWAPINTERVALEXTPROC vice_glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddressARB((const GLubyte*)"glXSwapIntervalEXT");
+        vice_glXSwapIntervalEXT(context->x_display, glXGetCurrentDrawable(), gl_int);
     }
 
     vice_opengl_renderer_clear_current(context);
