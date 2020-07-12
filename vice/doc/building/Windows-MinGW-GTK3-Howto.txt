@@ -54,11 +54,12 @@ Launch either the MSYS2 MinGW 64-bit shell or the MSYS2 MinGW 32-bit shell
 
 DON'T USE THE NON-MINGW ONE, STUFF WON'T WORK.
 
-Run the following command line to install your prerequisites:
+Run the following command lines to install your prerequisites:
 
-$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: gtk3 glew giflib
+$ pacman -S --needed --noconfirm base-devel
+$ pacboy sync pkg-config gcc ntldd zip: subversion: gtk3 glew giflib
 
-(Note: type the colons that you see in that command; they are important.
+(Note: type the colons that you see in the second command; they are important.
  Hit enter for the default on all the prompts, then wait for the 306 MiB
  of stuff to download and install.)
 
@@ -103,7 +104,7 @@ Set $PATH so configure will find the required binaries:
 $ export PATH="$PATH:/c/miktex/miktex/bin/x64"
 
 Remember to either do this last step every time you open the msys64 terminal
-or edit your ~/.bashrc
+or edit your ~/.bash_profile
 
 
 6. Get VICE's source code.
