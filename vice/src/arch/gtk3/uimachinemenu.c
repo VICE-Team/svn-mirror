@@ -17,6 +17,7 @@
  *
  * $VICERES MainCPU_TRACE   all
  * $VICERES IEC_TRACE       -vsid
+ * $VICERES IEEE_TRACE      -vsid
  * $VICERES Drive0CPU_TRACE -vsid
  * $VICERES Drive1CPU_TRACE -vsid
  * $VICERES Drive2CPU_TRACE -vsid
@@ -729,6 +730,10 @@ static ui_menu_item_t debug_menu[] = {
 
     { "IEC bus trace", UI_MENU_TYPE_ITEM_CHECK,
         "trace-iec", (void *)(ui_toggle_resource), (void *)"IEC_TRACE",
+        0, 0, false },
+
+    { "IEEE-488 bus trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-ieee", (void *)(ui_toggle_resource), (void *)"IEEE_TRACE",
         0, 0, false },
 
     UI_MENU_SEPARATOR,

@@ -54,7 +54,7 @@
 #include "types.h"
 
 
-int parallel_debug = 0;
+#define PARALLEL_DEBUG_VERBOSE
 static int parallel_emu = 1;
 
 void parallel_bus_enable(int enable)
@@ -148,10 +148,12 @@ typedef struct State_t {
     void (*m[NTRANS])(int);
 } State_t;
 
+#ifdef DEBUG
 static const char *Trans[NTRANS] = {
     "ATN low", "ATN high", "DAV low", "DAV high",
     "NDAC low", "NDAC high", "NRFD low", "NRFD high"
 };
+#endif
 
 static State_t State[NSTATE];
 
@@ -161,15 +163,15 @@ static int state = WaitATN;
 #define isListening()   ((par_status & 0xf000) == 0x2000)
 #define isTalking()     ((par_status & 0xf000) == 0x4000)
 
-#ifdef PARALLEL_DEBUG_VERBOSE
+#if defined(DEBUG) && defined(PARALLEL_DEBUG_VERBOSE)
 static void DoTrans(int tr)
 {
-    if (parallel_debug) {
-        log_debug("DoTrans(%s).%s\n", State[state].name, Trans[tr]);
+    if (debug.ieee) {
+        log_debug("DoTrans(%s).%s", State[state].name, Trans[tr]);
     }
     State[state].m[tr](tr);
-    if (parallel_debug) {
-        log_debug(" -> %s\n", State[state].name);
+    if (debug.ieee) {
+        log_debug(" -> %s", State[state].name);
     }
 }
 #else
@@ -202,11 +204,13 @@ static void ignore(int i)
 
 static void unexpected(int trans)
 {
-    if (parallel_debug) {
+#ifdef DEBUG
+    if (debug.ieee) {
         log_warning(LOG_DEFAULT,
                     "IEEE488: unexpected line transition in state %s: %s.",
                     State[state].name, Trans[trans]);
     }
+#endif
 }
 
 static void WATN_atnlo(int tr)
@@ -239,11 +243,13 @@ static void In1_atnhi(int tr)
                     return;
                 }
             } else {
-                if (parallel_debug) {
+#ifdef DEBUG
+                if (debug.ieee) {
                     log_warning(LOG_DEFAULT,
                                 "IEEE488: Ouch, something weird happened: %s got %s",
                                 State[In1].name, Trans[tr]);
                 }
+#endif
                 ResetBus();
                 Go(WaitATN);
             }
@@ -264,10 +270,12 @@ static void In1_davlo(int tr)
     } else {
         par_status = parallel_trap_sendbyte((uint8_t)(b ^ 0xff));
     }
-    if (parallel_debug) {
+#ifdef DEBUG
+    if (debug.ieee) {
         log_warning(LOG_DEFAULT, "IEEE488: sendbyte returns %04x",
                 (unsigned int)par_status);
     }
+#endif
 
     Go(In2);
 }
@@ -335,9 +343,11 @@ static void OPet_ndaclo(int tr)
 
 static void OPet_nrfdlo(int tr)
 {
-    if (parallel_debug) {
+#ifdef DEBUG
+    if (debug.ieee) {
         log_warning(LOG_DEFAULT, "OPet_nrfdlo()");
     }
+#endif
     State[Out1].m[NRFDhi](tr);
 }
 
@@ -421,8 +431,9 @@ static State_t State[NSTATE] = {
  *
  */
 
+#ifdef DEBUG
 #define PARALLEL_LINE_DEBUG_CLR(line, linecap)                          \
-    if (parallel_debug) {                                                \
+    if (debug.ieee) {                                                \
         if (old && !parallel_ ## line) {                                    \
             log_warning(LOG_DEFAULT,                                    \
                        "clr_" # line "(%02x) -> " # linecap "hi",        \
@@ -435,7 +446,7 @@ static State_t State[NSTATE] = {
     }
 
 #define PARALLEL_LINE_DEBUG_SET(line, linecap)                          \
-    if (parallel_debug) {                                                \
+    if (debug.ieee) {                                                \
         if (!old) {                                                       \
             log_warning(LOG_DEFAULT,                                    \
                         "set_" # line "(%02x) -> " # linecap "lo", mask); } \
@@ -445,10 +456,16 @@ static State_t State[NSTATE] = {
                         "set_" # line "(%02x) -> %02x",              \
                         mask, parallel_ ## line); }                     \
     }
+#else
+#define PARALLEL_LINE_DEBUG_CLR(line, linecap)
+#define PARALLEL_LINE_DEBUG_SET(line, linecap)
+#endif
 
 void parallel_set_eoi(uint8_t mask)
 {
+#ifdef DEBUG
     uint8_t old = parallel_eoi;
+#endif
     parallel_eoi |= mask;
 
     PARALLEL_LINE_DEBUG_SET(eoi, EOI)
@@ -456,7 +473,9 @@ void parallel_set_eoi(uint8_t mask)
 
 void parallel_clr_eoi(uint8_t mask)
 {
+#ifdef DEBUG
     uint8_t old = parallel_eoi;
+#endif
     parallel_eoi &= mask;
 
     PARALLEL_LINE_DEBUG_CLR(eoi, EOI)
@@ -507,25 +526,33 @@ void parallel_clr_atn(uint8_t mask)
 
 void parallel_restore_set_atn(uint8_t mask)
 {
+#ifdef DEBUG
     uint8_t old = parallel_atn;
+#endif
     parallel_atn |= mask;
 
-    if (parallel_debug && !old) {
+#ifdef DEBUG
+    if (debug.ieee && !old) {
         log_warning(LOG_DEFAULT, "set_atn(%02x) -> ATNlo", mask);
     }
+#endif
 
     /* we do not send IRQ signals to chips on restore */
 }
 
 void parallel_restore_clr_atn(uint8_t mask)
 {
+#ifdef DEBUG
     uint8_t old = parallel_atn;
+#endif
     parallel_atn &= mask;
 
-    if (parallel_debug && old && !parallel_atn) {
+#ifdef DEBUG
+    if (debug.ieee && old && !parallel_atn) {
         log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi",
                 (unsigned int)(~mask & 0xff));
     }
+#endif
 
     /* we do not send IRQ signals to chips on restore */
 }
@@ -606,11 +633,15 @@ void parallel_clr_ndac(uint8_t mask)
  * methods to set data lines
  */
 
+#ifdef DEBUG
 #define PARALLEL_DEBUG_SET_BUS(type)                                    \
-    if (parallel_debug) {                                               \
+    if (debug.ieee) {                                               \
         log_warning(LOG_DEFAULT, # type "_set_bus(%02x) -> %02x (%02x)", \
                     (unsigned int)b, parallel_bus, ~parallel_bus & 0xffu);             \
     }
+#else
+#define PARALLEL_DEBUG_SET_BUS(type)
+#endif
 
 static uint8_t par_emu_bus = 0xff;
 static uint8_t par_cpu_bus = 0xff;

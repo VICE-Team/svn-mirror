@@ -174,9 +174,11 @@ int parallel_trap_attention(int b)
     serial_t *p;
     void *vdrive;
 
-    if (parallel_debug) {
+#ifdef DEBUG
+    if (debug.ieee) {
         log_message(parallel_log, "ParallelAttention(%02x).", (unsigned int)b);
     }
+#endif
 
     if (b == 0x3f
         && (((TrapSecondary & 0xf0) == 0xf0)
@@ -262,10 +264,12 @@ int parallel_trap_sendbyte(uint8_t data)
 
     if (p->inuse) {
         if (p->isopen[TrapSecondary & 0x0f] == 1) {
-            if (parallel_debug) {
+#ifdef DEBUG
+            if (debug.ieee) {
                 log_message(parallel_log,
                             "SerialSendByte[%2d] = %02x.", SerialPtr, data);
             }
+#endif
             /* Store name here */
             if (SerialPtr < SERIAL_NAMELENGTH) {
                 SerialBuffer[SerialPtr++] = data;
@@ -332,7 +336,8 @@ if ((!p->nextok[secadr]) && (!p->lastst[secadr])) {
     st = p->lastst[secadr]; /* added */
     st += TrapDevice << 8;
 
-    if (parallel_debug) {
+#ifdef DEBUG
+    if (debug.ieee) {
         log_message(parallel_log,
                     "receive: sa=%02x lastb = %02x (data=%02x), "
                     "ok=%s, st=%04x, nextb = %02x, "
@@ -346,6 +351,7 @@ if ((!p->nextok[secadr]) && (!p->lastst[secadr])) {
                     p->nextok[secadr] ? "ok" : "no",
                     (unsigned int)(p->nextst[secadr]));
     }
+#endif
 #if 0
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr]) {
         p->nextok[secadr] = 0;
