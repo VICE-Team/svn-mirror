@@ -2120,7 +2120,7 @@ void ui_update_statusbars(void)
             
             track = gtk_grid_get_child_at(GTK_GRID(drive), 1, 0);
             if (track) {
-                gtk_label_set_text(GTK_LABEL(track), sb_state.current_drive_track_str[i]);
+                gtk_label_set_text(GTK_LABEL(track), sb_state.current_drive_track_str[j]);
             }
 
             led = gtk_grid_get_child_at(GTK_GRID(drive), 2, 0);
