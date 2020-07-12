@@ -77,26 +77,9 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 #elif defined(ARCHDEP_OS_WINDOWS)
     /* taken from the old WinVICE port (src/arch/win32/archdep.c): */
     *return_path = lib_strdup(orig_name);
-#elif defined(ARCHDEP_OS_AMIGA)
-    /* taken from src/arch/sdl/archdep_amiga.c: */
-    BPTR lock;
-
-    lock = Lock(orig_name, ACCESS_READ);
-    if (lock) {
-        char name[1024];
-        LONG rc;
-        rc = NameFromLock(lock, name, 1024);
-        UnLock(lock);
-        if (rc != 0) {
-            *return_path = lib_strdup(name);
-            return 0;
-        }
-    }
-    *return_path = lib_strdup(orig_name);
 #elif defined(ARCHDEP_OS_BEOS)
     /* taken from src/arch/sdl/archdep_beos.c: */
     *return_path = lib_strdup(orig_name);
-
 #else
     /* fallback */
     log_error(LOG_ERR, "unsupported OS: just returning input.");

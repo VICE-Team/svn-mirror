@@ -56,9 +56,7 @@
 
 char *archdep_tmpnam(void)
 {
-#ifdef ARCHDEP_OS_AMIGA
-    return lib_strdup(tmpnam(NULL));
-#elif defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_BEOS)
     return lib_strdup(tmpnam(NULL));
 #elif defined(ARCHDEP_OS_UNIX)
     /*

@@ -40,7 +40,7 @@
 #include "archdep_mkstemp_fd.h"
 
 
-#if defined(ARCHDEP_OS_AMIGA) || defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_BEOS)
 /*
  * Looks like this can be used as a fallback for some of the other functions
  */

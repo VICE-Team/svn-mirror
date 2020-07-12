@@ -61,7 +61,7 @@ char *archdep_default_joymap_file_name(void)
 }
 #endif
 
-#if defined(ARCHDEP_OS_BEOS) || defined(ARCHDEP_OS_AMIGA)
+#if defined(ARCHDEP_OS_BEOS)
 char *archdep_default_joymap_file_name(void)
 {
     static char *fname;

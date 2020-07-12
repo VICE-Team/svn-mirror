@@ -9,7 +9,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku
- *  - AmigaOS (untested)
  *  - MS-DOS (untested)
  *
  */
@@ -44,10 +43,6 @@
 
 #include "lib.h"
 #include "log.h"
-
-#ifdef AMIGA_SUPPORT
-/* some includes */
-#endif
 
 /* for readlink(2) */
 #ifdef UNIX_COMPILE
@@ -158,18 +153,6 @@ const char *archdep_program_name(void)
         log_error(LOG_ERR, "bollocks");
         archdep_vice_exit(1);
     }
-
-#ifdef AMIGA_SUPPORT
-    char *p;
-
-    p = FilePart(execpath);
-    if (p != NULL) {
-        program_name = lib_strdup(p);
-    } else {
-        log_error(LOG_ERR, "failed to retrieve program name.");
-        archdep_vice_exit(1);
-    }
-#endif
 
 #ifdef UNIX_COMPILE
     /* XXX: Only works on Linux, support for *BSD, Solaris and MacOS to be

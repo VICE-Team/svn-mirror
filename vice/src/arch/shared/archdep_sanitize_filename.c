@@ -10,8 +10,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (untested)
- *  - AmigaOS (untested)
- *  - OS/2 (untested)
  *  - MS-DOS (untested)
  *
  */
@@ -57,8 +55,6 @@
 static const char *illegal_name_tokens = "/";
 #elif defined(WIN32_COMPILE) || defined(ARCHDEP_HAVE_DOS)
 static const char *illegal_name_tokens = "/\\?*:|\"<>";
-#elif defined(AMIGA_SUPPORT)
-static const char *illegal_name_tokens = "/?*:";
 #else
 static const char *illegal_name_tokens = "";
 #endif

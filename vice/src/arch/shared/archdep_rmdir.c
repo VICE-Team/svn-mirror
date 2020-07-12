@@ -31,10 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef AMIGA_SUPPORT
-/* includes? */
-#endif
-
 #if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
 # include <unistd.h>
 # include <sys/stat.h>

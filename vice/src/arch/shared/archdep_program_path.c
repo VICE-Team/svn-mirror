@@ -9,8 +9,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (untested)
- *  - AmigaOS (untested)
- *  - OS/2 (untested)
  *  - MS-DOS (untested)
  *
  */
@@ -46,10 +44,6 @@
 
 #include "lib.h"
 #include "log.h"
-
-#ifdef ARCHDEP_OS_AMIGA
-/* some includes */
-#endif
 
 /* for readlink(2) */
 #if defined(ARCHDEP_OS_UNIX) || defined(ARCHDEP_OS_BEOS)
@@ -194,12 +188,7 @@ const char *archdep_program_path(void)
     memset(buffer, 0, PATH_BUFSIZE);
 
 
-#ifdef ARCHDEP_OS_AMIGA
-
-    /* do I need a header for this? */
-    GetProgramName(buffer, PATH_BUFSIZE - 1);
-
-#elif defined(ARCHDEP_OS_WINDOWS)
+#if defined(ARCHDEP_OS_WINDOWS)
 
     if (GetModuleFileName(NULL, buffer, PATH_BUFSIZE - 1) == PATH_BUFSIZE - 1) {
         log_error(LOG_ERR,

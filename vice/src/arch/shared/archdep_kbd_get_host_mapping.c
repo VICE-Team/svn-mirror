@@ -99,7 +99,7 @@ int archdep_kbd_get_host_mapping(void)
 #else
 
 /* Amiga, Beos */
-#if defined(ARCHDEP_OS_AMIGA) || defined(ARCHDEP_OS_BEOS)
+#if defined(ARCHDEP_OS_BEOS)
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a blank (default) config, so an educated guess works good

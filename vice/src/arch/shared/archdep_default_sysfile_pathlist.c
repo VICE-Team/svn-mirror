@@ -159,7 +159,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     home_drive_roms = archdep_join_paths(home_path, "DRIVES", NULL);
     home_printer_roms = archdep_join_paths(home_path, "PRINTER", NULL);
 #endif
-#elif defined(ARCHDEP_OS_AMIGA) || defined(ARCHDEP_OS_BEOS)
+#elif defined(ARCHDEP_OS_BEOS)
     boot_machine_roms = archdep_join_paths(boot_path, emu_id, NULL);
     boot_drive_roms = archdep_join_paths(boot_path, "DRIVES", NULL);
     boot_printer_roms = archdep_join_paths(boot_path, "PRINTER", NULL);

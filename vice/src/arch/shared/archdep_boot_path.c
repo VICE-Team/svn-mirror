@@ -9,8 +9,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (untested)
- *  - AmigaOS (untested)
- *  - OS/2 (untested)
  *  - MS-DOS (untested)
  *
  */
@@ -45,10 +43,6 @@
 
 #include "lib.h"
 #include "log.h"
-
-#ifdef AMIGA_SUPPORT
-/* some includes */
-#endif
 
 /* for readlink(2) */
 #ifdef UNIX_COMPILE

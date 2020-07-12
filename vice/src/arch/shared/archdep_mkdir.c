@@ -31,9 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef AMIGA_SUPPORT
-/* includes? */
-#endif
 
 #if defined(BEOS_COMPILE) || defined(UNIX_COMPILE)
 # include <unistd.h>
@@ -60,7 +57,7 @@
  */
 int archdep_mkdir(const char *pathname, int mode)
 {
-#if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(UNIX_COMPILE)
+#if defined(BEOS_COMPILE) || defined(UNIX_COMPILE)
     return mkdir(pathname, (mode_t)mode);
 #elif defined(WIN32_COMPILE)
     return _mkdir(pathname);

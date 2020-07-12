@@ -44,22 +44,3 @@ void archdep_set_current_drive(const char *drive)
 #endif
 
 #endif
-
-#if defined(ARCHDEP_OS_AMIGA)
-
-/* FIXME: is this needed* */
-#ifdef SDL_CHOOSE_DRIVES
-void archdep_set_current_drive(const char *drive)
-{
-    BPTR lck = Lock(drive, ACCESS_READ);
-
-    if (lck) {
-        CurrentDir(lck);
-        UnLock(lck);
-    } else {
-        ui_error("Failed to change to drive %s", drive);
-    }
-}
-#endif
-
-#endif

@@ -49,7 +49,6 @@
  *  ARCHDEP_OS_WINDOWS
  *  ARCHDEP_OS_BEOS
  *  ARCHDEP_OS_MSDOS (?)
- *  ARCHDEP_OS_AMIGA
  * </pre>
  */
 #ifdef UNIX_COMPILE
@@ -124,13 +123,6 @@
 /** \brief  OS is MS-DOS (really?) */
 # define ARCHDEP_OS_DOS
 
-#elif defined(AMIGA_SUPPORT)
-
-/** \brief  OS is AmigaOS
- *
- * May have to split/refine this for AROS etc
- */
-# define ARCHDEP_OS_AMIGA
 #endif
 
 
@@ -150,8 +142,7 @@
 #define ARCHDEP_AUTOSTART_DISK_EXTENSION    "d64"
 
 
-#if defined(ARCHEP_OS_AMIGA) || defined(ARCHDEP_OS_MSDOS) \
-    || defined(ARCHDEP_OS_WINDOWS)
+#if defined(ARCHDEP_OS_MSDOS) || defined(ARCHDEP_OS_WINDOWS)
 /** \brief  Separator used for a pathlist
  */
 # define ARCHDEP_FINDPATH_SEPARATOR_STRING  ";"

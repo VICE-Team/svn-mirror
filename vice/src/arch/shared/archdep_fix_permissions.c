@@ -61,14 +61,6 @@ int archdep_fix_permissions(const char *name)
     mode_t mask = umask(0);
     umask(mask);
     return chmod(name, mask ^ 0666); /* this is really octal here! */
-#elif defined(ARCHDEP_OS_AMIGA)
-    SetProtection(name, 0);
-    return 1;   /* the code in sdl/archdep_amiga.c originally returned 0 here,
-                   which doesn't make a lot of sense to me, why return failure
-                   but still do some call? So should writing GIF screenshots
-                   on AmigaOS suddenly fail, it's all my fault.
-                 */
-
 #elif defined(ARCHDEP_OS_BEOS)
     /* there's got to be some beos-ish stuff to change permissions, at least
      * with Haiku */

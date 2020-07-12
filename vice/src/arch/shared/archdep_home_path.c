@@ -13,8 +13,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (always returns '/boot/home')
- *  - AmigaOS (untested, always returns 'PROGDIR:')
- *  - OS/2 (untested, always returns '.')
  *  - MS-DOS (untested, always returns '.')
  *
  */
@@ -49,10 +47,6 @@
 
 #include "lib.h"
 #include "log.h"
-
-#ifdef ARCHDEP_OS_AMIGA
-/* some includes */
-#endif
 
 #ifdef ARCHDEP_OS_UNIX
 # include <unistd.h>
@@ -140,9 +134,6 @@ const char *archdep_home_path(void)
 #elif defined(ARCHDEP_OS_BEOS)
     /* Beos/Haiku is single-user */
     home_dir = lib_strdup("/boot/home");
-#elif defined(ARCHDEP_OS_AMIGA)
-    /* single user: use the path to the executable as the "home" dir */
-    home_dir = lib_strdup("PROGDIR:");
 #else
     /* all others: */
     home_dir = lib_strdup(".");
