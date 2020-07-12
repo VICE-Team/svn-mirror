@@ -225,7 +225,8 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* Enable vsync */
     if (GLX_EXT_swap_control) {
         GLint gl_int = 1;
-        glXSwapIntervalSGI(gl_int);
+        PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddressARB((const GLubyte*)"glXSwapIntervalEXT");
+        glXSwapIntervalEXT(context->x_display, glXGetCurrentDrawable(), gl_int);
     }
 
     vice_opengl_renderer_clear_current(context);
