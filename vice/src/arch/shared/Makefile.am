@@ -154,22 +154,17 @@ EXTRA_DIST = \
 	archdep_unix.h \
 	archdep_usleep.h \
 	archdep_xdg.h \
-	archdep_amiga.h \
 	archdep_beos.h \
-	archdep_os2.h \
 	archdep_unix.h \
 	archdep_win32.h \
-	console_amiga.c \
 	console_none.c \
 	console_unix.c \
-	coproc.h \
 	dynlib-unix.c \
 	dynlib-win32.c \
 	rawnetarch_unix.c \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
-	\
 	macOS-common-runtime.sh \
 	macOS-launcher.sh \
 	macOS-redirect-launcher.sh \
