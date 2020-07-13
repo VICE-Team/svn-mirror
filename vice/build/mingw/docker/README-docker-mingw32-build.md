@@ -24,7 +24,7 @@ Setup your container:
   docker build --tag vice-buildcontainer:0.2 .
   
 Start the build process:
-  ./doch-run.sh [-i] vice-checkout-directory
+  ./doch-run.sh [-i] [-su] vice-checkout-directory
 
 The parameter shall point to the directory you've checked out vice
 from sourceforge. Normally this contains two files:
@@ -33,6 +33,11 @@ from sourceforge. Normally this contains two files:
 if option -i is given, the container is run interactively and vice is
 not built. This is useful to check different configure options, or
 adding of packages.
+
+if option -su is given, the user within the container runs with super
+user privileges. This is useful in conjunction with -i, if you want to
+check and install missing fedora packages. Ultimately missing packages
+need to be added to the install commands in 'Dockerfile' .
 
 Currently vice is built with this configure commandline:
   ../vice/configure -v --host=x86_64-w64-mingw32 --enable-native-gtk3ui --enable-cpuhistory --enable-arch=no 2>&1 |tee conf.log
