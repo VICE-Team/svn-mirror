@@ -32,6 +32,8 @@
 
 #ifdef USE_VICE_THREAD
 
+/* #define VICE_MAINLOCK_DEBUG */
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -91,8 +93,10 @@ void mainlock_initiate_shutdown(void)
  */
 void mainlock_yield(void)
 {
+#ifdef VICE_MAINLOCK_DEBUG
     unsigned long yield_tick = vsyncarch_gettime();
-    unsigned long yield_time_delta_ms;
+    unsigned long yield_tick_delta_ms;
+#endif
 
     pthread_mutex_lock(&lock);
     
@@ -127,12 +131,12 @@ void mainlock_yield(void)
     pthread_cond_wait(&return_condition, &lock);
     pthread_mutex_unlock(&lock);
 
-    yield_time_delta_ms = (vsyncarch_gettime() - yield_tick) / tick_per_ms;
-    /*
-    if (yield_time_delta_ms > 0) {
-        printf("Yielded for %lu ms\n", yield_time_delta_ms);
+#ifdef VICE_MAINLOCK_DEBUG
+    yield_tick_delta_ms = (vsyncarch_gettime() - yield_tick) / tick_per_ms;
+    if (yield_tick_delta_ms > 0) {
+        printf("Yielded for %lu ms\n", yield_tick_delta_ms);
     }
-    */
+#endif
 }
 
 void mainlock_obtain(void)
