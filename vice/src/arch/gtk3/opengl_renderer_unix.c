@@ -103,7 +103,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     printf("GLX version: %d.%d\n", glx_major, glx_minor);
 
-    // FBConfigs were added in GLX version 1.3.
+    /* FBConfigs were added in GLX version 1.3. */
     if (glx_major < 1 || (glx_major == 1 && glx_minor < 3)) {
         printf("At least GLX 1.3 is required\n");
         exit(1);
@@ -123,7 +123,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     GLXFBConfig framebuffer_config = framebuffer_configs[0];
     XFree(framebuffer_configs);
 
-    // Get a visual
+    /* Get a visual */
     PFNGLXGETVISUALFROMFBCONFIGPROC vice_glXGetVisualFromFBConfig = (PFNGLXGETVISUALFROMFBCONFIGPROC)glXGetProcAddressARB((const GLubyte *)"glXGetVisualFromFBConfig");
     XVisualInfo *x_visual = vice_glXGetVisualFromFBConfig(context->x_display, framebuffer_config);
     
@@ -153,16 +153,19 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     
     XMapWindow(context->x_display, context->x_overlay_window);
 
-    // Done with the visual info data
+    /* Done with the visual info data */
     XFree(x_visual);
 
-    // Get the screen's GLX extension list
+    /* Get the screen's GLX extension list */
     const char *glx_extensions = glXQueryExtensionsString(context->x_display, DefaultScreen(context->x_display));
 
     PFNGLXCREATECONTEXTATTRIBSARBPROC vice_glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateContextAttribsARB");
 
-    // Check for the GLX_ARB_create_context extension string and the function.
-    // If either is not present, use GLX 1.3 context creation method.
+    /*
+     * Check for the GLX_ARB_create_context extension string and the function.
+     * If either is not present, use GLX 1.3 context creation method.
+     */
+
     if (!isExtensionSupported(glx_extensions, "GLX_ARB_create_context") || !vice_glXCreateContextAttribsARB) {
         /* Legact context -- TODO, actually support using this */
         PFNGLXCREATENEWCONTEXTPROC vice_glXCreateNewContext = (PFNGLXCREATENEWCONTEXTPROC)glXGetProcAddressARB((const GLubyte *)"glXCreateNewContext");
@@ -179,7 +182,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         
         context->gl_context = vice_glXCreateContextAttribsARB(context->x_display, framebuffer_config, NULL, True, context_attribs);
 
-        // Sync to ensure any errors generated are processed.
+        /* Sync to ensure any errors generated are processed. */
         XSync(context->x_display, False);
 
         if (context->gl_context) {
@@ -203,33 +206,32 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         }
     }
 
-    // Sync to ensure any errors generated are processed.
+    /* Sync to ensure any errors generated are processed. */
     XSync(context->x_display, False);
 
-    // Restore the original error handler
-    // XSetErrorHandler( oldHandler );
-
-    // Verifying that context is a direct context
-    if (!glXIsDirect(context->x_display, context->gl_context)) {
-        printf("Indirect GLX rendering context obtained\n");
-    } else {
-        printf("Direct GLX rendering context obtained\n");
-    }
-
-    vice_opengl_renderer_make_current(context);
-
     /* make sure OpenGL extension pointers are loaded for the general renderer code */
+    vice_opengl_renderer_make_current(context);
     glewInit();
 
-    /* Enable vsync */
-    if (GLX_EXT_swap_control) {
+    /* Not sure if an indirect context will work but lets leave some useful output for bug reports */
+    if (!glXIsDirect(context->x_display, context->gl_context)) {
+        printf("Indirect GLX rendering context obtained - please let us know if this works!\n");
+    } else {
+        printf("Direct GLX rendering context obtained\n");
+
+        /* Enable vsync */
         GLint gl_int = 1;
-        PFNGLXSWAPINTERVALEXTPROC vice_glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddressARB((const GLubyte*)"glXSwapIntervalEXT");
-	if (vice_glXSwapIntervalEXT) {
-	    vice_glXSwapIntervalEXT(context->x_display, glXGetCurrentDrawable(), gl_int);
-	} else {
-	    glXSwapIntervalSGI(gl_int);
-	}
+
+        printf("Swap control support. glXSwapIntervalMESA: %d glXSwapIntervalEXT: %d glXSwapIntervalSGI: %d\n", !!glXSwapIntervalMESA, !!glXSwapIntervalEXT, !!glXSwapIntervalSGI);
+
+        /* WTF opengl. */
+        if (GLX_MESA_swap_control && glXSwapIntervalMESA) {
+            glXSwapIntervalMESA(gl_int);
+        } else if (GLX_EXT_swap_control && glXSwapIntervalEXT) {
+            glXSwapIntervalEXT(context->x_display, glXGetCurrentDrawable(), gl_int);
+        } else if (GLX_SGI_swap_control && glXSwapIntervalSGI) {
+            glXSwapIntervalSGI(gl_int);
+        }
     }
 
     vice_opengl_renderer_clear_current(context);
@@ -256,7 +258,7 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)
 {
-    // TODO!
+    /* TODO! */
 }
 
 static bool isExtensionSupported(const char *extList, const char *extension)
