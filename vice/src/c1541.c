@@ -5036,7 +5036,6 @@ int main(int argc, char **argv)
     log_close_all();
 
     /* dump some information on memory allocations and possible memory leaks */
-    printf("Calling lib_debug_check();\n");
     lib_debug_check();
     return retval;
 }
