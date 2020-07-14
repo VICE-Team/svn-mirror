@@ -535,15 +535,19 @@ static gboolean on_widget_hover(GtkWidget *widget,
 
 /** \brief  Create widget to display CPU/FPS/pause
  *
- * \return  GtkLabel
+ * \return  GtkEventBox
  */
 GtkWidget *statusbar_speed_widget_create(void)
 {
-    GtkWidget *label;
+    GtkWidget *grid;
+    GtkWidget *label_cpu;
+    GtkWidget *label_fps;
     PangoContext *context;
     const PangoFontDescription *desc_static;
     PangoFontDescription *desc;
     GtkWidget *event_box;
+
+    grid = gtk_grid_new();
 
     /* Use fixed width font to show cpu/fps, to avoid the displayed values
      * jumping around when being updated.
@@ -553,21 +557,38 @@ GtkWidget *statusbar_speed_widget_create(void)
      * since the string needs to be parsed for special tags, and those tags
      * will probably internally do the Pango stuff I do here on every call.
      */
-    label = gtk_label_new(" 100.000% cpu,   50.125 fps");
-    context = gtk_widget_get_pango_context(label);  /* don't free */
+
+    /* label just for CPU (and Warp if active) */
+    label_cpu = gtk_label_new(" 100.000%% cpu");
+    context = gtk_widget_get_pango_context(label_cpu);  /* don't free */
     desc_static = pango_context_get_font_description(context);
     desc = pango_font_description_copy_static(desc_static);
     pango_font_description_set_family(desc, "Consolas,monospace");
 /*    pango_font_description_set_size(desc, 9 * PANGO_SCALE); */
     pango_context_set_font_description(context, desc);
     pango_font_description_free(desc);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_halign(label_cpu, GTK_ALIGN_START);
     /* gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_END); */
+
+    gtk_grid_attach(GTK_GRID(grid), label_cpu, 0, 0, 1, 1);
+
+    /* label just for FPS (and Pause if active) */
+    label_fps = gtk_label_new(" 50.000%% fps");
+    context = gtk_widget_get_pango_context(label_fps);  /* don't free */
+    desc_static = pango_context_get_font_description(context);
+    desc = pango_font_description_copy_static(desc_static);
+    pango_font_description_set_family(desc, "Consolas,monospace");
+    pango_context_set_font_description(context, desc);
+    pango_font_description_free(desc);
+    gtk_widget_set_halign(label_fps, GTK_ALIGN_START);
+
+    gtk_grid_attach(GTK_GRID(grid), label_fps, 0, 1, 1, 1);
+
 
     event_box = gtk_event_box_new();
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-    gtk_container_add(GTK_CONTAINER(event_box), label);
-    gtk_widget_show(label);
+    gtk_container_add(GTK_CONTAINER(event_box), grid);
+    gtk_widget_show_all(grid);
 
     if (machine_class != VICE_MACHINE_VSID) {
         g_signal_connect(event_box, "button-press-event",
@@ -585,16 +606,21 @@ GtkWidget *statusbar_speed_widget_create(void)
  */
 void statusbar_speed_widget_update(GtkWidget *widget)
 {
+    GtkWidget *grid;
     GtkWidget *label;
     char buffer[1024];
 
-    g_snprintf(buffer, 1024, "%8.1f%% CPU, %8.3f Fps %s%s",
+    grid = gtk_bin_get_child(GTK_BIN(widget));
+
+    label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    g_snprintf(buffer, sizeof(buffer), "%9.2f%% cpu%s",
             vsync_metric_cpu_percent,
+            vsync_metric_warp_enabled ? " (Warp)" : "");
+    gtk_label_set_text(GTK_LABEL(label), buffer);
+
+    label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
+    g_snprintf(buffer, sizeof(buffer), "%10.3f fps%s",
             vsync_metric_emulated_fps,
-            vsync_metric_warp_enabled ? " (warp)" : "",
-            ui_pause_active() ? " (paused)" : "");
-
-    label = gtk_bin_get_child(GTK_BIN(widget));
-
+            ui_pause_active() ? " (Paused)" : "");
     gtk_label_set_text(GTK_LABEL(label), buffer);
 }
