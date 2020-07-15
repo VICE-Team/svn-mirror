@@ -89,9 +89,9 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *vdrive,
                              unsigned int drive,
                              int devicetype);
 
-#define UNIT_AND_DRIVE(unit, drive)     ((drive << 8) | unit)
-#define GET_DRIVE(du)                   ((du >> 8) & 0xFF)
-#define GET_UNIT(du)                    (du & 0xFF)
+#define UNIT_AND_DRIVE(unit, drive)     ((unit << 8) | drive)
+#define GET_UNIT(du)                    ((du >> 8) & 0xFF)
+#define GET_DRIVE(du)                   (du & 0xFF)
 
 static const resource_int_t resources_int[] = {
     { "AttachDevice8Readonly", 0, RES_EVENT_SAME, NULL,
