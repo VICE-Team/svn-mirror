@@ -442,11 +442,9 @@ int drive_enable(diskunit_context_t *drv)
 {
     int drive_true_emulation = 0;
     unsigned int dnr;
-    drive_t *drive;
+    unsigned int drive;
 
     dnr = drv->mynumber;
-    /* TODO: drive 1? */
-    drive = drv->drives[0];
 
     /* This must come first, because this might be called before the drive
        initialization.  */
@@ -466,9 +464,10 @@ int drive_enable(diskunit_context_t *drv)
     }
 
     /* Recalculate drive geometry.  */
-    if (drive->image != NULL) {
-        /* TODO: drive1? */
-        drive_image_attach(drive->image, dnr, 0);
+    for (drive = 0; drive < NUM_DRIVES; drive++) {
+	if (drv->drives[drive]->image != NULL) {
+	    drive_image_attach(drv->drives[drive]->image, dnr, drive);
+	}
     }
 
     /* resync */
@@ -489,10 +488,7 @@ int drive_enable(diskunit_context_t *drv)
 void drive_disable(diskunit_context_t *drv)
 {
     int drive_true_emulation = 0;
-    drive_t *drive;
-
-    /* TODO: drive 1 */
-    drive = drv->drives[0];
+    unsigned int drive;
 
     /* This must come first, because this might be called before the true
        drive initialization.  */
@@ -508,7 +504,9 @@ void drive_disable(diskunit_context_t *drv)
         }
         machine_drive_port_default(drv);
 
-        drive_gcr_data_writeback(drive);
+	for (drive = 0; drive < NUM_DRIVES; drive++) {
+	    drive_gcr_data_writeback(drv->drives[drive]);
+	}
     }
 
     /* Make sure the UI is updated.  */
@@ -559,11 +557,10 @@ void drive_cpu_trigger_reset(unsigned int dnr)
 void drive_reset(void)
 {
     unsigned int dnr;
-    drive_t *drive;
+    unsigned int d;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
-        drive = unit->drives[0];
 
         if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
             drivecpu65c02_reset(diskunit_context[dnr]);
@@ -571,10 +568,13 @@ void drive_reset(void)
             drivecpu_reset(diskunit_context[dnr]);
         }
 
-        /* TODO: drive 1 */
-        drive->led_last_change_clk = *(drive->clk);
-        drive->led_last_uiupdate_clk = *(drive->clk);
-        drive->led_active_ticks = 0;
+	for (d = 0; d < NUM_DRIVES; d++) {
+	    drive_t *drive = unit->drives[d];
+
+	    drive->led_last_change_clk = *(drive->clk);
+	    drive->led_last_uiupdate_clk = *(drive->clk);
+	    drive->led_active_ticks = 0;
+	}
     }
 }
 
