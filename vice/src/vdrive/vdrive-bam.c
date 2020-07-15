@@ -724,7 +724,7 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
             break;
         case VDRIVE_IMAGE_FORMAT_8050:
         case VDRIVE_IMAGE_FORMAT_8250:
-            err = vdrive_read_sector(vdrive, vdrive->bam, DIR_TRACK_8050, BAM_SECTOR_8050);
+            err = vdrive_read_sector(vdrive, vdrive->bam, HDR_TRACK_8050, HDR_SECTOR_8050);
             if (err != 0) {
                 break;
             }
