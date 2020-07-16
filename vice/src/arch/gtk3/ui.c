@@ -2017,6 +2017,13 @@ void ui_exit(void)
         ui_smart_attach_shutdown();
     }
 
+    /* Avoid SoundRecordDeviceName being written to vicerc when save-on-exit
+     * is enabled. If recording is/was active vicerc will contain some setting
+     * for this resource and display an error.
+     * This most likely isn't the proper place.
+     */
+    sound_stop_recording();
+
     ui_settings_shutdown();
 
     /* Destroy the main window(s) */
