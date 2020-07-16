@@ -234,14 +234,6 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#ifdef UNIX /* (unix) */
-    { "HAVE_LIBXPM", "Is libXpm available?",
-#ifndef HAVE_LIBXPM
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(UNIX) || defined(MACOSX_SUPPORT) || defined(WIN32) /* (unix/osx/windows) */
     { "HAVE_MIDI", "Enable MIDI emulation.",
 #ifndef HAVE_MIDI
