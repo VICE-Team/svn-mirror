@@ -61,6 +61,22 @@
  ****************************************************************************/
 
 
+/** \brief  Create a string in the format 'yyyymmddHHMMss' of the current time
+ *
+ * \return  string owned by GLib, free with g_free()
+ */
+static gchar *create_datetime_string(void)
+{
+    GDateTime *d;
+    gchar *s;
+
+    d = g_date_time_new_now_local();
+    s = g_date_time_format(d, "%Y%m%d%H%M%S");
+    g_date_time_unref(d);
+    return s;
+}
+
+
 /** \brief  Construct filename for quickload/quicksave snapshots
  *
  * \return  filename for the quickload/save file, heap-allocated by VICE, so
@@ -81,6 +97,23 @@ static char *quicksnap_filename(void)
     debug_gtk3("quicksnap_filename = %s.", fname);
     return fname;
 }
+
+
+/** \brief  Create a filename based on the current datetime
+ *
+ * \return  heap-allocated string, owned by VICE, free with lib_free()
+ */
+static char *create_proposed_snapshot_name(void)
+{
+    char *date;
+    char *filename;
+
+    date = create_datetime_string();
+    filename = lib_msprintf("vice-snapshot-%s.vsf", date);
+    g_free(date);
+    return filename;
+}
+
 
 
 /** \brief  Show dialog to save a snapshot
@@ -105,6 +138,10 @@ static void save_snapshot_dialog(void)
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_snapshot, FALSE));
 
+    /* set proposed filename */
+    gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog),
+                                      create_proposed_snapshot_name());
+
     /* create extras widget */
     extra = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(extra), 16);
@@ -116,8 +153,7 @@ static void save_snapshot_dialog(void)
     gtk_widget_show_all(extra);
 
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog), extra);
-
-    response_id = gtk_dialog_run(GTK_DIALOG(dialog));
+     response_id = gtk_dialog_run(GTK_DIALOG(dialog));
     save_roms = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(roms_widget));
     save_disks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(disks_widget));
 
