@@ -1220,8 +1220,6 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
                                              GdkEventButton *event,
                                              gpointer data)
 {
-    debug_gtk3("Called!");
-
     if (machine_class == VICE_MACHINE_VSID) {
         return FALSE;
     }
