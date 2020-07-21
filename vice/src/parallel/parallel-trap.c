@@ -82,7 +82,9 @@ static int parallelcommand(void)
     if (dnr >= DRIVE_UNIT_MIN &&
 	dnr < DRIVE_UNIT_MIN+NUM_DISK_UNITS &&
 	diskunit_context[dnr - DRIVE_UNIT_MIN]->enable) {
-            return 0x83;    /* device not present */
+            return PAR_STATUS_DEVICE_NOT_PRESENT +    /* device not present */
+                   PAR_STATUS_TIME_OUT_ON_WRITE +
+                   PAR_STATUS_TIME_OUT_ON_READ;
     }
 
     /* which device ? */
@@ -165,7 +167,7 @@ static int parallelcommand(void)
         default:
             log_error(parallel_log, "Unknown command %02X.", TrapSecondary & 0xff);
     }
-    return (st);
+    return st;
 }
 
 int parallel_trap_attention(int b)
@@ -229,7 +231,7 @@ int parallel_trap_attention(int b)
     if (TrapDevice != 0) {
 	p = serial_device_get(TrapDevice & 0x0f);
 	if (!(p->inuse)) {
-	    st |= 0x80;
+	    st |= PAR_STATUS_DEVICE_NOT_PRESENT;
 	}
 
 	/* If it was a listen or talk or secondary addr or unlisten */
@@ -272,7 +274,9 @@ int parallel_trap_sendbyte(uint8_t data)
     if (dnr >= DRIVE_UNIT_MIN &&
 	dnr < DRIVE_UNIT_MIN+NUM_DISK_UNITS &&
 	diskunit_context[dnr - DRIVE_UNIT_MIN]->enable) {
-            return 0x83;    /* device not present */
+            return PAR_STATUS_DEVICE_NOT_PRESENT +    /* device not present */
+                   PAR_STATUS_TIME_OUT_ON_WRITE +
+                   PAR_STATUS_TIME_OUT_ON_READ;
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
@@ -296,7 +300,9 @@ int parallel_trap_sendbyte(uint8_t data)
             st = (*(p->putf))(vdrive, data, TrapSecondary & 0x0f);
         }
     } else {                    /* Not present */
-        st = 0x83;
+        st = PAR_STATUS_DEVICE_NOT_PRESENT +
+             PAR_STATUS_TIME_OUT_ON_WRITE +
+             PAR_STATUS_TIME_OUT_ON_READ;
     }
 
     return st + (TrapDevice << 8);

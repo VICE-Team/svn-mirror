@@ -357,9 +357,15 @@ static void Out1_NRFD_false(int tr)
     static uint8_t b;
 
     par_status = parallel_trap_receivebyte(&b, 1);
+#ifdef DEBUG
+    if (par_status & PAR_STATUS_DEVICE_NOT_PRESENT) {
+        /* If we get to this function, this status should never be possible */
+        log_error(LOG_DEFAULT, "Some device is talker but not present as virtual device");
+    }
+#endif
     parallel_emu_set_bus((uint8_t)(b ^ 0xff));
 
-    if (par_status & 0x40) {
+    if (par_status & PAR_STATUS_EOI) {
         parallel_emu_set_eoi(1);
     } else {
         parallel_emu_set_eoi(0);
