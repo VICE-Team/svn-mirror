@@ -1,9 +1,10 @@
+/** \file   mainlock.h
+ * \brief   VICE mutex used to synchronise access to the VICE api - header
+ *
+ * \author  David Hogan <david.q.hogan@gmail.com>
+ */
+
 /*
- * mainlock.h - VICE mutex used to synchronise access to the VICE api
- *
- * Written by
- *  David Hogan <david.q.hogan@gmail.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

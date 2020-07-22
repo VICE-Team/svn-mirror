@@ -1,13 +1,14 @@
-/*
- * mainlock.c - VICE mutex used to synchronise access to the VICE api and data.
+/** \file   mainlock.c
+ * \brief   VICE mutex used to synchronise access to the VICE api and data
  *
  * The mutex is held most of the time by the thread spawned to run VICE in the background.
  * It is frequently unlocked and relocked to allow the UI thread an opportunity to safely
  * call vice functions and access vice data structures.
  *
- * Written by
- *  David Hogan <david.q.hogan@gmail.com>
- *
+ * \author  David Hogan <david.q.hogan@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -67,27 +68,30 @@ static bool vice_thread_is_running = false;
 static unsigned long tick_per_ms;
 static unsigned long start_time;
 
+
 void mainlock_init(void)
 {
     pthread_mutex_lock(&lock);
-    
+
     vice_thread = pthread_self();
     vice_thread_is_running = true;
-    
+
     tick_per_ms = vsyncarch_frequency() / 1000;
     start_time = vsyncarch_gettime();
-    
+
     pthread_mutex_unlock(&lock);
 }
+
 
 void mainlock_initiate_shutdown(void)
 {
     pthread_mutex_lock(&lock);
-    
+
     vice_thread_keepalive = 0;
-    
+
     pthread_mutex_unlock(&lock);
 }
+
 
 /** \brief Provide the UI thread a safe opportunity to call into VICE.
  */
@@ -99,7 +103,7 @@ void mainlock_yield(void)
 #endif
 
     pthread_mutex_lock(&lock);
-    
+
     /* If the UI thread is not waiting for VICE, we're done here. */
     if (!ui_thread_waiting) {
 
@@ -109,7 +113,7 @@ void mainlock_yield(void)
             vice_thread_is_running = false;
             pthread_cond_signal(&return_condition);
             pthread_mutex_unlock(&lock);
-            
+
             /* Execution ends here - this function does not return. */
             pthread_exit(NULL);
             assert(0);
@@ -119,11 +123,11 @@ void mainlock_yield(void)
 
         return;
     }
-    
+
     /*
      * The ui thread is waiting to do some work.
      */
-    
+
     /* Signal the main thread that it can take control of vice. */
     pthread_cond_signal(&yield_condition);
 
@@ -139,6 +143,7 @@ void mainlock_yield(void)
 #endif
 }
 
+
 void mainlock_obtain(void)
 {
     if (pthread_equal(pthread_self(), vice_thread)) {
@@ -153,9 +158,9 @@ void mainlock_obtain(void)
         printf("FIXME! VICE thread is trying to obtain the mainlock!\n"); fflush(stderr);
         return;
     }
-    
+
     pthread_mutex_lock(&lock);
-    
+
     /* If we have already obtained the lock, we're done */
     if (ui_thread_lock_count) {
         ui_thread_lock_count++;
@@ -164,54 +169,56 @@ void mainlock_obtain(void)
         pthread_mutex_unlock(&lock);
         return;
     }
-    
+
     /* If there is no vice thread running, we're done */
     if (!vice_thread_is_running) {
         ui_thread_lock_count = 1;
         pthread_mutex_unlock(&lock);
         return;
     }
-    
+
     /*
      * There is a vice thread running, we need to wait for it to set the yield condition
      * before we know it's safe to to some work from the ui thread.
      */
-    
+
     ui_thread_waiting = 1;
-    
+
     /* Release yield mutex, wait for the VICE thread to signal, and re-obtain the mutex */
     pthread_cond_wait(&yield_condition, &lock);
-    
+
     /* OK, the UI thread has control of VICE until it signals the return condition via mainlock_release() */
     ui_thread_waiting = 0;
     ui_thread_lock_count = 1;
-    
+
     pthread_mutex_unlock(&lock);
 }
+
 
 void mainlock_assert_is_not_vice_thread(void)
 {
     assert(!pthread_equal(pthread_self(), vice_thread));
 }
 
+
 void mainlock_assert_lock_obtained(void)
 {
     pthread_mutex_lock(&lock);
-    
+
     /* If there is no vice thread running yet, we're ok */
     if (!vice_thread_is_running) {
         ui_thread_lock_count = 1;
         pthread_mutex_unlock(&lock);
         return;
     }
-    
+
     if (pthread_equal(pthread_self(), vice_thread)) {
         /* See detailed comment in mainlock_obtain() */
         printf("FIXME! VICE thread is trying to assert_obtained the mainlock!\n"); fflush(stdout);
         pthread_mutex_unlock(&lock);
         return;
     }
-    
+
     /* If we have already obtained the lock, we're good */
     if (ui_thread_lock_count) {
         pthread_mutex_unlock(&lock);
@@ -220,30 +227,31 @@ void mainlock_assert_lock_obtained(void)
 
     /* Bad. The UI thread is doing something without holding the mainlock. */
     assert(0);
-    
+
     pthread_mutex_unlock(&lock);
 }
+
 
 void mainlock_release(void)
 {
     pthread_mutex_lock(&lock);
-    
+
     if (pthread_equal(pthread_self(), vice_thread)) {
         /* See detailed comment in mainlock_obtain() */
         printf("FIXME! VICE thread is trying to release the mainlock!\n"); fflush(stdout);
         return;
     }
-    
+
     ui_thread_lock_count--;
-    
+
     if (ui_thread_lock_count) {
         /* printf("lock count now %d, (still locked)\n", ui_thread_lock_count); */
         pthread_mutex_unlock(&lock);
         return;
     }
-    
+
     pthread_cond_signal(&return_condition);
-    
+
     pthread_mutex_unlock(&lock);
 }
 
