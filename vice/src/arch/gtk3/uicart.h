@@ -41,7 +41,6 @@ void uicart_set_detach_func(void (*func)(int));
 void uicart_set_set_default_func(void (*func)(void));
 void uicart_set_unset_default_func(void (*func)(void));
 
-gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data);
 gboolean uicart_trigger_freeze(void);
 gboolean uicart_detach(void);
 
