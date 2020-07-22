@@ -1098,45 +1098,6 @@ void uicart_set_unset_default_func(void (*func)(void))
     crt_unset_default_func = func;
 }
 
-/** \brief  Try to smart-attach a cartridge image
- *
- * \param[in]   widget      parent widget (unused)
- * \param[in]   user_data   extra event data (unused)
- *
- * \return  TRUE
- */
-gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
-{
-    gchar *filename;
-
-    vsync_suspend_speed_eval();
-    ui_set_ignore_mouse_hide(TRUE);
-
-    filename = vice_gtk3_open_file_dialog(
-            "Smart-attach cartridge image",
-            "Cartridge images",
-            file_chooser_pattern_cart,
-            last_dir);
-
-    if (filename != NULL) {
-        debug_gtk3("Got filename '%s'.", filename);
-        lastdir_update(widget, &last_dir);
-        if (crt_attach_func != NULL) {
-            if (crt_attach_func(CARTRIDGE_CRT, filename) < 0) {
-                vice_gtk3_message_error("VICE error",
-                        "Failed to attach '%s' as a cartridge image",
-                        filename);
-            } else {
-                debug_gtk3("Attached '%s' as valid cartridge image.", filename);
-            }
-        }
-        g_free(filename);
-    }
-
-    ui_set_ignore_mouse_hide(FALSE);
-    return TRUE;
-}
-
 
 /** \brief  Trigger cartridge freeze
  *

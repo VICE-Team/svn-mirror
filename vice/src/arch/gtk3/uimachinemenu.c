@@ -338,17 +338,6 @@ static ui_menu_item_t datasette_control_submenu[] = {
     UI_MENU_TERMINATOR
 };
 
-#if 0
-/** \brief  'File->Cartridge attach' submenu
- */
-static ui_menu_item_t cart_attach_submenu[] = {
-    { "Smart attach cart image ... ", UI_MENU_TYPE_ITEM_ACTION,
-        "attach-cart", (void *)uicart_smart_attach_dialog, NULL,
-        GDK_KEY_C, VICE_MOD_MASK, true },
-    UI_MENU_TERMINATOR
-};
-#endif
-
 
 /** \brief  File->Reset submenu
  */
