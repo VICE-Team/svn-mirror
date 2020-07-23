@@ -28,6 +28,10 @@
 
 #ifdef HAVE_GTK3_OPENGL
 
+#include "archdep.h"
+
+#include <string.h>
+
 #include "opengl_renderer.h"
 
 #include <gtk/gtk.h>
@@ -98,7 +102,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     if (!glXQueryVersion(context->x_display, &glx_major, &glx_minor)) {
         printf("Failed to get GLX version\n");
-        exit(1);
+        archdep_vice_exit(1);
     }
 
     printf("GLX version: %d.%d\n", glx_major, glx_minor);
@@ -106,7 +110,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* FBConfigs were added in GLX version 1.3. */
     if (glx_major < 1 || (glx_major == 1 && glx_minor < 3)) {
         printf("At least GLX 1.3 is required\n");
-        exit(1);
+        archdep_vice_exit(1);
     }
 
     printf( "Getting matching framebuffer configs\n" );
@@ -115,7 +119,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     GLXFBConfig *framebuffer_configs = vice_glXChooseFBConfig(context->x_display, DefaultScreen(context->x_display), visual_attribs, &fbcount);
     if (!framebuffer_configs) {
         printf( "Failed to retrieve a framebuffer config\n");
-        exit(1);
+        archdep_vice_exit(1);
     }
     printf("Found %d matching FB configs.\n", fbcount);
 
