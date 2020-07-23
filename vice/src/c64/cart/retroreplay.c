@@ -1062,13 +1062,13 @@ static int retroreplay_common_attach(void)
     rr_enabled = 1;
 
     nofreeze_alarm = alarm_new(maincpu_alarm_context, "NoFreezeAlarm", nofreeze_alarm_handler, NULL);
-    
+
     return 0;
 }
 
 int retroreplay_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    int len = 0;
+    size_t len = 0;
     FILE *fd;
 
     retroreplay_filetype = 0;
