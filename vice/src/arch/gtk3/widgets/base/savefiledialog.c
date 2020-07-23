@@ -35,6 +35,33 @@
 
 #include "savefiledialog.h"
 
+
+static void (*filename_cb)(GtkDialog *, char *);
+
+
+static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
+{
+    gchar *filename;
+
+    debug_gtk3("Got response ID %d\n", (int)response_id);
+    switch (response_id) {
+        case GTK_RESPONSE_ACCEPT:
+            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+            if (filename != NULL) {
+                debug_gtk3("Calling callback with '%s'\n", filename);
+                filename_cb(dialog, filename);
+                /* g_free(filename); */
+            }
+            break;
+        default:
+            filename_cb(dialog, NULL);
+            break;
+    }
+}
+
+
+
+
 #ifndef SANDBOX_MODE
 /** \brief  Create a 'save file' dialog
  *
@@ -43,20 +70,22 @@
  * \param[in]   confirm     confirm overwriting an existing file
  * \param[in]   path        set starting directory (optional)
  *
- * \return  filename or `NULL` on cancel
+ * \return  new dialog
  *
  * \note    the filename returned is allocated by GLib and needs to be freed
  *          after use with g_free()
  */
-gchar *vice_gtk3_save_file_dialog(
+GtkWidget *vice_gtk3_save_file_dialog(
+        GtkWidget *parent,
         const char *title,
         const char *proposed,
         gboolean confirm,
-        const char *path)
+        const char *path,
+        void (*callback)(GtkDialog *, char *))
 {
     GtkWidget *dialog;
-    gint result;
-    gchar *filename;
+
+    filename_cb = callback;
 
     mainlock_assert_is_not_vice_thread();
 
@@ -67,6 +96,8 @@ gchar *vice_gtk3_save_file_dialog(
             "Save", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL);
+
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     /* set overwrite confirmation */
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
@@ -82,14 +113,13 @@ gchar *vice_gtk3_save_file_dialog(
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
 
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
-    if (result == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    } else {
-        filename = NULL;
+    if (parent != NULL) {
+        gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
     }
-    gtk_widget_destroy(dialog);
-    return filename;
+
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    gtk_widget_show(dialog);
+    return dialog;
 }
 #else
 /** \brief  Create a 'save file' dialog
@@ -108,7 +138,8 @@ gchar *vice_gtk3_save_file_dialog(
         const char *title,
         const char *proposed,
         gboolean confirm,
-        const char *path)
+        const char *path,
+        void (*callback)(char *))
 {
     GtkFileChooserNative *dialog;
     gint result;

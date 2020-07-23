@@ -44,6 +44,24 @@
 #include "rrnetmk3widget.h"
 
 
+
+static void on_save_filename(GtkDialog *dialog, char *filename)
+{
+    debug_gtk3("Called with '%s'\n", filename);
+
+    if (filename != NULL) {
+        debug_gtk3("saving RRNetMk3 cart image as '%s'.", filename);
+        if (carthelpers_save_func(CARTRIDGE_RRNETMK3, filename) < 0) {
+            vice_gtk3_message_error("Saving failed",
+                    "Failed to save cartridge image '%s'",
+                    filename);
+        }
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 /** \brief  Handler for the "clicked" event of the "Save As" button
  *
  * \param[in]   widget      button
@@ -51,6 +69,7 @@
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
+#if 0
     gchar *filename;
 
     filename = vice_gtk3_save_file_dialog("Save image as", NULL, TRUE, NULL);
@@ -62,6 +81,11 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
         }
         g_free(filename);
     }
+#else
+    vice_gtk3_save_file_dialog(NULL,
+            "Save image as", NULL, TRUE, NULL,
+            on_save_filename);
+#endif
 }
 
 

@@ -62,6 +62,13 @@ static const vice_gtk3_combo_entry_int_t rr_revisions[] = {
 
 
 
+static void on_save_filename(GtkDialog *dialog, char *filename)
+{
+    debug_gtk3("Called with '%s'\n", filename);
+}
+
+
+
 /** \brief  Handler for the "clicked" event of the "Save As" button
  *
  * \param[in]   widget      button
@@ -69,8 +76,8 @@ static const vice_gtk3_combo_entry_int_t rr_revisions[] = {
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
+#if 0
     gchar *filename;
-
     filename = vice_gtk3_save_file_dialog("Save image as", NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("writing RR image file as '%s'.", filename);
@@ -80,6 +87,11 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
         }
         g_free(filename);
     }
+#else
+    vice_gtk3_save_file_dialog(NULL,
+            "Save image as", NULL, TRUE, NULL,
+            on_save_filename);
+#endif
 }
 
 

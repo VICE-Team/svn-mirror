@@ -30,10 +30,12 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gchar *vice_gtk3_save_file_dialog(
+GtkWidget *vice_gtk3_save_file_dialog(
+        GtkWidget *parent,
         const char *title,
         const char *proposed,
         gboolean confirm,
-        const char *path);
+        const char *path,
+        void (*callback)(GtkDialog *, char *));
 
 #endif

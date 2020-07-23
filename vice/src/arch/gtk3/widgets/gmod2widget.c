@@ -45,6 +45,23 @@
 #include "gmod2widget.h"
 
 
+static void on_save_filename(GtkDialog *dialog, char *filename)
+{
+    debug_gtk3("Called with '%s'\n", filename);
+
+    if (filename != NULL) {
+        if (carthelpers_save_func(CARTRIDGE_GMOD2, filename) < 0) {
+            vice_gtk3_message_error("Saving failed",
+                    "Failed to save cartridge image '%s'",
+                    filename);
+        }
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+
 /** \brief  Handler for the "clicked" event of the Save Image button
  *
  * \param[in]   widget      button
@@ -53,6 +70,8 @@
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     /* TODO: retrieve filename of cart image */
+
+#if 0
     gchar *filename = vice_gtk3_save_file_dialog("Save Cartridge image",
             NULL, TRUE, NULL);
     if (filename != NULL) {
@@ -63,6 +82,11 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
         }
         g_free(filename);
     }
+#else
+    vice_gtk3_save_file_dialog(NULL,
+            "Save cartridge image", NULL, TRUE, NULL,
+            on_save_filename);
+#endif
 }
 
 

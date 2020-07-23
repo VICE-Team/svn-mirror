@@ -51,6 +51,7 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "openfiledialog.h"
 #include "resources.h"
 #include "savefiledialog.h"
@@ -221,9 +222,9 @@ static const vice_gtk3_combo_entry_int_t crtc_colors[] = {
 
 /* forward declarations of helper functions */
 static GtkWidget *create_screenshot_param_widget(const char *prefix);
-static void save_screenshot_handler(void);
-static void save_audio_recording_handler(void);
-static void save_video_recording_handler(void);
+static void save_screenshot_handler(GtkWidget *parent);
+static void save_audio_recording_handler(GtkWidget *parent);
+static void save_video_recording_handler(GtkWidget *parent);
 
 
 /** \brief  Reference to the GtkStack containing the media types
@@ -297,7 +298,7 @@ static void update_screenshot_options_grid(GtkWidget *new)
  *
  * \param[in,out]   dialog      dialog triggering the event
  * \param[in]       response_id response ID
- * \param[in]       data        extra event data (unused)
+ * \param[in]       data        parent dialog
  */
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
@@ -308,7 +309,9 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
     switch (response_id) {
         case GTK_RESPONSE_DELETE_EVENT:
             debug_gtk3("destroying dialog.");
+            mainlock_release();
             gtk_widget_destroy(GTK_WIDGET(dialog));
+            mainlock_obtain();
             break;
 
         case RESPONSE_SAVE:
@@ -321,27 +324,31 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 if (strcmp(child_name, CHILD_SCREENSHOT) == 0) {
                     debug_gtk3("Screenshot requested, driver %d.",
                             screenshot_driver_index);
-                    save_screenshot_handler();
+                    save_screenshot_handler(data);
                 } else if (strcmp(child_name, CHILD_SOUND) == 0) {
                     debug_gtk3("Audio recording requested, driver %d.",
                             audio_driver_index);
-                    save_audio_recording_handler();
+                    save_audio_recording_handler(data);
                     ui_display_recording(1);
                 } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
 #ifdef HAVE_FFMPEG
                     debug_gtk3("Video recording requested, driver %d.",
                             video_driver_index);
 #endif
-                    save_video_recording_handler();
+                    save_video_recording_handler(data);
                     ui_display_recording(1);
                 }
             } else {
                 debug_gtk3("Audio recording requested, driver %d.",
                         audio_driver_index);
-                save_audio_recording_handler();
+                save_audio_recording_handler(data);
                 ui_display_recording(1);
             }
+#if 0
+            mainlockk_release();
             gtk_widget_destroy(GTK_WIDGET(dialog));
+            mainlock_obtain();
+#endif
             break;
 
 
@@ -463,28 +470,14 @@ static char *create_proposed_audio_recording_name(const char *ext)
 
 
 
-/** \brief  Save a screenshot
- *
- * Pops up a save-file dialog with a proposed filename (ie
- * 'screenshot-197411151210.png'.
- */
-static void save_screenshot_handler(void)
+static void on_save_screenshot_filename(GtkDialog *dialog, char *filename)
 {
-    const char *display;
     const char *name;
-    const char *ext;
-    gchar *filename;
-    char *title;
-    char *proposed;
 
-    display = video_driver_list[screenshot_driver_index].display;
     name = video_driver_list[screenshot_driver_index].name;
-    ext = video_driver_list[screenshot_driver_index].ext;
 
-    title = lib_msprintf("Save %s file", display);
-    proposed = create_proposed_screenshot_name(ext);
+    debug_gtk3("Got filename '%s'\n", filename);
 
-    filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
     if (filename != NULL) {
 
         gchar *filename_locale = file_chooser_convert_to_locale(filename);
@@ -496,10 +489,67 @@ static void save_screenshot_handler(void)
         }
         g_free(filename);
         g_free(filename_locale);
+        /* TODO: also trigger destruction of parent on success */
     }
+    mainlock_release();
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+    mainlock_obtain();
+}
+
+
+
+/** \brief  Save a screenshot
+ *
+ * Pops up a save-file dialog with a proposed filename (ie
+ * 'screenshot-197411151210.png'.
+ */
+static void save_screenshot_handler(GtkWidget *parent)
+{
+    GtkWidget *dialog;
+    const char *display;
+    char *title;
+    char *proposed;
+    const char *ext;
+
+    ext = video_driver_list[screenshot_driver_index].ext;
+    display = video_driver_list[screenshot_driver_index].display;
+    title = lib_msprintf("Save %s file", display);
+    proposed = create_proposed_screenshot_name(ext);
+
+    dialog = vice_gtk3_save_file_dialog(
+            GTK_WIDGET(parent),
+            title, proposed, TRUE, NULL,
+            on_save_screenshot_filename);
+    /* destroy parent dialog when the dialog is destroyed */
+    g_signal_connect_swapped(
+            dialog,
+            "destroy",
+            G_CALLBACK(gtk_widget_destroy),
+            parent);
+
     lib_free(proposed);
     lib_free(title);
 }
+
+
+
+static void on_save_audio_filename(GtkDialog *dialog, char *filename)
+{
+    gchar *filename_locale = file_chooser_convert_to_locale(filename);
+
+    if (filename_locale != NULL) {
+        const char *name = audio_driver_list[audio_driver_index].name;
+        /* XXX: setting resources doesn't exactly help with catching errors */
+        resources_set_string("SoundRecordDeviceArg", filename_locale);
+        resources_set_string("SoundRecordDeviceName", name);
+        g_free(filename);
+        g_free(filename_locale);
+    }
+    mainlock_release();
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+    mainlock_obtain();
+}
+
 
 
 /** \brief  Start an audio recording
@@ -507,68 +557,40 @@ static void save_screenshot_handler(void)
  * Pops up a save-file dialog with a proposed filename (ie
  * 'audio-recording-197411151210.png'.
  */
-static void save_audio_recording_handler(void)
+static void save_audio_recording_handler(GtkWidget *parent)
 {
+    GtkWidget *dialog;
     const char *display;
-    const char *name;
     const char *ext;
-    gchar *filename;
-    gchar *filename_locale;
     char *title;
     char *proposed;
 
-    display = audio_driver_list[audio_driver_index].display;
-    name = audio_driver_list[audio_driver_index].name;
     ext = audio_driver_list[audio_driver_index].ext;
-
+    display = audio_driver_list[audio_driver_index].display;
     title = lib_msprintf("Save %s file", display);
     proposed = create_proposed_audio_recording_name(ext);
 
-    filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
-    filename_locale = file_chooser_convert_to_locale(filename);
+    dialog = vice_gtk3_save_file_dialog(
+            parent,
+            title, proposed, TRUE, NULL,
+            on_save_audio_filename);
 
-    if (filename != NULL) {
-        /* XXX: setting resources doesn't exactly help with catching errors */
-        resources_set_string("SoundRecordDeviceArg", filename_locale);
-        resources_set_string("SoundRecordDeviceName", name);
-        g_free(filename);
-        g_free(filename_locale);
-    }
+    /* destroy parent dialog when the dialog is destroyed */
+    g_signal_connect_swapped(
+            dialog,
+            "destroy",
+            G_CALLBACK(gtk_widget_destroy),
+            parent);
+
+    lib_free(title);
+    lib_free(proposed);
 }
 
 
-/** \brief  Start recording a video
- *
- * Pops up a save-file dialog with a proposed filename (ie
- * 'video-recording-197411151210.png'.
- */
-static void save_video_recording_handler(void)
+
+
+static void on_save_video_filename(GtkDialog *dialog, char *filename)
 {
-    /* these may be useful once QuickTime is supported */
-#if 0
-    const char *display;
-    const char *name;
-#endif
-    const char *ext;
-    gchar *filename;
-    char *title;
-    char *proposed;
-#ifdef HAVE_FFMPEG
-    debug_gtk3("video driver index = %d.", video_driver_index);
-#endif
-
-#if 0
-    display = video_driver_list[video_driver_index].display;
-    name = video_driver_list[video_driver_index].name;
-#endif
-    /* we don't have a format->extension mapping, so the format name itself is
-       better than `video_driver_list[video_driver_index].ext' */
-    resources_get_string("FFMPEGFormat", &ext);
-
-    title = lib_msprintf("Save %s file", "FFMPEG");
-    proposed = create_proposed_video_recording_name(ext);
-
-    filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
     if (filename != NULL) {
 
         const char *driver;
@@ -588,9 +610,7 @@ static void save_video_recording_handler(void)
         debug_gtk3("Video = %d, bitrate %d.", vc, vb);
         debug_gtk3("Audio = %d, bitrate %d.", ac, ab);
 
-
         ui_pause_disable();
-
 
         filename_locale = file_chooser_convert_to_locale(filename);
 
@@ -602,6 +622,54 @@ static void save_video_recording_handler(void)
         g_free(filename);
         g_free(filename_locale);
     }
+    mainlock_release();
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+    mainlock_obtain();
+}
+
+
+/** \brief  Start recording a video
+ *
+ * Pops up a save-file dialog with a proposed filename (ie
+ * 'video-recording-197411151210.png'.
+ */
+static void save_video_recording_handler(GtkWidget *parent)
+{
+    /* these may be useful once QuickTime is supported */
+#if 0
+    const char *display;
+    const char *name;
+#endif
+    GtkWidget *dialog;
+    const char *ext;
+    char *title;
+    char *proposed;
+#ifdef HAVE_FFMPEG
+    debug_gtk3("video driver index = %d.", video_driver_index);
+#endif
+
+#if 0
+    display = video_driver_list[video_driver_index].display;
+    name = video_driver_list[video_driver_index].name;
+#endif
+    /* we don't have a format->extension mapping, so the format name itself is
+       better than `video_driver_list[video_driver_index].ext' */
+    resources_get_string("FFMPEGFormat", &ext);
+
+    title = lib_msprintf("Save %s file", "FFMPEG");
+    proposed = create_proposed_video_recording_name(ext);
+
+    dialog = vice_gtk3_save_file_dialog(NULL,
+            title, proposed, TRUE, NULL,
+            on_save_video_filename);
+
+    /* destroy parent dialog when the dialog is destroyed */
+    g_signal_connect_swapped(
+            dialog,
+            "destroy",
+            G_CALLBACK(gtk_widget_destroy),
+            parent);
+
     lib_free(proposed);
     lib_free(title);
 }
@@ -1095,7 +1163,7 @@ gboolean uimedia_dialog_show(GtkWidget *parent, gpointer data)
     }
 
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), (gpointer)dialog);
     g_signal_connect_unlocked(dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
 
     gtk_widget_show_all(dialog);

@@ -190,13 +190,13 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
 static void on_unit_changed(int unit)
 {
     int dual = drive_is_dualdrive_by_devnr(unit);
-    
+
     debug_gtk3(
         "Unit #%d: type %d, dual-drive: %s.",
         unit,
         drive_get_type_by_devnr(unit),
         dual ? "TRUE" : "FALSE");
-    
+
     gtk_widget_set_sensitive(driveno_widget, dual);
     drive_no_widget_update(driveno_widget,
                            unit_drive_nums[unit - DRIVE_UNIT_MIN]);

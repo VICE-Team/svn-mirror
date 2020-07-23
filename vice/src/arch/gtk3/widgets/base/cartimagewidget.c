@@ -74,6 +74,33 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
+
+static void on_save_filename(GtkDialog *dialog, char *s)
+{
+    debug_gtk3("Called with '%s'\n", s);
+
+    if (s != NULL) {
+#if 0
+        debug_gtk3("writing %s file image as '%s'.", crt_name, new_filename);
+#endif
+        /* write file */
+        if (save_func != NULL) {
+            if (save_func(crt_id, s) < 0) {
+                /* oops */
+                vice_gtk3_message_error("I/O error",
+                        "Failed to save '%s'", s);
+            }
+        } else {
+            vice_gtk3_message_error("Core error",
+                    "%s save handler not specified", crt_name);
+        }
+        g_free(s);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+
 /** \brief  Handler for the "clicked" event of the "save" button
  *
  * Save cart image file. Uses dirname()/basename() on the GEORAMfilename
@@ -85,7 +112,6 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
  */
 static void on_save_clicked(GtkWidget *button, gpointer user_data)
 {
-    gchar *new_filename;
     gchar *fname = NULL;
     gchar *dname = NULL;
     char buffer[256];
@@ -102,31 +128,8 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
 #endif
 
     g_snprintf(buffer, sizeof(buffer), "Save %s image file", crt_name);
-    new_filename = vice_gtk3_save_file_dialog(buffer, fname, TRUE, dname);
-    if (new_filename != NULL) {
-#if 0
-        debug_gtk3("writing %s file image as '%s'.", crt_name, new_filename);
-#endif
-        /* write file */
-        if (save_func != NULL) {
-            if (save_func(crt_id, new_filename) < 0) {
-                /* oops */
-                vice_gtk3_message_error("I/O error",
-                        "Failed to save '%s'", new_filename);
-            }
-        } else {
-            vice_gtk3_message_error("Core error",
-                    "%s save handler not specified", crt_name);
-        }
-        g_free(new_filename);
-    }
 
-    if (fname != NULL) {
-        g_free(fname);
-    }
-    if (dname != NULL) {
-        g_free(dname);
-    }
+    vice_gtk3_save_file_dialog(NULL, buffer, fname, TRUE, dname, on_save_filename);
 }
 
 

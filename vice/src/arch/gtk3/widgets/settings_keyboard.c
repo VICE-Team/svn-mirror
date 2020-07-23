@@ -64,6 +64,28 @@ static void on_kbd_debug_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+static void on_save_filename(GtkDialog *dialog, char *filename)
+{
+    if (filename != NULL && *filename != '\0') {
+        /* we got something at least */
+
+        util_add_extension(&filename, "vkm");
+
+        int oops = keyboard_keymap_dump(filename);
+        if (oops == 0) {
+            vice_gtk3_message_info("Succesfully saved current keymap",
+                    "Wrote current keymap as '%s'.", filename);
+        } else {
+            vice_gtk3_message_error("Failed to save custom keymap",
+                    "Error %d: %s", errno, strerror(errno));
+        }
+        if (filename != NULL) {
+            lib_free(filename);
+        }
+    }
+}
+
+
 /** \brief  Write current keymap to host system
  *
  * \param[in]   widget  button triggering the event (ignored)
@@ -71,30 +93,15 @@ static void on_kbd_debug_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_save_custom_keymap_clicked(GtkWidget *widget, gpointer data)
 {
-    gchar *path;
-
 /*    vice_gtk3_message_info("Save current keymap", "Nothing to see here..."); */
-    path = vice_gtk3_save_file_dialog(
+    vice_gtk3_save_file_dialog(
+            NULL,
             "Save current keymap",  /* title */
             NULL,                   /* proposed filename: might use this later */
             TRUE,                   /* query user before overwrite */
-            NULL                    /* base path, maybe ~ ?) */
+            NULL,                   /* base path, maybe ~ ?) */
+            on_save_filename        /* filename callback */
          );
-
-    if (path != NULL && *path != '\0') {
-        /* we got something at least */
-
-        util_add_extension(&path, "vkm");
-
-        int oops = keyboard_keymap_dump(path);
-        if (oops == 0) {
-            vice_gtk3_message_info("Succesfully saved current keymap",
-                    "Wrote current keymap as '%s'.", path);
-        } else {
-            vice_gtk3_message_error("Failed to save custom keymap",
-                    "Error %d: %s", errno, strerror(errno));
-        }
-    }
 }
 
 
@@ -136,9 +143,9 @@ GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
             NULL);
     g_object_set(kbdstatusbar, "margin-top", 16, NULL);
     gtk_widget_show_all(layout);
-    
+
     /* update widget so sym/pos is greyed out correctly */
     kbdmapping_widget_update();
-    
+
     return layout;
 }

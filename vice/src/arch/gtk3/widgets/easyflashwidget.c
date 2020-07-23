@@ -48,17 +48,9 @@
 #include "easyflashwidget.h"
 
 
-/** \brief  Handler for the "clicked" event of the "Save As" button
- *
- * \param[in]   widget      button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_save_clicked(GtkWidget *widget, gpointer user_data)
-{
-    gchar *filename;
 
-    filename = vice_gtk3_save_file_dialog("Save EasyFlasg image as ...",
-            NULL, TRUE, NULL);
+static void on_save_callback(GtkDialog *dialog, char *filename)
+{
     if (filename != NULL) {
         if (carthelpers_save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
             vice_gtk3_message_error("VICE core",
@@ -66,6 +58,30 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
         }
         g_free(filename);
     }
+}
+
+
+
+
+
+/** \brief  Handler for the "clicked" event of the "Save As" button
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_save_clicked(GtkWidget *widget, gpointer user_data)
+{
+#if 0
+    filename = vice_gtk3_save_file_dialog("Save EasyFlasg image as ...",
+            NULL, TRUE, NULL);
+#endif
+    vice_gtk3_save_file_dialog(NULL,
+            "Save Easyflash image as ...",
+            NULL, TRUE, NULL, on_save_callback);
+
+
+
+
 }
 
 

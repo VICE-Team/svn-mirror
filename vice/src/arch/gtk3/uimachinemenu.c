@@ -193,17 +193,8 @@ static gboolean settings_save_callback(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Save settings to user-specified file
- *
- * \param[in]   widget  menu item triggering the event (ignored)
- * \param[in]   data    extra even data (ignored)
- *
- * \return  TRUE
- */
-static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
+static void on_settings_save_custom_filename(GtkDialog *dialog, char *filename)
 {
-    gchar *filename = vice_gtk3_save_file_dialog("Save settings as ...",
-            NULL, TRUE, NULL);
     if (filename!= NULL) {
         mainlock_obtain();
         if (resources_save(filename) != 0) {
@@ -213,6 +204,27 @@ static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
         mainlock_release();
         g_free(filename);
     }
+    mainlock_release();
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+    mainlock_obtain();
+
+}
+
+
+/** \brief  Save settings to user-specified file
+ *
+ * \param[in]   widget  menu item triggering the event (ignored)
+ * \param[in]   data    extra even data (ignored)
+ *
+ * \return  TRUE
+ */
+static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
+{
+    vice_gtk3_save_file_dialog(NULL,
+            "Save settings as ...",
+            NULL, TRUE, NULL,
+            on_settings_save_custom_filename);
+
     return TRUE;
 }
 
