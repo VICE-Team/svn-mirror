@@ -149,12 +149,17 @@ static void on_file_activated(GtkWidget *chooser, gpointer data)
 #endif
 
 
-
+/** \brief  Handler for 'selection-changed' event of the preview widget
+ *
+ * Checks if a proper selection was made and activates the 'Autostart' button
+ * if so, disabled it otherwise
+ *
+ * \param[in]   chooser Parent dialog
+ * \param[in]   data    Extra event data (unused)
+ */
 void on_selection_changed(GtkFileChooser *chooser, gpointer data)
 {
     gchar *filename;
-
-    debug_gtk3("Called.");
 
     filename = gtk_file_chooser_get_filename(chooser);
     if (filename != NULL) {
@@ -508,7 +513,7 @@ static GtkFileChooserNative *create_smart_attach_dialog(void *parent)
  *
  * \return  TRUE
  */
-gboolean ui_smart_attach_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_smart_attach_dialog_show(GtkWidget *widget, gpointer user_data)
 {
 #ifndef SANDBOX_MODE
     GtkWidget *dialog;
