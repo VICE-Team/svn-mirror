@@ -4549,7 +4549,7 @@ static int write_cmd(int nargs, char **args)
     char *p;
     fileio_info_t *finfo;
     char *src_name;
-    unsigned int rel_record_length = 0;
+    long rel_record_length = 0;
 
     if (nargs == 3) {
         /* write <source> <dest> */
@@ -4584,7 +4584,7 @@ static int write_cmd(int nargs, char **args)
                     if ((endptr - lenptr) > 1) {
                         lenptr[1] = '\0';
                     }
-                    fprintf(stderr, "Converted record length %u\n", rel_record_length);
+                    fprintf(stderr, "Converted record length %lu\n", rel_record_length);
                 } else {
                     rel_record_length = 0;
                 }
@@ -4660,7 +4660,7 @@ static int write_cmd(int nargs, char **args)
     } else {
         unsigned int length = fileio_get_bytes_left(finfo);
         /* Records and positions start counting at 1 */
-        unsigned int max_record = 
+        unsigned long max_record =
             ((length + rel_record_length - 1) / rel_record_length);
         unsigned int record;
         int err;
@@ -4670,12 +4670,12 @@ static int write_cmd(int nargs, char **args)
                 (max_record & 0xFF), (max_record >> 8) & 0xFF,
                 1);
         if (err && err != CBMDOS_IPE_NO_RECORD) {
-            fprintf(stderr, "Cannot Position to record %u (err %d)\n",
+            fprintf(stderr, "Cannot Position to record %lu (err %d)\n",
                     max_record, err);
         }
         err = vdrive_iec_write(drives[dnr], 0, 1);
         if (err != SERIAL_OK) {
-            fprintf(stderr, "Cannot write in record %u (err %d)\n",
+            fprintf(stderr, "Cannot write in record %lu (err %d)\n",
                     max_record, err);
         }
         /*
