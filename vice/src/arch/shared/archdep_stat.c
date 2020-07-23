@@ -49,7 +49,7 @@
  *
  * \return  0 on success, -1 on failure
  */
-int archdep_stat(const char *path, unsigned int *len, unsigned int *isdir)
+int archdep_stat(const char *path, size_t *len, unsigned int *isdir)
 {
     struct stat statbuf;
 

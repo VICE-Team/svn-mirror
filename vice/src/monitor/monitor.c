@@ -1015,7 +1015,8 @@ void mon_show_dir(const char *path)
     }
 
     while ((name = ioutil_readdir(dir))) {
-        unsigned int len, isdir;
+        size_t len;
+        unsigned int isdir;
         int ret;
         if (path) {
             fullname = util_concat(path, FSDEV_DIR_SEP_STR, name, NULL);
@@ -1028,7 +1029,10 @@ void mon_show_dir(const char *path)
             if (isdir) {
                 mon_out("     <dir> %s\n", name);
             } else {
-                mon_out("%10u %s\n", len, name);
+                /* Should use '%zu' here for `len`, but that would break
+                 * Windows :(
+                 */
+                mon_out("%10u %s\n", (unsigned int)len, name);
             }
         } else {
             mon_out("%-20s?????\n", name);

@@ -188,7 +188,7 @@ int ioutil_rename(const char *oldpath, const char *newpath)
     return archdep_rename(oldpath, newpath);
 }
 
-int ioutil_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
+int ioutil_stat(const char *file_name, size_t *len, unsigned int *isdir)
 {
     return archdep_stat(file_name, len, isdir);
 }
@@ -247,7 +247,8 @@ static int ioutil_count_dir_items(const char *path, int mode)
     DIR *dirp;
     struct dirent *dp;
 /* #ifndef _DIRENT_HAVE_D_TYPE */
-    unsigned int len, isdir;
+    size_t len;
+    unsigned int isdir;
     char *filename;
     int retval;
 /* #endif */
@@ -320,7 +321,8 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
     int dir_count = 0;
     int file_count = 0;
 /* #ifndef _DIRENT_HAVE_D_TYPE */
-    unsigned int len, isdir;
+    size_t len;
+    unsigned int isdir;
     char *filename;
     int retval;
 /* #endif */

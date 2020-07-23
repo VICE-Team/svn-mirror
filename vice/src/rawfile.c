@@ -52,7 +52,8 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
     char *complete;
     FILE *fd;
     const char *mode = NULL;
-    unsigned int isdir, len;
+    unsigned int isdir;
+    size_t len;
 
     if (path == NULL) {
         complete = lib_strdup(file_name);

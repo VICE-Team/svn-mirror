@@ -73,7 +73,7 @@ int         archdep_expand_path(char **return_path, const char *filename);
 void        archdep_sanitize_filename(char *name);
 char *      archdep_make_backup_filename(const char *fname);
 int         archdep_stat(const char *file_name,
-                         unsigned int *len,
+                         size_t *len,
                          unsigned int *isdir);
 int         archdep_rename(const char *oldpath, const char *newpath);
 

@@ -61,7 +61,7 @@ int archdep_register_cbmfont(void)
     CFURLRef fontUrl;
     CFArrayRef fontUrls;
     CFArrayRef errors;
-    unsigned int len;
+    size_t len;
     unsigned int isdir;
 
     datadir = archdep_get_vice_datadir();
