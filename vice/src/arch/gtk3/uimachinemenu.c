@@ -268,16 +268,16 @@ static ui_menu_item_t detach_submenu[] = {
  */
 static ui_menu_item_t attach_submenu[] = {
     { "Drive #8", UI_MENU_TYPE_ITEM_ACTION,
-        "attach-drive8", ui_disk_attach_callback, GINT_TO_POINTER(8),
+        "attach-drive8", ui_disk_attach_dialog_show, GINT_TO_POINTER(8),
         GDK_KEY_8, VICE_MOD_MASK, true },
     { "Drive #9", UI_MENU_TYPE_ITEM_ACTION,
-        "attach-drive9", ui_disk_attach_callback, GINT_TO_POINTER(9),
+        "attach-drive9", ui_disk_attach_dialog_show, GINT_TO_POINTER(9),
         GDK_KEY_9, VICE_MOD_MASK, true },
     { "Drive #10", UI_MENU_TYPE_ITEM_ACTION,
-        "attach-drive10", ui_disk_attach_callback, GINT_TO_POINTER(10),
+        "attach-drive10", ui_disk_attach_dialog_show, GINT_TO_POINTER(10),
         GDK_KEY_0, VICE_MOD_MASK, true },
     { "Drive #11", UI_MENU_TYPE_ITEM_ACTION,
-        "attach-drive11", ui_disk_attach_callback, GINT_TO_POINTER(11),
+        "attach-drive11", ui_disk_attach_dialog_show, GINT_TO_POINTER(11),
         GDK_KEY_1, VICE_MOD_MASK, true },
 
     UI_MENU_TERMINATOR

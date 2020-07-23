@@ -565,7 +565,7 @@ static GtkFileChooserNative *create_disk_attach_dialog_native(GtkWidget *parent,
  *
  * \return  TRUE
  */
-gboolean ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_disk_attach_dialog_show(GtkWidget *widget, gpointer user_data)
 {
 #ifndef SANDBOX_MODE
     GtkWidget *dialog;
