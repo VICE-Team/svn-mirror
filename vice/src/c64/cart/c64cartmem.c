@@ -160,10 +160,6 @@ void cart_set_port_game_slot1(int);
 void cart_port_config_changed_slot1(void);
 void cart_config_changed_slot1(uint8_t mode_phi1, uint8_t mode_phi2, unsigned int wflag);
 
-
-
-
-
 /*
   mode_phiN:
 

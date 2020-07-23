@@ -614,7 +614,7 @@ uint8_t retroreplay_romh_read(uint16_t addr)
                 return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
             } else {
                 /* if the "allow bank" bit is not set, and RAM is selected, then
-                bot 0 and bit 1 of the bank nr are inactive for selecting the ROMH bank */
+                bit 0 and bit 1 of the bank nr are inactive for selecting the ROMH bank */
                 return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + ((roml_bank & ~3) << 13));
             }
         }
@@ -628,7 +628,7 @@ uint8_t retroreplay_romh_read(uint16_t addr)
         return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
     }
     /* if the "allow bank" bit is not set, and RAM is selected, then
-       bot 0 and bit 1 of the bank nr are inactive for selecting the ROMH bank */
+       bit 0 and bit 1 of the bank nr are inactive for selecting the ROMH bank */
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + ((roml_bank & ~3) << 13));
 }
 

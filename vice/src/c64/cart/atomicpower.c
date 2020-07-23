@@ -188,7 +188,8 @@ static uint8_t atomicpower_io1_read(uint16_t addr)
        to whatever was on the bus before */
     value = vicii_read_phi1();    
     atomicpower_io1_store(addr, value);
-    log_warning(LOG_DEFAULT, "AP: reading IO1 area at 0xde%02x, this corrupts the register\n", addr & 0xffu);
+    log_warning(LOG_DEFAULT, "AP: reading IO1 area at 0xde%02x, this corrupts the register",
+                addr & 0xffu);
     
     return value;
 }
