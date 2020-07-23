@@ -229,7 +229,7 @@ void machine_model_widget_update(GtkWidget *widget)
  */
 void machine_model_widget_connect_signals(GtkWidget *widget)
 {
-    size_t i = 0;
+    int i = 0;
 
     while (1) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 2);
