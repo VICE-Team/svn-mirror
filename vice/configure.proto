@@ -181,7 +181,8 @@ m4_foreach([flag],
             [-Wmacro-redefined],
             [-Werror=implicit-function-declaration],
             [-Wfatal-errors],
-            [-fdiagnostics-absolute-paths]],
+            [-fdiagnostics-absolute-paths],
+            [-Wshorten-64-to-32]],
            [TEST_FLAG=flag
             VICE_CFLAG_REQUEST([$TEST_FLAG])
            ])
@@ -197,7 +198,8 @@ m4_foreach([flag],
             [-Wno-unused-parameter],
             [-Werror=implicit-function-declaration],
             [-Wfatal-errors],
-            [-fdiagnostics-absolute-paths]],
+            [-fdiagnostics-absolute-paths],
+            [-Wshorten-64-to-32]],
            [TEST_FLAG=flag
             VICE_CXXFLAG_REQUEST([$TEST_FLAG])
            ])
