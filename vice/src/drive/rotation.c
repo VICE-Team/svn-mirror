@@ -154,7 +154,7 @@ void rotation_table_get(uint32_t *rotation_table_ptr)
         drive = diskunit_context[dnr]->drives[j];
 
 
-        drive->snap_accum = rotation[dnr].accum;
+        drive->snap_accum = (uint32_t)(rotation[dnr].accum);
         drive->snap_rotation_last_clk = rotation[dnr].rotation_last_clk;
         drive->snap_last_read_data = rotation[dnr].last_read_data;
         drive->snap_last_write_data = rotation[dnr].last_write_data;
@@ -192,7 +192,7 @@ void rotation_table_set(uint32_t *rotation_table_ptr)
 
         rotation[dnr].speed_zone = rotation_table_ptr[dnr];
 
-        rotation[dnr].accum = drive->snap_accum;
+        rotation[dnr].accum = (uint32_t)(drive->snap_accum);
         rotation[dnr].rotation_last_clk = drive->snap_rotation_last_clk;
         rotation[dnr].last_read_data = drive->snap_last_read_data;
         rotation[dnr].last_write_data = drive->snap_last_write_data;
