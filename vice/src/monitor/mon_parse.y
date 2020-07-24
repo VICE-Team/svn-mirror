@@ -796,9 +796,9 @@ value: number { $$ = $1; }
      ;
 
 d_number: D_NUMBER { $$ = $1; }
-        | B_NUMBER_GUESS { $$ = strtol($1, NULL, 10); }
-        | O_NUMBER_GUESS { $$ = strtol($1, NULL, 10); }
-        | D_NUMBER_GUESS { $$ = strtol($1, NULL, 10); }
+        | B_NUMBER_GUESS { $$ = (int)strtol($1, NULL, 10); }
+        | O_NUMBER_GUESS { $$ = (int)strtol($1, NULL, 10); }
+        | D_NUMBER_GUESS { $$ = (int)strtol($1, NULL, 10); }
         ;
 
 guess_default: B_NUMBER_GUESS { $$ = resolve_datatype(B_NUMBER,$1); }
@@ -1184,18 +1184,18 @@ static int resolve_datatype(unsigned guess_type, const char *num)
 {
    /* FIXME: Handle cases when default type is non-numerical */
    if (default_radix == e_hexadecimal) {
-       return strtol(num, NULL, 16);
+       return (int)strtol(num, NULL, 16);
    }
 
    if ((guess_type == D_NUMBER) || (default_radix == e_decimal)) {
-       return strtol(num, NULL, 10);
+       return (int)strtol(num, NULL, 10);
    }
 
    if ((guess_type == O_NUMBER) || (default_radix == e_octal)) {
-       return strtol(num, NULL, 8);
+       return (int)strtol(num, NULL, 8);
    }
 
-   return strtol(num, NULL, 2);
+   return (int)strtol(num, NULL, 2);
 }
 
 /*
@@ -1223,7 +1223,7 @@ static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
             memcpy(end, num + 4, 4);
             end[4] = '\0';
             sa = strtol(start, NULL, 16);
-            range[1] = new_addr(memspace, strtol(end, NULL, 16));
+            range[1] = (int)new_addr(memspace, strtol(end, NULL, 16));
         }
         else
             sa = strtol(num, NULL, 16);
@@ -1244,6 +1244,6 @@ static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
     if (!CHECK_ADDR(sa))
         return ERR_ADDR_TOO_BIG;
 
-    range[0] = new_addr(memspace, sa);
+    range[0] = (int)new_addr(memspace, sa);
     return 0;
 }
