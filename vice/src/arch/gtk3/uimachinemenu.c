@@ -423,7 +423,7 @@ static ui_menu_item_t file_menu_tape[] = {
         "attach-tape", ui_tape_attach_callback, NULL,
         GDK_KEY_T, VICE_MOD_MASK, true },
     { "Create and attach an empty tape image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "create-tape", uitapecreate_dialog_show, NULL,
+        "create-tape", ui_tape_create_dialog_show, NULL,
         0, 0, true },
     { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION,
         "detach-tape", ui_tape_detach_callback, NULL,

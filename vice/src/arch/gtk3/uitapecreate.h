@@ -30,6 +30,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gboolean uitapecreate_dialog_show(GtkWidget *parent, gpointer data);
+gboolean ui_tape_create_dialog_show(GtkWidget *parent, gpointer data);
 
 #endif

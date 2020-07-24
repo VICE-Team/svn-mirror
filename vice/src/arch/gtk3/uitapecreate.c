@@ -155,7 +155,7 @@ static GtkWidget *create_extra_widget(void)
  * \param[in]   data    extra data (ignored)
  *
  */
-gboolean uitapecreate_dialog_show(GtkWidget *parent, gpointer data)
+gboolean ui_tape_create_dialog_show(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
