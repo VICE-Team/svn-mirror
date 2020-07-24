@@ -223,7 +223,7 @@ static GtkWidget *memory_hacks_device_widget_create(void)
     /* now set up extra event handlers on the radio buttons to be able to
      * enable/disable widgets */
     while (i < (sizeof mem_hack_devices / sizeof mem_hack_devices[0]) - 1) {
-        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), i, 0);
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), (gint)i, 0);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
             g_signal_connect(radio, "toggled", G_CALLBACK(on_hack_toggled),
                     GINT_TO_POINTER(mem_hack_devices[i].id));
@@ -411,7 +411,7 @@ GtkWidget *settings_io_c64_memhacks_widget_create(GtkWidget *parent)
     /* enable/disable the widgets depending on the hack selected */
     while (i < (sizeof mem_hack_devices / sizeof mem_hack_devices[0]) - 1) {
         GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(hack), 0, 1);
-        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), i, 0);
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), (gint)i, 0);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)
                 && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
             /* trigger the extra event handler to set the proper widgets */
