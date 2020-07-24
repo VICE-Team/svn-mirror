@@ -70,16 +70,34 @@ To keep the code easy to follow please read the following statements:
 
 - Generally put the opening brace of a block at the end of the line ("cuddling"
   braces style), except at the beginning of a function, ie:
-  
+
   void foo(int bar)
   {
       if (bar) {
           /* ... */
       }
   }
-  
+
+
 - No variable declarations after the first line of code, some compilers
   just can't handle it.
+
+
+- One variable declaration per line, and especially don't mix plain types with
+  pointers.
+
+  Don't do this:
+
+    int foo, bar, *huppel;
+
+  Do this:
+    int foo;
+    int bar;
+    int *huppel;
+
+  Might look short and clever, but as soon as you want to change a single type,
+  you'll either screw them all up, or have to split them anyway. Just don't.
+
 
   New block-level declarations are fine:
 
