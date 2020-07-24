@@ -278,7 +278,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
             c = completeLine(term, prompt, buf, buflen, &len, &pos, cols);
             /* Return on errors */
             if (c < 0) {
-                return len;
+                return (int)len;
             }
             /* Read next character when 0 */
             if (c == 0) {
