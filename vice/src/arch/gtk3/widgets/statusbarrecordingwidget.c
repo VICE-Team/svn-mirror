@@ -134,7 +134,7 @@ static void on_stop_clicked(GtkWidget *button, gpointer data)
 {
     GtkWidget *label;
 
-    uimedia_stop_recording(button, NULL);
+    ui_media_stop_recording(button, NULL);
     if (event_record_active()) {
         event_record_stop();
     }

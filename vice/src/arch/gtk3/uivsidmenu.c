@@ -132,11 +132,11 @@ static ui_menu_item_t file_menu[] = {
      *      contains sound recording options
      */
     { "Record sound file ...", UI_MENU_TYPE_ITEM_ACTION,
-        "sound-save", uimedia_dialog_show, NULL,
+        "sound-save", ui_media_dialog_show, NULL,
         GDK_KEY_R, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
 
     { "Stop sound recording", UI_MENU_TYPE_ITEM_ACTION,
-        "sound-stop", uimedia_stop_recording, NULL,
+        "sound-stop", ui_media_stop_recording, NULL,
         GDK_KEY_S, VICE_MOD_MASK | GDK_SHIFT_MASK, false },
 
     UI_MENU_SEPARATOR,

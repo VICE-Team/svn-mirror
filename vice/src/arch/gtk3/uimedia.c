@@ -1126,7 +1126,7 @@ static GtkWidget *create_content_widget(void)
  *
  * \return  TRUE
  */
-gboolean uimedia_dialog_show(GtkWidget *parent, gpointer data)
+gboolean ui_media_dialog_show(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -1175,7 +1175,7 @@ gboolean uimedia_dialog_show(GtkWidget *parent, gpointer data)
  *
  * \return  TRUE, so the emulated machine doesn't get the shortcut key
  */
-gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data)
+gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
 {
     debug_gtk3("Stopping media recording.");
 
@@ -1194,7 +1194,7 @@ gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data)
 }
 
 
-void uimedia_auto_screenshot(void)
+void ui_media_auto_screenshot(void)
 {
     debug_gtk3("called!");
     char *filename;

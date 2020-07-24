@@ -393,7 +393,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
              *      code path shouldn't be required anymore.    -- compyx
              */
             if (key == GDK_KEY_Pause) {
-                uimedia_auto_screenshot();
+                ui_media_auto_screenshot();
                 return TRUE;
             }
 
