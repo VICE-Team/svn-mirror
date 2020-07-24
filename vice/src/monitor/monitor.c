@@ -464,7 +464,7 @@ static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
 long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
                                 bool must_be_range, uint16_t default_len)
 {
-    long len = default_len;
+    size_t len = default_len;
 
     /* Check if we DEFINITELY need a range. */
     if (!is_valid_addr_range(*start_addr, *end_addr) && must_be_range) {
@@ -517,7 +517,7 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
 
         if (!mon_is_valid_addr(*end_addr)) {
             *end_addr = *start_addr;
-            mon_inc_addr_location(end_addr, len);
+            mon_inc_addr_location(end_addr, (int)len);
         } else {
             set_addr_memspace(end_addr, addr_memspace(*start_addr));
             len = get_range_len(*start_addr, *end_addr);
@@ -1317,11 +1317,11 @@ void monitor_shutdown(void)
 
 static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
 {
-    int val;
+    long val;
 
     val = strtoul(param, NULL, 0);
     if (val >= 0 && val < 65536) {
-        mon_init_break = val;
+        mon_init_break = (int)val;
     }
 
     return 0;
@@ -1526,7 +1526,7 @@ void mon_display_screen(long addr)
 #endif
     /* hard core: change address vars */
     if (addr >= 0) {
-        bank = (addr >> 12);
+        bank = (int)(addr >> 12);
         base = addr;
     }
 
