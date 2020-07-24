@@ -215,7 +215,8 @@ static int attach_image(int type, const char *filename)
 {
     uint8_t rawcart[0x8000];
     FILE *fd;
-    unsigned int addr, len;
+    unsigned int addr;
+    long len;
     size_t n;
 
     DBG(("attach_image type %d (%04x), file=`%s'.\n", type, type, filename));
