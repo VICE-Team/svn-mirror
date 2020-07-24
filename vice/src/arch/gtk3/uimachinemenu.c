@@ -443,13 +443,13 @@ static ui_menu_item_t file_menu_tape[] = {
 static ui_menu_item_t file_menu_tail[] = {
     /* cart */
     { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "cart-attach", uicart_show_dialog, NULL,
+        "cart-attach", ui_cart_show_dialog, NULL,
         GDK_KEY_C, VICE_MOD_MASK, true },
     { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
-        "cart-detach", (void *)uicart_detach, NULL,
+        "cart-detach", (void *)ui_cart_detach, NULL,
         GDK_KEY_C, VICE_MOD_MASK|GDK_SHIFT_MASK, false },
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
-        "cart-freeze", (void *)uicart_trigger_freeze, NULL,
+        "cart-freeze", (void *)ui_cart_trigger_freeze, NULL,
         GDK_KEY_Z, VICE_MOD_MASK, false },
 
     UI_MENU_SEPARATOR,

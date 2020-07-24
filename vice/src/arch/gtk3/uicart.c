@@ -55,7 +55,7 @@
  * The define's in cartridge.h don't provide the values I need, so this will
  * have to do.
  */
-typedef enum uicart_type_e {
+typedef enum ui_cart_type_e {
 
     /* C64 cart types */
     UICART_C64_SMART = 0,
@@ -96,7 +96,7 @@ typedef enum uicart_type_e {
     UICART_CBM2_16KB_4000,
     UICART_CBM2_16KB_6000
 
-} uicart_type_t;
+} ui_cart_type_t;
 
 
 /** \brief  Indici of filename patterns
@@ -1030,7 +1030,7 @@ static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
  *
  * \param[in]   func    list function
  */
-void uicart_set_list_func(cartridge_info_t *(*func)(void))
+void ui_cart_set_list_func(cartridge_info_t *(*func)(void))
 {
     crt_list_func = func;
 }
@@ -1044,7 +1044,7 @@ void uicart_set_list_func(cartridge_info_t *(*func)(void))
  *
  * \param[in]   func    detect function
  */
-void uicart_set_detect_func(int (*func)(const char *))
+void ui_cart_set_detect_func(int (*func)(const char *))
 {
     crt_detect_func = func;
 }
@@ -1054,7 +1054,7 @@ void uicart_set_detect_func(int (*func)(const char *))
  *
  * \param[in]   func    attach function
  */
-void uicart_set_attach_func(int (*func)(int, const char *))
+void ui_cart_set_attach_func(int (*func)(int, const char *))
 {
     crt_attach_func = func;
 }
@@ -1064,7 +1064,7 @@ void uicart_set_attach_func(int (*func)(int, const char *))
  *
  * \param[in]   func    freeze function
  */
-void uicart_set_freeze_func(void (*func)(void))
+void ui_cart_set_freeze_func(void (*func)(void))
 {
     crt_freeze_func = func;
 }
@@ -1074,7 +1074,7 @@ void uicart_set_freeze_func(void (*func)(void))
  *
  * \param[in]   func    freeze function
  */
-void uicart_set_detach_func(void (*func)(int))
+void ui_cart_set_detach_func(void (*func)(int))
 {
     crt_detach_func = func;
 }
@@ -1084,7 +1084,7 @@ void uicart_set_detach_func(void (*func)(int))
  *
  * \param[in]   func    default func
  */
-void uicart_set_set_default_func(void (*func)(void))
+void ui_cart_set_set_default_func(void (*func)(void))
 {
     crt_set_default_func = func;
 }
@@ -1093,7 +1093,7 @@ void uicart_set_set_default_func(void (*func)(void))
  *
  * \param[in]   func    default func
  */
-void uicart_set_unset_default_func(void (*func)(void))
+void ui_cart_set_unset_default_func(void (*func)(void))
 {
     crt_unset_default_func = func;
 }
@@ -1106,7 +1106,7 @@ void uicart_set_unset_default_func(void (*func)(void))
  *
  * \return  TRUE
  */
-gboolean uicart_trigger_freeze(void)
+gboolean ui_cart_trigger_freeze(void)
 {
     if (crt_freeze_func != NULL) {
         debug_gtk3("triggering cart freeze.");
@@ -1124,7 +1124,7 @@ gboolean uicart_trigger_freeze(void)
  *
  * \return  TRUE
  */
-gboolean uicart_detach(void)
+gboolean ui_cart_detach(void)
 {
     int cartid = CARTRIDGE_NONE;
     gboolean result;
@@ -1176,7 +1176,7 @@ gboolean uicart_detach(void)
  *
  * \return  TRUE
  */
-gboolean uicart_show_dialog(GtkWidget *widget, gpointer data)
+gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
 
@@ -1249,7 +1249,7 @@ gboolean uicart_show_dialog(GtkWidget *widget, gpointer data)
 
 #else
 
-gboolean uicart_show_dialog(GtkWidget *widget, gpointer data)
+gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkFileChooserNative *dialog;
 
@@ -1274,7 +1274,7 @@ gboolean uicart_show_dialog(GtkWidget *widget, gpointer data)
 
 /** \brief  Clean up the last directory string
  */
-void uicart_shutdown(void)
+void ui_cart_shutdown(void)
 {
     lastdir_shutdown(&last_dir);
 }

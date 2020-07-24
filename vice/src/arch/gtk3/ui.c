@@ -2009,7 +2009,7 @@ void ui_exit(void)
 
     /* clean up UI resources */
     if (machine_class != VICE_MACHINE_VSID) {
-        uicart_shutdown();
+        ui_cart_shutdown();
         ui_disk_attach_shutdown();
         ui_tape_attach_shutdown();
         ui_smart_attach_shutdown();
