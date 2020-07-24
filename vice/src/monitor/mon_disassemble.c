@@ -1489,7 +1489,7 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
         int line_count; /* Number of lines printed by disassembly */
         bytes = mon_disassemble_instr(dot_addr[mem], &line_count);
         i += bytes;
-        mon_inc_addr_location(&(dot_addr[mem]), bytes);
+        mon_inc_addr_location(&(dot_addr[mem]), (unsigned int)bytes);
         if (mon_stop_output != 0) {
             break;
         }
