@@ -664,7 +664,7 @@ int vic_um_bin_attach(const char *filename)
 
 void vic_um_detach(void)
 {
-    int n = 0;
+    long n = 0;
     FILE *fd;
 
     /* try to write back cartridge contents if write back is enabled
@@ -770,8 +770,8 @@ int vic_um_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_BA(m, ultimem, sizeof ultimem) < 0)
-        || (SMW_BA(m, cart_ram, cart_ram_size) < 0)
-        || (SMW_BA(m, cart_rom, cart_rom_size) < 0)) {
+        || (SMW_BA(m, cart_ram, (unsigned int)cart_ram_size) < 0)
+        || (SMW_BA(m, cart_rom, (unsigned int)cart_rom_size) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
@@ -831,8 +831,8 @@ int vic_um_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || (SMR_BA(m, cart_ram, cart_ram_size) < 0)
-        || (SMR_BA(m, cart_rom, cart_rom_size) < 0)) {
+        || (SMR_BA(m, cart_ram, (unsigned int)cart_ram_size) < 0)
+        || (SMR_BA(m, cart_rom, (unsigned int)cart_rom_size) < 0)) {
         goto snapshot_error;
     }
 
