@@ -392,7 +392,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
  *
  * \return  TRUE;
  */
-gboolean uidiskcreate_dialog_show(GtkWidget *parent, gpointer data)
+gboolean ui_disk_create_dialog_show(GtkWidget *parent, gpointer data)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;

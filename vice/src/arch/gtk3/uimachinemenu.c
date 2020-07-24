@@ -394,7 +394,7 @@ static ui_menu_item_t file_menu_head[] = {
         NULL, NULL, attach_submenu,
         GDK_KEY_8, VICE_MOD_MASK, false },
     { "Create and attach an empty disk image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "create-disk", uidiskcreate_dialog_show, GINT_TO_POINTER(8),
+        "create-disk", ui_disk_create_dialog_show, GINT_TO_POINTER(8),
         0, 0, true },
     { "Detach disk image", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, detach_submenu,
