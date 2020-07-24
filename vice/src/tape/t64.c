@@ -449,7 +449,7 @@ int t64_read(t64_t *t64, uint8_t *buf, size_t size)
     }
     t64->current_file_seek_position += (int)amount;
 
-    return amount;
+    return (int)amount;
 }
 
 
