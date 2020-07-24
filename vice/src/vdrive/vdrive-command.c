@@ -301,7 +301,7 @@ static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
             break;
         }
         /* Convert and skip over decimal number.  */
-        *p[ip] = strtol(bp, &bp, 10);
+        *p[ip] = (int)strtol(bp, &bp, 10);
     }
     endsign = *bp;
     if (isalnum((int)endsign) && (ip == 4)) {
@@ -1171,10 +1171,10 @@ int vdrive_command_time_read(struct vdrive_s *vdrive, const char format)
     bufferinfo_t *p = &vdrive->buffers[15];
     int status = CBMDOS_IPE_SYNTAX;
     char message[30] = { 0 };
-    int length;
+    size_t length;
     time_t timep;
     struct tm *ts;
-    
+
     const char *days[7] = {
         "SUN.", "MON.", "TUES", "WED.", "THUR", "FRI.", "SAT."
     };
@@ -1194,7 +1194,7 @@ int vdrive_command_time_read(struct vdrive_s *vdrive, const char format)
             /* printf("returning: '%s'\n", message); */
             length = strlen(message);
             memcpy((char *)p->buffer, message, length);
-            p->length = length - 1;
+            p->length = (unsigned int)(length - 1U);
             p->bufptr = 0;
             p->readmode = CBMDOS_FAM_READ;
             status = CBMDOS_IPE_OK;
