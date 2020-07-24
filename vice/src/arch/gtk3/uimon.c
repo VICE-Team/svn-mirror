@@ -93,8 +93,8 @@ struct console_private_s {
 
     pthread_mutex_t output_lock;
     char *output_buffer;
-    unsigned int output_buffer_allocated_size;
-    unsigned int output_buffer_used_size;
+    size_t output_buffer_allocated_size;
+    size_t output_buffer_used_size;
 } fixed = {NULL, NULL, NULL, PTHREAD_MUTEX_INITIALIZER, NULL, 0, 0};
 
 static console_t vte_console;
@@ -155,7 +155,7 @@ void uimon_write_to_terminal(struct console_private_s *t,
         return;
     }
 
-    unsigned int output_buffer_required_size;
+    size_t output_buffer_required_size;
 
     pthread_mutex_lock(&fixed.output_lock);
 
@@ -191,7 +191,7 @@ void uimon_write_to_terminal(struct console_private_s *t,
 int uimon_get_columns(struct console_private_s *t)
 {
     if(t->term) {
-        return vte_terminal_get_column_count(VTE_TERMINAL(t->term));
+        return (int)vte_terminal_get_column_count(VTE_TERMINAL(t->term));
     }
     return 80;
 }
@@ -476,9 +476,9 @@ static void screen_resize_window_cb (VteTerminal *terminal,
 static void screen_resize_window_cb2 (VteTerminal *terminal,
                          gpointer* window)
 {
-    int width, height;
-    int cwidth, cheight;
-    int newwidth, newheight;
+    gint width, height;
+    glong cwidth, cheight;
+    glong newwidth, newheight;
 
     gtk_window_get_size (GTK_WINDOW(fixed.window), &width, &height);
     cwidth = vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
@@ -584,8 +584,8 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         /* allowed window widths are base_width + width_inc * N
          * allowed window heights are base_height + height_inc * N
          */
-        hints.width_inc = vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
-        hints.height_inc = vte_terminal_get_char_height (VTE_TERMINAL(fixed.term));
+        hints.width_inc = (gint)vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
+        hints.height_inc = (gint)vte_terminal_get_char_height (VTE_TERMINAL(fixed.term));
         /* min size should be multiple of .._inc, else we get funky effects */
         hints.min_width = hints.width_inc;
         hints.min_height = hints.height_inc;
