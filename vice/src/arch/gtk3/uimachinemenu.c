@@ -512,47 +512,47 @@ static ui_menu_item_t edit_menu[] = {
  */
 static ui_menu_item_t snapshot_menu[] = {
     { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "snapshot-load", uisnapshot_open_file, NULL,
+        "snapshot-load", ui_snapshot_open_file, NULL,
         GDK_KEY_L, VICE_MOD_MASK, false },
     { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "snapshot-save", uisnapshot_save_file, NULL,
+        "snapshot-save", ui_snapshot_save_file, NULL,
         GDK_KEY_S, VICE_MOD_MASK, false },
 
     UI_MENU_SEPARATOR,
 
     { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION,
-        "snapshot-quickload", uisnapshot_quickload_snapshot, NULL,
+        "snapshot-quickload", ui_snapshot_quickload_snapshot, NULL,
         GDK_KEY_F10, VICE_MOD_MASK, false },   /* Shortcut doesn't work in MATE, key
                                          is mapped to Maximize Window. Using
                                          the menu to active this item does
                                          work though -- compyx */
     { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION,
-        "snapshot-quicksave", uisnapshot_quicksave_snapshot, NULL,
+        "snapshot-quicksave", ui_snapshot_quicksave_snapshot, NULL,
         GDK_KEY_F11, VICE_MOD_MASK, false },
 
     UI_MENU_SEPARATOR,
 #if 0
     { "Select history directory ...", UI_MENU_TYPE_ITEM_ACTION,
-        "history-select-dir", uisnapshot_history_select_dir, "0:3",
+        "history-select-dir", ui_snapshot_history_select_dir, "0:3",
         0, 0, false },
 #endif
     { "Start recording events", UI_MENU_TYPE_ITEM_ACTION,
-        "history-record-start", uisnapshot_history_record_start, NULL,
+        "history-record-start", ui_snapshot_history_record_start, NULL,
         0, 0, false },
     { "Stop recording events", UI_MENU_TYPE_ITEM_ACTION,
-        "history-record-stop", uisnapshot_history_record_stop, NULL,
+        "history-record-stop", ui_snapshot_history_record_stop, NULL,
         0, 0, false },
     { "Start playing back events", UI_MENU_TYPE_ITEM_ACTION,
-        "history-playback-start", uisnapshot_history_playback_start, NULL,
+        "history-playback-start", ui_snapshot_history_playback_start, NULL,
         0, 0, false },
     { "Stop playing back events", UI_MENU_TYPE_ITEM_ACTION,
-        "history-playback-stop", uisnapshot_history_playback_stop, NULL,
+        "history-playback-stop", ui_snapshot_history_playback_stop, NULL,
         0, 0, false },
     { "Set recording milestone", UI_MENU_TYPE_ITEM_ACTION,
-        "history-milestone-set", uisnapshot_history_milestone_set, NULL,
+        "history-milestone-set", ui_snapshot_history_milestone_set, NULL,
         GDK_KEY_E, VICE_MOD_MASK, false },
     { "Return to milestone", UI_MENU_TYPE_ITEM_ACTION,
-        "history-milestone-reset", uisnapshot_history_milestone_reset, NULL,
+        "history-milestone-reset", ui_snapshot_history_milestone_reset, NULL,
         GDK_KEY_U, VICE_MOD_MASK, false },
 
     UI_MENU_SEPARATOR,
