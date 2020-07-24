@@ -405,7 +405,7 @@ static int mididrv_alsa_in(uint8_t *b)
 
     /* Decode Alsa event into raw bytes */
     snd_midi_event_reset_decode(midi_event_parser);
-    alsa_err = snd_midi_event_decode(midi_event_parser, buf, sizeof(buf), ev);
+    alsa_err = (int)snd_midi_event_decode(midi_event_parser, buf, sizeof(buf), ev);
     if (alsa_err < 0) {
         log_error(mididrv_log, "could not decode midi event: %s\n", snd_strerror(alsa_err));
         return -1;
