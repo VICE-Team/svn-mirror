@@ -585,7 +585,7 @@ snapshot_module_t *snapshot_module_create(snapshot_t *s, const char *name, uint8
         return NULL;
     }
 
-    m->size = ftell(s->file) - m->offset;
+    m->size = (uint32_t)(ftell(s->file) - m->offset);
     m->size_offset = ftell(s->file) - sizeof(uint32_t);
 
     return m;
