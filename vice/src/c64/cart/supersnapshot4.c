@@ -331,7 +331,8 @@ int supersnapshot_v4_bin_attach(const char *filename, uint8_t *rawcart)
  */
 int supersnapshot_v4_crt_attach(FILE *fd, uint8_t *rawcart)
 {
-    int i, pos, banks, chips;
+    int i, banks, chips;
+    size_t pos;
     crt_chip_header_t chip;
 
     /* find out how many banks and chips are in the file */
