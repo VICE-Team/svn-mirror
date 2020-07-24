@@ -571,14 +571,14 @@ if		{ BEGIN (COND_MODE); return IF; }
 <ASM_MODE,INITIAL,COND_MODE,REG_ASGN,LABEL_ASGN>{
     {HDIGIT}{8}             { yylval.str = lib_strdup(yytext); return H_RANGE_GUESS; }
     1[01]*                  { yylval.str = lib_strdup(yytext); return B_NUMBER_GUESS; }
-    %[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
-    &[0-7]+                 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
+    %[01]+                  { yylval.i = (int)strtol(yytext+1, NULL, 2); return B_NUMBER; }
+    &[0-7]+                 { yylval.i = (int)strtol(yytext+1, NULL, 8); return O_NUMBER; }
     [0-7]*                  { yylval.str = lib_strdup(yytext); return O_NUMBER_GUESS; }
-    \+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
+    \+[0-9]+                { yylval.i = (int)strtol(yytext+1, NULL, 10); return D_NUMBER; }
     [0-9]+                  { yylval.str = lib_strdup(yytext); return D_NUMBER_GUESS; }
     xx                      { yylval.i = 0x00; return MASK; }
-    \${HDIGIT}+             { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
-    {HDIGIT}+               { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
+    \${HDIGIT}+             { yylval.i = (int)strtol(yytext+1, NULL, 16); return H_NUMBER; }
+    {HDIGIT}+               { yylval.i = (int)strtol(yytext, NULL, 16); return H_NUMBER; }
 }
 
 <*>=	{ return EQUALS; }
