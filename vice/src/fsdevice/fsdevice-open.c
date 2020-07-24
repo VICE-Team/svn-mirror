@@ -70,7 +70,7 @@
 static uint8_t *makeshortheader(uint8_t *p)
 {
     int longnames = 0;
-    int n;
+    size_t n;
     uint8_t *d;
 
     if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {    
