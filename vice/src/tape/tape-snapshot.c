@@ -97,7 +97,7 @@ static int tape_snapshot_write_tapimage_module(snapshot_t *s)
     }
 
     tap_size = ftell(ftap);
-    if (SMW_DW(m, tap_size)) {
+    if (SMW_DW(m, (unsigned int)tap_size)) {
         fseek(ftap, pos, SEEK_SET);
         log_error(tape_snapshot_log, "Cannot write size of tap image");
     }
@@ -166,7 +166,7 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
 
     buffer = lib_malloc(tap_size);
 
-    SMR_BA(m, buffer, tap_size);
+    SMR_BA(m, buffer, (unsigned int)tap_size);
 
     if (fwrite(buffer, tap_size, 1, ftap) != 1) {
         log_error(tape_snapshot_log, "Could not create temporary file");
