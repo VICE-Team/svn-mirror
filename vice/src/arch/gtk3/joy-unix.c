@@ -390,7 +390,7 @@ void old_joystick_init(void)
             /* calibration loop */
             for (j = 0; j < JOYCALLOOPS; j++) {
                 struct JS_DATA_TYPE js;
-                int status = read(ajoyfd[i], &js, JS_RETURN);
+                ssize_t status = read(ajoyfd[i], &js, JS_RETURN);
 
                 if (status != JS_RETURN) {
                     log_warning(joystick_log, "Error reading joystick device `%s'.", dev);
@@ -474,7 +474,7 @@ void old_joystick(void)
         } else
 #    endif
         if (joyport == JOYDEV_ANALOG_0 || joyport == JOYDEV_ANALOG_1) {
-            int status;
+            ssize_t status;
             struct JS_DATA_TYPE js;
             int ajoyport = joyport - JOYDEV_ANALOG_0;
 
