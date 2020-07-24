@@ -73,7 +73,7 @@ gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data)
     char * text = clipboard_read_screen_output("\n");
     if (text != NULL) {
         gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
-                text, strlen(text));
+                text, (gint)strlen(text));
     }
     return TRUE;
 }
