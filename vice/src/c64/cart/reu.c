@@ -692,7 +692,7 @@ int reu_disable(void)
 int reu_bin_attach(const char *filename, uint8_t *rawcart)
 {
     FILE *fd;
-    int size;
+    size_t size;
 
     fd = fopen(filename, MODE_READ);
     if (fd == NULL) {
@@ -701,7 +701,7 @@ int reu_bin_attach(const char *filename, uint8_t *rawcart)
     size = util_file_length(fd);
     fclose(fd);
 
-    if (set_reu_size(size / 1024, NULL) < 0) {
+    if (set_reu_size((uint32_t)size / 1024, NULL) < 0) {
         return -1;
     }
 
