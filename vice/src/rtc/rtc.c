@@ -60,9 +60,14 @@ uint8_t rtc_get_centisecond(int bcd)
     struct timeval t;
 
     gettimeofday(&t, NULL);
-    return (uint8_t)((bcd) ? int_to_bcd(t.tv_usec / 10000) : t.tv_usec / 10000);
+
+    if (bcd) {
+        return (uint8_t)(int_to_bcd((int)(t.tv_usec / 10000)));
+    } else {
+        return t.tv_usec / 10000;
+    }
 #else
-    return (uint8_t)((bcd) ? int_to_bcd(archdep_rtc_get_centisecond()) : archdep_rtc_get_centisecond());
+    return (uint8_t)((bcd) ? (uint8_t)int_to_bcd(archdep_rtc_get_centisecond()) : archdep_rtc_get_centisecond());
 #endif
 }
 
