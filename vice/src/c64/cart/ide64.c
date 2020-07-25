@@ -398,7 +398,7 @@ static void detect_ide64_image(struct drive_s *drive)
 {
     FILE *file;
     unsigned char header[24];
-    int res;
+    size_t res;
     char *ext;
     ata_drive_geometry_t *geometry = &drive->detected;
 
@@ -477,7 +477,7 @@ static void detect_ide64_image(struct drive_s *drive)
             geometry->cylinders = 0;
             geometry->heads = 0;
             geometry->sectors = 0;
-            geometry->size = size / ((drive->type == ATA_DRIVE_CD) ? 2048 : 512);
+            geometry->size = (int)(size / ((drive->type == ATA_DRIVE_CD) ? 2048 : 512));
         }
     }
 
@@ -1491,7 +1491,7 @@ void ide64_config_init(void)
 
     for (i = 0; i < 4; i++) {
         drive = &drives[i];
-        ata_update_timing(drive->drv, machine_get_cycles_per_second());
+        ata_update_timing(drive->drv, (CLOCK)machine_get_cycles_per_second());
         if (drive->update_needed) {
             drive->update_needed = 0;
             detect_ide64_image(drive);
