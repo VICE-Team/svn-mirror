@@ -869,8 +869,9 @@ static int mus_load_file(const char* filename, int ispsid)
 {
     char *strname;
     FILE *f;
-    int n, stereo = 0;
-    int mus_datalen;
+    int stereo = 0;
+    size_t n;
+    size_t mus_datalen;
 
     if (!(f = zfile_fopen(filename, MODE_READ))) {
         return -1;
@@ -910,7 +911,7 @@ static int mus_load_file(const char* filename, int ispsid)
         }
         lib_free(strname);
         /* only extract credits if this is NOT a psid file */
-        mus_extract_credits(psid->data, mus_datalen);
+        mus_extract_credits(psid->data, (int)mus_datalen);
     }
 
     mus_install();
