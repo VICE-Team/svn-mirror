@@ -133,7 +133,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
 
     if (checkimage_errorinfo) {
         fsimage->error_info.map = lib_calloc(1, checkimage_blocks);
-        fsimage->error_info.len = checkimage_blocks;
+        fsimage->error_info.len = (int)checkimage_blocks;
         if (util_fpread(fsimage->fd, fsimage->error_info.map, checkimage_blocks, 256 * checkimage_blocks) < 0) {
             return 0;
         }
