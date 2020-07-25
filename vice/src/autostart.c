@@ -1192,7 +1192,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     resources_get_int("AutostartDelayRandom", &rnd);
     if (rnd) {
         /* additional random delay of up to 10 frames */
-        autostart_initial_delay_cycles += lib_unsigned_rand(1, machine_get_cycles_per_frame() * 10);
+        autostart_initial_delay_cycles += lib_unsigned_rand(1, (int)machine_get_cycles_per_frame() * 10);
     }
     DBG(("reboot_for_autostart - autostart_initial_delay_cycles: %u", autostart_initial_delay_cycles));
 
