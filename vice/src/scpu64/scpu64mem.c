@@ -1818,22 +1818,26 @@ void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uin
 
 void mem_set_simm_size(int val)
 {
-    size_t size = val << 20;
-    if (!size) size = 1;
+    unsigned int size = val << 20;
+
+    if (size == 0) {
+        size = 1;
+    }
     mem_simm_ram_mask = size - 1;
     mem_simm_ram = lib_realloc(mem_simm_ram, size);
     ram_init(mem_simm_ram, size);
+
     switch (val) {
-    case 1:
-        mem_simm_page_size = 9 + 2; /* 0 */
-        break;
-    case 4:                             /* 1 */
-    case 8:                             /* 2 */
-        mem_simm_page_size = 10 + 2;  /* 3 */
-        break;
-    default:
-        mem_simm_page_size = 11 + 2;  /* 4,3 */
-        break;
+        case 1:
+            mem_simm_page_size = 9 + 2; /* 0 */
+            break;
+        case 4:                             /* 1 */
+        case 8:                             /* 2 */
+            mem_simm_page_size = 10 + 2;  /* 3 */
+            break;
+        default:
+            mem_simm_page_size = 11 + 2;  /* 4,3 */
+            break;
     }
     maincpu_resync_limits();
 }
