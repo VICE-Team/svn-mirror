@@ -303,7 +303,7 @@ static int fsdevice_flush_mr(vdrive_t *vdrive, char *realarg)
     uint16_t addr;
 
     addr = fsdevice_dev[dnr].cmdbuf[3] | (fsdevice_dev[dnr].cmdbuf[4] << 8);
-    length = 6 + ((realarg != NULL) ? strlen(realarg) : 0); /* FIXME */
+    length = 6 + ((realarg != NULL) ? (unsigned int)strlen(realarg) : 0); /* FIXME */
     return vdrive_command_memory_read(vdrive, &fsdevice_dev[dnr].cmdbuf[5], addr, length);
 }
 
@@ -315,7 +315,7 @@ static int fsdevice_flush_mw(vdrive_t *vdrive, char *realarg)
     uint16_t addr;
 
     addr = fsdevice_dev[dnr].cmdbuf[3] | (fsdevice_dev[dnr].cmdbuf[4] << 8);
-    length = 6 + ((realarg != NULL) ? strlen(realarg) : 0); /* FIXME */
+    length = 6 + ((realarg != NULL) ? (unsigned int)strlen(realarg) : 0); /* FIXME */
     return vdrive_command_memory_write(vdrive, &fsdevice_dev[dnr].cmdbuf[5], addr, length);
 }
 
@@ -327,7 +327,7 @@ static int fsdevice_flush_me(vdrive_t *vdrive, char *realarg)
     uint16_t addr;
 
     addr = fsdevice_dev[dnr].cmdbuf[3] | (fsdevice_dev[dnr].cmdbuf[4] << 8);
-    length = 5 + ((realarg != NULL) ? strlen(realarg) : 0); /* FIXME */
+    length = 5 + ((realarg != NULL) ? (unsigned int)strlen(realarg) : 0); /* FIXME */
     return vdrive_command_memory_exec(vdrive, &fsdevice_dev[dnr].cmdbuf[5], addr, length);
 }
 
