@@ -152,12 +152,13 @@ int rawfile_seek_set(rawfile_info_t *info, int offset)
 
 unsigned int rawfile_get_bytes_left(struct rawfile_info_s *info)
 {
-    unsigned int old_pos = ftell(info->fd);
-    unsigned int size;
+    /* this is fucked */
+    long old_pos = ftell(info->fd);
+    size_t size;
     fseek(info->fd, 0, SEEK_END);
     size = ftell(info->fd);
     fseek(info->fd, old_pos, SEEK_SET);
-    return size - old_pos;
+    return (unsigned int)(size - old_pos);
 }
 
 unsigned int rawfile_ferror(rawfile_info_t *info)
