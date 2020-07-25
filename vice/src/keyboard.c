@@ -69,7 +69,7 @@
 #define DBG(x)
 #endif
 
-#define KEYBOARD_RAND() lib_unsigned_rand(1, machine_get_cycles_per_frame())
+#define KEYBOARD_RAND() lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame())
 
 /* Keyboard array.  */
 int keyarr[KBD_ROWS];
@@ -1208,11 +1208,11 @@ static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
 {
     if (row == -1 && (col >= 0) && (col <= 8)) {
 #ifdef COMMON_JOYKEYS
-        joykeys[JOYSTICK_KEYSET_IDX_A][col] = sym;
+        joykeys[JOYSTICK_KEYSET_IDX_A][col] = (int)sym;
 #endif
     } else if (row == -2 && (col >= 0) && (col <= 8)) {
 #ifdef COMMON_JOYKEYS
-        joykeys[JOYSTICK_KEYSET_IDX_B][col] = sym;
+        joykeys[JOYSTICK_KEYSET_IDX_B][col] = (int)sym;
 #endif
     } else if (row == -3 && col == 0) {
         key_ctrl_restore1 = sym;
@@ -1234,7 +1234,8 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
 {
     char *key, *p;
     signed long sym;
-    int row, col;
+    long row;
+    int col;
     int shift = 0;
 
     key = strtok(buffer, " \t:");
@@ -1242,7 +1243,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
     sym = kbd_arch_keyname_to_keynum(key);
 
     /* log_debug("%s: %s %i", __func__, key, sym); */
-    
+
     if (sym < 0) {
         log_error(keyboard_log, "Could not find key `%s'!", key);
         return;
@@ -1253,7 +1254,7 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
         row = strtol(p, NULL, 10);
         p = strtok(NULL, " \t,");
         if (p != NULL) {
-            col = atoi(p);
+            col = atoi(p);  /* YUCK! */
             p = strtok(NULL, " \t");
             if (p != NULL || row < 0) {
                 if (p != NULL) {
@@ -1261,11 +1262,11 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
                 }
 
                 if (row >= 0) {
-                    keyboard_parse_set_pos_row(sym, row, col, shift);
+                    keyboard_parse_set_pos_row(sym, (int)row, col, shift);
                 } else {
-                    if (keyboard_parse_set_neg_row(sym, row, col) < 0) {
+                    if (keyboard_parse_set_neg_row(sym, (int)row, col) < 0) {
                         log_error(keyboard_log,
-                                  "%s:%d: Bad row/column value (%d/%d) for keysym `%s'.",
+                                  "%s:%d: Bad row/column value (%ld/%d) for keysym `%s'.",
                                   filename, line, row, col, key);
                     }
                 }
