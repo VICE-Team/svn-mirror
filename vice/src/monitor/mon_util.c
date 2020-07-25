@@ -82,11 +82,11 @@ void mon_log_file_close(void)
 
 static int mon_log_file_out(const char *buffer)
 {
-    int len;
+    size_t len;
 
     if ((mon_log_file) && (buffer)) {
         len = strlen(buffer);
-        if (fwrite(buffer, 1, len, mon_log_file) == (size_t)len) {
+        if (fwrite(buffer, 1, len, mon_log_file) == len) {
             return 0;
         }
     }
