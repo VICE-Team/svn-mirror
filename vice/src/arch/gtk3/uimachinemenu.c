@@ -718,7 +718,7 @@ static ui_menu_item_t settings_menu_tail[] = {
  */
 static ui_menu_item_t debug_menu[] = {
     { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
-        "tracemode", uidebug_trace_mode_callback, NULL,
+        "tracemode", ui_debug_trace_mode_dialog_show, NULL,
         0, 0, true },
 
     UI_MENU_SEPARATOR,
@@ -755,7 +755,7 @@ static ui_menu_item_t debug_menu[] = {
     UI_MENU_SEPARATOR,
 
     { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
-        "playframes", uidebug_playback_frames_callback, NULL,
+        "playframes", ui_debug_playback_frames_dialog_show, NULL,
         0, 0, true },
     { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
         "coredump", (void *)(ui_toggle_resource), (void *)"DoCoreDump",
@@ -769,7 +769,7 @@ static ui_menu_item_t debug_menu[] = {
  */
 static ui_menu_item_t debug_menu_c64dtv[] = {
     { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
-        "tracemode", uidebug_trace_mode_callback, NULL,
+        "tracemode", ui_debug_trace_mode_dialog_show, NULL,
         0, 0, true },
 
     UI_MENU_SEPARATOR,
@@ -812,7 +812,7 @@ static ui_menu_item_t debug_menu_c64dtv[] = {
     UI_MENU_SEPARATOR,
 
     { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
-        "playframes", uidebug_playback_frames_callback, NULL,
+        "playframes", ui_debug_playback_frames_dialog_show, NULL,
         0, 0, true },
     { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
         "coredump", ui_toggle_resource, (void *)"DoCoreDump",

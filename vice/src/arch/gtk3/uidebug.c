@@ -191,7 +191,7 @@ static void on_response_playback_frames(GtkDialog *dialog,
  *
  * \return  TRUE
  */
-gboolean uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_debug_trace_mode_dialog_show(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
@@ -210,7 +210,8 @@ gboolean uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
 *
 * \return   TRUE
 */
-gboolean uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
+gboolean ui_debug_playback_frames_dialog_show(GtkWidget *widget,
+                                              gpointer user_data)
 {
     GtkWidget *dialog;
 
