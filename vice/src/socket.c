@@ -965,14 +965,18 @@ int vice_network_socket_close(vice_network_socket_t * sockfd)
      the number of bytes send. For non-blocking sockets,
      this can be less than len. For blocking sockets (default),
      any return value different than len must be treated as an error.
+
+  \note Amazing there's docs on this, but send() returns size_t, not int, so
+        properly checking the return type could fail.
 */
-int vice_network_send(vice_network_socket_t * sockfd, const void * buffer, size_t buffer_length, int flags)
+int vice_network_send(vice_network_socket_t * sockfd, const void * buffer,
+                         size_t buffer_length, int flags)
 {
-    int ret;
+    size_t ret;
     signals_pipe_set();
     ret = send(sockfd->sockfd, buffer, buffer_length, flags);
     signals_pipe_unset();
-    return ret;
+    return (int)ret;
 }
 
 /*! \brief Receive data from a connected socket
@@ -1007,11 +1011,11 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer, size_
 */
 int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags)
 {
-    int ret;
+    size_t ret;
     signals_pipe_set();
     ret = recv(sockfd->sockfd, buffer, buffer_length, flags);
     signals_pipe_unset();
-    return ret;
+    return (int)ret;
 }
 
 /*! \brief Check if a socket has incoming data to receive
