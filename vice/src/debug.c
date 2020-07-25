@@ -455,7 +455,7 @@ static void debug_open_new_file(void)
 
     debug_file = fopen(filename, MODE_READ_TEXT);
     if (debug_file != NULL) {
-        debug_buffer_size = fread(debug_buffer, sizeof(char), DEBUG_HISTORY_MAXFILESIZE, debug_file);
+        debug_buffer_size = (int)fread(debug_buffer, sizeof(char), DEBUG_HISTORY_MAXFILESIZE, debug_file);
         debug_buffer_ptr = 0;
         debug_file_current++;
     } else {
