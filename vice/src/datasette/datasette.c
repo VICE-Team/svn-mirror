@@ -509,7 +509,7 @@ inline static int read_gap_backward_v1(long *read_tap)
 
     *read_tap = next_tap;
     next_tap += (remember_file_seek_position - current_image->current_file_seek_position);
-    current_image->current_file_seek_position = remember_file_seek_position;
+    current_image->current_file_seek_position = (int)remember_file_seek_position;
 
     return 0;
 }
@@ -689,7 +689,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
         but use use only the elapsed gap */
         gap = datasette_read_gap(direction);
         datasette_long_gap_pending = datasette_long_gap_elapsed;
-        datasette_long_gap_elapsed = gap - datasette_long_gap_elapsed;
+        datasette_long_gap_elapsed = (CLOCK)(gap - datasette_long_gap_elapsed);
     }
     if (datasette_long_gap_pending) {
         gap = datasette_long_gap_pending;
@@ -705,7 +705,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
         return;
     }
     if (gap > DATASETTE_MAX_GAP) {
-        datasette_long_gap_pending = gap - DATASETTE_MAX_GAP;
+        datasette_long_gap_pending = (CLOCK)(gap - DATASETTE_MAX_GAP);
         gap = DATASETTE_MAX_GAP;
     }
     datasette_long_gap_elapsed += gap;
