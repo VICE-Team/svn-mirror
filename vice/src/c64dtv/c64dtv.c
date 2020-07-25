@@ -688,7 +688,8 @@ int machine_specific_init(void)
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
+    sound_init((unsigned int)machine_timing.cycles_per_sec,
+               (unsigned int)machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
     kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec *                                 machine_timing.cycles_per_rfsh * KBDBUF_ALARM_DELAY));
@@ -858,11 +859,15 @@ void machine_change_timing(int timeval, int border_mode)
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
-    clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
+    clk_guard_set_clk_base(maincpu_clk_guard, (CLOCK)machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing, border_mode);
-    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_sec, machine_timing.power_freq);
-    cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_sec, machine_timing.power_freq);
+    cia1_set_timing(machine_context.cia1,
+                    (int)machine_timing.cycles_per_sec,
+                    (int)machine_timing.power_freq);
+    cia2_set_timing(machine_context.cia2,
+                    (int)machine_timing.cycles_per_sec,
+                    (int)machine_timing.power_freq);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
