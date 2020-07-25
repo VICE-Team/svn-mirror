@@ -1529,8 +1529,8 @@ void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
 {
     sid_state_changed = TRUE;
 
-    cycles_per_sec = clock_rate;
-    cycles_per_rfsh = ticks_per_frame;
+    cycles_per_sec = (unsigned int)clock_rate;
+    cycles_per_rfsh = (unsigned int)ticks_per_frame;
     rfsh_per_sec = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
 }
 
