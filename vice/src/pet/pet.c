@@ -692,7 +692,8 @@ int machine_specific_init(void)
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
+    sound_init((unsigned int)machine_timing.cycles_per_sec,
+               (unsigned int)machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  FIXME: Is this correct?  */
     /* moved to mem_load() because it's model specific... AF 30jun1998
