@@ -398,7 +398,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
     /* when recording set a timestamp */
     if (record_active) {
         ui_display_event_time(current_timestamp++, 0);
-        next_timestamp_clk = next_timestamp_clk + machine_get_cycles_per_second();
+        next_timestamp_clk = next_timestamp_clk + (CLOCK)machine_get_cycles_per_second();
         alarm_set(event_alarm, next_timestamp_clk);
         return;
     }
