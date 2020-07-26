@@ -944,32 +944,36 @@ void pet_crtc_set_screen(void)
     crtc_set_hw_options((cols == 80) ? 2 : 0, vmask, 0x2000, 512, 0x1000);
     crtc_set_retrace_type(petres.crtc ? 1 : 0);
 
-    /* No CRTC -> assume 40 columns */
+    /* No CRTC -> assume 40 columns and 60 Hz */
     if (!petres.crtc) {
-        crtc_store(0, 13);
-        crtc_store(1, 0);
-        crtc_store(0, 12);
-        crtc_store(1, 0x10);
-        crtc_store(0, 9);
-        crtc_store(1, 7);
-        crtc_store(0, 8);
-        crtc_store(1, 0);
-        crtc_store(0, 7);
-        crtc_store(1, 29);
-        crtc_store(0, 6);
-        crtc_store(1, 25);
-        crtc_store(0, 5);
-        crtc_store(1, 16);
-        crtc_store(0, 4);
-        crtc_store(1, 32);
-        crtc_store(0, 3);
-        crtc_store(1, 8);
-        crtc_store(0, 2);
-        crtc_store(1, 50);
-        crtc_store(0, 1);
-        crtc_store(1, 40);
-        crtc_store(0, 0);
-        crtc_store(1, 63);
+	static uint8_t crtc_values[14] = {
+	    /*
+	     * Set the CRTC to display 60 frames per second.
+	     *
+	     * This hopefully approximates the effective settings for a
+	     * CRTC-less model, but I just copied the values from a ROM.
+	     * At least these are less wrong than the previously used values.
+	     *
+	     * From edit-4-40-n-60Hz.901499-01.bin, graphics mode at E7C3.
+	     * PET: cycles per frame set to 16650, refresh to 60.060Hz
+	     */
+	    0x31, 0x28, 0x29, 0x0f, 0x28, 0x05, 0x19, 0x21,
+	    0x00, 0x07, 0x00, 0x00, 0x10, 0x00,
+#if 0
+	    /*
+	     * Original values.
+	     * PET: cycles per frame set to 17920, refresh to 55.803Hz
+	     */
+	    63, 40, 50, 8, 32, 16, 25, 29,
+	    0, 7, 0, 0, 0x10, 0,
+#endif
+	};
+	int r;
+
+	for (r = 13; r >= 0; r--) {
+	    crtc_store(0, r);
+	    crtc_store(1, crtc_values[r]);
+	}
     }
 }
 
