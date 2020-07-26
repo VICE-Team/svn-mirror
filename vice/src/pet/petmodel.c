@@ -46,7 +46,7 @@
 #define DBG(x)
 #endif
 
-#define PET_CHARGEN_NAME        "chargen"
+#define PET_CHARGEN_NAME        "characters-2.901447-10.bin"
 #define SUPERPET_CHARGEN_NAME   "characters.901640-01.bin"
 
 int pet_init_ok = 0; /* set to 1 in pet.c */

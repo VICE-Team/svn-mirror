@@ -1623,48 +1623,52 @@ The PET ROMs have the following names:
 @itemize @bullet
 
 @item
-@file{kernal1}, the PET2001 Kernal ROM (4 KBytes)
-(Commodore ROM images 901447-06 and 901447-07)
+@file{kernal-1.901439-04-07.bin}, the PET2001 Kernal ROM (4 KBytes)
+(Commodore ROM images 901447-06 and 901447-07, same as 901439-04 and 901439-07)
 @item
-@file{kernal2}, the PET3032 Kernal ROM (4 KBytes)
+@file{kernal-2.901465-03.bin}, the PET3032 Kernal ROM (4 KBytes)
 (Commodore ROM image 901465-03)
 @item
-@file{kernal4}, the PET4032/8032 Kernal ROM (4 KBytes)
+@file{kernal-4.901465-22.bin}, the PET4032/8032 Kernal ROM (4 KBytes)
 (Commodore ROM image 901465-22)
 
 @item
-@file{basic1}, the PET2001 Basic 1 ROM (8 KBytes)
+@file{basic-1.901439-09-05-02-06.bin}, the PET2001 Basic 1 ROM (8 KBytes)
 (Commodore ROM images 901447-09, 901447-02, 901447-03, 901447-04.bin.
+The -09 ROM is the revised -01 ROM.
+Same as images 901439-09, 901439-05, 901439-02, 901439-06.
 The -09 ROM is the revised -01 ROM)
 @item
-@file{basic2}, the PET3032 Basic 2 ROM (8 KBytes)
+@file{basic-2.901465-01-02.bin}, the PET3032 Basic 2 ROM (8 KBytes)
 (Commodore ROM images 901465-01 and 901465-01)
 @item
-@file{basic4}, the PET4032/8032 Basic 4 ROM (12 KBytes)
+@file{basic-4.901465-23-20-21.bin}, the PET4032/8032 Basic 4 ROM (12 KBytes)
 (Commodore ROM images 901465-23, 901465-20 and 901465-21.
 The -23 ROM is a revised -19 ROM)
 
 @item
-@file{edit1g}, the PET2001 editor for graphics keyboards (2 KBytes)
-(Commodore ROM image 901447-05)
+@file{edit-1-n.901439-03.bin}, the PET2001 editor for graphics keyboards (2 KBytes)
+(Commodore ROM image 901447-05, same as 901439-03)
 @item
-@file{edit2b}, the PET3032 editor for business keyboards (2 KBytes)
+@file{edit-2-b.901474-01.bin}, the PET3032 editor for business keyboards (2 KBytes)
 (Commodore ROM image 901474-01)
 @item
-@file{edit2g}, the PET3032 editor for graphics keyboards (2 KBytes)
+@file{edit-2-n.901447-24.bin}, the PET3032 editor for graphics keyboards (2 KBytes)
 (Commodore ROM image 901447-24)
 @item
-@file{edit4g40}, the PET4032 editor for graphics keyboards (2 KBytes)
+@file{edit-4-40-n-50Hz.901498-01.bi}, the PET4032 editor for graphics keyboards (2 KBytes)
 (Commodore ROM image 901498-01)
 @item
-@file{edit4b40}, the PET4032 editor for business keyboards (2 KBytes)
-(Commodore ROM image 901474-02)
+@file{edit-4-40-b-50Hz.ts.bin}, the PET4032 editor for business keyboards (2 KBytes)
+(Said to be "901498-01 modified to use a business keyboard on a 50Hz 4032")
+
 @item
-@file{edit4b80}, the PET8032 editor for business keyboards (2 KBytes)
+@file{edit-4-80-b-50Hz.901474-04_.bin}, the PET8032 editor for business keyboards (2 KBytes)
 (Commodore ROM image 901474-04-?)
 
 @item
-@file{chargen}, the character generator ROM (2k).  It has two sets
+@file{characters-2.901447-10.bin}, the character generator ROM (2k).
+It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
 the first half by inverting it.  This is a PET hardware feature.
 (Commodore ROM image 901447-10)
@@ -1676,14 +1680,14 @@ by some programs.
 
 @item
 @file{characters.901640-01.bin}, the SuperPET character generator ROM (4k).
-The first half is the same as @file{chargen}, the second half contains,
+The first half is the same as @file{characters-2.901447-10.bin}, the second half contains,
 instead of an upper and lower case set, an ASCII character set and an
 APL character set. For these sets, the screen code is equal to the
 ASCII/APL code.
 @item
 @file{waterloo-[abcdf]000.901898-0[1-5].bin},
 @file{waterloo-e000.901897-01.bin}.
-The Waterloo system ROMs.
+The Waterloo system ROMs for the 6809 CPU in the SuperPET.
 
 @item
 @file{hre-9000.324992-02.bin} HiRes Emulator (at $9000) and

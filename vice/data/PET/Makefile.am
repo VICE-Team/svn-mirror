@@ -1,20 +1,25 @@
 petdir = $(VICE_DATADIR)/PET
 
 roms = \
-	basic1 \
-	basic2 \
-	basic4 \
-	kernal1 \
-	kernal2 \
-	kernal4 \
-	edit1g \
-	edit2g \
-	edit2b \
-	edit4g40 \
-	edit4b40 \
-	edit4b80 \
-	chargen \
+	basic-1.901439-09-05-02-06.bin \
+	basic-2.901465-01-02.bin \
+	basic-4.901465-23-20-21.bin \
+	kernal-1.901439-04-07.bin \
+	kernal-2.901465-03.bin \
+	kernal-4.901465-22.bin \
+	edit-1-n.901439-03.bin \
+	edit-2-n.901447-24.bin \
+	edit-2-b.901474-01.bin \
+	edit-4-40-b-50Hz.ts.bin \
+	edit-4-40-b-60Hz.ts.bin \
+	edit-4-40-n-50Hz.901498-01.bin \
+	edit-4-40-n-60Hz.901499-01.bin \
+	edit-4-80-b-50Hz.901474-04.bin \
+	edit-4-80-b-50Hz.901474-04_.bin \
+	edit-4-80-b-60Hz.901474-03.bin \
+	edit-4-b-noCRTC.901474-02.bin \
 	chargen.de \
+	characters-2.901447-10.bin \
 	characters.901640-01.bin \
 	waterloo-a000.901898-01.bin \
 	waterloo-b000.901898-02.bin \

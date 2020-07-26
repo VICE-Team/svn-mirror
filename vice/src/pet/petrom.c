@@ -410,8 +410,9 @@ void petrom_checksum(void)
             petres.rom_video = 80;
             autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH), 0);
         } else
-        if (petres.editor_checksum == PET_EDIT4B40_CHECKSUM
-            || petres.editor_checksum == PET_EDIT4G40_CHECKSUM) {
+        if (petres.editor_checksum == PET_EDIT4G40_CHECKSUM
+            || petres.editor_checksum == PET_EDIT4B40_CHECKSUM1
+            || petres.editor_checksum == PET_EDIT4B40_CHECKSUM2) {
             if (petres.editor_checksum != last_editor) {
                 log_message(petrom_log, "Identified 40 columns editor by checksum.");
             }
