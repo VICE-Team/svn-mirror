@@ -1526,7 +1526,7 @@ void mon_display_screen(long addr)
 #endif
     /* hard core: change address vars */
     if (addr >= 0) {
-        bank = (int)(addr >> 12);
+        bank = mon_interfaces[e_comp_space]->current_bank;
         base = addr;
     }
 
