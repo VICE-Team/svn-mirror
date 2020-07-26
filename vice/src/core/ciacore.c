@@ -845,7 +845,7 @@ uint8_t cia_read_(cia_context_t *cia_context, uint16_t addr)
 uint8_t ciacore_peek(cia_context_t *cia_context, uint16_t addr)
 {
     CLOCK rclk;
-    uint8_t byte;
+    /* uint8_t byte; */
 
     addr &= 0xf;
 
@@ -853,10 +853,12 @@ uint8_t ciacore_peek(cia_context_t *cia_context, uint16_t addr)
 
     switch (addr) {
         case CIA_PRA:           /* port A */
-            return cia_context->last_read;
+            return cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]);
+            /* return cia_context->last_read; */
             break;
         case CIA_PRB:           /* port B */
-            byte = (cia_context->read_ciapb)(cia_context);
+            return cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]);
+            /* byte = (cia_context->read_ciapb)(cia_context);
             if ((cia_context->c_cia[CIA_CRA] | cia_context->c_cia[CIA_CRB]) & 0x02) {
                 if (cia_context->c_cia[CIA_CRA] & 0x02) {
                     byte &= 0xbf;
@@ -873,7 +875,7 @@ uint8_t ciacore_peek(cia_context_t *cia_context, uint16_t addr)
                     }
                 }
             }
-            return byte;
+            return byte; */
             break;
 
         /* Timers */
