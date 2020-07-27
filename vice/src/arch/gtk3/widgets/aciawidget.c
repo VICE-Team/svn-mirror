@@ -41,6 +41,7 @@
 #include "lib.h"
 #include "openfiledialog.h"
 #include "resources.h"
+#include "ui.h"
 #include "widgethelpers.h"
 
 #include "aciawidget.h"
@@ -133,6 +134,28 @@ static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+
+        int device;
+
+        g_object_get(dialog, "device", &device, NULL);
+#if 0
+        GtkWidget *grid;
+        GtkWidget *entry;
+
+        /* update text entry box, forces an update of the resource */
+        grid = gtk_widget_get_parent(widget);
+        entry = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
+        gtk_entry_set_text(GTK_ENTRY(entry), filename);
+#endif
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 /** \brief  Handler for the "clicked" event of the "browse" buttons
  *
  * \param[in]   widget      button triggering the event
@@ -145,23 +168,16 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     const char *flist[] = { "ttyS*", NULL };
     gchar *filename;
     gchar title[256];
+    GtkWidget *dialog;
 
     device = GPOINTER_TO_INT(user_data);
-    g_snprintf(title, 256, "Select serial device #%d", device);
+    g_snprintf(title, sizeof(title), "Select serial device #%d", device);
 
-    filename = vice_gtk3_open_file_dialog(title, fdesc, flist, "/dev");
-    if (filename != NULL) {
-
-        GtkWidget *grid;
-        GtkWidget *entry;
-
-        /* update text entry box, forces an update of the resource */
-        grid = gtk_widget_get_parent(widget);
-        entry = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
-        gtk_entry_set_text(GTK_ENTRY(entry), filename);
-
-        g_free(filename);
-    }
+    dialog =  vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            title, fdesc, flist, "/dev",
+            browse_filename_callback);
+    g_object_set(dialog, "device", GINT_TO_POINTER(device), NULL);
 }
 
 

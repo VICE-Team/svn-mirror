@@ -150,7 +150,6 @@ gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...)
 
 /** \brief  Create 'error' dialog
  *
- * \param[in]   widget      parent widget
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *

@@ -62,12 +62,13 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+
 #include "ide64.h"
+#include "ide64widget.h"
 #include "machine.h"
 #include "resources.h"
+#include "ui.h"
 #include "vice_gtk3.h"
-
-#include "ide64widget.h"
 
 
 /** \brief  List of IDE64 revisions
@@ -99,6 +100,7 @@ static const vice_gtk3_combo_entry_int_t etfe_addresses[] = {
 };
 #endif
 
+static GtkWidget *image_entry;
 
 
 
@@ -114,6 +116,22 @@ static void on_usb_enable_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Callback for the open-file dialog
+ *
+ * \param[in,out]   dialog      open-file dialog
+ * \param[in]       filename    filename or NULL on cancel
+ */
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        vice_gtk3_resource_entry_full_set(image_entry, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+
 /** \brief  Handler for the "clicked" event of the HD image "browse" buttons
  *
  * \param[in]       widget      button
@@ -121,17 +139,15 @@ static void on_usb_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
     const char *filter_list[] = {
         "*.hdd", "*.iso", "*.fdd", "*.cfa", NULL
     };
 
-    filename = vice_gtk3_open_file_dialog("Select disk image file",
-            "HD image files", filter_list, NULL);
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Select disk image file",
+            "HD image files", filter_list, NULL,
+            browse_filename_callback);
 }
 
 
@@ -282,7 +298,6 @@ static GtkWidget *create_ide64_device_widget(int device)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *entry;
     GtkWidget *browse;
     GtkWidget *autosize;
     GtkWidget *geometry;
@@ -304,15 +319,14 @@ static GtkWidget *create_ide64_device_widget(int device)
     g_object_set(label, "margin-left", 16, NULL);
 
     g_snprintf(resource, 256, "IDE64image%d", device);
-    entry = vice_gtk3_resource_entry_full_new(resource);
-    gtk_widget_set_hexpand(entry, TRUE);
+    image_entry = vice_gtk3_resource_entry_full_new(resource);
+    gtk_widget_set_hexpand(image_entry, TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
-            (gpointer)entry);
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), image_entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     autosize = vice_gtk3_resource_check_button_new_sprintf(

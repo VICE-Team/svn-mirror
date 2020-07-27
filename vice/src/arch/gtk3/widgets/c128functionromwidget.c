@@ -41,6 +41,7 @@
 #include "functionrom.h"
 #include "openfiledialog.h"
 #include "widgethelpers.h"
+#include "ui.h"
 
 #include "c128functionromwidget.h"
 
@@ -60,6 +61,28 @@ static const vice_gtk3_radiogroup_entry_t rom_types[] = {
 };
 
 
+/** \brief  Reference to the text entry for the filename
+ */
+static GtkWidget *entry_widget;
+
+
+/** \brief  Callback for the open-file dialog
+ *
+ * \param[in,out]   dialog      open-file dialog
+ * \param[in]       filename    filename or NULL on cancel
+ */
+static void browse_filename_callback(GtkDialog *dialog, char *filename)
+{
+    debug_gtk3("got filename '%s'.", filename);
+
+    if (filename != NULL) {
+        vice_gtk3_resource_entry_full_set(entry_widget, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 /** \brief  Handler for the "clicked" event of a "browse" button
  *
  * \param[in]   widget  browse button
@@ -67,14 +90,13 @@ static const vice_gtk3_radiogroup_entry_t rom_types[] = {
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer data)
 {
-    gchar *filename;
-
-    filename = vice_gtk3_open_file_dialog("Open ROM file", NULL, NULL, NULL);
-    if (filename != NULL) {
-        debug_gtk3("got filename '%s'.", filename);
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(data), filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open ROM file",
+            NULL,
+            NULL,
+            NULL,
+            browse_filename_callback);
 }
 
 
@@ -87,7 +109,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
 static GtkWidget *create_rom_type_widget(const char *prefix)
 {
     GtkWidget *widget;
-
 
     widget = vice_gtk3_resource_radiogroup_new_sprintf("%sFunctionROM",
             rom_types, GTK_ORIENTATION_HORIZONTAL, prefix);
@@ -105,7 +126,6 @@ static GtkWidget *create_rom_type_widget(const char *prefix)
 static GtkWidget *create_rom_file_widget(const char *prefix)
 {
     GtkWidget *grid;
-    GtkWidget *entry;
     GtkWidget *browse;
     char buffer[256];
 
@@ -113,16 +133,15 @@ static GtkWidget *create_rom_file_widget(const char *prefix)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     /* TODO: create vice_gtk3_resource_entry_create_sprintf() */
-    g_snprintf(buffer, 256, "%sFunctionName", prefix);
+    g_snprintf(buffer, sizeof(buffer), "%sFunctionName", prefix);
 
-    entry = vice_gtk3_resource_entry_full_new(buffer);
-    gtk_widget_set_hexpand(entry, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 1, 1);
+    entry_widget = vice_gtk3_resource_entry_full_new(buffer);
+    gtk_widget_set_hexpand(entry_widget, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), entry_widget, 0, 0, 1, 1);
 
     browse = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), browse, 1, 0, 1,1);
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
-            (gpointer)entry);
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -143,7 +162,7 @@ static GtkWidget *create_rom_widget(GtkWidget *parent, const char *prefix)
     GtkWidget *rtc;
     char buffer[256];
 
-    g_snprintf(buffer, 256, "%s Function ROM", prefix);
+    g_snprintf(buffer, sizeof(buffer), "%s Function ROM", prefix);
     grid = uihelpers_create_grid_with_label(buffer, 1);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);

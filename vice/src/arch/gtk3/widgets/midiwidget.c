@@ -47,6 +47,7 @@
 #include "archdep_defs.h"
 #include "machine.h"
 #include "resources.h"
+#include "ui.h"
 #include "vice_gtk3.h"
 
 #include "midiwidget.h"
@@ -121,6 +122,20 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
 
 
 #if defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_OSX)
+
+
+static void midi_in_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        debug_gtk3("Setting MIDIInDev to '%s'", filename);
+        vice_gtk3_resource_entry_full_set(midi_in_browse, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+
 /** \brief  Handler for the "clicked" event of the MIDI-In "Browse" button
  *
  * \param[in]   widget      button
@@ -128,17 +143,27 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_midi_in_browse(GtkWidget *widget, gpointer user_data)
 {
-    char *filename;
     const char *filters[] = { "mi*", NULL };
 
-    filename = vice_gtk3_open_file_dialog("Select MIDI In device",
-            "MIDI devices", filters, "/dev");
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Select MIDI In device",
+            "MIDI devices", filters, "/dev",
+            midi_in_filename_callback);
+}
+
+
+static void midi_out_filename_callback(GtkDialog *dialog, gchar *filename)
+{
     if (filename != NULL) {
-        debug_gtk3("Setting MIDIInDev to '%s'", filename);
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
+        debug_gtk3("Setting MIDIOutDev to '%s'", filename);
+        vice_gtk3_resource_entry_full_set(midi_out_browse, filename);
         g_free(filename);
     }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
+
+
 
 
 /** \brief  Handler for the "clicked" event of the MIDI-Out "Browse" button
@@ -148,17 +173,13 @@ static void on_midi_in_browse(GtkWidget *widget, gpointer user_data)
  */
 static void on_midi_out_browse(GtkWidget *widget, gpointer user_data)
 {
-    char *filename;
     const char *filters[] = { "mi*", NULL };
 
-    filename = vice_gtk3_open_file_dialog("Select MIDI Out device",
-            "MIDI devices", filters, "/dev");
-    if (filename != NULL) {
-        debug_gtk3("Setting MIDIOutDev to '%s'", filename);
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
-        g_free(filename);
-    }
-
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Select MIDI Out device",
+            "MIDI devices", filters, "/dev",
+            midi_out_filename_callback);
 }
 #endif
 

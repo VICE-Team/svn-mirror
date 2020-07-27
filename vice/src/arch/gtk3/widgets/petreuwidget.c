@@ -34,21 +34,23 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "basedialogs.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
+#include "machine.h"
 #include "openfiledialog.h"
+#include "resources.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "petreuwidget.h"
+
 
 /** \brief  List of REU sizes
  */
 static const vice_gtk3_radiogroup_entry_t reu_sizes[] = {
-    { "128KB", 128 },
-    { "512KB", 512 },
+    { "128KB",  128 },
+    { "512KB",  512 },
     { "1024KB", 1024 },
     { "2048KB", 2048 },
     { NULL, -1 }
@@ -80,6 +82,20 @@ static void on_reu_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        debug_gtk3("setting PETREUfilename to '%s'.", filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+
+
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * Activates a file-open dialog and stores the file name in the GtkEntry passed
@@ -90,15 +106,11 @@ static void on_reu_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
-
-    filename = vice_gtk3_open_file_dialog("Open REU image file", NULL,
-            NULL, NULL);
-    if (filename != NULL) {
-        debug_gtk3("setting PETREUfilename to '%s'.", filename);
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open REU image file",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 
@@ -141,8 +153,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     entry = vice_gtk3_resource_entry_full_new("PETREUfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
-            (gpointer)entry);
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 2, 1, 1);

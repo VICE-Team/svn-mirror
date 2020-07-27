@@ -193,27 +193,32 @@ static void save_snapshot_dialog(void)
 
 static bool ui_done;
 
-static gboolean load_snapshot_trap_impl(gpointer user_data)
-{
-    const char *filters[] = { "*.vsf", NULL };
-    gchar *filename;
-    gchar buffer[1024];
 
-    filename = vice_gtk3_open_file_dialog("Open snapshot file",
-            "Snapshot files", filters, NULL);
+
+static void load_snapshot_filename_callback(GtkDialog *dialog, gchar *filename)
+{
     if (filename != NULL) {
         /* load snapshot */
         if (machine_read_snapshot(filename, 0) < 0) {
             snapshot_display_error();
-            g_snprintf(buffer, 1024, "Failed to load snapshot '%s'", filename);
-        } else {
-            g_snprintf(buffer, 1024, "Loaded snapshot '%s'", filename);
         }
         g_free(filename);
     }
-
+    gtk_widget_destroy(GTK_WIDGET(dialog));
     ui_done = true;
+}
 
+
+static gboolean load_snapshot_trap_impl(gpointer user_data)
+{
+    const char *filters[] = { "*.vsf", NULL };
+
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open snapshot file",
+            "Snapshot files", filters, NULL,
+            load_snapshot_filename_callback);
+    /* FIXME: shouldn't this return TRUE? */
     return FALSE;
 }
 

@@ -58,6 +58,7 @@
 #include "widgethelpers.h"
 #include "resourcehelpers.h"
 #include "resourceentry.h"
+#include "ui.h"
 
 #include "resourcebrowser.h"
 
@@ -112,23 +113,19 @@ static void on_resource_browser_destroy(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Handler for the "clicked" event of the browse button
+/** \brief  Callback for the dialog
  *
- * \param[in]   widget  browse button
- * \param[in]   data    unused
- *
+ * \param[in,out]   dialog      Open file dialog reference
+ * \param[in]       filename    filename or NULL on cancel
  */
-static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
+static void browse_filename_callback(GtkDialog *dialog, char *filename)
 {
-    GtkWidget *parent;
-    char *filename;
     resource_browser_state_t *state;
 
-    parent = gtk_widget_get_parent(widget);
-    state = g_object_get_data(G_OBJECT(parent), "ViceState");
+    debug_gtk3("Got filename '%s'\n", filename);
 
-    filename = vice_gtk3_open_file_dialog(state->browser_title,
-            state->pattern_name, (const char **)(state->patterns), NULL);
+    state = g_object_get_data(G_OBJECT(dialog), "ViceState");
+
     if (filename != NULL) {
         if (!vice_gtk3_resource_entry_full_set(state->entry, filename)){
             log_error(LOG_ERR,
@@ -139,11 +136,37 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
             gtk_entry_set_text(GTK_ENTRY(state->entry), state->res_orig);
         } else {
             if (state->callback != NULL) {
-                state->callback(widget, (gpointer)filename);
+                state->callback(GTK_WIDGET(dialog), (gpointer)filename);
             }
         }
         g_free(filename);
     }
+}
+
+
+/** \brief  Handler for the "clicked" event of the browse button
+ *
+ * \param[in]   widget  browse button
+ * \param[in]   data    unused
+ *
+ */
+static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *parent;
+    GtkWidget *dialog;
+    resource_browser_state_t *state;
+
+    parent = gtk_widget_get_parent(widget);
+    state = g_object_get_data(G_OBJECT(parent), "ViceState");
+
+
+    dialog = vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            state->browser_title,
+            state->pattern_name,
+            (const char **)(state->patterns),
+            NULL,
+            browse_filename_callback);
 }
 
 

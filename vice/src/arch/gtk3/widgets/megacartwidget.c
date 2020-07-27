@@ -40,8 +40,23 @@
 #include "openfiledialog.h"
 #include "resources.h"
 #include "widgethelpers.h"
+#include "ui.h"
 
 #include "megacartwidget.h"
+
+
+static GtkWidget *filename_entry;
+
+
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        vice_gtk3_resource_entry_full_set(filename_entry, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
 
 
 /** \brief  Handler for the "clicked" event of the browse button
@@ -54,14 +69,11 @@
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
-
-    filename = vice_gtk3_open_file_dialog("Open NvRAM image file", NULL, NULL,
-            NULL);
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open NvRAM image file",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 
@@ -85,14 +97,13 @@ GtkWidget *mega_cart_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("NvRAM image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    entry = vice_gtk3_resource_entry_full_new("MegaCartNvRAMfilename");
-    gtk_widget_set_hexpand(entry, TRUE);
+    filename_entry = vice_gtk3_resource_entry_full_new("MegaCartNvRAMfilename");
+    gtk_widget_set_hexpand(filename_entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
-            (gpointer)entry);
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), filename_entry, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 0, 1, 1);
 
     write_back = vice_gtk3_resource_check_button_new(

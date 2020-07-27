@@ -33,13 +33,14 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "basedialogs.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
+#include "machine.h"
 #include "openfiledialog.h"
+#include "resources.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "petdwwwidget.h"
 
@@ -115,6 +116,18 @@ static GtkWidget *create_dww_check_button(void)
 }
 
 
+
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        debug_gtk3("setting PETDWWfilename to '%s'.", filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * Activates a file-open dialog and stores the file name in the GtkEntry passed
@@ -125,15 +138,11 @@ static GtkWidget *create_dww_check_button(void)
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
-
-    filename = vice_gtk3_open_file_dialog("Open DWW image file", NULL,
-            NULL, NULL);
-    if (filename != NULL) {
-        debug_gtk3("setting PETDWWfilename to '%s'.", filename);
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open DWW image file",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 

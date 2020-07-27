@@ -48,13 +48,14 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "basedialogs.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "savefiledialog.h"
-#include "basedialogs.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "tapeportdeviceswidget.h"
 
@@ -206,6 +207,17 @@ static void on_tapecart_enable_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        vice_gtk3_resource_entry_full_set(tapecart_filename, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+
 /** \brief  Handler for the "clicked" event of the tapecart browse button
  *
  * \param[in]   widget      tapecart browse button
@@ -213,15 +225,14 @@ static void on_tapecart_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
 
     /* TODO: use existing filename, if any */
-    filename = vice_gtk3_open_file_dialog("Select tapecart file", NULL,
-            NULL, NULL);
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(tapecart_filename, filename);
-        g_free(filename);
-    }
+
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Select tapecart file",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 

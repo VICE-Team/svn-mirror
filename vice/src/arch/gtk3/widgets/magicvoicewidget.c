@@ -41,6 +41,7 @@
 #include "machine.h"
 #include "openfiledialog.h"
 #include "resources.h"
+#include "ui.h"
 #include "widgethelpers.h"
 
 #include "magicvoicewidget.h"
@@ -53,6 +54,23 @@ static GtkWidget *entry = NULL;
 static GtkWidget *browse = NULL;
 
 
+/** \brief  Callback for the open-file dialog
+ *
+ * \param[in,out]   dialog      open-file dialog
+ * \param[in]       filename    filename or NULL on cancel
+ */
+static void browse_filename_callback(GtkDialog *dialog, char *filename)
+{
+    debug_gtk3("got filename '%s'.", filename);
+
+    if (filename != NULL) {
+        vice_gtk3_resource_entry_full_set(entry, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * Activates a file-open dialog and stores the file name in the GtkEntry passed
@@ -63,15 +81,11 @@ static GtkWidget *browse = NULL;
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
-
-    filename = vice_gtk3_open_file_dialog("Open Magic Voice image", NULL,
-            NULL, NULL);
-    if (filename != NULL) {
-        GtkWidget *ent= GTK_WIDGET(user_data);
-        vice_gtk3_resource_entry_full_set(ent, filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open Magic Voice image",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 

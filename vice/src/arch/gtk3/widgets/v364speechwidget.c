@@ -34,13 +34,14 @@
 
 #include <gtk/gtk.h>
 
-#include "lib.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "resources.h"
 #include "basewidgets.h"
-#include "openfiledialog.h"
+#include "debug_gtk3.h"
+#include "lib.h"
 #include "machine.h"
+#include "openfiledialog.h"
+#include "resources.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "v364speechwidget.h"
 
@@ -63,6 +64,17 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        vice_gtk3_resource_entry_full_set(entry, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * \param[in]   widget      browse button
@@ -70,12 +82,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename = vice_gtk3_open_file_dialog("Open V364 ROM file",
-            NULL, NULL, NULL);
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open V364 ROM file",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 

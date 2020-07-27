@@ -152,17 +152,10 @@ static gboolean settings_load_callback(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Load settings from user-specified file
- *
- * \param[in]   widget  menu item triggering the event (ignored)
- * \param[in]   data    extra even data (ignored)
- *
- * \return  TRUE
- */
-static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
+
+static void settings_load_filename_callback(GtkDialog *dialog, gchar *filename)
 {
-    gchar *filename = vice_gtk3_open_file_dialog("Load settings file",
-            NULL, NULL, NULL);
+
     if (filename!= NULL) {
         mainlock_obtain();
         if (resources_load(filename) != 0) {
@@ -172,6 +165,25 @@ static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
         mainlock_release();
         g_free(filename);
     }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+/** \brief  Load settings from user-specified file
+ *
+ * \param[in]   widget  menu item triggering the event (ignored)
+ * \param[in]   data    extra even data (ignored)
+ *
+ * \return  TRUE
+ */
+static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("called!\n\n");
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Load settings file",
+            NULL, NULL, NULL,
+            settings_load_filename_callback);
     return TRUE;
 }
 

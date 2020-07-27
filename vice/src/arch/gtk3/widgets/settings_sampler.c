@@ -35,11 +35,12 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
 #include "debug_gtk3.h"
+#include "openfiledialog.h"
 #include "resources.h"
 #include "sampler.h"
-#include "openfiledialog.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "settings_sampler.h"
 
@@ -109,6 +110,15 @@ static void on_entry_changed(GtkEntry *entry, gpointer user_data)
 }
 
 
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
+        g_free(filename);
+    }
+
+}
+
 /** \brief  Handler for the "clicked" event of the "browse" button
  *
  * \param[in]   widget      browse button
@@ -116,13 +126,11 @@ static void on_entry_changed(GtkEntry *entry, gpointer user_data)
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename;
-
-    filename = vice_gtk3_open_file_dialog("Select input file", NULL, NULL, NULL);
-    if (filename != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Select input file",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 

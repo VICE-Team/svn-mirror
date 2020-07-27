@@ -41,9 +41,14 @@
 #include "machine.h"
 #include "openfiledialog.h"
 #include "resources.h"
+#include "ui.h"
 #include "widgethelpers.h"
 
 #include "ieee488widget.h"
+
+
+
+static GtkWidget *entry_widget;
 
 
 /** \brief  Handler for the "toggled" event of the 'enable' check button
@@ -88,24 +93,15 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Handler for the "clicked" event of the browse button
+/** \brief  Callback for the open-file dialog
  *
- * Activates a file-open dialog and stores the file name in the GtkEntry passed
- * in \a user_data if valid, triggering a resource update.
- *
- * \param[in]   widget      button
- * \param[in]   user_data   entry to store filename in
+ * \param[in,out]   dialog      open-file dialog
+ * \param[in]       filename    filename or NULL on cancel
  */
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
 {
-    gchar *filename;
-
-    filename = vice_gtk3_open_file_dialog("Open IEEE-488 image", NULL, NULL,
-            NULL);
     if (filename != NULL) {
-        GtkEntry *entry = GTK_ENTRY(user_data);
-
-        gtk_entry_set_text(entry, filename);
+        gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
 
         /* required, since setting the text of the entry doesn't trigger an
          * update of the connected resource (it only responds to focus-out and
@@ -117,6 +113,26 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
         }
         g_free(filename);
     }
+
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+/** \brief  Handler for the "clicked" event of the browse button
+ *
+ * Activates a file-open dialog and stores the file name in the GtkEntry passed
+ * in \a user_data if valid, triggering a resource update.
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   entry to store filename in
+ */
+static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
+{
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            "Open IEEE-488 image",
+            NULL, NULL, NULL,
+            browse_filename_callback);
 }
 
 
@@ -131,7 +147,6 @@ GtkWidget *ieee488_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *enable_widget;
     GtkWidget *label;
-    GtkWidget *entry;
     GtkWidget *browse;
 
     const char *image;
@@ -159,14 +174,13 @@ GtkWidget *ieee488_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("IEEE-488 image");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    entry = vice_gtk3_resource_entry_full_new("IEEE488Image");
-    gtk_widget_set_hexpand(entry, TRUE);
+    entry_widget = vice_gtk3_resource_entry_full_new("IEEE488Image");
+    gtk_widget_set_hexpand(entry_widget, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
-            (gpointer)entry);
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), entry_widget, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     g_signal_connect(enable_widget, "toggled", G_CALLBACK(on_enable_toggled), NULL);

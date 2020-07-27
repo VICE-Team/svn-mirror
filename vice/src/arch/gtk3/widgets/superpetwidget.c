@@ -42,12 +42,14 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "resources.h"
-#include "openfiledialog.h"
 #include "aciawidget.h"
+#include "basedialogs.h"
+#include "basewidgets.h"
+#include "debug_gtk3.h"
+#include "openfiledialog.h"
+#include "resources.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "superpetwidget.h"
 
@@ -88,20 +90,10 @@ static void on_superpet_rom_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "clicked" event of the ROM browse buttons
- *
- * \param[in]   widget      button
- * \param[in]   user_data   ROM index ('A'-'F') (`int`)
- */
-static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data)
+static void browse_superpet_rom_filename_callback(GtkDialog *dialog, gchar *filename)
 {
-    int rom = GPOINTER_TO_INT(user_data);
-    gchar *filename;
-    char title[256];
-
-    g_snprintf(title, 256, "Select $%cXXX ROM", rom);
-
-    filename = vice_gtk3_open_file_dialog(title, NULL, NULL, NULL);
+    vice_gtk3_message_error("fuck this", "Nope, not implemented, gettin tired.");
+#if 0
     if (filename != NULL) {
         GtkWidget *grid;
         GtkWidget *entry;
@@ -117,6 +109,31 @@ static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data
 
         g_free(filename);
     }
+#endif
+    if (filename != NULL) {
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
+/** \brief  Handler for the "clicked" event of the ROM browse buttons
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   ROM index ('A'-'F') (`int`)
+ */
+static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data)
+{
+    int rom = GPOINTER_TO_INT(user_data);
+    char title[256];
+
+    g_snprintf(title, sizeof(title), "Select $%cXXX ROM", rom);
+
+    vice_gtk3_open_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            title,
+            NULL, NULL, NULL,
+            browse_superpet_rom_filename_callback);
 }
 
 
@@ -183,7 +200,7 @@ static GtkWidget *create_superpet_rom_widget(void)
         const char *path;
 
         /* assumes ASCII, should be safe, except for old IBM main frames */
-        g_snprintf(buffer, 64, "$%cxxx", bank + 'A');
+        g_snprintf(buffer, sizeof(buffer), "$%cxxx", bank + 'A');
         label = gtk_label_new(buffer);
         g_object_set(label, "margin-left", 16, NULL);
 

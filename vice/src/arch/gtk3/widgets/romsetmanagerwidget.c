@@ -115,6 +115,9 @@ static void on_show_current_clicked(GtkWidget *widget, gpointer data)
  */
 static void on_load_archive(GtkWidget *widget, gpointer data)
 {
+
+    debug_gtk3("Needs reimplementation!\n");
+#if 0
     gchar *filename;
     const char *patterns[] = { "*.vra", NULL };
 
@@ -132,6 +135,7 @@ static void on_load_archive(GtkWidget *widget, gpointer data)
         }
         g_free(filename);
     }
+#endif
 }
 
 
