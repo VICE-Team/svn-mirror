@@ -211,6 +211,7 @@ HDIGIT  [0-9a-f]
         memmapsave|mmsave { BEGIN(FNAME);       return CMD_MEMMAPSAVE; }
         memmapshow|mmsh { BEGIN(INITIAL);       return CMD_MEMMAPSHOW; }
         memmapzap|mmzap { BEGIN(INITIAL);       return CMD_MEMMAPZAP; }
+        mkdir           { BEGIN(ROL);           return CMD_MKDIR; }
         move|t          { BEGIN(INITIAL);       return CMD_MOVE; }
         memsprite|ms    { BEGIN(INITIAL);       return CMD_SPRITE_DISPLAY; }
         next|n          { BEGIN(INITIAL);       return CMD_NEXT; }

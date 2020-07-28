@@ -257,6 +257,7 @@ extern void mon_resource_set(const char *name, const char* value);
 extern void mon_screenshot_save(const char* filename, int format);
 extern void mon_show_dir(const char *path);
 extern void mon_show_pwd(void);
+extern void mon_make_dir(const char *path);
 extern void mon_tape_ctrl(int command);
 extern void mon_display_screen(long addr);
 extern void mon_instructions_step(int count);

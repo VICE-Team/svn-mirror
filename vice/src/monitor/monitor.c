@@ -39,6 +39,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <errno.h>
 
 #ifdef __IBMC__
 #include <direct.h>
@@ -1673,6 +1674,18 @@ void mon_change_dir(const char *path)
         mon_out("Changing to directory: '%s'\n", path);
     }
 }
+
+
+void mon_make_dir(const char *path)
+{
+    if (archdep_mkdir(path, 0755) < 0) {
+        mon_out("Cannot create directory '%s': %d: %s\n",
+                path, errno, strerror(errno));
+    } else {
+        mon_out("Created directory '%s'\n", path);
+    }
+}
+
 
 void mon_save_symbols(MEMSPACE mem, const char *filename)
 {
