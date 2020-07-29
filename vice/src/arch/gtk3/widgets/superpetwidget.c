@@ -54,10 +54,16 @@
 #include "superpetwidget.h"
 
 
+#define SUPERPET_ROM_COUNT ('F' - 'A' + 1)
+
+
 static GtkWidget *superpet_enable_widget = NULL;
 static GtkWidget *acia1_widget = NULL;
 static GtkWidget *cpu_widget = NULL;
 static GtkWidget *rom_widget = NULL;
+
+static GtkWidget *rom_entry_list[SUPERPET_ROM_COUNT];
+
 
 
 /** \brief  List of baud rates for the ACIA widget
@@ -90,27 +96,22 @@ static void on_superpet_rom_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Callback for the SuperPet $A000-$F000 ROMS
+ *
+ * \param[in,out]   dialog      open-file dialog
+ * \param[in]       filename    ROM filename
+ */
 static void browse_superpet_rom_filename_callback(GtkDialog *dialog, gchar *filename)
 {
-    vice_gtk3_message_error("fuck this", "Nope, not implemented, gettin tired.");
-#if 0
+    int rom_index = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "romindex"));
+
+    debug_gtk3("ROM index = %d ($%c000), filename = '%s'",
+            rom_index, rom_index + 'A', filename);
+
     if (filename != NULL) {
-        GtkWidget *grid;
-        GtkWidget *entry;
-        int row;
-
-        /* determine location of related text entry */
-        row = rom - 'A' + 1;
-        grid = gtk_widget_get_parent(widget);
-        entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, row);
-
+        GtkWidget *entry = rom_entry_list[rom_index];
         /* update text entry, forcing update of the related resource */
         gtk_entry_set_text(GTK_ENTRY(entry), filename);
-
-        g_free(filename);
-    }
-#endif
-    if (filename != NULL) {
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -124,16 +125,19 @@ static void browse_superpet_rom_filename_callback(GtkDialog *dialog, gchar *file
  */
 static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
+    GtkWidget *dialog;
     int rom = GPOINTER_TO_INT(user_data);
     char title[256];
 
     g_snprintf(title, sizeof(title), "Select $%cXXX ROM", rom);
 
-    vice_gtk3_open_file_dialog(
+    dialog = vice_gtk3_open_file_dialog(
             GTK_WIDGET(ui_get_active_window()),
             title,
             NULL, NULL, NULL,
             browse_superpet_rom_filename_callback);
+    /* FIXME: works, but not ideal */
+    g_object_set_data(G_OBJECT(dialog), "romindex", GINT_TO_POINTER(rom - 'A'));
 }
 
 
@@ -191,7 +195,7 @@ static GtkWidget *create_superpet_rom_widget(void)
     grid = uihelpers_create_grid_with_label("6809 ROMs", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
-    for (bank = 0; bank < 6; bank++) {
+    for (bank = 0; bank < SUPERPET_ROM_COUNT; bank++) {
 
         GtkWidget *label;
         GtkWidget *entry;
@@ -222,6 +226,7 @@ static GtkWidget *create_superpet_rom_widget(void)
                 G_CALLBACK(on_superpet_rom_browse_clicked),
                 GINT_TO_POINTER(bank + 'A'));
 
+        rom_entry_list[bank] = entry;
     }
 
     gtk_widget_show_all(grid);
