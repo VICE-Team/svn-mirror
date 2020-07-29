@@ -1544,14 +1544,10 @@ void mem_powerup(void)
     int i;
     ram_init(mem_ram, RAM_ARRAY);
     /*
-     * A more realistic initial memory is random.
-     * Especially on the screen, which is different memory in most
-     * models.
+     * Initial screen memory is random, which is physically different memory
+     * (and also faster) in most models.
      * (And it helps a bit with the colour option when a proper editor
      * ROM isn't installed)
-     *
-     * FIXME: use memory init pattern
-     *
      */
     for (i = 0; i < 0x1000; i++) {
         mem_ram[0x8000 + i] = (uint8_t)lib_unsigned_rand(0, 255);
