@@ -16101,6 +16101,12 @@ Display the directory contents.
 @item pwd
 Show current working directory.
 
+@item mkdir <directory>
+Create directory.
+
+@item rmdir <directory>
+Remove directory.
+
 @item radix [H|D|O|B]
 @itemx rad [H|D|O|B]
 Set the default radix to hex, decimal, octal, or binary.  With no
