@@ -946,34 +946,58 @@ void pet_crtc_set_screen(void)
 
     /* No CRTC -> assume 40 columns and 60 Hz */
     if (!petres.crtc) {
-	static uint8_t crtc_values[14] = {
-	    /*
-	     * Set the CRTC to display 60 frames per second.
-	     *
-	     * This hopefully approximates the effective settings for a
-	     * CRTC-less model, but I just copied the values from a ROM.
-	     * At least these are less wrong than the previously used values.
-	     *
-	     * From edit-4-40-n-60Hz.901499-01.bin, graphics mode at E7C3.
-	     * PET: cycles per frame set to 16650, refresh to 60.060Hz
-	     */
-	    0x31, 0x28, 0x29, 0x0f, 0x28, 0x05, 0x19, 0x21,
-	    0x00, 0x07, 0x00, 0x00, 0x10, 0x00,
+        static uint8_t crtc_values[14] = {
+            /*
+             * Set the CRTC to display 60 frames per second.
+             *
+             * Tuned specifically for 64 clocks (= chars) per scanline,
+             * for the Cursor #18 Hi-Res program.
+             * The exact time of the IRQ is probably not 100% right,
+             * but close enough to get a visual effect.
+             *
+             * 15625 Hz horizontal
+             * PET: cycles per frame set to 16640, refresh to 60.096Hz
+             *
+             * Additional note: new ROMs 99/9A count to 623:
+             * 0099-009A        Jiffy clock correction: 623rd 1/60 sec
+             *                  does not increment time
+             *
+             * Presumably this should correct the frequency which is
+             * slightly over 60 Hz: 60.096 * 622 / 623 = 59.99954.
+             *
+             * Note that with the granularity of 1 scanline we cannot
+             * really get closer to the "real" freqency, assuming that
+             * the 622/623 fix is perfect: 60 * 623 / 622 = 60.096 463.
+             */
+              63, /* R0 total horizontal characters - 1 */
+              40, /* R1 displayed horizontal characters */
+              50, /* R2 horizontal sync position */
+            (0 << 4)|8, /* R3 vertical / horizontal sync width */
+              31, /* R4 total vertical characters - 1 */
+               4, /* R5 total vertical lines adjustment */
+              25, /* R6 displayed vertical characters */
+              29, /* R7 vertical sync position */
+               0, /* R8 MODECTRL */
+               7, /* R9 scanlines per character row - 1, including spacing */
+               0, /* R10 CURSORSTART */
+               0, /* R11 CURSOREND */
+            0x10, /* R12 DISPSTARTH */
+            0x00, /* R13 DISPSTARTL */
 #if 0
-	    /*
-	     * Original values.
-	     * PET: cycles per frame set to 17920, refresh to 55.803Hz
-	     */
-	    63, 40, 50, 8, 32, 16, 25, 29,
-	    0, 7, 0, 0, 0x10, 0,
+            /*
+             * Original values.
+             * PET: cycles per frame set to 17920, refresh to 55.803Hz
+             */
+            63, 40, 50, 8, 32, 16, 25, 29,
+            0, 7, 0, 0, 0x10, 0,
 #endif
-	};
-	int r;
+        };
+        int r;
 
-	for (r = 13; r >= 0; r--) {
-	    crtc_store(0, r);
-	    crtc_store(1, crtc_values[r]);
-	}
+        for (r = 13; r >= 0; r--) {
+            crtc_store(0, r);
+            crtc_store(1, crtc_values[r]);
+        }
     }
 }
 
