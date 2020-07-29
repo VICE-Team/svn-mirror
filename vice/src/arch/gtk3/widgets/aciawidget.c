@@ -166,7 +166,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     int device;
     const char *fdesc = "Serial ports";
     const char *flist[] = { "ttyS*", NULL };
-    gchar *filename;
     gchar title[256];
     GtkWidget *dialog;
 

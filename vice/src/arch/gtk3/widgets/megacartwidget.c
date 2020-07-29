@@ -88,7 +88,6 @@ GtkWidget *mega_cart_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *write_back;
     GtkWidget *label;
-    GtkWidget *entry = NULL;
     GtkWidget *browse = NULL;
 
     grid = gtk_grid_new();
