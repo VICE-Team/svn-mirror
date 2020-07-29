@@ -1948,11 +1948,13 @@ void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uin
     /* Cursor Blink enable: 1 = Flash Cursor, 0 = Cursor disabled, -1 = n/a */
     if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
         *blinking = mem_ram[0x224] ? 0 : 1;
+	*screen_addr = mem_ram[0xe0] + mem_ram[0xe1] * 256; /* Current Screen Line Address */
+	*cursor_column = mem_ram[0xe2];    /* Cursor Column on Current Line */
     } else {
         *blinking = mem_ram[0xa7] ? 0 : 1;
+	*screen_addr = mem_ram[0xc4] + mem_ram[0xc5] * 256; /* Current Screen Line Address */
+	*cursor_column = mem_ram[0xc6];    /* Cursor Column on Current Line */
     }
-    *screen_addr = mem_ram[0xc4] + mem_ram[0xc5] * 256; /* Current Screen Line Address */
-    *cursor_column = mem_ram[0xc6];    /* Cursor Column on Current Line */
     *line_length = petres.rom_video;   /* Physical Screen Line Length */
 }
 
