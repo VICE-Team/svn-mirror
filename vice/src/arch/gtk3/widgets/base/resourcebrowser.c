@@ -153,14 +153,13 @@ static void browse_filename_callback(GtkDialog *dialog, char *filename)
 static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
 {
     GtkWidget *parent;
-    GtkWidget *dialog;
     resource_browser_state_t *state;
 
     parent = gtk_widget_get_parent(widget);
     state = g_object_get_data(G_OBJECT(parent), "ViceState");
 
 
-    dialog = vice_gtk3_open_file_dialog(
+    vice_gtk3_open_file_dialog(
             GTK_WIDGET(ui_get_active_window()),
             state->browser_title,
             state->pattern_name,

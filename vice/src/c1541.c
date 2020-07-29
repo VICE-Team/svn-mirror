@@ -4584,7 +4584,8 @@ static int write_cmd(int nargs, char **args)
                     if ((endptr - lenptr) > 1) {
                         lenptr[1] = '\0';
                     }
-                    fprintf(stderr, "Converted record length %lu\n", rel_record_length);
+                    fprintf(stderr, "Converted record length %lu\n",
+                            (unsigned long)rel_record_length);
                 } else {
                     rel_record_length = 0;
                 }
