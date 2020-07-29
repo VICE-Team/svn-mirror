@@ -160,7 +160,7 @@ extern int cur_len, last_len;
 %token CMD_RECORD CMD_MON_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token CMD_TEXT_DISPLAY CMD_SCREENCODE_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA CMD_KEYBUF
 %token CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU CMD_YYDEBUG
-%token CMD_BACKTRACE CMD_SCREENSHOT CMD_PWD CMD_DIR CMD_MKDIR
+%token CMD_BACKTRACE CMD_SCREENSHOT CMD_PWD CMD_DIR CMD_MKDIR CMD_RMDIR
 %token CMD_RESOURCE_GET CMD_RESOURCE_SET CMD_LOAD_RESOURCES CMD_SAVE_RESOURCES
 %token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
@@ -544,6 +544,8 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                      { mon_show_pwd(); }
                   | CMD_MKDIR rest_of_line end_cmd
                     { mon_make_dir($2); }
+                  | CMD_RMDIR rest_of_line end_cmd
+                    { mon_remove_dir($2); }
                   | CMD_SCREENSHOT filename end_cmd
                     { mon_screenshot_save($2,-1); }
                   | CMD_SCREENSHOT filename opt_sep expression end_cmd

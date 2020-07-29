@@ -654,6 +654,12 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "rmdir", "",
+      "<Directory>",
+      "Remove directory.",
+      NO_FILENAME_ARG
+    },
+
     { "save", "s",
       "\"<filename>\" <device> <address1> <address2>",
       "Save the memory from address1 to address2 to the specified file.\n"

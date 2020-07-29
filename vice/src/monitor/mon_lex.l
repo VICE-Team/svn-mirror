@@ -228,6 +228,7 @@ HDIGIT  [0-9a-f]
         load_resources|resload  { BEGIN(FNAME); return CMD_LOAD_RESOURCES; }
         save_resources|ressave  { BEGIN(FNAME); return CMD_SAVE_RESOURCES; }
         return|ret      { BEGIN(INITIAL);       return CMD_RETURN; }
+        rmdir           { BEGIN(ROL);           return CMD_RMDIR; }
         save|s          { BEGIN(FNAME);         return CMD_SAVE; }
         save_labels|sl  { BEGIN(FNAME);         return CMD_SAVE_LABELS; }
         screen|sc       { BEGIN(INITIAL);       return CMD_SCREEN; }

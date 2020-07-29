@@ -1687,6 +1687,19 @@ void mon_make_dir(const char *path)
 }
 
 
+void mon_remove_dir(const char *path)
+{
+    if (archdep_rmdir(path) < 0) {
+        mon_out("Cannot remove directory '%s': %d: %s\n",
+                path, errno, strerror(errno));
+    } else {
+        mon_out("Removed directory '%s'\n", path);
+    }
+}
+
+
+
+
 void mon_save_symbols(MEMSPACE mem, const char *filename)
 {
     FILE *fp;
