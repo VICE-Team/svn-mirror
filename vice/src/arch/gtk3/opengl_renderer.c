@@ -540,7 +540,7 @@ static void render(void *job_data, void *pool_data)
     if (backbuffer) {
         vice_opengl_renderer_set_vsync(context, true);
     } else {
-        vice_opengl_renderer_set_vsync(context, false);
+        vice_opengl_renderer_set_vsync(context, true);
     }
 
     /*
