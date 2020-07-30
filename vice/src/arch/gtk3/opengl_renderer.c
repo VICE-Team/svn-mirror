@@ -53,7 +53,7 @@ typedef vice_opengl_renderer_context_t context_t;
 static void on_widget_realized(GtkWidget *widget, gpointer data);
 static void on_widget_unrealized(GtkWidget *widget, gpointer data);
 static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpointer data);
-static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data);
+// static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data);
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data);
 static void render(void *job_data, void *pool_data);
 
@@ -131,7 +131,7 @@ static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
     g_signal_connect(widget, "realize", G_CALLBACK (on_widget_realized), canvas);
     g_signal_connect(widget, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
     g_signal_connect_unlocked(widget, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
-    g_signal_connect_unlocked(widget, "draw", G_CALLBACK(on_widget_repaint), canvas);
+    // g_signal_connect_unlocked(widget, "draw", G_CALLBACK(on_widget_repaint), canvas);
 
     return widget;
 }
@@ -266,31 +266,31 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     CANVAS_UNLOCK();
 }
 
-static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data)
-{
-    video_canvas_t *canvas = (video_canvas_t *)data;
-    context_t *context;
+// static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data)
+// {
+//     video_canvas_t *canvas = (video_canvas_t *)data;
+//     context_t *context;
 
-    CANVAS_LOCK();
+//     CANVAS_LOCK();
 
-    context = canvas->renderer_context;
+//     context = canvas->renderer_context;
     
-    /*
-     * The draw event happens during resize and if the emulator is paused or slow
-     * then the window isn't going to look right until a new frame is produced.
-     * 
-     * So, we push a redraw event to the render thread. When the render thread
-     * finds that there is no new frame to draw, then it simply redraws the existing
-     * texture contents.
-     */
-    if (context->render_thread) {
-        g_thread_pool_push(context->render_thread, context, NULL);
-    }
+//     /*
+//      * The draw event happens during resize and if the emulator is paused or slow
+//      * then the window isn't going to look right until a new frame is produced.
+//      * 
+//      * So, we push a redraw event to the render thread. When the render thread
+//      * finds that there is no new frame to draw, then it simply redraws the existing
+//      * texture contents.
+//      */
+//     if (context->render_thread) {
+//         g_thread_pool_push(context->render_thread, context, NULL);
+//     }
 
-    CANVAS_UNLOCK();
+//     CANVAS_UNLOCK();
 
-    return FALSE;
-}
+//     return FALSE;
+// }
 
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
 {
@@ -387,7 +387,16 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 
     ui_update_statusbars();
 
+    /* TODO we really shouldn't be setting this every frame! */
     gtk_widget_set_size_request(canvas->drawing_area, context->native_view_min_width, context->native_view_min_height);
+
+    CANVAS_LOCK();
+
+    if (context->render_thread) {
+        g_thread_pool_push(context->render_thread, context, NULL);
+    }
+
+    CANVAS_UNLOCK();
 }
 
 static void render(void *job_data, void *pool_data)
@@ -475,6 +484,10 @@ static void render(void *job_data, void *pool_data)
     
     CANVAS_UNLOCK();
 
+    if (!backbuffer) {
+        printf("render bb w: %u h: %u, win w: %u h: %u\n", backbuffer_width, backbuffer_height, context->native_view_width, context->native_view_height); fflush(stdout);
+    }
+
     int filter = 1;
     resources_get_int("GTKFilter", &filter);
 
@@ -540,7 +553,7 @@ static void render(void *job_data, void *pool_data)
     if (backbuffer) {
         vice_opengl_renderer_set_vsync(context, true);
     } else {
-        vice_opengl_renderer_set_vsync(context, true);
+        vice_opengl_renderer_set_vsync(context, false);
     }
 
     /*
