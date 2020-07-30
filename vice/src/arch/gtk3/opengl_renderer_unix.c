@@ -222,23 +222,25 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         printf("Indirect GLX rendering context obtained - please let us know if this works!\n");
     } else {
         printf("Direct GLX rendering context obtained\n");
-
-        /* Enable vsync */
-        GLint gl_int = 1;
-
-        printf("Swap control support. glXSwapIntervalMESA: %d glXSwapIntervalEXT: %d glXSwapIntervalSGI: %d\n", !!glXSwapIntervalMESA, !!glXSwapIntervalEXT, !!glXSwapIntervalSGI);
-
-        /* WTF opengl. */
-        if (GLX_MESA_swap_control && glXSwapIntervalMESA) {
-            glXSwapIntervalMESA(gl_int);
-        } else if (GLX_EXT_swap_control && glXSwapIntervalEXT) {
-            glXSwapIntervalEXT(context->x_display, glXGetCurrentDrawable(), gl_int);
-        } else if (GLX_SGI_swap_control && glXSwapIntervalSGI) {
-            glXSwapIntervalSGI(gl_int);
-        }
     }
 
+    printf("Swap control support. glXSwapIntervalMESA: %d glXSwapIntervalEXT: %d glXSwapIntervalSGI: %d\n", !!glXSwapIntervalMESA, !!glXSwapIntervalEXT, !!glXSwapIntervalSGI);
+
     vice_opengl_renderer_clear_current(context);
+}
+
+void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, bool enable_vsync)
+{
+    GLint gl_int = enable_vsync ? 1 : 0;
+
+    /* WTF opengl. */
+    if (GLX_MESA_swap_control && glXSwapIntervalMESA) {
+        glXSwapIntervalMESA(gl_int);
+    } else if (GLX_EXT_swap_control && glXSwapIntervalEXT) {
+        glXSwapIntervalEXT(context->x_display, glXGetCurrentDrawable(), gl_int);
+    } else if (GLX_SGI_swap_control && glXSwapIntervalSGI) {
+        glXSwapIntervalSGI(gl_int);
+    }
 }
 
 void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context)

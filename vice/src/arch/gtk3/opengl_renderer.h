@@ -36,6 +36,8 @@
 #include <GL/glxew.h>
 #endif
 
+#include <stdbool.h>
+
 #include "videoarch.h"
 
 /** \brief A renderer that uses OpenGL to render to a native child window.
@@ -126,14 +128,23 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief The texture identifier for the GPU's copy of our  machine display. */
     GLuint texture;
 
-    /** \brief size of the next emulated frame */
+    /** \brief size of the next frame to be emulated */
     unsigned int emulated_width_next;
     
-    /** \brief size of the NEXT emulated frame */
+    /** \brief size of the next frame to be emulated */
     unsigned int emulated_height_next;
 
-    /** \brief pixel aspect ratio of the next emulated frame */
+    /** \brief pixel aspect ratio of the next frame to be emulated */
     float pixel_aspect_ratio_next;
+
+    /** \brief size of the last frame to be rendered on host */
+    unsigned int emulated_width_last_rendered;
+    
+    /** \brief size of the last frame to be rendered on host */
+    unsigned int emulated_height_last_rendered;
+
+    /** \brief pixel aspect ratio of the last frame to be rendered on host */
+    float pixel_aspect_ratio_last_rendered;
 
 } vice_opengl_renderer_context_t;
 
@@ -143,6 +154,7 @@ void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *con
      
 void vice_opengl_renderer_make_current(vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_set_viewport(vice_opengl_renderer_context_t *context);
+void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, bool enable_vsync);
 void vice_opengl_renderer_render(vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *context);
 void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context);

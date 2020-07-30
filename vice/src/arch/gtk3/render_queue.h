@@ -33,9 +33,9 @@
 
 typedef struct {
     unsigned char *pixel_data;
-    int pixel_data_size_bytes;
-    int width;
-    int height;
+    unsigned int pixel_data_size_bytes;
+    unsigned int width;
+    unsigned int height;
     float pixel_aspect_ratio;
 } backbuffer_t;
 

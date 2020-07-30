@@ -109,14 +109,17 @@ void vice_opengl_renderer_set_viewport(vice_opengl_renderer_context_t *context)
     glViewport(0, 0, context->gl_backing_layer_width, context->gl_backing_layer_height);
 }
 
+void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, bool enable_vsync)
+{
+    ViceOpenGLView *opengl_view = context->native_view;
+    GLint gl_int = enable_vsync ? 1 : 0;
+    
+    [[opengl_view openGLContext] setValues: &gl_int forParameter: NSOpenGLCPSwapInterval];
+}
+
 void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *context)
 {
-    /*
-     * A glFlush() alone seems to work, however after the app has been in the background for a while,
-     * you see a bunch of old frames very quickly rendered in a 'catch up'. This seems to prevent that.
-     */
-    
-    glFinish();
+    /* Handled by the opengl view */
 }
 
 void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)
@@ -128,7 +131,6 @@ void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)
 
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context)
 {
-    GLint gl_int;
     NSView *gdk_view = gdk_quartz_window_get_nsview(gtk_widget_get_window(widget));
     ViceOpenGLView *opengl_view = [[ViceOpenGLView alloc] initWithFrame: CGRectMake(context->native_view_x, context->native_view_y, context->native_view_width, context->native_view_height)
                                                                 context: context];
@@ -143,9 +145,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* make sure OpenGL extension pointers are loaded */
     glewInit();
     
-    /* Enable vsync */
-    gl_int = 1;
-    [[opengl_view openGLContext] setValues: &gl_int forParameter: NSOpenGLCPSwapInterval];
+    
     
     vice_opengl_renderer_clear_current(context);
 }

@@ -53,6 +53,7 @@ typedef vice_opengl_renderer_context_t context_t;
 static void on_widget_realized(GtkWidget *widget, gpointer data);
 static void on_widget_unrealized(GtkWidget *widget, gpointer data);
 static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpointer data);
+static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data);
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data);
 static void render(void *job_data, void *pool_data);
 
@@ -130,6 +131,7 @@ static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
     g_signal_connect(widget, "realize", G_CALLBACK (on_widget_realized), canvas);
     g_signal_connect(widget, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
     g_signal_connect_unlocked(widget, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
+    g_signal_connect_unlocked(widget, "draw", G_CALLBACK(on_widget_repaint), canvas);
 
     return widget;
 }
@@ -264,6 +266,32 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     CANVAS_UNLOCK();
 }
 
+static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data)
+{
+    video_canvas_t *canvas = (video_canvas_t *)data;
+    context_t *context;
+
+    CANVAS_LOCK();
+
+    context = canvas->renderer_context;
+    
+    /*
+     * The draw event happens during resize and if the emulator is paused or slow
+     * then the window isn't going to look right until a new frame is produced.
+     * 
+     * So, we push a redraw event to the render thread. When the render thread
+     * finds that there is no new frame to draw, then it simply redraws the existing
+     * texture contents.
+     */
+    if (context->render_thread) {
+        g_thread_pool_push(context->render_thread, context, NULL);
+    }
+
+    CANVAS_UNLOCK();
+
+    return TRUE;
+}
+
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
 {
     video_canvas_t *canvas = data;
@@ -366,14 +394,41 @@ static void render(void *job_data, void *pool_data)
 {
     video_canvas_t *canvas = pool_data;
     vice_opengl_renderer_context_t *context = job_data;
+    backbuffer_t *backbuffer;
+    unsigned int backbuffer_width;
+    unsigned int backbuffer_height;
+    float backbuffer_pixel_aspect_ratio;
 
-    backbuffer_t *backbuffer = render_queue_dequeue_for_display(context->render_queue);
-
-    if (!backbuffer) {
-        return;
-    }
+    backbuffer = render_queue_dequeue_for_display(context->render_queue);
 
     CANVAS_LOCK();
+
+    if (backbuffer) {
+        backbuffer_width                = backbuffer->width;
+        backbuffer_height               = backbuffer->height;
+        backbuffer_pixel_aspect_ratio   = backbuffer->pixel_aspect_ratio;
+
+        /* cache this backbuffer size for use during resize */
+        context->emulated_width_last_rendered       = backbuffer_width;
+        context->emulated_height_last_rendered      = backbuffer_height;
+        context->pixel_aspect_ratio_last_rendered   = backbuffer_pixel_aspect_ratio;
+    } else {
+        /* Use the last rendered frame size and ratio for layout */
+        backbuffer_width                = context->emulated_width_last_rendered;
+        backbuffer_height               = context->emulated_height_last_rendered;
+        backbuffer_pixel_aspect_ratio   = context->pixel_aspect_ratio_last_rendered;
+    }
+
+    /* This happens during startup, before an initial frame is rendered */
+    if (!backbuffer_width || !backbuffer_height) {
+        CANVAS_UNLOCK();
+
+        if (backbuffer) {
+            render_queue_return_to_pool(context->render_queue, backbuffer);
+        }
+
+        return;
+    }
     
     /* Recalculate layout */
     int keepaspect = 1;
@@ -389,10 +444,10 @@ static void render(void *job_data, void *pool_data)
         float emulated_aspect;       
 
         viewport_aspect = (float)context->native_view_width / (float)context->native_view_height;
-        emulated_aspect = (float)backbuffer->width / (float)backbuffer->height;
+        emulated_aspect = (float)backbuffer_width / (float)backbuffer_height;
 
         if (trueaspect) {
-            emulated_aspect *= backbuffer->pixel_aspect_ratio;
+            emulated_aspect *= backbuffer_pixel_aspect_ratio;
         }
 
         if (emulated_aspect < viewport_aspect) {
@@ -409,21 +464,16 @@ static void render(void *job_data, void *pool_data)
 
     /* Calculate the minimum drawing area size to be enforced by gtk */
     if (keepaspect && trueaspect) {
-        context->native_view_min_width = ceil((float)backbuffer->width * backbuffer->pixel_aspect_ratio);
-        context->native_view_min_height = backbuffer->height;
+        context->native_view_min_width = ceil((float)backbuffer_width * backbuffer_pixel_aspect_ratio);
+        context->native_view_min_height = backbuffer_height;
     } else {
-        context->native_view_min_width = backbuffer->width;
-        context->native_view_min_height = backbuffer->height;
+        context->native_view_min_width = backbuffer_width;
+        context->native_view_min_height = backbuffer_height;
     }
 
     RENDER_LOCK();
     
     CANVAS_UNLOCK();
-    
-    if (!backbuffer) {
-        RENDER_UNLOCK();
-        return;
-    }
 
     int filter = 1;
     resources_get_int("GTKFilter", &filter);
@@ -434,18 +484,20 @@ static void render(void *job_data, void *pool_data)
     glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    /* Update the OpenGL texture with the backbuffer bitmap */
-    glBindTexture(GL_TEXTURE_2D, context->texture);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer->width);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer->width, backbuffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    /* Update the OpenGL texture with the new backbuffer bitmap */
+    if (backbuffer) {
+        glBindTexture(GL_TEXTURE_2D, context->texture);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer_width);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer_width, backbuffer_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
     
     /* Render the texture onto the quad */
     GLuint scale_uniform, valid_tex_uniform, tex_size_uniform;
@@ -479,13 +531,36 @@ static void render(void *job_data, void *pool_data)
     glDisableVertexAttribArray(context->tex_coord_index);
     glUseProgram(0);
 
+    /*
+     * A glFlush() alone seems to work, however after the app has been in the background for a while,
+     * you see a bunch of old frames very quickly rendered in a 'catch up'. This seems to prevent that.
+     * 
+     * Also, using glFlush() results in incorrect transition to fullscreen when paused (X11).
+     */
+    
+    glFinish();
+
+    /*
+     * Sync to monitor refresh when the emulated screen has changed,
+     * but don't if we are just redrawing the same content. This keeps
+     * resize nice and smooth.
+     */
+
+    if (backbuffer) {
+        vice_opengl_renderer_set_vsync(context, true);
+    } else {
+        vice_opengl_renderer_set_vsync(context, false);
+    }
+
     vice_opengl_renderer_present_backbuffer(context);
 
     vice_opengl_renderer_clear_current(context);
     
     RENDER_UNLOCK();
 
-    render_queue_return_to_pool(context->render_queue, backbuffer);
+    if (backbuffer) {
+        render_queue_return_to_pool(context->render_queue, backbuffer);
+    }
 }
 
 static void vice_opengl_set_palette(video_canvas_t *canvas)
