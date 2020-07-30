@@ -289,7 +289,7 @@ static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer da
 
     CANVAS_UNLOCK();
 
-    return TRUE;
+    return FALSE;
 }
 
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
@@ -483,19 +483,13 @@ static void render(void *job_data, void *pool_data)
 
     glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    
+
     /* Update the OpenGL texture with the new backbuffer bitmap */
     if (backbuffer) {
         glBindTexture(GL_TEXTURE_2D, context->texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer_width);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer_width, backbuffer_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
     
@@ -524,6 +518,12 @@ static void render(void *job_data, void *pool_data)
     glUniform1i(sampler_uniform, 0);
     
     glBindTexture(GL_TEXTURE_2D, context->texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindTexture(GL_TEXTURE_2D, 0);
     
