@@ -532,15 +532,6 @@ static void render(void *job_data, void *pool_data)
     glUseProgram(0);
 
     /*
-     * A glFlush() alone seems to work, however after the app has been in the background for a while,
-     * you see a bunch of old frames very quickly rendered in a 'catch up'. This seems to prevent that.
-     * 
-     * Also, using glFlush() results in incorrect transition to fullscreen when paused (X11).
-     */
-    
-    glFinish();
-
-    /*
      * Sync to monitor refresh when the emulated screen has changed,
      * but don't if we are just redrawing the same content. This keeps
      * resize nice and smooth.
@@ -551,6 +542,15 @@ static void render(void *job_data, void *pool_data)
     } else {
         vice_opengl_renderer_set_vsync(context, false);
     }
+
+    /*
+     * A glFlush() alone seems to work, however after the app has been in the background for a while,
+     * you see a bunch of old frames very quickly rendered in a 'catch up'. This seems to prevent that.
+     * 
+     * Also, using glFlush() results in incorrect transition to fullscreen when paused (X11).
+     */
+    
+    glFinish();
 
     vice_opengl_renderer_present_backbuffer(context);
 
