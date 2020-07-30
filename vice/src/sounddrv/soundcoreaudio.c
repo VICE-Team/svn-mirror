@@ -238,7 +238,7 @@ static void converter_close(void)
     }
 }
 
-static int string_buf_size_for_utf8_char_length(int utf8Chars)
+static CFIndex string_buf_size_for_utf8_char_length(CFIndex utf8Chars)
 {
     return utf8Chars * 4 + 1;
 }
@@ -776,7 +776,8 @@ static int coreaudio_init(const char *param, int *speed,
 
 static int coreaudio_write(int16_t *pbuf, size_t nr)
 {
-    int i, count;
+    int i;
+    size_t count;
 
     /* number of fragments */
     count = nr / swords_in_fragment;
