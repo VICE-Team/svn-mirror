@@ -34,8 +34,8 @@
 
 #include "lib.h"
 
-#ifdef USE_NATIVE_GTK3K
-# include "ui.h"
+#ifdef USE_NATIVE_GTK3
+# include "uiapi.h"
 #endif
 
 
@@ -55,7 +55,7 @@ void archdep_startup_log_error(const char *format, ...)
     tmp = lib_mvsprintf(format, args);
     va_end(args);
 
-#ifdef USE_NATIVE_GTK3K
+#ifdef USE_NATIVE_GTK3
     ui_error(tmp);
 #endif
     fprintf(stderr, "%s", tmp);
