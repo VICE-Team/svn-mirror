@@ -146,6 +146,9 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief pixel aspect ratio of the last frame to be rendered on host */
     float pixel_aspect_ratio_last_rendered;
 
+    /** \brief when the last frame was rendered */
+    unsigned long last_render_time;
+
 } vice_opengl_renderer_context_t;
 
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context);

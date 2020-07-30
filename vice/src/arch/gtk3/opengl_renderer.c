@@ -42,6 +42,8 @@
 #include "render_queue.h"
 #include "resources.h"
 #include "ui.h"
+#include "vsync.h"
+#include "vsyncapi.h"
 
 #define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
@@ -53,7 +55,6 @@ typedef vice_opengl_renderer_context_t context_t;
 static void on_widget_realized(GtkWidget *widget, gpointer data);
 static void on_widget_unrealized(GtkWidget *widget, gpointer data);
 static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpointer data);
-// static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data);
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data);
 static void render(void *job_data, void *pool_data);
 
@@ -131,7 +132,6 @@ static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
     g_signal_connect(widget, "realize", G_CALLBACK (on_widget_realized), canvas);
     g_signal_connect(widget, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
     g_signal_connect_unlocked(widget, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
-    // g_signal_connect_unlocked(widget, "draw", G_CALLBACK(on_widget_repaint), canvas);
 
     return widget;
 }
@@ -266,32 +266,6 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     CANVAS_UNLOCK();
 }
 
-// static gboolean on_widget_repaint(GtkWidget *widget, cairo_t *cairo, gpointer data)
-// {
-//     video_canvas_t *canvas = (video_canvas_t *)data;
-//     context_t *context;
-
-//     CANVAS_LOCK();
-
-//     context = canvas->renderer_context;
-    
-//     /*
-//      * The draw event happens during resize and if the emulator is paused or slow
-//      * then the window isn't going to look right until a new frame is produced.
-//      * 
-//      * So, we push a redraw event to the render thread. When the render thread
-//      * finds that there is no new frame to draw, then it simply redraws the existing
-//      * texture contents.
-//      */
-//     if (context->render_thread) {
-//         g_thread_pool_push(context->render_thread, context, NULL);
-//     }
-
-//     CANVAS_UNLOCK();
-
-//     return FALSE;
-// }
-
 static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
 {
     video_canvas_t *canvas = data;
@@ -357,7 +331,6 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     backbuffer = render_queue_get_from_pool(context->render_queue, pixel_data_size_bytes);
 
     if (!backbuffer) {
-        // printf("no backbuffer to render to\n"); fflush(stdout);
         CANVAS_UNLOCK();
         return;
     }
@@ -392,8 +365,22 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 
     CANVAS_LOCK();
 
-    if (context->render_thread) {
-        g_thread_pool_push(context->render_thread, context, NULL);
+    /*
+     * So if the emulator isn't spitting out frames (paused, or monitor maybe)
+     * then we aren't queuing redraws of the window. And sometimes the OS wants
+     * to redraw part of the window. Haven't been able to reliably detect those
+     * events in some linux environments so we don't trigger on event. It's not
+     * as simple as catching the GTK draw event on the GtkDrawingArea under the
+     * native window.
+     * 
+     * So, each GdkFrameClock event, check if the emu frame is late. If it is,
+     * then queue up a render that will simply refresh if no new emu frame is
+     * available.
+     */
+    if (vsyncarch_gettime() - context->last_render_time > vsync_get_refresh_ticks()) {
+        if (context->render_thread) {
+            g_thread_pool_push(context->render_thread, context, NULL);
+        }
     }
 
     CANVAS_UNLOCK();
@@ -421,6 +408,7 @@ static void render(void *job_data, void *pool_data)
         context->emulated_width_last_rendered       = backbuffer_width;
         context->emulated_height_last_rendered      = backbuffer_height;
         context->pixel_aspect_ratio_last_rendered   = backbuffer_pixel_aspect_ratio;
+        context->last_render_time                   = vsyncarch_gettime();
     } else {
         /* Use the last rendered frame size and ratio for layout */
         backbuffer_width                = context->emulated_width_last_rendered;
@@ -483,10 +471,6 @@ static void render(void *job_data, void *pool_data)
     RENDER_LOCK();
     
     CANVAS_UNLOCK();
-
-    if (!backbuffer) {
-        printf("render bb w: %u h: %u, win w: %u h: %u\n", backbuffer_width, backbuffer_height, context->native_view_width, context->native_view_height); fflush(stdout);
-    }
 
     int filter = 1;
     resources_get_int("GTKFilter", &filter);

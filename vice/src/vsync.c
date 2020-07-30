@@ -264,6 +264,11 @@ double vsync_get_refresh_frequency(void)
     return refresh_frequency;
 }
 
+double vsync_get_refresh_ticks(void)
+{
+    return frame_ticks;
+}
+
 void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;
