@@ -357,7 +357,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
 static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *canvas)
 {
     context_t *context = canvas->renderer_context;
-
+    
     ui_update_statusbars();
 
     /* TODO we really shouldn't be setting this every frame! */
@@ -366,22 +366,26 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
     CANVAS_LOCK();
 
     /*
-     * So if the emulator isn't spitting out frames (paused, or monitor maybe)
-     * then we aren't queuing redraws of the window. And sometimes the OS wants
-     * to redraw part of the window. Haven't been able to reliably detect those
-     * events in some linux environments so we don't trigger on event. It's not
-     * as simple as catching the GTK draw event on the GtkDrawingArea under the
-     * native window.
+     * Sometimes the OS wants to redraw part of the window. Haven't been able to
+     * reliably detect those events in some linux environments so we don't trigger
+     * a redraw on that sort of event. It's not as simple as catching the GTK draw
+     * signal on the GtkDrawingArea under the native window, because we have our
+     * own native xlib window added ove the top of the GTK/GDK window.
      * 
-     * So, each GdkFrameClock event, check if the emu frame is late. If it is,
-     * then queue up a render that will simply refresh if no new emu frame is
-     * available.
+     * So, each GdkFrameClock event, check if we have rendered since the last
+     * event. If we have not, queue up a refresh of the existing emu frame.
+     * 
+     * This ensures that resizing while paused doesn't glitch like busy win95,
+     * and also fixes various issues on some crappy X11 setups :)
      */
-    if (vsyncarch_gettime() - context->last_render_time > vsync_get_refresh_ticks()) {
+
+    if (context->last_render_time < context->last_host_frame_time) {
         if (context->render_thread) {
             g_thread_pool_push(context->render_thread, context, NULL);
         }
     }
+
+    context->last_host_frame_time = vsyncarch_gettime();
 
     CANVAS_UNLOCK();
 }

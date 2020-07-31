@@ -149,6 +149,9 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief when the last frame was rendered */
     unsigned long last_render_time;
 
+    /** \brief when the host last refreshed */
+    unsigned long last_host_frame_time;
+
 } vice_opengl_renderer_context_t;
 
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context);
