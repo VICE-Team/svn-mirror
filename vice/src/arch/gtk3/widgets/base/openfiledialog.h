@@ -44,6 +44,6 @@ GtkWidget *vice_gtk3_open_create_file_dialog(
         const char *proposed,
         gboolean confirm,
         const char *path,
-        void (*callback)(GtkDialog *dialog, gchar *s));
+        void (*callback)(GtkDialog *dialog, gchar *));
 
 #endif
