@@ -1877,7 +1877,8 @@ void ui_message(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    vice_gtk3_message_info("VICE Message", buffer);
+    vice_gtk3_message_info(GTK_WIDGET(ui_get_active_window()),
+                            "VICE Message", buffer);
     lib_free(buffer);
 }
 

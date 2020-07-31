@@ -28,11 +28,28 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
+#include "debug_gtk3.h"
 #include "lib.h"
 #include "uimachinewindow.h"
 #include "ui.h"
 
 #include "basedialogs.h"
+
+
+/** \brief  Handler for the 'response' event of the Info dialog
+ *
+ * \param[in,out]   dialog          Info dialog
+ * \param[in]       response_id     response ID (ignored)
+ * \param[in]       data            extra event data (ignored)
+ */
+static void on_response_info(GtkWidget *dialog, gint response_id, gpointer data)
+{
+    debug_gtk3("Called with response_id %d", response_id);
+    gtk_widget_destroy(dialog);
+}
+
+
+
 
 
 /** \brief  Handler for the 'destroy' event of a dialog
@@ -101,9 +118,11 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
- * \return  `TRUE`
+ * \return  dialog
  */
-gboolean vice_gtk3_message_info(const char *title, const char *fmt, ...)
+GtkWidget *vice_gtk3_message_info(GtkWidget *parent,
+                                  const char *title,
+                                  const char *fmt, ...)
 {
     GtkWidget *dialog;
     va_list args;
@@ -114,10 +133,12 @@ gboolean vice_gtk3_message_info(const char *title, const char *fmt, ...)
     va_end(args);
 
     dialog = create_dialog(GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, title, buffer);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-    lib_free(buffer);
-    gtk_widget_destroy(dialog);
-    return TRUE;
+
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response_info), NULL);
+    gtk_widget_show(dialog);
+    return dialog;
 }
 
 
