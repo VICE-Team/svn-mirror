@@ -29,6 +29,9 @@
 
 #include "types.h"
 
+#define PET_CHARGEN_NAME        "characters-2.901447-10.bin"
+#define SUPERPET_CHARGEN_NAME   "characters.901640-01.bin"
+
 #define PET_KERNAL1NAME  "kernal-1.901439-04-07.bin"
 #define PET_KERNAL2NAME  "kernal-2.901465-03.bin"
 #define PET_KERNAL4NAME  "kernal-4.901465-22.bin"
