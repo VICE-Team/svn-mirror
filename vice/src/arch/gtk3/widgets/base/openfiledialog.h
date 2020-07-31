@@ -36,12 +36,14 @@ GtkWidget *vice_gtk3_open_file_dialog(
         const char *filter_desc,
         const char **filter_list,
         const char *path,
-        void (*callback)(GtkDialog *dialog, char *));
+        void (*callback)(GtkDialog *dialog, gchar *));
 
-gchar *vice_gtk3_open_create_file_dialog(
+GtkWidget *vice_gtk3_open_create_file_dialog(
+        GtkWidget *parent,
         const char *title,
         const char *proposed,
         gboolean confirm,
-        const char *path);
+        const char *path,
+        void (*callback)(GtkDialog *dialog, gchar *s));
 
 #endif

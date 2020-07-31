@@ -28,15 +28,16 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 #include "basedialogs.h"
-#include "openfiledialog.h"
-#include "savefiledialog.h"
+#include "basewidgets.h"
 #include "cartridge.h"
+#include "debug_gtk3.h"
+#include "machine.h"
+#include "openfiledialog.h"
+#include "resources.h"
+#include "savefiledialog.h"
+#include "ui.h"
+#include "widgethelpers.h"
 
 #include "cartimagewidget.h"
 
@@ -47,6 +48,22 @@ static const char *crt_name;   /**< cartridge name used in messages */
 static int crt_id;  /**< cartridge ID in cartridge_*() calls */
 static const char *res_fname;
 static const char *res_write;
+static GtkWidget *filename_entry;
+
+
+/** \brief  Callback for the open/create-file dialog
+ *
+ * \param[in,out]   dialog      open/create dialog
+ * \param[in,out]   filename    filename
+ */
+static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+{
+    if (filename != NULL) {
+        vice_gtk3_resource_entry_full_set(filename_entry, filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
 
 
 /** \brief  Handler for the "clicked" event of the "browse" button
@@ -58,19 +75,14 @@ static const char *res_write;
  */
 static void on_browse_clicked(GtkWidget *button, gpointer user_data)
 {
-    gchar *filename;
-    char buffer[256];
+    char title[256];
 
-    g_snprintf(buffer, sizeof(buffer), "Open or create %s image file", crt_name);
+    g_snprintf(title, sizeof(title), "Open or create %s image file", crt_name);
 
-    filename = vice_gtk3_open_create_file_dialog(buffer, NULL, FALSE, NULL);
-    if (filename != NULL) {
-        GtkWidget *grid = gtk_widget_get_parent(button);
-        GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
-
-        vice_gtk3_resource_entry_full_set(entry, filename);
-        g_free(filename);
-    }
+    vice_gtk3_open_create_file_dialog(
+            GTK_WIDGET(ui_get_active_window()),
+            title,NULL, FALSE, NULL,
+            browse_filename_callback);
 }
 
 
@@ -177,7 +189,6 @@ GtkWidget *cart_image_widget_create(
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *entry;
     GtkWidget *browse;
     GtkWidget *auto_save;
     GtkWidget *save_button;
@@ -195,21 +206,19 @@ GtkWidget *cart_image_widget_create(
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = vice_gtk3_resource_entry_full_new(resource_fname);
-    gtk_widget_set_hexpand(entry, TRUE);
+    filename_entry = vice_gtk3_resource_entry_full_new(resource_fname);
+    gtk_widget_set_hexpand(filename_entry, TRUE);
     /* gtk_widget_set_sensitive(entry, FALSE); */
     browse = gtk_button_new_with_label("Browse ...");
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), filename_entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     auto_save = vice_gtk3_resource_check_button_new(resource_write,
             "Write image on image detach/emulator quit");
     g_object_set(auto_save, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), auto_save, 0, 2, 2, 1);
-
-
 
     save_button = gtk_button_new_with_label("Save as ...");
     gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);

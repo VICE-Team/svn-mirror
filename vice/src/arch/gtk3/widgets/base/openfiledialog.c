@@ -174,15 +174,17 @@ gchar *vice_gtk3_open_file_dialog(
  * \note    the filename returned is allocated by GLib and needs to be freed
  *          after use with g_free()
  */
-gchar *vice_gtk3_open_create_file_dialog(
+GtkWidget *vice_gtk3_open_create_file_dialog(
+        GtkWidget *parent,
         const char *title,
         const char *proposed,
         gboolean confirm,
-        const char *path)
+        const char *path,
+        void (*callback)(GtkDialog *, gchar *))
 {
     GtkWidget *dialog;
-    gint result;
-    gchar *filename;
+
+    filename_cb = callback;
 
     mainlock_assert_is_not_vice_thread();
 
@@ -208,14 +210,9 @@ gchar *vice_gtk3_open_create_file_dialog(
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
 
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
-    if (result == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    } else {
-        filename = NULL;
-    }
-    gtk_widget_destroy(dialog);
-    return filename;
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    gtk_widget_show(dialog);
+    return dialog;
 }
 
 #else
