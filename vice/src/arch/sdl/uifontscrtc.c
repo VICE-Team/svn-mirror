@@ -32,6 +32,8 @@
 
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
+#include "pets.h"
 #include "sysfile.h"
 #include "uifonts.h"
 #include "uimenu.h"
@@ -49,6 +51,15 @@ static unsigned char crtcextrachars[8 * 4] = {
     0x30, 0x18, 0x18, 0x0c, 0x18, 0x18, 0x30, 0x00, /* } */
     0x60, 0x92, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, /* ~ */
 };
+
+/* KLUDGES: this needs to be updated when ROM files are being renamed */
+static char *get_chargen_name(void)
+{
+    if (machine_class == VICE_MACHINE_PET) {
+        return PET_CHARGEN_NAME;
+    }
+    return "chargen";
+}
 
 static int loadchar(char *name)
 {
@@ -93,7 +104,7 @@ static int loadchar(char *name)
 int sdl_ui_crtc_font_init(void)
 {
     int i;
-    char *name = "chargen";
+    char *name = get_chargen_name();
     char *path = NULL;
 
     if (sysfile_locate(name, &path) != 0) {
