@@ -68,11 +68,6 @@ void main_exit(void)
     /* printf("%s\n", __func__); */
 
     log_message(LOG_DEFAULT, "\nExiting...");
-    
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    signal(SIGINT, SIG_IGN);
 
     machine_shutdown();
 }
