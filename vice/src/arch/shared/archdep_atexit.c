@@ -31,6 +31,7 @@
 
 #ifdef USE_NATIVE_GTK3
 #include <gtk/gtk.h>
+#include <pthread.h>
 #endif
 
 #include "archdep.h"

@@ -68,7 +68,9 @@ static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
 {
     debug_gtk3("called: %s", result ? "TRUE" : "FALSE");
     if (result) {
+        mainlock_release();
         archdep_vice_exit(0);
+        mainlock_obtain();
     }
 }
 
