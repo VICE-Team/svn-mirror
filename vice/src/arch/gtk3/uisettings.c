@@ -2435,33 +2435,12 @@ static void response_callback(GtkWidget *widget, gint response_id,
         case RESPONSE_RESET:
             debug_gtk3("Resetting widgets to their dialog-entry state"
                     " temporarily disabled.");
-#if 0
-            ui_settings_central_widget_reset(widget, user_data);
-#endif
             break;
 
         /* restore resources in (sub)dialog to factory settings */
         case RESPONSE_FACTORY:
             debug_gtk3("Resetting widgets to their factory value temporarily"
                     " disabled.");
-#if 0
-            ui_settings_central_widget_factory(widget, user_data);
-#endif
-            break;
-
-        case RESPONSE_DEFAULT:
-            if (vice_gtk3_message_confirm("Reset to default setting",
-                        "Do you wish to reset to default settings?")) {
-                resources_set_defaults();
-                gtk_widget_destroy(widget);
-                /* this one really behaves a little odd: */
-#if 0
-                machine_reset();
-#endif
-            }
-            break;
-
-
         default:
             break;
     }

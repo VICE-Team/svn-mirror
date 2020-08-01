@@ -36,19 +36,19 @@
 #include <errno.h>
 #include <string.h>
 
-#include "vice_gtk3.h"
+
+#include "kbdlayoutwidget.h"
+#include "kbdmappingwidget.h"
 #include "keyboard.h"
 #include "lib.h"
-#include "util.h"
-#include "ui.h"
 #include "resources.h"
-#include "vsync.h"
-
-#include "kbdmappingwidget.h"
-#include "kbdlayoutwidget.h"
-#include "uistatusbar.h"
-
 #include "settings_keyboard.h"
+#include "ui.h"
+#include "ui.h"
+#include "uistatusbar.h"
+#include "util.h"
+#include "vice_gtk3.h"
+#include "vsync.h"
 
 
 /** \brief  Toggle statusbar keyboard debugging widget display
@@ -73,7 +73,8 @@ static void on_save_filename(GtkDialog *dialog, char *filename)
 
         int oops = keyboard_keymap_dump(filename);
         if (oops == 0) {
-            vice_gtk3_message_info("Succesfully saved current keymap",
+            vice_gtk3_message_info(
+                    "Succesfully saved current keymap",
                     "Wrote current keymap as '%s'.", filename);
         } else {
             vice_gtk3_message_error("Failed to save custom keymap",

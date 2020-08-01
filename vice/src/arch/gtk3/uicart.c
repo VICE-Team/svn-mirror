@@ -326,6 +326,14 @@ static GtkListStore *create_cart_id_model_vic20(void);
 #endif
 
 
+static void uicart_confirm_callback(GtkDialog *dialog, gboolean result)
+{
+    if (result) {
+        crt_unset_default_func();
+    }
+}
+
+
 /** \brief  Handler for the "response" event of the dialog
  *
  * \param[in]   dialog      dialog
@@ -1127,7 +1135,6 @@ gboolean ui_cart_trigger_freeze(void)
 gboolean ui_cart_detach(void)
 {
     int cartid = CARTRIDGE_NONE;
-    gboolean result;
 
     if (crt_detach_func != NULL) {
 
@@ -1144,13 +1151,19 @@ gboolean ui_cart_detach(void)
                 resources_get_int("CartridgeType", &cartid);
                 if (cartid != CARTRIDGE_NONE) {
                     /* default is set, ask to remove it */
-                    result = vice_gtk3_message_confirm("Detach cartridge",
+                    GtkWidget *foo;
+                    foo = vice_gtk3_message_confirm(
+                            GTK_WIDGET(ui_get_active_window()),
+                            uicart_confirm_callback,
+                            "Detach cartridge",
                             "You're detaching the default cartridge.\n\n"
                             "Would you also like to unregister this cartridge"
                             " as the default cartridge?");
+#if 0
                     if (result) {
                         crt_unset_default_func();
                     }
+#endif
                 }
                 /* FIXME: the above will only check/ask for "slot1" cartridges. other
                           cartridges have seperate "enable" resources which would

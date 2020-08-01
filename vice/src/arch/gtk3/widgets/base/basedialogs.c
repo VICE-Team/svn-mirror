@@ -36,6 +36,9 @@
 #include "basedialogs.h"
 
 
+void (*confirm_cb)(GtkDialog *, gboolean);
+
+
 /** \brief  Handler for the 'response' event of the Info dialog
  *
  * \param[in,out]   dialog          Info dialog
@@ -49,6 +52,22 @@ static void on_response_info(GtkWidget *dialog, gint response_id, gpointer data)
 }
 
 
+/** \brief  Handler for the 'response' event of the Confirm dialog
+ *
+ * \param[in,out]   dialog          Info dialog
+ * \param[in]       response_id     response ID (ignored)
+ * \param[in]       data            extra event data (ignored)
+ */
+static void on_response_confirm(GtkDialog *dialog, gint response_id, gpointer data)
+{
+    debug_gtk3("Called with response_id %d", response_id);
+    if (response_id == GTK_RESPONSE_OK) {
+        confirm_cb(dialog, TRUE);
+    } else {
+        confirm_cb(dialog, FALSE);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
 
 
 
@@ -114,7 +133,7 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
 
 
 /** \brief  Create 'info' dialog
- *
+ * \param[in]   parent      parent widget
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
@@ -143,17 +162,23 @@ GtkWidget *vice_gtk3_message_info(const char *title,
 
 /** \brief  Create 'confirm' dialog
  *
+ * \param[in]   parent      parent widget
+ * \param[out]  result      location to store result
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
- * \return  `TRUE` on OK/Yes, `FALSE` otherwise
+ * \return  dialog
  */
-gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...)
+GtkWidget *vice_gtk3_message_confirm(GtkWidget *parent,
+                                     void (*callback)(GtkDialog *, gboolean),
+                                     const char *title,
+                                     const char *fmt, ...)
 {
     GtkWidget *dialog;
     va_list args;
     char *buffer;
-    int result;
+
+    confirm_cb = callback;
 
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
@@ -161,10 +186,13 @@ gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...)
 
     dialog = create_dialog(GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
             title, buffer);
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
-    lib_free(buffer);
-    gtk_widget_destroy(dialog);
-    return (result == GTK_RESPONSE_OK ? TRUE : FALSE);
+
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response_confirm),
+            NULL);
+    gtk_widget_show(dialog);
+    return dialog;
 }
 
 

@@ -62,6 +62,17 @@
 #include "uimachinewindow.h"
 #include "widgethelpers.h"
 
+
+
+static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
+{
+    debug_gtk3("called: %s", result ? "TRUE" : "FALSE");
+    if (result) {
+        ui_exit();
+    }
+}
+
+
 /** \brief  Swap joysticks
  *
  * \param[in]   widget      widget triggering the event (invalid)
@@ -204,10 +215,11 @@ static gboolean confirm_exit(void)
         return TRUE;
     }
 
-    if (vice_gtk3_message_confirm("Exit VICE",
-                                  "Do you really wish to exit VICE?")) {
-        return TRUE;
-    }
+    vice_gtk3_message_confirm(
+            GTK_WIDGET(ui_get_active_window()),
+            confirm_exit_callback,
+            "Exit VICE",
+            "Do you really wish to exit VICE?`");
     ui_set_ignore_mouse_hide(FALSE);
     return FALSE;
 }
@@ -433,6 +445,18 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
+static void restore_default_callback(GtkDialog *dialog, gboolean b)
+{
+    debug_gtk3("Resetting resources to default.");
+    if (b) {
+        mainlock_obtain();
+        resources_set_defaults();
+        mainlock_release();
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 
 /** \brief  Restore default settings
  *
@@ -445,17 +469,14 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
  */
 gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data)
 {
-    if (vice_gtk3_message_confirm(
+    vice_gtk3_message_confirm(
+            GTK_WIDGET(ui_get_active_window()),
+                restore_default_callback,
                 "Reset all settings to default",
                 "Are you sure you wish to reset all settings to their default"
                 " values?\n\n"
                 "The new settings will not be saved until using the 'Save"
                 " settings' menu item, or having 'Save on exit' enabled and"
-                " exiting VICE.")) {
-        debug_gtk3("Resetting resources to default.");
-        mainlock_obtain();
-        resources_set_defaults();
-        mainlock_release();
-    }
+                " exiting VICE.");
     return TRUE;
 }
