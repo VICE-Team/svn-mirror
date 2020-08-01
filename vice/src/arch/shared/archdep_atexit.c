@@ -29,10 +29,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef USE_NATIVE_GTK3
+#include <gtk/gtk.h>
+#endif
+
 #include "archdep_atexit.h"
 
+static int vice_exit_code;
 
-#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+#if 0 && defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+
+/*
+ * Disabled this atexit emulation because the libc stuff seems to work.
+ * Leaving this code here so if we rediscover the original problem we
+ * can re-enable and document it. --dqh 2020-08-01
+ */
+
 #define ATEXIT_MAX_FUNCS 64
 
 #include "debug_gtk3.h"
@@ -98,7 +110,10 @@ void archdep_vice_exit(int excode)
 /** \brief  Register \a function to be called on exit() or return from main
  *
  * Wrapper to work around Windows not handling the C library's atexit()
- * mechanism properly
+ * mechanism properly.
+ * 
+ * Now also used on Windows because 'properly' wasn't defined here,
+ * and we're refactored the shutdown code with threaded ui.
  *
  * \param[in]   function    function to call at exit
  *
@@ -109,6 +124,16 @@ int archdep_vice_atexit(void (*function)(void))
     return atexit(function);
 }
 
+#ifdef USE_NATIVE_GTK3
+
+static gboolean exit_from_main_thread(gpointer user_data)
+{
+    exit(vice_exit_code);
+
+    return FALSE;
+}
+
+#endif /* #ifdef USE_NATIVE_GTK3 */
 
 /** \brief  Wrapper around exit()
  *
@@ -116,7 +141,13 @@ int archdep_vice_atexit(void (*function)(void))
  */
 void archdep_vice_exit(int excode)
 {
+    vice_exit_code = excode;
+
+#ifdef USE_NATIVE_GTK3
+    gdk_threads_add_timeout(0, exit_from_main_thread, NULL);
+#else
     exit(excode);
+#endif
 }
 
-#endif
+#endif /* #if 0 && defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus) */

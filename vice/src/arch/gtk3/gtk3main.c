@@ -35,6 +35,7 @@
 #include "log.h"
 #include "machine.h"
 #include "main.h"
+#include "ui.h"
 #include "video.h"
 
 #if defined(USE_VICE_THREAD) && defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
@@ -101,6 +102,8 @@ void main_exit(void)
        pressed and thus breaking the cleanup process, which might be
        dangerous.  */
     signal (SIGINT, SIG_IGN);
+
+    ui_exit();
 
     vice_thread_shutdown();
 }

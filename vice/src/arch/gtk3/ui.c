@@ -1999,18 +1999,12 @@ gboolean ui_advance_frame(void)
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
 }
 
-/** \brief  Shutdown the UI, clean up resources
+/** \brief  Shutdown the UI, clean up resources.
+ * 
+ * Don't call this directly except from main_exit();
  */
 void ui_exit(void)
 {
-#if 0 /* We're exiting .. I think remaining UI events can get stuffed. --dqh 2020-08-01 */
-    /* trigger any remaining Gtk/GLib events */
-    while (g_main_context_pending(g_main_context_default())) {
-        debug_gtk3("processing pending event.");
-        g_main_context_iteration(g_main_context_default(), TRUE);
-    }
-#endif
-
     mainlock_obtain();
 
     /* clean up UI resources */
@@ -2038,10 +2032,7 @@ void ui_exit(void)
         lib_free(ui_resources.monitor_font);
     }
 
-    /* Don't hold the vice lock while doing the vice shutdown stuff. Deadlock */
     mainlock_release();
-
-    archdep_vice_exit(0);
 }
 
 /** \brief  Send current light pen state to the emulator core for all windows

@@ -68,7 +68,7 @@ static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
 {
     debug_gtk3("called: %s", result ? "TRUE" : "FALSE");
     if (result) {
-        ui_exit();
+        archdep_vice_exit(0);
     }
 }
 
@@ -235,7 +235,7 @@ static gboolean confirm_exit(void)
 gboolean ui_close_callback(GtkWidget *widget, gpointer user_data)
 {
     if (confirm_exit()) {
-        ui_exit();
+        archdep_vice_exit(0);
     }
     return TRUE;
 }
@@ -254,7 +254,7 @@ gboolean ui_main_window_delete_event(GtkWidget *widget, GdkEvent *event,
 {
     if (confirm_exit()) {
         /* if we reach this point, the function doesn't return */
-        ui_exit();
+        archdep_vice_exit(0);
     }
     return TRUE;
 }

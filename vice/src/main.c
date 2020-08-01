@@ -332,7 +332,7 @@ void main_loop_forever(void)
 
 void vice_thread_shutdown(void)
 {
-    log_message(LOG_DEFAULT, "\nExiting...");
+    log_message(LOG_DEFAULT, "\nVICE thread exiting ...");
     
     if (!vice_thread) {
         /* We're exiting early in program life, such as when invoked with -help */
@@ -350,6 +350,8 @@ void vice_thread_shutdown(void)
     mainlock_release();
     
     pthread_join(vice_thread, NULL);
+
+    log_message(LOG_DEFAULT, "VICE thread has exited.");
 }
 
 void *vice_thread_main(void *unused)
