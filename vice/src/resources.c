@@ -1168,10 +1168,12 @@ int resources_load(const char *fname)
         if (vice_config_file == NULL) {
             /* try the alternative name/location first */
             default_name = archdep_default_portable_resource_file_name();
-            if (!((default_name != NULL) && (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) == 0)))  {
-                /* if not found at alternative location, try the normal one */
-                lib_free(default_name);
-                default_name = archdep_default_resource_file_name();
+            if (default_name != NULL) {
+                if (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) != 0)  {
+                    /* if not found at alternative location, try the normal one */
+                    lib_free(default_name);
+                    default_name = archdep_default_resource_file_name();
+                }
             }
         } else {
             default_name = lib_strdup(vice_config_file);
@@ -1322,10 +1324,13 @@ int resources_save(const char *fname)
         if (vice_config_file == NULL) {
             /* try the alternative name/location first */
             default_name = archdep_default_portable_resource_file_name();
-            if (!((default_name != NULL) && (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) == 0)))  {
-                /* if not found at alternative location, try the normal one
-                   this also creates the .vice directory if not present */
-                default_name = archdep_default_resource_file_name();
+            if (default_name != NULL) {
+                if (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) != 0) {
+                    /* if not found at alternative location, try the normal one
+                     this also creates the .vice directory if not present */
+                    lib_free(default_name);
+                    default_name = archdep_default_resource_file_name();
+                }
             }
         } else {
             default_name = lib_strdup(vice_config_file);
@@ -1365,6 +1370,7 @@ int resources_save(const char *fname)
         in_file = fopen(backup_name, MODE_READ_TEXT);
         if (!in_file) {
             lib_free(backup_name);
+            lib_free(default_name);
             return RESERR_READ_ERROR;
         }
     }
