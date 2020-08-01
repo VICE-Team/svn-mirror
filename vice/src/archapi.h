@@ -86,6 +86,10 @@ void        archdep_extra_title_text_free(void);
 int         archdep_vice_atexit(void (*function)(void));
 void        archdep_vice_exit(int excode);
 
+#ifdef USE_NATIVE_GTK3
+void        archdep_set_main_thread(void);
+#endif
+
 /* Get the absolute path to the directory that contains the documentation */
 char *      archdep_get_vice_docsdir(void);
 /* Get the absolute path to the directory that contains resources, icons, etc */

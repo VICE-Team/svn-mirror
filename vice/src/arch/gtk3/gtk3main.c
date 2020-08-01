@@ -32,6 +32,7 @@
 #include <signal.h>
 #include <gtk/gtk.h>
 
+#include "archdep.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
@@ -83,6 +84,13 @@ int main(int argc, char **argv)
     /* We're calling xlib from our own thread so need this to avoid problems */
     XInitThreads();
 #endif
+
+    /*
+     * The exit code needs to know what thread is the main thread, so that if
+     * archdep_vice_exit() is called from any other thread, it knows it needs
+     * to asynchronously call exit() on the main thread.
+     */
+    archdep_set_main_thread();
 
     int init_result = main_program(argc, argv);
     if (init_result) {

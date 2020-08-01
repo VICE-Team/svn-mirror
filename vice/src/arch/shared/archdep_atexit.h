@@ -31,4 +31,8 @@
 int     archdep_vice_atexit(void (*function)(void));
 void    archdep_vice_exit(int excode);
 
+#ifdef USE_NATIVE_GTK3
+void    archdep_set_main_thread(void);
+#endif
+
 #endif

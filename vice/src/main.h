@@ -34,7 +34,6 @@ extern void main_exit(void);
 
 #ifdef USE_VICE_THREAD
 extern void vice_thread_shutdown(void);
-extern bool is_main_thread(void);
 #endif
 
 #endif
