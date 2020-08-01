@@ -51,8 +51,12 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
 GtkWidget *vice_gtk3_message_error(const char *title,
                                    const char *fmt, ...);
 
-gboolean vice_gtk3_integer_input_box(
-        const char *title, const char *message,
-        int old_value, int *new_value,
-        int min, int max);
+GtkWidget *vice_gtk3_integer_input_box(
+        void (*callback)(GtkDialog *, int, gboolean),
+        const char *title,
+        const char *message,
+        int old_value,
+        int min,
+        int max);
+
 #endif

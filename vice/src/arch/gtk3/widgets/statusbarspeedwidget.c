@@ -144,6 +144,24 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Callback for custom refresh rate
+ *
+ * \param[in]   dialog  integer-dialog reference
+ * \param[in[   result  result from the dialog
+ * \param[in]   valid   \a result is valid
+ */
+static void refresh_custom_callback(GtkDialog *dialog,
+                                     int result,
+                                     gboolean valid)
+{
+    if (valid) {
+        resources_set_int("RefreshRate", result);
+    }
+
+}
+
+
+
 /** \brief  Handler for the "toggled" event of the "custom refresh" menu item
  *
  * Pops up a dialog to set a custom refresh rate.
@@ -153,11 +171,10 @@ static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
 {
-    int old_val = 0;
-    int new_val;
+    int old_value = 0;
 
-    resources_get_int("RefreshRate", &old_val);
-
+    resources_get_int("RefreshRate", &old_value);
+#if 0
     if (vice_gtk3_integer_input_box(
                 "Set refresh rate",
                 "Enter a new custom refresh rate",
@@ -165,6 +182,28 @@ static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
                 1, 100)) {
         /* OK: */
         resources_set_int("RefreshRate", new_val);
+    }
+#else
+    vice_gtk3_integer_input_box(
+            refresh_custom_callback,
+            "Set refresh rate",
+            "Enter a new custom refresh rate",
+            old_value,
+            1, 100);
+#endif
+}
+
+
+/** \brief  Callback for custom speed
+ *
+ * \param[in]   dialog  integer-dialog reference
+ * \param[in[   result  result from the dialog
+ * \param[in]   valid   \a result is valid
+ */
+static void speed_custom_callback(GtkDialog *dialog, int result, gboolean valid)
+{
+    if (valid) {
+        resources_set_int("Speed", result);
     }
 }
 
@@ -178,20 +217,34 @@ static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_speed_custom_toggled(GtkWidget *widget, gpointer data)
 {
-    int old_val;
-    int new_val;
+    int old_value;
 
-    resources_get_int("Speed", &old_val);
+    resources_get_int("Speed", &old_value);
 
-    if (vice_gtk3_integer_input_box(
-                "Set new emulation speed",
-                "Enter a new custom emulation speed",
-                old_val, &new_val,
-                1, 100000)) {
-        /* OK: */
-        resources_set_int("Speed", new_val);
+    vice_gtk3_integer_input_box(
+            speed_custom_callback,
+            "Set new emulation speed",
+            "Enter a new custom emulation speed",
+            old_value,
+            1, 100000);
+
+}
+
+
+/** \brief  Callback for custom FPS
+ *
+ * \param[in]   dialog  integer-dialog reference
+ * \param[in[   result  result from the dialog
+ * \param[in]   valid   \a result is valid
+ */
+static void fps_custom_callback(GtkDialog *dialog, int result, gboolean valid)
+{
+    if (valid) {
+        /* don't ask =) */
+        resources_set_int("Speed", 0 - result);
     }
 }
+
 
 /** \brief  Handler for the "toggled" event of the "custom fps" menu item
  *
@@ -202,20 +255,17 @@ static void on_speed_custom_toggled(GtkWidget *widget, gpointer data)
  */
 static void on_fps_custom_toggled(GtkWidget *widget, gpointer data)
 {
-    int old_val;
-    int new_val;
+    int old_value;
 
-    resources_get_int("Speed", &old_val);
+    resources_get_int("Speed", &old_value);
 
-    old_val = 0 - old_val;
-    if (vice_gtk3_integer_input_box(
-                "Set new Fps target",
-                "Enter a new custom Fps target",
-                old_val, &new_val,
-                1, 100000)) {
-        /* OK: */
-        resources_set_int("Speed", 0 - new_val);
-    }
+    old_value = 0 - old_value;
+    vice_gtk3_integer_input_box(
+            fps_custom_callback,
+            "Set new Fps target",
+            "Enter a new custom Fps target",
+            old_value,
+            1, 100000);
 }
 
 
