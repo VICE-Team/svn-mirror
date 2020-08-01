@@ -7,7 +7,6 @@ common_DATA = CBM_Logo.svg \
 	      Icon-128@2x.png \
 	      icon.ico \
 	      icon.png \
-	      vice-logo-black.svg \
-	      adV8xyB_460svav1.mp4
+	      vice-logo-black.svg
 
 EXTRA_DIST = $(common_DATA)

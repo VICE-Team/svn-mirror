@@ -7,8 +7,6 @@
     <file alias="vice-logo-black.svg">VICE_SRC_DIR/../../../../data/common/vice-logo-black.svg</file>
     <file alias="CBM_Logo.svg">VICE_SRC_DIR/../../../../data/common/CBM_Logo.svg</file>
     <file alias="Icon-128@2x.png">VICE_SRC_DIR/../../../../data/common/Icon-128@2x.png</file>
-    <file alias="nerd_smoking.jpg">VICE_SRC_DIR/../../../../data/common/nerd_smoking.jpg</file>
-    <file alias="bonk.mp4">VICE_SRC_DIR/../../../../data/common/adV8xyB_460svav1.mp4</file>
   </gresource>
 </gresources>
 
