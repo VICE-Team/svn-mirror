@@ -34,6 +34,7 @@
 #endif
 
 #include "archdep_atexit.h"
+#include "main.h"
 
 static int vice_exit_code;
 
@@ -144,7 +145,11 @@ void archdep_vice_exit(int excode)
     vice_exit_code = excode;
 
 #ifdef USE_NATIVE_GTK3
-    gdk_threads_add_timeout(0, exit_from_main_thread, NULL);
+    if (is_main_thread()) {
+        exit(excode);
+    } else {
+        gdk_threads_add_timeout(0, exit_from_main_thread, NULL);
+    }
 #else
     exit(excode);
 #endif

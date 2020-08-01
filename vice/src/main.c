@@ -88,7 +88,8 @@ void main_loop_forever(void);
 
 #ifdef USE_VICE_THREAD
 void *vice_thread_main(void *);
-static pthread_t vice_thread = 0;
+static pthread_t main_thread;
+static pthread_t vice_thread;
 #endif
 
 #if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
@@ -114,6 +115,8 @@ int main_program(int argc, char **argv)
     int loadconfig = 1;
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
+
+    main_thread = pthread_self();
 
 #if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
     /* Something on the main thread does something with COM that causes complaint in a debugger. */
@@ -330,14 +333,19 @@ void main_loop_forever(void)
 
 #ifdef USE_VICE_THREAD
 
+bool is_main_thread(void)
+{
+    return pthread_equal(pthread_self(), main_thread);
+}
+
 void vice_thread_shutdown(void)
 {
-    log_message(LOG_DEFAULT, "\nVICE thread exiting ...");
-    
     if (!vice_thread) {
         /* We're exiting early in program life, such as when invoked with -help */
         return;
     }
+
+    log_message(LOG_DEFAULT, "\nVICE thread exiting ...");
     
     if (pthread_equal(pthread_self(), vice_thread)) {
         printf("FIXME! VICE thread is trying to shut itself down directly, this needs to be called from the ui thread for a correct shutdown!\n");
