@@ -41,10 +41,7 @@ enum {
 };
 
 
-GtkWidget *vice_gtk3_message_info(GtkWidget *parent,
-                                  const char *title,
-                                  const char *fmt, ...);
-
+GtkWidget *vice_gtk3_message_info(const char *title, const char *fmt, ...);
 gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...);
 gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...);
 gboolean vice_gtk3_integer_input_box(

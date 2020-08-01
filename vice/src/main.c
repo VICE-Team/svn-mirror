@@ -334,10 +334,16 @@ void vice_thread_shutdown(void)
 {
     log_message(LOG_DEFAULT, "\nExiting...");
     
-     if (!vice_thread) {
-         /* We're exiting early in program life, such as when invoked with -help */
-         return;
-     }
+    if (!vice_thread) {
+        /* We're exiting early in program life, such as when invoked with -help */
+        return;
+    }
+    
+    if (pthread_equal(pthread_self(), vice_thread)) {
+        printf("FIXME! VICE thread is trying to shut itself down directly, this needs to be called from the ui thread for a correct shutdown!\n");
+        mainlock_initiate_shutdown();
+        return;
+    }
     
     mainlock_obtain();
     mainlock_initiate_shutdown();

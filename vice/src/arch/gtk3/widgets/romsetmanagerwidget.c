@@ -83,9 +83,7 @@ static GtkWidget *romset_view = NULL;
  */
 static void not_implemented(GtkWidget *widget, gpointer data)
 {
-    vice_gtk3_message_info(GTK_WIDGET(ui_get_active_window()),
-                           "Whoops!",
-                           "Sorry, not implemented yet.");
+    vice_gtk3_message_info("Whoops!", "Sorry, not implemented yet.");
 }
 
 

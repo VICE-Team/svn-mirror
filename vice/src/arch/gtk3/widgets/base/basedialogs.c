@@ -120,8 +120,7 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
  *
  * \return  dialog
  */
-GtkWidget *vice_gtk3_message_info(GtkWidget *parent,
-                                  const char *title,
+GtkWidget *vice_gtk3_message_info(const char *title,
                                   const char *fmt, ...)
 {
     GtkWidget *dialog;

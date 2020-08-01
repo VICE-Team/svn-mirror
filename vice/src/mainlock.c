@@ -109,7 +109,9 @@ void mainlock_yield(void)
 
         /* Oh, but also check if the vice thread has been told to die. */
         if (!vice_thread_keepalive) {
+            
             machine_shutdown();
+            
             vice_thread_is_running = false;
             pthread_cond_signal(&return_condition);
             pthread_mutex_unlock(&lock);

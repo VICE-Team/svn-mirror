@@ -1877,8 +1877,7 @@ void ui_message(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    vice_gtk3_message_info(GTK_WIDGET(ui_get_active_window()),
-                            "VICE Message", buffer);
+    vice_gtk3_message_info("VICE Message", buffer);
     lib_free(buffer);
 }
 
@@ -2004,7 +2003,13 @@ gboolean ui_advance_frame(void)
  */
 void ui_exit(void)
 {
-    int soe;    /* save on exit */
+#if 0 /* We're exiting .. I think remaining UI events can get stuffed. --dqh 2020-08-01 */
+    /* trigger any remaining Gtk/GLib events */
+    while (g_main_context_pending(g_main_context_default())) {
+        debug_gtk3("processing pending event.");
+        g_main_context_iteration(g_main_context_default(), TRUE);
+    }
+#endif
 
     mainlock_obtain();
 
@@ -2016,24 +2021,12 @@ void ui_exit(void)
         ui_smart_attach_shutdown();
     }
 
-    /* Avoid SoundRecordDeviceName being written to vicerc when save-on-exit
-     * is enabled. If recording is/was active vicerc will contain some setting
-     * for this resource and display an error.
-     * This most likely isn't the proper place.
-     */
-    sound_stop_recording();
-
     ui_settings_shutdown();
 
     /* Destroy the main window(s) */
     ui_destroy_main_window(PRIMARY_WINDOW);
     ui_destroy_main_window(SECONDARY_WINDOW);
-
-    resources_get_int("SaveResourcesOnExit", &soe);
-    if (soe) {
-        resources_save(NULL);
-    }
-
+    
     /* unregister the CBM font */
     archdep_unregister_cbmfont();
 
@@ -2043,12 +2036,6 @@ void ui_exit(void)
     /* deallocate monitor font string */
     if (ui_resources.monitor_font != NULL) {
         lib_free(ui_resources.monitor_font);
-    }
-
-    /* trigger any remaining Gtk/GLib events */
-    while (g_main_context_pending(g_main_context_default())) {
-        debug_gtk3("processing pending event.");
-        g_main_context_iteration(g_main_context_default(), TRUE);
     }
 
     /* Don't hold the vice lock while doing the vice shutdown stuff. Deadlock */

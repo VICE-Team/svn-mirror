@@ -743,12 +743,7 @@ void ui_sdl_quit(void)
             return;
         }
     }
-
-    if (save_resources_on_exit) {
-        if (resources_save(NULL) < 0) {
-            ui_error("Cannot save current settings.");
-        }
-    }
+    
     archdep_vice_exit(0);
 }
 

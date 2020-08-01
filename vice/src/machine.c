@@ -282,9 +282,28 @@ static void screenshot_at_exit(void)
 
 void machine_shutdown(void)
 {
+    int save_on_exit;
+
     if (!machine_init_was_called) {
         /* happens at the -help command line command*/
         return;
+    }
+    
+    /*
+     * Avoid SoundRecordDeviceName being written to vicerc when save-on-exit
+     * is enabled. If recording is/was active vicerc will contain some setting
+     * for this resource and display an error.
+     */
+    sound_stop_recording();
+
+    resources_get_int("SaveResourcesOnExit", &save_on_exit);
+    if (save_on_exit) {
+        /*
+         * FIXME: I tried moving this to resources_shutdown, but if you try to save
+         * resources after machine_specific_shutdown() is called then it crashes.
+         * That's a bit of a code smell to me. --dqh 2020-08-01
+         */
+        resources_save(NULL);
     }
 
     screenshot_at_exit();
