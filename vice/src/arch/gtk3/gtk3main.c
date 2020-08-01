@@ -106,11 +106,6 @@ int main(int argc, char **argv)
  */
 void main_exit(void)
 {
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    signal (SIGINT, SIG_IGN);
-
     ui_exit();
 
     vice_thread_shutdown();
