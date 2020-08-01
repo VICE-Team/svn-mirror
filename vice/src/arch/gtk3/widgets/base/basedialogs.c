@@ -36,7 +36,9 @@
 #include "basedialogs.h"
 
 
-void (*confirm_cb)(GtkDialog *, gboolean);
+/** \brief  Callback function for the confirm dialog
+ */
+static void (*confirm_cb)(GtkDialog *, gboolean);
 
 
 /** \brief  Handler for the 'response' event of the Info dialog
@@ -162,15 +164,14 @@ GtkWidget *vice_gtk3_message_info(const char *title,
 
 /** \brief  Create 'confirm' dialog
  *
- * \param[in]   parent      parent widget
+ * \param[in]   callback    callback function to accept the dialog's result
  * \param[out]  result      location to store result
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
  * \return  dialog
  */
-GtkWidget *vice_gtk3_message_confirm(GtkWidget *parent,
-                                     void (*callback)(GtkDialog *, gboolean),
+GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
                                      const char *title,
                                      const char *fmt, ...)
 {
@@ -187,6 +188,7 @@ GtkWidget *vice_gtk3_message_confirm(GtkWidget *parent,
     dialog = create_dialog(GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
             title, buffer);
 
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response_confirm),

@@ -41,9 +41,10 @@ enum {
 };
 
 
-GtkWidget *vice_gtk3_message_info(const char *title, const char *fmt, ...);
-GtkWidget *vice_gtk3_message_confirm(GtkWidget *parent,
-                                     void (*callback)(GtkDialog *, gboolean),
+GtkWidget *vice_gtk3_message_info(const char *title,
+                                  const char *fmt, ...);
+
+GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
                                      const char *title,
                                      const char *fmt, ...);
 

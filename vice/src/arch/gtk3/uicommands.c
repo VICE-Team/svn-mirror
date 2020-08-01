@@ -216,7 +216,6 @@ static gboolean confirm_exit(void)
     }
 
     vice_gtk3_message_confirm(
-            GTK_WIDGET(ui_get_active_window()),
             confirm_exit_callback,
             "Exit VICE",
             "Do you really wish to exit VICE?`");
@@ -470,13 +469,12 @@ static void restore_default_callback(GtkDialog *dialog, gboolean b)
 gboolean ui_restore_default_settings(GtkWidget *widget, gpointer data)
 {
     vice_gtk3_message_confirm(
-            GTK_WIDGET(ui_get_active_window()),
-                restore_default_callback,
-                "Reset all settings to default",
-                "Are you sure you wish to reset all settings to their default"
-                " values?\n\n"
-                "The new settings will not be saved until using the 'Save"
-                " settings' menu item, or having 'Save on exit' enabled and"
-                " exiting VICE.");
+            restore_default_callback,
+            "Reset all settings to default",
+            "Are you sure you wish to reset all settings to their default"
+            " values?\n\n"
+            "The new settings will not be saved until using the 'Save"
+            " settings' menu item, or having 'Save on exit' enabled and"
+            " exiting VICE.");
     return TRUE;
 }

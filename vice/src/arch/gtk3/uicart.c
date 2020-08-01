@@ -1151,9 +1151,7 @@ gboolean ui_cart_detach(void)
                 resources_get_int("CartridgeType", &cartid);
                 if (cartid != CARTRIDGE_NONE) {
                     /* default is set, ask to remove it */
-                    GtkWidget *foo;
-                    foo = vice_gtk3_message_confirm(
-                            GTK_WIDGET(ui_get_active_window()),
+                    vice_gtk3_message_confirm(
                             uicart_confirm_callback,
                             "Detach cartridge",
                             "You're detaching the default cartridge.\n\n"
