@@ -72,6 +72,19 @@ static void on_response_confirm(GtkDialog *dialog, gint response_id, gpointer da
 }
 
 
+/** \brief  Handler for the 'response' event of the Error dialog
+ *
+ * \param[in,out]   dialog          error dialog
+ * \param[in]       response_id     response ID (ignored)
+ * \param[in]       data            extra event data (ignored)
+ */
+static void on_response_error(GtkWidget *dialog, gint response_id, gpointer data)
+{
+    debug_gtk3("Called with response_id %d", response_id);
+    gtk_widget_destroy(dialog);
+}
+
+
 
 /** \brief  Handler for the 'destroy' event of a dialog
  *
@@ -203,9 +216,10 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
- * \return  `TRUE`
+ * \return  dialog
  */
-gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
+GtkWidget *vice_gtk3_message_error(const char *title,
+                                 const char *fmt, ...)
 {
     GtkWidget *dialog;
     va_list args;
@@ -216,10 +230,13 @@ gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
     va_end(args);
 
     dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-    lib_free(buffer);
-    gtk_widget_destroy(dialog);
-    return TRUE;
+
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response_error), NULL);
+    gtk_widget_show(dialog);
+    return dialog;
 }
 
 
