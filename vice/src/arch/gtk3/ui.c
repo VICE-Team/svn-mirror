@@ -1749,7 +1749,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     /* block until the result is set */
     while (jam_dialog_result == UI_JAM_INVALID) {
         vsyncarch_sleep(vsyncarch_frequency() / 60);
-        mainlock_yield();
     }
 
     lib_free(buffer);
@@ -1824,16 +1823,10 @@ int ui_extend_image_dialog(void)
 }
 
 
- /** \brief  Allow UI to handle a lock-blocked event */
+ /** \brief  Not used */
  void ui_dispatch_events(void)
 {
-    /*
-     * Original contract was that this would dispatch all pending events,
-     * which this will not do. However in the GTK3 build this function is
-     * only used for network monitor code, which I think will be ok.
-     */
-     mainlock_yield();
- }
+}
 
 static gboolean ui_error_impl(gpointer user_data)
 {
@@ -1897,7 +1890,6 @@ static void pause_trap(uint16_t addr, void *data)
     while (is_paused)
     {
         vsyncarch_sleep(vsyncarch_frequency() / 60);
-        mainlock_yield();
 
         /* Enter monitor directly if needed. */
         if (enter_monitor_while_paused) {

@@ -45,9 +45,6 @@
 #include "mainlock.h"
 #include "vsyncapi.h"
 
-unsigned long mainlock_last_yield_time_ms = 0;
-unsigned long mainlock_this_yield_time = 0;
-
 static volatile int vice_thread_keepalive = 1;
 
 static int ui_thread_waiting = 0;
@@ -59,7 +56,6 @@ static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t yield_condition = PTHREAD_COND_INITIALIZER;
 
 /* Used to release control to VICE */
-//static pthread_mutex_t return_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t return_condition = PTHREAD_COND_INITIALIZER;
 
 static pthread_t vice_thread;
@@ -67,7 +63,6 @@ static bool vice_thread_is_running = false;
 
 static unsigned long tick_per_ms;
 static unsigned long start_time;
-
 
 void mainlock_init(void)
 {
@@ -93,9 +88,27 @@ void mainlock_initiate_shutdown(void)
 }
 
 
+static void consider_exit(void)
+{
+    /* Check if the vice thread has been told to die. */
+    if (!vice_thread_keepalive) {
+        
+        machine_shutdown();
+        
+        vice_thread_is_running = false;
+        pthread_cond_signal(&return_condition);
+        pthread_mutex_unlock(&lock);
+        
+        /* Execution ends here - this function does not return. */
+        pthread_exit(NULL);
+        assert(0);
+    }
+}
+
+
 /** \brief Provide the UI thread a safe opportunity to call into VICE.
  */
-void mainlock_yield(void)
+void mainlock_yield_once(void)
 {
 #ifdef VICE_MAINLOCK_DEBUG
     unsigned long yield_tick = vsyncarch_gettime();
@@ -106,23 +119,7 @@ void mainlock_yield(void)
 
     /* If the UI thread is not waiting for VICE, we're done here. */
     if (!ui_thread_waiting) {
-
-        /* Oh, but also check if the vice thread has been told to die. */
-        if (!vice_thread_keepalive) {
-            
-            machine_shutdown();
-            
-            vice_thread_is_running = false;
-            pthread_cond_signal(&return_condition);
-            pthread_mutex_unlock(&lock);
-
-            /* Execution ends here - this function does not return. */
-            pthread_exit(NULL);
-            assert(0);
-        }
-
         pthread_mutex_unlock(&lock);
-
         return;
     }
 
@@ -135,6 +132,10 @@ void mainlock_yield(void)
 
     /* Atomically release the lock and wait for the release signal from the main thread. */
     pthread_cond_wait(&return_condition, &lock);
+    
+    /* After the UI has had the lock, check if we should exit. */
+    consider_exit();
+    
     pthread_mutex_unlock(&lock);
 
 #ifdef VICE_MAINLOCK_DEBUG
@@ -145,6 +146,44 @@ void mainlock_yield(void)
 #endif
 }
 
+/** \brief Enter a period during which the mainlock can freely be obtained.
+ */
+void mainlock_yield_begin(void)
+{
+    pthread_mutex_lock(&lock);
+
+    ui_thread_lock_count++;
+    
+    if (ui_thread_waiting) {
+        /*
+         * The ui thread is waiting to do some work, wake it up
+         */
+        pthread_cond_signal(&yield_condition);
+    }
+
+    pthread_mutex_unlock(&lock);
+}
+
+
+/** \brief The vice thread takes back ownership of the mainlock.
+ */
+void mainlock_yield_end(void)
+{
+    pthread_mutex_lock(&lock);
+
+    ui_thread_lock_count--;
+
+    if (ui_thread_lock_count) {
+        pthread_cond_wait(&return_condition, &lock);
+    }
+    
+    /* After the UI *might* have had the lock, check if we should exit. */
+    consider_exit();
+    
+    pthread_mutex_unlock(&lock);
+}
+
+/****/
 
 void mainlock_obtain(void)
 {
@@ -191,7 +230,7 @@ void mainlock_obtain(void)
 
     /* OK, the UI thread has control of VICE until it signals the return condition via mainlock_release() */
     ui_thread_waiting = 0;
-    ui_thread_lock_count = 1;
+    ui_thread_lock_count++;
 
     pthread_mutex_unlock(&lock);
 }

@@ -216,7 +216,8 @@ static void (*vsync_hook)(void);
 /* static guarantees zero values. */
 static long vsyncarch_freq = 0;
 static unsigned long now;
-static double frame_ticks, frame_ticks_orig;
+static double frame_ticks;
+static double frame_ticks_orig;
 
 static int timer_speed = 0;
 static int speed_eval_suspended = 1;
@@ -465,6 +466,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
      */
     if (!warp_mode_enabled && timer_speed && delay > 0) {
         vsyncarch_sleep(delay);
+    } else {
+        /* Still need to yield when warping or maxing host cpu. */
+        mainlock_yield_once();
     }
     
     next_frame_start += frame_ticks;

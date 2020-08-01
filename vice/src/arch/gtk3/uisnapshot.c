@@ -243,7 +243,6 @@ static void load_snapshot_trap(uint16_t addr, void *data)
     /* block until the operation is done */
     while (!ui_done) {
         vsyncarch_sleep(vsyncarch_frequency() / 60);
-        mainlock_yield();
     }
 }
 
@@ -279,7 +278,6 @@ static void save_snapshot_trap(uint16_t addr, void *data)
     /* block until the operation is done */
     while (!ui_done) {
         vsyncarch_sleep(vsyncarch_frequency() / 60);
-        mainlock_yield();
     }
 }
 

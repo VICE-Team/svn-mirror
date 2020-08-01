@@ -140,8 +140,7 @@ unsigned long vsyncarch_gettime(void)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(unsigned long delay)
 {
-    static const int max_oversleep_compensate_ms = 1;
-    static unsigned long oversleep_compensate = 0;
+    static double smoothed_running_oversleep = 0.0;
 
     unsigned long before = vsyncarch_gettime();
     unsigned long after;
@@ -149,13 +148,18 @@ void vsyncarch_sleep(unsigned long delay)
 
     long oversleep;
 
+#ifdef USE_VICE_THREAD
+    /* Don't hold the mainlock while sleeping */
+    mainlock_yield_begin();
+#endif
+
     /*
      * Try to avoid oversleeping by compensating for our worse oversleep and
      * busy looping for the rest of the period
      */
 
-    if (delay > oversleep_compensate) {
-        delay -= oversleep_compensate;
+    if (delay > smoothed_running_oversleep) {
+        delay -= smoothed_running_oversleep;
     } else {
         /* still yield if some other process is waiting */
         delay = 0;
@@ -191,17 +195,22 @@ void vsyncarch_sleep(unsigned long delay)
     after = vsyncarch_gettime();
 
     oversleep = after - before - delay;
+    
+    smoothed_running_oversleep = (0.9 * smoothed_running_oversleep) + (0.1 * oversleep);
 
-    if (oversleep > oversleep_compensate) {
-        oversleep_compensate = MIN(oversleep, vsyncarch_frequency() / (1000 / max_oversleep_compensate_ms));
 #if 0
         printf(
-            "overslept %.1f ms, set worst oversleep now %.1f ms\n",
+            "overslept %.1f ms, set oversleep compensation to %.1f ms\n",
             (double)oversleep * 1000 / vsyncarch_frequency(),
-            (double)oversleep_compensate * 1000 / vsyncarch_frequency());
+            //(double)oversleep_compensate * 1000 / vsyncarch_frequency());
+            smoothed_running_oversleep * 1000 / vsyncarch_frequency());
         fflush(stdout);
 #endif
-    }
+
+#ifdef USE_VICE_THREAD
+    /* Get the mainlock back before the busy loop */
+    mainlock_yield_end();
+#endif
 
     /* busy loop until we've reached the target time */
     while (vsyncarch_gettime() < target)
@@ -217,9 +226,6 @@ void vsyncarch_presync(void)
 
 void vsyncarch_postsync(void)
 {
-    /* Give the UI a chance to do something once per frame */
-    mainlock_yield();
-
     /* this function is called once a frame, so this
        handles single frame advance */
     if (pause_pending) {
