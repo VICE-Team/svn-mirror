@@ -213,7 +213,7 @@ void mainlock_obtain(void)
 
     /* If there is no vice thread running, we're done */
     if (!vice_thread_is_running) {
-        ui_thread_lock_count = 1;
+        ui_thread_lock_count++;
         pthread_mutex_unlock(&lock);
         return;
     }
@@ -248,7 +248,6 @@ void mainlock_assert_lock_obtained(void)
 
     /* If there is no vice thread running yet, we're ok */
     if (!vice_thread_is_running) {
-        ui_thread_lock_count = 1;
         pthread_mutex_unlock(&lock);
         return;
     }
