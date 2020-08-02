@@ -491,46 +491,80 @@ static void render(void *job_data, void *pool_data)
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, backbuffer_width);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, backbuffer_width, backbuffer_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, backbuffer->pixel_data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
-    
-    /* Render the texture onto the quad */
-    GLuint scale_uniform, valid_tex_uniform, tex_size_uniform;
-    GLuint sampler_uniform;
-    
-    glUseProgram(context->program);
-    
-    glBindVertexArray(context->vao);
-    glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(context->position_index, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glVertexAttribPointer(context->tex_coord_index, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
-    
-    /** \todo cache the uniform locations along with the vertex attributes */
-    scale_uniform = glGetUniformLocation(context->program, "scale");
-    valid_tex_uniform = glGetUniformLocation(context->program, "validTex");
-    tex_size_uniform = glGetUniformLocation(context->program, "texSize");
-    sampler_uniform = glGetUniformLocation(context->program, "sampler");
 
-    glUniform4f(scale_uniform, scale_x, scale_y, 1.0f, 1.0f);
-    glUniform2f(valid_tex_uniform, context->native_view_width, context->native_view_height);
-    glUniform2f(tex_size_uniform, context->native_view_width, context->native_view_height);
-    glUniform1i(sampler_uniform, 0);
-    
-    glBindTexture(GL_TEXTURE_2D, context->texture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    glDisableVertexAttribArray(context->position_index);
-    glDisableVertexAttribArray(context->tex_coord_index);
-    glUseProgram(0);
+    if (context->gl_context_is_legacy) {
+        /* Legacy renderer */
+        float u1;
+        float v1;
+        float u2;
+        float v2;
+        
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, context->texture);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        
+        /* TODO: Figure out if half-pixel correction in unused_opengl_renderer.c still needed */
+        u1 = 0.0f;
+        u2 = 1.0f;
+        v1 = 0.0f;
+        v2 = 1.0f;
+
+        glBegin(GL_TRIANGLE_STRIP);
+        glTexCoord2f(u1, v2);
+        glVertex2f(-scale_x, -scale_y);
+        glTexCoord2f(u2, v2);
+        glVertex2f(scale_x, -scale_y);
+        glTexCoord2f(u1, v1);
+        glVertex2f(-scale_x, scale_y);
+        glTexCoord2f(u2, v1);
+        glVertex2f(scale_x, scale_y);
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_TEXTURE_2D);
+    } else {
+        /* Modern renderer */
+        GLuint scale_uniform, valid_tex_uniform, tex_size_uniform;
+        GLuint sampler_uniform;
+        
+        glUseProgram(context->program);
+        
+        glBindVertexArray(context->vao);
+        glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(context->position_index, 4, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(context->tex_coord_index, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
+        
+        /** \todo cache the uniform locations along with the vertex attributes */
+        scale_uniform = glGetUniformLocation(context->program, "scale");
+        valid_tex_uniform = glGetUniformLocation(context->program, "validTex");
+        tex_size_uniform = glGetUniformLocation(context->program, "texSize");
+        sampler_uniform = glGetUniformLocation(context->program, "sampler");
+
+        glUniform4f(scale_uniform, scale_x, scale_y, 1.0f, 1.0f);
+        glUniform2f(valid_tex_uniform, context->native_view_width, context->native_view_height);
+        glUniform2f(tex_size_uniform, context->native_view_width, context->native_view_height);
+        glUniform1i(sampler_uniform, 0);
+        
+        glBindTexture(GL_TEXTURE_2D, context->texture);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        
+        glDisableVertexAttribArray(context->position_index);
+        glDisableVertexAttribArray(context->tex_coord_index);
+        glUseProgram(0);
+    }
 
     /*
      * Sync to monitor refresh when the emulated screen has changed,

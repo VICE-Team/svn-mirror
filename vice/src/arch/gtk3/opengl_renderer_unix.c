@@ -198,12 +198,8 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         XSync(context->x_display, False);
         XSetErrorHandler(oldHandler);
 
-        if (context->gl_context) {
-            printf( "Created OpenGL 3.2 context\n" );
-        }
-        else
-        {
-            printf( "Failed to obtain an OpenGL 3.0 context, requesting a legacy context\n" );
+        if (!context->gl_context) {
+            printf( "Failed to obtain an OpenGL 3.2 context, requesting a legacy context\n" );
 
             /*
              * Couldn't create GL 3.2 context.  Fall back to old-style 2.x context.
@@ -224,6 +220,17 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     /* make sure OpenGL extension pointers are loaded for the general renderer code */
     vice_opengl_renderer_make_current(context);
+
+    int major = -1;
+    int minor = -1;
+    glGetIntegerv(GL_MAJOR_VERSION, &major);
+    glGetIntegerv(GL_MINOR_VERSION, &minor);
+    
+    /* Anything less than OpenGL 3.2 will use the legacy renderer */
+    context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);
+
+    printf("Obtained OpenGL %d.%d context (%s). Legacy: %s\n", major, minor, glGetString(GL_VENDOR), context->gl_context_is_legacy ? "yes" : "no");
+
     glewInit();
 
     /* Not sure if an indirect context will work but lets leave some useful output for bug reports */

@@ -77,6 +77,9 @@ typedef struct vice_opengl_renderer_context_s {
     /** \brief OpenGL graphics context */
     GLXContext gl_context;
 #endif
+    /** \brief Less than OpenGL 3.2 uses the legacy renderer */
+    bool gl_context_is_legacy;
+
     /** \brief size of the backing layer in pixels. Can be higher than native_view_width (high dpi) */
     unsigned int gl_backing_layer_width;
     
