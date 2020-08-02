@@ -70,6 +70,11 @@ void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)
     glXMakeCurrent(context->x_display, 0, NULL);
 }
 
+static int catch_x_error(Display *display, XErrorEvent *event)
+{
+    return 0;
+}
+
 /**/
 
 void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_renderer_context_t *context)
@@ -177,17 +182,21 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     }
     else
     {
+        XErrorHandler oldHandler;
         int context_attribs[] =
             {
                 GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
                 GLX_CONTEXT_MINOR_VERSION_ARB, 2,
                 None
             };
+
+        oldHandler = XSetErrorHandler(catch_x_error);
         
         context->gl_context = vice_glXCreateContextAttribsARB(context->x_display, framebuffer_config, NULL, True, context_attribs);
 
         /* Sync to ensure any errors generated are processed. */
         XSync(context->x_display, False);
+        XSetErrorHandler(oldHandler);
 
         if (context->gl_context) {
             printf( "Created OpenGL 3.2 context\n" );
