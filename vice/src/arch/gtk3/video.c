@@ -58,6 +58,9 @@ static int keepaspect = 0;
 /** \brief  Use true aspect ratio */
 static int trueaspect = 0;
 
+/** \brief  Prevent screen tearing */
+static int vsync = 0;
+
 /** \brief  Display depth in bits (8, 15, 16, 24, 32) */
 static int display_depth = 24;
 
@@ -106,6 +109,23 @@ static int set_trueaspect(int val, void *param)
     return 0;
 }
 
+
+/** \brief  Set VSync resource (bool)
+ *
+ * The display will be updated to reflect any changes this makes.
+ *
+ * \param[in]   val     new value
+ * \param[in]   param   extra parameter (unused)
+ *
+ * \return 0
+ */
+static int set_vsync(int val, void *param)
+{
+    vsync = val ? 1 : 0;
+    return 0;
+}
+
+
 /** \brief Set the display color depth.
  *  \param     val   new color depth
  *  \param[in] param extra parameter (unused).
@@ -132,6 +152,7 @@ static int set_display_filter(int val, void *param)
     display_filter = val ? 1 : 0;
     return 0;
 }
+
 
 /** \brief Set the backend for rendering
  *  \param     val   new backend (0: software, 1: opengl)
@@ -173,6 +194,12 @@ static const cmdline_option_t cmdline_options[] =
     { "+keepaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepAspectRatio", (resource_value_t)0,
       NULL, "Do not keep aspect ratio when scaling (freescale)" },
+    { "-vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "VSync", (resource_value_t)1,
+      NULL, "Enable vsync to prevent screen tearing" },
+    { "+vsync", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "VSync", (resource_value_t)0,
+      NULL, "Disable vsync to allow screen tearing" },
     { "-gtkfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GTKFilter", NULL,
       "<mode>", "Set filtering mode (0 = nearest, 1 = bilinear)" },
@@ -213,6 +240,8 @@ static const resource_int_t resources_int[] = {
       &keepaspect, set_keepaspect, NULL },
     { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
       &trueaspect, set_trueaspect, NULL },
+    { "VSync", 1, RES_EVENT_NO, NULL,
+      &vsync, set_vsync, NULL },
     { "DisplayDepth", 0, RES_EVENT_NO, NULL,
       &display_depth, set_display_depth, NULL },
     { "GTKFilter", 1, RES_EVENT_NO, NULL,

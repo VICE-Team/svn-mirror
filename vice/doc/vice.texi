@@ -13389,6 +13389,11 @@ Boolean specifying whether the aspect ratio of the output window should be prese
 @item TrueAspectRatio
 Boolean specifying whether to use the true (non square pixels) aspect ratio.
 
+@vindex VSync
+@item VSync
+Boolean specifying whether to enable vsync to prevent screen tearing.
+(0: vsync off, 1: vsync on)
+
 @vindex StartMinimized
 @item StartMinimized
 Boolean specifying whether the emulator should start minimized
@@ -13658,6 +13663,14 @@ Disable keeping of the aspect ratio when scaling (freescaling)
 @itemx +trueaspect
 Enable/disable whether to use the true (non square pixels) aspect ratio
 (@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
+
+@findex -vsync, +vsync
+@item -vsync
+Enable vsync to prevent screen tearing
+(@code{VSync=1}).
+@item +vsync
+Disable vsync to allow screen tearing
+(@code{VSync=0}).
 
 @findex -confirmonexit, +confirmonexit
 @item -confirmonexit

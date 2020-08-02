@@ -37,6 +37,7 @@
  * $VICERES VICIIHwScale        x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES KeepAspectRatio     -vsid
  * $VICERES TrueAspectRatio     -vsid
+ * $VICERES VSync               -vsid
  * $VICERES C128HideVDC         x128
  *
  *  (see included widgets for more resources)

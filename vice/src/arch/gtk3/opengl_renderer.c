@@ -573,7 +573,9 @@ static void render(void *job_data, void *pool_data)
      */
 
     if (backbuffer) {
-        vice_opengl_renderer_set_vsync(context, true);
+        int vsync = 1;
+        resources_get_int("VSync", &vsync);
+        vice_opengl_renderer_set_vsync(context, vsync ? true : false);
     } else {
         vice_opengl_renderer_set_vsync(context, false);
     }
