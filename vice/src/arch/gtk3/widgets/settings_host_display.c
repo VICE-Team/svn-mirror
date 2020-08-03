@@ -89,7 +89,7 @@ static GtkWidget *create_sync_widget(void)
      * OpenGL */
     vsync_info = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(vsync_info),
-                         "<i>(Only supported with OpenGL</i>");
+                         "<i>(Only supported with OpenGL)</i>");
     g_object_set(vsync_info, "margin-left", 32, NULL);
     gtk_grid_attach(GTK_GRID(grid), vsync_info, 0, 3, 1, 1);
 
