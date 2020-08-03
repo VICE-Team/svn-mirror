@@ -62,6 +62,8 @@ static GtkWidget *create_sync_widget(void)
     GtkWidget *ruckeln;
     GtkWidget *vsync;
     GtkWidget *header;
+    GtkWidget *vsync_info;
+    int backend = 0;
 #if 0
     GtkWidget *restart;
 #endif
@@ -76,12 +78,23 @@ static GtkWidget *create_sync_widget(void)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ruckeln), TRUE);
     gtk_widget_set_sensitive(ruckeln, FALSE);
     gtk_grid_attach(GTK_GRID(grid), ruckeln, 0, 1, 1, 1);
-    g_object_set(ruckeln, "margin-left", 16, NULL);
+    g_object_set(ruckeln, "margin-left", 16, "margin-top", 8, NULL);
 
-    vsync = vice_gtk3_resource_check_button_new("VSync", "OpenGL VSync");
+    vsync = vice_gtk3_resource_check_button_new("VSync", "VSync");
     gtk_widget_set_sensitive(vsync, TRUE);
     gtk_grid_attach(GTK_GRID(grid), vsync, 0, 2, 1, 1);
-    g_object_set(vsync, "margin-left", 16, NULL);
+    g_object_set(vsync, "margin-left", 16, NULL, "margin-top", 8, NULL);
+    /* add label to inform the user VSync is currently only supported with
+     * OpenGL */
+    vsync_info = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(vsync_info),
+                         "<i>(Only supported with OpenGL</i>");
+    g_object_set(vsync_info, "margin-left", 32, NULL);
+    gtk_grid_attach(GTK_GRID(grid), vsync_info, 0, 3, 1, 1);
+
+    /* Are we using Cairo? */
+    resources_get_int("GTKBackend", &backend);
+    gtk_widget_set_sensitive(vsync, backend);
 
 
 #if 0
