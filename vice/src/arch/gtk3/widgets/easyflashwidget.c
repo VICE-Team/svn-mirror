@@ -58,6 +58,7 @@ static void on_save_callback(GtkDialog *dialog, char *filename)
         }
         g_free(filename);
     }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
 
