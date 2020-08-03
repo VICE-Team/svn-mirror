@@ -112,7 +112,7 @@ static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
 
 #ifdef USE_VICE_THREAD
 #include <pthread.h>
-static pthread_mutex_t lib_debug_lock;
+static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
 #undef LIB_DEBUG_LOCK
 #undef LIB_DEBUG_UNLOCK
 #define LIB_DEBUG_LOCK() pthread_mutex_lock(&lib_debug_lock)
