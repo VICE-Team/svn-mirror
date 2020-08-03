@@ -85,12 +85,17 @@ static GtkWidget *create_sync_widget(void)
     gtk_widget_set_sensitive(vsync, TRUE);
     gtk_grid_attach(GTK_GRID(grid), vsync, 0, 2, 1, 1);
     g_object_set(vsync, "margin-left", 16, NULL, "margin-top", 8, NULL);
-    /* add label to inform the user VSync is currently only supported with
-     * OpenGL */
+    /* add label to inform the user about current vsync state */
     vsync_info = gtk_label_new(NULL);
+#ifdef ARCHDEP_OS_WINDOWS
+    gtk_label_set_markup(GTK_LABEL(vsync_info),
+                         "<i>(Always enabled with DirectX</i>");
+#else
     gtk_label_set_markup(GTK_LABEL(vsync_info),
                          "<i>(Only supported with OpenGL)</i>");
+#endif
     g_object_set(vsync_info, "margin-left", 32, NULL);
+
     gtk_grid_attach(GTK_GRID(grid), vsync_info, 0, 3, 1, 1);
 
     /* Are we using Cairo? */
