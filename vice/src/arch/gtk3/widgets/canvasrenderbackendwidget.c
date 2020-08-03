@@ -75,6 +75,7 @@ GtkWidget *canvas_render_backend_widget_create(void)
     GtkWidget *grid;
     GtkWidget *header;
     GtkWidget *restart;
+    GtkWidget *radio;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -87,6 +88,10 @@ GtkWidget *canvas_render_backend_widget_create(void)
             backends,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(resource_widget, "margin-left", 16, NULL);
+
+    /* temporarily disable 'Cairo' */
+    radio = gtk_grid_get_child_at(GTK_GRID(resource_widget), 0, 0);
+    gtk_widget_set_sensitive(radio, FALSE);
 
     restart = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(restart), "<i>(requires restart)</i>");
