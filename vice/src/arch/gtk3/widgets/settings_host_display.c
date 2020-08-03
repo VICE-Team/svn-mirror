@@ -44,6 +44,7 @@
 #include "vice_gtk3.h"
 #include "resources.h"
 #include "machine.h"
+#include "videoarch.h"
 
 #include "canvasrenderbackendwidget.h"
 #include "canvasrenderfilterwidget.h"
@@ -94,7 +95,7 @@ static GtkWidget *create_sync_widget(void)
 
     /* Are we using Cairo? */
     resources_get_int("GTKBackend", &backend);
-    gtk_widget_set_sensitive(vsync, backend);
+    gtk_widget_set_sensitive(vsync, backend != VICE_RENDER_BACKEND_CAIRO);
 
 
 #if 0

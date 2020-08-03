@@ -39,20 +39,24 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "archdep_defs.h"
+#include "videoarch.h"
 
 #include "canvasrenderbackendwidget.h"
 
 
-/** \brief  List of Cairo/OpenGL render filters
+/** \brief  List of Cairo/OpenGL render backends
+ *
+ * FIXME:   Perhaps we could use an enum 
  */
 static const vice_gtk3_radiogroup_entry_t backends[] = {
-    { "Cairo",  0 },
-#ifdef WIN32_COMPILE
-    { "DirectX", 1 },
+    { "Cairo",      VICE_RENDER_BACKEND_CAIRO },
+#ifdef ARCHDEP_OS_WINDOWS
+    { "DirectX",    VICE_RENDER_BACKEND_DIRECTX },
 #else
-    { "OpenGL", 1 },
+    { "OpenGL",     VICE_RENDER_BACKEND_OPENGL },
 #endif
-    { NULL,     -1 }
+    { NULL,         -1 }
 };
 
 

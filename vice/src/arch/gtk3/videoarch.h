@@ -39,6 +39,22 @@
 #include <gtk/gtk.h>
 #include <pthread.h>
 
+
+/** \brief  Enum for rendering backends for the Gtk3 port
+ *
+ * Currently OpenGL and DirectX map to the same integer value since that's how
+ * our current 'GtkBackend' resource works: 0 = Cario (SW), 1 = HW (OS-dependent).
+ * The Metal and Vulkan enums are added for future renderers, should we add them.
+ */
+enum {
+    VICE_RENDER_BACKEND_CAIRO = 0,      /**< Cairo (software) rendering */
+    VICE_RENDER_BACKEND_OPENGL = 1,     /**< OpenGL rendering (unix, mac) */
+    VICE_RENDER_BACKEND_DIRECTX = 1,    /**< DirectX rendering (windows) */
+    VICE_RENDER_BACKEND_METAL = 2,      /**< Metal rendering (unsupported) */
+    VICE_RENDER_BACKEND_VULKAN = 3      /**< Vulkan rendering (unsupported) */
+};
+
+
 struct vice_renderer_backend_s;
 
 /**
@@ -47,7 +63,7 @@ struct vice_renderer_backend_s;
 typedef struct video_canvas_s {
     /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
-    
+
     /** \brief Used to coordinate vice thread access */
     pthread_mutex_t lock;
 
