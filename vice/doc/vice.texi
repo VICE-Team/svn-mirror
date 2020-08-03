@@ -748,8 +748,7 @@ The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
 SuperPET (MicroMainFrame 9000) models, covering the whole series.
 The hardware is pretty much the same in each and that is why one single
 program is enough to emulate all of them.  For more detailed information
-about PET hardware please refer to the @file{PETdoc} file.
-@c FIXME: add link to PETdoc.txt
+about PET hardware please refer to the @uref{https://sourceforge.net/p/vice-emu/code/HEAD/tree/techdocs/PET/PETdoc.txt?format=raw, PETDoc} file.
 
 Both the 40 column and 80 column CRTC video chips are emulated (from the
 4032 onward), but a few of the features are not implemented yet (numbers
@@ -766,8 +765,7 @@ command line options @samp{-petram9} and @samp{-petramA}
 instead.  Also, the video controller can handle a larger address range.
 The PET 8x96 model emulations run the Commodore LOS-96 operating system
 - basically an improved BASIC 4 version with up to 32k for BASIC
-text and 32k for variables.  See @file{PETdoc} for more information.
-@c FIXME: add link to PETdoc.txt
+text and 32k for variables.  See @uref{https://sourceforge.net/p/vice-emu/code/HEAD/tree/techdocs/PET/PETdoc.txt?format=raw, PETDoc} for more information.
 
 The PET 8296D is an 8296 with built-in 8250 low-profile dual disk drive.
 
