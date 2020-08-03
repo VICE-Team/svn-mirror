@@ -101,7 +101,7 @@ static int set_native_monitor(int val, void *param);
 static int set_monitor_font(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
-
+static int set_pause_on_settings(int val, void *param);
 
 
 /*****************************************************************************
@@ -129,6 +129,7 @@ typedef struct ui_resources_s {
 
     int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
     int confirm_on_exit;        /**< ConfirmOnExit (bool) */
+    int pause_on_settings;      /**< PauseOnSettings (bool) */
 
     int start_minimized;        /**< StartMinimized (bool) */
 
@@ -242,6 +243,9 @@ static const resource_int_t resources_int_shared[] = {
     { "FullscreenEnable", 0, RES_EVENT_NO, NULL,
         &fullscreen_enabled, set_fullscreen_state, NULL },
 
+    { "PauseOnSettings", 0, RES_EVENT_NO, NULL,
+        &ui_resources.pause_on_settings, set_pause_on_settings, NULL },
+
 
     RESOURCE_INT_LIST_END
 };
@@ -301,6 +305,12 @@ static const cmdline_option_t cmdline_options_common[] =
     { "+confirmonexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "ConfirmOnExit", (void *)0,
         NULL, "Do not confirm quitting VICE" },
+    { "-pauseonsettings", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "PauseOnSettings", (void *)1,
+        NULL, "Pause emulation when activating settings dialog" },
+    { "+pauseonsettings", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "PauseOnSettings", (void *)0,
+        NULL, "Do not pause emulation when activating settings dialog" },
     { "-saveres", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "SaveResourcesOnExit", (void *)1,
         NULL, "Save settings on exit" },
@@ -892,6 +902,21 @@ static int set_confirm_on_exit(int val, void *param)
     ui_resources.confirm_on_exit = val ? 1 : 0;
     return 0;
 }
+
+
+/** \brief  Set PauseOnSettings resource (bool)
+ *
+ * \param[in]   val     new value
+ * \param[in]   param   extra param (ignored)
+ *
+ * \return 0
+ */
+static int set_pause_on_settings(int val, void *param)
+{
+    ui_resources.pause_on_settings = val ? 1 : 0;
+    return 0;
+}
+
 
 
 /** \brief  Set StartMinimized resource (bool)

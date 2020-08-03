@@ -12752,6 +12752,13 @@ first, in case the settings have changed.
 @item ConfirmOnExit
 Boolean specifying whether to show a confirmation dialog on exit.
 
+@vindex PauseOnSettings
+@item PauseOnSettings
+Boolean specifying wheter to pause the emulation when triggering the settings
+dialog. If set, the emulation will pause when triggering the settings dialog.
+When closing the settings dialog the pause state will revert to its state before
+triggering the settings UI.
+
 @vindex SDLStatusbar
 @item SDLStatusbar
 Boolean to enable/disable the statusbar
@@ -13080,6 +13087,14 @@ Confirm quitting VICE
 @item +confirmonexit
 Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
+
+@findex -pauseonsettings, +pauseonsettings
+@item -pauseonsettings
+Pause emulation when enabling the settings dialog.
+(@code{PauseOnSettings=1}).
+@item +pauseonsettings
+Do not pause emulation when enabling the settings dialog.
+(@code{PauseOnSettings=0}).
 
 @findex -statusbar, +statusbar
 @item -statusbar

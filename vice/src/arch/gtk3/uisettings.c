@@ -8,6 +8,7 @@
 /*
  * $VICERES SaveResourcesOnExit     all
  * $VICERES ConfirmOnExit           all
+ * $VICERES PauseOnSettings         all
  */
 
 /*
@@ -1944,6 +1945,14 @@ static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
 static void ui_settings_set_central_widget(GtkWidget *widget);
 
 
+/** \brief  Old pause state when popping up the dialog
+ *
+ * Used for the PauseOnSettings resource: if true, exiting the dialog will set
+ * the emulators pause state to this.
+ */
+static int settings_old_pause_state;
+
+
 /** \brief  Reference to the settings dialog
  */
 static GtkWidget *settings_window = NULL;
@@ -2132,6 +2141,18 @@ static GtkWidget *create_confirm_on_exit_checkbox(void)
 {
     return vice_gtk3_resource_check_button_new("ConfirmOnExit",
             "Confirm on exit");
+}
+
+
+/** \brief  Create the 'Pause on settings dialog' checkbox
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_pause_on_settings_checkbox(void)
+{
+    return vice_gtk3_resource_check_button_new(
+            "PauseOnSettings",
+            "Pause when showing settings");
 }
 
 
@@ -2388,6 +2409,8 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
             0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(extra), create_confirm_on_exit_checkbox(),
             0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(extra), create_pause_on_settings_checkbox(),
+            0, 2, 1, 1);
 
     /* add to main layout */
     gtk_grid_attach(GTK_GRID(settings_grid), extra, 0, 2, 2, 1);
@@ -2422,12 +2445,24 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 static void response_callback(GtkWidget *widget, gint response_id,
                               gpointer user_data)
 {
+    int pause_on_settings;
+
     switch (response_id) {
 
         /* close dialog */
         case GTK_RESPONSE_DELETE_EVENT:
             gtk_widget_destroy(widget);
             settings_window = NULL;
+
+            resources_get_int("PauseOnSettings", &pause_on_settings);
+            if (pause_on_settings) {
+                if (settings_old_pause_state) {
+                    ui_pause_enable();
+                } else {
+                    ui_pause_disable();
+                }
+            }
+
             break;
 
         /* reset resources in current central widget to the state they were
@@ -2507,7 +2542,7 @@ static GtkWidget *dialog_create_helper(void)
     vsync_suspend_speed_eval();
     ui_set_ignore_mouse_hide(TRUE);
 
-    g_snprintf(title, 256, "%s Settings", machine_name);
+    g_snprintf(title, sizeof(title), "%s Settings", machine_name);
 
     dialog = gtk_dialog_new_with_buttons(
             title,
@@ -2560,6 +2595,7 @@ static GtkWidget *dialog_create_helper(void)
  */
 gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {
+
     ui_settings_dialog_create_and_activate_node(NULL);
 
     return TRUE;
@@ -2707,6 +2743,7 @@ gboolean ui_settings_dialog_activate_node(const char *path)
     return FALSE;
 }
 
+
 gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_data)
 {
     const char *path = (const char *)user_data;
@@ -2739,8 +2776,18 @@ gboolean ui_settings_dialog_create_and_activate_node(const char *path)
     return TRUE;
 }
 
-gboolean ui_settings_dialog_create_and_activate_node_callback(GtkWidget *_, gpointer user_data)
+gboolean ui_settings_dialog_create_and_activate_node_callback(
+        GtkWidget *_,
+        gpointer user_data)
 {
+    int pause_on_settings;
+
+    settings_old_pause_state = ui_pause_active();
+
+    resources_get_int("PauseOnSettings", &pause_on_settings);
+    if (pause_on_settings) {
+        ui_pause_enable();
+    }
     ui_settings_dialog_create_and_activate_node((const char *)user_data);
 
     return TRUE;
