@@ -185,12 +185,15 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     /* OpenGL initialisation */
     vice_opengl_renderer_make_current(context);
 
-    create_shader_program(context);
-    glGenBuffers(1, &context->vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glGenVertexArrays(1, &context->vao);
+    if (!context->gl_context_is_legacy) {
+        create_shader_program(context);
+        glGenBuffers(1, &context->vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, context->vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glGenVertexArrays(1, &context->vao);
+    }
+
     glGenTextures(1, &context->texture);
     
     vice_opengl_renderer_clear_current(context);
