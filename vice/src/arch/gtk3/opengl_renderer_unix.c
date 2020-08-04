@@ -67,7 +67,7 @@ void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *con
 
 void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)
 {
-    glXMakeCurrent(context->x_display, 0, NULL);
+    glXMakeCurrent(context->x_display, None, NULL);
 }
 
 static int catch_x_error(Display *display, XErrorEvent *event)
