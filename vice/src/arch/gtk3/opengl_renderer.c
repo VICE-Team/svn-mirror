@@ -212,6 +212,7 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
     g_signal_handlers_disconnect_by_func(gtk_widget_get_screen(widget), G_CALLBACK(on_widget_monitors_changed), canvas);
 
     CANVAS_LOCK();
+    RENDER_LOCK();
 
     /* Shut down the render thread */
     g_thread_pool_free(context->render_thread, TRUE, TRUE);
@@ -220,6 +221,7 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
     /* Remove and dealloc the child view */
     vice_opengl_renderer_destroy_child_view(context);
     
+    RENDER_UNLOCK();
     CANVAS_UNLOCK();
 }
 
