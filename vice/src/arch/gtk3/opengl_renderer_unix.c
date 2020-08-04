@@ -229,7 +229,13 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
     context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);
 
-    printf("Obtained OpenGL %d.%d context (%s). Legacy: %s\n", major, minor, glGetString(GL_VENDOR), context->gl_context_is_legacy ? "yes" : "no");
+    printf("Obtained OpenGL %d.%d context\n\t  Vendor: %s\n\tRenderer: %s\n\t Version: %s\n\t  Legacy: %s\n",
+        major,
+        minor,
+        glGetString(GL_VENDOR),
+        glGetString(GL_RENDERER),
+        glGetString(GL_VERSION),
+        context->gl_context_is_legacy ? "yes" : "no");
 
     glewInit();
 
