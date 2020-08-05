@@ -142,6 +142,7 @@ static void browse_filename_callback(GtkDialog *dialog,
         }
         g_free(filename);
     }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
 
