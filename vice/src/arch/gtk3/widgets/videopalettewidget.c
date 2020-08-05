@@ -100,7 +100,9 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 }
 
 
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         debug_gtk3("got palette file '%s'.", filename);
@@ -129,11 +131,10 @@ static void on_browse_clicked(GtkButton *button, gpointer user_data)
     const char *flist[] = { "*.vpl", NULL };
 
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open palette file",
             "Palette files", flist, NULL,
-            browse_filename_callback);
-
+            browse_filename_callback,
+            NULL);
 }
 
 

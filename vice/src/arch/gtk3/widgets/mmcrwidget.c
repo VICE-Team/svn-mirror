@@ -132,7 +132,9 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
-static void eeprom_filename_callback(GtkDialog *dialog, gchar *filename)
+static void eeprom_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         debug_gtk3("Loading MMCR EEPROM image '%s'.", filename);
@@ -153,15 +155,17 @@ static void eeprom_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_eeprom_browse_clicked(GtkWidget *button, gpointer data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open EEMPROM image",
              NULL, NULL, NULL,
-             eeprom_filename_callback);
+             eeprom_filename_callback,
+             NULL);
 }
 
 
 
-static void card_filename_callback(GtkDialog *dialog, gchar *filename)
+static void card_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(card_widget, filename);
@@ -181,10 +185,10 @@ static void card_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open memory card file",
             NULL, NULL, NULL,
-            card_filename_callback);
+            card_filename_callback,
+            NULL);
 
 }
 

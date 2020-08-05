@@ -48,7 +48,9 @@
 static GtkWidget *filename_entry;
 
 
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(filename_entry, filename);
@@ -70,10 +72,10 @@ static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open NvRAM image file",
             NULL, NULL, NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            NULL);
 }
 
 

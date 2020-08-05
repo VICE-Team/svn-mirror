@@ -120,8 +120,11 @@ static void on_usb_enable_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \param[in,out]   dialog      open-file dialog
  * \param[in]       filename    filename or NULL on cancel
+ * \param[in]       data        extra data (unused)
  */
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(image_entry, filename);
@@ -144,10 +147,10 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     };
 
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Select disk image file",
             "HD image files", filter_list, NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            NULL);
 }
 
 

@@ -134,13 +134,15 @@ static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
 
-        int device;
+        int device = GPOINTER_TO_INT(data);
 
-        g_object_get(dialog, "device", &device, NULL);
+        /* FIXME: figure out which widget to update based on device */
 #if 0
         GtkWidget *grid;
         GtkWidget *entry;
@@ -173,10 +175,9 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     g_snprintf(title, sizeof(title), "Select serial device #%d", device);
 
     dialog =  vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             title, fdesc, flist, "/dev",
-            browse_filename_callback);
-    g_object_set(dialog, "device", GINT_TO_POINTER(device), NULL);
+            browse_filename_callback,
+            GINT_TO_POINTER(device));
 }
 
 

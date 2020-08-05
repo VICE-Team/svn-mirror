@@ -207,7 +207,9 @@ static void on_tapecart_enable_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(tapecart_filename, filename);
@@ -229,10 +231,10 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
     /* TODO: use existing filename, if any */
 
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Select tapecart file",
             NULL, NULL, NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            NULL);
 }
 
 

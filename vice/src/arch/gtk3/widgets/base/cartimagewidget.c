@@ -55,8 +55,11 @@ static GtkWidget *filename_entry;
  *
  * \param[in,out]   dialog      open/create dialog
  * \param[in,out]   filename    filename
+ * \param[in]       data        extra data (unused)
  */
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(filename_entry, filename);
@@ -80,9 +83,9 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
     g_snprintf(title, sizeof(title), "Open or create %s image file", crt_name);
 
     vice_gtk3_open_create_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             title,NULL, FALSE, NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            NULL);
 }
 
 

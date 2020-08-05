@@ -153,9 +153,10 @@ static gboolean settings_load_callback(GtkWidget *widget, gpointer data)
 
 
 
-static void settings_load_filename_callback(GtkDialog *dialog, gchar *filename)
+static void settings_load_filename_callback(GtkDialog *dialog,
+                                            gchar *filename,
+                                            gpointer data)
 {
-
     if (filename!= NULL) {
         mainlock_obtain();
         if (resources_load(filename) != 0) {
@@ -178,12 +179,11 @@ static void settings_load_filename_callback(GtkDialog *dialog, gchar *filename)
  */
 static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("called!\n\n");
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Load settings file",
             NULL, NULL, NULL,
-            settings_load_filename_callback);
+            settings_load_filename_callback,
+            NULL);
     return TRUE;
 }
 

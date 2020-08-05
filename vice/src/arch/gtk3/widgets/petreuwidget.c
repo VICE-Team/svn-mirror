@@ -83,7 +83,9 @@ static void on_reu_toggled(GtkWidget *widget, gpointer user_data)
 
 
 
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         debug_gtk3("setting PETREUfilename to '%s'.", filename);
@@ -107,10 +109,10 @@ static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open REU image file",
             NULL, NULL, NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            NULL);
 }
 
 

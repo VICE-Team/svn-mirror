@@ -58,8 +58,11 @@ static GtkWidget *browse = NULL;
  *
  * \param[in,out]   dialog      open-file dialog
  * \param[in]       filename    filename or NULL on cancel
+ * \param[in]       data        extra data (unused)
  */
-static void browse_filename_callback(GtkDialog *dialog, char *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     debug_gtk3("got filename '%s'.", filename);
 
@@ -82,10 +85,10 @@ static void browse_filename_callback(GtkDialog *dialog, char *filename)
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open Magic Voice image",
             NULL, NULL, NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            NULL);
 }
 
 

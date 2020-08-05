@@ -195,7 +195,9 @@ static bool ui_done;
 
 
 
-static void load_snapshot_filename_callback(GtkDialog *dialog, gchar *filename)
+static void load_snapshot_filename_callback(GtkDialog *dialog,
+                                            gchar *filename,
+                                            gpointer data)
 {
     if (filename != NULL) {
         /* load snapshot */
@@ -214,10 +216,10 @@ static gboolean load_snapshot_trap_impl(gpointer user_data)
     const char *filters[] = { "*.vsf", NULL };
 
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open snapshot file",
             "Snapshot files", filters, NULL,
-            load_snapshot_filename_callback);
+            load_snapshot_filename_callback,
+            NULL);
     /* FIXME: shouldn't this return TRUE? */
     return FALSE;
 }

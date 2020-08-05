@@ -94,8 +94,11 @@ static GtkWidget *flush_button = NULL;
  *
  * \param[in,out]   dialog      BIOS file dialog
  * \param[in]       filename    filename or NULL on cancel
+ * \param[in]       data        extra data (unused)
  */
-static void bios_filename_callback(GtkDialog *dialog, gchar *filename)
+static void bios_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(bios_filename_widget, filename);
@@ -113,10 +116,10 @@ static void bios_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_bios_browse_clicked(GtkWidget *button, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open MMC64 BIOS image file",
             NULL, NULL, NULL,
-            bios_filename_callback);
+            bios_filename_callback,
+            NULL);
 }
 
 
@@ -124,8 +127,11 @@ static void on_bios_browse_clicked(GtkWidget *button, gpointer user_data)
  *
  * \param[in,out]   dialog      card file dialog
  * \param[in]       filename    filename or NULL on cancel
+ * \param[in]       data        extra data (unused)
  */
-static void card_filename_callback(GtkDialog *dialog, gchar *filename)
+static void card_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
     if (filename != NULL) {
         gtk_entry_set_text(GTK_ENTRY(card_filename_entry), filename);
@@ -145,10 +151,10 @@ static void card_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open memory card file",
             NULL, NULL, NULL,
-            card_filename_callback);
+            card_filename_callback,
+            NULL);
 
 }
 

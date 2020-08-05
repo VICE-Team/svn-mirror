@@ -31,19 +31,19 @@
 #include <gtk/gtk.h>
 
 GtkWidget *vice_gtk3_open_file_dialog(
-        GtkWidget *parent,
         const char *title,
         const char *filter_desc,
         const char **filter_list,
         const char *path,
-        void (*callback)(GtkDialog *dialog, gchar *));
+        void (*callback)(GtkDialog *dialog, gchar *, gpointer),
+        gpointer param);
 
 GtkWidget *vice_gtk3_open_create_file_dialog(
-        GtkWidget *parent,
         const char *title,
         const char *proposed,
         gboolean confirm,
         const char *path,
-        void (*callback)(GtkDialog *dialog, gchar *));
+        void (*callback)(GtkDialog *dialog, gchar *, gpointer),
+        gpointer param);
 
 #endif

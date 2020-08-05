@@ -124,7 +124,9 @@ static void on_midi_enable_toggled(GtkWidget *widget, gpointer user_data)
 #if defined(ARCHDEP_OS_UNIX) && !defined(ARCHDEP_OS_OSX)
 
 
-static void midi_in_filename_callback(GtkDialog *dialog, gchar *filename)
+static void midi_in_filename_callback(GtkDialog *dialog,
+                                      gchar *filename,
+                                      gpointer data)
 {
     if (filename != NULL) {
         debug_gtk3("Setting MIDIInDev to '%s'", filename);
@@ -146,14 +148,16 @@ static void on_midi_in_browse(GtkWidget *widget, gpointer user_data)
     const char *filters[] = { "mi*", NULL };
 
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Select MIDI In device",
             "MIDI devices", filters, "/dev",
-            midi_in_filename_callback);
+            midi_in_filename_callback,
+            NULL);
 }
 
 
-static void midi_out_filename_callback(GtkDialog *dialog, gchar *filename)
+static void midi_out_filename_callback(GtkDialog *dialog,
+                                       gchar *filename,
+                                       gpointer data)
 {
     if (filename != NULL) {
         debug_gtk3("Setting MIDIOutDev to '%s'", filename);
@@ -162,8 +166,6 @@ static void midi_out_filename_callback(GtkDialog *dialog, gchar *filename)
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
-
 
 
 /** \brief  Handler for the "clicked" event of the MIDI-Out "Browse" button
@@ -176,10 +178,10 @@ static void on_midi_out_browse(GtkWidget *widget, gpointer user_data)
     const char *filters[] = { "mi*", NULL };
 
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Select MIDI Out device",
             "MIDI devices", filters, "/dev",
-            midi_out_filename_callback);
+            midi_out_filename_callback,
+            NULL);
 }
 #endif
 

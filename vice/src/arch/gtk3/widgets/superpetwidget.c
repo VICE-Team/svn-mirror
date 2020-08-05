@@ -100,10 +100,13 @@ static void on_superpet_rom_changed(GtkWidget *widget, gpointer user_data)
  *
  * \param[in,out]   dialog      open-file dialog
  * \param[in]       filename    ROM filename
+ * \param[in]       data        ROM "index"
  */
-static void browse_superpet_rom_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_superpet_rom_filename_callback(GtkDialog *dialog,
+                                                  gchar *filename,
+                                                  gpointer data)
 {
-    int rom_index = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "romindex"));
+    int rom_index = GPOINTER_TO_INT(data);
 
     debug_gtk3("ROM index = %d ($%c000), filename = '%s'",
             rom_index, rom_index + 'A', filename);
@@ -132,12 +135,10 @@ static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data
     g_snprintf(title, sizeof(title), "Select $%cXXX ROM", rom);
 
     dialog = vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             title,
             NULL, NULL, NULL,
-            browse_superpet_rom_filename_callback);
-    /* FIXME: works, but not ideal */
-    g_object_set_data(G_OBJECT(dialog), "romindex", GINT_TO_POINTER(rom - 'A'));
+            browse_superpet_rom_filename_callback,
+            GINT_TO_POINTER(rom - 'A'));
 }
 
 

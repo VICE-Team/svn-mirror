@@ -89,12 +89,14 @@ static GtkWidget *plus_60k_base = NULL;
 static GtkWidget *plus_60k_image = NULL;
 static GtkWidget *plus_256k_image = NULL;
 
-
-
-static void c64_256k_filename_callback(GtkDialog *dialog, gchar *filename)
+/* XXX: attempt at passing the target GtkEntry via the callbacks
+ */
+static void c64_256k_filename_callback(GtkDialog *dialog,
+                                       gchar *filename,
+                                       gpointer data)
 {
     if (filename != NULL) {
-        GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(c64_256k_image), 1, 1);
+        GtkWidget *entry = data;
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
@@ -105,21 +107,23 @@ static void c64_256k_filename_callback(GtkDialog *dialog, gchar *filename)
 /** \brief  Handler for the "clicked" event of the browse button for C64_256K
  *
  * \param[in]   button      browse button
- * \param[in]   user_data   unused
+ * \param[in]   user_data   target GtkEntry widget
  */
 static void on_256k_image_browse_clicked(GtkWidget *button, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Select 256K image file",
             NULL, NULL, NULL,
-            c64_256k_filename_callback);
+            c64_256k_filename_callback,
+            user_data);
  }
 
 
-static void browse_plus60k_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_plus60k_filename_callback(GtkDialog *dialog,
+                                             gchar *filename,
+                                             gpointer data)
 {
-if (filename != NULL) {
+    if (filename != NULL) {
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(plus_60k_image), 1, 1);
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
@@ -136,16 +140,17 @@ if (filename != NULL) {
 static void on_plus60k_image_browse_clicked(GtkWidget *button, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Select +60K image file",
             NULL, NULL, NULL,
-            browse_plus60k_filename_callback);
-
+            browse_plus60k_filename_callback,
+            NULL);
 }
 
 
 
-static void browse_plus256k_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_plus256k_filename_callback(GtkDialog *dialog,
+                                              gchar *filename,
+                                              gpointer data)
 {
     if (filename != NULL) {
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(plus_256k_image), 1, 1);
@@ -162,13 +167,14 @@ static void browse_plus256k_filename_callback(GtkDialog *dialog, gchar *filename
  * \param[in]   button      browse button
  * \param[in]   user_data   unused
  */
-static void on_plus256k_image_browse_clicked(GtkWidget *button, gpointer user_data)
+static void on_plus256k_image_browse_clicked(GtkWidget *button,
+                                             gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Select +256K image file",
             NULL, NULL, NULL,
-            browse_plus256k_filename_callback);
+            browse_plus256k_filename_callback,
+            NULL);
 }
 
 
@@ -329,8 +335,10 @@ static GtkWidget *c64_256k_image_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    g_signal_connect(browse, "clicked",
-            G_CALLBACK(on_256k_image_browse_clicked), NULL);
+    g_signal_connect(browse,
+                     "clicked",
+                     G_CALLBACK(on_256k_image_browse_clicked),
+                     entry);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -14,7 +14,7 @@
  *
  * The constructor is slightly convoluted, but flexible, see
  * #vice_gtk3_resource_browser_new
- * (todo: figure out how to get Doxygen to print the functio prototype here)
+ * (todo: figure out how to get Doxygen to print the function prototype here)
  *
  * The first argument is required, it's the VICE resource we wish to change, for
  * example "Kernal".
@@ -117,14 +117,15 @@ static void on_resource_browser_destroy(GtkWidget *widget, gpointer data)
  *
  * \param[in,out]   dialog      Open file dialog reference
  * \param[in]       filename    filename or NULL on cancel
+ * \param[in,out]   data        browser state
  */
-static void browse_filename_callback(GtkDialog *dialog, char *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     char *filename,
+                                     gpointer data)
 {
-    resource_browser_state_t *state;
+    resource_browser_state_t *state = data;
 
     debug_gtk3("Got filename '%s'\n", filename);
-
-    state = g_object_get_data(G_OBJECT(dialog), "ViceState");
 
     if (filename != NULL) {
         if (!vice_gtk3_resource_entry_full_set(state->entry, filename)){
@@ -158,14 +159,13 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
     parent = gtk_widget_get_parent(widget);
     state = g_object_get_data(G_OBJECT(parent), "ViceState");
 
-
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             state->browser_title,
             state->pattern_name,
             (const char **)(state->patterns),
             NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            state);
 }
 
 

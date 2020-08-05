@@ -97,8 +97,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
  *
  * \param[in,out]   dialog      open-file dialog
  * \param[in]       filename    filename or NULL on cancel
+ * \param[in]       data        extra data (unused)
  */
-static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
+static void browse_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
@@ -129,10 +132,10 @@ static void browse_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open IEEE-488 image",
             NULL, NULL, NULL,
-            browse_filename_callback);
+            browse_filename_callback,
+            NULL);
 }
 
 

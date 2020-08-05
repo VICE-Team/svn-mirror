@@ -115,7 +115,9 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
-static void eeprom_filename_callback(GtkDialog *dialog, gchar *filename)
+static void eeprom_filename_callback(GtkDialog *dialog,
+                                     gchar *filename,
+                                     gpointer data)
 {
     if (filename != NULL) {
         if (resources_set_string("GMOD2EEPROMImage", filename) < 0) {
@@ -140,10 +142,10 @@ static void eeprom_filename_callback(GtkDialog *dialog, gchar *filename)
 static void on_eeprom_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     vice_gtk3_open_file_dialog(
-            GTK_WIDGET(ui_get_active_window()),
             "Open EEMPROM image",
              NULL, NULL, NULL,
-             eeprom_filename_callback);
+             eeprom_filename_callback,
+             NULL);
 }
 
 

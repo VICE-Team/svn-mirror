@@ -36,9 +36,17 @@
 #include "openfiledialog.h"
 
 
-static void (*filename_cb)(GtkDialog *, char *);
+/** \brief  Function to call on file-dialog's "accept" action
+ */
+static void (*filename_cb)(GtkDialog *, char *, gpointer);
 
 
+/** \brief  Response handler for the open-file dialog
+ *
+ * \param[in]   dialog      open-file dialog
+ * \param[in]   response_id response ID
+ * \param[in]   data        optional data of callback
+ */
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     gchar *filename;
@@ -48,13 +56,13 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
                 debug_gtk3("Calling callback with '%s'\n", filename);
-                filename_cb(dialog, filename);
+                filename_cb(dialog, filename, data);
             } else {
-                debug_gtk3("Error: callback is NULL");
+                debug_gtk3("Error: filename is NULL");
             }
             break;
         default:
-            filename_cb(dialog, NULL);
+            filename_cb(dialog, NULL, data);
             break;
     }
 }
@@ -76,12 +84,12 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
  *          after use with g_free()
  */
 GtkWidget *vice_gtk3_open_file_dialog(
-        GtkWidget *parent,
         const char *title,
         const char *filter_desc,
         const char **filter_list,
         const char *path,
-        void (*callback)(GtkDialog *, char *))
+        void (*callback)(GtkDialog *, char *, gpointer),
+        gpointer param)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
@@ -92,13 +100,14 @@ GtkWidget *vice_gtk3_open_file_dialog(
 
     dialog = gtk_file_chooser_dialog_new(
             title,
-            GTK_WINDOW(parent),
+            ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             "Open", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL);
 
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
 
     /* create * filter */
     filter = create_file_chooser_filter(file_chooser_filter_all, TRUE);
@@ -127,7 +136,7 @@ GtkWidget *vice_gtk3_open_file_dialog(
     }
 #endif
     /* YES: */
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
     gtk_widget_show(dialog);
     return dialog;
 }
@@ -175,12 +184,12 @@ gchar *vice_gtk3_open_file_dialog(
  *          after use with g_free()
  */
 GtkWidget *vice_gtk3_open_create_file_dialog(
-        GtkWidget *parent,
         const char *title,
         const char *proposed,
         gboolean confirm,
         const char *path,
-        void (*callback)(GtkDialog *, gchar *))
+        void (*callback)(GtkDialog *, gchar *, gpointer),
+        gpointer param)
 {
     GtkWidget *dialog;
 
@@ -195,6 +204,9 @@ GtkWidget *vice_gtk3_open_create_file_dialog(
             "Open/Create", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL);
+
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
 
     /* set overwrite confirmation */
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
