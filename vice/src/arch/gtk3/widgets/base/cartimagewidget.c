@@ -89,31 +89,37 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
-
-static void on_save_filename(GtkDialog *dialog, char *s)
+/** \brief  Callback for the save-dialog
+ *
+ * \param[in,out]   dialog      save-file dialog
+ * \param[in,out]   filename    path to file to save
+ * \param[in]       data        extra data (unused)
+ */
+static void save_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
-    debug_gtk3("Called with '%s'\n", s);
+    debug_gtk3("Called with '%s'\n", filename);
 
-    if (s != NULL) {
+    if (filename != NULL) {
 #if 0
         debug_gtk3("writing %s file image as '%s'.", crt_name, new_filename);
 #endif
         /* write file */
         if (save_func != NULL) {
-            if (save_func(crt_id, s) < 0) {
+            if (save_func(crt_id, filename) < 0) {
                 /* oops */
                 vice_gtk3_message_error("I/O error",
-                        "Failed to save '%s'", s);
+                        "Failed to save '%s'", filename);
             }
         } else {
             vice_gtk3_message_error("Core error",
                     "%s save handler not specified", crt_name);
         }
-        g_free(s);
+        g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
 
 
 /** \brief  Handler for the "clicked" event of the "save" button
@@ -144,7 +150,12 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
 
     g_snprintf(buffer, sizeof(buffer), "Save %s image file", crt_name);
 
-    vice_gtk3_save_file_dialog(NULL, buffer, fname, TRUE, dname, on_save_filename);
+    vice_gtk3_save_file_dialog(buffer,
+                              fname,
+                              TRUE,
+                              dname,
+                              save_filename_callback,
+                              NULL);
 }
 
 

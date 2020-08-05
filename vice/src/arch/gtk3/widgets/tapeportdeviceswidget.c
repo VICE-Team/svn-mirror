@@ -150,15 +150,24 @@ static void on_tape_log_dest_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-static void on_save_filename(GtkDialog *dialog, char *filename)
+/** \brief  Callback for the save-dialog response handler
+ *
+ * \param[in,out]   dialog      save-file dialog
+ * \param[in,out]   filename    filename
+ * \param[in]       data        extra data (unused)
+ */
+static void save_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
     if (filename != NULL) {
         /* TODO: check if file is writable */
         gtk_entry_set_text(GTK_ENTRY(tape_log_filename), filename);
         g_free(filename);
     }
-
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
+
 
 /** \brief  Handler for the "clicked" event of the tape log browse button
  *
@@ -167,14 +176,10 @@ static void on_save_filename(GtkDialog *dialog, char *filename)
  */
 static void on_tape_log_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-#if 0
-#else
-    vice_gtk3_save_file_dialog(
-            NULL,
-            "Select/create tap log file",
-            NULL, TRUE, NULL,
-            on_save_filename);
-#endif
+    vice_gtk3_save_file_dialog("Select/create tap log file",
+                               NULL, TRUE, NULL,
+                               save_filename_callback,
+                               NULL);
 }
 
 

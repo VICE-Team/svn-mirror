@@ -36,9 +36,17 @@
 #include "savefiledialog.h"
 
 
-static void (*filename_cb)(GtkDialog *, char *);
+/** \brief  Callback for the "response" event
+ */
+static void (*filename_cb)(GtkDialog *, char *, gpointer);
 
 
+/** \brief  Handler for the dialog's "response" event
+ *
+ * \param[in,out]   dialog      save-file dialog
+ * \param[in]       response_id response ID
+ * \param[in]       data        extra data to pass to the user callback
+ */
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     gchar *filename;
@@ -49,12 +57,11 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
                 debug_gtk3("Calling callback with '%s'\n", filename);
-                filename_cb(dialog, filename);
-                /* g_free(filename); */
+                filename_cb(dialog, filename, data);
             }
             break;
         default:
-            filename_cb(dialog, NULL);
+            filename_cb(dialog, NULL, data);
             break;
     }
 }
@@ -69,6 +76,8 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
  * \param[in]   proposed    proposed file name (optional)
  * \param[in]   confirm     confirm overwriting an existing file
  * \param[in]   path        set starting directory (optional)
+ * \param[in]   callback    function to call on dialog response
+ * \param[in]   param       extra data to pass to callback (optional)
  *
  * \return  new dialog
  *
@@ -76,12 +85,12 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
  *          after use with g_free()
  */
 GtkWidget *vice_gtk3_save_file_dialog(
-        GtkWidget *parent,
         const char *title,
         const char *proposed,
         gboolean confirm,
         const char *path,
-        void (*callback)(GtkDialog *, char *))
+        void (*callback)(GtkDialog *, char *, gpointer),
+        gpointer param)
 {
     GtkWidget *dialog;
 
@@ -98,6 +107,7 @@ GtkWidget *vice_gtk3_save_file_dialog(
             NULL);
 
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
 
     /* set overwrite confirmation */
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
@@ -113,11 +123,7 @@ GtkWidget *vice_gtk3_save_file_dialog(
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
 
-    if (parent != NULL) {
-        gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
-    }
-
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
     gtk_widget_show(dialog);
     return dialog;
 }

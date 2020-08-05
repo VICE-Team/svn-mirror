@@ -195,10 +195,16 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
-static void on_save_filename(GtkDialog *dialog, char *filename)
+/** \brief  Callback for the save-dialog response handler
+ *
+ * \param[in,out]   dialog      save-file dialog
+ * \param[in,out]   filename    filename
+ * \param[in]       data        extra data (unused)
+ */
+static void save_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
-    debug_gtk3("Called with '%s'\n", filename);
-
     if (filename != NULL) {
         debug_gtk3("saving MMC64 cart image as '%s'.", filename);
         if (carthelpers_save_func(CARTRIDGE_MMC64, filename) < 0) {
@@ -212,7 +218,6 @@ static void on_save_filename(GtkDialog *dialog, char *filename)
 }
 
 
-
 /** \brief  Handler for the "clicked" event of the Save Image button
  *
  * \param[in]   widget      button
@@ -220,14 +225,10 @@ static void on_save_filename(GtkDialog *dialog, char *filename)
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-#if 0
-    /* TODO: retrieve filename of cart image */
-#else
-    vice_gtk3_save_file_dialog(NULL,
-            "Save cartridge image",
-            NULL, TRUE, NULL,
-            on_save_filename);
-#endif
+    vice_gtk3_save_file_dialog("Save cartridge image",
+                               NULL, TRUE, NULL,
+                               save_filename_callback,
+                               NULL);
 }
 
 

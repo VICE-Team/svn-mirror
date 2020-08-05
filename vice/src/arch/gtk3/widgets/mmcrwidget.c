@@ -73,10 +73,16 @@ static GtkWidget *eeprom_entry;
 static GtkWidget *card_widget;
 
 
-static void on_save_filename(GtkDialog *dialog, char *filename)
+/** \brief  Callback for the save-dialog response handler
+ *
+ * \param[in,out]   dialog      save-file dialog
+ * \param[in,out]   filename    filename
+ * \param[in]       data        extra data (unused)
+ */
+static void save_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
-    debug_gtk3("Called with '%s'\n", filename);
-
     if (filename != NULL) {
         debug_gtk3("saving MMCR cart image as '%s'.", filename);
         if (carthelpers_save_func(CARTRIDGE_MMC_REPLAY, filename) < 0) {
@@ -89,6 +95,7 @@ static void on_save_filename(GtkDialog *dialog, char *filename)
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
+
 /** \brief  Handler for the "clicked" event of the Save Image button
  *
  * \param[in]   widget      button
@@ -96,24 +103,10 @@ static void on_save_filename(GtkDialog *dialog, char *filename)
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-#if 0
-    /* TODO: retrieve filename of cart image */
-    gchar *filename = vice_gtk3_save_file_dialog("Save Cartridge image",
-            NULL, TRUE, NULL);
-    if (filename != NULL) {
-        debug_gtk3("saving MMCR cart image as '%s'.", filename);
-        if (carthelpers_save_func(CARTRIDGE_MMC_REPLAY, filename) < 0) {
-            vice_gtk3_message_error("Saving failed",
-                    "Failed to save cartridge image '%s'",
-                    filename);
-        }
-        g_free(filename);
-    }
-#else
-    vice_gtk3_save_file_dialog(NULL,
-            "Save cartridge image", NULL, TRUE, NULL,
-            on_save_filename);
-#endif
+    vice_gtk3_save_file_dialog("Save cartridge image",
+                               NULL, TRUE, NULL,
+                               save_filename_callback,
+                               NULL);
 }
 
 

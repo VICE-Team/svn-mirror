@@ -470,13 +470,13 @@ static char *create_proposed_audio_recording_name(const char *ext)
 
 
 
-static void on_save_screenshot_filename(GtkDialog *dialog, char *filename)
+static void on_save_screenshot_filename(GtkDialog *dialog,
+                                        gchar *filename,
+                                        gpointer data)
 {
     const char *name;
 
     name = video_driver_list[screenshot_driver_index].name;
-
-    debug_gtk3("Got filename '%s'\n", filename);
 
     if (filename != NULL) {
 
@@ -489,7 +489,6 @@ static void on_save_screenshot_filename(GtkDialog *dialog, char *filename)
         }
         g_free(filename);
         g_free(filename_locale);
-        /* TODO: also trigger destruction of parent on success */
     }
     mainlock_release();
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -517,9 +516,9 @@ static void save_screenshot_handler(GtkWidget *parent)
     proposed = create_proposed_screenshot_name(ext);
 
     dialog = vice_gtk3_save_file_dialog(
-            GTK_WIDGET(parent),
             title, proposed, TRUE, NULL,
-            on_save_screenshot_filename);
+            on_save_screenshot_filename,
+            NULL);
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
             dialog,
@@ -533,7 +532,9 @@ static void save_screenshot_handler(GtkWidget *parent)
 
 
 
-static void on_save_audio_filename(GtkDialog *dialog, char *filename)
+static void on_save_audio_filename(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
     gchar *filename_locale = file_chooser_convert_to_locale(filename);
 
@@ -571,9 +572,9 @@ static void save_audio_recording_handler(GtkWidget *parent)
     proposed = create_proposed_audio_recording_name(ext);
 
     dialog = vice_gtk3_save_file_dialog(
-            parent,
             title, proposed, TRUE, NULL,
-            on_save_audio_filename);
+            on_save_audio_filename,
+            NULL);
 
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(
@@ -589,7 +590,9 @@ static void save_audio_recording_handler(GtkWidget *parent)
 
 
 
-static void on_save_video_filename(GtkDialog *dialog, char *filename)
+static void on_save_video_filename(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
     if (filename != NULL) {
 
@@ -659,9 +662,9 @@ static void save_video_recording_handler(GtkWidget *parent)
     title = lib_msprintf("Save %s file", "FFMPEG");
     proposed = create_proposed_video_recording_name(ext);
 
-    dialog = vice_gtk3_save_file_dialog(NULL,
+    dialog = vice_gtk3_save_file_dialog(
             title, proposed, TRUE, NULL,
-            on_save_video_filename);
+            on_save_video_filename, NULL);
 
     /* destroy parent dialog when the dialog is destroyed */
     g_signal_connect_swapped(

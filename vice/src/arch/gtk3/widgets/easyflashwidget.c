@@ -48,8 +48,15 @@
 #include "easyflashwidget.h"
 
 
-
-static void on_save_callback(GtkDialog *dialog, char *filename)
+/** \brief  Callback for the save-dialog
+ *
+ * \param[in,out]   dialog      save-file dialog
+ * \param[in,out]   filename    path to file to save
+ * \param[in]       data        extra data (unused)
+ */
+static void save_filename_callback(GtkDialog *dialog,
+                                   gchar *filename,
+                                   gpointer data)
 {
     if (filename != NULL) {
         if (carthelpers_save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
@@ -62,9 +69,6 @@ static void on_save_callback(GtkDialog *dialog, char *filename)
 }
 
 
-
-
-
 /** \brief  Handler for the "clicked" event of the "Save As" button
  *
  * \param[in]   widget      button
@@ -72,17 +76,10 @@ static void on_save_callback(GtkDialog *dialog, char *filename)
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-#if 0
-    filename = vice_gtk3_save_file_dialog("Save EasyFlasg image as ...",
-            NULL, TRUE, NULL);
-#endif
-    vice_gtk3_save_file_dialog(NULL,
-            "Save Easyflash image as ...",
-            NULL, TRUE, NULL, on_save_callback);
-
-
-
-
+    vice_gtk3_save_file_dialog("Save Easyflash image as ...",
+                               NULL, TRUE, NULL,
+                               save_filename_callback,
+                               NULL);
 }
 
 

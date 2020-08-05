@@ -205,7 +205,15 @@ static gboolean settings_save_callback(GtkWidget *widget, gpointer data)
 }
 
 
-static void on_settings_save_custom_filename(GtkDialog *dialog, char *filename)
+/** \brief  Callback for the save-custom-settings dialog
+ *
+ * \param[in,out]   dialog      save-file dialog
+ * \param[in,out]   filename    filename
+ * \param[in]       data        extra data (unused)
+ */
+static void on_settings_save_custom_filename(GtkDialog *dialog,
+                                             gchar *filename,
+                                             gpointer data)
 {
     if (filename!= NULL) {
         mainlock_obtain();
@@ -232,10 +240,11 @@ static void on_settings_save_custom_filename(GtkDialog *dialog, char *filename)
  */
 static gboolean settings_save_custom_callback(GtkWidget *widget, gpointer data)
 {
-    vice_gtk3_save_file_dialog(NULL,
+    vice_gtk3_save_file_dialog(
             "Save settings as ...",
             NULL, TRUE, NULL,
-            on_settings_save_custom_filename);
+            on_settings_save_custom_filename,
+            NULL);
 
     return TRUE;
 }
