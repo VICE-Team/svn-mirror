@@ -89,7 +89,12 @@ static GtkWidget *plus_60k_base = NULL;
 static GtkWidget *plus_60k_image = NULL;
 static GtkWidget *plus_256k_image = NULL;
 
-/* XXX: attempt at passing the target GtkEntry via the callbacks
+
+/** \brief  Set 256K image
+ *
+ * \param[in]       dialog      open-file dialog
+ * \param[in]       filename    image filename
+ * \param[in,out]   entry       target GtkEntry for image filename
  */
 static void c64_256k_filename_callback(GtkDialog *dialog,
                                        gchar *filename,
@@ -118,13 +123,18 @@ static void on_256k_image_browse_clicked(GtkWidget *button, gpointer user_data)
             user_data);
  }
 
-
+/** \brief  Set Plus60K image
+ *
+ * \param[in]       dialog      open-file dialog
+ * \param[in]       filename    image filename
+ * \param[in,out]   entry       target GtkEntry for image filename
+ */
 static void browse_plus60k_filename_callback(GtkDialog *dialog,
                                              gchar *filename,
                                              gpointer data)
 {
     if (filename != NULL) {
-        GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(plus_60k_image), 1, 1);
+        GtkWidget *entry = data;
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
@@ -143,17 +153,22 @@ static void on_plus60k_image_browse_clicked(GtkWidget *button, gpointer user_dat
             "Select +60K image file",
             NULL, NULL, NULL,
             browse_plus60k_filename_callback,
-            NULL);
+            user_data);
 }
 
 
-
+/** \brief  Set Plus256K image
+ *
+ * \param[in]       dialog      open-file dialog
+ * \param[in]       filename    image filename
+ * \param[in,out]   entry       target GtkEntry for image filename
+ */
 static void browse_plus256k_filename_callback(GtkDialog *dialog,
                                               gchar *filename,
                                               gpointer data)
 {
     if (filename != NULL) {
-        GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(plus_256k_image), 1, 1);
+        GtkWidget *entry = data;
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
@@ -174,7 +189,7 @@ static void on_plus256k_image_browse_clicked(GtkWidget *button,
             "Select +256K image file",
             NULL, NULL, NULL,
             browse_plus256k_filename_callback,
-            NULL);
+            user_data);
 }
 
 
@@ -369,8 +384,10 @@ static GtkWidget *plus_60k_image_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    g_signal_connect(browse, "clicked",
-            G_CALLBACK(on_plus60k_image_browse_clicked), NULL);
+    g_signal_connect(browse,
+                     "clicked",
+                      G_CALLBACK(on_plus60k_image_browse_clicked),
+                      entry);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -402,8 +419,10 @@ static GtkWidget *plus_256k_image_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    g_signal_connect(browse, "clicked",
-            G_CALLBACK(on_plus256k_image_browse_clicked), NULL);
+    g_signal_connect(browse,
+                     "clicked",
+                     G_CALLBACK(on_plus256k_image_browse_clicked),
+                     entry);
 
     gtk_widget_show_all(grid);
     return grid;
