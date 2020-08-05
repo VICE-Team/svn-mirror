@@ -263,7 +263,6 @@ static GtkWidget *video_driver_options_grid = NULL;
 static void on_dialog_destroy(GtkWidget *widget, gpointer data)
 {
     if (machine_class != VICE_MACHINE_VSID) {
-        debug_gtk3("called: cleaning up driver list.");
         lib_free(video_driver_list);
     }
 
@@ -304,11 +303,8 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     const gchar *child_name;
 
-    debug_gtk3("got response ID %d.", response_id);
-
     switch (response_id) {
         case GTK_RESPONSE_DELETE_EVENT:
-            debug_gtk3("destroying dialog.");
             mainlock_release();
             gtk_widget_destroy(GTK_WIDGET(dialog));
             mainlock_obtain();
@@ -319,28 +315,17 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             if (machine_class != VICE_MACHINE_VSID) {
                 /* stack child name determines what to do next */
                 child_name = gtk_stack_get_visible_child_name(GTK_STACK(stack));
-                debug_gtk3("Saving media, tab '%s' selected.", child_name);
 
                 if (strcmp(child_name, CHILD_SCREENSHOT) == 0) {
-                    debug_gtk3("Screenshot requested, driver %d.",
-                            screenshot_driver_index);
                     save_screenshot_handler(data);
                 } else if (strcmp(child_name, CHILD_SOUND) == 0) {
-                    debug_gtk3("Audio recording requested, driver %d.",
-                            audio_driver_index);
                     save_audio_recording_handler(data);
                     ui_display_recording(1);
                 } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
-#ifdef HAVE_FFMPEG
-                    debug_gtk3("Video recording requested, driver %d.",
-                            video_driver_index);
-#endif
                     save_video_recording_handler(data);
                     ui_display_recording(1);
                 }
             } else {
-                debug_gtk3("Audio recording requested, driver %d.",
-                        audio_driver_index);
                 save_audio_recording_handler(data);
                 ui_display_recording(1);
             }
@@ -350,7 +335,6 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             mainlock_obtain();
 #endif
             break;
-
 
         default:
             break;
@@ -367,8 +351,6 @@ static void on_screenshot_driver_toggled(GtkWidget *widget, gpointer data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         int index = GPOINTER_TO_INT(data);
-        debug_gtk3("screenshot driver %d (%s) selected.",
-                index, video_driver_list[index].name);
         screenshot_driver_index = index;
         update_screenshot_options_grid(
                 create_screenshot_param_widget(video_driver_list[index].name));
@@ -385,8 +367,6 @@ static void on_audio_driver_toggled(GtkWidget *widget, gpointer data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         int index = GPOINTER_TO_INT(data);
-        debug_gtk3("audio driver %d (%s) selected.",
-                index, audio_driver_list[index].name);
         audio_driver_index = index;
     }
 }
@@ -647,9 +627,6 @@ static void save_video_recording_handler(GtkWidget *parent)
     const char *ext;
     char *title;
     char *proposed;
-#ifdef HAVE_FFMPEG
-    debug_gtk3("video driver index = %d.", video_driver_index);
-#endif
 
 #if 0
     display = video_driver_list[video_driver_index].display;
@@ -690,8 +667,6 @@ static void create_video_driver_list(void)
     int index;
 
     video_driver_count = gfxoutput_num_drivers();
-    debug_gtk3("got %d output drivers.", video_driver_count);
-
     video_driver_list = lib_malloc((size_t)(video_driver_count + 1) *
             sizeof *video_driver_list);
 
@@ -700,9 +675,6 @@ static void create_video_driver_list(void)
     if (video_driver_count > 0) {
         driver = gfxoutput_drivers_iter_init();
         while (driver != NULL) {
-            debug_gtk3(".. adding driver '%s'. ext: %s.",
-                    driver->name,
-                    driver->default_extension);
             video_driver_list[index].display = driver->displayname;
             video_driver_list[index].name = driver->name;
             video_driver_list[index].ext = driver->default_extension;
@@ -728,13 +700,7 @@ static int driver_is_video(const char *name)
 {
     int result;
 
-    debug_gtk3("Got driver '%s'.", name);
-#if 0
-    result =  strcmp(name, "FFMPEG") == 0 || strcmp(name, "QuickTime") == 0;
-#else
     result = strcmp(name, "FFMPEG") == 0;
-#endif
-    debug_gtk3("Result = %s", result ? "TRUE" : "FALSE");
     return result;
 }
 
@@ -1180,8 +1146,6 @@ gboolean ui_media_dialog_show(GtkWidget *parent, gpointer data)
  */
 gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
 {
-    debug_gtk3("Stopping media recording.");
-
     /* stop sound recording, if active */
     if (sound_is_recording()) {
         sound_stop_recording();
@@ -1199,7 +1163,6 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
 
 void ui_media_auto_screenshot(void)
 {
-    debug_gtk3("called!");
     char *filename;
 
     /* no need for locale bullshit */
