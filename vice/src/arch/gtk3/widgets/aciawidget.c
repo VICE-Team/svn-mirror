@@ -52,6 +52,13 @@
 static int *acia_baud_rates;
 
 
+/** \brief  References to the ACIA GtkEntry widgets
+ *
+ * I wish there was a better solution.
+ */
+static GtkWidget *acia_entries[2];
+
+
 /** \brief  List of baud rates
  *
  * Set in acia_widget_create()
@@ -134,24 +141,23 @@ static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Callback for the SuperPET ACIA host serial device path browser
+ *
+ * \param[in]   dialog      open-file dialog
+ * \param[in[   filename    path to host serial device
+ * \param[in]   data        device number (1 or 2)
+ */
 static void browse_filename_callback(GtkDialog *dialog,
                                      gchar *filename,
                                      gpointer data)
 {
     if (filename != NULL) {
-
         int device = GPOINTER_TO_INT(data);
+        GtkWidget *entry = acia_entries[device - 1];
 
-        /* FIXME: figure out which widget to update based on device */
-#if 0
-        GtkWidget *grid;
-        GtkWidget *entry;
-
+        debug_gtk3("Device = %d, filename = '%s'\n", device, filename);
         /* update text entry box, forces an update of the resource */
-        grid = gtk_widget_get_parent(widget);
-        entry = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
         gtk_entry_set_text(GTK_ENTRY(entry), filename);
-#endif
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -236,6 +242,8 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
             GINT_TO_POINTER(num));
+    /* lame, I know */
+    acia_entries[num - 1] = entry;
 
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 1, 1, 1, 1);
