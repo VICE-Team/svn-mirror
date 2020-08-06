@@ -244,14 +244,39 @@ static int kbd_get_modifier(GdkEvent *report)
    agains this problem, we remember what keys were pressed and alter the
    events accordingly. */
 
+/** \brief  Current number of pressed key buffers elements
+ */
 static int keyspressed = 0;
+
+
+/** \brief  Maximum size of pressed key buffers
+ */
 #define KEYS_PRESSED_MAX 200
 
+
+/** \brief  GDK key codes
+ */
 static int pressedkeys[KEYS_PRESSED_MAX];
+
+/** \brief  GDK key modifiers
+ */
 static int pressedkeysmod[KEYS_PRESSED_MAX];
+
+/** \brief  Key hardware scancodes
+ */
 static int pressedkeyshw[KEYS_PRESSED_MAX];
+
+/** \brief  GDK key states
+ */
 static int pressedkeysstate[KEYS_PRESSED_MAX];
 
+
+/** \brief  Look up key buffer index for \a report by hardware scancode
+ *
+ * \param[in]   report  GDK key-press event
+ *
+ * \return  index or -1 when not found
+ */
 static int findpressedkey(GdkEvent *report)
 {
     int i;
@@ -263,6 +288,15 @@ static int findpressedkey(GdkEvent *report)
     return -1;
 }
 
+
+/** \brief  Add pressed key
+ *
+ * \param[in]   report  GDK key-press event
+ * \param[in]   key     GDK key value
+ * \param[out]  mod     GDK key modifiers
+ *
+ * \return  boolean (1 if added)
+ */
 static int addpressedkey(GdkEvent *report, int *key, int *mod)
 {
     int idx;
@@ -285,6 +319,15 @@ static int addpressedkey(GdkEvent *report, int *key, int *mod)
     return 0;
 }
 
+
+/** \brief  Remove pressed key
+ *
+ * \param[in]   report  GDK key-press event
+ * \param[out]  key     GDK key value
+ * \param[out]  mod     GDK key modifiers
+ *
+ * \return  boolean (1 if removed)
+ */
 static int removepressedkey(GdkEvent *report, int *key, int *mod)
 {
     int i, idx;
