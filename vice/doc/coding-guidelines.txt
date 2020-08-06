@@ -169,13 +169,13 @@ To keep the code easy to follow please read the following statements:
 
 - Use braces even when they are not really required, it makes expressions
   easier to read and allows to use advanced highlighting in the editor, ie
-  
+
   if ((a + b) && (c != d)) {
       /* ... */
   }
-  
-    instead of 
-    
+
+    instead of
+
   if (a + b && c != d) {
       /* ... */
   }
@@ -264,19 +264,18 @@ current exceptions from this rule are:
 
 src/infocontrib.h:                 ISO-8859                     (generated file)
 
-src/translate_text.c:              ISO-8859                        (translation)
-src/translate_text.c.po.c:         ISO-8859             (translation, generated)
-
-src/arch/amigaos/intl.c:           ISO-8859                        (translation)
-src/arch/amigaos/intl_text.c:      ISO-8859                        (translation)
-src/arch/amigaos/intl_text.c.po.c: ISO-8859             (translation, generated)
-
-src/arch/win32/res*.rc.po.c:       ISO-8859             (translation, generated)
-
-src/arch/win32/vs_tmpl/mkmsvc.c:   UTF-8 Unicode, CRLF line terminators
-
 Keep in mind that editing the translation related files need special care, make
 sure not to mess up the file by somehow converting the encoding!
+
+
+Documentation
+-------------
+
+Please add documentation to code you add or alter.
+We use Doxygen to document our code, add docblocks for each public function or
+data structure, at a minimum. Adding documentation is boring and the discipline
+to do that is even harder, but it'll help out your fellow (future) devs and
+probably even you after not working on a piece of code for some time.
 
 
 Adding new files to the svn repo
