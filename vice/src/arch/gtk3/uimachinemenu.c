@@ -152,7 +152,12 @@ static gboolean settings_load_callback(GtkWidget *widget, gpointer data)
 }
 
 
-
+/** \brief  Calllback for the load-settings dialog
+ *
+ * \param[in,out]   dialog      dialog
+ * \param[in,out]   filename    filename
+ * \param[in]       data        extra data (unused)
+ */
 static void settings_load_filename_callback(GtkDialog *dialog,
                                             gchar *filename,
                                             gpointer data)
