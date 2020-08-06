@@ -139,6 +139,14 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
 }
 
 
+#if 0
+/** \brief  Load an animation from VICE's GResource instance
+ *
+ * \param[in]   name    filename inside the GResource
+ * \param[in]   loop    loop animation
+ *
+ * \return  animation reference or `NULL` on error
+ */
 GdkPixbufAnimation *uidata_get_pixbuf_animated(const char *name, gboolean loop)
 {
     GdkPixbufAnimation *buf;
@@ -156,6 +164,7 @@ GdkPixbufAnimation *uidata_get_pixbuf_animated(const char *name, gboolean loop)
     }
     return buf;
 }
+#endif
 
 
 /** \brief  Get a bytes from the GResource blob
