@@ -63,7 +63,13 @@
 #include "widgethelpers.h"
 
 
-
+/** \brief  Callback for the confirm-on-exit dialog
+ *
+ * Exit VICE if \a result is TRUE.
+ *
+ * \param[in]   dialog  dialog reference (unused)
+ * \param[in]   result  dialog result
+ */
 static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
 {
     debug_gtk3("called: %s", result ? "TRUE" : "FALSE");
@@ -446,17 +452,24 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
     return TRUE;
 }
 
-static void restore_default_callback(GtkDialog *dialog, gboolean b)
+
+/** \brief  Callback for the confirmation dialog to restore settings
+ *
+ * Restore settings to their factory values if \a result is TRUE.
+ *
+ * \param[in]   dialog  confirm-dialog reference
+ * \param[in]   result  result
+ */
+static void restore_default_callback(GtkDialog *dialog, gboolean result)
 {
     debug_gtk3("Resetting resources to default.");
-    if (b) {
+    if (result) {
         mainlock_obtain();
         resources_set_defaults();
         mainlock_release();
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
 
 
 /** \brief  Restore default settings
