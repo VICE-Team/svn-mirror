@@ -326,7 +326,14 @@ static GtkListStore *create_cart_id_model_vic20(void);
 #endif
 
 
-static void uicart_confirm_callback(GtkDialog *dialog, gboolean result)
+/** \brief  Callback for the detach confirm dialog
+ *
+ * If \a result is TRUE, detach all carts.
+ *
+ * \param[in]   dialog  dialog reference (unused)
+ * \param[in]   result  dialog result
+ */
+static void uicart_confirm_detach_callback(GtkDialog *dialog, gboolean result)
 {
     if (result) {
         crt_unset_default_func();
@@ -1152,7 +1159,7 @@ gboolean ui_cart_detach(void)
                 if (cartid != CARTRIDGE_NONE) {
                     /* default is set, ask to remove it */
                     vice_gtk3_message_confirm(
-                            uicart_confirm_callback,
+                            uicart_confirm_detach_callback,
                             "Detach cartridge",
                             "You're detaching the default cartridge.\n\n"
                             "Would you also like to unregister this cartridge"
