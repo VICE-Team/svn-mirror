@@ -149,15 +149,25 @@ void kbd_initialize_numpad_joykeys(int *joykeys)
 /* since GDK will not make a difference between left and right shift in the
    modifiers reported in the key event, we track the state of the shift keys
    ourself.
-  
+
    FIXME: perhaps the caps-lock state can be tracked better by using
           gdk_keymap_get_caps_lock_state() instead - however this will then
           actually consider the "locking". this still has to be fixed in the
           common code handling this.
 */
+
+/** \brief  Left SHIFT key state
+ */
 static int shiftl_state = 0;
+
+/** \brief  Right SHIFT key state
+ */
 static int shiftr_state = 0;
+
+/** \brief  CAPSLOCK key state
+ */
 static int capslock_state = 0;
+
 
 /** \brief  Set shift flags on key press
  *
