@@ -64,6 +64,8 @@ typedef struct netctrl_s {
 } netctrl_t;
 
 
+/** \brief  List of controls
+ */
 static const netctrl_t control_list[] = {
     { "Keyboard",       NETWORK_CONTROL_KEYB },
     { "Joystick #1",    NETWORK_CONTROL_JOY1 },
@@ -73,16 +75,24 @@ static const netctrl_t control_list[] = {
     { NULL,             0 }
 };
 
-
+/** \brief  Server address widget */
 static GtkWidget *server_addr = NULL;
+/** \brief  Server port widget */
 static GtkWidget *server_port = NULL;
+/** \brief  Server enable widget */
 static GtkWidget *server_enable = NULL;
+/** \brief  Server bind address */
 static GtkWidget *bind_addr = NULL;
+/** \brief  Server bind enable widget */
 static GtkWidget *bind_enable = NULL;
+/** \brief  Status message widget */
 static GtkWidget *status_widget = NULL;
+/** \brief  Controls widget */
 static GtkWidget *controls_widget = NULL;
 
 
+/** \brief  Modes for the netplay status display
+ */
 static const char *net_modes[] = {
     "Idle",
     "Server",
@@ -127,6 +137,16 @@ static gboolean netplay_update_resources(void)
 #endif
 
 
+/** \brief  Create an indented label
+ *
+ * Create a left-aligned, 16 pixels indented GtkLabel widget
+ *
+ * \note    Don't we have this in `base/widgets/` by now?
+ *
+ * \param[in]   text    label text
+ *
+ * \return  GtkLabel
+ */
 static GtkWidget *create_indented_label(const char *text)
 {
     GtkWidget *label = gtk_label_new(text);
@@ -136,11 +156,15 @@ static GtkWidget *create_indented_label(const char *text)
 }
 
 
+/** \brief  Handler for the "toggled" event of the server-enable switch
+ *
+ * \param[in]   widget  switch
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
     int bind = gtk_switch_get_active(GTK_SWITCH(bind_enable));
-
 
     debug_gtk3("Server %s requested.", state ? "ENABLE" : "DISABLE");
 
@@ -163,6 +187,11 @@ static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the client-enable switch
+ *
+ * \param[in]   widget  switch
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
@@ -188,6 +217,10 @@ static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
 
 
 
+/** \brief  Create server-enable widget
+ *
+ * \return  GtkSwitch
+ */
 static GtkWidget *create_server_enable_widget(void)
 {
     GtkWidget *widget;
@@ -205,6 +238,10 @@ static GtkWidget *create_server_enable_widget(void)
 }
 
 
+/** \brief  Create client-enable widget
+ *
+ * \return  GtkSwitch
+ */
 static GtkWidget *create_client_enable_widget(void)
 {
     GtkWidget *widget;
@@ -226,7 +263,7 @@ static GtkWidget *create_client_enable_widget(void)
  *
  * \param[in,out]   dialog      dialog
  * \param[in]       response_id response ID
- * \param[in]       extra event data (unused)
+ * \param[in]       data        extra event data (unused)
  */
 static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
