@@ -1734,8 +1734,18 @@ int ui_init_finalize(void)
     return 0;
 }
 
+
+/** \brief  Result of the JAM dialog
+ */
 static ui_jam_action_t jam_dialog_result;
 
+
+/** \brief  JAM dialog handler for the threaded UI
+ *
+ * \param[in]   user_data   message
+ *
+ * \return  FALSE
+ */
 gboolean ui_jam_dialog_impl(gpointer user_data)
 {
     ui_set_ignore_mouse_hide(TRUE);
@@ -1848,11 +1858,18 @@ int ui_extend_image_dialog(void)
 }
 
 
- /** \brief  Not used */
- void ui_dispatch_events(void)
+/** \brief  Not used */
+void ui_dispatch_events(void)
 {
 }
 
+
+/** \brief  Error dialog handler for the threaded UI
+ *
+ * \param[in]   user_data   error message
+ *
+ * \return  FALSE
+ */
 static gboolean ui_error_impl(gpointer user_data)
 {
     char *buffer = (char *)user_data;
