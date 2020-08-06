@@ -1695,6 +1695,8 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
  *                  CBM5x0 tree nodes for the settings UI                    *
  ****************************************************************************/
 
+/** \brief  Alias for the nodes list terminator
+ */
 #define ARNIE UI_SETTINGS_TERMINATOR
 
 /* {{{ machine_nodes_cbm5x0 */
@@ -1990,6 +1992,11 @@ static GtkWidget *paned_widget = NULL;
 static GtkTreePath *last_node_path = NULL;
 
 
+/** \brief  Handler for the "destroy" event of the main dialog
+ *
+ * \param[in]   widget      main dialog (unused)
+ * \param[in]   data        extra event data (unused)
+ */
 static void on_settings_dialog_destroy(GtkWidget *widget, gpointer data)
 {
     settings_window = NULL;
@@ -2744,6 +2751,12 @@ gboolean ui_settings_dialog_activate_node(const char *path)
 }
 
 
+/** \brief  Threaded UI handler for the settings dialog constructor
+ *
+ * \param[in]   user_data   path to active node in the treeview
+ *
+ * \return  FALSE
+ */
 gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_data)
 {
     const char *path = (const char *)user_data;
@@ -2762,6 +2775,7 @@ gboolean ui_settings_dialog_create_and_activate_node_impl(gpointer user_data)
     return FALSE;
 }
 
+
 /** \brief  Show settings main dialog and activate a node
  *
  * \param[in]   path    NULL or path to name ("foo/bar/blah")
@@ -2776,8 +2790,19 @@ gboolean ui_settings_dialog_create_and_activate_node(const char *path)
     return TRUE;
 }
 
+
+/** \brief  Menu callback for the settings dialog
+ *
+ * Opens the main settings dialog and activates the previously activate node,
+ * if any.
+ *
+ * \param[in]   widget      unused
+ * \param[in]   user_data   path to previously active node
+ *
+ * \return  TRUE
+ */
 gboolean ui_settings_dialog_create_and_activate_node_callback(
-        GtkWidget *_,
+        GtkWidget *widget,
         gpointer user_data)
 {
     int pause_on_settings;
