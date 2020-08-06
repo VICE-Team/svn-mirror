@@ -78,7 +78,14 @@ GtkWidget *ui_menu_submenu_create(GtkWidget *bar, const char *label)
     return new_submenu;
 }
 
-/** \brief  Constructor for accelerator data */
+
+/** \brief  Constructor for accelerator data
+ *
+ * \param[in]   widget  widget for the accelerator data
+ * \param[in]   item    menu item for the accelerator data
+ *
+ * \return  heap-allocated accelerator data (owned by VICE)
+ */
 static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *item)
 {
     ui_accel_data_t *accel_data = lib_malloc(sizeof(ui_accel_data_t));
@@ -87,9 +94,13 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
     return accel_data;
 }
 
+
 /** \brief  Destructor for accelerator data
  *
  * FIXME:   this doesn't get triggered
+ *
+ * \param[in,out]   data    accelerator data
+ * \param[in]       closure closure (unused)
  */
 static void ui_accel_data_delete(gpointer data, GClosure *closure)
 {
@@ -120,7 +131,13 @@ static void on_menu_item_destroy(GtkWidget *item, gpointer accel_data)
 }
 
 
-/** \brief  Callback that forwards accelerator codes.
+/** \brief  Callback that forwards accelerator codes
+ *
+ * \param[in]       accel_grp       accelerator group (unused)
+ * \param[in]       acceleratable   ? (unused)
+ * \param[in]       keyval          GDK keyval (unused)
+ * \param[in]       modifier        GDK key modifier(s) (unused)
+ * \param[in,out]   user_data       accelerator data
  */
 static void handle_accelerator(GtkAccelGroup *accel_grp,
                                GObject *acceleratable,
@@ -131,6 +148,7 @@ static void handle_accelerator(GtkAccelGroup *accel_grp,
     ui_accel_data_t *accel_data = (ui_accel_data_t *)user_data;
     accel_data->item->callback(accel_data->widget, accel_data->item->data);
 }
+
 
 /** \brief  Add menu \a items to \a menu
  *
