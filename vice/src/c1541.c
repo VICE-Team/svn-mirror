@@ -350,7 +350,7 @@ const command_t command_list[] = {
       2, 4,
       block_cmd },
     { "bpoke",
-      "poke [@<unit>:] <track> <sector> <offset> <data ...>",
+      "bpoke [@<unit>:] <track> <sector> <offset> <data ...>",
       "Poke <data> into block at (<track>,<sector>), starting at <offset>",
       4, MAXARG,
       bpoke_cmd },
