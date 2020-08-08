@@ -50,6 +50,7 @@ VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound
 VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
 VICE_ARG_WITH_LIST(mpg123,              [  --without-mpg123        do not use the mpg123 support])
+VICE_ARG_WITH_LIST(ogg-vorbis,          [  --without-ogg-vorbis    do not use the ogg/vorbis support])
 
 dnl the 'incorrect' indentation of the descrition is important here
 VICE_ARG_ENABLE_LIST(ahi,               [  --disable-ahi           disables AHI support])
@@ -2708,10 +2709,13 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     fi
 fi
 
+dnl How do soundbeos.o and soundbsp.o get generated?
 if test x"$is_beos" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o soundbsp.o"
 fi
 
+
+dnl Check presence of Ogg/Vorbis
 VORBIS_PRESENT=yes
 AC_CHECK_HEADERS(vorbis/vorbisfile.h,,[VORBIS_PRESENT=no],)
 
@@ -2731,14 +2735,18 @@ if test x"$VORBIS_PRESENT" = "xyes"; then
   AC_CHECK_LIB(vorbisenc, vorbis_encode_init_vbr,, [VORBIS_PRESENT=no])
 fi
 
-if test x"$VORBIS_PRESENT" = "xyes"; then
-  SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
-  LIBS="$LIBS -lvorbisfile -logg -lvorbis -lvorbisenc"
-  USE_VORBIS_SUPPORT="yes"
-  AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
+dnl Check required ogg/vorbis
+if test x"$with_ogg_vorbis" != "xno"; then
+
+    if test x"$VORBIS_PRESENT" = "xyes"; then
+        SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
+        LIBS="$LIBS -lvorbisfile -logg -lvorbis -lvorbisenc"
+        USE_VORBIS_SUPPORT="yes"
+        AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
+    fi
 fi
 
-FLAC_PRESENT=yes
+FLAC_PRESENT=no
 
 AC_CHECK_HEADERS(FLAC/stream_decoder.h,,[FLAC_PRESENT=no],)
 
@@ -3849,7 +3857,7 @@ echo "PCI utils support            : $HAVE_PCIUTILS_SUPPORT"
 echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"
 echo "MP3 decoding support         : $USE_MPG123_SUPPORT (--with/without-mpg123)"
 echo "FLAC en/de-coding support    : $USE_FLAC_SUPPORT"
-echo "OGG en/de-coding support     : $USE_VORBIS_SUPPORT"
+echo "OGG en/de-coding support     : $USE_VORBIS_SUPPORT (--with/without-ogg-vorbis)"
 
 echo ""
 echo "SCREENSHOTS"
