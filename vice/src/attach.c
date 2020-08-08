@@ -728,22 +728,12 @@ void file_system_detach_disk_shutdown(void)
     unsigned int i, j;
 
     for (i = 0; i < NUM_DISK_UNITS; i++) {
-        vdrive = file_system_get_vdrive(i + 8, 0);
-        if (vdrive != NULL) {
-            if (file_system_device_enabled[i] == ATTACH_DEVICE_REAL) {
-                serial_realdevice_disable();
-            } else {
-                for (j = 0; j < NUM_DRIVES; j++) {
-                    detach_disk_image_and_free(vdrive->image, vdrive, i + 8, j);
-                }
-            }
-        }
-        vdrive = file_system_get_vdrive(i + 8, 1);
-        if (vdrive != NULL) {
-            if (file_system_device_enabled[i] == ATTACH_DEVICE_REAL) {
-                serial_realdevice_disable();
-            } else {
-                for (j = 0; j < NUM_DRIVES; j++) {
+        if (file_system_device_enabled[i] == ATTACH_DEVICE_REAL) {
+            serial_realdevice_disable();
+        } else {
+            for (j = 0; j < NUM_DRIVES; j++) {
+                vdrive = file_system_get_vdrive(i + 8, j);
+                if (vdrive != NULL) {
                     detach_disk_image_and_free(vdrive->image, vdrive, i + 8, j);
                 }
             }
