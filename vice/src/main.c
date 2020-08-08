@@ -338,18 +338,20 @@ void vice_thread_shutdown(void)
     }
 
     log_message(LOG_DEFAULT, "\nVICE thread exiting ...");
-    
+
     if (pthread_equal(pthread_self(), vice_thread)) {
         printf("FIXME! VICE thread is trying to shut itself down directly, this needs to be called from the ui thread for a correct shutdown!\n");
         mainlock_initiate_shutdown();
         return;
     }
-    
+
     mainlock_obtain();
     mainlock_initiate_shutdown();
     mainlock_release();
-    
+
     pthread_join(vice_thread, NULL);
+
+    machine_shutdown();
 
     log_message(LOG_DEFAULT, "VICE thread has exited.");
 }
