@@ -350,11 +350,6 @@ void vice_thread_shutdown(void)
     pthread_join(vice_thread, NULL);
 
     log_message(LOG_DEFAULT, "VICE thread has exited.");
-
-#ifdef __NetBSD__
-    /* HACK - NetBSD fails on shutdown in vice thread, windows does on main thread, linux & mac don't care */
-    machine_shutdown();
-#endif
 }
 
 void *vice_thread_main(void *unused)
