@@ -228,13 +228,17 @@ void maincpu_reset(void)
 unsigned int reg_pc;
 #endif
 
-static uint8_t *bank_base;
+static bool bank_base_ready = false;
+static uint8_t *bank_base = NULL;
 static int bank_start = 0;
 static int bank_limit = 0;
 static uint8_t bank_bank = 0;
 
-void maincpu_resync_limits(void) {
-    mem_mmu_translate(reg_pc | (bank_bank << 16), &bank_base, &bank_start, &bank_limit);
+void maincpu_resync_limits(void)
+{
+    if (bank_base_ready) {
+        mem_mmu_translate(reg_pc | (bank_bank << 16), &bank_base, &bank_start, &bank_limit);
+    }
 }
 
 void maincpu_mainloop(void)
@@ -269,6 +273,13 @@ void maincpu_mainloop(void)
 #ifndef NEED_REG_PC
     unsigned int reg_pc;
 #endif
+    
+    /*
+     * Enable maincpu_resync_limits functionality .. in the old code
+     * this is where the local stack var had its address copied to
+     * the global.
+     */
+    bank_base_ready = true;
     
     reg_c = 0;
 

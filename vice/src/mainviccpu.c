@@ -446,13 +446,16 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 unsigned int reg_pc;
 #endif
 
+static bool bank_base_ready = false;
 static uint8_t *bank_base;
 static int bank_start = 0;
 static int bank_limit = 0;
 
 void maincpu_resync_limits(void)
 {
-    mem_mmu_translate(reg_pc, &bank_base, &bank_start, &bank_limit);
+    if (bank_base_ready) {
+        mem_mmu_translate(reg_pc, &bank_base, &bank_start, &bank_limit);
+    }
 }
 
 void maincpu_mainloop(void)
@@ -470,6 +473,13 @@ void maincpu_mainloop(void)
     /* FIXME: this should really be uint16_t, but it breaks things (eg trap17.prg) */
     unsigned int reg_pc;
 #endif
+
+    /*
+     * Enable maincpu_resync_limits functionality .. in the old code
+     * this is where the local stack var had its address copied to
+     * the global.
+     */
+    bank_base_ready = true;
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 
