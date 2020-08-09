@@ -285,7 +285,7 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)
 {
-    /* TODO! */
+    XDestroyWindow(context->x_display, context->x_overlay_window);
 }
 
 static bool isExtensionSupported(const char *extList, const char *extension)

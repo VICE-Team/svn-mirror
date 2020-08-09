@@ -68,6 +68,7 @@
 #endif
 
 #include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -903,6 +904,26 @@ static int p_expand(int version, int addr, int ctrls);
 static void p_tokenize(int version, unsigned int addr, int ctrls);
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int token, int maxitems);
 static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, int maxitems);
+
+/* ------------------------------------------------------------------------- */
+
+/*
+ * Stubs needed due to archdep_exit functionality that
+ * needs to call back into vice
+ */
+
+void render_thread_shutdown_and_join_all(void)
+{
+}
+
+bool mainlock_is_vice_thread(void)
+{
+    return false;
+}
+
+void mainlock_initiate_shutdown(void)
+{
+}
 
 /* ------------------------------------------------------------------------- */
 

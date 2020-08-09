@@ -199,7 +199,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     vice_opengl_renderer_clear_current(context);
     
     /* Create an exclusive single thread 'pool' for executing render jobs */
-    context->render_thread = g_thread_pool_new(render, canvas, 1, TRUE, NULL);
+    context->render_thread = render_thread_create(render, canvas);
 
     /* Monitor display DPI changes */
     g_signal_connect_unlocked(gtk_widget_get_screen(widget), "monitors_changed", G_CALLBACK(on_widget_monitors_changed), canvas);
@@ -215,22 +215,10 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
     g_signal_handlers_disconnect_by_func(gtk_widget_get_screen(widget), G_CALLBACK(on_widget_monitors_changed), canvas);
 
     CANVAS_LOCK();
-
-    /*
-     * Shut down the render thread.
-     * We pass FALSE to indicate that we don't want to block until
-     * the current job has finished executing. Various deadlocks are
-     * possible if we block here.
-     * 
-     * FIXME: This is a workaround. Determine how to block here until
-     * any current rendering job is finished.
-     */
-    g_thread_pool_free(context->render_thread, TRUE, FALSE);
-    context->render_thread = NULL;
-
+    
     /* Remove and dealloc the child view */
     vice_opengl_renderer_destroy_child_view(context);
-    
+        
     CANVAS_UNLOCK();
 }
 
@@ -357,7 +345,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     CANVAS_LOCK();
     if (context->render_thread) {
         render_queue_enqueue_for_display(context->render_queue, backbuffer);
-        g_thread_pool_push(context->render_thread, context, NULL);
+        render_thread_push_job(context->render_thread, context);
     } else {
         /* Thread no longer running, probably shutting down */
         render_queue_return_to_pool(context->render_queue, backbuffer);
@@ -392,7 +380,7 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 
     if (context->last_render_time < context->last_host_frame_time) {
         if (context->render_thread) {
-            g_thread_pool_push(context->render_thread, context, NULL);
+            render_thread_push_job(context->render_thread, context);
         }
     }
 
@@ -411,7 +399,7 @@ static void render(void *job_data, void *pool_data)
     float backbuffer_pixel_aspect_ratio;
 
     backbuffer = render_queue_dequeue_for_display(context->render_queue);
-
+    
     CANVAS_LOCK();
 
     if (backbuffer) {
@@ -598,8 +586,6 @@ static void render(void *job_data, void *pool_data)
      * Also, using glFlush() results in incorrect transition to fullscreen when paused (X11).
      */
     
-    glFinish();
-
     vice_opengl_renderer_present_backbuffer(context);
 
     vice_opengl_renderer_clear_current(context);

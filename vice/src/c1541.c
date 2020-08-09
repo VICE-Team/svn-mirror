@@ -54,6 +54,7 @@
 
 #include <ctype.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -287,6 +288,19 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 }
 
 void ui_error(const char *format, ...)
+{
+}
+
+void render_thread_shutdown_and_join_all(void)
+{
+}
+
+bool mainlock_is_vice_thread(void)
+{
+    return false;
+}
+
+void mainlock_initiate_shutdown(void)
 {
 }
 

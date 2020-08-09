@@ -41,11 +41,12 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#include "log.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "vsyncapi.h"
 
-static volatile int vice_thread_keepalive = 1;
+static volatile bool vice_thread_keepalive = true;
 
 static int ui_thread_waiting = 0;
 static int ui_thread_lock_count = 0;
@@ -78,27 +79,41 @@ void mainlock_init(void)
 }
 
 
-void mainlock_initiate_shutdown(void)
-{
-    pthread_mutex_lock(&lock);
-
-    vice_thread_keepalive = 0;
-
-    pthread_mutex_unlock(&lock);
-}
-
-
 static void consider_exit(void)
 {
     /* Check if the vice thread has been told to die. */
     if (!vice_thread_keepalive) {
         vice_thread_is_running = false;
-        pthread_cond_signal(&return_condition);
+        /* Signal the yield condition in case the main thread is currently waiting for it */
+        pthread_cond_signal(&yield_condition);
         pthread_mutex_unlock(&lock);
         
         /* Execution ends here - this function does not return. */
         pthread_exit(NULL);
         assert(0);
+    }
+}
+
+
+void mainlock_initiate_shutdown(void)
+{
+    pthread_mutex_lock(&lock);
+
+    if (!vice_thread_keepalive) {
+        pthread_mutex_unlock(&lock);
+        return;
+    }
+
+    log_message(LOG_DEFAULT, "VICE thread initiating shutdown");
+
+    vice_thread_keepalive = false;
+
+    pthread_mutex_unlock(&lock);
+
+    /* If called on the vice thread itself, run the exit code immediately */
+    if (pthread_equal(pthread_self(), vice_thread)) {
+        consider_exit();
+        log_error(LOG_ERR, "VICE thread didn't immediately exit when it should have");
     }
 }
 
@@ -233,9 +248,15 @@ void mainlock_obtain(void)
 }
 
 
+bool mainlock_is_vice_thread(void)
+{
+    return pthread_equal(pthread_self(), vice_thread);
+}
+
+
 void mainlock_assert_is_not_vice_thread(void)
 {
-    assert(!pthread_equal(pthread_self(), vice_thread));
+    assert(!mainlock_is_vice_thread());
 }
 
 

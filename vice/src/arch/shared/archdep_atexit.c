@@ -29,15 +29,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* FIXME: Probably shouldn't be doing GTK3 specific stuff in shared archdep code .. maybe? --dqh */
+
 #ifdef USE_NATIVE_GTK3
+#include <assert.h>
 #include <gtk/gtk.h>
 #include <pthread.h>
 #endif
 
 #include "archdep.h"
-#include "main.h"
 
 #ifdef USE_NATIVE_GTK3
+#include "main.h"
+#include "mainlock.h"
+#include "render_thread.h"
+
 static int vice_exit_code;
 static pthread_t main_thread;
 #endif
@@ -59,10 +65,33 @@ int archdep_vice_atexit(void (*function)(void))
     return atexit(function);
 }
 
-#ifdef USE_NATIVE_GTK3
+#ifndef USE_NATIVE_GTK3
 
-static gboolean exit_from_main_thread(gpointer user_data)
+/** \brief  Wrapper around exit()
+ *
+ * \param[in]   excode  exit code
+ */
+void archdep_vice_exit(int excode)
 {
+    exit(excode);
+}
+
+#else /* #ifndef USE_NATIVE_GTK3 */
+
+/*
+ * GTK3 needs a more controlled shutdown due to the multiple threads involved.
+ * In particular, it's tricky to synchronously shut down rendering threads as
+ * certain OpenGL calls can block if the main thread is blocked (either that, or
+ * if certain UI resources are destroyed, i'm not sure which at this point --dqh)
+ */
+
+static gboolean exit_on_main_thread(gpointer not_used)
+{
+    assert(pthread_equal(pthread_self(), main_thread));
+
+    /* The render thread MUST be joined before exit() is called otherwise gl calls can deadlock */
+    render_thread_shutdown_and_join_all();
+
     exit(vice_exit_code);
 
     return FALSE;
@@ -73,23 +102,26 @@ void archdep_set_main_thread()
     main_thread = pthread_self();
 }
 
-#endif /* #ifdef USE_NATIVE_GTK3 */
-
 /** \brief  Wrapper around exit()
  *
  * \param[in]   excode  exit code
  */
 void archdep_vice_exit(int excode)
 {
-#ifdef USE_NATIVE_GTK3
     vice_exit_code = excode;
 
     if (pthread_equal(pthread_self(), main_thread)) {
-        exit(excode);
+        /* The main thread is calling this, we can start shutting down directly */
+        exit_on_main_thread(NULL);
     } else {
-        gdk_threads_add_timeout(0, exit_from_main_thread, NULL);
+        /* We need the main thread to process the exit handling. */
+        gdk_threads_add_timeout(0, exit_on_main_thread, NULL);
+
+        if (mainlock_is_vice_thread()) {
+            /* The vice thread should shut itself down so that archdep_vice_exit does not return */
+            mainlock_initiate_shutdown();            
+        }
     }
-#else
-    exit(excode);
-#endif
 }
+
+#endif /* #ifndef USE_NATIVE_GTK3 */

@@ -337,8 +337,6 @@ void vice_thread_shutdown(void)
         return;
     }
 
-    log_message(LOG_DEFAULT, "\nVICE thread exiting ...");
-
     if (pthread_equal(pthread_self(), vice_thread)) {
         printf("FIXME! VICE thread is trying to shut itself down directly, this needs to be called from the ui thread for a correct shutdown!\n");
         mainlock_initiate_shutdown();
@@ -351,9 +349,10 @@ void vice_thread_shutdown(void)
 
     pthread_join(vice_thread, NULL);
 
-    machine_shutdown();
-
     log_message(LOG_DEFAULT, "VICE thread has exited.");
+
+    /* VICE internals appear to need to be shut down on the primary thread on NetBSD */
+    machine_shutdown();
 }
 
 void *vice_thread_main(void *unused)

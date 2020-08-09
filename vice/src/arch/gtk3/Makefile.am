@@ -77,6 +77,7 @@ libarch_a_SOURCES = \
 	petui.c \
 	plus4ui.c \
 	render_queue.c \
+	render_thread.c \
 	scpu64ui.c \
 	ui.c \
 	uiabout.c \
@@ -154,6 +155,7 @@ EXTRA_DIST = \
 	opengl_renderer.h \
 	opengl_renderer_macos.h \
 	render_queue.h \
+	render_thread.h \
 	ui.h \
 	uiabout.h \
 	uicart.h \
