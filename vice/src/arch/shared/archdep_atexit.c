@@ -109,7 +109,7 @@ void archdep_set_main_thread()
  */
 void archdep_vice_exit(int exit_code)
 {
-    vice_exit_code = excode;
+    vice_exit_code = exit_code;
 
     if (pthread_equal(pthread_self(), main_thread)) {
         /* The main thread is calling this, we can shut down directly */
