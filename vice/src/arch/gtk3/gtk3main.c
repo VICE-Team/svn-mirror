@@ -36,6 +36,7 @@
 #include "log.h"
 #include "machine.h"
 #include "main.h"
+#include "render_thread.h"
 #include "ui.h"
 #include "video.h"
 
@@ -106,7 +107,12 @@ int main(int argc, char **argv)
  */
 void main_exit(void)
 {
+    /* The render thread MUST be joined before exit() is called otherwise gl calls can deadlock */
+    render_thread_shutdown_and_join_all();
+    
     ui_exit();
 
     vice_thread_shutdown();
+    
+    machine_shutdown();
 }
