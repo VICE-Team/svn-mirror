@@ -228,15 +228,13 @@ void maincpu_reset(void)
 unsigned int reg_pc;
 #endif
 
-static uint8_t **o_bank_base;
-static int *o_bank_start;
-static int *o_bank_limit;
-static uint8_t *o_bank_bank;
+static *bank_base;
+static int bank_start = 0;
+static int bank_limit = 0;
+static uint8_t bank_bank = 0;
 
 void maincpu_resync_limits(void) {
-    if (o_bank_base) {
-        mem_mmu_translate(reg_pc | (*o_bank_bank << 16), o_bank_base, o_bank_start, o_bank_limit);
-    }
+    mem_mmu_translate(reg_pc | (bank_bank << 16), &bank_base, &bank_start, &bank_limit);
 }
 
 void maincpu_mainloop(void)
@@ -271,16 +269,7 @@ void maincpu_mainloop(void)
 #ifndef NEED_REG_PC
     unsigned int reg_pc;
 #endif
-    uint8_t *bank_base;
-    int bank_start = 0;
-    int bank_limit = 0;
-    uint8_t bank_bank = 0;
-
-    o_bank_base = &bank_base;
-    o_bank_start = &bank_start;
-    o_bank_limit = &bank_limit;
-    o_bank_bank = &bank_bank;
-
+    
     reg_c = 0;
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
