@@ -26,6 +26,7 @@
  */
 
 #include "vice.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -38,11 +39,10 @@
 #endif
 
 #include "archdep.h"
+#include "main.h"
 
 #ifdef USE_NATIVE_GTK3
-#include "main.h"
 #include "mainlock.h"
-#include "render_thread.h"
 
 static int vice_exit_code;
 static pthread_t main_thread;
@@ -65,15 +65,21 @@ int archdep_vice_atexit(void (*function)(void))
     return atexit(function);
 }
 
+static void actually_exit(int exit_code)
+{
+    /* Some exit stuff not safe to run afer exit() is called so we do it here */
+    main_exit();
+
+    exit(exit_code);
+}
+
 #ifndef USE_NATIVE_GTK3
 
 /** \brief  Wrapper around exit()
- *
- * \param[in]   excode  exit code
  */
-void archdep_vice_exit(int excode)
+void archdep_vice_exit(int exit_code)
 {
-    exit(excode);
+    actually_exit(exit_code);
 }
 
 #else /* #ifndef USE_NATIVE_GTK3 */
@@ -87,12 +93,7 @@ void archdep_vice_exit(int excode)
 
 static gboolean exit_on_main_thread(gpointer not_used)
 {
-    assert(pthread_equal(pthread_self(), main_thread));
-
-    /* The render thread MUST be joined before exit() is called otherwise gl calls can deadlock */
-    render_thread_shutdown_and_join_all();
-
-    exit(vice_exit_code);
+    actually_exit(vice_exit_code);
 
     return FALSE;
 }
@@ -106,13 +107,13 @@ void archdep_set_main_thread()
  *
  * \param[in]   excode  exit code
  */
-void archdep_vice_exit(int excode)
+void archdep_vice_exit(int exit_code)
 {
     vice_exit_code = excode;
 
     if (pthread_equal(pthread_self(), main_thread)) {
-        /* The main thread is calling this, we can start shutting down directly */
-        exit_on_main_thread(NULL);
+        /* The main thread is calling this, we can shut down directly */
+        actually_exit(exit_code);
     } else {
         /* We need the main thread to process the exit handling. */
         gdk_threads_add_timeout(0, exit_on_main_thread, NULL);

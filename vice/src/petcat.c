@@ -912,7 +912,7 @@ static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, 
  * needs to call back into vice
  */
 
-void render_thread_shutdown_and_join_all(void)
+void main_exit(void)
 {
 }
 

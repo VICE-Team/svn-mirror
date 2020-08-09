@@ -173,11 +173,6 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
-    if (archdep_vice_atexit(main_exit) != 0) {
-        archdep_startup_log_error("archdep_vice_atexit failed.\n");
-        return -1;
-    }
-
     vsyncarch_init();
     maincpu_early_init();
     machine_setup_context();

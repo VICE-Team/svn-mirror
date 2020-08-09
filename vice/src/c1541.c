@@ -291,7 +291,7 @@ void ui_error(const char *format, ...)
 {
 }
 
-void render_thread_shutdown_and_join_all(void)
+void main_exit(void)
 {
 }
 

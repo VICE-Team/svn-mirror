@@ -107,6 +107,12 @@ int main(int argc, char **argv)
  */
 void main_exit(void)
 {
+    /*
+     * The render thread MUST be joined before the platform exit() is called
+     * otherwise gl calls can deadlock
+     */
+    render_thread_shutdown_and_join_all();
+    
     ui_exit();
 
     vice_thread_shutdown();
