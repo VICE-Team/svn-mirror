@@ -228,7 +228,7 @@ void maincpu_reset(void)
 unsigned int reg_pc;
 #endif
 
-static *bank_base;
+static uint8_t *bank_base;
 static int bank_start = 0;
 static int bank_limit = 0;
 static uint8_t bank_bank = 0;
