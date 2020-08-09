@@ -89,6 +89,9 @@ static gboolean exit_on_main_thread(gpointer not_used)
 {
     assert(pthread_equal(pthread_self(), main_thread));
 
+    /* The render thread MUST be joined before exit() is called otherwise gl calls can deadlock */
+    render_thread_shutdown_and_join_all();
+
     exit(vice_exit_code);
 
     return FALSE;
