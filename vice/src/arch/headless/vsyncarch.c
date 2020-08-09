@@ -55,8 +55,6 @@
 #include <mach/mach_time.h>
 #endif
 
-/* hook to ui event dispatcher */
-static void_hook_t ui_dispatch_hook;
 static int pause_pending = 0;
 
 /* ------------------------------------------------------------------------- */
@@ -185,8 +183,6 @@ void vsyncarch_presync(void)
 void vsyncarch_postsync(void)
 {
     /* printf("%s\n", __func__); */
-
-    (*ui_dispatch_hook)();
 
     /* this function is called once a frame, so this
        handles single frame advance */
