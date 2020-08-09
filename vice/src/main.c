@@ -351,8 +351,10 @@ void vice_thread_shutdown(void)
 
     log_message(LOG_DEFAULT, "VICE thread has exited.");
 
-    /* VICE internals appear to need to be shut down on the primary thread on NetBSD */
+#ifdef __NetBSD__
+    /* HACK - NetBSD fails on shutdown in vice thread, windows does on main thread, linux & mac don't care */
     machine_shutdown();
+#endif
 }
 
 void *vice_thread_main(void *unused)

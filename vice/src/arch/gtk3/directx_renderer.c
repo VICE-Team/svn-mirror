@@ -80,7 +80,7 @@ static LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, 
             CANVAS_LOCK();
             /* If there is no pending render job, schedule one */
             if (!render_queue_length(context->render_queue)) {
-                g_thread_pool_push(context->render_thread, context, NULL);
+                render_thread_push_job(context->render_thread, context);
             }
             CANVAS_UNLOCK();
         }
@@ -184,7 +184,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     context->render_bg_colour.a = 1.0f;
 
     /* Create an exclusive single thread 'pool' for executing render jobs */
-    context->render_thread = g_thread_pool_new(vice_directx_impl_async_render, NULL, 1, TRUE, NULL);
+    context->render_thread = render_thread_create(vice_directx_impl_async_render, NULL);
 }
 
 static void on_widget_unrealized(GtkWidget *widget, gpointer data)
@@ -193,10 +193,6 @@ static void on_widget_unrealized(GtkWidget *widget, gpointer data)
     context_t *context = canvas->renderer_context;
 
     CANVAS_LOCK();
-
-    /* Shut down the render thread */
-    g_thread_pool_free(context->render_thread, TRUE, TRUE);
-    context->render_thread = NULL;
 
     vice_directx_destroy_context_impl(context);
 
@@ -243,7 +239,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     if (context->window) {
         MoveWindow(context->window, 0, 0, context->window_width, context->window_height, FALSE);
         if (!render_queue_length(context->render_queue)) {
-            g_thread_pool_push(context->render_thread, context, NULL);
+            render_thread_push_job(context->render_thread, context);
         }
     }
 
@@ -305,7 +301,7 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
 
     CANVAS_LOCK();
     render_queue_enqueue_for_display(context->render_queue, backbuffer);
-    g_thread_pool_push(context->render_thread, context, NULL);
+    render_thread_push_job(context->render_thread, context);
     CANVAS_UNLOCK();
 }
 

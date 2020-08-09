@@ -36,6 +36,8 @@
 #include <pthread.h>
 #include <stdbool.h>
 
+#include "render_thread.h"
+
 #ifdef __cplusplus  
 extern "C" { 
 #endif
@@ -50,7 +52,7 @@ typedef struct vice_directx_renderer_context_s {
     pthread_mutex_t render_lock;
 
     /** \brief A 'pool' of one thread used to render backbuffers via directx */
-    GThreadPool *render_thread;
+    render_thread_t render_thread;
 
     /** \brief A queue of backbuffers ready for painting to the widget */
     void *render_queue;

@@ -87,6 +87,11 @@ static void consider_exit(void)
         /* Signal the yield condition in case the main thread is currently waiting for it */
         pthread_cond_signal(&yield_condition);
         pthread_mutex_unlock(&lock);
+
+#ifndef __NetBSD__
+        /* HACK - NetBSD fails on shutdown in vice thread, windows does on main thread, linux & mac don't care */
+        machine_shutdown();
+#endif
         
         /* Execution ends here - this function does not return. */
         pthread_exit(NULL);
