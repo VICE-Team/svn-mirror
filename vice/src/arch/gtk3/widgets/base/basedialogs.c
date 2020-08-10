@@ -200,6 +200,8 @@ GtkWidget *vice_gtk3_message_info(const char *title,
 
     dialog = create_dialog(GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, title, buffer);
 
+    lib_free(buffer);
+
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response_info), NULL);
@@ -265,6 +267,8 @@ GtkWidget *vice_gtk3_message_error(const char *title,
     va_end(args);
 
     dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
+
+    lib_free(buffer);
 
     gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
