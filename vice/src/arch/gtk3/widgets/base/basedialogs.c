@@ -233,6 +233,8 @@ GtkWidget *vice_gtk3_message_confirm(void (*callback)(GtkDialog *, gboolean),
 
     dialog = create_dialog(GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
             title, buffer);
+    
+    lib_free(buffer);
 
     gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
