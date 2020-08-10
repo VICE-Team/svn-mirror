@@ -1206,11 +1206,11 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
 
 static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
 {
-    if (row == -1 && (col >= 0) && (col <= 8)) {
+    if (row == -1 && (col >= 0) && (col <= 8)) { /* FIXME - magic number 8 */
 #ifdef COMMON_JOYKEYS
         joykeys[JOYSTICK_KEYSET_IDX_A][col] = (int)sym;
 #endif
-    } else if (row == -2 && (col >= 0) && (col <= 8)) {
+    } else if (row == -2 && (col >= 0) && (col <= 8)) { /* FIXME - magic number 8 */
 #ifdef COMMON_JOYKEYS
         joykeys[JOYSTICK_KEYSET_IDX_B][col] = (int)sym;
 #endif
@@ -1222,8 +1222,8 @@ static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
         key_ctrl_column4080 = sym;
     } else if (row == -4 && col == 1) {
         key_ctrl_caps = sym;
-    } else if (row == -5 && col >= 0 && col < 20) {
-        key_joy_keypad[col / 5][col % 5] = sym;
+    } else if (row == -5 && col >= 0 && col < KBD_JOY_KEYPAD_ROWS * KDB_JOY_KEYPAD_COLS) {
+        key_joy_keypad[col / KDB_JOY_KEYPAD_COLS][col % KDB_JOY_KEYPAD_COLS] = sym;
     } else {
         return -1;
     }
