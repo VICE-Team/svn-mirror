@@ -202,12 +202,6 @@ static void recalculate_layout(vice_directx_renderer_context_t *context)
     screen_origin_x = (((float)context->window_width - screen_display_w) / 2.0);
     screen_origin_y = (((float)context->window_height - screen_display_h) / 2.0);
 
-    /* Update the detination rect used directly by the renderer */
-    context->render_dest_rect.left   = screen_origin_x;
-    context->render_dest_rect.right  = screen_origin_x + screen_display_w;
-    context->render_dest_rect.top    = screen_origin_y;
-    context->render_dest_rect.bottom = screen_origin_y + screen_display_h;
-
     /*
      * Direct2D thinks in terms of device indepenent pixels,
      * but GTK gives us pixel sizes in device dependent pixel sizes.
@@ -219,14 +213,11 @@ static void recalculate_layout(vice_directx_renderer_context_t *context)
 
     context->factory->GetDesktopDpi(&dpi_x, &dpi_y);
 
-    scale_x = 96.0f / dpi_x;
-    scale_y = 96.0f / dpi_x;
-
     /* Update the detination rect used directly by the renderer */
-    context->render_dest_rect.left   *= scale_x;
-    context->render_dest_rect.right  *= scale_x;
-    context->render_dest_rect.top    *= scale_y;
-    context->render_dest_rect.bottom *= scale_y;
+    context->render_dest_rect.left   = screen_origin_x                      * 96.0f / dpi_x;
+    context->render_dest_rect.right  = (screen_origin_x + screen_display_w) * 96.0f / dpi_x;
+    context->render_dest_rect.top    = screen_origin_y                      * 96.0f / dpi_y;
+    context->render_dest_rect.bottom = (screen_origin_y + screen_display_h) * 96.0f / dpi_y;
 
     /* Update the D2D render target size to match the UI size */
     if (context->render_target) {

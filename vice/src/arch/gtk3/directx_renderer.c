@@ -212,6 +212,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
 {
     video_canvas_t *canvas = data;
     context_t *context;
+    gint gtk_scale = gtk_widget_get_scale_factor(widget);
     
     CANVAS_LOCK();
 
@@ -221,8 +222,8 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
         return;
     }
 
-    context->window_width = allocation->width;
-    context->window_height = allocation->height;
+    context->window_width  = allocation->width  * gtk_scale;
+    context->window_height = allocation->height * gtk_scale;
 
     /* Set the background colour */
     if (ui_is_fullscreen()) {
