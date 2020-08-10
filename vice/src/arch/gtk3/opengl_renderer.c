@@ -607,14 +607,14 @@ static void vice_opengl_set_palette(video_canvas_t *canvas)
     
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
-        uint32_t color_code = color.red | (color.green << 8) | (color.blue << 16) | (0xff << 24);
+        uint32_t color_code = color.red | (color.green << 8) | (color.blue << 16) | (0xffU << 24);
         video_render_setphysicalcolor(canvas->videoconfig, i, color_code, 32);
     }
 
     for (i = 0; i < 256; i++) {
         video_render_setrawrgb(i, i, i << 8, i << 16);
     }
-    video_render_setrawalpha(255 << 24);
+    video_render_setrawalpha(0xffU << 24);
     video_render_initraw(canvas->videoconfig);
 }
 
