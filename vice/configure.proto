@@ -2746,7 +2746,9 @@ if test x"$with_ogg_vorbis" != "xno"; then
     fi
 fi
 
-FLAC_PRESENT=no
+
+dnl TODO: Add --with/without-flac (default=yes)
+FLAC_PRESENT=yes
 
 AC_CHECK_HEADERS(FLAC/stream_decoder.h,,[FLAC_PRESENT=no],)
 
