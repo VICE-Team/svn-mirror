@@ -16348,6 +16348,7 @@ Control the datasette. @code{command}:
 5 = reset, 6 = reset counter.
 
 @item quit
+@itemx q
 Exit the emulator immediately.
 
 @item ~ <number>

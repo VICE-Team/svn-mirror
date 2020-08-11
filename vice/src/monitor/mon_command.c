@@ -499,7 +499,7 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
-    { "quit", "",
+    { "quit", "q",
       NULL,
       "Exit the emulator immediately.",
       NO_FILENAME_ARG

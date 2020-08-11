@@ -218,7 +218,7 @@ HDIGIT  [0-9a-f]
         playback|pb     { BEGIN(FNAME);         return CMD_PLAYBACK; }
         print|p         { BEGIN(INITIAL);       return CMD_PRINT; }
         pwd             { BEGIN(INITIAL);       return CMD_PWD; }
-        quit            { BEGIN(INITIAL);       return CMD_QUIT; }
+        quit|q          { BEGIN(INITIAL);       return CMD_QUIT; }
         radix|rad       { BEGIN(RADIX);         return CMD_RADIX; }
         record|rec      { BEGIN(FNAME);         return CMD_RECORD; }
         registers|r     { BEGIN(REG_ASGN);      return CMD_REGISTERS; }
