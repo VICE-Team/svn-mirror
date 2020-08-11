@@ -2716,30 +2716,33 @@ if test x"$is_beos" = "xyes"; then
 fi
 
 
-dnl Check presence of Ogg/Vorbis
-VORBIS_PRESENT=yes
-AC_CHECK_HEADERS(vorbis/vorbisfile.h,,[VORBIS_PRESENT=no],)
-
-if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(ogg, ogg_stream_flush,, [VORBIS_PRESENT=no])
-fi
-
-if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(vorbis, vorbis_info_clear,, [VORBIS_PRESENT=no])
-fi
-
-if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(vorbisfile, ov_open_callbacks,, [VORBIS_PRESENT=no])
-fi
-
-if test x"$VORBIS_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(vorbisenc, vorbis_encode_init_vbr,, [VORBIS_PRESENT=no])
-fi
-
-dnl Check required ogg/vorbis
-if test x"$with_ogg_vorbis" != "xno"; then
+dnl Check for Ogg/Vorbis support
+if test x"$with_ogg_vorbis" = "xno"; then
+    VORBIS_PRESENT=no
+else
+    VORBIS_PRESENT=yes
+    AC_CHECK_HEADERS(vorbis/vorbisfile.h,,[VORBIS_PRESENT=no],)
 
     if test x"$VORBIS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(ogg, ogg_stream_flush,, [VORBIS_PRESENT=no])
+    fi
+
+    if test x"$VORBIS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(vorbis, vorbis_info_clear,, [VORBIS_PRESENT=no])
+    fi
+
+    if test x"$VORBIS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(vorbisfile, ov_open_callbacks,, [VORBIS_PRESENT=no])
+    fi
+
+    if test x"$VORBIS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(vorbisenc, vorbis_encode_init_vbr,, [VORBIS_PRESENT=no])
+    fi
+
+    if test x"$VORBIS_PRESENT" = "xno"; then
+        AC_MSG_ERROR([Ogg/Vorbis requested but missing.])
+    else
+        dnl Where does soundvorbis.o come from?
         SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
         LIBS="$LIBS -lvorbisfile -logg -lvorbis -lvorbisenc"
         USE_VORBIS_SUPPORT="yes"
