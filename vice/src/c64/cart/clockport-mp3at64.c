@@ -609,7 +609,7 @@ static void mp3at64_store_mp3_data(uint8_t val)
                                 ret = mpg123_decode(mh, mp3_frame_buffer, mp3_input_frame_size, (unsigned char *)buffer, MP3_MAX_SAMPLES_PER_FRAME * 2, &size);
                                 if (ret != MPG123_ERR && ret != MPG123_NEED_MORE) {
                                     mp3_output_buffers[block] = buffer;
-                                    mp3_output_buffers_size[block] = size / 2;
+                                    mp3_output_buffers_size[block] = (int)(size / 2);
                                     if (mp3_get_channels() != 2) {
                                         mp3_mono_to_stereo(block);
                                     }
