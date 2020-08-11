@@ -1715,7 +1715,7 @@ static int handle_mp3_file(int channels)
     buffer_size = mpg123_length(mh);
 
     lib_free(file_buffer);
-    file_size = buffer_size * 2 * mp3_channels;
+    file_size = (unsigned int)(buffer_size * 2 * mp3_channels);
     file_buffer = lib_malloc(file_size);
 
     mp3_err = mpg123_read(mh, file_buffer, file_size, &done);
@@ -1728,7 +1728,7 @@ static int handle_mp3_file(int channels)
 
     sound_audio_type = AUDIO_TYPE_PCM;
     sound_audio_channels = mp3_channels;
-    sound_audio_rate = mp3_rate;
+    sound_audio_rate = (unsigned int)mp3_rate;
     sound_audio_bits = 16;
 
     return convert_pcm_buffer(file_size, channels);
