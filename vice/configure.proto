@@ -51,6 +51,7 @@ VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use th
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
 VICE_ARG_WITH_LIST(mpg123,              [  --without-mpg123        do not use the mpg123 support])
 VICE_ARG_WITH_LIST(ogg-vorbis,          [  --without-ogg-vorbis    do not use the ogg/vorbis support])
+VICE_ARG_WITH_LIST(flac,                [  --without-flac          do not use the FLAC support])
 
 dnl the 'incorrect' indentation of the descrition is important here
 VICE_ARG_ENABLE_LIST(ahi,               [  --disable-ahi           disables AHI support])
@@ -2747,29 +2748,37 @@ if test x"$with_ogg_vorbis" != "xno"; then
 fi
 
 
-dnl TODO: Add --with/without-flac (default=yes)
-FLAC_PRESENT=yes
+dnl Check FLAC support
+if test x"$with_flac" = "xno"; then
+    FLAC_PRESENT=no
+else
+    FLAC_PRESENT=yes
 
-AC_CHECK_HEADERS(FLAC/stream_decoder.h,,[FLAC_PRESENT=no],)
+    AC_CHECK_HEADERS(FLAC/stream_decoder.h,,[FLAC_PRESENT=no],)
 
-if test x"$FLAC_PRESENT" = "xyes"; then
-  AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,, [FLAC_PRESENT=no])
+    if test x"$FLAC_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,, [FLAC_PRESENT=no])
+    fi
+
+    if test x"$FLAC_PRESENT" = "xno"; then
+        unset ac_cv_lib_FLAC_FLAC__stream_decoder_get_channels  
+        dnl Windows-specific check:
+        AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,, [FLAC_PRESENT=no], [-lwinmm])
+        if test x"$FLAC_PRESENT" = "xyes"; then
+            LIBS="$LIBS -lwinmm"
+        fi
+    fi
+
+    if test x"$FLAC_PRESENT" = "xyes"; then
+        LIBS="$LIBS -lFLAC"
+        SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o"
+        USE_FLAC_SUPPORT="yes"
+        AC_DEFINE(USE_FLAC,,[Enable FLAC support.])
+    else
+        AC_MSG_ERROR([FLAC support requested, but missing.])
+    fi
 fi
 
-if test x"$FLAC_PRESENT" = "xno"; then
-  unset ac_cv_lib_FLAC_FLAC__stream_decoder_get_channels
-  AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,, [FLAC_PRESENT=no], [-lwinmm])
-  if test x"$FLAC_PRESENT" = "xyes"; then
-    LIBS="$LIBS -lwinmm"
-  fi
-fi
-
-if test x"$FLAC_PRESENT" = "xyes"; then
-    LIBS="$LIBS -lFLAC"
-    SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o"
-    USE_FLAC_SUPPORT="yes"
-    AC_DEFINE(USE_FLAC,,[Enable FLAC support.])
-fi
 
 if test x"$is_unix_macosx" = "xyes"; then
 
@@ -3858,7 +3867,7 @@ echo "PCI utils support            : $HAVE_PCIUTILS_SUPPORT"
 
 echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"
 echo "MP3 decoding support         : $USE_MPG123_SUPPORT (--with/without-mpg123)"
-echo "FLAC en/de-coding support    : $USE_FLAC_SUPPORT"
+echo "FLAC en/de-coding support    : $USE_FLAC_SUPPORT (--with/without-flac)"
 echo "OGG en/de-coding support     : $USE_VORBIS_SUPPORT (--with/without-ogg-vorbis)"
 
 echo ""
