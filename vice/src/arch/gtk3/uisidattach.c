@@ -149,6 +149,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
 /** \brief  Create the 'extra' widget
  *
+ * \param[in]   parent  parent widget
+ *
  * \return  GtkGrid
  */
 static GtkWidget *create_extra_widget(GtkWidget *parent)
@@ -171,7 +173,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 
 /** \brief  Create the SID attach dialog
  *
- * \param[in]   parent  parent widget, used to get the top level window
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkFileChooserDialog
  */
@@ -240,6 +242,8 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
  *
  * \param[in]   widget  menu item triggering the callback
  * \param[in]   data    ignored
+ *
+ * \return  TRUE
  */
 gboolean uisidattach_show_dialog(GtkWidget *widget, gpointer data)
 {
