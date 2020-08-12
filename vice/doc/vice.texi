@@ -17488,6 +17488,11 @@ Delete the specified files.
 @item exit
 Exit (same as @code{quit}).
 
+@item entry [+side] <file1> [<file2> @dots{} <fileN>]
+Show the directory entries of the given files in full detail.
+If the @code{+side} option is present, and it is a RELative file,
+it also shows all side sectors.
+
 @item extract
 Extract all the files to the file system.
 

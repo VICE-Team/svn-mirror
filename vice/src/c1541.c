@@ -220,6 +220,7 @@ static int bwrite_cmd(int nargs, char **args);
 static int chain_cmd(int nargs, char **args);
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
+static int entry_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
 static int extract_geos_cmd(int nargs, char **args);
 static int format_cmd(int nargs, char **args);
@@ -401,6 +402,11 @@ const command_t command_list[] = {
       "List files matching <pattern> (default is all files).",
       0, 1,
       list_cmd },
+    { "entry",
+      "entry [+side] <file1> [<file2> ... <fileN>]",
+      "Show detailed directory entry of each <file>.",
+      1, MAXARG,
+      entry_cmd },
     { "exit",
       "exit",
       "Exit (same as `quit').",
@@ -2176,6 +2182,268 @@ static int copy_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+/** \brief  Print a side-sector-group, which is at most 6 side sectors.
+ *
+ * \param[in]   vdrive  the virtual drive from which we read the sectors
+ * \param[in]   track   the track number of the first side sector.
+ * \param[in]   sector  the sector number of the first side sector.
+ * \param[in]   group   when iterating over a super side sector, this is
+ *                      the number of the group within it.
+ * \param[in,out] side_sector_number   a pointer to a running counter for
+ *                      all side sectors belonging to the same file.
+ * \param[in,out] data_block_number    a pointer to a running counter for
+ *                      all data blocks belonging to the same file.
+ *
+ * \return  FD_OK on success, or < 0 on failure
+ */
+static void print_side_sector_group(vdrive_t *vdrive,
+                                    unsigned track, unsigned sector,
+                                    int group,
+                                    unsigned *side_sector_number,
+                                    unsigned *data_block_number)
+{
+    int count = 0;
+    int i;
+
+    while (track != 0 && count++ < SIDE_SECTORS_MAX) {
+        uint8_t buffer[256];
+
+        /* check track,sector */
+        int result = disk_image_check_sector(vdrive->image, track, sector);
+        if (result < 0) {
+            fprintf(stderr, "Invalid track %u sector %u.", track, sector);
+            break;
+        }
+
+        /* copy sector to buffer */
+        if (vdrive_read_sector(vdrive, buffer, track, sector) != 0) {
+            fprintf(stderr, "Cannot read track %u sector %u.", track, sector);
+            break;
+        }
+
+        printf("-------------------------------\n");
+        printf("Side sector at T/S: %u/%u", track, sector);
+        if (group >= 0) {
+            printf(" part of group %d", group);
+        }
+        printf("\n\nNext side sector T/S: %d/%d\n",
+                buffer[OFFSET_NEXT_TRACK], buffer[OFFSET_NEXT_SECTOR]);
+        printf("Sector number: %d (counted: %u)\n",
+                buffer[OFFSET_SECTOR_NUM],
+                *side_sector_number);
+        ++*side_sector_number;
+        printf("Record length: %d\n", buffer[OFFSET_RECORD_LEN]);
+
+        printf("Side sector group:\n");
+        for (i = 0; i < 6; i++) {
+            printf("%d: %u/%u  ",
+                    i,
+                    buffer[OFFSET_SIDE_SECTOR + 2*i],
+                    buffer[OFFSET_SIDE_SECTOR + 2*i + 1]);
+        }
+        printf("\nFile data sectors:\n");
+
+        for (i = OFFSET_POINTER; i < 255; i += 2) {
+            if (buffer[i] || buffer[i + 1]) {
+                printf("%u: %d/%d  ",
+                        *data_block_number,
+                        buffer[i], buffer[i + 1]);
+                ++*data_block_number;
+            }
+        }
+        printf("\n-------------------------------\n");
+
+        track = buffer[OFFSET_NEXT_TRACK];
+        sector = buffer[OFFSET_NEXT_SECTOR];
+    }
+}
+
+/** \brief  Show directory entries of file(s) on disk image(s) in
+ * low-level detail.
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  0 on success, < 0 on failure
+ */
+static int entry_cmd(int nargs, char **args)
+{
+    int show_side_sector = 0;
+    int arg = 1;
+    int i, j;
+
+    if (arg < nargs && strcmp(args[arg], "+side") == 0) {
+        arg++;
+        show_side_sector++;
+    }
+
+    for (; arg < nargs; arg++) {
+        int unit;   /* unit number */
+        int dnr;    /* index in drives array */
+        char *p;
+        char *name_ascii, *name_petscii;
+        const int secadr = 2;
+        uint8_t *slot;
+        uint8_t v;
+        vdrive_t *vdrive;
+
+        unit = extract_unit_from_file_name(args[arg], &p);
+        if (unit < 0) {
+            /* illegal unit between '@' and ':' */
+            return FD_BADDEV;
+        }
+        if (unit == 0) {
+            /* no '@<unit>:' found, use current device */
+            dnr = drive_index;
+        } else {
+            dnr = unit - DRIVE_UNIT_MIN;    /* set proper device index */
+        }
+        if (check_drive_ready(dnr) < 0) {
+            return FD_NOTREADY;
+        }
+        name_ascii = p;   /* update pointer to name_ascii */
+
+        if (!is_valid_cbm_file_name(name_ascii)) {
+            fprintf(stderr,
+                    "`%s' is not a valid CBM DOS file name: ignored\n", name_ascii);
+            continue;
+        }
+
+        name_petscii = lib_strdup(name_ascii);
+        charset_petconvstring((uint8_t *)name_petscii, 0);
+
+        if (vdrive_iec_open(drives[dnr], (uint8_t *)name_petscii,
+                            (unsigned int)strlen(name_petscii), secadr, NULL)) {
+            fprintf(stderr, "cannot read `%s'\n", name_ascii);
+
+            lib_free(name_petscii);
+            continue;
+        }
+
+        vdrive = drives[dnr];
+        bufferinfo_t *bufferinfo = &vdrive->buffers[secadr];
+        slot = bufferinfo->slot;
+
+        printf(" 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F\n");
+        printf("-----------------------------------------------\n");
+        for (j = 0; j < 2; j++) {
+            for (i = 0; i < SLOT_SIZE / 2; i++) {
+                printf("%02x ", slot[j * (SLOT_SIZE / 2) + i]);
+            }
+            printf("\n");
+        }
+        v = slot[SLOT_TYPE_OFFSET];
+        printf("\nNext directory T/S: %d/%d\n", slot[0], slot[1]);
+        static char *types[] = {
+            "del", "seq", "prg", "usr", "rel", "cbm", "dir", "007",
+        };
+        printf("Type: 0x%02x: %s", v, types[v & 7]);
+        if (v & CBMDOS_FT_REPLACEMENT) {
+            printf(" @replacement");
+        }
+        if (v & CBMDOS_FT_LOCKED) {
+            printf(" <locked");
+        }
+        if (!(v & CBMDOS_FT_CLOSED)) {
+            printf(" *unclosed");
+        }
+        printf("\n");
+        printf("T/S: %d/%d,  %d blocks\n",
+                slot[SLOT_FIRST_TRACK],
+                slot[SLOT_FIRST_SECTOR],
+                slot[SLOT_NR_BLOCKS] + 256 * slot[SLOT_NR_BLOCKS+1]);
+        printf("Name: ");
+        for (i = 0; i < CBMDOS_SLOT_NAME_LENGTH; i++) {
+            printf("%02x ", slot[SLOT_NAME_OFFSET + i]);
+        }
+        printf("\n");
+        printf("%side sector T/S: %d/%d,  Record length: %d\n",
+                (bufferinfo->super_side_sector_track ? "Super s" : "S"),
+                slot[SLOT_SIDE_TRACK], slot[SLOT_SIDE_SECTOR],
+                slot[SLOT_RECORD_LENGTH]);
+        printf("@-replacement T/S: %d/%d\n",
+                slot[SLOT_REPLACE_TRACK], slot[SLOT_REPLACE_SECTOR]);
+
+        printf("GEOS: IT/S: %d/%d\n", slot[SLOT_GEOS_ITRACK], slot[SLOT_GEOS_ISECTOR]);
+        printf("GEOS: struct: %02x,  type: %02x\n",
+                slot[SLOT_GEOS_STRUCT], slot[SLOT_GEOS_TYPE]);
+        printf("GEOS: YY/mm/dd hh:mm %d/%d/%d %d:%d\n",
+                slot[SLOT_GEOS_YEAR],
+                slot[SLOT_GEOS_MONTH],
+                slot[SLOT_GEOS_DATE],
+                slot[SLOT_GEOS_HOUR],
+                slot[SLOT_GEOS_MINUTE]);
+
+        /* If this is a REL file, print the side sectors */
+        if (show_side_sector &&
+            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL && 
+            slot[SLOT_SIDE_TRACK] != 0) {
+            unsigned int super_track = bufferinfo->super_side_sector_track;
+            unsigned int super_sector = bufferinfo->super_side_sector_sector;
+            unsigned int side_sector_number = 0;
+            unsigned int data_block_number = 0;
+
+            if (super_track) {
+                int o, side;
+
+                printf("===============================\n");
+                printf("Super side sector at T/S: %u/%u\n\n", super_track, super_sector);
+                unsigned int track, sector;
+
+                printf("Next T/S: %u/%u,  seq# or 254: %u,  unused at 255: %u\n",
+                        bufferinfo->super_side_sector[0],
+                        bufferinfo->super_side_sector[1],
+                        bufferinfo->super_side_sector[OFFSET_SUPER_254],
+                        bufferinfo->super_side_sector[255]);
+
+                printf("Side sector groups:\n");
+                o = OFFSET_SUPER_POINTER;
+                for (side = 0; side < SIDE_SUPER_MAX; side++, o += 2) {
+                    track = bufferinfo->super_side_sector[o],
+                    sector = bufferinfo->super_side_sector[o + 1];
+
+                    if (track || sector) {
+                        printf("%d: %u/%u  ", side, track, sector);
+                    }
+                }
+
+                printf("\n===============================\n");
+
+                o = OFFSET_SUPER_POINTER;
+                for (side = 0; side < SIDE_SUPER_MAX; side++, o += 2) {
+                    track = bufferinfo->super_side_sector[o],
+                    sector = bufferinfo->super_side_sector[o + 1];
+
+                    if (track != 0) {
+                        print_side_sector_group(vdrive, track, sector,
+                                                side,
+                                                &side_sector_number,
+                                                &data_block_number);
+                    }
+                }
+            } else {
+                unsigned int track = bufferinfo->side_sector_track[0];
+                unsigned int sector = bufferinfo->side_sector_sector[0];
+
+                print_side_sector_group(vdrive, track, sector,
+                                        -1,
+                                        &side_sector_number,
+                                        &data_block_number);
+            }
+        } else if (!show_side_sector &&
+            (slot[SLOT_TYPE_OFFSET] & 7) == CBMDOS_FT_REL && 
+            slot[SLOT_SIDE_TRACK] != 0) {
+            printf("This file seems to have side sector(s). Use the +side option to show them.\n");
+        }
+
+        vdrive_iec_close(drives[dnr], secadr);
+
+        lib_free(name_petscii);
+    }
+
+    return FD_OK;
+}
+
 
 /** \brief  Delete (scratch) file(s) from disk image(s)
  *
@@ -2329,7 +2597,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 
         buf = floppy->buffers[channel].buffer;
 
-        for (i = 0; i < 256; i += 32) {
+        for (i = 0; i < 256; i += SLOT_SIZE) {
             uint8_t file_type = buf[i + SLOT_TYPE_OFFSET];
 
             if (((file_type & 7) == CBMDOS_FT_SEQ
@@ -3913,7 +4181,7 @@ static int write_geos_cmd(int nargs, char **args)
      */
     drives[dev]->buffers[1].slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
 
-    memcpy(&dir.buffer[dir.slot * 32 + 2],
+    memcpy(&dir.buffer[dir.slot * SLOT_SIZE + 2],
            drives[dev]->buffers[1].slot + 2,
            30);
 
