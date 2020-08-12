@@ -248,103 +248,94 @@ enum {
 
 /* {{{ c64_io_extensions */
 /** \brief  List of C64 I/O extensions (x64, x64sc)
- *
- * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Memory Expansion Hacks",
-       "mem-hacks",
-       settings_io_c64_memhacks_widget_create, NULL },
-
+      "mem-hacks",
+      settings_io_c64_memhacks_widget_create, NULL },
     { "GEO-RAM",
-        "geo-ram",
-        settings_io_georam_widget_create, NULL },
+      "geo-ram",
+      settings_io_georam_widget_create, NULL },
     { "RAM Expansion Module",
-        "reu",
-        reu_widget_create, NULL },
+      "reu",
+      reu_widget_create, NULL },
     { "RamCart",
-        "ramcart",
-        ramcart_widget_create, NULL },
-
+      "ramcart",
+      ramcart_widget_create, NULL },
     { "Double Quick Brown Box",
-        "dqbb",
-        dqbb_widget_create, NULL },
+      "dqbb",
+      dqbb_widget_create, NULL },
     { "Expert Cartridge",
-        "expert-cart",
-        expert_widget_create, NULL },
+      "expert-cart",
+      expert_widget_create, NULL },
     { "ISEPIC",
-        "isepic",
-        isepic_widget_create, NULL },
-
+      "isepic",
+      isepic_widget_create, NULL },
     { "EasyFlash",
-        "easyflash",
-        easyflash_widget_create, NULL },
+      "easyflash",
+      easyflash_widget_create, NULL },
     { "GMod2",
-        "gmod2",
-        gmod2_widget_create, NULL },
+      "gmod2",
+      gmod2_widget_create, NULL },
     { "GMod3",
-        "gmod3",
-        gmod3_widget_create, NULL },
+      "gmod3",
+      gmod3_widget_create, NULL },
     { "IDE64",
-        "ide64",
-        ide64_widget_create, NULL },
+      "ide64",
+      ide64_widget_create, NULL },
     { "MMC64",
-        "mmc64",
-        mmc64_widget_create, NULL },
+      "mmc64",
+      mmc64_widget_create, NULL },
     { "MMC Replay",
-        "mmcr",
-        mmcr_widget_create, NULL },
+      "mmcr",
+      mmcr_widget_create, NULL },
     { "Retro Replay",
-        "retroreplay",
-        retroreplay_widget_create, NULL },
+      "retroreplay",
+      retroreplay_widget_create, NULL },
     { "Super Snapshot V5",
-        "super-snapshot",
-        super_snapshot_widget_create, NULL },
-
+      "super-snapshot",
+      super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge",
-        "ethernet-cart",
-        ethernet_cart_widget_create, NULL },
+      "ethernet-cart",
+      ethernet_cart_widget_create, NULL },
     { "RR-Net Mk3",
-        "rrnetmk3",
-        rrnetmk3_widget_create, NULL },
+      "rrnetmk3",
+      rrnetmk3_widget_create, NULL },
 #endif
-
     { "IEEE-448 Interface",
-        "ieee-488",
-        ieee488_widget_create, NULL },
+      "ieee-488",
+      ieee488_widget_create, NULL },
     { "Burst Mode Modification",
-        "burstmode-mode",
-        burst_mode_widget_create, NULL },
-
+      "burstmode-mode",
+      burst_mode_widget_create, NULL },
     { "DigiMAX",
-        "digimax",
-        digimax_widget_create, NULL },
+      "digimax",
+      digimax_widget_create, NULL },
     { "Magic Voice",
-        "magic-voice",
-        magic_voice_widget_create, NULL },
+      "magic-voice",
+      magic_voice_widget_create, NULL },
     { "MIDI emulation",
-        "midi",
-        midi_widget_create, NULL },
+      "midi",
+      midi_widget_create, NULL },
     { "SFX Sound Expander",
-        "sfx-expander",
-        sfx_sound_expander_widget_create, NULL },
+      "sfx-expander",
+      sfx_sound_expander_widget_create, NULL },
     { "SFX Sound Sampler",
-        "sfx-sampler",
-        sfx_sound_sampler_widget_create, NULL },
+      "sfx-sampler",
+      sfx_sound_sampler_widget_create, NULL },
     { "CP/M Cartridge",
-        "cpm-cart",
-        cpm_widget_create, NULL },
-
+      "cpm-cart",
+      cpm_widget_create, NULL },
     { "DS12C887 Real Time Clock",
-        "ds12c887-rtc",
-        ds12c887_widget_create, NULL },
+      "ds12c887-rtc",
+      ds12c887_widget_create, NULL },
     { "Userport devices",
-        "userport-devices",
-        userport_devices_widget_create, NULL },
+      "userport-devices",
+      userport_devices_widget_create, NULL },
     { "Tape port devices",
-        "tapeport-devices",
-        tapeport_devices_widget_create, NULL },
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -352,96 +343,88 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 
 /* {{{ scpu64_io_extensions */
 /** \brief  List of SuperCPU64 extensions (xscpu64)
- *
- * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t scpu64_io_extensions[] = {
     { "GEO-RAM",
-        "geo-ram",
-        settings_io_georam_widget_create, NULL },
+      "geo-ram",
+      settings_io_georam_widget_create, NULL },
     { "RAM Expansion Module",
-        "reu",
-        reu_widget_create, NULL },
+      "reu",
+      reu_widget_create, NULL },
     { "RamCart",
-        "ramcart",
-        ramcart_widget_create, NULL },
-
+      "ramcart",
+      ramcart_widget_create, NULL },
     { "Double Quick Brown Box",
-        "dqbb",
-        dqbb_widget_create, NULL },
+      "dqbb",
+      dqbb_widget_create, NULL },
     { "Expert Cartridge",
-        "expert-cart",
-        expert_widget_create, NULL },
+      "expert-cart",
+      expert_widget_create, NULL },
     { "ISEPIC",
-        "isepic",
-        isepic_widget_create, NULL },
-
+      "isepic",
+      isepic_widget_create, NULL },
     { "EasyFlash",
-        "easyflash",
-        easyflash_widget_create, NULL },
+      "easyflash",
+      easyflash_widget_create, NULL },
     { "GMod2",
-        "gmod2",
-        gmod2_widget_create, NULL },
+      "gmod2",
+      gmod2_widget_create, NULL },
     { "GMod3",
-        "gmod3",
-        gmod3_widget_create, NULL },
+      "gmod3",
+      gmod3_widget_create, NULL },
     { "IDE64",
-        "ide64",
-        ide64_widget_create, NULL },
+      "ide64",
+      ide64_widget_create, NULL },
     { "MMC64",
-        "mmc64",
-        mmc64_widget_create, NULL },
+      "mmc64",
+      mmc64_widget_create, NULL },
     { "MMC Replay",
-        "mmcr",
-        mmcr_widget_create, NULL },
+      "mmcr",
+      mmcr_widget_create, NULL },
     { "Retro Replay",
-        "retroreplay",
-        retroreplay_widget_create, NULL },
+      "retroreplay",
+      retroreplay_widget_create, NULL },
     { "Super Snapshot V5",
-        "super-snapshot",
-        super_snapshot_widget_create, NULL },
-
+      "super-snapshot",
+      super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge",
-        "ethernet-cart",
-        ethernet_cart_widget_create, NULL },
+      "ethernet-cart",
+      ethernet_cart_widget_create, NULL },
     { "RR-Net Mk3",
-        "rrnetmk3",
-        rrnetmk3_widget_create, NULL },
+      "rrnetmk3",
+      rrnetmk3_widget_create, NULL },
 #endif
-
     { "IEEE-448 Interface",
-        "ieee-488",
-        ieee488_widget_create, NULL },
+      "ieee-488",
+      ieee488_widget_create, NULL },
     { "Burst Mode Modification",
-        "burstmode-mode",
-        burst_mode_widget_create, NULL },
-
+      "burstmode-mode",
+      burst_mode_widget_create, NULL },
     { "DigiMAX",
-        "digimax",
-        digimax_widget_create, NULL },
+      "digimax",
+      digimax_widget_create, NULL },
     { "Magic Voice",
-        "magic-voice",
-        magic_voice_widget_create, NULL },
+      "magic-voice",
+      magic_voice_widget_create, NULL },
     { "MIDI emulation",
-        "midi",
-        midi_widget_create, NULL },
+      "midi",
+      midi_widget_create, NULL },
     { "SFX Sound Expander",
-        "sfx-expander",
-        sfx_sound_expander_widget_create, NULL },
+      "sfx-expander",
+      sfx_sound_expander_widget_create, NULL },
     { "SFX Sound Sampler",
-        "sfx-sampler",
-        sfx_sound_sampler_widget_create, NULL },
+      "sfx-sampler",
+      sfx_sound_sampler_widget_create, NULL },
     { "CP/M Cartridge",
-        "cpm-cart",
-        cpm_widget_create, NULL },
-
+      "cpm-cart",
+      cpm_widget_create, NULL },
     { "DS12C887 Real Time Clock",
-        "ds12c887-rtc",
-        ds12c887_widget_create, NULL },
+      "ds12c887-rtc",
+      ds12c887_widget_create, NULL },
     { "Userport devices",
-        "userport-devices",
-        userport_devices_widget_create, NULL },
+      "userport-devices",
+      userport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -452,101 +435,94 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
  */
 static ui_settings_tree_node_t c128_io_extensions[] = {
     { "Function ROM",
-        "function-rom",
-        c128_function_rom_widget_create, NULL },
+      "function-rom",
+      c128_function_rom_widget_create, NULL },
     { "Banks 2 & 3",
-        "banks-23",
-        c128_full_banks_widget_create, NULL },
-
+      "banks-23",
+      c128_full_banks_widget_create, NULL },
     { "GEO-RAM",
-        "geo-ram",
-        settings_io_georam_widget_create, NULL },
+      "geo-ram",
+      settings_io_georam_widget_create, NULL },
     { "RAM Expansion Module",
-        "reu",
-        reu_widget_create, NULL },
+      "reu",
+      reu_widget_create, NULL },
     { "RamCart",
-        "ramcart",
-        ramcart_widget_create, NULL },
-
+      "ramcart",
+      ramcart_widget_create, NULL },
     { "Double Quick Brown Box",
-        "dqbb",
-        dqbb_widget_create, NULL },
+      "dqbb",
+      dqbb_widget_create, NULL },
     { "Expert Cartridge",
-        "expert-cart",
-        expert_widget_create, NULL },
+      "expert-cart",
+      expert_widget_create, NULL },
     { "ISEPIC",
-        "isepic",
-        isepic_widget_create, NULL },
-
+      "isepic",
+      isepic_widget_create, NULL },
     { "EasyFlash",
-        "easyflash",
-        easyflash_widget_create, NULL },
+      "easyflash",
+      easyflash_widget_create, NULL },
     { "GMod2",
-        "gmod2",
-        gmod2_widget_create, NULL },
+      "gmod2",
+      gmod2_widget_create, NULL },
     { "GMod3",
-        "gmod3",
-        gmod3_widget_create, NULL },
+      "gmod3",
+      gmod3_widget_create, NULL },
     { "IDE64",
-        "ide64",
-        ide64_widget_create, NULL },
+      "ide64",
+      ide64_widget_create, NULL },
     { "MMC64",
-        "mmc64",
-        mmc64_widget_create, NULL },
+      "mmc64",
+      mmc64_widget_create, NULL },
     { "MMC Replay",
-        "mmcr",
-        mmcr_widget_create, NULL },
+      "mmcr",
+      mmcr_widget_create, NULL },
     { "Retro Replay",
-        "retroreplay",
-        retroreplay_widget_create, NULL },
+      "retroreplay",
+      retroreplay_widget_create, NULL },
     { "Super Snapshot V5",
-        "super-snapshot",
-        super_snapshot_widget_create, NULL },
-
+      "super-snapshot",
+      super_snapshot_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge",
-        "ethernet-cart",
-        ethernet_cart_widget_create, NULL },
+      "ethernet-cart",
+      ethernet_cart_widget_create, NULL },
     { "RR-Net Mk3",
-        "rrnetmk3",
-        rrnetmk3_widget_create, NULL },
+      "rrnetmk3",
+      rrnetmk3_widget_create, NULL },
 #endif
-
     { "IEEE-448 Interface",
-        "ieee-488",
-        ieee488_widget_create, NULL },
+      "ieee-488",
+      ieee488_widget_create, NULL },
     { "Burst Mode Modification",
-        "burstmode-mode",
-        burst_mode_widget_create, NULL },
-
+      "burstmode-mode",
+      burst_mode_widget_create, NULL },
     { "DigiMAX",
-        "digimax",
-        digimax_widget_create, NULL },
+      "digimax",
+      digimax_widget_create, NULL },
     { "Magic Voice",
-        "magic-voice",
-        magic_voice_widget_create, NULL },
+      "magic-voice",
+      magic_voice_widget_create, NULL },
     { "MIDI emulation",
-        "midi",
-        midi_widget_create, NULL },
+      "midi",
+      midi_widget_create, NULL },
     { "SFX Sound Expander",
-        "sfx-expander",
-        sfx_sound_expander_widget_create, NULL },
+      "sfx-expander",
+      sfx_sound_expander_widget_create, NULL },
     { "SFX Sound Sampler",
-        "sfx-sampler",
-        sfx_sound_sampler_widget_create, NULL },
+      "sfx-sampler",
+      sfx_sound_sampler_widget_create, NULL },
     { "CP/M Cartridge",
-        "cpm-cart",
-        cpm_widget_create, NULL },
-
+      "cpm-cart",
+      cpm_widget_create, NULL },
     { "DS12C887 Real Time Clock",
-        "ds12c887-rtc",
-        ds12c887_widget_create, NULL },
+      "ds12c887-rtc",
+       ds12c887_widget_create, NULL },
     { "Userport devices",
-        "userport-devices",
-        userport_devices_widget_create, NULL },
+      "userport-devices",
+      userport_devices_widget_create, NULL },
     { "Tape port devices",
-        "tapeport-devices",
-        tapeport_devices_widget_create, NULL },
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -554,66 +530,61 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
 
 /* {{{ vic20_io_extensions */
 /** \brief  List of VIC-20 I/O extensions
- *
- * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Mega Cart",
-        "mega-cart",
-        mega_cart_widget_create, NULL },
+      "mega-cart",
+      mega_cart_widget_create, NULL },
     { "Final Expansion",
-        "final-expansion",
-        final_expansion_widget_create, NULL },
+      "final-expansion",
+      final_expansion_widget_create, NULL },
     { "Vic Flash Plugin",
-        "vic-flash-plugin",
-        vic_flash_widget_create, NULL },
+      "vic-flash-plugin",
+      vic_flash_widget_create, NULL },
     { "UltiMem",
-        "ultimem",
-        ultimem_widget_create, NULL },
+      "ultimem",
+      ultimem_widget_create, NULL },
     { "SID Cartridge",
-        "sid-cart",
-        sidcart_widget_create, NULL },
+      "sid-cart",
+      sidcart_widget_create, NULL },
     { "VIC-1112 IEEE-488 interface",
-        "ieee-488",
-        vic_ieee488_widget_create, NULL },
+      "ieee-488",
+      vic_ieee488_widget_create, NULL },
     { "I/O RAM",
-        "io-ram",
-        vic_ioram_widget_create, NULL },
+      "io-ram",
+      vic_ioram_widget_create, NULL },
     { "VFLI modification",
-        "vfli",
-        vfli_widget_create, NULL },
-
+      "vfli",
+      vfli_widget_create, NULL },
     { "DigiMAX (MasC=uerade",
-        "digimax",
-        digimax_widget_create, NULL },
+      "digimax",
+      digimax_widget_create, NULL },
     { "DS12C887 RTC (MasC=uerade)",
-        "ds12c887-rtc",
-        ds12c887_widget_create, NULL },
+      "ds12c887-rtc",
+      ds12c887_widget_create, NULL },
     { "GEO-RAM (MasC=uerade)",
-       "geo-ram",
+      "geo-ram",
        settings_io_georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)",
-        "sfx-expander",
-        sfx_sound_expander_widget_create, NULL },
+      "sfx-expander",
+      sfx_sound_expander_widget_create, NULL },
     { "SFX Sound Sampler (MasC=uerade)",
-        "sfx-sampler",
-        sfx_sound_sampler_widget_create, NULL },
-
+      "sfx-sampler",
+      sfx_sound_sampler_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge (MasC=uerade)",
-        "ethernet-cart",
-        ethernet_cart_widget_create, NULL },
+      "ethernet-cart",
+      ethernet_cart_widget_create, NULL },
 #endif
-
     { "MIDI emulation",
-        "midi",
-        midi_widget_create, NULL },
+      "midi",
+      midi_widget_create, NULL },
     { "Userport devices",
-        "userport-devices",
-        userport_devices_widget_create, NULL },
+      "userport-devices",
+      userport_devices_widget_create, NULL },
     { "Tapeport devices",
-        "tapeport-devices",
-        tapeport_devices_widget_create, NULL },
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -621,29 +592,26 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
 
 /* {{{ plus4_io_extensions */
 /** \brief  List of Plus4 I/O extensions
- *
- * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
     { "ACIA",
-        "acia",
-        plus4_acia_widget_create, NULL },
+      "acia",
+      plus4_acia_widget_create, NULL },
     { "Digiblaster add-on",
-        "digiblaster",
-        plus4_digiblaster_widget_create, NULL },
+      "digiblaster",
+      plus4_digiblaster_widget_create, NULL },
     { "SID Cartridge",
-        "sid-cart",
-        sidcart_widget_create, NULL },
+      "sid-cart",
+      sidcart_widget_create, NULL },
     { "V364 Speech",
-        "v364",
-        v364_speech_widget_create, NULL },
-
+      "v364",
+      v364_speech_widget_create, NULL },
     { "Userport devices",
-        "userport-devices",
-        userport_devices_widget_create, NULL },
+      "userport-devices",
+      userport_devices_widget_create, NULL },
     { "Tape port devices",
-        "tapeport-devices",
-        tapeport_devices_widget_create, NULL },
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -651,31 +619,29 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 
 /* {{{ pet_io_extensions */
 /** \brief  List of PET I/O extensions
- *
- * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET RAM Expansion Unit",
-        "pet-reu",
-        pet_reu_widget_create, NULL },
+      "pet-reu",
+      pet_reu_widget_create, NULL },
     { "PET Colour graphics",
-        "pet-colour",
-        pet_colour_graphics_widget_create, NULL },
+      "pet-colour",
+      pet_colour_graphics_widget_create, NULL },
     { "PET DWW hi-res graphics",
-        "pet-dww",
-        pet_dww_widget_create, NULL },
+      "pet-dww",
+      pet_dww_widget_create, NULL },
     { "PET HRE hi-res graphics",
-        "pet-hre",
-        pet_hre_widget_create, NULL },
+      "pet-hre",
+      pet_hre_widget_create, NULL },
     { "SID Cartridge",
-        "sid-cart",
-        sidcart_widget_create, NULL },
+      "sid-cart",
+      sidcart_widget_create, NULL },
     { "Userport devices",
-        "userport-devices",
-        userport_devices_widget_create, NULL },
+      "userport-devices",
+      userport_devices_widget_create, NULL },
     { "Tape port devices",
-        "tapeport-devices",
-        tapeport_devices_widget_create, NULL },
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
     { "PET userport diagnostic pin",
         "pet-diagpin",
         pet_diagpin_widget_create, NULL },
@@ -685,29 +651,25 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 
 /* {{{ cbm5x0_io_extensions */
 /** \brief  List of CBM 5x0 I/O extensions
- *
- * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
     { "Tape port devices",
-        "tapeport-devices",
-        tapeport_devices_widget_create, NULL },
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
 /* {{{ cbm6x0_io_extensions */
 /** \brief  List of CBM 6x0 I/O extensions
- *
- * Every empty line indicates a separator in the Gtk3 UI's menu
  */
 static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
     { "Userport devices",
-        "userport-devices",
-        userport_devices_widget_create, NULL },
+      "userport-devices",
+      userport_devices_widget_create, NULL },
     { "Tape port devices",
-        "tapeport_devices",
-        tapeport_devices_widget_create, NULL },
+      "tapeport_devices",
+      tapeport_devices_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -725,7 +687,7 @@ static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
 /** \brief  Main tree nodes for VSID
  */
 static ui_settings_tree_node_t main_nodes_vsid[] = {
-   { "Sound",
+    { "Sound",
       "sound",
       settings_sound_create, NULL },
     { "SID",
@@ -752,7 +714,6 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
-
     { "HVSC",
       "hvsc",
       hvsc_settings_widget_create, NULL },
@@ -767,10 +728,12 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
  ****************************************************************************/
 
 /* {{{ machine_nodes_c64 */
+/** \brief  Child nodes for the C64 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -791,21 +754,25 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
 /* }}} */
 
 /* {{{ display_nodes_c64 */
+/** \brief  Child nodes for the C64 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_c64[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
     { "CRT",
-        "crt",
-        settings_crt_widget_create, NULL },
+      "crt",
+      settings_crt_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
 /* {{{ audio_nodes_c64 */
+/** \brief  Child nodes for the C64 'Audio' node
+ */
 static ui_settings_tree_node_t audio_nodes_c64[] = {
     { "Sound",
       "sound",
@@ -821,6 +788,8 @@ static ui_settings_tree_node_t audio_nodes_c64[] = {
 /* }}} */
 
 /* {{{ input_nodes_c64 */
+/** \brief  Child nodes for the C64 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_c64[] = {
     { "Keyboard",
       "keyboard",
@@ -839,6 +808,8 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
 /* }}} */
 
 /* {{{ peripheral_nodes_c64 */
+/** \brief  Child nodes for the C64 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_c64[] = {
     { "Generic",
       "generic",
@@ -848,8 +819,8 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -872,23 +843,22 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
 /** \brief  Main tree nodes for x64/x64sc
  */
 static ui_settings_tree_node_t main_nodes_c64[] = {
-
     { "Machine",
-        "machine",
-        NULL, machine_nodes_c64 },
+      "machine",
+      NULL, machine_nodes_c64 },
     { "Display",
-        "display",
-        NULL, display_nodes_c64 },
+      "display",
+      NULL, display_nodes_c64 },
     { "Audio",
-        "audio",
-        NULL, audio_nodes_c64 },
+      "audio",
+      NULL, audio_nodes_c64 },
     { "Input devices",
-        "input",
-        NULL, input_nodes_c64 },
+      "input",
+      NULL, input_nodes_c64 },
     { "Peripheral devices",
-        "peripheral", /* I'll misspell this many times */
-        NULL, peripheral_nodes_c64 },
-   { "I/O extensions",
+      "peripheral", /* I'll misspell this many times */
+      NULL, peripheral_nodes_c64 },
+    { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, c64_io_extensions },
     { "Snapshot/event/media recording",
@@ -907,10 +877,12 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
  ****************************************************************************/
 
 /* {{{ machine_nodes_c64dtv */
+/** \brief  Child nodes for the C64DTV 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -931,10 +903,12 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
 /* }}} */
 
 /* {{{ display_nodes_c64dtv */
+/** \brief  Child nodes for the C64DTV 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_c64dtv[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -946,6 +920,8 @@ static ui_settings_tree_node_t display_nodes_c64dtv[] = {
 /* }}} */
 
 /* {{{ audio_nodes_c64dtv */
+/** \brief  Child nodes for the C64DTV 'Audio' node
+ */
 static ui_settings_tree_node_t audio_nodes_c64dtv[] = {
     { "Sound",
       "sound",
@@ -961,6 +937,8 @@ static ui_settings_tree_node_t audio_nodes_c64dtv[] = {
 /* }}} */
 
 /* {{{ input_nodes_c64dtv */
+/** \brief  Child nodes for the C64DTV 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_c64dtv[] = {
     { "Keyboard",
       "keyboard",
@@ -979,6 +957,8 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
 /* }}} */
 
 /* {{{ peripheral_nodes_c64dtv */
+/** \brief  Child nodes for the C64DTV 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
     { "Generic",
       "generic",
@@ -987,14 +967,13 @@ static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
 };
 /* }}} */
-
 
 /* {{{ main_nodes_c64dtv */
 /** \brief  Main tree nodes for x64dtv
@@ -1029,12 +1008,12 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
  ****************************************************************************/
 
 /* {{{ machine_nodes_c128 */
-/** \brief  Machine subnodes for c128
+/** \brief  Child nodes for the C128 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_c128[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1055,12 +1034,12 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
 /* }}} */
 
 /* {{{ display_nodes_c128 */
-/** \brief  C128 Display sub nodes
+/** \brief  Child nodes for the C128 'Display' node
  */
 static ui_settings_tree_node_t display_nodes_c128[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -1075,7 +1054,7 @@ static ui_settings_tree_node_t display_nodes_c128[] = {
 /* }}} */
 
 /* {{{ audio_nodes_c128 */
-/** \brief  C128 Audio sub nodes
+/** \brief  Child nodes for the C128 'Audio' node
  */
 static ui_settings_tree_node_t audio_nodes_c128[] = {
     { "Sound",
@@ -1092,7 +1071,7 @@ static ui_settings_tree_node_t audio_nodes_c128[] = {
 /* }}} */
 
 /* {{{ input_nodes_c128 */
-/** \brief  C128 Input sub nodes
+/** \brief  Child nodes for the C128 'Input devices' node
  */
 static ui_settings_tree_node_t input_nodes_c128[] = {
     { "Keyboard",
@@ -1112,7 +1091,7 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
 /* }}} */
 
 /* {{{ peripheral_nodes_c128 */
-/** \brief  C128 Peripheral sub nodes
+/** \brief  Child nodes for the C128 'Peripheral devices' node
  */
 static ui_settings_tree_node_t peripheral_nodes_c128[] = {
     { "Generic",
@@ -1123,8 +1102,8 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -1142,27 +1121,26 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
 };
 /* }}} */
 
-
 /* {{{ main_nodes_c128 */
 /** \brief  Main tree nodes for x128
  */
 static ui_settings_tree_node_t main_nodes_c128[] = {
     { "Machine",
-        "machine",
-        NULL, machine_nodes_c128 },
+       "machine",
+       NULL, machine_nodes_c128 },
     { "Display",
-        "display",
-        NULL, display_nodes_c128 },
+       "display",
+       NULL, display_nodes_c128 },
     { "Audio",
-        "audio",
-        NULL, audio_nodes_c128 },
+       "audio",
+       NULL, audio_nodes_c128 },
     { "Input devices",
-        "input",
-        NULL, input_nodes_c128 },
+       "input",
+       NULL, input_nodes_c128 },
     { "Peripheral devices",
-        "peripheral", /* I'll misspell this many times */
-        NULL, peripheral_nodes_c128 },
-   { "I/O extensions",
+       "peripheral", /* I'll misspell this many times */
+       NULL, peripheral_nodes_c128 },
+    { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, c128_io_extensions },
     { "Snapshot/event/media recording",
@@ -1181,10 +1159,12 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
  ****************************************************************************/
 
 /* {{{ machine_nodes_scpu64 */
+/** \brief  Child nodes for the SCPU64 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL }, 
@@ -1208,10 +1188,12 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
 /* }}} */
 
 /* {{{ display_nodes_scpu64 */
+/** \brief  Child nodes for the SCPU64 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_scpu64[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -1223,6 +1205,8 @@ static ui_settings_tree_node_t display_nodes_scpu64[] = {
 /* }}} */
 
 /* {{{ audio_nodes_scpu64 */
+/** \brief  Child nodes for the SCPU64 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t audio_nodes_scpu64[] = {
     { "Sound",
       "sound",
@@ -1238,6 +1222,8 @@ static ui_settings_tree_node_t audio_nodes_scpu64[] = {
 /* }}} */
 
 /* {{{ input_nodes_scpu64 */
+/** \brief  Child nodes for the SCPU64 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_scpu64[] = {
     { "Keyboard",
       "keyboard",
@@ -1256,6 +1242,8 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
 /* }}} */
 
 /* {{{ peripheral_nodes_scpu64 */
+/** \brief  Child nodes for the SCPU64 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
     { "Generic",
       "generic",
@@ -1264,8 +1252,8 @@ static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -1282,7 +1270,6 @@ static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
-
 
 /* {{{ main_nodes_scpu64 */
 /** \brief  Main tree nodes for xscpu64
@@ -1313,10 +1300,12 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
  ****************************************************************************/
 
 /* {{{ machine_nodes_vic20 */
+/** \brief  Child nodes for the VIC20 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_vic20[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1337,10 +1326,12 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
 /* }}} */
 
 /* {{{ display_nodes_vic20 */
+/** \brief  Child nodes for the VIC20 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_vic20[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "VIC",
       "vic",
       settings_video_create, NULL },
@@ -1352,6 +1343,8 @@ static ui_settings_tree_node_t display_nodes_vic20[] = {
 /* }}} */
 
 /* {{{ audio_nodes_vic20 */
+/** \brief  Child nodes for the VIC20 'Audio' node
+ */
 static ui_settings_tree_node_t audio_nodes_vic20[] = {
     { "Sound",
       "sound",
@@ -1367,6 +1360,8 @@ static ui_settings_tree_node_t audio_nodes_vic20[] = {
 /* }}} */
 
 /* {{{ input_nodes_vic20 */
+/** \brief  Child nodes for the VIC20 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_vic20[] = {
     { "Keyboard",
       "keyboard",
@@ -1385,16 +1380,18 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
 /* }}} */
 
 /* {{{ peripheral_nodes_vic20 */
+/** \brief  Child nodes for the VIC20 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
     { "Generic",
       "generic",
       settings_peripherals_generic_widget_create, NULL },
-   { "Drive",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -1411,7 +1408,6 @@ static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
-
 
 /* {{{ main_nodes_vic20 */
 /** \brief  Main tree nodes for xvic
@@ -1440,10 +1436,12 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
  ****************************************************************************/
 
 /* {{{ machine_nodes_plus4 */
+/** \brief  Child nodes for the Plus4 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_plus4[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
        settings_model_widget_create, NULL },
@@ -1464,10 +1462,12 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
 /* }}} */
 
 /* {{{ display_nodes_plus4 */
+/** \brief  Child nodes for the Plus4 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_plus4[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "TED",
       "ted",
       settings_video_create, NULL },
@@ -1479,6 +1479,8 @@ static ui_settings_tree_node_t display_nodes_plus4[] = {
 /* }}} */
 
 /* {{{ audio_nodes_plus4 */
+/** \brief  Child nodes for the Plus4 'Audio' node
+ */
 static ui_settings_tree_node_t audio_nodes_plus4[] = {
     { "Sound",
       "sound",
@@ -1494,6 +1496,8 @@ static ui_settings_tree_node_t audio_nodes_plus4[] = {
 /* }}} */
 
 /* {{{ input_nodes_plus4 */
+/** \brief  Child nodes for the Plus4 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_plus4[] = {
     { "Keyboard",
       "keyboard",
@@ -1512,6 +1516,8 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
 /* }}} */
 
 /* {{{ peripheral_nodes_plus4 */
+/** \brief  Child nodes for the Plus4 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
     { "Generic",
       "generic",
@@ -1520,8 +1526,8 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -1538,7 +1544,6 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
-
 
 /* {{{ main_nodes_plus4 */
 /** \brief  Main tree nodes for xplus4
@@ -1572,6 +1577,8 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
  ****************************************************************************/
 
 /* {{{ machine_nodes_pet */
+/** \brief  Child nodes for the PET 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_pet[] = {
     { "Model",
       "model",
@@ -1593,10 +1600,12 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
 /* }}} */
 
 /* {{{ display_nodes_pet */
+/** \brief  Child nodes for the PET 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_pet[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "CRTC",
       "crtc",
       settings_video_create, NULL },
@@ -1608,6 +1617,8 @@ static ui_settings_tree_node_t display_nodes_pet[] = {
 /* }}} */
 
 /* {{{ audio_nodes_pet */
+/** \brief  Child nodes for the PET 'Audio' node
+ */
 static ui_settings_tree_node_t audio_nodes_pet[] = {
     { "Sound",
       "sound",
@@ -1623,6 +1634,8 @@ static ui_settings_tree_node_t audio_nodes_pet[] = {
 /* }}} */
 
 /* {{{ input_nodes_pet */
+/** \brief  Child nodes for the PET 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_pet[] = {
     { "Keyboard",
       "keyboard",
@@ -1641,6 +1654,8 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
 /* }}} */
 
 /* {{{ peripheral_nodes_pet */
+/** \brief  Child nodes for the PET 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_pet[] = {
     { "Generic",
       "generic",
@@ -1649,8 +1664,8 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -1668,7 +1683,6 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
 };
 /* }}} */
 
-
 /* {{{ main_nodes_pet */
 /** \brief  Main tree nodes for xpet
  */
@@ -1685,7 +1699,7 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
       settings_snapshot_widget_create, NULL },
     { "Emulator",
       "misc",
-        settings_misc_widget_create, NULL },
+      settings_misc_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1700,10 +1714,12 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
 #define ARNIE UI_SETTINGS_TERMINATOR
 
 /* {{{ machine_nodes_cbm5x0 */
+/** \brief  Child nodes for the CBM5x0 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1724,10 +1740,12 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
 /* }}} */
 
 /* {{{ display_nodes_cbm5x0 */
+/** \brief  Child nodes for the CBM5x0 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_cbm5x0[] = {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "VIC-II",
       "vicii",
       settings_video_create, NULL },
@@ -1739,6 +1757,8 @@ static ui_settings_tree_node_t display_nodes_cbm5x0[] = {
 /* }}} */
 
 /* {{{ audio_nodes_cbm5x0 */
+/** \brief  Child nodes for the CBM5x0 'Audio' node
+ */
 static ui_settings_tree_node_t audio_nodes_cbm5x0[] = {
     { "Sound",
       "sound",
@@ -1754,8 +1774,10 @@ static ui_settings_tree_node_t audio_nodes_cbm5x0[] = {
 /* }}} */
 
 /* {{{ input_nodes_cbm5x0 */
+/** \brief  Child nodes for the CBM5x0 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
-     { "Keyboard",
+    { "Keyboard",
       "keyboard",
       settings_keyboard_widget_create, NULL },
     { "Joystick",
@@ -1771,18 +1793,19 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
 };
 /* }}} */
 
-
 /* {{{ peripheral_nodes_cbm5x0 */
+/** \brief  Child nodes for the CBM5x0 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
     { "Generic",
       "generic",
       settings_peripherals_generic_widget_create, NULL },
-   { "Drive",
+    { "Drive",
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -1795,7 +1818,6 @@ static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
     ARNIE
 };
 /* }}} */
-
 
 /* {{{ main_nodes_cbm5x0 */
 /** \brief  Main tree nodes for xcbm5x0
@@ -1815,17 +1837,18 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
       "misc",
       settings_misc_widget_create, NULL },
 
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
 
 /* {{{ machine_nodes_cbm6x0 */
+/** \brief  Child nodes for the CBM6x0 'Machine' node
+ */
 static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
     { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+      "host",
+      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1845,11 +1868,13 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
 };
 /* }}} */
 
-/* {{{ display_nodes_cbm6x0 (*/
+/* {{{ display_nodes_cbm6x0 */
+/** \brief  Child nodes for the CBM6x0 'Display' node
+ */
 static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
     { "Host display",
-       "host-display",
-       settings_host_display_widget_create, NULL },
+      "host-display",
+      settings_host_display_widget_create, NULL },
     { "CRTC",
       "crtc",
       settings_video_create, NULL },
@@ -1861,12 +1886,14 @@ static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
 /* }}} */
 
 /* {{{ audio_nodes_cbm6x0 */
+/** \brief  Child nodes for the CBM6x0 'Audio' node
+ */
 static ui_settings_tree_node_t audio_nodes_cbm6x0[] = {
     { "Sound",
       "sound",
       settings_sound_create, NULL },
     { "SID",
-       "sid",
+      "sid",
       settings_soundchip_widget_create, NULL },
     { "Sampler",
       "sampler",
@@ -1876,6 +1903,8 @@ static ui_settings_tree_node_t audio_nodes_cbm6x0[] = {
 /* }}} */
 
 /* {{{ input_nodes_cbm6x0 */
+/** \brief  Child nodes for the CBM6x0 'Input devices' node
+ */
 static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
     { "Keyboard",
       "keyboard",
@@ -1895,6 +1924,8 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
 /* }}} */
 
 /* {{{ peripheral nodes_cbm6x0 */
+/** \brief  Child nodes for the CBM6x0 'Peripheral devices' node
+ */
 static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
     { "Generic",
       "generic",
@@ -1903,8 +1934,8 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
       "drive",
       settings_drive_widget_create, NULL },
     { "Filesystem Device",
-       "fsdevice",
-       settings_fsdevice_widget_create, NULL },
+      "fsdevice",
+      settings_fsdevice_widget_create, NULL },
     { "Printer",
       "printer",
       settings_printer_widget_create, NULL },
@@ -1917,7 +1948,6 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
     ARNIE
 };
 /* }}} */
-
 
 /* {{{ main_nodes_cbm6x0 */
 /** \brief  Main tree nodes for xcbm6x0
