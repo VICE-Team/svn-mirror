@@ -1,4 +1,4 @@
-/** \file   drivenumberwidget.h
+/** \file   drivenowidget.h
  * \brief   Drive number selection widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,4 +1,4 @@
-/** \file   drivenumberwidget.c
+/** \file   drivenowidget.c
  * \brief   GTK3 drive number selection widget
  *
  * \author  Andre Fachat

@@ -1,5 +1,5 @@
 /**
- * \file directx_renderer_impl.cpp
+ * \file directx_renderer_impl.cc
  * \brief   DirectX-based renderer for the GTK3 backend.
  *
  * \author David Hogan <david.q.hogan@gmail.com>

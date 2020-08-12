@@ -1,4 +1,4 @@
-/** \file   quartz_renderer.h
+/** \file   unused_quartz_renderer.h
  * \brief   OpenGL-based renderer for the GTK3 backend - header
  *
  * \author  Michael C. Martin <mcmartin@gmail.com>

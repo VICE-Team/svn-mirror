@@ -1,5 +1,5 @@
 /**
- * \file    cairo_renderer.c
+ * \file    unused_cairo_renderer.c
  * \brief   Cairo-based renderer for the GTK3 backend
  *
  * \author  Michael C. Martin <mcmartin@gmail.com>
