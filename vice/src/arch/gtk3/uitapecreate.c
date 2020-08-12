@@ -154,6 +154,7 @@ static GtkWidget *create_extra_widget(void)
  * \param[in]   parent  parent widget (ignored)
  * \param[in]   data    extra data (ignored)
  *
+ * \return  TRUE
  */
 gboolean ui_tape_create_dialog_show(GtkWidget *parent, gpointer data)
 {
