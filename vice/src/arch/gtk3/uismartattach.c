@@ -81,6 +81,8 @@ static GtkWidget *preview_widget = NULL;
 static gchar *last_dir = NULL;
 
 
+/** \brief  Reference to the custom 'Autostart' button
+ */
 static GtkWidget *autostart_button;
 
 
@@ -109,6 +111,7 @@ static void update_last_dir(GtkWidget *widget)
 /** \brief  Tigger autostart
  *
  * \param[in]   widget  dialog
+ * \param[in]   data    file index in the directory preview
  */
 static void do_autostart(GtkWidget *widget, gpointer data)
 {
@@ -334,6 +337,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
 #ifndef SANDBOX_MODE
 /** \brief  Create the 'extra' widget
+ *
+ * \param[in]   parent  parent widget (unused)
  *
  * \return  GtkGrid
  */
