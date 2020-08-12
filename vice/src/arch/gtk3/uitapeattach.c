@@ -54,6 +54,8 @@ static ui_file_filter_t filters[] = {
     { NULL, NULL }
 };
 
+/** \brief  Reference to the preview widget
+ */
 static GtkWidget *preview_widget = NULL;
 #endif
 
@@ -274,6 +276,8 @@ static void on_response_native(GtkFileChooserNative *widget,
 #ifndef SANDBOX_MODE
 /** \brief  Create the 'extra' widget
  *
+ * \param[in]   parent  parent widget
+ *
  * \return  GtkGrid
  *
  * TODO: 'grey-out'/disable units without a proper drive attached
@@ -423,6 +427,8 @@ static GtkFileChooserNative *create_tape_attach_dialog_native(GtkWidget *parent)
  *
  * \param[in]   widget      menu item triggering the callback
  * \param[in]   user_data   ignored
+ *
+ * \return  TRUE (signal to Gtk the event was 'consumed')
  */
 gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
 {
