@@ -29,6 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "lib.h"
 #include "util.h"
@@ -191,10 +192,17 @@ static void save_snapshot_dialog(void)
  *                              CPU trap handlers                            *
  ****************************************************************************/
 
+/** \brief  Flag indicating the UI is 'done', whatever that means
+ */
 static bool ui_done;
 
 
-
+/** \brief  file-open dialog callback for "Load snapshot file"
+ *
+ * \param[in,out]   dialog      file-open dialog
+ * \param[in,out]   filename    filename
+ * \param[in]       data        extra callback data (unused)
+ */
 static void load_snapshot_filename_callback(GtkDialog *dialog,
                                             gchar *filename,
                                             gpointer data)
@@ -211,6 +219,12 @@ static void load_snapshot_filename_callback(GtkDialog *dialog,
 }
 
 
+/** \brief  load-snapshot handler
+ *
+ * \param[in]   user_data   extra callback data (unused)
+ *
+ * \return  FALSE
+ */
 static gboolean load_snapshot_trap_impl(gpointer user_data)
 {
     const char *filters[] = { "*.vsf", NULL };
@@ -250,6 +264,13 @@ static void load_snapshot_trap(uint16_t addr, void *data)
 
 /****/
 
+
+/** \brief  save-snapshot handler
+ *
+ * \param[in]   user_data   extra event data (unused)
+ *
+ * \return  FALSE
+ */
 static gboolean save_snapshot_trap_impl(gpointer user_data)
 {
     save_snapshot_dialog();
@@ -258,6 +279,7 @@ static gboolean save_snapshot_trap_impl(gpointer user_data)
 
     return FALSE;
 }
+
 
 /** \brief  CPU trap handler to trigger the Save dialog
  *
@@ -369,6 +391,8 @@ gboolean ui_snapshot_save_file(GtkWidget *parent, gpointer user_data)
  *
  * \param[in]   parent      parent widget
  * \param[in]   user_data   unused
+ *
+ * \return  TRUE
  */
 gboolean ui_snapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
 {
