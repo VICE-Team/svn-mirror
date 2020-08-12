@@ -83,6 +83,8 @@ static void vsid_window_create(video_canvas_t *canvas)
 /** \brief  Load and play PSID/SID file \a filename
  *
  * \param[in]   filename    file to play
+ *
+ * \return  0 on success, -1 on failure
  */
 int ui_vsid_window_load_psid(const char *filename)
 {
