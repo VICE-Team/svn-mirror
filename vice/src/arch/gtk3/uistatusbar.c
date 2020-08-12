@@ -14,7 +14,7 @@
  *
  *  \author Marco van den Heuvel <blackystardust68@yahoo.com>
  *  \author Michael C. Martin <mcmartin@gmail.com>
- *  \auhtor Bas Wassink <b.wassink@ziggo.nl>
+ *  \author Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -288,7 +288,7 @@ static void disk_dir_autostart_callback(const char *image, int index);
 
 /** \brief  Timeout callback for the stausbar message widget
  *
- * \param[in,out]   widget  message widget
+ * \param[in,out]   data    message widget
  *
  * \return  FALSE (delete timer source)
  */
