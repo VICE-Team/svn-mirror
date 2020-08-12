@@ -243,7 +243,8 @@ static ui_menu_item_t help_menu[] = {
 
 /** \brief  Play a tune when selected with the Tune menu
  *
- * \return  void
+ * \param[in,out]   menuitem    menu item
+ * \param[in]       user_data   tune index
  */
 static void select_tune_from_menu(GtkMenuItem *menuitem,
                                   gpointer     user_data) {
@@ -261,15 +262,17 @@ static void select_tune_from_menu(GtkMenuItem *menuitem,
 
 /** \brief  Remove each of the old menu items before adding the new ones
  *
- * \return  void
+ * \param[in,out]   widget  menu item widget
+ * \param[in]       data    extra data (unused)
  */
 static void remove_item_from_menu (GtkWidget *widget, gpointer data) {
     gtk_widget_destroy(widget);
 }
 
+
 /** \brief  Create the tune menu when a new PSID is loaded
  *
- * \return  void
+ * \param[in]   count   number of items to remove from the old menu
  */
 void ui_vsid_tune_menu_set_tune_count(int count) {
     GtkWidget *item = NULL;
@@ -295,7 +298,7 @@ void ui_vsid_tune_menu_set_tune_count(int count) {
 
 /** \brief  Ensure the correct menu element is selected when the current tune is changed by anything other than the menu
  *
- * \return  void
+ * \param[in]   count   number of menu items
  */
 void ui_vsid_tune_set_tune_current(int count) {
     if (tune_submenu_group) {
