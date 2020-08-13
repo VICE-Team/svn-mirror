@@ -2130,10 +2130,52 @@ static int copy_cmd(int nargs, char **args)
             return FD_RDERR;
         }
 
+        bufferinfo_t *bufferinfo = &drives[src_unit - DRIVE_UNIT_MIN]->buffers[0];        /* 0 = secadr of src */
+        uint8_t *slot = bufferinfo->slot;
+        unsigned int file_type = slot[SLOT_TYPE_OFFSET] & 7;
+        unsigned int rel_record_length = slot[SLOT_RECORD_LENGTH];
+
+        /*
+         * If we're copying a REL file, create a proper destination file
+         * name including the record length.
+         */
+        if (file_type == CBMDOS_FT_REL) {
+            char *oldname, *newname, *comma;
+
+            if (dest_name_petscii) {
+                oldname = dest_name_petscii;
+            } else {
+                oldname = src_name_petscii;
+            }
+
+            /* Append ",L," and the record length to the destination name.
+             * If there is a comma in it already, truncate there
+             * but restore afterwards.
+             */
+            comma = strchr(oldname, ',');
+            if (comma) {
+                *comma = '\0';
+            }
+
+            newname = lib_msprintf("%s,L,%c", oldname, rel_record_length);
+
+            if (comma) {
+                *comma = ',';
+            }
+
+            /* Make sure both dest_name_petscii and dest_name_ascii are set. */
+            if (dest_name_petscii) {
+                lib_free(dest_name_petscii);
+            } else {
+                dest_name_ascii = lib_strdup(src_name_ascii);
+            }
+            dest_name_petscii = newname;
+        }
+
         if (dest_name_ascii != NULL) {
             if (vdrive_iec_open(drives[dest_unit - DRIVE_UNIT_MIN],
                         (uint8_t *)dest_name_petscii,
-                                (unsigned int)strlen(dest_name_petscii), 1, NULL)) {
+                        (unsigned int)strlen(dest_name_petscii), 1, NULL)) {
                 fprintf(stderr, "cannot write `%s'\n", dest_name_petscii);
                 vdrive_iec_close(drives[src_unit - DRIVE_UNIT_MIN], 0);
                 lib_free(dest_name_ascii);
@@ -2156,14 +2198,60 @@ static int copy_cmd(int nargs, char **args)
 
         printf("copying `%s' ...\n", args[i]); /* FIXME */
 
-        {
+        if (file_type == CBMDOS_FT_REL) {
+            unsigned int num_rel_records = bufferinfo->record_max;
+            unsigned int record;
+            int dnr = src_unit - DRIVE_UNIT_MIN;
+            int status;
+
+            /* First allocate space for the whole file */
+            status = vdrive_rel_position(drives[dnr], 1,
+                    (num_rel_records & 0xFF), (num_rel_records >> 8) & 0xFF,
+                    1);
+            if (status && status != CBMDOS_IPE_NO_RECORD) {
+                fprintf(stderr, "Cannot Position to record %u (err %d)\n",
+                        num_rel_records, status);
+            }
+            status = vdrive_iec_write(drives[dnr], 0, 1);
+            if (status != SERIAL_OK) {
+                fprintf(stderr, "Cannot write in record %u (err %d)\n",
+                        num_rel_records, status);
+            }
+
+            for (record = 1; record <= num_rel_records; record++) {
+                int bytes = 0;
+
+                status = vdrive_rel_position(drives[dnr], 1,   /* 1 = secadr dest */
+                        (record & 0xFF), (record >> 8) & 0xFF,
+                        1);
+                if (status && status != CBMDOS_IPE_NO_RECORD) {
+                    fprintf(stderr, "Cannot Position to record %u (err %d)\n",
+                            record, status);
+                }
+
+                do {
+                    uint8_t c;
+
+                    status = vdrive_iec_read(drives[dnr], &c, 0);
+                    if (status == SERIAL_ERROR && bytes == 0) {
+                        fprintf(stderr, "dummy record CR; should not happen.\n");
+                        break; /* record after EOF; we get a dummy CR */
+                    }
+                    if (vdrive_iec_write(drives[dest_unit - DRIVE_UNIT_MIN], c, 1)) {
+                        fprintf(stderr, "no space on image ?\n");
+                        break;
+                    }
+                    bytes++;
+                } while (status == SERIAL_OK);
+            }
+        } else {
             uint8_t c;
             int status = 0;
 
             do {
                 status = vdrive_iec_read(drives[src_unit - DRIVE_UNIT_MIN],
                         ((uint8_t *)&c), 0);
-                if (vdrive_iec_write(drives[dest_unit - DRIVE_UNIT_MIN], ((uint8_t)(c)), 1)) {
+                if (vdrive_iec_write(drives[dest_unit - DRIVE_UNIT_MIN], c, 1)) {
                     fprintf(stderr, "no space on image ?\n");
                     break;
                 }
@@ -3407,7 +3495,7 @@ static int read_cmd(int nargs, char **args)
         unsigned int num_rel_records = bufferinfo->record_max;
         unsigned int record;
 
-        for (record = 0; record < num_rel_records; record++) {
+        for (record = 1; record <= num_rel_records; record++) {
             int bytes = 0;
             do {
                 status = vdrive_iec_read(drives[dnr], &c, 0);
@@ -4943,7 +5031,7 @@ static int write_cmd(int nargs, char **args)
     } else {
         unsigned int length = fileio_get_bytes_left(finfo);
         /* Records and positions start counting at 1 */
-        unsigned long max_record =
+        unsigned int max_record =
             ((length + rel_record_length - 1) / rel_record_length);
         unsigned int record;
         int err;
@@ -4953,12 +5041,12 @@ static int write_cmd(int nargs, char **args)
                 (max_record & 0xFF), (max_record >> 8) & 0xFF,
                 1);
         if (err && err != CBMDOS_IPE_NO_RECORD) {
-            fprintf(stderr, "Cannot Position to record %lu (err %d)\n",
+            fprintf(stderr, "Cannot Position to record %u (err %d)\n",
                     max_record, err);
         }
         err = vdrive_iec_write(drives[dnr], 0, 1);
         if (err != SERIAL_OK) {
-            fprintf(stderr, "Cannot write in record %lu (err %d)\n",
+            fprintf(stderr, "Cannot write in record %u (err %d)\n",
                     max_record, err);
         }
         /*

@@ -17481,6 +17481,7 @@ shown is the number of bytes used in the final block.
 @item copy <source1> [<source2> @dots{} <sourceN>] <destination>
 Copy @code{source1} @dots{} @code{sourceN} into destination.  If N > 1,
 @code{destination} must be a simple drive specifier (@code{@@n:}).
+To copy a REL file, specify the <source> with a @code{,L} file type suffix.
 
 @item delete <file1> [<file2> @dots{} <fileN>]
 Delete the specified files.
