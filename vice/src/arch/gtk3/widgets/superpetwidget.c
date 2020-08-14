@@ -128,13 +128,12 @@ static void browse_superpet_rom_filename_callback(GtkDialog *dialog,
  */
 static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    GtkWidget *dialog;
     int rom = GPOINTER_TO_INT(user_data);
     char title[256];
 
     g_snprintf(title, sizeof(title), "Select $%cXXX ROM", rom);
 
-    dialog = vice_gtk3_open_file_dialog(
+    vice_gtk3_open_file_dialog(
             title,
             NULL, NULL, NULL,
             browse_superpet_rom_filename_callback,

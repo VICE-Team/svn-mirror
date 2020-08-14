@@ -175,12 +175,11 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     const char *fdesc = "Serial ports";
     const char *flist[] = { "ttyS*", NULL };
     gchar title[256];
-    GtkWidget *dialog;
 
     device = GPOINTER_TO_INT(user_data);
     g_snprintf(title, sizeof(title), "Select serial device #%d", device);
 
-    dialog =  vice_gtk3_open_file_dialog(
+    vice_gtk3_open_file_dialog(
             title, fdesc, flist, "/dev",
             browse_filename_callback,
             GINT_TO_POINTER(device));
