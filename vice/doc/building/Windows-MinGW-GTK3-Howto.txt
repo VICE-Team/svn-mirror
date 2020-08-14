@@ -58,6 +58,7 @@ Run the following command lines to install your prerequisites:
 
 $ pacman -S --needed --noconfirm base-devel
 $ pacboy sync pkg-config gcc ntldd zip: subversion: gtk3 glew giflib
+$ pacman -S mingw-w64-x86_64-libvorbis mingw-w64-x86_64-flac mingw-w64-x86_64-mpg123
 
 (Note: type the colons that you see in the second command; they are important.
  Hit enter for the default on all the prompts, then wait for the 306 MiB
@@ -132,7 +133,6 @@ $ ./configure -C --enable-native-tools --enable-native-gtk3ui --enable-debug-gtk
 with in "GTK3VICE-3.?-win??-*/" (the "win??" part of that name tells you which
 type [32-bit or 64-bit] you built).
 
-
 8. You can build the 32-bit version of VICE and/or the 64-bit version.  You
 make the choice by choosing to run a particular one of the MSYS2 MinGW shells
 (its environment variables control VICE's configuration).
@@ -157,3 +157,5 @@ instead of
 $ make bindist
 
 Enjoy!
+
+
