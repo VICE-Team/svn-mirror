@@ -1947,14 +1947,14 @@ static int handle_vorbis_file(int channels)
     }
 
     for (i = 0; i < ov.links; i++) {
-        vi = ov_info(&ov, i);
+        vi = ov_info(&ov, (int)i);
         sound_audio_channels = vi->channels;
         if (sound_audio_channels < 1 || sound_audio_channels > 2) {
             ov_clear(&ov);
             log_error(filedrv_log, "The ogg/vorbis file channels is not 1 or 2");
             return -1;
         }
-        sound_audio_rate = vi->rate;
+        sound_audio_rate = (unsigned int)(vi->rate);
         sound_audio_bits = 16;
         sound_audio_type = AUDIO_TYPE_PCM;
     }
@@ -1962,8 +1962,10 @@ static int handle_vorbis_file(int channels)
     pcmlength = ov_pcm_total(&ov, -1);
     vorbis_buffer = lib_malloc(pcmlength * sound_audio_channels * 2);
     i = 0;
-    while (i < pcmlength * sound_audio_channels * 2){
-        int ret = ov_read(&ov, (char*)vorbis_buffer + i, (pcmlength * 2 * sound_audio_channels) - i, 0, 2, 1, &dummy);
+    while (i < pcmlength * sound_audio_channels * 2) {
+        int ret = (int)ov_read(&ov, (char*)vorbis_buffer + i,
+                               (int)((pcmlength * 2 * sound_audio_channels) - i),
+                               0, 2, 1, &dummy);
         if (ret < 0) {
             ov_clear(&ov);
             lib_free(vorbis_buffer);
@@ -1982,7 +1984,7 @@ static int handle_vorbis_file(int channels)
 
     lib_free(file_buffer);
     file_buffer = vorbis_buffer;
-    file_size = pcmlength * 2 * sound_audio_channels;
+    file_size = (unsigned int)(pcmlength * 2 * sound_audio_channels);
     file_pointer = 0;
 
     return convert_pcm_buffer(file_size, channels);
