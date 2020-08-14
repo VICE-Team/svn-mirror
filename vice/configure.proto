@@ -50,7 +50,7 @@ VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound
 VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
 VICE_ARG_WITH_LIST(mpg123,              [  --without-mpg123        do not use the mpg123 support])
-VICE_ARG_WITH_LIST(ogg-vorbis,          [  --without-ogg-vorbis    do not use the ogg/vorbis support])
+VICE_ARG_WITH_LIST(vorbis,              [  --without-vorbis        do not use the ogg/vorbis support])
 VICE_ARG_WITH_LIST(flac,                [  --without-flac          do not use the FLAC support])
 
 dnl the 'incorrect' indentation of the descrition is important here
@@ -2717,7 +2717,7 @@ fi
 
 
 dnl Check for Ogg/Vorbis support
-if test x"$with_ogg_vorbis" = "xno"; then
+if test x"$with_vorbis" = "xno"; then
     VORBIS_PRESENT=no
 else
     VORBIS_PRESENT=yes
