@@ -134,11 +134,10 @@ libtoolarch_a_SOURCES = \
 EXTRA_DIST = \
 	Resources/VICE.icns \
 	archdep.h \
-	cairo_renderer.h \
+	unused_cairo_renderer.h \
 	debug_gtk3.h \
 	directx_renderer.h \
 	directx_renderer_impl.h \
-	host_vsync.h \
 	joy-osx-hid.h \
 	joy-osx-hidlib.h \
 	joy-osx.h \
@@ -153,7 +152,6 @@ EXTRA_DIST = \
 	make-bindist_win32.sh \
 	mousedrv.h \
 	opengl_renderer.h \
-	opengl_renderer_macos.h \
 	render_queue.h \
 	render_thread.h \
 	ui.h \
