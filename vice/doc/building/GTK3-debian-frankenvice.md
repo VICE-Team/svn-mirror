@@ -591,3 +591,60 @@ $ grep -i 'flac' config.log
 
 If the grep output has '-lFLAC' and '#define HAVE\_LIBFLAC 1', flac will work.
 
+
+
+## Attempt at using an MSYS2 package to provide libmpg123 (2020-08-15)
+
+Neither Debian nor Fedora provide a mingw version of libmpg123, only Arch and MSYS2 do. I've decided to try to get the msys2 package to work with Frankenvice.
+
+### Prerequisites
+
+MSYS2 uses zstd to compress archive, so we need to install that:
+```
+$ sudo apt install zstd
+```
+
+### Download and extract the MSYS2 package
+
+Don't put the download in ~/frankenvice/downloads, scripts assuming .rpm's will probably fail when doing that. Instead, use a separate directory.
+
+```
+$ cd
+$ mkdir ~/temp
+$ cd ~/temp
+$ wget https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-mpg123-1.26.3-1-any.pkg.tar.zst
+$ zstd -dk mingw-w64-x86_64-mpg123-1.26.3-1-any.pkg.tar.zst
+$ mkdir mpg123
+$ cd mpg123
+$ tar -xf ../mingw-w64-x86_64-mpg123-1.26.3-1-any.pkg.tar
+```
+
+### Install the package
+
+```
+$ cd mpg123
+$ sudo cp -R mingw64/* /usr/x86_64-w64-mingw32/
+```
+
+```
+$ sudo vim /usr/x86_64-w64-mingw32/lib/pkg/config/libmpg123.pc
+change prefix to /usr/x86_64-w64-mingw32
+```
+(todo change into sed command)
+
+
+This makes configure recognize mpg123 and `make bindist even properly copies the required DLL.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
