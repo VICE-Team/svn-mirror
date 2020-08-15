@@ -85,12 +85,16 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
 
 - (void)update
 {
+    RENDER_LOCK();
+    
     [super update];
     
     /* glViewport co-ordinates use the backing layer resolution, which can change on drag between screens */
     NSSize backing_layer_size = [self convertSizeToBacking: CGSizeMake(context->native_view_width, context->native_view_height)];
     context->gl_backing_layer_width = backing_layer_size.width;
     context->gl_backing_layer_height = backing_layer_size.height;
+    
+    RENDER_UNLOCK();
 }
 
 @end
@@ -146,8 +150,6 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     /* make sure OpenGL extension pointers are loaded */
     glewInit();
     
-    
-    
     vice_opengl_renderer_clear_current(context);
 }
 
@@ -155,12 +157,8 @@ void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *cont
 {
     ViceOpenGLView *opengl_view = (ViceOpenGLView *)context->native_view;
     
-    RENDER_LOCK();
-
     [opengl_view setFrameOrigin: CGPointMake(context->native_view_x, context->native_view_y)];
     [opengl_view setFrameSize: CGSizeMake(context->native_view_width, context->native_view_height)];
-    
-    RENDER_UNLOCK();
 }
 
 void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *context)
