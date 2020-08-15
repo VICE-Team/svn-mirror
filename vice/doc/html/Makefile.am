@@ -1,3 +1,5 @@
+if ENABLE_HTML_DOCS
+
 AUTOMAKE_OPTIONS = -Wno-portability
 VPATH =
 
@@ -108,3 +110,5 @@ fonts images:
 
 $(COPIED_FILES): %: $(srcdir)/% | fonts images
 	cp "$<" "$@"
+
+endif

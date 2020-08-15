@@ -159,6 +159,7 @@ EXTRA_DIST = \
 	archdep_win32.h \
 	console_none.c \
 	console_unix.c \
+	coproc.h \
 	dynlib-unix.c \
 	dynlib-win32.c \
 	rawnetarch_unix.c \

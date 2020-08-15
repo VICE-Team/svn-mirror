@@ -9,7 +9,8 @@ MISC_DOX = \
 	hardware-sids.txt \
 	iec-bus.txt \
 	SDL-support.txt \
-	Release-Howto.txt
+	Release-Howto.txt \
+	vice.texi
 
 TEXI_TOOLS = \
 	fixdox.sh \
