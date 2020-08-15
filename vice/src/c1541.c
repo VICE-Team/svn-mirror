@@ -5032,7 +5032,7 @@ static int write_cmd(int nargs, char **args)
         unsigned int length = fileio_get_bytes_left(finfo);
         /* Records and positions start counting at 1 */
         unsigned int max_record =
-            ((length + rel_record_length - 1) / rel_record_length);
+            (unsigned int)((length + rel_record_length - 1) / rel_record_length);
         unsigned int record;
         int err;
 
