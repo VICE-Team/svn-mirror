@@ -1135,6 +1135,9 @@ static int load_input_file(char *filename)
         fprintf(stderr, "Error: Can't open %s\n", filename);
         return -1;
     }
+    /* fill buffer with 0xff, like empty eproms */
+    memset(filebuffer, 0xff, CARTRIDGE_SIZE_MAX);
+    /* read first 16 bytes */
     if (fread(filebuffer, 1, 16, infile) != 16) {
         fprintf(stderr, "Error: Can't read %s\n", filename);
         fclose(infile);
@@ -1188,6 +1191,7 @@ static int load_input_file(char *filename)
         }
     } else {
         loadfile_is_crt = 0;
+        /* read the rest of the file */
         loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, CARTRIDGE_SIZE_MAX - 14, infile) + 0x10;
 
         switch (loadfile_size) {
