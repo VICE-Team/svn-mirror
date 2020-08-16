@@ -269,7 +269,7 @@ static signed long key_ctrl_caps = -1;
 static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
 
 /* joyport attached keypad. */
-static signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KDB_JOY_KEYPAD_COLS];
+static signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KBD_JOY_KEYPAD_COLS];
 static key_joy_keypad_func_t key_joy_keypad_func = NULL;
 
 void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
@@ -620,7 +620,7 @@ void keyboard_key_pressed(signed long key, int mod)
 
     if (key_joy_keypad_func != NULL) {
         for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
-            for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+            for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
                 if (key == key_joy_keypad[i][j]) {
                     key_joy_keypad_func(i, j, 1);
                     return;
@@ -807,7 +807,7 @@ void keyboard_key_released(signed long key, int mod)
 
     if (key_joy_keypad_func != NULL) {
         for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
-            for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+            for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
                 if (key == key_joy_keypad[i][j]) {
                     key_joy_keypad_func(i, j, 0);
                     return;
@@ -895,16 +895,17 @@ void keyboard_set_keyarr_any(int row, int col, int value)
     signed long sym;
 
     if (row < 0) {
-        if (row == -3 && col == 0) {
+        if ((row == KBD_ROW_RESTORE_1) && (col == KBD_COL_RESTORE_1)) {
             sym = key_ctrl_restore1;
-        } else if (row == -3 && col == 1) {
+        } else if ((row == KBD_ROW_RESTORE_2) && (col == KBD_COL_RESTORE_2)) {
             sym = key_ctrl_restore2;
-        } else if (row == -4 && col == 0) {
+        } else if ((row == KBD_ROW_4080COLUMN) && (col == KBD_COL_4080COLUMN)) {
             sym = key_ctrl_column4080;
-        } else if (row == -4 && col == 1) {
+        } else if ((row == KBD_ROW_CAPSLOCK) && (col == KBD_COL_CAPSLOCK)) {
             sym = key_ctrl_caps;
-        } else if (row == -5 && col >= 0 && col < 20) {
-            sym = key_joy_keypad[col / 5][col % 5];
+        } else if ((row == KBD_ROW_JOY_KEYPAD) &&
+            (col >= 0) && (col < KBD_JOY_KEYPAD_NUMKEYS)) {
+            sym = key_joy_keypad[col / KBD_JOY_KEYPAD_COLS][col % KBD_JOY_KEYPAD_COLS];
         } else {
             return;
         }
@@ -1090,7 +1091,7 @@ static void keyboard_keyword_clear(void)
     kbd_lctrlcol  = -1;
     
     for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
-        for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+        for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
             key_joy_keypad[i][j] = -1;
         }
     }
@@ -1206,24 +1207,27 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
 
 static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
 {
-    if (row == -1 && (col >= 0) && (col <= 8)) { /* FIXME - magic number 8 */
+    if ((row == KBD_ROW_JOY_KEYMAP_A) &&
+        (col >= 0) && (col < JOYSTICK_KEYSET_NUM_KEYS)) {
 #ifdef COMMON_JOYKEYS
         joykeys[JOYSTICK_KEYSET_IDX_A][col] = (int)sym;
 #endif
-    } else if (row == -2 && (col >= 0) && (col <= 8)) { /* FIXME - magic number 8 */
+    } else if ((row == KBD_ROW_JOY_KEYMAP_B) &&
+        (col >= 0) && (col < JOYSTICK_KEYSET_NUM_KEYS)) {
 #ifdef COMMON_JOYKEYS
         joykeys[JOYSTICK_KEYSET_IDX_B][col] = (int)sym;
 #endif
-    } else if (row == -3 && col == 0) {
+    } else if ((row == KBD_ROW_RESTORE_1) && (col == KBD_COL_RESTORE_1)) {
         key_ctrl_restore1 = sym;
-    } else if (row == -3 && col == 1) {
+    } else if ((row == KBD_ROW_RESTORE_2) && (col == KBD_COL_RESTORE_2)) {
         key_ctrl_restore2 = sym;
-    } else if (row == -4 && col == 0) {
+    } else if ((row == KBD_ROW_4080COLUMN) && (col == KBD_COL_4080COLUMN)) {
         key_ctrl_column4080 = sym;
-    } else if (row == -4 && col == 1) {
+    } else if ((row == KBD_ROW_CAPSLOCK) && (col == KBD_COL_CAPSLOCK)) {
         key_ctrl_caps = sym;
-    } else if (row == -5 && col >= 0 && col < KBD_JOY_KEYPAD_ROWS * KDB_JOY_KEYPAD_COLS) {
-        key_joy_keypad[col / KDB_JOY_KEYPAD_COLS][col % KDB_JOY_KEYPAD_COLS] = sym;
+    } else if ((row == KBD_ROW_JOY_KEYPAD) &&
+        (col >= 0) && (col < KBD_JOY_KEYPAD_NUMKEYS)) {
+        key_joy_keypad[col / KBD_JOY_KEYPAD_COLS][col % KBD_JOY_KEYPAD_COLS] = sym;
     } else {
         return -1;
     }
@@ -1729,9 +1733,10 @@ int keyboard_keymap_dump(const char *filename)
                 "# joyport attached keypad key mapping\n"
                 "#\n");
     for (i = 0; i < KBD_JOY_KEYPAD_ROWS; ++i) {
-        for (j = 0; j < KDB_JOY_KEYPAD_COLS; ++j) {
+        for (j = 0; j < KBD_JOY_KEYPAD_COLS; ++j) {
             if (key_joy_keypad[i][j] != -1) {
-                fprintf(fp, "%s -5 %d\n", kbd_arch_keynum_to_keyname(key_joy_keypad[i][j]), (i * 5) + j);
+                fprintf(fp, "%s -5 %d\n",
+                    kbd_arch_keynum_to_keyname(key_joy_keypad[i][j]), (i * KBD_JOY_KEYPAD_COLS) + j);
             }
         }
     }
@@ -1743,7 +1748,8 @@ int keyboard_keymap_dump(const char *filename)
                     "#\n");
             for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
                 if (joykeys[JOYSTICK_KEYSET_IDX_A][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
-                    fprintf(fp, "%s -1 %d\n", kbd_arch_keynum_to_keyname(joykeys[JOYSTICK_KEYSET_IDX_A][i]), i);
+                    fprintf(fp, "%s -1 %d\n",
+                        kbd_arch_keynum_to_keyname(joykeys[JOYSTICK_KEYSET_IDX_A][i]), i);
                 }
             }
             fprintf(fp, "\n");
@@ -1758,7 +1764,8 @@ int keyboard_keymap_dump(const char *filename)
                     "#\n");
             for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
                 if (joykeys[JOYSTICK_KEYSET_IDX_B][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
-                    fprintf(fp, "%s -2 %d\n", kbd_arch_keynum_to_keyname(joykeys[JOYSTICK_KEYSET_IDX_B][i]), i);
+                    fprintf(fp, "%s -2 %d\n",
+                        kbd_arch_keynum_to_keyname(joykeys[JOYSTICK_KEYSET_IDX_B][i]), i);
                 }
             }
             fprintf(fp, "\n");

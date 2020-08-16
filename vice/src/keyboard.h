@@ -39,9 +39,25 @@
 /* (All have 8, except CBM-II that has 6) */
 #define KBD_COLS    8
 
+/* negative rows/columns for extra keys */
+#define KBD_ROW_JOY_KEYMAP_A    -1
+#define KBD_ROW_JOY_KEYMAP_B    -2
+#define KBD_ROW_RESTORE_1       -3
+#define KBD_ROW_RESTORE_2       -3
+#define KBD_ROW_4080COLUMN      -4
+#define KBD_ROW_CAPSLOCK        -4
+#define KBD_ROW_JOY_KEYPAD      -5
+
+#define KBD_COL_RESTORE_1        0
+#define KBD_COL_RESTORE_2        1
+#define KBD_COL_4080COLUMN       0
+#define KBD_COL_CAPSLOCK         1
+
 /* joystick port attached keypad */
-#define KBD_JOY_KEYPAD_ROWS 5
-#define KDB_JOY_KEYPAD_COLS 4
+#define KBD_JOY_KEYPAD_ROWS      4
+#define KBD_JOY_KEYPAD_COLS      5
+
+#define KBD_JOY_KEYPAD_NUMKEYS   (KBD_JOY_KEYPAD_ROWS * KBD_JOY_KEYPAD_COLS)
 
 /* index to select the current keymap ("KeymapIndex") */
 #define KBD_INDEX_SYM     0

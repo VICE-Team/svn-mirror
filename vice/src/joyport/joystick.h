@@ -80,11 +80,11 @@ extern int joystick_port_map[JOYSTICK_NUM];
 
 #ifdef COMMON_JOYKEYS
 
-#define JOYSTICK_KEYSET_NUM 3
-#define JOYSTICK_KEYSET_NUM_KEYS 11
+#define JOYSTICK_KEYSET_NUM          3
+#define JOYSTICK_KEYSET_NUM_KEYS     11 /* 4 directions, 4 diagonals, 3 fire */
 #define JOYSTICK_KEYSET_IDX_NUMBLOCK 0
-#define JOYSTICK_KEYSET_IDX_A 1
-#define JOYSTICK_KEYSET_IDX_B 2
+#define JOYSTICK_KEYSET_IDX_A        1
+#define JOYSTICK_KEYSET_IDX_B        2
 extern int joykeys[JOYSTICK_KEYSET_NUM][JOYSTICK_KEYSET_NUM_KEYS];
 
 /* several things depend on the order/exact values of the members in this enum,
