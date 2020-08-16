@@ -1509,7 +1509,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* open prg file */
     finfo = fileio_open(file_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
                         FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
-                        FILEIO_TYPE_PRG);
+                        FILEIO_TYPE_PRG, NULL);
 
     /* can't open file */
     if (finfo == NULL) {

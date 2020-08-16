@@ -178,6 +178,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 
     cmd_parse->atsign = 0;
     cmd_parse->parsecmd = NULL;
+    cmd_parse->recordlength = 0;
     cmd_parse->readmode = (cmd_parse->secondary == 1)
                           ? CBMDOS_FAM_WRITE : CBMDOS_FAM_READ;
 
@@ -274,6 +275,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
             case 'U':
                 cmd_parse->filetype = CBMDOS_FT_USR;
                 break;
+            case 'L'|0x80:
             case 'L':                   /* L,(#record length)  max 254 */
                 /*
                  * Allow extra text between L and the comma,

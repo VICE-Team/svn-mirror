@@ -48,6 +48,7 @@
 #include "fileio.h"
 #include "fsdevice-filename.h"
 #include "fsdevice-open.h"
+#include "fsdevice-read.h"
 #include "fsdevice-resources.h"
 #include "fsdevice-write.h"
 #include "fsdevicetypes.h"
@@ -266,7 +267,8 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         }
 
         finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
-                            FILEIO_COMMAND_WRITE, bufinfo[secondary].type);
+                            FILEIO_COMMAND_WRITE, bufinfo[secondary].type,
+                            &bufinfo[secondary].reclen);
 
         if (finfo != NULL) {
             bufinfo[secondary].fileio_info = finfo;
@@ -285,7 +287,8 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         DBG(("fsdevice_open_file append expanded '%s'\n", newrname));
         finfo = fileio_open(newrname, fsdevice_get_path(vdrive->unit), format,
                             FILEIO_COMMAND_APPEND_READ,
-                            bufinfo[secondary].type);
+                            bufinfo[secondary].type,
+                            &bufinfo[secondary].reclen);
         lib_free(newrname);
 
         if (finfo != NULL) {
@@ -298,7 +301,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         }
     }
 
-    /* Open file for read mode access.  */
+    /* Open file for read or relative mode access.  */
     tape = bufinfo[secondary].tape;
     tape->name = util_concat(fsdevice_get_path(vdrive->unit),
                              FSDEV_DIR_SEP_STR, rname, NULL);
@@ -335,14 +338,24 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     newrname = fsdevice_expand_shortname(vdrive, rname);
     DBG(("fsdevice_open_file read expanded '%s'\n", newrname));
     
+    int fileio_command =
+        bufinfo[secondary].mode == Relative ? FILEIO_COMMAND_READ_WRITE
+                                            : FILEIO_COMMAND_READ;
+
     finfo = fileio_open(newrname, fsdevice_get_path(vdrive->unit), format,
-                        FILEIO_COMMAND_READ, bufinfo[secondary].type);
+                        fileio_command, bufinfo[secondary].type,
+                        &bufinfo[secondary].reclen);
 
     lib_free(newrname);
     
     if (finfo != NULL) {
         bufinfo[secondary].fileio_info = finfo;
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
+
+        if (bufinfo[secondary].mode == Relative) {
+            fsdevice_relative_switch_record(vdrive, &bufinfo[secondary], 0, 0);
+        }
+
         return FLOPPY_COMMAND_OK;
     }
 
@@ -368,7 +381,7 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     cbmdos_cmd_parse_t cmd_parse;
     bufinfo_t *bufinfo;
 
-    DBG(("fsdevice_open name:'%s' (secondary:%u)", name, secondary));
+    DBG(("fsdevice_open name:'%s' (secondary:%u)\n", name, secondary));
 
     bufinfo = fsdevice_dev[vdrive->unit - 8].bufinfo;
 
@@ -405,6 +418,8 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     }
 
     bufinfo[secondary].type = cmd_parse.filetype;
+    bufinfo[secondary].reclen = cmd_parse.recordlength;
+    bufinfo[secondary].num_records = -1;
 
     rname = lib_malloc(ioutil_maxpathlen());
 
@@ -414,16 +429,23 @@ int fsdevice_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     /* CBM name to FSname */
     charset_petconvstring((uint8_t *)(cmd_parse.parsecmd), 1);
     DBG(("fsdevice_open rname: %s\n", rname));
-    switch (cmd_parse.readmode) {
-        case CBMDOS_FAM_WRITE:
-            bufinfo[secondary].mode = Write;
-            break;
-        case CBMDOS_FAM_READ:
-            bufinfo[secondary].mode = Read;
-            break;
-        case CBMDOS_FAM_APPEND:
-            bufinfo[secondary].mode = Append;
-            break;
+
+    if (cmd_parse.filetype == CBMDOS_FT_REL) {
+        /* REL files override whatever rwmode has been inferred by
+         * parsecmd() */
+        bufinfo[secondary].mode = Relative;
+    } else {
+        switch (cmd_parse.readmode) {
+            case CBMDOS_FAM_WRITE:
+                bufinfo[secondary].mode = Write;
+                break;
+            case CBMDOS_FAM_READ:
+                bufinfo[secondary].mode = Read;
+                break;
+            case CBMDOS_FAM_APPEND:
+                bufinfo[secondary].mode = Append;
+                break;
+        }
     }
 
     /*

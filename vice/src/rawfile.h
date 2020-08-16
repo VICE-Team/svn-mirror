@@ -40,5 +40,6 @@ extern unsigned int rawfile_ferror(struct rawfile_info_s *info);
 extern unsigned int rawfile_rename(const char *src_name, const char *dst_name, const char *path);
 extern unsigned int rawfile_remove(const char *src_name, const char *path);
 extern unsigned int rawfile_get_bytes_left(struct rawfile_info_s *info);
+extern unsigned int rawfile_seek(struct rawfile_info_s *info, off_t offset, int whence);
 
 #endif

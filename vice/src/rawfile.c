@@ -66,6 +66,9 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
         case FILEIO_COMMAND_READ:
             mode = MODE_READ;
             break;
+        case FILEIO_COMMAND_READ_WRITE:
+            mode = MODE_READ_WRITE;
+            break;
         case FILEIO_COMMAND_WRITE:
             mode = MODE_WRITE;
             break;
@@ -159,6 +162,11 @@ unsigned int rawfile_get_bytes_left(struct rawfile_info_s *info)
     size = ftell(info->fd);
     fseek(info->fd, old_pos, SEEK_SET);
     return (unsigned int)(size - old_pos);
+}
+
+unsigned int rawfile_seek(struct rawfile_info_s *info, off_t offset, int whence)
+{
+    return fseek(info->fd, offset, whence);
 }
 
 unsigned int rawfile_ferror(rawfile_info_t *info)

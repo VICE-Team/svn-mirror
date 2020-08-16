@@ -66,11 +66,12 @@
 #define SERIAL_OK               0
 #define SERIAL_WRITE_TIMEOUT    1
 #define SERIAL_READ_TIMEOUT     2
-#define SERIAL_FILE_NOT_FOUND   64
+#define SERIAL_FILE_NOT_FOUND   64      /* EOF */
 #define SERIAL_NO_DEVICE        128
 
-#define SERIAL_ERROR            (2)
-#define SERIAL_EOF              (64)
+#define SERIAL_ERROR                    (2)
+#define SERIAL_EOF                      (0x40)
+#define SERIAL_DEVICE_NOT_PRESENT       (0x80)
 
 typedef struct bufferinfo_s {
     unsigned int mode;     /* Mode on this buffer */
@@ -136,7 +137,7 @@ typedef struct vdrive_s {
     unsigned int Part_Start, Part_End;
 
     unsigned int bam_size;
-    uint8_t *bam;
+    uint8_t *bam;	/* Disk header blk (if any) followed by BAM blocks */
     bufferinfo_t buffers[16];
 
     /* Memory read command buffer.  */

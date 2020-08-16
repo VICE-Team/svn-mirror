@@ -46,20 +46,6 @@
 #include "vdrive-rel.h"
 #include "vdrive.h"
 
-#define SIDE_SECTORS_MAX 6
-#define SIDE_INDEX_MAX   120
-
-#define OFFSET_NEXT_TRACK  0
-#define OFFSET_NEXT_SECTOR 1
-#define OFFSET_SECTOR_NUM  2
-#define OFFSET_RECORD_LEN  3
-#define OFFSET_SIDE_SECTOR 4
-#define OFFSET_POINTER     16
-
-#define OFFSET_SUPER_254     2
-#define OFFSET_SUPER_POINTER 3
-#define SIDE_SUPER_MAX       126
-
 #define DIRTY_SECTOR   1
 #define DIRTY_RECORD   2
 #define WRITTEN_RECORD 4

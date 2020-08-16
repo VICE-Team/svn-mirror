@@ -3449,15 +3449,17 @@ static int read_cmd(int nargs, char **args)
             dest_name_ascii = NULL;      /* stdout */
         } else {
             char *open_petscii_name;
+            int reclen = slot[SLOT_RECORD_LENGTH];
 
             dest_name_ascii = args[2];
             open_petscii_name = lib_strdup(dest_name_ascii);
             charset_petconvstring((uint8_t *)open_petscii_name, 0);
             finfo = fileio_open(open_petscii_name, NULL, format,
-                                FILEIO_COMMAND_WRITE, FILEIO_TYPE_PRG);
+                                FILEIO_COMMAND_WRITE, file_type, &reclen);
             lib_free(open_petscii_name);
         }
     } else {
+        int reclen = slot[SLOT_RECORD_LENGTH];
         size_t l;
 
         dest_name_ascii = actual_name;
@@ -3471,7 +3473,7 @@ static int read_cmd(int nargs, char **args)
         archdep_sanitize_filename(dest_name_ascii);
 
         finfo = fileio_open(dest_name_ascii, NULL, format,
-                            FILEIO_COMMAND_WRITE, FILEIO_TYPE_PRG);
+                            FILEIO_COMMAND_WRITE, file_type, &reclen);
     }
 
     if (dest_name_ascii == NULL) {
@@ -4982,7 +4984,7 @@ static int write_cmd(int nargs, char **args)
 
     finfo = fileio_open(src_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
                         FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
-                        FILEIO_TYPE_PRG);
+                        FILEIO_TYPE_PRG, NULL);
 
     if (finfo == NULL) {
         fprintf(stderr, "cannot read file `%s': %s\n", args[1],

@@ -48,6 +48,7 @@
 #include "fileio.h"
 #include "fsdevice-flush.h"
 #include "fsdevice-filename.h"
+#include "fsdevice-read.h"
 #include "fsdevice-resources.h"
 #include "fsdevice.h"
 #include "fsdevicetypes.h"
@@ -64,6 +65,8 @@
 #else
 #define DBG(x)
 #endif
+
+#define DRIVE_UNIT_MIN          8
 
 static int fsdevice_flush_reset(void)
 {
@@ -232,10 +235,10 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
     src = &tmp[1];
     dest = realarg;
 
-    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
+    if (fsdevice_convert_p00_enabled[(vdrive->unit) - DRIVE_UNIT_MIN]) {
         format |= FILEIO_FORMAT_P00;
     }
-    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
+    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - DRIVE_UNIT_MIN]) {
         format |= FILEIO_FORMAT_RAW;
     }
 
@@ -270,10 +273,10 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
         return CBMDOS_IPE_SYNTAX;
     }
 
-    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
+    if (fsdevice_convert_p00_enabled[(vdrive->unit) - DRIVE_UNIT_MIN]) {
         format |= FILEIO_FORMAT_P00;
     }
-    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
+    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - DRIVE_UNIT_MIN]) {
         format |= FILEIO_FORMAT_RAW;
     }
 
@@ -298,7 +301,7 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
 /* M-R - Memory Read */
 static int fsdevice_flush_mr(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int length;
     uint16_t addr;
 
@@ -310,7 +313,7 @@ static int fsdevice_flush_mr(vdrive_t *vdrive, char *realarg)
 /* M-W - Memory Write */
 static int fsdevice_flush_mw(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int length;
     uint16_t addr;
 
@@ -322,7 +325,7 @@ static int fsdevice_flush_mw(vdrive_t *vdrive, char *realarg)
 /* M-E - Memory Execute */
 static int fsdevice_flush_me(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int length;
     uint16_t addr;
 
@@ -415,7 +418,7 @@ static unsigned int get_bammask(unsigned int trk, unsigned int sec)
 /* B-A - Block Allocate */
 static int fsdevice_flush_ba(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int drv, trk, sec;
     unsigned int bamptr, bammask;
     int err = CBMDOS_IPE_OK;
@@ -458,7 +461,7 @@ exitba:
 /* B-F - Block Free */
 static int fsdevice_flush_bf(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int drv, trk, sec;
     unsigned int bamptr, bammask;
 
@@ -488,7 +491,7 @@ static int fsdevice_flush_bp(vdrive_t *vdrive, char *realarg)
 /* B-E - Block Execute */
 static int fsdevice_flush_be(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int chn, drv, trk, sec;
     get4args(realarg, &chn, &drv, &trk, &sec);
     log_message(LOG_DEFAULT,
@@ -502,7 +505,7 @@ static int fsdevice_flush_be(vdrive_t *vdrive, char *realarg)
 /* B-W - Block Read */
 static int fsdevice_flush_br(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int chn, drv, trk, sec;
     get4args(realarg, &chn, &drv, &trk, &sec);
     log_message(LOG_DEFAULT,
@@ -516,7 +519,7 @@ static int fsdevice_flush_br(vdrive_t *vdrive, char *realarg)
 /* U1, like B-R */
 static int fsdevice_flush_u1(vdrive_t *vdrive, char *realarg)
 {
-    unsigned int dnr = vdrive->unit - 8;
+    unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int chn, drv, trk, sec;
 
     get4args(realarg, &chn, &drv, &trk, &sec);
@@ -532,7 +535,7 @@ static int fsdevice_flush_u1(vdrive_t *vdrive, char *realarg)
 /* B-W - Block Write */
 static int fsdevice_flush_bw(vdrive_t *vdrive, char *realarg)
 {
-    int dnr = vdrive->unit - 8;
+    int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int chn, drv, trk, sec;
 
     get4args(realarg, &chn, &drv, &trk, &sec);
@@ -548,7 +551,7 @@ static int fsdevice_flush_bw(vdrive_t *vdrive, char *realarg)
 /* U2, like B-W */
 static int fsdevice_flush_u2(vdrive_t *vdrive, char *realarg)
 {
-    int dnr = vdrive->unit - 8;
+    int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int chn, drv, trk, sec;
 
     get4args(realarg, &chn, &drv, &trk, &sec);
@@ -564,7 +567,7 @@ static int fsdevice_flush_u2(vdrive_t *vdrive, char *realarg)
 /* I - Initialize Disk */
 static int fsdevice_flush_initialize(vdrive_t *vdrive)
 {
-    int dnr = vdrive->unit - 8;
+    int dnr = vdrive->unit - DRIVE_UNIT_MIN;
 
     fsdevice_dev[dnr].track = 1;
     fsdevice_dev[dnr].sector = 0;
@@ -575,7 +578,7 @@ static int fsdevice_flush_initialize(vdrive_t *vdrive)
 /* V - Validate Disk */
 static int fsdevice_flush_validate(vdrive_t *vdrive)
 {
-    int dnr = vdrive->unit - 8;
+    int dnr = vdrive->unit - DRIVE_UNIT_MIN;
 
     fsdevice_dev[dnr].track = 1;
     fsdevice_dev[dnr].sector = 0;
@@ -586,12 +589,53 @@ static int fsdevice_flush_validate(vdrive_t *vdrive)
 /* N - Format Disk */
 static int fsdevice_flush_new(vdrive_t *vdrive, char *realarg)
 {
-    int dnr = vdrive->unit - 8;
+    int dnr = vdrive->unit - DRIVE_UNIT_MIN;
 
     fsdevice_dev[dnr].track = 1;
     fsdevice_dev[dnr].sector = 0;
 
     return CBMDOS_IPE_OK;
+}
+
+/* P - Position in RELative file */
+static int fsdevice_flush_position(vdrive_t *vdrive, char *buf, int length)
+{
+    int dnr = vdrive->unit - DRIVE_UNIT_MIN;
+    bufinfo_t *bufinfo;
+    unsigned int channel = buf[1] & 0x0F,
+                 rec_lo = buf[2] & 0xFF, rec_hi = buf[3] & 0xFF,
+                 position = buf[4] & 0xFF;
+    int recno;
+
+    /* P <secaddr> <recno lo> <recno hi> [<pos in record>] */
+    switch (length) {
+        case 1: /* no channel was specified; return NO CHANNEL */
+            return CBMDOS_IPE_NO_CHANNEL;
+        case 2: /* default the record number to 1 */
+            rec_lo = 1;
+            /* fall through */
+        case 3: /* default the record number's high byte to 0 */
+            rec_hi = 0;
+            /* fall through */
+        case 4: /* default the position to 1 */
+            position = 1;
+        default:
+            /* make compiler happy */
+            break;
+    }
+
+    recno = rec_hi * 256 + rec_lo;
+
+    /* Convert 1-based numbers to 0-based */
+    if (position > 0)
+        position--;
+    if (recno > 0)
+        recno--;
+
+    DBG(("fsdevice_flush_position: secadr=%d  recno=%d  pos=%d\n", channel, recno, position));
+    bufinfo = &fsdevice_dev[dnr].bufinfo[channel];
+
+    return fsdevice_relative_switch_record(vdrive, bufinfo, recno, position);
 }
 
 void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
@@ -601,7 +645,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     char *cbmcmd;
     int er = CBMDOS_IPE_SYNTAX;
 
-    dnr = vdrive->unit - 8;
+    dnr = vdrive->unit - DRIVE_UNIT_MIN;
 
     if ((secondary != 15) || (!(fsdevice_dev[dnr].cptr))) {
         return;
@@ -779,6 +823,10 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
         er = fsdevice_flush_rename(vdrive, realarg);
     } else if (*cmd == 'c' && arg != NULL) {
         /* FIXME: not implemented */
+    } else if (*cmd == 'p') {
+        er = fsdevice_flush_position(vdrive,
+                (char *)(fsdevice_dev[dnr].cmdbuf),
+                fsdevice_dev[dnr].cptr);
     } else if (*cmd == 's' && arg != NULL) {
         /* FIXME: a comma seperated list of files is not handled at all */
         realname = fsdevice_expand_shortname(vdrive, realarg);
@@ -798,7 +846,7 @@ int fsdevice_flush_write_byte(vdrive_t *vdrive, uint8_t data)
     unsigned int dnr;
     int rc;
 
-    dnr = vdrive->unit - 8;
+    dnr = vdrive->unit - DRIVE_UNIT_MIN;
     rc = SERIAL_OK;
 
     /* FIXME: Consider the real size of the input buffer. */
