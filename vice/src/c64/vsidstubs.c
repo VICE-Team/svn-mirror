@@ -511,7 +511,9 @@ void fileio_close(fileio_info_t *info)
 {
 }
 
-fileio_info_t *fileio_open(const char *file_name, const char *path, unsigned int format, unsigned int command, unsigned int type)
+fileio_info_t *fileio_open(const char *file_name, const char *path,
+                                unsigned int format, unsigned int command,
+                                unsigned int type, int *reclenp)
 {
     return NULL;
 }
