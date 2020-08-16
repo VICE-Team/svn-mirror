@@ -221,13 +221,13 @@ static const char *atbasickwcc[] = {
     "alarm"
 };
 
-/* Basic v4.0 (PET) -- TOKENS 0xCC - 0xDA / Basic v4.0 extension (C64) -- Tokens 0xCC - 0xE3 */
+/* Basic v4.0 (PET) -- TOKENS 0xCC - 0xDE / Basic v4.0 extension (C64) -- Tokens 0xCC - 0xE5 */
 static const char *petkwcc[] = {
     "concat",    "dopen",  "dclose", "record", "header",  "collect", "backup",
     "copy",      "append", "dsave",  "dload",  "catalog", "rename",  "scratch",
-    "directory",
+    "directory", "dclear", "bank",   "bload",  "bsave",
 
-    /* Basic 4 Extension for C64 (0xdb - 0xe3) */
+    /* Basic 4 Extension for C64 (0xdf - 0xe7) */
     "color",  "cold", "key", "dverify", "delete", "auto", "merge", "old",
     "monitor"
 };
@@ -558,8 +558,8 @@ static basic_list_t basic_list[] = {
     { B_SIMON,   128, 0xCB, 0x0801, 1, 0,    simonskw,          "simon",     1, 0, 0, "Basic v2.0 with Simons' Basic (C64)" },
     { B_SPEECH,   27, 0xE6, 0x0801, 0, 0xCC, speechkwcc,        "speech",    0, 0, 0, "Basic v2.0 with Speech Basic v2.7 (C64)" },
     { B_ATBAS,    43, 0xF6, 0x0801, 0, 0xCC, atbasickwcc,       "a",         0, 0, 0, "Basic v2.0 with @Basic (C64)" },
-    { B_4,        15, 0xDA, 0x0401, 0, 0xCC, petkwcc,           "40",        0, 0, 0, "Basic v4.0 (PET/CBM2)" },
-    { B_4E,       24, 0xE3, 0x0801, 0, 0xCC, petkwcc,           "4e",        0, 0, 0, "Basic v2.0 with Basic v4.0 extension (C64)" },
+    { B_4,        19, 0xDE, 0x0401, 0, 0xCC, petkwcc,           "40",        0, 0, 0, "Basic v4.0 (PET/CBM2)" },
+    { B_4E,       28, 0xE7, 0x0801, 0, 0xCC, petkwcc,           "4e",        0, 0, 0, "Basic v2.0 with Basic v4.0 extension (C64)" },
     { B_35,      126, 0xCB, 0x1001, 0, 0,    NULL, /* fix */    "3",         0, 0, 0, "Basic v3.5 (C16)" },
     { B_7,        39, 0x26, 0x1c01, 2, 0,    NULL, /* fix */    "70",        0, 1, 1, "Basic v7.0 (C128)" },
     { B_10,       62, 0x3D, 0x2001, 2, 0,    NULL, /* fix */    "10",        0, 1, 1, "Basic v10.0 (C65/C64DX)" },
