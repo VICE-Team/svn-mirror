@@ -31,6 +31,7 @@
 #include <glib.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "archdep.h"
 #include "lib.h"
