@@ -49,9 +49,9 @@ VICE_ARG_WITH_LIST(resid,               [  --without-resid         do not use th
 VICE_ARG_WITH_LIST(sdlsound,            [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(sun,                 [  --without-sun           do not use the sun/netbsd sound system])
 VICE_ARG_WITH_LIST(zlib,                [  --without-zlib          do not use the zlib support])
-VICE_ARG_WITH_LIST(mpg123,              [  --without-mpg123        do not use the mpg123 support])
-VICE_ARG_WITH_LIST(vorbis,              [  --without-vorbis        do not use the ogg/vorbis support])
-VICE_ARG_WITH_LIST(flac,                [  --without-flac          do not use the FLAC support])
+VICE_ARG_WITH_LIST(mpg123,              [  --with-mpg123           use MPG123 support])
+VICE_ARG_WITH_LIST(vorbis,              [  --with-vorbis           use Ogg/Vorbis support])
+VICE_ARG_WITH_LIST(flac,                [  --with-flac             use FLAC support])
 
 dnl the 'incorrect' indentation of the descrition is important here
 VICE_ARG_ENABLE_LIST(ahi,               [  --disable-ahi           disables AHI support])
@@ -2717,7 +2717,7 @@ fi
 
 
 dnl Check for Ogg/Vorbis support
-if test x"$with_vorbis" = "xno"; then
+if test x"$with_vorbis" != "xyes"; then
     VORBIS_PRESENT=no
 else
     VORBIS_PRESENT=yes
@@ -2739,20 +2739,19 @@ else
         AC_CHECK_LIB(vorbisenc, vorbis_encode_init_vbr,, [VORBIS_PRESENT=no])
     fi
 
-    if test x"$VORBIS_PRESENT" = "xno"; then
+    if test x"$with_vorbis" = "xyes" -a x"$VORBIS_PRESENT" = "xno"; then
         AC_MSG_ERROR([Ogg/Vorbis requested but missing.])
-    else
-        dnl Where does soundvorbis.o come from?
-        SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
-        LIBS="$LIBS -lvorbisfile -logg -lvorbis -lvorbisenc"
-        USE_VORBIS_SUPPORT="yes"
-        AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
     fi
+    dnl Where does soundvorbis.o come from?
+    SOUND_DRIVERS="$SOUND_DRIVERS soundvorbis.o";
+    LIBS="$LIBS -lvorbisfile -logg -lvorbis -lvorbisenc"
+    USE_VORBIS_SUPPORT="yes"
+    AC_DEFINE(USE_VORBIS,,[Enable ogg/vorbis support.])
 fi
 
 
 dnl Check FLAC support
-if test x"$with_flac" = "xno"; then
+if test x"$with_flac" != "xyes"; then
     FLAC_PRESENT=no
 else
     FLAC_PRESENT=yes
@@ -2772,14 +2771,14 @@ else
         fi
     fi
 
-    if test x"$FLAC_PRESENT" = "xyes"; then
-        LIBS="$LIBS -lFLAC"
-        SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o"
-        USE_FLAC_SUPPORT="yes"
-        AC_DEFINE(USE_FLAC,,[Enable FLAC support.])
-    else
+    if test x"$FLAC_PRESENT" = "xno"; then
         AC_MSG_ERROR([FLAC support requested, but missing.])
     fi
+    LIBS="$LIBS -lFLAC"
+    SOUND_DRIVERS="$SOUND_DRIVERS soundflac.o"
+    USE_FLAC_SUPPORT="yes"
+    AC_DEFINE(USE_FLAC,,[Enable FLAC support.])
+
 fi
 
 
@@ -3224,12 +3223,12 @@ if test x"$enable_portaudio" != "xno"; then
 fi
 
 dnl Check MP3 decoding support
-if test x"$with_mpg123" != "xno"; then
+if test x"$with_mpg123" = "xyes"; then
     AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(mpg123, mpg123_init,
                      [LIBS="$LIBS -lmpg123";
                      USE_MPG123_SUPPORT="yes";
                      AC_DEFINE(USE_MPG123,,[Enable mpg123 mp3 decoding support.])],,)])
-    if test x"$with_mpg123" != "xno" -a x"$USE_MPG123_SUPPORT" != "xyes"; then
+    if test x"$USE_MPG123_SUPPORT" != "xyes"; then
         AC_MSG_ERROR([MPG123 support requested but missing])
     fi
 fi
@@ -3872,7 +3871,7 @@ echo "PCI utils support            : $HAVE_PCIUTILS_SUPPORT"
 echo "MP3 encoding support         : $USE_LAMEMP3_SUPPORT (--enable/disable-lame)"
 echo "MP3 decoding support         : $USE_MPG123_SUPPORT (--with/without-mpg123)"
 echo "FLAC en/de-coding support    : $USE_FLAC_SUPPORT (--with/without-flac)"
-echo "OGG en/de-coding support     : $USE_VORBIS_SUPPORT (--with/without-ogg-vorbis)"
+echo "Vorbis en/de-coding support  : $USE_VORBIS_SUPPORT (--with/without-vorbis)"
 
 echo ""
 echo "SCREENSHOTS"
