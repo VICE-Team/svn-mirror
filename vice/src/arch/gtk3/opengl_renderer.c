@@ -172,12 +172,17 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
 #endif
     
     gtk_widget_get_allocation(widget, &allocation);
-    context->native_view_width = allocation.width;
+    context->native_view_width  = allocation.width;
     context->native_view_height = allocation.height;
-
+    
     gtk_scale = gtk_widget_get_scale_factor(widget);
-    context->gl_backing_layer_width = allocation.width * gtk_scale;
-    context->gl_backing_layer_height = allocation.height * gtk_scale;
+    context->gl_backing_layer_width     = context->native_view_width  * gtk_scale;
+    context->gl_backing_layer_height    = context->native_view_height * gtk_scale;
+    
+    canvas->screen_origin_x             = context->native_view_x;
+    canvas->screen_origin_y             = context->native_view_y;
+    canvas->screen_display_w            = context->native_view_width;
+    canvas->screen_display_h            = context->native_view_height;
 
     /* Create a native child window to render onto */
     vice_opengl_renderer_create_child_view(widget, context);
@@ -245,8 +250,13 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     context->native_view_height = allocation->height;
 
     gtk_scale = gtk_widget_get_scale_factor(widget);
-    context->gl_backing_layer_width = context->native_view_width * gtk_scale;
-    context->gl_backing_layer_height = context->native_view_height * gtk_scale;
+    context->gl_backing_layer_width     = context->native_view_width    * gtk_scale;
+    context->gl_backing_layer_height    = context->native_view_height   * gtk_scale;
+    
+    canvas->screen_origin_x             = context->native_view_x;
+    canvas->screen_origin_y             = context->native_view_y;
+    canvas->screen_display_w            = context->native_view_width;
+    canvas->screen_display_h            = context->native_view_height;
 
     /* Set the background colour */
     if (ui_is_fullscreen()) {
