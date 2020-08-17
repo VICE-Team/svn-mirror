@@ -28,6 +28,7 @@
 #define VICE_RENDER_THREAD_H
 
 #include <stdbool.h>
+#include <string.h>
 
 typedef void (*render_thread_callback_t)(void *thread_context, void *job_context);
 

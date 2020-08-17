@@ -242,12 +242,6 @@
 #error "please define LAST_OPCODE_ADDR"
 #endif
 
-#ifndef MONITOR_PRESTART
-#define MONITOR_PRESTART() \
-    do { \
-    } while (0)
-#endif
-
 #ifndef DRIVE_CPU
 
 #ifndef C64DTV
@@ -464,19 +458,16 @@
                     EXPORT_REGISTERS();                                                        \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                                        \
-                    MONITOR_PRESTART();                                                        \
                     monitor_check_icount((uint16_t)reg_pc);                                    \
                     IMPORT_REGISTERS();                                                        \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_BREAK)) {                                       \
                     if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) {                 \
-                        MONITOR_PRESTART();                                                    \
                         monitor_startup(CALLER);                                               \
                         IMPORT_REGISTERS();                                                    \
                     }                                                                          \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {                                       \
-                    MONITOR_PRESTART();                                                        \
                     monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)reg_pc);             \
                     IMPORT_REGISTERS();                                                        \
                 }                                                                              \

@@ -154,7 +154,6 @@ extern void monitor_shutdown(void);
 extern int monitor_cmdline_options_init(void);
 extern int monitor_resources_init(void);
 extern void monitor_resources_shutdown(void);
-extern int monitorredrawscreenonopen;
 void monitor_startup(MEMSPACE mem);
 extern void monitor_startup_trap(void);
 
@@ -220,8 +219,6 @@ struct monitor_cartridge_commands_s {
 typedef struct monitor_cartridge_commands_s monitor_cartridge_commands_t;
 
 extern monitor_cartridge_commands_t mon_cart_cmd;
-
-extern int mon_redraw_screen_on_startup;
 
 /* CPU history/memmap prototypes */
 extern void monitor_cpuhistory_store(uint32_t cycle, unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2,
