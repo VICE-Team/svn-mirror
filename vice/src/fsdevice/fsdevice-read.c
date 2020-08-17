@@ -196,6 +196,7 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
                                     int record, int pos)
 {
     int rec_len = bufinfo->reclen;
+
     DBG(("fsdevice_relative_switch_record: rec_len=%d %d.%d",
             rec_len, record, pos));
 
@@ -214,8 +215,8 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
     if (bufinfo->num_records <= 0) {
         fileio_seek(bufinfo->fileio_info, 0, SEEK_SET);
         off_t nbytes = fileio_get_bytes_left(bufinfo->fileio_info);
-        bufinfo->num_records = (nbytes + bufinfo->reclen - 1) /
-                               bufinfo->reclen;
+        bufinfo->num_records = (int)((nbytes + bufinfo->reclen - 1) /
+                               bufinfo->reclen);
         DBG(("fsdevice_relative_switch_record: num_records=%d",
             bufinfo->num_records));
     }

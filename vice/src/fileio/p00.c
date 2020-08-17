@@ -580,5 +580,5 @@ unsigned int p00_seek(struct fileio_info_s *info, off_t offset, int whence)
     if (oldpos == -1)
         return -1;
 
-    return oldpos - P00_HDR_LEN;
+    return (unsigned int)oldpos - P00_HDR_LEN;
 }
