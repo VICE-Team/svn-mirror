@@ -371,6 +371,19 @@ static inline void vicii_handle_vsp_bug(void)
     }
 }
 
+void vicii_recycle(void) {
+    unsigned int old_line = vicii.raster_line;
+    unsigned int old_cycle = vicii.raster_cycle;
+    int i = 0;
+
+    do {
+        i++;
+        vicii_cycle();
+    } while(!(old_line == vicii.raster_line && old_cycle == vicii.raster_cycle));
+
+    /*printf("Total cycles: %d\n", i);*/
+}
+
 int vicii_cycle(void)
 {
     int ba_low = 0;

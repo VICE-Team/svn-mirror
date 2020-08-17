@@ -50,7 +50,6 @@ int maincpu_ba_low_flags = 0;
     maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_VICII; \
     maincpu_ba_low_flags |= vicii_cycle()
 
-
 /* Skip cycle implementation */
 
 #define SKIP_CYCLE 0
@@ -118,6 +117,13 @@ int maincpu_ba_low_flags = 0;
 #else
 #define MEMMAP_UPDATE(addr)
 #endif
+
+#define MONITOR_PRESTART() \
+    do {                                                           \
+        if(mon_redraw_screen_on_startup) {                         \
+            vicii_recycle();                                       \
+        }                                                          \
+    } while (0)
 
 /* FETCH_OPCODE implementation(s) */
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS

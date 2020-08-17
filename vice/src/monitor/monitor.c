@@ -153,6 +153,7 @@ static int mon_console_suspend_on_leaving = 1;
  * of keep_monitor_open.
  */
 static int mon_console_close_on_leaving = 0;
+int mon_redraw_screen_on_startup = 0;
 
 int sidefx = 0;
 int break_on_dummy_access = 0;
@@ -1366,6 +1367,14 @@ static int set_monitor_log_enabled(int val, void *param)
     return 0;
 }
 
+static int set_mon_redraw_screen_on_startup(int val, void *param)
+{
+    int old = mon_redraw_screen_on_startup;
+    mon_redraw_screen_on_startup = val ? 1 : 0;
+    
+    return 0;
+}
+
 #ifdef FEATURE_CPUMEMHISTORY
 static int monitorchislines = 0;
 static int set_monitor_chis_lines(int val, void *param)
@@ -1403,6 +1412,8 @@ static const resource_int_t resources_int[] = {
 #endif
     { "MonitorLogEnabled", 0, RES_EVENT_NO, NULL,
       &monitorlogenabled, set_monitor_log_enabled, NULL },
+    { "MonitorRedrawScreenOnStartup", 0, RES_EVENT_NO, NULL,
+      &mon_redraw_screen_on_startup, set_mon_redraw_screen_on_startup, NULL },
 #ifdef FEATURE_CPUMEMHISTORY
     { "MonitorChisLines", 4096, RES_EVENT_NO, NULL,
       &monitorchislines, set_monitor_chis_lines, NULL },
@@ -1444,6 +1455,12 @@ static const cmdline_option_t cmdline_options[] =
     { "+monlog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MonitorLogEnabled", (resource_value_t)0,
       NULL, "Disable logging monitor output to a file" },
+    { "-monredraw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "MonitorRedrawScreenOnStartup", (resource_value_t)1,
+      NULL, "Enable redrawing the entire screen when entering the monitor. This may break the raster cycle." },
+    { "+monredraw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "MonitorRedrawScreenOnStartup", (resource_value_t)0,
+      NULL, "Disable redrawing the entire screen when entering the monitor." },
     { "-initbreak", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       monitor_set_initial_breakpoint, NULL, NULL, NULL,
       "<value>", "Set an initial breakpoint for the monitor" },
