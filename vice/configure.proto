@@ -73,7 +73,7 @@ VICE_ARG_ENABLE_LIST(html-docs,         [  --enable-html-docs      install the H
 VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen])
 VICE_ARG_ENABLE_LIST(inline,            [  --enable-inline         enable inlining of functions [[default=yes]]])
 VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
-VICE_ARG_ENABLE_LIST(lame,              [  --disable-lame          disable MP3 export with LAME])
+VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libieee1284 support])
 VICE_ARG_ENABLE_LIST(midi,              [  --disable-midi          disable MIDI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,     [  --enable-native-gtk3ui  enables native GTK3 UI support])
@@ -93,6 +93,7 @@ VICE_ARG_ENABLE_LIST(sdlui2,            [  --enable-sdlui2         enables SDL2 
 VICE_ARG_ENABLE_LIST(shared-ffmpeg,     [  --enable-shared-ffmpeg  enable included shared FFmpeg support])
 VICE_ARG_ENABLE_LIST(ssi2001,           [  --disable-ssi2001       disables SSI2001 (ISA SID card) support])
 VICE_ARG_ENABLE_LIST(static-ffmpeg,     [  --enable-static-ffmpeg  enable included static FFmpeg support])
+dnl How does this work with --enable-lame, seems to be for internal ffmpeg?
 VICE_ARG_ENABLE_LIST(static-lame,       [  --enable-static-lame    enable static LAME linking])
 VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
 
@@ -2612,7 +2613,8 @@ fi
 
 
 dnl --- Lame ---
-if test x"$enable_lame" != "xno" ; then
+
+if test x"$enable_lame" = "xyes" ; then
 
   old_CFLAGS="$CFLAGS"
   CFLAGS="$VICE_CFLAGS"
@@ -2620,7 +2622,7 @@ if test x"$enable_lame" != "xno" ; then
   AC_CHECK_HEADER(lame/lame.h,,)
 
   dnl the header is available!
-  if test "$ac_cv_header_lame_lame_h" != "no" ; then
+  if test x"$ac_cv_header_lame_lame_h" = "xyes" ; then
     AC_MSG_CHECKING([for lame lib linking])
     if test x"$dynlib_support" = "xyes" -a x"$enable_static_lame" != "xyes" ; then
       dnl dynlib linking
@@ -2650,6 +2652,8 @@ if test x"$enable_lame" != "xno" ; then
         AC_MSG_ERROR([lame mp3 support is missing])
       fi
     fi
+  else
+    AC_MSG_ERROR([lame mp3 support is missing])
   fi
 
   CFLAGS="$old_CFLAGS"
