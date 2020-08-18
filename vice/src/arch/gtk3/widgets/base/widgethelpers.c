@@ -39,6 +39,7 @@
 
 #include <gtk/gtk.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "lib.h"
 #include "resources.h"
@@ -242,8 +243,14 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
  * this function handles all characters that may appear in a directory listing,
  * including "non printable" control characters, which appear as inverted characters
  * in so called "quote mode".
+ *
+ * \param[in]   s           PETSCII string to convert to UTF-8
+ * \param[in]   inverted    use inverted mode
+ * \param[in]   lowercase   use the lowercase chargen
  */
-unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
+unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
+                                         bool inverted,
+                                         bool lowercase)
 {
     unsigned char *d, *r;
     unsigned int codepoint;
@@ -278,6 +285,10 @@ unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted)
         }
         if (inverted) {
             codepoint ^= 0x0200;                /* 0xe0XX <-> 0xe2XX */
+        }
+        /* switch to lower case if requested */
+        if (lowercase) {
+            codepoint ^= 0x0100;
         }
         s++;
 

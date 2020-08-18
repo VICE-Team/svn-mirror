@@ -34,6 +34,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "attach.h"
 #include "autostart.h"
@@ -268,7 +269,7 @@ GtkWidget *dir_menu_popup_create(
             /* DISK name & ID */
 
             tmp = image_contents_to_string(contents, 0);
-            utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1);
+            utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 1, false);
             item = gtk_menu_item_new_with_label(utf8);
 
 #if 0
@@ -294,7 +295,7 @@ GtkWidget *dir_menu_popup_create(
                     entry = entry->next) {
 
                 tmp = image_contents_file_to_string(entry, 0);
-                utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0);
+                utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0, false);
                 item = gtk_menu_item_new_with_label(utf8);
 #if 0
                 g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);

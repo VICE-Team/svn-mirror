@@ -29,6 +29,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "basewidget_types.h"
 
@@ -78,6 +79,8 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
                                                 const char *label,
                                                 int span);
 
-unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s, int inverted);
+unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
+                                         bool inverted,
+                                         bool lowercase);
 
 #endif
