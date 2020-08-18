@@ -41,7 +41,7 @@ VICE_ARG_WITH_LIST(alsa,                [  --without-alsa          do not use th
 VICE_ARG_WITH_LIST(fastsid,             [  --with-fastsid          use the FastSID engine])
 VICE_ARG_WITH_LIST(gif,                 [  --with-gif              use GIF screenshot system])
 VICE_ARG_WITH_LIST(jpeg,                [  --with-jpeg             use JPEG screenshot system])
-VICE_ARG_WITH_LIST(oss,                 [  --without-oss           do not use the OSS sound system])
+VICE_ARG_WITH_LIST(oss,                 [  --with-oss              use the OSS sound system])
 VICE_ARG_WITH_LIST(png,                 [  --without-png           do not use the PNG screenshot system])
 VICE_ARG_WITH_LIST(pulse,               [  --without-pulse         do not use PulseAudio sound system])
 VICE_ARG_WITH_LIST(readline,            [  --without-readline      do not try to use the system readline library])
@@ -2571,7 +2571,7 @@ if test x"$is_unix" = "xyes"; then
                       SOUND_LIBS="$SOUND_LIBS -lpulse-simple -lpulse";
                       USE_PULSE_SUPPORT="yes";
                       AC_DEFINE(USE_PULSE,,[Enable pulseaudio support.])],,$SOUND_LIBS)])
-    if test x"$with_pulse" = "xyes" -a x"$USE_PULSE_SUPPORT" != "xyes"; then
+    if test x"$with_pulse" != "xno" -a x"$USE_PULSE_SUPPORT" != "xyes"; then
       AC_MSG_ERROR([pulse audio support missing])
     fi
   fi
@@ -2585,20 +2585,20 @@ if test x"$is_unix" = "xyes"; then
                       AC_DEFINE(USE_ALSA,,[Enable alsa support.])],,$SOUND_LIBS)])
     AC_CHECK_LIB(asound, snd_pcm_avail,
                  [AC_DEFINE(HAVE_SND_PCM_AVAIL,,[Use more accurate buffer fill reporting])])
-    if test x"$with_alsa" = "xyes" -a x"$USE_ALSA_SUPPORT" != "xyes"; then
+    if test x"$with_alsa" != "xno" -a x"$USE_ALSA_SUPPORT" != "xyes"; then
       AC_MSG_ERROR([alsa support is missing])
     fi
   fi
 
 
   dnl OSS support checks
-  if test x"$with_oss" != "xno" -a x"$host_os" != "uwin"; then
+  if test x"$with_oss" = "xyes" -a x"$host_os" != "uwin"; then
     AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
                      [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o";
                       USE_OSS_SUPPORT="yes";
                       AC_DEFINE(USE_OSS,,[Enable oss support.])])
     AC_CHECK_LIB(ossaudio, _oss_ioctl,,,$SOUND_LIBS)
-    if test x"$with_oss" = "xyes" -a x"$USE_OSS_SUPPORT" != "xyes"; then
+    if test x"$USE_OSS_SUPPORT" != "xyes"; then
       AC_MSG_ERROR([OSS support missing])
     fi
   fi
