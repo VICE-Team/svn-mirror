@@ -16681,6 +16681,8 @@ mentioned above.
 * MON_CMD_CONDITION_SET::
 * MON_CMD_REGISTERS_GET::
 * MON_CMD_REGISTERS_SET::
+* MON_CMD_DUMP::
+* MON_CMD_UNDUMP::
 * MON_CMD_ADVANCE_INSTRUCTIONS::
 * MON_CMD_KEYBOARD_FEED::
 * MON_CMD_EXECUTE_UNTIL_RETURN::
@@ -16950,6 +16952,58 @@ Command body:
 @end table
 
 @xref{MON_RESPONSE_REGISTER_INFO}.
+
+@node MON_CMD_DUMP
+@subsection Dump (0x41)
+
+Saves the machine state to a file.
+
+Command body:
+
+@table @strong
+@item byte 0: Save ROMs to snapshot file?
+0x01: true, 0x00: false
+
+@item byte 1: Save disks to snapshot file?
+0x01: true, 0x00: false
+
+@item byte 2: Length of filename
+
+@item byte 3+: Filename
+The filename to save the snapshot to.
+
+@end table
+
+Response type:
+
+0x41: MON_RESPONSE_DUMP
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_UNDUMP
+@subsection Undump (0x42)
+
+Loads the machine state from a file.
+
+Command body:
+
+@table @strong
+@item byte 0: Length of filename
+
+@item byte 1+: Filename
+The filename to load the snapshot from.
+
+@end table
+
+Response type:
+
+0x42: MON_RESPONSE_UNDUMP
+
+Response body:
+
+Currently empty.
 
 @node MON_CMD_ADVANCE_INSTRUCTIONS
 @subsection Advance Instructions (0x71)

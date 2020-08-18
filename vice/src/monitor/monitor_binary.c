@@ -41,6 +41,7 @@
 #include "uiapi.h"
 #include "util.h"
 #include "vicesocket.h"
+#include "machine.h"
 
 #include "mon_breakpoint.h"
 #include "mon_file.h"
@@ -73,6 +74,9 @@ enum t_binary_command {
     e_MON_CMD_REGISTERS_GET = 0x31,
     e_MON_CMD_REGISTERS_SET = 0x32,
 
+    e_MON_CMD_DUMP = 0x41,
+    e_MON_CMD_UNDUMP = 0x42,
+
     e_MON_CMD_ADVANCE_INSTRUCTIONS = 0x71,
     e_MON_CMD_KEYBOARD_FEED = 0x72,
     e_MON_CMD_EXECUTE_UNTIL_RETURN = 0x73,
@@ -101,6 +105,9 @@ enum t_binary_response {
     e_MON_RESPONSE_CONDITION_SET = 0x22,
 
     e_MON_RESPONSE_REGISTER_INFO = 0x31,
+
+    e_MON_RESPONSE_DUMP = 0x41,
+    e_MON_RESPONSE_UNDUMP = 0x42,
 
     e_MON_RESPONSE_JAM = 0x61,
     e_MON_RESPONSE_STOPPED = 0x62,
@@ -681,6 +688,52 @@ static void monitor_binary_process_registers_set(binary_command_t *command)
     monitor_binary_response_register_info(command->request_id);
 }
 
+static void monitor_binary_process_dump(binary_command_t *command)
+{
+    unsigned char *body = command->body;
+    uint8_t save_roms = !!body[0];
+    uint8_t save_disks = !!body[1];
+    uint8_t filename_length = body[2];
+    unsigned char* filename = &body[3];
+
+    if(command->length < 3 + filename_length) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    /* This should be changed later if other fields are added after it */
+    filename[filename_length] = '\0';
+
+    if(machine_write_snapshot((char *)filename, (int)save_roms, (int)save_disks, 0) < 0) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_DUMP, e_MON_ERR_OK, command->request_id, NULL);
+}
+
+static void monitor_binary_process_undump(binary_command_t *command)
+{
+    unsigned char *body = command->body;
+    uint8_t filename_length = body[0];
+    unsigned char* filename = &body[1];
+
+    if(command->length < 1 + filename_length) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    /* This should be changed later if other fields are added after it */
+    filename[filename_length] = '\0';
+
+    if(machine_read_snapshot((char *)filename, 0) < 0) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_UNDUMP, e_MON_ERR_OK, command->request_id, NULL);
+}
+
 static void monitor_binary_process_exit(binary_command_t *command)
 {
     exit_mon = 1;
@@ -1007,6 +1060,11 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
         monitor_binary_process_registers_get(command);
     } else if (command_type == e_MON_CMD_REGISTERS_SET) {
         monitor_binary_process_registers_set(command);
+
+    } else if (command_type == e_MON_CMD_DUMP) {
+        monitor_binary_process_dump(command);
+    } else if (command_type == e_MON_CMD_UNDUMP) {
+        monitor_binary_process_undump(command);
 
     } else if (command_type == e_MON_CMD_ADVANCE_INSTRUCTIONS) {
         monitor_binary_process_advance_instructions(command);
