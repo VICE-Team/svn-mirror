@@ -71,7 +71,6 @@ VICE_ARG_ENABLE_LIST(hidmgr,            [  --disable-hidmgr        disable IOHID
 VICE_ARG_ENABLE_LIST(hidutils,          [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 VICE_ARG_ENABLE_LIST(html-docs,         [  --enable-html-docs      install the HTML documentation [[default=no]]])
 VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen])
-VICE_ARG_ENABLE_LIST(inline,            [  --enable-inline         enable inlining of functions [[default=yes]]])
 VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
 VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libieee1284 support])
@@ -1795,11 +1794,6 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 
-dnl Check whether inline functions are available.
-AC_C_INLINE
-if test x"$ac_cv_c_inline" = "xno" ; then
-  VICE_CFLAGS="$VICE_CFLAGS -DNO_INLINE"
-fi
 
 
 dnl Define the type sizes. (No, it doesn't)
