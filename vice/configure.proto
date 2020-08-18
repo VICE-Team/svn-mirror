@@ -75,7 +75,7 @@ VICE_ARG_ENABLE_LIST(inline,            [  --enable-inline         enable inlini
 VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
 VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libieee1284 support])
-VICE_ARG_ENABLE_LIST(midi,              [  --disable-midi          disable MIDI support])
+VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,     [  --enable-native-gtk3ui  enables native GTK3 UI support])
 VICE_ARG_ENABLE_LIST(native-tools,      [  --enable-native-tools[[=compiler]]  enable native tools instead of scripts])
 VICE_ARG_ENABLE_LIST(new8580filter,     [  --enable-new8580filter  enable experimental 8580 filters [[default=no]]])
@@ -736,7 +736,7 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "x
     AC_DEFINE(HAVE_SSI2001,,[Support for SSI2001 (ISA SID card).])
     HAVE_SSI2001_SUPPORT="yes"
   fi
-  if test x"$enable_midi" != "xno"; then
+  if test x"$enable_midi" = "xyes"; then
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     HAVE_MIDI_SUPPORT="yes"
   fi
@@ -932,7 +932,7 @@ dnl All other UN*X systems
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
-  if test x"$enable_midi" != "xno"; then
+  if test x"$enable_midi" = "xyes"; then
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     HAVE_MIDI_SUPPORT="yes"
   fi
@@ -2824,7 +2824,7 @@ if test x"$is_unix_macosx" = "xyes"; then
   fi
 
   dnl --- check for CoreMIDI ---
-  if test x"$enable_midi" != "xno"; then
+  if test x"$enable_midi" = "xyes"; then
     AC_MSG_CHECKING(whether we can link the CoreMIDI framework)
     old_LIBS="${LIBS}"
     LIBS="$LIBS -framework CoreMidi -framework CoreServices"
