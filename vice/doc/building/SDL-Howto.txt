@@ -215,3 +215,5 @@ $ make -j3 2>&1 | tee build.log
 If that succeeds without errors, it's time to install:
 $ sudo make install
 
+
+Now just enter `x64sc` in a terminal and VICE will run.
