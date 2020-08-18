@@ -2702,6 +2702,7 @@ void monitor_startup(MEMSPACE mem)
 
     monitor_open();
     while (!exit_mon) {
+        /* TODO: Render all in-progress frames as we enter the prompt */
         make_prompt(prompt);
         p = uimon_in(prompt);
         if (p) {
