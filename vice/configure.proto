@@ -2587,11 +2587,8 @@ if test x"$is_unix" = "xyes" -a x"$is_unix_macosx" = "xno"; then
 
   dnl OSS support checks
   dnl
-  dnl Remove check of "x*" against "uwin", which will never be true, rename
-  dnl sounduss.o to soundoss.o, which sounds a lot more logical seeing we're
-  dnl dealing with OSS here, not USS.
-  dnl
-  dnl If I'm incorrect, please let me know. -- compyx 2020-08-19
+  dnl For some reason 'sounduss.o' is actually correct. you'd expect soundoss.o
+  dnl but that fails to compile
   dnl
   if test x"$with_oss" = "xyes"; then
     AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
