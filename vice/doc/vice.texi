@@ -16892,11 +16892,6 @@ Response body:
 
 Currently empty.
 
-@table @strong
-@item byte 0-3: The total number of checkpoints
-
-@end table
-
 @node MON_CMD_CONDITION_SET
 @subsection Condition set (0x22)
 
