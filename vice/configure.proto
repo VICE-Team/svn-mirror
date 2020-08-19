@@ -2715,7 +2715,8 @@ if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
     fi
 fi
 
-dnl How do soundbeos.o and soundbsp.o get generated?
+dnl Do not remove (yet), for some reason these things are required even for
+dnl SDL2 on Haiku.
 if test x"$is_beos" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o soundbsp.o"
 fi
