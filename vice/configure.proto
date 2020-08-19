@@ -2558,7 +2558,7 @@ fi
 AC_SUBST(TFE_LIBS)
 
 dnl ----- Sound Drivers -----
-if test x"$is_unix" = "xyes"; then
+if test x"$is_unix" = "xyes" -a x"is_unix_macosx" = "xno"; then
   if test x"$with_pulse" != "xno"; then
     AC_CHECK_HEADERS(pulse/simple.h,[AC_CHECK_LIB(pulse-simple, pa_simple_new,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundpulse.o";
