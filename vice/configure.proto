@@ -2595,7 +2595,7 @@ if test x"$is_unix" = "xyes" -a x"$is_unix_macosx" = "xno"; then
   dnl
   if test x"$with_oss" = "xyes"; then
     AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundoss.o";
+                     [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o";
                       USE_OSS_SUPPORT="yes";
                       AC_DEFINE(USE_OSS,,[Enable oss support.])])
     AC_CHECK_LIB(ossaudio, _oss_ioctl,,,$SOUND_LIBS)
