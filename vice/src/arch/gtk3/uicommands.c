@@ -157,14 +157,9 @@ gboolean ui_toggle_mouse_grab(GtkWidget *widget, gpointer data)
 
     resources_get_int("Mouse", &mouse);
     resources_set_int("Mouse", !mouse);
-    if (mouse) {
-        ui_mouse_grab_pointer();
-    } else {
-        ui_mouse_ungrab_pointer();
-    }
+    mouse = !mouse;
 
-    /* `mouse` still contains the old value */
-    if (!mouse) {
+    if (mouse) {
        g_snprintf(title, 256, "VICE (%s) (Use %s+M to disable mouse grab)",
                machine_get_name(), VICE_MOD_MASK_TEXT);
     } else {
