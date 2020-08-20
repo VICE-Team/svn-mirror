@@ -240,7 +240,7 @@ static int set_timer_speed(int speed)
         }
         frame_ticks_orig = frame_ticks;
         
-        printf("new frame ticks: %f)\n", frame_ticks); fflush(stdout);
+        /* printf("new frame ticks: %f\n", frame_ticks); fflush(stdout); */
 
         return 0;
     }
@@ -358,7 +358,7 @@ static void update_performance_metrics(unsigned long frame_time)
             vsync_metric_cpu_percent  = (0.0 - timer_speed) / refresh_frequency * 100;
         }
         
-        //printf("INIT frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout);
+        /* printf("INIT frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout); */
 
         return;
     }
@@ -384,7 +384,7 @@ static void update_performance_metrics(unsigned long frame_time)
     vsync_metric_emulated_fps = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_emulated_fps) + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * ((double)(frames_counted - 1) / frame_timespan_seconds);
     vsync_metric_warp_enabled = warp_mode_enabled;
     
-    //printf("frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout);
+    /* printf("frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout); */
     
     /* Get ready for next invoke */
     if (++next_measurement_index == MEASUREMENT_FRAME_WINDOW) {
@@ -435,7 +435,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 #endif
 
     /* Flush sound buffer, get delay in seconds. */
-    // sound_delay = sound_flush();
+    /* sound_delay = sound_flush(); */
     sound_flush();
 
     /* Get current time, directly after getting the sound delay. */
