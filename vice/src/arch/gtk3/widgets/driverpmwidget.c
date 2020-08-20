@@ -54,8 +54,8 @@
  * alter them to more sensible values   -- compyx
  */
 
-#define RPM_MIN     27500       /**< Drive RPM minimum */
-#define RPM_MAX     32500       /**< Drive RPM maximum */
+#define RPM_MIN     26000       /**< Drive RPM minimum */
+#define RPM_MAX     34000       /**< Drive RPM maximum */
 #define RPM_STEP    100         /**< Drive RPM stepping for the widget */
 
 #define WOBBLE_MIN  0           /**< Drive RPM wobble minimum */
