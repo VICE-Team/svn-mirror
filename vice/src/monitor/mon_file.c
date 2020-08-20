@@ -250,7 +250,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
         curbank = origbank;
     }
 
-    mon_out("to %04X (%x bytes)\n", ADDR_LIMIT(adr + ch), (unsigned int)ch);
+    mon_out("to %04X (%04X bytes)\n", ADDR_LIMIT((adr + ch) - 1), (unsigned int)ch);
 
     /* set end of load addresses like kernal load if
      * 1. loading .prg file
