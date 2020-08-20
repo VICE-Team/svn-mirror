@@ -244,8 +244,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
             mon_out("Crossing 64k boundary.\n");
         }
         ch++;
-    }
-    while (1);
+    } while (1);
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         curbank = origbank;
