@@ -1583,7 +1583,6 @@ x64dtv_libs =  \
 	$(driver_libs) \
 	$(viciidtv_lib) \
 	$(raster_lib) \
-	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
@@ -1591,6 +1590,7 @@ x64dtv_libs =  \
 	$(ffmpeg_libs) \
 	$(c64dtvstubs_lib) \
 	$(joyport_lib) \
+	$(rtc_lib) \
 	$(hvsc_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
@@ -2337,7 +2337,7 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 	libtape libarch libtoolarch libarchdep libvicii libviciisc libviciidtv \
 	libviciivsid libvdc libsid libcrtc libvideo libserial libparallel \
 	libcore libiecbus libfileio librtc libuserport libtapeport libp64 \
-	libscpu64 libdiag \
+	libscpu64 libdiag libdatasette \
 	@RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
