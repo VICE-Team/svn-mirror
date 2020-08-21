@@ -450,6 +450,7 @@ void ps2mouse_reset(void)
 /* ------------------------------------------------------------------------- */
 
 int ps2mouse_enabled = 0;
+int _mouse_enabled = 0;
 
 static int set_ps2mouse_enable(int val, void *param)
 {
@@ -458,9 +459,18 @@ static int set_ps2mouse_enable(int val, void *param)
     return 0;
 }
 
+static int set_mouse_enabled(int val, void *param)
+{
+    _mouse_enabled = val ? 1 : 0;
+    mousedrv_mouse_changed();
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
     { "ps2mouse", 0, RES_EVENT_SAME, NULL,
       &ps2mouse_enabled, set_ps2mouse_enable, NULL },
+    { "Mouse", 0, RES_EVENT_SAME, NULL,
+      &_mouse_enabled, set_mouse_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
 
