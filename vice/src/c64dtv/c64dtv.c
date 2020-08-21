@@ -414,8 +414,12 @@ int machine_resources_init(void)
     }
 #endif
 #ifdef HAVE_MOUSE
-    if (mouse_ps2_resources_init() < 0) {
+    if (mouse_resources_init() < 0) {
         init_resource_fail("mouse");
+        return -1;
+    }
+    if (mouse_ps2_resources_init() < 0) {
+        init_resource_fail("ps2mouse");
         return -1;
     }
 #endif
