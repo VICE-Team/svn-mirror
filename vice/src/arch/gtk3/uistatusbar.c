@@ -422,7 +422,6 @@ static void on_drive_configure_activate(GtkWidget *widget, gpointer data)
  */
 static void on_drive_reset_clicked(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("Resetting drive %d", GPOINTER_TO_INT(data) + 8);
     drive_cpu_trigger_reset(GPOINTER_TO_INT(data));
 }
 
@@ -578,7 +577,6 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
 
     } else if (((GdkEventButton *)event)->button == GDK_BUTTON_SECONDARY) {
         GtkWidget *dir_menu;
-        debug_gtk3("Got SECONDARY BUTTON");
 
         dir_menu = dir_menu_popup_create(-1, tapecontents_read,
                 tape_dir_autostart_callback);
@@ -704,14 +702,12 @@ static gboolean on_joystick_widget_hover(GtkWidget *widget, GdkEvent *event,
         }
 
         if (event->type == GDK_ENTER_NOTIFY) {
-            debug_gtk3("Entered joystick widget area.");
             if (joywidget_mouse_ptr == NULL) {
                 joywidget_mouse_ptr = gdk_cursor_new_from_name(display, "pointer");
             }
             cursor = joywidget_mouse_ptr;
 
         } else {
-            debug_gtk3("Left joystick widget area.");
             cursor = NULL;
         }
         gdk_window_set_cursor(window, cursor);
@@ -732,8 +728,6 @@ static gboolean on_joystick_widget_button_press(GtkWidget *widget,
                                                 GdkEvent *event,
                                                 gpointer user_data)
 {
-    debug_gtk3("Got button click");
-
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
         GtkWidget *menu = joystick_menu_popup_create();
         gtk_menu_popup_at_widget(GTK_MENU(menu), widget,
@@ -1006,8 +1000,6 @@ static void disk_dir_autostart_callback(const char *image, int index)
 {
     char *autostart_image;
 
-    debug_gtk3("Got image '%s', file index %d to autostart",
-            image, index);
     /* make a copy of the image name since autostart will reattach the disk
      * image, freeing memory used by the image name passed to us in the process
      */
@@ -1028,8 +1020,6 @@ static void tape_dir_autostart_callback(const char *image, int index)
 {
     char *autostart_image;
 
-    debug_gtk3("Got image '%s', file index %d to autostart",
-            image, index);
     /* make a copy of the image name since autostart will reattach the tape
      * image, freeing memory used by the image name passed to us in the process
      */
@@ -1624,7 +1614,6 @@ GtkWidget *ui_statusbar_create(void)
     /*
      * Add keyboard debugging widget
      */
-    debug_gtk3("Adding kbd debug widget.");
     kbd_debug_widget = kbd_debug_widget_create();
     allocated_bars[i].kbd_debug = kbd_debug_widget;
     g_object_ref_sink(kbd_debug_widget);
@@ -2036,7 +2025,6 @@ gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window)
     GtkWidget *check;
     gboolean active;
 
-    debug_gtk3("called.");
     bin = gtk_bin_get_child(GTK_BIN(window));
     if (bin != NULL) {
         bar = gtk_grid_get_child_at(GTK_GRID(bin), 0, 2);  /* FIX */
@@ -2044,19 +2032,10 @@ gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window)
             check = gtk_grid_get_child_at(GTK_GRID(bar), SB_COL_CRT, 0);
             if (check != NULL) {
                 active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-                debug_gtk3("CRT controls enabled = %s.",
-                        active ? "TRUE" : "FALSE");
                 return active;
-            } else {
-                debug_gtk3("Couldn't get Checkbox.");
             }
-        } else {
-            debug_gtk3("Couldn't get statusbar.");
         }
-    } else {
-        debug_gtk3("Couldn't get BIN.");
     }
-    debug_gtk3("OOPS!");
     return FALSE;
 }
 
@@ -2074,7 +2053,6 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
     GtkWidget *check;
     gboolean active;
 
-    debug_gtk3("called.");
     bin = gtk_bin_get_child(GTK_BIN(window));
     if (bin != NULL) {
         bar = gtk_grid_get_child_at(GTK_GRID(bin), 0, 2);  /* FIX */
@@ -2082,13 +2060,10 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
             check = gtk_grid_get_child_at(GTK_GRID(bar), SB_COL_CRT, 1);
             if (check != NULL) {
                 active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-                debug_gtk3("Mixer controls enabled = %s.",
-                        active ? "TRUE" : "FALSE");
                 return active;
             }
         }
     }
-    debug_gtk3("OOPS!");
     return FALSE;
 }
 
