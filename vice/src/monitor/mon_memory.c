@@ -415,8 +415,11 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
             mon_out(">%s:%04x ", mon_memspace_string[mem], addr);
             for (j = 0; j < (x / 8); j++) {
                 mon_print_bin(mon_get_mem_val(mem,
-                                              (uint16_t)(ADDR_LIMIT(addr + j))), '*', '.');
+                                              (uint16_t)(ADDR_LIMIT(addr + j))), '#', '.');
                 cnt++;
+            }
+            for (j = 0; j < (x / 8); j++) {
+                mon_out(" %02x", mon_get_mem_val(mem,(uint16_t)(ADDR_LIMIT(addr + j))));
             }
             mon_out("\n");
             addr = ADDR_LIMIT(addr + (x / 8));
@@ -429,10 +432,10 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
         if (mon_stop_output != 0) {
             break;
         }
+        if ((x == 24) && (y == 21)) {
+            addr++; /* continue at next even address when showing sprites */
+        }
     }
 
-    if ((x == 24) && (y == 21)) {
-        addr++; /* continue at next even address when showing sprites */
-    }
     set_addr_location(&(dot_addr[mem]), addr);
 }
