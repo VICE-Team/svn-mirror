@@ -838,7 +838,6 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
 };
 /* }}} */
 
-
 /* {{{ main_nodes_c64 */
 /** \brief  Main tree nodes for x64/x64sc
  */
@@ -1275,11 +1274,11 @@ static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
 /** \brief  Main tree nodes for xscpu64
  */
 static ui_settings_tree_node_t main_nodes_scpu64[] = {
-    { "Machine",    "machine",  NULL,   machine_nodes_scpu64 },
-    { "Display",    "display",  NULL,   display_nodes_scpu64 },
-    { "Audio",      "audio",    NULL,   audio_nodes_scpu64 },
-    { "Input",      "input",    NULL,   input_nodes_scpu64 },
-    { "Peripherals",    "peripheral", NULL,    peripheral_nodes_scpu64 },
+    { "Machine",            "machine",      NULL,   machine_nodes_scpu64 },
+    { "Display",            "display",      NULL,   display_nodes_scpu64 },
+    { "Audio",              "audio",        NULL,   audio_nodes_scpu64 },
+    { "Input devices",      "input",        NULL,   input_nodes_scpu64 },
+    { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_scpu64 },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, scpu64_io_extensions },
@@ -1414,12 +1413,12 @@ static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
  */
 static ui_settings_tree_node_t main_nodes_vic20[] = {
 
-    { "Machine", "machine", NULL, machine_nodes_vic20 },
-    { "Display", "display", NULL, display_nodes_vic20 },
-    { "Audio", "audio", NULL, audio_nodes_vic20 },
-    { "Input", "input", NULL, input_nodes_vic20 },
-    { "Peripherals", "peripheral", NULL, peripheral_nodes_vic20 },
-    { "I/O extensions", "io-extensions",
+    { "Machine",            "machine",      NULL,   machine_nodes_vic20 },
+    { "Display",            "display",      NULL,   display_nodes_vic20 },
+    { "Audio",              "audio",        NULL,   audio_nodes_vic20 },
+    { "Input devices",      "input",        NULL,   input_nodes_vic20 },
+    { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_vic20 },
+    { "I/O extensions",     "io-extensions",
       settings_io_widget_create, vic20_io_extensions },
     { "Snapshot/event/media recording",
       "snapshot",
@@ -1552,12 +1551,11 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "Host",
        "host",
        settings_host_machine_widget_create, NULL },
-    { "Machine", "machine", NULL, machine_nodes_plus4 },
-    { "Display", "display", NULL, display_nodes_plus4 },
-    { "Audio", "audio", NULL, audio_nodes_plus4 },
-    { "Input", "input", NULL, input_nodes_plus4 },
-    { "Peripherals", "peripheral", NULL, peripheral_nodes_plus4 },
-
+    { "Machine",            "machine",      NULL,   machine_nodes_plus4 },
+    { "Display",            "display",      NULL,   display_nodes_plus4 },
+    { "Audio",              "audio",        NULL,   audio_nodes_plus4 },
+    { "Input devices",      "input",        NULL,   input_nodes_plus4 },
+    { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_plus4 },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, plus4_io_extensions },
@@ -1687,11 +1685,11 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
 /** \brief  Main tree nodes for xpet
  */
 static ui_settings_tree_node_t main_nodes_pet[] = {
-    { "Machine", "machine", NULL, machine_nodes_pet },
-    { "Display", "display", NULL, display_nodes_pet },
-    { "Audio", "audio", NULL, audio_nodes_pet },
-    { "Input", "input", NULL, input_nodes_pet },
-    { "Peripheral", "peripheral", NULL, peripheral_nodes_pet },
+    { "Machine",            "machine",      NULL,   machine_nodes_pet },
+    { "Display",            "display",      NULL,   display_nodes_pet },
+    { "Audio",              "audio",        NULL,   audio_nodes_pet },
+    { "Input devices",      "input",        NULL,   input_nodes_pet },
+    { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_pet },
     { "I/O extensions", "io-extensions",
       settings_io_widget_create, pet_io_extensions },
     { "Snapshot/event/media recording",
@@ -1823,11 +1821,11 @@ static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
 /** \brief  Main tree nodes for xcbm5x0
  */
 static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
-    { "Machine", "machine", NULL, machine_nodes_cbm5x0 },
-    { "Display", "display", NULL, display_nodes_cbm5x0 },
-    { "Audio", "audio", NULL, audio_nodes_cbm5x0 },
-    { "Input", "input", NULL, input_nodes_cbm5x0 },
-    { "Peripherals", "peripheral", NULL, peripheral_nodes_cbm5x0 },
+    { "Machine",            "machine",      NULL,   machine_nodes_cbm5x0 },
+    { "Display",            "display",      NULL,   display_nodes_cbm5x0 },
+    { "Audio",              "audio",        NULL,   audio_nodes_cbm5x0 },
+    { "Input devices",      "input",        NULL,   input_nodes_cbm5x0 },
+    { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_cbm5x0 },
     { "I/O extensions", "io-extensions",
       settings_io_widget_create, cbm5x0_io_extensions },
     { "Snapshot/event/media recording",
@@ -1953,11 +1951,11 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
 /** \brief  Main tree nodes for xcbm6x0
  */
 static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
-    { "Machine", "machine", NULL, machine_nodes_cbm6x0 },
-    { "Display", "display", NULL, display_nodes_cbm6x0 },
-    { "Audio", "audio", NULL, audio_nodes_cbm6x0 },
-    { "Input", "input", NULL, input_nodes_cbm6x0 },
-    { "Peripherals", "peripheral", NULL, peripheral_nodes_cbm6x0 },
+    { "Machine",            "machine",      NULL,   machine_nodes_cbm6x0 },
+    { "Display",            "display",      NULL,   display_nodes_cbm6x0 },
+    { "Audio",              "audio",        NULL,   audio_nodes_cbm6x0 },
+    { "Input devices",      "input",        NULL,   input_nodes_cbm6x0 },
+    { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_cbm6x0 },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, cbm6x0_io_extensions },

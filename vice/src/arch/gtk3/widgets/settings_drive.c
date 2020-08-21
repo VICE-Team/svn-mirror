@@ -586,7 +586,9 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
         char title[256];
 
         g_snprintf(title, 256, "Drive %d", unit);
+#if 0
         debug_gtk3("ADDING STACK WIDGET");
+#endif
         gtk_stack_add_titled(GTK_STACK(stack),
                 create_stack_child_widget(unit),
                 title, title);
