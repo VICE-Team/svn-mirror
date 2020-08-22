@@ -33,5 +33,6 @@
 
 extern const ui_menu_entry_t mouse_menu[];
 extern const ui_menu_entry_t mouse_grab_menu[];
+extern const ui_menu_entry_t mouse_c64dtv_menu[];
 
 #endif

@@ -198,7 +198,6 @@ static const ui_menu_entry_t userport_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(Mouse)
 UI_MENU_DEFINE_TOGGLE(RAMBlock0)
 UI_MENU_DEFINE_TOGGLE(RAMBlock1)
 UI_MENU_DEFINE_TOGGLE(RAMBlock2)
@@ -276,12 +275,6 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ethernetcart20_menu },
-#endif
-#ifdef HAVE_MOUSE
-    { "Paddle emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Mouse_callback,
-      NULL },
 #endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Memory expansions"),
