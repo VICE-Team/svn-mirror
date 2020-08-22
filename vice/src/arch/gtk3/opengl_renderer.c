@@ -109,9 +109,8 @@ static const char *fragmentShader =
 
 /**/
 
-static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
+static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
 {
-    GtkWidget *widget;
     context_t *context;
 
     /* First initialise the context_t that we'll need everywhere */
@@ -123,17 +122,9 @@ static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
     
     canvas->renderer_context = context;
 
-    /* Now create the GTK widget that isn't much more than a placeholder */
-    widget = gtk_drawing_area_new();
-    gtk_widget_set_hexpand(widget, TRUE);
-    gtk_widget_set_vexpand(widget, TRUE);
-    canvas->drawing_area = widget;
-
-    g_signal_connect(widget, "realize", G_CALLBACK (on_widget_realized), canvas);
-    g_signal_connect(widget, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
-    g_signal_connect_unlocked(widget, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
-
-    return widget;
+    g_signal_connect(canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
+    g_signal_connect(canvas->event_box, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
+    g_signal_connect_unlocked(canvas->event_box, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
 }
 
 static void vice_opengl_destroy_context(video_canvas_t *canvas)
@@ -178,11 +169,6 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     gtk_scale = gtk_widget_get_scale_factor(widget);
     context->gl_backing_layer_width     = context->native_view_width  * gtk_scale;
     context->gl_backing_layer_height    = context->native_view_height * gtk_scale;
-    
-    canvas->screen_origin_x             = context->native_view_x;
-    canvas->screen_origin_y             = context->native_view_y;
-    canvas->screen_display_w            = context->native_view_width;
-    canvas->screen_display_h            = context->native_view_height;
 
     /* Create a native child window to render onto */
     vice_opengl_renderer_create_child_view(widget, context);
@@ -253,11 +239,6 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     context->gl_backing_layer_width     = context->native_view_width    * gtk_scale;
     context->gl_backing_layer_height    = context->native_view_height   * gtk_scale;
     
-    canvas->screen_origin_x             = context->native_view_x;
-    canvas->screen_origin_y             = context->native_view_y;
-    canvas->screen_display_w            = context->native_view_width;
-    canvas->screen_display_h            = context->native_view_height;
-
     /* Set the background colour */
     if (ui_is_fullscreen()) {
         context->native_view_bg_r = 0.0f;
@@ -292,11 +273,11 @@ static void on_widget_monitors_changed(GdkScreen *screen, gpointer data)
 
     CANVAS_UNLOCK();
 
-    widget = canvas->drawing_area;
+    widget = canvas->event_box;
 
     gtk_widget_get_allocation(widget, &allocation);
 
-    on_widget_resized(canvas->drawing_area, &allocation, canvas);
+    on_widget_resized(canvas->event_box, &allocation, canvas);
 }
 
 /******/
@@ -370,7 +351,7 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
     ui_update_statusbars();
 
     /* TODO we really shouldn't be setting this every frame! */
-    gtk_widget_set_size_request(canvas->drawing_area, context->native_view_min_width, context->native_view_min_height);
+    gtk_widget_set_size_request(canvas->event_box, context->native_view_min_width, context->native_view_min_height);
 
     CANVAS_LOCK();
 
@@ -471,6 +452,11 @@ static void render(void *job_data, void *pool_data)
         scale_x = 1.0f;
         scale_y = 1.0f;
     }
+
+    canvas->screen_display_w = (float)context->native_view_width  * scale_x;
+    canvas->screen_display_h = (float)context->native_view_height * scale_y;
+    canvas->screen_origin_x = ((float)context->native_view_width  - canvas->screen_display_w) / 2.0;
+    canvas->screen_origin_y = ((float)context->native_view_height - canvas->screen_display_h) / 2.0;
 
     /* Calculate the minimum drawing area size to be enforced by gtk */
     if (keepaspect && trueaspect) {
@@ -711,7 +697,7 @@ static void create_shader_program(context_t *context)
 /******/
 
 vice_renderer_backend_t vice_opengl_backend = {
-    vice_opengl_create_widget,
+    vice_opengl_initialise_canvas,
     vice_opengl_update_context,
     vice_opengl_destroy_context,
     vice_opengl_refresh_rect,

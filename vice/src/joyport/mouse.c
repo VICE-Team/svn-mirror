@@ -158,6 +158,7 @@ static void mouse_button_down(int pressed);
 /* extern variables */
 
 int _mouse_enabled = 0;
+int _mouse_still_frames = 0;
 
 /* Use xvic defaults, if resources get registered the factory
    default will overwrite these */

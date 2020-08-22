@@ -384,8 +384,6 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 #endif
             break;
     }
-
-    ui_set_ignore_mouse_hide(FALSE);
 }
 
 
@@ -1198,8 +1196,6 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
 
-    ui_set_ignore_mouse_hide(TRUE);
-
     dialog = gtk_file_chooser_dialog_new(
             "Attach a cartridge image",
             ui_get_active_window(),
@@ -1270,8 +1266,6 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
 gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkFileChooserNative *dialog;
-
-    ui_set_ignore_mouse_hide(TRUE);
 
     dialog = gtk_file_chooser_native_new(
             "Attach a cartridge image",

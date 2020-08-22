@@ -70,44 +70,52 @@ typedef struct video_canvas_s {
     /** \brief Top-level widget that contains the full contents of the
      *         machine window. */
     GtkWidget *grid;
-    /** \brief Child widget to which the emulated screen is drawn. 
-     *
-     *  Depending on what renderer backend is in use this will be
-     *  either a GtkDrawingArea or a GtkGLArea. */
-    GtkWidget *drawing_area;
+
+    /** \brief Widget for mouse input and to size the rendering overlay.
+     */
+    GtkWidget *event_box;
+    
     /** \brief The renderer backend selected for use this run. */
     struct vice_renderer_backend_s *renderer_backend;
+    
     /** \brief Data unique to the renderer backend. This value is
      *         passed to all renderer methods. and is managed by
      *         them. */
     void *renderer_context;
+    
     /** \brief Special "blank" cursor for cases where the mouse
      *         pointer should disappear. */
     GdkCursor *blank_ptr;
+    
     /** \brief Special "target" cursor for active light pens. */
     GdkCursor *pen_ptr;
-    /** \brief Number of frames the mouse hasn't moved while still on
-     *         the canvas. */
-    unsigned int still_frames;
+    
     /** \brief Handle to the timer callback that will make the mouse
      *         disappear if it's hovered for too long over the screen
      *         display. */
     guint still_frame_callback_id;
+    
     /** \brief Light pen X coordinate, in window coordinates. */
     int pen_x;
+    
     /** \brief Light pen Y coordinate, in window coordinates. */
     int pen_y;
+    
     /** \brief Light pen button status. */
     int pen_buttons;
+    
     /** \brief Leftmost X coordinate of the actual machine's screen,
      *         in window coordinates. */
     double screen_origin_x;
+    
     /** \brief Topmost Y coordinate of the actual machine's screen, in
      *         window coordinates. */
     double screen_origin_y;
+    
     /** \brief Width of the actual machine's screen, in window
      *         coordinates. */
     double screen_display_w;
+    
     /** \brief Height of the actual machine's screen, in window
      *         coordinates. */
     double screen_display_h;
@@ -115,16 +123,21 @@ typedef struct video_canvas_s {
     /** \brief Rendering configuration as seen by the emulator
      *         core. */
     struct video_render_config_s *videoconfig;
+    
     /** \brief Drawing buffer as seen by the emulator core. */
     struct draw_buffer_s *draw_buffer;
+    
     /** \brief Display window as seen by the emulator core. */
     struct viewport_s *viewport;
+    
     /** \brief Machine screen geometry as seen by the emulator
      *         core. */
     struct geometry_s *geometry;
+    
     /** \brief Color palette for translating display results into
      *         window colors. */
     struct palette_s *palette;
+    
     /** \brief Methods for managing the draw buffer when the core
      *         rasterizer handles it. */
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
@@ -148,15 +161,12 @@ void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas);
  *  scaled) pixel content or incrementally updating it. These routines
  *  let us keep those differences contained. */
 typedef struct vice_renderer_backend_s {
-    /** \brief Creates a widget suitable for this renderer to target.
+    /** \brief Add event handlers to the event box and create context.
      *
-     *  Also initializes the opaque video_canvas_s::renderer_context
-     *  field if needed, and sets other necessary fields.
-     *
-     *  \param canvas The canvas to create the widget for.
+     *  \param canvas The canvas to initialise.
      *  \return The newly created widget.
      */
-    GtkWidget *(*create_widget)(video_canvas_t *canvas);
+    void (*initialise)(video_canvas_t *canvas);
     /** \brief Creates or resizes the pixel buffer that this renderer
      *         backend is using for the screen.
      *

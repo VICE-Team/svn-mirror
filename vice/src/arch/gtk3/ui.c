@@ -648,6 +648,8 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
 
     /* printf("ui.c:on_focus_in_event\n"); */
 
+    ui_set_ignore_mouse_hide(FALSE);
+
     ui_mouse_grab_pointer();
 
     if (index < 0) {
@@ -679,6 +681,8 @@ static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
                                   gpointer user_data)
 {
     /* printf("ui.c:on_focus_out_event\n"); */
+
+    ui_set_ignore_mouse_hide(TRUE);
 
     ui_mouse_ungrab_pointer();
 
@@ -1271,9 +1275,7 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
 /** \brief  Create a toplevel window to represent a video canvas
  *
  * This function takes a video canvas structure and builds the widgets
- * that will represent that canvas in the UI as a whole. In the machine
- * emulators, the GtkDrawingArea that represents the actual screen backed
- * by the canvas will be entered into canvas->drawing_area.
+ * that will represent that canvas in the UI as a whole.
  *
  * While it creates the widgets, it does not make them visible. The
  * video canvas routines are expected to do any last-minute processing
@@ -1567,7 +1569,7 @@ void ui_display_main_window(int index)
 
     /* Queue up a redraw opportunity each frame */
     canvas = ui_resources.canvas[index];
-    if (canvas->drawing_area) {
+    if (canvas->event_box) {
         /* no canvas for vsid */
         frame_clock = gdk_window_get_frame_clock(gtk_widget_get_window(window));
         g_signal_connect_unlocked(frame_clock, "update", G_CALLBACK(canvas->renderer_backend->queue_redraw), canvas);
@@ -1598,7 +1600,7 @@ void ui_destroy_main_window(int index)
 
     /* Explicitly shut down the frame clock based rendering updates - not sure if necessary but cleaner. */
     canvas = ui_resources.canvas[index];
-    if (canvas->drawing_area) {
+    if (canvas->event_box) {
         /* no canvas for vsid */
         frame_clock = gdk_window_get_frame_clock(gtk_widget_get_window(window));
         gdk_frame_clock_end_updating(frame_clock);
@@ -1748,12 +1750,8 @@ static ui_jam_action_t jam_dialog_result;
  */
 gboolean ui_jam_dialog_impl(gpointer user_data)
 {
-    ui_set_ignore_mouse_hide(TRUE);
-
     /* XXX: this probably needs a variable index into the window_widget array */
     jam_dialog_result = jam_dialog(ui_resources.window_widget[PRIMARY_WINDOW], (char *)user_data);
-
-    ui_set_ignore_mouse_hide(FALSE);
 
     return FALSE;
 }

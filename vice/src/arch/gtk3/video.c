@@ -413,7 +413,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 
 void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
-    if (!canvas || !canvas->drawing_area) {
+    if (!canvas || !canvas->event_box) {
         return;
     } else {
         int new_width = canvas->draw_buffer->canvas_physical_width;
@@ -453,7 +453,7 @@ void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas)
     }
 
     /* Finally alter our minimum size so the GUI may respect the new minima/maxima */
-    gtk_widget_set_size_request(canvas->drawing_area, width, height);
+    gtk_widget_set_size_request(canvas->event_box, width, height);
 }
 
 /** \brief Assign a palette to the canvas.

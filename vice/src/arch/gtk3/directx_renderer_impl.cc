@@ -43,6 +43,7 @@ extern "C"
 #include "log.h"
 #include "render_queue.h"
 #include "resources.h"
+#include "videoarch.h"
 
 #define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
@@ -52,22 +53,6 @@ extern "C"
 void vice_directx_destroy_context_impl(vice_directx_renderer_context_t *context)
 {
 }
-
-// void vice_directx_refresh_rect_impl(vice_directx_renderer_context_t *context)
-// {
-
-//     pthread_t render_thread = 0;
-//     pthread_attr_t render_thread_attr;
-
-//     pthread_attr_init(&render_thread_attr);
-//     pthread_attr_setdetachstate(&render_thread_attr, PTHREAD_CREATE_DETACHED);
-
-//     if (pthread_create(&render_thread, &render_thread_attr, (void *(*)(void *))vice_directx_impl_async_render, context))
-//     {
-//         log_error(LOG_ERR, "Fatal: failed to launch render thread");
-//         return;
-//     }
-// }
 
 static void build_device_resources(vice_directx_renderer_context_t *context, backbuffer_t *backbuffer)
 {
@@ -147,16 +132,12 @@ static void build_device_resources(vice_directx_renderer_context_t *context, bac
     }
 }
 
-static void recalculate_layout(vice_directx_renderer_context_t *context)
+static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_context_t *context)
 {
     int keepaspect = 1;
     int trueaspect = 0;
     float scale_x;
     float scale_y;
-    float screen_display_w;
-    float screen_display_h;
-    float screen_origin_x;
-    float screen_origin_y;
     float dpi_x;
     float dpi_y;
     RECT rc;
@@ -168,8 +149,8 @@ static void recalculate_layout(vice_directx_renderer_context_t *context)
         float viewport_aspect;
         float emulated_aspect;       
 
-        viewport_aspect = (float)context->window_width / (float)context->window_height;
-        emulated_aspect = (float)context->bitmap_width / (float)context->bitmap_height;
+        viewport_aspect = (float)context->viewport_width / (float)context->viewport_height;
+        emulated_aspect = (float)context->bitmap_width   / (float)context->bitmap_height;
 
         if (trueaspect) {
             emulated_aspect *= context->bitmap_pixel_aspect_ratio;
@@ -197,10 +178,10 @@ static void recalculate_layout(vice_directx_renderer_context_t *context)
     }
 
     /* These values aren't used anywhere other than here in this renderer */
-    screen_display_w = ((float)context->window_width * scale_x);
-    screen_display_h = ((float)context->window_height * scale_y);
-    screen_origin_x = (((float)context->window_width - screen_display_w) / 2.0);
-    screen_origin_y = (((float)context->window_height - screen_display_h) / 2.0);
+    canvas->screen_display_w = ((float)context->viewport_width  * scale_x);
+    canvas->screen_display_h = ((float)context->viewport_height * scale_y);
+    canvas->screen_origin_x = (((float)context->viewport_width  - canvas->screen_display_w) / 2.0);
+    canvas->screen_origin_y = (((float)context->viewport_height - canvas->screen_display_h) / 2.0);
 
     /*
      * Direct2D thinks in terms of device indepenent pixels,
@@ -214,10 +195,10 @@ static void recalculate_layout(vice_directx_renderer_context_t *context)
     context->factory->GetDesktopDpi(&dpi_x, &dpi_y);
 
     /* Update the detination rect used directly by the renderer */
-    context->render_dest_rect.left   = screen_origin_x                      * 96.0f / dpi_x;
-    context->render_dest_rect.right  = (screen_origin_x + screen_display_w) * 96.0f / dpi_x;
-    context->render_dest_rect.top    = screen_origin_y                      * 96.0f / dpi_y;
-    context->render_dest_rect.bottom = (screen_origin_y + screen_display_h) * 96.0f / dpi_y;
+    context->render_dest_rect.left   =  canvas->screen_origin_x                             * 96.0f / dpi_x;
+    context->render_dest_rect.right  = (canvas->screen_origin_x + canvas->screen_display_w) * 96.0f / dpi_x;
+    context->render_dest_rect.top    =  canvas->screen_origin_y                             * 96.0f / dpi_y;
+    context->render_dest_rect.bottom = (canvas->screen_origin_y + canvas->screen_display_h) * 96.0f / dpi_y;
 
     /* Update the D2D render target size to match the UI size */
     if (context->render_target) {
@@ -228,6 +209,7 @@ static void recalculate_layout(vice_directx_renderer_context_t *context)
 
 void vice_directx_impl_async_render(void *job_data, void *pool_data)
 {
+    video_canvas_t *canvas = (video_canvas_t *)pool_data;
     vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)job_data;
     HRESULT result = S_OK;
     PAINTSTRUCT ps;
@@ -246,7 +228,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         build_device_resources(context, backbuffer);        
     }
 
-    recalculate_layout(context);
+    recalculate_layout(canvas, context);
 
     CANVAS_UNLOCK();
     

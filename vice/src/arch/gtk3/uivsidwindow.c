@@ -66,7 +66,7 @@ static void vsid_window_create(video_canvas_t *canvas)
     GtkWidget *menu_bar;
 
     canvas->renderer_backend = NULL;
-    canvas->drawing_area = NULL;
+    canvas->event_box = NULL;
 
     main_widget = vsid_main_widget_create();
     gtk_widget_set_size_request(main_widget, 400, 300);

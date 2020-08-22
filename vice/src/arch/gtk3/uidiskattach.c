@@ -349,7 +349,6 @@ static void on_response(GtkWidget *widget, gint response_id,
     if (filename != NULL) {
         g_free(filename);
     }
-    ui_set_ignore_mouse_hide(FALSE);
 }
 
 #else
@@ -477,8 +476,6 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     GtkWidget *dialog;
     size_t i;
 
-    ui_set_ignore_mouse_hide(TRUE);
-
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
             "Attach a disk image",
@@ -535,8 +532,6 @@ static GtkFileChooserNative *create_disk_attach_dialog_native(GtkWidget *parent,
                                                               int unit)
 {
     GtkFileChooserNative *dialog;
-
-    ui_set_ignore_mouse_hide(TRUE);
 
     /* create new dialog */
     dialog = gtk_file_chooser_native_new(

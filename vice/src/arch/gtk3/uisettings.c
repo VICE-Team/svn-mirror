@@ -2514,8 +2514,6 @@ static void response_callback(GtkWidget *widget, gint response_id,
         default:
             break;
     }
-
-    ui_set_ignore_mouse_hide(FALSE);
 }
 
 
@@ -2575,7 +2573,6 @@ static GtkWidget *dialog_create_helper(void)
     char title[256];
 
     vsync_suspend_speed_eval();
-    ui_set_ignore_mouse_hide(TRUE);
 
     g_snprintf(title, sizeof(title), "%s Settings", machine_name);
 

@@ -55,7 +55,7 @@ typedef vice_directx_renderer_context_t context_t;
 
 #define VICE_DIRECTX_WINDOW_CLASS "VICE_DIRECTX_WINDOW_CLASS"
 
-static WNDCLASSA window_class;
+static WNDCLASS window_class;
 
 static void on_widget_realized(GtkWidget *widget, gpointer data);
 static void on_widget_unrealized(GtkWidget *widget, gpointer data);
@@ -94,29 +94,20 @@ static LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, 
     return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-static GtkWidget *vice_directx_create_widget(video_canvas_t *canvas)
+static void vice_directx_initialise_canvas(video_canvas_t *canvas)
 {
-    GtkWidget *widget;
     context_t *context;
 
-    /* First initialise the context_t that we'll need everywhere */
+    /* First create the context_t that we'll need everywhere */
     context = lib_calloc(1, sizeof(context_t));
     
     context->canvas_lock = canvas->lock;
     pthread_mutex_init(&context->render_lock, NULL);
     canvas->renderer_context = context;
 
-    /* Now create the GTK widget that isn't much more than a placeholder */
-    widget = gtk_drawing_area_new();
-    gtk_widget_set_hexpand(widget, TRUE);
-    gtk_widget_set_vexpand(widget, TRUE);
-    canvas->drawing_area = widget;
-
-    g_signal_connect (widget, "realize", G_CALLBACK (on_widget_realized), canvas);
-    g_signal_connect (widget, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
-    g_signal_connect_unlocked(widget, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
-
-    return widget;
+    g_signal_connect (canvas->event_box, "realize", G_CALLBACK (on_widget_realized), canvas);
+    g_signal_connect (canvas->event_box, "unrealize", G_CALLBACK (on_widget_unrealized), canvas);
+    g_signal_connect_unlocked(canvas->event_box, "size-allocate", G_CALLBACK(on_widget_resized), canvas);
 }
 
 static void vice_directx_destroy_context(video_canvas_t *canvas)
@@ -146,11 +137,11 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
         window_class.lpszClassName = VICE_DIRECTX_WINDOW_CLASS;
         window_class.hInstance = GetModuleHandle(NULL);
         window_class.lpfnWndProc = WindowProcedure;
-        window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+        window_class.style = CS_HREDRAW | CS_VREDRAW;
         window_class.cbWndExtra = sizeof(context_t *);
 
-        if (!RegisterClassA(&window_class)) {
-            vice_directx_impl_log_windows_error("RegisterClassA");
+        if (!RegisterClass(&window_class)) {
+            vice_directx_impl_log_windows_error("RegisterClass");
             return;
         }
     }
@@ -159,12 +150,12 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     if (!context->window) {
         context->window =
             CreateWindowEx(
-                WS_EX_TRANSPARENT, 
+                0, 
                 VICE_DIRECTX_WINDOW_CLASS, 
                 NULL, 
                 WS_CHILD, 
-                0, 0, context->window_width, context->window_height,
-                gdk_win32_window_get_handle(gtk_widget_get_window(widget)),
+                0, 0, 1, 1, /* we resize it when the underlying event_box gets resized */
+                gdk_win32_window_get_handle(gtk_widget_get_window(gtk_widget_get_toplevel(widget))),
                 NULL, 
                 GetModuleHandle(NULL), 
                 NULL);
@@ -184,7 +175,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
     context->render_bg_colour.a = 1.0f;
 
     /* Create an exclusive single thread 'pool' for executing render jobs */
-    context->render_thread = render_thread_create(vice_directx_impl_async_render, NULL);
+    context->render_thread = render_thread_create(vice_directx_impl_async_render, canvas);
 }
 
 static void on_widget_unrealized(GtkWidget *widget, gpointer data)
@@ -212,6 +203,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
 {
     video_canvas_t *canvas = data;
     context_t *context;
+    gint viewport_x, viewport_y;
     gint gtk_scale = gtk_widget_get_scale_factor(widget);
     
     CANVAS_LOCK();
@@ -222,8 +214,12 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
         return;
     }
 
-    context->window_width  = allocation->width  * gtk_scale;
-    context->window_height = allocation->height * gtk_scale;
+    gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &viewport_x, &viewport_y);
+
+    context->viewport_x      = viewport_x         * gtk_scale;
+    context->viewport_y      = viewport_y         * gtk_scale;
+    context->viewport_width  = allocation->width  * gtk_scale;
+    context->viewport_height = allocation->height * gtk_scale;
 
     /* Set the background colour */
     if (ui_is_fullscreen()) {
@@ -238,7 +234,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
 
     /* Update the size of the native child window to match the gtk drawing area */    
     if (context->window) {
-        MoveWindow(context->window, 0, 0, context->window_width, context->window_height, FALSE);
+        MoveWindow(context->window, context->viewport_x, context->viewport_y, context->viewport_width, context->viewport_height, TRUE);
         if (!render_queue_length(context->render_queue)) {
             render_thread_push_job(context->render_thread, context);
         }
@@ -312,7 +308,7 @@ static void vice_directx_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t 
 
     ui_update_statusbars();
 
-    gtk_widget_set_size_request(canvas->drawing_area, context->window_min_width, context->window_min_height);
+    gtk_widget_set_size_request(canvas->event_box, context->window_min_width, context->window_min_height);
 }
 
 static void vice_directx_set_palette(video_canvas_t *canvas)
@@ -337,7 +333,7 @@ static void vice_directx_set_palette(video_canvas_t *canvas)
 }
 
 vice_renderer_backend_t vice_directx_backend = {
-    vice_directx_create_widget,
+    vice_directx_initialise_canvas,
     vice_directx_update_context,
     vice_directx_destroy_context,
     vice_directx_refresh_rect,

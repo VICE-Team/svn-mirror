@@ -331,7 +331,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     if (filename != NULL) {
         g_free(filename);
     }
-    ui_set_ignore_mouse_hide(FALSE);
 }
 
 
@@ -413,8 +412,6 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     GtkWidget *dialog;
     size_t i;
 
-    ui_set_ignore_mouse_hide(TRUE);
-
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
             "Smart-attach a file",
@@ -489,8 +486,6 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
 static GtkFileChooserNative *create_smart_attach_dialog(void *parent)
 {
     GtkFileChooserNative *dialog;
-
-    ui_set_ignore_mouse_hide(TRUE);
 
     /* create new dialog */
     dialog = gtk_file_chooser_native_new(

@@ -27,14 +27,29 @@
 
 #include "vice.h"
 
+#if defined(MACOSX_SUPPORT)
+#import <CoreGraphics/CGRemoteOperation.h>
+#import <CoreGraphics/CGEvent.h>
+#elif defined(WIN32_COMPILE)
+#include <Windows.h>
+#include <WinUser.h>
+#else
+#include <X11/Xlib.h>
+#include <gdk/gdkx.h>
+#endif
+
+
 #include <stdio.h>
+#include <math.h>
 
 #include "debug_gtk3.h"
 
 #include "log.h"
 #include "vsyncapi.h"
+#include "maincpu.h"
 #include "mouse.h"
 #include "mousedrv.h"
+#include "ui.h"
 #include "uimachinewindow.h"
 
 
@@ -75,6 +90,38 @@ static float mouse_y = 0.0;
  */
 static unsigned long mouse_timestamp = 0;
 
+/** \brief Whether or not to capture mouse movements and warp back.
+ */
+static bool enable_capture = false;
+
+/** \brief Host mouse deltas are calculated from this X value.
+ *
+ * After the delta is calculated, the mouse is warped back to this
+ * location.
+ */
+static int host_delta_origin_x = 0.0;
+
+/** \brief Host mouse deltas are calculated from this Y value.
+ *
+ * After the delta is calculated, the mouse is warped back to this
+ * location.
+ */
+static int host_delta_origin_y = 0.0;
+
+/** \brief Curent host mouse delta
+ *
+ * After the delta is calculated, the mouse is warped back to the
+ * delta origin.
+ */
+static float host_delta_x = 0.0;
+
+/** \brief Curent host mouse delta
+ *
+ * After the delta is calculated, the mouse is warped back to the
+ * delta origin.
+ */
+static float host_delta_y = 0.0;
+
 int mousedrv_cmdline_options_init(void)
 {
     return 0;
@@ -85,16 +132,67 @@ unsigned long mousedrv_get_timestamp(void)
     return mouse_timestamp;
 }
 
+static void limit_mouse_delta(float *global_delta_x, float *global_delta_y)
+{
+    /* We can't move more than -32 <> 31 in a single reading.
+     * If we have, then reduce the distance travelled without
+     * altering the direction. Rather than having the max move
+     * distance vary by angle, limit the overall 2d delta length.
+     */
+    
+    float abs_delta;
+    
+    /* TODO: Why does this value need to be larger than what the emu sees.
+     * Any integer value larger than this can cause overflow and sign inversion,
+     * somewhere.
+     */
+    const float max_delta = 63.0f;
+    
+    /* How far the mouse has travelled */
+    abs_delta = sqrt((*global_delta_x * *global_delta_x) + (*global_delta_y * *global_delta_y));
+    
+    if (abs_delta > max_delta) {
+        *global_delta_x = *global_delta_x / abs_delta * max_delta;
+        *global_delta_y = *global_delta_y / abs_delta * max_delta;
+    }
+}
+
+static void poll_host_mouse(void)
+{
+    static CLOCK last_poll_clock;
+    float global_delta_x, global_delta_y;
+
+    /* Don't poll the host computer for mouse position more than once per emu cycle */
+    if (maincpu_clk == last_poll_clock) {
+        return;
+    }
+    last_poll_clock = maincpu_clk;
+    
+    /* Obtain the accumulated mouse delta */
+    mouse_host_get_delta(&global_delta_x, &global_delta_y);
+
+    // printf("mouse delta %f, %f\n", global_delta_x, global_delta_y); fflush(stdout);
+    
+    if (global_delta_x || global_delta_y) {
+        /* prevent the mouse delta from overflowing potx/y */
+        limit_mouse_delta(&global_delta_x, &global_delta_y);
+        mouse_move(global_delta_x, global_delta_y);
+    }
+}
+
 int mousedrv_get_x(void)
 {
+    poll_host_mouse();
+
     return (int)mouse_x;
 }
 
 int mousedrv_get_y(void)
 {
+    poll_host_mouse();
+
     return (int)mouse_y;
 }
-
 
 void mouse_move(float dx, float dy)
 {
@@ -184,4 +282,84 @@ int mousedrv_resources_init(mouse_func_t *funcs)
     return 0;
 }
 
+static void warp(int x, int y)
+{
+#ifdef MACOSX_SUPPORT
 
+    CGWarpMouseCursorPosition(CGPointMake(x, y));
+    CGAssociateMouseAndMouseCursorPosition(true);
+
+#elif defined(WIN32_COMPILE)
+
+    SetCursorPos(x, y);
+
+#else /* xlib */
+
+    GtkWidget *gtk_widget = ui_get_window_by_index(PRIMARY_WINDOW);
+    GdkWindow *gdk_window = gtk_widget_get_window(gtk_widget);
+    Display *display = GDK_WINDOW_XDISPLAY(gdk_window);
+
+    XWarpPointer(display, None, GDK_WINDOW_XID(gdk_window), 0, 0, 0, 0, x, y);
+
+#endif
+}
+
+void mouse_host_capture(int warp_x, int warp_y)
+{
+    enable_capture = true;
+    
+    warp(warp_x, warp_y);
+
+    /* future mouse moments will be captured relative from here */
+    host_delta_origin_x = warp_x;
+    host_delta_origin_y = warp_y;
+
+    /* reset the delta accumulation buffer */
+    host_delta_x = 0.0f;
+    host_delta_y = 0.0f;
+}
+
+bool mouse_host_is_captured(void)
+{
+    return enable_capture;
+}
+
+void mouse_host_uncapture(void)
+{
+    enable_capture = false;
+}
+
+void mouse_host_moved(float x, float y)
+{
+    float delta_x, delta_y;
+
+    if (!enable_capture) {
+        return;
+    }
+
+    delta_x = x - host_delta_origin_x;
+    delta_y = y - host_delta_origin_y;
+    
+    if (delta_x || delta_y) {
+        host_delta_x += delta_x;
+        host_delta_y += delta_y;
+
+        warp(host_delta_origin_x, host_delta_origin_y);
+    }
+}
+
+void mouse_host_get_delta(float *delta_x, float *delta_y)
+{
+    if (!enable_capture) {
+        *delta_x = 0;
+        *delta_y = 0;
+        return;
+    }
+    
+    *delta_x = host_delta_x;
+    *delta_y = host_delta_y;
+
+    /* reset the delta accumulation buffer */
+    host_delta_x = 0.0f;
+    host_delta_y = 0.0f;
+}

@@ -128,7 +128,6 @@ static void on_response_error(GtkWidget *dialog, gint response_id, gpointer data
  */
 static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 {
-    ui_set_ignore_mouse_hide(FALSE);
     gtk_widget_destroy(GTK_WIDGET(data));
 }
 
@@ -148,8 +147,6 @@ static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
     GtkWidget *dialog;
     GtkWindow *parent = ui_get_active_window();
     gboolean no_parent = FALSE;
-
-    ui_set_ignore_mouse_hide(TRUE);
 
     if (parent == NULL) {
         /* set up a temporary parent to avoid Gtk warnings */

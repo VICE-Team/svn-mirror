@@ -189,7 +189,6 @@ static void on_response(GtkWidget *widget, gint response_id,
     if (filename != NULL) {
         g_free(filename);
     }
-    ui_set_ignore_mouse_hide(FALSE);
 }
 
 #else
@@ -268,7 +267,6 @@ static void on_response_native(GtkFileChooserNative *widget,
     if (filename != NULL) {
         g_free(filename);
     }
-    ui_set_ignore_mouse_hide(FALSE);
 }
 #endif
 
@@ -326,8 +324,6 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
     GtkWidget *dialog;
     size_t i;
 
-    ui_set_ignore_mouse_hide(TRUE);
-
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
             "Attach a tape image",
@@ -381,8 +377,6 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
 static GtkFileChooserNative *create_tape_attach_dialog_native(GtkWidget *parent)
 {
     GtkFileChooserNative *dialog;
-
-    ui_set_ignore_mouse_hide(TRUE);
 
     /* create new dialog */
     dialog = gtk_file_chooser_native_new(

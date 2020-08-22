@@ -81,11 +81,17 @@ typedef struct vice_directx_renderer_context_s {
     /** \brief Background colour */
     D2D1_COLOR_F render_bg_colour;
 
-    /** \brief size of the directx window in pixels */
-    unsigned int window_width;
+    /** \brief location of the directx viewport in window pixels */
+    unsigned int viewport_x;
     
-    /** \brief size of the directx window in pixels */
-    unsigned int window_height;
+    /** \brief size of the directx viewport in window pixels */
+    unsigned int viewport_y;
+
+    /** \brief size of the directx viewport in window pixels */
+    unsigned int viewport_width;
+    
+    /** \brief size of the directx viewport in window pixels */
+    unsigned int viewport_height;
 
     /** \brief size of the current gpu bitmap in pixels */
     unsigned int bitmap_width;
