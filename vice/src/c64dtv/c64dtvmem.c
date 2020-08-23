@@ -1196,7 +1196,10 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
     if (bank >= 5) {
         return mem_bank_read(bank, addr, context);
     }
-
+    /* Commented out to see if that fixes bug #1266. Any memory peek code
+     * should not alter the state of the machine.  -- compyx
+     */
+#if 0
     /* TODO: is restoring r8, r10..15 needed? */
     dtv_registers[8] = MOS6510DTV_REGS_GET_R8(&maincpu_regs);
     dtv_registers[10] = MOS6510DTV_REGS_GET_R10(&maincpu_regs);
@@ -1205,7 +1208,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
     dtv_registers[13] = MOS6510DTV_REGS_GET_R13(&maincpu_regs);
     dtv_registers[14] = MOS6510DTV_REGS_GET_R14(&maincpu_regs);
     dtv_registers[15] = MOS6510DTV_REGS_GET_R15(&maincpu_regs);
-
+#endif
     paddr = addr_to_paddr(addr);
     switch (bank) {
         case 0:                 /* current */
