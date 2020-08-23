@@ -48,8 +48,7 @@
 /* For some reason this isn't in the GDK quartz headers */
 id gdk_quartz_window_get_nswindow (GdkWindow *window);
 #elif defined(WIN32_COMPILE)
-#include <Windows.h>
-#include <WinUser.h>
+#include <windows.h>
 #endif
 
 #ifdef WIN32_COMPILE

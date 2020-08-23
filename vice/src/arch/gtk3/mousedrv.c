@@ -32,7 +32,6 @@
 #import <CoreGraphics/CGEvent.h>
 #elif defined(WIN32_COMPILE)
 #include <windows.h>
-#include <winuser.h>
 #else
 #include <X11/Xlib.h>
 #include <gdk/gdkx.h>
