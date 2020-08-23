@@ -130,7 +130,7 @@ static void warp(int x, int y)
     
     GtkWidget *gtk_widget = ui_get_window_by_index(PRIMARY_WINDOW);
     GdkWindow *gdk_window = gtk_widget_get_window(gtk_widget);
-    Display *display = GDK_WINDOW_XDISPLAY(gdk_window);
+    Display *display = GDK_WINDOW_XID(gdk_window);
     
     XWarpPointer(display, None, GDK_WINDOW_XID(gdk_window), 0, 0, 0, 0, x, y);
     
