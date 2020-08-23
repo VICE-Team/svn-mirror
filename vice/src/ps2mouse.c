@@ -172,8 +172,7 @@ static int ps2mouse_handle_command(uint8_t value)
 
         case PS2_CMD_SET_REMOTE_MODE:
 #ifdef HAVE_MOUSE
-            ps2mouse_lastx = mousedrv_get_x();
-            ps2mouse_lasty = mousedrv_get_y();
+            mouse_get_int16(&ps2mouse_lastx, &ps2mouse_lasty);
 #endif
             return (ps2mouse_queue_put(PS2_REPLY_OK));
             break;
@@ -181,8 +180,7 @@ static int ps2mouse_handle_command(uint8_t value)
         case PS2_CMD_READ_DATA:
             new_buttons = ps2mouse_buttons;
 #ifdef HAVE_MOUSE
-            new_x = (int16_t)mousedrv_get_x();
-            new_y = (int16_t)mousedrv_get_y();
+            mouse_get_int16(&new_x, &new_y);
             diff_x = (new_x - ps2mouse_lastx);
             if (diff_x < 0) {
                 new_buttons |= PS2_MDATA_XS;

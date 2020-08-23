@@ -36,13 +36,6 @@
 #include "ui.h"
 #include "vsyncapi.h"
 
-#ifdef ANDROID_COMPILE
-int mouse_x, mouse_y;
-#else
-static int mouse_x, mouse_y;
-#endif
-
-static unsigned long mouse_timestamp = 0;
 static mouse_func_t mouse_funcs;
 
 void mousedrv_mouse_changed(void)
@@ -99,28 +92,6 @@ void mouse_button(int bnumber, int state)
         default:
             break;
     }
-}
-
-int mousedrv_get_x(void)
-{
-    return mouse_x;
-}
-
-int mousedrv_get_y(void)
-{
-    return mouse_y;
-}
-
-void mouse_move(int x, int y)
-{
-    mouse_x += x;
-    mouse_y -= y;
-    mouse_timestamp = vsyncarch_gettime();
-}
-
-unsigned long mousedrv_get_timestamp(void)
-{
-    return mouse_timestamp;
 }
 
 void mousedrv_button_left(int pressed)

@@ -45,6 +45,7 @@
 
 #include <stdlib.h> /* abs */
 #include <string.h> /* memset */
+#include <math.h>   /* fabsf */
 #include "vice.h"
 
 #include "alarm.h"
@@ -148,6 +149,15 @@
 static log_t mouse_log = LOG_ERR;
 #endif
 
+/* Weird trial and error based number here :( larger causes mouse jumps. */
+#define MOUSE_MAX_DIFF 63.0f
+
+static float mouse_move_x = 0.0f;
+static float mouse_move_y = 0.0f;
+static unsigned long mouse_timestamp = 0;
+static int16_t mouse_x = 0;
+static int16_t mouse_y = 0;
+
 static void mouse_button_left(int pressed);
 static void mouse_button_right(int pressed);
 static void mouse_button_middle(int pressed);
@@ -242,10 +252,13 @@ void neos_mouse_set_machine_parameter(long clock_rate)
 
 static void neos_get_new_movement(void)
 {
+    int16_t new_x16, new_y16;
     uint8_t new_x, new_y;
-
-    new_x = (uint8_t)(mousedrv_get_x() >> 1);
-    new_y = (uint8_t)(mousedrv_get_y() >> 1);
+    
+    mouse_get_int16(&new_x16, &new_y16);
+    new_x = (uint8_t)(new_x16 >> 1);
+    new_y = (uint8_t)(new_y16 >> 1);
+    
     neos_x = (uint8_t)(neos_lastx - new_x);
     neos_lastx = new_x;
 
@@ -364,19 +377,80 @@ static void clk_overflow_callback(CLOCK sub, void *data)
     }
 }
 
+void mouse_move(float dx, float dy)
+{
+    /* Capture the relative mouse movement to be processed later in mouse_poll() */
+    mouse_move_x += dx;
+    mouse_move_y -= dy;
+    mouse_timestamp = vsyncarch_gettime();
+}
+
+void mouse_get_int16(int16_t *x, int16_t *y)
+{
+    mouse_poll();
+    
+    *x = (int16_t)mouse_x;
+    *y = (int16_t)mouse_y;
+}
+
+static void mouse_move_apply_limit(void)
+{
+    /* Limit the distance that mouse_x/y can have changed since last poll.
+     * If we don't do this the mouse moment overflows and a large move
+     * can result in either a move in the opposite direction, or the wrong
+     * move in the right direction.
+     */
+    
+    if (fabsf(mouse_move_x) >= fabsf(mouse_move_y)) {
+        if (mouse_move_x > MOUSE_MAX_DIFF) {
+            mouse_move_y *= MOUSE_MAX_DIFF / mouse_move_x;
+            mouse_move_x = MOUSE_MAX_DIFF;
+        } else if (mouse_move_x < -MOUSE_MAX_DIFF) {
+            mouse_move_y *= -MOUSE_MAX_DIFF / mouse_move_x;
+            mouse_move_x = -MOUSE_MAX_DIFF;
+        }
+    } else {
+        if (mouse_move_y > MOUSE_MAX_DIFF) {
+            mouse_move_x *= MOUSE_MAX_DIFF / mouse_move_y;
+            mouse_move_y = MOUSE_MAX_DIFF;
+        } else if (mouse_move_y < -MOUSE_MAX_DIFF) {
+            mouse_move_x *= -MOUSE_MAX_DIFF / mouse_move_y;
+            mouse_move_y = -MOUSE_MAX_DIFF;
+        }
+    }
+}
+
 uint8_t mouse_poll(void)
 {
+    int16_t delta_x, delta_y;
+
     int16_t new_x, new_y;
     unsigned long os_now, os_iv, os_iv2;
     CLOCK emu_now, emu_iv, emu_iv2;
     int diff_x, diff_y;
+    
+    /* Ensure the mouse hasn't moved too far since the last poll */
+    mouse_move_apply_limit();
 
-    /* get new mouse values */
-    new_x = (int16_t)mousedrv_get_x();
-    new_y = (int16_t)mousedrv_get_y();
+    /* Capture an integer representation of how far the mouse has moved */
+    delta_x = (int16_t)mouse_move_x;
+    delta_y = (int16_t)mouse_move_y;
+
+    /* Update the view of where the mouse is based on the accumulated delta */
+    mouse_x += delta_x;
+    mouse_y += delta_y;
+
+    /* Subtract the int delta from the floating point, preserving fractional elemement */
+    mouse_move_x -= delta_x;
+    mouse_move_y -= delta_y;
+
+    /* OK - on with the show, get new mouse values */
+    new_x = (int16_t)mouse_x;
+    new_y = (int16_t)mouse_y;
+
     /* range of new_x and new_y are [0,63] */
     /* fetch now for both emu and os */
-    os_now = mousedrv_get_timestamp();
+    os_now = mouse_timestamp;
     emu_now = maincpu_clk;
 
     /* update x-wheel until we're ahead */
@@ -574,7 +648,7 @@ static inline uint8_t mouse_paddle_update(uint8_t paddle_v, int16_t *old_v, int1
 static uint8_t mouse_get_paddle_x(int port)
 {
     if (_mouse_enabled) {
-        paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mousedrv_get_x());
+        paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x);
         return (uint8_t)(0xff - paddle_val[2]);
     }
     return 0xff;
@@ -583,7 +657,7 @@ static uint8_t mouse_get_paddle_x(int port)
 static uint8_t mouse_get_paddle_y(int port)
 {
     if (_mouse_enabled) {
-        paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mousedrv_get_y());
+        paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y);
         return (uint8_t)(0xff - paddle_val[3]);
     }
     return 0xff;
@@ -638,12 +712,12 @@ static int joyport_mouse_enable(int port, int val)
     int mt;
 
     mousedrv_mouse_changed();
-    latest_x = (int16_t)mousedrv_get_x();
+    latest_x = (int16_t)mouse_x;
+    latest_y = (int16_t)mouse_y;
     last_mouse_x = latest_x;
-    latest_y = (int16_t)mousedrv_get_y();
     last_mouse_y = latest_y;
-    neos_lastx = (uint8_t)(mousedrv_get_x() >> 1);
-    neos_lasty = (uint8_t)(mousedrv_get_y() >> 1);
+    neos_lastx = (uint8_t)(latest_x >> 1);
+    neos_lasty = (uint8_t)(latest_y >> 1);
     latest_os_ts = 0;
 
     if (!val) {
@@ -962,12 +1036,12 @@ static int set_mouse_enabled(int val, void *param)
 
     _mouse_enabled = val ? 1 : 0;
     mousedrv_mouse_changed();
-    latest_x = (int16_t)mousedrv_get_x();
+    latest_x = (int16_t)mouse_x;
+    latest_y = (int16_t)mouse_y;
     last_mouse_x = latest_x;
-    latest_y = (int16_t)mousedrv_get_y();
     last_mouse_y = latest_y;
-    neos_lastx = (uint8_t)(mousedrv_get_x() >> 1);
-    neos_lasty = (uint8_t)(mousedrv_get_y() >> 1);
+    neos_lastx = (uint8_t)(latest_x >> 1);
+    neos_lasty = (uint8_t)(latest_y >> 1);
     latest_os_ts = 0;
     if (mouse_type != -1) {
         joyport_display_joyport(mt_to_id(mouse_type), 0);

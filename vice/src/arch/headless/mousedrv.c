@@ -34,40 +34,6 @@
 #include "mousedrv.h"
 
 
-/** \brief Last time the mouse was moved.
- *
- *  \sa mousedrv_get_timestamp
- */
-static unsigned long mouse_timestamp = 0;
-
-int mousedrv_cmdline_options_init(void)
-{
-    /* printf("%s\n", __func__); */
-    
-    return 0;
-}
-
-unsigned long mousedrv_get_timestamp(void)
-{
-    /* printf("%s\n", __func__); */
-    
-    return mouse_timestamp;
-}
-
-int mousedrv_get_x(void)
-{
-    /* printf("%s\n", __func__); */
-    
-    return 0;
-}
-
-int mousedrv_get_y(void)
-{
-    /* printf("%s\n", __func__); */
-    
-    return 0;
-}
-
 void mousedrv_init(void)
 {
     /* printf("%s\n", __func__); */
@@ -85,4 +51,10 @@ int mousedrv_resources_init(mouse_func_t *funcs)
     return 0;
 }
 
+int mousedrv_cmdline_options_init(void)
+{
+    /* printf("%s\n", __func__); */
+    
+    return 0;
+}
 

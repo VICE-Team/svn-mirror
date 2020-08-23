@@ -52,11 +52,8 @@ extern int _mouse_enabled;
 extern int _mouse_still_frames;
 extern int mouse_type;
 
-extern void mouse_host_capture(int warp_x, int warp_y);
-extern bool mouse_host_is_captured(void);
-extern void mouse_host_moved(float delta_x, float delta_y);
-extern void mouse_host_get_delta(float *delta_x, float *delta_y);
-extern void mouse_host_uncapture(void);
+extern void mouse_move(float dx, float dy);
+extern void mouse_get_int16(int16_t *x, int16_t *y);
 
 extern void neos_mouse_set_machine_parameter(long clock_rate);
 extern void neos_mouse_store(uint8_t val);

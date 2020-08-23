@@ -191,28 +191,6 @@ int old_joy_direction = 0;
 extern int mouse_x, mouse_y;
 #endif
 
-#if 0
-/* unused ? */
-void ui_dispatch_next_event(void)
-{
-#ifdef ANDROID_COMPILE
-    struct locnet_al_event event;
-
-    if (Android_PollEvent(&event)) {
-#else
-    SDL_Event e;
-
-    if (SDL_PollEvent(&e)) {
-        ui_handle_misc_sdl_event(e);
-#endif
-    } else {
-        /* Add a small delay to not hog the host CPU when remote
-           monitor is being used. */
-        SDL_Delay(10);
-    }
-}
-#endif
-
 /* Main event handler */
 ui_menu_action_t ui_dispatch_events(void)
 {
@@ -496,7 +474,7 @@ ui_menu_action_t ui_dispatch_events(void)
             case SDL_MOUSEMOTION:
                 sdl_ui_consume_mouse_event(&e);
                 if (_mouse_enabled) {
-                    mouse_move((int)(e.motion.xrel), (int)(e.motion.yrel));
+                    mouse_move(e.motion.xrel, e.motion.yrel);
                 }
                 break;
             case SDL_MOUSEBUTTONDOWN:

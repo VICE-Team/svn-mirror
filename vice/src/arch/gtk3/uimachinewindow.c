@@ -77,6 +77,8 @@ id gdk_quartz_window_get_nswindow (GdkWindow *window);
 #define VICE_EMPTY_POINTER  canvas->blank_ptr
 #endif
 
+static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *clock, gpointer user_data);
+
 /** \brief  Ignore the hide-mouse-cursor event handlers
  *
  * Used during dialogs
@@ -93,6 +95,82 @@ void ui_set_ignore_mouse_hide(gboolean state)
     ignore_mouse_hide = state;
 }
 
+/** \brief Whether or not to capture mouse movements and warp back.
+ */
+static bool enable_capture = false;
+
+/** \brief Host mouse deltas are calculated from this X value.
+ *
+ * After the delta is calculated, the mouse is warped back to this
+ * location.
+ */
+static int host_delta_origin_x = 0.0;
+
+/** \brief Host mouse deltas are calculated from this Y value.
+ *
+ * After the delta is calculated, the mouse is warped back to this
+ * location.
+ */
+static int host_delta_origin_y = 0.0;
+
+/** \brief Mouse warp for each platform.
+ */
+static void warp(int x, int y)
+{
+#ifdef MACOSX_SUPPORT
+    
+    CGWarpMouseCursorPosition(CGPointMake(x, y));
+    CGAssociateMouseAndMouseCursorPosition(true);
+    
+#elif defined(WIN32_COMPILE)
+    
+    SetCursorPos(x, y);
+    
+#else /* xlib */
+    
+    GtkWidget *gtk_widget = ui_get_window_by_index(PRIMARY_WINDOW);
+    GdkWindow *gdk_window = gtk_widget_get_window(gtk_widget);
+    Display *display = GDK_WINDOW_XDISPLAY(gdk_window);
+    
+    XWarpPointer(display, None, GDK_WINDOW_XID(gdk_window), 0, 0, 0, 0, x, y);
+    
+#endif
+}
+
+static void mouse_host_capture(int warp_x, int warp_y)
+{
+    enable_capture = true;
+    
+    warp(warp_x, warp_y);
+
+    /* future mouse moments will be captured relative from here */
+    host_delta_origin_x = warp_x;
+    host_delta_origin_y = warp_y;
+}
+
+static void mouse_host_uncapture(void)
+{
+    enable_capture = false;
+}
+
+/** \brief Calculate mouse movement delta and warp back to the origin.
+ */
+static void mouse_host_moved(float x, float y)
+{
+    float delta_x, delta_y;
+    
+    if (!enable_capture) {
+        return;
+    }
+    
+    delta_x = x - host_delta_origin_x;
+    delta_y = y - host_delta_origin_y;
+    
+    if (delta_x || delta_y) {
+        mouse_move(delta_x, delta_y);
+        warp(host_delta_origin_x, host_delta_origin_y);
+    }
+}
 
 /** \brief Callback for handling mouse motion events over the emulated
  *         screen.
@@ -158,11 +236,20 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         return FALSE;
     }
 
+    /* GDK_ENTER_NOTIFY isn't reliable on fullscreen transitions, so we reenable this here too */
+    if (canvas->still_frame_callback_id == 0) {
+        canvas->still_frame_callback_id =
+            gtk_widget_add_tick_callback(
+                 canvas->event_box,
+                 event_box_stillness_tick_cb,
+                 canvas, NULL);
+    }
+
     GdkEventMotion *motion = (GdkEventMotion *)event;
 
     // printf("mouse move %f, %f  (%f, %f)\n", motion->x, motion->y, motion->x_root, motion->y_root); fflush(stdout);
 
-    if (mouse_host_is_captured()) {
+    if (enable_capture) {
 
         /* mouse movement, translate motion into window coordinates */
         int widget_x, widget_y;
@@ -480,7 +567,7 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
          * clicking the canvas altered grab status. */
         return FALSE;
     }
-
+    
     if (crossing->type == GDK_ENTER_NOTIFY) {
         _mouse_still_frames = 0;
         if (canvas->still_frame_callback_id == 0) {
@@ -504,6 +591,7 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
             if (canvas->still_frame_callback_id != 0) {
                 gtk_widget_remove_tick_callback(canvas->event_box, canvas->still_frame_callback_id);
                 canvas->still_frame_callback_id = 0;
+                printf("removed\n");
             }
             canvas->pen_x = -1;
             canvas->pen_y = -1;

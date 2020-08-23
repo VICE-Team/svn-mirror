@@ -74,7 +74,7 @@ void vsyncarch_init(void)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(unsigned long delay)
 {
-    SDL_Delay(delay / VICE_SDL_TICKS_SCALE);
+    SDL_Delay((int)(delay / VICE_SDL_TICKS_SCALE));
 }
 
 void vsyncarch_presync(void)
