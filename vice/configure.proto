@@ -77,7 +77,7 @@ VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libie
 VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,     [  --enable-native-gtk3ui  enables native GTK3 UI support])
 VICE_ARG_ENABLE_LIST(native-tools,      [  --enable-native-tools[[=compiler]]  enable native tools instead of scripts])
-VICE_ARG_ENABLE_LIST(new8580filter,     [  --enable-new8580filter  enable experimental 8580 filters [[default=no]]])
+VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter  disable new 8580 filters])
 VICE_ARG_ENABLE_LIST(no-pic,            [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 VICE_ARG_ENABLE_LIST(parsid,            [  --disable-parsid        disables ParSID support])
 VICE_ARG_ENABLE_LIST(pdf-docs,          [  --enable-pdf-docs       generate the PDF documentation [[default=if possible]]])
@@ -384,7 +384,7 @@ is_beos=no
 
 BSD_JOYSTICK_SUPPORT="no "
 DEBUG_SUPPORT="no "
-DEBUG_THREADS_SUPPORT="no"
+DEBUG_THREADS_SUPPORT="no "
 FEATURE_CPUMEMHISTORY_SUPPORT="no "
 HAS_DIGITAL_JOYSTICK_SUPPORT="no "
 HAS_HIDMGR_SUPPORT="no "
@@ -395,12 +395,12 @@ HAVE_CATWEASELMKIII_SUPPORT="no "
 HAVE_DEVICES_AHI_H_SUPPORT="no "
 HAVE_DINPUT_SUPPORT="no "
 HAVE_DYNLIB_SUPPORT_TOO="no "
-HAVE_FASTSID_SUPPORT="no"
+HAVE_FASTSID_SUPPORT="no "
 HAVE_FFMPEG_AVRESAMPLE_SUPPORT="no "
 HAVE_FFMPEG_SUPPORT="no "
 HAVE_FFMPEG_SWRESAMPLE_SUPPORT="no "
 HAVE_FFMPEG_SWSCALE_SUPPORT="no "
-HAVE_FONTCONFIG_SUPPORT="no"
+HAVE_FONTCONFIG_SUPPORT="no "
 HAVE_GIF_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
 HAVE_HWSCALE_SUPPORT="no "
@@ -446,6 +446,8 @@ USE_PULSE_SUPPORT="no "
 USE_SANDBOX_MODE="no "
 USE_SDL_AUDIO_SUPPORT="no "
 USE_VORBIS_SUPPORT="no "
+USE_NEW_8580_FILTER="no "
+
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -456,8 +458,12 @@ AS_IF([test x"$enable_cpuhistory" = "xyes"],
     FEATURE_CPUMEMHISTORY_SUPPORT="yes"
   ])
 
-AS_IF([test x"$enable_new8580filter" = "xyes"],
-  [AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the experimental new 8580 filter])
+dnl New 8580 filters: Changed on 2020-08-23 from default 'no' to default 'yes'.
+dnl If we don't get any (valid) complaints, we should make this non-configurable.
+AS_IF([test x"$enable_new8580filter" != "xno"],
+  [
+    AC_DEFINE(HAVE_NEW_8580_FILTER,,[Use the new 8580 filter])
+    USE_NEW_8580_FILTER="yes"
   ])
 
 AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes" -a x"$enable_silent_rules" = "x")
@@ -3813,15 +3819,14 @@ if test x"$real_arch" = "xUnix"; then
 #    echo "Pango support                  : $HAVE_PANGO_SUPPORT"
 fi
 
-# Enabling Gtk3 native dialogs should help with Flatpack and other container
-# formats
-if test x"$real_arch" = "xUnix"; then
-    echo "Gtk3 sandbox mode              : $USE_SANDBOX_MODE (--enable/disable-sandbox-mode)"
-fi
+
 
 echo ""
 echo "SOUND"
 echo "-----"
+echo "FastSID support              : $HAVE_FASTSID_SUPPORT (--with/without-fastsid)"
+echo "ReSID support                : $HAVE_RESID_SUPPORT (--with/without-resid)"
+echo "New 8580 filter support      : $USE_NEW_8580_FILTER (--enable/disable-new8580filter)"
 
 if test x"$real_arch" != "xAmiga"; then
     echo "PortAudio sound input support: $USE_PORTAUDIO_SUPPORT (--enable/disable-portaudio)"
@@ -4010,14 +4015,16 @@ echo ""
 echo "MISC"
 echo "----"
 
-echo "FastSID support            : $HAVE_FASTSID_SUPPORT (--with/without-fastsid)"
-echo "ReSID support              : $HAVE_RESID_SUPPORT (--with/without-resid)"
 echo "65xx CPU history support   : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
 echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
 echo "Threading debug support    : $DEBUG_THREADS_SUPPORT (--enable/disable-debug-threads"
 echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embedded)"
 echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
-
+# Enabling Gtk3 native dialogs should help with Flatpack and other container
+# formats
+if test x"$real_arch" = "xUnix"; then
+    echo "Gtk3 sandbox mode          : $USE_SANDBOX_MODE (--enable/disable-sandbox-mode)"
+fi
 echo ""
 echo "User CPPFLAGS:  $CPPFLAGS"
 echo "VICE_CPPFLAGS:  $VICE_CPPFLAGS"
