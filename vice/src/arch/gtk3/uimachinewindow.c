@@ -37,6 +37,9 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#if !defined(MACOSX_SUPPORT) && !defined(WIN32_COMPILE)
+#include <gdk/gdkx.h>
+#endif
 
 #ifdef MACOSX_SUPPORT
 #import <objc/message.h>
