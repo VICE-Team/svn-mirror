@@ -31,8 +31,8 @@
 #import <CoreGraphics/CGRemoteOperation.h>
 #import <CoreGraphics/CGEvent.h>
 #elif defined(WIN32_COMPILE)
-#include <Windows.h>
-#include <WinUser.h>
+#include <windows.h>
+#include <winuser.h>
 #else
 #include <X11/Xlib.h>
 #include <gdk/gdkx.h>
