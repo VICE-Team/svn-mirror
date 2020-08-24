@@ -594,7 +594,6 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
             if (canvas->still_frame_callback_id != 0) {
                 gtk_widget_remove_tick_callback(canvas->event_box, canvas->still_frame_callback_id);
                 canvas->still_frame_callback_id = 0;
-                printf("removed\n");
             }
             canvas->pen_x = -1;
             canvas->pen_y = -1;
