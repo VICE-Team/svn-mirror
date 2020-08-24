@@ -15,6 +15,7 @@
  *  \author Marco van den Heuvel <blackystardust68@yahoo.com>
  *  \author Michael C. Martin <mcmartin@gmail.com>
  *  \author Bas Wassink <b.wassink@ziggo.nl>
+ *  \author David Hogan <david.q.hogan@gmail.com>
  */
 
 /*
@@ -280,6 +281,21 @@ static guint timeout_id = 0;
 static void tape_dir_autostart_callback(const char *image, int index);
 static void disk_dir_autostart_callback(const char *image, int index);
 
+static gboolean redraw_widget_on_ui_thread_impl(gpointer user_data)
+{
+    gtk_widget_queue_draw((GtkWidget *)user_data);
+
+    return FALSE;
+}
+
+/** \brief Queue a redraw of widget on the ui thread.
+ * 
+ * It's not safe to ask a widget to redraw from the vice thread.
+ */
+static void redraw_widget_on_ui_thread(GtkWidget *widget)
+{
+    gdk_threads_add_timeout(0, redraw_widget_on_ui_thread_impl, (gpointer)widget);
+}
 
 /*****************************************************************************
  *                          Gtk3 event handlers                              *
@@ -319,6 +335,9 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     int width, height;
     double x, y, inset;
+
+    mainlock_assert_is_not_vice_thread();
+
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
     if (width > height) {
@@ -439,6 +458,8 @@ static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     int width, height, drive, i;
     double red = 0.0, green = 0.0, x, y, w, h;
 
+    mainlock_assert_is_not_vice_thread();
+
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
     drive = GPOINTER_TO_INT(data);
@@ -485,6 +506,8 @@ static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     int width, height, val;
     double e, s, x, y;
+
+    mainlock_assert_is_not_vice_thread();
 
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
@@ -559,6 +582,8 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget,
 {
     int i = GPOINTER_TO_INT(data);
 
+    mainlock_assert_is_not_vice_thread();
+
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
         if (allocated_bars[i].tape && allocated_bars[i].tape_menu
                 && event->type == GDK_BUTTON_PRESS) {
@@ -613,6 +638,8 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     GtkWidget *drive_menu = allocated_bars[0].drive_popups[i];
     GtkWidget *drive_menu_item;
     gchar buffer[256];
+
+    mainlock_assert_is_not_vice_thread();
 
     ui_populate_fliplist_menu(drive_menu, i + 8, 0);
 
@@ -728,6 +755,8 @@ static gboolean on_joystick_widget_button_press(GtkWidget *widget,
                                                 GdkEvent *event,
                                                 gpointer user_data)
 {
+    mainlock_assert_is_not_vice_thread();
+
     if (((GdkEventButton *)event)->button == GDK_BUTTON_PRIMARY) {
         GtkWidget *menu = joystick_menu_popup_create();
         gtk_menu_popup_at_widget(GTK_MENU(menu), widget,
@@ -803,6 +832,8 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget,
 static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 {
     int i, j;
+
+    mainlock_assert_is_not_vice_thread();
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == sb) {
@@ -883,6 +914,8 @@ static void on_crt_toggled(GtkWidget *widget, gpointer data)
 {
     gboolean state;
 
+    mainlock_assert_is_not_vice_thread();
+
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     ui_enable_crt_controls((gboolean)state);
 }
@@ -898,6 +931,8 @@ static void on_crt_toggled(GtkWidget *widget, gpointer data)
 static void on_mixer_toggled(GtkWidget *widget, gpointer data)
 {
     gboolean state;
+
+    mainlock_assert_is_not_vice_thread();
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     ui_enable_mixer_controls((gboolean)state);
@@ -959,6 +994,8 @@ static GtkWidget *ui_drive_widget_create(int unit)
 {
     GtkWidget *grid, *number, *track, *led;
     char drive_id[4];
+
+    mainlock_assert_is_not_vice_thread();
 
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid),
@@ -1038,6 +1075,8 @@ static GtkWidget *ui_tape_widget_create(void)
 {
     GtkWidget *grid, *header, *counter, *state;
 
+    mainlock_assert_is_not_vice_thread();
+
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid),
             GTK_ORIENTATION_HORIZONTAL);
@@ -1073,6 +1112,9 @@ static void vice_gtk3_update_joyport_layout(void)
     int i, ok[JOYPORT_MAX_PORTS];
     int userport_joysticks = 0;
     int new_joyport_mask = 0;
+
+    mainlock_assert_is_not_vice_thread();
+
     /* Start with all ports enabled */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         ok[i] = 1;
@@ -1191,6 +1233,8 @@ static GtkWidget *ui_joystick_widget_create(void)
     GtkWidget *event_box;
     int i;
 
+    mainlock_assert_is_not_vice_thread();
+
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid),
             GTK_ORIENTATION_HORIZONTAL);
@@ -1223,8 +1267,6 @@ static GtkWidget *ui_joystick_widget_create(void)
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
     gtk_container_add(GTK_CONTAINER(event_box), grid);
 
-
-
     g_signal_connect(event_box, "button-press-event",
             G_CALLBACK(on_joystick_widget_button_press), NULL);
     g_signal_connect(event_box, "enter-notify-event",
@@ -1249,6 +1291,9 @@ static void layout_statusbar_drives(int bar_index)
     int i, j, state, tde = 0;
     int enabled_drive_index = 0;
     GtkWidget *bar = allocated_bars[bar_index].bar;
+
+    mainlock_assert_is_not_vice_thread();
+
     if (!bar) {
         return;
     }
@@ -1325,6 +1370,8 @@ static GtkWidget *ui_drive_menu_create(int unit)
     char buf[128];
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
+
+    mainlock_assert_is_not_vice_thread();
 
     snprintf(buf, sizeof(buf), "Attach disk to drive #%d...", unit + DRIVE_UNIT_MIN);
     buf[sizeof(buf) - 1] = 0;
@@ -1419,6 +1466,7 @@ void ui_statusbar_init(void)
  *         destroyed. */
 void ui_statusbar_shutdown(void)
 {
+    mainlock_assert_is_not_vice_thread();
 }
 
 
@@ -1445,6 +1493,8 @@ GtkWidget *ui_statusbar_create(void)
     int sound_vol;
 #endif
     int i, j;
+
+    mainlock_assert_is_not_vice_thread();
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == NULL) {
@@ -1638,6 +1688,8 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 {
     GtkWidget *widget;
 
+    /* Ok to call from VICE thread */
+
     widget = allocated_bars[0].record;
 
     statusbar_recording_widget_set_time(widget, current, total);
@@ -1661,6 +1713,8 @@ void ui_display_playback(int playback_status, char *version)
 {
     GtkWidget *widget = allocated_bars[0].record;
 
+    /* Ok to call from VICE thread */
+
     statusbar_recording_widget_set_event_playback(widget, version);
 }
 
@@ -1678,6 +1732,8 @@ void ui_display_playback(int playback_status, char *version)
 void ui_display_recording(int recording_status)
 {
     GtkWidget *widget;
+
+    /* Ok to call from VICE thread */
 
     widget = allocated_bars[0].record;
 
@@ -1759,15 +1815,12 @@ void ui_display_joyport(uint8_t *joyport)
                     grid = gtk_bin_get_child(GTK_BIN(allocated_bars[j].joysticks));
                     widget = gtk_grid_get_child_at(GTK_GRID(grid), i + 1, 0);
                     if (widget) {
-                        gtk_widget_queue_draw(widget);
+                        redraw_widget_on_ui_thread(widget);
                     }
                 }
             }
         }
     }
-    /* Restrict visible joystick display to just the ones the
-     * configuration supports */
-    vice_gtk3_update_joyport_layout();
 }
 
 
@@ -1779,6 +1832,8 @@ void ui_display_joyport(uint8_t *joyport)
  */
 void ui_display_tape_control_status(int control)
 {
+    /* Ok to call from VICE thread */
+
     if (control != sb_state.tape_control) {
         int i;
         sb_state.tape_control = control;
@@ -1787,7 +1842,7 @@ void ui_display_tape_control_status(int control)
                 GtkWidget *widget = gtk_grid_get_child_at(
                         GTK_GRID(allocated_bars[i].tape), 2, 0);
                 if (widget) {
-                    gtk_widget_queue_draw(widget);
+                    redraw_widget_on_ui_thread(widget);
                 }
             }
         }
@@ -1802,22 +1857,7 @@ void ui_display_tape_control_status(int control)
  */
 void ui_display_tape_counter(int counter)
 {
-    if (counter != sb_state.tape_counter) {
-        int i;
-        char buf[8];
-        snprintf(buf, 8, "%03d", counter%1000);
-        buf[7] = 0;
-        sb_state.tape_counter = counter;
-        for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            if (allocated_bars[i].tape) {
-                GtkWidget *widget = gtk_grid_get_child_at(
-                        GTK_GRID(allocated_bars[i].tape), 1, 0);
-                if (widget) {
-                    gtk_label_set_text(GTK_LABEL(widget), buf);
-                }
-            }
-        }
-    }
+    sb_state.tape_counter = counter;
 }
 
 
@@ -1827,6 +1867,8 @@ void ui_display_tape_counter(int counter)
  */
 void ui_display_tape_motor_status(int motor)
 {
+    /* Ok to call from VICE thread */
+
     if (motor != sb_state.tape_motor_status) {
         int i;
         sb_state.tape_motor_status = motor;
@@ -1835,7 +1877,7 @@ void ui_display_tape_motor_status(int motor)
                 GtkWidget *widget = gtk_grid_get_child_at(
                         GTK_GRID(allocated_bars[i].tape), 2, 0);
                 if (widget) {
-                    gtk_widget_queue_draw(widget);
+                    redraw_widget_on_ui_thread(widget);
                 }
             }
         }
@@ -1852,6 +1894,8 @@ void ui_display_tape_motor_status(int motor)
 void ui_set_tape_status(int tape_status)
 {
     /* printf("TAPE DRIVE STATUS: %d\n", tape_status); */
+
+    /* Ok to call from VICE thread */
 }
 
 
@@ -1865,6 +1909,9 @@ void ui_display_tape_current_image(const char *image)
 {
 #if 0
     char buf[256];
+
+    mainlock_assert_is_not_vice_thread();
+
     if (image && *image) {
         snprintf(buf, 256, "Attached %s to tape unit", image);
     } else {
@@ -1895,6 +1942,8 @@ void ui_display_drive_led(unsigned int drive_number,
                           unsigned int led_pwm1,
                           unsigned int led_pwm2)
 {
+    /* Ok to call from VICE thread */
+
     if (drive_number < 0 || drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
@@ -1921,6 +1970,8 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
+    /* Ok to call from VICE thread */
+    
     if (drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
@@ -1959,6 +2010,8 @@ void ui_display_drive_track(unsigned int drive_number,
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     int i, enabled;
+
+    /* Ok to call from VICE thread */
 
     /* Update the drive LEDs first, unconditionally. */
     enabled = state;
@@ -2001,6 +2054,9 @@ void ui_display_drive_current_image(unsigned int unit_number, unsigned int drive
 {
 #if 0
     char buf[256];
+
+    mainlock_assert_is_not_vice_thread();
+
     if (image && *image) {
         snprintf(buf, 256, "Attached %s to unit %d", image, unit_number + 8);
     } else {
@@ -2024,6 +2080,8 @@ gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window)
     GtkWidget *bar;
     GtkWidget *check;
     gboolean active;
+
+    mainlock_assert_is_not_vice_thread();
 
     bin = gtk_bin_get_child(GTK_BIN(window));
     if (bin != NULL) {
@@ -2053,6 +2111,8 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
     GtkWidget *check;
     gboolean active;
 
+    mainlock_assert_is_not_vice_thread();
+
     bin = gtk_bin_get_child(GTK_BIN(window));
     if (bin != NULL) {
         bar = gtk_grid_get_child_at(GTK_GRID(bin), 0, 2);  /* FIX */
@@ -2067,28 +2127,58 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
     return FALSE;
 }
 
-
 /** \brief  Statusbar API to display emulation metrics and drive status */
 void ui_update_statusbars(void)
 {
     /* TODO: Don't call this for each top level window as it updates all statusbars */
-    GtkWidget *speed_widget, *drive, *track, *led;
+    GtkWidget *speed_widget, *tape_counter, *drive, *track, *led;
+    ui_statusbar_t bar;
     int i, j;
 
+    mainlock_assert_is_not_vice_thread();
+
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
-        if (!allocated_bars[i].bar) {
+        bar = allocated_bars[i];
+        if (!bar.bar) {
             continue;
         }
 
-        /* Emulation speed, fps, warp */
-        speed_widget = allocated_bars[i].speed;
+        /*
+         * Emulation speed, fps, warp
+         */
+
+        speed_widget = bar.speed;
         if (speed_widget != NULL) {
             statusbar_speed_widget_update(speed_widget);
         }
+        
+        /*
+         * Update Tape
+         */
+        
+        if (bar.tape) {
+            tape_counter = gtk_grid_get_child_at(GTK_GRID(bar.tape), 1, 0);
+            if (tape_counter) {
+                char buf[8];
+                snprintf(buf, 8, "%03d", sb_state.tape_counter % 1000);
+                buf[7] = 0;
+                
+                gtk_label_set_text(GTK_LABEL(tape_counter), buf);
+            }
+        }
 
-        /* Drive track, half track, and led  */
+        /*
+         * Joystick
+         */
+        
+        vice_gtk3_update_joyport_layout();
+
+        /*
+         * Drive track, half track, and led
+         */
+
         for (j = 0; j < NUM_DISK_UNITS; ++j) {
-            drive = allocated_bars[i].drives[j];
+            drive = bar.drives[j];
             if (!drive) {
                 continue;
             }
@@ -2120,6 +2210,8 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
     GtkWidget *statusbar;
     GtkWidget *kbd;
 
+    mainlock_assert_is_not_vice_thread();
+
     main_grid = gtk_bin_get_child(GTK_BIN(window));
     if (main_grid != NULL) {
         statusbar = gtk_grid_get_child_at(GTK_GRID(main_grid), 0, 2);
@@ -2144,6 +2236,8 @@ static void kbd_statusbar_widget_enable(GtkWidget *window, gboolean state)
 void ui_statusbar_set_kbd_debug(gboolean state)
 {
     GtkWidget *window;
+
+    mainlock_assert_is_not_vice_thread();
 
     /* standard VIC/VICII/TED/CRTC window */
     window = ui_get_window_by_index(0);

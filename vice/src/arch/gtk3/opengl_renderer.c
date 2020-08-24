@@ -359,8 +359,8 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
      * Sometimes the OS wants to redraw part of the window. Haven't been able to
      * reliably detect those events in some linux environments so we don't trigger
      * a redraw on that sort of event. It's not as simple as catching the GTK draw
-     * signal on the GtkDrawingArea under the native window, because we have our
-     * own native xlib window added ove the top of the GTK/GDK window.
+     * signal, because we have our own native Xlib window/NSView added over the top
+     * of the GTK/GDK window.
      * 
      * So, each GdkFrameClock event, check if we have rendered since the last
      * event. If we have not, queue up a refresh of the existing emu frame.
