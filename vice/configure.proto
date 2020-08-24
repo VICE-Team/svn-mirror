@@ -3553,6 +3553,20 @@ AC_SUBST(VICE_DATADIR, [$datadir/$PACKAGE])
 AC_SUBST(VICE_DOCDIR, [$docdir])
 
 
+dnl Export --program-prefix and --program-suffix for the .desktop files
+if test x"$program_prefix" = "xNONE"; then
+    AC_SUBST(PROGRAM_PREFIX, "")
+    #AC_MSG_ERROR([No prefix!])
+else
+    AC_SUBST(PROGRAM_PREFIX, [$program_prefix])
+fi
+
+if test x"$program_suffix" = "xNONE"; then
+    AC_SUBST(PROGRAM_SUFFIX, "")
+else
+    AC_SUBST(PROGRAM_SUFFIX, [$program_suffix])
+fi
+
 dnl I think this is supposed to handle --enable-internal-ffmpeg
 dnl It does not check for that situation and internal-ffmpeg on Unix (the only
 dnl system supported,I think) requires running `make` as root, which sucks.
