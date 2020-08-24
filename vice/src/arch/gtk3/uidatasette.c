@@ -80,7 +80,7 @@ GtkWidget *ui_create_datasette_control_menu(void)
     menu = gtk_menu_new();
     item = gtk_menu_item_new_with_label("Attach tape image...");
     gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "activate", G_CALLBACK(ui_tape_attach_callback), NULL);
+    g_signal_connect_unlocked(item, "activate", G_CALLBACK(ui_tape_attach_callback), NULL);
     item = gtk_menu_item_new_with_label("Detach tape image");
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "activate", G_CALLBACK(ui_tape_detach_callback), NULL);
