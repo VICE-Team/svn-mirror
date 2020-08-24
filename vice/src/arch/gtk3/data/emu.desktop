@@ -4,7 +4,7 @@ Version=__VICE_VERSION__
 Name=VICE (__VICE_EMU_NAME__)
 Comment=__VICE_EMU_COMMENT__ (Gtk3 UI)
 Exec=__PREFIX__/bin/__VICE_EMU_BIN__
-Terminal=true
+Terminal=false
 # TODO: Use separate icons for each emu
 Icon=__PREFIX__/share/vice/common/__ICON__
 Categories=Game;

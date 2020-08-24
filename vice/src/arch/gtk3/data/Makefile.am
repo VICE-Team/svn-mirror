@@ -40,11 +40,22 @@ EXTRA_DIST = $(GRESOURCE_PROTO) $(WINDRES_RC_PROTO)
 if UNIX_COMPILE
 # Make .desktop files
 
-
 VERSION_NUM="$(VICE_VERSION_MAJOR).$(VICE_VERSION_MINOR)"
 
+X64_DESKTOP = $(PROGRAM_PREFIX)x64$(PROGRAM_SUFFIX).desktop
+X64SC_DESKTOP = $(PROGRAM_PREFIX)x64sc$(PROGRAM_SUFFIX).desktop
+X64DTV_DESKTOP = $(PROGRAM_PREFIX)x64dtv$(PROGRAM_SUFFIX).desktop
+XSCPU64_DESKTOP = $(PROGRAM_PREFIX)xscpu64$(PROGRAM_SUFFIX).desktop
+X128_DESKTOP = $(PROGRAM_PREFIX)x128$(PROGRAM_SUFFIX).desktop
+XVIC_DESKTOP = $(PROGRAM_PREFIX)xvic$(PROGRAM_SUFFIX).desktop
+XPET_DESKTOP = $(PROGRAM_PREFIX)xpet$(PROGRAM_SUFFIX).desktop
+XPLUS4_DESKTOP = $(PROGRAM_PREFIX)xplus4$(PROGRAM_SUFFIX).desktop
+XCBM5x0_DESKTOP = $(PROGRAM_PREFIX)xcbm5x0$(PROGRAM_SUFFIX).desktop
+XCBM2_DESKTOP = $(PROGRAM_PREFIX)xcbm2$(PROGRAM_SUFFIX).desktop
+VSID_DESKTOP = $(PROGRAM_PREFIX)vsid$(PROGRAM_SUFFIX).desktop
+
 # x64
-x64.desktop: emu.desktop
+$(X64_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -56,7 +67,7 @@ x64.desktop: emu.desktop
 		"icon.png"
 
 # x64sc
-x64sc.desktop: emu.desktop
+$(X64SC_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -68,7 +79,7 @@ x64sc.desktop: emu.desktop
 		"icon.png"
 
 # x64dtv
-x64dtv.desktop: emu.desktop
+$(X64DTV_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" "$(top_builddir)" \
 		"$(top_srcdir)/src/arch/gtk3/data/emu.desktop" \
@@ -79,7 +90,7 @@ x64dtv.desktop: emu.desktop
 		"icon.png"
 
 # xscpu64
-xscpu64.desktop: emu.desktop
+$(XSCPU64_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" "$(top_builddir)" \
 		"$(top_srcdir)/src/arch/gtk3/data/emu.desktop" \
@@ -90,7 +101,7 @@ xscpu64.desktop: emu.desktop
 		"icon.png"
 
 # x128
-x128.desktop: emu.desktop
+$(X128_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -103,7 +114,7 @@ x128.desktop: emu.desktop
 
 
 # xvic
-xvic.desktop: emu.desktop
+$(XVIC_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -115,7 +126,7 @@ xvic.desktop: emu.desktop
 		"icon.png"
 
 # xpet
-xpet.desktop: emu.desktop
+$(XPET_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -128,7 +139,7 @@ xpet.desktop: emu.desktop
 
 
 # xcbm5x0
-xcbm5x0.desktop: emu.desktop
+$(XCBM5x0_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -141,7 +152,7 @@ xcbm5x0.desktop: emu.desktop
 
 
 # xcbm2
-xcbm2.desktop: emu.desktop
+$(XCBM2_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -153,8 +164,21 @@ xcbm2.desktop: emu.desktop
 		"icon.png"
 
 
+# xplus4
+$(XPLUS4_DESKTOP): emu.desktop
+	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
+		"$(top_srcdir)" \
+		"$(top_builddir)" \
+		"$(top_srcdir)/src/arch/gtk3/data/emu.desktop" \
+		"${prefix}" \
+		"$(VERSION_NUM)" \
+		"$(PROGRAM_PREFIX)xplus4$(PROGRAM_SUFFIX)" \
+		"Plus-4 / C16 emulator" \
+		"icon.png"
+
+
 # vsid
-vsid.desktop: emu.desktop
+$(VSID_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
 		"$(top_builddir)" \
@@ -162,7 +186,7 @@ vsid.desktop: emu.desktop
 		"${prefix}" \
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)vsid$(PROGRAM_SUFFIX)" \
-		"SID Player (better than JCH's garbage)" \
+		"SID Player (way better than JCH's garbage)" \
 		"icon.png"
 
 
@@ -185,16 +209,19 @@ endif
 # $PREFIX/common, including x64, which probably breaks shit later.
 gtk3data_DATA = \
 	$(GRESOURCE_TARGET) $(WINDRES_COFF) \
-	x64.desktop \
-	x64sc.desktop \
-	x64dtv.desktop \
-	xscpu64.desktop \
-	x128.desktop \
-	xvic.desktop \
-	xpet.desktop \
-	xcbm5x0.desktop \
-	xcbm2.desktop \
-	c1541.desktop
+	$(X64_DESKTOP) \
+	$(X64SC_DESKTOP) \
+	$(X64DTV_DESKTOP) \
+	$(X128_DESKTOP) \
+	$(XVIC_DESKTOP) \
+	$(XPET_DESKTOP) \
+	$(XCBM5x0_DESKTOP) \
+	$(XCBM2_DESKTOP) \
+	$(XPLUS4_DESKTOP) \
+	$(VSID_DESKTOP)
+
+# Needs terminal
+#	c1541.desktop
 
 
 
