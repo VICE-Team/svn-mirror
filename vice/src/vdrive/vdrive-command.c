@@ -1121,12 +1121,16 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
 {
     unsigned int len = buf[0];
 
-    log_warning(vdrive_command_log,
-            "M-W %04x %u (+%u) (might need TDE)",
-            addr, len, length - 6);
     if (length < 6) {
+        log_warning(vdrive_command_log, 
+            "M-W %04x %u (command ends prematurely, got %u bytes) (might need TDE)", addr, len, length);
         return CBMDOS_IPE_SYNTAX;
     }
+    /* FIXME: is this correct? */
+    if (len == 0 || len > IP_MAX_COMMAND_LEN) {
+        len = IP_MAX_COMMAND_LEN;
+    }
+    log_warning(vdrive_command_log, "M-W %04x %u (+%u) (might need TDE)", addr, len, length - 6);
 
 #if 0
     /* data= buf[1+0 ... 1+34]; */
@@ -1138,6 +1142,11 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
 /* FIXME: This function doesn't need buf or length. */
 int vdrive_command_memory_exec(vdrive_t *vdrive, const uint8_t *buf, uint16_t addr, unsigned int length)
 {
+    if (length < 5) {
+        log_warning(vdrive_command_log, 
+            "M-E %04x (command ends prematurely, got %u bytes) (needs TDE)", addr, length);
+        return CBMDOS_IPE_SYNTAX;
+    }
     log_warning(vdrive_command_log, "M-E %04x (+%u) (needs TDE)", addr, length - 5);
     return CBMDOS_IPE_OK;
 }
@@ -1149,16 +1158,21 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const uint8_t *buf, uint16_t ad
 {
     unsigned int len = buf[0];
 
-    log_warning(vdrive_command_log, "M-R %04x %u (+%u) (might need TDE)",
-            addr, len, length - 6);
     if (length < 6) {
-        return CBMDOS_IPE_SYNTAX;
+        log_warning(vdrive_command_log, 
+            "M-R %04x %u (command ends prematurely, got %u bytes) (might need TDE)", addr, len, length);
+        if (length < 5) {
+            return CBMDOS_IPE_SYNTAX;
+        } else {
+            len = 1; /* when no length byte is present, the length is 1 */
+        }
+    } else {
+        log_warning(vdrive_command_log, "M-R %04x %u (+%u) (might need TDE)", addr, len, length - 6);
     }
 
-    if (len == 0 || len > IP_MAX_COMMAND_LEN) {
-        len = IP_MAX_COMMAND_LEN;
+    if (len == 0) {
+        len = 256;
     }
-
     memset(vdrive->mem_buf, 0, len);
 
     vdrive->mem_length = len;
