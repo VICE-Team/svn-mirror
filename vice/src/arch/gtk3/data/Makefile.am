@@ -38,6 +38,7 @@ EXTRA_DIST = $(GRESOURCE_PROTO) $(WINDRES_RC_PROTO)
 
 
 if UNIX_COMPILE
+if !UNIX_MACOSX_COMPILE
 # Make .desktop files
 
 VERSION_NUM="$(VICE_VERSION_MAJOR).$(VICE_VERSION_MINOR)"
@@ -202,6 +203,9 @@ c1541.desktop: emu.desktop
 		"CBM media editor or so?" \
 		"icon.png"
 
+# if !UNIX_MACOSX_COMPILE
+endif
+# if UNIX_COMPILE
 endif
 
 
@@ -212,6 +216,7 @@ gtk3data_DATA = \
 	$(X64_DESKTOP) \
 	$(X64SC_DESKTOP) \
 	$(X64DTV_DESKTOP) \
+	$(XSCPU64_DESKTOP) \
 	$(X128_DESKTOP) \
 	$(XVIC_DESKTOP) \
 	$(XPET_DESKTOP) \
@@ -229,8 +234,26 @@ gtk3data_DATA = \
 clean:
 	rm -f $(GRESOURCE_TARGET)
 	rm -f $(GRESOURCE_XML)
+if WIN32_COMPILE
 	rm -f $(WINDRES_COFF)
 	rm -f $(WINDRES_RC_TARGET)
+endif
+if UNIX_COMPILE
+if !UNIX_MACOSX_COMPILE
+	rm -f $(X64_DESKTOP)
+	rm -f $(X64SC_DESKTOP)
+	rm -f $(X64DTV_DESKTOP)
+	rm -f $(XSCPU64_DESKTOP)
+	rm -f $(X128_DESKTOP)
+	rm -f $(XVIC_DESKTOP)
+	rm -f $(XPET_DESKTOP)
+	rm -f $(XPLUS4_DESKTOP)
+	rm -f $(XCBM5x0_DESKTOP)
+	rm -f $(XCBM2_DESKTOP)
+	rm -f $(VSID_DESKTOP)
+endif
+endif
+
 
 .PHONY: distclean
 distclean: clean
