@@ -594,8 +594,8 @@ gboolean ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
     int unit;
     int drive;
 
-    unit = GPOINTER_TO_INT(user_data) >> 8;
-    drive = GPOINTER_TO_INT(user_data) & 0xff;
+    drive = GPOINTER_TO_INT(user_data) >> 8;
+    unit = GPOINTER_TO_INT(user_data) & 0xff;
 
     debug_gtk3("Detaching unit #%d, drive %d.", unit, drive);
     file_system_detach_disk(unit, drive);
