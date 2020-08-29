@@ -95,7 +95,10 @@ VICE_ARG_ENABLE_LIST(static-ffmpeg,     [  --enable-static-ffmpeg  enable includ
 dnl How does this work with --enable-lame, seems to be for internal ffmpeg?
 VICE_ARG_ENABLE_LIST(static-lame,       [  --enable-static-lame    enable static LAME linking])
 VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
-
+dnl If enabled, tries to install XDG .desktop files for running the binaries
+dnl from a desktop menu. Only supported for Unix with the exception of MacOS.
+dnl Gtk3 only.
+VICE_ARG_ENABLE_LIST(desktop-files,     [  --enable-desktop-files  enable installation of XDG desktop files])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -447,7 +450,7 @@ USE_SANDBOX_MODE="no "
 USE_SDL_AUDIO_SUPPORT="no "
 USE_VORBIS_SUPPORT="no "
 USE_NEW_8580_FILTER="no "
-
+USE_DESKTOP_FILES="no "
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -1614,10 +1617,42 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
     dnl xlib is used for adding a native child window for opengl rendering
     LIBS="$LIBS -lX11"
   fi
-  
+
 else
   show_multithreaded="no"
 fi
+
+
+dnl Check/setup XDG desktop files support
+dnl
+dnl XDG .desktop files are only supported for the Gtk3 UI on Unix (excl. MacOS)
+dnl
+AM_CONDITIONAL(INSTALL_DESKTOP_FILE, false)
+if test x"$enable_desktop_files" = "xyes"; then
+    dnl Check Gtk3 UI
+    if test x"$enable_native_gtk3ui" != "xyes"; then
+        AC_MSG_ERROR([XDG desktop files requested but UI is not Gtk3.])
+    fi
+    dnl Check OS (Unix)
+    if test x"$is_unix_x11" != "xyes"; then
+        AC_MSG_ERROR([XDG desktop files requested but OS is not Unix.])
+    fi
+    dnl Check OS (not MacOS)
+    if test x"$is_unix_macos" = "xyes"; then
+        AC_MSG_ERROR([XDG desktop files requested but OS is MacOS.])
+    fi
+    dnl Check for xdg-desktop-menu
+    AC_CHECK_PROG(XDG_DESKTOP_MENU, xdg-desktop-menu, xdg-desktop-menu, no)
+    echo "$XDG_DESKTOP_MENU"
+    if test x"$XDG_DESKTOP_MENU" = "xno"; then
+        AC_MSG_ERROR([XDG desktop files requested but required tool xdg-desktop-menu is missing. Please install xgd-utils.])
+    fi
+
+    dnl We got the UI + OS + tools:
+    USE_DESKTOP_FILES="yes"
+    AM_CONDITIONAL(INSTALL_DESKTOP_FILES, true)
+fi
+
 
 dnl This enables the embedded data files feature, which should
 dnl only be used for developing new ports or for ports for which
@@ -3834,7 +3869,6 @@ if test x"$real_arch" = "xUnix"; then
 fi
 
 
-
 echo ""
 echo "SOUND"
 echo "-----"
@@ -4039,6 +4073,8 @@ echo "Build old x64 emulator     : $X64_INCLUDED (--enable/--disable-x64)"
 if test x"$real_arch" = "xUnix"; then
     echo "Gtk3 sandbox mode          : $USE_SANDBOX_MODE (--enable/disable-sandbox-mode)"
 fi
+echo "Install XDG .desktop files : $USE_DESKTOP_FILES"
+
 echo ""
 echo "User CPPFLAGS:  $CPPFLAGS"
 echo "VICE_CPPFLAGS:  $VICE_CPPFLAGS"

@@ -41,6 +41,9 @@ if UNIX_COMPILE
 if !UNIX_MACOSX_COMPILE
 # Make .desktop files
 
+if INSTALL_DESKTOP_FILES
+
+
 VERSION_NUM="$(VICE_VERSION_MAJOR).$(VICE_VERSION_MINOR)"
 
 X64_DESKTOP = $(PROGRAM_PREFIX)x64$(PROGRAM_SUFFIX).desktop
@@ -203,6 +206,8 @@ c1541.desktop: emu.desktop
 		"CBM media editor or so?" \
 		"icon.png"
 
+# if INSTALL_DESKTOP_FILES
+endif
 # if !UNIX_MACOSX_COMPILE
 endif
 # if UNIX_COMPILE
@@ -225,7 +230,7 @@ gtk3data_DATA = \
 	$(XPLUS4_DESKTOP) \
 	$(VSID_DESKTOP)
 
-# Needs terminal
+# No need for UI menu items for command-line tools, I think
 #	c1541.desktop
 
 
