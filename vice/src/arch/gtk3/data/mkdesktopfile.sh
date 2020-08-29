@@ -41,7 +41,8 @@ fi
 
 # check for SVN revision, and if present, add to version number
 if [ -e "$TOPSRCDIR/src/svnversion.h" ]; then
-    SVNREVISION=`grep -oP 'VICE_SVN_REV_NUMBER\s+\K\d+' "$TOPSRCDIR/src/svnversion.h"`
+    # Don't use GNU-specific grep options
+    SVNREVISION=`grep 'VICE_SVN_REV_NUMBER' "$TOPSRCDIR/src/svnversion.h" | cut -c 29-`
     VERSION="$VERSION-r$SVNREVISION"
 fi
 
