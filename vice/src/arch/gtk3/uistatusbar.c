@@ -1370,6 +1370,7 @@ static GtkWidget *ui_drive_menu_create(int unit)
     char buf[128];
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
+    int drive;
 
     mainlock_assert_is_not_vice_thread();
 
@@ -1381,21 +1382,27 @@ static GtkWidget *ui_drive_menu_create(int unit)
             G_CALLBACK(ui_disk_attach_dialog_show),
             GINT_TO_POINTER(unit + DRIVE_UNIT_MIN));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
-    snprintf(buf, sizeof(buf), "Detach disk from drive #%d", unit + DRIVE_UNIT_MIN);
-    buf[sizeof(buf) - 1] = 0;
-    drive_menu_item = gtk_menu_item_new_with_label(buf);
-    g_signal_connect(drive_menu_item, "activate",
-            G_CALLBACK(ui_disk_detach_callback),
-            GINT_TO_POINTER(unit + DRIVE_UNIT_MIN));
-    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+
+#define UNIT_DRIVE_TO_PTR(U, D) GINT_TO_POINTER(((U) << 8) | ((D) & 0xff))
+
+    for (drive = 0; drive < NUM_DRIVES; drive++) {
+        snprintf(buf, sizeof(buf), "Detach disk from drive #%d:%d", unit + DRIVE_UNIT_MIN, drive);
+        buf[sizeof(buf) - 1] = 0;
+
+        drive_menu_item = gtk_menu_item_new_with_label(buf);
+        g_signal_connect(drive_menu_item, "activate",
+                G_CALLBACK(ui_disk_detach_callback),
+                UNIT_DRIVE_TO_PTR(unit + DRIVE_UNIT_MIN, drive));
+        gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+    }
+
     /* GTK2/GNOME UI put TDE and Read-only checkboxes here, but that
      * seems excessive or possibly too fine-grained, so skip that for
-     * now */
+     * now. Also: make fliplist usable for drive 1. */
     ui_populate_fliplist_menu(drive_menu, unit + DRIVE_UNIT_MIN, 0);
-
-
     gtk_container_add(GTK_CONTAINER(drive_menu),
             gtk_separator_menu_item_new());
+
     drive_menu_item = gtk_menu_item_new_with_label("Configure drives ...");
     g_signal_connect(drive_menu_item, "activate",
             G_CALLBACK(on_drive_configure_activate), NULL);
