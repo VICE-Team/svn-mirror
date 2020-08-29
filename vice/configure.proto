@@ -1627,7 +1627,7 @@ dnl Check/setup XDG desktop files support
 dnl
 dnl XDG .desktop files are only supported for the Gtk3 UI on Unix (excl. MacOS)
 dnl
-AM_CONDITIONAL(INSTALL_DESKTOP_FILE, false)
+AM_CONDITIONAL(INSTALL_DESKTOP_FILES, false)
 if test x"$enable_desktop_files" = "xyes"; then
     dnl Check Gtk3 UI
     if test x"$enable_native_gtk3ui" != "xyes"; then
