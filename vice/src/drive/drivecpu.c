@@ -537,7 +537,7 @@ static void drive_jam(diskunit_context_t *drv)
             break;
     }
 
-    tmp = machine_jam("%s CPU: JAM at $%04X  ", dname, (int)reg_pc);
+    tmp = machine_jam("%s (%d) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (int)reg_pc);
     switch (tmp) {
         case JAM_RESET:
             reg_pc = 0xeaa0;
