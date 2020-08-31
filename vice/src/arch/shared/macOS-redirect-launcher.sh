@@ -36,13 +36,13 @@ BUNDLE_DIR="`cd \"$SCRIPT_DIR/../..\" && pwd`"
 BUNDLE_NAME="`basename \"$BUNDLE_DIR\" .app`"
 
 MASTER_VICE_APP="$BUNDLE_DIR/../VICE.app"
-if [ ! -e $MASTER_VICE_APP ]; then
+if [ ! -e "$MASTER_VICE_APP" ]; then
   osascript -e "display notification \"${BUNDLE_NAME}.app requires that VICE.app be installed in the same location.\" with title \"VICE Installation Error\""
   exit 1
 fi
 
 # open the emulator via VICE.app
-export PROGRAM=$BUNDLE_NAME
+export PROGRAM="$BUNDLE_NAME"
 open "$MASTER_VICE_APP" --args "$@"
 
 exit 0
