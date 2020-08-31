@@ -46,6 +46,7 @@
 #import <CoreGraphics/CGEvent.h>
 
 /* The proper way to use objc_msgSend is to cast it into the right shape each time */
+#define OBJC_MSGSEND_FUNC_CAST(...) ((id (*)(__VA_ARGS__))objc_msgSend)
 #define OBJC_MSGSEND_STRET_FUNC_CAST(...) ((id (*)(__VA_ARGS__))objc_msgSend_stret)
 
 /* For some reason this isn't in the GDK quartz headers */
@@ -260,13 +261,14 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
         
 #ifdef MACOSX_SUPPORT
         
-        void *native_window = gdk_quartz_window_get_nswindow(gtk_widget_get_window(widget));
+        void    *native_window  = gdk_quartz_window_get_nswindow(gtk_widget_get_window(widget));
+        id      content_view    = OBJC_MSGSEND_FUNC_CAST(id, SEL)(native_window, sel_getUid("contentView"));
         
         CGRect native_frame, content_rect;
-        OBJC_MSGSEND_STRET_FUNC_CAST(CGRect*, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
-        OBJC_MSGSEND_STRET_FUNC_CAST(CGRect*, id, SEL)(&content_rect, native_window, sel_getUid("contentLayoutRect"));
+        OBJC_MSGSEND_STRET_FUNC_CAST(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
+        OBJC_MSGSEND_STRET_FUNC_CAST(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
         
-        /* macOS CoreGraphics coordinatges origin is bottom-left of primary display */
+        /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
         size_t main_display_height = CGDisplayPixelsHigh(CGMainDisplayID());
         
         mouse_host_moved(
@@ -705,12 +707,13 @@ void ui_mouse_grab_pointer(void)
 #ifdef MACOSX_SUPPORT
         
     void *native_window = gdk_quartz_window_get_nswindow(gtk_widget_get_window(window));
-
+    id   content_view   = OBJC_MSGSEND_FUNC_CAST(id, SEL)(native_window, sel_getUid("contentView"));
+    
     CGRect native_frame, content_rect;
-    OBJC_MSGSEND_STRET_FUNC_CAST(CGRect*, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
-    OBJC_MSGSEND_STRET_FUNC_CAST(CGRect*, id, SEL)(&content_rect, native_window, sel_getUid("contentLayoutRect"));
+    OBJC_MSGSEND_STRET_FUNC_CAST(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
+    OBJC_MSGSEND_STRET_FUNC_CAST(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
 
-    /* macOS CoreGraphics coordinatges origin is bottom-left of primary display */
+    /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
     size_t main_display_height = CGDisplayPixelsHigh(CGMainDisplayID());
 
     warp_x =                       native_frame.origin.x + (int)(content_rect.size.width  / 2.0f);
