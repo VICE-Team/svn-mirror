@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "types.h"
+#include "viewport.h"
 
 struct palette_s;
 struct video_canvas_s;
@@ -55,6 +56,9 @@ typedef struct screenshot_s {
     /* First and last displayed line.  */
     unsigned int first_displayed_line;
     unsigned int last_displayed_line;
+
+    /* Position of the graphics area. */
+    position_t gfx_position;
 
     /* Offset to the overall screen.  */
     unsigned int x_offset;
