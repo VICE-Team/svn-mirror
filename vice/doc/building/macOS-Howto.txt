@@ -24,7 +24,7 @@ SDL2 and Gtk3 builds.
 MacPorts:
 ---------
 
-$ sudo port install autoconf automake pkgconfig xa lame texinfo texlive-basic
+$ sudo port install autoconf automake pkgconfig xa lame texinfo texlive-basic dos2unix
 
 SDL2:
 
