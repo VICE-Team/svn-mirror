@@ -67,8 +67,8 @@ $(X64_DESKTOP): emu.desktop
 		"${prefix}" \
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)x64$(PROGRAM_SUFFIX)" \
-		"C64 emulator (deprecated)" \
-		"icon.png"
+		"Crappy C64 emulator" \
+		"C64_1024.svg"
 
 # x64sc
 $(X64SC_DESKTOP): emu.desktop
@@ -80,7 +80,7 @@ $(X64SC_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)x64sc$(PROGRAM_SUFFIX)" \
 		"Cycle-exact C64 emulator" \
-		"icon.png"
+		"C64_1024.svg"
 
 # x64dtv
 $(X64DTV_DESKTOP): emu.desktop
@@ -91,7 +91,7 @@ $(X64DTV_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)x64dtv$(PROGRAM_SUFFIX)" \
 		"DTV64 emulator" \
-		"icon.png"
+		"DTV_1024.svg"
 
 # xscpu64
 $(XSCPU64_DESKTOP): emu.desktop
@@ -102,7 +102,7 @@ $(XSCPU64_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xscpu64$(PROGRAM_SUFFIX)" \
 		"SuperCPU C64 emulator" \
-		"icon.png"
+		"SCPU_1024.svg"
 
 # x128
 $(X128_DESKTOP): emu.desktop
@@ -114,7 +114,7 @@ $(X128_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)x128$(PROGRAM_SUFFIX)" \
 		"C128 emulator" \
-		"icon.png"
+		"C128_1024.svg"
 
 
 # xvic
@@ -127,7 +127,7 @@ $(XVIC_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xvic$(PROGRAM_SUFFIX)" \
 		"VIC-20 emulator" \
-		"icon.png"
+		"VIC20_1024.svg"
 
 # xpet
 $(XPET_DESKTOP): emu.desktop
@@ -139,7 +139,7 @@ $(XPET_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xpet$(PROGRAM_SUFFIX)" \
 		"PET emulator" \
-		"icon.png"
+		"PET_1024.svg"
 
 
 # xcbm5x0
@@ -152,7 +152,7 @@ $(XCBM5x0_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xcbm5x0$(PROGRAM_SUFFIX)" \
 		"CBM-II model 5x0 emulator" \
-		"icon.png"
+		"CBM2_1024.svg"
 
 
 # xcbm2
@@ -165,7 +165,7 @@ $(XCBM2_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xcbm2$(PROGRAM_SUFFIX)" \
 		"CBM-II model 6x0/7x0 emulator" \
-		"icon.png"
+		"CBM2_1024.svg"
 
 
 # xplus4
@@ -178,7 +178,7 @@ $(XPLUS4_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xplus4$(PROGRAM_SUFFIX)" \
 		"Plus-4 / C16 emulator" \
-		"icon.png"
+		"Plus_1024.svg"
 
 
 # vsid
@@ -191,10 +191,11 @@ $(VSID_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)vsid$(PROGRAM_SUFFIX)" \
 		"SID Player (way better than JCH's garbage)" \
-		"icon.png"
+		"SID_1024.svg"
 
 
 # c1541
+# Shell tool, icon doesn't make much sense
 c1541.desktop: emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
@@ -203,8 +204,9 @@ c1541.desktop: emu.desktop
 		"${prefix}" \
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)c1541$(PROGRAM_SUFFIX)" \
-		"CBM media editor or so?" \
-		"icon.png"
+		"Don't let Groepaz take this away from you!" \
+		"C64_1024.svg"
+
 
 # if INSTALL_DESKTOP_FILES
 endif
