@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Directory
+Name=VICE
+Comment=Suite of emulators of Commodore 8-bit machines
+# TODO: use sed to use the proper $prefix
+Icon=/usr/local/share/vice/common/C64_1024.svg
+

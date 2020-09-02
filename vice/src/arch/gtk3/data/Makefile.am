@@ -58,6 +58,11 @@ XCBM5x0_DESKTOP = $(PROGRAM_PREFIX)xcbm5x0$(PROGRAM_SUFFIX).desktop
 XCBM2_DESKTOP = $(PROGRAM_PREFIX)xcbm2$(PROGRAM_SUFFIX).desktop
 VSID_DESKTOP = $(PROGRAM_PREFIX)vsid$(PROGRAM_SUFFIX).desktop
 
+
+# Right now I need this to regenerate every time. Proper installation of XDG
+# desktop files and directories is pretty shitty to figure out. Once this crap
+# works we can remove the PHONY
+
 # x64
 $(X64_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
@@ -129,7 +134,7 @@ $(XVIC_DESKTOP): emu.desktop
 		"VIC-20 emulator" \
 		"VIC20_1024.svg"
 
-# xpet
+# xpet (has "*256.svg" vs "*1024.svg" with the rest of the files, which is weird)
 $(XPET_DESKTOP): emu.desktop
 	$(top_srcdir)/src/arch/gtk3/data/mkdesktopfile.sh \
 		"$(top_srcdir)" \
@@ -139,7 +144,7 @@ $(XPET_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xpet$(PROGRAM_SUFFIX)" \
 		"PET emulator" \
-		"PET_1024.svg"
+		"PET_256.svg"
 
 
 # xcbm5x0
@@ -178,7 +183,7 @@ $(XPLUS4_DESKTOP): emu.desktop
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)xplus4$(PROGRAM_SUFFIX)" \
 		"Plus-4 / C16 emulator" \
-		"Plus_1024.svg"
+		"Plus4_1024.svg"
 
 
 # vsid
@@ -264,5 +269,22 @@ endif
 
 .PHONY: distclean
 distclean: clean
+
+
+install:
+if INSTALL_DESKTOP_FILES
+	echo "Doing icon install!"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(X64SC_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(X64DTV_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(XSCPU64_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(X128_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(XPLUS4_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(XVIC_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(XCBM5x0_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(XCBM2_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(XPET_DESKTOP)"
+	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(VSID_DESKTOP)"
+endif
+
 
 # vim: set noet ts=8 sts=8 sw=8:
