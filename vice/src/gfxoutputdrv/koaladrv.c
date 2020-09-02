@@ -239,22 +239,85 @@ static int koaladrv_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------ */
 
+/* make all pixels double pixels */
 static void koala_multicolorize_colormap(native_data_t *source)
 {
     int i, j;
 
     for (i = 0; i < KOALA_SCREEN_PIXEL_HEIGHT; i++) {
         for (j = 0; j < (KOALA_SCREEN_PIXEL_WIDTH / 2); j++) {
-            source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH) + (j * 2) + 1] = source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH) + (j * 2)];
+            source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH) + (j * 2) + 1] =
+            source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH) + (j * 2)];
         }
     }
 }
 
+/* find the best background color. for this we pick the color that appears
+   most often in blocks that contain 4, or more, colors */
+static uint8_t koala_find_bgcolor(native_data_t *source)
+{
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
+    native_color_sort_t *blockcolors = NULL;
+    native_color_sort_t bgcolors[16];
+    int i, j, k, l, c;
+    uint8_t bgcolor, amount;
+
+    /* color map for one block */
+    dest->xsize = 8;
+    dest->ysize = 8;
+    dest->colormap = lib_malloc(8 * 8);
+
+    for (c = 0; c < 16; c++) {
+        bgcolors[c].amount = 0;
+        bgcolors[c].color = c;
+    }
+
+    for (i = 0; i < KOALA_SCREEN_BYTE_HEIGHT; i++) {
+        for (j = 0; j < KOALA_SCREEN_BYTE_WIDTH; j++) {
+            /* get block */
+            for (k = 0; k < 8; k++) {
+                for (l = 0; l < 8; l++) {
+                    dest->colormap[(k * 8) + l] = 
+                    source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
+                }
+            }
+            blockcolors = native_sort_colors_colormap(dest, 16);
+            if (blockcolors[3].amount != 0) {
+                /* 4 or more colors in this block, add them to the pool of
+                    colors we pick the background color from */
+                for (c = 0; c < 16; c++) {
+                    if (blockcolors[c].amount != 0) {
+                        bgcolors[blockcolors[c].color].amount++;
+                    }
+                }
+            }
+            lib_free(blockcolors);
+        }
+    }
+
+    /* pick the most used color from the pool */
+    amount = bgcolors[0].amount;
+    bgcolor = 0;
+    for (c = 1; c < 16; c++) {
+        if (amount < bgcolors[c].amount) {
+            amount = bgcolors[c].amount;
+            bgcolor = c;
+        }
+    }
+
+    lib_free(dest->colormap);
+    lib_free(dest);
+    return bgcolor;
+}
+
+/* fix/re-render the picture according to the multicolor restrictions, one
+   common background color, plus 3 colors per block */
 static void koala_check_and_correct_cell(native_data_t *source, uint8_t bgcolor)
 {
     native_data_t *dest = lib_malloc(sizeof(native_data_t));
-    int i, j, k, l, bgcolor_included;
+    int i, j, k, l;
     native_color_sort_t *colors = NULL;
+    native_color_sort_t cellcolors[16];
 
     dest->xsize = 8;
     dest->ysize = 8;
@@ -262,35 +325,33 @@ static void koala_check_and_correct_cell(native_data_t *source, uint8_t bgcolor)
 
     for (i = 0; i < KOALA_SCREEN_BYTE_HEIGHT; i++) {
         for (j = 0; j < KOALA_SCREEN_BYTE_WIDTH; j++) {
+            /* get block */
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
-                    dest->colormap[(k * 8) + l] = source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
+                    dest->colormap[(k * 8) + l] =
+                        source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
                 }
             }
             colors = native_sort_colors_colormap(dest, 16);
-            bgcolor_included = 0;
-            for (l = 0; l < 4; l++) {
-                if (colors[l].amount != 0 && colors[l].color == bgcolor) {
-                    bgcolor_included = 1;
+            /* the first color is expected to be the background color in the
+               next step. so put it first, followed by the other colors */
+            cellcolors[0].amount = 8000;
+            cellcolors[0].color = bgcolor;
+            for (l = 0, k = 1; l < 16; l++) {
+                if (colors[l].color != bgcolor) {
+                    cellcolors[k].color = colors[l].color;
+                    cellcolors[k].amount = colors[l].amount;
+                    k++;
                 }
             }
-            if (bgcolor_included == 0) {
-                colors[3].amount = colors[2].amount;
-                colors[3].color = colors[2].color;
-                colors[2].amount = colors[1].amount;
-                colors[2].color = colors[1].color;
-                colors[1].amount = colors[0].amount;
-                colors[1].color = colors[0].color;
-                colors[0].amount = 8000;
-                colors[0].color = bgcolor;
-            }
-            if (colors[4].amount != 0) {
-                colors[4].color = 255;
-                vicii_color_to_nearest_vicii_color_colormap(dest, colors);
-                for (k = 0; k < 8; k++) {
-                    for (l = 0; l < 8; l++) {
-                        source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l] = dest->colormap[(k * 8) + l];
-                    }
+            /* re-render the block using the background color and the 3 most
+               used color in that block */
+            cellcolors[4].color = 255; /* mark end of list */
+            vicii_color_to_nearest_vicii_color_colormap(dest, cellcolors);
+            for (k = 0; k < 8; k++) {
+                for (l = 0; l < 8; l++) {
+                    source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l] =
+                        dest->colormap[(k * 8) + l];
                 }
             }
             lib_free(colors);
@@ -310,12 +371,12 @@ static int koala_render_and_save(native_data_t *source, int compress)
     int m = 0;
     int n = 0;
     int retval = 0;
-    uint8_t color1 = 255;
-    uint8_t color2 = 255;
-    uint8_t color3 = 255;
+    uint8_t color1;
+    uint8_t color2;
+    uint8_t color3;
     uint8_t colorbyte;
     uint8_t bgcolor;
-    native_color_sort_t *color_order = NULL;
+    uint8_t gfxbits;
 
     /* allocate file buffer */
     filebuffer = lib_malloc(10003);
@@ -327,191 +388,51 @@ static int koala_render_and_save(native_data_t *source, int compress)
     filebuffer[0] = 0x00;
     filebuffer[1] = 0x60;
 
-    /* make multicolor */
+    /* make all pixels multicolor */
     koala_multicolorize_colormap(source);
 
     /* find out bgcolor */
-    color_order = native_sort_colors_colormap(source, 16);
-    bgcolor = color_order[0].color;
-    lib_free(color_order);
+    bgcolor = koala_find_bgcolor(source);
 
     /* check and correct cells */
     koala_check_and_correct_cell(source, bgcolor);
 
     for (i = 0; i < KOALA_SCREEN_BYTE_HEIGHT; i++) {
         for (j = 0; j < KOALA_SCREEN_BYTE_WIDTH; j++) {
+            /* one block */
+            color1 = color2 = color3 = 255;
             for (k = 0; k < 8; k++) {
-                filebuffer[BITMAP_OFFSET + m] = 0;
+                gfxbits = 0;
                 for (l = 0; l < 4; l++) {
+                    gfxbits <<= 2;
                     colorbyte = source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + (l * 2)];
-                    if (k == 0 && l == 0) {
-                        color1 = 255;
-                        color2 = 255;
-                        color3 = 255;
-                    }
+                    /* remember the used colors in this block. so we can assign
+                       the bits */
                     if (colorbyte != bgcolor) {
                         if (color1 == 255) {
                             color1 = colorbyte;
-                        } else {
-                            if (color1 != colorbyte && color2 == 255) {
-                                color2 = colorbyte;
-                            } else {
-                                if (color2 != colorbyte && color3 == 255) {
-                                    color3 = colorbyte;
-                                }
-                            }
+                        } else if ((color1 != colorbyte) && (color2 == 255)) {
+                            color2 = colorbyte;
+                        } else if ((color1 != colorbyte) && (color2 != colorbyte) && (color3 == 255)) {
+                            color3 = colorbyte;
                         }
                     }
-                    if (colorbyte != bgcolor) {
-                        if (colorbyte == color1) {
-                            filebuffer[BITMAP_OFFSET + m] |= (1 << ((3 - l) * 2));
-                        }
-                        if (colorbyte == color2) {
-                            filebuffer[BITMAP_OFFSET + m] |= (2 << ((3 - l) * 2));
-                        } else {
-                            filebuffer[BITMAP_OFFSET + m] |= (3 << ((3 - l) * 2));
-                        }
+                    /* assign the bits */
+                    if (colorbyte == color1) {
+                        gfxbits |= 1;
+                    } else if (colorbyte == color2) {
+                        gfxbits |= 2;
+                    } else if (colorbyte == color3) {
+                        gfxbits |= 3;
                     }
                 }
+                filebuffer[BITMAP_OFFSET + m] = gfxbits;
                 m++;
             }
+            /* put the colors into video ram and color ram buffers */
             filebuffer[SCREENRAM_OFFSET + n] = ((color1 & 0xf) << 4) | (color2 & 0xf);
-            filebuffer[VIDEORAM_OFFSET + n++] = color3 & 0xf;
-        }
-    }
-    filebuffer[BGCOLOR_OFFSET] = bgcolor;
-
-    if (compress) {
-        filename_ext = util_add_extension_const(source->filename, koala_compressed_drv.default_extension);
-    } else {
-        filename_ext = util_add_extension_const(source->filename, koala_drv.default_extension);
-    }
-
-    fd = fopen(filename_ext, MODE_WRITE);
-    if (fd == NULL) {
-        retval = -1;
-    }
-
-    if (retval != -1) {
-        if (compress) {
-            result = lib_malloc(10003 * 4);
-            j = 0;
-            i = 2;
-            result[j++] = 0;
-            result[j++] = 0x60;
-            while (i < 9999) {
-                if (filebuffer[i] == filebuffer[i + 1] && filebuffer[i] == filebuffer[i + 2] && filebuffer[i] == filebuffer[i + 3]) {
-                    result[j++] = 0xFE;
-                    result[j] = filebuffer[i];
-                    k = 4;
-                    i += 4;
-                    while (k != 0xFF && i < 10003 && result[j] == filebuffer[i]) {
-                        i++;
-                        k++;
-                    }
-                    j++;
-                    result[j++] = k;
-                } else {
-                    if (filebuffer[i] == 0xFE) {
-                        result[j++] = 0xFE;
-                        result[j++] = 0xFE;
-                        result[j++] = 0x01;
-                        i++;
-                    } else {
-                        result[j++] = filebuffer[i++];
-                    }
-                }
-            }
-            while (i < 10003) {
-                result[j++] = filebuffer[i++];
-            }
-            if (fwrite(result, j, 1, fd) < 1) {
-                retval = -1;
-            }
-        } else {
-            if (fwrite(filebuffer, 10003, 1, fd) < 1) {
-                retval = -1;
-            }
-        }
-    }
-
-    if (fd != NULL) {
-        fclose(fd);
-    }
-
-    lib_free(source->colormap);
-    lib_free(source);
-    lib_free(filename_ext);
-    lib_free(filebuffer);
-    lib_free(result);
-
-    return retval;
-}
-
-static int koala_direct_save(native_data_t *source, int compress, uint8_t bgcolor)
-{
-    FILE *fd;
-    char *filename_ext = NULL;
-    uint8_t *filebuffer = NULL;
-    uint8_t *result = NULL;
-    int i, j, k, l;
-    int m = 0;
-    int n = 0;
-    int retval = 0;
-    uint8_t color1 = 255;
-    uint8_t color2 = 255;
-    uint8_t color3 = 255;
-    uint8_t colorbyte;
-
-    /* allocate file buffer */
-    filebuffer = lib_malloc(10003);
-
-    /* clear filebuffer */
-    memset(filebuffer, 0, 10003);
-
-    /* set load addy */
-    filebuffer[0] = 0x00;
-    filebuffer[1] = 0x60;
-
-    for (i = 0; i < KOALA_SCREEN_BYTE_HEIGHT; i++) {
-        for (j = 0; j < KOALA_SCREEN_BYTE_WIDTH; j++) {
-            for (k = 0; k < 8; k++) {
-                filebuffer[BITMAP_OFFSET + m] = 0;
-                for (l = 0; l < 4; l++) {
-                    colorbyte = source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + (l * 2)];
-                    if (k == 0 && l == 0) {
-                        color1 = 255;
-                        color2 = 255;
-                        color3 = 255;
-                    }
-                    if (colorbyte != bgcolor) {
-                        if (color1 == 255) {
-                            color1 = colorbyte;
-                        } else {
-                            if (color1 != colorbyte && color2 == 255) {
-                                color2 = colorbyte;
-                            } else {
-                                if (color2 != colorbyte && color3 == 255) {
-                                    color3 = colorbyte;
-                                }
-                            }
-                        }
-                    }
-                    if (colorbyte != bgcolor) {
-                        if (colorbyte == color1) {
-                            filebuffer[BITMAP_OFFSET + m] |= (1 << ((3 - l) * 2));
-                        }
-                        if (colorbyte == color2) {
-                            filebuffer[BITMAP_OFFSET + m] |= (2 << ((3 - l) * 2));
-                        } else {
-                            filebuffer[BITMAP_OFFSET + m] |= (3 << ((3 - l) * 2));
-                        }
-                    }
-                }
-                m++;
-            }
-            filebuffer[SCREENRAM_OFFSET + n] = ((color1 & 0xf) << 4) | (color2 & 0xf);
-            filebuffer[VIDEORAM_OFFSET + n++] = color3 & 0xf;
+            filebuffer[VIDEORAM_OFFSET + n] = color3 & 0xf;
+            n++;
         }
     }
     filebuffer[BGCOLOR_OFFSET] = bgcolor;
@@ -608,30 +529,25 @@ static int koala_vicii_save(screenshot_t *screenshot, const char *filename, int 
     switch (mc << 2 | eb << 1 | bm) {
         case 0:    /* normal text mode */
             data = native_vicii_text_mode_render(screenshot, filename);
-            return koala_render_and_save(data, compress);
             break;
         case 1:    /* hires bitmap mode */
             data = native_vicii_hires_bitmap_mode_render(screenshot, filename);
-            return koala_render_and_save(data, compress);
             break;
         case 2:    /* extended background mode */
             data = native_vicii_extended_background_mode_render(screenshot, filename);
-            return koala_render_and_save(data, compress);
             break;
         case 4:    /* multicolor text mode */
             data = native_vicii_multicolor_text_mode_render(screenshot, filename);
-            return koala_render_and_save(data, compress);
             break;
         case 5:    /* multicolor bitmap mode */
             data = native_vicii_multicolor_bitmap_mode_render(screenshot, filename);
-            return koala_direct_save(data, compress, (uint8_t)(regs[0x21] & 0xf));
             break;
         default:   /* illegal modes (3, 6 and 7) */
             ui_error("Illegal mode, no saving will be done");
             return -1;
             break;
     }
-    return 0;
+    return koala_render_and_save(data, compress);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -651,18 +567,12 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename, int co
     switch (mc << 2 | eb << 1 | bm) {
         case 0:    /* normal text mode */
             data = native_ted_text_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data, compress);
             break;
         case 1:    /* hires bitmap mode */
             data = native_ted_hires_bitmap_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data, compress);
             break;
         case 2:    /* extended background mode */
             data = native_ted_extended_background_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data, compress);
             break;
         case 4:    /* multicolor text mode */
             ui_error("This screen saver is a WIP, it doesn't support multicolor text mode (yet)");
@@ -670,15 +580,14 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename, int co
             break;
         case 5:    /* multicolor bitmap mode */
             data = native_ted_multicolor_bitmap_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data, compress);
             break;
         default:   /* illegal modes (3, 6 and 7) */
             ui_error("Illegal mode, no saving will be done");
             return -1;
             break;
     }
-    return 0;
+    ted_color_to_vicii_color_colormap(data, ted_lum_handling);
+    return koala_render_and_save(data, compress);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -727,12 +636,10 @@ static int koala_vdc_save(screenshot_t *screenshot, const char *filename, int co
     if (regs[25] & 0x80) {
         ui_error("VDC bitmap mode screenshot saving not implemented yet");
         return -1;
-    } else {
-        data = native_vdc_text_mode_render(screenshot, filename);
-        vdc_color_to_vicii_color_colormap(data);
-        return koala_render_and_save(data, compress);
     }
-    return -1;
+    data = native_vdc_text_mode_render(screenshot, filename);
+    vdc_color_to_vicii_color_colormap(data);
+    return koala_render_and_save(data, compress);
 }
 
 /* ------------------------------------------------------------------------ */
