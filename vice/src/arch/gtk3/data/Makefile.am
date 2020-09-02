@@ -155,7 +155,7 @@ $(XVIC_DESKTOP): emu.desktop
 		"$(top_srcdir)/src/arch/gtk3/data/emu.desktop" \
 		"${prefix}" \
 		"$(VERSION_NUM)" \
-		"$(XVIC_BINARY))" \
+		"$(XVIC_BINARY)" \
 		"VIC-20 emulator" \
 		"VIC20_1024.svg"
 
