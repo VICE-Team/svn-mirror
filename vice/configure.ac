@@ -4,8 +4,14 @@ dnl
 dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
+dnl Set VICE version number
+m4_define([vice_version_major], [3])
+m4_define([vice_version_minor], [4])
+m4_define([vice_version_build], [99])
+m4_define([vice_version_number], [vice_version_major.vice_version_minor])
+
 dnl The major/minor stuff gets replaced in autogen.sh
-AC_INIT([vice], [__VICE_VERSION_MAJOR__.__VICE_VERSION_MINOR__])
+AC_INIT([vice], [vice_version_number])
 AC_CONFIG_SRCDIR([src/maincpu.c])
 AM_INIT_AUTOMAKE([-Wno-portability])
 
@@ -26,9 +32,9 @@ VICE_LDFLAGS=""
 AC_CONFIG_MACRO_DIR([m4])
 
 dnl Again: sed substitutes this
-VICE_VERSION_MAJOR=__VICE_VERSION_MAJOR__
-VICE_VERSION_MINOR=__VICE_VERSION_MINOR__
-VICE_VERSION_BUILD=__VICE_VERSION_REV__
+VICE_VERSION_MAJOR=vice_version_major
+VICE_VERSION_MINOR=vice_version_minor
+VICE_VERSION_BUILD=vice_version_build
 
 
 dnl Command-line options
@@ -372,7 +378,7 @@ AC_SUBST(VICE_VERSION)
 AC_SUBST(VERSION_RC)
 
 AM_INIT_AUTOMAKE(vice, $VICE_VERSION)
-AM_CONFIG_HEADER(src/config.h)
+AC_CONFIG_HEADERS([src/config.h])
 
 VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
 AC_SUBST(VERSION_COMBINED)

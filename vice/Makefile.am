@@ -23,7 +23,7 @@ COMMON_EXTRA_DIST = \
 	AUTHORS \
 	autogen.sh \
 	config.rpath \
-	configure.proto \
+	configure.ac \
 	ChangeLog \
 	ChangeLog.1 \
 	ChangeLog.2 \
@@ -210,7 +210,5 @@ dist dist-all:
 	$(AMTAR) chf - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)
 
-$(top_srcdir)/configure.ac: $(top_srcdir)/configure.proto
-	$(am__cd) $(srcdir) && $(SHELL) autogen.sh
 
 clean: $(EXTRA_CLEANS) clean-recursive
