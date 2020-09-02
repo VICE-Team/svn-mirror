@@ -72,7 +72,6 @@
 #define BGCOLOR_OFFSET 10002
 
 static gfxoutputdrv_t koala_drv;
-static gfxoutputdrv_t koala_compressed_drv;
 
 /* ------------------------------------------------------------------------ */
 
@@ -361,7 +360,7 @@ static void koala_check_and_correct_cell(native_data_t *source, uint8_t bgcolor)
     lib_free(dest);
 }
 
-static int koala_render_and_save(native_data_t *source, int compress)
+static int koala_render_and_save(native_data_t *source)
 {
     FILE *fd;
     char *filename_ext = NULL;
@@ -437,11 +436,7 @@ static int koala_render_and_save(native_data_t *source, int compress)
     }
     filebuffer[BGCOLOR_OFFSET] = bgcolor;
 
-    if (compress) {
-        filename_ext = util_add_extension_const(source->filename, koala_compressed_drv.default_extension);
-    } else {
-        filename_ext = util_add_extension_const(source->filename, koala_drv.default_extension);
-    }
+    filename_ext = util_add_extension_const(source->filename, koala_drv.default_extension);
 
     fd = fopen(filename_ext, MODE_WRITE);
     if (fd == NULL) {
@@ -449,45 +444,8 @@ static int koala_render_and_save(native_data_t *source, int compress)
     }
 
     if (retval != -1) {
-        if (compress) {
-            result = lib_malloc(10003 * 4);
-            j = 0;
-            i = 2;
-            result[j++] = 0;
-            result[j++] = 0x60;
-            while (i < 9999) {
-                if (filebuffer[i] == filebuffer[i + 1] && filebuffer[i] == filebuffer[i + 2] && filebuffer[i] == filebuffer[i + 3]) {
-                    result[j++] = 0xFE;
-                    result[j] = filebuffer[i];
-                    k = 4;
-                    i += 4;
-                    while (k != 0xFF && i < 10003 && result[j] == filebuffer[i]) {
-                        i++;
-                        k++;
-                    }
-                    j++;
-                    result[j++] = k;
-                } else {
-                    if (filebuffer[i] == 0xFE) {
-                        result[j++] = 0xFE;
-                        result[j++] = 0xFE;
-                        result[j++] = 0x01;
-                        i++;
-                    } else {
-                        result[j++] = filebuffer[i++];
-                    }
-                }
-            }
-            while (i < 10003) {
-                result[j++] = filebuffer[i++];
-            }
-            if (fwrite(result, j, 1, fd) < 1) {
-                retval = -1;
-            }
-        } else {
-            if (fwrite(filebuffer, 10003, 1, fd) < 1) {
-                retval = -1;
-            }
+        if (fwrite(filebuffer, 10003, 1, fd) < 1) {
+            retval = -1;
         }
     }
 
@@ -506,7 +464,7 @@ static int koala_render_and_save(native_data_t *source, int compress)
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_vicii_save(screenshot_t *screenshot, const char *filename, int compress)
+static int koala_vicii_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
@@ -547,12 +505,12 @@ static int koala_vicii_save(screenshot_t *screenshot, const char *filename, int 
             return -1;
             break;
     }
-    return koala_render_and_save(data, compress);
+    return koala_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_ted_save(screenshot_t *screenshot, const char *filename, int compress)
+static int koala_ted_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
@@ -587,12 +545,12 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename, int co
             break;
     }
     ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-    return koala_render_and_save(data, compress);
+    return koala_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_vic_save(screenshot_t *screenshot, const char *filename, int compress)
+static int koala_vic_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     native_data_t *data = native_vic_render(screenshot, filename);
@@ -607,12 +565,12 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename, int co
         data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, (uint8_t)(regs[0xf] & 7), oversize_handling, undersize_handling);
     }
 
-    return koala_render_and_save(data, compress);
+    return koala_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_crtc_save(screenshot_t *screenshot, const char *filename, int compress)
+static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
 {
     native_data_t *data = native_crtc_render(screenshot, filename, crtc_fgcolor);
 
@@ -623,12 +581,12 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename, int c
     if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
         data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
     }
-    return koala_render_and_save(data, compress);
+    return koala_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_vdc_save(screenshot_t *screenshot, const char *filename, int compress)
+static int koala_vdc_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     native_data_t *data = NULL;
@@ -639,7 +597,7 @@ static int koala_vdc_save(screenshot_t *screenshot, const char *filename, int co
     }
     data = native_vdc_text_mode_render(screenshot, filename);
     vdc_color_to_vicii_color_colormap(data);
-    return koala_render_and_save(data, compress);
+    return koala_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -647,40 +605,19 @@ static int koala_vdc_save(screenshot_t *screenshot, const char *filename, int co
 static int koaladrv_save(screenshot_t *screenshot, const char *filename)
 {
     if (!(strcmp(screenshot->chipid, "VICII"))) {
-        return koala_vicii_save(screenshot, filename, 0);
+        return koala_vicii_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "VDC"))) {
-        return koala_vdc_save(screenshot, filename, 0);
+        return koala_vdc_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "CRTC"))) {
-        return koala_crtc_save(screenshot, filename, 0);
+        return koala_crtc_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "TED"))) {
-        return koala_ted_save(screenshot, filename, 0);
+        return koala_ted_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "VIC"))) {
-        return koala_vic_save(screenshot, filename, 0);
-    }
-    ui_error("Unknown graphics chip");
-    return -1;
-}
-
-static int koaladrv_compressed_save(screenshot_t *screenshot, const char *filename)
-{
-    if (!(strcmp(screenshot->chipid, "VICII"))) {
-        return koala_vicii_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "VDC"))) {
-        return koala_vdc_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "CRTC"))) {
-        return koala_crtc_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "TED"))) {
-        return koala_ted_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "VIC"))) {
-        return koala_vic_save(screenshot, filename, 1);
+        return koala_vic_save(screenshot, filename);
     }
     ui_error("Unknown graphics chip");
     return -1;
@@ -706,28 +643,7 @@ static gfxoutputdrv_t koala_drv =
 #endif
 };
 
-static gfxoutputdrv_t koala_compressed_drv =
-{
-    "KOALA_COMPRESSED",
-    "C64 compressed koala screenshot",
-    "gg",
-    NULL, /* formatlist */
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    koaladrv_compressed_save,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-#ifdef FEATURE_CPUMEMHISTORY
-    , NULL
-#endif
-};
-
 void gfxoutput_init_koala(int help)
 {
     gfxoutput_register(&koala_drv);
-    gfxoutput_register(&koala_compressed_drv);
 }
