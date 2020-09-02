@@ -1651,6 +1651,8 @@ if test x"$enable_desktop_files" = "xyes"; then
     dnl We got the UI + OS + tools:
     USE_DESKTOP_FILES="yes"
     AM_CONDITIONAL(INSTALL_DESKTOP_FILES, true)
+    AC_SUBST([XDG_DESKTOP_MENU], ["$XDG_DESKTOP_MENU"])
+
 fi
 
 
