@@ -58,10 +58,19 @@ XCBM5x0_DESKTOP = $(PROGRAM_PREFIX)xcbm5x0$(PROGRAM_SUFFIX).desktop
 XCBM2_DESKTOP = $(PROGRAM_PREFIX)xcbm2$(PROGRAM_SUFFIX).desktop
 VSID_DESKTOP = $(PROGRAM_PREFIX)vsid$(PROGRAM_SUFFIX).desktop
 
+VICE_DIR_FILE = $(top_builddir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory
+
 
 # Right now I need this to regenerate every time. Proper installation of XDG
 # desktop files and directories is pretty shitty to figure out. Once this crap
 # works we can remove the PHONY
+
+
+
+$(VICE_DIR_FILE): vice-org.pokefinder.vice.directory.proto
+	echo "prefix = $(prefix)"
+	sed "s@__PREFIX__@$(prefix)@" $< >$@
+
 
 # x64
 $(X64_DESKTOP): emu.desktop
@@ -195,7 +204,7 @@ $(VSID_DESKTOP): emu.desktop
 		"${prefix}" \
 		"$(VERSION_NUM)" \
 		"$(PROGRAM_PREFIX)vsid$(PROGRAM_SUFFIX)" \
-		"SID Player (way better than JCH's garbage)" \
+		"SID Player" \
 		"SID_1024.svg"
 
 
@@ -271,10 +280,10 @@ endif
 distclean: clean
 
 
-install:
+install: $(VICE_DIR_FILE) emu.desktop
 if INSTALL_DESKTOP_FILES
 	echo "Doing icon install!"
-	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(X64SC_DESKTOP)"
+	xdg-desktop-menu install "$(VICE_DIR_FILE)" "$(X64SC_DESKTOP)"
 	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(X64DTV_DESKTOP)"
 	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(XSCPU64_DESKTOP)"
 	xdg-desktop-menu install "$(top_srcdir)/src/arch/gtk3/data/vice-org.pokefinder.vice.directory" "$(X128_DESKTOP)"

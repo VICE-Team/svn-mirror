@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Directory
+Name=VICE
+Comment=Suite of emulators of Commodore 8-bit machines
+# sed is used to replace __PREFIX__ with $prefix
+Icon=__PREFIX__/share/vice/common/C64_1024.svg
+
