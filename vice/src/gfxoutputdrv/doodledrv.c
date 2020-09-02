@@ -1,5 +1,5 @@
 /*
- * doodledrv.c - Create a c64 doodle type file.
+ * doodledrv.c - Create a c64 artstudio type file.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -47,30 +47,26 @@
 #include "vsync.h"
 
 /* TODO:
- * - add VICII FLI / mixed mode handling
- * - add VICII super hires handling
- * - add VICII super hires FLI handling
- * - add VDC text mode
- * - add VDC bitmap mode
- * - add TED FLI / mixed mode handling
- * - add TED multi-color text mode
- * - add VIC mixed mode handling
- * - add possible CRTC mixed mode handling
- * - add C64DTV specific modes handling
+ *
+ * rename the resources
+ * rename the functions
+ * rename the commandline options
+ * move the file to artstudio.c
+ *
  */
 
-#define DOODLE_SCREEN_PIXEL_WIDTH   320
-#define DOODLE_SCREEN_PIXEL_HEIGHT  200
+#define ARTSTUDIO_SCREEN_PIXEL_WIDTH   320
+#define ARTSTUDIO_SCREEN_PIXEL_HEIGHT  200
 
-#define DOODLE_SCREEN_BYTE_WIDTH    DOODLE_SCREEN_PIXEL_WIDTH / 8
-#define DOODLE_SCREEN_BYTE_HEIGHT   DOODLE_SCREEN_PIXEL_HEIGHT / 8
+#define ARTSTUDIO_SCREEN_BYTE_WIDTH    ARTSTUDIO_SCREEN_PIXEL_WIDTH / 8
+#define ARTSTUDIO_SCREEN_BYTE_HEIGHT   ARTSTUDIO_SCREEN_PIXEL_HEIGHT / 8
 
-/* define offsets in the doodle file */
-#define VIDEORAM_OFFSET 2
-#define BITMAP_OFFSET 1026
+/* define offsets in the artstudio file */
+#define VIDEORAM_OFFSET 0x1f42
+#define BITMAP_OFFSET   2
+#define ARTSTUDIO_SIZE  9002
 
-static gfxoutputdrv_t doodle_drv;
-static gfxoutputdrv_t doodle_compressed_drv;
+static gfxoutputdrv_t artstudio_drv;
 
 /* ------------------------------------------------------------------------ */
 
@@ -195,7 +191,7 @@ static const resource_int_t resources_int_crtc[] = {
     RESOURCE_INT_LIST_END
 };
 
-static int doodledrv_resources_init(void)
+static int artstudiodrv_resources_init(void)
 {
     if (machine_class == VICE_MACHINE_PLUS4) {
         if (resources_register_int(resources_int_plus4) < 0) {
@@ -242,7 +238,7 @@ static const cmdline_option_t cmdline_options_crtc[] =
     CMDLINE_LIST_END
 };
 
-static int doodledrv_cmdline_options_init(void)
+static int artstudiodrv_cmdline_options_init(void)
 {
     if (machine_class == VICE_MACHINE_PLUS4) {
         if (cmdline_register_options(cmdline_options_plus4) < 0) {
@@ -261,7 +257,7 @@ static int doodledrv_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------ */
 
-static void doodle_check_and_correct_cell(native_data_t *source)
+static void artstudio_check_and_correct_cell(native_data_t *source)
 {
     native_data_t *dest = lib_malloc(sizeof(native_data_t));
     int i, j, k, l;
@@ -271,20 +267,25 @@ static void doodle_check_and_correct_cell(native_data_t *source)
     dest->ysize = 8;
     dest->colormap = lib_malloc(8 * 8);
 
-    for (i = 0; i < DOODLE_SCREEN_BYTE_HEIGHT; i++) {
-        for (j = 0; j < DOODLE_SCREEN_BYTE_WIDTH; j++) {
+    for (i = 0; i < ARTSTUDIO_SCREEN_BYTE_HEIGHT; i++) {
+        for (j = 0; j < ARTSTUDIO_SCREEN_BYTE_WIDTH; j++) {
+            /* get block */
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
-                    dest->colormap[(k * 8) + l] = source->colormap[(i * 8 * DOODLE_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * DOODLE_SCREEN_PIXEL_WIDTH) + l];
+                    dest->colormap[(k * 8) + l] = 
+                        source->colormap[(i * 8 * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l];
                 }
             }
+            /* if there are more than 2 colors in the block, re-render it using
+               the two most used colors in the block */
             colors = native_sort_colors_colormap(dest, 16);
             if (colors[2].amount != 0) {
                 colors[2].color = 255;
                 vicii_color_to_nearest_vicii_color_colormap(dest, colors);
                 for (k = 0; k < 8; k++) {
                     for (l = 0; l < 8; l++) {
-                        source->colormap[(i * 8 * DOODLE_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * DOODLE_SCREEN_PIXEL_WIDTH) + l] = dest->colormap[(k * 8) + l];
+                        source->colormap[(i * 8 * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l] = 
+                            dest->colormap[(k * 8) + l];
                     }
                 }
             }
@@ -295,7 +296,7 @@ static void doodle_check_and_correct_cell(native_data_t *source)
     lib_free(dest);
 }
 
-static int doodle_render_and_save(native_data_t *source, int compress)
+static int artstudio_render_and_save(native_data_t *source)
 {
     FILE *fd;
     char *filename_ext = NULL;
@@ -310,31 +311,29 @@ static int doodle_render_and_save(native_data_t *source, int compress)
     uint8_t colorbyte;
 
     /* allocate file buffer */
-    filebuffer = lib_malloc(9218);
+    filebuffer = lib_malloc(ARTSTUDIO_SIZE);
 
     /* clear filebuffer */
-    memset(filebuffer, 0, 9218);
+    memset(filebuffer, 0, ARTSTUDIO_SIZE);
 
     /* set load addy */
     filebuffer[0] = 0x00;
-    filebuffer[1] = 0x5C;
+    filebuffer[1] = 0x20;
 
-    for (i = 0; i < DOODLE_SCREEN_BYTE_HEIGHT; i++) {
-        for (j = 0; j < DOODLE_SCREEN_BYTE_WIDTH; j++) {
-            bgcolor = 255;
+    for (i = 0; i < ARTSTUDIO_SCREEN_BYTE_HEIGHT; i++) {
+        for (j = 0; j < ARTSTUDIO_SCREEN_BYTE_WIDTH; j++) {
+            fgcolor = bgcolor = 255;
             for (k = 0; k < 8; k++) {
                 filebuffer[BITMAP_OFFSET + m] = 0;
                 for (l = 0; l < 8; l++) {
-                    colorbyte = source->colormap[(i * DOODLE_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * DOODLE_SCREEN_PIXEL_WIDTH) + l];
-                    if (k == 0 && l == 0) {
+                    colorbyte = source->colormap[(i * ARTSTUDIO_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l];
+                    if ((colorbyte != fgcolor) && (fgcolor == 255)) {
                         fgcolor = colorbyte;
+                    } else if ((colorbyte != bgcolor) && (colorbyte != fgcolor) && (bgcolor == 255)) {
+                        bgcolor = colorbyte;
                     }
                     if (colorbyte == fgcolor) {
                         filebuffer[BITMAP_OFFSET + m] |= (1 << (7 - l));
-                    } else {
-                        if (colorbyte != bgcolor) {
-                            bgcolor = colorbyte;
-                        }
                     }
                 }
                 m++;
@@ -343,11 +342,7 @@ static int doodle_render_and_save(native_data_t *source, int compress)
         }
     }
 
-    if (compress) {
-        filename_ext = util_add_extension_const(source->filename, doodle_compressed_drv.default_extension);
-    } else {
-        filename_ext = util_add_extension_const(source->filename, doodle_drv.default_extension);
-    }
+    filename_ext = util_add_extension_const(source->filename, artstudio_drv.default_extension);
 
     fd = fopen(filename_ext, MODE_WRITE);
     if (fd == NULL) {
@@ -355,45 +350,8 @@ static int doodle_render_and_save(native_data_t *source, int compress)
     }
 
     if (retval != -1) {
-        if (compress) {
-            result = lib_malloc(9218 * 4);
-            j = 0;
-            i = 2;
-            result[j++] = 0;
-            result[j++] = 0x5C;
-            while (i < 9214) {
-                if (filebuffer[i] == filebuffer[i + 1] && filebuffer[i] == filebuffer[i + 2] && filebuffer[i] == filebuffer[i + 3]) {
-                    result[j++] = 0xFE;
-                    result[j] = filebuffer[i];
-                    k = 4;
-                    i += 4;
-                    while (k != 0xFF && i < 9218 && result[j] == filebuffer[i]) {
-                        i++;
-                        k++;
-                    }
-                    j++;
-                    result[j++] = k;
-                } else {
-                    if (filebuffer[i] == 0xFE) {
-                        result[j++] = 0xFE;
-                        result[j++] = 0xFE;
-                        result[j++] = 0x01;
-                        i++;
-                    } else {
-                        result[j++] = filebuffer[i++];
-                    }
-                }
-            }
-            while (i < 9218) {
-                result[j++] = filebuffer[i++];
-            }
-            if (fwrite(result, j, 1, fd) < 1) {
-                retval = -1;
-            }
-        } else {
-            if (fwrite(filebuffer, 9218, 1, fd) < 1) {
-                retval = -1;
-            }
+        if (fwrite(filebuffer, ARTSTUDIO_SIZE, 1, fd) < 1) {
+            retval = -1;
         }
     }
 
@@ -412,7 +370,7 @@ static int doodle_render_and_save(native_data_t *source, int compress)
 
 /* ------------------------------------------------------------------------ */
 
-static int doodle_multicolor_render(native_data_t *data)
+static int artstudio_multicolor_render(native_data_t *data)
 {
     native_color_sort_t *color_order = NULL;
 
@@ -422,27 +380,27 @@ static int doodle_multicolor_render(native_data_t *data)
             break;
         case NATIVE_SS_MC2HR_GRAY:
             vicii_color_to_vicii_gray_colormap(data);
-            doodle_check_and_correct_cell(data);
+            artstudio_check_and_correct_cell(data);
             break;
         case NATIVE_SS_MC2HR_2_COLORS:
             color_order = native_sort_colors_colormap(data, 16);
             color_order[2].color = 255;
             vicii_color_to_nearest_vicii_color_colormap(data, color_order);
             lib_free(color_order);
-            doodle_check_and_correct_cell(data);
+            artstudio_check_and_correct_cell(data);
             break;
         case NATIVE_SS_MC2HR_4_COLORS:
             color_order = native_sort_colors_colormap(data, 16);
             color_order[4].color = 255;
             vicii_color_to_nearest_vicii_color_colormap(data, color_order);
             lib_free(color_order);
-            doodle_check_and_correct_cell(data);
+            artstudio_check_and_correct_cell(data);
             break;
         case NATIVE_SS_MC2HR_DITHER:
             color_order = native_sort_colors_colormap(data, 16);
             vicii_color_to_nearest_vicii_color_colormap(data, color_order);
             lib_free(color_order);
-            doodle_check_and_correct_cell(data);
+            artstudio_check_and_correct_cell(data);
             break;
         default:
             return -1;
@@ -451,7 +409,7 @@ static int doodle_multicolor_render(native_data_t *data)
     return 0;
 }
 
-static int doodle_vicii_save(screenshot_t *screenshot, const char *filename, int compress)
+static int artstudio_vicii_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
@@ -474,43 +432,35 @@ static int doodle_vicii_save(screenshot_t *screenshot, const char *filename, int
     switch (mc << 2 | eb << 1 | bm) {
         case 0:    /* normal text mode */
             data = native_vicii_text_mode_render(screenshot, filename);
-            return doodle_render_and_save(data, compress);
             break;
         case 1:    /* hires bitmap mode */
             data = native_vicii_hires_bitmap_mode_render(screenshot, filename);
-            return doodle_render_and_save(data, compress);
             break;
         case 2:    /* extended background mode */
             data = native_vicii_extended_background_mode_render(screenshot, filename);
-            return doodle_render_and_save(data, compress);
             break;
         case 4:    /* multicolor text mode */
             data = native_vicii_multicolor_text_mode_render(screenshot, filename);
-            if (data->mc_data_present) {
-                if (doodle_multicolor_render(data) != 0) {
-                    return -1;
-                }
-            }
-            return doodle_render_and_save(data, compress);
             break;
         case 5:    /* multicolor bitmap mode */
             data = native_vicii_multicolor_bitmap_mode_render(screenshot, filename);
-            if (doodle_multicolor_render(data) != 0) {
-                return -1;
-            }
-            return doodle_render_and_save(data, compress);
             break;
         default:   /* illegal modes (3, 6 and 7) */
             ui_error("Illegal mode, no saving will be done");
             return -1;
             break;
     }
-    return 0;
+    if (data->mc_data_present) {
+        if (artstudio_multicolor_render(data) != 0) {
+            return -1;
+        }
+    }
+    return artstudio_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int doodle_ted_save(screenshot_t *screenshot, const char *filename, int compress)
+static int artstudio_ted_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
@@ -525,18 +475,12 @@ static int doodle_ted_save(screenshot_t *screenshot, const char *filename, int c
     switch (mc << 2 | eb << 1 | bm) {
         case 0:    /* normal text mode */
             data = native_ted_text_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return doodle_render_and_save(data, compress);
             break;
         case 1:    /* hires bitmap mode */
             data = native_ted_hires_bitmap_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return doodle_render_and_save(data, compress);
             break;
         case 2:    /* extended background mode */
             data = native_ted_extended_background_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return doodle_render_and_save(data, compress);
             break;
         case 4:    /* multicolor text mode */
             ui_error("This screen saver is a WIP, it doesn't support multicolor text mode (yet)");
@@ -544,23 +488,24 @@ static int doodle_ted_save(screenshot_t *screenshot, const char *filename, int c
             break;
         case 5:    /* multicolor bitmap mode */
             data = native_ted_multicolor_bitmap_mode_render(screenshot, filename);
-            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            if (doodle_multicolor_render(data) != 0) {
-                return -1;
-            }
-            return doodle_render_and_save(data, compress);
             break;
         default:   /* illegal modes (3, 6 and 7) */
             ui_error("Illegal mode, no saving will be done");
             return -1;
             break;
     }
-    return 0;
+    ted_color_to_vicii_color_colormap(data, ted_lum_handling);
+    if (data->mc_data_present) {
+        if (artstudio_multicolor_render(data) != 0) {
+            return -1;
+        }
+    }
+    return artstudio_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int compress)
+static int artstudio_vic_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     native_data_t *data = native_vic_render(screenshot, filename);
@@ -572,8 +517,8 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int c
 
     vic_color_to_vicii_color_colormap(data);
 
-    if (data->xsize != DOODLE_SCREEN_PIXEL_WIDTH || data->ysize != DOODLE_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, (uint8_t)(regs[0xf] & 7), oversize_handling, undersize_handling);
+    if (data->xsize != ARTSTUDIO_SCREEN_PIXEL_WIDTH || data->ysize != ARTSTUDIO_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT, (uint8_t)(regs[0xf] & 7), oversize_handling, undersize_handling);
     }
 
     if (data->mc_data_present) {
@@ -583,39 +528,39 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int c
                 break;
             case NATIVE_SS_MC2HR_GRAY:
                 vicii_color_to_vicii_gray_colormap(data);
-                doodle_check_and_correct_cell(data);
+                artstudio_check_and_correct_cell(data);
                 break;
             case NATIVE_SS_MC2HR_2_COLORS:
                 color_order = native_sort_colors_colormap(data, 16);
                 color_order[2].color = 255;
                 vicii_color_to_nearest_vicii_color_colormap(data, color_order);
                 lib_free(color_order);
-                doodle_check_and_correct_cell(data);
+                artstudio_check_and_correct_cell(data);
                 break;
             case NATIVE_SS_MC2HR_4_COLORS:
                 color_order = native_sort_colors_colormap(data, 16);
                 color_order[4].color = 255;
                 vicii_color_to_nearest_vicii_color_colormap(data, color_order);
                 lib_free(color_order);
-                doodle_check_and_correct_cell(data);
+                artstudio_check_and_correct_cell(data);
                 break;
             case NATIVE_SS_MC2HR_DITHER:
                 color_order = native_sort_colors_colormap(data, 16);
                 vicii_color_to_nearest_vicii_color_colormap(data, color_order);
                 lib_free(color_order);
-                doodle_check_and_correct_cell(data);
+                artstudio_check_and_correct_cell(data);
                 break;
             default:
                 return -1;
                 break;
         }
     }
-    return doodle_render_and_save(data, compress);
+    return artstudio_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int doodle_crtc_save(screenshot_t *screenshot, const char *filename, int compress)
+static int artstudio_crtc_save(screenshot_t *screenshot, const char *filename)
 {
     native_data_t *data = native_crtc_render(screenshot, filename, crtc_fgcolor);
 
@@ -623,15 +568,15 @@ static int doodle_crtc_save(screenshot_t *screenshot, const char *filename, int 
         return -1;
     }
 
-    if (data->xsize != DOODLE_SCREEN_PIXEL_WIDTH || data->ysize != DOODLE_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+    if (data->xsize != ARTSTUDIO_SCREEN_PIXEL_WIDTH || data->ysize != ARTSTUDIO_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
     }
-    return doodle_render_and_save(data, compress);
+    return artstudio_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int doodle_vdc_save(screenshot_t *screenshot, const char *filename, int compress)
+static int artstudio_vdc_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     native_data_t *data = NULL;
@@ -639,102 +584,60 @@ static int doodle_vdc_save(screenshot_t *screenshot, const char *filename, int c
     if (regs[25] & 0x80) {
         ui_error("VDC bitmap mode screenshot saving not implemented yet");
         return -1;
-    } else {
-        data = native_vdc_text_mode_render(screenshot, filename);
-        vdc_color_to_vicii_color_colormap(data);
-        if (data->xsize != DOODLE_SCREEN_PIXEL_WIDTH || data->ysize != DOODLE_SCREEN_PIXEL_HEIGHT) {
-            data = native_resize_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
-        }
     }
-    return doodle_render_and_save(data, compress);
+    data = native_vdc_text_mode_render(screenshot, filename);
+    vdc_color_to_vicii_color_colormap(data);
+    if (data->xsize != ARTSTUDIO_SCREEN_PIXEL_WIDTH || data->ysize != ARTSTUDIO_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+    }
+    return artstudio_render_and_save(data);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int doodledrv_save(screenshot_t *screenshot, const char *filename)
+static int artstudiodrv_save(screenshot_t *screenshot, const char *filename)
 {
     if (!(strcmp(screenshot->chipid, "VICII"))) {
-        return doodle_vicii_save(screenshot, filename, 0);
+        return artstudio_vicii_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "VDC"))) {
-        return doodle_vdc_save(screenshot, filename, 0);
+        return artstudio_vdc_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "CRTC"))) {
-        return doodle_crtc_save(screenshot, filename, 0);
+        return artstudio_crtc_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "TED"))) {
-        return doodle_ted_save(screenshot, filename, 0);
+        return artstudio_ted_save(screenshot, filename);
     }
     if (!(strcmp(screenshot->chipid, "VIC"))) {
-        return doodle_vic_save(screenshot, filename, 0);
+        return artstudio_vic_save(screenshot, filename);
     }
     ui_error("Unknown graphics chip");
     return -1;
 }
 
-static int doodledrv_compressed_save(screenshot_t *screenshot, const char *filename)
+static gfxoutputdrv_t artstudio_drv =
 {
-    if (!(strcmp(screenshot->chipid, "VICII"))) {
-        return doodle_vicii_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "VDC"))) {
-        return doodle_vdc_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "CRTC"))) {
-        return doodle_crtc_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "TED"))) {
-        return doodle_ted_save(screenshot, filename, 1);
-    }
-    if (!(strcmp(screenshot->chipid, "VIC"))) {
-        return doodle_vic_save(screenshot, filename, 1);
-    }
-    ui_error("Unknown graphics chip");
-    return -1;
-}
-
-static gfxoutputdrv_t doodle_drv =
-{
-    "DOODLE",
-    "C64 doodle screenshot",
-    "dd",
+    "Artstudio",
+    "C64 OCP Artstudio screenshot",
+    "ocp",
     NULL, /* formatlist */
     NULL,
     NULL,
     NULL,
     NULL,
-    doodledrv_save,
+    artstudiodrv_save,
     NULL,
     NULL,
-    doodledrv_resources_init,
-    doodledrv_cmdline_options_init
+    artstudiodrv_resources_init,
+    artstudiodrv_cmdline_options_init
 #ifdef FEATURE_CPUMEMHISTORY
     , NULL
 #endif
 };
 
-static gfxoutputdrv_t doodle_compressed_drv =
-{
-    "DOODLE_COMPRESSED",
-    "C64 compressed doodle screenshot",
-    "jj",
-    NULL, /* formatlist */
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    doodledrv_compressed_save,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-#ifdef FEATURE_CPUMEMHISTORY
-    , NULL
-#endif
-};
-
+/* FIXME: rename */
 void gfxoutput_init_doodle(int help)
 {
-    gfxoutput_register(&doodle_drv);
-    gfxoutput_register(&doodle_compressed_drv);
+    gfxoutput_register(&artstudio_drv);
 }
