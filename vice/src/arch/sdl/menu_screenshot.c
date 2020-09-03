@@ -46,11 +46,9 @@ UI_MENU_DEFINE_RADIO(DoodleOversizeHandling)
 UI_MENU_DEFINE_RADIO(DoodleUndersizeHandling)
 UI_MENU_DEFINE_RADIO(DoodleMultiColorHandling)
 UI_MENU_DEFINE_RADIO(DoodleTEDLumHandling)
-UI_MENU_DEFINE_RADIO(DoodleCRTCTextColor)
 UI_MENU_DEFINE_RADIO(KoalaOversizeHandling)
 UI_MENU_DEFINE_RADIO(KoalaUndersizeHandling)
 UI_MENU_DEFINE_RADIO(KoalaTEDLumHandling)
-UI_MENU_DEFINE_RADIO(KoalaCRTCTextColor)
 
 static UI_MENU_CALLBACK(save_screenshot_callback)
 {
@@ -77,22 +75,6 @@ static UI_MENU_CALLBACK(save_screenshot_callback)
     }
     return NULL;
 }
-
-static const ui_menu_entry_t koala_crtc_text_color_menu[] = {
-    { "White",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaCRTCTextColor_callback,
-      (ui_callback_data_t)NATIVE_SS_CRTC_WHITE },
-    { "Amber",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaCRTCTextColor_callback,
-      (ui_callback_data_t)NATIVE_SS_CRTC_AMBER },
-    { "Green",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_KoalaCRTCTextColor_callback,
-      (ui_callback_data_t)NATIVE_SS_CRTC_GREEN },
-    SDL_MENU_LIST_END
-};
 
 static const ui_menu_entry_t koala_tedlum_handling_menu[] = {
     { "Ignore",
@@ -159,22 +141,6 @@ static const ui_menu_entry_t koala_oversize_handling_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_KoalaOversizeHandling_callback,
       (ui_callback_data_t)NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t doodle_crtc_text_color_menu[] = {
-    { "White",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DoodleCRTCTextColor_callback,
-      (ui_callback_data_t)NATIVE_SS_CRTC_WHITE },
-    { "Amber",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DoodleCRTCTextColor_callback,
-      (ui_callback_data_t)NATIVE_SS_CRTC_AMBER },
-    { "Green",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_DoodleCRTCTextColor_callback,
-      (ui_callback_data_t)NATIVE_SS_CRTC_GREEN },
     SDL_MENU_LIST_END
 };
 
@@ -307,10 +273,6 @@ static const ui_menu_entry_t koala_settings_crtc_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)koala_undersize_handling_menu },
-    { "CRTC text color",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)koala_crtc_text_color_menu },
     SDL_MENU_LIST_END
 };
 
@@ -360,21 +322,17 @@ static const ui_menu_entry_t doodle_settings_crtc_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)doodle_undersize_handling_menu },
-    { "CRTC text color",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)doodle_crtc_text_color_menu },
     SDL_MENU_LIST_END
 };
 
 
 const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
     /* settings */
-    { "Doodle screenshot settings",
+    { "Artstudio screenshot settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)doodle_settings_vic_vicii_vdc_menu },
-    { "Koala screenshot settings",
+    { "Koalapainter screenshot settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_vic_vicii_vdc_menu },
@@ -382,22 +340,14 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
 
     /* Commodore-native formats */
-    { "Save DOODLE screenshot",
+    { "Save Artstudio screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
-      (ui_callback_data_t)"DOODLE" },
-    { "Save compressed DOODLE screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"DOODLE_COMPRESSED" },
-    { "Save KOALA screenshot",
+      (ui_callback_data_t)"ARTSTUDIO" },
+    { "Save Koalapainter screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"KOALA" },
-    { "Save compressed KOALA screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"KOALA_COMPRESSED" },
     { "Save GoDot screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
@@ -446,34 +396,26 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
 
 
 const ui_menu_entry_t screenshot_ted_menu[] = {
-    { "Doodle screenshot settings",
+    { "Artstudio screenshot settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)doodle_settings_ted_menu },
-    { "Koala screenshot settings",
+    { "Koalapainter screenshot settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_ted_menu },
 
     SDL_MENU_ITEM_SEPARATOR,
 
-   { "Save DOODLE screenshot",
+    { "Save Artstudio screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
-      (ui_callback_data_t)"DOODLE" },
-    { "Save compressed DOODLE screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"DOODLE_COMPRESSED" },
-    { "Save KOALA screenshot",
+      (ui_callback_data_t)"ARTSTUDIO" },
+    { "Save Koalapainter screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"KOALA" },
-    { "Save compressed KOALA screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"KOALA_COMPRESSED" },
-   { "Save GoDot screenshot",
+    { "Save GoDot screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"4BT" },
@@ -520,33 +462,25 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
 
 
 const ui_menu_entry_t screenshot_crtc_menu[] = {
-    { "Doodle screenshot settings",
+    { "Artstudio screenshot settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)doodle_settings_crtc_menu },
-    { "Koala screenshot settings",
+    { "Koalapainter screenshot settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_crtc_menu },
 
     SDL_MENU_ITEM_SEPARATOR,
 
-    { "Save DOODLE screenshot",
+    { "Save Artstudio screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
-      (ui_callback_data_t)"DOODLE" },
-    { "Save compressed DOODLE screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"DOODLE_COMPRESSED" },
-    { "Save KOALA screenshot",
+      (ui_callback_data_t)"ARTSTUDIO" },
+    { "Save Koalapainter screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"KOALA" },
-    { "Save compressed KOALA screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"KOALA_COMPRESSED" },
     { "Save GoDot screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,

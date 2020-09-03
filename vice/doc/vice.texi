@@ -15390,12 +15390,6 @@ Integer specifying the way the TED luminosity should be handled
 (all emulators except vsid).
 (0: ignore, 1: dither)
 
-@vindex DoodleCRTCTextColor
-@item DoodleCRTCTextColor
-Integer specifying the text color used when making screenshots from a CRTC window in doodle format
-(all emulators except vsid).
-(0: white, 1: amber, 2: green)
-
 @vindex KoalaOversizeHandling
 @item KoalaOversizeHandling
 Integer specifying the way the oversized input should be handled
@@ -15416,12 +15410,6 @@ Integer specifying the way the undersized input should be handled
 Integer specifying the way the TED luminosity should be handled
 (all emulators except vsid).
 (0: ignore, 1: dither)
-
-@vindex KoalaCRTCTextColor
-@item KoalaCRTCTextColor
-Integer specifying the text color used when making screenshots from a CRTC window in doodle format
-(all emulators except vsid).
-(0: white, 1: amber, 2: green)
 
 @vindex FFMPEGFormat
 @item FFMPEGFormat
@@ -15480,13 +15468,6 @@ Select the way the TED luminosity should be handled
 (all emulators except vsid).
 (0: ignore, 1: dither)
 
-@findex -doodlecrtctextcolor
-@item -doodlecrtctextcolor <color>
-Select the CRTC text color
-(@code{DoodleCRTCTextColor})
-(all emulators except vsid).
-(0: white, 1: amber, 2: green)
-
 @findex -koalaoversize
 @item -koalaoversize <method>
 Select the way the oversized input should be handled
@@ -15510,13 +15491,6 @@ Select the way the TED luminosity should be handled
 (@code{KoalaTEDLumHandling})
 (all emulators except vsid).
 (0: ignore, 1: dither)
-
-@findex -koalacrtctextcolor
-@item -koalacrtctextcolor <color>
-Select the CRTC text color
-(@code{KoalaCRTCTextColor})
-(all emulators except vsid).
-(0: white, 1: amber, 2: green)
 
 @findex -ffmpegaudiobitrate
 @item -ffmpegaudiobitrate <value>

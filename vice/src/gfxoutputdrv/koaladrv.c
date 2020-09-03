@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -47,17 +48,9 @@
 #include "vsync.h"
 
 /* TODO:
- * - add VICII FLI / mixed mode handling
- * - add VICII super hires handling
- * - add VICII super hires FLI handling
- * - add VDC text mode
- * - add VDC bitmap mode
- * - add TED FLI / mixed mode handling
- * - add TED multi-color text mode
- * - add VIC mixed mode handling
- * - add possible CRTC mixed mode handling
- * - add C64DTV specific modes handling
- */
+
+    when all is done, remove #if 0'ed code
+*/
 
 #define KOALA_SCREEN_PIXEL_WIDTH   320
 #define KOALA_SCREEN_PIXEL_HEIGHT  200
@@ -70,6 +63,7 @@
 #define SCREENRAM_OFFSET 8002
 #define VIDEORAM_OFFSET 9002
 #define BGCOLOR_OFFSET 10002
+#define KOALA_SIZE 10003
 
 static gfxoutputdrv_t koala_drv;
 
@@ -78,8 +72,10 @@ static gfxoutputdrv_t koala_drv;
 static int oversize_handling;
 static int undersize_handling;
 static int ted_lum_handling;
+#if 0
 static int crtc_text_color;
 static uint8_t crtc_fgcolor;
+#endif
 
 static int set_oversize_handling(int val, void *param)
 {
@@ -134,6 +130,7 @@ static int set_ted_lum_handling(int val, void *param)
     return 0;
 }
 
+#if 0
 static int set_crtc_text_color(int val, void *param)
 {
     switch (val) {
@@ -154,6 +151,7 @@ static int set_crtc_text_color(int val, void *param)
 
     return 0;
 }
+#endif
 
 static const resource_int_t resources_int[] = {
     { "KoalaOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
@@ -164,16 +162,18 @@ static const resource_int_t resources_int[] = {
 };
 
 static const resource_int_t resources_int_plus4[] = {
-    { "KoalaTEDLumHandling", NATIVE_SS_TED_LUM_IGNORE, RES_EVENT_NO, NULL,
+    { "KoalaTEDLumHandling", NATIVE_SS_TED_LUM_DITHER, RES_EVENT_NO, NULL,
       &ted_lum_handling, set_ted_lum_handling, NULL },
     RESOURCE_INT_LIST_END
 };
 
+#if 0
 static const resource_int_t resources_int_crtc[] = {
     { "KoalaCRTCTextColor", NATIVE_SS_CRTC_WHITE, RES_EVENT_NO, NULL,
       &crtc_text_color, set_crtc_text_color, NULL },
     RESOURCE_INT_LIST_END
 };
+#endif
 
 static int koaladrv_resources_init(void)
 {
@@ -182,13 +182,13 @@ static int koaladrv_resources_init(void)
             return -1;
         }
     }
-
+#if 0
     if (machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET) {
         if (resources_register_int(resources_int_crtc) < 0) {
             return -1;
         }
     }
-
+#endif
     return resources_register_int(resources_int);
 }
 
@@ -211,6 +211,7 @@ static const cmdline_option_t cmdline_options_plus4[] =
     CMDLINE_LIST_END
 };
 
+#if 0
 static const cmdline_option_t cmdline_options_crtc[] =
 {
     { "-koalacrtctextcolor", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -218,6 +219,7 @@ static const cmdline_option_t cmdline_options_crtc[] =
       "<color>", "Select the CRTC text color (0: white, 1: amber, 2: green)" },
     CMDLINE_LIST_END
 };
+#endif
 
 static int koaladrv_cmdline_options_init(void)
 {
@@ -226,13 +228,13 @@ static int koaladrv_cmdline_options_init(void)
             return -1;
         }
     }
-
+#if 0
     if (machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET) {
         if (cmdline_register_options(cmdline_options_crtc) < 0) {
             return -1;
         }
     }
-
+#endif
     return cmdline_register_options(cmdline_options);
 }
 
@@ -378,10 +380,10 @@ static int koala_render_and_save(native_data_t *source)
     uint8_t gfxbits;
 
     /* allocate file buffer */
-    filebuffer = lib_malloc(10003);
+    filebuffer = lib_malloc(KOALA_SIZE);
 
     /* clear filebuffer */
-    memset(filebuffer, 0, 10003);
+    memset(filebuffer, 0, KOALA_SIZE);
 
     /* set load addy */
     filebuffer[0] = 0x00;
@@ -444,7 +446,7 @@ static int koala_render_and_save(native_data_t *source)
     }
 
     if (retval != -1) {
-        if (fwrite(filebuffer, 10003, 1, fd) < 1) {
+        if (fwrite(filebuffer, KOALA_SIZE, 1, fd) < 1) {
             retval = -1;
         }
     }
@@ -466,12 +468,13 @@ static int koala_render_and_save(native_data_t *source)
 
 static int koala_vicii_save(screenshot_t *screenshot, const char *filename)
 {
+    native_data_t *data = NULL;
+#if 0
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
     uint8_t eb;
     uint8_t bm;
     uint8_t blank;
-    native_data_t *data = NULL;
 
     mc = (regs[0x16] & 0x10) >> 4;
     eb = (regs[0x11] & 0x40) >> 6;
@@ -505,6 +508,11 @@ static int koala_vicii_save(screenshot_t *screenshot, const char *filename)
             return -1;
             break;
     }
+#endif
+    data = native_vicii_render(screenshot, filename);
+    if (data == NULL) {
+        return -1;
+    }
     return koala_render_and_save(data);
 }
 
@@ -512,11 +520,12 @@ static int koala_vicii_save(screenshot_t *screenshot, const char *filename)
 
 static int koala_ted_save(screenshot_t *screenshot, const char *filename)
 {
+    native_data_t *data = NULL;
+#if 0
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
     uint8_t eb;
     uint8_t bm;
-    native_data_t *data = NULL;
 
     mc = (regs[0x07] & 0x10) >> 4;
     eb = (regs[0x06] & 0x40) >> 6;
@@ -543,6 +552,11 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename)
             ui_error("Illegal mode, no saving will be done");
             return -1;
             break;
+    }
+#endif
+    data = native_ted_render(screenshot, filename);
+    if (data == NULL) {
+        return -1;
     }
     ted_color_to_vicii_color_colormap(data, ted_lum_handling);
     return koala_render_and_save(data);
@@ -572,8 +586,7 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
 
 static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
 {
-    native_data_t *data = native_crtc_render(screenshot, filename, crtc_fgcolor);
-
+    native_data_t *data = native_crtc_render(screenshot, filename);
     if (data == NULL) {
         return -1;
     }
@@ -588,15 +601,25 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
 
 static int koala_vdc_save(screenshot_t *screenshot, const char *filename)
 {
-    uint8_t *regs = screenshot->video_regs;
     native_data_t *data = NULL;
+#if 0
+    uint8_t *regs = screenshot->video_regs;
 
     if (regs[25] & 0x80) {
         ui_error("VDC bitmap mode screenshot saving not implemented yet");
         return -1;
     }
     data = native_vdc_text_mode_render(screenshot, filename);
+#endif
+    data = native_vdc_render(screenshot, filename);
+    if (data == NULL) {
+        return -1;
+    }
+
     vdc_color_to_vicii_color_colormap(data);
+    if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+    }
     return koala_render_and_save(data);
 }
 
@@ -626,7 +649,7 @@ static int koaladrv_save(screenshot_t *screenshot, const char *filename)
 static gfxoutputdrv_t koala_drv =
 {
     "KOALA",
-    "C64 koala screenshot",
+    "Koalapainter screenshot",
     "koa",
     NULL, /* formatlist */
     NULL,

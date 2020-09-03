@@ -1,8 +1,9 @@
 /*
- * doodledrv.c - Create a c64 artstudio type file.
+ * artstudio.c - Create a c64 artstudio type file.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -46,14 +47,16 @@
 #include "util.h"
 #include "vsync.h"
 
-/* TODO:
- *
- * rename the resources
- * rename the functions
- * rename the commandline options
- * move the file to artstudio.c
- *
- */
+/*
+    TODO:
+
+    rename the resources (update the docs)
+    rename the functions (update the docs)
+    rename the commandline options (update the docs)
+    move the file to artstudio.c
+
+    when all is done, remove #if 0'ed code
+*/
 
 #define ARTSTUDIO_SCREEN_PIXEL_WIDTH   320
 #define ARTSTUDIO_SCREEN_PIXEL_HEIGHT  200
@@ -74,8 +77,10 @@ static int oversize_handling;
 static int undersize_handling;
 static int multicolor_handling;
 static int ted_lum_handling;
+#if 0
 static int crtc_text_color;
 static uint8_t crtc_fgcolor;
+#endif
 
 static int set_oversize_handling(int val, void *param)
 {
@@ -148,6 +153,7 @@ static int set_ted_lum_handling(int val, void *param)
     return 0;
 }
 
+#if 0
 static int set_crtc_text_color(int val, void *param)
 {
     switch (val) {
@@ -168,28 +174,33 @@ static int set_crtc_text_color(int val, void *param)
 
     return 0;
 }
+#endif
 
+/* FIXME: rename */
 static const resource_int_t resources_int[] = {
     { "DoodleOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
       &oversize_handling, set_oversize_handling, NULL },
     { "DoodleUndersizeHandling", NATIVE_SS_UNDERSIZE_SCALE, RES_EVENT_NO, NULL,
       &undersize_handling, set_undersize_handling, NULL },
-    { "DoodleMultiColorHandling", NATIVE_SS_MC2HR_2_COLORS, RES_EVENT_NO, NULL,
+    { "DoodleMultiColorHandling", NATIVE_SS_MC2HR_DITHER, RES_EVENT_NO, NULL,
       &multicolor_handling, set_multicolor_handling, NULL },
     RESOURCE_INT_LIST_END
 };
 
+/* FIXME: rename */
 static const resource_int_t resources_int_plus4[] = {
-    { "DoodleTEDLumHandling", NATIVE_SS_TED_LUM_IGNORE, RES_EVENT_NO, NULL,
+    { "DoodleTEDLumHandling", NATIVE_SS_TED_LUM_DITHER, RES_EVENT_NO, NULL,
       &ted_lum_handling, set_ted_lum_handling, NULL },
     RESOURCE_INT_LIST_END
 };
 
+#if 0
 static const resource_int_t resources_int_crtc[] = {
     { "DoodleCRTCTextColor", NATIVE_SS_CRTC_WHITE, RES_EVENT_NO, NULL,
       &crtc_text_color, set_crtc_text_color, NULL },
     RESOURCE_INT_LIST_END
 };
+#endif
 
 static int artstudiodrv_resources_init(void)
 {
@@ -198,16 +209,17 @@ static int artstudiodrv_resources_init(void)
             return -1;
         }
     }
-
+#if 0
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM6x0) {
         if (resources_register_int(resources_int_crtc) < 0) {
             return -1;
         }
     }
-
+#endif
     return resources_register_int(resources_int);
 }
 
+/* FIXME: rename */
 static const cmdline_option_t cmdline_options[] =
 {
     { "-doodleoversize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -222,6 +234,7 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
+/* FIXME: rename */
 static const cmdline_option_t cmdline_options_plus4[] =
 {
     { "-doodletedlum", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -230,6 +243,7 @@ static const cmdline_option_t cmdline_options_plus4[] =
     CMDLINE_LIST_END
 };
 
+#if 0
 static const cmdline_option_t cmdline_options_crtc[] =
 {
     { "-doodlecrtctextcolor", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
@@ -237,6 +251,7 @@ static const cmdline_option_t cmdline_options_crtc[] =
       "<color>", "Select the CRTC text color (0: white, 1: amber, 2: green)" },
     CMDLINE_LIST_END
 };
+#endif
 
 static int artstudiodrv_cmdline_options_init(void)
 {
@@ -245,13 +260,13 @@ static int artstudiodrv_cmdline_options_init(void)
             return -1;
         }
     }
-
+#if 0
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM6x0) {
         if (cmdline_register_options(cmdline_options_crtc) < 0) {
             return -1;
         }
     }
-
+#endif
     return cmdline_register_options(cmdline_options);
 }
 
@@ -411,12 +426,13 @@ static int artstudio_multicolor_render(native_data_t *data)
 
 static int artstudio_vicii_save(screenshot_t *screenshot, const char *filename)
 {
+    native_data_t *data = NULL;
+#if 0
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
     uint8_t eb;
     uint8_t bm;
     uint8_t blank;
-    native_data_t *data = NULL;
 
     mc = (regs[0x16] & 0x10) >> 4;
     eb = (regs[0x11] & 0x40) >> 6;
@@ -450,6 +466,11 @@ static int artstudio_vicii_save(screenshot_t *screenshot, const char *filename)
             return -1;
             break;
     }
+#endif
+    data = native_vicii_render(screenshot, filename);
+    if (data == NULL) {
+        return -1;
+    }
     if (data->mc_data_present) {
         if (artstudio_multicolor_render(data) != 0) {
             return -1;
@@ -462,11 +483,12 @@ static int artstudio_vicii_save(screenshot_t *screenshot, const char *filename)
 
 static int artstudio_ted_save(screenshot_t *screenshot, const char *filename)
 {
+    native_data_t *data = NULL;
+#if 0
     uint8_t *regs = screenshot->video_regs;
     uint8_t mc;
     uint8_t eb;
     uint8_t bm;
-    native_data_t *data = NULL;
 
     mc = (regs[0x07] & 0x10) >> 4;
     eb = (regs[0x06] & 0x40) >> 6;
@@ -493,6 +515,11 @@ static int artstudio_ted_save(screenshot_t *screenshot, const char *filename)
             ui_error("Illegal mode, no saving will be done");
             return -1;
             break;
+    }
+#endif
+    data = native_ted_render(screenshot, filename);
+    if (data == NULL) {
+        return -1;
     }
     ted_color_to_vicii_color_colormap(data, ted_lum_handling);
     if (data->mc_data_present) {
@@ -562,7 +589,7 @@ static int artstudio_vic_save(screenshot_t *screenshot, const char *filename)
 
 static int artstudio_crtc_save(screenshot_t *screenshot, const char *filename)
 {
-    native_data_t *data = native_crtc_render(screenshot, filename, crtc_fgcolor);
+    native_data_t *data = native_crtc_render(screenshot, filename);
 
     if (data == NULL) {
         return -1;
@@ -578,14 +605,19 @@ static int artstudio_crtc_save(screenshot_t *screenshot, const char *filename)
 
 static int artstudio_vdc_save(screenshot_t *screenshot, const char *filename)
 {
-    uint8_t *regs = screenshot->video_regs;
     native_data_t *data = NULL;
+#if 0
+    uint8_t *regs = screenshot->video_regs;
 
     if (regs[25] & 0x80) {
         ui_error("VDC bitmap mode screenshot saving not implemented yet");
         return -1;
     }
-    data = native_vdc_text_mode_render(screenshot, filename);
+#endif
+    data = native_vdc_render(screenshot, filename);
+    if (data == NULL) {
+        return -1;
+    }
     vdc_color_to_vicii_color_colormap(data);
     if (data->xsize != ARTSTUDIO_SCREEN_PIXEL_WIDTH || data->ysize != ARTSTUDIO_SCREEN_PIXEL_HEIGHT) {
         data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
@@ -618,8 +650,8 @@ static int artstudiodrv_save(screenshot_t *screenshot, const char *filename)
 
 static gfxoutputdrv_t artstudio_drv =
 {
-    "Artstudio",
-    "C64 OCP Artstudio screenshot",
+    "ARTSTUDIO",
+    "OCP Artstudio screenshot",
     "ocp",
     NULL, /* formatlist */
     NULL,

@@ -11,11 +11,9 @@
  * $VICERES DoodleUndersizeHandling     -vsid
  * $VICERES DoodleMultiColorHandling    -vsid
  * $VICERES DoodleTEDLumHandling        -vsid
- * $VICERES DoodleCRTCTextColor         -vsid
  * $VICERES KoalaOversizeHandling       -vsid
  * $VICERES KoalaUndersizeHandling      -vsid
  * $VICERES KoalaTEDLumHandling         -vsid
- * $VICERES KoalaCRTCTextColor          -vsid
  */
 
 /*
@@ -210,16 +208,6 @@ static const vice_gtk3_combo_entry_int_t ted_luma_modes[] = {
 };
 
 
-/** \brief  List of available colors to use for CRTC screenshots
- */
-static const vice_gtk3_combo_entry_int_t crtc_colors[] = {
-    { "White", 0 },
-    { "Amber", 1 },
-    { "Green", 2 },
-    { NULL, -1 }
-};
-
-
 /* forward declarations of helper functions */
 static GtkWidget *create_screenshot_param_widget(const char *prefix);
 static void save_screenshot_handler(GtkWidget *parent);
@@ -251,8 +239,6 @@ static GtkWidget *undersize_widget = NULL;
 static GtkWidget *multicolor_widget = NULL;
 /** \brief  Screenshot "TED luma" widget reference */
 static GtkWidget *ted_luma_widget = NULL;
-/** \brief  Screenshot "CRTC text color" widget reference */
-static GtkWidget *crtc_textcolor_widget = NULL;
 #ifdef HAVE_FFMPEG
 /** \brief  FFMPEG video driver options grid reference */
 static GtkWidget *video_driver_options_grid = NULL;
@@ -768,14 +754,12 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
         return grid;
     }
 
-    if ((strcmp(prefix, "DOODLE") == 0)
-            || (strcmp(prefix, "DOODLE_COMPRESSED") == 0)) {
+    if (strcmp(prefix, "ARTSTUDIO") == 0) {
         prefix = "Doodle";  /* XXX: not strictly required since resource names
                                     seem to be case insensitive, but better
                                     safe than sorry */
         doodle = 1;
-    } else if ((strcmp(prefix, "KOALA") == 0)
-            || (strcmp(prefix, "KOALA_COMPRESSED") == 0)) {
+    } else if (strcmp(prefix, "KOALA") == 0) {
         prefix = "Koala";
         koala = 1;
     }
@@ -831,19 +815,6 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
                 "%sTEDLumHandling", ted_luma_modes, prefix);
         gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), ted_luma_widget, 1, row, 1, 1);
-        row++;
-    }
-
-    /* ${FORMAT}CRTCTextColor */
-    if (machine_class == VICE_MACHINE_PET
-            || machine_class == VICE_MACHINE_CBM6x0) {
-        label = gtk_label_new("CRTC text color");
-        g_object_set(label, "margin-left", 16, NULL);
-        gtk_widget_set_halign(label, GTK_ALIGN_START);
-        crtc_textcolor_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
-                "%sCRTCTextColor", crtc_colors, prefix);
-        gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-        gtk_grid_attach(GTK_GRID(grid), crtc_textcolor_widget, 1, row, 1, 1);
         row++;
     }
 
