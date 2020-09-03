@@ -7,10 +7,10 @@
 /*
  * $VICERES SoundRecordDeviceArg        all
  * $VICERES SoundRecordDeviceName       all
- * $VICERES DoodleOversizeHandling      -vsid
- * $VICERES DoodleUndersizeHandling     -vsid
- * $VICERES DoodleMultiColorHandling    -vsid
- * $VICERES DoodleTEDLumHandling        -vsid
+ * $VICERES OCPOversizeHandling         -vsid
+ * $VICERES OCPUndersizeHandling        -vsid
+ * $VICERES OCPMultiColorHandling       -vsid
+ * $VICERES OCPTEDLumHandling           -vsid
  * $VICERES KoalaOversizeHandling       -vsid
  * $VICERES KoalaUndersizeHandling      -vsid
  * $VICERES KoalaTEDLumHandling         -vsid
@@ -203,7 +203,7 @@ static const vice_gtk3_combo_entry_int_t multicolor_modes[] = {
  */
 static const vice_gtk3_combo_entry_int_t ted_luma_modes[] = {
     { "ignore", 0 },
-    { "dither", 1 },
+    { "Best cell colors", 1 },
     { NULL, -1 },
 };
 
@@ -731,7 +731,7 @@ static int driver_is_video(const char *name)
  * This widget exposes controls to alter screenshot parameters, depending on
  * machine class and output file format
  *
- * \param[in]   prefix  resource prefix (either "Doodle", "Koala", or ""/NULL)
+ * \param[in]   prefix  resource prefix (either "OCP", "Koala", or ""/NULL)
  *
  * \return  GtkGrid
  */
@@ -740,7 +740,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     GtkWidget *grid;
     GtkWidget *label;
     int row;
-    int doodle = 0;
+    int artstudio = 0;
     int koala = 0;
 
     grid = gtk_grid_new();
@@ -755,16 +755,16 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     }
 
     if (strcmp(prefix, "ARTSTUDIO") == 0) {
-        prefix = "Doodle";  /* XXX: not strictly required since resource names
+        prefix = "OCP";  /* XXX: not strictly required since resource names
                                     seem to be case insensitive, but better
                                     safe than sorry */
-        doodle = 1;
+        artstudio = 1;
     } else if (strcmp(prefix, "KOALA") == 0) {
         prefix = "Koala";
         koala = 1;
     }
 
-    if (!koala && !doodle) {
+    if (!koala && !artstudio) {
         label = gtk_label_new("No parameters required");
         g_object_set(label, "margin-left", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
@@ -794,8 +794,8 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
 
     row = 2;    /* from now on, the widgets depend on machine and image type */
 
-    /* DoodleMultiColorHandling */
-    if (doodle) {
+    /* OCPMultiColorHandling */
+    if (artstudio) {
         label = gtk_label_new("Multi color handling");
         g_object_set(label, "margin-left", 16, NULL);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -890,7 +890,7 @@ static GtkWidget *create_screenshot_widget(void)
     }
 
     /* this is where the various options go per screenshot driver (for example
-     * Koala or Doodle) */
+     * Koala or Artstudio) */
     screenshot_options_grid = uihelpers_create_grid_with_label(
             "Driver options", 1);
 

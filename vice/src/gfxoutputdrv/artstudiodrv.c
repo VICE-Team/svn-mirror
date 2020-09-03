@@ -1,5 +1,5 @@
 /*
- * artstudio.c - Create a c64 artstudio type file.
+ * artstudiodrv.c - Create a c64 artstudio type file.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -49,11 +49,6 @@
 
 /*
     TODO:
-
-    rename the resources (update the docs)
-    rename the functions (update the docs)
-    rename the commandline options (update the docs)
-    move the file to artstudio.c
 
     when all is done, remove #if 0'ed code
 */
@@ -176,27 +171,25 @@ static int set_crtc_text_color(int val, void *param)
 }
 #endif
 
-/* FIXME: rename */
 static const resource_int_t resources_int[] = {
-    { "DoodleOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
+    { "OCPOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
       &oversize_handling, set_oversize_handling, NULL },
-    { "DoodleUndersizeHandling", NATIVE_SS_UNDERSIZE_SCALE, RES_EVENT_NO, NULL,
+    { "OCPUndersizeHandling", NATIVE_SS_UNDERSIZE_SCALE, RES_EVENT_NO, NULL,
       &undersize_handling, set_undersize_handling, NULL },
-    { "DoodleMultiColorHandling", NATIVE_SS_MC2HR_DITHER, RES_EVENT_NO, NULL,
+    { "OCPMultiColorHandling", NATIVE_SS_MC2HR_DITHER, RES_EVENT_NO, NULL,
       &multicolor_handling, set_multicolor_handling, NULL },
     RESOURCE_INT_LIST_END
 };
 
-/* FIXME: rename */
 static const resource_int_t resources_int_plus4[] = {
-    { "DoodleTEDLumHandling", NATIVE_SS_TED_LUM_DITHER, RES_EVENT_NO, NULL,
+    { "OCPTEDLumHandling", NATIVE_SS_TED_LUM_DITHER, RES_EVENT_NO, NULL,
       &ted_lum_handling, set_ted_lum_handling, NULL },
     RESOURCE_INT_LIST_END
 };
 
 #if 0
 static const resource_int_t resources_int_crtc[] = {
-    { "DoodleCRTCTextColor", NATIVE_SS_CRTC_WHITE, RES_EVENT_NO, NULL,
+    { "OCPCRTCTextColor", NATIVE_SS_CRTC_WHITE, RES_EVENT_NO, NULL,
       &crtc_text_color, set_crtc_text_color, NULL },
     RESOURCE_INT_LIST_END
 };
@@ -219,26 +212,24 @@ static int artstudiodrv_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-/* FIXME: rename */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-doodleoversize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "DoodleOversizeHandling", NULL,
+    { "-ocpoversize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "OCPOversizeHandling", NULL,
       "<method>", "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)" },
-    { "-doodleundersize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "DoodleUndersizeHandling", NULL,
+    { "-ocpundersize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "OCPUndersizeHandling", NULL,
       "<method>", "Select the way the undersized input should be handled, (0: scale up, 1: borderize)" },
-    { "-doodlemc", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "DoodleMultiColorHandling", NULL,
+    { "-ocpmc", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "OCPMultiColorHandling", NULL,
       "<method>", "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)" },
     CMDLINE_LIST_END
 };
 
-/* FIXME: rename */
 static const cmdline_option_t cmdline_options_plus4[] =
 {
-    { "-doodletedlum", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "DoodleTEDLumHandling", NULL,
+    { "-ocptedlum", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "OCPTEDLumHandling", NULL,
       "<method>", "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)" },
     CMDLINE_LIST_END
 };
@@ -246,8 +237,8 @@ static const cmdline_option_t cmdline_options_plus4[] =
 #if 0
 static const cmdline_option_t cmdline_options_crtc[] =
 {
-    { "-doodlecrtctextcolor", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "DoodleCRTCTextColor", NULL,
+    { "-ocpcrtctextcolor", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "OCPCRTCTextColor", NULL,
       "<color>", "Select the CRTC text color (0: white, 1: amber, 2: green)" },
     CMDLINE_LIST_END
 };
@@ -668,8 +659,7 @@ static gfxoutputdrv_t artstudio_drv =
 #endif
 };
 
-/* FIXME: rename */
-void gfxoutput_init_doodle(int help)
+void gfxoutput_init_artstudio(int help)
 {
     gfxoutput_register(&artstudio_drv);
 }

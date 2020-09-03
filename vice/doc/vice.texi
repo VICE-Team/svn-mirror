@@ -15363,8 +15363,8 @@ Version numbers: Major 0, Minor 0
 
 @table @code
 
-@vindex DoodleOversizeHandling
-@item DoodleOversizeHandling
+@vindex OCPOversizeHandling
+@item OCPOversizeHandling
 Integer specifying the way the oversized input should be handled
 (all emulators except vsid).
 (0: scale down, 1: crop left top, 2: crop center top,
@@ -15372,20 +15372,20 @@ Integer specifying the way the oversized input should be handled
 6: crop right center, 7: crop left bottom, 8: crop center bottom,
 9: crop right bottom)
 
-@vindex DoodleUndersizeHandling
-@item DoodleUndersizeHandling
+@vindex OCPUndersizeHandling
+@item OCPUndersizeHandling
 Integer specifying the way the undersized input should be handled
 (all emulators except vsid).
 (0: scale, 1: borderize)
 
-@vindex DoodleMultiColorHandling
-@item DoodleMultiColorHandling
+@vindex OCPMultiColorHandling
+@item OCPMultiColorHandling
 Integer specifying the way the multicolor to hires should be handled
 (all emulators except vsid).
 (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)
 
-@vindex DoodleTEDLumHandling
-@item DoodleTEDLumHandling
+@vindex OCPTEDLumHandling
+@item OCPTEDLumHandling
 Integer specifying the way the TED luminosity should be handled
 (all emulators except vsid).
 (0: ignore, 1: dither)
@@ -15437,34 +15437,34 @@ Boolean, if true record only every other frame.
 
 @table @code
 
-@findex -doodleoversize
-@item -doodleoversize <method>
+@findex -ocpoversize
+@item -ocpoversize <method>
 Select the way the oversized input should be handled
-(@code{DoodleOversizeHandling})
+(@code{OCPOversizeHandling})
 (all emulators except vsid).
 (0: scale down, 1: crop left top, 2: crop center top,
 3: crop right top, 4: crop left center, 5: crop center,
 6: crop right center, 7: crop left bottom,
 8: crop center bottom, 9: crop right bottom)
 
-@findex -doodleundersize
-@item -doodleundersize <method>
+@findex -ocpundersize
+@item -ocpundersize <method>
 Select the way the undersized input should be handled
-(@code{DoodleUndersizeHandling})
+(@code{OCPUndersizeHandling})
 (all emulators except vsid).
 (0: scale, 1: borderize)
 
-@findex -doodlemc
-@item -doodlemc <method>
+@findex -ocpmc
+@item -ocpmc <method>
 Select the way the multicolor to hires should be handled
-(@code{DoodleMultiColorHandling})
+(@code{OCPMultiColorHandling})
 (all emulators except vsid).
 (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale, 4: best cell colors)
 
-@findex -doodletedlum
-@item -doodletedlum <method>
+@findex -ocptedlum
+@item -ocptedlum <method>
 Select the way the TED luminosity should be handled
-(@code{DoodleTEDLumHandling})
+(@code{OCPTEDLumHandling})
 (all emulators except vsid).
 (0: ignore, 1: dither)
 

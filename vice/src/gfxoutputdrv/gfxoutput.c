@@ -105,7 +105,7 @@ int gfxoutput_early_init(int help)
     /* on early init for "-help" commandline, some initialization is skipped
        by the individual drivers */
     gfxoutput_init_bmp(help);
-    gfxoutput_init_doodle(help);
+    gfxoutput_init_artstudio(help);
     gfxoutput_init_koala(help);
 #ifdef HAVE_GIF
     gfxoutput_init_gif(help);

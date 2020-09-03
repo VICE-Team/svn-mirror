@@ -38,7 +38,7 @@ EXTRA_libgfxoutputdrv_a_SOURCES = \
 libgfxoutputdrv_a_SOURCES = \
 	bmpdrv.c \
 	bmpdrv.h \
-	doodledrv.c \
+	artstudiodrv.c \
 	gfxoutput.c \
 	godotdrv.c \
 	godotdrv.h \

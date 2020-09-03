@@ -44,7 +44,7 @@ typedef struct native_color_sort_s {
     int amount;
 } native_color_sort_t;
 
-extern void gfxoutput_init_doodle(int help);
+extern void gfxoutput_init_artstudio(int help);
 extern void gfxoutput_init_koala(int help);
 
 extern void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bordercolor, uint8_t xcover, uint8_t ycover);

@@ -58,6 +58,10 @@
     TODO:
 
     disable debug output
+    find a way to automatically set "mc_data_present" correctly
+    test vic screenshots, fix automatic positioning of the gfx window
+    test vdc screenshots, fix automatic positioning of the gfx window
+    test crts screenshots, fix automatic positioning of the gfx window
     when all is done, remove #if 0'ed code
 */
 
@@ -591,7 +595,7 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
     
     DBG(("native_generic_render\n"));
     data->filename = filename;
-    data->mc_data_present = 1;
+    data->mc_data_present = 1; /* FIXME: set this automatically somehow */
 
     /* size of the native picture */
     DBG(("native xsize: %d\n", xsize));
@@ -600,15 +604,13 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
     data->ysize = ysize;
     data->colormap = lib_malloc(data->xsize * data->ysize);
 
-    linebuffer = lib_malloc(screenshot->width * screenshot->height); /* FIXME: only one line needed */
+    linebuffer = lib_malloc(screenshot->width * screenshot->height);
 
     DBG(("screenshot->width: %u\n", screenshot->width));
     DBG(("screenshot->height: %u\n", screenshot->height));
     DBG(("screenshot->max_width: %u\n", screenshot->max_width));
     DBG(("screenshot->x_offset: %u\n", screenshot->x_offset));
-
     DBG(("screenshot->first_displayed_line: %u\n", screenshot->first_displayed_line));
-
     DBG(("screenshot->gfx_position.x %u\n", screenshot->gfx_position.x));
     DBG(("screenshot->gfx_position.y %u\n", screenshot->gfx_position.y));
 
