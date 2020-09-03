@@ -81,6 +81,11 @@ static GtkWidget *preview_widget = NULL;
 static gchar *last_dir = NULL;
 
 
+/** \brief  Last file selected
+ */
+static gchar *last_file;
+
+
 /** \brief  Reference to the custom 'Autostart' button
  */
 static GtkWidget *autostart_button;
@@ -263,6 +268,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
     /* gonna needs this in multiple checks */
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    last_file = g_strdup(filename);
 
     switch (response_id) {
 
@@ -439,6 +445,13 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     /* set last used directory */
     lastdir_set(dialog, &last_dir);
 
+    if (last_file != NULL) {
+        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), last_file);
+        g_free(last_file);
+        last_file = NULL;
+    }
+
+
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
             create_extra_widget(dialog));
@@ -535,4 +548,8 @@ gboolean ui_smart_attach_dialog_show(GtkWidget *widget, gpointer user_data)
 void ui_smart_attach_shutdown(void)
 {
     lastdir_shutdown(&last_dir);
+    if (last_file != NULL) {
+        g_free(last_file);
+        last_file = NULL;
+    }
 }
