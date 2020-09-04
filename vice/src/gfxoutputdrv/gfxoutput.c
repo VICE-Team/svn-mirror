@@ -104,28 +104,33 @@ int gfxoutput_early_init(int help)
 
     /* on early init for "-help" commandline, some initialization is skipped
        by the individual drivers */
-    gfxoutput_init_bmp(help);
-    gfxoutput_init_artstudio(help);
-    gfxoutput_init_koala(help);
-#ifdef HAVE_GIF
-    gfxoutput_init_gif(help);
-#endif
-    gfxoutput_init_iff(help);
-#ifdef HAVE_JPEG
-    gfxoutput_init_jpeg(help);
-#endif
-    gfxoutput_init_pcx(help);
+
+    /* common image formats */
 #ifdef HAVE_PNG
     gfxoutput_init_png(help);
 #endif
+    gfxoutput_init_bmp(help);
+#ifdef HAVE_GIF
+    gfxoutput_init_gif(help);
+#endif
+#ifdef HAVE_JPEG
+    gfxoutput_init_jpeg(help);
+#endif
+    /* slightly less common image formats */
+    gfxoutput_init_iff(help);
+    gfxoutput_init_pcx(help);
     gfxoutput_init_ppm(help);
+    /* video related */
 #ifdef HAVE_FFMPEG
     gfxoutput_init_ffmpeg(help);
 #endif
 #ifdef HAVE_QUICKTIME
     gfxoutput_init_quicktime(help);
 #endif
+    /* C64 formats */
     gfxoutput_init_godot(help);
+    gfxoutput_init_artstudio(help);
+    gfxoutput_init_koala(help);
     return 0;
 }
 
