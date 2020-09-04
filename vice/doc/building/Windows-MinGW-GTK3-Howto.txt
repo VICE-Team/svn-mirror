@@ -54,6 +54,20 @@ Launch either the MSYS2 MinGW 64-bit shell or the MSYS2 MinGW 32-bit shell
 
 DON'T USE THE NON-MINGW ONE, STUFF WON'T WORK.
 
+
+3.1 Update the mirrors files (optional)
+I (compyx) noticed the default mirror (msys2.org) is very slow (60-80KB/s), so
+it might be a good idea to edit the mirror files:
+
+Get updated mirror list
+$ pacman -S pacman-mirrors
+
+Now edit three files: /etc/pacman.d/mirrorlist.{mingw32,mingw64,msys}.
+I commented out the first few (msys2 is slow, sourceforge seems out-of-data,
+and I don't trust .ru or .cn stuff).
+Exit and restart the shell you use and see if you get a decent download speed.
+
+
 Run the following command lines to install your prerequisites:
 
 $ pacman -S --needed --noconfirm base-devel
