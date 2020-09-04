@@ -693,6 +693,8 @@ native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
 
 /* FIXME:
    screenshot->gfx_position.x/y does not match actual black border
+
+   "hre" and "petdww_ram" is broken
 */
 native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename)
 {
@@ -702,36 +704,29 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
     int xsize;
     int ysize;
     uint8_t invert;
-    uint8_t charheight;
+    uint8_t charheight, charwidth;
     int hre = 0;
 #if 0
     int base;
     int chars = 1;
     int col80;
 #endif
-    switch (screenshot->bitmap_low_ptr[0]) {
-        default:
-        case 40:
-            xsize = regs[0x01];
-#if 0
-            base = ((regs[0x0c] & 3) << 8) + regs[0x0d];
-            col80 = 0;
-#endif
-            break;
-        case 60:
-            xsize = regs[0x01];
-#if 0
-            base = ((regs[0x0c] & 3) << 8) + regs[0x0d];
-            col80 = 0;
-#endif
-            break;
-        case 80:
-            xsize = regs[0x01] << 1;
-#if 0
-            base = (((regs[0x0c] & 3) << 9) + regs[0x0d]) << 1;
-            col80 = 1;
-#endif
-            break;
+
+    DBG(("screenshot->bitmap_low_ptr[0]: %d\n", screenshot->bitmap_low_ptr[0]));
+    DBG(("screenshot->bitmap_high_ptr[0]: %d\n", screenshot->bitmap_high_ptr[0]));
+    DBG(("1: %d\n", regs[0x01]));
+    DBG(("2: %d\n", regs[0x02]));
+    DBG(("3: %d\n", regs[0x03]));
+    DBG(("4: %d\n", regs[0x04]));
+    DBG(("5: %d\n", regs[0x05]));
+    DBG(("6: %d\n", regs[0x06]));
+    DBG(("7: %d\n", regs[0x07]));
+    DBG(("8: %d\n", regs[0x08]));
+    DBG(("9: %d\n", regs[0x09]));
+
+    xsize = regs[0x01];
+    if (screenshot->bitmap_low_ptr[0] == 80) {
+        xsize <<= 1;
     }
 
     ysize = regs[0x06];
@@ -745,13 +740,18 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
         invert = 1;
     }
 
-    charheight = screenshot->bitmap_high_ptr[0];
+    /* charheight = screenshot->bitmap_high_ptr[0]; */
+    charwidth = 8; /* is this correct? */
+    charheight = regs[0x09] + 1; /* FIXME: handle inter-character gap */
+
+    DBG(("chars x: %d w: %d\n", xsize, charwidth));
+    DBG(("chars y: %d h: %d\n", ysize, charheight));
 
     if (hre) {
         xsize = 512;
         ysize = 256;
     } else {
-        xsize = xsize * 8;
+        xsize = xsize * charwidth;
         ysize = ysize * charheight;
     }
 
@@ -760,17 +760,26 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
         * If we're in an 80 column screen we need to
         * horizontally double all pixels, since DWW
         * only has 40 characters worth of pixels.
-        * Fetch the same byte for odd and even matrix
-        * addresses (above), then double the bits from
-        * first the left half (low nybble) and then the
-        * right half (high nybble).
         */
     }
+    DBG(("xsize: %d\n", xsize));
+    DBG(("ysize: %d\n", ysize));
+
+    /* FIXME: this should be defined elsewhere in the crtc code */
+    if (regs[0x01] == 40) {
+        screenshot->gfx_position.y = 41;
+    } else {
+        screenshot->gfx_position.y = 28;
+    }
+    screenshot->gfx_position.x = 33;
 
     data = native_generic_render(screenshot, filename, xsize, ysize);
     return data;
 }
 
+/* FIXME:
+   screenshot->gfx_position.x/y does not match actual black border
+*/
 native_data_t *native_vdc_render(screenshot_t *screenshot, const char *filename)
 {
     native_data_t *data;
