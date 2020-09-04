@@ -58,7 +58,6 @@
     TODO:
 
     disable debug output
-    find a way to automatically set "mc_data_present" correctly
     test vic screenshots, fix automatic positioning of the gfx window
     test vdc screenshots, fix automatic positioning of the gfx window
     test crts screenshots, fix automatic positioning of the gfx window
@@ -457,6 +456,42 @@ native_color_sort_t *native_sort_colors_colormap(native_data_t *source, int colo
     return colors;
 }
 
+/* returns 1 if any 8x8 cell contains more than two colors */
+int native_is_colormap_multicolor(native_data_t *source)
+{
+    int blocksx = source->xsize / 8;
+    int blocksy = source->ysize / 8;
+    int i, j, k, l;
+    int multicolor = 0;
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
+    native_color_sort_t *colors = NULL;
+
+    dest->xsize = 8;
+    dest->ysize = 8;
+    dest->colormap = lib_malloc(8 * 8);
+
+    for (i = 0; (i < blocksy) && (multicolor == 0); i++) {
+        for (j = 0; (j < blocksx) && (multicolor == 0); j++) {
+            /* get block */
+            for (k = 0; k < 8; k++) {
+                for (l = 0; l < 8; l++) {
+                    dest->colormap[(k * 8) + l] = 
+                    source->colormap[(i * 8 * source->xsize) + (j * 8)
+                                        + (k * source->xsize) + l];
+                }
+            }
+            colors = native_sort_colors_colormap(dest, 16);
+            if (colors[2].amount > 0) {
+                multicolor = 1;
+            }
+            lib_free(colors);
+        }
+    }
+    lib_free(dest->colormap);
+    lib_free(dest);
+    return multicolor;
+}
+
 static uint8_t vicii_color_bw_translate[16] = {
     0,    /* vicii black       (0) -> vicii black (0) */
     1,    /* vicii white       (1) -> vicii white (1) */
@@ -612,10 +647,9 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
     int i, j;
     int leftborder, topborder;
     uint8_t *linebuffer;
-    
+
     DBG(("native_generic_render xsize: %d ysize: %d\n", xsize, ysize));
     data->filename = filename;
-    data->mc_data_present = 1; /* FIXME: set this automatically somehow */
 
     /* size of the native picture */
     data->xsize = xsize;
@@ -652,6 +686,8 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
             linebuffer[(i * screenshot->width) + (j + leftborder)]; 
         }
     }
+    data->mc_data_present = native_is_colormap_multicolor(data);
+    DBG(("                      mc_data_present: %d\n", data->mc_data_present));
     return data;
 }
 

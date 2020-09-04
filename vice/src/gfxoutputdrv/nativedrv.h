@@ -53,6 +53,7 @@ extern native_data_t *native_crop_and_borderize_colormap(native_data_t *source, 
 extern native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize);
 extern native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, uint8_t bordercolor, int oversize_handling, int undersize_handling);
 extern native_color_sort_t *native_sort_colors_colormap(native_data_t *source, int color_amount);
+extern int native_is_colormap_multicolor(native_data_t *source);
 
 extern void vicii_color_to_vicii_bw_colormap(native_data_t *source);
 extern void vicii_color_to_vicii_gray_colormap(native_data_t *source);
