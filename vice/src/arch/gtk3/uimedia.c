@@ -1115,7 +1115,7 @@ gboolean ui_media_dialog_show(GtkWidget *parent, gpointer data)
     /* remember pause state before entering the widget */
     old_pause_state = ui_pause_active();
 
-    /* pause emulartion */
+    /* pause emulation */
     ui_pause_enable();
 
     /* create driver list */
@@ -1182,9 +1182,19 @@ void ui_media_auto_screenshot(void)
 {
     char *filename;
 
+    /* remember pause state before entering the widget */
+    old_pause_state = ui_pause_active();
+
+    /* pause emulation */
+    ui_pause_enable();
+
     /* no need for locale bullshit */
     filename = create_proposed_screenshot_name("png");
     if (screenshot_save("PNG", filename, ui_get_active_canvas()) < 0) {
         debug_gtk3("OOPS");
+    }
+
+    if (!old_pause_state) {
+        ui_pause_disable();
     }
 }
