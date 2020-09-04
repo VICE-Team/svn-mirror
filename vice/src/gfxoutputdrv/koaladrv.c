@@ -196,10 +196,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-koalaoversize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KoalaOversizeHandling", NULL,
-      "<method>", "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)" },
+      "<method>", "Select the way the oversized input should be handled,"
+      " (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top,"
+      " 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom,"
+      " 8: crop center bottom, 9:  crop right bottom)" },
     { "-koalaundersize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KoalaUndersizeHandling", NULL,
-      "<method>", "Select the way the undersized input should be handled, (0: scale up, 1: borderize)" },
+      "<method>", "Select the way the undersized input should be handled,"
+      " (0: scale up, 1: borderize)" },
     CMDLINE_LIST_END
 };
 
@@ -207,7 +211,8 @@ static const cmdline_option_t cmdline_options_plus4[] =
 {
     { "-koalatedlum", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KoalaTEDLumHandling", NULL,
-      "<method>", "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)" },
+      "<method>", "Select the way the TED luminosity should be handled,"
+      " (0: ignore, 1: dither)" },
     CMDLINE_LIST_END
 };
 
@@ -279,7 +284,8 @@ static uint8_t koala_find_bgcolor(native_data_t *source)
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
                     dest->colormap[(k * 8) + l] = 
-                    source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
+                    source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8)
+                                        + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
                 }
             }
             blockcolors = native_sort_colors_colormap(dest, 16);
@@ -330,7 +336,8 @@ static void koala_check_and_correct_cell(native_data_t *source, uint8_t bgcolor)
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
                     dest->colormap[(k * 8) + l] =
-                        source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
+                        source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8)
+                                            + (k * KOALA_SCREEN_PIXEL_WIDTH) + l];
                 }
             }
             colors = native_sort_colors_colormap(dest, 16);
@@ -351,7 +358,8 @@ static void koala_check_and_correct_cell(native_data_t *source, uint8_t bgcolor)
             vicii_color_to_nearest_vicii_color_colormap(dest, cellcolors);
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
-                    source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + l] =
+                    source->colormap[(i * 8 * KOALA_SCREEN_PIXEL_WIDTH) + (j * 8)
+                                        + (k * KOALA_SCREEN_PIXEL_WIDTH) + l] =
                         dest->colormap[(k * 8) + l];
                 }
             }
@@ -406,7 +414,8 @@ static int koala_render_and_save(native_data_t *source)
                 gfxbits = 0;
                 for (l = 0; l < 4; l++) {
                     gfxbits <<= 2;
-                    colorbyte = source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + (l * 2)];
+                    colorbyte = source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH * 8) + (j * 8)
+                                                    + (k * KOALA_SCREEN_PIXEL_WIDTH) + (l * 2)];
                     /* remember the used colors in this block. so we can assign
                        the bits */
                     if (colorbyte != bgcolor) {
@@ -594,7 +603,8 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
     }
 
     if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT,
+                                        0, oversize_handling, undersize_handling);
     }
     return koala_render_and_save(data);
 }
@@ -620,7 +630,8 @@ static int koala_vdc_save(screenshot_t *screenshot, const char *filename)
 
     vdc_color_to_vicii_color_colormap(data);
     if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT,
+                                        0, oversize_handling, undersize_handling);
     }
     return koala_render_and_save(data);
 }

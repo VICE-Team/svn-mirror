@@ -362,7 +362,8 @@ native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize
 
     for (i = 0; i < ysize; i++) {
         for (j = 0; j < xsize; j++) {
-            dest->colormap[(i * xsize) + j] = source->colormap[(((i * ymult) >> 8) * source->xsize) + ((j * xmult) >> 8)];
+            dest->colormap[(i * xsize) + j] =
+                source->colormap[(((i * ymult) >> 8) * source->xsize) + ((j * xmult) >> 8)];
         }
     }
 
@@ -597,7 +598,8 @@ void vicii_color_to_nearest_vicii_color_colormap(native_data_t *source, native_c
 
     for (i = 0; i < source->ysize; i++) {
         for (j = 0; j < source->xsize; j++) {
-            source->colormap[(i * source->xsize) + j] = vicii_color_to_nearest_color(source->colormap[(i * source->xsize) + j], colors);
+            source->colormap[(i * source->xsize) + j] =
+                vicii_color_to_nearest_color(source->colormap[(i * source->xsize) + j], colors);
         }
     }
 }
@@ -1252,9 +1254,11 @@ void ted_color_to_vicii_color_colormap(native_data_t *source, int ted_lum_handli
         for (j = 0; j < source->xsize; j++) {
             colorbyte = source->colormap[(i * source->xsize) + j];
             if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
-                source->colormap[(i * source->xsize) + j] = ted_lum_to_vicii_color((uint8_t)(colorbyte & 0xf), (uint8_t)(colorbyte >> 4));
+                source->colormap[(i * source->xsize) + j] =
+                    ted_lum_to_vicii_color((uint8_t)(colorbyte & 0xf), (uint8_t)(colorbyte >> 4));
             } else {
-                source->colormap[(i * source->xsize) + j] = ted_to_vicii_color((uint8_t)(colorbyte & 0xf));
+                source->colormap[(i * source->xsize) + j] =
+                    ted_to_vicii_color((uint8_t)(colorbyte & 0xf));
             }
         }
     }
@@ -1499,7 +1503,8 @@ void vic_color_to_vicii_color_colormap(native_data_t *source)
 
     for (i = 0; i < source->ysize; i++) {
         for (j = 0; j < source->xsize; j++) {
-            source->colormap[(i * source->xsize) + j] = vic_to_vicii_color(source->colormap[(i * source->xsize) + j]);
+            source->colormap[(i * source->xsize) + j] =
+                vic_to_vicii_color(source->colormap[(i * source->xsize) + j]);
         }
     }
 }
@@ -1784,7 +1789,8 @@ void vdc_color_to_vicii_color_colormap(native_data_t *source)
 
     for (i = 0; i < source->ysize; i++) {
         for (j = 0; j < source->xsize; j++) {
-            source->colormap[(i * source->xsize) + j] = vdc_to_vicii_color(source->colormap[(i * source->xsize) + j]);
+            source->colormap[(i * source->xsize) + j] =
+                vdc_to_vicii_color(source->colormap[(i * source->xsize) + j]);
         }
     }
 }

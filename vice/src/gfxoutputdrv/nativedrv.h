@@ -47,7 +47,7 @@ typedef struct native_color_sort_s {
 extern void gfxoutput_init_artstudio(int help);
 extern void gfxoutput_init_koala(int help);
 
-extern void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bordercolor, uint8_t xcover, uint8_t ycover);
+/* extern void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bordercolor, uint8_t xcover, uint8_t ycover); */
 extern native_data_t *native_borderize_colormap(native_data_t *source, uint8_t bordercolor, int xsize, int ysize);
 extern native_data_t *native_crop_and_borderize_colormap(native_data_t *source, uint8_t bordercolor, int xsize, int ysize, int oversize_handling);
 extern native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize);
@@ -67,20 +67,5 @@ extern native_data_t *native_ted_render(screenshot_t *screenshot, const char *fi
 extern native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename);
 extern native_data_t *native_vdc_render(screenshot_t *screenshot, const char *filename);
 extern native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename);
-
-#if 0
-extern native_data_t *native_vicii_text_mode_render(screenshot_t *screenshot, const char *filename);
-extern native_data_t *native_vicii_extended_background_mode_render(screenshot_t *screenshot, const char *filename);
-extern native_data_t *native_vicii_multicolor_text_mode_render(screenshot_t *screenshot, const char *filename);
-extern native_data_t *native_vicii_hires_bitmap_mode_render(screenshot_t *screenshot, const char *filename);
-extern native_data_t *native_vicii_multicolor_bitmap_mode_render(screenshot_t *screenshot, const char *filename);
-
-extern native_data_t *native_ted_text_mode_render(screenshot_t *screenshot, const char *filename);
-extern native_data_t *native_ted_extended_background_mode_render(screenshot_t *screenshot, const char *filename);
-extern native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const char *filename);
-extern native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *screenshot, const char *filename);
-
-extern native_data_t *native_vdc_text_mode_render(screenshot_t *screenshot, const char *filename);
-#endif
 
 #endif

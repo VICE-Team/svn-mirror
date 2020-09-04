@@ -216,13 +216,18 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-ocpoversize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "OCPOversizeHandling", NULL,
-      "<method>", "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)" },
+      "<method>", "Select the way the oversized input should be handled,"
+      " (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top,"
+      " 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom,"
+      " 8: crop center bottom, 9:  crop right bottom)" },
     { "-ocpundersize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "OCPUndersizeHandling", NULL,
-      "<method>", "Select the way the undersized input should be handled, (0: scale up, 1: borderize)" },
+      "<method>", "Select the way the undersized input should be handled,"
+      " (0: scale up, 1: borderize)" },
     { "-ocpmc", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "OCPMultiColorHandling", NULL,
-      "<method>", "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)" },
+      "<method>", "Select the way the multicolor to hires should be handled,"
+      " (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)" },
     CMDLINE_LIST_END
 };
 
@@ -279,7 +284,8 @@ static void artstudio_check_and_correct_cell(native_data_t *source)
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
                     dest->colormap[(k * 8) + l] = 
-                        source->colormap[(i * 8 * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l];
+                        source->colormap[(i * 8 * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + (j * 8)
+                                            + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l];
                 }
             }
             /* if there are more than 2 colors in the block, re-render it using
@@ -290,7 +296,8 @@ static void artstudio_check_and_correct_cell(native_data_t *source)
                 vicii_color_to_nearest_vicii_color_colormap(dest, colors);
                 for (k = 0; k < 8; k++) {
                     for (l = 0; l < 8; l++) {
-                        source->colormap[(i * 8 * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l] = 
+                        source->colormap[(i * 8 * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + (j * 8)
+                                            + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l] =
                             dest->colormap[(k * 8) + l];
                     }
                 }
@@ -332,7 +339,8 @@ static int artstudio_render_and_save(native_data_t *source)
             for (k = 0; k < 8; k++) {
                 filebuffer[BITMAP_OFFSET + m] = 0;
                 for (l = 0; l < 8; l++) {
-                    colorbyte = source->colormap[(i * ARTSTUDIO_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l];
+                    colorbyte = source->colormap[(i * ARTSTUDIO_SCREEN_PIXEL_WIDTH * 8)
+                                    + (j * 8) + (k * ARTSTUDIO_SCREEN_PIXEL_WIDTH) + l];
                     if ((colorbyte != fgcolor) && (fgcolor == 255)) {
                         fgcolor = colorbyte;
                     } else if ((colorbyte != bgcolor) && (colorbyte != fgcolor) && (bgcolor == 255)) {
@@ -589,7 +597,8 @@ static int artstudio_crtc_save(screenshot_t *screenshot, const char *filename)
     }
 
     if (data->xsize != ARTSTUDIO_SCREEN_PIXEL_WIDTH || data->ysize != ARTSTUDIO_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT,
+                                        0, oversize_handling, undersize_handling);
     }
     return artstudio_render_and_save(data);
 }
@@ -613,7 +622,8 @@ static int artstudio_vdc_save(screenshot_t *screenshot, const char *filename)
     }
     vdc_color_to_vicii_color_colormap(data);
     if (data->xsize != ARTSTUDIO_SCREEN_PIXEL_WIDTH || data->ysize != ARTSTUDIO_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT,
+                                        0, oversize_handling, undersize_handling);
     }
     return artstudio_render_and_save(data);
 }
