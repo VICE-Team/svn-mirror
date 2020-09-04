@@ -371,19 +371,24 @@ static void on_audio_driver_toggled(GtkWidget *widget, gpointer data)
  *                              Helpers functions                            *
  ****************************************************************************/
 
-/** \brief  Create a string in the format 'yyyymmddHHMMss' of the current time
+/** \brief  Create a string in the format 'yyyymmddHHMMssffffff' of the current time
  *
  * \return  string owned by GLib, free with g_free()
  */
 static gchar *create_datetime_string(void)
 {
     GDateTime *d;
+    gint m;
     gchar *s;
+    gchar *t;
 
     d = g_date_time_new_now_local();
+    m = g_date_time_get_microsecond(d);
     s = g_date_time_format(d, "%Y%m%d%H%M%S");
     g_date_time_unref(d);
-    return s;
+    t = g_strdup_printf("%s%06d", s, m);
+    g_free(s);
+    return t;
 }
 
 
