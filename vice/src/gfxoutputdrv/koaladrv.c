@@ -156,7 +156,7 @@ static int set_crtc_text_color(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "KoalaOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
       &oversize_handling, set_oversize_handling, NULL },
-    { "KoalaUndersizeHandling", NATIVE_SS_UNDERSIZE_SCALE, RES_EVENT_NO, NULL,
+    { "KoalaUndersizeHandling", NATIVE_SS_UNDERSIZE_BORDERIZE, RES_EVENT_NO, NULL,
       &undersize_handling, set_undersize_handling, NULL },
     RESOURCE_INT_LIST_END
 };
@@ -568,6 +568,7 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
 {
     uint8_t *regs = screenshot->video_regs;
     native_data_t *data = native_vic_render(screenshot, filename);
+    uint8_t bordercolor = regs[0xf] & 7;
 
     if (data == NULL) {
         return -1;
@@ -575,8 +576,9 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
 
     vic_color_to_vicii_color_colormap(data);
 
-    if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, (uint8_t)(regs[0xf] & 7), oversize_handling, undersize_handling);
+    if ((data->xsize != KOALA_SCREEN_PIXEL_WIDTH) || (data->ysize != KOALA_SCREEN_PIXEL_HEIGHT)) {
+        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 
+                                        bordercolor, oversize_handling, undersize_handling);
     }
 
     return koala_render_and_save(data);

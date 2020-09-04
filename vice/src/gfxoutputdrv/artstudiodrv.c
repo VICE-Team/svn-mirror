@@ -174,7 +174,7 @@ static int set_crtc_text_color(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "OCPOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
       &oversize_handling, set_oversize_handling, NULL },
-    { "OCPUndersizeHandling", NATIVE_SS_UNDERSIZE_SCALE, RES_EVENT_NO, NULL,
+    { "OCPUndersizeHandling", NATIVE_SS_UNDERSIZE_BORDERIZE, RES_EVENT_NO, NULL,
       &undersize_handling, set_undersize_handling, NULL },
     { "OCPMultiColorHandling", NATIVE_SS_MC2HR_DITHER, RES_EVENT_NO, NULL,
       &multicolor_handling, set_multicolor_handling, NULL },
@@ -528,6 +528,7 @@ static int artstudio_vic_save(screenshot_t *screenshot, const char *filename)
     uint8_t *regs = screenshot->video_regs;
     native_data_t *data = native_vic_render(screenshot, filename);
     native_color_sort_t *color_order = NULL;
+    uint8_t bordercolor = regs[0xf] & 7;
 
     if (data == NULL) {
         return -1;
@@ -536,7 +537,8 @@ static int artstudio_vic_save(screenshot_t *screenshot, const char *filename)
     vic_color_to_vicii_color_colormap(data);
 
     if (data->xsize != ARTSTUDIO_SCREEN_PIXEL_WIDTH || data->ysize != ARTSTUDIO_SCREEN_PIXEL_HEIGHT) {
-        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT, (uint8_t)(regs[0xf] & 7), oversize_handling, undersize_handling);
+        data = native_resize_colormap(data, ARTSTUDIO_SCREEN_PIXEL_WIDTH, ARTSTUDIO_SCREEN_PIXEL_HEIGHT,
+                                        bordercolor, oversize_handling, undersize_handling);
     }
 
     if (data->mc_data_present) {

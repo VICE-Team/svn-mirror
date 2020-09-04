@@ -65,6 +65,7 @@
     when all is done, remove #if 0'ed code
 */
 
+#if 0
 void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bordercolor, uint8_t xcover, uint8_t ycover)
 {
     int i, j, k;
@@ -74,6 +75,9 @@ void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bord
     int ystart = 0;
     int ysize;
     int yendamount = 0;
+
+    DBG(("native_smooth_scroll_borderize_colormap bordercolor: %d xcover: %d ycover: %d\n",
+         bordercolor, xcover, ycover));
 
     if (xcover == 255) {
         xstart = 0;
@@ -126,6 +130,7 @@ void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bord
         }
     }
 }
+#endif
 
 native_data_t *native_borderize_colormap(native_data_t *source, uint8_t bordercolor, int xsize, int ysize)
 {
@@ -135,6 +140,9 @@ native_data_t *native_borderize_colormap(native_data_t *source, uint8_t borderco
     int ystart = 0;
     int yendamount = 0;
     native_data_t *dest = lib_malloc(sizeof(native_data_t));
+
+    DBG(("native_borderize_colormap bordercolor: %d xsize: %d ysize: %d\n",
+         bordercolor, xsize, ysize));
 
     dest->filename = source->filename;
 
@@ -205,6 +213,9 @@ native_data_t *native_crop_and_borderize_colormap(native_data_t *source, uint8_t
     int skipystart = 0;
     int i, j, k, l;
     native_data_t *dest = lib_malloc(sizeof(native_data_t));
+
+    DBG(("native_crop_and_borderize_colormap bordercolor: %d xsize: %d ysize: %d oversize handling: %d\n",
+         bordercolor, xsize, ysize, oversize_handling));
 
     dest->filename = source->filename;
 
@@ -336,6 +347,9 @@ native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize
     int i, j;
     int xmult, ymult;
 
+    DBG(("native_scale_colormap xsize: %d ysize: %d\n", xsize, ysize));
+    DBG(("               source xsize: %d ysize: %d\n", source->xsize, source->ysize));
+
     dest->filename = source->filename;
 
     dest->xsize = xsize;
@@ -358,10 +372,14 @@ native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize
     return dest;
 }
 
+/* scale and/or crop and/or borderize according to the options */
 native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, uint8_t bordercolor, int oversize_handling, int undersize_handling)
 {
     native_data_t *data = source;
     int mc_data_present = source->mc_data_present;
+
+    DBG(("native_crop_and_borderize_colormap bordercolor: %d xsize: %d ysize: %d oversize handling: %d undersize handling: %d\n",
+         bordercolor, xsize, ysize, oversize_handling, undersize_handling));
 
     if (data->xsize > xsize) {
         if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
@@ -593,13 +611,11 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
     int leftborder, topborder;
     uint8_t *linebuffer;
     
-    DBG(("native_generic_render\n"));
+    DBG(("native_generic_render xsize: %d ysize: %d\n", xsize, ysize));
     data->filename = filename;
     data->mc_data_present = 1; /* FIXME: set this automatically somehow */
 
     /* size of the native picture */
-    DBG(("native xsize: %d\n", xsize));
-    DBG(("native ysize: %d\n", ysize));
     data->xsize = xsize;
     data->ysize = ysize;
     data->colormap = lib_malloc(data->xsize * data->ysize);
@@ -617,8 +633,8 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
     leftborder = screenshot->gfx_position.x;
     topborder = screenshot->gfx_position.y - screenshot->first_displayed_line;
 
-    DBG(("leftborder: %d\n", leftborder));
-    DBG(("topborder: %d\n", topborder));
+    DBG(("                      leftborder: %d\n", leftborder));
+    DBG(("                      topborder: %d\n", topborder));
 
     /* get screenshot data in palette format */
     for (i = 0; i < data->ysize; i++) {
@@ -634,9 +650,7 @@ static native_data_t *native_generic_render(screenshot_t *screenshot, const char
             linebuffer[(i * screenshot->width) + (j + leftborder)]; 
         }
     }
-
-    DBG(("native_generic_render done\n"));
-    return data;    
+    return data;
 }
 
 native_data_t *native_vicii_render(screenshot_t *screenshot, const char *filename)
@@ -668,8 +682,11 @@ native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
     native_data_t *data;
     uint8_t *regs = screenshot->video_regs;
     int xsize, ysize;
-    xsize = (regs[0x02] & 0x7f) * 8;
-    ysize = ((regs[0x03] & 0x7e) >> 1) * 8;
+    xsize = (regs[0x02] & 0x7f) * 16; /* columns */
+    ysize = ((regs[0x03] & 0x7e) >> 1) * 8; /* rows */
+    if (regs[0x03] & 1) {
+        ysize <<= 1; /* 16 pixel high chars */
+    }
     data = native_generic_render(screenshot, filename, xsize, ysize);
     return data;
 }
