@@ -67,6 +67,7 @@ static GtkWidget *preview_widget = NULL;
  * ui_tape_attach_shutdown() on emulator shutdown.
  */
 static gchar *last_dir = NULL;
+static gchar *last_file = NULL;
 
 
 #ifndef SANDBOX_MODE
@@ -144,7 +145,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
-            lastdir_update(widget, &last_dir);
+            lastdir_update(widget, &last_dir, &last_file);
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Attaching file '%s' to tape unit.", filename);
 
@@ -160,7 +161,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
-            lastdir_update(widget, &last_dir);
+            lastdir_update(widget, &last_dir, &last_file);
             if (filename != NULL) {
                 debug_gtk3("Autostarting file '%s'.", filename);
 
@@ -339,7 +340,7 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     /* set last directory */
-    lastdir_set(dialog, &last_dir);
+    lastdir_set(dialog, &last_dir, &last_file);
 
     /* add 'extra' widget: 'readonly' and 'show preview' checkboxes */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
@@ -461,5 +462,5 @@ gboolean ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
  */
 void ui_tape_attach_shutdown(void)
 {
-    lastdir_shutdown(&last_dir);
+    lastdir_shutdown(&last_dir, &last_file);
 }

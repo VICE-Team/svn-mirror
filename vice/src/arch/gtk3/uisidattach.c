@@ -53,6 +53,7 @@ static ui_file_filter_t filters[] = {
 /** \brief  Last used directory in dialog
  */
 static gchar *last_dir = NULL;
+static gchar *last_file = NULL;
 
 
 /*
@@ -125,7 +126,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
-            lastdir_update(widget, &last_dir);
+            lastdir_update(widget, &last_dir, &last_file);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             text = lib_msprintf("Opening '%s'", filename);
             debug_gtk3("Loading SID file '%s'.", filename);
@@ -218,7 +219,7 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
     }
 
 
-    lastdir_set(dialog, &last_dir);
+    lastdir_set(dialog, &last_dir, &last_file);
 
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
@@ -260,5 +261,5 @@ gboolean uisidattach_show_dialog(GtkWidget *widget, gpointer data)
  */
 void uisidattach_shutdown(void)
 {
-    lastdir_shutdown(&last_dir);
+    lastdir_shutdown(&last_dir, &last_file);
 }

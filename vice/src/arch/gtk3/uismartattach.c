@@ -80,10 +80,9 @@ static GtkWidget *preview_widget = NULL;
  */
 static gchar *last_dir = NULL;
 
-
 /** \brief  Last file selected
  */
-static gchar *last_file;
+static gchar *last_file = NULL;
 
 
 /** \brief  Reference to the custom 'Autostart' button
@@ -125,7 +124,7 @@ static void do_autostart(GtkWidget *widget, gpointer data)
 
     int index = GPOINTER_TO_INT(data);
 
-    lastdir_update(widget, &last_dir);
+    lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     filename_locale = file_chooser_convert_to_locale(filename);
 
@@ -268,13 +267,12 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
     /* gonna needs this in multiple checks */
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-    last_file = g_strdup(filename);
 
     switch (response_id) {
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
-            lastdir_update(widget, &last_dir);
+            lastdir_update(widget, &last_dir, &last_file);
             filename_locale = file_chooser_convert_to_locale(filename);
 
             /* ui_message("Opening file '%s' ...", filename); */
@@ -443,14 +441,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     /* set last used directory */
-    lastdir_set(dialog, &last_dir);
-
-    if (last_file != NULL) {
-        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), last_file);
-        g_free(last_file);
-        last_file = NULL;
-    }
-
+    lastdir_set(dialog, &last_dir, &last_file);
 
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
@@ -547,9 +538,5 @@ gboolean ui_smart_attach_dialog_show(GtkWidget *widget, gpointer user_data)
  */
 void ui_smart_attach_shutdown(void)
 {
-    lastdir_shutdown(&last_dir);
-    if (last_file != NULL) {
-        g_free(last_file);
-        last_file = NULL;
-    }
+    lastdir_shutdown(&last_dir, &last_file);
 }

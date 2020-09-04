@@ -83,6 +83,7 @@ static GtkWidget *driveno_widget = NULL;
  * ui_disk_attach_shutdown() on emulator shutdown.
  */
 static gchar *last_dir = NULL;
+static gchar *last_file = NULL;
 
 
 /** \brief  Unit number to attach disk to
@@ -236,7 +237,7 @@ static void do_autostart(GtkWidget *widget, gpointer user_data)
 
     mainlock_assert_lock_obtained();
 
-    lastdir_update(widget, &last_dir);
+    lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     /* convert filename to current locale */
     filename_locale = file_chooser_convert_to_locale(filename);
@@ -300,7 +301,7 @@ static void on_response(GtkWidget *widget, gint response_id,
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
 
-            lastdir_update(widget, &last_dir);
+            lastdir_update(widget, &last_dir, &last_file);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* convert filename to current locale */
             filename_locale = file_chooser_convert_to_locale(filename);
@@ -369,7 +370,7 @@ static void on_response(GtkWidget *widget, gint response_id,
     switch (response_id) {
         case GTK_RESPONSE_ACCEPT:
 
-            lastdir_update(widget, &last_dir);
+            lastdir_update(widget, &last_dir, &last_file);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* convert filename to current locale */
             filename_locale = file_chooser_convert_to_locale(filename);
@@ -491,7 +492,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     /* set last directory */
-    lastdir_set(dialog, &last_dir);
+    lastdir_set(dialog, &last_dir, &last_file);
 
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
     if (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX) {
@@ -626,5 +627,5 @@ gboolean ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
  */
 void ui_disk_attach_shutdown(void)
 {
-    lastdir_shutdown(&last_dir);
+    lastdir_shutdown(&last_dir, &last_file);
 }

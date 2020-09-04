@@ -32,9 +32,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void lastdir_set(GtkWidget *widget, char **last);
-void lastdir_update(GtkWidget *widget, char **last);
+void lastdir_set(GtkWidget *widget, gchar **last_dir, gchar **last_file);
+void lastdir_update(GtkWidget *widget, gchar **last_dir, gchar **last_file);
 void lastdir_update_raw(char *path, char **last);
-void lastdir_shutdown(char **last);
+void lastdir_shutdown(gchar **last_dir, gchar **last_file);
 
 #endif

@@ -226,6 +226,7 @@ static ui_file_filter_t filters[] = {
 /** \brief  Last used directory
  */
 static gchar *last_dir = NULL;
+static gchar *last_file = NULL;
 
 
 /* list of cartridge handling functions (to avoid vsid link errors) */
@@ -357,7 +358,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             gtk_widget_destroy(dialog);
             break;
         case GTK_RESPONSE_ACCEPT:
-            lastdir_update(dialog, &last_dir);
+            lastdir_update(dialog, &last_dir, &last_file);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
                 gchar *filename_locale = file_chooser_convert_to_locale(filename);
@@ -1209,7 +1210,7 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
     /* set last directory */
-    lastdir_set(dialog, &last_dir);
+    lastdir_set(dialog, &last_dir, &last_file);
 
     /* add extra widget */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
@@ -1288,5 +1289,5 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
  */
 void ui_cart_shutdown(void)
 {
-    lastdir_shutdown(&last_dir);
+    lastdir_shutdown(&last_dir, &last_file);
 }
