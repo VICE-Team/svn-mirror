@@ -300,3 +300,36 @@ void content_preview_widget_set_image(GtkWidget *widget, const char *path)
         g_object_unref(model);
     }
 }
+
+
+/** \brief  Set index in directory
+ *
+ * \param[in]   widget      widget (unused)
+ * \param[in]   index       index in directory
+ *
+ * \return  bool
+ */
+gboolean content_preview_widget_set_index(GtkWidget *widget, int index)
+{
+    GtkTreeModel *model;
+    GtkTreePath *path;
+    GtkTreeSelection *selection;
+    gint row_count;
+
+    /* get model and check index */
+    debug_gtk3("Index = %d", index);
+    model = gtk_tree_view_get_model(GTK_TREE_VIEW(content_view));
+    row_count = gtk_tree_model_iter_n_children(model, NULL);
+    /* check for valid index (-1 for "BLOCKS FREE") */
+    if (index < 1 || index >= row_count -1) {
+        return FALSE;
+    }
+
+    /* set new selection */
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(content_view));
+    path = gtk_tree_path_new_from_indices(index, -1);
+    gtk_tree_selection_select_path(selection, path);
+    return TRUE;
+}
+
+

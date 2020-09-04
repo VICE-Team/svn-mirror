@@ -175,6 +175,9 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         }
         g_object_unref(file);
     }
+#if 0
+    content_preview_widget_set_index(preview_widget, 2);
+#endif
 }
 #endif
 
@@ -505,6 +508,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             dialog, diskcontents_filesystem_read, on_response);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
+
 
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {

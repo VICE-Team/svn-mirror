@@ -37,5 +37,6 @@ GtkWidget *content_preview_widget_create(
         read_contents_func_type func,
         void (*response)(GtkWidget *, gint, gpointer));
 void content_preview_widget_set_image(GtkWidget *widget, const char *path);
+gboolean content_preview_widget_set_index(GtkWidget *widget, int index);
 
 #endif
