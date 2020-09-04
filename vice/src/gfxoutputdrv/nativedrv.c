@@ -691,10 +691,9 @@ native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
     return data;
 }
 
-#define MA_WIDTH        64
-#define MA_LO           (MA_WIDTH - 1)          /* 6 bits */
-#define MA_HI           (~MA_LO)
-
+/* FIXME:
+   screenshot->gfx_position.x/y does not match actual black border
+*/
 native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename)
 {
     native_data_t *data;
@@ -779,21 +778,33 @@ native_data_t *native_vdc_render(screenshot_t *screenshot, const char *filename)
     int xsize, ysize;
     uint8_t displayed_chars_h = regs[1];
     uint8_t displayed_chars_v = regs[6];
-    /* BYTE scanlines_per_char = (regs[9] & 0x1f) + 1;
-    BYTE char_h_size_alloc = regs[22] & 0xf;
-    BYTE char_h_size_displayed = (regs[22] & 0xf0) >> 4; */
+    uint8_t scanlines_per_char = (regs[9] & 0x1f) + 1;
+    /* uint8_t char_h_size_alloc = regs[22] & 0xf; */
+    uint8_t char_h_size_displayed = (regs[22] & 0xf0) >> 4;
+    uint8_t char_h_size = (regs[22] & 0x0f);
+    uint8_t char_h_double_pixel = ((regs[25] & 0x10) ? 2 : 1);
+    uint8_t top_border_chars_h;
 
-    /* X size calculation is not completely correct,
-       char x and double pixel is not taken into account yet,
-       correct calculation will become : data->xsize = displayed_chars_h * char_h_size_displayed * ((regs[25] & 0x10) ? 2 : 1);
-     */
-    xsize = displayed_chars_h * 8;
+    DBG(("native_vdc_render displayed_chars_h: %u\n", displayed_chars_h));
+    DBG(("                  displayed_chars_v: %u\n", displayed_chars_v));
+    DBG(("                  char_h_size_displayed: %u\n", char_h_size_displayed));
+    DBG(("                  char_h_size: %u\n", char_h_size));
+    DBG(("                  scanlines_per_char: %u\n", scanlines_per_char));
+    DBG(("                  char_h_double_pixel: %u\n", char_h_double_pixel));
+    DBG(("                  3: %u\n", regs[3]));
+    DBG(("                  4: %u\n", regs[4]));
+    DBG(("                  5: %u\n", regs[5]));
+    DBG(("                  6: %u\n", regs[6]));
 
-    /* Y size calculation is not completely correct,
-       scanlines per char is not taken into account yet,
-       correct calculation will become : data->ysize = displayed_chars_v * scanlines_per_char;
-     */
-    ysize = displayed_chars_v * 8;
+    xsize = displayed_chars_h * char_h_size * char_h_double_pixel;
+    ysize = displayed_chars_v * scanlines_per_char;
+
+    DBG(("                  xsize: %d\n", xsize));
+    DBG(("                  ysize: %d\n", ysize));
+
+    /* FIXME: this should be set elsewhere in the vdc code */
+    top_border_chars_h = ((regs[4] - displayed_chars_v) / 2) - 1;   /* FIXME: is this correct? */
+    screenshot->gfx_position.y = top_border_chars_h * scanlines_per_char;
 
     data = native_generic_render(screenshot, filename, xsize, ysize);
     return data;
