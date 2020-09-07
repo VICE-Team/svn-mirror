@@ -36,9 +36,12 @@
 #include "diskimage.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "machine-bus.h"
 #include "montypes.h"
 #include "mon_drive.h"
 #include "mon_util.h"
+#include "resources.h"
+#include "serial.h"
 #include "types.h"
 #include "uimon.h"
 #include "vdrive.h"
@@ -132,6 +135,33 @@ void mon_drive_execute_disk_cmd(char *cmd)
     vdrive_command_execute(vdrive, (uint8_t *)cmd, len);
 }
 
+/* FIXME: this function should perhaps live elsewhere */
+/* check if a drive is associated with a filesystem/directory */
+int mon_drive_is_fsdevice(int drive_unit)
+{
+    int virtualdev = 0, truedrive = 0;
+    resources_get_int("VirtualDevices", &virtualdev);
+    resources_get_int("DriveTrueEmulation", &truedrive);
+    if (virtualdev && !truedrive) {
+        if (machine_bus_device_type_get(drive_unit) == SERIAL_DEVICE_FS) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* FIXME: this function should perhaps live elsewhere */
+/* for a given drive unit, return the associated fsdevice directory, or NULL
+   if there is none */
+const char *mon_drive_get_fsdevice_path(int drive_unit)
+{
+    const char *fspath = NULL;
+    if (mon_drive_is_fsdevice(drive_unit)) {
+        resources_get_string_sprintf("FSDevice%iDir", &fspath, drive_unit);
+    }
+    return fspath;
+}
+
 void mon_drive_list(int drive_unit)
 {
     const char *name;
@@ -139,6 +169,7 @@ void mon_drive_list(int drive_unit)
     vdrive_t *vdrive;
     /* TODO: drive 1? */
     unsigned int drive = 0;
+    const char *fspath = NULL;
 
     if ((drive_unit < 8) || (drive_unit > 11)) {
         drive_unit = 8;
@@ -147,6 +178,10 @@ void mon_drive_list(int drive_unit)
     vdrive = file_system_get_vdrive(drive_unit, drive);
 
     if (vdrive == NULL || vdrive->image == NULL) {
+        if ((fspath = mon_drive_get_fsdevice_path(drive_unit))) {
+            mon_show_dir(fspath);
+            return;
+        }
         mon_out("Drive %i not ready.\n", drive_unit);
         return;
     }
