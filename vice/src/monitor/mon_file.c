@@ -36,9 +36,11 @@
 #include "autostart.h"
 #include "cartridge.h"
 #include "charset.h"
+#include "lib.h"
 #include "machine.h"
 #include "mem.h"
 #include "montypes.h"
+#include "mon_drive.h"
 #include "mon_file.h"
 #include "mon_util.h"
 #include "tape.h"
@@ -56,7 +58,8 @@ static vdrive_t *vdrive;
 /* we require an EOF buffer to support CBM EOFs. */
 static int mon_file_read_eof[4][16];
 
-static int mon_file_open(const char *filename, unsigned int secondary,
+static int mon_file_open(const char *filename,
+                         unsigned int secondary, /* 0: load, 1: save */
                          int device)
 {
     char pname[17];
@@ -65,14 +68,14 @@ static int mon_file_open(const char *filename, unsigned int secondary,
 
     /* TODO: drive 1 */
     unsigned int drive = 0;
+    const char *fspath = NULL;
+    char *fullpath;
+
+    fp = NULL;
 
     switch (device) {
         case 0:
-            if (secondary == 0) {
-                fp = fopen(filename, MODE_READ);
-            } else {
-                fp = fopen(filename, MODE_WRITE);
-            }
+            fp = fopen(filename, (secondary == 0) ? MODE_READ : MODE_WRITE);
             if (fp == NULL) {
                 return -1;
             }
@@ -82,9 +85,19 @@ static int mon_file_open(const char *filename, unsigned int secondary,
         case 10:
         case 11:
             vdrive = file_system_get_vdrive((unsigned int)device, drive);
-            if (vdrive == NULL) {
+            if (vdrive == NULL || vdrive->image == NULL) {
+                /* if vdrive did not succeed, try fsdevice */
+                if ((fspath = mon_drive_get_fsdevice_path(device))) {
+                    fullpath = archdep_join_paths(fspath, filename);
+                    fp = fopen(fullpath, (secondary == 0) ? MODE_READ : MODE_WRITE);
+                    lib_free(fullpath);
+                    if (fp != NULL) {
+                        return 0;
+                    }
+                }
                 return -1;
             }
+
             /* convert filename to petscii */
             s = filename;
             for (i = 0; (i < 16) && (*s); ++i) {
@@ -109,65 +122,47 @@ static int mon_file_open(const char *filename, unsigned int secondary,
 
 static int mon_file_read(uint8_t *data, unsigned int secondary, int device)
 {
-    switch (device) {
-        case 0:
-            if (fread((char *)data, 1, 1, fp) < 1) {
-                return -1;
-            }
-            break;
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-            /* Return EOF if we hit a CBM EOF on the last read. */
-            if (mon_file_read_eof[device - 8][secondary]) {
-                *data = 0xc7;
-                return -1;
-            }
-            /* Set next EOF based on CBM EOF. */
-            mon_file_read_eof[device - 8][secondary] =
-                vdrive_iec_read(vdrive, data, secondary);
-            break;
+    if (fp) {
+        if (fread((char *)data, 1, 1, fp) < 1) {
+            return -1;
+        }
+    } else if (device >= 8) {
+        /* Return EOF if we hit a CBM EOF on the last read. */
+        if (mon_file_read_eof[device - 8][secondary]) {
+            *data = 0xc7;
+            return -1;
+        }
+        /* Set next EOF based on CBM EOF. */
+        mon_file_read_eof[device - 8][secondary] =
+            vdrive_iec_read(vdrive, data, secondary);
     }
     return 0;
 }
 
 static int mon_file_write(uint8_t data, unsigned int secondary, int device)
 {
-    switch (device) {
-        case 0:
-            if (fwrite((char *)&data, 1, 1, fp) < 1) {
-                return -1;
-            }
-            break;
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-            if (vdrive_iec_write(vdrive, data, secondary) != SERIAL_OK) {
-                return -1;
-            }
-            break;
+    if (fp) {
+        if (fwrite((char *)&data, 1, 1, fp) < 1) {
+            return -1;
+        }
+    } else if (device >= 8) {
+        if (vdrive_iec_write(vdrive, data, secondary) != SERIAL_OK) {
+            return -1;
+        }
     }
     return 0;
 }
 
 static int mon_file_close(unsigned int secondary, int device)
 {
-    switch (device) {
-        case 0:
-            if (fclose(fp) != 0) {
-                return -1;
-            }
-            break;
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-            if (vdrive_iec_close(vdrive, secondary) != SERIAL_OK) {
-                return -1;
-            }
-            break;
+    if (fp) {
+        if (fclose(fp) != 0) {
+            return -1;
+        }
+    } else if (device >= 8) {
+        if (vdrive_iec_close(vdrive, secondary) != SERIAL_OK) {
+            return -1;
+        }
     }
     return 0;
 }
@@ -323,7 +318,7 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr)
 {
     mon_evaluate_default_addr(&start_addr);
 
-    mon_out("Verify file %s at address $%04x\n",
+    mon_out("FIXME: Verify file %s at address $%04x\n",
             filename, addr_location(start_addr));
 }
 
