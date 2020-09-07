@@ -773,7 +773,11 @@ cond_operand: register    { $$ = new_cond;
                |  '@' BANKNAME ':' address {$$=new_cond;
                             $$->operation=e_INV;
                             $$->is_parenthized = FALSE;
-                            $$->banknum=mon_banknum_from_bank(e_default_space,$2); $$->value = $4; $$->is_reg = FALSE;
+                            $$->banknum = mon_banknum_from_bank(e_default_space, $2);
+                            if ($$->banknum < 0) {
+                                return ERR_ILLEGAL_INPUT;
+                            }
+                            $$->value = $4; $$->is_reg = FALSE;
                             $$->child1 = NULL; $$->child2 = NULL;  
                         }                        
                ;

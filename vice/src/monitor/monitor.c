@@ -571,6 +571,8 @@ void monitor_cpu_type_set(const char *cpu_type)
     }
 }
 
+/* return the bank number for a literal bank name in the given memspace.
+   returns -1 if the memspace has no banking */
 int mon_banknum_from_bank(MEMSPACE mem, const char *bankname)
 {
     int newbank;
@@ -579,9 +581,14 @@ int mon_banknum_from_bank(MEMSPACE mem, const char *bankname)
         mem = default_memspace;
     }
 
+    if (mon_interfaces[mem]->mem_bank_from_name == NULL) {
+        mon_out("Banks not available in this memspace\n");
+        return -1;
+    }
+
     newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
     if (newbank < 0) {
-        mon_out("Unknown bank name `%s'\n", bankname);
+        mon_out("Unknown bank name '%s'\n", bankname);
         return 0;
     }
     return newbank;
