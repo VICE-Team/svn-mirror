@@ -215,7 +215,18 @@ int main_program(int argc, char **argv)
     }
 
     if (log_init() < 0) {
-        archdep_startup_log_error("Cannot startup logging system.\n");
+        const char *logfile = NULL;
+
+        /* assuming LogFileName exists */
+        resources_get_string("LogFileName", &logfile);
+
+        if (logfile != NULL && *logfile != '\0') {
+            archdep_startup_log_error(
+                    "Cannot start logging system, failed to open '%s' for writing",
+                    logfile);
+        } else {
+            archdep_startup_log_error("Cannot startup logging system.\n");
+        }
     }
 
     DBG(("main:initcmdline_check_args(argc:%d)\n", argc));
