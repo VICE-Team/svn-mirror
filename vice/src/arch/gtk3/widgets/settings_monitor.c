@@ -164,8 +164,17 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     /* align with the rest, more or less */
     g_object_set(log_label, "margin-left", 8, NULL);
     gtk_widget_set_halign(log_label, GTK_ALIGN_START);
+#if 0
     log_name = vice_gtk3_resource_entry_full_new(
             "MonitorLogFileName");
+#else
+    log_name = vice_gtk3_resource_browser_save_new(
+            "MonitorLogFileName",
+            "Select monitor log filename",
+            NULL,
+            NULL,
+            NULL);
+#endif
     gtk_widget_set_hexpand(log_name, TRUE);
 
     scroll_label = gtk_label_new("Number of lines in scrollback buffer\n(-1 for no limit)");
