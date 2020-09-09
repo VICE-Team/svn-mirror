@@ -643,7 +643,7 @@ filename: FILENAME
         | error { return ERR_EXPECT_FILENAME; }
         ;
 
-device_num: expression
+device_num: d_number
       | error { return ERR_EXPECT_DEVICE_NUM; }
       ;
 
