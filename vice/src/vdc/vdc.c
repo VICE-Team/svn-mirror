@@ -479,9 +479,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         }
         
         /* Check if we've hit past the last char row and we should restart
-            FIXME comparison looks wrong, probably not a > ?
-            FIXME Also this draws the actual number of rows in reg 4, which is 1 less than what MTC128 says it should be drawing
-            (even though the timing is then correct for e.g. RFO..) */
+            FIXME comparison looks wrong, probably not a > ?    */
         if (vdc.row_counter > (vdc.regs[4])) {
             /* FIXME handle vertical fine adjust (reg#5>0) a bit cleaner and handle edge cases */
             if (vdc_vert_fine_adj || vdc.regs[5] == 0 || vdc.regs[5] == vdc.regs[9]) {
@@ -524,6 +522,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         if (vdc.row_counter == vdc.regs[7]) {
             vdc.vsync = 1;
             vdc.vsync_counter = 0;
+            /* This makes the screenshot the correct height */
+            vdc.raster.geometry->last_displayed_line = vdc.raster.current_line + 1;
         }
     } else {
         vdc.row_counter_y += 1 + vdc.interlaced;
