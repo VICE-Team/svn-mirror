@@ -26,10 +26,9 @@ TOPSRCDIR="$1"
 TOPBUILDDIR="$2"
 TEMPLATE="$3"
 PREFIX="$4"
-VERSION="$5"
-BINARY="$6"
-COMMENT="$7"
-ICON="$8"
+BINARY="$5"
+COMMENT="$6"
+ICON="$7"
 
 if [ -z "$COMMENT" ]; then
     COMMENT="$BINARY"
@@ -39,23 +38,15 @@ if [ -z "$ICON" ]; then
 fi
 
 
-# check for SVN revision, and if present, add to version number
-if [ -e "$TOPSRCDIR/src/svnversion.h" ]; then
-    # Don't use GNU-specific grep options
-    SVNREVISION=`grep 'VICE_SVN_REV_NUMBER' "$TOPSRCDIR/src/svnversion.h" | cut -c 29-`
-    VERSION="$VERSION-r$SVNREVISION"
-fi
-
 #echo "top_srcdir   : $TOPSRCDIR"
 #echo "top_builddir : $TOPBUILDDIR"
 #echo "template     : $TEMPLATE"
 #echo "prefix       : $PREFIX"
-#echo "version      : $VERSION"
 #echo "binary       : $BINARY"
 #echo "cmment       : $COMMENT"
 #echo "icon         : $ICON"
 
 # This is a template 'engine' Harry P!
 cat "${TEMPLATE}" | \
-    sed -e "s@__PREFIX__@${PREFIX}@g;s@__VICE_EMU_BIN__@${BINARY}@g;s@__ICON__@${ICON}@g;s@__VICE_EMU_COMMENT__@${COMMENT}@g;s@__ICON__@${ICON}@g;s@__VICE_VERSION__@${VERSION}@g;s@__VICE_EMU_NAME__@${BINARY}@g" > "${BINARY}.desktop"
+    sed -e "s@__PREFIX__@${PREFIX}@g;s@__VICE_EMU_BIN__@${BINARY}@g;s@__ICON__@${ICON}@g;s@__VICE_EMU_COMMENT__@${COMMENT}@g;s@__ICON__@${ICON}@g;s@__VICE_EMU_NAME__@${BINARY}@g" > "vice-org-${BINARY}.desktop"
 
