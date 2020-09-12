@@ -285,8 +285,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *hidden_check;
-    GtkWidget *readonly_check;
 #if 0
+    GtkWidget *readonly_check;
     GtkWidget *preview_check;
 #endif
 
@@ -298,8 +298,11 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
             (gpointer)(parent));
     gtk_grid_attach(GTK_GRID(grid), hidden_check, 0, 0, 1, 1);
 
+#if 0
     readonly_check = gtk_check_button_new_with_label("Attach read-only");
     gtk_grid_attach(GTK_GRID(grid), readonly_check, 1, 0, 1, 1);
+#endif
+
 #if 0
     preview_check = gtk_check_button_new_with_label("Show image contents");
     g_signal_connect(preview_check, "toggled", G_CALLBACK(on_preview_toggled),
