@@ -24,6 +24,11 @@
  *  02111-1307  USA.
  */
 
+/*
+ * $VICERES AttachDevice8Readonly   -vsid
+ */
+
+
 #include "vice.h"
 
 #include <gtk/gtk.h>
@@ -40,6 +45,7 @@
 #include "tapecontents.h"
 #include "machine.h"
 #include "mainlock.h"
+#include "resources.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
 #include "uimachinewindow.h"
@@ -112,7 +118,7 @@ static void update_last_dir(GtkWidget *widget)
 #endif
 
 
-/** \brief  Tigger autostart
+/** \brief  Trigger autostart
  *
  * \param[in]   widget  dialog
  * \param[in]   data    file index in the directory preview
@@ -221,6 +227,24 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
     debug_gtk3("show hidden files: %s.", state ? "enabled" : "disabled");
 
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
+}
+#endif
+
+
+#ifndef SANDBOX_MODE
+/** \brief  Handler for the 'toggled' event of the 'attach read-only' checkbox
+ *
+ * \param[in]   widget      checkbox triggering the event
+ * \param[in]   user_data   data for the event (the dialog)
+ */
+static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
+{
+    int state;
+
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    debug_gtk3("read-only: %s.", state ? "enabled" : "disabled");
+
+    resources_set_int_sprintf("AttachDevice%dReadonly", state, DRIVE_UNIT_DEFAULT);
 }
 #endif
 
@@ -351,6 +375,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     GtkWidget *hidden_check;
     GtkWidget *readonly_check;
     GtkWidget *preview_check;
+    int readonly_state;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -361,7 +386,11 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), hidden_check, 0, 0, 1, 1);
 
     readonly_check = gtk_check_button_new_with_label("Attach read-only");
+    g_signal_connect(readonly_check, "toggled", G_CALLBACK(on_readonly_toggled),
+            (gpointer)(parent));
     gtk_grid_attach(GTK_GRID(grid), readonly_check, 1, 0, 1, 1);
+    resources_get_int_sprintf("AttachDevice%dReadonly", &readonly_state, DRIVE_UNIT_DEFAULT);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(readonly_check), readonly_state);
 
     preview_check = gtk_check_button_new_with_label("Show image contents");
     g_signal_connect(preview_check, "toggled", G_CALLBACK(on_preview_toggled),
