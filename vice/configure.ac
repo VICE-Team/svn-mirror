@@ -2409,6 +2409,7 @@ if test x"$enable_external_ffmpeg" = "xyes"; then
        ],
       [echo "no. disabled."]
     )
+    AC_DEFINE([EXTERNAL_FFMPEG],,[External FFMPEG libraries are used])
     HAVE_EXTERNAL_FFMPEG=yes
     PKG_CHECK_MODULES(FFMPEG_SWRESAMPLE, [libswresample], [have_swresample=yes], [have_swresample=no])
     if test x"$have_swresample" = "xyes"; then
@@ -2676,6 +2677,7 @@ if test x"$enable_lame" = "xyes" ; then
       SOUND_DRIVERS="$SOUND_DRIVERS soundmp3.o lamelib.o"
       AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])
       USE_LAMEMP3_SUPPORT="yes"
+      AC_DEFINE(HAVE_EXTERNAL_LAME,,[External linking for lame libs])
       AC_MSG_RESULT([dynlib])
     else
       dnl try static linking

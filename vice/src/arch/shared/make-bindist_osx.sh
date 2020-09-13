@@ -104,7 +104,7 @@ copy_lib_recursively () {
   local lib_basename=`basename "$lib"`
   local lib_dest="$APP_LIB/$lib_basename"
 
-  if [ -e "$lib_dest" ]; then
+  if [ "$lib" = "" ] || [ -e "$lib_dest" ]; then
     return
   fi
 
@@ -284,7 +284,7 @@ done
 
 cp "$TOP_DIR/src/arch/shared/macOS-common-runtime.sh" "$APP_BIN/common-runtime.sh"
 
-# Can use dtrace in a terminal and run vsid.app to find runtime libs that aren't directly linked:
+# Can use dtrace in a terminal and run x64sc.app to find runtime libs that aren't directly linked:
 # sudo dtrace -n 'syscall::*stat*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
 # sudo dtrace -n 'syscall::*open*:entry /execname=="x64sc"/ { printf("%s", copyinstr(arg0)); }'
 
@@ -361,7 +361,18 @@ for lib in `find $APP_LIB -name '*.so'`; do
 done
 
 # Some libs are loaded at runtime
-copy_lib_recursively /opt/local/lib/libmp3lame.dylib
+if grep -q "^#define HAVE_EXTERNAL_LAME " "$TOP_DIR/src/config.h"; then
+  copy_lib_recursively /opt/local/lib/libmp3lame.dylib
+fi
+
+# ffmpeg
+if grep -q "^#define EXTERNAL_FFMPEG " "$TOP_DIR/src/config.h"; then
+  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavformat.*.dylib')"
+  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavcodec.*.dylib')"
+  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavutil.*.dylib')"
+  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libswscale.*.dylib')"
+  copy_lib_recursively "$(find /opt/local/lib -type f -name 'libswresample.*.dylib')"
+fi
 
 # --- copy tools ---------------------------------------------------------------
 
