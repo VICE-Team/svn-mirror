@@ -696,7 +696,11 @@ static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
  */
 static GdkPixbuf *get_default_icon(void)
 {
-    return uidata_get_pixbuf("CBM_Logo.svg");
+    char buffer[256];
+
+    g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
+    debug_gtk3("Default icon = '%s'\n", buffer);
+    return uidata_get_pixbuf(buffer);
 }
 
 

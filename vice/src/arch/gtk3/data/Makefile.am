@@ -3,7 +3,7 @@ gtk3datadir = $(VICE_DATADIR)/common
 
 GRESOURCE_TARGET = $(builddir)/vice.gresource
 # TODO: check the double backslash
-GRESOURCE_PROTO = $(srcdir)//vice.gresource.xml.proto
+GRESOURCE_PROTO = $(srcdir)/vice.gresource.xml.proto
 GRESOURCE_XML = $(builddir)/vice.gresource.xml
 
 # FIXME: final target of gresource is called _TARGET, but here the final target
@@ -289,7 +289,9 @@ endif
 .PHONY: distclean
 distclean: clean
 
-
+# Figure out how to not cancel the implicit make install or perhaps trigger it
+#
+# Gotta love autotools
 install: $(VICE_DIR_FILE) emu.desktop
 if INSTALL_DESKTOP_FILES
 	echo "Doing icon install!"
@@ -306,7 +308,10 @@ endif
 	$(XDG_DESKTOP_MENU) install "$(VICE_DIR_FILE)" "$(XCBM2_DESKTOP)"
 	$(XDG_DESKTOP_MENU) install "$(VICE_DIR_FILE)" "$(XPET_DESKTOP)"
 	$(XDG_DESKTOP_MENU) install "$(VICE_DIR_FILE)" "$(VSID_DESKTOP)"
+if UNIX_COMPILE
+	cp vice.gresource $(prefix)/share/vice/common/
 endif
 
+endif
 
 # vim: set noet ts=8 sts=8 sw=8:

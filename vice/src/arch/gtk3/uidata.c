@@ -68,6 +68,7 @@ int uidata_init(void)
     dir = archdep_get_vice_datadir();
     debug_gtk3("trying archdep_get_vice_datadir() %s/common", dir);
     path = archdep_join_paths(dir, "common", "vice.gresource", NULL);
+    debug_gtk3("Loading gresource from '%s'\n", path);
     lib_free(dir);
 
     gresource = g_resource_load(path, &err);
