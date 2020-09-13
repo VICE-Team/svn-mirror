@@ -1662,6 +1662,10 @@ if test x"$enable_desktop_files" = "xyes"; then
 fi
 
 
+dnl Check for the icotool binary to generate Windows .ico files
+AC_CHECK_PROG(ICOTOOL, icotool, icotool, no)
+
+
 dnl This enables the embedded data files feature, which should
 dnl only be used for developing new ports or for ports for which
 dnl the loading of the datafiles is hard/impossible.
@@ -4084,6 +4088,7 @@ if test x"$real_arch" = "xUnix"; then
     echo "Gtk3 sandbox mode          : $USE_SANDBOX_MODE (--enable/disable-sandbox-mode)"
 fi
 echo "Install XDG .desktop files : $USE_DESKTOP_FILES"
+echo "icotool for Windows found  : $ICOTOOL"
 
 echo ""
 echo "User CPPFLAGS:  $CPPFLAGS"
