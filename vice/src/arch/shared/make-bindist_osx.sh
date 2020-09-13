@@ -361,12 +361,12 @@ for lib in `find $APP_LIB -name '*.so'`; do
 done
 
 # Some libs are loaded at runtime
-if grep -q "^#define HAVE_EXTERNAL_LAME " "$TOP_DIR/src/config.h"; then
+if grep -q "^#define HAVE_EXTERNAL_LAME " "src/config.h"; then
   copy_lib_recursively /opt/local/lib/libmp3lame.dylib
 fi
 
 # ffmpeg
-if grep -q "^#define EXTERNAL_FFMPEG " "$TOP_DIR/src/config.h"; then
+if grep -q "^#define EXTERNAL_FFMPEG " "src/config.h"; then
   copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavformat.*.dylib')"
   copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavcodec.*.dylib')"
   copy_lib_recursively "$(find /opt/local/lib -type f -name 'libavutil.*.dylib')"
