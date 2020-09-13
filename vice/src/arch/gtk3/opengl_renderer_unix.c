@@ -223,7 +223,11 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     int major = -1;
     int minor = -1;
-    sscanf((const char *)glGetString(GL_VERSION), "%d.%d", &major, &minor);
+    const GLubyte *gl_version_string = glGetString(GL_VERSION);
+
+    if (gl_version_string) {
+        sscanf((const char *)gl_version_string, "%d.%d", &major, &minor);
+    }
     
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
     context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);
