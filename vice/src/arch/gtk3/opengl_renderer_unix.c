@@ -220,14 +220,11 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
 
     /* make sure OpenGL extension pointers are loaded for the general renderer code */
     vice_opengl_renderer_make_current(context);
+    glewInit();
 
     int major = -1;
     int minor = -1;
-    const GLubyte *gl_version_string = glGetString(GL_VERSION);
-
-    if (gl_version_string) {
-        sscanf((const char *)gl_version_string, "%d.%d", &major, &minor);
-    }
+    sscanf((const char *)glGetString(GL_VERSION), "%d.%d", &major, &minor);
     
     /* Anything less than OpenGL 3.2 will use the legacy renderer */
     context->gl_context_is_legacy = major < 3 || (major == 3 && minor < 2);
@@ -238,9 +235,7 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
         glGetString(GL_VENDOR),
         glGetString(GL_RENDERER),
         glGetString(GL_VERSION),
-        context->gl_context_is_legacy ? "yes" : "no");
-
-    glewInit();
+        context->gl_context_is_legacy ? "yes" : "no");    
 
     /* Not sure if an indirect context will work but lets leave some useful output for bug reports */
     if (!glXIsDirect(context->x_display, context->gl_context)) {
