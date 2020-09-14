@@ -529,9 +529,10 @@ static void on_save_audio_filename(GtkDialog *dialog,
                                    gchar *filename,
                                    gpointer data)
 {
-    gchar *filename_locale = file_chooser_convert_to_locale(filename);
+    gchar *filename_locale;
 
-    if (filename_locale != NULL) {
+    if (filename != NULL) {
+        filename_locale = file_chooser_convert_to_locale(filename);
         const char *name = audio_driver_list[audio_driver_index].name;
         /* XXX: setting resources doesn't exactly help with catching errors */
         resources_set_string("SoundRecordDeviceArg", filename_locale);
