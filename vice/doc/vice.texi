@@ -15827,8 +15827,8 @@ instruction.
 
 @item registers [<reg_name> = <number> [, <reg_name> = <number>]*]
 @itemx r [<reg_name> = <number> [, <reg_name> = <number>]*]
-Assign respective registers.  With no parameters, display register
-values.
+Assign respective registers (use FL for status flags).  With no parameters, 
+display register values.
 
 @item reset [<type>]
 Reset the machine or drive.

@@ -145,8 +145,8 @@ static const mon_cmds_t mon_cmd_array[] = {
 
     { "registers", "r",
       "[<reg_name> = <number> [, <reg_name> = <number>]*]",
-      "Assign respective registers.  With no parameters, display register\n"
-      "values.",
+      "Assign respective registers (use FL for status flags).  With no\n"
+      "parameters, display register values.\n",
       NO_FILENAME_ARG
     },
 
