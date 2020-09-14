@@ -16663,6 +16663,7 @@ mentioned above.
 * MON_CMD_PING::
 * MON_CMD_BANKS_AVAILABLE::
 * MON_CMD_REGISTERS_AVAILABLE::
+* MON_CMD_DISPLAY_GET::
 * MON_CMD_EXIT::
 * MON_CMD_QUIT::
 * MON_CMD_RESET::
@@ -17120,6 +17121,31 @@ Response body:
 @item byte 4+: Name
 
 @end table
+
+@end table
+
+@node MON_CMD_DISPLAY_GET
+@subsection Display Get (0x84)
+
+Gets the current screen in 8-bit bitmap format.
+
+Command body:
+
+@table @strong
+@item byte 0: USE VIC-II? 
+Must be included, but ignored for all but the C128. If true, (0x01) the screen
+returned will be from the VIC-II. If false (0x00), it will be from the VDC.
+
+@end table
+
+Response type:
+
+0x84: MON_RESPONSE_REGISTERS_AVAILABLE
+
+Response body:
+
+@table @strong
+@item byte 0+: A bitmap file with appropriate headers.
 
 @end table
 

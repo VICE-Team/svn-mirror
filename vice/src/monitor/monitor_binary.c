@@ -42,6 +42,9 @@
 #include "util.h"
 #include "vicesocket.h"
 #include "machine.h"
+#include "screenshot.h"
+#include "machine-video.h"
+#include "palette.h"
 
 #include "mon_breakpoint.h"
 #include "mon_file.h"
@@ -84,6 +87,7 @@ enum t_binary_command {
     e_MON_CMD_PING = 0x81,
     e_MON_CMD_BANKS_AVAILABLE = 0x82,
     e_MON_CMD_REGISTERS_AVAILABLE = 0x83,
+    e_MON_CMD_DISPLAY_GET = 0x84,
 
     e_MON_CMD_EXIT = 0xaa,
     e_MON_CMD_QUIT = 0xbb,
@@ -120,6 +124,7 @@ enum t_binary_response {
     e_MON_RESPONSE_PING = 0x81,
     e_MON_RESPONSE_BANKS_AVAILABLE = 0x82,
     e_MON_RESPONSE_REGISTERS_AVAILABLE = 0x83,
+    e_MON_RESPONSE_DISPLAY_GET = 0x84,
 
     e_MON_RESPONSE_EXIT = 0xaa,
     e_MON_RESPONSE_QUIT = 0xbb,
@@ -871,6 +876,124 @@ static void monitor_binary_process_registers_available(binary_command_t *command
     lib_free(item_sizes);
 }
 
+static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_t *data,
+                                 unsigned int line, unsigned int mode)
+{
+    unsigned int i;
+    uint8_t *line_base;
+
+    if (line > screenshot->height) {
+        return;
+    }
+
+#define BUFFER_LINE_START(i, n) ((i)->draw_buffer + (n) * (i)->draw_buffer_line_size)
+
+    line_base = BUFFER_LINE_START(screenshot,
+                                  (line + screenshot->y_offset)
+                                  * screenshot->size_height);
+
+    for (i = 0; i < screenshot->width; i++) {
+        data[i] = screenshot->color_map[line_base[i * screenshot->size_width + screenshot->x_offset]];
+    }
+}
+
+static void monitor_binary_process_display_get(binary_command_t *command)
+{
+    screenshot_t screenshot;
+    unsigned char *response, *response_cursor, *pixel_offset_cursor;
+    unsigned int response_length, i, num_palette_entries;
+    struct video_canvas_s *canvas;
+
+    uint8_t use_vic = !!command->body[0];
+
+    if(command->length < 1) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    if (machine_class == VICE_MACHINE_C128 && use_vic) {
+        canvas = machine_video_canvas_get(1);
+    }
+    else {
+        canvas = machine_video_canvas_get(0);
+    }
+
+    if(machine_screenshot(&screenshot, canvas) < 0) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    /* Some of this code is duplicated from the file-based screenshot code. I
+        felt it would be cleaner to do that instead of defiling the screenshot
+        system to allow writing to memory also. */
+
+    screenshot.width = screenshot.max_width & ~3;
+    screenshot.height = screenshot.last_displayed_line - screenshot.first_displayed_line + 1;
+    screenshot.y_offset = screenshot.first_displayed_line;
+
+    screenshot.color_map = lib_calloc(1, 256);
+
+    for (i = 0; i < screenshot.palette->num_entries; i++) {
+        screenshot.color_map[i] = i;
+    }
+
+    num_palette_entries = screenshot.palette->num_entries;
+    response_length = 54 + screenshot.width * screenshot.height + num_palette_entries * 4;
+    response = lib_malloc(response_length);
+    response_cursor = response;
+
+    /* File Header */
+    *response_cursor = 'B';
+    response_cursor++;
+    *response_cursor = 'M';
+    response_cursor++;
+    response_cursor = write_uint32(response_length, response_cursor);
+    response_cursor = write_uint32(0x00000000, response_cursor);
+    pixel_offset_cursor = response_cursor;
+    response_cursor = write_uint32(0xffffffff, response_cursor);
+
+    /* Image header */
+    response_cursor = write_uint32(40, response_cursor);
+    response_cursor = write_uint32(screenshot.width, response_cursor);
+    response_cursor = write_uint32(screenshot.height, response_cursor);
+    response_cursor = write_uint16(1, response_cursor);
+    response_cursor = write_uint16(8, response_cursor);
+    response_cursor = write_uint32(0, response_cursor);
+    response_cursor = write_uint32(0, response_cursor),
+    response_cursor = write_uint32(0x2e23, response_cursor);
+    response_cursor = write_uint32(0x2e23, response_cursor);
+    response_cursor = write_uint32(num_palette_entries, response_cursor);
+    response_cursor = write_uint32(num_palette_entries, response_cursor);
+
+    /* Color table */
+    for(i = 0; i < num_palette_entries; i++) {
+        *response_cursor = screenshot.palette->entries[i].blue;
+        response_cursor++;
+        *response_cursor = screenshot.palette->entries[i].green;
+        response_cursor++;
+        *response_cursor = screenshot.palette->entries[i].red;
+        response_cursor++;
+        *response_cursor = 0;
+        response_cursor++;
+    }
+
+    /* Image Data Offset */
+    write_uint32(response_cursor - response, pixel_offset_cursor);
+
+    /* Image Data */
+    screenshot.convert_line = monitor_binary_screenshot_line_data;
+    response_cursor = response + response_length - screenshot.width;
+    for(i = 0; i < screenshot.height; i++) {
+        screenshot.convert_line(&screenshot, response_cursor, i, SCREENSHOT_MODE_PALETTE);
+        response_cursor -= screenshot.width;
+    }
+
+    monitor_binary_response(response_length, e_MON_RESPONSE_DISPLAY_GET, e_MON_ERR_OK, command->request_id, response);
+
+    lib_free(response);
+    lib_free(screenshot.color_map);
+}
+
 static void monitor_binary_process_mem_get(binary_command_t *command)
 {
     unsigned char *response;
@@ -1086,6 +1209,8 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
         monitor_binary_process_banks_available(command);
     } else if (command_type == e_MON_CMD_REGISTERS_AVAILABLE) {
         monitor_binary_process_registers_available(command);
+    } else if (command_type == e_MON_CMD_DISPLAY_GET) {
+        monitor_binary_process_display_get(command);
     } else {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT,
