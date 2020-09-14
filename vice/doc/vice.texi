@@ -17140,7 +17140,7 @@ returned will be from the VIC-II. If false (0x00), it will be from the VDC.
 
 Response type:
 
-0x84: MON_RESPONSE_REGISTERS_AVAILABLE
+0x84: MON_RESPONSE_DISPLAY_GET
 
 Response body:
 
