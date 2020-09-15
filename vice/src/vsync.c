@@ -582,9 +582,11 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
         next_frame_start = now;
         skipped_redraw = 0;
-    } else {
-        update_performance_metrics(now);
+
+        sync_reset = 1;
     }
+    
+    update_performance_metrics(now);
 
     /* Start afresh after "out of sync" cases. */
     if (sync_reset) {
