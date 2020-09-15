@@ -978,7 +978,7 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     }
 
     /* Image Data Offset */
-    write_uint32(response_cursor - response, pixel_offset_cursor);
+    write_uint32((uint32_t)(response_cursor - response), pixel_offset_cursor);
 
     /* Image Data */
     screenshot.convert_line = monitor_binary_screenshot_line_data;
