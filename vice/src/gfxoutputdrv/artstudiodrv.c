@@ -62,7 +62,7 @@
 /* define offsets in the artstudio file */
 #define VIDEORAM_OFFSET 0x1f42
 #define BITMAP_OFFSET   2
-#define ARTSTUDIO_SIZE  9002
+#define ARTSTUDIO_SIZE  9002 + 7
 
 static gfxoutputdrv_t artstudio_drv;
 
