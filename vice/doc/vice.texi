@@ -17127,7 +17127,7 @@ Response body:
 @node MON_CMD_DISPLAY_GET
 @subsection Display Get (0x84)
 
-Gets the current screen in 8-bit bitmap format.
+Gets the current screen in 24-bit Targa format.
 
 Command body:
 
@@ -17144,8 +17144,33 @@ Response type:
 
 Response body:
 
+The exact positioning of these fields could change in the future, so don't
+rely on them.
+
 @table @strong
-@item byte 0+: A bitmap file with appropriate headers.
+@item byte 0: ID Length, currently zero
+
+@item byte 1: Color map type, currently zero
+
+@item byte 2: Image type, currently 2
+
+@item byte 3-7: Color map specification. Always zeroes.
+
+@item byte 8-9: X Origin, currently zero.
+
+@item byte 10-11: Y Origin
+The bottom-left corner, AKA the height.
+
+@item byte 12-13: Width
+
+@item byte 14-15: Height
+
+@item byte 16: Depth, always 24
+
+@item byte 17: Descriptor, always 0x20
+0x20 = Upper-left origin (not-upside down), not interleaved
+
+@item byte 18+: BGR values, 3 bytes per pixel
 
 @end table
 

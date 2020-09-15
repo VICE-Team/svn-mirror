@@ -881,6 +881,7 @@ static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_
 {
     unsigned int i;
     uint8_t *line_base;
+    uint8_t color;
 
     if (line > screenshot->height) {
         return;
@@ -893,15 +894,18 @@ static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_
                                   * screenshot->size_height);
 
     for (i = 0; i < screenshot->width; i++) {
-        data[i] = screenshot->color_map[line_base[i * screenshot->size_width + screenshot->x_offset]];
+        color = screenshot->color_map[line_base[i * screenshot->size_width + screenshot->x_offset]];
+        data[i * 3] = screenshot->palette->entries[color].blue;
+        data[i * 3 + 1] = screenshot->palette->entries[color].green;
+        data[i * 3 + 2] = screenshot->palette->entries[color].red;
     }
 }
 
 static void monitor_binary_process_display_get(binary_command_t *command)
 {
     screenshot_t screenshot;
-    unsigned char *response, *response_cursor, *pixel_offset_cursor;
-    unsigned int response_length, i, num_palette_entries;
+    unsigned char *response, *response_cursor;
+    unsigned int response_length, i;
     struct video_canvas_s *canvas;
 
     uint8_t use_vic = !!command->body[0];
@@ -923,10 +927,6 @@ static void monitor_binary_process_display_get(binary_command_t *command)
         return;
     }
 
-    /* Some of this code is duplicated from the file-based screenshot code. I
-        felt it would be cleaner to do that instead of defiling the screenshot
-        system to allow writing to memory also. */
-
     screenshot.width = screenshot.max_width & ~3;
     screenshot.height = screenshot.last_displayed_line - screenshot.first_displayed_line + 1;
     screenshot.y_offset = screenshot.first_displayed_line;
@@ -937,55 +937,45 @@ static void monitor_binary_process_display_get(binary_command_t *command)
         screenshot.color_map[i] = i;
     }
 
-    num_palette_entries = screenshot.palette->num_entries;
-    response_length = 54 + screenshot.width * screenshot.height + num_palette_entries * 4;
+    response_length = 18 + screenshot.width * screenshot.height * 3;
     response = lib_malloc(response_length);
     response_cursor = response;
 
-    /* File Header */
-    *response_cursor = 'B';
+    /* This is in Targa format, which is simpler than bitmap while still being
+        an actual file format. Also no bottom-top order weirdness */
+
+    /* ID Length - None */
+    *response_cursor = 0;
     response_cursor++;
-    *response_cursor = 'M';
+    /* Color map type - No map */
+    *response_cursor = 0;
     response_cursor++;
-    response_cursor = write_uint32(response_length, response_cursor);
-    response_cursor = write_uint32(0x00000000, response_cursor);
-    pixel_offset_cursor = response_cursor;
-    response_cursor = write_uint32(0xffffffff, response_cursor);
-
-    /* Image header */
-    response_cursor = write_uint32(40, response_cursor);
-    response_cursor = write_uint32(screenshot.width, response_cursor);
-    response_cursor = write_uint32(screenshot.height, response_cursor);
-    response_cursor = write_uint16(1, response_cursor);
-    response_cursor = write_uint16(8, response_cursor);
-    response_cursor = write_uint32(0, response_cursor);
-    response_cursor = write_uint32(0, response_cursor),
-    response_cursor = write_uint32(0x2e23, response_cursor);
-    response_cursor = write_uint32(0x2e23, response_cursor);
-    response_cursor = write_uint32(num_palette_entries, response_cursor);
-    response_cursor = write_uint32(num_palette_entries, response_cursor);
-
-    /* Color table */
-    for(i = 0; i < num_palette_entries; i++) {
-        *response_cursor = screenshot.palette->entries[i].blue;
-        response_cursor++;
-        *response_cursor = screenshot.palette->entries[i].green;
-        response_cursor++;
-        *response_cursor = screenshot.palette->entries[i].red;
-        response_cursor++;
-        *response_cursor = 0;
-        response_cursor++;
-    }
-
-    /* Image Data Offset */
-    write_uint32((uint32_t)(response_cursor - response), pixel_offset_cursor);
+    /* Image type - Unmapped RGB */
+    *response_cursor = 2;
+    response_cursor++;
+    /* Color map specs - Ignored */
+    memset(response_cursor, 0x00, 5);
+    response_cursor += 5;
+    /* X Origin - Bottom left */
+    response_cursor = write_uint16(0x00, response_cursor);
+    /* Y Origin - Bottom left */
+    response_cursor = write_uint16(screenshot.height, response_cursor);
+    /* Image width */
+    response_cursor = write_uint16(screenshot.width, response_cursor);
+    /* Image height */
+    response_cursor = write_uint16(screenshot.height, response_cursor);
+    /* Depth */
+    *response_cursor = 24;
+    response_cursor++;
+    /* Descriptor - Upper left origin, non-interleaved */
+    *response_cursor = 0x20;
+    response_cursor++;
 
     /* Image Data */
     screenshot.convert_line = monitor_binary_screenshot_line_data;
-    response_cursor = response + response_length - screenshot.width;
     for(i = 0; i < screenshot.height; i++) {
-        screenshot.convert_line(&screenshot, response_cursor, i, SCREENSHOT_MODE_PALETTE);
-        response_cursor -= screenshot.width;
+        screenshot.convert_line(&screenshot, response_cursor, i, SCREENSHOT_MODE_RGB24);
+        response_cursor += screenshot.width * 3;
     }
 
     monitor_binary_response(response_length, e_MON_RESPONSE_DISPLAY_GET, e_MON_ERR_OK, command->request_id, response);
