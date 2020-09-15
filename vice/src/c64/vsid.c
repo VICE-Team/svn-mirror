@@ -320,7 +320,7 @@ static void machine_vsync_hook(void)
 #endif
     if (playtime != time) {
         time = playtime;
-        vsid_ui_display_time(playtime);
+        /* vsid_ui_display_time(playtime);*/
     }
 
     clk_guard_prevent_overflow(maincpu_clk_guard);

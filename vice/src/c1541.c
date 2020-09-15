@@ -262,16 +262,19 @@ static int internal_write_geos_file(int unit, FILE* f);
 /* dummy functions */
 int cmdline_register_options(const cmdline_option_t *c)
 {
+    printf("I fart in your general direction!\n");
     return 0;
 }
 
 int network_connected(void)
 {
+    printf("I fart in your general direction!\n");
     return 0;
 }
 
 int network_get_mode(void)
 {
+    printf("I fart in your general direction!\n");
 #if 0
     return NETWORK_IDLE;
 #else
@@ -281,28 +284,34 @@ int network_get_mode(void)
 
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
+    printf("I fart in your general direction!\n");
 }
 
 void event_record_in_list(event_list_state_t *list, unsigned int type,
                           void *data, unsigned int size)
 {
+    printf("I fart in your general direction!\n");
 }
 
 void ui_error(const char *format, ...)
 {
+    printf("I fart in your general direction!\n");
 }
 
 void main_exit(void)
 {
+    printf("I fart in your general direction!\n");
 }
 
 bool mainlock_is_vice_thread(void)
 {
+    printf("I fart in your general direction!\n");
     return false;
 }
 
 void mainlock_initiate_shutdown(void)
 {
+    printf("I fart in your general direction!\n");
 }
 
 /* ------------------------------------------------------------------------- */
