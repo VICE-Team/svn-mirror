@@ -653,20 +653,19 @@ int vdc_dump(void *context, uint16_t addr)
     mon_out(vdc.regs[25] & 0x20 ? ", Semigraphic" : "");
     mon_out(vdc.regs[24] & 0x40 ? ", Reverse" : "");
     mon_out(vdc.regs[8] & 0x03 ? ", Interlaced" : ", Non-Interlaced");
-    /* FIXME: mon_out() doesn't seem to support floats, so the FPS values below are rounded down with no fraction so not 100% accurate */
     if (vdc.regs[25] & 0x10) { /* double pixel mode aka 40column mode */
         mon_out(", Pixel Double");
         mon_out("\nScreen Size    : %d x %d chars", vdc.regs[1], vdc.regs[6]);
         mon_out("\nCharacter Size : %d x %d pixels (%d x %d visible)", vdc.regs[22] >> 4, vdc.regs[9] + 1, (vdc.regs[22] & 0x0f) + 1, (vdc.regs[23] & 0x1f) + 1);
         mon_out("\nActive Pixels  : %d x %d", vdc.regs[1] * (vdc.regs[22] >> 4), vdc.regs[6] * (vdc.regs[9] + 1));
-        mon_out("\nFrame inc. Sync: %d x %d @ %d fps", (vdc.regs[0] + 1) * (vdc.regs[22] >> 4), (vdc.regs[4] +1) * (vdc.regs[9] + 1), 
-                                (int)VDC_DOT_CLOCK / ((vdc.regs[0] + 1) * (vdc.regs[22] >> 4) * (vdc.regs[4] +1) * (vdc.regs[9] + 1) * 2));
+        mon_out("\nFrame inc. Sync: %d x %d @ %f fps", (vdc.regs[0] + 1) * (vdc.regs[22] >> 4), (vdc.regs[4] +1) * (vdc.regs[9] + 1), 
+                                    VDC_DOT_CLOCK / ((vdc.regs[0] + 1) * (vdc.regs[22] >> 4) * (vdc.regs[4] +1) * (vdc.regs[9] + 1) * 2));
     } else {
         mon_out("\nScreen Size    : %d x %d chars", vdc.regs[1], vdc.regs[6]);
         mon_out("\nCharacter Size : %d x %d pixels (%d x %d visible)", (vdc.regs[22] >> 4) + 1, vdc.regs[9] + 1, (vdc.regs[22] & 0x0f) + 1, (vdc.regs[23] & 0x1f) + 1);
         mon_out("\nActive Pixels  : %d x %d", vdc.regs[1] * ((vdc.regs[22] >> 4) + 1), vdc.regs[6] * (vdc.regs[9] + 1));
-        mon_out("\nFrame inc. Sync: %d x %d @ %d fps", (vdc.regs[0] + 1) * ((vdc.regs[22] >> 4) + 1), (vdc.regs[4] +1) * (vdc.regs[9] + 1), 
-                                (int)VDC_DOT_CLOCK / ((vdc.regs[0] + 1) * ((vdc.regs[22] >> 4) + 1) * (vdc.regs[4] +1) * (vdc.regs[9] + 1)));
+        mon_out("\nFrame inc. Sync: %d x %d @ %f fps", (vdc.regs[0] + 1) * ((vdc.regs[22] >> 4) + 1), (vdc.regs[4] +1) * (vdc.regs[9] + 1), 
+                                    VDC_DOT_CLOCK / ((vdc.regs[0] + 1) * ((vdc.regs[22] >> 4) + 1) * (vdc.regs[4] +1) * (vdc.regs[9] + 1)));
     }
 
     location = ((vdc.regs[12] << 8) + vdc.regs[13]) & vdc.vdc_address_mask;
