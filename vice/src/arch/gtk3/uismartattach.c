@@ -249,24 +249,6 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
 #endif
 
 
-#ifndef SANDBOX_MODE
-/** \brief  Handler for the 'toggled' event of the 'show preview' checkbox
- *
- * \param[in]   widget      checkbox triggering the event
- * \param[in]   user_data   data for the event (unused)
- */
-static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
-{
-#ifdef HAVE_DEBUG_GTK3UI
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-#endif
-    debug_gtk3("preview %s.", state ? "enabled" : "disabled");
-    /* TODO: actually disable the preview widget and resize the dialog */
-}
-#endif
-
-
-
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
@@ -374,7 +356,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *hidden_check;
     GtkWidget *readonly_check;
-    GtkWidget *preview_check;
     int readonly_state;
 
     grid = gtk_grid_new();
@@ -391,11 +372,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), readonly_check, 1, 0, 1, 1);
     resources_get_int_sprintf("AttachDevice%dReadonly", &readonly_state, DRIVE_UNIT_DEFAULT);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(readonly_check), readonly_state);
-
-    preview_check = gtk_check_button_new_with_label("Show image contents");
-    g_signal_connect(preview_check, "toggled", G_CALLBACK(on_preview_toggled),
-            NULL);
-    gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

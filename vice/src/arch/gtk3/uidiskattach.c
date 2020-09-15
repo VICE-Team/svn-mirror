@@ -160,22 +160,6 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
 #endif
 
 
-#if 0
-/** \brief  Handler for the 'toggled' event of the 'show preview' checkbox
- *
- * \param[in]   widget      checkbox triggering the event
- * \param[in]   user_data   data for the event (unused)
- */
-static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state;
-
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("preview %s.", state ? "enabled" : "disabled");
-}
-#endif
-
-
 #ifndef SANDBOX_MODE
 /** \brief  Handler for the "update-preview" event
  *
@@ -468,12 +452,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     resources_get_int_sprintf("AttachDevice%dReadonly", &readonly_state, unit_number);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(readonly_check), readonly_state);
 
-#if 0
-    preview_check = gtk_check_button_new_with_label("Show image contents");
-    g_signal_connect(preview_check, "toggled", G_CALLBACK(on_preview_toggled),
-            NULL);
-    gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
-#endif
     /* second row, three cols wide */
     gtk_grid_attach(GTK_GRID(grid),
             drive_unit_widget_create(unit, &unit_number, on_unit_changed),
