@@ -1288,7 +1288,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     if (mon_init_break != -1) {
         mon_breakpoint_add_checkpoint((uint16_t)mon_init_break, BAD_ADDR,
-                true, e_exec, false);
+                true, e_exec, false, true);
     }
 
     if (playback > 0) {

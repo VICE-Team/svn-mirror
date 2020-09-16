@@ -667,9 +667,9 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
 }
 
 int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
-                                  bool stop, MEMORY_OP op, bool is_temp)
+                                  bool stop, MEMORY_OP op, bool is_temp, bool do_print)
 {
-    return breakpoint_add_checkpoint(start_addr, end_addr, stop, op, is_temp, TRUE);
+    return breakpoint_add_checkpoint(start_addr, end_addr, stop, op, is_temp, do_print);
 }
 
 mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address)

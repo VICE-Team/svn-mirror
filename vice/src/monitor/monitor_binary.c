@@ -448,7 +448,8 @@ static void monitor_binary_process_checkpoint_set(binary_command_t *command)
         (MON_ADDR)little_endian_to_uint16(&body[2]),
         (bool)body[4],
         (MEMORY_OP)body[6],
-        (bool)body[7]
+        (bool)body[7],
+        false
         );
 
     if (!body[5]) {

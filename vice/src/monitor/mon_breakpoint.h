@@ -63,7 +63,7 @@ extern void mon_breakpoint_set_checkpoint_command(int brk_num, char *cmd);
 extern bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr,
                                             unsigned int lastpc, MEMORY_OP op);
 extern int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
-                                         bool stop, MEMORY_OP op, bool is_temp);
+                                         bool stop, MEMORY_OP op, bool is_temp, bool do_print);
 
 extern mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address);
 extern void mon_breakpoint_set(MON_ADDR address);

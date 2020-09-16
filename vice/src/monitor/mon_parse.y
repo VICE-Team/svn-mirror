@@ -379,9 +379,9 @@ memory_rules: CMD_MOVE address_range opt_sep address end_cmd
 checkpoint_rules: CMD_BREAK opt_mem_op address_opt_range opt_if_cond_expr end_cmd
                   {
                       if ($2) {
-                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, $2, FALSE);
+                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, $2, FALSE, TRUE);
                       } else {
-                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, e_exec, FALSE);
+                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, e_exec, FALSE, TRUE);
                       }
                       mon_breakpoint_set_checkpoint_condition(temp, $4);
                   }
@@ -390,7 +390,7 @@ checkpoint_rules: CMD_BREAK opt_mem_op address_opt_range opt_if_cond_expr end_cm
 
                 | CMD_UNTIL address_opt_range end_cmd
                   {
-                      mon_breakpoint_add_checkpoint($2[0], $2[1], TRUE, e_exec, TRUE);
+                      mon_breakpoint_add_checkpoint($2[0], $2[1], TRUE, e_exec, TRUE, TRUE);
                   }
                 | CMD_UNTIL end_cmd
                   { mon_breakpoint_print_checkpoints(); }
@@ -398,9 +398,9 @@ checkpoint_rules: CMD_BREAK opt_mem_op address_opt_range opt_if_cond_expr end_cm
                 | CMD_WATCH opt_mem_op address_opt_range opt_if_cond_expr end_cmd
                   {
                       if ($2) {
-                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, $2, FALSE);
+                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, $2, FALSE, TRUE);
                       } else {
-                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, e_load | e_store, FALSE);
+                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, e_load | e_store, FALSE, TRUE);
                       }
                       mon_breakpoint_set_checkpoint_condition(temp, $4);
                   }
@@ -410,9 +410,9 @@ checkpoint_rules: CMD_BREAK opt_mem_op address_opt_range opt_if_cond_expr end_cm
                 | CMD_TRACE opt_mem_op address_opt_range opt_if_cond_expr end_cmd
                   {
                       if ($2) {
-                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], FALSE, $2, FALSE);
+                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], FALSE, $2, FALSE, TRUE);
                       } else {
-                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], FALSE, e_exec | e_load | e_store, FALSE);
+                          temp = mon_breakpoint_add_checkpoint($3[0], $3[1], FALSE, e_exec | e_load | e_store, FALSE, TRUE);
                       }
                       mon_breakpoint_set_checkpoint_condition(temp, $4);
                   }
