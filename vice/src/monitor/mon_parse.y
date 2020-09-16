@@ -252,9 +252,9 @@ machine_state_rules: CMD_BANK end_cmd
                    | CMD_RETURN end_cmd
                      { mon_instruction_return(); }
                    | CMD_DUMP filename end_cmd
-                     { machine_write_snapshot($2,0,0,0); /* FIXME */ }
+                     { mon_write_snapshot($2,0,0,0); /* FIXME */ }
                    | CMD_UNDUMP filename end_cmd
-                     { machine_read_snapshot($2, 0); }
+                     { mon_read_snapshot($2, 0); }
                    | CMD_STEP end_cmd
                      { mon_instructions_step(-1); }
                    | CMD_STEP opt_sep expression end_cmd

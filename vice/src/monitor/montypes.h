@@ -287,6 +287,8 @@ extern bool check_drive_emu_level_ok(int drive_num);
 extern void mon_print_conditional(cond_node_t *cnode);
 extern void mon_delete_conditional(cond_node_t *cnode);
 extern int mon_evaluate_conditional(cond_node_t *cnode);
+extern int mon_write_snapshot(const char* name, int save_roms, int save_disks, int even_mode);
+extern int mon_read_snapshot(const char* name, int even_mode);
 extern bool mon_is_valid_addr(MON_ADDR a);
 extern bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr,
                             unsigned loc);

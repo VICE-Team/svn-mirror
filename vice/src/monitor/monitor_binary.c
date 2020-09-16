@@ -709,7 +709,7 @@ static void monitor_binary_process_dump(binary_command_t *command)
     /* This should be changed later if other fields are added after it */
     filename[filename_length] = '\0';
 
-    if(machine_write_snapshot((char *)filename, (int)save_roms, (int)save_disks, 0) < 0) {
+    if(mon_write_snapshot((char *)filename, (int)save_roms, (int)save_disks, 0) < 0) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         return;
     }
@@ -731,10 +731,13 @@ static void monitor_binary_process_undump(binary_command_t *command)
     /* This should be changed later if other fields are added after it */
     filename[filename_length] = '\0';
 
-    if(machine_read_snapshot((char *)filename, 0) < 0) {
+    if(mon_read_snapshot((char *)filename, 0) < 0) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         return;
     }
+
+    /* Reset the current address */
+    dot_addr[e_comp_space] = new_addr(e_comp_space, ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
 
     monitor_binary_response(0, e_MON_RESPONSE_UNDUMP, e_MON_ERR_OK, command->request_id, NULL);
 }

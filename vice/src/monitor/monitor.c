@@ -2273,6 +2273,27 @@ void mon_delete_conditional(cond_node_t *cnode)
 }
 
 
+/* *** SNAPSHOTS *** */
+
+
+int mon_write_snapshot(const char* name, int save_roms, int save_disks, int even_mode)
+{
+    return machine_write_snapshot(name, save_roms, save_disks, even_mode);
+}
+
+int mon_read_snapshot(const char* name, int even_mode)
+{
+    int ret;
+
+    ret = machine_read_snapshot(name, even_mode);
+
+    /* Reset the current address */
+    dot_addr[e_comp_space] = new_addr(e_comp_space, ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
+
+    return ret;
+}
+
+
 /* *** WATCHPOINTS *** */
 
 
