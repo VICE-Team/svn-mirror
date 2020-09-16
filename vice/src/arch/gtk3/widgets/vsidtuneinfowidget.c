@@ -102,6 +102,9 @@ static GtkWidget *driver_info_widget;
 static GtkWidget *sldb_widget;
 #endif
 
+/** \brief  Current play time for current song
+ */
+static unsigned int play_time;
 
 /** \brief  List of song lenghts
  */
@@ -423,6 +426,36 @@ static GtkWidget *create_sldb_widget(void)
 }
 #endif
 
+/** \brief  Update play time based ui elements
+ */
+void vsid_tune_info_widget_update(void)
+{
+    long total;
+    gdouble fraction;
+
+    update_runtime_widget(play_time);
+
+    /* HVSC support? */
+    if (song_lengths != NULL) {
+        /* get song length in milliseconds */
+        total = song_lengths[tune_current - 1];
+        /* determine progress bar value */
+        fraction = 1.0 - ((gdouble)(total / 100 - play_time) / (gdouble)(total / 100));
+        if (fraction < 0.0) {
+            fraction = 1.0;
+            /* skip to next tune, if repeat is off */
+            if (!vsid_control_widget_get_repeat()) {
+                vsid_control_widget_next_tune();
+                fraction = 0.0;
+            }
+        }
+        vsid_control_widget_set_progress(fraction);
+    } else {
+        /* non-HVSC fallback: fill progress bar */
+        vsid_control_widget_set_progress(1.0);
+    }
+}
+
 
 /** \brief  Create widget to show tune information
  *
@@ -638,30 +671,8 @@ void vsid_tune_info_widget_set_irq(const char *irq)
  */
 void vsid_tune_info_widget_set_time(unsigned int dsec)
 {
-    long total;
-    gdouble fraction;
-
-    update_runtime_widget(dsec);
-
-    /* HVSC support? */
-    if (song_lengths != NULL) {
-        /* get song length in milliseconds */
-        total = song_lengths[tune_current - 1];
-        /* determine progress bar value */
-        fraction = 1.0 - ((gdouble)(total / 100 - dsec) / (gdouble)(total / 100));
-        if (fraction < 0.0) {
-            fraction = 1.0;
-            /* skip to next tune, if repeat is off */
-            if (!vsid_control_widget_get_repeat()) {
-                vsid_control_widget_next_tune();
-                fraction = 0.0;
-            }
-        }
-        vsid_control_widget_set_progress(fraction);
-    } else {
-        /* non-HVSC fallback: fill progress bar */
-        vsid_control_widget_set_progress(1.0);
-    }
+    /* Called from VICE thread - so we just store it to be used asynchronously by the per-frame ui update */
+    play_time = dsec;
 }
 
 

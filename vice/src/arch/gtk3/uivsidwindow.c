@@ -56,6 +56,37 @@
  */
 static GtkWidget *main_widget = NULL;
 
+static gulong frame_clock_update_handler;
+
+/** \brief  Called once per frame for frequent asynchronous UI updates.
+ * 
+ * For example, vsid.c provides an updated play time from the VICE thread.
+ * It's not safe for the VICE thread to call GTK code - so instead we just
+ * store the value and update the UI each frame in here.
+ */
+static void on_frame_clock_update(GdkFrameClock *clock, gpointer user_data)
+{
+    vsid_main_widget_update();
+}
+
+static void on_widget_realized(GtkWidget *widget, gpointer data)
+{
+    GdkFrameClock *frame_clock;
+
+    /* Use a GTK frame clock to periodically update the ui */
+    frame_clock = gdk_window_get_frame_clock(gtk_widget_get_window(widget));
+    frame_clock_update_handler = g_signal_connect_unlocked(frame_clock, "update", G_CALLBACK(on_frame_clock_update), NULL);
+    gdk_frame_clock_begin_updating(frame_clock);
+}
+
+static void on_widget_unrealized(GtkWidget *widget, gpointer data)
+{
+    GdkFrameClock *frame_clock;
+
+    frame_clock = gdk_window_get_frame_clock(gtk_widget_get_window(widget));
+    g_signal_handler_disconnect(frame_clock, frame_clock_update_handler);
+    gdk_frame_clock_end_updating(frame_clock);
+}
 
 /** \brief  Create  VSID window
  *
@@ -77,6 +108,10 @@ static void vsid_window_create(video_canvas_t *canvas)
     menu_bar = ui_vsid_menu_bar_create();
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(canvas->grid), main_widget);
+
+    /* Set up the frame clock when the top level grid is realized. */
+    g_signal_connect (canvas->grid, "realize", G_CALLBACK (on_widget_realized), NULL);
+    g_signal_connect (canvas->grid, "unrealize", G_CALLBACK (on_widget_unrealized), NULL);
 }
 
 

@@ -33,6 +33,7 @@
 
 
 GtkWidget *vsid_tune_info_widget_create(void);
+void vsid_tune_info_widget_update(void);
 
 void vsid_tune_info_widget_set_name(const char *name);
 void vsid_tune_info_widget_set_author(const char *author);
