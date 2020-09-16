@@ -58,7 +58,7 @@
 #include "driveoptionswidget.h"
 
 
-/** \brief  Create checkbox to toggle IEC (OpenCBM) emulation for \a unit
+/** \brief  Create checkbox to toggle IEC-Device emulation for \a unit
  *
  * \param[in]   unit    unit number (8-11)
  *
@@ -69,7 +69,7 @@ static GtkWidget *create_iec_check_button(int unit)
     GtkWidget *check;
 
     check = vice_gtk3_resource_check_button_new_sprintf(
-            "IECDevice%d", "IEC (OpenCBM)", unit);
+            "IECDevice%d", "IEC-Device", unit);
     return check;
 }
 

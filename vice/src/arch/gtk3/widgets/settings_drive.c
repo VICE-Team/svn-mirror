@@ -253,7 +253,7 @@ static GtkWidget *create_drive_volume_widget(void)
 }
 
 
-/** \brief  Create widget to control drive device type
+/** \brief  Create widget to control IEC device type
  *
  * \param[in]   unit    unit number (8-11)
  *
@@ -268,7 +268,7 @@ static GtkWidget *create_drive_device_type_widget(int unit)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     g_object_set(grid, "margin-top", 8, NULL);
 
-    label = gtk_label_new("Device type");
+    label = gtk_label_new("IEC-Device type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 24, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
