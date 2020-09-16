@@ -908,9 +908,11 @@ static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_
 static void monitor_binary_process_display_get(binary_command_t *command)
 {
     screenshot_t screenshot;
-    unsigned char *response, *response_cursor;
-    unsigned int response_length, i;
     struct video_canvas_s *canvas;
+    unsigned char *response, *response_cursor;
+    uint32_t response_length;
+    uint16_t not_targa_length;
+    unsigned int i;
 
     uint8_t use_vic = !!command->body[0];
 
@@ -932,8 +934,8 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     }
 
     screenshot.width = screenshot.max_width & ~3;
-    screenshot.height = screenshot.last_displayed_line - screenshot.first_displayed_line + 1;
-    screenshot.y_offset = screenshot.first_displayed_line;
+    screenshot.height = screenshot.max_height;
+    screenshot.y_offset = 0;
 
     screenshot.color_map = lib_calloc(1, 256);
 
@@ -941,12 +943,17 @@ static void monitor_binary_process_display_get(binary_command_t *command)
         screenshot.color_map[i] = i;
     }
 
-    response_length = 18 + screenshot.width * screenshot.height * 3;
+    not_targa_length = 18 + screenshot.width * screenshot.height * 3;
+    response_length = not_targa_length;
     response = lib_malloc(response_length);
     response_cursor = response;
 
-    /* This is in Targa format, which is simpler than bitmap while still being
-        an actual file format. Also no bottom-top order weirdness */
+    /* Length of the definitely-not-Targa fields */
+    /* FIXME
+    response_cursor = write_uint16(not_targa_length, response_cursor);
+    */
+
+    /* Begin definitely-not-Targa fields */
 
     /* ID Length - None */
     *response_cursor = 0;
@@ -981,6 +988,8 @@ static void monitor_binary_process_display_get(binary_command_t *command)
         screenshot.convert_line(&screenshot, response_cursor, i, SCREENSHOT_MODE_RGB24);
         response_cursor += screenshot.width * 3;
     }
+
+    /* End definitely-not-Targa fields */
 
     monitor_binary_response(response_length, e_MON_RESPONSE_DISPLAY_GET, e_MON_ERR_OK, command->request_id, response);
 
