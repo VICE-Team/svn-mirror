@@ -66,6 +66,7 @@ static gulong frame_clock_update_handler;
  */
 static void on_frame_clock_update(GdkFrameClock *clock, gpointer user_data)
 {
+    ui_update_statusbars();
     vsid_main_widget_update();
 }
 

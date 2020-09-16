@@ -609,7 +609,7 @@ GtkWidget *statusbar_speed_widget_create(void)
      */
 
     /* label just for CPU (and Warp if active) */
-    label_cpu = gtk_label_new(" 100.000%% cpu");
+    label_cpu = gtk_label_new("?% cpu");
     context = gtk_widget_get_pango_context(label_cpu);  /* don't free */
     desc_static = pango_context_get_font_description(context);
     desc = pango_font_description_copy_static(desc_static);
@@ -620,7 +620,7 @@ GtkWidget *statusbar_speed_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), label_cpu, 0, 0, 1, 1);
 
     /* label just for FPS (and Pause if active) */
-    label_fps = gtk_label_new(" 50.000%% fps");
+    label_fps = gtk_label_new("?% fps");
     context = gtk_widget_get_pango_context(label_fps);  /* don't free */
     desc_static = pango_context_get_font_description(context);
     desc = pango_font_description_copy_static(desc_static);
