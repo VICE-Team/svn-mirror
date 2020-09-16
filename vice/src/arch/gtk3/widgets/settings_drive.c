@@ -65,8 +65,8 @@
 /** \brief  List of file system types
  */
 static const vice_gtk3_combo_entry_int_t device_types[] = {
-    { "None", ATTACH_DEVICE_NONE },
-    { "File system", ATTACH_DEVICE_FS },
+    { "Disk images", ATTACH_DEVICE_NONE },
+    { "Host file system", ATTACH_DEVICE_FS },
 #ifdef HAVE_REALDEVICE
     { "Real device (OpenCBM)", ATTACH_DEVICE_REAL },
 #endif
