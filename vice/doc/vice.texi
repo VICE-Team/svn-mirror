@@ -16657,6 +16657,8 @@ mentioned above.
 * MON_CMD_REGISTERS_SET::
 * MON_CMD_DUMP::
 * MON_CMD_UNDUMP::
+* MON_CMD_RESOURCE_GET::
+* MON_CMD_RESOURCE_SET::
 * MON_CMD_ADVANCE_INSTRUCTIONS::
 * MON_CMD_KEYBOARD_FEED::
 * MON_CMD_EXECUTE_UNTIL_RETURN::
@@ -16970,6 +16972,66 @@ The filename to load the snapshot from.
 Response type:
 
 0x42: MON_RESPONSE_UNDUMP
+
+Response body:
+
+Currently empty.
+
+@node MON_CMD_RESOURCE_GET
+@subsection Resource Get (0x51)
+
+Get a resource value from the emulator. @xref{Resource files, Resources and command-line, Settings and resources, Settings and resources}.
+
+Command body:
+
+@table @strong
+@item byte 0: Length of resource name
+
+@item byte 1+: Resource name
+
+@end table
+
+Response type:
+
+0x51: MON_RESPONSE_RESOURCE_GET
+
+Response body:
+
+@table @strong
+@item byte 0: Type of the resource
+0x00: String, 0x01: Integer
+
+@item byte 1: Length of the value
+
+@item byte 2+: The value
+
+@end table
+
+@node MON_CMD_RESOURCE_SET
+@subsection Resource Set (0x52)
+
+Set a resource value in the emulator. @xref{Resource files, Resources and command-line, Settings and resources, Settings and resources}.
+
+Command body:
+
+@table @strong
+@item 1 byte: Type of the resource value
+0x00: String, 0x01: Integer
+Strings will be interpreted if the destination is an Integer.
+
+@item 1 byte: Resource name length = (&name)
+
+@item (*name) bytes: The resource name
+
+@item 1 byte: Resource value length = (&value)
+
+@item (*value) bytes: The resource value
+
+@end table
+
+Response type:
+
+0x52: MON_RESPONSE_RESOURCE_SET
 
 Response body:
 

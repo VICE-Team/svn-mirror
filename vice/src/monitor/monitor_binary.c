@@ -80,6 +80,9 @@ enum t_binary_command {
     e_MON_CMD_DUMP = 0x41,
     e_MON_CMD_UNDUMP = 0x42,
 
+    e_MON_CMD_RESOURCE_GET = 0x51,
+    e_MON_CMD_RESOURCE_SET = 0x52,
+
     e_MON_CMD_ADVANCE_INSTRUCTIONS = 0x71,
     e_MON_CMD_KEYBOARD_FEED = 0x72,
     e_MON_CMD_EXECUTE_UNTIL_RETURN = 0x73,
@@ -112,6 +115,9 @@ enum t_binary_response {
 
     e_MON_RESPONSE_DUMP = 0x41,
     e_MON_RESPONSE_UNDUMP = 0x42,
+
+    e_MON_RESPONSE_RESOURCE_GET = 0x51,
+    e_MON_RESPONSE_RESOURCE_SET = 0x52,
 
     e_MON_RESPONSE_JAM = 0x61,
     e_MON_RESPONSE_STOPPED = 0x62,
@@ -148,6 +154,12 @@ enum t_display_get_mode {
     e_DISPLAY_GET_MODE_BGRA32 = 0x04,
 };
 typedef enum t_display_get_mode DISPLAY_GET_MODE;
+
+enum t_mon_resource_type {
+    e_MON_RESOURCE_TYPE_STRING = 0x00,
+    e_MON_RESOURCE_TYPE_INT = 0x01,
+};
+typedef enum t_mon_resource_type MON_RESOURCE_TYPE;
 
 struct binary_command_s {
     unsigned char *body;
@@ -752,6 +764,117 @@ static void monitor_binary_process_undump(binary_command_t *command)
     monitor_binary_response(0, e_MON_RESPONSE_UNDUMP, e_MON_ERR_OK, command->request_id, NULL);
 }
 
+static void monitor_binary_process_resource_get(binary_command_t *command)
+{
+    unsigned char* response;
+    uint32_t response_length;
+    char *str_value;
+    int int_value;
+    
+    unsigned char *body = command->body;
+    uint8_t resource_name_length = body[0];
+    unsigned char* resource_name = &body[1];
+
+    if( resource_name_length < 1 ||
+        command->length < 1 + resource_name_length) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+    }
+
+    /* Change if more fields added */
+    resource_name[resource_name_length] = '\0';
+
+    switch (resources_query_type(resource_name)) {
+        case RES_STRING:
+            str_value = resources_write_item_to_string(resource_name, "");
+            if(str_value == NULL || strlen(str_value) > 255) {
+                monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                return;
+            }
+            response_length = 2 + strlen(str_value);
+            response = lib_malloc(response_length);
+            response[0] = e_MON_RESOURCE_TYPE_STRING;
+            write_string(strlen(str_value), str_value, &response[1]);
+            break;
+        case RES_INTEGER:
+            if(resources_get_int(resource_name, &int_value) < 0) {
+                monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                return;
+            }
+            response_length = 6;
+            response = lib_malloc(response_length);
+            response[0] = e_MON_RESOURCE_TYPE_INT;
+            response[1] = 4;
+            write_uint32(int_value, &response[2]);
+            break;
+        default:
+            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            return;
+    }
+
+    monitor_binary_response(response_length, e_MON_RESPONSE_RESOURCE_GET, e_MON_ERR_OK, command->request_id, response);
+
+    lib_free(response);
+}
+
+static void monitor_binary_process_resource_set(binary_command_t *command)
+{
+    unsigned char *body = command->body;
+
+    MON_RESOURCE_TYPE resource_value_type = body[0];
+    uint8_t resource_name_length = body[1];
+    unsigned char *resource_name = &body[2];
+    uint8_t resource_value_length = resource_name[resource_name_length];
+    unsigned char *resource_value = &resource_name[resource_name_length + 1];
+
+    if(resource_name_length < 1 || resource_value_length < 1 ||
+        command->length < 2 + resource_name_length + 1 + resource_value_length) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    resource_name[resource_name_length] = '\0';
+
+    /* Change this if other fields are added after */
+    resource_value[resource_value_length] = '\0';
+
+    if(resource_value_type == e_MON_RESOURCE_TYPE_STRING) {
+        switch (resources_query_type(resource_name)) {
+            case RES_INTEGER:
+            case RES_STRING:
+                if (resources_set_value_string(resource_name, resource_value) < 0) {
+                    monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                    return;
+                }
+                break;
+            default:
+                monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                return;
+        }
+    } else if(resource_value_type == e_MON_RESOURCE_TYPE_INT) {
+        int value;
+        if(resource_value_length == 1) {
+            value = (uint8_t)*resource_value;
+        } else if(resource_value_length == 2) {
+            value = little_endian_to_uint16(resource_value);
+        } else if(resource_value_length == 4) {
+            value = little_endian_to_uint32(resource_value);
+        } else {
+            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            return;
+        }
+
+        if(resources_set_int(resource_name, value) < 0) {
+            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            return;
+        }
+    } else {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_RESOURCE_SET, e_MON_ERR_OK, command->request_id, NULL);
+}
+
 static void monitor_binary_process_exit(binary_command_t *command)
 {
     exit_mon = 1;
@@ -1332,6 +1455,11 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
         monitor_binary_process_dump(command);
     } else if (command_type == e_MON_CMD_UNDUMP) {
         monitor_binary_process_undump(command);
+
+    } else if (command_type == e_MON_CMD_RESOURCE_GET) {
+        monitor_binary_process_resource_get(command);
+    } else if (command_type == e_MON_CMD_RESOURCE_SET) {
+        monitor_binary_process_resource_set(command);
 
     } else if (command_type == e_MON_CMD_ADVANCE_INSTRUCTIONS) {
         monitor_binary_process_advance_instructions(command);
