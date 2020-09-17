@@ -818,13 +818,12 @@ int lib_snprintf(char *str, size_t len, const char *fmt, ...)
 
 #endif /* CYGWIN or WIN32_COMPILE */
 
-/* taken shamelessly from printf(3) man page of the Linux Programmer's Manual */
-
-char *lib_mvsprintf(const char *fmt, va_list args)
+char *lib_mvsprintf(const char *fmt, va_list ap)
 {
     /* Guess we need no more than 100 bytes. */
     int n, size = 100;
     char *p, *np;
+    va_list args;
 
     if ((p = lib_malloc (size)) == NULL) {
         return NULL;
@@ -832,7 +831,9 @@ char *lib_mvsprintf(const char *fmt, va_list args)
 
     while (1) {
         /* Try to print in the allocated space. */
-        n = vsnprintf (p, size, fmt, args /* ap */);
+        va_copy(args, ap);
+        n = vsnprintf (p, size - 1, fmt, args);
+        va_end(args);
 
         /* If that worked, return the string. */
         if (n > -1 && n < size) {
