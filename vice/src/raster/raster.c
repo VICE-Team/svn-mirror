@@ -531,6 +531,14 @@ void raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     screenshot->draw_buffer = raster->canvas->draw_buffer->draw_buffer;
     screenshot->draw_buffer_line_size
         = raster->canvas->draw_buffer->draw_buffer_width;
+
+    /* Default values. Should be replaced by the graphics chip screenshot code */
+    screenshot->debug_offset_x = 0;
+    screenshot->debug_offset_y = 0;
+    screenshot->debug_width = screenshot->max_width & ~3;
+    screenshot->debug_height = screenshot->last_displayed_line - screenshot->first_displayed_line + 1;
+    screenshot->inner_width = screenshot->debug_width;
+    screenshot->inner_height = screenshot->debug_height;
 }
 
 void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
