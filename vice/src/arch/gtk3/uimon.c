@@ -63,6 +63,7 @@
 
 #include "console.h"
 #include "debug_gtk3.h"
+#include "machine.h"
 #include "monitor.h"
 #include "mainlock.h"
 #include "resources.h"
@@ -499,12 +500,17 @@ static void screen_resize_window_cb2 (VteTerminal *terminal,
 
 /** \brief  Create an icon by loading it from the vice.gresource file
  *
- * \return  Standard C= icon ripped from the internet (but at least scalable)
- *          Which of course looks weird on Windows for some reason, *sigh*.
+ * \return  Current emulator's icon
+ *
+ * \note    If we want something else, we should ask whoever created the current
+ *          icon set.
  */
 static GdkPixbuf *get_default_icon(void)
 {
-    return uidata_get_pixbuf("CBM_Logo.svg");
+    char buffer[1024];
+
+    g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
+    return uidata_get_pixbuf(buffer);
 }
 
 console_t *uimonfb_window_open(void);
