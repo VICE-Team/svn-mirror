@@ -195,7 +195,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
     if (!mon_is_valid_addr(start_addr)) {   /* No Load address given */
         if (is_bload == TRUE) {
             /* when loading plain binary, load addr is required */
-            mon_out("No LOAD address given.\n");
+            mon_out("Invalid LOAD address given.\n");
             mon_file_close(0, device);
             return;
         }
@@ -313,13 +313,89 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
     mon_file_close(1, device);
 }
 
-/* Where is the implementation?  */
-void mon_file_verify(const char *filename, int device, MON_ADDR start_addr)
+void mon_file_verify(const char *filename, int device, MON_ADDR start_addr, bool is_bverify)
 {
-    mon_evaluate_default_addr(&start_addr);
+    uint16_t adr, load_addr = 0;
+    uint8_t b1 = 0, b2 = 0;
+    int ch = 0;
+    MEMSPACE mem;
+    int origbank = 0;
+    int diffcount = 0;
 
-    mon_out("FIXME: Verify file %s at address $%04x\n",
-            filename, addr_location(start_addr));
+    if (mon_file_open(filename, 0, device) < 0) {
+        mon_out("Cannot open %s.\n", filename);
+        return;
+    }
+
+    /* if loading a .prg file, read/skip the start address */
+    if (is_bverify == FALSE) {
+        mon_file_read(&b1, 0, device);
+        mon_file_read(&b2, 0, device);
+        load_addr = (uint8_t)b1 | ((uint8_t)b2 << 8);
+    }
+
+    mon_evaluate_default_addr(&start_addr); /* get target addr given in monitor */
+
+    if (!mon_is_valid_addr(start_addr)) {   /* No Load address given */
+        if (is_bverify == TRUE) {
+            /* when loading plain binary, load addr is required */
+            mon_out("Invalid VERIFY address given.\n");
+            mon_file_close(0, device);
+            return;
+        }
+
+        start_addr = new_addr(e_default_space, load_addr);
+        mon_evaluate_default_addr(&start_addr);
+    }
+    adr = addr_location(start_addr);
+    mem = addr_memspace(start_addr);
+
+    mon_out("Verifying %s from %04X ", filename, adr);
+
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        origbank = curbank;
+    }
+
+    do {
+        uint8_t load_byte, mem_byte;
+
+        if (mon_file_read(&load_byte, 0, device) < 0) {
+            break;
+        }
+        mem_byte = mon_get_mem_val(mem, ADDR_LIMIT(adr + ch));
+        if (load_byte != mem_byte) {
+            if (diffcount == 0) {
+                mon_out("\naddr:mem file\n");
+            }
+            mon_out("%04x: ", ADDR_LIMIT(adr + ch));
+            mon_out("%02x %02x", mem_byte, load_byte);
+            mon_out("\n");
+            diffcount++;
+        }
+
+        /* Hack to be able to read large .prgs for x64dtv */
+        if ((machine_class == VICE_MACHINE_C64DTV) &&
+            (ADDR_LIMIT(adr + ch) == 0xffff) &&
+            ((curbank >= mem_bank_from_name("ram00")) && (curbank <= mem_bank_from_name("ram1f")))) {
+            curbank++;
+            if (curbank > mem_bank_from_name("ram1f")) {
+                curbank = mem_bank_from_name("ram00");
+            }
+            mon_out("Crossing 64k boundary.\n");
+        }
+        ch++;
+    } while (1);
+
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        curbank = origbank;
+    }
+
+    mon_out("to %04X (%04X bytes)\n", ADDR_LIMIT((adr + ch) - 1), (unsigned int)ch);
+    if (diffcount > 0) {
+        mon_out("%d byte(s) different\n", diffcount);
+    }
+
+    mon_file_close(0, device);
 }
 
 

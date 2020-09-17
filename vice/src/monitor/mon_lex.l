@@ -173,6 +173,7 @@ HDIGIT  [0-9a-f]
         bsave|bs        { BEGIN(FNAME);         return CMD_BSAVE; }
         backtrace|bt    { BEGIN(INITIAL);       return CMD_BACKTRACE; }
         block_write|bw  { BEGIN(INITIAL);       return CMD_BLOCK_WRITE; }
+        bverify|bv      { BEGIN(FNAME);         return CMD_BVERIFY; }
         cartfreeze      { BEGIN(INITIAL);       return CMD_CARTFREEZE; }
         cd              { BEGIN(ROL);           return CMD_CHDIR; }
         clear_labels|cl { BEGIN(INITIAL);       return CMD_CLEAR_LABELS; }
@@ -243,6 +244,7 @@ HDIGIT  [0-9a-f]
         trace|tr        { BEGIN(INITIAL);       return CMD_TRACE; }
         until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
         undump          { BEGIN(FNAME);         return CMD_UNDUMP; }
+        verify|v        { BEGIN(FNAME);         return CMD_VERIFY; }
         watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
         yydebug         { BEGIN(INITIAL);       return CMD_YYDEBUG; }
         maincpu_trace   { BEGIN(INITIAL);       return CMD_MAINCPU_TRACE; }

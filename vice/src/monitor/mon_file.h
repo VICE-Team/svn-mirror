@@ -35,7 +35,7 @@ extern void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
                           MON_ADDR end_addr, bool is_bsave);
 
 extern void mon_file_verify(const char *filename, int device,
-                            MON_ADDR start_addr);
+                            MON_ADDR start_addr, bool is_bverify);
 
 extern void mon_attach(const char *filename, int unit);
 extern void mon_detach(int unit);

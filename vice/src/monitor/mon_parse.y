@@ -150,7 +150,7 @@ extern int cur_len, last_len;
 %token<i> BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 MEM_DISK10 MEM_DISK11 EQUALS
 %token TRAIL CMD_SEP LABEL_ASGN_COMMENT
 %token CMD_LOG CMD_LOGNAME CMD_SIDEFX CMD_DUMMY CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
-%token CMD_LOAD CMD_SAVE CMD_VERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
+%token CMD_LOAD CMD_SAVE CMD_VERIFY CMD_BVERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
 %token CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_RADIX
 %token CMD_MEM_DISPLAY CMD_BREAK CMD_TRACE CMD_IO CMD_BRMON CMD_COMPARE
 %token CMD_DUMP CMD_UNDUMP CMD_EXIT CMD_DELETE CMD_CONDITION CMD_COMMAND
@@ -576,8 +576,10 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
 
 disk_rules: CMD_LOAD filename device_num opt_address end_cmd
             { mon_file_load($2, $3, $4, FALSE); }
-          | CMD_BLOAD filename device_num opt_address end_cmd
+          | CMD_BLOAD filename device_num address end_cmd
             { mon_file_load($2, $3, $4, TRUE); }
+          | CMD_BLOAD filename device_num error
+            { return ERR_EXPECT_ADDRESS; }
           | CMD_SAVE filename device_num address_range end_cmd
             { mon_file_save($2, $3, $4[0], $4[1], FALSE); }
           | CMD_SAVE filename error
@@ -588,9 +590,11 @@ disk_rules: CMD_LOAD filename device_num opt_address end_cmd
             { mon_file_save($2, $3, $4[0], $4[1], TRUE); }
           | CMD_BSAVE filename device_num error
             { return ERR_EXPECT_ADDRESS; }
-          | CMD_VERIFY filename device_num address end_cmd
-            { mon_file_verify($2,$3,$4); }
-          | CMD_VERIFY filename device_num error
+          | CMD_VERIFY filename device_num opt_address end_cmd
+            { mon_file_verify($2,$3,$4,FALSE); }
+          | CMD_BVERIFY filename device_num address end_cmd
+            { mon_file_verify($2,$3,$4,TRUE); }
+          | CMD_BVERIFY filename device_num error
             { return ERR_EXPECT_ADDRESS; }
           | CMD_BLOCK_READ expression expression opt_address end_cmd
             { mon_drive_block_cmd(0,$2,$3,$4); }

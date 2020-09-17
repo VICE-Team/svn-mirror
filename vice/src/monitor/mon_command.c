@@ -601,6 +601,13 @@ static const mon_cmds_t mon_cmd_array[] = {
       FILENAME_ARG
     },
 
+    { "bverify", "bv",
+      "\"<filename>\" <device> <address>",
+      "Compare the specified file with memory at the specified address.\n"
+      "If device is 0, the file is read from the file system.",
+      FILENAME_ARG
+    },
+
     { "block_write", "bw",
       "<track> <sector> <address>",
       "Write a block of data at `address' on the specified track and sector\n"
@@ -665,6 +672,13 @@ static const mon_cmds_t mon_cmd_array[] = {
       "Save the memory from address1 to address2 to the specified file.\n"
       "Write two-byte load address.\n"
       "If device is 0, the file is written to the file system.",
+      FILENAME_ARG
+    },
+
+    { "verify", "v",
+      "\"<filename>\" <device> [<address>]",
+      "Compare the specified file with memory at the specified address.\n"
+      "If device is 0, the file is read from the file system.",
       FILENAME_ARG
     },
 
