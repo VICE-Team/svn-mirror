@@ -16151,6 +16151,9 @@ Detach file from device. (device 32 = cart)
 Perform a disk command on the currently attached disk image on drive
 8.  The specified disk command is sent to the drive's channel #15.
 
+@item list [<directory>]
+List disk contents.
+
 @item load "<filename>" <device> [<address>]
 @itemx l "<filename>" <device> [<address>]
 Load the specified file into memory.  If no address is given, the file
@@ -16158,9 +16161,6 @@ is loaded to the address specified by the first two bytes read from
 the file.  If address is given, the file is loaded to the specified
 address and the first two bytes read from the file are skipped.  If
 device is 0, the file is read from the file system.
-
-@item list [<directory>]
-List disk contents.
 
 @item bload "<filename>" <device> <address>
 @itemx bl "<filename>" <device> <address>
@@ -16177,6 +16177,19 @@ If device is 0, the file is written to the file system.
 @itemx bs "<filename>" <device> <address1> <address2>
 Save the memory from address1 to address2 to the specified file.
 If device is 0, the file is written to the file system.
+
+@item verify "<filename>" <device> [<address>]
+@itemx v "<filename>" <device> [<address>]
+Compare the specified file with memory.  If no address is given, the 
+address is specified by the first two bytes read from
+the file.  If address is given, the specified address is used and the 
+first two bytes read from the file are skipped.  If
+device is 0, the file is read from the file system.
+
+@item bverify "<filename>" <device> <address>
+@itemx bv "<filename>" <device> <address>
+Compare the specified file with memory at the specified address.
+If device is 0, the file is read from the file system.
 
 @end table
 
