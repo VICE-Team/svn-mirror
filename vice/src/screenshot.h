@@ -53,6 +53,14 @@ typedef struct screenshot_s {
     unsigned int max_width;
     unsigned int max_height;
 
+    /* Size of the uncropped full screen.  */
+    unsigned int debug_width;
+    unsigned int debug_height;
+
+    /* Size of the completely cropped full screen.  */
+    unsigned int inner_width;
+    unsigned int inner_height;
+
     /* First and last displayed line.  */
     unsigned int first_displayed_line;
     unsigned int last_displayed_line;
@@ -63,6 +71,10 @@ typedef struct screenshot_s {
     /* Offset to the overall screen.  */
     unsigned int x_offset;
     unsigned int y_offset;
+
+    /* Offset to the unbordered screen, from the uncropped size.  */
+    unsigned int debug_offset_x;
+    unsigned int debug_offset_y;
 
     /* Pixel size.  */
     unsigned int size_width;

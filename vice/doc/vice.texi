@@ -17127,7 +17127,7 @@ Response body:
 @node MON_CMD_DISPLAY_GET
 @subsection Display Get (0x84)
 
-Gets the current screen in 24-bit Targa format.
+Gets the current screen in a requested bit format.
 
 Command body:
 
@@ -17135,6 +17135,13 @@ Command body:
 @item byte 0: USE VIC-II? 
 Must be included, but ignored for all but the C128. If true, (0x01) the screen
 returned will be from the VIC-II. If false (0x00), it will be from the VDC.
+
+@item byte 1: Format
+0x00: Indexed, 8 bit
+0x01: RGB, 24 bit
+0x02: BGR, 24 bit
+0x03: RGBA, 32 bit
+0x04: BGRA, 32 bit
 
 @end table
 
@@ -17144,33 +17151,49 @@ Response type:
 
 Response body:
 
-The exact positioning of these fields could change in the future, so don't
-rely on them.
+The length-at-the-beginning format of this object is similar to other
+response types, except for being four bytes. Also the display buffer length
+is contained inside another object instead of before the buffer.
 
 @table @strong
-@item byte 0: ID Length, currently zero
+@item 4 bytes: Length of the fields before the display buffer
 
-@item byte 1: Color map type, currently zero
+    @table @strong
+    @item 4 bytes: Length of fields before reserved area
 
-@item byte 2: Image type, currently 2
+        @table @strong
+        @item 4 bytes: Length of display buffer = (&buffer)
 
-@item byte 3-7: Color map specification. Always zeroes.
+        @item 2 bytes: Debug width of display buffer (uncropped)
+        The largest width the screen gets.
 
-@item byte 8-9: X Origin, currently zero.
+        @item 2 bytes: Debug height of display buffer (uncropped)
+        The largest height the screen gets.
 
-@item byte 10-11: Y Origin
-The bottom-left corner, AKA the height.
+        @item 2 bytes: X offset
+        X offset to the inner part of the screen.
 
-@item byte 12-13: Width
+        @item 2 bytes: Y offset 
+        Y offset to the inner part of the screen.
 
-@item byte 14-15: Height
+        @item 2 bytes: Width of the inner part of the screen.
 
-@item byte 16: Depth, always 24
+        @item 2 bytes: Height of the inner part of the screen.
 
-@item byte 17: Descriptor, always 0x20
-0x20 = Upper-left origin (not-upside down), not interleaved
+        @item 1 byte: Bits per pixel of display buffer, 8, 24 or 32
 
-@item byte 18+: BGR values, 3 bytes per pixel
+        @end table
+
+    @item 4 bytes: Length of the reserved area = (&reserved)
+
+        @table @strong
+        @item (*reserved) bytes: Reserved TGA area
+
+        @end table
+
+    @end table
+
+@item (*buffer) bytes: Display buffer data
 
 @end table
 

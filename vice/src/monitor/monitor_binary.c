@@ -140,6 +140,15 @@ enum t_mon_error {
 };
 typedef enum t_mon_error BINARY_ERROR;
 
+enum t_display_get_mode {
+    e_DISPLAY_GET_MODE_INDEXED8 = 0x00,
+    e_DISPLAY_GET_MODE_RGB24 = 0x01,
+    e_DISPLAY_GET_MODE_BGR24 = 0x02,
+    e_DISPLAY_GET_MODE_RGBA32 = 0x03,
+    e_DISPLAY_GET_MODE_BGRA32 = 0x04,
+};
+typedef enum t_display_get_mode DISPLAY_GET_MODE;
+
 struct binary_command_s {
     unsigned char *body;
     uint32_t length;
@@ -881,50 +890,139 @@ static void monitor_binary_process_registers_available(binary_command_t *command
 }
 
 static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_t *data,
-                                 unsigned int line, unsigned int mode)
+                                 unsigned int line, DISPLAY_GET_MODE mode)
 {
-    unsigned int i;
+    unsigned int i, bytes, except_right_border_width;
     uint8_t *line_base;
     uint8_t color;
 
-    if (line > screenshot->height) {
-        return;
-    }
+    unsigned int excess_width = (screenshot->width - screenshot->inner_width) / 2;
+    unsigned int excess_height = (screenshot->height - screenshot->inner_height) / 2;
+    unsigned int true_offset_x = screenshot->debug_offset_x - excess_width;
+    unsigned int true_offset_y = screenshot->debug_offset_y - excess_height;
 
 #define BUFFER_LINE_START(i, n) ((i)->draw_buffer + (n) * (i)->draw_buffer_line_size)
 
+    if(mode == e_DISPLAY_GET_MODE_BGRA32) {
+        bytes = 4;
+    } else if(mode == e_DISPLAY_GET_MODE_BGR24) {
+        bytes = 3;
+    } else if(mode == e_DISPLAY_GET_MODE_RGBA32) {
+        bytes = 4;
+    } else if(mode == e_DISPLAY_GET_MODE_RGB24) {
+        bytes = 3;
+    } else {
+        bytes = 1;
+    }
+
     line_base = BUFFER_LINE_START(screenshot,
-                                  (line + screenshot->y_offset)
+                                  ((line - true_offset_y) + screenshot->y_offset)
                                   * screenshot->size_height);
 
-    for (i = 0; i < screenshot->width; i++) {
-        color = screenshot->color_map[line_base[i * screenshot->size_width + screenshot->x_offset]];
-        data[i * 3] = screenshot->palette->entries[color].blue;
-        data[i * 3 + 1] = screenshot->palette->entries[color].green;
-        data[i * 3 + 2] = screenshot->palette->entries[color].red;
+    if(line < true_offset_y || line > true_offset_y + screenshot->height) {
+        memset(data, 0x00, screenshot->debug_width * bytes);
+        return;
+    } else if(mode == e_DISPLAY_GET_MODE_RGB24) {
+        bytes = 3;
+        for (i = 0; i < screenshot->width; i++) {
+            color = screenshot->color_map[
+                line_base[i * screenshot->size_width + screenshot->x_offset]
+            ];
+            data[(i + true_offset_x) * 3] = screenshot->palette->entries[color].red;
+            data[(i + true_offset_x) * 3 + 1] = screenshot->palette->entries[color].green;
+            data[(i + true_offset_x) * 3 + 2] = screenshot->palette->entries[color].blue;
+        }
+    } else if(mode == e_DISPLAY_GET_MODE_BGR24) {
+        for (i = 0; i < screenshot->width; i++) {
+            color = screenshot->color_map[
+                line_base[i * screenshot->size_width + screenshot->x_offset]
+            ];
+            data[(i + true_offset_x) * 3] = screenshot->palette->entries[color].blue;
+            data[(i + true_offset_x) * 3 + 1] = screenshot->palette->entries[color].green;
+            data[(i + true_offset_x) * 3 + 2] = screenshot->palette->entries[color].red;
+        }
+    } else if(mode == e_DISPLAY_GET_MODE_RGBA32) {
+        for (i = 0; i < screenshot->width; i++) {
+            color = screenshot->color_map[
+                line_base[i * screenshot->size_width + screenshot->x_offset]
+            ];
+            data[(i + true_offset_x) * 4] = screenshot->palette->entries[color].red;
+            data[(i + true_offset_x) * 4 + 1] = screenshot->palette->entries[color].green;
+            data[(i + true_offset_x) * 4 + 2] = screenshot->palette->entries[color].blue;
+            data[(i + true_offset_x) * 4 + 3] = 255;
+        }
+    } else if(mode == e_DISPLAY_GET_MODE_BGRA32) {
+        for (i = 0; i < screenshot->width; i++) {
+            color = screenshot->color_map[
+                line_base[i * screenshot->size_width + screenshot->x_offset]
+            ];
+            data[(i + true_offset_x) * 4] = screenshot->palette->entries[color].blue;
+            data[(i + true_offset_x) * 4 + 1] = screenshot->palette->entries[color].green;
+            data[(i + true_offset_x) * 4 + 2] = screenshot->palette->entries[color].red;
+            data[(i + true_offset_x) * 4 + 3] = 255;
+        }
+    } else {
+        bytes = 1;
+        for (i = 0; i < screenshot->width; i++) {
+            color = screenshot->color_map[
+                line_base[i * screenshot->size_width + screenshot->x_offset]
+            ];
+            data[(i + true_offset_x)] = color;
+        }
     }
+
+    memset(data, 0x00, true_offset_x * bytes);
+    except_right_border_width = true_offset_x + screenshot->width;
+    memset(
+        &data[(except_right_border_width) * bytes], 
+        0x00, 
+        (screenshot->debug_width - except_right_border_width) * bytes
+    );
 }
+
+static unsigned char* reserved_data(screenshot_t* screenshot, unsigned char *response_cursor, DISPLAY_GET_MODE mode);
 
 static void monitor_binary_process_display_get(binary_command_t *command)
 {
     screenshot_t screenshot;
     struct video_canvas_s *canvas;
     unsigned char *response, *response_cursor;
-    uint32_t response_length;
-    uint16_t not_targa_length;
+    uint32_t response_length, buffer_length;
+    uint8_t depth;
     unsigned int i;
+
+    uint32_t main_length = 17;
+    uint32_t reserved_length = 18;
+
+    uint32_t info_length = 4 + main_length + 4 + reserved_length;
 
     uint8_t use_vic = !!command->body[0];
 
-    if(command->length < 1) {
+    DISPLAY_GET_MODE format = command->body[1];
+
+    if(command->length < 2) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    if(format == e_DISPLAY_GET_MODE_BGRA32) {
+        depth = 32;
+    } else if(format == e_DISPLAY_GET_MODE_BGR24) {
+        depth = 24;
+    } else if(format == e_DISPLAY_GET_MODE_RGBA32) {
+        depth = 32;
+    } else if(format == e_DISPLAY_GET_MODE_RGB24) {
+        depth = 24;
+    } else if(format == e_DISPLAY_GET_MODE_INDEXED8) {
+        depth = 8;
+    } else {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         return;
     }
 
     if (machine_class == VICE_MACHINE_C128 && use_vic) {
         canvas = machine_video_canvas_get(1);
-    }
-    else {
+    } else {
         canvas = machine_video_canvas_get(0);
     }
 
@@ -934,8 +1032,8 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     }
 
     screenshot.width = screenshot.max_width & ~3;
-    screenshot.height = screenshot.max_height;
-    screenshot.y_offset = 0;
+    screenshot.height = screenshot.last_displayed_line - screenshot.first_displayed_line + 1;
+    screenshot.y_offset = screenshot.first_displayed_line;
 
     screenshot.color_map = lib_calloc(1, 256);
 
@@ -943,17 +1041,72 @@ static void monitor_binary_process_display_get(binary_command_t *command)
         screenshot.color_map[i] = i;
     }
 
-    not_targa_length = 18 + screenshot.width * screenshot.height * 3;
-    response_length = not_targa_length;
+    buffer_length = screenshot.debug_width * screenshot.debug_height * depth / 8;
+    response_length = 4 + info_length + buffer_length;
     response = lib_malloc(response_length);
     response_cursor = response;
 
-    /* Length of the definitely-not-Targa fields */
-    /* FIXME
-    response_cursor = write_uint16(not_targa_length, response_cursor);
-    */
+    /* Length of fields before display buffer */
+    response_cursor = write_uint32(info_length, response_cursor);
 
-    /* Begin definitely-not-Targa fields */
+    /* Length of fields before reserved area */
+    response_cursor = write_uint32(main_length, response_cursor);
+
+    /* Length of display buffer */
+    response_cursor = write_uint32(buffer_length, response_cursor);
+    /* Full width of buffer */
+    response_cursor = write_uint16(screenshot.debug_width, response_cursor);
+    /* Full height of buffer */
+    response_cursor = write_uint16(screenshot.debug_height, response_cursor);
+    /* X offset of the inner part of the screen */
+    response_cursor = write_uint16(screenshot.debug_offset_x, response_cursor);
+    /* Y offset of the inner part of the screen */
+    response_cursor = write_uint16(screenshot.debug_offset_y, response_cursor);
+    /* Width of the inner part of the screen */
+    response_cursor = write_uint16(screenshot.inner_width, response_cursor);
+    /* Height of the inner part of the screen */
+    response_cursor = write_uint16(screenshot.inner_height, response_cursor);
+    /* Bits per pixel of image */
+    *response_cursor = depth;
+    response_cursor++;
+
+    /* PUT NEW FIELDS BEFORE THIS */
+    response_cursor = reserved_data(&screenshot, response_cursor, format);
+
+    /* Buffer Data in requested format */
+    screenshot.convert_line = monitor_binary_screenshot_line_data;
+    for(i = 0; i < screenshot.debug_height; i++) {
+        screenshot.convert_line(&screenshot, response_cursor, i, format);
+        response_cursor += screenshot.debug_width * depth / 8;
+    }
+
+    monitor_binary_response(response_length, e_MON_RESPONSE_DISPLAY_GET, e_MON_ERR_OK, command->request_id, response);
+
+    lib_free(response);
+    lib_free(screenshot.color_map);
+}
+
+static unsigned char* reserved_data(screenshot_t* screenshot, unsigned char *response_cursor, DISPLAY_GET_MODE mode)
+{
+    uint8_t depth;
+    uint8_t descriptor = 0x20;
+
+    if(mode == e_DISPLAY_GET_MODE_BGRA32) {
+        depth = 32;
+        descriptor |= 8;
+    } else if(mode == e_DISPLAY_GET_MODE_BGR24) {
+        depth = 24;
+    } else if(mode == e_DISPLAY_GET_MODE_RGBA32) {
+        depth = 32;
+        descriptor |= 8;
+    } else if(mode == e_DISPLAY_GET_MODE_RGB24) {
+        depth = 24;
+    } else {
+        depth = 16;
+    }
+
+    /* Length of this section */
+    response_cursor = write_uint32(18, response_cursor);
 
     /* ID Length - None */
     *response_cursor = 0;
@@ -970,31 +1123,19 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     /* X Origin - Bottom left */
     response_cursor = write_uint16(0x00, response_cursor);
     /* Y Origin - Bottom left */
-    response_cursor = write_uint16(screenshot.height, response_cursor);
+    response_cursor = write_uint16(screenshot->debug_height, response_cursor);
     /* Image width */
-    response_cursor = write_uint16(screenshot.width, response_cursor);
+    response_cursor = write_uint16(screenshot->debug_width / (depth == 16 ? 2 : 1), response_cursor);
     /* Image height */
-    response_cursor = write_uint16(screenshot.height, response_cursor);
+    response_cursor = write_uint16(screenshot->debug_height, response_cursor);
     /* Depth */
-    *response_cursor = 24;
+    *response_cursor = depth;
     response_cursor++;
     /* Descriptor - Upper left origin, non-interleaved */
-    *response_cursor = 0x20;
+    *response_cursor = descriptor;
     response_cursor++;
 
-    /* Image Data */
-    screenshot.convert_line = monitor_binary_screenshot_line_data;
-    for(i = 0; i < screenshot.height; i++) {
-        screenshot.convert_line(&screenshot, response_cursor, i, SCREENSHOT_MODE_RGB24);
-        response_cursor += screenshot.width * 3;
-    }
-
-    /* End definitely-not-Targa fields */
-
-    monitor_binary_response(response_length, e_MON_RESPONSE_DISPLAY_GET, e_MON_ERR_OK, command->request_id, response);
-
-    lib_free(response);
-    lib_free(screenshot.color_map);
+    return response_cursor;
 }
 
 static void monitor_binary_process_mem_get(binary_command_t *command)

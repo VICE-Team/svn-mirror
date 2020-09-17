@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/datasette \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/imagecontents \
+	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/lib/p64
 
