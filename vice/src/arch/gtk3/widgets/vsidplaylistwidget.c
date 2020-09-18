@@ -810,7 +810,7 @@ static GtkWidget *vsid_playlist_controls_create(void)
         GtkWidget *button;
         gchar buff[1024];
 
-        g_snprintf(buff, 1024, "%s-symbolic", controls[i].icon_name);
+        g_snprintf(buff, 1024, "%s-symbolic.symbolic", controls[i].icon_name);
 
         button = gtk_button_new_from_icon_name(
                 buff,
