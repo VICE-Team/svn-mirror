@@ -4,6 +4,8 @@
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  * \author  Marcus Sutton <loggedoubt@gmail.com>
+ *
+ * $VICRES  AutostartOnDoubleclick  all
  */
 
 /*
