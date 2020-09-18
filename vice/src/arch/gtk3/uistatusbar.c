@@ -1524,9 +1524,11 @@ GtkWidget *ui_statusbar_create(void)
 
     /* First column: CPU/FPS */
 
-    speed = statusbar_speed_widget_create();
-    g_object_ref_sink(G_OBJECT(speed));
-    g_object_set(speed, "margin-left", 8, NULL);
+    if (machine_class != VICE_MACHINE_VSID) {
+        speed = statusbar_speed_widget_create();
+        g_object_ref_sink(G_OBJECT(speed));
+        g_object_set(speed, "margin-left", 8, NULL);
+    }
 
     /* don't add CRT or Mixer controls when VSID */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1547,12 +1549,15 @@ GtkWidget *ui_statusbar_create(void)
 
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
-    allocated_bars[i].speed = speed;
-    gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
 
-    /* Second column: separator */
-    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-            SB_COL_SEP_SPEED, 0, 1, 2);
+    if (machine_class != VICE_MACHINE_VSID) {
+        allocated_bars[i].speed = speed;
+        gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
+
+        /* Second column: separator */
+        gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                SB_COL_SEP_SPEED, 0, 1, 2);
+    }
 
 
     /* Messages
