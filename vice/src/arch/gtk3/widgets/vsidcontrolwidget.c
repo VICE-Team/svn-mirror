@@ -275,7 +275,7 @@ GtkWidget *vsid_control_widget_create(void)
         GtkWidget *button;
         gchar buf[1024];
 
-#ifdef ARCHDEP_OS_WINDOWS
+#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS__MACOS)
         g_snprintf(buf, sizeof(buf), "%s-symbolic", buttons[i].icon_name);
 #else
         g_snprintf(buf, sizeof(buf), "%s-symbolic.symbolic", buttons[i].icon_name);
