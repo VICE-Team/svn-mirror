@@ -115,6 +115,8 @@ GtkWidget *ui_get_window_by_index(int index);
 int ui_get_window_index(GtkWidget *widget);
 int ui_get_main_window_index(void);
 
+gboolean ui_get_autostart_on_doubleclick(void);
+
 #if 0
 #define UI_DRAG_TARGETS_COUNT   3
 

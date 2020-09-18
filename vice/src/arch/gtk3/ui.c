@@ -102,6 +102,7 @@ static int set_monitor_font(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
 static int set_pause_on_settings(int val, void *param);
+static int set_autostart_on_doubleclick(int val, void *param);
 
 
 /*****************************************************************************
@@ -137,6 +138,8 @@ typedef struct ui_resources_s {
 
     char *monitor_font;         /**< Pango font description string of the
                                      VTE monitor font */
+    int autostart_on_doubleclick;   /**< Use autostart on double-clicking in
+                                         file attach dialogs (bool) */
 
 #if 0
     int depth;
@@ -246,6 +249,11 @@ static const resource_int_t resources_int_shared[] = {
     { "PauseOnSettings", 0, RES_EVENT_NO, NULL,
         &ui_resources.pause_on_settings, set_pause_on_settings, NULL },
 
+    /* Use autostart on doubleclick in dialogs */
+    { "AutostartOnDoubleclick", 0, RES_EVENT_NO, NULL,
+        &ui_resources.autostart_on_doubleclick, set_autostart_on_doubleclick,
+        NULL },
+
 
     RESOURCE_INT_LIST_END
 };
@@ -338,6 +346,14 @@ static const cmdline_option_t cmdline_options_common[] =
     { "-monitorfont", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
         set_monitor_font, NULL, "MonitorFont", NULL,
         "font-description", "Set monitor font for the Gtk3 monitor" },
+    { "-autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "AutostartOnDoubleclick", (void*)1,
+        NULL, "Autostart files on doubleclick" },
+    { "+autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+        NULL, NULL, "AutostartOnDoubleclick", (void*)0,
+        NULL, "Open files on doubleclick" },
+
+
 
     CMDLINE_LIST_END
 };
@@ -1056,6 +1072,20 @@ static int set_window_ypos(int val, void *param)
 }
 
 
+/** \brief  Set the 'AutostartOnDoubleclick' resource
+ *
+ * \param[in]   value   new value
+ * \param[in]   param   extra data (unused)
+ *
+ * \return 0;
+ */
+static int set_autostart_on_doubleclick(int val, void *param)
+{
+    ui_resources.autostart_on_doubleclick = val;
+    return 0;
+}
+
+
 /*
  * Function pointer setters
  */
@@ -1068,6 +1098,14 @@ static int set_window_ypos(int val, void *param)
 void ui_set_handle_dropped_files_func(int (*func)(const char *))
 {
     handle_dropped_files_func = func;
+}
+
+
+/** \brief  Get autostart-on-doubleclick state
+ */
+gboolean ui_get_autostart_on_doubleclick(void)
+{
+    return (gboolean)ui_resources.autostart_on_doubleclick;
 }
 
 
