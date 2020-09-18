@@ -35,6 +35,7 @@
 #include "debug_gtk3.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "resources.h"
 #include "widgethelpers.h"
 
 #include "contentpreviewwidget.h"
@@ -80,6 +81,11 @@ static void on_row_activated(
     GtkTreeModel *model;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
+    int autostart = 0;
+
+    resources_get_int("AutostartOnDoubleclick", &autostart);
+    debug_gtk3("CALLED, AutostartOnDoublelick = %s\n",
+            autostart ? "True" : "False");
 
     model = gtk_tree_view_get_model(view);
     selection = gtk_tree_view_get_selection(view);
@@ -97,7 +103,7 @@ static void on_row_activated(
          * user_data argument */
         if (parent_dialog != NULL) {
             response_func(parent_dialog,
-                    VICE_RESPONSE_AUTOSTART,
+                    GTK_RESPONSE_ACCEPT,
                     GINT_TO_POINTER(row + 1));  /* for some reason the first
                                                    file has index 1 */
         }

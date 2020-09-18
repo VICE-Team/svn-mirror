@@ -312,8 +312,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                      */
                     if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                             && tape_image_attach(1, filename_locale) < 0
-                            && autostart_snapshot(filename_locale, NULL) < 0
-                            && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
+                            && autostart_snapshot(filename_locale, NULL) < 0)
+                    {
                         /* failed (TODO: perhaps a proper error message?) */
                         debug_gtk3("smart attach failed.");
                     }
@@ -365,8 +365,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                     if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                             && tape_image_attach(1, filename_locale) < 0
                             && autostart_snapshot(filename_locale, NULL) < 0
-                            && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
-                            && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
+                            && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0) {
                         /* failed (TODO: perhaps a proper error message?) */
                         debug_gtk3("smart attach failed.");
                     }
@@ -426,7 +425,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *hidden_check;
     GtkWidget *readonly_check;
-    GtkWidget *autostart_check;
     int readonly_state;
 
     grid = gtk_grid_new();
@@ -505,11 +503,21 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
      * 'attach' dialogs. Gtk doesn't allow getting references to buttons when
      * added via the constructor, meaning we cannot get a reference to the
      * "Autostart" button in order to "grey it out".
+     *
+     * Also rename VICE_RESPONSE_AUTOSTART to VICE_RESPONSE_CUSTOM or so, we're
+     * flipping responses around here thanks the the flexibility of Gtk
      */
-    gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", GTK_RESPONSE_ACCEPT);
-    autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
-                                             "Autostart",
-                                             VICE_RESPONSE_AUTOSTART);
+    if (!autostart_on_doubleclick) {
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", GTK_RESPONSE_ACCEPT);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                 "Autostart",
+                                                 VICE_RESPONSE_AUTOSTART);
+    } else{
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", VICE_RESPONSE_AUTOSTART);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                 "Autostart",
+                                                 GTK_RESPONSE_ACCEPT);
+    }
     gtk_widget_set_sensitive(autostart_button, FALSE);
     gtk_dialog_add_button(GTK_DIALOG(dialog), "Close", GTK_RESPONSE_REJECT);
 
