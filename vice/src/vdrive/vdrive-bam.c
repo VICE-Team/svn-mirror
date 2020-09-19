@@ -491,7 +491,7 @@ static uint8_t *mystrncpy(uint8_t *d, const uint8_t *s, size_t n)
 {
     while (n > 0 && *s != 0) {
         *d++ = *s++;
-        n++;
+        n--;
     }
     /* libc's strncpy(3) would add a 0x00 here if there's space for it, so the
      * 'mystrncpy() name is a bit misleading and might lead to incorrect
