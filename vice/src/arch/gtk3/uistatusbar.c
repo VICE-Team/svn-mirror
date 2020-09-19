@@ -2042,9 +2042,6 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
             || (enabled != sb_state.drives_enabled)) {
         sb_state.drives_enabled = enabled;
         sb_state.drives_tde_enabled = state;
-        for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            layout_statusbar_drives(i);
-        }
     }
 }
 
@@ -2183,6 +2180,8 @@ void ui_update_statusbars(void)
         /*
          * Drive track, half track, and led
          */
+        
+        layout_statusbar_drives(i);
 
         for (j = 0; j < NUM_DISK_UNITS; ++j) {
             drive = bar.drives[j];
