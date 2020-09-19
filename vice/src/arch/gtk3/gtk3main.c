@@ -112,10 +112,23 @@ void main_exit(void)
      * otherwise gl calls can deadlock
      */
     render_thread_shutdown_and_join_all();
-    
+
+    /*
+     * This needs to happen before machine_shutdown as various things get freed
+     * in that process.
+     */
     ui_exit();
 
     vice_thread_shutdown();
     
     machine_shutdown();
+
+    /*
+     * This needs to happen after machine_shutdown as at least one string
+     * resource will have it's memory freed (MonitorFont). This in turn
+     * causes saving settings on exit to crap out. I think the resource
+     * system should be maintaining copies of all string resources internally
+     * to avoid this fragility.
+     */
+    ui_free_vice_resources();
 }

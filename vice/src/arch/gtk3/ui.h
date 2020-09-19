@@ -83,6 +83,7 @@ void ui_destroy_main_window(int index);
 
 void ui_dispatch_events(void);
 void ui_exit(void);
+void ui_free_vice_resources(void);
 
 void ui_update_statusbars(void);
 

@@ -355,7 +355,7 @@ void vice_thread_shutdown(void)
 
     pthread_join(vice_thread, NULL);
 
-    log_message(LOG_DEFAULT, "VICE thread has exited.");
+    log_message(LOG_DEFAULT, "VICE thread has been joined.");
 }
 
 void *vice_thread_main(void *unused)

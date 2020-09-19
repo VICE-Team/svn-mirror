@@ -2075,7 +2075,7 @@ gboolean ui_advance_frame(void)
     return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
 }
 
-/** \brief  Shutdown the UI, clean up resources.
+/** \brief  Destroy UI resources (but NOT vice 'resources')
  * 
  * Don't call this directly except from main_exit();
  */
@@ -2102,13 +2102,21 @@ void ui_exit(void)
 
     /* deallocate memory used by the unconnected keyboard shortcuts */
     kbd_hotkey_shutdown();
+    
+    mainlock_release();
+}
 
+/** \brief  clean up resource system resources.
+ * 
+ * Don't call this directly except from main_exit();
+ */
+void ui_free_vice_resources(void)
+{
     /* deallocate monitor font string */
     if (ui_resources.monitor_font != NULL) {
         lib_free(ui_resources.monitor_font);
+        ui_resources.monitor_font = NULL;
     }
-
-    mainlock_release();
 }
 
 /** \brief  Send current light pen state to the emulator core for all windows
