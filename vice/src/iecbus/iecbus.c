@@ -265,7 +265,7 @@ static void iecbus_cpu_write_conf1(uint8_t data, CLOCK clock)
         default:
             iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
                                  | ((iecbus.drv_data[8] << 6)
-                                    & ((~iecbus.drv_data[8] ^ iecbus.cpu_bus) << 3)
+                                    & ((uint32_t)(~iecbus.drv_data[8] ^ iecbus.cpu_bus) << 3)
                                     & 0x80));
     }
     iec_update_ports();
