@@ -17029,7 +17029,7 @@ Command body:
 
 @table @strong
 @item 1 byte: Type of the resource value
-0x00: String, 0x01: Integer
+0x00: String, 0x01: Integer@*
 Strings will be interpreted if the destination is an Integer.
 
 @item 1 byte: Resource name length = (&name)
@@ -17212,11 +17212,11 @@ Must be included, but ignored for all but the C128. If true, (0x01) the screen
 returned will be from the VIC-II. If false (0x00), it will be from the VDC.
 
 @item byte 1: Format
-0x00: Indexed, 8 bit
-0x01: RGB, 24 bit
-0x02: BGR, 24 bit
-0x03: RGBA, 32 bit
-0x04: BGRA, 32 bit
+0x00: Indexed, 8 bit@*
+0x01: RGB, 24 bit@*
+0x02: BGR, 24 bit@*
+0x03: RGBA, 32 bit@*
+0x04: BGRA, 32 bit@*
 
 @end table
 

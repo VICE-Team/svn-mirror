@@ -771,9 +771,9 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
     char *str_value;
     int int_value;
     
-    unsigned char *body = command->body;
+    char *body = (char *)command->body;
     uint8_t resource_name_length = body[0];
-    unsigned char* resource_name = &body[1];
+    char *resource_name = &body[1];
 
     if( resource_name_length < 1 ||
         command->length < 1 + resource_name_length) {
@@ -790,10 +790,10 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
                 monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
                 return;
             }
-            response_length = 2 + strlen(str_value);
+            response_length = 2 + (uint32_t)strlen(str_value);
             response = lib_malloc(response_length);
             response[0] = e_MON_RESOURCE_TYPE_STRING;
-            write_string(strlen(str_value), str_value, &response[1]);
+            write_string(strlen(str_value), (unsigned char *)str_value, &response[1]);
             break;
         case RES_INTEGER:
             if(resources_get_int(resource_name, &int_value) < 0) {
@@ -818,13 +818,13 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
 
 static void monitor_binary_process_resource_set(binary_command_t *command)
 {
-    unsigned char *body = command->body;
+    char *body = (char *)command->body;
 
     MON_RESOURCE_TYPE resource_value_type = body[0];
     uint8_t resource_name_length = body[1];
-    unsigned char *resource_name = &body[2];
+    char *resource_name = &body[2];
     uint8_t resource_value_length = resource_name[resource_name_length];
-    unsigned char *resource_value = &resource_name[resource_name_length + 1];
+    char *resource_value = &resource_name[resource_name_length + 1];
 
     if(resource_name_length < 1 || resource_value_length < 1 ||
         command->length < 2 + resource_name_length + 1 + resource_value_length) {
