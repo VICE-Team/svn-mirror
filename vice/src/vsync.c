@@ -342,7 +342,7 @@ static void update_performance_metrics(unsigned long frame_time)
              */
             for (int i = 1; i < MEASUREMENT_FRAME_WINDOW; i++) {
                 frame_times[i] = frame_time - ((MEASUREMENT_FRAME_WINDOW - i) * frame_ticks);
-                clocks[i] = maincpu_clk - ((MEASUREMENT_FRAME_WINDOW - i) * cycles_per_sec / refresh_frequency);
+                clocks[i] = maincpu_clk - (CLOCK)((MEASUREMENT_FRAME_WINDOW - i) * cycles_per_sec / refresh_frequency);
             }
             
             oldest_measurement_index = 1;
