@@ -1118,7 +1118,7 @@ static uint8_t peek_bank_io(uint16_t addr)
 }
 
 /* Exported banked memory access functions for the monitor.  */
-#define MAXBANKS (5 + 1 + 5)
+#define MAXBANKS (5 + 2 + 5)
 
 /* FIXME: add ram00 bank, make 'ram' bank always show selected ram bank, ram00
  * and ram01 always physical ram bank */
@@ -1130,6 +1130,7 @@ static const char *banknames[MAXBANKS + 1] = {
     "rom",
     "io",
     /* by convention, a "bank array" has a 2-hex-digit bank index appended */
+    "ram00",
     "ram01",
     "intfunc",
     "extfunc",
@@ -1139,18 +1140,33 @@ static const char *banknames[MAXBANKS + 1] = {
     NULL
 };
 
+enum {
+    bank_cpu = 0,
+    bank_ram,
+    bank_rom,
+    bank_io,
+    bank_ram00,
+    bank_ram01,
+    bank_intfunc,
+    bank_extfunc,
+    bank_cart,
+    bank_c64rom,
+    bank_vdc
+};
+
 static const int banknums[MAXBANKS + 1] = {
-    1,
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
+    bank_ram, /* default */
+    bank_cpu,
+    bank_ram,
+    bank_rom,
+    bank_io,
+    bank_ram00,
+    bank_ram01,
+    bank_intfunc,
+    bank_extfunc,
+    bank_cart,
+    bank_c64rom,
+    bank_vdc,
     -1
 };
 
@@ -1160,6 +1176,7 @@ static const int bankindex[MAXBANKS + 1] = {
     -1,
     -1,
     -1,
+    0,
     1,
     -1,
     -1,
@@ -1175,7 +1192,8 @@ static const int bankflags[MAXBANKS + 1] = {
     0,
     0,
     0,
-    MEM_BANK_ISARRAY | MEM_BANK_ISARRAYFIRST | MEM_BANK_ISARRAYLAST,
+    MEM_BANK_ISARRAY | MEM_BANK_ISARRAYFIRST,
+    MEM_BANK_ISARRAY | MEM_BANK_ISARRAYLAST,
     0,
     0,
     0,
@@ -1237,16 +1255,18 @@ int mem_bank_flags_from_bank(int bank)
 uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
-        case 0:                   /* current */
+        case bank_cpu:                   /* current */
             return mem_read(addr);
-        case 4:                   /* ram1 */
+        case bank_ram00:                   /* ram0 */
+            return mem_ram[addr];
+        case bank_ram01:                   /* ram1 */
             return mem_ram[addr + 0x10000];
-        case 3:                   /* io */
+        case bank_io:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return read_bank_io(addr);
             }
             /* FALL THROUGH */
-        case 2:                   /* rom */
+        case bank_rom:                   /* rom */
             if (addr <= 0x0fff) {
                 return bios_read(addr);
             }
@@ -1260,21 +1280,21 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
                 return c128memrom_kernal_rom[addr & 0x1fff];
             }
             /* FALL THROUGH */
-        case 1:                   /* ram */
+        case bank_ram:                   /* ram */
             break;
-        case 5:
+        case bank_intfunc:
             if (addr >= 0x8000) {
                 return int_function_rom[addr & 0x7fff];
             }
             break;
-        case 6:
+        case bank_extfunc:
             if (addr >= 0x8000) {
                 return ext_function_rom[addr & 0x7fff];
             }
             break;
-        case 7:
+        case bank_cart:
             return cartridge_peek_mem(addr);
-        case 8:
+        case bank_c64rom:
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return c64memrom_basic64_rom[addr & 0x1fff];
             }
@@ -1285,7 +1305,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
                 return c64memrom_kernal64_rom[addr & 0x1fff];
             }
             break;
-        case 9:
+        case bank_vdc:
             return vdc_ram_read(addr);
     }
     return mem_ram[addr];
@@ -1295,7 +1315,7 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
-        case 0:                   /* current */
+        case bank_cpu:                   /* current */
             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
                       when needed. doing this without checking is wrong, but we do it anyways to
                       avoid side effects
@@ -1305,12 +1325,12 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
             }
             return mem_read(addr);
             break;
-        case 3:                   /* io */
+        case bank_io:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);
             }
             break;
-        case 7:
+        case bank_cart:
             return cartridge_peek_mem(addr);
     }
     return mem_bank_read(bank, addr, context);
@@ -1319,19 +1339,22 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     switch (bank) {
-        case 0:                   /* current */
+        case bank_cpu:                   /* current */
             mem_store(addr, byte);
             return;
-        case 4:                   /* ram1 */
+        case bank_ram00:                   /* ram0 */
+            mem_ram[addr] = byte;
+            return;
+        case bank_ram01:                   /* ram1 */
             mem_ram[addr + 0x10000] = byte;
             return;
-        case 3:                   /* io */
+        case bank_io:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 store_bank_io(addr, byte);
                 return;
             }
             /* FALL THROUGH */
-        case 2:                   /* rom */
+        case bank_rom:                   /* rom */
             if (addr >= 0x4000 && addr <= 0xcfff) {
                 return;
             }
@@ -1339,19 +1362,19 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 return;
             }
             /* FALL THROUGH */
-        case 1:                   /* ram */
+        case bank_ram:                   /* ram */
             break;
-        case 5:
+        case bank_intfunc:
             if (addr >= 0x8000) {
                 return;
             }
             break;
-        case 6:
+        case bank_extfunc:
             if (addr >= 0x8000 && addr <= 0xbfff) {
                 return;
             }
             break;
-        case 7:
+        case bank_cart:
             if (addr >= 0x8000 && addr <= 0x9fff) {
                 return;
             }
@@ -1359,7 +1382,7 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 return;
             }
             /* FALL THROUGH */
-        case 8:
+        case bank_c64rom:
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return;
             }
@@ -1370,7 +1393,7 @@ void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
                 return;
             }
             break;
-        case 9:
+        case bank_vdc:
             vdc_ram_store(addr, byte);
             break;
     }
@@ -1419,7 +1442,7 @@ void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, i
         *base = (vdc.regs[12] << 8) | vdc.regs[13];
         *rows = vdc.regs[6];
         *columns = vdc.regs[1];
-        *bank = 9;
+        *bank = bank_vdc;
     }
 /*    printf("mem_get_screen_parameter (%s) base:%04x rows: %d colums: %d bank: %d\n",
            mem_ram[215] & 0x80 ? "vdc" : "vicii", *base, *rows, *columns, *bank); */
