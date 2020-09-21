@@ -30,7 +30,10 @@
 
 
 #include "vice.h"
+
 #include <gtk/gtk.h>
+#include <math.h>
+
 #include "vice_gtk3.h"
 #include "basedialogs.h"
 #include "machine.h"
@@ -654,24 +657,68 @@ GtkWidget *statusbar_speed_widget_create(void)
  */
 void statusbar_speed_widget_update(GtkWidget *widget)
 {
-    GtkWidget *grid;
+#   define CPU_DECIMAL_PLACES 2
+#   define FPS_DECIMAL_PLACES 3
+#   define STR_(x) #x
+#   define STR(x) STR_(x)
+    
+    static int last_cpu_int;
+    static int last_fps_int;
+    static int last_warp = -1;
+    static int last_paused = -1;
+    
+    GtkWidget *grid = NULL;
     GtkWidget *label;
     char buffer[1024];
-
-    /* get grid containing the two labels */
-    grid = gtk_bin_get_child(GTK_BIN(widget));
-
-    /* get CPU/Warp label and update its text */
-    label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    g_snprintf(buffer, sizeof(buffer), "%9.2f%% cpu%s",
-            vsync_metric_cpu_percent,
-            vsync_metric_warp_enabled ? " (warp)" : "");
-    gtk_label_set_text(GTK_LABEL(label), buffer);
-
-    /* get FPS/Pause label and update its text */
-    label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
-    g_snprintf(buffer, sizeof(buffer), "%10.3f fps%s",
-            vsync_metric_emulated_fps,
-            ui_pause_active() ? " (paused)" : "");
-    gtk_label_set_text(GTK_LABEL(label), buffer);
+    
+    int this_cpu_int = (int)(vsync_metric_cpu_percent  * pow(10, CPU_DECIMAL_PLACES) + 0.5);
+    int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
+    bool is_paused;
+    
+    /*
+     * Updating GTK labels is expensive and this is called each frame,
+     * so we avoid updates that wouldn't actually change the text.
+     */
+    
+    if (last_cpu_int != this_cpu_int || last_warp != vsync_metric_warp_enabled) {
+        
+        /* get grid containing the two labels */
+        grid = gtk_bin_get_child(GTK_BIN(widget));
+        
+        /* get CPU/Warp label and update its text */
+        label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+        g_snprintf(buffer, sizeof(buffer), "%9." STR(CPU_DECIMAL_PLACES) "f%% cpu%s",
+                   vsync_metric_cpu_percent,
+                   vsync_metric_warp_enabled ? " (warp)" : "");
+        gtk_label_set_text(GTK_LABEL(label), buffer);
+        
+        last_cpu_int = this_cpu_int;
+        last_warp = vsync_metric_warp_enabled;
+    }
+    
+    is_paused = ui_pause_active();
+    
+    if (last_fps_int != this_fps_int || last_paused != is_paused) {
+        
+        if (grid == NULL) {
+            grid = gtk_bin_get_child(GTK_BIN(widget));
+        }
+        
+        /* get FPS/Pause label and update its text */
+        label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
+        g_snprintf(buffer, sizeof(buffer), "%10." STR(FPS_DECIMAL_PLACES) "f fps%s",
+                   vsync_metric_emulated_fps,
+                   is_paused ? " (paused)" : "");
+        gtk_label_set_text(GTK_LABEL(label), buffer);
+        
+        last_fps_int = this_fps_int;
+        last_paused = is_paused;
+    }
+    
+    fflush(stdout);
+    
+#   undef CPU_DECIMAL_PLACES
+#   undef FPS_DECIMAL_PLACES
+#   undef STR_
+#   undef STR
 }
