@@ -110,6 +110,7 @@ struct monitor_interface_s {
     CLOCK *clk;
 
     int current_bank;
+    int current_bank_index;
 
     /* Returns the string bank identifiers in a NULL terminated list. */
     const char **(*mem_bank_list)(void);
@@ -119,7 +120,11 @@ struct monitor_interface_s {
      * repeats.
      */
     const int *(*mem_bank_list_nos)(void);
+
     int (*mem_bank_from_name)(const char *name);
+    int (*mem_bank_index_from_bank)(int bank);
+    int (*mem_bank_flags_from_bank)(int bank);
+
     uint8_t (*mem_bank_read)(int bank, uint16_t addr, void *context);
     uint8_t (*mem_bank_peek)(int bank, uint16_t addr, void *context);
     void (*mem_bank_write)(int bank, uint16_t addr, uint8_t byte, void *context);
@@ -128,7 +133,6 @@ struct monitor_interface_s {
     struct mem_ioreg_list_s *(*mem_ioreg_list_get)(void *context);
 
     /* Pointer to a function to disable/enable watchpoint checking.  */
-    /*monitor_toggle_func_t *toggle_watchpoints_func;*/
     void (*toggle_watchpoints_func)(int value, void *context);
 
     /* Update bank base (used for drives).  */

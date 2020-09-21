@@ -607,26 +607,48 @@ void mon_bank(MEMSPACE mem, const char *bankname)
 
     if (bankname == NULL) {
         const char **bnp;
+        int current_bank_index = -1;
+        char *first_bank_name = NULL;
 
         bnp = mon_interfaces[mem]->mem_bank_list();
         mon_out("Available banks (some may be equivalent to others):\n");
         while (*bnp) {
-            if (mon_interfaces[mem]->mem_bank_from_name(*bnp) == mon_interfaces[mem]->current_bank) {
-                mon_out("*");
+            int bank = mon_interfaces[mem]->mem_bank_from_name(*bnp);
+            int bank_flags = mon_get_bank_flags_for_bank(mem, bank);
+            unsigned int bank_index = mon_get_bank_index_for_bank(mem, bank);
+
+            if (!(bank_flags & MEM_BANK_ISARRAY)) {
+                mon_out("%s%s \t", (bank == mon_interfaces[mem]->current_bank) ? "*" : "", *bnp);
+            } else {
+                if (bank == mon_interfaces[mem]->current_bank) {
+                    current_bank_index = bank_index;
+                }
+                if (bank_flags & MEM_BANK_ISARRAYFIRST) {
+                    first_bank_name = lib_strdup(*bnp);
+                }
+                if (bank_flags & MEM_BANK_ISARRAYLAST) {
+                    if (current_bank_index > -1) {
+                        mon_out("*%s-%02x(%02x) \t",
+                                first_bank_name, bank_index, (unsigned)current_bank_index);
+                    } else {
+                        mon_out("%s-%02x \t", first_bank_name, bank_index);
+                    }
+                    current_bank_index = -1;
+                    lib_free(first_bank_name);
+                }
             }
-            mon_out("%s \t", *bnp);
             bnp++;
         }
         mon_out("\n");
     } else {
-        int newbank;
-
-        newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
+        int newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
         if (newbank < 0) {
             mon_out("Unknown bank name `%s'\n", bankname);
             return;
         }
         mon_interfaces[mem]->current_bank = newbank;
+        mon_interfaces[mem]->current_bank_index = mon_get_bank_index_for_bank(mem, newbank);
+        /* printf("mon_bank: MEMSPACE: %u, newbank: %d banknum; %d\n", mem, newbank, bankindex); */
     }
 }
 
@@ -663,6 +685,7 @@ const int mon_banknum_validate(MEMSPACE mem, int banknum)
     return 0;
 }
 
+/* return the literal bank name for a given bank in a given memspace */
 const char *mon_get_bank_name_for_bank(MEMSPACE mem, int banknum)
 {
     const char **bnp = NULL;
@@ -681,9 +704,34 @@ const char *mon_get_bank_name_for_bank(MEMSPACE mem, int banknum)
     return NULL;
 }
 
+/* return the current bank index for a given bank in a given memspace */
+int mon_get_bank_index_for_bank(MEMSPACE mem, int banknum)
+{
+    if (mon_interfaces[mem]->mem_bank_index_from_bank) {
+        return mon_interfaces[mem]->mem_bank_index_from_bank(banknum);
+    }
+    log_warning(LOG_DEFAULT, "FIXME: mon_interfaces->mem_bank_index_from_bank not implemented");
+    return -1;
+}
+
+/* return the current bank flags for a given bank in a given memspace */
+int mon_get_bank_flags_for_bank(MEMSPACE mem, int banknum)
+{
+    if (mon_interfaces[mem]->mem_bank_flags_from_bank) {
+        return mon_interfaces[mem]->mem_bank_flags_from_bank(banknum);
+    }
+    log_warning(LOG_DEFAULT, "FIXME: mon_interfaces->mem_bank_flags_from_bank not implemented");
+    return 0;
+}
+
 const char *mon_get_current_bank_name(MEMSPACE mem)
 {
     return mon_get_bank_name_for_bank(mem, mon_interfaces[mem]->current_bank);
+}
+
+const int mon_get_current_bank_index(MEMSPACE mem)
+{
+    return mon_get_bank_index_for_bank(mem, mon_interfaces[mem]->current_bank);
 }
 
 /*

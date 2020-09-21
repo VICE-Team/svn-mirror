@@ -271,6 +271,8 @@ extern void mon_change_dir(const char *path);
 extern void mon_bank(MEMSPACE mem, const char *bank);
 extern const char *mon_get_current_bank_name(MEMSPACE mem);
 extern const char *mon_get_bank_name_for_bank(MEMSPACE mem, int banknum);
+extern int mon_get_bank_index_for_bank(MEMSPACE mem, int banknum);
+extern int mon_get_bank_flags_for_bank(MEMSPACE mem, int banknum);
 extern const int mon_banknum_validate(MEMSPACE mem, int banknum);
 extern int mon_banknum_from_bank(MEMSPACE mem, const char *bankname);
 
