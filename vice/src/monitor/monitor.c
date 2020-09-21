@@ -616,7 +616,7 @@ void mon_bank(MEMSPACE mem, const char *bankname)
             int bank = mon_interfaces[mem]->mem_bank_from_name(*bnp);
             int bank_flags = mon_get_bank_flags_for_bank(mem, bank);
             unsigned int bank_index = mon_get_bank_index_for_bank(mem, bank);
-
+            /* printf("bankname:%s bank:%d flags:%d index:%u\n", *bnp, bank, bank_flags, bank_index); */
             if (!(bank_flags & MEM_BANK_ISARRAY)) {
                 mon_out("%s%s \t", (bank == mon_interfaces[mem]->current_bank) ? "*" : "", *bnp);
             } else {

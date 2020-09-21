@@ -1048,10 +1048,13 @@ static const char *banknames[] = {
     "rom",
     "io",
     "cart",
+    /* by convention, a "bank array" has a 2-hex-digit bank index appended */
     NULL
 };
 
 static const int banknums[] = { 1, 0, 1, 2, 3, 4, -1 };
+static const int bankindex[] = { -1, -1, -1, -1, -1, -1, -1 };
+static const int bankflags[] = { 0, 0, 0, 0, 0, 0, -1 };
 
 const char **mem_bank_list(void)
 {
@@ -1062,6 +1065,7 @@ const int *mem_bank_list_nos(void) {
     return banknums;
 }
 
+/* return bank number for a given literal bank name */
 int mem_bank_from_name(const char *name)
 {
     int i = 0;
@@ -1069,6 +1073,33 @@ int mem_bank_from_name(const char *name)
     while (banknames[i]) {
         if (!strcmp(name, banknames[i])) {
             return banknums[i];
+        }
+        i++;
+    }
+    return -1;
+}
+
+/* return current index for a given bank */
+int mem_bank_index_from_bank(int bank)
+{
+    int i = 0;
+
+    while (banknums[i] > -1) {
+        if (banknums[i] == bank) {
+            return bankindex[i];
+        }
+        i++;
+    }
+    return -1;
+}
+
+int mem_bank_flags_from_bank(int bank)
+{
+    int i = 0;
+
+    while (banknums[i] > -1) {
+        if (banknums[i] == bank) {
+            return bankflags[i];
         }
         i++;
     }

@@ -1542,15 +1542,16 @@ int scpu64_interrupt_reroute(void)
 /* ------------------------------------------------------------------------- */
 
 /* Exported banked memory access functions for the monitor.  */
-#define MAXBANKS (0x100 + 6 + 1)
+#define MAXBANKS (6 + 0x100)
 
-static const char *banknames[MAXBANKS] = {
+static const char *banknames[MAXBANKS + 1] = {
     "default",
     "cpu",
     "ram",
     "rom",
     "io",
     "cart",
+    /* by convention, a "bank array" has a 2-hex-digit bank index appended */
     "ram00", "ram01", "ram02", "ram03", "ram04", "ram05", "ram06", "ram07",
     "ram08", "ram09", "ram0a", "ram0b", "ram0c", "ram0d", "ram0e", "ram0f",
     "ram10", "ram11", "ram12", "ram13", "ram14", "ram15", "ram16", "ram17",
@@ -1586,7 +1587,7 @@ static const char *banknames[MAXBANKS] = {
     NULL
 };
 
-static const int banknums[MAXBANKS] = 
+static const int banknums[MAXBANKS + 1] =
 {
     1,
     0,
@@ -1615,7 +1616,7 @@ static const int banknums[MAXBANKS] =
     -1
 };
 
-static const int bankindex[MAXBANKS] =
+static const int bankindex[MAXBANKS + 1] =
 {
     -1,
     -1,
@@ -1644,7 +1645,7 @@ static const int bankindex[MAXBANKS] =
     -2
 };
 
-static const int bankflags[MAXBANKS] =
+static const int bankflags[MAXBANKS + 1] =
 {
     0,
     0,

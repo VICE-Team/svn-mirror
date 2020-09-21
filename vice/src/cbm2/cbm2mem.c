@@ -942,15 +942,38 @@ static uint8_t peek_bank_io(uint16_t addr)
 
 /* Exported banked memory access functions for the monitor.  */
 
-static const char *banknames[] = {
-    "default", "cpu", "ram0", "ram1", "ram2", "ram3",
-    "ram4", "ram5", "ram6", "ram7", "ram8", "ram9",
-    "ramA", "ramB", "ramC", "ramD", "ramE", "ramF",
-    "romio", "io", NULL
+#define MAXBANKS (2 + 16 + 2)
+
+static const char *banknames[MAXBANKS + 1] = {
+    "default", "cpu",
+    /* by convention, a "bank array" has a 2-hex-digit bank index appended */
+    "ram00", "ram01", "ram02", "ram03", "ram04", "ram05", "ram06", "ram07",
+    "ram08", "ram09", "ram0a", "ram0b", "ram0c", "ram0d", "ram0e", "ram0f",
+    "romio", "io",
+    NULL
 };
 
-static const int banknums[] = {
-    17, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 16, -1 };
+static const int banknums[MAXBANKS + 1] = {
+    17, 17,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+    16, 16,
+    -1
+};
+
+static const int bankindex[MAXBANKS + 1] = {
+    -1, -1,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+    -1, -1,
+    -1
+};
+
+static const int bankflags[MAXBANKS + 1] = {
+    0, 0,
+    MEM_BANK_ISARRAY | MEM_BANK_ISARRAYFIRST, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY,
+    MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY, MEM_BANK_ISARRAY | MEM_BANK_ISARRAYLAST,
+    0, 0,
+    -1
+};
 
 const char **mem_bank_list(void)
 {
@@ -961,6 +984,7 @@ const int *mem_bank_list_nos(void) {
     return banknums;
 }
 
+/* return bank number for a given literal bank name */
 int mem_bank_from_name(const char *name)
 {
     int i = 0;
@@ -968,6 +992,33 @@ int mem_bank_from_name(const char *name)
     while (banknames[i]) {
         if (!strcmp(name, banknames[i])) {
             return banknums[i];
+        }
+        i++;
+    }
+    return -1;
+}
+
+/* return current index for a given bank */
+int mem_bank_index_from_bank(int bank)
+{
+    int i = 0;
+
+    while (banknums[i] > -1) {
+        if (banknums[i] == bank) {
+            return bankindex[i];
+        }
+        i++;
+    }
+    return -1;
+}
+
+int mem_bank_flags_from_bank(int bank)
+{
+    int i = 0;
+
+    while (banknums[i] > -1) {
+        if (banknums[i] == bank) {
+            return bankflags[i];
         }
         i++;
     }
