@@ -855,9 +855,9 @@ static void monitor_binary_process_resource_set(binary_command_t *command)
         if(resource_value_length == 1) {
             value = (uint8_t)*resource_value;
         } else if(resource_value_length == 2) {
-            value = little_endian_to_uint16(resource_value);
+            value = little_endian_to_uint16((unsigned char *)resource_value);
         } else if(resource_value_length == 4) {
-            value = little_endian_to_uint32(resource_value);
+            value = little_endian_to_uint32((unsigned char *)resource_value);
         } else {
             monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
             return;
