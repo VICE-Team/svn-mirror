@@ -671,14 +671,14 @@ void statusbar_speed_widget_update(GtkWidget *widget)
     GtkWidget *label;
     char buffer[1024];
     
-    int this_cpu_int = (int)(vsync_metric_cpu_percent  * pow(10, CPU_DECIMAL_PLACES) + 0.5);
-    int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
-    bool is_paused;
-    
     /*
      * Updating GTK labels is expensive and this is called each frame,
      * so we avoid updates that wouldn't actually change the text.
      */
+    
+    int this_cpu_int = (int)(vsync_metric_cpu_percent  * pow(10, CPU_DECIMAL_PLACES) + 0.5);
+    int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
+    bool is_paused;
     
     if (last_cpu_int != this_cpu_int || last_warp != vsync_metric_warp_enabled) {
         
@@ -714,8 +714,6 @@ void statusbar_speed_widget_update(GtkWidget *widget)
         last_fps_int = this_fps_int;
         last_paused = is_paused;
     }
-    
-    fflush(stdout);
     
 #   undef CPU_DECIMAL_PLACES
 #   undef FPS_DECIMAL_PLACES
