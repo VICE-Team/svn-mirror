@@ -54,7 +54,7 @@ static RETSIGTYPE break64(int sig)
 }
 
 
-/** \file   Set up signal handlers at emu init
+/** \brief   Set up signal handlers at emu init
  *
  * \param[in]   do_core_dumps   Do core dumps
  */
