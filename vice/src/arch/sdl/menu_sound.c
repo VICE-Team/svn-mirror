@@ -154,12 +154,6 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"ahi" },
 #endif
-#if defined(__MSDOS__) && !defined(USE_MIDAS_SOUND)
-    { "Allegro",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"allegro" },
-#endif
 #ifdef USE_ALSA
     { "ALSA",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -182,12 +176,6 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"coreaudio" },
 #endif
-#ifdef __OS2__
-    { "OS/2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"dart" },
-#endif
     { "Dummy",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
@@ -197,12 +185,6 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"dx" },
-#endif
-#if defined(__MSDOS__) && defined(USE_MIDAS_SOUND)
-    { "Midas",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"midas" },
 #endif
 #ifdef USE_PULSE
     { "PulseAudio",
