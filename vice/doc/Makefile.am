@@ -11,8 +11,7 @@ MISC_DOX = \
 
 TEXI_TOOLS = \
 	fixdox.sh \
-	t2h.pl \
-	texi2guide.sh
+	t2h.pl
 
 DOC_TOOLS = \
 	checkdoc.c \
@@ -67,7 +66,7 @@ $(builddir)/vice.pdf:	.vice-texi-charset-ok
 endif
 
 
-# This doesn't appear to delete vice.pdf, vice.chm, vice.guide etc added
+# This doesn't appear to delete vice.pdf etc added
 # in this Makefile with VICE_DOX += FOO, perhaps just some ordinary `rm -f`
 # would do better? -- Compyx
 CLEANFILES = .vice-texi-charset-ok $(VICE_DOX)

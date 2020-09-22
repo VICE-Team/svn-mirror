@@ -193,47 +193,6 @@ to generate them:
   Texi2dvi is used to convert from texi to pdf. Texi2dvi needs to be installed
   to be able to generate the pdf documentation.
 
-- amigaguide (doc/vice.guide)
-  A special version of makeinfo that is able to generate amigaguide files is
-  used to convert from texi to amigaguide. If you want to keep your regular
-  makeinfo you can rename the amigaguide makeinfo to makeguide and the
-  configure script will be able to find and use it. The included
-  doc/texi2guide.sh shell script is used to do the actual converting. The
-  special amigaguide makeinfo/makeguide needs to be installed to be able to
-  generate amigaguide documentation.
-  
-  http://aminet.net/text/hyper/mkguide155.lha
-
-- windows help (doc/vice.hlp)
-  Makertf and hcrtf from the winhelp compiler package is used to convert from
-  texi to windows help. The included doc/fixdox.sh shell script is used to
-  pre-fix the texi file so that it can be converted by makertf to rtf, which
-  hcrtf then converts to a windows help file. Makertf and hcrtf need to be
-  installed to be able to generate the window help documentation.
-
-  http://download.microsoft.com/download/office97dev/helpws97/4.03/win98/en-us/hcwsetup.exe
-
-- windows chm (doc/vice.chm)
-  Hhc from the Microsoft help compiler package is used to convert from texi to
-  windows chm. The included doc/texi2chm.sh shell script is used to do the
-  actual converting. It uses the included doc/fixdox.sh shell script to
-  pre-fix the texi file so that the included doc/t2h.pl perl script can
-  convert the texi file to an html file which hhc can then convert to a
-  windows chm. Hhc and perl need to be installed to be able to generate the
-  windows chm documentation.
-
-  http://go.microsoft.com/fwlink/?LinkId=14188
-
-- os/2 inf (doc/vice.inf)
-  Texi2ipf in combination with either ipfc (which is part of the ibm visual
-  age c++ package) or wipfc (which is part of the openwatcom package) is used
-  to convert from texi to os/2 inf. Texi2ipf and (w)ipfc needs to be installed
-  to be able to generate os/2 inf documentation.
-
-- info (doc/vice.info)
-  Makeinfo is used to convert texi to info. Makeinfo needs to be installed to
-  be able to generate info documentation.
-  
 ------------------------------------------------------------------------------
 
 other files generated from the documentation:
