@@ -1369,9 +1369,11 @@ int autostart_disk(const char *file_name, const char *program_name,
     char *name = NULL;
 
     DBG(("autostart_disk"));
+#ifdef USE_NATIVE_GTK3
     if (!mainlock_is_vice_thread()) {
         mainlock_assert_lock_obtained();
     }
+#endif
 
     if (network_connected() || event_record_active() || event_playback_active()
         || !file_name || !autostart_enabled) {
@@ -1676,10 +1678,11 @@ static void set_tapeport_device(int datasette, int tapecart)
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {
+#ifdef HAVE_NATIVE_GTK3
     if (!mainlock_is_vice_thread()) {
         mainlock_assert_lock_obtained();
     }
-
+#endif
     if (network_connected() || event_record_active() || event_playback_active()
         || file_name == NULL) {
         return -1;
@@ -1756,10 +1759,11 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 /* Autostart the image attached to device `num'.  */
 int autostart_device(int num)
 {
+#if HAVE_NATIVE_GTK3
     if (!mainlock_is_vice_thread()) {
         mainlock_assert_lock_obtained();
     }
-
+#endif
     if (network_connected() || event_playback_active() || event_record_active()
         || !autostart_enabled) {
         return -1;
