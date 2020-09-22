@@ -2135,6 +2135,7 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 void ui_update_statusbars(void)
 {
     /* TODO: Don't call this for each top level window as it updates all statusbars */
+    static int last_tape_counter = -1;
     GtkWidget *speed_widget, *tape_counter, *drive, *track, *led;
     ui_statusbar_t bar;
     int i, j;
@@ -2160,7 +2161,7 @@ void ui_update_statusbars(void)
          * Update Tape
          */
         
-        if (bar.tape) {
+        if (bar.tape && last_tape_counter != sb_state.tape_counter) {
             tape_counter = gtk_grid_get_child_at(GTK_GRID(bar.tape), 1, 0);
             if (tape_counter) {
                 char buf[8];
@@ -2169,18 +2170,20 @@ void ui_update_statusbars(void)
                 
                 gtk_label_set_text(GTK_LABEL(tape_counter), buf);
             }
+            last_tape_counter = sb_state.tape_counter;
         }
 
         /*
          * Joystick
          */
         
-        vice_gtk3_update_joyport_layout();
+         vice_gtk3_update_joyport_layout();
 
         /*
          * Drive track, half track, and led
          */
-        
+
+        // TODO THis is heavy, only do when needed
         layout_statusbar_drives(i);
 
         for (j = 0; j < NUM_DISK_UNITS; ++j) {
