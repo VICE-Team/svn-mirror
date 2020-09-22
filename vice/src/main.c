@@ -78,9 +78,6 @@
 #define DBG(x)
 #endif
 
-#ifdef __OS2__
-const
-#endif
 int console_mode = 0;
 int video_disabled_mode = 0;
 
@@ -91,7 +88,7 @@ void *vice_thread_main(void *);
 static pthread_t vice_thread;
 #endif
 
-#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
+#if defined(ARCHDEP_OS_WINDOWS) && defined(USE_NATIVE_GTK3)
 static void shutdown_com(void);
 #endif
 
@@ -115,7 +112,7 @@ int main_program(int argc, char **argv)
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
 
-#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
+#if defined(ARCHDEP_OS_WINDOWS) && defined(USE_NATIVE_GTK3)
     /* Something on the main thread does something with COM that causes complaint in a debugger. */
     CoInitializeEx(NULL, COINIT_MULTITHREADED);
     archdep_vice_atexit(shutdown_com);
@@ -131,12 +128,10 @@ int main_program(int argc, char **argv)
     */
     DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 1; i < argc; i++) {
-#ifndef __OS2__
         if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
             console_mode = 1;
             video_disabled_mode = 1;
         } else
-#endif
         if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
                 vice_config_file = lib_strdup(argv[++i]);
@@ -166,7 +161,7 @@ int main_program(int argc, char **argv)
             ishelp = 1;
         }
     }
-    
+
     DBG(("main:archdep_init(argc:%d)\n", argc));
     if (archdep_init(&argc, argv) != 0) {
         archdep_startup_log_error("archdep_init failed.\n");

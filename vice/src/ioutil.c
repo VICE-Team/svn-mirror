@@ -99,13 +99,11 @@ int ioutil_chdir(const char *path)
 int ioutil_errno(unsigned int check)
 {
     switch (check) {
-#ifndef __OS2__
         case IOUTIL_ERRNO_EPERM:
             if (errno == EPERM) {
                 return 1;
             }
             break;
-#endif
         case IOUTIL_ERRNO_EEXIST:
             if (errno == EEXIST) {
                 return 1;
@@ -121,13 +119,11 @@ int ioutil_errno(unsigned int check)
                 return 1;
             }
             break;
-#ifndef __OS2__
         case IOUTIL_ERRNO_ERANGE:
             if (errno == ERANGE) {
                 return 1;
             }
             break;
-#endif
         default:
             return 0;
     }

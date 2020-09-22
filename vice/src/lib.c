@@ -38,31 +38,11 @@
 #include <time.h>
 
 #include "archdep.h"
-
-#ifdef AMIGA_SUPPORT
-#ifndef __USE_INLINE__
-#define __USE_INLINE__
-#endif
-#endif
-
-#if defined(AMIGA_SUPPORT) || defined(__VBCC__)
-#include <proto/exec.h>
-#ifndef AMIGA_SUPPORT
-#define AMIGA_SUPPORT
-#endif
-#endif
-
 #include "types.h"
 #include "debug.h"
 
 #define COMPILING_LIB_DOT_C
 #include "lib.h"
-
-#if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
-#  ifndef RAND_MAX
-#    define RAND_MAX 32767
-#  endif
-#endif
 
 #ifdef DEBUG
 /* enable memory debugging */
@@ -569,19 +549,17 @@ static
 void *lib_malloc(size_t size)
 {
     LIB_DEBUG_LOCK();
-    
+
 #ifdef LIB_DEBUG
     void *ptr = lib_debug_libc_malloc(size);
 #else
     void *ptr = malloc(size);
 #endif
 
-#ifndef __OS2__
     if (ptr == NULL && size > 0) {
         fprintf(stderr, "error: lib_malloc failed\n");
         archdep_vice_exit(-1);
     }
-#endif
 #ifdef LIB_DEBUG
     lib_debug_alloc(ptr, size, 3);
 #endif
@@ -592,67 +570,12 @@ void *lib_malloc(size_t size)
         memset(ptr, 0, size);
     }
 #endif
-    
+
     LIB_DEBUG_UNLOCK();
-    
-    return ptr;
-}
-
-#ifdef AMIGA_SUPPORT
-void *lib_AllocVec(unsigned long size, unsigned long attributes)
-{
-#ifdef LIB_DEBUG
-    void *ptr;
-
-    if (attributes & MEMF_CLEAR) {
-        ptr = lib_debug_libc_calloc(1, size);
-    } else {
-        ptr = lib_debug_libc_malloc(size);
-    }
-#else
-    void *ptr = AllocVec(size, attributes);
-#endif
-
-#ifndef __OS2__
-    if (ptr == NULL && size > 0) {
-        fprintf(stderr, "error: lib_AllocVec failed\n");
-        archdep_vice_exit(-1);
-    }
-#endif
-#ifdef LIB_DEBUG
-    lib_debug_alloc(ptr, size, 1);
-#endif
 
     return ptr;
 }
 
-void *lib_AllocMem(unsigned long size, unsigned long attributes)
-{
-#ifdef LIB_DEBUG
-    void *ptr;
-
-    if (attributes & MEMF_CLEAR) {
-        ptr = lib_debug_libc_calloc(1, size);
-    } else {
-        ptr = lib_debug_libc_malloc(size);
-    }
-#else
-    void *ptr = AllocMem(size, attributes);
-#endif
-
-#ifndef __OS2__
-    if (ptr == NULL && size > 0) {
-        fprintf(stderr, "error: lib_AllocMem failed\n");
-        archdep_vice_exit(-1);
-    }
-#endif
-#ifdef LIB_DEBUG
-    lib_debug_alloc(ptr, size, 1);
-#endif
-
-    return ptr;
-}
-#endif
 
 /* Like calloc, but abort if not enough memory is available.  */
 #ifdef LIB_DEBUG_PINPOINT
@@ -661,23 +584,21 @@ static
 void *lib_calloc(size_t nmemb, size_t size)
 {
     LIB_DEBUG_LOCK();
-    
+
 #ifdef LIB_DEBUG
     void *ptr = lib_debug_libc_calloc(nmemb, size);
 #else
     void *ptr = calloc(nmemb, size);
 #endif
 
-#ifndef __OS2__
     if (ptr == NULL && (size * nmemb) > 0) {
         fprintf(stderr, "error: lib_calloc failed\n");
         archdep_vice_exit(-1);
     }
-#endif
 #ifdef LIB_DEBUG
     lib_debug_alloc(ptr, size * nmemb, 1);
 #endif
-    
+
     LIB_DEBUG_UNLOCK();
 
     return ptr;
@@ -690,24 +611,22 @@ static
 void *lib_realloc(void *ptr, size_t size)
 {
     LIB_DEBUG_LOCK();
-    
+
 #ifdef LIB_DEBUG
     void *new_ptr = lib_debug_libc_realloc(ptr, size);
 #else
     void *new_ptr = realloc(ptr, size);
 #endif
 
-#ifndef __OS2__
     if (new_ptr == NULL) {
         fprintf(stderr, "error: lib_realloc failed\n");
         archdep_vice_exit(-1);
     }
-#endif
 #ifdef LIB_DEBUG
     lib_debug_free(ptr, 1, false);
     lib_debug_alloc(new_ptr, size, 1);
 #endif
-    
+
     LIB_DEBUG_UNLOCK();
 
     return new_ptr;
@@ -720,7 +639,7 @@ static
 void lib_free(void *ptr)
 {
     LIB_DEBUG_LOCK();
-    
+
 #ifdef LIB_DEBUG
     lib_debug_free(ptr, 1, true);
 #endif
@@ -730,31 +649,10 @@ void lib_free(void *ptr)
 #else
     free(ptr);
 #endif
-    
+
     LIB_DEBUG_UNLOCK();
 }
 
-#ifdef AMIGA_SUPPORT
-void lib_FreeVec(void *ptr)
-{
-#ifdef LIB_DEBUG
-    lib_debug_free(ptr, 1, true);
-    lib_debug_libc_free(ptr);
-#else
-    FreeVec(ptr);
-#endif
-}
-
-void lib_FreeMem(void *ptr, unsigned long size)
-{
-#ifdef LIB_DEBUG
-    lib_debug_free(ptr, 1, true);
-    lib_debug_libc_free(ptr);
-#else
-    FreeMem(ptr, size);
-#endif
-}
-#endif
 
 /*----------------------------------------------------------------------------*/
 
@@ -839,103 +737,73 @@ char *lib_msprintf(const char *fmt, ...)
 void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line)
 {
     LIB_DEBUG_LOCK();
-    
+
     void *result;
-    
+
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     result = lib_malloc(size);
-    
+
     LIB_DEBUG_UNLOCK();
-    
+
     return result;
 }
 
 void lib_free_pinpoint(void *p, const char *name, unsigned int line)
 {
     LIB_DEBUG_LOCK();
-    
+
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     lib_free(p);
-    
+
     LIB_DEBUG_UNLOCK();
 }
 
 void *lib_calloc_pinpoint(size_t nmemb, size_t size, const char *name, unsigned int line)
 {
     LIB_DEBUG_LOCK();
-    
+
     void *result;
-    
+
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     result = lib_calloc(nmemb, size);
-    
+
     LIB_DEBUG_UNLOCK();
-    
+
     return result;
 }
 
 void *lib_realloc_pinpoint(void *p, size_t size, const char *name, unsigned int line)
 {
     LIB_DEBUG_LOCK();
-    
+
     void *result;
-    
+
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     result = lib_realloc(p, size);
-    
+
     LIB_DEBUG_UNLOCK();
-    
+
     return result;
 }
 
 char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int line)
 {
     LIB_DEBUG_LOCK();
-    
+
     void *result;
-    
+
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     result = lib_strdup(str);
-    
+
     LIB_DEBUG_UNLOCK();
-    
     return result;
 }
 
-#ifdef AMIGA_SUPPORT
-void *lib_AllocVec_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line)
-{
-    lib_debug_pinpoint_filename = name;
-    lib_debug_pinpoint_line = line;
-    return lib_AllocVec(size, attributes);
-}
-
-void lib_FreeVec_pinpoint(void *ptr, char *name, unsigned int line)
-{
-    lib_debug_pinpoint_filename = name;
-    lib_debug_pinpoint_line = line;
-    return lib_FreeVec(ptr);
-}
-
-void *lib_AllocMem_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line)
-{
-    lib_debug_pinpoint_filename = name;
-    lib_debug_pinpoint_line = line;
-    return lib_AllocMem(size, attributes);
-}
-
-void lib_FreeMem_pinpoint(void *ptr, unsigned long size, char *name, unsigned int line)
-{
-    lib_debug_pinpoint_filename = name;
-    lib_debug_pinpoint_line = line;
-    return lib_FreeMem(ptr, size);
-}
-#endif
 
 /*----------------------------------------------------------------------------*/
 
@@ -964,19 +832,18 @@ void lib_init(void)
      * delay are actually random, ie different on each startup, at all.
      */
     srand((unsigned int)time(NULL));
-    
+
 #ifdef DEBUG
-    
+
 #ifdef USE_VICE_THREAD
     {
         pthread_mutexattr_t lock_attributes;
-        
         pthread_mutexattr_init(&lock_attributes);
         pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
         pthread_mutex_init(&lib_debug_lock, &lock_attributes);
     }
 #endif
-    
+
     lib_debug_init();
 #endif
 }
