@@ -134,16 +134,18 @@ static int native_monitor(void)
     return res;
 }
 
-static gboolean uimon_write_to_terminal_impl(gpointer user_data)
+static gboolean uimon_write_to_terminal_impl(gpointer _unused)
 {
     pthread_mutex_lock(&fixed.output_lock);
 
-    vte_terminal_feed(VTE_TERMINAL(fixed.term), fixed.output_buffer, fixed.output_buffer_used_size);
+    if (fixed.output_buffer) {
+        vte_terminal_feed(VTE_TERMINAL(fixed.term), fixed.output_buffer, fixed.output_buffer_used_size);
 
-    lib_free(fixed.output_buffer);
-    fixed.output_buffer = NULL;
-    fixed.output_buffer_allocated_size = 0;
-    fixed.output_buffer_used_size = 0;
+        lib_free(fixed.output_buffer);
+        fixed.output_buffer = NULL;
+        fixed.output_buffer_allocated_size = 0;
+        fixed.output_buffer_used_size = 0;
+    }
 
     pthread_mutex_unlock(&fixed.output_lock);
 
@@ -709,6 +711,9 @@ static gboolean uimon_out_impl(gpointer user_data)
 
 static gboolean uimon_window_close_impl(gpointer user_data)
 {
+    /* Flush any queued writes */
+    uimon_write_to_terminal_impl(NULL);
+    
     /* only close window if there is one: this avoids a GTK_CRITICAL warning
      * when using a remote monitor */
     if (fixed.window != NULL) {
