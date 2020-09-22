@@ -881,15 +881,14 @@ void mon_exit(void)
 }
 
 /* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0)
-   So I decided to skip this (I think it's unnecessary for OS/2 */
+   So I decided to skip this (I think it's unnecessary for OS/2
+
+    Update: we don't support OS/2 anymore, so simply set exit_mon to 2.
+    --compyx 2020-09-22
+*/
 void mon_quit(void)
 {
-#ifdef __OS2__
-    /* same as "quit" */
-    exit_mon = 1;
-#else
     exit_mon = 2;
-#endif
 }
 
 void mon_keyboard_feed(const char *string)
