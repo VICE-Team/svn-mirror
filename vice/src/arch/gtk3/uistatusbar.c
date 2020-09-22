@@ -159,6 +159,9 @@ typedef struct ui_sb_state_s {
      *         LEDs should be drawn. */
     int drives_tde_enabled;
     
+    /** \brief true if drive ui layout is needed */
+    bool drives_layout_needed;
+    
     /** \brief Color descriptors for the drive LED colors.
      *
      *  This value is a bitmask, with bit 0 and 1 set if the
@@ -2042,6 +2045,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
             || (enabled != sb_state.drives_enabled)) {
         sb_state.drives_enabled = enabled;
         sb_state.drives_tde_enabled = state;
+        sb_state.drives_layout_needed = true;
     }
 }
 
@@ -2134,6 +2138,7 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
 /** \brief  Statusbar API to display emulation metrics and drive status */
 void ui_update_statusbars(void)
 {
+    /* TODO: add a lock to sb_state */
     /* TODO: Don't call this for each top level window as it updates all statusbars */
     static int last_tape_counter = -1;
     GtkWidget *speed_widget, *tape_counter, *drive, *track, *led;
@@ -2177,14 +2182,16 @@ void ui_update_statusbars(void)
          * Joystick
          */
         
-         vice_gtk3_update_joyport_layout();
+        vice_gtk3_update_joyport_layout();
 
         /*
          * Drive track, half track, and led
          */
 
-        // TODO THis is heavy, only do when needed
-        layout_statusbar_drives(i);
+        if (sb_state.drives_layout_needed) {
+            layout_statusbar_drives(i);
+            sb_state.drives_layout_needed = false;
+        }
 
         for (j = 0; j < NUM_DISK_UNITS; ++j) {
             drive = bar.drives[j];
