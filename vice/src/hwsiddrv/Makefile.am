@@ -20,30 +20,18 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libhwsiddrv.a
 
 libhwsiddrv_a_SOURCES = \
-	catweaselmkiii-amiga-drv.c \
 	catweaselmkiii-beos-drv.c \
 	catweaselmkiii-unix-drv.c \
 	catweaselmkiii-win32-drv.c \
-	cw-amiga.h \
-	cw-amiga-clockport.c \
-	cw-amiga-device.c \
-	cw-amiga-openpci.c \
-	cw-amiga-os4.c \
-	cw-amiga-zorro.c \
 	cw-unix.h \
 	cw-unix-device.c \
 	cw-unix-pci.c \
 	cw-win32.h \
 	cw-win32-dll.c \
 	cw-win32-pci.c \
-	hardsid-amiga-drv.c \
 	hardsid-beos-drv.c \
 	hardsid-unix-drv.c \
 	hardsid-win32-drv.c \
-	hs-amiga.h \
-	hs-amiga-gg2isa.c \
-	hs-amiga-openpci.c \
-	hs-amiga-os4.c \
 	hs-beos.h \
 	hs-beos-isa.c \
 	hs-beos-pci.c \
@@ -65,7 +53,6 @@ libhwsiddrv_a_SOURCES = \
 	ps-win32.h \
 	ps-win32-dll.c \
 	ps-win32-io.c \
-	ssi2001-amiga-drv.c \
 	ssi2001-beos-drv.c \
 	ssi2001-unix-drv.c \
 	ssi2001-win32-drv.c \
