@@ -12,13 +12,15 @@ Overview:
 
 * vice/doc/vice.texi is the main documentation source.
 
-* vice/doc/plain/*.txt should contain only technical information (related to
-  actual commodore computers, not vice). Files placed here should get linked
-  from index.html and also mentioned in vice.texi
+* technical documentation formerly found in vice/doc/plain/*.txt was moved into
+  a seperate svn repository ("techdocs" in the main VICE repo).
 
 * vice/doc/readmes/*.txt should contain port specific readme files
 * vice/doc/building/*.txt should contain info on building specific ports
 * vice/doc/*.txt should only contain developer- or port-specific info
+
+when adding/removing files, remember to update the main html page, and also
+the main doxy file (mainpage.dox).
 
 ------------------------------------------------------------------------------
 
@@ -154,7 +156,6 @@ compiled for will show up in the resulting documentation files.
 Certain variables are defined to indicate which platform the documentation
 needs to be generated for:
 
-- platformos2      (os/2)
 - platformsdl      (sdl)
 - platformgtk3     (gtk3)
 - platformunix     (will be set when using platformgtk3)

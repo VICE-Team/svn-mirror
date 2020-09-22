@@ -221,7 +221,7 @@ the script takes 3 arguments:
 - the port name
 - an additional id for the respective (g)ui
 
-mkdoxy.sh [all|vsid|x128|x64|x64sc ...] [linux|win32|osx] [gtk|win32|cocoa|sdl]
+mkdoxy.sh [all|tools|vsid|x128|x64|x64sc ...|petcat|cartconv|c1541] [linux|win32|osx] [gtk3|sdl]
 
 NOTE: the script is new and WIP, and only a few combinations will actually work.
 if you want to generate the documentation for a yet not handled combination, you
@@ -237,16 +237,16 @@ currently correctly handled are:
 
 emulators: vsid, x64, x64sc
 ports: linux
-uis: gtk
+uis: gtk3
 
 run ./mkdoxy.sh from the doc directory. the documentation will then be generated
 in doc/doxy/<emulator>/html
 
 Example:
 
-# ./mkdoxy.sh x64sc linux gtk
+# ./mkdoxy.sh x64sc linux gtk3
 
 running the script without arguments will use the defaults, which are currently
-hardcoded as "all linux gtk" (and should at some point get autodetected)
+hardcoded as "all linux gtk3" (and should at some point get autodetected)
 
 using "all" as the first argument will generate documentation for all emulators.
