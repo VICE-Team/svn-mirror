@@ -62,132 +62,13 @@ INPUT=" ../src"
 INPUT+=" mainpage.dox"
 
 ARCH_INPUT=" ../src/arch"
-
-ARCH_AMIGAOS_INPUT=" ../src/arch/amigaos"
-ARCH_AMIGAOS_INPUT+=" ../src/arch/amigaos/info-files"
-ARCH_AMIGAOS_INPUT+=" ../src/arch/amigaos/info-files/morphos"
-ARCH_AMIGAOS_INPUT+=" ../src/arch/amigaos/mui"
-
-ARCH_BEOS_INPUT=" ../src/arch/beos"
-
-ARCH_MSDOS_INPUT=" ../src/arch/msdos"
-
-ARCH_OS2_INPUT=" ../src/arch/os2"
-ARCH_OS2_INPUT+=" ../src/arch/os2/dialogs"
-ARCH_OS2_INPUT+=" ../src/arch/os2/doc"
-ARCH_OS2_INPUT+=" ../src/arch/os2/fonts"
-ARCH_OS2_INPUT+=" ../src/arch/os2/icons"
-ARCH_OS2_INPUT+=" ../src/arch/os2/kbd"
-ARCH_OS2_INPUT+=" ../src/arch/os2/snippets"
-ARCH_OS2_INPUT+=" ../src/arch/os2/unused"
-ARCH_OS2_INPUT+=" ../src/arch/os2/unused/pm"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/ctools"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/incl"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/x128"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/x64"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/x64dtv"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/x64sc"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/xcbm2"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/xpet"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/xplus4"
-ARCH_OS2_INPUT+=" ../src/arch/os2/vac++/xvic"
-ARCH_OS2_INPUT+=" ../src/arch/os2/watcom"
-
-ARCH_RISCOS_INPUT=" ../src/arch/riscos"
-ARCH_RISCOS_INPUT+=" ../src/arch/riscos/binfiles"
-
-#../src/arch/sdl
-#../src/arch/sdl/dingoo-files
-#../src/arch/sdl/syllable-files
-#../src/arch/sdl/win32-msvc
-#../src/arch/sdl/win32-watcom
-#../src/arch/sdl/win64-msvc
-#../src/arch/sdl/winmips-msvc
-#../src/arch/sdl/xbox
-
-if [ "$3" = "gtk3" ]; then
-    # FIXME: add unix specific directories used in GTK3 here
-    ARCH_UNIX_INPUT=" "
-else
-    ARCH_UNIX_INPUT=" ../src/arch/unix"
-    ARCH_UNIX_INPUT+=" ../src/arch/unix/gui"
-    ARCH_UNIX_INPUT+=" ../src/arch/unix/readline"
-fi
-
-#../src/arch/unix/hpux
-
-#../src/arch/unix/macosx
-#../src/arch/unix/macosx/Resources
-#../src/arch/unix/macosx/Resources/English.lproj
-#../src/arch/unix/macosx/Resources/English.lproj/DisassemblyWindow.nib
-#../src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/FilePanelImageContents.nib
-#../src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/IOTreeWindow.nib
-#../src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/MemoryWindow.nib
-#../src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib
-#../src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib
-#../src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib
-#../src/arch/unix/macosx/Resources/English.lproj/RegisterWindow.nib
-#../src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib
-#../src/arch/unix/macosx/Resources/English.lproj/SIDSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib
-#../src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib
-#../src/arch/unix/macosx/Resources/English.lproj/x128.nib
-#../src/arch/unix/macosx/Resources/English.lproj/x64.nib
-#../src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib
-#../src/arch/unix/macosx/Resources/English.lproj/x64sc.nib
-#../src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib
-#../src/arch/unix/macosx/Resources/English.lproj/xpet.nib
-#../src/arch/unix/macosx/Resources/English.lproj/xplus4.nib
-#../src/arch/unix/macosx/Resources/English.lproj/xvic.nib
-#../src/arch/unix/macosx/VICE.xcodeproj
-#../src/arch/unix/macosx/cocoa
-#../src/arch/unix/macosx/cocoa/dialog
-#../src/arch/unix/macosx/cocoa/menu
-#../src/arch/unix/macosx/cocoa/view
-
-#../src/arch/unix/minix
-
-#../src/arch/unix/next_open_rhap
-
-#../src/arch/unix/qnx4
-
-#../src/arch/unix/qnx6
-
-#../src/arch/unix/sco_sol
-
-#../src/arch/unix/skyos
-#../src/arch/unix/skyos/icons
-
-#../src/arch/unix/vms
-
-ARCH_UNIX_X11_INPUT=" ../src/arch/unix/x11"
-ARCH_UNIX_GNOME_INPUT=" ../src/arch/unix/x11/gnome"
-ARCH_UNIX_XAW_INPUT=" ../src/arch/unix/x11/xaw"
-ARCH_UNIX_XAW_INPUT+=" ../src/arch/unix/x11/xaw/widgets"
-
-#../src/arch/watcom-source-wrappers
-
-#../src/arch/win32
-#../src/arch/win32/evc
-#../src/arch/win32/mingw32
-#../src/arch/win32/msvc
-#../src/arch/win32/msvc/wpcap
-#../src/arch/win32/msvc/wpcap/net
-#../src/arch/win32/utils
-#../src/arch/win32/watcom
-#../src/arch/win64
+ARCH_INPUT+=" ../src/arch/shared"
 
 ARCH_GTK3_INPUT=" ../src/arch/gtk3"
 ARCH_GTK3_INPUT+=" ../src/arch/gtk3/widgets"
 ARCH_GTK3_INPUT+=" ../src/arch/gtk3/widgets/base"
 
+ARCH_SDL_INPUT=" ../src/arch/sdl"
 
 INPUT+=" ../src/core"
 INPUT+=" ../src/diag"
@@ -285,6 +166,12 @@ VIC20_INPUT+=" ../src/drive/iecieee"
 VIC20_INPUT+=" ../src/drive/ieee"
 VIC20_INPUT+=" ../src/drive/tcbm"
 
+C1541_INPUT=" ../src"
+
+CARTCONV_INPUT=" ../src"
+
+PETCAT_INPUT=" ../src"
+
 # machine
 case "$1" in
 "vsid")
@@ -331,6 +218,15 @@ case "$1" in
     INPUT+="$C64_INPUT"
     INPUT+="$SID_INPUT $VICII_INPUT"
    ;;
+"cartconv")
+    INPUT+="$CARTCONV_INPUT"
+   ;;
+"c1541")
+    INPUT+="$C1541_INPUT"
+   ;;
+"petcat")
+    INPUT+="$PETCAT_INPUT"
+   ;;
 *)
    ;;
 esac
@@ -356,14 +252,8 @@ case "$3" in
 "gtk3")
     ARCH_INPUT+="$ARCH_GTK3_INPUT"
    ;;
-"gtk")
-    ARCH_INPUT+="$ARCH_UNIX_X11_INPUT $ARCH_UNIX_GNOME_INPUT"
-   ;;
-"win32")
-   ;;
-"cocoa")
-   ;;
 "sdl")
+    ARCH_INPUT+="$ARCH_SDL_INPUT"
    ;;
 *)
    ;;
@@ -387,20 +277,10 @@ function getexcludes
 {
 #echo "getting excludes for" $1 $2 $3
 
-ALWAYS_EXCLUDE=" ../src/translate_text.c.po.c"
-ALWAYS_EXCLUDE+=" ../src/monitor/mon_lex.c"
+ALWAYS_EXCLUDE=" ../src/monitor/mon_lex.c"
 ALWAYS_EXCLUDE+=" ../src/monitor/mon_parse.c"
 
-ARCH_LINUX_EXCLUDE=" ../src/arch/platform_aix_version.h"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/platform_freebsd_version.h"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/platform_netbsd_version.h"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/platform_openbsd_version.h"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/platform_qnx6_version.h"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/unix/vmstermios.h"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/unix/x11/qnxipc.h"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/unix/x11/qnxshm.c"
-ARCH_LINUX_EXCLUDE+=" ../src/arch/unix/x11/qnxshm.h"
-ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundaix.c"
+ARCH_LINUX_EXCLUDE=" ../src/sounddrv/soundaix.c"
 ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundbeos.cc"
 ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundallegro.c"
 ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundhpux.c"
@@ -430,7 +310,11 @@ ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/rawnetarch_win32.c"
 ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/rs232-win32-dev.c"
 # FIXME: add non unix SDL stuff
 
-GUI_GTK_EXCLUDE+=" ../src/vice_sdl.h"
+# FIXME: add non unix shared stuff
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/dynlib-win32.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/archdep_win32.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/rawnetarch_win32.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/shared/rs232-win32-dev.c"
 
 GUI_GTK3_EXCLUDE+=" ../src/vice_sdl.h"
 
@@ -467,67 +351,274 @@ X64SCEXCLUDE+=" ../src/maincpu.c"
 
 VSIDEXCLUDE="$C64EXCLUDE"
 
-C64_GUI_GTK_EXCLUDE=" ../src/arch/unix/gui/c64dtvui.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/c128ui.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/cbm2ui.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/petui.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/plus4ui.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uic64dtv.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uic64dtv.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uicbm2cart.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uicbm2cart.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uicrtc.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uicrtc.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivec64dtv.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivec64dtv.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivec64vic20.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivec64vic20.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivec128.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivec128.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivepetcbm2.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivepetcbm2.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidriveplus4.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidriveplus4.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivevic20.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uidrivevic20.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uipetdww.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uipetdww.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uiplus4cart.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uiplus4cart.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uiprinteriecplus4.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uiprinteriecplus4.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uips2mouse.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uips2mouse.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uirs232petplus4cbm2.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uirs232petplus4cbm2.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uited.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uited.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uiv364speech.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uiv364speech.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uivdc.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uivdc.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uivic.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/uivic.h"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/vic20ui.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/x11/c64dtvicon.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/x11/c128icon.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/x11/cbm2icon.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/x11/peticon.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/x11/plus4icon.c"
-C64_GUI_GTK_EXCLUDE+=" ../src/arch/unix/x11/vic20icon.c"
+TOOLSEXCLUDE=" ../src/6510core.c"
+TOOLSEXCLUDE+=" ../src/6510dtvcore.c"
+TOOLSEXCLUDE+=" ../src/65816core.c"
+TOOLSEXCLUDE+=" ../src/65c02core.c"
+TOOLSEXCLUDE+=" ../src/aciacore.c"
+TOOLSEXCLUDE+=" ../src/alarm.c"
+TOOLSEXCLUDE+=" ../src/attach.c"
+TOOLSEXCLUDE+=" ../src/autostart.c"
+TOOLSEXCLUDE+=" ../src/autostart-prg.c"
+TOOLSEXCLUDE+=" ../src/clipboard.c"
+TOOLSEXCLUDE+=" ../src/clkguard.c"
+TOOLSEXCLUDE+=" ../src/cmdline.c"
+TOOLSEXCLUDE+=" ../src/color.c"
+TOOLSEXCLUDE+=" ../src/crc32.c"
+TOOLSEXCLUDE+=" ../src/debug.c"
+TOOLSEXCLUDE+=" ../src/digimaxcore.c"
+TOOLSEXCLUDE+=" ../src/dma.c"
+TOOLSEXCLUDE+=" ../src/embedded.c"
+TOOLSEXCLUDE+=" ../src/event.c"
+TOOLSEXCLUDE+=" ../src/findpath.c"
+TOOLSEXCLUDE+=" ../src/fixpoint.c"
+TOOLSEXCLUDE+=" ../src/fliplist.c"
+TOOLSEXCLUDE+=" ../src/gcr.c"
+TOOLSEXCLUDE+=" ../src/info.c"
+TOOLSEXCLUDE+=" ../src/init.c"
+TOOLSEXCLUDE+=" ../src/initcmdline.c"
+TOOLSEXCLUDE+=" ../src/interrupt.c"
+TOOLSEXCLUDE+=" ../src/ioutil.c"
+TOOLSEXCLUDE+=" ../src/kbdbuf.c"
+TOOLSEXCLUDE+=" ../src/keyboard.c"
+TOOLSEXCLUDE+=" ../src/lib.c"
+TOOLSEXCLUDE+=" ../src/machine-bus.c"
+TOOLSEXCLUDE+=" ../src/machine.c"
+TOOLSEXCLUDE+=" ../src/main65816cpu.c"
+TOOLSEXCLUDE+=" ../src/main.c"
+TOOLSEXCLUDE+=" ../src/mainc64cpu.c"
+TOOLSEXCLUDE+=" ../src/maincpu.c"
+TOOLSEXCLUDE+=" ../src/mainlock.c"
+TOOLSEXCLUDE+=" ../src/mainviccpu.c"
+TOOLSEXCLUDE+=" ../src/midi.c"
+TOOLSEXCLUDE+=" ../src/network.c"
+TOOLSEXCLUDE+=" ../src/opencbmlib.c"
+TOOLSEXCLUDE+=" ../src/palette.c"
+TOOLSEXCLUDE+=" ../src/piacore.c"
+TOOLSEXCLUDE+=" ../src/ps2mouse.c"
+TOOLSEXCLUDE+=" ../src/ram.c"
+TOOLSEXCLUDE+=" ../src/rawfile.c"
+TOOLSEXCLUDE+=" ../src/rawnet.c"
+TOOLSEXCLUDE+=" ../src/resources.c"
+TOOLSEXCLUDE+=" ../src/romset.c"
+TOOLSEXCLUDE+=" ../src/screenshot.c"
+TOOLSEXCLUDE+=" ../src/snapshot.c"
+TOOLSEXCLUDE+=" ../src/socket.c"
+TOOLSEXCLUDE+=" ../src/sound.c"
+TOOLSEXCLUDE+=" ../src/sysfile.c"
+TOOLSEXCLUDE+=" ../src/traps.c"
+TOOLSEXCLUDE+=" ../src/usleep.c"
+TOOLSEXCLUDE+=" ../src/util.c"
+TOOLSEXCLUDE+=" ../src/vicefeatures.c"
+TOOLSEXCLUDE+=" ../src/vsync.c"
 
-X64SC_GUI_GTK_EXCLUDE="$C64_GUI_GTK_EXCLUDE"
-X64SC_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/vsidui.c"
-X64SC_GUI_GTK_EXCLUDE+=" ../src/arch/unix/vsiduiunix.h"
+TOOLSEXCLUDE+=" ../src/6510core.h"
+TOOLSEXCLUDE+=" ../src/acia.h"
+TOOLSEXCLUDE+=" ../src/alarm.h"
+TOOLSEXCLUDE+=" ../src/archapi.h"
+TOOLSEXCLUDE+=" ../src/attach.h"
+TOOLSEXCLUDE+=" ../src/autostart.h"
+TOOLSEXCLUDE+=" ../src/autostart-prg.h"
+TOOLSEXCLUDE+=" ../src/c128ui.h"
+TOOLSEXCLUDE+=" ../src/c64ui.h"
+TOOLSEXCLUDE+=" ../src/cartio.h"
+TOOLSEXCLUDE+=" ../src/catweaselmkiii.h"
+TOOLSEXCLUDE+=" ../src/cbm2ui.h"
+TOOLSEXCLUDE+=" ../src/cbmdos.h"
+TOOLSEXCLUDE+=" ../src/cbmimage.h"
+TOOLSEXCLUDE+=" ../src/cia.h"
+TOOLSEXCLUDE+=" ../src/clipboard.h"
+TOOLSEXCLUDE+=" ../src/clkguard.h"
+TOOLSEXCLUDE+=" ../src/color.h"
+TOOLSEXCLUDE+=" ../src/config.h"
+TOOLSEXCLUDE+=" ../src/console.h"
+TOOLSEXCLUDE+=" ../src/crc32.h"
+TOOLSEXCLUDE+=" ../src/debug.h"
+TOOLSEXCLUDE+=" ../src/diskconstants.h"
+TOOLSEXCLUDE+=" ../src/diskimage.h"
+TOOLSEXCLUDE+=" ../src/dma.h"
+TOOLSEXCLUDE+=" ../src/dynlib.h"
+TOOLSEXCLUDE+=" ../src/embedded.h"
+TOOLSEXCLUDE+=" ../src/export.h"
+TOOLSEXCLUDE+=" ../src/fileio.h"
+TOOLSEXCLUDE+=" ../src/findpath.h"
+TOOLSEXCLUDE+=" ../src/fixpoint.h"
+TOOLSEXCLUDE+=" ../src/flash040.h"
+TOOLSEXCLUDE+=" ../src/fliplist.h"
+TOOLSEXCLUDE+=" ../src/fsdevice.h"
+TOOLSEXCLUDE+=" ../src/fullscreen.h"
+TOOLSEXCLUDE+=" ../src/gcr.h"
+TOOLSEXCLUDE+=" ../src/gfxoutput.h"
+TOOLSEXCLUDE+=" ../src/h6809regs.h"
+TOOLSEXCLUDE+=" ../src/hardsid.h"
+TOOLSEXCLUDE+=" ../src/iecbus.h"
+TOOLSEXCLUDE+=" ../src/iecdrive.h"
+TOOLSEXCLUDE+=" ../src/imagecontents.h"
+TOOLSEXCLUDE+=" ../src/infocontrib.h"
+TOOLSEXCLUDE+=" ../src/info.h"
+TOOLSEXCLUDE+=" ../src/initcmdline.h"
+TOOLSEXCLUDE+=" ../src/init.h"
+TOOLSEXCLUDE+=" ../src/interrupt.h"
+TOOLSEXCLUDE+=" ../src/ioutil.h"
+TOOLSEXCLUDE+=" ../src/kbdbuf.h"
+TOOLSEXCLUDE+=" ../src/keyboard.h"
+TOOLSEXCLUDE+=" ../src/lib.h"
+TOOLSEXCLUDE+=" ../src/log.h"
+TOOLSEXCLUDE+=" ../src/machine-bus.h"
+TOOLSEXCLUDE+=" ../src/machine-drive.h"
+TOOLSEXCLUDE+=" ../src/machine.h"
+TOOLSEXCLUDE+=" ../src/machine-printer.h"
+TOOLSEXCLUDE+=" ../src/machine-video.h"
+TOOLSEXCLUDE+=" ../src/main65816cpu.h"
+TOOLSEXCLUDE+=" ../src/mainc64cpu.h"
+TOOLSEXCLUDE+=" ../src/maincpu.h"
+TOOLSEXCLUDE+=" ../src/main.h"
+TOOLSEXCLUDE+=" ../src/mainlock.h"
+TOOLSEXCLUDE+=" ../src/mem.h"
+TOOLSEXCLUDE+=" ../src/mididrv.h"
+TOOLSEXCLUDE+=" ../src/midi.h"
+TOOLSEXCLUDE+=" ../src/monitor.h"
+TOOLSEXCLUDE+=" ../src/mos6510dtv.h"
+TOOLSEXCLUDE+=" ../src/mos6510.h"
+TOOLSEXCLUDE+=" ../src/network.h"
+TOOLSEXCLUDE+=" ../src/opencbm.h"
+TOOLSEXCLUDE+=" ../src/opencbmlib.h"
+TOOLSEXCLUDE+=" ../src/palette.h"
+TOOLSEXCLUDE+=" ../src/parallel.h"
+TOOLSEXCLUDE+=" ../src/parsid.h"
+TOOLSEXCLUDE+=" ../src/petui.h"
+TOOLSEXCLUDE+=" ../src/piacore.h"
+TOOLSEXCLUDE+=" ../src/plus4ui.h"
+TOOLSEXCLUDE+=" ../src/printer.h"
+TOOLSEXCLUDE+=" ../src/ps2mouse.h"
+TOOLSEXCLUDE+=" ../src/r65c02.h"
+TOOLSEXCLUDE+=" ../src/ram.h"
+TOOLSEXCLUDE+=" ../src/rawfile.h"
+TOOLSEXCLUDE+=" ../src/rawnetarch.h"
+TOOLSEXCLUDE+=" ../src/rawnet.h"
+TOOLSEXCLUDE+=" ../src/resources.h"
+TOOLSEXCLUDE+=" ../src/riot.h"
+TOOLSEXCLUDE+=" ../src/romset.h"
+TOOLSEXCLUDE+=" ../src/scpu64ui.h"
+TOOLSEXCLUDE+=" ../src/screenshot.h"
+TOOLSEXCLUDE+=" ../src/serial.h"
+TOOLSEXCLUDE+=" ../src/sidcart.h"
+TOOLSEXCLUDE+=" ../src/signals.h"
+TOOLSEXCLUDE+=" ../src/snapshot.h"
+TOOLSEXCLUDE+=" ../src/sound.h"
+TOOLSEXCLUDE+=" ../src/ssi2001.h"
+TOOLSEXCLUDE+=" ../src/sysfile.h"
+TOOLSEXCLUDE+=" ../src/tape.h"
+TOOLSEXCLUDE+=" ../src/tap.h"
+TOOLSEXCLUDE+=" ../src/tpi.h"
+TOOLSEXCLUDE+=" ../src/traps.h"
+TOOLSEXCLUDE+=" ../src/types.h"
+TOOLSEXCLUDE+=" ../src/uiapi.h"
+TOOLSEXCLUDE+=" ../src/uicmdline.h"
+TOOLSEXCLUDE+=" ../src/uicolor.h"
+TOOLSEXCLUDE+=" ../src/uimon.h"
+TOOLSEXCLUDE+=" ../src/usleep.h"
+TOOLSEXCLUDE+=" ../src/util.h"
+TOOLSEXCLUDE+=" ../src/via.h"
+TOOLSEXCLUDE+=" ../src/vic20ui.h"
+TOOLSEXCLUDE+=" ../src/vice-event.h"
+TOOLSEXCLUDE+=" ../src/vicefeatures.h"
+TOOLSEXCLUDE+=" ../src/vicemaxpath.h"
+TOOLSEXCLUDE+=" ../src/vice_sdl.h"
+TOOLSEXCLUDE+=" ../src/vicesocket.h"
+TOOLSEXCLUDE+=" ../src/vicii.h"
+TOOLSEXCLUDE+=" ../src/video.h"
+TOOLSEXCLUDE+=" ../src/viewport.h"
+TOOLSEXCLUDE+=" ../src/vsidui.h"
+TOOLSEXCLUDE+=" ../src/vsyncapi.h"
+TOOLSEXCLUDE+=" ../src/vsync.h"
+TOOLSEXCLUDE+=" ../src/wdc65816.h"
+TOOLSEXCLUDE+=" ../src/z80regs.h"
+TOOLSEXCLUDE+=" ../src/zfile.h"
+TOOLSEXCLUDE+=" ../src/zipcode.h"
 
-X64SC_GUI_GTK_EXCLUDE="$C64_GUI_GTK_EXCLUDE"
-X64SC_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/c64ui.c"
-X64SC_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/vsidui.c"
-X64SC_GUI_GTK_EXCLUDE+=" ../src/arch/unix/vsiduiunix.h"
+TOOLSEXCLUDE+=" ../src/core"
+TOOLSEXCLUDE+=" ../src/diag"
+TOOLSEXCLUDE+=" ../src/diskimage"
+TOOLSEXCLUDE+=" ../src/drive"
+TOOLSEXCLUDE+=" ../src/drive/iec"
+TOOLSEXCLUDE+=" ../src/fileio"
+TOOLSEXCLUDE+=" ../src/gfxoutputdrv"
+TOOLSEXCLUDE+=" ../src/hwsiddrv"
+TOOLSEXCLUDE+=" ../src/iecbus"
+TOOLSEXCLUDE+=" ../src/imagecontents"
+TOOLSEXCLUDE+=" ../src/monitor"
+TOOLSEXCLUDE+=" ../src/parallel"
+TOOLSEXCLUDE+=" ../src/printerdrv"
+TOOLSEXCLUDE+=" ../src/raster"
+TOOLSEXCLUDE+=" ../src/rs232drv"
+TOOLSEXCLUDE+=" ../src/rtc"
+TOOLSEXCLUDE+=" ../src/samplerdrv"
+TOOLSEXCLUDE+=" ../src/serial"
+TOOLSEXCLUDE+=" ../src/sounddrv"
+TOOLSEXCLUDE+=" ../src/tape"
+TOOLSEXCLUDE+=" ../src/tapeport"
+TOOLSEXCLUDE+=" ../src/userport"
+TOOLSEXCLUDE+=" ../src/video"
+TOOLSEXCLUDE+=" ../src/lib"
+TOOLSEXCLUDE+=" ../src/lib/libffmpeg"
+TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavcodec"
+TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavdevice"
+TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavformat"
+TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libavutil"
+TOOLSEXCLUDE+=" ../src/lib/libffmpeg/libswscale"
+# FIXME: add subdirs
+TOOLSEXCLUDE+=" ../src/lib/liblame"
+# FIXME: add subdirs
+TOOLSEXCLUDE+=" ../src/lib/libx264"
+TOOLSEXCLUDE+=" ../src/lib/p64"
 
-VSID_GUI_GTK_EXCLUDE="$C64_GUI_GTK_EXCLUDE"
-VSID_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/c64ui.c"
+TOOLSEXCLUDE+=" ../src/arch/gtk3"
+TOOLSEXCLUDE+=" ../src/arch/gtk3/widgets"
+TOOLSEXCLUDE+=" ../src/arch/gtk3/widgets/base"
+TOOLSEXCLUDE+=" ../src/arch/sdl"
 
+CARTCONVEXCLUDE="$TOOLSEXCLUDE"
+CARTCONVEXCLUDE+=" ../src/c1541.c"
+CARTCONVEXCLUDE+=" ../src/petcat.c"
+CARTCONVEXCLUDE+=" ../src/vdrive"
+CARTCONVEXCLUDE+=" ../src/fsdevice"
+CARTCONVEXCLUDE+=" ../src/cbmdos.c"
+CARTCONVEXCLUDE+=" ../src/cbmimage.c"
+CARTCONVEXCLUDE+=" ../src/charset.c"
+CARTCONVEXCLUDE+=" ../src/log.c"
+CARTCONVEXCLUDE+=" ../src/zfile.c"
+CARTCONVEXCLUDE+=" ../src/zipcode.c"
+#CARTCONVEXCLUDE+=" ../src/charset.h"
+#CARTCONVEXCLUDE+=" ../src/cmdline.h"
+
+PETCATEXCLUDE="$TOOLSEXCLUDE"
+PETCATEXCLUDE+=" ../src/c1541.c"
+PETCATEXCLUDE+=" ../src/cartconv.c"
+PETCATEXCLUDE+=" ../src/vdrive"
+PETCATEXCLUDE+=" ../src/fsdevice"
+PETCATEXCLUDE+=" ../src/cbmdos.c"
+PETCATEXCLUDE+=" ../src/cbmimage.c"
+#PETCATEXCLUDE+=" ../src/charset.c"
+PETCATEXCLUDE+=" ../src/log.c"
+PETCATEXCLUDE+=" ../src/zfile.c"
+PETCATEXCLUDE+=" ../src/zipcode.c"
+PETCATEXCLUDE+=" ../src/cartridge.h"
+#PETCATEXCLUDE+=" ../src/charset.h"
+#PETCATEXCLUDE+=" ../src/cmdline.h"
+
+C1541EXCLUDE="$TOOLSEXCLUDE"
+C1541EXCLUDE+=" ../src/cartconv.c"
+C1541EXCLUDE+=" ../src/petcat.c"
+#C1541EXCLUDE+=" ../src/cbmdos.c"
+#C1541EXCLUDE+=" ../src/cbmimage.c"
+#C1541EXCLUDE+=" ../src/charset.c"
+#C1541EXCLUDE+=" ../src/log.c"
+#C1541EXCLUDE+=" ../src/zfile.c"
+#C1541EXCLUDE+=" ../src/zipcode.c"
+C1541EXCLUDE+=" ../src/cartridge.h"
+C1541EXCLUDE+=" ../src/charset.h"
+C1541EXCLUDE+=" ../src/cmdline.h"
 
 C64_GUI_GTK3_EXCLUDE=" ../src/arch/gtk3/c64dtvui.c"
 C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c128ui.c"
@@ -538,9 +629,10 @@ C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/plus4ui.c"
 C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/scpu64ui.c"
 C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vic20ui.c"
 
-X64SC_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
-X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.c"
-X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.h"
+X64_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
+X64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64scui.c"
+X64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.c"
+X64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.h"
 
 X64SC_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
 X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64ui.c"
@@ -549,96 +641,92 @@ X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.h"
 
 VSID_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
 VSID_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64ui.c"
+VSID_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64scui.c"
+
+TOOLS_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
+TOOLS_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.c"
+TOOLS_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.h"
+TOOLS_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64ui.c"
+TOOLS_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64scui.c"
+
+CARTCONV_GUI_GTK3_EXCLUDE="$TOOLS_GUI_GTK3_EXCLUDE"
+
+C1541_GUI_GTK3_EXCLUDE="$TOOLS_GUI_GTK3_EXCLUDE"
+
+PETCONV_GUI_GTK3_EXCLUDE="$TOOLS_GUI_GTK3_EXCLUDE"
+
 
 # machine
 case "$1" in
 "vsid")
     MACHINE_EXCLUDE="$VSIDEXCLUDE"
     GUI_GTK3_EXCLUDE+="$VSID_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$VSID_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$VSID_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$VSID_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$VSID_GUI_SDL_EXCLUDE"
    ;;
 "x128")
     MACHINE_EXCLUDE="$X128EXCLUDE"
     GUI_GTK3_EXCLUDE+="$X128_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$X128_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$X128_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$X128_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$X128_GUI_SDL_EXCLUDE"
    ;;
 "x64")
     MACHINE_EXCLUDE="$X64EXCLUDE"
     GUI_GTK3_EXCLUDE+="$X64_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$X64_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$X64_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$X64_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$X64_GUI_SDL_EXCLUDE"
    ;;
 "x64dtv")
     MACHINE_EXCLUDE="$X64DTVEXCLUDE"
     GUI_GTK3_EXCLUDE+="$X64DTV_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$X64DTV_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$X64DTV_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$X64DTV_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$X64DTV_GUI_SDL_EXCLUDE"
    ;;
 "x64sc")
     MACHINE_EXCLUDE="$X64SCEXCLUDE"
     GUI_GTK3_EXCLUDE+="$X64SC_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$X64SC_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$X64SC_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$X64SC_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$X64SC_GUI_SDL_EXCLUDE"
    ;;
 "xcbm2")
     MACHINE_EXCLUDE="$XCBM2EXCLUDE"
     GUI_GTK3_EXCLUDE+="$XCBM2_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$XCBM2_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$XCBM2_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$XCBM2_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$XCBM2_GUI_SDL_EXCLUDE"
    ;;
 "xcbm5x0")
     MACHINE_EXCLUDE="$XCBM5X0EXCLUDE"
     GUI_GTK3_EXCLUDE+="$XCBM5X0_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$XCBM5X0_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$XCBM5X0_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$XCBM5X0_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$XCBM5X0_GUI_SDL_EXCLUDE"
    ;;
 "xpet")
     MACHINE_EXCLUDE="$XPETEXCLUDE"
     GUI_GTK3_EXCLUDE+="$XPET_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$XPET_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$XPET_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$XPET_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$XPET_GUI_SDL_EXCLUDE"
    ;;
 "xplus4")
     MACHINE_EXCLUDE="$XPLUS4EXCLUDE"
     GUI_GTK3_EXCLUDE+="$XPLUS4_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$XPLUS4_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$XPLUS4_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$XPLUS4_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$XPLUS4_GUI_SDL_EXCLUDE"
    ;;
 "xvic")
     MACHINE_EXCLUDE="$XVICEXCLUDE"
     GUI_GTK3_EXCLUDE+="$XVIC_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$XVIC_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$XVIC_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$XVIC_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$XVIC_GUI_SDL_EXCLUDE"
    ;;
 "xscpu64")
     MACHINE_EXCLUDE="$XSCPU64EXCLUDE"
     GUI_GTK3_EXCLUDE+="$XSCPU64_GUI_GTK3_EXCLUDE"
-    GUI_GTK_EXCLUDE+="$XSCPU64_GUI_GTK_EXCLUDE"
-    GUI_WIN32_EXCLUDE+="$XSCPU64_GUI_WIN32_EXCLUDE"
-    GUI_COCOA_EXCLUDE+="$XSCPU64_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$XSCPU64_GUI_SDL_EXCLUDE"
+   ;;
+"cartconv")
+    MACHINE_EXCLUDE="$CARTCONVEXCLUDE"
+    GUI_GTK3_EXCLUDE+="$CARTCONV_GUI_GTK3_EXCLUDE"
+    GUI_SDL_EXCLUDE+="$CARTCONV_GUI_SDL_EXCLUDE"
+   ;;
+"c1541")
+    MACHINE_EXCLUDE="$C1541EXCLUDE"
+    GUI_GTK3_EXCLUDE+="$C1541_GUI_GTK3_EXCLUDE"
+    GUI_SDL_EXCLUDE+="$C1541_GUI_SDL_EXCLUDE"
+   ;;
+"petcat")
+    MACHINE_EXCLUDE="$PETCATEXCLUDE"
+    GUI_GTK3_EXCLUDE+="$PETCAT_GUI_GTK3_EXCLUDE"
+    GUI_SDL_EXCLUDE+="$PETCAT_GUI_SDL_EXCLUDE"
    ;;
 *)
    ;;
@@ -663,15 +751,6 @@ esac
 case "$3" in
 "gtk3")
     GUI_EXCLUDE="$GUI_GTK3_EXCLUDE"
-   ;;
-"gtk")
-    GUI_EXCLUDE="$GUI_GTK_EXCLUDE"
-   ;;
-"win32")
-    GUI_EXCLUDE="$GUI_WIN32_EXCLUDE"
-   ;;
-"cocoa")
-    GUI_EXCLUDE="$GUI_COCOA_EXCLUDE"
    ;;
 "sdl")
     GUI_EXCLUDE="$GUI_SDL_EXCLUDE"
@@ -727,7 +806,7 @@ function makeindex
     echo "<title>VICE doxy</title></head><body>" >> $OUTPUT
     echo "<h1>VICE doxy</h1>" >> $OUTPUT
 
-    for I in x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid; do \
+    for I in x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid c1541 cartconv petcat; do \
         if [ -a ./doxy/$I ]; then \
             echo $I; \
             echo "<a href=\""$I"/html/index.html\">"$I"</a>" >> $OUTPUT; \
@@ -754,6 +833,9 @@ GUI="gtk3"
 case "$1" in
 "all")
    MACHINE="all"
+   ;;
+"tools")
+   MACHINE="tools"
    ;;
 "vsid")
    MACHINE="vsid"
@@ -788,6 +870,15 @@ case "$1" in
 "xscpu64")
    MACHINE="xscpu64"
    ;;
+"cartconv")
+   MACHINE="cartconv"
+   ;;
+"petcat")
+   MACHINE="petcat"
+   ;;
+"c1541")
+   MACHINE="c1541"
+   ;;
 *)
    ;;
 esac
@@ -812,17 +903,8 @@ esac
 
 # gui
 case "$3" in
-"xaw")
-   GUI="xaw"
-   ;;
-"gtk")
-   GUI="gtk"
-   ;;
 "gtk3")
    GUI="gtk3"
-   ;;
-"cocoa")
-   GUI="cocoa"
    ;;
 "sdl")
    GUI="sdl"
@@ -835,7 +917,9 @@ VERSION=`grep " VERSION " ../src/config.h | sed 's:#define VERSION \"\(.*\)\":\1
 PREDEFINED=`cpp -dD < ../src/config.h | grep define | sed -s 's:#define ::g' | sed -s 's: :=:' | sed -s 's:=$::' | grep -v '__' | tr '\n' ' '`
 
 #echo $MACHINE $PORT $GUI
-if [ "$MACHINE" = "all" ]; then
+
+case "$MACHINE" in
+"all")
     makedocs "vsid" $PORT $GUI
     makedocs "x128" $PORT $GUI
     makedocs "x64" $PORT $GUI
@@ -847,8 +931,18 @@ if [ "$MACHINE" = "all" ]; then
     makedocs "xplus4" $PORT $GUI
     makedocs "xvic" $PORT $GUI
     makedocs "xscpu64" $PORT $GUI
-else
+    makedocs "petcat" $PORT $GUI
+    makedocs "cartconv" $PORT $GUI
+    makedocs "c1541" $PORT $GUI
+   ;;
+"tools")
+    makedocs "petcat" $PORT $GUI
+    makedocs "cartconv" $PORT $GUI
+    makedocs "c1541" $PORT $GUI
+   ;;
+*)
     makedocs $MACHINE $PORT $GUI
-fi
+   ;;
+esac
 
 makeindex
