@@ -682,6 +682,14 @@ void checkresources(void)
                   ) {
                     printf("(FFMPEG only, might be disabled)");
                 } else if(0
+                    || !strcmp(list1->string, "MIDIEnable")
+                    || !strcmp(list1->string, "MIDIMode")
+                    || !strcmp(list1->string, "MIDIInDev")
+                    || !strcmp(list1->string, "MIDIOutDev")
+                    || !strcmp(list1->string, "MIDIDriver")
+                  ) {
+                    printf("(MIDI only, might be disabled)");
+                } else if(0
                     || !strcmp(list1->string, "KeepMonitorOpen")
                     || !strcmp(list1->string, "KeepAspectRatio")
                     || !strcmp(list1->string, "TrueAspectRatio")
@@ -1015,6 +1023,15 @@ void checkoptions(void)
                     || !strcmp(list1->string, "-ffmpegvideobitrate")
                   ) {
                     printf("(FFMPEG only, might be disabled)");
+                } else if(0
+                    || !strcmp(list1->string, "-miditype")
+                    || !strcmp(list1->string, "-midi")
+                    || !strcmp(list1->string, "+midi")
+                    || !strcmp(list1->string, "-midiin")
+                    || !strcmp(list1->string, "-midiout")
+                    || !strcmp(list1->string, "-mididrv")
+                  ) {
+                    printf("(MIDI only, might be disabled)");
                 } else if(0
                     || !strcmp(list1->string, "-keepaspect")
                     || !strcmp(list1->string, "+keepaspect")
