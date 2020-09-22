@@ -927,7 +927,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         if (*p) {
             vte_linenoiseHistoryAdd(p);
         }
-        ret_string = lib_strdup(p); /* LEAKS */
+        ret_string = lib_strdup(p);
         free(p);
     } else {
         ret_string = lib_strdup("x");
@@ -974,6 +974,14 @@ int console_init(void)
 int console_close_all(void)
 {
     int i;
+    
+    if (fixed.input_buffer) {
+        /* This happens if the application exits with the monitor open, as the VICE thread
+         * exits while the monitor is waiting for user input into this buffer.
+         */
+        lib_free(fixed.input_buffer);
+        fixed.input_buffer = NULL;
+    }
 
     if (native_monitor()) {
         return consolefb_close_all();
@@ -985,6 +993,7 @@ int console_close_all(void)
     for(i = 0; i < need_filename_lc.len; i++) {
         free(need_filename_lc.cvec[i]);
     }
+    
     return 0;
 }
 

@@ -2737,7 +2737,10 @@ static void monitor_close(int check)
 
     exit_mon = 0;
 
-    /* last_cmd = NULL; */
+    if (last_cmd) {
+        lib_free(last_cmd);
+        last_cmd = NULL;
+    }
 
     if (!monitor_is_remote() && !monitor_is_binary()) {
         if (mon_console_suspend_on_leaving) {
