@@ -1,5 +1,5 @@
 /*
- * lib.c - Library functions.
+ * lib.c - Library function wrappers, mostly for memory alloc/free tracking.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -782,41 +782,6 @@ char *lib_strdup(const char *str)
     memcpy(ptr, str, size);
     return ptr;
 }
-
-#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
-
-size_t lib_tcstostr(char *str, const char *tcs, size_t len)
-{
-    strncpy(str, tcs, len);
-    str[len - 1] = 0;
-    return strlen(str);
-}
-
-size_t lib_strtotcs(char *tcs, const char *str, size_t len)
-{
-    strncpy(tcs, str, len);
-    tcs[len - 1] = 0;
-    return strlen(tcs);
-}
-
-int lib_snprintf(char *str, size_t len, const char *fmt, ...)
-{
-    va_list args;
-    int ret;
-
-    va_start(args, fmt);
-#ifdef HAVE_VSNPRINTF
-    ret = vsnprintf(str, len, fmt, args);
-#else
-    /* fake version which ignores len */
-    ret = vsprintf(str, fmt, args);
-#endif
-    va_end(args);
-
-    return ret;
-}
-
-#endif /* CYGWIN or WIN32_COMPILE */
 
 char *lib_mvsprintf(const char *fmt, va_list ap)
 {
