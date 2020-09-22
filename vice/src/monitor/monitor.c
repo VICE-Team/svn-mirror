@@ -194,6 +194,7 @@ static char *recording_name;
 #define MAX_PLAYBACK 8
 int playback = 0;
 char *playback_name = NULL;
+static void monitor_close(int check);
 static void playback_commands(int current_playback);
 static int set_playback_name(const char *param, void *extra_param);
 
@@ -1349,6 +1350,11 @@ void monitor_shutdown(void)
     monitor_cpu_type_list_t *list, *list_next;
     supported_cpu_type_list_t *slist, *slist_next;
     int i;
+    
+    if (inside_monitor) {
+        /* Can happen if VICE thread exited while monitor open */
+        monitor_close(0);
+    }
 
     mon_log_file_close();
 
