@@ -1345,6 +1345,7 @@ Attach and autoload tape/disk image <name>
 @findex -1
 @item -1 <Name>
 Attach <Name> as a tape image file.
+
 @findex -8
 @item -8 <Name>
 @findex -9
@@ -1354,6 +1355,16 @@ Attach <Name> as a tape image file.
 @findex -11
 @itemx -11 <Name>
 Attach <Name> as a disk image to device 8, 9, 10 or 11.
+
+@findex -8d1
+@item -8d1 <Name>
+@findex -9d1
+@itemx -9d1 <Name>
+@findex -10d1
+@itemx -10d1 <Name>
+@findex -11d1
+@itemx -11d1 <Name>
+Attach <Name> as a disk image to the second drive of a dual-drive device 8, 9, 10 or 11.
 
 @findex -attach8ro
 @findex -attach9ro
@@ -1367,6 +1378,18 @@ Attach disk image for drive #8-11 read only
 (@code{AttachDevice8Readonly=1}, @code{AttachDevice9Readonly=1}, @code{AttachDevice10Readonly=1}, @code{AttachDevice11Readonly=1})
 (all emulators except vsid).
 
+@findex -attach8d1ro
+@findex -attach9d1ro
+@findex -attach10d1ro
+@findex -attach11d1ro
+@item -attach8d1ro
+@itemx -attach9d1ro
+@itemx -attach10d1ro
+@itemx -attach11d1ro
+Attach disk image for second drive of a dual-drive #8-11 read only
+(@code{AttachDevice8d1Readonly=1}, @code{AttachDevice9d1Readonly=1}, @code{AttachDevice10d1Readonly=1}, @code{AttachDevice11d1Readonly=1})
+(all emulators except vsid).
+
 @findex -attach8rw
 @findex -attach9rw
 @findex -attach10rw
@@ -1377,6 +1400,18 @@ Attach disk image for drive #8-11 read only
 @itemx -attach11rw
 Attach disk image for drive #8-11 read write (if possible)
 (@code{AttachDevice8Readonly=0}, @code{AttachDevice9Readonly=0}, @code{AttachDevice10Readonly=0}, @code{AttachDevice11Readonly=0})
+(all emulators except vsid).
+
+@findex -attach8d1rw
+@findex -attach9d1rw
+@findex -attach10d1rw
+@findex -attach11d1rw
+@item -attach8d1rw
+@itemx -attach9d1rw
+@itemx -attach10d1rw
+@itemx -attach11d1rw
+Attach disk image for second drive of a dual-drive #8-11 read write (if possible)
+(@code{AttachDevice8d1Readonly=0}, @code{AttachDevice9d1Readonly=0}, @code{AttachDevice10d1Readonly=0}, @code{AttachDevice11d1Readonly=0})
 (all emulators except vsid).
 
 @findex -exitscreenshot
@@ -3526,6 +3561,17 @@ Set number of cycles added to each gap in the tap
 Set maximum random number of cycles added to each gap in the tap
 (@code{DatasetteTapeWobble}).
 
+@findex -datasettesound, +datasettesound
+@item -datasettesound
+@itemx +datasettesound
+Enable/disable Datasette sound emulation
+(@code{DatasetteSound=1}, @code{DatasetteSound=0}).
+
+@findex -dssoundvolume
+@item -dssoundvolume <value>
+Set the volume of the Datasette sound
+(@code{DatasetteSoundVolume}).
+
 @end table
 
 @node Drive settings, Peripheral settings, Sound settings, Settings and resources
@@ -4475,6 +4521,7 @@ Booleans specifying whether non-P00 files should be invisible for drives 8, 9, 1
 Strings specifying the directories to which drives 8, 9, 10 and 11 have access
 (all emulators except vsid).
 
+@vindex FSDeviceLongNames
 @item FSDeviceLongNames
 @itemx FSDeviceLongNames
 Boolean specifying whether filenames will get converted to 16 character long short names
@@ -6067,6 +6114,17 @@ String specifying the filename of the current flip list. (Drive 8 only)
 @itemx AttachDevice10Readonly
 @itemx AttachDevice11Readonly
 Booleans that specify whether to attach images on drives 8 to 11 read-only or not
+(all emulators except vsid).
+
+@vindex AttachDevice8d1Readonly
+@vindex AttachDevice9d1Readonly
+@vindex AttachDevice10d1Readonly
+@vindex AttachDevice11d1Readonly
+@item AttachDevice8d1Readonly
+@itemx AttachDevice9d1Readonly
+@itemx AttachDevice10d1Readonly
+@itemx AttachDevice11d1Readonly
+Booleans that specify whether to attach images on the second drive of dual-drives 8 to 11 read-only or not
 (all emulators except vsid).
 
 @end table
@@ -9442,6 +9500,10 @@ Integer specifying the C128 machine type.
 Integer that specifies the video standard of the emulated machine
 (1: PAL, 2: NTSC).
 
+@vindex C128HideVDC
+@item C128HideVDC
+Boolean to enable/disable the VDC display window.
+
 @end table
 
 @c @node FIXME
@@ -9495,6 +9557,12 @@ Enable/disable RAM banks 2 and 3
 Set the C128 machine type
 (@code{MachineType}).
 (0: International, 1: Finnish, 2: French, 3: German, 4: Italian, 5: Norwegian, 6: Swedish)
+
+@findex -hidevdcwindow, +hidevdcwindow
+@item -hidevdcwindow
+@itemx +hidevdcwindow
+Hide/show the VDC display window
+(@code{C128HideVDC=1}, @code{C128HideVDC=0}).
 
 @end table
 
