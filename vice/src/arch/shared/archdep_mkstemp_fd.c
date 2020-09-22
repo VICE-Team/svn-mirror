@@ -2,7 +2,7 @@
  * \brief   Create temporary file, return file pointer
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
- * \auhtor  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * \note    Only tested on Windows and Linux
  */
