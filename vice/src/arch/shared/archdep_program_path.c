@@ -9,8 +9,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (untested)
- *  - MS-DOS (untested)
- *
  */
 
 /*

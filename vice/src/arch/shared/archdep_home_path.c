@@ -13,7 +13,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (always returns '/boot/home')
- *  - MS-DOS (untested, always returns '.')
  *
  */
 

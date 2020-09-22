@@ -12,7 +12,6 @@
  *  - BeOS/Haiku (untested)
  *  - AmigaOS (untested)
  *  - OS/2 (untested)
- *  - MS-DOS (untested)
  *
  */
 

@@ -48,7 +48,6 @@
  *      ARCHDEP_OS_BSD_DRAGON
  *  ARCHDEP_OS_WINDOWS
  *  ARCHDEP_OS_BEOS
- *  ARCHDEP_OS_MSDOS (?)
  * </pre>
  */
 #ifdef UNIX_COMPILE
@@ -118,17 +117,12 @@
 
 # endif /* ifdef BEOS_COMPILE */
 
-#elif defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__) || defined(__DOS__)
-
-/** \brief  OS is MS-DOS (really?) */
-# define ARCHDEP_OS_DOS
-
 #endif
 
 
 /** \brief  Arch-dependent directory separator used in paths
  */
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_DOS)
+#if defined(ARCHDEP_OS_WINDOWS)
 
 /** \brief  OS-dependent directory separator
  */
@@ -142,7 +136,7 @@
 #define ARCHDEP_AUTOSTART_DISK_EXTENSION    "d64"
 
 
-#if defined(ARCHDEP_OS_MSDOS) || defined(ARCHDEP_OS_WINDOWS)
+#if defined(ARCHDEP_OS_WINDOWS)
 /** \brief  Separator used for a pathlist
  */
 # define ARCHDEP_FINDPATH_SEPARATOR_STRING  ";"
@@ -163,7 +157,6 @@
 #endif
 
 #if defined(ARCHDEP_OS_WINDOWS) \
-    || defined(ARCHDEP_OS_MSDOS) \
     || defined(ARCHDEP_OS_BEOS)
 # ifdef ARCHDEP_USE_SDL
 #  define ARCHDEP_VICERC_NAME   "sdl-vice.ini"

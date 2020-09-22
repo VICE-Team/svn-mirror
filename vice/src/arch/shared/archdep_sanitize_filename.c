@@ -10,7 +10,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku (untested)
- *  - MS-DOS (untested)
  *
  */
 
@@ -51,9 +50,9 @@
 
 /** \brief  Tokens that are illegal in a path/filename
  */
-#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
+#if defined(ARCHEP_OS_UNUX) || defined(ARCHDEP_OS_BEOS)
 static const char *illegal_name_tokens = "/";
-#elif defined(WIN32_COMPILE) || defined(ARCHDEP_HAVE_DOS)
+#elif defined(ARCHDEP_OS_WINDOWS)
 static const char *illegal_name_tokens = "/\\?*:|\"<>";
 #else
 static const char *illegal_name_tokens = "";

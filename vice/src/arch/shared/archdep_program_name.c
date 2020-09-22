@@ -9,8 +9,6 @@
  *  - Windows
  *  - MacOS
  *  - BeOS/Haiku
- *  - MS-DOS (untested)
- *
  */
 
 /*
@@ -72,9 +70,8 @@
 static char *program_name = NULL;
 
 
-#if defined(WIN32_COMPILE) || defined(MSDOS) || defined(_MSDOS) \
-    || defined(__MSDOS__) || defined(__DOS__)
-/** \brief  Helper function for Windows and perhaps MS-DOS?
+#ifdef ARCHDEP_OS_WINDOWS
+/** \brief  Helper function for Windows
  *
  * \param[in]   buf string to parse binary name from
  *
@@ -169,8 +166,7 @@ const char *archdep_program_name(void)
     program_name = prg_name_unix(execpath);
 #endif
 
-#if defined(WIN32_COMPILE) || defined(MSDOS) || defined(_MSDOS) \
-    || defined(__MSDOS__) || defined(__DOS__)
+#ifdef ARCHDEP_OS_WINDOWS
     program_name = prg_name_win32(execpath);
 #endif
 
