@@ -5,21 +5,20 @@
   \n
   \subpage subsystems
   \n
-  \subpage technical
-  \n
   \subpage howtocode
   \n
   \subpage howtodoxy
   \n
   \subpage howtodoc
   \n
-  \subpage howtonls
+  \subpage howtorelease
+  \n
+  \subpage howtoreleaseosx
   \n
   \subpage howtobuild
   \n
   \subpage readmes
 */
-
 /*!
   \page chips Chips
   \subpage cia
@@ -29,69 +28,74 @@
   \subpage iecbus
 */
 /*!
+  \page iecbus IEC bus handling
+  \htmlinclude iec-bus.txt
+*/
+/*!
+  \page cia CIA timer emulation
+  \htmlinclude CIA-README.txt
+*/
+/*!
   \page howtocode coding guidelines
   \htmlinclude coding-guidelines.txt
   \page howtodoxy doxygen quick guide
   \htmlinclude Doxygen-Howto.txt
   \page howtodoc how to update the documentation
   \htmlinclude Documentation-Howto.txt
-  \page howtonls National Language Support
-  \htmlinclude NLS-Howto.txt
+  \page howtorelease How to make a Release
+  \htmlinclude Release-Howto.txt
+  \page howtoreleaseosx how to make a macOS Distribution
+  \htmlinclude macOS-Distribution-Howto.txt
 */
 
 /*!
   \page howtobuild How to build VICE
-  \subpage buildgtk3
+  \subpage buildgtk3linux
   \n
   \subpage buildwindowsmingw
   \n
-  \subpage buildwindowscygwin
+  \subpage buildgtk3cross
+  \subpage buildfrankenvice
+  \subpage buildfedoracross
   \n
-  \subpage buildlinuxmingw
-  \n
-  \subpage buildlinux
+  \subpage buildgtk3freebsd
+  \subpage buildgtk3netbsd
   \n
   \subpage buildosx
-  \n
-  \subpage buildmsdos
-  \subpage buildmsdoseth
-  \n
-  \subpage buildsdl
+  \subpage buildxcode
   \n
   \subpage buildandroid
   \n
-  \subpage buildminix
+  \subpage buildsdl
   \n
-  \subpage buildopenvms
+  \subpage buildcmake
 */
 /*!
-  \page buildgtk3 native GTK3
-  \htmlinclude GTK3-Howto.txt
-  \page buildwindowsmingw WinVICE (mingw32)
-  \htmlinclude Win32-Mingw32-Howto.txt
-  \page buildwindowscygwin WinVICE (cygwin)
-  \htmlinclude Win32-Cygwin-Howto.txt
-  \page buildlinuxmingw WinVICE on Linux (mingw32)
-  \htmlinclude Linux-Mingw32-Howto.txt
-  \page buildlinux building the Linux port
-  \htmlinclude Linux-Native-Howto.txt
+  \page buildgtk3linux GTK3 on Linux
+  \htmlinclude Linux-GTK3-Howto.txt
+  \page buildwindowsmingw GTK3 on Windows (MinGW)
+  \htmlinclude Windows-MinGW-GTK3-Howto.txt
+  \page buildgtk3cross GTK3 for Windows (Linux hosted cross compiler)
+  \htmlinclude GTK3-cross-build-setup.md
+  \page buildfrankenvice GTK3 for Windows (Linux hosted mingw32)
+  \htmlinclude GTK3-debian-frankenvice.md
+  \page buildfedoracross GTK3 for Windows (Fedora cross compiler)
+  \htmlinclude GTK3-Fedora-cross-build-setup.md
+  \page buildgtk3freebsd GTK3 on FreeBSD
+  \htmlinclude FreeBSD-GTK3-Howto.txt
+  \page buildgtk3netbsd building on FreeBSD
+  \htmlinclude NetBSD-howto.txt
   \page buildosx building on OSX
-  \htmlinclude MacOSX-Howto.txt
-  \page buildmsdos building the MSDOS port (djgpp)
-  \htmlinclude MSDOS-Howto.txt
-  \page buildmsdoseth building the MSDOS port with ethernet support (djgpp)
-  \htmlinclude MSDOS-Ethernet-Howto.txt
-  \page buildsdl building the SDL ports
-  \htmlinclude SDL-Howto.txt
+  \htmlinclude macOS-Howto.txt
+  \page buildxcode how to build using Xcode
+  \htmlinclude macOS-Xcode-Howto.txt
   \page buildandroid building the Android port
   \htmlinclude Android-Howto.txt
-  \page buildminix building VICE on Minix
-  \htmlinclude Minix-Howto.txt
-  \page buildopenvms building VICE on OpenVMS
-  \htmlinclude OpenVMS-Howto.txt
+  \page buildsdl building the SDL ports
+  \htmlinclude SDL-Howto.txt
+  \page buildcmake how to build using CMake
+  \htmlinclude CMake-Howto.txt
 */
-
-
 
 /*!
   \page readmes ReadMes
@@ -100,18 +104,6 @@
   \subpage feedback
   \n
   \subpage install
-  \n
-  \subpage readmeamiga
-  \n
-  \subpage readmebeos
-  \n
-  \subpage readmemsdos
-  \n
-  \subpage readmeosx
-  \n
-  \subpage readmeos2
-  \n
-  \subpage readmeunix
   \n
   \subpage readmegtk3
   \n
@@ -126,22 +118,10 @@
   \htmlinclude FEEDBACK
   \page install INSTALL
   \htmlinclude INSTALL
-  \page readmeamiga Amiga
-  \htmlinclude Readme-Amiga.txt
-  \page readmebeos BeOS
-  \htmlinclude Readme-BeOS.txt
-  \page readmemsdos MS DOS
-  \htmlinclude Readme-DOS.txt
-  \page readmeosx Mac OSX
-  \htmlinclude Readme-MacOSX.txt
-  \page readmeos2 OS/2
-  \htmlinclude Readme-OS2.txt
   \page readmesdl SDL
   \htmlinclude Readme-SDL.txt
   \page readmesdl2 SDL2
   \htmlinclude Readme-SDL2.txt
-  \page readmeunix Unix
-  \htmlinclude Readme-Unix.txt
   \page readmegtk3 GTK3
   \htmlinclude Readme-GTK3.txt
 */
