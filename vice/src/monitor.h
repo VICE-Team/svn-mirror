@@ -249,11 +249,4 @@ extern uint8_t memmap_state;
 #define MEMMAP_STATE_IGNORE     0x04
 #define MEMMAP_STATE_IN_MONITOR 0x08
 
-/* strtoul replacement for sunos4 */
-#if defined(sun) || defined(__sun)
-#  if !defined(__SVR4) && !defined(__svr4__)
-#    define strtoul(a, b, c) (unsigned long)strtol(a, b, c)
-#  endif
-#endif
-
 #endif
