@@ -989,13 +989,7 @@ static int set_native_monitor(int val, void *param)
  */
 static int set_monitor_font(const char *val, void *param)
 {
-    if (ui_resources.monitor_font != NULL) {
-        lib_free(ui_resources.monitor_font);
-        ui_resources.monitor_font = NULL;
-    }
-    if (val != NULL) {
-        ui_resources.monitor_font = lib_strdup(val);
-    }
+    util_string_set(&ui_resources.monitor_font, val);
     return 0;
 }
 
@@ -1874,6 +1868,7 @@ int ui_resources_init(void)
  */
 void ui_resources_shutdown(void)
 {
+    lib_free(ui_resources.monitor_font);
 }
 
 /** \brief Clean up memory used by the UI system itself
@@ -2104,19 +2099,6 @@ void ui_exit(void)
     kbd_hotkey_shutdown();
     
     mainlock_release();
-}
-
-/** \brief  clean up resource system resources.
- * 
- * Don't call this directly except from main_exit();
- */
-void ui_free_vice_resources(void)
-{
-    /* deallocate monitor font string */
-    if (ui_resources.monitor_font != NULL) {
-        lib_free(ui_resources.monitor_font);
-        ui_resources.monitor_font = NULL;
-    }
 }
 
 /** \brief  Send current light pen state to the emulator core for all windows
