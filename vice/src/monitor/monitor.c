@@ -2706,6 +2706,7 @@ static int monitor_process(char *cmd)
 
     /* remember last command, except when leaving the monitor */
     if (exit_mon && mon_console_suspend_on_leaving) {
+        lib_free(cmd);
         last_cmd = NULL;
     } else {
         last_cmd = cmd;
