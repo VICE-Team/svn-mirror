@@ -810,11 +810,8 @@ static GtkWidget *vsid_playlist_controls_create(void)
     for (i = 0; controls[i].icon_name != NULL; i++) {
         GtkWidget *button;
         gchar buff[1024];
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_MACOS)
+
         g_snprintf(buff, sizeof(buff), "%s-symbolic", controls[i].icon_name);
-#else
-        g_snprintf(buff, sizeof(buff), "%s-symbolic.symbolic", controls[i].icon_name);
-#endif
         button = gtk_button_new_from_icon_name(
                 buff,
                 GTK_ICON_SIZE_LARGE_TOOLBAR);

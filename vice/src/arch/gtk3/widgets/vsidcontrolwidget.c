@@ -275,11 +275,8 @@ GtkWidget *vsid_control_widget_create(void)
         GtkWidget *button;
         gchar buf[1024];
 
-#if defined(ARCHDEP_OS_WINDOWS) || defined(ARCHDEP_OS_MACOS)
         g_snprintf(buf, sizeof(buf), "%s-symbolic", buttons[i].icon_name);
-#else
-        g_snprintf(buf, sizeof(buf), "%s-symbolic.symbolic", buttons[i].icon_name);
-#endif
+
         button = gtk_button_new_from_icon_name(buf,
                 GTK_ICON_SIZE_LARGE_TOOLBAR);
         /* always show the image, the button would useless without an image */
