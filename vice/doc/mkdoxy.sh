@@ -5,6 +5,7 @@
 #
 # Written by
 #  groepaz <groepaz@gmx.net>
+#  compyx <b.wassink@ziggo.nl>
 #
 # This file is part of VICE, the Versatile Commodore Emulator.
 # See README for copyright notice.
@@ -829,6 +830,32 @@ MACHINE="all"
 PORT="linux"
 GUI="gtk3"
 
+
+# Check for --help
+if [ "$1" = "--help" ]; then
+    cat << EOF
+Usage: ./mkdoxy.sh [machine=$MACHINE [port=$PORT [gui=$GUI]]] | clean | --help
+
+    Where "machine" is one of 'all', 'tools', 'vsid', 'x128, 'x64', 'x64dtv',
+    'x64sc', 'xcbm2', 'xcbm5x0', 'xpet', 'xplus4', 'xvic', 'xscpu64',
+    'c1541', 'cartconv' or 'petcat', "port" is one of 'linux', 'win32' or
+    'osx2', and "gui" is one of 'gtk3' or 'sdl'.
+
+    When given '--help', this text is shown, when given 'clean', the generated
+    files in doc/doxy are deleted.
+EOF
+    exit 0
+fi
+
+
+# Check for clean
+if [ "$1" = "clean" ]; then
+    echo "Cleaning Doxygen docs."
+    rm -rfd ./doxy/*
+    exit 0
+fi
+
+
 # machine
 case "$1" in
 "all")
@@ -880,8 +907,15 @@ case "$1" in
    MACHINE="c1541"
    ;;
 *)
+    # make sure we don't error out on an empty MACHINE, empty means 'all':
+    if [ x"$1" != "x" ]; then
+        echo "Error: unknown machine '$1'."
+        echo "Use ./mkdoxy.sh --help to get a list of supported machines."
+        exit 1
+    fi
    ;;
 esac
+
 
 # port
 case "$2" in
