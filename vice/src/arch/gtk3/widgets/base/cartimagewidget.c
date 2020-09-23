@@ -181,7 +181,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   parent          parent widget (used for dialogs)
  * \param[in]   title           widget title
- * \param[in[   resource_fname  resource for the image file name
+ * \param[in]   resource_fname  resource for the image file name
  * \param[in]   resource_fwrite resource controlling flush-on-exit/detach
  * \param[in]   func_save       function to save the image via dialog
  * \param[in]   func_flush      function to flush current image to host

@@ -42,7 +42,7 @@
  * if you need to apply CSS to a widget only once, there's a wrapper function
  * #vice_gtk3_css_add().
  *
- * \param[in]   CSS string
+ * \param[in]   css CSS string
  *
  * \return  new provider or NULL on error
  */
