@@ -37,11 +37,19 @@
 # /* ... */ -> /*! ... */ (autobrief, convert comments to qt style if they begin 
 #                          at start of line and the line ends right after them)
 #
+
+#cat $1 | \
+#    sed -s 's/\* BUG:/\*! \\bug /g' |
+#    sed -s 's/\* FIXME:/\*! \\todo FIXME:/g' |
+#    sed -s 's/\* TODO:/\*! \\todo /g' |
+#    sed -s 's:^/\* #.*\*/$::' |
+#    sed -s 's:^/\*.---.*\*/$::' |
+#    sed -s 's:\(^#define .* \)\(/\* \)\(.*\*/$\):\1/\*!< \3:' |
+#    sed -s 's:^/\* \(.*\) \*/$:/\*! \1 \*/:'
+
+# Join regexes together into a single call, reduces execution time from ~21
+# minutes to ~19 minutes. Also remove '/g', which on Linux doesn't seem to have
+# much of an impact, but might on Windows.
 cat $1 | \
-    sed -s 's/\* BUG:/\*! \\bug /g' |
-    sed -s 's/\* FIXME:/\*! \\todo FIXME:/g' |
-    sed -s 's/\* TODO:/\*! \\todo /g' |
-    sed -s 's:^/\* #.*\*/$::' |
-    sed -s 's:^/\*.---.*\*/$::' |
-    sed -s 's:\(^#define .* \)\(/\* \)\(.*\*/$\):\1/\*!< \3:' |
-    sed -s 's:^/\* \(.*\) \*/$:/\*! \1 \*/:'
+    sed -s 's/\* BUG:/\*! \\bug /;s/\* FIXME:/\*! \\todo FIXME:/;s/\* TODO:/\*! \\todo /;s:^/\* #.*\*/$::;s:^/\*.---.*\*/$::;s:\(^#define .* \)\(/\* \)\(.*\*/$\):\1/\*!< \3:;s:^/\* \(.*\) \*/$:/\*! \1 \*/:'
+
