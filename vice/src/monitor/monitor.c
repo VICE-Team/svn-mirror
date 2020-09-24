@@ -1,5 +1,5 @@
 /** \file   monitor.c
- * \bief    The VICE built-in monitor.
+ * \brief   The VICE built-in monitor.
  *
  * \author  Daniel Sladic <sladic@eecg.toronto.edu>
  * \author  Ettore Perazzoli <ettore@comm2000.it>
