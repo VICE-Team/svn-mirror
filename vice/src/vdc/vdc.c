@@ -482,7 +482,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             FIXME comparison looks wrong, probably not a > ?    */
         if (vdc.row_counter > (vdc.regs[4])) {
             /* FIXME handle vertical fine adjust (reg#5>0) a bit cleaner and handle edge cases */
-            if (vdc_vert_fine_adj || vdc.regs[5] == 0 || vdc.regs[5] == vdc.regs[9]) {
+            if (vdc_vert_fine_adj || (vdc.regs[5] & 0x1F) == 0 || (vdc.regs[5] & 0x1F) == (vdc.regs[9] & 0x1F)) {
                 vdc_vert_fine_adj = 0;
                 vdc.row_counter = 0;
                 /* we reset the raster line counter to 0, except if we are interlaced (==1) and on an odd frame */
