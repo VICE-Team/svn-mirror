@@ -35,9 +35,7 @@
 #include "archdep_boot_path.h"
 #include "archdep_join_paths.h"
 
-/* TODO: #include for AmigaOS tmpnam() */
-/* TODO: #include for BeOS/Haiku tmpnam() */
-/* TODO: #include for OS/2 tmpnam() */
+/* TODO: include for BeOS/Haiku tmpnam() */
 
 /* Seems like tmpnam() is available in stdio.h for Linux, BSD, Windows and
  * perhaps others

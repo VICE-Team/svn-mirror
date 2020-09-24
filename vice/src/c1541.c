@@ -5423,7 +5423,7 @@ int main(int argc, char **argv)
 }
 
 
-/** \brief  Enable\disable saving of files as P00
+/** \brief  Enable\\disable saving of files as P00
  *
  * Syntax: p00save [\<enable> [\<unit>]]
  *

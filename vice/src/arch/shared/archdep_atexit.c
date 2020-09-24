@@ -52,7 +52,7 @@ static pthread_t main_thread;
  *
  * Wrapper to work around Windows not handling the C library's atexit()
  * mechanism properly.
- * 
+ *
  * Now also used on Windows too because 'properly' wasn't defined here,
  * it seems to work, and we've refactored the shutdown code for multithreading.
  *
@@ -105,7 +105,7 @@ void archdep_set_main_thread()
 
 /** \brief  Wrapper around exit()
  *
- * \param[in]   excode  exit code
+ * \param[in]   exit_code   exit code
  */
 void archdep_vice_exit(int exit_code)
 {
