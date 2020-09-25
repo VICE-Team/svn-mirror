@@ -50,6 +50,7 @@
 #include "ui.h"
 #include "uimachinewindow.h"
 #include "lastdir.h"
+#include "initcmdline.h"
 
 #include "uismartattach.h"
 
@@ -278,133 +279,68 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     /* gonna needs this in multiple checks */
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
 
-    if (!autostart_on_doubleclick) {
-        switch (response_id) {
+    switch (response_id) {
 
-            /* 'Open' button, double-click on file */
-            case GTK_RESPONSE_ACCEPT:
-                lastdir_update(widget, &last_dir, &last_file);
-                filename_locale = file_chooser_convert_to_locale(filename);
+        /* 'Open' button, double-click on file */
+        case GTK_RESPONSE_ACCEPT:
+            lastdir_update(widget, &last_dir, &last_file);
+            filename_locale = file_chooser_convert_to_locale(filename);
 
-                /* ui_message("Opening file '%s' ...", filename); */
-                debug_gtk3("Opening file '%s'.", filename);
+            /* ui_message("Opening file '%s' ...", filename); */
+            debug_gtk3("Opening file '%s'.", filename);
 
-                /* Smart attach for C64/C128
-                 *
-                 * This tries to attach a file as a cartridge image, which is only
-                 * valid for C64/C128
+            /* Smart attach for C64/C128
+             *
+             * This tries to attach a file as a cartridge image, which is only
+             * valid for C64/C128
+             */
+            if ((machine_class == VICE_MACHINE_C64)
+                    || (machine_class == VICE_MACHINE_C64SC)
+                    || (machine_class == VICE_MACHINE_SCPU64)
+                    || (machine_class == VICE_MACHINE_C128)) {
+                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+                        && tape_image_attach(1, filename_locale) < 0
+                        && autostart_snapshot(filename_locale, NULL) < 0
+                        && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
+                        && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
+                    /* failed (TODO: perhaps a proper error message?) */
+                    debug_gtk3("smart attach failed.");
+                }
+            } else {
+                /* Smart attach for other emulators: don't try to attach a file
+                 * as a cartidge, it'll result in false positives
                  */
-                if ((machine_class == VICE_MACHINE_C64)
-                        || (machine_class == VICE_MACHINE_C64SC)
-                        || (machine_class == VICE_MACHINE_SCPU64)
-                        || (machine_class == VICE_MACHINE_C128)) {
-                    if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
-                            && tape_image_attach(1, filename_locale) < 0
-                            && autostart_snapshot(filename_locale, NULL) < 0
-                            && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
-                            && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
-                        /* failed (TODO: perhaps a proper error message?) */
-                        debug_gtk3("smart attach failed.");
-                    }
-                } else {
-                    /* Smart attach for other emulators: don't try to attach a file
-                     * as a cartidge, it'll result in false positives
-                     */
-                    if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
-                            && tape_image_attach(1, filename_locale) < 0
-                            && autostart_snapshot(filename_locale, NULL) < 0)
-                    {
-                        /* failed (TODO: perhaps a proper error message?) */
-                        debug_gtk3("smart attach failed.");
-                    }
+                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+                        && tape_image_attach(1, filename_locale) < 0
+                        && autostart_snapshot(filename_locale, NULL) < 0)
+                {
+                    /* failed (TODO: perhaps a proper error message?) */
+                    debug_gtk3("smart attach failed.");
                 }
-                g_free(filename_locale);
-                gtk_widget_destroy(widget);
-                break;
+            }
+            g_free(filename_locale);
+            gtk_widget_destroy(widget);
+            break;
 
-            /* 'Autostart' button clicked */
-            case VICE_RESPONSE_AUTOSTART:
-                /* do we actually have a file to autostart? */
-                if (filename != NULL) {
-                    do_autostart(widget, user_data);
-                    mainlock_release();
-                    gtk_widget_destroy(widget);
-                    mainlock_obtain();
-                }
-                break;
-
-            /* 'Close'/'X' button */
-            case GTK_RESPONSE_REJECT:
+        /* 'Autostart' button clicked */
+        case VICE_RESPONSE_AUTOSTART:
+            /* do we actually have a file to autostart? */
+            if (filename != NULL) {
+                do_autostart(widget, user_data);
                 mainlock_release();
                 gtk_widget_destroy(widget);
                 mainlock_obtain();
-                break;
-            default:
-                break;
-        }
-    } else {
-        switch (response_id) {
+            }
+            break;
 
-            /* 'Open' button, double-click on file */
-            case VICE_RESPONSE_AUTOSTART:
-                lastdir_update(widget, &last_dir, &last_file);
-                filename_locale = file_chooser_convert_to_locale(filename);
-
-                /* ui_message("Opening file '%s' ...", filename); */
-                debug_gtk3("Opening file '%s'.", filename);
-
-                /* Smart attach for C64/C128
-                 *
-                 * This tries to attach a file as a cartridge image, which is only
-                 * valid for C64/C128
-                 */
-                if ((machine_class == VICE_MACHINE_C64)
-                        || (machine_class == VICE_MACHINE_C64SC)
-                        || (machine_class == VICE_MACHINE_SCPU64)
-                        || (machine_class == VICE_MACHINE_C128)) {
-                    if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
-                            && tape_image_attach(1, filename_locale) < 0
-                            && autostart_snapshot(filename_locale, NULL) < 0
-                            && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0) {
-                        /* failed (TODO: perhaps a proper error message?) */
-                        debug_gtk3("smart attach failed.");
-                    }
-                } else {
-                    /* Smart attach for other emulators: don't try to attach a file
-                     * as a cartidge, it'll result in false positives
-                     */
-                    if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
-                            && tape_image_attach(1, filename_locale) < 0
-                            && autostart_snapshot(filename_locale, NULL) < 0
-                            && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
-                        /* failed (TODO: perhaps a proper error message?) */
-                        debug_gtk3("smart attach failed.");
-                    }
-                }
-                g_free(filename_locale);
-                gtk_widget_destroy(widget);
-                break;
-
-            /* 'Autostart' button clicked */
-            case GTK_RESPONSE_ACCEPT:
-                /* do we actually have a file to autostart? */
-                if (filename != NULL) {
-                    do_autostart(widget, user_data);
-                    mainlock_release();
-                    gtk_widget_destroy(widget);
-                    mainlock_obtain();
-                }
-                break;
-
-            /* 'Close'/'X' button */
-            case GTK_RESPONSE_REJECT:
-                mainlock_release();
-                gtk_widget_destroy(widget);
-                mainlock_obtain();
-                break;
-            default:
-                break;
-        }
+        /* 'Close'/'X' button */
+        case GTK_RESPONSE_REJECT:
+            mainlock_release();
+            gtk_widget_destroy(widget);
+            mainlock_obtain();
+            break;
+        default:
+            break;
     }
 
     if (filename != NULL) {

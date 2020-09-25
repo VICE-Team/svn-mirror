@@ -1,9 +1,10 @@
+/** \file   types.h
+ * \brief   Type definitions for VICE
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * types.h - Type definitions for VICE.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -34,6 +35,7 @@
 #endif
 
 #ifdef HAVE_INTTYPES_H
+/* FIXME: Doxygen can't find the C99 header */
 #  include <inttypes.h>
 #else
 #  ifdef HAVE_STDINT_H

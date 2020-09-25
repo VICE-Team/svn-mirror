@@ -103,7 +103,7 @@ static void on_row_activated(
          * user_data argument */
         if (parent_dialog != NULL) {
             response_func(parent_dialog,
-                    GTK_RESPONSE_ACCEPT,
+                    VICE_RESPONSE_AUTOSTART,
                     GINT_TO_POINTER(row + 1));  /* for some reason the first
                                                    file has index 1 */
         }

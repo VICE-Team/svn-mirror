@@ -104,7 +104,6 @@ static int set_monitor_font(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
 static int set_pause_on_settings(int val, void *param);
-static int set_autostart_on_doubleclick(int val, void *param);
 
 
 /*****************************************************************************
@@ -140,9 +139,10 @@ typedef struct ui_resources_s {
 
     char *monitor_font;         /**< Pango font description string of the
                                      VTE monitor font */
+#ifdef COMPYX_LAMER
     int autostart_on_doubleclick;   /**< Use autostart on double-clicking in
                                          file attach dialogs (bool) */
-
+#endif
 #if 0
     int depth;
 #endif
@@ -250,12 +250,12 @@ static const resource_int_t resources_int_shared[] = {
 
     { "PauseOnSettings", 0, RES_EVENT_NO, NULL,
         &ui_resources.pause_on_settings, set_pause_on_settings, NULL },
-
+#ifdef COMPYX_LAMER
     /* Use autostart on doubleclick in dialogs */
     { "AutostartOnDoubleclick", 0, RES_EVENT_NO, NULL,
         &ui_resources.autostart_on_doubleclick, set_autostart_on_doubleclick,
         NULL },
-
+#endif
 
     RESOURCE_INT_LIST_END
 };
@@ -351,10 +351,11 @@ static const cmdline_option_t cmdline_options_common[] =
     { "-autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "AutostartOnDoubleclick", (void*)1,
         NULL, "Autostart files on doubleclick" },
+#ifdef COMPYX_LAMER
     { "+autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "AutostartOnDoubleclick", (void*)0,
         NULL, "Open files on doubleclick" },
-
+#endif
 
 
     CMDLINE_LIST_END
@@ -1068,6 +1069,7 @@ static int set_window_ypos(int val, void *param)
 }
 
 
+#ifdef COMPYX_LAMER
 /** \brief  Set the 'AutostartOnDoubleclick' resource
  *
  * \param[in]   value   new value
@@ -1080,6 +1082,7 @@ static int set_autostart_on_doubleclick(int val, void *param)
     ui_resources.autostart_on_doubleclick = val;
     return 0;
 }
+#endif
 
 
 /*
@@ -1097,12 +1100,14 @@ void ui_set_handle_dropped_files_func(int (*func)(const char *))
 }
 
 
+#ifdef COMPYX_LAMER
 /** \brief  Get autostart-on-doubleclick state
  */
 gboolean ui_get_autostart_on_doubleclick(void)
 {
     return (gboolean)ui_resources.autostart_on_doubleclick;
 }
+#endif
 
 
 /** \brief  Set function to help create the main window(s)
