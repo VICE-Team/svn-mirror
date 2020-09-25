@@ -62,10 +62,22 @@ static char *startup_disk_images[NUM_STARTUP_DISK_IMAGES];
 static char *startup_tape_image;
 static unsigned int autostart_mode = AUTOSTART_MODE_NONE;
 
+
+/** \brief  Get autostart mode
+ *
+ * \return  autostart mode
+ */
 int cmdline_get_autostart_mode(void)
 {
     return autostart_mode;
 }
+
+
+void cmdline_set_autostart_mode(int mode)
+{
+    autostart_mode = mode;
+}
+
 
 static void cmdline_free_autostart_string(void)
 {
@@ -211,7 +223,7 @@ static const cmdline_option_t common_cmdline_options[] =
 {
     { "-help", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options and exit normally" },
+      NULL, "Show a list of the available options an_vice_xit normally" },
     { "-?", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
@@ -369,7 +381,14 @@ void initcmdline_check_attach(void)
 
         /* `-autostart' */
         if (autostart_string != NULL) {
-            autostart_autodetect_opt_prgname(autostart_string, 0, autostart_mode);
+            if (autostart_autodetect_opt_prgname(autostart_string, 0, autostart_mode) < 0) {
+                log_error(LOG_DEFAULT,
+                        "Failed to autostart '%s'", autostart_string);
+                if (autostart_string != NULL) {
+                    lib_free(autostart_string);
+                }
+                archdep_vice_exit(1);
+            }
         }
         /* `-8', `-9', `-10' and `-11': Attach specified disk image.  */
         {
