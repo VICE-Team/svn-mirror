@@ -217,6 +217,10 @@ typedef struct ui_statusbar_s {
      */
     GtkWidget *speed;
 
+    /** \brief  Stateful data used by the speed widget
+     */
+    statusbar_speed_widget_state_t speed_state;
+
     /** \brief  Status bar messages
      */
     GtkWidget *msg;
@@ -1527,7 +1531,7 @@ GtkWidget *ui_statusbar_create(void)
 
     /* First column: CPU/FPS */
 
-    speed = statusbar_speed_widget_create();
+    speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
     g_object_ref_sink(G_OBJECT(speed));
     g_object_set(speed, "margin-left", 8, NULL);
 
@@ -2159,7 +2163,7 @@ void ui_update_statusbars(void)
 
         speed_widget = bar.speed;
         if (speed_widget != NULL) {
-            statusbar_speed_widget_update(speed_widget);
+            statusbar_speed_widget_update(speed_widget, &bar.speed_state);
         }
         
         /*

@@ -590,7 +590,7 @@ static gboolean on_widget_hover(GtkWidget *widget,
  *
  * \return  GtkEventBox
  */
-GtkWidget *statusbar_speed_widget_create(void)
+GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
 {
     GtkWidget *grid;
     GtkWidget *label_cpu;
@@ -599,6 +599,11 @@ GtkWidget *statusbar_speed_widget_create(void)
     const PangoFontDescription *desc_static;
     PangoFontDescription *desc;
     GtkWidget *event_box;
+
+    state->last_cpu_int = -1;
+    state->last_fps_int = -1;
+    state->last_paused = -1;
+    state->last_warp = -1;
 
     grid = gtk_grid_new();
 
@@ -655,17 +660,12 @@ GtkWidget *statusbar_speed_widget_create(void)
  *
  * \param[in]   widget  GtkEventBox containing the CPU/FPS widgets
  */
-void statusbar_speed_widget_update(GtkWidget *widget)
+void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_state_t *state)
 {
 #   define CPU_DECIMAL_PLACES 2
 #   define FPS_DECIMAL_PLACES 3
 #   define STR_(x) #x
 #   define STR(x) STR_(x)
-    
-    static int last_cpu_int;
-    static int last_fps_int;
-    static int last_warp = -1;
-    static int last_paused = -1;
     
     GtkWidget *grid = NULL;
     GtkWidget *label;
@@ -680,7 +680,7 @@ void statusbar_speed_widget_update(GtkWidget *widget)
     int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
     bool is_paused;
     
-    if (last_cpu_int != this_cpu_int || last_warp != vsync_metric_warp_enabled) {
+    if (state->last_cpu_int != this_cpu_int || state->last_warp != vsync_metric_warp_enabled) {
         
         /* get grid containing the two labels */
         grid = gtk_bin_get_child(GTK_BIN(widget));
@@ -692,13 +692,13 @@ void statusbar_speed_widget_update(GtkWidget *widget)
                    vsync_metric_warp_enabled ? " (warp)" : "");
         gtk_label_set_text(GTK_LABEL(label), buffer);
         
-        last_cpu_int = this_cpu_int;
-        last_warp = vsync_metric_warp_enabled;
+        state->last_cpu_int = this_cpu_int;
+        state->last_warp = vsync_metric_warp_enabled;
     }
     
     is_paused = ui_pause_active();
     
-    if (last_fps_int != this_fps_int || last_paused != is_paused) {
+    if (state->last_fps_int != this_fps_int || state->last_paused != is_paused) {
         
         if (grid == NULL) {
             grid = gtk_bin_get_child(GTK_BIN(widget));
@@ -711,8 +711,8 @@ void statusbar_speed_widget_update(GtkWidget *widget)
                    is_paused ? " (paused)" : "");
         gtk_label_set_text(GTK_LABEL(label), buffer);
         
-        last_fps_int = this_fps_int;
-        last_paused = is_paused;
+        state->last_fps_int = this_fps_int;
+        state->last_paused = is_paused;
     }
     
 #   undef CPU_DECIMAL_PLACES
