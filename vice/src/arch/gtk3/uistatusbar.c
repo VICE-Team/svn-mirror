@@ -238,6 +238,10 @@ typedef struct ui_statusbar_s {
     /** \brief The Tape Status widget. */
     GtkWidget *tape;
 
+    /** \brief  Used to optimise tape widget updates
+     */
+    int last_displayed_tape_counter;
+
     /** \brief The Tape Status widget's popup menu. */
     GtkWidget *tape_menu;
 
@@ -1443,8 +1447,10 @@ void ui_statusbar_init(void)
         allocated_bars[i].crt = NULL;
         allocated_bars[i].mixer = NULL;
         allocated_bars[i].tape = NULL;
+        allocated_bars[i].last_displayed_tape_counter = -1;
         allocated_bars[i].tape_menu = NULL;
         allocated_bars[i].joysticks = NULL;
+        
         for (j = 0; j < NUM_DISK_UNITS; ++j) {
             allocated_bars[i].drives[j] = NULL;
             allocated_bars[i].drive_popups[j] = NULL;
@@ -2144,7 +2150,6 @@ void ui_update_statusbars(void)
 {
     /* TODO: add a lock to sb_state */
     /* TODO: Don't call this for each top level window as it updates all statusbars */
-    static int last_tape_counter = -1;
     GtkWidget *speed_widget, *tape_counter, *drive, *track, *led;
     ui_statusbar_t bar;
     int i, j;
@@ -2170,7 +2175,7 @@ void ui_update_statusbars(void)
          * Update Tape
          */
         
-        if (bar.tape && last_tape_counter != sb_state.tape_counter) {
+        if (bar.tape && bar.last_displayed_tape_counter != sb_state.tape_counter) {
             tape_counter = gtk_grid_get_child_at(GTK_GRID(bar.tape), 1, 0);
             if (tape_counter) {
                 char buf[8];
@@ -2179,7 +2184,7 @@ void ui_update_statusbars(void)
                 
                 gtk_label_set_text(GTK_LABEL(tape_counter), buf);
             }
-            last_tape_counter = sb_state.tape_counter;
+            bar.last_displayed_tape_counter = sb_state.tape_counter;
         }
 
         /*
