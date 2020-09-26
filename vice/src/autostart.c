@@ -116,6 +116,8 @@ static int orig_drive_true_emulation_state = -1;
 static int orig_device_traps_state = -1;
 /* Flag: warp mode state before booting */
 static int orig_warp_mode = -1;
+static int orig_FileSystemDevice8 = -1;
+static int orig_FSDevice8ConvertP00 = -1;
 
 /* PETSCII name of the program to load. NULL if default */
 static char *autostart_program_name = NULL;
@@ -595,9 +597,15 @@ static void init_drive_emulation_state(void)
     if (orig_warp_mode == -1) {
         orig_warp_mode = get_warp_state();
     }
+    if (orig_FileSystemDevice8 == -1) {
+        resources_get_int("FileSystemDevice8", &orig_FileSystemDevice8);
+    }
+    if (orig_FSDevice8ConvertP00 == -1) {
+        resources_get_int("FSDevice8ConvertP00", &orig_FSDevice8ConvertP00);
+    }
 }
 
-/* restore the state of all settings whe changed during autostart.
+/* restore the state of all settings we changed during autostart.
  *
  * this should get called on any "exit" of the autostart, error etc
  */
@@ -628,11 +636,21 @@ static void restore_drive_emulation_state(void)
             set_warp_mode(orig_warp_mode);
         }
     }
+    if (orig_FileSystemDevice8 != -1) {
+        log_message(autostart_log, "Restoring FileSystemDevice8 to %d.", orig_FileSystemDevice8);
+        resources_set_int("FileSystemDevice8", orig_FileSystemDevice8);
+    }
+    if (orig_FSDevice8ConvertP00 != -1) {
+        log_message(autostart_log, "Restoring FSDevice8ConvertP00 to %d.", orig_FSDevice8ConvertP00);
+        resources_set_int("FSDevice8ConvertP00", orig_FSDevice8ConvertP00);
+    }
 
     /* make sure we refresh these next time we do autostart via gui */
     orig_drive_true_emulation_state = - 1;
     orig_device_traps_state = - 1;
     orig_warp_mode = -1;
+    orig_FileSystemDevice8 = -1;
+    orig_FSDevice8ConvertP00 = -1;
 
     DBG(("restore_drive_emulation_state tde:%d traps:%d warp:%d",
         get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
@@ -1453,40 +1471,26 @@ exiterror:
     return -1;
 }
 
-static void setup_for_prg(int mode)
+static void setup_for_prg_vfs(void)
 {
-    switch (mode) {
-        case AUTOSTART_PRG_MODE_VFS:
-            if (handle_drive_true_emulation_overridden) {
-                if (orig_drive_true_emulation_state) {
-                    log_message(autostart_log, "Turning true drive emulation off.");
-                    set_true_drive_emulation_mode(0);
-                }
-            }
-            if (get_true_drive_emulation_state()) {
-                log_message(LOG_ERR, "True drive emulation is still enabled.");
-            }
-            if (!orig_device_traps_state) {
-                log_message(autostart_log, "Turning virtual device traps on.");
-                set_device_traps_state(1);
-            }
-            if (!get_device_traps_state()) {
-                log_message(LOG_ERR, "Virtual device traps are not enabled.");
-            }
-
-            /* resources_set_int("VirtualDevices", 1); */
-            resources_set_int("FSDevice8ConvertP00", 1); /* FIXME: not preserved */
-            file_system_detach_disk(8, 0);
-            resources_set_int("FileSystemDevice8", ATTACH_DEVICE_FS); /* FIXME: not preserved */
-            break;
-        case AUTOSTART_PRG_MODE_INJECT:
-            break;
-        case AUTOSTART_PRG_MODE_DISK:
-            setup_for_disk();
-            break;
+    if (handle_drive_true_emulation_overridden) {
+        if (orig_drive_true_emulation_state) {
+            log_message(autostart_log, "Turning true drive emulation off.");
+            set_true_drive_emulation_mode(0);
+        }
+    }
+    if (get_true_drive_emulation_state()) {
+        log_message(LOG_ERR, "True drive emulation is still enabled.");
+    }
+    if (!orig_device_traps_state) {
+        log_message(autostart_log, "Turning virtual device traps on.");
+        set_device_traps_state(1);
+    }
+    if (!get_device_traps_state()) {
+        log_message(LOG_ERR, "Virtual device traps are not enabled.");
     }
 
-    DBG(("setup for prg: TDE: %s  Traps: %s handle TDE: %s",
+    DBG(("setup for prg VFS: TDE: %s  Traps: %s handle TDE: %s",
         get_true_drive_emulation_state() ? "on" : "off",
         get_device_traps_state() ? "on" : "off",
         handle_drive_true_emulation_overridden ? "yes" : "no"
@@ -1523,12 +1527,11 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* make sure to init TDE and traps status before each autostart */
     init_drive_emulation_state();
 
-    setup_for_prg(AutostartPrgMode);
-
     /* determine how to load file */
     switch (AutostartPrgMode) {
         case AUTOSTART_PRG_MODE_VFS:
             log_message(autostart_log, "Loading PRG file `%s' with virtual FS on unit #8.", file_name);
+            setup_for_prg_vfs();
             result = autostart_prg_with_virtual_fs(file_name, finfo, autostart_log);
             mode = AUTOSTART_HASDISK;
             boot_file_name = (const char *)finfo->name;
@@ -1543,6 +1546,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             {
             char *savedir; int n;
             log_message(autostart_log, "Loading PRG file `%s' with autostart disk image.", file_name);
+            setup_for_disk();
             /* create the directory where the image should be written first */
             util_fname_split(AutostartPrgDiskImage, &savedir, NULL);
             if ((savedir != NULL) && (*savedir != 0) && (!strcmp(savedir, "."))) {

@@ -166,6 +166,10 @@ int autostart_prg_with_virtual_fs(const char *file_name,
     }
 
     /* Setup FS-based drive emulation.  */
+    /* resources_set_int("VirtualDevices", 1); FIXME: not restored */
+    resources_set_int("FSDevice8ConvertP00", 1);
+    file_system_detach_disk(8, 0);              /* FIXME: not restored */
+    resources_set_int("FileSystemDevice8", ATTACH_DEVICE_FS);
     fsdevice_set_directory(directory ? directory : ".", 8);
     log_message(autostart_log, "using virtual filesystem on: %s.", directory);
 

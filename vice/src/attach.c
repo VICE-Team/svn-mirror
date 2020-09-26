@@ -431,10 +431,12 @@ static int set_file_system_device(int val, void *param)
     }
 
     if (old_device_enabled == ATTACH_DEVICE_REAL) {
+        DBG(("set_file_system_device: old == ATTACH_DEVICE_REAL, serial_realdevice_disable()"));
         serial_realdevice_disable();
     }
 
     if (new_device_enabled == ATTACH_DEVICE_REAL) {
+        DBG(("set_file_system_device: new == ATTACH_DEVICE_REAL, serial_realdevice_enable()"));
         if (serial_realdevice_enable() < 0) {
             log_warning(attach_log, "Falling back to fs device.");
             return set_file_system_device(ATTACH_DEVICE_FS, param);
@@ -443,6 +445,7 @@ static int set_file_system_device(int val, void *param)
 
     switch (new_device_enabled) {
         case ATTACH_DEVICE_NONE:
+            DBG(("set_file_system_device: new == ATTACH_DEVICE_NONE"));
             for (drive = 0; drive < NUM_DRIVES; drive++) {
                 vdrive_device_setup_if_no_image(vdrive[drive], unit, drive);
             }
@@ -450,6 +453,7 @@ static int set_file_system_device(int val, void *param)
             file_system_set_serial_hooks(unit, 0);
             break;
         case ATTACH_DEVICE_VIRT:
+            DBG(("set_file_system_device: new == ATTACH_DEVICE_VIRT"));
             for (drive = 0; drive < NUM_DRIVES; drive++) {
                 vdrive_device_setup_if_no_image(vdrive[drive], unit, drive);
             }
@@ -457,6 +461,7 @@ static int set_file_system_device(int val, void *param)
             file_system_set_serial_hooks(unit, 0);
             break;
         case ATTACH_DEVICE_FS:
+            DBG(("set_file_system_device: new == ATTACH_DEVICE_FS"));
             for (drive = 0; drive < NUM_DRIVES; drive++) {
                 vdrive_detach_disk_image_and_free(vdrive[drive], unit, drive);
                 ui_display_drive_current_image(idx, drive, "");
@@ -467,6 +472,7 @@ static int set_file_system_device(int val, void *param)
             break;
 #ifdef HAVE_REALDEVICE
         case ATTACH_DEVICE_REAL:
+            DBG(("set_file_system_device: new == ATTACH_DEVICE_REAL"));
             for (drive = 0; drive < NUM_DRIVES; drive++) {
                 vdrive_detach_disk_image_and_free(vdrive[drive], unit, drive);
                 ui_display_drive_current_image(idx, drive, "");
