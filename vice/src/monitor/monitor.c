@@ -240,7 +240,7 @@ static const char *cond_op_string[] = {
     "|"
 };
 
-const char *mon_memspace_string[] = { "default", "C", "8", "9", "0", "1" };
+const char *mon_memspace_string[] = { "default", "C", "8", "9", "10", "11" };
 
 /* must match order in enum t_reg_id */
 static const char *register_string[] = {
