@@ -440,3 +440,19 @@ void ioutil_closedir(ioutil_dir_t *ioutil_dir)
     lib_free(ioutil_dir->files);
     lib_free(ioutil_dir);
 }
+
+void ioutil_resetdir(ioutil_dir_t *ioutil_dir)
+{
+    ioutil_dir->counter = 0;
+}
+
+void ioutil_setdirpos(ioutil_dir_t *ioutil_dir, int pos)
+{
+    ioutil_dir->counter = pos;
+}
+
+int ioutil_getdirpos(ioutil_dir_t *ioutil_dir)
+{
+    return ioutil_dir->counter;
+}
+

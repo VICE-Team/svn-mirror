@@ -79,5 +79,8 @@ typedef struct ioutil_dir_s ioutil_dir_t;
 extern ioutil_dir_t *ioutil_opendir(const char *path, int mode);
 extern char *ioutil_readdir(ioutil_dir_t *ioutil_dir);
 extern void ioutil_closedir(ioutil_dir_t *ioutil_dir);
+extern void ioutil_resetdir(ioutil_dir_t *ioutil_dir);
+extern void ioutil_setdirpos(ioutil_dir_t *ioutil_dir, int pos);
+extern int ioutil_getdirpos(ioutil_dir_t *ioutil_dir);
 
 #endif
