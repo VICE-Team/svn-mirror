@@ -785,7 +785,7 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
 
     switch (resources_query_type(resource_name)) {
         case RES_STRING:
-            str_value = resources_write_item_to_string(resource_name, "");
+            resources_get_value(resource_name, &str_value);
             if(str_value == NULL || strlen(str_value) > 255) {
                 monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
                 return;
