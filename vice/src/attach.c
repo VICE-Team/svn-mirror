@@ -224,7 +224,7 @@ int file_system_cmdline_options_init(void)
  *
  * It may seem that int fs is a boolean, but in one location it is called
  * with the value from file_system_device_enabled[i], so in principle
- * it can receive all values ATTACH_DEVICE_NONE, _FS, etc.
+ * it can receive all values ATTACH_DEVICE_NONE, _FS, _REAL and _VIRT. FIXME!
  */
 static int file_system_set_serial_hooks(unsigned int unit, int fs)
 {
@@ -685,11 +685,6 @@ static void file_system_detach_disk_single(unsigned int unit, unsigned int drive
         detach_disk_image_and_free(vdrive->image, vdrive, unit, drive);
         ui_display_drive_current_image(unit - 8, drive, "");
     }
-
-    /* TODO: this call should not be needed, and doesn't do much because
-     * it doesn't change file_system_device_enabled[...]
-     */
-    set_file_system_device(file_system_device_enabled[unit - 8], uint_to_void_ptr(unit));
 }
 
 static void file_system_detach_disk_internal(unsigned int unit, unsigned int drive)
@@ -703,10 +698,12 @@ static void file_system_detach_disk_internal(unsigned int unit, unsigned int dri
             for (j = 0; j < NUM_DRIVES; j++) {
                 file_system_detach_disk_single(i, j);
             }
+            file_system_set_serial_hooks(i+8, ATTACH_DEVICE_FS);
         }
     } else {
         if (unit >= 8 && unit < 8 + NUM_DISK_UNITS) {
             file_system_detach_disk_single((unsigned int)unit, drive);
+            file_system_set_serial_hooks(unit, ATTACH_DEVICE_FS);
         } else {
             log_error(attach_log, "Cannot detach unit %u drive %u.", unit, drive);
         }
