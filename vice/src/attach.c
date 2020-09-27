@@ -221,12 +221,16 @@ int file_system_cmdline_options_init(void)
  * sense (or isn't even possible) to differ between drive 0 and 1.
  *
  * NOTE: it requires that the corresponding vdrive(s) are not NULL.
+ *
+ * It may seem that int fs is a boolean, but in one location it is called
+ * with the value from file_system_device_enabled[i], so in principle
+ * it can receive all values ATTACH_DEVICE_NONE, _FS, etc.
  */
 static int file_system_set_serial_hooks(unsigned int unit, int fs)
 {
-    DBG(("file_system_set_serial_hooks dev %u: %s\n", unit, !fs ? "vdrive" : "fsdevice"));
+    DBG(("file_system_set_serial_hooks dev %u: %s\n", unit, (fs == ATTACH_DEVICE_NONE) ? "vdrive" : "fsdevice"));
 
-    if (!fs) {
+    if (fs == ATTACH_DEVICE_NONE) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
             log_error(attach_log,
                       "Could not initialize vdrive emulation for device #%u.",
@@ -424,7 +428,7 @@ static int set_file_system_device(int val, void *param)
         vdrive[drive] = file_system_get_vdrive(unit, drive);
 
         if (vdrive[drive] == NULL) {
-            /* file_system_set_serial_hooks requires non-NULL... */
+            /* file_system_set_serial_hooks() requires non-NULL... */
             DBG(("set_file_system_device: Too early in initialization; unit %u drive %u: vdrive is NULL\n", unit, drive));
             return 0;
         }
@@ -443,6 +447,12 @@ static int set_file_system_device(int val, void *param)
         }
     }
 
+    /*
+     * FIXME: Note about ATTACH_DEVICE_FS and ATTACH_DEVICE_VIRT:
+     * Attaching a disk image also uses _FS even though you would expect _VIRT.
+     * The value _VIRT seems to be unused in practice.
+     * One would expect _FS for the fsdevice, and _VIRT for vdrive images.
+     */
     switch (new_device_enabled) {
         case ATTACH_DEVICE_NONE:
             DBG(("set_file_system_device: new == ATTACH_DEVICE_NONE"));
@@ -450,7 +460,7 @@ static int set_file_system_device(int val, void *param)
                 vdrive_device_setup_if_no_image(vdrive[drive], unit, drive);
             }
             serial_device_type_set(SERIAL_DEVICE_NONE, unit);
-            file_system_set_serial_hooks(unit, 0);
+            file_system_set_serial_hooks(unit, ATTACH_DEVICE_NONE);
             break;
         case ATTACH_DEVICE_VIRT:
             DBG(("set_file_system_device: new == ATTACH_DEVICE_VIRT"));
@@ -458,7 +468,7 @@ static int set_file_system_device(int val, void *param)
                 vdrive_device_setup_if_no_image(vdrive[drive], unit, drive);
             }
             serial_device_type_set(SERIAL_DEVICE_VIRT, unit);
-            file_system_set_serial_hooks(unit, 0);
+            file_system_set_serial_hooks(unit, ATTACH_DEVICE_NONE);
             break;
         case ATTACH_DEVICE_FS:
             DBG(("set_file_system_device: new == ATTACH_DEVICE_FS"));
@@ -468,7 +478,7 @@ static int set_file_system_device(int val, void *param)
                 vdrive_device_setup_if_no_image(vdrive[drive], unit, drive);
             }
             serial_device_type_set(SERIAL_DEVICE_FS, unit);
-            file_system_set_serial_hooks(unit, 1);
+            file_system_set_serial_hooks(unit, ATTACH_DEVICE_FS);
             break;
 #ifdef HAVE_REALDEVICE
         case ATTACH_DEVICE_REAL:
@@ -641,7 +651,7 @@ static int file_system_attach_disk_internal(unsigned int unit, unsigned int driv
                           file_system_device_enabled[unit - 8]) < 0) {
         return -1;
     } else {
-        file_system_set_serial_hooks(unit, 0);
+        file_system_set_serial_hooks(unit, ATTACH_DEVICE_NONE);
         fliplist_set_current(unit, filename);
         ui_display_drive_current_image(unit - 8, drive, filename);
     }
