@@ -744,6 +744,8 @@ static void monitor_binary_process_undump(binary_command_t *command)
     unsigned char *body = command->body;
     uint8_t filename_length = body[0];
     unsigned char* filename = &body[1];
+    unsigned char response[2];
+    uint16_t addr;
 
     if(command->length < 1 + filename_length) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
@@ -761,7 +763,11 @@ static void monitor_binary_process_undump(binary_command_t *command)
     /* Reset the current address */
     dot_addr[e_comp_space] = new_addr(e_comp_space, ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
 
-    monitor_binary_response(0, e_MON_RESPONSE_UNDUMP, e_MON_ERR_OK, command->request_id, NULL);
+    addr = ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC)));
+
+    write_uint16(addr, response);
+
+    monitor_binary_response(sizeof response, e_MON_RESPONSE_UNDUMP, e_MON_ERR_OK, command->request_id, response);
 }
 
 static void monitor_binary_process_resource_get(binary_command_t *command)
