@@ -142,12 +142,8 @@ void ExternalFilter::clock(cycle_count delta_t, short Vi)
     // Vlp = Vlp + w0lp*(Vi - Vlp)*delta_t;
     // Vhp = Vhp + w0hp*(Vlp - Vhp)*delta_t;
     // Vo  = Vlp - Vhp;
-      
-    // (Vi << 11) has been replaced with (Vi * 2048) as left shift of a
-    // signed value is undefined. (Vi * 2048) does the same thing as
-    // (Vi << 11) on a 2's complement system.
 
-    int dVlp = (w0lp_1_s7*delta_t_flt >> 3)*((Vi * 2048) - Vlp) >> 4;
+    int dVlp = (w0lp_1_s7*delta_t_flt >> 3)*((Vi << 11) - Vlp) >> 4;
     int dVhp = (w0hp_1_s17*delta_t_flt >> 3)*(Vlp - Vhp) >> 14;
     Vlp += dVlp;
     Vhp += dVhp;
