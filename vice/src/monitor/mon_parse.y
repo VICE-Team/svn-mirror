@@ -173,7 +173,7 @@ extern int cur_len, last_len;
 %token<i> REG_AF REG_BC REG_DE REG_HL REG_IX REG_IY REG_SP
 %token<i> REG_IXH REG_IXL REG_IYH REG_IYL
 %token<i> PLUS MINUS
-%token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME CPUTYPE
+%token<str> STRING FILENAME R_O_L R_O_L_Q OPCODE LABEL BANKNAME CPUTYPE
 %token<reg> MON_REGISTER
 %left<cond_op> COND_OP
 %token<rt> RADIX_TYPE INPUT_SPEC
@@ -185,7 +185,7 @@ extern int cur_len, last_len;
 %type<i> memspace memloc memaddr checkpt_num mem_op opt_mem_op
 %type<i> top_level value
 %type<i> assembly_instruction register
-%type<str> rest_of_line opt_rest_of_line data_list data_element filename
+%type<str> rest_of_line opt_rest_of_line rest_of_line_or_quoted data_list data_element filename
 %token<i> MASK
 %type<str> hunt_list hunt_element
 %type<mode> asm_operand_mode
@@ -532,7 +532,7 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_command_print_help($2); }
                   | CONVERT_OP expression end_cmd
                     { mon_print_convert($2); }
-                  | CMD_CHDIR rest_of_line end_cmd
+                  | CMD_CHDIR rest_of_line_or_quoted end_cmd
                     { mon_change_dir($2); }
                   | CMD_KEYBUF rest_of_line end_cmd /* STRING */
                     { mon_keyboard_feed($2); }
@@ -542,9 +542,9 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                      { mon_show_dir($2); }
                   | CMD_PWD end_cmd
                      { mon_show_pwd(); }
-                  | CMD_MKDIR rest_of_line end_cmd
+                  | CMD_MKDIR rest_of_line_or_quoted end_cmd
                     { mon_make_dir($2); }
-                  | CMD_RMDIR rest_of_line end_cmd
+                  | CMD_RMDIR rest_of_line_or_quoted end_cmd
                     { mon_remove_dir($2); }
                   | CMD_SCREENSHOT filename end_cmd
                     { mon_screenshot_save($2,-1); }
@@ -642,6 +642,9 @@ rest_of_line: R_O_L { $$ = $1; }
 opt_rest_of_line: R_O_L { $$ = $1; }
                   | { $$ = NULL; }
                   ;
+
+rest_of_line_or_quoted: R_O_L_Q { $$ = $1; }
+            ;
 
 filename: FILENAME
         | error { return ERR_EXPECT_FILENAME; }
