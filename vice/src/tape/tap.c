@@ -1283,10 +1283,12 @@ static int tap_find_header(tap_t *tap)
         if (type == PILOT_TYPE_CBM) {
             res = tap_cbm_read_header(tap);
             if (res < 0) {
-                int pos_advance;
+                int pulse;
                 fseek(tap->fd, fpos, SEEK_SET);
-                while (TAP_PULSE_SHORT(tap_get_pulse(tap, &pos_advance))) {
-                }
+                do {
+                    int pos_advance;
+                    pulse = tap_get_pulse(tap, &pos_advance);
+                } while (TAP_PULSE_SHORT(pulse));
             }
         } else if (type == PILOT_TYPE_TT) {
             res = tap_tt_read_header(tap);
