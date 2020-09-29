@@ -1,8 +1,13 @@
 GRESOURCE_TARGET = $(builddir)/vice.gresource
+# TODO: check the double backslash
+GRESOURCE_PROTO = $(srcdir)/vice.gresource.xml.proto
 GRESOURCE_XML = $(builddir)/vice.gresource.xml
 
+$(GRESOURCE_XML): $(GRESOURCE_PROTO)
+	cat $(GRESOURCE_PROTO) | sed -e "s@VICE_SRC_DIR@$(srcdir)@g" > $(GRESOURCE_XML)
+
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
-	glib-compile-resources --sourcedir $(top_srcdir)/common $< --target $@
+	glib-compile-resources $< --target $@
 
 gtk3datadir = $(VICE_DATADIR)/common
 gtk3data_DATA = $(GRESOURCE_TARGET)
