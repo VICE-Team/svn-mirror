@@ -6,6 +6,7 @@
 
 /*
  * $VICERES KeepMonitorOpen             all
+ * $VICERES RefreshOnBreak              all
  * $VICERES MonitorServer               all
  * $VICERES MonitorServerAddress        all
  * $VICERES BinaryMonitorServer         all
@@ -54,6 +55,7 @@
 enum {
     ROW_NATIVE = 0,             /**< row for 'use native monitor' */
     ROW_KEEP_OPEN,              /**< row for 'keep monitor open' */
+    ROW_REFRESH_ON_BREAK,       /**< row for 'Refresh displays on break' */
     ROW_SERVER_ENABLE,          /**< row for 'enable monitor server' */
     ROW_SERVER_ADDRESS,         /**< row for 'monitor server address' */
     ROW_BINARY_SERVER_ENABLE,   /**< row for 'enable monitor server' */
@@ -103,6 +105,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *native;
     GtkWidget *keep_open;
+    GtkWidget *refresh_on_break;
     GtkWidget *server_enable;
     GtkWidget *server_address;
     GtkWidget *label;
@@ -136,6 +139,8 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
             "Use native monitor interface");
     keep_open = vice_gtk3_resource_check_button_new("KeepMonitorOpen",
             "Keep monitor open");
+    refresh_on_break = vice_gtk3_resource_check_button_new("RefreshOnBreak",
+            "Refresh display(s) after monitor command");
 
     server_enable = vice_gtk3_resource_check_button_new("MonitorServer",
             "Enable remote monitor");
@@ -209,6 +214,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(grid), native, 0, ROW_NATIVE, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), keep_open, 0, ROW_KEEP_OPEN, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), refresh_on_break, 0, ROW_REFRESH_ON_BREAK, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), server_enable, 0, ROW_SERVER_ENABLE, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), label, 0, ROW_SERVER_ADDRESS, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server_address, 1, ROW_SERVER_ADDRESS, 1, 1);

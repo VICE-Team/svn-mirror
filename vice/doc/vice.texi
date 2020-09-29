@@ -5570,6 +5570,13 @@ Boolean, if true the monitor window may stay open when the emulation is running,
 eg to look at trace-point output. (Not all ports/UIs support this, in that case
 this setting has no effect.)
 
+@vindex RefreshOnBreak
+@item RefreshOnBreak
+Boolean, if true, the emulated display(s) will update as the monitor is entered
+and also after each command executed via the monitor. Not entirely accurate yet,
+as updates become visible one scanline at a time. In addtion, the image can be not
+quite right around the raster line being updated.
+
 @vindex MonitorServer
 @item MonitorServer
 Boolean specifying whether the remote monitor server is enabled.
@@ -5633,6 +5640,12 @@ Set an initial breakpoint for the monitor. Addresses with prefix "0x" are hexade
 @itemx +keepmonopen
 Enable/disable keeping the monitor window open
 (@code{KeepMonitorOpen=1}, @code{KeepMonitorOpen=0}).
+
+@findex -refreshonbreak, +refreshonbreak
+@item -refreshonbreak
+@itemx +refreshonbreak
+Enable/Disable refresh display(s) when entering monitor and after each monitor command.
+(@code{RefreshOnBreak=1}, @code{RefreshOnBreak=0}).
 
 @findex -remotemonitor, +remotemonitor
 @item -remotemonitor

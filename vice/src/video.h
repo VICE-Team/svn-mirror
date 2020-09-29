@@ -228,6 +228,7 @@ extern struct video_canvas_s *video_canvas_create(struct video_canvas_s *canvas,
 extern void video_arch_canvas_init(struct video_canvas_s *canvas);
 extern void video_canvas_shutdown(struct video_canvas_s *canvas);
 extern struct video_canvas_s *video_canvas_init(void);
+extern void video_canvas_refresh_all_tracked(void);
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,

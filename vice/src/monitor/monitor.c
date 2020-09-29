@@ -91,6 +91,7 @@
 #include "uiapi.h"
 #include "uimon.h"
 #include "util.h"
+#include "video.h"
 #include "vsync.h"
 
 int mon_stop_output;
@@ -1399,6 +1400,15 @@ static int set_keep_monitor_open(int val, void *param)
 }
 #endif
 
+static int refresh_on_break = 0;
+
+static int set_refresh_on_break(int val, void *param)
+{
+    refresh_on_break = val ? 1 : 0;
+
+    return 0;
+}
+
 static char *monitorlogfilename = NULL;
 static int monitorlogenabled = 0;
 
@@ -1460,6 +1470,8 @@ static const resource_int_t resources_int[] = {
 #ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
     { "KeepMonitorOpen", 1, RES_EVENT_NO, NULL,
       &keep_monitor_open, set_keep_monitor_open, NULL },
+    { "RefreshOnBreak", 0, RES_EVENT_NO, NULL,
+      &refresh_on_break, set_refresh_on_break, NULL },
 #endif
     { "MonitorLogEnabled", 0, RES_EVENT_NO, NULL,
       &monitorlogenabled, set_monitor_log_enabled, NULL },
@@ -1514,6 +1526,12 @@ static const cmdline_option_t cmdline_options[] =
     { "+keepmonopen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)0,
       NULL, "Do not keep the monitor open" },
+    { "-refreshonbreak", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RefreshOnBreak", (resource_value_t)1,
+      NULL, "Refresh display(s) after monitor command" },
+    { "+refreshonbreak", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "RefreshOnBreak", (resource_value_t)0,
+      NULL, "Do not refresh display(s) after monitor command" },
 #endif
     { "-monscrollbacklines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MonitorScrollbackLines", NULL,
@@ -2787,7 +2805,12 @@ void monitor_startup(MEMSPACE mem)
 
     monitor_open();
     while (!exit_mon) {
-        /* TODO: Render all in-progress frames as we enter the prompt */
+        
+        if (refresh_on_break) {
+            /* Render all in-progress frames as we enter the prompt */
+            video_canvas_refresh_all_tracked();
+        }
+
         make_prompt(prompt);
         p = uimon_in(prompt);
         if (p) {
