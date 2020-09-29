@@ -109,7 +109,7 @@ static void vdc_set_geometry(void)
     raster = &vdc.raster;
     /* total visible pixels including border(s) - constants defined in vdctypes.h */
     screen_width = VDC_SCREEN_WIDTH;    /* 856 */
-    screen_height = 288;    /* maximum number of raster lines visible on a PAL system. also the same as old winvice    //VDC_SCREEN_HEIGHT;  //312 */
+    screen_height = vdc.canvas_height;  /* was 288 - maximum number of raster lines visible on a PAL system. also the same as old winvice    //VDC_SCREEN_HEIGHT;  //312 */
 
     screen_xpix = vdc.screen_xpix;
 
@@ -128,8 +128,8 @@ printf("SA: %03i SO: %03i\n", vdc_25row_start_line, vdc_25row_stop_line);
 printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
 */
 
-    raster->display_ystart = 1;
-    raster->display_ystop = 1 + VDC_SCREEN_HEIGHT;
+    raster->display_ystart = 1; /* This bit defines the foreground, i.e. non-border parts of the screen */
+    raster->display_ystop = 1024;   /* Set to max height, this stuff is all handled internally, we don't need raster getting in the way */
     raster->display_xstart = vdc_80col_start_pixel;
     raster->display_xstop = vdc_80col_stop_pixel;
 
@@ -308,6 +308,7 @@ static void vdc_update_geometry(void)
 /* Reset the VDC chip */
 void vdc_reset(void)
 {
+    int video;
     if (vdc.initialized) {
         raster_reset(&vdc.raster);
     }
@@ -330,9 +331,24 @@ void vdc_reset(void)
     vdc.attribute_offset = 0;
     vdc.border_height = 59;
     vdc.bytes_per_char = 16;
+    vdc.light_pen.x = vdc.light_pen.y = vdc.light_pen.triggered = 0;
+
+    /* set reasonable defaults depending on video standard */
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_NTSC:
+        case MACHINE_SYNC_NTSCOLD:
+            vdc.canvas_height = 240;    /* default visible raster lines on NTSC */
+            vdc.vsync_height = 21;  /* height of the vsync area in NTSC is ~21 raster lines */
+            break;
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+        default:
+            vdc.canvas_height = 288;    /* default visible raster lines on PAL */
+            vdc.vsync_height = 25;  /* height of the vsync area in PAL is ~25 raster lines */
+    }
     vdc_update_geometry();
     vdc_set_next_alarm((CLOCK)0);
-    vdc.light_pen.x = vdc.light_pen.y = vdc.light_pen.triggered = 0;
 }
 
 /* This _should_ put the VDC in the same state as powerup */
@@ -451,6 +467,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     static unsigned int vdc_row_counter_latch = 0;
     static unsigned int vdc_draw_counter_latch = 0;
     static unsigned int vdc_vert_fine_adj = 0;
+    static unsigned int stable_size_count = 0;
 
     /*  Video signal handling section ----------------------------------------------------------------------------------------------------------*/
     if (vdc_row_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
@@ -524,6 +541,41 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.vsync_counter = 0;
             /* This makes the screenshot the correct height */
             vdc.raster.geometry->last_displayed_line = vdc.raster.current_line + 1;
+
+            //printf("vdc.raster.current_line: %03u vdc.canvas_height_old: %03u ", vdc.raster.current_line, vdc.canvas_height_old);
+            //printf("current_line: %03u ", vdc.raster.current_line);
+            //printf("vdc.draw_active: %01u vdc.prime_draw: %01u ", vdc.draw_active, vdc.prime_draw);
+            //printf("vdc.draw_finished: %01u vdc.display_enable: %03u\n", vdc.draw_finished, vdc.display_enable);
+
+            /* Check if the screen size has changed and if it's been stable for enough frames, update the canvas size appropriately */
+            if (vdc.raster.current_line != vdc.canvas_height_old) {
+                vdc.canvas_height_old = vdc.raster.current_line;
+                stable_size_count = 0;  /* the size changed again so reset our stable size counter back to 0 */
+                //printf("height changed! current_line: %03u \n", vdc.raster.current_line);
+            } else if (stable_size_count == 10) {   /* we've had a few frames of stable size so lock it in and resize the window */
+                /* For now do a simple check of the frame size at the mid-point between PAL (288) & NTSC (240)
+                    to catch NTSC <> PAL changes, until we do a proper dynamic resize.
+                    FIXME: aspect ratio won't change because it's looking at MachineVideoStandard.. */
+                if (vdc.raster.current_line < 264) {    /* ~ NTSC */
+                    vdc.canvas_height = 240;    /* default visible raster lines on NTSC */
+                    vdc.vsync_height = 21;  /* height of the vsync area in NTSC is ~21 raster lines */
+                } else {    /* ~PAL */
+                    vdc.canvas_height = 288;    /* default visible raster lines on PAL */
+                    vdc.vsync_height = 25;  /* height of the vsync area in PAL is ~25 raster lines */
+                }
+                vdc.update_geometry = 1;
+#ifdef UNUSED_CODE
+                /* make sure we have a sane height and ignore if not */
+                if (vdc.raster.current_line < 710) {
+                    vdc.canvas_height = vdc.raster.current_line;
+                    vdc.update_geometry = 1;
+                } else {
+                    stable_size_count = 0;  /* no thanks, reset & keep waiting. maintains current size */
+                }
+#endif
+            } else {
+                stable_size_count++;
+            }
         }
     } else {
         vdc.row_counter_y += 1 + vdc.interlaced;
@@ -545,7 +597,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (vdc.vsync) {
         vdc.vsync_counter++;
         /* Check if we are now out of the pulse == at first visible raster line, and reset the raster to the top of the screen if so */
-        if (vdc.vsync_counter > 25) {   /* 25 seems to be about right # of raster lines the vsync consumes on a C= monitor, and is official PAL spec */
+        if (vdc.vsync_counter > vdc.vsync_height) {   /* 25 seems to be about right # of raster lines the vsync consumes on a C= monitor, and is official PAL spec */
             vdc.vsync = 0;
             
             /* This SEEMS to work to reset the raster to 0, based on ted.c, but maybe there is something else needed?
