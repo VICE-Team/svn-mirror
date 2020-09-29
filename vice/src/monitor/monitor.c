@@ -1355,6 +1355,11 @@ void monitor_shutdown(void)
         /* Can happen if VICE thread exited while monitor open */
         monitor_close(0);
     }
+    
+    if (last_cmd) {
+        lib_free(last_cmd);
+        last_cmd = NULL;
+    }
 
     mon_log_file_close();
 
@@ -2136,9 +2141,7 @@ void mon_instructions_step(int count)
     skip_jsrs = false;
     exit_mon = 1;
 
-    if (instruction_count == 1) {
-        mon_console_suspend_on_leaving = 0;
-    }
+    mon_console_suspend_on_leaving = 0;
 
     monitor_mask[default_memspace] |= MI_STEP;
     interrupt_monitor_trap_on(mon_interfaces[default_memspace]->int_status);
@@ -2157,9 +2160,7 @@ void mon_instructions_next(int count)
     skip_jsrs = true;
     exit_mon = 1;
 
-    if (instruction_count == 1) {
-        mon_console_suspend_on_leaving = 0;
-    }
+    mon_console_suspend_on_leaving = 0;
 
     monitor_mask[default_memspace] |= MI_STEP;
     interrupt_monitor_trap_on(mon_interfaces[default_memspace]->int_status);
@@ -2759,11 +2760,6 @@ static void monitor_close(int check)
     }
 
     exit_mon = 0;
-
-    if (last_cmd) {
-        lib_free(last_cmd);
-        last_cmd = NULL;
-    }
 
     if (!monitor_is_remote() && !monitor_is_binary()) {
         if (mon_console_suspend_on_leaving) {
