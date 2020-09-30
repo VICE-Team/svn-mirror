@@ -43,6 +43,7 @@
 #include "monitor.h"
 #include "monitor_network.h"
 #include "monitor_binary.h"
+#include "vicesocket.h"
 #include "types.h"
 #include "uimon.h"
 #include "vsyncapi.h"
@@ -279,6 +280,10 @@ void mon_set_command(console_t *cons_log, char *command,
 char *uimon_in(const char *prompt)
 {
     char *p = NULL;
+#ifdef HAVE_NETWORK
+    vice_network_socket_t *sockfd[3];
+    int sockfd_index = 0;
+#endif
 
     if (monitor_is_remote()) {
         if (monitor_network_transmit(prompt, strlen(prompt)) < 0) {
@@ -290,16 +295,26 @@ char *uimon_in(const char *prompt)
         /* as long as we don't have any return value... */
 
 #ifdef HAVE_NETWORK
+        sockfd_index = 0;
         if (!monitor_is_remote()) {
             monitor_check_remote();
+        } else {
+            sockfd[sockfd_index] = monitor_get_connected_socket();
+            sockfd_index++;
         }
 
         if (!monitor_is_binary()) {
             monitor_check_binary();
+        } else {
+            sockfd[sockfd_index] = monitor_binary_get_connected_socket();
+            sockfd_index++;
         }
 
+        sockfd[sockfd_index] = NULL;
+
         if (monitor_is_remote() || monitor_is_binary()) {
-            vsyncarch_sleep(vsyncarch_frequency() / 1000);
+
+            vice_network_select_multiple(sockfd);
 
             if (monitor_is_binary()) {
                 if (!monitor_binary_get_command_line()) {

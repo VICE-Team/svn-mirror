@@ -1753,6 +1753,10 @@ int monitor_is_binary(void)
     return connected_socket != NULL;
 }
 
+vice_network_socket_t *monitor_binary_get_connected_socket() {
+    return connected_socket;
+}
+
 #else
 
 int monitor_binary_resources_init(void)

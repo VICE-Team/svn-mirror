@@ -32,6 +32,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "mon_breakpoint.h"
+#include "vicesocket.h"
 
 extern int monitor_binary_resources_init(void);
 extern void monitor_binary_resources_shutdown(void);
@@ -48,6 +49,7 @@ extern int monitor_binary_transmit(const unsigned char *buffer, size_t buffer_le
 extern int monitor_binary_get_command_line(void);
 
 extern int monitor_is_binary(void);
+extern vice_network_socket_t *monitor_binary_get_connected_socket(void);
 
 extern ui_jam_action_t monitor_binary_ui_jam_dialog(const char *format, ...);
 

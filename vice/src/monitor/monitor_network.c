@@ -383,6 +383,10 @@ int monitor_network_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
+vice_network_socket_t *monitor_get_connected_socket() {
+    return connected_socket;
+}
+
 int monitor_is_remote(void)
 {
     return connected_socket != NULL;
@@ -434,7 +438,7 @@ int monitor_network_transmit(const char * buffer, size_t buffer_length)
     return 0;
 }
 
-char * monitor_network_get_command_line(void)
+int monitor_network_get_command_line(char **prompt)
 {
     return 0;
 }

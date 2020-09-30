@@ -16449,6 +16449,13 @@ All multibyte values are in little endian order unless otherwise specified.
 
 @item byte 0: 0x02 (STX)
 @item byte 1: API version ID (currently 0x01)
+The API version identifies incompatible changes, such as modifying the header
+structure, or rearranging or changing the meaning of existing response fields.
+The API version does not need to be incremented for additional fields. If all
+the variable length fields are prefixed with their lengths then you should be
+able to add new ones to any response. The server can assume default values for
+older clients, and for newer clients with longer commands
+it should be able to ignore the extra fields safely.
 
 @item byte 2-5: length
 Note that the command length does *not* count the STX, the command length, 
@@ -16475,6 +16482,14 @@ but it makes it easier to match up the responses if you do.
 
 @item byte 0: 0x02 (STX)
 @item byte 1: API version ID (currently 0x01)
+The API version identifies incompatible changes, such as modifying the header
+structure, or rearranging or changing the meaning of existing response fields.
+The API version does not need to be incremented for additional fields. If all
+the variable length fields are prefixed with their lengths then you should be
+able to add new ones to any response. The client can assume default values for
+older versions of VICE, and for newer versions of VICE with longer responses 
+it should be able to ignore the extra fields safely.
+
 @item byte 2-5: response body length. Does not include any header fields
 
 @item byte 6: response type

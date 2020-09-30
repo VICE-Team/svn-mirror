@@ -1043,6 +1043,40 @@ int vice_network_select_poll_one(vice_network_socket_t * readsockfd)
     return select( readsockfd->sockfd + 1, &fdsockset, NULL, NULL, &timeout);
 }
 
+/*! \brief Monitor multiple sockets
+
+  This function blocks for many different connections and returns when any
+  has data.
+
+  \param readsockfd
+     NULL terminated list of sockets to monitor
+
+  \return
+     1 if the specified socket has data; 0 if it does not contain
+     any data, and -1 in case of an error.
+*/
+int vice_network_select_multiple(vice_network_socket_t ** readsockfd)
+{
+    fd_set fdsockset;
+    SOCKET max_sockfd = INVALID_SOCKET;
+    TIMEVAL time = {0, 250000};
+
+    FD_ZERO(&fdsockset);
+    while(*readsockfd != NULL) {
+        FD_SET((*readsockfd)->sockfd, &fdsockset);
+        if((*readsockfd)->sockfd > max_sockfd) {
+            max_sockfd = (*readsockfd)->sockfd;
+        }
+        readsockfd++;
+    }
+
+    if(max_sockfd == INVALID_SOCKET) {
+        return -1;
+    }
+
+    return select(max_sockfd + 1, &fdsockset, NULL, NULL, &time);
+}
+
 /*! \brief Get the error of the last socket operation
 
   This function determines the error code for the last
