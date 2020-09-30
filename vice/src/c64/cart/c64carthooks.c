@@ -3036,12 +3036,12 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 }
                 break;
             case CARTRIDGE_REX_EP256:
-                if (rexep256_snapshot_read_module(s) < 0) {
+                if (rexep256_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
             case CARTRIDGE_REX_RAMFLOPPY:
-                if (rexramfloppy_snapshot_read_module(s) < 0) {
+                if (rexramfloppy_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
