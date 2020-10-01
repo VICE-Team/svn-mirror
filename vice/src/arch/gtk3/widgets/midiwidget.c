@@ -40,6 +40,8 @@
  *
  */
 
+#ifdef HAVE_MIDI
+
 #include "vice.h"
 
 #include <gtk/gtk.h>
@@ -319,3 +321,5 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+#endif /* HAVE_MIDI */
