@@ -51,15 +51,15 @@ static log_t tape_snapshot_log = LOG_ERR;
 
 static int tape_snapshot_write_t64image_module(snapshot_t *s)
 {
-    /* later... */
-    return 0;
+    log_error(tape_snapshot_log, "T64 snapshot support is not implemented");
+    return 0; /* should be -1, but that would make snapshots with default settings fail */
 }
 
 
 static int tape_snapshot_read_t64image_module(snapshot_t *s)
 {
-    /* later... */
-    return 0;
+    log_error(tape_snapshot_log, "T64 snapshot support is not implemented");
+    return 0; /* should be -1, but that would make snapshots with default settings fail */
 }
 
 

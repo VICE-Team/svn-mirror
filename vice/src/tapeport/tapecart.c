@@ -1968,16 +1968,18 @@ static int tapecart_write_snapshot(struct snapshot_s *s, int write_image)
 {
     /* FIXME: Implement */
     log_error(tapecart_log,
-              "ERROR: taking tapecart snapshot not implemented yet");
+              "taking tapecart snapshot not implemented yet");
 
-    return 0;
+    return 0; /* should be -1 */
 }
 
 static int tapecart_read_snapshot(struct snapshot_s *s)
 {
+    /* enable device */
+    set_tapecart_enabled(1, NULL);
     /* FIXME: Implement */
     log_error(tapecart_log,
-              "ERROR: restoring tapecart from snapshot not implemented yet");
+              "restoring tapecart from snapshot not implemented yet");
 
-    return 0;
+    return 0; /* should be -1 */
 }

@@ -220,6 +220,8 @@ static int set_datasette_enable(int value, void *param)
 {
     int val = value ? 1 : 0;
 
+    DBG(("set_datasette_enable: %d", value));
+
     if (datasette_enable == val) {
         return 0;
     }
@@ -1216,6 +1218,9 @@ static int datasette_read_snapshot(snapshot_t *s)
     if (m == NULL) {
         return 0;
     }
+
+    /* enable device */
+    set_datasette_enable(1, NULL);
 
     if (0
         || SMR_B_INT(m, &datasette_motor) < 0
