@@ -1,20 +1,14 @@
 GRESOURCE_TARGET = $(builddir)/vice.gresource
-# TODO: check the double backslash
-GRESOURCE_PROTO = $(srcdir)/vice.gresource.xml.proto
-GRESOURCE_XML = $(builddir)/vice.gresource.xml
-
-$(GRESOURCE_XML): $(GRESOURCE_PROTO)
-	cat $(GRESOURCE_PROTO) | sed -e "s@VICE_SRC_DIR@$(srcdir)@g" > $(GRESOURCE_XML)
+GRESOURCE_XML = $(srcdir)/vice.gresource.xml
 
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
-	glib-compile-resources $< --target $@
+	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
 
 gtk3datadir = $(VICE_DATADIR)/common
 gtk3data_DATA = $(GRESOURCE_TARGET)
 
 CLEANFILES = \
-	$(GRESOURCE_TARGET) \
-	$(GRESOURCE_XML)
+	$(GRESOURCE_TARGET)
 
 # FIXME: final target of gresource is called _TARGET, but here the final target
 #        is _COFF
@@ -38,7 +32,7 @@ CLEANFILES += \
 endif
 
 EXTRA_DIST = \
-	$(GRESOURCE_PROTO) \
+	$(GRESOURCE_XML) \
 	$(WINDRES_RC_PROTO)
 
 
