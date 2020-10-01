@@ -46,7 +46,5 @@ fi
 #echo "cmment       : $COMMENT"
 #echo "icon         : $ICON"
 
-# This is a template 'engine' Harry P!
 cat "${TEMPLATE}" | \
     sed -e "s@__PREFIX__@${PREFIX}@g;s@__VICE_EMU_BIN__@${BINARY}@g;s@__ICON__@${ICON}@g;s@__VICE_EMU_COMMENT__@${COMMENT}@g;s@__ICON__@${ICON}@g;s@__VICE_EMU_NAME__@${BINARY}@g" > "vice-org-${BINARY}.desktop"
-

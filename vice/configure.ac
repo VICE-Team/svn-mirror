@@ -3718,6 +3718,9 @@ AC_OUTPUT([Makefile
            src/arch/android/AnVICE/src-proto/com/locnet/vice/Makefile
            src/arch/gtk3/Makefile
            src/arch/gtk3/data/Makefile
+           src/arch/gtk3/data/macos/Makefile
+           src/arch/gtk3/data/unix/Makefile
+           src/arch/gtk3/data/win32/Makefile
            src/arch/gtk3/novte/Makefile
            src/arch/gtk3/widgets/Makefile
            src/arch/gtk3/widgets/base/Makefile
