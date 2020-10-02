@@ -82,7 +82,7 @@ static UI_MENU_CALLBACK(save_settings_to_callback)
 static UI_MENU_CALLBACK(load_settings_callback)
 {
     if (activated) {
-        if (resources_load(NULL) < 0) {
+        if (resources_reset_and_load(NULL) < 0) {
             ui_error("Cannot load settings.");
         } else {
             ui_message("Settings loaded.");
@@ -99,7 +99,7 @@ static UI_MENU_CALLBACK(load_settings_from_callback)
         name = sdl_ui_file_selection_dialog("Choose settings file", FILEREQ_MODE_CHOOSE_FILE);
 
         if (name != NULL) {
-            if (resources_load(name) < 0) {
+            if (resources_reset_and_load(name) < 0) {
                 ui_error("Cannot load settings.");
             } else {
                 ui_message("Settings loaded.");

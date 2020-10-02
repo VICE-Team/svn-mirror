@@ -1162,29 +1162,9 @@ int resources_load(const char *fname)
     int retval;
     int line_num;
     int err = 0;
-    char *default_name = NULL;
-
-    if (fname == NULL) {
-        if (vice_config_file == NULL) {
-            /* try the alternative name/location first */
-            default_name = archdep_default_portable_resource_file_name();
-            if (default_name != NULL) {
-                if (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) != 0)  {
-                    /* if not found at alternative location, try the normal one */
-                    lib_free(default_name);
-                    default_name = archdep_default_resource_file_name();
-                }
-            }
-        } else {
-            default_name = lib_strdup(vice_config_file);
-        }
-        fname = default_name;
-    }
 
     f = fopen(fname, MODE_READ_TEXT);
-
     if (f == NULL) {
-        lib_free(default_name);
         return RESERR_FILE_NOT_FOUND;
     }
 
@@ -1195,7 +1175,6 @@ int resources_load(const char *fname)
         char buf[1024];
 
         if (util_get_line(buf, 1024, f) < 0) {
-            lib_free(default_name);
             fclose(f);
             return RESERR_READ_ERROR;
         }
@@ -1225,7 +1204,6 @@ int resources_load(const char *fname)
     } while (retval != 0);
 
     fclose(f);
-    lib_free(default_name);
 
     if (resource_modified_callback != NULL) {
         resources_exec_callback_chain(resource_modified_callback, NULL);
@@ -1234,6 +1212,33 @@ int resources_load(const char *fname)
     return err ? RESERR_FILE_INVALID : 0;
 }
 
+/* Reset resources to defaults, then load the resources from file `fname'.  
+   If `fname' is NULL, load them from the default resource file.  */
+int resources_reset_and_load(const char *fname)
+{
+    char *default_name = NULL;
+    int res;
+    if (fname == NULL) {
+        if (vice_config_file == NULL) {
+            /* try the alternative name/location first */
+            default_name = archdep_default_portable_resource_file_name();
+            if (default_name != NULL) {
+                if (ioutil_access(default_name, IOUTIL_ACCESS_R_OK) != 0)  {
+                    /* if not found at alternative location, try the normal one */
+                    lib_free(default_name);
+                    default_name = archdep_default_resource_file_name();
+                }
+            }
+        } else {
+            default_name = lib_strdup(vice_config_file);
+        }
+        fname = default_name;
+    }
+    resources_set_defaults();
+    res = resources_load(fname);
+    lib_free(default_name);
+    return res;
+}
 
 static char *string_resource_item(int num, const char *delim)
 {

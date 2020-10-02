@@ -144,7 +144,7 @@ static GtkWidget *help_submenu = NULL;
  */
 static gboolean settings_load_callback(GtkWidget *widget, gpointer data)
 {
-    if (resources_load(NULL) != 0) {
+    if (resources_reset_and_load(NULL) != 0) {
         vice_gtk3_message_error("VICE core error",
                 "Failed to load default settings file");
     }
@@ -164,7 +164,7 @@ static void settings_load_filename_callback(GtkDialog *dialog,
 {
     if (filename!= NULL) {
         mainlock_obtain();
-        if (resources_load(filename) != 0) {
+        if (resources_reset_and_load(filename) != 0) {
             vice_gtk3_message_error("VICE core error",
                     "Failed to load settings from '%s'", filename);
         }

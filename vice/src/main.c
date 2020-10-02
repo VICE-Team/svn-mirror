@@ -199,7 +199,7 @@ int main_program(int argc, char **argv)
 
     if ((!ishelp) && (loadconfig)) {
         /* Load the user's default configuration file.  */
-        if (resources_load(NULL) < 0) {
+        if (resources_reset_and_load(NULL) < 0) {
             /* The resource file might contain errors, and thus certain
             resources might have been initialized anyway.  */
             if (resources_set_defaults() < 0) {
