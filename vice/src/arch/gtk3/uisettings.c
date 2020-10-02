@@ -253,9 +253,7 @@ enum {
 /** \brief  List of C64 cartidge settings (x64, x64sc)
  */
 static ui_settings_tree_node_t c64_cartridges[] = {
-    { "Memory Expansion Hacks",
-      "mem-hacks",
-      settings_io_c64_memhacks_widget_create, NULL },
+
     { "GEO-RAM",
       "geo-ram",
       settings_io_georam_widget_create, NULL },
@@ -750,6 +748,12 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "Memory Expansion Hacks",
+      "mem-hacks",
+      settings_io_c64_memhacks_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -869,7 +873,7 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
       NULL, peripheral_nodes_c64 },
     { "Cartridges",
       "cartridges",
-      settings_io_widget_create, c64_cartridges },
+      NULL, c64_cartridges },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
