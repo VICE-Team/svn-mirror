@@ -198,8 +198,8 @@ static void lib_debug_free(void *ptr, unsigned int level, bool fill)
     }
 
 #if 0
-    printf("lib_debug_free(): Free address %p size %i slot %i from %p.\n",
-           ptr, lib_debug_size[index], index, func);
+    printf("lib_debug_free(): Free address %p size %u slot %u.\n",
+           ptr, lib_debug_size[index], index);
 #endif
 
     if (fill) {
