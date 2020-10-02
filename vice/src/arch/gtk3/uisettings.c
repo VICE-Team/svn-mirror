@@ -53,6 +53,7 @@
 
 
 #include "vice.h"
+#include "config.h"
 
 #include <gtk/gtk.h>
 #include <stdio.h>
