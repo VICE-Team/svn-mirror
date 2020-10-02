@@ -44,19 +44,20 @@
 
 /** \brief  Determine if ethernet support is available for the current process
  *
+ * On Unix this checks if the effective UID is root, since libpcap only works while
+ * having root privileges. On Windows it checks for the DLL being loaded.
+ * MacOS is currently heaped together with UNIX, since I don't have a clue how pcap
+ * works on MacOS, nor if it is even avaiable.
+ *
  * \return  bool
  */
 bool archdep_ethernet_available(void)
 {
 #ifdef ARCHDEP_OS_UNIX
     /* On Linux pcap will only work with root, so we check the EUID for root */
-    uid_t id = geteuid();
-    /* printf("EUID = %u\n", (unsigned int)id); */
-    return id == 0;
+    return geteuid() == 0;
 #else
-    FARPROC p = GetProcAddress(GetModuleHandle(TEXT("pcap.dll")),
-                                               "pcap_file");
-    return p != NULL;
+    return GetModuleHandleA("WPCAP.DLL") != NULL;
 #endif
 }
 
