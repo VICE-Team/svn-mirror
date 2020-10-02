@@ -49,7 +49,7 @@
 # ifdef ARCHDEP_OS_BSD_FREE
 #  include <sys/sysctl.h>
 # endif
-# ifdef ARCHDEP_OS_OSX
+# ifdef ARCHDEP_OS_MACOS
 #  include <libproc.h>
 # endif
 #endif
@@ -210,7 +210,7 @@ const char *archdep_program_path(void)
      *      OpenBSD:    ??? (using argv[0] fallback)
      */
 
-# ifdef ARCHDEP_OS_OSX
+# ifdef ARCHDEP_OS_MACOS
 
     /* get path via libproc */
     pid_t pid = getpid();

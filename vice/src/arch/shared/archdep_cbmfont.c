@@ -49,7 +49,7 @@
  * \return    bool as int
  */
 
-#ifdef ARCHDEP_OS_OSX
+#ifdef ARCHDEP_OS_MACOS
 
 # include <CoreText/CTFontManager.h>
 

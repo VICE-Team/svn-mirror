@@ -74,7 +74,7 @@ typedef struct hotkey_info_s {
  */
 static const char *mod_control = "Control";
 
-#ifdef ARCHDEP_OS_OSX
+#ifdef ARCHDEP_OS_MACOS
 /** \brief  Label for the MOD_VICE modifier ('Option on MacOS)
  */
 static const char *mod_vice = "Option";
