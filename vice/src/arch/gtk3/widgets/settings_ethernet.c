@@ -34,6 +34,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "vice_gtk3.h"
 #include "resources.h"
@@ -44,6 +45,8 @@
 # include "rawnet.h"
 #endif
 #include "uisettings.h"
+#include "archdep_ethernet_available.h"
+
 
 #include "settings_ethernet.h"
 
@@ -189,6 +192,10 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 #ifdef HAVE_RAWNET
     GtkWidget *combo;
 #endif
+
+    bool available = archdep_ethernet_available();
+    debug_gtk3("Ethernet available = %s\n", available ? "True" : "False");
+
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
