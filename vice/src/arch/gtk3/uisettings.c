@@ -248,10 +248,10 @@ enum {
  * I/O extensions per emulator
  */
 
-/* {{{ c64_io_extensions */
-/** \brief  List of C64 I/O extensions (x64, x64sc)
+/* {{{ c64_cartridges */
+/** \brief  List of C64 cartidge settings (x64, x64sc)
  */
-static ui_settings_tree_node_t c64_io_extensions[] = {
+static ui_settings_tree_node_t c64_cartridges[] = {
     { "Memory Expansion Hacks",
       "mem-hacks",
       settings_io_c64_memhacks_widget_create, NULL },
@@ -334,14 +334,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
-    { "Userport devices",
-      "userport-devices",
-      userport_devices_widget_create, NULL },
-    { "Tape port devices",
-      "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
-
-    UI_SETTINGS_TERMINATOR
+     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -839,6 +832,12 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+   { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+    { "Tape port devices",
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -867,9 +866,9 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Peripheral devices",
       "peripheral", /* I'll misspell this many times */
       NULL, peripheral_nodes_c64 },
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, c64_io_extensions },
+    { "Cartridges",
+      "cartridges",
+      settings_io_widget_create, c64_cartridges },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
