@@ -307,9 +307,6 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
-    { "Burst Mode Modification",
-      "burstmode-mode",
-      burst_mode_widget_create, NULL },
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -337,10 +334,10 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 };
 /* }}} */
 
-/* {{{ scpu64_io_extensions */
+/* {{{ scpu64_cartridges */
 /** \brief  List of SuperCPU64 extensions (xscpu64)
  */
-static ui_settings_tree_node_t scpu64_io_extensions[] = {
+static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "GEO-RAM",
       "geo-ram",
       settings_io_georam_widget_create, NULL },
@@ -394,9 +391,6 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
-    { "Burst Mode Modification",
-      "burstmode-mode",
-      burst_mode_widget_create, NULL },
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -414,30 +408,18 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
     { "SFX Sound Sampler",
       "sfx-sampler",
       sfx_sound_sampler_widget_create, NULL },
-    { "CP/M Cartridge",
-      "cpm-cart",
-      cpm_widget_create, NULL },
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
       ds12c887_widget_create, NULL },
-    { "Userport devices",
-      "userport-devices",
-      userport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
-/* {{{ c128_io_extensions */
+/* {{{ c128_cartridges */
 /** \brief  I/O extensions for C128
  */
-static ui_settings_tree_node_t c128_io_extensions[] = {
-    { "Function ROM",
-      "function-rom",
-      c128_function_rom_widget_create, NULL },
-    { "Banks 2 & 3",
-      "banks-23",
-      c128_full_banks_widget_create, NULL },
+static ui_settings_tree_node_t c128_cartridges[] = {
     { "GEO-RAM",
       "geo-ram",
       settings_io_georam_widget_create, NULL },
@@ -491,9 +473,6 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "IEEE-448 Interface",
       "ieee-488",
       ieee488_widget_create, NULL },
-    { "Burst Mode Modification",
-      "burstmode-mode",
-      burst_mode_widget_create, NULL },
     { "DigiMAX",
       "digimax",
       digimax_widget_create, NULL },
@@ -517,21 +496,15 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "DS12C887 Real Time Clock",
       "ds12c887-rtc",
        ds12c887_widget_create, NULL },
-    { "Userport devices",
-      "userport-devices",
-      userport_devices_widget_create, NULL },
-    { "Tape port devices",
-      "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
-/* {{{ vic20_io_extensions */
+/* {{{ vic20_cartridges */
 /** \brief  List of VIC-20 I/O extensions
  */
-static ui_settings_tree_node_t vic20_io_extensions[] = {
+static ui_settings_tree_node_t vic20_cartridges[] = {
     { "Mega Cart",
       "mega-cart",
       mega_cart_widget_create, NULL },
@@ -544,18 +517,9 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "UltiMem",
       "ultimem",
       ultimem_widget_create, NULL },
-    { "SID Cartridge",
-      "sid-cart",
-      sidcart_widget_create, NULL },
     { "VIC-1112 IEEE-488 interface",
       "ieee-488",
       vic_ieee488_widget_create, NULL },
-    { "I/O RAM",
-      "io-ram",
-      vic_ioram_widget_create, NULL },
-    { "VFLI modification",
-      "vfli",
-      vfli_widget_create, NULL },
     { "DigiMAX (MasC=uerade",
       "digimax",
       digimax_widget_create, NULL },
@@ -581,12 +545,6 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
       "midi",
       midi_widget_create, NULL },
 #endif
-    { "Userport devices",
-      "userport-devices",
-      userport_devices_widget_create, NULL },
-    { "Tapeport devices",
-      "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -602,18 +560,12 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
     { "Digiblaster add-on",
       "digiblaster",
       plus4_digiblaster_widget_create, NULL },
-    { "SID Cartridge",
-      "sid-cart",
-      sidcart_widget_create, NULL },
     { "V364 Speech",
       "v364",
       v364_speech_widget_create, NULL },
-    { "Userport devices",
-      "userport-devices",
-      userport_devices_widget_create, NULL },
-    { "Tape port devices",
-      "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
+    { "SID Card",
+      "sid-card",
+      sidcart_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -635,18 +587,9 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET HRE hi-res graphics",
       "pet-hre",
       pet_hre_widget_create, NULL },
-    { "SID Cartridge",
-      "sid-cart",
+    { "SID Card",
+      "sid-card",
       sidcart_widget_create, NULL },
-    { "Userport devices",
-      "userport-devices",
-      userport_devices_widget_create, NULL },
-    { "Tape port devices",
-      "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
-    { "PET userport diagnostic pin",
-        "pet-diagpin",
-        pet_diagpin_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -654,28 +597,22 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
 /* {{{ cbm5x0_io_extensions */
 /** \brief  List of CBM 5x0 I/O extensions
  */
+#if 0
 static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
-    { "Tape port devices",
-      "tapeport-devices",
-      tapeport_devices_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+#endif
 /* }}} */
 
 /* {{{ cbm6x0_io_extensions */
 /** \brief  List of CBM 6x0 I/O extensions
  */
+#if 0
 static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
-    { "Userport devices",
-      "userport-devices",
-      userport_devices_widget_create, NULL },
-    { "Tape port devices",
-      "tapeport_devices",
-      tapeport_devices_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
+#endif
 /* }}} */
-
 
 /*
  * Main tree nodes per emulator
@@ -709,10 +646,12 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
       "rom-settings",
       settings_romset_widget_create, NULL },
 #endif
+#if 0
     /* XXX: perhaps required for VSID-specific things */
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -754,6 +693,9 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
+    { "Burst Mode Modification",
+      "burstmode-mode",
+      burst_mode_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -877,9 +819,11 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1004,9 +948,11 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
@@ -1039,6 +985,18 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "Function ROM",
+      "function-rom",
+      c128_function_rom_widget_create, NULL },
+    { "Banks 2 & 3",
+      "banks-23",
+      c128_full_banks_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
+    { "Burst Mode Modification",
+      "burstmode-mode",
+      burst_mode_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -1125,6 +1083,12 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+    { "Tape port devices",
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1153,15 +1117,17 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
     { "Peripheral devices",
        "peripheral", /* I'll misspell this many times */
        NULL, peripheral_nodes_c128 },
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, c128_io_extensions },
+    { "Cartridges",
+      "cartridges",
+      NULL, c128_cartridges },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1193,6 +1159,12 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
+    { "Burst Mode Modification",
+      "burstmode-mode",
+      burst_mode_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -1275,6 +1247,9 @@ static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1293,16 +1268,17 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
     { "Audio",              "audio",        NULL,   audio_nodes_scpu64 },
     { "Input devices",      "input",        NULL,   input_nodes_scpu64 },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_scpu64 },
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, scpu64_io_extensions },
+    { "Cartridges",
+      "cartridges",
+      NULL, scpu64_cartridges },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
-
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1331,6 +1307,18 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
+    { "I/O RAM",
+      "io-ram",
+      vic_ioram_widget_create, NULL },
+    { "VFLI modification",
+      "vfli",
+      vfli_widget_create, NULL },
+    { "SID Card",
+      "sid-card",
+      sidcart_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -1413,6 +1401,12 @@ static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+    { "Tapeport devices",
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1432,14 +1426,16 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
     { "Audio",              "audio",        NULL,   audio_nodes_vic20 },
     { "Input devices",      "input",        NULL,   input_nodes_vic20 },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_vic20 },
-    { "I/O extensions",     "io-extensions",
-      settings_io_widget_create, vic20_io_extensions },
+    { "Cartridges",         "cartridges",
+      NULL, vic20_cartridges },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1467,6 +1463,9 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
     { "Monitor",
       "monitor",
        settings_monitor_widget_create, NULL },
@@ -1549,6 +1548,12 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+    { "Tape port devices",
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
@@ -1570,15 +1575,17 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "Audio",              "audio",        NULL,   audio_nodes_plus4 },
     { "Input devices",      "input",        NULL,   input_nodes_plus4 },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_plus4 },
-    { "I/O extensions",
+    { "I/O Extensions",
       "io-extensions",
-      settings_io_widget_create, plus4_io_extensions },
+      NULL, plus4_io_extensions },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1604,6 +1611,12 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "PET userport diagnostic pin",
+        "pet-diagpin",
+        pet_diagpin_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -1686,10 +1699,18 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+    { "Tape port devices",
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
+#if 0 /* not implemented/supported */
 #ifdef HAVE_RAWNET
     { "Ethernet",
       "ethernet",
       settings_ethernet_widget_create, NULL },
+#endif
 #endif
     UI_SETTINGS_TERMINATOR
 };
@@ -1705,13 +1726,15 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
     { "Input devices",      "input",        NULL,   input_nodes_pet },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_pet },
     { "I/O extensions", "io-extensions",
-      settings_io_widget_create, pet_io_extensions },
+      NULL, pet_io_extensions },
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1720,10 +1743,6 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
 /*****************************************************************************
  *                  CBM5x0 tree nodes for the settings UI                    *
  ****************************************************************************/
-
-/** \brief  Alias for the nodes list terminator
- */
-#define ARNIE UI_SETTINGS_TERMINATOR
 
 /* {{{ machine_nodes_cbm5x0 */
 /** \brief  Child nodes for the CBM5x0 'Machine' node
@@ -1744,10 +1763,13 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1764,7 +1786,7 @@ static ui_settings_tree_node_t display_nodes_cbm5x0[] = {
     { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1781,7 +1803,7 @@ static ui_settings_tree_node_t audio_nodes_cbm5x0[] = {
     { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1801,7 +1823,7 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
     { "Mouse",
       "mouse",
       settings_mouse_widget_create, NULL },
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1826,8 +1848,11 @@ static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+    { "Tape port devices",
+      "tapeport-devices",
+      tapeport_devices_widget_create, NULL },
 
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1840,15 +1865,17 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
     { "Audio",              "audio",        NULL,   audio_nodes_cbm5x0 },
     { "Input devices",      "input",        NULL,   input_nodes_cbm5x0 },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_cbm5x0 },
-    { "I/O extensions", "io-extensions",
-      settings_io_widget_create, cbm5x0_io_extensions },
+#if 0
+    { "I/O extensions", "io-extensions",    NULL, cbm5x0_io_extensions },
+#endif
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
-
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1873,10 +1900,13 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1893,7 +1923,7 @@ static ui_settings_tree_node_t display_nodes_cbm6x0[]= {
     { "CRT",
       "CRT",
       settings_crt_widget_create, NULL },
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1910,7 +1940,7 @@ static ui_settings_tree_node_t audio_nodes_cbm6x0[] = {
     { "Sampler",
       "sampler",
       settings_sampler_widget_create, NULL },
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1931,7 +1961,7 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
       "mouse",
       settings_mouse_widget_create, NULL },
 
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1956,8 +1986,14 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
       "rs232",
       settings_rs232_widget_create, NULL },
 #endif
+    { "Userport devices",
+      "userport-devices",
+      userport_devices_widget_create, NULL },
+    { "Tape port devices",
+      "tapeport_devices",
+      tapeport_devices_widget_create, NULL },
 
-    ARNIE
+    UI_SETTINGS_TERMINATOR
 };
 /* }}} */
 
@@ -1970,15 +2006,17 @@ static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
     { "Audio",              "audio",        NULL,   audio_nodes_cbm6x0 },
     { "Input devices",      "input",        NULL,   input_nodes_cbm6x0 },
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_cbm6x0 },
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, cbm6x0_io_extensions },
+#if 0
+    { "I/O extensions",     "io-extensions",NULL, cbm6x0_io_extensions },
+#endif
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+#if 0
     { "Emulator",
       "misc",
       settings_misc_widget_create, NULL },
+#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
