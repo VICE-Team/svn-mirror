@@ -36,7 +36,8 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-
+#include "archdep_defs.h"
+#include "archdep_ethernet_available.h"
 #include "basedialogs.h"
 #include "basewidgets.h"
 #include "cartridge.h"
@@ -212,6 +213,7 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
     base_widget = create_cartridge_base_widget();
     gtk_grid_attach(GTK_GRID(grid), base_widget, 1, row, 1, 1);
 
+    gtk_widget_set_sensitive(grid, archdep_ethernet_available());
     gtk_widget_show_all(grid);
     return grid;
 }

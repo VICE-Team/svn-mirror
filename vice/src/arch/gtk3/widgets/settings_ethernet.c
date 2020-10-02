@@ -44,6 +44,7 @@
 #ifdef HAVE_RAWNET
 # include "rawnet.h"
 #endif
+#include "archdep_defs.h"
 #include "uisettings.h"
 #include "archdep_ethernet_available.h"
 
@@ -191,11 +192,9 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     char *text;
 #ifdef HAVE_RAWNET
     GtkWidget *combo;
-#endif
-
     bool available = archdep_ethernet_available();
     debug_gtk3("Ethernet available = %s\n", available ? "True" : "False");
-
+#endif
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
@@ -229,6 +228,27 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     combo = create_device_combo();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+
+    if (!available) {
+        gtk_widget_set_sensitive(combo, FALSE);
+        label = gtk_label_new(NULL);
+# ifdef ARCHDEP_OS_UNIX
+        gtk_label_set_markup(GTK_LABEL(label),
+                "<i>VICE needs to be run as <tt>root</tt> to be able to use ethernet emulation.</i>");
+# elif defined(ARCHDEP_OS_WINDOWS)
+        gtk_label_set_markup(GTK_LABEL(label),
+                "<i><tt>wpcap.dll</tt> not found, please install WinPCAP to use ethernet emulation.</i>");
+# else
+        gtk_label_set_markup(GTK_LABEL(label),
+                "<i>Ethernet emulation disabled due to unsupported OS.</i>");
+# endif
+        g_object_set(label, "margin-left", 16, NULL);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 2, 1);
+    }
+
+
+
 
 #else
     label = gtk_label_new("Ethernet not supported, please compile with "
