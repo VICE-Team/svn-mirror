@@ -57,6 +57,7 @@
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
+#include "monitor.h"
 #include "rotation.h"
 #include "types.h"
 #include "via.h"
@@ -145,7 +146,18 @@ uint8_t via2d_peek(diskunit_context_t *ctxptr, uint16_t addr)
 
 int via2d_dump(diskunit_context_t *ctxptr, uint16_t addr)
 {
+    const int speeds[4] = {250000, 266667, 285714, 307692};
+    drivevia2_context_t *via2p = (drivevia2_context_t *)(ctxptr->via2->prv);
+    drive_t *drv = via2p->drive;
+    int track_number = drv->current_half_track;
+    int zone = (ctxptr->via2->via[VIA_PRB] >> 5) & 3;
+
     viacore_dump(ctxptr->via2);
+    mon_out("\nHead is on track: %d.%d (%s at %dbps, speed zone %d)\n", 
+            track_number / 2, (track_number & 1) * 5,
+            ((ctxptr->via2->via[VIA_PCR] & 0xe0) == 0xe0) ? "reading" : "writing",
+            speeds[zone], zone
+           );
     return 0;
 }
 
