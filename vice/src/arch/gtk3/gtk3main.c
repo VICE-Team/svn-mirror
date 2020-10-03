@@ -40,8 +40,12 @@
 #include "ui.h"
 #include "video.h"
 
-#if defined(USE_VICE_THREAD) && defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
 #include <X11/Xlib.h>
+#endif
+
+#if defined(WIN32_COMPILE)
+#include <objbase.h>
 #endif
 
 /* For the ugly hack below */
@@ -86,6 +90,11 @@ int main(int argc, char **argv)
     XInitThreads();
 #endif
 
+#if defined(WIN32_COMPILE)
+    /* Something on the main thread does something with COM that causes complaint in a debugger. */
+    CoInitializeEx(NULL, COINIT_MULTITHREADED);
+#endif
+
     /*
      * The exit code needs to know what thread is the main thread, so that if
      * archdep_vice_exit() is called from any other thread, it knows it needs
@@ -122,4 +131,8 @@ void main_exit(void)
     vice_thread_shutdown();
     
     machine_shutdown();
+
+#if defined(WIN32_COMPILE)
+    CoUninitialize();
+#endif
 }

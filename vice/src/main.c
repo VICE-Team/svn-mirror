@@ -37,9 +37,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
-#include <objbase.h>
-#endif
 #ifdef USE_VICE_THREAD
 #include <pthread.h>
 #endif
@@ -111,12 +108,6 @@ int main_program(int argc, char **argv)
     int loadconfig = 1;
     char term_tmp[TERM_TMP_SIZE];
     size_t name_len;
-
-#if defined(ARCHDEP_OS_WINDOWS) && defined(USE_NATIVE_GTK3)
-    /* Something on the main thread does something with COM that causes complaint in a debugger. */
-    CoInitializeEx(NULL, COINIT_MULTITHREADED);
-    archdep_vice_atexit(shutdown_com);
-#endif
 
     lib_init();
 
@@ -363,10 +354,3 @@ void *vice_thread_main(void *unused)
 }
 
 #endif /* #ifdef USE_VICE_THREAD */
-
-#if defined(WIN32_COMPILE) && defined(USE_NATIVE_GTK3)
-static void shutdown_com(void)
-{
-    CoUninitialize();
-}
-#endif
