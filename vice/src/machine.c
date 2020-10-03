@@ -43,6 +43,7 @@
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
+#include "initcmdline.h"
 #include "interrupt.h"
 #include "joy.h"
 #include "kbdbuf.h"
@@ -338,6 +339,7 @@ void machine_shutdown(void)
     console_close_all();
 
     cmdline_shutdown();
+    initcmdline_shutdown();
 
     resources_shutdown();
 

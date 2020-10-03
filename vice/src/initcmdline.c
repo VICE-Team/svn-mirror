@@ -85,7 +85,7 @@ static void cmdline_free_autostart_string(void)
     autostart_string = NULL;
 }
 
-static void cmdline_free_startup_images(void)
+void initcmdline_shutdown(void)
 {
     int unit;
 
@@ -313,7 +313,6 @@ int initcmdline_init(void)
         }
     }
 
-    archdep_vice_atexit(cmdline_free_startup_images);
     return 0;
 }
 
