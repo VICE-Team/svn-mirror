@@ -130,6 +130,11 @@ static int cmdline_config(const char *param, void *extra_param)
     return 0;
 }
 
+static int cmdline_add_config(const char *param, void *extra_param)
+{
+    return resources_load(param);
+}
+
 static int cmdline_dumpconfig(const char *param, void *extra_param)
 {
     return resources_dump(param);
@@ -239,6 +244,9 @@ static const cmdline_option_t common_cmdline_options[] =
     { "-config", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_config, NULL, NULL, NULL,
       "<filename>", "Specify config file" },
+    { "-addconfig", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cmdline_add_config, NULL, NULL, NULL,
+      "<filename>", "Specify extra config file for loading additional resources." },
     { "-dumpconfig", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_dumpconfig, NULL, NULL, NULL,
       "<filename>", "Dump all resources to specified config file" },

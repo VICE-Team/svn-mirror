@@ -1299,6 +1299,11 @@ specified afterwards on the command line.
 @item -config <filename>
 Specify config file
 
+@findex -addconfig
+@item -addconfig <filename>
+Specify extra config file for loading additional resources. This can be used to
+add "patch sets" for various configurations.
+
 @findex -dumpconfig
 @item -dumpconfig <filename>
 Write the complete config into file. Normally only resources that have been
