@@ -85,9 +85,6 @@ void *vice_thread_main(void *);
 static pthread_t vice_thread;
 #endif
 
-#if defined(ARCHDEP_OS_WINDOWS) && defined(USE_NATIVE_GTK3)
-static void shutdown_com(void);
-#endif
 
 /** \brief  Size of buffer used to write core team members' names to log/stdout
  *
