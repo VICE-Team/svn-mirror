@@ -56,7 +56,7 @@
 # include "windows.h"
 #endif
 
-#include "archdep_atexit.h"
+#include "archdep_exit.h"
 #include "archdep_program_path.h"
 
 #include "archdep_program_name.h"

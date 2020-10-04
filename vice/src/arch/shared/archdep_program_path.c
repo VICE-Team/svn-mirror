@@ -60,7 +60,7 @@
 # include <direct.h>
 #endif
 
-#include "archdep_atexit.h"
+#include "archdep_exit.h"
 #include "archdep_join_paths.h"
 #include "archdep_path_is_relative.h"
 

@@ -53,6 +53,7 @@ static UI_MENU_CALLBACK(monitor_callback)
 
 #ifdef ALLOW_NATIVE_MONITOR
 UI_MENU_DEFINE_TOGGLE(NativeMonitor)
+UI_MENU_DEFINE_TOGGLE(RefreshOnBreak)
 #endif
 
 #ifdef HAVE_NETWORK
@@ -78,6 +79,10 @@ const ui_menu_entry_t monitor_menu[] = {
     { "Native monitor",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_NativeMonitor_callback,
+      NULL },
+    { "Refresh display(s) after monitor command",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RefreshOnBreak_callback,
       NULL },
 #endif
 #ifdef HAVE_NETWORK

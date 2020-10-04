@@ -55,7 +55,7 @@
 
 /* #define T6721DEBUG */
 
-#define WRITEWAVFILE 0 /* write "test.wav" containing all generated output */
+#define WRITEWAVFILE 1 /* write "test.wav" containing all generated output */
 
 #ifdef T6721DEBUG
 #define DBG(x) DBG_STATUS(); printf x;
@@ -245,7 +245,7 @@ static int wav_create_file(const char *filename)
         return 1;
     }
 
-    archdep_vice_atexit(wav_close_file);
+    atexit(wav_close_file);
     return write_header();
 }
 

@@ -31,7 +31,7 @@
 #include "log.h"
 #include "ioutil.h"
 #include "util.h"
-#include "archdep_atexit.h"
+#include "archdep_exit.h"
 #include "archdep_boot_path.h"
 #include "archdep_join_paths.h"
 

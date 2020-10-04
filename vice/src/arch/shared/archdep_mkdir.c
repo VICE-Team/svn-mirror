@@ -42,7 +42,7 @@
 # include <direct.h>
 #endif
 
-#include "archdep_atexit.h"
+#include "archdep_exit.h"
 #include "log.h"
 
 #include "archdep_mkdir.h"

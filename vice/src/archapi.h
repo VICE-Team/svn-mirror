@@ -83,7 +83,6 @@ void        archdep_default_sysfile_pathlist_free(void);
 char *      archdep_extra_title_text(void);
 void        archdep_extra_title_text_free(void);
 
-int         archdep_vice_atexit(void (*function)(void));
 void        archdep_vice_exit(int excode);
 
 #ifdef USE_NATIVE_GTK3

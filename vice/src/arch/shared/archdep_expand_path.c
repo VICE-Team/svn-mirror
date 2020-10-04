@@ -38,7 +38,7 @@
 #include "util.h"
 #include "archdep_defs.h"
 
-#include "archdep_atexit.h"
+#include "archdep_exit.h"
 #include "archdep_home_path.h"
 
 /* TODO:    Include required headers for AmigaOS */

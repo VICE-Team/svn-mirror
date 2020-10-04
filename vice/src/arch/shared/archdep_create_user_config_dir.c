@@ -35,7 +35,7 @@
 
 #include "lib.h"
 #include "log.h"
-#include "archdep_atexit.h"
+#include "archdep_exit.h"
 #include "archdep_home_path.h"
 #include "archdep_join_paths.h"
 #include "archdep_mkdir.h"

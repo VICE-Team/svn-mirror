@@ -309,9 +309,9 @@ int archdep_init(int *argc, char **argv)
      * I'm not sure this actually registers SDL_Quit() as the last atexit()
      * call, but it appears to work at least (BW)
      */
-    if (archdep_vice_atexit(SDL_Quit) != 0) {
+    if (atexit(SDL_Quit) != 0) {
         log_error(LOG_ERR,
-                "failed to register SDL_Quit() with archdep_vice_atexit().");
+                "failed to register SDL_Quit() with atexit().");
         archdep_vice_exit(1);
     }
 

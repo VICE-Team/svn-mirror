@@ -1,6 +1,7 @@
-/** \file   archdep_path_is_relative.c
- * \brief   Determine if a path is relative
+/** \file   archdep_exit.h
+ * \brief   atexit(3) work arounds - header
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Blacky Stardust
  */
 
 /*
@@ -24,45 +25,13 @@
  *
  */
 
+#ifndef ARCHDEP_EXIT_H
+#define ARCHDEP_EXIT_H
 
-#include "vice.h"
-#include "archdep_defs.h"
+void    archdep_vice_exit(int excode);
 
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-#include "archdep_exit.h"
-#include "log.h"
-
-#include "archdep_path_is_relative.h"
-
-
-/** \brief  Determine if \a path is a relative path
- *
- * \param[in]   path    pathname
- *
- * \return  bool
- */
-int archdep_path_is_relative(const char *path)
-{
-    if (path == NULL || *path == '\0') {
-        return 1;   /* yup, */
-    }
-
-#if defined(UNIX_COMPILE) || defined(BEOS_COMPILE)
-    return *path != '/';
-#elif defined(WIN32_COMPILE)
-    if (*path == '\\' || *path == '/') {
-        return 0;
-    }
-    if (isalpha(path[0]) && path[1] == ':' &&
-            (path[2] == '\\' || path[2] == '/')) {
-        return 0;
-    }
-    return 1;
-#else
-    log_error(LOG_ERR, "system not supported.");
-    archdep_vice_exit(1);
+#ifdef USE_NATIVE_GTK3
+void    archdep_set_main_thread(void);
 #endif
-}
+
+#endif

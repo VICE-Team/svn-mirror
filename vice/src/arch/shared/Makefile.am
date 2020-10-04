@@ -33,7 +33,6 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libarchdep.a
 
 libarchdep_a_SOURCES = \
-	archdep_atexit.c \
 	archdep_boot_path.c \
 	archdep_cbmfont.c \
 	archdep_create_user_cache_dir.c \
@@ -48,6 +47,7 @@ libarchdep_a_SOURCES = \
 	archdep_default_rtc_file_name.c \
 	archdep_default_sysfile_pathlist.c \
 	archdep_ethernet_available.c \
+	archdep_exit.c \
 	archdep_expand_path.c \
 	archdep_extra_title_text.c \
 	archdep_file_exists.c \
@@ -100,7 +100,6 @@ libarchdep_a_SOURCES = \
 
 EXTRA_DIST = \
 	archdep_defs.h \
-	archdep_atexit.h \
 	archdep_boot_path.h \
 	archdep_cbmfont.h \
 	archdep_create_user_cache_dir.h \
@@ -115,6 +114,7 @@ EXTRA_DIST = \
 	archdep_default_rtc_file_name.h \
 	archdep_default_sysfile_pathlist.h \
 	archdep_ethernet_available.h \
+	archdep_exit.h \
 	archdep_expand_path.h \
 	archdep_extra_title_text.h \
 	archdep_file_exists.h \
