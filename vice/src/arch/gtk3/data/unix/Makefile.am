@@ -197,6 +197,12 @@ $(VSID_DESKTOP): emu.desktop
 install-data-hook: $(VICE_DIR_FILE) $(VICE_DESKTOP_FILES)
 	$(XDG_DESKTOP_MENU) install "$(VICE_DIR_FILE)" $(VICE_DESKTOP_FILES)
 
+# Seems GNU disapproves of this, but it works to uninstall the .desktop/.directory
+# files.
+uninstall-hook: $(VICE_DIR_FILE) $(VICE_DESKTOP_FILES)
+	$(XDG_DESKTOP_MENU) uninstall "$(VICE_DIR_FILE)" $(VICE_DESKTOP_FILES)
+
+
 # if INSTALL_DESKTOP_FILES
 endif
 # if !UNIX_MACOSX_COMPILE
