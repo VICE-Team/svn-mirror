@@ -48,8 +48,6 @@ extern float lib_float_rand(float min, float max);
 extern char *lib_msprintf(const char *fmt, ...);
 extern char *lib_mvsprintf(const char *fmt, va_list args);
 
-extern void lib_debug_check(void);
-
 #ifdef LIB_DEBUG_PINPOINT
 extern void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line);
 extern void *lib_calloc_pinpoint(size_t nmemb, size_t size, const char *name, unsigned int line);

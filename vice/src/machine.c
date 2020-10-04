@@ -380,8 +380,6 @@ void machine_shutdown(void)
     monitor_resources_shutdown();
 
     archdep_shutdown();
-
-    lib_debug_check();
 }
 
 /* --------------------------------------------------------- */

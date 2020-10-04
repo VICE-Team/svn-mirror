@@ -3349,7 +3349,6 @@ static int quit_cmd(int nargs, char **args)
     if (interactive_mode) {
         archdep_shutdown();
         log_close_all();    /* do we need this? */
-        lib_debug_check();
     }
     exit(0);
     return 0;   /* OSF1 cc complains */
@@ -5416,9 +5415,7 @@ int main(int argc, char **argv)
     archdep_shutdown();
     /* free memory used by the log module */
     log_close_all();
-
-    /* dump some information on memory allocations and possible memory leaks */
-    lib_debug_check();
+    
     return retval;
 }
 

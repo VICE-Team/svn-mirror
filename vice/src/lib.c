@@ -101,6 +101,8 @@ static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /*----------------------------------------------------------------------------*/
 
+static void lib_debug_check(void);
+
 #ifdef DEBUG
 static void lib_debug_init(void)
 {
@@ -116,6 +118,9 @@ static void lib_debug_init(void)
     memset(lib_debug_line, 0, sizeof(lib_debug_line));
     memset(lib_debug_top_size, 0, sizeof(lib_debug_top_size));
 #endif
+
+    /* Check for memory leaks on exit. */
+    atexit(lib_debug_check);
 }
 #endif
 
@@ -459,7 +464,7 @@ static void lib_debug_leaklist_add(unsigned int index)
 #endif
 #endif
 
-void lib_debug_check(void)
+static void lib_debug_check(void)
 {
 #ifdef LIB_DEBUG
     unsigned int index, count;
