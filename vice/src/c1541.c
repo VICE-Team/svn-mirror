@@ -134,48 +134,6 @@
  */
 const char p00_header[] = "C64File";
 
-
-
-/* mostly useless crap, should go into c1541.h */
-#if 0
-void enable_text(void);
-void disable_text(void);
-int machine_bus_device_attach(unsigned int device, const char *name,
-                              int (*getf)(vdrive_t *, uint8_t *, unsigned int,
-                                          struct cbmdos_cmd_parse_s *),
-                              int (*putf)(vdrive_t *, uint8_t, unsigned int),
-                              int (*openf)(vdrive_t *, const char *, int,
-                                           unsigned int),
-                              int (*closef)(vdrive_t *, unsigned int),
-                              void (*flushf)(vdrive_t *, unsigned int),
-                              void (*listenf)(vdrive_t *, unsigned int));
-
-struct vdrive_s *file_system_get_vdrive(unsigned int unit);
-void ui_error_string(const char *text);
-void vsync_suspend_speed_eval(void);
-#endif
-#if 0
-struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
-int machine_bus_lib_directory(unsigned int unit, const char *pattern, uint8_t **buf);
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf);
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf);
-unsigned int machine_bus_device_type_get(unsigned int unit);
-void machine_drive_flush(void);
-const char *machine_get_name(void);
-#endif
-
-/** \brief  Machine name
- */
-const char machine_name[] = "C1541";
-
-/** \brief  Machine class
- */
-int machine_class = VICE_MACHINE_C1541;
-
-/** \brief  Array of virtual drives
- */
-static vdrive_t *drives[NUM_DISK_UNITS] = { NULL, NULL, NULL, NULL };
-
 /** \brief  Flags for each virtual drive indicating P00 mode
  *
  * When zero, reading files from the host OS is done with FILEIO_MODE_RAW, if
@@ -256,62 +214,23 @@ static int fix_ts(int unit, unsigned int trk, unsigned int sec,
                   unsigned int blk_offset);
 static int internal_write_geos_file(int unit, FILE* f);
 
-
 /* ------------------------------------------------------------------------- */
 
-/* dummy functions */
-int cmdline_register_options(const cmdline_option_t *c)
-{
-    printf("I fart in your general direction!\n");
-    return 0;
-}
+/** \brief  Array of virtual drives
+ *
+ * FIXME: this should be in c1541-stubs.c
+ *
+ */
+static vdrive_t *drives[NUM_DISK_UNITS] = { NULL, NULL, NULL, NULL };
 
-int network_connected(void)
+struct vdrive_s *file_system_get_vdrive(unsigned int unit)
 {
-    printf("I fart in your general direction!\n");
-    return 0;
-}
+    if (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX) {
+        printf("Wrong unit for vdrive");
+        return NULL;
+    }
 
-int network_get_mode(void)
-{
-    printf("I fart in your general direction!\n");
-#if 0
-    return NETWORK_IDLE;
-#else
-    return 0;
-#endif
-}
-
-void network_event_record(unsigned int type, void *data, unsigned int size)
-{
-    printf("I fart in your general direction!\n");
-}
-
-void event_record_in_list(event_list_state_t *list, unsigned int type,
-                          void *data, unsigned int size)
-{
-    printf("I fart in your general direction!\n");
-}
-
-void ui_error(const char *format, ...)
-{
-    printf("I fart in your general direction!\n");
-}
-
-void main_exit(void)
-{
-    printf("I fart in your general direction!\n");
-}
-
-bool mainlock_is_vice_thread(void)
-{
-    printf("I fart in your general direction!\n");
-    return false;
-}
-
-void mainlock_initiate_shutdown(void)
-{
-    printf("I fart in your general direction!\n");
+    return drives[unit - 8];
 }
 
 /* ------------------------------------------------------------------------- */
@@ -5415,7 +5334,7 @@ int main(int argc, char **argv)
     archdep_shutdown();
     /* free memory used by the log module */
     log_close_all();
-    
+
     return retval;
 }
 
@@ -5476,116 +5395,4 @@ static int pwd_cmd(int nargs, char **args)
     ioutil_getcwd(buffer, (int)(sizeof(buffer) - 1));
     printf("%s\n", buffer);
     return FD_OK;
-}
-
-
-/* ------------------------------------------------------------------------- */
-/* FIXME: Can we get rid of this stuff?  */
-
-void enable_text(void)
-{
-}
-
-void disable_text(void)
-{
-}
-
-int machine_bus_device_attach(unsigned int device, const char *name,
-                              int (*getf)(vdrive_t *, uint8_t *, unsigned int,
-                                          struct cbmdos_cmd_parse_s *),
-                              int (*putf)(vdrive_t *, uint8_t, unsigned int),
-                              int (*openf)(vdrive_t *, const char *, int,
-                                           unsigned int),
-                              int (*closef)(vdrive_t *, unsigned int),
-                              void (*flushf)(vdrive_t *, unsigned int),
-                              void (*listenf)(vdrive_t *, unsigned int))
-{
-    return 0;
-}
-
-struct vdrive_s *file_system_get_vdrive(unsigned int unit)
-{
-    if (unit < DRIVE_UNIT_MIN || unit > DRIVE_UNIT_MAX) {
-        printf("Wrong unit for vdrive");
-        return NULL;
-    }
-
-    return drives[unit - 8];
-}
-
-snapshot_module_t *snapshot_module_create(snapshot_t *s, const char *name, uint8_t major_version, uint8_t minor_version)
-{
-    return NULL;
-}
-
-snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, uint8_t *major_version_return, uint8_t *minor_version_return)
-{
-    return NULL;
-}
-
-int snapshot_module_close(snapshot_module_t *m)
-{
-    return 0;
-}
-
-int snapshot_module_read_dword_into_int(snapshot_module_t *m, int *value_return)
-{
-    return 0;
-}
-
-int snapshot_module_read_dword_into_uint(snapshot_module_t *m, unsigned int *value_return)
-{
-    return 0;
-}
-
-void ui_error_string(const char *text)
-{
-}
-
-void vsync_suspend_speed_eval(void)
-{
-}
-
-struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
-{
-    return diskcontents_iec_read(unit);
-}
-
-int machine_bus_lib_directory(unsigned int unit, const char *pattern, uint8_t **buf)
-{
-    return serial_iec_lib_directory(unit, pattern, buf);
-}
-
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf)
-{
-    return serial_iec_lib_read_sector(unit, track, sector, buf);
-}
-
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf)
-{
-    return serial_iec_lib_write_sector(unit, track, sector, buf);
-}
-
-unsigned int machine_bus_device_type_get(unsigned int unit)
-{
-    return serial_device_type_get(unit);
-}
-
-void machine_drive_flush(void)
-{
-}
-
-const char *machine_get_name(void)
-{
-    return machine_name;
-}
-
-uint8_t machine_tape_behaviour(void)
-{
-    return TAPE_BEHAVIOUR_NORMAL;
-}
-
-char *kbd_get_menu_keyname(void)
-{
-    return NULL;
 }

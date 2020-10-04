@@ -2231,6 +2231,7 @@ xcbm5x0-all: \
 # c1541
 c1541_SOURCES = \
 	c1541.c \
+	c1541-stubs.c \
 	cbmdos.c \
 	charset.c \
 	findpath.c \
@@ -2291,6 +2292,7 @@ petcat_SOURCES = \
 	lib.c \
 	log.c \
 	petcat.c \
+	petcat-stubs.c \
 	rawfile.c \
 	resources.c \
 	util.c \

@@ -907,26 +907,6 @@ static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, 
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * Stubs needed due to archdep_exit functionality that
- * needs to call back into vice
- */
-
-void main_exit(void)
-{
-}
-
-bool mainlock_is_vice_thread(void)
-{
-    return false;
-}
-
-void mainlock_initiate_shutdown(void)
-{
-}
-
-/* ------------------------------------------------------------------------- */
-
 static FILE *source, *dest;
 static unsigned int kwlen = 0;
 static int codesnocase = 0; /* flag, =1 if controlcodes should be interpreted case insensitive */
@@ -1079,14 +1059,14 @@ int main(int argc, char **argv)
     if (ctrls < 0) {
         ctrls = (textmode ? 0 : 1);     /*default ON for prgs, OFF for text */
     }
-	
+
 #ifdef ARCHDEP_OS_WINDOWS
-	/* HACK: when outputting a prg to stdout, switch stdout to binary mode, 
-	   else redirecting the binary output to a file will result in a broken 
-	   file due to translation of the line endings. */
-	if (!outf && !textmode) {
-		_setmode(STDOUT_FILENO, _O_BINARY);
-	}
+    /* HACK: when outputting a prg to stdout, switch stdout to binary mode, 
+       else redirecting the binary output to a file will result in a broken 
+       file due to translation of the line endings. */
+    if (!outf && !textmode) {
+        _setmode(STDOUT_FILENO, _O_BINARY);
+    }
 #endif
 
     if (!load_addr) {
@@ -2393,58 +2373,4 @@ static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int tok
     } /* for */
 
     return (unsigned char)retval;
-}
-
-/* ------------------------------------------------------------------------- */
-/* dummy functions
-
-   FIXME: these really shouldnt be needed here and are a sign of bad modular
-          design elsewhere
- */
-const char machine_name[] = "PETCAT";
-int machine_class = VICE_MACHINE_PETCAT;
-
-const char *machine_get_name(void)
-{
-    return machine_name;
-}
-
-int cmdline_register_options(const cmdline_option_t *c)
-{
-    return 0;
-}
-
-int network_connected(void)
-{
-    return 0;
-}
-
-int network_get_mode(void)
-{
-#if 0
-    return NETWORK_IDLE;
-#else
-    return 0;
-#endif
-}
-
-void network_event_record(unsigned int type, void *data, unsigned int size)
-{
-}
-
-void event_record_in_list(event_list_state_t *list, unsigned int type, void *data, unsigned int size)
-{
-}
-
-void ui_error_string(const char *text) /* win32 needs this */
-{
-}
-
-void ui_error(const char *format, ...) /* SDL on mingw32 needs this */
-{
-}
-
-char *kbd_get_menu_keyname(void)
-{
-    return NULL;
 }
