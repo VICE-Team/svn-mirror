@@ -121,6 +121,7 @@ darwin*)
   CFLAGS="$CFLAGS -mmacosx-version-min=10.9"
   OBJCFLAGS="$OBJCFLAGS -mmacosx-version-min=10.9"
   CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.9"
+  LDFLAGS="$LDFLAGS -mmacosx-version-min=10.9"
   ;;
 *)
   ;;

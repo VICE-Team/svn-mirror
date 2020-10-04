@@ -897,11 +897,16 @@ darwin*)
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
 
+  dnl target OSX 10.9
+  VICE_CFLAGS="$VICE_CFLAGS -mmacosx-version-min=10.9"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=10.9"
+  VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=10.9"
+
   if test -z "$user_cflags" ; then
     if test x"$GCC" = "xyes" ; then
       warnings_cxx="-Wall -Winline"
       warnings_c="-Wstrict-prototypes $warnings_cxx"
-      optimization_c="-O3 -mmacosx-version-min=10.9 $march"
+      optimization_c="-O3 $march"
       optimization_cxx="-fno-exceptions $optimization_c"
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
         VICE_CFLAGS="$VICE_CFLAGS -g $optimization_c $warnings_c"
@@ -929,8 +934,8 @@ darwin*)
   HAVE_LIGHTPEN_SUPPORT="yes"
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
-  VICE_CFLAGS="$VICE_CFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include"
-  VICE_CXXFLAGS="$VICE_CXXFLAGS -DGL_SILENCE_DEPRECATION -I/opt/local/include -I/usr/local/include"
+  VICE_CFLAGS="$VICE_CFLAGS -I/opt/local/include -I/usr/local/include"
+  VICE_CXXFLAGS="$VICE_CXXFLAGS -I/opt/local/include -I/usr/local/include"
   VICE_LDFLAGS="$VICE_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
   
   FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
