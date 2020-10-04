@@ -101,9 +101,9 @@ static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /*----------------------------------------------------------------------------*/
 
+#ifdef DEBUG
 static void lib_debug_check(void);
 
-#ifdef DEBUG
 static void lib_debug_init(void)
 {
     memset(lib_debug_address, 0, sizeof(lib_debug_address));
@@ -464,6 +464,7 @@ static void lib_debug_leaklist_add(unsigned int index)
 #endif
 #endif
 
+#ifdef DEBUG
 static void lib_debug_check(void)
 {
 #ifdef LIB_DEBUG
@@ -545,6 +546,7 @@ static void lib_debug_check(void)
 
 #endif
 }
+#endif
 
 /*----------------------------------------------------------------------------*/
 /* like malloc, but abort on out of memory. */
