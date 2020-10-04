@@ -227,6 +227,8 @@ static char* append_string_to_input_buffer(char *old_input_buffer, GtkWidget *te
             if (*char_in >= 32) {
 #endif
                 *char_out++ = *char_in;
+            } else if (*char_in == 10) {
+                *char_out++ = 13;
             }
         }
         *char_out = 0;
@@ -920,7 +922,9 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         return uimonfb_get_in(ppchCommandLine, prompt);
     }
 
-    fixed.input_buffer = lib_strdup("");;
+    if (!fixed.input_buffer) {
+        fixed.input_buffer = lib_strdup("");
+    }
     vte_linenoiseSetCompletionCallback(monitor_completions);
     p = vte_linenoise(prompt, &fixed);
     if (p) {
@@ -932,8 +936,6 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     } else {
         ret_string = lib_strdup("x");
     }
-    lib_free(fixed.input_buffer);
-    fixed.input_buffer = NULL;
 
     return ret_string;
 }
