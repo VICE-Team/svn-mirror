@@ -142,13 +142,6 @@ static int cmdline_dumpconfig(const char *param, void *extra_param)
 
 static int cmdline_default(const char *param, void *extra_param)
 {
-    /* the cartridge system uses internal state variables so the default cartridge
-       can be unset without changing the attached cartridge and/or attach another
-       cartridge without changing the default. to completely restore the default,
-       which is no default cartridge, and no currently attached cartridge, call
-       the respective functions of the cartridge system here */
-    cartridge_unset_default();
-    cartridge_detach_image(-1);
     return resources_set_defaults();
 }
 

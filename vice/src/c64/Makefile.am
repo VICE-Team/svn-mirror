@@ -36,6 +36,10 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
 
 libvsid_a_SOURCES = \
+	vsid-cmdline-options.c \
+	vsid-cmdline-options.h \
+	vsid-resources.c \
+	vsid-snapshot.c \
 	c64embedded.c \
 	c64gluelogic.c \
 	c64gluelogic.h \
@@ -68,10 +72,6 @@ libvsid_a_SOURCES = \
 	psiddrv.h \
 	reloc65.c \
 	vsid.c \
-	vsid-cmdline-options.c \
-	vsid-cmdline-options.h \
-	vsid-resources.c \
-	vsid-snapshot.c \
 	vsidcia1.c \
 	vsidcia2.c \
 	vsidcpu.c \

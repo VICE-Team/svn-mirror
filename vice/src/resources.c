@@ -48,6 +48,7 @@
 #endif
 
 #include "archdep.h"
+#include "cartridge.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
@@ -910,6 +911,14 @@ int resources_get_default_value(const char *name, void *value_return)
 int resources_set_defaults(void)
 {
     unsigned int i;
+
+    /* the cartridge system uses internal state variables so the default cartridge
+       can be unset without changing the attached cartridge and/or attach another
+       cartridge without changing the default. to completely restore the default,
+       which is no default cartridge, and no currently attached cartridge, call
+       the respective functions of the cartridge system here */
+    cartridge_unset_default();
+    cartridge_detach_image(-1);
 
     for (i = 0; i < num_resources; i++) {
         switch (resources[i].type) {
