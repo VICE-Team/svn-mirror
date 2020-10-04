@@ -156,15 +156,18 @@ static gboolean settings_load_callback(GtkWidget *widget, gpointer data)
  *
  * \param[in,out]   dialog      dialog
  * \param[in,out]   filename    filename
- * \param[in]       data        extra data (unused)
+ * \param[in]       data        mode (0: reset and load, 1: add extra settings)
  */
 static void settings_load_filename_callback(GtkDialog *dialog,
                                             gchar *filename,
                                             gpointer data)
 {
+    int res;
     if (filename!= NULL) {
         mainlock_obtain();
-        if (resources_reset_and_load(filename) != 0) {
+        res = (data == NULL) ? resources_reset_and_load(filename)
+                             : resources_load(filename);
+        if (res != 0) {
             vice_gtk3_message_error("VICE core error",
                     "Failed to load settings from '%s'", filename);
         }
@@ -178,7 +181,7 @@ static void settings_load_filename_callback(GtkDialog *dialog,
 /** \brief  Load settings from user-specified file
  *
  * \param[in]   widget  menu item triggering the event (ignored)
- * \param[in]   data    extra even data (ignored)
+ * \param[in]   data    mode (0: reset and load, 1: add extra settings)
  *
  * \return  TRUE
  */
@@ -188,7 +191,7 @@ static gboolean settings_load_custom_callback(GtkWidget *widget, gpointer data)
             "Load settings file",
             NULL, NULL, NULL,
             settings_load_filename_callback,
-            NULL);
+            data);
     return TRUE;
 }
 
@@ -724,6 +727,9 @@ static ui_menu_item_t settings_menu_tail[] = {
         0, 0, false },
     { "Load settings from ...", UI_MENU_TYPE_ITEM_ACTION,
         "settings-load-custom", settings_load_custom_callback, NULL,
+        0, 0, true },
+    { "Load extra settings from ...", UI_MENU_TYPE_ITEM_ACTION,
+        "settings-load-extra", settings_load_custom_callback, (void*)1,
         0, 0, true },
     { "Save settings", UI_MENU_TYPE_ITEM_ACTION,
         "settings-save", settings_save_callback, NULL,
