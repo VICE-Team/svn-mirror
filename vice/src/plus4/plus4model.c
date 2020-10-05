@@ -50,6 +50,7 @@ struct model_s {
     char *basicname;
     char *plus1loname;
     char *plus1hiname;
+    char *c2loname;
 };
 
 /*
@@ -60,17 +61,21 @@ struct model_s {
 */
 
 static struct model_s plus4models[] = {
-    { MACHINE_SYNC_PAL,  RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal",     "basic", "",         "",        }, /* c16 (pal) */
-    { MACHINE_SYNC_NTSC, RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal.005", "basic", "",         "",        }, /* c16 (ntsc) */
-    { MACHINE_SYNC_PAL,  RAM64K, NO_SPEECH,  HAS_ACIA, HAS_USERPORT, "kernal",     "basic", "3plus1lo", "3plus1hi" }, /* plus4 (pal) */
-    { MACHINE_SYNC_NTSC, RAM64K, NO_SPEECH,  HAS_ACIA, HAS_USERPORT, "kernal.005", "basic", "3plus1lo", "3plus1hi" }, /* plus4 (ntsc) */
-    { MACHINE_SYNC_NTSC, RAM64K, HAS_SPEECH, HAS_ACIA, HAS_USERPORT, "kernal.364", "basic", "3plus1lo", "3plus1hi" }, /* v364 (ntsc) */
-    { MACHINE_SYNC_NTSC, RAM32K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal.232", "basic", "",         ""         }, /* 232 (ntsc) */
+    { MACHINE_SYNC_PAL,  RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal",     "basic", "",         "",         "" }, /* c16 (pal) */
+    { MACHINE_SYNC_NTSC, RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal.005", "basic", "",         "",         "" }, /* c16 (ntsc) */
+    { MACHINE_SYNC_PAL,  RAM64K, NO_SPEECH,  HAS_ACIA, HAS_USERPORT, "kernal",     "basic", "3plus1lo", "3plus1hi", "" }, /* plus4 (pal) */
+    { MACHINE_SYNC_NTSC, RAM64K, NO_SPEECH,  HAS_ACIA, HAS_USERPORT, "kernal.005", "basic", "3plus1lo", "3plus1hi", "" }, /* plus4 (ntsc) */
+    { MACHINE_SYNC_NTSC, RAM64K, HAS_SPEECH, HAS_ACIA, HAS_USERPORT, "kernal.364", "basic", "3plus1lo", "3plus1hi", "c2lo.364" }, /* v364 (ntsc) */
+    { MACHINE_SYNC_NTSC, RAM32K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal.232", "basic", "",         "",         "" }, /* 232 (ntsc) */
 };
 
 /* ------------------------------------------------------------------------- */
 
-static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia, const char *fln, const char *kernal)
+static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia, 
+                               const char *plus1loname,
+                               const char *plus1hiname,
+                               const char* c2loname,
+                               const char *kernal)
 {
     int i;
 
@@ -79,7 +84,9 @@ static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasaci
             && (plus4models[i].ramsize == ramsize)
             && (plus4models[i].hasspeech == hasspeech)
             && (plus4models[i].hasacia == hasacia)
-            && ((strlen(plus4models[i].plus1loname) == 0 ? 1 : 0) == (strlen(fln) == 0 ? 1 : 0))
+            && ((strlen(plus4models[i].plus1loname) == 0 ? 1 : 0) == (strlen(plus1loname) == 0 ? 1 : 0))
+            && ((strlen(plus4models[i].plus1hiname) == 0 ? 1 : 0) == (strlen(plus1hiname) == 0 ? 1 : 0))
+            && ((strlen(plus4models[i].c2loname) == 0 ? 1 : 0) == (strlen(c2loname) == 0 ? 1 : 0))
             && (!strcmp(plus4models[i].kernalname, kernal))) {
             return i;
         }
@@ -91,19 +98,22 @@ static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasaci
 int plus4model_get(void)
 {
     int video, hasspeech, hasacia, ramsize;
-    const char *fln;
+    const char *fln, *fhn;
     const char *kernal;
+    const char *c2loname;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
         || (resources_get_int("RamSize", &ramsize) < 0)
         || (resources_get_int("Acia1Enable", &hasacia) < 0)
         || (resources_get_string("FunctionLowName", &fln) < 0)
+        || (resources_get_string("FunctionHighName", &fhn) < 0)
         || (resources_get_string("KernalName", &kernal) < 0)
+        || (resources_get_string("c2loName", &c2loname) < 0)
         || (resources_get_int("SpeechEnabled", &hasspeech) < 0)) {
         return -1;
     }
 
-    return plus4model_get_temp(video, ramsize, hasspeech, hasacia, fln, kernal);
+    return plus4model_get_temp(video, ramsize, hasspeech, hasacia, fln, fhn, c2loname, kernal);
 }
 
 #if 0
@@ -145,9 +155,6 @@ void plus4model_set(int model)
 
     resources_set_int("Acia1Enable", plus4models[model].hasacia);
 
-    resources_set_int("SpeechEnabled", 0);
-    if (plus4models[model].hasspeech) {
-        resources_set_string("SpeechImage", "c2lo.364");
-        resources_set_int("SpeechEnabled", 1);
-    }
+    resources_set_string("c2loName", plus4models[model].c2loname);
+    resources_set_int("SpeechEnabled", plus4models[model].hasspeech);
 }

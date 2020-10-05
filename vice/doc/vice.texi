@@ -11178,10 +11178,6 @@ Boolean to enable/disable the Digiblaster emulation.
 @item SpeechEnabled
 Boolean to enable/disable the emulation of the V364 speech chip.
 
-@vindex SpeechImage
-@item SpeechImage
-String specifying the filename of the speech ROM image.
-
 @vindex SidCart
 @item SidCart
 Boolean specifying whether SID-Cart emulation is enabled or not.
@@ -11253,11 +11249,6 @@ Specify clock of the SID Cartridge
 @itemx +speech
 Enable/Disable the v364 speech add-on
 (@code{SpeechEnabled=1}, @code{SpeechEnabled=0}).
-
-@findex -speechrom
-@item -speechrom <name>
-Attach Speech ROM image
-(@code{SpeechImage}, @code{SpeechEnabled}).
 
 @end table
 
@@ -11388,8 +11379,8 @@ Boolean specifying whether the ACIA should be emulated or not.
 @item -model <model>
 Specify the PLUS4 model you want to emulate
 (@code{MachineVideoStandard}, @code{RamSize}, @code{KernalName},
-@code{BasicName}, @code{FunctionLowName}, @code{FunctionHighName},
-@code{Acia1Enable}, @code{SpeechImage}, @code{SpeechEnabled}).
+@code{BasicName}, @code{FunctionLowName}, @code{FunctionHighName}, @code{c2loName},
+@code{Acia1Enable}, @code{SpeechEnabled}).
 (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)
 
 @findex -pal
