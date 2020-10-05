@@ -140,8 +140,9 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         VDC_SCREEN_MAX_TEXTCOLS, 256,  /* size of the foreground area (characters) */
                         border_width, 0, /* gfx_pos_x/y - position of visible screen in virtual coords */
                         0,  /* gfx_area_moves */
+                        /* These 2 only seem to affect the size of media files, e.g. screenshots or video recordings */
                         0,   /* 1st line of virtual screen physically visible */
-                        1024 -1,    /* last line physically visible */
+                        screen_height -1,    /* last line physically visible */
                         0, 0); /* extra off screen border left / right */
 
     raster->geometry->pixel_aspect_ratio = vdc_get_pixel_aspect();
@@ -539,8 +540,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         if (vdc.row_counter == vdc.regs[7]) {
             vdc.vsync = 1;
             vdc.vsync_counter = 0;
-            /* This makes the screenshot the correct height */
-            vdc.raster.geometry->last_displayed_line = vdc.raster.current_line + 1;
 
             //printf("vdc.raster.current_line: %03u vdc.canvas_height_old: %03u ", vdc.raster.current_line, vdc.canvas_height_old);
             //printf("current_line: %03u ", vdc.raster.current_line);
@@ -597,7 +596,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (vdc.vsync) {
         vdc.vsync_counter++;
         /* Check if we are now out of the pulse == at first visible raster line, and reset the raster to the top of the screen if so */
-        if (vdc.vsync_counter > vdc.vsync_height) {   /* 25 seems to be about right # of raster lines the vsync consumes on a C= monitor, and is official PAL spec */
+        if (vdc.vsync_counter > vdc.vsync_height) { /* 25 for PAL, 21 for NTSC seems to be about right # of raster lines the vsync consumes on a C= monitor, and is official PAL spec */
             vdc.vsync = 0;
             
             /* This SEEMS to work to reset the raster to 0, based on ted.c, but maybe there is something else needed?
