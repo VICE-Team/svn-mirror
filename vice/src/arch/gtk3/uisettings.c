@@ -130,7 +130,6 @@
 #include "userportdeviceswidget.h"
 #include "tapeportdeviceswidget.h"
 #include "sidcartwidget.h"
-#include "v364speechwidget.h"
 #include "sfxsoundsamplerwidget.h"
 #include "megacartwidget.h"
 #include "petreuwidget.h"
@@ -140,7 +139,6 @@
 #include "cpmwidget.h"
 #include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
-#include "plus4aciawidget.h"
 #include "plus4digiblasterwidget.h"
 #include "finalexpansionwidget.h"
 #include "vicflashwidget.h"
@@ -553,15 +551,9 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
 /** \brief  List of Plus4 I/O extensions
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
-    { "ACIA",
-      "acia",
-      plus4_acia_widget_create, NULL },
     { "Digiblaster add-on",
       "digiblaster",
       plus4_digiblaster_widget_create, NULL },
-    { "V364 Speech",
-      "v364",
-      v364_speech_widget_create, NULL },
     { "SID Card",
       "sid-card",
       sidcart_widget_create, NULL },

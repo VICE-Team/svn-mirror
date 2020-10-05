@@ -60,6 +60,7 @@
 #include "petmodel.h"
 #include "petramsizewidget.h"
 #include "petvideosizewidget.h"
+#include "plus4aciawidget.h"
 #include "plus4memhacks.h"
 #include "plus4memoryexpansionwidget.h"
 #include "plus4memorysizewidget.h"
@@ -71,6 +72,7 @@
 #include "vic20memoryexpansionwidget.h"
 #include "vice_gtk3.h"
 #include "videomodelwidget.h"
+#include "v364speechwidget.h"
 
 #include "c64model.h"
 
@@ -118,6 +120,8 @@ static GtkWidget *video_widget = NULL;
 
 static GtkWidget *ram_widget = NULL;
 static GtkWidget *memhack_widget = NULL;
+static GtkWidget *acia_widget = NULL;
+static GtkWidget *speech_widget = NULL;
 static GtkWidget *vdc_widget = NULL;
 static GtkWidget *sid_widget = NULL;
 static GtkWidget *kernal_widget = NULL;
@@ -383,10 +387,10 @@ static void plus4_debug_dump_resources(void)
  */
 static void plus4_mem_size_callback(GtkWidget *widget, int value)
 {
-    int hack = 0;
+    int size = 0;
 
-    resources_get_int("RamSize", &hack);
-    debug_gtk3("Got new value: %dKB, MemoryHack = %d", value, hack);
+    resources_get_int("RamSize", &size);
+    debug_gtk3("Got new value: %dKB, RamSize = %d", value, size);
     debug_gtk3("Calling plus4_memory_expansion_widget_sync(): ");
     if (plus4_memory_expansion_widget_sync()) {
         debug_gtk3("OK.");
@@ -1179,7 +1183,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
-    /* PET model widget */
+    /* Plus4 model widget */
     video_widget = video_model_widget_create(machine_widget);
     video_model_widget_set_callback(video_widget, plus4_video_callback);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
@@ -1196,6 +1200,12 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
 
     resources_get_int("MemoryHack", &hack);
     gtk_widget_set_sensitive(memhack_widget, hack == MEMORY_HACK_NONE);
+
+    acia_widget = plus4_acia_widget_create(machine_widget);
+    gtk_grid_attach(GTK_GRID(grid), acia_widget, 0, 2, 1, 1);
+
+    speech_widget = v364_speech_widget_create(machine_widget);
+    gtk_grid_attach(GTK_GRID(grid), speech_widget, 1, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
