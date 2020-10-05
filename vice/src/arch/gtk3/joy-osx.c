@@ -109,7 +109,7 @@ const char *joystick_ui_get_next_device_name(int *id)
     }
     return NULL;
 }
-#if 0
+
 /* HID settings */
 
 static int set_joy_a_device_name(const char *val,void *param)
@@ -503,17 +503,14 @@ static const resource_int_t resources_int[] = {
       &joy_b.hat_switch.id, set_joy_b_hat_switch, NULL },
     RESOURCE_INT_LIST_END
 };
-#endif
+
 int joy_arch_resources_init(void)
 {
-    return 0;
-#if 0
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
 
     return resources_register_int(resources_int);
-#endif
 }
 
 /* ----- VICE Command-line options ----- */
