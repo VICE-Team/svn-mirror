@@ -563,6 +563,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     vdc.vsync_height = 25;  /* height of the vsync area in PAL is ~25 raster lines */
                 }
                 vdc.update_geometry = 1;
+                stable_size_count++;
 #ifdef UNUSED_CODE
                 /* make sure we have a sane height and ignore if not */
                 if (vdc.raster.current_line < 710) {
