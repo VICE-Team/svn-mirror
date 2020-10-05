@@ -36,6 +36,7 @@
 #include "types.h"
 
 extern int sdl_menu_state;
+extern int sdl_pause_state;
 
 typedef void* ui_callback_data_t;
 typedef const char *(*ui_callback_t)(int activated, ui_callback_data_t param);

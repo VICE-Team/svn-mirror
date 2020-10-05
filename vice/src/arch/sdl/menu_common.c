@@ -112,24 +112,42 @@ UI_MENU_CALLBACK(autostart_callback)
 
 UI_MENU_CALLBACK(pause_callback)
 {
+    if (sdl_menu_state) {
+        /* called from menu */
+        if (activated) {
+            sdl_pause_state ^= 1;
+        }
+        return sdl_pause_state ? sdl_menu_text_tick : NULL;
+    }
+    /* called in emulator */
     if (activated) {
         ui_pause_toggle();
-        return sdl_menu_text_exit_ui;
     }
     return NULL;
 }
 
 UI_MENU_CALLBACK(advance_frame_callback)
 {
-    int paused = ui_pause_active();
-
+    if (sdl_menu_state) {
+        /* called from menu */
+        if (activated) {
+            if (sdl_pause_state) {
+                sdl_pause_state = 0;
+                vsyncarch_advance_frame();
+            } else {
+                sdl_pause_state = 1;
+            }
+            return sdl_menu_text_exit_ui;
+        }
+        return NULL;
+    }
+    /* called in emulator */
     if (activated) {
-        if (paused) {
+        if (ui_pause_active()) {
             vsyncarch_advance_frame();
         } else {
             ui_pause_enable();
         }
-        return sdl_menu_text_exit_ui;
     }
     return NULL;
 }

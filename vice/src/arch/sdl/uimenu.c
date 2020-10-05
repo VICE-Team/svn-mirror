@@ -63,6 +63,7 @@
 #include <string.h>
 
 int sdl_menu_state = 0;
+int sdl_pause_state = 0;
 
 void (*sdl_ui_set_menu_params)(int index, menu_draw_t *menu_draw);
 
@@ -87,7 +88,6 @@ static uint8_t *draw_buffer_backup = NULL;
  * Used to properly clean up when 'Quit emu' is triggered
  */
 static int *menu_offsets = NULL;
-
 
 static menufont_t activefont = { NULL, sdl_active_translation, 0, 0 };
 static menufont_t menufont = { NULL, sdl_menu_translation, 0, 0 };
@@ -737,9 +737,6 @@ static void sdl_ui_trap(uint16_t addr, void *data)
     }
 
     sdl_ui_activate_post_action();
-
-    lib_free(draw_buffer_backup);
-    draw_buffer_backup = NULL;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1243,6 +1240,7 @@ void sdl_ui_activate_pre_action(void)
 
 void sdl_ui_activate_post_action(void)
 {
+    int width, height;
     int warp_state;
 
     sdl_menu_state = 0;
@@ -1261,10 +1259,25 @@ void sdl_ui_activate_post_action(void)
         sdl_vsid_activate();
     }
 
+    /* copy the backup of the emulator output back to the canvas */
+    width = sdl_active_canvas->draw_buffer->draw_buffer_width;
+    height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
+    video_canvas_refresh_all(sdl_active_canvas);
+
+    lib_free(draw_buffer_backup);
+    draw_buffer_backup = NULL;
+
     /* Force a video refresh */
     /* SDL mode: prevent core dump - pressing menu key in -console mode causes parent_raster to be NULL */
     if (sdl_active_canvas->parent_raster) {
         raster_force_repaint(sdl_active_canvas->parent_raster);
+    }
+
+    /* if the emulator was paused before, enter pause state */
+    if (sdl_pause_state) {
+        sdl_pause_state = 0;
+        ui_pause_enable();
     }
 }
 
@@ -1415,7 +1428,8 @@ void sdl_ui_invert_char(int pos_x, int pos_y)
 
 void sdl_ui_activate(void)
 {
-    if (ui_pause_active()) {
+    sdl_pause_state = ui_pause_active();
+    if (sdl_pause_state) {
         ui_pause_disable();
     }
     interrupt_maincpu_trigger_trap(sdl_ui_trap, NULL);
