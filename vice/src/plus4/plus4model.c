@@ -70,12 +70,13 @@ static struct model_s plus4models[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static int plus4model_get_temp(int video, int hasspeech, int hasacia, const char *fln, const char *kernal)
+static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia, const char *fln, const char *kernal)
 {
     int i;
 
     for (i = 0; i < PLUS4MODEL_NUM; ++i) {
         if ((plus4models[i].video == video)
+            && (plus4models[i].ramsize == ramsize)
             && (plus4models[i].hasspeech == hasspeech)
             && (plus4models[i].hasacia == hasacia)
             && ((strlen(plus4models[i].plus1loname) == 0 ? 1 : 0) == (strlen(fln) == 0 ? 1 : 0))
@@ -89,11 +90,12 @@ static int plus4model_get_temp(int video, int hasspeech, int hasacia, const char
 
 int plus4model_get(void)
 {
-    int video, hasspeech, hasacia;
+    int video, hasspeech, hasacia, ramsize;
     const char *fln;
     const char *kernal;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
+        || (resources_get_int("RamSize", &ramsize) < 0)
         || (resources_get_int("Acia1Enable", &hasacia) < 0)
         || (resources_get_string("FunctionLowName", &fln) < 0)
         || (resources_get_string("KernalName", &kernal) < 0)
@@ -101,7 +103,7 @@ int plus4model_get(void)
         return -1;
     }
 
-    return plus4model_get_temp(video, hasspeech, hasacia, fln, kernal);
+    return plus4model_get_temp(video, ramsize, hasspeech, hasacia, fln, kernal);
 }
 
 #if 0
