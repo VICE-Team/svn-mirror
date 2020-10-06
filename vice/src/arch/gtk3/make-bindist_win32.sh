@@ -129,7 +129,7 @@ if test x"$CROSS" != "xtrue"; then
 # The following lines assume that this script is run by MSYS2.
   cp `ntldd -R $BUILDPATH/bin/x64sc.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH/bin
   cd $MINGW_PREFIX
-  cp bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
+  cp bin/lib{lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
   cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
   # GTK3 accepts having only scalable icons,
   # which reduces the bindist size considerably.
@@ -170,7 +170,7 @@ else
   done
   # A few of these libs cannot be found by frankenvice, so perhaps we need to install
   # these or alter this command:
-  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_*,croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
+  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_*,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH/bin
   gccname=`$COMPILER -print-file-name=libgcc.a`
   gccdir=`dirname $gccname`
   dlls=`find $gccdir -name 'libgcc*.dll' -o -name 'libstdc*.dll'`
@@ -210,7 +210,6 @@ EOF
   # into a new file. (libwinpthread-1.dll is symlinked from libwinphread-1.dll
   # (note the absence of the 't' in the latter)
   cp $loc/lib/libwinpthread-1.dll $BUILDPATH/bin
-  cp $loc/lib/libcroco*.dll $BUILDPATH/bin
   # XXX: perhaps also libgcc* ? These are not in $loc
 
   cd $current
