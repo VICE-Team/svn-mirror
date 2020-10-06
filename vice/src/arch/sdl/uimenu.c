@@ -1260,13 +1260,15 @@ void sdl_ui_activate_post_action(void)
     }
 
     /* copy the backup of the emulator output back to the canvas */
-    width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-    height = sdl_active_canvas->draw_buffer->draw_buffer_height;
-    memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
-    video_canvas_refresh_all(sdl_active_canvas);
+    if (draw_buffer_backup) {
+        width = sdl_active_canvas->draw_buffer->draw_buffer_width;
+        height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+        memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
+        video_canvas_refresh_all(sdl_active_canvas);
 
-    lib_free(draw_buffer_backup);
-    draw_buffer_backup = NULL;
+        lib_free(draw_buffer_backup);
+        draw_buffer_backup = NULL;
+    }
 
     /* Force a video refresh */
     /* SDL mode: prevent core dump - pressing menu key in -console mode causes parent_raster to be NULL */
