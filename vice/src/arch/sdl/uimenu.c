@@ -28,6 +28,8 @@
  *
  */
 
+/* #define DBGSDLMENU */
+
 #include "vice.h"
 
 #include "archdep.h"
@@ -61,6 +63,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef DBGSDLMENU
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 int sdl_menu_state = 0;
 int sdl_pause_state = 0;
@@ -707,21 +715,26 @@ static void sdl_ui_trap(uint16_t addr, void *data)
     unsigned int height;
     static char msg[0x40];
 
+    DBG(("sdl_ui_trap start\n"));
+
+    /* make a backup of the current emulator screen contents */
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;
     draw_buffer_backup = lib_malloc(width * height);
-
     memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
 
     sdl_ui_activate_pre_action();
+
     if (machine_class != VICE_MACHINE_VSID) {
         memset(sdl_active_canvas->draw_buffer->draw_buffer, 0, width * height);
     }
 
     if (data == NULL) {
+        /* called via "menu key" to open the menu */
         sprintf(&msg[0], "VICE %s - main menu", machine_name);
         sdl_ui_menu_display(main_menu, msg, 1);
     } else {
+        /* called via hotkey */
         sdl_ui_init_draw_params();
         sdl_ui_menu_item_activate((ui_menu_entry_t *)data);
     }
@@ -730,13 +743,21 @@ static void sdl_ui_trap(uint16_t addr, void *data)
         memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
         sdl_ui_refresh();
     } else {
-        if (ui_pause_active() && (width == sdl_active_canvas->draw_buffer->draw_buffer_width) && (height == sdl_active_canvas->draw_buffer->draw_buffer_height)) {
+        if (ui_pause_active() && draw_buffer_backup &&
+            (width == sdl_active_canvas->draw_buffer->draw_buffer_width) && 
+            (height == sdl_active_canvas->draw_buffer->draw_buffer_height)) {
             memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
             sdl_ui_refresh();
         }
     }
 
     sdl_ui_activate_post_action();
+
+    /* free the backup buffer */
+    lib_free(draw_buffer_backup);
+    draw_buffer_backup = NULL;
+
+    DBG(("sdl_ui_trap end\n"));
 }
 
 /* ------------------------------------------------------------------ */
@@ -1212,8 +1233,10 @@ menufont_t *sdl_ui_get_menu_font(void)
     return &activefont;
 }
 
+/* called before the UI runs by sdl_ui_trap, sdl_vkbd_key_map, uimon_window_open */
 void sdl_ui_activate_pre_action(void)
 {
+    DBG(("sdl_ui_activate_pre_action start\n"));
 #ifdef HAVE_FFMPEG
     if (screenshot_is_recording()) {
         screenshot_stop_recording();
@@ -1236,12 +1259,16 @@ void sdl_ui_activate_pre_action(void)
 #endif
     sdl_menu_state = 1;
     ui_check_mouse_cursor();
+    DBG(("sdl_ui_activate_pre_action end\n"));
 }
 
+/* called when UI closes and emulator resumes by sdl_ui_trap, sdl_vkbd_key_map, uimon_window_close */
 void sdl_ui_activate_post_action(void)
 {
     int width, height;
     int warp_state;
+
+    DBG(("sdl_ui_activate_post_action start\n"));
 
     sdl_menu_state = 0;
     ui_check_mouse_cursor();
@@ -1265,9 +1292,6 @@ void sdl_ui_activate_post_action(void)
         height = sdl_active_canvas->draw_buffer->draw_buffer_height;
         memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
         video_canvas_refresh_all(sdl_active_canvas);
-
-        lib_free(draw_buffer_backup);
-        draw_buffer_backup = NULL;
     }
 
     /* Force a video refresh */
@@ -1281,6 +1305,8 @@ void sdl_ui_activate_post_action(void)
         sdl_pause_state = 0;
         ui_pause_enable();
     }
+
+    DBG(("sdl_ui_activate_post_action end\n"));
 }
 
 void sdl_ui_init_draw_params(void)

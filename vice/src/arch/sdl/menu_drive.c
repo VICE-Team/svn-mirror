@@ -536,7 +536,7 @@ void uidrive_menu_create(void)
 {
     int newend = 4;
     int i, d0, d1;
-    
+
     if (machine_class == VICE_MACHINE_VIC20) {
         newend = 1;
     } else if (machine_class == VICE_MACHINE_PLUS4) {
@@ -546,7 +546,7 @@ void uidrive_menu_create(void)
     memset(&drive_9_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
     memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
     memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
-    
+
     /* depending on the active drive type, enable the attach and detach
        menu items in the drive menu */
     for (i = 0; i < 4; i++) {

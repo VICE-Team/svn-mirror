@@ -104,6 +104,7 @@ UI_MENU_CALLBACK(autostart_callback)
                 ui_error("could not start auto-image");
             }
             lib_free(name);
+            sdl_pause_state = 0;
             return sdl_menu_text_exit_ui;
         }
     }
@@ -134,8 +135,6 @@ UI_MENU_CALLBACK(advance_frame_callback)
             if (sdl_pause_state) {
                 sdl_pause_state = 0;
                 vsyncarch_advance_frame();
-            } else {
-                sdl_pause_state = 1;
             }
             return sdl_menu_text_exit_ui;
         }
@@ -145,8 +144,6 @@ UI_MENU_CALLBACK(advance_frame_callback)
     if (activated) {
         if (ui_pause_active()) {
             vsyncarch_advance_frame();
-        } else {
-            ui_pause_enable();
         }
     }
     return NULL;

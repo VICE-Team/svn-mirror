@@ -47,7 +47,7 @@ static void pause_trap(uint16_t addr, void *data)
 {
     vsync_suspend_speed_eval();
     sound_suspend();
-    
+
     while (is_paused) {
         ui_dispatch_events();
         SDL_Delay(10);
