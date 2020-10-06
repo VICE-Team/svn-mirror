@@ -577,7 +577,7 @@ static void monitor_binary_process_condition_set(binary_command_t *command)
 
     cmd_length = snprintf(NULL, 0, cmd_fmt, brknum, cond);
 
-    cmd = lib_malloc(cmd_length);
+    cmd = lib_malloc(cmd_length + 1);
 
     sprintf(cmd, cmd_fmt, brknum, cond);
 
@@ -1545,6 +1545,7 @@ int monitor_binary_get_command_line(void)
 
         if (!buffer) {
             buffer = lib_malloc(300);
+            buffer_size = 300;
         }
 
         int n = monitor_binary_receive(buffer, 1);
@@ -1577,9 +1578,9 @@ int monitor_binary_get_command_line(void)
         }
 
         command_size = sizeof(api_version) + sizeof(body_length) + remaining_header_size + body_length + 1;
-        if (!buffer || buffer_size < command_size) {
-            buffer = lib_realloc(buffer, command_size);
-            buffer_size = command_size;
+        if (!buffer || buffer_size < command_size + 1) {
+            buffer = lib_realloc(buffer, command_size + 1);
+            buffer_size = command_size + 1;
         }
 
         n = 0;
