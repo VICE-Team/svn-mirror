@@ -45,33 +45,71 @@
 #include "v364speechwidget.h"
 
 
+/** \brief  Reference to the Plus4 v364 speech widget
+ *
+ * We can get away with this since there will only ever be a single Plus4
+ * Speech widget active in the UI.
+ */
+static GtkWidget *instance = NULL;
+
+
+/** \brief  User callback to trigger on widget value changes
+ *
+ * Optional, set via v364_speech_widget_add_callback()
+ */
+static void (*user_callback)(GtkWidget *, int value) = NULL;
+
+
+
 /** \brief  Handler for the "toggled" event of the Enable check button
  *
- * \param[in]   widget      check button
- * \param[in]   user_data   unused
+ * \param[in]   button      check button
+ * \param[in]   data        unused
  */
-static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
+static void on_enable_toggled(GtkToggleButton *button, gpointer data)
 {
+    int active = gtk_toggle_button_get_active(button);
+
+    debug_gtk3("v364 widget toggled: %s", active ? "TRUE" : "FALSE");
+    if (user_callback != NULL) {
+        debug_gtk3("Triggering v364 user callback");
+        user_callback(GTK_WIDGET(button), active);
+    }
 }
+
 
 /** \brief  Create V364 Speech widget
  *
  * \return  GtkGrid
  */
-GtkWidget *v364_speech_widget_create(GtkWidget *parent)
+GtkWidget *v364_speech_widget_create(void)
 {
-    GtkWidget *grid;
-    GtkWidget *enable;
+    instance = vice_gtk3_resource_check_button_new("SpeechEnabled",
+                                                   "Enable V364 Speech");
 
-    grid = gtk_grid_new();
+    g_signal_connect(instance, "toggled", G_CALLBACK(on_enable_toggled), NULL);
 
-    enable = vice_gtk3_resource_check_button_new("SpeechEnabled",
-            "Enable V364 Speech");
+    user_callback = NULL;
+    return instance;
+}
 
-    gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
 
-    g_signal_connect(enable, "toggled", G_CALLBACK(on_enable_toggled), NULL);
+/** \brief  Synchronize v364 widget's state with its resource
+ */
+void v364_speech_widget_sync(void)
+{
+    vice_gtk3_resource_check_button_sync(instance);
+}
 
-    gtk_widget_show_all(grid);
-    return grid;
+
+/** \brief  Add user callback to trigger on widget changes
+ *
+ * When the state of the v364 widget changes, the callback is called with two
+ * arguments: the v364 widget and the new value (bool).
+ *
+ * \param[in]   callback    user callback function
+ */
+void v364_speech_widget_add_callback(void (*callback)(GtkWidget *, int value))
+{
+    user_callback = callback;
 }

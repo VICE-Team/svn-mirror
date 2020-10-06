@@ -432,12 +432,28 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
 }
 
 
+/** \brief  Callback to update the Plus4 model widget on ACIA widget change
+ *
+ * \param[in]   widget  ACIA widget
+ * \param[in]   value   new value
+ */
 static void plus4_acia_widget_callback(GtkWidget *widget, int value)
 {
     debug_gtk3("Called with value %d\n", value);
     machine_model_widget_update(machine_widget);
 }
 
+
+/** \brief  Callback to update the Plus4 model widget on v364 widget change
+ *
+ * \param[in]   widget  v364 widget
+ * \param[in]   value   new value
+ */
+static void v364_speech_widget_callback(GtkWidget *widget, int value)
+{
+    debug_gtk3("Called with value %d\n", value);
+    machine_model_widget_update(machine_widget);
+}
 
 
 /* }}} */
@@ -683,7 +699,7 @@ static void machine_model_handler_plus4(int model)
     video_model_widget_update(video_widget);
     plus4_memory_size_widget_sync();
     plus4_acia_widget_sync();
-    /* TODO: sync v364 Speech widget */
+    v364_speech_widget_sync();
     plus4_debug_dump_resources();
 }
 
@@ -1225,7 +1241,9 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     plus4_acia_widget_add_callback(plus4_acia_widget_callback);
     gtk_grid_attach(GTK_GRID(grid), acia_widget, 0, 2, 1, 1);
 
-    speech_widget = v364_speech_widget_create(machine_widget);
+    /* V364 speech widget */
+    speech_widget = v364_speech_widget_create();
+    v364_speech_widget_add_callback(v364_speech_widget_callback);
     gtk_grid_attach(GTK_GRID(grid), speech_widget, 1, 2, 1, 1);
 
     gtk_widget_show_all(grid);
