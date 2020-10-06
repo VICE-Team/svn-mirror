@@ -49,21 +49,15 @@ VICE_DESKTOP_FILES += \
 	$(X64_DESKTOP)
 endif
 
-VICE_DIR_FILE = $(XDG_VENDOR).pokefinder.vice.directory
+VICE_DIR_FILE = $(XDG_VENDOR)-$(XDG_VENDOR).directory
+
 
 noinst_DATA = \
 	$(VICE_DESKTOP_FILES) \
 	$(VICE_DIR_FILE)
 
 CLEANFILES = \
-	$(VICE_DESKTOP_FILES) \
-	$(VICE_DIR_FILE)
-
-
-# 
-$(VICE_DIR_FILE): $(XDG_VENDOR).pokefinder.vice.directory.proto
-	sed "s@__PREFIX__@$(prefix)@" $< >$@
-
+	$(VICE_DESKTOP_FILES)
 
 
 
@@ -199,7 +193,7 @@ install-data-hook: $(VICE_DIR_FILE) $(VICE_DESKTOP_FILES)
 
 # Seems GNU disapproves of this, but it works to uninstall the .desktop/.directory
 # files.
-uninstall-hook: $(VICE_DIR_FILE) $(VICE_DESKTOP_FILES)
+uninstall-hook:
 	$(XDG_DESKTOP_MENU) uninstall "$(VICE_DIR_FILE)" $(VICE_DESKTOP_FILES)
 
 
