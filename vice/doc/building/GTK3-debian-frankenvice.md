@@ -256,7 +256,6 @@ mingw64-gtk-update-icon-cache
 mingw64-harfbuzz
 mingw64-icu
 mingw64-jasper
-mingw64-libcroco
 mingw64-libepoxy
 mingw64-libffi
 mingw64-libjpeg-turbo
