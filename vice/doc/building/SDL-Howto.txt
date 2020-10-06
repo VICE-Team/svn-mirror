@@ -34,6 +34,13 @@ make install
 You'll need the SDL2 libs and headers. Movie recording needs the
 FFMPEG libraries and headers.
 
+== TODO: list proper deps ==
+
+libsdl2-dev
+libsdl2-image-dev
+
+
+
 To build SDL1, pass --enable-sdlui to configure instead of --enable-sdlui2,
 and you will need OpenGL headers and libraries as well if you want free-scaling.
 

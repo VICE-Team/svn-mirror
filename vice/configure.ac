@@ -1347,10 +1347,20 @@ if test x"$check_sdl2" = "xyes"; then
           dnl Required for GetUserProfileDirectoryA
           LIBS="$LIBS -luserenv"
           ;;
-      esac
+        esac
 
-        LIBS="$LIBS -static-libstdc++"
+      dnl Require SDL2_image
+      PKG_CHECK_MODULES(SDL2_IMAGE,
+                        [SDL2_image >= 2.0.0],
+                        [have_sdl2_image=yes],
+                        [have_sdl2_image=no; AC_MSG_RESULT([no])])
+      if test x"$have_sdl2_image" = "xyes"; then
+        LIBS="$LIBS -lSDL2_image"
+      else
+        AC_MSG_ERROR([SDL2_image-dev is required.])
+      fi
     fi
+    LIBS="$LIBS -static-libstdc++"
 
     CFLAGS="$user_CFLAGS"
     CXXFLAGS="$user_CXXFLAGS"
