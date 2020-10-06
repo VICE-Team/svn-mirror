@@ -629,16 +629,16 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         g_signal_connect(G_OBJECT(fixed.window), "delete-event",
             G_CALLBACK(close_window), &fixed.input_buffer);
 
-        g_signal_connect_unlocked(G_OBJECT(fixed.term), "key-press-event",
+        g_signal_connect(G_OBJECT(fixed.term), "key-press-event",
             G_CALLBACK(key_press_event), &fixed.input_buffer);
 
         g_signal_connect(G_OBJECT(fixed.term), "button-press-event",
             G_CALLBACK(button_press_event), &fixed.input_buffer);
 
-        g_signal_connect_unlocked(G_OBJECT(fixed.term), "text-modified",
+        g_signal_connect(G_OBJECT(fixed.term), "text-modified",
             G_CALLBACK (screen_resize_window_cb), NULL);
 
-        g_signal_connect_unlocked(G_OBJECT(fixed.window), "configure-event",
+        g_signal_connect(G_OBJECT(fixed.window), "configure-event",
             G_CALLBACK (screen_resize_window_cb2), NULL);
 
         vte_console.console_can_stay_open = 1;
