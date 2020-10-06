@@ -80,7 +80,7 @@ const ui_menu_entry_t monitor_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_NativeMonitor_callback,
       NULL },
-    { "Refresh display(s) after monitor command",
+    { "Refresh display after command",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RefreshOnBreak_callback,
       NULL },

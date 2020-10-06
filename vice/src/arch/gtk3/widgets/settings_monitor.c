@@ -55,7 +55,7 @@
 enum {
     ROW_NATIVE = 0,             /**< row for 'use native monitor' */
     ROW_KEEP_OPEN,              /**< row for 'keep monitor open' */
-    ROW_REFRESH_ON_BREAK,       /**< row for 'Refresh displays on break' */
+    ROW_REFRESH_ON_BREAK,       /**< row for 'Refresh display after command' */
     ROW_SERVER_ENABLE,          /**< row for 'enable monitor server' */
     ROW_SERVER_ADDRESS,         /**< row for 'monitor server address' */
     ROW_BINARY_SERVER_ENABLE,   /**< row for 'enable monitor server' */
@@ -140,7 +140,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     keep_open = vice_gtk3_resource_check_button_new("KeepMonitorOpen",
             "Keep monitor open");
     refresh_on_break = vice_gtk3_resource_check_button_new("RefreshOnBreak",
-            "Refresh display(s) after monitor command");
+            "Refresh display after command");
 
     server_enable = vice_gtk3_resource_check_button_new("MonitorServer",
             "Enable remote monitor");

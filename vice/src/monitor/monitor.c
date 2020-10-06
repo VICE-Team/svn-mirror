@@ -1475,9 +1475,9 @@ static const resource_int_t resources_int[] = {
 #ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
     { "KeepMonitorOpen", 1, RES_EVENT_NO, NULL,
       &keep_monitor_open, set_keep_monitor_open, NULL },
-    { "RefreshOnBreak", 0, RES_EVENT_NO, NULL,
-      &refresh_on_break, set_refresh_on_break, NULL },
 #endif
+    { "RefreshOnBreak", 1, RES_EVENT_NO, NULL,
+      &refresh_on_break, set_refresh_on_break, NULL },
     { "MonitorLogEnabled", 0, RES_EVENT_NO, NULL,
       &monitorlogenabled, set_monitor_log_enabled, NULL },
 #ifdef FEATURE_CPUMEMHISTORY
@@ -1533,10 +1533,10 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Do not keep the monitor open" },
     { "-refreshonbreak", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RefreshOnBreak", (resource_value_t)1,
-      NULL, "Refresh display(s) after monitor command" },
+      NULL, "Refresh display after monitor command" },
     { "+refreshonbreak", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RefreshOnBreak", (resource_value_t)0,
-      NULL, "Do not refresh display(s) after monitor command" },
+      NULL, "Do not refresh display after monitor command" },
 #endif
     { "-monscrollbacklines", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MonitorScrollbackLines", NULL,
