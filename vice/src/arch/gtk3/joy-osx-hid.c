@@ -195,6 +195,7 @@ void joy_hid_exit(void)
     /* free device array */
     if(device_array) {
         joy_hidlib_free_devices(device_array);
+        lib_free(device_array);
         device_array = NULL;
     }
 

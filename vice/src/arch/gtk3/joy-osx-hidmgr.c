@@ -231,9 +231,9 @@ void joy_hidlib_free_devices(joy_hid_device_array_t *devices)
         devices->internal_devices = NULL;
     }
 
-    if(devices != NULL) {
-        lib_free(devices);
-        devices = NULL;
+    if(devices->devices != NULL) {
+        lib_free(devices->devices);
+        devices->devices = NULL;
     }
 }
 
