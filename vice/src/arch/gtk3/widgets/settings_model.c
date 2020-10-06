@@ -431,6 +431,15 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
     plus4_debug_dump_resources();
 }
 
+
+static void plus4_acia_widget_callback(GtkWidget *widget, int value)
+{
+    debug_gtk3("Called with value %d\n", value);
+    machine_model_widget_update(machine_widget);
+}
+
+
+
 /* }}} */
 
 
@@ -534,7 +543,9 @@ static void machine_model_handler_c128(int model)
 static void dtv_revision_callback(GtkWidget *widget, int revision)
 {
     debug_gtk3("got revision %d.", revision);
-    machine_model_widget_update(machine_widget);
+    if (get_model_func != NULL) {
+        machine_model_widget_update(machine_widget);
+    }
 }
 
 
@@ -661,10 +672,18 @@ static void plus4_memory_callback(int ram, int hack)
 }
 #endif
 
+
+/** \brief  Handler for the model change for Plus4
+ *
+ * \param[in]   model   new model (unused, it seems)
+ */
 static void machine_model_handler_plus4(int model)
 {
     debug_gtk3("called with model %d.", model);
     video_model_widget_update(video_widget);
+    plus4_memory_size_widget_sync();
+    plus4_acia_widget_sync();
+    /* TODO: sync v364 Speech widget */
     plus4_debug_dump_resources();
 }
 
@@ -1201,7 +1220,9 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     resources_get_int("MemoryHack", &hack);
     gtk_widget_set_sensitive(memhack_widget, hack == MEMORY_HACK_NONE);
 
-    acia_widget = plus4_acia_widget_create(machine_widget);
+    /* ACIA widget */
+    acia_widget = plus4_acia_widget_create();
+    plus4_acia_widget_add_callback(plus4_acia_widget_callback);
     gtk_grid_attach(GTK_GRID(grid), acia_widget, 0, 2, 1, 1);
 
     speech_widget = v364_speech_widget_create(machine_widget);

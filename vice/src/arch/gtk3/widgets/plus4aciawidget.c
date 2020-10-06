@@ -40,22 +40,75 @@
 
 #include "plus4aciawidget.h"
 
+
+/** \brief  Reference to the Plus4 ACIA widget
+ *
+ * We can get away with this since there will only ever be a single Plus4 ACIA
+ * widget active in the UI.
+ */
+static GtkWidget *instance = NULL;
+
+
+/** \brief  User callback to trigger on widget value changes
+ *
+ * Optional, set via plus4_acia_widget_add_callback()
+ */
+static void (*user_callback)(GtkWidget *, int value) = NULL;
+
+
+/** \brief  Extra handler for the 'toggled' event of the ACIA widget
+ *
+ * Calls the user callback function if that is defined.
+ *
+ * \param[in]   button  ACIA widget
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_acia_widget_toggled(GtkToggleButton *button,
+                                   gpointer         data)
+{
+    int active = gtk_toggle_button_get_active(button);
+    debug_gtk3("ACIA widget toggled: %s", active ? "TRUE" : "FALSE");
+    if (user_callback != NULL) {
+        debug_gtk3("Triggering ACIA user callback");
+        user_callback(GTK_WIDGET(button), active);
+    }
+}
+
+
 /** \brief  Create widget to control Plus4 ACIA
  *
- * \param[in]   parent  parent widget, used for dialogs
- *
- * \return  GtkGrid
+ * \return  GtkCheckButton
  */
-GtkWidget *plus4_acia_widget_create(GtkWidget *parent)
+GtkWidget *plus4_acia_widget_create(void)
 {
-    GtkWidget *grid;
+    instance = vice_gtk3_resource_check_button_new("Acia1Enable",
+                                                   "Enable ACIA");
+    g_signal_connect(instance,
+                     "toggled",
+                     G_CALLBACK(on_acia_widget_toggled),
+                     NULL);
 
-    grid = gtk_grid_new();
+    user_callback = NULL;
+    return instance;
+}
 
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_new("Acia1Enable",
-                "Enable ACIA"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
+
+/** \brief  Synchronize ACIA widget's state with its resource
+ */
+void plus4_acia_widget_sync(void)
+{
+    vice_gtk3_resource_check_button_sync(instance);
+}
+
+
+/** \brief  Add user callback to trigger on widget changes
+ *
+ * When the state of the ACIA widget changes, the callback is called with two
+ * arguments: the ACIA widget and the new value (bool).
+ *
+ * \param[in]   callback    user callback function
+ */
+void plus4_acia_widget_add_callback(void (*callback)(GtkWidget *, int value))
+{
+    user_callback = callback;
 }
