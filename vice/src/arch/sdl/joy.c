@@ -751,16 +751,22 @@ int joy_arch_mapping_load(const char *filename)
                 *p = 0;
             }
 
-            switch (*buffer) {
+            /* remove whitespace at the beginning of the line */
+            p = buffer;
+            while (((*p == ' ') || (*p == '\t')) && (*p != 0)) {
+                ++p;
+            }
+
+            switch (*p) {
                 case 0:
                     break;
                 case '!':
                     /* keyword handling */
-                    joy_arch_parse_keyword(buffer);
+                    joy_arch_parse_keyword(p);
                     break;
                 default:
                     /* table entry handling */
-                    joy_arch_parse_entry(buffer);
+                    joy_arch_parse_entry(p);
                     break;
             }
         }
