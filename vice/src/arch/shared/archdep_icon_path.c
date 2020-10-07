@@ -50,16 +50,47 @@ char *archdep_app_icon_path_png(int size)
     char buffer[1024];
     char *datadir = archdep_get_vice_datadir();
     char *path;
+    const char *icon;
 
-    /* TODO: rename icons to lower case and thus turn machine_name into lower
-     *       case before generating the final path.
+    /*
+     * This sucks, but will have to do until I regenerate/repixel the icons
      */
-    if (machine_class == VICE_MACHINE_VSID) {
-        /* VSID is a special case */
-        snprintf(buffer, sizeof(buffer), "SID_%d.png", size);
-    } else {
-        snprintf(buffer, sizeof(buffer), "%s_%d.png", machine_name, size);
+    printf("MACHINE_NAME = %s\n", machine_name);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:
+            icon = "C64";
+            break;
+        case VICE_MACHINE_C64DTV:
+            icon = "DTV";
+            break;
+        case VICE_MACHINE_SCPU64:
+            icon = "SCPU";
+            break;
+        case VICE_MACHINE_C128:
+            icon = "C128";
+            break;
+        case VICE_MACHINE_PET:
+            icon = "PET";
+            break;
+        case VICE_MACHINE_VIC20:
+            icon = "VIC";
+            break;
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            icon = "CBM2";
+            break;
+        case VICE_MACHINE_PLUS4:
+            icon = "Plus4";
+            break;
+        case VICE_MACHINE_VSID:
+            icon = "SID";
+            break;
+        default:
+            icon = "unknown-emulator-machine-class";
     }
+
+    snprintf(buffer, sizeof(buffer), "%s_%d.png", icon, size);
     path = archdep_join_paths(datadir, "common", buffer, NULL);
     lib_free(datadir);
     return path;
