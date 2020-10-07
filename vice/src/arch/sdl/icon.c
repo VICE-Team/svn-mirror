@@ -43,7 +43,6 @@
 void sdl_ui_set_window_icon(SDL_Window *window)
 {
     SDL_Surface *surface;
-    char *datadir;
     char *path;
 #if 0
     const char *icon;
