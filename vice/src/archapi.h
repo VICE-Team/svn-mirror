@@ -177,6 +177,10 @@ void        archdep_usleep(uint64_t waitTime);
 int         archdep_is_haiku(void);
 int         archdep_is_windows_nt(void);
 
+
+/* Icon handling */
+char *      archdep_app_icon_path_png(int size);
+
 /*
  * Not yet moved to arch/shared/
  */

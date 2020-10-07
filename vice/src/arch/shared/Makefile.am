@@ -60,6 +60,7 @@ libarchdep_a_SOURCES = \
 	archdep_get_vice_datadir.c \
 	archdep_get_vice_docsdir.c \
 	archdep_home_path.c \
+	archdep_icon_path.c \
 	archdep_is_haiku.c \
 	archdep_is_windows_nt.c \
 	archdep_is_macos_bindist.c \
@@ -126,6 +127,7 @@ EXTRA_DIST = \
 	archdep_get_vice_datadir.h \
 	archdep_get_vice_docsdir.h \
 	archdep_home_path.h \
+	archdep_icon_path.h \
 	archdep_is_haiku.h \
 	archdep_is_windows_nt.h \
 	archdep_is_macos_bindist.h \

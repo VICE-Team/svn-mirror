@@ -45,6 +45,7 @@ void sdl_ui_set_window_icon(SDL_Window *window)
     SDL_Surface *surface;
     char *datadir;
     char *path;
+#if 0
     const char *icon;
 
     switch (machine_class) {
@@ -85,6 +86,9 @@ void sdl_ui_set_window_icon(SDL_Window *window)
     path = archdep_join_paths(datadir, "common", icon, NULL);
     printf("path = %s\n", path);
     lib_free(datadir);
+#endif
+
+    path = archdep_app_icon_path_png(256);
 
     IMG_Init(IMG_INIT_PNG);
     surface = IMG_Load(path);
