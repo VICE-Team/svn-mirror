@@ -49,7 +49,7 @@ VICE_DESKTOP_FILES += \
 	$(X64_DESKTOP)
 endif
 
-VICE_DIR_FILE = $(XDG_VENDOR)-$(XDG_VENDOR).directory
+VICE_DIR_FILE = $(top_srcdir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(XDG_VENDOR).directory
 
 
 noinst_DATA = \
