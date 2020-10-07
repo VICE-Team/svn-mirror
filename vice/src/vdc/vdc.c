@@ -584,11 +584,11 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     /* Check if this is the last raster line of the current row, and latch so */
     if (vdc_vert_fine_adj) {    /* vertical fine adjust area has a different comparison */
-        if ((vdc.row_counter_y | vdc.interlaced) == (vdc.regs[5] & 0x1F)) {
+        if (vdc.row_counter_y == (vdc.regs[5] & 0x1F) || (vdc.row_counter_y + vdc.interlaced) == (vdc.regs[5] & 0x1F)) {
             vdc_row_counter_latch = 1;
         }
     } else {    /* normal case, compare with reg #9 */
-        if ((vdc.row_counter_y | vdc.interlaced) == (vdc.regs[9] & 0x1F)) {
+        if (vdc.row_counter_y == (vdc.regs[9] & 0x1F) || (vdc.row_counter_y + vdc.interlaced) == (vdc.regs[9] & 0x1F)) {
             vdc_row_counter_latch = 1;
         }
     }
@@ -691,7 +691,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 vdc.bitmap_counter &= vdc.vdc_address_mask;
             }
         } else {
-            if ((vdc.draw_counter_y | vdc.interlaced) == ((vdc.regs[9] & 0x1F) | vdc.interlaced)) {
+            if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F) || (vdc.draw_counter_y + vdc.interlaced) == (vdc.regs[9] & 0x1F)) {
                 /* we latch on now and start drawing on the next call, even if that's invisible because it's above the top border */
                 
                 /* we are trying to keep the bottom bit the same for the next character row, but only if interlaced */
@@ -739,7 +739,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
             vdc.bitmap_counter &= vdc.vdc_address_mask;
         }
-        if ((vdc.draw_counter_y | vdc.interlaced) == (vdc.regs[9] & 0x1F)) {
+        if (vdc.draw_counter_y == (vdc.regs[9] & 0x1F) || (vdc.draw_counter_y + vdc.interlaced) == (vdc.regs[9] & 0x1F)) {
             vdc_draw_counter_latch = 1;
         }
     } else {
