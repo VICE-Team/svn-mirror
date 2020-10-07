@@ -328,7 +328,8 @@ GtkWidget *romset_manager_widget_create(
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Predefined ROM sets</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-       gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
     romset_predefs = create_predef_romsets_widget(predefs);
@@ -339,6 +340,7 @@ GtkWidget *romset_manager_widget_create(
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set listing</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
@@ -363,6 +365,7 @@ GtkWidget *romset_manager_widget_create(
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set management</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
     row++;
 
