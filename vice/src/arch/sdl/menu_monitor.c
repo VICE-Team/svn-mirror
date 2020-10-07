@@ -41,9 +41,15 @@ static UI_MENU_CALLBACK(monitor_callback)
         if (sdl_menu_state) {
             monitor_startup(e_default_space);
         } else {
-            /* The monitor was activated with a hotkey.
-               In this case, the trap is needed for the machine state to be
-               properly imported. */
+            /* The monitor was activated with a hotkey. */
+            /* we must remember the pause state and unpause, else we can not
+               enter the monitor when the emulation is paused */
+            sdl_pause_state = ui_pause_active();
+            if (sdl_pause_state) {
+                sdl_ui_create_draw_buffer_backup();
+                ui_pause_disable();
+            }
+            /* The trap is needed for the machine state to be properly imported. */
             monitor_startup_trap();
         }
         return sdl_menu_text_exit_ui;

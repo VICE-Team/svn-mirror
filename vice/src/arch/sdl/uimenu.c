@@ -709,6 +709,34 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
     return MENU_RETVAL_DEFAULT;
 }
 
+/* make a backup of the current emulator screen contents */
+void sdl_ui_create_draw_buffer_backup(void)
+{
+    unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
+    unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    draw_buffer_backup = lib_malloc(width * height);
+    memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
+}
+
+/* copy the backup of the emulator output back to the canvas */
+void sdl_ui_restore_draw_buffer_backup(void)
+{
+    unsigned int width = sdl_active_canvas->draw_buffer->draw_buffer_width;
+    unsigned int height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    if (draw_buffer_backup) {
+        memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
+    }
+}
+
+/* free the backup buffer */
+void sdl_ui_destroy_draw_buffer_backup(void)
+{
+    if (draw_buffer_backup) {
+        lib_free(draw_buffer_backup);
+        draw_buffer_backup = NULL;
+    }
+}
+
 static void sdl_ui_trap(uint16_t addr, void *data)
 {
     unsigned int width;
@@ -717,11 +745,10 @@ static void sdl_ui_trap(uint16_t addr, void *data)
 
     DBG(("sdl_ui_trap start\n"));
 
-    /* make a backup of the current emulator screen contents */
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;
-    draw_buffer_backup = lib_malloc(width * height);
-    memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
+
+    sdl_ui_create_draw_buffer_backup();
 
     sdl_ui_activate_pre_action();
 
@@ -742,7 +769,10 @@ static void sdl_ui_trap(uint16_t addr, void *data)
     if (machine_class == VICE_MACHINE_VSID) {
         memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
         sdl_ui_refresh();
-    } else {
+    }
+#if 0
+/* this should be no more needed */
+    else {
         if (ui_pause_active() && draw_buffer_backup &&
             (width == sdl_active_canvas->draw_buffer->draw_buffer_width) && 
             (height == sdl_active_canvas->draw_buffer->draw_buffer_height)) {
@@ -750,12 +780,10 @@ static void sdl_ui_trap(uint16_t addr, void *data)
             sdl_ui_refresh();
         }
     }
-
+#endif
     sdl_ui_activate_post_action();
 
-    /* free the backup buffer */
-    lib_free(draw_buffer_backup);
-    draw_buffer_backup = NULL;
+    sdl_ui_destroy_draw_buffer_backup();
 
     DBG(("sdl_ui_trap end\n"));
 }
@@ -1265,7 +1293,6 @@ void sdl_ui_activate_pre_action(void)
 /* called when UI closes and emulator resumes by sdl_ui_trap, sdl_vkbd_key_map, uimon_window_close */
 void sdl_ui_activate_post_action(void)
 {
-    int width, height;
     int warp_state;
 
     DBG(("sdl_ui_activate_post_action start\n"));
@@ -1286,15 +1313,10 @@ void sdl_ui_activate_post_action(void)
         sdl_vsid_activate();
     }
 
-    /* copy the backup of the emulator output back to the canvas */
-    if (draw_buffer_backup) {
-        width = sdl_active_canvas->draw_buffer->draw_buffer_width;
-        height = sdl_active_canvas->draw_buffer->draw_buffer_height;
-        memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
-        video_canvas_refresh_all(sdl_active_canvas);
-    }
+    sdl_ui_restore_draw_buffer_backup();
 
     /* Force a video refresh */
+    video_canvas_refresh_all(sdl_active_canvas);
     /* SDL mode: prevent core dump - pressing menu key in -console mode causes parent_raster to be NULL */
     if (sdl_active_canvas->parent_raster) {
         raster_force_repaint(sdl_active_canvas->parent_raster);
@@ -1847,9 +1869,8 @@ void sdl_ui_set_monitor_font(uint8_t *font, int w, int h)
  */
 void sdl_ui_menu_shutdown(void)
 {
-    if (draw_buffer_backup != NULL) {
-        lib_free(draw_buffer_backup);
-    }
+    sdl_ui_destroy_draw_buffer_backup();
+
     if (menu_offsets != NULL) {
         lib_free(menu_offsets);
     }

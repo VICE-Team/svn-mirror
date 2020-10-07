@@ -118,7 +118,7 @@ struct menu_draw_s {
 
     uint8_t color_cursor_back;
     uint8_t color_cursor_revers;
-    
+
     uint8_t color_active_green;
     uint8_t color_inactive_red;
 
@@ -197,5 +197,9 @@ extern int sdl_ui_set_default_colors(void);
 extern void sdl_ui_menu_shutdown(void);
 
 extern const char *sdl_ui_menu_video_slider_helper(int activated, ui_callback_data_t param, const char *resource_name, const int min, const int max);
+
+extern void sdl_ui_create_draw_buffer_backup(void);
+extern void sdl_ui_restore_draw_buffer_backup(void);
+extern void sdl_ui_destroy_draw_buffer_backup(void);
 
 #endif

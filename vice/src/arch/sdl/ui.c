@@ -490,7 +490,8 @@ ui_menu_action_t ui_dispatch_events(void)
                 break;
         }
         /* When using the menu or vkbd, pass every meaningful event to the caller */
-        if (((sdl_menu_state) || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) && (retval != MENU_ACTION_NONE) && (retval != MENU_ACTION_NONE_RELEASE)) {
+        if (((sdl_menu_state) ||
+             (sdl_vkbd_state & SDL_VKBD_ACTIVE)) && (retval != MENU_ACTION_NONE) && (retval != MENU_ACTION_NONE_RELEASE)) {
             break;
         }
     }
