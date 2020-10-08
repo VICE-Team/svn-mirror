@@ -442,7 +442,7 @@ if test x"$1" = "xindexhtml"; then
         fi
         decodedall=`$ECHO "$i" | sed 's/+/ /g'`
         splititem4 $decodedall
-        decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
+        decodedname=`$ECHO "$item3" | LC_ALL=C sed "s/_/ /g;s/é/\&eacute;/g;s/\\\'e/\&eacute;/g"`
       done
       $ECHO "$decodedname."
       $ECHO "</p>"
@@ -457,7 +457,7 @@ if test x"$1" = "xindexhtml"; then
       $ECHO "<h1><a NAME=\"copyright\"></a>Copyright</h1>"
       $ECHO ""
       $ECHO "<p>"
-      $ECHO "The VICE is copyrighted to"
+      $ECHO "The VICE is copyrighted to:"
       buildallmembers
       decodedname=""
       for i in $ALL_MEMBERS
@@ -466,7 +466,7 @@ if test x"$1" = "xindexhtml"; then
           $ECHO "$decodedname,"
         fi
         if test x"$i" != "x"; then
-          decodedname=`$ECHO "$i" | sed 's/_/ /g'`
+          decodedname=`$ECHO "$i" | LC_ALL=C sed "s/_/ /g;s/é/\&eacute;/g;s/\\\'e/\&eacute;/g"`
         fi
       done
       $ECHO "$decodedname."
@@ -479,38 +479,5 @@ if test x"$1" = "xindexhtml"; then
     fi
 
     $ECHO "$data"
-  done
-fi
-
-# -----------------------------------------------------------
-# vice.1 man output type
-
-if test x"$1" = "xvice1"; then
-  MEMBERS=`cat team.tmp`
-  buildlists
-  buildallmembers
-  foundauthors=no
-
-  while test x"$foundauthors" != "xyes"
-  do
-    read data
-    if test x"$data" = "x.SH AUTHORS"; then
-      $ECHO ".SH AUTHORS"
-      for i in $ALL_MEMBERS
-      do
-        decoded=`$ECHO "$i" | sed 's/_/ /g'`
-        $ECHO "@b{$decoded}"
-        $ECHO ".br"
-      done
-      $ECHO "with several contributions from other people around the world; see the"
-      $ECHO "HTML documentation for more information."
-      $ECHO ""
-      $ECHO ""
-      foundauthors=yes
-    fi
-
-    if test x"$foundauthors" != "xyes"; then
-      $ECHO $data
-    fi
   done
 fi
