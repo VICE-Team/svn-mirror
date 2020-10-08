@@ -24,11 +24,6 @@ COMMON_EXTRA_DIST = \
 	autogen.sh \
 	config.rpath \
 	configure.ac \
-	ChangeLog \
-	ChangeLog.1 \
-	ChangeLog.2 \
-	ChangeLog.3 \
-	ChangeLog.4 \
 	COPYING \
 	FEEDBACK \
 	INSTALL \
