@@ -10,8 +10,8 @@ imagesdir = $(htmldir)/images
 GEN_HTML := \
 	vice_foot.html \
 	vice_toc.html \
-	$(patsubst %,vice_%.html,$(shell seq 22))
-
+	$(patsubst %,vice_%.html,$(shell seq 23))
+	
 TEXT_FILES = \
 	COPYING \
 	NEWS
@@ -72,7 +72,7 @@ IMAGES_FILES = \
 COPIED_FILES = $(if $(subst x.x,,x$(srcdir)x),$(STATIC_FILES) $(FONTS_FILES) $(IMAGES_FILES))
 
 CLEANFILES = \
-	$(GEN_HTML) \
+	vice_*.html \
 	$(TEXT_FILES) \
 	$(COPIED_FILES)
 
@@ -98,7 +98,8 @@ endif
 .NOTPARALLEL:
 
 if HAVE_PERL
-$(GEN_HTML): $(top_srcdir)/doc/vice.texi
+$(GEN_HTML): $(top_srcdir)/doc/vice.texi $(srcdir)/texi2html
+	@echo "generating html documentation..."
 	$(PERL) "$(srcdir)"/texi2html -number -split_chapter -D$(PLATFORM_DOX_FLAGS) "$<"
 endif
 
