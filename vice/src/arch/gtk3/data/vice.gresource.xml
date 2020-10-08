@@ -18,6 +18,7 @@
     <file alias="CBM2.svg">data/common/CBM2_1024.svg</file>
     <file alias="VIC20.svg">data/common/VIC20_1024.svg</file>
     <file alias="PET.svg">data/common/PET_256.svg</file> <!-- probably should be 1024 -->
+    <file alias="SID.svg">data/common/SID_1024.svg</file>
   </gresource>
 </gresources>
 
