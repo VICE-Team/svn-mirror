@@ -82,7 +82,6 @@ VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 ex
 VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libieee1284 support])
 VICE_ARG_ENABLE_LIST(midi,              [  --enable-midi           enable MIDI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,     [  --enable-native-gtk3ui  enables native GTK3 UI support])
-VICE_ARG_ENABLE_LIST(native-tools,      [  --enable-native-tools[[=compiler]]  enable native tools instead of scripts])
 VICE_ARG_ENABLE_LIST(new8580filter,     [  --disable-new8580filter  disable new 8580 filters])
 VICE_ARG_ENABLE_LIST(no-pic,            [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 VICE_ARG_ENABLE_LIST(parsid,            [  --disable-parsid        disables ParSID support])
@@ -1883,28 +1882,11 @@ fi
 if test x"$cross_compiling" = "xyes"; then
   AM_CONDITIONAL(CROSS, true)
   CROSS=true
-  if test x"$enable_native_tools" = "xno" -o x"$enable_native_tools" = "x"; then
-    AC_MSG_WARN([Cross compiling and no 'enable-native-tools' specified, using slow scripts for generation tasks])
-    NATIVE_TOOLS_COMPILER=""
-    AM_CONDITIONAL(NATIVE_TOOLS, false)
-  else
-    if test x"$enable_native_tools" = "xyes"; then
-      NATIVE_TOOLS_COMPILER="gcc"
-      AC_MSG_WARN([No native tools compiler given, using 'gcc'])
-      AM_CONDITIONAL(NATIVE_TOOLS, true)
-    else
-      NATIVE_TOOLS_COMPILER="$enable_native_tools"
-      AM_CONDITIONAL(NATIVE_TOOLS, true)
-    fi
-  fi
 else
   AM_CONDITIONAL(CROSS, false)
   CROSS=false
-  NATIVE_TOOLS_COMPILER="$CC"
-  AM_CONDITIONAL(NATIVE_TOOLS, true)
 fi
 AC_SUBST(CROSS)
-AC_SUBST(NATIVE_TOOLS_COMPILER)
 
 AC_CHECK_SIZEOF(unsigned short, 2)
 AC_CHECK_SIZEOF(unsigned int, 4)
