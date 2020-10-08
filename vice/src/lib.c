@@ -690,34 +690,41 @@ char *lib_strdup(const char *str)
 
 char *lib_mvsprintf(const char *fmt, va_list ap)
 {
-    /* Guess we need no more than 100 bytes. */
-    int n, size = 100;
+    /* use the length of the format string as a first guess */
+    int n, maxlen = strlen(fmt);
     char *p, *np;
     va_list args;
 
-    if ((p = lib_malloc (size)) == NULL) {
+    /* alloc one more byte than max. len */
+    if ((p = lib_malloc (maxlen + 1)) == NULL) {
         return NULL;
     }
 
     while (1) {
         /* Try to print in the allocated space. */
         va_copy(args, ap);
-        n = vsnprintf (p, size - 1, fmt, args);
+        /* caution, the returned value is string len, NOT containing the 
+           terminating zero. The max. size passed into vsnprintf DOES include 
+           the terminating zero! (ie it is the size of the buffer, NOT the
+           string length!)
+        */
+        n = vsnprintf (p, maxlen + 1, fmt, args);
         va_end(args);
 
         /* If that worked, return the string. */
-        if (n > -1 && n < size) {
+        if ((n > -1) && (n <= maxlen)) {
             return p;
         }
 
         /* Else try again with more space. */
-        if (n > -1) {     /* glibc 2.1 and C99 */
-            size = n + 1; /* precisely what is needed */
-        } else {          /* glibc 2.0 */
-            size *= 2;    /* twice the old size */
+        if (maxlen > -1) {     /* glibc 2.1 and C99 */
+            maxlen = n + 1;    /* precisely what is needed */
+        } else {               /* glibc 2.0 */
+            maxlen *= 2;       /* twice the old size */
         }
 
-        if ((np = lib_realloc (p, size)) == NULL) {
+        /* alloc one more byte than max. len */
+        if ((np = lib_realloc (p, maxlen + 1)) == NULL) {
             lib_free(p);
             return NULL;
         } else {
