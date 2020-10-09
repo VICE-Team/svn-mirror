@@ -613,14 +613,14 @@ int magicformel_crt_attach(FILE *fd, uint8_t *rawcart)
     }
 
     if (cnt == 8) {
-        DBG(("MF: 64k ROM loaded.\n"));
+        DBG(("MF: 64KiB ROM loaded.\n"));
         hwversion = 0;
     } else if (cnt == 12) {
-        DBG(("MF: 64k+32k ROM loaded.\n"));
+        DBG(("MF: 64KiB+32KiB ROM loaded.\n"));
         hwversion = 1;
         memcpy(&rawcart[0x18000], &rawcart[0x10000], 0x8000);
     } else if (cnt == 16) {
-        DBG(("MF: 2*64k ROM loaded.\n"));
+        DBG(("MF: 2*64KiB ROM loaded.\n"));
         hwversion = 2;
     } else {
         return -1;

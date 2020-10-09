@@ -348,7 +348,7 @@ int psid_load_file(const char* filename)
     }
 
     if (!feof(f)) {
-        log_error(vlog, "More than 64K PSID data.");
+        log_error(vlog, "More than 64KiB PSID data.");
         goto fail;
     }
 

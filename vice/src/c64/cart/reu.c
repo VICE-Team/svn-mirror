@@ -532,7 +532,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable the RAM Expansion Unit" },
     { "-reusize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "REUsize", NULL,
-      "<size in KB>", "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)" },
+      "<size in KiB>", "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)" },
     { "-reuimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "REUfilename", NULL,
       "<Name>", "Specify name of REU image" },
@@ -624,7 +624,7 @@ static int reu_activate(void)
 
     old_reu_ram_size = reu_size;
 
-    log_message(reu_log, "%uKB unit installed.", reu_size >> 10);
+    log_message(reu_log, "%uKiB unit installed.", reu_size >> 10);
 
     if (!util_check_null_string(reu_filename)) {
         if (util_file_load(reu_filename, reu_ram, (size_t)reu_size, UTIL_FILE_LOAD_RAW) < 0) {

@@ -143,7 +143,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Colour 0-255>", "Analog colour background on PET 4032" },
     { "-ramsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RamSize", NULL,
-      "<size in KB>", "PET RAM size (4/8/16/32/96/128)" },
+      "<size in KiB>", "PET RAM size (4/8/16/32/96/128)" },
     { "-iosize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "IOSize", NULL,
       "<size>", "PET I/O size (256/2048)" },

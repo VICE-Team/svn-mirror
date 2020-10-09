@@ -314,7 +314,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
 #define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
 #define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
-#define CARTRIDGE_NAME_REX_EP256          "REX 256k EPROM Cart" /* http://www.retroport.de/Rex.html */
+#define CARTRIDGE_NAME_REX_EP256          "REX 256K EPROM Cart" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_REX                "REX Utility"
 #define CARTRIDGE_NAME_REX_RAMFLOPPY      "REX RAM-Floppy"
 #define CARTRIDGE_NAME_RGCD               "RGCD"
@@ -325,7 +325,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_SDBOX              "SD-BOX" /* http://c64.com.pl/index.php/sdbox106.html */
 #define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
 #define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
-#define CARTRIDGE_NAME_SILVERROCK_128     "Silverrock 128K Cartridge"
+#define CARTRIDGE_NAME_SILVERROCK_128     "Silverrock 128KiB Cartridge"
 #define CARTRIDGE_NAME_SIMONS_BASIC       "Simons' BASIC" /* http://en.wikipedia.org/wiki/Simons'_BASIC */
 #define CARTRIDGE_NAME_SNAPSHOT64         "Snapshot 64" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
 #define CARTRIDGE_NAME_STARDOS            "Stardos" /* see manual http://rr.pokefinder.org/wiki/StarDOS */
@@ -341,9 +341,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
 #define CARTRIDGE_NAME_ZIPPCODE48         "ZIPP-CODE 48"
 
-#define CARTRIDGE_NAME_GENERIC_8KB        "8k game"
-#define CARTRIDGE_NAME_GENERIC_16KB       "16k game"
-#define CARTRIDGE_NAME_ULTIMAX            "Ultimax"
+#define CARTRIDGE_NAME_GENERIC_8KB        "generic 8KiB game"
+#define CARTRIDGE_NAME_GENERIC_16KB       "generic 16KiB game"
+#define CARTRIDGE_NAME_ULTIMAX            "generic Ultimax"
 
 /*
  * VIC20 cartridge system

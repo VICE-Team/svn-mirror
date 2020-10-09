@@ -92,7 +92,7 @@ void bisplus_io1_store(uint16_t addr, uint8_t value)
 /* FIXME: Add EXROM, GAME lines to the dump */
 static int bisplus_dump(void)
 {
-    mon_out("ROM Size: %dkb\n", bis_rom_kb);
+    mon_out("ROM Size: %dKiB\n", bis_rom_kb);
     mon_out("Status: %s\n", bis_rom_enabled ? "Enabled" : "Disabled");
     return 0;
 }
