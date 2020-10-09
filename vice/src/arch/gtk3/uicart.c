@@ -125,8 +125,8 @@ typedef struct cart_type_list_s {
  */
 static const cart_type_list_t c64_cart_types[] = {
     { "Smart-attach",   UICART_C64_SMART },
-    { "Raw 8KB",        UICART_C64_8KB },
-    { "Raw 16KB",       UICART_C64_16KB },
+    { "Raw 8KiB",       UICART_C64_8KB },
+    { "Raw 16iKB",      UICART_C64_16KB },
     { "Raw Ultimax",    UICART_C64_ULTIMAX },
     { "Freezer",        UICART_C64_FREEZER },
     { "Games",          UICART_C64_GAME },
@@ -157,15 +157,15 @@ static const cart_type_list_t vic20_cart_types[] = {
 static const cart_type_list_t plus4_cart_types[] = {
     { "Smart-attach",               UICART_PLUS4_SMART },
     { "NewROM",                     UICART_PLUS4_NEWROM },
-    { "16k C0 Low",                 UICART_PLUS4_16KB_C0LO },
-    { "16k C0 High",                UICART_PLUS4_16KB_C0HI },
-    { "16k C1 Low",                 UICART_PLUS4_16KB_C1LO },
-    { "16k C1 High",                UICART_PLUS4_16KB_C1HI },
-    { "16k C2 Low",                 UICART_PLUS4_16KB_C2LO },
-    { "16k C2 High",                UICART_PLUS4_16KB_C2HI },
-    { "32k C0",                     UICART_PLUS4_32KB_C0 },
-    { "32k C1",                     UICART_PLUS4_32KB_C1 },
-    { "32k C2",                     UICART_PLUS4_32KB_C2 },
+    { "16KiB C0 Low",               UICART_PLUS4_16KB_C0LO },
+    { "16KiB C0 High",              UICART_PLUS4_16KB_C0HI },
+    { "16KiB C1 Low",               UICART_PLUS4_16KB_C1LO },
+    { "16KiB C1 High",              UICART_PLUS4_16KB_C1HI },
+    { "16KiB C2 Low",               UICART_PLUS4_16KB_C2LO },
+    { "16KiB C2 High",              UICART_PLUS4_16KB_C2HI },
+    { "32KiB C0",                   UICART_PLUS4_32KB_C0 },
+    { "32KiB C1",                   UICART_PLUS4_32KB_C1 },
+    { "32KiB C2",                   UICART_PLUS4_32KB_C2 },
     { NULL, -1 }
 };
 
@@ -174,10 +174,10 @@ static const cart_type_list_t plus4_cart_types[] = {
  */
 static const cart_type_list_t cbm2_cart_types[] = {
     /*{ "Smart-attach",               UICART_CBM2_SMART },*/
-    { "8k at $1000",                UICART_CBM2_8KB_1000 },
-    { "8k at $2000",                UICART_CBM2_8KB_2000 },
-    { "16k at $4000",               UICART_CBM2_16KB_4000 },
-    { "16k at $6000",               UICART_CBM2_16KB_6000 },
+    { "8KiB at $1000",              UICART_CBM2_8KB_1000 },
+    { "8KiB at $2000",              UICART_CBM2_8KB_2000 },
+    { "16KiB at $4000",             UICART_CBM2_16KB_4000 },
+    { "16KiB at $6000",             UICART_CBM2_16KB_6000 },
     { NULL, -1 }
 };
 
@@ -186,12 +186,12 @@ static const cart_type_list_t cbm2_cart_types[] = {
  */
 static const cart_type_list_t vic20_cart_types_generic[] = {
     { "Smart-attach cartridge image",   CARTRIDGE_VIC20_DETECT },
-    { "32KB cartridge at $2000",        CARTRIDGE_VIC20_32KB_2000 },
-    { "4/8/16KB cartridge at $2000",    CARTRIDGE_VIC20_16KB_2000 },
-    { "4/8/16KB cartridge at $4000",    CARTRIDGE_VIC20_16KB_4000 },
-    { "4/8/16KB cartridge at $6000",    CARTRIDGE_VIC20_16KB_6000 },
-    { "4/8KB cartridge at $A000",       CARTRIDGE_VIC20_8KB_A000 },
-    { "4KB cartridge at $B000",         CARTRIDGE_VIC20_4KB_B000 },
+    { "32KiB cartridge at $2000",       CARTRIDGE_VIC20_32KB_2000 },
+    { "4/8/16KiB cartridge at $2000",   CARTRIDGE_VIC20_16KB_2000 },
+    { "4/8/16KiB cartridge at $4000",   CARTRIDGE_VIC20_16KB_4000 },
+    { "4/8/16KiB cartridge at $6000",   CARTRIDGE_VIC20_16KB_6000 },
+    { "4/8KiB cartridge at $A000",      CARTRIDGE_VIC20_8KB_A000 },
+    { "4KiB cartridge at $B000",        CARTRIDGE_VIC20_4KB_B000 },
     { NULL, -1 }
 };
 #endif

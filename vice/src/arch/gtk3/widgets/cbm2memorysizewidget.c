@@ -42,26 +42,26 @@
 #include "cbm2memorysizewidget.h"
 
 
-/** \brief  List of RAM sizes for 5x0
+/** \brief  List of RAM sizes for 5x0 in KiB
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes_cbm5x0[] = {
-    { "64KB",   64 },
-    { "128KB",  128 },
-    { "256KB",  256 },
-    { "512KB",  512 },
-    { "1024KB", 1024 },
-    { NULL,     -1 }
+    { "64KiB",      64 },
+    { "128KiB",     128 },
+    { "256KiB",     256 },
+    { "512KiB",     512 },
+    { "1024KiB",    1024 },
+    { NULL,         -1 }
 };
 
 
-/** \brief  List of RAM sizes for 6x0/7x0
+/** \brief  List of RAM sizes for 6x0/7x0 in KiB
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes_cbm6x0[] = {
-    { "128KB",  128 },
-    { "256KB",  256 },
-    { "512KB",  512 },
-    { "1024KB", 1024 },
-    { NULL, -1 }
+    { "128KiB",     128 },
+    { "256KiB",     256 },
+    { "512KiB",     512 },
+    { "1024KiB",    1024 },
+    { NULL,         -1 }
 };
 
 

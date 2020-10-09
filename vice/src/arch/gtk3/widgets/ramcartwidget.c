@@ -51,12 +51,12 @@
 #include "ramcartwidget.h"
 
 
-/** \brief  List of supported RAM sizes
+/** \brief  List of supported RAM sizes in KiB
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "64KB", 64 },
-    { "128KB", 128 },
-    { NULL, -1 }
+    { "64KiB",  64 },
+    { "128KiB", 128 },
+    { NULL,     -1 }
 };
 
 

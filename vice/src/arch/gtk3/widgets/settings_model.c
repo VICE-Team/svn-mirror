@@ -172,7 +172,7 @@ static void vdc_revision_callback(int revision)
 
 
 static void vdc_ram_callback(int state)
-{    debug_gtk3("Got VDC 64KB RAM state %d.", state);
+{    debug_gtk3("Got VDC 64KiB RAM state %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -247,7 +247,7 @@ static void cia_model_callback(int cia_num, int cia_model)
 
 /** \brief  Callback for PET RAM size changes
  *
- * \param[in]   size    RAM size in KB
+ * \param[in]   size    RAM size in KiB
  */
 static void pet_ram_size_callback(int size)
 {
@@ -350,7 +350,7 @@ static void plus4_debug_dump_resources(void)
     g_print("Plus4 resources dump:\n");
     g_print("    get_model_func()    : %d\n", model);
     g_print("    MachineVideoStandard: %d (%s)\n", video, vidmodes[video]);
-    g_print("    RAM size            : %dKB\n", ram);
+    g_print("    RAM size            : %dKiB\n", ram);
     g_print("    MemoryHack          : %d (%s)\n",
             hack,
             get_memhack_func != NULL ?
@@ -383,14 +383,14 @@ static void plus4_debug_dump_resources(void)
  * Triggered when the widget changes value.
  *
  * \param[in,out]   widget      plus4 ram size widget
- * \param[in]       value       new size in KB
+ * \param[in]       value       new size in KiB
  */
 static void plus4_mem_size_callback(GtkWidget *widget, int value)
 {
     int size = 0;
 
     resources_get_int("RamSize", &size);
-    debug_gtk3("Got new value: %dKB, RamSize = %d", value, size);
+    debug_gtk3("Got new value: %dKiB, RamSize = %d", value, size);
     debug_gtk3("Calling plus4_memory_expansion_widget_sync(): ");
     if (plus4_memory_expansion_widget_sync()) {
         debug_gtk3("OK.");
@@ -407,7 +407,7 @@ static void plus4_mem_size_callback(GtkWidget *widget, int value)
  * Triggered when the widget changes value.
  *
  * \param[in,out]   widget      plus4 memory expansion hack widget
- * \param[in]       value       new size in KB
+ * \param[in]       value       new size in KiB
  */
 static void plus4_mem_hack_callback(GtkWidget *widget, int value)
 {
@@ -679,7 +679,7 @@ static void plus4_video_callback(int model)
  *
  * Calls model widget update
  *
- * \param[in]   ram     ram size in KB
+ * \param[in]   ram     ram size in KiB
  * \param[in]   hack    memory hack type
  */
 static void plus4_memory_callback(int ram, int hack)

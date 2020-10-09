@@ -40,11 +40,12 @@
 #include "plus4memorysizewidget.h"
 
 
-
+/** \brief  List of RAM sizes in KiB
+ */
 static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "16KB",   16 },
-    { "32KB",   32 },
-    { "64KB",   64 },
+    { "16KiB",  16 },
+    { "32KiB",  32 },
+    { "64KiB",  64 },
     { NULL,     -1 }
 };
 

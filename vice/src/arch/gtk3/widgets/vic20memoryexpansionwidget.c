@@ -61,11 +61,11 @@ typedef struct common_config_s {
 /** \brief  List of available RAM expansions
  */
 static const vice_gtk3_radiogroup_entry_t ram_blocks[] = {
-    { "Block 0 (3KB at $0400-$0FFF)", 0 },
-    { "Block 1 (8KB at $2000-$3FFF)", 1 },
-    { "Block 2 (8KB at $4000-$5FFF)", 2 },
-    { "Block 3 (8KB at $6000-$7FFF)", 3 },
-    { "Block 5 (8KB at $A000-$BFFF)", 5 },
+    { "Block 0 (3KiB at $0400-$0FFF)", 0 },
+    { "Block 1 (8KiB at $2000-$3FFF)", 1 },
+    { "Block 2 (8KiB at $4000-$5FFF)", 2 },
+    { "Block 3 (8KiB at $6000-$7FFF)", 3 },
+    { "Block 5 (8KiB at $A000-$BFFF)", 5 },
     VICE_GTK3_RADIOGROUP_ENTRY_LIST_END
 };
 
@@ -76,10 +76,10 @@ static const vice_gtk3_radiogroup_entry_t ram_blocks[] = {
  */
 static const common_config_t common_configs[] = {
     { "No expansion memory",    { 0, 0, 0, 0, 0 } },
-    { "3KB (block 0)",          { 1, 0, 0, 0, 0 } },
-    { "8KB (block 1)",          { 0, 1, 0, 0, 0 } },
-    { "12KB (block 1/2)",       { 0, 1, 1, 0, 0 } },
-    { "16KB (block 1/2/3)",     { 0, 1, 1, 1, 0 } },
+    { "3KiB (block 0)",         { 1, 0, 0, 0, 0 } },
+    { "8KiB (block 1)",         { 0, 1, 0, 0, 0 } },
+    { "12KiB (block 1/2)",      { 0, 1, 1, 0, 0 } },
+    { "16KiB (block 1/2/3)",    { 0, 1, 1, 1, 0 } },
     { "All (block 0/1/2/3/5)",  { 1 ,1 ,1 ,1 ,1 } },
     { NULL,                     { 0, 0, 0, 0, 0 } }
 };

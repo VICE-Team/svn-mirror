@@ -54,7 +54,7 @@ GtkWidget *super_snapshot_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(grid),
             vice_gtk3_resource_check_button_new("SSRamExpansion",
-                "Enable 32KB Super Snapshot V5 RAM expansion"),
+                "Enable 32KiB Super Snapshot V5 RAM expansion"),
             0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

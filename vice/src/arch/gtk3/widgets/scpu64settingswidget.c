@@ -47,12 +47,12 @@
 /** \brief  List of SCPU64 SIMM sizes
  */
 static const vice_gtk3_combo_entry_int_t simm_sizes[] = {
-    { "0 MB", 0 },
-    { "1 MB", 1 },
-    { "4 MB", 4 },
-    { "8 MB", 8 },
-    { "16 MB", 16 },
-    { NULL, -1 }
+    { "0MiB",   0 },
+    { "1MiB",   1 },
+    { "4MiB",   4 },
+    { "8MiB",   8 },
+    { "16MiB",  16 },
+    { NULL,     -1 }
 };
 
 

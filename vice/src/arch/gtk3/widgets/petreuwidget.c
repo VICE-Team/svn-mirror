@@ -49,11 +49,11 @@
 /** \brief  List of REU sizes
  */
 static const vice_gtk3_radiogroup_entry_t reu_sizes[] = {
-    { "128KB",  128 },
-    { "512KB",  512 },
-    { "1024KB", 1024 },
-    { "2048KB", 2048 },
-    { NULL, -1 }
+    { "128KiB",     128 },
+    { "512KiB",     512 },
+    { "1024KiB",    1024 },
+    { "2048KiB",    2048 },
+    { NULL,         -1 }
 };
 
 

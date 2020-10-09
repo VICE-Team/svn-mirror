@@ -44,12 +44,12 @@
 /** \brief  Data for the radio buttons group
  */
 static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
-    { "4KB", 4 },
-    { "8KB", 8 },
-    { "16KB", 16 },
-    { "32KB", 32 },
-    { "96KB", 96 },
-    { "128KB", 128 },
+    { "4KiB",   4 },
+    { "8KiB",   8 },
+    { "16KiB",  16 },
+    { "32KiB",  32 },
+    { "96KiB",  96 },
+    { "128KiB", 128 },
     { NULL, -1 }
 };
 
@@ -64,11 +64,11 @@ static void (*glue_func)(int);
 /** \brief  Callback for the radio group widget
  *
  * \param[in]   widget  radio group widget
- * \param[in]   ram     RAM size in KB
+ * \param[in]   ram     RAM size in KiB
  */
 static void on_ram_size_changed_callback(GtkWidget *widget, int ram)
 {
-    debug_gtk3("RAM = %dKB.", ram);
+    debug_gtk3("RAM = %dKiB.", ram);
     if (glue_func != NULL) {
         glue_func(ram);
     }
