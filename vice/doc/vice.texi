@@ -737,7 +737,7 @@ The VIC20 emulator allows the use of the VIC1112 IEEE488
 interface. You have to enable the hardware (by menu, resource, or
 commandline option) and then load the IEEE488 ROM (see for
 example @uref{http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin}, 
-but you have to double the size to 4k for now).
+but you have to double the size to 4KiB for now).
 The IEEE-488 code is then started by @code{SYS45065}.
 
 
@@ -755,17 +755,17 @@ Both the 40 column and 80 column CRTC video chips are emulated (from the
 of rasterlines per char and lines per screen).  Fortunately, they are
 not very important for average applications.
 
-The PET 8096 is basically a PET 8032 with a 64k extension board which
-allows remapping the upper 32k with RAM.  You have to write to a special
+The PET 8096 is basically a PET 8032 with a 64KiB extension board which
+allows remapping the upper 32KiB with RAM.  You have to write to a special
 register at @code{$fff0} to remap the memory.  The PET 8296 is a
-8096 but with a completely redesigned motherboard with 128k RAM in
-total.  Of the additional 32k RAM you can use only some in blocks of 4k,
+8096 but with a completely redesigned motherboard with 128KiB RAM in
+total.  Of the additional 32KiB RAM you can use only some in blocks of 4KiB,
 but you have to set jumpers on the motherboard for it.  VICE uses the
 command line options @samp{-petram9} and @samp{-petramA}
 instead.  Also, the video controller can handle a larger address range.
 The PET 8x96 model emulations run the Commodore LOS-96 operating system
-- basically an improved BASIC 4 version with up to 32k for BASIC
-text and 32k for variables.  See @uref{https://sourceforge.net/p/vice-emu/code/HEAD/tree/techdocs/PET/PETdoc.txt?format=raw, PETDoc} for more information.
+- basically an improved BASIC 4 version with up to 32KiB for BASIC
+text and 32KiB for variables.  See @uref{https://sourceforge.net/p/vice-emu/code/HEAD/tree/techdocs/PET/PETdoc.txt?format=raw, PETDoc} for more information.
 
 The PET 8296D is an 8296 with built-in 8250 low-profile dual disk drive.
 
@@ -775,8 +775,8 @@ Thomson chips. This version instead uses no additional hardware support
 apart from some memory mapping tricks. It has supporting software in the
 hre-*.bin rom files.
 
-The SuperPET also is a PET 8032 with an expansion board.  It can map 4k
-at a time out of 64k into the @code{$9***} area.  Also it has an ACIA
+The SuperPET also is a PET 8032 with an expansion board.  It can map 4KiB
+at a time out of 64KiB into the @code{$9***} area.  Also it has an ACIA
 6551 for RS232 communication.  The 6809 CPU that is built into the
 SuperPET is now emulated, since release 2.4, including the 6702 dongle
 chip.
@@ -826,10 +826,10 @@ Z80 CPU.  Indeed there are models @code{CBM 630} and @code{CBM 730} that
 supposedly had those processors.  However these models are not emulated.
 
 The basic difference is the amount of RAM these machines have been
-supplied with.  The @code{B128} and the @code{CBM *10} models had 128k
-RAM, the others 256k. This implies some banking scheme, as the 6502 can
-only address 64k.  And indeed those machines use a 6509, that can
-address 1 MByte of RAM.  It has 2 registers at addresses 0 and 1.  The
+supplied with.  The @code{B128} and the @code{CBM *10} models had 128KiB
+RAM, the others 256KiB. This implies some banking scheme, as the 6502 can
+only address 64KiB.  And indeed those machines use a 6509, that can
+address 1 MiB of RAM.  It has 2 registers at addresses 0 and 1.  The
 indirect bank register at address 1 determines the bank (0-15) where the
 opcodes @code{LDA (zp),Y} and @code{STA (zp),Y} take the data from.  The
 exec bank register at address 0 determines the bank where all other read
@@ -843,7 +843,7 @@ and uses bank 1 for program and all variables. Bank 0, though, can be
 accessed by the VIC-II to display graphics.
 
 Many models have been expanded to more than the built-in memory.  In fact
-some machines have been expanded to the full 1M.  Bank 15 is used as
+some machines have been expanded to the full 1MiB.  Bank 15 is used as
 system bank, with only little RAM, and lots of expansion cartridge ROM
 area, the I/O and the kernal/basic ROMs.  Some models have been modified
 to map RAM into the expansion ROM area.  Those modifications can be
@@ -1560,13 +1560,13 @@ ROM set consists of the following files:
 @itemize @bullet
 
 @item
-@file{kernal},  the Kernal ROM (8 KBytes)
+@file{kernal},  the Kernal ROM (8 KiB)
 
 @item
-@file{basic}, the Basic ROM (8 KBytes)
+@file{basic}, the Basic ROM (8 KiB)
 
 @item
-@file{chargen}, the character generator ROM (4 Kbytes)
+@file{chargen}, the character generator ROM (4 KiB)
 
 @end itemize
 
@@ -1575,13 +1575,13 @@ The C128 needs the following files:
 @itemize @bullet
 
 @item
-@file{kernal}, the Kernal ROM (8 Kbytes)
+@file{kernal}, the Kernal ROM (8 KiB)
 
 @item
-@file{basic}, the Basic + Editor ROM (32 Kbytes)
+@file{basic}, the Basic + Editor ROM (32 KiB)
 
 @item
-@file{chargen}, the character generator ROM (4 Kbytes)
+@file{chargen}, the character generator ROM (4 KiB)
 
 @end itemize
 
@@ -1592,25 +1592,25 @@ drives:
 @itemize @bullet
 
 @item
-@file{dos1540}, the 1540 drive ROM (16 Kbytes)
+@file{dos1540}, the 1540 drive ROM (16 KiB)
 
 @item
-@file{dos1541}, the 1541 drive ROM (16 Kbytes)
+@file{dos1541}, the 1541 drive ROM (16 KiB)
 
 @item
-@file{dos1541II}, the 1541-II drive ROM (16 Kbytes)
+@file{dos1541II}, the 1541-II drive ROM (16 KiB)
 
 @item
-@file{dos1571}, the 1571 drive ROM (32 Kbytes)
+@file{dos1571}, the 1571 drive ROM (32 KiB)
 
 @item
-@file{dos1581}, the 1581 drive ROM (32 Kbytes)
+@file{dos1581}, the 1581 drive ROM (32 KiB)
 
 @item
-@file{dos2000}, the 2000 drive ROM (32 Kbytes)
+@file{dos2000}, the 2000 drive ROM (32 KiB)
 
 @item
-@file{dos4000}, the 4000 drive ROM (32 Kbytes)
+@file{dos4000}, the 4000 drive ROM (32 KiB)
 
 @end itemize
 
@@ -1622,23 +1622,23 @@ so they also need the DOS ROM for the IEEE disk drives:
 @itemize @bullet
 
 @item
-@file{dos2031}, the 2031 drive ROM (16 Kbytes)
+@file{dos2031}, the 2031 drive ROM (16 KiB)
 (DOS 2.6, Commodore ROM images 901484-03 and 901484-05)
 
 @item
-@file{dos2040}, the 2040 drive ROM (8 Kbytes)
+@file{dos2040}, the 2040 drive ROM (8 KiB)
 (DOS 1, Commodore ROM images 901468-06, 901468-07)
 
 @item
-@file{dos3040}, the 3040 drive ROM (12 Kbytes)
+@file{dos3040}, the 3040 drive ROM (12 KiB)
 (DOS 2, Commodore ROM images 901468-11, 901468-12 and 901468-13)
 
 @item
-@file{dos4040}, the 4040 drive ROM (12 Kbytes)
+@file{dos4040}, the 4040 drive ROM (12 KiB)
 (DOS 2, Commodore ROM images 901468-14, 901468-15 and 901468-16)
 
 @item
-@file{dos1001}, the 1001/8050/8250 drive ROM (16 Kbytes)
+@file{dos1001}, the 1001/8050/8250 drive ROM (16 KiB)
 (DOS 2.7, Commodore ROM images 901887-01 and 901888-01)
 
 @end itemize
@@ -1661,63 +1661,63 @@ The PET ROMs have the following names:
 @itemize @bullet
 
 @item
-@file{kernal-1.901439-04-07.bin}, the PET2001 Kernal ROM (4 KBytes)
+@file{kernal-1.901439-04-07.bin}, the PET2001 Kernal ROM (4 KiB)
 (Commodore ROM images 901447-06 and 901447-07, same as 901439-04 and 901439-07)
 @item
-@file{kernal-2.901465-03.bin}, the PET3032 Kernal ROM (4 KBytes)
+@file{kernal-2.901465-03.bin}, the PET3032 Kernal ROM (4 KiB)
 (Commodore ROM image 901465-03)
 @item
-@file{kernal-4.901465-22.bin}, the PET4032/8032 Kernal ROM (4 KBytes)
+@file{kernal-4.901465-22.bin}, the PET4032/8032 Kernal ROM (4 KiB)
 (Commodore ROM image 901465-22)
 
 @item
-@file{basic-1.901439-09-05-02-06.bin}, the PET2001 Basic 1 ROM (8 KBytes)
+@file{basic-1.901439-09-05-02-06.bin}, the PET2001 Basic 1 ROM (8 KiB)
 (Commodore ROM images 901447-09, 901447-02, 901447-03, 901447-04.bin.
 The -09 ROM is the revised -01 ROM.
 Same as images 901439-09, 901439-05, 901439-02, 901439-06.
 The -09 ROM is the revised -01 ROM)
 @item
-@file{basic-2.901465-01-02.bin}, the PET3032 Basic 2 ROM (8 KBytes)
+@file{basic-2.901465-01-02.bin}, the PET3032 Basic 2 ROM (8 KiB)
 (Commodore ROM images 901465-01 and 901465-01)
 @item
-@file{basic-4.901465-23-20-21.bin}, the PET4032/8032 Basic 4 ROM (12 KBytes)
+@file{basic-4.901465-23-20-21.bin}, the PET4032/8032 Basic 4 ROM (12 KiB)
 (Commodore ROM images 901465-23, 901465-20 and 901465-21.
 The -23 ROM is a revised -19 ROM)
 
 @item
-@file{edit-1-n.901439-03.bin}, the PET2001 editor for graphics keyboards (2 KBytes)
+@file{edit-1-n.901439-03.bin}, the PET2001 editor for graphics keyboards (2 KiB)
 (Commodore ROM image 901447-05, same as 901439-03)
 @item
-@file{edit-2-b.901474-01.bin}, the PET3032 editor for business keyboards (2 KBytes)
+@file{edit-2-b.901474-01.bin}, the PET3032 editor for business keyboards (2 KiB)
 (Commodore ROM image 901474-01)
 @item
-@file{edit-2-n.901447-24.bin}, the PET3032 editor for graphics keyboards (2 KBytes)
+@file{edit-2-n.901447-24.bin}, the PET3032 editor for graphics keyboards (2 KiB)
 (Commodore ROM image 901447-24)
 @item
-@file{edit-4-40-n-50Hz.901498-01.bi}, the PET4032 editor for graphics keyboards (2 KBytes)
+@file{edit-4-40-n-50Hz.901498-01.bi}, the PET4032 editor for graphics keyboards (2 KiB)
 (Commodore ROM image 901498-01)
 @item
-@file{edit-4-40-b-50Hz.ts.bin}, the PET4032 editor for business keyboards (2 KBytes)
+@file{edit-4-40-b-50Hz.ts.bin}, the PET4032 editor for business keyboards (2 KiB)
 (Said to be "901498-01 modified to use a business keyboard on a 50Hz 4032")
 
 @item
-@file{edit-4-80-b-50Hz.901474-04_.bin}, the PET8032 editor for business keyboards (2 KBytes)
+@file{edit-4-80-b-50Hz.901474-04_.bin}, the PET8032 editor for business keyboards (2 KiB)
 (Commodore ROM image 901474-04-?)
 
 @item
-@file{characters-2.901447-10.bin}, the character generator ROM (2k).
+@file{characters-2.901447-10.bin}, the character generator ROM (2KiB).
 It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
 the first half by inverting it.  This is a PET hardware feature.
 (Commodore ROM image 901447-10)
 @item
-@file{chargen.de}, the character generator ROM (2k). This version is a
+@file{chargen.de}, the character generator ROM (2KiB). This version is a
 patched German charset, with the characters [, \ and ] replaced by umlauts.
 It has been provided by U. Guettich and he reports that it is supported
 by some programs.
 
 @item
-@file{characters.901640-01.bin}, the SuperPET character generator ROM (4k).
+@file{characters.901640-01.bin}, the SuperPET character generator ROM (4KiB).
 The first half is the same as @file{characters-2.901447-10.bin}, the second half contains,
 instead of an upper and lower case set, an ASCII character set and an
 APL character set. For these sets, the screen code is equal to the
@@ -1749,9 +1749,9 @@ at $E000-$E7FF with the @code{-petromEditor} option.
 
 The CBM-II emulator again uses another setup.  For those models the
 kernal used is the same for all.  However, for different amounts of
-memory exist different versions of the BASIC ROMs.  The 128k RAM version
-(C610, C710, B128) uses one bank of 64k for the BASIC text and another
-one for all the variables.  The 256k RAM version uses one bank for text,
+memory exist different versions of the BASIC ROMs.  The 128KiB RAM version
+(C610, C710, B128) uses one bank of 64KiB for the BASIC text and another
+one for all the variables.  The 256KiB RAM version uses one bank for text,
 one for variables, one for arrays and one for strings.
 
 Also the character generator ROMs have a format different from the
@@ -1765,28 +1765,28 @@ full (256 char) character set is computed by inverting.
 @itemize @bullet
 
 @item
-@file{kernal}, the KERNAL (8k) for the business machines (6xx/7xx)
+@file{kernal}, the KERNAL (8KiB) for the business machines (6xx/7xx)
 
 @item
-@file{kernal.500}, the KERNAL (8k) for the personal machine (510) (901234-02)
+@file{kernal.500}, the KERNAL (8KiB) for the personal machine (510) (901234-02)
 
 @item
-@file{basic.128}, the CBM-II 128k BASIC (16k)
+@file{basic.128}, the CBM-II 128KiB BASIC (16KiB)
 
 @item
-@file{basic.256}, CBM-II 256k BASIC (16k)
+@file{basic.256}, CBM-II 256KiB BASIC (16KiB)
 
 @item
-@file{basic.500}, C510 BASIC (16k) (901236-02 + 901235-02)
+@file{basic.500}, C510 BASIC (16KiB) (901236-02 + 901235-02)
 
 @item
-@file{chargen.500}, character generator ROM for the C5x0 (4k) (901225-01)
+@file{chargen.500}, character generator ROM for the C5x0 (4KiB) (901225-01)
 
 @item
-@file{chargen.600}, character generator ROM for the C6x0 (4k)
+@file{chargen.600}, character generator ROM for the C6x0 (4KiB)
 
 @item
-@file{chargen.700}, character generator ROM for the C7x0 (4k)
+@file{chargen.700}, character generator ROM for the C7x0 (4KiB)
 
 @end itemize
 
@@ -1795,10 +1795,10 @@ The SCPU64 needs the following files:
 @itemize @bullet
 
 @item
-@file{scpu64}, the SCPU64 ROM (128 Kbytes)
+@file{scpu64}, the SCPU64 ROM (128 KiB)
 
 @item
-@file{chargen}, the character generator ROM (4 Kbytes)
+@file{chargen}, the character generator ROM (4 KiB)
 
 @end itemize
 
@@ -4181,102 +4181,102 @@ Specify the ROM name for the 1001, 8050 and 8250 emulations
 
 @findex -drive8ram2000, +drive8ram2000
 @item -drive8ram2000, +drive8ram2000
-Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 8
+Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 8
 (@code{Drive8RAM2000=1}, @code{Drive8RAM2000=0}).
 
 @findex -drive9ram2000, +drive9ram2000
 @item -drive9ram2000, +drive9ram2000
-Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 9
+Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 9
 (@code{Drive9RAM2000=1}, @code{Drive9RAM2000=0}).
 
 @findex -drive10ram2000, +drive10ram2000
 @item -drive10ram2000, +drive10ram2000
-Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 10
+Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 10
 (@code{Drive10RAM2000=1}, @code{Drive10RAM2000=0}).
 
 @findex -drive11ram2000, +drive11ram2000
 @item -drive11ram2000, +drive11ram2000
-Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 11
+Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 11
 (@code{Drive11RAM2000=1}, @code{Drive11RAM2000=0}).
 
 @findex -drive8ram4000, +drive8ram4000
 @item -drive8ram4000, +drive8ram4000
-Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 8
+Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 8
 (@code{Drive8RAM4000=1}, @code{Drive8RAM4000=0}).
 
 @findex -drive9ram4000, +drive9ram4000
 @item -drive9ram4000, +drive9ram4000
-Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 9
+Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 9
 (@code{Drive9RAM4000=1}, @code{Drive9RAM4000=0}).
 
 @findex -drive10ram4000, +drive10ram4000
 @item -drive10ram4000, +drive10ram4000
-Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 10
+Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 10
 (@code{Drive10RAM4000=1}, @code{Drive10RAM4000=0}).
 
 @findex -drive11ram4000, +drive11ram4000
 @item -drive11ram4000, +drive11ram4000
-Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 11
+Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 11
 (@code{Drive11RAM4000=1}, @code{Drive11RAM4000=0}).
 
 @findex -drive8ram6000, +drive8ram6000
 @item -drive8ram6000, +drive8ram6000
-Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 8
+Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 8
 (@code{Drive8RAM6000=1}, @code{Drive8RAM6000=0}).
 
 @findex -drive9ram6000, +drive9ram6000
 @item -drive9ram6000, +drive9ram6000
-Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 9
+Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 9
 (@code{Drive9RAM6000=1}, @code{Drive9RAM6000=0}).
 
 @findex -drive10ram6000, +drive10ram6000
 @item -drive10ram6000, +drive10ram6000
-Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 10
+Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 10
 (@code{Drive10RAM6000=1}, @code{Drive10RAM6000=0}).
 
 @findex -drive11ram6000, +drive11ram6000
 @item -drive11ram6000, +drive11ram6000
-Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 11
+Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 11
 (@code{Drive11RAM6000=1}, @code{Drive11RAM6000=0}).
 
 @findex -drive8ram8000, +drive8ram8000
 @item -drive8ram8000, +drive8ram8000
-Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 8
+Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 8
 (@code{Drive8RAM8000=1}, @code{Drive8RAM8000=0}).
 
 @findex -drive9ram8000, +drive9ram8000
 @item -drive9ram8000, +drive9ram8000
-Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 9
+Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 9
 (@code{Drive9RAM8000=1}, @code{Drive9RAM8000=0}).
 
 @findex -drive10ram8000, +drive10ram8000
 @item -drive10ram8000, +drive10ram8000
-Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 10
+Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 10
 (@code{Drive10RAM8000=1}, @code{Drive10RAM8000=0}).
 
 @findex -drive11ram8000, +drive11ram8000
 @item -drive11ram8000, +drive11ram8000
-Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 11
+Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 11
 (@code{Drive11RAM8000=1}, @code{Drive11RAM8000=0}).
 
 @findex -drive8rama000, +drive8rama000
 @item -drive8rama000, +drive8rama000
-Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 8
+Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 8
 (@code{Drive8RAMA000=1}, @code{Drive8RAMA000=0}).
 
 @findex -drive9rama000, +drive9rama000
 @item -drive9rama000, +drive9rama000
-Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 9
+Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 9
 (@code{Drive9RAMA000=1}, @code{Drive9RAMA000=0}).
 
 @findex -drive10rama000, +drive10rama000
 @item -drive10rama000, +drive10rama000
-Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 10
+Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 10
 (@code{Drive10RAMA000=1}, @code{Drive10RAMA000=0}).
 
 @findex -drive11rama000, +drive11rama000
 @item -drive11rama000, +drive11rama000
-Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 11
+Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 11
 (@code{Drive11RAMA000=1}, @code{Drive11RAMA000=0}).
 
 @findex -drive8profdos, +drive8profdos
@@ -6308,7 +6308,7 @@ The following cartridges are emulated in this slot:
 
 @itemize @bullet
 @item
-generic 4K, 8K and 16K game- and ultimax cartridges
+generic 4KiB, 8KiB and 16KiB game- and ultimax cartridges
 @item
 Action Replay V5
 @item
@@ -6384,7 +6384,7 @@ Ocean
 @item
 Prophet64
 @item
-REX 256k EPROM Cart
+REX 256KiB EPROM Cart
 @item
 REX RAM-Floppy
 @item
@@ -6564,9 +6564,9 @@ The following cartridge types are valid:
 @item
 - 6: Ultimax
 @item
-- 3: Generic 8k
+- 3: Generic 8KiB
 @item
-- 2: Generic 16k
+- 2: Generic 16KiB
 @item
 - 1: None
 @item
@@ -6624,7 +6624,7 @@ The following cartridge types are valid:
 @item
 26: Dela EP256
 @item
-27: REX 256k EPROM Cart
+27: REX 256KiB EPROM Cart
 @item
 28: Mikro Assembler
 @item
@@ -6680,7 +6680,7 @@ The following cartridge types are valid:
 @item
 54: Kingsoft
 @item
-55: Silverrock 128K Cartridge
+55: Silverrock 128KiB Cartridge
 @item
 56: Formel 64
 @item
@@ -6999,7 +6999,7 @@ Boolean, if true the RAMCart contents are read only.
 
 @vindex RAMCARTsize
 @item RAMCARTsize
-Integer specifying the size of the RAMCart in KB.
+Integer specifying the size of the RAMCart in KiB.
 (64, 128)
 
 @vindex RRrevision
@@ -7035,7 +7035,7 @@ Boolean specifying whether to save the RRNETMK3 bios when changed.
 
 @vindex SSRamExpansion
 @item SSRamExpansion
-Boolean, if true enable the 32k addon RAM of the Supersnapshot V5
+Boolean, if true enable the 32KiB addon RAM of the Supersnapshot V5
 
 @end table
 
@@ -7063,15 +7063,15 @@ Reset/Do not reset machine if a cartridge is attached or detached
 
 @findex -cart8
 @item -cart8 <name>
-Attach generic 8KB cartridge image.
+Attach generic 8KiB cartridge image.
 
 @findex -cart16
 @item -cart16 <name>
-Attach generic 16KB cartridge image.
+Attach generic 16KiB cartridge image.
 
 @findex -cartultimax
 @item -cartultimax <name>
-Attach generic 16kB Ultimax cartridge image.
+Attach generic 16KiB Ultimax cartridge image.
 
 @findex -cartcrt
 @item -cartcrt <name>
@@ -7079,51 +7079,51 @@ Attach CRT cartridge image.
 
 @findex -cartap
 @item -cartap <name>
-Attach raw 32KB Atomic Power cartridge image.
+Attach raw 32KiB Atomic Power cartridge image.
 
 @findex -cartar2
 @item -cartar2 <name>
-Attach raw 16kB Action Replay MK2 cartridge image.
+Attach raw 16KiB Action Replay MK2 cartridge image.
 
 @findex -cartar3
 @item -cartar3 <name>
-Attach raw 16KB Action Replay MK3 cartridge image.
+Attach raw 16KiB Action Replay MK3 cartridge image.
 
 @findex -cartar4
 @item -cartar4 <name>
-Attach raw 32KB Action Replay MK4 cartridge image.
+Attach raw 32KiB Action Replay MK4 cartridge image.
 
 @findex -cartar5
 @item -cartar5 <name>
-Attach raw 32KB Action Replay cartridge image.
+Attach raw 32KiB Action Replay cartridge image.
 
 @findex -cartbis
 @item -cartbis <name>
-Attach raw 8KB BIS-Plus cartridge image.
+Attach raw 8KiB BIS-Plus cartridge image.
 
 @findex -cartbb3
 @item -cartbb3 <name>
-Attach raw 8KB Blackbox V3 cartridge image.
+Attach raw 8KiB Blackbox V3 cartridge image.
 
 @findex -cartbb4
 @item -cartbb4 <name>
-Attach raw 16KB Blackbox V4 cartridge image.
+Attach raw 16KiB Blackbox V4 cartridge image.
 
 @findex -cartbb8
 @item -cartbb8 <name>
-Attach raw 32/64KB Blackbox V8 cartridge image.
+Attach raw 32/64KiB Blackbox V8 cartridge image.
 
 @findex -cartbb9
 @item -cartbb9 <name>
-Attach raw 32KB Blackbox V9 cartridge image.
+Attach raw 32KiB Blackbox V9 cartridge image.
 
 @findex -cartcap
 @item -cartcap <name>
-Attach raw 8kB Capture cartridge image.
+Attach raw 8KiB Capture cartridge image.
 
 @findex -cartcomal
 @item -cartcomal <name>
-Attach raw 64kB Comal 80 cartridge image.
+Attach raw 64KiB Comal 80 cartridge image.
 
 @findex -cartdep256
 @item -cartdep256 <name>
@@ -7139,15 +7139,15 @@ Attach raw Dela EP7x8 cartridge image.
 
 @findex -cartdin
 @item -cartdin <name>
-Attach raw 128kB Dinamic cartridge image.
+Attach raw 128KiB Dinamic cartridge image.
 
 @findex -cartdsm
 @item -cartdsm <name>
-Attach raw 8kB Diashow-Maker cartridge image.
+Attach raw 8KiB Diashow-Maker cartridge image.
 
 @findex -cartdqbb
 @item -cartdqbb <name>
-Attach raw 16kB Double Quick Brown Box cartridge image.
+Attach raw 16KiB Double Quick Brown Box cartridge image.
 
 @findex -dqbb, +dqbb
 @item -dqbb
@@ -7172,7 +7172,7 @@ Attach raw EasyFlash cartridge image.
 
 @findex -carteasycalc
 @item -carteasycalc <name>
-Attach raw 24kB Easy Calc Result cartridge image
+Attach raw 24KiB Easy Calc Result cartridge image
 
 @findex -easyflashjumper, +easyflashjumper
 @item -easyflashjumper
@@ -7194,15 +7194,15 @@ Allow/Disallow EasyFlash .crt image optimizing (omitting of empty banks) on writ
 
 @findex -cartepyx
 @item -cartepyx <name>
-Attach raw 8KB Epyx FastLoad cartridge image.
+Attach raw 8KiB Epyx FastLoad cartridge image.
 
 @findex -cartexos
 @item -cartexos <name>
-Attach raw 8kB EXOS cartridge image.
+Attach raw 8KiB EXOS cartridge image.
 
 @findex -cartexpert
 @item -cartexpert <name>
-Attach raw 8kB Expert Cartridge image.
+Attach raw 8KiB Expert Cartridge image.
 
 @findex -expert, +expert
 @item -expert
@@ -7229,31 +7229,31 @@ Set Expert Cartridge mode
 
 @findex -cartf64
 @item -cartf64 <Name>
-Attach raw 32kB Formel 64 image.
+Attach raw 32KiB Formel 64 image.
 
 @findex -cartfc1
 @item -cartfc1 <name>
-Attach raw 16kB Final Cartridge image.
+Attach raw 16KiB Final Cartridge image.
 
 @findex -cartfc3
 @item -cartfc3 <name>
-Attach raw 64kB Final Cartridge III image.
+Attach raw 64KiB Final Cartridge III image.
 
 @findex -cartfcplus
 @item -cartfcplus <name>
-Attach raw 32kB Final Cartridge Plus image.
+Attach raw 32KiB Final Cartridge Plus image.
 
 @findex -cartff
 @item -cartff <name>
-Attach raw 8kB Freeze Frame image.
+Attach raw 8KiB Freeze Frame image.
 
 @findex -cartfm
 @item -cartfm <name>
-Attach raw 32kB Freeze Machine image.
+Attach raw 32KiB Freeze Machine image.
 
 @findex -cartfp
 @item -cartfp <name>
-Attach raw 128kB Fun Play/Power Play cartridge image.
+Attach raw 128KiB Fun Play/Power Play cartridge image.
 
 @findex -cartgmod2
 @item -cartgmod2 <name>
@@ -7284,15 +7284,15 @@ Enable/Disable saving of the GMod3 ROM at exit (@code{GMod3FlashWrite=1}, @code{
 
 @findex -cartgk
 @item -cartgk <name>
-Attach raw 8KB Game Killer cartridge image.
+Attach raw 8KiB Game Killer cartridge image.
 
 @findex -cartgs
 @item -cartgs <name>
-Attach raw 512kB Game System cartridge image.
+Attach raw 512KiB Game System cartridge image.
 
 @findex -cartide64
 @item -cartide64 <name>
-Attach raw 64KB or 128KB IDE64 cartridge image.
+Attach raw 64KiB or 128KiB IDE64 cartridge image.
 
 @findex -IDE64image1
 @item -IDE64image1 <name>
@@ -7437,7 +7437,7 @@ Enable/disable the ISEPIC switch
 
 @findex -cartisepic
 @item -cartisepic <name>
-Attach raw 2kB ISEPIC cartridge image.
+Attach raw 2KiB ISEPIC cartridge image.
 
 @findex -isepicimagename
 @item -isepicimagename <name>
@@ -7452,19 +7452,19 @@ Allow/disallow writing to ISEPIC image
 
 @findex -cartkcs
 @item -cartkcs <name>
-Attach raw 16kB KCS Power cartridge image.
+Attach raw 16KiB KCS Power cartridge image.
 
 @findex -cartks
 @item -cartks <name>
-Attach raw 24kB Kingsoft cartridge image.
+Attach raw 24KiB Kingsoft cartridge image.
 
 @findex -cartmach5
 @item -cartmach5 <name>
-Attach raw 8kB MACH 5 cartridge image.
+Attach raw 8KiB MACH 5 cartridge image.
 
 @findex -cartmd
 @item -cartmd <name>
-Attach raw 32/64/128kB Magic Desk cartridge image.
+Attach raw 32/64/128KiB Magic Desk cartridge image.
 
 @findex -cartmf
 @item -cartmf <name>
@@ -7480,7 +7480,7 @@ Attach raw MultiMAX cartridge image.
 
 @findex -cartmikro
 @item -cartmikro <name>
-Attach raw 8kB Mikro Assembler cartridge image.
+Attach raw 8KiB Mikro Assembler cartridge image.
 
 @findex -mmc64, +mmc64
 @item -mmc64
@@ -7490,7 +7490,7 @@ Enable/disable the MMC64 expansion
 
 @findex -cartmmc64
 @item -cartmmc64 <name>
-Attach raw 8kB MMC64 cartridge image.
+Attach raw 8KiB MMC64 cartridge image.
 
 @findex -mmc64bios
 @item -mmc64bios <name>
@@ -7548,7 +7548,7 @@ Set MMC64 clockport device
 
 @findex -cartmmcr
 @item -cartmmcr <name>
-Attach raw 512kB MMC Replay cartridge image.
+Attach raw 512KiB MMC Replay cartridge image.
 
 @findex -mmcrrescue, +mmcrrescue
 @item -mmcrrescue
@@ -7598,7 +7598,7 @@ Set MMC Replay clockport device
 
 @findex -cartmv
 @item -cartmv <name>
-Attach raw 16kB Magic Voice cartridge image.
+Attach raw 16KiB Magic Voice cartridge image.
 
 @findex -magicvoiceimage
 @item -magicvoiceimage <name>
@@ -7617,11 +7617,11 @@ Attach raw Ocean cartridge image.
 
 @findex -cartp64
 @item -cartp64 <name>
-Attach raw 256KB Prophet 64 cartridge image.
+Attach raw 256KiB Prophet 64 cartridge image.
 
 @findex -cartpf
 @item -cartpf <name>
-Attach raw 64kb Pagefox cartridge image.
+Attach raw 64KiB Pagefox cartridge image.
 
 @findex -cartramcart
 @item -cartramcart <name>
@@ -7634,7 +7634,7 @@ Enable/disable the RAMCART expansion
 (@code{RAMCART=1}, @code{RAMCART=0}).
 
 @findex -ramcartsize
-@item -ramcartsize <size in KB>
+@item -ramcartsize <size in KiB>
 Size of the RAMCART expansion
 (@code{RAMCARTsize}).
 (64, 128)
@@ -7666,19 +7666,19 @@ Attach raw REX EP256 cartridge image.
 
 @findex -cartrgcd
 @item -cartrgcd <Name>
-Attach raw 64kB RGCD cartridge image.
+Attach raw 64KiB RGCD cartridge image.
 
 @findex -cartross
 @item -cartross <name>
-Attach raw 16/32kB ROSS cartridge image.
+Attach raw 16/32KiB ROSS cartridge image.
 
 @findex -cartrrnet
 @item -cartrrnet <name>
-Attach raw 8KB RR-Net MK3 cartridge image.
+Attach raw 8KiB RR-Net MK3 cartridge image.
 
 @findex -cartrr
 @item -cartrr <name>
-Attach raw 64KB Retro Replay cartridge image.
+Attach raw 64KiB Retro Replay cartridge image.
 
 @findex -rrbioswrite, +rrbioswrite
 @item -rrbioswrite
@@ -7724,19 +7724,19 @@ Save/Do not save the RRNETMK3 bios when changed
 
 @findex -cartrrf
 @item -cartrrf <name>
-Attach raw 8kB REX RAM-Floppy cartridge image.
+Attach raw 8KiB REX RAM-Floppy cartridge image.
 
 @findex -cartru
 @item -cartru <name>
-Attach raw 8kB REX Utility cartridge image.
+Attach raw 8KiB REX Utility cartridge image.
 
 @findex -cartsdbox
 @item -cartsdbox <name>
-Attach raw 128kB SD-BOX cartridge image.
+Attach raw 128KiB SD-BOX cartridge image.
 
 @findex -carts64
 @item -carts64 <name>
-Attach raw 4kB Snapshot 64 cartridge image.
+Attach raw 4KiB Snapshot 64 cartridge image.
 
 @findex -cartsb
 @item -cartsb <name>
@@ -7744,11 +7744,11 @@ Attach raw Structured Basic cartridge image.
 
 @findex -cartse5
 @item -cartse5 <name>
-Attach raw 16kB Super Explode V5 cartridge image.
+Attach raw 16KiB Super Explode V5 cartridge image.
 
 @findex -cartsg
 @item -cartsg <name>
-Attach raw 64kB Super Games cartridge image.
+Attach raw 64KiB Super Games cartridge image.
 
 @findex -cartsilver
 @item -cartsilver <Name>
@@ -7756,41 +7756,41 @@ Attach raw Silverrock 128 cartridge image.
 
 @findex -cartsimon
 @item -cartsimon <name>
-Attach raw 16kB Simons' Basic cartridge image.
+Attach raw 16KiB Simons' Basic cartridge image.
 
 @findex -cartss4
 @item -cartss4 <name>
-Attach raw 32KB Super Snapshot V4 cartridge image.
+Attach raw 32KiB Super Snapshot V4 cartridge image.
 
 @findex -cartss5
 @item -cartss5 <name>
-Attach raw 64KB Super Snapshot V5 cartridge image.
+Attach raw 64KiB Super Snapshot V5 cartridge image.
 
 @findex -ssramexpansion, +ssramexpansion
 @item -ssramexpansion
 @itemx +ssramexpansion
-Enable/disable 32k addon RAM.
+Enable/disable 32KiB addon RAM.
 (@code{SSRamExpansion=1}, @code{SSRamExpansion=0}).
 
 @findex -cartstar
 @item -cartstar <name>
-Attach raw 16KB Stardos cartridge image.
+Attach raw 16KiB Stardos cartridge image.
 
 @findex -cartwl
 @item -cartwl <name>
-Attach raw 16KB Westermann Learning cartridge image.
+Attach raw 16KiB Westermann Learning cartridge image.
 
 @findex -cartws
 @item -cartws <name>
-Attach raw 8kB Warp Speed cartridge image.
+Attach raw 8KiB Warp Speed cartridge image.
 
 @findex -cartzaxxon
 @item -cartzaxxon <name>
-Attach raw 16kB Zaxxon cartridge image.
+Attach raw 16KiB Zaxxon cartridge image.
 
 @findex -cartzipp
 @item -cartzipp <name>
-Attach raw 8KB ZIPP-CODE 48 cartridge image.
+Attach raw 8KiB ZIPP-CODE 48 cartridge image.
 @end table
 
 @c @node FIXME
@@ -8578,7 +8578,7 @@ contents changed, when detaching or quitting the emulator.
 
 @vindex GEORAMsize
 @item GEORAMsize
-Integer specifying the size of the emulated GEO-RAM in KB.
+Integer specifying the size of the emulated GEO-RAM in KiB.
 (64, 128, 256, 512, 1024, 2048, 4096).
 (x64, x64sc, x128).
 
@@ -8608,7 +8608,7 @@ contents changed, when detaching or quitting the emulator.
 
 @vindex REUsize
 @item REUsize
-Integer specifying the size of the emulated REU in KB.
+Integer specifying the size of the emulated REU in KiB.
 (128, 256, 512, 1024, 2048, 4096, 8192, 16384)
 
 @vindex SFXSoundExpander
@@ -8709,7 +8709,7 @@ Allow/disallow writing to GEORAM image
 (@code{GEORAMImageWrite=1}, @code{GEORAMImageWrite=0}).
 
 @findex -georamsize
-@item -georamsize <size in KB>
+@item -georamsize <size in KiB>
 Size of the GEORAM expansion unit
 (@code{GEORAMsize}).
 (64, 128, 256, 512, 1024, 2048, 4096)
@@ -8736,7 +8736,7 @@ Allow/disallow writing to REU image
 (@code{REUImageWrite=1}, @code{REUImageWrite=0}).
 
 @findex -reusize
-@item -reusize <size in KB>
+@item -reusize <size in KiB>
 Size of the RAM expansion unit
 (@code{REUsize}).
 (128, 256, 512, 1024, 2048, 4096, 8192, 16384)
@@ -8924,11 +8924,11 @@ String specifying the filename of the PLUS256K RAM image.
 
 @vindex C64_256Kfilename
 @item C64_256Kfilename
-String specifying the filename of the 256K RAM image.
+String specifying the filename of the 256KiB RAM image.
 
 @vindex C64_256Kbase
 @item C64_256Kbase
-Integer that specifies the base address of the 256K RAM expansion.
+Integer that specifies the base address of the 256KiB RAM expansion.
 (0xDE00/0xDE80/0xDF00/0xDF80)
 
 @vindex MachineVideoStandard
@@ -8989,7 +8989,7 @@ Specify name of 256K image
 
 @findex -256kbase
 @item -256kbase <base address>
-Base address of the 256K expansion
+Base address of the 256KiB expansion
 (@code{C64_256Kbase}).
 (0xDE00, 0xDE80, 0xDF00, 0xDF80)
 
@@ -9044,7 +9044,7 @@ Enable/disable the CP/M cartridge
 
 @vindex VDC64KB
 @item VDC64KB
-Boolean to enabled/disable full 64k video ram.
+Boolean to enabled/disable full 64KiB video ram.
 
 @vindex VDCRevision
 @item VDCRevision
@@ -9176,12 +9176,12 @@ Specify name of file of external palette
 
 @findex -VDC16KB
 @item -VDC16KB
-Set the VDC memory size to 16KB
+Set the VDC memory size to 16KiB
 (@code{VDC64KB=0}).
 
 @findex -VDC64KB
 @item -VDC64KB
-Set the VDC memory size to 64KB
+Set the VDC memory size to 64KiB
 (@code{VDC64KB=1}).
 
 @findex -VDCRevision
@@ -9605,11 +9605,11 @@ and thus are not present in the other emulators.
 @node C64DTV ROM image, DTV revision, C64DTV-specific, C64DTV-specific
 @subsection C64DTV ROM image
 
-The DTV has a 2MB Flash chip which contains the kernal, basic and
+The DTV has a 2MiB Flash chip which contains the kernal, basic and
 character set ROMs along with other data, such as games in the case of
 the original C64DTV ROM.
 
-The image file is a dump of the flash chip. It is exactly 2MB (2097152 bytes).
+The image file is a dump of the flash chip. It is exactly 2MiB (2097152 bytes).
 
 If you do not have a suitable image file, an image using the C64 kernal,
 basic and charset is automatically created.
@@ -9758,11 +9758,11 @@ Enable or disable DTV Flash log
 Currently the registers A, Y and X are registers R0, R1 and R2 regardless of
 the mapping, which can be seen and modified via the registers ACM and XYM.
 
-The monitor can access all 2MB of RAM and 2MB of Flash, but only 64 kB at a time.
-The 64kB bank can be selected with "bank ram00".."ram1f" for RAM and
+The monitor can access all 2MiB of RAM and 2MiB of Flash, but only 64 KiB at a time.
+The 64KiB bank can be selected with "bank ram00".."ram1f" for RAM and
 "bank rom00".."rom1f" for Flash.
 
-The "load" command can load large files (>64kB) correctly if the bank is set
+The "load" command can load large files (>64KiB) correctly if the bank is set
 to "ramXX", where XX is the starting bank (usually "bank00").
 
 @c @node FIXME
@@ -10026,15 +10026,15 @@ several types of cartridge images:
 
 @itemize @bullet
 @item
-4 or 8 Kbyte cartridges located at $2000;
+4 or 8 KiB cartridges located at $2000;
 @item
-4 or 8 Kbyte cartridges located at $4000;
+4 or 8 KiB cartridges located at $4000;
 @item
-4 or 8 Kbyte cartridges located at $6000;
+4 or 8 KiB cartridges located at $6000;
 @item
-4 or 8 Kbyte cartridges located at $A000;
+4 or 8 KiB cartridges located at $A000;
 @item
-4 Kbyte cartridges located at $B000.
+4 KiB cartridges located at $B000.
 @end itemize
 
 This can all be done via the ``Attach cartridge image@dots{}'' command in
@@ -10048,15 +10048,15 @@ specified in the file name) and use the ``attach'' command twice.
 
 A special kind of cartridge file is where the two files mentioned
 above are concatenated (with removing the two byte load address of
-the second image) into one 16k image. Vice can attach such concatenated files 
+the second image) into one 16KiB image. Vice can attach such concatenated files 
 at the start address $2000, $4000, and $6000. The second half of such an image is
 moved to the memory block following the first block. It is also possible to 
-concatenate four 8k files, the resulting file will load into all 4 cartridge blocks.
+concatenate four 8KiB files, the resulting file will load into all 4 cartridge blocks.
 
-If you encounter 16k images that have the second half at eg $A000 you can split 
+If you encounter 16KiB images that have the second half at eg $A000 you can split 
 the image into two halfs (i.e. one 8194 byte and one 8192 byte, because the first 
 has the load address) and attach both files separately. Alternatively you can
-create a 32k file with padding blocks in between.
+create a 32KiB file with padding blocks in between.
 
 One cartridge that is currently only partially supported here is
 the VIC1112 IEEE488 interface. You have to load the ROM as a cartridge,
@@ -10107,29 +10107,29 @@ The following cartridge types are valid:
 @item
 0x8000: Auto Detect
 @item
-0x8002: 4KB at $2000-$2FFF
+0x8002: 4KiB at $2000-$2FFF
 @item
-0x8003: 8KB at $2000-$3FFF
+0x8003: 8KiB at $2000-$3FFF
 @item
-0x8004: 4KB at $6000-$6FFF
+0x8004: 4KiB at $6000-$6FFF
 @item
-0x8005: 8KB at $6000-$7FFF
+0x8005: 8KiB at $6000-$7FFF
 @item
-0x8006: 4KB at $A000-$AFFF
+0x8006: 4KiB at $A000-$AFFF
 @item
-0x8007: 8KB at $A000-$BFFF
+0x8007: 8KiB at $A000-$BFFF
 @item
-0x8008: 4KB at $B000-$BFFF
+0x8008: 4KiB at $B000-$BFFF
 @item
-0x8009: 8KB at $4000-$5FFF
+0x8009: 8KiB at $4000-$5FFF
 @item
-0x800A: 4KB at $4000-$4FFF
+0x800A: 4KiB at $4000-$4FFF
 @item
-0x8013: 16KB at $2000-$5FFF
+0x8013: 16KiB at $2000-$5FFF
 @item
-0x8015: 16KB at $6000-$9FFF
+0x8015: 16KiB at $6000-$9FFF
 @item
-0x8019: 16KB at $4000-$7FFF
+0x8019: 16KiB at $4000-$7FFF
 @end itemize
 
 @vindex CartridgeFile
@@ -10222,7 +10222,7 @@ Boolean specifying whether the GEO-RAM cartridge (using the MasC=uerade cartridg
 
 @vindex GEORAMsize
 @item GEORAMsize
-Integer specifying the size of the emulated GEO-RAM in KB.
+Integer specifying the size of the emulated GEO-RAM in KiB.
 (64, 128, 256, 512, 1024, 2048, 4096).
 
 @vindex GEORAMImageWrite
@@ -10311,19 +10311,19 @@ Do/don't reset machine if a cartridge is attached or detached
 
 @findex -cart2
 @item -cart2 <name>
-Specify 4/8/16K extension ROM name at $2000
+Specify 4/8/16KiB extension ROM name at $2000
 @findex -cart4
 @item -cart4 <name>
-Specify 4/8/16K extension ROM name at $4000
+Specify 4/8/16KiB extension ROM name at $4000
 @findex -cart6
 @item -cart6 <name>
-Specify 4/8/16K extension ROM name at $6000
+Specify 4/8/16KiB extension ROM name at $6000
 @findex -cartA
 @item -cartA <name>
-Specify 4/8K extension ROM name at $A000
+Specify 4/8KiB extension ROM name at $A000
 @findex -cartB
 @item -cartB <name>
-Specify 4K extension ROM name at $B000
+Specify 4KiB extension ROM name at $B000
 @findex -cartgeneric
 @item -cartgeneric <name>
 Specify generic extension ROM name
@@ -10546,7 +10546,7 @@ Allow/disallow writing to GEORAM image
 (@code{GEORAMImageWrite=1}, @code{GEORAMImageWrite=0}).
 
 @findex -georamsize
-@item -georamsize <size in KB>
+@item -georamsize <size in KiB>
 Size of the GEORAM expansion unit
 (@code{GEORAMsize}).
 (64, 128, 256, 512, 1024, 2048, 4096)
@@ -10777,15 +10777,15 @@ There are 5 RAM expansion blocks in the VIC20, numbered 0, 1, 2, 3 and
 
 @itemize @bullet
 @item
-block 0 (3 Kbytes at $0400-$0FFF);
+block 0 (3 KiB at $0400-$0FFF);
 @item
-block 1 (8 Kbytes at $2000-$3FFF);
+block 1 (8 KiB at $2000-$3FFF);
 @item
-block 2 (8 Kbytes at $4000-$5FFF);
+block 2 (8 KiB at $4000-$5FFF);
 @item
-block 3 (8 Kbytes at $6000-$7FFF);
+block 3 (8 KiB at $6000-$7FFF);
 @item
-block 5 (8 Kbytes at $A000-$BFFF).
+block 5 (8 KiB at $A000-$BFFF).
 @end itemize
 
 These blocks are called @dfn{expansion blocks} because they are not
@@ -10801,13 +10801,13 @@ no RAM expansion blocks at all;
 @item
 all RAM expansion blocks enabled;
 @item
-3K expansion (only block 0 is enabled);
+3KiB expansion (only block 0 is enabled);
 @item
-8K expansion (only block 1 is enabled);
+8KiB expansion (only block 1 is enabled);
 @item
-16K expansion (only blocks 1 and 2 are enabled);
+16KiB expansion (only blocks 1 and 2 are enabled);
 @item
-24K expansion (only blocks 1, 2 and 3 are enabled).
+24KiB expansion (only blocks 1, 2 and 3 are enabled).
 @end itemize
 
 @menu
@@ -10850,11 +10850,11 @@ options, each of which can be one the following:
 @item
 @code{all} (all blocks);
 @item
-@code{3k} (3k space in block 0);
+@code{3k} (3KiB space in block 0);
 @item
-@code{8k} (first 8k extension block);
+@code{8k} (first 8KiB extension block);
 @item
-@code{16k} (first and second 8k extension blocks);
+@code{16k} (first and second 8KiB extension blocks);
 @item
 @code{24k} (first, second and 3rd extension blocks);
 @item
@@ -10883,7 +10883,7 @@ xvic -memory 3,5
 @end example
 
 enables memory in blocks 3 and 5, which is the usual configuration for
-16k ROM modules.
+16KiB ROM modules.
 
 @end table
 
@@ -11356,7 +11356,7 @@ Integer that specifies the video standard of the emulated machine
 
 @vindex RamSize
 @item RamSize
-Integer specifying the size of the memory in kByte.
+Integer specifying the size of the memory in KiB.
 (16, 32, 64)
 
 @vindex MemoryHack
@@ -11395,7 +11395,7 @@ Use NTSC sync factor
 
 @findex -ramsize
 @item -ramsize <ramsize>
-Specify size of RAM installed in kb
+Specify size of RAM installed in KiB
 (@code{RamSize}).
 (16, 32, 64)
 
@@ -11455,7 +11455,7 @@ file, command line options or right-menu items):
 
 @vindex RamSize
 @item RamSize
-Integer specifying the size of the memory in kByte. 96k denotes an 8096, 128k an 8296.
+Integer specifying the size of the memory in KiB. 96KiB denotes an 8096, 128KiB an 8296.
 (4, 8, 16, 32, 96, 128)
 
 @vindex IOSize
@@ -11518,17 +11518,17 @@ an overlay for the editor ROM at $E000-$E7FF if necessary.
 @vindex RomModule9Name
 @item RomModule9Name
 String specifying the filename for the $9*** Expansion ROM file. This file contains
-an expansion ROM image of 4k.
+an expansion ROM image of 4KiB.
 
 @vindex RomModuleAName
 @item RomModuleAName
 String specifying the filename for the $A*** Expansion ROM file. This file contains
-an expansion ROM image of 4k.
+an expansion ROM image of 4KiB.
 
 @vindex RomModuleBName
 @item RomModuleBName
 String specifying the filename for the $B*** Expansion ROM file. This file contains
-an expansion ROM image of 4k. This file overlays the lowest 4k of a BASIC 4 ROM.
+an expansion ROM image of 4KiB. This file overlays the lowest 4KiB of a BASIC 4 ROM.
 
 @end table
 
@@ -11790,7 +11790,7 @@ String specifying the filename of the PET REU image.
 
 @vindex PETREUsize
 @item PETREUsize
-Integer specifying the size of the emulated PET REU in KB.
+Integer specifying the size of the emulated PET REU in KiB.
 (128, 512, 1024, 2048)
 
 @vindex PETDWW
@@ -11852,7 +11852,7 @@ Specify name of PET Ram and Expansion Unit image
 (@code{PETREUfilename}).
 
 @findex -petreuramsize
-@item -petreuramsize <size in KB>
+@item -petreuramsize <size in KiB>
 Size of the PET Ram and Expansion Unit
 (@code{PETREUsize}).
 (128, 512, 1024, 2048)
@@ -11982,32 +11982,32 @@ cartridge area (@code{RomModuleBName}).
 
 @findex -6809romA
 @item -6809romA <Name>
-Specify 4K to 24K ROM file name at $A000 for 6809
+Specify 4KiB to 24KiB ROM file name at $A000 for 6809
 (@code{H6809RomAName}).
 
 @findex -6809romB
 @item -6809romB <Name>
-Specify 4K to 20K ROM file name at $B000 for 6809
+Specify 4KiB to 20KiB ROM file name at $B000 for 6809
 (@code{H6809RomBName}).
 
 @findex -6809romC
 @item -6809romC <Name>
-Specify 4K to 16K ROM file name at $C000 for 6809
+Specify 4KiB to 16KiB ROM file name at $C000 for 6809
 (@code{H6809RomCName}).
 
 @findex -6809romD
 @item -6809romD <Name>
-Specify 4K to 12K ROM file name at $D000 for 6809
+Specify 4KiB to 12KiB ROM file name at $D000 for 6809
 (@code{H6809RomDName}).
 
 @findex -6809romE
 @item -6809romE <Name>
-Specify 2K or 8K ROM file name at $E000 for 6809
+Specify 2KiB or 8KiB ROM file name at $E000 for 6809
 (@code{H6809RomEName}).
 
 @findex -6809romF
 @item -6809romF <Name>
-Specify 4K ROM file name at $F000 for 6809
+Specify 4KiB ROM file name at $F000 for 6809
 (@code{H6809RomFName}).
 
 @end table
@@ -12075,7 +12075,7 @@ Specify size of I/O in Bytes
 
 @findex -ramsize
 @item -ramsize <size>
-Specify size of RAM in KB
+Specify size of RAM in KiB
 (@code{RamSize}).
 (8, 16, 32, 96, 128)
 
@@ -12193,9 +12193,9 @@ and logically different. Apart from this, it requires address space at
 $EC00-$EFFF, which makes it unfit to work in 40xx and 80xx models, which
 have only 256 bytes of I/O space at $E800.
 
-The DWW board consists of 8 KB of RAM and a PIA to control various
+The DWW board consists of 8 KiB of RAM and a PIA to control various
 options. The RAM can be mapped either linearly at $9000-$AFFF,
-or bank-switched in 8 banks of 8 KB each at $EC00-$EFFF.
+or bank-switched in 8 banks of 8 KiB each at $EC00-$EFFF.
 
 It seems that in the demo programs, the BASIC versions like to
 POKE in 60200, where the machine language programs use $EB00.
@@ -12235,7 +12235,7 @@ the addressing of the RAM can borrow part of the addressing
 logic/signals of the text screen. (The screen addressing cycles through
 0-39, then increases the line (= byte offset) which is fetched from
 the character ROM; for the graphics, the screen position selects the
-byte in a KB and the char ROM offset selects which KB of graphics RAM).
+byte in a KiB and the char ROM offset selects which KiB of graphics RAM).
 
 My notes say: to set a pixel:
 @verbatim
@@ -12353,7 +12353,7 @@ file, command line options or right-menu items):
 
 @vindex RamSize
 @item RamSize
-Size of memory in kByte.
+Size of memory in KiB.
 xcbm2: (128, 256, 512, 1024)
 xcbm5x0: (64, 128, 256, 512, 1024)
 
@@ -12387,19 +12387,19 @@ Boolean specifying whether the machine should be reset when a cartridge is chang
 
 @vindex Cart1Name
 @item Cart1Name
-String specifying the filename for the $1000-$1FFF expansion ROM file. This file contains a 4k ROM dump.
+String specifying the filename for the $1000-$1FFF expansion ROM file. This file contains a 4KiB ROM dump.
 
 @vindex Cart2Name
 @item Cart2Name
-String specifying the filename for the $2000-$3FFF expansion ROM file. This file contains an 8k ROM dump.
+String specifying the filename for the $2000-$3FFF expansion ROM file. This file contains an 8KiB ROM dump.
 
 @vindex Cart4Name
 @item Cart4Name
-String specifying the filename for the $4000-$5FFF expansion ROM file. This file contains an 8k ROM dump.
+String specifying the filename for the $4000-$5FFF expansion ROM file. This file contains an 8KiB ROM dump.
 
 @vindex Cart6Name
 @item Cart6Name
-String specifying the filename for the $6000-$7FFF expansion ROM file. This file contains an 8k ROM dump.
+String specifying the filename for the $6000-$7FFF expansion ROM file. This file contains an 8KiB ROM dump.
 
 @vindex ModelLine
 @item ModelLine
@@ -12439,19 +12439,19 @@ models are:
 
 @itemize @bullet
 @item
-C510 PAL or NTSC (128k RAM)
+C510 PAL or NTSC (128KiB RAM)
 @item
-C610 PAL or NTSC (128k RAM)
+C610 PAL or NTSC (128KiB RAM)
 @item
-C620 (256k RAM)
+C620 (256KiB RAM)
 @item
-C620+ (1024k RAM, expanded) PAL or NTSC
+C620+ (1024KiB RAM, expanded) PAL or NTSC
 @item
-C710 (128k RAM) NTSC
+C710 (128KiB RAM) NTSC
 @item
-C720 (256k RAM) NTSC
+C720 (256KiB RAM) NTSC
 @item
-C720+ (1024k RAM, expanded) NTSC
+C720+ (1024KiB RAM, expanded) NTSC
 @end itemize
 
 Notice that this will @strong{reset the emulated machine}.
@@ -14988,7 +14988,7 @@ Version numbers: Major 0, Minor 0
 @tab state of the GAME line (?)
 @item ARRAY
 @tab RAM
-@tab 64k RAM dump
+@tab 64KiB RAM dump
 @end multitable
 
 @b{The C64ROM module}
@@ -14999,13 +14999,13 @@ Version numbers: Major 0, Minor 0
 @tab Description
 @item ARRAY
 @tab KERNAL
-@tab 8k dump of the kernal ROM
+@tab 8KiB dump of the kernal ROM
 @item ARRAY
 @tab BASIC
-@tab 8k dump of the basic ROM
+@tab 8KiB dump of the basic ROM
 @item ARRAY
 @tab CHARGEN
-@tab 4k dump of the chargen ROM
+@tab 4KiB dump of the chargen ROM
 @end multitable
 
 @node C128 memory module, VIC20 memory module, C64 memory module, Module formats
@@ -15033,7 +15033,7 @@ Version numbers: Major 0, Minor 0
 @tab dump of the 12 MMU registers
 @item ARRAY
 @tab RAM
-@tab 128k RAM dump banks 0 and 1
+@tab 128KiB RAM dump banks 0 and 1
 @end multitable
 
 @b{The C128ROM module}
@@ -15044,15 +15044,15 @@ Version numbers: Major 0, Minor 0
 @tab Description
 @item ARRAY
 @tab KERNAL
-@tab 8k dump of the kernal ROM
+@tab 8KiB dump of the kernal ROM
 @item ARRAY
 @tab BASIC
-@tab 32k dump of the basic ROM
+@tab 32KiB dump of the basic ROM
 @item ARRAY
 @tab EDITOR
-@tab 4k dump of the editor ROM
+@tab 4KiB dump of the editor ROM
 @item ARRAY
-@tab 4k CHARGEN
+@tab 4KiB CHARGEN
 @tab dump of the chargen ROM
 @end multitable
 
@@ -15081,28 +15081,28 @@ Version numbers: Major 1, Minor 0
 @tab Configuration register.  Bits 0,1,2,3,5 reflect if the corresponding memory block is RAM (bit=1) or not (bit=0).
 @item ARRAY
 @tab RAM0
-@tab 1k RAM dump $0000-$03ff
+@tab 1KiB RAM dump $0000-$03ff
 @item ARRAY
 @tab RAM1
-@tab 4k RAM dump $1000-$1fff
+@tab 4KiB RAM dump $1000-$1fff
 @item ARRAY
 @tab COLORRAM
-@tab 2k Color RAM, $9400-$9bff
+@tab 2KiB Color RAM, $9400-$9bff
 @item ARRAY
 @tab BLK0
-@tab if CONFIG & 1 then: 3k RAM dump $0400-$0fff
+@tab if CONFIG & 1 then: 3KiB RAM dump $0400-$0fff
 @item ARRAY
 @tab BLK1
-@tab if CONFIG & 2 then: 8k RAM dump $2000-$3fff
+@tab if CONFIG & 2 then: 8KiB RAM dump $2000-$3fff
 @item ARRAY
 @tab BLK2
-@tab if CONFIG & 4 then: 8k RAM dump $4000-$5fff
+@tab if CONFIG & 4 then: 8KiB RAM dump $4000-$5fff
 @item ARRAY
 @tab BLK3
-@tab if CONFIG & 8 then: 8k RAM dump $6000-$7fff
+@tab if CONFIG & 8 then: 8KiB RAM dump $6000-$7fff
 @item ARRAY
 @tab BLK5
-@tab if CONFIG & 32 then: 8k RAM dump $a000-$bfff
+@tab if CONFIG & 32 then: 8KiB RAM dump $a000-$bfff
 @end multitable
 
 @b{The VIC20ROM module}
@@ -15118,37 +15118,37 @@ Version numbers: Major 1, Minor 1
 @tab Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 2: 1= ROM block $4*** enabled.  Bit 3: 1= ROM block $5*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.
 @item ARRAY
 @tab KERNAL
-@tab 8k KERNAL ROM image $e000-$ffff
+@tab 8KiB KERNAL ROM image $e000-$ffff
 @item ARRAY
 @tab BASIC
-@tab 16k BASIC ROM image $c000-$dfff
+@tab 16KiB BASIC ROM image $c000-$dfff
 @item ARRAY
 @tab CHARGEN
-@tab 4k CHARGEN ROM image
+@tab 4KiB CHARGEN ROM image
 @item ARRAY
 @tab BLK1A
-@tab 4k ROM image $2*** (if CONFIG & 1)
+@tab 4KiB ROM image $2*** (if CONFIG & 1)
 @item ARRAY
 @tab BLK1B
-@tab 4k ROM image $3*** (if CONFIG & 2)
+@tab 4KiB ROM image $3*** (if CONFIG & 2)
 @item ARRAY
 @tab BLK3A
-@tab 4k ROM image $6*** (if CONFIG & 16)
+@tab 4KiB ROM image $6*** (if CONFIG & 16)
 @item ARRAY
 @tab BLK3B
-@tab 4k ROM image $7*** (if CONFIG & 32)
+@tab 4KiB ROM image $7*** (if CONFIG & 32)
 @item ARRAY
 @tab BLK5A
-@tab 4k ROM image $A*** (if CONFIG & 64)
+@tab 4KiB ROM image $A*** (if CONFIG & 64)
 @item ARRAY
 @tab BLK5B
-@tab 4k ROM image $B*** (if CONFIG & 128)
+@tab 4KiB ROM image $B*** (if CONFIG & 128)
 @item ARRAY
 @tab BLK2A
-@tab 4k ROM image $4*** (if CONFIG & 4; added in V1.1)
+@tab 4KiB ROM image $4*** (if CONFIG & 4; added in V1.1)
 @item ARRAY
 @tab BLK2B
-@tab 4k ROM image $5*** (if CONFIG & 8; added in V1.1)
+@tab 4KiB ROM image $5*** (if CONFIG & 8; added in V1.1)
 @end multitable
 
 @node PET memory module, CBM-II memory module, VIC20 memory module, Module formats
@@ -15180,7 +15180,7 @@ Version numbers: Major 1, Minor 3
 @tab Keyboard type. 0= UK business; 1= Graphics; 2= German business
 @item BYTE
 @tab MEMSIZE
-@tab memory size of low 32k in k (possible values 4, 8, 16, 32)
+@tab memory size of low 32KiB in k (possible values 4, 8, 16, 32)
 @item BYTE
 @tab CONF8X96
 @tab Value of the 8x96 configuration register
@@ -15189,16 +15189,16 @@ Version numbers: Major 1, Minor 3
 @tab SuperPET config. Bit 0: 1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1= CTRL register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM block in use.
 @item ARRAY
 @tab RAM
-@tab 4-32k RAM (not 8296, size depends on MEMSIZE)
+@tab 4-32KiB RAM (not 8296, size depends on MEMSIZE)
 @item ARRAY
 @tab VRAM
-@tab 2/4k RAM (not 8296, size depends on CONFIG)
+@tab 2/4KiB RAM (not 8296, size depends on CONFIG)
 @item ARRAY
 @tab EXTRAM
-@tab 64k expansion RAM (SuperPET and 8096 only)
+@tab 64KiB expansion RAM (SuperPET and 8096 only)
 @item ARRAY
 @tab RAM
-@tab 128k RAM (8296 only)
+@tab 128KiB RAM (8296 only)
 @item --
 @tab --
 @tab The following item has been added in V1.1
@@ -15252,28 +15252,28 @@ Version numbers: Major 1, Minor 1
 @tab Bit 0: 1= $9*** ROM included. Bit 1: 1= $A*** ROM included. Bit 2: 1= $B*** ROM included. Bit 3: 1= $e900-$efff ROM included. Bit 4: 1= SuperPET ROMs included.
 @item ARRAY
 @tab KERNAL
-@tab 4k KERNAL ROM image $f000-$ffff
+@tab 4KiB KERNAL ROM image $f000-$ffff
 @item ARRAY
 @tab EDITOR
-@tab 2k EDITOR ROM image $e000-$e7ff
+@tab 2KiB EDITOR ROM image $e000-$e7ff
 @item ARRAY
 @tab CHARGEN
-@tab 2k CHARGEN ROM image
+@tab 2KiB CHARGEN ROM image
 @item ARRAY
 @tab ROM9
-@tab 4k $9*** ROM image (if CONFIG & 1)
+@tab 4KiB $9*** ROM image (if CONFIG & 1)
 @item ARRAY
 @tab ROMA
-@tab 4k $A*** ROM image (if CONFIG & 2)
+@tab 4KiB $A*** ROM image (if CONFIG & 2)
 @item ARRAY
 @tab ROMB
-@tab 4k $B*** ROM image (if CONFIG & 4)
+@tab 4KiB $B*** ROM image (if CONFIG & 4)
 @item ARRAY
 @tab ROMC
-@tab 4k $C*** ROM image
+@tab 4KiB $C*** ROM image
 @item ARRAY
 @tab ROMD
-@tab 4k $D*** ROM image
+@tab 4KiB $D*** ROM image
 @item ARRAY
 @tab ROME9
 @tab 7 blocks $e900-$efff ROM image (if CONFIG & 8)
@@ -15282,7 +15282,7 @@ Version numbers: Major 1, Minor 1
 @tab The following items have been added in V1.1
 @item ROM6809
 @tab ROM6809
-@tab 24k $A000-$FFFF ROM   (if CONFIG & 16)
+@tab 24KiB $A000-$FFFF ROM   (if CONFIG & 16)
 @item ARRAY
 @tab CHARGEN(2)
 @tab upper half of CHARGEN (if CONFIG & 16)
@@ -15328,7 +15328,7 @@ Version numbers: Major 1, Minor 0
 @tab Description
 @item UBYTE
 @tab MEMSIZE
-@tab Memory size in 128k blocks (1=128k, 2=256k, 4=512k, 8=1024k)
+@tab Memory size in 128KiB blocks (1=128KiB, 2=256KiB, 4=512KiB, 8=1024KiB)
 @item UBYTE
 @tab CONFIG
 @tab Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM, Bit 6 = is a C500
@@ -15343,39 +15343,39 @@ Version numbers: Major 1, Minor 0
 @tab CPUs indirection bank register
 @item ARRAY
 @tab SYSRAM
-@tab 2k system RAM $f0000-$f07ff
+@tab 2KiB system RAM $f0000-$f07ff
 @item ARRAY
 @tab VIDEO
-@tab 2k video RAM $fd000-$fd7ff
+@tab 2KiB video RAM $fd000-$fd7ff
 @item ARRAY
 @tab RAM
 @tab RAM dump, size according to MEMSIZE
 @item ARRAY
 @tab RAM08
-@tab if memsize < 1M and CONFIG & 1 : 2k RAM $f0800-$f0fff
+@tab if memsize < 1MiB and CONFIG & 1 : 2KiB RAM $f0800-$f0fff
 @item ARRAY
 @tab RAM1
-@tab if memsize < 1M and CONFIG & 2 : 4k RAM $f1000-$f1fff
+@tab if memsize < 1MiB and CONFIG & 2 : 4KiB RAM $f1000-$f1fff
 @item ARRAY
 @tab RAM2
-@tab if memsize < 1M and CONFIG & 4 : 8k RAM $f2000-$f3fff
+@tab if memsize < 1MiB and CONFIG & 4 : 8KiB RAM $f2000-$f3fff
 @item ARRAY
 @tab RAM4
-@tab if memsize < 1M and CONFIG & 8 : 8k RAM $f4000-$f5fff
+@tab if memsize < 1MiB and CONFIG & 8 : 8KiB RAM $f4000-$f5fff
 @item ARRAY
 @tab RAM6
-@tab if memsize < 1M and CONFIG & 16 : 8k RAM $f6000-$f7fff
+@tab if memsize < 1MiB and CONFIG & 16 : 8KiB RAM $f6000-$f7fff
 @item ARRAY
 @tab RAMC
-@tab if memsize < 1M and CONFIG & 32 : 4k RAM $fc000-$fcfff
+@tab if memsize < 1MiB and CONFIG & 32 : 4KiB RAM $fc000-$fcfff
 @end multitable
 
-The RAM* arrays are only saved if the RAM itself is less than 1M.
-If the memory size is 1M then those areas are taken from the
+The RAM* arrays are only saved if the RAM itself is less than 1MiB.
+If the memory size is 1MiB then those areas are taken from the
 bank 15 area of the normal RAM.
 
-The memory array starts at $10000 if the memory size is less than 512k,
-or at $00000 if 512k or more. In case of a C510, then the memory array
+The memory array starts at $10000 if the memory size is less than 512KiB,
+or at $00000 if 512KiB or more. In case of a C510, then the memory array
 also always starts at $00000.
 
 @b{The CBM2ROM module}
@@ -15395,19 +15395,19 @@ also always starts at $00000.
 @tab BASIC ROM image ($8000-$bfff)
 @item ARRAY
 @tab CHARGEN
-@tab 4k CHARGEN ROM image
+@tab 4KiB CHARGEN ROM image
 @item ARRAY
 @tab ROM1
-@tab 4k cartridge ROM image for $1*** (if CONFIG & 2)
+@tab 4KiB cartridge ROM image for $1*** (if CONFIG & 2)
 @item ARRAY
 @tab ROM2
-@tab 8k cartridge ROM image for $2000-$3fff (if CONFIG & 4)
+@tab 8KiB cartridge ROM image for $2000-$3fff (if CONFIG & 4)
 @item ARRAY
 @tab ROM4
-@tab 8k cartridge ROM image for $4000-$5fff (if CONFIG & 8)
+@tab 8KiB cartridge ROM image for $4000-$5fff (if CONFIG & 8)
 @item ARRAY
 @tab ROM6
-@tab 8k cartridge ROM image for $6000-$7fff (if CONFIG & 16)
+@tab 8KiB cartridge ROM image for $6000-$7fff (if CONFIG & 16)
 @end multitable
 
 @node C500 data module,  ,CBM-II memory module, Module formats
@@ -15680,7 +15680,7 @@ The playback stops when the end of the session is reached or if
 @c @node FIXME
 @section Limitations and Suggestions
 
-a. Snapshot files will be quite big (>1MB) if a disk image has been attached.
+a. Snapshot files will be quite big (>1MiB) if a disk image has been attached.
 If possible, use PRG or T64 images to reduce the size of snapshot files.
 b. Snapshots may not be 100% accurate even with all the recommended settings.
 
@@ -15799,7 +15799,7 @@ disk drive's processor or a specific memory configuration of one of
 the mentioned processors.
 
 @item bankname
-The CPU can only see 64k of memory at any one time, due to its 16 bit
+The CPU can only see 64KiB of memory at any one time, due to its 16 bit
 address bus. The C64 and other computers have more than this amount,
 and this is handled by banking: a memory address can have different
 contents, depending on the active memory bank.
@@ -17977,11 +17977,11 @@ The following cartridge types are supported:
 @item bin
 Binary .bin file (Default crt->bin)
 @item normal
-Generic 8kB/12kB/16kB .crt file (Default bin->crt)
+Generic 8KiB/12KiB/16KiB .crt file (Default bin->crt)
 @item prg
 Binary C64 .prg file with load-address
 @item ulti
-Ultimax mode 4kB/8kB/16kB .crt file
+Ultimax mode 4KiB/8KiB/16KiB .crt file
 @item ap
 Atomic Power .crt file
 @item ar2
@@ -18081,7 +18081,7 @@ Prophet64 .crt file
 @item pf
 Pagefox .crt file
 @item rep256
-REX 256k EPROM Cart .crt file, extra files can be inserted (1)(2)(3)
+REX 256KiB EPROM Cart .crt file, extra files can be inserted (1)(2)(3)
 @item rgcd
 RGCD .crt file
 @item ross
@@ -18105,7 +18105,7 @@ Super Explode V5.0 .crt file
 @item sg
 Super Games .crt file
 @item silver
-Silverrock 128K Cartridge .crt file
+Silverrock 128KiB Cartridge .crt file
 @item simon
 Simons' BASIC .crt file
 @item ss4
@@ -18125,9 +18125,9 @@ ZIPP-CODE 48 .crt file
 @end table
 
 @itemize @bullet
-@item (1) insertion of 32kB EPROM files supported.
-@item (2) insertion of 8kB .crt/binary files supported.
-@item (3) insertion of 16kB .crt/binary files supported.
+@item (1) insertion of 32KiB EPROM files supported.
+@item (2) insertion of 8KiB .crt/binary files supported.
+@item (3) insertion of 16KiB .crt/binary files supported.
 @end itemize
 
 @c @node FIXME
@@ -18143,17 +18143,17 @@ Convert a .crt file to a .prg file with 49152 as the load-address.
 @item cartconv -t ocean -i foo.bin -o foo.crt
 Convert a binary file to an ocean type cartridge.
 @item cartconv -t dep64 -i dep64.bin -i eprom.prg -o foo.crt
-Inserting a 32kB EPROM file into an dep64 type cartridge.
+Inserting a 32KiB EPROM file into an dep64 type cartridge.
 @itemize @bullet
-@item step 1 : use the dep64 binary file in VICE as a generic 8kB cartridge.
+@item step 1 : use the dep64 binary file in VICE as a generic 8KiB cartridge.
 @item step 2 : generate an EPROM file.
 @item step 3 : get the EPROM file to the host computer.
 @item step 4 : insert the EPROM file into the final dep64 .crt file:
 @end itemize
 @item cartconv -t dep256 -i dep256.bin -i somegame.crt -o foo.crt
-Insert an 8kB .crt file into a dep256 type cartridge.
+Insert an 8KiB .crt file into a dep256 type cartridge.
 @item cartconv -t rep256 -i rep256.bin -i foo1.crt -i foo2.crt -i foo3.crt -o foo.crt
-Insert multiple 8kB .crt files into a rep256 type cartridge.
+Insert multiple 8KiB .crt files into a rep256 type cartridge.
 @item cartconv -f foo.crt
 Get information about a .crt file.
 @end table
@@ -23809,7 +23809,7 @@ special hardware features it uses.
 
 @subsection Header contents
 
-  Here is a dump of a sample 8K normal cartridge,  "Attack  Of  The  Mutant
+  Here is a dump of a sample 8KiB normal cartridge,  "Attack  Of  The  Mutant
 Camels"@dots{}
 
 @example
@@ -23992,23 +23992,23 @@ A000-BFFF BASIC   RAM    RAM    RAM    RAM   BASIC   ROMH   ROMH    -
 
 
   From the above chart, the following table can be built. It shows standard
-cartridges, either 8K or 16K in size, and the memory ranges they load into.
+cartridges, either 8KiB or 16KiB in size, and the memory ranges they load into.
 
 @example
 Type     Size   Game   EXRom  Low Bank  High Bank
          in K   Line   Line    (ROML)    (ROMH)
 -------------------------------------------------
-Normal    8k     hi     lo     $8000      ----
-Normal    16k    lo     lo     $8000     $A000
-Ultimax   8k     lo     hi     $E000      ----
+Normal    8KiB    hi     lo     $8000      ----
+Normal    16KiB   lo     lo     $8000     $A000
+Ultimax   8KiB    lo     hi     $E000      ----
 @end example
 
   The ROMH and ROML lines are CPU-controlled status  lines,  used  to  bank
 in/out RAM, ROM or I/O, depending on what is needed at the time.
 
-  Ultimax cartridges typically are situated  in  the  $E000-FFFF  (8K)  ROM
-address range. There are some cartridges  which  only  use  4K  of  the  8K
-allocation. If the cartridge is 16K in size, then it will  reside  in  both
+  Ultimax cartridges typically are situated  in  the  $E000-FFFF  (8KiB)  ROM
+address range. There are some cartridges  which  only  use  4KiB  of  the  8KiB
+allocation. If the cartridge is 16KiB in size, then it will  reside  in  both
 $8000-9FFF and $E000-FFFF.
 
 @c @node FIXME
@@ -24019,7 +24019,7 @@ $8000-9FFF and $E000-FFFF.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb
+@tab 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24039,7 +24039,7 @@ $8000-9FFF and $E000-FFFF.
 0050: D3 9B BC FE C3 C2 CD 38 30 EA EA EA A9 01 85 13  .......80.......
 @end example
 
-      The second sample below is a dump of "Music Machine", a  4Kb  ULTIMAX
+      The second sample below is a dump of "Music Machine", a  4KiB  ULTIMAX
     mode cartridge. It  is  still  identified  as  a  "standard  cartridge"
     according to the ID.
 
@@ -24047,7 +24047,7 @@ $8000-9FFF and $E000-FFFF.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 4Kb (ULTIMAX mode)
+@tab 4KiB (ULTIMAX mode)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -24068,14 +24068,14 @@ $8000-9FFF and $E000-FFFF.
 @end example
 
 
-      The third sample is a dump of "Adventure Creator",  a  16Kb  standard
+      The third sample is a dump of "Adventure Creator",  a  16KiB  standard
     cartridge.
 
     Normal cartridge
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb
+@tab 16KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24101,7 +24101,7 @@ $8000-9FFF and $E000-FFFF.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (4 banks of 8Kb each)
+@tab 32KiB (4 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24121,7 +24121,7 @@ $8000-9FFF and $E000-FFFF.
 0050: 09 80 0C 80 C3 C2 CD 38 30 4C 60 80 4C 63 80 4C  .......80L`.Lc.L
 @end example
 
-    This cart has 32Kb of ROM, and 8Kb of RAM. The bank switching  is  done
+    This cart has 32KiB of ROM, and 8KiB of RAM. The bank switching  is  done
     by writing to the I/O-1 range as follows:
 
 @example
@@ -24147,7 +24147,7 @@ $8000-9FFF and $E000-FFFF.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8K each)
+@tab 16KiB (2 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24177,7 +24177,7 @@ $8000-9FFF and $E000-FFFF.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb (4 banks of 16Kb each)
+@tab 64KiB (4 banks of 16KiB each)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -24206,7 +24206,7 @@ C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP..@@.......@@.
 C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 @end example
 
-    A total of 64 kB of ROM memory  is  organized  into  four  $4000  banks
+    A total of 64 KiB of ROM memory  is  organized  into  four  $4000  banks
     located at $8000-$BFFF.
 
     The banks are arranged in the following way:
@@ -24225,7 +24225,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
     The CRT file contains four CHIP blocks, each block with a start address
     of $8000, length $4000 and the bank number in the bank  field.  In  the
     cartridge header, both EXROM ($18) and GAME  ($19)  are  set  to  1  to
-    enable the 16 kB ROM configuration.
+    enable the 16 KiB ROM configuration.
 
     The registers are arranged in the following way:
 
@@ -24257,7 +24257,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8kb each)
+@tab 16KiB (2 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24281,7 +24281,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 2060: 20 A4 A6 99 9E CB A0 05 A5 A8 91 20 A4 A6 99 A2   .......... ....
 @end example
 
-    Simons' BASIC permanently uses 16 kB ($4000) bytes of cartridge  memory
+    Simons' BASIC permanently uses 16 KiB ($4000) bytes of cartridge  memory
     from $8000-$BFFF. However, through some custom bank-switching logic the
     upper area ($A000-$BFFF) may be disabled so Simons' BASIC may use it as
     additional RAM. Writing a value of $01 to address location $DE00  banks
@@ -24290,7 +24290,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
     The CRT file contains two CHIP blocks of length $2000 each,  the  first
     block having a start address of $8000, the second block $A000.  In  the
     cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to  1  to
-    indicate the RESET/power-up configuration of 8 kB ROM.
+    indicate the RESET/power-up configuration of 8 KiB ROM.
 
 
 @c @node FIXME
@@ -24298,7 +24298,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb, 128Kb, 256Kb or 512Kb sizes (4, 16, 32 or 64 banks of 8Kb)
+@tab 32KiB, 128KiB, 256KiB or 512KiB sizes (4, 16, 32 or 64 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24328,30 +24328,30 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
     Here is a list of the known OCEAN cartridges:
 
 @example
-    Batman The Movie    (128 kB)
-    Battle Command      (128 kB)
-    Double Dragon       (128 kB)
-    Navy Seals          (128 kB)
-    Pang                (128 kB)
-    Robocop 3           (128 kB)
-    Space Gun           (128 kB)
-    Toki                (128 kB)
-    Chase H.Q. II       (256 kB)
-    Robocop 2           (256 kB)
-    Shadow of the Beast (256 kB)
-    Terminator 2        (512 kB)
+    Batman The Movie    (128 KiB)
+    Battle Command      (128 KiB)
+    Double Dragon       (128 KiB)
+    Navy Seals          (128 KiB)
+    Pang                (128 KiB)
+    Robocop 3           (128 KiB)
+    Space Gun           (128 KiB)
+    Toki                (128 KiB)
+    Chase H.Q. II       (256 KiB)
+    Robocop 2           (256 KiB)
+    Shadow of the Beast (256 KiB)
+    Terminator 2        (512 KiB)
 @end example
 
-    The 32Kb type of cart  has  4  banks  of  8Kb  ($2000),  banked  in  at
+    The 32KiB type of cart  has  4  banks  of  8KiB  ($2000),  banked  in  at
     $8000-$9FFF.
 
-    The 128Kb type of cart has  16  banks of  8Kb  ($2000),  banked  in  at
+    The 128KiB type of cart has  16  banks of  8KiB  ($2000),  banked  in  at
     $8000-$9FFF.
 
-    The 256Kb type of cart has 32 banks of 8Kb ($2000),  16  banked  in  at
+    The 256KiB type of cart has 32 banks of 8KiB ($2000),  16  banked  in  at
     $8000-$9FFF, and 16 banked in at $A000-$BFFF.
 
-    The 512Kb type of cart has 64  banks  of  8Kb  ($2000),  banked  in  at
+    The 512KiB type of cart has 64  banks  of  8KiB  ($2000),  banked  in  at
     $8000-$9FFF.
 
     Bank switching is done by writing to $DE00. The lower six bits give the
@@ -24364,7 +24364,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb
+@tab 8KiB
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -24390,7 +24390,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 128Kb (16 banks of 8Kb modules)
+@tab 128KiB (16 banks of 8KiB modules)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24422,7 +24422,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 1E140: 85 EB 41 EA 9E 08 03 00 C0 06 18 01 00 C0 08 03  ..A.............
 @end example
 
-    The FUN PLAY Cartridge uses $DE00 for  bank  selection,  and  uses  8Kb
+    The FUN PLAY Cartridge uses $DE00 for  bank  selection,  and  uses  8KiB
     banks ($2000) at $8000-$9FFF. There are 16 banks of ROM memory and  are
     referenced by the following values:
 
@@ -24464,13 +24464,13 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb (4 banks of 16Kb each)
+@tab 64KiB (4 banks of 16KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab active (lo) (0)
 @item Startup mode
-@tab 16k game
+@tab 16KiB game
 @item Load address
 @tab $8000-BFFF (all modules)
 @end multitable
@@ -24495,7 +24495,7 @@ C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP..@@.......@@.
 C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 @end example
 
-    The Super Games cartridge  uses  4  16Kb  banks  ($8000-$BFFF)  of  ROM
+    The Super Games cartridge  uses  4  16KiB  banks  ($8000-$BFFF)  of  ROM
     memory. Bank selecting is done by writing to $DF00.
 
     $DF00 register is as follows:
@@ -24505,7 +24505,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
     ---   -------
      0    bank bit 0
      1    bank bit 1
-     2    mode (0 = EXROM/GAME (bridged on the same wire - 16k config) 
+     2    mode (0 = EXROM/GAME (bridged on the same wire - 16KiB config) 
                 1 = cartridge disabled)
      3    write-protect-latch  (1 = no more changes are possible until 
                                     the next hardware-reset )
@@ -24517,7 +24517,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (4 banks of 8Kb modules)
+@tab 32KiB (4 banks of 8KiB modules)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24546,7 +24546,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 6080: 09 80 0C 80 C3 C2 CD 38 30 4C 73 86 4C 30 80 4C  .......80Ls.L0.L
 @end example
 
-    This cart has 32Kb of ROM and 8Kb of RAM
+    This cart has 32KiB of ROM and 8KiB of RAM
 
     Writing to I/O-1 will do the following:
 
@@ -24567,7 +24567,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
     If bit 5 (RAM enable) is 1, bit 0,1 (exrom/game) is ==  2  (cart  off),
     bit 2,6,7 (cart disable, freeze clear) are 0, then cart ROM (Bank 0..3)
     is mapped at 8000-9FFF, and cart RAM (Bank 0) is  mapped  at  A000-BFFF
-    and cart RAM (Bank 0) is is enabled in the I/O-2 area using  16Kb  game
+    and cart RAM (Bank 0) is is enabled in the I/O-2 area using  16KiB  game
     config.
 
     The cart RAM or ROM is available through a window in the I/O-2 range.
@@ -24578,7 +24578,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb
+@tab 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24601,7 +24601,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
     The Epyx FastLoad cart uses a simple capacitor to toggle the ROM on
     and off:
 
-    the capacitor is discharged, and 8k game config enabled, by either
+    the capacitor is discharged, and 8KiB game config enabled, by either
     reading ROML or reading I/O-1. If none of those accesses happen the
     capacitor will charge, and if it is charged (after 512 cycles) then
     the ROM will get disabled.
@@ -24611,7 +24611,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb
+@tab 16KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24639,7 +24639,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8K
+@tab 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24660,7 +24660,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 @end example
 
     Reading from $DF00-DFBF disables ROM, reading from $DFC0-DFFF enables
-    ROM (8k game config).
+    ROM (8KiB game config).
 
 
 @c @node FIXME
@@ -24668,7 +24668,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb
+@tab 16KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24698,7 +24698,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30  ...............0
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb (8 banks of 8Kb)
+@tab 64KiB (8 banks of 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -24745,7 +24745,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 512Kb (64 banks of 8Kb each)
+@tab 512KiB (64 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24780,12 +24780,12 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
     Here is a list of the known cartridges:
 
 @example
-    C64GS 4-in-1      (Commodore)  (512 kB)
-    Last Ninja Remix  (System 3)   (512 kB)
-    Myth              (System 3)   (512 kB)
+    C64GS 4-in-1      (Commodore)  (512 KiB)
+    Last Ninja Remix  (System 3)   (512 KiB)
+    Myth              (System 3)   (512 KiB)
 @end example
 
-    ROM memory is organized in 8Kb ($2000) banks  located  at  $8000-$9FFF.
+    ROM memory is organized in 8KiB ($2000) banks  located  at  $8000-$9FFF.
     Bank switching is done by writing to address $DE00+X, where  X  is  the
     bank number (STA $DE00,X). For instance, to read from bank  3,  address
     $DE03 is written to. Reading from anywhere  in  the  I/O-1  range  will
@@ -24794,7 +24794,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
     The CRT file contains a string of CHIP blocks, each block with a  start
     address of $8000, length $2000 and the bank number in the  bank  field.
     In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
-    1 to enable the 8 kB ROM configuration.
+    1 to enable the 8 KiB ROM configuration.
 
 
 @c @node FIXME
@@ -24802,7 +24802,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb
+@tab 16KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24822,7 +24822,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 0050: 4C 22 80 4C 22 80 FF 43 42 4D 20 53 E4 20 18 E5  L".L"..CBM S. ..
 @end example
 
-    After  RESET  or  POWER  ON,  16kB  of  cartridge  ROM  is  visible  at
+    After  RESET  or  POWER  ON,  16KiB  of  cartridge  ROM  is  visible  at
     $8000-$BFFF. Additionally,  ROM  normally  located  at  $9E00-$9FFF  is
     mirrored into I/O-1 and I/O-2 at $DE00-$DFFF.  ROM  at  $8000-$BFFF  is
     disabled by writing into the I/O-2 area (typically $DF00)  and  may  be
@@ -24835,7 +24835,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 128Kb (16 banks of 8Kb each)
+@tab 128KiB (16 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24867,11 +24867,11 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
     Here is a list of the known DINAMIC cartridges:
 
 @example
-    Narco Police  (128 kB)
-    Satan         (128 kB)
+    Narco Police  (128 KiB)
+    Satan         (128 KiB)
 @end example
 
-    ROM memory is organized in 8Kb ($2000) banks  located  at  $8000-$9FFF.
+    ROM memory is organized in 8KiB ($2000) banks  located  at  $8000-$9FFF.
     Bank switching is done by reading from address $DE00+X, where X is  the
     bank number (LDA $DE00,X). For instance, to read from bank  3,  address
     $DE03 is accessed.
@@ -24879,7 +24879,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
     The CRT file contains a string of CHIP blocks, each block with a  start
     address of $8000, length $2000 and the bank number in the  bank  field.
     In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
-    1 to enable the 8 kB ROM configuration.
+    1 to enable the 8 KiB ROM configuration.
 
 
 @c @node FIXME
@@ -24887,7 +24887,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 20Kb (3 banks of different sizes)
+@tab 20KiB (3 banks of different sizes)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -24914,12 +24914,12 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 3070: 65 A2 36 A3 E7 A3 CB A4 94 A5 86 A6 5E A7 35 A8  e.6.........^.5.
 @end example
 
-    The (Super) Zaxxon carts use a 4Kb ($1000) ROM at $8000-$8FFF (mirrored
-    in $9000-$9FFF) along with two 8Kb ($2000) cartridge banks  located  at
+    The (Super) Zaxxon carts use a 4KiB ($1000) ROM at $8000-$8FFF (mirrored
+    in $9000-$9FFF) along with two 8KiB ($2000) cartridge banks  located  at
     $A000-$BFFF. One of the two banks is selected by doing a read access to
     either the $8000-$8FFF area (bank 0 is selected) or to $9000-$9FFF area
     (bank 1 is selected). EXROM ($18 = $00) and GAME ($19 = $00) lines  are
-    always pulled to GND to select the 16 kB ROM configuration.
+    always pulled to GND to select the 16 KiB ROM configuration.
 
     The CRT file includes three CHIP blocks:
 @example
@@ -24933,13 +24933,13 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb, 64Kb or 128Kb sizes (4 to 16 banks of 8Kb each)
+@tab 32KiB, 64KiB or 128KiB sizes (4 to 16 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab (banks 00-15) - $8000-9FFF
 @end multitable
@@ -24965,24 +24965,24 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 @end example
 
     This cartridge type is very similar to the OCEAN cart type: ROM  memory
-    is  organized  in  8Kb  ($2000)  banks  located  at  $8000-$9FFF.  Bank
+    is  organized  in  8KiB  ($2000)  banks  located  at  $8000-$9FFF.  Bank
     switching is done by writing the bank number to $DE00. Deviant from the
     Ocean type, bit 7 is cleared for selecting one of the ROM banks. If bit
     7 is set ($DE00 = $80), the GAME/EXROM lines are disabled,  turning  on
     RAM at $8000-$9FFF instead of ROM.
 
     In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
-    1 to indicate the RESET/power-up configuration of 8 kB ROM.
+    1 to indicate the RESET/power-up configuration of 8 KiB ROM.
 
     Here is a list of the known cartridges:
 
 @example
-    Ghosbusters        (HES Australia)   (32 kB)
-    Magic Desk         (Commodore)       (32 kB)
-    Badlands           (Domark)          (64 kB)
-    Vindicators        (Domark)          (64 kB)
-    Wonderboy          (HES Australia)   (64 kB)
-    Cyberball          (Domark)         (128 kB)
+    Ghosbusters        (HES Australia)   (32 KiB)
+    Magic Desk         (Commodore)       (32 KiB)
+    Badlands           (Domark)          (64 KiB)
+    Vindicators        (Domark)          (64 KiB)
+    Wonderboy          (HES Australia)   (64 KiB)
+    Cyberball          (Domark)         (128 KiB)
 @end example
 
 
@@ -24991,7 +24991,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7...`...`...`.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb (4 banks of 16Kb each)
+@tab 64KiB (4 banks of 16KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25042,7 +25042,7 @@ C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P......80.. ...v
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb (4 banks of 16Kb each)
+@tab 64KiB (4 banks of 16KiB each)
 @item EXROM
 @tab active (low) (0)
 @item GAME
@@ -25072,7 +25072,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 @end example
 
 
-    The Comal-80 Cartridge uses 16Kb banks ($4000) at $8000-$BFFF. There are 4
+    The Comal-80 Cartridge uses 16KiB banks ($4000) at $8000-$BFFF. There are 4
     banks of ROM memory and the cart has 1 (write-only) bank control register which
     is located at $DE00 and mirrored throughout the $DE00-$DEFF range.
 
@@ -25094,7 +25094,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8Kb each)
+@tab 16KiB (2 banks of 8KiB each)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -25118,7 +25118,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb or 32Kb sizes (1 or 2 banks of 16Kb each)
+@tab 16KiB or 32KiB sizes (1 or 2 banks of 16KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25141,7 +25141,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 4060: 3F 5A 4D 4D 50 4D 8D 25 3F 1A 1F 77 3F CD E0 3F  ?ZMMPM.%?..w?..?
 @end example
 
-    Any read access to $DE00 will switch in bank 1 (if cart is  32Kb).  Any
+    Any read access to $DE00 will switch in bank 1 (if cart is  32KiB).  Any
     read access to $DF00 will switch off EXROM and GAME.
 
 
@@ -25150,9 +25150,9 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb to 72kb sizes (1 to 9 banks of 8Kb each,
-                              or 1 bank of 8Kb and 1 or 2 banks
-                              of 32Kb each)
+@tab 8KiB to 72KiB sizes (1 to 9 banks of 8KiB each,
+                              or 1 bank of 8KiB and 1 or 2 banks
+                              of 32KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25175,8 +25175,8 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 2060: 54 45 53 54 0D 2A 0D 54 45 20 36 34 0D 00 00 00  TEST.*.TE 64....
 @end example
 
-    This is an eprom cartridge. It has 1 2764 (8Kb) which  holds  the  base
-    eprom with the base menu, and 2 27256 eproms of  which  8Kb  parts  are
+    This is an eprom cartridge. It has 1 2764 (8KiB) which  holds  the  base
+    eprom with the base menu, and 2 27256 eproms of  which  8KiB  parts  are
     banked into the $8000-9FFF area.
 
     The bank selecting is done by writing to $DE00. The following bits  are
@@ -25210,7 +25210,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb to 64kb sizes (1 to 8 banks of 8Kb each)
+@tab 8KiB to 64KiB sizes (1 to 8 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25233,7 +25233,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 2060: 94 83 A0 83 C3 C2 CD 38 30 02 BB 5A 30 5F EE 3D  .......80..Z0_.=
 @end example
 
-    This is an eprom cartridge. It has 8 8Kb banks of which the first holds
+    This is an eprom cartridge. It has 8 8KiB banks of which the first holds
     the base menu, the other eproms can be banked into the $8000-9FFF area.
 
     The bank selecting is done by writing to $DE00. Each low bit is used to
@@ -25260,7 +25260,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb to 262kb sizes (1 to 33 banks of 8Kb each)
+@tab 8KiB to 262KiB sizes (1 to 33 banks of 8KiB each)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25292,7 +25292,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 8090: 94 83 A0 83 C3 C2 CD 38 30 02 BB 5A 30 5F EE 3D  .......80..Z0_.=
 @end example
 
-    This is an eprom cartridge. It has 33 8Kb  banks  of  which  the  first
+    This is an eprom cartridge. It has 33 8KiB  banks  of  which  the  first
     holds the base menu, the other eproms can be banked into the $8000-9FFF
     area.
 
@@ -25315,8 +25315,8 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb to 262kb sizes (1 bank of 8Kb and 1 to 8 banks of either
-                               8Kb, 16Kb or 32Kb)
+@tab 8KiB to 262KiB sizes (1 bank of 8KiB and 1 to 8 banks of either
+                               8KiB, 16KiB or 32KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25343,26 +25343,26 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 @end example
 
     This is an eprom cartridge. It has 9 eprom sockets, of which the  first
-    holds the base eprom with the base menu which  is  an  8Kb  eprom,  the
-    other eprom sockets can handle 8Kb, 16Kb or 32Kb eproms, of  which  8kb
+    holds the base eprom with the base menu which  is  an  8KiB  eprom,  the
+    other eprom sockets can handle 8KiB, 16KiB or 32KiB eproms, of  which  8KiB
     can be banked into the $8000-9FFF area.
 
     The bank selecting is done by  writing  to  $DFA0.  Bits  2,  1  and  0
     determine which socket is used and bits 5 and 4 are used to  select  an
-    8Kb piece of the eprom.
+    8KiB piece of the eprom.
 
     The possible values for bits 5 and 4 for the (extra) eprom banks are:
 
 @example
-     8Kb        : 3, 2, 1, 0
+     8KiB        : 3, 2, 1, 0
 
-    16Kb bank 0 : 2, 0
-    16Kb bank 1 : 3, 1
+    16KiB bank 0 : 2, 0
+    16KiB bank 1 : 3, 1
 
-    32Kb bank 0 : 0
-    32Kb bank 1 : 1
-    32Kb bank 2 : 2
-    32Kb bank 3 : 3
+    32KiB bank 0 : 0
+    32KiB bank 1 : 1
+    32KiB bank 2 : 2
+    32KiB bank 3 : 3
 @end example
 
     Reading from $DFC0 switches off the EXROM.
@@ -25373,7 +25373,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb (1 bank of 8Kb)
+@tab 8KiB (1 bank of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25402,7 +25402,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (1 bank of 32Kb)
+@tab 32KiB (1 bank of 32KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -25423,10 +25423,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 @end example
 
 
-    This cart has 32Kb of ROM, bank 0 is in the cart image but is  unused.
-    The first 8Kb of the cart image is unused, the second 8Kb of the  cart
-    image is mapped to $E000-$FFFF, the third 8Kb of  the  cart  image  is
-    mapped to $8000-$9FFF and the fourth 8Kb of the cart image  is  mapped
+    This cart has 32KiB of ROM, bank 0 is in the cart image but is  unused.
+    The first 8KiB of the cart image is unused, the second 8KiB of the  cart
+    image is mapped to $E000-$FFFF, the third 8KiB of  the  cart  image  is
+    mapped to $8000-$9FFF and the fourth 8KiB of the cart image  is  mapped
     to $A000-$BFFF. An NMI can be triggered by the cart, if address  $0001
     is written to and the cartridge is enabled. The cart can  be  disabled
     by software, by clearing bit 4 when writing to $DF00-$DFFF.  Cart  ROM
@@ -25441,7 +25441,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (4 banks of 8Kb)
+@tab 32KiB (4 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25491,7 +25491,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8Kb)
+@tab 16KiB (2 banks of 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -25515,8 +25515,8 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 2060: 85 56 20 0F BC A5 61 C9 88 90 03 20 D4 BA 20 CC  .V ...a.... .. .
 @end example
 
-    This cart has 16Kb of ROM, of which the first  8Kb  is  mapped  in  at
-    $8000-$9FFF and the second 8Kb is used as a  kernel  replacement.  The
+    This cart has 16KiB of ROM, of which the first  8KiB  is  mapped  in  at
+    $8000-$9FFF and the second 8KiB is used as a  kernel  replacement.  The
     kernel replacement is achieved by a clip that needs  to  be  installed
     inside the C64.
 
@@ -25532,7 +25532,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 1024Kb (64 banks of 2 * 8Kb)
+@tab 1024KiB (64 banks of 2 * 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -25553,7 +25553,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  @{.~....80COMAL..
 @end example
 
 
-    EasyFlash is a 1 MByte Flash EPROM card with  multiple  configurations
+    EasyFlash is a 1 MiB Flash EPROM card with  multiple  configurations
     and banks possible, it also has 256 bytes of RAM which is mapped  into
     the I/O-2 range.
 
@@ -25597,7 +25597,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb (1 bank of 8Kb)
+@tab 8KiB (1 bank of 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -25618,7 +25618,7 @@ load files of this type.
 @end example
 
 
-    This cart has 8Kb of ROM which is mapped to  $E000,  and  8Kb  of  RAM
+    This cart has 8KiB of ROM which is mapped to  $E000,  and  8KiB  of  RAM
     which is mapped to $6000. The cartridge is disabled after a reset.
 
     When the freeze button is pressed the following happens:
@@ -25640,7 +25640,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8Kb)
+@tab 16KiB (2 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25664,7 +25664,7 @@ load files of this type.
 @end example
 
 
-    This cart has 16Kb of ROM of which 8Kb is mapped in at both  ROML  and
+    This cart has 16KiB of ROM of which 8KiB is mapped in at both  ROML  and
     ROMH. Bank switching and control register is done  through  the  I/O-1
     range:
 
@@ -25683,7 +25683,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb, 64Kb or 128Kb (4, 8 or 16 banks of 8Kb)
+@tab 32KiB, 64KiB or 128KiB (4, 8 or 16 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25781,7 +25781,7 @@ load files of this type.
 @itemize @bullet
 @item standard -
     $DE00 and $DE01 registers are active,  $DF00-$DFFF  contain  the  last
-    page of the selected 8Kb bank  of  either  ROM  or  RAM,  whatever  is
+    page of the selected 8KiB bank  of  either  ROM  or  RAM,  whatever  is
     selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
     to $8000, $A000 or $E000 with the corresponding  status  on  GAME  and
     EXROM.
@@ -25804,7 +25804,7 @@ load files of this type.
 
 @item REU compatible -
     $DE00 and $DE01 registers are active, $DE02-$DEFF contain a mirror  of
-    $9E02-$9EFF of the selected 8K-bank of either ROM or RAM, whatever  is
+    $9E02-$9EFF of the selected 8KiB-bank of either ROM or RAM, whatever  is
     selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
     to $8000, $A000 or $E000 with the corresponding  status  on  GAME  and
     EXROM. The $DF00 stays free for use with the 1764 Ram  Expansion  Unit
@@ -25821,7 +25821,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb (1 bank of 8Kb)
+@tab 8KiB (1 bank of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25914,7 +25914,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb or 512Kb (8 or 64 banks of 8Kb)
+@tab 64KiB or 512KiB (8 or 64 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -25980,7 +25980,7 @@ load files of this type.
     bit  meaning
     ---  -------
     0    0 = MMC BIOS enabled, 1 = MMC BIOS disabled.  Enabling  MMC  BIOS
-         sets ROM banking to the last 64Kb bank.
+         sets ROM banking to the last 64KiB bank.
     1    0 = card selected, 1 = card not selected. This bit also  controls
          the green activity LED.
     2    0 = 250khz transfer, 1 = 8mhz transfer
@@ -25990,7 +25990,7 @@ load files of this type.
           0 = allow RR rom when MMC BIOS disabled , 1 = disable RR ROM
           (in mmcreplay bios mode:)
           RAM banking (0 = $E000 - $FFFF, 1 = $8000 - $9FFF)
-          (in 16K mode:)
+          (in 16KiB mode:)
           enable RAM at $A000 - $BFFF
     6    0 = SPI write trigger mode, 1 = SPI read trigger mode
     7    ALWAYS 0
@@ -26012,7 +26012,7 @@ load files of this type.
     5  EEPROM DATA line /  DDR  register.  Setting  DATA  to  "1"  enables
        reading data bit from EEPROM at this position.
     6  0 = RR compatibility mode, 1 = Extended mode
-       Selecting RR compatibility mode limits RAM  to  32Kb  and  disables
+       Selecting RR compatibility mode limits RAM  to  32KiB  and  disables
        writes  to  extended  banking  register.  Selecting  Extended  mode
        enables full RAM banking and enables Nordic Power mode in RR mode.
     7  EEPROM CLK line
@@ -26030,7 +26030,7 @@ load files of this type.
     2    bank address 18
     3    ALWAYS 0
     4    ALWAYS 0
-    5    16K rom mapping
+    5    16KiB rom mapping
     6    1 = enable  RR  register.  Disabling  RR  register  disables  ALL
          ROM/RAM banking too.
     7    ALWAYS 0
@@ -26044,7 +26044,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb or 128Kb (4 or 8 banks of 16Kb)
+@tab 64KiB or 128KiB (4 or 8 banks of 16KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -26100,7 +26100,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (4 banks of 8Kb)
+@tab 32KiB (4 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -26130,7 +26130,7 @@ load files of this type.
 @end example
 
 
-    This cart has 32Kb of ROM and 8Kb of RAM, it uses I/O-1 as a mirror of
+    This cart has 32KiB of ROM and 8KiB of RAM, it uses I/O-1 as a mirror of
     the last page of cart RAM. It has the following registers in the I/O-2
     range:
 
@@ -26148,24 +26148,24 @@ load files of this type.
 @end example
 
     Note: if bit0, bit1, bit7 are all 0, then ultimax mapping is  selected
-    and RAM is enabled at ROML, otherwise if bit 0 is 0, then 16Kb mapping
-    is enabled, or if bit 0 is 1, then 8Kb mapping is enabled.
+    and RAM is enabled at ROML, otherwise if bit 0 is 0, then 16KiB mapping
+    is enabled, or if bit 0 is 1, then 8KiB mapping is enabled.
 
     RAM config register at $DF01 (read/write):
 
     If written value == last value - 1, then ultimax mapping  is  selected
     and RAM is enabled at ROML, if written value == last value +  1,  then
-    ROM is enabled at ROML and exrom is deasserted (switch to either 8k or
-    16k mapping)
+    ROM is enabled at ROML and exrom is deasserted (switch to either 8KiB or
+    16KiB mapping)
 
-    $DF02-$DFFF holds the last page of the first 8kb of the current bank.
+    $DF02-$DFFF holds the last page of the first 8KiB of the current bank.
 
 @c @node FIXME
 @subsubsection 41 - IEEE-488
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 4Kb (1 bank of 4Kb)
+@tab 4KiB (1 bank of 4KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -26205,7 +26205,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb (1 bank of 8Kb)
+@tab 8KiB (1 bank of 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -26237,7 +26237,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 256Kb (32 banks of 8Kb)
+@tab 256KiB (32 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -26273,7 +26273,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb (1 bank of 8Kb)
+@tab 8KiB (1 bank of 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -26294,7 +26294,7 @@ load files of this type.
 @end example
 
 
-    This cart has 8Kb of ROM, mapped in at $E000-$FFFF only when hirom  is
+    This cart has 8KiB of ROM, mapped in at $E000-$FFFF only when hirom  is
     selected. The cart uses a clip that needs to be installed  inside  the
     C64.
 
@@ -26303,7 +26303,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb (1 bank of 8Kb)
+@tab 8KiB (1 bank of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -26333,7 +26333,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb or 32Kb (2 or 4 banks of 8Kb)
+@tab 16KiB or 32KiB (2 or 4 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -26379,7 +26379,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 4Kb (1 bank of 4Kb)
+@tab 4KiB (1 bank of 4KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -26412,7 +26412,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8Kb)
+@tab 16KiB (2 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -26439,7 +26439,7 @@ load files of this type.
     Warning, the following information is based on guess-work and might be
     incorrect, any further information and/or corrections are appreciated.
 
-    The cart has 16Kb of ROM which are used as two banks of 8Kb, they  are
+    The cart has 16KiB of ROM which are used as two banks of 8KiB, they  are
     mapped into $8000-$9FFF and the last page of the current ROM  bank  is
     mirrored in $DF00-$DFFF. The cart has a control bit (bit 7) at  $DF00,
     which is used to select what ROM bank is used.
@@ -26450,7 +26450,7 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8Kb)
+@tab 16KiB (2 banks of 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -26475,7 +26475,7 @@ load files of this type.
 @end example
 
 
-    This cart has 16Kb of ROM, mapped in at reset at $8000-$BFFF. The cart
+    This cart has 16KiB of ROM, mapped in at reset at $8000-$BFFF. The cart
     is controled through a TPI at $DF80-$DF87:
 
 @example
@@ -26496,8 +26496,8 @@ load files of this type.
       $FF36-$FFD2 to $0200-$029C (157 bytes)
 
 @item Program continues at $021A, copies $A000-$BFFF from EPROM to RAM  at
-      $A000-$BFFF  (8Kb),  copies  $E000-$FFFF  from  EPROM  to   RAM   at
-      $E000-$FFFF (8Kb), copies $AE62-$B461 from RAM to RAM at $C000-$C5FF
+      $A000-$BFFF  (8KiB),  copies  $E000-$FFFF  from  EPROM  to   RAM   at
+      $E000-$FFFF (8KiB), copies $AE62-$B461 from RAM to RAM at $C000-$C5FF
       (Magic Voice Code)
 
 @item Jump to beginning of Magic Voice code at $C000
@@ -26508,13 +26508,13 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (2 banks of 8Kb)
+@tab 16KiB (2 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -26547,16 +26547,16 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 4Kb or 8Kb (1 bank of 4Kb or 8Kb)
+@tab 4KiB or 8KiB (1 bank of 4KiB or 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
-@tab $8000-$8FFF (4Kb),
-                   $8000-$9FFF (8Kb)
+@tab $8000-$8FFF (4KiB),
+                   $8000-$9FFF (8KiB)
 @end multitable
 
 @example
@@ -26571,7 +26571,7 @@ load files of this type.
 @end example
 
 
-    This cart has 8Kb ROM mapped at $8000-$9FFF, the $9E00-$9EFF range  is
+    This cart has 8KiB ROM mapped at $8000-$9FFF, the $9E00-$9EFF range  is
     mirrored at $DE00-$DEFF and  the  $9F00-$9FFF  range  is  mirrored  at
     $DF00-$DFFF.
 
@@ -26581,13 +26581,13 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb (1 bank of 8Kb)
+@tab 8KiB (1 bank of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -26605,7 +26605,7 @@ load files of this type.
 
 
     Accessing I/O-1 (the software  uses  $DE00  only  it  seems)  disables
-    cartridge ROM. A reset enables 8K game mode and the ROM bank is mapped
+    cartridge ROM. A reset enables 8KiB game mode and the ROM bank is mapped
     to $8000. A freeze causes ROM to be mapped to $8000.
 
 
@@ -26614,13 +26614,13 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb (4 banks of 16Kb)
+@tab 64KiB (4 banks of 16KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab active (lo) (0)
 @item Startup mode
-@tab 16k Game
+@tab 16KiB Game
 @item Load address
 @tab $8000-$BFFF
 @end multitable
@@ -26646,8 +26646,8 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ................
 @end example
 
 
-    This cart has 64Kb ROM (2 32Kb Eproms, mapped to $8000  and  $A000  in
-    16Kb Game Mode), and 32Kb RAM (mapped to $8000 and $A000 in  16K  Game
+    This cart has 64KiB ROM (2 32KiB Eproms, mapped to $8000  and  $A000  in
+    16KiB Game Mode), and 32KiB RAM (mapped to $8000 and $A000 in  16KiB  Game
     Mode). The cart has 1 (write-only)  bank  control  register  which  is
     located at $DE80 and mirrored throughout the $DE80-$DEFF range:
 
@@ -26678,13 +26678,13 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 24Kb (3 banks of 8Kb)
+@tab 24KiB (3 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab active (lo) (0)
 @item Startup mode
-@tab 16k Game
+@tab 16KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -26706,11 +26706,11 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ................
 4070: 78 A2 FF 9A D8 A9 08 8D 16 D0 A0 00 98 99 02 00  x...............
 @end example
 
-    This cart has 24Kb ROM (3 8Kb Eproms)
+    This cart has 24KiB ROM (3 8KiB Eproms)
 
 @example
     reading io1:
-    - switches to 16k game mode
+    - switches to 16KiB game mode
     - first eprom mapped to 8000 (ROML)
     - second eprom mapped to A000 (ROMH)
 
@@ -26728,13 +26728,13 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 128Kb (16 banks of 8Kb)
+@tab 128KiB (16 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -26795,9 +26795,9 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ................
 1E140: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 @end example
 
-Cartridge hardware is designed around a 128Kb ROM (PROM or Mask ROM) which is
-divided into 16 banks each of 8Kb. When adressing the onboard bank-switching logic
-the requested ROM bank is mapped at address range $8000-$9fff (8Kb)
+Cartridge hardware is designed around a 128KiB ROM (PROM or Mask ROM) which is
+divided into 16 banks each of 8KiB. When adressing the onboard bank-switching logic
+the requested ROM bank is mapped at address range $8000-$9fff (8KiB)
 
 The cartridge PCB layout was cost-optimized for mass-production purposes.
 
@@ -26824,7 +26824,7 @@ address pattern/values more info on that later.
 [HWrev1]: The original "Hugo" PCB [HWrev1] is labeled "HUGO Copyright 1990"
 on both sides of the PCB.
 PCB production date is stamped on the back og PCB in the format: "YYMM"
-1Mbit 27C010 EPROM or PROM (typical Atmel)
+1Mib 27C010 EPROM or PROM (typical Atmel)
 "Hugo" PCB [HWrev1] contains the following discrete logic IC components:
 74LS00N (DIP) and 74LS237N (DIP)
 DIP pitch (pin spacing) 2.54mm (0.1 inch)
@@ -26839,7 +26839,7 @@ will work.
 
 [HWrev2]: Revised PCB [HWrev2] for SMD mount is labeled "SO-A4-1"
 on both sides of PCB.
-1Mbit Mask ROM (SOIC-32)
+1Mib Mask ROM (SOIC-32)
 PCB contains the following discrete logic SMD IC components:
 74HCT02T (SOIC-14) and 74HCT174T (SOIC-16)
 SOIC (pitch) pin spacing 1.27mm (SMD mounted)
@@ -26855,7 +26855,7 @@ the right bank. Hence the valid address range is 0xDE00-0xDE0F
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb (4 banks of 8Kb)
+@tab 32KiB (4 banks of 8KiB)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -26890,12 +26890,12 @@ the following is a quick overview of how the cartridge works, as its a bit
 unusual and different from most other cartridges:
 
 @example
-- 27256 EPROM (32k)
+- 27256 EPROM (32KiB)
 - 7430 TTL
 - MC6821
 - 1 button (reset)
 
-rom bank 0x00 - 0x03 (0x04) 8192* 4 32k mapped to e000
+rom bank 0x00 - 0x03 (0x04) 8192* 4 32KiB mapped to e000
 MC6821 registers mapped to io2 at dfc0..dfc4
 
 - press reset and hold delete to get the main menu
@@ -26933,13 +26933,13 @@ bit0    ?
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb (8 banks of 8Kb)
+@tab 64KiB (8 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -26977,7 +26977,7 @@ E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 @end example
 
     This cartridge type is very similar to the Magic Desk cart type: ROM  memory
-    is  organized  in  8Kb  ($2000)  banks  located  at  $8000-$9FFF.  Bank
+    is  organized  in  8KiB  ($2000)  banks  located  at  $8000-$9FFF.  Bank
     switching is done by writing the bank number to $DE00.
 
 @example
@@ -26990,13 +26990,13 @@ E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb
+@tab 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -27013,7 +27013,7 @@ E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 @end example
 
     This cartridge has a CS8900a based RR-Net compatible network interface, and
-    on  8Kb  ($2000)  bank ROM  located  at  $8000-$9FFF.  The ROM can be switched
+    on  8KiB  ($2000)  bank ROM  located  at  $8000-$9FFF.  The ROM can be switched
     on/off by writing to the IO1 space:
 
 @example
@@ -27026,13 +27026,13 @@ E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 24Kb (3 banks of 8Kb)
+@tab 24KiB (3 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab active (lo) (0)
 @item Startup mode
-@tab 16k Game
+@tab 16KiB Game
 @item Load address
 @tab $8000-$9FFF (bank 1),
                    $A000-$BFFF (banks 2/3)
@@ -27055,7 +27055,7 @@ E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 4070: 02 10 B5 00 C9 E3 D0 01 C8 C9 E2 D0 01 C8 C9 E0  ................
 @end example
 
-This cart uses 8Kb mapped in at $8000-$9FFF and 2 banks of 8Kb mapped in at $A000-$BFFF.
+This cart uses 8KiB mapped in at $8000-$9FFF and 2 banks of 8KiB mapped in at $A000-$BFFF.
 
 The bank at $A000-$BFFF is selected by bit 0 of the address of a write access to I/O-1.
 
@@ -27071,13 +27071,13 @@ The bank at $A000-$BFFF is selected by bit 0 of the address of a write access to
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 512Kb (64 banks of 8Kb)
+@tab 512KiB (64 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -27101,8 +27101,8 @@ The bank at $A000-$BFFF is selected by bit 0 of the address of a write access to
 
 GMod2 (Individual Computers)
 
-This cart uses 512K Flash ROM (29F040) in 64 banks, mapped in at $8000-$9fff
-and has a 2K serial EEPROM (m93C86).
+This cart uses 512KiB Flash ROM (29F040) in 64 banks, mapped in at $8000-$9fff
+and has a 2KiB serial EEPROM (m93C86).
 
 @example
     io1
@@ -27120,7 +27120,7 @@ and has a 2K serial EEPROM (m93C86).
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb (ULTIMAX mode)
+@tab 16KiB (ULTIMAX mode)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -27141,21 +27141,21 @@ and has a 2K serial EEPROM (m93C86).
 0050: 94 E3 7B E3 43 42 4D 42 41 53 49 43 30 88 41 87  ..@{.CBMBASIC0.A.
 @end example
 
-This cartridge uses two 8k ROMs that contain BASIC and KERNAL for the MAX Machine.
-It also provides additional 2k RAM which will be mapped to $0800.
+This cartridge uses two 8KiB ROMs that contain BASIC and KERNAL for the MAX Machine.
+It also provides additional 2KiB RAM which will be mapped to $0800.
 
 @c @node FIXME
 @subsubsection 62 - GMod3
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 2Mb/4Mb/8Mb/16Mb (256/512/1024/2048 banks of 8Kb)
+@tab 2MiB/4MiB/8MiB/16MiB (256/512/1024/2048 banks of 8KiB)
 @item EXROM
 @tab active (lo) (0)
 @item GAME
 @tab inactive (hi) (1)
 @item Startup mode
-@tab 8k Game
+@tab 8KiB Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -27180,7 +27180,7 @@ It also provides additional 2k RAM which will be mapped to $0800.
 
 GMod3 (Individual Computers)
 
-This cart uses 2Mb/4Mb/8Mb/16Mb Flash ROM (EN25QH128A(2T)) in 256/512/1024/2048 banks, 
+This cart uses 2MiB/4MiB/8MiB/16MiB Flash ROM (EN25QH128A(2T)) in 256/512/1024/2048 banks, 
 mapped in at $8000-$9fff.
 
 @example
@@ -27222,7 +27222,7 @@ mapped in at $8000-$9fff.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb
+@tab 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -27253,7 +27253,7 @@ mapped in at $8000-$9fff.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb or 64Kb
+@tab 32KiB or 64KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -27286,7 +27286,7 @@ mapped in at $8000-$9fff.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb
+@tab 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -27316,7 +27316,7 @@ mapped in at $8000-$9fff.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 16Kb
+@tab 16KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -27346,7 +27346,7 @@ mapped in at $8000-$9fff.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 8Kb
+@tab 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -27367,7 +27367,7 @@ mapped in at $8000-$9fff.
 
 @end example
 
-This cartridge contains an 8k ROM which contains the software, plus up to 256k
+This cartridge contains an 8KiB ROM which contains the software, plus up to 256KiB
 RAM which can then be used to store up to 100 programs. The RAM is battery
 buffered, and the cartridge can be disabled with a switch on the board.
 
@@ -27382,7 +27382,7 @@ buffered, and the cartridge can be disabled with a switch on the board.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 2, 4 or 8Kb
+@tab 2, 4 or 8KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -27403,14 +27403,14 @@ buffered, and the cartridge can be disabled with a switch on the board.
 
 @end example
 
-This cartridge contains a 2, 4 or 8k ROM. The software is copied to RAM and then
+This cartridge contains a 2, 4 or 8KiB ROM. The software is copied to RAM and then
 the cartridge disables itself by writing to IO1 (de00).
     
 @subsubsection 69 - SD-BOX
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 128Kb
+@tab 128KiB
 @item EXROM
 @tab active (lo) (0)
 @item GAME
@@ -27431,7 +27431,7 @@ the cartridge disables itself by writing to IO1 (de00).
 
 @end example
 
-This cartridge contains a 128k banked ROM with a filebrowser and some extra
+This cartridge contains a 128KiB banked ROM with a filebrowser and some extra
 software on it. It also contains a sd2iec clone, which seems to be seperate
 and runs the original sd2iec firmware.
 
@@ -27452,7 +27452,7 @@ and runs the original sd2iec firmware.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 1MB, 64*16Kb (ULTIMAX mode)
+@tab 1MiB, 64*16KiB (ULTIMAX mode)
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -27473,9 +27473,9 @@ and runs the original sd2iec firmware.
 0050: 48 80 48 83 48 83 48 83 64 85 64 85 f5 87 aa 88  H.H.H.H.d.d.....
 @end example
 
-This cartridge contains 1MB ROM organised in 64 16K banks. It operates in 
+This cartridge contains 1MiB ROM organised in 64 16KiB banks. It operates in 
 ultimax mode and contains all known ultimax releases.
-It also provides additional 2k RAM for MAX-Basic, which will be mapped to $0800.
+It also provides additional 2KiB RAM for MAX-Basic, which will be mapped to $0800.
 
 @example
     there is one register mirrored in the entire IO1 space:
@@ -27489,7 +27489,7 @@ It also provides additional 2k RAM for MAX-Basic, which will be mapped to $0800.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 32Kb, 2*16Kb
+@tab 32KiB, 2*16KiB
 @item EXROM
 @tab inactive (hi) (1)
 @item GAME
@@ -28088,7 +28088,7 @@ Added joystick keys mapping to the keymap system. CIA emulation
 improvements. Added basic support for compute gazette sidplayer
 files (mus/str) to vsid. Added new palette files. Added
 'available features' code. Fixed/added some items in the OSX GUI.
-Added random tape wobble emulation. Added 64k RGCD cartridge
+Added random tape wobble emulation. Added 64KiB RGCD cartridge
 emulation. Added psid v4 3sid support to vsid. Added single frame
 advance. Added drive RPM and wobble support. Added rrnet mk3
 emulation. Added GMod2 and GMod3 cartridge emulation. Added xvic BehrBonz
