@@ -738,7 +738,18 @@ void sid_state_read(unsigned int channel, sid_snapshot_state_t *sid_state)
 
 void sid_state_write(unsigned int channel, sid_snapshot_state_t *sid_state)
 {
-    sid_engine.state_write(sound_get_psid(channel), sid_state);
+    if (sid_engine.state_write == NULL) {
+        fprintf(stderr, "%s:%d:%s(): sidengine.state_write is NULL\n",
+                __FILE__, __LINE__, __func__);
+    } else {
+        sound_t *psid = sound_get_psid(channel);
+        if (psid == NULL) {
+            fprintf(stderr, "%s:%d:%s(): sound_get_psid() returned NULL\n",
+                    __FILE__, __LINE__, __func__);
+        } else {
+            sid_engine.state_write(psid, sid_state);
+        }
+    }
 }
 
 void sid_set_machine_parameter(long clock_rate)
