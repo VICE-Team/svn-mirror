@@ -275,7 +275,7 @@ static int attach_image(int type, const char *filename)
             } else {
                 /* raw 8KB binary images default to $a000-$bfff */
                 type = CARTRIDGE_VIC20_8KB_A000;
-                log_message(LOG_DEFAULT, "could not determine type of cartridge, defaulting to 8k $a000-$bfff");
+                log_message(LOG_DEFAULT, "could not determine type of cartridge, defaulting to 8KiB $a000-$bfff");
             }
         } else if (len == 0x1000) {
             /* 4K image */
@@ -298,7 +298,7 @@ static int attach_image(int type, const char *filename)
             } else {
                 /* raw 4KB binary images default to $a000-$bfff */
                 type = CARTRIDGE_VIC20_4KB_A000;
-                log_message(LOG_DEFAULT, "could not determine type of cartridge, defaulting to 4k $a000-$afff");
+                log_message(LOG_DEFAULT, "could not determine type of cartridge, defaulting to 4KiB $a000-$afff");
             }
         } else {
             DBG(("attach_image error (autodetect), len=%d.\n", len));
@@ -319,7 +319,7 @@ static int attach_image(int type, const char *filename)
     }
     zfile_fclose(fd);
 
-    DBG(("loaded %d 4k chunks, preparing type %d (%04x)\n", n, type, type));
+    DBG(("loaded %d 4KiB chunks, preparing type %d (%04x)\n", n, type, type));
     
     switch (type) {
         case CARTRIDGE_VIC20_4KB_2000:  /* fall through */

@@ -501,7 +501,7 @@ int mmu_dump(void *context, uint16_t addr)
     mon_out("CRC: VIC-II RAM bank: %d, Shared RAM location: %s, Shared RAM size: %s\n",
             (mmu[6] & 0xc0) >> 6,
             (mmu[6] & 8) ? ((mmu[6] & 4) ? "bottom and top" : "top") : ((mmu[6] & 4) ? "bottom" : "none"),
-            (mmu[6] & 2) ? ((mmu[6] & 1) ? "16Kb" : "8Kb") : ((mmu[6] & 1) ? "4Kb" : "1Kb"));
+            (mmu[6] & 2) ? ((mmu[6] & 1) ? "16KiB" : "8KiB") : ((mmu[6] & 1) ? "4KiB" : "1KiB"));
 
     mon_out("Page 0 pointer: $%04X\n",
             (unsigned int)((mmu[8] << 16) | (mmu[7] << 8)));
@@ -509,7 +509,7 @@ int mmu_dump(void *context, uint16_t addr)
             (unsigned int)((mmu[10] << 16) | (mmu[9] << 8)));
 
     mon_out("MMU version: %d\n", mmu[11] & 0xf);
-    mon_out("Amount of 64Kb blocks present: %d\n", (c128_full_banks) ? 4 : 2);
+    mon_out("Amount of 64KiB blocks present: %d\n", (c128_full_banks) ? 4 : 2);
     return 0;
 }
 

@@ -41,10 +41,10 @@
 
 static const char *hack_desc[] = {
     "None",
-    "256KB CSORY",
-    "256KB Hannes",
-    "1024KB Hannes",
-    "4096KN Hannes"
+    "256KiB CSORY",
+    "256KiB Hannes",
+    "1MiB Hannes",
+    "4MiB Hannes"
 };
 
 
@@ -168,7 +168,7 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-memoryexphack", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MemoryHack", NULL,
-      "<device>", "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)" },
+      "<device>", "Set the 'memory expansion hack' device (0: None, 1: CSORY 256KiB, 2: HANNES 256KiB, 3: HANNES 1MiB, 4: HANNES 4MiB)" },
     CMDLINE_LIST_END
 };
 

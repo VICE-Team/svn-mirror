@@ -1156,7 +1156,7 @@ static clock_t cmd_erase_flash_64k(void)
 
         if (tapecart_loglevel > 1) {
             log_message(tapecart_log,
-                        "erasing 64K starting at flash address 0x%X", address);
+                        "erasing 64KiB starting at flash address 0x%X", address);
         }
 
         memset(tapecart_memory->flash + address, 0xff, 65536);

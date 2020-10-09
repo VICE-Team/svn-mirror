@@ -236,7 +236,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
             if (curbank > mem_bank_from_name("ram1f")) {
                 curbank = mem_bank_from_name("ram00");
             }
-            mon_out("Crossing 64k boundary.\n");
+            mon_out("Crossing 64KiB boundary.\n");
         }
         ch++;
     } while (1);
@@ -381,7 +381,7 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr, bool
             if (curbank > mem_bank_from_name("ram1f")) {
                 curbank = mem_bank_from_name("ram00");
             }
-            mon_out("Crossing 64k boundary.\n");
+            mon_out("Crossing 64KiB boundary.\n");
         }
         ch++;
     } while (1);
