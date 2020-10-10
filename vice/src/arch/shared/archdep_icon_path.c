@@ -55,7 +55,7 @@ char *archdep_app_icon_path_png(int size)
     /*
      * This sucks, but will have to do until I regenerate/repixel the icons
      */
-    printf("MACHINE_NAME = %s\n", machine_name);
+    /* printf("MACHINE_NAME = %s\n", machine_name); */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:
