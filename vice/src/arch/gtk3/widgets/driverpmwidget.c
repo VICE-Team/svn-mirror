@@ -5,14 +5,18 @@
  */
 
 /*
- * $VICERES Drive8RPM       -vsid
- * $VICERES Drive9RPM       -vsid
- * $VICERES Drive10RPM      -vsid
- * $VICERES Drive11RPM      -vsid
- * $VICERES Drive8Wobble    -vsid
- * $VICERES Drive9Wobble    -vsid
- * $VICERES Drive10Wobble   -vsid
- * $VICERES Drive11Wobble   -vsid
+ * $VICERES Drive8RPM                -vsid
+ * $VICERES Drive9RPM                -vsid
+ * $VICERES Drive10RPM               -vsid
+ * $VICERES Drive11RPM               -vsid
+ * $VICERES Drive8WobbleFrequency    -vsid
+ * $VICERES Drive9WobbleFrequency    -vsid
+ * $VICERES Drive10WobbleFrequency   -vsid
+ * $VICERES Drive11WobbleFrequency   -vsid
+ * $VICERES Drive8WobbleAmplitude    -vsid
+ * $VICERES Drive9WobbleAmplitude    -vsid
+ * $VICERES Drive10WobbleAmplitude   -vsid
+ * $VICERES Drive11WobbleAmplitude   -vsid
  */
 
 /*
@@ -58,9 +62,13 @@
 #define RPM_MAX     34000       /**< Drive RPM maximum */
 #define RPM_STEP    100         /**< Drive RPM stepping for the widget */
 
-#define WOBBLE_MIN  0           /**< Drive RPM wobble minimum */
-#define WOBBLE_MAX  500         /**< Drive RPM wobble maximum */
-#define WOBBLE_STEP 10          /**< Drive RPM stepping for the widget */
+#define WOBBLE_FREQ_MIN  0      /**< Drive RPM wobble freq minimum */
+#define WOBBLE_FREQ_MAX  10000  /**< Drive RPM wobble freq maximum */
+#define WOBBLE_FREQ_STEP 10     /**< Drive RPM wobble freq stepping for the widget */
+
+#define WOBBLE_AMP_MIN  0       /**< Drive RPM wobble amplitude minimum */
+#define WOBBLE_AMP_MAX  5000    /**< Drive RPM wobble amplitude maximum */
+#define WOBBLE_AMP_STEP 10      /**< Drive RPM wobble amplitude stepping for the widget */
 
 
 /** \brief  Create widget to control drive RPM and wobble
@@ -73,7 +81,8 @@ GtkWidget *drive_rpm_widget_create(int unit)
 {
     GtkWidget *grid;
     GtkWidget *rpm;
-    GtkWidget *wobble;
+    GtkWidget *wobble_freq;
+    GtkWidget *wobble_amp;
     GtkWidget *label;
 
     grid = uihelpers_create_grid_with_label("RPM settings", 2);
@@ -90,16 +99,27 @@ GtkWidget *drive_rpm_widget_create(int unit)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rpm, 1, 1, 1, 1);
 
-    /* Wobble */
-    label = gtk_label_new("Wobble");
+    /* Wobble Frequency */
+    label = gtk_label_new("Wobble Frequency");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    wobble = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobble",
-            WOBBLE_MIN, WOBBLE_MAX, WOBBLE_STEP, unit);
-    vice_gtk3_resource_spin_int_set_fake_digits(wobble, 2);
-    g_object_set(wobble, "margin-left", 16, NULL);
+    wobble_freq = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobbleFrequency",
+            WOBBLE_FREQ_MIN, WOBBLE_FREQ_MAX, WOBBLE_FREQ_STEP, unit);
+    vice_gtk3_resource_spin_int_set_fake_digits(wobble_freq, 0);
+    g_object_set(wobble_freq, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), wobble, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), wobble_freq, 1, 2, 1, 1);
+
+    /* Wobble Amplitude */
+    label = gtk_label_new("Wobble Amplitude");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    wobble_amp = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobbleAmplitude",
+            WOBBLE_AMP_MIN, WOBBLE_AMP_MAX, WOBBLE_AMP_STEP, unit);
+    vice_gtk3_resource_spin_int_set_fake_digits(wobble_amp, 0);
+    g_object_set(wobble_amp, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), wobble_amp, 1, 3, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
