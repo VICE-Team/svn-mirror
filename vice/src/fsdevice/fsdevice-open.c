@@ -1,18 +1,17 @@
+/** \file   fsdevice-open.c
+ * \brief   File system device
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Teemu Rantanen <tvr@cs.hut.fi>
+ * \author  Jarkko Sonninen <sonninen@lut.fi>
+ * \author  Jouko Valta <jopi@stekt.oulu.fi>
+ * \author  Olaf Seibert <rhialto@mbfys.kun.nl>
+ * \author  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  pottendo <pottendo@gmx.net>
+ */
+
 /*
- * fsdevice-open.c - File system device.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *
- * Based on old code by
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Jarkko Sonninen <sonninen@lut.fi>
- *  Jouko Valta <jopi@stekt.oulu.fi>
- *  Olaf Seibert <rhialto@mbfys.kun.nl>
- *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  pottendo <pottendo@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -74,7 +73,7 @@ static uint8_t *makeshortheader(uint8_t *p)
     size_t n;
     uint8_t *d;
 
-    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {    
+    if (resources_get_int("FSDeviceLongNames", &longnames) < 0) {
         return p;
     }
     n = strlen((char*)p);
@@ -174,9 +173,9 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
     strcpy((char *)p, bufinfo[secondary].dir); /* Dir name */
     charset_petconvstring((uint8_t *)p, 0);   /* ASCII name to PETSCII */
     i = 0;
-    
+
     makeshortheader(p);
-    
+
     while (*p) {
         ++p;
         i++;
@@ -185,7 +184,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
         *p++ = ' ';
         i++;
     }
-    
+
     /* put the drive-unit and drive number into the "format id" */
     *p++ = '"';
     *p++ = ' ';
@@ -333,11 +332,11 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         return FLOPPY_COMMAND_OK;
     }
 
-    
+
     DBG(("fsdevice_open_file read '%s'\n", rname));
     newrname = fsdevice_expand_shortname(vdrive, rname);
     DBG(("fsdevice_open_file read expanded '%s'\n", newrname));
-    
+
     int fileio_command =
         bufinfo[secondary].mode == Relative ? FILEIO_COMMAND_READ_WRITE
                                             : FILEIO_COMMAND_READ;
@@ -347,7 +346,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
                         &bufinfo[secondary].reclen);
 
     lib_free(newrname);
-    
+
     if (finfo != NULL) {
         bufinfo[secondary].fileio_info = finfo;
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
