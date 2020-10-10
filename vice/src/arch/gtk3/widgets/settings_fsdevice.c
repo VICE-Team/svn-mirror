@@ -10,6 +10,7 @@
  * $VICERES FileSystemDevice10          -vsid
  * $VICERES FileSystemDevice11          -vsid
  * $VICERES FSDeviceLongNames           -vsid
+ * $VICERES FSDeviceOverwrite           -vsid
  *
  *  (for more, see used widgets)
  */
@@ -90,6 +91,7 @@ GtkWidget *settings_fsdevice_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *long_names;
+    GtkWidget *overwrite;
     GtkWidget *stack;
     GtkWidget *switcher;
     int unit;
@@ -102,6 +104,11 @@ GtkWidget *settings_fsdevice_widget_create(GtkWidget *parent)
             "FSDeviceLongNames",
             "Allow filenames longer than 16 characters");
     gtk_grid_attach(GTK_GRID(layout), long_names, 0, 0, 1, 1);
+
+    overwrite = vice_gtk3_resource_check_button_new(
+            "FSDeviceOverwrite",
+            "Always overwrite files without error");
+    gtk_grid_attach(GTK_GRID(layout), overwrite, 0, 1, 1, 1);
 
     /* create 'tabs' for each fsdevice drive */
     stack = gtk_stack_new();
@@ -126,8 +133,8 @@ GtkWidget *settings_fsdevice_widget_create(GtkWidget *parent)
     gtk_widget_show_all(stack);
     gtk_widget_show_all(switcher);
 
-    gtk_grid_attach(GTK_GRID(layout), switcher, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), stack, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), switcher, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), stack, 0, 3, 1, 1);
 
 
     gtk_widget_show_all(layout);
