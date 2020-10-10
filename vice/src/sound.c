@@ -1635,8 +1635,8 @@ void sound_set_relative_speed(int value)
         new_percent = value;
     }
 
-    printf("sound new percent: %f\n", new_percent);
-    
+    /* printf("sound new percent: %f\n", new_percent); */
+
     if (new_percent != speed_percent) {
         sid_state_changed = TRUE;
         speed_percent = new_percent;
