@@ -151,6 +151,8 @@ static char *get_drive_type_string(int drive)
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
+UI_MENU_DEFINE_TOGGLE(FSDeviceLongNames)
+UI_MENU_DEFINE_TOGGLE(FSDeviceOverwrite)
 
 static UI_MENU_CALLBACK(set_hide_p00_files_callback)
 {
@@ -1200,6 +1202,7 @@ static UI_MENU_CALLBACK(custom_drive_volume_callback)
 
 /* CAUTION: the position of the menu items is hardcoded in uidrive_menu_create() */
 ui_menu_entry_t drive_menu[] = {
+    /* start of hardcoded offsets in uidrive_menu_create() */
     { "Attach disk image to drive 8",
       MENU_ENTRY_DIALOG,
       attach_disk_callback,
@@ -1265,6 +1268,7 @@ ui_menu_entry_t drive_menu[] = {
       MENU_ENTRY_OTHER,
       detach_disk_callback,
       (ui_callback_data_t)(11 | (1 << 8)) },
+    /* end of hardcoded offsets in uidrive_menu_create() */
     SDL_MENU_ITEM_SEPARATOR,
     { "Detach all disk images",
       MENU_ENTRY_OTHER,
@@ -1296,6 +1300,7 @@ ui_menu_entry_t drive_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DriveTrueEmulation_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Drive sound emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DriveSoundEmulation_callback,
@@ -1304,10 +1309,20 @@ ui_menu_entry_t drive_menu[] = {
       MENU_ENTRY_DIALOG,
       custom_drive_volume_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Virtual device traps",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VirtualDevices_callback,
       NULL },
+    { "FS-Device uses long names",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_FSDeviceLongNames_callback,
+      NULL },
+    { "FS-Device always overwrites",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_FSDeviceOverwrite_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Autostart settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
