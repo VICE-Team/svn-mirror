@@ -249,6 +249,8 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Open file for write mode access.  */
     if (bufinfo[secondary].mode == Write) {
+	int fileio_command;
+
         if (fsdevice_save_p00_enabled[vdrive->unit - 8]) {
             format = FILEIO_FORMAT_P00;
         } else {
@@ -261,12 +263,16 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
         if (cmd_parse->atsign) {
             /* TODO: maybe rename to a backup name */
-            DBG(("fsdevice_open_file scratch @'%s'\n", rname));
-            fileio_scratch(rname, fsdevice_get_path(vdrive->unit), format);
-        }
+            DBG(("fsdevice_open_file overwrite @'%s'\n", rname));
+	    fileio_command = FILEIO_COMMAND_OVERWRITE;
+        } else if (fsdevice_overwrite_existing_files) {
+	    fileio_command = FILEIO_COMMAND_OVERWRITE;
+	} else {
+	    fileio_command = FILEIO_COMMAND_WRITE;
+	}
 
         finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
-                            FILEIO_COMMAND_WRITE, bufinfo[secondary].type,
+                            fileio_command, bufinfo[secondary].type,
                             &bufinfo[secondary].reclen);
 
         if (finfo != NULL) {

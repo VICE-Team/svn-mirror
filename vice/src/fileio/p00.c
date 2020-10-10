@@ -387,6 +387,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
                 fname = p00_file_find(file_name, path);
                 break;
             case FILEIO_COMMAND_WRITE:
+            case FILEIO_COMMAND_OVERWRITE:
                 fname = p00_file_create(file_name, path, open_type);
                 break;
         }
@@ -433,6 +434,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
 */
             break;
         case FILEIO_COMMAND_WRITE:
+        case FILEIO_COMMAND_OVERWRITE:
             reclen = reclenp ? *reclenp : 0;
             memset(rname, 0, sizeof(rname));
             strncpy(rname, file_name, 16);

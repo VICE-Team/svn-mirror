@@ -3382,7 +3382,7 @@ static int read_cmd(int nargs, char **args)
             open_petscii_name = lib_strdup(dest_name_ascii);
             charset_petconvstring((uint8_t *)open_petscii_name, 0);
             finfo = fileio_open(open_petscii_name, NULL, format,
-                                FILEIO_COMMAND_WRITE, file_type, &reclen);
+                                FILEIO_COMMAND_OVERWRITE, file_type, &reclen);
             lib_free(open_petscii_name);
         }
     } else {
@@ -3400,7 +3400,7 @@ static int read_cmd(int nargs, char **args)
         archdep_sanitize_filename(dest_name_ascii);
 
         finfo = fileio_open(dest_name_ascii, NULL, format,
-                            FILEIO_COMMAND_WRITE, file_type, &reclen);
+                            FILEIO_COMMAND_OVERWRITE, file_type, &reclen);
     }
 
     if (dest_name_ascii == NULL) {

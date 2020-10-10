@@ -4528,9 +4528,14 @@ Strings specifying the directories to which drives 8, 9, 10 and 11 have access
 
 @vindex FSDeviceLongNames
 @item FSDeviceLongNames
-@itemx FSDeviceLongNames
 Boolean specifying whether filenames will get converted to 16 character long short names
 or not. Disabled by default.
+
+@vindex FSDeviceOverwrite
+@item FSDeviceOverwrite
+Boolean specifying whether files in the file system can be overwritten without
+using @code{"@@:name"}, or not.
+Disabled by default.
 
 @end table
 
@@ -4679,6 +4684,14 @@ Enable/disable hiding of CBM files for drive 11
 @itemx +fslongnames
 Enable/disable whether filenames will get converted to 16 character long short names
 (@code{FSDeviceLongNames=1}, @code{FSDeviceLongNames=0})
+(all emulators except vsid).
+
+@findex -fsoverwrite, +fsoverwrite
+@item -fsoverwrite
+@itemx +fsoverwrite
+Enable/disable whether existing files in the file system can be overwritten
+by default. Using @code{OPEN} or @code{SAVE"@@:name"} this is always possible.
+(@code{FSDeviceOverwrite=1}, @code{FSDeviceOverwrite=0})
 (all emulators except vsid).
 
 @findex -flipname

@@ -31,10 +31,11 @@
 
 #define FILEIO_COMMAND_READ        0
 #define FILEIO_COMMAND_READ_WRITE  1
-#define FILEIO_COMMAND_WRITE       2
-#define FILEIO_COMMAND_APPEND      3
-#define FILEIO_COMMAND_APPEND_READ 4
-#define FILEIO_COMMAND_STAT        5  /* works with directories */
+#define FILEIO_COMMAND_WRITE       2  /* Will not overwrite existing file */
+#define FILEIO_COMMAND_OVERWRITE   3  /* Overwrites existing file, if any */
+#define FILEIO_COMMAND_APPEND      4
+#define FILEIO_COMMAND_APPEND_READ 5
+#define FILEIO_COMMAND_STAT        6  /* works with directories */
 #define FILEIO_COMMAND_MASK        15
 #define FILEIO_COMMAND_FSNAME      16
 
