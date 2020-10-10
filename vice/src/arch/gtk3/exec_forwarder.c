@@ -153,7 +153,7 @@ int main(int argc, char **argv)
      * double the size of our filename when we quote it. We restrict the filename to 16KB-5
      * to leave room for that if needed. */
     if (our_wcslen(full_path) > 0x3FFA) {
-        MessageBoxW(NULL, L"You're trying to launch VICE from a working directory whose name is\n16KB or more long. Please don't do that.", L"VICE launch error", MB_ICONERROR);
+        MessageBoxW(NULL, L"You're trying to launch VICE from a working directory whose name is\n16KiB or more long. Please don't do that.", L"VICE launch error", MB_ICONERROR);
         return -1;
     }
     our_wcscpy(reported_path, file_ptr);
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
     } else {
         our_wcscat(cmdline, file_ptr);
     }
-    
+
     ZeroMemory (&si, sizeof(si));
     ZeroMemory (&pi, sizeof(pi));
     si.cb = sizeof(si);
