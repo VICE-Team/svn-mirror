@@ -149,10 +149,9 @@ int autostart_prg_with_virtual_fs(const char *file_name,
     char *directory;
     char *file;
 
-    DBG(("autostart_prg_with_virtual_fs"));
+    DBG(("autostart_prg_with_virtual_fs (file_name:%s)", file_name));
 
-    /* Extract the directory path to allow FS-based drive emulation to
-       work.  */
+    /* Extract the directory path to allow FS-based drive emulation to work.  */
     util_fname_split(file_name, &directory, &file);
 
     if (archdep_path_is_relative(directory)) {
@@ -164,6 +163,7 @@ int autostart_prg_with_virtual_fs(const char *file_name,
         /* FIXME: We should actually eat `.'s and `..'s from `directory'
            instead.  */
     }
+    DBG(("autostart_prg_with_virtual_fs (directory:%s)", directory));
 
     /* Setup FS-based drive emulation.  */
     /* resources_set_int("VirtualDevices", 1); FIXME: not restored */

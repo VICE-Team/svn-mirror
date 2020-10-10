@@ -51,6 +51,7 @@
 #include "driveimage.h"
 #include "fileio.h"
 #include "fsdevice.h"
+#include "fsdevice-filename.h"
 #include "imagecontents.h"
 #include "tapecontents.h"
 #include "diskcontents.h"
@@ -1502,12 +1503,13 @@ static void setup_for_prg_vfs(void)
 int autostart_prg(const char *file_name, unsigned int runmode)
 {
     fileio_info_t *finfo;
+    vdrive_t *vdrive;
     int result;
     const char *boot_file_name;
     static char tempname[32];
     int mode;
 
-    DBG(("autostart_prg"));
+    DBG(("autostart_prg (file_name:%s)", file_name));
 
     if (network_connected() || event_record_active() || event_playback_active()) {
         return -1;
@@ -1535,6 +1537,13 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             result = autostart_prg_with_virtual_fs(file_name, finfo, autostart_log);
             mode = AUTOSTART_HASDISK;
             boot_file_name = (const char *)finfo->name;
+            /* shorten the filename to 16 chars (if enabled) */
+            vdrive = file_system_get_vdrive(8, 0);
+            if (vdrive == NULL) {
+                log_error(LOG_ERR, "Failed to get vdrive reference for unit 8.");
+                return -1;
+            }
+            fsdevice_limit_namelength(vdrive, (uint8_t*)boot_file_name);
             break;
         case AUTOSTART_PRG_MODE_INJECT:
             log_message(autostart_log, "Loading PRG file `%s' with direct RAM injection.", file_name);

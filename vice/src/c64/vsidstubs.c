@@ -570,6 +570,10 @@ void fsdevice_set_directory(char *filename, unsigned int unit)
 {
 }
 
+int fsdevice_limit_namelength(vdrive_t *vdrive, uint8_t *name)
+{
+    return 0;
+}
 
 /*******************************************************************************
     diskimage
