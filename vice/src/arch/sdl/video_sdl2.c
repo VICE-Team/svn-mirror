@@ -595,13 +595,13 @@ static int sdl_window_create(const char *title, unsigned int width, unsigned int
 
     sdl2_renderer = SDL_CreateRenderer(sdl2_window, drv_index, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!sdl2_renderer) {
-        log_error(sdlvideo_log, "SDL_CreateRenderer() failed: %s\n", SDL_GetError());
+        log_error(sdlvideo_log, "SDL_CreateRenderer() failed: %s", SDL_GetError());
         SDL_DestroyWindow(sdl2_window);
         sdl2_window = NULL;
         return 0;
     }
     SDL_GetRendererInfo(sdl2_renderer, &info);
-    log_message(sdlvideo_log, "SDL2 renderer driver selected: %s\n", info.name);
+    log_message(sdlvideo_log, "SDL2 renderer driver selected: %s", info.name);
     SDL_SetRenderDrawColor(sdl2_renderer, 0, 0, 0, 255);
     SDL_RenderClear(sdl2_renderer);
     SDL_RenderPresent(sdl2_renderer);
