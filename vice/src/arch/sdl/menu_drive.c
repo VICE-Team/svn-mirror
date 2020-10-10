@@ -527,10 +527,15 @@ UI_MENU_DEFINE_SLIDER(Drive9RPM, 26000, 34000)
 UI_MENU_DEFINE_SLIDER(Drive10RPM, 26000, 34000)
 UI_MENU_DEFINE_SLIDER(Drive11RPM, 26000, 34000)
 
-UI_MENU_DEFINE_SLIDER(Drive8Wobble, 0, 1000)
-UI_MENU_DEFINE_SLIDER(Drive9Wobble, 0, 1000)
-UI_MENU_DEFINE_SLIDER(Drive10Wobble, 0, 1000)
-UI_MENU_DEFINE_SLIDER(Drive11Wobble, 0, 1000)
+UI_MENU_DEFINE_SLIDER(Drive8WobbleAmplitude, 0, 5000)
+UI_MENU_DEFINE_SLIDER(Drive9WobbleAmplitude, 0, 5000)
+UI_MENU_DEFINE_SLIDER(Drive10WobbleAmplitude, 0, 5000)
+UI_MENU_DEFINE_SLIDER(Drive11WobbleAmplitude, 0, 5000)
+
+UI_MENU_DEFINE_SLIDER(Drive8WobbleFrequency, 0, 10000)
+UI_MENU_DEFINE_SLIDER(Drive9WobbleFrequency, 0, 10000)
+UI_MENU_DEFINE_SLIDER(Drive10WobbleFrequency, 0, 10000)
+UI_MENU_DEFINE_SLIDER(Drive11WobbleFrequency, 0, 10000)
 
 
 /* patch some things that are slightly different in the emulators */
@@ -1041,10 +1046,14 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
           MENU_ENTRY_RESOURCE_INT,                              \
           slider_Drive##x##RPM_callback,                        \
           (ui_callback_data_t)"Set RPM (29500-30500)" },        \
-        { "Drive " #x " wobble",                                \
+        { "Drive " #x " wobble frequency",                      \
           MENU_ENTRY_RESOURCE_INT,                              \
-          slider_Drive##x##Wobble_callback,                     \
-          (ui_callback_data_t)"Set Wobble (0-1000)" },          \
+          slider_Drive##x##WobbleFrequency_callback,            \
+          (ui_callback_data_t)"Set Wobble frequency (0-10000)" }, \
+        { "Drive " #x " wobble amplitude",                      \
+          MENU_ENTRY_RESOURCE_INT,                              \
+          slider_Drive##x##WobbleAmplitude_callback,            \
+          (ui_callback_data_t)"Set Wobble (0-5000)" },          \
         SDL_MENU_ITEM_SEPARATOR,                                \
         { "Attach Drive " #x" read only",                       \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \

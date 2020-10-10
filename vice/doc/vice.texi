@@ -3882,16 +3882,25 @@ Integers specifying the idling method for the drive CPU.
 Integers specifying the rotation speed of the drive, multiplied by 100, so
 300rpm equals 30000.
 
-@vindex Drive8Wobble
-@vindex Drive9Wobble
-@vindex Drive10Wobble
-@vindex Drive11Wobble
-@item Drive8Wobble
-@itemx Drive9Wobble
-@itemx Drive10Wobble
-@itemx Drive11Wobble
-Integers specifying the random deviation of the rotation speed, multiplied by
-100 so 100 equals +/- 1rpm.
+@vindex Drive8WobbleFrequency
+@vindex Drive9WobbleFrequency
+@vindex Drive10WobbleFrequency
+@vindex Drive11WobbleFrequency
+@item Drive8WobbleFrequency
+@itemx Drive9WobbleFrequency
+@itemx Drive10WobbleFrequency
+@itemx Drive11WobbleFrequency
+Integers specifying the drive wobble frequency
+
+@vindex Drive8WobbleAmplitude
+@vindex Drive9WobbleAmplitude
+@vindex Drive10WobbleAmplitude
+@vindex Drive11WobbleAmplitude
+@item Drive8WobbleAmplitude
+@itemx Drive9WobbleAmplitude
+@itemx Drive10WobbleAmplitude
+@itemx Drive11WobbleAmplitude
+Integers specifying the drive wobble amplitude
 
 @vindex DosName1540
 @vindex DosName1541
@@ -4079,15 +4088,25 @@ Specifies <method> as the track 40 extend policy in drives 8-11 respectively
 Specifies the rotation speed of the drive, multiplied by 100 so 300rpm
 equal 30000.
 
-@findex -drive8wobble
-@findex -drive9wobble
-@findex -drive10wobble
-@findex -drive11wobble
-@item -drive8wobble <wobble>
-@itemx -drive9wobble <wobble>
-@itemx -drive10wobble <wobble>
-@itemx -drive11wobble <wobble>
-Specifies random amount of wobble added to the rotation speed.
+@findex -drive8wobblefrequency
+@findex -drive9wobblefrequency
+@findex -drive10wobblefrequency
+@findex -drive11wobblefrequency
+@item -drive8wobblefrequency <frequency>
+@itemx -drive9wobblefrequency <frequency>
+@itemx -drive10wobblefrequency <frequency>
+@itemx -drive11wobblefrequency <frequency>
+Specifies frequency of the drive wobble
+
+@findex -drive8wobbleamplitude
+@findex -drive9wobbleamplitude
+@findex -drive10wobbleamplitude
+@findex -drive11wobbleamplitude
+@item -drive8wobbleamplitude <amplitude>
+@itemx -drive9wobbleamplitude <amplitude>
+@itemx -drive10wobbleamplitude <amplitude>
+@itemx -drive11wobbleamplitude <amplitude>
+Specifies amplitude of the drive wobble
 
 @findex -dos1540
 @item -dos1540 <name>

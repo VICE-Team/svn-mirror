@@ -316,7 +316,13 @@ typedef struct drive_s {
 
     /* rotations per minute (300rpm = 30000) */
     int rpm;
-    int rpm_wobble;
+
+    /* state of the wobble emulation */
+    float wobble_sin_count;
+    int wobble_factor;      /* calculated factor used in the rotation code */
+    int wobble_frequency;   /* from the resource */
+    int wobble_amplitude;   /* from the resource */
+
 } drive_t;
 
 

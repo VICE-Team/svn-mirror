@@ -38,6 +38,7 @@
 #include "p64.h"
 
 #include <stdlib.h>
+#include <math.h>
 
 #define ACCUM_MAX 0x10000
 
@@ -298,6 +299,33 @@ void rotation_begins(drive_t *dptr)
     rotation[dnr].cycle_index = 0;
 }
 
+/* calculate wobble factor from the respective resources */
+static void rotation_do_wobble(drive_t *dptr)
+{
+    /* cpu cycles since last call */
+    CLOCK cpu_cycles = *(dptr->clk) - rotation[dptr->unit].rotation_last_clk;
+
+    /* FIXME: we should introduce random deviation too */
+#if 0
+    int wobble_rand_freq = 10000, wobble_rand_cycles = 10000;
+    int freqrand, cyclesrand;
+
+    freqrand = wobble_rand_freq ? lib_unsigned_rand(0, wobble_rand_freq) - (wobble_rand_freq / 2) : 0;
+    cyclesrand = wobble_rand_cycles ? lib_unsigned_rand(0, wobble_rand_cycles) - (wobble_rand_cycles / 2) : 0;
+    dptr->wobble_sin_count += ((uint64_t)cpu_cycles * (dptr->wobble_frequency + freqrand)) / 10000000000.0f;
+    if (dptr->wobble_sin_count > (2 * M_PI)) {
+        dptr->wobble_sin_count -= (2 * M_PI);
+    }
+    dptr->wobble_factor = (int)((dptr->wobble_amplitude + cyclesrand) * sinf(dptr->wobble_sin_count));
+#else
+    dptr->wobble_sin_count += ((uint64_t)cpu_cycles * (dptr->wobble_frequency)) / 10000000000.0f;
+    if (dptr->wobble_sin_count > (2 * M_PI)) {
+        dptr->wobble_sin_count -= (2 * M_PI);
+    }
+    dptr->wobble_factor = (int)((dptr->wobble_amplitude) * sinf(dptr->wobble_sin_count));
+#endif
+}
+
 /*******************************************************************************
  * 1541 circuit simulation for GCR-based images (.g64),
  * see 1541 circuit description in this file for details
@@ -310,7 +338,6 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
     int32_t delta;
     uint32_t count_new_bitcell, cyc_sum_frv /*, sum_new_bitcell*/;
     unsigned int dnr = dptr->unit;
-    int wobble;
     uint64_t tmp = 30000UL;
 
     rptr = &rotation[dptr->unit];
@@ -328,10 +355,10 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
      *    in reality the constant offset can be relatively large, but does not
      *    change a lot over time, so the random offset is rather small.
      */
-    wobble = dptr->rpm_wobble ? lib_unsigned_rand(0, dptr->rpm_wobble) - (dptr->rpm_wobble / 2) : 0;
+
     tmp *= clk_ref_per_rev;
-    tmp /= dptr->rpm + wobble;
-    clk_ref_per_rev = (int)tmp;
+    tmp /= dptr->rpm;
+    clk_ref_per_rev = (int)tmp + dptr->wobble_factor;
 
     /* cell cycles for the actual flux reversal period, it is 1 now, but could be different with variable density */
     cyc_act_frv = 1;
@@ -927,6 +954,7 @@ static void rotation_1541_p64_cycle(drive_t *dptr)
 
     /* add additional R cycles requested; R must be less than a complete C cycle */
     ref_advance_cycles = dptr->req_ref_cycles;
+
     dptr->req_ref_cycles = 0;
     ref_advance_cycles &= 15;
     ref_cycles += ref_advance_cycles;
@@ -957,7 +985,6 @@ static void rotation_1541_simple(drive_t *dptr)
     int bits_moved = 0;
     uint64_t tmp = 1000000UL;
     unsigned long rpmscale;
-    int wobble;
 
     dptr->req_ref_cycles = 0;
 
@@ -968,9 +995,9 @@ static void rotation_1541_simple(drive_t *dptr)
     delta = *(dptr->clk) - rptr->rotation_last_clk;
     rptr->rotation_last_clk = *(dptr->clk);
 
-    wobble = dptr->rpm_wobble ? lib_unsigned_rand(0, dptr->rpm_wobble) - (dptr->rpm_wobble / 2) : 0;
+    tmp += ((long)dptr->wobble_factor * 1000000L) / 3200000L;
     tmp *= 30000UL;
-    tmp /= (dptr->rpm + wobble);
+    tmp /= dptr->rpm;
     rpmscale = (unsigned long)(tmp);
 
     while (delta > 0) {
@@ -1072,6 +1099,8 @@ void rotation_rotate_disk(drive_t *dptr)
         dptr->req_ref_cycles = 0;
         return;
     }
+
+    rotation_do_wobble(dptr);
 
     if (dptr->complicated_image_loaded) {
         /* stuff that needs complex and slow emulation */

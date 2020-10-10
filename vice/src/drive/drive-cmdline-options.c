@@ -72,7 +72,10 @@ static cmdline_option_t cmd_drive[] =
       "<RPM>", "Set drive rpm (30000 = 300rpm)" },
     { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
-      "<Wobble>", "Set drive wobble (100 = +/-0.5rpm)" },
+      "<Frequency>", "Set drive wobble frequency" },
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, NULL, NULL,
+      "<Amplitude>", "Set drive wobble amplitude" },
     CMDLINE_LIST_END
 };
 
@@ -160,9 +163,12 @@ int drive_cmdline_options_init(void)
         cmd_drive[3].name = lib_msprintf("-drive%irpm", dnr + 8);
         cmd_drive[3].resource_name
             = lib_msprintf("Drive%iRPM", dnr + 8);
-        cmd_drive[4].name = lib_msprintf("-drive%iwobble", dnr + 8);
+        cmd_drive[4].name = lib_msprintf("-drive%iwobblefrequency", dnr + 8);
         cmd_drive[4].resource_name
-            = lib_msprintf("Drive%iWobble", dnr + 8);
+            = lib_msprintf("Drive%iWobbleFrequency", dnr + 8);
+        cmd_drive[5].name = lib_msprintf("-drive%iwobbleamplitude", dnr + 8);
+        cmd_drive[5].resource_name
+            = lib_msprintf("Drive%iWobbleAmplitude", dnr + 8);
 
         if (has_iec) {
             cmd_drive_rtc[0].name = lib_msprintf("-drive%irtcsave", dnr + 8);
@@ -179,7 +185,7 @@ int drive_cmdline_options_init(void)
             return -1;
         }
 
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 6; i++) {
             lib_free(cmd_drive[i].name);
             lib_free(cmd_drive[i].resource_name);
         }

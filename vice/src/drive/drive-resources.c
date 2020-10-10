@@ -298,7 +298,7 @@ static int set_drive_rpm(int val, void *param)
     return 0;
 }
 
-static int set_drive_rpm_wobble(int val, void *param)
+static int set_drive_wobble_frequency(int val, void *param)
 {
     unsigned int dnr;
     drive_t *drive, *drive1;
@@ -307,8 +307,22 @@ static int set_drive_rpm_wobble(int val, void *param)
     drive = diskunit_context[dnr]->drives[0];
     drive1 = diskunit_context[dnr]->drives[1];
 
-    drive->rpm_wobble = val;
-    drive1->rpm_wobble = val;
+    drive->wobble_frequency = val;
+    drive1->wobble_frequency = val;
+    return 0;
+}
+
+static int set_drive_wobble_amplitude(int val, void *param)
+{
+    unsigned int dnr;
+    drive_t *drive, *drive1;
+
+    dnr = vice_ptr_to_uint(param);
+    drive = diskunit_context[dnr]->drives[0];
+    drive1 = diskunit_context[dnr]->drives[1];
+
+    drive->wobble_amplitude = val;
+    drive1->wobble_amplitude = val;
     return 0;
 }
 
@@ -342,8 +356,10 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_idling_method, NULL },
     { NULL, 30000, RES_EVENT_SAME, NULL,
       NULL, set_drive_rpm, NULL },
-    { NULL, 50, RES_EVENT_SAME, NULL,
-      NULL, set_drive_rpm_wobble, NULL },
+    { NULL, 5000, RES_EVENT_SAME, NULL,
+      NULL, set_drive_wobble_frequency, NULL },
+    { NULL, 2000, RES_EVENT_SAME, NULL,
+      NULL, set_drive_wobble_amplitude, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -385,9 +401,12 @@ int drive_resources_init(void)
         res_drive[2].name = lib_msprintf("Drive%iRPM", dnr + 8);
         res_drive[2].value_ptr = &(drive0->rpm);
         res_drive[2].param = uint_to_void_ptr(dnr);
-        res_drive[3].name = lib_msprintf("Drive%iWobble", dnr + 8);
-        res_drive[3].value_ptr = &(drive0->rpm_wobble);
+        res_drive[3].name = lib_msprintf("Drive%iWobbleFrequency", dnr + 8);
+        res_drive[3].value_ptr = &(drive0->wobble_frequency);
         res_drive[3].param = uint_to_void_ptr(dnr);
+        res_drive[4].name = lib_msprintf("Drive%iWobbleAmplitude", dnr + 8);
+        res_drive[4].value_ptr = &(drive0->wobble_amplitude);
+        res_drive[4].param = uint_to_void_ptr(dnr);
 
         if (has_iec) {
             res_drive_rtc[0].name = lib_msprintf("Drive%iRTCSave", dnr + 8);
