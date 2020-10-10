@@ -1436,15 +1436,19 @@ static int get_cart_emulation_state(void)
     return value;
 }
 
+/* returns TRUE if in RAM, FALSE if in cartridge ROM or IO */
 static int check_cart_range(unsigned int addr)
 {
     if (get_cart_emulation_state() == CARTRIDGE_NONE) {
         return 1;
     }
-
-    return (!(addr >= 0x8000 && addr < 0xa000));
+    /* check ROML, ROMH as well as IO1 and IO2 */
+    /* FIXME: ideally we should check this accurately per cartridge type, and
+              take the actual active mapping into account */
+    return (!(addr >= 0x8000 && addr < 0xa000) && !(addr >= 0xde00 && addr < 0xe000) );
 }
 
+/* returns TRUE if in RAM */
 int machine_addr_in_ram(unsigned int addr)
 {
     return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) && check_cart_range(addr));
