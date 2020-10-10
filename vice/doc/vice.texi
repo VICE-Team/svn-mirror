@@ -12208,7 +12208,7 @@ have only 256 bytes of I/O space at $E800.
 
 The DWW board consists of 8 KiB of RAM and a PIA to control various
 options. The RAM can be mapped either linearly at $9000-$AFFF,
-or bank-switched in 8 banks of 8 KiB each at $EC00-$EFFF.
+or bank-switched in 8 banks of 1 KiB each at $EC00-$EFFF.
 
 It seems that in the demo programs, the BASIC versions like to
 POKE in 60200, where the machine language programs use $EB00.
@@ -12335,7 +12335,7 @@ Register $07 (vertical sync position) = original + #$04
 Register $0C (RAM address high) = #$02
 @end itemize
 
-The last value causes the board to switch into graphics mode; former values set up propoer screen dimensions for 512x256 display.
+The last value causes the board to switch into graphics mode; former values set up proper screen dimensions for 512x256 display.
 
 @c --------------------------------------------------------------
 
