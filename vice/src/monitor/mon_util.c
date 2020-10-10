@@ -262,7 +262,6 @@ char *mon_dump_with_label(MEMSPACE memspace, uint16_t loc, int hex, unsigned *la
     return lib_msprintf((hex ? "%04X: $%02X   %03u   '%c'" : "%05u: $%02X   %03u   '%c'"), loc, val, val, isprint(val) ? val : ' ');
 }
 
-#ifndef USE_SDLUI
 static char *pchCommandLine = NULL;
 
 void mon_set_command(console_t *cons_log, char *command,
@@ -357,4 +356,3 @@ char *uimon_in(const char *prompt)
     /* return the command (the one or other way...) */
     return p;
 }
-#endif
