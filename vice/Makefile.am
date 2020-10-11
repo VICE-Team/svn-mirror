@@ -22,6 +22,7 @@ SUBDIRS = src build data doc
 COMMON_EXTRA_DIST = \
 	AUTHORS \
 	autogen.sh \
+	ChangeLog \
 	config.rpath \
 	configure.ac \
 	COPYING \
