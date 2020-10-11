@@ -46,6 +46,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "lib.h"
 #include "machine.h"
@@ -237,6 +238,29 @@ static GtkWidget *resid_6581_bias_spin;
 #endif
 
 
+/** \brief  Determine if the current machine can support multiple SID
+ *
+ * Doesn't check any expansions or hardware hacks, just returns if its *possible*
+ * for the current machine to have multiple SIDs.
+ *
+ * \return  boolean
+ */
+static bool can_have_multiple_sids(void)
+{
+    if (machine_class != VICE_MACHINE_PLUS4
+            && machine_class != VICE_MACHINE_CBM5x0
+            && machine_class != VICE_MACHINE_CBM6x0
+            && machine_class != VICE_MACHINE_C64DTV
+            && machine_class != VICE_MACHINE_PET
+            && machine_class != VICE_MACHINE_VIC20) {
+        return true;
+    }
+    return false;
+}
+
+
+
+
 /* Temporarily disable this to remove warning. I'll need this one again when
  * I continue working on the SID setting glue logic.
  */
@@ -249,10 +273,12 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
 {
     debug_gtk3("extra SIDs count changed to %d.", count);
 
-    gtk_widget_set_sensitive(address_widgets[0], count > 0);
-    gtk_widget_set_sensitive(address_widgets[1], count > 1);
-    if (machine_class != VICE_MACHINE_VSID) {
-        gtk_widget_set_sensitive(address_widgets[2], count > 2);
+    if (can_have_multiple_sids()) {
+        gtk_widget_set_sensitive(address_widgets[0], count > 0);
+        gtk_widget_set_sensitive(address_widgets[1], count > 1);
+        if (machine_class != VICE_MACHINE_VSID) {
+            gtk_widget_set_sensitive(address_widgets[2], count > 2);
+        }
     }
 }
 
@@ -891,28 +917,14 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 #ifdef HAVE_RESID
     is_resid = current_engine == SID_ENGINE_RESID;
 #endif
-    sids = create_num_sids_widget();
-    gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
-    /* Plus4, CBM5x0/CBM6x0, PET, DTV only support a single SID */
-    if (machine_class == VICE_MACHINE_PLUS4
-            || machine_class == VICE_MACHINE_CBM5x0
-            || machine_class == VICE_MACHINE_CBM6x0
-            || machine_class == VICE_MACHINE_C64DTV
-            || machine_class == VICE_MACHINE_PET
-            || machine_class == VICE_MACHINE_VIC20)
-    {
-        gtk_widget_set_sensitive(sids, FALSE);
-    }
 
-    /* FIXME; doing two machine_class checks is a little silly */
-    if (machine_class != VICE_MACHINE_PLUS4
-            && machine_class != VICE_MACHINE_CBM5x0
-            && machine_class != VICE_MACHINE_CBM6x0
-            && machine_class != VICE_MACHINE_C64DTV
-            && machine_class != VICE_MACHINE_PET
-            && machine_class != VICE_MACHINE_VIC20)
-    {
+    if (can_have_multiple_sids()) {
+        /* max SIDs, probably should be a constant in the sid engine code? */
         int max = 4;
+
+        sids = create_num_sids_widget();
+        gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
+
         if (machine_class == VICE_MACHINE_VSID) {
             max = 3;
         }
