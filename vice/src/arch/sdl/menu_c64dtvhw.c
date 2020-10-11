@@ -84,11 +84,6 @@ static const ui_menu_entry_t dtv_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       custom_DTVModel_callback,
       (ui_callback_data_t)DTVMODEL_HUMMER_NTSC },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Colorfix",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -150,6 +145,11 @@ const ui_menu_entry_t c64dtv_hardware_menu[] = {
     { "Enable Hummer ADC",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_HummerADC_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Enable Colorfix",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIINewLuminances_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "RAM pattern settings",
