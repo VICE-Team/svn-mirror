@@ -1,13 +1,11 @@
-
-/*! \file sid/sid.h */
+/** \file   sid.h
+ * \brief   MOS6581 (SID) emulation, hooks to actual implementation - header
+ *
+ * \author  Dag Lem <resid@nimrod.no>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
 
 /*
- * sid.h - MOS6581 (SID) emulation, hooks to actual implementation.
- *
- * Written by
- *  Dag Lem <resid@nimrod.no>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -91,6 +89,24 @@ struct sid_snapshot_state_s;
 #define SIDTYPE_SID       0
 #define SIDTYPE_SIDDTV    1
 #define SIDTYPE_SIDCART   2
+
+
+/** \brief  Maximum number of SIDs supported by the emulation
+ *
+ * This differs from the number of SIDs actually possible per emu.
+ */
+#define SID_COUNT_MAX   4
+
+
+/** \brief  Maximum number of SIDs supported by the PSID file format
+ *
+ * VSID specific: this differs from the number of SIDs actually possible per
+ * emu, although it can easily be extended to support more SIDs, since the
+ * header has on offset to the tune data, so expanding the header is easy, but
+ * will probably break some SID tools.
+ */
+#define SID_COUNT_MAX_PSID  3
+
 
 extern void machine_sid2_enable(int val);
 

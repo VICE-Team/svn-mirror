@@ -919,14 +919,15 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 #endif
 
     if (can_have_multiple_sids()) {
-        /* max SIDs, probably should be a constant in the sid engine code? */
-        int max = 4;
+        int max = SID_COUNT_MAX;
 
         sids = create_num_sids_widget();
         gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
 
         if (machine_class == VICE_MACHINE_VSID) {
-            max = 3;
+            /* VSID, or rather the PSID file foramt,only supports 3 SIDs max
+             * at the moment */
+            max = SID_COUNT_MAX_PSID;
         }
         for (i = 1; i < max; i++) {
             address_widgets[i - 1] = create_extra_sid_address_widget(i);
