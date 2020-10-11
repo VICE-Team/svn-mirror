@@ -1,20 +1,4 @@
-if ENABLE_HTML_DOCS
-
-AUTOMAKE_OPTIONS = -Wno-portability
-VPATH =
-
-htmldir = $(VICE_DOCDIR)/html
-fontsdir = $(htmldir)/fonts
-imagesdir = $(htmldir)/images
-
-GEN_HTML := \
-	vice_foot.html \
-	vice_toc.html \
-	$(patsubst %,vice_%.html,$(shell seq 23))
-	
-TEXT_FILES = \
-	COPYING \
-	NEWS
+# These files are always required due to `make dist` needing them.
 
 STATIC_FILES = \
 	amigaos.html \
@@ -35,15 +19,6 @@ STATIC_FILES = \
 	unix.html \
 	vice.css \
 	windows.html
-
-HTML_FILES = \
-	$(TEXT_FILES) \
-	$(STATIC_FILES)
-
-if HAVE_PERL
-HTML_FILES += \
-	$(GEN_HTML)
-endif
 
 FONTS_FILES = \
 	fonts/Lato-Bold.eot \
@@ -69,6 +44,44 @@ IMAGES_FILES = \
 	images/new.gif \
 	images/vice-logo.svg
 
+EXTRA_DIST = \
+	checklinks.sh \
+	texi2html \
+	$(STATIC_FILES) \
+	$(FONTS_FILES) \
+	$(IMAGES_FILES)
+
+
+
+if ENABLE_HTML_DOCS
+
+AUTOMAKE_OPTIONS = -Wno-portability
+VPATH =
+
+htmldir = $(VICE_DOCDIR)/html
+fontsdir = $(htmldir)/fonts
+imagesdir = $(htmldir)/images
+
+GEN_HTML := \
+	vice_foot.html \
+	vice_toc.html \
+	$(patsubst %,vice_%.html,$(shell seq 23))
+	
+TEXT_FILES = \
+	COPYING \
+	NEWS
+
+
+HTML_FILES = \
+	$(TEXT_FILES) \
+	$(STATIC_FILES)
+
+if HAVE_PERL
+HTML_FILES += \
+	$(GEN_HTML)
+endif
+
+
 COPIED_FILES = $(if $(subst x.x,,x$(srcdir)x),$(STATIC_FILES) $(FONTS_FILES) $(IMAGES_FILES))
 
 CLEANFILES = \
@@ -76,9 +89,7 @@ CLEANFILES = \
 	$(TEXT_FILES) \
 	$(COPIED_FILES)
 
-EXTRA_DIST = \
-	checklinks.sh \
-	texi2html
+
 
 if ENABLE_HTML_DOCS
 html_DATA = $(HTML_FILES)
