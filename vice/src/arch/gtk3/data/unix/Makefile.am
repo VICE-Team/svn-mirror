@@ -1,10 +1,17 @@
+XDG_VENDOR=vice-org
+
+EXTRA_DIST = \
+	emu.desktop \
+	mkdesktopfile.sh \
+	$(XDG_VENDOR)-$(XDG_VENDOR).directory
+
+
 if UNIX_COMPILE
 if !UNIX_MACOSX_COMPILE
 
 if INSTALL_DESKTOP_FILES
 # Make .desktop files
 
-XDG_VENDOR=vice-org
 
 # Define emu binary names
 X64_BINARY := $(shell echo x64 | sed '$(transform)')
@@ -58,6 +65,7 @@ noinst_DATA = \
 
 CLEANFILES = \
 	$(VICE_DESKTOP_FILES)
+
 
 
 

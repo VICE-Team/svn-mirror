@@ -20,7 +20,8 @@ CLEANFILES = \
 	$(GRESOURCE_TARGET)
 
 EXTRA_DIST = \
-	$(GRESOURCE_XML)
+	$(GRESOURCE_XML) \
+	icon.rc
 
 
 # vim: set noet ts=8 sts=8 sw=8:
