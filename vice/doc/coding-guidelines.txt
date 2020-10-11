@@ -293,11 +293,6 @@ svn:eol-style   CRLF
 svn:mime-type   text/plain
 svn:executable  *
 
-When adding a 'Changelog' file use the following svn properties:
-
-svn:eol-style   LF
-svn:mime-type   text/plain
-
 When adding a windows msvc template file use the following svn properties:
 
 svn:eol-style   CRLF

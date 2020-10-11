@@ -354,13 +354,6 @@ COMMON_EXTRA_DIST = \
 	65816core.c \
 	65c02core.c \
 	6510dtvcore.c \
-	ChangeLog \
-	ChangeLog.1 \
-	ChangeLog.2 \
-	ChangeLog.3 \
-	ChangeLog.4 \
-	ChangeLog.5 \
-	ChangeLog.6 \
 	aciacore.c \
 	debug.h.in \
 	fixpoint.c \

@@ -29252,10 +29252,6 @@ If you cannot use SVN for one or the other reason, send a unified diff
 file containing all the changes you have made @samp{diff -u};
 please don't use plain @samp{diff}), as it adds much work for us to get
 it working;
-@item
-GNU-style @file{ChangeLog} entries with a description of the changes you
-have made (look at the @file{ChangeLog}s provided with the original VICE
-sources for an example).
 @end itemize
 
 Preferably post your patch on the tracker:

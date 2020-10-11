@@ -94,11 +94,7 @@ ffmpeglibs-clean:
 
 install: installvice
 
-# If we have no ChangeLog (which should be generated from SVN), generate a
-# dummy one.
 
-ChangeLog:
-	touch ChangeLog
 
 if MAKE_BINDIST
 
