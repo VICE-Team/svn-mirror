@@ -108,6 +108,22 @@ struct sid_snapshot_state_s;
 #define SID_COUNT_MAX_PSID  3
 
 
+#define SID_MACHINE_MAX_SID_C64     4
+#define SID_MACHINE_MAX_SID_C64DTV  1
+#define SID_MACHINE_MAX_SID_C128    4
+#define SID_MACHINE_MAX_SID_VIC20   0
+#define SID_MACHINE_MAX_SID_PLUS4   1
+#define SID_MACHINE_MAX_SID_CBM5x0  1
+#define SID_MACHINE_MAX_SID_CBM6x0  0
+#define SID_MACHINE_MAX_SID_PET     0
+/** \brief  This can be the same as C64 in emulation, but PSID currently only
+ *          manages 3 SIDs
+ */
+#define SID_MACHINE_MAX_SID_VSID    3
+
+
+
+
 extern void machine_sid2_enable(int val);
 
 extern uint8_t sid_read(uint16_t address);
@@ -181,5 +197,8 @@ extern void sid_sound_chip_init(void);
 extern void sid_set_enable(int value);
 
 int sid_engine_get_max_sids(int engine);
+int sid_machine_get_max_sids(void);
+int sid_machine_engine_get_max_sids(int engine);
+int sid_machine_can_have_multiple_sids(void);
 
 #endif

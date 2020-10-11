@@ -238,29 +238,6 @@ static GtkWidget *resid_6581_bias_spin;
 #endif
 
 
-/** \brief  Determine if the current machine can support multiple SID
- *
- * Doesn't check any expansions or hardware hacks, just returns if its *possible*
- * for the current machine to have multiple SIDs.
- *
- * \return  boolean
- */
-static bool can_have_multiple_sids(void)
-{
-    if (machine_class != VICE_MACHINE_PLUS4
-            && machine_class != VICE_MACHINE_CBM5x0
-            && machine_class != VICE_MACHINE_CBM6x0
-            && machine_class != VICE_MACHINE_C64DTV
-            && machine_class != VICE_MACHINE_PET
-            && machine_class != VICE_MACHINE_VIC20) {
-        return true;
-    }
-    return false;
-}
-
-
-
-
 /* Temporarily disable this to remove warning. I'll need this one again when
  * I continue working on the SID setting glue logic.
  */
@@ -273,7 +250,7 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
 {
     debug_gtk3("extra SIDs count changed to %d.", count);
 
-    if (can_have_multiple_sids()) {
+    if (sid_machine_can_have_multiple_sids()) {
         gtk_widget_set_sensitive(address_widgets[0], count > 0);
         gtk_widget_set_sensitive(address_widgets[1], count > 1);
         if (machine_class != VICE_MACHINE_VSID) {
@@ -918,17 +895,12 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     is_resid = current_engine == SID_ENGINE_RESID;
 #endif
 
-    if (can_have_multiple_sids()) {
-        int max = SID_COUNT_MAX;
+    if (sid_machine_can_have_multiple_sids()) {
+        int max = sid_machine_get_max_sids();
 
         sids = create_num_sids_widget();
         gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
 
-        if (machine_class == VICE_MACHINE_VSID) {
-            /* VSID, or rather the PSID file foramt,only supports 3 SIDs max
-             * at the moment */
-            max = SID_COUNT_MAX_PSID;
-        }
         for (i = 1; i < max; i++) {
             address_widgets[i - 1] = create_extra_sid_address_widget(i);
             gtk_grid_attach(GTK_GRID(layout), address_widgets[i - 1],

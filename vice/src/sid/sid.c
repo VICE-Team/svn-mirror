@@ -1,13 +1,14 @@
+/** \file   sid.c
+ * \brief   MOS6581 (SID) emulation, hooks to actual implementation
+ *
+ * \author  Teemu Rantanen <tvr@cs.hut.fi>
+ * \author  Michael Schwendt <sidplay@geocities.com>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Dag Lem <resid@nimrod.no>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * sid.c - MOS6581 (SID) emulation, hooks to actual implementation.
- *
- * Written by
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Michael Schwendt <sidplay@geocities.com>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Dag Lem <resid@nimrod.no>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -791,4 +792,68 @@ int sid_engine_get_max_sids(int engine)
             /* unknow engine */
             return -1;
     }
+}
+
+
+/** \brief  Get maximum number of SIDs for the current machine, using actual HW
+ *
+ * \return  number of SIDs
+ */
+int sid_machine_get_max_sids(void)
+{
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:
+            return SID_MACHINE_MAX_SID_C64;
+        case VICE_MACHINE_C64DTV:
+            return SID_MACHINE_MAX_SID_C64DTV;
+        case VICE_MACHINE_C128:
+            return SID_MACHINE_MAX_SID_C128;
+        case VICE_MACHINE_VIC20:
+            return SID_MACHINE_MAX_SID_VIC20;
+        case VICE_MACHINE_PLUS4:
+            return SID_MACHINE_MAX_SID_PLUS4;
+        case VICE_MACHINE_PET:
+            return SID_MACHINE_MAX_SID_PET;
+        case VICE_MACHINE_CBM5x0:
+            return SID_MACHINE_MAX_SID_CBM5x0;
+        case VICE_MACHINE_CBM6x0:
+            return SID_MACHINE_MAX_SID_CBM6x0;
+        case VICE_MACHINE_VSID:
+            return SID_MACHINE_MAX_SID_VSID;
+        default:
+            return 0;
+    }
+}
+
+
+/** \brief  Determine maximum number of SIDs for current machine and a \engine
+ *
+ * Only assumes actually available HW expansion and actual old HW, so no
+ * Ultimate64 etc.
+ *
+ * \param[in]   engine  SID engine
+ *
+ * \return  maximum number of SIDs
+ */
+int sid_machine_engine_get_max_sids(int engine)
+{
+    int emax = sid_engine_get_max_sids(engine);
+    int mmax = sid_machine_get_max_sids();
+
+    return emax < mmax ? emax : mmax;
+}
+
+
+/** \brief  Determine if the current machine can support multiple SIDs
+ *
+ * This ignores any expansions and the SID engine, just gives the theoretical
+ * maximum that can be done with the current HW available.
+ *
+ * \return  boolean
+ */
+int sid_machine_can_have_multiple_sids(void)
+{
+    return sid_machine_get_max_sids() > 1;
 }
