@@ -690,47 +690,32 @@ char *lib_strdup(const char *str)
 
 char *lib_mvsprintf(const char *fmt, va_list ap)
 {
-    /* use the length of the format string as a first guess */
-    int n, maxlen = strlen(fmt);
-    char *p, *np;
+    int maxlen;
+    char *p;
     va_list args;
 
-    /* alloc one more byte than max. len */
-    if ((p = lib_malloc (maxlen + 1)) == NULL) {
+    va_copy(args, ap);
+    /* Get the length of the formatted string, NOT containing
+       the terminating zero. */
+    maxlen = vsnprintf(NULL, 0, fmt, args);
+    va_end(args);
+
+    /* Test if this size is valid */
+    if (maxlen < 0) {
         return NULL;
     }
 
-    while (1) {
-        /* Try to print in the allocated space. */
-        va_copy(args, ap);
-        /* caution, the returned value is string len, NOT containing the 
-           terminating zero. The max. size passed into vsnprintf DOES include 
-           the terminating zero! (ie it is the size of the buffer, NOT the
-           string length!)
-        */
-        n = vsnprintf (p, maxlen + 1, fmt, args);
-        va_end(args);
-
-        /* If that worked, return the string. */
-        if ((n > -1) && (n <= maxlen)) {
-            return p;
-        }
-
-        /* Else try again with more space. */
-        if (maxlen > -1) {     /* glibc 2.1 and C99 */
-            maxlen = n + 1;    /* precisely what is needed */
-        } else {               /* glibc 2.0 */
-            maxlen *= 2;       /* twice the old size */
-        }
-
-        /* alloc one more byte than max. len */
-        if ((np = lib_realloc (p, maxlen + 1)) == NULL) {
-            lib_free(p);
-            return NULL;
-        } else {
-            p = np;
-        }
+    /* Alloc required size */
+    if ((p = lib_malloc(maxlen + 1)) == NULL) {
+        return NULL;
     }
+
+    va_copy(args, ap);
+    /* At this point, this call should never fail */
+    vsnprintf(p, maxlen + 1, fmt, ap);
+    va_end(args);
+
+    return p;
 }
 
 char *lib_msprintf(const char *fmt, ...)
