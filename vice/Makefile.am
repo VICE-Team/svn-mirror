@@ -24,7 +24,6 @@ COMMON_EXTRA_DIST = \
 	config.rpath \
 	configure.ac \
 	COPYING \
-	FEEDBACK \
 	NEWS
 
 EXTRA_DIST = $(COMMON_EXTRA_DIST)
