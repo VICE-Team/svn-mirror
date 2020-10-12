@@ -13,7 +13,7 @@ m4_define([vice_version_number], [vice_version_major.vice_version_minor])
 dnl The major/minor stuff gets replaced in autogen.sh
 AC_INIT([vice], [vice_version_number])
 AC_CONFIG_SRCDIR([src/maincpu.c])
-AM_INIT_AUTOMAKE([-Wno-portability])
+AM_INIT_AUTOMAKE([-Wno-portability foreign])
 
 dnl Make sure autotools doesn't add '-g -O2' by default when the user's CFLAGS
 dnl or CXXFLAGS are empty

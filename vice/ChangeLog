@@ -1,6 +1,0 @@
-NOTE: We do not provide ChangeLog files anymore
-
-To obtain a list of changes, please use the svn 'log' command:
-    svn log http://svn.code.sf.net/p/vice-emu/code/trunk > svn.log
-
-Please note that this might take a few minutes.
