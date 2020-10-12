@@ -405,7 +405,7 @@ void old_joystick_init(void)
             joyxcal[i] /= JOYCALLOOPS;
             joyycal[i] /= JOYCALLOOPS;
 
-            /* determine treshoulds */
+            /* determine tresholds */
             joyxmin[i] = joyxcal[i] - joyxcal[i] / JOYSENSITIVITY;
             joyxmax[i] = joyxcal[i] + joyxcal[i] / JOYSENSITIVITY;
             joyymin[i] = joyycal[i] - joyycal[i] / JOYSENSITIVITY;
@@ -639,7 +639,7 @@ void new_joystick(void)
                    The following treats only the first four buttons on a joystick
                    as fire buttons and ignores the rest.
                 */
-                /* printf("e.number: %02x e.value: %02x\n", e.number, e.value); */
+                /* printf("e.number: %d e.value: %d\n", e.number, e.value); */
                 /* FIXME: we need a gui to let the user map this, see SDL port */
                 if (! (e.number & ~3)) { /* only first four buttons are fire */
                     if (e.number == 0) {
@@ -666,6 +666,7 @@ void new_joystick(void)
                 }
                 break;
             case JS_EVENT_AXIS:
+                /* printf("JS_EVENT_AXIS e.number: %d e.value: %d\n", e.number, e.value); */
                 if (e.number == 0) {
                     joystick_set_value_and(i, 19); /* reset 2 bit */
                     if (e.value > 16384) {
