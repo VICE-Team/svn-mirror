@@ -51,6 +51,7 @@
 #include "uimachinewindow.h"
 #include "lastdir.h"
 #include "initcmdline.h"
+#include "log.h"
 
 #include "uismartattach.h"
 
@@ -101,28 +102,6 @@ static gchar *last_file = NULL;
 static GtkWidget *autostart_button;
 
 
-#if 0
-/** \brief  Update the last directory reference
- *
- * \param[in]   widget  dialog
- */
-static void update_last_dir(GtkWidget *widget)
-{
-    gchar *new_dir;
-
-    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("new dir = '%s'.", new_dir);
-    if (new_dir != NULL) {
-        /* clean up previous value */
-        if (last_dir != NULL) {
-            g_free(last_dir);
-        }
-        last_dir = new_dir;
-    }
-}
-#endif
-
-
 /** \brief  Trigger autostart
  *
  * \param[in]   widget  dialog
@@ -139,7 +118,6 @@ static void do_autostart(GtkWidget *widget, gpointer data)
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     filename_locale = file_chooser_convert_to_locale(filename);
 
-    debug_gtk3("Autostarting file '%s'.", filename);
     /* if this function exists, why is there no attach_autodetect()
      * or something similar? -- compyx */
     if (autostart_autodetect(
@@ -149,22 +127,17 @@ static void do_autostart(GtkWidget *widget, gpointer data)
                            in the preview widget to load the proper
                            file in an image */
                 AUTOSTART_MODE_RUN) < 0) {
-        /* oeps */
-        debug_gtk3("autostart-smart-attach failed.");
+        /* oeps
+         *
+         * I currently can't find a way to use a non-blocking Gtk Error dialog
+         * to report the error, so this will have to do, for now. -- compyx
+         */
+        log_error(LOG_ERR, "Failed to smart attach '%s'", filename_locale);
     }
     g_free(filename);
     g_free(filename_locale);
     gtk_widget_destroy(widget);
 }
-
-
-
-#if 0
-static void on_file_activated(GtkWidget *chooser, gpointer data)
-{
-    do_autostart(chooser, data);
-}
-#endif
 
 
 /** \brief  Handler for 'selection-changed' event of the preview widget
@@ -206,8 +179,6 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         if (path != NULL) {
             gchar *filename_locale = file_chooser_convert_to_locale(path);
 
-            debug_gtk3("called with '%s'.", path);
-
             content_preview_widget_set_image(preview_widget, filename_locale);
             g_free(path);
             g_free(filename_locale);
@@ -229,8 +200,6 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("show hidden files: %s.", state ? "enabled" : "disabled");
-
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
 #endif
@@ -247,8 +216,6 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("read-only: %s.", state ? "enabled" : "disabled");
-
     resources_set_int_sprintf("AttachDevice%dReadonly", state, DRIVE_UNIT_DEFAULT);
 }
 #endif
@@ -260,7 +227,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   extra data (unused)
+ * \param[in]   user_data   index in the preview widget
  *
  * TODO:    proper (error) messages, which requires implementing ui_error() and
  *          ui_message() and moving them into gtk3/widgets to avoid circular
@@ -285,9 +252,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case GTK_RESPONSE_ACCEPT:
             lastdir_update(widget, &last_dir, &last_file);
             filename_locale = file_chooser_convert_to_locale(filename);
-
-            /* ui_message("Opening file '%s' ...", filename); */
-            debug_gtk3("Opening file '%s'.", filename);
 
             /* Smart attach for C64/C128
              *
@@ -315,7 +279,8 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
                         && autostart_snapshot(filename_locale, NULL) < 0)
                 {
                     /* failed (TODO: perhaps a proper error message?) */
-                    debug_gtk3("smart attach failed.");
+                    log_error(LOG_ERR, "Failed to smart attach '%s'",
+                            filename_locale);
                 }
             }
             g_free(filename_locale);
