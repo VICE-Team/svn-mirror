@@ -133,6 +133,7 @@ static GtkWidget *pet_ram9_widget = NULL;
 static GtkWidget *pet_rama_widget = NULL;
 
 static GtkWidget *c64dtv_rev_widget = NULL;
+static GtkWidget *c64dtv_hummer_adc_widget = NULL;
 static GtkWidget *reset_with_iec_widget = NULL;
 
 
@@ -577,6 +578,21 @@ static void dtv_video_callback(int model)
     machine_model_widget_update(machine_widget);
 }
 
+/** \brief  Sync "Hummer ADC" widget with the associated resource
+ *
+ */
+static void c64dtv_hummer_adc_sync(void)
+{
+    int hummeradc = 0;
+    resources_get_int("HummerAdc", &hummeradc);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(c64dtv_hummer_adc_widget), hummeradc);
+}
+
+/* FIXME */
+static void c64dtv_hummer_adc_callback(GtkWidget *widget, int size)
+{
+    machine_model_widget_update(machine_widget);
+}
 
 /** \brief  Callback for DTV machine model changes
  *
@@ -614,6 +630,8 @@ static void machine_model_handler_c64dtv(int model)
 
     /* update VIC-II model widget */
     video_model_widget_update(video_widget);
+    /* update Hummer ADC widget */
+    c64dtv_hummer_adc_sync();
 }
 
 
@@ -1177,6 +1195,14 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
             "Enable LumaFix (use new VICII luminances)");
     g_object_set(G_OBJECT(luma_widget), "margin-left", 8, "margin-top", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), luma_widget, 0, 3, 2, 1);
+
+    /* Hummer ADC widget */
+    c64dtv_hummer_adc_widget = vice_gtk3_resource_check_button_new("HummerADC", "Enable Hummer ADC");
+    /* FIXME */
+    /* vice_gtk3_resource_button_add_callback(c64dtv_hummer_adc_widget, c64dtv_hummer_adc_callback); */
+    g_object_set(c64dtv_hummer_adc_widget, "margin-left", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), c64dtv_hummer_adc_widget, 0, 4, 2, 1);
+
     return grid;
 }
 

@@ -164,12 +164,12 @@ static void create_c128_layout(GtkWidget *grid)
  */
 static void create_c64dtv_layout(GtkWidget *grid)
 {
-    GtkWidget *hummer;
+#if 0
+    GtkWidget *collision_widget;
 
-    hummer = vice_gtk3_resource_check_button_new("HummerADC",
-            "Enable Hummer ADC");
-    g_object_set(hummer, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), hummer, 0, 1, 3, 1);
+    collision_widget = create_collision_widget("$D000-$DFFF");
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
+#endif
 }
 
 

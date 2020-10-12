@@ -843,6 +843,14 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
     { "RAM",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
+    { "Flash",
+      "flash",
+      c64dtv_flash_settings_widget_create, NULL },
+#if 0
+    { "I/O settings",
+      "io-settings",
+      settings_io_widget_create, NULL },
+#endif
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
@@ -933,13 +941,6 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
     { "Audio",      "audio",    NULL,   audio_nodes_c64dtv },
     { "Input devices",      "input",    NULL,   input_nodes_c64dtv },
     { "Peripheral devices", "peripheral", NULL, peripheral_nodes_c64dtv },
-
-    { "Flash",
-      "flash",
-      c64dtv_flash_settings_widget_create, NULL },
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
