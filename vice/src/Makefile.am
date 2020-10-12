@@ -596,9 +596,11 @@ infocontrib.h:	$(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 		false; \
 	fi
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
-	sed -e 's/\\/@/g' -e 's/ /%/g' <$(top_srcdir)/README >./README.tmp
+#	sed -e 's/\\/{/g' -e 's/ /}/g' <$(top_srcdir)/README >./README.tmp
+	cat  <$(top_srcdir)/README >./README.tmp
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
-	sed -e 's/@/\\/g' -e 's/%/ /g' <README2.tmp >../README
+#	sed -e 's/{/\\/g' -e 's/}/ /g' <README2.tmp >../README
+	cat  <README2.tmp >../README
 	rm -f README*.tmp
 	cp $(top_srcdir)/doc/html/index.html ./index.tmp
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
