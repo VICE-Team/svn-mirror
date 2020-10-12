@@ -31,6 +31,7 @@
 #include "vice.h"
 
 #include "debug_gtk3.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
@@ -115,7 +116,7 @@ console_t *uimonfb_window_open(void)
         return NULL;
     }
     /* partially implemented */
-    INCOMPLETE_IMPLEMENTATION();
+    /* INCOMPLETE_IMPLEMENTATION(); */
 #ifdef HAVE_MOUSE
     /* ui_restore_mouse(); */
 #endif

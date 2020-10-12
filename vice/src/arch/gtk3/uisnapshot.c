@@ -95,7 +95,6 @@ static char *quicksnap_filename(void)
 #if 0
     lib_free(cfg);
 #endif
-    debug_gtk3("quicksnap_filename = %s.", fname);
     return fname;
 }
 
@@ -154,21 +153,22 @@ static void save_snapshot_dialog(void)
     gtk_widget_show_all(extra);
 
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog), extra);
-     response_id = gtk_dialog_run(GTK_DIALOG(dialog));
+    response_id = gtk_dialog_run(GTK_DIALOG(dialog));
     save_roms = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(roms_widget));
     save_disks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(disks_widget));
-
+#if 0
     debug_gtk3("response_id = %d.", response_id);
     debug_gtk3("save disks = %s.", save_disks ? "YES" : "NO");
     debug_gtk3("save ROMs = %s.", save_roms ? "YES" : "NO");
-
+#endif
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gchar *filename;
 
         filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         if (filename != NULL) {
             char *fname_copy;
-            char buffer[1024];
+            char buffer[1024];  /* I guess this was meant to be used to display
+                                   a message on the statusbar? */
 
             fname_copy = util_add_extension_const(filename, "vsf");
 
@@ -177,7 +177,6 @@ static void save_snapshot_dialog(void)
                 g_snprintf(buffer, 1024, "Failed to save snapshot '%s'",
                         fname_copy);
             } else {
-                debug_gtk3("Wrote snapshot file '%s'.", fname_copy);
                 g_snprintf(buffer, 1024, "Saved snapshot '%s'", fname_copy);
             }
             lib_free(fname_copy);
@@ -318,7 +317,6 @@ static void quickload_snapshot_trap(uint16_t addr, void *data)
     vsync_suspend_speed_eval();
     sound_suspend();
 
-    debug_gtk3("Quickloading file '%s'.", filename);
     if (machine_read_snapshot(filename, 0) < 0) {
         snapshot_display_error();
     }
@@ -338,7 +336,6 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
     vsync_suspend_speed_eval();
     sound_suspend();
 
-    debug_gtk3("Quicksaving file '%s'.", filename);
     if (machine_write_snapshot(filename, TRUE, TRUE, 0) < 0) {
         snapshot_display_error();
     }
@@ -417,36 +414,6 @@ gboolean ui_snapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
     interrupt_maincpu_trigger_trap(quicksave_snapshot_trap, (void *)fname);
     return TRUE;
 }
-
-
-#if 0
-/** \brief  Gtk event handler for the "Select history directory" menu item
- *
- * \param[in]   parent      parent widget
- * \param[in]   user_data   unused
- */
-void ui_snapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
-{
-    char *filename;
-    const char *current;
-
-    if (resources_get_string("EventSnapshotDir", &current) < 0) {
-        debug_gtk3("failed to get current history directory, using NULL.");
-        current = NULL;
-    }
-
-    filename = vice_gtk3_select_directory_dialog("Select history directory",
-            NULL, TRUE, current);
-    if (filename != NULL) {
-        debug_gtk3("Setting EventSnapshotDir to '%s'.", filename);
-        if (resources_set_string("EventSnapshotDir", filename) < 0) {
-            vice_gtk3_message_error("VICE core error",
-                    "Failed to set history directory.");
-        }
-        g_free(filename);
-    }
-}
-#endif
 
 
 /** \brief  Gtk event handler for the "Start recording events" menu item

@@ -30,7 +30,6 @@
 
 #include <stdio.h>
 
-#include "debug_gtk3.h"
 #include "crtc.h"
 #include "crtcontrolwidget.h"
 #include "machine.h"

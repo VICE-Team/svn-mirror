@@ -41,8 +41,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "debug_gtk3.h"
-
 #include "log.h"
 #include "vsyncapi.h"
 #include "maincpu.h"

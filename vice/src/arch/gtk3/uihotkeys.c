@@ -36,7 +36,6 @@
 #include "lib.h"
 #include "util.h"
 
-#include "debug_gtk3.h"
 /* for ui_get_active_window() */
 #include "ui.h"
 /* for VICE_MOD_MASK */
@@ -182,7 +181,6 @@ static GtkWidget *hk_view;
  */
 static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
-    debug_gtk3("called with response ID %d.", response_id);
     if (response_id == GTK_RESPONSE_REJECT) {
         gtk_widget_destroy(dialog);
     }
@@ -206,8 +204,6 @@ static char *modifiers_to_string(GdkModifierType mods, const char *keys)
 {
     const char *mod_strings[MAX_MODS + 2];
     int i;
-
-    debug_gtk3("mods = %u.", mods);
 
     for (i = 0; i < MAX_MODS + 2; i++) {
         mod_strings[i] = NULL;
@@ -241,11 +237,10 @@ static GtkTreeStore *create_model(void)
     GtkTreeIter iter;
     int i;
 
-    debug_gtk3("building hotkeys model.");
     model = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
     for (i = 0; hotkeys_list[i].key != NULL; i++) {
         char *keys = modifiers_to_string(hotkeys_list[i].mods, hotkeys_list[i].key);
-        debug_gtk3("modifiers = '%s'.", keys);
+
         gtk_tree_store_append(model, &iter, NULL);
         gtk_tree_store_set(model, &iter,
                            0, keys,
@@ -253,7 +248,6 @@ static GtkTreeStore *create_model(void)
                            -1);
         lib_free(keys);
     }
-    debug_gtk3("added %d hotkeys.", i);
     return model;
 }
 
