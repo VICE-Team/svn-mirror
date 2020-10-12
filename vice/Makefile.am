@@ -20,7 +20,6 @@ SUBDIRS = src build data doc
 # files, please add them to the COMMON_EXTRA_DIST list.
 
 COMMON_EXTRA_DIST = \
-	AUTHORS \
 	autogen.sh \
 	config.rpath \
 	configure.ac \
