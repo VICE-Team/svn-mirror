@@ -30,7 +30,6 @@
 
 #include "basewidgets.h"
 #include "basedialogs.h"
-#include "debug_gtk3.h"
 #include "widgethelpers.h"
 #include "filechooserhelpers.h"
 #include "util.h"
@@ -89,7 +88,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
             gtk_widget_destroy(widget);
             break;
         default:
-            debug_gtk3("warning: unhandled response ID %d\n", response_id);
             break;
     }
 }

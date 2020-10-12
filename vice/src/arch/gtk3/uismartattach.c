@@ -48,6 +48,7 @@
 #include "resources.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uimachinewindow.h"
 #include "lastdir.h"
 #include "initcmdline.h"
@@ -133,6 +134,7 @@ static void do_autostart(GtkWidget *widget, gpointer data)
          * to report the error, so this will have to do, for now. -- compyx
          */
         log_error(LOG_ERR, "Failed to smart attach '%s'", filename_locale);
+        ui_error("Failed to smart attach '%s'", filename_locale);
     }
     g_free(filename);
     g_free(filename_locale);

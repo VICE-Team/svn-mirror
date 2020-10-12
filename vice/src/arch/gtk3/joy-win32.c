@@ -30,8 +30,6 @@
 
 #ifdef WIN32_COMPILE
 
-#include "debug_gtk3.h"
-
 #include "cmdline.h"
 #include "resources.h"
 

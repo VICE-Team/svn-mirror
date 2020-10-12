@@ -127,7 +127,6 @@ int ui_vsid_window_load_psid(const char *filename)
     vsync_suspend_speed_eval();
 
     if (machine_autodetect_psid(filename) < 0) {
-        debug_gtk3("'%s' is not a valid PSID file.", filename);
         ui_error("'%s' is not a valid PSID file.", filename);
         return -1;
     }

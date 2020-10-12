@@ -30,7 +30,6 @@
 
 #include "basewidgets.h"
 #include "basedialogs.h"
-#include "debug_gtk3.h"
 #include "widgethelpers.h"
 #include "driveunitwidget.h"
 #include "drivenowidget.h"
@@ -136,7 +135,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
             gtk_widget_destroy(widget);
             break;
         default:
-            debug_gtk3("warning: unhandled response ID %d\n", response_id);
             break;
     }
 }
@@ -157,7 +155,6 @@ static void on_disk_image_type_changed(GtkComboBox *combo, gpointer data)
         model = gtk_combo_box_get_model(combo);
         if (gtk_combo_box_get_active_iter(combo, &iter)) {
             gtk_tree_model_get(model, &iter, 1, &image_type, -1);
-            debug_gtk3("got disk image type %d\n", image_type);
         }
     }
 }
@@ -170,7 +167,6 @@ static void on_disk_image_type_changed(GtkComboBox *combo, gpointer data)
 static gboolean attempt_to_set_drive_type(void)
 {
     if (resources_set_int_sprintf("Drive%dType", image_type, unit_number) < 0) {
-        debug_gtk3("failed to set Drive%dType to %d\n", unit_number, image_type);
         return FALSE;
     }
     return TRUE;

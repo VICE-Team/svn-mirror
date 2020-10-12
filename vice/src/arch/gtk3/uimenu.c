@@ -122,9 +122,6 @@ static void ui_accel_data_delete(gpointer data, GClosure *closure)
  */
 static void on_menu_item_destroy(GtkWidget *item, gpointer accel_data)
 {
-#if 0
-    debug_gtk3("CALLED!");
-#endif
     if (accel_data != NULL) {
         lib_free(accel_data);
     }
@@ -168,7 +165,6 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
         switch (items[i].type) {
             case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
                 /* normal callback item */
-                /* debug_gtk3("adding menu item '%s'\n", items[i].label); */
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
                     if (items[i].unlocked) {
@@ -244,10 +240,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 
             if (items[i].keysym != 0 && items[i].callback != NULL) {
                 GClosure *accel_closure;
-#if 0
-                debug_gtk3("adding accelerator %d to item %s'\n",
-                        items[i].keysym, items[i].label);
-#endif
+
                 /* Normally you would use gtk_widget_add_accelerator
                  * here, but that will disable the accelerators if the
                  * menu is hidden, which can be configured to happen
@@ -256,9 +249,6 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                  * the accelerator information. */
                 accel_data = ui_accel_data_new(item, &items[i]);
                 accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
-#if 0
-                                               ui_accel_data_new(item, &items[i]),
-#endif
                                                accel_data,
                                                ui_accel_data_delete);
                 if (items[i].unlocked) {
