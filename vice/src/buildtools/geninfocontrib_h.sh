@@ -320,45 +320,6 @@ if test x"$1" = "xinfocontrib.h"; then
 fi
 
 # -----------------------------------------------------------
-# AUTHORS output type
-
-if test x"$1" = "xAUTHORS"; then
-  MEMBERS=`cat team.tmp`
-  buildlists
-  $ECHO "Core Team Members:"
-  $ECHO ""
-  for i in $CORETEAM_MEMBERS
-  do
-    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
-    splititem4 $decodedall
-    decoded=`$ECHO "$item3" | sed 's/_/ /g'`
-    $ECHO "@b{$decoded}"
-  done
-  $ECHO ""
-  $ECHO ""
-  $ECHO "Inactive/Ex Team Members:"
-  $ECHO ""
-  for i in $EXTEAM_MEMBERS
-  do
-    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
-    splititem4 $decodedall
-    decoded=`$ECHO "$item3" | sed 's/_/ /g'`
-    $ECHO "@b{$decoded}"
-  done
-  $ECHO ""
-  $ECHO ""
-  $ECHO "Translation Team Members:"
-  $ECHO ""
-  for i in $TRANSTEAM_MEMBERS
-  do
-    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
-    splititem4 $decodedall
-    decoded=`$ECHO "$item3" | sed 's/_/ /g'`
-    $ECHO "@b{$decoded}"
-  done
-fi
-
-# -----------------------------------------------------------
 # README output type
 
 if test x"$1" = "xREADME"; then
