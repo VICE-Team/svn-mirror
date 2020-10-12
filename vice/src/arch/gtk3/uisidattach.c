@@ -128,9 +128,15 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case GTK_RESPONSE_ACCEPT:
             lastdir_update(widget, &last_dir, &last_file);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+
             text = lib_msprintf("Opening '%s'", filename);
-            debug_gtk3("Loading SID file '%s'.", filename);
-            ui_vsid_window_load_psid(filename);
+            ui_display_statustext(text, 10);
+            if (ui_vsid_window_load_psid(filename) < 0) {
+                lib_free(text);
+                text = lib_msprintf("Error: '%s' is not a valid PSID file",
+                        filename);
+                ui_display_statustext(text, 10);
+            }
             ui_pause_disable();
 
             g_free(filename);
