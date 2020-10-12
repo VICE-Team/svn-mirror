@@ -14336,8 +14336,8 @@ fileformat version number.
 @tab "VICE Version\032", padded with 0
 @item 4 BYTE
 @tab VERSION
-@tab Release version
-@item 2 BYTE
+@tab Release version (major, minor, micro). Byte 4 is always zero.
+@item DWORD
 @tab SVNVERSION
 @tab SVN revision (or 0 if not available)
 @end multitable
