@@ -13,7 +13,7 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 - update the html pages in doc/html (index.html, windows.html)
 
-- update man pages and vice.texi
+- update vice.texi
 
 - make sure (c) dates are correct (README, index.html, vice.texi,
   src/sounddrv/soundflac.c, src/arch/gtk3/uiabout.c)
@@ -24,15 +24,15 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 - ANNOUNCE A CODE FREEZE ;)
 
-- make sure the version in configure.proto is updated
+- make sure the version in configure.ac is updated:
 
-VICE_VERSION_MAJOR=3
-VICE_VERSION_MINOR=4
-VICE_VERSION_BUILD=0
+    m4_define([vice_version_major], [3])
+    m4_define([vice_version_minor], [4])
+    m4_define([vice_version_build], [0])
 
-- make sure the version is updated in other files (html/index.html). 
+- make sure the version is updated in other files (html/index.html).
 
-These actually update the user-visible version in the binary/docs, so it should 
+These actually update the user-visible version in the binary/docs, so it should
 happen only immediatly before the release.
 
 
@@ -50,7 +50,7 @@ now configure the source tree with sid engines and ffmpeg included. this is
 needed because make dist propagates through the source tree, and if resid and/or
 ffmpeg is not configured they will not have any makefiles to get 'make dist'ed
 
-$ ./configure --with-resid --disable-external-ffmpeg --enable-static-ffmpeg
+$ ./configure --with-resid --enable-static-ffmpeg
 $ make dist
 
 now unpack into a seperate directory and test if compiling works. fix makefiles
