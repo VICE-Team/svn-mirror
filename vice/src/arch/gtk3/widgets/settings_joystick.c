@@ -10,7 +10,6 @@
  * $VICERES JoyDevice3      -xcbm5x0 -vsid
  * $VICERES JoyDevice4      -xcbm5x0 -xplus4 -vsid
  * $VICERES JoyDevice5      xplus4
- * $VICERES UserportJoy     -xcbm5x0 -vsid
  * $VICERES JoyOpposite     -vsid
  * $VICERES KeySetEnable    -vsid
  *
@@ -148,18 +147,7 @@ static void on_swap_userport_joysticks_clicked(GtkWidget *button,
 }
 
 
-/** \brief  Handler for the "toggled" event of the "Userport adapter" checkbox
- *
- * \param[in]   check       check button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
-{
-    if (machine_class != VICE_MACHINE_C64DTV) {
-        int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-        gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
-    }
-}
+
 
 
 /** \brief  Handler for the "clicked" event of the "Configure keysets" button
@@ -235,21 +223,6 @@ static GtkWidget *create_opposite_enable_checkbox(void)
 }
 
 
-/** \brief  Create a check button to enable "Userport joystick adapter"
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_userportjoy_enable_checkbox(void)
-{
-    GtkWidget *check;
-
-    check = vice_gtk3_resource_check_button_new("UserportJoy",
-            "Enable userport joysticks");
-    /* extra handler to enable/disable the userport adapter widget */
-    g_signal_connect(check, "toggled",
-            G_CALLBACK(on_userportjoy_enable_toggled), NULL);
-    return check;
-}
 
 
 
@@ -465,7 +438,6 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     GtkWidget *layout;
     GtkWidget *keyset_widget;
     GtkWidget *opposite_widget;
-    GtkWidget *userportjoy_widget;
     GtkWidget *keyset_1_button;
     GtkWidget *keyset_2_button;
     int rows = 0;
@@ -519,13 +491,9 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     g_object_set(keyset_widget, "margin-left", 16, NULL);
     opposite_widget = create_opposite_enable_checkbox();
     g_object_set(opposite_widget, "margin-left", 16, NULL);
-    userportjoy_widget = create_userportjoy_enable_checkbox();
-    g_object_set(userportjoy_widget, "margin-left", 16, NULL);
-
     gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, rows, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, rows, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 0, rows + 1, 1, 1);
-    rows += 2;
+    rows ++;
 
     /* add buttons to active keyset dialog */
     keyset_1_button = gtk_button_new_with_label("Configure keyset A");

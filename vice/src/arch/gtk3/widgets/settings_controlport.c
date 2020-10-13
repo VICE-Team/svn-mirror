@@ -13,6 +13,7 @@
  * $VICERES BBRTCSave
  * $VICERES ps2mouse            x64dtv
  * $VICERES SmartMouseRTCSave   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0
+ * $VICERES UserportJoy     -xcbm5x0 -vsid
  */
 
 /*
@@ -72,6 +73,9 @@ static joyport_desc_t *joyport_devices[JOYPORT_MAX_PORTS];
 static vice_gtk3_combo_entry_int_t *joyport_combo_lists[JOYPORT_MAX_PORTS];
 
 
+static GtkWidget *userportjoy_widget = NULL;
+
+
 /** \brief  Handler for the "destroy" event of the main widget
  *
  * \param[in]   widget      the main widget (unused)
@@ -87,6 +91,38 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
     }
 }
 
+
+/** \brief  Handler for the "toggled" event of the "Userport adapter" checkbox
+ *
+ * \param[in]   check       check button
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
+{
+#if 0
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+        gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
+    }
+#endif
+}
+
+
+/** \brief  Create a check button to enable "Userport joystick adapter"
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_userportjoy_enable_checkbox(void)
+{
+    GtkWidget *check;
+
+    check = vice_gtk3_resource_check_button_new("UserportJoy",
+            "Enable userport joysticks");
+    /* extra handler to enable/disable the userport adapter widget */
+    g_signal_connect(check, "toggled",
+            G_CALLBACK(on_userportjoy_enable_toggled), NULL);
+    return check;
+}
 
 
 static gboolean create_combo_list(int port)
@@ -503,6 +539,10 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
         g_object_set(ps2_enable, "margin-left", 16, NULL);
         rows++;
     }
+
+    userportjoy_widget = create_userportjoy_enable_checkbox();
+    g_object_set(userportjoy_widget, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 0, rows, 2, 1);
 
     g_signal_connect_unlocked(layout, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(layout);
