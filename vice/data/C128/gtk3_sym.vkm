@@ -158,11 +158,11 @@ question        6 7 1
 exclam          7 0 1
 # underscore -> arrow left
 underscore      7 1 0
-Tab             7 2 8     /* Tab = CTRL */
-ISO_Left_Tab    7 2 8     /* Shift + Tab = CTRL */
+Control_L       7 2 8     /* Control_L = CTRL */
 quotedbl        7 3 1
 space           7 4 8
-Control_L       7 5 8     /* Control_L = CBM */
+Tab             7 5 8     /* Tab = CBM */
+ISO_Left_Tab    7 5 8     /* Shift + Tab = CBM */
 Escape          7 7 8
 
 #####################
