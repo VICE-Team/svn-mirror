@@ -426,7 +426,6 @@ static gboolean ui_on_drag_drop(
         guint time,
         gpointer data)
 {
-    debug_gtk3("called.");
     return TRUE;
 }
 
@@ -443,9 +442,6 @@ static gboolean ui_on_drag_drop(
  * \param[in]   data        dragged data
  * \param[in]   info        int declared in the targets array (unclear)
  * \param[in]   time        no idea
- *
- * \todo    Once this works properly, remove a lot of debugging calls, perhaps
- *          changing a few into log calls.
  */
 static void ui_on_drag_data_received(
         GtkWidget *widget,
@@ -460,9 +456,9 @@ static void ui_on_drag_data_received(
     gchar *filename = NULL;
     gchar **files = NULL;
     guchar *text = NULL;
+#ifdef HAVE_DEBUG_GTK3UI
     int i;
-
-    debug_gtk3("got drag-data, info = %u:", info);
+#endif
 
     switch (info) {
 
@@ -474,6 +470,8 @@ static void ui_on_drag_data_received(
             /* got possible list of URI's */
             uris = gtk_selection_data_get_uris(data);
             if (uris != NULL) {
+                /* keep this debugging output, drag'n'drop is pretty flaky */
+#if 0
                 /* dump URI's on stdout */
                 debug_gtk3("got URI's:");
                 for (i = 0; uris[i] != NULL; i++) {
@@ -485,6 +483,7 @@ static void ui_on_drag_data_received(
                         g_free(filename);
                     }
                 }
+#endif
 
                 /* use the first/only entry as the autostart file
                  *
@@ -514,37 +513,31 @@ static void ui_on_drag_data_received(
             /* remove trailing whitespace */
             g_strchomp((gchar *)text);
 
-            debug_gtk3("Got data as text: '%s'.", text);
             files = g_strsplit((const gchar *)text, "\n", -1);
             g_free(text);
 
-            for (i = 0; files[i] != NULL; i++) {
 #ifdef HAVE_DEBUG_GTK3UI
+            for (i = 0; files[i] != NULL; i++) {
+                /* keep this as well */
                 gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
-#endif
                 debug_gtk3("URI: '%s', filename: '%s'.",
                         files[i], tmp);
             }
+#endif
             /* now grab the first file */
             filename = g_filename_from_uri(files[0], NULL, NULL);
             g_strfreev(files);
-
-            debug_gtk3("got filename '%s'.", filename);
             break;
 
         default:
-            debug_gtk3("Warning: unhandled d'n'd target %u.", info);
             filename = NULL;
             break;
     }
 
     /* can we attempt autostart? */
     if (filename != NULL) {
-        debug_gtk3("Attempting to autostart '%s'.", filename);
         if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
-            debug_gtk3("failed.");
-        } else {
-            debug_gtk3("OK!");
+            /* TODO: add proper UI error */
         }
         g_free(filename);
     }
@@ -560,7 +553,6 @@ static void ui_on_drag_data_received(
  */
 static int set_fullscreen_state(int val, void *param)
 {
-    debug_gtk3("called with %d.", val);
     fullscreen_enabled = val;
     return 0;
 }
@@ -718,7 +710,6 @@ static GdkPixbuf *get_default_icon(void)
     char buffer[256];
 
     g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
-    debug_gtk3("Default icon = '%s'\n", buffer);
     return uidata_get_pixbuf(buffer);
 }
 
@@ -1504,9 +1495,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     /*
      * Do we need to restore window(s) position/size?
      */
-    debug_gtk3("Getting value for 'RestoreWindowGeometry'");
     if (resources_get_int("RestoreWindowGeometry", &restore) < 0) {
-        debug_gtk3("failed to get value for 'RestoreWindowGeometry'");
         restore = 0;
     }
 
@@ -1532,7 +1521,6 @@ void ui_create_main_window(video_canvas_t *canvas)
      * Do we start minimized?
      */
     if (resources_get_int("StartMinimized", &minimized) < 0) {
-        debug_gtk3("failed to get resource 'StartMinimized', ignoring.");
         minimized = 0;  /* fallback : not minimized */
     }
     if (minimized) {
@@ -1544,19 +1532,15 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_window_iconify(GTK_WINDOW(new_window));
     } else {
         /* my guess is a minimized/iconified window cannot be fullscreen */
-        if (resources_get_int("FullscreenEnable", &full) < 0) {
-            debug_gtk3("failed to get FullscreenEnabled resource.");
+        resources_get_int("FullscreenEnable", &full);
+        if (full) {
+            gtk_window_fullscreen(GTK_WINDOW(new_window));
         } else {
-            if (full) {
-                gtk_window_fullscreen(GTK_WINDOW(new_window));
-            } else {
-                gtk_window_unfullscreen(GTK_WINDOW(new_window));
-            }
+            gtk_window_unfullscreen(GTK_WINDOW(new_window));
         }
     }
 
     if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
-        debug_gtk3("Failed to get KbdStatusbar resource, defaulting to False.");
         kbd_status = 0;
     }
     kbd_widget = gtk_grid_get_child_at(GTK_GRID(status_bar), 0, 3);
@@ -1719,16 +1703,13 @@ int ui_init(int *argc, char **argv)
     settings_default = gtk_settings_get_default();
     g_object_set(settings_default, "gtk-menu-bar-accel", "F20", NULL);
 
-
     if (!uidata_init()) {
         log_error(LOG_ERR,
                 "failed to initialize GResource data, don't expect much"
                 " when it comes to icons, fonts or logos.");
     }
 
-    debug_gtk3("Registering CBM font.");
     if (!archdep_register_cbmfont()) {
-        debug_gtk3("failed, continuing");
         log_error(LOG_ERR, "failed to register CBM font.");
     }
 
@@ -2203,7 +2184,6 @@ void ui_enable_mixer_controls(int enabled)
 GtkWidget *ui_get_window_by_index(int index)
 {
     if (index < 0 || index >= NUM_WINDOWS) {
-        debug_gtk3("invalid window index %d.", index);
         return NULL;
     }
     return ui_resources.window_widget[index];
