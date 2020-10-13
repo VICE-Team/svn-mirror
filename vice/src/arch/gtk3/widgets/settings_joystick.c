@@ -475,10 +475,12 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
 
-    /* create adapter selection widget and enable/disable it */
-    adapter_widget = joystick_userport_adapter_widget_create();
-    resources_get_int("UserportJoy", &adapter_state);
-    gtk_widget_set_sensitive(adapter_widget, adapter_state ? TRUE : FALSE);
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        /* create adapter selection widget and enable/disable it */
+        adapter_widget = joystick_userport_adapter_widget_create();
+        resources_get_int("UserportJoy", &adapter_state);
+        gtk_widget_set_sensitive(adapter_widget, adapter_state ? TRUE : FALSE);
+    }
 
     /* create basic layout, depending on machine class */
     switch (machine_class) {
