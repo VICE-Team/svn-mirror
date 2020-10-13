@@ -540,9 +540,11 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
         rows++;
     }
 
-    userportjoy_widget = create_userportjoy_enable_checkbox();
-    g_object_set(userportjoy_widget, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 0, rows, 2, 1);
+    if (machine_class != VICE_MACHINE_CBM5x0) {
+        userportjoy_widget = create_userportjoy_enable_checkbox();
+        g_object_set(userportjoy_widget, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 0, rows, 2, 1);
+    }
 
     g_signal_connect_unlocked(layout, "destroy", G_CALLBACK(on_destroy), NULL);
     gtk_widget_show_all(layout);

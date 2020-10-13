@@ -449,7 +449,8 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
 
-    if (machine_class != VICE_MACHINE_C64DTV) {
+    if (machine_class != VICE_MACHINE_C64DTV
+            && machine_class != VICE_MACHINE_CBM5x0) {
         /* create adapter selection widget and enable/disable it */
         adapter_widget = joystick_userport_adapter_widget_create();
         resources_get_int("UserportJoy", &adapter_state);
