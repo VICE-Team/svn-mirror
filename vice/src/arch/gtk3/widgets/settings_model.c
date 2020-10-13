@@ -11,6 +11,7 @@
  * $VICERES Go64Mode            x128
  * $VICERES DtvRevision         x64dtv
  * $VICERES VICIINewLuminances  x64dtv
+ * $VICERES HummerADC           x64dtv
  *
  *  (for more, see used widgets)
  */

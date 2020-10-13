@@ -7,7 +7,6 @@
 /*
  * $VICERES IOCollisionHandling -vsid
  * $VICERES CartridgeReset      -vsid
- * $VICERES HummerADC           x64dtv
  */
 
 /*
