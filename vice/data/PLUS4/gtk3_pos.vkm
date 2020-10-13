@@ -97,7 +97,7 @@
 
 !CLEAR
 !LSHIFT 1 7
-!RSHIFT 1 7
+#!RSHIFT 1 7
 !VSHIFT LSHIFT
 !SHIFTL LSHIFT
 !LCBM 7 5
@@ -149,7 +149,7 @@ Left 6 0 8
 Return 0 1 8
 Right 6 3 8
 Shift_L 1 7 2
-Shift_R 1 7 4
+Shift_R 1 7 2
 Up 5 3 8
 
 # & = '
