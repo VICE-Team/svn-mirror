@@ -11,6 +11,8 @@
  * $VICERES JoyPort4Device  x64 x64sc xscpu64 x128 xcbm2 xpet xvice
  * $VICERES JoyPort5Device  xplus4
  * $VICERES BBRTCSave
+ * $VICERES ps2mouse            x64dtv
+ * $VICERES SmartMouseRTCSave   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0
  */
 
 /*
@@ -427,6 +429,8 @@ static int create_cbm6x0_layout(GtkGrid *grid)
 GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
+    GtkWidget *mouse_save;
+    GtkWidget *ps2_enable;
     int rows = 0;
 
     joyport_devices_list_init();
@@ -468,6 +472,36 @@ GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
     if (rows > 0) {
         GtkWidget *bbrtc_widget = create_bbrtc_widget();
         gtk_grid_attach(GTK_GRID(layout), bbrtc_widget, 0, rows, 2, 1);
+        rows++;
+    }
+
+    /* add SmartMouseRTCSave checkbox */
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_VIC20:    /* fall through */
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_CBM5x0:
+            mouse_save = vice_gtk3_resource_check_button_new(
+                    "SmartMouseRTCSave", "Enable SmartMouse RTC Saving");
+            gtk_grid_attach(GTK_GRID(layout), mouse_save, 0, rows, 2, 1);
+            g_object_set(mouse_save, "margin-left", 16, NULL);
+            rows++;
+            break;
+        default:
+            /* No SmartMouse support */
+            break;
+    }
+
+    /* PS/2 mouse on DTV */
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        ps2_enable = vice_gtk3_resource_check_button_new("ps2mouse",
+                "Enable PS/2 mouse on Userport");
+        gtk_grid_attach(GTK_GRID(layout), ps2_enable, 0, rows, 2, 1);
+        g_object_set(ps2_enable, "margin-left", 16, NULL);
+        rows++;
     }
 
     g_signal_connect_unlocked(layout, "destroy", G_CALLBACK(on_destroy), NULL);

@@ -84,7 +84,6 @@
 #include "settings_printer.h"
 #include "settings_controlport.h"
 #include "settings_joystick.h"
-#include "settings_mouse.h"
 #include "settings_soundchip.h"
 #include "settings_monitor.h"
 #include "settings_romset.h"
@@ -741,9 +740,6 @@ static ui_settings_tree_node_t input_nodes_c64[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -905,9 +901,6 @@ static ui_settings_tree_node_t input_nodes_c64dtv[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1047,9 +1040,6 @@ static ui_settings_tree_node_t input_nodes_c128[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1212,9 +1202,6 @@ static ui_settings_tree_node_t input_nodes_scpu64[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1366,9 +1353,6 @@ static ui_settings_tree_node_t input_nodes_vic20[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1513,9 +1497,6 @@ static ui_settings_tree_node_t input_nodes_plus4[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1664,9 +1645,6 @@ static ui_settings_tree_node_t input_nodes_pet[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1813,9 +1791,6 @@ static ui_settings_tree_node_t input_nodes_cbm5x0[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1950,9 +1925,6 @@ static ui_settings_tree_node_t input_nodes_cbm6x0[] = {
     { "Control port",
       "control-port",
       settings_controlport_widget_create, NULL },
-    { "Mouse",
-      "mouse",
-      settings_mouse_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };

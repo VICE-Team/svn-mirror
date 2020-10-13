@@ -146,7 +146,6 @@ libwidgets_a_SOURCES = \
 	settings_mixer.c \
 	settings_model.c \
 	settings_monitor.c \
-	settings_mouse.c \
 	settings_peripherals_generic.c \
 	settings_printer.c \
 	settings_ramreset.c \
@@ -305,7 +304,6 @@ EXTRA_DIST = \
 	settings_mixer.h \
 	settings_model.h \
 	settings_monitor.h \
-	settings_mouse.h \
 	settings_peripherals_generic.h \
 	settings_printer.h \
 	settings_ramreset.h \
