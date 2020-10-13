@@ -2,6 +2,7 @@
  * \brief   Model settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Groepaz <groepaz@gmx.de>
  */
 
 /*
@@ -588,11 +589,17 @@ static void c64dtv_hummer_adc_sync(void)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(c64dtv_hummer_adc_widget), hummeradc);
 }
 
-/* FIXME */
-static void c64dtv_hummer_adc_callback(GtkWidget *widget, int size)
+
+/** \brief  Update DTV widget on 'Hummer ADC' toggle
+ *
+ * \param[in]   widget  check button
+ * \param[in]   value   new value (bool)
+ */
+static void c64dtv_hummer_adc_callback(GtkWidget *widget, int value)
 {
     machine_model_widget_update(machine_widget);
 }
+
 
 /** \brief  Callback for DTV machine model changes
  *
@@ -1197,10 +1204,16 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), luma_widget, 0, 3, 2, 1);
 
     /* Hummer ADC widget */
-    c64dtv_hummer_adc_widget = vice_gtk3_resource_check_button_new("HummerADC", "Enable Hummer ADC");
-    /* FIXME */
-    /* vice_gtk3_resource_button_add_callback(c64dtv_hummer_adc_widget, c64dtv_hummer_adc_callback); */
-    g_object_set(c64dtv_hummer_adc_widget, "margin-left", 8, NULL);
+    c64dtv_hummer_adc_widget = vice_gtk3_resource_check_button_new(
+            "HummerADC",
+            "Enable Hummer ADC");
+    vice_gtk3_resource_check_button_add_callback(c64dtv_hummer_adc_widget,
+                                                 c64dtv_hummer_adc_callback);
+    g_object_set(
+            c64dtv_hummer_adc_widget,
+            "margin-left", 8,
+            "margin-top", 8,
+            NULL);
     gtk_grid_attach(GTK_GRID(grid), c64dtv_hummer_adc_widget, 0, 4, 2, 1);
 
     return grid;

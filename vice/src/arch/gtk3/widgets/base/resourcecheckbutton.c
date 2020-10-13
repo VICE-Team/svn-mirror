@@ -81,6 +81,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 {
     int state;
     const gchar *resource;
+    void (*callback)(GtkWidget *, int);
 
     resource = resource_widget_get_resource_name(check);
     if (resources_get_int(resource, &state) > 0) {
@@ -91,6 +92,12 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
     /* Whatever value the check button is now, use as the new resource value */
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)) ? 1 : 0;
     resources_set_int(resource, state);
+
+    /* call user callback if set */
+    callback = g_object_get_data(G_OBJECT(check), "ExtraCallback");
+    if (callback != NULL) {
+        callback(check, state);
+    }
 }
 
 
@@ -118,6 +125,9 @@ static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
     }
     /* remember original state for the reset() method */
     resource_widget_set_int(check, "ResourceOrig", state);
+
+    /* set extra callback to NULL */
+    g_object_set_data(G_OBJECT(check), "ExtraCallback", NULL);
 
     /* set auto-update to true */
     resource_widget_set_auto_update(check, TRUE);
@@ -354,3 +364,16 @@ void vice_gtk3_resource_check_button_disable_auto_update(GtkWidget *widget)
     resource_widget_set_auto_update(widget, FALSE);
 }
 
+
+/** \brief  Add user callback to resource checkbutton
+ *
+ * \param[in,out]   widget      resource checkbutton
+ * \param[in]       callback    function to call when the checkbutton state
+ *                              changes
+ */
+void vice_gtk3_resource_check_button_add_callback(
+        GtkWidget *widget,
+        void (*callback)(GtkWidget *, int))
+{
+    g_object_set_data(G_OBJECT(widget), "ExtraCallback", (gpointer)callback);
+}
