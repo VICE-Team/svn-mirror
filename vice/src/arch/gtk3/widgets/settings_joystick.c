@@ -155,8 +155,10 @@ static void on_swap_userport_joysticks_clicked(GtkWidget *button,
  */
 static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
 {
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-    gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
+    if (machine_class != VICE_MACHINE_C64DTV) {
+        int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+        gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
+    }
 }
 
 
