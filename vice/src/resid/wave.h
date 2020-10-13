@@ -503,7 +503,7 @@ void WaveformGenerator::set_waveform_output()
   else {
     // Age floating DAC input.
     if (likely(floating_output_ttl) && unlikely(!--floating_output_ttl)) {
-      waveform_output = 0;
+      osc3 = waveform_output = 0;
     }
   }
 
@@ -552,7 +552,7 @@ void WaveformGenerator::set_waveform_output(cycle_count delta_t)
       floating_output_ttl -= delta_t;
       if (unlikely(floating_output_ttl <= 0)) {
         floating_output_ttl = 0;
-        waveform_output = 0;
+        osc3 = waveform_output = 0;
       }
     }
   }
