@@ -153,7 +153,8 @@
 109 6 6 545            /*       altr+M -> pi (shift+arrow up) */
 56 5 5 545             /*       altr+8 -> [  (shift+:)        */
 57 6 2 545             /*       altr+9 -> ]  (shift+;)        */
-113 5 6 544            /*       altr+Q -> @                   */
+113 7 6 32             /*            Q -> Q            */
+113 5 6 544            /*       altr+Q -> @                   */ /* FIXME */
 60 3 5 545             /*       altr+< -> |  (shift+h)        */
 
 # key requires SHIFT on host, generates a key without shift but with CBM on emulated machine
@@ -187,7 +188,7 @@
 
 #9 7 2 8+16384  key is CTRL              /*          TAB -> Ctrl         */
 9 7 2 16392             /*          TAB -> Ctrl         */
-113 7 6 8              /*            Q -> Q            */
+#113 7 6 8              /*            Q -> Q            */
 119 1 1 8              /*            W -> W            */
 101 1 6 8              /*            E -> E            */
 114 2 1 8              /*            R -> R            */
