@@ -3435,9 +3435,9 @@ fi
 
 if test x"$is_win32" = "xyes"; then
   if test x"$enable_native_gtk3ui" = "xyes"; then
-    WINDRES_LIB="$ARCH_DIR/data/icon.res"
+    WINDRES_LIB="$ARCH_DIR/data/win32/icon.res"
   else
-    dnl SDL
+    dnl FIXME: SDL icon
     WINDRES_LIB="$ARCH_DIR/icon.res"
   fi
 else
