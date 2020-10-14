@@ -2624,7 +2624,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 int status = 0;
                 uint8_t c;
                 uint8_t name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
-                uint8_t cbm_name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
+                uint8_t cbm_name[IMAGE_CONTENTS_FILE_NAME_LEN + 1 + 2];
                 FILE *fd;
                 unsigned int len;
 
@@ -2639,11 +2639,27 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                     }
                 }
 
+                /* Hack to support SEQ/USR
+                 *
+                 * FIXME: not sure this is the proper way.
+                 */
+                if ((file_type & 7) == CBMDOS_FT_SEQ) {
+                    memcpy(cbm_name + len, ",S", 2);
+                    len +=2;
+                }
+                if ((file_type & 7) == CBMDOS_FT_USR) {
+                    memcpy(cbm_name + len, ",U", 2);
+                    len +=2;
+                }
+
+
                 charset_petconvstring((uint8_t *)name, 1);
 
                 /* translate illegal chars for the host OS to '_' */
                 archdep_sanitize_filename((char *)name);
-
+#if 0
+                printf("cbm_name = '%s', len = %u\n", cbm_name, len);
+#endif
                 if (vdrive_iec_open(floppy, cbm_name, len, 0, NULL)) {
                     fprintf(stderr,
                             "cannot open `%s' on unit %d\n",
