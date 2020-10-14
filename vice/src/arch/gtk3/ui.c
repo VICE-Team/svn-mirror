@@ -710,6 +710,7 @@ static GdkPixbuf *get_default_icon(void)
     char buffer[256];
 
     g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
+    debug_gtk3("Trying icon '%s'", buffer);
     return uidata_get_pixbuf(buffer);
 }
 
