@@ -702,15 +702,23 @@ static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
 
 /** \brief  Create an icon by loading it from the vice.gresource file
  *
- * \return  Standard C= icon ripped from the internet (but at least scalable)
- *          Which of course looks weird on Windows for some reason, *sigh*.
+ * \return  App icon for the current machine
+ *
+ * \todo    Refactor to use arch/shared/archdep_icon_path.c
  */
 static GdkPixbuf *get_default_icon(void)
 {
     char buffer[256];
 
-    g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
-    debug_gtk3("Trying icon '%s'", buffer);
+
+    /* machine_name for VSID is 'C64' to be able to load ROMs from data/C64 */
+    if (machine_class == VICE_MACHINE_VSID) {
+        strncpy(buffer, "SID.svg", sizeof(buffer) - 1);
+        buffer[sizeof(buffer) - 1] = '\0';
+    } else {
+        g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
+        debug_gtk3("Trying icon '%s'", buffer);
+    }
     return uidata_get_pixbuf(buffer);
 }
 
