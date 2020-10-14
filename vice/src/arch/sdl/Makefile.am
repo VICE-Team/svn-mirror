@@ -5,8 +5,8 @@ sdldatadir = $(VICE_DATADIR)/common
 if WIN32_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
 # Icon (perhaps move to shared or common, since we share the icon.rc with gtk3?
-WINDRES_RC_TARGET = $(top_srcdir)/src/arch/gtk3/data/icon.rc
-WINDRES_COFF = $(top_builddir)/src/arch/sdl/icon.res
+WINDRES_ICON_RC = $(top_srcdir)/src/arch/gtk3/data/win32/icon.rc
+WINDRES_ICON = $(top_builddir)/src/arch/sdl/icon.res
 else
 extra_includes =
 endif
@@ -230,11 +230,11 @@ EXTRA_DIST = \
 
 if WIN32_COMPILE
 
-sdldata_DATA = $(WINDRES_COFF)
+sdldata_DATA = $(WINDRES_ICON)
 
-all: $(WINDRESS_COFF)
+all: $(WINDRES_ICON)
 
-$(WINDRES_COFF): $(WINDRES_RC_TARGET)
+$(WINDRES_ICON): $(WINDRES_ICON_RC)
 	$(WINDRES) $< -O coff -o $@ -I$(top_srcdir)/data/common
 
 endif
