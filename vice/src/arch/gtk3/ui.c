@@ -1551,9 +1551,20 @@ void ui_create_main_window(video_canvas_t *canvas)
         }
     }
 
-    if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
+
+    /* VSID doesn't have the keyboard debugging widget on the statusbar
+     *
+     * But it's still added, so disable always. Probably a big FIXME
+     */
+    if (machine_class != VICE_MACHINE_VSID) {
+
+        if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
+            kbd_status = 0;
+        }
+    } else {
         kbd_status = 0;
     }
+
     kbd_widget = gtk_grid_get_child_at(GTK_GRID(status_bar), 0, 3);
 
     if (kbd_status) {
