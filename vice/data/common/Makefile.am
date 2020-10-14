@@ -56,3 +56,24 @@ common_DATA = CBM_Logo.svg \
 
 
 EXTRA_DIST = $(common_DATA)
+
+
+if NATIVE_GTK3_COMPILE
+
+# Generate gresource binary file, required by all Gtk3 emus
+GRESOURCE_TARGET = $(builddir)/vice.gresource
+GRESOURCE_XML = $(srcdir)/vice.gresource.xml
+
+$(GRESOURCE_TARGET): $(GRESOURCE_XML)
+	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
+
+commondatadir = $(VICE_DATADIR)/common
+commondata_DATA = $(GRESOURCE_TARGET)
+
+
+CLEANFILES = \
+	$(GRESOURCE_TARGET)
+
+EXTRA_DIST += $(GRESOURCE_XML)
+
+endif
