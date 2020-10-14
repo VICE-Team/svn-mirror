@@ -710,10 +710,8 @@ char *lib_mvsprintf(const char *fmt, va_list ap)
         return NULL;
     }
 
-    va_copy(args, ap);
     /* At this point, this call should never fail */
     vsnprintf(p, maxlen + 1, fmt, ap);
-    va_end(args);
 
     return p;
 }
