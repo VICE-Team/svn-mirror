@@ -1345,7 +1345,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     GtkWidget *kbd_widget;
     int kbd_status = 0;
-    int mouse_grab;
+    int mouse_grab = 0;
 
     GdkPixbuf *icon;
 
@@ -1360,7 +1360,9 @@ void ui_create_main_window(video_canvas_t *canvas)
     int full = 0;
     int restore;
 
-    resources_get_int("Mouse", &mouse_grab);
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_get_int("Mouse", &mouse_grab);
+    }
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
