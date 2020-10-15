@@ -224,7 +224,7 @@ cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 $BUILDPATH
 rm -f `find $BUILDPATH -name "Makefile*"`
 rm -f `find $BUILDPATH -name "sdl_*"`
 mkdir $BUILDPATH/common
-cp $TOPBUILDDIR/src/arch/gtk3/data/vice.gresource $BUILDPATH/common
+cp $TOPBUILDDIR/data/common/vice.gresource $BUILDPATH/common
 cp $TOPSRCDIR/data/common/C64_Pro_Mono-STYLE.ttf $BUILDPATH/common
 
 if test x"$HTML_DOCS" = "xyes"; then
