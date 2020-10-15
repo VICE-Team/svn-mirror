@@ -75,6 +75,8 @@ static int tapecart_loglevel      = 0;
 
 /* ------------------------------------------------------------------------- */
 
+#undef max
+#undef min
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
