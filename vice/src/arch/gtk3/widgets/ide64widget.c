@@ -143,7 +143,7 @@ static void browse_filename_callback(GtkDialog *dialog,
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     const char *filter_list[] = {
-        "*.hdd", "*.iso", "*.fdd", "*.cfa", NULL
+        "*.hdd", "*.iso", "*.fdd", "*.cfa", "*.dsk", "*.img", NULL
     };
 
     vice_gtk3_open_file_dialog(
