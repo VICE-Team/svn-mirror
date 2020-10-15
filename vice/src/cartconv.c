@@ -201,6 +201,7 @@ static const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_128KB, 0x4000, 0x8000, 8, 0, CARTRIDGE_NAME_SDBOX, "sdbox", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_1024KB, 0x4000, 0x8000, 64, 0, CARTRIDGE_NAME_MULTIMAX, "mm", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 0, 0, CARTRIDGE_NAME_BLACKBOX9, "bb9", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_LT_KERNAL, "ltk", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

@@ -104,6 +104,7 @@
 #include "isepic.h"
 #include "kcs.h"
 #include "kingsoft.h"
+#include "ltkernal.h"
 #include "mach5.h"
 #include "machine.h"
 #include "magicdesk.h"
@@ -332,6 +333,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartks", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_KINGSOFT, NULL, NULL,
       "<Name>", "Attach raw 24KiB Kingsoft cartridge image" },
+    { "-cartltk", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_LT_KERNAL, NULL, NULL,
+      "<Name>", "Attach raw 8kB Lt. Kernal boot image" },
     { "-cartmach5", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_MACH5, NULL, NULL,
       "<Name>", "Attach raw 8KiB MACH 5 cartridge image" },
@@ -474,6 +478,7 @@ int cart_cmdline_options_init(void)
         || gmod2_cmdline_options_init() < 0
         || gmod3_cmdline_options_init() < 0
         || ide64_cmdline_options_init() < 0
+        || ltkernal_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
 #ifdef HAVE_RAWNET
@@ -534,6 +539,7 @@ int cart_resources_init(void)
         || gmod2_resources_init() < 0
         || gmod3_resources_init() < 0
         || ide64_resources_init() < 0
+        || ltkernal_resources_init() < 0
         || mmcreplay_resources_init() < 0
         || retroreplay_resources_init() < 0
 #ifdef HAVE_RAWNET
@@ -581,6 +587,7 @@ void cart_resources_shutdown(void)
     gmod2_resources_shutdown();
     gmod3_resources_shutdown();
     ide64_resources_shutdown();
+    ltkernal_resources_shutdown();
     mmcreplay_resources_shutdown();
     retroreplay_resources_shutdown();
 #ifdef HAVE_RAWNET
@@ -609,9 +616,9 @@ int cart_is_slotmain(int type)
 {
     switch (type) {
         /* slot 0 */
-        case CARTRIDGE_MMC64:
-        case CARTRIDGE_MAGIC_VOICE:
         case CARTRIDGE_IEEE488:
+        case CARTRIDGE_MAGIC_VOICE:
+        case CARTRIDGE_MMC64:
         /* slot 1 */
         case CARTRIDGE_DQBB:
         case CARTRIDGE_EXPERT:
@@ -904,6 +911,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return kcs_bin_attach(filename, rawcart);
         case CARTRIDGE_KINGSOFT:
             return kingsoft_bin_attach(filename, rawcart);
+        case CARTRIDGE_LT_KERNAL:
+            return ltkernal_bin_attach(filename, rawcart);
         case CARTRIDGE_MACH5:
             return mach5_bin_attach(filename, rawcart);
         case CARTRIDGE_MAGIC_DESK:
@@ -1124,6 +1133,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_KINGSOFT:
             kingsoft_config_setup(rawcart);
+            break;
+        case CARTRIDGE_LT_KERNAL:
+            ltkernal_config_setup(rawcart);
             break;
         case CARTRIDGE_MACH5:
             mach5_config_setup(rawcart);
@@ -1678,6 +1690,9 @@ void cart_detach(int type)
         case CARTRIDGE_KINGSOFT:
             kingsoft_detach();
             break;
+        case CARTRIDGE_LT_KERNAL:
+            ltkernal_detach();
+            break;
         case CARTRIDGE_MACH5:
             mach5_detach();
             break;
@@ -1849,9 +1864,6 @@ void cartridge_init_config(void)
 {
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_STARDOS:
-            stardos_config_init();
-            break;
         case CARTRIDGE_ACTION_REPLAY:
             actionreplay_config_init();
             break;
@@ -1963,6 +1975,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_KINGSOFT:
             kingsoft_config_init();
             break;
+        case CARTRIDGE_LT_KERNAL:
+            ltkernal_config_init();
+            break;
         case CARTRIDGE_MACH5:
             mach5_config_init();
             break;
@@ -2027,6 +2042,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_config_init();
+            break;
+        case CARTRIDGE_STARDOS:
+            stardos_config_init();
             break;
         case CARTRIDGE_STRUCTURED_BASIC:
             stb_config_init();
@@ -2289,6 +2307,9 @@ static void cart_freeze(int type)
         case CARTRIDGE_KCS_POWER:
             kcs_freeze();
             break;
+        case CARTRIDGE_LT_KERNAL:
+            ltkernal_freeze();
+            break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_freeze();
             break;
@@ -2355,6 +2376,7 @@ int cart_freeze_allowed(void)
         case CARTRIDGE_FREEZE_MACHINE:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
             return 1;
         case CARTRIDGE_MMC_REPLAY:
@@ -2759,8 +2781,8 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            case CARTRIDGE_MMC64:
-                if (mmc64_snapshot_write_module(s) < 0) {
+            case CARTRIDGE_IEEE488:
+                if (tpi_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -2769,8 +2791,8 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            case CARTRIDGE_IEEE488:
-                if (tpi_snapshot_write_module(s) < 0) {
+            case CARTRIDGE_MMC64:
+                if (mmc64_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -2972,6 +2994,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_KINGSOFT:
                 if (kingsoft_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_LT_KERNAL:
+                if (ltkernal_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -3300,8 +3327,8 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     goto fail2;
                 }
                 break;
-            case CARTRIDGE_MMC64:
-                if (mmc64_snapshot_read_module(s) < 0) {
+            case CARTRIDGE_IEEE488:
+                if (tpi_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;
@@ -3310,8 +3337,8 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     goto fail2;
                 }
                 break;
-            case CARTRIDGE_IEEE488:
-                if (tpi_snapshot_read_module(s) < 0) {
+            case CARTRIDGE_MMC64:
+                if (mmc64_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;
@@ -3513,6 +3540,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_KINGSOFT:
                 if (kingsoft_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_LT_KERNAL:
+                if (ltkernal_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

@@ -78,6 +78,7 @@
 #include "isepic.h"
 #include "kcs.h"
 #include "kingsoft.h"
+#include "ltkernal.h"
 #include "mach5.h"
 #include "magicdesk.h"
 #include "magicformel.h"
@@ -508,6 +509,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_KINGSOFT:
             rc = kingsoft_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_LT_KERNAL:
+            rc = ltkernal_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_MACH5:
             rc = mach5_crt_attach(fd, rawcart);

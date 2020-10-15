@@ -32,6 +32,8 @@ libcore_a_SOURCES = \
 	riotcore.c \
 	ser-eeprom.c \
 	ser-eeprom.h \
+	scsi.c \
+	scsi.h \
 	spi-flash.c \
 	spi-flash.h \
 	spi-sdcard.c \

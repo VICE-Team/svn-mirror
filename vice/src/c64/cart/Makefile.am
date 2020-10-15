@@ -128,6 +128,8 @@ libc64cart_a_SOURCES = \
 	kcs.h \
 	kingsoft.c \
 	kingsoft.h \
+	ltkernal.c \
+	ltkernal.h \
 	mach5.c \
 	mach5.h \
 	magicdesk.c \

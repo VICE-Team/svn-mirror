@@ -6402,6 +6402,8 @@ IDE64 (@uref{http://www.ide64.org})
 @item
 KCS Power Cartridge
 @item
+Lt. Kernal Host Adaptor
+@item
 MACH 5
 @item
 Magic Desk
@@ -6745,6 +6747,8 @@ The following cartridge types are valid:
 70: MultiMAX
 @item
 71: Blackbox V9
+@item
+72: Lt. Kernal Host Adaptor
 @end itemize
 
 @vindex CartridgeFile
@@ -6927,6 +6931,41 @@ Boolean specifying the status of the ISEPIC switch.
 @item IsepicImageWrite
 Boolean, if true write back the ISEPIC image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
+
+@vindex LTKimage0
+@vindex LTKimage1
+@vindex LTKimage2
+@vindex LTKimage3
+@vindex LTKimage4
+@vindex LTKimage5
+@vindex LTKimage6
+@item LTKimage0
+@itemx LTKimage1
+@itemx LTKimage2
+@itemx LTKimage3
+@itemx LTKimage4
+@itemx LTKimage5
+@itemx LTKimage6
+Strings specifying the full path to up to seven harddisk images. If a file is 
+non-existing the drive is not emulated. The first drive is necessary.
+
+@vindex LTKio
+@item LTKio
+Integer specifying the Base address of the I/O interface. (1: $de00, 2: $df00) 
+Default is $df00.
+
+@vindex LTKport
+@item LTKport
+Integer specifying the port number in multiplexed multi-computer/single-disk 
+configurations. (0 to 15) Default is 0, the master.
+
+@vindex LTKserial
+@item LTKserial
+String specifying the serial number. It must be in the form "00000000" with all 
+numeric digits. Default is 87000000. LTK DOS install disks are locked to their 
+respective LTK host adapor boot ROM. This setting will override the boot ROM 
+value.  The floppy disk serial number can be changed with a sector editor on 
+track 18, sector 18.
 
 @vindex MagicVoiceCartridgeEnabled
 @item MagicVoiceCartridgeEnabled
@@ -7489,6 +7528,47 @@ Attach raw 16KiB KCS Power cartridge image.
 @findex -cartks
 @item -cartks <name>
 Attach raw 24KiB Kingsoft cartridge image.
+
+@findex -cartltk
+@item -cartltk <name>
+Attach raw Lt. Kernal Host Adaptor cartridge image.
+
+@findex -ltkimage0
+@item -ltkimage0 <name>
+@findex -ltkimage1
+@item -ltkimage1 <name>
+@findex -ltkimage2
+@item -ltkimage2 <name>
+@findex -ltkimage3
+@item -ltkimage3 <name>
+@findex -ltkimage4
+@item -ltkimage4 <name>
+@findex -ltkimage5
+@item -ltkimage5 <name>
+@findex -ltkimage6
+@item -ltkimage6 <name>
+Strings specifying the full path to up to seven harddisk images. If a file is 
+non-existing the drive is not emulated. The first drive is necessary.
+(@code{ltkimage0}, @code{ltkimage1}, @code{ltkimage2}, @code{ltkimage3}, 
+@code{ltkimage4}, @code{ltkimage5}, @code{ltkimage6}).
+
+@findex -ltkio
+@item -ltkio <value>
+Integer specifying the Base address of the I/O interface. (1: $de00, 2: $df00) 
+Default is $df00.
+
+@findex -ltkport
+@item -ltkport <value>
+Integer specifying the port number in multiplexed multi-computer/single-disk 
+configurations. (0..15) Default is 0, the master.
+
+@findex -ltkserial
+@item -ltkserial <name>
+String specifying the serial number. It must be in the form "00000000" with all 
+numeric digits. Default is 87000000. LTK DOS install disks are locked to their 
+respective LTK host adapor boot ROM. This setting will override the boot ROM 
+value.  The floppy disk serial number can be changed with a sector editor on 
+track 18, sector 18.
 
 @findex -cartmach5
 @item -cartmach5 <name>
@@ -18088,6 +18168,8 @@ IEEE-488 Interface .crt file
 KCS Power Cartridge .crt file
 @item ks
 Kingsoft .crt file
+@item ltk
+Lt. Kernal Host Adaptor .crt file
 @item mach5
 MACH 5 .crt file
 @item md
@@ -23937,6 +24019,7 @@ Camels"@dots{}
                       69 - SD-BOX
                       70 - MultiMAX
                       71 - Blackbox V9
+                      72 - Lt. Kernal Host Adaptor
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -27552,6 +27635,136 @@ a mirror of the second last ROM page.
     bit 7   -   bank    (inverted on write)
     bit 6   -   exrom
     bit 0   -   game
+@end example
+
+@c @node FIXME
+@subsubsection 72 - Lt. Kernal Host Adaptor
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8KiB ROM, 16KiB RAM
+@item EXROM
+@tab active (lo) (0) Initially
+@item GAME
+@tab inactive (hi) (1) Initially
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 48 00 01 00 00 00 00 00 00  ...@@...'.......
+0020: 4c 54 2e 20 4b 45 52 4e 41 4c 20 48 4f 53 54 20  LT. KERNAL HOST 
+0030: 41 44 41 50 54 4f 52 20 36 2e 32 20 52 4f 4d 00  ADAPTOR 6.2 ROM.
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. @....@. .
+0050: 14 80 14 80 c3 c2 cd 38 30 00 38 37 30 30 30 30  .......80.......
+
+@end example
+
+The Lt. Kernal Host Adaptor (SCSI ID 7) looks on sector 0 of drive 0 (ID 0) 
+to find the partition (LU or logical unit) information and DOS. The DOS 
+(official latest 7.2) is limited by the original cylinder/head/sector (CHS) 
+addressing schemes of legacy hard disks, but it doesn't use that when 
+accessing them; it uses the modern logical block address, although this may 
+have not been the case in the original version. The CHS is used when 
+configuring its filing system for each LU. You should never have a disk 
+configured with more than 15 heads or have the product of the heads and 
+sectors that exceeds 255 as it will cause data corruption. The DOS also 
+cannot access an LU which starts beyond cylinder 1023. The solution to this, 
+at the time, was to use more than one disk. This emulation supports up to 7 
+drives. The Lt. Kernal sold in 20 MB and 40 MB versions, so these issues 
+were never addressed officially. The DOS install disks are keyed to the host 
+adaptors and hard disks (see LTKserial), so any additions or modifications 
+were done by the company, Xetec, and sent to the customer on new install 
+disks. Unofficially, to use a larger disk, the information on track 18, 
+sector 18 of the first install disk needs to be modified; LTKEDIT2 is a tool 
+which does this. Be warned it does not check for invalid information. Some 
+of the configurations LTKEDIT2 offers will cause data corruption as the CHS 
+combinations are too high. An easy and quick way to check this is to 
+VALIDATE a new LU after ACTIVATING it.
+
+The Lt. Kernal Host Adaptor uses the following registers:
+
+@example
+    $DF00    = MC6821 Port A: Data and DDR
+    $DF01    = MC6821 Port A: Control
+    $DF02    = MC6821 Port B: Data and DDR
+    $DF03    = MC6821 Port B: Control
+    $DF04..7 = LTK Port and Freeze state
+@end example
+
+MC6821 Port A connects to the SCSI data bus (inverted). Data is saved to hard 
+disk inverted to save data processing time. The adaptor doesn't use a proper 
+open-collector driver for the databus, rather a 74LS245 tri-state buffer (that 
+drives high signals rather than the line termination) controlled by the SCSI IO 
+line. The SCSI data bus is terminated by drive 0, while the SCSI RST, SEL, ACK, 
+and ATN signals are pulled up on the adaptor, therefore terminated there. SCSI 
+signals RST, SEL, and ACK are driven by proper open-collectors on the adaptor. 
+The DB25 connector on the adaptor is NOT a standard SCSI DB25. Connecting 
+anything other than an official Lt. Kernal drive will likely cause damage to 
+the host adaptor.
+
+@example
+ signal  meaning
+ ------  -------
+ PA 7-0  /Data bus on SCSI (input/output)
+ CA2     Pulses SCSI ACK (low to high)
+@end example
+
+MC6821 Port B connects to mostly the SCSI control bus. PB2.6 controls write 
+access to 16KiB SRAM. When low (0), no writes are permitted, when high (1) 
+writes are permitted to $8000-$9FFF AND $E000-$FFFF. Initially, this signal is 
+low, which keeps the boot ROM mapped to $8000-$9FFF (lower 4KiB for the C64, 
+upper 4KiB for the C128). Once a high (1) is written, the boot ROM is mapped 
+out permanently until a reset. CB2 controls which KERNAL is in place. A high 
+(1) uses the stock KERNAL while a low (0) maps in one of the 8K RAMs as the 
+KERNAL. The other RAM at $8000-$9FFF memory is ONLY mapped in when PB2.6 is 
+high (1). The HIRAM line from the PLA goes to the adaptor so it can determine 
+the proper write action to the main RAM or adaptor RAM. Writing a high (1) to 
+CB2 while PB2.6 is low (0) causes a system reset. The stock KERNAL is copied and 
+then patched by the LTK DOS on startup.
+The LTK DOS (located at the beginning of the hard drive) is constantly loading 
+in different modules depending on the actions taken. For example, a call to the 
+kernal open function will result in the "open" code to be loaded off the hard 
+disk into the $8000-$9FFF area. This can result in a lot of hard disk "
+thrashing" depending on the distance of current LU and the DOS. The LTK offers 
+the ability to create a "DOS image" (a copy of the DOS, but in a single file) 
+in each LU to reduce the hard disk seek times when accessing different parts of 
+LU and the DOS. This feature shouldn't be required in emulation as the speed of 
+the hard disk access is essentially instantaneous on modern hardware. Other 
+utilities such as DIR, and VALIDATE, load into $C000-CFFF. Prior to this, the 
+LTK saves those contents of memory into a reserved space in the DOS and restores 
+them once the utility has terminated. This may cause some compatibility problems 
+if you have interrupt or service vectors which point to that area.
+
+@example
+ signal  meaning
+ ------  -------
+ PB 7    /REQ on SCSI (input)
+ PB 6    SRAM control
+ PB 5    RST on SCSI (output)
+ PB 4    SEL on SCSI (output)
+ PB 3    /BUSY on SCSI (input)
+ PB 2    /CD on SCSI (input)
+ PB 1    /MSG on SCSI (input)
+ PB 0    /IO on SCSI (input)
+ CB2     KERNAL control
+@end example
+
+$DF04 - $DF07:
+
+The LTK Port can be between 0 and 15. Only adaptors set to port 0 are allowed 
+to change the host configuration. Any writes to this register while PB2.6 and 
+CA2 are high (1), will result in the Lt. Kernal Host Adaptor being removed from 
+the bus until a reset, essentially reconfiguring to a stock system.
+
+@example
+    bit  meaning
+    ---  -------
+    3-0  LTK port number (input)
+    4    Freeze state (0: active, 1: inactive)
 @end example
 
 @c @node FIXME
