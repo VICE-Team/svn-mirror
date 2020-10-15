@@ -230,6 +230,8 @@ from the bus until a reset, essentially reconfiguring to a stock system.
 /* largest supported HD in LTK */
 #define ltk_imagesize  (32 * 1024 * 1024 * 10)
 
+static int ltk_inserted = 0;
+
 static uint8_t ltk_rom;
 static uint8_t ltk_raml;
 static uint8_t ltk_ramh;
@@ -339,12 +341,13 @@ static int set_io(int io, void *param)
         return -1;
     }
 
-    ltkernal_unregisterio();
-
     ltk_io = io;
 
-    if (ltkernal_registerio()) {
-        return -1;
+    if (ltk_inserted) {
+        ltkernal_unregisterio();
+        if (ltkernal_registerio()) {
+            return -1;
+        }
     }
 
     LOG1((LOG, "LTK IO = %d ($%02xxx)", io,
@@ -1011,7 +1014,11 @@ static int ltkernal_common_attach(void)
     ltk_scsi.max_imagesize = ltk_imagesize;
     ltk_scsi.msg_after_status = 1;
 
-    return ltkernal_registerio();
+    if (ltkernal_registerio() < 0) {
+        return -1;
+    }
+    ltk_inserted = 1;
+    return 0;
 }
 
 int ltkernal_crt_attach(FILE *fd, uint8_t *rawcart)
@@ -1055,6 +1062,7 @@ void ltkernal_detach(void)
     scsi_image_detach_all(&ltk_scsi);
 
     ltkernal_unregisterio();
+    ltk_inserted = 0;
 }
 
 /* ---------------------------------------------------------------------*/
