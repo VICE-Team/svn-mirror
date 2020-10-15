@@ -111,6 +111,7 @@
 #include "mmc64widget.h"
 #include "ide64widget.h"
 #include "retroreplaywidget.h"
+#include "ltkernalwidget.h"
 
 #ifdef HAVE_RAWNET
 # include "ethernetcartwidget.h"
@@ -280,6 +281,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "IDE64",
       "ide64",
       ide64_widget_create, NULL },
+    { "Lt. Kernal Host Adapter",
+      "ltkernal",
+      ltkernal_widget_create, NULL },
     { "MMC64",
       "mmc64",
       mmc64_widget_create, NULL },
@@ -446,6 +450,9 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "IDE64",
       "ide64",
       ide64_widget_create, NULL },
+    { "Lt. Kernal Host Adapter",
+      "ltkernal",
+      ltkernal_widget_create, NULL },
     { "MMC64",
       "mmc64",
       mmc64_widget_create, NULL },

@@ -95,6 +95,7 @@ libwidgets_a_SOURCES = \
 	kbdmappingwidget.c \
 	kernalrevisionwidget.c \
 	keysetdialog.c \
+	ltkernalwidget.c \
 	machinemodelwidget.c \
 	magicvoicewidget.c \
 	megacartwidget.c \
@@ -253,6 +254,7 @@ EXTRA_DIST = \
 	kbdmappingwidget.h \
 	kernalrevisionwidget.h \
 	keysetdialog.h \
+	ltkernalwidget.h \
 	machinemodelwidget.h \
 	magicvoicewidget.h \
 	megacartwidget.h \

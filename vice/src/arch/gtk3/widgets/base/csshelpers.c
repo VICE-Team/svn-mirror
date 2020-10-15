@@ -92,6 +92,32 @@ gboolean vice_gtk3_css_provider_add(GtkWidget *widget,
 }
 
 
+/** \brief  Remove \a provider from \a widget
+ *
+ * \param[in,out]   widget      gtk widget
+ * \param[in]       provider    gtk css provider to remove
+ *
+ * \return  gboolean
+ */
+gboolean vice_gtk3_css_provider_remove(GtkWidget *widget,
+                                       GtkCssProvider *provider)
+{
+    GtkStyleContext *context;
+
+    /* try to get style context */
+    context = gtk_widget_get_style_context(widget);
+    if (context == NULL) {
+        log_error(LOG_ERR, "Couldn't get style context of widget");
+        /* don't free the context, it's owned by the widget */
+        return FALSE;
+    }
+
+    gtk_style_context_remove_provider(context, GTK_STYLE_PROVIDER(provider));
+    return TRUE;
+}
+
+
+
 /** \brief  Add CSS string \a css to \a widget
  *
  * Only use this when adding CSS to a single widget, if you need to add the

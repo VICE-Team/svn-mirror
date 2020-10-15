@@ -1,7 +1,6 @@
-/** \file   csshelpers.h
- *  \brief  Helper/wrapper functions for using CSS in Gtk3 code - header
- *
- *  \author Bas Wassink <b.wassink@ziggo.nl>
+/** \file   ltkernalwidget.h
+ * \brief   Widget to control Lt. Kernal resources - header
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -25,16 +24,11 @@
  *
  */
 
-#ifndef VICE_CSSHELPERS_H
-#define VICE_CSSHELPERS_H
+#ifndef VICE_LTKERNALWIDGET_H
+#define VICE_LTKERNALWIDGET_H
 
 #include <gtk/gtk.h>
 
-GtkCssProvider *vice_gtk3_css_provider_new(const char *css);
-gboolean        vice_gtk3_css_provider_add(GtkWidget *widget,
-                                           GtkCssProvider *provider);
-gboolean        vice_gtk3_css_provider_remove(GtkWidget *widget,
-                                              GtkCssProvider *provider);
-gboolean        vice_gtk3_css_add(GtkWidget *widget, const char *css);
+GtkWidget *ltkernal_widget_create(GtkWidget *parent);
 
 #endif
