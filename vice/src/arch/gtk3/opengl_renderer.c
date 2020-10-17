@@ -350,10 +350,10 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
     
     ui_update_statusbars();
 
+    CANVAS_LOCK();
+
     /* TODO we really shouldn't be setting this every frame! */
     gtk_widget_set_size_request(canvas->event_box, context->native_view_min_width, context->native_view_min_height);
-
-    CANVAS_LOCK();
 
     /*
      * Sometimes the OS wants to redraw part of the window. Haven't been able to
