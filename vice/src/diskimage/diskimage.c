@@ -333,6 +333,7 @@ unsigned int disk_image_header_gap_size(unsigned int format, unsigned int track)
 /*-----------------------------------------------------------------------*/
 /* length of a SYNC */
 
+/* FIXME: the value of 5 bytes for sync is also hardcoded in gcr.c */
 unsigned int disk_image_sync_size(unsigned int format, unsigned int track)
 {
     switch (format) {

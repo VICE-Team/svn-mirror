@@ -235,7 +235,7 @@ int fsimage_read_dxx_image(const disk_image_t *image)
                     gcr_convert_sector_to_GCR(buffer, ptr, &header, headergap, synclen, rf);
                 }
 
-                ptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + synclen;
+                ptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + (synclen * 2);
             }
 
             ptr = image->gcr->tracks[half_track].data;

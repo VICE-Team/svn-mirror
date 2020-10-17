@@ -292,7 +292,7 @@ static int fsimage_create_gcr(disk_image_t *image)
             DBG(("%d ", sector));
             header.sector = sector;
             gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, headergap, synclen, CBMDOS_FDC_ERR_OK);
-            gcrptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + synclen;
+            gcrptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + (synclen * 2);
         }
         DBG(("(gap: %d)\n", gap));
         if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, fsimage->fd) < 1) {
@@ -344,7 +344,7 @@ static int fsimage_create_p64(disk_image_t *image)
             header.sector = sector;
             gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, headergap, synclen, CBMDOS_FDC_ERR_OK);
 
-            gcrptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + synclen;
+            gcrptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + (synclen * 2);
         }
         P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[0][track << 1], (void*)&gcr_track[0], disk_image_raw_track_size(image->type, track) << 3);
     }
