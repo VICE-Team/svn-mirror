@@ -145,6 +145,18 @@ unsigned int fileio_seek(fileio_info_t *info, off_t offset, int whence)
     return 0;
 }
 
+unsigned int fileio_tell(fileio_info_t *info)
+{
+    switch (info->format) {
+        case FILEIO_FORMAT_RAW:
+            return cbmfile_tell(info);
+        case FILEIO_FORMAT_P00:
+            return p00_tell(info);
+    }
+
+    return 0;
+}
+
 unsigned int fileio_ferror(fileio_info_t *info)
 {
     switch (info->format) {

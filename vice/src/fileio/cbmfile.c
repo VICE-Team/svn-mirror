@@ -197,3 +197,8 @@ unsigned int cbmfile_seek(struct fileio_info_s *info, off_t offset, int whence)
 {
     return rawfile_seek(info->rawfile, offset, whence);
 }
+
+unsigned int cbmfile_tell(struct fileio_info_s *info)
+{
+    return rawfile_tell(info->rawfile);
+}

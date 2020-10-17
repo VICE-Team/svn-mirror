@@ -152,11 +152,6 @@ unsigned int rawfile_write(rawfile_info_t *info, uint8_t *buf, unsigned int len)
     return -1;
 }
 
-int rawfile_seek_set(rawfile_info_t *info, int offset)
-{
-    return fseek(info->fd, offset, SEEK_SET);
-}
-
 unsigned int rawfile_get_bytes_left(struct rawfile_info_s *info)
 {
     /* this is fucked */
@@ -171,6 +166,11 @@ unsigned int rawfile_get_bytes_left(struct rawfile_info_s *info)
 unsigned int rawfile_seek(struct rawfile_info_s *info, off_t offset, int whence)
 {
     return fseek(info->fd, offset, whence);
+}
+
+unsigned int rawfile_tell(struct rawfile_info_s *info)
+{
+    return ftell(info->fd);
 }
 
 unsigned int rawfile_ferror(rawfile_info_t *info)

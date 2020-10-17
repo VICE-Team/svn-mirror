@@ -196,16 +196,17 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
                                     int record, int pos)
 {
     int rec_len = bufinfo->reclen;
+    int fserror = CBMDOS_IPE_OK;
 
     DBG(("fsdevice_relative_switch_record: rec_len=%d %d.%d",
             rec_len, record, pos));
 
     if (rec_len == 0) {
         fsdevice_error(vdrive, CBMDOS_IPE_NO_RECORD);
-        return CBMDOS_IPE_NO_CHANNEL;
+        return SERIAL_ERROR
     } else if (pos >= rec_len) {
         fsdevice_error(vdrive, CBMDOS_IPE_OVERFLOW);
-        return CBMDOS_IPE_OVERFLOW;
+        return SERIAL_ERROR
     }
 
     /*
@@ -235,16 +236,19 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
     bufinfo->isbuffered = 0;
 
     if (record >= bufinfo->num_records) {
-        uint8_t filler = 0xFF;
-
-        bufinfo->num_records = record + 1;
-        fileio_write(bufinfo->fileio_info, &filler, 1);
-
-        fileio_seek(bufinfo->fileio_info, file_off, SEEK_SET);
+        /*
+         * Don't actually extend the file yet.
+         * That happens when the user writes a byte.
+         */
 
         if (record > 0) {
-            fsdevice_error(vdrive, CBMDOS_IPE_NO_RECORD);
+            fserror = CBMDOS_IPE_NO_RECORD;
+            bufinfo->current_record_length = 0;
         }
+
+        /*
+         * What error should we give if ALSO pos > 0?
+         */
     }
 
     bufinfo->current_record = record;
@@ -256,7 +260,7 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
      * Just wastefully read the whole thing byte by byte,
      * and remember where the last non-00 byte is.
      */
-    {
+    if (fserror == CBMDOS_IPE_OK) {
         int testpos;
 
         /* Records can never be completely empty. */
@@ -278,7 +282,12 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
                 bufinfo->current_record_length));
     }
 
-    return CBMDOS_IPE_OK;
+    if (fserror != CBMDOS_IPE_OK) {
+        fsdevice_error(vdrive, fserror);
+        return SERIAL_ERROR;
+    }
+
+    return SERIAL_OK;
 }
 
 static int relative_read(vdrive_t *vdrive, bufinfo_t *bufinfo, uint8_t *data)

@@ -79,6 +79,31 @@ void fsdevice_listen(vdrive_t *vdrive, unsigned int secondary)
     }
 }
 
+static void fsdevice_relfile_extend_if_needed(bufinfo_t *bufinfo)
+{
+    if (bufinfo->current_record >= bufinfo->num_records) {
+        uint8_t filler = 0xFF;
+        unsigned int oldpos = fileio_tell(bufinfo->fileio_info);
+
+        DBG(("fsdevice_relfile_extend_if_needed: curr=%d, num=%d oldpos=%u",
+                    bufinfo->current_record, bufinfo->num_records, oldpos));
+
+        while (bufinfo->current_record >= bufinfo->num_records) {
+            unsigned int file_off = bufinfo->num_records * bufinfo->reclen;
+
+            DBG(("fsdevice_relfile_extend_if_needed: filler at %u",
+                    file_off));
+            fileio_seek(bufinfo->fileio_info, file_off, SEEK_SET);
+            fileio_write(bufinfo->fileio_info, &filler, 1);
+
+            bufinfo->num_records++;
+        }
+
+        /* Seek back to old position, for example when position_in_record > 0 */
+        fileio_seek(bufinfo->fileio_info, oldpos, SEEK_SET);
+    }
+}
+
 int fsdevice_write(struct vdrive_s *vdrive, uint8_t data, unsigned int secondary)
 {
     bufinfo_t *bufinfo;
@@ -119,6 +144,8 @@ int fsdevice_write(struct vdrive_s *vdrive, uint8_t data, unsigned int secondary
                 bufinfo->position_in_record--;
                 bufinfo->isbuffered = 0;
             }
+
+            fsdevice_relfile_extend_if_needed(bufinfo);
 
             bufinfo->record_is_dirty++;
             bufinfo->position_in_record++;

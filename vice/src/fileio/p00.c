@@ -137,7 +137,7 @@ static int p00_write_header(struct rawfile_info_s *info, const uint8_t *cbmname,
     memcpy(hdr + P00_HDR_CBMNAME_OFFSET, cbmname, P00_HDR_CBMNAME_LEN);
     hdr[P00_HDR_RECORDSIZE_OFFSET] = (uint8_t)recsize;
 
-    if (rawfile_seek_set(info, 0) != 0) {
+    if (rawfile_seek(info, 0, SEEK_SET) != 0) {
         return -1;
     }
 
@@ -577,10 +577,15 @@ unsigned int p00_seek(struct fileio_info_s *info, off_t offset, int whence)
 
     /* Note: this has no protection against seeking into the P00 header */
 
-    off_t oldpos = rawfile_seek(info->rawfile, offset, whence);
+    return rawfile_seek(info->rawfile, offset, whence);
+}
 
-    if (oldpos == -1)
+unsigned int p00_tell(struct fileio_info_s *info)
+{
+    long pos = rawfile_tell(info->rawfile);
+
+    if (pos == -1)
         return -1;
 
-    return (unsigned int)oldpos - P00_HDR_LEN;
+    return (unsigned int)pos - P00_HDR_LEN;
 }
