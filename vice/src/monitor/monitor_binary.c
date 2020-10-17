@@ -1542,13 +1542,14 @@ int monitor_binary_get_command_line(void)
         uint8_t api_version;
         unsigned int remaining_header_size = 5;
         unsigned int command_size;
+        int n;
 
         if (!buffer) {
             buffer = lib_malloc(300);
             buffer_size = 300;
         }
 
-        int n = monitor_binary_receive(buffer, 1);
+        n = monitor_binary_receive(buffer, 1);
         if (n == 0) {
             monitor_binary_quit();
             return 0;

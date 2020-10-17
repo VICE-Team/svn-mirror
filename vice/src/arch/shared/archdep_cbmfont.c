@@ -198,11 +198,10 @@ int archdep_register_cbmfont(void)
 void archdep_unregister_cbmfont(void)
 {
 #ifdef ARCHDEP_OS_WINDOWS
-
-    printf("DEBUG: Unregistering CBM font\n");
-
     char *datadir;
     char *path;
+
+    printf("DEBUG: Unregistering CBM font\n");
 
     datadir = archdep_get_vice_datadir();
     path = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);

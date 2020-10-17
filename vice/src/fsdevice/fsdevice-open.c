@@ -219,6 +219,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     tape_image_t *tape;
     unsigned int format = 0;
     fileio_info_t *finfo;
+    int fileio_command;
 
     if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
         format |= FILEIO_FORMAT_P00;
@@ -249,7 +250,6 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Open file for write mode access.  */
     if (bufinfo[secondary].mode == Write) {
-	int fileio_command;
 
         if (fsdevice_save_p00_enabled[vdrive->unit - 8]) {
             format = FILEIO_FORMAT_P00;
@@ -264,12 +264,12 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         if (cmd_parse->atsign) {
             /* TODO: maybe rename to a backup name */
             DBG(("fsdevice_open_file overwrite @'%s'\n", rname));
-	    fileio_command = FILEIO_COMMAND_OVERWRITE;
+            fileio_command = FILEIO_COMMAND_OVERWRITE;
         } else if (fsdevice_overwrite_existing_files) {
-	    fileio_command = FILEIO_COMMAND_OVERWRITE;
-	} else {
-	    fileio_command = FILEIO_COMMAND_WRITE;
-	}
+            fileio_command = FILEIO_COMMAND_OVERWRITE;
+        } else {
+            fileio_command = FILEIO_COMMAND_WRITE;
+        }
 
         finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
                             fileio_command, bufinfo[secondary].type,
@@ -343,7 +343,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     newrname = fsdevice_expand_shortname(vdrive, rname);
     DBG(("fsdevice_open_file read expanded '%s'\n", newrname));
 
-    int fileio_command =
+    fileio_command =
         bufinfo[secondary].mode == Relative ? FILEIO_COMMAND_READ_WRITE
                                             : FILEIO_COMMAND_READ;
 

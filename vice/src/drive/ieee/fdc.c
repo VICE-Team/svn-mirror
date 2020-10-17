@@ -401,11 +401,11 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
     uint8_t disk_id[2];
     drive_t *drive;
 
-    dadr.track = header[2];
-    dadr.sector = header[3];
-
     fdc_t *sysfdc = &fdc[fnum][0];
     fdc_t *imgfdc = &fdc[fnum][drv];
+
+    dadr.track = header[2];
+    dadr.sector = header[3];
 
     rc = 0;
     base = &(sysfdc->buffer[(buf + 1) << 8]);
@@ -597,14 +597,13 @@ static void int_fdc(CLOCK offset, void *data)
     CLOCK rclk;
     int i, j;
     drive_t *drive;
-    unsigned int fnum;
     diskunit_context_t *drv = (diskunit_context_t *)data;
-
-    fnum = drv->mynumber;
-    rclk = diskunit_clk[fnum] - offset;
+    unsigned int fnum = drv->mynumber;
 
     fdc_t *sysfdc = &fdc[fnum][0];
     fdc_t *imgfdc = &fdc[fnum][1];
+
+    rclk = diskunit_clk[fnum] - offset;
 
 #ifdef FDC_DEBUG
     static int old_state[NUM_FDC] = { -1, -1 };
@@ -750,9 +749,7 @@ static void int_fdc(CLOCK offset, void *data)
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
-    unsigned int fnum;
-
-    fnum = vice_ptr_to_uint(data);
+    unsigned int fnum = vice_ptr_to_uint(data);
 
     fdc_t *sysfdc = &fdc[fnum][0];
 
@@ -806,6 +803,8 @@ void fdc_init(diskunit_context_t *drv)
 
 int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
 {
+    fdc_t *sysfdc, *imgfdc;
+
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_attach_image(image=%p, unit=%u, drive=%u)",
                 image, unit, drive);
@@ -818,8 +817,8 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
         return -1;
     }
 
-    fdc_t *sysfdc = &fdc[unit - 8][0];
-    fdc_t *imgfdc = &fdc[unit - 8][drive];
+    sysfdc = &fdc[unit - 8][0];
+    imgfdc = &fdc[unit - 8][drive];
 
     /* FIXME: hack - we need to save the image to be able to re-attach
        when the disk drive type changes, in particular from the initial
@@ -875,6 +874,8 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
 
 int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
 {
+    fdc_t *sysfdc, *imgfdc;
+
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_detach_image(image=%p, unit=%u, drive=%u)",
                 image, unit, drive);
@@ -887,8 +888,8 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
         return -1;
     }
 
-    fdc_t *sysfdc = &fdc[unit - 8][0];
-    fdc_t *imgfdc = &fdc[unit - 8][drive];
+    sysfdc = &fdc[unit - 8][0];
+    imgfdc = &fdc[unit - 8][drive];
 
     imgfdc->realimage = NULL;
 
@@ -989,10 +990,10 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
     char *name;
     uint8_t ltrack, lsector;
 
-    name = lib_msprintf("FDC%d", fnum);
-
     fdc_t *sysfdc = &fdc[fnum][0];
     /*fdc_t *imgfdc = &fdc[fnum][1];*/
+
+    name = lib_msprintf("FDC%d", fnum);
 
     m = snapshot_module_open(p, name, &vmajor, &vminor);
     lib_free(name);

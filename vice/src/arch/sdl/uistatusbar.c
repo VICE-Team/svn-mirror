@@ -399,8 +399,9 @@ void uistatusbar_draw(void)
     uint8_t c, color_f, color_b;
     unsigned int line, maxchars;
     menu_draw_t *limits = NULL;
-    menufont = sdl_ui_get_menu_font();
     int kbd_status;
+
+    menufont = sdl_ui_get_menu_font();
 
     if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
         kbd_status = 0;

@@ -555,12 +555,14 @@ static
 #endif
 void *lib_malloc(size_t size)
 {
+    void *ptr;
+
     LIB_DEBUG_LOCK();
 
 #ifdef LIB_DEBUG
-    void *ptr = lib_debug_libc_malloc(size);
+    ptr = lib_debug_libc_malloc(size);
 #else
-    void *ptr = malloc(size);
+    ptr = malloc(size);
 #endif
 
     if (ptr == NULL && size > 0) {
@@ -590,12 +592,14 @@ static
 #endif
 void *lib_calloc(size_t nmemb, size_t size)
 {
+    void *ptr;
+
     LIB_DEBUG_LOCK();
 
 #ifdef LIB_DEBUG
-    void *ptr = lib_debug_libc_calloc(nmemb, size);
+    ptr = lib_debug_libc_calloc(nmemb, size);
 #else
-    void *ptr = calloc(nmemb, size);
+    ptr = calloc(nmemb, size);
 #endif
 
     if (ptr == NULL && (size * nmemb) > 0) {
@@ -617,12 +621,14 @@ static
 #endif
 void *lib_realloc(void *ptr, size_t size)
 {
+    void *new_ptr;
+
     LIB_DEBUG_LOCK();
 
 #ifdef LIB_DEBUG
-    void *new_ptr = lib_debug_libc_realloc(ptr, size);
+    new_ptr = lib_debug_libc_realloc(ptr, size);
 #else
-    void *new_ptr = realloc(ptr, size);
+    new_ptr = realloc(ptr, size);
 #endif
 
     if (new_ptr == NULL) {

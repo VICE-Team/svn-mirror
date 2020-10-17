@@ -197,6 +197,7 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
 {
     int rec_len = bufinfo->reclen;
     int fserror = CBMDOS_IPE_OK;
+    unsigned int file_off;
 
     DBG(("fsdevice_relative_switch_record: rec_len=%d %d.%d",
             rec_len, record, pos));
@@ -214,15 +215,16 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
      * records there are in the file.
      */
     if (bufinfo->num_records <= 0) {
+        off_t nbytes;
         fileio_seek(bufinfo->fileio_info, 0, SEEK_SET);
-        off_t nbytes = fileio_get_bytes_left(bufinfo->fileio_info);
+        nbytes = fileio_get_bytes_left(bufinfo->fileio_info);
         bufinfo->num_records = (int)((nbytes + bufinfo->reclen - 1) /
                                bufinfo->reclen);
         DBG(("fsdevice_relative_switch_record: num_records=%d",
             bufinfo->num_records));
     }
 
-    unsigned int file_off = record * rec_len + pos;
+    file_off = record * rec_len + pos;
 
     /*
      * If we switch to a DIFFERENT record, the current one is finished
@@ -303,10 +305,11 @@ static int relative_read(vdrive_t *vdrive, bufinfo_t *bufinfo, uint8_t *data)
      * Reading past one record gets us to the next (unlike writing).
      */
     if (bufinfo->iseof) {
-        DBG(("relative_read: iseof, skip to next record"));
         int err = fsdevice_relative_switch_record(vdrive, bufinfo, bufinfo->current_record + 1, 0);
-        if (err)
+        DBG(("relative_read: iseof, skip to next record"));
+        if (err) {
             return SERIAL_OK;
+        }
     }
 
     /*
@@ -316,10 +319,11 @@ static int relative_read(vdrive_t *vdrive, bufinfo_t *bufinfo, uint8_t *data)
      */
 #if 1
     if (bufinfo->record_is_dirty) {
-        DBG(("relative_read: record_is_dirty, switching to read, skip to next record"));
         int err = fsdevice_relative_switch_record(vdrive, bufinfo, bufinfo->current_record + 1, 0);
-        if (err)
+        DBG(("relative_read: record_is_dirty, switching to read, skip to next record"));
+        if (err) {
             return SERIAL_OK;
+        }
     }
 #endif
 

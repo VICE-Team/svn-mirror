@@ -336,11 +336,12 @@ static void update_performance_metrics(unsigned long frame_time)
             oldest_measurement_index = 0;
             frames_counted = 1;
         } else {
+            int i;
             /*
              * For normal speed changes, exiting warp etc, initialise with a full set
              * of fake perfect measurements
              */
-            for (int i = 1; i < MEASUREMENT_FRAME_WINDOW; i++) {
+            for (i = 1; i < MEASUREMENT_FRAME_WINDOW; i++) {
                 frame_times[i] = frame_time - ((MEASUREMENT_FRAME_WINDOW - i) * frame_ticks);
                 clocks[i] = maincpu_clk - (CLOCK)((MEASUREMENT_FRAME_WINDOW - i) * cycles_per_sec / refresh_frequency);
             }

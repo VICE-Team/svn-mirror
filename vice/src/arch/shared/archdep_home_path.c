@@ -83,6 +83,11 @@ const char *archdep_home_path(void)
     /* stupid vice code rules, only declare vars at the top */
 #ifdef ARCHDEP_OS_UNIX
     char *home;
+#elif defined(ARCHDEP_OS_WINDOWS)
+    HANDLE token_handle;
+    DWORD bufsize;
+    LPDWORD lpcchSize;
+    DWORD err;
 #endif
 
     if (home_dir != NULL) {
@@ -103,10 +108,8 @@ const char *archdep_home_path(void)
     }
     home_dir = lib_strdup(home);
 #elif defined(ARCHDEP_OS_WINDOWS)
-    HANDLE token_handle;
-    DWORD bufsize = 4096;
-    LPDWORD lpcchSize = &bufsize;
-    DWORD err;
+    bufsize = 4096;
+    lpcchSize = &bufsize;
 
     /* get process token handle, whatever the hell that means */
     if (!OpenProcessToken(GetCurrentProcess(),
