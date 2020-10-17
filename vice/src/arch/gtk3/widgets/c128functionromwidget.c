@@ -130,15 +130,12 @@ static GtkWidget *create_rom_file_widget(const char *prefix)
 {
     GtkWidget *grid;
     GtkWidget *browse;
-    char buffer[256];
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
-    /* TODO: create vice_gtk3_resource_entry_create_sprintf() */
-    g_snprintf(buffer, sizeof(buffer), "%sFunctionName", prefix);
-
-    entry_widget = vice_gtk3_resource_entry_full_new(buffer);
+    entry_widget = vice_gtk3_resource_entry_full_new_sprintf("%sFunctionName",
+                                                             prefix);
     gtk_widget_set_hexpand(entry_widget, TRUE);
     gtk_grid_attach(GTK_GRID(grid), entry_widget, 0, 0, 1, 1);
 

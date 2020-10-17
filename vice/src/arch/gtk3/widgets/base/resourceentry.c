@@ -29,6 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "debug_gtk3.h"
 #include "lib.h"
@@ -422,6 +423,37 @@ GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
 
     return entry;
 }
+
+
+/** \brief  Create resource entry box that only reacts to 'full' entries
+ *
+ * Creates a resource-connected entry box that only updates the resource when
+ * the either the widget looses focus (due to Tab or mouse click somewhere else
+ * in the UI) or when the user presses 'Enter'. This behaviour differs from the
+ * other resource entry which updates its resource on every key press.
+ *
+ * This is a variant of vice_gtk3_resource_entry_full_new() that allows using
+ * a printf format string to specify the resource name.
+ *
+ * \param[in]   fmt     resource name format string (printf-style)
+ * \param[in]   ...     format string arguments
+ *
+ * \return  GtkEntry
+ */
+GtkWidget *vice_gtk3_resource_entry_full_new_sprintf(const char *fmt, ...)
+{
+    GtkWidget *entry;
+    char *resource;
+    va_list args;
+
+    va_start(args, fmt);
+    resource = lib_mvsprintf(fmt, args);
+    va_end(args);
+    entry = vice_gtk3_resource_entry_full_new(resource);
+    lib_free(resource);
+    return entry;
+}
+
 
 
 /** \brief  Disable the auto updating of the bound resource

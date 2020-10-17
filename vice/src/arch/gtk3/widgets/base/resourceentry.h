@@ -52,6 +52,8 @@ gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget);
  */
 
 GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource);
+GtkWidget *vice_gtk3_resource_entry_full_new_sprintf(const char *fmt, ...);
+
 void vice_gtk3_resource_entry_full_disable_auto_update(GtkWidget *widget);
 
 gboolean vice_gtk3_resource_entry_full_set(GtkWidget *entry, const char *new);
