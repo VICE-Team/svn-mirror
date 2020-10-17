@@ -203,10 +203,10 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
     if (rec_len == 0) {
         fsdevice_error(vdrive, CBMDOS_IPE_NO_RECORD);
-        return SERIAL_ERROR
+        return SERIAL_ERROR;
     } else if (pos >= rec_len) {
         fsdevice_error(vdrive, CBMDOS_IPE_OVERFLOW);
-        return SERIAL_ERROR
+        return SERIAL_ERROR;
     }
 
     /*
