@@ -146,7 +146,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 int fsimage_read_dxx_image(const disk_image_t *image)
 {
     uint8_t buffer[256], *bam_id;
-    int gap;
+    int gap, headergap, synclen;
     unsigned int track, sector, track_size;
     gcr_header_t header;
     fdc_err_t rf;
@@ -194,7 +194,7 @@ int fsimage_read_dxx_image(const disk_image_t *image)
         if (track <= image->tracks) {
             /* get temp buffer */
             ptr = tempgcr = lib_malloc(track_size);
-            
+
             if (double_sided && track == 36) {
                 sectors = disk_image_check_sector(image, BAM_TRACK_1571 + 35, BAM_SECTOR_1571);
 
@@ -208,6 +208,8 @@ int fsimage_read_dxx_image(const disk_image_t *image)
             }
 
             gap = disk_image_gap_size(image->type, track);
+            headergap = disk_image_header_gap_size(image->type, track);
+            synclen = disk_image_sync_size(image->type, track);
 
             max_sector = disk_image_sector_per_track(image->type, track);
 
@@ -230,12 +232,12 @@ int fsimage_read_dxx_image(const disk_image_t *image)
                         }
                     }
                     header.sector = sector;
-                    gcr_convert_sector_to_GCR(buffer, ptr, &header, 9, 5, rf);
+                    gcr_convert_sector_to_GCR(buffer, ptr, &header, headergap, synclen, rf);
                 }
 
-                ptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
+                ptr += SECTOR_GCR_SIZE_WITH_HEADER + headergap + gap + synclen;
             }
-            
+
             ptr = image->gcr->tracks[half_track].data;
 #if 1
             memcpy(ptr, tempgcr, track_size);
