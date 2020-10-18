@@ -3433,13 +3433,16 @@ else
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)
 fi
 
-if test x"$is_win32" = "xyes"; then
-  if test x"$enable_native_gtk3ui" = "xyes"; then
-    WINDRES_LIB="$ARCH_DIR/data/win32/icon.res"
-  else
-    dnl FIXME: SDL icon
-    WINDRES_LIB="$ARCH_DIR/icon.res"
-  fi
+
+# WINDRES_LIB is used to link some Windows resource file to Windows binaries
+# It's not longer used by Gtk3, that uses its own per-emu files, so right now it's
+# only used for SDL. But the Gtk3 Windows .res files should also be used for SDL
+# on Windows, which means moving around some autotools stuff.
+#
+# For now though, let's keep this intact. -- compyx
+#
+if test x"$enable_sdl" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+  WINDRES_LIB="$ARCH_DIR/icon.res"
 else
   WINDRES_LIB=""
 fi

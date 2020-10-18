@@ -2,9 +2,15 @@
 if WIN32_COMPILE
 
 # Create Windows .ico files
+#
+# Currently the generation of the Windows .res files happens here, I tried to
+# do this work in data/common/Makefile.am, so we can use the same files for
+# SDL builds, but that didn't quite work out. Probably due to recursive make
+# not handling dependencies outside its tree very well (/src vs /data).
+#
 
 
-# TODO: check patsu  FUCK IT
+# TODO: check if we can use patsubst here, to simplify the rules a bit.
 
 X64SC_ICONS = $(top_srcdir)/data/common/C64_16.png \
 	      $(top_srcdir)/data/common/C64_24.png \
@@ -12,7 +18,9 @@ X64SC_ICONS = $(top_srcdir)/data/common/C64_16.png \
 	      $(top_srcdir)/data/common/C64_48.png \
 	      $(top_srcdir)/data/common/C64_256.png
 
+if SUPPORT_X64
 X64_ICONS = $(X64SC_ICONS)
+endif
 
 X64DTV_ICONS = $(top_srcdir)/data/common/DTV_16.png \
 	       $(top_srcdir)/data/common/DTV_24.png \
@@ -65,8 +73,15 @@ VSID_ICONS = $(top_srcdir)/data/common/SID_16.png \
 	     $(top_srcdir)/data/common/SID_256.png
 
 
+# Do we use the old x64 emu?
+if SUPPORT_X64
+X64_RES_FILE = x64.res
+else
+X64_RES_FILE =
+endif
 
-all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res
+
+all: $(X64_RES_FILE) x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res
 
 
 # Generic rule to create Windows .ico files
@@ -75,13 +90,17 @@ all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.
 
 
 # Generic rule to create Windows .res files from .ico and .rc files
+#
+# TODO: try to simplify
+#
 %.res: $(top_srcdir)/data/common/%.rc %.ico
 	$(WINDRES) $< -O coff -o $(top_builddir)/data/common/$@ -I $(top_builddir)/data/common
 
+
 # Icon file dependencies for each emu
-#
-#
+if SUPPORT_X64
 x64.ico: $(X64_ICONS)
+endif
 x64sc.ico: $(X64SC_ICONS)
 x64dtv.ico: $(X64DTV_ICONS)
 xscpu64.ico: $(XSCPU64_ICONS)
@@ -92,15 +111,5 @@ xpet.ico: $(XPET_ICONS)
 xcbm2.ico: $(XCBM2_ICONS)
 xcbm5x0.ico: $(XCBM5x0_ICONS)
 vsid.ico: $(VSID_ICONS)
-
-#	$(ICOTOOL) -c -o $(top_builddir)/data/common/x64sc.ico $(X64SC_ICONS)
-
-#x64sc.res: $(top_srcdir)/data/common/x64sc.rc x64sc.ico
-#	$(WINDRES) $< -O coff -o $(top_builddir)/data/common/$@ -I $(top_builddir)/data/common
-
-
-
-
-
 
 endif
