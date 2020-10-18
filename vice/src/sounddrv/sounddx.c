@@ -41,10 +41,8 @@
 #define _WIN32_DCOM
 #endif
 
-#if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=95)
 #include <windows.h>
 #include <mmsystem.h>
-#endif
 
 #define DIRECTSOUND_VERSION 0x0500
 #include <dsound.h>
