@@ -5,8 +5,6 @@ common_DATA = CBM_Logo.svg \
 	      C64_Pro_Mono-STYLE.ttf \
 	      icon1024x1024.png \
 	      Icon-128@2x.png \
-	      icon.ico \
-	      icon.png \
 	      vice-logo-black.svg \
 	      C128_16.png \
 	      C128_32.png \
@@ -52,11 +50,25 @@ common_DATA = CBM_Logo.svg \
 	      VIC20_32.png \
 	      VIC20_48.png \
 	      VIC20_256.png \
-	      VIC20_1024.svg
+	      VIC20_1024.svg \
+	      x64.rc \
+	      x64sc.rc \
+	      x64dtv.rc \
+	      xscpu64.rc \
+	      x128.rc \
+	      xvic.rc \
+	      xplus4.rc \
+	      xpet.rc \
+	      xcbm2.rc \
+	      xcbm5x0.rc \
+	      vsid.rc
 
 
 EXTRA_DIST = $(common_DATA)
 
+
+#all: x64.res x64sc.res x64dtv.res xscpu64.res x128.res xvic.res xplus4.res xpet.res xcbm2.res xcbm5x0.res vsid.res $(GRESOURCE_TARGET)
+#
 
 if NATIVE_GTK3_COMPILE
 
@@ -67,8 +79,7 @@ GRESOURCE_XML = $(srcdir)/vice.gresource.xml
 $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	glib-compile-resources --sourcedir $(top_srcdir) $< --target $@
 
-commondatadir = $(VICE_DATADIR)/common
-commondata_DATA = $(GRESOURCE_TARGET)
+common_DATA += $(GRESOURCE_TARGET)
 
 
 CLEANFILES = \
@@ -77,3 +88,7 @@ CLEANFILES = \
 EXTRA_DIST += $(GRESOURCE_XML)
 
 endif
+
+
+
+
