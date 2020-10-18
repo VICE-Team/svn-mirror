@@ -81,7 +81,6 @@ static void save_filename_callback(GtkDialog *dialog,
 
         /* `filename` is owned by GLib */
         path = util_add_extension_const(filename, "vkm");
-        g_free(filename);
 
         oops = keyboard_keymap_dump(path);
         if (oops == 0) {
@@ -92,6 +91,7 @@ static void save_filename_callback(GtkDialog *dialog,
             vice_gtk3_message_error("Failed to save custom keymap",
                     "Error %d: %s", errno, strerror(errno));
         }
+        g_free(filename);
         lib_free(path);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
