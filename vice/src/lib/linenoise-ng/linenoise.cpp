@@ -1952,7 +1952,7 @@ static char32_t linenoiseReadChar(void) {
           friendlyTextBuf[2] = 0;
           friendlyTextPtr = friendlyTextBuf;
         }
-        printf("%d x%02X (%s%s)  ", key, key, prefixText, friendlyTextPtr);
+        printf("%u x%02X (%s%s)  ", key, key, prefixText, friendlyTextPtr);
       }
       printf("\x1b[1G\n");  // go to first column of new line
 
@@ -3496,8 +3496,8 @@ void linenoisePrintKeyCodes(void) {
     quit[sizeof(quit) - 1] = c; /* Insert current char on the right. */
     if (memcmp(quit, "quit", sizeof(quit)) == 0) break;
 
-    printf("'%c' %02x (%d) (type quit to exit)\n", isprint(c) ? c : '?', (int)c,
-           (int)c);
+    printf("'%c' %02x (%d) (type quit to exit)\n", isprint(c) ? c : '?',
+            (unsigned int)c, (int)c);
     printf("\r"); /* Go left edge manually, we are in raw mode. */
     fflush(stdout);
   }
