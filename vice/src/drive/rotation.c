@@ -607,6 +607,22 @@ static void rotation_1541_gcr_cycle(drive_t *dptr)
  * see 1541 circuit description in this file for details
  ******************************************************************************/
 
+/* Calculate delta to the next NRZI transition flux pulse */
+static inline int rotation_p64_get_delta(drive_t *dptr)
+{
+    rotation_t *rptr = &rotation[dptr->unit];
+    PP64PulseStream P64PulseStream = &dptr->p64->PulseStreams[dptr->side][dptr->current_half_track];
+
+    /* normal case */
+    if (P64PulseStream->CurrentIndex >= 0) {
+        return P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
+    }
+
+    /* wrap around */
+    /* FIXME: this is incorrect, see https://sourceforge.net/p/vice-emu/bugs/1305/ */
+    return P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
+}
+
 /* FIXME: RPM related resources "DriveXRPM" and "DriveXwobble" are ignored for p64 */
 
 static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
@@ -640,12 +656,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
         }
     }
 
-    /* Calculate delta to the next NRZI transition flux pulse */
-    if (P64PulseStream->CurrentIndex >= 0) {
-        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-    } else {
-        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-    }
+    DeltaPositionToNextPulse = rotation_p64_get_delta(dptr);
 
     if (dptr->read_write_mode) {
         while (ref_cycles > 0) {
@@ -766,11 +777,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                            (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
                         P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
                     }
-                    if (P64PulseStream->CurrentIndex >= 0) {
-                        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-                    } else {
-                        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-                    }
+                    DeltaPositionToNextPulse = rotation_p64_get_delta(dptr);
                 }
 
                 /* Next NRZI transition flux pulse handling */
@@ -788,11 +795,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
 
                         P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
                     }
-                    if (P64PulseStream->CurrentIndex >= 0) {
-                        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-                    } else {
-                        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-                    }
+                    DeltaPositionToNextPulse = rotation_p64_get_delta(dptr);
                 }
             }
             /****************************************************************************************************************************************/
@@ -919,11 +922,7 @@ static void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                 }
 
                 /* Calculate new delta */
-                if (P64PulseStream->CurrentIndex >= 0) {
-                    DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-                } else {
-                    DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-                }
+                DeltaPositionToNextPulse = rotation_p64_get_delta(dptr);
             }
             /****************************************************************************************************************************************/
 
