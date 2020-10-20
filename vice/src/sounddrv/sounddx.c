@@ -61,6 +61,7 @@
 
 /* FIXME: each of the following should probably get moved to archdep */
 #if defined(USE_SDLUI) || defined(USE_SDLUI2)
+
 static HWND ui_get_main_hwnd(void)
 {
     SDL_SysWMinfo info;
@@ -69,7 +70,8 @@ static HWND ui_get_main_hwnd(void)
 
     return info.window;
 }
-#else /* #if defined(USE_SDLUI) || defined(USE_SDLUI2) */
+
+#elif defined(USE_NATIVE_GTK3)
 
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
@@ -103,7 +105,15 @@ static HWND ui_get_main_hwnd(void)
 
     return hWnd;
 }
-#endif /* #if defined(USE_SDLUI) || defined(USE_SDLUI2) */
+
+#else /* Headless UI */
+
+static HWND ui_get_main_hwnd(void)
+{
+    return GetDesktopWindow();
+}
+
+#endif
 
 /* ------------------------------------------------------------------------ */
 
