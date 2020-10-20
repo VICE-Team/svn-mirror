@@ -711,9 +711,9 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "x
   AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
   HAVE_RS232NET_SUPPORT="yes"
   if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-    LIBS="$LIBS -lwinmm -lws2_32 -lntdll -ld2d1"
+    LIBS="$LIBS -luserenv -lwinmm -lws2_32 -lntdll -ld2d1"
   else
-    LIBS="$LIBS -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll -ld2d1"
+    LIBS="$LIBS -luserenv -lwinmm -lwsock32 -lmingwex -lmsvcrt -lntdll -ld2d1"
   fi
   if test x"$enable_catweasel" != "xno"; then
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -1140,8 +1140,7 @@ if test x"$check_gtk3" = "xyes"; then
       *mingw32)
           host_os=mingw32-gtk3
           is_win32_gtk3=yes
-          dnl Required for GetUserProfileDirectoryA
-          LIBS="$LIBS -luserenv"
+
           dnl Needed for cross-building win32, -static makes some CoInitialize
           dnl check fail, so I had to leave that out. This also works on msys2.
           dnl Still need libstdc++-6.dll in the bindist, even with that
@@ -1340,13 +1339,6 @@ if test x"$check_sdl2" = "xyes"; then
       enable_sdlui2=yes
       enable_headlessui=no
       found_gui=sdl2
-
-      case "$host_os" in
-        *mingw32)
-          dnl Required for GetUserProfileDirectoryA
-          LIBS="$LIBS -luserenv"
-          ;;
-        esac
 
       dnl Require SDL2_image
       PKG_CHECK_MODULES(SDL2_IMAGE,
@@ -1586,13 +1578,6 @@ if test x"$check_sdl1" = "xyes"; then
           if test x"$have_sdlmain" = "xyes"; then
             AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
           fi
-
-          case "$host_os" in
-            *mingw32)
-              dnl Required for GetUserProfileDirectoryA
-              LIBS="$LIBS -luserenv"
-              ;;
-          esac
 
           dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
           enable_native_gtk3ui=no
