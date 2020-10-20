@@ -79,8 +79,8 @@ static int    vsync_metric_warp_enabled;
 #   define METRIC_LOCK() pthread_mutex_lock(&vsync_metric_lock)
 #   define METRIC_UNLOCK() pthread_mutex_unlock(&vsync_metric_lock)
 #else
-#   define METRIC_LOCK() pthread_mutex_lock(&vsync_metric_lock)
-#   define METRIC_UNLOCK() pthread_mutex_unlock(&vsync_metric_lock)
+#   define METRIC_LOCK()
+#   define METRIC_UNLOCK()
 #endif
 
 /* ------------------------------------------------------------------------- */
