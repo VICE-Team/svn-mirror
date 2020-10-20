@@ -839,6 +839,7 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   fi
 
   dnl Haiku needs a few compiler flags to compile:
+  dnl Probably can get rid off libstdc++, but who will ever notice?
   VICE_CFLAGS="$VICE_CFLAGS -static -static-libgcc -static-libstdc++"
 
 else
@@ -1143,9 +1144,7 @@ if test x"$check_gtk3" = "xyes"; then
 
           dnl Needed for cross-building win32, -static makes some CoInitialize
           dnl check fail, so I had to leave that out. This also works on msys2.
-          dnl Still need libstdc++-6.dll in the bindist, even with that
-          dnl -static-libstdc++.
-          LIBS="$LIBS -static-libgcc -static-libstdc++"
+          LIBS="$LIBS -static-libgcc"
 
     esac
 
@@ -1351,7 +1350,7 @@ if test x"$check_sdl2" = "xyes"; then
         AC_MSG_ERROR([SDL2_image-dev is required.])
       fi
     fi
-    LIBS="$LIBS -static-libstdc++"
+    # LIBS="$LIBS -static-libstdc++"
 
     CFLAGS="$user_CFLAGS"
     CXXFLAGS="$user_CXXFLAGS"
