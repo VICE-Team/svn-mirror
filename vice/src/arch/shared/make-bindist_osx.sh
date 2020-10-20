@@ -520,7 +520,6 @@ HEREDOC
 # --- copy docs ----------------------------------------------------------------
 
 echo "  copying documents"
-cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
 
 mkdir $BUILD_DIR/doc
 cp README $BUILD_DIR/doc/README.txt
