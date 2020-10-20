@@ -64,7 +64,7 @@ public:
   void reset();
 
   // Audio output (16 bits).
-  short output();
+  int output();
 
 protected:
   // Filter enabled.
@@ -157,18 +157,9 @@ void ExternalFilter::clock(cycle_count delta_t, short Vi)
 // Audio output (16 bits).
 // ----------------------------------------------------------------------------
 RESID_INLINE
-short ExternalFilter::output()
+int ExternalFilter::output()
 {
-  // Saturated arithmetics to guard against 16 bit sample overflow.
-  const int half = 1 << 15;
-  int Vo = (Vlp - Vhp) >> 11;
-  if (Vo >= half) {
-    Vo = half - 1;
-  }
-  else if (Vo < -half) {
-    Vo = -half;
-  }
-  return Vo;
+  return (Vlp - Vhp) >> 11;
 }
 
 #endif // RESID_INLINING || defined(RESID_EXTFILT_CC)
