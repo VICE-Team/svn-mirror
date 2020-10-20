@@ -2,8 +2,9 @@
 =================
 
 This file lists the most important user-visible changes for each official
-release of VICE.  See `ChangeLog' in the root dir of the source tree for a
-more detailed list of all the changes in the code.
+release of VICE.  For the gory details, please use the subversion history:
+
+$ svn log http://svn.code.sf.net/p/vice-emu/code > ChangeLog
 
 
 * Upgrading
