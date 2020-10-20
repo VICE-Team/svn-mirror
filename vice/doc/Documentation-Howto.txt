@@ -212,11 +212,9 @@ in these sections.
 Files generated from these sections are:
 
 src/infocontrib.h                             (fully generated)
-AUTHORS                                       (fully generated)
 src/arch/unix/macosx/Resources/Credits.html   (fully generated)
 README                                        (partially generated)
 doc/html/index.html                           (partially generated)
-man/vice.1                                    (fully generated)
 
 ------------------------------------------------------------------------------
 
