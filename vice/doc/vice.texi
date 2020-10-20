@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename vice.info
 @settitle VICE Manual
-@documentencoding ISO-8859-1
+@documentencoding ISO-8859-15
 @c %**end of header
 
 @ifinfo

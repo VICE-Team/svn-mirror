@@ -381,7 +381,6 @@ COMMON_EXTRA_DIST = \
 	debug.h.in \
 	fixpoint.c \
 	piacore.c \
-	sedinfocontrib_h.sh \
 	vice-version.sh \
 	vice-version.sh.in \
 	wrap-u-ar.sh
@@ -608,29 +607,30 @@ BUILT_SOURCES = $(EMBEDDED_H_FILES) $(SVN_VERSION_HEADER) infocontrib.h
 .PHONY: svnversion.h.indirect
 
 svnversion.h.indirect:
-	$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
+	@echo "generating svnversion.h ..."
+	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
 
 svnversion.h: svnversion.h.indirect
 
 infocontrib.h:	$(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
-	@echo "generating infocontrib.h..."
-	if [ "`file --mime-encoding $(srcdir)/buildtools/geninfocontrib_h.sh`" != "$(srcdir)/buildtools/geninfocontrib_h.sh: iso-8859-1" ]; then \
-		echo "ERROR: geninfocontrib_h.sh contains content that is not valid iso-8859-1" >&2; \
+	@echo "generating infocontrib.h ..."
+	@if [ "`file --mime-encoding $(srcdir)/buildtools/geninfocontrib_h.sh`" != "$(srcdir)/buildtools/geninfocontrib_h.sh: iso-8859-1" ]; then \
+		echo "ERROR: geninfocontrib_h.sh contains content that is not valid iso-8859-x" >&2; \
 		false; \
 	fi
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | LC_ALL=C sed -f $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
 # we need to replace \ and space by "regular" characters, else things break on some shells
-	LC_ALL=C sed -e 's/\\/{/g' -e 's/ /}/g' <$(top_srcdir)/README >./README.tmp
+	@LC_ALL=C sed -e 's/\\/{/g' -e 's/ /}/g' <$(top_srcdir)/README >./README.tmp
 #	cat  <$(top_srcdir)/README >./README.tmp
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
-	LC_ALL=C sed -e 's/{/\\/g' -e 's/}/ /g' <README2.tmp >../README
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
+	@LC_ALL=C sed -e 's/{/\\/g' -e 's/}/ /g' <README2.tmp >../README
 #	cat  <README2.tmp >../README
-	rm -f README*.tmp
-	cp $(top_srcdir)/doc/html/index.html ./index.tmp
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
-	rm -f index.tmp
-	rm -f team.tmp
-	iconv -f ISO-8859-1 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
+	@rm -f README*.tmp
+	@cp $(top_srcdir)/doc/html/index.html ./index.tmp
+	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
+	@rm -f index.tmp
+	@rm -f team.tmp
+	@iconv -f ISO-8859-15 -t UTF-8 infocontrib.h > infocontrib.h.utf8 && mv infocontrib.h.utf8 infocontrib.h
 
 
 

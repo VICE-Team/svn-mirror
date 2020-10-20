@@ -1904,7 +1904,7 @@ sub print_header {
 <HTML>
 <HEAD>
 $header
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
 <TITLE>$_</TITLE>
 <style type="text/css">
     \@import 'vice.css';
