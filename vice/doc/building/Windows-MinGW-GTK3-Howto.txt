@@ -71,8 +71,8 @@ Exit and restart the shell you use and see if you get a decent download speed.
 Run the following command lines to install your prerequisites:
 
 $ pacman -S --needed --noconfirm base-devel
-$ pacboy sync pkg-config gcc ntldd zip: subversion: gtk3 glew giflib
-$ pacman -S mingw-w64-x86_64-libvorbis mingw-w64-x86_64-flac mingw-w64-x86_64-mpg123
+$ pacboy sync pkg-config gcc ntldd zip: subversion: gtk3 glew giflib lame
+$ pacman -S mingw-w64-x86_64-libvorbis mingw-w64-x86_64-flac mingw-w64-x86_64-mpg123 mingw-w64-x86_64-icoutils
 
 (Note: type the colons that you see in the second command; they are important.
  Hit enter for the default on all the prompts, then wait for the 306 MiB
@@ -110,6 +110,7 @@ $ mv ../../bin/xa.exe ../../bin/xa65.exe
 
 
 5. Get MiKTeX to build the PDF documentation (optional).
+NOTE if you skip this step you will need to ./configure with --disable-pdf-docs
 
 Download and install: https://miktex.org/howto/install-miktex
 
