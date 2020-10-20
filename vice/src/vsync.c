@@ -69,9 +69,19 @@
 #include "ui.h"
 
 /* public metrics, updated every vsync */
-double vsync_metric_cpu_percent;
-double vsync_metric_emulated_fps;
-int    vsync_metric_warp_enabled;
+static double vsync_metric_cpu_percent;
+static double vsync_metric_emulated_fps;
+static int    vsync_metric_warp_enabled;
+
+#ifdef USE_VICE_THREAD
+#   include <pthread.h>
+    pthread_mutex_t vsync_metric_lock = PTHREAD_MUTEX_INITIALIZER;
+#   define METRIC_LOCK() pthread_mutex_lock(&vsync_metric_lock)
+#   define METRIC_UNLOCK() pthread_mutex_unlock(&vsync_metric_lock)
+#else
+#   define METRIC_LOCK() pthread_mutex_lock(&vsync_metric_lock)
+#   define METRIC_UNLOCK() pthread_mutex_unlock(&vsync_metric_lock)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -295,6 +305,17 @@ void vsync_sync_reset(void)
     sync_reset = 1;
 }
 
+void vsyncarch_get_metrics(double *cpu_percent, double *emulated_fps, int *warp_enabled)
+{
+    METRIC_LOCK();
+    
+    *cpu_percent = vsync_metric_cpu_percent;
+    *emulated_fps = vsync_metric_emulated_fps;
+    *warp_enabled = vsync_metric_warp_enabled;
+    
+    METRIC_UNLOCK();
+}
+
 #define MEASUREMENT_SMOOTH_FACTOR 0.97
 #define MEASUREMENT_FRAME_WINDOW  250
 
@@ -315,6 +336,8 @@ static void update_performance_metrics(unsigned long frame_time)
     
     /* how many emulated seconds of cpu time have been emulated */
     double clock_delta_seconds;
+    
+    METRIC_LOCK();
     
     if (sync_reset) {
         /*
@@ -361,6 +384,8 @@ static void update_performance_metrics(unsigned long frame_time)
         
         /* printf("INIT frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout); */
 
+        METRIC_UNLOCK();
+        
         return;
     }
     
@@ -391,6 +416,8 @@ static void update_performance_metrics(unsigned long frame_time)
     if (++next_measurement_index == MEASUREMENT_FRAME_WINDOW) {
         next_measurement_index = 0;
     }
+    
+    METRIC_UNLOCK();
 }
 
 #ifdef USE_VICE_THREAD

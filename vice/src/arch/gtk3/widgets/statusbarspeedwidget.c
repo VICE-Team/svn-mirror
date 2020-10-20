@@ -671,6 +671,12 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
     GtkWidget *label;
     char buffer[1024];
     
+    double vsync_metric_cpu_percent;
+    double vsync_metric_emulated_fps;
+    int vsync_metric_warp_enabled;
+    
+    vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
+    
     /*
      * Updating GTK labels is expensive and this is called each frame,
      * so we avoid updates that wouldn't actually change the text.
