@@ -541,7 +541,7 @@ done
 if [ "$UI_TYPE" = "GTK3" ]; then
   # --- copy vice.gresource ---
   echo "  copying vice.gresource"
-  cp "src/arch/gtk3/data/vice.gresource" "$APP_COMMON/"
+  cp "$BUILDIR/data/common/vice.gresource" "$APP_COMMON/"
 fi
 
 
