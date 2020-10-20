@@ -1663,6 +1663,11 @@ fi
 
 dnl Check for the icotool binary to generate Windows .ico files
 AC_CHECK_PROG(ICOTOOL, icotool, icotool, no)
+if test x"$enable_native_gtk3ui" = "xyes" -a x"$is_win32" = "xyes"; then
+    if test x"$ICOTOOL" = "xno"; then
+        AC_MSG_ERROR([Building Gtk3 for Windows, but icotool is missing. Please install icoutils."])
+    fi
+fi
 
 
 dnl This enables the embedded data files feature, which should
