@@ -43,6 +43,11 @@
 #include <objc/runtime.h>
 #include <objc/message.h>
 #include <CoreFoundation/CFString.h>
+#include <CoreGraphics/CGGeometry.h>
+
+/* The proper way to use objc_msgSend is to cast it into the right shape each time */
+#define OBJC_MSGSEND(return_type, ...) ((return_type (*)(__VA_ARGS__))objc_msgSend)
+#define OBJC_MSGSEND_STRET(...) ((void (*)(__VA_ARGS__))objc_msgSend_stret)
 #endif
 
 #include "debug_gtk3.h"
@@ -700,6 +705,7 @@ static gboolean on_focus_out_event(GtkWidget *widget, GdkEventFocus *event,
     return FALSE;
 }
 
+
 /** \brief  Create an icon by loading it from the vice.gresource file
  *
  * \return  App icon for the current machine
@@ -719,7 +725,22 @@ static GdkPixbuf *get_default_icon(void)
         g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
         debug_gtk3("Trying icon '%s'", buffer);
     }
+
+#ifdef MACOSX_SUPPORT
+    /* The icon is SVG, so lets try to figure out the right size to render */
+    id application;
+    id dock_tile;
+    CGSize dock_tile_size;
+
+    application    = OBJC_MSGSEND(id, id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+    dock_tile      = OBJC_MSGSEND(id, id, SEL)(application, sel_getUid("dockTile"));
+    dock_tile_size = OBJC_MSGSEND(CGSize, id, SEL)(dock_tile, sel_getUid("size"));
+
+    return uidata_get_pixbuf_at_scale(buffer, dock_tile_size.width, dock_tile_size.height, true);
+#else
+    /* TODO: Can we figure out the right icon size on Windows, Linux? */
     return uidata_get_pixbuf(buffer);
+#endif
 }
 
 
@@ -1206,10 +1227,7 @@ static gboolean on_window_configure_event(GtkWidget *widget,
 
 #ifdef MACOSX_SUPPORT
 
-/* The proper way to use objc_msgSend is to cast it into the right shape each time */
-#define OBJC_MSGSEND_FUNC_CAST(...) ((id (*)(__VA_ARGS__))objc_msgSend)
-
-void macos_set_dock_icon_workaround(void);
+void macos_set_dock_icon_workaround(GdkPixbuf *icon);
 void macos_activate_application_workaround(void);
 
 /** \brief  Set the macOS dock icon
@@ -1219,7 +1237,7 @@ void macos_activate_application_workaround(void);
  * support for obj-c into the project, leverage some low level C functionality
  * to interact with the obj-c runtime.
  */
-void macos_set_dock_icon_workaround()
+void macos_set_dock_icon_workaround(GdkPixbuf *icon)
 {
     GBytes *gbytes;
     gconstpointer bytes;
@@ -1227,8 +1245,11 @@ void macos_set_dock_icon_workaround()
     id imageData;
     id logo;
     id application;
+    gchar *png_buffer;
+    gsize png_buffer_size;
 
-    gbytes = uidata_get_bytes("Icon-128@2x.png");
+    gdk_pixbuf_save_to_buffer(icon, &png_buffer, &png_buffer_size, "png", NULL, NULL);
+    gbytes = g_bytes_new_take(png_buffer, png_buffer_size);
 
     if (!gbytes) {
         log_error(LOG_ERR, "macos_set_dock_icon_workaround: failed to access icon bytes from gresource file.\n");
@@ -1237,19 +1258,19 @@ void macos_set_dock_icon_workaround()
 
     bytes = g_bytes_get_data(gbytes, &bytesSize);
     imageData =
-        OBJC_MSGSEND_FUNC_CAST(id, SEL, gconstpointer, gsize, BOOL)(
+        OBJC_MSGSEND(id, id, SEL, gconstpointer, gsize, BOOL)(
             (id)objc_getClass("NSData"),
             sel_getUid("dataWithBytesNoCopy:length:freeWhenDone:"),
             bytes,
             bytesSize,
             NO);
-    logo = OBJC_MSGSEND_FUNC_CAST(id, SEL)((id)objc_getClass("NSImage"), sel_getUid("alloc"));
-    logo = OBJC_MSGSEND_FUNC_CAST(id, SEL, id)(logo, sel_getUid("initWithData:"), imageData);
+    logo = OBJC_MSGSEND(id, id, SEL)((id)objc_getClass("NSImage"), sel_getUid("alloc"));
+    logo = OBJC_MSGSEND(id, id, SEL, id)(logo, sel_getUid("initWithData:"), imageData);
 
     if (logo) {
-        application = OBJC_MSGSEND_FUNC_CAST(id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
-        OBJC_MSGSEND_FUNC_CAST(id, SEL, id)(application, sel_getUid("setApplicationIconImage:"), logo);
-        OBJC_MSGSEND_FUNC_CAST(id, SEL)(logo, sel_getUid("release"));
+        application = OBJC_MSGSEND(id, id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+        OBJC_MSGSEND(id, id, SEL, id)(application, sel_getUid("setApplicationIconImage:"), logo);
+        OBJC_MSGSEND(id, id, SEL)(logo, sel_getUid("release"));
     } else {
         log_error(LOG_ERR, "macos_set_dock_icon_workaround: failed to initialise image from resource");
     }
@@ -1269,8 +1290,8 @@ void macos_activate_application_workaround()
     id ns_application;
 
     /* [[NSApplication sharedApplication] activateIgnoringOtherApps: YES]; */
-    ns_application = OBJC_MSGSEND_FUNC_CAST(id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
-    OBJC_MSGSEND_FUNC_CAST(id, SEL, BOOL)(ns_application, sel_getUid("activateIgnoringOtherApps:"), YES);
+    ns_application = OBJC_MSGSEND(id, id, SEL)((id)objc_getClass("NSApplication"), sel_getUid("sharedApplication"));
+    OBJC_MSGSEND(void, id, SEL, BOOL)(ns_application, sel_getUid("activateIgnoringOtherApps:"), YES);
 }
 
 #endif
@@ -1368,10 +1389,11 @@ void ui_create_main_window(video_canvas_t *canvas)
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
 
-    /* set a default C= icon for now */
+    /* set the dock / taskbar icon */
     icon = get_default_icon();
+
 #ifdef MACOSX_SUPPORT
-    macos_set_dock_icon_workaround();
+    macos_set_dock_icon_workaround(icon);
 #else
     if (icon != NULL) {
         gtk_window_set_icon(GTK_WINDOW(new_window), icon);
