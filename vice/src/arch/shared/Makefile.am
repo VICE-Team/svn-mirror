@@ -84,6 +84,7 @@ libarchdep_a_SOURCES = \
 	archdep_sanitize_filename.c \
 	archdep_set_current_drive.c \
 	archdep_signals.c \
+	archdep_sound.c \
 	archdep_spawn.c \
 	archdep_startup_log_error.c \
 	archdep_stat.c \
@@ -149,6 +150,7 @@ EXTRA_DIST = \
 	archdep_rtc_get_centisecond.h \
 	archdep_sanitize_filename.h \
 	archdep_signals.h \
+	archdep_sound.h \
 	archdep_spawn.h \
 	archdep_startup_log_error.h \
 	archdep_stat.h \

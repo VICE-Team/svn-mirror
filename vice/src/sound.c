@@ -1564,6 +1564,8 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     log_message(sound_log, "Available sound devices:%s", devlist);
 
     lib_free(devlist);
+
+    archdep_sound_enable_default_device_tracking();
 }
 
 long sound_sample_position(void)

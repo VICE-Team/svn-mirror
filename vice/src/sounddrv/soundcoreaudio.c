@@ -243,36 +243,6 @@ static CFIndex string_buf_size_for_utf8_char_length(CFIndex utf8Chars)
     return utf8Chars * 4 + 1;
 }
 
-static OSStatus on_default_device_changed(AudioObjectID inObjectID,
-                                          UInt32 inNumberAddresses,
-                                          const AudioObjectPropertyAddress inAddresses[],
-                                          void *inClientData)
-{
-    /*
-     * If we are monitoring the default audio device, then we launched without
-     * requesting a specific device. Therefore when the default output device
-     * changes, reinitialise sound so that our sound targets the new default device
-     */
-    
-    sound_state_changed = 1;
-    
-    return 0;
-}
-
-static void monitor_default_device_changes(void)
-{
-    AudioObjectPropertyAddress outputDeviceAddress = {
-        kAudioHardwarePropertyDefaultOutputDevice,
-        kAudioObjectPropertyScopeGlobal,
-        kAudioObjectPropertyElementMaster
-    };
-    
-    AudioObjectAddPropertyListener(kAudioObjectSystemObject,
-                                   &outputDeviceAddress,
-                                   on_default_device_changed,
-                                   nil);
-}
-
 #if defined(MAC_OS_X_VERSION_10_6) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_6)
 static int determine_output_device_id()
 {
@@ -407,11 +377,6 @@ static int determine_output_device_id()
     if (err != kAudioHardwareNoError) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): AudioObjectGetPropertyData (kAudioDevicePropertyDeviceNameCFString) failed: %d", (int)err);
         return -1;
-    }
-    
-    /* If we didn't request a specific device, or didn't find it, monitor for changes to the default device */
-    if (!requested_device_found) {
-        monitor_default_device_changes();
     }
 
     buffer_size = string_buf_size_for_utf8_char_length(CFStringGetLength(device_name_ref));

@@ -149,6 +149,9 @@ void        archdep_set_current_drive(const char *drive);
 
 int         archdep_default_logger(const char *level_string, const char *txt);
 
+/* Track default audio output device and restart sound when it changes */
+void        archdep_sound_enable_default_device_tracking(void);
+
 /* Launch program `name' (searched via the PATH environment variable)
    passing `argv' as the parameters, wait for it to exit and return its
    exit status. If `pstdout_redir' or `stderr_redir' are != NULL,
