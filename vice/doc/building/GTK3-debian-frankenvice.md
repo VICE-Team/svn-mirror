@@ -61,7 +61,7 @@ Make sure you have the basic development tools:
 ```
 $ sudo apt install autoconf automake build-essential byacc flex git subversion \
         vim xa65 alien p7zip-full texinfo gawk zip unzip yasm dos2unix \
-        libglib2.0-dev-bin
+        libglib2.0-dev-bin icoutils
 ```
 (todo: probably a lot more)
 
