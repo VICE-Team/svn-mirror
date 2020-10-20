@@ -63,8 +63,9 @@ public:
 protected:
   void clock_shift_register();
   void write_shift_register();
-  void reset_shift_register();
   void set_noise_output();
+  void wave_bitfade();
+  void shiftreg_bitfade();
 
   const WaveformGenerator* sync_source;
   WaveformGenerator* sync_dest;
@@ -143,7 +144,7 @@ void WaveformGenerator::clock()
   if (unlikely(test)) {
     // Count down time to fully reset shift register.
     if (unlikely(shift_register_reset) && unlikely(!--shift_register_reset)) {
-      reset_shift_register();
+      shiftreg_bitfade();
     }
 
     // The test bit sets pulse high.
@@ -181,7 +182,11 @@ void WaveformGenerator::clock(cycle_count delta_t)
     if (shift_register_reset) {
       shift_register_reset -= delta_t;
       if (unlikely(shift_register_reset <= 0)) {
-        reset_shift_register();
+        shift_register = 0x7fffff;
+        shift_register_reset = 0;
+
+        // New noise waveform output.
+        set_noise_output();
       }
     }
 
@@ -346,15 +351,6 @@ RESID_INLINE void WaveformGenerator::write_shift_register()
   no_noise_or_noise_output = no_noise | noise_output;
 }
 
-RESID_INLINE void WaveformGenerator::reset_shift_register()
-{
-  shift_register = 0x7fffff;
-  shift_register_reset = 0;
-
-  // New noise waveform output.
-  set_noise_output();
-}
-
 RESID_INLINE void WaveformGenerator::set_noise_output()
 {
   noise_output =
@@ -503,7 +499,7 @@ void WaveformGenerator::set_waveform_output()
   else {
     // Age floating DAC input.
     if (likely(floating_output_ttl) && unlikely(!--floating_output_ttl)) {
-      osc3 = waveform_output = 0;
+      wave_bitfade();
     }
   }
 
