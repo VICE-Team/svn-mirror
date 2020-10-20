@@ -175,7 +175,7 @@ do_automake() {
 
 buildfiles() {
 
-    if [ -f configure.ac ] || [ -f configure.in ]k; then
+    if [ -f configure.ac ] || [ -f configure.in ]; then
         do_aclocal
         do_autoconf
         do_autoheader
