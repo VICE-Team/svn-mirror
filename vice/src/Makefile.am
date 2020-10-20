@@ -607,13 +607,12 @@ BUILT_SOURCES = $(EMBEDDED_H_FILES) $(SVN_VERSION_HEADER) infocontrib.h
 .PHONY: svnversion.h.indirect
 
 svnversion.h.indirect:
-	@echo "generating svnversion.h ..."
 	@$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
 
 svnversion.h: svnversion.h.indirect
 
 infocontrib.h:	$(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
-	@echo "generating infocontrib.h ..."
+	@echo "generating infocontrib.h"
 	@if [ "`file --mime-encoding $(srcdir)/buildtools/geninfocontrib_h.sh`" != "$(srcdir)/buildtools/geninfocontrib_h.sh: iso-8859-1" ]; then \
 		echo "ERROR: geninfocontrib_h.sh contains content that is not valid iso-8859-x" >&2; \
 		false; \
