@@ -52,7 +52,6 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uistatusbar.c \
 	main.c \
-	signals.c \
 	video.c \
 	vsidui.c \
 	vsyncarch.c \
