@@ -174,29 +174,15 @@ do_automake() {
 }
 
 buildfiles() {
-    FILES_TO_REMEMBER="INSTALL"
 
-    # Save some files which should not be overwritten
-
-    if [ -f configure.ac ] || [ -f configure.in ]; then
-
-        for A in $FILES_TO_REMEMBER; do
-            [ -e "$A" ] && mv -f "$A" "$A.backup"
-        done
-
+    if [ -f configure.in ]; then
         do_aclocal
-
         do_autoconf
         do_autoheader
         do_automake
-
-        # Restore the files which should not be overwritten
-
-        for A in $FILES_TO_REMEMBER; do
-            [ -e "$A.backup" ] && mv -f "$A.backup" "$A"
-        done
     fi
 }
+
 
 # Script entry point
 
