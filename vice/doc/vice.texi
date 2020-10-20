@@ -5681,7 +5681,7 @@ Enable/disable keeping the monitor window open
 @findex -refreshonbreak, +refreshonbreak
 @item -refreshonbreak
 @itemx +refreshonbreak
-Enable/Disable refresh display(s) when entering monitor and after each monitor command.
+Enable/Disable refresh display when entering monitor and after each monitor command.
 (@code{RefreshOnBreak=1}, @code{RefreshOnBreak=0}).
 
 @findex -remotemonitor, +remotemonitor
