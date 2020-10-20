@@ -125,7 +125,7 @@ if test x"$SDLVERSION" = "x2"; then
 else
   cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $SDLNAME
 fi
-cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $SDLNAME
+cp $TOPSRCDIR/README $SDLNAME
 cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $SDLNAME
 rm `find $SDLNAME -name "Makefile*"`
 rm `find $SDLNAME -name "*.vkm" -and ! -name "sdl*.vkm"`
