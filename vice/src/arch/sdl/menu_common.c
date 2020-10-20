@@ -258,7 +258,7 @@ const char *sdl_ui_menu_int_helper(int activated, ui_callback_data_t param, cons
     if (activated) {
         value = sdl_ui_text_input_dialog((const char*)param, buf);
         if (value) {
-            new_value = strtol(value, NULL, 0);
+            new_value = (int)strtol(value, NULL, 0);
             resources_set_int(resource_name, new_value);
             lib_free(value);
         }

@@ -52,7 +52,7 @@ static UI_MENU_CALLBACK(custom_RefreshRate_callback)
         sprintf(buf, "%i", previous);
         value = sdl_ui_text_input_dialog("Enter custom refresh rate", buf);
         if (value) {
-            new_value = strtol(value, NULL, 0);
+            new_value = (int)strtol(value, NULL, 0);
             if (new_value != previous) {
                 resources_set_int("RefreshRate", new_value);
             }
@@ -79,7 +79,7 @@ static UI_MENU_CALLBACK(custom_Speed_callback)
         sprintf(buf, "%i", previous > 0 ? previous : 0);
         value = sdl_ui_text_input_dialog("Enter custom maximum speed", buf);
         if (value > 0) {
-            new_value = strtol(value, NULL, 0);
+            new_value = (int)strtol(value, NULL, 0);
             if (new_value != previous) {
                 resources_set_int("Speed", new_value);
             }
@@ -107,7 +107,7 @@ static UI_MENU_CALLBACK(custom_Fps_callback)
         sprintf(buf, "%i", previous < 0 ? -previous : 0);
         value = sdl_ui_text_input_dialog("Enter target Fps", buf);
         if (value > 0) {
-            new_value = -strtol(value, NULL, 0);
+            new_value = -(int)strtol(value, NULL, 0);
             if (new_value != previous) {
                 resources_set_int("Speed", new_value);
             }

@@ -154,7 +154,7 @@ static char *contrib_convert(const char *text, int cols)
     new_text[j] = 0;
 
     i = 0;
-    j = strlen(new_text);
+    j = (unsigned int)strlen(new_text);
 
     while (i < j) {
         if (new_text[i] == '\n') {
@@ -178,7 +178,7 @@ static char *contrib_convert(const char *text, int cols)
 
     pos = new_text;
     while (*pos != 0) {
-        len = strlen(pos);
+        len = (int)strlen(pos);
         make_n_cols(pos, len, cols);
         pos += len + 1;
     }
@@ -243,7 +243,7 @@ static void show_text(const char *text)
     menu_draw = sdl_ui_get_menu_param();
 
     string = lib_malloc(0x400);
-    len = strlen(text);
+    len = (unsigned int)strlen(text);
 
     /* find out how many lines */
     for (x = 0, z = 0; text[x] != 0; x++) {

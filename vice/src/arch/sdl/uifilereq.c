@@ -169,7 +169,7 @@ static void sdl_ui_display_path(const char *current_dir)
     int amount = 0;
     int i;
 
-    len = strlen(current_dir);
+    len = (int)strlen(current_dir);
 
     if (len > menu_draw->max_text_x) {
         text = lib_strdup(current_dir);

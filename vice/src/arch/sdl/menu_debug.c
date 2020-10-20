@@ -51,7 +51,7 @@ static UI_MENU_CALLBACK(custom_auto_playback_frames)
         sprintf(buf, "%i", previous);
         value = sdl_ui_text_input_dialog("Enter number of auto playback frames", buf);
         if (value) {
-            new_value = strtol(value, NULL, 0);
+            new_value = (int)strtol(value, NULL, 0);
             if (new_value != previous) {
                 resources_set_int("AutoPlaybackFrames", new_value);
             }

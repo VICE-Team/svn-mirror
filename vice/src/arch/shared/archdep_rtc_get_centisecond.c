@@ -55,7 +55,7 @@ int archdep_rtc_get_centisecond(void)
 #ifdef HAVE_GETTIMEOFDAY
     struct timeval t;
     gettimeofday(&t, NULL);
-    return t.tv_usec / 10000;
+    return (int)(t.tv_usec / 10000);
 #else
 #warning "archdep_rtc_get_centisecond implementation missing"
     return 0;

@@ -96,7 +96,7 @@ static int handle_message_box(const char *title, const char *message, int messag
                         UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_HORIZONTAL_STRING UIFONT_TOPRIGHT_STRING, 2);
 
     /* make sure that the title length is not more than 28 chars. */
-    len = strlen(title);
+    len = (unsigned int)strlen(title);
     assert(len <= MAX_MSGBOX_LEN);
 
     /* calculate the position in the template to copy the title to. */

@@ -304,7 +304,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
                 j = i;
 
                 while ((j < num_items) && (menu[j].type == block_type)) {
-                    len = strlen(menu[j].string);
+                    len = (int)strlen(menu[j].string);
                     menu_offsets[j] = len;
                     if (len > max_len) {
                         max_len = len;
@@ -1206,7 +1206,7 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
 
                 /* accept value from user, convert and free */
                 if (value) {
-                    i = strtol(value, NULL, 0);
+                    i = (int)strtol(value, NULL, 0);
 
                     if (i < min) {
                         i = min;
@@ -1412,7 +1412,7 @@ int sdl_ui_print_center(const char *text, int pos_y)
         return 0;
     }
 
-    len = strlen(text);
+    len = (int)strlen(text);
 
     if (len == 0) {
         return 0;
@@ -1626,7 +1626,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
                 i = 0;
                 break;
             case VICE_SDLK_END:
-                i = size;
+                i = (int)size;
                 break;
             case PC_VKBD_ACTIVATE:
                 pc_vkbd_state ^= 1;

@@ -162,13 +162,13 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 
     for (drive_number = 0; drive_number < 4; ++drive_number) {
         if (drive_state & 1) {
-            statusbar_drive_offset[drive_number][0] = offset;
+            statusbar_drive_offset[drive_number][0] = (int)offset;
             ui_display_drive_led(drive_number, 0, 0, 0);
             ui_display_drive_track(drive_number, 0, 
                                    statusbar_drive_track[drive_number][0]);
             if (drive_is_dualdrive_by_devnr(drive_number + 8)) {
                 offset += (drive_number > 1) ? 6 : 5;
-                statusbar_drive_offset[drive_number][1] = offset;
+                statusbar_drive_offset[drive_number][1] = (int)offset;
                 ui_display_drive_led(drive_number, 1, 0, 0);
                 ui_display_drive_track(drive_number, 1, 
                                     statusbar_drive_track[drive_number][1]);

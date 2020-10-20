@@ -77,7 +77,7 @@ static UI_MENU_CALLBACK(custom_buffer_size_callback)
         sprintf(buf, "%i", previous);
         value = sdl_ui_text_input_dialog("Enter buffer size in msec", buf);
         if (value) {
-            new_value = strtol(value, NULL, 0);
+            new_value = (int)strtol(value, NULL, 0);
             if (new_value != previous) {
                 resources_set_int("SoundBufferSize", new_value);
             }
@@ -102,7 +102,7 @@ static UI_MENU_CALLBACK(custom_frequency_callback)
         sprintf(buf, "%i", previous);
         value = sdl_ui_text_input_dialog("Enter frequency in Hz", buf);
         if (value) {
-            new_value = strtol(value, NULL, 0);
+            new_value = (int)strtol(value, NULL, 0);
             if (new_value != previous) {
                 resources_set_int("SoundSampleRate", new_value);
             }
