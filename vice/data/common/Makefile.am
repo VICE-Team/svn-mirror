@@ -81,9 +81,36 @@ $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 
 common_DATA += $(GRESOURCE_TARGET)
 
-
+# The *.ico and *.res files are currently generated in
+# src/arch/gtk3/data/win32/Makefile.am, but the plan is to move that to here
+# to also be able to generate the files for linking with SDL binaries on Win32
 CLEANFILES = \
-	$(GRESOURCE_TARGET)
+	$(GRESOURCE_TARGET) \
+	x64.ico \
+	x64sc.ico \
+	x64dtv.ico \
+	xscpu64.ico \
+	x128.ico \
+	xvic.ico \
+	xplus4.ico \
+	xpet.ico \
+	xcbm2.ico \
+	xcbm5x0.ico \
+	vsid.ico \ 
+	x64.res \
+	x64sc.res \
+	x64dtv.res \
+	xscpu64.res \
+	x128.res \
+	xvic.res \
+	xplus4.res \
+	xpet.res \
+	xcbm2.res \
+	xcbm5x0.res \
+	vsid.res
+
+
+
 
 EXTRA_DIST += $(GRESOURCE_XML)
 
