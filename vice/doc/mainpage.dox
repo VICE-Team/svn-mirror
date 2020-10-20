@@ -101,10 +101,6 @@
   \page readmes ReadMes
   \subpage readme
   \n
-  \subpage feedback
-  \n
-  \subpage install
-  \n
   \subpage readmegtk3
   \n
   \subpage readmesdl
@@ -114,10 +110,6 @@
 /*!
   \page readme README
   \htmlinclude README
-  \page feedback FEEDBACK
-  \htmlinclude FEEDBACK
-  \page install INSTALL
-  \htmlinclude INSTALL
   \page readmesdl SDL
   \htmlinclude Readme-SDL.txt
   \page readmesdl2 SDL2
