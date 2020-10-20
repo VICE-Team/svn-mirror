@@ -10,8 +10,10 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 ARCH_LIBS = @ARCH_LIBS@
 
 
-# Windows .res files to be linked to each binary
+# Windows .res files to be linked to each binary 
 if WIN32_COMPILE
+# but NOT in headless mode
+if !HEADLESS_COMPILE
 X64_RES = $(top_builddir)/data/common/x64.res
 X64DTV_RES = $(top_builddir)/data/common/x64dtv.res
 X64SC_RES = $(top_builddir)/data/common/x64sc.res
@@ -23,6 +25,7 @@ XPET_RES = $(top_builddir)/data/common/xpet.res
 XCBM2_RES = $(top_builddir)/data/common/xcbm2.res
 XCBM5x0_RES = $(top_builddir)/data/common/xcbm5x0.res
 VSID_RES = $(top_builddir)/data/common/vsid.res
+endif
 endif
 
 
