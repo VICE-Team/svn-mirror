@@ -170,7 +170,7 @@ unsigned int rawfile_seek(struct rawfile_info_s *info, off_t offset, int whence)
 
 unsigned int rawfile_tell(struct rawfile_info_s *info)
 {
-    return ftell(info->fd);
+    return (unsigned int)ftell(info->fd);
 }
 
 unsigned int rawfile_ferror(rawfile_info_t *info)
