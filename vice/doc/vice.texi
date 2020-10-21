@@ -27663,27 +27663,10 @@ a mirror of the second last ROM page.
 
 @end example
 
-The Lt. Kernal Host Adaptor (SCSI ID 7) looks on sector 0 of drive 0 (ID 0) 
-to find the partition (LU or logical unit) information and DOS. The DOS 
-(official latest 7.2) is limited by the original cylinder/head/sector (CHS) 
-addressing schemes of legacy hard disks, but it doesn't use that when 
-accessing them; it uses the modern logical block address, although this may 
-have not been the case in the original version. The CHS is used when 
-configuring its filing system for each LU. You should never have a disk 
-configured with more than 15 heads or have the product of the heads and 
-sectors that exceeds 255 as it will cause data corruption. The DOS also 
-cannot access an LU which starts beyond cylinder 1023. The solution to this, 
-at the time, was to use more than one disk. This emulation supports up to 7 
-drives. The Lt. Kernal sold in 20 MB and 40 MB versions, so these issues 
-were never addressed officially. The DOS install disks are keyed to the host 
-adaptors and hard disks (see LTKserial), so any additions or modifications 
-were done by the company, Xetec, and sent to the customer on new install 
-disks. Unofficially, to use a larger disk, the information on track 18, 
-sector 18 of the first install disk needs to be modified; LTKEDIT2 is a tool 
-which does this. Be warned it does not check for invalid information. Some 
-of the configurations LTKEDIT2 offers will cause data corruption as the CHS 
-combinations are too high. An easy and quick way to check this is to 
-VALIDATE a new LU after ACTIVATING it.
+The Lt. Kernal Host Adaptor (SCSI ID 7) boot rom looks on sector 0 of drive 0
+(ID 0) to find the partition (LU or logical unit) information and DOS. If the
+drive is not found, it will start up in stock mode.  See
+src/c64/cart/ltkernal.c for more details.
 
 The Lt. Kernal Host Adaptor uses the following registers:
 
@@ -27696,15 +27679,7 @@ The Lt. Kernal Host Adaptor uses the following registers:
 @end example
 
 MC6821 Port A connects to the SCSI data bus (inverted). Data is saved to hard 
-disk inverted to save data processing time. The adaptor doesn't use a proper 
-open-collector driver for the databus, rather a 74LS245 tri-state buffer (that 
-drives high signals rather than the line termination) controlled by the SCSI IO 
-line. The SCSI data bus is terminated by drive 0, while the SCSI RST, SEL, ACK, 
-and ATN signals are pulled up on the adaptor, therefore terminated there. SCSI 
-signals RST, SEL, and ACK are driven by proper open-collectors on the adaptor. 
-The DB25 connector on the adaptor is NOT a standard SCSI DB25. Connecting 
-anything other than an official Lt. Kernal drive will likely cause damage to 
-the host adaptor.
+disk inverted to save data processing time.
 
 @example
  signal  meaning
@@ -27725,19 +27700,6 @@ high (1). The HIRAM line from the PLA goes to the adaptor so it can determine
 the proper write action to the main RAM or adaptor RAM. Writing a high (1) to 
 CB2 while PB2.6 is low (0) causes a system reset. The stock KERNAL is copied and 
 then patched by the LTK DOS on startup.
-The LTK DOS (located at the beginning of the hard drive) is constantly loading 
-in different modules depending on the actions taken. For example, a call to the 
-kernal open function will result in the "open" code to be loaded off the hard 
-disk into the $8000-$9FFF area. This can result in a lot of hard disk "
-thrashing" depending on the distance of current LU and the DOS. The LTK offers 
-the ability to create a "DOS image" (a copy of the DOS, but in a single file) 
-in each LU to reduce the hard disk seek times when accessing different parts of 
-LU and the DOS. This feature shouldn't be required in emulation as the speed of 
-the hard disk access is essentially instantaneous on modern hardware. Other 
-utilities such as DIR, and VALIDATE, load into $C000-CFFF. Prior to this, the 
-LTK saves those contents of memory into a reserved space in the DOS and restores 
-them once the utility has terminated. This may cause some compatibility problems 
-if you have interrupt or service vectors which point to that area.
 
 @example
  signal  meaning
