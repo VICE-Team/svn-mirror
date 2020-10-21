@@ -41,6 +41,7 @@
 
 #include "mc6821core.h"
 #include "snapshot.h"
+#include "monitor.h"
 
 void mc6821core_reset(mc6821_state *ctx)
 {
@@ -373,6 +374,16 @@ int mc6821core_snapshot_read_data(mc6821_state *ctx, snapshot_module_t *m)
         || SMR_B_INT(m, &ctx->CB2state) < 0) {
         return -1;
     }
+
+    return 0;
+}
+
+int mc6821core_dump(mc6821_state *ctx)
+{
+    mon_out("Port A: %02x DDR: %02x REG: %02x CTRL: %02x\n",
+            mc6821core_peek(ctx, 0, 0), ctx->ddrA, ctx->dataA, ctx->ctrlA);
+    mon_out("Port B: %02x DDR: %02x REG: %02x CTRL: %02x\n",
+            mc6821core_peek(ctx, 1, 0), ctx->ddrB, ctx->dataB, ctx->ctrlB);
 
     return 0;
 }
