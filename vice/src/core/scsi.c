@@ -67,6 +67,12 @@ static int32_t scsi_imagecheck(struct scsi_context_s *context)
     }
 
     if (!context->file[context->target]) {
+        if ( context->target == 0 && context->lun == 0 &&
+            !(context->log & SCSI_LOG_NODISK0) ) {
+            CRIT((ERR, "SCSI: no image attached to disk 0;"
+                " expect unusual results and/or hangs" ));
+            context->log |= SCSI_LOG_NODISK0;
+        }
         return 2;
     }
 
@@ -127,14 +133,14 @@ int32_t scsi_image_read(struct scsi_context_s *context)
     fhd = context->file[context->target];
 
     if (fseek(fhd, context->address * 512, SEEK_SET) < 0) {
-        CRIT((ERR, "SCSI error seeking disk %d at sector 0x%x",
+        CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
     }
 
     if (fread(context->data_buf, 512, 1, fhd) < 1) {
         if (!feof(fhd)) {
-            CRIT((ERR, "SCSI error reading disk %d at sector 0x%x",
+            CRIT((ERR, "SCSI: error reading disk %d at sector 0x%x",
                 context->target, context->address));
             return -4;
         }
@@ -146,7 +152,7 @@ int32_t scsi_image_read(struct scsi_context_s *context)
         }
     }
 
-    LOG2((LOG, "SCSI read disk %d at sector 0x%x", context->target,
+    LOG2((LOG, "SCSI: read disk %d at sector 0x%x", context->target,
         context->address));
 
     /* if the user provides it, call a function to modify the data before
@@ -175,18 +181,18 @@ int32_t scsi_image_write(struct scsi_context_s *context)
     fhd = context->file[context->target];
 
     if (fseek(fhd, context->address * 512, SEEK_SET) < 0) {
-        CRIT((ERR, "SCSI error seeking disk %d at sector 0x%x",
+        CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
     }
 
     if (fwrite(context->data_buf, 512, 1, fhd) < 1) {
-        CRIT((ERR, "SCSI error writing disk %d at sector 0x%x",
+        CRIT((ERR, "SCSI: error writing disk %d at sector 0x%x",
             context->target, context->address));
         return -4;
     }
 
-    LOG2((LOG, "SCSI write disk %d at sector 0x%x", context->target,
+    LOG2((LOG, "SCSI: write disk %d at sector 0x%x", context->target,
         context->address));
 
     return 0;
@@ -226,7 +232,7 @@ void scsi_process_noack(struct scsi_context_s *context)
 {
     int32_t i, t, n;
 
-    SDBG((LOG, "SCSI entered update state=%02x %02x", context->state,
+    SDBG((LOG, "SCSI: process noack state=%02x %02x", context->state,
         context->databus));
 
     /* handle reset condition */
@@ -267,7 +273,7 @@ void scsi_process_noack(struct scsi_context_s *context)
             context->bsyo = 1;
             context->req = 0;
             context->seq = 0;
-            SDBG((LOG, "SCSI TARGET=%02x", context->target));
+            SDBG((LOG, "SCSI: TARGET=%02x", context->target));
         } else {
             /* Not asking for single ID or < 7, don't respond */
             context->target = 255;
@@ -276,12 +282,12 @@ void scsi_process_noack(struct scsi_context_s *context)
         return;
     } else if (context->sel && context->bsyo) {
         /* do nothing, we are asserting BSY waiting for SEL to drop */
-        SDBG((LOG, "SCSI waiting for SEL to drop"));
+        SDBG((LOG, "SCSI: waiting for SEL to drop"));
     } else if (!context->sel && context->bsyo &&
         context->state == SCSI_STATE_BUSFREE) {
         /* initiator has dropped SEL, we switch to command mode, keep
             BSY set */
-        SDBG((LOG, "SCSI ready for command"));
+        SDBG((LOG, "SCSI: ready for command"));
         context->state = SCSI_STATE_COMMAND;
         context->cmd_size = 256;
         context->req = 1;
@@ -308,7 +314,7 @@ void scsi_process_ack(struct scsi_context_s *context)
     unsigned char PRODID[17] = "SCSI Image File "; /* 16 chars */
     char *REVISION; /* 4 chars */
 
-    SDBG((LOG, "SCSI process: state=%02x", context->state));
+    SDBG((LOG, "SCSI: process ack state=%02x", context->state));
 
     if (context->state == SCSI_STATE_BUSFREE) {
         return;
@@ -352,7 +358,7 @@ void scsi_process_ack(struct scsi_context_s *context)
             context->io = 0;
             context->cd = 0;
             context->data_buf[context->seq] = data;
-            SDBG((LOG, "SCSI DATAOUT[%02x]=%02x", context->seq,
+            SDBG((LOG, "SCSI: DATAOUT[%02x]=%02x", context->seq,
                 context->data_buf[context->seq]));
             context->seq++;
             if (context->seq >= context->data_max) {
@@ -429,7 +435,7 @@ void scsi_process_ack(struct scsi_context_s *context)
             context->io = 0;
             context->cd = 1;
             context->cmd_buf[context->seq] = data;
-            SDBG((LOG, "SCSI COMMAND[%d]=%02x", context->seq, data));
+            SDBG((LOG, "SCSI: COMMAND[%d]=%02x", context->seq, data));
 
             if (context->seq == 0) {
                 context->command = context->cmd_buf[0];
@@ -455,7 +461,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->cmd_size = 10;
                     break;
                 default:
-                    CRIT((ERR, "SCSI Unknown Command=%0x",
+                    CRIT((ERR, "SCSI: Unknown Command=%0x",
                         context->cmd_buf[0]));
                     context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                     context->status = SCSI_STATUS_CHECKCONDITION;
@@ -750,7 +756,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                 }
             }
             byte = context->data_buf[context->seq];
-            SDBG((LOG, "SCSI DATAIN[%02x]=%02x", context->seq,
+            SDBG((LOG, "SCSI: DATAIN[%02x]=%02x", context->seq,
                 context->data_buf[context->seq]));
             context->seq++;
             context->databus = byte ^ 0xff;
@@ -761,7 +767,7 @@ void scsi_process_ack(struct scsi_context_s *context)
 
     if (context->state == SCSI_STATE_STATUS) {
         byte = context->status;
-        SDBG((LOG, "SCSI STATUS=%02x", context->status));
+        SDBG((LOG, "SCSI: STATUS=%02x", context->status));
         context->io = 1;
         context->databus = byte ^ 0xff;
         context->cd = 1;
@@ -786,6 +792,7 @@ void scsi_reset(struct scsi_context_s *context)
     context->user_format = scsi_format_sector0;
     context->user_read = NULL;
     context->user_write = NULL;
+    context->log = 0;
 
     return;
 }

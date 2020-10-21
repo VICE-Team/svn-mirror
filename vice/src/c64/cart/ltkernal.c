@@ -58,18 +58,11 @@
 
 /* #define LTKLOG1 */
 /* #define LTKLOG2 */
-/* #define LTKDEBUGSCSI */
 /* #define LTKDEBUGIO */
 /* #define LTKDEBUGMEM */
 
 #define LOG LOG_DEFAULT
 #define ERR LOG_ERR
-
-#ifdef LTKDEBUGSCSI
-#define SDBG(_x_) log_message _x_
-#else
-#define SDBG(_x_)
-#endif
 
 #ifdef LTKDEBUGMEM
 #define MDBG(_x_) log_message _x_
@@ -96,6 +89,10 @@
 #endif
 
 #define CRIT(_x_) log_message _x_
+
+#if C64CART_ROM_LIMIT <= 16384
+#error C64CART_ROM_LIMIT is too small; it should be at least 16384.
+#endif
 
 extern unsigned int reg_pc;
 
@@ -241,7 +238,7 @@ static uint8_t ltk_on;
 static uint8_t ltk_in2;
 
 /* resources */
-static int ltk_io = 2; /* (1=$dexx, 2=$dfxx) */
+static int ltk_io = 1; /* (0=$dexx, 1=$dfxx) */
 static int ltk_port = 0;
 static char *ltk_serial = NULL;
 static char *ltk_disk[7] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL };
@@ -252,20 +249,20 @@ static mc6821_state ltk_6821;
 static uint8_t ltkernal_io_read(uint16_t addr);
 static uint8_t ltkernal_io_peek(uint16_t addr);
 static void ltkernal_io_store(uint16_t addr, uint8_t value);
-static int ltkernal_dump(void);
+static int ltkernal_io_dump(void);
 
 static io_source_t ltkernal_io_device = {
     CARTRIDGE_NAME_LT_KERNAL, /* name of the device */
     IO_DETACH_CART,           /* use cartridge ID to detach the device when
         involved in a read-collision */
     IO_DETACH_NO_RESOURCE,    /* does not use a resource for detach */
-    0xdf00, 0xdf07, 0x07,     /* range for the device, regs:$df00-$df07 */
+    0xdf00, 0xdfff, 0x07,     /* range for the device, regs:$df00-$dfff */
     1,                        /* read is always valid */
     ltkernal_io_store,        /* store function */
     NULL,                     /* NO poke function */
     ltkernal_io_read,         /* read function */
     ltkernal_io_peek,         /* peek function */
-    ltkernal_dump,            /* device state information dump function */
+    ltkernal_io_dump,         /* device state information dump function */
     CARTRIDGE_LT_KERNAL,      /* cartridge ID */
     IO_PRIO_NORMAL,           /* normal priority, device read needs to be
         checked for collisions */
@@ -295,22 +292,22 @@ static int ltkernal_registerio(void)
         return -1;
     }
 
-    if (ltk_io < 1 || ltk_io > 2) {
-        ltk_io = 2;
+    if (ltk_io < 0 || ltk_io > 1) {
+        ltk_io = 1;
     }
 
-    ltkernal_io_device.start_address = 0xdd00 + ltk_io * 256;
-    ltkernal_io_device.end_address = ltkernal_io_device.start_address + 7;
+    ltkernal_io_device.start_address = 0xde00 + ltk_io * 256;
+    ltkernal_io_device.end_address = ltkernal_io_device.start_address + 255;
 
     LOG1((LOG, "LTK IO is at $%02xxx",
-        (unsigned int)(ltk_io == 1 ? 0xde : 0xdf)));
+        (unsigned int)(ltk_io == 0 ? 0xde : 0xdf)));
 
     ltkernal_io_list_item = io_source_register(&ltkernal_io_device);
 
     return 0;
 }
 
-void ltkernal_unregisterio(void)
+static void ltkernal_unregisterio(void)
 {
     LOG2((LOG, "LTK unregisterio"));
 
@@ -337,7 +334,7 @@ static int set_port(int port, void *param)
 
 static int set_io(int io, void *param)
 {
-    if (io < 1 || io > 2) {
+    if (io < 0 || io > 1) {
         return -1;
     }
 
@@ -351,14 +348,14 @@ static int set_io(int io, void *param)
     }
 
     LOG1((LOG, "LTK IO = %d ($%02xxx)", io,
-        (unsigned int)(io == 1 ? 0xde : 0xdf)));
+        (unsigned int)(io == 0 ? 0xde : 0xdf)));
 
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
     { "LTKport", 0, RES_EVENT_NO, NULL, &ltk_port, set_port, 0 },
-    { "LTKio", 2, RES_EVENT_NO, NULL, &ltk_io, set_io, 0 },
+    { "LTKio", 1, RES_EVENT_NO, NULL, &ltk_io, set_io, 0 },
     RESOURCE_INT_LIST_END
 };
 
@@ -463,7 +460,7 @@ static const cmdline_option_t cmdline_options[] =
       "<value>", "Set LTK port number (0..15)" },
     { "-ltkio", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "LTKio", NULL,
-      "<value>", "Set LTK IO page (1=$DExx, 2=$DFxx=default)" },
+      "<value>", "Set LTK IO page (0=$DExx, 1=$DFxx=default)" },
     CMDLINE_LIST_END
 };
 
@@ -564,7 +561,7 @@ static void ltk_set_ca2(mc6821_state *ctx)
     }
 }
 
-uint8_t ltkernal_io_read(uint16_t addr)
+static uint8_t ltkernal_io_read(uint16_t addr)
 {
     int port, reg;
     uint8_t val = 0;
@@ -586,7 +583,7 @@ uint8_t ltkernal_io_read(uint16_t addr)
     return val;
 }
 
-uint8_t ltkernal_io_peek(uint16_t addr)
+static uint8_t ltkernal_io_peek(uint16_t addr)
 {
     int port, reg;
     uint8_t val = 0;
@@ -669,7 +666,7 @@ static void ltk_set_cb2(mc6821_state *ctx)
     }
 }
 
-void ltkernal_io_store(uint16_t addr, uint8_t value)
+static void ltkernal_io_store(uint16_t addr, uint8_t value)
 {
     int port, reg;
 
@@ -695,8 +692,20 @@ void ltkernal_io_store(uint16_t addr, uint8_t value)
     }
 }
 
-static int ltkernal_dump(void)
+static int ltkernal_io_dump(void)
 {
+    mon_out("IO mapped?: %s\n", ltk_on ? "Yes" : "No");
+    mon_out("IO location: $%xxx\n", (unsigned int)(ltk_io == 0 ? 0xde : 0xdf ));
+    mon_out("Port number: %d\n", ltk_port);
+    mon_out("Freeze state: %s\n", ltk_freeze ? "Yes" : "No");
+    mon_out("ROM mapped to $8000-$9FFF?: %s\n", ltk_rom ? "Yes" : "No");
+    mon_out("RAM mapped to $8000-$9FFF?: %s\n", ltk_raml ? "Yes" : "No");
+    mon_out("RAM mapped to $E000-$FFFF?: %s\n", ltk_ramh ? "Yes" : "No");
+    mon_out("RAM write enabled?: %s\n", ltk_ramwrite ? "Yes" : "No");
+
+    mon_out("MC6821\n");
+    mc6821core_dump(&ltk_6821);
+
     return 0;
 }
 
@@ -709,7 +718,7 @@ static int ltk_alt_external_function_rom_read(uint16_t addr, uint8_t *ret)
         return 1;
     }
     if (ltk_rom) {
-/* for 128, the LTK upper 8K or ROM is used; only map that */
+/* for 128, the LTK upper 8K of ROM is used; only map that */
         *ret = roml_banks[(addr & 0x0fff)|0x1000];
         MDBG((LOG, "LTK alt_external_function_rom_read(ROM) %04x = %02x",
             (int)addr, (int)*ret));
@@ -768,7 +777,7 @@ static int ltk_alt_basic_hi_store(uint16_t addr, uint8_t value)
 static int ltk_alt_hi_read(uint16_t addr, uint8_t *ret)
 {
     if (ltk_ramh) {
-        *ret = romh_banks[(addr & 0x1fff)];
+        *ret = export_ram0[0x2000|(addr & 0x1fff)];
         MDBG((LOG, "LTK alt_hi_read %04x = %02x", (int)addr, (int)*ret));
         return 0;
     }
@@ -778,7 +787,7 @@ static int ltk_alt_hi_read(uint16_t addr, uint8_t *ret)
 static int ltk_alt_hi_store(uint16_t addr, uint8_t value)
 {
     if (ltk_ramh && ltk_ramwrite) {
-        romh_banks[(addr & 0x1fff)] = value;
+        export_ram0[0x2000|(addr & 0x1fff)] = value;
         MDBG((LOG, "LTK alt_hi_store %04x = %02x", (int)addr, (int)value));
         return 0;
     }
@@ -817,7 +826,7 @@ uint8_t ltkernal_romh_read(uint16_t addr)
 {
     uint8_t val;
     if ((ltk_ramh && (pport.data & 2)) || (ltk_ramh && ltk_freeze )) {
-        val = romh_banks[(addr & 0x1fff)];
+        val = export_ram0[0x2000|(addr & 0x1fff)];
     } else {
         val = mem_read_without_ultimax(addr);
     }
@@ -825,16 +834,6 @@ uint8_t ltkernal_romh_read(uint16_t addr)
         (int)addr, (int)val, (int)ltk_raml, (int)ltk_ramh, (int)ltk_ramwrite,
         (int)pport.data));
     return val;
-}
-
-int ltkernal_romh_phi1_read(uint16_t addr, uint8_t *value)
-{
-    return CART_READ_C64MEM;
-}
-
-int ltkernal_romh_phi2_read(uint16_t addr, uint8_t *value)
-{
-    return ltkernal_romh_phi1_read(addr, value);
 }
 
 void ltkernal_roml_store(uint16_t addr, uint8_t value)
@@ -851,13 +850,13 @@ void ltkernal_roml_store(uint16_t addr, uint8_t value)
 void ltkernal_romh_store(uint16_t addr, uint8_t value)
 {
     if (ltk_ramh && ltk_ramwrite) {
-        romh_banks[(addr & 0x1fff)] = value;
+        export_ram0[0x2000|(addr & 0x1fff)] = value;
     } else {
         ram_store(addr, value);
+    }
     MDBG((LOG, "LTK romh_store %04x = %02x roml=%d romh=%d romw=%d pport=%02x",
         (int)addr, (int)value, (int)ltk_raml, (int)ltk_ramh, (int)ltk_ramwrite,
         (int)pport.data));
-    }
 }
 
 int ltkernal_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
@@ -876,7 +875,7 @@ int ltkernal_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
     }
     if (ltk_ramh) {
         if (addr >= 0xe000) {
-            *value = romh_banks[addr & 0x1fff];
+            *value = export_ram0[0x2000|(addr & 0x1fff)];
             return CART_READ_VALID;
         }
     }
@@ -932,7 +931,7 @@ void ltkernal_config_init(void)
 
     for (i = 0; i < 0x2000; i++) {
         export_ram0[i] = (i >> 8) + 0x80;
-        romh_banks[i] = (i >> 8) + 0xe0;
+        export_ram0[0x2000|i] = (i >> 8) + 0xe0;
     }
 
     /* defaults */
@@ -996,7 +995,7 @@ void ltkernal_config_setup(uint8_t *rawcart)
     /* warn user in case the 64 and 128 numbers don't match */
     for (i = 0; i < 8; i++) {
         if (rawcart[10 + i] != rawcart[4096 + 10 + i]) {
-            CRIT((ERR, "LTK C64 and C128 serial numbers don't match."));
+            CRIT((ERR, "LTK C64 and C128 serial numbers don't match in supplied ROM/CRT."));
             break;
         }
     }
@@ -1081,8 +1080,7 @@ void ltkernal_detach(void)
    BYTE   | io            | ltk_io
    BYTE   | port          | ltk_port
    ARRAY  | ROML          | 8192 BYTES of ROML data (boot rom, $8000-$9FFF)
-   ARRAY  | ROMH          | 8192 BYTES of ROMH data (kernal) is a RAM
-   ARRAY  | export_ram0   | 8192 BYTES of export RAM data (DOS) is a RAM
+   ARRAY  | export_ram0   | 16384 BYTES of export RAM data (RAML & RAMH)
    MC6821 | SNAPSHOT6821  | ltk_6821
    SCSI   | SNAPSHOTSCSI  | ltk_scsi
 
@@ -1113,8 +1111,7 @@ int ltkernal_snapshot_write_module(snapshot_t *s)
         || (SMW_DW(m, ltk_io) < 0)
         || (SMW_DW(m, ltk_port) < 0)
         || (SMW_BA(m, roml_banks, 0x2000) < 0)
-        || (SMW_BA(m, romh_banks, 0x2000) < 0)
-        || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
+        || (SMW_BA(m, export_ram0, 0x4000) < 0)) {
         goto fail;
     }
 
@@ -1161,8 +1158,7 @@ int ltkernal_snapshot_read_module(snapshot_t *s)
         || (SMR_DW_INT(m, &ltk_io) < 0)
         || (SMR_DW_INT(m, &ltk_port) < 0)
         || (SMR_BA(m, roml_banks, 0x2000) < 0)
-        || (SMR_BA(m, romh_banks, 0x2000) < 0)
-        || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
+        || (SMR_BA(m, export_ram0, 0x4000) < 0)) {
         goto fail;
     }
 

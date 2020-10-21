@@ -521,6 +521,8 @@ void cart_romlbank_set_slotmain(unsigned int bank)
 
         magic voice
 
+        ltkernal
+
         isepic
         expert
 

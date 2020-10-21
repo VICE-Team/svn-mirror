@@ -61,6 +61,7 @@ typedef struct scsi_context_s {
     uint8_t max_ids;
     uint8_t msg_after_status;
     uint32_t max_imagesize;
+    uint32_t log;
     FILE *file[7];
     void *p;
     void (*user_format)(struct scsi_context_s *);
@@ -125,6 +126,8 @@ MSG C/D I/O   Phase Name          Direction Of Transfer         Comment
 #define SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE 0x21
 #define SCSI_SASC_INVALIDFIELDINCDB             0x24
 #define SCSI_SASC_INVALIDFIELDINPARAMETERLIST   0x26
+
+#define SCSI_LOG_NODISK0 0x01
 
 /* commands that have full or limited implementation known
     to be used by LTK and CMD HDs */
