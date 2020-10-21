@@ -7,6 +7,8 @@
  */
 
 /*
+ * $VICERES LTKio           x64 x64sc x128
+ * $VICERES LTKserial       x64 x64sc x128
  * $VICERES LTKimage0       x64 x64sc x128
  * $VICERES LTKimage1       x64 x64sc x128
  * $VICERES LTKimage2       x64 x64sc x128
@@ -66,8 +68,8 @@ static const char *filter_list[] = {
 /** \brief  List of I/O addresses for the cartridge
  */
 static vice_gtk3_radiogroup_entry_t io_entries[] = {
-    { "$DExx",  1 },
-    { "$DFxx",  2 },
+    { "$DExx",  0 },
+    { "$DFxx",  1 },
     { NULL,     -1 }
 };
 
