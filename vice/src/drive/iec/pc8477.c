@@ -173,7 +173,7 @@ struct pc8477_s {
     int rate;
 
     int sector; /* sector register */
-    int is8477; /* dp8473 or pc 8477 */
+    int is8477; /* dp8473=0 or pc8477!=0 */
 
     alarm_t *seek_alarm;
     int byte_count;
@@ -204,7 +204,11 @@ static void seek_alarm_handler(CLOCK offset, void *data)
             drv->fdds[i].seeking = 1;
             if (drv->fdds[i].recalibrating && drv->fdds[i].seek_pulses == 0
                 && !fdd_track0(drv->fdds[i].fdd)) {
-                drv->st[0] |= PC8477_ST0_EC;
+                /* CMD FD2000's mechanism also sets bit 5 and 6 on
+                   recalibration timeout, it is hard coded in ROM to check for
+                   $71 on result (@ $878a) and try again */
+                /* The FD4000 uses 85 pulses, so this shouldn't timeout */
+                drv->st[0] |= (PC8477_ST0_EC | 0x60);
             }
             break;
         }
@@ -498,7 +502,8 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
             return PC8477_EXEC;
         case PC8477_CMD_RECALIBRATE:
             debug((pc8477_log, "RECALIBRATE #%d", drv->current->num));
-            drv->current->seek_pulses = drv->is8477 ? -77 : -85;
+            /* the pc8477 returns -85, the dp8473 returns -77 */
+            drv->current->seek_pulses = drv->is8477 ? -85 : -77;
             drv->current->track = 0;
             drv->current->recalibrating = 1;
             if (!drv->seeking_active) {
