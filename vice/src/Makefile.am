@@ -618,6 +618,10 @@ infocontrib.h:	$(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 		false; \
 	fi
 	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | LC_ALL=C sed -f $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
+	@if [ "`file --mime-encoding infocontrib.h`" != "infocontrib.h: iso-8859-1" ]; then \
+		echo "ERROR: generated infocontrib.h contains content that is not valid iso-8859-x" >&2; \
+		false; \
+	fi
 # we need to replace \ and space by "regular" characters, else things break on some shells
 	@LC_ALL=C sed -e 's/\\/{/g' -e 's/ /}/g' <$(top_srcdir)/README >./README.tmp
 #	cat  <$(top_srcdir)/README >./README.tmp
