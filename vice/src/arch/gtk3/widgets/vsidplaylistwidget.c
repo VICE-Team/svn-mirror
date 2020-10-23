@@ -728,6 +728,7 @@ static void vsid_playlist_view_create(void)
             renderer,
             "text", 0,
             NULL);
+    gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
 
     column = gtk_tree_view_column_new_with_attributes(
@@ -735,6 +736,7 @@ static void vsid_playlist_view_create(void)
             renderer,
             "text", 1,
             NULL);
+    gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
 
     column = gtk_tree_view_column_new_with_attributes(
@@ -742,6 +744,7 @@ static void vsid_playlist_view_create(void)
             renderer,
             "text", 2,
             NULL);
+    gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(playlist_view), column);
 
     /* Allow selecting multiple items (for deletion) */
