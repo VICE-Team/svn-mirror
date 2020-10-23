@@ -88,7 +88,7 @@ static int mon_file_open(const char *filename,
             if (vdrive == NULL || vdrive->image == NULL) {
                 /* if vdrive did not succeed, try fsdevice */
                 if ((fspath = mon_drive_get_fsdevice_path(device))) {
-                    fullpath = archdep_join_paths(fspath, filename);
+                    fullpath = archdep_join_paths(fspath, filename, NULL);
                     fp = fopen(fullpath, (secondary == 0) ? MODE_READ : MODE_WRITE);
                     lib_free(fullpath);
                     if (fp != NULL) {
