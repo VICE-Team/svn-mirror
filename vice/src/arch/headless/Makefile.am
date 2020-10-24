@@ -7,7 +7,9 @@ extra_includes =
 endif
 
 AM_CPPFLAGS = \
+	@VICE_CPPFLAGS@ \
 	@ARCH_INCLUDES@ \
+	-I$(top_srcdir)/src/arch/shared \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
@@ -38,6 +40,8 @@ AM_CPPFLAGS = \
 AM_CFLAGS = @VICE_CFLAGS@
 
 AM_CXXFLAGS = @VICE_CXXFLAGS@
+
+AM_OBJCFLAGS = @VICE_OBJCFLAGS@
 
 AM_LDFLAGS = @VICE_LDFLAGS@
 
@@ -72,8 +76,6 @@ libtoolarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	archdep.h \
-	archdep_unix.h \
-	archdep_win32.h \
 	coproc.h \
 	debug_headless.h \
 	joy.h \
