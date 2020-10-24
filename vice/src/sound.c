@@ -1159,6 +1159,7 @@ void sound_close(void)
     if (temp_buffer) {
         lib_free(temp_buffer);
         temp_buffer = NULL;
+        temp_buffer_size = 0;
     }
 
     /* Closing the sound device might take some time, and displaying
