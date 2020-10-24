@@ -123,8 +123,6 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
 
 void vice_opengl_renderer_present_backbuffer(vice_opengl_renderer_context_t *context)
 {
-    /* Seems to be be needed on macOS */
-    glFinish();
 }
 
 void vice_opengl_renderer_clear_current(vice_opengl_renderer_context_t *context)

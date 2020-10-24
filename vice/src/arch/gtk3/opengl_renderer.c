@@ -581,6 +581,7 @@ static void render(void *job_data, void *pool_data)
      * 
      * Also, using glFlush() results in incorrect transition to fullscreen when paused (X11).
      */
+    glFinish();
     
     vice_opengl_renderer_present_backbuffer(context);
 
