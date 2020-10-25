@@ -313,6 +313,11 @@ static const char *register_string[] = {
     "CY",   /* Cycle in line */
 };
 
+bool monitor_is_inside_monitor(void)
+{
+    return inside_monitor;
+}
+
 /* Some local helper functions */
 static int find_cpu_type_from_string(const char *cpu_string)
 {

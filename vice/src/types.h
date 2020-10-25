@@ -34,6 +34,8 @@
 #  include "vice_sdl.h"
 #endif
 
+#include <stdbool.h>
+
 #ifdef HAVE_INTTYPES_H
 /* FIXME: Doxygen can't find the C99 header */
 #  include <inttypes.h>

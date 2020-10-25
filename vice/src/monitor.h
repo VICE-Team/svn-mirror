@@ -160,6 +160,7 @@ extern int monitor_resources_init(void);
 extern void monitor_resources_shutdown(void);
 void monitor_startup(MEMSPACE mem);
 extern void monitor_startup_trap(void);
+extern bool monitor_is_inside_monitor(void);
 
 extern void monitor_abort(void);
 

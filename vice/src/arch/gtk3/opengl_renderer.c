@@ -38,6 +38,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "monitor.h"
 #include "palette.h"
 #include "render_queue.h"
 #include "resources.h"
@@ -362,17 +363,15 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
      * signal, because we have our own native Xlib window/NSView added over the top
      * of the GTK/GDK window.
      * 
-     * So, each GdkFrameClock event, check if we have rendered since the last
-     * event. If we have not, queue up a refresh of the existing emu frame.
+     * So, each GdkFrameClock event, check if we are currently paused, and if we
+     * are, queue up a refresh of the existing emu frame.
      * 
      * This ensures that resizing while paused doesn't glitch like busy win95,
      * and also fixes various issues on some crappy X11 setups :)
      */
 
-    if (context->last_render_time < context->last_host_frame_time) {
-        if (context->render_thread) {
-            render_thread_push_job(context->render_thread, context);
-        }
+    if (ui_pause_active() || monitor_is_inside_monitor()) {
+        render_thread_push_job(context->render_thread, context);
     }
 
     context->last_host_frame_time = vsyncarch_gettime();
@@ -562,26 +561,21 @@ static void render(void *job_data, void *pool_data)
     }
 
     /*
-     * Sync to monitor refresh when the emulated screen has changed,
-     * but don't if we are just redrawing the same content. This keeps
-     * resize nice and smooth.
-     */
-
-    if (backbuffer) {
-        int vsync = 1;
-        resources_get_int("VSync", &vsync);
-        vice_opengl_renderer_set_vsync(context, vsync ? true : false);
-    } else {
-        vice_opengl_renderer_set_vsync(context, false);
-    }
-
-    /*
      * A glFlush() alone seems to work, however after the app has been in the background for a while,
      * you see a bunch of old frames very quickly rendered in a 'catch up'. This seems to prevent that.
      * 
      * Also, using glFlush() results in incorrect transition to fullscreen when paused (X11).
      */
+    
     glFinish();
+
+    /*
+     * Ensure vsync setting is correctly set.
+     */
+
+    int vsync = 1;
+    resources_get_int("VSync", &vsync);
+    vice_opengl_renderer_set_vsync(context, vsync ? true : false);
     
     vice_opengl_renderer_present_backbuffer(context);
 
