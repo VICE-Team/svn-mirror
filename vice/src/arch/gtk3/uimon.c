@@ -279,6 +279,7 @@ static gboolean plain_key_pressed(char **input_buffer, guint keyval)
             *input_buffer = append_char_to_input_buffer(*input_buffer, 9);
             return TRUE;
         case GDK_KEY_Return:
+        case GDK_KEY_KP_Enter:
             *input_buffer = append_char_to_input_buffer(*input_buffer, 13);
             return TRUE;
         case GDK_KEY_Down:
