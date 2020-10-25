@@ -387,6 +387,11 @@ static void render(void *job_data, void *pool_data)
     unsigned int backbuffer_width;
     unsigned int backbuffer_height;
     float backbuffer_pixel_aspect_ratio;
+    int filter = 1;
+    int vsync = 1;
+
+    resources_get_int("GTKFilter", &filter);    
+    resources_get_int("VSync", &vsync);
 
     backbuffer = render_queue_dequeue_for_display(context->render_queue);
     
@@ -470,11 +475,9 @@ static void render(void *job_data, void *pool_data)
     
     CANVAS_UNLOCK();
 
-    int filter = 1;
-    resources_get_int("GTKFilter", &filter);
-
     vice_opengl_renderer_make_current(context);
     vice_opengl_renderer_set_viewport(context);
+    vice_opengl_renderer_set_vsync(context, vsync ? true : false);
 
     glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -568,14 +571,6 @@ static void render(void *job_data, void *pool_data)
      */
     
     glFinish();
-
-    /*
-     * Ensure vsync setting is correctly set.
-     */
-
-    int vsync = 1;
-    resources_get_int("VSync", &vsync);
-    vice_opengl_renderer_set_vsync(context, vsync ? true : false);
     
     vice_opengl_renderer_present_backbuffer(context);
 
