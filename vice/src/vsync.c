@@ -348,6 +348,7 @@ static void update_performance_metrics(unsigned long frame_time)
          *
          * TODO: Don't reset numbers on unpause, and account for the gap.
          */
+        sync_reset = 0;
         
         frame_times[0] = frame_time;
         clocks[0] = maincpu_clk;
@@ -426,8 +427,11 @@ static void update_performance_metrics(unsigned long frame_time)
 int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
     static unsigned long next_frame_start = 0;
+    static int skipped_redraw_count = 0;
+
     unsigned long network_hook_time = 0;
     long delay;
+    int skip_next_frame = 0;
 
 #ifdef HAVE_NETWORK
     /* check if someone wants to connect remotely to the monitor */
@@ -477,21 +481,18 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         next_frame_start = now;
     } else {
         update_performance_metrics(now);
-        if (sync_reset) {
-            sync_reset = 0;
-        }
     }
 
     /* This is the time between the start of the next frame and now. */
     delay = next_frame_start - now;
+
     /*
      * We sleep until the start of the next frame, if:
      *  - warp_mode is disabled
      *  - a limiting speed is given
      *  - we have not reached next_frame_start yet
-     *
-     * We could optimize by sleeping only if a frame is to be output.
      */
+
     if (!warp_mode_enabled && timer_speed && delay > 0) {
         vsyncarch_sleep(delay);
     } else {
@@ -501,6 +502,17 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     
     next_frame_start += frame_ticks;
 
+    /*
+     * Skip rendering frames if configured to do so
+     */
+
+    if (skipped_redraw_count < refresh_rate - 1) {
+        skip_next_frame = 1;
+        skipped_redraw_count++;
+    } else {
+        skipped_redraw_count = 0;
+    }
+
     vsyncarch_postsync();
 
 #ifdef VSYNC_DEBUG
@@ -508,7 +520,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
                 now, delay, sound_delay * 1000000, vsyncarch_gettime(), next_frame_start, frame_ticks);
 #endif
 
-    return 0;
+    return skip_next_frame;
 }
 
 #else /* #ifdef USE_VICE_THREAD */
