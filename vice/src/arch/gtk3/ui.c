@@ -1321,9 +1321,10 @@ static gboolean rendering_area_event_handler(GtkWidget *canvas,
             && event->button == GDK_BUTTON_PRIMARY) {
         int mouse;
 
-        /* only trigger fullscreen switching when mouse-grab isn't active */
+        /* only trigger fullscreen switching when mouse-grab isn't active and
+         * a lightpen isn't active */
         resources_get_int("Mouse", &mouse);
-        if (!mouse) {
+        if (!mouse && !lightpen_enabled) {
             ui_fullscreen_callback(canvas, event);
         }
         /* signal event handled */
