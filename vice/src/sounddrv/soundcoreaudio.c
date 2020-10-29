@@ -116,32 +116,6 @@ static inline void atomic_decrement(atomic_int_t * addr)
                           :"m" (*addr));
 }
 
-#else
-/* PowerPC Mac Implementation */
-
-static inline void atomic_add(atomic_int_t * addr, int val)
-{
-    register int tmp;
-    asm volatile("    lwarx  %0,0,%2  \n\t"  /* load value & reserve */
-                 "    addc   %0,%0,%3 \n\t"  /* add <val> */
-                 "    stwcx. %0,0,%2  \n\n"  /* store new value */
-                 "    bne-   $-12"           /* check if store was successful */
-                 : "=&r"(tmp), "=m"(addr)
-                 : "r"(addr), "r"(val), "m"(addr)
-                 : "cr0"
-                );
-}
-
-static inline void atomic_increment(atomic_int_t * addr)
-{
-    atomic_add(addr, 1);
-}
-
-static inline void atomic_decrement(atomic_int_t * addr)
-{
-    atomic_add(addr, -1);
-}
-
 #endif
 
 /* ----- Audio Converter ------------------------------------------------ */
@@ -200,7 +174,7 @@ static int converter_open(AudioStreamBasicDescription *in,
 
     /* need to to sample rate conversion? */
     if (out->mSampleRate != in->mSampleRate) {
-        log_warning(LOG_DEFAULT, "sound (coreaudio_init): sampling rate conversion %dHz->%dHz",
+        log_message(LOG_DEFAULT, "sound (coreaudio_init): sampling rate conversion %dHz->%dHz",
                     (int)in->mSampleRate, (int)out->mSampleRate);
     }
 
@@ -394,109 +368,6 @@ static int determine_output_device_id()
 }
 #endif
 
-/* ----- Audio API before AudioUnits ------------------------------------- */
-
-#ifndef HAVE_AUDIO_UNIT
-
-/* bytes per output frame */
-static unsigned int out_frame_byte_size;
-
-/* proc id */
-#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
-static AudioDeviceIOProcID procID;
-#endif
-
-static OSStatus audio_render(AudioDeviceID device,
-                             const AudioTimeStamp  * now,
-                             const AudioBufferList * input_data,
-                             const AudioTimeStamp  * input_time,
-                             AudioBufferList       * output_data,
-                             const AudioTimeStamp  * output_time,
-                             void                  * client_data)
-{
-    /* get the number of frames(=packets) in the output buffer */
-    UInt32 bufferPacketSize = output_data->mBuffers[0].mDataByteSize / out_frame_byte_size;
-
-    OSStatus result = AudioConverterFillComplexBuffer(converter,
-                                                      converter_input,
-                                                      NULL,
-                                                      &bufferPacketSize,
-                                                      output_data,
-                                                      NULL);
-
-    return result;
-}
-
-static int audio_open(AudioStreamBasicDescription *in)
-{
-    OSStatus err;
-    UInt32 size;
-
-    if (0 != determine_output_device_id()) {
-        return -1;
-    }
-
-    AudioStreamBasicDescription out;
-    /* get default output format */
-    size = sizeof(out);
-    err = AudioDeviceGetProperty(device, 0, false,
-                                 kAudioDevicePropertyStreamFormat,
-                                 &size, (void*)&out);
-    if (err != kAudioHardwareNoError) {
-        log_error(LOG_DEFAULT, "sound (coreaudio_init): stream format not support");
-        return -1;
-    }
-    /* store size of output frame */
-    out_frame_byte_size = out.mBytesPerPacket;
-
-    /* setup audio renderer callback */
-#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
-    err = AudioDeviceCreateIOProcID( device, audio_render, NULL, &procID );
-#else
-    err = AudioDeviceAddIOProc( device, audio_render, NULL );
-#endif
-    if (err != kAudioHardwareNoError) {
-        log_error(LOG_DEFAULT,
-                  "sound (coreaudio_init): could not add IO proc: err=%d", (int)err);
-        return -1;
-    }
-
-    /* open audio converter */
-    return converter_open(in, &out);
-}
-
-static void audio_close(void)
-{
-#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
-    AudioDeviceDestroyIOProcID(device, procID);
-#else
-    AudioDeviceRemoveIOProc(device, audio_render);
-#endif
-
-    converter_close();
-}
-
-static int audio_start(void)
-{
-    OSStatus err = AudioDeviceStart(device, audio_render);
-    if (err != kAudioHardwareNoError) {
-        return -1;
-    } else {
-        return 0;
-    }
-}
-
-static int audio_stop(void)
-{
-    OSStatus err = AudioDeviceStop(device, audio_render);
-    if (err != kAudioHardwareNoError) {
-        return -1;
-    } else {
-        return 0;
-    }
-}
-
-#else /* HAVE_AUDIO_UNIT */
 /* ------ Audio Unit API ------------------------------------------------- */
 
 #ifdef DEBUG
@@ -527,7 +398,6 @@ static OSStatus audio_render(void *inRefCon,
                                            NULL);
 }
 
-#if defined(MAC_OS_X_VERSION_10_6) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_6)
 static int audio_open(AudioStreamBasicDescription *in)
 {
     OSStatus err;
@@ -589,9 +459,37 @@ static int audio_open(AudioStreamBasicDescription *in)
                   "sound (coreaudio_init): error setting render callback");
         return -1;
     }
+    
+    /*
+     * For accuracy, we want to convert directly from the emulator output
+     * to the format used by the audio hardware, in a single step.
+     */
 
-    /* Get output properties */
+    /* Get hardware output properties */
     size = sizeof(AudioStreamBasicDescription);
+    err = AudioUnitGetProperty(outputUnit,
+                               kAudioUnitProperty_StreamFormat,
+                               kAudioUnitScope_Output,
+                               0,
+                               &out,
+                               &size);
+    if (err) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): error getting default input format");
+        return -1;
+    }
+    
+    /* Tell the AudioUnit that we'll give it samples in the same format */
+    err = AudioUnitSetProperty(outputUnit,
+                               kAudioUnitProperty_StreamFormat,
+                               kAudioUnitScope_Input,
+                               0,
+                               &out,
+                               &size);
+    if (err) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting desired sample rate");
+    }
+    
+    /* Get the final format that we'll need to use - the above may have failed */
     err = AudioUnitGetProperty(outputUnit,
                                kAudioUnitProperty_StreamFormat,
                                kAudioUnitScope_Input,
@@ -599,8 +497,14 @@ static int audio_open(AudioStreamBasicDescription *in)
                                &out,
                                &size);
     if (err) {
-        log_error(LOG_DEFAULT,
-                  "sound (coreaudio_init): error setting desired input format");
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): error getting final output format");
+        return -1;
+    }
+    
+    /* open converter */
+    err = converter_open(in, &out);
+    if (err) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): error initializing audio converter");
         return -1;
     }
 
@@ -612,15 +516,12 @@ static int audio_open(AudioStreamBasicDescription *in)
         return -1;
     }
 
-    /* open converter */
-    return converter_open(in, &out);
+    return 0;
 }
 
 static void audio_close(void)
 {
     OSStatus err;
-
-    converter_close();
 
     /* Uninit unit */
     err = AudioOutputUnitStop(outputUnit);
@@ -635,62 +536,9 @@ static void audio_close(void)
 
     /* Close component */
     AudioComponentInstanceDispose(outputUnit);
-}
-#else
-static int audio_open(AudioStreamBasicDescription *in)
-{
-    OSStatus err;
-    UInt32 size;
-    AudioStreamBasicDescription out;
-
-    /* get default audio device */
-    size = sizeof(device);
-    err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,
-                                   &size, (void*)&device);
-    if (err != kAudioHardwareNoError) {
-        log_error(LOG_DEFAULT, "sound (coreaudio_init): Failed to get default output device");
-        return -1;
-    }
-
-    /* get default output format */
-    size = sizeof(out);
-    err = AudioDeviceGetProperty(device, 0, false,
-                                 kAudioDevicePropertyStreamFormat,
-                                 &size, (void*)&out);
-    if (err != kAudioHardwareNoError) {
-        log_error(LOG_DEFAULT, "sound (coreaudio_init): stream format not support");
-        return -1;
-    }
-    /* store size of output frame */
-    out_frame_byte_size = out.mBytesPerPacket;
-
-    /* setup audio renderer callback */
-#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
-    err = AudioDeviceCreateIOProcID( device, audio_render, NULL, &procID );
-#else
-    err = AudioDeviceAddIOProc( device, audio_render, NULL );
-#endif
-    if (err != kAudioHardwareNoError) {
-        log_error(LOG_DEFAULT,
-                  "sound (coreaudio_init): could not add IO proc: err=%d", (int)err);
-        return -1;
-    }
-
-    /* open audio converter */
-    return converter_open(in, &out);
-}
-
-static void audio_close(void)
-{
-#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
-    AudioDeviceDestroyIOProcID(device, procID);
-#else
-    AudioDeviceRemoveIOProc(device, audio_render);
-#endif
-
+    
     converter_close();
 }
-#endif
 
 static int audio_start(void)
 {
@@ -788,7 +636,7 @@ static int coreaudio_write(int16_t *pbuf, size_t nr)
     {
         if (fragments_in_queue == fragment_count) {
             log_warning(LOG_DEFAULT, "sound (coreaudio): buffer overrun");
-            return -1;
+            return 0;
         }
 
         memcpy(soundbuffer + swords_in_fragment * write_position,
@@ -871,4 +719,3 @@ int sound_init_coreaudio_device(void)
 {
     return sound_register_device(&coreaudio_device);
 }
-#endif
