@@ -14,20 +14,6 @@ ARCH_LIBS = @ARCH_LIBS@
 if WIN32_COMPILE
 # .. but NOT in headless mode
 if !HEADLESS_COMPILE
-# TODO: remove this condition once generating .res files for SDL works
-if SDL_COMPILE
-X64_RES = $(top_builddir)/src/arch/sdl/icon.res
-X64DTV_RES = $(top_builddir)/src/arch/sdl/icon.res
-X64SC_RES = $(top_builddir)/src/arch/sdl/icon.res
-XSCPU64_RES = $(top_builddir)/src/arch/sdl/icon.res
-X128_RES = $(top_builddir)/src/arch/sdl/icon.res
-XVIC_RES = $(top_builddir)/src/arch/sdl/icon.res
-XPLUS4_RES = $(top_builddir)/src/arch/sdl/icon.res
-XPET_RES = $(top_builddir)/src/arch/sdl/icon.res
-XCBM2_RES = $(top_builddir)/src/arch/sdl/icon.res
-XCBM5x0_RES = $(top_builddir)/src/arch/sdl/icon.res
-VSID_RES = $(top_builddir)/src/arch/sdl/icon.res
-else
 X64_RES = $(top_builddir)/data/common/x64.res
 X64DTV_RES = $(top_builddir)/data/common/x64dtv.res
 X64SC_RES = $(top_builddir)/data/common/x64sc.res
@@ -39,7 +25,6 @@ XPET_RES = $(top_builddir)/data/common/xpet.res
 XCBM2_RES = $(top_builddir)/data/common/xcbm2.res
 XCBM5x0_RES = $(top_builddir)/data/common/xcbm5x0.res
 VSID_RES = $(top_builddir)/data/common/vsid.res
-endif
 endif
 endif
 

@@ -4,10 +4,6 @@ sdldatadir = $(VICE_DATADIR)/common
 
 if WIN32_COMPILE
 extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
-# Icon (perhaps move to shared or common, since we share the icon.rc with gtk3?
-WINDRES_ICON_RC = $(top_srcdir)/src/arch/gtk3/data/win32/icon.rc
-WINDRES_ICON_RES = $(top_builddir)/src/arch/sdl/icon.res
-WINDRES_ICON_ICO = $(top_builddir)/src/arch/sdl/icon.ico
 else
 extra_includes =
 endif
@@ -231,20 +227,9 @@ EXTRA_DIST = \
 
 if WIN32_COMPILE
 
-CLEANFILES = \
-			 $(WINDRES_ICON_ICO) \
-			 $(WINDRES_ICON_RES)
-
-
-sdldata_DATA = $(WINDRES_ICON_RES)
-
-all: $(WINDRES_ICON_RES)
-
-$(WINDRES_ICON_ICO): $(top_srcdir)/data/common/icon.png
-	$(ICOTOOL) -c -o $@ $^
-
-$(WINDRES_ICON_RES): $(WINDRES_ICON_RC) $(WINDRES_ICON_ICO)
-	$(WINDRES) $< -O coff -o $@ -I $(top_builddirdir)/data/common
+# Use Gtk's icon stuff to generate icon sets
+all:
+	(cd ../gtk3/data/win32 && $(MAKE))
 
 endif
 
