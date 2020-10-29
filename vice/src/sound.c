@@ -1283,12 +1283,15 @@ static void prevent_clk_overflow_callback(CLOCK sub, void *data)
 double sound_flush()
 {
     int c, i, nr, space = 0, used;
+    char *state;
+    
+#ifndef MACOSX_SUPPORT
     int j;
     static int drained_warning_count = 0;
-    char *state;
     static time_t prev;
     time_t now;
-
+#endif
+    
     if (!playback_enabled) {
         if (sdev_open) {
             sound_close();
