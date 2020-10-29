@@ -36,7 +36,6 @@
 struct video_canvas_s;
 
 extern void vsync_suspend_speed_eval(void);
-extern void vsync_sync_reset(void);
 extern int vsync_resources_init(void);
 extern int vsync_cmdline_options_init(void);
 extern void vsync_init(void (*hook)(void));

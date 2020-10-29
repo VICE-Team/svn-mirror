@@ -43,14 +43,13 @@
 
 #include "statusbarspeedwidget.h"
 
-
 /** \brief  Predefined emulation speeds (taken from vice.texi)
  */
 static int emu_speeds[] = { 200, 100, 50, 20, 10, 0 };
 
-/** \brief  Predefined emulation fps targets
+/** \brief  Predefined emulation speed fps targets
  */
-static int fps_targets[] = { -60, -50, 0 };
+static int emu_fps_targets[] = { 60, 50, 0 };
 
 
 /** \brief  Handler for the "activate" event of the "Advance frame" menu item
@@ -105,25 +104,6 @@ static void on_pause_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Handler for the toggled event of a refresh rate submenu item
- *
- * \param[in]   widget  refresh rate submenu item
- * \param[in]   data    new fresh rate
- */
-static void on_refreshrate_toggled(GtkWidget *widget, gpointer data)
-{
-    int refresh = GPOINTER_TO_INT(data);
-    int speed = 0;
-
-    resources_get_int("Speed", &speed);
-    if (speed == 0) {
-        /* unlimited speed, refresh rate must be 10 */
-        refresh = 10;
-    }
-    resources_set_int("RefreshRate", refresh);
-}
-
-
 /** \brief  Handler for the toggled event of a emulation speed submenu item
  *
  * \param[in]   widget  emulation speed submenu item
@@ -132,68 +112,8 @@ static void on_refreshrate_toggled(GtkWidget *widget, gpointer data)
 static void on_emulation_speed_toggled(GtkWidget *widget, gpointer data)
 {
     int speed = GPOINTER_TO_INT(data);
-    int refresh = 0;
-
-    if (speed == 0) {
-        /* unlimited, check for Auto refresh */
-        resources_get_int("RefreshRate", &refresh);
-        if (refresh == 0) { /* Auto */
-            /* set to 1/10 */
-            resources_set_int("RefreshRate", 10);
-        }
-    }
-
+    
     resources_set_int("Speed", speed);
-}
-
-
-/** \brief  Callback for custom refresh rate
- *
- * \param[in]   dialog  integer-dialog reference
- * \param[in[   result  result from the dialog
- * \param[in]   valid   \a result is valid
- */
-static void refresh_custom_callback(GtkDialog *dialog,
-                                     int result,
-                                     gboolean valid)
-{
-    if (valid) {
-        resources_set_int("RefreshRate", result);
-    }
-
-}
-
-
-
-/** \brief  Handler for the "toggled" event of the "custom refresh" menu item
- *
- * Pops up a dialog to set a custom refresh rate.
- *
- * \param[in]   widget  menu item
- * \param[in]   data    extra event data (unused)
- */
-static void on_refresh_custom_toggled(GtkWidget *widget, gpointer data)
-{
-    int old_value = 0;
-
-    resources_get_int("RefreshRate", &old_value);
-#if 0
-    if (vice_gtk3_integer_input_box(
-                "Set refresh rate",
-                "Enter a new custom refresh rate",
-                old_val, &new_val,
-                1, 100)) {
-        /* OK: */
-        resources_set_int("RefreshRate", new_val);
-    }
-#else
-    vice_gtk3_integer_input_box(
-            refresh_custom_callback,
-            "Set refresh rate",
-            "Enter a new custom refresh rate",
-            old_value,
-            1, 100);
-#endif
 }
 
 
@@ -265,8 +185,8 @@ static void on_fps_custom_toggled(GtkWidget *widget, gpointer data)
     old_value = 0 - old_value;
     vice_gtk3_integer_input_box(
             fps_custom_callback,
-            "Set new Fps target",
-            "Enter a new custom Fps target",
+            "Set new fps target",
+            "Enter a new custom fps target",
             old_value,
             1, 100000);
 }
@@ -305,17 +225,6 @@ static GtkWidget *emulation_speed_submenu_create(void)
                 GINT_TO_POINTER(emu_speeds[i]));
     }
 
-    /* no limit */
-    item = gtk_check_menu_item_new_with_label("Unlimited");
-    gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-    if (curr_speed == 0) {
-        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
-        found = TRUE;
-    }
-    gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled",
-            G_CALLBACK(on_emulation_speed_toggled), GINT_TO_POINTER(0));
-
     /* custom speed */
     if (!found && curr_speed > 0) {
         g_snprintf(buffer, 256, "Custom CPU speed (%d%%) ...", curr_speed);
@@ -334,11 +243,11 @@ static GtkWidget *emulation_speed_submenu_create(void)
     add_separator(menu);
 
     /* predefined fps targets */
-    for (i = 0; fps_targets[i] != 0; i++) {
-        g_snprintf(buffer, 256, "%d Fps", 0 - fps_targets[i]);
+    for (i = 0; emu_fps_targets[i] != 0; i++) {
+        g_snprintf(buffer, 256, "%d FPS", emu_fps_targets[i]);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-        if (curr_speed == fps_targets[i]) {
+        if (curr_speed == 0 - emu_fps_targets[i]) {
             gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
             found = TRUE;
         }
@@ -346,89 +255,22 @@ static GtkWidget *emulation_speed_submenu_create(void)
 
         g_signal_connect(item, "toggled",
                 G_CALLBACK(on_emulation_speed_toggled),
-                GINT_TO_POINTER(fps_targets[i]));
+                GINT_TO_POINTER(0 - emu_fps_targets[i]));
     }
 
     /* custom fps target */
     if (!found && curr_speed < 0) {
-        g_snprintf(buffer, 256, "Custom Fps (%d Fps) ...", 0 - curr_speed);
+        g_snprintf(buffer, 256, "Custom (%d FPS) ...", 0 - curr_speed);
         item = gtk_check_menu_item_new_with_label(buffer);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
     } else {
-        item = gtk_check_menu_item_new_with_label("Custom Fps ...");
+        item = gtk_check_menu_item_new_with_label("Custom FPS ...");
     }
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
     gtk_container_add(GTK_CONTAINER(menu), item);
     g_signal_connect(item, "toggled",
             G_CALLBACK(on_fps_custom_toggled), GINT_TO_POINTER(curr_speed));
 
-    gtk_widget_show_all(menu);
-    return menu;
-}
-
-
-/** \brief  Create refresh rate submenu
- *
- * \return  GtkMenu
- */
-static GtkWidget *refreshrate_submenu_create(void)
-{
-    GtkWidget *menu;
-    GtkWidget *item;
-    int i;
-    char buffer[256];
-    int refresh;
-    gboolean found = FALSE;
-
-    if (resources_get_int("RefreshRate", &refresh) < 0) {
-        refresh = 0;
-    }
-
-    menu = gtk_menu_new();
-
-    /* Auto */
-    item = gtk_check_menu_item_new_with_label("Auto");
-    gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-    if (refresh == 0) {
-        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
-        found = TRUE;
-    }
-    gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(on_refreshrate_toggled),
-            GINT_TO_POINTER(0));
-
-    add_separator(menu);
-
-    /* 1/1 through 1/10 */
-    for (i = 1; i <= 10; i++) {
-        g_snprintf(buffer, 256, "1/%d", i);
-        item = gtk_check_menu_item_new_with_label(buffer);
-        gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-        if (refresh == i) {
-            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
-            found = TRUE;
-        }
-        gtk_container_add(GTK_CONTAINER(menu), item);
-        g_signal_connect(item, "toggled", G_CALLBACK(on_refreshrate_toggled),
-                GINT_TO_POINTER(i));
-    }
-
-    add_separator(menu);
-
-    /* custom refresh rate */
-    if (!found) {
-        /* refresh rate not found yet, so it has to be a custom value */
-        g_snprintf(buffer, 256, "Custom (1/%d) ...", refresh);
-        item = gtk_check_menu_item_new_with_label(buffer);
-        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), TRUE);
-    } else {
-        /* standard refresh rate */
-        item = gtk_check_menu_item_new_with_label("Custom ...");
-    }
-    gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
-    gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(on_refresh_custom_toggled),
-            NULL);
     gtk_widget_show_all(menu);
     return menu;
 }
@@ -447,12 +289,6 @@ GtkWidget *speed_menu_popup_create(void)
     int warp;
 
     menu = gtk_menu_new();
-
-    /* Refresh rate submenu */
-    item = gtk_menu_item_new_with_label("Refresh rate");
-    gtk_container_add(GTK_CONTAINER(menu), item);
-    submenu = refreshrate_submenu_create();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
 
     /* Emulation speed submenu */
     item = gtk_menu_item_new_with_label("Maximum speed");

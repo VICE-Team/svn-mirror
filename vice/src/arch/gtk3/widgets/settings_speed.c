@@ -43,7 +43,6 @@
 #include "debug_gtk3.h"
 #include "resourcecheckbutton.h"
 #include "widgethelpers.h"
-#include "refreshratewidget.h"
 #include "speedwidget.h"
 
 #include "settings_speed.h"
@@ -128,7 +127,6 @@ GtkWidget *settings_speed_widget_create(GtkWidget *widget)
 
     /* create layout */
     if (machine_class != VICE_MACHINE_VSID) {
-        gtk_grid_attach(GTK_GRID(layout), refreshrate_widget_create(), 0, 0, 1, 3);
         gtk_grid_attach(GTK_GRID(layout), speed_widget_create(), 1, 0, 1, 1);
         gtk_grid_attach(GTK_GRID(layout), checkbox_warp, 1, 1, 1, 1);
         gtk_grid_attach(GTK_GRID(layout), checkbox_pause, 1, 2, 1, 1);

@@ -2597,22 +2597,7 @@ It is possible to control the emulation speed by using the ``Maximum
 speed'' item in the speed setting.  The default setting is
 @code{100}, which causes the emulation to never run faster than the real
 machine.  A higher value allows the emulator to run faster, a lower one
-may force it to run slower.  The setting ``No limit'' means to run as
-fast as possible, without limiting speed.
-
-@cindex Refresh rate
-It is also possible to control the emulator's rate of frame update using
-the ``Refresh rate'' setting; the value ranges from ``1/1'' (update 1/1
-of the frames of the real machine, that is 50 frames per second) to
-``1/10'' (update 1 every 10 frames) and can be changed via the ``Refresh
-Rate'' setting.  The ``Auto'' setting means to dynamically adapt the
-refresh rate to the current speed of the host machine, making sure the
-maximum speed specified by the via ``Maxium speed'' is always reached if
-possible.  In any case, the refresh rate will never be worse than 1/10
-if this option is specified.
-
-Note that you cannot simultaneously specify ``Auto'' as the refresh rate
-and ``No limit'' as the maximum speed..
+may force it to run slower. A specific FPS may also be targeted.
 
 @cindex Warp speed mode
 Moreover, a special @dfn{warp speed} mode is provided and can be toggled
@@ -2636,12 +2621,6 @@ possible speed.
 Integer specifying the maximum relative speed, as a percentage.  @code{0}
 stands for ``no limit''.
 
-@vindex RefreshRate
-@item RefreshRate
-Integer specifying the refresh rate; a value of @code{n} specifies a
-refresh rate of 1/@code{n}.  A value of @code{0} enables automatic frame
-skipping.
-
 @vindex WarpMode
 @item WarpMode
 Booolean specifying whether ``warp mode'' is turned on or not.
@@ -2655,15 +2634,10 @@ Booolean specifying whether ``warp mode'' is turned on or not.
 @table @code
 
 @findex -speed
-@item -speed <percent>
-Specifies the maximum speed as a percentage. @code{0} stands for ``no limit''
+@item -speed <value>
+A positive <value> specifies the maximum speed as a percentage. A negative
+<value> results in a target FPS of 0 - <value>
 (@code{Speed}).
-
-@findex -refresh
-@item -refresh <value>
-Specifies refresh rate, a value of @code{n} specifies a refresh rate of
-1/@code{n}. A value of @code{0} enables automatic frame skipping
-(@code{RefreshRate}).
 
 @findex -warp, +warp
 @item -warp
@@ -2728,12 +2702,6 @@ Boolean that indicates whether hardware scaling is possible or not.
 @item Speed
 Integer specifying the maximum relative speed, as a percentage. @code{0}
 stands for ``no limit''.
-
-@vindex RefreshRate
-@item RefreshRate
-Integer specifying the refresh rate, a value of @code{n} specifies a
-refresh rate of 1/@code{n}. A value of @code{0} enables automatic frame
-skipping.
 
 @vindex WarpMode
 @item WarpMode

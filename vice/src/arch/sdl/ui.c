@@ -218,12 +218,6 @@ ui_menu_action_t ui_dispatch_events(void)
         loader_turbo = 0;
         loader_set_warpmode((value == 1) ? 1 : 0);
     }
-    if (loadf->frameskip) {
-        int value = loadf->frameskip;
-
-        loadf->frameskip = 0;
-        resources_set_int("RefreshRate", ((value > 0) && (value <= 10)) ? value : 1);
-    }
     if (loadf->abort) {
         loadf->abort = 0;
         ui_pause_enable();
