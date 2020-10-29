@@ -398,7 +398,6 @@ HAS_DIGITAL_JOYSTICK_SUPPORT="no "
 HAS_HIDMGR_SUPPORT="no "
 HAS_USB_JOYSTICK_SUPPORT="no "
 HAVE_AUDIO_UNIT_SUPPORT="no "
-HAVE_CAIRO_SUPPORT="no "
 HAVE_CATWEASELMKIII_SUPPORT="no "
 HAVE_DEVICES_AHI_H_SUPPORT="no "
 HAVE_DINPUT_SUPPORT="no "
@@ -1018,8 +1017,6 @@ dnl Check and setup native GTK3 compilation, only fail if the gtk3 ui was reques
 if test x"$check_gtk3" = "xyes"; then
 
   PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.22], [have_gtk3_module=yes], [have_gtk3_module=no; AC_MSG_RESULT([no])])
-  AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
-  HAVE_CAIRO_SUPPORT="yes"
   PKG_CHECK_MODULES(GLIB, [glib-2.0], [have_glib2_module=yes], [have_glib2_module=no; AC_MSG_RESULT([no])])
 
   dnl error out if gtk3 support is missing and gtk3 ui was requested
@@ -3867,11 +3864,6 @@ echo "---------"
 
 if test x"$real_arch" != "xBeOS"; then
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
-fi
-
-if test x"$real_arch" = "xUnix"; then
-    echo "Cairo rendering support        : $HAVE_CAIRO_SUPPORT"
-#    echo "Pango support                  : $HAVE_PANGO_SUPPORT"
 fi
 
 

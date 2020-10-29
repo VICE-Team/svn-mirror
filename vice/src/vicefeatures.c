@@ -100,14 +100,6 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#ifdef UNIX /* (unix) */
-    { "HAVE_CAIRO", "Enable Cairo rendering support",
-#ifndef HAVE_CAIRO
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(AMIGA_SUPPORT) || defined(BEOS_COMPILE) || defined(UNIX) || defined(WIN32) /* (amiga/beos/unix/windows) */
     { "HAVE_CATWEASELMKIII", "Support for Catweasel MKIII.",
 #ifndef HAVE_CATWEASELMKIII
