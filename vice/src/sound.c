@@ -1352,6 +1352,7 @@ double sound_flush()
         space -= space % snddata.fragsize;
 
         used = snddata.bufsize - space;
+#ifndef MACOSX_SUPPORT /* TODO: Test removing on Pulse and DirectSound */      
         /* buffer emptied during vsync? Looks like underrun. */
         if (used < snddata.fragsize) {
             if (suspend_time > 0) {
@@ -1384,6 +1385,8 @@ double sound_flush()
                 }
             }
         }
+#endif /* #ifndef MACOSX_SUPPORT */
+
         if (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
             if (speed_percent > 0) {
                 snddata.clkfactor = SOUNDCLK_CONSTANT(speed_percent) / 100;
