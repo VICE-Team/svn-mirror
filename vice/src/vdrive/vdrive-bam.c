@@ -67,8 +67,9 @@ static int vdrive_calculate_disk_half(vdrive_t *vdrive)
         case VDRIVE_IMAGE_FORMAT_1581:
             return 40;
         case VDRIVE_IMAGE_FORMAT_8050:
-        case VDRIVE_IMAGE_FORMAT_8250:
             return 39;
+        case VDRIVE_IMAGE_FORMAT_8250:
+            return 39 + 78;
         case VDRIVE_IMAGE_FORMAT_4000:
             return vdrive->num_tracks - 1;
         default:

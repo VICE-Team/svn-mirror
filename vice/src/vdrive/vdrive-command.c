@@ -930,6 +930,11 @@ int vdrive_command_validate(vdrive_t *vdrive)
             vdrive_bam_allocate_sector(vdrive, vdrive->Bam_Track, vdrive->Bam_Sector + 1);
             vdrive_bam_allocate_sector(vdrive, vdrive->Bam_Track, vdrive->Bam_Sector + 2);
             break;
+        case VDRIVE_IMAGE_FORMAT_8050:
+        case VDRIVE_IMAGE_FORMAT_8250:
+            /* BAM allocation above doesn't include track 39, sector 0 */
+            vdrive_bam_allocate_sector(vdrive, vdrive->Header_Track, vdrive->Header_Sector);
+            break;
         case VDRIVE_IMAGE_FORMAT_4000:
             /* Map the boot sector. */
             vdrive_bam_allocate_sector(vdrive, 1, 0);
