@@ -50,4 +50,7 @@ gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window);
 
 void ui_statusbar_set_kbd_debug(gboolean state);
 
+GtkWidget *ui_statusbar_get_recording_widget(void);
+
+
 #endif

@@ -1047,18 +1047,16 @@ if test x"$check_gtk3" = "xyes"; then
     dnl enforce OpenGL/GLEW usability unless explicitly disabled
     if test x"$is_unix_macosx" = "xyes"; then
       if test x"$enable_hwscale" != "xno"; then
-        if test x"$have_opengl_lib" != "xyes"; then
-          AC_MSG_CHECKING(whether we can use the OpenGL Framework)
-          old_LIBS="$LIBS"
-          LIBS="$LIBS -framework OpenGL"
-          AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
-                       #include <OpenGL/gl.h>],
-                       [glUniform4f(0,1,2,3,4);],
-                       [AC_MSG_RESULT(yes);
-                        have_opengl_lib=yes],
-                       [AC_MSG_RESULT(no);
-                        LIBS="$old_LIBS"])
-        fi
+        AC_MSG_CHECKING(whether we can use the OpenGL Framework)
+        old_LIBS="$LIBS"
+        LIBS="$LIBS -framework OpenGL"
+        AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
+                     #include <OpenGL/gl.h>],
+                     [glUniform4f(0,1,2,3,4);],
+                     [AC_MSG_RESULT(yes);
+                      have_opengl_lib=yes],
+                     [AC_MSG_RESULT(no);
+                      LIBS="$old_LIBS"])
         if test x"$have_opengl_lib" != "xyes"; then
           AC_MSG_ERROR([Cannot find the OpenGL framework. Something is seriously wrong with your build environment.])
         fi

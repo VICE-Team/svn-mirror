@@ -222,7 +222,7 @@ static gboolean confirm_exit(void)
             confirm_exit_callback,
             "Exit VICE",
             "Do you really wish to exit VICE?`");
-    
+
     return FALSE;
 }
 

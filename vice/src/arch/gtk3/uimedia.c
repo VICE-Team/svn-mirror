@@ -56,8 +56,10 @@
 #include "screenshot.h"
 #include "selectdirectorydialog.h"
 #include "sound.h"
+#include "statusbarrecordingwidget.h"
 #include "ui.h"
 #include "uiapi.h"
+#include "uistatusbar.h"
 #include "widgethelpers.h"
 
 #ifdef HAVE_FFMPEG
@@ -1173,6 +1175,7 @@ gboolean ui_media_stop_recording(GtkWidget *parent, gpointer data)
     }
 
     ui_display_recording(0);
+    statusbar_recording_widget_hide_all(ui_statusbar_get_recording_widget(), 10);
 
     return TRUE;
 }

@@ -1815,9 +1815,9 @@ void ui_display_joyport(uint8_t *joyport)
 {
     int i;
     ui_sb_state_t *sb_state;
-    
+
     sb_state = lock_sb_state();
-    
+
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         /* Compare the new value to the current one, set the new
          * value, and queue a redraw if and only if there was a
@@ -1840,7 +1840,7 @@ void ui_display_joyport(uint8_t *joyport)
             }
         }
     }
-    
+
     unlock_sb_state();
 }
 
@@ -1854,9 +1854,9 @@ void ui_display_joyport(uint8_t *joyport)
 void ui_display_tape_control_status(int control)
 {
     ui_sb_state_t *sb_state;
-    
+
     /* Ok to call from VICE thread */
-    
+
     sb_state = lock_sb_state();
 
     if (control != sb_state->tape_control) {
@@ -1872,7 +1872,7 @@ void ui_display_tape_control_status(int control)
             }
         }
     }
-    
+
     unlock_sb_state();
 }
 
@@ -2338,3 +2338,13 @@ void ui_statusbar_set_kbd_debug(gboolean state)
     }
 }
 
+
+/** \brief  Get active 'Recording' widget
+ *
+ * \return  recording widget
+ */
+GtkWidget *ui_statusbar_get_recording_widget(void)
+{
+    int w = ui_get_main_window_index();
+    return allocated_bars[w].record;
+}
