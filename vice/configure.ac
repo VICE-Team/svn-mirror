@@ -76,7 +76,6 @@ VICE_ARG_ENABLE_LIST(headlessui,        [  --enable-headlessui     enables build
 VICE_ARG_ENABLE_LIST(hidmgr,            [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 VICE_ARG_ENABLE_LIST(hidutils,          [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 VICE_ARG_ENABLE_LIST(html-docs,         [  --enable-html-docs      install the HTML documentation [[default=no]]])
-VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen])
 VICE_ARG_ENABLE_LIST(ipv6,              [  --disable-ipv6          disables the checking for IPv6 compatibility])
 VICE_ARG_ENABLE_LIST(lame,              [  --enable-lame           Enable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(libieee1284,       [  --enable-libieee1284    enables libieee1284 support])
@@ -1046,26 +1045,24 @@ if test x"$check_gtk3" = "xyes"; then
 
     dnl enforce OpenGL/GLEW usability unless explicitly disabled
     if test x"$is_unix_macosx" = "xyes"; then
-      if test x"$enable_hwscale" != "xno"; then
-        AC_MSG_CHECKING(whether we can use the OpenGL Framework)
-        old_LIBS="$LIBS"
-        LIBS="$LIBS -framework OpenGL"
-        AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
-                     #include <OpenGL/gl.h>],
-                     [glUniform4f(0,1,2,3,4);],
-                     [AC_MSG_RESULT(yes);
-                      have_opengl_lib=yes],
-                     [AC_MSG_RESULT(no);
-                      LIBS="$old_LIBS"])
-        if test x"$have_opengl_lib" != "xyes"; then
-          AC_MSG_ERROR([Cannot find the OpenGL framework. Something is seriously wrong with your build environment.])
-        fi
-        AC_SEARCH_LIBS(glewInit, [GLEW glew32], [have_glew=yes], [have_glew=no])
-        if test x"$have_glew" != "xyes"; then
-          AC_MSG_ERROR([Cannot find the OpenGL Extension Wrangler Library, GLEW. (brew install glew)])
-        fi
+      AC_MSG_CHECKING(whether we can use the OpenGL Framework)
+      old_LIBS="$LIBS"
+      LIBS="$LIBS -framework OpenGL"
+      AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
+                   #include <OpenGL/gl.h>],
+                   [glUniform4f(0,1,2,3,4);],
+                   [AC_MSG_RESULT(yes);
+                    have_opengl_lib=yes],
+                   [AC_MSG_RESULT(no);
+                    LIBS="$old_LIBS"])
+      if test x"$have_opengl_lib" != "xyes"; then
+        AC_MSG_ERROR([Cannot find the OpenGL framework. Something is seriously wrong with your build environment.])
       fi
-    elif test x"$enable_hwscale" != "xno"; then
+      AC_SEARCH_LIBS(glewInit, [GLEW glew32], [have_glew=yes], [have_glew=no])
+      if test x"$have_glew" != "xyes"; then
+        AC_MSG_ERROR([Cannot find the OpenGL Extension Wrangler Library, GLEW. (brew install glew)])
+      fi
+    else
       dnl Find where the GL functions live on this system
       old_clags="$CFLAGS"
       CFLAGS="$VICE_CFLAGS"
@@ -1088,22 +1085,10 @@ if test x"$check_gtk3" = "xyes"; then
       CFLAGS="$old_CFLAGS"
 
       if test x"$have_opengl_lib" != "xyes" -o x"$have_glew" != "xyes"; then
-        AC_MSG_ERROR([Could not find OpenGL and GLEW libraries. GTK3 performance is usually unacceptable without these libraries, but you can insist on software rendering with --disable-hwscale if necessary.])
+        AC_MSG_ERROR([Could not find OpenGL and GLEW libraries, aborting.])
       fi
     fi
 
-    dnl Note that even if HAVE_HWSCALE is "no", GTK3's base "Cairo"
-    dnl renderer can still do scaling, and even claims to do it in
-    dnl hardware. Our experimentation suggests that this is more
-    dnl aspirational than genuine, though...
-    AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-    if test x"$have_opengl_lib" = "xyes"; then
-      AC_DEFINE(HAVE_GTK3_OPENGL,,[Enable OpenGL support in GTK3 UI])
-      HAVE_HWSCALE_SUPPORT="yes"
-    fi
-    if test x"$have_glew" = "xyes"; then
-      AC_DEFINE(HAVE_GTK3_GLEW,,[GTK3 OpenGL support uses GLEW])
-    fi
     AC_DEFINE(USE_NATIVE_GTK3,,[Use native GTK3 UI.])
     if test x"$enable_debug_gtk3ui" = "xyes"; then
       AC_DEFINE(HAVE_DEBUG_GTK3UI,,[Add native GTK3 UI debugging code.])
@@ -1161,6 +1146,8 @@ if test x"$check_gtk3" = "xyes"; then
     found_gui=gtk3
 
 
+    dnl Gtk3 always has HW scaling
+    HAVE_HWSCALE_SUPPORT="yes"
   fi
 fi
 
