@@ -6,7 +6,7 @@ compiled on Windows under MinGW.
 
 1. Get MSYS2 (includes mingw):
  http://www.msys2.org/
-Install as per that webpage; but, don't bother with step 7 (GIT),
+Install as per that webpage; but, don't bother with step 8 (GIT),
 unless you actually want GIT.
 
 Close that initial shell after doing the updates etc.
