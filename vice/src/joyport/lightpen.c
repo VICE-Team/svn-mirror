@@ -114,7 +114,9 @@ struct lp_type_s {
 };
 typedef struct lp_type_s lp_type_t;
 
-/* note: xoffs=24; yoffs=0 gives "pixel perfect" match */
+/* note: xoffs=0; yoffs=0 gives "pixel perfect" match, use 
+ * testprogs/VICII/lpcoordinates to determine the offset.
+ */
 static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     /* Pen with button Up (e.g. Atari CX75) */
     { PEN, 0x00, 0x01, 0, 0 },
@@ -123,7 +125,7 @@ static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     /* Datel Pen */
     { PEN, 0x00, 0x04, 20, -5 },
     /* Magnum Light Phaser */
-    { GUN, 0x20, 0x00, 20, -10 },
+    { GUN, 0x20, 0x00, 72, 0 },
     /* Stack Light Rifle */
     { GUN, 0x04, 0x00, 20, 0 },
     /* Inkwell Lightpen */
