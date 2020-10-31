@@ -514,31 +514,6 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
         }
     }
 
-#ifdef MACOSX_SUPPORT
-    /* Without this, wiggle the mouse cases macOS to help you find the cursor by making it big.
-     * Each frame, check if we've set a custom cursor, and if have, force hide the system mouse
-     * so that the wiggle-to-find-mouse thing doesn't happen.
-     */
-
-    /* each hide call needs a matching show call to undo */
-    static bool hiding_mouse = false;
-
-    GdkCursor *current_cursor = gdk_window_get_cursor(window);
-
-    if (current_cursor) {
-        if (!hiding_mouse) {
-            CGDisplayHideCursor(kCGNullDirectDisplay);
-            hiding_mouse = true;
-        }
-    } else {
-        if (hiding_mouse) {
-            CGDisplayShowCursor(kCGNullDirectDisplay);
-            hiding_mouse = false;
-        }
-    }
-
-#endif
-
     return G_SOURCE_CONTINUE;
 }
 
