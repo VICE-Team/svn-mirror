@@ -136,11 +136,19 @@ int vdrive_internal_create_format_disk_image(const char *filename,
                                              const char *diskname,
                                              unsigned int type)
 {
-    if (cbmimage_create_image(filename, type) < 0) {
-        return -1;
-    }
-    if (vdrive_internal_format_disk_image(filename, diskname) < 0) {
-        return -1;
+    switch (type) {
+        case DISK_IMAGE_TYPE_D1M:
+        case DISK_IMAGE_TYPE_D2M:
+        case DISK_IMAGE_TYPE_D4M:
+            return cbmimage_create_dxm_image(filename, diskname, type);
+            break;
+        default:
+            if (cbmimage_create_image(filename, type) < 0) {
+                return -1;
+            }
+            if (vdrive_internal_format_disk_image(filename, diskname) < 0) {
+                return -1;
+            }
     }
 
     return 0;

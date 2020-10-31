@@ -108,6 +108,7 @@ extern void disk_image_fsimage_name_set(disk_image_t *image, const char *name);
 extern const char *disk_image_fsimage_name_get(const disk_image_t *image);
 extern void *disk_image_fsimage_fd_get(const disk_image_t *image);
 extern int disk_image_fsimage_create(const char *name, unsigned int type);
+extern int disk_image_fsimage_create_dxm(const char *name, const char *diskname, unsigned int type);
 
 extern void disk_image_rawimage_name_set(disk_image_t *image, const char *name);
 extern void disk_image_rawimage_driver_name_set(disk_image_t *image);
