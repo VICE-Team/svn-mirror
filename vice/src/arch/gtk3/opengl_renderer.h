@@ -27,9 +27,7 @@
 #ifndef VICE_OPENGL_RENDERER_H
 #define VICE_OPENGL_RENDERER_H
 
-#ifdef HAVE_GTK3_GLEW
 #include <GL/glew.h>
-#endif
 
 #ifndef MACOSX_SUPPORT
 #include <X11/Xlib.h>

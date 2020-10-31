@@ -28,8 +28,6 @@
 
 #include "vice.h"
 
-#ifdef HAVE_GTK3_OPENGL
-
 #include "opengl_renderer.h"
 
 #include <assert.h>
@@ -694,5 +692,3 @@ vice_renderer_backend_t vice_opengl_backend = {
     vice_opengl_on_ui_frame_clock,
     vice_opengl_set_palette
 };
-
-#endif

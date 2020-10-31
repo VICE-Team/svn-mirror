@@ -26,8 +26,6 @@
 
 #include "vice.h"
 
-#ifdef HAVE_GTK3_OPENGL
-
 #include "archdep.h"
 
 #include <string.h>
@@ -343,5 +341,3 @@ static bool isExtensionSupported(const char *extList, const char *extension)
 
     return false;
 }
-
-#endif /* #ifdef HAVE_GTK3_OPENGL */

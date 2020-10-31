@@ -1147,6 +1147,7 @@ if test x"$check_gtk3" = "xyes"; then
 
 
     dnl Gtk3 always has HW scaling
+    AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
     HAVE_HWSCALE_SUPPORT="yes"
   fi
 fi

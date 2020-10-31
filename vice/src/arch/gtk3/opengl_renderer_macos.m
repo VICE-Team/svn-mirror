@@ -26,8 +26,6 @@
 
 #import "vice.h"
 
-#ifdef HAVE_GTK3_OPENGL
-
 #import "opengl_renderer.h"
 
 #import <Cocoa/Cocoa.h>
@@ -166,5 +164,3 @@ void vice_opengl_renderer_destroy_child_view(vice_opengl_renderer_context_t *con
     [opengl_view removeFromSuperview]; /* implicit release */
     context->native_view = NULL;
 }
-
-#endif /* #ifdef HAVE_GTK3_OPENGL */
