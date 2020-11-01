@@ -484,7 +484,7 @@ static int audio_open(AudioStreamBasicDescription *in)
                                kAudioUnitScope_Input,
                                0,
                                &out,
-                               &size);
+                               size);
     if (err) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): error setting desired sample rate");
     }
