@@ -115,6 +115,7 @@ int scsi_image_attach(struct scsi_context_s *context, int id, char *filename)
     context->file[id] = fopen(filename, "rb+");
 
     if (context->file[id]) {
+        setbuf(context->file[id], NULL);
         return 0;
     } else {
         return 1;
@@ -191,6 +192,7 @@ int32_t scsi_image_write(struct scsi_context_s *context)
             context->target, context->address));
         return -4;
     }
+    fflush(fhd);
 
     LOG2((LOG, "SCSI: write disk %d at sector 0x%x", context->target,
         context->address));
@@ -258,7 +260,8 @@ void scsi_process_noack(struct scsi_context_s *context)
     if (context->sel && !context->bsyo) {
         /* obtain target */
         context->target = 0;
-        t = context->databus ^ 0xff;
+        /* remove initiator from list */
+        t = (context->databus ^ 0xff) & 0x7f;
         n = 0;
         i = 0;
         while (t) {
@@ -337,6 +340,9 @@ void scsi_process_ack(struct scsi_context_s *context)
             } else {
                 context->state = SCSI_STATE_BUSFREE;
                 context->req = 0;
+                context->io = 0;
+                context->msg = 0;
+                context->cd = 0;
             }
             context->bsyo = 0;
             goto out;
@@ -435,7 +441,7 @@ void scsi_process_ack(struct scsi_context_s *context)
             context->io = 0;
             context->cd = 1;
             context->cmd_buf[context->seq] = data;
-            SDBG((LOG, "SCSI: COMMAND[%d]=%02x", context->seq, data));
+            SDBG((LOG, "SCSI: COMMAND[%u]=%02x", context->seq, data));
 
             if (context->seq == 0) {
                 context->command = context->cmd_buf[0];
@@ -624,20 +630,21 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     context->link = context->cmd_buf[9]&1;
                     context->data_max = 8;
-                    if (context->lun != 0) {
-                        j = context->max_imagesize;
+                    if (context->lun == 0) {
+                        j = (context->max_imagesize >> 9) - 1;
+                        i = 512;
                     } else {
                         j = 0;
+                        i = 0;
                     }
-                    j = (j >> 9) - 1;
                     context->data_buf[0] = (j >> 24)&255;
                     context->data_buf[1] = (j >> 16)&255;
                     context->data_buf[2] = (j >> 8)&255;
                     context->data_buf[3] = j & 255;
-                    context->data_buf[4] = 0x00; /* 512 bytes - MSB form */
-                    context->data_buf[5] = 0x00;
-                    context->data_buf[6] = 0x02;
-                    context->data_buf[7] = 0x00;
+                    context->data_buf[4] = (i >> 24)&255;
+                    context->data_buf[5] = (i >> 16)&255;
+                    context->data_buf[6] = (i >> 8)&255;
+                    context->data_buf[7] = i & 255;
                     context->state = SCSI_STATE_DATAIN;
                     context->seq = 0;
                     break;
@@ -834,7 +841,7 @@ void scsi_reset(struct scsi_context_s *context)
    ARRAY  | data_buf           | 512 bytes of data_buf
 
 */
-static char snap_module_name[] = "SCSI";
+
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 
@@ -842,7 +849,7 @@ int scsi_snapshot_write_module(struct scsi_context_s *context, snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, context->myname, SNAP_MAJOR, SNAP_MINOR);
 
     if (m == NULL) {
         return -1;
@@ -890,7 +897,7 @@ int scsi_snapshot_read_module(struct scsi_context_s *context, snapshot_t *s)
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
+    m = snapshot_module_open(s, context->myname, &vmajor, &vminor);
 
     if (m == NULL) {
         return -1;

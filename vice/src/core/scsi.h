@@ -32,6 +32,7 @@
 struct scsi_context_s;
 
 typedef struct scsi_context_s {
+    char *myname;
     uint8_t state;
     uint8_t target;
     uint8_t databus;

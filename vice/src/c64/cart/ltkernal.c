@@ -277,6 +277,7 @@ static const export_resource_t export_res_plus = {
         CARTRIDGE_LT_KERNAL
 };
 
+static char ltk_scsi_name[] = {"LTKSCSI"};
 static scsi_context_t ltk_scsi;
 
 /* ---------------------------------------------------------------------*/
@@ -961,6 +962,7 @@ void ltkernal_config_init(void)
     ltk_scsi.rst = 0;
     ltk_scsi.bsyi = 0;
     ltk_scsi.ack = 0;
+    ltk_scsi.myname = ltk_scsi_name;
 
     ltk_in2 = 0xff - 0x40; /* make sure RAM is not enabled */
 
