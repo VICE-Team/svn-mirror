@@ -242,17 +242,17 @@ static uint8_t lightpen_digital_val(int port)
     return (uint8_t)~lightpen_value;
 }
 
-#if 0
 static uint8_t lightpen_read_button_y(int port)
 {
     return (lightpen_enabled && lightpen_button_y) ? 0x00 : 0xff;
 }
-#endif
 
+#if 0
 static uint8_t lightpen_read_button_x(int port)
 {
     return (lightpen_enabled && lightpen_button_x) ? 0x00 : 0xff;
 }
+#endif
 
 static joyport_t lightpen_u_joyport_device = {
     "Light Pen (up trigger)", /* name of the device */
@@ -304,8 +304,8 @@ static joyport_t magnum_light_phaser_joyport_device = {
     joyport_lightpen_enable, /* device enable function */
     lightpen_digital_val,    /* digital line read function */
     NULL,                    /* NO digital line store function */
-    lightpen_read_button_x,  /* pot-x read function */
-    NULL,                    /* NO pot-y read function */
+    NULL,                    /* NO pot-x read function */
+    lightpen_read_button_y,  /* pot-y read function */
     lightpen_write_snapshot, /* device write snapshot function */
     lightpen_read_snapshot   /* device read snapshot function */
 };
@@ -332,8 +332,8 @@ static joyport_t inkwell_lightpen_joyport_device = {
     joyport_lightpen_enable, /* device enable function */
     lightpen_digital_val,    /* digital line read function */
     NULL,                    /* NO digital line store function */
-    lightpen_read_button_x,  /* pot-x read function */
-    NULL,                    /* NO pot-y read function */
+    NULL,                    /* NO pot-x read function */
+    lightpen_read_button_y,  /* pot-y read function */
     lightpen_write_snapshot, /* device write snapshot function */
     lightpen_read_snapshot   /* device read snapshot function */
 };
