@@ -47,7 +47,7 @@
 #ifdef ARCHDEP_OS_WINDOWS
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
-   starting with a black (default) config, so an educated guess works good
+   starting with a blank (default) config, so an educated guess works good
    enough most of the time :)
 
    FIXME: add more languages, constants are defined in winnt.h
@@ -58,12 +58,12 @@ int archdep_kbd_get_host_mapping(void)
 {
     uintptr_t lang;
     int n;
-    int maps[KBD_MAPPING_NUM] = {
+    static const int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
         KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL,
         KBD_MAPPING_SE, KBD_MAPPING_CH
     };
-    int langids[KBD_MAPPING_NUM] = {
+    static const int langids[KBD_MAPPING_NUM] = {
         MAKELANGID(LANG_ENGLISH,    SUBLANG_ENGLISH_US),
         MAKELANGID(LANG_ENGLISH,    SUBLANG_ENGLISH_UK),
         MAKELANGID(LANG_GERMAN,     SUBLANG_GERMAN),
@@ -125,12 +125,12 @@ int archdep_kbd_get_host_mapping(void)
 {
     int n;
     char *l;
-    int maps[KBD_MAPPING_NUM] = {
+    static const int maps[KBD_MAPPING_NUM] = {
         KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
         KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT, KBD_MAPPING_NL,
         KBD_MAPPING_SE, KBD_MAPPING_CH
     };
-    char *s[KBD_MAPPING_NUM] = {
+    static const char * const s[KBD_MAPPING_NUM] = {
         "en_US", "en_UK", "de", "da", "no", "fi", "it", "nl", "se", "ch" };
     /* setup the locale */
     setlocale(LC_ALL, "");
