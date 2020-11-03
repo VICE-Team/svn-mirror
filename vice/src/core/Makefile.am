@@ -25,6 +25,8 @@ libcore_a_SOURCES = \
 	flash040core.c \
 	fmopl.c \
 	fmopl.h \
+	i8255a.c \
+	i8255a.h \
 	mc6821core.c \
 	mc6821core.h \
 	m93c86.c \
