@@ -86,6 +86,7 @@
  */
 
 /* This module is currently used in the following emulated hardware:
+ * CMDHD
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -168,7 +169,7 @@ uint8_t rtc72421_read(rtc_72421_t *context, uint8_t address)
             }
             break;
         case RTC72421_REGISTER_WEEKDAYS:
-            retval = rtc_get_weekday(latch) - 1;
+            retval = rtc_get_weekday(latch);
             if (retval > 6) {
                 retval = 6;
             }
@@ -393,8 +394,13 @@ void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data)
                 context->stop = 1;
                 context->latch = rtc_get_latch(context->offset);
             } else {
-                context->stop = 0;
-                context->offset = context->offset - (rtc_get_latch(0) - (context->latch - context->offset));
+                /* problem here, we have to do this only if we were previously
+                    stopped, otherwise we mess up the counter */
+                if (context->stop) {
+                    context->stop = 0;
+                    context->offset = context->offset -
+                        (rtc_get_latch(0) - (context->latch - context->offset));
+                }
             }
             break;
     }
