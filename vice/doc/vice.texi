@@ -1065,6 +1065,33 @@ ROM. Only the code in the FDC is different, which is taken care of by
 VICE. So for all three of those disk drives, only @code{dos1001} is
 needed. The DOS version used is 2.7.
 
+
+Creative Micro Designs (CMD) produced the last drives for the
+Commodore 8-bit systems. They first released the hard drive (HD) line,
+and later the floppy drive (FD) line. The CMD HD series can support up
+to 4 GiB HDs with 255 separate partitions, while the CMD FD series can
+support up to 3.3 MB extended density floppy disks with 31 separate
+partitions. The FD series are also backwards compatible with 1581
+media. The DOS for the FD series is stored on a ROM (@code{dos2000}
+and @code{dos4000}, the latest versions being 1.40).
+
+The CMD HD uses a small boot ROM (@code{dosCMDHD}, the latest version
+is 2.80) which loads the primary DOS (latest is 1.92) off the HD
+itself. This allows for easy upgrades and expandability. This is also
+the only drive to use the front panel buttons to control the mode of
+the drive on reset. There are three modes of operation: normal,
+configuration, and installation. VICE supports placing the drive in
+either of these modes through the "Reset" sub-menu on the status bar
+for the GTK3 interface, and the "Reset" menu in the SDL interface.
+When creating a new DHD image, simply create an EMPTY file and VICE
+will automatically place the drive in installation mode. Once the DOS
+is installed, the CMD "hd-tools" program can be used to configure
+various settings and partition the drive; this is done in
+configuration mode for safety. When in either configuration or
+installation mode, the device number is set to 30. Therefore, it is
+not suggested to place two or more CMD HDs in either of these modes on
+the same bus at the same time.
+
 @node Supported file formats, Common problems, Disk drive emulation, Preface
 @section Supported file formats
 
@@ -1104,6 +1131,9 @@ VICE supports the most popular Commodore file formats:
 
 @item
 @code{D4M} FD4000 ED disk image format
+
+@item
+@code{DHD} CMD HD disk image format
 
 @item
 @code{T64} tape container files (read-only)
@@ -1586,8 +1616,8 @@ The C128 needs the following files:
 @end itemize
 
 The C128, VIC20, SCPU64 and C64 emulators also need the following DOS ROMs for
-the hardware-level emulation of the 1540, 1541, 1571, 1581, 2000 and 4000 disk
-drives:
+the hardware-level emulation of the 1540, 1541, 1571, 1581, 2000, and 4000 disk
+drives, as well as the CMD hard drive:
 
 @itemize @bullet
 
@@ -1611,6 +1641,9 @@ drives:
 
 @item
 @file{dos4000}, the 4000 drive ROM (32 KiB)
+
+@item
+@file{dosCMDHD}, the CMD HD boot ROM (16 KiB)
 
 @end itemize
 
@@ -3708,6 +3741,7 @@ values are @code{1541} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{3040} [all emulators except x64dtv, xplus4 and vsid],
 @code{4000} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{4040} [all emulators except x64dtv, xplus4 and vsid],
+@code{4844} (CMD HD) [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{8050} [all emulators except x64dtv, xplus4 and vsid],
 @code{8250} [all emulators except x64dtv, xplus4 and vsid].
 
@@ -3878,6 +3912,7 @@ Integers specifying the drive wobble amplitude
 @vindex DosName1581
 @vindex DosName2000
 @vindex DosName4000
+@vindex DosNameCMDHD
 @item DosName1540
 @itemx DosName1541
 @itemx DosName1541ii
@@ -3886,6 +3921,7 @@ Integers specifying the drive wobble amplitude
 @itemx DosName1581
 @itemx DosName2000
 @itemx DosName4000
+@itemx DosNameCMDHD
 Strings specifying the names of the ROM images for the drive emulation.
 (all emulators except xcbm2, xcbm5x0, xpet and vsid)
 
@@ -3972,6 +4008,7 @@ Possible values for @code{TYPE} are
 @code{1581} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{2000} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{4000} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{4844} (meaning CMD HD) [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{2031} [all emulators except x64dtv, xplus4 and vsid],
 @code{2040} [all emulators except x64dtv, xplus4 and vsid],
 @code{3040} [all emulators except x64dtv, xplus4 and vsid],
@@ -3983,25 +4020,25 @@ and @code{8250} [all emulators except x64dtv, xplus4 and vsid].
 @findex -drive8rtcsave, +drive8rtcsave
 @item -drive8rtcsave
 @itemx -drive8rtcsave
-Enable/disable the saving of the RTC data for drive 8 when changed (drive type 2000/4000 only)
+Enable/disable the saving of the RTC data for drive 8 when changed (drive type 2000/4000/4844 only)
 (@code{Drive8RTCSave=1}, @code{Drive8RTCSave=0}).
 
 @findex -drive9rtcsave, +drive9rtcsave
 @item -drive9rtcsave
 @itemx -drive9rtcsave
-Enable/disable the saving of the RTC data for drive 9 when changed (drive type 2000/4000 only)
+Enable/disable the saving of the RTC data for drive 9 when changed (drive type 2000/4000/4844 only)
 (@code{Drive9RTCSave=1}, @code{Drive9RTCSave=0}).
 
 @findex -drive10rtcsave, +drive10rtcsave
 @item -drive10rtcsave
 @itemx -drive10rtcsave
-Enable/disable the saving of the RTC data for drive 10 when changed (drive type 2000/4000 only)
+Enable/disable the saving of the RTC data for drive 10 when changed (drive type 2000/4000/4844 only)
 (@code{Drive10RTCSave=1}, @code{Drive10RTCSave=0}).
 
 @findex -drive11rtcsave, +drive11rtcsave
 @item -drive11rtcsave
 @itemx -drive11rtcsave
-Enable/disable the saving of the RTC data for drive 11 when changed (drive type 2000/4000 only)
+Enable/disable the saving of the RTC data for drive 11 when changed (drive type 2000/4000/4844 only)
 (@code{Drive11RTCSave=1}, @code{Drive11RTCSave=0}).
 
 @findex -parallel8
@@ -4134,6 +4171,12 @@ Specify the ROM name for the FD2000 emulation
 @item -dos4000 <name>
 Specify the ROM name for the FD4000 emulation
 (@code{DosName4000}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@findex -dosCMDHD
+@item -dosCMDHD <name>
+Specify the boot ROM name for the CMD HD emulation
+(@code{DosNameCMDHD}).
 (all emulators except xcbm2, xcbm5x0, xpet and vsid)
 
 @findex -dos2031
@@ -18427,6 +18470,7 @@ supported by the emulators.
 * D81::                         The D81 disk image format
 * D82::                         The D82 disk image format
 * X64::                         The X64 disk image format
+* DHD::                         The DHD disk image format
 * P00::                         The P00 image format
 @end menu
 
@@ -22717,7 +22761,7 @@ F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @tab Not used
 @end multitable
 
-@node D82, P00, D80, File formats
+@node D82, DHD, D80, File formats
 @section The D82 disk image format
 
 @c FIXME: the D82 section needs to be style-checked.
@@ -23809,7 +23853,204 @@ Fourth BAM block 38/9
 @tab Not used
 @end multitable
 
-@node P00, , D82, File formats
+@node DHD, P00, D82, File formats
+@section The DHD disk image format
+
+The DHD image is bit-for-bit copy of a Creative Micro Designs (CMD)
+Hard Drive (HD). CMD designed their DOS so that it could co-exist with
+other operating systems from other computer platforms. At the time,
+SCSI HDs were very expensive, making this a likely scenario for some.
+In this section, a block refers to a SCSI HD data block which is 512
+bytes. A SCSI HD refers to the location of a blocks on the disk as
+logical block address (LBA). A sector refers to a commodore disk
+sector which is 256 bytes. SCSI, being a smarter disk system (compared
+to earlier ones), translates the LBAs into physical head, sector,
+cylinder coordinates internally thus simplifying the host's interface.
+So, for example, a 40 MB HD of that era would have had 82332 (or
+$1419C) LBAs. As HD technology improved, the number of sectors per
+cylinder became variable depending on the cylinder which allowed for
+greater capacity. The host therefore has no information about the HD
+geometry other than the total number of LBAs.
+Most operating systems place their partition tables or boot code near
+the beginning of the HD. Because of this variability, CMD designed
+their DOS to begin at any location in increments of 128 blocks. It was
+therefore possible to configure foreign partitions on various
+operating system so that the CMD data was ignored. The starting
+location of the CMD whole disk partition will be referred to as X
+blocks.
+
+Upon reset, the boot ROM looks for the CMD whole partition by
+examining LBA X+2 (starting at X=0) and checking for a special
+signature in the block. If it does not find it, X will increase by
+128, and it will try again. It will do this until it finds the
+signature, or until it gets a read error from the HD signaling the end
+of disk space. The device will the switch to installation mode.
+
+The following is an example configuration block of a 40 MB drive:
+
+@example
+X *     00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+$200 +  -----------------------------------------------   ----------------
+000400: 94 6C 00 0E 7D E7 00 00 00 00 00 00 00 00 00 00
+000410: 20 20 20 20 31 2E 39 32 30 33 2F 32 32 2F 39 36   ....1.9203/22/96
+000420: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+000430: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+000440: 03 02 00 7E C9 55 00 00 00 00 00 00 00 00 00 00
+000450: 20 20 20 20 32 2E 30 30 30 33 2F 32 32 2F 39 36   ....2.0003/22/96
+000460: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+...
+000500: 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+000510: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+000530: FF FF FF FF FF FF FF FF 00 01 FF FF FF FF FF FF
+000540: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+000570: 00 41 FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+000580: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+0005A0: FF FF FF FF FF FF FF FF 00 9C FF FF FF FF FF FF
+0005B0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+0005E0: 00 0C 01 01 0C 80 01 00 00 00 00 00 00 00 00 00
+0005F0: 43 4D 44 20 48 44 20 20 8D 03 88 8E 02 88 EA 60   CMD HD..........
+...
+000E00: < start of first OS, n=0, CMD DOS, see $402-$403 >
+007E00: < start of second OS, n=1, GEOS overlay, see $442-$443 >
+010000: < start of partition table, see $5E6-$5E7 >
+@end example
+
+The first 256 bytes of the configuration block appear to be a list of
+loadable operating systems for the drive. Each entry, "n", uses 64
+bytes, so there can be at most 4. The first is the standard CMD DOS,
+while the second is an overlay for GEOS. The boot ROM explicitly loads
+the first (n=0).
+
+The CMD DOS supports up to 56 connected HDs: 7 devices with 8 logical
+units (LUNs) each. For that era, most HDs only supported a single LUN
+(0), whereas more exotic array devices would allow for multiple LUNs.
+The relative location of the disk, "d", in the whole drive map, is
+stored in the next 224 bytes. For example, the first disk would start
+at location 0. The next disk following the first, would start at LBA
+$01419C (the size of the first disk plus its starting point in the
+map). The 24-bit values used here for the placement are adequate since
+a fully populated CMD HD can only access 255 16 MB partitions, which
+his just under 4 GiB.
+
+The last portion of the configuration block holds the device parameters
+(device number, partition location, default partition) as well as the
+CMD HD signature.
+
+@multitable @columnfractions .35 .65
+@item @b{Bytes}
+@tab @b{Description}
+@item (X*$200)+($400-$4FF)
+@tab Operating System Table
+@item (X*$200+$400+n*$40)+$00
+@tab Destination memory page
+@item (X*$200+$400+n*$40)+$01
+@tab Number of pages
+@item (X*$200+$400+n*$40)+$02-$03
+@tab Location of data offset from X in sectors (256 bytes); MSB format
+@item (X*$200+$400+n*$40)+$04-$05
+@tab Checksum of data; MSB format
+@item (X*$200+$400+n*$40)+$06-$0F
+@tab All 0x00
+@item (X*$200+$400+n*$40)+$10-$17
+@tab ASCII of version number
+@item (X*$200+$400+n*$40)+$18-$1F
+@tab ASCII of date
+@item (X*$200+$400+n*$40)+$20-$3F
+@tab All 0x00
+@item (X*$200+$500+d*$38)+$00
+@tab SCSI ID of HD in bits 7-4, LUN in bits 3-0; $FF means not present
+@item (X*$200+$500+d*$38)+$38
+@tab MSB of disk location in drive map
+@item (X*$200+$500+d*$38)+$70
+@tab Middle byte of disk location in drive map
+@item (X*$200+$500+d*$38)+$A8
+@tab LSB of disk location in drive map
+@item (X*$200+$500)+$E0
+@tab 0x00 (unknown)
+@item (X*$200+$500)+$E1
+@tab Device number (12 or 0x0C by default)
+@item (X*$200+$500)+$E2
+@tab 0x01 (unknown)
+@item (X*$200+$500)+$E3
+@tab 0x01 (unknown)
+@item (X*$200+$500)+$E4
+@tab Device number (12 or 0x0C by default)
+@item (X*$200+$500)+$E5
+@tab 0x80: 2 to the power of the SCSI ID of host (which is always 7)
+@item (X*$200+$500)+$E6-$E7
+@tab Location of CMD partition table offset from X in sectors (256 bytes); MSB format
+@item (X*$200+$500)+$E8
+@tab Default partition number
+@item (X*$200+$500)+$E9-$EF
+@tab All 0x00
+@item (X*$200+$500)+$F0-$F7
+@tab 0x43 0x4D 0x44 0x20 0x48 0x44 0x20 0x20: First half of signature
+@item (X*$200+$500)+$F8-$FF
+@tab 0x8D 0x03 0x88 0x8E 0x02 0x88 0xEA 0x60: Second half of signature; decodes to STA $8803, STX $8802, NOP, RTS
+@end multitable
+
+The CMD partition table is a special disk image with one track and 32
+sectors. It is very similar the standard directory structure of most
+CBM drives.  The first two bytes of the sector indicate the location of
+the next track/sector of the partition table; it is usually in sequence.
+If the next track is set to $00 (the next sector will be $ff), then it
+is the last sector of the partition table.
+
+The standard partition table sectors:
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$1F
+@tab First partition entry for this sector
+@item $20-$3F
+@tab Second partition entry for this sector
+@item $40-$5F
+@tab Third partition entry for this sector
+@item $60-$7F
+@tab Fourth partition entry for this sector
+@item $80-$9F
+@tab Fifth partition entry for this sector
+@item $A0-$BF
+@tab Sixth partition entry for this sector
+@item $C0-$DF
+@tab Seventh partition entry for this sector
+@item $E0-$FF
+@tab Eighth partition entry for this sector
+@end multitable
+
+The standard partition entry:
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab Track/Sector location of next partition sector ($00 $00 if not the first entry in the sector)
+@item $02
+@tab Partition type: 0x00=none, 0x01=native, 0x02=1541, 0x03=1571, 0x04=1581, 0x05=1581CPM, 0x06=Print Queue, 0x07=Foreign, 0xFF=System.  Only partition 0 can be a system type, and type 6 isn't known to be implemented on any CMD DOS.
+@item $03-$04
+@tab 0x00 0x00
+@item $05-$14
+@tab 16 character partition name (in PETASCII, padded with $A0)
+@item $15-$17
+@tab Location of the partition data offset from X in sectors (256 bytes); MSB format; partition 0, the system partition always starts a 0.
+@item $18-$1D
+@tab All 0x00
+@item $1E-$1F
+@tab Size of partition (in blocks) in MSB format. Partition 0, the system partition is always 0x90 blocks, which includes blocks from X to the end of the partition table.
+@end multitable
+
+When a partition is deleted, its entry is removed and all others stay
+in their existing place. The partition data following the deleted
+partition is moved back to fill in the gap from the deletion;
+this can be very time consuming. So, when deleting a partition, it is
+suggested to start with the one with the highest start LBA.
+
+The data at the starting LBA is simply the associated disk image of
+the partition type. It follows the formats (D64, D71, and D81)
+documented previously.
+
+@node P00, , DHD, File formats
 @section The P00 image format
 
 @c FIXME: the P00 section needs to be style-checked.
