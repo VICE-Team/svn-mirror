@@ -979,3 +979,13 @@ kbdtype_info_t *machine_get_keyboard_info_list(void)
 {
     return NULL;
 }
+
+void drive_cpu_trigger_reset_button(unsigned int dnr, unsigned int button)
+{
+}
+
+int drive_has_buttons(unsigned int dnr)
+{
+    return 0;
+}
+

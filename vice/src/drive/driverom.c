@@ -261,6 +261,10 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
             base = unit->rom;
             len = DRIVE_ROM4000_SIZE;
             break;
+        case DRIVE_TYPE_CMDHD:
+            base = &(unit->rom[0x4000]);
+            len = DRIVE_ROMCMDHD_SIZE;
+            break;
         case DRIVE_TYPE_2031:
             base = &(unit->rom[0x4000]);
             len = DRIVE_ROM2031_SIZE;
@@ -364,6 +368,10 @@ int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
         case DRIVE_TYPE_4000:
             base = unit->rom;
             len = DRIVE_ROM4000_SIZE;
+            break;
+        case DRIVE_TYPE_CMDHD:
+            base = &(unit->rom[0x4000]);
+            len = DRIVE_ROMCMDHD_SIZE;
             break;
         case DRIVE_TYPE_2031:
             base = &(unit->rom[0x4000]);

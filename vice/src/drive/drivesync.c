@@ -98,6 +98,7 @@ void drivesync_clock_frequency(diskunit_context_t *unit, unsigned int type)
         case DRIVE_TYPE_1581:
         case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
+        case DRIVE_TYPE_CMDHD:
             unit->clock_frequency = 2;
             break;
         case DRIVE_TYPE_2031:

@@ -23,6 +23,8 @@ libdriveiec_a_SOURCES = \
 	cia1571d.c \
 	cia1581d.c \
 	ciad.h \
+	cmdhd.c \
+	cmdhd.h \
 	fdd.c \
 	fdd.h \
 	glue1571.c \

@@ -116,6 +116,11 @@ int drive_check_image_format(unsigned int format, unsigned int dnr)
                 return -1;
             }
             break;
+        case DISK_IMAGE_TYPE_DHD:
+            if (unit->type != DRIVE_TYPE_CMDHD) {
+                return -1;
+            }
+            break;
         default:
             return -1;
     }

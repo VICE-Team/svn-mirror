@@ -157,6 +157,7 @@ struct tpi_context_s;
 struct via_context_s;
 struct pc8477_s;
 struct wd1770_s;
+struct cmdhd_context_s;
 
 typedef struct diskunit_context_s {
     int mynumber;         /* init to [0123] */
@@ -177,6 +178,7 @@ typedef struct diskunit_context_s {
     struct tpi_context_s *tpid;
     struct pc8477_s *pc8477;
     struct wd1770_s *wd1770;
+    struct cmdhd_context_s *cmdhd;
 
     /* Here is some data which used to be stored in drives[0]. */
 
@@ -210,6 +212,9 @@ typedef struct diskunit_context_s {
 
     /* Drive-specific logging goes here.  */
     signed int log;
+
+    /* state of buttons on reset, if any */
+    int button;
 
     /* Which RAM expansion is enabled?  */
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,

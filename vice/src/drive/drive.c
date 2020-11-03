@@ -258,7 +258,8 @@ int drive_init(void)
         rotation_init((diskunit->clock_frequency == 2) ? 1 : 0, unit);
         rotation_reset(drive);
 
-        if (diskunit->type == DRIVE_TYPE_2000 || diskunit->type == DRIVE_TYPE_4000) {
+        if (diskunit->type == DRIVE_TYPE_2000 || diskunit->type == DRIVE_TYPE_4000 ||
+            diskunit->type == DRIVE_TYPE_CMDHD) {
             drivecpu65c02_init(diskunit, diskunit->type);
         } else {
             drivecpu_init(diskunit, diskunit->type);
@@ -288,7 +289,8 @@ void drive_shutdown(void)
     for (unr = 0; unr < NUM_DISK_UNITS; unr++) {
         diskunit_context_t *unit = diskunit_context[unr];
 
-        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
+        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
+            unit->type == DRIVE_TYPE_CMDHD) {
             drivecpu65c02_shutdown(diskunit_context[unr]);
         } else {
             drivecpu_shutdown(diskunit_context[unr]);
@@ -346,6 +348,7 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
             break;
         case DRIVE_TYPE_2000:   /* red power, green activity, red error, horizontal, line */
         case DRIVE_TYPE_4000:   /* red power, green activity, red error, horizontal, line */
+        case DRIVE_TYPE_CMDHD:   /* red power, green activity, red error, horizontal, line */
             drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_RED;
             break;
         case DRIVE_TYPE_2040:   /* red drive1, red power, red drive2, horizontal, round */
@@ -383,7 +386,8 @@ int drive_set_disk_drive_type(unsigned int type, struct diskunit_context_s *drv)
 
     rotation_init(0, dnr);
     drv->type = type;
-    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
+    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000 ||
+        type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_setup_context(drv, 0);
     } else {
         drivecpu_setup_context(drv, 0);
@@ -394,7 +398,8 @@ int drive_set_disk_drive_type(unsigned int type, struct diskunit_context_s *drv)
     drivesync_factor(drv);
     drive_set_active_led_color(type, dnr);
 
-    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
+    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000 ||
+        type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_init(drv, type);
     } else {
         drivecpu_init(drv, type);
@@ -473,7 +478,8 @@ int drive_enable(diskunit_context_t *drv)
     /* resync */
     drv->cpu->stop_clk = *(drv->clk_ptr);
 
-    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+        drv->type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_wake_up(drv);
     } else {
         drivecpu_wake_up(drv);
@@ -497,7 +503,8 @@ void drive_disable(diskunit_context_t *drv)
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     if (rom_loaded) {
-        if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000) {
+        if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+            drv->type == DRIVE_TYPE_CMDHD) {
             drivecpu65c02_sleep(drv);
         } else {
             drivecpu_sleep(drv);
@@ -534,7 +541,8 @@ void drive_cpu_prevent_clk_overflow_all(CLOCK sub)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
-        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
+        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
+            unit->type == DRIVE_TYPE_CMDHD) {
             drivecpu65c02_prevent_clk_overflow(diskunit_context[dnr], sub);
         } else {
             drivecpu_prevent_clk_overflow(diskunit_context[dnr], sub);
@@ -546,7 +554,8 @@ void drive_cpu_trigger_reset(unsigned int dnr)
 {
     diskunit_context_t *unit = diskunit_context[dnr];
 
-    if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
+    if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
+        unit->type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_trigger_reset(dnr);
     } else {
         drivecpu_trigger_reset(dnr);
@@ -562,7 +571,8 @@ void drive_reset(void)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
-        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
+        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
+            unit->type == DRIVE_TYPE_CMDHD) {
             drivecpu65c02_reset(diskunit_context[dnr]);
         } else {
             drivecpu_reset(diskunit_context[dnr]);
@@ -837,6 +847,7 @@ int drive_num_leds(unsigned int dnr)
     case DRIVE_TYPE_8250:
     case DRIVE_TYPE_2000:
     case DRIVE_TYPE_4000:
+    case DRIVE_TYPE_CMDHD:
         return 2;
     default:
         return 1;
@@ -845,7 +856,8 @@ int drive_num_leds(unsigned int dnr)
 
 void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
 {
-    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+        drv->type == DRIVE_TYPE_CMDHD) {
         drivecpu65c02_execute(drv, clk_value);
     } else {
         drivecpu_execute(drv, clk_value);
@@ -867,7 +879,8 @@ void drive_cpu_execute_all(CLOCK clk_value)
 
 void drive_cpu_set_overflow(diskunit_context_t *drv)
 {
-    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000) {
+    if (drv->type == DRIVE_TYPE_2000 || drv->type == DRIVE_TYPE_4000 ||
+        drv->type == DRIVE_TYPE_CMDHD) {
         /* nothing */
     } else {
         drivecpu_set_overflow(drv);
@@ -935,4 +948,23 @@ void drive_setup_context(void)
         diskunit_context[unr] = lib_calloc(1, sizeof(diskunit_context_t));
         drive_setup_context_for_unit(diskunit_context[unr], unr);
     }
+}
+
+int drive_has_buttons(unsigned int dnr)
+{
+    diskunit_context_t *unit = diskunit_context[dnr];
+    if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000) {
+        return 8; /* single swap */
+    } else if (unit->type == DRIVE_TYPE_CMDHD) {
+        return 1 | 2 | 4; /* write protect, swap 8, swap 9 */
+    }
+
+    return 0;
+}
+
+void drive_cpu_trigger_reset_button(unsigned int dnr, unsigned int button)
+{
+    diskunit_context_t *unit = diskunit_context[dnr];
+    unit->button = button;
+    drive_cpu_trigger_reset(dnr);
 }

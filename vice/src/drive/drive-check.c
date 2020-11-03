@@ -63,6 +63,7 @@ int drive_check_iec(int type)
         case DRIVE_TYPE_1581:
         case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
+        case DRIVE_TYPE_CMDHD:
             return 1;
     }
 
@@ -322,6 +323,7 @@ int drive_check_rtc(int drive_type)
     switch (drive_type) {
         case DRIVE_TYPE_2000: /* fall through */
         case DRIVE_TYPE_4000:
+        case DRIVE_TYPE_CMDHD:
             return 1;
         default:
             return 0;

@@ -46,6 +46,7 @@
 #include "via1d1541.h"
 #include "via4000.h"
 #include "viad.h"
+#include "cmdhd.h"
 
 static drive_read_func_t *read_tab_watch[0x101];
 static drive_store_func_t *store_tab_watch[0x101];
@@ -266,6 +267,11 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
         case DRIVE_TYPE_4000:
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, via4000_dump, context);
             mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL, context); /* FIXME: register dump function */
+            break;
+        case DRIVE_TYPE_CMDHD:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x8000, 0x800f, viacore_dump, ((diskunit_context_t *)context)->cmdhd->via10);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x8400, 0x840f, viacore_dump, ((diskunit_context_t *)context)->cmdhd->via9);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "I8255A", 0x8800, 0x8803, i8255a_dump, ((diskunit_context_t *)context)->cmdhd->i8255a);
             break;
         case DRIVE_TYPE_2040:
         case DRIVE_TYPE_3040:

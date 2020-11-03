@@ -66,7 +66,8 @@
 #define MAX_PWM 1000
 
 #define DRIVE_ROM_SIZE 0x8000
-#define DRIVE_RAM_SIZE 0xc000
+/* Upped to 64K due to CMD HD */
+#define DRIVE_RAM_SIZE 0x10000
 
 /* Extended disk image handling.  */
 #define DRIVE_EXTEND_NEVER  0
@@ -138,7 +139,10 @@
 #define DRIVE_TYPE_8250     8250    /* DOS 2.7 dual floppy drive, 1M/disk */
 #define DRIVE_NAME_8250     "CBM 8250"
 
-#define DRIVE_TYPE_NUM    17
+#define DRIVE_TYPE_CMDHD    4844    /* ASCII for HD */
+#define DRIVE_NAME_CMDHD    "CMD HD"
+
+#define DRIVE_TYPE_NUM    18
 
 /* max. half tracks */
 #define DRIVE_HALFTRACKS_1541   84
@@ -391,5 +395,8 @@ int drive_is_dualdrive_by_devnr(int devnr);
 extern void drive_setup_context(void);
 
 extern int drive_resources_type_init(unsigned int default_type);
+
+extern int drive_has_buttons(unsigned int dnr);
+extern void drive_cpu_trigger_reset_button(unsigned int dnr, unsigned int button);
 
 #endif

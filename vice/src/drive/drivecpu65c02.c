@@ -1,5 +1,5 @@
 /** \file   drivecpu65c02.c
- * \brief   65C02 processor emulation of CMD fd2000/4000 disk drives
+ * \brief   65C02 processor emulation of CMD FD2000/4000 and HD drives
  *
  * \author  Kajtar Zsolt <soci@c64.rulez.org>
  *
@@ -497,6 +497,12 @@ int drivecpu65c02_snapshot_write_module(diskunit_context_t *drv, snapshot_t *s)
         }
     }
 
+    if (drv->type == DRIVE_TYPE_CMDHD) {
+        if (SMW_BA(m, drv->drive_ram, 0x10000) < 0) {
+            goto fail;
+        }
+    }
+
     if (interrupt_write_new_snapshot(cpu->int_status, m) < 0) {
         goto fail;
     }
@@ -566,6 +572,12 @@ int drivecpu65c02_snapshot_read_module(diskunit_context_t *drv, snapshot_t *s)
     if (drv->type == DRIVE_TYPE_2000
         || drv->type == DRIVE_TYPE_4000) {
         if (SMR_BA(m, drv->drive_ram, 0x2000) < 0) {
+            goto fail;
+        }
+    }
+
+    if (drv->type == DRIVE_TYPE_CMDHD) {
+        if (SMR_BA(m, drv->drive_ram, 0x10000) < 0) {
             goto fail;
         }
     }

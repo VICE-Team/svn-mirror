@@ -47,6 +47,7 @@ static char *dos_rom_name_1571 = NULL;
 static char *dos_rom_name_1581 = NULL;
 static char *dos_rom_name_2000 = NULL;
 static char *dos_rom_name_4000 = NULL;
+static char *dos_rom_name_CMDHD = NULL;
 
 static void set_drive_ram(unsigned int dnr)
 {
@@ -133,6 +134,15 @@ static int set_dos_rom_name_4000(const char *val, void *param)
     return iecrom_load_4000();
 }
 
+static int set_dos_rom_name_CMDHD(const char *val, void *param)
+{
+    if (util_string_set(&dos_rom_name_CMDHD, val)) {
+        return 0;
+    }
+
+    return iecrom_load_CMDHD();
+}
+
 static int set_drive_ram2(int val, void *param)
 {
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
@@ -196,6 +206,8 @@ static const resource_string_t resources_string[] = {
       &dos_rom_name_2000, set_dos_rom_name_2000, NULL },
     { "DosName4000", "dos4000", RES_EVENT_NO, NULL,
       &dos_rom_name_4000, set_dos_rom_name_4000, NULL },
+    { "DosNameCMDHD", "dosCMDHD", RES_EVENT_NO, NULL,
+      &dos_rom_name_CMDHD, set_dos_rom_name_CMDHD, NULL },
     RESOURCE_STRING_LIST_END
 };
 
@@ -264,4 +276,5 @@ void iec_resources_shutdown(void)
     lib_free(dos_rom_name_1581);
     lib_free(dos_rom_name_2000);
     lib_free(dos_rom_name_4000);
+    lib_free(dos_rom_name_CMDHD);
 }
