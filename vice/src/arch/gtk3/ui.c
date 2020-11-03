@@ -109,7 +109,7 @@ static int set_monitor_font(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
 static int set_pause_on_settings(int val, void *param);
-
+static void ui_switch_border_mode(void);
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -200,9 +200,7 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
     { GDK_KEY_P, VICE_MOD_MASK|GDK_SHIFT_MASK, (void *)ui_advance_frame },
 
     /* Removed, Pause has taken over this function, see commit 37965 */
-#if 0
-    { GDK_KEY_F12, VICE_MOD_MASK|GDK_SHIFT_MASK, uimedia_auto_screenshot },
-#endif
+    { GDK_KEY_F12, VICE_MOD_MASK|GDK_SHIFT_MASK, ui_switch_border_mode },
     /* Alt+J = swap joysticks */
     { GDK_KEY_j, VICE_MOD_MASK,
         (void *)ui_swap_joysticks_callback },
@@ -2102,7 +2100,7 @@ gboolean ui_advance_frame(void)
 }
 
 /** \brief  Destroy UI resources (but NOT vice 'resources')
- * 
+ *
  * Don't call this directly except from main_exit();
  */
 void ui_exit(void)
@@ -2122,13 +2120,13 @@ void ui_exit(void)
     /* Destroy the main window(s) */
     ui_destroy_main_window(PRIMARY_WINDOW);
     ui_destroy_main_window(SECONDARY_WINDOW);
-    
+
     /* unregister the CBM font */
     archdep_unregister_cbmfont();
 
     /* deallocate memory used by the unconnected keyboard shortcuts */
     kbd_hotkey_shutdown();
-    
+
     mainlock_release();
 }
 
@@ -2232,4 +2230,18 @@ GtkWidget *ui_get_window_by_index(int index)
         return NULL;
     }
     return ui_resources.window_widget[index];
+}
+
+
+/** \brief  Switch x64sc border mode during real-time
+ */
+void ui_switch_border_mode(void)
+{
+    int mode;
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        resources_get_int("VICIIBorderMode", &mode);
+        resources_set_int("VICIIBorderMode", (mode + 1) & 3);
+    }
+
 }
