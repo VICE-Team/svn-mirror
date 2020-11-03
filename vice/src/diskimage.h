@@ -71,6 +71,7 @@
 #define DISK_IMAGE_TYPE_D1M 1000
 #define DISK_IMAGE_TYPE_D2M 2000
 #define DISK_IMAGE_TYPE_D4M 4000
+#define DISK_IMAGE_TYPE_DHD 4844 /* HD in ASCII for CMDHD */
 
 struct fsimage_s;
 struct rawimage_s;
@@ -150,5 +151,6 @@ extern void disk_image_attach_log(const disk_image_t *image, signed int lognum,
                                   unsigned int unit, unsigned int drive);
 extern void disk_image_detach_log(const disk_image_t *image, signed int lognum,
                                   unsigned int unit, unsigned int drive);
+extern uint32_t disk_image_size(const disk_image_t *image);
 
 #endif

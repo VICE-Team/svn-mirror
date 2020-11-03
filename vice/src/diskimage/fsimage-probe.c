@@ -667,6 +667,56 @@ static int disk_image_check_for_d4m(disk_image_t *image)
     return 1;
 }
 
+static int disk_image_check_for_dhd(disk_image_t *image)
+{
+    unsigned int blk = 0;
+    uint8_t sector[512];
+    fsimage_t *fsimage;
+    uint32_t pos;
+    unsigned char hdmagic[16] = {0x43, 0x4d, 0x44, 0x20, 0x48, 0x44, 0x20, 0x20,
+        0x8d, 0x03, 0x88, 0x8e, 0x02, 0x88, 0xea, 0x60};
+
+    fsimage = image->media.fsimage;
+    image->tracks = 65535;
+
+    blk = util_file_length(fsimage->fd);
+
+    /* first make sure the file is a multiple of 512 bytes and less than
+       73728 bytes (which is the smallest possible DHD image */
+    if ((blk % 512 != 0) || ( blk < 73728 )) {
+        return 0;
+    }
+
+    /* look for configuration block */
+    rewind(fsimage->fd);
+    /* start at LBA 2 or 1024 */
+    pos = 1024;
+
+    while ( pos < blk ) {
+        if (fseek(fsimage->fd, pos, SEEK_SET)) {
+            /* hit the end of file */
+            break;
+        }
+        if (fread(sector, 512, 1, fsimage->fd) != 1) {
+            /* hit the end of file */
+            break;
+        }
+        /* otherwise check the cmd sig */
+        if ( memcmp(&(sector[0x1f0]), hdmagic, 16) == 0 ) {
+            /* found it */
+            image->type = DISK_IMAGE_TYPE_DHD;
+            image->max_half_tracks = 0;
+
+            disk_image_check_log(image, "DHD");
+            return 1;
+        }
+        /* try next 128 sectors of 64 KiB bytes */
+        pos += 65536;
+    }
+    /* hit the end of file */
+
+    return 0;
+}
 
 int fsimage_probe(disk_image_t *image)
 {
@@ -704,6 +754,9 @@ int fsimage_probe(disk_image_t *image)
         return 0;
     }
     if (disk_image_check_for_d4m(image)) {
+        return 0;
+    }
+    if (disk_image_check_for_dhd(image)) {
         return 0;
     }
 

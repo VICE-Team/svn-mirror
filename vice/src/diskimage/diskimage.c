@@ -403,6 +403,7 @@ static const char *disk_image_type(const disk_image_t *image)
         case DISK_IMAGE_TYPE_D1M: return "D1M";
         case DISK_IMAGE_TYPE_D2M: return "D2M";
         case DISK_IMAGE_TYPE_D4M: return "D4M";
+        case DISK_IMAGE_TYPE_DHD: return "DHD";
         default: return NULL;
     }
 }
@@ -742,5 +743,22 @@ void disk_image_resources_shutdown(void)
 
 int disk_image_cmdline_options_init(void)
 {
+    return 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+uint32_t disk_image_size(const disk_image_t *image)
+{
+    switch (image->device) {
+        case DISK_IMAGE_DEVICE_FS:
+            return fsimage_size(image);
+#ifdef HAVE_REALDEVICE
+        case DISK_IMAGE_DEVICE_REAL:
+            break;
+#endif
+        default:
+            log_error(disk_image_log, "Unknown image device %u.", image->device);
+    }
     return 0;
 }
