@@ -779,7 +779,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     width = canvas->draw_buffer->canvas_width * canvas->videoconfig->scalex;
     height = canvas->draw_buffer->canvas_height * canvas->videoconfig->scaley;
 
-    DBG(("%s: %ix%i (%i)", __func__, width, height, canvas->index));
+    DBG(("%s: %ux%u (%i)", __func__, width, height, canvas->index));
 
     /* Update the fullscreen status, if any */
     if (sdl2_window) {
@@ -840,7 +840,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 
         log_message(sdlvideo_log, "%s (%s) %ux%u %ibpp %s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", width, height, sdl_bitdepth, (canvas->fullscreenconfig->enable) ? " (fullscreen)" : "");
 #ifdef SDL_DEBUG
-        log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
+        log_message(sdlvideo_log, "Canvas %ux%u, real %ux%u", width, height, canvas->real_width, canvas->real_height);
 #endif
 
         video_canvas_set_palette(canvas, canvas->palette);
