@@ -137,6 +137,7 @@ static char *get_drive_type_string(int drive)
         case DRIVE_TYPE_1581:    return MENU_SUBMENU_STRING " 1581";
         case DRIVE_TYPE_2000:    return MENU_SUBMENU_STRING " 2000";
         case DRIVE_TYPE_4000:    return MENU_SUBMENU_STRING " 4000";
+        case DRIVE_TYPE_CMDHD:   return MENU_SUBMENU_STRING " CMDHD";
         case DRIVE_TYPE_2031:    return MENU_SUBMENU_STRING " 2031";
         case DRIVE_TYPE_2040:    return MENU_SUBMENU_STRING " 2040";
         case DRIVE_TYPE_3040:    return MENU_SUBMENU_STRING " 3040";
@@ -537,6 +538,7 @@ UI_MENU_DEFINE_SLIDER(Drive9WobbleFrequency, 0, 10000)
 UI_MENU_DEFINE_SLIDER(Drive10WobbleFrequency, 0, 10000)
 UI_MENU_DEFINE_SLIDER(Drive11WobbleFrequency, 0, 10000)
 
+extern ui_menu_entry_t reset_menu[];
 
 /* patch some things that are slightly different in the emulators */
 void uidrive_menu_create(void)
@@ -568,6 +570,13 @@ void uidrive_menu_create(void)
         drive_menu[1 + (i * 2)].status = d1;
         drive_menu[9 + (i * 2)].status = d0;
         drive_menu[10 + (i * 2)].status = d1;
+
+        d0 = MENU_STATUS_INACTIVE;
+        if (drive_get_type_by_devnr(8 + i) == DRIVE_TYPE_CMDHD) {
+            d0 = MENU_STATUS_ACTIVE;
+        }
+        reset_menu[7 + (i * 2) + 0].status = d0;
+        reset_menu[7 + (i * 2) + 1].status = d0;
     }
 }
 
@@ -858,6 +867,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
         DRIVE_TYPE_ITEM("1581", DRIVE_TYPE_1581 + (x << 16))                    \
         DRIVE_TYPE_ITEM("2000", DRIVE_TYPE_2000 + (x << 16))                    \
         DRIVE_TYPE_ITEM("4000", DRIVE_TYPE_4000 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("CMDHD", DRIVE_TYPE_CMDHD + (x << 16))                    \
         DRIVE_TYPE_ITEM("2031", DRIVE_TYPE_2031 + (x << 16))                    \
         DRIVE_TYPE_ITEM("2040", DRIVE_TYPE_2040 + (x << 16))                    \
         DRIVE_TYPE_ITEM("3040", DRIVE_TYPE_3040 + (x << 16))                    \

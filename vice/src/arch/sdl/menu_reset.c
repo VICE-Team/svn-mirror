@@ -94,7 +94,17 @@ static UI_MENU_CALLBACK(drive11cpu_reset_callback)
     return NULL;
 }
 
-const ui_menu_entry_t reset_menu[] = {
+static UI_MENU_CALLBACK(drivencpu_reset_button_callback)
+{
+    if (activated) {
+        vsync_suspend_speed_eval();
+        drive_cpu_trigger_reset_button((vice_ptr_to_int(param)>>4)&15,vice_ptr_to_int(param)&15);
+        return sdl_menu_text_exit_ui;
+    }
+    return NULL;
+}
+
+ui_menu_entry_t reset_menu[] = {
     { "Soft",
       MENU_ENTRY_OTHER,
       maincpu_soft_reset_callback,
@@ -120,5 +130,38 @@ const ui_menu_entry_t reset_menu[] = {
       MENU_ENTRY_OTHER,
       drive11cpu_reset_callback,
       NULL },
+/* options below this are enabled/disabled by uidrive_menu_create() drive_menu.c */
+    { "Drive 8 (in configuration mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void*) (0<<4 | 1) },
+    { "Drive 8 (in installation mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void *) (0<< 4 | 6) },
+    { "Drive 9 (in configuration mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void*) (1<<4 | 1) },
+    { "Drive 9 (in installation mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void *) (1<< 4 | 6) },
+    { "Drive 10 (in configuration mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void*) (2<<4 | 1) },
+    { "Drive 10 (in installation mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void *) (2<< 4 | 6) },
+    { "Drive 11 (in configuration mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void*) (3<<4 | 1) },
+    { "Drive 11 (in installation mode)",
+      MENU_ENTRY_OTHER,
+      drivencpu_reset_button_callback,
+      (void *) (3<< 4 | 6) },
     SDL_MENU_LIST_END
 };
