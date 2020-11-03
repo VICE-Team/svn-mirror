@@ -55,6 +55,7 @@
  * $VICERES DosName1581         x64 x64sc xscpu64 xvic x128 xplus4
  * $VICERES DosName2000         x64 x64sc xscpu64 xvic x128 xplus4
  * $VICERES DosName4000         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosNameCMDHD        x64 x64sc xscpu64 xvic x128 xplus4
  * $VICERES DosName2031         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  * $VICERES DosName2040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  * $VICERES DosName3040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
@@ -274,6 +275,7 @@ static const romset_entry_t c64_vic20_drive_roms[] = {
     { "DosName1581",    "1581",     NULL },
     { "DosName2000",    "2000",     NULL },
     { "DosName4000",    "4000",     NULL },
+    { "DosNameCMDHD",   "CMD HD",   NULL },
     { "DosName2031",    "2031",     NULL },
     { "DosName2040",    "2040",     NULL },
     { "DosName3040",    "3040",     NULL },
@@ -295,6 +297,7 @@ static const romset_entry_t c128_drive_roms[] = {
     { "DosName1581",    "1581",     NULL },
     { "DosName2000",    "2000",     NULL },
     { "DosName4000",    "4000",     NULL },
+    { "DosNameCMDHD",   "CMD HD",   NULL },
     { "DosName2031",    "2031",     NULL },
     { "DosName2040",    "2040",     NULL },
     { "DosName3040",    "3040",     NULL },
@@ -336,6 +339,7 @@ static const romset_entry_t plus4_drive_roms[] = {
     { "DosName1581",    "1581",     NULL },
     { "DosName2000",    "2000",     NULL },
     { "DosName4000",    "4000",     NULL },
+    { "DosNameCMDHD",   "CMD HD",   NULL },
     { NULL,         NULL,           NULL }
 };
 
