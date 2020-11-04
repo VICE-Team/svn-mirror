@@ -64,10 +64,10 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 
     ui_check_mouse_cursor();
     
-    /* resize window back to normal when leaving fullscreen */
-    video_viewport_resize(canvas, 1);
-
-    if (canvas->created) {
+    if (canvas->initialized) {
+        /* resize window back to normal when leaving fullscreen */
+        video_viewport_resize(canvas, 1);
+        
         /* HACK: when switching from/to fullscreen using hotkey (alt+d), some
                  spurious keyup/keydown events fire for the keys being held
                  down while switching modes. the following tries to get rid

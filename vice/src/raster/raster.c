@@ -262,6 +262,7 @@ int raster_init(raster_t *raster,
 
     video_viewport_get(raster->canvas, &raster->viewport, &raster->geometry);
 
+    raster->canvas->initialized = 1;
     raster_set_canvas_refresh(raster, 1);
 
     return 0;

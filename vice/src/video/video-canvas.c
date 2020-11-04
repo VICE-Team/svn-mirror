@@ -51,7 +51,7 @@
 
 #define TRACKED_CANVAS_MAX 2
 
-/** \brief Used to enable video_canvas_refresh_all() */
+/** \brief Used to enable video_canvas_refresh_all_tracked() */
 static video_canvas_t *tracked_canvas[TRACKED_CANVAS_MAX];
 
 /* Temporary! */

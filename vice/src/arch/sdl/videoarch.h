@@ -45,6 +45,11 @@
 typedef void (*video_refresh_func_t)(struct video_canvas_s *, int, int, int, int, unsigned int, unsigned int);
 
 struct video_canvas_s {
+    /** \brief Nonzero if it is safe to access other members of the
+     *         structure. */
+    unsigned int initialized;
+    
+    /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
     /* Index of the canvas, needed for x128 and xcbm2 */
