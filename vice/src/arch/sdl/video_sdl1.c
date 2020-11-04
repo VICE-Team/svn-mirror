@@ -1200,6 +1200,7 @@ void sdl_ui_init_finalize(void)
     }
 
     sdl_ui_finalized = 1;
+
     ui_check_mouse_cursor();
 }
 
@@ -1250,5 +1251,11 @@ void sdl_ui_consume_mouse_event(SDL_Event *event)
 
 void sdl_ui_set_window_title(char *title)
 {
-    /* we cant do this in SDL1 without also setting the icon? */
+    char *dummy = NULL;
+    char *icon = NULL;
+
+    if (sdl_ui_finalized) {
+        SDL_WM_GetCaption(&dummy, &icon);
+        SDL_WM_SetCaption(title, icon);
+    }
 }
