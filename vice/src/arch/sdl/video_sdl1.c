@@ -49,6 +49,7 @@
 #include "lightpendrv.h"
 #include "log.h"
 #include "machine.h"
+#include "mousedrv.h"
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
@@ -1201,7 +1202,7 @@ void sdl_ui_init_finalize(void)
 
     sdl_ui_finalized = 1;
 
-    ui_check_mouse_cursor();
+    mousedrv_mouse_changed();
 }
 
 int sdl_ui_get_mouse_state(int *px, int *py, unsigned int *pbuttons)

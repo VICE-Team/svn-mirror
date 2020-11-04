@@ -40,6 +40,7 @@ static mouse_func_t mouse_funcs;
 
 void mousedrv_mouse_changed(void)
 {
+    ui_set_mouse_grab_window_title(_mouse_enabled);
     ui_check_mouse_cursor();
 }
 

@@ -63,6 +63,7 @@ extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);
 extern void ui_check_mouse_cursor(void);
+extern void ui_set_mouse_grab_window_title(int enabled);
 extern void ui_autohide_mouse_cursor(void);
 extern void ui_restore_mouse(void);
 

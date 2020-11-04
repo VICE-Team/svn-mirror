@@ -60,6 +60,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "mousedrv.h"
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
@@ -976,7 +977,7 @@ void sdl_ui_init_finalize(void)
     for (i = 0; i < sdl_num_screens; ++i) {
         video_canvas_resize(sdl_canvaslist[i], 1);
     }
-    ui_check_mouse_cursor();
+    mousedrv_mouse_changed();
 }
 
 static int last_mouse_x = -1;
