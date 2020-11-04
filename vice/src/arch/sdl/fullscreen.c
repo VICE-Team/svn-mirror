@@ -63,14 +63,16 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
     canvas->fullscreenconfig->enable = enable;
 
     ui_check_mouse_cursor();
+    
+    /* resize window back to normal when leaving fullscreen */
+    video_viewport_resize(canvas, 1);
 
-    if (canvas->initialized) {
-        /* resize window back to normal when leaving fullscreen */
-        video_viewport_resize(canvas, 1);
+    if (canvas->created) {
         /* HACK: when switching from/to fullscreen using hotkey (alt+d), some
                  spurious keyup/keydown events fire for the keys being held
                  down while switching modes. the following tries to get rid
                  of these events, so "alt-d" doesnt end up in the emulated machine.
+         
         */
         count = 10; while (count--) {
             while (SDL_PollEvent(&e)) {
