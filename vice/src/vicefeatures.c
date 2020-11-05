@@ -399,6 +399,14 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 /* (all) */
+    { "HAVE_X64_IMAGE", "Support for X64 image files",
+#ifndef HAVE_X64_IMAGE
+      0 },
+#else
+      1 },
+#endif
+
+/* (all) */
     { "HAVE_ZLIB", "Can we use the ZLIB compression library?",
 #ifndef HAVE_ZLIB
         0 },

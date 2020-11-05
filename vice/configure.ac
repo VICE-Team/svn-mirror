@@ -109,6 +109,7 @@ VICE_ARG_ENABLE_LIST(debug-gtk3ui,      [  --enable-debug-gtk3ui   enables debug
 VICE_ARG_ENABLE_LIST(debug-threads,     [  --enable-debug-threads  enable debug messages about the threading code [[default=no]]])
 VICE_ARG_ENABLE_LIST(embedded,          [  --enable-embedded       enable embedding of emulation data files])
 VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
+VICE_ARG_ENABLE_LIST(x64-image,         [  --enable-x64-image      enable X64 image support [[default=no]]])
 
 
 dnl
@@ -489,6 +490,8 @@ USE_SDL_AUDIO_SUPPORT="no "
 USE_VORBIS_SUPPORT="no "
 USE_NEW_8580_FILTER="no "
 USE_DESKTOP_FILES="no "
+HAVE_X64_IMAGE_SUPPORT="no "
+
 
 dnl Why do we have this?
 AM_CONDITIONAL(DUMMY_COMPILE, false)
@@ -3398,6 +3401,19 @@ SDL_EXTRA_LIBS=""
 AM_CONDITIONAL(MAKE_INSTALL, true)
 AM_CONDITIONAL(MAKE_BINDIST, false)
 
+
+dnl
+dnl Set up X64 image support
+dnl
+if test x"$enable_x64_image" = "xyes"; then
+  HAVE_X64_IMAGE_SUPPORT="yes"
+  AM_CONDITIONAL(HAVE_X64_IMAGE, true)
+  AC_DEFINE(HAVE_X64_IMAGE,,[Support X64 images])
+else
+  AM_CONDITIONAL(HAVE_X64_IMAGE, false)
+fi
+
+
 if test x"$enable_native_gtk3ui" = "xyes"; then
   dnl Use C++ compiler/linker since novte uses C++
   LINKCC='$(CXX)'
@@ -4015,8 +4031,9 @@ echo "DRIVE"
 echo "-----"
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
-    echo "Real device (OpenCBM support): $HAVE_REALDEVICE_SUPPORT (--enable/disable-realdevice)"
+  echo "Real device (OpenCBM support)    : $HAVE_REALDEVICE_SUPPORT (--enable/disable-realdevice)"
 fi
+echo "X64 image support                : $HAVE_X64_IMAGE_SUPPORT (--enable/disable--x64-image)"
 
 dnl echo ""
 dnl echo "MONITOR"
