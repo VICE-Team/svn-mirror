@@ -257,7 +257,8 @@ m4_foreach([flag],
             [-Wno-char-subscripts],
             [-Wno-format-signedness],
             [-Wno-c99-designator],
-            [-Wno-shorten-64-to-32]],
+            [-Wno-shorten-64-to-32],
+            [-Wno-nonnull-compare]],
            [TEST_FLAG=flag
             VICE_CXXFLAG_REQUEST([$TEST_FLAG], [VTE_CXXFLAGS])
             ])
@@ -969,7 +970,6 @@ darwin*)
   VICE_CFLAGS="$VICE_CFLAGS -I/opt/local/include -I/usr/local/include"
   VICE_CXXFLAGS="$VICE_CXXFLAGS -I/opt/local/include -I/usr/local/include"
   VICE_LDFLAGS="$VICE_LDFLAGS -L/opt/local/lib -Wl,-rpath,/opt/local/lib -L/usr/local/lib -Wl,-rpath,/usr/local/lib -headerpad_max_install_names"
-  
   FRAMEWORKS="-framework CoreText -framework CoreServices -framework AppKit -framework CoreGraphics"
   LIBS="$LIBS $FRAMEWORKS"
   ;;
@@ -1127,28 +1127,6 @@ if test x"$check_gtk3" = "xyes"; then
     if test x"$enable_debug_gtk3ui" = "xyes"; then
       AC_DEFINE(HAVE_DEBUG_GTK3UI,,[Add native GTK3 UI debugging code.])
     fi
-
-    dnl Check for C++11 support (for novte) and update CXXFLAGS
-    VICE_CXXFLAGS="$VICE_CXXFLAGS -std=c++11"
-
-    dnl Check if g++ supports -Wno-nonnull-compare to silence warnings building
-    dnl VTE with GCC 9.1+
-    old_CXXFLAGS="$VICE_CXXFLAGS"
-    tmp_CXXFLAGS="$CXXFLAGS"
-    SUCCESS_CXXFLAGS="$VICE_CXXFLAGS -Wno-nonnull-compare"
-    CXXFLAGS="$SUCCESS_CXXFLAGS -Werror"
-    dnl Temporarily switch to C++
-    AC_LANG_PUSH([C++])
-    AC_MSG_CHECKING([if the compiler supports -Wno-nonnull-compare])
-    AC_TRY_COMPILE([],
-                   [int arse = 0; return arse;],
-                   [AC_MSG_RESULT(yes)
-                    VICE_CXXFLAGS="$SUCCESS_CXXFLAGS"],
-                   [AC_MSG_RESULT(no)
-                    VICE_CXXFLAGS="$old_CXXFLAGS"])
-    CXXFLAGS="$tmp_CXXFLAGS"
-    dnl Revert to (I assume) C
-    AC_LANG_POP([C++])
 
     dnl Platform canonical names for Win32-GTK3 have names like "i686-w64-mingw32"
     case "$host_os" in
