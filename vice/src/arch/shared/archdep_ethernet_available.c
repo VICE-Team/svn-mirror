@@ -56,8 +56,10 @@ bool archdep_ethernet_available(void)
 #ifdef ARCHDEP_OS_UNIX
     /* On Linux pcap will only work with root, so we check the EUID for root */
     return geteuid() == 0;
-#else
+#elif defined ARCHDEP_OS_WINDOWS
     return GetModuleHandleA("WPCAP.DLL") != NULL;
+#else
+    return false;
 #endif
 }
 
