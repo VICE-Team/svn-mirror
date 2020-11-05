@@ -96,7 +96,7 @@ CLEANFILES = \
 	xpet.ico \
 	xcbm2.ico \
 	xcbm5x0.ico \
-	vsid.ico \ 
+	vsid.ico \
 	x64.res \
 	x64sc.res \
 	x64dtv.res \
