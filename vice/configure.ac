@@ -32,6 +32,7 @@ VICE_LDFLAGS=""
 AC_CONFIG_MACRO_DIR([m4])
 
 dnl Again: sed substitutes this
+dnl NO, it doesn't
 VICE_VERSION_MAJOR=vice_version_major
 VICE_VERSION_MINOR=vice_version_minor
 VICE_VERSION_BUILD=vice_version_build
@@ -411,7 +412,6 @@ AS_IF([test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0"],
 AC_SUBST(VICE_VERSION)
 AC_SUBST(VERSION_RC)
 
-AM_INIT_AUTOMAKE(vice, $VICE_VERSION)
 AC_CONFIG_HEADERS([src/config.h])
 
 VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
