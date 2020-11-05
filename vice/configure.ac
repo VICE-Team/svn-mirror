@@ -103,6 +103,8 @@ dnl If enabled, tries to install XDG .desktop files for running the binaries
 dnl from a desktop menu. Only supported for Unix with the exception of MacOS.
 dnl Gtk3 only.
 VICE_ARG_ENABLE_LIST(desktop-files,     [  --enable-desktop-files  enable installation of XDG desktop files])
+dnl Only supported for SDL1
+VICE_ARG_ENABLE_LIST(hwscale,           [  --disable-hwscale       disables GPU scaling of emulated screen (SDL1 UI only)])
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
 
@@ -1584,6 +1586,14 @@ dnl check if any gui support was found
 if test x"$found_gui" = "x"; then
   AC_MSG_ERROR([No GUI support found])
 fi
+
+
+dnl Check if --disable-hwscale was requested for the Gtk3 UI
+dnl FIXME: We probably also want to do this for the SDL2 UI?
+if test x"$enable_native_gtk3ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
+  AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the Gtk3 UI. Please remove the option and make sure the OpenGL development headers are installed.])
+fi
+
 
 dnl check if sdl sound was requested but not found
 if test x"$with_sdlsound" = "xyes"; then
