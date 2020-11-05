@@ -354,11 +354,11 @@ AS_IF([test x"$XA" = "xno"],
 if test x"$enable_pdf_docs" != xno; then
   AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
   if test x"$TEXI2DVI" = "xno"; then
-    AC_MSG_ERROR([PDF docs were requested (--enable-pdf-docs), but texi2dvi is missing])]
+    AC_MSG_ERROR([PDF docs were requested (--enable-pdf-docs, but texi2dvi is missing)])
   fi
   AC_CHECK_PROGS(PDFTEX, pdftex, no)
   if test x"$PDFTEX" = "xno"; then
-    AC_MSG_ERROR([PDF docs were requested (--enable-pdf-docs), but pdftex is missing])]
+    AC_MSG_ERROR([PDF docs were requested (--enable-pdf-docs, but pdftex is missing)])
   fi
 
 fi
