@@ -679,7 +679,7 @@ static int disk_image_check_for_dhd(disk_image_t *image)
     fsimage = image->media.fsimage;
     image->tracks = 65535;
 
-    blk = util_file_length(fsimage->fd);
+    blk = (unsigned int)util_file_length(fsimage->fd);
 
     /* first make sure the file is a multiple of 512 bytes and less than
        73728 bytes (which is the smallest possible DHD image */
