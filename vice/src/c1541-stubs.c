@@ -183,6 +183,11 @@ unsigned int machine_bus_device_type_get(unsigned int unit)
     return serial_device_type_get(unit);
 }
 
+int machine_drive_rom_check_loaded(unsigned int type)
+{
+    return 0;
+}
+
 void machine_drive_flush(void)
 {
 }

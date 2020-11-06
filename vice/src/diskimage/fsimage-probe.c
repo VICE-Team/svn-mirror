@@ -38,10 +38,10 @@
 #include "fsimage.h"
 #include "lib.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "types.h"
 #include "util.h"
 #include "x64.h"
-#include "drive/iec/iecrom.h"
 
 #define IS_D67_LEN(x) ((x) == D67_FILE_SIZE)
 #define IS_D71_LEN(x) (((x) == D71_FILE_SIZE) || ((x) == D71_FILE_SIZE_E))
@@ -684,7 +684,7 @@ static int disk_image_check_for_dhd(disk_image_t *image)
 
     /* only allow blank images to be attached if the CMDHD rom is loaded */
     if (blk == 0) {
-        if (!iecrom_check_loaded(DISK_IMAGE_TYPE_DHD)) {
+        if (!machine_drive_rom_check_loaded(DISK_IMAGE_TYPE_DHD)) {
             goto good;
         }
         log_error(disk_image_probe_log,
@@ -700,7 +700,7 @@ static int disk_image_check_for_dhd(disk_image_t *image)
     }
 
     /* if the CMDHD rom is loaded, allow it regardless */
-    if (!iecrom_check_loaded(DISK_IMAGE_TYPE_DHD)) {
+    if (!machine_drive_rom_check_loaded(DISK_IMAGE_TYPE_DHD)) {
         goto good;
     }
 
