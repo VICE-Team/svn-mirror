@@ -41,6 +41,7 @@
 #include "types.h"
 #include "util.h"
 #include "x64.h"
+#include "drive/iec/iecrom.h"
 
 #define IS_D67_LEN(x) ((x) == D67_FILE_SIZE)
 #define IS_D71_LEN(x) (((x) == D71_FILE_SIZE) || ((x) == D71_FILE_SIZE_E))
@@ -681,11 +682,29 @@ static int disk_image_check_for_dhd(disk_image_t *image)
 
     blk = (unsigned int)util_file_length(fsimage->fd);
 
-    /* first make sure the file is a multiple of 512 bytes and less than
-       73728 bytes (which is the smallest possible DHD image */
+    /* only allow blank images to be attached if the CMDHD rom is loaded */
+    if (blk == 0) {
+        if (!iecrom_check_loaded(DISK_IMAGE_TYPE_DHD)) {
+            goto good;
+        }
+        log_error(disk_image_probe_log,
+                  "Sorry, you can't attach an empty DHD image unless " \
+                  "the CMDHD boot ROM is loaded.");
+        return 0;
+    }
+
+    /* next make sure the file is a multiple of 512 bytes and greater than
+       equal 73728 bytes (which is the smallest possible running DHD image */
     if ((blk % 512 != 0) || ( blk < 73728 )) {
         return 0;
     }
+
+    /* if the CMDHD rom is loaded, allow it regardless */
+    if (!iecrom_check_loaded(DISK_IMAGE_TYPE_DHD)) {
+        goto good;
+    }
+
+    /* at this point, make sure the image is good for vdrive */
 
     /* look for configuration block */
     rewind(fsimage->fd);
@@ -703,19 +722,23 @@ static int disk_image_check_for_dhd(disk_image_t *image)
         }
         /* otherwise check the cmd sig */
         if ( memcmp(&(sector[0x1f0]), hdmagic, 16) == 0 ) {
-            /* found it */
-            image->type = DISK_IMAGE_TYPE_DHD;
-            image->max_half_tracks = 0;
-
-            disk_image_check_log(image, "DHD");
-            return 1;
+            goto good;
         }
         /* try next 128 sectors of 64 KiB bytes */
         pos += 65536;
     }
     /* hit the end of file */
 
+    /* no good */
     return 0;
+
+good:
+    /* image is allowed */
+    image->type = DISK_IMAGE_TYPE_DHD;
+    image->max_half_tracks = 0;
+
+    disk_image_check_log(image, "DHD");
+    return 1;
 }
 
 int fsimage_probe(disk_image_t *image)
