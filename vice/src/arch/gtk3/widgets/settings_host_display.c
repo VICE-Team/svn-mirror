@@ -126,7 +126,6 @@ static GtkWidget *create_sync_widget(void)
     GtkWidget *grid;
     GtkWidget *vsync;
     GtkWidget *header;
-    GtkWidget *vsync_info;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
 
@@ -139,8 +138,6 @@ static GtkWidget *create_sync_widget(void)
     gtk_widget_set_sensitive(vsync, TRUE);
     gtk_grid_attach(GTK_GRID(grid), vsync, 0, 2, 1, 1);
     g_object_set(vsync, "margin-left", 16, "margin-top", 8, NULL);
-    /* add label to inform the user about current vsync state */
-    vsync_info = gtk_label_new(NULL);
 
     return grid;
 }
