@@ -372,8 +372,6 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
         render_thread_push_job(context->render_thread, context);
     }
 
-    context->last_host_frame_time = vsyncarch_gettime();
-
     CANVAS_UNLOCK();
 }
 
