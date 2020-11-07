@@ -56,7 +56,7 @@
 static uint8_t parallel_cable_drive_value[NUM_DISK_UNITS] = { 0xff, 0xff, 0xff, 0xff };
 static uint8_t parallel_cable_cpu_value[PC_PORT_NUM] = { 0xff, 0xff };
 
-static int portmap[DRIVE_PC_NUM] = {
+static const int portmap[DRIVE_PC_NUM] = {
     PC_PORT_STANDARD, /* DRIVE_PC_NONE */
     PC_PORT_STANDARD, /* DRIVE_PC_STANDARD */
     PC_PORT_STANDARD, /* DRIVE_PC_DD3 */

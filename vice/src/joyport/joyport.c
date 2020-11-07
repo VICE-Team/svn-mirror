@@ -46,7 +46,7 @@ static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
 typedef struct resid2text_s {
     int resid;
-    char *text;
+    const char *text;
 } resid2text_t;
 
 static resid2text_t ids[] = {
@@ -55,10 +55,10 @@ static resid2text_t ids[] = {
     { -1, NULL }
 };
 
-static char *res2text(int joyport_id)
+static const char *res2text(int joyport_id)
 {
     int i;
-    char *retval = "Unknown joyport resource";
+    const char *retval = "Unknown joyport resource";
 
     for (i = 0; ids[i].resid != -1; ++i) {
         if (ids[i].resid == joyport_id) {
@@ -568,7 +568,7 @@ struct joyport_opt_s {
     int id;
 };
 
-static struct joyport_opt_s id_match[] = {
+static const struct joyport_opt_s id_match[] = {
     { "0",               JOYPORT_ID_NONE },
     { "none",            JOYPORT_ID_NONE },
     { "1",               JOYPORT_ID_JOYSTICK },

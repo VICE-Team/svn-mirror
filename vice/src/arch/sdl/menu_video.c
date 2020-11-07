@@ -1257,12 +1257,12 @@ static int countgroup(palette_info_t *palettelist, char *chip)
 }
 
 typedef struct name2func_s {
-    char *name;
+    const char *name;
     const char *(*toggle_func)(int activated, ui_callback_data_t param);
     const char *(*file_func)(int activated, ui_callback_data_t param);
 } name2func_t;
 
-static name2func_t name2func[] = {
+static const name2func_t name2func[] = {
     { "VICII", toggle_VICIIExternalPalette_callback, file_string_VICIIPaletteFile_callback },
     { "VDC", toggle_VDCExternalPalette_callback, file_string_VDCPaletteFile_callback },
     { "Crtc", toggle_CrtcExternalPalette_callback, file_string_CrtcPaletteFile_callback },

@@ -670,7 +670,7 @@ typedef struct mt_id_s {
     int id;
 } mt_id_t;
 
-static mt_id_t mt_id[] = {
+static const mt_id_t mt_id[] = {
     { MOUSE_TYPE_PADDLE,   JOYPORT_ID_PADDLES },
     { MOUSE_TYPE_1351,     JOYPORT_ID_MOUSE_1351 },
     { MOUSE_TYPE_NEOS,     JOYPORT_ID_MOUSE_NEOS },

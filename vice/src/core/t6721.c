@@ -353,7 +353,7 @@ static int16_t output_update_sample(t6721_state *t6721)
     return this;
 }
 
-static int framestretch[0x10] =
+static const int framestretch[0x10] =
 {
     100, /* 0 : 1,0  */
      70, /* 1 : 0,7  (1.4% faster) */
