@@ -7,34 +7,24 @@
 /*
  * $VICERES CrtcDoubleSize      xcbm2 xpet
  * $VICERES CrtcDoubleScan      xcbm2 xpet
- * $VICERES CrtcVideoCache      xcbm2 xpet
  * $VICERES CrtcStretchVertical xcbm2 xpet
  * $VICERES CrtcAudioLeak       xcbm2 xpet
- * $VICERES CrtcHwScale         xcbm2 xpet
  * $VICERES TEDDoubleSize       xplus4
  * $VICERES TEDDoubleScan       xplus4
- * $VICERES TEDVideoCache       xplus4
  * $VICERES TEDAudioLeak        xplus4
- * $VICERES TEDHwScale          xplus4
  * $VICERES VDCDoubleSize       x128
  * $VICERES VDCDoubleScan       x128
- * $VICERES VDCVideoCache       x128
  * $VICERES VDCStretchVertical  x128
  * $VICERES VDCAudioLeak        x128
- * $VICERES VDCHwScale          x128
  * $VICERES VICDoubleSize       xvic
  * $VICERES VICDoubleScan       xvic
- * $VICERES VICVideoCache       xvic
  * $VICERES VICAudioLeak        xvic
- * $VICERES VICHwScale          xvic
  * $VICERES VICIIDoubleSize     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIIDoubleScan     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
- * $VICERES VICIIVideoCache     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIIAudioLeak      x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIICheckSbColl    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIICheckSsColl    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES VICIIVSPBug         x64sc xscpu64
- * $VICERES VICIIHwScale        x64 x64sc x64dtv xscpu64 x128 xcbm5x0
  * $VICERES KeepAspectRatio     -vsid
  * $VICERES TrueAspectRatio     -vsid
  * $VICERES C128HideVDC         x128
@@ -146,12 +136,14 @@ static GtkWidget *create_double_scan_widget(int index)
 }
 
 
+#if 0
 static GtkWidget *create_video_cache_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
             "%sVideoCache", "Video cache",
             chip_name[index]);
 }
+#endif
 
 
 static GtkWidget *create_vert_stretch_widget(int index)
@@ -193,14 +185,14 @@ static GtkWidget *create_vsp_bug_widget(int index)
             chip_name[index]);
 }
 
-
+#if 0
 static GtkWidget *create_hw_scale_widget(int index)
 {
     return vice_gtk3_resource_check_button_new_sprintf(
             "%sHwScale", "Hardware scaling",
             chip_name[index]);
 }
-
+#endif
 
 static GtkWidget *create_keep_aspect_widget(int index)
 {
@@ -227,7 +219,7 @@ static GtkWidget *create_fullscreen_widget(int index)
             "FullscreenEnable", "Switch to full screen on boot");
 }
 
-
+#if 0
 static void on_hw_scale_toggled(GtkWidget *check, gpointer user_data)
 {
     int enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
@@ -236,7 +228,7 @@ static void on_hw_scale_toggled(GtkWidget *check, gpointer user_data)
     gtk_widget_set_sensitive(keep_aspect_widget[index], enabled);
     gtk_widget_set_sensitive(true_aspect_widget[index], enabled);
 }
-
+#endif
 
 static void on_keep_aspect_toggled(GtkWidget *check, gpointer user_data)
 {
@@ -295,23 +287,24 @@ static GtkWidget *create_render_widget(int index, const char *chip)
     GtkWidget *grid;
     GtkWidget *double_size_widget = NULL;
     GtkWidget *double_scan_widget = NULL;
-    GtkWidget *video_cache_widget = NULL;
     GtkWidget *vert_stretch_widget = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     double_size_widget = create_double_size_widget(index);
     g_object_set(double_size_widget, "margin-left", 16, NULL);
     double_scan_widget = create_double_scan_widget(index);
+#if 0
     video_cache_widget = create_video_cache_widget(index);
-    if (uivideo_chip_has_vert_stretch(chip)) {
-        vert_stretch_widget = create_vert_stretch_widget(index);
-    }
+#endif
 
     gtk_grid_attach(GTK_GRID(grid), double_size_widget, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), double_scan_widget, 1, 0, 1, 1);
+#if 0
     gtk_grid_attach(GTK_GRID(grid), video_cache_widget, 2, 0, 1, 1);
+#endif
     if (uivideo_chip_has_vert_stretch(chip)) {
-        gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 3, 0, 1, 1);
+        vert_stretch_widget = create_vert_stretch_widget(index);
+        gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 2, 0, 1, 1);
     }
 
     gtk_widget_show_all(grid);
@@ -372,17 +365,13 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
 static GtkWidget *create_scaling_widget(int index, const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *hw_scale_widget = NULL;
     GtkWidget *fullscreen = NULL;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Scaling and fullscreen", 3);
 
-    hw_scale_widget = create_hw_scale_widget(index);
-    g_object_set(hw_scale_widget, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), hw_scale_widget, 0, 1, 1, 1);
-
     keep_aspect_widget[index] = create_keep_aspect_widget(index);
+    g_object_set(keep_aspect_widget[index], "margin-left", 16, NULL);
     /* until per-chip KeepAspectRatio is implemented, connect the VICII and
      * VDC KeepAspectRatio checkboxes, so toggling the VICII checkbox also
      * updates the VDC checkbox, and vice-versa */
@@ -391,7 +380,7 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
                 G_CALLBACK(on_keep_aspect_toggled),
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
-    gtk_grid_attach(GTK_GRID(grid), keep_aspect_widget[index], 1 ,1 ,1, 1);
+    gtk_grid_attach(GTK_GRID(grid), keep_aspect_widget[index], 0, 1, 1, 1);
 
     true_aspect_widget[index] = create_true_aspect_widget(index);
     /* until per-chip TrueAspectRatio is implemented, connect the VICII and
@@ -402,15 +391,15 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
                 G_CALLBACK(on_true_aspect_toggled),
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
-    gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 2 ,1 ,1, 1);
+    gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 1, 1, 1, 1);
 
     fullscreen = create_fullscreen_widget(index);
     g_object_set(G_OBJECT(fullscreen), "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), fullscreen, 0, 2, 3, 1);
-
+#if 0
     g_signal_connect(hw_scale_widget, "toggled",
             G_CALLBACK(on_hw_scale_toggled), GINT_TO_POINTER(index));
-
+#endif
 
     gtk_widget_show_all(grid);
     return grid;
