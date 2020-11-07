@@ -166,8 +166,7 @@ void eeprom_seq_reset(void)
 
 void eeprom_seq_write(uint8_t value)
 {
-    static uint8_t bits[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
-/*LOG(("EEPROM: eeprom_seq_write bit: %d:%02x",eeprom_seqbit,value));*/
+    /*LOG(("EEPROM: eeprom_seq_write bit: %d:%02x",eeprom_seqbit,value));*/
     if (value) {
         eeprom_seqval |= bits[eeprom_seqbit];
         eeprom_seqbuf[eeprom_seqpos] = eeprom_seqval;
