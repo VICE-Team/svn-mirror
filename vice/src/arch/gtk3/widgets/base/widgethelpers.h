@@ -35,12 +35,11 @@
 
 #ifdef MACOSX_SUPPORT
 
-/** \brief  Unicode text for the VICE_MOD_MASK (Alt/Command) modifier
- * TODO: figure out actual codepoint for the MacOS command symbol
+/** \brief  Unicode text for the VICE_MOD_MASK (Command/⌘) modifier
  */
-# define VICE_MOD_MASK_TEXT "Option"
+# define VICE_MOD_MASK_TEXT "⌘"
 
-/** \brief  HTML text for the MOD1_MASK (Winkey/Command) modifier
+/** \brief  HTML text for the VICE_MOD_MASK (Command/⌘) modifier
  */
 # define VICE_MOD_MASK_HTML "&#8984;"
 
