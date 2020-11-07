@@ -308,7 +308,12 @@ static void vice_directx_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t 
 
     ui_update_statusbars();
 
+    CANVAS_LOCK();
+
+    /* TODO we really shouldn't be setting this every frame! */
     gtk_widget_set_size_request(canvas->event_box, context->window_min_width, context->window_min_height);
+
+    CANVAS_UNLOCK();
 }
 
 static void vice_directx_set_palette(video_canvas_t *canvas)
