@@ -50,7 +50,7 @@
  */
 
 #define REG_LIST_Z80_SIZE (29 + 1)
-static mon_reg_list_t mon_reg_list_z80[REG_LIST_Z80_SIZE] = {
+static const mon_reg_list_t mon_reg_list_z80[REG_LIST_Z80_SIZE] = {
     {       "PC",        e_PC, 16,                      0, 0, 0 },
     {        "A",         e_A,  8,                      0, 0, 0 },
     {       "AF",        e_AF, 16,                      0, 0, 0 },

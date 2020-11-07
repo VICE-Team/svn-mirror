@@ -164,7 +164,7 @@ static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
 
-const char *_mon_space_strings[] = {
+const char * const _mon_space_strings[] = {
     "Default", "Computer", "Disk8", "Disk9", "Disk10", "Disk11", "<<Invalid>>"
 };
 
@@ -223,7 +223,7 @@ typedef struct monitor_cpu_type_list_s monitor_cpu_type_list_t;
 
 static monitor_cpu_type_list_t *monitor_cpu_type_list = NULL;
 
-static const char *cond_op_string[] = {
+static const char * const cond_op_string[] = {
     "",
     "==",
     "!=",
@@ -241,10 +241,10 @@ static const char *cond_op_string[] = {
     "|"
 };
 
-const char *mon_memspace_string[] = { "default", "C", "8", "9", "10", "11" };
+const char * const mon_memspace_string[] = { "default", "C", "8", "9", "10", "11" };
 
 /* must match order in enum t_reg_id */
-static const char *register_string[] = {
+static const char * const register_string[] = {
 /* 6502/65c02 */
     "A",
     "X",

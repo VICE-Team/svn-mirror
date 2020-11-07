@@ -220,7 +220,7 @@ typedef void monitor_toggle_func_t(int value);
 
 /* Global variables */
 
-extern const char *_mon_space_strings[];
+extern const char * const _mon_space_strings[];
 
 struct console_s;
 struct monitor_cpu_type_s;
@@ -236,7 +236,7 @@ extern bool asm_mode;
 extern MON_ADDR asm_mode_addr;
 extern struct monitor_cpu_type_s *monitor_cpu_for_memspace[NUM_MEMSPACES];
 extern MON_ADDR dot_addr[NUM_MEMSPACES];
-extern const char *mon_memspace_string[];
+extern const char * const mon_memspace_string[];
 extern int mon_stop_output;
 extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 extern bool force_array[NUM_MEMSPACES];

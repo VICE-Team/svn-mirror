@@ -56,7 +56,7 @@
  */
 
 #define REG_LIST_6510DTV_SIZE (26 + 1)
-static mon_reg_list_t mon_reg_list_6510dtv[REG_LIST_6510DTV_SIZE] = {
+static const mon_reg_list_t mon_reg_list_6510dtv[REG_LIST_6510DTV_SIZE] = {
     {      "PC",         e_PC, 16,                      0, 0, 0 },
     {       "A",          e_A,  8,                      0, 0, 0 },
     {       "X",          e_X,  8,                      0, 0, 0 },

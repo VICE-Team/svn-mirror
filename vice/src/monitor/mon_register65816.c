@@ -52,7 +52,7 @@
  */
 
 #define REG_LIST_65816_SIZE (15 + 1)
-static mon_reg_list_t mon_reg_list_65816[REG_LIST_65816_SIZE] = {
+static const mon_reg_list_t mon_reg_list_65816[REG_LIST_65816_SIZE] = {
     {     "PBR",        e_PBR,  8,                      0, 0, 0 },
     {      "PC",         e_PC, 16,                      0, 0, 0 },
     {       "A",          e_A,  8,                      0, 0, 0 },

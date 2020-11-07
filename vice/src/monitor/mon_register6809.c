@@ -50,7 +50,7 @@
  */
 
 #define REG_LIST_6809_SIZE (13 + 1)
-static mon_reg_list_t mon_reg_list_6809[REG_LIST_6809_SIZE] = {
+static const mon_reg_list_t mon_reg_list_6809[REG_LIST_6809_SIZE] = {
     {       "X",          e_X, 16,                      0, 0, 0 },
     {       "Y",          e_Y, 16,                      0, 0, 0 },
     {       "U",          e_U, 16,                      0, 0, 0 },

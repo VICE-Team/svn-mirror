@@ -51,7 +51,7 @@ static void remove_6809_prefix(int *prefix, uint8_t *opc)
     }
 }
 
-static char *get_6309_bitwise_reg(uint8_t val)
+static const char *get_6309_bitwise_reg(uint8_t val)
 {
     switch (val & 0xc0) {
         case 0x00:
@@ -64,17 +64,17 @@ static char *get_6309_bitwise_reg(uint8_t val)
     return "?";
 }
 
-static char *reg6809[] = {
+static const char * const reg6809[] = {
     "D", "X", "Y", "U", "S", "PC", "?R6", "?R7",
     "A", "B", "CC", "DP", "?RC", "?RD", "?RE", "?RF"
 };
 
-static char *reg6309[] = {
+static const char * const reg6309[] = {
     "D", "X", "Y", "U", "S", "PC", "W", "V",
     "A", "B", "CC", "DP", "0", "0", "E", "F"
 };
 
-char index_reg6809[] = { 'X', 'Y', 'U', 'S' };
+const char index_reg6809[] = { 'X', 'Y', 'U', 'S' };
 
 static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                                                       unsigned int addr, uint8_t opc[5],
