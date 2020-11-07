@@ -293,14 +293,6 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-#if defined(MACOSX_SUPPORT) || defined(WIN32) /* (osx/windows) */
-    { "HAVE_QUICKTIME", "Enable QuickTime support.",
-#ifndef HAVE_QUICKTIME
-        0 },
-#else
-        1 },
-#endif
-#endif
 /* (all) */
     { "HAVE_FASTSID", "Enable FASTSID support.",
 #ifndef HAVE_FASTSID

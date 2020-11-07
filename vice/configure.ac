@@ -459,7 +459,6 @@ HAVE_PCIUTILS_SUPPORT="no "
 HAVE_PNG_SUPPORT="no "
 HAVE_PORTSID_SUPPORT="no "
 HAVE_PROTO_OPENPCI_H_SUPPORT="no "
-HAVE_QUICKTIME_SUPPORT="no "
 HAVE_RAWNET_SUPPORT="no "
 HAVE_REALDEVICE_SUPPORT="no "
 HAVE_RESID_SUPPORT="no "
@@ -2478,36 +2477,7 @@ else
   AM_CONDITIONAL(LAMEMP3_DIR_USED, false)
 fi
 
-dnl ----- Apple QuickTime -----
-QUICKTIME_INCLUDES=
-QUICKTIME_LIBS=
-if test x"$enable_quicktime" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
 
-  dnl ---- Mac OS X -----
-  if test x"$is_unix_macosx" = x"yes" ; then
-    AC_CHECK_HEADER(QuickTime/QuickTime.h,,)
-    if test x"$ac_cv_header_QuickTime_QuickTime_h" = "xyes" ; then
-      AC_CHECK_HEADER(CoreVideo/CVPixelBuffer.h,,)
-      if test x"$ac_cv_header_CoreVideo_CVPixelBuffer_h" = "xyes" ; then
-        AC_MSG_CHECKING(whether we can link the QuickTime framework)
-        old_LIBS="${LIBS}"
-        LIBS="${LIBS} -framework QuickTime -framework CoreVideo"
-        AC_TRY_LINK([#include <QuickTime/Movies.h>
-                     #include <CoreVideo/CVPixelBuffer.h>],
-                    [EnterMovies(); CVPixelBufferGetTypeID();],
-                    [AC_MSG_RESULT(yes);
-                     GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS quicktimedrv.o"
-                     QUICKTIME_LIBS="-framework QuickTime -framework CoreVideo"
-                     HAVE_QUICKTIME_SUPPORT="yes"
-                     AC_DEFINE(HAVE_QUICKTIME,,[Enable QuickTime support.])],
-                    [AC_MSG_RESULT(no)])
-        LIBS=${old_LIBS}
-      fi
-    fi
-  fi
-fi
-AC_SUBST(QUICKTIME_INCLUDES)
-AC_SUBST(QUICKTIME_LIBS)
 
 dnl check for glibc 2.20+
 linux_glibc_220_and_up=yes
@@ -3968,10 +3938,6 @@ echo "FFMPEG swresample support     : $HAVE_FFMPEG_SWRESAMPLE_SUPPORT"
 echo "FFMPEG avresample support     : $HAVE_FFMPEG_AVRESAMPLE_SUPPORT"
 echo "included shared FFMPEG support: $SHARED_FFMPEG_SUPPORT (--enable-shared-ffmpeg)"
 echo "included static FFMPEG support: $STATIC_FFMPEG_SUPPORT (--enable-static-ffmpeg)"
-
-if test x"$real_arch" = "xOSX" -o x"$real_arch" = "xWin32"; then
-    echo "QuickTime support             : $HAVE_QUICKTIME_SUPPORT (--enable/disable-quicktime)"
-fi
 
 echo ""
 echo "INPUT"

@@ -647,11 +647,6 @@ static void on_save_video_filename(GtkDialog *dialog,
  */
 static void save_video_recording_handler(GtkWidget *parent)
 {
-    /* these may be useful once QuickTime is supported */
-#if 0
-    const char *display;
-    const char *name;
-#endif
     GtkWidget *dialog;
     const char *ext;
     char *title;
@@ -1023,14 +1018,11 @@ static GtkWidget *create_video_widget(void)
 
     gtk_grid_attach(GTK_GRID(grid), selection_grid, 0, 0, 1, 1);
 
-    /* grid around ffmpeg/quicktime options */
+    /* grid around ffmpeg */
     options_grid = uihelpers_create_grid_with_label("Driver options", 1);
     gtk_grid_set_column_spacing(GTK_GRID(options_grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(options_grid), 8);
 
-/* XXX: this obviously needs a cleaner solution which also handles QuickTime
- *      on MacOS
- */
     gtk_grid_attach(GTK_GRID(options_grid), ffmpeg_widget_create(), 0, 1, 1,1);
     video_driver_options_grid = options_grid;
 
