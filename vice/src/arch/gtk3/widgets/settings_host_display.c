@@ -124,14 +124,10 @@ static GtkWidget *create_fullscreen_widget(int index)
 static GtkWidget *create_sync_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *ruckeln;
     GtkWidget *vsync;
     GtkWidget *header;
     GtkWidget *vsync_info;
-    int backend = 0;
-#if 0
-    GtkWidget *restart;
-#endif
+
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
 
     header = gtk_label_new(NULL);
@@ -139,41 +135,13 @@ static GtkWidget *create_sync_widget(void)
     gtk_widget_set_halign(header, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), header, 0, 0, 1, 1);
 
-    ruckeln = gtk_check_button_new_with_label("Ruckeln");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ruckeln), TRUE);
-    gtk_widget_set_sensitive(ruckeln, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), ruckeln, 0, 1, 1, 1);
-    g_object_set(ruckeln, "margin-left", 16, "margin-top", 8, NULL);
-
     vsync = vice_gtk3_resource_check_button_new("VSync", "VSync");
     gtk_widget_set_sensitive(vsync, TRUE);
     gtk_grid_attach(GTK_GRID(grid), vsync, 0, 2, 1, 1);
-    g_object_set(vsync, "margin-left", 16, NULL, "margin-top", 8, NULL);
+    g_object_set(vsync, "margin-left", 16, "margin-top", 8, NULL);
     /* add label to inform the user about current vsync state */
     vsync_info = gtk_label_new(NULL);
-#ifdef ARCHDEP_OS_WINDOWS
-    gtk_label_set_markup(GTK_LABEL(vsync_info),
-                         "<i>(Always enabled with DirectX</i>");
-#else
-    gtk_label_set_markup(GTK_LABEL(vsync_info),
-                         "<i>(Only supported with OpenGL)</i>");
-#endif
-    g_object_set(vsync_info, "margin-left", 32, NULL);
 
-    gtk_grid_attach(GTK_GRID(grid), vsync_info, 0, 3, 1, 1);
-
-    /* Are we using Cairo? */
-    resources_get_int("GTKBackend", &backend);
-    gtk_widget_set_sensitive(vsync, backend != VICE_RENDER_BACKEND_CAIRO);
-
-
-#if 0
-    restart = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(restart),
-            "<i>(Does <b>not</b> require restart</i>)");
-    g_object_set(restart, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), restart, 0, 2, 1, 1);
-#endif
     return grid;
 }
 
@@ -187,15 +155,18 @@ static GtkWidget *create_sync_widget(void)
 GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 {
     GtkWidget *grid;
+#if 0
     GtkWidget *backend_widget = canvas_render_backend_widget_create();
+#endif
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
-     GtkWidget *restore_window_widget;
+    GtkWidget *restore_window_widget;
     GtkWidget *sync_widget;
 
     grid = gtk_grid_new();
 
     if (machine_class != VICE_MACHINE_VSID) {
 
+        int col = 0;
         int fullscreen = 0;
         int minimized = 0;
 
@@ -214,12 +185,14 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         sync_widget = create_sync_widget();
 
-        gtk_grid_attach(GTK_GRID(grid), filter_widget, 0, 1, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), filter_widget, col++, 1, 2, 1);
         g_object_set(filter_widget, "margin-left",8, NULL);
+#if 0
         gtk_grid_attach(GTK_GRID(grid), backend_widget, 1, 1, 2, 1);
+#endif
         g_object_set(minimized_widget, "margin-top", 16, NULL);
 
-        gtk_grid_attach(GTK_GRID(grid), sync_widget, 2, 1, 2, 1);
+        gtk_grid_attach(GTK_GRID(grid), sync_widget, col++, 1, 2, 1);
 
         g_object_set(fullscreen_widget, "margin-top", 32, NULL);
         gtk_grid_attach(GTK_GRID(grid), fullscreen_widget, 0, 2, 2, 1);
