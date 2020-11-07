@@ -34,6 +34,10 @@
 #include <gtk/gtk.h>
 #include <math.h>
 
+#ifdef MACOSX_SUPPORT
+#include <CoreGraphics/CGDirectDisplay.h>
+#endif
+
 #include "lib.h"
 #include "log.h"
 #include "monitor.h"
@@ -228,6 +232,7 @@ static void on_widget_resized(GtkWidget *widget, GtkAllocation *allocation, gpoi
     }
 
 #ifdef MACOSX_SUPPORT
+    /* The content area coordinates include the menu on macOS */
     gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &context->native_view_x, &context->native_view_y);
 #endif
     
@@ -343,6 +348,78 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     CANVAS_UNLOCK();
 }
 
+
+#ifdef MACOSX_SUPPORT
+static void macos_set_host_mouse_visibility(GtkWindow *gtk_window)
+{
+    /*
+     * Without this, wiggle the mouse cases macOS to help you find the cursor by making it big.
+     * Which sucks if we've set a blank cursor in mouse grab mode.
+     *
+     * Each frame, check if we've set a custom cursor, and if have, force hide the system mouse
+     * so that the wiggle-to-find-mouse thing doesn't happen.
+     *
+     * But also unhide the mouse if the window loses focus.
+     *
+     * TODO: find a way to make this event driven on gdk window focus changes.
+     */
+    
+    static bool hiding_mouse = false;
+    
+    bool should_hide_mouse = false;
+    gboolean is_window_active;
+    int mouse_grab;
+    GList *list;
+    GdkWindow *gdk_window;
+    int i;
+    
+    is_window_active = gtk_window_is_active(gtk_window);
+    resources_get_int("Mouse", &mouse_grab);
+    
+    if (mouse_grab && is_window_active) {
+        
+        should_hide_mouse = true;
+        
+        /*
+         * Only hide the mouse if no secondary top levels are visible. For example it is
+         * possible to make the emu window active when the settings dialog or monitor
+         * are open, and hiding the mouse in these cases would be confusing.
+         */
+        
+        for (list = gtk_window_list_toplevels(); list != NULL && should_hide_mouse; list = list->next) {
+            
+            gdk_window = gtk_widget_get_window(list->data);
+            
+            if (!gdk_window || !gdk_window_is_visible(gdk_window)) {
+                continue;
+            }
+            
+            /* There's a visible window, only allow the hide if the window is a primary ui window */
+            should_hide_mouse = false;
+            for (i = 0; i < NUM_WINDOWS; i++) {
+                if (GTK_WINDOW(list->data) == GTK_WINDOW(ui_get_window_by_index(i))) {
+                    should_hide_mouse = true;
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (should_hide_mouse) {
+        if (!hiding_mouse) {
+            CGDisplayHideCursor(kCGNullDirectDisplay);
+            hiding_mouse = true;
+        }
+    } else {
+        if (hiding_mouse) {
+            CGDisplayShowCursor(kCGNullDirectDisplay);
+            hiding_mouse = false;
+        }
+    }
+}
+#endif
+
+
 static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *canvas)
 {
     context_t *context = canvas->renderer_context;
@@ -372,7 +449,15 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
         render_thread_push_job(context->render_thread, context);
     }
 
+#ifdef MACOSX_SUPPORT
+    GtkWindow *window = GTK_WINDOW(gtk_widget_get_toplevel(canvas->event_box));
+    
     CANVAS_UNLOCK();
+    
+    macos_set_host_mouse_visibility(window);
+#else
+    CANVAS_UNLOCK();
+#endif
 }
 
 static void render(void *job_data, void *pool_data)
