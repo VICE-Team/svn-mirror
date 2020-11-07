@@ -55,6 +55,50 @@
 #include "settings_misc.h"
 
 
+/** \brief  Reference to the 'StartMinimized' checkbox */
+
+static GtkWidget *minimized_widget = NULL;
+
+/** \brief  Reference to the 'FullscreenEnable' checkbox */
+static GtkWidget *fullscreen_widget = NULL;
+
+
+/** \brief  Extra callback for the 'FullscreenEnable' widget
+ *
+ * When the resource is set, the 'StartMinimized' widget is toggled off and
+ * disabled.
+ *
+ * \param[in]   widget  fullscreen checkbox (unused)
+ * \param[in]   value   new value for \c widget
+ */
+static void fullscreen_callback(GtkWidget *widget, int value)
+{
+    gtk_widget_set_sensitive(minimized_widget, !value);
+    if (value) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(minimized_widget), FALSE);
+    }
+
+}
+
+
+/** \brief  Extra callback for the 'StartMinimized' widget
+ *
+ * When the resource is set, the 'FullscreenEnable' widget is toggled off and
+ * disabled.
+ *
+ * \param[in]   widget  start-minimized checkbox (unused)
+ * \param[in]   value   new value for \c widget
+ */
+static void minimized_callback(GtkWidget *widget, int value)
+{
+    gtk_widget_set_sensitive(fullscreen_widget, !value);
+    if (value) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fullscreen_widget), FALSE);
+    }
+
+}
+
+
 /** \brief  Create "fullscreen" widget
  *
  * Currently completely ignores C128 VDC/VCII, maybe once we can differenciate
@@ -63,8 +107,12 @@
  */
 static GtkWidget *create_fullscreen_widget(int index)
 {
-    return vice_gtk3_resource_check_button_new(
+    GtkWidget *widget;
+
+    widget = vice_gtk3_resource_check_button_new(
             "FullscreenEnable", "Switch to full screen on boot");
+    vice_gtk3_resource_check_button_add_callback(widget, fullscreen_callback);
+    return widget;
 }
 
 
@@ -141,20 +189,24 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
     GtkWidget *grid;
     GtkWidget *backend_widget = canvas_render_backend_widget_create();
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
-    GtkWidget *minimized_widget;
-    GtkWidget *fullscreen_widget;
-    GtkWidget *restore_window_widget;
+     GtkWidget *restore_window_widget;
     GtkWidget *sync_widget;
 
     grid = gtk_grid_new();
 
     if (machine_class != VICE_MACHINE_VSID) {
 
+        int fullscreen = 0;
+        int minimized = 0;
+
         fullscreen_widget = create_fullscreen_widget(0);
 
         minimized_widget = vice_gtk3_resource_check_button_new(
                 "StartMinimized",
                 "Start the emulator window minimized");
+
+        vice_gtk3_resource_check_button_add_callback(
+                minimized_widget, minimized_callback);
 
         restore_window_widget = vice_gtk3_resource_check_button_new(
                 "RestoreWindowGeometry",
@@ -176,6 +228,27 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
         gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 3, 2, 1);
         g_object_set(restore_window_widget, "margin-top", 8, NULL);
         gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 4, 2, 1);
+
+        resources_get_int("FullscreenEnable", &fullscreen);
+        resources_get_int("StartMinimized", &minimized);
+
+        /* check situation regarding fullscreen and minimized */
+        if (fullscreen && minimized) {
+            /* illegal, clear both widgets */
+            debug_gtk3("Both FullscreenEnable and StartMinimized are set, which"
+                    " is illegal, unsetting both.");
+            resources_set_int("FullscreenEnable", 0);
+            resources_set_int("StartMinimized", 0);
+            vice_gtk3_resource_check_button_sync(fullscreen_widget);
+            vice_gtk3_resource_check_button_sync(minimized_widget);
+        } else if (fullscreen) {
+            /* fullscreen, so minimized cannot be active */
+            gtk_widget_set_sensitive(minimized_widget, FALSE);
+        } else if (minimized) {
+            /* minimized, so fullscreen cannot be active */
+            gtk_widget_set_sensitive(fullscreen_widget, FALSE);
+        }
+
     }
     gtk_widget_show_all(grid);
     return grid;
