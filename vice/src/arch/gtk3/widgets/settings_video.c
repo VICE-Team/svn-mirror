@@ -207,18 +207,6 @@ static GtkWidget *create_true_aspect_widget(int index)
 }
 
 
-/** \brief  Create "fullscreen" widget
- *
- * Currently completely ignores C128 VDC/VCII, maybe once we can differenciate
- * between displays (ie two or more), and put the GtkWindows there, we can
- * try to handle these scenarios. But for now, deh.
- */
-static GtkWidget *create_fullscreen_widget(int index)
-{
-    return vice_gtk3_resource_check_button_new(
-            "FullscreenEnable", "Switch to full screen on boot");
-}
-
 #if 0
 static void on_hw_scale_toggled(GtkWidget *check, gpointer user_data)
 {
@@ -365,7 +353,6 @@ static GtkWidget *create_misc_widget(int index, const char *chip)
 static GtkWidget *create_scaling_widget(int index, const char *chip)
 {
     GtkWidget *grid;
-    GtkWidget *fullscreen = NULL;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Scaling and fullscreen", 3);
@@ -392,10 +379,11 @@ static GtkWidget *create_scaling_widget(int index, const char *chip)
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
     gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 1, 1, 1, 1);
-
+#if 0
     fullscreen = create_fullscreen_widget(index);
     g_object_set(G_OBJECT(fullscreen), "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), fullscreen, 0, 2, 3, 1);
+#endif
 #if 0
     g_signal_connect(hw_scale_widget, "toggled",
             G_CALLBACK(on_hw_scale_toggled), GINT_TO_POINTER(index));

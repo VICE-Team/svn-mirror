@@ -5,9 +5,12 @@
  */
 
 /*
+ * $VICERES FullscreenEnable        -vsid
+ * (Maybe also for VSID?)
  * $VICERES StartMinimized          -vsid
  * $VICERES RestoreWindowGeometry   -vsid
  * (I guess VSID could also use this?)
+ *
  * $VICERES VSync                   -vsid
  *
  * Note:    RestoreWindowGeometry works fine on Linux with a display stretched
@@ -50,6 +53,19 @@
 #include "canvasrenderfilterwidget.h"
 
 #include "settings_misc.h"
+
+
+/** \brief  Create "fullscreen" widget
+ *
+ * Currently completely ignores C128 VDC/VCII, maybe once we can differenciate
+ * between displays (ie two or more), and put the GtkWindows there, we can
+ * try to handle these scenarios. But for now, deh.
+ */
+static GtkWidget *create_fullscreen_widget(int index)
+{
+    return vice_gtk3_resource_check_button_new(
+            "FullscreenEnable", "Switch to full screen on boot");
+}
 
 
 
@@ -126,12 +142,15 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
     GtkWidget *backend_widget = canvas_render_backend_widget_create();
     GtkWidget *filter_widget = canvas_render_filter_widget_create();
     GtkWidget *minimized_widget;
+    GtkWidget *fullscreen_widget;
     GtkWidget *restore_window_widget;
     GtkWidget *sync_widget;
 
     grid = gtk_grid_new();
 
     if (machine_class != VICE_MACHINE_VSID) {
+
+        fullscreen_widget = create_fullscreen_widget(0);
 
         minimized_widget = vice_gtk3_resource_check_button_new(
                 "StartMinimized",
@@ -150,9 +169,13 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
 
         gtk_grid_attach(GTK_GRID(grid), sync_widget, 2, 1, 2, 1);
 
-        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 2, 2, 1);
-        g_object_set(restore_window_widget, "margin-top", 16, NULL);
-        gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 3, 2, 1);
+        g_object_set(fullscreen_widget, "margin-top", 32, NULL);
+        gtk_grid_attach(GTK_GRID(grid), fullscreen_widget, 0, 2, 2, 1);
+
+        g_object_set(minimized_widget, "margin-top", 8, NULL);
+        gtk_grid_attach(GTK_GRID(grid), minimized_widget, 0, 3, 2, 1);
+        g_object_set(restore_window_widget, "margin-top", 8, NULL);
+        gtk_grid_attach(GTK_GRID(grid), restore_window_widget, 0, 4, 2, 1);
     }
     gtk_widget_show_all(grid);
     return grid;
