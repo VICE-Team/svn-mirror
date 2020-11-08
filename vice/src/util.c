@@ -31,6 +31,11 @@
 
 #include "vice.h"
 
+#ifdef _FILE_OFFSET_BITS
+#undef _FILE_OFFSET_BITS
+#endif
+#define _FILE_OFFSET_BITS 64
+
 #include <assert.h>
 #include <ctype.h>
 #include <stdarg.h>
@@ -422,10 +427,10 @@ size_t util_file_length(FILE *fd)
 {
     size_t off, filesize;
 
-    off = ftell(fd);
-    fseek(fd, 0, SEEK_END);
-    filesize = ftell(fd);
-    fseek(fd, (long)off, SEEK_SET);
+    off = ftello(fd);
+    fseeko(fd, 0, SEEK_END);
+    filesize = ftello(fd);
+    fseeko(fd, (long)off, SEEK_SET);
     return filesize;
 }
 
