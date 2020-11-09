@@ -599,10 +599,12 @@ case "$host_os" in
     if test -d "/usr/X11R7/lib"; then
       rtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R7/lib"`
       VICE_LDFLAGS="$VICE_LDFLAGS $rtp"
+      LDFLAGS="$LDFLAGS -L/usr/X11R7/lib"
     else
       if test -d "/usr/X11R6/lib"; then
         rtp=`${CONFIG_SHELL-/bin/sh} "$srcdir/config.rpath" "$CC" "$GCC" "$VICE_LDFLAGS" "$LD" "$with_gnu_ld" "$host" "/usr/X11R6/lib"`
-        VICE_LDFLAGS="$VICE_LDFLAGS $rtp"
+        VICE_LDFLAGS="$VICE_LDFLAGS $rtp -L/usr/X11R6/lib"
+        LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
       fi
     fi
     ;;
