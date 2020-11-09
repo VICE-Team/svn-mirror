@@ -1607,10 +1607,16 @@ fi
 
 
 dnl Check if --disable-hwscale was requested for the Gtk3 UI
-dnl FIXME: We probably also want to do this for the SDL2 UI?
 if test x"$enable_native_gtk3ui" = "xyes" -a x"$enable_hwscale" = "xno"; then
   AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the Gtk3 UI. Please remove the option and make sure the OpenGL development headers are installed.])
 fi
+
+
+dnl Check if --disable-hwscale was requested for the Gtk3 UI
+if test x"$enable_sdlui2" = "xyes" -a x"$enable_hwscale" = "xno"; then
+  AC_MSG_ERROR([The option `--disable-hwscale` is illegal for the SDL2 UI.])
+fi
+
 
 
 dnl check if sdl sound was requested but not found
