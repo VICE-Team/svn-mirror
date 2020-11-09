@@ -959,7 +959,7 @@ void cmdhd_init(diskunit_context_t *ctxptr)
     /* reset scsi system */
     scsi_reset(scsi);
     /* change any defaults */
-    scsi->max_imagesize = 16777214 << 8;
+    scsi->max_imagesize = 16777214U << 8;
     /* CMDHD can handle 56 drives, but the latest boot rom has a bug which
         corrupts data when deleting partitions that span across disk
         boundaries. So we only allow it to use one disk. This is fine as
