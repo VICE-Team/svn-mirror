@@ -138,30 +138,30 @@ typedef struct ui_sb_state_s {
      * Used to correlate timeout events so that a new message
      * isn't erased by some older message timing out. */
     intptr_t statustext_msgid;
-    
+
     /** \brief Current tape state (play, rewind, etc) */
     int tape_control;
-    
+
     /** \brief Nonzero if the tape motor is powered. */
     int tape_motor_status;
-    
+
     /** \brief Location on the tape */
     int tape_counter;
-    
+
     /** \brief Which drives are to be displayed in the status bar.
      *
      *  This is a bitmask, with bits 0-3 representing drives 8-11,
      *  respectively.
      */
     int drives_enabled;
-    
+
     /** \brief Nonzero if True Drive Emulation is active and drive
      *         LEDs should be drawn. */
     int drives_tde_enabled;
-    
+
     /** \brief true if drive ui layout is needed */
     bool drives_layout_needed;
-    
+
     /** \brief Color descriptors for the drive LED colors.
      *
      *  This value is a bitmask, with bit 0 and 1 set if the
@@ -169,28 +169,28 @@ typedef struct ui_sb_state_s {
      *  only have one LED will have their 'second' LED permanently at
      *  intensity zero so the value is irrelevant in that case. */
     int drive_led_types[NUM_DISK_UNITS];
-    
+
     /** \brief Current intensity of each drive LED, 0=off,
      *         1000=max. */
     unsigned int current_drive_leds[NUM_DISK_UNITS][2];
-    
+
     /** \brief true if a drive led has been changed */
     bool current_drive_leds_updated[NUM_DISK_UNITS];
-    
+
     /** \brief device:track.halftrack label for each disk unit.
      *         probably need to add support for dualdrive here. */
     char current_drive_track_str[NUM_DISK_UNITS][DRIVE_TRACK_STR_MAX_LEN];
-    
+
     /** \brief true if a drive track string has been changed */
     bool current_drive_track_str_updated[NUM_DISK_UNITS];
-    
+
     /** \brief Current state for each of the joyports.
      *
      *  This is an 7-bit bitmask, representing, from least to most
      *  significant bits: up, down, left, right, fire button,
      *  secondary fire button, tertiary fire button. */
     int current_joyports[JOYPORT_MAX_PORTS];
-    
+
     /** \brief Which joystick ports are actually available.
      *
      *  This is a bitmask representing notional ports 0-4, which are
@@ -217,7 +217,7 @@ static ui_sb_state_t sb_state_do_not_use_directly;
  *  needs to be individually addressed or manipulated by the
  *  status-report API. */
 typedef struct ui_statusbar_s {
-    /** \brief The status bar widget proper. 
+    /** \brief The status bar widget proper.
      *
      *  This is the widget the rest of the UI code will store and pack
      *  into windows. */
@@ -278,7 +278,7 @@ typedef struct ui_statusbar_s {
 } ui_statusbar_t;
 
 
-/** \brief The collection of status bars currently active. 
+/** \brief The collection of status bars currently active.
  *
  *  Inactive status bars have a NULL pointer for their "bar" field. */
 static ui_statusbar_t allocated_bars[MAX_STATUS_BARS];
@@ -308,7 +308,7 @@ static gboolean redraw_widget_on_ui_thread_impl(gpointer user_data)
 }
 
 /** \brief Queue a redraw of widget on the ui thread.
- * 
+ *
  * It's not safe to ask a widget to redraw from the vice thread.
  */
 static void redraw_widget_on_ui_thread(GtkWidget *widget)
@@ -351,7 +351,7 @@ static gboolean message_timeout_handler(gpointer data)
 
 
 
-/** \brief Draws the tape icon based on the current control and motor status. 
+/** \brief Draws the tape icon based on the current control and motor status.
  *
  *  \param widget  The tape icon GtkDrawingArea being drawn to.
  *  \param cr      The cairo context that handles the drawing.
@@ -370,7 +370,7 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     int tape_motor_status;
     int tape_control;
     ui_sb_state_t *sb_state;
-    
+
     /* Copy any sb_state that we need to use - don't hold lock while drawing */
     sb_state = lock_sb_state();
     tape_motor_status = sb_state->tape_motor_status;
@@ -517,7 +517,7 @@ static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
     drive = GPOINTER_TO_INT(data);
-    
+
     sb_state = lock_sb_state();
     for (i = 0; i < 2; ++i) {
         int led_color = sb_state->drive_led_types[drive] & (1 << i);
@@ -528,7 +528,7 @@ static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
         }
     }
     unlock_sb_state();
-    
+
     /* Cairo clamps these for us */
     cairo_set_source_rgb(cr, red, green, 0);
     /* LED is half text height and aims for a 2x1 aspect ratio */
@@ -571,7 +571,7 @@ static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
-    
+
     sb_state = lock_sb_state();
     val = sb_state->current_joyports[GPOINTER_TO_INT(data)];
     unlock_sb_state();
@@ -1178,7 +1178,7 @@ static GtkWidget *ui_tape_widget_create(void)
 
 
 /** \brief Alter widget visibility within the joyport widget so that
- *         only currently existing joystick ports are displayed. 
+ *         only currently existing joystick ports are displayed.
  *
  *  It is safe to call this routine regularly, as it will only trigger
  *  UI refresh operations if the configuration has changed to no
@@ -1501,13 +1501,13 @@ void ui_statusbar_init(void)
 {
     int i;
     ui_sb_state_t *sb_state;
-    
+
     /* Most things need initialisation to zero and allocated_bars is
      * static, so not much to do here. */
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         allocated_bars[i].displayed_tape_counter = -1;
     }
-    
+
 
     sb_state = lock_sb_state();
     /* Set an impossible number of joyports to enabled so that the status
@@ -1909,7 +1909,7 @@ void ui_display_tape_control_status(int control)
 void ui_display_tape_counter(int counter)
 {
     ui_sb_state_t *sb_state;
-    
+
     sb_state = lock_sb_state();
     sb_state->tape_counter = counter;
     unlock_sb_state();
@@ -1923,9 +1923,9 @@ void ui_display_tape_counter(int counter)
 void ui_display_tape_motor_status(int motor)
 {
     ui_sb_state_t *sb_state;
-    
+
     /* Ok to call from VICE thread */
-    
+
     sb_state = lock_sb_state();
 
     if (motor != sb_state->tape_motor_status) {
@@ -1941,7 +1941,7 @@ void ui_display_tape_motor_status(int motor)
             }
         }
     }
-    
+
     unlock_sb_state();
 }
 
@@ -1988,7 +1988,7 @@ void ui_display_tape_current_image(const char *image)
 /** \brief  Statusbar API function to report changes in drive LED intensity.
  *
  * This function simply updates global state, rendering occurs in ui_update_statusbars().
- * 
+ *
  *  \param  drive_number    The unit to update (0-3 for drives 8-11)
  *  \param  drive_base      Drive 0 or 1 of dualdrives
  *  \param  led_pwm1        The intensity of the first LED (0=off,
@@ -2004,14 +2004,14 @@ void ui_display_drive_led(unsigned int drive_number,
                           unsigned int led_pwm2)
 {
     ui_sb_state_t *sb_state;
-    
+
     /* Ok to call from VICE thread */
 
     if (drive_number < 0 || drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
     }
-    
+
     sb_state = lock_sb_state();
     sb_state->current_drive_leds[drive_number][0] = led_pwm1;
     sb_state->current_drive_leds[drive_number][1] = led_pwm2;
@@ -2038,16 +2038,16 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int half_track_number)
 {
     ui_sb_state_t *sb_state;
-    
+
     /* Ok to call from VICE thread */
-    
+
     if (drive_number > NUM_DISK_UNITS - 1) {
         /* TODO: Fatal error? */
         return;
     }
-    
+
     sb_state = lock_sb_state();
-    
+
     snprintf(
         sb_state->current_drive_track_str[drive_number],
         DRIVE_TRACK_STR_MAX_LEN - 1,
@@ -2055,7 +2055,7 @@ void ui_display_drive_track(unsigned int drive_number,
         half_track_number / 2.0);
     sb_state->current_drive_track_str[drive_number][DRIVE_TRACK_STR_MAX_LEN - 1] = '\0';
     sb_state->current_drive_track_str_updated[drive_number] = true;
-    
+
     unlock_sb_state();
 }
 
@@ -2089,7 +2089,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
     ui_sb_state_t *sb_state;
 
     /* Ok to call from VICE thread */
-    
+
     sb_state = lock_sb_state();
 
     /* Update the drive LEDs first, unconditionally. */
@@ -2116,7 +2116,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
         sb_state->drives_tde_enabled = state;
         sb_state->drives_layout_needed = true;
     }
-    
+
     unlock_sb_state();
 }
 
@@ -2217,18 +2217,18 @@ void ui_update_statusbars(void)
     ui_sb_state_t state_snapshot;
 
     sb_state = lock_sb_state();
-    
+
     /* Take a safe copy of the sb_state so we don't hold the lock during display */
     state_snapshot = *sb_state;
-    
+
     /* Reset any 'updated needed' flags */
     sb_state->drives_layout_needed = false;
-    
+
     for (j = 0; j < NUM_DISK_UNITS; ++j) {
         sb_state->current_drive_track_str_updated[j] = false;
         sb_state->current_drive_leds_updated[j] = false;
     }
-    
+
     unlock_sb_state();
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -2245,29 +2245,29 @@ void ui_update_statusbars(void)
         if (speed_widget != NULL) {
             statusbar_speed_widget_update(speed_widget, &bar->speed_state);
         }
-        
+
         /*
          * Update Tape
          */
-        
+
         if (bar->tape && bar->displayed_tape_counter != state_snapshot.tape_counter) {
             tape_counter = gtk_grid_get_child_at(GTK_GRID(bar->tape), 1, 0);
             if (tape_counter) {
                 char buf[8];
                 snprintf(buf, 8, "%03d", state_snapshot.tape_counter % 1000);
                 buf[7] = 0;
-                
+
                 gtk_label_set_text(GTK_LABEL(tape_counter), buf);
             }
             bar->displayed_tape_counter = state_snapshot.tape_counter;
         }
-        
+
         /*
          * Joystick
          */
-        
+
         update_joyport_layout(&state_snapshot);
-        
+
         /*
          * Drive track, half track, and led
          */
@@ -2285,7 +2285,7 @@ void ui_update_statusbars(void)
             if (!drive) {
                 continue;
             }
-            
+
             /* Only update the label if it has changed .. */
             if (state_snapshot.current_drive_track_str_updated[j]) {
                 track = gtk_grid_get_child_at(GTK_GRID(drive), 1, 0);
@@ -2293,7 +2293,7 @@ void ui_update_statusbars(void)
                     gtk_label_set_text(GTK_LABEL(track), state_snapshot.current_drive_track_str[j]);
                 }
             }
-            
+
             /* Only draw the LEDs if they have changed */
             if (state_snapshot.current_drive_leds_updated[j]) {
                 led = gtk_grid_get_child_at(GTK_GRID(drive), 2, 0);
