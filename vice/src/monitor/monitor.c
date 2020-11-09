@@ -97,6 +97,7 @@
 int mon_stop_output;
 
 int mon_init_break = -1;
+int mon_open_on_ready = 0;
 
 /* Defines */
 
@@ -192,12 +193,19 @@ static bool watch_store_occurred;
 static bool recording;
 static FILE *recording_fp;
 static char *recording_name;
-#define MAX_PLAYBACK 8
-int playback = 0;
-char *playback_name = NULL;
+
+#define PLAYBACK_MAX_RECUSRION 128
+
+static char **playback_filename_stack = NULL;
+static FILE **playback_fp_stack = NULL;
+static FILE *playback_fp = NULL;
+static int playback_fp_stack_size = 0;
+static int playback_fp_stack_size_max = 0;
+
+static void playback_end_file(void);
+
 static void monitor_close(int check);
-static void playback_commands(int current_playback);
-static int set_playback_name(const char *param, void *extra_param);
+static int monitor_set_moncommands_file(const char *param, void *extra_param);
 
 /* Disassemble the current opcode on entry.  Used for single step.  */
 static int disassemble_on_entry = 0;
@@ -316,6 +324,56 @@ static const char * const register_string[] = {
 bool monitor_is_inside_monitor(void)
 {
     return inside_monitor;
+}
+
+static bool is_machine_ready(void)
+{
+    char *s = "READY";
+    uint16_t screen_addr, addr;
+    uint8_t line_length, cursor_column;
+    int i, blinking;
+
+    mem_get_cursor_parameter(&screen_addr, &cursor_column, &line_length, &blinking);
+
+    if (!kbdbuf_is_empty()) {
+        return false;
+    }
+
+    /* wait until cursor is in the first column */
+    if (cursor_column != 0) {
+        return false;
+    }
+    
+    /* now we expect the string in the previous line (typically "READY.") */
+    addr = screen_addr - line_length;
+
+    for (i = 0; s[i] != '\0'; i++) {
+        if (mem_read_screen((uint16_t)(addr + i) & 0xffff) != s[i] % 64) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void monitor_vsync_hook(void)
+{
+    if (mon_open_on_ready) {
+        /*
+         * Check if READY has been printed on the screen ..
+         * .. this is also how autostart works.
+         */
+        if (is_machine_ready()) {
+            monitor_startup_trap();
+            mon_open_on_ready = 0;
+        }
+    }
+    
+#ifdef HAVE_NETWORK
+    /* check if someone wants to connect remotely to the monitor */
+    monitor_check_remote();
+    monitor_check_binary();
+#endif
 }
 
 /* Some local helper functions */
@@ -1344,10 +1402,6 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
         mon_breakpoint_add_checkpoint((uint16_t)mon_init_break, BAD_ADDR,
                 true, e_exec, false, true);
     }
-
-    if (playback > 0) {
-        playback_commands(playback);
-    }
 }
 
 void monitor_shutdown(void)
@@ -1385,6 +1439,18 @@ void monitor_shutdown(void)
     }
 
     mon_memmap_shutdown();
+    
+    while (playback_fp_stack_size) {
+        playback_end_file();
+    }
+    
+    lib_free(playback_filename_stack);
+    lib_free(playback_fp_stack);
+    
+    playback_filename_stack = NULL;
+    playback_fp_stack = NULL;
+    playback_fp_stack_size = 0;
+    playback_fp_stack_size_max = 0;
 }
 
 static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
@@ -1394,6 +1460,10 @@ static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
     val = strtoul(param, NULL, 0);
     if (val >= 0 && val < 65536) {
         mon_init_break = (int)val;
+
+        /* If an explicit breakpoint is set, don't also break on READY when
+         * using -moncommands */
+        mon_open_on_ready = 0;
     }
 
     return 0;
@@ -1515,7 +1585,7 @@ void monitor_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] =
 {
     { "-moncommands", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
-      set_playback_name, NULL, NULL, NULL,
+      monitor_set_moncommands_file, NULL, NULL, NULL,
       "<Name>", "Execute monitor commands from file" },
     { "-monlogname", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MonitorLogFileName", NULL,
@@ -1851,63 +1921,139 @@ void mon_end_recording(void)
     recording = false;
 }
 
-static int set_playback_name(const char *param, void *extra_param)
+
+static int monitor_set_moncommands_file(const char *filename, void *extra_param)
 {
-    if (!playback_name) {
-        playback_name = lib_strdup(param);
-        playback = 1;
+    if (mon_playback_commands(filename) != 0) {
+        return -1;
     }
+
+    /*
+     * For monitor commands to support things like loading a prg,
+     * the script can't start executing until the system is READY.
+     */
+
+    mon_open_on_ready = 1;
+    
     return 0;
 }
 
-static void playback_commands(int current_playback)
+
+int mon_playback_commands(const char *filename)
 {
     FILE *fp;
-    char string[256];
-    char *filename = playback_name;
-
+    
+    log_message(LOG_DEFAULT, "Opening monitor command playback file: %s", filename);
+    
+    if (playback_fp_stack_size == playback_fp_stack_size_max) {
+        
+        /* Need to grow the playback FP stack. But look out for insane playback include depth. */
+        if (playback_fp_stack_size_max >= PLAYBACK_MAX_RECUSRION) {
+            log_error(LOG_ERR, "Max level of playback file recursion depth %d reached, exiting", playback_fp_stack_size_max);
+            exit(1);
+        }
+        
+        playback_fp_stack_size_max += 1;
+        playback_fp_stack       = lib_realloc(playback_fp_stack,       playback_fp_stack_size_max * sizeof(FILE *));
+        playback_filename_stack = lib_realloc(playback_filename_stack, playback_fp_stack_size_max * sizeof(char *));
+    }
+    
     fp = fopen(filename, MODE_READ_TEXT);
-
+    
     if (fp == NULL) {
         fp = sysfile_open(filename, NULL, MODE_READ_TEXT);
     }
-
+    
     if (fp == NULL) {
-        mon_out("Playback for `%s' failed.\n", filename);
-        lib_free(playback_name);
-        playback_name = NULL;
-        --playback;
+        log_error(LOG_ERR, "Failed to open playback file: %s", filename);
+        return -1;
+    }
+    
+    playback_filename_stack[playback_fp_stack_size] = lib_strdup(filename);
+    playback_fp_stack[playback_fp_stack_size] = fp;
+    playback_fp = fp;
+    
+    playback_fp_stack_size++;
+    
+    return 0;
+}
+
+static void playback_end_file(void)
+{
+    fclose(playback_fp);
+    
+    playback_fp_stack_size--;
+    
+    log_message(LOG_DEFAULT, "Closed monitor command playback file: %s", playback_filename_stack[playback_fp_stack_size]);
+    lib_free(playback_filename_stack[playback_fp_stack_size]);
+    
+    playback_filename_stack[playback_fp_stack_size] = NULL;
+    playback_fp_stack[playback_fp_stack_size] = NULL;
+    
+    if (playback_fp_stack_size) {
+        /* Return to playing back the previous file */
+        playback_fp = playback_fp_stack[playback_fp_stack_size - 1];
+        return;
+    }
+    
+    /* Playback of all files is complete */
+    playback_fp = NULL;
+}
+
+static void playback_next_command(void)
+{
+    char line[1024];
+    char *command;
+    size_t command_len;
+    
+    if (fgets(line, sizeof(line), playback_fp) == NULL) {
+        /* Reached the end of the file */
+        playback_end_file();
+        
+        if (playback_fp) {
+            playback_next_command();
+        }
         return;
     }
 
-    lib_free(playback_name);
-    playback_name = NULL;
+    line[strlen(line) - 1] = '\0';
+    command = line;
 
-    while (fgets(string, 255, fp) != NULL) {
-        if (strcmp(string, "stop\n") == 0) {
+    /* trim leading whitespace */
+    while (*command != '\0') {
+        if (*command == ' ' || *command == '\t') {
+            command++;
+        } else {
             break;
         }
+    }
 
-        string[strlen(string) - 1] = '\0';
-        parse_and_execute_line(string);
-
-        if (playback > current_playback) {
-            playback_commands(playback);
+    /* trim trailing whitespace */
+    while ((command_len = strlen(command)) > 0) {
+        if (command[command_len - 1] == ' ' || command[command_len - 1] == '\t') {
+            command[command_len - 1] = '\0';
+        } else {
+            break;
         }
     }
+    
+    log_message(LOG_DEFAULT, "Monitor playback command: %s", command);
 
-    fclose(fp);
-    --playback;
-}
-
-void mon_playback_init(const char *filename)
-{
-    if (playback < MAX_PLAYBACK) {
-        playback_name = lib_strdup(filename);
-        ++playback;
-    } else {
-        mon_out("Playback for `%s' failed (recursion > %i).\n", filename, MAX_PLAYBACK);
+#if 0
+    /* Disabled, as this doesn't make sense to gpz, and prevents a 'stop' being used in a moncommands file --dqh */
+    
+    /* playback files support a 'stop' command that is treated as though end of file reached */
+    if (strcmp(command, "stop") == 0) {
+        playback_end_file();
+        
+        if (playback_fp) {
+            playback_next_command();
+        }
+        return;
     }
+#endif
+    
+    parse_and_execute_line(command);
 }
 
 
@@ -2725,10 +2871,6 @@ static int monitor_process(char *cmd)
             }
 
             parse_and_execute_line(cmd);
-
-            if (playback > 0) {
-                playback_commands(playback);
-            }
         }
     }
     lib_free(last_cmd);
@@ -2812,12 +2954,17 @@ void monitor_startup(MEMSPACE mem)
             video_canvas_refresh_all_tracked();
         }
 
-        make_prompt(prompt);
-        p = uimon_in(prompt);
-        if (p) {
-            exit_mon = monitor_process(p);
-        } else if (exit_mon < 1) {
-            exit_mon = 1;
+        
+        if (playback_fp) {
+            playback_next_command();
+        } else {
+            make_prompt(prompt);
+            p = uimon_in(prompt);
+            if (p) {
+                exit_mon = monitor_process(p);
+            } else if (exit_mon < 1) {
+                exit_mon = 1;
+            }
         }
 
         if (exit_mon) {

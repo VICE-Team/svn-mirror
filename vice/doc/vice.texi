@@ -5674,10 +5674,11 @@ String specifying the font to use in the Gtk3 UI's VTE monitor window. Should be
 @table @code
 @findex -moncommands
 @item -moncommands <Name>
-Execute the commands from the file <Name> in the monitor after starting up. This
-command line switch is mainly thought to load labels and to set breakpoints.
-Not all other commands are useful to be executed in this way, some may even
-lead to strange effects.
+Execute the commands from the file <Name> in the monitor after starting up. All
+monitor commands are supported, including playback of other command files via
+pb. By default, the monitor opens and starts executing the commands just as the
+first screen with READY on it is ready to to be displayed, similar to how
+autostart is triggered. The -initbreak option can be used to override this.
 
 @findex -initbreak
 @item -initbreak <address>

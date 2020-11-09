@@ -414,11 +414,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     long delay;
     int skip_next_frame = 0;
 
-#ifdef HAVE_NETWORK
-    /* check if someone wants to connect remotely to the monitor */
-    monitor_check_remote();
-    monitor_check_binary();
-#endif
+    monitor_vsync_hook();
 
     /*
      * process everything wich should be done before the synchronisation
@@ -454,10 +450,10 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     /* If it's been a long time between vsync calls, (such as when paused in
        debuggeretc) then reset speed eval and sync. Otherwise, the emulator
        will warp until it catches up, which is rarely good when this far out
-       of sync. */
-    if ((now - last_vsync) > frame_ticks * 4) {
+       of sync. This means the emulator will run slower overall than hoped. */
+    if ((now - last_vsync) > frame_ticks * 5) {
         if (last_vsync != 0) {
-            log_warning(LOG_DEFAULT, "vsync %d ms late, resetting", (int)((now - last_vsync) / (vsyncarch_freq / 1000.0))); 
+            log_warning(LOG_DEFAULT, "vsync %d ms late, resetting", (int)((now - last_vsync) / (vsyncarch_freq / 1000.0)));
         }
         speed_eval_suspended = 1;
     }

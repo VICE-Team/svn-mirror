@@ -320,7 +320,7 @@ extern void mon_save_symbols(MEMSPACE mem, const char *filename);
 
 extern void mon_record_commands(char *filename);
 extern void mon_end_recording(void);
-extern void mon_playback_init(const char* filename);
+extern int mon_playback_commands(const char* filename);
 extern void monitor_change_device(MEMSPACE mem);
 
 extern void mon_export(void);

@@ -162,6 +162,8 @@ void monitor_startup(MEMSPACE mem);
 extern void monitor_startup_trap(void);
 extern bool monitor_is_inside_monitor(void);
 
+extern void monitor_vsync_hook(void);
+
 extern void monitor_abort(void);
 
 extern int monitor_force_import(MEMSPACE mem);
