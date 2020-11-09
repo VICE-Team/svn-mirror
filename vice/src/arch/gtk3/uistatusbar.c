@@ -262,11 +262,12 @@ typedef struct ui_statusbar_s {
     /** \brief The popup menus associated with each drive. */
     GtkWidget *drive_popups[NUM_DISK_UNITS];
 
-    /* temporarily disabled until the layout code has been updated */
-#if 0
-    /** \brief The volume control */
+    /** \brief The volume control
+     *
+     * Only enabled for VSID at the moment.
+     */
     GtkWidget *volume;
-#endif
+
     /** \brief The hand-shaped cursor to change to when popup menus
      *         are available. */
     GdkCursor *hand_ptr;
@@ -961,12 +962,10 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                     allocated_bars[i].drive_popups[j] = NULL;
                 }
             }
-#if 0
             if (allocated_bars[i].volume != NULL) {
                 g_object_unref(G_OBJECT(allocated_bars[i].volume));
                 allocated_bars[i].volume = NULL;
             }
-#endif
             /* why? */
             if (allocated_bars[i].kbd_debug != NULL) {
                 g_object_unref(G_OBJECT(allocated_bars[i].kbd_debug));
@@ -1019,7 +1018,6 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
 }
 
 
-#if 0
 /** \brief  Handler for the 'value-changed' event of the volume control
  *
  * Updates the master volume
@@ -1028,14 +1026,13 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
  * \param[in]   value   new volume value (1.0 - 0.0)
  * \param[in]   data    extra event data (unused
  */
-
 static void on_volume_value_changed(GtkScaleButton *widget,
                                     gdouble value,
                                     gpointer data)
 {
     resources_set_int("SoundVolume", (int)(value * 100.0));
 }
-#endif
+
 
 /*****************************************************************************
  *                          Private functions                                *
@@ -1541,15 +1538,11 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *sb, *speed, *tape, *tape_events, *joysticks;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
-#if 0
     GtkWidget *volume;
-#endif
     GtkWidget *message;
     GtkWidget *recording;
     GtkWidget *kbd_debug_widget;
-#if 0
     int sound_vol;
-#endif
     int i, j;
 
     mainlock_assert_is_not_vice_thread();
@@ -1688,31 +1681,29 @@ GtkWidget *ui_statusbar_create(void)
         allocated_bars[i].drive_popups[j] = drive_menu;
     }
 
-#if 0
     /*
-     * Add volume control widget
+     * Add volume control widget for VSID
+     *
      */
-    volume = gtk_volume_button_new();
-    g_object_ref_sink(volume);
+    if (machine_class == VICE_MACHINE_VSID) {
+        volume = gtk_volume_button_new();
+        g_object_ref_sink(volume);
 
-    resources_get_int("SoundVolume", &sound_vol);
-    gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
-            (gdouble)sound_vol / 100.0);
+        resources_get_int("SoundVolume", &sound_vol);
+        gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
+                (gdouble)sound_vol / 100.0);
+        /* FIXME: there's too much padding to the right of the widget */
+        g_object_set(
+                volume,
+                "use-symbolic", TRUE,
+                NULL);
 
-    g_signal_connect(volume, "value-changed",
-            G_CALLBACK(on_volume_value_changed), NULL);
+        g_signal_connect(volume, "value-changed",
+                G_CALLBACK(on_volume_value_changed), NULL);
 
-    /* avoid two separators next to each other in VSID */
-    if (machine_class != VICE_MACHINE_VSID) {
-        gtk_grid_attach(GTK_GRID(sb),
-                gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-                SB_COL_SEP_DRIVE, 0, 1, 2);
-        gtk_grid_attach(GTK_GRID(sb), volume, SB_COL_VOLUME, 0, 1, 2);
-    } else {
-        gtk_grid_attach(GTK_GRID(sb), volume, 3, 0, 1 ,2); /* FIXME */
+        gtk_grid_attach(GTK_GRID(sb), volume, 4, 0, 1, 2);
+        allocated_bars[i].volume = volume;
     }
-    allocated_bars[i].volume = volume;
-#endif
 
     /*
      * Add keyboard debugging widget
