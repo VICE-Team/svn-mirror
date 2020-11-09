@@ -291,9 +291,9 @@ function process_source_makefile {
 			target_compile_definitions(
 			    $lib_to_build
 			    PRIVATE
-					\$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
+			        \$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
 			        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
-					\$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objc_compile_definitions)>
+			        \$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objc_compile_definitions)>
 			    )
 
 			target_include_directories(
@@ -306,7 +306,7 @@ function process_source_makefile {
 			target_compile_options(
 			    $lib_to_build
 			    PRIVATE
-					\$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
+			        \$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
 			        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxxflags)>
 			        \$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objcflags)>
 			    )
@@ -403,9 +403,9 @@ do
 		target_compile_definitions(
 		    $executable
 		    PRIVATE
-				\$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
-				\$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
-				\$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objc_compile_definitions)>
+		        \$<\$<COMPILE_LANGUAGE:C>:$(extract_c_compile_definitions)>
+		        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxx_compile_definitions)>
+		        \$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objc_compile_definitions)>
 		    )
 
 		target_include_directories(
@@ -418,7 +418,7 @@ do
 		target_compile_options(
 		    $executable
 		    PRIVATE
-				\$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
+		        \$<\$<COMPILE_LANGUAGE:C>:$(extract_cflags)>
 		        \$<\$<COMPILE_LANGUAGE:CXX>:$(extract_cxxflags)>
 		        \$<\$<COMPILE_LANGUAGE:OBJC>:$(extract_objcflags)>
 		    )
@@ -471,7 +471,10 @@ echo "Creating top level CMakeLists.txt"
 cat <<-HEREDOC > CMakeLists.txt
 	cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment version")
-	project(VICE C CXX)
+	set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
+	set(CMAKE_CXX_STANDARD 11)
+	
+	project(VICE C CXX OBJC)
 	set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 	add_subdirectory(src)
