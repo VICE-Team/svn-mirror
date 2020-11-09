@@ -470,7 +470,17 @@ echo "Creating top level CMakeLists.txt"
 
 cat <<-HEREDOC > CMakeLists.txt
 	cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
-	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment version")
+
+HEREDOC
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	cat <<-HEREDOC >> CMakeLists.txt
+		set(CMAKE_OSX_SYSROOT "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/")                       
+		set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment version")
+HEREDOC
+fi
+
+cat <<-HEREDOC >> CMakeLists.txt
 	set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
 	set(CMAKE_CXX_STANDARD 11)
 	
