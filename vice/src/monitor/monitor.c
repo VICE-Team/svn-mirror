@@ -2767,7 +2767,11 @@ static void monitor_open(void)
     mon_console_suspend_on_leaving = 1;
     mon_console_close_on_leaving = 0;
 
-    if (monitor_is_remote() || monitor_is_binary()) {
+    if (console_mode) {
+        /* Shitty hack. We should support the console size etc. */
+        static console_t console_log_console = { 80, 25, 0, 0, NULL };
+        console_log = &console_log_console;
+    } else if (monitor_is_remote() || monitor_is_binary()) {
         static console_t console_log_remote = { 80, 25, 0, 0, NULL };
         console_log = &console_log_remote;
     } else {
@@ -2936,11 +2940,6 @@ void monitor_startup(MEMSPACE mem)
 {
     char prompt[40];
     char *p;
-
-    if (console_mode) {
-        log_message(LOG_DEFAULT, "FIXME: monitor in console mode is not supported right now.");
-        return;
-    }
 
     if (mem != e_default_space) {
         default_memspace = mem;
