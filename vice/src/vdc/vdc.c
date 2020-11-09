@@ -512,8 +512,9 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     /* Reset address pointers */
                     vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                         & vdc.vdc_address_mask;
-                    vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
-                        & vdc.vdc_address_mask;
+                    vdc.attribute_adr = (((vdc.regs[20] << 8) | vdc.regs[21]) + vdc.attribute_offset)
+                            & vdc.vdc_address_mask;
+                    vdc.attribute_offset = 0;
                     if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
                         /* the cache can't cleanly handle these changing */
                         vdc.force_repaint = 1;
@@ -655,8 +656,9 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         /* Reset address pointers */
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                          & vdc.vdc_address_mask;
-        vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
+        vdc.attribute_adr = (((vdc.regs[20] << 8) | vdc.regs[21]) + vdc.attribute_offset)
                             & vdc.vdc_address_mask;
+        vdc.attribute_offset = 0;
         if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
             /* the cache can't cleanly handle these changing */
             vdc.force_repaint = 1;

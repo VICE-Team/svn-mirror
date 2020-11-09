@@ -284,11 +284,9 @@ void vdc_store(uint16_t addr, uint8_t value)
                     vdc.bytes_per_char = 32;
                 }
             }
-            /* set the attribute offset to 3 if reg[9] = 0 to correctly (?)
-               emulate the 8x1 colour cell VDC trick (RFO FLI picture) */
-            if (vdc.regs[9] & 0x1f) {
-                vdc.attribute_offset = 0;
-            } else {
+            /* set the attribute offset to 3 if reg[9] transitions from 0 on the last row to
+               correctly (?) emulate the 8x1 colour cell VDC trick in RFOVDC FLI picture */
+            if (((oldval & 0x1fu) == 0) && (vdc.row_counter == (vdc.regs[6]-1))) {
                 vdc.attribute_offset = 3;
             }
 #ifdef REG_DEBUG
