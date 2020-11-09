@@ -84,12 +84,14 @@ static void consider_exit(void)
     /* Check if the vice thread has been told to die. */
     if (!vice_thread_keepalive) {
         
+        /* This needs to be set before unlocking to avoid a shutdown race condition */
+        vice_thread_is_running = false;
+        
         /* Signal the yield condition in case the main thread is currently waiting for it */
         pthread_cond_signal(&yield_condition);
         pthread_mutex_unlock(&lock);
         
         /* Execution ends here - this function does not return. */
-        vice_thread_is_running = false;
         log_message(LOG_DEFAULT, "VICE thread is exiting");
         pthread_exit(NULL);
         assert(0);
