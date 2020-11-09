@@ -1104,6 +1104,10 @@ if test x"$check_gtk3" = "xyes"; then
       dnl Find where the GL functions live on this system
       old_clags="$CFLAGS"
       CFLAGS="$VICE_CFLAGS"
+      PKG_CHECK_MODULES(GLEW, [glew], have_pkg_glew="yes")
+      if test x"$have_pkg_glew" = "xyes"; then
+          LIBS="$LIBS $GLEW_LIBS"
+      fi
       AC_SEARCH_LIBS(glViewport, [GL opengl32], [have_opengl_lib=yes], [have_opengl_lib=no])
       AC_SEARCH_LIBS(glewInit, [GLEW glew32], [have_glew=yes], [have_glew=no])
 
