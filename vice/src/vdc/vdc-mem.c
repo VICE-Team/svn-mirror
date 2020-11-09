@@ -69,7 +69,7 @@ static void vdc_write_data(void)
     /* Write data byte to update address. */
     vdc_ram_store(ptr & vdc.vdc_address_mask, vdc.regs[31]);
 #ifdef REG_DEBUG
-    log_message(vdc.log, "STORE %04x %02x", ptr & vdc.vdc_address_mask,
+    log_message(vdc.log, "STORE %04i %02x", ptr & vdc.vdc_address_mask,
                 vdc.regs[31]);
 #endif
     ptr += 1;
@@ -103,7 +103,7 @@ static void vdc_perform_fillcopy(void)
         vdc.regs[33] = ptr2 & 0xff;
     } else { /* FILL */
 #ifdef REG_DEBUG
-        log_message(vdc.log, "Fill mem %04x, len %03x, data %02x",
+        log_message(vdc.log, "Fill mem %04i, len %03i, data %02x",
                     ptr, blklen, vdc.regs[31]);
 #endif
         for (i = 0; i < blklen; i++) {
@@ -175,7 +175,7 @@ void vdc_store(uint16_t addr, uint8_t value)
         case 37:
             break;
         default:
-            log_message(vdc.log, "REG %02i VAL %02x CRL:%03i BH:%03i 0:%02X 1:%02X 2:%02X 3:%02X 4:%02X 5:%02X 6:%02X 7:%02X 8:%01X 9:%02X 12:%02X 13:%02X 20:%02X 21:%02X 22:%02X 23:%02X 24:%02X 25:%02X 26:%02X 27:%02X 34:%02X 35:%02X",
+            log_message(vdc.log, "REG %02i VAL %02x CRL:%03x BH:%03x 0:%02X 1:%02X 2:%02X 3:%02X 4:%02X 5:%02i 6:%02X 7:%02X 8:%01i 9:%02i 12:%02X 13:%02X 20:%02X 21:%02X 22:%02X 23:%02i 24:%02X 25:%02X 26:%02X 27:%02X 34:%02X 35:%02X",
                         vdc.update_reg, value,
                         vdc.raster.current_line, vdc.border_height,
                         vdc.regs[0], vdc.regs[1], vdc.regs[2], vdc.regs[3],
