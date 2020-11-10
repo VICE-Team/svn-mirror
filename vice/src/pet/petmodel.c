@@ -72,7 +72,7 @@ typedef struct pet_table_s pet_table_t;
     also see http://www.6502.org/users/andre/petindex/keyboards.html
 */ 
 
-static pet_table_t pet_table[] = {
+static const pet_table_t pet_table[] = {
     { "2001",
       { RAM_8K, IO_2048, NO_CRTC, COLS_40, NO_RAM_9, NO_RAM_A, KBD_TYPE_GRAPHICS_US,
         PATCH_2K_KERNAL, PATCH_2K_CHARGEN, EOI_BLANKS, NORMAL_IO,

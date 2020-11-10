@@ -77,7 +77,7 @@ Rev 3: (used in Hummer and the next productions runs of PAL C64 DTV's)
   Same features of Rev 2 with blitter bug fixed.
 */
 
-static struct model_s dtvmodels[] = {
+static const struct model_s dtvmodels[] = {
     { MACHINE_SYNC_PAL,  REV_2, IS_DTV    }, /* DTV v2 (pal) */
     { MACHINE_SYNC_NTSC, REV_2, IS_DTV    }, /* DTV v2 (ntsc) */
     { MACHINE_SYNC_PAL,  REV_3, IS_DTV    }, /* DTV v3 (pal) */

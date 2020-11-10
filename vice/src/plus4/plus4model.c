@@ -46,11 +46,11 @@ struct model_s {
     int hasspeech;
     int hasacia;
     int hasuserport;
-    char *kernalname;
-    char *basicname;
-    char *plus1loname;
-    char *plus1hiname;
-    char *c2loname;
+    const char *kernalname;
+    const char *basicname;
+    const char *plus1loname;
+    const char *plus1hiname;
+    const char *c2loname;
 };
 
 /*
@@ -60,7 +60,7 @@ struct model_s {
     232        "a 264 with 32k ram", no 3plus1 rom, no rs232 interface (not ttl level)
 */
 
-static struct model_s plus4models[] = {
+static const struct model_s plus4models[] = {
     { MACHINE_SYNC_PAL,  RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal",     "basic", "",         "",         "" }, /* c16 (pal) */
     { MACHINE_SYNC_NTSC, RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal.005", "basic", "",         "",         "" }, /* c16 (ntsc) */
     { MACHINE_SYNC_PAL,  RAM64K, NO_SPEECH,  HAS_ACIA, HAS_USERPORT, "kernal",     "basic", "3plus1lo", "3plus1hi", "" }, /* plus4 (pal) */
