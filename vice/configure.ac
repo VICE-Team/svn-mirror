@@ -196,6 +196,7 @@ dnl     -Wredundant-decls
 dnl     -Wnested-externs
 dnl     -Wcast-qual
 dnl     -Wcast-align
+dnl     -Wsign-compare
 dnl
 dnl (Commenting these out in the following list makes configure barf)
 dnl
@@ -230,8 +231,7 @@ m4_foreach([flag],
             [-Wfatal-errors],
             [-fdiagnostics-absolute-paths],
             [-Wshorten-64-to-32],
-            [-Wdiscarded-qualifiers],
-            [-Wsign-compare]],
+            [-Wdiscarded-qualifiers]],
            [TEST_FLAG=flag
             VICE_CFLAG_REQUEST([$TEST_FLAG])
            ])
