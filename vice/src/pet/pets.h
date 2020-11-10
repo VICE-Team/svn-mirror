@@ -174,6 +174,6 @@ extern int pet_set_model(const char *model_name, void *extra); /* used by cmdlin
 
 extern int pet_init_ok; /* used in pet.c */
 
-extern int petmem_set_conf_info(petinfo_t *pi); /* used in petmemsnapshot.c */
+extern int petmem_set_conf_info(const petinfo_t *pi); /* used in petmemsnapshot.c */
 
 #endif

@@ -74,7 +74,7 @@ extern void petmem_set_vidmem(void);
 extern int petmem_dump(FILE *fp);
 extern int petmem_undump(FILE *fp);
 
-extern int petmem_set_conf_info(struct petinfo_s *pi);
+extern int petmem_set_conf_info(const struct petinfo_s *pi);
 
 extern int spet_ramen;
 extern int spet_bank;

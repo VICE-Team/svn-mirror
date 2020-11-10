@@ -167,7 +167,7 @@ static int petmem_get_conf_info(petinfo_t *pi)
     return 0;
 }
 
-int petmem_set_conf_info(petinfo_t *pi)
+int petmem_set_conf_info(const petinfo_t *pi)
 {
     resources_set_int("RamSize", pi->ramSize);
     resources_set_int("IOSize", pi->IOSize);
@@ -181,7 +181,7 @@ int petmem_set_conf_info(petinfo_t *pi)
     return 0;
 }
 
-static int pet_set_model_info(petinfo_t *pi)
+static int pet_set_model_info(const petinfo_t *pi)
 {
     /* set hardware config */
     petmem_set_conf_info(pi);
