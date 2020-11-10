@@ -314,7 +314,7 @@ int ocean_snapshot_read_module(snapshot_t *s)
         || (SMR_B(m, &currbank) < 0)
         || (SMR_B(m, &io1_mask) < 0)
         || (SMR_B(m, &regval) < 0)
-        || (SMR_DW_UINT(m, &cart_size) < 0)
+        || (SMR_DW(m, &cart_size) < 0)
         || (SMR_BA(m, roml_banks, 0x2000 * 64) < 0)) {
         goto fail;
     }
