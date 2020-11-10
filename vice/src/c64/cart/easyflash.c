@@ -663,8 +663,8 @@ int easyflash_crt_save(const char *filename)
    ARRAY | ROMH       | 524288 BYTES of ROMH data
  */
 
-static char snap_module_name[] = "CARTEF";
-static char flash_snap_module_name[] = "FLASH040EF";
+static const char snap_module_name[] = "CARTEF";
+static const char flash_snap_module_name[] = "FLASH040EF";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

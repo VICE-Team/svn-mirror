@@ -362,7 +362,7 @@ static void turbomaster_clk_inc_stretch(void)
 
 /* ------------------------------------------------------------------------- */
 
-static read_func_ptr_t turbomaster_io_read_tab[0x11] = {
+static const read_func_ptr_t turbomaster_io_read_tab[0x11] = {
     c64io_d000_read,
     c64io_d100_read,
     c64io_d200_read,
@@ -382,7 +382,7 @@ static read_func_ptr_t turbomaster_io_read_tab[0x11] = {
     NULL
 };
 
-static store_func_ptr_t turbomaster_io_write_tab[0x11] = {
+static const store_func_ptr_t turbomaster_io_write_tab[0x11] = {
     c64io_d000_store,
     c64io_d100_store,
     c64io_d200_store,

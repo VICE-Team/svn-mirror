@@ -203,7 +203,7 @@ void blackbox8_detach(void)
 
  */
 
-static char snap_module_name[] = "CARTBB8";
+static const char snap_module_name[] = "CARTBB8";
 #define SNAP_MAJOR   1
 #define SNAP_MINOR   1
 

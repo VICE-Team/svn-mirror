@@ -202,7 +202,7 @@ void bisplus_detach(void)
 
  */
 
-static char snap_module_name[] = "CARTBB3";
+static const char snap_module_name[] = "CARTBB3";
 #define SNAP_MAJOR   1
 #define SNAP_MINOR   0
 

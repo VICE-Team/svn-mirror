@@ -223,7 +223,7 @@ void multimax_detach(void)
    ARRAY | RAM          | 2048 BYTES of RAM data
  */
 
-static char snap_module_name[] = "CARTMULTIMAX";
+static const char snap_module_name[] = "CARTMULTIMAX";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

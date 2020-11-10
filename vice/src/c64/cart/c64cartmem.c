@@ -183,7 +183,7 @@ void cart_config_changed_slot1(uint8_t mode_phi1, uint8_t mode_phi2, unsigned in
 */
 const char *cart_config_string(uint8_t mode)
 {
-    const char *modes[4] = {"8k game", "16k game", "Off", "Ultimax"};
+    static const char * const modes[4] = {"8k game", "16k game", "Off", "Ultimax"};
     return modes[mode & 3];
 }
 

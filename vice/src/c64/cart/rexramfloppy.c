@@ -269,7 +269,7 @@ void rexramfloppy_detach(void)
    ARRAY | RAM              | 256k BYTES of RAM data
  */
 
-static char snap_module_name[] = "CARTRRF";
+static const char snap_module_name[] = "CARTRRF";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

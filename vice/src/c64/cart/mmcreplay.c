@@ -352,8 +352,8 @@ void mmcreplay_dump_cfg(void)
     static char dumpstr1[0x100];
     static char dumpstr2[0x100];
     static char ndumpstr[0x100];
-    char *str_mapper[4] = { "MMCBIOS", "RR", "SUPER", "NORMAL" };
-    char *str_config[4] = { "off", "ultimax", "8K Game", "16K Game" };
+    static const char * const str_mapper[4] = { "MMCBIOS", "RR", "SUPER", "NORMAL" };
+    static const char * const str_config[4] = { "off", "ultimax", "8K Game", "16K Game" };
     int mapper, config;
 
     sprintf(ndumpstr,

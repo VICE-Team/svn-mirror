@@ -250,7 +250,7 @@ void sdbox_detach(void)
 
  */
 
-static char snap_module_name[] = "CARTSDBOX";
+static const char snap_module_name[] = "CARTSDBOX";
 #define SNAP_MAJOR   1
 #define SNAP_MINOR   0
 

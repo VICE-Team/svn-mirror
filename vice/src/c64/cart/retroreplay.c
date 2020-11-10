@@ -1304,8 +1304,8 @@ void retroreplay_detach(void)
    ARRAY | RAM               |   0.0+  | 32768 BYTES of RAM data
  */
 
-static char snap_module_name[] = "CARTRR";
-static char flash_snap_module_name[] = "FLASH040RR";
+static const char snap_module_name[] = "CARTRR";
+static const char flash_snap_module_name[] = "FLASH040RR";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   3
 

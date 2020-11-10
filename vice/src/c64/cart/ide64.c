@@ -1632,7 +1632,7 @@ static int ide64_idebus_dump(void)
 
 static int ide64_io_dump(void)
 {
-    const char *configs[4] = {
+    static const char * const configs[4] = {
         "8k", "16k", "stnd", "open"
     };
     mon_out("Version: %d, Mode: %s, ", settings_version >= IDE64_VERSION_4_1 ? 4 : 3, (kill_port & 1) ? "Disabled" : "Enabled");
@@ -1663,7 +1663,7 @@ static int ide64_rtc_dump(void)
    WORD  | out d030  | output state of $d030 register
  */
 
-static char snap_module_name[] = "CARTIDE";
+static const char snap_module_name[] = "CARTIDE";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

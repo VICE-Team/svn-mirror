@@ -360,7 +360,7 @@ int supersnapshot_v5_cmdline_options_init(void)
    ARRAY | RAM         |   0.0+  | 32768 BYTES of RAM data
  */
 
-static char snap_module_name[] = "CARTSS5";
+static const char snap_module_name[] = "CARTSS5";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   2
 

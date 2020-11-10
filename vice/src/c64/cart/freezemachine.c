@@ -366,7 +366,7 @@ void freezemachine_detach(void)
    ARRAY | ROMH         |   0.0+  | 16384 BYTES of ROMH data
  */
 
-static char snap_module_name[] = "CARTFREEZEM";
+static const char snap_module_name[] = "CARTFREEZEM";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

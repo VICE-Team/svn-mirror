@@ -609,7 +609,7 @@ int georam_flush_image(void)
    ARRAY | RAM     |   0.0+  | 65536, 131072, 262144, 524288, 1048576, 2097152 or 4194304 BYTES of RAM data
  */
 
-static char snap_module_name[] = "GEORAM";
+static const char snap_module_name[] = "GEORAM";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 1
 

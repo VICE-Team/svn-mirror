@@ -663,7 +663,7 @@ void magicformel_detach(void)
    BYTE  | CB2 state     | CB2 line state
  */
 
-static char snap_module_name[] = "CARTMF";
+static const char snap_module_name[] = "CARTMF";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

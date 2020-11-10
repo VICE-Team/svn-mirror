@@ -410,7 +410,7 @@ void supersnapshot_v4_detach(void)
    ARRAY | RAM        | 8192 BYTES of RAM data
  */
 
-static char snap_module_name[] = "CARTSS4";
+static const char snap_module_name[] = "CARTSS4";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

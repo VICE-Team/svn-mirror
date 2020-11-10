@@ -668,7 +668,7 @@ int ramcart_peek_mem(uint16_t addr, uint8_t *value)
    ARRAY | RAM       | 65536 or 131072 BYTES of RAM data
  */
 
-static char snap_module_name[] = "CARTRAMCART";
+static const char snap_module_name[] = "CARTRAMCART";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

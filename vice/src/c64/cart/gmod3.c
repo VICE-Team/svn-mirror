@@ -573,7 +573,7 @@ void gmod3_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-static char snap_module_name[] = "CARTGMOD3";
+static const char snap_module_name[] = "CARTGMOD3";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

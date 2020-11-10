@@ -216,7 +216,7 @@ void blackbox9_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-static char snap_module_name[] = "CARTBLACKBOX9";
+static const char snap_module_name[] = "CARTBLACKBOX9";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

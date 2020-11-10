@@ -1436,7 +1436,7 @@ int mmc64_disable(void)
    BYTE  | BIOS type         | BIOS type
  */
 
-static char snap_module_name[] = "CARTMMC64";
+static const char snap_module_name[] = "CARTMMC64";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

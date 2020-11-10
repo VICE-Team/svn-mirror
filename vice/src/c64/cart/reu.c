@@ -1482,7 +1482,7 @@ void reu_dma_start(void)
    ARRAY | RAM       | 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608 or 16777216 BYTES of RAM data
  */
 
-static char snap_module_name[] = "REU1764"; /*!< the name of the module for the snapshot */
+static const char snap_module_name[] = "REU1764"; /*!< the name of the module for the snapshot */
 #define SNAP_MAJOR 0 /*!< version number for this module, major number */
 #define SNAP_MINOR 0 /*!< version number for this module, minor number */
 

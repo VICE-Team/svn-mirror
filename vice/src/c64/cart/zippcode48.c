@@ -278,7 +278,7 @@ void zippcode48_detach(void)
    ARRAY | ROML   |   0.0+  | 8192 BYTES of ROML data
  */
 
-static char snap_module_name[] = "CARTZIPP";
+static const char snap_module_name[] = "CARTZIPP";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

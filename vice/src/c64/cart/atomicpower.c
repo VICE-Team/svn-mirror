@@ -421,7 +421,7 @@ void atomicpower_detach(void)
    ARRAY | RAM         | 8192 BYTES of RAM data
  */
 
-static char snap_module_name[] = "CARTAP";
+static const char snap_module_name[] = "CARTAP";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 

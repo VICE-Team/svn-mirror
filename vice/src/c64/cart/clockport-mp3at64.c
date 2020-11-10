@@ -290,13 +290,13 @@ static uint8_t mp3at64_read_i2c_clock(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int mp3_sampling_rates[4][3] = {
+static const int mp3_sampling_rates[4][3] = {
     { 44100, 22050, 11025 },
     { 48000, 24000, 12000 },
     { 32000, 16000,  8000 }
 };
 
-static int mp3_bitrates[16][3][3] = {
+static const int mp3_bitrates[16][3][3] = {
     { {  0,    0,   0 }, {   0,   0,   0 }, {   0,   0,   0 } },
     { {  32,  32,  32 }, {  32,   8,   8 }, {  32,   8,   8 } },
     { {  64,  48,  40 }, {  48,  16,  16 }, {  48,  16,  16 } },
@@ -315,13 +315,13 @@ static int mp3_bitrates[16][3][3] = {
     { {   0,   0,   0 }, {   0,   0,   0 }, {   0,   0,   0 } }
 };
 
-static int mp3_slot_sizes[3] = {
+static const int mp3_slot_sizes[3] = {
     4,
     1,
     1
 };
 
-static int mp3_sampels_per_frame[3][3] = {
+static const int mp3_sampels_per_frame[3][3] = {
     { 384, 1152, 1152 },
     { 384, 1152,  576 },
     { 384, 1152,  576 }

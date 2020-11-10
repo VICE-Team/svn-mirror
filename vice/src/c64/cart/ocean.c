@@ -198,7 +198,7 @@ static int ocean_common_attach(void)
 /* ---------------------------------------------------------------------*/
 
 /* HACK: 32k isnt really a valid size, see above */
-uint32_t ocean_cart_sizes[] = { 0x80000, 0x40000, 0x20000, 0x08000, 0 };
+static const uint32_t ocean_cart_sizes[] = { 0x80000, 0x40000, 0x20000, 0x08000, 0 };
 
 int ocean_bin_attach(const char *filename, uint8_t *rawcart)
 {
@@ -266,7 +266,7 @@ void ocean_detach(void)
    ARRAY | ROML      | 524288 BYTES of ROML data
  */
 
-static char snap_module_name[] = "CARTOCEAN";
+static const char snap_module_name[] = "CARTOCEAN";
 #define SNAP_MAJOR   1
 #define SNAP_MINOR   0
 

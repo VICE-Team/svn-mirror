@@ -510,8 +510,8 @@ void gmod2_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-static char snap_module_name[] = "CARTGMOD2";
-static char flash_snap_module_name[] = "FLASH040GMOD2";
+static const char snap_module_name[] = "CARTGMOD2";
+static const char flash_snap_module_name[] = "FLASH040GMOD2";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   2
 
