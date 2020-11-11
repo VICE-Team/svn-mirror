@@ -789,7 +789,14 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         }
     }
 
-    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp %s%s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, hwscale ? "OpenGL " : "", (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
+    log_message(sdlvideo_log, "%s (%s) %ux%u %ibpp %s%s",
+        canvas->videoconfig->chip_name,
+        (canvas == sdl_active_canvas) ? "active" : "inactive",
+        actual_width,
+        actual_height,
+        sdl_bitdepth,
+        hwscale ? "OpenGL " : "",
+        (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
 #endif
