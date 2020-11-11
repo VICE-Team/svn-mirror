@@ -1221,42 +1221,51 @@ if test x"$check_sdl2" = "xyes"; then
   fi
 
   if test x"$found_sdl2" != "xyes"; then
-    dnl Check for sdl2-config
-    if test x"$sdl2_config" != "xno"; then
-      user_CFLAGS="$CFLAGS"
-      user_CXXFLAGS="$CXXFLAGS"
-      CFLAGS="$VICE_CFLAGS `$sdl2_config --cflags`"
-      CXXFLAGS="$VICE_CXXFLAGS `$sdl2_config --cflags`"
-      LIBS="$LIBS `$sdl2_config --libs`"
+    PKG_CHECK_MODULES(SDL2, sdl2, [
+      use_sdl_prefix=no
+      use_sdl2_prefix=no
+      found_sdl2=yes
+      VICE_CFLAGS="$VICE_CFLAGS $SDL2_CFLAGS"
+      VICE_CXXFLAGS="$VICE_CXXFLAGS $SDL2_CFLAGS"
+      LIBS="$LIBS $SDL2_LIBS"
+    ], [
+      dnl Check for sdl2-config
+      if test x"$sdl2_config" != "xno"; then
+        user_CFLAGS="$CFLAGS"
+        user_CXXFLAGS="$CXXFLAGS"
+        CFLAGS="$VICE_CFLAGS `$sdl2_config --cflags`"
+        CXXFLAGS="$VICE_CXXFLAGS `$sdl2_config --cflags`"
+        LIBS="$LIBS `$sdl2_config --libs`"
 
-      dnl Determine whether we need to add SDL2/ as a prefix.
-      AC_MSG_CHECKING(whether SDL2 requires a prefix on includes)
-      AC_TRY_LINK([#include <SDL2/SDL_render.h>],
-                  [SDL_GetNumRenderDrivers()],
-                  [AC_MSG_RESULT(yes);
-                   use_sdl_prefix=no;
-                   use_sdl2_prefix=yes;
-                   found_sdl2=yes;
-                   VICE_CFLAGS="$CFLAGS";
-                   VICE_CXXFLAGS="$CXXFLAGS"],
-                  [AC_MSG_RESULT(no)])
-
-      if test x"$found_sdl2" != "xyes"; then
-        AC_MSG_CHECKING(whether SDL2 works without a prefix)
-        AC_TRY_LINK([#include <SDL_render.h>],
+        dnl Determine whether we need to add SDL2/ as a prefix.
+        AC_MSG_CHECKING(whether SDL2 requires a prefix on includes)
+        AC_TRY_LINK([#include <SDL2/SDL_render.h>],
                     [SDL_GetNumRenderDrivers()],
                     [AC_MSG_RESULT(yes);
                      use_sdl_prefix=no;
-                     use_sdl2_prefix=no;
+                     use_sdl2_prefix=yes;
                      found_sdl2=yes;
                      VICE_CFLAGS="$CFLAGS";
                      VICE_CXXFLAGS="$CXXFLAGS"],
                     [AC_MSG_RESULT(no)])
-      fi
 
-      CFLAGS="$user_CFLAGS"
-      CXXFLAGS="$user_CXXFLAGS"
-    fi
+        if test x"$found_sdl2" != "xyes"; then
+          AC_MSG_CHECKING(whether SDL2 works without a prefix)
+          AC_TRY_LINK([#include <SDL_render.h>],
+                      [SDL_GetNumRenderDrivers()],
+                      [AC_MSG_RESULT(yes);
+                       use_sdl_prefix=no;
+                       use_sdl2_prefix=no;
+                       found_sdl2=yes;
+                       VICE_CFLAGS="$CFLAGS";
+                       VICE_CXXFLAGS="$CXXFLAGS"],
+                      [AC_MSG_RESULT(no)])
+        fi
+
+        CFLAGS="$user_CFLAGS"
+        CXXFLAGS="$user_CXXFLAGS"
+      fi
+    ])
   fi
 
   dnl fail if SDL2 ui was requested, otherwise restore flags and continue
