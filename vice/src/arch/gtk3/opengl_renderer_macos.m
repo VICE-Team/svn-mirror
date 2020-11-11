@@ -63,7 +63,7 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
     if (self == nil) {
         return nil;
     }
-    
+
     self->context = _context;
 
     /* Request OpenGL 3.2 */
@@ -77,21 +77,21 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
 
     [pixel_format release];
     [opengl_context release];
-    
+
     return self;
 }
 
 - (void)update
 {
     RENDER_LOCK();
-    
+
     [super update];
-    
+
     /* glViewport co-ordinates use the backing layer resolution, which can change on drag between screens */
     NSSize backing_layer_size = [self convertSizeToBacking: CGSizeMake(context->native_view_width, context->native_view_height)];
     context->gl_backing_layer_width = backing_layer_size.width;
     context->gl_backing_layer_height = backing_layer_size.height;
-    
+
     RENDER_UNLOCK();
 }
 
@@ -102,7 +102,7 @@ NSView *gdk_quartz_window_get_nsview(GdkWindow *window);
 void vice_opengl_renderer_make_current(vice_opengl_renderer_context_t *context)
 {
     ViceOpenGLView *opengl_view = context->native_view;
-    
+
     [[opengl_view openGLContext] makeCurrentContext];
 }
 
@@ -115,7 +115,7 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
 {
     ViceOpenGLView *opengl_view = context->native_view;
     GLint gl_int = enable_vsync ? 1 : 0;
-    
+
     [[opengl_view openGLContext] setValues: &gl_int forParameter: NSOpenGLCPSwapInterval];
 }
 
@@ -137,22 +137,22 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
                                                                 context: context];
 
     context->native_view = opengl_view;
-    
+
     /* Add the openglk view as a child of the gdk window */
     [gdk_view addSubview: opengl_view];
-    
+
     vice_opengl_renderer_make_current(context);
-    
+
     /* make sure OpenGL extension pointers are loaded */
     glewInit();
-    
+
     vice_opengl_renderer_clear_current(context);
 }
 
 void vice_opengl_renderer_resize_child_view(vice_opengl_renderer_context_t *context)
 {
     ViceOpenGLView *opengl_view = (ViceOpenGLView *)context->native_view;
-    
+
     [opengl_view setFrameOrigin: CGPointMake(context->native_view_x, context->native_view_y)];
     [opengl_view setFrameSize: CGSizeMake(context->native_view_width, context->native_view_height)];
 }
