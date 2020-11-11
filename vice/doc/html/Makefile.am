@@ -52,15 +52,12 @@ EXTRA_DIST = \
 	$(IMAGES_FILES)
 
 
-
-if ENABLE_HTML_DOCS
-
-AUTOMAKE_OPTIONS = -Wno-portability
-VPATH =
-
 htmldir = $(VICE_DOCDIR)/html
 fontsdir = $(htmldir)/fonts
 imagesdir = $(htmldir)/images
+
+
+if ENABLE_HTML_DOCS
 
 GEN_HTML := \
 	vice_foot.html \
