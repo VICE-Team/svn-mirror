@@ -384,7 +384,6 @@ AS_IF([test x"$ICONV" = x"no"], [AC_MSG_ERROR([iconv is missing])])
 AC_CHECK_TOOL(RANLIB, ranlib, :)
 AC_CHECK_TOOL(STRIP, strip, :)
 AC_CHECK_TOOL(objdump, objdump, no)
-AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
 AC_CHECK_TOOL(sdl_config, sdl-config, no)
 
 dnl echo "Checking host_os for Windows: host_os = $host_os"
@@ -1198,101 +1197,26 @@ if test x"$check_sdl2" = "xyes"; then
 
   found_sdl2=no
 
-  dnl Check for SDL2.framework
-  if test x"$FW_DIR" != "x"; then
-    CFLAGS="$VICE_FLAGS -F$FW_DIR"
-    CXXFLAGS="$VICE_CXXFLAGS -F$FW_DIR"
-    LIBS="$LIBS -F$FW_DIR -framework SDL2"
-
-    AC_MSG_CHECKING(for SDL2.framework)
-    AC_TRY_LINK([#include <SDL2/SDL.h>],
-                [SDL_GetNumRenderDrivers()],
-                [AC_MSG_RESULT(yes);
-                 use_sdl_prefix=no;
-                 use_sdl2_prefix=yes;
-                 found_sdl2=yes;
-                 VICE_CFLAGS="$CFLAGS";
-                 VICE_CXXFLAGS="$CXXFLAGS"],
-                [AC_MSG_RESULT(no);
-                 LIBS=$old_libs])
-    AC_SUBST(FW_DIR)
-    CFLAGS="$user_CFLAGS"
-    CXXFLAGS="$user_CXXFLAGS"
-  fi
-
-  if test x"$found_sdl2" != "xyes"; then
-    PKG_CHECK_MODULES(SDL2, sdl2, [
-      use_sdl_prefix=no
-      use_sdl2_prefix=no
-      found_sdl2=yes
-      VICE_CFLAGS="$VICE_CFLAGS $SDL2_CFLAGS"
-      VICE_CXXFLAGS="$VICE_CXXFLAGS $SDL2_CFLAGS"
-      LIBS="$LIBS $SDL2_LIBS"
-    ], [
-      dnl Check for sdl2-config
-      if test x"$sdl2_config" != "xno"; then
-        user_CFLAGS="$CFLAGS"
-        user_CXXFLAGS="$CXXFLAGS"
-        CFLAGS="$VICE_CFLAGS `$sdl2_config --cflags`"
-        CXXFLAGS="$VICE_CXXFLAGS `$sdl2_config --cflags`"
-        LIBS="$LIBS `$sdl2_config --libs`"
-
-        dnl Determine whether we need to add SDL2/ as a prefix.
-        AC_MSG_CHECKING(whether SDL2 requires a prefix on includes)
-        AC_TRY_LINK([#include <SDL2/SDL_render.h>],
-                    [SDL_GetNumRenderDrivers()],
-                    [AC_MSG_RESULT(yes);
-                     use_sdl_prefix=no;
-                     use_sdl2_prefix=yes;
-                     found_sdl2=yes;
-                     VICE_CFLAGS="$CFLAGS";
-                     VICE_CXXFLAGS="$CXXFLAGS"],
-                    [AC_MSG_RESULT(no)])
-
-        if test x"$found_sdl2" != "xyes"; then
-          AC_MSG_CHECKING(whether SDL2 works without a prefix)
-          AC_TRY_LINK([#include <SDL_render.h>],
-                      [SDL_GetNumRenderDrivers()],
-                      [AC_MSG_RESULT(yes);
-                       use_sdl_prefix=no;
-                       use_sdl2_prefix=no;
-                       found_sdl2=yes;
-                       VICE_CFLAGS="$CFLAGS";
-                       VICE_CXXFLAGS="$CXXFLAGS"],
-                      [AC_MSG_RESULT(no)])
-        fi
-
-        CFLAGS="$user_CFLAGS"
-        CXXFLAGS="$user_CXXFLAGS"
-      fi
-    ])
-  fi
-
-  dnl fail if SDL2 ui was requested, otherwise restore flags and continue
-  if test x"$found_sdl2" = "xno"; then
-    CFLAGS="$old_cflags"
-    CXXFLAGS="$old_cxxflags"
-    LIBS="$old_libs"
-
+  PKG_CHECK_MODULES(SDL2, sdl2, [
+    use_sdl_prefix=no
+    found_sdl2=yes
+    VICE_CFLAGS="$VICE_CFLAGS $SDL2_CFLAGS"
+    VICE_CXXFLAGS="$VICE_CXXFLAGS $SDL2_CFLAGS"
+    LIBS="$LIBS $SDL2_LIBS"
+  ],[
+    dnl fail if SDL2 ui was requested, otherwise restore flags and continue
     if test x"$enable_sdlui2" = "xyes"; then
       AC_MSG_ERROR([SDL2 UI requested, but SDL2 is missing])
     fi
-  fi
+  ])
 
-  dnl only continue if sdl2-config was found
-  if test x"$found_sdl" != "xno"; then
-    if test x"$use_sdl2_prefix" != "xno"; then
-      AC_DEFINE(USE_SDL2_PREFIX,,[Enable SDL2 prefix for header inclusion.])
-    fi
-
+  dnl only continue if sdl2 was found
+  if test x"$found_sdl2" = "xyes"; then
+    
     dnl check for the 2 cases where audio needs to be checked
     check_sdl2audio=no
-    if test x"$enable_sdlui2" = "xno"; then
-      if test x"$with_sdlsound" = "xyes"; then
-        check_sdl2audio=yes
-      fi
-    else
-        check_sdl2audio=yes
+    if test x"$enable_sdlui2" = "xyes" -o x"$with_sdlsound" = "xyes"; then
+      check_sdl2audio=yes
     fi
 
     user_CFLAGS="$CFLAGS"
@@ -1303,21 +1227,12 @@ if test x"$check_sdl2" = "xyes"; then
     dnl only do if audio needs to be checked
     if test x"$check_sdl2audio" = "xyes"; then
       AC_MSG_CHECKING(for SDL audio support)
-      if test x"$use_sdl2_prefix" = "xyes"; then
-        AC_TRY_LINK([#include <SDL2/SDL_audio.h>],
-                    [SDL_OpenAudio(NULL, NULL)],
-                    [AC_MSG_RESULT(yes);
-                     USE_SDL_AUDIO_SUPPORT="yes";
-                     AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                    [AC_MSG_RESULT(no);])
-      else
-        AC_TRY_LINK([#include <SDL_audio.h>],
-                    [SDL_OpenAudio(NULL, NULL)],
-                    [AC_MSG_RESULT(yes);
-                     USE_SDL_AUDIO_SUPPORT="yes";
-                     AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                    [AC_MSG_RESULT(no);])
-      fi
+      AC_TRY_LINK([#include <SDL_audio.h>],
+                  [SDL_OpenAudio(NULL, NULL)],
+                  [AC_MSG_RESULT(yes);
+                    USE_SDL_AUDIO_SUPPORT="yes";
+                    AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
+                  [AC_MSG_RESULT(no);])
 
       dnl fail if --with-sdlsound was given
       if test x"$USE_SDL_AUDIO_SUPPORT" != "xyes"; then
@@ -1338,10 +1253,7 @@ if test x"$check_sdl2" = "xyes"; then
       HAVE_FULLSCREEN_SUPPORT="yes"
       AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
       HAVE_HWSCALE_SUPPORT="yes"
-      dnl SDL2 never requires SDLmain replacement. Including SDL.h
-      dnl itself and relying on sdl2-config's replies do all the
-      dnl work we require.
-
+      
       AC_CHECK_FUNCS(SDL_NumJoysticks)
 
       dnl now that the SDL2 UI support has been detected, define
@@ -1430,7 +1342,6 @@ if test x"$check_sdl1" = "xyes"; then
       if test x"$check_sdlaudio" = "xyes"; then
         AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
                          [use_sdl_prefix=yes;
-                          use_sdl2_prefix=no;
                           USE_SDL_AUDIO_SUPPORT="yes";
                           AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
                           AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
@@ -1441,7 +1352,6 @@ if test x"$check_sdl1" = "xyes"; then
           unset ac_cv_lib_SDL_SDL_OpenAudio
           AC_CHECK_HEADERS(SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
                            [use_sdl_prefix=no;
-                            use_sdl2_prefix=no;
                             USE_SDL_AUDIO_SUPPORT="yes";
                             AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                            [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
@@ -1462,7 +1372,6 @@ if test x"$check_sdl1" = "xyes"; then
       if test x"$enable_sdlui" != "xno"; then
         AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                            [use_sdl_prefix=yes;
-                            use_sdl2_prefix=no;
                             AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
                             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
                            [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
@@ -1472,7 +1381,6 @@ if test x"$check_sdl1" = "xyes"; then
             unset ac_cv_lib_SDL_SDL_SetVideoMode
             AC_CHECK_HEADERS(SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                              [use_sdl_prefix=no;
-                              use_sdl2_prefix=no;
                               AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
