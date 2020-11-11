@@ -1312,137 +1312,154 @@ if test x"$check_sdl1" = "xyes"; then
     fi
   fi
 
-  if test x"$host_os" = "xmingw32ce" -o x"$host_os" = "xcegcc"; then
-    LIBS="$LIBS -lSDL -lwinsock"
-    SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-    USE_SDL_AUDIO_SUPPORT="yes"
-    AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
-    if test x"$enable_sdlui" != "xno"; then
-      AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
-    fi
-    AC_DEFINE(CEGCC_COMPILE,,[Enable cegcc support.])
-  else
+  dnl fail if SDL ui was requested
+  if test x"$sdl_config" = "xno" -a x"$enable_sdlui" = "xyes"; then
+    AC_MSG_ERROR([SDL UI requested, but sdl-config is missing])
+  fi
 
-    dnl fail if SDL ui was requested
-    if test x"$sdl_config" = "xno" -a x"$enable_sdlui" = "xyes"; then
-      AC_MSG_ERROR([SDL UI requested, but sdl-config is missing])
-    fi
+  dnl only continue if sdl-config was found
+  if test x"$sdl_config" != "xno"; then
+    user_cflags="$CFLAGS"
+    user_cxxflags="$CXXFLAGS"
+    old_libs=$LIBS
 
-    dnl only continue if sdl-config was found
-    if test x"$sdl_config" != "xno"; then
-      user_cflags="$CFLAGS"
-      user_cxxflags="$CXXFLAGS"
-      old_libs=$LIBS
+    CFLAGS="$VICE_CFLAGS `$sdl_config --cflags`"
+    CXXFLAGS="$VICE_CXXFLAGS `$sdl_config --cflags`"
+    LIBS="$LIBS `$sdl_config --libs`"
 
-      CFLAGS="$VICE_CFLAGS `$sdl_config --cflags`"
-      CXXFLAGS="$VICE_CXXFLAGS `$sdl_config --cflags`"
-      LIBS="$LIBS `$sdl_config --libs`"
+    dnl only do if audio needs to be checked
+    if test x"$check_sdlaudio" = "xyes"; then
+      AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
+                       [use_sdl_prefix=yes;
+                        USE_SDL_AUDIO_SUPPORT="yes";
+                        AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
+                        AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
+                       [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                       [CFLAGS="$user_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
 
-      dnl only do if audio needs to be checked
-      if test x"$check_sdlaudio" = "xyes"; then
-        AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
-                         [use_sdl_prefix=yes;
+      if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
+        unset ac_cv_lib_SDL_SDL_OpenAudio
+        AC_CHECK_HEADERS(SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
+                         [use_sdl_prefix=no;
                           USE_SDL_AUDIO_SUPPORT="yes";
-                          AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
                           AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                          [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                         [CFLAGS="$user_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
-
-        if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
-          unset ac_cv_lib_SDL_SDL_OpenAudio
-          AC_CHECK_HEADERS(SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
-                           [use_sdl_prefix=no;
-                            USE_SDL_AUDIO_SUPPORT="yes";
-                            AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
-                           [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                           [CFLAGS="$old_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
-        fi
-
-        dnl fail if --with-sdlsound was given
-        if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
-          if test x"$with_sdlsound" = "xyes"; then
-            AC_MSG_ERROR([SDL sound support missing])
-          fi
-        else
-          SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-        fi
+                         [CFLAGS="$old_cflags"; CXXFLAGS="$old_cxxflags"; LIBS=$old_libs; break])
       fi
 
-      dnl only check if sdl ui is needed
-      if test x"$enable_sdlui" != "xno"; then
-        AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
-                           [use_sdl_prefix=yes;
-                            AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
+      dnl fail if --with-sdlsound was given
+      if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
+        if test x"$with_sdlsound" = "xyes"; then
+          AC_MSG_ERROR([SDL sound support missing])
+        fi
+      else
+        SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+      fi
+    fi
+
+    dnl only check if sdl ui is needed
+    if test x"$enable_sdlui" != "xno"; then
+      AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
+                         [use_sdl_prefix=yes;
+                          AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
+                          AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
+                         [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                         [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break])
+
+        if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes"; then
+          unset ac_cv_lib_SDL_SDL_SetVideoMode
+          AC_CHECK_HEADERS(SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
+                           [use_sdl_prefix=no;
                             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
-                           [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                           [CFLAGS="$user_cflags"; CXXFLAGS="$user_cxxflags"; LIBS=$old_libs; break])
+                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                           [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+        fi
 
-          if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes"; then
-            unset ac_cv_lib_SDL_SDL_SetVideoMode
-            AC_CHECK_HEADERS(SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
-                             [use_sdl_prefix=no;
-                              AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
-                             [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                             [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
-          fi
+        dnl fail if SDL ui was requested
+        if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes" -a x"$enable_sdlui" = "xyes"; then
+          AC_MSG_ERROR([SDL headers and/or libraries missing])
+        fi
 
-          dnl fail if SDL ui was requested
-          if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes" -a x"$enable_sdlui" = "xyes"; then
-            AC_MSG_ERROR([SDL headers and/or libraries missing])
-          fi
+      dnl only continue if SDL headers/libs are present
+      if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" = "xyes"; then
+        AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
+        HAVE_FULLSCREEN_SUPPORT="yes"
 
-        dnl only continue if SDL headers/libs are present
-        if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" = "xyes"; then
-          AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
-          HAVE_FULLSCREEN_SUPPORT="yes"
+        AC_CHECK_FUNCS(SDL_NumJoysticks)
 
-          AC_CHECK_FUNCS(SDL_NumJoysticks)
+        if test x"$enable_hwscale" != "xno"; then
+          if test x"$is_unix_macosx" = "xyes"; then
+            AC_MSG_CHECKING(whether we can use the OpenGL Framework)
+            old_LIBS="$LIBS"
+            LIBS="$LIBS -framework OpenGL"
 
-          if test x"$enable_hwscale" != "xno"; then
-            if test x"$is_unix_macosx" = "xyes"; then
-              AC_MSG_CHECKING(whether we can use the OpenGL Framework)
-              old_LIBS="$LIBS"
-              LIBS="$LIBS -framework OpenGL"
-
-              if test x"$use_sdl_prefix" = "xyes"; then
-                AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
-                            [glViewport(1,2,3,4)],
-                            [AC_MSG_RESULT(yes);
-                             have_opengl_lib=yes],
-                            [AC_MSG_RESULT(no);
-                             LIBS="$old_LIBS"])
-              else
-                AC_TRY_LINK([#include <SDL_opengl.h>],
-                            [glViewport(1,2,3,4)],
-                            [AC_MSG_RESULT(yes);
-                             have_opengl_lib=yes],
-                            [AC_MSG_RESULT(no);
-                             LIBS="$old_LIBS"])
-              fi
+            if test x"$use_sdl_prefix" = "xyes"; then
+              AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
+                          [glViewport(1,2,3,4)],
+                          [AC_MSG_RESULT(yes);
+                           have_opengl_lib=yes],
+                          [AC_MSG_RESULT(no);
+                           LIBS="$old_LIBS"])
             else
-              AC_SEARCH_LIBS(glViewport, [GL opengl32], [have_opengl_lib=yes], [have_opengl_lib=no])
+              AC_TRY_LINK([#include <SDL_opengl.h>],
+                          [glViewport(1,2,3,4)],
+                          [AC_MSG_RESULT(yes);
+                           have_opengl_lib=yes],
+                          [AC_MSG_RESULT(no);
+                           LIBS="$old_LIBS"])
             fi
-
-            if test x"$have_opengl_lib" != "xyes"; then
-              AC_MSG_ERROR(The SDL1 UI requires OpenGL for hardware scaling. Install OpenGL development headers or set --disable-hwscale to disable scaling.)
-            fi
-          fi
-
-          if test x"$enable_hwscale" != "xno"; then
-            AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-            HAVE_HWSCALE_SUPPORT="yes"
-          fi
-
-          dnl check for the SDL_main.h header
-          if test x"$use_sdl_prefix" = "xyes"; then
-            AC_CHECK_HEADERS(SDL/SDL_main.h)
           else
-            AC_CHECK_HEADERS(SDL_main.h)
+            AC_SEARCH_LIBS(glViewport, [GL opengl32], [have_opengl_lib=yes], [have_opengl_lib=no])
           fi
 
-          AC_MSG_CHECKING(whether we can use the SDLmain library)
+          if test x"$have_opengl_lib" != "xyes"; then
+            AC_MSG_ERROR(The SDL1 UI requires OpenGL for hardware scaling. Install OpenGL development headers or set --disable-hwscale to disable scaling.)
+          fi
+        fi
+
+        if test x"$enable_hwscale" != "xno"; then
+          AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+          HAVE_HWSCALE_SUPPORT="yes"
+        fi
+
+        dnl check for the SDL_main.h header
+        if test x"$use_sdl_prefix" = "xyes"; then
+          AC_CHECK_HEADERS(SDL/SDL_main.h)
+        else
+          AC_CHECK_HEADERS(SDL_main.h)
+        fi
+
+        AC_MSG_CHECKING(whether we can use the SDLmain library)
+        old_LIBS="$LIBS"
+        LIBS="$LIBS -lSDLmain -lSDL $EXTRA_SDL_LIBS"
+        if test x"$use_sdl_prefix" = "xyes"; then
+          AC_TRY_LINK([#include <SDL/SDL_main.h>
+                       int main(int argc, char *argv[])
+                       { return 0; }
+                       #undef main
+                       #define main something_else],
+                      [return 0;],
+                      [AC_MSG_RESULT(yes);
+                       have_sdlmain=yes],
+                      [AC_MSG_RESULT(no);
+                       LIBS="$old_LIBS"])
+        else
+          AC_TRY_LINK([#include <SDL_main.h>
+                       int main(int argc, char *argv[])
+                       { return 0; }
+                       #undef main
+                       #define main something_else],
+                      [return 0;],
+                      [AC_MSG_RESULT(yes);
+                       have_sdlmain=yes],
+                      [AC_MSG_RESULT(no);
+                       LIBS="$old_LIBS"])
+        fi
+
+        if test x"$have_sdlmain" != "xyes"; then
+          AC_MSG_CHECKING(whether we can use the SDLmain library when adding -lmingw32)
           old_LIBS="$LIBS"
-          LIBS="$LIBS -lSDLmain -lSDL $EXTRA_SDL_LIBS"
+          LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
           if test x"$use_sdl_prefix" = "xyes"; then
             AC_TRY_LINK([#include <SDL/SDL_main.h>
                          int main(int argc, char *argv[])
@@ -1466,47 +1483,32 @@ if test x"$check_sdl1" = "xyes"; then
                         [AC_MSG_RESULT(no);
                          LIBS="$old_LIBS"])
           fi
-
-          if test x"$have_sdlmain" != "xyes"; then
-            AC_MSG_CHECKING(whether we can use the SDLmain library when adding -lmingw32)
-            old_LIBS="$LIBS"
-            LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
-            if test x"$use_sdl_prefix" = "xyes"; then
-              AC_TRY_LINK([#include <SDL/SDL_main.h>
-                           int main(int argc, char *argv[])
-                           { return 0; }
-                           #undef main
-                           #define main something_else],
-                          [return 0;],
-                          [AC_MSG_RESULT(yes);
-                           have_sdlmain=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
-            else
-              AC_TRY_LINK([#include <SDL_main.h>
-                           int main(int argc, char *argv[])
-                           { return 0; }
-                           #undef main
-                           #define main something_else],
-                          [return 0;],
-                          [AC_MSG_RESULT(yes);
-                           have_sdlmain=yes],
-                          [AC_MSG_RESULT(no);
-                           LIBS="$old_LIBS"])
-            fi
-          fi
-
-          if test x"$have_sdlmain" = "xyes"; then
-            AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
-          fi
-
-          dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
-          enable_native_gtk3ui=no
-          enable_sdlui=yes
-          enable_sdlui2=no
-          enable_headlessui=no
-          found_gui=sdl1
         fi
+
+        if test x"$have_sdlmain" = "xyes"; then
+          AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
+        fi
+
+        dnl Require SDL_image
+        dnl The version number I sucked out of my thumb, on my Debian the
+        dnl version is 1.2.12
+        dnl
+        PKG_CHECK_MODULES(SDL_IMAGE,
+                          [SDL_image >= 1.2.0],
+                          [have_sdl_image=yes],
+                          [have_sdl_image=no; AC_MSG_RESULT([no])])
+        if test x"$have_sdl_image" = "xyes"; then
+          LIBS="$LIBS -lSDL_image"
+        else
+          AC_MSG_ERROR([SDL_image1.2-dev is required.])
+        fi
+
+        dnl now that the SDL1 UI support has been detected, define enable_sdlui and undefine the others to prevent checks
+        enable_native_gtk3ui=no
+        enable_sdlui=yes
+        enable_sdlui2=no
+        enable_headlessui=no
+        found_gui=sdl1
       fi
     fi
   fi
