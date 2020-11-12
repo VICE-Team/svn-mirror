@@ -63,6 +63,8 @@ This script needs to run as a normal user.
 Command line options:
 
     -h/--help           show this text and exit
+    --clean             delete all .RPM and .DEB packages before downloading,
+                        converting and installing packages.
 
     The following options are meant for debugging, or when for some reason the
     previous step failed:
@@ -159,6 +161,12 @@ install_debs()
 }
 
 
+# Delete all .deb and .rpm files
+clean_files()
+{
+    rm -f $FRANKENVICE_DEB/*
+    rm -f $FRANKENVICE_DOWNLOADS/*
+}
 
 
 # Entry point
@@ -175,6 +183,7 @@ fi
 while [ "$#" -gt 0 ]; do
     case "$1" in
         -h|--help) display_help;;
+        --clean) shift; clean_files;;
         --skip-download) shift; ARG_SKIP_DOWNLOAD="yes";;
         --skip-conversion) shift; ARG_SKIP_CONVERSION="yes";;
         --skip-install) shift; ARG_SKIP_INSTALL="yes";;
