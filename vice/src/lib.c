@@ -812,6 +812,41 @@ char *lib_strdup_pinpoint(const char *str, const char *name, unsigned int line)
 
 #endif
 
+/** \brief Return a copy of str with leading and trailing whitespace removed */
+char *lib_strdup_trimmed(char *str)
+{
+    char *copy;
+    char *trimmed;
+    size_t len;
+
+    copy = lib_strdup(str);
+    trimmed = copy;
+                
+    /* trim leading whitespace */
+    while (*trimmed != '\0') {
+        if (*trimmed == ' ' || *trimmed == '\t') {
+            trimmed++;
+        } else {
+            break;
+        }
+    }
+
+    /* trim trailing whitespace */
+    while ((len = strlen(trimmed)) > 0) {
+        if (trimmed[len - 1] == ' ' || trimmed[len - 1] == '\t') {
+            trimmed[len - 1] = '\0';
+        } else {
+            break;
+        }
+    }
+    
+    trimmed = lib_strdup(trimmed);
+
+    lib_free(copy);
+    
+    return trimmed;
+}
+
 /*
     encapsulated random routines to generate random numbers within a given range.
 

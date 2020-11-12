@@ -2004,7 +2004,6 @@ static void playback_next_command(void)
 {
     char line[1024];
     char *command;
-    size_t command_len;
     
     if (fgets(line, sizeof(line), playback_fp) == NULL) {
         /* Reached the end of the file */
@@ -2017,43 +2016,12 @@ static void playback_next_command(void)
     }
 
     line[strlen(line) - 1] = '\0';
-    command = line;
-
-    /* trim leading whitespace */
-    while (*command != '\0') {
-        if (*command == ' ' || *command == '\t') {
-            command++;
-        } else {
-            break;
-        }
-    }
-
-    /* trim trailing whitespace */
-    while ((command_len = strlen(command)) > 0) {
-        if (command[command_len - 1] == ' ' || command[command_len - 1] == '\t') {
-            command[command_len - 1] = '\0';
-        } else {
-            break;
-        }
-    }
+    command = lib_strdup_trimmed(line);
     
     log_message(LOG_DEFAULT, "Monitor playback command: %s", command);
-
-#if 0
-    /* Disabled, as this doesn't make sense to gpz, and prevents a 'stop' being used in a moncommands file --dqh */
-    
-    /* playback files support a 'stop' command that is treated as though end of file reached */
-    if (strcmp(command, "stop") == 0) {
-        playback_end_file();
-        
-        if (playback_fp) {
-            playback_next_command();
-        }
-        return;
-    }
-#endif
-    
     parse_and_execute_line(command);
+
+    lib_free(command);
 }
 
 
@@ -2849,6 +2817,8 @@ static void monitor_open(void)
 
 static int monitor_process(char *cmd)
 {
+    char *trimmed_command;
+    
     mon_stop_output = 0;
 
     if (cmd == NULL) {
@@ -2866,12 +2836,20 @@ static int monitor_process(char *cmd)
 
         if (cmd) {
             if (recording) {
-                if (fprintf(recording_fp, "%s\n", cmd) < 0) {
-                    mon_out("Error while recording commands. Output file closed.\n");
-                    fclose(recording_fp);
-                    recording_fp = NULL;
-                    recording = false;
+                
+                trimmed_command = lib_strdup_trimmed(cmd);
+                
+                if (strcmp(trimmed_command, "stop") != 0) {
+                    if (fprintf(recording_fp, "%s\n", trimmed_command) < 0) {
+                        mon_out("Error while recording commands. Output file closed.\n");
+                        fclose(recording_fp);
+                        recording_fp = NULL;
+                        recording = false;
+                    }
                 }
+                
+                lib_free(trimmed_command);
+                trimmed_command = NULL;
             }
 
             parse_and_execute_line(cmd);

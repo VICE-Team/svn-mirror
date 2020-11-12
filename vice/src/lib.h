@@ -97,4 +97,6 @@ extern void lib_FreeMem(void *ptr, unsigned long size);
 
 #endif /* LIB_DEBUG_PINPOINT */
 
+extern char *lib_strdup_trimmed(char *str);
+
 #endif
