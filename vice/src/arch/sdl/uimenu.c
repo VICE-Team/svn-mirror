@@ -515,6 +515,7 @@ static void sdl_ui_menu_redraw_cursor(ui_menu_entry_t *menu, int offset, int *va
 
 static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *title, int allow_mapping)
 {
+    static int last_cur = -1, last_cur_offset = -1;
     int num_items = 0, cur = 0, cur_old = -1, cur_offset = 0, in_menu = 1, redraw = 1;
     int *value_offsets = NULL;
     ui_menu_retval_t menu_retval = MENU_RETVAL_DEFAULT;
@@ -538,6 +539,13 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
     /* If a subtitle is at the top of the menu, then start at the next line. */
     if (menu[0].type == MENU_ENTRY_TEXT) {
         cur = 1;
+    }
+    /* restore last position in main menu */
+    if (menu == main_menu) {
+        if ((last_cur >= 0) && (last_cur_offset >= 0)) {
+            cur = last_cur;
+            cur_offset = last_cur_offset;
+        }
     }
 
     while (in_menu) {
@@ -673,6 +681,11 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
 
     lib_free(value_offsets);
     menu_offsets = NULL;
+    /* remember position in main menu for next time we enter it */
+    if (menu == main_menu) {
+        last_cur = cur;
+        last_cur_offset = cur_offset;
+    }
     return menu_retval;
 }
 
