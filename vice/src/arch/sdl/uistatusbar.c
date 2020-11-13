@@ -478,7 +478,7 @@ void ui_display_kbd_status(SDL_Event *e)
         memmove(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN], 
                 MAX_STATUSBAR_LEN - KBDSTATUSENTRYLEN);
         memset(p + KBDSTATUSENTRYLEN, ' ', MAX_STATUSBAR_LEN - (KBDSTATUSENTRYLEN * 3));
-        sprintf(p, "%c%03u>%03u %c%04x    ",
+        sprintf(p, "%c%03d>%03d %c%04x    ",
                 (e->type == SDL_KEYUP) ? 'U' : 'D',
                 e->key.keysym.sym & 0xffff,
                 SDL2x_to_SDL1x_Keys(e->key.keysym.sym),
