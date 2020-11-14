@@ -27,17 +27,17 @@ XCBM2_BINARY := $(shell echo xcbm2 | sed '$(transform)')
 VSID_BINARY := $(shell echo vsid | sed '$(transform)')
 
 # Define emu .desktop file names
-X64_DESKTOP = $(XDG_VENDOR)-$(X64_BINARY).desktop
-X64SC_DESKTOP = $(XDG_VENDOR)-$(X64SC_BINARY).desktop
-X64DTV_DESKTOP = $(XDG_VENDOR)-$(X64DTV_BINARY).desktop
-XSCPU64_DESKTOP = $(XDG_VENDOR)-$(XSCPU64_BINARY).desktop
-X128_DESKTOP = $(XDG_VENDOR)-$(X128_BINARY).desktop
-XVIC_DESKTOP = $(XDG_VENDOR)-$(XVIC_BINARY).desktop
-XPLUS4_DESKTOP = $(XDG_VENDOR)-$(XPLUS4_BINARY).desktop
-XPET_DESKTOP = $(XDG_VENDOR)-$(XPET_BINARY).desktop
-XCBM5x0_DESKTOP = $(XDG_VENDOR)-$(XCBM5x0_BINARY).desktop
-XCBM2_DESKTOP = $(XDG_VENDOR)-$(XCBM2_BINARY).desktop
-VSID_DESKTOP = $(XDG_VENDOR)-$(VSID_BINARY).desktop
+X64_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(X64_BINARY).desktop
+X64SC_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(X64SC_BINARY).desktop
+X64DTV_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(X64DTV_BINARY).desktop
+XSCPU64_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(XSCPU64_BINARY).desktop
+X128_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(X128_BINARY).desktop
+XVIC_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(XVIC_BINARY).desktop
+XPLUS4_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(XPLUS4_BINARY).desktop
+XPET_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(XPET_BINARY).desktop
+XCBM5x0_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(XCBM5x0_BINARY).desktop
+XCBM2_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(XCBM2_BINARY).desktop
+VSID_DESKTOP = $(top_builddir)/src/arch/gtk3/data/unix/$(XDG_VENDOR)-$(VSID_BINARY).desktop
 
 VICE_DESKTOP_FILES = \
 	$(X64SC_DESKTOP) \
@@ -65,8 +65,6 @@ noinst_DATA = \
 
 CLEANFILES = \
 	$(VICE_DESKTOP_FILES)
-
-
 
 
 # x64
