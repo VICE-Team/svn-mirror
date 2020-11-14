@@ -481,7 +481,7 @@ void ui_display_kbd_status(SDL_Event *e)
         /* The SDL1 and SDL2 ports have different types for the e->key.keysym.sym
          * and SDLKey arguments. We could cast the arguments to fix the -Wformat
          * warnings, but that might bite us in the arse in the future.
-         * So I use conditional compiling to the issues clear.  -- compyx
+         * So I use conditional compiling to make the issue clear.  -- compyx
          */
 #ifdef USE_SDLUI2
         sprintf(p, "%c%03d>%03d %c%04x    ",
