@@ -451,7 +451,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
        debuggeretc) then reset speed eval and sync. Otherwise, the emulator
        will warp until it catches up, which is rarely good when this far out
        of sync. This means the emulator will run slower overall than hoped. */
-    if ((now - last_vsync) > frame_ticks * 5) {
+    if (!speed_eval_suspended && (now - last_vsync) > frame_ticks * 5) {
         if (last_vsync != 0) {
             log_warning(LOG_DEFAULT, "vsync %d ms late, resetting", (int)((now - last_vsync) / (vsyncarch_freq / 1000.0)));
         }
