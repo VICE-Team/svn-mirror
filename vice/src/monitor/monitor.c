@@ -96,8 +96,16 @@
 
 int mon_stop_output;
 
-int mon_init_break = -1;
-int mon_open_on_ready = 0;
+enum init_break_mode_t {
+    NONE,
+    ON_EXECUTE,    /* Monitor will open when executing init_break_address */
+    ON_RESET,      /* Monitor will open when booting / resetting */
+    ON_READY       /* Monitor will open if it detects 'ready' on vsync */
+};
+
+static enum init_break_mode_t init_break_mode = NONE;
+static int init_break_address = -1;
+static bool init_break_ready_detected = false;
 
 /* Defines */
 
@@ -356,16 +364,26 @@ static bool is_machine_ready(void)
     return true;
 }
 
+void monitor_reset_hook(void)
+{
+    init_break_ready_detected = false;
+
+    if (init_break_mode == ON_RESET) {
+        monitor_startup_trap();
+    }
+}
+
 void monitor_vsync_hook(void)
 {
-    if (mon_open_on_ready) {
+    if (init_break_mode == ON_READY && !init_break_ready_detected) {
         /*
          * Check if READY has been printed on the screen ..
          * .. this is also how autostart works.
          */
         if (is_machine_ready()) {
+            init_break_ready_detected = true;
+            
             monitor_startup_trap();
-            mon_open_on_ready = 0;
         }
     }
     
@@ -1397,10 +1415,13 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     }
 
     mon_memmap_init();
-
-    if (mon_init_break != -1) {
-        mon_breakpoint_add_checkpoint((uint16_t)mon_init_break, BAD_ADDR,
-                true, e_exec, false, true);
+    
+    if (init_break_mode == ON_EXECUTE) {
+        /* Create the -initbreak execute address breakpoint */
+        if (init_break_address >= 0 && init_break_address < 65536) {
+            mon_breakpoint_add_checkpoint((uint16_t)init_break_address, BAD_ADDR,
+                    true, e_exec, false, true);
+        }
     }
 }
 
@@ -1456,17 +1477,39 @@ void monitor_shutdown(void)
 static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
 {
     long val;
-
-    val = strtoul(param, NULL, 0);
-    if (val >= 0 && val < 65536) {
-        mon_init_break = (int)val;
-
-        /* If an explicit breakpoint is set, don't also break on READY when
-         * using -moncommands */
-        mon_open_on_ready = 0;
+    char *end;
+    
+    /* -initbreak <address> */
+    
+    errno = 0;
+    val = strtoul(param, &end, 0);
+    
+    if (errno == 0 && end != param && *end == '\0') {
+        if (val >= 0 && val < 65536) {
+            init_break_mode = ON_EXECUTE;
+            init_break_address = (int)val;
+            
+            return 0;
+        }
     }
+    
+    /* -initbreak reset */
+    
+    if (strcmp(param, "reset") == 0) {
+        init_break_mode = ON_RESET;
+        return 0;
+    }
+    
+    /* -initbreak ready */
+    
+    if (strcmp(param, "ready") == 0) {
+        init_break_mode = ON_READY;
+        return 0;
+    }
+    
+    
 
-    return 0;
+    return -1;
 }
 
 static int keep_monitor_open = 0;
@@ -1927,13 +1970,15 @@ static int monitor_set_moncommands_file(const char *filename, void *extra_param)
     if (mon_playback_commands(filename) != 0) {
         return -1;
     }
-
+    
     /*
-     * For monitor commands to support things like loading a prg,
-     * the script can't start executing until the system is READY.
+     * Default for -moncommands is to execute immediately on launch.
+     * Override it if it hasn't been changed.
      */
-
-    mon_open_on_ready = 1;
+    
+    if (init_break_mode == NONE) {
+        init_break_mode = ON_RESET;
+    }
     
     return 0;
 }
@@ -2912,6 +2957,8 @@ static void monitor_close(int check)
     if (mon_console_suspend_on_leaving) {
         console_log = NULL;
     }
+
+    vsync_suspend_speed_eval();
 }
 
 void monitor_startup(MEMSPACE mem)

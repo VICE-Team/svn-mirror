@@ -5676,13 +5676,21 @@ String specifying the font to use in the Gtk3 UI's VTE monitor window. Should be
 @item -moncommands <Name>
 Execute the commands from the file <Name> in the monitor after starting up. All
 monitor commands are supported, including playback of other command files via
-pb. By default, the monitor opens and starts executing the commands just as the
-first screen with READY on it is ready to to be displayed, similar to how
-autostart is triggered. The -initbreak option can be used to override this.
+@code{pb}. By default, the monitor opens and starts executing the commands just
+before the kernal reset routine starts. The kernal starup sequence may interfere
+with what you are trying to achieve, for example by clearing any basic listing
+you may have loaded. In this case, use the @code{-initbreak} option to control
+when the monitor will open and execute your script. You can choose an address,
+or use @code{-initbreak ready} to attempt to detect when the kernel is ready
+and execute the script then.
 
 @findex -initbreak
 @item -initbreak <address>
+@item -initbreak reset
+@item -initbreak ready
 Set an initial breakpoint for the monitor. Addresses with prefix "0x" are hexadecimal.
+@code{-initbreak reset} will break just before the reset routine starts.
+@code{-initbreak ready} will attempt to break when the kernal is 'ready'.
 
 @findex -keepmonopen, +keepmonopen
 @item -keepmonopen

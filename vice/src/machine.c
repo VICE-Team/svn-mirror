@@ -209,6 +209,9 @@ void machine_reset(void)
 
     event_reset_ack();
 
+    /* Give the monitor a chance to break immediately */
+    monitor_reset_hook();
+
     vsync_suspend_speed_eval();
 }
 
