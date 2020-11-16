@@ -423,7 +423,7 @@ void rtc72421_write(rtc_72421_t *context, uint8_t address, uint8_t data)
    STRING | device        | device name string
  */
 
-static char snap_module_name[] = "RTC_72421";
+static const char snap_module_name[] = "RTC_72421";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   0
 
