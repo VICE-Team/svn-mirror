@@ -380,6 +380,27 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
             /* ctrl+e, go to the end of the line */
             *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
             return TRUE;
+#ifndef MACOSX_SUPPORT
+        case GDK_KEY_c:
+        case GDK_KEY_C:
+            vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
+            /* _format only exists in bleeding edge VTE 0.50 */
+            /* vte_terminal_copy_clipboard_format(VTE_TERMINAL(terminal), VTE_FORMAT_TEXT); */
+            return TRUE;
+        case GDK_KEY_v:
+        case GDK_KEY_V:
+            *input_buffer = append_string_to_input_buffer(*input_buffer, terminal, GDK_SELECTION_CLIPBOARD);
+            return TRUE;
+#endif
+    }
+}
+
+#ifdef MACOSX_SUPPORT
+static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidget *terminal)
+{
+    switch (keyval) {
+        default:
+            return FALSE;
         case GDK_KEY_c:
         case GDK_KEY_C:
             vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
@@ -392,6 +413,7 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
             return TRUE;
     }
 }
+#endif
 
 static gboolean key_press_event (GtkWidget   *widget,
                                  GdkEventKey *event,
@@ -403,15 +425,15 @@ static gboolean key_press_event (GtkWidget   *widget,
     gdk_event_get_state((GdkEvent*)event, &state);
 
     if (*input_buffer && event->type == GDK_KEY_PRESS) {
-        switch (state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) {
-            case 0:
-            case GDK_SHIFT_MASK:
-                return plain_key_pressed(input_buffer, event->keyval);
-            case GDK_CONTROL_MASK:
-                return ctrl_plus_key_pressed(input_buffer, event->keyval, widget);
-            default:
-                return FALSE;
+        if (state & GDK_CONTROL_MASK) {
+            return ctrl_plus_key_pressed(input_buffer, event->keyval, widget);
         }
+#ifdef MACOSX_SUPPORT
+        if (state & GDK_MOD2_MASK) {
+            return cmd_plus_key_pressed(input_buffer, event->keyval, widget);
+        }
+#endif
+        return plain_key_pressed(input_buffer, event->keyval);
     }
     return FALSE;
 }
