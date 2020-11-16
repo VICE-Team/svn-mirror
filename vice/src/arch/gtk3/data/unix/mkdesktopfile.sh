@@ -37,13 +37,13 @@ if [ -z "$ICON" ]; then
     ICON="icon.png"
 fi
 
-echo "top_srcdir   : $TOPSRCDIR"
-echo "top_builddir : $TOPBUILDDIR"
-echo "template     : $TEMPLATE"
-echo "prefix       : $PREFIX"
-echo "binary       : $BINARY"
-echo "comment      : $COMMENT"
-echo "icon         : $ICON"
+#echo "top_srcdir   : $TOPSRCDIR"
+#echo "top_builddir : $TOPBUILDDIR"
+#echo "template     : $TEMPLATE"
+#echo "prefix       : $PREFIX"
+#echo "binary       : $BINARY"
+#echo "comment      : $COMMENT"
+#echo "icon         : $ICON"
 
 cat "${TEMPLATE}" | \
     sed -e "s@__PREFIX__@${PREFIX}@g;s@__VICE_EMU_BIN__@${BINARY}@g;s@__ICON__@${ICON}@g;s@__VICE_EMU_COMMENT__@${COMMENT}@g;s@__ICON__@${ICON}@g;s@__VICE_EMU_NAME__@${BINARY}@g" > "${TOPBUILDDIR}/src/arch/gtk3/data/unix/vice-org-${BINARY}.desktop"
