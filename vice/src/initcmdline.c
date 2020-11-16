@@ -110,7 +110,7 @@ static int cmdline_help(const char *param, void *extra_param)
 
 static int cmdline_features(const char *param, void *extra_param)
 {
-    feature_list_t *list = vice_get_feature_list();
+    const feature_list_t *list = vice_get_feature_list();
 
     printf("Compile time options:\n");
     while (list->symbol) {

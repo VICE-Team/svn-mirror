@@ -38,7 +38,7 @@
 # define UNIX
 #endif
 
-static feature_list_t featurelist[] = {
+static const feature_list_t featurelist[] = {
 #ifdef UNIX /* unix */
     { "BSD_JOYSTICK", "Enable support for BSD style joysticks.",
 #ifndef BSD_JOYSTICK
@@ -542,7 +542,7 @@ static feature_list_t featurelist[] = {
     { NULL, NULL, 0 }
 };
 
-feature_list_t *vice_get_feature_list(void)
+const feature_list_t *vice_get_feature_list(void)
 {
     return &featurelist[0];
 }

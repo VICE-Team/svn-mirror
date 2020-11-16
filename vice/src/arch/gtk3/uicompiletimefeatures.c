@@ -109,7 +109,7 @@ static GtkTreeStore *create_store(void)
 {
     GtkTreeStore *store;
     GtkTreeIter iter;
-    feature_list_t *list;
+    const feature_list_t *list;
 
     store = gtk_tree_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     list = vice_get_feature_list();

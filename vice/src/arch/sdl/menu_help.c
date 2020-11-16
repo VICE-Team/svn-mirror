@@ -432,7 +432,7 @@ static UI_MENU_CALLBACK(about_callback)
 
 static char *get_compiletime_features(void)
 {
-    feature_list_t *list;
+    const feature_list_t *list;
     char *str, *lstr;
     unsigned int len = 0;
 
