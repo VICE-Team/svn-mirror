@@ -54,11 +54,11 @@ static driver_select_t driver_select[NUM_DRIVER_SELECT];
 /* Pointer to registered printer driver.  */
 static driver_select_list_t *driver_select_list = NULL;
 
-static char *userprinter_names[] = { "ascii", "nl10", "raw", NULL };
+static const char * const userprinter_names[] = { "ascii", "nl10", "raw", NULL };
 
-static char *printer_names[] = { "ascii", "mps803", "nl10", "raw", NULL };
+static const char * const printer_names[] = { "ascii", "mps803", "nl10", "raw", NULL };
 
-static char *plotter_names[] = { "1520", "raw", NULL };
+static const char * const plotter_names[] = { "1520", "raw", NULL };
 
 static int userprinter_name_is_valid(const char *name)
 {
