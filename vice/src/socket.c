@@ -242,7 +242,7 @@ static int get_new_pool_entry(unsigned int * PoolUsage)
 {
     int next_free = -1;
 
-    static int nextentry[] = {
+    static const int nextentry[] = {
         0, 1, 0, 2, 0, 1, 0, 3,
         0, 1, 0, 2, 0, 1, 0, -1
     };

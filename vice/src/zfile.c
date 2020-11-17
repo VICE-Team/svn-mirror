@@ -361,7 +361,7 @@ static int is_zipcode_name(char *name)
 }
 
 /* Extensions we know about */
-static const char *extensions[] = {
+static const char * const extensions[] = {
     FSDEV_EXT_SEP_STR "d64",
     FSDEV_EXT_SEP_STR "d67",
     FSDEV_EXT_SEP_STR "d71",

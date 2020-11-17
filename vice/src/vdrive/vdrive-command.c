@@ -1194,7 +1194,7 @@ int vdrive_command_time_read(struct vdrive_s *vdrive, const char format)
     time_t timep;
     struct tm *ts;
 
-    const char *days[7] = {
+    static const char * const days[7] = {
         "SUN.", "MON.", "TUES", "WED.", "THUR", "FRI.", "SAT."
     };
 

@@ -192,9 +192,10 @@ fail:
 #define TAPE_SNAP_MAJOR 1
 #define TAPE_SNAP_MINOR 0
 
+static const char snap_module_name[] = "TAPE";
+
 int tape_snapshot_write_module(snapshot_t *s, int save_image)
 {
-    char snap_module_name[] = "TAPE";
     snapshot_module_t *m;
     tap_t *tap;
 
@@ -266,7 +267,6 @@ int tape_snapshot_read_module(snapshot_t *s)
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
     unsigned int snap_type;
-    char snap_module_name[] = "TAPE";
     tap_t *tap;
 
     if (tape_snapshot_read_tapimage_module(s) < 0

@@ -151,7 +151,7 @@ static int set_double_size_enabled(int value, void *param)
     return 0;
 }
 
-static const char *vname_chip_size[] = { "DoubleSize", NULL };
+static const char * const vname_chip_size[] = { "DoubleSize", NULL };
 
 static resource_int_t resources_chip_size[] =
 {
@@ -172,7 +172,7 @@ static int set_double_scan_enabled(int val, void *param)
     return 0;
 }
 
-static const char *vname_chip_scan[] = { "DoubleScan", NULL };
+static const char * const vname_chip_scan[] = { "DoubleScan", NULL };
 
 static resource_int_t resources_chip_scan[] =
 {
@@ -203,7 +203,7 @@ static int set_hwscale_enabled(int val, void *param)
     return 0;
 }
 
-static const char *vname_chip_hwscale[] = { "HwScale", NULL };
+static const char * const vname_chip_hwscale[] = { "HwScale", NULL };
 
 static resource_int_t resources_chip_hwscale[] =
 {
@@ -346,7 +346,7 @@ static int set_fullscreen_device(const char *val, void *param)
     return (video_chip_cap->fullscreen.device)(canvas, val);
 }
 
-static const char *vname_chip_fullscreen[] = {
+static const char * const vname_chip_fullscreen[] = {
     "Fullscreen", "FullscreenStatusbar", "FullscreenDevice", NULL
 };
 
@@ -387,7 +387,7 @@ static int set_fullscreen_mode(int val, void *param)
     return (video_chip_cap->fullscreen.mode[device])(canvas, val);
 }
 
-static const char *vname_chip_fullscreen_mode[] = { "FullscreenMode", NULL };
+static const char * const vname_chip_fullscreen_mode[] = { "FullscreenMode", NULL };
 
 static resource_int_t resources_chip_fullscreen_mode[] =
 {
@@ -416,7 +416,7 @@ static int set_palette_file_name(const char *val, void *param)
     return 0;
 }
 
-static const char *vname_chip_palette[] = { "PaletteFile", "ExternalPalette", NULL };
+static const char * const vname_chip_palette[] = { "PaletteFile", "ExternalPalette", NULL };
 
 static resource_string_t resources_chip_palette_string[] =
 {
@@ -441,7 +441,7 @@ static int set_double_buffer_enabled(int val, void *param)
     return 0;
 }
 
-static const char *vname_chip_double_buffer[] = { "DoubleBuffer", NULL };
+static const char * const vname_chip_double_buffer[] = { "DoubleBuffer", NULL };
 
 static resource_int_t resources_chip_double_buffer[] =
 {
@@ -524,7 +524,7 @@ static int set_color_tint(int val, void *param)
     return 0;
 }
 
-static const char *vname_chip_colors[] = { "ColorSaturation", "ColorContrast", "ColorBrightness", "ColorGamma", "ColorTint", NULL };
+static const char * const vname_chip_colors[] = { "ColorSaturation", "ColorContrast", "ColorBrightness", "ColorGamma", "ColorTint", NULL };
 
 static resource_int_t resources_chip_colors[] =
 {
@@ -604,7 +604,7 @@ static int set_audioleak(int val, void *param)
     return 0;
 }
 
-static const char *vname_chip_crtemu[] = { "PALScanLineShade", "PALBlur", "PALOddLinePhase", "PALOddLineOffset", "AudioLeak", NULL };
+static const char * const vname_chip_crtemu[] = { "PALScanLineShade", "PALBlur", "PALOddLinePhase", "PALOddLineOffset", "AudioLeak", NULL };
 
 static resource_int_t resources_chip_crtemu[] =
 {
