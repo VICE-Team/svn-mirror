@@ -1243,7 +1243,7 @@ static UI_MENU_CALLBACK(external_palette_file2_callback)
     return NULL;
 }
 
-static int countgroup(palette_info_t *palettelist, char *chip)
+static int countgroup(const palette_info_t *palettelist, char *chip)
 {
     int num = 0;
 
@@ -1274,7 +1274,7 @@ static const name2func_t name2func[] = {
 void uipalette_menu_create(char *chip1_name, char *chip2_name)
 {
     int num;
-    palette_info_t *palettelist = palette_get_info_list();
+    const palette_info_t *palettelist = palette_get_info_list();
     int i;
     const char *(*toggle_func1)(int activated, ui_callback_data_t param) = NULL;
     const char *(*file_func1)(int activated, ui_callback_data_t param) = NULL;

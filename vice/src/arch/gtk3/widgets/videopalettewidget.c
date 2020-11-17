@@ -150,7 +150,7 @@ static GtkWidget *create_combo_box(void)
 {
     GtkWidget *combo;
     int index;
-    palette_info_t *list;
+    const palette_info_t *list;
     int row;
     const char *current;
     gboolean found = FALSE;
