@@ -230,8 +230,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_MULTIMAX             70 /* multimax.c */
 #define CARTRIDGE_BLACKBOX9            71 /* blackbox9.c */
 #define CARTRIDGE_LT_KERNAL            72 /* ltkernal.c */
+#define CARTRIDGE_RAMLINK              73 /* ramlink.c */
 
-#define CARTRIDGE_LAST                 72 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 73 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -315,6 +316,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_PAGEFOX            "Pagefox"
 #define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
 #define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
+#define CARTRIDGE_NAME_RAMLINK            "RAMLink"
 #define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
 #define CARTRIDGE_NAME_REX_EP256          "REX 256K EPROM Cart" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_REX                "REX Utility"
