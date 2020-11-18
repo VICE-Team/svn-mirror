@@ -91,6 +91,7 @@
 #include "ocean.h"
 #include "pagefox.h"
 #include "prophet64.h"
+#include "ramlink.h"
 #include "retroreplay.h"
 #include "rexep256.h"
 #include "rexramfloppy.h"
@@ -548,6 +549,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_PAGEFOX:
             rc = pagefox_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_RAMLINK:
+            rc = ramlink_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             rc = retroreplay_crt_attach(fd, rawcart, filename, header.subtype);

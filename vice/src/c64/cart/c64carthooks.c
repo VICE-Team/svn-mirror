@@ -121,6 +121,7 @@
 #include "pagefox.h"
 #include "prophet64.h"
 #include "ramcart.h"
+#include "ramlink.h"
 #include "retroreplay.h"
 #include "reu.h"
 #include "rexep256.h"
@@ -375,6 +376,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartramcart", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_RAMCART, NULL, NULL,
       "<Name>", "Attach raw RamCart cartridge image" },
+    { "-cartramlink", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_RAMLINK, NULL, NULL,
+      "<Name>", "Attach raw 64KiB RAMLink ROM image" },
     { "-cartreu", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_REU, NULL, NULL,
       "<Name>", "Attach raw REU cartridge image" },
@@ -480,6 +484,7 @@ int cart_cmdline_options_init(void)
         || ide64_cmdline_options_init() < 0
         || ltkernal_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
+        || ramlink_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
 #ifdef HAVE_RAWNET
         || rrnetmk3_cmdline_options_init() < 0
@@ -541,6 +546,7 @@ int cart_resources_init(void)
         || ide64_resources_init() < 0
         || ltkernal_resources_init() < 0
         || mmcreplay_resources_init() < 0
+        || ramlink_resources_init() < 0
         || retroreplay_resources_init() < 0
 #ifdef HAVE_RAWNET
         || rrnetmk3_resources_init() < 0
@@ -589,6 +595,7 @@ void cart_resources_shutdown(void)
     ide64_resources_shutdown();
     ltkernal_resources_shutdown();
     mmcreplay_resources_shutdown();
+    ramlink_resources_shutdown();
     retroreplay_resources_shutdown();
 #ifdef HAVE_RAWNET
     rrnetmk3_resources_shutdown();
@@ -933,6 +940,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return p64_bin_attach(filename, rawcart);
         case CARTRIDGE_PAGEFOX:
             return pagefox_bin_attach(filename, rawcart);
+        case CARTRIDGE_RAMLINK:
+            return ramlink_bin_attach(filename, rawcart);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_attach(filename, rawcart);
         case CARTRIDGE_REX:
@@ -1166,6 +1175,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_PAGEFOX:
             pagefox_config_setup(rawcart);
+            break;
+        case CARTRIDGE_RAMLINK:
+            ramlink_config_setup(rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_setup(rawcart);
@@ -1723,6 +1735,9 @@ void cart_detach(int type)
         case CARTRIDGE_PAGEFOX:
             pagefox_detach();
             break;
+        case CARTRIDGE_RAMLINK:
+            ramlink_detach();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_detach();
             break;
@@ -2007,6 +2022,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_PAGEFOX:
             pagefox_config_init();
+            break;
+        case CARTRIDGE_RAMLINK:
+            ramlink_config_init();
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_init();
@@ -2429,6 +2447,8 @@ int cartridge_flush_image(int type)
             return gmod3_flush_image();
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_flush_image();
+        case CARTRIDGE_RAMLINK:
+            return ramlink_flush_image();
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_flush_image();
 #ifdef HAVE_RAWNET
@@ -3052,6 +3072,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_RAMLINK:
+                if (ramlink_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_RETRO_REPLAY:
                 if (retroreplay_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3595,6 +3620,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_PAGEFOX:
                 if (pagefox_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_RAMLINK:
+                if (ramlink_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

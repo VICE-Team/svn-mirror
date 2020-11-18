@@ -102,6 +102,7 @@
 #include "pagefox.h"
 #include "prophet64.h"
 #include "ramcart.h"
+#include "ramlink.h"
 #include "retroreplay.h"
 #include "reu.h"
 #include "rexep256.h"
@@ -634,6 +635,8 @@ static uint8_t roml_read_slotmain(uint16_t addr)
             return multimax_roml_read(addr);
         case CARTRIDGE_PAGEFOX:
             return pagefox_roml_read(addr);
+        case CARTRIDGE_RAMLINK:
+            return ramlink_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
         case CARTRIDGE_REX_RAMFLOPPY:
@@ -798,6 +801,7 @@ void roml_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_FORMEL64:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_GMOD3:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
         case CARTRIDGE_MAGIC_FORMEL: /* ? */
             /* fake ultimax hack */
@@ -858,6 +862,8 @@ static uint8_t romh_read_slotmain(uint16_t addr)
             return ocean_romh_read(addr);
         case CARTRIDGE_PAGEFOX:
             return pagefox_romh_read(addr);
+        case CARTRIDGE_RAMLINK:
+            return ramlink_romh_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_romh_read(addr);
         case CARTRIDGE_SNAPSHOT64:
@@ -969,6 +975,8 @@ static uint8_t ultimax_romh_read_hirom_slotmain(uint16_t addr)
             return multimax_romh_read(addr);
         case CARTRIDGE_OCEAN:
             return ocean_romh_read(addr);
+        case CARTRIDGE_RAMLINK:
+            return ramlink_romh_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_romh_read(addr);
         case CARTRIDGE_SNAPSHOT64:
@@ -1075,6 +1083,7 @@ void romh_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_GMOD3:
         case CARTRIDGE_MAGIC_FORMEL: /* ? */
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
         case CARTRIDGE_SNAPSHOT64: /* ? */
             /* fake ultimax hack, c64 ram */
@@ -1342,6 +1351,7 @@ static uint8_t ultimax_1000_7fff_read_slot1(uint16_t addr)
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             return mem_read_without_ultimax(addr);
@@ -1416,6 +1426,7 @@ void ultimax_1000_7fff_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
@@ -1448,6 +1459,8 @@ static uint8_t ultimax_a000_bfff_read_slot1(uint16_t addr)
             return ide64_rom_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_a000_bfff_read(addr);
+        case CARTRIDGE_RAMLINK:
+            return ramlink_a000_bfff_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_a000_bfff_read(addr);
         case CARTRIDGE_CAPTURE:
@@ -1525,6 +1538,7 @@ void ultimax_a000_bfff_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_GMOD3:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
@@ -1563,6 +1577,7 @@ static uint8_t ultimax_c000_cfff_read_slot1(uint16_t addr)
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             return mem_read_without_ultimax(addr);
@@ -1630,6 +1645,7 @@ void ultimax_c000_cfff_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
@@ -1661,6 +1677,7 @@ static uint8_t ultimax_d000_dfff_read_slot1(uint16_t addr)
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 io,colram,ram */
@@ -1725,6 +1742,7 @@ void ultimax_d000_dfff_store(uint16_t addr, uint8_t value)
         case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_LT_KERNAL:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_RAMLINK:
         case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 io,colram,ram */
@@ -2097,6 +2115,9 @@ static uint8_t cartridge_peek_mem_slotmain(uint16_t addr)
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             res = magicformel_peek_mem(&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_RAMLINK:
+            res = ramlink_peek_mem(&export_slotmain, addr, &value);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             res = retroreplay_peek_mem(&export_slotmain, addr, &value);

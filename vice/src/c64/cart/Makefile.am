@@ -156,6 +156,8 @@ libc64cart_a_SOURCES = \
 	prophet64.h \
 	ramcart.c \
 	ramcart.h \
+	ramlink.c \
+	ramlink.h \
 	retroreplay.c \
 	retroreplay.h \
 	reu.c \
