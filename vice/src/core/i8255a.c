@@ -130,7 +130,8 @@ uint8_t i8255a_peek(i8255a_state *ctx, int8_t reg)
 
 void i8255a_store(i8255a_state *ctx, int8_t reg, uint8_t data)
 {
-    switch(reg & 3) {
+    reg = reg & 3;
+    switch (reg) {
     case 0:
         ctx->data[0] = data;
         if (!(ctx->ctrl & I8255A_G1_PA) && ctx->set_pa) {
@@ -153,19 +154,26 @@ void i8255a_store(i8255a_state *ctx, int8_t reg, uint8_t data)
         ctx->ctrl = data;
         if (!(ctx->ctrl & I8255A_G1_PA) && ctx->set_pa) {
             ctx->set_pa(ctx, ctx->data[0], 3);
+        } else if ((ctx->ctrl & I8255A_G1_PA) && ctx->set_pa) {
+            ctx->set_pa(ctx, ctx->get_pa(ctx, 3), 3);
         }
         if (!(ctx->ctrl & I8255A_G2_PB) && ctx->set_pb) {
             ctx->set_pb(ctx, ctx->data[1], 3);
+        } else if ((ctx->ctrl & I8255A_G2_PB) && ctx->set_pb) {
+            ctx->set_pb(ctx, ctx->get_pb(ctx, 3), 3);
         }
         /* fall through */
     case 2:
-        if ((reg & 3) == 2) {
+        if (reg == 2) {
             ctx->data[2] = data;
         } else {
             data = ctx->data[2];
         }
         /* if both upper and lower port c are inputs, we are done */
         if ((ctx->ctrl & I8255A_G2_PC) && (ctx->ctrl & I8255A_G1_PC)) {
+            if (reg == 3) {
+                ctx->set_pc(ctx, ctx->get_pc(ctx, 3), 3);
+            }
             break;
         }
         /* one or more is an output; grab from port c if one is an input */
