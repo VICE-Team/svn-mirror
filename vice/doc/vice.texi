@@ -6438,6 +6438,8 @@ Ocean
 @item
 Prophet64
 @item
+RAMLink
+@item
 REX 256KiB EPROM Cart
 @item
 REX RAM-Floppy
@@ -6589,6 +6591,49 @@ The Final Cartridge 3 detects whether a mouse is connected when it starts and
 disables mouse support if it doesnt detect one. So to make mouse emulation
 work you must either enable it on the command line, or reset the cartridge
 after enabling it from the user interface.
+
+@c @node FIXME
+@subsubsection CMD RAMLink
+The CMD RAMLink can operate standalone using its own RAMCard or with an REU,
+GEORAM, or RAMDrive (only one) which is inserted into the RAM port.
+The RAMLink is essentially a builtin high capacity RAMDOS with battery backup
+support.
+This "backup" support can be emulated through the use of images.
+Initially it will "format" the memory so each has their own native parition
+on drive 16.
+Paritions and the device number can be changed with the CMD "RAM-tools".
+The latest RAMLink firmware (2.01) can not handle REU sizes other than 128
+and 512 KiB, or GEORAM sizes beyond 2 MiB in VICE, as the firmware will hang
+on size detection.
+
+The RAMLink also features a parallel port (similar to IEEE-488 interface)
+which allows faster transfers to the CMD HD series drives.
+The "cabling" is automatically performed by VICE and the RAMLink firmware will
+detect the cable presence and use it automatically.
+However, some programs may have compatibility issues (notably the CMD HD-tools
+with older HD boot roms).
+To disable this, issue the JiffyDOS command "@@P0" to disable, or "@@P1" to
+enable parallel transfers.
+
+The RAMLink features an "Enable/Disable" switch that can be changed at
+anytime using the GUI options.
+Prior to disabling, the JiffyDOS "@@Q" command should be issued to remove the
+JiffyDOS system vectors. See the manual for how to reactivate JiffyDOS.
+It is not recommended to change the REU, GEORAM, or RAMCard size as the
+CMD RAMDOS was not designed to detect this. Any changes should be followed
+by a machine reset.
+
+The RAMLink also has a "Normal/Disable" switch which can also be changed at
+anytime.
+Normal, the default, only allows RAMLink access to the RAM port (REU, GEORAM,
+and RAMDrive); their registers are hidden otherwise.
+Direct exposes their registers all the time. This can lead to potential
+data corruption of the data on the RAM expansion devices as RAMLink can not
+guarantee its access is exclusive.
+
+RAMLink is also compatible with the CMD SuperCPU 64, however it requires the
+official SuperCPU ROM (2.04) along with the RAMLink ROM to properly detect and
+utilize all the RAMLink features.
 
 @c @node FIXME
 @subsection C64 cartridge settings
@@ -6769,6 +6814,8 @@ The following cartridge types are valid:
 71: Blackbox V9
 @item
 72: Lt. Kernal Host Adaptor
+@item
+73: RAMLink
 @end itemize
 
 @vindex CartridgeFile
@@ -7092,6 +7139,35 @@ Boolean, if true the RAMCart contents are read only.
 @item RAMCARTsize
 Integer specifying the size of the RAMCart in KiB.
 (64, 128)
+
+@vindex RAMLINK 
+@item RAMLINK 
+Boolean specifying whether the RAMLink module should be emulated or not.
+This option emulates the behavior of the enable/disable switch on the unit.
+
+@vindex RAMLINKfilename
+@item RAMLINKfilename
+String specifying the filename of the RAMCard image.
+
+@vindex RAMLINKImageWrite
+@item RAMLINKImageWrite
+Boolean, if true write back the RAMCard image file automatically, in case the
+RAM contents changed, when detaching or quitting the emulator.
+
+@vindex RAMLINKsize
+@item RAMLINKsize
+Integer specifying the size of the RAMCard in MiB. (0..16; default is 0)
+
+@vindex RAMLINKmode
+@item RAMLINKmode
+Integer specifying the mode of the RAMLink. "1", the default, (Normal) only
+allows RAMLink access to the RAM port (REU, GEORAM, and RAMDrive); their
+registers are hidden otherwise. "0" (Direct) exposes their registers all the
+time. This option emulates the behavior of the Normal/Direct switch on the unit.
+
+@vindex RAMLINKRTCSave
+@item RAMLINKRTCSave
+Boolean specifying whether the RTC data should be saved when changed or not.
 
 @vindex RRrevision
 @item RRrevision
@@ -7791,6 +7867,49 @@ Set the RamCart switch to read-only
 @item -ramcartrw
 Set the RamCart switch to read-only
 (@code{RAMCART_RO=0}).
+
+@findex -ramlink, +ramlink
+@item -ramlink
+@itemx +ramlink
+Enable/disable emulation of the RAMLink module. This option emulates the
+behavior of the enable/disable switch on the unit
+(@code{RAMLINK=1}, @code{RAMLINK=0}).
+
+@findex -cartramlink
+@item -cartramlink <name>
+Attach the raw 64 KiB ROM image.
+
+@findex -ramlinkimage
+@item -ramlinkimage <name>
+Specify name of RAMLink RAMCard image
+(@code{RAMLINKfilename}).
+
+@findex -ramlinkimagerw, +ramlinkimagerw
+@item -ramlinkimagerw
+@itemx +ramlinkimagerw
+Allow/disallow writing to RAMCard image on detach
+(@code{RAMLINKImageWrite=1}, @code{RAMLINKImageWrite=0}).
+
+@findex -ramlinksize
+@item -ramlinksize <size in MiB>
+Size of the RAMCard unit
+(@code{RAMLINKsize}).
+(0..16; default is 0)
+
+@findex -ramlinkmode
+@item -ramlinkmode <value>
+Sets the RAM port mode of the unit. "1", the default, (Normal) only
+allows RAMLink access to the RAM port (REU, GEORAM, and RAMDrive); their
+registers are hidden otherwise. "0" (Direct) exposes their registers all the
+time. This option emulates the behavior of the Normal/Direct switch on the unit.
+(@code{RAMLINKmode}).
+(1:normal (default), 0:direct)
+
+@findex -ramlinkrtcsave, +ramlinkrtcsave
+@item -ramlinkrtcsave
+@itemx +ramlinkrtcsave
+Enable/disable saving of the RTC data when changed
+(@code{RAMLINKRTCSave=1}, @code{RAMLINKRTCSave=0}).
 
 @findex -cartrep256
 @item -cartrep256 <name>
@@ -24238,6 +24357,7 @@ Camels"@dots{}
                       70 - MultiMAX
                       71 - Blackbox V9
                       72 - Lt. Kernal Host Adaptor
+                      73 - RAMLink
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -27946,6 +28066,131 @@ the bus until a reset, essentially reconfiguring to a stock system.
     3-0  LTK port number (input)
     4    Freeze state (0: active, 1: inactive)
 @end example
+
+@c @node FIXME
+@subsubsection 73 - RAMLink
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64KiB ROM, 8KiB RAM
+@item EXROM
+@tab active (lo) (0) Initially
+@item GAME
+@tab inactive (hi) (1) Initially
+@item Load address
+@tab $E000-$FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 49 00 01 00 00 00 00 00 00  ................
+0020: 43 4d 44 20 52 41 4d 4c 49 4e 4b 20 32 2e 30 31  CMD RAMLink 2.01
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP............
+0050: 00 00 00 00 00 00 00 00 ee 42 df 20 1c b9 ee 42  ................
+@dots{}
+4050: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP............
+4060: 0a 17 d8 8d 64 8c be 00 ce 42 df 20 48 88 ce 42  ................
+@dots{}
+6060: 43 48 49 50 00 00 20 10 00 00 00 04 e0 00 20 00  CHIP............
+6070: 40 48 20 c9 ff aa 68 90 01 8a 60 20 bd ff 20 64  ................
+@dots{}
+8070: 43 48 49 50 00 00 20 10 00 00 00 05 e0 00 20 00  CHIP............
+8080: 85 56 20 0f bc a5 61 c9 88 90 03 20 d4 ba 20 cc  ................
+@dots{}
+a080: 43 48 49 50 00 00 20 10 00 00 00 06 e0 00 20 00  CHIP............
+a090: 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+@dots{}
+c090: 43 48 49 50 00 00 20 10 00 00 00 07 e0 00 20 00  CHIP............
+c0a0: a2 ff 78 9a d8 a9 00 8d 00 ff a2 0a bd 4b e0 9d  ................
+
+@end example
+
+The RAMLink CRT file consists of at least 6 banks. The first is for the
+RAMLink DOS which is banked in from $8000-$BFFF (16 KiB). The second is the
+configuration portion of the DOS which also banks in at $8000-$BFFF, however
+it is only 8 KiB. The first 8 bytes contain the 4 16-bit checksums of the
+other portions of the ROM (DOS, DOS configuration, 64 kernals, 128 kernals).
+The next bank is the 64 shadow kernal, followed by the 64 trap kernal.
+The next two are the same, except they are for the 128 kernals.
+
+The RAMLink uses many locations in IO2 primarily so that it can co-exist with
+other cartridges. Most of these registers are write only, that is to say, all
+that is required to activate them is a write; the contents of the write are
+not important. This technique minimizes the coding required to interact with
+the device.
+Although RAMLink has 2 pass-thru ports, they are not complete shorts to
+the cartridge bus, some of the control lines are altered based on the state
+of the device.
+Initially, RAMLink is disabled, the trap kernal is active and only one of its
+registers is visisble:
+
+@example
+    $DF7E    = Enable RAMLink registers and switch to shadow kernal
+@end example
+
+Once a write is done to $DF7E, all the other registers become active. The
+shadow kernal also switches in.
+
+@example
+    $DF20     = Trap Enable
+    $DF21     = Mirror to $DF01 (for REU) when trap is on
+    $DF22     = Trap Disable
+    $DF40     = I8255A Port A (Main board and parallel interface)
+    $DF41     = I8255A Port B
+    $DF42     = I8255A Port C
+    $DF43     = I8255A Control
+    $DF60     = Enable DOS mapping (maps in $8000-$BFFF)
+    $DF70     = Disable DOS mapping
+    $DF7F     = Disable RAMLink registers and switch to trap kernal
+                (also disables DOS mapping)
+    $DF80..9F = Switch SRAM page ($DF80 selects page 0,
+                $DF81 selects page 1, $DF82 selects page 2, etc.)
+    $DFA0     = I8255A Port A (RAMCard 1; RAMCard 2 uses custom circuit
+                but same interface)
+    $DFA1     = I8255A Port B
+    $DFA2     = I8255A Port C
+    $DFA3     = I8255A Control
+    $DFB0..BF = 72421 RTC interface (RAMCard 2 only)
+    $DFC0     = Maps in SRAM to $DE00-$DEFF
+    $DFC1     = Maps in RAMCard to $DE00-$DEFF
+    $DFC2     = Maps in RAM Port $DE00-$DEFF (GEORAM, RAMDrive)
+    $DFC3     = Maps in Pass-Thru to $DE00-$DEFF
+@end example
+
+Note that only address $DF40..42, $DFB0..BF present valid information when
+read. See src/c64/cart/ramlink.c for more details.
+
+When kernal swiching, the ROMs change inbetween instructions. This is possible
+as the CPU does not cache any incoming instructions. The following is
+an example of a JSR to the trap kernal at $E000:
+
+@example
+PC     TRAP        SHADOW      DETAILS
+          KERNAL      KERNAL
+-----  ---------   ---------   ------------------------------------------
+$C000  JSR $E000   JSR $E000   Same code
+$E000  STA $DF7E   STA $DF7F   In trap kernel, next instruction in shadow
+$E003  INC $D021   INC $D020   Increment $D020
+$E006  STA $DF7E   STA $DF7F   Switch back to trap on next instruction
+$E009  RTS         NOP         Return to $C003
+@end example
+
+If the shadow kernal was active, a JSR to $E000 would result in $D021 being
+incremented and continuing on back to the NOP in the shadow kernal.
+The use of write only registers allows the RAMLink Kernal and DOS to perform
+ROM switching with minimal instructions and time.
+
+The RAMLink includes two switches: "Enable/Disable" and "Normal/Direct".
+"Enable/Disable" controls whether or not RAMLink is active. In the "Disabled"
+state, control will be given back to the stock ROMs.
+"Normal/Direct" controls how the IO cartidge lines to the RAM Port (REU,
+GEORAM, RAMDrive) are passed. In "Normal" mode, these lines are connected
+only when the RAMLink registers are active. This prevents any unauthorized
+access to these devices while RAMLink code isn't running. "Direct" connects
+the IO lines all the time.
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes
