@@ -55,8 +55,8 @@
 #define ERR LOG_ERR
 
 /* #define CMDLOG */
-/* #define CMDLOG */
 /* #define CMDIO */
+/* #define CMDBUS */
 
 #ifdef CMDLOG
 #define CLOG(_x_) log_message _x_
@@ -70,9 +70,17 @@
 #define IDBG(_x_)
 #endif
 
+#ifdef CMDBUS
+#define BLOG(_x_) log_message _x_
+#else
+#define BLOG(_x_)
+#endif
+
 #define CRIT(_x_) log_message _x_
 
 #define iecbus (viap->v_iecbus)
+
+cmdbus_t cmdbus;
 
 typedef struct drivevia_context_s {
     unsigned int number;
@@ -227,7 +235,7 @@ static void cmdhd_scsiread(struct scsi_context_s *scsi)
 {
     cmdhd_context_t *hd = (cmdhd_context_t*)(scsi->p);
     drive_t *dc = (drive_t *)(hd->mycontext->drives[0]);
-    int mynumber = hd->mycontext->mynumber;
+    int unit = hd->mycontext->mynumber + 8;
     int track;
 
     /* update track info on status bar; never 100 or above */
@@ -242,13 +250,13 @@ static void cmdhd_scsiread(struct scsi_context_s *scsi)
         /* make sure it has the cmd signature first */
         if (!cmdhd_has_sig(&(scsi->data_buf[256]))) {
             /* if it isn't what was defined by vice, set it to it */
-            if ( (scsi->data_buf[0x1e1] != mynumber + 8) ||
-                (scsi->data_buf[0x1e4] != mynumber + 8) ) {
+            if ( (scsi->data_buf[0x1e1] != unit) ||
+                (scsi->data_buf[0x1e4] != unit) ) {
                 /* tell the user it is happening */
                 CLOG((LOG, "CMDHD: drive number is now %d; was %d in config block",
-                    mynumber + 8, (int)scsi->data_buf[0x1e1]));
-                scsi->data_buf[0x1e1] = mynumber + 8;
-                scsi->data_buf[0x1e4] = mynumber + 8;
+                    unit, (int)scsi->data_buf[0x1e1]));
+                scsi->data_buf[0x1e1] = unit;
+                scsi->data_buf[0x1e4] = unit;
             }
         } else {
             /* block we had on record no long has signature, invalidate it */
@@ -314,26 +322,81 @@ static void cmdhd_scsiformat(struct scsi_context_s *scsi)
     }
 }
 
+/* Set all the inputs high, like the pull-up resistors do */
+void cmdbus_init(void)
+{
+    int i;
+
+    cmdbus.cpu_data = 0xff;
+    cmdbus.cpu_bus = 0xff;
+    cmdbus.data = 0xff;
+    cmdbus.bus = 0xff;
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
+        cmdbus.drv_data[i] = 0xff;
+        cmdbus.drv_bus[i] = 0xff;
+    }
+}
+
+/* Calculate the data/bus values */
+void cmdbus_update(void)
+{
+    int i;
+
+    /* only allow devices to impact the bus if bit 0 is set on bus part */
+    if (cmdbus.cpu_bus & 1) {
+        cmdbus.bus = cmdbus.cpu_bus;
+        cmdbus.data = cmdbus.cpu_data;
+    } else {
+        cmdbus.bus = 0xff;
+        cmdbus.data = 0xff;
+    }
+    for (i = 0; i < NUM_DISK_UNITS; i++) {
+        /* only allow devices to impact the bus if bit 0 is set on bus part */
+        if (cmdbus.drv_bus[i] & 1) {
+            cmdbus.bus &= cmdbus.drv_bus[i];
+            cmdbus.data &= cmdbus.drv_data[i];
+        }
+    }
+
+    BLOG(("CMDBUS PREADY=%s PCLK=%s PATN=%s",cmdbus.bus&0x80?"LOW ":"HIGH",
+        cmdbus.bus&0x40?"LOW ":"HIGH", cmdbus.bus&0x20?"LOW ":"HIGH"));
+}
+
 /* U11 or i8255a interfacing */
-/* This is mostly for the parallel port */
+/* Port A is for CMD Parallel bus, input/output, data only */
 static void set_pa(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
 {
     cmdhd_context_t *hd = (cmdhd_context_t*)(ctx->p);
 
-    hd->i8255a_o[0] = byte;
+    cmdbus.drv_data[hd->mycontext->mynumber] = byte;
+    cmdbus_update();
 }
 
 static uint8_t get_pa(struct _i8255a_state *ctx, int8_t reg)
 {
-    cmdhd_context_t *hd = (cmdhd_context_t*)(ctx->p);
     uint8_t data = 0xff;
 
-    data = hd->i8255a_i[0];
+    if (reg == 0) {
+        /* if reg is 0, it is an actual read from the register */
+        data = cmdbus.data;
+    } else {
+        /* otherwise it is a bus change; physically it is pulled up */
+        data = 0xff;
+    }
 
     return data;
 }
 
-/* Port B is for the buttons */
+/* Port B is for CMD Parallel bus the buttons (input only):
+   PB7 is PATN
+   PB6 is PCLK
+   PB5 is not referenced
+   PB4 is not referenced
+   PB3 is WP (active low)
+   PB2 is SWAP9 (active low)
+   PB1 is SWAP8 (active low)
+   PB0 is PREADY
+*/
 static void set_pb(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
 {
     cmdhd_context_t *hd = (cmdhd_context_t*)(ctx->p);
@@ -346,22 +409,116 @@ static uint8_t get_pb(struct _i8255a_state *ctx, int8_t reg)
     cmdhd_context_t *hd = (cmdhd_context_t*)(ctx->p);
     uint8_t data = 0xff;
 
-    data = hd->i8255a_i[1];
+    data = ((~cmdbus.bus << 2) & 0x80) | /* PATN */
+           (~cmdbus.bus & 0x40) |        /* PCLK */
+           ((~cmdbus.bus >> 7) & 0x01) | /* PREADY */
+           (hd->i8255a_i[1] & 0x3e);     /* Everything else */
 
     return data;
 }
 
-/* Port C is for some SCSI stuff */
+/* Called to deal with how PATN changes PREADY */
+/* "new" and "old", 0 or 1, are PATN, not /PATN */
+/* CMDHD's have a circuit which drives /PREADY */
+/* It has a FF where PC7 controls /CLR and PATN is the CLK */
+/* The output is NANDed with PATN which drives /PREADY */
+/* /PREADY is also connected to a buffer (OC) driven by PC7 */
+static int cmdhd_patn_changed(unsigned int unit, int new, int old)
+{
+    cmdhd_context_t *hd;
+    int t;
+
+    /* standard unit range check */
+    if (unit < 8 || unit > 8 + NUM_DISK_UNITS) {
+        return -1;
+    }
+
+    /* check context */
+    if (!diskunit_context[unit - 8]) {
+        return -1;
+    }
+
+    if (diskunit_context[unit - 8]->type != DRIVE_TYPE_CMDHD) {
+        return -1;
+    }
+
+    /* get context */
+    hd = diskunit_context[unit - 8]->cmdhd;
+
+    /* leave if no HD contxt provided */
+    if (!hd) {
+        return -1;
+    }
+
+    /* The drive type is a CMDHD by this point */
+
+    if ((hd->i8255a_o[2] & 0x80) == 0) {
+        /* when PC7 is 0, PREADYFF becomes 0 */
+        hd->preadyff = 0;
+    } else if (old == 0 && new == 1) {
+        /* on rising edge of PATN, PREADYFF = 1 */
+        hd->preadyff = 1;
+    }
+    /* /PREADY = !(NEWATN & PREADYFF) */
+    t = !(new & hd->preadyff);
+    /* The OC buffer */
+    if ((hd->i8255a_o[2] & 0x80) == 0) {
+        t = 0;
+    }
+
+    cmdbus.drv_bus[unit - 8] = (cmdbus.drv_bus[unit - 8] & 0x7f) | (t << 7);
+
+    return 0;
+}
+
+/* Update ALL TDE units when PATN changed */
+/* called from ramlink */
+void cmdbus_patn_changed(int new, int old)
+{
+    int unit;
+
+    for (unit = 8; unit < 8 + NUM_DISK_UNITS; unit++ ) {
+        cmdhd_patn_changed(unit, new, old);
+    }
+}
+
+/* Port C is for CMD Parallel bus, SCSI, and memory control (output only):
+   PC7 is for used for driving PREADY
+   PC6 is /PCLK
+   PC5 is /PEXT
+   PC4 is SCSI BSY
+   PC3 is SCSI RST
+   PC2 is SCSI ATN
+   PC1 is RAM mapping
+   PC0 is ROM control
+*/
 static void set_pc(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
 {
     cmdhd_context_t *hd = (cmdhd_context_t*)(ctx->p);
     scsi_context_t *scsi = (scsi_context_t*)(hd->scsi);
+/*    drivecpu_context_t *cpu = hd->mycontext->cpu; */
+    int t;
+    int mynumber = hd->mycontext->mynumber;
 
     hd->i8255a_o[2] = byte;
     scsi->atn = ((hd->i8255a_o[2] & 4)!=0);
     scsi->rst = ((hd->i8255a_o[2] & 8)!=0);
     scsi->bsyi = ((hd->i8255a_o[2] & 16)!=0);
     scsi_process_noack(scsi);
+
+    /* get the PATN state (from /PATN) */
+    t = (cmdbus.bus) & 0x20 ? 0 : 1;
+
+    /* adjust /PREADY */
+    cmdhd_patn_changed(mynumber + 8, t, t);
+
+    /* update bus */
+    cmdbus.drv_bus[mynumber] =
+        (cmdbus.drv_bus[mynumber] & 0xa0)  | /* old /PREADY and /PATN */
+        (hd->i8255a_o[2] & 0x40)           | /* /PCLK */
+        ((hd->i8255a_o[2] & 0x20)>>1)      | /* /PEXT */
+        0x0f;                                /* everything else */
+    cmdbus_update();
 }
 
 static uint8_t get_pc(struct _i8255a_state *ctx, int8_t reg)
@@ -379,7 +536,6 @@ static void updateleds(diskunit_context_t *ctxptr)
     ctxptr->drives[0]->led_status = (ctxptr->cmdhd->LEDs & 0x02) ? 1 : 0;
     ctxptr->drives[0]->led_status |= (ctxptr->cmdhd->LEDs & 0x01) ? 2 : 0;
 }
-
 
 void cmdhd_store(diskunit_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
@@ -969,6 +1125,8 @@ void cmdhd_init(diskunit_context_t *ctxptr)
     scsi->user_format = cmdhd_scsiformat;
     scsi->user_read = cmdhd_scsiread;
     scsi->user_write = cmdhd_scsiwrite;
+
+    ctxptr->cmdhd->preadyff = 1;
 }
 
 void cmdhd_shutdown(cmdhd_context_t *hd)
@@ -1044,6 +1202,7 @@ static void cmdhd_findbaselba(cmdhd_context_t *hd)
 void cmdhd_reset(cmdhd_context_t *hd)
 {
     CLOCK c;
+    int unit;
 
     CLOG((LOG, "CMDHD: reset"));
 
@@ -1097,6 +1256,11 @@ void cmdhd_reset(cmdhd_context_t *hd)
         hd->i8255a_i[1]&=0xf9;
         CRIT((ERR, "CMDHD: image size too small, starting up in installation mode"));
     }
+
+    /* make sure the cmdbus isn't held down */
+    unit = hd->mycontext->mynumber + 8;
+    cmdbus.drv_data[unit - 8] = 0xff;
+    cmdbus.drv_bus[unit - 8] = 0xff;
 
     /* propogate inputs to output */
     i8255a_reset(hd->i8255a);
@@ -1182,6 +1346,10 @@ int cmdhd_detach_image(disk_image_t *image, unsigned int unit)
     hd->baselba = UINT32_MAX;
     hd->scsi->file[0] = NULL;
 
+    /* make sure the cmdbus isn't held down */
+    cmdbus.drv_data[unit - 8] = 0xff;
+    cmdbus.drv_bus[unit - 8] = 0xff;
+
     return 0;
 }
 
@@ -1204,7 +1372,8 @@ int cmdhd_snapshot_write_module(cmdhd_context_t *drv, struct snapshot_s *s)
         || SMW_B(m, drv->LEDs) < 0
         || SMW_BA(m, drv->i8255a_i, 3) < 0
         || SMW_BA(m, drv->i8255a_o, 3) < 0
-        || SMW_B(m, drv->scsi_dir) < 0 ) {
+        || SMW_B(m, drv->scsi_dir) < 0 
+        || SMW_B(m, drv->preadyff) < 0 ) {
         snapshot_module_close(m);
         return -1;
     }
@@ -1260,7 +1429,8 @@ int cmdhd_snapshot_read_module(cmdhd_context_t *drv, struct snapshot_s *s)
         || SMR_B(m, &drv->LEDs) < 0
         || SMR_BA(m, drv->i8255a_i, 3) < 0
         || SMR_BA(m, drv->i8255a_o, 3) < 0
-        || SMR_B(m, &drv->scsi_dir) < 0 ) {
+        || SMR_B(m, &drv->scsi_dir) < 0  
+        || SMR_B(m, &drv->preadyff) < 0 ) {
         snapshot_module_close(m);
         return -1;
     }

@@ -43,7 +43,7 @@
 struct diskunit_context_s;
 struct via_context_s;
 
-struct cmdhd_context_s {
+typedef struct cmdhd_context_s {
     char *myname;
     struct diskunit_context_s *mycontext;
     struct via_context_s *via9;
@@ -59,7 +59,8 @@ struct cmdhd_context_s {
     uint8_t i8255a_i[3];
     uint8_t i8255a_o[3];
     uint8_t scsi_dir;
-};
+    uint8_t preadyff;
+} cmdhd_context_t;
 
 typedef struct cmdhd_context_s cmdhd_context_t;
 
@@ -78,5 +79,30 @@ extern int cmdhd_detach_image(disk_image_t *image, unsigned int unit);
 
 extern int cmdhd_snapshot_write_module(cmdhd_context_t *drv, struct snapshot_s *s);
 extern int cmdhd_snapshot_read_module(cmdhd_context_t *drv, struct snapshot_s *s);
+
+typedef struct cmdbus_s {
+/* device 8 references 0 */
+    uint8_t drv_bus[NUM_DISK_UNITS];
+/*
+   bit 7 is /PREADY
+   bit 6 is /PCLK
+   bit 5 is /PATN
+   bit 4 is /PEXT
+   bit 3..1 is 1
+   bit 0 is 1 (if it is 0, then it will not contribute to the bus when
+       cmdbus_update is called)
+*/
+    uint8_t drv_data[NUM_DISK_UNITS];
+    uint8_t cpu_bus; /* same as drv_bus */
+    uint8_t cpu_data;
+    uint8_t bus; /* same as drv_bus */
+    uint8_t data;
+} cmdbus_t;
+
+extern cmdbus_t cmdbus;
+
+extern void cmdbus_init(void);
+extern void cmdbus_update(void);
+extern void cmdbus_patn_changed(int new, int old);
 
 #endif
