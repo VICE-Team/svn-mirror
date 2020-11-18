@@ -64,11 +64,6 @@
 /* #define RLDEBUGIO */
 /* #define RLDEBUGMEM */
 
-#define RLLOG1
-#define RLLOG2
-// #define RLDEBUGIO
-// #define RLDEBUGMEM
-
 #define LOG LOG_DEFAULT
 #define ERR LOG_ERR
 
