@@ -98,20 +98,24 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
 
     /* create 'enable ramlink' checkbox */
     enable = vice_gtk3_resource_check_button_new("RAMLINK", "Enable RAMLink");
+    g_object_set(enable, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 1, 2, 1);
 
     /* create 'RTC Save' checkbox */
     rtc_save = vice_gtk3_resource_check_button_new("RAMLINKRTCSave", "RTC Save");
+    g_object_set(rtc_save, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rtc_save, 0, 2, 2, 1);
 
     /* create mode widget */
     mode = vice_gtk3_resource_radiogroup_new(
             "RAMLINKmode",
             ramlink_modes,
-            GTK_ORIENTATION_HORIZONTAL);
+            GTK_ORIENTATION_VERTICAL);
     /* create mode label */
     label = gtk_label_new("Mode");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), mode, 1, 3, 1, 1);
 
@@ -119,13 +123,21 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     size = vice_gtk3_resource_spin_int_new(
             "RAMLINKsize",
             0, 16, 1);
+#if 0
+    g_object_set(
+            G_OBJECT(size),
+            "max-width-chars", 4,
+            NULL);
+    gtk_entry_set_max_length(GTK_ENTRY(size), 2);
+#endif
     label = gtk_label_new("Size (MiB)");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), size, 1, 4, 1, 1);
     /* fix size of the spin button */
     gtk_widget_set_hexpand(size, FALSE);
-    gtk_widget_set_size_request(size, -1, -1);
+    gtk_widget_set_halign(size, GTK_ALIGN_START);
 
     /* create image browser */
     image = vice_gtk3_resource_browser_new(
@@ -136,6 +148,7 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
             NULL,
             NULL);
     label = gtk_label_new("Image file");
+    g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), image, 1, 5, 1, 1);
@@ -152,6 +165,8 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
             "clicked",
             G_CALLBACK(on_write_image_clicked),
             NULL);
+    gtk_widget_set_halign(write_image, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(write_image, FALSE);
     gtk_grid_attach(GTK_GRID(grid), write_image, 1, 7, 1, 1);
 
     gtk_widget_show_all(grid);
