@@ -2069,6 +2069,16 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
                       [AC_DEFINE(HAVE_IN_ADDR_T,,[Define if the in_addr_t type is present.])
                        AC_MSG_RESULT(yes)],
                       [AC_MSG_RESULT(no)])
+
+      AC_MSG_CHECKING([for Unix domain sockets])
+      AC_TRY_COMPILE([#include <sys/socket.h>
+                      #include <sys/un.h>], [
+                      static struct sockaddr_un addr;
+                      socket(AF_UNIX, SOCK_STREAM, 0);],
+                      [AC_DEFINE(HAVE_UNIX_DOMAIN_SOCKETS,,[Define if Unix domain sockets are supported])
+                      AC_MSG_RESULT(yes)],
+                      AC_MSG_RESULT(no))
+      
     fi
   fi
 elif test x"$is_beos" = "xyes"; then

@@ -773,8 +773,8 @@ static int vice_network_address_generate_local(vice_network_socket_address_t * s
 
         if (strlen(address_string) >= sizeof socket_address->address.local.sun_path) {
             log_message(LOG_DEFAULT,
-                        "Unix domain socket name of '%s' is too long; only %u chars are allowed.",
-                        address_string, sizeof socket_address->address.local.sun_path);
+                        "Unix domain socket name of '%s' is too long; only %lu chars are allowed.",
+                        address_string, sizeof(socket_address->address.local.sun_path));
             break;
         }
         strcpy(socket_address->address.local.sun_path, address_string);
