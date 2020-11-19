@@ -124,6 +124,7 @@ libwidgets_a_SOURCES = \
 	printeroutputdevicewidget.c \
 	printeroutputmodewidget.c \
 	ramcartwidget.c \
+	ramlinkwidget.c \
 	retroreplaywidget.c \
 	reuwidget.c \
 	romsetmanagerwidget.c \
@@ -282,6 +283,7 @@ EXTRA_DIST = \
 	printeroutputdevicewidget.h \
 	printeroutputmodewidget.h \
 	ramcartwidget.h \
+	ramlinkwidget.h \
 	retroreplaywidget.h \
 	reuwidget.h \
 	romsetmanagerwidget.h \

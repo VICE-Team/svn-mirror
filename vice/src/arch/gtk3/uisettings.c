@@ -112,6 +112,7 @@
 #include "ide64widget.h"
 #include "retroreplaywidget.h"
 #include "ltkernalwidget.h"
+#include "ramlinkwidget.h"
 
 #ifdef HAVE_RAWNET
 # include "ethernetcartwidget.h"
@@ -284,6 +285,9 @@ static ui_settings_tree_node_t c64_cartridges[] = {
     { "Lt. Kernal Host Adapter",
       "ltkernal",
       ltkernal_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
     { "MMC64",
       "mmc64",
       mmc64_widget_create, NULL },
@@ -374,6 +378,9 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "MMC Replay",
       "mmcr",
       mmcr_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
     { "Retro Replay",
       "retroreplay",
       retroreplay_widget_create, NULL },
@@ -453,6 +460,9 @@ static ui_settings_tree_node_t c128_cartridges[] = {
     { "Lt. Kernal Host Adapter",
       "ltkernal",
       ltkernal_widget_create, NULL },
+    { "RAMLink",
+      "ramlink",
+      ramlink_widget_create, NULL },
     { "MMC64",
       "mmc64",
       mmc64_widget_create, NULL },
