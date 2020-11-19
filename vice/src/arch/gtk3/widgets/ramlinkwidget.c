@@ -131,7 +131,7 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     image = vice_gtk3_resource_browser_new(
             "RAMLINKfilename",
             image_patterns,
-            NULL,
+            "image files",
             "Select RAMLink image file",
             NULL,
             NULL);
