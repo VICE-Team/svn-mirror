@@ -1498,27 +1498,19 @@ int ramlink_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i;
-    int used = 0;
 
-    /* RAMLink CRT should have many banks, totaling 57344 bytes */
     for (i = 0; i <= 8; i++) {
         if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 
-        if (chip.bank > 7 || chip.size > 0x4000) {
+        if (chip.bank > 7 || chip.size != 0x2000) {
             return -1;
         }
 
         if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
-
-        used += chip.size;
-    }
-    /* check the overall size loaded and leave if too low */
-    if (used < 57344) {
-        return -1;
     }
 
     return ramlink_common_attach();
