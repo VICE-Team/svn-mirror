@@ -1,4 +1,4 @@
-/**
+/** \file   basedialogs.c
  * \brief   Gtk3 basic dialogs (Info, Yes/No, etc)
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
