@@ -209,17 +209,11 @@ static uint8_t mouse_digital_val = 0;
 
 static uint8_t mouse_get_1351_x(int port)
 {
-    if (_mouse_enabled) {
-        mouse_poll();
-    }
     return (uint8_t)((last_mouse_x & 0x7f) + 0x40);
 }
 
 static uint8_t mouse_get_1351_y(int port)
 {
-    if (_mouse_enabled) {
-        mouse_poll();
-    }
     return (uint8_t)((last_mouse_y & 0x7f) + 0x40);
 }
 
@@ -386,9 +380,7 @@ void mouse_move(float dx, float dy)
 }
 
 void mouse_get_int16(int16_t *x, int16_t *y)
-{
-    mouse_poll();
-    
+{    
     *x = (int16_t)mouse_x;
     *y = (int16_t)mouse_y;
 }
