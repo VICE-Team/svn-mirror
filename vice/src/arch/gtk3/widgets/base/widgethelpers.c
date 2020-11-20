@@ -75,6 +75,9 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
     GtkWidget *label;
     gchar buffer[LABEL_BUFFER_SIZE];
 
+
+    debug_gtk3("Deprecated in favout of vice_gtk3_grid_new_spaced()");
+
     /* sanitize columns input */
     if (columns < 1) {
         columns = 1;

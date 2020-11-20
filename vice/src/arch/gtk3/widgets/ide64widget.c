@@ -313,9 +313,7 @@ static GtkWidget *create_ide64_device_widget(int device)
 
     g_snprintf(buffer, 256, "Device %d settings", device);
 
-    grid = uihelpers_create_grid_with_label(buffer, 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(16, 8, buffer, 3);
 
     label = gtk_label_new("Image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -404,8 +402,10 @@ static GtkWidget *create_ide64_shortbus_widget(void)
     GtkWidget *etfe_address;
 #endif
 
-    grid = uihelpers_create_grid_with_label("ShortBus settings", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "ShortBus settings",
+            3);
 
     digimax_enable = vice_gtk3_resource_check_button_new("SBDIGIMAX",
             "Enable DigiMAX");
