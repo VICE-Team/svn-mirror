@@ -61,9 +61,9 @@
     2/4/8/16Mb serial Flash
 
     see http://wiki.icomp.de/wiki/GMod3
-    
+
     IO1
-    
+
     on write:
 
     $DE00   Bank    0- 255       all versions
@@ -73,31 +73,30 @@
     $DE04   Bank 1024-1279  16MB version only
     $DE05   Bank 1280-1535  16MB version only
     $DE06   Bank 1536-1791  16MB version only
-    $DE07   Bank 1792-2047  16MB version only        
-        
-        the upper 3 bits of the bank are determined from the address, ie A0-A2
-        
+    $DE07   Bank 1792-2047  16MB version only
+
+    the upper 3 bits of the bank are determined from the address, ie A0-A2
+
     $DE08   bit7    1: bitbang mode enabled
             bit6    exrom
             bit5    hw vector replacing enabled
-        
+
     on read:
-        
-    $DE00...$DE07   bit 0-7   - lower 8 bits of the current bank    
+
+    $DE00...$DE07   bit 0-7   - lower 8 bits of the current bank
     $DE08...$DE0F   bit 0,1,2 - upper 3 bits of the current bank
-    
+
     if bitbang mode is enabled:
-        
+
     on write:
-    
+
     $DE00   bit6    Flash CS
             bit5    Flash clock
-            bit4    Flash Din 
-    
+            bit4    Flash Din
+
     on read:
-    
+
     $DExx   bit7    Flash Dout
-        
 */
 
 /* #define DEBUGGMOD3 */
@@ -216,9 +215,9 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
     int mode = CMODE_WRITE;
 
     DBG(("io1 w %04x %02x\n", addr, value));
-    
+
     addr &= 0xff;
-    
+
     /* banking */
     if ((addr >= 0x00) && (addr <= 0x07)) {
         if (gmod3_bitbang_enabled) {
@@ -226,11 +225,11 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
             eeprom_clock = (value >> 5) & 1;
             eeprom_data_in = (value >> 4) & 1;
 
-            DBG(("io1 w %04x %02x (cs:%d data:%d clock:%d)\n", 
+            DBG(("io1 w %04x %02x (cs:%d data:%d clock:%d)\n",
                 addr, value, eeprom_cs, eeprom_data_in, eeprom_clock));
         } else {
             gmod3_bank = value + ((addr & 0x07) << 8);
-            DBG(("io1 w %04x %02x (bank: %d)\n", 
+            DBG(("io1 w %04x %02x (bank: %d)\n",
                 addr, value, gmod3_bank));
         }
     } else if (addr == 0x08) {
@@ -245,16 +244,16 @@ void gmod3_io1_store(uint16_t addr, uint8_t value)
         } else if ((value & 0x40) == 0x40) {
             gmod3_cmode = CMODE_RAM;
         }
-        DBG(("io1 w %04x %02x (bitbang: %d vectors: %d mode: %d)\n", 
+        DBG(("io1 w %04x %02x (bitbang: %d vectors: %d mode: %d)\n",
             addr, value, gmod3_bitbang_enabled, gmod3_vectors_enabled, gmod3_cmode));
     }
-    
+
     spi_flash_write_select((uint8_t)eeprom_cs);
     if (eeprom_cs == 0) { /* active low */
         spi_flash_write_data((uint8_t)(eeprom_data_in));
         spi_flash_write_clock((uint8_t)(eeprom_clock));
     }
-    cart_config_changed_slotmain(gmod3_cmode, 
+    cart_config_changed_slotmain(gmod3_cmode,
         (uint8_t)(gmod3_cmode | (gmod3_bank << CMODE_BANK_SHIFT)), mode);
 }
 
@@ -327,7 +326,7 @@ static int gmod3_dump(void)
     mon_out("ROM bank: %d\n", gmod3_bank);
     mon_out("bitbang mode is %s\n", gmod3_bitbang_enabled ? "enabled" : "disabled");
     mon_out("hw vectors are %s\n", gmod3_vectors_enabled ? "enabled" : "disabled");
-    mon_out("EEPROM CS: %d clock: %d data from flash: %d data to flash: %d \n", 
+    mon_out("EEPROM CS: %d clock: %d data from flash: %d data to flash: %d \n",
             eeprom_cs, eeprom_clock, eeprom_data_out, eeprom_data_in);
 
     return 0;
@@ -413,7 +412,7 @@ static int gmod3_common_attach(void)
     }
 
     gmod3_io1_list_item = io_source_register(&gmod3_io1_device);
-    
+
     gmod3_enabled = 1;
 
     return 0;
@@ -425,7 +424,7 @@ int gmod3_bin_attach(const char *filename, uint8_t *rawcart)
     gmod3_filename = NULL;
     gmod3_flashsize = 0;
     memset(rawcart, 0xff, GMOD3_16MB_FLASH_SIZE);
-    
+
     if (util_file_load(filename, rawcart, GMOD3_16MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         if (util_file_load(filename, rawcart, GMOD3_8MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
             if (util_file_load(filename, rawcart, GMOD3_4MB_FLASH_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -433,16 +432,16 @@ int gmod3_bin_attach(const char *filename, uint8_t *rawcart)
                     return -1;
                 } else {
                     gmod3_flashsize = GMOD3_2MB_FLASH_SIZE;
-                }    
+                }
             } else {
                 gmod3_flashsize = GMOD3_4MB_FLASH_SIZE;
-            }    
+            }
         } else {
             gmod3_flashsize = GMOD3_8MB_FLASH_SIZE;
-        }    
+        }
     } else {
         gmod3_flashsize = GMOD3_16MB_FLASH_SIZE;
-    }    
+    }
 
     gmod3_filetype = CARTRIDGE_FILETYPE_BIN;
     gmod3_filename = lib_strdup(filename);
@@ -458,7 +457,7 @@ int gmod3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
     gmod3_filename = NULL;
     gmod3_flashsize = 0;
     memset(rawcart, 0xff, GMOD3_16MB_FLASH_SIZE);
-    
+
     for (i = 0; i < (GMOD3_16MB_FLASH_SIZE / 0x2000); i++) { /* FIXME */
         if (crt_read_chip_header(&chip, fd)) {
             break;
@@ -472,7 +471,7 @@ int gmod3_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
             return -1;
         }
     }
-    
+
     i *= 0x2000;
     if ((i != GMOD3_16MB_FLASH_SIZE) &&
         (i != GMOD3_8MB_FLASH_SIZE) &&
