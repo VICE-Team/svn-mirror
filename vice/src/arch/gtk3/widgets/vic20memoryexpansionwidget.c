@@ -237,8 +237,10 @@ static GtkWidget * vic20_common_config_widget_create(void)
     GtkWidget *grid;
     int i;
 
-    grid = uihelpers_create_grid_with_label("Common configurations", 1);
-
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "Common configurations",
+            1);
     configs_combo = gtk_combo_box_text_new();
     g_object_set(configs_combo, "margin-left", 16, NULL);
     for (i = 0; common_configs[i].text != NULL; i++) {
@@ -263,7 +265,11 @@ static GtkWidget * vic20_ram_blocks_widget_create(void)
     GtkWidget *grid;
     int i;
 
-    grid = uihelpers_create_grid_with_label("RAM blocks", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "RAM blocks",
+            1);
+
     for (i = 0; ram_blocks[i].name != NULL; i++) {
 
         GtkWidget *check = gtk_check_button_new_with_label(ram_blocks[i].name);
@@ -295,7 +301,10 @@ GtkWidget *vic20_memory_expansion_widget_create(void)
     GtkWidget *common;
     int cfg_idx;
 
-    grid = uihelpers_create_grid_with_label("Memory expansions", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "Memory expansions",
+            1);
 
     common = vic20_common_config_widget_create();
     g_object_set(common, "margin-left", 16, NULL);
