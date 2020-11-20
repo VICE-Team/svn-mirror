@@ -57,7 +57,7 @@ static const vice_gtk3_radiogroup_entry_t ramlink_modes[] = {
 
 /** \brief  Globs for RAMLink image files
  */
-static const char *image_patterns[] = { "*.img", ".bin", "*.raw", NULL };
+static const char * const image_patterns[] = { "*.img", ".bin", "*.raw", NULL };
 
 
 /** \brief  Handler for the 'clicked' event of the 'Write image' button'

@@ -244,7 +244,7 @@ static void on_resource_browser_save_clicked(GtkWidget *widget, gpointer data)
  *
  * \return  deep copy of \a patterns
  */
-static char **copy_patterns(const char **patterns)
+static char **copy_patterns(const char * const *patterns)
 {
     size_t num = 0;
     char **arr;
@@ -303,7 +303,7 @@ static void free_patterns(char **patterns)
  */
 GtkWidget *vice_gtk3_resource_browser_new(
         const char *resource,
-        const char **patterns,
+        const char * const *patterns,
         const char *pattern_name,
         const char *browser_title,
         const char *label,
