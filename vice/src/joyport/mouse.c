@@ -420,7 +420,7 @@ uint8_t mouse_poll(void)
     unsigned long os_now, os_iv, os_iv2;
     CLOCK emu_now, emu_iv, emu_iv2;
     int diff_x, diff_y;
-    
+
     /* Ensure the mouse hasn't moved too far since the last poll */
     mouse_move_apply_limit();
 
@@ -637,10 +637,15 @@ static inline uint8_t mouse_paddle_update(uint8_t paddle_v, int16_t *old_v, int1
           this case is ok.
 */
 
+/* note: we divide mouse_x / mouse_y by two here, else paddle valuess will be
+         changing too fast, making games unplayable */
+
+#define PADDLE_DIV  2
+
 static uint8_t mouse_get_paddle_x(int port)
 {
     if (_mouse_enabled) {
-        paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x);
+        paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x / PADDLE_DIV);
         return (uint8_t)(0xff - paddle_val[2]);
     }
     return 0xff;
@@ -649,7 +654,7 @@ static uint8_t mouse_get_paddle_x(int port)
 static uint8_t mouse_get_paddle_y(int port)
 {
     if (_mouse_enabled) {
-        paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y);
+        paddle_val[3] = mouse_paddle_update(paddle_val[3], &(paddle_old[3]), (int16_t)mouse_y / PADDLE_DIV);
         return (uint8_t)(0xff - paddle_val[3]);
     }
     return 0xff;
