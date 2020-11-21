@@ -1114,6 +1114,10 @@ static ui_menu_entry_t ramlink_menu[] = {
       MENU_ENTRY_OTHER,
       c64_cart_flush_callback,
       (ui_callback_data_t)CARTRIDGE_RAMLINK },
+    { "Save image as", /* 29 */
+      MENU_ENTRY_OTHER,
+      c64_cart_save_callback,
+      (ui_callback_data_t)CARTRIDGE_RAMLINK },
     SDL_MENU_LIST_END
 };
 
@@ -1232,6 +1236,7 @@ static void cartmenu_update_flush(void)
     georam_menu[14].status = cartridge_can_flush_image(CARTRIDGE_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     mmc64_cart_menu[11].status = cartridge_can_flush_image(CARTRIDGE_MMC64) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     mmcreplay_cart_menu[4].status = cartridge_can_flush_image(CARTRIDGE_MMC_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    ramlink_menu[28].status = cartridge_can_flush_image(CARTRIDGE_RAMLINK) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     retroreplay_cart_menu[4].status = cartridge_can_flush_image(CARTRIDGE_RETRO_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod2_cart_menu[6].status = cartridge_can_flush_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod3_cart_menu[1].status = cartridge_can_flush_image(CARTRIDGE_GMOD3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
@@ -1249,6 +1254,7 @@ static void cartmenu_update_save(void)
     georam_menu[15].status = cartridge_can_save_image(CARTRIDGE_GEORAM) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     mmc64_cart_menu[12].status = cartridge_can_save_image(CARTRIDGE_MMC64) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     mmcreplay_cart_menu[5].status = cartridge_can_save_image(CARTRIDGE_MMC_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
+    ramlink_menu[29].status = cartridge_can_save_image(CARTRIDGE_RAMLINK) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     retroreplay_cart_menu[5].status = cartridge_can_save_image(CARTRIDGE_RETRO_REPLAY) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod2_cart_menu[7].status = cartridge_can_save_image(CARTRIDGE_GMOD2) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
     gmod3_cart_menu[2].status = cartridge_can_save_image(CARTRIDGE_GMOD3) ? MENU_STATUS_ACTIVE : MENU_STATUS_INACTIVE;
@@ -1559,6 +1565,10 @@ ui_menu_entry_t scpu64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)mmcreplay_cart_menu },
+    { CARTRIDGE_NAME_RAMLINK,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ramlink_menu },
     { CARTRIDGE_NAME_RETRO_REPLAY,
       MENU_ENTRY_SUBMENU,
       submenu_callback,
