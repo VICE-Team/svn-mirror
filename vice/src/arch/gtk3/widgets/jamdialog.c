@@ -32,6 +32,7 @@
 #include "archdep.h"
 #include "debug_gtk3.h"
 #include "uiapi.h"
+#include "uidata.h"
 
 #include "jamdialog.h"
 
@@ -63,6 +64,13 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
     GtkWidget *content;
     GtkWidget *label;
     ui_jam_action_t result = UI_JAM_NONE;
+    GdkPixbuf *pixbuf;
+    GtkWidget *image;
+
+    pixbuf = uidata_get_pixbuf("tenor.gif");
+
+    image = gtk_image_new_from_pixbuf(pixbuf);
+
 
 
     /*
@@ -86,9 +94,11 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
     label = gtk_label_new(msg);
     gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
     gtk_label_set_line_wrap_mode(GTK_LABEL(label), PANGO_WRAP_WORD);
+    gtk_box_pack_start(GTK_BOX(content), image, FALSE, FALSE, 16);
     gtk_box_pack_start(GTK_BOX(content), label, FALSE, FALSE, 16);
     gtk_widget_show_all(content);
 
+ 
     switch (gtk_dialog_run(GTK_DIALOG(dialog))) {
         case RESPONSE_NONE:
         case GTK_RESPONSE_DELETE_EVENT:
