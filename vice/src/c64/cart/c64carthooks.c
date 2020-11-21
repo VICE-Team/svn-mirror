@@ -727,6 +727,8 @@ int cart_type_enabled(int type)
         case CARTRIDGE_MIDI_MAPLIN:
             return c64_midi_maplin_cart_enabled();
 #endif
+        case CARTRIDGE_RAMLINK:
+            return ramlink_cart_enabled();
         case CARTRIDGE_REU:
             return reu_cart_enabled();
         case CARTRIDGE_SFX_SOUND_EXPANDER:
@@ -742,6 +744,19 @@ int cart_type_enabled(int type)
             return aciacart_cart_enabled();
 #endif
             /* Main Slot handled in c64cart.c:cartridge_type_enabled */
+    }
+    return 0;
+}
+
+/*
+    can the "main slot" cart handle get filename
+*/
+int cart_can_get_file_name(int type)
+{
+    switch (type) {
+        /* "Main Slot" */
+        case CARTRIDGE_RAMLINK:
+            return 1;
     }
     return 0;
 }
@@ -768,6 +783,9 @@ const char *cart_get_file_name(int type)
             return isepic_get_file_name();
         case CARTRIDGE_RAMCART:
             return ramcart_get_file_name();
+        /* "Main Slot" */
+        case CARTRIDGE_RAMLINK:
+            return ramlink_get_file_name();
         /* "I/O Slot" */
         case CARTRIDGE_GEORAM:
             return georam_get_file_name();
@@ -2495,6 +2513,8 @@ int cartridge_bin_save(int type, const char *filename)
             return gmod3_bin_save(filename);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_bin_save(filename);
+        case CARTRIDGE_RAMLINK:
+            return ramlink_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
 #ifdef HAVE_RAWNET

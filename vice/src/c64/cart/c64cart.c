@@ -527,7 +527,7 @@ int cart_getid_slotmain(void)
 */
 const char *cartridge_get_file_name(int type)
 {
-    if (cart_getid_slotmain() == type) {
+    if (cart_getid_slotmain() == type && !cart_can_get_file_name(type)) {
         return cartfile;
     }
     return cart_get_file_name(type);

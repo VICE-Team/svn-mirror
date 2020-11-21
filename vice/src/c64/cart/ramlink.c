@@ -97,6 +97,18 @@
 #error C64CART_ROM_LIMIT is too small; it should be at least 65536
 #endif
 
+/*
+
+to make crt:
+
+ramlink v1.40
+cartconv -t rl -i ramlink1.bin -o ramlink1.crt -n "CMD RAMLINK 1.40"
+
+ramlink v2.01
+cartconv -t rl -i ramlink2.bin -o ramlink2.crt -n "CMD RAMLINK 2.01"
+
+*/
+
 extern unsigned int reg_pc;
 
 /* resources */
@@ -669,26 +681,35 @@ static void ramlink_unregisterio(void)
     }
 }
 
-/* save RAMCard image file */
-int ramlink_flush_image(void)
+/* save a RAMCard image file */
+int ramlink_bin_save(const char *filename)
 {
     if (rl_card == NULL) {
         return -1;
     }
 
-    if (rl_filename == NULL) {
+    if (filename == NULL) {
         return -1;
     }
 
-    if (!util_check_null_string(rl_filename)) {
-        LOG1((LOG, "RAMLINK: Writing RAMLINK memory image %s.", rl_filename));
-        if (util_file_save(rl_filename, rl_card, rl_cardsize) < 0) {
+    if (!util_check_null_string(filename)) {
+        LOG1((LOG, "RAMLINK: Writing RAMLINK memory image %s.", filename));
+        if (util_file_save(filename, rl_card, rl_cardsize) < 0) {
             CRIT((ERR, "RAMLINK: Writing RAMLINK memory image %s failed.",
-                rl_filename));
+                filename));
             return -1;
         }
     }
 
+    return 0;
+}
+
+/* save RAMCard to set image file */
+int ramlink_flush_image(void)
+{
+    if (ramlink_bin_save(rl_filename) < 0) {
+        return -1;
+    }
     return 0;
 }
 
@@ -977,6 +998,16 @@ int ramlink_resources_shutdown(void)
     }
 
     return 0;
+}
+
+const char *ramlink_get_file_name(void)
+{
+    return rl_filename;
+}
+
+int ramlink_cart_enabled(void)
+{
+    return rl_enabled;
 }
 
 /* ---------------------------------------------------------------------*/
