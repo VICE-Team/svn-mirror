@@ -1,4 +1,4 @@
-/** \file   settings_io_c64_memhacks.c
+/** \file   c64memhackswidget.c
  * \brief   Widget to control C64 memory expansion hacks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -47,7 +47,7 @@
 #include "uisettings.h"
 #include "widgethelpers.h"
 
-#include "settings_io_c64_memhacks.h"
+#include "c64memhackswidget.h"
 
 
 /** \brief  List of C64 memory hack devices
@@ -435,7 +435,7 @@ static GtkWidget *plus_256k_image_widget_create(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *settings_io_c64_memhacks_widget_create(GtkWidget *parent)
+GtkWidget *c64_memhacks_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *hack;

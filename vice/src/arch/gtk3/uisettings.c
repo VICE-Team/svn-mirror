@@ -97,7 +97,7 @@
 
 /* I/O extension widgets */
 #include "settings_io.h"
-#include "settings_io_c64_memhacks.h"
+#include "c64memhackswidget.h"
 #include "georamwidget.h"
 #include "reuwidget.h"
 #include "ramcartwidget.h"
@@ -696,7 +696,7 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
       settings_ramreset_widget_create, NULL },
     { "Memory Expansion Hacks",
       "mem-hacks",
-      settings_io_c64_memhacks_widget_create, NULL },
+      c64_memhacks_widget_create, NULL },
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },

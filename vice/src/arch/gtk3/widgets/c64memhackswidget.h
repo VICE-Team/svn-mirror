@@ -1,4 +1,4 @@
-/** \file   settings_io_c64_memhacks.h
+/** \file   c64memhackswidget.h
  * \brief   Widget to control C64 memory expansion hacks - header
  *
  * \author  BasWassink <b.wassink@ziggo.nl>
@@ -25,12 +25,12 @@
  *
  */
 
-#ifndef VICE_SETTINGS_IO_C64_MEMHACKS_H
-#define VICE_SETTINGS_IO_C64_MEMHACKS_H
+#ifndef VICE_C64MEMHACKSWIDGET_H
+#define VICE_C64MEMHACKSWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *settings_io_c64_memhacks_widget_create(GtkWidget *parent);
+GtkWidget *c64_memhacks_widget_create(GtkWidget *parent);
 
 #endif

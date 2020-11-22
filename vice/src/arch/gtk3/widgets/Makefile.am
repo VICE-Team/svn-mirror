@@ -46,6 +46,7 @@ libwidgets_a_SOURCES = \
 	c128functionromwidget.c \
 	c128machinetypewidget.c \
 	c64dtvflashsettingswidget.c \
+	c64memhackswidget.c \
 	canvasrenderbackendwidget.c \
 	canvasrenderfilterwidget.c \
 	cbm2hardwiredswitcheswidget.c \
@@ -140,7 +141,6 @@ libwidgets_a_SOURCES = \
 	settings_host_display.c \
 	settings_host_machine.c \
 	settings_io.c \
-	settings_io_c64_memhacks.c \
 	settings_joystick.c \
 	settings_keyboard.c \
 	settings_misc.c \
@@ -208,6 +208,7 @@ EXTRA_DIST = \
 	cbm2hardwiredswitcheswidget.h \
 	cbm2memorysizewidget.h \
 	cbm2rammappingwidget.h \
+	c64memhackswidget.h \
 	canvasrenderbackendwidget.h \
 	canvasrenderfilterwidget.h \
 	ciamodelwidget.h \
@@ -299,7 +300,6 @@ EXTRA_DIST = \
 	settings_host_display.h \
 	settings_host_machine.h \
 	settings_io.h \
-	settings_io_c64_memhacks.h \
 	settings_joystick.h \
 	settings_keyboard.h \
 	settings_misc.h \
