@@ -132,22 +132,8 @@ static const resource_int_t resources_int[] = {
 };
 
 
-static const resource_int_t resources_int_vsid[] = {
-    { "Speed", 100, RES_EVENT_SAME, NULL,
-      &relative_speed, set_relative_speed, NULL },
-    { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      /* FIXME: maybe RES_EVENT_NO */
-      &warp_mode_enabled, set_warp_mode, NULL },
-    RESOURCE_INT_LIST_END
-};
-
-
-
 int vsync_resources_init(void)
 {
-    if (machine_class == VICE_MACHINE_VSID) {
-        return resources_register_int(resources_int_vsid);
-    }
     return resources_register_int(resources_int);
 }
 
@@ -158,7 +144,7 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-speed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Speed", NULL,
-      "<percent>", "Limit emulation speed to specified value" },
+      "<percent or negative fps>", "Limit emulation speed to specified value" },
     { "-warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WarpMode", (resource_value_t)1,
       NULL, "Enable warp mode" },
@@ -167,28 +153,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Disable warp mode" },
     CMDLINE_LIST_END
 };
-
-
-static const cmdline_option_t cmdline_options_vsid[] =
-{
-    { "-speed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
-      NULL, NULL, "Speed", NULL,
-      "<percent>", "Limit emulation speed to specified value" },
-    { "-warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "WarpMode", (resource_value_t)1,
-      NULL, "Enable warp mode" },
-    { "+warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "WarpMode", (resource_value_t)0,
-      NULL, "Disable warp mode" },
-    CMDLINE_LIST_END
-};
-
 
 int vsync_cmdline_options_init(void)
 {
-    if (machine_class == VICE_MACHINE_VSID) {
-        return cmdline_register_options(cmdline_options_vsid);
-    }
     return cmdline_register_options(cmdline_options);
 }
 
