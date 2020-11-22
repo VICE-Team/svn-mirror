@@ -254,8 +254,10 @@ static GtkWidget *memory_hacks_device_widget_create(void)
     GtkWidget *group;
     size_t i = 0;
 
-    grid = uihelpers_create_grid_with_label(
-            "C64 memory expansion hack device", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "C64 memory expansion hack device",
+            1);
     group = vice_gtk3_resource_radiogroup_new("MemoryHack", mem_hack_devices,
             GTK_ORIENTATION_HORIZONTAL);
 
@@ -288,8 +290,10 @@ static GtkWidget *c64_256k_base_address_widget_create(void)
     GtkWidget *grid;
     GtkWidget *group;
 
-    grid = uihelpers_create_grid_with_label(
-            "C64 256K base addresss", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "C64 256K base addresss",
+            1);
     group = vice_gtk3_resource_radiogroup_new("C64_256Kbase",
             c64_256k_base_addresses,
             GTK_ORIENTATION_HORIZONTAL);
@@ -311,8 +315,10 @@ static GtkWidget *plus_60k_base_address_widget_create(void)
     GtkWidget *grid;
     GtkWidget *group;
 
-    grid = uihelpers_create_grid_with_label(
-            "+60K base addresss", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "+60K base addresss",
+            1);
     group = vice_gtk3_resource_radiogroup_new(
             "PLUS60Kbase", plus_60k_base_addresses,
             GTK_ORIENTATION_HORIZONTAL);
@@ -337,8 +343,10 @@ static GtkWidget *c64_256k_image_widget_create(void)
     GtkWidget *entry;
     GtkWidget *browse;
 
-    grid = uihelpers_create_grid_with_label("C64 256K image file", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "C64 256K image file",
+            3);
 
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
@@ -371,8 +379,10 @@ static GtkWidget *plus_60k_image_widget_create(void)
     GtkWidget *entry;
     GtkWidget *browse;
 
-    grid = uihelpers_create_grid_with_label("+60K image file", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "+60K image file",
+            3);
 
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
@@ -405,8 +415,7 @@ static GtkWidget *plus_256k_image_widget_create(void)
     GtkWidget *entry;
     GtkWidget *browse;
 
-    grid = uihelpers_create_grid_with_label("+256K image file", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "+256K image file", 3);
 
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
@@ -443,6 +452,7 @@ GtkWidget *c64_memhacks_widget_create(GtkWidget *parent)
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 24);
 
     hack = memory_hacks_device_widget_create();
     gtk_grid_attach(GTK_GRID(grid), hack, 0, 1, 1, 1);
