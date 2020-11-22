@@ -33,9 +33,8 @@
 
 #include <gtk/gtk.h>
 #include "debug_gtk3.h"
-#include "basewidgets.h"
 #include "machine.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "jamactionwidget.h"
 
@@ -62,7 +61,10 @@ GtkWidget *jam_action_widget_create(void)
     GtkWidget *grid;
     GtkWidget *selection;
 
-    grid = uihelpers_create_grid_with_label("Default action on CPU JAM", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "Default action on CPU JAM",
+            1);
 
     selection = vice_gtk3_resource_radiogroup_new("JAMAction", actions,
             GTK_ORIENTATION_VERTICAL);

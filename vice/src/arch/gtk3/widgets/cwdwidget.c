@@ -34,8 +34,7 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
-#include "selectdirectorydialog.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #include "cwdwidget.h"
 
@@ -86,7 +85,10 @@ GtkWidget *cwd_widget_create(void)
     GtkWidget *wrapper;
     GtkWidget *browse;
 
-    grid = uihelpers_create_grid_with_label("Current working directory", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1,
+            "Current working directory",
+            1);
 
     wrapper = gtk_grid_new();
     g_object_set(wrapper, "margin", 8, NULL);
