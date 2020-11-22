@@ -40,6 +40,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "monitor.h"
 #include "palette.h"
 #include "render_queue.h"
@@ -445,7 +446,7 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
      * and also fixes various issues on some crappy X11 setups :)
      */
 
-    if (ui_pause_active() || monitor_is_inside_monitor()) {
+    if (ui_pause_active() || monitor_is_inside_monitor() || machine_is_jammed()) {
         render_thread_push_job(context->render_thread, context);
     }
 

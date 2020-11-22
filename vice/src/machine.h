@@ -174,7 +174,8 @@ extern int machine_canvas_async_refresh(struct canvas_refresh_s *ref,
 #define JAM_RESET      1
 #define JAM_HARD_RESET 2
 #define JAM_MONITOR    3
-unsigned int machine_jam(const char *format, ...);
+extern unsigned int machine_jam(const char *format, ...);
+extern bool machine_is_jammed(void);
 
 /* Update memory pointers if memory mapping has changed. */
 extern void machine_update_memory_ptrs(void);

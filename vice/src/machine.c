@@ -87,7 +87,7 @@
 
 static int machine_init_was_called = 0;
 static int mem_initialized = 0;
-static int ignore_jam = 0;
+static bool is_jammed = 0;
 static int jam_action = MACHINE_JAM_ACTION_DIALOG;
 int machine_keymap_index;
 static char *ExitScreenshotName = NULL;
@@ -101,9 +101,15 @@ unsigned int machine_jam(const char *format, ...)
     va_list ap;
     ui_jam_action_t ret = JAM_NONE;
 
-    if (ignore_jam > 0) {
+    /* always ignore subsequent JAMs. reset would clear the flag again, not
+     * setting it when going to the monitor would just repeatedly pop up the
+     * jam dialog (until reset)
+     */
+    if (is_jammed) {
         return JAM_NONE;
     }
+
+    is_jammed = true;
 
     vsync_suspend_speed_eval();
     sound_suspend();
@@ -136,12 +142,6 @@ unsigned int machine_jam(const char *format, ...)
     }
     lib_free(str);
 
-    /* always ignore subsequent JAMs. reset would clear the flag again, not
-     * setting it when going to the monitor would just repeatedly pop up the
-     * jam dialog (until reset)
-     */
-    ignore_jam = 1;
-
     switch (ret) {
         case UI_JAM_RESET:
             return JAM_RESET;
@@ -155,9 +155,14 @@ unsigned int machine_jam(const char *format, ...)
     return JAM_NONE;
 }
 
+bool machine_is_jammed(void)
+{
+    return is_jammed;
+}
+
 static void machine_trigger_reset_internal(const unsigned int mode)
 {
-    ignore_jam = 0;
+    is_jammed = false;
 
     switch (mode) {
         case MACHINE_RESET_MODE_HARD:
@@ -193,7 +198,7 @@ void machine_reset(void)
 {
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
-    ignore_jam = 0;
+    is_jammed = false;
 
     /* Do machine-specific initialization.  */
     if (!mem_initialized) {
