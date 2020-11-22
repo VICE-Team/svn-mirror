@@ -78,6 +78,7 @@ libwidgets_a_SOURCES = \
 	expertwidget.c \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
+	georamwidget.c \
 	gmod2widget.c \
 	gmod3widget.c \
 	hvscsettingswidget.c \
@@ -140,7 +141,6 @@ libwidgets_a_SOURCES = \
 	settings_host_machine.c \
 	settings_io.c \
 	settings_io_c64_memhacks.c \
-	settings_io_georam.c \
 	settings_joystick.c \
 	settings_keyboard.c \
 	settings_misc.c \
@@ -237,6 +237,7 @@ EXTRA_DIST = \
 	expertwidget.h \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
+	georamwidget.h \
 	gmod2widget.h \
 	gmod3widget.h \
 	hvscsettingswidget.h \
@@ -299,7 +300,6 @@ EXTRA_DIST = \
 	settings_host_machine.h \
 	settings_io.h \
 	settings_io_c64_memhacks.h \
-	settings_io_georam.h \
 	settings_joystick.h \
 	settings_keyboard.h \
 	settings_misc.h \

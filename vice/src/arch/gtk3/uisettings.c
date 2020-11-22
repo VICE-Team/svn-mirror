@@ -98,7 +98,7 @@
 /* I/O extension widgets */
 #include "settings_io.h"
 #include "settings_io_c64_memhacks.h"
-#include "settings_io_georam.h"
+#include "georamwidget.h"
 #include "reuwidget.h"
 #include "ramcartwidget.h"
 #include "dqbbwidget.h"
@@ -254,7 +254,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 
     { "GEO-RAM",
       "geo-ram",
-      settings_io_georam_widget_create, NULL },
+      georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
       reu_widget_create, NULL },
@@ -344,7 +344,7 @@ static ui_settings_tree_node_t c64_cartridges[] = {
 static ui_settings_tree_node_t scpu64_cartridges[] = {
     { "GEO-RAM",
       "geo-ram",
-      settings_io_georam_widget_create, NULL },
+      georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
       reu_widget_create, NULL },
@@ -429,7 +429,7 @@ static ui_settings_tree_node_t scpu64_cartridges[] = {
 static ui_settings_tree_node_t c128_cartridges[] = {
     { "GEO-RAM",
       "geo-ram",
-      settings_io_georam_widget_create, NULL },
+      georam_widget_create, NULL },
     { "RAM Expansion Module",
       "reu",
       reu_widget_create, NULL },
@@ -541,7 +541,7 @@ static ui_settings_tree_node_t vic20_cartridges[] = {
       ds12c887_widget_create, NULL },
     { "GEO-RAM (MasC=uerade)",
       "geo-ram",
-       settings_io_georam_widget_create, NULL },
+      georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)",
       "sfx-expander",
       sfx_sound_expander_widget_create, NULL },

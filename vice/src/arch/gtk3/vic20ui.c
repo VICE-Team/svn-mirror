@@ -45,7 +45,6 @@
 
 #include "cartridge.h"
 #include "carthelpers.h"
-#include "settings_io_georam.h"
 #include "uicart.h"
 
 #include "vic20ui.h"

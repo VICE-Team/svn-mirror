@@ -1,4 +1,4 @@
-/** \file   settings_io_georam.c
+/** \file   georamwidget.c
  * \brief   Widget to control GEO-RAM resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -49,7 +49,8 @@
 #include "cartridge.h"
 #include "uisettings.h"
 
-#include "settings_io_georam.h"
+#include "georamwidget.h"
+
 
 /** \brief  List of supported RAM sizes
  */
@@ -120,7 +121,7 @@ static GtkWidget *create_georam_image_widget(GtkWidget *parent)
  *
  * \return  GtkGrid
  */
-GtkWidget *settings_io_georam_widget_create(GtkWidget *parent)
+GtkWidget *georam_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *georam_enable;
