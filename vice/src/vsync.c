@@ -436,6 +436,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         update_performance_metrics(now);
     }
 
+    /* Calculate the next expected frame time */
+    next_frame_start += frame_ticks;
+
     /* This is the time between the start of the next frame and now. */
     delay = next_frame_start - now;
 
@@ -463,8 +466,6 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         }
         fflush(stdout);
     }
-    
-    next_frame_start += frame_ticks;
 
     /*
      * Limit rendering fps if we're in warp mode.
