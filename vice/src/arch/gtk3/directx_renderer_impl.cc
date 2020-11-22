@@ -54,7 +54,7 @@ void vice_directx_destroy_context_impl(vice_directx_renderer_context_t *context)
 {
 }
 
-static void build_device_resources(vice_directx_renderer_context_t *context, backbuffer_t *backbuffer)
+static void build_render_target(vice_directx_renderer_context_t *context)
 {
     HRESULT result = S_OK;
     
@@ -93,6 +93,11 @@ static void build_device_resources(vice_directx_renderer_context_t *context, bac
             return;
         }
     }
+}
+
+static void build_render_bitmap(vice_directx_renderer_context_t *context, backbuffer_t *backbuffer)
+{
+    HRESULT result = S_OK;
 
     if (context->render_target) {
         /* If we have a bitmap, is it sill the right size? */
@@ -212,6 +217,7 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     video_canvas_t *canvas = (video_canvas_t *)pool_data;
     vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)job_data;
     HRESULT result = S_OK;
+    HDC device_context;
     PAINTSTRUCT ps;
     backbuffer_t *backbuffer;
     int filter;
@@ -224,8 +230,9 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
 
     RENDER_LOCK();
 
+    build_render_target(context);
     if (backbuffer) {
-        build_device_resources(context, backbuffer);        
+        build_render_bitmap(context, backbuffer);
     }
 
     recalculate_layout(canvas, context);
@@ -248,13 +255,23 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
         }
     }
 
-    BeginPaint(context->window, &ps);
+    if (!context->render_target) {
+        log_message(LOG_DEFAULT, "no render target, not rendering this frame");
+        goto render_unlock_and_return_backbuffer;
+    }
+
+    device_context = BeginPaint(context->window, &ps);
+    if (device_context == NULL) {
+        log_message(LOG_DEFAULT, "no device context available, not rendering");
+        goto render_unlock_and_return_backbuffer;
+    }
+
     context->render_target->BeginDraw();
     context->render_target->SetTransform(D2D1::Matrix3x2F::Identity());
     context->render_target->Clear(&context->render_bg_colour);
 
     if (context->render_bitmap)
-    {        
+    {
         context->render_target->DrawBitmap(
             context->render_bitmap,
             context->render_dest_rect,
@@ -267,7 +284,6 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
     ValidateRect(context->window, NULL);
 
     if (result == D2DERR_RECREATE_TARGET) {
-
         if (context->render_bitmap) {
             context->render_bitmap->Release();
             context->render_bitmap = NULL;
@@ -277,9 +293,9 @@ void vice_directx_impl_async_render(void *job_data, void *pool_data)
             context->render_target->Release();
             context->render_target = NULL;
         }
-
     }
 
+render_unlock_and_return_backbuffer:
     RENDER_UNLOCK();
 
     /* Return the backbuffer to the pool */
