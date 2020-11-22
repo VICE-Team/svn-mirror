@@ -136,7 +136,7 @@ GtkWidget *ramcart_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     ramcart_enable = create_ramcart_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), ramcart_enable, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ramcart_enable, 0, 0, 2, 1);
 
     ramcart_size = create_ramcart_size_widget();
     gtk_grid_attach(GTK_GRID(grid), ramcart_size, 0, 1, 1, 1);

@@ -135,7 +135,7 @@ GtkWidget *settings_io_georam_widget_create(GtkWidget *parent)
     /*    georam_enable = create_georam_enable_widget(); */
     georam_enable = carthelpers_create_enable_check_button(
             CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
-    gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 2, 1);
 
     if (machine_class == VICE_MACHINE_VIC20) {
         georam_ioswap = create_georam_ioswap_widget();
