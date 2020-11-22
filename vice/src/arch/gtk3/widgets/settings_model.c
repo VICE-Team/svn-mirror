@@ -990,8 +990,11 @@ static GtkWidget *create_c64_misc_widget(void)
     GtkWidget *iec_widget;
     GtkWidget *glue_widget = NULL;
 
+#if 0
     grid = uihelpers_create_grid_with_label("Miscellaneous", 1);
-
+#else
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Miscellaneous", 1);
+#endif
     iec_widget = create_reset_with_iec_widget();
     g_object_set(iec_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
@@ -1010,6 +1013,9 @@ static GtkWidget *create_c64_misc_widget(void)
     return grid;
 }
 
+
+/** \brief  Synchronize Glue logic and IEC widget with their resources
+ */
 static void c64_misc_widget_sync(void)
 {
     c64_glue_widget_sync();
@@ -1026,7 +1032,7 @@ static GtkWidget *create_c128_misc_widget(void)
     GtkWidget *grid;
     GtkWidget *go64_widget;
 
-    grid = uihelpers_create_grid_with_label("Miscellaneous", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Miscellaneous", 1);
 
     go64_widget = create_go64_widget();
     g_object_set(go64_widget, "margin-left", 16, NULL);
@@ -1077,6 +1083,8 @@ static GtkWidget *create_c64dtv_revision_widget(void)
  */
 static GtkWidget *create_c64_layout(GtkWidget *grid)
 {
+    GtkWidget *misc_widget;
+
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);
 
@@ -1104,8 +1112,9 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
     }
 
     /* C64 misc. model settings */
-    gtk_grid_attach(GTK_GRID(grid), create_c64_misc_widget(),
-            2, 1, 1, 1);
+    misc_widget = create_c64_misc_widget();
+    g_object_set(misc_widget, "margin", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), misc_widget, 2, 1, 1, 1);
 
     return grid;
 }
@@ -1119,8 +1128,9 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
  */
 static GtkWidget *create_c128_layout(GtkWidget *grid)
 {
-    GtkWidget *video_wrapper;
+    GtkWidget *col2_wrapper;
     GtkWidget *machine_wrapper;
+    GtkWidget *misc_widget;
 
     /* wrap machine model and machine type widgets in a single widget */
     machine_wrapper = gtk_grid_new();
@@ -1135,12 +1145,12 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), machine_wrapper, 0, 0, 1, 1);
 
     /* wrap VIC-II, VDC and CIA1/2 in a single widget */
-    video_wrapper = gtk_grid_new();
+    col2_wrapper = gtk_grid_new();
 
     /* VIC-II model widget */
     video_widget = video_model_widget_create(machine_widget);
     video_model_widget_set_callback(video_widget, video_model_callback);
-    gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(col2_wrapper), video_widget, 0, 0, 1, 1);
 
     /* VDC model widget */
     vdc_widget = vdc_model_widget_create();
@@ -1150,21 +1160,23 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     vdc_model_widget_set_ram_callback(vdc_widget, vdc_ram_callback);
     /* align with other widgets */
     g_object_set(vdc_widget, "margin-left", 8, NULL);
-    gtk_grid_attach(GTK_GRID(video_wrapper), vdc_widget, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(col2_wrapper), vdc_widget, 0, 1, 1, 1);
 
     /* CIA1 & CIA2 widget */
     cia_widget = cia_model_widget_create(machine_widget, 2);
     cia_model_widget_set_callback(cia_widget, cia_model_callback);
-    gtk_grid_attach(GTK_GRID(video_wrapper), cia_widget, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), video_wrapper, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(col2_wrapper), cia_widget, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), col2_wrapper, 1, 0, 1, 1);
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
     sid_model_widget_set_callback(sid_widget, sid_model_callback);
-    gtk_grid_attach(GTK_GRID(grid), sid_widget, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(col2_wrapper), sid_widget, 0, 3, 1, 1);
 
     /* Misc widget */
-    gtk_grid_attach(GTK_GRID(grid), create_c128_misc_widget(), 0, 1, 3, 1);
+    misc_widget = create_c128_misc_widget();
+    g_object_set(misc_widget, "margin", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), misc_widget, 0, 1, 3, 1);
     return grid;
 }
 
