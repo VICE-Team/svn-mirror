@@ -46,7 +46,6 @@ common_DATA = CBM_Logo.svg \
 	      SID_48.png \
 	      SID_256.png \
 	      SID_1024.svg \
-	      tenor.gif \
 	      VIC20_16.png \
 	      VIC20_32.png \
 	      VIC20_48.png \
