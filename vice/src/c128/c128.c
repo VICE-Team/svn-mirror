@@ -733,10 +733,12 @@ int machine_resources_init(void)
         init_resource_fail("tapeport");
         return -1;
     }
+#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
     if (tape_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("tape diag 586220 harness");
         return -1;
     }
+#endif
     if (cartridge_resources_init() < 0) {
         init_resource_fail("cartridge");
         return -1;
@@ -773,10 +775,12 @@ int machine_resources_init(void)
         init_resource_fail("userport 8bit stereo sampler");
         return -1;
     }
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("userport diag 586220 harness");
         return -1;
     }
+#endif
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
         return -1;
@@ -931,10 +935,12 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("tapeport");
         return -1;
     }
+#ifdef TAPEPORT_EXPERIMENTAL_DEVICES
     if (tape_diag_586220_harness_cmdline_options_init() < 0) {
         init_cmdline_options_fail("tape diag 586220 harness");
         return -1;
     }
+#endif
     if (datasette_cmdline_options_init() < 0) {
         init_cmdline_options_fail("datasette");
         return -1;
@@ -979,10 +985,12 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("userport 8bit stereo sampler");
         return -1;
     }
+#ifdef USERPORT_EXPERIMENTAL_DEVICES
     if (userport_diag_586220_harness_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport diag 586220 harness");
         return -1;
     }
+#endif
     if (cartio_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cartio");
         return -1;
