@@ -50,6 +50,31 @@
 #include "netplaywidget.h"
 
 
+/** \brief  Net control widget info
+ */
+typedef struct netctrl_s {
+    const char *    text;  /**< label */
+    unsigned int    mask;  /**< bit to toggle */
+} netctrl_t;
+
+
+/** \brief  List of controls
+ */
+static const netctrl_t control_list[] = {
+    { "Keyboard",       NETWORK_CONTROL_KEYB },
+    { "Joystick #1",    NETWORK_CONTROL_JOY1 },
+    { "Joystick #2",    NETWORK_CONTROL_JOY2 },
+    { "Devices",        NETWORK_CONTROL_DEVC },
+    { "Resources",      NETWORK_CONTROL_RSRC },
+    { NULL,             0 }
+};
+
+
+/** \brief  Column headers for the NetworkControl resource
+ */
+static const char *netctrl_headers[] = { "", "server", "client" };
+
+
 /** \brief  Modes for the netplay status display
  */
 static const char *net_modes[] = {
@@ -68,6 +93,7 @@ static GtkWidget *client_address = NULL;
 static GtkWidget *client_enable = NULL;
 static GtkWidget *port_number = NULL;
 static GtkWidget *netplay_status = NULL;
+static GtkWidget *controls = NULL;
 
 
 /** \brief  Update display of the netplay status
@@ -88,6 +114,37 @@ static void netplay_update_status(void)
     gtk_label_set_markup(GTK_LABEL(netplay_status), temp);
     lib_free(temp);
 }
+
+
+/** \brief  Handler for the 'toggled' event of the NetworkControl checkboxes
+ *
+ * Basically EOR's the resource NetworkControl with \c data
+ *
+ * \param[in,out]   widget  checkbox
+ * \param[in]       data    bitmask
+ */
+static void on_server_mask_toggled(GtkWidget *widget, gpointer data)
+{
+    int state;
+    int value;
+    unsigned int newval;
+    unsigned int mask;
+
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    resources_get_int("NetworkControl", &value);
+    mask = GPOINTER_TO_UINT(data);
+
+    newval = value ^ mask;
+
+    debug_gtk3("State: %s, Mask: %02x, Value: %02x",
+            state ? "Enabled" : "Disabled",
+            mask,
+            newval);
+    if ((unsigned int)value != newval) {
+        resources_set_int("NetworkControl", (int)newval);
+    }
+}
+
 
 
 /** \brief  Handler for the 'notify::toggled' event of the server enable switch
@@ -172,7 +229,10 @@ static GtkWidget *create_server_enable_widget(void)
 }
 
 
-
+/** \brief  Create client switch
+ *
+ * \return  GtkSwitch
+ */
 static GtkWidget *create_client_enable_widget(void)
 {
     GtkWidget *widget;
@@ -188,6 +248,68 @@ static GtkWidget *create_client_enable_widget(void)
             G_CALLBACK(on_client_enable_toggled), NULL);
     return widget;
 }
+
+
+/** \brief  Create controls checkboxes
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_controls_widget(void)
+{
+    GtkWidget *grid;
+    int status;
+
+    grid = vice_gtk3_grid_new_spaced_with_label(32, 8, "Controls", 3);
+    g_object_set(grid, "margin-left", 16, "margin-top", 32, NULL);
+
+    resources_get_int("NetworkControl", &status);
+
+    for (int i = 0; i < 3; i++) {
+        GtkWidget *label;
+
+        label = gtk_label_new(netctrl_headers[i]);
+        gtk_grid_attach(GTK_GRID(grid), label, i, 1, 1, 1);
+    }
+
+    for (int i = 0; control_list[i].text != NULL; i++) {
+
+        GtkWidget *label;
+        GtkWidget *check;
+        netctrl_t data = control_list[i];
+
+        /* name of the thing */
+        label = gtk_label_new(data.text);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        g_object_set(label, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, i + 2, 1, 1);
+
+        /* checkbutton to toggle the server side */
+        check = gtk_check_button_new();
+        gtk_widget_set_halign(check, GTK_ALIGN_CENTER);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+                status & data.mask);
+        g_signal_connect(check, "toggled",
+                G_CALLBACK(on_server_mask_toggled),
+                GINT_TO_POINTER(data.mask));
+        gtk_grid_attach(GTK_GRID(grid), check, 1, i + 2, 1, 1);
+
+        /* checkbutton to toggle the client side */
+        check = gtk_check_button_new();
+        gtk_widget_set_halign(check, GTK_ALIGN_CENTER);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+                (status >> 8) & data.mask);
+        g_signal_connect(check, "toggled",
+                G_CALLBACK(on_server_mask_toggled),
+                GINT_TO_POINTER(data.mask << 8));
+
+        gtk_grid_attach(GTK_GRID(grid), check, 2, i + 2, 1, 1);
+
+    }
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
 
 
 /** \brief  Create Netplay settings widget
@@ -254,6 +376,10 @@ GtkWidget *netplay_widget_create(GtkWidget *parent)
     /* update status text */
     netplay_update_status();
 
+    controls = create_controls_widget();
+    g_object_set(controls, "margin-top", 32, "margin-left", 0, NULL);
+
+    gtk_grid_attach(GTK_GRID(grid), create_controls_widget(), 0, 5, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
