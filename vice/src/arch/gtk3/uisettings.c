@@ -113,6 +113,7 @@
 #include "retroreplaywidget.h"
 #include "ltkernalwidget.h"
 #include "ramlinkwidget.h"
+#include "netplaywidget.h"
 
 #ifdef HAVE_RAWNET
 # include "ethernetcartwidget.h"
@@ -706,6 +707,9 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */

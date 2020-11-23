@@ -105,6 +105,7 @@ libwidgets_a_SOURCES = \
 	mixerwidget.c \
 	mmc64widget.c \
 	mmcrwidget.c \
+	netplaywidget.c \
 	petcolourgraphicswidget.c \
 	petdiagpinwidget.c \
 	petdwwwidget.c \
@@ -264,6 +265,7 @@ EXTRA_DIST = \
 	mixerwidget.h \
 	mmc64widget.h \
 	mmcrwidget.h \
+	netplaywidget.h \
 	petcolourgraphicswidget.h \
 	petdiagpinwidget.h \
 	petdwwwidget.h \
