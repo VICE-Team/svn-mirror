@@ -497,18 +497,6 @@ static ui_menu_item_t file_menu_tail[] = {
 
     UI_MENU_SEPARATOR,
 
-#ifdef HAVE_NETWORK
-    { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION,
-#if 0
-        "netplay", ui_netplay_dialog_new, NULL,
-#else
-        "netplay", ui_netplay_dialog_new, NULL,
-#endif
-        0, 0, false },
-
-    UI_MENU_SEPARATOR,
-#endif
-
     { "Reset", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, reset_submenu,
         0, 0, false },

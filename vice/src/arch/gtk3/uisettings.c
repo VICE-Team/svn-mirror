@@ -871,6 +871,10 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1004,6 +1008,10 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1169,6 +1177,10 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1320,6 +1332,10 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1464,6 +1480,10 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
     { "Monitor",
       "monitor",
        settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1612,6 +1632,10 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1758,6 +1782,10 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1892,6 +1920,10 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
     { "Monitor",
       "monitor",
       settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */

@@ -125,19 +125,19 @@ static void netplay_update_status(void)
  */
 static void on_server_mask_toggled(GtkWidget *widget, gpointer data)
 {
-    int state;
     int value;
     unsigned int newval;
     unsigned int mask;
 
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     resources_get_int("NetworkControl", &value);
     mask = GPOINTER_TO_UINT(data);
 
+    /* do the actual work: flip a bit */
     newval = value ^ mask;
 
     debug_gtk3("State: %s, Mask: %02x, Value: %02x",
-            state ? "Enabled" : "Disabled",
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
+            ? "Enabled" : "Disabled",
             mask,
             newval);
     if ((unsigned int)value != newval) {
