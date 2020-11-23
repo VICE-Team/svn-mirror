@@ -958,6 +958,7 @@ int resources_set_event_safe(void)
                 if (resources[i].event_relevant == RES_EVENT_STRICT) {
                     if ((*resources[i].set_func_int)(vice_ptr_to_int(resources[i].event_strict_value),
                                                      resources[i].param) < 0) {
+                        log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'\n", resources[i].name);
                         return -1;
                     }
                 }
@@ -966,6 +967,7 @@ int resources_set_event_safe(void)
                 if (resources[i].event_relevant == RES_EVENT_STRICT) {
                     if ((*resources[i].set_func_string)((const char *)(resources[i].event_strict_value),
                                                         resources[i].param) < 0) {
+                        log_error(LOG_DEFAULT, "failed to set event-safe resource value for '%s'\n", resources[i].name);
                         return -1;
                     }
                 }
