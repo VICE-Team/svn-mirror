@@ -117,6 +117,16 @@ typedef struct lp_type_s lp_type_t;
 /* note: xoffs=0; yoffs=0 gives "pixel perfect" match, use 
  * testprogs/VICII/lpcoordinates to determine the offset.
  */
+/* note: the following offset values should be tweaked against the original
+ *       software that came with the devices - we assume it handles them
+ *       correctly. it is problematic to compare against the actual lightpen/gun
+ *       today, because photo transistors/diodes degrade with age and become
+ *       "slower". also the optics are likely worn out/scratched, which only
+ *       generates more problems.
+ *
+ *       new software (and cracks) should introduce a calibration feature to
+ *       handle those problems.
+ */
 static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     /* Pen with button Up (e.g. Atari CX75) */
     { PEN, 0x00, 0x01, 0, 0 },
@@ -124,8 +134,8 @@ static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     { PEN, 0x00, 0x04, 0, 0 },
     /* Datel Pen */
     { PEN, 0x00, 0x04, 20, -5 },
-    /* Magnum Light Phaser */
-    { GUN, 0x20, 0x00, 72, 0 },
+    /* Magnum Light Phaser, Cheetah Defender */
+    { GUN, 0x20, 0x00, 30, -10 },   /* tweaked against "Blaze Out" and "3-D Action Pack" */
     /* Stack Light Rifle */
     { GUN, 0x04, 0x00, 20, 0 },
     /* Inkwell Lightpen */
