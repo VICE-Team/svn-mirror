@@ -194,9 +194,6 @@ typedef void monitor_toggle_func_t(int value);
 #define STATE_BNAME    4
 #define STATE_CTYPE    5
 
-#define FIRST_SPACE e_comp_space
-#define LAST_SPACE e_disk11_space
-
 #define DEFAULT_DISASSEMBLY_SIZE 40
 
 #define any_watchpoints_load(mem) (watchpoints_load[(mem)] != NULL)
@@ -330,4 +327,6 @@ extern void mon_stopwatch_reset(void);
 extern void mon_maincpu_toggle_trace(int state);
 
 extern void mon_breakpoint_set_dummy_state(MEMSPACE mem, int state);
+
+extern void mon_update_all_checkpoint_state(void);
 #endif

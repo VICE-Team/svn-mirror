@@ -67,6 +67,7 @@
 #include "mainlock.h"
 #include "mem.h"
 #include "monitor.h"
+#include "mon_breakpoint.h"
 #include "network.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -667,6 +668,9 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0) {
         snapshot_display_error();
     }
+    
+    /* Make sure breakpoints are still working after loading the snapshot */
+    mon_update_all_checkpoint_state();
 }
 
 /* ------------------------------------------------------------------------- */

@@ -225,6 +225,19 @@ static void update_checkpoint_state(MEMSPACE mem)
     }
 }
 
+/** \brief Ensure checkpoint state for memspaces is set correctly.
+ *
+ * Used to keep breakpoints working after a snapshot load.
+ */
+void mon_update_all_checkpoint_state(void)
+{
+    MEMSPACE i;
+    
+    for (i = FIRST_SPACE; i <= LAST_SPACE; i++) {
+        update_checkpoint_state(i);
+    }
+}
+
 /* FIXME: some day we might want to toggle the break-on-dummy-access per MEMSPACE,
           for now its a global option */
 void mon_breakpoint_set_dummy_state(MEMSPACE mem, int state)

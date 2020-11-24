@@ -53,6 +53,9 @@ enum t_memspace {
 };
 typedef enum t_memspace MEMSPACE;
 
+#define FIRST_SPACE e_comp_space
+#define LAST_SPACE e_disk11_space
+
 enum CPU_TYPE_s {
     CPU_6502,
     CPU_WDC65C02,
