@@ -74,6 +74,7 @@
 #include "gmod2.h"
 #include "gmod3.h"
 #include "gs.h"
+#include "hero.h"
 #include "ide64.h"
 #include "isepic.h"
 #include "kcs.h"
@@ -495,6 +496,9 @@ int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_GS:
             rc = gs_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_HERO:
+            rc = hero_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_IDE64:
             rc = ide64_crt_attach(fd, rawcart);

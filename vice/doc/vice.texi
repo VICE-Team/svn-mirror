@@ -24358,6 +24358,7 @@ Camels"@dots{}
                       71 - Blackbox V9
                       72 - Lt. Kernal Host Adaptor
                       73 - RAMLink
+                      74 - H.E.R.O.
               0018 - Cartridge port EXROM line status
                       0 - active (lo)
                       1 - inactive (hi)
@@ -28239,6 +28240,48 @@ GEORAM, RAMDrive) are passed. In "Normal" mode, these lines are connected
 only when the RAMLink registers are active. This prevents any unauthorized
 access to these devices while RAMLink code isn't running. "Direct" connects
 the IO lines all the time.
+
+@c @node FIXME
+@subsubsection 74 - H.E.R.O.
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32KiB (4 banks of 8KiB each)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8KiB Game
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64 CARTRIDGE   
+0010: 00 00 00 40 01 00 00 4a 00 01 00 00 00 00 00 00  ...@...J........
+0020: 44 52 45 41 4e 20 48 45 52 4f 00 00 00 00 00 00  DREAN HERO......
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP.. ....... .
+0050: 0b 80 bc fe c3 c2 cd 38 30 03 49 8e 16 d0 bd 00  .......80.I.....
+..
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP.. ....... .
+2060: 32 aa 5a aa 00 00 ff 00 90 d9 68 d9 00 00 90 05  2.Z.......h.....
+..
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP.. ....... .
+4070: ff 7f 7f ff ff 3f 00 00 00 00 00 c0 00 c0 ff 3f  .....?.........?
+..
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP.. ....... .
+6080: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+@end example
+
+    This cartridge type was found in an argentinian H.E.R.O. clone cartridge,
+    ROM  memory is  organized in 8KiB ($2000) banks located at $8000-$9FFF. 
+    There appears to be one register mirrored over IO2 (the software uses $DFFF).
+    Banks are selected by writing to the lower 2 bits of the register, bit 5
+    disables the cartridge.
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

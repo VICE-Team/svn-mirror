@@ -120,6 +120,8 @@ libc64cart_a_SOURCES = \
 	gmod3.h \
 	gs.c \
 	gs.h \
+	hero.c \
+	hero.h \
 	ide64.c \
 	ide64.h \
 	isepic.c \

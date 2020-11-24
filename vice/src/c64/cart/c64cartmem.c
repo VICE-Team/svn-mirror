@@ -84,6 +84,7 @@
 #include "gmod2.h"
 #include "gmod3.h"
 #include "gs.h"
+#include "hero.h"
 #include "ide64.h"
 #include "isepic.h"
 #include "kcs.h"

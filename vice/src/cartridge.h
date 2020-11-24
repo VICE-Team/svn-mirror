@@ -231,8 +231,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_BLACKBOX9            71 /* blackbox9.c */
 #define CARTRIDGE_LT_KERNAL            72 /* ltkernal.c */
 #define CARTRIDGE_RAMLINK              73 /* ramlink.c */
+#define CARTRIDGE_HERO                 74 /* hero.c */
 
-#define CARTRIDGE_LAST                 73 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 74 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -292,6 +293,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_GMOD2              "GMod2" /* http://wiki.icomp.de/wiki/GMod2 */
 #define CARTRIDGE_NAME_GMOD3              "GMod3" /* http://wiki.icomp.de/wiki/GMod3 */
+#define CARTRIDGE_NAME_HERO               "H.E.R.O. (Drean)"
 #define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
 #define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
 #define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */

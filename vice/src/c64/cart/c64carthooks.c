@@ -100,6 +100,7 @@
 #include "gs.h"
 #include "gmod2.h"
 #include "gmod3.h"
+#include "hero.h"
 #include "ide64.h"
 #include "isepic.h"
 #include "kcs.h"
@@ -319,6 +320,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartgs", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_GS, NULL, NULL,
       "<Name>", "Attach raw 512KiB Game System cartridge image" },
+    { "-carthero", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void *)CARTRIDGE_HERO, NULL, NULL,
+      "<Name>", "Attach raw 32KiB Hero cartridge image" },
     { "-cartide64", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_IDE64, NULL, NULL,
       "<Name>", "Attach raw 64KiB IDE64 cartridge image" },
@@ -930,6 +934,8 @@ int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return gmod3_bin_attach(filename, rawcart);
         case CARTRIDGE_GS:
             return gs_bin_attach(filename, rawcart);
+        case CARTRIDGE_HERO:
+            return hero_bin_attach(filename, rawcart);
         case CARTRIDGE_IDE64:
             return ide64_bin_attach(filename, rawcart);
         case CARTRIDGE_KCS_POWER:
@@ -1151,6 +1157,9 @@ void cart_attach(int type, uint8_t *rawcart)
             break;
         case CARTRIDGE_GS:
             gs_config_setup(rawcart);
+            break;
+        case CARTRIDGE_HERO:
+            hero_config_setup(rawcart);
             break;
         case CARTRIDGE_IDE64:
             ide64_config_setup(rawcart);
@@ -1711,6 +1720,9 @@ void cart_detach(int type)
         case CARTRIDGE_GS:
             gs_detach();
             break;
+        case CARTRIDGE_HERO:
+            hero_detach();
+            break;
         case CARTRIDGE_IDE64:
             ide64_detach();
             break;
@@ -1998,6 +2010,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_GS:
             gs_config_init();
+            break;
+        case CARTRIDGE_HERO:
+            hero_config_init();
             break;
         case CARTRIDGE_IDE64:
             ide64_config_init();
@@ -3022,6 +3037,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_HERO:
+                if (hero_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_IDE64:
                 if (ide64_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3570,6 +3590,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_GS:
                 if (gs_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_HERO:
+                if (hero_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;
