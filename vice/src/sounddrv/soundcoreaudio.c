@@ -560,8 +560,6 @@ static int audio_stop(void)
     }
 }
 
-#endif /* HAVE_AUDIO_UNIT */
-
 /* ---------- coreaudio VICE API ------------------------------------------ */
 
 static int coreaudio_resume(void);
@@ -719,3 +717,5 @@ int sound_init_coreaudio_device(void)
 {
     return sound_register_device(&coreaudio_device);
 }
+
+#endif /* USE_COREAUDIO_SUPPORT */
