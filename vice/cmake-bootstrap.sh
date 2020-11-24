@@ -477,15 +477,22 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	cat <<-HEREDOC >> CMakeLists.txt
 		set(CMAKE_OSX_SYSROOT "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/")                       
 		set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment version")
-HEREDOC
+		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
+		set(CMAKE_CXX_STANDARD 11)
+
+		project(VICE C CXX OBJC)
+		set(CMAKE_STATIC_LIBRARY_PREFIX "")
+
+		add_subdirectory(src)
+	HEREDOC
+else
+	cat <<-HEREDOC >> CMakeLists.txt
+		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
+		set(CMAKE_CXX_STANDARD 11)
+
+		project(VICE C CXX)
+		set(CMAKE_STATIC_LIBRARY_PREFIX "")
+
+		add_subdirectory(src)
+	HEREDOC
 fi
-
-cat <<-HEREDOC >> CMakeLists.txt
-	set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
-	set(CMAKE_CXX_STANDARD 11)
-	
-	project(VICE C CXX OBJC)
-	set(CMAKE_STATIC_LIBRARY_PREFIX "")
-
-	add_subdirectory(src)
-HEREDOC
