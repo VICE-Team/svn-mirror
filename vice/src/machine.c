@@ -443,7 +443,7 @@ static resource_string_t resources_string_c128[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "JAMAction", MACHINE_JAM_ACTION_DIALOG, RES_EVENT_SAME, NULL,
+    { "JAMAction", MACHINE_JAM_ACTION_CONTINUE, RES_EVENT_SAME, NULL,
       &jam_action, set_jam_action, NULL },
     RESOURCE_INT_LIST_END
 };
