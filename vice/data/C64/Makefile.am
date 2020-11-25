@@ -52,6 +52,7 @@ sdl_keymaps = \
 	sdl_hotkeys.vkm \
 	sdl_hotkeys_vsid.vkm \
 	sdl_pos.vkm \
+	sdl_pos_bmc64.vkm \
 	sdl_pos_ch.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \
