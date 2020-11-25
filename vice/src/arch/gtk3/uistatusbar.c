@@ -1682,11 +1682,12 @@ GtkWidget *ui_statusbar_create(void)
     }
 
     /*
-     * Add volume control widget for VSID
+     * Add volume control widget
      *
      */
     volume = gtk_volume_button_new();
     g_object_ref_sink(volume);
+    gtk_widget_set_can_focus(volume, FALSE);
 
     resources_get_int("SoundVolume", &sound_vol);
     gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
