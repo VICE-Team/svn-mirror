@@ -55,12 +55,15 @@ static const vice_gtk3_radiogroup_entry_t ramlink_modes[] = {
 };
 
 
+#if 0
 /** \brief  Globs for RAMLink image files
  */
 static const char * const image_patterns[] = {
     "*.img", "*.bin", "*.raw", "*.piemel", NULL };
+#endif
 
 
+#if 0
 /** \brief  Handler for the 'clicked' event of the 'Write image' button'
  *
  * \param[in]   widget  widget triggering the event
@@ -73,7 +76,7 @@ static void on_write_image_clicked(GtkWidget *widget, gpointer data)
         debug_gtk3("OOPS!");
     }
 }
-
+#endif
 
 
 /** \brief  Create RAMLink widget
@@ -90,9 +93,12 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     GtkWidget *rtc_save;
     GtkWidget *mode;
     GtkWidget *size;
+#if 0
     GtkWidget *image;
     GtkWidget *write_detach;
     GtkWidget *write_image;
+#endif
+    GtkWidget *cart_widget;
 
     /* use three columns for the label */
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAMLink settings", 2);
@@ -100,25 +106,24 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     /* create 'enable ramlink' checkbox */
     enable = vice_gtk3_resource_check_button_new("RAMLINK", "Enable RAMLink");
     g_object_set(enable, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), enable, 0, 1, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), enable, 0, 1, 1, 1);
 
     /* create 'RTC Save' checkbox */
     rtc_save = vice_gtk3_resource_check_button_new("RAMLINKRTCSave", "RTC Save");
     g_object_set(rtc_save, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), rtc_save, 0, 2, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), rtc_save, 0, 2, 1, 1);
 
     /* create mode widget */
     mode = vice_gtk3_resource_radiogroup_new(
             "RAMLINKmode",
             ramlink_modes,
-            GTK_ORIENTATION_VERTICAL);
+            GTK_ORIENTATION_HORIZONTAL);
     /* create mode label */
     label = gtk_label_new("Mode");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_widget_set_valign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), mode, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), mode, 2, 1, 1, 1);
 
     /* create size widget */
     size = vice_gtk3_resource_spin_int_new(
@@ -134,12 +139,13 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     label = gtk_label_new("Size (MiB)");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), size, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), size, 2, 2, 1, 1);
     /* fix size of the spin button */
     gtk_widget_set_hexpand(size, FALSE);
     gtk_widget_set_halign(size, GTK_ALIGN_START);
 
+#if 0
     /* create image browser */
     image = vice_gtk3_resource_browser_new(
             "RAMLINKfilename",
@@ -169,7 +175,17 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(write_image, GTK_ALIGN_START);
     gtk_widget_set_hexpand(write_image, FALSE);
     gtk_grid_attach(GTK_GRID(grid), write_image, 1, 7, 1, 1);
+#else
+    cart_widget = cart_image_widget_create(
+            parent,
+            "RAMLink Image",
+            "RAMLINKfilename", "RAMLINKImageWrite",
+            carthelpers_save_func, carthelpers_flush_func,
+            carthelpers_can_save_func, carthelpers_can_flush_func,
+            CARTRIDGE_NAME_RAMLINK, CARTRIDGE_RAMLINK);
 
+    gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 5, 3, 1);
+#endif
     gtk_widget_show_all(grid);
     return grid;
 }
