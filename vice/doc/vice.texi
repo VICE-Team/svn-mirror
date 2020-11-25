@@ -6399,6 +6399,8 @@ Diashow-Maker
 @item
 Dinamic
 @item
+Easy Calc
+@item
 EasyFlash
 @item
 Epyx FastLoad
@@ -6411,17 +6413,27 @@ The Final Cartridge III
 @item
 Final Cartridge Plus
 @item
+Formel 64
+@item
 Freeze Frame
 @item
 Freeze Machine
 @item
-Fun Play
+Fun Play / Powerplay
 @item
 Game Killer
+@item
+GMod2
+@item
+GMod3
+@item
+H.E.R.O. bootleg
 @item
 IDE64 (@uref{http://www.ide64.org})
 @item
 KCS Power Cartridge
+@item
+Kingsoft
 @item
 Lt. Kernal Host Adaptor
 @item
@@ -6431,11 +6443,15 @@ Magic Desk
 @item
 Magic Formel
 @item
+MAX Basic
+@item
 Mikro Assembler
 @item
 MMC Replay
 @item
 Ocean
+@item
+Pagefox
 @item
 Prophet64
 @item
@@ -6456,6 +6472,8 @@ RR-Net MK3
 ROSS
 @item
 SD-BOX
+@item
+Silverrock 128
 @item
 Simons' BASIC
 @item
@@ -6817,6 +6835,8 @@ The following cartridge types are valid:
 72: Lt. Kernal Host Adaptor
 @item
 73: RAMLink
+@item
+74: H.E.R.O. bootleg
 @end itemize
 
 @vindex CartridgeFile
