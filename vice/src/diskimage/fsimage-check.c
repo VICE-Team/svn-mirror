@@ -56,6 +56,7 @@ int fsimage_check_sector(const disk_image_t *image, unsigned int track,
 
     switch (image->type) {
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
             if (track > MAX_TRACKS_1541) {
                return FSIMAGE_BAD_TRKNUM;
@@ -68,6 +69,7 @@ int fsimage_check_sector(const disk_image_t *image, unsigned int track,
             }
             sectors += sector;
             break;
+#endif
         case DISK_IMAGE_TYPE_D67:
             if (track > MAX_TRACKS_2040) {
                return FSIMAGE_BAD_TRKNUM;

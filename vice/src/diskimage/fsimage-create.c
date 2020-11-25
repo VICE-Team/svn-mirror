@@ -83,7 +83,9 @@ static int fsimage_create_dxx(disk_image_t *image)
 
     switch (image->type) {
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
             size = D64_FILE_SIZE_35;
             break;
         case DISK_IMAGE_TYPE_D67:
@@ -112,6 +114,7 @@ static int fsimage_create_dxx(disk_image_t *image)
             return -1;
     }
 
+#ifdef HAVE_X64_IMAGE
     if (image->type == DISK_IMAGE_TYPE_X64) {
         uint8_t header[X64_HEADER_LENGTH];
 
@@ -133,7 +136,7 @@ static int fsimage_create_dxx(disk_image_t *image)
                       fsimage->name);
         }
     }
-
+#endif
     for (i = 0; i < (size / 256); i++) {
         if (fwrite(block, 256, 1, fsimage->fd) < 1) {
             log_error(createdisk_log,
@@ -573,7 +576,9 @@ int fsimage_create(const char *name, unsigned int type)
     }
 
     switch (type) {
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
         case DISK_IMAGE_TYPE_D64:
         case DISK_IMAGE_TYPE_D67:
         case DISK_IMAGE_TYPE_D71:

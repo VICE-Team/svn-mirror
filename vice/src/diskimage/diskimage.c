@@ -86,7 +86,9 @@ unsigned int disk_image_speed_map(unsigned int format, unsigned int track)
         /* single sided format, these are straight forward */
         case DISK_IMAGE_TYPE_D67:
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_P64:
             return (track < 31) + (track < 25) + (track < 18);
@@ -170,7 +172,9 @@ unsigned int disk_image_sector_per_track(unsigned int format,
 {
     switch (format) {
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_P64:
         case DISK_IMAGE_TYPE_D71:
@@ -239,8 +243,10 @@ unsigned int disk_image_raw_track_size(unsigned int format,
 {
     switch (format) {
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:   /* FIXME: X64 can contain a lot of different
                                               formats, not just D64 (BW) */
+#endif
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_P64:
         case DISK_IMAGE_TYPE_D71:
@@ -283,8 +289,10 @@ unsigned int disk_image_gap_size(unsigned int format, unsigned int track)
 {
     switch (format) {
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:   /* FIXME: X64 can contain a lot of different
                                               formats, not just D64 (BW) */
+#endif
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_P64:
         case DISK_IMAGE_TYPE_D71:
@@ -310,8 +318,10 @@ unsigned int disk_image_header_gap_size(unsigned int format, unsigned int track)
 {
     switch (format) {
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:   /* FIXME: X64 can contain a lot of different
                                               formats, not just D64 (BW) */
+#endif
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_P64:
         case DISK_IMAGE_TYPE_D71:
@@ -338,8 +348,10 @@ unsigned int disk_image_sync_size(unsigned int format, unsigned int track)
 {
     switch (format) {
         case DISK_IMAGE_TYPE_D64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:   /* FIXME: X64 can contain a lot of different
                                               formats, not just D64 (BW) */
+#endif
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_P64:
         case DISK_IMAGE_TYPE_D71:
@@ -396,7 +408,9 @@ static const char *disk_image_type(const disk_image_t *image)
         case DISK_IMAGE_TYPE_D67: return "D67";
         case DISK_IMAGE_TYPE_G64: return "G64";
         case DISK_IMAGE_TYPE_P64: return "P64";
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64: return "X64";
+#endif
         case DISK_IMAGE_TYPE_D71: return "D71";
         case DISK_IMAGE_TYPE_G71: return "G71";
         case DISK_IMAGE_TYPE_D81: return "D81";

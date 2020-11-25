@@ -350,7 +350,11 @@ const command_t command_list[] = {
       "If <unit> is specified, format the disk in unit <unit>.\n"
       "If <type> and <imagename> are specified, create a new image named\n"
       "<imagename>, attach it to unit 8 and format it.  <type> is a disk image\n"
-      "type, and must be either `x64', `d64' (both VC1541/2031), `g64' (VC1541/2031,\n"
+      "type, and must be either "
+#ifdef HAVE_X64_IMAGE
+      "`x64', "
+#endif
+      "`d64' (both VC1541/2031), `g64' (VC1541/2031,\n"
       "but in GCR coding), `d67' (2040 DOS1), `d71' (VC1571), `g71' (VC1571,\n"
       "but in GCR coding), `d81' (VC1581), `d80' (CBM8050) or `d82' (CBM8250).\n"
       "Otherwise, format the disk in the current unit, if any.",
@@ -2821,8 +2825,10 @@ static int format_cmd(int nargs, char **args)
                 disk_type = DISK_IMAGE_TYPE_G64;
             } else if (strcmp(args[2], "g71") == 0) {
                 disk_type = DISK_IMAGE_TYPE_G71;
+#ifdef HAVE_X64_IMAGE
             } else if (strcmp(args[2], "x64") == 0) {
                 disk_type = DISK_IMAGE_TYPE_X64;
+#endif
             } else if (strcmp(args[2], "d1m") == 0) {
                 disk_type = DISK_IMAGE_TYPE_D1M;
             } else if (strcmp(args[2], "d2m") == 0) {

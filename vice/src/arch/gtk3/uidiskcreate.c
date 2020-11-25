@@ -81,7 +81,9 @@ static disk_image_type_t disk_image_types[] = {
     { "g64", DISK_IMAGE_TYPE_G64 },
     { "g71", DISK_IMAGE_TYPE_G71 },
     { "p64", DISK_IMAGE_TYPE_P64 },
+#ifdef HAVE_X64_IMAGE
     { "x64", DISK_IMAGE_TYPE_X64 },
+#endif
     { NULL, -1 }
 };
 

@@ -50,6 +50,7 @@ int drive_check_image_format(unsigned int format, unsigned int dnr)
         case DISK_IMAGE_TYPE_D64:
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_P64:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
             if (unit->type != DRIVE_TYPE_1540
                 && unit->type != DRIVE_TYPE_1541
@@ -65,6 +66,7 @@ int drive_check_image_format(unsigned int format, unsigned int dnr)
                 return -1;
             }
             break;
+#endif
         case DISK_IMAGE_TYPE_G71:
             if ((unit->type != DRIVE_TYPE_1571)
                 && (unit->type != DRIVE_TYPE_1571CR)) {
@@ -157,7 +159,9 @@ int drive_image_attach(disk_image_t *image, unsigned int unit, unsigned int drv)
         case DISK_IMAGE_TYPE_D71:
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_G71:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
         case DISK_IMAGE_TYPE_P64:
             disk_image_attach_log(image, driveimage_log, unit, drv);
             break;
@@ -209,7 +213,9 @@ int drive_image_detach(disk_image_t *image, unsigned int unit, unsigned int drv)
             case DISK_IMAGE_TYPE_G64:
             case DISK_IMAGE_TYPE_G71:
             case DISK_IMAGE_TYPE_P64:
+#ifdef HAVE_X64_IMAGE
             case DISK_IMAGE_TYPE_X64:
+#endif
                 disk_image_detach_log(image, driveimage_log, unit, drv);
                 break;
             default:

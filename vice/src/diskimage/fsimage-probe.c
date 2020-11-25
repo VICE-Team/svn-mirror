@@ -404,6 +404,7 @@ static int disk_image_check_for_d82(disk_image_t *image)
     return 1;
 }
 
+#ifdef HAVE_X64_IMAGE
 static int disk_image_check_for_x64(disk_image_t *image)
 {
     uint8_t header[X64_HEADER_LENGTH];
@@ -435,6 +436,7 @@ static int disk_image_check_for_x64(disk_image_t *image)
     disk_image_check_log(image, "X64");
     return 1;
 }
+#endif
 
 static int disk_image_check_for_gcr(disk_image_t *image)
 {
@@ -767,9 +769,11 @@ int fsimage_probe(disk_image_t *image)
     if (disk_image_check_for_gcr(image)) {
         return 0;
     }
+#ifdef HAVE_X64_IMAGE
     if (disk_image_check_for_x64(image)) {
         return 0;
     }
+#endif
     if (disk_image_check_for_d1m(image)) {
         return 0;
     }

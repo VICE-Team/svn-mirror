@@ -200,7 +200,9 @@ int fsimage_read_sector(const disk_image_t *image, uint8_t *buf, const disk_addr
         case DISK_IMAGE_TYPE_D81:
         case DISK_IMAGE_TYPE_D80:
         case DISK_IMAGE_TYPE_D82:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
         case DISK_IMAGE_TYPE_D1M:
         case DISK_IMAGE_TYPE_D2M:
         case DISK_IMAGE_TYPE_D4M:
@@ -238,7 +240,9 @@ int fsimage_write_sector(disk_image_t *image, const uint8_t *buf,
         case DISK_IMAGE_TYPE_D81:
         case DISK_IMAGE_TYPE_D80:
         case DISK_IMAGE_TYPE_D82:
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
         case DISK_IMAGE_TYPE_D1M:
         case DISK_IMAGE_TYPE_D2M:
         case DISK_IMAGE_TYPE_D4M:

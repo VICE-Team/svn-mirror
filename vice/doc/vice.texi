@@ -2228,9 +2228,10 @@ and cassettes from the respective units.  On the other hand, the
 last commands tries to guess the type of the image you are attaching
 from its name and size, and attaches it to the most reasonable device.
 
-Supported formats are @code{D64}, @code{G64}, @code{P64} and the ancient 
-@code{X64} for disk images (devices 8, 9 and 10) and @code{T64} and @code{TAP} 
-for tape images.  
+Supported formats are @code{D64}, @code{G64}, @code{P64} for disk images
+(devices 8, 9 and 10) and @code{T64} and @code{TAP} for tape images.  
+
+The ancient @code{X64} format is deprecated and subject for removal.
 
 Notice that @code{T64} support is @emph{read-only}, and that the cassette is 
 automatically rewound when you reach its end. For actually emulating tape, the
@@ -20528,10 +20529,14 @@ many books explaining the disk layout and the internals of the
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
 
-This file type, created by Teemu Rantanen, is used on the X64
+This file type, created by Teemu Rantanen, was used on the X64
 emulator (a UNIX-based emulator) which has been superceeded by
 VICE. Both VICE and X64 support the X64 file standard, with
 VICE also supporting the regular D64 and T64 files.
+
+Note that this ancient format is deprecated and subject for removal. It never
+got any momentum in the emulation community, and VICE never supported it for
+anything but 1541 disks.
 
 X64 is not a specific type of file, but rather encompasses
 *all* known C64 disk types (hard disk, floppies, etc). An X64

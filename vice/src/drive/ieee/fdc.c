@@ -855,7 +855,9 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
             case DISK_IMAGE_TYPE_G64:
             case DISK_IMAGE_TYPE_G71:
             case DISK_IMAGE_TYPE_P64:
+#ifdef HAVE_X64_IMAGE
             case DISK_IMAGE_TYPE_X64:
+#endif
                 disk_image_attach_log(image, fdc_log, unit, drive);
                 break;
             default:
@@ -911,7 +913,9 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
             case DISK_IMAGE_TYPE_G64:
             case DISK_IMAGE_TYPE_G71:
             case DISK_IMAGE_TYPE_P64:
+#ifdef HAVE_X64_IMAGE
             case DISK_IMAGE_TYPE_X64:
+#endif
                 disk_image_detach_log(image, fdc_log, unit, drive);
                 break;
             default:

@@ -315,12 +315,14 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
                 vdrive->bam_size = 0x100;
             }
             break;
+#ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
             /* FIXME: x64 format can be any drive! */
             vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
             vdrive->num_tracks = image->tracks;
             vdrive->bam_size = 0x100;
             break;
+#endif
         case DISK_IMAGE_TYPE_D1M:
         case DISK_IMAGE_TYPE_D2M:
         case DISK_IMAGE_TYPE_D4M:
