@@ -87,7 +87,8 @@
 
 static int machine_init_was_called = 0;
 static int mem_initialized = 0;
-static bool is_jammed = 0;
+static bool is_jammed = false;
+static char *jam_reason = NULL;
 static int jam_action = MACHINE_JAM_ACTION_DIALOG;
 int machine_keymap_index;
 static char *ExitScreenshotName = NULL;
@@ -97,7 +98,6 @@ static char *ExitScreenshotName1 = NULL;
 
 unsigned int machine_jam(const char *format, ...)
 {
-    char *str;
     va_list ap;
     ui_jam_action_t ret = JAM_NONE;
 
@@ -111,26 +111,30 @@ unsigned int machine_jam(const char *format, ...)
 
     is_jammed = true;
 
-    vsync_suspend_speed_eval();
-    sound_suspend();
-
     va_start(ap, format);
-    str = lib_mvsprintf(format, ap);
+    if (jam_reason) {
+        lib_free(jam_reason);
+        jam_reason = NULL;
+    }
+    jam_reason = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    log_message(LOG_DEFAULT, "*** %s", str);
+    log_message(LOG_DEFAULT, "*** %s", jam_reason);
+
+    vsync_suspend_speed_eval();
+    sound_suspend();
 
     if (jam_action == MACHINE_JAM_ACTION_DIALOG) {
         if (monitor_is_remote() || monitor_is_binary()) {
             if (monitor_is_remote()) {
-                ret = monitor_network_ui_jam_dialog(str);
+                ret = monitor_network_ui_jam_dialog(jam_reason);
             }
 
             if (monitor_is_binary()) {
-                ret = monitor_binary_ui_jam_dialog(str);
+                ret = monitor_binary_ui_jam_dialog(jam_reason);
             }
         } else if (!console_mode) {
-            ret = ui_jam_dialog(str);
+            ret = ui_jam_dialog(jam_reason);
         }
     } else if (jam_action == MACHINE_JAM_ACTION_QUIT) {
         archdep_vice_exit(EXIT_SUCCESS);
@@ -140,7 +144,6 @@ unsigned int machine_jam(const char *format, ...)
         };
         ret = actions[jam_action - 1];
     }
-    lib_free(str);
 
     switch (ret) {
         case UI_JAM_RESET:
@@ -160,9 +163,19 @@ bool machine_is_jammed(void)
     return is_jammed;
 }
 
+char *machine_jam_reason(void)
+{
+    return jam_reason;
+}
+
 static void machine_trigger_reset_internal(const unsigned int mode)
 {
     is_jammed = false;
+
+    if (jam_reason) {
+        lib_free(jam_reason);
+        jam_reason = NULL;
+    }
 
     switch (mode) {
         case MACHINE_RESET_MODE_HARD:
@@ -199,6 +212,11 @@ void machine_reset(void)
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
     is_jammed = false;
+
+    if (jam_reason) {
+        lib_free(jam_reason);
+        jam_reason = NULL;
+    }
 
     /* Do machine-specific initialization.  */
     if (!mem_initialized) {
@@ -267,6 +285,11 @@ static void machine_maincpu_shutdown(void)
 
     lib_free(maincpu_monitor_interface);
     maincpu_shutdown();
+
+    if (jam_reason) {
+        lib_free(jam_reason);
+        jam_reason = NULL;
+    }
 }
 
 static void screenshot_at_exit(void)

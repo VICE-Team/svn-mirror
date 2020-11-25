@@ -514,7 +514,7 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
     int vsync_metric_warp_enabled;
     
     /*
-     * Jammed machines just say Jammed! instead of showing stats.
+     * Jammed machines show the jam message instead of stats
      */
     
     if (machine_is_jammed()) {
@@ -527,7 +527,7 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
             gtk_label_set_text(GTK_LABEL(label), "");
 
             label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
-            gtk_label_set_text(GTK_LABEL(label), "Jammed!");
+            gtk_label_set_text(GTK_LABEL(label), machine_jam_reason());
         }
         return;
     } else if (jammed) {

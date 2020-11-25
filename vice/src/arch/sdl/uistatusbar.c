@@ -123,19 +123,14 @@ static void display_speed(void)
     double vsync_metric_emulated_fps;
     int vsync_metric_warp_enabled;
 
-    if (machine_is_jammed()) {
-        /* Jammed machines just say Jammed! instead of showing stats. */
-        len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "Jammed!     ");
-        statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
-    } else {
-        vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
-        
-        sep = ui_pause_active() ? ('P' | 0x80) : vsync_metric_warp_enabled ? ('W' | 0x80) : '/';
+    vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
+    
+    sep = ui_pause_active() ? ('P' | 0x80) : vsync_metric_warp_enabled ? ('W' | 0x80) : '/';
 
-        len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "%3d%%%c%2dfps", (int)(vsync_metric_cpu_percent + 0.5), sep, (int)(vsync_metric_emulated_fps + 0.5));
-        statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
-    }
+    len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "%3d%%%c%2dfps", (int)(vsync_metric_cpu_percent + 0.5), sep, (int)(vsync_metric_emulated_fps + 0.5));
+    statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
 
+    /* TODO: Only re-render if the string changed, like GTK */
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
@@ -413,6 +408,8 @@ void uistatusbar_draw(void)
     unsigned int line, maxchars;
     menu_draw_t *limits = NULL;
     int kbd_status;
+    char *text;
+    size_t text_len;
 
     menufont = sdl_ui_get_menu_font();
 
@@ -454,12 +451,15 @@ void uistatusbar_draw(void)
         }
     }
 
-    for (i = 0; i < maxchars; ++i) {
-        c = statusbar_text[i];
+    if (machine_is_jammed()) {
+        text = machine_jam_reason();
+    } else {
+        text = statusbar_text;
+    }
+    text_len = strlen(text);
 
-        if (c == 0) {
-            break;
-        }
+    for (i = 0; i < maxchars; ++i) {
+        c = i < text_len ? c = text[i] : ' ';
 
         if (c & 0x80) {
             uistatusbar_putchar((uint8_t)(c & 0x7f), i, 0, color_b, color_f);
