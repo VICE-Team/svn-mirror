@@ -122,13 +122,19 @@ static void display_speed(void)
     double vsync_metric_cpu_percent;
     double vsync_metric_emulated_fps;
     int vsync_metric_warp_enabled;
-    
-    vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
-    
-    sep = ui_pause_active() ? ('P' | 0x80) : vsync_metric_warp_enabled ? ('W' | 0x80) : '/';
 
-    len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "%3d%%%c%2dfps", (int)(vsync_metric_cpu_percent + 0.5), sep, (int)(vsync_metric_emulated_fps + 0.5));
-    statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
+    if (machine_is_jammed()) {
+        /* Jammed machines just say Jammed! instead of showing stats. */
+        len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "Jammed!     ");
+        statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
+    } else {
+        vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
+        
+        sep = ui_pause_active() ? ('P' | 0x80) : vsync_metric_warp_enabled ? ('W' | 0x80) : '/';
+
+        len = sprintf(&(statusbar_text[STATUSBAR_SPEED_POS]), "%3d%%%c%2dfps", (int)(vsync_metric_cpu_percent + 0.5), sep, (int)(vsync_metric_emulated_fps + 0.5));
+        statusbar_text[STATUSBAR_SPEED_POS + len] = ' ';
+    }
 
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
