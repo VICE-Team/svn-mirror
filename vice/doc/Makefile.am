@@ -27,7 +27,7 @@ STYLE_TOOLS = \
 	uncrustify.cfg
 
 # VICE_DOX is conditionally extended with vice.pdf
-VICE_DOX =
+VICE_DOX = @VICE_PDF_FILE_NAME@
 
 # info_TEXINFOS = vice.texi
 # AM_MAKEINFOFLAGS = -D$(PLATFORM_DOX_FLAGS)
@@ -57,7 +57,6 @@ $(builddir)/vice.txt:	.vice-texi-charset-ok
 #endif
 
 if ENABLE_PDF_DOCS
-VICE_DOX += vice.pdf
 $(builddir)/vice.pdf:	.vice-texi-charset-ok
 	@LC_ALL=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
 	@LC_ALL=C $(TEXI2DVI) -I $(srcdir) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi

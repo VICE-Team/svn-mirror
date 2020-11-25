@@ -373,6 +373,13 @@ if test x"${enable_html_docs:-no}" != xno -a x"$PERL" = x; then
 fi
 
 AM_CONDITIONAL([ENABLE_PDF_DOCS], [test x"${enable_pdf_docs}" != xno])
+if test x"${enable_pdf_docs}" != "xno"; then
+    VICE_PDF_FILE_NAME="vice.pdf"
+else
+    VICE_PDF_FILE_NAME=""
+fi
+AC_SUBST(VICE_PDF_FILE_NAME)
+
 AM_CONDITIONAL([ENABLE_HTML_DOCS], [test x"${enable_html_docs:-no}" != xno])
 AM_CONDITIONAL([HAVE_PERL], [test x"$PERL" != x])
 
