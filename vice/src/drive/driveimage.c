@@ -52,6 +52,7 @@ int drive_check_image_format(unsigned int format, unsigned int dnr)
         case DISK_IMAGE_TYPE_P64:
 #ifdef HAVE_X64_IMAGE
         case DISK_IMAGE_TYPE_X64:
+#endif
             if (unit->type != DRIVE_TYPE_1540
                 && unit->type != DRIVE_TYPE_1541
                 && unit->type != DRIVE_TYPE_1541II
@@ -66,7 +67,6 @@ int drive_check_image_format(unsigned int format, unsigned int dnr)
                 return -1;
             }
             break;
-#endif
         case DISK_IMAGE_TYPE_G71:
             if ((unit->type != DRIVE_TYPE_1571)
                 && (unit->type != DRIVE_TYPE_1571CR)) {
