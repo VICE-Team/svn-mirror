@@ -502,6 +502,8 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
 #   define FPS_DECIMAL_PLACES 3
 #   define STR_(x) #x
 #   define STR(x) STR_(x)
+
+    static bool jammed = false;
     
     GtkWidget *grid = NULL;
     GtkWidget *label;
@@ -510,6 +512,27 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
     double vsync_metric_cpu_percent;
     double vsync_metric_emulated_fps;
     int vsync_metric_warp_enabled;
+    
+    /*
+     * Jammed machines just say Jammed! instead of showing stats.
+     */
+    
+    if (machine_is_jammed()) {
+        if (!jammed) {
+            jammed = true;
+
+            grid = gtk_bin_get_child(GTK_BIN(widget));
+            
+            label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+            gtk_label_set_text(GTK_LABEL(label), "");
+
+            label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
+            gtk_label_set_text(GTK_LABEL(label), "Jammed!");
+        }
+        return;
+    } else if (jammed) {
+        jammed = false;
+    }
     
     vsyncarch_get_metrics(&vsync_metric_cpu_percent, &vsync_metric_emulated_fps, &vsync_metric_warp_enabled);
     
