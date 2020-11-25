@@ -2530,6 +2530,9 @@ int cartridge_bin_save(int type, const char *filename)
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_bin_save(filename);
         case CARTRIDGE_RAMLINK:
+            /* HACK: this will save the RAMlinks RAM - not the actual cartridge
+                     image. since we have no API for this special case (yet?)
+                     we leave it here */
             return ramlink_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
