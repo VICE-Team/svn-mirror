@@ -2494,6 +2494,7 @@ int cartridge_flush_image(int type)
         case CARTRIDGE_REU:
             return reu_flush_image();
     }
+    log_error(LOG_ERR, "Failed flushing cartridge image for cartridge ID %d.\n", type);
     return -1;
 }
 
@@ -2542,6 +2543,7 @@ int cartridge_bin_save(int type, const char *filename)
         case CARTRIDGE_REU:
             return reu_bin_save(filename);
     }
+    log_error(LOG_ERR, "Failed saving binary cartridge image for cartridge ID %d.\n", type);
     return -1;
 }
 
@@ -2580,6 +2582,7 @@ int cartridge_crt_save(int type, const char *filename)
             return rrnetmk3_crt_save(filename);
 #endif
     }
+    log_error(LOG_ERR, "Failed saving .crt cartridge image for cartridge ID %d.\n", type);
     return -1;
 }
 
