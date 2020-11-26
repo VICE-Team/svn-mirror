@@ -98,7 +98,8 @@ Install development packages
 
 After installing the msys2 base system we need a "few" more packages, so:
 
-$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: SDL2 libpng
+$ pacboy sync base-devel: pkg-config gcc ntldd zip: subversion: SDL2 libpng \
+  SDL2_image
 
 Select 'all' for the base-devel group, then proceed to install a few packages,
 perhaps grab a beer, have some coffee or tea while msys2 does its magic.
@@ -201,7 +202,7 @@ $ sudo apt install autoconf automake build-essential byacc flex texinfo \
                    texlive-binaries subversion dos2unix xa65
 
 # Install SDL2 libs/headers:
-$ sudo apt install libsdl2-dev
+$ sudo apt install libsdl2-dev libsdl2-image-dev
 (This pulls in a ridiculous amount of packages)
 
 # Download VICE trunk:
