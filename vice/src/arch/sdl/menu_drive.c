@@ -821,10 +821,12 @@ static const ui_menu_entry_t create_disk_image_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       set_disk_type_callback,
       (ui_callback_data_t)DISK_IMAGE_TYPE_P64 },
+#ifdef HAVE_X64_IMAGE
     { "X64",
       MENU_ENTRY_RESOURCE_RADIO,
       set_disk_type_callback,
       (ui_callback_data_t)DISK_IMAGE_TYPE_X64 },
+#endif
     SDL_MENU_LIST_END
 };
 
