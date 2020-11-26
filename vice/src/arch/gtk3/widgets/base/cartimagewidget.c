@@ -239,10 +239,10 @@ GtkWidget *cart_image_widget_create(
 
     flush_button = gtk_button_new_with_label("Flush image");
     gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
-
+#if 0
     gtk_widget_set_sensitive(flush_button, (gboolean)(func_can_flush(cart_id)));
     gtk_widget_set_sensitive(save_button, (gboolean)(func_can_save(cart_id)));
-
+#endif
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked), NULL);
     g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
