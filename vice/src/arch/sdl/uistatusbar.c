@@ -416,7 +416,7 @@ void uistatusbar_draw(void)
     if (resources_get_int("KbdStatusbar", &kbd_status) < 0) {
         kbd_status = 0;
     }
-    
+
     /* Update the cpu/fps each frame */
     display_speed();
 
@@ -459,7 +459,7 @@ void uistatusbar_draw(void)
     text_len = strlen(text);
 
     for (i = 0; i < maxchars; ++i) {
-        c = i < text_len ? c = text[i] : ' ';
+        c = i < text_len ? text[i] : ' ';
 
         if (c & 0x80) {
             uistatusbar_putchar((uint8_t)(c & 0x7f), i, 0, color_b, color_f);
