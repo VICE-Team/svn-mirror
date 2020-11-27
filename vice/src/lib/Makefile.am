@@ -355,3 +355,10 @@ EXTRA_DIST = \
 	liblame/vc_solution/vc9_nasm.rules
 
 endif
+
+if !HAVE_SHARED_FFMPEG
+if !HAVE_STATIC_FFMPEG
+dist-hook:
+	@$(SHELL) $(srcdir)/../buildtools/ffmpeg_dist.sh $(srcdir) $(distdir)
+endif
+endif
