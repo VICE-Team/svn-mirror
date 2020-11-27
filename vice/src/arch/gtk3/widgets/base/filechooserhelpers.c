@@ -61,7 +61,9 @@ const char *file_chooser_pattern_disk[] = {
     "*.[dD]64",     "*.[dD]67",     "*.[dD]71",     "*.[dD]8[0-2]",
     "*.[dD]1[mM]",  "*.[dD]2[mM]",  "*.[dD]4[mM]",  "*.[dD][hH][dD]",
     "*.[gG]64",     "*.[gG]71",     "*.[gG]41",     "*.[pP]64",
+#ifdef HAVE_X64_IMAGE
     "*.[xX]64",
+#endif
     NULL
 };
 
