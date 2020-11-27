@@ -59,7 +59,7 @@ const char *file_chooser_pattern_cart[] = {
  */
 const char *file_chooser_pattern_disk[] = {
     "*.[dD]64",     "*.[dD]67",     "*.[dD]71",     "*.[dD]8[0-2]",
-    "*.[dD]1[mM]",  "*.[dD]2[mM]",  "*.[dD]4[mM]",
+    "*.[dD]1[mM]",  "*.[dD]2[mM]",  "*.[dD]4[mM]",  "*.[dD][hH][dD]",
     "*.[gG]64",     "*.[gG]71",     "*.[gG]41",     "*.[pP]64",
     "*.[xX]64",
     NULL
@@ -203,7 +203,7 @@ const ui_file_filter_t file_chooser_filter_snapshot = {
  * \code{.c}
  *  const ui_file_filter_t data = {
  *      "disk image",
- *      { "*.d64", "*.d71", "*.d8[0-2]", NULL }
+ *      { "*.d64", "*.d71", "*.d8[0-2]", "*.dhd", NULL }
  *  };
  *  GtkFileFilter *filter = create_file_chooser_filter(data);
  * \endcode
