@@ -122,8 +122,8 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     label = gtk_label_new("Mode");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), mode, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), mode, 3, 2, 1, 1);
 
     /* create size widget */
     size = vice_gtk3_resource_spin_int_new(
@@ -139,8 +139,8 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
     label = gtk_label_new("Size (MiB)");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), size, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), size, 3, 1, 1, 1);
     /* fix size of the spin button */
     gtk_widget_set_hexpand(size, FALSE);
     gtk_widget_set_halign(size, GTK_ALIGN_START);
@@ -184,7 +184,7 @@ GtkWidget *ramlink_widget_create(GtkWidget *parent)
             carthelpers_can_save_func, carthelpers_can_flush_func,
             CARTRIDGE_NAME_RAMLINK, CARTRIDGE_RAMLINK);
 
-    gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 5, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), cart_widget, 0, 3, 4, 1);
 #endif
     gtk_widget_show_all(grid);
     return grid;
