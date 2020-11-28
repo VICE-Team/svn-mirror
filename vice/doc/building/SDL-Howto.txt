@@ -189,11 +189,8 @@ Adding features (TODO)
 
 
 
-Building the SDL2 port from trunk on Mint 20
-============================================
-
-I installed Mint 20 "Ulyana" x64 with Cinnamon desktop in a VirtualBox VM,
-which is close to what I'm running on my Debian box.
+Building the SDL2 port from trunk on Debian and Debian-derived distros
+======================================================================
 
 Install prerequisites
 ---------------------
@@ -203,7 +200,6 @@ $ sudo apt install autoconf automake build-essential byacc flex texinfo \
 
 # Install SDL2 libs/headers:
 $ sudo apt install libsdl2-dev libsdl2-image-dev
-(This pulls in a ridiculous amount of packages)
 
 # Download VICE trunk:
 $ svn checkout https://svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
@@ -216,9 +212,8 @@ $ ./autogen.sh
 $ ./configure --enable-sdlui2 --with-sdlsound --without-png
 
 If that passes, it's time to build VICE:
-(My VM has 2 CPU's and the general rule for -j is Cores+1, the redirection of
- stdout and stderr to a file means we can inspect any errors.)
-$ make -j3 2>&1 | tee build.log
+(The redirection of stdout and stderr to a file means we can inspect any errors)
+$ make -j 2>&1 | tee build.log
 
 If that succeeds without errors, it's time to install:
 $ sudo make install
