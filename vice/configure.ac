@@ -937,7 +937,7 @@ darwin*)
   dnl change without major build system changes.
   dnl
   dnl Given all that it's simpler to just grep -v out the warnings we don't want,
-  dnl which these scripts do. 
+  dnl which these scripts do.
 
   RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
   AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
@@ -1219,7 +1219,7 @@ if test x"$check_sdl2" = "xyes"; then
 
   dnl only continue if sdl2 was found
   if test x"$found_sdl2" = "xyes"; then
-    
+
     dnl check for the 2 cases where audio needs to be checked
     check_sdl2audio=no
     if test x"$enable_sdlui2" = "xyes" -o x"$with_sdlsound" = "xyes"; then
@@ -1260,7 +1260,7 @@ if test x"$check_sdl2" = "xyes"; then
       HAVE_FULLSCREEN_SUPPORT="yes"
       AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
       HAVE_HWSCALE_SUPPORT="yes"
-      
+
       AC_CHECK_FUNCS(SDL_NumJoysticks)
 
       dnl now that the SDL2 UI support has been detected, define
@@ -2085,7 +2085,7 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
                       [AC_DEFINE(HAVE_UNIX_DOMAIN_SOCKETS,,[Define if Unix domain sockets are supported])
                       AC_MSG_RESULT(yes)],
                       AC_MSG_RESULT(no))
-      
+
     fi
   fi
 elif test x"$is_beos" = "xyes"; then
@@ -2733,7 +2733,7 @@ else
     fi
 
     if test x"$FLAC_PRESENT" = "xno"; then
-        unset ac_cv_lib_FLAC_FLAC__stream_decoder_get_channels  
+        unset ac_cv_lib_FLAC_FLAC__stream_decoder_get_channels
         dnl Windows-specific check:
         AC_CHECK_LIB(FLAC, FLAC__stream_decoder_get_channels,, [FLAC_PRESENT=no], [-lwinmm])
         if test x"$FLAC_PRESENT" = "xyes"; then
