@@ -38,8 +38,8 @@ typedef enum resource_type_s {
 
 typedef enum resource_event_relevant_s {
     RES_EVENT_NO,
-    RES_EVENT_SAME,
-    RES_EVENT_STRICT
+    RES_EVENT_SAME,     /* guess: must be the same on server and client */
+    RES_EVENT_STRICT    /* guess: must be the exact event_strict_value */ 
 } resource_event_relevant_t;
 
 typedef void *resource_value_t;
