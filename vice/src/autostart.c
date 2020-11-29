@@ -159,6 +159,8 @@ int autostart_ignore_reset = 0; /* FIXME: only used by datasette.c, does it real
 
 int autostart_basic_load = 0;
 
+int autostart_tape_basic_load = 1;
+
 static int AutostartRunWithColon = 0;
 
 static int AutostartHandleTrueDriveEmulation = 0;
@@ -198,6 +200,14 @@ static void set_handle_true_drive_emulation_state(void)
 static int set_autostart_basic_load(int val, void *param)
 {
     autostart_basic_load = val ? 1 : 0;
+
+    return 0;
+}
+
+/*! \internal \brief set if autostart from tape should use LOAD ... ,1 */
+static int set_autostart_tape_basic_load(int val, void *param)
+{
+    autostart_tape_basic_load = val ? 1 : 0;
 
     return 0;
 }
@@ -302,6 +312,8 @@ static resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "AutostartBasicLoad", 0, RES_EVENT_NO, (resource_value_t)0,
       &autostart_basic_load, set_autostart_basic_load, NULL },
+    { "AutostartTapeBasicLoad", 1, RES_EVENT_NO, (resource_value_t)0,
+      &autostart_tape_basic_load, set_autostart_tape_basic_load, NULL },
     { "AutostartRunWithColon", 1, RES_EVENT_NO, (resource_value_t)1,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
     { "AutostartHandleTrueDriveEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
@@ -348,10 +360,16 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-basicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartBasicLoad", (resource_value_t)1,
-      NULL, "On autostart, load to BASIC start (without ',1')" },
+      NULL, "On autostart from disk, load to BASIC start (without ',1')" },
     { "+basicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartBasicLoad", (resource_value_t)0,
-      NULL, "On autostart, load with ',1'" },
+      NULL, "On autostart from disk, load with ',1'" },
+    { "-tapebasicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "AutostartTapeBasicLoad", (resource_value_t)1,
+      NULL, "On autostart from tape, load to BASIC start (without ',1')" },
+    { "+tapebasicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+      NULL, NULL, "AutostartTapeBasicLoad", (resource_value_t)0,
+      NULL, "On autostart from tape, load with ',1'" },
     { "-autostartwithcolon", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
       NULL, "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'" },
@@ -837,11 +855,11 @@ static void advance_hastape(void)
             log_message(autostart_log, "Loading file.");
             if (autostart_program_name) {
                 tmp = util_concat("LOAD\"", autostart_program_name, "\"",
-                                  autostart_basic_load ? "" : ",1,1", ":\r", NULL);
+                                  autostart_tape_basic_load ? "" : ",1,1", ":\r", NULL);
                 kbdbuf_feed(tmp);
                 lib_free(tmp);
             } else {
-                if (autostart_basic_load) {
+                if (autostart_tape_basic_load) {
                     kbdbuf_feed("LOAD:\r");
                 } else {
                     kbdbuf_feed("LOAD\"\",1,1:\r");
