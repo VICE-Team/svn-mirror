@@ -143,119 +143,48 @@ void sid_sound_chip_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-int machine_sid2_check_range(unsigned int sid2_adr)
-{
-    if (machine_class == VICE_MACHINE_C128) {
-        if ((sid2_adr >= 0xd400 && sid2_adr <= 0xd4e0) || (sid2_adr >= 0xd700 && sid2_adr <= 0xdfe0)) {
-            sid2_address_start = sid2_adr;
-            sid2_device.start_address = sid2_adr;
-            sid2_address_end = sid2_adr + 0x1f;
-            sid2_device.end_address = sid2_adr + 0x1f;
-            if (sid2_list_item != NULL) {
-                io_source_unregister(sid2_list_item);
-                sid2_list_item = io_source_register(&sid2_device);
-            } else {
-                if (sid_stereo >= 1) {
-                    sid2_list_item = io_source_register(&sid2_device);
-                }
-            }
-            return 0;
-        }
-    } else {
-        if (sid2_adr >= 0xd400 && sid2_adr <= 0xdfe0) {
-            sid2_address_start = sid2_adr;
-            sid2_device.start_address = sid2_adr;
-            sid2_address_end = sid2_adr + 0x1f;
-            sid2_device.end_address = sid2_adr + 0x1f;
-            if (sid2_list_item != NULL) {
-                io_source_unregister(sid2_list_item);
-                sid2_list_item = io_source_register(&sid2_device);
-            } else {
-                if (sid_stereo >= 1) {
-                    sid2_list_item = io_source_register(&sid2_device);
-                }
-            }
-            return 0;
-        }
+#define SIDx_CHECK_RANGE(sid_nr)                                                                        \
+    int machine_sid##sid_nr##_check_range(unsigned int sid_adr)                                         \
+    {                                                                                                   \
+        if (machine_class == VICE_MACHINE_C128) {                                                       \
+            if ((sid_adr >= 0xd400 && sid_adr <= 0xd4e0) || (sid_adr >= 0xd700 && sid_adr <= 0xdfe0)) { \
+                sid##sid_nr##_address_start = sid_adr;                                                  \
+                sid##sid_nr##_device.start_address = sid_adr;                                           \
+                sid##sid_nr##_address_end = sid_adr + 0x1f;                                             \
+                sid##sid_nr##_device.end_address = sid_adr + 0x1f;                                      \
+                if (sid##sid_nr##_list_item != NULL) {                                                  \
+                    io_source_unregister(sid##sid_nr##_list_item);                                      \
+                    sid##sid_nr##_list_item = io_source_register(&sid##sid_nr##_device);                \
+                } else {                                                                                \
+                    if (sid_stereo >= sid_nr - 1) {                                                     \
+                        sid##sid_nr##_list_item = io_source_register(&sid##sid_nr##_device);            \
+                    }                                                                                   \
+                }                                                                                       \
+                return 0;                                                                               \
+            }                                                                                           \
+        } else {                                                                                        \
+            if (sid_adr >= 0xd400 && sid_adr <= 0xdfe0) {                                               \
+                sid##sid_nr##_address_start = sid_adr;                                                  \
+                sid##sid_nr##_device.start_address = sid_adr;                                           \
+                sid##sid_nr##_address_end = sid_adr + 0x1f;                                             \
+                sid##sid_nr##_device.end_address = sid_adr + 0x1f;                                      \
+                if (sid##sid_nr##_list_item != NULL) {                                                  \
+                    io_source_unregister(sid##sid_nr##_list_item);                                      \
+                    sid##sid_nr##_list_item = io_source_register(&sid##sid_nr##_device);                \
+                } else {                                                                                \
+                    if (sid_stereo >= sid_nr - 1) {                                                     \
+                        sid##sid_nr##_list_item = io_source_register(&sid##sid_nr##_device);            \
+                    }                                                                                   \
+                }                                                                                       \
+                return 0;                                                                               \
+            }                                                                                           \
+        }                                                                                               \
+        return -1;                                                                                      \
     }
-    return -1;
-}
 
-int machine_sid3_check_range(unsigned int sid3_adr)
-{
-    if (machine_class == VICE_MACHINE_C128) {
-        if ((sid3_adr >= 0xd400 && sid3_adr <= 0xd4e0) || (sid3_adr >= 0xd700 && sid3_adr <= 0xdfe0)) {
-            sid3_address_start = sid3_adr;
-            sid3_device.start_address = sid3_adr;
-            sid3_address_end = sid3_adr + 0x1f;
-            sid3_device.end_address = sid3_adr + 0x1f;
-            if (sid3_list_item != NULL) {
-                io_source_unregister(sid3_list_item);
-                sid3_list_item = io_source_register(&sid3_device);
-            } else {
-                if (sid_stereo >= 2) {
-                    sid3_list_item = io_source_register(&sid3_device);
-                }
-            }
-            return 0;
-        }
-    } else {
-        if (sid3_adr >= 0xd400 && sid3_adr <= 0xdfe0) {
-            sid3_address_start = sid3_adr;
-            sid3_device.start_address = sid3_adr;
-            sid3_address_end = sid3_adr + 0x1f;
-            sid3_device.end_address = sid3_adr + 0x1f;
-            if (sid3_list_item != NULL) {
-                io_source_unregister(sid3_list_item);
-                sid3_list_item = io_source_register(&sid3_device);
-            } else {
-                if (sid_stereo >= 2) {
-                    sid3_list_item = io_source_register(&sid3_device);
-                }
-            }
-            return 0;
-        }
-    }
-    return -1;
-}
-
-int machine_sid4_check_range(unsigned int sid4_adr)
-{
-    if (machine_class == VICE_MACHINE_C128) {
-        if ((sid4_adr >= 0xd400 && sid4_adr <= 0xd4e0) || (sid4_adr >= 0xd700 && sid4_adr <= 0xdfe0)) {
-            sid4_address_start = sid4_adr;
-            sid4_device.start_address = sid4_adr;
-            sid4_address_end = sid4_adr + 0x1f;
-            sid4_device.end_address = sid4_adr + 0x1f;
-            if (sid4_list_item != NULL) {
-                io_source_unregister(sid4_list_item);
-                sid4_list_item = io_source_register(&sid4_device);
-            } else {
-                if (sid_stereo >= 3) {
-                    sid4_list_item = io_source_register(&sid4_device);
-                }
-            }
-            return 0;
-        }
-    } else {
-        if (sid4_adr >= 0xd400 && sid4_adr <= 0xdfe0) {
-            sid4_address_start = sid4_adr;
-            sid4_device.start_address = sid4_adr;
-            sid4_address_end = sid4_adr + 0x1f;
-            sid4_device.end_address = sid4_adr + 0x1f;
-            if (sid4_list_item != NULL) {
-                io_source_unregister(sid4_list_item);
-                sid4_list_item = io_source_register(&sid4_device);
-            } else {
-                if (sid_stereo >= 3) {
-                    sid4_list_item = io_source_register(&sid4_device);
-                }
-            }
-            return 0;
-        }
-    }
-    return -1;
-}
+SIDx_CHECK_RANGE(2)
+SIDx_CHECK_RANGE(3)
+SIDx_CHECK_RANGE(4)
 
 void machine_sid2_enable(int val)
 {
