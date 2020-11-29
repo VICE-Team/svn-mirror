@@ -208,20 +208,20 @@ static int sid_dump_chip(int chipno)
 uint8_t sid_read(uint16_t addr)
 {
     if (sid_stereo >= 1
-        && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end) {
+        && addr >= sid2_address_start
+        && addr < sid2_address_end) {
         return sid_read_chip(addr, 1);
     }
 
     if (sid_stereo >= 2
-        && addr >= sid_triple_address_start
-        && addr < sid_triple_address_end) {
+        && addr >= sid3_address_start
+        && addr < sid3_address_end) {
         return sid_read_chip(addr, 2);
     }
 
     if (sid_stereo >= 3
-        && addr >= sid_quad_address_start
-        && addr < sid_quad_address_end) {
+        && addr >= sid4_address_start
+        && addr < sid4_address_end) {
         return sid_read_chip(addr, 3);
     }
 
@@ -246,20 +246,20 @@ uint8_t sid4_read(uint16_t addr)
 uint8_t sid_peek(uint16_t addr)
 {
     if (sid_stereo >= 1
-        && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end) {
+        && addr >= sid2_address_start
+        && addr < sid2_address_end) {
         return sid_peek_chip(addr, 1);
     }
 
     if (sid_stereo >= 2
-        && addr >= sid_triple_address_start
-        && addr < sid_triple_address_end) {
+        && addr >= sid3_address_start
+        && addr < sid3_address_end) {
         return sid_peek_chip(addr, 2);
     }
 
     if (sid_stereo >= 3
-        && addr >= sid_quad_address_start
-        && addr < sid_quad_address_end) {
+        && addr >= sid4_address_start
+        && addr < sid4_address_end) {
         return sid_peek_chip(addr, 3);
     }
 
@@ -284,20 +284,20 @@ uint8_t sid4_peek(uint16_t addr)
 void sid_store(uint16_t addr, uint8_t byte)
 {
     if (sid_stereo >= 1
-        && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end) {
+        && addr >= sid2_address_start
+        && addr < sid2_address_end) {
         sid_store_chip(addr, byte, 1);
         return;
     }
     if (sid_stereo >= 2
-        && addr >= sid_triple_address_start
-        && addr < sid_triple_address_end) {
+        && addr >= sid3_address_start
+        && addr < sid3_address_end) {
         sid_store_chip(addr, byte, 2);
         return;
     }
     if (sid_stereo >= 3
-        && addr >= sid_quad_address_start
-        && addr < sid_quad_address_end) {
+        && addr >= sid4_address_start
+        && addr < sid4_address_end) {
         sid_store_chip(addr, byte, 3);
     }
     sid_store_chip(addr, byte, 0);

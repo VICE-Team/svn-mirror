@@ -636,16 +636,28 @@ static void d5xx_store(uint16_t addr, uint8_t value)
 
 uint8_t d7xx_read(uint16_t addr)
 {
-    if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
+    if (sid_stereo >= 1 && addr >= sid2_address_start && addr < sid2_address_end) {
         return sid2_read(addr);
+    }
+    if (sid_stereo >= 2 && addr >= sid3_address_start && addr < sid3_address_end) {
+        return sid3_read(addr);
+    }
+    if (sid_stereo >= 3 && addr >= sid4_address_start && addr < sid4_address_end) {
+        return sid4_read(addr);
     }
     return vicii_read_phi1();
 }
 
 void d7xx_store(uint16_t addr, uint8_t value)
 {
-    if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
+    if (sid_stereo >= 1 && addr >= sid2_address_start && addr < sid2_address_end) {
         sid2_store(addr, value);
+    }
+    if (sid_stereo >= 2 && addr >= sid3_address_start && addr < sid3_address_end) {
+        sid3_store(addr, value);
+    }
+    if (sid_stereo >= 3 && addr >= sid4_address_start && addr < sid4_address_end) {
+        sid4_store(addr, value);
     }
 }
 

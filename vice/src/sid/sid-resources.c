@@ -65,12 +65,12 @@ static int sid_resid_8580_filter_bias;
 #endif
 int sid_stereo = 0;
 int checking_sid_stereo;
-unsigned int sid_stereo_address_start;
-unsigned int sid_stereo_address_end;
-unsigned int sid_triple_address_start;
-unsigned int sid_triple_address_end;
-unsigned int sid_quad_address_start;
-unsigned int sid_quad_address_end;
+unsigned int sid2_address_start;
+unsigned int sid2_address_end;
+unsigned int sid3_address_start;
+unsigned int sid3_address_end;
+unsigned int sid4_address_start;
+unsigned int sid4_address_end;
 static int sid_engine;
 #ifdef HAVE_HARDSID
 static int sid_hardsid_main;
@@ -168,8 +168,8 @@ int sid_set_sid_stereo_address(int val, void *param)
         return -1;
     }
 
-    sid_stereo_address_start = sid2_adr;
-    sid_stereo_address_end = sid_stereo_address_start + 32;
+    sid2_address_start = sid2_adr;
+    sid2_address_end = sid2_address_start + 0x20;
     return 0;
 }
 
@@ -183,8 +183,8 @@ int sid_set_sid_triple_address(int val, void *param)
         return -1;
     }
 
-    sid_triple_address_start = sid3_adr;
-    sid_triple_address_end = sid_triple_address_start + 32;
+    sid3_address_start = sid3_adr;
+    sid3_address_end = sid3_address_start + 0x20;
     return 0;
 }
 
@@ -198,8 +198,8 @@ int sid_set_sid_quad_address(int val, void *param)
         return -1;
     }
 
-    sid_quad_address_start = sid4_adr;
-    sid_quad_address_end = sid_quad_address_start + 32;
+    sid4_address_start = sid4_adr;
+    sid4_address_end = sid4_address_start + 0x20;
     return 0;
 }
 

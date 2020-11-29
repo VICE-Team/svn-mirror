@@ -65,8 +65,8 @@ void sid_sound_chip_init(void)
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
     if (sid2_adr >= 0xd400 && sid2_adr <= 0xdfe0) {
-        sid_stereo_address_start = sid2_adr;
-        sid_stereo_address_end = sid2_adr + 0x1f;
+        sid2_address_start = sid2_adr;
+        sid2_address_end = sid2_adr + 0x1f;
         return 0;
     }
     return -1;
@@ -75,8 +75,8 @@ int machine_sid2_check_range(unsigned int sid2_adr)
 int machine_sid3_check_range(unsigned int sid3_adr)
 {
     if (sid3_adr >= 0xd400 && sid3_adr <= 0xdfe0) {
-        sid_triple_address_start = sid3_adr;
-        sid_triple_address_end = sid3_adr + 0x1f;
+        sid3_address_start = sid3_adr;
+        sid3_address_end = sid3_adr + 0x1f;
         return 0;
     }
     return -1;
@@ -85,8 +85,8 @@ int machine_sid3_check_range(unsigned int sid3_adr)
 int machine_sid4_check_range(unsigned int sid4_adr)
 {
     if (sid4_adr >= 0xd400 && sid4_adr <= 0xdfe0) {
-        sid_quad_address_start = sid4_adr;
-        sid_quad_address_end = sid4_adr + 0x1f;
+        sid4_address_start = sid4_adr;
+        sid4_address_end = sid4_adr + 0x1f;
         return 0;
     }
     return -1;
