@@ -1525,21 +1525,6 @@ void ui_statusbar_shutdown(void)
 }
 
 
-static void on_volume_clicked(GtkWidget *widget, gpointer data)
-{
-    GtkWidget *popup;
-    GdkWindow *popup_window;
-
-    debug_gtk3("Volume button clicked.");
-    popup = gtk_scale_button_get_popup(GTK_SCALE_BUTTON(widget));
-
-    popup_window = gtk_widget_get_window(popup);
-    gdk_window_set_keep_above(popup_window, TRUE);
-
-}
-
-
-
 /** \brief  Create a new status bar.
  *
  *  This function should be called once as part of creating a new
@@ -1715,9 +1700,6 @@ GtkWidget *ui_statusbar_create(void)
 
     g_signal_connect(volume, "value-changed",
             G_CALLBACK(on_volume_value_changed), NULL);
-    g_signal_connect(volume, "clicked",
-            G_CALLBACK(on_volume_clicked), NULL);
-
 
     if (machine_class == VICE_MACHINE_VSID) {
         gtk_grid_attach(GTK_GRID(sb), volume, 4, 0, 1, 2);
