@@ -209,11 +209,11 @@ static const resource_int_t resources_int[] = {
     { "KernalRev", C64_KERNAL_REV3, RES_EVENT_SAME, NULL,
       &kernal_revision, set_kernal_revision, NULL },
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
-      (int *)&sid2_address_start, sid_set_sid_stereo_address, NULL },
+      (int *)&sid2_address_start, sid_set_sid2_address, NULL },
     { "SidTripleAddressStart", 0xdf00, RES_EVENT_SAME, NULL,
-      (int *)&sid3_address_start, sid_set_sid_triple_address, NULL },
+      (int *)&sid3_address_start, sid_set_sid3_address, NULL },
     { "SidQuadAddressStart", 0xdf80, RES_EVENT_SAME, NULL,
-      (int *)&sid4_address_start, sid_set_sid_quad_address, NULL },
+      (int *)&sid4_address_start, sid_set_sid4_address, NULL },
 
     RESOURCE_INT_LIST_END
 };

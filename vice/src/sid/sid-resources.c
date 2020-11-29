@@ -158,50 +158,25 @@ static int set_sid_stereo(int val, void *param)
     return 0;
 }
 
-int sid_set_sid_stereo_address(int val, void *param)
-{
-    unsigned int sid2_adr;
-
-    sid2_adr = (unsigned int)val;
-
-    if (machine_sid2_check_range(sid2_adr) < 0) {
-        return -1;
+#define SET_SIDx_ADDRESS(sid_nr)                                        \
+    int sid_set_sid##sid_nr##_address(int val, void *param)             \
+    {                                                                   \
+        unsigned int sid_adr;                                           \
+                                                                        \
+        sid_adr = (unsigned int)val;                                    \
+                                                                        \
+        if (machine_sid##sid_nr##_check_range(sid_adr) < 0) {           \
+            return -1;                                                  \
+        }                                                               \
+                                                                        \
+        sid##sid_nr##_address_start = sid_adr;                          \
+        sid##sid_nr##_address_end = sid##sid_nr##_address_start + 0x20; \
+        return 0;                                                       \
     }
 
-    sid2_address_start = sid2_adr;
-    sid2_address_end = sid2_address_start + 0x20;
-    return 0;
-}
-
-int sid_set_sid_triple_address(int val, void *param)
-{
-    unsigned int sid3_adr;
-
-    sid3_adr = (unsigned int)val;
-
-    if (machine_sid3_check_range(sid3_adr) < 0) {
-        return -1;
-    }
-
-    sid3_address_start = sid3_adr;
-    sid3_address_end = sid3_address_start + 0x20;
-    return 0;
-}
-
-int sid_set_sid_quad_address(int val, void *param)
-{
-    unsigned int sid4_adr;
-
-    sid4_adr = (unsigned int)val;
-
-    if (machine_sid4_check_range(sid4_adr) < 0) {
-        return -1;
-    }
-
-    sid4_address_start = sid4_adr;
-    sid4_address_end = sid4_address_start + 0x20;
-    return 0;
-}
+SET_SIDx_ADDRESS(2)
+SET_SIDx_ADDRESS(3)
+SET_SIDx_ADDRESS(4)
 
 static int set_sid_model(int val, void *param)
 {
