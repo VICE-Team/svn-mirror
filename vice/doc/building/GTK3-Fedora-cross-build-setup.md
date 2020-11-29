@@ -150,11 +150,71 @@ Will install a crapload of packages and still not create vice.pdf =)
 
 ```
 $ make bindistzip
-```
+``
 
 **Note**:
 
 Current make-bindist_win32.sh contains some hackish code to make GdkPixbuf recognize the SVG loader. which will break as soons as gdkpixbuf updates its version number.
 So we'll probably need a bit of `pkg-config --modversion` magic to update the code to handle newer versions of GdkPixbuf.
+
+
+
+## Update (2020-11-29): Use Fedora 33 Workstation x64
+
+### Install and setup
+
+(I used a VBox VM for this, which already comes with VBox guest additions
+ installed, which is nice)
+
+First update and reboot:
+
+```
+$ sudo dnf update
+$ shutdown -r now
+```
+
+When using VBox, make sure your VBox version matches the guest additions that
+Fedora uses. I had a slightly old VBox than the additions and got some weird
+rendering issues in Gnome Shell.
+
+
+#### Install Mingw packages
+
+```
+$ sudo dnf install \
+    automake \
+    autoconf \
+    byacc \
+    flex \
+    glib2-devel \
+    icoutils \
+    make \
+    mingw64-gtk3 \
+    mingw64-glew \
+    subversion\
+    xa
+```
+
+This will install a lot of packages required to cross-compile VICE, so some
+patience is required.
+
+
+#### Get current trunk
+
+```
+$ svn checkout --username=<sf-username> svn+ssh://<sf-username>@svn.code.sf.net/p/vice-emu/code/trunk vice-trunk
+```
+If you get a message about a key, just say Yes.
+
+Create the buildsystem:
+```
+$ cd vice-trunk/vice
+$ ./autogen.sh
+```
+
+Try to configure a minimal build of the Gtk3 port:
+```
+$ ./configure --enable-native-gtk3ui --enable-arch=no --disable-pdf-docs --host=x86_64-w64-mingw32 LDFLAGS="-lssp"
+```
 
 
