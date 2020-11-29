@@ -168,7 +168,7 @@ static sound_register_devices_t sound_register_devices[] = {
 
 static uint16_t offset = 0;
 
-static sound_chip_t *sound_calls[20];
+static sound_chip_t *sound_calls[SOUND_CHIPS_MAX];
 
 uint16_t sound_chip_register(sound_chip_t *chip)
 {
@@ -177,7 +177,7 @@ uint16_t sound_chip_register(sound_chip_t *chip)
     sound_calls[offset >> 5] = chip;
     offset += 0x20;
 
-    assert((offset >> 5) < 20);
+    assert((offset >> 5) < SOUND_CHIPS_MAX);
 
     return offset - 0x20;
 }

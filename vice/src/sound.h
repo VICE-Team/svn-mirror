@@ -72,6 +72,8 @@
 #define SOUND_BUFSIZE 32768
 #define SOUND_SIDS_MAX 4
 
+#define SOUND_CHIPS_MAX 20
+
 #ifdef __OS2__
 # define SOUND_SAMPLE_BUFFER_SIZE       400
 #endif
