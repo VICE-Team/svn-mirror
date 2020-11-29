@@ -375,11 +375,11 @@ int ethernetcart_disable(void)
 
 
 static const resource_int_t resources_int[] = {
-    { "ETHERNETCART_ACTIVE", 0, RES_EVENT_SAME, (resource_value_t)0,
+    { "ETHERNETCART_ACTIVE", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &ethernetcart_enabled, set_ethernetcart_enabled, NULL },
-    { "ETHERNETCARTBase", 0xffff, RES_EVENT_SAME, (resource_value_t)0,
+    { "ETHERNETCARTBase", 0xffff, RES_EVENT_STRICT, (resource_value_t)0xffff,
       &ethernetcart_base, set_ethernetcart_base, NULL },
-    { "ETHERNETCARTMode", ETHERNETCART_MODE_TFE, RES_EVENT_SAME, (resource_value_t)0,
+    { "ETHERNETCARTMode", ETHERNETCART_MODE_TFE, RES_EVENT_STRICT, (resource_value_t)ETHERNETCART_MODE_TFE,
       &ethernetcart_mode, set_ethernetcart_mode, NULL },
     RESOURCE_INT_LIST_END
 };
