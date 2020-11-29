@@ -39,6 +39,7 @@
 # include <sys/utsname.h>
 #elif defined(ARCHDEP_OS_WINDOWS)
 # include <windows.h>
+# include <VersionHelpers.h>
 #endif
 
 
@@ -109,6 +110,11 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
 #ifdef ARCHDEP_OS_UNIX
     struct utsname buf;
 #endif
+#ifdef ARCHDEP_OS_WINDOWS
+    const char *name;
+    OSVERSIONINFOA version;
+#endif
+
     /* set defaults */
     memset(info->os_name, 0, ARCHDEP_RUNTIME_STRMAX);
     memset(info->os_version, 0, ARCHDEP_RUNTIME_STRMAX);
@@ -130,9 +136,30 @@ bool archdep_get_runtime_info(archdep_runtime_info_t *info)
         return true;
     }
 #elif defined(ARCHDEP_OS_WINDOWS)
-    strcpy(info->os_name, "Windows");
-    strcpy(info->os_version, "[determining version blows]");
-    strcpy(info->os_release, "[determining release is absolutely retarded]");
+
+    GetVersionEx(&version);
+
+    name = "Who cares";
+    if (IsWindows10OrGreater()) {
+        /* yes, not correct, fuck it */
+        name = "10";
+    } else if (IsWindows8Point1OrGreater()) {
+        name = "8.1";
+    } else if (IsWindows8OrGreater()) {
+        name = "8.0";
+    } else if (IsWindows7SP1OrGreater()) {
+        name = "7SP1";
+    } else if (IsWindows7OrGreater()) {
+        name = "7";
+    } else {
+        name = "Unknown";
+    }
+
+
+    
+    snprintf(info->os_name, ARCHDEP_RUNTIME_STRMAX - 1U, "Windows %s", name);
+    snprintf(info->os_release, ARCHDEP_RUNTIME_STRMAX -1U, "%s",
+            version.szCSDVersion);
     if (os_is_win64()) {
         strcpy(info->machine, "x86_64 (64-bit)");
     } else {
