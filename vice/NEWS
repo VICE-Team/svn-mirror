@@ -18,6 +18,406 @@ Before reporting bugs, always try with a clean config (run emulator with
 -default or use "restore default config" in the UI).
 
 
+* Changes in Vice 3.5
+=====================
+
+This release completes the transition to the new GTK3 based GUI and fixes a
+bunch of long standing issues (see below).
+
+We are looking for someone who can provide stable automatic nightly builds - for
+this will work best on a windows machine, or perhaps a fedora server. We tried
+our best to come up with a solution for debian, but that didn't work out as
+intended. If you think you can help in this area - please get in touch.
+
+We welcome to the team:
+
+emphaticcubit - who wrote the new remote monitor binary interface
+
+Roberto Muscedere aka OldWoman37 - who contributed the new CMD-HD and RAMlink
+emulation
+
+** general
+----------
+
+- Remove explicit support for OS/2, AmigaOS. These platforms should be able to
+  use the SDL port.
+
+- VICE used to store its ROMs, keymaps etc into $PREFIX/lib[64]/vice, which
+  isn't correct. Now VICE installs its data into $PREFIX/share/vice, which
+  makes a lot more sense.
+
+- The default behaviour on CPU JAM was changed to "continue" to better match
+  the behaviour of the real machines. Additionally a "CPU JAM" message will
+  be displayed in the status bar.
+- "quit emulator" added to CPU JAM dialog
+- show the device number in the crash dialog
+
+- proper support for dual drives has been added
+
+- added support for 2nd and 3rd joystick button (potx/poty). currently only via
+  keyboard and via unix joystick driver.
+- added mapping for the THEC64 joystick
+
+- new LT.Kernal emulation
+  
+- new CMD-HD emulation
+
+- new CMD RAM-Link emulation
+
+- new Icons for the applications provided by Sander/Focus
+
+- we now use proper binary prefixes for memory sizes. 
+  welcome in the 21st century!
+  
+- recalculate the palette parameters when the videochip type changes, now we can 
+  actually see the subtle color differences :) 
+
+- Emulate a switch present on some compatible datasettes (not the Commodore
+  ones). Turning the switch on makes the sound recorded on the tape audible.
+
+- fixed/improved "native" screenshots. it will now work with all videochips and
+  always generate "best effort" results.
+
+- the emulators will look for the config file at an alternative location first,
+  before looking at the system wide location
+  - for windows that is the location of the .exe files
+  - for linux that is ~/.vicerc
+
+- fixed lightgun/pen emulation
+  - use poty instead of potx for trigger for magnum lightphaser and inkwell
+    lightpen
+  - tweak lightphaser offset against a bunch of games
+
+- Handling of settings and resources was improved a bit:
+  - always reset resources to default before loading a settings file
+  - new "-addconfig" option (or "load additional settings") loads additional
+    resources from a file without resetting to defaults before. this can be used
+    to keep custom setups seperate from the regular settings.
+
+- Fixed sysfile search path order.
+  The order now is $HOME/.local -> path-of-binary -> VICE_DATADIR
+
+- fixed a bug in .tap file handling that caused some .tap files to not work in
+  the preview widget(s)
+  
+- a bunch of files have been removed from the source tree because they didnt
+  really belong there and/or contained outdated info:
+  - hardware-sids.txt, the old info is now at 
+    https://vice-emu.pokefinder.org/index.php/Hardware_SID_Status 
+  - SDL-support.txt, the old info is now at 
+    https://vice-emu.pokefinder.org/index.php/SDL_Status 
+  - ffmpeg-support.txt, the old info is now at 
+    https://vice-emu.pokefinder.org/index.php/FFMPEG_Status 
+
+- another bunch of files were removed because their content was hopelessly
+  outdated and/or could be moved to other files:
+  - removed ancient CHANGELOG files. Read NEWS for the recent changes. Refer to
+    the SVN log for the gory details.
+  - moved contents from FEEDBACK to README
+  - removed INSTALL, AUTHORS, FEEDBACK
+  - removed the MAN pages. Read the html or pdf manual instead.
+
+  
+** build system
+---------------
+
+A bunch of changes and simplifications were done in the build system, to make
+it more reproducible and match the expected standard behaviour:
+
+- 'make dist' no longer needs '--enable-static-ffmpeg' to generate a working
+  tarball.
+  
+- Fixed support for the —disable-silent-rules/—enable-silent-rules configure
+  arguments.
+  
+- Added --enable-sandbox-mode switch. This switch will tell Gtk3 to use
+  'native dialogs' so we can properly support Flatpak and similar containers.
+  
+- Added -—enable-cmake to automatically generate cmake CMakelists.txt files for
+  in-tree builds. This may allow to generate MSVC project files in the future.
+
+- add --enable-desktop-files for creating and installing .desktop files on Unix.
+  
+- added --enable/disable-html-docs
+- Added --with/without-mpg123 (default=yes), makes MP3-decoding support optional
+- Added --with/without-ogg-vorbis
+- Added --with/without-flac (default=yes)
+- Update --with[out]-lame, make no default
+- make jpeg and gif support default to no
+- Make using libpng the default, fail unless explicitly disabled
+- Make ALSA and Pulse default to enabled, make OSS default to disabled
+- make MIDI support disabled by default
+- make new 8580 filter default
+- removed --disable-hwscale, always check for OpenGL with Gtk3, error out when
+  --disable-hwscale is used with SDL2
+
+Properly report missing tools to generate docs:  
+
+- Fail on missing pdftex when PDF docs requested
+- Checks for makeinfo and texi2dvi (from the texinfo package) and warns in the 
+  configure output at the end if they are missing, but will still build VICE.
+
+Check presence of other tools instead of silently not using them:
+
+- Made dos2unix mandatory to avoid surprises
+- Fail if building for Windows and `icotool` is missing. It can be obtained by 
+  installing the `icoutils` package.
+  
+some features have been deprecated and are now disabled by default:
+  
+- Added --enable-x64-image option to enable X64 image support, which is now
+  disabled by default.
+- added --with/without-fastsid switch to enable/disable the fastSID engine.
+  
+** Monitor
+----------
+
+- Completely new binary remote protocol for debuggers. The older hack was
+  removed - see the documentation for details.
+
+- -moncommands finally work as originally intended and supports all monitor
+  commands now. That means there are subtle differences in how certain things
+  work. one important thing is that by default it will use an initial break
+  point just after "reset".
+- "-initbreak ready" can be used to place an initial wait for "ready", like
+  autostart does, or "-initbreak reset" to break just after reset.
+  For more details, read the documentation.
+- ‘stop’ is no more ending up in recorded monitor command playback files
+
+- Support `cd ~` to change cwd to $HOME
+- added 'mkdir' command
+- added 'rmdir' command
+- added "verify" and "bverify" commands to compare memory with a file
+- added "dummy" command to enable or disable whether break- and watchpoints
+  trigger at dummy accesses or not.
+- Added optional address to the `screen` command
+
+- chis shows the cycle count as well now
+
+- added option to configure the number of lines used for chis
+- added option to change the size of the scrollback buffer
+
+- check watchpoints in the order they were added, that makes the output in the
+  monitor less confusing when more than one watchpoint triggers at a time 
+
+- Show rasterline and cycle in both decimal and hex
+- Add 'q' as a shorthand for 'quit'
+  
+- Improvements to the char/sprite display - use # over * for more contrast,
+  show the memory value(s) alongside binary view and fix bug showing multiple
+  sprites 
+  
+- "list", "load" and "save" do now work with the filesystem device
+
+- drive numbers are now expected to be decimal
+
+- add monitor dump function to m6821 core
+- added info on head position/status to VIA io dump
+
+- the display now (optionally) refreshes after each monitor command. this is not
+  cycle exact right now (only per scanline).
+
+- fixed accessing cartridge memory
+- improve expansion port mode status output 
+
+  
+** vdrive
+---------
+
+- the filesystem device now uses shortened filenames by default to increase
+  compatibility.
+- disallow to silently overwrite existing files (optional, default is "no")
+- implemented "save @" to overwrite files (but do not simulate the well known
+  related bugs)
+- Basic support for REL files in the File System Device. (Using P00 format, or 
+  rather R00, is recommended)
+- fix some BAM track allocation issues in 8050/8250 disk images
+- Avoid DISK FULL with 27 blocks free on .D80 / .D82.
+- For D80/D82 images, when reading the directory, use the correct block to fetch
+  the disk's name from. This corrects a bad disk name in directory listings when 
+  using a vdrive
+- Added proper creation of d1m, d2m and d4m images, the resulting image has 1 
+  native partition spanning the entire disk.
+- When formatting or validating an 8050 or 8250 image, the header sector wasn't
+  flagged as allocated. This resulted in VICE hanging when creating more than 80
+  files on the disk.
+- added DHD image support
+
+** True drive emulation
+-----------------------
+  
+- more realistic modelling of the floppy drive wobble.
+- changed lower limit for drive RPM to 260 and upper limit to 340 (ie +/- 40). 
+  This is slightly more than possible with a real 1541. 
+
+  
+** CPU fixes
+------------
+
+- prevent IRQ/NMI from being served by the CPU when it has JAMed
+- perform all "dummy" accesses also in the non "sc" core
+- changed magic constant for LAX#imm to 0xEE as required(!) by wizball 
+
+** VDC fixes
+------------
+
+- fixed VDC reg #28 bit #4, it sets the addressing mode, it does not actually
+  reflect the amount of ram installed.
+- correct aspect ratio
+- Fixed VDC interlace modes with odd row heights, soci VDC test #5 displays
+  again
+- Better VDC FLI handling, 3 byte attribute offset doesn't always apply
+  
+** SID fixes
+------------
+  
+- fixed the filter saturation
+- noise writeback fixes
+- envelope regression fix
+- Fix the coefficients for the resid external filter
+- Rough implementation of the shift register and wavefom zero bitfade
+  
+** C64 fixes
+------------
+
+- enable/disable datasette/tapecart as needed on autostart
+
+- several new cartridge types added:
+  - the 'ZIPP-CODE 48' cartridge
+  - the polish 'blackbox v8' cartridge
+  - the polish 'Blackbox V3' cartridge
+  - the polish 'Blackbox V4' cartridge
+  - the polish 'Blackbox V9' cartridge
+  - the 'REX RAM-Floppy' cartridge
+  - the czech 'BIS-Plus' cartridges (2,4,8kb variants)
+  - the polish 'SD-BOX' cartridge
+  - the 'MultiMAX' cartridge
+  - the argentinian HERO bootleg cartridge
+  - the "GMod3" cartridge
+
+- Action Replay fixes:
+  - when reading from IO1 area when AR5 is enabled, the value currently on the
+    bus will get written to the register, causing the famous bug/crash
+  - handle the broken mode 0x22 and emit a warning on potentially problematic
+    reads
+  
+- Retroreplay fixes:
+  - allow reading back the status of the freeze button
+  - fix reads from IO1 when the clockport is not active.
+  - handle the somewhat broken mode 0x22 like on real retro replay
+
+- Nordic Power fixes:
+  - fix writing to cartridge ram in mode 0x22
+
+** C128 fixes
+-------------
+  
+- FD2000/4000 work again, including burst mode
+  
+** VIC20 fixes
+--------------
+  
+- added handling for 32k cartridge files that contain blocks 1,2,3 and 5.
+- fixed megacart nvram addressing
+- external audio filter fix
+
+
+** PET fixes
+------------
+
+- Teach VICE where BASIC 1 keeps the current screen line address, so that 
+  Autostart works.
+- made the UK business keyboard the default and moved it to the top of the list
+  of keyboards. this makes the default setup work with the keymaps and editor
+  ROM we have in VICE.
+- For CRTC-less PETs, use screen setup values that work out to 60 Hz refresh.
+- Tuned the display timing values for non-CRTC PETs
+- Renamed PET ROMs to include their part number (in line with Zimmers). This
+  should make it more clear which editor ROMs exist.
+- the 4032B model used a wrong Editor ROM
+
+** SDL fixes
+------------
+
+- implemented mouse pointer auto-hiding
+- remember last position in the main menu
+
+- several Keyboard mapping fixes:
+  - fix (some) plus4 keymaps
+  - some pet keymap fixes
+  - updated/fixed symbolic mapping for italian keyboard
+  - some tweaks to symbolic keymap for german layout (plus4)
+  - added keymap from/for BMC64 (c64)
+
+** GTK3 fixes
+-------------
+
+- Cairo is completely gone, all major platforms use their native rendering
+  backend
+- added hotkey "pause" to generate a screenshot from current canvas using a 
+  generated filename in the current working directory
+- rearranged cartridge/io settings around a bit. not perfect yet, but probably
+  better than before
+- Add optional hiding of VDC display
+- Make double-clicking on the emulated screen switch fullscreen mode
+- added option to pause the emulation when settings dialog is open
+- Remember not only the last directory but also the last file in file dialogs
+- Show "Use Alt+M to disable mouse grab" in window title if mouse grab is 
+  active
+- Support 'StartMinimized'/-minimized
+- Added 'restore window geometry' to UI and commandline to allow users to apply/
+  ignore the last position/size of the window(s) stored in vicerc/vice.ini.
+- Allow for 8 'analog' controllers on Linux
+- added Alt+Shift+F12 VICII to switch border mode in x64sc
+
+- several Keyboard mapping fixes:
+  - added keymaps for THE64 keyboard
+  - updated keymaps for pet graphical keyboard
+  - fix shift+z/y in german positional mapping (c64)
+  - some tweaks to symbolic keymap for german layout (plus4)
+  - some tweaks to symbolic keymap for german layout (c64)
+  - fix (some) plus4 keymaps
+  - added positional keymap for swedish keyboard
+  - fix ctrl and cbm mapping (c128)
+
+  
+** macOS fixes
+--------------
+
+- macOS bindist now relies on macports rather than homebrew. With macports it’s
+  possible to build deps from source while targeting an older macOS version,
+  which allows us to continue to support macOS 10.9+.
+  
+- Re-enabled the bafflingly disabled working macOS joystick code
+- Actual macOS game controller device names are now listed instead of 6x “Analog
+  joystick n”
+  
+- Hotkeys use ⌘ not Option on mac. But I think we should use alt as well on mac
+  to make things consistent, and because many ⌘ based hotkeys are used by the OS 
+  already. 
+  
+
+** c1541 fixes
+--------------
+
+- Added some REL file support
+  - support for REL files to the c1541 COPY subcommand
+
+- Add subcommand to show dir entry of a file, and all side sectors.
+
+- Add support for SEQ and USR files for the -extract command
+
+- renamed `zcreate` command to `unzip`. 'unzip' (dissolve a zipcode archive)
+  sounds more logical than 'zcreate'. When we decide to also support creating
+  zipcode archives, a proper name for that could be 'zip' or 'zipcode'.
+
+
+** petcat fixes
+---------------
+
+- added missing basic v4 tokens for cbmII
+
+
 * Changes in Vice 3.4
 =====================
 
