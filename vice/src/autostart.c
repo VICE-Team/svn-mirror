@@ -603,9 +603,9 @@ static void check_rom_area(void)
  *
  * this should get called once, at the beginning of the autostart
  */
-static void init_drive_emulation_state(void)
+static void init_drive_emulation_state(int device)
 {
-    DBG(("init_drive_emulation_state tde:%d traps:%d warp:%d",
+    DBG(("init_drive_emulation_state(%d) tde:%d traps:%d warp:%d", device,
         get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
     ));
     if (orig_drive_true_emulation_state == -1) {
@@ -618,10 +618,10 @@ static void init_drive_emulation_state(void)
         orig_warp_mode = get_warp_state();
     }
     if (orig_FileSystemDevice8 == -1) {
-        resources_get_int("FileSystemDevice8", &orig_FileSystemDevice8);
+        resources_get_int_sprintf("FileSystemDevice%d", &orig_FileSystemDevice8, device);
     }
     if (orig_FSDevice8ConvertP00 == -1) {
-        resources_get_int("FSDevice8ConvertP00", &orig_FSDevice8ConvertP00);
+        resources_get_int_sprintf("FSDevice%dConvertP00", &orig_FSDevice8ConvertP00, device);
     }
 }
 
@@ -629,9 +629,9 @@ static void init_drive_emulation_state(void)
  *
  * this should get called on any "exit" of the autostart, error etc
  */
-static void restore_drive_emulation_state(void)
+static void restore_drive_emulation_state(int device)
 {
-    DBG(("restore_drive_emulation_state"));
+    DBG(("restore_drive_emulation_state(%d)", device));
     if (orig_device_traps_state != -1) {
         /* set device traps to original state */
         if (get_device_traps_state() != orig_device_traps_state) {
@@ -657,12 +657,12 @@ static void restore_drive_emulation_state(void)
         }
     }
     if (orig_FileSystemDevice8 != -1) {
-        log_message(autostart_log, "Restoring FileSystemDevice8 to %d.", orig_FileSystemDevice8);
-        resources_set_int("FileSystemDevice8", orig_FileSystemDevice8);
+        log_message(autostart_log, "Restoring FileSystemDevice%d to %d.", device, orig_FileSystemDevice8);
+        resources_set_int_sprintf("FileSystemDevice%d", orig_FileSystemDevice8, device);
     }
     if (orig_FSDevice8ConvertP00 != -1) {
-        log_message(autostart_log, "Restoring FSDevice8ConvertP00 to %d.", orig_FSDevice8ConvertP00);
-        resources_set_int("FSDevice8ConvertP00", orig_FSDevice8ConvertP00);
+        log_message(autostart_log, "Restoring FSDevice%dConvertP00 to %d.", device, orig_FSDevice8ConvertP00);
+        resources_set_int_sprintf("FSDevice%dConvertP00", orig_FSDevice8ConvertP00, device);
     }
 
     /* make sure we refresh these next time we do autostart via gui */
@@ -672,7 +672,7 @@ static void restore_drive_emulation_state(void)
     orig_FileSystemDevice8 = -1;
     orig_FSDevice8ConvertP00 = -1;
 
-    DBG(("restore_drive_emulation_state tde:%d traps:%d warp:%d",
+    DBG(("restore_drive_emulation_state(%d) tde:%d traps:%d warp:%d", device,
         get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
     ));
 
@@ -774,7 +774,7 @@ static void autostart_done(void)
 {
     DBG(("autostart_done"));
 
-    restore_drive_emulation_state();
+    restore_drive_emulation_state(8);
 
     autostartmode = AUTOSTART_DONE;
 
@@ -792,9 +792,9 @@ static void autostart_done(void)
 
 /* This function is called by the `serialreceivebyte()' trap as soon as EOF
    is reached.  */
-static void disk_eof_callback(void)
+static void disk_eof_callback(int device)
 {
-    DBG(("disk_eof_callback"));
+    DBG(("disk_eof_callback(%d)", device));
 
     if (handle_drive_true_emulation_overridden) {
         uint8_t id[2], *buffer = NULL;
@@ -803,18 +803,18 @@ static void disk_eof_callback(void)
         /* FIXME: what exactly is this stuff supposed to do? */
         if (orig_drive_true_emulation_state) {
             /* log_message(autostart_log, "Turning true drive emulation on."); */
-            if (vdrive_bam_get_disk_id(8, 0, id) == 0) {
+            if (vdrive_bam_get_disk_id(device, 0, id) == 0) {
                 vdrive_get_last_read(&track, &sector, &buffer);
             }
         }
         /* set_true_drive_emulation_mode(orig_drive_true_emulation_state); */
         if (orig_drive_true_emulation_state) {
             if (buffer) {
-                log_message(autostart_log, "Restoring true drive state of drive 8.");
+                log_message(autostart_log, "Restoring true drive state of drive %d.", device);
                 drive_set_disk_memory(id, track, sector, diskunit_context[0]);
                 drive_set_last_read(track, sector, buffer, diskunit_context[0]);
             } else {
-                log_message(autostart_log, "No Disk Image in drive 8.");
+                log_message(autostart_log, "No Disk Image in drive %d.", device);
             }
         }
     }
@@ -913,11 +913,11 @@ static void advance_loadingtape(void)
     }
 }
 
-static void advance_hasdisk(void)
+static void advance_hasdisk(int device)
 {
     char *tmp, *temp_name;
 
-    DBG(("advance_hasdisk"));
+    DBG(("advance_hasdisk(%d)", device));
 
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
@@ -936,19 +936,22 @@ static void advance_hasdisk(void)
                 log_message(autostart_log, "Loading program '*'");
             }
 
-            DBG(("advance_hasdisk traps:%d tde:%d",
+            DBG(("advance_hasdisk(%d) traps:%d tde:%d", device,
                  get_device_traps_state(), get_true_drive_emulation_state()));
 
             /* now either device traps or TDE is enabled, but not both */
 
             /* emit LOAD command */
-            tmp = lib_msprintf("LOAD\"%s\",8%s:\r",
+            tmp = lib_msprintf("LOAD\"%s\",%d%s:\r",
                                autostart_program_name ?
                                autostart_program_name : "*",
+                               device,
                                autostart_basic_load ? "" : ",1");
-            DBG(("advance_hasdisk LOAD\"%s\",8%s:",
+            DBG(("advance_hasdisk(%d) LOAD\"%s\",%d%s:",
+                               device,
                                autostart_program_name ?
                                autostart_program_name : "*",
+                               device,
                                autostart_basic_load ? "" : ",1"));
             kbdbuf_feed(tmp);
             lib_free(tmp);
@@ -1128,6 +1131,7 @@ static void advance_inject(void)
 
 /* Execute the actions for the current `autostartmode', advancing to the next
    mode if necessary.  */
+/* FIXME: pass device nr into this function */
 void autostart_advance(void)
 {
     if (!autostart_enabled) {
@@ -1161,7 +1165,7 @@ void autostart_advance(void)
             break;
 
         case AUTOSTART_HASDISK: /* wait for "READY.", to  AUTOSTART_WAITSEARCHINGFOR or AUTOSTART_LOADINGDISK */
-            advance_hasdisk();
+            advance_hasdisk(8);
             break;
         case AUTOSTART_WAITSEARCHINGFOR: /* wait for "SEARCHING FOR", to AUTOSTART_WAITLOADING */
             advance_waitsearchingfor();
@@ -1179,7 +1183,7 @@ void autostart_advance(void)
 
         case AUTOSTART_ERROR:
             log_message(autostart_log, "Error");
-            restore_drive_emulation_state();
+            restore_drive_emulation_state(8);
             autostartmode = AUTOSTART_DONE;
             break;
 
@@ -1296,7 +1300,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     }
 
     /* make sure to init TDE and traps status before each autostart */
-    init_drive_emulation_state();
+    init_drive_emulation_state(8);
 
     datasette_control(DATASETTE_CONTROL_STOP);
 
@@ -1329,7 +1333,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
 
-    /* restore_drive_emulation_state(); */
+    /* restore_drive_emulation_state(8); */
     return -1;
 }
 
@@ -1404,6 +1408,7 @@ static void setup_for_disk(void)
 }
 
 /* Autostart disk image `file_name'.  */
+/* FIXME: pass device nr into this function */
 int autostart_disk(const char *file_name, const char *program_name,
                    unsigned int program_number, unsigned int runmode)
 {
@@ -1422,7 +1427,7 @@ int autostart_disk(const char *file_name, const char *program_name,
     }
 
     /* make sure to init TDE and traps status before each autostart */
-    init_drive_emulation_state();
+    init_drive_emulation_state(8);
 
     /* Get program name first to avoid more than one file handle open on
        image.  */
@@ -1490,7 +1495,7 @@ exiterror:
     deallocate_program_name();
     lib_free(name);
 
-    /* restore_drive_emulation_state(); */
+    /* restore_drive_emulation_state(8); */
     return -1;
 }
 
@@ -1522,6 +1527,9 @@ static void setup_for_prg_vfs(void)
 
 /* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file
    or a P00 file */
+/* FIXME: if we want to be able to autostart prg files from different devices
+          than device nr 8, either pass the device nr here, or use some
+          resource for this */
 int autostart_prg(const char *file_name, unsigned int runmode)
 {
     fileio_info_t *finfo;
@@ -1549,14 +1557,14 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     }
 
     /* make sure to init TDE and traps status before each autostart */
-    init_drive_emulation_state();
+    init_drive_emulation_state(8);
 
     /* determine how to load file */
     switch (AutostartPrgMode) {
         case AUTOSTART_PRG_MODE_VFS:
             log_message(autostart_log, "Loading PRG file `%s' with virtual FS on unit #8.", file_name);
             setup_for_prg_vfs();
-            result = autostart_prg_with_virtual_fs(file_name, finfo, autostart_log);
+            result = autostart_prg_with_virtual_fs(8, file_name, finfo, autostart_log);
             mode = AUTOSTART_HASDISK;
             boot_file_name = (const char *)finfo->name;
             /* shorten the filename to 16 chars (if enabled) */
@@ -1584,7 +1592,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
                 ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
             }
             lib_free(savedir);
-            result = autostart_prg_with_disk_image(file_name, finfo, autostart_log, AutostartPrgDiskImage);
+            result = autostart_prg_with_disk_image(8, file_name, finfo, autostart_log, AutostartPrgDiskImage);
             mode = AUTOSTART_HASDISK;
             /* create temporary name for loading, use "*" when the name is longer
                than 16 characters, remove ".prg" extension when found */
@@ -1618,7 +1626,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* close prg file */
     fileio_close(finfo);
 
-    /* restore_drive_emulation_state(); */
+    /* restore_drive_emulation_state(8); */
 
     return result;
 }
@@ -1631,6 +1639,8 @@ int autostart_prg(const char *file_name, unsigned int runmode)
  *
  * \return  0 on success, -1 on failure
  */
+/* FIXME: make sure init_drive_emulation_state() does the right thing in this
+          function (perhaps we need to handle all drives?) */
 int autostart_tapecart(const char *file_name, void *unused)
 {
     /* check if \a file_name is actuallt a TCRT image */
@@ -1639,7 +1649,7 @@ int autostart_tapecart(const char *file_name, void *unused)
     }
 
     /* make sure to init TDE and traps status before each autostart */
-    init_drive_emulation_state();
+    init_drive_emulation_state(8);
 
     /* attach image and trigger autostart */
     if (tapecart_attach_tcrt(file_name, NULL) == 0) {
@@ -1710,6 +1720,7 @@ static void set_tapeport_device(int datasette, int tapecart)
 }
 
 /* Autostart `file_name', trying to auto-detect its type.  */
+/* FIXME: pass device nr into this function */
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {
@@ -1730,7 +1741,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
     }
 
     /* make sure to init TDE and traps status before each autostart */
-    init_drive_emulation_state();
+    init_drive_emulation_state(8);
 
     log_message(autostart_log, "Autodetecting image type of `%s'.", file_name);
 
@@ -1791,8 +1802,10 @@ int autostart_autodetect(const char *file_name, const char *program_name,
     return -1;
 }
 
-/* Autostart the image attached to device `num'.  */
-int autostart_device(int num)
+/* FIXME: dead code? */
+#if 0
+/* Autostart the image attached to device `device'.  */
+int autostart_device(int device)
 {
 #if HAVE_NATIVE_GTK3
     if (!mainlock_is_vice_thread()) {
@@ -1805,18 +1818,18 @@ int autostart_device(int num)
     }
 
     /* make sure to init TDE and traps status before each autostart */
-    init_drive_emulation_state();
-
-    switch (num) {
-        case 8:
-            reboot_for_autostart(NULL, AUTOSTART_HASDISK, AUTOSTART_MODE_RUN);
-            return 0;
-        case 1:
-            reboot_for_autostart(NULL, AUTOSTART_HASTAPE, AUTOSTART_MODE_RUN);
-            return 0;
+    if (device >= 8) {
+        init_drive_emulation_state(device);
+        reboot_for_autostart(NULL, AUTOSTART_HASDISK, AUTOSTART_MODE_RUN);
+        return 0;
+    } else if (device == 1) {
+        init_drive_emulation_state(8);
+        reboot_for_autostart(NULL, AUTOSTART_HASTAPE, AUTOSTART_MODE_RUN);
+        return 0;
     }
     return -1;
 }
+#endif
 
 int autostart_in_progress(void)
 {
@@ -1824,6 +1837,7 @@ int autostart_in_progress(void)
 }
 
 /* Disable autostart on reset.  */
+/* FIXME: pass device nr into this function */
 void autostart_reset(void)
 {
     int oldmode;
@@ -1838,7 +1852,7 @@ void autostart_reset(void)
         oldmode = autostartmode;
         autostartmode = AUTOSTART_NONE;
         if (oldmode != AUTOSTART_DONE) {
-            disk_eof_callback();
+            disk_eof_callback(8);
         }
         autostartmode = AUTOSTART_NONE;
         trigger_monitor = 0;
