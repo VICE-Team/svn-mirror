@@ -2508,7 +2508,14 @@ String specifying the filename of the disk image used when autostarting a prg fi
 
 @vindex AutostartBasicLoad
 @item AutostartBasicLoad
-Boolean, if true load to basic start using ,8 when autostarting
+Boolean, if true load to basic start using ,8 when autostarting from disk, else
+use ,8,1 to load absolute.
+(all emulators except vsid).
+
+@vindex AutostartTapeBasicLoad
+@item AutostartTapeBasicLoad
+Boolean, if true load to basic start using ,1 when autostarting from tape, else
+use ,1,1 to load absolute.
 (all emulators except vsid).
 
 @vindex AutostartRunWithColon
@@ -2565,12 +2572,22 @@ Set disk image for autostart of PRG files
 
 @findex -basicload, +basicload
 @item -basicload
-On autostart, load to BASIC start (without ',1')
+On autostart from disk, load to BASIC start (without ',1')
 (@code{AutostartBasicLoad=1})
 (all emulators except vsid).
 @item +basicload
-On autostart, load with ',1'
+On autostart from disk, load with ',1'
 (@code{AutostartBasicLoad=0})
+(all emulators except vsid).
+
+@findex -tapebasicload, +tapebasicload
+@item -tapebasicload
+On autostart from tape, load to BASIC start (without ',1')
+(@code{AutostartTapeBasicLoad=1})
+(all emulators except vsid).
+@item +tapebasicload
+On autostart from tape, load with ',1'
+(@code{AutostartTapeBasicLoad=0})
 (all emulators except vsid).
 
 @findex -autostartwithcolon, +autostartwithcolon
