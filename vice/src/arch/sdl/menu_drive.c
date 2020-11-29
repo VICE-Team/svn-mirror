@@ -1117,6 +1117,7 @@ UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 UI_MENU_DEFINE_TOGGLE(AutostartWarp)
 UI_MENU_DEFINE_TOGGLE(AutostartDelayRandom)
 UI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
+UI_MENU_DEFINE_TOGGLE(AutostartTapeBasicLoad)
 UI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
 UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 UI_MENU_DEFINE_STRING(AutostartPrgDiskImage)
@@ -1172,7 +1173,11 @@ static const ui_menu_entry_t autostart_settings_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_AutostartDelayRandom_callback,
       NULL },
-    { "Load to BASIC start (without ',1')",
+    { "Load to BASIC start (tape)",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_AutostartTapeBasicLoad_callback,
+      NULL },
+    { "Load to BASIC start (disk)",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_AutostartBasicLoad_callback,
       NULL },
