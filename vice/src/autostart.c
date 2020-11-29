@@ -312,7 +312,7 @@ static resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "AutostartBasicLoad", 0, RES_EVENT_NO, (resource_value_t)0,
       &autostart_basic_load, set_autostart_basic_load, NULL },
-    { "AutostartTapeBasicLoad", 1, RES_EVENT_NO, (resource_value_t)0,
+    { "AutostartTapeBasicLoad", 1, RES_EVENT_NO, (resource_value_t)1,
       &autostart_tape_basic_load, set_autostart_tape_basic_load, NULL },
     { "AutostartRunWithColon", 1, RES_EVENT_NO, (resource_value_t)1,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },

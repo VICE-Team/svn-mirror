@@ -11,6 +11,7 @@
  * $VICERES AutostartPrgDiskImage               -vsid
  * $VICERES AutostartRunWithColon               -vsid
  * $VICERES AutostartBasicLoad                  -vsid
+ * $VICERES AutostartTapeBasicLoad              -vsid
  * $VICERES AutostartWarp                       -vsid
  * $VICERES AutostartHandleTrueDriveEmulation   -vsid
  */
@@ -166,6 +167,7 @@ static GtkWidget *create_prg_widget(void)
     GtkWidget *grid;
     GtkWidget *colon;
     GtkWidget *basic;
+    GtkWidget *tapebasic;
     GtkWidget *mode;
     GtkWidget *group;
     GtkWidget *image;
@@ -179,10 +181,15 @@ static GtkWidget *create_prg_widget(void)
     g_object_set(colon, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), colon, 0, 1, 1, 1);
 
+    tapebasic = vice_gtk3_resource_check_button_new("AutostartTapeBasicLoad",
+            "Load to BASIC start (tape)");
+    g_object_set(tapebasic, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), tapebasic, 0, 2, 1, 1);
+
     basic = vice_gtk3_resource_check_button_new("AutostartBasicLoad",
-            "Load to BASIC start");
+            "Load to BASIC start (disk)");
     g_object_set(basic, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), basic, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), basic, 0, 3, 1, 1);
 
     mode = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Autostart PRG mode", 1);
@@ -191,10 +198,10 @@ static GtkWidget *create_prg_widget(void)
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(mode), group, 0, 1, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), mode, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), mode, 0, 4, 1, 1);
 
     image = create_prg_diskimage_widget();
-    gtk_grid_attach(GTK_GRID(grid), image, 0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), image, 0, 5, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
