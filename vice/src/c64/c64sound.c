@@ -37,55 +37,34 @@
 #include "sound.h"
 #include "types.h"
 
-static uint8_t machine_sid2_read(uint16_t addr)
-{
-    return sid2_read(addr);
-}
+#define MACHINE_SIDx_RFUNC(fname, func)  \
+    static uint8_t fname(uint16_t addr) \
+    {                                   \
+        return func(addr);              \
+    }
 
-static uint8_t machine_sid2_peek(uint16_t addr)
-{
-    return sid2_peek(addr);
-}
+MACHINE_SIDx_RFUNC(machine_sid2_read, sid2_read)
+MACHINE_SIDx_RFUNC(machine_sid3_read, sid3_read)
+MACHINE_SIDx_RFUNC(machine_sid4_read, sid4_read)
 
-static void machine_sid2_store(uint16_t addr, uint8_t byte)
-{
-    sid2_store(addr, byte);
-}
+MACHINE_SIDx_RFUNC(machine_sid2_peek, sid2_peek)
+MACHINE_SIDx_RFUNC(machine_sid3_peek, sid3_peek)
+MACHINE_SIDx_RFUNC(machine_sid4_peek, sid4_peek)
 
-static uint8_t machine_sid3_read(uint16_t addr)
-{
-    return sid3_read(addr);
-}
+#define MACHINE_SIDx_STORE(fname, func)            \
+    static void fname(uint16_t addr, uint8_t byte) \
+    {                                              \
+        func(addr, byte);                          \
+    }
 
-static uint8_t machine_sid3_peek(uint16_t addr)
-{
-    return sid3_peek(addr);
-}
-
-static void machine_sid3_store(uint16_t addr, uint8_t byte)
-{
-    sid3_store(addr, byte);
-}
-
-static uint8_t machine_sid4_read(uint16_t addr)
-{
-    return sid4_read(addr);
-}
-
-static uint8_t machine_sid4_peek(uint16_t addr)
-{
-    return sid4_peek(addr);
-}
-
-static void machine_sid4_store(uint16_t addr, uint8_t byte)
-{
-    sid4_store(addr, byte);
-}
+MACHINE_SIDx_STORE(machine_sid2_store, sid2_store)
+MACHINE_SIDx_STORE(machine_sid3_store, sid3_store)
+MACHINE_SIDx_STORE(machine_sid4_store, sid4_store)
 
 /* ---------------------------------------------------------------------*/
 
 /* 2nd SID, can be a cartridge or an internal board */
-static io_source_t stereo_sid_device = {
+static io_source_t sid2_device = {
     "Stereo SID",         /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
     "SidStereo",          /* resource to set to '0' */
@@ -102,7 +81,7 @@ static io_source_t stereo_sid_device = {
 };
 
 /* 3rd SID, can be a cartridge or an internal board */
-static io_source_t triple_sid_device = {
+static io_source_t sid3_device = {
     "Triple SID",         /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
     "SidStereo",          /* resource to set to '0' */
@@ -119,7 +98,7 @@ static io_source_t triple_sid_device = {
 };
 
 /* 4th SID, can be a cartridge or an internal board */
-static io_source_t quad_sid_device = {
+static io_source_t sid4_device = {
     "Quad SID",           /* name of the device */
     IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
     "SidStereo",          /* resource to set to '0' */
@@ -135,9 +114,9 @@ static io_source_t quad_sid_device = {
     0                     /* insertion order, gets filled in by the registration function */
 };
 
-static io_source_list_t *stereo_sid_list_item = NULL;
-static io_source_list_t *triple_sid_list_item = NULL;
-static io_source_list_t *quad_sid_list_item = NULL;
+static io_source_list_t *sid2_list_item = NULL;
+static io_source_list_t *sid3_list_item = NULL;
+static io_source_list_t *sid4_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
@@ -169,15 +148,15 @@ int machine_sid2_check_range(unsigned int sid2_adr)
     if (machine_class == VICE_MACHINE_C128) {
         if ((sid2_adr >= 0xd400 && sid2_adr <= 0xd4e0) || (sid2_adr >= 0xd700 && sid2_adr <= 0xdfe0)) {
             sid_stereo_address_start = sid2_adr;
-            stereo_sid_device.start_address = sid2_adr;
+            sid2_device.start_address = sid2_adr;
             sid_stereo_address_end = sid2_adr + 0x1f;
-            stereo_sid_device.end_address = sid2_adr + 0x1f;
-            if (stereo_sid_list_item != NULL) {
-                io_source_unregister(stereo_sid_list_item);
-                stereo_sid_list_item = io_source_register(&stereo_sid_device);
+            sid2_device.end_address = sid2_adr + 0x1f;
+            if (sid2_list_item != NULL) {
+                io_source_unregister(sid2_list_item);
+                sid2_list_item = io_source_register(&sid2_device);
             } else {
                 if (sid_stereo >= 1) {
-                    stereo_sid_list_item = io_source_register(&stereo_sid_device);
+                    sid2_list_item = io_source_register(&sid2_device);
                 }
             }
             return 0;
@@ -185,15 +164,15 @@ int machine_sid2_check_range(unsigned int sid2_adr)
     } else {
         if (sid2_adr >= 0xd400 && sid2_adr <= 0xdfe0) {
             sid_stereo_address_start = sid2_adr;
-            stereo_sid_device.start_address = sid2_adr;
+            sid2_device.start_address = sid2_adr;
             sid_stereo_address_end = sid2_adr + 0x1f;
-            stereo_sid_device.end_address = sid2_adr + 0x1f;
-            if (stereo_sid_list_item != NULL) {
-                io_source_unregister(stereo_sid_list_item);
-                stereo_sid_list_item = io_source_register(&stereo_sid_device);
+            sid2_device.end_address = sid2_adr + 0x1f;
+            if (sid2_list_item != NULL) {
+                io_source_unregister(sid2_list_item);
+                sid2_list_item = io_source_register(&sid2_device);
             } else {
                 if (sid_stereo >= 1) {
-                    stereo_sid_list_item = io_source_register(&stereo_sid_device);
+                    sid2_list_item = io_source_register(&sid2_device);
                 }
             }
             return 0;
@@ -207,15 +186,15 @@ int machine_sid3_check_range(unsigned int sid3_adr)
     if (machine_class == VICE_MACHINE_C128) {
         if ((sid3_adr >= 0xd400 && sid3_adr <= 0xd4e0) || (sid3_adr >= 0xd700 && sid3_adr <= 0xdfe0)) {
             sid_triple_address_start = sid3_adr;
-            triple_sid_device.start_address = sid3_adr;
+            sid3_device.start_address = sid3_adr;
             sid_triple_address_end = sid3_adr + 0x1f;
-            triple_sid_device.end_address = sid3_adr + 0x1f;
-            if (triple_sid_list_item != NULL) {
-                io_source_unregister(triple_sid_list_item);
-                triple_sid_list_item = io_source_register(&triple_sid_device);
+            sid3_device.end_address = sid3_adr + 0x1f;
+            if (sid3_list_item != NULL) {
+                io_source_unregister(sid3_list_item);
+                sid3_list_item = io_source_register(&sid3_device);
             } else {
                 if (sid_stereo >= 2) {
-                    triple_sid_list_item = io_source_register(&triple_sid_device);
+                    sid3_list_item = io_source_register(&sid3_device);
                 }
             }
             return 0;
@@ -223,15 +202,15 @@ int machine_sid3_check_range(unsigned int sid3_adr)
     } else {
         if (sid3_adr >= 0xd400 && sid3_adr <= 0xdfe0) {
             sid_triple_address_start = sid3_adr;
-            triple_sid_device.start_address = sid3_adr;
+            sid3_device.start_address = sid3_adr;
             sid_triple_address_end = sid3_adr + 0x1f;
-            triple_sid_device.end_address = sid3_adr + 0x1f;
-            if (triple_sid_list_item != NULL) {
-                io_source_unregister(triple_sid_list_item);
-                triple_sid_list_item = io_source_register(&triple_sid_device);
+            sid3_device.end_address = sid3_adr + 0x1f;
+            if (sid3_list_item != NULL) {
+                io_source_unregister(sid3_list_item);
+                sid3_list_item = io_source_register(&sid3_device);
             } else {
                 if (sid_stereo >= 2) {
-                    triple_sid_list_item = io_source_register(&triple_sid_device);
+                    sid3_list_item = io_source_register(&sid3_device);
                 }
             }
             return 0;
@@ -245,15 +224,15 @@ int machine_sid4_check_range(unsigned int sid4_adr)
     if (machine_class == VICE_MACHINE_C128) {
         if ((sid4_adr >= 0xd400 && sid4_adr <= 0xd4e0) || (sid4_adr >= 0xd700 && sid4_adr <= 0xdfe0)) {
             sid_quad_address_start = sid4_adr;
-            quad_sid_device.start_address = sid4_adr;
+            sid4_device.start_address = sid4_adr;
             sid_quad_address_end = sid4_adr + 0x1f;
-            quad_sid_device.end_address = sid4_adr + 0x1f;
-            if (quad_sid_list_item != NULL) {
-                io_source_unregister(quad_sid_list_item);
-                quad_sid_list_item = io_source_register(&quad_sid_device);
+            sid4_device.end_address = sid4_adr + 0x1f;
+            if (sid4_list_item != NULL) {
+                io_source_unregister(sid4_list_item);
+                sid4_list_item = io_source_register(&sid4_device);
             } else {
                 if (sid_stereo >= 3) {
-                    quad_sid_list_item = io_source_register(&quad_sid_device);
+                    sid4_list_item = io_source_register(&sid4_device);
                 }
             }
             return 0;
@@ -261,15 +240,15 @@ int machine_sid4_check_range(unsigned int sid4_adr)
     } else {
         if (sid4_adr >= 0xd400 && sid4_adr <= 0xdfe0) {
             sid_quad_address_start = sid4_adr;
-            quad_sid_device.start_address = sid4_adr;
+            sid4_device.start_address = sid4_adr;
             sid_quad_address_end = sid4_adr + 0x1f;
-            quad_sid_device.end_address = sid4_adr + 0x1f;
-            if (quad_sid_list_item != NULL) {
-                io_source_unregister(quad_sid_list_item);
-                quad_sid_list_item = io_source_register(&quad_sid_device);
+            sid4_device.end_address = sid4_adr + 0x1f;
+            if (sid4_list_item != NULL) {
+                io_source_unregister(sid4_list_item);
+                sid4_list_item = io_source_register(&sid4_device);
             } else {
                 if (sid_stereo >= 3) {
-                    quad_sid_list_item = io_source_register(&quad_sid_device);
+                    sid4_list_item = io_source_register(&sid4_device);
                 }
             }
             return 0;
@@ -280,27 +259,27 @@ int machine_sid4_check_range(unsigned int sid4_adr)
 
 void machine_sid2_enable(int val)
 {
-    if (stereo_sid_list_item != NULL) {
-        io_source_unregister(stereo_sid_list_item);
-        stereo_sid_list_item = NULL;
+    if (sid2_list_item != NULL) {
+        io_source_unregister(sid2_list_item);
+        sid2_list_item = NULL;
     }
-    if (triple_sid_list_item != NULL) {
-        io_source_unregister(triple_sid_list_item);
-        triple_sid_list_item = NULL;
+    if (sid3_list_item != NULL) {
+        io_source_unregister(sid3_list_item);
+        sid3_list_item = NULL;
     }
-    if (quad_sid_list_item != NULL) {
-        io_source_unregister(quad_sid_list_item);
-        quad_sid_list_item = NULL;
+    if (sid4_list_item != NULL) {
+        io_source_unregister(sid4_list_item);
+        sid4_list_item = NULL;
     }
 
     if (val >= 1) {
-        stereo_sid_list_item = io_source_register(&stereo_sid_device);
+        sid2_list_item = io_source_register(&sid2_device);
     }
     if (val >= 2) {
-        triple_sid_list_item = io_source_register(&triple_sid_device);
+        sid3_list_item = io_source_register(&sid3_device);
     }
     if (val >= 3) {
-        quad_sid_list_item = io_source_register(&quad_sid_device);
+        sid4_list_item = io_source_register(&sid4_device);
     }
 }
 
