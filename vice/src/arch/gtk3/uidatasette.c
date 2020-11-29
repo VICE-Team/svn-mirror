@@ -45,7 +45,7 @@
 static void on_configure_activate(GtkWidget *widget, gpointer data)
 {
     ui_settings_dialog_create_and_activate_node(
-            "io-extensions/tapeport-devices");
+            "peripheral/tapeport-devices");
 }
 
 
