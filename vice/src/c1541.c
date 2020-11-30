@@ -1258,27 +1258,39 @@ static int attach_cmd(int nargs, char **args)
  */
 static void bam_print_sector_header(int sectors)
 {
+    char line0[BAM_SECTOR_HEADER_MAX_STRLEN + 1];
     char line1[BAM_SECTOR_HEADER_MAX_STRLEN + 1];
     char line2[BAM_SECTOR_HEADER_MAX_STRLEN + 1];
+    char tmp[10];
 
     int i = 0;
     int p = 0;
 
     while (i < sectors && p < BAM_SECTOR_HEADER_MAX_STRLEN) {
-        line1[p] = (char)((i / 10) + '0');
-        line2[p] = (char)((i % 10) + '0');
+        snprintf(tmp, 9, "%3d", i % 1000);
+//        line0[p] = (char)(((i / 100) % 10) + '0');
+//        line1[p] = (char)(((i / 10) % 10) + '0');
+//        line2[p] = (char)((i % 10) + '0');
+        line0[p] = tmp[0];
+        line1[p] = tmp[1];
+        line2[p] = tmp[2];
         i++;
         p++;
         if ((i % 8 == 0) && (i <sectors)) {
+            line0[p] = ' ';
             line1[p] = ' ';
             line2[p] = ' ';
             p++;
         }
     }
+    line0[p] = '\0';
     line1[p] = '\0';
     line2[p] = '\0';
 
-    printf("    %s\n    %s\n", line1, line2);
+    if (sectors > 100) {
+        printf("     %s\n", line0);
+    }
+    printf("     %s\n     %s\n", line1, line2);
 }
 
 
@@ -1298,19 +1310,21 @@ static int bam_print_tracks(vdrive_t *vdrive,
 
     for (track = track_min; track <= track_max; track++) {
         unsigned int sectors = (unsigned int)vdrive_get_max_sectors(vdrive, track);
-        unsigned char *bitmap = vdrive_bam_get_track_entry(vdrive, track);
+//        unsigned char *bitmap = vdrive_bam_get_track_entry(vdrive, track, 0);
         unsigned int s = 0;
 
+/*
         if (bitmap == NULL) {
             fprintf(stderr,
                     "error: got NULL for bam entry for track %u\n",
                     track);
             return FD_BADVAL;
         }
+*/
 
-        printf("%2u  ", track);
+        printf("%3u  ", track);
         while (s < sectors) {
-            putchar(vdrive_bam_isset(bitmap, s) ? '.' : '*');
+            putchar(vdrive_bam_is_sector_allocated(vdrive, track, s) ? '*' : '.');
             s++;
             if ((s % 8 == 0) && (s < sectors)) {
                 putchar(' ');
@@ -2835,6 +2849,8 @@ static int format_cmd(int nargs, char **args)
                 disk_type = DISK_IMAGE_TYPE_D2M;
             } else if (strcmp(args[2], "d4m") == 0) {
                 disk_type = DISK_IMAGE_TYPE_D4M;
+            } else if (strcmp(args[2], "d90") == 0) {
+                disk_type = DISK_IMAGE_TYPE_D90;
             } else {
                 return FD_BADVAL;
             }
