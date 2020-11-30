@@ -203,6 +203,7 @@ static drive_type_info_t drive_type_info_list[] = {
     { DRIVE_NAME_1001, DRIVE_TYPE_1001 },
     { DRIVE_NAME_8050, DRIVE_TYPE_8050 },
     { DRIVE_NAME_8250, DRIVE_TYPE_8250 },
+    { DRIVE_NAME_9000, DRIVE_TYPE_9000 },
     { NULL, -1 }
 };
 
