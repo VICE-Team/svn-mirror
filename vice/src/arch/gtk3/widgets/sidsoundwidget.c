@@ -45,6 +45,7 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
@@ -607,19 +608,29 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
     GtkWidget *widget;
     const vice_gtk3_combo_entry_int_t *entries;
     char label[256];
-    const char *resource[3] = {
-        "SidStereoAddressStart",
-        "SidTripleAddressStart",
-        "SidQuadAddressStart"
-    };
+    char *resource_name;
+    
+    if (sid == 1) {
+        resource_name = lib_strdup("SidStereoAddressStart");
+    } else if (sid == 2) {
+        resource_name = lib_strdup("SidTripleAddressStart");
+    } else if (sid == 3) {
+        resource_name = lib_strdup("SidQuadAddressStart");
+    } else if (sid > 3) {
+        resource_name = lib_msprintf("Sid%dAddressStart", sid + 1);
+    } else {
+        assert(0);
+    }
 
     g_snprintf(label, 256, "SID #%d address", sid + 1);
     entries = machine_class == VICE_MACHINE_C128
         ? sid_address_c128 : sid_address_c64;
 
-    widget = vice_gtk3_resource_combo_box_int_new_with_label(
-            resource[sid - 1], entries, label);
+    widget = vice_gtk3_resource_combo_box_int_new_with_label(resource_name, entries, label);
     gtk_widget_show_all(widget);
+    
+    lib_free(resource_name);
+    
     return widget;
 }
 
