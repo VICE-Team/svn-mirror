@@ -743,6 +743,38 @@ good:
     return 1;
 }
 
+static int disk_image_check_for_d90(disk_image_t *image)
+{
+    unsigned int blk = 0;
+    fsimage_t *fsimage;
+
+    fsimage = image->media.fsimage;
+
+    /* get file size */
+    blk = (unsigned int)util_file_length(fsimage->fd);
+
+    /* only allow true D9090/D9060 image sizes right now */
+    if (blk == D9060_FILE_SIZE) {
+        /* D9060 has 4 heads */
+        image->sectors = 4 * 32;
+    } else if (blk == D9090_FILE_SIZE) {
+        /* D9090 has 6 heads */
+        image->sectors = 6 * 32;
+    } else {
+        return 0;
+    }
+
+    /* set max track, for now; it starts at 0 */
+    image->tracks = 152;
+
+    /* image is allowed */
+    image->type = DISK_IMAGE_TYPE_D90;
+    image->max_half_tracks = 0;
+
+    disk_image_check_log(image, "D90");
+    return 1;
+}
+
 int fsimage_probe(disk_image_t *image)
 {
     if (disk_image_check_for_d64(image)) {
@@ -781,6 +813,9 @@ int fsimage_probe(disk_image_t *image)
         return 0;
     }
     if (disk_image_check_for_d4m(image)) {
+        return 0;
+    }
+    if (disk_image_check_for_d90(image)) {
         return 0;
     }
     if (disk_image_check_for_dhd(image)) {

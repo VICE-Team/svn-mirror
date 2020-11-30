@@ -50,7 +50,7 @@ int fsimage_check_sector(const disk_image_t *image, unsigned int track,
 {
     unsigned int sectors = 0, i;
 
-    if (track < 1) {
+    if (image->type != DISK_IMAGE_TYPE_D90 && track < 1) {
         return FSIMAGE_BAD_TRKNUM;
     }
 
@@ -189,6 +189,20 @@ int fsimage_check_sector(const disk_image_t *image, unsigned int track,
                 return FSIMAGE_BAD_SECNUM;
             }
             sectors = (track - 1) * 65536 + sector;
+            break;
+        case DISK_IMAGE_TYPE_D90:
+            /* track 0 is allowed here as the fdc passes it */
+            if (track > image->tracks) {
+               return FSIMAGE_BAD_TRKNUM;
+            }
+            if (sector >= image->sectors) {
+                return FSIMAGE_BAD_SECNUM;
+            }
+            /* use the mapping found in the FDC:
+              sectors = track * (image->sectors >> 5) + (sector >> 5);
+              sectors = (sectors << 5) + (sector & 31);
+            we use a more optimized function here */
+            sectors = track * (image->sectors & (~31)) + sector;
             break;
         default:
             return -1;

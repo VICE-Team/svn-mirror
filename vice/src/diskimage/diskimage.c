@@ -418,6 +418,7 @@ static const char *disk_image_type(const disk_image_t *image)
         case DISK_IMAGE_TYPE_D2M: return "D2M";
         case DISK_IMAGE_TYPE_D4M: return "D4M";
         case DISK_IMAGE_TYPE_DHD: return "DHD";
+        case DISK_IMAGE_TYPE_D90: return "D90";
         default: return NULL;
     }
 }

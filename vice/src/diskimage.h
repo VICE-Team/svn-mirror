@@ -53,6 +53,9 @@
 #define D4M_FILE_SIZE     3317760        /* D4M image, 81 tracks */
 #define D4M_FILE_SIZE_E   3330720        /* D4M image, 81 tracks with errors */
 
+#define D9090_FILE_SIZE   (153*6*32*256) /* D90 image, 153 tracks, 32 sectors, 6 heads */
+#define D9060_FILE_SIZE   (153*4*32*256) /* D90 image, 153 tracks, 32 sectors, 4 heads */
+
 #define DISK_IMAGE_DEVICE_FS   0
 #define DISK_IMAGE_DEVICE_REAL 1
 #define DISK_IMAGE_DEVICE_RAW  2
@@ -74,6 +77,7 @@
 #define DISK_IMAGE_TYPE_D2M 2000
 #define DISK_IMAGE_TYPE_D4M 4000
 #define DISK_IMAGE_TYPE_DHD 4844 /* HD in ASCII for CMDHD */
+#define DISK_IMAGE_TYPE_D90 9000 /* D9090/D9060 */
 
 struct fsimage_s;
 struct rawimage_s;
@@ -90,6 +94,7 @@ struct disk_image_s {
     unsigned int device;
     unsigned int type;
     unsigned int tracks;
+    unsigned int sectors; /* for D9090/D9060 */
     unsigned int max_half_tracks;
     struct gcr_s *gcr;
     struct TP64Image *p64;

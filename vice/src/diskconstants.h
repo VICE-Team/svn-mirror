@@ -164,6 +164,10 @@
 #define DIR_TRACK_8250         DIR_TRACK_8050
 #define DIR_SECTOR_8250        DIR_SECTOR_8050
 
+#define MAX_TRACKS_9000        152      /* for now */
+#define BAM_NAME_9000          6
+#define BAM_ID_9000            24
+
 #define NUM_TRACKS_1000        13
 #define NUM_BLOCKS_1000        3240
 #define NUM_SYS_SECTORS_1000   168      /* on system partition track */
