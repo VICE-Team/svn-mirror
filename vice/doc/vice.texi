@@ -8561,7 +8561,7 @@ Integer specifying the base address of the third SID
 
 @vindex SidQuadAddressStart
 @item SidQuadAddressStart
-Integer specifying the base address of the third SID
+Integer specifying the base address of the fourth SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -8673,7 +8673,7 @@ Specifies the start address for the third SID chip
 
 @findex -sidquadaddress
 @item -sidquadaddress @code{ADDRESS}
-Specifies the start address for the forth SID chip
+Specifies the start address for the fourth SID chip
 (@code{SidQuadAddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
