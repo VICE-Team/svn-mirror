@@ -117,6 +117,7 @@ void ieee_drive_rom_load(void)
     ieeerom_load_3040();
     ieeerom_load_4040();
     ieeerom_load_1001();
+    ieeerom_load_9000();
 }
 
 void ieee_drive_rom_setup_image(unsigned int dnr)

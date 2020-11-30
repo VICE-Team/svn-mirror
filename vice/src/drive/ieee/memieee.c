@@ -190,7 +190,7 @@ void memieee_init(struct diskunit_context_s *drv, unsigned int type)
         drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL, NULL, drv->trap_rom, 0x8000bffd);
         return;
 
-    /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx,
+    /* The 2040/3040/4040/1001/8050/8250/9090/9060 have 256 byte at $00xx,
         mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
         (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
         the gaps, x00-7f the first and x80-ff the second, at
@@ -217,6 +217,7 @@ void memieee_init(struct diskunit_context_s *drv, unsigned int type)
         return;
     case DRIVE_TYPE_8050:
     case DRIVE_TYPE_8250:
+    case DRIVE_TYPE_9000:
         drv->cpu->pageone = drv->drive_ram;
         drivemem_set_func(cpud, 0x00, 0x02, drive_read_1001zero_ram, drive_store_1001zero_ram, NULL, drv->drive_ram, 0x000000fd);
         drivemem_set_func(cpud, 0x02, 0x04, drive_read_1001_io, drive_store_1001_io, drive_peek_1001_io, NULL, 0);

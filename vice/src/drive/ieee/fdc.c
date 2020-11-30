@@ -1,8 +1,11 @@
 /*
- * fdc.c - 1001/8x50 FDC emulation
+ * fdc.c - 1001/8x50/90x0 FDC emulation
  *
  * Written by
  *  Andre Fachat <fachat@physik.tu-chemnitz.de>
+ *
+ * D9090/D9060 portions by
+ *  Roberto Muscedere <rmusced@uwindsor.ca>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,6 +48,7 @@
 
 /* #define FDC_DEBUG */
 
+#define DOS_IS_90(type)  (type == DRIVE_TYPE_9000)
 #define DOS_IS_80(type)  (type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250 || type == DRIVE_TYPE_1001)
 #define DOS_IS_40(type)  (type == DRIVE_TYPE_4040)
 #define DOS_IS_30(type)  (type == DRIVE_TYPE_3040)
@@ -361,6 +365,64 @@ static uint8_t fdc_do_format_D80(unsigned int fnum, unsigned int dnr,
 }
 
 /*****************************************************************************
+ * Format a hard disk in DOS3/90 track format
+ */
+
+static uint8_t fdc_do_format_D90(unsigned int fnum, unsigned int dnr,
+                              unsigned int track, unsigned int sector,
+                              int buf, uint8_t *header)
+{
+    int ret;
+    uint8_t rc = 0;
+    disk_addr_t dadr;
+    uint8_t sector_data[256];
+
+    fdc_t *sysfdc = &fdc[fnum][0];
+    fdc_t *imgfdc = &fdc[fnum][dnr];
+
+    if (1) {
+        unsigned int ntracks, nsectors = 0;
+        /* detected format code */
+        if (imgfdc->image->read_only) {
+            rc = FDC_ERR_WPROT;
+            return rc;
+        }
+        ntracks = sysfdc->buffer[0x9a];
+        nsectors = sysfdc->buffer[0x9d] << 5;
+
+#ifdef FDC_DEBUG
+        log_message(fdc_log, "format command: ");
+        log_message(fdc_log, "   tracks=%u, sectors=%u",
+                    ntracks + 1, nsectors);
+#endif
+
+        memset(sector_data, 0, 256);
+
+        for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track++) {
+            for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector++) {
+                ret = disk_image_write_sector(imgfdc->image, sector_data,
+                                              &dadr);
+                if (ret < 0) {
+                    log_error(LOG_DEFAULT,
+                              "Could not update T:%u S:%u on disk image.",
+                              dadr.track, dadr.sector);
+                    /* save back the track/sector where the issue happened */
+                    header[2] = dadr.track;
+                    header[3] = dadr.sector;
+                    rc = FDC_ERR_DCHECK;
+                    break;
+                }
+            }
+        }
+    }
+    if (!rc) {
+        rc = FDC_ERR_OK;
+    }
+
+    return rc;
+}
+
+/*****************************************************************************
  * execute an FDC job sent by the main CPU
  */
 #ifdef FDC_DEBUG
@@ -433,6 +495,46 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
 
     switch (job) {
         case 0x80:        /* read */
+            if (DOS_IS_90(sysfdc->drive_type)) {
+                /* the HD fdc can transfer more than one block */
+                for (i = sysfdc->buffer[0xa0]; i>0; i--) {
+                    if (dadr.track > imgfdc->image->tracks) {
+                        /* save back the track/sector where the issue happened */
+                        header[2] = dadr.track;
+                        header[3] = dadr.sector;
+                        rc = FDC_ERR_DRIVE;
+                        break;
+                    }
+                    ret = disk_image_read_sector(imgfdc->image, sector_data, &dadr);
+                    if (ret < 0) {
+                        log_error(LOG_DEFAULT,
+                                  "Cannot read T:%u S:%u from disk image.",
+                                  dadr.track, dadr.sector);
+                        /* save back the track/sector where the issue happened */
+                        header[2] = dadr.track;
+                        header[3] = dadr.sector;
+                        rc = FDC_ERR_DRIVE;
+                        break;
+                    } else {
+                        memcpy(base, sector_data, 256);
+                    }
+                    dadr.sector++;
+                    if (dadr.sector >= imgfdc->image->sectors) {
+                        dadr.sector = 0;
+                        dadr.track++;
+                    }
+                    /* check cycle buffer flag */
+                    if (sysfdc->buffer[0xa3]) {
+                        buf++;
+                        if (buf == 15) {
+                            buf = 0;
+                        }
+                        base = &(sysfdc->buffer[(buf + 1) << 8]);
+                    }
+                }
+                rc = FDC_ERR_OK;
+                break;
+            }
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
 #ifdef FDC_DEBUG
 		log_message(fdc_log, "do job read: header '%c%c' != disk_id '%c%c'",
@@ -453,6 +555,49 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             }
             break;
         case 0x90:        /* write */
+            if (DOS_IS_90(sysfdc->drive_type)) {
+                if (imgfdc->image->read_only) {
+                    rc = FDC_ERR_WPROT;
+                    break;
+                }
+                /* the HD fdc can transfer more than one block */
+                for (i = sysfdc->buffer[0xa0]; i>0; i--) {
+                    if (dadr.track > imgfdc->image->tracks) {
+                        /* save back the track/sector where the issue happened */
+                        header[2] = dadr.track;
+                        header[3] = dadr.sector;
+                        rc = FDC_ERR_DRIVE;
+                        break;
+                    }
+                    memcpy(sector_data, base, 256);
+                    ret = disk_image_write_sector(imgfdc->image, sector_data, &dadr);
+                    if (ret < 0) {
+                        log_error(LOG_DEFAULT,
+                                  "Could not update T:%u S:%u on disk image.",
+                                  dadr.track, dadr.sector);
+                        /* save back the track/sector where the issue happened */
+                        header[2] = dadr.track;
+                        header[3] = dadr.sector;
+                        rc = FDC_ERR_DRIVE;
+                        break;
+                    }
+                    dadr.sector++;
+                    if (dadr.sector >= imgfdc->image->sectors) {
+                        dadr.sector = 0;
+                        dadr.track++;
+                    }
+                    /* check cycle buffer flag */
+                    if (sysfdc->buffer[0xa3]) {
+                        buf++;
+                        if (buf == 15) {
+                            buf = 0;
+                        }
+                        base = &(sysfdc->buffer[(buf + 1) << 8]);
+                    }
+                }
+                rc = FDC_ERR_OK;
+                break;
+            }
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
 #ifdef FDC_DEBUG
 		log_message(fdc_log, "do job write: header '%c%c' != disk_id '%c%c'",
@@ -477,6 +622,11 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             }
             break;
         case 0xA0:        /* verify */
+            if (DOS_IS_90(sysfdc->drive_type)) {
+                /* the fdc just does a read, doesn't compare anything */
+                rc = FDC_ERR_OK;
+                break;
+            }
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
 #ifdef FDC_DEBUG
 		log_message(fdc_log, "do job verify: header '%c%c' != disk_id '%c%c'",
@@ -540,7 +690,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                     return 0;
                 }
             }
-            if (DOS_IS_80(sysfdc->drive_type)) {
+            if (DOS_IS_80(sysfdc->drive_type) || DOS_IS_90(sysfdc->drive_type)) {
                 static const uint8_t jumpseq[] = {
                     0x78, 0x6c, 0xfc, 0xff
                 };
@@ -579,6 +729,16 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                 break;
             }
             /* try to read block header from disk */
+            rc = FDC_ERR_OK;
+            break;
+        case 0xC4:
+            /* HD low-level format, not DOS data at all */
+            if (DOS_IS_90(sysfdc->drive_type)) {
+                rc = fdc_do_format_D90(fnum, drv, dadr.track, dadr.sector, buf, header);
+            }
+            break;
+        case 0xC8: /* SASI bus reset */
+        case 0xB8: /* Unknown vendor command */
             rc = FDC_ERR_OK;
             break;
     }
@@ -622,6 +782,9 @@ static void int_fdc(CLOCK offset, void *data)
             if (DOS_IS_80(sysfdc->drive_type)) {
                 drive->current_half_track = 2 * 38;
                 sysfdc->buffer[0] = 2;
+            } else if (DOS_IS_90(sysfdc->drive_type)) {
+                drive->current_half_track = 2 * (153/2);
+                sysfdc->buffer[0] = 2;
             } else {
                 drive->current_half_track = 2 * 18;
                 sysfdc->buffer[0] = 0x3f;
@@ -636,7 +799,7 @@ static void int_fdc(CLOCK offset, void *data)
             alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
             break;
         case FDC_RESET1:
-            if (DOS_IS_80(sysfdc->drive_type)) {
+            if (DOS_IS_80(sysfdc->drive_type) || DOS_IS_90(sysfdc->drive_type)) {
                 if (sysfdc->buffer[0] == 0) {
                     sysfdc->buffer[0] = 1;
                     sysfdc->fdc_state++;
@@ -669,8 +832,39 @@ static void int_fdc(CLOCK offset, void *data)
                 } else {
                     sysfdc->alarm_clk = rclk + 2000;
                 }
-            } else
-            if (DOS_IS_40(sysfdc->drive_type)
+            } else if (DOS_IS_90(sysfdc->drive_type)) {
+                if (sysfdc->buffer[0] == 0) {
+                    /* emulate routine written to buffer RAM */
+                    sysfdc->buffer[0xa1] = 0x00;
+                    sysfdc->buffer[0xa0] = 0x01;
+                    sysfdc->buffer[0xa2] = 0x01;
+                    /* disk geometry */
+                    /* heads */
+                    if (sysfdc->image) {
+                        sysfdc->buffer[0x9d] = sysfdc->image->sectors >> 5;
+                    } else {
+                        sysfdc->buffer[0x9d] = 1;
+                    }
+                    sysfdc->buffer[0x9b] = sysfdc->buffer[0x9d] - 1;
+                    /* sectors */
+                    sysfdc->buffer[0x9e] = 32;
+                    sysfdc->buffer[0x9c] = 32 - 1;
+                    /* tracks */
+                    if (sysfdc->image) {
+                        sysfdc->buffer[0x9a] = sysfdc->image->tracks;
+                    } else {
+                        sysfdc->buffer[0x9a] = 0;
+                    }
+                    /* other */
+                    sysfdc->buffer[0x9f] = 4;
+                    sysfdc->buffer[0] = 1;
+
+                    sysfdc->fdc_state = FDC_RUN;
+                    sysfdc->alarm_clk = rclk + 10000;
+                } else {
+                    sysfdc->alarm_clk = rclk + 2000;
+                }
+            } else if (DOS_IS_40(sysfdc->drive_type)
                 || DOS_IS_30(sysfdc->drive_type)
                 ) {
                 if (sysfdc->buffer[0] == 0) {
@@ -684,26 +878,28 @@ static void int_fdc(CLOCK offset, void *data)
             alarm_set(sysfdc->fdc_alarm, sysfdc->alarm_clk);
             break;
         case FDC_RUN:
-            /* check write protect switch */
-            if (sysfdc->wps_change) {
-                sysfdc->buffer[0xA6] = 1;
-                sysfdc->wps_change--;
+            /* do not do this for D9090/60 */
+            if (!DOS_IS_90(sysfdc->drive_type)) {
+                /* check write protect switch */
+                if (sysfdc->wps_change) {
+                    sysfdc->buffer[0xA6] = 1;
+                    sysfdc->wps_change--;
 #ifdef FDC_DEBUG
-                log_message(fdc_log, "Detect Unit %u Drive 0 wps change",
-                            fnum + 8);
-#endif
-            }
-            if (sysfdc->num_drives == 2) {
-                if (imgfdc->wps_change) {
-                    sysfdc->buffer[0xA6 + 1] = 1;
-                    imgfdc->wps_change--;
-#ifdef FDC_DEBUG
-                    log_message(fdc_log, "Detect Unit %u Drive 1 wps change",
+                    log_message(fdc_log, "Detect Unit %u Drive 0 wps change",
                                 fnum + 8);
 #endif
                 }
+                if (sysfdc->num_drives == 2) {
+                    if (imgfdc->wps_change) {
+                        sysfdc->buffer[0xA6 + 1] = 1;
+                        imgfdc->wps_change--;
+#ifdef FDC_DEBUG
+                        log_message(fdc_log, "Detect Unit %u Drive 1 wps change",
+                                    fnum + 8);
+#endif
+                    }
+                }
             }
-
             /* check buffers */
             for (i = 14; i >= 0; i--) {
                 /* job there? */
@@ -730,17 +926,22 @@ static void int_fdc(CLOCK offset, void *data)
                                    );
                 }
             }
-            /* check "move head", by half tracks I guess... */
-            for (i = 0; i < 2; i++) {
-                if (sysfdc->buffer[i + 0xa1]) {
+            /* do not do this for D9090/60 */
+            if (!DOS_IS_90(sysfdc->drive_type)) {
+                /* check "move head", by half tracks I guess... */
+                for (i = 0; i < 2; i++) {
+                    if (sysfdc->buffer[i + 0xa1]) {
 #ifdef FDC_DEBUG
-                    log_message(fdc_log, "D %u: move head %d",
-                                fnum, sysfdc->buffer[i + 0xa1]);
+                        log_message(fdc_log, "D %u: move head %d",
+                                    fnum, sysfdc->buffer[i + 0xa1]);
 #endif
-                    sysfdc->buffer[i + 0xa1] = 0;
+                        sysfdc->buffer[i + 0xa1] = 0;
+                    }
                 }
+                sysfdc->alarm_clk = rclk + 30000;
+            } else {
+                sysfdc->alarm_clk = rclk + 2000;
             }
-            sysfdc->alarm_clk = rclk + 30000;
             /* job loop */
             break;
     }
@@ -848,6 +1049,18 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
 #endif
                 return -1;
         }
+    } else if (sysfdc->drive_type == DRIVE_TYPE_9000) {
+        switch (image->type) {
+            case DISK_IMAGE_TYPE_D90:
+                disk_image_attach_log(image, fdc_log, unit, drive);
+                break;
+            default:
+#ifdef FDC_DEBUG
+                log_message(fdc_log, "Could not attach image type %u to disk %u.",
+                            image->type, sysfdc->drive_type);
+#endif
+                return -1;
+        }
     } else {
         switch (image->type) {
             case DISK_IMAGE_TYPE_D64:
@@ -901,6 +1114,14 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit, unsigned int drive)
         switch (image->type) {
             case DISK_IMAGE_TYPE_D80:
             case DISK_IMAGE_TYPE_D82:
+                disk_image_detach_log(image, fdc_log, unit, drive);
+                break;
+            default:
+                return -1;
+        }
+    } else if (sysfdc->drive_type == DRIVE_TYPE_9000) {
+        switch (image->type) {
+            case DISK_IMAGE_TYPE_D90:
                 disk_image_detach_log(image, fdc_log, unit, drive);
                 break;
             default:

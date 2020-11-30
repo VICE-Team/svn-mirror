@@ -40,5 +40,6 @@ extern int ieeerom_load_1001(void);
 extern int ieeerom_load_2040(void);
 extern int ieeerom_load_3040(void);
 extern int ieeerom_load_4040(void);
+extern int ieeerom_load_9000(void);
 
 #endif

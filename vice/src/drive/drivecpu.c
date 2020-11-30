@@ -535,6 +535,9 @@ static void drive_jam(diskunit_context_t *drv)
         case DRIVE_TYPE_8250:
             dname = "  8250";
             break;
+        case DRIVE_TYPE_9000:
+            dname = "  D9090/60";
+            break;
     }
 
     tmp = machine_jam("%s (%d) CPU: JAM at $%04X  ", dname, drv->mynumber + 8, (int)reg_pc);

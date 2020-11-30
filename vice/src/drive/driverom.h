@@ -49,6 +49,7 @@ struct snapshot_s;
 #define DRIVE_ROMCMDHD_SIZE           0x4000
 #define DRIVE_ROM2031_SIZE            0x4000
 #define DRIVE_ROM1001_SIZE            0x4000 /* same as ROM8050 and ROM8250 !*/
+#define DRIVE_ROM9000_SIZE            0x4000
 #define DRIVE_ROM2040_SIZE            0x2000
 #define DRIVE_ROM3040_SIZE            0x3000
 #define DRIVE_ROM4040_SIZE            0x3000

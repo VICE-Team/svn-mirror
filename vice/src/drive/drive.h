@@ -139,10 +139,13 @@
 #define DRIVE_TYPE_8250     8250    /* DOS 2.7 dual floppy drive, 1M/disk */
 #define DRIVE_NAME_8250     "CBM 8250"
 
+#define DRIVE_TYPE_9000     9000    /* DOS 3.0 hard drive */
+#define DRIVE_NAME_9000     "CBM D9090/60"
+
 #define DRIVE_TYPE_CMDHD    4844    /* ASCII for HD */
 #define DRIVE_NAME_CMDHD    "CMD HD"
 
-#define DRIVE_TYPE_NUM    18
+#define DRIVE_TYPE_NUM    19
 
 /* max. half tracks */
 #define DRIVE_HALFTRACKS_1541   84

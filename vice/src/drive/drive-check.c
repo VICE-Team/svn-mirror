@@ -45,6 +45,7 @@ static unsigned int drive_check_ieee(unsigned int type)
         case DRIVE_TYPE_1001:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
+        case DRIVE_TYPE_9000:
             return 1;
     }
 
@@ -79,6 +80,7 @@ unsigned int drive_check_old(unsigned int type)
         case DRIVE_TYPE_1001:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
+        case DRIVE_TYPE_9000:
             return 1;
     }
 

@@ -357,6 +357,9 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
         case DRIVE_TYPE_8050:   /* red drive1, green power, red drive2, horizontal, round */
             drive_led_color[dnr] = DRIVE_LED1_RED | DRIVE_LED2_RED;
             break;
+        case DRIVE_TYPE_9000:   /* red drive1, green power, red drive2, horizontal, round */
+            drive_led_color[dnr] = DRIVE_LED1_RED | DRIVE_LED2_RED;
+            break;
         case DRIVE_TYPE_8250:   /* red green, green power,green, horizontal, round */
             drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_GREEN; /* only the LP version is RED */
             break;
@@ -845,6 +848,7 @@ int drive_num_leds(unsigned int dnr)
     case DRIVE_TYPE_4040:
     case DRIVE_TYPE_8050:
     case DRIVE_TYPE_8250:
+    case DRIVE_TYPE_9000:
     case DRIVE_TYPE_2000:
     case DRIVE_TYPE_4000:
     case DRIVE_TYPE_CMDHD:

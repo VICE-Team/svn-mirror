@@ -581,6 +581,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_4040:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
+        case DRIVE_TYPE_9000:
             unit->enable = 1;
             machine_drive_rom_setup_image(0);
             drivemem_init(diskunit_context[0]);
@@ -617,6 +618,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_4040:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
+        case DRIVE_TYPE_9000:
             unit->enable = 1;
             machine_drive_rom_setup_image(1);
             drivemem_init(diskunit_context[1]);
@@ -654,6 +656,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_4040:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
+        case DRIVE_TYPE_9000:
             unit->enable = 1;
             machine_drive_rom_setup_image(2);
             drivemem_init(diskunit_context[2]);
@@ -690,6 +693,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         case DRIVE_TYPE_4040:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
+        case DRIVE_TYPE_9000:
             unit->enable = 1;
             machine_drive_rom_setup_image(3);
             drivemem_init(diskunit_context[3]);
@@ -936,6 +940,9 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
             break;
         case 8250:
             len = D82_FILE_SIZE;
+            break;
+        case 9000:
+            len = drive->image->tracks * drive->image->sectors * 256;
             break;
         default:
             log_error(drive_snapshot_log,

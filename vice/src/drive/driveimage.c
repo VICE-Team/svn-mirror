@@ -110,6 +110,11 @@ int drive_check_image_format(unsigned int format, unsigned int dnr)
                 return -1;
             }
             break;
+        case DISK_IMAGE_TYPE_D90:
+            if (unit->type != DRIVE_TYPE_9000) {
+                return -1;
+            }
+            break;
         case DISK_IMAGE_TYPE_D1M:
         case DISK_IMAGE_TYPE_D2M:
         case DISK_IMAGE_TYPE_D4M:

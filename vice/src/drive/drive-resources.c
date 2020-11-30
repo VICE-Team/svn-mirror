@@ -192,6 +192,7 @@ static int drive_resources_type(int val, void *param)
         case DRIVE_TYPE_4040:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
+        case DRIVE_TYPE_9000:
             if (unit->type != type) {
                 /* the drives that support half tracks are all single drives */
                 drive->current_half_track = 2 * 18;
@@ -199,6 +200,8 @@ static int drive_resources_type(int val, void *param)
                     || (type == DRIVE_TYPE_8050)
                     || (type == DRIVE_TYPE_8250)) {
                     drive->current_half_track = 2 * 38;
+                } else if (type == DRIVE_TYPE_9000) {
+                    drive->current_half_track = 2 * 76;
                 }
             }
             unit->type = type;
