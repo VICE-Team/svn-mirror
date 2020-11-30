@@ -99,7 +99,11 @@ static const vice_gtk3_radiogroup_entry_t num_sids[] = {
     { "One", 0 },
     { "Two", 1 },
     { "Three", 2 },
-    { "Four" , 3 },
+    { "Four", 3 },
+    { "Five", 4 },
+    { "Six", 5 },
+    { "Seven", 6 },
+    { "Eight", 7 },
     { NULL, -1 }
 };
 
@@ -217,7 +221,7 @@ static GtkWidget *resid_8580_bias;
  *
  * Used to enable/disable depending on the number of SIDs active
  */
-static GtkWidget *address_widgets[3];
+static GtkWidget *address_widgets[7];
 
 
 /** \brief  Reference to the SID filters checkbox
@@ -260,6 +264,10 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
         gtk_widget_set_sensitive(address_widgets[1], count > 1);
         if (machine_class != VICE_MACHINE_VSID) {
             gtk_widget_set_sensitive(address_widgets[2], count > 2);
+            gtk_widget_set_sensitive(address_widgets[3], count > 3);
+            gtk_widget_set_sensitive(address_widgets[4], count > 4);
+            gtk_widget_set_sensitive(address_widgets[5], count > 5);
+            gtk_widget_set_sensitive(address_widgets[6], count > 6);
         }
     }
 }
@@ -603,7 +611,7 @@ static GtkWidget *create_num_sids_widget(void)
 
 /** \brief  Create widget for extra SID addresses
  *
- * \param[in]   sid     extra SID number (1-3)
+ * \param[in]   sid     extra SID number (1-7)
  *
  * \return  GtkGrid
  */
