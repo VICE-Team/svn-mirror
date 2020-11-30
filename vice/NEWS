@@ -276,6 +276,7 @@ some features have been deprecated and are now disabled by default:
 - envelope regression fix
 - Fix the coefficients for the resid external filter
 - Rough implementation of the shift register and wavefom zero bitfade
+- Added 4 possible additional SID chips for a total of 8 (x64*/xscpu64/x128 only)
   
 ** C64 fixes
 ------------
