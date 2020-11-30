@@ -514,6 +514,12 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
      */
     if (bi->track == 0) {
         /* allocate the first sector */
+        /* D9090/60 prefer to start on sector 10 */
+        if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_9000) {
+            s_new = 10;
+        } else {
+            s_new = 0;
+        }
         retval = vdrive_bam_alloc_first_free_sector(vdrive, &t_new, &s_new);
         if (retval < 0) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);

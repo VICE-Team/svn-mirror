@@ -199,6 +199,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
 
         case 'P': /* Position */
             status = vdrive_command_position(vdrive, p, length);
+            vdrive->last_code = CBMDOS_IPE_OK;
             break;
 
         case 'U': /* User */
@@ -901,7 +902,12 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
     vdrive_bam_clear_all(vdrive);
 
-    for (t = 1; t <= vdrive->num_tracks; t++) {
+    t = 1;
+    /* D9090/60 has track 0 */
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_9000) {
+        t--;
+    }
+    for (; t <= vdrive->num_tracks; t++) {
         max_sector = vdrive_get_max_sectors(vdrive, t);
         for (s = 0; s < (unsigned int)max_sector; s++) {
             vdrive_bam_free_sector(vdrive, t, s);
@@ -909,8 +915,10 @@ int vdrive_command_validate(vdrive_t *vdrive)
     }
 
     /* First, map out the header (BAM) and the directory, themselves. */
-    status = vdrive_bam_allocate_chain(vdrive, vdrive->Bam_Track,
-                                       vdrive->Bam_Sector);
+    if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_9000) {
+        status = vdrive_bam_allocate_chain(vdrive, vdrive->Bam_Track,
+                                           vdrive->Bam_Sector);
+    }
 
     if (status != CBMDOS_IPE_OK) {
         memcpy(vdrive->bam, oldbam, vdrive->bam_size);
@@ -943,6 +951,16 @@ int vdrive_command_validate(vdrive_t *vdrive)
             for (s = 2; s < 34; s++) {
                 vdrive_bam_allocate_sector(vdrive, 1, s);
             }
+            break;
+        case VDRIVE_IMAGE_FORMAT_9000:
+            /* The D9090/60 bam ends with 255/255 not 0/x */
+            vdrive_bam_allocate_chain_255(vdrive, vdrive->Bam_Track, vdrive->Bam_Sector);
+            /* BAM allocation above doesn't include header or dir */
+            /* header include dir */
+            vdrive_bam_allocate_chain(vdrive, vdrive->Header_Track, vdrive->Header_Sector);
+            /* Map the config sector and bad blocks sector */
+            vdrive_bam_allocate_sector(vdrive, 0, 0);
+            vdrive_bam_allocate_sector(vdrive, 0, 1);
             break;
     }
 
@@ -1084,20 +1102,19 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
                               unsigned int sector)
 {
     const char *message = "";
-    static int last_code = CBMDOS_IPE_OK;
     bufferinfo_t *p = &vdrive->buffers[15];
 
 #ifdef DEBUG_DRIVE
     log_debug("Set error channel: code =%d, last_code =%d, track =%u, "
-              "sector =%u.", code, last_code, track, sector);
+              "sector =%u.", code, vdrive->last_code, track, sector);
 #endif
 
     /* Set an error only once per command. */
-    if (code != CBMDOS_IPE_OK && last_code != CBMDOS_IPE_OK) {
+    if (code != CBMDOS_IPE_OK && vdrive->last_code != CBMDOS_IPE_OK) {
         return;
     }
 
-    last_code = code;
+    vdrive->last_code = code;
 
     if (code != CBMDOS_IPE_MEMORY_READ) {
         message = cbmdos_errortext(code);

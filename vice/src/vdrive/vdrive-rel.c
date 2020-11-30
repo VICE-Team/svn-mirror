@@ -73,6 +73,7 @@ static unsigned int vdrive_rel_has_super(vdrive_t *vdrive)
             break;
         case VDRIVE_IMAGE_FORMAT_1581:
         case VDRIVE_IMAGE_FORMAT_8250:
+        case VDRIVE_IMAGE_FORMAT_9000:
             /* has super side sector */
             super = 1;
             break;
@@ -115,6 +116,12 @@ static unsigned int vdrive_rel_blocks_max(vdrive_t *vdrive)
             /* The SFD cannot create a file with REL 4090 blocks, but it can
                read it.  We will therefore use 4090 as our limit. */
             maximum = 4090 + 5 * 6 + 5 + 1;
+            break;
+        case VDRIVE_IMAGE_FORMAT_9000:
+            /* work this out, skip track 0 */
+            maximum = vdrive->image->sectors * vdrive->image->tracks
+                - (vdrive->bam_size>>8) - 1 - 1;
+            maximum = (maximum * 720) / 726;
             break;
         default:
             log_error(vdrive_rel_log,
