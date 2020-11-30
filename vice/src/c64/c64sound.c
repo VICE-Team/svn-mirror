@@ -236,6 +236,11 @@ void sid_sound_chip_init(void)
                 sid##sid_nr##_device.start_address = sid_adr;                                           \
                 sid##sid_nr##_address_end = sid_adr + 0x1f;                                             \
                 sid##sid_nr##_device.end_address = sid_adr + 0x1f;                                      \
+                if (sid_adr >= 0xd400 && sid_adr <= 0xd4e0) {                                           \
+                    sid##sid_nr##_device.io_source_prio = IO_PRIO_HIGH;                                 \
+                } else {                                                                                \
+                    sid##sid_nr##_device.io_source_prio = IO_PRIO_NORMAL;                               \
+                }                                                                                       \
                 if (sid##sid_nr##_list_item != NULL) {                                                  \
                     io_source_unregister(sid##sid_nr##_list_item);                                      \
                     sid##sid_nr##_list_item = io_source_register(&sid##sid_nr##_device);                \
@@ -252,6 +257,11 @@ void sid_sound_chip_init(void)
                 sid##sid_nr##_device.start_address = sid_adr;                                           \
                 sid##sid_nr##_address_end = sid_adr + 0x1f;                                             \
                 sid##sid_nr##_device.end_address = sid_adr + 0x1f;                                      \
+                if (sid_adr >= 0xd400 && sid_adr <= 0xd7e0) {                                           \
+                    sid##sid_nr##_device.io_source_prio = IO_PRIO_HIGH;                                 \
+                } else {                                                                                \
+                    sid##sid_nr##_device.io_source_prio = IO_PRIO_NORMAL;                               \
+                }                                                                                       \
                 if (sid##sid_nr##_list_item != NULL) {                                                  \
                     io_source_unregister(sid##sid_nr##_list_item);                                      \
                     sid##sid_nr##_list_item = io_source_register(&sid##sid_nr##_device);                \
