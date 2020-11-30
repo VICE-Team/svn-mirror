@@ -19,6 +19,10 @@
  * $VICERES SidStereoAddressStart       all
  * $VICERES SidTripleAddressStart       all
  * $VICERES SidQuadAddressStart         -vsid
+ * $VICERES SidPentAddressStart         -vsid
+ * $VICERES SidHexAddressStart          -vsid
+ * $VICERES SidHeptAddressStart         -vsid
+ * $VICERES SidOctAddressStart          -vsid
  *  (Until PSID files support a fourth SID, this will be -vsid)
  */
 
@@ -616,8 +620,14 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
         resource_name = lib_strdup("SidTripleAddressStart");
     } else if (sid == 3) {
         resource_name = lib_strdup("SidQuadAddressStart");
-    } else if (sid > 3) {
-        resource_name = lib_msprintf("Sid%dAddressStart", sid + 1);
+    } else if (sid == 4) {
+        resource_name = lib_strdup("SidPentAddressStart");
+    } else if (sid == 5) {
+        resource_name = lib_strdup("SidHexAddressStart");
+    } else if (sid == 6) {
+        resource_name = lib_strdup("SidHeptAddressStart");
+    } else if (sid == 7) {
+        resource_name = lib_strdup("SidOctAddressStart");
     } else {
         assert(0);
     }
