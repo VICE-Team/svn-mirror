@@ -71,6 +71,14 @@ unsigned int sid3_address_start;
 unsigned int sid3_address_end;
 unsigned int sid4_address_start;
 unsigned int sid4_address_end;
+unsigned int sid5_address_start;
+unsigned int sid5_address_end;
+unsigned int sid6_address_start;
+unsigned int sid6_address_end;
+unsigned int sid7_address_start;
+unsigned int sid7_address_end;
+unsigned int sid8_address_start;
+unsigned int sid8_address_end;
 static int sid_engine;
 #ifdef HAVE_HARDSID
 static int sid_hardsid_main;
@@ -177,6 +185,10 @@ static int set_sid_stereo(int val, void *param)
 SET_SIDx_ADDRESS(2)
 SET_SIDx_ADDRESS(3)
 SET_SIDx_ADDRESS(4)
+SET_SIDx_ADDRESS(5)
+SET_SIDx_ADDRESS(6)
+SET_SIDx_ADDRESS(7)
+SET_SIDx_ADDRESS(8)
 
 static int set_sid_model(int val, void *param)
 {

@@ -154,6 +154,10 @@ UI_MENU_DEFINE_RADIO(SidStereo)
 UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 UI_MENU_DEFINE_RADIO(SidTripleAddressStart)
 UI_MENU_DEFINE_RADIO(SidQuadAddressStart)
+UI_MENU_DEFINE_RADIO(SidPentAddressStart)
+UI_MENU_DEFINE_RADIO(SidHexAddressStart)
+UI_MENU_DEFINE_RADIO(SidHeptAddressStart)
+UI_MENU_DEFINE_RADIO(SidOctAddressStart)
 
 static UI_MENU_CALLBACK(show_SidStereoAddressStart_callback)
 {
@@ -507,6 +511,302 @@ static const ui_menu_entry_t c64_quad_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
+static UI_MENU_CALLBACK(show_SidPentAddressStart_callback)
+{
+    static char buf[20];
+    int value;
+
+    resources_get_int("SidPentAddressStart", &value);
+
+    sprintf(buf, "$%04x", (unsigned int)value);
+    return buf;
+}
+
+SID_D4XX_MENU(sid5_d4x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
+SID_D5XX_MENU(sid5_d5x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
+SID_D6XX_MENU(sid5_d6x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
+SID_D7XX_MENU(sid5_d7x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
+SID_DEXX_MENU(sid5_dex0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
+SID_DFXX_MENU(sid5_dfx0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
+
+static const ui_menu_entry_t c128_pent_sid_base_menu[] = {
+    { "Fifth SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidPentAddressStart_callback,
+      NULL},
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_d4x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t c64_pent_sid_base_menu[] = {
+    { "Fifth SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidPentAddressStart_callback,
+      NULL },
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_d4x0_menu },
+    { "$D5x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_d5x0_menu },
+    { "$D6x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_d6x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid5_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static UI_MENU_CALLBACK(show_SidHexAddressStart_callback)
+{
+    static char buf[20];
+    int value;
+
+    resources_get_int("SidHexAddressStart", &value);
+
+    sprintf(buf, "$%04x", (unsigned int)value);
+    return buf;
+}
+
+SID_D4XX_MENU(sid6_d4x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
+SID_D5XX_MENU(sid6_d5x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
+SID_D6XX_MENU(sid6_d6x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
+SID_D7XX_MENU(sid6_d7x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
+SID_DEXX_MENU(sid6_dex0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
+SID_DFXX_MENU(sid6_dfx0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
+
+static const ui_menu_entry_t c128_hex_sid_base_menu[] = {
+    { "Sixth SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidHexAddressStart_callback,
+      NULL},
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_d4x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t c64_hex_sid_base_menu[] = {
+    { "Sixth SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidHexAddressStart_callback,
+      NULL },
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_d4x0_menu },
+    { "$D5x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_d5x0_menu },
+    { "$D6x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_d6x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid6_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static UI_MENU_CALLBACK(show_SidHeptAddressStart_callback)
+{
+    static char buf[20];
+    int value;
+
+    resources_get_int("SidHeptAddressStart", &value);
+
+    sprintf(buf, "$%04x", (unsigned int)value);
+    return buf;
+}
+
+SID_D4XX_MENU(sid7_d4x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
+SID_D5XX_MENU(sid7_d5x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
+SID_D6XX_MENU(sid7_d6x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
+SID_D7XX_MENU(sid7_d7x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
+SID_DEXX_MENU(sid7_dex0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
+SID_DFXX_MENU(sid7_dfx0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
+
+static const ui_menu_entry_t c128_hept_sid_base_menu[] = {
+    { "Seventh SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidHeptAddressStart_callback,
+      NULL},
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_d4x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t c64_hept_sid_base_menu[] = {
+    { "Seventh SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidHeptAddressStart_callback,
+      NULL },
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_d4x0_menu },
+    { "$D5x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_d5x0_menu },
+    { "$D6x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_d6x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid7_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static UI_MENU_CALLBACK(show_SidOctAddressStart_callback)
+{
+    static char buf[20];
+    int value;
+
+    resources_get_int("SidOctAddressStart", &value);
+
+    sprintf(buf, "$%04x", (unsigned int)value);
+    return buf;
+}
+
+SID_D4XX_MENU(sid8_d4x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
+SID_D5XX_MENU(sid8_d5x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
+SID_D6XX_MENU(sid8_d6x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
+SID_D7XX_MENU(sid8_d7x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
+SID_DEXX_MENU(sid8_dex0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
+SID_DFXX_MENU(sid8_dfx0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
+
+static const ui_menu_entry_t c128_oct_sid_base_menu[] = {
+    { "Eight SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidOctAddressStart_callback,
+      NULL},
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_d4x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t c64_oct_sid_base_menu[] = {
+    { "Eighth SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidOctAddressStart_callback,
+      NULL },
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_d4x0_menu },
+    { "$D5x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_d5x0_menu },
+    { "$D6x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_d6x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid8_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
 static UI_MENU_CALLBACK(show_SidStereo_callback)
 {
     int value;
@@ -519,6 +819,14 @@ static UI_MENU_CALLBACK(show_SidStereo_callback)
             return "Two";
         case 3:
             return "Three";
+        case 4:
+            return "Four";
+        case 5:
+            return "Five";
+        case 6:
+            return "Six";
+        case 7:
+            return "Seven";
     }
     return "None";
 }
@@ -540,6 +848,22 @@ static const ui_menu_entry_t c64_stereo_sid_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereo_callback,
       (ui_callback_data_t)3 },
+    { "Four",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidStereo_callback,
+      (ui_callback_data_t)4 },
+    { "Five",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidStereo_callback,
+      (ui_callback_data_t)5 },
+    { "Six",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidStereo_callback,
+      (ui_callback_data_t)6 },
+    { "Seven",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidStereo_callback,
+      (ui_callback_data_t)7 },
     SDL_MENU_LIST_END
 };
 
@@ -564,6 +888,22 @@ ui_menu_entry_t sid_c64_menu[] = {
       MENU_ENTRY_SUBMENU,
       show_SidQuadAddressStart_callback,
       (ui_callback_data_t)c64_quad_sid_base_menu },
+    { "Fifth SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidPentAddressStart_callback,
+      (ui_callback_data_t)c64_pent_sid_base_menu },
+    { "Sixth SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidHexAddressStart_callback,
+      (ui_callback_data_t)c64_hex_sid_base_menu },
+    { "Seventh SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidHeptAddressStart_callback,
+      (ui_callback_data_t)c64_hept_sid_base_menu },
+    { "Eight SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidOctAddressStart_callback,
+      (ui_callback_data_t)c64_oct_sid_base_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,
@@ -595,6 +935,22 @@ ui_menu_entry_t sid_c128_menu[] = {
       MENU_ENTRY_SUBMENU,
       show_SidQuadAddressStart_callback,
       (ui_callback_data_t)c128_quad_sid_base_menu },
+    { "Fift SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidPentAddressStart_callback,
+      (ui_callback_data_t)c128_pent_sid_base_menu },
+    { "Sixth SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidHexAddressStart_callback,
+      (ui_callback_data_t)c128_hex_sid_base_menu },
+    { "Seventh SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidHeptAddressStart_callback,
+      (ui_callback_data_t)c128_hept_sid_base_menu },
+    { "Eighth SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidOctAddressStart_callback,
+      (ui_callback_data_t)c128_oct_sid_base_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,
@@ -802,4 +1158,3 @@ void uisid_menu_shutdown(void)
         lib_free(sid_model_menu);
     }
 }
-

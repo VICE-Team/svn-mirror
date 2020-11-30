@@ -645,6 +645,18 @@ uint8_t d7xx_read(uint16_t addr)
     if (sid_stereo >= 3 && addr >= sid4_address_start && addr < sid4_address_end) {
         return sid4_read(addr);
     }
+    if (sid_stereo >= 4 && addr >= sid5_address_start && addr < sid5_address_end) {
+        return sid5_read(addr);
+    }
+    if (sid_stereo >= 5 && addr >= sid6_address_start && addr < sid6_address_end) {
+        return sid6_read(addr);
+    }
+    if (sid_stereo >= 6 && addr >= sid7_address_start && addr < sid7_address_end) {
+        return sid7_read(addr);
+    }
+    if (sid_stereo >= 7 && addr >= sid8_address_start && addr < sid8_address_end) {
+        return sid8_read(addr);
+    }
     return vicii_read_phi1();
 }
 
@@ -658,6 +670,18 @@ void d7xx_store(uint16_t addr, uint8_t value)
     }
     if (sid_stereo >= 3 && addr >= sid4_address_start && addr < sid4_address_end) {
         sid4_store(addr, value);
+    }
+    if (sid_stereo >= 4 && addr >= sid5_address_start && addr < sid5_address_end) {
+        sid5_store(addr, value);
+    }
+    if (sid_stereo >= 5 && addr >= sid6_address_start && addr < sid6_address_end) {
+        sid6_store(addr, value);
+    }
+    if (sid_stereo >= 6 && addr >= sid7_address_start && addr < sid7_address_end) {
+        sid7_store(addr, value);
+    }
+    if (sid_stereo >= 7 && addr >= sid8_address_start && addr < sid8_address_end) {
+        sid8_store(addr, value);
     }
 }
 

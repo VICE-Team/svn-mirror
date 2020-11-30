@@ -97,13 +97,49 @@ static int intended_sid_engine = -1;
    ARRAY | sid data |   1.4+  | 32 BYTES of SID registers
  */
 
+/* SID5 snapshot module format:
+
+   type  | name     | version | description
+   ----------------------------------------
+   WORD  | address  |   1.5+  | SID address
+   ARRAY | sid data |   1.5+  | 32 BYTES of SID registers
+ */
+
+/* SID6 snapshot module format:
+
+   type  | name     | version | description
+   ----------------------------------------
+   WORD  | address  |   1.5+  | SID address
+   ARRAY | sid data |   1.5+  | 32 BYTES of SID registers
+ */
+
+/* SID7 snapshot module format:
+
+   type  | name     | version | description
+   ----------------------------------------
+   WORD  | address  |   1.5+  | SID address
+   ARRAY | sid data |   1.5+  | 32 BYTES of SID registers
+ */
+
+/* SID8 snapshot module format:
+
+   type  | name     | version | description
+   ----------------------------------------
+   WORD  | address  |   1.5+  | SID address
+   ARRAY | sid data |   1.5+  | 32 BYTES of SID registers
+ */
+
 static const char snap_module_name_simple1[] = "SID";
 static const char snap_module_name_simple2[] = "SID2";
 static const char snap_module_name_simple3[] = "SID3";
 static const char snap_module_name_simple4[] = "SID4";
+static const char snap_module_name_simple5[] = "SID5";
+static const char snap_module_name_simple6[] = "SID6";
+static const char snap_module_name_simple7[] = "SID7";
+static const char snap_module_name_simple8[] = "SID8";
 
 #define SNAP_MAJOR_SIMPLE 1
-#define SNAP_MINOR_SIMPLE 4
+#define SNAP_MINOR_SIMPLE 5
 
 static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
 {
@@ -128,6 +164,18 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
             break;
         case 3:
             snap_module_name_simple = snap_module_name_simple4;
+            break;
+        case 4:
+            snap_module_name_simple = snap_module_name_simple5;
+            break;
+        case 5:
+            snap_module_name_simple = snap_module_name_simple6;
+            break;
+        case 6:
+            snap_module_name_simple = snap_module_name_simple7;
+            break;
+        case 7:
+            snap_module_name_simple = snap_module_name_simple8;
             break;
     }
 
@@ -168,6 +216,38 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
     /* Added in 1.4, for the 4th SID module the address is saved */
     if (sidnr == 3) {
         resources_get_int("SidQuadAddressStart", &sid_address);
+        if (SMW_W(m, (uint16_t)sid_address) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Added in 1.5, for the 5th SID module the address is saved */
+    if (sidnr == 4) {
+        resources_get_int("SidPentAddressStart", &sid_address);
+        if (SMW_W(m, (uint16_t)sid_address) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Added in 1.5, for the 6th SID module the address is saved */
+    if (sidnr == 5) {
+        resources_get_int("SidHexAddressStart", &sid_address);
+        if (SMW_W(m, (uint16_t)sid_address) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Added in 1.5, for the 7th SID module the address is saved */
+    if (sidnr == 6) {
+        resources_get_int("SidHeptAddressStart", &sid_address);
+        if (SMW_W(m, (uint16_t)sid_address) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Added in 1.5, for the 8th SID module the address is saved */
+    if (sidnr == 7) {
+        resources_get_int("SidOctAddressStart", &sid_address);
         if (SMW_W(m, (uint16_t)sid_address) < 0) {
             goto fail;
         }
@@ -219,6 +299,18 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
             break;
         case 3:
             snap_module_name_simple = snap_module_name_simple4;
+            break;
+        case 4:
+            snap_module_name_simple = snap_module_name_simple5;
+            break;
+        case 5:
+            snap_module_name_simple = snap_module_name_simple6;
+            break;
+        case 6:
+            snap_module_name_simple = snap_module_name_simple7;
+            break;
+        case 7:
+            snap_module_name_simple = snap_module_name_simple8;
             break;
     }
 
@@ -274,6 +366,18 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
         }
         if (sidnr == 3) {
             resources_set_int("SidQuadAddressStart", sid_address);
+        }
+        if (sidnr == 4) {
+            resources_set_int("SidPentAddressStart", sid_address);
+        }
+        if (sidnr == 5) {
+            resources_set_int("SidHexAddressStart", sid_address);
+        }
+        if (sidnr == 6) {
+            resources_set_int("SidHeptAddressStart", sid_address);
+        }
+        if (sidnr == 7) {
+            resources_set_int("SidOctAddressStart", sid_address);
         }
         if (SMR_BA(m, tmp + 2, 32) < 0) {
             goto fail;
@@ -1025,6 +1129,14 @@ static int sid_snapshot_read_module_extended(snapshot_t *s, int sidnr)
                 sid3_store((uint16_t)i, siddata[i]);
             } else if (sidnr == 3) {
                 sid4_store((uint16_t)i, siddata[i]);
+            } else if (sidnr == 4) {
+                sid5_store((uint16_t)i, siddata[i]);
+            } else if (sidnr == 5) {
+                sid6_store((uint16_t)i, siddata[i]);
+            } else if (sidnr == 6) {
+                sid7_store((uint16_t)i, siddata[i]);
+            } else if (sidnr == 7) {
+                sid8_store((uint16_t)i, siddata[i]);
             }
         }
         return 0;

@@ -95,7 +95,7 @@ struct sid_snapshot_state_s;
  *
  * This differs from the number of SIDs actually possible per emu.
  */
-#define SID_COUNT_MAX   4
+#define SID_COUNT_MAX   8
 
 
 /** \brief  Maximum number of SIDs supported by the PSID file format
@@ -108,9 +108,9 @@ struct sid_snapshot_state_s;
 #define SID_COUNT_MAX_PSID  3
 
 
-#define SID_MACHINE_MAX_SID_C64     4
+#define SID_MACHINE_MAX_SID_C64     8
 #define SID_MACHINE_MAX_SID_C64DTV  1
-#define SID_MACHINE_MAX_SID_C128    4
+#define SID_MACHINE_MAX_SID_C128    8
 #define SID_MACHINE_MAX_SID_VIC20   0
 #define SID_MACHINE_MAX_SID_PLUS4   1
 #define SID_MACHINE_MAX_SID_CBM5x0  1
@@ -130,18 +130,38 @@ extern uint8_t sid_read(uint16_t address);
 extern uint8_t sid2_read(uint16_t address);
 extern uint8_t sid3_read(uint16_t address);
 extern uint8_t sid4_read(uint16_t address);
+extern uint8_t sid5_read(uint16_t address);
+extern uint8_t sid6_read(uint16_t address);
+extern uint8_t sid7_read(uint16_t address);
+extern uint8_t sid8_read(uint16_t address);
+
 extern uint8_t sid_peek(uint16_t address);
 extern uint8_t sid2_peek(uint16_t address);
 extern uint8_t sid3_peek(uint16_t address);
 extern uint8_t sid4_peek(uint16_t address);
+extern uint8_t sid5_peek(uint16_t address);
+extern uint8_t sid6_peek(uint16_t address);
+extern uint8_t sid7_peek(uint16_t address);
+extern uint8_t sid8_peek(uint16_t address);
+
 extern void sid_store(uint16_t address, uint8_t byte);
 extern void sid2_store(uint16_t address, uint8_t byte);
 extern void sid3_store(uint16_t address, uint8_t byte);
 extern void sid4_store(uint16_t address, uint8_t byte);
+extern void sid5_store(uint16_t address, uint8_t byte);
+extern void sid6_store(uint16_t address, uint8_t byte);
+extern void sid7_store(uint16_t address, uint8_t byte);
+extern void sid8_store(uint16_t address, uint8_t byte);
+
 extern int sid_dump(void);
 extern int sid2_dump(void);
 extern int sid3_dump(void);
 extern int sid4_dump(void);
+extern int sid5_dump(void);
+extern int sid6_dump(void);
+extern int sid7_dump(void);
+extern int sid8_dump(void);
+
 extern void sid_reset(void);
 
 extern void sid_set_machine_parameter(long clock_rate);

@@ -46,10 +46,18 @@
 MACHINE_SIDx_RFUNC(machine_sid2_read, sid2_read)
 MACHINE_SIDx_RFUNC(machine_sid3_read, sid3_read)
 MACHINE_SIDx_RFUNC(machine_sid4_read, sid4_read)
+MACHINE_SIDx_RFUNC(machine_sid5_read, sid5_read)
+MACHINE_SIDx_RFUNC(machine_sid6_read, sid6_read)
+MACHINE_SIDx_RFUNC(machine_sid7_read, sid7_read)
+MACHINE_SIDx_RFUNC(machine_sid8_read, sid8_read)
 
 MACHINE_SIDx_RFUNC(machine_sid2_peek, sid2_peek)
 MACHINE_SIDx_RFUNC(machine_sid3_peek, sid3_peek)
 MACHINE_SIDx_RFUNC(machine_sid4_peek, sid4_peek)
+MACHINE_SIDx_RFUNC(machine_sid5_peek, sid5_peek)
+MACHINE_SIDx_RFUNC(machine_sid6_peek, sid6_peek)
+MACHINE_SIDx_RFUNC(machine_sid7_peek, sid7_peek)
+MACHINE_SIDx_RFUNC(machine_sid8_peek, sid8_peek)
 
 #define MACHINE_SIDx_STORE(fname, func)            \
     static void fname(uint16_t addr, uint8_t byte) \
@@ -60,6 +68,10 @@ MACHINE_SIDx_RFUNC(machine_sid4_peek, sid4_peek)
 MACHINE_SIDx_STORE(machine_sid2_store, sid2_store)
 MACHINE_SIDx_STORE(machine_sid3_store, sid3_store)
 MACHINE_SIDx_STORE(machine_sid4_store, sid4_store)
+MACHINE_SIDx_STORE(machine_sid5_store, sid5_store)
+MACHINE_SIDx_STORE(machine_sid6_store, sid6_store)
+MACHINE_SIDx_STORE(machine_sid7_store, sid7_store)
+MACHINE_SIDx_STORE(machine_sid8_store, sid8_store)
 
 /* ---------------------------------------------------------------------*/
 
@@ -114,9 +126,81 @@ static io_source_t sid4_device = {
     0                     /* insertion order, gets filled in by the registration function */
 };
 
+/* 5th SID, can be a cartridge or an internal board */
+static io_source_t sid5_device = {
+    "Penta SID",          /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidStereo",          /* resource to set to '0' */
+    0xde80, 0xde9f, 0x1f, /* range for the 5th SID device, can be changed to other ranges */
+    1,                    /* read is always valid */
+    machine_sid5_store,   /* store function */
+    NULL,                 /* NO poke function */
+    machine_sid5_read,    /* read function */
+    machine_sid5_peek,    /* peek function */
+    sid5_dump,            /* device state information dump function */
+    IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
+};
+
+/* 6th SID, can be a cartridge or an internal board */
+static io_source_t sid6_device = {
+    "Hexa SID",           /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidStereo",          /* resource to set to '0' */
+    0xdf40, 0xdf5f, 0x1f, /* range for the 6th SID device, can be changed to other ranges */
+    1,                    /* read is always valid */
+    machine_sid6_store,   /* store function */
+    NULL,                 /* NO poke function */
+    machine_sid6_read,    /* read function */
+    machine_sid6_peek,    /* peek function */
+    sid6_dump,            /* device state information dump function */
+    IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
+};
+
+/* 7th SID, can be a cartridge or an internal board */
+static io_source_t sid7_device = {
+    "Hepta SID",          /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidStereo",          /* resource to set to '0' */
+    0xde40, 0xde5f, 0x1f, /* range for the 6th SID device, can be changed to other ranges */
+    1,                    /* read is always valid */
+    machine_sid7_store,   /* store function */
+    NULL,                 /* NO poke function */
+    machine_sid7_read,    /* read function */
+    machine_sid7_peek,    /* peek function */
+    sid7_dump,            /* device state information dump function */
+    IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
+};
+
+/* 8th SID, can be a cartridge or an internal board */
+static io_source_t sid8_device = {
+    "Octa SID",           /* name of the device */
+    IO_DETACH_RESOURCE,   /* use resource to detach the device when involved in a read-collision */
+    "SidStereo",          /* resource to set to '0' */
+    0xdfc0, 0xdfdf, 0x1f, /* range for the 6th SID device, can be changed to other ranges */
+    1,                    /* read is always valid */
+    machine_sid8_store,   /* store function */
+    NULL,                 /* NO poke function */
+    machine_sid8_read,    /* read function */
+    machine_sid8_peek,    /* peek function */
+    sid8_dump,            /* device state information dump function */
+    IO_CART_ID_NONE,      /* none is used here, because it is an I/O only device */
+    IO_PRIO_NORMAL,       /* normal priority, device read needs to be checked for collisions */
+    0                     /* insertion order, gets filled in by the registration function */
+};
+
 static io_source_list_t *sid2_list_item = NULL;
 static io_source_list_t *sid3_list_item = NULL;
 static io_source_list_t *sid4_list_item = NULL;
+static io_source_list_t *sid5_list_item = NULL;
+static io_source_list_t *sid6_list_item = NULL;
+static io_source_list_t *sid7_list_item = NULL;
+static io_source_list_t *sid8_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
@@ -185,6 +269,10 @@ void sid_sound_chip_init(void)
 SIDx_CHECK_RANGE(2)
 SIDx_CHECK_RANGE(3)
 SIDx_CHECK_RANGE(4)
+SIDx_CHECK_RANGE(5)
+SIDx_CHECK_RANGE(6)
+SIDx_CHECK_RANGE(7)
+SIDx_CHECK_RANGE(8)
 
 void machine_sid2_enable(int val)
 {
@@ -200,6 +288,22 @@ void machine_sid2_enable(int val)
         io_source_unregister(sid4_list_item);
         sid4_list_item = NULL;
     }
+    if (sid5_list_item != NULL) {
+        io_source_unregister(sid5_list_item);
+        sid5_list_item = NULL;
+    }
+    if (sid6_list_item != NULL) {
+        io_source_unregister(sid6_list_item);
+        sid6_list_item = NULL;
+    }
+    if (sid7_list_item != NULL) {
+        io_source_unregister(sid7_list_item);
+        sid7_list_item = NULL;
+    }
+    if (sid8_list_item != NULL) {
+        io_source_unregister(sid8_list_item);
+        sid8_list_item = NULL;
+    }
 
     if (val >= 1) {
         sid2_list_item = io_source_register(&sid2_device);
@@ -209,6 +313,18 @@ void machine_sid2_enable(int val)
     }
     if (val >= 3) {
         sid4_list_item = io_source_register(&sid4_device);
+    }
+    if (val >= 4) {
+        sid5_list_item = io_source_register(&sid5_device);
+    }
+    if (val >= 5) {
+        sid6_list_item = io_source_register(&sid6_device);
+    }
+    if (val >= 6) {
+        sid7_list_item = io_source_register(&sid7_device);
+    }
+    if (val >= 7) {
+        sid8_list_item = io_source_register(&sid8_device);
     }
 }
 

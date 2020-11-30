@@ -62,6 +62,10 @@
 static char *sid2_address_range = NULL;
 static char *sid3_address_range = NULL;
 static char *sid4_address_range = NULL;
+static char *sid5_address_range = NULL;
+static char *sid6_address_range = NULL;
+static char *sid7_address_range = NULL;
+static char *sid8_address_range = NULL;
 
 struct engine_s {
     const char *name;
@@ -224,6 +228,18 @@ static cmdline_option_t stereo_cmdline_options[] =
     { "-sidquadaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidQuadAddressStart", NULL,
       "<Base address>", NULL },
+    { "-sidpentaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidPentAddressStart", NULL,
+      "<Base address>", NULL },
+    { "-sidhexaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidHexAddressStart", NULL,
+      "<Base address>", NULL },
+    { "-sidheptaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidHeptAddressStart", NULL,
+      "<Base address>", NULL },
+    { "-sidoctaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SidOctAddressStart", NULL,
+      "<Base address>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -249,8 +265,20 @@ static char *generate_sid_address_range(int nr)
         case 3:
             temp3 = lib_strdup("Specify base address for 3rd SID. (");
             break;
-        default:
+        case 4:
             temp3 = lib_strdup("Specify base address for 4th SID. (");
+            break;
+        case 5:
+            temp3 = lib_strdup("Specify base address for 5th SID. (");
+            break;
+        case 6:
+            temp3 = lib_strdup("Specify base address for 6th SID. (");
+            break;
+        case 7:
+            temp3 = lib_strdup("Specify base address for 7th SID. (");
+            break;
+        default:
+            temp3 = lib_strdup("Specify base address for 8th SID. (");
             break;
     }
 
@@ -409,9 +437,19 @@ int sid_cmdline_options_init(int sid_type)
         sid2_address_range = generate_sid_address_range(2);
         sid3_address_range = generate_sid_address_range(3);
         sid4_address_range = generate_sid_address_range(4);
+        sid5_address_range = generate_sid_address_range(5);
+        sid6_address_range = generate_sid_address_range(6);
+        sid7_address_range = generate_sid_address_range(7);
+        sid8_address_range = generate_sid_address_range(8);
+
         stereo_cmdline_options[1].description = sid2_address_range;
         stereo_cmdline_options[2].description = sid3_address_range;
         stereo_cmdline_options[3].description = sid4_address_range;
+        stereo_cmdline_options[4].description = sid5_address_range;
+        stereo_cmdline_options[5].description = sid6_address_range;
+        stereo_cmdline_options[6].description = sid7_address_range;
+        stereo_cmdline_options[7].description = sid8_address_range;
+
 
         if (cmdline_register_options(stereo_cmdline_options) < 0) {
             return -1;
@@ -437,5 +475,21 @@ void sid_cmdline_options_shutdown(void)
     if (sid4_address_range) {
         lib_free(sid4_address_range);
         sid4_address_range = NULL;
+    }
+    if (sid5_address_range) {
+        lib_free(sid5_address_range);
+        sid5_address_range = NULL;
+    }
+    if (sid6_address_range) {
+        lib_free(sid6_address_range);
+        sid6_address_range = NULL;
+    }
+    if (sid7_address_range) {
+        lib_free(sid7_address_range);
+        sid7_address_range = NULL;
+    }
+    if (sid8_address_range) {
+        lib_free(sid8_address_range);
+        sid8_address_range = NULL;
     }
 }
