@@ -137,6 +137,7 @@ Copyright @copyright{} 2016-2020 Bas Wassink
 Copyright @copyright{} 2017-2020 Michael C. Martin
 Copyright @copyright{} 2018-2020 Christopher Phillips
 Copyright @copyright{} 2019-2020 David Hogan
+Copyright @copyright{} 2020 Empathic Qubit
 @c ---vice-core-team-end---
 
 @c ---ex-team---
@@ -30325,6 +30326,8 @@ Copyright @copyright{} 2017-2020 Michael C. Martin
 Copyright @copyright{} 2018-2020 Christopher Phillips
 @item
 Copyright @copyright{} 2019-2020 David Hogan
+@item
+Copyright @copyright{} 2020 Empathic Qubit
 
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
