@@ -52,7 +52,7 @@ extern int autostart_autodetect_opt_prgname(const char *file_prog_name,
                                             unsigned int alt_prg_number,
                                             unsigned int runmode);
 
-extern int autostart_disk(const char *file_name, const char *program_name,
+extern int autostart_disk(int unit, int drive, const char *file_name, const char *program_name,
                           unsigned int program_number, unsigned int runmode);
 extern int autostart_tape(const char *file_name, const char *program_name,
                           unsigned int program_number, unsigned int runmode);
@@ -63,7 +63,7 @@ extern int autostart_tapecart(const char *file_name, void *unused);
 extern void autostart_disable(void);
 extern void autostart_advance(void);
 
-extern int autostart_device(int num);
+/* extern int autostart_device(int unit); */
 extern void autostart_reset(void);
 
 extern int autostart_ignore_reset;

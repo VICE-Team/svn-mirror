@@ -142,14 +142,22 @@ void autostart_prg_shutdown(void)
     }
 }
 
-int autostart_prg_with_virtual_fs(int device, const char *file_name,
+int autostart_prg_with_virtual_fs(int unit, int drive, const char *file_name,
                                   fileio_info_t *fh,
                                   log_t log)
 {
     char *directory;
     char *file;
 
-    DBG(("autostart_prg_with_virtual_fs (device: %d file_name:%s)", device, file_name));
+    DBG(("autostart_prg_with_virtual_fs (unit: %d drive: %d file_name:%s)",
+         unit, drive, file_name));
+
+    if (unit < 8) {
+        return -1;
+    }
+    if (drive != 1) {
+        drive = 0;
+    }
 
     /* Extract the directory path to allow FS-based drive emulation to work.  */
     util_fname_split(file_name, &directory, &file);
@@ -167,10 +175,10 @@ int autostart_prg_with_virtual_fs(int device, const char *file_name,
 
     /* Setup FS-based drive emulation.  */
     /* resources_set_int("VirtualDevices", 1); FIXME: not restored */
-    resources_set_int_sprintf("FSDevice%dConvertP00", 1, device);
-    file_system_detach_disk(device, 0);              /* FIXME: not restored */
-    resources_set_int_sprintf("FileSystemDevice%d", ATTACH_DEVICE_FS, device);
-    fsdevice_set_directory(directory ? directory : ".", device);
+    resources_set_int_sprintf("FSDevice%dConvertP00", 1, unit);
+    file_system_detach_disk(unit, drive);              /* FIXME: not restored */
+    resources_set_int_sprintf("FileSystemDevice%d", ATTACH_DEVICE_FS, unit);
+    fsdevice_set_directory(directory ? directory : ".", unit);
     log_message(autostart_log, "using virtual filesystem on: %s.", directory);
 
     /* other setup was done by autostart_prg() */
@@ -195,12 +203,11 @@ int autostart_prg_with_ram_injection(const char *file_name,
     return (inject_prg == NULL) ? -1 : 0;
 }
 
-int autostart_prg_with_disk_image(int unit, const char *file_name,
+int autostart_prg_with_disk_image(int unit, int drive, const char *file_name,
                                   fileio_info_t *fh,
                                   log_t log,
                                   const char *image_name)
 {
-    /* const int unit = 8; */
     const int secondary = 1;
     autostart_prg_t *prg;
     vdrive_t *vdrive;
@@ -211,11 +218,14 @@ int autostart_prg_with_disk_image(int unit, const char *file_name,
     int result, result2;
     char tempname[32];
 
-    /* TODO: drive 1? */
-    unsigned int drive = 0;
+    DBG(("autostart_prg_with_disk_image (unit: %d drive: %d file_name :%s image_name :%s)",
+         unit, drive, file_name, image_name));
 
     if (unit < 8) {
         return -1;
+    }
+    if (drive != 1) {
+        drive = 0;
     }
 
     /* identify disk image type */
@@ -270,7 +280,7 @@ int autostart_prg_with_disk_image(int unit, const char *file_name,
         }
 
         /* attach disk image */
-        if (file_system_attach_disk(unit, 0, image_name) < 0) {
+        if (file_system_attach_disk(unit, drive, image_name) < 0) {
             log_error(log, "Could not attach disk image: %s", image_name);
             break;
         }

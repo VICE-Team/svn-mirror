@@ -259,6 +259,8 @@ static void do_autostart(GtkWidget *widget, gpointer user_data)
     /* if this function exists, why is there no attach_autodetect()
      * or something similar? -- compyx */
     if (autostart_disk(
+                unit_number,
+                drive_number,
                 filename_locale,
                 NULL,   /* program name */
                 index,  /* Program number? Probably used when clicking

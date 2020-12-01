@@ -297,8 +297,14 @@ static guint timeout_id = 0;
 
 
 /* Forward decl. */
-static void tape_dir_autostart_callback(const char *image, int index);
-static void disk_dir_autostart_callback(const char *image, int index);
+static void tape_dir_autostart_callback(const char *image,
+                                        int index,
+                                        int device,
+                                        unsigned int drive);
+static void disk_dir_autostart_callback(const char *image,
+                                        int index,
+                                        int device,
+                                        unsigned int drive);
 
 static gboolean redraw_widget_on_ui_thread_impl(gpointer user_data)
 {
@@ -1109,8 +1115,13 @@ static GtkWidget *ui_drive_widget_create(int unit)
  *
  * \param[in]   image   image name
  * \param[in]   index   directory index of the file to start
+ * \param[in]   device  device number (0-3)
+ * \param[in]   drive   drive number (0 or 1) of device
  */
-static void disk_dir_autostart_callback(const char *image, int index)
+static void disk_dir_autostart_callback(const char *image,
+                                        int index,
+                                        int device,
+                                        unsigned int drive)
 {
     char *autostart_image;
 
@@ -1118,7 +1129,8 @@ static void disk_dir_autostart_callback(const char *image, int index)
      * image, freeing memory used by the image name passed to us in the process
      */
     autostart_image = lib_strdup(image);
-    autostart_disk(autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
+    /* FIXME: pass the actual drive unit */
+    autostart_disk(device + 8, drive, autostart_image, NULL, index + 1, AUTOSTART_MODE_RUN);
     lib_free(autostart_image);
 }
 
@@ -1129,8 +1141,13 @@ static void disk_dir_autostart_callback(const char *image, int index)
  *
  * \param[in]   image   image name
  * \param[in]   index   directory index of the file to start
+ * \param[in]   device  device number (unused, but perhaps useful for PET)
+ * \param[in]   drive   drive number (unused)
  */
-static void tape_dir_autostart_callback(const char *image, int index)
+static void tape_dir_autostart_callback(const char *image,
+                                        int index,
+                                        int device,
+                                        unsigned int drive)
 {
     char *autostart_image;
 

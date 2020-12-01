@@ -35,7 +35,7 @@
 GtkWidget *dir_menu_popup_create(
         int dev,
         read_contents_func_type func,
-        void (*response)(const char *, int));
+        void (*response)(const char *, int, int, unsigned int));
 
 #endif
 

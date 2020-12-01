@@ -55,6 +55,7 @@
 #include "dirmenupopup.h"
 
 
+
 /** \brief  Function to read the contents of an image
  *
  * FIXME:   Hiding the pointer-ness of a function is NOT a good idea
@@ -62,7 +63,7 @@
 static read_contents_func_type content_func;
 
 /** \brief  Function to call when a file in the directory is selected */
-static void (*response_func)(const char *, int);
+static void (*response_func)(const char *, int, int, unsigned int);
 
 /** \brief  Disk image being used
  *
@@ -103,13 +104,16 @@ static GtkCssProvider *menuitem_css_provider;
 /** \brief  Handler for the "activate" event of a menu item
  *
  * \param[in]   item    menu item triggering the event
- * \param[in]   data    index in the directory (0 = header)
+ * \param[in]   data    index in the directory
  */
 static void on_item_activate(GtkWidget *item, gpointer data)
 {
     int index = GPOINTER_TO_INT(data);
+    int device = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "DeviceNumber"));
+    unsigned int drive = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "DriveNumber"));
 
-    response_func(autostart_diskimage, index);
+    debug_gtk3("Calling response_func(%d, %d, %u)", index, device, drive);
+    response_func(autostart_diskimage, index, device, drive);
 }
 
 
@@ -159,7 +163,7 @@ void dir_item_apply_style(GtkWidget *item)
 GtkWidget *dir_menu_popup_create(
         int dev,
         read_contents_func_type func,
-        void (*response)(const char *, int))
+        void (*response)(const char *, int, int, unsigned int))
 {
     GtkWidget *menu;
     GtkWidget *item;
@@ -169,14 +173,9 @@ GtkWidget *dir_menu_popup_create(
     char *utf8;
     char *tmp;
     int index;
-#if 0
-    GtkWidget *label;
-#endif
     int blocks;
-
     /* TODO: drive 1? */
     unsigned int drive = 0;
-
 
     debug_gtk3("DEVICE = %d, DRIVE = %u", dev, drive);
 
@@ -199,8 +198,6 @@ GtkWidget *dir_menu_popup_create(
          * a function in drive/vdrive somehow. This much dereferencing in UI
          * code is not normal method.
          */
-
-        debug_gtk3("DEV = %d.", dev);
 
         vdrive_t *vdrive = NULL;
         struct disk_image_s *diskimg = NULL;
@@ -297,6 +294,14 @@ GtkWidget *dir_menu_popup_create(
                 tmp = image_contents_file_to_string(entry, 0);
                 utf8 = (char *)vice_gtk3_petscii_to_utf8((unsigned char *)tmp, 0, false);
                 item = gtk_menu_item_new_with_label(utf8);
+                /* set extra data to used in the event handler */
+                g_object_set_data(G_OBJECT(item),
+                                  "DeviceNumber",
+                                  GINT_TO_POINTER(dev));
+                g_object_set_data(G_OBJECT(item),
+                                  "DriveNumber",
+                                  GUINT_TO_POINTER(drive));
+
 #if 0
                 g_object_set(item, "margin-top", 0, "margin-bottom", 0, NULL);
                 label = gtk_bin_get_child(GTK_BIN(item));
@@ -307,7 +312,8 @@ GtkWidget *dir_menu_popup_create(
 
                 gtk_container_add(GTK_CONTAINER(menu), item);
                 g_signal_connect(item, "activate",
-                        G_CALLBACK(on_item_activate), GINT_TO_POINTER(index));
+                        G_CALLBACK(on_item_activate),
+                        GINT_TO_POINTER(index));
                 index++;
                 lib_free(tmp);
                 lib_free(utf8);
