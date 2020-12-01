@@ -61,6 +61,7 @@
  * $VICERES DosName3040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  * $VICERES DosName4040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  * $VICERES DosName1001         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
+ * $VICERES DosName9000         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  * $VICERES DriveProfDOS1571Name    x64 x64sc xscpu64 x128
  * $VICERES DriveSuperCardName      x64 x64sc xscpu64 x128
  * $VICERES DriveStarDosName        x64 x64sc xscpu64 x128
@@ -281,6 +282,7 @@ static const romset_entry_t c64_vic20_drive_roms[] = {
     { "DosName3040",    "3040",     NULL },
     { "DosName4040",    "4040",     NULL },
     { "DosName1001",    "1001",     NULL },
+    { "DosName9000",    "D9090/60", NULL },
     { NULL,         NULL,           NULL }
 };
 
@@ -303,6 +305,7 @@ static const romset_entry_t c128_drive_roms[] = {
     { "DosName3040",    "3040",     NULL },
     { "DosName4040",    "4040",     NULL },
     { "DosName1001",    "1001",     NULL },
+    { "DosName9000",    "D9090/60", NULL },
     { NULL,         NULL,           NULL }
 };
 
@@ -323,6 +326,7 @@ static const romset_entry_t pet_cbm2_drive_roms[] = {
     { "DosName3040",    "3040",     NULL },
     { "DosName4040",    "4040",     NULL },
     { "DosName1001",    "1001",     NULL },
+    { "DosName9000",    "D9090/60", NULL },
     { NULL,         NULL,           NULL }
 };
 
