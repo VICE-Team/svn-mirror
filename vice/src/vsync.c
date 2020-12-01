@@ -464,7 +464,6 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
                 skipped_redraw_count = 0;
             }
         }
-        fflush(stdout);
     }
 
     /*
