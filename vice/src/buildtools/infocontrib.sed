@@ -179,6 +179,7 @@ s/@b{Christopher Phillips}/Christopher Phillips <shrydar@users.sourceforge.net>/
 s/@b{Michael C. Martin}/Michael C. Martin <mcmartin@gmail.com>/g
 s/@b{Bjoern Odendahl}/Bjoern Odendahl/g
 s/@b{David Hogan}/David Hogan <david.q.hogan@gmail.com>/g
+s/@b{Empathic Qubit}/Empathic Qubit <empathicqubit@entan.gl>/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g
