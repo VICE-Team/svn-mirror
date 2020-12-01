@@ -17452,7 +17452,19 @@ Get details about the registers
 
 Command body:
 
-Currently empty.
+@table @strong
+@item byte 0: memspace
+Describes which part of the computer you want to read:
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
+
+@end table
 
 @xref{MON_RESPONSE_REGISTER_INFO}.
 
@@ -17464,7 +17476,18 @@ Set the register values
 Command body:
 
 @table @strong
-@item byte 0-1: The count of the array items
+@item byte 0: memspace
+Describes which part of the computer you want to write:
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
+
+@item byte 1-2: The count of the array items
 
 @item byte 2+: An array with items of structure:
     byte 0: Size of the item, excluding this byte
@@ -17673,7 +17696,7 @@ Response body:
 Always empty
 
 @node MON_CMD_BANKS_AVAILABLE
-@subsection Banks Available (0x82)
+@subsection Banks available (0x82)
 
 Gives a listing of all the bank IDs for the running machine with their names.
 
@@ -17705,13 +17728,26 @@ Response body:
 @end table
 
 @node MON_CMD_REGISTERS_AVAILABLE
-@subsection Registers Available (0x83)
+@subsection Registers available (0x83)
 
 Gives a listing of all the registers for the running machine with their names.
 
 Command body:
 
-Currently empty.
+@table @strong
+
+@item byte 0: memspace
+Describes which part of the computer you want to read:
+
+@itemize
+@item 0x00: main memory
+@item 0x01: drive 8
+@item 0x02: drive 9
+@item 0x03: drive 10
+@item 0x04: drive 11
+@end itemize
+
+@end table
 
 Response type:
 

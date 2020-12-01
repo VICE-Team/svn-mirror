@@ -298,6 +298,11 @@ static void monitor_binary_response(uint32_t length, BINARY_RESPONSE response_ty
     }
 }
 
+static void monitor_binary_error(BINARY_ERROR errorcode, uint32_t request_id)
+{
+    monitor_binary_response(0, 0, errorcode, request_id, NULL);
+}
+
 static void monitor_binary_response_stopped(uint32_t request_id)
 {
     unsigned char response[2];
@@ -332,19 +337,37 @@ ui_jam_action_t monitor_binary_ui_jam_dialog(const char *format, ...)
 
 static bool ignore_fake_register(mon_reg_list_t *reg)
 {
-    return reg->flags & (MON_REGISTER_IS_FLAGS | MON_REGISTER_IS_MEMORY);
+    return reg->flags & MON_REGISTER_IS_FLAGS;
 }
 
-void monitor_binary_response_register_info(uint32_t request_id)
+static MEMSPACE get_requested_memspace(uint8_t requested_memspace) {
+    if (requested_memspace == 0) {
+        return e_comp_space;
+    } else if (requested_memspace == 1) {
+        return e_disk8_space;
+    } else if (requested_memspace == 2) {
+        return e_disk9_space;
+    } else if (requested_memspace == 3) {
+        return e_disk10_space;
+    } else if (requested_memspace == 4) {
+        return e_disk11_space;
+    } else {
+        return e_invalid_space;
+    }
+}
+
+void monitor_binary_response_register_info(uint32_t request_id, MEMSPACE memspace)
 {
+    mon_reg_list_t *regs;
+    mon_reg_list_t *regs_cursor;
     unsigned char *response;
-    uint16_t count = 0;
-    uint32_t response_size = 2;
-    uint8_t item_size = 3;
-    /* FIXME: Should I add the memspace to the request? */
-    mon_reg_list_t *regs = mon_register_list_get(e_comp_space);
-    mon_reg_list_t *regs_cursor = regs;
     unsigned char *response_cursor;
+    uint32_t response_size = 2;
+    uint16_t count = 0;
+    uint8_t item_size = 3;
+
+    regs = mon_register_list_get(memspace);
+    regs_cursor = regs;
 
     for( ; regs_cursor->name ; regs_cursor++) {
         if (!ignore_fake_register(regs_cursor)) {
@@ -381,7 +404,8 @@ void monitor_binary_response_register_info(uint32_t request_id)
 
 /*! \internal \brief called when the monitor is opened */
 void monitor_binary_event_opened(void) {
-    monitor_binary_response_register_info(MON_EVENT_ID);
+    /* FIXME */
+    monitor_binary_response_register_info(MON_EVENT_ID, e_comp_space);
     monitor_binary_response_stopped(MON_EVENT_ID);
 }
 
@@ -421,11 +445,6 @@ void monitor_binary_response_checkpoint_info(uint32_t request_id, mon_checkpoint
     response[21] = !!checkpt->condition;
 
     monitor_binary_response(sizeof (response), e_MON_RESPONSE_CHECKPOINT_INFO, e_MON_ERR_OK, request_id, response);
-}
-
-static void monitor_binary_error(BINARY_ERROR errorcode, uint32_t request_id)
-{
-    monitor_binary_response(0, 0, errorcode, request_id, NULL);
 }
 
 static void monitor_binary_process_ping(binary_command_t *command)
@@ -674,19 +693,44 @@ static void monitor_binary_process_autostart(binary_command_t *command)
 
 static void monitor_binary_process_registers_get(binary_command_t *command)
 {
-    monitor_binary_response_register_info(command->request_id);
+    uint8_t requested_memspace = command->body[0];
+    MEMSPACE memspace;
+    if(command->length < 1) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    memspace = get_requested_memspace(requested_memspace);
+
+    if(memspace == e_invalid_space) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        log_message(LOG_DEFAULT, "monitor binary memset: Unknown memspace %u", requested_memspace);
+        return;
+    }
+
+    monitor_binary_response_register_info(command->request_id, memspace);
 }
 
 static void monitor_binary_process_registers_set(binary_command_t *command)
 {
-    const int header_size = 2;
+    const int header_size = 3;
     unsigned int i = 0;
     unsigned char *body = command->body;
+    uint8_t requested_memspace = body[0];
     unsigned char *body_cursor = body;
-    uint16_t count = little_endian_to_uint16(body);
+    MEMSPACE memspace;
+    uint16_t count = little_endian_to_uint16(&body[1]);
 
     if (command->length < header_size + count * (3 + 1)) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    memspace = get_requested_memspace(requested_memspace);
+
+    if(memspace == e_invalid_space) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        log_message(LOG_DEFAULT, "monitor binary memget: Unknown memspace %u", requested_memspace);
         return;
     }
 
@@ -702,17 +746,17 @@ static void monitor_binary_process_registers_set(binary_command_t *command)
             return;
         }
 
-        if (!mon_register_valid(e_comp_space, (int)reg_id)) {
+        if (!mon_register_valid(memspace, (int)reg_id)) {
             monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
             return;
         }
 
-        monitor_cpu_for_memspace[e_comp_space]->mon_register_set_val(e_comp_space, reg_regid(reg_id), reg_val);
+        monitor_cpu_for_memspace[memspace]->mon_register_set_val(memspace, reg_regid(reg_id), reg_val);
 
         body_cursor += item_size + 1;
     }
 
-    monitor_binary_response_register_info(command->request_id);
+    monitor_binary_response_register_info(command->request_id, memspace);
 }
 
 static void monitor_binary_process_dump(binary_command_t *command)
@@ -958,11 +1002,28 @@ static void monitor_binary_process_registers_available(binary_command_t *command
     unsigned char *response;
     unsigned char *response_cursor;
     size_t *item_sizes;
+    MEMSPACE memspace;
     uint16_t count_all;
-    uint16_t count_response = 0;
     unsigned int i = 0;
     uint32_t response_size = 2;
-    mon_reg_list_t *regs = mon_register_list_get(e_comp_space);
+    uint16_t count_response = 0;
+    uint8_t requested_memspace = command->body[0];
+    mon_reg_list_t *regs;
+
+    if (command->length < 1) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    memspace = get_requested_memspace(requested_memspace);
+
+    if(memspace == e_invalid_space) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        log_message(LOG_DEFAULT, "monitor binary memget: Unknown memspace %u", requested_memspace);
+        return;
+    }
+
+    regs = mon_register_list_get(memspace);
 
     while (regs[i].name) {
         ++i;
@@ -1029,6 +1090,14 @@ static void monitor_binary_screenshot_line_data(screenshot_t *screenshot, uint8_
     unsigned int excess_height = (screenshot->height - screenshot->inner_height) / 2;
     unsigned int true_offset_x = screenshot->debug_offset_x - excess_width;
     unsigned int true_offset_y = screenshot->debug_offset_y - excess_height;
+
+    if(true_offset_x + screenshot->width > screenshot->debug_width) {
+        true_offset_x = 0;
+    }
+
+    if(true_offset_y + screenshot->height > screenshot->debug_height) {
+        true_offset_y = 0;
+    }
 
 #define BUFFER_LINE_START(i, n) ((i)->draw_buffer + (n) * (i)->draw_buffer_line_size)
 
@@ -1301,17 +1370,9 @@ static void monitor_binary_process_mem_get(binary_command_t *command)
         return;
     }
 
-    if (requested_memspace == 0) {
-        memspace = e_comp_space;
-    } else if (requested_memspace == 1) {
-        memspace = e_disk8_space;
-    } else if (requested_memspace == 2) {
-        memspace = e_disk9_space;
-    } else if (requested_memspace == 3) {
-        memspace = e_disk10_space;
-    } else if (requested_memspace == 4) {
-        memspace = e_disk11_space;
-    } else {
+    memspace = get_requested_memspace(requested_memspace);
+
+    if(memspace == e_invalid_space) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memget: Unknown memspace %u", requested_memspace);
         return;
@@ -1376,17 +1437,9 @@ static void monitor_binary_process_mem_set(binary_command_t *command)
         return;
     }
 
-    if (requested_memspace == 0) {
-        memspace = e_comp_space;
-    } else if (requested_memspace == 1) {
-        memspace = e_disk8_space;
-    } else if (requested_memspace == 2) {
-        memspace = e_disk9_space;
-    } else if (requested_memspace == 3) {
-        memspace = e_disk10_space;
-    } else if (requested_memspace == 4) {
-        memspace = e_disk11_space;
-    } else {
+    memspace = get_requested_memspace(requested_memspace);
+
+    if(memspace == e_invalid_space) {
         monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memset: Unknown memspace %u", requested_memspace);
         return;

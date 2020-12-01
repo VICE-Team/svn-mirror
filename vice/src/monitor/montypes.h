@@ -103,7 +103,9 @@ enum t_reg_id       {
     e_IYL          = 0x33, /* z80                        */
     e_IYH          = 0x34, /* z80                        */
     e_Rasterline   = 0x35, /* Rasterline                 */
-    e_Cycle        = 0x36  /* Cycle                      */
+    e_Cycle        = 0x36, /* Cycle                      */
+    e_Zero         = 0x37, /* 6510/c64dtv                */
+    e_One          = 0x38  /* 6510/c64dtv                */
 };
 typedef enum t_reg_id REG_ID;
 
