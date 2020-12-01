@@ -53,11 +53,10 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
+#include "vice_gtk3.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
 #include "sid.h"
 
 
@@ -92,7 +91,7 @@ static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
 };
 #endif
 
-
+#if 0
 /** \brief  Values for the "number of sids" widget
  */
 static const vice_gtk3_radiogroup_entry_t num_sids[] = {
@@ -116,7 +115,7 @@ static const vice_gtk3_radiogroup_entry_t num_sids_vsid[] = {
     { "Three", 2 },
     { NULL, -1 }
 };
-
+#endif
 
 
 /** \brief  I/O addresses for extra SID's for the C64
@@ -221,7 +220,7 @@ static GtkWidget *resid_8580_bias;
  *
  * Used to enable/disable depending on the number of SIDs active
  */
-static GtkWidget *address_widgets[7];
+static GtkWidget *address_widgets[SOUND_SIDS_MAX];
 
 
 /** \brief  Reference to the SID filters checkbox
@@ -253,10 +252,12 @@ static GtkWidget *resid_6581_bias_spin;
 /** \brief  Extra callback registered to the 'number of SIDs' radiogroup
  *
  * \param[in]   widget  widget triggering the event
- * \param[in]   count   number of extra SIDs (0-3)
+ * \param[in]   count   number of extra SIDs (0 - SOUND_SID_MAX-1)
  */
-static void on_sid_count_changed(GtkWidget *widget, int count)
+static void on_sid_count_changed(GtkWidget *widget, gpointer data)
 {
+    int count = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));
+
     debug_gtk3("extra SIDs count changed to %d.", count);
 
     if (sid_machine_can_have_multiple_sids()) {
@@ -579,9 +580,9 @@ static GtkWidget *create_resid_sampling_widget(void)
 static GtkWidget *create_num_sids_widget(void)
 {
     GtkWidget *grid;
+#if 0
     GtkWidget *label;
     GtkWidget *radio_group;
-
     grid = gtk_grid_new();
     g_object_set(grid, "margin-left", 8, NULL);
 
@@ -603,6 +604,30 @@ static GtkWidget *create_num_sids_widget(void)
 
     vice_gtk3_resource_radiogroup_add_callback(radio_group,
             on_sid_count_changed);
+#endif
+    GtkWidget *spin;
+    int max_sids;
+
+    grid = vice_gtk3_grid_new_spaced_with_label(16, 8, "Extra STDs", 2);
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        /* FIXME: only valid until PSID supports more SIDs than three */
+        max_sids = 3;
+    } else {
+        max_sids = SOUND_SIDS_MAX;
+    }
+
+    /* create spinbutton for the 'SidStereo' resource */
+    spin = vice_gtk3_resource_spin_int_new("SidStereo", 0, max_sids - 1, 1);
+    g_object_set(G_OBJECT(spin), "margin-left", 16, NULL);
+    gtk_widget_set_halign(spin, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(spin, FALSE);
+    g_signal_connect(spin, "value-changed", G_CALLBACK(on_sid_count_changed),
+             NULL);
+
+    gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
+
+
 
     gtk_widget_show_all(grid);
     return grid;
@@ -621,7 +646,7 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
     const vice_gtk3_combo_entry_int_t *entries;
     char label[256];
     char *resource_name;
-    
+
     if (sid == 1) {
         resource_name = lib_strdup("SidStereoAddressStart");
     } else if (sid == 2) {
@@ -640,15 +665,15 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
         assert(0);
     }
 
-    g_snprintf(label, 256, "SID #%d address", sid + 1);
+    g_snprintf(label, 256, "SID #%d", sid + 1);
     entries = machine_class == VICE_MACHINE_C128
         ? sid_address_c128 : sid_address_c64;
 
     widget = vice_gtk3_resource_combo_box_int_new_with_label(resource_name, entries, label);
     gtk_widget_show_all(widget);
-    
+
     lib_free(resource_name);
-    
+
     return widget;
 }
 
@@ -884,7 +909,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     GtkWidget *sids = NULL;
     int current_engine;
     int stereo;
-    int row;
+    int row = 2;
     int i;
     int model;
 #ifdef HAVE_RESID
@@ -926,16 +951,40 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
     if (sid_machine_can_have_multiple_sids()) {
         int max = sid_machine_get_max_sids();
+        int c = 1;
+        GtkWidget *sid_addresses;
 
         sids = create_num_sids_widget();
         gtk_grid_attach(GTK_GRID(layout), sids, 2, 1, 1, 1);
 
         for (i = 1; i < max; i++) {
+
             address_widgets[i - 1] = create_extra_sid_address_widget(i);
-            gtk_grid_attach(GTK_GRID(layout), address_widgets[i - 1],
-                    i - 1, 2, 1, 1);
         }
-        row = 3;
+
+        sid_addresses = vice_gtk3_grid_new_spaced_with_label(
+                16, 8, "SID I/O addresses", 3);
+        g_object_set(sid_addresses,
+                "margin-left", 16,
+                "margin-top", 16,
+                "margin-bottom", 16,
+                NULL);
+
+        /* lay out address widgets in a grid of four columns max, skip the
+         * first SID
+         */
+        i = 0;
+        while (i < max) {
+            while (c < 4) {
+                gtk_grid_attach(GTK_GRID(sid_addresses),
+                                address_widgets[i],
+                                c, ((i + 1) / 4) + 1, 1, 1);
+                c++;
+                i++;
+            }
+            c = 0;
+        }
+        gtk_grid_attach(GTK_GRID(layout), sid_addresses, 0, row++, 3, 1);
     } else {
         row = 2;
     }
@@ -1098,7 +1147,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     {
         /* set sensitivity of address widgets */
         resources_get_int("SidStereo", &stereo);
-        on_sid_count_changed(NULL, stereo);
+        on_sid_count_changed(NULL, GINT_TO_POINTER(stereo));
     }
 
 #ifdef HAVE_RESID
