@@ -248,33 +248,25 @@ void vice_opengl_renderer_create_child_view(GtkWidget *widget, vice_opengl_rende
     vice_opengl_renderer_clear_current(context);
 }
 
-static int vsync_fail_count;
-
 void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, bool enable_vsync)
 {
+    static bool set_vsync_failed;
+
     GLint gl_int = enable_vsync ? 1 : 0;
     int result = 0;
-
-    /* 
-     * So. Attempts to set swap interval on vnc fail and annoy. Attempt to workaround.
-     * Don't know why in that particular case the context wasn't detected as indirect
-     * during startup though.
-     */
-
-    if (False == glXIsDirect(context->x_display, context->gl_context)) {
-        return;
-    }
 
     /* WTF opengl. */
     if (GLX_MESA_swap_control && glXSwapIntervalMESA) {
         result = glXSwapIntervalMESA(gl_int);
         if (result) {
-            if (++vsync_fail_count <= 25) {
-                log_error(LOG_DEFAULT, "glXSwapIntervalMESA(%d) failed with error: %d", gl_int, result);
-
-                if (vsync_fail_count == 25) {
-                    log_error(LOG_DEFAULT, "Suppressing further glXSwapIntervalMESA errors.");
-                }
+            if (!set_vsync_failed) {
+                log_error(LOG_DEFAULT, "glXSwapIntervalMESA(%d) failed with error: %d (suppressing futher errors)", gl_int, result);
+                set_vsync_failed = true;
+            }
+        } else {
+            if (set_vsync_failed) {
+                log_message(LOG_DEFAULT, "glXSwapIntervalMESA(%d) started working again", gl_int);
+                set_vsync_failed = false;
             }
         }
     } else if (GLX_EXT_swap_control && glXSwapIntervalEXT) {
@@ -282,12 +274,14 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
     } else if (GLX_SGI_swap_control && glXSwapIntervalSGI) {
         result = glXSwapIntervalSGI(gl_int);
         if (result) {
-            if (++vsync_fail_count <= 25) {
-                log_error(LOG_DEFAULT, "glXSwapIntervalSGI(%d) failed with error: %d", gl_int, result);
-
-                if (vsync_fail_count == 25) {
-                    log_error(LOG_DEFAULT, "Suppressing further glXSwapIntervalSGI errors.");
-                }
+            if (!set_vsync_failed) {
+                log_error(LOG_DEFAULT, "glXSwapIntervalSGI(%d) failed with error: %d (suppressing futher errors)", gl_int, result);
+                set_vsync_failed = true;
+            }
+        } else {
+            if (set_vsync_failed) {
+                log_message(LOG_DEFAULT, "glXSwapIntervalSGI(%d) started working again", gl_int);
+                set_vsync_failed = false;
             }
         }
     }
