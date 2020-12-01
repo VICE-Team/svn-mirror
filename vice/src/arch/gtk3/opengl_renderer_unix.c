@@ -255,6 +255,16 @@ void vice_opengl_renderer_set_vsync(vice_opengl_renderer_context_t *context, boo
     GLint gl_int = enable_vsync ? 1 : 0;
     int result = 0;
 
+    /* 
+     * So. Attempts to set swap interval on vnc fail and annoy. Attempt to workaround.
+     * Don't know why in that particular case the context wasn't detected as indirect
+     * during startup though.
+     */
+
+    if (False == glXIsDirect(context->x_display, context->gl_context)) {
+        return;
+    }
+
     /* WTF opengl. */
     if (GLX_MESA_swap_control && glXSwapIntervalMESA) {
         result = glXSwapIntervalMESA(gl_int);
