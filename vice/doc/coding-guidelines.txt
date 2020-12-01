@@ -43,7 +43,7 @@ src/           - common code
  platform      - platform specific discovery/reporting code (os, cpu, compiler used, etc..)
  plus4         - commodore plus4 specific code
  printerdrv    - specific printer type emulation and drivers
- raster        - raster-based video chip emulation 
+ raster        - raster-based video chip emulation
  resid folders - cycle exact sid engine (made by dag lem)
  rs232drv      - rs232 communication and modem code for interfacing with arch specific drivers
  rtc           - real time clock emulation used in some devices (fd2000/4000, ide64, etc..)
@@ -108,11 +108,6 @@ To keep the code easy to follow please read the following statements:
 
   Perfectly valid even in C89, if a compiler can't handle this, get a proper
   compiler.
-
-- Don't use mixtures of tabs and spaces as indentation, using 4 spaces per
-  level will make the code look the same no matter what editor you use.
-  When changing an existing file, make sure the indentation style is the
-  same throughout the source file.
 
 - For 'if' and 'for' always use braces.
   examples:
@@ -227,6 +222,8 @@ To keep the code easy to follow please read the following statements:
        NUM_ONE
    } numbers_t;
 
+
+
 Common code guidelines
 ----------------------
 
@@ -240,12 +237,21 @@ Many different compilers are used to compile the common code parts.
 
 - When adding header files use VICE_*_H as shown in the following example:
 
+
 #ifndef VICE_RS232_H
 #define VICE_RS232_H
 
 ...code...
 
 #endif
+
+
+- Don't use mixtures of tabs and spaces as indentation, using 4 spaces per
+  level will make the code look the same no matter what editor you use.
+  When changing an existing file, make sure the indentation style is the
+  same throughout the source file.
+
+- Avoid trailing whitespace. Many editors can show this and remove this.
 
 - Refrain from using any non ASCII characters in source files, unless absolutely
   necessary. Previously a common trap were copyright headers - make sure to
