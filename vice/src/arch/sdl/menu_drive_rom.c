@@ -48,6 +48,7 @@ UI_MENU_DEFINE_FILE_STRING(DosName2040)
 UI_MENU_DEFINE_FILE_STRING(DosName3040)
 UI_MENU_DEFINE_FILE_STRING(DosName4040)
 UI_MENU_DEFINE_FILE_STRING(DosName1001)
+UI_MENU_DEFINE_FILE_STRING(DosName9000)
 UI_MENU_DEFINE_FILE_STRING(DosName1571cr)
 UI_MENU_DEFINE_FILE_STRING(DosName1551)
 
@@ -147,6 +148,12 @@ UI_MENU_DEFINE_FILE_STRING(DosName1551)
       file_string_DosName1001_callback, \
       (ui_callback_data_t)"Select 1001 ROM image" }
 
+#define DRIVE_ROM_9000_ITEM             \
+    { "D9090/60 ROM file",                  \
+      MENU_ENTRY_DIALOG,                \
+      file_string_DosName9000_callback, \
+      (ui_callback_data_t)"Select D9090/60 ROM image" }
+
 const ui_menu_entry_t c128_drive_rom_menu[] = {
     DRIVE_ROM_1540_ITEM,
     DRIVE_ROM_1541_ITEM,
@@ -163,6 +170,7 @@ const ui_menu_entry_t c128_drive_rom_menu[] = {
     DRIVE_ROM_3040_ITEM,
     DRIVE_ROM_4040_ITEM,
     DRIVE_ROM_1001_ITEM,
+    DRIVE_ROM_9000_ITEM,
     SDL_MENU_LIST_END
 };
 
@@ -195,6 +203,7 @@ const ui_menu_entry_t iec_ieee_drive_rom_menu[] = {
     DRIVE_ROM_3040_ITEM,
     DRIVE_ROM_4040_ITEM,
     DRIVE_ROM_1001_ITEM,
+    DRIVE_ROM_9000_ITEM,
     SDL_MENU_LIST_END
 };
 
@@ -204,6 +213,7 @@ const ui_menu_entry_t ieee_drive_rom_menu[] = {
     DRIVE_ROM_3040_ITEM,
     DRIVE_ROM_4040_ITEM,
     DRIVE_ROM_1001_ITEM,
+    DRIVE_ROM_9000_ITEM,
     SDL_MENU_LIST_END
 };
 

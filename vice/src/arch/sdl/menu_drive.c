@@ -143,6 +143,7 @@ static char *get_drive_type_string(int drive)
         case DRIVE_TYPE_3040:    return MENU_SUBMENU_STRING " 3040";
         case DRIVE_TYPE_4040:    return MENU_SUBMENU_STRING " 4040";
         case DRIVE_TYPE_1001:    return MENU_SUBMENU_STRING " 1001";
+        case DRIVE_TYPE_9000:    return MENU_SUBMENU_STRING " D9090/60";
         case DRIVE_TYPE_8050:    return MENU_SUBMENU_STRING " 8050";
         case DRIVE_TYPE_8250:    return MENU_SUBMENU_STRING " 8250";
         default:                 return MENU_SUBMENU_STRING " ????";
@@ -869,7 +870,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
         DRIVE_TYPE_ITEM("1581", DRIVE_TYPE_1581 + (x << 16))                    \
         DRIVE_TYPE_ITEM("2000", DRIVE_TYPE_2000 + (x << 16))                    \
         DRIVE_TYPE_ITEM("4000", DRIVE_TYPE_4000 + (x << 16))                    \
-        DRIVE_TYPE_ITEM("CMDHD", DRIVE_TYPE_CMDHD + (x << 16))                    \
+        DRIVE_TYPE_ITEM("CMDHD", DRIVE_TYPE_CMDHD + (x << 16))                  \
         DRIVE_TYPE_ITEM("2031", DRIVE_TYPE_2031 + (x << 16))                    \
         DRIVE_TYPE_ITEM("2040", DRIVE_TYPE_2040 + (x << 16))                    \
         DRIVE_TYPE_ITEM("3040", DRIVE_TYPE_3040 + (x << 16))                    \
@@ -877,6 +878,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
         DRIVE_TYPE_ITEM("1001", DRIVE_TYPE_1001 + (x << 16))                    \
         DRIVE_TYPE_ITEM("8050", DRIVE_TYPE_8050 + (x << 16))                    \
         DRIVE_TYPE_ITEM("8250", DRIVE_TYPE_8250 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("D9090/60", DRIVE_TYPE_9000 + (x << 16))                \
         SDL_MENU_LIST_END                                                       \
     };
 
