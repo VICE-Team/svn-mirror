@@ -57,6 +57,8 @@ RAMlink emulations
 
 - proper support for dual drives has been added
 
+- autostarting works from any drive (select the drive in the attach disk dialog)
+
 - added support for 2nd and 3rd joystick button (potx/poty). currently only via
   keyboard and via unix joystick driver.
 - added mapping for the THEC64 joystick
