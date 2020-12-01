@@ -39,7 +39,7 @@
 # include <sys/utsname.h>
 #elif defined(ARCHDEP_OS_WINDOWS)
 # include <windows.h>
-# include <VersionHelpers.h>
+# include <versionhelpers.h>
 #endif
 
 
