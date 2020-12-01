@@ -963,8 +963,8 @@ The @dfn{custom} layout is configurable to your liking.
 
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and
-8250 drives in one of the following ways:
+Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050, 8250,
+and D9090/60 drives in one of the following ways:
 
 @itemize @bullet
 @item
@@ -989,8 +989,8 @@ but only allows use of standard DOS functions (and not even all of
 them).  For real device access it is required to enable
 this type of emulation.
 
-The IEEE488 drives (2031, 2040, 3040, 4040, 1001, 8050 and 8250) do
-not use kernal traps. Instead the IEEE488 interface lines are
+The IEEE488 drives (2031, 2040, 3040, 4040, 1001, 8050, 8250, and D9090/60)
+do not use kernal traps. Instead the IEEE488 interface lines are
 monitored and the data is passed to the drive emulation. To use them
 on the C64, you need to enable the IEEE488 interface emulation. Only
 if the IEEE488 emulation is enabled, those drives can be selected.
@@ -1027,7 +1027,7 @@ accomplish the emulation, only two disks can be emulated, namely units
 unix the unit number display (8 or 9, 10 or 11) in the emulation
 window changes to the drive number display (0 or 1).
 
-The Commodore 2040, 3040, 4040, 1001, 8050 and 8250 disk drives are
+The Commodore 2040, 3040, 4040, 1001, 8050, 8250, and D9090/60 drives are
 so-called "old-style" disk drives. Their architecture includes not
 one, but two processors of the 6502 type, namely a 6502 for the file
 handling and communication with the PET (IP), and a 6504 (which is a
@@ -1065,6 +1065,13 @@ ROM. Only the code in the FDC is different, which is taken care of by
 VICE. So for all three of those disk drives, only @code{dos1001} is
 needed. The DOS version used is 2.7.
 
+The D9090/60 is the only Commodore branded hard drive produced for
+the PET series computers, and were often used by C64 and C128 users for
+their significant storage capacity (29162/19441 free blocks).
+Just like the other IEEE drives before it, it uses a separate
+CPU as the FDC which in turn communicates with the SASI-to-ST506 bridge
+(which is controlled by an AM2910). The hardware design is very similar
+to the 8050/8250 drive.
 
 Creative Micro Designs (CMD) produced the last drives for the
 Commodore 8-bit systems. They first released the hard drive (HD) line,
@@ -1122,6 +1129,9 @@ VICE supports the most popular Commodore file formats:
 
 @item
 @code{D82} CBM8250/1001 disk image format
+
+@item
+@code{D90} CBM D9090/60 disk image format
 
 @item
 @code{D1M} FD2000/FD4000 DD disk image format
@@ -1673,6 +1683,10 @@ so they also need the DOS ROM for the IEEE disk drives:
 @item
 @file{dos1001}, the 1001/8050/8250 drive ROM (16 KiB)
 (DOS 2.7, Commodore ROM images 901887-01 and 901888-01)
+
+@item
+@file{dos9000}, the D9090/60 drive ROM (16 KiB)
+(DOS 3.0, Commodore ROM images 300516-RevC and 300517-RevC)
 
 @end itemize
 
@@ -3762,6 +3776,7 @@ values are @code{1541} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{4844} (CMD HD) [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{8050} [all emulators except x64dtv, xplus4 and vsid],
 @code{8250} [all emulators except x64dtv, xplus4 and vsid].
+@code{9000} [all emulators except x64dtv, xplus4 and vsid].
 
 @vindex Drive8RTCSave
 @item Drive8RTCSave
@@ -3958,11 +3973,13 @@ String specifying the name of the ROM image for the drive emulation.
 @vindex DosName3040
 @vindex DosName4040
 @vindex DosName1001
+@vindex DosName9000
 @item DosName2031
 @itemx DosName2040
 @itemx DosName3040
 @itemx DosName4040
 @itemx DosName1001
+@itemx DosName9000
 Strings specifying the names of the ROM images for the drive emulation.
 (all emulators except x64dtv, xplus4 and vsid)
 
@@ -4033,7 +4050,8 @@ Possible values for @code{TYPE} are
 @code{4040} [all emulators except x64dtv, xplus4 and vsid],
 @code{1001} [all emulators except x64dtv, xplus4 and vsid],
 @code{8050} [all emulators except x64dtv, xplus4 and vsid]
-and @code{8250} [all emulators except x64dtv, xplus4 and vsid].
+@code{8250} [all emulators except x64dtv, xplus4 and vsid].
+and @code{9000} [all emulators except x64dtv, xplus4 and vsid].
 
 @findex -drive8rtcsave, +drive8rtcsave
 @item -drive8rtcsave
@@ -4225,6 +4243,12 @@ Specify the ROM name for the 4040 emulation
 @item -dos1001 <name>
 Specify the ROM name for the 1001, 8050 and 8250 emulations
 (@code{DosName1001}).
+(all emulators except x64dtv, xplus4 and vsid)
+
+@findex -dos9000
+@item -dos9000 <name>
+Specify the ROM name for the D9090/60 emulations
+(@code{DosName9000}).
 (all emulators except x64dtv, xplus4 and vsid)
 
 @findex -drive8ram2000, +drive8ram2000
@@ -18206,7 +18230,8 @@ If @code{unit} is specified, format the disk in unit @code{unit}.  If
 disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031),
 @code{g64} (VC1541/2031 but in GCR coding), @code{d71} (VC1571),
 @code{g71} (VC1571 but in GCR coding), @code{d81}
-(VC1581), @code{d80} (CBM8050) or @code{d82} (CBM8250/1001).
+(VC1581), @code{d80} (CBM8050), @code{d82} (CBM8250/1001),
+or @code{d90} (CBM D9090).
 Otherwise, format the disk in the current unit, if any.
 
 @item geosread <source> [<destination>]
@@ -18767,6 +18792,7 @@ supported by the emulators.
 * D80::                         The D80 disk image format
 * D81::                         The D81 disk image format
 * D82::                         The D82 disk image format
+* D90::                         The D90 disk image format
 * X64::                         The X64 disk image format
 * DHD::                         The DHD disk image format
 * P00::                         The P00 image format
@@ -23063,7 +23089,7 @@ F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @tab Not used
 @end multitable
 
-@node D82, DHD, D80, File formats
+@node D82, D90, D80, File formats
 @section The D82 disk image format
 
 @c FIXME: the D82 section needs to be style-checked.
@@ -24155,7 +24181,344 @@ Fourth BAM block 38/9
 @tab Not used
 @end multitable
 
-@node DHD, P00, D82, File formats
+@node D90, DHD, D82, File formats
+@section The D90 disk image format
+
+@c FIXME: the D90 section needs to be style-checked.
+
+@c ROB
+
+The D90 image is bit-for-bit copy of the hard drives in the D9090 and
+D9060.
+The specifications are as follows:
+
+@multitable @columnfractions .4 .3 .3
+@item @b{Specifications}
+@tab @b{D9060}
+@tab @b{D9090}
+@item Hard Disk Mechanism
+@tab Tandom TM602S
+@tab Tandom TM603S
+@item Cylinders
+@tab 153
+@tab 153
+@item Heads
+@tab 4
+@tab 6
+@item Sectors
+@tab 32
+@tab 32
+@item Sector Size
+@tab 256
+@tab 256
+@item Disk Interface
+@tab ST-506
+@tab ST-506
+@item Unformatted Capacity
+@tab 6.4 MB
+@tab 9.6 MB
+@item Formatted Capacity
+@tab 5.01 MB
+@tab 7.52 MB
+@item Available Physical Sectors
+@tab 19584
+@tab 29376
+@item Usable CBM Blocks
+@tab 19441
+@tab 29162
+@end multitable
+
+Note that the unformatted capacity is simply the total raw storage and makes
+no accommodation for the management of the information.
+A disk needs to be low-level formatted to include sync bits, sector
+identifiers, error checking, and correcting bits to reliably find and hold
+data.
+This results in an overall loss of about 22% of space, which wasn't unusual
+for ST-506 MFM hard disks at the time.
+Modern drives use more advanced storage techniques to reduce this overhead.
+Earlier published information stating these drives didn't use their full
+capacity was incorrect.
+
+It can be seen that the only difference between this two mechanisms was the
+number of heads.
+In fact the only difference between the two D9090/60 models is the hard drive
+mechanism and the setting of the J14 configuration jumper which reflects
+which head count to use. Jumper J13 is connected to the FDC, but in the latest
+ROM it has no function.
+
+The slight difference between the physical sectors and available blocks is
+due to the overhead of the CBM filing system (BAM, directory sectors, and
+bad block list).
+
+The D9090/60 hard disk is the only Commodore drive which uses a "track 0".
+Sector 0 of this track contains the track and sector information for the
+header, directory, beginning of the BAM, and the beginning of the bad
+sector list.
+
+Below is a dump of the configuration sector (track 0, sector 0):
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 00 01 00 FF 4C 0A 4C 14 01 00 49 44 00 00 00 00
+10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@dots{}
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to bad blocks list
+@item $02
+@tab Always 0x00
+@item $03
+@tab Always 0xff (DOS version?)
+@item $04-$05
+@tab T/S pointer to first directory entry
+@item $06-$07
+@tab T/S pointer to header
+@item $08-$08
+@tab T/S pointer to first BAM sector
+@item $0A-$0B
+@tab Disk ID, "ID" in this example
+@item $0C-$FF
+@tab Always 0x00
+@end multitable
+
+This sector is the same for both the D9090 and D9060 as the two hard drives
+had the same number of cylinders.
+The the header and directory are placed in the middle of the disk (track 76)
+to minimize access times.
+The on-board DOS was designed to accommodate for different cylinder
+configurations so it was easy to install larger disks by only modifying the
+FDC ROM.
+The number of sectors can not exceed 32, and the number of heads can not
+exceed 7 as they would cause unhandled numeric overflow in the DOS.
+This variation in configuration values makes it difficult to determine them
+based solely on the D90 file size.
+At this point only the stock image sizes of 5,013,504, and 7,520,256 will be
+attachable in VICE.
+
+Regardless of the size, access to the drive is translated from CHS
+(cylinder, head, sector) to LBA (logical block address) in the FDC.
+Although the drive mechanism interface is ST-506, the AM2910 bridges
+the SASI communication from the FDC.
+
+Since most hard disks of that era had some type of physical defect, and no
+defect management system, a bad blocks list is included in the DOS.
+This list begins at track 0, sector 1 as seen from the configuration sector.
+Below is a dump of an empty bad blocks list (track 0, sector 1):
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+@dots{}
+@end example
+
+The list begins as a typical T/S linking sector, however, it is terminated
+with a T/S of $FF/$FF unlike the typical $00/$xx normally seen in other
+standard files.
+The following is a more practical example:
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 00 02 10 20 FF 02 30 40 FF 08 50 60 FF 14 70 80
+@dots{}
+@end example
+
+The actual information starts at offset $02.
+"Bad" blocks are simply marked as "allocated" in the BAM so the DOS doesn't
+try to put any new data in them.
+This file is processed by setting the "working" track to 0.
+Starting at the beginning (offset $02), a byte is read.
+If this value is not $FF, it is interpreted as the "working" sector.
+The "working" track/sector is marked as bad (used).
+We continue on by reading the next byte as the "working" sector and marking
+it until a $FF is encountered.
+In the above example, track $0/$10 and $0/$20 would be marked as bad.
+Once the $FF is found, the next byte is the new "working" track if it is
+not $FF; if it is, the list is finished.
+Otherwise we continue processing the list just as we did when the "working"
+track was 0.
+In the above example, track $2/$30, $2/$40, $8/$50, $8/$60, $14/70, and
+$14/$80 would be marked as bad.
+Note that the list in this example would continue onto track 0, sector 2
+at offset $2 as the T/S link is set.
+This list is processed during a "validation" as the current BAM is erased
+and rebuilt. It also appears to be processed after a format, but it is
+not certain if the DOS generates the list or if it was generated in
+factory by a diagnostic system prior to the drives distribution.
+
+The BAM (Block Availability Map) generally begins on track 1, sector 0,
+and continues on as necessary based on the disk configuration.
+Below is a dump of that first BAM sector with a configuration of 32 sectors
+per head, and 6 heads:
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 09 00 FF FF 00 08 00 00 00 00 00 00 00 00 00 00
+10: 1E FC FF FF FF 20 FF FF FF FF 20 FF FF FF FF 20
+20: FF FF FF FF 20 FF FF FF FF 20 FF FF FF FF 1F FE
+30: FF FF FF 20 FF FF FF FF 20 FF FF FF FF 20 FF FF
+@dots{}
+F0: FF 20 FF FF FF FF 20 FF FF FF FF 20 FF FF FF FF
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to next BAM sector ($9/$0)
+@item $02-$03
+@tab T/S pointer to previous BAM sector ($FF/$FF)
+@item $04
+@tab Lowest track covered by this BAM ($0)
+@item $05
+@tab Highest+1 track covered by this BAM ($8)
+@item $06
+@tab Possible start of bitmap data
+@item $10-$14 (first entry based on this example)
+@tab BAM for track 0, head 0. The first byte shows the "blocks free" for this head, the remaining 4 show the BAM for this track and head.
+@item $24-$08
+@tab BAM for track 0, head 1.
+@item @dots{}
+@tab @dots{}
+@item $2E-$32
+@tab BAM for track 1, head 0.
+@item @dots{}
+@tab @dots{}
+@item $FB-$FF
+@tab BAM for track 7, head 5.
+@end multitable
+
+If the T/S pointer is $FF/$FF, it means the end of the BAM.
+So in this case, there is no previous BAM sector, whereas in the last
+BAM sector, bytes $01-$02 will be $FF/$FF indicating that there is no
+next BAM sector.
+
+Bytes $4 and $5 show the range of which tracks this BAM sector applies to.
+There are 250 bytes to hold this information.
+The size of each bitmap entry is calculated by
+"ceiling(sectors_per_head/8)+1"; the "1" is to include the block count.
+This value is then multipled by the head number and divided into 250.
+The remainder is added to 6 (the offset for the start of bitmap data).
+For this example, the bitmap entry size would be "ceiling(32/8)+1" which is 5
+bytes.
+The offset is "(250%(5*6))+6" which is 16 or $10.
+The goal of this calculation is to place the maximum number of whole tracks
+inside each BAM.
+In this case, "int(250/(5*6))" is 8, so we can store 8 tracks per BAM sector.
+Therefore the lowest track is 0, and the highest is 0 + 8.
+The next BAM sector will handle tracks 8 to 15 (16 - 1).
+The position of the BAMs will start at track 1, and the second will be at
+track 9 (8 + 1), the third will be at track 17 (2 * 8 + 1), and so on.
+For this example with 153 tracks, we will need at least 20 (153 divided by 8)
+BAM sectors.
+BAM sectors are always placed on sector 0.
+The header and directory will never start on sector 0, so we don't have to
+worry if one of the BAM sectors will end up on track 76 for example.
+
+Being bit-based, the BAM entries need some explanation.
+The first track (track 0) entry in the above BAM sector is at offset $10,
+"1E FC FF FF FF".
+The first number is how many blocks are free on this track and head ($1E=30)
+and the remainder is the bit representation of the usage map for the track.
+These entries must be viewed in binary to make any sense.
+First convert the values to binary:
+
+@example
+ FC=11111100, FF=11111111, FF=11111111, FF=11111111
+@end example
+
+In order to make any sense from the binary notation, flip the bits around.
+
+@example
+            111111 11112222 22222233
+ 01234567 89012345 67890123 45678901
+ -------------------------- ---------
+ 00111111 11111111 11111111 11111111
+ ^                                 ^
+ sector 0                  sector 31
+@end example
+
+If a bit is on (1), the sector is free.
+We can see all but sectors 0 and 1 are free here as it holds the configuration
+sector, and one sector for the bad block list respectively.
+
+At offset $24, "1F FE FF FF FF" describes the allocation at track 1, sector 0.
+The first value is the number of free blocks ($1F=31) and the next 4 indicate
+which sectors are used (or available); in this case sector 0 is allocated
+as it is used by the first BAM sector.
+
+Below is the dump of the last BAM sector (track 152, sector 0):
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: FF FF 91 00 98 99 00 00 00 00 00 00 00 00 00 00
+10: 1F FE FF FF FF 20 FF FF FF FF 20 FF FF FF FF 20
+20: FF FF FF FF 20 FF FF FF FF 20 FF FF FF FF 00 00
+30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@dots{}
+@end example
+
+Here we can see it only covers tracks 152 ($98) to 152 ($99-1).
+So only 6 entries are valid, and the rest are all zeros.
+The next T/S pointer is $FF/$FF indicating this is the last BAM sector.
+
+When the blocks free is calculated, only track 0 is excluded.
+Other Commodore drives exclude the dedicated directory track.
+
+The directory is generally on track 76 (152 divided by 2), with sector 20
+containing the header (disk name, disk ID's).
+The directory entries begin at sector 10.
+The drives interleave is 10 sectors and it appears the directory entry is
+allocated before the header on a format.
+Once the directory grows, the interleave becomes 3, as on most Commodore
+drives.
+Unlike most Commodore drives, the directory is not limited to track 76,
+nor is file data limited to be else where.
+Once track 76 is filled with directory entries, it will look in other tracks
+to place more entries.
+Filling the disk to capacity will also place data into track 76.
+Be warned though as the directory listing can exceed the amount of memory
+available on the Commodore machine which is "loading" the directory.
+It is wise to use a DOS wedge which displays the directory as it is being
+read but doesn't store it in memory.
+
+The D9090/60 emulation in VICE was tested to see how many one block files
+could be created on a D9090 image.
+The disk was filled with 25922 files which required 3241 blocks for the
+directory entries.
+
+Below is a dump of the header at track 76, sector 20:
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 4C 0A 00 00 00 00 54 45 53 54 A0 A0 A0 A0 A0 A0
+10: A0 A0 A0 A0 A0 A0 A0 A0 49 44 A0 33 41 A0 A0 A0
+20: A0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@dots{}
+F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
+
+This is very similar to the D80/D82 header in placement but without the DOS
+version value.
+Also note that the dos version bytes are "3A".
+For the D90, it is believed that the $FF at offset $3 in the configuration
+sector dictates the DOS version.
+
+The directory entry generally starts at track 76, sector 10.
+It has the identical layout as all other Commodore drives.
+There are no files specific to the D90 image other than super side
+sectors for larger REL files.
+
+@node DHD, P00, D90, File formats
 @section The DHD disk image format
 
 The DHD image is bit-for-bit copy of a Creative Micro Designs (CMD)
