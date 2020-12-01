@@ -322,7 +322,7 @@ GtkWidget *dir_menu_popup_create(
                 /* move this into separate function: */
                 dir_item_apply_style(item);
                 gtk_container_add(GTK_CONTAINER(menu), item);
-                g_free(tmp);
+                lib_free(tmp);
             }
         }
         if (contents != NULL) {
