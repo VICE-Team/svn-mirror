@@ -77,12 +77,6 @@
 #include "uimonarch.h"
 #include "uidiskcreate.h"
 #include "uitapecreate.h"
-
-#ifdef HAVE_NETWORK
-# include "uinetplay.h"
-# include "uinetplay_new.h"
-#endif
-
 #include "uisettings.h"
 #include "uismartattach.h"
 #include "uisnapshot.h"

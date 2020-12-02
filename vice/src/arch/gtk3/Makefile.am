@@ -99,8 +99,6 @@ libarch_a_SOURCES = \
 	uimenu.c \
 	uimon-fallback.c \
 	uimon.c \
-	uinetplay.c \
-	uinetplay_new.c \
 	uisettings.c \
 	uisidattach.c \
 	uismartattach.c \
@@ -174,8 +172,6 @@ EXTRA_DIST = \
 	uimenu.h \
 	uimon-fallback.h \
 	uimonarch.h \
-	uinetplay.h \
-	uinetplay_new.h \
 	uisettings.h \
 	uisidattach.h \
 	uismartattach.h \
