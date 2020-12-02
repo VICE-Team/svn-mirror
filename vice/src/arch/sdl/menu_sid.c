@@ -151,20 +151,20 @@ UI_MENU_DEFINE_SLIDER(SidResid8580FilterBias, -5000, 5000)
 
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 UI_MENU_DEFINE_RADIO(SidStereo)
-UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
-UI_MENU_DEFINE_RADIO(SidTripleAddressStart)
-UI_MENU_DEFINE_RADIO(SidQuadAddressStart)
-UI_MENU_DEFINE_RADIO(SidPentAddressStart)
-UI_MENU_DEFINE_RADIO(SidHexAddressStart)
-UI_MENU_DEFINE_RADIO(SidHeptAddressStart)
-UI_MENU_DEFINE_RADIO(SidOctAddressStart)
+UI_MENU_DEFINE_RADIO(Sid2AddressStart)
+UI_MENU_DEFINE_RADIO(Sid3AddressStart)
+UI_MENU_DEFINE_RADIO(Sid4AddressStart)
+UI_MENU_DEFINE_RADIO(Sid5AddressStart)
+UI_MENU_DEFINE_RADIO(Sid6AddressStart)
+UI_MENU_DEFINE_RADIO(Sid7AddressStart)
+UI_MENU_DEFINE_RADIO(Sid8AddressStart)
 
-static UI_MENU_CALLBACK(show_SidStereoAddressStart_callback)
+static UI_MENU_CALLBACK(show_Sid2AddressStart_callback)
 {
     static char buf[20];
     int value;
 
-    resources_get_int("SidStereoAddressStart", &value);
+    resources_get_int("Sid2AddressStart", &value);
 
     sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
@@ -300,17 +300,17 @@ static const ui_menu_entry_t menu[] = {      \
     SDL_MENU_LIST_END                        \
 };
 
-SID_D4XX_MENU(sid_d4x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
-SID_D5XX_MENU(sid_d5x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
-SID_D6XX_MENU(sid_d6x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
-SID_D7XX_MENU(sid_d7x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
-SID_DEXX_MENU(sid_dex0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
-SID_DFXX_MENU(sid_dfx0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
+SID_D4XX_MENU(sid_d4x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
+SID_D5XX_MENU(sid_d5x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
+SID_D6XX_MENU(sid_d6x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
+SID_D7XX_MENU(sid_d7x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
+SID_DEXX_MENU(sid_dex0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
+SID_DFXX_MENU(sid_dfx0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
 
-static const ui_menu_entry_t c128_stereo_sid_base_menu[] = {
+static const ui_menu_entry_t c128_sid2_base_menu[] = {
     { "Second SID base address",
       MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
+      show_Sid2AddressStart_callback,
       NULL},
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -331,10 +331,10 @@ static const ui_menu_entry_t c128_stereo_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_stereo_sid_base_menu[] = {
+static const ui_menu_entry_t c64_sid2_base_menu[] = {
     { "Second SID base address",
       MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
+      show_Sid2AddressStart_callback,
       NULL },
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -363,28 +363,28 @@ static const ui_menu_entry_t c64_stereo_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static UI_MENU_CALLBACK(show_SidTripleAddressStart_callback)
+static UI_MENU_CALLBACK(show_Sid3AddressStart_callback)
 {
     static char buf[20];
     int value;
 
-    resources_get_int("SidTripleAddressStart", &value);
+    resources_get_int("Sid3AddressStart", &value);
 
     sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
-SID_D4XX_MENU(sid3_d4x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
-SID_D5XX_MENU(sid3_d5x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
-SID_D6XX_MENU(sid3_d6x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
-SID_D7XX_MENU(sid3_d7x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
-SID_DEXX_MENU(sid3_dex0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
-SID_DFXX_MENU(sid3_dfx0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
+SID_D4XX_MENU(sid3_d4x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
+SID_D5XX_MENU(sid3_d5x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
+SID_D6XX_MENU(sid3_d6x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
+SID_D7XX_MENU(sid3_d7x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
+SID_DEXX_MENU(sid3_dex0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
+SID_DFXX_MENU(sid3_dfx0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
 
-static const ui_menu_entry_t c128_triple_sid_base_menu[] = {
+static const ui_menu_entry_t c128_sid3_base_menu[] = {
     { "Third SID base address",
       MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
+      show_Sid3AddressStart_callback,
       NULL},
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -405,10 +405,10 @@ static const ui_menu_entry_t c128_triple_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_triple_sid_base_menu[] = {
+static const ui_menu_entry_t c64_sid3_base_menu[] = {
     { "Third SID base address",
       MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
+      show_Sid3AddressStart_callback,
       NULL },
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -437,28 +437,28 @@ static const ui_menu_entry_t c64_triple_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static UI_MENU_CALLBACK(show_SidQuadAddressStart_callback)
+static UI_MENU_CALLBACK(show_Sid4AddressStart_callback)
 {
     static char buf[20];
     int value;
 
-    resources_get_int("SidQuadAddressStart", &value);
+    resources_get_int("Sid4AddressStart", &value);
 
     sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
-SID_D4XX_MENU(sid4_d4x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
-SID_D5XX_MENU(sid4_d5x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
-SID_D6XX_MENU(sid4_d6x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
-SID_D7XX_MENU(sid4_d7x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
-SID_DEXX_MENU(sid4_dex0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
-SID_DFXX_MENU(sid4_dfx0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
+SID_D4XX_MENU(sid4_d4x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
+SID_D5XX_MENU(sid4_d5x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
+SID_D6XX_MENU(sid4_d6x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
+SID_D7XX_MENU(sid4_d7x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
+SID_DEXX_MENU(sid4_dex0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
+SID_DFXX_MENU(sid4_dfx0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
 
-static const ui_menu_entry_t c128_quad_sid_base_menu[] = {
+static const ui_menu_entry_t c128_sid4_base_menu[] = {
     { "Fourth SID base address",
       MENU_ENTRY_TEXT,
-      show_SidQuadAddressStart_callback,
+      show_Sid4AddressStart_callback,
       NULL},
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -479,10 +479,10 @@ static const ui_menu_entry_t c128_quad_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_quad_sid_base_menu[] = {
+static const ui_menu_entry_t c64_sid4_base_menu[] = {
     { "Fourth SID base address",
       MENU_ENTRY_TEXT,
-      show_SidQuadAddressStart_callback,
+      show_Sid4AddressStart_callback,
       NULL },
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -511,28 +511,28 @@ static const ui_menu_entry_t c64_quad_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static UI_MENU_CALLBACK(show_SidPentAddressStart_callback)
+static UI_MENU_CALLBACK(show_Sid5AddressStart_callback)
 {
     static char buf[20];
     int value;
 
-    resources_get_int("SidPentAddressStart", &value);
+    resources_get_int("Sid5AddressStart", &value);
 
     sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
-SID_D4XX_MENU(sid5_d4x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
-SID_D5XX_MENU(sid5_d5x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
-SID_D6XX_MENU(sid5_d6x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
-SID_D7XX_MENU(sid5_d7x0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
-SID_DEXX_MENU(sid5_dex0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
-SID_DFXX_MENU(sid5_dfx0_menu, "Fifth SID base address", show_SidPentAddressStart_callback, radio_SidPentAddressStart_callback)
+SID_D4XX_MENU(sid5_d4x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
+SID_D5XX_MENU(sid5_d5x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
+SID_D6XX_MENU(sid5_d6x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
+SID_D7XX_MENU(sid5_d7x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
+SID_DEXX_MENU(sid5_dex0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
+SID_DFXX_MENU(sid5_dfx0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
 
-static const ui_menu_entry_t c128_pent_sid_base_menu[] = {
+static const ui_menu_entry_t c128_sid5_base_menu[] = {
     { "Fifth SID base address",
       MENU_ENTRY_TEXT,
-      show_SidPentAddressStart_callback,
+      show_Sid5AddressStart_callback,
       NULL},
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -553,10 +553,10 @@ static const ui_menu_entry_t c128_pent_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_pent_sid_base_menu[] = {
+static const ui_menu_entry_t c64_sid5_base_menu[] = {
     { "Fifth SID base address",
       MENU_ENTRY_TEXT,
-      show_SidPentAddressStart_callback,
+      show_Sid5AddressStart_callback,
       NULL },
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -585,28 +585,28 @@ static const ui_menu_entry_t c64_pent_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static UI_MENU_CALLBACK(show_SidHexAddressStart_callback)
+static UI_MENU_CALLBACK(show_Sid6AddressStart_callback)
 {
     static char buf[20];
     int value;
 
-    resources_get_int("SidHexAddressStart", &value);
+    resources_get_int("Sid6AddressStart", &value);
 
     sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
-SID_D4XX_MENU(sid6_d4x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
-SID_D5XX_MENU(sid6_d5x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
-SID_D6XX_MENU(sid6_d6x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
-SID_D7XX_MENU(sid6_d7x0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
-SID_DEXX_MENU(sid6_dex0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
-SID_DFXX_MENU(sid6_dfx0_menu, "Sixth SID base address", show_SidHexAddressStart_callback, radio_SidHexAddressStart_callback)
+SID_D4XX_MENU(sid6_d4x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
+SID_D5XX_MENU(sid6_d5x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
+SID_D6XX_MENU(sid6_d6x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
+SID_D7XX_MENU(sid6_d7x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
+SID_DEXX_MENU(sid6_dex0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
+SID_DFXX_MENU(sid6_dfx0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
 
-static const ui_menu_entry_t c128_hex_sid_base_menu[] = {
+static const ui_menu_entry_t c128_sid6_base_menu[] = {
     { "Sixth SID base address",
       MENU_ENTRY_TEXT,
-      show_SidHexAddressStart_callback,
+      show_Sid6AddressStart_callback,
       NULL},
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -627,10 +627,10 @@ static const ui_menu_entry_t c128_hex_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_hex_sid_base_menu[] = {
+static const ui_menu_entry_t c64_sid6_base_menu[] = {
     { "Sixth SID base address",
       MENU_ENTRY_TEXT,
-      show_SidHexAddressStart_callback,
+      show_Sid6AddressStart_callback,
       NULL },
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -659,28 +659,28 @@ static const ui_menu_entry_t c64_hex_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static UI_MENU_CALLBACK(show_SidHeptAddressStart_callback)
+static UI_MENU_CALLBACK(show_Sid7AddressStart_callback)
 {
     static char buf[20];
     int value;
 
-    resources_get_int("SidHeptAddressStart", &value);
+    resources_get_int("Sid7AddressStart", &value);
 
     sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
-SID_D4XX_MENU(sid7_d4x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
-SID_D5XX_MENU(sid7_d5x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
-SID_D6XX_MENU(sid7_d6x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
-SID_D7XX_MENU(sid7_d7x0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
-SID_DEXX_MENU(sid7_dex0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
-SID_DFXX_MENU(sid7_dfx0_menu, "Seventh SID base address", show_SidHeptAddressStart_callback, radio_SidHeptAddressStart_callback)
+SID_D4XX_MENU(sid7_d4x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
+SID_D5XX_MENU(sid7_d5x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
+SID_D6XX_MENU(sid7_d6x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
+SID_D7XX_MENU(sid7_d7x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
+SID_DEXX_MENU(sid7_dex0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
+SID_DFXX_MENU(sid7_dfx0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
 
-static const ui_menu_entry_t c128_hept_sid_base_menu[] = {
+static const ui_menu_entry_t c128_sid7_base_menu[] = {
     { "Seventh SID base address",
       MENU_ENTRY_TEXT,
-      show_SidHeptAddressStart_callback,
+      show_Sid7AddressStart_callback,
       NULL},
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -701,10 +701,10 @@ static const ui_menu_entry_t c128_hept_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_hept_sid_base_menu[] = {
+static const ui_menu_entry_t c64_sid7_base_menu[] = {
     { "Seventh SID base address",
       MENU_ENTRY_TEXT,
-      show_SidHeptAddressStart_callback,
+      show_Sid7AddressStart_callback,
       NULL },
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -733,28 +733,28 @@ static const ui_menu_entry_t c64_hept_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static UI_MENU_CALLBACK(show_SidOctAddressStart_callback)
+static UI_MENU_CALLBACK(show_Sid8AddressStart_callback)
 {
     static char buf[20];
     int value;
 
-    resources_get_int("SidOctAddressStart", &value);
+    resources_get_int("Sid8AddressStart", &value);
 
     sprintf(buf, "$%04x", (unsigned int)value);
     return buf;
 }
 
-SID_D4XX_MENU(sid8_d4x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
-SID_D5XX_MENU(sid8_d5x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
-SID_D6XX_MENU(sid8_d6x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
-SID_D7XX_MENU(sid8_d7x0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
-SID_DEXX_MENU(sid8_dex0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
-SID_DFXX_MENU(sid8_dfx0_menu, "Eight SID base address", show_SidOctAddressStart_callback, radio_SidOctAddressStart_callback)
+SID_D4XX_MENU(sid8_d4x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
+SID_D5XX_MENU(sid8_d5x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
+SID_D6XX_MENU(sid8_d6x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
+SID_D7XX_MENU(sid8_d7x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
+SID_DEXX_MENU(sid8_dex0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
+SID_DFXX_MENU(sid8_dfx0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
 
-static const ui_menu_entry_t c128_oct_sid_base_menu[] = {
+static const ui_menu_entry_t c128_sid8_base_menu[] = {
     { "Eight SID base address",
       MENU_ENTRY_TEXT,
-      show_SidOctAddressStart_callback,
+      show_Sid8AddressStart_callback,
       NULL},
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -775,10 +775,10 @@ static const ui_menu_entry_t c128_oct_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_oct_sid_base_menu[] = {
+static const ui_menu_entry_t c64_sid8_base_menu[] = {
     { "Eighth SID base address",
       MENU_ENTRY_TEXT,
-      show_SidOctAddressStart_callback,
+      show_Sid8AddressStart_callback,
       NULL },
     { "$D4x0",
       MENU_ENTRY_SUBMENU,
@@ -878,32 +878,32 @@ ui_menu_entry_t sid_c64_menu[] = {
       (ui_callback_data_t)c64_stereo_sid_menu },
     { "Second SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidStereoAddressStart_callback,
-      (ui_callback_data_t)c64_stereo_sid_base_menu },
+      show_Sid2AddressStart_callback,
+      (ui_callback_data_t)c64_sid2_base_menu },
     { "Third SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidTripleAddressStart_callback,
-      (ui_callback_data_t)c64_triple_sid_base_menu },
+      show_Sid3AddressStart_callback,
+      (ui_callback_data_t)c64_sid3_base_menu },
     { "Fourth SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidQuadAddressStart_callback,
-      (ui_callback_data_t)c64_quad_sid_base_menu },
+      show_Sid4AddressStart_callback,
+      (ui_callback_data_t)c64_sid4_base_menu },
     { "Fifth SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidPentAddressStart_callback,
-      (ui_callback_data_t)c64_pent_sid_base_menu },
+      show_Sid5AddressStart_callback,
+      (ui_callback_data_t)c64_sid5_base_menu },
     { "Sixth SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidHexAddressStart_callback,
-      (ui_callback_data_t)c64_hex_sid_base_menu },
+      show_Sid6AddressStart_callback,
+      (ui_callback_data_t)c64_sid6_base_menu },
     { "Seventh SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidHeptAddressStart_callback,
-      (ui_callback_data_t)c64_hept_sid_base_menu },
+      show_Sid7AddressStart_callback,
+      (ui_callback_data_t)c64_sid7_base_menu },
     { "Eight SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidOctAddressStart_callback,
-      (ui_callback_data_t)c64_oct_sid_base_menu },
+      show_Sid8AddressStart_callback,
+      (ui_callback_data_t)c64_sid8_base_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,
@@ -925,32 +925,32 @@ ui_menu_entry_t sid_c128_menu[] = {
       (ui_callback_data_t)c64_stereo_sid_menu },
     { "Second SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidStereoAddressStart_callback,
-      (ui_callback_data_t)c128_stereo_sid_base_menu },
+      show_Sid2AddressStart_callback,
+      (ui_callback_data_t)c128_sid2_base_menu },
     { "Third SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidTripleAddressStart_callback,
-      (ui_callback_data_t)c128_triple_sid_base_menu },
+      show_Sid3AddressStart_callback,
+      (ui_callback_data_t)c128_sid3_base_menu },
     { "Fourth SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidQuadAddressStart_callback,
-      (ui_callback_data_t)c128_quad_sid_base_menu },
+      show_Sid4AddressStart_callback,
+      (ui_callback_data_t)c128_sid4_base_menu },
     { "Fift SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidPentAddressStart_callback,
-      (ui_callback_data_t)c128_pent_sid_base_menu },
+      show_Sid5AddressStart_callback,
+      (ui_callback_data_t)c128_sid5_base_menu },
     { "Sixth SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidHexAddressStart_callback,
-      (ui_callback_data_t)c128_hex_sid_base_menu },
+      show_Sid6AddressStart_callback,
+      (ui_callback_data_t)c128_sid6_base_menu },
     { "Seventh SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidHeptAddressStart_callback,
-      (ui_callback_data_t)c128_hept_sid_base_menu },
+      show_Sid7AddressStart_callback,
+      (ui_callback_data_t)c128_sid7_base_menu },
     { "Eighth SID base address",
       MENU_ENTRY_SUBMENU,
-      show_SidOctAddressStart_callback,
-      (ui_callback_data_t)c128_oct_sid_base_menu },
+      show_Sid8AddressStart_callback,
+      (ui_callback_data_t)c128_sid8_base_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,

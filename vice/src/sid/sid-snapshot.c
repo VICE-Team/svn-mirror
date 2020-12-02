@@ -197,57 +197,8 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
         }
     }
 
-    /* Added in 1.2, for the 2nd SID module the address is saved */
-    if (sidnr == 1) {
-        resources_get_int("SidStereoAddressStart", &sid_address);
-        if (SMW_W(m, (uint16_t)sid_address) < 0) {
-            goto fail;
-        }
-    }
-
-    /* Added in 1.2, for the 3rd SID module the address is saved */
-    if (sidnr == 2) {
-        resources_get_int("SidTripleAddressStart", &sid_address);
-        if (SMW_W(m, (uint16_t)sid_address) < 0) {
-            goto fail;
-        }
-    }
-
-    /* Added in 1.4, for the 4th SID module the address is saved */
-    if (sidnr == 3) {
-        resources_get_int("SidQuadAddressStart", &sid_address);
-        if (SMW_W(m, (uint16_t)sid_address) < 0) {
-            goto fail;
-        }
-    }
-
-    /* Added in 1.5, for the 5th SID module the address is saved */
-    if (sidnr == 4) {
-        resources_get_int("SidPentAddressStart", &sid_address);
-        if (SMW_W(m, (uint16_t)sid_address) < 0) {
-            goto fail;
-        }
-    }
-
-    /* Added in 1.5, for the 6th SID module the address is saved */
-    if (sidnr == 5) {
-        resources_get_int("SidHexAddressStart", &sid_address);
-        if (SMW_W(m, (uint16_t)sid_address) < 0) {
-            goto fail;
-        }
-    }
-
-    /* Added in 1.5, for the 7th SID module the address is saved */
-    if (sidnr == 6) {
-        resources_get_int("SidHeptAddressStart", &sid_address);
-        if (SMW_W(m, (uint16_t)sid_address) < 0) {
-            goto fail;
-        }
-    }
-
-    /* Added in 1.5, for the 8th SID module the address is saved */
-    if (sidnr == 7) {
-        resources_get_int("SidOctAddressStart", &sid_address);
+    if (sidnr >= 1) {
+        resources_get_int_sprintf("Sid%dAddressStart", &sid_address, sidnr + 1);
         if (SMW_W(m, (uint16_t)sid_address) < 0) {
             goto fail;
         }
@@ -358,26 +309,9 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
                 goto fail;
             }
         }
-        if (sidnr == 1) {
+        if (sidnr >= 1) {
             resources_set_int("SidStereoAddressStart", sid_address);
-        }
-        if (sidnr == 2) {
-            resources_set_int("SidTripleAddressStart", sid_address);
-        }
-        if (sidnr == 3) {
-            resources_set_int("SidQuadAddressStart", sid_address);
-        }
-        if (sidnr == 4) {
-            resources_set_int("SidPentAddressStart", sid_address);
-        }
-        if (sidnr == 5) {
-            resources_set_int("SidHexAddressStart", sid_address);
-        }
-        if (sidnr == 6) {
-            resources_set_int("SidHeptAddressStart", sid_address);
-        }
-        if (sidnr == 7) {
-            resources_set_int("SidOctAddressStart", sid_address);
+            resources_set_int_sprintf("Sid%dAddressStart", sid_address, sidnr + 1);
         }
         if (SMR_BA(m, tmp + 2, 32) < 0) {
             goto fail;
@@ -400,10 +334,10 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
             }
         }
         if (sidnr == 1) {
-            resources_set_int("SidStereoAddressStart", sid_address);
+            resources_set_int("Sid2AddressStart", sid_address);
         }
         if (sidnr == 2) {
-            resources_set_int("SidTripleAddressStart", sid_address);
+            resources_set_int("Sid3AddressStart", sid_address);
         }
         if (0
             || SMR_B(m, &tmp[0]) < 0

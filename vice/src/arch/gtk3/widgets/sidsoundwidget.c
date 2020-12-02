@@ -16,13 +16,13 @@
  * $VICERES SidResid8580Gain            all
  * $VICERES SidResid8580FilterBias      all
  * $VICERES SidFilters                  all
- * $VICERES SidStereoAddressStart       all
- * $VICERES SidTripleAddressStart       all
- * $VICERES SidQuadAddressStart         -vsid
- * $VICERES SidPentAddressStart         -vsid
- * $VICERES SidHexAddressStart          -vsid
- * $VICERES SidHeptAddressStart         -vsid
- * $VICERES SidOctAddressStart          -vsid
+ * $VICERES Sid2AddressStart            all
+ * $VICERES Sid3AddressStart            all
+ * $VICERES Sid4AddressStart            -vsid
+ * $VICERES Sid5AddressStart            -vsid
+ * $VICERES Sid6AddressStart            -vsid
+ * $VICERES Sid7AddressStart            -vsid
+ * $VICERES Sid8AddressStart            -vsid
  *  (Until PSID files support a fourth SID, this will be -vsid)
  */
 
@@ -647,23 +647,7 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
     char label[256];
     char *resource_name;
 
-    if (sid == 1) {
-        resource_name = lib_strdup("SidStereoAddressStart");
-    } else if (sid == 2) {
-        resource_name = lib_strdup("SidTripleAddressStart");
-    } else if (sid == 3) {
-        resource_name = lib_strdup("SidQuadAddressStart");
-    } else if (sid == 4) {
-        resource_name = lib_strdup("SidPentAddressStart");
-    } else if (sid == 5) {
-        resource_name = lib_strdup("SidHexAddressStart");
-    } else if (sid == 6) {
-        resource_name = lib_strdup("SidHeptAddressStart");
-    } else if (sid == 7) {
-        resource_name = lib_strdup("SidOctAddressStart");
-    } else {
-        assert(0);
-    }
+    resource_name = lib_msprintf("Sid%dAddressStart", sid + 1);
 
     g_snprintf(label, 256, "SID #%d", sid + 1);
     entries = machine_class == VICE_MACHINE_C128

@@ -8552,8 +8552,8 @@ almost 20kHz).
 Integer specifying the amount of emulated extra SIDs.
 (0: off, 1: 1 extra sid, 2: 2 extra sids, 3: three extra sids, 4: four extra sids, 5: five extra sids, 6: six extra sids, 7: seven extra sids)
 
-@vindex SidStereoAddressStart
-@item SidStereoAddressStart
+@vindex Sid2AddressStart
+@item Sid2AddressStart
 Integer specifying the base address of the second SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
@@ -8568,8 +8568,8 @@ Integer specifying the base address of the second SID
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@vindex SidTripleAddressStart
-@item SidTripleAddressStart
+@vindex Sid3AddressStart
+@item Sid3AddressStart
 Integer specifying the base address of the third SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
@@ -8584,8 +8584,8 @@ Integer specifying the base address of the third SID
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@vindex SidQuadAddressStart
-@item SidQuadAddressStart
+@vindex Sid4AddressStart
+@item Sid4AddressStart
 Integer specifying the base address of the fourth SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
@@ -8600,8 +8600,8 @@ Integer specifying the base address of the fourth SID
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@vindex SidPentAddressStart
-@item SidPentAddressStart
+@vindex Sid5AddressStart
+@item Sid5AddressStart
 Integer specifying the base address of the fifth SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
@@ -8616,8 +8616,8 @@ Integer specifying the base address of the fifth SID
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@vindex SidHexAddressStart
-@item SidHexAddressStart
+@vindex Sid6AddressStart
+@item Sid6AddressStart
 Integer specifying the base address of the sixth SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
@@ -8632,8 +8632,8 @@ Integer specifying the base address of the sixth SID
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@vindex SidHeptAddressStart
-@item SidHeptAddressStart
+@vindex Sid7AddressStart
+@item Sid7AddressStart
 Integer specifying the base address of the seventh SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
@@ -8648,8 +8648,8 @@ Integer specifying the base address of the seventh SID
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@vindex SidOctAddressStart
-@item SidOctAddressStart
+@vindex Sid8AddressStart
+@item Sid8AddressStart
 Integer specifying the base address of the eigth SID
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
@@ -8720,16 +8720,16 @@ in millivolts. [0] (-5000..5000)
 
 @table @code
 
-@findex -sidstereo
-@item -sidstereo
+@findex -sidsextra
+@item -sidsextra
 Specify the amount of extra SID chips to emulate
 (@code{SidStereo}).
-(0: off, 1: 1 extra sid, 2: 2 extra sids)
+(0: off, 1: 1 extra sid, 2: 2 extra sids, 3: 3 extra sids, 4: 4 extra sids, 5: 5 extra sids, 6: 6 extra sids, 7: 7 extra sids)
 
-@findex -sidstereoaddress
-@item -sidstereoaddress <Base address>
+@findex -sid2address
+@item -sid2address <Base address>
 Specifies the start address for the second SID chip
-(@code{SidStereoAddressStart})
+(@code{Sid2AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -8743,10 +8743,10 @@ Specifies the start address for the second SID chip
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@findex -sidtripleaddress
-@item -sidtripleaddress @code{ADDRESS}
+@findex -sid3address
+@item -sid3address @code{ADDRESS}
 Specifies the start address for the third SID chip
-(@code{SidTripleAddressStart})
+(@code{Sid3AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -8760,10 +8760,10 @@ Specifies the start address for the third SID chip
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@findex -sidquadaddress
-@item -sidquadaddress @code{ADDRESS}
+@findex -sid4address
+@item -sid4address @code{ADDRESS}
 Specifies the start address for the fourth SID chip
-(@code{SidQuadAddressStart})
+(@code{Sid4AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -8777,10 +8777,10 @@ Specifies the start address for the fourth SID chip
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@findex -sidpentaddress
-@item -sidpentaddress @code{ADDRESS}
+@findex -sid5address
+@item -sid5address @code{ADDRESS}
 Specifies the start address for the fifth SID chip
-(@code{SidPentAddressStart})
+(@code{Sid5AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -8794,10 +8794,10 @@ Specifies the start address for the fifth SID chip
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@findex -sidhexaddress
-@item -sidhexaddress @code{ADDRESS}
+@findex -sid6address
+@item -sid6address @code{ADDRESS}
 Specifies the start address for the sixth SID chip
-(@code{SidHexAddressStart})
+(@code{Sid6AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -8811,10 +8811,10 @@ Specifies the start address for the sixth SID chip
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@findex -sidheptaddress
-@item -sidheptaddress @code{ADDRESS}
+@findex -sid7address
+@item -sid7address @code{ADDRESS}
 Specifies the start address for the seventh SID chip
-(@code{SidHeptAddressStart})
+(@code{Sid7AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
@@ -8828,10 +8828,10 @@ Specifies the start address for the seventh SID chip
 0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
 0xDFC0, 0xDFE0)
 
-@findex -sidoctaddress
-@item -sidoctaddress @code{ADDRESS}
+@findex -sid8address
+@item -sid8address @code{ADDRESS}
 Specifies the start address for the eight SID chip
-(@code{SidOctAddressStart})
+(@code{Sid8AddressStart})
 (x64, x64sc, xscpu64, x128 and vsid only).
 (x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
