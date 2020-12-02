@@ -201,7 +201,8 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,
 /* add interleave to current sector and adjust for overflow */
 int vdrive_bam_alloc_add_interleave(vdrive_t *vdrive,
                                     unsigned int track,
-                                    unsigned int sector)
+                                    unsigned int sector,
+                                    unsigned int interleave)
 {
     unsigned int max_sector, max_sector_all, s, h;
 
@@ -218,7 +219,7 @@ int vdrive_bam_alloc_add_interleave(vdrive_t *vdrive,
         h = (sector / max_sector) * max_sector;
     }
     /* add the interleave and adjust if we go over */
-    s = s + vdrive_bam_get_interleave(vdrive->image_format);
+    s = s + interleave;
     if (s >= max_sector) {
         s -= max_sector;
         if (s != 0) {
@@ -231,14 +232,15 @@ int vdrive_bam_alloc_add_interleave(vdrive_t *vdrive,
 /* starting from the currently used track/sector, look for a new sector
 downwards */
 static int vdrive_bam_alloc_down(vdrive_t *vdrive,
-                                 unsigned int *track, unsigned int *sector)
+                                 unsigned int *track, unsigned int *sector,
+                                 unsigned int interleave)
 {
     unsigned int t, s;
 
     /* scan downwards */
     for (t = *track; t >= 1; t--) {
         /* find next sector on this track based on interleave */
-        s = vdrive_bam_alloc_add_interleave(vdrive, t, *sector);
+        s = vdrive_bam_alloc_add_interleave(vdrive, t, *sector, interleave);
         if (!vdrive_bam_alloc_worker(vdrive, t, &s)) {
             *track = t;
             *sector = s;
@@ -251,14 +253,15 @@ static int vdrive_bam_alloc_down(vdrive_t *vdrive,
 /* starting from the currently used track/sector, look for a new sector
 upwards */
 static int vdrive_bam_alloc_up(vdrive_t *vdrive,
-                               unsigned int *track, unsigned int *sector)
+                               unsigned int *track, unsigned int *sector,
+                               unsigned int interleave)
 {
     unsigned int t, s;
 
     /* scan upwards */
     for (t = *track; t <= vdrive->num_tracks; t++) {
         /* find next sector on this track based on interleave */
-        s = vdrive_bam_alloc_add_interleave(vdrive, t, *sector);
+        s = vdrive_bam_alloc_add_interleave(vdrive, t, *sector, interleave);
         if (!vdrive_bam_alloc_worker(vdrive, t, &s)) {
             *track = t;
             *sector = s;
@@ -268,33 +271,15 @@ static int vdrive_bam_alloc_up(vdrive_t *vdrive,
     return -1;
 }
 
-/* adds the interleave to the currently used sector, and then scans for an
-available sector on the same track */
-static int vdrive_bam_alloc_next_free_sector_worker(vdrive_t *vdrive,
-                                                    unsigned int track,
-                                                    unsigned int *sector)
-{
-    unsigned int s;
-
-    /* find next sector on this track based on interleave */
-    s = vdrive_bam_alloc_add_interleave(vdrive, track, *sector);
-    /* starting from there, see if there is an available sector */
-    if (!vdrive_bam_alloc_worker(vdrive, track, &s)) {
-        *sector = s;
-        return 0;
-    }
-    /* not in this track */
-    return -1;
-}
-
 /* resets the "sector" to zero, but keeps the "head" value; for D9090/60 */
-int vdrive_bam_alloc_next_free_sector_reset(vdrive_t *vdrive,
-                                            unsigned int track,
-                                            unsigned int sector)
+static int vdrive_bam_alloc_next_free_sector_reset(vdrive_t *vdrive,
+                                                   unsigned int track,
+                                                   unsigned int sector,
+                                                   unsigned int interleave)
 {
     unsigned int max_sector, s, h;
 
-    s = vdrive_bam_alloc_add_interleave(vdrive, track, sector);
+    s = vdrive_bam_alloc_add_interleave(vdrive, track, sector, interleave);
     max_sector = vdrive_get_max_sectors_per_head(vdrive, track);
     h = (s / max_sector) * max_sector;
     return h;
@@ -305,12 +290,14 @@ int vdrive_bam_alloc_next_free_sector_reset(vdrive_t *vdrive,
 */
 /* function reworked to use smaller functions above and to behave like DOS
 code */
-int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
-                                      unsigned int *track,
-                                      unsigned int *sector)
+int vdrive_bam_alloc_next_free_sector_interleave(vdrive_t *vdrive,
+                                                 unsigned int *track,
+                                                 unsigned int *sector,
+                                                 unsigned int interleave)
 {
     unsigned int split = vdrive->Dir_Track;
     unsigned int origt = *track, origs = *sector;
+    unsigned int s;
     int pass;
 
     /* Check if we are dealing with the directory track */
@@ -326,8 +313,11 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
         }
     }
 
-    /* check passed track */
-    if (!vdrive_bam_alloc_next_free_sector_worker(vdrive, *track, sector)) {
+    /* find next sector on this track based on interleave */
+    s = vdrive_bam_alloc_add_interleave(vdrive, *track, *sector, interleave);
+    /* starting from there, see if there is an available sector */
+    if (!vdrive_bam_alloc_worker(vdrive, *track, &s)) {
+        *sector = s;
         return 0;
     }
 
@@ -336,7 +326,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
         && *track == vdrive->Dir_Track) {
         (*track)++;
         /* reset sector position */
-        *sector = vdrive_bam_alloc_next_free_sector_reset(vdrive, *track, *sector);
+        *sector = vdrive_bam_alloc_next_free_sector_reset(vdrive, *track, *sector, interleave);
     }
 
     /* use a multi-pass approach here just like the DOS code */
@@ -345,7 +335,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
         /* on subsequence passes, we start one below the dir track and look down */
         /* DNP goes here second */
         if (*track > 0 && *track < split) {
-            if (vdrive_bam_alloc_down(vdrive, track, sector) == 0) {
+            if (vdrive_bam_alloc_down(vdrive, track, sector, interleave) == 0) {
                return 0;
             }
             /* For DNP, at this point, there is no space, leave search */
@@ -355,12 +345,12 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
             /* after first pass, reset the starting track, and set sector to 0 */
             *track = split + 1;
             /* reset sector position */
-            *sector = vdrive_bam_alloc_next_free_sector_reset(vdrive, *track, *sector);
-        } else if (*track > split) {
+            *sector = vdrive_bam_alloc_next_free_sector_reset(vdrive, *track, *sector, interleave);
+        } else if (*track >= split) {
         /* on the first pass, look upward if we are already above the dir track */
         /* on subsequence passes, we start one above the dir track and look up */
         /* DNP goes here first */
-            if (vdrive_bam_alloc_up(vdrive, track, sector) == 0) {
+            if (vdrive_bam_alloc_up(vdrive, track, sector, interleave) == 0) {
                 return 0;
             }
             /* For DNP, set the new split point to the original start track */
@@ -370,7 +360,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
             /* after first pass, reset the starting track, and set sector to 0 */
             *track = split - 1;
             /* reset sector position */
-            *sector = vdrive_bam_alloc_next_free_sector_reset(vdrive, *track, *sector);
+            *sector = vdrive_bam_alloc_next_free_sector_reset(vdrive, *track, *sector, interleave);
         }
     }
 
@@ -389,6 +379,19 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
     *track = origt;
     *sector = origs;
     return -1;
+}
+
+/*
+    FIXME: partition support
+*/
+/* function reworked to use smaller functions above and to behave like DOS
+code */
+int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
+                                      unsigned int *track,
+                                      unsigned int *sector)
+{
+    return vdrive_bam_alloc_next_free_sector_interleave(vdrive, track,
+        sector, vdrive_bam_get_interleave(vdrive->image_format));
 }
 
 static void vdrive_bam_set(uint8_t *bamp, unsigned int sector)

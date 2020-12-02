@@ -89,6 +89,8 @@ void vdrive_init(void)
     FIXME: find out the *exact* behaviour of the various drives and implement
            this function accordingly.
            - did this for 41/71/81/1001/9090 but not REL (rmusced)
+           - data sector should be allocated before directory entry is made
+           -  or else dir slots will have T/S of 0/0 for new files on full disks
     FIXME: REL files do not use this logic yet (vdrive-rel.c)
     FIXME: ideally this logic should allocate memory from a common drive memory
            array, which then can be used properly for M-R too

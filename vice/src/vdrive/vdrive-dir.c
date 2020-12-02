@@ -325,9 +325,10 @@ uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
         if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_9000) {
             /* restore inputs */
             t = dir->track;
-            sector += h;
+            sector = dir->sector;
             /* look for a free sector */
-            if (vdrive_bam_alloc_next_free_sector(vdrive, &t, &sector)) {
+            if (vdrive_bam_alloc_next_free_sector_interleave(vdrive, &t, &sector,
+                vdrive_dir_get_interleave(vdrive->image_format))) {
                 return NULL;
             }
             /* unallocate it as find_next_directory_sector allocates it */

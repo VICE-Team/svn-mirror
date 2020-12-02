@@ -59,6 +59,10 @@ extern int vdrive_bam_alloc_first_free_sector(struct vdrive_s *vdrive,
 extern int vdrive_bam_alloc_next_free_sector(struct vdrive_s *vdrive,
                                              unsigned int *track,
                                              unsigned int *sector);
+extern int vdrive_bam_alloc_next_free_sector_interleave(struct vdrive_s *vdrive,
+                                                        unsigned int *track,
+                                                        unsigned int *sector,
+                                                        unsigned int interleave);
 extern int vdrive_bam_allocate_sector(struct vdrive_s *vdrive,
                                       unsigned int track, unsigned int sector);
 extern int vdrive_bam_is_sector_allocated(struct vdrive_s *vdrive,
