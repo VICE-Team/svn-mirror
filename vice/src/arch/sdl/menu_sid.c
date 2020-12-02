@@ -159,17 +159,6 @@ UI_MENU_DEFINE_RADIO(Sid6AddressStart)
 UI_MENU_DEFINE_RADIO(Sid7AddressStart)
 UI_MENU_DEFINE_RADIO(Sid8AddressStart)
 
-static UI_MENU_CALLBACK(show_Sid2AddressStart_callback)
-{
-    static char buf[20];
-    int value;
-
-    resources_get_int("Sid2AddressStart", &value);
-
-    sprintf(buf, "$%04x", (unsigned int)value);
-    return buf;
-}
-
 #define SID_D4XX_MENU(menu, txt, showcb, cb) \
 static const ui_menu_entry_t menu[] = {      \
     { txt, MENU_ENTRY_TEXT, showcb, NULL },  \
@@ -300,512 +289,88 @@ static const ui_menu_entry_t menu[] = {      \
     SDL_MENU_LIST_END                        \
 };
 
-SID_D4XX_MENU(sid_d4x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
-SID_D5XX_MENU(sid_d5x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
-SID_D6XX_MENU(sid_d6x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
-SID_D7XX_MENU(sid_d7x0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
-SID_DEXX_MENU(sid_dex0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
-SID_DFXX_MENU(sid_dfx0_menu, "Second SID base address", show_Sid2AddressStart_callback, radio_Sid2AddressStart_callback)
+#define SID_EXTRA_MENU(sid_nr, sid_text)                                                                                                                    \
+    static UI_MENU_CALLBACK(show_Sid##sid_nr##AddressStart_callback)                                                                                        \
+    {                                                                                                                                                       \
+        static char buf[20];                                                                                                                                \
+        int value;                                                                                                                                          \
+                                                                                                                                                            \
+        resources_get_int_sprintf("Sid%dAddressStart", &value, sid_nr);                                                                                     \
+                                                                                                                                                            \
+        sprintf(buf, "$%04x", (unsigned int)value);                                                                                                         \
+        return buf;                                                                                                                                         \
+    }                                                                                                                                                       \
+                                                                                                                                                            \
+    SID_D4XX_MENU(sid##sid_nr##_d4x0_menu, sid_text " SID base address", show_Sid##sid_nr##AddressStart_callback, radio_Sid##sid_nr##AddressStart_callback) \
+    SID_D5XX_MENU(sid##sid_nr##_d5x0_menu, sid_text " SID base address", show_Sid##sid_nr##AddressStart_callback, radio_Sid##sid_nr##AddressStart_callback) \
+    SID_D6XX_MENU(sid##sid_nr##_d6x0_menu, sid_text " SID base address", show_Sid##sid_nr##AddressStart_callback, radio_Sid##sid_nr##AddressStart_callback) \
+    SID_D7XX_MENU(sid##sid_nr##_d7x0_menu, sid_text " SID base address", show_Sid##sid_nr##AddressStart_callback, radio_Sid##sid_nr##AddressStart_callback) \
+    SID_DEXX_MENU(sid##sid_nr##_dex0_menu, sid_text " SID base address", show_Sid##sid_nr##AddressStart_callback, radio_Sid##sid_nr##AddressStart_callback) \
+    SID_DFXX_MENU(sid##sid_nr##_dfx0_menu, sid_text " SID base address", show_Sid##sid_nr##AddressStart_callback, radio_Sid##sid_nr##AddressStart_callback) \
+                                                                                                                                                            \
+    static const ui_menu_entry_t c128_sid##sid_nr##_base_menu[] = {                                                                                         \
+        { sid_text " SID base address",                                                                                                                     \
+          MENU_ENTRY_TEXT,                                                                                                                                  \
+          show_Sid##sid_nr##AddressStart_callback,                                                                                                          \
+          NULL},                                                                                                                                            \
+        { "$D4x0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_d4x0_menu },                                                                                                    \
+        { "$D7x0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_d7x0_menu },                                                                                                    \
+        { "$DEx0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_dex0_menu },                                                                                                    \
+        { "$DFx0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_dfx0_menu },                                                                                                    \
+        SDL_MENU_LIST_END                                                                                                                                   \
+    };                                                                                                                                                      \
+                                                                                                                                                            \
+    static const ui_menu_entry_t c64_sid##sid_nr##_base_menu[] = {                                                                                          \
+        { sid_text " SID base address",                                                                                                                     \
+          MENU_ENTRY_TEXT,                                                                                                                                  \
+          show_Sid##sid_nr##AddressStart_callback,                                                                                                          \
+          NULL },                                                                                                                                           \
+        { "$D4x0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_d4x0_menu },                                                                                                    \
+        { "$D5x0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_d5x0_menu },                                                                                                    \
+        { "$D6x0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_d6x0_menu },                                                                                                    \
+        { "$D7x0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_d7x0_menu },                                                                                                    \
+        { "$DEx0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_dex0_menu },                                                                                                    \
+        { "$DFx0",                                                                                                                                          \
+          MENU_ENTRY_SUBMENU,                                                                                                                               \
+          submenu_callback,                                                                                                                                 \
+          (ui_callback_data_t)sid##sid_nr##_dfx0_menu },                                                                                                    \
+        SDL_MENU_LIST_END                                                                                                                                   \
+    };
 
-static const ui_menu_entry_t c128_sid2_base_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid2AddressStart_callback,
-      NULL},
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_d4x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t c64_sid2_base_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid2AddressStart_callback,
-      NULL },
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_d4x0_menu },
-    { "$D5x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_d5x0_menu },
-    { "$D6x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_d6x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static UI_MENU_CALLBACK(show_Sid3AddressStart_callback)
-{
-    static char buf[20];
-    int value;
-
-    resources_get_int("Sid3AddressStart", &value);
-
-    sprintf(buf, "$%04x", (unsigned int)value);
-    return buf;
-}
-
-SID_D4XX_MENU(sid3_d4x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
-SID_D5XX_MENU(sid3_d5x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
-SID_D6XX_MENU(sid3_d6x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
-SID_D7XX_MENU(sid3_d7x0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
-SID_DEXX_MENU(sid3_dex0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
-SID_DFXX_MENU(sid3_dfx0_menu, "Third SID base address", show_Sid3AddressStart_callback, radio_Sid3AddressStart_callback)
-
-static const ui_menu_entry_t c128_sid3_base_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid3AddressStart_callback,
-      NULL},
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_d4x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t c64_sid3_base_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid3AddressStart_callback,
-      NULL },
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_d4x0_menu },
-    { "$D5x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_d5x0_menu },
-    { "$D6x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_d6x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid3_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static UI_MENU_CALLBACK(show_Sid4AddressStart_callback)
-{
-    static char buf[20];
-    int value;
-
-    resources_get_int("Sid4AddressStart", &value);
-
-    sprintf(buf, "$%04x", (unsigned int)value);
-    return buf;
-}
-
-SID_D4XX_MENU(sid4_d4x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
-SID_D5XX_MENU(sid4_d5x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
-SID_D6XX_MENU(sid4_d6x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
-SID_D7XX_MENU(sid4_d7x0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
-SID_DEXX_MENU(sid4_dex0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
-SID_DFXX_MENU(sid4_dfx0_menu, "Fourth SID base address", show_Sid4AddressStart_callback, radio_Sid4AddressStart_callback)
-
-static const ui_menu_entry_t c128_sid4_base_menu[] = {
-    { "Fourth SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid4AddressStart_callback,
-      NULL},
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_d4x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t c64_sid4_base_menu[] = {
-    { "Fourth SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid4AddressStart_callback,
-      NULL },
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_d4x0_menu },
-    { "$D5x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_d5x0_menu },
-    { "$D6x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_d6x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid4_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static UI_MENU_CALLBACK(show_Sid5AddressStart_callback)
-{
-    static char buf[20];
-    int value;
-
-    resources_get_int("Sid5AddressStart", &value);
-
-    sprintf(buf, "$%04x", (unsigned int)value);
-    return buf;
-}
-
-SID_D4XX_MENU(sid5_d4x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
-SID_D5XX_MENU(sid5_d5x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
-SID_D6XX_MENU(sid5_d6x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
-SID_D7XX_MENU(sid5_d7x0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
-SID_DEXX_MENU(sid5_dex0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
-SID_DFXX_MENU(sid5_dfx0_menu, "Fifth SID base address", show_Sid5AddressStart_callback, radio_Sid5AddressStart_callback)
-
-static const ui_menu_entry_t c128_sid5_base_menu[] = {
-    { "Fifth SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid5AddressStart_callback,
-      NULL},
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_d4x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t c64_sid5_base_menu[] = {
-    { "Fifth SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid5AddressStart_callback,
-      NULL },
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_d4x0_menu },
-    { "$D5x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_d5x0_menu },
-    { "$D6x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_d6x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid5_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static UI_MENU_CALLBACK(show_Sid6AddressStart_callback)
-{
-    static char buf[20];
-    int value;
-
-    resources_get_int("Sid6AddressStart", &value);
-
-    sprintf(buf, "$%04x", (unsigned int)value);
-    return buf;
-}
-
-SID_D4XX_MENU(sid6_d4x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
-SID_D5XX_MENU(sid6_d5x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
-SID_D6XX_MENU(sid6_d6x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
-SID_D7XX_MENU(sid6_d7x0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
-SID_DEXX_MENU(sid6_dex0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
-SID_DFXX_MENU(sid6_dfx0_menu, "Sixth SID base address", show_Sid6AddressStart_callback, radio_Sid6AddressStart_callback)
-
-static const ui_menu_entry_t c128_sid6_base_menu[] = {
-    { "Sixth SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid6AddressStart_callback,
-      NULL},
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_d4x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t c64_sid6_base_menu[] = {
-    { "Sixth SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid6AddressStart_callback,
-      NULL },
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_d4x0_menu },
-    { "$D5x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_d5x0_menu },
-    { "$D6x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_d6x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid6_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static UI_MENU_CALLBACK(show_Sid7AddressStart_callback)
-{
-    static char buf[20];
-    int value;
-
-    resources_get_int("Sid7AddressStart", &value);
-
-    sprintf(buf, "$%04x", (unsigned int)value);
-    return buf;
-}
-
-SID_D4XX_MENU(sid7_d4x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
-SID_D5XX_MENU(sid7_d5x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
-SID_D6XX_MENU(sid7_d6x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
-SID_D7XX_MENU(sid7_d7x0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
-SID_DEXX_MENU(sid7_dex0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
-SID_DFXX_MENU(sid7_dfx0_menu, "Seventh SID base address", show_Sid7AddressStart_callback, radio_Sid7AddressStart_callback)
-
-static const ui_menu_entry_t c128_sid7_base_menu[] = {
-    { "Seventh SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid7AddressStart_callback,
-      NULL},
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_d4x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t c64_sid7_base_menu[] = {
-    { "Seventh SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid7AddressStart_callback,
-      NULL },
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_d4x0_menu },
-    { "$D5x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_d5x0_menu },
-    { "$D6x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_d6x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid7_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static UI_MENU_CALLBACK(show_Sid8AddressStart_callback)
-{
-    static char buf[20];
-    int value;
-
-    resources_get_int("Sid8AddressStart", &value);
-
-    sprintf(buf, "$%04x", (unsigned int)value);
-    return buf;
-}
-
-SID_D4XX_MENU(sid8_d4x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
-SID_D5XX_MENU(sid8_d5x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
-SID_D6XX_MENU(sid8_d6x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
-SID_D7XX_MENU(sid8_d7x0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
-SID_DEXX_MENU(sid8_dex0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
-SID_DFXX_MENU(sid8_dfx0_menu, "Eight SID base address", show_Sid8AddressStart_callback, radio_Sid8AddressStart_callback)
-
-static const ui_menu_entry_t c128_sid8_base_menu[] = {
-    { "Eight SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid8AddressStart_callback,
-      NULL},
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_d4x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_dfx0_menu },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t c64_sid8_base_menu[] = {
-    { "Eighth SID base address",
-      MENU_ENTRY_TEXT,
-      show_Sid8AddressStart_callback,
-      NULL },
-    { "$D4x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_d4x0_menu },
-    { "$D5x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_d5x0_menu },
-    { "$D6x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_d6x0_menu },
-    { "$D7x0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_d7x0_menu },
-    { "$DEx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_dex0_menu },
-    { "$DFx0",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid8_dfx0_menu },
-    SDL_MENU_LIST_END
-};
+SID_EXTRA_MENU(2, "Second")
+SID_EXTRA_MENU(3, "Third")
+SID_EXTRA_MENU(4, "Fourth")
+SID_EXTRA_MENU(5, "Fifth")
+SID_EXTRA_MENU(6, "Sixth")
+SID_EXTRA_MENU(7, "Seventh")
+SID_EXTRA_MENU(8, "Eight")
 
 static UI_MENU_CALLBACK(show_SidStereo_callback)
 {
