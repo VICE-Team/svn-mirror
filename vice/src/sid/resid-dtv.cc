@@ -111,12 +111,12 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
         return 0;
     }
 
-    if (warp_mode) {
-        /* Use the fastest resampling method during warp */
-        sampling = 0;
-    } else if (resources_get_int("SidResidSampling", &sampling) < 0) {
-        return 0;
-    }
+    // if (warp_mode) {
+    //     /* Use the fastest resampling method during warp */
+    //     sampling = 0;
+    // } else if (resources_get_int("SidResidSampling", &sampling) < 0) {
+    //     return 0;
+    // }
 
     if (resources_get_int("SidResidPassband", &passband_percentage) < 0) {
         return 0;
