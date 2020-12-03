@@ -376,6 +376,7 @@ some features have been deprecated and are now disabled by default:
   ignore the last position/size of the window(s) stored in vicerc/vice.ini.
 - Allow for 8 'analog' controllers on Linux
 - added Alt+Shift+F12 VICII to switch border mode in x64sc
+- moved the netplay settings from the 'File' menu to the settings dialog
 
 - several Keyboard mapping fixes:
   - added keymaps for THE64 keyboard
