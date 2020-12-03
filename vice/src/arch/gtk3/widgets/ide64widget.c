@@ -100,7 +100,7 @@ static const vice_gtk3_combo_entry_int_t etfe_addresses[] = {
 };
 #endif
 
-static GtkWidget *image_entry;
+static GtkWidget *image_entry[4];
 
 
 
@@ -126,8 +126,10 @@ static void browse_filename_callback(GtkDialog *dialog,
                                      gchar *filename,
                                      gpointer data)
 {
+    int device = GPOINTER_TO_INT(data);
+
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(image_entry, filename);
+        vice_gtk3_resource_entry_full_set(image_entry[device - 1], filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -146,11 +148,13 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
         "*.hdd", "*.iso", "*.fdd", "*.cfa", "*.dsk", "*.img", NULL
     };
 
+    int device = GPOINTER_TO_INT(user_data);
+
     vice_gtk3_open_file_dialog(
             "Select disk image file",
             "HD image files", filter_list, NULL,
             browse_filename_callback,
-            NULL);
+            (gpointer)device);
 }
 
 
@@ -320,14 +324,14 @@ static GtkWidget *create_ide64_device_widget(int device)
     g_object_set(label, "margin-left", 16, NULL);
 
     g_snprintf(resource, 256, "IDE64image%d", device);
-    image_entry = vice_gtk3_resource_entry_full_new(resource);
-    gtk_widget_set_hexpand(image_entry, TRUE);
+    image_entry[device - 1] = vice_gtk3_resource_entry_full_new(resource);
+    gtk_widget_set_hexpand(image_entry[device - 1], TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), (gpointer)device);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), image_entry, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), image_entry[device - 1], 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     autosize = vice_gtk3_resource_check_button_new_sprintf(
