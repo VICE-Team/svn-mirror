@@ -870,14 +870,14 @@ static void advance_hastape(void)
             log_message(autostart_log, "Loading file.");
             if (autostart_program_name) {
                 tmp = util_concat("LOAD\"", autostart_program_name, "\"",
-                                  autostart_tape_basic_load ? "" : ",1,1", ":\r", NULL);
+                                  autostart_tape_basic_load ? "" : ",1,1", "\r", NULL);
                 kbdbuf_feed(tmp);
                 lib_free(tmp);
             } else {
                 if (autostart_tape_basic_load) {
-                    kbdbuf_feed("LOAD:\r");
+                    kbdbuf_feed("LOAD\r");
                 } else {
-                    kbdbuf_feed("LOAD\"\",1,1:\r");
+                    kbdbuf_feed("LOAD\"\",1,1\r");
                 }
             }
             autostartmode = AUTOSTART_PRESSPLAYONTAPE;
@@ -963,13 +963,13 @@ static void advance_hasdisk(int unit, int drive)
             } else {
                 drivestring[0] = 0;
             }
-            tmp = lib_msprintf("LOAD\"%s%s\",%d%s:\r",
+            tmp = lib_msprintf("LOAD\"%s%s\",%d%s\r",
                                drivestring,
                                autostart_program_name ?
                                autostart_program_name : "*",
                                unit,
                                autostart_basic_load ? "" : ",1");
-            DBG(("advance_hasdisk(unit: %d drive: %d) LOAD\"%s%s\",%d%s:",
+            DBG(("advance_hasdisk(unit: %d drive: %d) LOAD\"%s%s\",%d%s",
                                unit, drive,
                                drivestring,
                                autostart_program_name ?
