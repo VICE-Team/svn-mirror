@@ -154,7 +154,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
             "Select disk image file",
             "HD image files", filter_list, NULL,
             browse_filename_callback,
-            (gpointer)(int64_t)device);
+            GINT_TO_POINTER(device));
 }
 
 
@@ -328,7 +328,8 @@ static GtkWidget *create_ide64_device_widget(int device)
     gtk_widget_set_hexpand(image_entry[device - 1], TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), (gpointer)(int64_t)device);
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
+            GINT_TO_POINTER(device));
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), image_entry[device - 1], 1, 1, 1, 1);
