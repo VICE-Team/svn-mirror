@@ -111,11 +111,10 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
         return 0;
     }
 
-    // if (warp_mode) {
-    //     /* Use the fastest resampling method during warp */
-    //     sampling = 0;
-    // } else
-    
+    /*
+     * Don't even think about changing this to fast during warp :)
+     * the result is visible to the emulator.
+     */
     if (resources_get_int("SidResidSampling", &sampling) < 0) {
         return 0;
     }
