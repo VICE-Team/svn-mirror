@@ -30024,7 +30024,8 @@ good guy reviewing and commenting changes in the background.
 
 @item
 @b{Roberto Muscedere}
-Improved support for REL files.
+Improved support for REL files in vdrive. Added CMD HD, CMD RAMLINK, and
+CBM D9090/60 emulation. Added D90 support to vdrive.
 
 @item
 @b{Leandro Nini}
