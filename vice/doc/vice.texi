@@ -16941,13 +16941,29 @@ This is usually the same as the command ID
 
 @table @code
 @item 0x00
-ok, everything worked
+OK, everything worked
+
+@item 0x01
+The object you are trying to get or set doesn't exist.
+
+@item 0x02
+The memspace is invalid
 
 @item 0x80
-command length is not correct for this command
+Command length is not correct for this command
 
 @item 0x81
-an invalid parameter occurred@*
+An invalid parameter value was present
+
+@item 0x82
+The API version is not understood by the server
+
+@item 0x83
+The command type is not understood by the server
+
+@item 0x8f
+The command had parameter values that passed basic checks, but a general failure occurred
+@*
 @*
 @xref{Binary Commands} for other error codes
 

@@ -141,8 +141,13 @@ typedef enum t_binary_response BINARY_RESPONSE;
 
 enum t_mon_error {
     e_MON_ERR_OK = 0x00,
+    e_MON_ERR_OBJECT_MISSING = 0x01,
+    e_MON_ERR_INVALID_MEMSPACE = 0x02,
     e_MON_ERR_CMD_INVALID_LENGTH = 0x80,
     e_MON_ERR_INVALID_PARAMETER = 0x81,
+    e_MON_ERR_CMD_INVALID_API_VERSION = 0x82,
+    e_MON_ERR_CMD_INVALID_TYPE = 0x83,
+    e_MON_ERR_CMD_FAILURE = 0x8f,
 };
 typedef enum t_mon_error BINARY_ERROR;
 
@@ -465,7 +470,7 @@ static void monitor_binary_process_checkpoint_get(binary_command_t *command)
     checkpt = mon_breakpoint_find_checkpoint((int)brknum);
 
     if (!checkpt) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
         return;
     }
 
@@ -514,7 +519,7 @@ static void monitor_binary_process_checkpoint_delete(binary_command_t *command)
     checkpt = mon_breakpoint_find_checkpoint((int)brknum);
 
     if (!checkpt) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
         return;
     }
 
@@ -555,7 +560,7 @@ static void monitor_binary_process_checkpoint_toggle(binary_command_t *command)
     checkpt = mon_breakpoint_find_checkpoint((int)brknum);
 
     if (!checkpt) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
         return;
     }
 
@@ -585,7 +590,7 @@ static void monitor_binary_process_condition_set(binary_command_t *command)
     checkpt = mon_breakpoint_find_checkpoint(brknum);
 
     if (!checkpt) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
         return;
     }
 
@@ -601,7 +606,7 @@ static void monitor_binary_process_condition_set(binary_command_t *command)
     sprintf(cmd, cmd_fmt, brknum, cond);
 
     if (parse_and_execute_line(cmd) != 0) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
         return;
     }
 
@@ -684,7 +689,7 @@ static void monitor_binary_process_autostart(binary_command_t *command)
     filename[filename_length] = '\0';
 
     if(mon_autostart((char *)filename, file_index, run) < 0) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
         return;
     }
 
@@ -703,7 +708,7 @@ static void monitor_binary_process_registers_get(binary_command_t *command)
     memspace = get_requested_memspace(requested_memspace);
 
     if(memspace == e_invalid_space) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_INVALID_MEMSPACE, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memset: Unknown memspace %u", requested_memspace);
         return;
     }
@@ -729,7 +734,7 @@ static void monitor_binary_process_registers_set(binary_command_t *command)
     memspace = get_requested_memspace(requested_memspace);
 
     if(memspace == e_invalid_space) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_INVALID_MEMSPACE, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memget: Unknown memspace %u", requested_memspace);
         return;
     }
@@ -742,12 +747,12 @@ static void monitor_binary_process_registers_set(binary_command_t *command)
         uint16_t reg_val = little_endian_to_uint16(&body_cursor[2]);
 
         if (item_size < 3) {
-            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
             return;
         }
 
         if (!mon_register_valid(memspace, (int)reg_id)) {
-            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
             return;
         }
 
@@ -776,7 +781,7 @@ static void monitor_binary_process_dump(binary_command_t *command)
     filename[filename_length] = '\0';
 
     if(mon_write_snapshot((char *)filename, (int)save_roms, (int)save_disks, 0) < 0) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
         return;
     }
 
@@ -800,7 +805,7 @@ static void monitor_binary_process_undump(binary_command_t *command)
     filename[filename_length] = '\0';
 
     if(mon_read_snapshot((char *)filename, 0) < 0) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
         return;
     }
 
@@ -837,7 +842,7 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
         case RES_STRING:
             resources_get_value(resource_name, &str_value);
             if(str_value == NULL || strlen(str_value) > 255) {
-                monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
                 return;
             }
             response_length = 2 + (uint32_t)strlen(str_value);
@@ -847,7 +852,7 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
             break;
         case RES_INTEGER:
             if(resources_get_int(resource_name, &int_value) < 0) {
-                monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
                 return;
             }
             response_length = 6;
@@ -857,7 +862,7 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
             write_uint32(int_value, &response[2]);
             break;
         default:
-            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
             return;
     }
 
@@ -892,12 +897,12 @@ static void monitor_binary_process_resource_set(binary_command_t *command)
             case RES_INTEGER:
             case RES_STRING:
                 if (resources_set_value_string(resource_name, resource_value) < 0) {
-                    monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                    monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
                     return;
                 }
                 break;
             default:
-                monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+                monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);
                 return;
         }
     } else if(resource_value_type == e_MON_RESOURCE_TYPE_INT) {
@@ -909,12 +914,12 @@ static void monitor_binary_process_resource_set(binary_command_t *command)
         } else if(resource_value_length == 4) {
             value = little_endian_to_uint32((unsigned char *)resource_value);
         } else {
-            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
             return;
         }
 
         if(resources_set_int(resource_name, value) < 0) {
-            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
             return;
         }
     } else {
@@ -956,7 +961,7 @@ static void monitor_binary_process_banks_available(binary_command_t *command)
         || !mon_interfaces[e_comp_space]->mem_bank_list_nos
         ) {
             /* TODO: Better error codes? */
-            monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+            monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
             return;
         }
 
@@ -1018,7 +1023,7 @@ static void monitor_binary_process_registers_available(binary_command_t *command
     memspace = get_requested_memspace(requested_memspace);
 
     if(memspace == e_invalid_space) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_INVALID_MEMSPACE, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memget: Unknown memspace %u", requested_memspace);
         return;
     }
@@ -1199,7 +1204,7 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     DISPLAY_GET_MODE format = command->body[1];
 
     if(command->length < 2) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
         return;
     }
 
@@ -1225,7 +1230,7 @@ static void monitor_binary_process_display_get(binary_command_t *command)
     }
 
     if(machine_screenshot(&screenshot, canvas) < 0) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
         return;
     }
 
@@ -1373,7 +1378,7 @@ static void monitor_binary_process_mem_get(binary_command_t *command)
     memspace = get_requested_memspace(requested_memspace);
 
     if(memspace == e_invalid_space) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_INVALID_MEMSPACE, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memget: Unknown memspace %u", requested_memspace);
         return;
     }
@@ -1440,7 +1445,7 @@ static void monitor_binary_process_mem_set(binary_command_t *command)
     memspace = get_requested_memspace(requested_memspace);
 
     if(memspace == e_invalid_space) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_INVALID_MEMSPACE, command->request_id);
         log_message(LOG_DEFAULT, "monitor binary memset: Unknown memspace %u", requested_memspace);
         return;
     }
@@ -1470,7 +1475,7 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     command->api_version = (uint8_t)pbuffer[1];
 
     if (command->api_version != 0x01) {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_API_VERSION, command->request_id);
         return;
     }
 
@@ -1543,7 +1548,7 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
     } else if (command_type == e_MON_CMD_DISPLAY_GET) {
         monitor_binary_process_display_get(command);
     } else {
-        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_TYPE, command->request_id);
         log_message(LOG_DEFAULT,
                 "monitor_network binary command: unknown command %u, "
                 "skipping command length of %u",
