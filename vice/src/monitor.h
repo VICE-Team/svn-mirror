@@ -210,7 +210,7 @@ extern const char *mon_disassemble_to_string(MEMSPACE, unsigned int addr, unsign
 /** Register interface.  */
 extern struct mon_reg_list_s *mon_register_list_get(int mem);
 extern void mon_ioreg_add_list(struct mem_ioreg_list_s **list, const char *name,
-                               int start, int end, void *dump, void *context);
+                               int start, int end, void *dump, void *context, int mirror_mode);
 
 /* Assembler initialization.  */
 extern void asm6502_init(struct monitor_cpu_type_s *monitor_cpu_type);

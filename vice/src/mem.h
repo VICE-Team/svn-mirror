@@ -108,6 +108,7 @@ typedef struct mem_ioreg_list_s {
     unsigned int next;
     int (*dump)(void *context, uint16_t address);
     void *context;
+    int mirror_mode;
 } mem_ioreg_list_t;
 
 extern mem_ioreg_list_t *mem_ioreg_list_get(void *context);

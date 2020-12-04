@@ -50,6 +50,7 @@
 #endif
 
 #include "archdep.h"
+#include "cartio.h"
 #include "charset.h"
 #include "cmdline.h"
 #include "console.h"
@@ -1790,23 +1791,26 @@ void mon_display_io_regs(MON_ADDR addr)
             start = mem_ioreg_list_base[n].start;
             end = mem_ioreg_list_base[n].end;
 
-            if ((addr < 2) || ((addr >= start) && (addr <= end))) {
-                if ((addr == 1) && (n > 0)) {
-                    mon_out("\n");
-                }
-                start = new_addr(default_memspace, start);
-                end = new_addr(default_memspace, end);
-                mon_out("%s:\n", mem_ioreg_list_base[n].name);
-                mon_memory_display(e_hexadecimal, start, end, DF_PETSCII);
-
-                if (addr > 0) {
-                    if (mem_ioreg_list_base[n].dump) {
+            if (!((addr == 0) && (mem_ioreg_list_base[n].mirror_mode == IO_MIRROR_OTHER))) {
+                if ((addr < 2) || ((addr >= start) && (addr <= end))) {
+                    if ((addr == 1) && (n > 0)) {
                         mon_out("\n");
-                        if (mem_ioreg_list_base[n].dump(mem_ioreg_list_base[n].context, (uint16_t)(addr_location(start))) < 0) {
+                    }
+                    start = new_addr(default_memspace, start);
+                    end = new_addr(default_memspace, end);
+                    mon_out("%s:\n", mem_ioreg_list_base[n].name);
+                    mon_memory_display(e_hexadecimal, start, end, DF_PETSCII);
+
+                    if (addr > 0) {
+                        if (mem_ioreg_list_base[n].dump) {
+                            mon_out("\n");
+                            if (mem_ioreg_list_base[n].dump(mem_ioreg_list_base[n].context, 
+                                    (uint16_t)(addr_location(start))) < 0) {
+                                mon_out("No details available.\n");
+                            }
+                        } else {
                             mon_out("No details available.\n");
                         }
-                    } else {
-                        mon_out("No details available.\n");
                     }
                 }
             }
@@ -1825,7 +1829,7 @@ void mon_display_io_regs(MON_ADDR addr)
 }
 
 void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
-                        int start_, int end_, void *dump, void *context)
+                        int start_, int end_, void *dump, void *context, int mirror_mode)
 {
     mem_ioreg_list_t *base;
     unsigned int n;
@@ -1856,6 +1860,7 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
     base[n].end = end;
     base[n].dump = dump;
     base[n].context = context;
+    base[n].mirror_mode = mirror_mode;
     base[n].next = 0;
 
     *list = base;

@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "ciad.h"
 #include "drive.h"
 #include "drivemem.h"
@@ -242,36 +243,36 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1541II:
         case DRIVE_TYPE_2031:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, via1d1541_dump, context);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, via2d_dump, context);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, via1d1541_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, via2d_dump, context, IO_MIRROR_NONE);
             break;
         case DRIVE_TYPE_1551:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007, tpid_dump, context);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007, tpid_dump, context, IO_MIRROR_NONE);
             break;
         case DRIVE_TYPE_1570:
         case DRIVE_TYPE_1571:
         case DRIVE_TYPE_1571CR:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, via1d1541_dump, context);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, via2d_dump, context);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL, context); /* FIXME: register dump function */
-            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1571_dump, context);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, via1d1541_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, via2d_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1571_dump, context, IO_MIRROR_NONE);
             break;
         case DRIVE_TYPE_1581:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1581_dump, context);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, cia1581_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_2000:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, via4000_dump, context);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, via4000_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_4000:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, via4000_dump, context);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL, context); /* FIXME: register dump function */
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, via4000_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL, context, IO_MIRROR_NONE); /* FIXME: register dump function */
             break;
         case DRIVE_TYPE_CMDHD:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x8000, 0x800f, viacore_dump, ((diskunit_context_t *)context)->cmdhd->via10);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x8400, 0x840f, viacore_dump, ((diskunit_context_t *)context)->cmdhd->via9);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "I8255A", 0x8800, 0x8803, i8255a_dump, ((diskunit_context_t *)context)->cmdhd->i8255a);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x8000, 0x800f, viacore_dump, ((diskunit_context_t *)context)->cmdhd->via10, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x8400, 0x840f, viacore_dump, ((diskunit_context_t *)context)->cmdhd->via9, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "I8255A", 0x8800, 0x8803, i8255a_dump, ((diskunit_context_t *)context)->cmdhd->i8255a, IO_MIRROR_NONE);
             break;
         case DRIVE_TYPE_2040:
         case DRIVE_TYPE_3040:
@@ -280,8 +281,8 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
         case DRIVE_TYPE_9000:
-            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, riot1_dump, context);
-            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, riot2_dump, context);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, riot1_dump, context, IO_MIRROR_NONE);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, riot2_dump, context, IO_MIRROR_NONE);
             break;
         default:
             log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%u'.", type);

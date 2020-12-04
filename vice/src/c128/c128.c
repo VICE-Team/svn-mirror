@@ -370,7 +370,7 @@ static io_source_t vicii_d000_device = {
     "VIC-IIe",             /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
-    0xd000, 0xd0ff, 0x7f,  /* regs: $d000-$d03f, mirrors: $d040-$d0ff */
+    0xd000, 0xd0ff, 0x3f,  /* regs: $d000-$d03f, mirrors: $d040-$d0ff */
     1,                     /* read is always valid */
     vicii_store,           /* store function */
     NULL,                  /* NO poke function */
@@ -379,14 +379,15 @@ static io_source_t vicii_d000_device = {
     vicii_dump,            /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
-    0                      /* insertion order, gets filled in by the registration function */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_MASK         /* contains mirrors, defined by mask */
 };
 
 static io_source_t vicii_d100_device = {
     "VIC-IIe $D100-$D1FF mirrors", /* name of the chip */
     IO_DETACH_NEVER,               /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
-    0xd100, 0xd1ff, 0x7f,          /* mirrors of $d000-$d03f */
+    0xd100, 0xd1ff, 0x3f,          /* mirrors of $d000-$d03f */
     1,                             /* read is always valid */
     vicii_store,                   /* store function */
     NULL,                          /* NO poke function */
@@ -395,14 +396,15 @@ static io_source_t vicii_d100_device = {
     vicii_dump,                    /* chip state information dump function */
     IO_CART_ID_NONE,               /* not a cartridge */
     IO_PRIO_HIGH,                  /* high priority, mirrors never involved in collisions */
-    0                              /* insertion order, gets filled in by the registration function */
+    0,                             /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_OTHER                /* this is a mirror of another registered device */
 };
 
 static io_source_t vicii_d200_device = {
     "VIC-IIe $D200-$D2FF mirrors", /* name of the chip */
     IO_DETACH_NEVER,               /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
-    0xd200, 0xd2ff, 0x7f,          /* mirrors of $d000-$d03f */
+    0xd200, 0xd2ff, 0x3f,          /* mirrors of $d000-$d03f */
     1,                             /* read is always valid */
     vicii_store,                   /* store function */
     NULL,                          /* NO poke function */
@@ -411,14 +413,15 @@ static io_source_t vicii_d200_device = {
     vicii_dump,                    /* chip state information dump function */
     IO_CART_ID_NONE,               /* not a cartridge */
     IO_PRIO_HIGH,                  /* high priority, mirrors never involved in collisions */
-    0                              /* insertion order, gets filled in by the registration function */
+    0,                             /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_OTHER                /* this is a mirror of another registered device */
 };
 
 static io_source_t vicii_d300_device = {
     "VIC-IIe $D300-$D3FF mirrors", /* name of the chip */
     IO_DETACH_NEVER,               /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE,         /* does not use a resource for detach */
-    0xd300, 0xd3ff, 0x7f,          /* mirrors of $d000-$d03f */
+    0xd300, 0xd3ff, 0x3f,          /* mirrors of $d000-$d03f */
     1,                             /* read is always valid */
     vicii_store,                   /* store function */
     NULL,                          /* NO poke function */
@@ -427,7 +430,8 @@ static io_source_t vicii_d300_device = {
     vicii_dump,                    /* chip state information dump function */
     IO_CART_ID_NONE,               /* not a cartridge */
     IO_PRIO_HIGH,                  /* high priority, mirrors never involved in collisions */
-    0                              /* insertion order, gets filled in by the registration function */
+    0,                             /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_OTHER                /* this is a mirror of another registered device */
 };
 
 static io_source_t sid_d400_device = {
@@ -443,7 +447,8 @@ static io_source_t sid_d400_device = {
     sid_dump,              /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_HIGH,          /* high priority, mirrors never involved in collisions */
-    0                      /* insertion order, gets filled in by the registration function */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_NONE         /* this is not a mirror */
 };
 
 static io_source_t sid_d420_device = {
@@ -459,7 +464,8 @@ static io_source_t sid_d420_device = {
     sid_dump,              /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_LOW,           /* low priority, chip never involved in collisions, this is to allow additional SID chips in the same range */
-    0                      /* insertion order, gets filled in by the registration function */
+    0,                     /* insertion order, gets filled in by the registration function */
+    IO_MIRROR_OTHER        /* this is a mirror of another registered device */
 };
 
 static io_source_list_t *vicii_d000_list_item = NULL;

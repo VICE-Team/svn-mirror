@@ -37,6 +37,7 @@
 #include "c64dtvcpu.h"
 #include "c64dtvdma.h"
 #include "c64dtvflash.h"
+#include "cartio.h"
 #include "cia.h"
 #include "cmdline.h"
 #include "debugcart.h"
@@ -698,11 +699,11 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd000, 0xd04f, mem_dump_io, NULL);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd000, 0xd04f, mem_dump_io, NULL, IO_MIRROR_NONE);
     /* TODO blitter, DMA... */
-    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f, mem_dump_io, NULL);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io, NULL);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io, NULL);
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f, mem_dump_io, NULL, IO_MIRROR_NONE);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io, NULL, IO_MIRROR_NONE);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io, NULL, IO_MIRROR_NONE);
 
     return mem_ioreg_list;
 }
