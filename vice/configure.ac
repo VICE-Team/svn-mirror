@@ -26,6 +26,7 @@ dnl Set VICE's compiler flags (can be overridden by the user)
 VICE_CPPFLAGS="-I\$(top_srcdir)/src/systemheaderoverride"
 VICE_CFLAGS="-g -O3"
 VICE_CXXFLAGS="-g -O3"
+VICE_OBJCFLAGS="-g -O3"
 VICE_LDFLAGS=""
 
 
@@ -111,6 +112,7 @@ VICE_ARG_ENABLE_LIST(debug-threads,     [  --enable-debug-threads  enable debug 
 VICE_ARG_ENABLE_LIST(embedded,          [  --enable-embedded       enable embedding of emulation data files])
 VICE_ARG_ENABLE_LIST(x64,               [  --enable-x64            enable building of the old x64 emulator [[default=no]]])
 VICE_ARG_ENABLE_LIST(x64-image,         [  --enable-x64-image      enable X64 image support [[default=no]]])
+VICE_ARG_ENABLE_LIST(optimization,      [  --disable-optimization   disable code optimization by passing -O0 [[default=no]]])
 
 
 dnl
@@ -137,6 +139,16 @@ VICE_ARG_ENABLE_LIST(html-docs,         [  --enable-html-docs      install the H
 VICE_ARG_ENABLE_LIST(pdf-docs,          [  --enable-pdf-docs       generate the PDF documentation [[default=if possible]]])
 VICE_ARG_ENABLE_LIST(platformdox,       [  --enable-platformdox    enable generating of documentation specific to the current host])
 
+
+
+dnl
+dnl Check for disabling compiler optimization with --disable-optimization
+dnl
+if test x"$enable_optimization" = "xno"; then
+  VICE_CFLAGS="-g -O0"
+  VICE_CXXFLAGS="-g -O0"
+  VICE_OBJCFLAGS="-g -O0"
+fi
 
 
 AC_ARG_VAR(FW_DIR, [Location of support frameworks (macOS only)])
