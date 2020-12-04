@@ -682,8 +682,8 @@ static void draw_std_text(void)
         + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
         - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1);
 
-    attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
-    screen_ptr = vdc.ram + vdc.screen_adr + vdc.mem_counter;
+    attr_ptr = vdc.ram + ((vdc.attribute_adr + vdc.mem_counter) & vdc.vdc_address_mask);
+    screen_ptr = vdc.ram + ((vdc.screen_adr + vdc.mem_counter) & vdc.vdc_address_mask);
     char_ptr = vdc.ram + vdc.chargen_adr + vdc.raster.ycounter;
     
     calculate_draw_masks();
@@ -1006,8 +1006,8 @@ static void draw_std_bitmap(void)
         + vdc.xsmooth * ((vdc.regs[25] & 0x10) ? 2 : 1)
         - (vdc.regs[22] >> 4) * ((vdc.regs[25] & 0x10) ? 2 : 1);
 
-    attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
-    bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
+    attr_ptr = vdc.ram + ((vdc.attribute_adr + vdc.mem_counter) & vdc.vdc_address_mask);
+    bitmap_ptr = vdc.ram + ((vdc.screen_adr + vdc.bitmap_counter) & vdc.vdc_address_mask);
 
     calculate_draw_masks();
     
