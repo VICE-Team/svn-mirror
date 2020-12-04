@@ -1269,6 +1269,10 @@ void cmdhd_reset(cmdhd_context_t *hd)
 int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
 {
     cmdhd_context_t *hd;
+    char *basename, *testname;
+    int32_t i;
+    FILE *test;
+    size_t filelength;
 
     CLOG((LOG, "CMDHD: attach_image"));
 
@@ -1309,12 +1313,59 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
     /* find the base lba */
     cmdhd_findbaselba(hd);
 
+    /* look to see if there are more files with the same base
+       name, but different extensions: s10, s20, s30,
+       s<ID><LUN>, no LUN support yet */
+    hd->scsi->max_ids = 1;
+    /* copy the file name */
+    basename = lib_strdup(image->media.fsimage->name);
+
+    /* make sure it ends in some form of DHD */
+    i = strlen(basename);
+    if (i > 0 &&
+        (basename[i - 1] == 'd' || basename[i - 1] == 'D') &&
+        (basename[i - 2] == 'h' || basename[i - 2] == 'H') &&
+        (basename[i - 3] == 'd' || basename[i - 3] == 'D')) {
+        /* strip off the last 2 letters */
+        basename[i - 2] = 0;
+        /* change the first D to an S */
+        basename[i - 3] = (basename[i - 3] & ~31) | 'S';
+        /* cycle through all of them S10-S60 */
+        for (i = 1; i < 7; i++) {
+            /* generate the name */
+            testname = lib_msprintf("%s%1u0", basename, i);
+            /* open the file */
+            test = fopen(testname, "rb+");
+            if (test) {
+                /* if it is there, check the length */
+                filelength = util_file_length(test);
+                /* must be multiple of 512 */
+                if ((filelength % 512) == 0) {
+                    /* set the FILE pointer */
+                    hd->scsi->file[i] = test;
+                    /* update the max ID */
+                    hd->scsi->max_ids = i + 1;
+                } else {
+                    /* otherwise make sure it is zero */
+                    hd->scsi->file[i] = NULL;
+                    fclose(test);
+                }
+            }
+            /* release any memory */
+            lib_free(testname);
+        }
+    }
+
+    /* release any more memory */
+    lib_free(basename);
+
     return 0;
 }
 
 int cmdhd_detach_image(disk_image_t *image, unsigned int unit)
 {
     cmdhd_context_t *hd;
+    int32_t i;
 
     CLOG((LOG, "CMDHD: detach_image"));
 
@@ -1345,6 +1396,16 @@ int cmdhd_detach_image(disk_image_t *image, unsigned int unit)
     hd->imagesize = 0;
     hd->baselba = UINT32_MAX;
     hd->scsi->file[0] = NULL;
+
+    /* close all additional SCSI ID files */
+    for (i = 1; i < 7; i++) {
+        /* if it isn't NULL, it must be a file */
+        if (hd->scsi->file[i]) {
+            /* close it and set to NULL */
+            fclose(hd->scsi->file[i]);
+            hd->scsi->file[i] = NULL;
+        }
+    }
 
     /* make sure the cmdbus isn't held down */
     cmdbus.drv_data[unit - 8] = 0xff;
