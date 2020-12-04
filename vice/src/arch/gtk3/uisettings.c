@@ -676,6 +676,26 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
  *                  C64 tree nodes for the settings UI                       *
  ****************************************************************************/
 
+/* {{{ host_nodes_c64 */
+/** \brief  Child nodes for the C64 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_c64[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
 /* {{{ machine_nodes_c64 */
 /** \brief  Child nodes for the C64 'Machine' node
  */
@@ -686,9 +706,6 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -704,12 +721,6 @@ static ui_settings_tree_node_t machine_nodes_c64[] = {
     { "Burst Mode Modification",
       "burstmode-mode",
       burst_mode_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -806,6 +817,9 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
 /** \brief  Main tree nodes for x64/x64sc
  */
 static ui_settings_tree_node_t main_nodes_c64[] = {
+    { "Host",
+      "host",
+      NULL, host_nodes_c64 },
     { "Machine",
       "machine",
       NULL, machine_nodes_c64 },
@@ -824,9 +838,6 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Cartridges",
       "cartridges",
       NULL, c64_cartridges },
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
