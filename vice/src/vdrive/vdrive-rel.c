@@ -4,7 +4,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  Roberto Muscedere <cococommie@cogeco.ca>
+ *  Roberto Muscedere <rmusced@uwindsor.ca>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
