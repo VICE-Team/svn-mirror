@@ -515,6 +515,9 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     vdc.attribute_adr = (((vdc.regs[20] << 8) | vdc.regs[21]) + vdc.attribute_offset)
                             & vdc.vdc_address_mask;
                     vdc.attribute_offset = 0;
+                    if (vdc.regs[4] == 255) {   /* Fix vdcmodemania fli. FIXME we should be naturally handling the overflow/underflow that triggers this */
+                        vdc.attribute_adr = (vdc.attribute_adr - vdc.regs[1]) & vdc.vdc_address_mask;
+                    }
                     if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
                         /* the cache can't cleanly handle these changing */
                         vdc.force_repaint = 1;
@@ -600,6 +603,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         /* Check if we are now out of the pulse == at first visible raster line, and reset the raster to the top of the screen if so */
         if (vdc.vsync_counter > vdc.vsync_height) { /* 25 for PAL, 21 for NTSC seems to be about right # of raster lines the vsync consumes on a C= monitor, and is official PAL spec */
             vdc.vsync = 0;
+            /* printf("vdc.raster.current_line: %03u vdc.canvas_height_old: %03u ", vdc.raster.current_line, vdc.canvas_height_old); */
             
             /* This SEEMS to work to reset the raster to 0, based on ted.c, but maybe there is something else needed?
                 FIXME handle cleanup of remainder of visible raster lines below the reset point somewhere somehow */
@@ -659,6 +663,9 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         vdc.attribute_adr = (((vdc.regs[20] << 8) | vdc.regs[21]) + vdc.attribute_offset)
                             & vdc.vdc_address_mask;
         vdc.attribute_offset = 0;
+        if (vdc.regs[4] == 255) {   /* Fix vdcmodemania fli. FIXME we should be naturally handling the overflow/underflow that triggers this */
+            vdc.attribute_adr = (vdc.attribute_adr - vdc.regs[1]) & vdc.vdc_address_mask;
+        }
         if (vdc.old_screen_adr != vdc.screen_adr || vdc.old_attribute_adr != vdc.attribute_adr) {
             /* the cache can't cleanly handle these changing */
             vdc.force_repaint = 1;
@@ -781,6 +788,9 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         vdc.raster.blank_this_line = 1;
     }
 
+    /* printf("%03u %03u raster.current_line: %03u draw_active %02u mem_counter: %05u bitmap_counter: %05u %04x %04x\n",
+        vdc.row_counter, vdc.row_counter_y, vdc.raster.current_line, vdc.draw_active, vdc.mem_counter, vdc.bitmap_counter,
+        (vdc.attribute_adr + vdc.mem_counter) & vdc.vdc_address_mask, (vdc.screen_adr + vdc.bitmap_counter) & vdc.vdc_address_mask); */
 
     /* actually draw the current raster line */
     raster_line_emulate(&vdc.raster);
