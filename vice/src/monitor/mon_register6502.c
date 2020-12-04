@@ -306,6 +306,7 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
 
     do {
         if (regs->flags & MON_REGISTER_IS_MEMORY) {
+            /* enable sidefx, else we'd read RAM for 00/01 */
             int sfxtmp = sidefx;
             sidefx = 1;
             int current_bank = mon_interfaces[mem]->current_bank;
