@@ -211,6 +211,10 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
         (void *)ui_toggle_keyset_joysticks },
     { GDK_KEY_m, VICE_MOD_MASK,
         (void *)ui_toggle_mouse_grab },
+    
+    /* Windows folks expect Alt+Enter to go full screen */
+    { GDK_KEY_Return, VICE_MOD_MASK,
+        (void *)ui_fullscreen_callback },
 
     /* Arnie */
     { 0, 0, NULL }

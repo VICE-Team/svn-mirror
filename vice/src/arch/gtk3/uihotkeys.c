@@ -150,7 +150,7 @@ static const hotkey_info_t hotkeys_list[] = {
 #endif
 
     /* others */
-    { VICE_MOD_MASK, "D / Mouse double-click", "Toggle fullscreen mode" },
+    { VICE_MOD_MASK, "D or Enter / Mouse double-click", "Toggle fullscreen mode" },
     { VICE_MOD_MASK, "B", "Toggle fullscreen menu and statusbar" },
     { VICE_MOD_MASK, "R", "Restore active window to normal size" },
     { VICE_MOD_MASK, "O", "Open settings dialog" },
