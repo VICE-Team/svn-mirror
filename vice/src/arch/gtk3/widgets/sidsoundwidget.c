@@ -91,32 +91,6 @@ static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
 };
 #endif
 
-#if 0
-/** \brief  Values for the "number of sids" widget
- */
-static const vice_gtk3_radiogroup_entry_t num_sids[] = {
-    { "One", 0 },
-    { "Two", 1 },
-    { "Three", 2 },
-    { "Four", 3 },
-    { "Five", 4 },
-    { "Six", 5 },
-    { "Seven", 6 },
-    { "Eight", 7 },
-    { NULL, -1 }
-};
-
-
-/** \brief  Values for the "number of sids" widget in vsid
- */
-static const vice_gtk3_radiogroup_entry_t num_sids_vsid[] = {
-    { "One", 0 },
-    { "Two", 1 },
-    { "Three", 2 },
-    { NULL, -1 }
-};
-#endif
-
 
 /** \brief  I/O addresses for extra SID's for the C64
  *
@@ -273,42 +247,6 @@ static void on_sid_count_changed(GtkWidget *widget, gpointer data)
     }
 }
 
-
-/* Temporarily disable this to remove warning. Will need this function again
- * once I continue working on the glue logic of the SID settings.
- */
-#if 0
-/** \brief  Extra handler for the "toggled" event of the SID filters
- *
- * Enables/disables ReSID filter settings
- *
- * \param[in]   widget      ReSID filters check button
- * \param[in]   user_data   extra data for event (unused)
- */
-static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
-{
-#ifdef HAVE_RESID
-    int model;
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    if (resources_get_int("SidModel", &model) < 0) {
-        debug_gtk3("failed to get SidModel resource");
-        return;
-    }
-    if ((model == 1) || (model == 2)) {
-#ifndef HAVE_NEW_8580_FILTER
-        state = 0;
-#endif
-        gtk_widget_set_sensitive(resid_8580_passband, state);
-        gtk_widget_set_sensitive(resid_8580_gain, state);
-        gtk_widget_set_sensitive(resid_8580_bias, state);
-    } else {
-        gtk_widget_set_sensitive(resid_passband, state);
-        gtk_widget_set_sensitive(resid_gain, state);
-        gtk_widget_set_sensitive(resid_bias, state);
-    }
-#endif
-}
-#endif
 
 #ifdef HAVE_RESID
 /** \brief  Handler for "clicked" event of reset-to-default for passband
@@ -474,74 +412,6 @@ static void engine_model_changed_callback(int engine, int model)
 }
 
 
-#if 0
-/** \brief  Create widget to control the SID engine
- *
- * \return  GtkGrid
- */
-static GtkWidget *create_sid_engine_widget(void)
-{
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *radio_group;
-    int p;
-
-    grid = gtk_grid_new();
-    g_object_set(grid, "margin-left", 8, NULL);
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>SID Engine</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-bottom", 8, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-
-    radio_group = vice_gtk3_resource_radiogroup_new("SidEngine", sid_engines,
-            GTK_ORIENTATION_VERTICAL);
-    g_object_set(radio_group, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
-
-    for (p = 1; p < 7; p++) {
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(
-                    GTK_GRID(radio_group), 0, p), FALSE);
-    }
-
-#ifdef HAVE_RESID
-    gtk_widget_set_sensitive(
-            gtk_grid_get_child_at(GTK_GRID(radio_group), 0, 1),
-            TRUE);
-#endif
-
-#ifdef HAVE_CATWEASELMKIII
-    if (catweaselmkiii_available()) {
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
-                    0, 2), TRUE);
-    }
-#endif
-
-#ifdef HAVE_HARDSID
-    if (hardsid_available()) {
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
-                    0, 3), TRUE);
-
-    }
-#endif
-
-#ifdef HAVE_PARSID
-    if (parsid_available()) {
-        for (p = 4; p < 7; p++) {
-            gtk_widget_set_sensitive(
-                    gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), TRUE);
-        }
-    }
-#endif
-    vice_gtk3_resource_radiogroup_add_callback(radio_group, on_sid_engine_changed);
-
-    gtk_widget_show_all(grid);
-    return grid;
-}
-#endif
-
-
 #ifdef HAVE_RESID
 /** \brief  Create widget to control ReSID sampling method
  *
@@ -580,39 +450,14 @@ static GtkWidget *create_resid_sampling_widget(void)
 static GtkWidget *create_num_sids_widget(void)
 {
     GtkWidget *grid;
-#if 0
-    GtkWidget *label;
-    GtkWidget *radio_group;
-    grid = gtk_grid_new();
-    g_object_set(grid, "margin-left", 8, NULL);
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>Number of SIDs</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-bottom", 8, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-
-    if (machine_class != VICE_MACHINE_VSID) {
-        radio_group = vice_gtk3_resource_radiogroup_new("SidStereo",
-                num_sids, GTK_ORIENTATION_VERTICAL);
-    } else {
-        radio_group = vice_gtk3_resource_radiogroup_new("SidStereo",
-                num_sids_vsid, GTK_ORIENTATION_VERTICAL);
-    }
-    g_object_set(radio_group, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
-
-    vice_gtk3_resource_radiogroup_add_callback(radio_group,
-            on_sid_count_changed);
-#endif
     GtkWidget *spin;
     int max_sids;
 
     grid = vice_gtk3_grid_new_spaced_with_label(16, 8, "Extra SIDs", 2);
 
     if (machine_class == VICE_MACHINE_VSID) {
-        /* FIXME: only valid until PSID supports more SIDs than three */
-        max_sids = 3;
+        /* FIXME: perhaps rename to SOUNDS_SIDS_MAX_[P|V]SID? */
+        max_sids = SID_COUNT_MAX_PSID;
     } else {
         max_sids = SOUND_SIDS_MAX;
     }
@@ -624,11 +469,7 @@ static GtkWidget *create_num_sids_widget(void)
     gtk_widget_set_hexpand(spin, FALSE);
     g_signal_connect(spin, "value-changed", G_CALLBACK(on_sid_count_changed),
              NULL);
-
     gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
-
-
-
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -653,7 +494,9 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
     entries = machine_class == VICE_MACHINE_C128
         ? sid_address_c128 : sid_address_c64;
 
-    widget = vice_gtk3_resource_combo_box_int_new_with_label(resource_name, entries, label);
+    widget = vice_gtk3_resource_combo_box_int_new_with_label(resource_name,
+                                                             entries,
+                                                             label);
     gtk_widget_show_all(widget);
 
     lib_free(resource_name);
@@ -678,13 +521,11 @@ static void on_resid_6581_gain_change(GtkWidget *widget, gpointer data)
 }
 
 
-
 static void on_resid_6581_bias_change(GtkWidget *widget, gpointer data)
 {
     double value = gtk_range_get_value(GTK_RANGE(widget));
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(resid_6581_bias_spin), value);
 }
-
 
 
 static void on_resid_6581_passband_spin_change(GtkWidget *widget, gpointer data)
@@ -775,6 +616,7 @@ static GtkWidget *create_resid_6581_bias_spin(GtkWidget *slider)
             NULL);
     return spin;
 }
+
 
 /** \brief  Create scale to control the "SidResidGain" resource
  *
@@ -912,14 +754,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     if (resources_get_int("SidModel", &model) < 0) {
         debug_gtk3("failed to get SidModel resource");
     }
-#if 0
-    engine = create_sid_engine_widget();
-    gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
 
-    if (resources_get_int("SidModel", &model) < 0) {
-        debug_gtk3("failed to get SidModel resource");
-    }
-#endif
     engine = sid_engine_model_widget_create();
     sid_engine_model_widget_set_callback(engine, engine_model_changed_callback);
     gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
@@ -1148,19 +983,8 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
     gtk_widget_set_sensitive(resid_6581_grid, is_resid);
     gtk_widget_set_sensitive(resid_8580_grid, is_resid);
-
 #endif
-
-
-
-#if 0
-    g_signal_connect(filters, "toggled", G_CALLBACK(on_sid_filters_toggled),
-            NULL);
-    on_sid_filters_toggled(filters, NULL);
-#endif
-
     gtk_widget_show_all(layout);
-
 
     return layout;
 }
