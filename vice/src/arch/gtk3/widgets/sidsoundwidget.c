@@ -608,7 +608,7 @@ static GtkWidget *create_num_sids_widget(void)
     GtkWidget *spin;
     int max_sids;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(16, 8, "Extra STDs", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(16, 8, "Extra SIDs", 2);
 
     if (machine_class == VICE_MACHINE_VSID) {
         /* FIXME: only valid until PSID supports more SIDs than three */
