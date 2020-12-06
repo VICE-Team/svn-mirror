@@ -552,6 +552,9 @@ bool uimon_set_font(void)
     const PangoFontDescription *desc_tmp;
     PangoFontDescription* desc;
     const char *monitor_font = NULL;
+    GList *widgets;
+    GList *box;
+
 
     if (resources_get_string("MonitorFont", &monitor_font) < 0) {
         log_error(LOG_ERR, "Failed to read 'MonitorFont' resource.");
@@ -582,8 +585,8 @@ bool uimon_set_font(void)
     gtk_widget_set_size_request(GTK_WIDGET(fixed.term), -1, -1);
 
     /* get GtkBox */
-    GList *widgets = gtk_container_get_children(GTK_CONTAINER(fixed.window));
-    GList *box = g_list_first(widgets);
+    widgets = gtk_container_get_children(GTK_CONTAINER(fixed.window));
+    box = g_list_first(widgets);
 
     gtk_widget_set_size_request(GTK_WIDGET(box->data), -1 , -1);
     return true;
@@ -738,7 +741,7 @@ static gboolean uimon_window_close_impl(gpointer user_data)
 {
     /* Flush any queued writes */
     uimon_write_to_terminal_impl(NULL);
-    
+
     /* only close window if there is one: this avoids a GTK_CRITICAL warning
      * when using a remote monitor */
     if (fixed.window != NULL) {
@@ -999,7 +1002,7 @@ int console_init(void)
 int console_close_all(void)
 {
     int i;
-    
+
     if (fixed.input_buffer) {
         /* This happens if the application exits with the monitor open, as the VICE thread
          * exits while the monitor is waiting for user input into this buffer.
@@ -1018,7 +1021,7 @@ int console_close_all(void)
     for(i = 0; i < need_filename_lc.len; i++) {
         free(need_filename_lc.cvec[i]);
     }
-    
+
     return 0;
 }
 
