@@ -308,8 +308,9 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
         if (regs->flags & MON_REGISTER_IS_MEMORY) {
             /* enable sidefx, else we'd read RAM for 00/01 */
             int sfxtmp = sidefx;
-            sidefx = 1;
             int current_bank = mon_interfaces[mem]->current_bank;
+
+            sidefx = 1;
             mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu");
             regs->val = (unsigned int)mon_get_mem_val(mem, (uint16_t)regs->extra);
             mon_interfaces[mem]->current_bank = current_bank;
