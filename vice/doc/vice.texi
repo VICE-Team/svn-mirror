@@ -1099,6 +1099,22 @@ configuration mode for safety. When in either configuration or
 installation mode, the device number is set to 30. Therefore, it is
 not suggested to place two or more CMD HDs in either of these modes on
 the same bus at the same time.
+When migrating from real CMD hardware, use any HDD imaging software ("dd"
+or GNU "ddrescue" on Linux) to copy the raw contents of a device to a file.
+The destination file should have a "DHD" extension.
+For those users with multiple disks, SCSI ID 0 should have the extension
+"DHD", but any other drives should have ".S<ID>0" where <ID> is the SCSI ID.
+Place all the files in the same folder when attaching to the "DHD" file.
+The other files will automatically be scanned for and connected as well.
+The CMD HD boot ROM is used for partition management, and ALL versions have
+a known bug which corrupts data when deleting paritions across multiple
+SCSI drives.
+To avoid this scenario, it is highly suggested that another full DHD
+image be created in VICE (on another unit) and all the files be copied
+over from multi-disk configurations, using CMD "fcopy" for example, to
+the new unit.
+This will allow the user to take advantage of all the CMD HD features
+without the potential for data loss.
 
 @node Supported file formats, Common problems, Disk drive emulation, Preface
 @section Supported file formats
