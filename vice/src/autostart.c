@@ -275,8 +275,10 @@ static int set_autostart_warp(int val, void *param)
 /*! \internal \brief set initial autostart delay. 0 means default. */
 static int set_autostart_delay(int val, void *param)
 {
-    if ((val < 0) || (val > 1000)) {
+    if (val < 0) {
         val = 0;
+    } else if (val > 15000) {   /* this equals 5 minutes, should be enough :) */
+        val = 15000;
     }
     AutostartDelay = val;
     return 0;
