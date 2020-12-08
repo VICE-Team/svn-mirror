@@ -619,7 +619,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
     alarm_unset(datasette_alarm);
     datasette_alarm_pending = 0;
 
-    DBG(("datasette_read_bit(motor:%d) %d>=%d (image present:%s)", datasette_motor, maincpu_clk, motor_stop_clk, current_image ? "yes" : "no"));
+    DBG(("datasette_read_bit(motor:%d) %u>=%u (image present:%s)", datasette_motor, maincpu_clk, motor_stop_clk, current_image ? "yes" : "no"));
 
     /* check for delay of motor stop */
     if (motor_stop_clk > 0 && maincpu_clk >= motor_stop_clk) {
@@ -1045,7 +1045,7 @@ static void datasette_set_motor(int flag)
     }
     if (!flag && datasette_motor && motor_stop_clk == 0) {
         motor_stop_clk = maincpu_clk + MOTOR_DELAY;
-        DBG(("datasette_set_motor(maincpu_clk:%d motor_stop_clk:%d)", maincpu_clk, motor_stop_clk));
+        DBG(("datasette_set_motor(maincpu_clk:%u motor_stop_clk:%u)", maincpu_clk, motor_stop_clk));
         if (!datasette_alarm_pending) {
             /* make sure that the motor will stop */
             alarm_set(datasette_alarm, motor_stop_clk);
