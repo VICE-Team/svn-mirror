@@ -220,18 +220,30 @@ static GtkWidget *resid_6581_bias_spin;
 #endif
 
 
-/* Temporarily disable this to remove warning. I'll need this one again when
- * I continue working on the SID setting glue logic.
- */
+static GtkWidget *num_sids_widget;
+
+
 /** \brief  Extra callback registered to the 'number of SIDs' radiogroup
+ *
+ * XXX: This function is also used in the constructor of the main widget to
+ *      set the initial sensitivity of the address widgets, with NULL passed
+ *      as the widget. I should probably refactor that code to have a separate
+ *      function to set sensitivity to avoid this hack.
  *
  * \param[in]   widget  widget triggering the event
  * \param[in]   count   number of extra SIDs (0 - SOUND_SID_MAX-1)
  */
 static void on_sid_count_changed(GtkWidget *widget, gpointer data)
 {
-    int count = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));
+    int count;
 
+    if (widget == NULL) {
+        /* called from main widget constructor: count is in `data` */
+        count = GPOINTER_TO_INT(data);
+    } else {
+        /* called from an event, use the spin button's value */
+        count = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));
+    }
     debug_gtk3("extra SIDs count changed to %d.", count);
 
     if (sid_machine_can_have_multiple_sids()) {
@@ -471,6 +483,8 @@ static GtkWidget *create_num_sids_widget(void)
              NULL);
     gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
+
+    num_sids_widget = spin;
     return grid;
 }
 
@@ -793,8 +807,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
          * first SID
          */
         i = 0;
-        while (i < max) {
-            while (c < 4) {
+        while (i < max - 1) {
+            while ((c < 4) && (i < max -1)) {
+                debug_gtk3("Adding address widget #%d", i);
                 gtk_grid_attach(GTK_GRID(sid_addresses),
                                 address_widgets[i],
                                 c, ((i + 1) / 4) + 1, 1, 1);
