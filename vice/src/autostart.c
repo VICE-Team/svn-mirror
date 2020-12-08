@@ -1327,7 +1327,9 @@ int autostart_tape(const char *file_name, const char *program_name,
     /* FIXME: this should perhaps be handled differently for tape */
     init_drive_emulation_state(8, 0);
 
-    datasette_control(DATASETTE_CONTROL_STOP);
+    /* reset datasette emulation and remove the tape image. */
+    datasette_control(DATASETTE_CONTROL_RESET);
+    tape_image_detach(1);
 
     if (!(tape_image_attach(1, file_name) < 0)) {
         log_message(autostart_log,
