@@ -264,6 +264,9 @@ static void mmu_switch_to_c128mode(void)
     machine_autostart_reset_c128();
 }
 
+/* FIXME: for some reason it is not enough to call the sub functions only when
+          the mode actually changes, as a result various init functions are now
+          excessively called for mostly no reason */
 static void mmu_update_config(void)
 {
 #ifdef MMU_DEBUG
