@@ -277,8 +277,8 @@ static int set_autostart_delay(int val, void *param)
 {
     if (val < 0) {
         val = 0;
-    } else if (val > 15000) {   /* this equals 5 minutes, should be enough :) */
-        val = 15000;
+    } else if (val > 1000) {
+        val = 1000;
     }
     AutostartDelay = val;
     return 0;
@@ -408,7 +408,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Set disk image for autostart of PRG files" },
     { "-autostart-delay", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "AutostartDelay", NULL,
-      "<frames>", "Set initial autostart delay (0: use default)" },
+      "<seconds>", "Set initial autostart delay (0: use default)" },
     { "-autostart-delay-random", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartDelayRandom", (resource_value_t)1,
       NULL, "Enable random initial autostart delay." },
