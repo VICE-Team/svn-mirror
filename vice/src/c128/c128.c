@@ -1264,12 +1264,22 @@ void machine_kbdbuf_reset_c64(void)
 
 void machine_autostart_reset_c128(void)
 {
-    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
+    int delay;
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 3; /* default */
+    }
+    autostart_reinit((CLOCK)(delay * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
 }
 
 void machine_autostart_reset_c64(void)
 {
-    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
+    int delay;
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 3; /* default */
+    }
+    autostart_reinit((CLOCK)(delay * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
 }
  
 /* ------------------------------------------------------------------------- */

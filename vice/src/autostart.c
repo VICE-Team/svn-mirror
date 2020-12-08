@@ -714,6 +714,7 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 void autostart_reinit(CLOCK min_cycles_, int handle_tde)
 {
     min_cycles = min_cycles_;
+    DBG(("autostart_reinit min_cycles: %u\n", min_cycles));
 
     handle_drive_true_emulation_by_machine = handle_tde;
 
@@ -1258,6 +1259,8 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_wait_for_reset = 1;
 
     autostart_initial_delay_cycles = min_cycles;
+    DBG(("reboot_for_autostart min_cycles: %u\n", min_cycles));
+
     resources_get_int("AutostartDelayRandom", &rnd);
     if (rnd) {
         /* additional random delay of up to 10 frames */
