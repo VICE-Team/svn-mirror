@@ -1039,8 +1039,6 @@ void machine_setup_context(void)
 /* C128-specific initialization.  */
 int machine_specific_init(void)
 {
-    int delay;
-
     c128_log = log_open("C128");
 
     if (mem_load() < 0) {
@@ -1088,12 +1086,8 @@ int machine_specific_init(void)
 
     disk_image_init();
 
-    /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
-    resources_get_int("AutostartDelay", &delay);
-    if (delay == 0) {
-        delay = 3; /* default */
-    }
-    autostart_init((CLOCK)(delay * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1);
+    /* Initialize autostart. */
+    autostart_init(3, 1);
 
     /* Pre-init C128-specific parts of the menus before vdc_init() and
        vicii_init() create canvas windows with menubars at the top. */
@@ -1262,24 +1256,16 @@ void machine_kbdbuf_reset_c64(void)
     kbdbuf_reset(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
 }
 
+/* FIXME: check if this is really needed and remove eventually */
 void machine_autostart_reset_c128(void)
 {
-    int delay;
-    resources_get_int("AutostartDelay", &delay);
-    if (delay == 0) {
-        delay = 3; /* default */
-    }
-    autostart_reinit((CLOCK)(delay * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
+    /* autostart_reinit(3, 1); */
 }
 
+/* FIXME: check if this is really needed and remove eventually */
 void machine_autostart_reset_c64(void)
 {
-    int delay;
-    resources_get_int("AutostartDelay", &delay);
-    if (delay == 0) {
-        delay = 3; /* default */
-    }
-    autostart_reinit((CLOCK)(delay * machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh), 1);
+    /* autostart_reinit(3, 1); */
 }
  
 /* ------------------------------------------------------------------------- */
