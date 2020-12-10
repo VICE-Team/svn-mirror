@@ -479,7 +479,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             - drawing stopping e.g. pass into bottom border
             - start or stop vsync pulse */
         vdc_row_counter_latch = 0;
-        vdc.row_counter_y = vdc.interlaced & vdc.frame_counter;
+        vdc.row_counter_y = ~(vdc.row_counter_y ^ vdc.regs[9]);   /* XNOR */
+        vdc.row_counter_y &= vdc.interlaced;    /* always 0 if non-interlaced, otherwise keep bottom bit of above */
         
         /* Update the row counter because we are starting a new line */
         vdc.row_counter++;
@@ -528,13 +529,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                         && (vdc.regs[25] & 0x80)        /* bitmap mode and.. */
                         && !(vdc.frame_counter & 1)) { /* even frame */
                         /* Do nothing because I can't be bothered reversing the above logic */
-                        if (vdc.regs[4] == vdc.regs[6]) {   /* Hack fix vdcmodemania mono interlace. FIXME we should be naturally handling the overflow/underflow that triggers this */
-                             if (vdc.regs[4] == 0x5c ) {
-                                vdc.bitmap_counter = (vdc.bitmap_counter - vdc.regs[1] * 38) & vdc.vdc_address_mask;
-                             } else if (vdc.regs[4] == 0x6a) {
-                                vdc.bitmap_counter = (vdc.bitmap_counter - vdc.regs[1] * 45) & vdc.vdc_address_mask;
-                             }
-                        }
                     } else {    /* Reset all the internal VDC memory pointers and counters to 0 */
                         vdc.mem_counter = 0;
                         vdc.bitmap_counter = 0;
@@ -684,13 +678,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             && (vdc.regs[25] & 0x80)        /* bitmap mode and.. */
             && !(vdc.frame_counter & 1)) { /* even frame */
             /* Do nothing because I can't be bothered reversing the above logic */
-            if (vdc.regs[4] == vdc.regs[6]) {   /* Hack fix vdcmodemania mono interlace. FIXME we should be naturally handling the overflow/underflow that triggers this */
-                 if (vdc.regs[4] == 0x5c ) {
-                    vdc.bitmap_counter = (vdc.bitmap_counter - vdc.regs[1] * 38) & vdc.vdc_address_mask;
-                 } else if (vdc.regs[4] == 0x6a) {
-                    vdc.bitmap_counter = (vdc.bitmap_counter - vdc.regs[1] * 45) & vdc.vdc_address_mask;
-                 }
-            }
         } else {    /* Reset all the internal VDC memory pointers and counters to 0 */
             vdc.mem_counter = 0;
             vdc.bitmap_counter = 0;
@@ -718,7 +705,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 /* we latch on now and start drawing on the next call, even if that's invisible because it's above the top border */
                 
                 /* we are trying to keep the bottom bit the same for the next character row, but only if interlaced */
-                vdc.draw_counter_y &= vdc.interlaced;
+                vdc.draw_counter_y = ~(vdc.draw_counter_y ^ vdc.regs[9]); /* XNOR */
+                vdc.draw_counter_y &= vdc.interlaced;   /* always 0 if non-interlaced, otherwise keep bottom bit of above */
                 vdc.draw_counter++;
                 vdc.prime_draw = 0;
                 vdc.draw_active = 1;
@@ -743,7 +731,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     /* Handle the normal drawing case */
     } else if (vdc.draw_active) {
         if (vdc_draw_counter_latch) {    /* latch is set if the previous raster line was the last of its character row */
-            vdc.draw_counter_y &= vdc.interlaced;
+            vdc.draw_counter_y = ~(vdc.draw_counter_y ^ vdc.regs[9]); /* XNOR */
+            vdc.draw_counter_y &= vdc.interlaced;   /* always 0 if non-interlaced, otherwise keep bottom bit of above */
             vdc.draw_counter++;
             vdc_draw_counter_latch = 0;
             
@@ -802,9 +791,10 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         vdc.raster.blank_this_line = 1;
     }
 
-    /* printf("%03u %02u (%02x %02x) raster.current_line: %03u draw_active %02u mem_counter: %05u bitmap_counter: %05u %04x %04x\n",
-        vdc.row_counter, vdc.row_counter_y, vdc.row_counter, vdc.row_counter_y, vdc.raster.current_line, vdc.draw_active, vdc.mem_counter, vdc.bitmap_counter,
-        (vdc.attribute_adr + vdc.mem_counter) & vdc.vdc_address_mask, (vdc.screen_adr + vdc.bitmap_counter) & vdc.vdc_address_mask); */
+    /* printf("row %03u %02u %03u (%02x %02x) draw %03u %02u raster.cur_line %03u drawactive %02u vsync %01u memcntr %05u bmp_cntr %05u %04x %04x frame %i\n",
+        vdc.row_counter, vdc.row_counter_y, vdc.row_counter * ((vdc.regs[9] & 0x1fu)+1) + vdc.row_counter_y, vdc.row_counter, vdc.row_counter_y,
+        vdc.draw_counter, vdc.draw_counter_y, vdc.raster.current_line, vdc.draw_active, vdc.vsync, vdc.mem_counter, vdc.bitmap_counter,
+        (vdc.attribute_adr + vdc.mem_counter) & vdc.vdc_address_mask, (vdc.screen_adr + vdc.bitmap_counter) & vdc.vdc_address_mask, vdc.frame_counter); */
 
     /* actually draw the current raster line */
     raster_line_emulate(&vdc.raster);
