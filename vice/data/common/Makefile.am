@@ -7,6 +7,7 @@ common_DATA = CBM_Logo.svg \
 	      Icon-128@2x.png \
 	      vice-logo-black.svg \
 	      C128_16.png \
+	      C128_24.png \
 	      C128_32.png \
 	      C128_48.png \
 	      C128_256.png \

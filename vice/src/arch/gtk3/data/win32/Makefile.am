@@ -34,8 +34,8 @@ XSCPU64_ICONS = $(top_srcdir)/data/common/SCPU_16.png \
 		$(top_srcdir)/data/common/SCPU_48.png \
 		$(top_srcdir)/data/common/SCPU_256.png
 
-# FIXME: 24px icon missing
 X128_ICONS = $(top_srcdir)/data/common/C128_16.png \
+	     $(top_srcdir)/data/common/C128_24.png \
 	     $(top_srcdir)/data/common/C128_32.png \
 	     $(top_srcdir)/data/common/C128_48.png \
 	     $(top_srcdir)/data/common/C128_256.png
