@@ -97,7 +97,7 @@ RAMlink emulations
   - always reset resources to default before loading a settings file
   - new "-addconfig" option (or "load additional settings") loads additional
     resources from a file without resetting to defaults before. this can be used
-    to keep custom setups seperate from the regular settings.
+    to keep custom setups separate from the regular settings.
 
 - Fixed sysfile search path order.
   The order now is $HOME/.local -> path-of-binary -> VICE_DATADIR
@@ -225,6 +225,7 @@ some features have been deprecated and are now disabled by default:
 
 - fixed accessing cartridge memory
 - improve expansion port mode status output
+- fix io command to shows IO space in address order
 
 
 ** vdrive
@@ -269,10 +270,16 @@ some features have been deprecated and are now disabled by default:
 
 - fixed VDC reg #28 bit #4, it sets the addressing mode, it does not actually
   reflect the amount of ram installed.
-- correct aspect ratio
-- Fixed VDC interlace modes with odd row heights, soci VDC test #5 displays
-  again
-- Better VDC FLI handling, 3 byte attribute offset doesn't always apply
+- correct aspect ratio for PAL or NTSC
+- screen is resized automatically on PAL/NTSC change
+- corrected size of saved screenshots or videos
+- correct handling of unused bits in some registers
+- fixed VDC interlace modes with odd row heights, vdcmodemania interlace parts
+  all work again and soci VDC test #5 displays 
+- fix issue with wrap around of VDC ram fixing vdcmodemania fli part
+- better VDC FLI handling, 3 byte attribute offset doesn't always apply, fixes
+  vdc-mcm demo and vdcmodemania fli part
+- corrections and enhancements to monitor "io d600" dump
 
 ** SID fixes
 ------------
@@ -281,7 +288,7 @@ some features have been deprecated and are now disabled by default:
 - noise writeback fixes
 - envelope regression fix
 - Fix the coefficients for the resid external filter
-- Rough implementation of the shift register and wavefom zero bitfade
+- Rough implementation of the shift register and waveform zero bitfade
 - Added 4 possible additional SID chips for a total of 8 (x64*/xscpu64/x128 only)
 
 ** C64 fixes
