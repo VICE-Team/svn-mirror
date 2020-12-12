@@ -222,8 +222,7 @@ static sound_device_t bsp_device =
     bsp_suspend,
     bsp_resume,
     1,
-    2,
-    false
+    2
 };
 
 int sound_init_bsp_device(void)

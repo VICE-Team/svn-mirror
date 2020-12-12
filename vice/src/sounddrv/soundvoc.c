@@ -170,8 +170,7 @@ static sound_device_t voc_device =
     NULL,
     NULL,
     0,
-    2,
-    false
+    2
 };
 
 int sound_init_voc_device(void)

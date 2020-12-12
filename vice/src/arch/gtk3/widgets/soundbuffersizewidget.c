@@ -47,7 +47,7 @@
 
 /** \brief  Minimum value for the buffer size spin button (msec)
  */
-#define SPIN_MIN    1
+#define SPIN_MIN    25
 
 /** \brief  Maximum value for the buffer size spin button (msec)
  */
@@ -55,7 +55,7 @@
 
 /** \brief  Step size of the spin button (msec) when pushing +/-
  */
-#define SPIN_STEP   1
+#define SPIN_STEP   25
 
 
 

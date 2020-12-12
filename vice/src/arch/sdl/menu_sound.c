@@ -42,6 +42,7 @@
 UI_MENU_DEFINE_TOGGLE(Sound)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundFragmentSize)
+UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundDeviceName)
 UI_MENU_DEFINE_RADIO(SoundOutput)
 
@@ -367,6 +368,20 @@ const ui_menu_entry_t sound_output_menu[] = {
       MENU_ENTRY_DIALOG,
       custom_frequency_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Synchronization method"),
+    { "Flexible",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundSpeedAdjustment_callback,
+      (ui_callback_data_t)SOUND_ADJUST_FLEXIBLE },
+    { "Adjusting",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundSpeedAdjustment_callback,
+      (ui_callback_data_t)SOUND_ADJUST_ADJUSTING },
+    { "Exact",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundSpeedAdjustment_callback,
+      (ui_callback_data_t)SOUND_ADJUST_EXACT },
 
     SDL_MENU_LIST_END
 };

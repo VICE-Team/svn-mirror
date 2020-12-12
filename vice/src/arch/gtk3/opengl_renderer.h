@@ -150,9 +150,6 @@ typedef struct vice_opengl_renderer_context_s {
 
     /** \brief when the last frame was rendered */
     unsigned long last_render_time;
-    
-    /** \brief cached value of the vsync resource to avoid setting it each frame */
-    unsigned long cached_vsync_resource;
 
 } vice_opengl_renderer_context_t;
 

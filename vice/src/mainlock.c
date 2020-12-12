@@ -41,11 +41,9 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "archdep.h"
 #include "log.h"
 #include "machine.h"
 #include "mainlock.h"
-#include "tick.h"
 #include "vsyncapi.h"
 
 static volatile bool vice_thread_keepalive = true;
@@ -74,8 +72,8 @@ void mainlock_init(void)
     vice_thread = pthread_self();
     vice_thread_is_running = true;
 
-    tick_per_ms = tick_per_second() / 1000;
-    start_time = tick_now();
+    tick_per_ms = vsyncarch_frequency() / 1000;
+    start_time = vsyncarch_gettime();
 
     pthread_mutex_unlock(&lock);
 }
@@ -93,12 +91,10 @@ static void consider_exit(void)
         pthread_cond_signal(&yield_condition);
         pthread_mutex_unlock(&lock);
         
-        log_message(LOG_DEFAULT, "VICE thread is exiting");
-
-        archdep_thread_shutdown();
-
         /* Execution ends here - this function does not return. */
+        log_message(LOG_DEFAULT, "VICE thread is exiting");
         pthread_exit(NULL);
+        assert(0);
     }
 }
 
@@ -131,7 +127,7 @@ void mainlock_initiate_shutdown(void)
 void mainlock_yield_once(void)
 {
 #ifdef VICE_MAINLOCK_DEBUG
-    unsigned long yield_tick = tick_now();
+    unsigned long yield_tick = vsyncarch_gettime();
     unsigned long yield_tick_delta_ms;
 #endif
 
@@ -159,7 +155,7 @@ void mainlock_yield_once(void)
     pthread_mutex_unlock(&lock);
 
 #ifdef VICE_MAINLOCK_DEBUG
-    yield_tick_delta_ms = tick_delta(yield_tick) / tick_per_ms;
+    yield_tick_delta_ms = (vsyncarch_gettime() - yield_tick) / tick_per_ms;
     if (yield_tick_delta_ms > 0) {
         printf("Yielded for %lu ms\n", yield_tick_delta_ms);
     }

@@ -40,6 +40,19 @@
 #include "ui.h"
 #include "video.h"
 
+#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+#include <X11/Xlib.h>
+#endif
+
+#if defined(WIN32_COMPILE)
+#include <objbase.h>
+#endif
+
+/* For the ugly hack below */
+#ifdef WIN32_COMPILE
+# include "windows.h"
+#endif
+
 /** \brief  Program driver
  *
  * \param[in]   argc    argument count
@@ -69,11 +82,18 @@ int main(int argc, char **argv)
     _putenv("LANG=C");
 #endif
 
-    /*
-     * Each thread in VICE, including main, needs to call this before anything
-     * else. Basically this is for init COM on Windows.
-     */
-    archdep_thread_init();
+#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
+    /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
+    putenv("GDK_BACKEND=x11");
+
+    /* We're calling xlib from our own thread so need this to avoid problems */
+    XInitThreads();
+#endif
+
+#if defined(WIN32_COMPILE)
+    /* Something on the main thread does something with COM that causes complaint in a debugger. */
+    CoInitializeEx(NULL, COINIT_MULTITHREADED);
+#endif
 
     /*
      * The exit code needs to know what thread is the main thread, so that if
@@ -88,11 +108,6 @@ int main(int argc, char **argv)
     }
 
     gtk_main();
-
-    /*
-     * Because gtk_main will  never return, we call archdep_thread_shutdown()
-     * for the main thread in the exit subsystem rather than here.
-     */
     
     return 0;
 }
@@ -116,4 +131,8 @@ void main_exit(void)
     vice_thread_shutdown();
     
     machine_shutdown();
+
+#if defined(WIN32_COMPILE)
+    CoUninitialize();
+#endif
 }

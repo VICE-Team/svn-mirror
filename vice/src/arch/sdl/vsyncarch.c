@@ -98,6 +98,7 @@ void vsyncarch_presync(void)
     }
 
     sdl_lightpen_update();
+    kbdbuf_flush();
 
 #ifdef USE_SDLUI2
     if (!console_mode) {

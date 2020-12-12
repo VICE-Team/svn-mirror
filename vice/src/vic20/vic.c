@@ -157,8 +157,6 @@ void vic_raster_draw_handler(void)
     /* emulate the line */
     raster_line_emulate(&vic.raster);
 
-    vsync_do_end_of_line();
-
     /* handle start of frame */
     if (vic.raster.current_line == 0) {
         raster_skip_frame(&vic.raster,

@@ -820,8 +820,6 @@ void machine_setup_context(void)
 /* C64-specific initialization.  */
 int machine_specific_init(void)
 {
-    int delay;
-
     scpu64_log = log_open("SCPU64");
 
     if (mem_load() < 0) {
@@ -855,13 +853,8 @@ int machine_specific_init(void)
 
     disk_image_init();
 
-    resources_get_int("AutostartDelay", &delay);
-    if (delay == 0) {
-        delay = 3; /* default */
-    }
-
     /* Initialize autostart.  */
-    autostart_init((CLOCK)(delay * SCPU64_PAL_RFSH_PER_SEC * SCPU64_PAL_CYCLES_PER_RFSH), 1);
+    autostart_init(3, 1);
 
     /* Pre-init C64-specific parts of the menus before vicii_init()
        creates a canvas window with a menubar at the top. */

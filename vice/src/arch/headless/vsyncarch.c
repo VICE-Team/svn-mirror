@@ -220,6 +220,7 @@ void vsyncarch_sleep(unsigned long delay)
 void vsyncarch_presync(void)
 {
     ui_update_lightpen();
+    kbdbuf_flush();
     joystick();
 }
 

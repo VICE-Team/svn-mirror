@@ -36,11 +36,11 @@
 #include <pthread.h>
 #include <stdbool.h>
 
+#include "render_thread.h"
+
 #ifdef __cplusplus  
 extern "C" { 
 #endif
-
-#include "render_thread.h"
 
 /** \brief Rendering context for the DirectX backend.
  *  \sa video_canvas_s::renderer_context */
@@ -121,7 +121,7 @@ void vice_directx_destroy_context_impl(vice_directx_renderer_context_t *context)
 void vice_directx_impl_async_render(void *pool_data, void *job_data);
 
 #ifdef __cplusplus 
-} /* extern "C" { */
+} 
 #endif 
 
 #endif /* #ifdef WIN32_COMPILE */

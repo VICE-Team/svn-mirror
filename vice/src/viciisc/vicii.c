@@ -453,8 +453,6 @@ void vicii_raster_draw_handler(void)
 
     raster_line_emulate(&vicii.raster);
 
-    vsync_do_end_of_line();
-
     if (vicii.raster.current_line == 0) {
         /* no vsync here for NTSC  */
         if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {

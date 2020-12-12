@@ -30,16 +30,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-#ifdef __cplusplus  
-extern "C" { 
-#endif
-
-typedef enum render_job {
-    render_thread_init = 1, /* Else looks like NULL when pushed to the queue */
-    render_thread_render,
-    render_thread_shutdown
-} render_job_t;
-
 typedef void (*render_thread_callback_t)(void *thread_context, void *job_context);
 
 typedef struct render_thread_s *render_thread_t;
@@ -49,10 +39,6 @@ void render_thread_initiate_shutdown(render_thread_t render_thread);
 void render_thread_join(render_thread_t render_thread);
 void render_thread_shutdown_and_join_all(void);
 
-void render_thread_push_job(render_thread_t render_thread, render_job_t job_context);
-
-#ifdef __cplusplus  
-} /* extern "C" { */
-#endif
+void render_thread_push_job(render_thread_t render_thread, void *job_context);
 
 #endif /* #ifndef VICE_RENDER_THREAD_H */

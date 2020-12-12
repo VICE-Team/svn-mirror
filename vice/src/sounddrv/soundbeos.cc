@@ -169,8 +169,7 @@ static sound_device_t beos_device =
     beos_suspend,
     beos_resume,
     1,
-    2,
-    false
+    2
 };
 
 int sound_init_beos_device(void)

@@ -345,8 +345,7 @@ static sound_device_t sdl_device =
     sdl_suspend,
     sdl_resume,
     1,
-    2,
-    true
+    2
 };
 
 int sound_init_sdl_device(void)

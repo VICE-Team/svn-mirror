@@ -71,7 +71,6 @@
 #include "log.h"
 #include "ui.h"
 #include "linenoise.h"
-#include "tick.h"
 #include "uimon.h"
 #include "uimonarch.h"
 #include "uimon-fallback.h"
@@ -472,7 +471,7 @@ int uimon_get_string(struct console_private_s *t, char* string, int string_len)
         int i;
 
         /* give the ui a chance to do stuff, and also don't max out the CPU waiting for input */
-        tick_sleep(tick_per_second() / 60);
+        vsyncarch_sleep(vsyncarch_frequency() / 60);
 
         if (!t->input_buffer) {
             return -1;

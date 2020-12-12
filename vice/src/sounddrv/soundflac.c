@@ -161,8 +161,7 @@ static sound_device_t flac_device =
     NULL,
     NULL,
     0,
-    2,
-    false
+    2
 };
 
 int sound_init_flac_device(void)

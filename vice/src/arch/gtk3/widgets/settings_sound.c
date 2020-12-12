@@ -46,6 +46,7 @@
 
 #include "sounddriverwidget.h"
 #include "soundoutputmodewidget.h"
+#include "soundsyncwidget.h"
 #include "soundsampleratewidget.h"
 #include "soundbuffersizewidget.h"
 #include "soundfragmentsizewidget.h"
@@ -79,7 +80,6 @@ static GtkWidget *create_inner_grid(void)
     GtkWidget *wrapper;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 16);
-    wrapper = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* row 0, columns 0 & 1 */
     gtk_grid_attach(GTK_GRID(grid),
@@ -90,26 +90,31 @@ static GtkWidget *create_inner_grid(void)
     gtk_grid_attach(GTK_GRID(grid),
             sound_output_mode_widget_create(),
             0, 1, 1, 1);
+    /* row 1, column 1 */
+    gtk_grid_attach(GTK_GRID(grid),
+            sound_sync_mode_widget_create(),
+            1, 1, 1, 1);
+    /* row 1, columm 2 */
+    gtk_grid_attach(GTK_GRID(grid),
+            sound_fragment_size_widget_create(),
+            2, 1, 1, 1);
 
     /* row 2, column 0 */
     gtk_grid_attach(GTK_GRID(grid),
             sound_sample_rate_widget_create(),
             0, 2, 1, 1);
-    /* row 2, columm 1 */
-    gtk_grid_attach(GTK_GRID(grid),
-            wrapper,
-            1, 2, 1, 1);
+
+    /* row 2, column 1 */
+    wrapper = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(wrapper),
             sound_buffer_size_widget_create(),
             0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper),
             sound_suspend_time_widget_create(),
             0, 1, 1, 1);
-    /* row 2, columm 2 */
     gtk_grid_attach(GTK_GRID(grid),
-            sound_fragment_size_widget_create(),
-            2, 2, 1, 1);
-    
+            wrapper,
+            1, 2, 1, 1);
 
     return grid;
 }

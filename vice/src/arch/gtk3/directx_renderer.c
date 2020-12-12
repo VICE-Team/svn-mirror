@@ -80,7 +80,7 @@ static LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, 
             CANVAS_LOCK();
             /* If there is no pending render job, schedule one */
             if (!render_queue_length(context->render_queue)) {
-                render_thread_push_job(context->render_thread, render_thread_render);
+                render_thread_push_job(context->render_thread, context);
             }
             CANVAS_UNLOCK();
         }
@@ -236,7 +236,7 @@ static void on_widget_resized(GtkWidget *widget, GdkRectangle *allocation, gpoin
     if (context->window) {
         MoveWindow(context->window, context->viewport_x, context->viewport_y, context->viewport_width, context->viewport_height, TRUE);
         if (!render_queue_length(context->render_queue)) {
-            render_thread_push_job(context->render_thread, render_thread_render);
+            render_thread_push_job(context->render_thread, context);
         }
     }
 
@@ -298,7 +298,7 @@ static void vice_directx_refresh_rect(video_canvas_t *canvas,
 
     CANVAS_LOCK();
     render_queue_enqueue_for_display(context->render_queue, backbuffer);
-    render_thread_push_job(context->render_thread, render_thread_render);
+    render_thread_push_job(context->render_thread, context);
     CANVAS_UNLOCK();
 }
 

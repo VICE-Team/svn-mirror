@@ -99,8 +99,7 @@ static sound_device_t ahi_device =
     _ahi_suspend,
     _ahi_resume,
     1,
-    2,
-    false
+    2
 };
 
 int sound_init_ahi_device(void)

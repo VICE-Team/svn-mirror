@@ -48,7 +48,6 @@
 #include "mos6510.h"
 #include "network.h"
 #include "resources.h"
-#include "tick.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -401,12 +400,12 @@ static void network_test_delay(void)
 
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
-            pkt.t = tick_now();
+            pkt.t = vsyncarch_gettime();
             if (network_send_buffer(network_socket, buf, sizeof(testpacket)) < 0
                 || network_recv_buffer(network_socket, buf, sizeof(testpacket)) < 0) {
                 return;
             }
-            packet_delay[i] = tick_delta(pkt.t);
+            packet_delay[i] = vsyncarch_gettime() - pkt.t;
         }
         /* Sort the packets delays*/
         for (i = 0; i < NUM_OF_TESTPACKETS - 1; i++) {
@@ -422,13 +421,13 @@ static void network_test_delay(void)
 #endif
         }
 #ifdef NETWORK_DEBUG
-        log_debug("tick_per_second = %ld", tick_per_second());
+        log_debug("vsyncarch_frequency = %ld", vsyncarch_frequency());
 #endif
         /* calculate delay with 90% of packets beeing fast enough */
         /* FIXME: This needs some further investigation */
         new_frame_delta = 5 + (uint8_t)(vsync_get_refresh_frequency()
                                      * packet_delay[(int)(0.1 * NUM_OF_TESTPACKETS)]
-                                     / (float)tick_per_second());
+                                     / (float)vsyncarch_frequency());
         network_send_buffer(network_socket, &new_frame_delta,
                             sizeof(new_frame_delta));
     } else {
@@ -794,7 +793,7 @@ static void network_hook_connected_send(void)
     send_len = network_create_event_buffer(&local_event_buf, &(frame_event_list[current_frame]));
 
 #ifdef NETWORK_DEBUG
-    t1 = tick_now();
+    t1 = vsyncarch_gettime();
 #endif
 
     util_int_to_le_buf4(send_len4, (int)send_len);
@@ -804,7 +803,7 @@ static void network_hook_connected_send(void)
         network_disconnect();
     }
 #ifdef NETWORK_DEBUG
-    t2 = tick_after(t1);
+    t2 = vsyncarch_gettime();
 #endif
 
     lib_free(local_event_buf);
@@ -854,7 +853,7 @@ static void network_hook_connected_receive(void)
         }
 
 #ifdef NETWORK_DEBUG
-        t3 = tick_after(t2);
+        t3 = vsyncarch_gettime();
 #endif
 
         remote_event_list = network_create_event_list(remote_event_buf);
@@ -893,7 +892,7 @@ static void network_hook_connected_receive(void)
     }
     network_prepare_next_frame();
 #ifdef NETWORK_DEBUG
-    t4 = tick_after(t3);
+    t4 = vsyncarch_gettime();
 #endif
 }
 
