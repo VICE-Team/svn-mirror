@@ -100,6 +100,10 @@ libarchdep_a_SOURCES = \
 	rs232dev.c \
 	signals.c
 
+if UNIX_MACOSX_COMPILE
+libarchdep_a_SOURCES += macOS-util.m
+endif
+
 EXTRA_DIST = \
 	archdep_defs.h \
 	archdep_boot_path.h \
@@ -177,6 +181,7 @@ EXTRA_DIST = \
 	macOS-redirect-launcher.sh \
 	macOS-wrap-ar.sh \
 	macOS-wrap-ranlib.sh \
+	macOS-util.h \
 	make-bindist_osx.sh
 
 # FIXME: the Extra MacOS script stuff should live elsewhere

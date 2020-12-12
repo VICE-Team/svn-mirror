@@ -120,7 +120,7 @@ libarch_a_SOURCES += directx_renderer.c directx_renderer_impl.cc
 else
 libarch_a_SOURCES += opengl_renderer.c
 if UNIX_MACOSX_COMPILE
-libarch_a_SOURCES += opengl_renderer_macos.m macOS-util.m
+libarch_a_SOURCES += opengl_renderer_macos.m
 else
 libarch_a_SOURCES += opengl_renderer_unix.c
 endif
