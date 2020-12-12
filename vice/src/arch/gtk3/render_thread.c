@@ -26,7 +26,7 @@
  */
 
 #include "vice.h"
-#include "render_queue.h"
+#include "render_thread.h"
 
 #include <glib.h>
 #include <pthread.h>
@@ -36,7 +36,6 @@
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
-#include "render_thread.h"
 
 struct render_thread_s {
     int index;
@@ -73,6 +72,9 @@ render_thread_t render_thread_create(render_thread_callback_t callback, void *th
     
     thread->executor = g_thread_pool_new(callback, thread_context, 1, TRUE, NULL);
 
+    /* Schedule the init job */
+    g_thread_pool_push(thread->executor, (void *)render_thread_init, NULL);
+
     UNLOCK();
 
     log_message(LOG_DEFAULT, "Created render thread %d", thread->index);
@@ -92,6 +94,9 @@ void render_thread_initiate_shutdown(render_thread_t thread)
     log_message(LOG_DEFAULT, "Initiating render thread %d shutdown", thread->index);
     thread->is_shutdown_initiated = true;
 
+    /* Schedule the shutdown job */
+    g_thread_pool_push(thread->executor, (void *)render_thread_shutdown, NULL);
+
     UNLOCK();
 }
 
@@ -99,6 +104,7 @@ void render_thread_join(render_thread_t thread)
 {
     log_message(LOG_DEFAULT, "Joining render thread %d ...", thread->index);
 
+    /* TODO: We should block until all jobs are done - but there's a race condition deadlock outcome here. Fix needed */
     g_thread_pool_free(thread->executor, TRUE, TRUE);
 
     LOCK();
@@ -119,7 +125,7 @@ void render_thread_shutdown_and_join_all(void)
     }
 }
 
-void render_thread_push_job(render_thread_t thread, void *job_context)
+void render_thread_push_job(render_thread_t thread, render_job_t job)
 {
     LOCK();
 
@@ -130,7 +136,7 @@ void render_thread_push_job(render_thread_t thread, void *job_context)
         return;
     }
 
-    g_thread_pool_push(thread->executor, job_context, NULL);
+    g_thread_pool_push(thread->executor, (void *)job, NULL);
 
     UNLOCK();
 }

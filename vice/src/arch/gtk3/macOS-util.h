@@ -1,10 +1,14 @@
-/*
- * vsyncapi.h - general vsync archdependant functions
+/**
+ * \file macOS-util.h
+ * \brief A collection of little macOS helpers.
  *
- * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ * Calling Objective-C code from C is possible, but not very readable.
+ * Nicer to just plop a few readable functions in here.
  *
- * This file is part of VICE, the Versatile Commodore Emulator.
+ * \author David Hogan <david.q.hogan@gmail.com>
+ */
+
+/* This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,28 +27,14 @@
  *  02111-1307  USA.
  *
  */
+#ifndef VICE_MACOS_UTIL_H
+#define VICE_MACOS_UTIL_H
 
-#ifndef VSYNCAPI_H
-#define VSYNCAPI_H
+void vice_macos_set_main_thread(void);
+void vice_macos_set_vice_thread_priority(void);
+void vice_macos_set_render_thread_priority(void);
 
-#include "vice.h"
+// void vice_macos_render_log_create(void);
+// void vice_macos_render_log_frame_event(void);
 
-struct video_canvas_s;
-
-typedef void (*void_hook_t)(void);
-
-/* current performance metrics */
-extern void vsyncarch_get_metrics(double *cpu_percent, double *emulated_fps, int *warp_enabled);
-
-/* this is called before vsync_do_vsync does the synchroniation */
-extern void vsyncarch_presync(void);
-
-/* this is called after vsync_do_vsync did the synchroniation */
-extern void vsyncarch_postsync(void);
-
-/* called to advance the emulation by one frame */
-extern void vsyncarch_advance_frame(void);
-
-extern int vsyncarch_vbl_sync_enabled(void);
-
-#endif
+#endif /* #ifndef VICE_MACOS_UTIL_H */

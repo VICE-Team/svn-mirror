@@ -95,9 +95,6 @@
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
 
-/* Default sound fragment size */
-#define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_SMALL
-
 /*
     FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
            or crashes when the connection is closed, you might have to install

@@ -59,6 +59,7 @@
 #include "mousedrv.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "tick.h"
 #include "vsyncapi.h"
 #include "clkguard.h"
 #include "ds1202_1302.h"
@@ -376,7 +377,7 @@ void mouse_move(float dx, float dy)
     /* Capture the relative mouse movement to be processed later in mouse_poll() */
     mouse_move_x += dx;
     mouse_move_y -= dy;
-    mouse_timestamp = vsyncarch_gettime();
+    mouse_timestamp = tick_now();
 }
 
 void mouse_get_int16(int16_t *x, int16_t *y)
@@ -470,8 +471,8 @@ uint8_t mouse_poll(void)
          * updates in emulated cycles */
         os_iv = os_now - latest_os_ts;
         /* FIXME: call function only once */
-        if (os_iv > vsyncarch_frequency()) {
-            os_iv = vsyncarch_frequency(); /* more than a second response time?! */
+        if (os_iv > tick_per_second()) {
+            os_iv = tick_per_second(); /* more than a second response time?! */
         }
         emu_iv = (CLOCK)((float)os_iv * emu_units_per_os_units);
         /* FIXME: call function only once, remove cast */
@@ -528,10 +529,10 @@ uint8_t mouse_poll(void)
 #endif
 
         /* The mouse read is probably old. Do the movement since then */
-        os_iv2 = vsyncarch_gettime() - os_now;
+        os_iv2 = tick_delta(os_now);
         /* FIXME: call function only once */
-        if (os_iv2 > vsyncarch_frequency()) {
-            os_iv2 = vsyncarch_frequency(); /* more than a second response time?! */
+        if (os_iv2 > tick_per_second()) {
+            os_iv2 = tick_per_second(); /* more than a second response time?! */
         }
         emu_iv2 = (CLOCK)((float)os_iv2 * emu_units_per_os_units);
         /* FIXME: call function only once, remove cast */
@@ -1126,7 +1127,7 @@ int mouse_cmdline_options_init(void)
 
 void mouse_init(void)
 {
-    emu_units_per_os_units = (float)(machine_get_cycles_per_second() / vsyncarch_frequency());
+    emu_units_per_os_units = (float)(machine_get_cycles_per_second() / tick_per_second());
     update_limit = (int)(machine_get_cycles_per_frame() / 31 / 2);
 #ifdef DEBUG_MOUSE
     mouse_log = log_open("Mouse");

@@ -66,6 +66,7 @@
 #include "monitor.h"
 #include "lightpen.h"
 #include "resources.h"
+#include "tick.h"
 #include "util.h"
 #include "videoarch.h"
 #include "vsync.h"
@@ -1852,7 +1853,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     /* block until the result is set */
     while (jam_dialog_result == UI_JAM_INVALID) {
-        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        tick_sleep(tick_per_second() / 60);
     }
 
     lib_free(buffer);
@@ -2001,7 +2002,7 @@ static void pause_trap(uint16_t addr, void *data)
 
     while (is_paused)
     {
-        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        tick_sleep(tick_per_second() / 60);
 
         /* Enter monitor directly if needed. */
         if (enter_monitor_while_paused) {

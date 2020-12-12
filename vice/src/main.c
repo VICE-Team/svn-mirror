@@ -59,11 +59,16 @@
 #include "mainlock.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "tick.h"
 #include "types.h"
 #include "uiapi.h"
 #include "version.h"
 #include "video.h"
 #include "vsyncapi.h"
+
+#ifdef MACOSX_SUPPORT
+#include "macOS-util.h"
+#endif
 
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
@@ -156,7 +161,7 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
-    vsyncarch_init();
+    tick_init();
     maincpu_early_init();
     machine_setup_context();
     drive_setup_context();
@@ -343,9 +348,24 @@ void vice_thread_shutdown(void)
 
 void *vice_thread_main(void *unused)
 {
+    archdep_thread_init();
+
+#if defined(MACOSX_SUPPORT)
+    vice_macos_set_vice_thread_priority();
+#elif defined(__linux__)
+    /* TODO: Linux thread prio stuff, need root or some 'capability' though */
+#else
+    /* TODO: BSD thread prio stuff */
+#endif
+
     mainlock_init();
 
     main_loop_forever();
+
+    /*
+     * main_loop_forever() does not return, so we call archdep_thread_shutdown()
+     * in the mainlock system which manages a direct pthread based thread exit.
+     */
 
     return NULL;
 }

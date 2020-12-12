@@ -325,8 +325,6 @@ static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
 #ifdef HAVE_DSOUND_LIB
         result = DirectSoundCreate(NULL, &ds, NULL);
 #else
-        CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-
         result = CoCreateInstance(&CLSID_DirectSound, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectSound, (PVOID*)&ds);
         if (result == S_OK) {
             result = IDirectSound_Initialize(ds, NULL);
@@ -607,7 +605,8 @@ static sound_device_t dx_device =
     dx_suspend,
     dx_resume,
     0,
-    2           /* FIXME: should account for mono and stereo devices */
+    2,           /* FIXME: should account for mono and stereo devices */
+    true
 };
 
 int sound_init_dx_device(void)
