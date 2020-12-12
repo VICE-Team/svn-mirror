@@ -1555,7 +1555,7 @@ GtkWidget *ui_statusbar_create(void)
     GtkWidget *sb, *speed, *tape, *tape_events, *joysticks;
     GtkWidget *crt = NULL;
     GtkWidget *mixer = NULL;
-    GtkWidget *volume;
+    GtkWidget *volume = NULL;
     GtkWidget *message;
     GtkWidget *recording;
     GtkWidget *kbd_debug_widget;
@@ -1701,31 +1701,39 @@ GtkWidget *ui_statusbar_create(void)
     /*
      * Add volume control widget
      *
+     * FIXME: The widget doesn't show on MacOS/Windows due to the rendering
+     *        canvas somehow having z-index priority over the widget. This
+     *        works fine on Linux.
+     *        So, since we're close to the 3.5 release, this widget gets
+     *        disabled, once again/
      */
-    volume = gtk_volume_button_new();
-    g_object_ref_sink(volume);
-    gtk_widget_set_can_focus(volume, FALSE);
+    if (machine_class == VICE_MACHINE_VSID) {
+        volume = gtk_volume_button_new();
+        g_object_ref_sink(volume);
+        gtk_widget_set_can_focus(volume, FALSE);
 
-    resources_get_int("SoundVolume", &sound_vol);
-    gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
-            (gdouble)sound_vol / 100.0);
-    /* FIXME: there's too much padding to the right of the widget in VSID */
-    g_object_set(
-            volume,
-            "use-symbolic", TRUE,
-            NULL);
+        resources_get_int("SoundVolume", &sound_vol);
+        gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
+                (gdouble)sound_vol / 100.0);
+        /* FIXME: there's too much padding to the right of the widget in VSID */
+        g_object_set(
+                volume,
+                "use-symbolic", TRUE,
+                NULL);
 
-    g_signal_connect(volume, "value-changed",
-            G_CALLBACK(on_volume_value_changed), NULL);
-
+        g_signal_connect(volume, "value-changed",
+                G_CALLBACK(on_volume_value_changed), NULL);
+    }
     if (machine_class == VICE_MACHINE_VSID) {
         gtk_grid_attach(GTK_GRID(sb), volume, 4, 0, 1, 2);
     } else {
+#if 0
         /* FIXME: use a larger column-index than should be required, since
          *        the drive widgets will otherwise clash with the volume
          *        widget when using more than 2 drives.
          */
         gtk_grid_attach(GTK_GRID(sb), volume, SB_COL_VOLUME + 2, 0, 1, 2);
+#endif
     }
     allocated_bars[i].volume = volume;
 
