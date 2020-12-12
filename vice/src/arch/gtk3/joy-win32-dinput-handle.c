@@ -37,11 +37,6 @@
 /* else all GUIDs will be defined in the external library dxguid.lib */
 #endif
 
-/* for CoInitializeEx */
-#ifndef HAVE_DINPUT_LIB
-#define _WIN32_DCOM
-#endif
-
 #include "joy-win32-dinput-handle.h"
 
 #ifdef HAVE_DINPUT
@@ -68,8 +63,6 @@ LPDIRECTINPUT get_directinput_handle(void)
             di = NULL;
         }
 #else
-        CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-
         res = CoCreateInstance(&CLSID_DirectInput, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectInput2A, (PVOID*)&di);
         if (res != S_OK) {
             return NULL;

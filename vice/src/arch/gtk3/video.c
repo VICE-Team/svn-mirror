@@ -59,7 +59,7 @@ static int keepaspect = 0;
 static int trueaspect = 0;
 
 /** \brief  Prevent screen tearing */
-static int vsync = 0;
+static int vsync = 1;
 
 /** \brief  Display depth in bits (8, 15, 16, 24, 32) */
 static int display_depth = 24;

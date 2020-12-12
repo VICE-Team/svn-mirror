@@ -378,6 +378,7 @@ void petrom_checksum(void)
 {
     static uint16_t last_kernal = 0;
     static uint16_t last_editor = 0;
+    int delay;
 
     /* log_message(petrom_log, "editor checksum=%d, kernal checksum=%d",
                    (int) petres.editor_checksum,
@@ -387,6 +388,11 @@ void petrom_checksum(void)
        check when printing, because we need the tape traps etc */
 
     petres.rom_video = 0;
+
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 3; /* default */
+    }
 
     /* The length of the keyboard buffer might actually differ from 10 - in
        the 4032 and 8032 50Hz editor ROMs it is checked against different
@@ -401,7 +407,7 @@ void petrom_checksum(void)
                 log_message(petrom_log, "Identified 80 columns editor by checksum.");
             }
             petres.rom_video = 80;
-            autostart_init(3, 0);
+            autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH), 0);
         } else
         if (petres.editor_checksum == PET_EDIT4G40_CHECKSUM
             || petres.editor_checksum == PET_EDIT4B40_CHECKSUM1
@@ -410,7 +416,7 @@ void petrom_checksum(void)
                 log_message(petrom_log, "Identified 40 columns editor by checksum.");
             }
             petres.rom_video = 40;
-            autostart_init(3, 0);
+            autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH), 0);
         }
         petrom_keybuf_init();
         tape_init(&tapeinit4);
@@ -419,7 +425,7 @@ void petrom_checksum(void)
             log_message(petrom_log, "Identified Kernal 2 ROM by checksum.");
         }
         petres.rom_video = 40;
-        autostart_init(3, 0);
+        autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH), 0);
         petrom_keybuf_init();
         tape_init(&tapeinit2);
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
@@ -427,7 +433,7 @@ void petrom_checksum(void)
             log_message(petrom_log, "Identified Kernal 1 ROM by checksum.");
         }
         petres.rom_video = 40;
-        autostart_init(3, 0);
+        autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH), 0);
         petrom_keybuf_init();
         tape_init(&tapeinit1);
     } else {

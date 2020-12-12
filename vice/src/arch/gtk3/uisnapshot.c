@@ -44,6 +44,7 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "selectdirectorydialog.h"
+#include "tick.h"
 #include "basedialogs.h"
 #include "interrupt.h"
 #include "vsync.h"
@@ -257,7 +258,7 @@ static void load_snapshot_trap(uint16_t addr, void *data)
 
     /* block until the operation is done */
     while (!ui_done) {
-        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        tick_sleep(tick_per_second() / 60);
     }
 }
 
@@ -300,7 +301,7 @@ static void save_snapshot_trap(uint16_t addr, void *data)
 
     /* block until the operation is done */
     while (!ui_done) {
-        vsyncarch_sleep(vsyncarch_frequency() / 60);
+        tick_sleep(tick_per_second() / 60);
     }
 }
 

@@ -30,22 +30,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* FIXME: Probably shouldn't be doing GTK3 specific stuff in shared archdep code .. maybe? --dqh */
-
 #ifdef USE_NATIVE_GTK3
+
+#ifdef UNIX_COMPILE
+#ifndef MACOSX_SUPPORT
+#include <X11/Xlib.h>
+#endif
+#endif
+
+#ifdef WIN32_COMPILE
+#include <windows.h>
+#include <mmsystem.h>
+#include <objbase.h>
+#endif
+
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <pthread.h>
-#endif
 
-#include "archdep.h"
-#include "main.h"
-
-#ifdef USE_NATIVE_GTK3
 #include "mainlock.h"
 
 static int vice_exit_code;
 static pthread_t main_thread;
+
+#endif /* #ifdef USE_NATIVE_GTK3 */
+
+#include "archdep.h"
+#include "main.h"
+
+#ifdef MACOSX_SUPPORT
+#include "macOS-util.h"
 #endif
 
 static void actually_exit(int exit_code)
@@ -53,19 +67,19 @@ static void actually_exit(int exit_code)
     /* Some exit stuff not safe to run afer exit() is called so we do it here */
     main_exit();
 
+#if defined(WIN32_COMPILE)
+    /* Relax scheduler accuracy */
+    timeEndPeriod(1);
+#endif
+
+#ifdef USE_VICE_THREAD
+    archdep_thread_shutdown();
+#endif
+
     exit(exit_code);
 }
 
-#ifndef USE_NATIVE_GTK3
-
-/** \brief  Wrapper around exit()
- */
-void archdep_vice_exit(int exit_code)
-{
-    actually_exit(exit_code);
-}
-
-#else /* #ifndef USE_NATIVE_GTK3 */
+#ifdef USE_NATIVE_GTK3
 
 /*
  * GTK3 needs a more controlled shutdown due to the multiple threads involved.
@@ -81,9 +95,48 @@ static gboolean exit_on_main_thread(gpointer not_used)
     return FALSE;
 }
 
-void archdep_set_main_thread()
+void archdep_thread_init(void)
+{
+#if defined(WIN32_COMPILE)
+    CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+#endif
+}
+
+void archdep_thread_shutdown(void)
+{
+#if defined(WIN32_COMPILE)
+    CoUninitialize();
+#endif
+}
+
+void archdep_set_main_thread(void)
 {
     main_thread = pthread_self();
+
+#if defined(MACOSX_SUPPORT)
+    
+    /* macOS specific main thread init written in objective-c */
+    vice_macos_set_main_thread();
+    
+#elif defined(UNIX_COMPILE)
+    
+    /* Our GLX OpenGL init stuff will crash if we let GDK use wayland directly */
+    putenv("GDK_BACKEND=x11");
+
+    /* We're calling xlib from our own thread so need this to avoid problems */
+    XInitThreads();
+
+    /* TODO - set UI/main thread priority for X11 */
+
+#elif defined(WIN32_COMPILE)
+    
+    /* Increase Windows scheduler accuracy */
+    timeBeginPeriod(1);
+
+    /* Of course VICE is more important than other puny Windows applications */
+    SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+    
+#endif
 }
 
 /** \brief  Wrapper around exit()
@@ -109,4 +162,13 @@ void archdep_vice_exit(int exit_code)
     }
 }
 
-#endif /* #ifndef USE_NATIVE_GTK3 */
+#else /* #ifdef USE_NATIVE_GTK3 */
+
+/** \brief  Wrapper around exit()
+ */
+void archdep_vice_exit(int exit_code)
+{
+    actually_exit(exit_code);
+}
+
+#endif /* #ifdef USE_NATIVE_GTK3 else */

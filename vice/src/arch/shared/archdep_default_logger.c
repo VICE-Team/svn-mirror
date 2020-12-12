@@ -59,9 +59,26 @@
  */
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-    char *out = lib_msprintf("*** %s %s\n", level_string, txt);
-    OutputDebugString(out);
-    lib_free(out);
+    const char *out;
+    
+    if (strlen(level_string)) {
+        out = lib_msprintf("%s %s", level_string, txt);
+    } else {
+        out = txt;
+    }
+    
+    /* If a console is attached, spit out the log entry */
+    if (!GetConsoleTitle(NULL, 0) && GetLastError() == ERROR_SUCCESS) {
+        puts(out);
+        fflush(stdout);
+    } else {
+        OutputDebugString(out);
+    }
+
+    if (out != txt) {
+        lib_free((void *)out);
+    }
+
     return 0;
 }
 

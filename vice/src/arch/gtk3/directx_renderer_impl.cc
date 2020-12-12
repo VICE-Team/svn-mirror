@@ -39,11 +39,12 @@
 
 extern "C"
 {
-
+#include "archdep.h"
 #include "log.h"
 #include "render_queue.h"
 #include "resources.h"
 #include "videoarch.h"
+}
 
 #define CANVAS_LOCK() pthread_mutex_lock(&context->canvas_lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&context->canvas_lock)
@@ -80,7 +81,6 @@ static void build_render_target(vice_directx_renderer_context_t *context)
         D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties();
         render_target_properties.pixelFormat = D2D1::PixelFormat(DXGI_FORMAT_R8G8B8A8_UNORM, D2D1_ALPHA_MODE_IGNORE);
 
-        //
         result =
             context->factory->CreateHwndRenderTarget(
                 render_target_properties,
@@ -214,13 +214,30 @@ static void recalculate_layout(video_canvas_t *canvas, vice_directx_renderer_con
 
 void vice_directx_impl_async_render(void *job_data, void *pool_data)
 {
+    render_job_t job = (render_job_t)(int)(long long int)job_data;
     video_canvas_t *canvas = (video_canvas_t *)pool_data;
-    vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)job_data;
+    vice_directx_renderer_context_t *context = (vice_directx_renderer_context_t *)canvas->renderer_context;
     HRESULT result = S_OK;
     HDC device_context;
     PAINTSTRUCT ps;
     backbuffer_t *backbuffer;
     int filter;
+
+    if (job == render_thread_init) {
+        archdep_thread_init();
+
+        /* Make sure the render thread wakes up and does its thing asap. */
+        SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+
+        log_message(LOG_DEFAULT, "Render thread initialised");
+        return;
+    }
+    
+    if (job == render_thread_shutdown) {
+        archdep_thread_shutdown();
+        log_message(LOG_DEFAULT, "Render thread shutdown");
+        return;
+    }
 
     resources_get_int("GTKFilter", &filter);
 
@@ -327,7 +344,5 @@ void vice_directx_impl_log_windows_error(const char *prefix)
 
     LocalFree(error_message);
 }
-
-} /* extern "C" { */
 
 #endif /* #ifdef WIN32_COMPILE */

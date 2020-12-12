@@ -93,7 +93,7 @@ int cbm2rom_load_chargen(const char *rom_name)
 
 int cbm2rom_checksum(void)
 {
-    int i;
+    int i, delay;
     uint16_t sum;
 
     /* Checksum over top 8 kByte kernal.  */
@@ -103,8 +103,11 @@ int cbm2rom_checksum(void)
 
     log_message(cbm2rom_log, "Kernal checksum is %d ($%04X).", sum, sum);
 
-    /* Initialize Autostart */
-    autostart_init(10, 0);
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 10; /* default */
+    }
+    autostart_init((CLOCK)(delay * C500_PAL_RFSH_PER_SEC * C500_PAL_CYCLES_PER_RFSH), 0);
     return 0;
 }
 

@@ -720,6 +720,8 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     if (crtc.framelines == crtc.screen_yoffset) {
 */
+    vsync_do_end_of_line();
+    
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
         crtc.raster.current_line = 0;
         raster_canvas_handle_end_of_frame(&crtc.raster);

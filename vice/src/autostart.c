@@ -132,6 +132,7 @@ static int orig_FSDevice8ConvertP00 = -1;
 static char *autostart_program_name = NULL;
 
 /* Minimum number of cycles before we feed BASIC with commands.  */
+static CLOCK min_cycles;
 static CLOCK autostart_initial_delay_cycles;
 
 /* Flag: Do we want to switch true drive emulation on/off during autostart?
@@ -177,7 +178,6 @@ static int AutostartHandleTrueDriveEmulation = 0;
 static int AutostartWarp = 0;
 
 static int AutostartDelay = 0;
-static int AutostartDelayDefaultSeconds = 0;
 static int AutostartDelayRandom = 0;
 
 static int AutostartPrgMode = AUTOSTART_PRG_MODE_VFS;
@@ -711,36 +711,28 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 /* ------------------------------------------------------------------------- */
 
 /* Reset autostart.  */
-/* FIXME: cbm2 and pet pass 0,0 into this function before loading
-            kernal ... why is this? */
-static void autostart_reinit(int default_seconds, int handle_tde)
+void autostart_reinit(CLOCK min_cycles_, int handle_tde)
 {
-    DBG(("autostart_reinit default_seconds: %u\n", default_seconds));
+    min_cycles = min_cycles_;
+    DBG(("autostart_reinit min_cycles: %u\n", min_cycles));
 
     handle_drive_true_emulation_by_machine = handle_tde;
 
     set_handle_true_drive_emulation_state();
 
-    /* FIXME: pet and cbm2 need this for some reason, see comment above */
-    if (default_seconds) {
+    if (min_cycles_) {
         autostart_enabled = 1;
-        AutostartDelayDefaultSeconds = default_seconds; /* remember for later */
     } else {
         autostart_enabled = 0;
     }
 }
 
 /* Initialize autostart.  */
-/* FIXME: cbm2 and pet pass 0,0 into this function before loading
-            kernal ... why is this? */
-int autostart_init(int default_seconds, int handle_drive_true_emulation)
+int autostart_init(CLOCK min_cycles_, int handle_drive_true_emulation)
 {
     autostart_prg_init();
 
-    if (default_seconds) {
-        AutostartDelayDefaultSeconds = default_seconds; /* remember for later */
-    }
-    autostart_reinit(default_seconds, handle_drive_true_emulation);
+    autostart_reinit(min_cycles_, handle_drive_true_emulation);
 
     if (autostart_log == LOG_ERR) {
         autostart_log = log_open("AUTOSTART");
@@ -1266,11 +1258,8 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_run_mode = runmode;
     autostart_wait_for_reset = 1;
 
-    autostart_initial_delay_cycles =
-        (CLOCK)(((AutostartDelay == 0) ? AutostartDelayDefaultSeconds : AutostartDelay)
-                        * machine_get_cycles_per_second());
-    DBG(("reboot_for_autostart AutostartDelay: %d AutostartDelayDefaultSeconds: %d autostart_initial_delay_cycles: %u\n",
-           AutostartDelay, AutostartDelayDefaultSeconds, autostart_initial_delay_cycles));
+    autostart_initial_delay_cycles = min_cycles;
+    DBG(("reboot_for_autostart min_cycles: %u\n", min_cycles));
 
     resources_get_int("AutostartDelayRandom", &rnd);
     if (rnd) {

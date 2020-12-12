@@ -1,10 +1,7 @@
-/** \file   vsyncarch.c
- * \brief   End-of-frame handling for native GTK3 UI
+/** \file   tick.c
+ * \brief   Relating to the management of time.
  *
- * \note    This is altered and trimmed down to fit into the GTK3-native
- *          world, but it's still heavily reliant on UNIX internals.
- *
- * \author  Dag Lem <resid@nimrod.no>
+ * \author  David Hogan <david.q.hogan@gmail.com>
  */
 
 /*
@@ -30,16 +27,11 @@
 
 #include "vice.h"
 
-#include "kbdbuf.h"
 #include "mainlock.h"
-#include "ui.h"
-#include "vsyncapi.h"
-#include "videoarch.h"
-
-#include "joy.h"
+#include "tick.h"
 
 #ifdef WIN32_COMPILE
-#   include "windows.h"
+#   include <windows.h>
 #elif defined(HAVE_NANOSLEEP)
 #   include <time.h>
 #else
@@ -56,8 +48,6 @@
 #ifndef MIN
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #endif
-
-static int pause_pending = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -79,7 +69,7 @@ static LARGE_INTEGER timer_frequency;
 static HANDLE wait_timer;
 #endif
 
-void vsyncarch_init(void)
+void tick_init(void)
 {
 #ifdef WIN32_COMPILE
     QueryPerformanceFrequency(&timer_frequency);
@@ -88,7 +78,7 @@ void vsyncarch_init(void)
 #endif
 }
 
-unsigned long vsyncarch_frequency(void)
+unsigned long tick_per_second(void)
 {
 #ifdef WIN32_COMPILE
     return timer_frequency.QuadPart;
@@ -98,7 +88,7 @@ unsigned long vsyncarch_frequency(void)
 }
 
 /* Get time in timer units. */
-unsigned long vsyncarch_gettime(void)
+unsigned long tick_now(void)
 {
 #ifdef WIN32_COMPILE
     LARGE_INTEGER time_now;
@@ -138,39 +128,32 @@ unsigned long vsyncarch_gettime(void)
 }
 
 /* Sleep a number of timer units. */
-void vsyncarch_sleep(unsigned long delay)
+void tick_sleep(unsigned long ticks)
 {
-    static double smoothed_running_oversleep = 0.0;
+    /* do this asap. */
+    unsigned long before_yield_tick = tick_now();
+    
+    unsigned long target_tick = before_yield_tick + ticks;
+    unsigned long after_yield_tick;
+    unsigned long adjusted_tick;
 
-    unsigned long before = vsyncarch_gettime();
-    unsigned long after;
-    unsigned long target = before + delay;
+    /* Since we're about to sleep, give another thread a go of the lock */
+    mainlock_yield_once();
 
-    long oversleep;
+    after_yield_tick = tick_after(before_yield_tick);
 
-#ifdef USE_VICE_THREAD
-    /* Don't hold the mainlock while sleeping */
-    mainlock_yield_begin();
-#endif
+    /* Adjust ticks to account for the yield time */
+    adjusted_tick = target_tick - after_yield_tick;
 
-    /*
-     * Try to avoid oversleeping by compensating for our worse oversleep and
-     * busy looping for the rest of the period
-     */
-
-    if (delay > smoothed_running_oversleep) {
-        delay -= smoothed_running_oversleep;
-    } else {
-        /* still yield if some other process is waiting */
-        delay = 0;
+    /* Since we yielded the lock to the UI, maybe for a while, Check if we still need to sleep */
+    if (adjusted_tick > ticks) {
+        return;
     }
-
+    
 #ifdef WIN32_COMPILE
     LARGE_INTEGER timeout;
-    
-    timeout.QuadPart = delay;
-    timeout.QuadPart *= -10 * 1000 * 1000;
-    timeout.QuadPart /= timer_frequency.QuadPart;
+
+    timeout.QuadPart = 0LL - adjusted_tick;
 
     SetWaitableTimer(wait_timer, &timeout, 0, NULL, NULL, 0);
     WaitForSingleObject(wait_timer, INFINITE);
@@ -178,63 +161,48 @@ void vsyncarch_sleep(unsigned long delay)
 #elif defined(HAVE_NANOSLEEP)
     struct timespec ts;
 
-    if (delay < TICKSPERSECOND) {
+    if (ticks < TICKSPERSECOND) {
         ts.tv_sec = 0;
-        ts.tv_nsec = delay;
+        ts.tv_nsec = ticks;
     } else {
-        ts.tv_sec = delay / TICKSPERSECOND;
-        ts.tv_nsec = (delay % TICKSPERSECOND);
+        ts.tv_sec = ticks / TICKSPERSECOND;
+        ts.tv_nsec = ticks % TICKSPERSECOND;
     }
 
     nanosleep(&ts, NULL);
 
 #else
-    if (usleep(delay) == -EINVAL) usleep(999999);
-#endif
-
-    after = vsyncarch_gettime();
-
-    oversleep = after - before - delay;
-    
-    smoothed_running_oversleep = (0.9 * smoothed_running_oversleep) + (0.1 * oversleep);
-
-#if 0
-        printf(
-            "overslept %.1f ms, set oversleep compensation to %.1f ms\n",
-            (double)oversleep * 1000 / vsyncarch_frequency(),
-            //(double)oversleep_compensate * 1000 / vsyncarch_frequency());
-            smoothed_running_oversleep * 1000 / vsyncarch_frequency());
-        fflush(stdout);
-#endif
-
-#ifdef USE_VICE_THREAD
-    /* Get the mainlock back before the busy loop */
-    mainlock_yield_end();
-#endif
-
-    /* busy loop until we've reached the target time */
-    while (vsyncarch_gettime() < target)
-        ;
-}
-
-void vsyncarch_presync(void)
-{
-    ui_update_lightpen();
-    joystick();
-}
-
-void vsyncarch_postsync(void)
-{
-    /* this function is called once a frame, so this
-       handles single frame advance */
-    if (pause_pending) {
-        ui_pause_enable();
-        pause_pending = 0;
+    if (usleep(ticks) == -EINVAL) {
+        usleep(999999);
     }
+#endif
 }
 
-void vsyncarch_advance_frame(void)
+unsigned long tick_after(unsigned long previous_tick)
 {
-    ui_pause_disable();
-    pause_pending = 1;
+    /*
+     * Fark, high performance counters, called from different threads / cpus, can be off by 1 tick.
+     * 
+     *    "When you compare performance counter results that are acquired from different
+     *     threads, consider values that differ by ± 1 tick to have an ambiguous ordering.
+     *     If the time stamps are taken from the same thread, this ± 1 tick uncertainty
+     *     doesn't apply. In this context, the term tick refers to a period of time equal
+     *     to 1 ÷ (the frequency of the performance counter obtained from
+     *     QueryPerformanceFrequency)."
+     * 
+     * https://docs.microsoft.com/en-us/windows/win32/sysinfo/acquiring-high-resolution-time-stamps#guidance-for-acquiring-time-stamps
+     */
+
+    unsigned long after = tick_now();
+
+    if (after == previous_tick - 1) {
+        after = previous_tick;
+    }
+    
+    return after;
+}
+
+unsigned long tick_delta(unsigned long previous_tick)
+{
+    return tick_after(previous_tick) - previous_tick;
 }

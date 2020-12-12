@@ -120,7 +120,7 @@ libarch_a_SOURCES += directx_renderer.c directx_renderer_impl.cc
 else
 libarch_a_SOURCES += opengl_renderer.c
 if UNIX_MACOSX_COMPILE
-libarch_a_SOURCES += opengl_renderer_macos.m
+libarch_a_SOURCES += opengl_renderer_macos.m macOS-util.m
 else
 libarch_a_SOURCES += opengl_renderer_unix.c
 endif
@@ -145,6 +145,7 @@ EXTRA_DIST = \
 	joy.h \
 	kbd.h \
 	linenoise.h \
+	macOS-util.sh \
 	macOS-ui-runtime.sh \
 	make-bindist_osx.sh \
 	make-bindist_win32.sh \

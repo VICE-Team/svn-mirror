@@ -769,6 +769,8 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
         }
     }
 
+    vsync_do_end_of_line();
+
     /* DO VSYNC if the raster_counter in the TED reached the VSYNC signal */
     /* Also do VSYNC if oversized screen reached a certain threashold, this will result in rolling screen just like on the real thing */
     if (((signed int)(ted.tv_current_line - ted.screen_height) > 40) || (ted.ted_raster_counter == ted.vsync_line )) {

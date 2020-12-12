@@ -38,6 +38,7 @@
 #include <CoreGraphics/CGDirectDisplay.h>
 #endif
 
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -45,9 +46,14 @@
 #include "palette.h"
 #include "render_queue.h"
 #include "resources.h"
+#include "tick.h"
 #include "ui.h"
 #include "vsync.h"
 #include "vsyncapi.h"
+
+#ifdef MACOSX_SUPPORT
+#include "macOS-util.h"
+#endif
 
 #define CANVAS_LOCK() pthread_mutex_lock(&canvas->lock)
 #define CANVAS_UNLOCK() pthread_mutex_unlock(&canvas->lock)
@@ -119,6 +125,7 @@ static void vice_opengl_initialise_canvas(video_canvas_t *canvas)
 
     /* First initialise the context_t that we'll need everywhere */
     context = lib_calloc(1, sizeof(context_t));
+    context->cached_vsync_resource = -1;
     
     context->canvas_lock = canvas->lock;
     pthread_mutex_init(&context->render_lock, NULL);
@@ -341,7 +348,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     CANVAS_LOCK();
     if (context->render_thread) {
         render_queue_enqueue_for_display(context->render_queue, backbuffer);
-        render_thread_push_job(context->render_thread, context);
+        render_thread_push_job(context->render_thread, render_thread_render);
     } else {
         /* Thread no longer running, probably shutting down */
         render_queue_return_to_pool(context->render_queue, backbuffer);
@@ -447,7 +454,7 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
      */
 
     if (ui_pause_active() || monitor_is_inside_monitor() || machine_is_jammed()) {
-        render_thread_push_job(context->render_thread, context);
+        render_thread_push_job(context->render_thread, render_thread_render);
     }
 
 #ifdef MACOSX_SUPPORT
@@ -463,17 +470,45 @@ static void vice_opengl_on_ui_frame_clock(GdkFrameClock *clock, video_canvas_t *
 
 static void render(void *job_data, void *pool_data)
 {
+    render_job_t job = (render_job_t)(int)(long long int)job_data;
     video_canvas_t *canvas = pool_data;
-    vice_opengl_renderer_context_t *context = job_data;
+    vice_opengl_renderer_context_t *context = (vice_opengl_renderer_context_t *)canvas->renderer_context;
     backbuffer_t *backbuffer;
     unsigned int backbuffer_width;
     unsigned int backbuffer_height;
     float backbuffer_pixel_aspect_ratio;
     int filter = 1;
     int vsync = 1;
+    int keepaspect = 1;
+    int trueaspect = 0;
+    float scale_x;
+    float scale_y;
 
-    resources_get_int("GTKFilter", &filter);    
+    if (job == render_thread_init) {
+        archdep_thread_init();
+
+#if defined(MACOSX_SUPPORT)
+        vice_macos_set_render_thread_priority();
+#elif defined(__linux__)
+        /* TODO: Linux thread prio stuff, need root or some 'capability' though */
+#else
+        /* TODO: BSD thread prio stuff */
+#endif
+
+        log_message(LOG_DEFAULT, "Render thread initialised");
+        return;
+    }
+    
+    if (job == render_thread_shutdown) {
+        archdep_thread_shutdown();
+        log_message(LOG_DEFAULT, "Render thread shutdown");
+        return;
+    }
+
+    resources_get_int("GTKFilter", &filter);
     resources_get_int("VSync", &vsync);
+    resources_get_int("KeepAspectRatio", &keepaspect);
+    resources_get_int("TrueAspectRatio", &trueaspect);
 
     backbuffer = render_queue_dequeue_for_display(context->render_queue);
     
@@ -488,7 +523,7 @@ static void render(void *job_data, void *pool_data)
         context->emulated_width_last_rendered       = backbuffer_width;
         context->emulated_height_last_rendered      = backbuffer_height;
         context->pixel_aspect_ratio_last_rendered   = backbuffer_pixel_aspect_ratio;
-        context->last_render_time                   = vsyncarch_gettime();
+        context->last_render_time                   = tick_now();
     } else {
         /* Use the last rendered frame size and ratio for layout */
         backbuffer_width                = context->emulated_width_last_rendered;
@@ -508,13 +543,6 @@ static void render(void *job_data, void *pool_data)
     }
     
     /* Recalculate layout */
-    int keepaspect = 1;
-    int trueaspect = 0;
-    float scale_x;
-    float scale_y;
-
-    resources_get_int("KeepAspectRatio", &keepaspect);
-    resources_get_int("TrueAspectRatio", &trueaspect);
 
     if (keepaspect) {
         float viewport_aspect;
@@ -559,7 +587,11 @@ static void render(void *job_data, void *pool_data)
 
     vice_opengl_renderer_make_current(context);
     vice_opengl_renderer_set_viewport(context);
-    vice_opengl_renderer_set_vsync(context, vsync ? true : false);
+
+    if (vsync != context->cached_vsync_resource) {
+        vice_opengl_renderer_set_vsync(context, vsync ? true : false);
+        context->cached_vsync_resource = vsync;
+    }
 
     glClearColor(context->native_view_bg_r, context->native_view_bg_g, context->native_view_bg_b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);

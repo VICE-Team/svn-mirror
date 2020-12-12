@@ -270,6 +270,7 @@ noinst_HEADERS = \
 	sysfile.h \
 	tap.h \
 	tape.h \
+	tick.h \
 	tpi.h \
 	traps.h \
 	types.h \
@@ -346,6 +347,7 @@ base_sources = \
 	socket.c \
 	sound.c \
 	sysfile.c \
+	tick.c \
 	traps.c \
 	util.c \
 	vicefeatures.c \

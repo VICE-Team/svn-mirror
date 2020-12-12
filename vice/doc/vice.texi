@@ -3464,12 +3464,6 @@ source for the 'file' sampler device.
 Enable/disable sound emulation
 (@code{Sound=1}, @code{Sound=0}).
 
-@findex -soundsync
-@item -soundsync <sync>
-Specify the sound speed adjustment method
-(@code{SoundSpeedAdjustment}).
-(0: flexible, 1: adjusting, 2: exact)
-
 @findex -soundrate
 @item -soundrate <value>
 Specify the sound playback sample rate

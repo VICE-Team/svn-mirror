@@ -81,6 +81,10 @@ static GtkWidget *preview_widget = NULL;
 #endif
 
 
+static int autostart_on_doubleclick;
+
+
+
 /** \brief  Last directory used
  *
  * When an image is attached, this is set to the directory of that file. Since
@@ -402,11 +406,21 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
      * 'attach' dialogs. Gtk doesn't allow getting references to buttons when
      * added via the constructor, meaning we cannot get a reference to the
      * "Autostart" button in order to "grey it out".
+     *
+     * Also rename VICE_RESPONSE_AUTOSTART to VICE_RESPONSE_CUSTOM or so, we're
+     * flipping responses around here thanks the the flexibility of Gtk
      */
-    gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", GTK_RESPONSE_ACCEPT);
-    autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
-                                             "Autostart",
-                                             VICE_RESPONSE_AUTOSTART);
+    if (!autostart_on_doubleclick) {
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", GTK_RESPONSE_ACCEPT);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                 "Autostart",
+                                                 VICE_RESPONSE_AUTOSTART);
+    } else{
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", VICE_RESPONSE_AUTOSTART);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                 "Autostart",
+                                                 GTK_RESPONSE_ACCEPT);
+    }
     gtk_widget_set_sensitive(autostart_button, FALSE);
     gtk_dialog_add_button(GTK_DIALOG(dialog), "Close", GTK_RESPONSE_REJECT);
 
@@ -439,6 +453,11 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     g_signal_connect_unlocked(dialog, "selection-changed",
             G_CALLBACK(on_selection_changed), NULL);
 
+#if 0
+    /* Autostart on double-click */
+    g_signal_connect(dialog, "file-activated",
+            G_CALLBACK(on_file_activated), NULL);
+#endif
     return dialog;
 
 }
@@ -488,8 +507,13 @@ static GtkFileChooserNative *create_smart_attach_dialog(void *parent)
 gboolean ui_smart_attach_dialog_show(GtkWidget *widget, gpointer user_data)
 {
 #ifndef SANDBOX_MODE
-
     GtkWidget *dialog;
+
+    if (resources_get_int("AutostartOnDoubleclick", &autostart_on_doubleclick) < 0) {
+        debug_gtk3("Failed to get resource value for 'AutostartOnDoubleclick");
+        autostart_on_doubleclick = 0;
+    }
+
 
     dialog = create_smart_attach_dialog(widget);
     gtk_widget_show(dialog);

@@ -415,6 +415,11 @@ int joy_arch_init(void)
     return 0;
 }
 
+void joystick(void)
+{
+    /* Provided only for archdep joy.h. TODO: Migrate joystick polling in here if any needed? */
+}
+
 void joystick_close(void)
 {
     int i;
@@ -1217,6 +1222,11 @@ void sdljoy_swap_ports(void)
     resources_get_int("JoyDevice2", &k);
     resources_set_int("JoyDevice1", k);
     resources_set_int("JoyDevice2", i);
+}
+
+void joystick(void)
+{
+    /* Provided only for archdep joy.h. TODO: Migrate joystick polling in here if any needed? */
 }
 
 void joystick_close(void)

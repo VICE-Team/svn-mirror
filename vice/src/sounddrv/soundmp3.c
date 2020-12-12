@@ -120,7 +120,8 @@ static sound_device_t mp3_device =
     NULL,
     NULL,
     0,
-    2
+    2,
+    false
 };
 
 int sound_init_mp3_device(void)
