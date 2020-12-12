@@ -105,6 +105,7 @@ static unsigned int in_frame_byte_size;
 /* How many times the audio code didn't get enough audio */
 static unsigned long underflow_count;
 
+#if 0
 static void coreaudio_buffer_stats(bool force)
 {
     static unsigned long last_log_time_sec;
@@ -123,6 +124,7 @@ static void coreaudio_buffer_stats(bool force)
 
     log_message(LOG_DEFAULT, "%d of %d (underflows: %lu)", fragments_in_queue_2, fragment_count, underflow_count);
 }
+#endif
 
 /* ----- Audio Converter ------------------------------------------------ */
 
@@ -724,7 +726,7 @@ static int coreaudio_write(int16_t *pbuf, size_t nr)
         OSAtomicIncrement32(&fragments_in_queue_2);
     }
     
-    coreaudio_buffer_stats(false);
+    /* coreaudio_buffer_stats(false); */
 
     return 0;
 }
