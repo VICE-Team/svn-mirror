@@ -30,8 +30,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef USE_NATIVE_GTK3
-
 #ifdef UNIX_COMPILE
 #ifndef MACOSX_SUPPORT
 #include <X11/Xlib.h>
@@ -45,6 +43,8 @@
 #endif
 
 #include <assert.h>
+
+#ifdef USE_NATIVE_GTK3
 #include <gtk/gtk.h>
 #include <pthread.h>
 
@@ -52,7 +52,6 @@
 
 static int vice_exit_code;
 static pthread_t main_thread;
-
 #endif /* #ifdef USE_NATIVE_GTK3 */
 
 #include "archdep.h"
