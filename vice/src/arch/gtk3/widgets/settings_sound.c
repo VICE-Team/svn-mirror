@@ -78,38 +78,39 @@ static GtkWidget *create_inner_grid(void)
     GtkWidget *grid;
     GtkWidget *wrapper;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 16);
+    grid = vice_gtk3_grid_new_spaced(32, 16);
     wrapper = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* row 0, columns 0 & 1 */
     gtk_grid_attach(GTK_GRID(grid),
             sound_driver_widget_create(),
-            0, 0, 3, 1);
+            0, 0, 4, 1);
 
     /* row 1, column 0 */
     gtk_grid_attach(GTK_GRID(grid),
             sound_output_mode_widget_create(),
             0, 1, 1, 1);
 
-    /* row 2, column 0 */
+    /* row 1, column 1 */
     gtk_grid_attach(GTK_GRID(grid),
             sound_sample_rate_widget_create(),
-            0, 2, 1, 1);
-    /* row 2, columm 1 */
-    gtk_grid_attach(GTK_GRID(grid),
-            wrapper,
-            1, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper),
+            1, 1, 1, 1);
+
+   gtk_grid_attach(GTK_GRID(wrapper),
             sound_buffer_size_widget_create(),
             0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper),
             sound_suspend_time_widget_create(),
             0, 1, 1, 1);
-    /* row 2, columm 2 */
+    /* row 1, columm 2 */
+    gtk_grid_attach(GTK_GRID(grid),
+            wrapper,
+            2, 1, 1, 1);
+ 
+    /* row 1, columm 3 */
     gtk_grid_attach(GTK_GRID(grid),
             sound_fragment_size_widget_create(),
-            2, 2, 1, 1);
-    
+            3, 1, 1, 1);
 
     return grid;
 }
