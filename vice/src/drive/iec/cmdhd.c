@@ -1270,7 +1270,7 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
 {
     cmdhd_context_t *hd;
     char *basename, *testname;
-    int32_t i;
+    size_t i;
     FILE *test;
     size_t filelength;
 
