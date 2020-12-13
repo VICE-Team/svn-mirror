@@ -963,11 +963,11 @@ darwin*)
     if test x"$GCC" = "xyes" ; then
       warnings_cxx="-Wall -Winline"
       warnings_c="-Wstrict-prototypes $warnings_cxx"
-      optimization_c="-O3 $march"
+      optimization_c="$march"
       optimization_cxx="-fno-exceptions $optimization_c"
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
-        VICE_CFLAGS="$VICE_CFLAGS -g $optimization_c $warnings_c"
-        VICE_CXXFLAGS="$VICE_CXXFLAGS -g $optimization_cxx $warnings_cxx"
+        VICE_CFLAGS="$VICE_CFLAGS $optimization_c $warnings_c"
+        VICE_CXXFLAGS="$VICE_CXXFLAGS $optimization_cxx $warnings_cxx"
       else
         VICE_CFLAGS="$VICE_CFLAGS $optimization_c $warnings_c"
         VICE_CXXFLAGS="$VICE_CXXFLAGS $optimization_cxx $warnings_cxx"
