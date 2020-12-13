@@ -106,7 +106,6 @@ enum init_break_mode_t {
 
 static enum init_break_mode_t init_break_mode = NONE;
 static int init_break_address = -1;
-static bool init_break_ready_detected = false;
 
 /* Defines */
 
@@ -370,22 +369,22 @@ static bool is_machine_ready(void)
 
 void monitor_reset_hook(void)
 {
-    init_break_ready_detected = false;
-
     if (init_break_mode == ON_RESET) {
+        init_break_mode = NONE;
+        
         monitor_startup_trap();
     }
 }
 
 void monitor_vsync_hook(void)
 {
-    if (init_break_mode == ON_READY && !init_break_ready_detected) {
+    if (init_break_mode == ON_READY) {
         /*
          * Check if READY has been printed on the screen ..
          * .. this is also how autostart works.
          */
         if (is_machine_ready()) {
-            init_break_ready_detected = true;
+            init_break_mode = NONE;
             
             monitor_startup_trap();
         }
@@ -1511,8 +1510,6 @@ static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
         return 0;
     }
     
-    
-
     return -1;
 }
 
