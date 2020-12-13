@@ -959,27 +959,6 @@ darwin*)
   VICE_CXXFLAGS="$VICE_CXXFLAGS -mmacosx-version-min=10.9"
   VICE_LDFLAGS="$VICE_LDFLAGS -mmacosx-version-min=10.9"
 
-  if test -z "$user_cflags" ; then
-    if test x"$GCC" = "xyes" ; then
-      warnings_cxx="-Wall -Winline"
-      warnings_c="-Wstrict-prototypes $warnings_cxx"
-      optimization_c="$march"
-      optimization_cxx="-fno-exceptions $optimization_c"
-      if test x"$ac_cv_prog_cc_g" = "xyes" ; then
-        VICE_CFLAGS="$VICE_CFLAGS $optimization_c $warnings_c"
-        VICE_CXXFLAGS="$VICE_CXXFLAGS $optimization_cxx $warnings_cxx"
-      else
-        VICE_CFLAGS="$VICE_CFLAGS $optimization_c $warnings_c"
-        VICE_CXXFLAGS="$VICE_CXXFLAGS $optimization_cxx $warnings_cxx"
-      fi
-    fi
-  fi
-
-  if test "$GCC" = yes -a "$enable_no_pic" != "no" ; then
-    VICE_CFLAGS="$VICE_CFLAGS -mdynamic-no-pic"
-    VICE_CXXFLAGS="$VICE_CXXFLAGS -mdynamic-no-pic"
-  fi
-
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     HAVE_RS232DEV_SUPPORT="yes"
