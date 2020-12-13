@@ -211,6 +211,9 @@ static FILE *playback_fp = NULL;
 static int playback_fp_stack_size = 0;
 static int playback_fp_stack_size_max = 0;
 
+/* if true, control returns to emulator after the last script completes */
+static bool playback_exit_after_all_playback = false;
+
 static void playback_end_file(void);
 
 static void monitor_close(int check);
@@ -1985,6 +1988,13 @@ static int monitor_set_moncommands_file(const char *filename, void *extra_param)
         init_break_mode = ON_RESET;
     }
     
+    /*
+     * We're executing a -moncommands script at some point, so return
+     * to emulation when it completes.
+     */
+    
+    playback_exit_after_all_playback = true;
+    
     return 0;
 }
 
@@ -2048,6 +2058,13 @@ static void playback_end_file(void)
     
     /* Playback of all files is complete */
     playback_fp = NULL;
+    
+    /* Should we return to emulation? (Yes if -moncommands arg used) */
+    if (playback_exit_after_all_playback) {
+        playback_exit_after_all_playback = false;
+        
+        mon_exit();
+    }
 }
 
 static void playback_next_command(void)
