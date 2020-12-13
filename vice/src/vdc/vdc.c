@@ -465,6 +465,7 @@ static void vdc_set_video_mode(void)
  (or at least how we think it does).. */
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
+    unsigned int i, j;
     static unsigned int vdc_row_counter_latch = 0;
     static unsigned int vdc_draw_counter_latch = 0;
     static unsigned int vdc_vert_fine_adj = 0;
@@ -533,6 +534,14 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                         vdc.mem_counter = 0;
                         vdc.bitmap_counter = 0;
                         vdc.draw_active = 0;
+                    }
+                    /* Directly fill the active draw buffers for the first row of the next screen */
+                    for (i = 0, j = 0; i <= vdc.mem_counter_inc; i++, j++) {
+                        if (j == 82) {
+                            j = 41;
+                        }
+                        vdc.attrbuf[vdc.attrbufdraw | j] = vdc.ram[(vdc.attribute_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
+                        vdc.scrnbuf[vdc.scrnbufdraw | j] = vdc.ram[(vdc.screen_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
                     }
                 }
                 vdc.draw_finished = 1;
@@ -683,6 +692,14 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.bitmap_counter = 0;
             vdc.draw_active = 0;
         }
+        /* Directly fill the active draw buffers for the first row of the next screen */
+        for (i = 0, j = 0; i <= vdc.mem_counter_inc; i++, j++) {
+            if (j == 82) {
+                j = 41;
+            }
+            vdc.attrbuf[vdc.attrbufdraw | j] = vdc.ram[(vdc.attribute_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
+            vdc.scrnbuf[vdc.scrnbufdraw | j] = vdc.ram[(vdc.screen_adr + vdc.mem_counter + i) & vdc.vdc_address_mask];
+        }
     }
 
 
@@ -736,7 +753,11 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.draw_counter++;
             vdc_draw_counter_latch = 0;
             
-            /* FIXME We've just drawn the last raster line of the current row, should probably load those buffers or so.. */
+            /* FIXME We've just drawn the last raster line of the current row, the buffer reading could/should be here? */
+            
+            /* We're on the first line of the current character row, swap the buffers for reading vs drawing */
+            vdc.scrnbufdraw ^= 0x100;
+            vdc.attrbufdraw ^= 0x100;
             
             /* increment memory pointers etc. for a new character row */
             vdc.mem_counter_inc = vdc.screen_text_cols;
@@ -789,6 +810,17 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         Strongly suspect raster code is broken at this point, or at least confused, as it always draws black even though the colours are set.. */
     if (vdc.raster.cache_enabled && !vdc.display_enable) {
         vdc.raster.blank_this_line = 1;
+    }
+
+    /* fill the non-draw buffers for the next character row during the start of the current one */
+    if ((vdc.draw_counter_y | vdc.interlaced) == vdc.interlaced) {
+        for (i = 0, j = 0 ; i <= vdc.mem_counter_inc; i++, j++) {
+            if (j == 82) {
+                j = 41;
+            }
+            vdc.attrbuf[(vdc.attrbufdraw ^ 0x100) | j] = vdc.ram[(vdc.attribute_adr + vdc.mem_counter + vdc.mem_counter_inc + vdc.regs[27] + i) & vdc.vdc_address_mask];
+            vdc.scrnbuf[(vdc.scrnbufdraw ^ 0x100) | j] = vdc.ram[(vdc.screen_adr + vdc.mem_counter + vdc.mem_counter_inc + vdc.regs[27] + i) & vdc.vdc_address_mask];
+        }
     }
 
     /* printf("row %03u %02u %03u (%02x %02x) draw %03u %02u raster.cur_line %03u drawactive %02u vsync %01u memcntr %05u bmp_cntr %05u %04x %04x frame %i\n",
