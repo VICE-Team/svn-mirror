@@ -117,7 +117,9 @@ static void vdc_set_geometry(void)
 
     vdc_80col_start_pixel = border_width;
     vdc_80col_stop_pixel = vdc_80col_start_pixel + vdc.charwidth * vdc.screen_text_cols;
-
+    if (vdc_80col_stop_pixel >= VDC_SCREEN_WIDTH) {
+        vdc_80col_stop_pixel = VDC_SCREEN_WIDTH -1; /* clamp or segfault in raster-line.c */
+    }
 
 /*
 printf("SH: %03i SW: %03i\n", screen_height, screen_width);
@@ -267,10 +269,12 @@ static void vdc_update_geometry(void)
 
     vdc.screen_ypix = vdc.regs[6] * ((vdc.regs[9] & 0x1f) + 1);
 
-    if (vdc.regs[1] >= 6 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
+    if (vdc.regs[1] >= 6 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS && vdc.regs[1] < vdc.regs[0]) {
         vdc.screen_text_cols = vdc.regs[1];
     } else if (vdc.regs[1] < 6) {
         vdc.screen_text_cols = 6;
+    } else if (vdc.regs[1] >= vdc.regs[0]) {
+        vdc.screen_text_cols = vdc.regs[0] - 1; /* don't try to display more characters than are in the whole row */
     } else {
         vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
     }
