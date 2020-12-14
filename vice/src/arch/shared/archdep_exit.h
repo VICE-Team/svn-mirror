@@ -28,10 +28,13 @@
 #ifndef ARCHDEP_EXIT_H
 #define ARCHDEP_EXIT_H
 
-void    archdep_vice_exit(int excode);
+#include <stdbool.h>
+
+bool archdep_is_exiting(void);
+void archdep_vice_exit(int excode);
 
 #ifdef USE_NATIVE_GTK3
-void    archdep_set_main_thread(void);
+void archdep_set_main_thread(void);
 #endif
 
 #endif

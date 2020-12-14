@@ -49,6 +49,7 @@
 #include <limits.h>
 #endif
 
+#include "archdep_exit.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
@@ -394,6 +395,16 @@ void vsync_do_end_of_line(void)
 
     CLOCK sync_clk_delta;
     unsigned long sync_emulated_ticks;
+    
+    /*
+     * Ideally the vic chip draw alarm wouldn't be triggered
+     * during shutdown but here we are - apply workaround.
+     */
+    
+    if (archdep_is_exiting()) {
+        mainlock_yield_once();
+        return;
+    }
 
     /* deal with any accumulated sound immediately */
     tick_based_sync_timing = sound_flush();
@@ -473,6 +484,15 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     unsigned long network_hook_time = 0;
     // long delay;
     int skip_next_frame = 0;
+    
+    /*
+     * Ideally the vic chip draw alarm wouldn't be triggered
+     * during shutdown but here we are - apply workaround.
+     */
+    
+    if (archdep_is_exiting()) {
+        return 1;
+    }
 
     monitor_vsync_hook();
 

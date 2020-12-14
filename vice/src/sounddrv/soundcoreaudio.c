@@ -633,8 +633,6 @@ static int audio_stop(void)
 
 static void audio_close(void)
 {
-    OSStatus err;
-    
     if (outputUnit) {
         audio_stop();
         
