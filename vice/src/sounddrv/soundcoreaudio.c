@@ -586,42 +586,23 @@ static int audio_open(AudioStreamBasicDescription *in)
         log_error(LOG_DEFAULT, "sound (coreaudio_init): error initializing audio converter");
         return -1;
     }
+
+    return 0;
+}
+
+static int audio_start(void)
+{
+    OSStatus err;
     
     /* Init unit */
     err = AudioUnitInitialize(outputUnit);
     if (err) {
         log_error(LOG_DEFAULT,
-                  "sound (coreaudio_init): error initializing audio unit");
+                  "sound (coreaudio_start): error initializing audio unit");
         return -1;
     }
-
-    return 0;
-}
-
-static void audio_close(void)
-{
-    OSStatus err;
     
-    if (outputUnit) {
-        err = AudioOutputUnitStop(outputUnit);
-        if (err) {
-            log_error(LOG_DEFAULT, "sound (coreaudio_close): error stopping audio unit");
-        }
-        
-        err = AudioUnitUninitialize(outputUnit);
-        if (err) {
-            log_error(LOG_DEFAULT, "sound (coreaudio_close): error uninitializing audio unit");
-        }
-        
-        outputUnit = NULL;
-    }
-    
-    converter_close();
-}
-
-static int audio_start(void)
-{
-    OSStatus err = AudioOutputUnitStart(outputUnit);
+    err = AudioOutputUnitStart(outputUnit);
     if (err) {
         log_error(LOG_DEFAULT, "sound (coreaudio_start): failed to start audio device");
         return -1;
@@ -633,12 +614,34 @@ static int audio_start(void)
 
 static int audio_stop(void)
 {
-    OSStatus err = AudioOutputUnitStop(outputUnit);
+    OSStatus err;
+    
+    err = AudioOutputUnitStop(outputUnit);
     if (err) {
+        log_error(LOG_DEFAULT, "sound (audio_stop): error uninitializing audio unit");
         return -1;
-    } else {
-        return 0;
     }
+    
+    err = AudioUnitUninitialize(outputUnit);
+    if (err) {
+        log_error(LOG_DEFAULT, "sound (audio_stop): error uninitializing audio unit");
+        return -1;
+    }
+
+    return 0;
+}
+
+static void audio_close(void)
+{
+    OSStatus err;
+    
+    if (outputUnit) {
+        audio_stop();
+        
+        outputUnit = NULL;
+    }
+    
+    converter_close();
 }
 
 /* ---------- coreaudio VICE API ------------------------------------------ */
