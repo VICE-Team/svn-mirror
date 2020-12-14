@@ -155,6 +155,7 @@ make_app_bundle() {
     -I "org.viceteam.$app_name" \
     -c "$app_launcher" \
     -D \
+    -X $DROP_TYPES \
     -R \
     -B \
     "$app_path" \
