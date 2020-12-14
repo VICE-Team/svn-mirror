@@ -60,8 +60,11 @@ void vice_macos_set_main_thread(void)
     [[NSProcessInfo processInfo] beginActivityWithOptions: NSActivityUserInitiated | NSActivityLatencyCritical
                                                    reason: @"Accurate emulation requires low latency access to resources."];
 
-    /* The main thread needs interactive response levels */
-    [[NSThread currentThread] setQualityOfService: NSQualityOfServiceUserInteractive];
+    /* Available from OSX 10.10+ */
+    if ([NSThread instancesRespondToSelector:@selector(setQualityOfService:)]) {
+        /* The main thread benefits from interactive response levels */
+        [[NSThread currentThread] setQualityOfService: NSQualityOfServiceUserInteractive];
+    }
 }
 
 static void move_pthread_to_realtime_scheduling_class(pthread_t pthread, int period_microseconds, int typical_work_microseconds, int max_work_microseconds)
