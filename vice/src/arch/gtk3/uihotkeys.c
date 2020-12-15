@@ -73,10 +73,10 @@ typedef struct hotkey_info_s {
  */
 static const char *mod_control = "Control";
 
-#ifdef ARCHDEP_OS_MACOS
+#ifdef MACOSX_SUPPORT
 /** \brief  Label for the MOD_VICE modifier ('Option on MacOS)
  */
-static const char *mod_vice = "Option";
+static const char *mod_vice = "⌘";
 #else
 /** \brief  Label for the MOD_VICE modifier ('Alt' on non-MacOS)
  */
@@ -130,9 +130,10 @@ static const hotkey_info_t hotkeys_list[] = {
     { VICE_MOD_MASK, "W", "Toggle warp mode" },
 
     /* controllers */
-    { VICE_MOD_MASK, "M", "Enable mouse grab" },
+    { VICE_MOD_MASK, "M", "Toggle mouse grab" },
+    { VICE_MOD_MASK|GDK_SHIFT_MASK, "J", "Toggle keyboard joysticks" },
     { VICE_MOD_MASK, "J", "Swap joystick port devices" },
-    { VICE_MOD_MASK|GDK_SHIFT_MASK, "J", "Swap userport devices" },
+    { VICE_MOD_MASK|GDK_SHIFT_MASK, "U", "Swap userport devices" },
 
     /* media recording/snapshot */
     { VICE_MOD_MASK, "L", "Load snapshot" },

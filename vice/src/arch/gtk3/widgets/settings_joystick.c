@@ -208,7 +208,7 @@ static GtkWidget *create_swap_userport_joysticks_button(void)
 static GtkWidget *create_keyset_enable_checkbox(void)
 {
     return vice_gtk3_resource_check_button_new("KeySetEnable",
-            "Enable user-defined keysets");
+            "Enable keyboard joysticks");
 }
 
 
