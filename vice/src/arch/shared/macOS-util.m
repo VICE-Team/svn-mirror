@@ -67,6 +67,7 @@ void vice_macos_set_main_thread(void)
     }
 }
 
+#if 0 /* Disabled as affects warp speed dramatically */
 static void move_pthread_to_realtime_scheduling_class(pthread_t pthread, int period_microseconds, int typical_work_microseconds, int max_work_microseconds)
 {
     /*
@@ -96,13 +97,14 @@ static void move_pthread_to_realtime_scheduling_class(pthread_t pthread, int per
         exit(1);
     }
 }
+#endif
 
 void vice_macos_set_vice_thread_priority(void)
 {
     [[NSThread currentThread] setThreadPriority: 1.0];
 
     /* typically vice thread will run for a couple ms before blocking, but lets not penalise it for running longer */
-    move_pthread_to_realtime_scheduling_class(pthread_self(), 0, MICROS_PER_SEC / 1000 * 2, MICROS_PER_SEC / 60);
+    /* move_pthread_to_realtime_scheduling_class(pthread_self(), 0, MICROS_PER_SEC / 60, MICROS_PER_SEC / 60); */
 }
 
 void vice_macos_set_render_thread_priority(void)
@@ -110,5 +112,5 @@ void vice_macos_set_render_thread_priority(void)
     [[NSThread currentThread] setThreadPriority: 1.0];
 
     /* Likely a 60fps system, passing rendered buffer to OpenGL shouldn't take more than a couple of ms. */
-    move_pthread_to_realtime_scheduling_class(pthread_self(), MICROS_PER_SEC / 60, MICROS_PER_SEC / 1000 * 2, MICROS_PER_SEC / 1000 * 3);
+    /* move_pthread_to_realtime_scheduling_class(pthread_self(), MICROS_PER_SEC / 60, MICROS_PER_SEC / 1000 * 2, MICROS_PER_SEC / 1000 * 3); */
 }
