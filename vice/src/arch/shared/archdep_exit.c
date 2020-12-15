@@ -50,7 +50,6 @@
 
 #include "mainlock.h"
 
-static volatile bool is_exiting;
 static int vice_exit_code;
 static pthread_t main_thread;
 #endif /* #ifdef USE_NATIVE_GTK3 */
@@ -61,6 +60,8 @@ static pthread_t main_thread;
 #ifdef MACOSX_SUPPORT
 #include "macOS-util.h"
 #endif
+
+static volatile bool is_exiting;
 
 bool archdep_is_exiting(void) {
     return is_exiting;
