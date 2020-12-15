@@ -206,7 +206,7 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
     { GDK_KEY_j, VICE_MOD_MASK,
         (void *)ui_swap_joysticks_callback },
     /* Alt+Shift+U = swap userport joysticks */
-    { GDK_KEY_u, VICE_MOD_MASK|GDK_SHIFT_MASK,
+    { GDK_KEY_U, VICE_MOD_MASK|GDK_SHIFT_MASK,
         (void *)ui_swap_userport_joysticks_callback },
     { GDK_KEY_J, VICE_MOD_MASK|GDK_SHIFT_MASK,
         (void *)ui_toggle_keyset_joysticks },
