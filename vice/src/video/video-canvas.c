@@ -201,9 +201,11 @@ int video_canvas_palette_set(struct video_canvas_s *canvas,
         video_color_palette_free(old_palette);
     }
 
-    if (canvas->created) {
-        video_canvas_refresh_all(canvas);
-    }
+#if 0 /* WTF this was causing each frame to be rendered twice */
+   if (canvas->created) {
+       video_canvas_refresh_all(canvas);
+   }
+#endif
 
     return 0;
 }
