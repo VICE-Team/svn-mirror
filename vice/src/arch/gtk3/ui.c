@@ -1439,7 +1439,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
 
     /* add status bar */
-    status_bar = ui_statusbar_create();
+    status_bar = ui_statusbar_create(target_window);
     gtk_widget_show_all(status_bar);
     gtk_widget_set_no_show_all(status_bar, TRUE);
 

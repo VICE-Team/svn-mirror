@@ -40,7 +40,7 @@
 void ui_statusbar_init(void);
 void ui_statusbar_shutdown(void);
 
-GtkWidget *ui_statusbar_create(void);
+GtkWidget *ui_statusbar_create(int window_identity);
 
 void ui_display_statustext(const char *text, int fadeout);
 

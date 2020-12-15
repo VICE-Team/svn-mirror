@@ -1550,7 +1550,7 @@ void ui_statusbar_shutdown(void)
  *  \return A new status bar, as a floating reference, or NULL if all
  *          possible status bars have been allocated already.
  */
-GtkWidget *ui_statusbar_create(void)
+GtkWidget *ui_statusbar_create(int window_identity)
 {
     GtkWidget *sb, *speed, *tape, *tape_events, *joysticks;
     GtkWidget *crt = NULL;
@@ -1582,12 +1582,22 @@ GtkWidget *ui_statusbar_create(void)
      * extra dereference in ui_statusbar_destroy() so nothing should
      * leak. */
     sb = vice_gtk3_grid_new_spaced(8, 0);
+    g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
+    allocated_bars[i].bar = sb;
 
-    /* First column: CPU/FPS */
-
-    speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
-    g_object_ref_sink(G_OBJECT(speed));
-    g_object_set(speed, "margin-left", 8, NULL);
+    /* First column: CPU/FPS - Not on VDC Window for now */
+    if (window_identity == PRIMARY_WINDOW) {
+        speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
+        g_object_ref_sink(G_OBJECT(speed));
+        g_object_set(speed, "margin-left", 8, NULL);
+        
+        allocated_bars[i].speed = speed;
+        gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
+        
+        /* Second column: separator */
+        gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                        SB_COL_SEP_SPEED, 0, 1, 2);
+    }
 
     /* don't add CRT or Mixer controls when VSID */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1605,16 +1615,6 @@ GtkWidget *ui_statusbar_create(void)
         gtk_widget_show_all(mixer);
         g_signal_connect(mixer, "toggled", G_CALLBACK(on_mixer_toggled), NULL);
     }
-
-    g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
-    allocated_bars[i].bar = sb;
-
-    allocated_bars[i].speed = speed;
-    gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
-
-    /* Second column: separator */
-    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-            SB_COL_SEP_SPEED, 0, 1, 2);
 
     /* Messages
      *
