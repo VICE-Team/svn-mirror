@@ -145,7 +145,6 @@ EXTRA_DIST = \
 	joy.h \
 	kbd.h \
 	linenoise.h \
-	macOS-util.sh \
 	macOS-ui-runtime.sh \
 	make-bindist_osx.sh \
 	make-bindist_win32.sh \
