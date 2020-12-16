@@ -603,6 +603,9 @@ if (olda != addr || olds != data) { \
             drive_store_ram(ctxptr, (addr & 255) | 0x8f00, data);
             updateleds(ctxptr);
             break;
+        case 0xe: /* 0x8exx unprotected RAM */
+            drive_store_ram(ctxptr, (addr & 255) | 0x8e00, data);
+            break;
         default:
             /* Everything else writes to RAM if switch is on */
             if (ctxptr->cmdhd->LEDs&32) {
@@ -1202,6 +1205,7 @@ static void cmdhd_findbaselba(cmdhd_context_t *hd)
 void cmdhd_reset(cmdhd_context_t *hd)
 {
     CLOCK c;
+    size_t i;
     int unit;
 
     CLOG((LOG, "CMDHD: reset"));
@@ -1251,10 +1255,24 @@ void cmdhd_reset(cmdhd_context_t *hd)
         CLOG((LOG, "CMDHD: SWAP9 pressed down"));
     }
 
+    /* count the number of connected drives */
+    unit = 0;
+    for (i = 0; i < 7; i++) {
+        if (hd->scsi->file[i]) {
+            unit++;
+        }
+    }
+
     /* if the image size is too small, put the drive in installation mode */
-    if (hd->imagesize < 73728 ) {
-        hd->i8255a_i[1]&=0xf9;
-        CRIT((ERR, "CMDHD: image size too small, starting up in installation mode"));
+    /* but if there is more than one drive connect, go to normal mode */
+    if (hd->imagesize < 73728) {
+        if (unit == 1) {
+            hd->i8255a_i[1]&=0xf9;
+            CRIT((ERR, "CMDHD: image size too small, starting up in installation mode"));
+        } else {
+            /* remove scsi ID 0 */
+            hd->scsi->file[0] = NULL;
+        }
     }
 
     /* make sure the cmdbus isn't held down */
