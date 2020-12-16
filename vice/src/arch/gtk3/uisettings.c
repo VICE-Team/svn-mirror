@@ -692,7 +692,6 @@ static ui_settings_tree_node_t host_nodes_c64[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1341,6 +1340,26 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
  *                  VIC-20 tree nodes for the settings UI                    *
  ****************************************************************************/
 
+/* {{{ host_nodes_vic20 */
+/** \brief  Child nodes for the VIC-20 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_vic20[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
 /* {{{ machine_nodes_vic20 */
 /** \brief  Child nodes for the VIC20 'Machine' node
  */
@@ -1351,9 +1370,6 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
     { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -1372,13 +1388,6 @@ static ui_settings_tree_node_t machine_nodes_vic20[] = {
     { "SID Card",
       "sid-card",
       sidcart_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1474,7 +1483,7 @@ static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
 /** \brief  Main tree nodes for xvic
  */
 static ui_settings_tree_node_t main_nodes_vic20[] = {
-
+    { "Host",               "host",         NULL,   host_nodes_vic20 },
     { "Machine",            "machine",      NULL,   machine_nodes_vic20 },
     { "Display",            "display",      NULL,   display_nodes_vic20 },
     { "Audio",              "audio",        NULL,   audio_nodes_vic20 },
@@ -1482,9 +1491,6 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_vic20 },
     { "Cartridges",         "cartridges",
       NULL, vic20_cartridges },
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
@@ -1498,6 +1504,28 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
  *                  Plus4/C16 tree nodes for the settings UI                 *
  ****************************************************************************/
 
+/* {{{ host_nodes_plus4 */
+/** \brief  Child nodes for the Plus4/C16 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_plus4[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+
 /* {{{ machine_nodes_plus4 */
 /** \brief  Child nodes for the Plus4 'Machine' node
  */
@@ -1508,9 +1536,6 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
     { "Model",
       "model",
        settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-       settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
        settings_romset_widget_create, NULL },
@@ -1520,13 +1545,6 @@ static ui_settings_tree_node_t machine_nodes_plus4[] = {
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-       settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1622,9 +1640,7 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
 /** \brief  Main tree nodes for xplus4
  */
 static ui_settings_tree_node_t main_nodes_plus4[] = {
-    { "Host",
-       "host",
-       settings_host_machine_widget_create, NULL },
+    { "Host",               "host",         NULL,   host_nodes_plus4 },
     { "Machine",            "machine",      NULL,   machine_nodes_plus4 },
     { "Display",            "display",      NULL,   display_nodes_plus4 },
     { "Audio",              "audio",        NULL,   audio_nodes_plus4 },
@@ -1633,9 +1649,6 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "I/O Extensions",
       "io-extensions",
       NULL, plus4_io_extensions },
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
@@ -1650,6 +1663,27 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
  *                      PET tree nodes for the settings UI                   *
  ****************************************************************************/
 
+/* {{{ host_nodes_pet */
+/** \brief  Child nodes for the PET 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_pet[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
 /* {{{ machine_nodes_pet */
 /** \brief  Child nodes for the PET 'Machine' node
  */
@@ -1657,9 +1691,6 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
     { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -1672,13 +1703,6 @@ static ui_settings_tree_node_t machine_nodes_pet[] = {
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1776,6 +1800,7 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
 /** \brief  Main tree nodes for xpet
  */
 static ui_settings_tree_node_t main_nodes_pet[] = {
+    { "Host",               "host",         NULL,   host_nodes_pet },
     { "Machine",            "machine",      NULL,   machine_nodes_pet },
     { "Display",            "display",      NULL,   display_nodes_pet },
     { "Audio",              "audio",        NULL,   audio_nodes_pet },
@@ -1783,9 +1808,6 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_pet },
     { "I/O extensions", "io-extensions",
       NULL, pet_io_extensions },
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
@@ -1800,6 +1822,26 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
  *                  CBM5x0 tree nodes for the settings UI                    *
  ****************************************************************************/
 
+/* {{{ host_nodes_cbm5x0 */
+/** \brief  Child nodes for the CBM5x0 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_cbm5x0[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
 /* {{{ machine_nodes_cbm5x0 */
 /** \brief  Child nodes for the CBM5x0 'Machine' node
  */
@@ -1810,9 +1852,6 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
     { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -1822,13 +1861,6 @@ static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1917,6 +1949,7 @@ static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
 /** \brief  Main tree nodes for xcbm5x0
  */
 static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
+    { "Host",               "host",         NULL,   host_nodes_cbm5x0 },
     { "Machine",            "machine",      NULL,   machine_nodes_cbm5x0 },
     { "Display",            "display",      NULL,   display_nodes_cbm5x0 },
     { "Audio",              "audio",        NULL,   audio_nodes_cbm5x0 },
@@ -1925,9 +1958,6 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
 #if 0
     { "I/O extensions", "io-extensions",    NULL, cbm5x0_io_extensions },
 #endif
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
@@ -1937,6 +1967,30 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
 };
 /* }}} */
 
+
+/*****************************************************************************
+ *                  CBM-II tree nodes for the settings UI                    *
+ ****************************************************************************/
+
+/* {{{ host_nodes_cbm6x0 */
+/** \brief  Child nodes for the CBM6x0 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_cbm6x0[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
 
 /* {{{ machine_nodes_cbm6x0 */
 /** \brief  Child nodes for the CBM6x0 'Machine' node
@@ -1948,9 +2002,6 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
     { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -1960,13 +2011,6 @@ static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -2059,6 +2103,7 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
 /** \brief  Main tree nodes for xcbm6x0
  */
 static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
+    { "Host",               "host",         NULL,   host_nodes_cbm6x0 },
     { "Machine",            "machine",      NULL,   machine_nodes_cbm6x0 },
     { "Display",            "display",      NULL,   display_nodes_cbm6x0 },
     { "Audio",              "audio",        NULL,   audio_nodes_cbm6x0 },
