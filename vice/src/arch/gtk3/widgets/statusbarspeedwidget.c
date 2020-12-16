@@ -545,7 +545,7 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
     int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
     bool is_paused = ui_pause_active();
     
-    if (state->last_cpu_int != this_cpu_int || state->last_warp != vsync_metric_warp_enabled) {
+    if (state->last_cpu_int != this_cpu_int || state->last_warp != vsync_metric_warp_enabled || state->last_paused != is_paused) {
         
         /* get grid containing the two labels */
         grid = gtk_bin_get_child(GTK_BIN(widget));
@@ -561,10 +561,11 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
         
         state->last_cpu_int = this_cpu_int;
         state->last_warp = vsync_metric_warp_enabled;
+        state->last_paused = is_paused;
     }
     
     if (window_identity == PRIMARY_WINDOW) {
-        if (state->last_fps_int != this_fps_int || state->last_paused != is_paused) {
+        if (state->last_fps_int != this_fps_int) {
             
             if (grid == NULL) {
                 grid = gtk_bin_get_child(GTK_BIN(widget));
@@ -578,7 +579,6 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
             gtk_label_set_text(GTK_LABEL(label), buffer);
             
             state->last_fps_int = this_fps_int;
-            state->last_paused = is_paused;
         }
     }
     
