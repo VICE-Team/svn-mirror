@@ -695,6 +695,7 @@ static ui_settings_tree_node_t host_nodes_c64[] = {
 
     UI_SETTINGS_TERMINATOR
 };
+/* }}} */
 
 /* {{{ machine_nodes_c64 */
 /** \brief  Child nodes for the C64 'Machine' node
@@ -852,6 +853,26 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
  *                  C64DTV tree nodes for the settings UI                    *
  ****************************************************************************/
 
+/* {{{ host_nodes_c64 */
+/** \brief  Child nodes for the C64DTV 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_c64dtv[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
 /* {{{ machine_nodes_c64dtv */
 /** \brief  Child nodes for the C64DTV 'Machine' node
  */
@@ -862,9 +883,6 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
     { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -879,12 +897,6 @@ static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
       "io-settings",
       settings_io_widget_create, NULL },
 #endif
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -965,6 +977,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
 /** \brief  Main tree nodes for x64dtv
  */
 static ui_settings_tree_node_t main_nodes_c64dtv[] = {
+    { "Host",       "host",     NULL,   host_nodes_c64dtv },
     { "Machine",    "machine",  NULL,   machine_nodes_c64dtv },
     { "Display",    "display",  NULL,   display_nodes_c64dtv },
     { "Audio",      "audio",    NULL,   audio_nodes_c64dtv },
@@ -975,9 +988,7 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
       "misc",
       settings_misc_widget_create, NULL },
 #endif
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
+
 
     UI_SETTINGS_TERMINATOR
 };
@@ -987,6 +998,27 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
 /*****************************************************************************
  *                      C128 tree nodes for the settings UI                  *
  ****************************************************************************/
+
+/* {{{ host_nodes_c128 */
+/** \brief  Child nodes for the C128 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_c128[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
 
 /* {{{ machine_nodes_c128 */
 /** \brief  Child nodes for the C128 'Machine' node
@@ -998,9 +1030,6 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
     { "Model",
       "model",
       settings_model_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -1016,12 +1045,6 @@ static ui_settings_tree_node_t machine_nodes_c128[] = {
     { "I/O settings",
       "io-settings",
       settings_io_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -1122,27 +1145,27 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
 /** \brief  Main tree nodes for x128
  */
 static ui_settings_tree_node_t main_nodes_c128[] = {
+    { "Host",
+      "host",
+      NULL, host_nodes_c128 },
     { "Machine",
-       "machine",
-       NULL, machine_nodes_c128 },
+      "machine",
+      NULL, machine_nodes_c128 },
     { "Display",
-       "display",
-       NULL, display_nodes_c128 },
+      "display",
+      NULL, display_nodes_c128 },
     { "Audio",
-       "audio",
-       NULL, audio_nodes_c128 },
+      "audio",
+      NULL, audio_nodes_c128 },
     { "Input devices",
-       "input",
-       NULL, input_nodes_c128 },
+      "input",
+      NULL, input_nodes_c128 },
     { "Peripheral devices",
-       "peripheral", /* I'll misspell this many times */
-       NULL, peripheral_nodes_c128 },
+      "peripheral", /* I'll misspell this many times */
+      NULL, peripheral_nodes_c128 },
     { "Cartridges",
       "cartridges",
       NULL, c128_cartridges },
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
@@ -1157,6 +1180,27 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
  *                  SCPU64 tree nodes for the settings UI                    *
  ****************************************************************************/
 
+/* {{{ host_nodes_scpu64 */
+/** \brief  Child nodes for the SCPU64 'Host' node
+ */
+static ui_settings_tree_node_t host_nodes_scpu64[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
 /* {{{ machine_nodes_scpu64 */
 /** \brief  Child nodes for the SCPU64 'Machine' node
  */
@@ -1170,9 +1214,6 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "SCPU64",
       "scpu64",
       scpu64_settings_widget_create, NULL },
-    { "Autostart",
-      "autostart",
-      settings_autostart_widget_create, NULL },
     { "ROM",
       "rom-settings",
       settings_romset_widget_create, NULL },
@@ -1185,13 +1226,6 @@ static ui_settings_tree_node_t machine_nodes_scpu64[] = {
     { "Burst Mode Modification",
       "burstmode-mode",
       burst_mode_widget_create, NULL },
-    { "Monitor",
-      "monitor",
-      settings_monitor_widget_create, NULL },
-    { "Netplay",
-      "netplay",
-      netplay_widget_create, NULL },
-
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1284,6 +1318,7 @@ static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
 /** \brief  Main tree nodes for xscpu64
  */
 static ui_settings_tree_node_t main_nodes_scpu64[] = {
+    { "Host",               "host",         NULL,   host_nodes_scpu64 },
     { "Machine",            "machine",      NULL,   machine_nodes_scpu64 },
     { "Display",            "display",      NULL,   display_nodes_scpu64 },
     { "Audio",              "audio",        NULL,   audio_nodes_scpu64 },
@@ -1292,9 +1327,6 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
     { "Cartridges",
       "cartridges",
       NULL, scpu64_cartridges },
-    { "Snapshot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
 #if 0
     { "Emulator",
       "misc",
