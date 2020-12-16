@@ -275,6 +275,9 @@ typedef struct ui_statusbar_s {
     /** \brief  Keyboard debugging widget */
     GtkWidget *kbd_debug;
 
+    /** \brief PRIMARY_WINDOW, SECONDARY_WINDOW, etc */
+    int window_identity;
+    
 } ui_statusbar_t;
 
 
@@ -1575,6 +1578,8 @@ GtkWidget *ui_statusbar_create(int window_identity)
         return NULL;
     }
 
+    allocated_bars[i].window_identity = window_identity;
+
     /* While the status bar itself is returned floating, we sink all
      * of its information-bearing subwidgets. This is so that we can
      * remove or add them to the status bar as the configuration
@@ -1585,19 +1590,17 @@ GtkWidget *ui_statusbar_create(int window_identity)
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
 
-    /* First column: CPU/FPS - Not on VDC Window for now */
-    if (window_identity == PRIMARY_WINDOW) {
-        speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
-        g_object_ref_sink(G_OBJECT(speed));
-        g_object_set(speed, "margin-left", 8, NULL);
-        
-        allocated_bars[i].speed = speed;
-        gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
-        
-        /* Second column: separator */
-        gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-                        SB_COL_SEP_SPEED, 0, 1, 2);
-    }
+    /* First column: CPU/FPS - No FPS on VDC Window for now */
+    speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
+    g_object_ref_sink(G_OBJECT(speed));
+    g_object_set(speed, "margin-left", 8, NULL);
+    
+    allocated_bars[i].speed = speed;
+    gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
+    
+    /* Second column: separator */
+    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                    SB_COL_SEP_SPEED, 0, 1, 2);
 
     /* don't add CRT or Mixer controls when VSID */
     if (machine_class != VICE_MACHINE_VSID) {
@@ -2275,7 +2278,7 @@ void ui_update_statusbars(void)
 
         speed_widget = bar->speed;
         if (speed_widget != NULL) {
-            statusbar_speed_widget_update(speed_widget, &bar->speed_state);
+            statusbar_speed_widget_update(speed_widget, &bar->speed_state, bar->window_identity);
         }
 
         /*

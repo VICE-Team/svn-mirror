@@ -496,7 +496,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
  *
  * \param[in]   widget  GtkEventBox containing the CPU/FPS widgets
  */
-void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_state_t *state)
+void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_state_t *state, int window_identity)
 {
 #   define CPU_DECIMAL_PLACES 2
 #   define FPS_DECIMAL_PLACES 3
@@ -571,9 +571,17 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
         
         /* get FPS/Pause label and update its text */
         label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
-        g_snprintf(buffer, sizeof(buffer), "%10." STR(FPS_DECIMAL_PLACES) "f fps%s",
-                   vsync_metric_emulated_fps,
-                   is_paused ? " (paused)" : "");
+        
+        if (window_identity == PRIMARY_WINDOW) {
+            g_snprintf(buffer, sizeof(buffer), "%10." STR(FPS_DECIMAL_PLACES) "f fps%s",
+                       vsync_metric_emulated_fps,
+                       is_paused ? " (paused)" : "");
+        } else {
+            /* 'short term hack' to not show VICII fps on VDC window */
+            g_snprintf(buffer, sizeof(buffer), "         ? fps%s",
+                       is_paused ? " (paused)" : "");
+        }
+        
         gtk_label_set_text(GTK_LABEL(label), buffer);
         
         state->last_fps_int = this_fps_int;

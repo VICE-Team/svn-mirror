@@ -45,7 +45,7 @@ GtkWidget *speed_menu_popup_create(void);
 
 GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state);
 
-void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_state_t *state);
+void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_state_t *state, int window_identity);
 
 #endif
 
