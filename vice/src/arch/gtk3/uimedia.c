@@ -42,10 +42,6 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "filechooserhelpers.h"
 #include "gfxoutput.h"
 #include "lib.h"
 #include "machine.h"
@@ -60,7 +56,7 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uistatusbar.h"
-#include "widgethelpers.h"
+#include "vice_gtk3.h"
 
 #ifdef HAVE_FFMPEG
 #include "ffmpegwidget.h"
@@ -836,6 +832,7 @@ static GtkWidget *create_screenshot_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *drv_grid;
+    GtkWidget *label;
     GtkWidget *radio;
     GtkWidget *last;
     GSList *group = NULL;
@@ -846,7 +843,14 @@ static GtkWidget *create_screenshot_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    drv_grid = uihelpers_create_grid_with_label("Driver", 1);
+    /* grid without extra row spacing */
+    drv_grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "Driver", 1);
+    g_object_set(drv_grid, "margin-top", 8, "margin-left", 16, NULL);
+    /* add some padding to the label */
+    label = gtk_grid_get_child_at(GTK_GRID(drv_grid), 0, 0);
+    g_object_set(label, "margin-bottom", 8, NULL);
+
+    /* add drivers */
     grid_index = 1;
     last = NULL;
     for (index = 0; video_driver_list[index].name != NULL; index++) {
@@ -894,9 +898,10 @@ static GtkWidget *create_screenshot_widget(void)
 
     /* this is where the various options go per screenshot driver (for example
      * Koala or Artstudio) */
-    screenshot_options_grid = uihelpers_create_grid_with_label(
-            "Driver options", 1);
-
+    screenshot_options_grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Driver options", 1);
+    g_object_set(screenshot_options_grid,
+                 "margin-top", 8, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), drv_grid, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), screenshot_options_grid, 1, 0, 1, 1);
 
@@ -915,6 +920,7 @@ static GtkWidget *create_sound_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *drv_grid;
+    GtkWidget *label;
     GtkWidget *radio;
     GtkWidget *last;
     GSList *group = NULL;
@@ -924,7 +930,11 @@ static GtkWidget *create_sound_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    drv_grid = uihelpers_create_grid_with_label("Driver", 1);
+    drv_grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "Driver", 1);
+    label = gtk_grid_get_child_at(GTK_GRID(drv_grid), 0, 0);
+    g_object_set(label, "margin-bottom", 8, NULL);
+    g_object_set(drv_grid, "margin-top", 8, "margin-left", 16, NULL);
+
     last = NULL;
     for (index = 0; audio_driver_list[index].name != NULL; index++) {
         const char *display = audio_driver_list[index].display;
@@ -978,9 +988,7 @@ static GtkWidget *create_video_widget(void)
     GtkWidget *selection_grid;
     GtkWidget *options_grid;
 #endif
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced(16, 8);
 
 
 #ifdef HAVE_FFMPEG
@@ -1009,7 +1017,9 @@ static GtkWidget *create_video_widget(void)
     gtk_widget_set_hexpand(combo, TRUE);
     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
-    selection_grid = uihelpers_create_grid_with_label("Driver selection", 2);
+    selection_grid = vice_gtk3_grid_new_spaced_with_label
+        (-1, -1, "Driver selection", 2);
+    g_object_set(selection_grid, "margin-top", 8, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(selection_grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(selection_grid), 8);
     gtk_grid_attach(GTK_GRID(selection_grid), label, 0, 1, 1, 1);
@@ -1019,7 +1029,9 @@ static GtkWidget *create_video_widget(void)
     gtk_grid_attach(GTK_GRID(grid), selection_grid, 0, 0, 1, 1);
 
     /* grid around ffmpeg */
-    options_grid = uihelpers_create_grid_with_label("Driver options", 1);
+    options_grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Driver options", 1);
+    g_object_set(options_grid, "margin-top", 8, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(options_grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(options_grid), 8);
 
