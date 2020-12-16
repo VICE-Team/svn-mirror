@@ -453,7 +453,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
      */
 
     /* label just for CPU (and Warp if active) */
-    label_cpu = gtk_label_new("?% cpu");
+    label_cpu = gtk_label_new("");
     context = gtk_widget_get_pango_context(label_cpu);  /* don't free */
     desc_static = pango_context_get_font_description(context);
     desc = pango_font_description_copy_static(desc_static);
@@ -464,7 +464,7 @@ GtkWidget *statusbar_speed_widget_create(statusbar_speed_widget_state_t *state)
     gtk_grid_attach(GTK_GRID(grid), label_cpu, 0, 0, 1, 1);
 
     /* label just for FPS (and Pause if active) */
-    label_fps = gtk_label_new("?% fps");
+    label_fps = gtk_label_new("");
     context = gtk_widget_get_pango_context(label_fps);  /* don't free */
     desc_static = pango_context_get_font_description(context);
     desc = pango_font_description_copy_static(desc_static);
@@ -543,7 +543,7 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
     
     int this_cpu_int = (int)(vsync_metric_cpu_percent  * pow(10, CPU_DECIMAL_PLACES) + 0.5);
     int this_fps_int = (int)(vsync_metric_emulated_fps * pow(10, FPS_DECIMAL_PLACES) + 0.5);
-    bool is_paused;
+    bool is_paused = ui_pause_active();
     
     if (state->last_cpu_int != this_cpu_int || state->last_warp != vsync_metric_warp_enabled) {
         
@@ -552,40 +552,34 @@ void statusbar_speed_widget_update(GtkWidget *widget, statusbar_speed_widget_sta
         
         /* get CPU/Warp label and update its text */
         label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+        
         g_snprintf(buffer, sizeof(buffer), "%9." STR(CPU_DECIMAL_PLACES) "f%% cpu%s",
                    vsync_metric_cpu_percent,
-                   vsync_metric_warp_enabled ? " (warp)" : "");
+                   is_paused ? " (paused)" : (vsync_metric_warp_enabled ? " (warp)" : ""));
+        
         gtk_label_set_text(GTK_LABEL(label), buffer);
         
         state->last_cpu_int = this_cpu_int;
         state->last_warp = vsync_metric_warp_enabled;
     }
     
-    is_paused = ui_pause_active();
-    
-    if (state->last_fps_int != this_fps_int || state->last_paused != is_paused) {
-        
-        if (grid == NULL) {
-            grid = gtk_bin_get_child(GTK_BIN(widget));
+    if (window_identity == PRIMARY_WINDOW) {
+        if (state->last_fps_int != this_fps_int || state->last_paused != is_paused) {
+            
+            if (grid == NULL) {
+                grid = gtk_bin_get_child(GTK_BIN(widget));
+            }
+            
+            /* get FPS/Pause label and update its text */
+            label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
+            
+            g_snprintf(buffer, sizeof(buffer), "%10." STR(FPS_DECIMAL_PLACES) "f fps", vsync_metric_emulated_fps);
+            
+            gtk_label_set_text(GTK_LABEL(label), buffer);
+            
+            state->last_fps_int = this_fps_int;
+            state->last_paused = is_paused;
         }
-        
-        /* get FPS/Pause label and update its text */
-        label = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
-        
-        if (window_identity == PRIMARY_WINDOW) {
-            g_snprintf(buffer, sizeof(buffer), "%10." STR(FPS_DECIMAL_PLACES) "f fps%s",
-                       vsync_metric_emulated_fps,
-                       is_paused ? " (paused)" : "");
-        } else {
-            /* 'short term hack' to not show VICII fps on VDC window */
-            g_snprintf(buffer, sizeof(buffer), "         ? fps%s",
-                       is_paused ? " (paused)" : "");
-        }
-        
-        gtk_label_set_text(GTK_LABEL(label), buffer);
-        
-        state->last_fps_int = this_fps_int;
-        state->last_paused = is_paused;
     }
     
 #   undef CPU_DECIMAL_PLACES
