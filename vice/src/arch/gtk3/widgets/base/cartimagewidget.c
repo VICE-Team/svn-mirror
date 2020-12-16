@@ -215,8 +215,8 @@ GtkWidget *cart_image_widget_create(
     crt_name = cart_name;
     crt_id = cart_id;
 
-    grid = uihelpers_create_grid_with_label(title, 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, title, 3);
+    g_object_set(grid, "margin-top", 8, NULL);
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
