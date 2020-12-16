@@ -1430,9 +1430,9 @@ static void layout_statusbar_drives(ui_sb_state_t *state_snapshot, int bar_index
             g_signal_connect(event_box, "button-press-event",
                     G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
             g_signal_connect(event_box, "enter-notify-event",
-                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar_index]);
             g_signal_connect(event_box, "leave-notify-event",
-                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+                    G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[bar_index]);
             gtk_widget_show_all(event_box);
             if (tde & 1) {
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
