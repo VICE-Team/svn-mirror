@@ -2992,15 +2992,14 @@ void monitor_startup(MEMSPACE mem)
     monitor_open();
     while (!exit_mon) {
         
-        if (refresh_on_break) {
-            /* Render all in-progress frames as we enter the prompt */
-            video_canvas_refresh_all_tracked();
-        }
-
-        
         if (playback_fp) {
             playback_next_command();
         } else {
+            if (refresh_on_break) {
+                /* Render all in-progress frames as we enter the prompt */
+                video_canvas_refresh_all_tracked();
+            }
+            
             make_prompt(prompt);
             p = uimon_in(prompt);
             if (p) {
