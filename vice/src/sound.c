@@ -997,7 +997,6 @@ int sound_open(void)
         snddata.fragsize = fragsize;
         snddata.fragnr = fragnr;
         snddata.bufsize = fragsize * fragnr;
-        snddata.buffer = lib_malloc(snddata.bufsize * sizeof(int16_t));
         snddata.bufptr = 0;
         
         if (pdev->init) {
@@ -1017,6 +1016,7 @@ int sound_open(void)
                 snddata.sound_output_channels = channels;
             }
         }
+        snddata.buffer = lib_malloc(snddata.bufsize, snddata.sound_output_channels * sizeof(int16_t));
         snddata.issuspended = 0;
 
         for (c = 0; c < snddata.sound_output_channels; c++) {
