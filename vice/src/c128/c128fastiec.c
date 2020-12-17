@@ -35,6 +35,7 @@
 #include "iecdrive.h"
 #include "maincpu.h"
 #include "types.h"
+#include "drive/iec/cmdhd.h"
 
 static int fast_cpu_direction, fast_drive_direction[NUM_DISK_UNITS];
 int burst_mod = 0;
@@ -72,6 +73,9 @@ void c128fastiec_fast_cpu_write(uint8_t data)
                     case DRIVE_TYPE_2000:
                     case DRIVE_TYPE_4000:
                         viacore_set_sr(unit->via4000, data);
+                        break;
+                    case DRIVE_TYPE_CMDHD:
+                        viacore_set_sr(unit->cmdhd->via10, data);
                         break;
                 }
             }
