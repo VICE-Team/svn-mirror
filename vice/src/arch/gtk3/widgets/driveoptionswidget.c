@@ -58,18 +58,40 @@
 #include "driveoptionswidget.h"
 
 
+static void on_iec_toggled(GtkWidget *widget, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data);
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    void (*callback)(GtkWidget *, int);
+
+    debug_gtk3("State: %s, unit: %d",
+            state ? "ON" : "OFF", unit);
+    callback = g_object_get_data(G_OBJECT(widget), "ExtraCallback");
+    if (callback != NULL) {
+        debug_gtk3("Triggering custom callback:");
+        callback(widget, unit);
+    }
+}
+
+
 /** \brief  Create checkbox to toggle IEC-Device emulation for \a unit
  *
  * \param[in]   unit    unit number (8-11)
  *
  * \return  GtkCheckButton
  */
-static GtkWidget *create_iec_check_button(int unit)
+static GtkWidget *create_iec_check_button(int unit,
+                                          void (*callback)(GtkWidget *, int))
 {
     GtkWidget *check;
 
     check = vice_gtk3_resource_check_button_new_sprintf(
             "IECDevice%d", "IEC-Device", unit);
+
+    g_object_set_data(G_OBJECT(check), "ExtraCallback", (gpointer)callback);
+    g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(on_iec_toggled),
+            GINT_TO_POINTER(unit));
+
     return check;
 }
 
@@ -111,11 +133,13 @@ static GtkWidget *create_rtc_check_button(int unit)
 
 /** \brief  Create drive options widget for \a unit
  *
- * \param[in]   unit    drive unit number
+ * \param[in]   unit        drive unit number
+ * \param[in]   callback    custom callback
  *
  * \return GtkGrid
  */
-GtkWidget *drive_options_widget_create(int unit)
+GtkWidget *drive_options_widget_create(int unit,
+                                       void (*iec_callback)(GtkWidget *, int))
 {
     GtkWidget *grid;
     GtkWidget *iec_widget = NULL;
@@ -139,7 +163,7 @@ GtkWidget *drive_options_widget_create(int unit)
         case VICE_MACHINE_C64DTV:   /* fall through */
         case VICE_MACHINE_VIC20:    /* fall through */
         case VICE_MACHINE_PLUS4:
-            iec_widget = create_iec_check_button(unit);
+            iec_widget = create_iec_check_button(unit, iec_callback);
             gtk_grid_attach(GTK_GRID(grid), iec_widget, 1, 0, 1, 1);
             rtc_widget = create_rtc_check_button(unit);
             gtk_grid_attach(GTK_GRID(grid), rtc_widget, 2, 0, 1, 1);
