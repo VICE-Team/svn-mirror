@@ -270,17 +270,18 @@ some features have been deprecated and are now disabled by default:
 ** VDC fixes
 ------------
 
+- emulate VDC's internal buffer, issues with RFOVDC plasma part are fixed
+- several fixes for interlace, now vdcmodemania interlace parts all work and
+  soci VDC test #5 works
+- improved VDC-FLI handling, 3 byte attribute offset doesn't always apply,
+  fixes vdc-mcm demo and vdcmodemania fli part
+- fix issue with wrap around of VDC ram affecting vdcmodemania fli part
 - fixed VDC reg #28 bit #4, it sets the addressing mode, it does not actually
   reflect the amount of ram installed.
 - correct aspect ratio for PAL or NTSC
 - screen is resized automatically on PAL/NTSC change
 - corrected size of saved screenshots or videos
 - correct handling of unused bits in some registers
-- fixed VDC interlace modes with odd row heights, vdcmodemania interlace parts
-  all work again and soci VDC test #5 displays 
-- fix issue with wrap around of VDC ram fixing vdcmodemania fli part
-- better VDC FLI handling, 3 byte attribute offset doesn't always apply, fixes
-  vdc-mcm demo and vdcmodemania fli part
 - corrections and enhancements to monitor "io d600" dump
 
 ** SID fixes
