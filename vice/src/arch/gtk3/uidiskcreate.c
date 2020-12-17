@@ -74,6 +74,7 @@ static disk_image_type_t disk_image_types[] = {
     { "d80", DISK_IMAGE_TYPE_D80 },
     { "d81", DISK_IMAGE_TYPE_D81 },
     { "d82", DISK_IMAGE_TYPE_D82 },
+    { "d90", DISK_IMAGE_TYPE_D90 },
     { "d1m", DISK_IMAGE_TYPE_D1M },
     { "d2m", DISK_IMAGE_TYPE_D2M },
     { "d4m", DISK_IMAGE_TYPE_D4M },
