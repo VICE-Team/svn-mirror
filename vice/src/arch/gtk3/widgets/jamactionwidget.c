@@ -54,9 +54,11 @@ static const vice_gtk3_radiogroup_entry_t actions[] = {
 
 /** \brief  Create widget to control the "JAMAction" resource
  *
+ * \param[in]   parent  parent widget (unused)
+ *
  * \return  GtkGrid
  */
-GtkWidget *jam_action_widget_create(void)
+GtkWidget *jam_action_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *selection;

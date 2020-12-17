@@ -156,7 +156,6 @@
 /* TODO: move up and sort headers */
 #include "settings_peripherals_generic.h"
 #include "settings_host_display.h"
-#include "settings_host_machine.h"
 
 /* VSID stuff */
 #include "hvscsettingswidget.h"
@@ -167,6 +166,10 @@
  * the CWD widget.
  */
 #include "cwdwidget.h"
+
+/* JAM action widget
+ */
+#include "jamactionwidget.h"
 
 
 #include "uisettings.h"
@@ -699,6 +702,9 @@ static ui_settings_tree_node_t host_nodes_generic[] = {
     { "Current directory",
       "cwd",
       cwd_widget_create, NULL },
+    { "CPU JAM action",
+      "jam-action",
+      jam_action_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -737,9 +743,6 @@ static ui_settings_tree_node_t host_nodes_c64[] = {
 /** \brief  Child nodes for the C64 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_c64[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -910,9 +913,6 @@ static ui_settings_tree_node_t host_nodes_c64dtv[] = {
 /** \brief  Child nodes for the C64DTV 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_c64dtv[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1059,9 +1059,6 @@ static ui_settings_tree_node_t host_nodes_c128[] = {
 /** \brief  Child nodes for the C128 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_c128[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1236,9 +1233,6 @@ static ui_settings_tree_node_t host_nodes_scpu64[] = {
 /** \brief  Child nodes for the SCPU64 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_scpu64[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL }, 
@@ -1392,9 +1386,6 @@ static ui_settings_tree_node_t host_nodes_vic20[] = {
 /** \brief  Child nodes for the VIC20 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_vic20[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -1559,9 +1550,6 @@ static ui_settings_tree_node_t host_nodes_plus4[] = {
 /** \brief  Child nodes for the Plus4 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_plus4[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
        settings_model_widget_create, NULL },
@@ -1869,9 +1857,6 @@ static ui_settings_tree_node_t host_nodes_cbm5x0[] = {
 /** \brief  Child nodes for the CBM5x0 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_cbm5x0[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },
@@ -2021,9 +2006,6 @@ static ui_settings_tree_node_t host_nodes_cbm6x0[] = {
 /** \brief  Child nodes for the CBM6x0 'Machine' node
  */
 static ui_settings_tree_node_t machine_nodes_cbm6x0[] = {
-    { "Host",
-      "host",
-      settings_host_machine_widget_create, NULL },
     { "Model",
       "model",
       settings_model_widget_create, NULL },

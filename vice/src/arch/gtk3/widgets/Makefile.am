@@ -140,7 +140,6 @@ libwidgets_a_SOURCES = \
 	settings_ethernet.c \
 	settings_fsdevice.c \
 	settings_host_display.c \
-	settings_host_machine.c \
 	settings_io.c \
 	settings_joystick.c \
 	settings_keyboard.c \
@@ -299,7 +298,6 @@ EXTRA_DIST = \
 	settings_ethernet.h \
 	settings_fsdevice.h \
 	settings_host_display.h \
-	settings_host_machine.h \
 	settings_io.h \
 	settings_joystick.h \
 	settings_keyboard.h \
