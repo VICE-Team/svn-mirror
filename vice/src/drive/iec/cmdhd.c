@@ -962,7 +962,7 @@ static void store_sr10(via_context_t *via_context, uint8_t byte)
 
     viap = (drivevia_context_t *)(via_context->prv);
 
-    iec_fast_drive_write((uint8_t)(~byte), viap->number);
+    iec_fast_drive_write(byte, viap->number);
 }
 
 static void store_t2l(via_context_t *via_context, uint8_t byte)
