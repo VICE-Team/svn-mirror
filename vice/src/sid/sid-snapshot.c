@@ -310,7 +310,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
             }
         }
         if (sidnr >= 1) {
-            resources_set_int("SidStereoAddressStart", sid_address);
+            resources_set_int("Sid2AddressStart", sid_address);
             resources_set_int_sprintf("Sid%dAddressStart", sid_address, sidnr + 1);
         }
         if (SMR_BA(m, tmp + 2, 32) < 0) {

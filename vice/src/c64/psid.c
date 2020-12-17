@@ -654,7 +654,7 @@ void psid_init_driver(void)
         if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc >= 0xde00)
             && (sid2loc & 0x10) == 0) {
             resources_set_int("SidStereo", 1);
-            resources_set_int("SidStereoAddressStart", sid2loc);
+            resources_set_int("Sid2AddressStart", sid2loc);
         }
         sid3loc = 0xd000 | ((psid->reserved << 4) & 0x0ff0);
         if (sid3loc != 0xd000) {
@@ -662,7 +662,7 @@ void psid_init_driver(void)
             if (((sid3loc >= 0xd420 && sid3loc < 0xd800) || sid3loc >= 0xde00)
                 && (sid3loc & 0x10) == 0) {
                 resources_set_int("SidStereo", 2);
-                resources_set_int("SidTripleAddressStart", sid3loc);
+                resources_set_int("Sid3AddressStart", sid3loc);
             }
         }
     }
