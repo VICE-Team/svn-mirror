@@ -633,9 +633,17 @@ static int audio_stop(void)
 
 static void audio_close(void)
 {
+    OSStatus err;
+    
     if (outputUnit) {
         audio_stop();
         
+        log_message(LOG_DEFAULT, "AudioComponentInstanceDispose");
+        err = AudioComponentInstanceDispose(outputUnit);
+        if (err) {
+            log_error(LOG_DEFAULT, "sound (audio_close): error disposing of audio unit");
+        }
+
         outputUnit = NULL;
     }
     
