@@ -28,9 +28,8 @@
 #ifndef VICE_CWDWIDGET_H
 #define VICE_CWDWIDGET_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *cwd_widget_create(void);
+GtkWidget *cwd_widget_create(GtkWidget *parent);
 
 #endif

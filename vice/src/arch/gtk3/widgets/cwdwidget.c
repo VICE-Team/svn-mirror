@@ -77,9 +77,11 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create widget to change the current working directory
  *
+ * \param[in]   parent  parent widget (unused)
+ *
  * \return  GtkGrid
  */
-GtkWidget *cwd_widget_create(void)
+GtkWidget *cwd_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *wrapper;

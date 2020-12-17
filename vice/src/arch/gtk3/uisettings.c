@@ -161,6 +161,13 @@
 /* VSID stuff */
 #include "hvscsettingswidget.h"
 
+/* CWD widget: moved from machine->host to host
+ *
+ * XXX: Probably at some point create settings_paths.{c,h} and have that use
+ * the CWD widget.
+ */
+#include "cwdwidget.h"
+
 
 #include "uisettings.h"
 
@@ -672,10 +679,36 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 /* }}} */
 
 
+
+/* {{{ host_nodes_generic */
+/** \brief  Child nodes for the 'Host' node for all machines
+ */
+static ui_settings_tree_node_t host_nodes_generic[] = {
+    { "Autostart",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Monitor",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+    { "Netplay",
+      "netplay",
+      netplay_widget_create, NULL },
+    { "Snapshot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Current directory",
+      "cwd",
+      cwd_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
+};
+/* }}} */
+
+
 /*****************************************************************************
  *                  C64 tree nodes for the settings UI                       *
  ****************************************************************************/
 
+#if 0
 /* {{{ host_nodes_c64 */
 /** \brief  Child nodes for the C64 'Host' node
  */
@@ -692,9 +725,13 @@ static ui_settings_tree_node_t host_nodes_c64[] = {
     { "Snapshot/event/media recording",
       "snapshot",
       settings_snapshot_widget_create, NULL },
+    { "Current directory",
+      "cwd",
+      cwd_widget_create, NULL },
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_c64 */
 /** \brief  Child nodes for the C64 'Machine' node
@@ -819,7 +856,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64[] = {
 static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Host",
       "host",
-      NULL, host_nodes_c64 },
+      NULL, host_nodes_generic },
     { "Machine",
       "machine",
       NULL, machine_nodes_c64 },
@@ -838,11 +875,6 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
     { "Cartridges",
       "cartridges",
       NULL, c64_cartridges },
-#if 0
-    { "Emulator",
-      "misc",
-      settings_misc_widget_create, NULL },
-#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -852,7 +884,8 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
  *                  C64DTV tree nodes for the settings UI                    *
  ****************************************************************************/
 
-/* {{{ host_nodes_c64 */
+#if 0
+/* {{{ host_nodes_c64dtv */
 /** \brief  Child nodes for the C64DTV 'Host' node
  */
 static ui_settings_tree_node_t host_nodes_c64dtv[] = {
@@ -871,6 +904,7 @@ static ui_settings_tree_node_t host_nodes_c64dtv[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_c64dtv */
 /** \brief  Child nodes for the C64DTV 'Machine' node
@@ -976,7 +1010,7 @@ static ui_settings_tree_node_t peripheral_nodes_c64dtv[] = {
 /** \brief  Main tree nodes for x64dtv
  */
 static ui_settings_tree_node_t main_nodes_c64dtv[] = {
-    { "Host",       "host",     NULL,   host_nodes_c64dtv },
+    { "Host",       "host",     NULL,   host_nodes_generic },
     { "Machine",    "machine",  NULL,   machine_nodes_c64dtv },
     { "Display",    "display",  NULL,   display_nodes_c64dtv },
     { "Audio",      "audio",    NULL,   audio_nodes_c64dtv },
@@ -998,6 +1032,7 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
  *                      C128 tree nodes for the settings UI                  *
  ****************************************************************************/
 
+#if 0
 /* {{{ host_nodes_c128 */
 /** \brief  Child nodes for the C128 'Host' node
  */
@@ -1018,6 +1053,7 @@ static ui_settings_tree_node_t host_nodes_c128[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_c128 */
 /** \brief  Child nodes for the C128 'Machine' node
@@ -1146,7 +1182,7 @@ static ui_settings_tree_node_t peripheral_nodes_c128[] = {
 static ui_settings_tree_node_t main_nodes_c128[] = {
     { "Host",
       "host",
-      NULL, host_nodes_c128 },
+      NULL, host_nodes_generic },
     { "Machine",
       "machine",
       NULL, machine_nodes_c128 },
@@ -1165,11 +1201,6 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
     { "Cartridges",
       "cartridges",
       NULL, c128_cartridges },
-#if 0
-    { "Emulator",
-      "misc",
-      settings_misc_widget_create, NULL },
-#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1178,7 +1209,7 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
 /*****************************************************************************
  *                  SCPU64 tree nodes for the settings UI                    *
  ****************************************************************************/
-
+#if 0
 /* {{{ host_nodes_scpu64 */
 /** \brief  Child nodes for the SCPU64 'Host' node
  */
@@ -1199,6 +1230,7 @@ static ui_settings_tree_node_t host_nodes_scpu64[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_scpu64 */
 /** \brief  Child nodes for the SCPU64 'Machine' node
@@ -1317,7 +1349,7 @@ static ui_settings_tree_node_t peripheral_nodes_scpu64[] = {
 /** \brief  Main tree nodes for xscpu64
  */
 static ui_settings_tree_node_t main_nodes_scpu64[] = {
-    { "Host",               "host",         NULL,   host_nodes_scpu64 },
+    { "Host",               "host",         NULL,   host_nodes_generic },
     { "Machine",            "machine",      NULL,   machine_nodes_scpu64 },
     { "Display",            "display",      NULL,   display_nodes_scpu64 },
     { "Audio",              "audio",        NULL,   audio_nodes_scpu64 },
@@ -1326,11 +1358,6 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
     { "Cartridges",
       "cartridges",
       NULL, scpu64_cartridges },
-#if 0
-    { "Emulator",
-      "misc",
-      settings_misc_widget_create, NULL },
-#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1339,7 +1366,7 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
 /*****************************************************************************
  *                  VIC-20 tree nodes for the settings UI                    *
  ****************************************************************************/
-
+#if 0
 /* {{{ host_nodes_vic20 */
 /** \brief  Child nodes for the VIC-20 'Host' node
  */
@@ -1359,6 +1386,7 @@ static ui_settings_tree_node_t host_nodes_vic20[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_vic20 */
 /** \brief  Child nodes for the VIC20 'Machine' node
@@ -1483,7 +1511,7 @@ static ui_settings_tree_node_t peripheral_nodes_vic20[] = {
 /** \brief  Main tree nodes for xvic
  */
 static ui_settings_tree_node_t main_nodes_vic20[] = {
-    { "Host",               "host",         NULL,   host_nodes_vic20 },
+    { "Host",               "host",         NULL,   host_nodes_generic },
     { "Machine",            "machine",      NULL,   machine_nodes_vic20 },
     { "Display",            "display",      NULL,   display_nodes_vic20 },
     { "Audio",              "audio",        NULL,   audio_nodes_vic20 },
@@ -1504,6 +1532,7 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
  *                  Plus4/C16 tree nodes for the settings UI                 *
  ****************************************************************************/
 
+#if 0
 /* {{{ host_nodes_plus4 */
 /** \brief  Child nodes for the Plus4/C16 'Host' node
  */
@@ -1524,7 +1553,7 @@ static ui_settings_tree_node_t host_nodes_plus4[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
-
+#endif
 
 /* {{{ machine_nodes_plus4 */
 /** \brief  Child nodes for the Plus4 'Machine' node
@@ -1640,7 +1669,7 @@ static ui_settings_tree_node_t peripheral_nodes_plus4[] = {
 /** \brief  Main tree nodes for xplus4
  */
 static ui_settings_tree_node_t main_nodes_plus4[] = {
-    { "Host",               "host",         NULL,   host_nodes_plus4 },
+    { "Host",               "host",         NULL,   host_nodes_generic },
     { "Machine",            "machine",      NULL,   machine_nodes_plus4 },
     { "Display",            "display",      NULL,   display_nodes_plus4 },
     { "Audio",              "audio",        NULL,   audio_nodes_plus4 },
@@ -1649,11 +1678,6 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
     { "I/O Extensions",
       "io-extensions",
       NULL, plus4_io_extensions },
-#if 0
-    { "Emulator",
-      "misc",
-      settings_misc_widget_create, NULL },
-#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1663,6 +1687,7 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
  *                      PET tree nodes for the settings UI                   *
  ****************************************************************************/
 
+#if 0
 /* {{{ host_nodes_pet */
 /** \brief  Child nodes for the PET 'Host' node
  */
@@ -1683,6 +1708,7 @@ static ui_settings_tree_node_t host_nodes_pet[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_pet */
 /** \brief  Child nodes for the PET 'Machine' node
@@ -1800,7 +1826,7 @@ static ui_settings_tree_node_t peripheral_nodes_pet[] = {
 /** \brief  Main tree nodes for xpet
  */
 static ui_settings_tree_node_t main_nodes_pet[] = {
-    { "Host",               "host",         NULL,   host_nodes_pet },
+    { "Host",               "host",         NULL,   host_nodes_generic },
     { "Machine",            "machine",      NULL,   machine_nodes_pet },
     { "Display",            "display",      NULL,   display_nodes_pet },
     { "Audio",              "audio",        NULL,   audio_nodes_pet },
@@ -1808,11 +1834,6 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
     { "Peripheral devices", "peripheral",   NULL,   peripheral_nodes_pet },
     { "I/O extensions", "io-extensions",
       NULL, pet_io_extensions },
-#if 0
-    { "Emulator",
-      "misc",
-      settings_misc_widget_create, NULL },
-#endif
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
@@ -1822,6 +1843,7 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
  *                  CBM5x0 tree nodes for the settings UI                    *
  ****************************************************************************/
 
+#if 0
 /* {{{ host_nodes_cbm5x0 */
 /** \brief  Child nodes for the CBM5x0 'Host' node
  */
@@ -1841,6 +1863,7 @@ static ui_settings_tree_node_t host_nodes_cbm5x0[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_cbm5x0 */
 /** \brief  Child nodes for the CBM5x0 'Machine' node
@@ -1949,7 +1972,7 @@ static ui_settings_tree_node_t peripheral_nodes_cbm5x0[] = {
 /** \brief  Main tree nodes for xcbm5x0
  */
 static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
-    { "Host",               "host",         NULL,   host_nodes_cbm5x0 },
+    { "Host",               "host",         NULL,   host_nodes_generic },
     { "Machine",            "machine",      NULL,   machine_nodes_cbm5x0 },
     { "Display",            "display",      NULL,   display_nodes_cbm5x0 },
     { "Audio",              "audio",        NULL,   audio_nodes_cbm5x0 },
@@ -1972,6 +1995,7 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
  *                  CBM-II tree nodes for the settings UI                    *
  ****************************************************************************/
 
+#if 0
 /* {{{ host_nodes_cbm6x0 */
 /** \brief  Child nodes for the CBM6x0 'Host' node
  */
@@ -1991,6 +2015,7 @@ static ui_settings_tree_node_t host_nodes_cbm6x0[] = {
     UI_SETTINGS_TERMINATOR
 };
 /* }}} */
+#endif
 
 /* {{{ machine_nodes_cbm6x0 */
 /** \brief  Child nodes for the CBM6x0 'Machine' node
@@ -2103,7 +2128,7 @@ static ui_settings_tree_node_t peripheral_nodes_cbm6x0[] = {
 /** \brief  Main tree nodes for xcbm6x0
  */
 static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
-    { "Host",               "host",         NULL,   host_nodes_cbm6x0 },
+    { "Host",               "host",         NULL,   host_nodes_generic },
     { "Machine",            "machine",      NULL,   machine_nodes_cbm6x0 },
     { "Display",            "display",      NULL,   display_nodes_cbm6x0 },
     { "Audio",              "audio",        NULL,   audio_nodes_cbm6x0 },
