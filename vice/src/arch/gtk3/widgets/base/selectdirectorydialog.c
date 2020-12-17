@@ -64,9 +64,7 @@ gchar *vice_gtk3_select_directory_dialog(
     dialog = gtk_file_chooser_dialog_new(
             title,
             ui_get_active_window(),
-            allow_create
-                ? GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER
-                : GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+            GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
             "Select", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL);
@@ -86,6 +84,7 @@ gchar *vice_gtk3_select_directory_dialog(
     filter = gtk_file_filter_new ();
     gtk_file_filter_add_mime_type (filter, "inode/directory");
     gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
+    gtk_file_chooser_set_create_folders(GTK_FILE_CHOOSER(dialog), allow_create);
 
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     if (result == GTK_RESPONSE_ACCEPT) {
