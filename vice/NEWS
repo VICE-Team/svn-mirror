@@ -131,6 +131,8 @@ RAMlink emulations
 A bunch of changes and simplifications were done in the build system, to make
 it more reproducible and match the expected standard behaviour:
 
+- Add --disable-optimization (default=no) to make the buildsystem use -O0 for
+  debugging.
 - 'make dist' no longer needs '--enable-static-ffmpeg' to generate a working
   tarball.
 
@@ -387,6 +389,12 @@ some features have been deprecated and are now disabled by default:
 - Allow for 8 'analog' controllers on Linux
 - added Alt+Shift+F12 VICII to switch border mode in x64sc
 - moved the netplay settings from the 'File' menu to the settings dialog
+- Added 'Host' root noot in the settings UI, move Autostart, Montitor, Netplay,
+  Snapshot/Event/Media recording directory and start-mode under that.
+- Also move Host->Machine settings (CWD and JAM-action) under Host, remove the
+  Host->Machine node.
+- Use workaround for GtkFileChooser's "Select" button not being active when
+  selecting/creating a directory.
 
 - several Keyboard mapping fixes:
   - added keymaps for THE64 keyboard
