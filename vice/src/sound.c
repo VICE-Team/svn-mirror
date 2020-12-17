@@ -913,7 +913,7 @@ int sound_open(void)
          * this should be safe and simpler.
          */
         log_warning(sound_log, "ignoring sound_open when snddata.playdev is not NULL.");
-        return;
+        return 0;
     }
 
     /* Opening the sound device and initializing the sound engine
@@ -1016,7 +1016,7 @@ int sound_open(void)
                 snddata.sound_output_channels = channels;
             }
         }
-        snddata.buffer = lib_malloc(snddata.bufsize, snddata.sound_output_channels * sizeof(int16_t));
+        snddata.buffer = lib_malloc(snddata.bufsize * snddata.sound_output_channels * sizeof(int16_t));
         snddata.issuspended = 0;
 
         for (c = 0; c < snddata.sound_output_channels; c++) {
