@@ -61,7 +61,9 @@
 static void on_iec_toggled(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
+#ifdef HAVE_DEBUG_GTK3UI
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+#endif
     void (*callback)(GtkWidget *, int);
 
     debug_gtk3("State: %s, unit: %d",
