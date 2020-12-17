@@ -907,6 +907,15 @@ int sound_open(void)
         return 1;
     }
 
+    if (snddata.playdev) {
+        /*
+         * This can happen when loading a snapshot with multiple sids. Whilst fixing that is a good idea,
+         * this should be safe and simpler.
+         */
+        log_warning(sound_log, "ignoring sound_open when snddata.playdev is not NULL.");
+        return;
+    }
+
     /* Opening the sound device and initializing the sound engine
        might take some time. */
     vsync_suspend_speed_eval();
