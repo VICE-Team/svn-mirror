@@ -703,7 +703,7 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0) {
         snapshot_display_error();
     }
-    
+
     /* Make sure breakpoints are still working after loading the snapshot */
     mon_update_all_checkpoint_state();
 }
@@ -721,10 +721,13 @@ static void autostart_reinit(int default_seconds, int handle_tde)
 
     set_handle_true_drive_emulation_state();
 
+    if (default_seconds) {
+        AutostartDelayDefaultSeconds = default_seconds; /* remember for later */
+    }
+
     /* FIXME: pet and cbm2 need this for some reason, see comment above */
     if (default_seconds) {
         autostart_enabled = 1;
-        AutostartDelayDefaultSeconds = default_seconds; /* remember for later */
     } else {
         autostart_enabled = 0;
     }
@@ -737,9 +740,6 @@ int autostart_init(int default_seconds, int handle_drive_true_emulation)
 {
     autostart_prg_init();
 
-    if (default_seconds) {
-        AutostartDelayDefaultSeconds = default_seconds; /* remember for later */
-    }
     autostart_reinit(default_seconds, handle_drive_true_emulation);
 
     if (autostart_log == LOG_ERR) {
