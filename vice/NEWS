@@ -49,6 +49,25 @@ RAMlink emulations
   On Windows the binaries and DLLs have been moved into /bin, according to the
   requirements of Gtk/GDK.
 
+- Emulator timing is now directly driven by the host system audio device. If
+  sound emulation is disabled, timing is synchronised with the host clock. As
+  part of this change, the choice of sound synchronazation method has been
+  removed.
+
+- Emulation now occurs in blocks of time directly related to the sound fragment
+  size. Previously, emulation of an entire frame happened as quickly as possible
+  and then the host system would sleep until it's time to emulate the next
+  entire frame. This means that user input is now visible to the emulated
+  software with lower latency than before.
+
+- Audio latency is much lower on all platforms, and new lower latency defaults
+  have been set. Users are encouraged to try using smaller fragment sizes and
+  experiment with finding the lowest stable buffer size on their system.
+
+- Support for changing the emulator timing to target generating a specific number
+  of video frames per second. Useful for smooth PAL scrolling on a 50Hz CRT, and
+  also fun for playing games at 60fps to match a typical LCD screen refresh.
+
 - The default behaviour on CPU JAM was changed to "continue" to better match
   the behaviour of the real machines. Additionally a "CPU JAM" message will
   be displayed in the status bar.
@@ -143,7 +162,8 @@ it more reproducible and match the expected standard behaviour:
   'native dialogs' so we can properly support Flatpak and similar containers.
 
 - Added -—enable-cmake to automatically generate cmake CMakelists.txt files for
-  in-tree builds. This may allow to generate MSVC project files in the future.
+  in-tree configured builds. Generating Xcode projects works, and this may
+  allow generation of MSVC project files in the future.
 
 - add --enable-desktop-files for creating and installing .desktop files on Unix.
 
@@ -371,6 +391,8 @@ some features have been deprecated and are now disabled by default:
 ** GTK3 fixes
 -------------
 
+- Almost all causes of stuttering / audio glitches when interacting with the UI
+  have been resolved.
 - Cairo is completely gone, all major platforms use their native rendering
   backend
 - added hotkey "pause" to generate a screenshot from current canvas using a
@@ -379,6 +401,7 @@ some features have been deprecated and are now disabled by default:
   better than before
 - Add optional hiding of VDC display
 - Make double-clicking on the emulated screen switch fullscreen mode
+- Alt+Enter will now also toggle fullscreen mode
 - added option to pause the emulation when settings dialog is open
 - Remember not only the last directory but also the last file in file dialogs
 - Show "Use Alt+M to disable mouse grab" in window title if mouse grab is
@@ -410,6 +433,9 @@ some features have been deprecated and are now disabled by default:
 ** macOS fixes
 --------------
 
+- VICE GTK performance on macOS is now excellent and we finally now recommend
+  the GTK build over the SDL build.
+
 - macOS bindist now relies on macports rather than homebrew. With macports it’s
   possible to build deps from source while targeting an older macOS version,
   which allows us to continue to support macOS 10.9+.
@@ -417,10 +443,6 @@ some features have been deprecated and are now disabled by default:
 - Re-enabled the bafflingly disabled working macOS joystick code
 - Actual macOS game controller device names are now listed instead of 6x “Analog
   joystick n”
-
-- Hotkeys use ⌘ not Option on mac. But I think we should use alt as well on mac
-  to make things consistent, and because many ⌘ based hotkeys are used by the OS
-  already.
 
 
 ** c1541 fixes
