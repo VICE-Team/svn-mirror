@@ -71,9 +71,14 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
         return canvas->video_draw_buffer_callback->draw_buffer_alloc(canvas, &canvas->draw_buffer->draw_buffer, fb_width, fb_height, fb_pitch);
     }
 
-    /* FIXME: Allocate one more line to prevent access violations by the
-       scale2x render.  */
-    canvas->draw_buffer->draw_buffer = lib_malloc(fb_width * (fb_height + 1));
+    /*
+     * FIXME: We have to allocate memory either size of the draw buffer because both the CRT and Scale2x
+     * filters will access memory both before and after the draw_buffer. This is a workaround that will 
+     * no doubt survive until we shift filters to the GPU.
+     */
+    
+    canvas->draw_buffer->draw_buffer_padded_allocation = lib_calloc(1, fb_width * (fb_height + 4));
+    canvas->draw_buffer->draw_buffer = canvas->draw_buffer->draw_buffer_padded_allocation + (fb_height * 2);
     *fb_pitch = fb_width;
     return 0;
 }
@@ -85,7 +90,8 @@ static void raster_draw_buffer_free(video_canvas_t *canvas)
         return;
     }
 
-    lib_free(canvas->draw_buffer->draw_buffer);
+    lib_free(canvas->draw_buffer->draw_buffer_padded_allocation);
+    canvas->draw_buffer->draw_buffer_padded_allocation = NULL;
     canvas->draw_buffer->draw_buffer = NULL;
 }
 
