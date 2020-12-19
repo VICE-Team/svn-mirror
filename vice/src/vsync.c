@@ -55,6 +55,7 @@
 #include "debug.h"
 #include "joy.h"
 #include "kbdbuf.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "machine.h"
@@ -86,6 +87,42 @@ static int    vsync_metric_warp_enabled;
 #   define METRIC_LOCK()
 #   define METRIC_UNLOCK()
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+static vsync_callback_t *vsync_callback_queue;
+static int vsync_callback_queue_size_max;
+static int vsync_callback_queue_size;
+
+/** \brief Call callback_func(callback_param) once at vsync time (or machine reset) */
+void vsync_on_vsync_do(vsync_callback_func_t callback_func, void *callback_param)
+{
+    mainlock_assert_lock_obtained();
+    
+    /* Grow the queue as needed */
+    if (vsync_callback_queue_size == vsync_callback_queue_size_max) {
+        vsync_callback_queue_size_max += 1;
+        vsync_callback_queue = lib_realloc(vsync_callback_queue, vsync_callback_queue_size_max * sizeof(vsync_callback_t));
+    }
+
+    vsync_callback_queue[vsync_callback_queue_size].callback = callback_func;
+    vsync_callback_queue[vsync_callback_queue_size].param = callback_param;
+
+    vsync_callback_queue_size++;
+}
+
+static void execute_vsync_callbacks(void)
+{
+    int i;
+    
+    /* Execute each callback in turn. */
+    if (vsync_callback_queue_size) {
+        for (i = 0; i < vsync_callback_queue_size; i++) {
+            vsync_callback_queue[i].callback(vsync_callback_queue[i].param);
+        }
+        vsync_callback_queue_size = 0;
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -265,6 +302,13 @@ void vsync_suspend_speed_eval(void)
        in vsync_do_vsync() */
     network_suspend();
     speed_eval_suspended = 1;
+}
+
+void vsync_reset_hook(void)
+{
+    execute_vsync_callbacks();    
+
+    vsync_suspend_speed_eval();
 }
 
 void vsyncarch_get_metrics(double *cpu_percent, double *emulated_fps, int *is_warp_enabled)
@@ -550,6 +594,8 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 #endif
     
     last_vsync = now;
+    
+    execute_vsync_callbacks();
 
     return skip_next_frame;
 }

@@ -42,20 +42,29 @@
 #include "vicii.h"
 #include "viciitypes.h"
 #include "video.h"
+#include "vsync.h"
 
 
 vicii_resources_t vicii_resources;
 static video_chip_cap_t video_chip_cap;
 
+static int next_border_mode;
 
-static int set_border_mode(int val, void *param)
+static void on_vsync_set_border_mode(void *unused)
 {
-    if (vicii_resources.border_mode != val) {
-        vicii_resources.border_mode = val;
+    if (vicii_resources.border_mode != next_border_mode) {
+        vicii_resources.border_mode = next_border_mode;
         /* this works because vicii-timing.c only handles borders in
            viciisc. */
         vicii_change_timing(0, vicii_resources.border_mode);
     }
+}
+
+static int set_border_mode(int val, void *param)
+{
+    next_border_mode = val;
+    vsync_on_vsync_do(on_vsync_set_border_mode, NULL);
+
     return 0;
 }
 

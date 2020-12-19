@@ -235,7 +235,7 @@ void machine_reset(void)
     /* Give the monitor a chance to break immediately */
     monitor_reset_hook();
 
-    vsync_suspend_speed_eval();
+    vsync_reset_hook();
 }
 
 static void machine_maincpu_clk_overflow_callback(CLOCK sub, void *data)
