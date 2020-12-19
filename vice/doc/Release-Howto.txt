@@ -11,7 +11,7 @@ $ svn log -r <rev of last release>:<current rev> > log.txt
 you can look up the revision of the last release in the tags directory in the
 repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
-- update the html pages in doc/html (index.html, windows.html)
+- update the html pages in doc/html (index.html, windows.html, macosx.html)
 
 - update vice.texi
 
@@ -34,6 +34,12 @@ repo: https://sourceforge.net/p/vice-emu/code/HEAD/tree/tags/
 
 These actually update the user-visible version in the binary/docs, so it should
 happen only immediatly before the release.
+
+while at it, also check the following:
+
+- are the "banners" on various sourceforge pages (tickets) still up to date?
+
+- are the "readmes" in the files areas still up to date?
 
 
 generate tarball:
