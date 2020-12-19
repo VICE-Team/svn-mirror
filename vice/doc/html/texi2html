@@ -67,7 +67,7 @@ $XREFRE = '[^@{}]+';			# RE for a xref (should use NODERE)
 
 $ERROR = "***";			        # prefix for errors and warnings
 $THISPROG = "texi2html 1.52";			# program name and version
-$HOMEPAGE = "http://wwwinfo.cern.ch/dis/texi2html/"; # program home page
+$HOMEPAGE = "https://www.nongnu.org/texi2html/texi2html-old.html"; # program home page
 $TODAY = &pretty_date;			# like "20 September 1993"
 $SPLITTAG = "<!-- SPLIT HERE -->\n";	# tag to know where to split
 $PROTECTTAG = "_ThisIsProtected_";	# tag to recognize protected sections

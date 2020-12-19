@@ -977,7 +977,7 @@ without having to copy them to disk images; this also allows you to
 read and write files in the @code{P00} format.
 @item
 accessing a real device connected to the host machine. This works using the 
-OpenCBM library. You can get it from @uref{http://cbm4win.sf.net}.
+OpenCBM library. You can get it from @uref{https://spiro.trikaliotis.net/opencbm}.
 
 @end itemize
 
@@ -2329,11 +2329,10 @@ PkZip, @code{tar.gz}, @code{lha} and @code{zoo} support is
 will always be handled as if they contain only a single file.
 
 Windows and DOS don't contain the needful programs to handle
-compressed archives. Get gzip and unzip for Windows at
-@uref{ftp://ftp.freesoftware.com/pub/infozip/WIN32} and for DOS at
-@uref{ftp://ftp.freesoftware.com/pub/infozip/MSDOS}. Don't use pkunzip
+compressed archives. Get gzip and unzip for Windows and for DOS at
+@uref{http://infozip.sourceforge.net}. Don't use pkunzip
 for DOS, it doesn't work. The programs to use BZip2 archives may be
-found at @uref{http://sourceware.cygnus.com/bzip2}.
+found at @uref{https://sourceware.org/bzip2/}.
 Just put the programs (unzip.exe, gzip.exe, bzip2.exe) into a directory
 of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at
 the PATH variable).
@@ -9246,7 +9245,7 @@ Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O addr
 @findex -burstmod
 @item -burstmod <value>
 Set the kind of burst modification. This emulates the fast serial bus connection
-as described at @uref{http://www.cs.tut.fi/~albert/Dev/burst/}, with the wire to
+as described at @uref{https://a1bert.kapsi.fi/Dev/burst/}, with the wire to
 the tape port cut
 (@code{BurstMod}).
 (0: None, 1: CIA-1, 2: CIA-2)
@@ -10428,7 +10427,7 @@ Set IEC reset bahaviour
 @findex -burstmod
 @item -burstmod <value>
 Set the kind of burst modification. This emulates the fast serial bus connection
-as described at @uref{http://www.cs.tut.fi/~albert/Dev/burst/}, with the wire to
+as described at @uref{https://a1bert.kapsi.fi/Dev/burst/}, with the wire to
 the tape port cut
 (@code{BurstMod}).
 (0: None, 1: CIA-1, 2: CIA-2)

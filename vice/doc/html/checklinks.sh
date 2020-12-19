@@ -27,6 +27,8 @@
 
 SCRIPTPATH=`dirname $0`
 
+if command -v linklint &> /dev/null
+then
 echo "------------------------------------------------------------------------"
 echo "- checking the website html pages                                      -"
 echo "------------------------------------------------------------------------"
@@ -35,4 +37,9 @@ echo "------------------------------------------------------------------------"
 echo "- checking the html documentation                                      -"
 echo "------------------------------------------------------------------------"
 linklint -net -error -warn -xref -root $SCRIPTPATH/../html /vice_toc.html
+fi
 
+if command -v linkchecker &> /dev/null
+then
+linkchecker --check-extern index.html
+fi
