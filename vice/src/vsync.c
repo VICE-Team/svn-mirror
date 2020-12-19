@@ -73,6 +73,10 @@
 
 #include "ui.h"
 
+#ifdef MACOSX_SUPPORT
+#include "macOS-util.h"
+#endif
+
 /* public metrics, updated every vsync */
 static double vsync_metric_cpu_percent;
 static double vsync_metric_emulated_fps;
@@ -136,6 +140,9 @@ static int warp_enabled;
 static unsigned long warp_render_tick_interval;
 static unsigned long warp_next_render_tick;
 
+/* Triggers the vice thread to update its priorty */
+static volatile int update_thread_priority = 1;
+
 static int set_relative_speed(int val, void *param)
 {
     if (val == 0) {
@@ -160,6 +167,8 @@ static int set_warp_mode(int val, void *param)
     if (warp_enabled) {
         warp_next_render_tick = tick_now() + warp_render_tick_interval;
     }
+
+    update_thread_priority = 1;
     
     return 0;
 }
@@ -483,7 +492,7 @@ void vsync_do_end_of_line(void)
     /* how many host ticks since last sync. */
     tick_delta = tick_now - last_sync_tick;
     
-    /* is it time to flush sound, consider keyboard, joystick etc ? */
+    /* is it time to consider keyboard, joystick ? */
     if (tick_delta >= tick_between_sync) {
         
         /* deal with user input */
@@ -514,6 +523,19 @@ void vsync_do_end_of_line(void)
         
         last_sync_tick = tick_now;
         last_sync_clk = maincpu_clk;        
+    }
+
+    /* Do we need to update the thread priority? */
+    if (update_thread_priority) {
+        update_thread_priority = 0;
+
+#if defined(MACOSX_SUPPORT)
+        vice_macos_set_vice_thread_priority(warp_enabled);
+#elif defined(__linux__)
+        /* TODO: Linux thread prio stuff, need root or some 'capability' though */
+#else
+        /* TODO: BSD thread prio stuff */
+#endif
     }
 }
 

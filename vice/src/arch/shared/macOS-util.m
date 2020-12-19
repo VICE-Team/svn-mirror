@@ -39,6 +39,9 @@
 #import <os/log.h>
 #import <os/signpost.h>
 
+#include "log.h"
+#include "resources.h"
+
 #define NANOS_PER_MICRO 1000ULL
 #define MICROS_PER_SEC  1000000ULL
 
@@ -67,9 +70,64 @@ void vice_macos_set_main_thread(void)
     }
 }
 
-#if 0 /* Disabled as affects warp speed dramatically */
+static void move_pthread_to_normal_scheduling_class(pthread_t pthread)
+{
+    /*
+     * See Chromium source file platform_thread_mac.mm for more examples
+     */
+    
+    kern_return_t result;
+    mach_port_t thread_id = pthread_mach_thread_np(pthread);
+
+    thread_extended_policy_data_t extended_policy;
+    extended_policy.timeshare = 1;
+    result =
+        thread_policy_set(
+            thread_id,
+            THREAD_EXTENDED_POLICY,
+            (thread_policy_t)&extended_policy,
+            THREAD_EXTENDED_POLICY_COUNT);
+
+    if (result != KERN_SUCCESS) {
+        mach_error("thread_policy_set:", result);
+    }
+
+    thread_standard_policy_data_t standard_policy;
+
+    result =
+        thread_policy_set(
+            thread_id,
+            THREAD_STANDARD_POLICY,
+            (thread_policy_t)&standard_policy,
+            THREAD_STANDARD_POLICY_COUNT);
+
+    if (result != KERN_SUCCESS) {
+        mach_error("thread_policy_set:", result);
+    }
+}
+
 static void move_pthread_to_realtime_scheduling_class(pthread_t pthread, int period_microseconds, int typical_work_microseconds, int max_work_microseconds)
 {
+    /*
+     * See Chromium source file platform_thread_mac.mm for more examples
+     */
+    
+    kern_return_t result;
+    mach_port_t thread_id = pthread_mach_thread_np(pthread);
+
+    thread_extended_policy_data_t extended_policy;
+    extended_policy.timeshare = 0;
+    result =
+        thread_policy_set(
+            thread_id,
+            THREAD_EXTENDED_POLICY,
+            (thread_policy_t)&extended_policy,
+            THREAD_EXTENDED_POLICY_COUNT);
+
+    if (result != KERN_SUCCESS) {
+        mach_error("thread_policy_set:", result);
+    }
+
     /*
      * https://developer.apple.com/library/archive/technotes/tn2169/_index.html
      */
@@ -79,32 +137,35 @@ static void move_pthread_to_realtime_scheduling_class(pthread_t pthread, int per
 
     double clock2abs = ((double)timebase_info.denom / (double)timebase_info.numer) * NANOS_PER_MICRO;
 
-    thread_time_constraint_policy_data_t policy;
-    policy.period      = (uint32_t)(clock2abs * period_microseconds);
-    policy.computation = (uint32_t)(clock2abs * typical_work_microseconds);
-    policy.constraint  = (uint32_t)(clock2abs * max_work_microseconds);
-    policy.preemptible = FALSE;
+    thread_time_constraint_policy_data_t realtime_policy;
+    realtime_policy.period      = (uint32_t)(clock2abs * period_microseconds);
+    realtime_policy.computation = (uint32_t)(clock2abs * typical_work_microseconds);
+    realtime_policy.constraint  = (uint32_t)(clock2abs * max_work_microseconds);
+    realtime_policy.preemptible = FALSE;
 
-    int kr =
+    result =
         thread_policy_set(
-            pthread_mach_thread_np(pthread_self()),
-                THREAD_TIME_CONSTRAINT_POLICY,
-                (thread_policy_t)&policy,
-                THREAD_TIME_CONSTRAINT_POLICY_COUNT);
+            thread_id,
+            THREAD_TIME_CONSTRAINT_POLICY,
+            (thread_policy_t)&realtime_policy,
+            THREAD_TIME_CONSTRAINT_POLICY_COUNT);
 
-    if (kr != KERN_SUCCESS) {
-        mach_error("thread_policy_set:", kr);
-        exit(1);
+    if (result != KERN_SUCCESS) {
+        mach_error("thread_policy_set:", result);
     }
 }
-#endif
 
-void vice_macos_set_vice_thread_priority(void)
+void vice_macos_set_vice_thread_priority(bool warp_enabled)
 {
     [[NSThread currentThread] setThreadPriority: 1.0];
 
-    /* typically vice thread will run for a couple ms before blocking, but lets not penalise it for running longer */
-    /* move_pthread_to_realtime_scheduling_class(pthread_self(), 0, MICROS_PER_SEC / 60, MICROS_PER_SEC / 60); */
+    if (warp_enabled) {
+        /* macOS doesn't like us warping in realtime, drifts down to 50% performance */
+        move_pthread_to_normal_scheduling_class(pthread_self());
+    } else {
+        /* typically vice thread will run for a couple ms before blocking, but lets not penalise it for running longer */
+        move_pthread_to_realtime_scheduling_class(pthread_self(), 0, MICROS_PER_SEC / 60, MICROS_PER_SEC / 60);
+    }
 }
 
 void vice_macos_set_render_thread_priority(void)
@@ -112,5 +173,5 @@ void vice_macos_set_render_thread_priority(void)
     [[NSThread currentThread] setThreadPriority: 1.0];
 
     /* Likely a 60fps system, passing rendered buffer to OpenGL shouldn't take more than a couple of ms. */
-    /* move_pthread_to_realtime_scheduling_class(pthread_self(), MICROS_PER_SEC / 60, MICROS_PER_SEC / 1000 * 2, MICROS_PER_SEC / 1000 * 3); */
+    move_pthread_to_realtime_scheduling_class(pthread_self(), 0, MICROS_PER_SEC / 1000 * 5, MICROS_PER_SEC / 1000 * 17);
 }

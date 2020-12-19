@@ -30,8 +30,10 @@
 #ifndef VICE_MACOS_UTIL_H
 #define VICE_MACOS_UTIL_H
 
+#include <stdbool.h>
+
 void vice_macos_set_main_thread(void);
-void vice_macos_set_vice_thread_priority(void);
+void vice_macos_set_vice_thread_priority(bool warp_enabled);
 void vice_macos_set_render_thread_priority(void);
 
 // void vice_macos_render_log_create(void);

@@ -66,10 +66,6 @@
 #include "video.h"
 #include "vsyncapi.h"
 
-#ifdef MACOSX_SUPPORT
-#include "macOS-util.h"
-#endif
-
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif
@@ -349,14 +345,6 @@ void vice_thread_shutdown(void)
 void *vice_thread_main(void *unused)
 {
     archdep_thread_init();
-
-#if defined(MACOSX_SUPPORT)
-    vice_macos_set_vice_thread_priority();
-#elif defined(__linux__)
-    /* TODO: Linux thread prio stuff, need root or some 'capability' though */
-#else
-    /* TODO: BSD thread prio stuff */
-#endif
 
     mainlock_init();
 
