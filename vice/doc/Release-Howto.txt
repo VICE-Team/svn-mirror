@@ -56,8 +56,13 @@ now configure the source tree with sid engines included. this is
 needed because make dist propagates through the source tree, and if resid is
 not configured it will not have any makefiles to get 'make dist'ed
 
-$ ./configure --with-resid
+$ ./autogen.sh
+$ ./configure
 $ make dist
+
+or
+
+$ svn up && make distclean && ./autogen.sh && ./configure && make dist
 
 now unpack into a seperate directory and test if compiling works. fix makefiles
 in case files are missing and build the tarball again.
