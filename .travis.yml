@@ -3,10 +3,6 @@ language: c
 
 before_script: cd vice
 script:
-- $mingw64 which gcc
-- $mingw64 find / -name gcc
-- $mingw64 which g++
-- $mingw64 find / -name g++
 - $mingw64 ./autogen.sh
 - $mingw64 ./configure --disable-arch --disable-pdf-docs || cat config.log
 - $mingw64 make -j -s
