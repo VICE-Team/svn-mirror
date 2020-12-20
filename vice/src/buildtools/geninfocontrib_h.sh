@@ -408,7 +408,7 @@ if test x"$1" = "xindexhtml"; then
         fi
         decodedall=`$ECHO "$i" | sed 's/+/ /g'`
         splititem4 $decodedall
-        decodedname=`$ECHO "$item3" | sed "s/_/ /g;s/ï¿½/\&eacute;/g;s/\\\'e/\&eacute;/g"`
+        decodedname=`$ECHO "$item3" | sed "s/_/ /g;s/È/\&eacute;/g;s/\\\'e/\&eacute;/g"`
       done
       $ECHO "$decodedname."
       $ECHO "</p>"
@@ -432,7 +432,7 @@ if test x"$1" = "xindexhtml"; then
           $ECHO "$decodedname,"
         fi
         if test x"$i" != "x"; then
-          decodedname=`$ECHO "$i" | sed "s/_/ /g;s/ï¿½/\&eacute;/g;s/\\\'e/\&eacute;/g"`
+          decodedname=`$ECHO "$i" | sed "s/_/ /g;s/È/\&eacute;/g;s/\\\'e/\&eacute;/g"`
         fi
       done
       $ECHO "$decodedname."
