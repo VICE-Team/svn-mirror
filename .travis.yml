@@ -2,11 +2,10 @@ os: windows
 language: c
 
 script:
-- $msys2 cd vice && ./autogen.sh
-- $msys2 cd vice && ./configure --disable-arch --disable-pdf-docs
-- $msys2 cd vice && make -j -s
-- $msys2 cd vice && make bindistzip
-- $msys2 cd vice && ls -l
+- $msys2 bash -c "cd vice && ./autogen.sh"
+- $msys2 bash -c "cd vice && ./configure --disable-arch --disable-pdf-docs"
+- $msys2 bash -c "cd vice && make -j -s"
+- $msys2 bash -c "cd vice && make bindistzip"
 - $msys2 bash -c "cd vice && ls -l"
 
 before_install:
