@@ -13,3 +13,14 @@ pacman --sync --noconfirm --needed  \
     mingw-w64-x86_64-flac           \
     mingw-w64-x86_64-mpg123         \
     mingw-w64-x86_64-icoutils
+
+XA_VERSION=2.3.11
+
+cd /usr/local
+mkdir -p src
+cd src
+wget http://www.floodgap.com/retrotech/xa/dists/xa-${XA_VERSION}.tar.gz
+tar -xzf /c/Users/<login-name>/Downloads/xa-${XA_VERSION}.tar.gz
+$ cd xa-${XA_VERSION}
+$ make mingw install
+$ cp /usr/local/bin/xa.exe /usr/local/bin/xa65.exe
