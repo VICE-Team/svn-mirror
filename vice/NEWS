@@ -143,6 +143,8 @@ RAMlink emulations
   - removed INSTALL, AUTHORS, FEEDBACK
   - removed the MAN pages. Read the html or pdf manual instead.
 
+- New application icons for the emulators thanks to Sander/Focus.
+
 
 ** build system
 ---------------
