@@ -3,15 +3,15 @@ language: c
 
 before_script: cd vice
 script:
-- $msys2 which gcc
-- $msys2 find / -name gcc
-- $msys2 which g++
-- $msys2 find / -name g++
-- $msys2 ./autogen.sh
-- $msys2 ./configure --disable-arch --disable-pdf-docs || cat config.log
-- $msys2 make -j -s
-- $msys2 make bindistzip
-- $msys2 ls -l
+- $mingw64 which gcc
+- $mingw64 find / -name gcc
+- $mingw64 which g++
+- $mingw64 find / -name g++
+- $mingw64 ./autogen.sh
+- $mingw64 ./configure --disable-arch --disable-pdf-docs || cat config.log
+- $mingw64 make -j -s
+- $mingw64 make bindistzip
+- $mingw64 ls -l
 
 before_install:
 - |-

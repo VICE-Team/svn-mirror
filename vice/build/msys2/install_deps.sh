@@ -1,10 +1,9 @@
 #!/bin/bash
 
-pacman --sync --noconfirm --needed base-devel
+pacman --sync --noconfirm --needed base-devel mingw-w64-x86_64-toolchain
 pacboy --noconfirm --needed sync zip: subversion:
 pacman --sync --noconfirm --needed  \
     mingw-w64-x86_64-pkg-config     \
-    mingw-w64-x86_64-gcc            \
     mingw-w64-x86_64-ntldd          \
     mingw-w64-x86_64-gtk3           \
     mingw-w64-x86_64-glew           \
