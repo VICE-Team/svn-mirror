@@ -3,6 +3,12 @@ language: c
 
 before_script: cd vice
 script:
+- $mingw64 ps
+- $mingw64 /bin/sh --version
+- $mingw64 which bash
+- $mingw64 which sed
+- $mingw64 sed --version
+- $mingw64 /usr/bin/sed --version
 - $mingw64 ./autogen.sh
 - $mingw64 ./configure --disable-arch --disable-pdf-docs || cat config.log
 - $mingw64 make -j -s
