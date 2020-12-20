@@ -625,10 +625,10 @@ infocontrib.h:	$(srcdir)/buildtools/geninfocontrib_h.sh $(top_srcdir)/doc/vice.t
 		fi; \
 	fi
 # we need to replace \ and space by "regular" characters, else things break on some shells
-	@LC_ALL=C cat $(top_srcdir)/README | sed 's/\\/{/g;s/ /}/g' > ./README.tmp
+	@LC_ALL=C cat $(top_srcdir)/README | sed 's/\\\\/{/g;s/ /}/g' > ./README.tmp
 #	cat  <$(top_srcdir)/README >./README.tmp
 	@$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
-	@LC_ALL=C cat README2.tmp | sed 's/{/\\/g;s/}/ /g' > ../README
+	@LC_ALL=C cat README2.tmp | sed 's/{/\\\\/g;s/}/ /g' > ../README
 #	cat  <README2.tmp >../README
 	@rm -f README*.tmp
 	@cp $(top_srcdir)/doc/html/index.html ./index.tmp
