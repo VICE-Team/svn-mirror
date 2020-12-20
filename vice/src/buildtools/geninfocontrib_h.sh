@@ -28,8 +28,6 @@
 #                             $1
 #
 
-set -o xtrace
-
 # Fuck.
 export LC_ALL=C
 
