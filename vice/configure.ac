@@ -6,7 +6,7 @@ dnl
 
 dnl Set VICE version number
 m4_define([vice_version_major], [3])
-m4_define([vice_version_minor], [4])
+m4_define([vice_version_minor], [5])
 m4_define([vice_version_build], [0])
 m4_define([vice_version_number], [vice_version_major.vice_version_minor])
 
