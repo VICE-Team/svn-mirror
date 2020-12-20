@@ -138,6 +138,7 @@ Copyright @copyright{} 2017-2020 Michael C. Martin
 Copyright @copyright{} 2018-2020 Christopher Phillips
 Copyright @copyright{} 2019-2020 David Hogan
 Copyright @copyright{} 2020 Empathic Qubit
+Copyright @copyright{} 2020 Roberto Muscedere
 @c ---vice-core-team-end---
 
 @c ---ex-team---
