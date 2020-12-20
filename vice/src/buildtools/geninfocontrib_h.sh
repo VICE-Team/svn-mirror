@@ -52,7 +52,7 @@ extractnames()
 
 extractitem()
 {
-  item=`echo $* | sed 's/@b{//;s/}//'`
+  item=`echo $* | sed -e "s/@b{//" -e "s/}//"`
 }
 
 extractlang()
