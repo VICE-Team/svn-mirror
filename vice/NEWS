@@ -11,11 +11,12 @@ $ svn log http://svn.code.sf.net/p/vice-emu/code > ChangeLog
 ===========
 
 If you run into trouble please try removing any VICE configuration files
-left from previous installs.
+left over from previous installs.
 (vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
 
-Before reporting bugs, always try with a clean config (run emulator with
--default or use "restore default config" in the UI).
+Before reporting bugs, always try with a clean config: Run the emulator
+with the "-default" command line argument or use "restore default config"
+in the UI).
 
 
 * Changes in Vice 3.5
@@ -25,8 +26,8 @@ This release completes the transition to the new GTK3 based GUI and fixes a
 bunch of long standing issues (see below).
 
 We are looking for someone who can provide stable automatic nightly builds - for
-this will work best on a windows machine, or perhaps a fedora server. We tried
-our best to come up with a solution for debian, but that didn't work out as
+this will work best on a Windows machine, or perhaps a Fedora server. We tried
+our best to come up with a solution for Debian, but that didn't work out as
 intended. If you think you can help in this area - please get in touch.
 
 We welcome to the team:
@@ -46,17 +47,17 @@ RAMlink emulations
   isn't correct. Now VICE installs its data into $PREFIX/share/vice, which
   makes a lot more sense. The documentation location has changed as well, now
   the documentation is installed in $PREFIX/share/doc/vice.
-  On Windows the binaries and DLLs have been moved into /bin, according to the
-  requirements of Gtk/GDK.
+  On Windows, the binaries and DLLs have been moved into /bin, according to the
+  requirements of GTK/GDK.
 
-- Emulator timing is now directly driven by the host system audio device. If
-  sound emulation is disabled, timing is synchronised with the host clock. As
-  part of this change, the choice of sound synchronazation method has been
+- Emulator timing is now directly driven by the host system audio device.
+  If sound emulation is disabled, timing is synchronized with the host clock.
+  As part of this change, the choice of sound synchronization method has been
   removed.
 
 - Emulation now occurs in blocks of time directly related to the sound fragment
   size. Previously, emulation of an entire frame happened as quickly as possible
-  and then the host system would sleep until it's time to emulate the next
+  and then the host system would sleep until it is time to emulate the next
   entire frame. This means that user input is now visible to the emulated
   software with lower latency than before.
 
@@ -71,8 +72,10 @@ RAMlink emulations
 - The default behaviour on CPU JAM was changed to "continue" to better match
   the behaviour of the real machines. Additionally a "CPU JAM" message will
   be displayed in the status bar.
-- "quit emulator" added to CPU JAM dialog
-- show the device number in the crash dialog
+
+- A "quit emulator" option was added to the CPU JAM dialog
+
+- The CPU JAM dialog now shows the number of the device whose CPU has crashed.
 
 - proper support for dual drives has been added
 
@@ -80,8 +83,9 @@ RAMlink emulations
 
 - autostarting works from any drive (select the drive in the attach disk dialog)
 
-- added support for 2nd and 3rd joystick button (potx/poty). currently only via
+- Added support for 2nd and 3rd joystick button (potx/poty), currently only via
   keyboard and via unix joystick driver.
+
 - added mapping for the THEC64 joystick
 
 - new LT.Kernal emulation
@@ -90,10 +94,10 @@ RAMlink emulations
 
 - new CMD RAM-Link emulation
 
-- new Icons for the applications provided by Sander/Focus
+- new icons for the applications provided by Sander/Focus
 
-- we now use proper binary prefixes for memory sizes.
-  welcome in the 21st century!
+- We now use proper binary prefixes for memory sizes.
+  Welcome in the 21st century!
 
 - recalculate the palette parameters when the videochip type changes, now we can
   actually see the subtle color differences :)
@@ -101,13 +105,13 @@ RAMlink emulations
 - Emulate a switch present on some compatible datasettes (not the Commodore
   ones). Turning the switch on makes the sound recorded on the tape audible.
 
-- fixed/improved "native" screenshots. it will now work with all videochips and
+- Fied/improved "native" screenshots. It will now work with all videochips and
   always generate "best effort" results.
 
-- the emulators will look for the config file at an alternative location first,
-  before looking at the system wide location
+- The emulators will look for the config file at an alternative location first,
+  before looking at the system wide location.
   - for windows that is the location of the .exe files
-  - for linux that is ~/.vicerc
+  - for Linux that is ~/.vicerc
 
 - fixed lightgun/pen emulation
   - use poty instead of potx for trigger for magnum lightphaser and inkwell
@@ -126,7 +130,7 @@ RAMlink emulations
 - fixed a bug in .tap file handling that caused some .tap files to not work in
   the preview widget(s)
 
-- a bunch of files have been removed from the source tree because they didnt
+- a bunch of files have been removed from the source tree because they didn't
   really belong there and/or contained outdated info:
   - hardware-sids.txt, the old info is now at
     https://vice-emu.pokefinder.org/index.php/Hardware_SID_Status
@@ -149,37 +153,38 @@ RAMlink emulations
 ** build system
 ---------------
 
-A bunch of changes and simplifications were done in the build system, to make
+Many changes and simplifications were made in the build system, to make
 it more reproducible and match the expected standard behaviour:
 
 - Add --disable-optimization (default=no) to make the buildsystem use -O0 for
   debugging.
+
 - 'make dist' no longer needs '--enable-static-ffmpeg' to generate a working
   tarball.
 
 - Fixed support for the —disable-silent-rules/—enable-silent-rules configure
   arguments.
 
-- Added --enable-sandbox-mode switch. This switch will tell Gtk3 to use
+- Added --enable-sandbox-mode switch. This switch will tell GTK3 to use
   'native dialogs' so we can properly support Flatpak and similar containers.
 
 - Added -—enable-cmake to automatically generate cmake CMakelists.txt files for
   in-tree configured builds. Generating Xcode projects works, and this may
   allow generation of MSVC project files in the future.
 
-- add --enable-desktop-files for creating and installing .desktop files on Unix.
+- Add --enable-desktop-files for creating and installing .desktop files on Unix.
 
 - added --enable/disable-html-docs
-- Added --with/without-mpg123 (default=yes), makes MP3-decoding support optional
-- Added --with/without-ogg-vorbis
-- Added --with/without-flac (default=yes)
-- Update --with[out]-lame, make no default
+- added --with/without-mpg123 (default=yes), makes MP3-decoding support optional
+- added --with/without-ogg-vorbis
+- added --with/without-flac (default=yes)
+- update --with[out]-lame, make no default
 - make jpeg and gif support default to no
-- Make using libpng the default, fail unless explicitly disabled
-- Make ALSA and Pulse default to enabled, make OSS default to disabled
+- make using libpng the default, fail unless explicitly disabled
+- make ALSA and Pulse default to enabled, make OSS default to disabled
 - make MIDI support disabled by default
 - make new 8580 filter default
-- removed --disable-hwscale, always check for OpenGL with Gtk3, error out when
+- removed --disable-hwscale, always check for OpenGL with GTK3, error out when
   --disable-hwscale is used with SDL2
 
 Properly report missing tools to generate docs:
@@ -194,11 +199,11 @@ Check presence of other tools instead of silently not using them:
 - Fail if building for Windows and `icotool` is missing. It can be obtained by
   installing the `icoutils` package.
 
-some features have been deprecated and are now disabled by default:
+Some features have been deprecated and are now disabled by default:
 
 - Added --enable-x64-image option to enable X64 image support, which is now
   disabled by default.
-- added --with/without-fastsid switch to enable/disable the fastSID engine
+- Added --with/without-fastsid switch to enable/disable the fastSID engine
   (default is off).
 
 ** Monitor
@@ -211,42 +216,40 @@ some features have been deprecated and are now disabled by default:
   commands now. That means there are subtle differences in how certain things
   work. one important thing is that by default it will use an initial break
   point just after "reset".
+
 - "-initbreak ready" can be used to place an initial wait for "ready", like
   autostart does, or "-initbreak reset" to break just after reset.
   For more details, read the documentation.
-- ‘stop’ is no more ending up in recorded monitor command playback files
 
-- Support `cd ~` to change cwd to $HOME
+- ‘stop’ is no more ending up in recorded monitor command playback files
+- support `cd ~` to change cwd to $HOME
 - added 'mkdir' command
 - added 'rmdir' command
 - added "verify" and "bverify" commands to compare memory with a file
-- added "dummy" command to enable or disable whether break- and watchpoints
-  trigger at dummy accesses or not.
-- Added optional address to the `screen` command
-
+- added optional address to the `screen` command
 - chis shows the cycle count as well now
-
 - added option to configure the number of lines used for chis
 - added option to change the size of the scrollback buffer
+
+- Added "dummy" command to enable or disable whether break- and watchpoints
+  trigger at dummy accesses or not.
 
 - check watchpoints in the order they were added, that makes the output in the
   monitor less confusing when more than one watchpoint triggers at a time
 
-- Show rasterline and cycle in both decimal and hex
-- Add 'q' as a shorthand for 'quit'
+- show rasterline and cycle in both decimal and hex
+- add 'q' as a shorthand for 'quit'
 
 - Improvements to the char/sprite display - use # over * for more contrast,
   show the memory value(s) alongside binary view and fix bug showing multiple
   sprites
 
 - "list", "load" and "save" do now work with the filesystem device
-
 - drive numbers are now expected to be decimal
-
 - add monitor dump function to m6821 core
 - added info on head position/status to VIA io dump
 
-- the display now (optionally) refreshes after each monitor command. this is not
+- The display now (optionally) refreshes after each monitor command. this is not
   cycle exact right now (only per scanline).
 
 - fixed accessing cartridge memory
@@ -257,7 +260,7 @@ some features have been deprecated and are now disabled by default:
 ** vdrive
 ---------
 
-- the filesystem device now uses shortened filenames by default to increase
+- The filesystem device now uses shortened filenames by default to increase
   compatibility.
 - disallow to silently overwrite existing files (optional, default is "no")
 - implemented "save @" to overwrite files (but do not simulate the well known
@@ -268,7 +271,7 @@ some features have been deprecated and are now disabled by default:
 - Avoid DISK FULL with 27 blocks free on .D80 / .D82.
 - For D80/D82 images, when reading the directory, use the correct block to fetch
   the disk's name from. This corrects a bad disk name in directory listings when
-  using a vdrive
+  using a vdrive.
 - Added proper creation of d1m, d2m and d4m images, the resulting image has 1
   native partition spanning the entire disk.
 - When formatting or validating an 8050 or 8250 image, the header sector wasn't
@@ -279,8 +282,8 @@ some features have been deprecated and are now disabled by default:
 ** True drive emulation
 -----------------------
 
-- more realistic modelling of the floppy drive wobble.
-- changed lower limit for drive RPM to 260 and upper limit to 340 (ie +/- 40).
+- more realistic modelling of the floppy drive wobble
+- Changed lower limit for drive RPM to 260 and upper limit to 340 (ie +/- 40).
   This is slightly more than possible with a real 1541.
 
 
@@ -300,7 +303,7 @@ some features have been deprecated and are now disabled by default:
 - improved VDC-FLI handling, 3 byte attribute offset doesn't always apply,
   fixes vdc-mcm demo and vdcmodemania fli part
 - fix issue with wrap around of VDC ram affecting vdcmodemania fli part
-- fixed VDC reg #28 bit #4, it sets the addressing mode, it does not actually
+- Fixed VDC reg #28 bit #4, it sets the addressing mode, it does not actually
   reflect the amount of ram installed.
 - correct aspect ratio for PAL or NTSC
 - screen is resized automatically on PAL/NTSC change
@@ -368,8 +371,8 @@ some features have been deprecated and are now disabled by default:
 
 - Teach VICE where BASIC 1 keeps the current screen line address, so that
   Autostart works.
-- made the UK business keyboard the default and moved it to the top of the list
-  of keyboards. this makes the default setup work with the keymaps and editor
+- Made the UK business keyboard the default and moved it to the top of the list
+  of keyboards. This makes the default setup work with the keymaps and editor
   ROM we have in VICE.
 - For CRTC-less PETs, use screen setup values that work out to 60 Hz refresh.
 - Tuned the display timing values for non-CRTC PETs
@@ -406,7 +409,7 @@ some features have been deprecated and are now disabled by default:
 - Alt+Enter will now also toggle fullscreen mode
 - added option to pause the emulation when settings dialog is open
 - Remember not only the last directory but also the last file in file dialogs
-- Show "Use Alt+M to disable mouse grab" in window title if mouse grab is
+- show "Use Alt+M to disable mouse grab" in window title if mouse grab is
   active
 - Support 'StartMinimized'/-minimized
 - Added 'restore window geometry' to UI and commandline to allow users to apply/
@@ -414,11 +417,11 @@ some features have been deprecated and are now disabled by default:
 - Allow for 8 'analog' controllers on Linux
 - added Alt+Shift+F12 VICII to switch border mode in x64sc
 - moved the netplay settings from the 'File' menu to the settings dialog
-- Added 'Host' root noot in the settings UI, move Autostart, Montitor, Netplay,
+- Added 'Host' root node in the settings UI, move Autostart, Monitor, Netplay,
   Snapshot/Event/Media recording directory and start-mode under that.
 - Also move Host->Machine settings (CWD and JAM-action) under Host, remove the
   Host->Machine node.
-- Use workaround for GtkFileChooser's "Select" button not being active when
+- Use workaround for GTKFileChooser's "Select" button not being active when
   selecting/creating a directory.
 
 - several Keyboard mapping fixes:
@@ -428,7 +431,7 @@ some features have been deprecated and are now disabled by default:
   - some tweaks to symbolic keymap for german layout (plus4)
   - some tweaks to symbolic keymap for german layout (c64)
   - fix (some) plus4 keymaps
-  - added positional keymap for swedish keyboard
+  - added positional keymap for Swedish keyboard
   - fix ctrl and cbm mapping (c128)
 
 
@@ -443,6 +446,7 @@ some features have been deprecated and are now disabled by default:
   which allows us to continue to support macOS 10.9+.
 
 - Re-enabled the bafflingly disabled working macOS joystick code
+
 - Actual macOS game controller device names are now listed instead of 6x “Analog
   joystick n”
 
@@ -654,7 +658,7 @@ We welcome dqh in the team, who will take care of the macOS port.
 - Various misc VDC fixes, e.g. show blank lines with certain register combinations
 
 
-** Gtk3 UI
+** GTK3 UI
 ----------
 
 - Implemented "restore display" (Alt+r). Resets the active window to its
@@ -681,7 +685,7 @@ We welcome dqh in the team, who will take care of the macOS port.
 
 - Add proper statusbar messages when using the fliplist.
 
-- Add howto about creating a Gtk3-Windows cross-compiler on Debian with Fedora
+- Add howto about creating a GTK3-Windows cross-compiler on Debian with Fedora
   packages (aka FrankenVICE)
 
 - only show the host keyboard mappings in the list for which we have a valid
@@ -737,12 +741,12 @@ in touch.
 ----------
 
 - Old, unmaintained, ports removed:
-  * MacOS Cocoa: use SDL or Gtk3
-  * WinVice: use SDL or Gtk3
+  * MacOS Cocoa: use SDL or GTK3
+  * WinVice: use SDL or GTK3
   * BeOS/Haiku: use SDL
   * AmigaOS: use SDL
-  * Unix Xaw: use SDL or Gtk3
-  * Unix Gtk2: use SDL or Gtk3
+  * Unix Xaw: use SDL or GTK3
+  * Unix GTK2: use SDL or GTK3
   * OS/2: use SDL
 
 - Fix building against external ffmpeg >= 4.0
@@ -882,7 +886,7 @@ in touch.
 - added norwegian c128 chargen
 
 
-** Gtk3 UI
+** GTK3 UI
 ----------
 
 - Remember last used settings "page" in the settings UI
@@ -972,7 +976,7 @@ in touch.
   renderer is not OpenGL.
 
 
-** VSID (Gtk3)
+** VSID (GTK3)
 --------------
 
 - Remember last-used-directory for the open file dialog
@@ -2650,7 +2654,7 @@ SDL changes
 ** Mac OSX X11 changes
 ----------------------
 
-- Added Gtk+ Port
+- Added GTK+ Port
 
 - Introduced single "smart" Application Bundle VICE.app
 
@@ -2831,10 +2835,10 @@ SDL changes
 
 - Xaw Statusbar fixes and improvements (new buttons for recording).
 
-- An experimental patch for Gnome2/Gtk2 support is available (See
-  website). Vice-1.19 will be the last Gnome1/Gtk1 version officially
+- An experimental patch for Gnome2/GTK2 support is available (See
+  website). Vice-1.19 will be the last Gnome1/GTK1 version officially
   supported.
-  The Gnome2/Gtk2 version is known to work on state-of-the-art
+  The Gnome2/GTK2 version is known to work on state-of-the-art
   Linux distributions (e.g. Fedora Core 4).
   See also src/arch/unix/x11/gnome/TODO
 
