@@ -2,11 +2,10 @@ os: windows
 language: c
 
 script:
-- pwd
-- ls -l
+- cd vice
 - ./autogen.sh
 - ./configure --disable-arch --disable-pdf-docs
-- time make -j
+- time make -j -s
 - make bindistzip
 - ls -l
 
