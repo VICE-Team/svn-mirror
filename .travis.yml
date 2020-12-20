@@ -1,5 +1,5 @@
 os: windows
-language: c
+language: bash
 
 before_script: cd vice
 script: $mingw64 ./build/msys2/travis-build-gtk3.sh
