@@ -2,8 +2,8 @@ os: windows
 language: c
 
 script:
-- $msys2 cd vice && ./autogen.sh && ./configure --disable-arch --disable-pdf-docs
-- $msys2 cd vice && ./autogen.sh && ./configure --disable-arch --disable-pdf-docs
+- $msys2 cd vice && ./autogen.sh
+- $msys2 cd vice && ./configure --disable-arch --disable-pdf-docs
 - $msys2 cd vice && make -j -s
 - $msys2 cd vice && make bindistzip
 - $msys2 cd vice && ls -l
@@ -24,7 +24,7 @@ before_install:
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
         ## VICE Dependencies
         $msys2 pacman --sync --noconfirm --needed base-devel
-        $msys2 pacboy sync zip: subversion:
+        $msys2 pacboy --noconfirm sync zip: subversion:
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-pkg-config
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-gcc
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-ntldd
