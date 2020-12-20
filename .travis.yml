@@ -3,17 +3,11 @@ language: c
 
 before_script: cd vice
 script:
-- $mingw64 ps
-- $mingw64 /bin/sh --version
-- $mingw64 which bash
-- $mingw64 which sed
-- $mingw64 sed --version
-- $mingw64 /usr/bin/sed --version
-- $mingw64 ./autogen.sh
-- $mingw64 ./configure --disable-arch --disable-pdf-docs || cat config.log
-- $mingw64 make -j -s
-- $mingw64 make bindistzip
-- $mingw64 ls -l
+- $vicecmd ./autogen.sh
+- $vicecmd ./configure --disable-arch --disable-pdf-docs || cat config.log
+- $vicecmd make -j -s
+- $vicecmd make bindistzip
+- $vicecmd ls -l
 
 before_install:
 - |-
@@ -27,6 +21,7 @@ before_install:
         export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
         export mingw64="$msys2 -mingw64 -full-path -here -c "\"\$@"\" --"
         export msys2+=" -msys2 -c "\"\$@"\" --"
+        export vicecmd="c:\\tools\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 c:\\msys64\\usr\\bin\\bash -l -c "\"\$@"\""
         $mingw64 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
         ## VICE Dependencies
         $mingw64 ./vice/build/msys2/install_deps.sh
