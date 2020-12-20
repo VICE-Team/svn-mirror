@@ -1,10 +1,11 @@
 os: windows
+language: c
 
 script:
 - pwd
 - ls -l
 - ./autogen.sh
-- ./configure --disable-pdf-docs
+- ./configure --disable-arch --disable-pdf-docs
 - time make -j
 - make bindistzip
 - ls -l
