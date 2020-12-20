@@ -83,9 +83,11 @@ static void on_row_activated(
     GtkTreeIter iter;
     int autostart = 0;
 
+#ifdef COMPYX_LAMER
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("CALLED, AutostartOnDoublelick = %s\n",
+    debug_gtk3("CALLED, AutostartOnDoubleclick = %s\n",
             autostart ? "True" : "False");
+#endif
 
     model = gtk_tree_view_get_model(view);
     selection = gtk_tree_view_get_selection(view);
