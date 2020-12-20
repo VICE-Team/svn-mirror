@@ -2,12 +2,7 @@ os: windows
 language: c
 
 before_script: cd vice
-script:
-- $vicecmd ./autogen.sh
-- $vicecmd ./configure --disable-arch --disable-pdf-docs || cat config.log
-- $vicecmd make -j -s
-- $vicecmd make bindistzip
-- $vicecmd ls -l
+script: $mingw64 ./build/msys2/travis-build-gtk3.sh
 
 before_install:
 - |-
@@ -21,7 +16,6 @@ before_install:
         export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
         export mingw64="$msys2 -mingw64 -full-path -here -c "\"\$@"\" --"
         export msys2+=" -msys2 -c "\"\$@"\" --"
-        export vicecmd="c:\\tools\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 c:\\msys64\\usr\\bin\\bash -l -c "\"\$@"\""
         $mingw64 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
         ## VICE Dependencies
         $mingw64 ./vice/build/msys2/install_deps.sh
