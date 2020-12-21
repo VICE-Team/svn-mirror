@@ -88,12 +88,15 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     char *xdg_data = NULL;
 # endif
 #endif
+    char *datadir_root = NULL;
     char *datadir_machine_roms = NULL;
     char *datadir_drive_roms = NULL;
     char *datadir_printer_roms = NULL;
+    char *boot_root = NULL;
     char *boot_machine_roms = NULL;
     char *boot_drive_roms = NULL;
     char *boot_printer_roms = NULL;
+    char *home_root = NULL;
     char *home_machine_roms = NULL;
     char *home_drive_roms = NULL;
     char *home_printer_roms = NULL;
@@ -165,11 +168,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     i = 0;
 
     /* home paths */
-#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
-    if (home_path != NULL) {
-        paths[i++] = home_path;
+    if (home_root != NULL) {
+        paths[i++] = home_root;
     }
-#endif
     if (home_machine_roms != NULL) {
         paths[i++] = home_machine_roms;
     }
@@ -181,8 +182,8 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     }
 
     /* boot paths */
-    if (boot_path != NULL) {
-        paths[i++] = boot_path;
+    if (boot_root != NULL) {
+        paths[i++] = boot_root;
     }
     if (boot_machine_roms != NULL) {
         paths[i++] = boot_machine_roms;
@@ -195,8 +196,8 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     }
 
     /* VICE_DATADIR paths */
-    if (datadir != NULL) {
-        paths[i++] = datadir;
+    if (datadir_root != NULL) {
+        paths[i++] = datadir_root;
     }
     if (datadir_machine_roms != NULL) {
         paths[i++] = datadir_machine_roms;
@@ -218,6 +219,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         lib_free(datadir);
     }
 
+    if (datadir_root != NULL) {
+        lib_free(datadir_root);
+    }
     if (datadir_machine_roms != NULL) {
         lib_free(datadir_machine_roms);
     }
@@ -228,6 +232,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         lib_free(datadir_printer_roms);
     }
     /* boot paths */
+    if (boot_root != NULL) {
+        lib_free(boot_root);
+    }
     if (boot_machine_roms != NULL) {
         lib_free(boot_machine_roms);
     }
@@ -239,6 +246,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     }
 
     /* home paths */
+    if (home_root != NULL) {
+        lib_free(home_root);
+    }
     if (home_machine_roms != NULL) {
         lib_free(home_machine_roms);
     }

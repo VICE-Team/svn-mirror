@@ -40,7 +40,6 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
-#include "sysfile.h"
 #include "util.h"
 
 #include "uidata.h"
@@ -64,18 +63,14 @@ int uidata_init(void)
     int i;
 #endif
     char *path;
-    char *subpath;
+    char *dir;
 
-    subpath = archdep_join_paths("common", "vice.gresource", NULL);
-    debug_gtk3("trying archdep_get_vice_datadir() %s", subpath);
-    if (sysfile_locate(subpath, &path) < 0) {
-        debug_gtk3("failed to find resource data '%s'.",
-                subpath);
-        lib_free(subpath);
-        return 0;
-    }
+    /* try directory with VICE's data files */
+    dir = archdep_get_vice_datadir();
+    debug_gtk3("trying archdep_get_vice_datadir() %s/common", dir);
+    path = archdep_join_paths(dir, "common", "vice.gresource", NULL);
     debug_gtk3("Loading gresource from '%s'\n", path);
-    lib_free(subpath);
+    lib_free(dir);
 
     gresource = g_resource_load(path, &err);
     if (gresource == NULL && err != NULL) {
