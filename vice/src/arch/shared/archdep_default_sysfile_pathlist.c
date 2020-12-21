@@ -165,9 +165,11 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     i = 0;
 
     /* home paths */
+#if !defined(ARCHDEP_OS_WINDOWS) && !defined(ARCHDEP_OS_BEOS)
     if (home_path != NULL) {
         paths[i++] = home_path;
     }
+#endif
     if (home_machine_roms != NULL) {
         paths[i++] = home_machine_roms;
     }
