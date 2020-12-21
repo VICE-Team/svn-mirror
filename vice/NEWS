@@ -77,35 +77,35 @@ RAMlink emulations
 
 - The CPU JAM dialog now shows the number of the device whose CPU has crashed.
 
-- proper support for dual drives has been added
+- Proper support for dual drives has been added
 
-- relative file support on the filesystem device
+- Relative file support on the filesystem device
 
-- autostarting works from any drive (select the drive in the attach disk dialog)
+- Autostarting works from any drive (select the drive in the attach disk dialog)
 
 - Added support for 2nd and 3rd joystick button (potx/poty), currently only via
   keyboard and via unix joystick driver.
 
-- added mapping for the THEC64 joystick
+- Added mapping for the THEC64 joystick
 
-- new LT.Kernal emulation
+- New LT.Kernal emulation
 
-- new CMD-HD emulation
+- New CMD-HD emulation
 
-- new CMD RAM-Link emulation
+- New CMD RAM-Link emulation
 
-- new icons for the applications provided by Sander/Focus
+- New icons for the applications provided by Sander/Focus
 
 - We now use proper binary prefixes for memory sizes.
   Welcome in the 21st century!
 
-- recalculate the palette parameters when the videochip type changes, now we can
+- Recalculate the palette parameters when the videochip type changes, now we can
   actually see the subtle color differences :)
 
 - Emulate a switch present on some compatible datasettes (not the Commodore
   ones). Turning the switch on makes the sound recorded on the tape audible.
 
-- Fied/improved "native" screenshots. It will now work with all videochips and
+- Fixed/improved "native" screenshots. It will now work with all videochips and
   always generate "best effort" results.
 
 - The emulators will look for the config file at an alternative location first,
@@ -113,7 +113,7 @@ RAMlink emulations
   - for windows that is the location of the .exe files
   - for Linux that is ~/.vicerc
 
-- fixed lightgun/pen emulation
+- Fixed lightgun/pen emulation
   - use poty instead of potx for trigger for magnum lightphaser and inkwell
     lightpen
   - tweak lightphaser offset against a bunch of games
@@ -127,10 +127,10 @@ RAMlink emulations
 - Fixed sysfile search path order.
   The order now is $HOME/.local -> path-of-binary -> VICE_DATADIR
 
-- fixed a bug in .tap file handling that caused some .tap files to not work in
+- Fixed a bug in .tap file handling that caused some .tap files to not work in
   the preview widget(s)
 
-- a bunch of files have been removed from the source tree because they didn't
+- A bunch of files have been removed from the source tree because they didn't
   really belong there and/or contained outdated info:
   - hardware-sids.txt, the old info is now at
     https://vice-emu.pokefinder.org/index.php/Hardware_SID_Status
@@ -139,15 +139,13 @@ RAMlink emulations
   - ffmpeg-support.txt, the old info is now at
     https://vice-emu.pokefinder.org/index.php/FFMPEG_Status
 
-- another bunch of files were removed because their content was hopelessly
+- Another bunch of files were removed because their content was hopelessly
   outdated and/or could be moved to other files:
   - removed ancient CHANGELOG files. Read NEWS for the recent changes. Refer to
     the SVN log for the gory details.
   - moved contents from FEEDBACK to README
   - removed INSTALL, AUTHORS, FEEDBACK
   - removed the MAN pages. Read the html or pdf manual instead.
-
-- New application icons for the emulators thanks to Sander/Focus.
 
 
 ** build system
@@ -174,17 +172,17 @@ it more reproducible and match the expected standard behaviour:
 
 - Add --enable-desktop-files for creating and installing .desktop files on Unix.
 
-- added --enable/disable-html-docs
-- added --with/without-mpg123 (default=yes), makes MP3-decoding support optional
-- added --with/without-ogg-vorbis
-- added --with/without-flac (default=yes)
-- update --with[out]-lame, make no default
-- make jpeg and gif support default to no
-- make using libpng the default, fail unless explicitly disabled
-- make ALSA and Pulse default to enabled, make OSS default to disabled
-- make MIDI support disabled by default
-- make new 8580 filter default
-- removed --disable-hwscale, always check for OpenGL with GTK3, error out when
+- Added --enable/disable-html-docs
+- Added --with/without-mpg123 (default=yes), makes MP3-decoding support optional
+- Added --with/without-ogg-vorbis
+- Added --with/without-flac (default=yes)
+- Update --with[out]-lame, make no default
+- Make jpeg and gif support default to no
+- Make using libpng the default, fail unless explicitly disabled
+- Make ALSA and Pulse default to enabled, make OSS default to disabled
+- Make MIDI support disabled by default
+- Make new 8580 filter default
+- Removed --disable-hwscale, always check for OpenGL with GTK3, error out when
   --disable-hwscale is used with SDL2
 
 Properly report missing tools to generate docs:
@@ -222,39 +220,39 @@ Some features have been deprecated and are now disabled by default:
   For more details, read the documentation.
 
 - ‘stop’ is no more ending up in recorded monitor command playback files
-- support `cd ~` to change cwd to $HOME
-- added 'mkdir' command
-- added 'rmdir' command
-- added "verify" and "bverify" commands to compare memory with a file
-- added optional address to the `screen` command
-- chis shows the cycle count as well now
-- added option to configure the number of lines used for chis
-- added option to change the size of the scrollback buffer
+- Support `cd ~` to change cwd to $HOME
+- Added 'mkdir' command
+- Aadded 'rmdir' command
+- Aadded "verify" and "bverify" commands to compare memory with a file
+- Aadded optional address to the `screen` command
+- `chis` shows the cycle count as well now
+- Aadded option to configure the number of lines used for chis
+- Aadded option to change the size of the scrollback buffer
 
 - Added "dummy" command to enable or disable whether break- and watchpoints
   trigger at dummy accesses or not.
 
-- check watchpoints in the order they were added, that makes the output in the
+- Check watchpoints in the order they were added, that makes the output in the
   monitor less confusing when more than one watchpoint triggers at a time
 
-- show rasterline and cycle in both decimal and hex
-- add 'q' as a shorthand for 'quit'
+- Show rasterline and cycle in both decimal and hex
+- Add 'q' as a shorthand for 'quit'
 
 - Improvements to the char/sprite display - use # over * for more contrast,
   show the memory value(s) alongside binary view and fix bug showing multiple
   sprites
 
 - "list", "load" and "save" do now work with the filesystem device
-- drive numbers are now expected to be decimal
-- add monitor dump function to m6821 core
-- added info on head position/status to VIA io dump
+- Drive numbers are now expected to be decimal
+- Add monitor dump function to m6821 core
+- Added info on head position/status to VIA io dump
 
 - The display now (optionally) refreshes after each monitor command. this is not
   cycle exact right now (only per scanline).
 
-- fixed accessing cartridge memory
-- improve expansion port mode status output
-- fix io command to shows IO space in address order
+- Fixed accessing cartridge memory
+- Improve expansion port mode status output
+- Fix io command to shows IO space in address order
 
 
 ** vdrive
@@ -262,12 +260,12 @@ Some features have been deprecated and are now disabled by default:
 
 - The filesystem device now uses shortened filenames by default to increase
   compatibility.
-- disallow to silently overwrite existing files (optional, default is "no")
-- implemented "save @" to overwrite files (but do not simulate the well known
+- Disallow to silently overwrite existing files (optional, default is "no")
+- Implemented "save @" to overwrite files (but do not simulate the well known
   related bugs)
 - Basic support for REL files in the File System Device. (Using P00 format, or
   rather R00, is recommended)
-- fix some BAM track allocation issues in 8050/8250 disk images
+- Fix some BAM track allocation issues in 8050/8250 disk images
 - Avoid DISK FULL with 27 blocks free on .D80 / .D82.
 - For D80/D82 images, when reading the directory, use the correct block to fetch
   the disk's name from. This corrects a bad disk name in directory listings when
@@ -277,12 +275,12 @@ Some features have been deprecated and are now disabled by default:
 - When formatting or validating an 8050 or 8250 image, the header sector wasn't
   flagged as allocated. This resulted in VICE hanging when creating more than 80
   files on the disk.
-- added DHD image support
+- Added DHD image support
 
 ** True drive emulation
 -----------------------
 
-- more realistic modelling of the floppy drive wobble
+- More realistic modelling of the floppy drive wobble
 - Changed lower limit for drive RPM to 260 and upper limit to 340 (ie +/- 40).
   This is slightly more than possible with a real 1541.
 
@@ -290,33 +288,33 @@ Some features have been deprecated and are now disabled by default:
 ** CPU fixes
 ------------
 
-- prevent IRQ/NMI from being served by the CPU when it has JAMed
-- perform all "dummy" accesses also in the non "sc" core
-- changed magic constant for LAX#imm to 0xEE as required(!) by wizball
+- Prevent IRQ/NMI from being served by the CPU when it has JAMed
+- Perform all "dummy" accesses also in the non "sc" core
+- Changed magic constant for LAX#imm to 0xEE as required(!) by wizball
 
 ** VDC fixes
 ------------
 
-- emulate VDC's internal buffer, issues with RFOVDC plasma part are fixed
-- several fixes for interlace, now vdcmodemania interlace parts all work and
+- Emulate VDC's internal buffer, issues with RFOVDC plasma part are fixed
+- Several fixes for interlace, now vdcmodemania interlace parts all work and
   soci VDC test #5 works
-- improved VDC-FLI handling, 3 byte attribute offset doesn't always apply,
+- Improved VDC-FLI handling, 3 byte attribute offset doesn't always apply,
   fixes vdc-mcm demo and vdcmodemania fli part
-- fix issue with wrap around of VDC ram affecting vdcmodemania fli part
+- Fix issue with wrap around of VDC ram affecting vdcmodemania fli part
 - Fixed VDC reg #28 bit #4, it sets the addressing mode, it does not actually
   reflect the amount of ram installed.
-- correct aspect ratio for PAL or NTSC
-- screen is resized automatically on PAL/NTSC change
-- corrected size of saved screenshots or videos
-- correct handling of unused bits in some registers
-- corrections and enhancements to monitor "io d600" dump
+- Correct aspect ratio for PAL or NTSC
+- Screen is resized automatically on PAL/NTSC change
+- Corrected size of saved screenshots or videos
+- Correct handling of unused bits in some registers
+- Corrections and enhancements to monitor "io d600" dump
 
 ** SID fixes
 ------------
 
-- fixed the filter saturation
-- noise writeback fixes
-- envelope regression fix
+- Fixed the filter saturation
+- Noise writeback fixes
+- Envelope regression fix
 - Fix the coefficients for the resid external filter
 - Rough implementation of the shift register and waveform zero bitfade
 - Added 4 possible additional SID chips for a total of 8 (x64*/xscpu64/x128 only)
@@ -324,34 +322,34 @@ Some features have been deprecated and are now disabled by default:
 ** C64 fixes
 ------------
 
-- enable/disable datasette/tapecart as needed on autostart
+- Enable/disable datasette/tapecart as needed on autostart
 
-- several new cartridge types added:
-  - the 'ZIPP-CODE 48' cartridge
-  - the polish 'blackbox v8' cartridge
-  - the polish 'Blackbox V3' cartridge
-  - the polish 'Blackbox V4' cartridge
-  - the polish 'Blackbox V9' cartridge
-  - the 'REX RAM-Floppy' cartridge
-  - the czech 'BIS-Plus' cartridges (2,4,8kb variants)
-  - the polish 'SD-BOX' cartridge
-  - the 'MultiMAX' cartridge
-  - the argentinian HERO bootleg cartridge
-  - the "GMod3" cartridge
+- Several new cartridge types added:
+  - The 'ZIPP-CODE 48' cartridge
+  - The polish 'blackbox v8' cartridge
+  - The polish 'Blackbox V3' cartridge
+  - The polish 'Blackbox V4' cartridge
+  - The polish 'Blackbox V9' cartridge
+  - The 'REX RAM-Floppy' cartridge
+  - The czech 'BIS-Plus' cartridges (2,4,8kb variants)
+  - The polish 'SD-BOX' cartridge
+  - The 'MultiMAX' cartridge
+  - The argentinian HERO bootleg cartridge
+  - The "GMod3" cartridge
 
 - Action Replay fixes:
-  - when reading from IO1 area when AR5 is enabled, the value currently on the
+  - When reading from IO1 area when AR5 is enabled, the value currently on the
     bus will get written to the register, causing the famous bug/crash
-  - handle the broken mode 0x22 and emit a warning on potentially problematic
+  - Handle the broken mode 0x22 and emit a warning on potentially problematic
     reads
 
 - Retroreplay fixes:
-  - allow reading back the status of the freeze button
-  - fix reads from IO1 when the clockport is not active.
-  - handle the somewhat broken mode 0x22 like on real retro replay
+  - Allow reading back the status of the freeze button
+  - Fix reads from IO1 when the clockport is not active.
+  - Handle the somewhat broken mode 0x22 like on real retro replay
 
 - Nordic Power fixes:
-  - fix writing to cartridge ram in mode 0x22
+  - Fix writing to cartridge ram in mode 0x22
 
 ** C128 fixes
 -------------
@@ -361,9 +359,9 @@ Some features have been deprecated and are now disabled by default:
 ** VIC20 fixes
 --------------
 
-- added handling for 32k cartridge files that contain blocks 1,2,3 and 5.
-- fixed megacart nvram addressing
-- external audio filter fix
+- Added handling for 32k cartridge files that contain blocks 1,2,3 and 5.
+- Fixed megacart nvram addressing
+- External audio filter fix
 
 
 ** PET fixes
@@ -378,20 +376,20 @@ Some features have been deprecated and are now disabled by default:
 - Tuned the display timing values for non-CRTC PETs
 - Renamed PET ROMs to include their part number (in line with Zimmers). This
   should make it more clear which editor ROMs exist.
-- the 4032B model used a wrong Editor ROM
+- The 4032B model used a wrong Editor ROM
 
 ** SDL fixes
 ------------
 
-- implemented mouse pointer auto-hiding
-- remember last position in the main menu
+- Implemented mouse pointer auto-hiding
+- Remember last position in the main menu
 
-- several Keyboard mapping fixes:
-  - fix (some) plus4 keymaps
-  - some pet keymap fixes
-  - updated/fixed symbolic mapping for italian keyboard
-  - some tweaks to symbolic keymap for german layout (plus4)
-  - added keymap from/for BMC64 (c64)
+- Several Keyboard mapping fixes:
+  - Fix (some) plus4 keymaps
+  - Some pet keymap fixes
+  - Updated/fixed symbolic mapping for italian keyboard
+  - Some tweaks to symbolic keymap for german layout (plus4)
+  - Added keymap from/for BMC64 (c64)
 
 ** GTK3 fixes
 -------------
@@ -400,23 +398,23 @@ Some features have been deprecated and are now disabled by default:
   have been resolved.
 - Cairo is completely gone, all major platforms use their native rendering
   backend
-- added hotkey "pause" to generate a screenshot from current canvas using a
+- Added hotkey "pause" to generate a screenshot from current canvas using a
   generated filename in the current working directory
-- rearranged cartridge/io settings around a bit. not perfect yet, but probably
+- Rearranged cartridge/io settings around a bit. not perfect yet, but probably
   better than before
 - Add optional hiding of VDC display
 - Make double-clicking on the emulated screen switch fullscreen mode
 - Alt+Enter will now also toggle fullscreen mode
-- added option to pause the emulation when settings dialog is open
+- Added option to pause the emulation when settings dialog is open
 - Remember not only the last directory but also the last file in file dialogs
-- show "Use Alt+M to disable mouse grab" in window title if mouse grab is
+- Show "Use Alt+M to disable mouse grab" in window title if mouse grab is
   active
 - Support 'StartMinimized'/-minimized
 - Added 'restore window geometry' to UI and commandline to allow users to apply/
   ignore the last position/size of the window(s) stored in vicerc/vice.ini.
 - Allow for 8 'analog' controllers on Linux
-- added Alt+Shift+F12 VICII to switch border mode in x64sc
-- moved the netplay settings from the 'File' menu to the settings dialog
+- Added Alt+Shift+F12 VICII to switch border mode in x64sc
+- Moved the netplay settings from the 'File' menu to the settings dialog
 - Added 'Host' root node in the settings UI, move Autostart, Monitor, Netplay,
   Snapshot/Event/Media recording directory and start-mode under that.
 - Also move Host->Machine settings (CWD and JAM-action) under Host, remove the
@@ -424,15 +422,15 @@ Some features have been deprecated and are now disabled by default:
 - Use workaround for GTKFileChooser's "Select" button not being active when
   selecting/creating a directory.
 
-- several Keyboard mapping fixes:
-  - added keymaps for THE64 keyboard
-  - updated keymaps for pet graphical keyboard
-  - fix shift+z/y in german positional mapping (c64)
-  - some tweaks to symbolic keymap for german layout (plus4)
-  - some tweaks to symbolic keymap for german layout (c64)
-  - fix (some) plus4 keymaps
-  - added positional keymap for Swedish keyboard
-  - fix ctrl and cbm mapping (c128)
+- Several Keyboard mapping fixes:
+  - Added keymaps for THE64 keyboard
+  - Updated keymaps for pet graphical keyboard
+  - Fix shift+z/y in german positional mapping (c64)
+  - Some tweaks to symbolic keymap for german layout (plus4)
+  - Some tweaks to symbolic keymap for german layout (c64)
+  - Fix (some) plus4 keymaps
+  - Added positional keymap for Swedish keyboard
+  - Fix ctrl and cbm mapping (c128)
 
 
 ** macOS fixes
@@ -461,7 +459,7 @@ Some features have been deprecated and are now disabled by default:
 
 - Add support for SEQ and USR files for the -extract command
 
-- renamed `zcreate` command to `unzip`. 'unzip' (dissolve a zipcode archive)
+- Renamed `zcreate` command to `unzip`. 'unzip' (dissolve a zipcode archive)
   sounds more logical than 'zcreate'. When we decide to also support creating
   zipcode archives, a proper name for that could be 'zip' or 'zipcode'.
 
@@ -469,7 +467,7 @@ Some features have been deprecated and are now disabled by default:
 ** petcat fixes
 ---------------
 
-- added missing basic v4 tokens for cbmII
+- Added missing basic v4 tokens for cbmII
 
 
 * Changes in Vice 3.4
