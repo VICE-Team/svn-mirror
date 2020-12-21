@@ -23,6 +23,7 @@ COMMON_EXTRA_DIST = \
 	autogen.sh \
 	config.rpath \
 	configure.ac \
+	cmake-bootstrap.sh \
 	COPYING \
 	NEWS
 
