@@ -7530,6 +7530,10 @@ Attach raw 8KiB Game Killer cartridge image.
 @item -cartgs <name>
 Attach raw 512KiB Game System cartridge image.
 
+@findex -carthero
+@item -carthero <name>
+Attach raw 32KiB H.E.R.O. bootleg cartridge image
+
 @findex -cartide64
 @item -cartide64 <name>
 Attach raw 64KiB or 128KiB IDE64 cartridge image.
@@ -8730,8 +8734,8 @@ in millivolts. [0] (-5000..5000)
 
 @table @code
 
-@findex -sidsextra
-@item -sidsextra
+@findex -sidextra
+@item -sidextra
 Specify the amount of extra SID chips to emulate
 (@code{SidStereo}).
 (0: off, 1: 1 extra sid, 2: 2 extra sids, 3: 3 extra sids, 4: 4 extra sids, 5: 5 extra sids, 6: 6 extra sids, 7: 7 extra sids)
