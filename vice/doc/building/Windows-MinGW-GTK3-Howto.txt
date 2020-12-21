@@ -134,14 +134,14 @@ Now, you can try to build VICE:
 
 $ cd ~/vice
 $ ./autogen.sh
-$ ./configure -C --enable-native-tools --enable-native-gtk3ui
+$ ./configure -C --enable-native-gtk3ui
 $ make
 $ make bindist
 
 NOTE: if you want to help us out, with bug reports, please instead configure
 with:
 
-$ ./configure -C --enable-native-tools --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug
+$ ./configure -C --enable-native-gtk3ui --enable-debug-gtk3ui --enable-debug
 
 
 7. If it got through all those steps, you should have some executables to play
@@ -157,7 +157,7 @@ away some object files first.  Then, you must configure VICE again.
 
 $ make clean
 $ rm config.cache
-$ ./configure -C --enable-native-tools --enable-native-gtk3ui
+$ ./configure -C --enable-native-gtk3ui
 $ make
 $ make bindist
 
