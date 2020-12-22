@@ -35,7 +35,7 @@ We welcome to the team:
 empathicqubit - who wrote the new remote monitor binary interface
 
 Roberto Muscedere aka OldWoman37 - who contributed the new Lt.Kernal, CMD-HD and
-RAMlink emulations
+RAMlink emulations (C64 only)
 
 ** general
 ----------
@@ -93,6 +93,8 @@ RAMlink emulations
 - New CMD-HD emulation
 
 - New CMD RAM-Link emulation
+
+- New D9090/60 emulation
 
 - New icons for the applications provided by Sander/Focus
 
@@ -275,7 +277,6 @@ Some features have been deprecated and are now disabled by default:
 - When formatting or validating an 8050 or 8250 image, the header sector wasn't
   flagged as allocated. This resulted in VICE hanging when creating more than 80
   files on the disk.
-- Added DHD image support
 
 ** True drive emulation
 -----------------------
