@@ -319,7 +319,15 @@ int kbdbuf_feed_runcmd(const char *string)
    This is (at least) called once per frame in vsync handler */
 void kbdbuf_flush(void)
 {
+    static bool prevent_recursion = false;
+    
     unsigned int i, n;
+    
+    /* memory write side effects can end up calling draw handler -> vsync end of line -> kbdbuf_flush infinitely */
+    if (prevent_recursion) {
+        return;
+    }
+    prevent_recursion = true;
 
     if ((!kbd_buf_enabled)
         || (num_pending == 0)
@@ -343,4 +351,6 @@ void kbdbuf_flush(void)
         tokbdbuffer(queue[head_idx]);
         removefromqueue();
     }
+    
+    prevent_recursion = false;
 }
