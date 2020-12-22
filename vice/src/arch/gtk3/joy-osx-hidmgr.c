@@ -52,7 +52,6 @@ static void CFSetApplierFunctionCopyToCFArray(const void *value, void *context)
 static Boolean IOHIDDevice_GetLongProperty( IOHIDDeviceRef inIOHIDDeviceRef, CFStringRef inKey, long * outValue )
 {
     Boolean result = FALSE;
-    int32_t i;
 
     if ( inIOHIDDeviceRef ) {
         CFTypeRef tCFTypeRef = IOHIDDeviceGetProperty( inIOHIDDeviceRef, inKey );
@@ -60,10 +59,7 @@ static Boolean IOHIDDevice_GetLongProperty( IOHIDDeviceRef inIOHIDDeviceRef, CFS
             // if this is a number
             if ( CFNumberGetTypeID() == CFGetTypeID( tCFTypeRef ) ) {
                 // get it's value
-                result = CFNumberGetValue((CFNumberRef)tCFTypeRef, kCFNumberSInt32Type, &i);
-                if (result) {
-                    outValue = i;
-                }
+                result = CFNumberGetValue((CFNumberRef)tCFTypeRef, kCFNumberLongType, outValue);
             }
         }
     }
