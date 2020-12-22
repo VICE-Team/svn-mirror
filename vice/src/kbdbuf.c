@@ -325,7 +325,7 @@ void kbdbuf_flush(void)
     
     /* memory write side effects can end up calling draw handler -> vsync end of line -> kbdbuf_flush infinitely */
     if (prevent_recursion) {
-        //return;
+        return;
     }
     prevent_recursion = true;
 
