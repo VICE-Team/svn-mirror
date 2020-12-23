@@ -496,7 +496,6 @@ void vsync_do_end_of_line(void)
     if (tick_delta >= tick_between_sync) {
         
         /* deal with user input */
-        kbdbuf_flush();
         joystick();
                 
         /* Do we need to slow down the emulation here or can we rely on the audio device? */
@@ -615,9 +614,11 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
                 now, delay, sound_delay * 1000000, tick_now(), next_frame_start, ticks_per_frame);
 #endif
     
-    last_vsync = now;
-    
     execute_vsync_callbacks();
+    
+    kbdbuf_flush();
+    
+    last_vsync = now;
 
     return skip_next_frame;
 }
