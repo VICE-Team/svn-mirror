@@ -1,5 +1,4 @@
 READMES = \
-	Readme-GTK3.txt \
 	Readme-SDL.txt \
 	Readme-SDL2.txt
 
