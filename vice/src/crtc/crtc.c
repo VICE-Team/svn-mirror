@@ -1006,7 +1006,8 @@ int crtc_dump(void)
            );
     if ((regs[CRTC_REG_MODECTRL] & 4) == 0) {
         /* binary mode */
-        mon_out("\nDisplay start:     $%04x\n",
+        mon_out("\nMode is: binary\n");
+        mon_out("Display start:     $%04x\n",
                 (unsigned int)((regs[CRTC_REG_DISPSTARTH] * 256)
                     + regs[CRTC_REG_DISPSTARTL]));
         mon_out("Cursor position:   $%04x\n",
@@ -1017,7 +1018,8 @@ int crtc_dump(void)
                     + regs[CRTC_REG_LPENL]));
     } else {
         /* row/column mode */
-        mon_out("\nDisplay start:     %3d x %3d\n", 
+        mon_out("\nMode is: row/column\n");
+        mon_out("Display start:     %3d x %3d\n", 
                 regs[CRTC_REG_DISPSTARTL], regs[CRTC_REG_DISPSTARTH]);
         mon_out("Cursor position:   %3d x %3d\n", 
                 regs[CRTC_REG_CURSORPOSL], regs[CRTC_REG_CURSORPOSH]);
