@@ -247,6 +247,12 @@ uint8_t crtc_peek(uint16_t addr)
     return crtc_read(addr);
 }
 
+/* directly read a register (for monitor) */
+uint8_t crtc_peek_register(uint8_t regno)
+{
+    return crtc.regs[regno];
+}
+
 /* FIXME: to be moved to `crtc.c'.  */
 
 #if 0
