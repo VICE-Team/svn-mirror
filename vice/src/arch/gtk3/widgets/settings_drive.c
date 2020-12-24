@@ -262,6 +262,10 @@ static GtkWidget *create_drive_volume_widget(void)
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
     g_signal_connect_unlocked(scale, "format-value", G_CALLBACK(on_drive_volume_format),
             NULL);
+    /* FIXME: quick fix: this kind of thing should be handled with VICE-wide
+     *        CSS or similar things.
+     */
+    gtk_widget_set_size_request(scale, 100, -1);
     return scale;
 }
 
