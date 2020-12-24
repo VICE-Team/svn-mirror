@@ -1,0 +1,91 @@
+name: Snapshot Build
+on:
+  push:
+    tags:
+    - '*' # any tag name for now
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+        - { friendly: 64-bit, msystem: MINGW64, arch: x86_64 }
+        - { friendly: 32-bit, msystem: MINGW32, arch: i686 }
+        ui: [ GTK3, SDL2 ]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - run: git config --global core.autocrlf input
+        shell: bash
+
+      - uses: actions/checkout@v2
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            git
+            base-devel
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
+            zip
+            subversion
+            git
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-mpg123
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+      
+      - uses: msys2/setup-msys2@v2
+        if: ${{ matrix.arch.arch }} == 'GTK3'
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            mingw-w64-${{ matrix.arch.arch }}-gtk3
+      
+      - uses: msys2/setup-msys2@v2
+        if: ${{ matrix.arch.arch }} == 'SDL2'
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            mingw-w64-${{ matrix.arch.arch }}-SDL2
+            mingw-w64-${{ matrix.arch.arch }}-SDL2_image
+
+      - name: Build
+        id: build
+        shell: msys2 {0}
+        run: |
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/build-gtk3.sh
+          echo ::set-output name=zip::$(ls vice/*.zip)
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }} Snapshot
+          draft: false
+          prerelease: false
+
+      - name: Upload
+        id: upload
+        uses: actions/upload-release-asset@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_FOR_RELEASES }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./vice/${{ steps.build.outputs.zip }})
+          asset_name: ${{ matrix.ui }} ${{ matrix.arch.friendly }}
+          asset_content_type: application/zip
