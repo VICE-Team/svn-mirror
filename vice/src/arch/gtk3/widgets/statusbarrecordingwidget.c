@@ -236,6 +236,14 @@ void statusbar_recording_widget_set_recording_status(GtkWidget *widget,
     if (event_record_active()) {
         type = RW_TYPE_EVENTS;
     } else if (sound_is_recording() && !screenshot_is_recording()) {
+        /* FIXME: sound_is_recording() returns false when using the UI, it uses
+         *        a variable that only gets set when using command-line options.
+         *        Triggering the recording from the UI doesn't set the variable
+         *        but does set the related resource, which I use in the function
+         *        used to update the UI display.
+         *
+         *        So this needs some serious refactoring.
+         */
         type = RW_TYPE_AUDIO;
     } else {
         type = RW_TYPE_VIDEO;
@@ -275,10 +283,16 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
                                          unsigned int current,
                                          unsigned int total)
 {
-    GtkWidget *label;
+    GtkWidget *status;
+    GtkWidget *time;
+    int type;
     gchar buffer[256];
+    const char *dev = NULL;
 
-    label = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
+    resources_get_string("SoundRecordDeviceName", &dev);
+/*    debug_gtk3("SoundRecordDeviceName = %s", dev); */
+
+    time = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
 
     if (total > 0) {
         g_snprintf(buffer, 256, "Time: %02u:%02u / %02u:%02u",
@@ -286,7 +300,26 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     } else {
         g_snprintf(buffer, 256, "Time: %02u:%02u", current / 60, current % 60);
     }
-    gtk_label_set_text(GTK_LABEL(label), buffer);
+    gtk_label_set_text(GTK_LABEL(time), buffer);
+
+
+    /* FIXME: Determining the recording status/type is currently very flaky.
+     *        When triggering a recording from the UI the variables that should
+     *        indicate the recording type aren't set yet. So for now we have to
+     *        check them in this timer callback. Also the sound recording status
+     *        function is broken in src/sound.c.
+     */
+    status = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TEXT, RW_ROW_TEXT);
+    /* determine recording type */
+    if (event_record_active()) {
+        type = RW_TYPE_EVENTS;
+    } else if ((dev != NULL && *dev != '\0') && !screenshot_is_recording()) {
+        type = RW_TYPE_AUDIO;
+    } else {
+        type = RW_TYPE_VIDEO;
+    }
+    g_snprintf(buffer, 256, "Recording %s ...", rec_types[type]);
+    gtk_label_set_text(GTK_LABEL(status), buffer);
 }
 
 
