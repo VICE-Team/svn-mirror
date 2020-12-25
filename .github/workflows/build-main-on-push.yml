@@ -5,7 +5,7 @@ on:
     - '*' # any tag name for now
 
 jobs:
-  create-release:
+  create_release:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
@@ -22,14 +22,14 @@ jobs:
           prerelease: false
 
   build:
-    needs: create-release
+    needs: create_release
     runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         arch:
-        - { friendly: 64-bit, msystem: MINGW64, arch: x86_64 }
-        - { friendly: 32-bit, msystem: MINGW32, arch: i686 }
+        - { msystem: MINGW64, arch: x86_64 }
+        - { msystem: MINGW32, arch: i686 }
         ui: [ GTK3, SDL2 ]
     defaults:
       run:
@@ -95,7 +95,8 @@ jobs:
         shell: msys2 {0}
         run: |
           MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/build-gtk3.sh
-          echo ::set-output name=zip::$(ls vice/*.zip)
+          echo ::set-output name=zip_path::$(readlink -f vice/*.zip)
+          echo ::set-output name=zip_name::$(basename vice/*.zip)
 
       - name: Upload
         id: upload
@@ -103,7 +104,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_FOR_RELEASES }}
         with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./${{ steps.build.outputs.zip }})
-          asset_name: ${{ matrix.ui }} ${{ matrix.arch.friendly }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.zip_path }}
+          asset_name: ${{ steps.build.outputs.zip_name }}
           asset_content_type: application/zip

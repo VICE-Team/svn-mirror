@@ -243,7 +243,6 @@ if test x"$HTML_DOCS" = "xyes"; then
 fi
 
 cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $TOPSRCDIR/README $BUILDPATH
-cp $TOPSRCDIR/doc/readmes/Readme-GTK3.txt $BUILDPATH
 mkdir $BUILDPATH/doc
 test -e $TOPBUILDDIR/doc/vice.pdf&&cp $TOPBUILDDIR/doc/vice.pdf $BUILDPATH/doc
 
