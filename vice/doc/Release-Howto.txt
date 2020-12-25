@@ -42,7 +42,7 @@ $ make -f checkdoc.mak full
 - make sure the version is updated in other files (html/index.html).
 
 These actually update the user-visible version in the binary/docs, so it should
-happen only immediatly before the release.
+happen only immediately before the release.
 
 while at it, also check the following:
 
@@ -68,7 +68,7 @@ $ ./autogen.sh
 $ ./configure --enable-native-gtk3ui --enable-arch=no --enable-midi --enable-lame --with-flac --with-vorbis --with-gif --with-jpeg --with-png --enable-static-ffmpeg --enable-ethernet --enable-cpuhistory
 $ make dist
 
-now unpack into a seperate directory and test if compiling works. fix makefiles
+now unpack into a separate directory and test if compiling works. fix makefiles
 in case files are missing and build the tarball again.
 
 create a tagged branch on the svn
@@ -83,9 +83,9 @@ $ svn cp --username=gpz svn+ssh://gpz@svn.code.sf.net/p/vice-emu/code/trunk/ svn
 generate windows binaries:
 --------------------------
 
-in msys2 configure the source as decribed above, then do
+in msys2 configure the source as described above, then do
 
-$ make bindistzip
+$ make bindist7zip
 
 
 publish the release
