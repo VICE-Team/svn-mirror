@@ -60,6 +60,7 @@ HTML_DOCS=$9
 # Try to get the SVN revision
 
 SVN_SUFFIX=""
+svnrev_string=$(svnversion $TOPSRCDIR)
 echo "svnrev_string: $svnrev_string"
 if test "$?" = "0"; then
   # Choose the second number (usually higher) if it exists; drop letter suffixes.
