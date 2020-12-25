@@ -21,9 +21,12 @@ jobs:
       - run: git config --global core.autocrlf input
         shell: bash
 
-      - uses: actions/checkout@v2
+      - name: Checkout Source
+        uses: actions/checkout@v2
 
-      - uses: msys2/setup-msys2@v2
+      - name: Install GTK3 Dependencies
+        if: ${{ matrix.arch.arch }} == 'GTK3'
+        uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.arch.msystem }}
           update: true
@@ -43,21 +46,30 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-mpg123
             mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-gtk3            
       
-      - uses: msys2/setup-msys2@v2
-        if: ${{ matrix.arch.arch }} == 'GTK3'
-        with:
-          msystem: ${{ matrix.arch.msystem }}
-          update: true
-          install: >-
-            mingw-w64-${{ matrix.arch.arch }}-gtk3
-      
-      - uses: msys2/setup-msys2@v2
+      - name: Install SDL2 Dependencies
         if: ${{ matrix.arch.arch }} == 'SDL2'
+        uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.arch.msystem }}
           update: true
           install: >-
+            git
+            base-devel
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
+            zip
+            subversion
+            git
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-mpg123
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-SDL2
             mingw-w64-${{ matrix.arch.arch }}-SDL2_image
 
