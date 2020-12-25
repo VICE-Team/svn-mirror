@@ -24,8 +24,8 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v2
 
-      - name: Install GTK3 Dependencies
-        if: ${{ matrix.arch.arch == 'GTK3' }}
+      - name: Install GTK3 Dependencies if Applicable
+        if: ${{ matrix.ui == 'GTK3' }}
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.arch.msystem }}
@@ -48,8 +48,8 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-icoutils
             mingw-w64-${{ matrix.arch.arch }}-gtk3            
       
-      - name: Install SDL2 Dependencies
-        if: ${{ matrix.arch.arch == 'SDL2' }}
+      - name: Install SDL2 Dependencies if Applicable
+        if: ${{ matrix.ui == 'SDL2' }}
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.arch.msystem }}
