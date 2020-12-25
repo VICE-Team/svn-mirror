@@ -104,6 +104,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_FOR_RELEASES }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ${{ steps.build.outputs.zip }})
+          asset_path: ./${{ steps.build.outputs.zip }})
           asset_name: ${{ matrix.ui }} ${{ matrix.arch.friendly }}
           asset_content_type: application/zip
