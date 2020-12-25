@@ -74,6 +74,7 @@ struct video_canvas_s {
 #endif
 
     struct video_render_config_s *videoconfig;
+    int crt_type;
     struct draw_buffer_s *draw_buffer;
     struct draw_buffer_s *draw_buffer_vsid;
     struct viewport_s *viewport;

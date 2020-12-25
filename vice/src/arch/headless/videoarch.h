@@ -40,6 +40,9 @@ typedef struct video_canvas_s {
      *         core. */
     struct video_render_config_s *videoconfig;
 
+    /** \brief Tracks color encoding changes */
+    int crt_type;
+
     /** \brief Drawing buffer as seen by the emulator core. */
     struct draw_buffer_s *draw_buffer;
 
