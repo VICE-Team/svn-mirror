@@ -1288,19 +1288,25 @@ void mem_get_cursor_parameter(uint16_t *screen_addr, uint8_t *cursor_column, uin
 {
     unsigned int cursorposition = (ted_peek(0xff0d) + ((ted_peek(0xff0c) & 3) * 256));
     unsigned int screenbase = ((ted_peek(0xff14) & 0xf8) << 8 | 0x400);
-#if 0
-    /* this does not work, apparently the kernal does update those too late */
-    *screen_addr = mem_ram[0xc8] + mem_ram[0xc9] * 256; /* Current Screen Line Address */
-    *cursor_column = mem_ram[0xca];    /* Cursor Column on Current Line */
-#endif
+
     *line_length = 40;                 /* Physical Screen Line Length */
-    /* we will derive screen line and column from the position of the hardware cursor */
-    *cursor_column = cursorposition % 40; /* Cursor Column on Current Line */
-    *screen_addr = screenbase + cursorposition - *cursor_column; /* Current Screen Line Address */
-    /* Cursor Blink enable: 1 = Flash Cursor, 0 = Cursor disabled, -1 = n/a
-       we have to check cursor position >= 1000, which means it is not visible */
-    *blinking = (cursorposition < 1000);
-/*    printf("mem_get_cursor_parameter screen_addr:%04x column: %d line len: %d blinking:%d\n",
+
+    if (cursorposition < 1000) {
+        /* cursor position < 1000 means the cursor is visible/enabled, in
+           this case we will derive screen line and column from the position
+           of the hardware cursor */
+        *cursor_column = cursorposition % 40; /* Cursor Column on Current Line */
+        *screen_addr = screenbase + cursorposition - *cursor_column; /* Current Screen Line Address */
+        /* Cursor Blink enable: 1 = Flash Cursor, 0 = Cursor disabled, -1 = n/a */
+        *blinking = 1;
+    } else {
+        /* when cursor is disabled, we use the kernal pointers and hope they
+           are not completely wrong */
+        *screen_addr = mem_ram[0xc8] + mem_ram[0xc9] * 256; /* Current Screen Line Address */
+        *cursor_column = mem_ram[0xca];    /* Cursor Column on Current Line */
+        *blinking = 0;
+    }
+    /* printf("mem_get_cursor_parameter screen_addr:%04x column: %d line len: %d blinking:%d\n",
            *screen_addr, *cursor_column, *line_length, *blinking); */
 }
 

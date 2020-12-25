@@ -477,8 +477,10 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
     DBGWAIT(("check2 addr:%04x", addr));
 
     for (i = 0; s[i] != '\0'; i++) {
-        if (mem_read_screen((uint16_t)(addr + i) & 0xffff) != s[i] % 64) {
-            if (mem_read_screen((uint16_t)(addr + i) & 0xffff) != (uint8_t)32) {
+        int checkbyte = mem_read_screen((uint16_t)(addr + i) & 0xffff);
+        DBGWAIT(("checkbyte: %02x", checkbyte));
+        if (checkbyte != s[i] % 64) {
+            if (checkbyte != (uint8_t)32) {
                 DBGWAIT(("check2: return NO"));
                 return NO;
             }
@@ -1068,11 +1070,14 @@ static void advance_waitsearchingfor(void)
             autostartmode = AUTOSTART_WAITLOADING;
             break;
         case NO:
+            /* if we are still in the line with the LOAD command, still wait */
+            if (check("LOAD\"", AUTOSTART_NOWAIT_BLINK) == YES) {
+                /* leave autostart and disable warp if ROM area was left */
+                check_rom_area();
+                break;
+            }
             /* check if we are already in the next line showing LOADING ? */
-            /* if (check("LOADING", AUTOSTART_NOWAIT_BLINK) == YES) { */
-            /* FIXME: checking only for the beginning of the line will catch
-                      some more problem cases */
-            if (check("LO", AUTOSTART_NOWAIT_BLINK) == YES) {
+            if (check("LOADING", AUTOSTART_NOWAIT_BLINK) == YES) {
                 log_message(autostart_log, "Searching for ... missed, got LOADING");
                 /* proceed as if mode was AUTOSTART_WAITLOADING */
                 entered_rom = 0;
@@ -1115,7 +1120,19 @@ static void advance_waitloading(void)
         case NO:
             /* still showing SEARCHING FOR ? */
             if (check("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK) == YES) {
+                /* leave autostart and disable warp if ROM area was left */
+                check_rom_area();
                 return;
+            }
+            /* if we are already way ahead and basically missed everything until
+               READY, then "LOADING" is 2 lines above */
+            if (check2("READY", AUTOSTART_NOWAIT_BLINK, -1) == YES) {
+                if (check2("LOADING", AUTOSTART_NOWAIT_BLINK, -2) == YES) {
+                    log_message(autostart_log, "Loading missed, got Ready");
+                    entered_rom = 0;
+                    autostartmode = AUTOSTART_WAITLOADREADY;
+                    break;
+                }
             }
             /* no something else is shown -> error! */
             log_message(autostart_log, "NO Loading");
@@ -1123,6 +1140,16 @@ static void advance_waitloading(void)
             autostart_disable();
             break;
         case NOT_YET:
+            /* if we are already way ahead and basically missed everything until
+               READY, then "LOADING" is 2 lines above */
+            if (check2("READY", AUTOSTART_NOWAIT_BLINK, -1) == YES) {
+                if (check2("LOADING", AUTOSTART_NOWAIT_BLINK, -2) == YES) {
+                    log_message(autostart_log, "Loading missed, got Ready");
+                    entered_rom = 0;
+                    autostartmode = AUTOSTART_WAITLOADREADY;
+                    break;
+                }
+            }
             /* leave autostart and disable warp if ROM area was left */
             check_rom_area();
             break;
