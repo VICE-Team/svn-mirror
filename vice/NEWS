@@ -175,9 +175,9 @@ it more reproducible and match the expected standard behaviour:
 - Add --enable-desktop-files for creating and installing .desktop files on Unix.
 
 - Added --enable/disable-html-docs
-- Added --with/without-mpg123 (default=yes), makes MP3-decoding support optional
+- Added --with/without-mpg123 (default=no), makes MP3-decoding support optional
 - Added --with/without-ogg-vorbis
-- Added --with/without-flac (default=yes)
+- Added --with/without-flac (default=no)
 - Update --with[out]-lame, make no default
 - Make jpeg and gif support default to no
 - Make using libpng the default, fail unless explicitly disabled
