@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -o errexit
+set -o nounset
 cd "$(dirname $0)"/../..
 
 #
@@ -22,17 +23,36 @@ then
     popd
 fi
 
-./autogen.sh
-./configure \
+ARGS="\
     --disable-arch \
     --disable-pdf-docs \
     --enable-ethernet \
     --with-jpeg \
     --with-png \
     --with-gif \
+    --with-vorbis \
+    --with-flac \
     --enable-lame \
     --enable-midi \
     --enable-cpuhistory \
-    || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
+    "
+
+case "$1" in
+GTK3)
+    ARGS="--enable-native-gtk3ui $ARGS"
+    ;;
+
+SDL2)
+    ARGS="--enable-sdlui2 $ARGS"
+    ;;
+
+*)
+    echo "Bad UI: $1"
+    exit 1
+    ;;
+esac
+
+./autogen.sh
+./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
 make -j $(( $NUMBER_OF_PROCESSORS * 2 )) -s
 make bindistzip

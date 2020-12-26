@@ -6,9 +6,11 @@ on:
 
 jobs:
   create_release:
+    name: Create Draft Release
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
     steps:
       - name: Create Release
         id: create_release
@@ -17,11 +19,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }} Snapshot
-          draft: false
+          release_name: ${{ github.ref }} snapshot
+          draft: true
           prerelease: false
 
   build:
+    name: Build
     needs: create_release
     runs-on: windows-latest
     strategy:
@@ -31,9 +34,6 @@ jobs:
         - { msystem: MINGW64, arch: x86_64 }
         - { msystem: MINGW32, arch: i686 }
         ui: [ GTK3, SDL2 ]
-    defaults:
-      run:
-        shell: msys2 {0}
     steps:
       - run: git config --global core.autocrlf input
         shell: bash
@@ -63,7 +63,7 @@ jobs:
             mingw-w64-${{ matrix.arch.arch }}-flac
             mingw-w64-${{ matrix.arch.arch }}-mpg123
             mingw-w64-${{ matrix.arch.arch }}-icoutils
-            mingw-w64-${{ matrix.arch.arch }}-gtk3            
+            mingw-w64-${{ matrix.arch.arch }}-gtk3
       
       - name: Install SDL2 Dependencies if Applicable
         if: ${{ matrix.ui == 'SDL2' }}
@@ -94,13 +94,13 @@ jobs:
         id: build
         shell: msys2 {0}
         run: |
-          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/build-gtk3.sh
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }}
           echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
           echo ::set-output name=zip_name::$(basename vice/*.zip)
 
       - name: Upload
         id: upload
-        uses: actions/upload-release-asset@v1.0.0
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -108,3 +108,21 @@ jobs:
           asset_path: ${{ steps.build.outputs.zip_path }}
           asset_name: ${{ steps.build.outputs.zip_name }}
           asset_content_type: application/zip
+
+  publish_release:
+    name: Publish Release
+    needs: [create_release, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.repos.updateRelease(
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: ${{ needs.create_release.outputs.release_id }},
+                draft: false
+              });
+            
