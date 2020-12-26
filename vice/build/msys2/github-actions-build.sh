@@ -33,7 +33,7 @@ ARGS="\
     --with-vorbis \
     --with-flac \
     --enable-lame \
-    --enable-midi \ 
+    --enable-midi \
     --enable-cpuhistory \
     --enable-external-ffmpeg \
     "
