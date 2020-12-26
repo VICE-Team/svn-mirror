@@ -95,7 +95,6 @@
 
 #include "ui.h"
 
-
 /* Forward declarations of static functions */
 
 static int set_save_resources_on_exit(int val, void *param);
@@ -111,6 +110,7 @@ static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
 static int set_pause_on_settings(int val, void *param);
 static void ui_switch_border_mode(void);
+static int set_autostart_on_doubleclick(int val, void *param);
 
 /*****************************************************************************
  *                  Defines, enums, type declarations                        *
@@ -145,10 +145,8 @@ typedef struct ui_resources_s {
 
     char *monitor_font;         /**< Pango font description string of the
                                      VTE monitor font */
-#ifdef COMPYX_LAMER
     int autostart_on_doubleclick;   /**< Use autostart on double-clicking in
                                          file attach dialogs (bool) */
-#endif
 #if 0
     int depth;
 #endif
@@ -258,13 +256,10 @@ static const resource_int_t resources_int_shared[] = {
 
     { "PauseOnSettings", 0, RES_EVENT_NO, NULL,
         &ui_resources.pause_on_settings, set_pause_on_settings, NULL },
-#ifdef COMPYX_LAMER
     /* Use autostart on doubleclick in dialogs */
     { "AutostartOnDoubleclick", 0, RES_EVENT_NO, NULL,
         &ui_resources.autostart_on_doubleclick, set_autostart_on_doubleclick,
         NULL },
-#endif
-
     RESOURCE_INT_LIST_END
 };
 
@@ -359,13 +354,9 @@ static const cmdline_option_t cmdline_options_common[] =
     { "-autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "AutostartOnDoubleclick", (void*)1,
         NULL, "Autostart files on doubleclick" },
-#ifdef COMPYX_LAMER
     { "+autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "AutostartOnDoubleclick", (void*)0,
         NULL, "Open files on doubleclick" },
-#endif
-
-
     CMDLINE_LIST_END
 };
 
@@ -968,7 +959,18 @@ static int set_pause_on_settings(int val, void *param)
     return 0;
 }
 
-
+/** \brief  Set AutostartOnDoubleClick resource (bool)
+ *
+ * \param[in]   val     new value
+ * \param[in]   param   extra param (ignored)
+ *
+ * \return 0
+ */
+static int set_autostart_on_doubleclick(int val, void *param)
+{
+    ui_resources.autostart_on_doubleclick = val ? 1 : 0;
+    return 0;
+}
 
 /** \brief  Set StartMinimized resource (bool)
  *

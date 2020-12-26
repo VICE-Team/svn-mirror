@@ -37,7 +37,12 @@
 /** \brief  Custom response IDs for dialogs
  */
 enum {
-    VICE_RESPONSE_AUTOSTART = 1     /**< trigger autostart */
+    VICE_RESPONSE_AUTOSTART = 1,     /**< trigger autostart */
+    VICE_RESPONSE_AUTOLOAD,          /**< trigger autoload */
+    VICE_RESPONSE_AUTOSTART_INDEX,   /**< trigger autostart with index (inside image) */
+    VICE_RESPONSE_AUTOLOAD_INDEX,    /**< trigger autoload with index (inside image) */
+    VICE_RESPONSE_CUSTOM_OPEN,       /**< custom open event */
+    VICE_RESPONSE_INVALID            /**< not a valid event, drop it */
 };
 
 

@@ -93,6 +93,9 @@ static GtkWidget *driveno_widget = NULL;
 static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
+/** \brief  Reference to the custom 'Autostart' button
+ */
+static GtkWidget *autostart_button;
 
 /** \brief  Unit number to attach disk to
  */
@@ -242,11 +245,10 @@ static void on_drive_num_changed(int drive)
  * \param[in,out]   widget      dialog
  * \param[in]       user_data   file index in the image
  */
-static void do_autostart(GtkWidget *widget, gpointer user_data)
+static void do_autostart(GtkWidget *widget, int index, int autostart)
 {
     gchar *filename;
     gchar *filename_locale;
-    int index = GPOINTER_TO_INT(user_data);
 
     mainlock_assert_lock_obtained();
 
@@ -266,7 +268,7 @@ static void do_autostart(GtkWidget *widget, gpointer user_data)
                 index,  /* Program number? Probably used when clicking
                            in the preview widget to load the proper
                            file in an image */
-                AUTOSTART_MODE_RUN) < 0) {
+                autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
         /* oeps */
         debug_gtk3("autostart disk attach failed.");
     }
@@ -275,6 +277,63 @@ static void do_autostart(GtkWidget *widget, gpointer user_data)
     gtk_widget_destroy(widget);
 }
 #endif
+
+/** \brief  Attach a disk image
+ *
+ * \param[in,out]   widget      dialog
+ * \param[in]       user_data   file index in the image
+ */
+static void do_attach(GtkWidget *widget, gpointer user_data)
+{
+    gchar *filename;
+    gchar *filename_locale;
+    gchar buffer[1024];
+
+    lastdir_update(widget, &last_dir, &last_file);
+
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    /* convert filename to current locale */
+    filename_locale = file_chooser_convert_to_locale(filename);
+
+    /* ui_message("Opening file '%s' ...", filename); */
+    debug_gtk3("Attaching file '%s' to unit #%d.",
+            filename, unit_number);
+
+    /* copied from Gtk2: I fail to see how brute-forcing your way
+        * through file types is 'smart', but hell, it works */
+    if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
+        /* failed */
+        debug_gtk3("disk attach failed.");
+        g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
+                unit_number, filename);
+    } else {
+        g_snprintf(buffer, 1024, "Unit #%d: attached '%s'",
+                unit_number, filename);
+    }
+    ui_display_statustext(buffer, 1);
+    g_free(filename_locale);
+}
+
+/** \brief  Handler for 'selection-changed' event of the preview widget
+ *
+ * Checks if a proper selection was made and activates the 'Autostart' button
+ * if so, disabled it otherwise
+ *
+ * \param[in]   chooser Parent dialog
+ * \param[in]   data    Extra event data (unused)
+ */
+static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
+{
+    gchar *filename;
+
+    filename = gtk_file_chooser_get_filename(chooser);
+    if (filename != NULL) {
+        gtk_widget_set_sensitive(autostart_button, TRUE);
+        g_free(filename);
+    } else {
+        gtk_widget_set_sensitive(autostart_button, FALSE);
+    }
+}
 
 #if 0
 static void on_file_activated(GtkWidget *chooser, gpointer data)
@@ -285,71 +344,107 @@ static void on_file_activated(GtkWidget *chooser, gpointer data)
 
 
 #ifndef SANDBOX_MODE
+
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
  *
  * \param[in]   widget      the dialog
  * \param[in]   response_id response ID
- * \param[in]   user_data   extra data (unused)
+ * \param[in]   user_data   index in the preview widget
  *
  * TODO:    proper (error) messages, which requires implementing ui_error() and
  *          ui_message() and moving them into gtk3/widgets to avoid circular
  *          references
  */
-static void on_response(GtkWidget *widget, gint response_id,
-                        gpointer user_data)
+static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
-    gchar *filename;
-    gchar *filename_locale;
-    gchar buffer[1024];
+    gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    int index = content_preview_widget_get_index(preview_widget);
+    int autostart = 0;
 
 #ifdef HAVE_DEBUG_GTK3UI
-    int index = GPOINTER_TO_INT(user_data);
-    debug_gtk3("got response ID %d, index %d.", response_id, index);
+    debug_gtk3("on_response, got response ID %d, index %d\n", response_id, index);
 #endif
+    resources_get_int("AutostartOnDoubleclick", &autostart);
+    debug_gtk3("on_response, AutostartOnDoubleclick = %s\n",
+            autostart ? "True" : "False");
 
-    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-
+    /* first, to make the following logic less funky, map some events to others,
+       depending on whether autostart-on-doubleclick is enabled or not, and 
+       depending on the event coming from the preview window or not. */
     switch (response_id) {
-
-        /* 'Open' button, double-click on file */
-        case GTK_RESPONSE_ACCEPT:
-
-            lastdir_update(widget, &last_dir, &last_file);
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            /* convert filename to current locale */
-            filename_locale = file_chooser_convert_to_locale(filename);
-
-            /* ui_message("Opening file '%s' ...", filename); */
-            debug_gtk3("Attaching file '%s' to unit #%d.",
-                    filename, unit_number);
-
-            /* copied from Gtk2: I fail to see how brute-forcing your way
-             * through file types is 'smart', but hell, it works */
-            if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
-                /* failed */
-                debug_gtk3("disk attach failed.");
-                g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
-                        unit_number, filename);
-            } else {
-                g_snprintf(buffer, 1024, "Unit #%d: attached '%s'",
-                        unit_number, filename);
+        /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
+        case VICE_RESPONSE_AUTOLOAD_INDEX:
+        /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_AUTOSTART_INDEX:
+            if ((index < 0) || (filename == NULL)) {
+                response_id = VICE_RESPONSE_INVALID;   /* drop this event */
             }
-            ui_display_statustext(buffer, 1);
-            g_free(filename_locale);
+            break;
+        /* 'Open' button clicked when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_CUSTOM_OPEN:
+            if (filename == NULL) {
+                response_id = VICE_RESPONSE_INVALID;   /* drop this event */
+            } else if (index >= 0) {
+                response_id = VICE_RESPONSE_AUTOLOAD_INDEX;
+            }
+            break;
+        /* double-click on file in the main file chooser,
+           'Autostart' button when autostart-on-doubleclick is enabled
+           'Open' button when autostart-on-doubleclick is NOT enabled */
+        case GTK_RESPONSE_ACCEPT:
+            debug_gtk3("on_response, GTK_RESPONSE_ACCEPT, index %d\n", index);
+            if (filename == NULL) {
+                response_id = VICE_RESPONSE_INVALID;   /* drop this event */
+            } else if ((index >= 0) && (autostart == 0)) {
+                response_id = VICE_RESPONSE_AUTOLOAD_INDEX;
+            } else if ((index >= 0) && (autostart == 1)) {
+                response_id = VICE_RESPONSE_AUTOSTART_INDEX;
+            } else if (autostart == 0) {
+                response_id = VICE_RESPONSE_CUSTOM_OPEN;
+            } else {
+                response_id = VICE_RESPONSE_AUTOSTART;
+            }
+            break;
+        default:
+            break;
+    }
+
+#ifdef HAVE_DEBUG_GTK3UI
+    debug_gtk3("on_response, using response ID %d\n", response_id);
+#endif
+    switch (response_id) {
+        /* 'Open' button clicked when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_CUSTOM_OPEN:
+            debug_gtk3("on_response, VICE_RESPONSE_CUSTOM_OPEN, index %d\n", index);
+            do_attach(widget, user_data);
+
+            mainlock_release();
             gtk_widget_destroy(widget);
+            mainlock_obtain();
             break;
 
-        /* 'Autostart' button clicked */
+        /* 'Autostart' button clicked when autostart-on-doubleclick is NOT enabled */
         case VICE_RESPONSE_AUTOSTART:
-            /* did we actually get a filename? */
-            if (filename != NULL) {
-                do_autostart(widget, user_data);
-                mainlock_release();
-                gtk_widget_destroy(widget);
-                mainlock_obtain();
-            }
+        /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_AUTOSTART_INDEX:
+            debug_gtk3("on_response, VICE_RESPONSE_AUTOSTART_INDEX, index %d\n", index);
+            do_autostart(widget, index + 1, 1);
+
+            mainlock_release();
+            gtk_widget_destroy(widget);
+            mainlock_obtain();
+            break;
+
+        /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
+        case VICE_RESPONSE_AUTOLOAD_INDEX:
+            debug_gtk3("on_response, VICE_RESPONSE_AUTOLOAD_INDEX, index %d\n", index);
+            do_autostart(widget, index + 1, 0);
+
+            mainlock_release();
+            gtk_widget_destroy(widget);
+            mainlock_obtain();
             break;
 
         /* 'Close'/'X' button */
@@ -490,6 +585,11 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 {
     GtkWidget *dialog;
     size_t i;
+    int autostart = 0;
+
+    resources_get_int("AutostartOnDoubleclick", &autostart);
+    debug_gtk3("create_smart_attach_dialog, AutostartOnDoubleclick = %s\n",
+            autostart ? "True" : "False");
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
@@ -497,11 +597,32 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
-            "Open", GTK_RESPONSE_ACCEPT,
-            "Autostart", VICE_RESPONSE_AUTOSTART,
-            "Close", GTK_RESPONSE_REJECT,
+            /* buttons */
             NULL, NULL);
 
+    /* We need to manually add the buttons here, not using the constructor
+     * above, to keep the order of the buttons the same as in the other
+     * 'attach' dialogs. Gtk doesn't allow getting references to buttons when
+     * added via the constructor, meaning we cannot get a reference to the
+     * "Autostart" button in order to "grey it out".
+     */
+    /* to handle the "double click means autostart" option, we need to always
+       connect a button to GTK_RESPONSE_ACCEPT, else double clicks will stop
+       working */
+    if (autostart) {
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Attach / Load", VICE_RESPONSE_CUSTOM_OPEN);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                "Autostart",
+                                                GTK_RESPONSE_ACCEPT);
+    } else {
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Attach / Load", GTK_RESPONSE_ACCEPT);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                "Autostart",
+                                                VICE_RESPONSE_AUTOSTART);
+    }
+
+    gtk_widget_set_sensitive(autostart_button, FALSE);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), "Close", GTK_RESPONSE_REJECT);
     /* set modal so mouse-grab doesn't get triggered */
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
@@ -533,6 +654,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             G_CALLBACK(on_response), GINT_TO_POINTER(0));
     g_signal_connect(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
+    g_signal_connect_unlocked(dialog, "selection-changed",
+            G_CALLBACK(on_selection_changed), NULL);
 #if 0
     /* Double click: autostart */
     g_signal_connect(dialog, "file-activated",

@@ -56,6 +56,7 @@
 
 #include "uismartattach.h"
 
+/* #define HAVE_DEBUG_GTK3UI */
 
 #ifndef SANDBOX_MODE
 /** \brief  File type filters for the dialog
@@ -101,15 +102,14 @@ static GtkWidget *autostart_button;
 
 /** \brief  Trigger autostart
  *
- * \param[in]   widget  dialog
- * \param[in]   data    file index in the directory preview
+ * \param[in]   widget      dialog
+ * \param[in]   index       file index in the directory preview
+ * \param[in]   autostart   flag: 0: just load, 1: autostart
  */
-static void do_autostart(GtkWidget *widget, gpointer data)
+static void do_autostart(GtkWidget *widget, int index, int autostart)
 {
     gchar *filename;
     gchar *filename_locale;
-
-    int index = GPOINTER_TO_INT(data);
 
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
@@ -123,7 +123,7 @@ static void do_autostart(GtkWidget *widget, gpointer data)
                 index,  /* Program number? Probably used when clicking
                            in the preview widget to load the proper
                            file in an image */
-                AUTOSTART_MODE_RUN) < 0) {
+                autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
         /* oeps
          *
          * I currently can't find a way to use a non-blocking Gtk Error dialog
@@ -137,6 +137,52 @@ static void do_autostart(GtkWidget *widget, gpointer data)
     gtk_widget_destroy(widget);
 }
 
+/** \brief  Do smart attach
+ *
+ * \param[in]   widget  dialog
+ * \param[in]   data    file index in the directory preview
+ */
+static void do_smart_attach(GtkWidget *widget, gpointer data)
+{
+    gchar *filename_locale;
+    gchar *filename;
+
+    lastdir_update(widget, &last_dir, &last_file);
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    filename_locale = file_chooser_convert_to_locale(filename);
+
+    /* Smart attach for C64/C128
+        *
+        * This tries to attach a file as a cartridge image, which is only
+        * valid for C64/C128
+        */
+    if ((machine_class == VICE_MACHINE_C64)
+            || (machine_class == VICE_MACHINE_C64SC)
+            || (machine_class == VICE_MACHINE_SCPU64)
+            || (machine_class == VICE_MACHINE_C128)) {
+        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+                && tape_image_attach(1, filename_locale) < 0
+                && autostart_snapshot(filename_locale, NULL) < 0
+                && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
+                && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
+            /* failed (TODO: perhaps a proper error message?) */
+            debug_gtk3("smart attach failed.");
+        }
+    } else {
+        /* Smart attach for other emulators: don't try to attach a file
+            * as a cartidge, it'll result in false positives
+            */
+        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+                && tape_image_attach(1, filename_locale) < 0
+                && autostart_snapshot(filename_locale, NULL) < 0)
+        {
+            /* failed (TODO: perhaps a proper error message?) */
+            log_error(LOG_ERR, "Failed to smart attach '%s'",
+                    filename_locale);
+        }
+    }
+    g_free(filename_locale);
+}
 
 /** \brief  Handler for 'selection-changed' event of the preview widget
  *
@@ -146,7 +192,7 @@ static void do_autostart(GtkWidget *widget, gpointer data)
  * \param[in]   chooser Parent dialog
  * \param[in]   data    Extra event data (unused)
  */
-void on_selection_changed(GtkFileChooser *chooser, gpointer data)
+static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
 {
     gchar *filename;
 
@@ -233,67 +279,92 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
-    gchar *filename;
-    gchar *filename_locale;
+    gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    int index = content_preview_widget_get_index(preview_widget);
+    int autostart = 0;
 
 #ifdef HAVE_DEBUG_GTK3UI
-    int index = GPOINTER_TO_INT(user_data);
-    debug_gtk3("got response ID %d, index %d.", response_id, index);
+    debug_gtk3("on_response, got response ID %d, index %d\n", response_id, index);
 #endif
+    resources_get_int("AutostartOnDoubleclick", &autostart);
+    debug_gtk3("on_response, AutostartOnDoubleclick = %s\n",
+            autostart ? "True" : "False");
 
-    /* gonna needs this in multiple checks */
-    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-
+    /* first, to make the following logic less funky, map some events to others,
+       depending on whether autostart-on-doubleclick is enabled or not, and 
+       depending on the event coming from the preview window or not. */
     switch (response_id) {
-
-        /* 'Open' button, double-click on file */
-        case GTK_RESPONSE_ACCEPT:
-            lastdir_update(widget, &last_dir, &last_file);
-            filename_locale = file_chooser_convert_to_locale(filename);
-
-            /* Smart attach for C64/C128
-             *
-             * This tries to attach a file as a cartridge image, which is only
-             * valid for C64/C128
-             */
-            if ((machine_class == VICE_MACHINE_C64)
-                    || (machine_class == VICE_MACHINE_C64SC)
-                    || (machine_class == VICE_MACHINE_SCPU64)
-                    || (machine_class == VICE_MACHINE_C128)) {
-                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
-                        && tape_image_attach(1, filename_locale) < 0
-                        && autostart_snapshot(filename_locale, NULL) < 0
-                        && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
-                        && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
-                    /* failed (TODO: perhaps a proper error message?) */
-                    debug_gtk3("smart attach failed.");
-                }
-            } else {
-                /* Smart attach for other emulators: don't try to attach a file
-                 * as a cartidge, it'll result in false positives
-                 */
-                if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
-                        && tape_image_attach(1, filename_locale) < 0
-                        && autostart_snapshot(filename_locale, NULL) < 0)
-                {
-                    /* failed (TODO: perhaps a proper error message?) */
-                    log_error(LOG_ERR, "Failed to smart attach '%s'",
-                            filename_locale);
-                }
+        /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
+        case VICE_RESPONSE_AUTOLOAD_INDEX:
+        /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_AUTOSTART_INDEX:
+            if ((index < 0) || (filename == NULL)) {
+                response_id = VICE_RESPONSE_INVALID;   /* drop this event */
             }
-            g_free(filename_locale);
+            break;
+        /* 'Open' button clicked when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_CUSTOM_OPEN:
+            if (filename == NULL) {
+                response_id = VICE_RESPONSE_INVALID;   /* drop this event */
+            } else if (index >= 0) {
+                response_id = VICE_RESPONSE_AUTOLOAD_INDEX;
+            }
+            break;
+        /* double-click on file in the main file chooser,
+           'Autostart' button when autostart-on-doubleclick is enabled
+           'Open' button when autostart-on-doubleclick is NOT enabled */
+        case GTK_RESPONSE_ACCEPT:
+            debug_gtk3("on_response, GTK_RESPONSE_ACCEPT, index %d\n", index);
+            if (filename == NULL) {
+                response_id = VICE_RESPONSE_INVALID;   /* drop this event */
+            } else if ((index >= 0) && (autostart == 0)) {
+                response_id = VICE_RESPONSE_AUTOLOAD_INDEX;
+            } else if ((index >= 0) && (autostart == 1)) {
+                response_id = VICE_RESPONSE_AUTOSTART_INDEX;
+            } else if (autostart == 0) {
+                response_id = VICE_RESPONSE_CUSTOM_OPEN;
+            } else {
+                response_id = VICE_RESPONSE_AUTOSTART;
+            }
+            break;
+        default:
+            break;
+    }
+
+#ifdef HAVE_DEBUG_GTK3UI
+    debug_gtk3("on_response, using response ID %d\n", response_id);
+#endif
+    switch (response_id) {
+        /* 'Open' button clicked when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_CUSTOM_OPEN:
+            debug_gtk3("on_response, VICE_RESPONSE_CUSTOM_OPEN, index %d\n", index);
+            do_smart_attach(widget, user_data);
+
+            mainlock_release();
             gtk_widget_destroy(widget);
+            mainlock_obtain();
             break;
 
-        /* 'Autostart' button clicked */
+        /* 'Autostart' button clicked when autostart-on-doubleclick is NOT enabled */
         case VICE_RESPONSE_AUTOSTART:
-            /* do we actually have a file to autostart? */
-            if (filename != NULL) {
-                do_autostart(widget, user_data);
-                mainlock_release();
-                gtk_widget_destroy(widget);
-                mainlock_obtain();
-            }
+        /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
+        case VICE_RESPONSE_AUTOSTART_INDEX:
+            debug_gtk3("on_response, VICE_RESPONSE_AUTOSTART_INDEX, index %d\n", index);
+            do_autostart(widget, index + 1, 1);
+
+            mainlock_release();
+            gtk_widget_destroy(widget);
+            mainlock_obtain();
+            break;
+
+        /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
+        case VICE_RESPONSE_AUTOLOAD_INDEX:
+            debug_gtk3("on_response, VICE_RESPONSE_AUTOLOAD_INDEX, index %d\n", index);
+            do_autostart(widget, index + 1, 0);
+
+            mainlock_release();
+            gtk_widget_destroy(widget);
+            mainlock_obtain();
             break;
 
         /* 'Close'/'X' button */
@@ -388,6 +459,11 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
 {
     GtkWidget *dialog;
     size_t i;
+    int autostart = 0;
+
+    resources_get_int("AutostartOnDoubleclick", &autostart);
+    debug_gtk3("create_smart_attach_dialog, AutostartOnDoubleclick = %s\n",
+            autostart ? "True" : "False");
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
@@ -403,10 +479,21 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
      * added via the constructor, meaning we cannot get a reference to the
      * "Autostart" button in order to "grey it out".
      */
-    gtk_dialog_add_button(GTK_DIALOG(dialog), "Open", GTK_RESPONSE_ACCEPT);
-    autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
-                                             "Autostart",
-                                             VICE_RESPONSE_AUTOSTART);
+    /* to handle the "double click means autostart" option, we need to always
+       connect a button to GTK_RESPONSE_ACCEPT, else double clicks will stop
+       working */
+    if (autostart) {
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Attach / Load", VICE_RESPONSE_CUSTOM_OPEN);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                "Autostart",
+                                                GTK_RESPONSE_ACCEPT);
+    } else {
+        gtk_dialog_add_button(GTK_DIALOG(dialog), "Attach / Load", GTK_RESPONSE_ACCEPT);
+        autostart_button = gtk_dialog_add_button(GTK_DIALOG(dialog),
+                                                "Autostart",
+                                                VICE_RESPONSE_AUTOSTART);
+    }
+
     gtk_widget_set_sensitive(autostart_button, FALSE);
     gtk_dialog_add_button(GTK_DIALOG(dialog), "Close", GTK_RESPONSE_REJECT);
 

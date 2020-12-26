@@ -40,7 +40,6 @@
 
 #include "contentpreviewwidget.h"
 
-
 /** \brief  Function to read image contents
  */
 static read_contents_func_type content_func = NULL;
@@ -81,13 +80,11 @@ static void on_row_activated(
     GtkTreeModel *model;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
-#ifdef COMPYX_LAMER
     int autostart = 0;
 
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("CALLED, AutostartOnDoubleclick = %s\n",
+    debug_gtk3("on_row_activated, AutostartOnDoubleclick = %s\n",
             autostart ? "True" : "False");
-#endif
 
     model = gtk_tree_view_get_model(view);
     selection = gtk_tree_view_get_selection(view);
@@ -105,7 +102,7 @@ static void on_row_activated(
          * user_data argument */
         if (parent_dialog != NULL) {
             response_func(parent_dialog,
-                    VICE_RESPONSE_AUTOSTART,
+                    autostart ? VICE_RESPONSE_AUTOSTART_INDEX : VICE_RESPONSE_AUTOLOAD_INDEX,
                     GINT_TO_POINTER(row + 1));  /* for some reason the first
                                                    file has index 1 */
         }
@@ -340,4 +337,33 @@ gboolean content_preview_widget_set_index(GtkWidget *widget, int index)
     return TRUE;
 }
 
+/** \brief  Get index in directory
+ *
+ * \param[in]   widget      widget (unused)
+ *
+ * \return  index in directory
+ */
+int content_preview_widget_get_index(GtkWidget *widget)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gint row_count;
 
+    /* get model and check index */
+    model = gtk_tree_view_get_model(GTK_TREE_VIEW(content_view));
+    row_count = gtk_tree_model_iter_n_children(model, NULL);
+
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(content_view));
+
+
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+        int row;
+        gtk_tree_model_get(model, &iter, 1, &row, -1);
+        debug_gtk3("content_preview_widget_get_index. Index = %d/%d\n", row, row_count);
+        if ((row >= 0) && (row <= row_count)) {
+            return row;
+        }
+    }
+    return -1;
+}
