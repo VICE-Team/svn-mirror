@@ -14,6 +14,7 @@
  * $VICERES AutostartTapeBasicLoad              -vsid
  * $VICERES AutostartWarp                       -vsid
  * $VICERES AutostartHandleTrueDriveEmulation   -vsid
+ * $VICERES AutostartOnDoubleClick              -vsid
  */
 
 /*
@@ -220,6 +221,7 @@ GtkWidget *settings_autostart_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *tde;
     GtkWidget *warp;
+    GtkWidget *doubleclick;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     g_object_set(grid, "margin", 8, NULL);
@@ -233,11 +235,15 @@ GtkWidget *settings_autostart_widget_create(GtkWidget *parent)
             "Warp on autostart");
     gtk_grid_attach(GTK_GRID(grid), warp, 0, 1, 1, 1);
 
+    doubleclick = vice_gtk3_resource_check_button_new("AutostartOnDoubleClick",
+            "Double click for autostart");
+    gtk_grid_attach(GTK_GRID(grid), doubleclick, 0, 2, 1, 1);
+
     gtk_grid_attach(GTK_GRID(grid), create_delay_widget(),
-            0, 2, 1, 1);
+            0, 3, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), create_prg_widget(),
-            0, 3, 1, 1);
+            0, 4, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
