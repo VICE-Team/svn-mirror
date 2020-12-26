@@ -61,7 +61,6 @@ HTML_DOCS=$9
 
 SVN_SUFFIX=""
 svnrev_string=$(svnversion $TOPSRCDIR)
-echo "svnrev_string: $svnrev_string"
 if test "$?" = "0"; then
   # Choose the second number (usually higher) if it exists; drop letter suffixes.
   svnrev=`echo "$svnrev_string" | sed 's/^\([0-9]*:\)*\([0-9]*\)*.*/\2/'`
@@ -69,17 +68,14 @@ if test "$?" = "0"; then
   # Only a number is extracted.
   if test -n "$svnrev"
     then SVN_SUFFIX="-r$svnrev"
-    echo "SVN_SUFFIX: $SVN_SUFFIX"
   fi
 fi
 
 if test "$SVN_SUFFIX" = ""; then
   # No svnversion found, checking if there is a git svn ref
   GIT_SVN_COMMIT_HASH=$(git -C "$TOPSRCDIR" log --grep='git-svn-id:' -n 1 --pretty=format:"%H")
-  echo "GIT_SVN_COMMIT_HASH: $GIT_SVN_COMMIT_HASH"
   if test "$GIT_SVN_COMMIT_HASH" != ""; then
     SVN_SUFFIX="-r$(git svn find-rev $GIT_SVN_COMMIT_HASH)"
-    echo "SVN_SUFFIX: $SVN_SUFFIX"
   fi
 fi
 
