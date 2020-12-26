@@ -2586,6 +2586,11 @@ that is too small results in autostart not happening.
 (all emulators except vsid).
 (0..1000)
 
+@vindex AutostartOnDoubleClick
+@item AutostartOnDoubleClick
+Use autostart when double clicking on a file in the file list.
+(only in the GTK3 GUI) (all emulators except vsid)
+
 @end table
 
 @c @node FIXME
@@ -2668,6 +2673,13 @@ that is too small results in autostart not happening.
 (@code{AutostartDelay})
 (all emulators except vsid).
 (0..1000)
+
+@findex -autostart-on-doubleclick, +autostart-on-doubleclick
+@item -autostart-on-doubleclick
+@itemx +autostart-on-doubleclick
+Enable/disable using autostart when double clicking on a file in the file list.
+(@code{AutostartOnDoubleClick}) (only in the GTK3 GUI) (all emulators except vsid)
+
 
 @end table
 
