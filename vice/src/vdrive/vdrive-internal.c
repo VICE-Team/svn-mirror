@@ -50,6 +50,7 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 {
     vdrive_t *vdrive;
     disk_image_t *image;
+    int ret;
 
     image = lib_malloc(sizeof(disk_image_t));
 
@@ -77,7 +78,16 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 
     vdrive_device_setup(vdrive, 100, 0);
     vdrive->image = image;
-    vdrive_attach_image(image, 100, 0, vdrive);
+    ret = vdrive_attach_image(image, 100, 0, vdrive);
+
+    /* if we can't attached to it, we should return NULL */
+    if (ret) {
+        lib_free(image->p64);
+        lib_free(image);
+        lib_free(vdrive);
+        return NULL;
+    }
+
     return vdrive;
 }
 
