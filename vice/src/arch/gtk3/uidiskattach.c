@@ -93,17 +93,21 @@ static GtkWidget *driveno_widget = NULL;
 static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
+#ifndef SANDBOX_MODE
 /** \brief  Reference to the custom 'Autostart' button
  */
 static GtkWidget *autostart_button;
+#endif
 
 /** \brief  Unit number to attach disk to
  */
 static int unit_number = DRIVE_UNIT_DEFAULT;
 
+#ifndef SANDBOX_MODE
 /** \brief  Drive number in unit to attach disk to
  */
 static int drive_number = 0;
+#endif
 
 #if 0
 /** \brief  Update the last directory reference
@@ -278,6 +282,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
 }
 #endif
 
+#ifndef SANDBOX_MODE
 /** \brief  Attach a disk image
  *
  * \param[in,out]   widget      dialog
@@ -334,6 +339,7 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
         gtk_widget_set_sensitive(autostart_button, FALSE);
     }
 }
+#endif
 
 #if 0
 static void on_file_activated(GtkWidget *chooser, gpointer data)
@@ -491,7 +497,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
             /* copied from Gtk2: I fail to see how brute-forcing your way
              * through file types is 'smart', but hell, it works */
-            if (file_system_attach_disk(unit_number, filename_locale) < 0) {
+            if (file_system_attach_disk(unit_number, 0, filename_locale) < 0) {
                 /* failed */
                 debug_gtk3("disk attach failed.");
                 g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",

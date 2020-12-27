@@ -142,15 +142,15 @@ GtkWidget *vice_gtk3_open_file_dialog(
 }
 #else
 
-gchar *vice_gtk3_open_file_dialog(
+GtkWidget *vice_gtk3_open_file_dialog(
         const char *title,
         const char *filter_desc,
         const char **filter_list,
-        const char *path)
+        const char *path,
+        void (*callback)(GtkDialog *dialog, char *, gpointer),
+        gpointer param)
 {
     GtkFileChooserNative *dialog;
-    gint result;
-    gchar *filename;
 
     dialog = gtk_file_chooser_native_new(
             title,
@@ -158,14 +158,9 @@ gchar *vice_gtk3_open_file_dialog(
             GTK_FILE_CHOOSER_ACTION_OPEN,
             NULL, NULL);
 
-    result = gtk_native_dialog_run(GTK_NATIVE_DIALOG(dialog));
-    if (result == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    } else {
-        filename = NULL;
-    }
-    g_object_unref(dialog);
-    return filename;
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
+    gtk_widget_show(GTK_WIDGET(dialog));
+    return GTK_WIDGET(dialog);
 }
 #endif
 
@@ -222,21 +217,21 @@ GtkWidget *vice_gtk3_open_create_file_dialog(
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
 
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
     gtk_widget_show(dialog);
     return dialog;
 }
 
 #else
-gchar *vice_gtk3_open_create_file_dialog(
+GtkWidget *vice_gtk3_open_create_file_dialog(
         const char *title,
         const char *proposed,
         gboolean confirm,
-        const char *path)
+        const char *path,
+        void (*callback)(GtkDialog *dialog, gchar *, gpointer),
+        gpointer param)
 {
     GtkFileChooserNative *dialog;
-    gint result;
-    gchar *filename;
 
     dialog = gtk_file_chooser_native_new(
             title,
@@ -244,13 +239,8 @@ gchar *vice_gtk3_open_create_file_dialog(
             GTK_FILE_CHOOSER_ACTION_SAVE,
             NULL, NULL);
 
-    result = gtk_native_dialog_run(GTK_NATIVE_DIALOG(dialog));
-    if (result == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    } else {
-        filename = NULL;
-    }
-    g_object_unref(dialog);
-    return filename;
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
+    gtk_widget_show(GTK_WIDGET(dialog));
+    return GTK_WIDGET(dialog);
 }
 #endif

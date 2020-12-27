@@ -140,16 +140,15 @@ GtkWidget *vice_gtk3_save_file_dialog(
  * \note    the filename returned is allocated by GLib and needs to be freed
  *          after use with g_free()
  */
-gchar *vice_gtk3_save_file_dialog(
+GtkWidget *vice_gtk3_save_file_dialog(
         const char *title,
         const char *proposed,
         gboolean confirm,
         const char *path,
-        void (*callback)(char *))
+        void (*callback)(GtkDialog *, gchar *, gpointer),
+        gpointer param)
 {
     GtkFileChooserNative *dialog;
-    gint result;
-    gchar *filename;
 
     debug_gtk3("Warning: Using the GtkFileChooserNative!");
 
@@ -158,14 +157,8 @@ gchar *vice_gtk3_save_file_dialog(
             ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_SAVE,
             NULL, NULL);
-
-    result = gtk_native_dialog_run(GTK_NATIVE_DIALOG(dialog));
-    if (result == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    } else {
-        filename = NULL;
-    }
-    g_object_unref(dialog);
-    return filename;
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
+    gtk_widget_show(GTK_WIDGET(dialog));
+    return GTK_WIDGET(dialog);
 }
 #endif

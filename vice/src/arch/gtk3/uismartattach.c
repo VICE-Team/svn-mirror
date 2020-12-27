@@ -95,11 +95,14 @@ static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
 
+#ifndef SANDBOX_MODE
 /** \brief  Reference to the custom 'Autostart' button
  */
 static GtkWidget *autostart_button;
+#endif
 
 
+#ifndef SANDBOX_MODE
 /** \brief  Trigger autostart
  *
  * \param[in]   widget      dialog
@@ -136,6 +139,8 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     g_free(filename_locale);
     gtk_widget_destroy(widget);
 }
+#endif
+
 
 /** \brief  Do smart attach
  *
@@ -184,6 +189,8 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
     g_free(filename_locale);
 }
 
+
+#ifndef SANDBOX_MODE
 /** \brief  Handler for 'selection-changed' event of the preview widget
  *
  * Checks if a proper selection was made and activates the 'Autostart' button
@@ -204,6 +211,7 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
         gtk_widget_set_sensitive(autostart_button, FALSE);
     }
 }
+#endif
 
 
 #ifndef SANDBOX_MODE
@@ -264,7 +272,7 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
 }
 #endif
 
-
+#ifndef SANDBOX_MODE
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
@@ -381,6 +389,30 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         g_free(filename);
     }
 }
+#else
+static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
+{
+    switch (response_id) {
+        case GTK_RESPONSE_ACCEPT:
+            do_smart_attach(widget, user_data);
+
+            mainlock_release();
+            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
+            mainlock_obtain();
+            break;
+
+        /* 'Close'/'X' button */
+        case GTK_RESPONSE_REJECT:
+            mainlock_release();
+            gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
+            mainlock_obtain();
+            break;
+        default:
+            break;
+    }
+}
+
+#endif
 
 
 #ifndef SANDBOX_MODE

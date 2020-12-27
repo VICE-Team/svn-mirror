@@ -70,9 +70,12 @@ static GtkWidget *preview_widget = NULL;
 static gchar *last_dir = NULL;
 static gchar *last_file = NULL;
 
+#ifndef SANDBOX_MODE
 /** \brief  Reference to the custom 'Autostart' button
  */
 static GtkWidget *autostart_button;
+#endif
+
 
 #ifndef SANDBOX_MODE
 /** \brief  Handler for the "update-preview" event
@@ -118,6 +121,8 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 }
 #endif
 
+
+#ifndef SANDBOX_MODE
 /** \brief  Trigger autostart
  *
  * \param[in]   widget  dialog
@@ -143,7 +148,10 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     }
     g_free(filename_locale);
 }
+#endif
 
+
+#ifndef SANDBOX_MODE
 /** \brief  attach image
  *
  * \param[in]   widget  dialog
@@ -167,7 +175,10 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
     }
     g_free(filename_locale);
 }
+#endif
 
+
+#ifndef SANDBOX_MODE
 /** \brief  Handler for 'selection-changed' event of the preview widget
  *
  * Checks if a proper selection was made and activates the 'Autostart' button
@@ -188,6 +199,8 @@ static void on_selection_changed(GtkFileChooser *chooser, gpointer data)
         gtk_widget_set_sensitive(autostart_button, FALSE);
     }
 }
+#endif
+
 
 #ifndef SANDBOX_MODE
 
