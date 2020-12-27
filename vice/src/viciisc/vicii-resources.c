@@ -62,6 +62,16 @@ static void on_vsync_set_border_mode(void *unused)
 
 static int set_border_mode(int val, void *param)
 {
+    switch (val) {
+        case VICII_NORMAL_BORDERS:
+        case VICII_FULL_BORDERS:
+        case VICII_DEBUG_BORDERS:
+        case VICII_NO_BORDERS:
+            break;
+        default:
+            return -1;
+    }
+    
     next_border_mode = val;
     vsync_on_vsync_do(on_vsync_set_border_mode, NULL);
 
