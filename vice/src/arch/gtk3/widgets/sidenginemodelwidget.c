@@ -145,11 +145,11 @@ GtkWidget *sid_engine_model_widget_create(void)
 
     label = gtk_label_new(NULL);
 #if defined(HAVE_RESID) && defined(HAVE_FASTSID)
-    gtk_label_set_markup(GTK_LABEL(label), "<b>SID Engine and Model</b>");
+    gtk_label_set_markup(GTK_LABEL(label), "<b>SID engine and model</b>");
 #elif defined(HAVE_RESID)
-    gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID Model</b>");
+    gtk_label_set_markup(GTK_LABEL(label), "<b>ReSID model</b>");
 #elif defined(HAVE_FASTSID)
-    gtk_label_set_markup(GTK_LABEL(label), "<b>FastSID Model</b>");
+    gtk_label_set_markup(GTK_LABEL(label), "<b>FastSID model</b>");
 #endif
 
     gtk_widget_set_halign(label, GTK_ALIGN_START);

@@ -73,7 +73,7 @@ static const vice_gtk3_radiogroup_entry_t sid_models_all[] = {
 static const vice_gtk3_radiogroup_entry_t sid_models_c64[] = {
     { "6581", 0 },
     { "8580", 1 },
-    { "8580D", 2 },
+    { "8580 + digi boost", 2 },
     { NULL, -1 }
 };
 
@@ -84,7 +84,7 @@ static const vice_gtk3_radiogroup_entry_t sid_models_c64dtv[] = {
     { "DTVSID (ReSID-DTV)", 3 },
     { "6581", 0 },
     { "8580", 1 },
-    { "8580D", 2 },
+    { "8580 + digi boost", 2 },
     { NULL, -1 }
 };
 
@@ -94,7 +94,7 @@ static const vice_gtk3_radiogroup_entry_t sid_models_c64dtv[] = {
 static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
     { "6581", 0 },
     { "8580", 1 },
-    { "8580D", 2 },
+    { "8580 + digi boost", 2 },
     { NULL, -1 }
 };
 
