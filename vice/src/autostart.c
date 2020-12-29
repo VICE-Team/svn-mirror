@@ -478,7 +478,7 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 
     for (i = 0; s[i] != '\0'; i++) {
         int checkbyte = mem_read_screen((uint16_t)(addr + i) & 0xffff);
-        DBGWAIT(("checkbyte: %02x", checkbyte));
+        DBGWAIT(("checkbyte: %04x:%02x (expected:%02x)", addr + i, checkbyte, s[i] % 64));
         if (checkbyte != s[i] % 64) {
             if (checkbyte != (uint8_t)32) {
                 DBGWAIT(("check2: return NO"));
@@ -717,7 +717,7 @@ static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
             kernal ... why is this? */
 static void autostart_reinit(int default_seconds, int handle_tde)
 {
-    DBG(("autostart_reinit default_seconds: %u\n", default_seconds));
+    DBG(("autostart_reinit default_seconds: %d\n", default_seconds));
 
     handle_drive_true_emulation_by_machine = handle_tde;
 
