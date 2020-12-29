@@ -36,6 +36,7 @@
 #include "debug_gtk3.h"
 #include "basewidgets.h"
 #include "basedialogs.h"
+#include "csshelpers.h"
 #include "filechooserhelpers.h"
 #include "widgethelpers.h"
 
