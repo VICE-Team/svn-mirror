@@ -970,10 +970,16 @@ uint8_t mem_read_screen(uint16_t addr)
 {
     /* we assume in C64 mode the kernal never uses the VDC :) */
     if (mmu_is_c64config()) {
-        return ram_read(addr);
+        /* directly read the memory without going through the mmu - it may
+           point to the upper 64k block and then we read the wrong memory */
+        /* return ram_read(addr); */
+        return mem_ram[addr];
     }
     if (!(mem_ram[215] & 0x80)) {
-        return ram_read(addr);
+        /* directly read the memory without going through the mmu - it may
+           point to the upper 64k block and then we read the wrong memory */
+        /* return ram_read(addr); */
+        return mem_ram[addr];
     }
     return vdc_ram_read(addr);
 }
