@@ -82,9 +82,12 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 
     /* if we can't attached to it, we should return NULL */
     if (ret) {
+        vdrive_device_shutdown(vdrive);
+        lib_free(vdrive);
+        disk_image_media_destroy(image);
+        P64ImageDestroy((void*)image->p64);
         lib_free(image->p64);
         lib_free(image);
-        lib_free(vdrive);
         return NULL;
     }
 
