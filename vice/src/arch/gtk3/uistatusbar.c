@@ -1707,30 +1707,31 @@ GtkWidget *ui_statusbar_create(int window_identity)
      * FIXME: The widget doesn't show on MacOS/Windows due to the rendering
      *        canvas somehow having z-index priority over the widget. This
      *        works fine on Linux.
-     *        So, since we're close to the 3.5 release, this widget gets
-     *        disabled, once again/
      */
-    if (machine_class == VICE_MACHINE_VSID) {
-        volume = gtk_volume_button_new();
-        g_object_ref_sink(volume);
-        gtk_widget_set_can_focus(volume, FALSE);
+#if (!defined(ARCHDEP_OS_WINDOWS)) && (!defined(ARCHDEP_OS_MACOS))
+    debug_gtk3("Creating volume widget");
+    volume = gtk_volume_button_new();
+    g_object_ref_sink(volume);
+    gtk_widget_set_can_focus(volume, FALSE);
 
-        resources_get_int("SoundVolume", &sound_vol);
-        gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
-                (gdouble)sound_vol / 100.0);
-        /* FIXME: there's too much padding to the right of the widget in VSID */
-        g_object_set(
-                volume,
-                "use-symbolic", TRUE,
-                NULL);
+    resources_get_int("SoundVolume", &sound_vol);
+    gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume),
+            (gdouble)sound_vol / 100.0);
+    /* FIXME: there's too much padding to the right of the widget in VSID */
+    g_object_set(
+            volume,
+            "use-symbolic", TRUE,
+            NULL);
 
-        g_signal_connect(volume, "value-changed",
-                G_CALLBACK(on_volume_value_changed), NULL);
-    }
+    g_signal_connect(volume, "value-changed",
+            G_CALLBACK(on_volume_value_changed), NULL);
+
+#endif
     if (machine_class == VICE_MACHINE_VSID) {
         gtk_grid_attach(GTK_GRID(sb), volume, 4, 0, 1, 2);
     } else {
-#if 0
+
+#if (!defined(ARCHDEP_OS_WINDOWS)) && (!defined(ARCHDEP_OS_MACOS))
         /* FIXME: use a larger column-index than should be required, since
          *        the drive widgets will otherwise clash with the volume
          *        widget when using more than 2 drives.
