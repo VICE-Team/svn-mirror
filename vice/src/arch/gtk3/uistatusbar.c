@@ -1751,7 +1751,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
 #else
     /* Windows or MacOS, only create the volume button for VSID */
     if (machine_class == VICE_MACHINE_VSID) {
-        volume = 
+        volume = ui_volume_button_create();
         gtk_grid_attach(GTK_GRID(sb), volume, 4, 0, 1, 2);
     }
 #endif
