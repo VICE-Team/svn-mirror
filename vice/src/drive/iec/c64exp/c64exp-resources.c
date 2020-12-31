@@ -58,7 +58,10 @@ static int set_drive_parallel_cable(int val, void *param)
     }
 
     unit->parallel_cable = val;
-    drivemem_init(unit);
+    /* don't reset CMDHD drives */
+    if (unit->type != DRIVE_TYPE_CMDHD) {
+        drivemem_init(unit);
+    }
 
     return 0;
 }

@@ -210,6 +210,12 @@ typedef struct diskunit_context_s {
     /* FD2000/4000 RTC save? */
     int rtc_save;
 
+    /* CMDHD allow for disk expansion or keep fixed, 0=expand, other = max size */
+    unsigned int fixed_size;
+
+    /* Hack to hold the ASCII value of the fixed_size resource */
+    char *fixed_size_text;
+
     /* Drive-specific logging goes here.  */
     signed int log;
 

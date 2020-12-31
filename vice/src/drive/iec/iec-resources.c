@@ -27,6 +27,8 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 
 #include "drive.h"
 #include "drivemem.h"
@@ -38,6 +40,7 @@
 #include "resources.h"
 #include "traps.h"
 #include "util.h"
+#include "cmdhd.h"
 
 static char *dos_rom_name_1540 = NULL;
 static char *dos_rom_name_1541 = NULL;
@@ -143,6 +146,50 @@ static int set_dos_rom_name_CMDHD(const char *val, void *param)
     return iecrom_load_CMDHD();
 }
 
+static int set_drive_fixed(const char *val, void *param)
+{
+    char *end;
+    int shift;
+    diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
+
+    /* free existing ASCII value of resource */
+    lib_free(unit->fixed_size_text);
+
+    /* turn whatever we are given into a number */
+    errno = 0;
+    unit->fixed_size = strtol(val, &end, 10);
+
+    /* if it is good, and we the remaining pointer is good, process any suffix */
+    if (!errno && end) {
+        /* skip any spaces */
+        while (*end == ' ') {
+            end++;
+        }
+        shift = 0;
+        /* check for 3 suffixes */
+        if (util_toupper(*end) == 'K') {
+            shift = 10;
+        } else if (util_toupper(*end) == 'M') {
+            shift = 20;
+        } else if (util_toupper(*end) == 'G') {
+            shift = 30;
+        }
+        /* apply change */
+        unit->fixed_size = unit->fixed_size << shift;
+    } else {
+        /* if any conversion errors happen, just make it 0 */
+        unit->fixed_size = 0;
+    }
+
+    /* generate a new ascii representation of the full value */
+    unit->fixed_size_text = lib_msprintf("%u", unit->fixed_size);
+
+    /* tell the CMDHD, if there is one, the updated value */
+    cmdhd_update_maxsize(unit->fixed_size, vice_ptr_to_uint(param) + 8);
+
+    return 0;
+}
+
 static int set_drive_ram2(int val, void *param)
 {
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
@@ -225,6 +272,12 @@ static resource_int_t res_drive[] = {
     RESOURCE_INT_LIST_END
 };
 
+static resource_string_t res_string[] = {
+    { NULL, "4294966784", RES_EVENT_NO, NULL,
+      NULL, set_drive_fixed, NULL },
+    RESOURCE_STRING_LIST_END
+};
+
 int iec_resources_init(void)
 {
     unsigned int dnr;
@@ -257,6 +310,19 @@ int iec_resources_init(void)
         lib_free(res_drive[2].name);
         lib_free(res_drive[3].name);
         lib_free(res_drive[4].name);
+
+        res_string[0].name = lib_msprintf("Drive%iFixedSize", dnr + 8);
+        unit->fixed_size_text = lib_msprintf("0");
+        unit->fixed_size = 0;
+        res_string[0].value_ptr = &(unit->fixed_size_text);
+        res_string[0].param = uint_to_void_ptr(dnr);
+
+        if (resources_register_string(res_string) < 0) {
+            return -1;
+        }
+
+        lib_free(res_string[0].name);
+
     }
 
     if (resources_register_string(resources_string) < 0) {
