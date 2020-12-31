@@ -3809,20 +3809,14 @@ values are @code{1541} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{9000} [all emulators except x64dtv, xplus4 and vsid].
 
 @vindex Drive8RTCSave
-@item Drive8RTCSave
-Integer specifying whether the RTC data of drive 8 should be saved when changed or not (drive type 2000/4000 only).
-
 @vindex Drive9RTCSave
-@item Drive9RTCSave
-Integer specifying whether the RTC data of drive 9 should be saved when changed or not (drive type 2000/4000 only).
-
 @vindex Drive10RTCSave
-@item Drive10RTCSave
-Integer specifying whether the RTC data of drive 10 should be saved when changed or not (drive type 2000/4000 only).
-
 @vindex Drive11RTCSave
-@item Drive11RTCSave
-Integer specifying whether the RTC data of drive 11 should be saved when changed or not (drive type 2000/4000 only).
+@item Drive8RTCSave
+@itemx Drive9RTCSave
+@itemx Drive10RTCSave
+@itemx Drive11RTCSave
+Integer specifying whether the RTC data of drive 8 to 11 should be saved when changed or not (drive type 2000/4000/4844 only).
 
 @vindex Drive8ParallelCable
 @vindex Drive9ParallelCable
@@ -3871,47 +3865,59 @@ Booleans controlling whether StarDOS is emulated or not for drives 8 to 11
 (x64, x64sc, xscpu64 and x128 only).
 
 @vindex Drive8RAM2000
-@vindex Drive8RAM4000
-@vindex Drive8RAM6000
-@vindex Drive8RAM8000
-@vindex Drive8RAMA000
 @vindex Drive9RAM2000
-@vindex Drive9RAM4000
-@vindex Drive9RAM6000
-@vindex Drive9RAM8000
-@vindex Drive9RAMA000
 @vindex Drive10RAM2000
-@vindex Drive10RAM4000
-@vindex Drive10RAM6000
-@vindex Drive10RAM8000
-@vindex Drive10RAMA000
 @vindex Drive11RAM2000
-@vindex Drive11RAM4000
-@vindex Drive11RAM6000
-@vindex Drive11RAM8000
-@vindex Drive11RAMA000
 @item Drive8RAM2000
-@itemx Drive8RAM4000
-@itemx Drive8RAM6000
-@itemx Drive8RAM8000
-@itemx Drive8RAMA000
 @itemx Drive9RAM2000
-@itemx Drive9RAM4000
-@itemx Drive9RAM6000
-@itemx Drive9RAM8000
-@itemx Drive9RAMA000
 @itemx Drive10RAM2000
-@itemx Drive10RAM4000
-@itemx Drive10RAM6000
-@itemx Drive10RAM8000
-@itemx Drive10RAMA000
 @itemx Drive11RAM2000
+Booleans controlling whether a RAM block is emulated at $2000-$3FFF for
+drive 8 to 11.
+
+@vindex Drive8RAM4000
+@vindex Drive9RAM4000
+@vindex Drive10RAM4000
+@vindex Drive11RAM4000
+@item Drive8RAM4000
+@itemx Drive9RAM4000
+@itemx Drive10RAM4000
 @itemx Drive11RAM4000
+Booleans controlling whether a RAM block is emulated at $4000-$5FFF for
+drive 8 to 11.
+
+@vindex Drive8RAM6000
+@vindex Drive9RAM6000
+@vindex Drive10RAM6000
+@vindex Drive11RAM6000
+@item Drive8RAM6000
+@itemx Drive9RAM6000
+@itemx Drive10RAM6000
 @itemx Drive11RAM6000
+Booleans controlling whether a RAM block is emulated at $6000-$7FFF for
+drive 8 to 11.
+
+@vindex Drive8RAM8000
+@vindex Drive9RAM8000
+@vindex Drive10RAM8000
+@vindex Drive11RAM8000
+@item Drive8RAM8000
+@itemx Drive9RAM8000
+@itemx Drive10RAM8000
 @itemx Drive11RAM8000
+Booleans controlling whether a RAM block is emulated at $8000-$9FFF for
+drive 8 to 11.
+
+@vindex Drive8RAMA000
+@vindex Drive9RAMA000
+@vindex Drive10RAMA000
+@vindex Drive11RAMA000
+@item Drive8RAMA000
+@itemx Drive9RAMA000
+@itemx Drive10RAMA000
 @itemx Drive11RAMA000
-Booleans controlling whether a RAM block is emulated at the respective block or
-not for drives 8 to 11 respectively.
+Booleans controlling whether a RAM block is emulated at $A000-$BFFF for
+drive 8 to 11.
 
 @vindex Drive8ExtendImagePolicy
 @vindex Drive9ExtendImagePolicy
@@ -4099,28 +4105,18 @@ Possible values for @code{TYPE} are
 and @code{9000} [all emulators except x64dtv, xplus4 and vsid].
 
 @findex -drive8rtcsave, +drive8rtcsave
-@item -drive8rtcsave
-@itemx -drive8rtcsave
-Enable/disable the saving of the RTC data for drive 8 when changed (drive type 2000/4000/4844 only)
-(@code{Drive8RTCSave=1}, @code{Drive8RTCSave=0}).
-
 @findex -drive9rtcsave, +drive9rtcsave
-@item -drive9rtcsave
-@itemx -drive9rtcsave
-Enable/disable the saving of the RTC data for drive 9 when changed (drive type 2000/4000/4844 only)
-(@code{Drive9RTCSave=1}, @code{Drive9RTCSave=0}).
-
 @findex -drive10rtcsave, +drive10rtcsave
-@item -drive10rtcsave
-@itemx -drive10rtcsave
-Enable/disable the saving of the RTC data for drive 10 when changed (drive type 2000/4000/4844 only)
-(@code{Drive10RTCSave=1}, @code{Drive10RTCSave=0}).
-
 @findex -drive11rtcsave, +drive11rtcsave
-@item -drive11rtcsave
-@itemx -drive11rtcsave
-Enable/disable the saving of the RTC data for drive 11 when changed (drive type 2000/4000/4844 only)
-(@code{Drive11RTCSave=1}, @code{Drive11RTCSave=0}).
+@item -drive8rtcsave, +drive8rtcsave
+@itemx -drive9rtcsave, +drive9rtcsave
+@itemx -drive10rtcsave, +drive10rtcsave
+@itemx -drive11rtcsave, +drive11rtcsave
+Enable/disable the saving of the RTC data for drive 8 to 11 when changed
+(drive type 2000/4000/4844 only)
+(@code{Drive8RTCSave=1}, @code{Drive8RTCSave=0}, @code{Drive9RTCSave=1},
+@code{Drive9RTCSave=0}, @code{Drive10RTCSave=1}, @code{Drive10RTCSave=0},
+@code{Drive11RTCSave=1}, @code{Drive11RTCSave=0}).
 
 @findex -parallel8
 @findex -parallel9
@@ -4312,131 +4308,88 @@ Specify the ROM name for the D9090/60 emulations
 (all emulators except x64dtv, xplus4 and vsid)
 
 @findex -drive8ram2000, +drive8ram2000
-@item -drive8ram2000, +drive8ram2000
-Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 8
-(@code{Drive8RAM2000=1}, @code{Drive8RAM2000=0}).
-
 @findex -drive9ram2000, +drive9ram2000
-@item -drive9ram2000, +drive9ram2000
-Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 9
-(@code{Drive9RAM2000=1}, @code{Drive9RAM2000=0}).
-
 @findex -drive10ram2000, +drive10ram2000
-@item -drive10ram2000, +drive10ram2000
-Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 10
-(@code{Drive10RAM2000=1}, @code{Drive10RAM2000=0}).
-
 @findex -drive11ram2000, +drive11ram2000
-@item -drive11ram2000, +drive11ram2000
-Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 11
-(@code{Drive11RAM2000=1}, @code{Drive11RAM2000=0}).
+@item -drive8ram2000, +drive8ram2000
+@itemx -drive9ram2000, +drive9ram2000
+@itemx -drive10ram2000, +drive10ram2000
+@itemx -drive11ram2000, +drive11ram2000
+Enable/disable 8KiB RAM expansion at $2000-$3FFF for drive 8 to 11
+(@code{Drive8RAM2000=1}, @code{Drive8RAM2000=0},
+@code{Drive9RAM2000=1}, @code{Drive9RAM2000=0},
+@code{Drive10RAM2000=1}, @code{Drive10RAM2000=0},
+@code{Drive11RAM2000=1}, @code{Drive11RAM2000=0}).
 
 @findex -drive8ram4000, +drive8ram4000
-@item -drive8ram4000, +drive8ram4000
-Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 8
-(@code{Drive8RAM4000=1}, @code{Drive8RAM4000=0}).
-
 @findex -drive9ram4000, +drive9ram4000
-@item -drive9ram4000, +drive9ram4000
-Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 9
-(@code{Drive9RAM4000=1}, @code{Drive9RAM4000=0}).
-
 @findex -drive10ram4000, +drive10ram4000
-@item -drive10ram4000, +drive10ram4000
-Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 10
-(@code{Drive10RAM4000=1}, @code{Drive10RAM4000=0}).
-
 @findex -drive11ram4000, +drive11ram4000
-@item -drive11ram4000, +drive11ram4000
-Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 11
-(@code{Drive11RAM4000=1}, @code{Drive11RAM4000=0}).
+@item -drive8ram4000, +drive8ram4000
+@itemx -drive9ram4000, +drive9ram4000
+@itemx -drive10ram4000, +drive10ram4000
+@itemx -drive11ram4000, +drive11ram4000
+Enable/disable 8KiB RAM expansion at $4000-$5FFF for drive 8 to 11
+(@code{Drive8RAM4000=1}, @code{Drive8RAM4000=0},
+@code{Drive9RAM4000=1}, @code{Drive9RAM4000=0},
+@code{Drive10RAM4000=1}, @code{Drive10RAM4000=0},
+@code{Drive11RAM4000=1}, @code{Drive11RAM4000=0}).
 
 @findex -drive8ram6000, +drive8ram6000
-@item -drive8ram6000, +drive8ram6000
-Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 8
-(@code{Drive8RAM6000=1}, @code{Drive8RAM6000=0}).
-
 @findex -drive9ram6000, +drive9ram6000
-@item -drive9ram6000, +drive9ram6000
-Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 9
-(@code{Drive9RAM6000=1}, @code{Drive9RAM6000=0}).
-
 @findex -drive10ram6000, +drive10ram6000
-@item -drive10ram6000, +drive10ram6000
-Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 10
-(@code{Drive10RAM6000=1}, @code{Drive10RAM6000=0}).
-
 @findex -drive11ram6000, +drive11ram6000
-@item -drive11ram6000, +drive11ram6000
-Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 11
-(@code{Drive11RAM6000=1}, @code{Drive11RAM6000=0}).
+@item -drive8ram6000, +drive8ram6000
+@itemx -drive9ram6000, +drive9ram6000
+@itemx -drive10ram6000, +drive10ram6000
+@itemx -drive11ram6000, +drive11ram6000
+Enable/disable 8KiB RAM expansion at $6000-$7FFF for drive 8 to 11
+(@code{Drive8RAM6000=1}, @code{Drive8RAM6000=0},
+@code{Drive9RAM6000=1}, @code{Drive9RAM6000=0},
+@code{Drive10RAM6000=1}, @code{Drive10RAM6000=0},
+@code{Drive11RAM6000=1}, @code{Drive11RAM6000=0}).
 
 @findex -drive8ram8000, +drive8ram8000
-@item -drive8ram8000, +drive8ram8000
-Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 8
-(@code{Drive8RAM8000=1}, @code{Drive8RAM8000=0}).
-
 @findex -drive9ram8000, +drive9ram8000
-@item -drive9ram8000, +drive9ram8000
-Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 9
-(@code{Drive9RAM8000=1}, @code{Drive9RAM8000=0}).
-
 @findex -drive10ram8000, +drive10ram8000
-@item -drive10ram8000, +drive10ram8000
-Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 10
-(@code{Drive10RAM8000=1}, @code{Drive10RAM8000=0}).
-
 @findex -drive11ram8000, +drive11ram8000
-@item -drive11ram8000, +drive11ram8000
-Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 11
-(@code{Drive11RAM8000=1}, @code{Drive11RAM8000=0}).
+@item -drive8ram8000, +drive8ram8000
+@itemx -drive9ram8000, +drive9ram8000
+@itemx -drive10ram8000, +drive10ram8000
+@itemx -drive11ram8000, +drive11ram8000
+Enable/disable 8KiB RAM expansion at $8000-$9FFF for drive 8 to 11
+(@code{Drive8RAM8000=1}, @code{Drive8RAM8000=0},
+@code{Drive9RAM8000=1}, @code{Drive9RAM8000=0},
+@code{Drive10RAM8000=1}, @code{Drive10RAM8000=0},
+@code{Drive11RAM8000=1}, @code{Drive11RAM8000=0}).
 
 @findex -drive8rama000, +drive8rama000
-@item -drive8rama000, +drive8rama000
-Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 8
-(@code{Drive8RAMA000=1}, @code{Drive8RAMA000=0}).
-
 @findex -drive9rama000, +drive9rama000
-@item -drive9rama000, +drive9rama000
-Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 9
-(@code{Drive9RAMA000=1}, @code{Drive9RAMA000=0}).
-
 @findex -drive10rama000, +drive10rama000
-@item -drive10rama000, +drive10rama000
-Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 10
-(@code{Drive10RAMA000=1}, @code{Drive10RAMA000=0}).
-
 @findex -drive11rama000, +drive11rama000
-@item -drive11rama000, +drive11rama000
-Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 11
-(@code{Drive11RAMA000=1}, @code{Drive11RAMA000=0}).
+@item -drive8rama000, +drive8rama000
+@itemx -drive9rama000, +drive9rama000
+@itemx -drive10rama000, +drive10rama000
+@itemx -drive11rama000, +drive11rama000
+Enable/disable 8KiB RAM expansion at $A000-$BFFF for drive 8 to 11
+(@code{Drive8RAMA000=1}, @code{Drive8RAMA000=0},
+@code{Drive9RAMA000=1}, @code{Drive9RAMA000=0},
+@code{Drive10RAMA000=1}, @code{Drive10RAMA000=0},
+@code{Drive11RAMA000=1}, @code{Drive11RAMA000=0}).
 
 @findex -drive8profdos, +drive8profdos
-@item -drive8profdos
-@itemx +drive8profdos
-Enable/disable Professional DOS for drive 8
-(@code{Drive8ProfDOS=1}, @code{Drive8ProfDOS=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive9profdos, +drive9profdos
-@item -drive9profdos
-@itemx +drive9profdos
-Enable/disable Professional DOS for drive 9
-(@code{Drive9ProfDOS=1}, @code{Drive9ProfDOS=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive10profdos, +drive10profdos
-@item -drive10profdos
-@itemx +drive10profdos
-Enable/disable Professional DOS for drive 10
-(@code{Drive10ProfDOS=1}, @code{Drive10ProfDOS=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive11profdos, +drive11profdos
-@item -drive11profdos
-@itemx +drive11profdos
-Enable/disable Professional DOS for drive 11
-(@code{Drive11ProfDOS=1}, @code{Drive11ProfDOS=0})
+@item -drive8profdos, +drive8profdos
+@itemx -drive9profdos, +drive9profdos
+@itemx -drive10profdos, +drive10profdos
+@itemx -drive11profdos, +drive11profdos
+Enable/disable Professional DOS for drive 8 to 11
+(@code{Drive8ProfDOS=1}, @code{Drive8ProfDOS=0},
+@code{Drive9ProfDOS=1}, @code{Drive9ProfDOS=0},
+@code{Drive10ProfDOS=1}, @code{Drive10ProfDOS=0},
+@code{Drive11ProfDOS=1}, @code{Drive11ProfDOS=0})
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -profdos1571
@@ -4446,31 +4399,18 @@ Specify name of Professional DOS 1571 ROM image
 (x64, x64sc, xscpu64 and x128).
 
 @findex -drive8supercard, +drive8supercard
-@item -drive8supercard
-@itemx +drive8supercard
-Enable/disable Supercard for drive 8
-(@code{Drive8SuperCard=1}, @code{Drive8SuperCard=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive9supercard, +drive9supercard
-@item -drive9supercard
-@itemx +drive9supercard
-Enable/disable Supercard for drive 9
-(@code{Drive9SuperCard=1}, @code{Drive9SuperCard=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive10supercard, +drive10supercard
-@item -drive10supercard
-@itemx +drive10supercard
-Enable/disable Supercard for drive 10
-(@code{Drive10SuperCard=1}, @code{Drive10SuperCard=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive11supercard, +drive11supercard
-@item -drive11supercard
-@itemx +drive11supercard
-Enable/disable Supercard for drive 11
-(@code{Drive11SuperCard=1}, @code{Drive11SuperCard=0})
+@item -drive8supercard, +drive8supercard
+@itemx -drive9supercard, +drive9supercard
+@itemx -drive10supercard, +drive10supercard
+@itemx -drive11supercard, +drive11supercard
+Enable/disable Supercard for drive 8 to 11
+(@code{Drive8SuperCard=1}, @code{Drive8SuperCard=0},
+@code{Drive9SuperCard=1}, @code{Drive9SuperCard=0},
+@code{Drive10SuperCard=1}, @code{Drive10SuperCard=0},
+@code{Drive11SuperCard=1}, @code{Drive11SuperCard=0})
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -supercard
@@ -4480,31 +4420,18 @@ Specify name of Supercard ROM image
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive8stardos, +drive8stardos
-@item -drive8stardos
-@itemx +drive8stardos
-Enable/disable StarDOS for drive 8
-(@code{Drive8StarDos=1}, @code{Drive8StarDos=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive9stardos, +drive9stardos
-@item -drive9stardos
-@itemx +drive9stardos
-Enable/disable StarDOS for drive 9
-(@code{Drive9StarDos=1}, @code{Drive9StarDos=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive10stardos, +drive10stardos
-@item -drive10stardos
-@itemx +drive10stardos
-Enable/disable StarDOS for drive 10
-(@code{Drive10StarDos=1}, @code{Drive10StarDos=0})
-(x64, x64sc, xscpu64 and x128 only).
-
 @findex -drive11stardos, +drive11stardos
-@item -drive11stardos
-@itemx +drive11stardos
-Enable/disable StarDOS for drive 11
-(@code{Drive11StarDos=1}, @code{Drive11StarDos=0})
+@item -drive8stardos, +drive8stardos
+@itemx -drive9stardos, +drive9stardos
+@itemx -drive10stardos, +drive10stardos
+@itemx -drive11stardos, +drive11stardos
+Enable/disable StarDOS for drive 8 to 11
+(@code{Drive8StarDos=1}, @code{Drive8StarDos=0},
+@code{Drive9StarDos=1}, @code{Drive9StarDos=0},
+@code{Drive10StarDos=1}, @code{Drive10StarDos=0},
+@code{Drive11StarDos=1}, @code{Drive11StarDos=0})
 (x64, x64sc, xscpu64 and x128 only).
 
 @findex -stardos
