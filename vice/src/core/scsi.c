@@ -38,6 +38,7 @@
 #include "types.h"
 #include "snapshot.h"
 #include "scsi.h"
+#include "util.h"
 
 /* #define SCSILOG1 */
 /* #define SCSILOG2 */
@@ -66,13 +67,38 @@
 
 #define CRIT(_x_) log_message _x_
 
+#define MAXIDS 7
+#define MAXLUNS 8
+
+static uint32_t scsi_getmaxsize(struct scsi_context_s *context)
+{
+    /* make sure the target and lun are valid */
+    if (context->target >= MAXIDS || context->lun >= MAXLUNS) {
+        return 0;
+    }
+
+    /* make sure there is a file associated with the target and lun */
+    if (context->file[(context->target << 3) | context->lun]) {
+        if (!context->max_imagesize) {
+            /* if the max length setting is zero, return the image length */
+            return util_file_length(context->file[(context->target << 3) | context->lun]);
+        } else {
+            /* other wise, return the setting itself */
+            return context->max_imagesize;
+        }
+    }
+
+    /* not a valid file, return 0 */
+    return 0;
+}
+
 static int32_t scsi_imagecheck(struct scsi_context_s *context)
 {
-    if (context->target >= context->max_ids || context->lun > 0) {
+    if (context->target >= MAXIDS || context->lun >= MAXLUNS) {
         return 1;
     }
 
-    if (!context->file[context->target]) {
+    if (!context->file[(context->target << 3) | context->lun]) {
         if ( context->target == 0 && context->lun == 0 &&
             !(context->log & SCSI_LOG_NODISK0) ) {
             CRIT((ERR, "SCSI: no image attached to disk 0;"
@@ -85,15 +111,15 @@ static int32_t scsi_imagecheck(struct scsi_context_s *context)
     return 0;
 }
 
-int scsi_image_detach(struct scsi_context_s *context, int id)
+int scsi_image_detach(struct scsi_context_s *context, int disk)
 {
-    if (id < 0 || id > 6) {
+    if (disk < 0 || disk > 55) {
         return 2;
     }
 
-    if (context->file[id]) {
-        fclose(context->file[id]);
-        context->file[id] = NULL;
+    if (context->file[disk]) {
+        fclose(context->file[disk]);
+        context->file[disk] = NULL;
         return 0;
     }
 
@@ -104,24 +130,24 @@ void scsi_image_detach_all(struct scsi_context_s *context)
 {
     int32_t i;
 
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < 56; i++) {
         scsi_image_detach(context, i);
     }
 
     return;
 }
 
-int scsi_image_attach(struct scsi_context_s *context, int id, char *filename)
+int scsi_image_attach(struct scsi_context_s *context, int disk, char *filename)
 {
-    if (id < 0 || id > 6) {
+    if (disk < 0 || disk > 55) {
         return 2;
     }
 
-    scsi_image_detach(context, id);
-    context->file[id] = fopen(filename, "rb+");
+    scsi_image_detach(context, disk);
+    context->file[disk] = fopen(filename, "rb+");
 
-    if (context->file[id]) {
-        setbuf(context->file[id], NULL);
+    if (context->file[disk]) {
+        setbuf(context->file[disk], NULL);
         return 0;
     } else {
         return 1;
@@ -137,7 +163,7 @@ int32_t scsi_image_read(struct scsi_context_s *context)
         return -1;
     }
 
-    fhd = context->file[context->target];
+    fhd = context->file[(context->target << 3) | context->lun];
 
     if (fseeko(fhd, context->address * 512, SEEK_SET) < 0) {
         CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
@@ -185,7 +211,7 @@ int32_t scsi_image_write(struct scsi_context_s *context)
         context->user_write(context);
     }
 
-    fhd = context->file[context->target];
+    fhd = context->file[(context->target << 3) | context->lun];
 
     if (fseeko(fhd, context->address * 512, SEEK_SET) < 0) {
         CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
@@ -376,7 +402,8 @@ void scsi_process_ack(struct scsi_context_s *context)
             if (context->seq >= context->data_max) {
                 /* write if WRITE command */
                 if (context->command == SCSI_COMMAND_WRITE_6 ||
-                    context->command == SCSI_COMMAND_WRITE_10) {
+                    context->command == SCSI_COMMAND_WRITE_10 ||
+                    context->command == SCSI_COMMAND_WRITE_VERIFY) {
                     if (scsi_image_write(context)) {
                         context->status = SCSI_STATUS_CHECKCONDITION;
                         context->state = SCSI_STATE_STATUS;
@@ -392,7 +419,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                         context->state = SCSI_STATE_STATUS;
                         break;
                     }
-                    j = context->max_imagesize;
+                    j = scsi_getmaxsize(context);
                     j = j >> 9;
                     if (context->address >= j) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
@@ -469,6 +496,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                 case SCSI_COMMAND_READ_10:
                 case SCSI_COMMAND_WRITE_10:
                 case SCSI_COMMAND_MODE_SENSE_10:
+                case SCSI_COMMAND_WRITE_VERIFY:
                 case SCSI_COMMAND_VERIFY:
                     context->cmd_size = 10;
                     break;
@@ -486,7 +514,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                 switch (context->command) {
                 case SCSI_COMMAND_TEST_UNIT_READY:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
-                    context->link = context->cmd_buf[5]&1;
+                    context->link = context->cmd_buf[5] & 1;
                     if (scsi_imagecheck(context)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -498,7 +526,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                     break;
                 case SCSI_COMMAND_REQUEST_SENSE:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
-                    context->link = context->cmd_buf[5]&1;
+                    context->link = context->cmd_buf[5] & 1;
                     context->data_max = 18;
                     for (i = 0; i < 512; i++) {
                         context->data_buf[i] = 0;
@@ -518,8 +546,8 @@ void scsi_process_ack(struct scsi_context_s *context)
                 case SCSI_COMMAND_READ_10:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     if (context->command == SCSI_COMMAND_READ_6) {
-                        context->link = context->cmd_buf[5]&1;
-                        context->address = ((context->cmd_buf[1]&0x1f) << 16)|
+                        context->link = context->cmd_buf[5] & 1;
+                        context->address = ((context->cmd_buf[1] & 0x1f) << 16)|
                             (context->cmd_buf[2] << 8)|(context->cmd_buf[3]);
                         context->blocks = context->cmd_buf[4];
                         /* if blocks=0, it really means 256 */
@@ -527,7 +555,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                             context->blocks = 256;
                         }
                     } else {
-                        context->link = context->cmd_buf[9]&1;
+                        context->link = context->cmd_buf[9] & 1;
                         context->address = (context->cmd_buf[2] << 24)|
                             (context->cmd_buf[3] << 16)|
                             (context->cmd_buf[4] << 8)|(context->cmd_buf[5]);
@@ -541,7 +569,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                         }
                     }
                     context->data_max = 512;
-                    if (context->address >= (context->max_imagesize >> 9)) {
+                    if (context->address >= (scsi_getmaxsize(context) >> 9)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -558,10 +586,11 @@ void scsi_process_ack(struct scsi_context_s *context)
                     break;
                 case SCSI_COMMAND_WRITE_6:
                 case SCSI_COMMAND_WRITE_10:
+                case SCSI_COMMAND_WRITE_VERIFY:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     if (context->command == SCSI_COMMAND_WRITE_6) {
-                        context->link = context->cmd_buf[5]&1;
-                        context->address = ((context->cmd_buf[1]&0x1f) << 16)|
+                        context->link = context->cmd_buf[5] & 1;
+                        context->address = ((context->cmd_buf[1] & 0x1f) << 16)|
                             (context->cmd_buf[2] << 8)|(context->cmd_buf[3]);
                         context->blocks = context->cmd_buf[4];
                         /* if blocks=0, it really means 256 */
@@ -569,7 +598,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                             context->blocks = 256;
                         }
                     } else {
-                        context->link = context->cmd_buf[9]&1;
+                        context->link = context->cmd_buf[9] & 1;
                         context->address = (context->cmd_buf[2] << 24)|
                             (context->cmd_buf[3] << 16)|
                             (context->cmd_buf[4] << 8)|(context->cmd_buf[5]);
@@ -583,7 +612,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                         }
                     }
                     context->data_max = 512;
-                    if (context->address >= (context->max_imagesize >> 9)) {
+                    if (context->address >= (scsi_getmaxsize(context) >> 9)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -600,7 +629,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                     break;
                 case SCSI_COMMAND_INQUIRY:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
-                    context->link = context->cmd_buf[5]&1;
+                    context->link = context->cmd_buf[5] & 1;
                     context->data_max = context->cmd_buf[4]; /* usually 96 */
                     for (i = 0; i < 512; i++) {
                         context->data_buf[i] = 0;
@@ -634,22 +663,23 @@ void scsi_process_ack(struct scsi_context_s *context)
                     break;
                 case SCSI_COMMAND_READ_CAPACITY:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
-                    context->link = context->cmd_buf[9]&1;
+                    context->link = context->cmd_buf[9] & 1;
                     context->data_max = 8;
-                    if (context->lun == 0) {
-                        j = (context->max_imagesize >> 9) - 1;
-                        i = 512;
-                    } else {
-                        j = 0;
+                    j = scsi_getmaxsize(context) >> 9;
+printf("SCSI: %d %d %u\n",context->target, context->lun, j);
+                    if (j == 0) {
                         i = 0;
+                    } else {
+                        j--;
+                        i = 512;
                     }
-                    context->data_buf[0] = (j >> 24)&255;
-                    context->data_buf[1] = (j >> 16)&255;
-                    context->data_buf[2] = (j >> 8)&255;
+                    context->data_buf[0] = (j >> 24) & 255;
+                    context->data_buf[1] = (j >> 16) & 255;
+                    context->data_buf[2] = (j >> 8) & 255;
                     context->data_buf[3] = j & 255;
-                    context->data_buf[4] = (i >> 24)&255;
-                    context->data_buf[5] = (i >> 16)&255;
-                    context->data_buf[6] = (i >> 8)&255;
+                    context->data_buf[4] = (i >> 24) & 255;
+                    context->data_buf[5] = (i >> 16) & 255;
+                    context->data_buf[6] = (i >> 8) & 255;
                     context->data_buf[7] = i & 255;
                     context->state = SCSI_STATE_DATAIN;
                     context->seq = 0;
@@ -661,14 +691,14 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->seq = 0;
                     if (context->command == SCSI_COMMAND_MODE_SENSE) {
                         context->data_max = context->cmd_buf[4];
-                        context->link = context->cmd_buf[5]&1;
+                        context->link = context->cmd_buf[5] & 1;
                     } else {
                         context->data_max = (context->cmd_buf[7] << 8)|
                             (context->cmd_buf[8]);
                         if (context->data_max > 255) {
                             context->data_max = 255;
                         }
-                        context->link = context->cmd_buf[9]&1;
+                        context->link = context->cmd_buf[9] & 1;
                     }
                     for (i = 0; i < 512; i++) {
                         context->data_buf[i] = 0;
@@ -695,14 +725,14 @@ void scsi_process_ack(struct scsi_context_s *context)
                     break;
                 case SCSI_COMMAND_FORMAT_UNIT:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
-                    context->link = context->cmd_buf[5]&1;
+                    context->link = context->cmd_buf[5] & 1;
                     /* check if fmtdata is set, move on to dataout */
-                    if ((context->cmd_buf[1]&0x17) == 0x10) {
+                    if ((context->cmd_buf[1] & 0x17) == 0x10) {
                         context->state = SCSI_STATE_DATAOUT;
                         context->seq = 0;
                         context->data_max = 4;
                     /* cmplist can be anything, but list format must be 0 */
-                    } else if ((context->cmd_buf[1]&0x17) == 0x00) {
+                    } else if ((context->cmd_buf[1] & 0x17) == 0x00) {
                         context->status = SCSI_STATUS_GOOD;
                         context->state = SCSI_STATE_STATUS;
                         context->user_format(context);
@@ -717,13 +747,13 @@ void scsi_process_ack(struct scsi_context_s *context)
                 case SCSI_COMMAND_START_STOP:
                 case SCSI_COMMAND_SEND_DIAGNOSTIC:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
-                    context->link = context->cmd_buf[5]&1;
+                    context->link = context->cmd_buf[5] & 1;
                     context->status = SCSI_STATUS_GOOD;
                     context->state = SCSI_STATE_STATUS;
                     break;
                 case SCSI_COMMAND_VERIFY:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
-                    context->link = context->cmd_buf[9]&1;
+                    context->link = context->cmd_buf[9] & 1;
                     context->status = SCSI_STATUS_GOOD;
                     context->state = SCSI_STATE_STATUS;
                     break;
@@ -741,7 +771,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->seq = 0;
                     context->blocks--;
                     context->address++;
-                    if (context->address >= (context->max_imagesize >> 9)) {
+                    if (context->address >= (scsi_getmaxsize(context) >> 9)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -779,7 +809,7 @@ void scsi_process_ack(struct scsi_context_s *context)
     }
 
     if (context->state == SCSI_STATE_STATUS) {
-        byte = context->status;
+        byte = (context->status << 1) | 0;
         SDBG((LOG, "SCSI: STATUS=%02x", context->status));
         context->io = 1;
         context->databus = byte ^ 0xff;
@@ -801,7 +831,6 @@ void scsi_reset(struct scsi_context_s *context)
     scsi_process_noack(context);
     context->rst = 0;
     context->msg_after_status = 0;
-    context->max_ids = 7;
     context->user_format = scsi_format_sector0;
     context->user_read = NULL;
     context->user_write = NULL;
@@ -835,7 +864,6 @@ void scsi_reset(struct scsi_context_s *context)
    BYTE   | command            | command
    BYTE   | sensekey           | sensekey
    BYTE   | asc                | asc
-   BYTE   | max_ids            | max_ids
    BYTE   | msg_after_status   | msg_after_status
    DWORD  | seq                | seq
    DWORD  | cmd_size           | cmd_size
@@ -881,7 +909,6 @@ int scsi_snapshot_write_module(struct scsi_context_s *context, snapshot_t *s)
         || (SMW_B(m, (uint8_t)context->command) < 0)
         || (SMW_B(m, (uint8_t)context->sensekey) < 0)
         || (SMW_B(m, (uint8_t)context->asc) < 0)
-        || (SMW_B(m, (uint8_t)context->max_ids) < 0)
         || (SMW_B(m, (uint8_t)context->msg_after_status) < 0)
         || (SMW_DW(m, (uint32_t)context->seq) < 0)
         || (SMW_DW(m, (uint32_t)context->cmd_size) < 0)
@@ -935,7 +962,6 @@ int scsi_snapshot_read_module(struct scsi_context_s *context, snapshot_t *s)
         || (SMR_B(m, &context->command) < 0)
         || (SMR_B(m, &context->sensekey) < 0)
         || (SMR_B(m, &context->asc) < 0)
-        || (SMR_B(m, &context->max_ids) < 0)
         || (SMR_B(m, &context->msg_after_status) < 0)
         || (SMR_DW(m, &context->seq) < 0)
         || (SMR_DW(m, &context->cmd_size) < 0)
