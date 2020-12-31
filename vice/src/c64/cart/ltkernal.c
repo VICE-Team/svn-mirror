@@ -365,6 +365,12 @@ static int set_image_file(const char *name, void *param)
     util_string_set(&(ltk_disk[i]), name);
     LOG1((LOG, "LTK image[%d] = '%s'", i, name));
 
+    /* apply changes */
+    if (ltk_inserted) {
+        scsi_image_detach(&ltk_scsi, i << 3);
+        scsi_image_attach(&ltk_scsi, i << 3, ltk_disk[i]);
+    }
+
     return 0;
 }
 
@@ -513,9 +519,17 @@ int ltkernal_resources_shutdown(void)
 static void ltk_imageopenall(void)
 {
     int32_t i;
-    for (i = 0; i < 7; i++) {
-        scsi_image_attach(&ltk_scsi, i, ltk_disk[i]);
+
+    /* purge out any old or stall file handles */
+    for (i = 0; i < 56; i++) {
+        ltk_scsi.file[i] = NULL;
     }
+
+    /* setup new ones */
+    for (i = 0; i < 7; i++) {
+        scsi_image_attach(&ltk_scsi, i << 3, ltk_disk[i]);
+    }
+
     return;
 }
 
@@ -1141,7 +1155,7 @@ int ltkernal_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    ltkernal_unregisterio();
+    ltkernal_detach();
 
     if (0
         || (SMR_B(m, &ltk_rom) < 0)
@@ -1167,8 +1181,6 @@ int ltkernal_snapshot_read_module(snapshot_t *s)
     if (scsi_snapshot_read_module(&ltk_scsi, s) < 0) {
         return -1;
     }
-
-    ltkernal_registerio();
 
     ltk_imageopenall();
 
