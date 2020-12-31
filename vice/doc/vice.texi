@@ -1093,18 +1093,25 @@ configuration, and installation. VICE supports placing the drive in
 either of these modes through the "Reset" sub-menu on the status bar
 for the GTK3 interface, and the "Reset" menu in the SDL interface.
 When creating a new DHD image, simply create an EMPTY file and VICE
-will automatically place the drive in installation mode. Once the DOS
-is installed, the CMD "hd-tools" program can be used to configure
-various settings and partition the drive; this is done in
-configuration mode for safety. When in either configuration or
-installation mode, the device number is set to 30. Therefore, it is
-not suggested to place two or more CMD HDs in either of these modes on
-the same bus at the same time.
+will automatically place the drive in installation mode.
+The DOS will detect the drive as the size specified by "Drive#FixedSize"
+(or "-drive#fixedsize") which is slightly less then 4GB by default.
+To use a specific sized disk, set this value to the maximum size, or
+set this value to "0" and set the image file on disk to the desired size
+(it should be a multiple of 512 bytes).
+Once the DOS is installed, the CMD "hd-tools" program can be used to
+configure various settings and partition the drive; this is done in
+configuration mode for safety.
+When in either configuration or installation mode, the device number is
+set to 30.
+Therefore, it is not suggested to place two or more CMD HDs in either
+of these modes on the same bus at the same time.
 When migrating from real CMD hardware, use any HDD imaging software ("dd"
 or GNU "ddrescue" on Linux) to copy the raw contents of a device to a file.
 The destination file should have a "DHD" extension.
-For those users with multiple disks, SCSI ID 0 should have the extension
-"DHD", but any other drives should have ".S<ID>0" where <ID> is the SCSI ID.
+For those users with multiple disks, SCSI ID 0, LUN 0 should have the
+extension "DHD", but any other drives should have ".S<ID><LUN>" where <ID>
+is the SCSI ID and <LUN> is the LUN or logical unit.
 Place all the files in the same folder when attaching to the "DHD" file.
 The other files will automatically be scanned for and connected as well.
 The CMD HD boot ROM is used for partition management, and ALL versions have
@@ -3960,6 +3967,21 @@ Integers specifying the drive wobble frequency
 @itemx Drive11WobbleAmplitude
 Integers specifying the drive wobble amplitude
 
+@vindex Drive8FixedSize
+@vindex Drive9FixedSize
+@vindex Drive10FixedSize
+@vindex Drive11FixedSize
+@item Drive8FixedSize
+@itemx Drive9FixedSize
+@itemx Drive10FixedSize
+@itemx Drive11FixedSize
+Integers specifying the size of the diskimage (in bytes) returned to SCSI
+capacity inquiries for CMD HDs.
+A disk image must be attached for a valid size to be returned.
+A value of "0" will report back the current image size.
+Values may also be followed by the suffix "K", "M", or "G" for kilobyte,
+megabyte, and gigabyte respectively.
+
 @vindex DosName1540
 @vindex DosName1541
 @vindex DosName1541ii
@@ -4171,6 +4193,21 @@ Specifies frequency of the drive wobble
 @itemx -drive10wobbleamplitude <amplitude>
 @itemx -drive11wobbleamplitude <amplitude>
 Specifies amplitude of the drive wobble
+
+@findex -drive8fixedsize
+@findex -drive9fixedsize
+@findex -drive10fixedsize
+@findex -drive11fixedsize
+@item -drive8fixedsize
+@itemx -drive9fixedsize
+@itemx -drive10fixedsize
+@itemx -drive11fixedsize
+Specifies the size of the diskimage (in bytes) returned to SCSI
+capacity inquiries for CMD HDs.
+A disk image must be attached for a valid size to be returned.
+A value of "0" will report back the current image size.
+Values may also be followed by the suffix "K", "M", or "G" for kilobyte,
+megabyte, and gigabyte respectively.
 
 @findex -dos1540
 @item -dos1540 <name>
@@ -6695,8 +6732,14 @@ The "cabling" is automatically performed by VICE and the RAMLink firmware will
 detect the cable presence and use it automatically.
 However, some programs may have compatibility issues (notably the CMD HD-tools
 with older HD boot roms).
-To disable this, issue the JiffyDOS command "@@P0" to disable, or "@@P1" to
-enable parallel transfers.
+When connecting an empty image, or an image without a HD-DOS signature, the
+cable will be automatically disconnected.
+Although documented in the RAMLink manual, the JiffyDOS command "@@P0" to
+disable, or "@@P1" to enable parallel transfers will hang as they try to
+communicate the HD boot rom and fail.
+To resolve this, use the "Drive#ParallelCable" or command line switch
+"-parallel#" and set it to 0, to disable transfers; any other value will
+enable them.
 
 The RAMLink features an "Enable/Disable" switch that can be changed at
 anytime using the GUI options.
