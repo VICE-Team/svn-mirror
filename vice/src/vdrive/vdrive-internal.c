@@ -46,6 +46,13 @@
 static log_t vdrive_internal_log = LOG_DEFAULT;
 
 
+/*
+Called by 2 things:
+disk preview tool - read_only mode is 1 (imagecontents/diskcontents.c)
+disk create tool - read_only is 0 (in this file)
+when read_only is 0, the image is expected to be created regardless of
+errors.
+*/
 vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 {
     vdrive_t *vdrive;
@@ -80,8 +87,8 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
     vdrive->image = image;
     ret = vdrive_attach_image(image, 100, 0, vdrive);
 
-    /* if we can't attached to it, we should return NULL */
-    if (ret) {
+    /* if we can't attached to it IN READ MODE, we should return NULL */
+    if (ret && read_only) {
         vdrive_device_shutdown(vdrive);
         lib_free(vdrive);
         disk_image_media_destroy(image);
@@ -91,6 +98,7 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
         return NULL;
     }
 
+    /* otherwise return the vdrive context, hoping everything will work out */
     return vdrive;
 }
 
@@ -155,6 +163,9 @@ int vdrive_internal_create_format_disk_image(const char *filename,
         case DISK_IMAGE_TYPE_D4M:
             return cbmimage_create_dxm_image(filename, diskname, type);
             break;
+        case DISK_IMAGE_TYPE_DHD:
+            /* no creation method this this type yet */
+            return -1;
         default:
             if (cbmimage_create_image(filename, type) < 0) {
                 return -1;
