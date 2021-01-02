@@ -153,6 +153,12 @@ static int set_drive_fixed(const char *val, void *param)
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
     unsigned long long int work;
     char suffix;
+#if 0
+    unsigned long long int calc;
+    char text[50];
+    int tp = 0;
+    int i;
+#endif
 
     /* free existing ASCII value of resource */
     if (unit->fixed_size_text) {
@@ -181,8 +187,29 @@ static int set_drive_fixed(const char *val, void *param)
             shift = 0;
             suffix = 0;
         }
-        /* generate a new ascii representation of the full value */
-        unit->fixed_size_text = lib_msprintf("%llu%c", work, suffix);
+#if 0
+        /* make my own ascii output since lib_msprintf("%llu%c", work, suffix)
+            doesn't work on windows at all */
+        text[tp++] = 0;
+        text[tp++] = suffix;
+
+        /* generate ascii output in reverse order */
+        calc = work;
+        while (calc && tp < 48) {
+            text[tp++] = (calc % 10) + '0';
+            calc = calc / 10;
+        }
+
+        /* allocate and copy back in proper order */
+        unit->fixed_size_text = lib_malloc(tp);
+        for (i = 0; i < tp; i++) {
+            unit->fixed_size_text[i] = text[tp - 1 - i];
+        }
+#else
+        /* just copy what was passed */
+        unit->fixed_size_text = lib_strdup(val);
+#endif
+
         /* apply change */
         work = work << shift;
         /* make it terms of 512 byte units */
