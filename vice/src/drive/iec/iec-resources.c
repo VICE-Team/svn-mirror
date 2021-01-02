@@ -151,38 +151,52 @@ static int set_drive_fixed(const char *val, void *param)
     char *end;
     int shift;
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
+    long int work;
+    char suffix;
 
     /* free existing ASCII value of resource */
-    lib_free(unit->fixed_size_text);
+    if (unit->fixed_size_text) {
+        lib_free(unit->fixed_size_text);
+    }
 
     /* turn whatever we are given into a number */
     errno = 0;
-    unit->fixed_size = strtol(val, &end, 10);
+    work = strtol(val, &end, 0);
 
-    /* if it is good, and we the remaining pointer is good, process any suffix */
+    /* if it is good, and the remaining pointer is good, process any suffix */
     if (!errno && end) {
         /* skip any spaces */
         while (*end == ' ') {
             end++;
         }
-        shift = 0;
         /* check for 3 suffixes */
-        if (util_toupper(*end) == 'K') {
+        suffix = util_toupper(*end);
+        if (suffix == 'K') {
             shift = 10;
-        } else if (util_toupper(*end) == 'M') {
+        } else if (suffix == 'M') {
             shift = 20;
-        } else if (util_toupper(*end) == 'G') {
+        } else if (suffix == 'G') {
             shift = 30;
+        } else {
+            shift = 0;
+            suffix = 0;
         }
+        /* generate a new ascii representation of the full value */
+        unit->fixed_size_text = lib_msprintf("%lu%c", work, suffix);
         /* apply change */
-        unit->fixed_size = unit->fixed_size << shift;
+        work = work << shift;
+        /* make it terms of 512 byte units */
+        unit->fixed_size = work >> 9;
+        /* round up if need be */
+        if (work & 511) {
+            unit->fixed_size++;
+        }
     } else {
         /* if any conversion errors happen, just make it 0 */
         unit->fixed_size = 0;
+        /* generate a new ascii representation of the full value */
+        unit->fixed_size_text = lib_msprintf("0");
     }
-
-    /* generate a new ascii representation of the full value */
-    unit->fixed_size_text = lib_msprintf("%u", unit->fixed_size);
 
     /* tell the CMDHD, if there is one, the updated value */
     cmdhd_update_maxsize(unit->fixed_size, vice_ptr_to_uint(param) + 8);
@@ -273,7 +287,7 @@ static resource_int_t res_drive[] = {
 };
 
 static resource_string_t res_string[] = {
-    { NULL, "4294966784", RES_EVENT_NO, NULL,
+    { NULL, "8G", RES_EVENT_NO, NULL,
       NULL, set_drive_fixed, NULL },
     RESOURCE_STRING_LIST_END
 };
@@ -312,10 +326,10 @@ int iec_resources_init(void)
         lib_free(res_drive[4].name);
 
         res_string[0].name = lib_msprintf("Drive%iFixedSize", dnr + 8);
-        unit->fixed_size_text = lib_msprintf("0");
-        unit->fixed_size = 0;
         res_string[0].value_ptr = &(unit->fixed_size_text);
         res_string[0].param = uint_to_void_ptr(dnr);
+        unit->fixed_size_text = NULL;
+        unit->fixed_size = 0;
 
         if (resources_register_string(res_string) < 0) {
             return -1;

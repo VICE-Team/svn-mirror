@@ -211,9 +211,12 @@ typedef struct diskunit_context_s {
     int rtc_save;
 
     /* CMDHD allow for disk expansion or keep fixed, 0=expand, other = max size */
+    /* value is in 512 byte sectors */
     unsigned int fixed_size;
 
-    /* Hack to hold the ASCII value of the fixed_size resource */
+    /* Hack to hold the ASCII value of the fixed_size resource above in bytes */
+    /* string is a numeric value in bytes with an optional suffix: K, M, G */
+    /* may also be hex with 0x prefix, or octal with 0 prefix */
     char *fixed_size_text;
 
     /* Drive-specific logging goes here.  */

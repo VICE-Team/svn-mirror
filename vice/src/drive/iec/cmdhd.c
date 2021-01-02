@@ -1137,6 +1137,9 @@ void cmdhd_init(diskunit_context_t *ctxptr)
     /* grab value from unit structure as it is likely it is initialized
         before the drive init is run */
     scsi->max_imagesize = diskunit_context[ctxptr->mynumber]->fixed_size;
+    /* don't allow more than a 24-bit value -2 to be returned on disk query
+        as this will cause problems for CMDHD tools */
+    scsi->limit_imagesize = 0xfffffe;
     /* CMDHD can handle 56 drives, but the latest boot rom has a bug which
         corrupts data when deleting partitions that span across disk
         boundaries. However, there are a number of users who want multiple
