@@ -1095,7 +1095,7 @@ for the GTK3 interface, and the "Reset" menu in the SDL interface.
 When creating a new DHD image, simply create an EMPTY file and VICE
 will automatically place the drive in installation mode.
 The DOS will detect the drive as the size specified by "Drive#FixedSize"
-(or "-drive#fixedsize") which is slightly less then 4GB by default.
+(or "-drive#fixedsize") which is 8GB by default.
 To use a specific sized disk, set this value to the maximum size, or
 set this value to "0" and set the image file on disk to the desired size
 (it should be a multiple of 512 bytes).
@@ -3981,12 +3981,12 @@ Integers specifying the drive wobble amplitude
 @itemx Drive9FixedSize
 @itemx Drive10FixedSize
 @itemx Drive11FixedSize
-Integers specifying the size of the diskimage (in bytes) returned to SCSI
+Integer specifying the size of the diskimage (in bytes) returned to SCSI
 capacity inquiries for CMD HDs.
 A disk image must be attached for a valid size to be returned.
 A value of "0" will report back the current image size.
 Values may also be followed by the suffix "K", "M", or "G" for kilobyte,
-megabyte, and gigabyte respectively.
+megabyte, and gigabyte respectively. Default is "8G".
 
 @vindex DosName1540
 @vindex DosName1541
@@ -4203,7 +4203,7 @@ capacity inquiries for CMD HDs.
 A disk image must be attached for a valid size to be returned.
 A value of "0" will report back the current image size.
 Values may also be followed by the suffix "K", "M", or "G" for kilobyte,
-megabyte, and gigabyte respectively.
+megabyte, and gigabyte respectively. Default is "8G".
 
 @findex -dos1540
 @item -dos1540 <name>
