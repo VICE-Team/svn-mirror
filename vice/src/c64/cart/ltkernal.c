@@ -222,8 +222,8 @@ from the bus until a reset, essentially reconfiguring to a stock system.
 
 */
 
-/* largest supported HD in LTK */
-#define ltk_imagesize  (32 * 1024 * 1024 * 10)
+/* largest supported HD in 512 bytes sectors for LTK for DOS up to 7.3 */
+#define ltk_imagesize  (32 * 1024 * 1024 * 10 / 512)
 
 static int ltk_inserted = 0;
 
@@ -1021,6 +1021,7 @@ static int ltkernal_common_attach(void)
 
     scsi_reset(&ltk_scsi);
     ltk_scsi.max_imagesize = ltk_imagesize;
+    ltk_scsi.limit_imagesize = ltk_imagesize;
     ltk_scsi.msg_after_status = 1;
 
     if (ltkernal_registerio() < 0) {
