@@ -60,7 +60,8 @@ typedef struct scsi_context_s {
     uint8_t cmd_buf[256];
     uint8_t data_buf[512];
     uint8_t msg_after_status;
-    uint32_t max_imagesize;
+    uint32_t max_imagesize; /* in 512 byte sectors */
+    uint32_t limit_imagesize; /* in 512 byte sectors */
     uint32_t log;
     FILE *file[56];
     void *p;

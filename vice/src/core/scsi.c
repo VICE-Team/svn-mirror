@@ -420,7 +420,6 @@ void scsi_process_ack(struct scsi_context_s *context)
                         break;
                     }
                     j = scsi_getmaxsize(context);
-                    j = j >> 9;
                     if (context->address >= j) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
@@ -569,7 +568,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                         }
                     }
                     context->data_max = 512;
-                    if (context->address >= (scsi_getmaxsize(context) >> 9)) {
+                    if (context->address >= scsi_getmaxsize(context)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -612,7 +611,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                         }
                     }
                     context->data_max = 512;
-                    if (context->address >= (scsi_getmaxsize(context) >> 9)) {
+                    if (context->address >= scsi_getmaxsize(context)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -665,13 +664,17 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     context->link = context->cmd_buf[9] & 1;
                     context->data_max = 8;
-                    j = scsi_getmaxsize(context) >> 9;
-printf("SCSI: %d %d %u\n",context->target, context->lun, j);
+                    j = scsi_getmaxsize(context);
                     if (j == 0) {
                         i = 0;
                     } else {
-                        j--;
+/* Limit size returned as some tools can't handle large disks */
+                        if (j > context->limit_imagesize) {
+                            j = context->limit_imagesize;
+                        }
                         i = 512;
+/* SCSI spec says return last accessable block number */
+                        j--;
                     }
                     context->data_buf[0] = (j >> 24) & 255;
                     context->data_buf[1] = (j >> 16) & 255;
@@ -771,7 +774,7 @@ printf("SCSI: %d %d %u\n",context->target, context->lun, j);
                     context->seq = 0;
                     context->blocks--;
                     context->address++;
-                    if (context->address >= (scsi_getmaxsize(context) >> 9)) {
+                    if (context->address >= scsi_getmaxsize(context)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -826,7 +829,8 @@ out:
 
 void scsi_reset(struct scsi_context_s *context)
 {
-    context->max_imagesize = 64*1024*1024;
+    context->max_imagesize = 512 * 1024 * 1024 / 512;
+    context->limit_imagesize = 512 * 1024 * 1024 / 512;
     context->rst = 1;
     scsi_process_noack(context);
     context->rst = 0;
