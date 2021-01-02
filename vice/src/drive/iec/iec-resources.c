@@ -151,7 +151,7 @@ static int set_drive_fixed(const char *val, void *param)
     char *end;
     int shift;
     diskunit_context_t *unit = diskunit_context[vice_ptr_to_uint(param)];
-    long int work;
+    unsigned long long int work;
     char suffix;
 
     /* free existing ASCII value of resource */
@@ -161,7 +161,7 @@ static int set_drive_fixed(const char *val, void *param)
 
     /* turn whatever we are given into a number */
     errno = 0;
-    work = strtol(val, &end, 0);
+    work = strtoll(val, &end, 0);
 
     /* if it is good, and the remaining pointer is good, process any suffix */
     if (!errno && end) {
@@ -182,7 +182,7 @@ static int set_drive_fixed(const char *val, void *param)
             suffix = 0;
         }
         /* generate a new ascii representation of the full value */
-        unit->fixed_size_text = lib_msprintf("%lu%c", work, suffix);
+        unit->fixed_size_text = lib_msprintf("%llu%c", work, suffix);
         /* apply change */
         work = work << shift;
         /* make it terms of 512 byte units */
