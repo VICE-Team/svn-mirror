@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Script to generate .desktop files for the emu binaries on Linux
 #
