@@ -27,7 +27,7 @@
  *
  */
 
-/* #define DEBUGCART */
+#define DEBUGCART
 
 #include "vice.h"
 
@@ -37,6 +37,7 @@
 
 #include "archdep.h"
 #include "cartridge.h"
+#include "crt.h"
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
@@ -219,7 +220,7 @@ static int attach_image(int type, const char *filename)
     long len;
     size_t n;
 
-    DBG(("attach_image type %d (%04x), file=`%s'.\n", type, type, filename));
+    DBG(("attach_image type %d (%04x), file=`%s'.\n", type, (unsigned int)type, filename));
 
     fd = zfile_fopen(filename, MODE_READ);
     if (!fd) {
@@ -242,7 +243,7 @@ static int attach_image(int type, const char *filename)
             break;
         default: /* not a valid file */
             zfile_fclose(fd);
-            DBG(("attach_image error (length check), len=%d.\n", len));
+            DBG(("attach_image error (length check), len=%ld.\n", len));
             return -1;
             break;
     }
@@ -301,11 +302,11 @@ static int attach_image(int type, const char *filename)
                 log_message(LOG_DEFAULT, "could not determine type of cartridge, defaulting to 4KiB $a000-$afff");
             }
         } else {
-            DBG(("attach_image error (autodetect), len=%d.\n", len));
+            DBG(("attach_image error (autodetect), len=%ld.\n", len));
             return -1;
         }
             
-        DBG(("detected cartridge type: %04x addr: %04x len: %04x\n", type, addr, len));
+        DBG(("detected cartridge type: %04x addr: %04x len: %04lx\n", (unsigned int)type, addr, (long unsigned int)len));
     }
 
     memset(rawcart, 0xff, 0x8000); /* init all blocks with 0xff */
@@ -319,7 +320,7 @@ static int attach_image(int type, const char *filename)
     }
     zfile_fclose(fd);
 
-    DBG(("loaded %d 4KiB chunks, preparing type %d (%04x)\n", n, type, type));
+    DBG(("loaded %ld 4KiB chunks, preparing type %d (%04x)\n", (long int)n, type, (unsigned int)type));
     
     switch (type) {
         case CARTRIDGE_VIC20_4KB_2000:  /* fall through */
@@ -349,7 +350,7 @@ static int attach_image(int type, const char *filename)
             util_string_set(&cartfileB, filename);
             break;
         default:
-            DBG(("attach_image error (string set), len=%d.\n", len));
+            DBG(("attach_image error (string set), len=%ld.\n", len));
             return -1;
             break;
     }
@@ -439,12 +440,12 @@ static int attach_image(int type, const char *filename)
             break;
 
         default:
-            DBG(("attach_image error (creating mirrors), len=%d.\n", len));
+            DBG(("attach_image error (creating mirrors), len=%ld.\n", len));
             return -1;
             break;
     }
 
-    DBG(("attaching type %d (%04x)\n", n, type, type));
+    DBG(("attaching type %d (%04x)\n", type, (unsigned int)type));
     
     /* attach cartridge data */
     switch (type) {
@@ -529,7 +530,7 @@ static int attach_image(int type, const char *filename)
                                    VIC_CART_BLK3 | VIC_CART_BLK5);
             break;
         default:
-            DBG(("attach_image error (image attach), len=%d.\n", len));
+            DBG(("attach_image error (image attach), len=%ld.\n", len));
             return -1;
             break;
     }
@@ -579,6 +580,71 @@ int generic_bin_attach(int type, const char *filename)
     mem_cart_blocks = generic_ram_blocks | generic_rom_blocks;
     mem_initialize_memory();
     return 0;
+}
+
+/*
+    returns -1 on error, else a positive CRT ID
+*/
+int generic_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int idx = 0;
+
+    if (!cart_ram) {
+        cart_ram = lib_malloc(CART_RAM_SIZE);
+    }
+    if (!cart_rom) {
+        cart_rom = lib_malloc(CART_ROM_SIZE);
+    }
+
+    DBG(("generic_crt_attach\n"));
+
+    do
+    {
+        if (crt_read_chip_header(&chip, fd)) {
+            if (idx > 0) {
+                mem_cart_blocks = generic_ram_blocks | generic_rom_blocks;
+                mem_initialize_memory();
+                return CARTRIDGE_VIC20_GENERIC;
+            }
+            goto exiterror;
+        }
+
+        DBG(("chip %d at %02x len %02x\n", idx, chip.start, chip.size));
+        switch (chip.start) {
+            case 0x2000: /* block 1 */
+                if (crt_read_chip(cart_rom + 0x2000, 0, &chip, fd)) {
+                    goto exiterror;
+                }
+                generic_rom_blocks |= VIC_CART_BLK1;
+                break;
+            case 0x4000: /* block 2 */
+                if (crt_read_chip(cart_rom + 0x4000, 0, &chip, fd)) {
+                    goto exiterror;
+                }
+                generic_rom_blocks |= VIC_CART_BLK2;
+                break;
+            case 0x6000: /* block 3 */
+                if (crt_read_chip(cart_rom + 0x6000, 0, &chip, fd)) {
+                    goto exiterror;
+                }
+                generic_rom_blocks |= VIC_CART_BLK3;
+                break;
+            case 0xa000:  /* block 5 */
+                if (crt_read_chip(cart_rom + 0x0000, 0, &chip, fd)) {
+                    goto exiterror;
+                }
+                generic_rom_blocks |= VIC_CART_BLK5;
+                break;
+        }
+
+        idx++;
+    } while (idx < 8); /* FIXME */
+
+exiterror:
+    DBG(("generic_crt_attach: error\n"));
+    generic_detach();
+    return -1;
 }
 
 void generic_detach(void)

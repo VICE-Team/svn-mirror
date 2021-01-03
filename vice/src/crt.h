@@ -48,7 +48,6 @@ typedef struct crt_chip_header_s {
 } crt_chip_header_t;
 
 FILE *crt_open(const char *filename, crt_header_t *header);
-extern int crt_attach(const char *filename, uint8_t *rawcart);
 extern int crt_getid(const char *filename);
 extern int crt_read_chip_header(crt_chip_header_t *header, FILE *fd);
 extern int crt_read_chip(uint8_t *rawcart, int offset, crt_chip_header_t *chip, FILE *fd);

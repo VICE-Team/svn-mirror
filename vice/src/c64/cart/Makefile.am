@@ -29,9 +29,7 @@ libc64cartsystem_a_SOURCES = \
 	c64carthooks.c \
 	c64cartmem.c \
 	c64cartmem.h \
-	c64cartsystem.h \
-	crt.c \
-	crt.h
+	c64cartsystem.h
 
 libc64cart_a_SOURCES = \
 	actionreplay2.c \

@@ -185,6 +185,7 @@ noinst_HEADERS = \
 	clkguard.h \
 	clipboard.h \
 	cmdline.h \
+	crt.h \
 	color.h \
 	config.h.in \
 	console.h \
@@ -314,6 +315,7 @@ base_sources = \
 	cmdline.c \
 	color.c \
 	crc32.c \
+	crt.c \
 	debug.c \
 	dma.c \
 	embedded.c \

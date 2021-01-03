@@ -173,6 +173,15 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
             /* failed (TODO: perhaps a proper error message?) */
             debug_gtk3("smart attach failed.");
         }
+    } else if ((machine_class == VICE_MACHINE_VIC20)) {
+        if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
+                && tape_image_attach(1, filename_locale) < 0
+                && autostart_snapshot(filename_locale, NULL) < 0
+                /* && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0 */
+                && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0) {
+            /* failed (TODO: perhaps a proper error message?) */
+            debug_gtk3("smart attach failed.");
+        }
     } else {
         /* Smart attach for other emulators: don't try to attach a file
             * as a cartidge, it'll result in false positives

@@ -30,7 +30,7 @@
 #include <gtk/gtk.h>
 
 #include "basewidgets.h"
-#include "c64/cart/crt.h"
+#include "crt.h"
 #include "cartridge.h"
 #include "debug_gtk3.h"
 #include "machine.h"

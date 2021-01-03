@@ -374,17 +374,20 @@ extern void cartridge_sound_chip_init(void);
 
 #define CARTRIDGE_VIC20_DEBUGCART          -124 /* debugcart.c */
 
+#define CARTRIDGE_VIC20_GENERIC             -2  /* generic.c */
+
 /* #define CARTRIDGE_NONE               -1 */
-#define CARTRIDGE_VIC20_GENERIC         1   /* generic.c */
-#define CARTRIDGE_VIC20_MEGACART        2   /* megacart.c */
-#define CARTRIDGE_VIC20_FINAL_EXPANSION 3   /* finalexpansion.c */
-#define CARTRIDGE_VIC20_FP              4   /* vic-fp.c */
-#define CARTRIDGE_VIC20_IEEE488         5   /* vic20-ieee488.c */
-#define CARTRIDGE_VIC20_SIDCART         6   /* vic20-sidcart.c */
-#define CARTRIDGE_VIC20_UM              7   /* ultimem.c */
-#define CARTRIDGE_VIC20_IO2_RAM         8   /* ioramcart.c */
-#define CARTRIDGE_VIC20_IO3_RAM         9   /* ioramcart.c */
-#define CARTRIDGE_VIC20_BEHRBONZ       10   /* behrbonz.c */
+/* #define CARTRIDGE_CRT                 0 */
+
+#define CARTRIDGE_VIC20_MEGACART        1   /* megacart.c */
+#define CARTRIDGE_VIC20_FINAL_EXPANSION 2   /* finalexpansion.c */
+#define CARTRIDGE_VIC20_FP              3   /* vic-fp.c */
+#define CARTRIDGE_VIC20_IEEE488         4   /* vic20-ieee488.c */   /* FIXME: no ROM? */
+#define CARTRIDGE_VIC20_SIDCART         5   /* vic20-sidcart.c */   /* FIXME: no ROM? */
+#define CARTRIDGE_VIC20_UM              6   /* ultimem.c */
+#define CARTRIDGE_VIC20_IO2_RAM         7   /* ioramcart.c */   /* FIXME: no ROM? */
+#define CARTRIDGE_VIC20_IO3_RAM         8   /* ioramcart.c */   /* FIXME: no ROM? */
+#define CARTRIDGE_VIC20_BEHRBONZ        9   /* behrbonz.c */
 
 /*
  * VIC20 Generic cartridges
