@@ -114,6 +114,8 @@ int main_program(int argc, char **argv)
        -default => use default config, do not load any config
        -config  => use specified configuration file
        -console => no user interface
+       -verbose => more verbose logging
+       -silent => no logging
     */
     DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 1; i < argc; i++) {
@@ -126,8 +128,14 @@ int main_program(int argc, char **argv)
                 vice_config_file = lib_strdup(argv[++i]);
                 loadconfig = 1;
             }
-        } else if (!strcmp(argv[i], "-default")) {
+        } else if ((!strcmp(argv[i], "-default")) || (!strcmp(argv[i], "--default"))) {
             loadconfig = 0;
+        } else if ((!strcmp(argv[i], "-verbose")) || (!strcmp(argv[i], "--verbose"))) {
+            log_set_silent(0);
+            log_set_verbose(1);
+        } else if ((!strcmp(argv[i], "-silent")) || (!strcmp(argv[i], "--silent"))) {
+            log_set_silent(1);
+            log_set_verbose(0);
         } else {
             break;
         }
