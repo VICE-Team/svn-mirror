@@ -1861,8 +1861,11 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         return 0;
     }
 
-    if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C64SC) ||
-       (machine_class == VICE_MACHINE_SCPU64) ||(machine_class == VICE_MACHINE_C128)) {
+    if ((machine_class == VICE_MACHINE_C64) || 
+        (machine_class == VICE_MACHINE_C64SC) ||
+        (machine_class == VICE_MACHINE_SCPU64) ||
+        (machine_class == VICE_MACHINE_VIC20) ||
+        (machine_class == VICE_MACHINE_C128)) {
         if (cartridge_attach_image(CARTRIDGE_CRT, file_name) == 0) {
             log_message(autostart_log, "`%s' recognized as cartridge image.",
                         file_name);
