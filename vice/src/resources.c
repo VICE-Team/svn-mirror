@@ -227,6 +227,8 @@ static resource_ram_t *lookup(const char *name)
     resource_ram_t *res;
     unsigned int hashkey;
 
+    DBG(("lookup name:'%s'\n", name ? name : "<empty/null>"));
+
     if (name == NULL) {
         return NULL;
     }
@@ -921,23 +923,26 @@ int resources_set_defaults(void)
     cartridge_detach_image(-1);
 
     for (i = 0; i < num_resources; i++) {
+        DBG(("setting default for '%s'\n", resources[i].name));
         switch (resources[i].type) {
             case RES_INTEGER:
                 if ((*resources[i].set_func_int)(vice_ptr_to_int(resources[i].factory_value),
                                                  resources[i].param) < 0) {
-                    log_verbose("Cannot set resource %s", resources[i].name);
+                    log_verbose("Cannot set int resource '%s' to default '%d'",
+                                resources[i].name, vice_ptr_to_int(resources[i].factory_value));
                     return -1;
                 }
                 break;
             case RES_STRING:
                 if ((*resources[i].set_func_string)((const char *)(resources[i].factory_value),
                                                     resources[i].param) < 0) {
-                    log_verbose("Cannot set resource %s", resources[i].name);
+                    log_verbose("Cannot set string resource '%s' to default '%s'",
+                                resources[i].name, (const char *)(resources[i].factory_value));
                     return -1;
                 }
                 break;
         }
-
+        DBG(("issue callback for '%s'\n", resources[i].name));
         resources_issue_callback(resources + i, 0);
     }
 
