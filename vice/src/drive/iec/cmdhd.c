@@ -240,7 +240,7 @@ static void cmdhd_scsiread(struct scsi_context_s *scsi)
     int track;
 
     /* update track info on status bar; never 100 or above */
-    track = (scsi->address * 200) / ((hd->imagesize >> 9) + 1);
+    track = (scsi->address * 200) / (hd->imagesize + 1);
     if (track >= 200) {
         track = 199;
     }
@@ -253,7 +253,7 @@ static void cmdhd_scsiread(struct scsi_context_s *scsi)
 
     /* correct device number on the fly since it is stored on HD not by switch or EEPROM */
     if (hd->baselba != UINT32_MAX && scsi->address == hd->baselba + 2) {
-        /* make sure it has the cmd signature first */
+        /* make sure it has the CMD signature first */
         if (!cmdhd_has_sig(&(scsi->data_buf[256]))) {
             /* if it isn't what was defined by vice, set it to it */
             if ( (scsi->data_buf[0x1e1] != unit) ||
@@ -265,7 +265,7 @@ static void cmdhd_scsiread(struct scsi_context_s *scsi)
                 scsi->data_buf[0x1e4] = unit;
             }
         } else {
-            /* block we had on record no long has signature, invalidate it */
+            /* block we had on record no longer has signature, invalidate it */
             hd->baselba = UINT32_MAX;
         }
     }
@@ -278,13 +278,13 @@ static void cmdhd_scsiwrite(struct scsi_context_s *scsi)
     uint32_t temp;
 
     /* keep track of the maximum lba written to */
-    temp=(scsi->address + 1) << 9;
+    temp = scsi->address + 1;
     if (temp > hd->imagesize) {
         hd->imagesize = temp;
     }
 
     /* update track info on status bar */
-    dc->current_half_track = (scsi->address * 200) / ((hd->imagesize >> 9) + 1);
+    dc->current_half_track = (scsi->address * 200) / (hd->imagesize + 1);
 }
 
 /* We don't actually format the disk, we just remove the 16 byte CMD signature */
@@ -302,7 +302,7 @@ static void cmdhd_scsiformat(struct scsi_context_s *scsi)
     /* figure out where to start looking */
     if (hd->baselba != UINT32_MAX) {
         /* use what we already have if we found it before */
-        if (hd->baselba < (hd->imagesize >> 9)) {
+        if (hd->baselba < hd->imagesize) {
             scsi->address = hd->baselba + 2;
         } else {
         /* other wise, start from scratch */
@@ -312,8 +312,8 @@ static void cmdhd_scsiformat(struct scsi_context_s *scsi)
     } else {
         scsi->address = 2;
     }
-    /* start searching, ever 128 LBAs starting from 2 or known base */
-    while (scsi->address < (hd->imagesize >> 9)) {
+    /* start searching, every 128 LBAs starting from 2 or known base */
+    while (scsi->address < hd->imagesize) {
         /* stop if we hit the end of the file */
         if (scsi_image_read(scsi) < 0) {
             break;
@@ -371,8 +371,8 @@ void cmdbus_update(void)
         }
     }
 
-    BLOG((LOG, "CMDBUS PREADY=%s PCLK=%s PATN=%s",cmdbus.bus&0x80?"LOW ":"HIGH",
-        cmdbus.bus&0x40?"LOW ":"HIGH", cmdbus.bus&0x20?"LOW ":"HIGH"));
+    BLOG((LOG, "CMDBUS PREADY=%s PCLK=%s PATN=%s", cmdbus.bus & 0x80 ? "LOW " : "HIGH",
+        cmdbus.bus & 0x40 ? "LOW " : "HIGH", cmdbus.bus & 0x20 ? "LOW " : "HIGH"));
 }
 
 /* U11 or i8255a interfacing */
@@ -509,7 +509,6 @@ static void set_pc(struct _i8255a_state *ctx, uint8_t byte, int8_t reg)
 {
     cmdhd_context_t *hd = (cmdhd_context_t*)(ctx->p);
     scsi_context_t *scsi = (scsi_context_t*)(hd->scsi);
-/*    drivecpu_context_t *cpu = hd->mycontext->cpu; */
     int t;
     int mynumber = hd->mycontext->mynumber;
 
@@ -1173,8 +1172,8 @@ void cmdhd_shutdown(cmdhd_context_t *hd)
     lib_free(hd);
 }
 
-/* Function to find the baselba of the cmd partition. We need this so we
-can modify the device number of the drive as it is stored on disk. */
+/* Function to find the baselba of the CMD partition. We need this so we
+    can modify the device number of the drive as it is stored on disk. */
 static void cmdhd_findbaselba(cmdhd_context_t *hd)
 {
     uint32_t  i;
@@ -1200,7 +1199,7 @@ static void cmdhd_findbaselba(cmdhd_context_t *hd)
     /* look for configuration block */
     i = 2;
     /* start at LBA 2 as in 512-byte blocks */
-    while (i < (hd->imagesize >> 9)) {
+    while (i < hd->imagesize) {
         /* translate to T/S for DHD images, ie. 65536 for each */
         dadr.track = (i / 32768) + 1;
         dadr.sector = (i % 32768) * 2 + 1;
@@ -1209,7 +1208,7 @@ static void cmdhd_findbaselba(cmdhd_context_t *hd)
             /* hit the end of file */
             break;
         }
-        /* otherwise check the cmd sig */
+        /* otherwise check the CMD sig */
         if (!cmdhd_has_sig(buf)) {
             /* if it has it, update the offset */
             hd->baselba = i - 2;
@@ -1296,7 +1295,7 @@ void cmdhd_reset(cmdhd_context_t *hd)
 
     /* if the image size is too small, put the drive in installation mode */
     /* but if there is more than one drive connect, go to normal mode */
-    if (hd->imagesize < 73728) {
+    if (hd->imagesize < 144) {
         if (unit == 1) {
             hd->i8255a_i[1] &= 0xf9;
             CRIT((ERR, "CMDHD: Image size too small, starting up in installation mode."));
@@ -1330,7 +1329,7 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
     char *basename, *testname;
     size_t i, j;
     FILE *test;
-    size_t filelength;
+    off_t filelength;
 
     CLOG((LOG, "CMDHD: attach_image"));
 
@@ -1358,7 +1357,7 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
 
     /* record passed values */
     hd->image = image;
-    hd->imagesize = disk_image_size(image);
+    hd->imagesize = (disk_image_size(image) >> 9);
 
     /* leave if there is a problem getting the image size */
     if (hd->imagesize == UINT32_MAX) {
@@ -1372,8 +1371,8 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
     cmdhd_findbaselba(hd);
 
     /* look to see if there are more files with the same base
-       name, but different extensions: s10, s11, ..., s20, ..., s30,
-       s<ID><LUN>, no LUN support yet */
+       name, but different extensions: s10, s11, ..., s20, ..., s67
+       s<ID><LUN> */
     /* copy the file name */
     basename = lib_strdup(image->media.fsimage->name);
 
