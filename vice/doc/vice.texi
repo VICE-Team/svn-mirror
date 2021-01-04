@@ -16262,6 +16262,9 @@ must be in the same address space.
 @item address_opt_range
 An address or an address range.
 
+@item radix_type
+Radix for the output, H for hex, D for decimal, O for octal, or B for binary.
+
 @item label
 @code{label} is the name of a label. It must start with a dot (".")
 in order for the monitor to recognize it as a label. Register names preceeded
@@ -16414,8 +16417,8 @@ Display memory contents as PETSCII text.
 @item ii <address_opt_range>
 Display memory contents as screen code text
 
-@item mem [<data_type>] [<address_opt_range>]
-@itemx m [<data_type>] [<address_opt_range>]
+@item mem [<radix_type>] [<address_opt_range>]
+@itemx m [<radix_type>] [<address_opt_range>]
 Display the contents of memory.  If no datatype is given, the default
 is used.  If only one address is specified, the length of data
 displayed is based on the datatype.  If no addresses are given, the
@@ -16440,14 +16443,14 @@ Save the memmap as a picture. @code{format}:
 0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
 (disabled by default; configure with --enable-cpuhistory to enable)
 
-@item memchar [<data_type>] [<address_opt_range>]
-@itemx mc [<data_type>] [<address_opt_range>]
+@item memchar [<radix_type>] [<address_opt_range>]
+@itemx mc [<radix_type>] [<address_opt_range>]
 Display the contents of memory as character data.  If only one address
 is specified, only one character is displayed.  If no addresses are
 given, the ``dot'' address is used.
 
-@item memsprite [<data_type>] [<address_opt_range>]
-@itemx ms [<data_type>] [<address_opt_range>]
+@item memsprite [<radix_type>] [<address_opt_range>]
+@itemx ms [<radix_type>] [<address_opt_range>]
 Display the contents of memory as sprite data.  If only one address is
 specified, only one sprite is displayed.  If no addresses are given,
 the ``dot'' address is used.
