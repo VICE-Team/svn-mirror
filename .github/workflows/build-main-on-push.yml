@@ -21,7 +21,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }} snapshot
           draft: true
-          prerelease: false
+          prerelease: true
 
   build:
     name: Build

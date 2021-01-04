@@ -55,5 +55,5 @@ esac
 
 ./autogen.sh
 ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
-make -j $(( $NUMBER_OF_PROCESSORS * 2 )) -s
+make -j $(( $NUMBER_OF_PROCESSORS )) -s
 make bindistzip
