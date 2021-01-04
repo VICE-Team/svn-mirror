@@ -423,9 +423,9 @@ char *util_subst(const char *s, const char *string, const char *replacement)
 /* ------------------------------------------------------------------------- */
 
 /* Return the length of an open file in bytes.  */
-size_t util_file_length(FILE *fd)
+off_t util_file_length(FILE *fd)
 {
-    size_t off, filesize;
+    off_t off, filesize;
 
     off = ftello(fd);
     fseeko(fd, 0, SEEK_END);

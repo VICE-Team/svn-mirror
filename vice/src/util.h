@@ -55,7 +55,7 @@ extern void util_add_extension_maxpath(char *name, const char *extension,
                                        unsigned int maxpath);
 extern char *util_get_extension(const char *filename);
 
-extern size_t util_file_length(FILE *fd);
+extern off_t util_file_length(FILE *fd);
 extern int util_file_exists(const char *name);
 extern int util_file_load(const char *name, uint8_t *dest, size_t size,
                           unsigned int load_flag);

@@ -41,6 +41,16 @@
  */
 
 #include "vice.h"
+
+#include <stdio.h>
+#include <ctype.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <limits.h>
+#include <string.h>
+
 #include "diskimage.h"
 #include "fsimage.h"
 #include "diskcontents.h"
@@ -51,16 +61,6 @@
 #ifdef USE_SVN_REVISION
 # include "svnversion.h"
 #endif
-
-#include <ctype.h>
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <limits.h>
-
-#include <string.h>
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
@@ -4218,7 +4218,7 @@ static int write_geos_cmd(int nargs, char **args)
      * The bam and directory entry must be copied to the disk. the code
      * from the vdrive routines does that thing.
      */
-    vdrive_dir_find_first_slot(drives[dev], dest_name_petscii,
+    vdrive_dir_find_first_slot(drives[dev], (const uint8_t *)dest_name_petscii,
                                (int)strlen(dest_name_petscii), 0, &dir);
     e = vdrive_dir_find_next_slot(&dir);
 

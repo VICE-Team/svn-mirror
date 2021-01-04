@@ -284,10 +284,10 @@ void fsimage_init(void)
 
 /*-----------------------------------------------------------------------*/
 
-uint32_t fsimage_size(const disk_image_t *image)
+off_t fsimage_size(const disk_image_t *image)
 {
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
-    return (uint32_t)util_file_length(fsimage->fd);
+    return util_file_length(fsimage->fd);
 }

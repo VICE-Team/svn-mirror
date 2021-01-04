@@ -158,6 +158,6 @@ extern void disk_image_attach_log(const disk_image_t *image, signed int lognum,
                                   unsigned int unit, unsigned int drive);
 extern void disk_image_detach_log(const disk_image_t *image, signed int lognum,
                                   unsigned int unit, unsigned int drive);
-extern uint32_t disk_image_size(const disk_image_t *image);
+extern off_t disk_image_size(const disk_image_t *image);
 
 #endif

@@ -672,17 +672,17 @@ static int disk_image_check_for_d4m(disk_image_t *image)
 
 static int disk_image_check_for_dhd(disk_image_t *image)
 {
-    unsigned int blk = 0;
+    off_t blk = 0;
     uint8_t sector[512];
     fsimage_t *fsimage;
-    uint32_t pos;
+    off_t pos;
     unsigned char hdmagic[16] = {0x43, 0x4d, 0x44, 0x20, 0x48, 0x44, 0x20, 0x20,
         0x8d, 0x03, 0x88, 0x8e, 0x02, 0x88, 0xea, 0x60};
 
     fsimage = image->media.fsimage;
     image->tracks = 65535;
 
-    blk = (unsigned int)util_file_length(fsimage->fd);
+    blk = util_file_length(fsimage->fd);
 
     /* only allow blank images to be attached if the CMDHD rom is loaded */
     if (blk == 0) {
@@ -714,7 +714,7 @@ static int disk_image_check_for_dhd(disk_image_t *image)
     pos = 1024;
 
     while ( pos < blk ) {
-        if (fseek(fsimage->fd, pos, SEEK_SET)) {
+        if (fseeko(fsimage->fd, pos, SEEK_SET)) {
             /* hit the end of file */
             break;
         }
@@ -745,13 +745,13 @@ good:
 
 static int disk_image_check_for_d90(disk_image_t *image)
 {
-    unsigned int blk = 0;
+    off_t blk = 0;
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
 
     /* get file size */
-    blk = (unsigned int)util_file_length(fsimage->fd);
+    blk = util_file_length(fsimage->fd);
 
     /* only allow true D9090/D9060 image sizes right now */
     if (blk == D9060_FILE_SIZE) {
