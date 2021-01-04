@@ -16323,9 +16323,13 @@ Print JSR call chain (most recent call first). Stack offset
 relative to SP+1 is printed in parentheses. This is a best guess
 only.
 
-@item cpuhistory [<count>]
-@itemx chis [<count>]
-Show <count> last executed commands.
+@item cpuhistory [<count>] [c:] [8:] [9:] [10:] [11:]
+@itemx chis [<count>] [c:] [8:] [9:] [10:] [11:]
+Show <count> last executed commands on up to five devices.
+If no devices are specified, then the default device is shown.
+VICE emulation runs each CPU for a variable number of cycles before switching
+between them. They will be synchronized when communication between
+them occurs.
 (disabled by default; configure with --enable-cpuhistory to enable)
 
 @item dump "<filename>"
