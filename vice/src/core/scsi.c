@@ -70,8 +70,10 @@
 #define MAXIDS 7
 #define MAXLUNS 8
 
-static uint32_t scsi_getmaxsize(struct scsi_context_s *context)
+static off_t scsi_getmaxsize(struct scsi_context_s *context)
 {
+    off_t work;
+
     /* make sure the target and lun are valid */
     if (context->target >= MAXIDS || context->lun >= MAXLUNS) {
         return 0;
@@ -81,7 +83,10 @@ static uint32_t scsi_getmaxsize(struct scsi_context_s *context)
     if (context->file[(context->target << 3) | context->lun]) {
         if (!context->max_imagesize) {
             /* if the max length setting is zero, return the image length */
-            return util_file_length(context->file[(context->target << 3) | context->lun]);
+            work = util_file_length(context->file[(context->target << 3) | context->lun]);
+            /* turn the file size into 512 byte sectors */
+            work = (work >> 9) + (work & 511 ? 1 : 0);
+            return work;
         } else {
             /* other wise, return the setting itself */
             return context->max_imagesize;
@@ -165,7 +170,7 @@ int32_t scsi_image_read(struct scsi_context_s *context)
 
     fhd = context->file[(context->target << 3) | context->lun];
 
-    if (fseeko(fhd, context->address * 512, SEEK_SET) < 0) {
+    if (fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
         CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
@@ -213,7 +218,7 @@ int32_t scsi_image_write(struct scsi_context_s *context)
 
     fhd = context->file[(context->target << 3) | context->lun];
 
-    if (fseeko(fhd, context->address * 512, SEEK_SET) < 0) {
+    if (fseeko(fhd, (off_t)context->address * 512, SEEK_SET) < 0) {
         CRIT((ERR, "SCSI: error seeking disk %d at sector 0x%x",
             context->target, context->address));
         return -3;
@@ -343,7 +348,7 @@ void scsi_process_ack(struct scsi_context_s *context)
 {
     uint8_t data = context->databus ^ 0xff;
     uint8_t byte;
-    uint32_t j;
+    off_t j;
     int32_t i;
     unsigned char VENDORID[9] = "VICEEMUL"; /* 8 chars */
     unsigned char PRODID[17] = "SCSI Image File "; /* 16 chars */
@@ -419,8 +424,7 @@ void scsi_process_ack(struct scsi_context_s *context)
                         context->state = SCSI_STATE_STATUS;
                         break;
                     }
-                    j = scsi_getmaxsize(context);
-                    if (context->address >= j) {
+                    if (context->address >= scsi_getmaxsize(context)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
                         context->status = SCSI_STATUS_CHECKCONDITION;
@@ -526,7 +530,13 @@ void scsi_process_ack(struct scsi_context_s *context)
                 case SCSI_COMMAND_REQUEST_SENSE:
                     context->lun = (context->cmd_buf[1] >> 5) & 7;
                     context->link = context->cmd_buf[5] & 1;
-                    context->data_max = 18;
+                    context->data_max = context->cmd_buf[4];
+                    if (!context->data_max) {
+                        context->data_max = 4;
+                    }
+                    if (context->data_max > 18) {
+                        context->data_max = 18;
+                    }
                     for (i = 0; i < 512; i++) {
                         context->data_buf[i] = 0;
                     }
@@ -774,6 +784,14 @@ void scsi_process_ack(struct scsi_context_s *context)
                     context->seq = 0;
                     context->blocks--;
                     context->address++;
+                    /* count down the number of blocks sent, keep going if
+                        necessary */
+                    if (!context->blocks) {
+                        context->status = SCSI_STATUS_GOOD;
+                        context->state = SCSI_STATE_STATUS;
+                        break;
+                    }
+                    /* if we are out of range, report an error */
                     if (context->address >= scsi_getmaxsize(context)) {
                         context->sensekey = SCSI_SENSEKEY_ILLEGALREQUEST;
                         context->asc = SCSI_SASC_LOGICALBLOCKADDRESSOUTOFRANGE;
@@ -781,25 +799,20 @@ void scsi_process_ack(struct scsi_context_s *context)
                         context->state = SCSI_STATE_STATUS;
                         break;
                     }
-                    /* count down the number of blocks sent, keep going if
-                        necessary */
-                    if (context->blocks) {
-                        if (scsi_image_read(context)) {
-                            context->status = SCSI_STATUS_CHECKCONDITION;
-                            context->state = SCSI_STATE_STATUS;
-                            break;
-                        }
-                    } else {
-                        context->status = SCSI_STATUS_GOOD;
+                    /* read it, report error if a problem */
+                    if (scsi_image_read(context)) {
+                        context->status = SCSI_STATUS_CHECKCONDITION;
                         context->state = SCSI_STATE_STATUS;
                         break;
                     }
+                    /* all is good, keep state the same */
                 } else {
                     /* otherwise, finish up */
                     context->status = SCSI_STATUS_GOOD;
                     context->state = SCSI_STATE_STATUS;
                     break;
                 }
+                /* never gets here */
             }
             byte = context->data_buf[context->seq];
             SDBG((LOG, "SCSI: DATAIN[%02x]=%02x", context->seq,
