@@ -1600,7 +1600,7 @@ static const resource_int_t resources_int[] = {
     { "MonitorLogEnabled", 0, RES_EVENT_NO, NULL,
       &monitorlogenabled, set_monitor_log_enabled, NULL },
 #ifdef FEATURE_CPUMEMHISTORY
-    { "MonitorChisLines", 4096, RES_EVENT_NO, NULL,
+    { "MonitorChisLines", 8192, RES_EVENT_NO, NULL,
       &monitorchislines, set_monitor_chis_lines, NULL },
 #endif
     { "MonitorScrollbackLines", 4096, RES_EVENT_NO, NULL,

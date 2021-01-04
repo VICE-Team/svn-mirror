@@ -461,6 +461,7 @@ void maincpu_resync_limits(void)
 
 void maincpu_mainloop(void)
 {
+#define origin (0)
 #ifndef C64DTV
     /* Notice that using a struct for these would make it a lot slower (at
        least, on gcc 2.7.2.x).  */

@@ -2216,8 +2216,12 @@ static const uint8_t rewind_fetch_tab[] = {
 #endif
 
 #ifdef FEATURE_CPUMEMHISTORY
+        CLOCK history_clk;
 #ifndef DRIVE_CPU
+        history_clk = maincpu_clk;
         memmap_state |= (MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
+#else
+        history_clk = CLK;
 #endif
 #endif
         SET_LAST_ADDR(reg_pc);
@@ -2232,10 +2236,12 @@ static const uint8_t rewind_fetch_tab[] = {
             memmap_mark_read(reg_pc);
         }
 #endif
+#endif
         /* If reg_pc >= bank_limit  then JSR (0x20) hasn't load p2 yet.
            The earlier LOAD(reg_pc+2) hack can break stealing badly.
            The fixing is now handled in JSR(). */
-        monitor_cpuhistory_store(maincpu_clk, reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x_read, reg_y_read, reg_sp, LOCAL_STATUS());
+        monitor_cpuhistory_store(history_clk, reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x_read, reg_y_read, reg_sp, LOCAL_STATUS(), origin);
+#ifndef DRIVE_CPU
         memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
 #endif
 #endif

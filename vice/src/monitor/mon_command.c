@@ -105,8 +105,12 @@ static const mon_cmds_t mon_cmd_array[] = {
     },
 
     { "cpuhistory", "chis",
-      "[<count>]",
-      "Show <count> last executed commands.",
+      "[<count>] [c:] [8:] [9:] [10:] [11:]",
+      "Show <count> last executed commands on up to five devices.\n"
+      "If no devices are specified, then the default device is shown.\n"
+      "VICE emulation runs each CPU for a variable number of cycles before\n"
+      "switching between them. They will be synchronized when communication\n"
+      "between them occurs.\n",
       NO_FILENAME_ARG
     },
 
