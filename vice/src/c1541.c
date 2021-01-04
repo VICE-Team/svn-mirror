@@ -4218,7 +4218,7 @@ static int write_geos_cmd(int nargs, char **args)
      * The bam and directory entry must be copied to the disk. the code
      * from the vdrive routines does that thing.
      */
-    vdrive_dir_find_first_slot(drives[dev], (const uint8_t *)dest_name_petscii,
+    vdrive_dir_find_first_slot(drives[dev], dest_name_petscii,
                                (int)strlen(dest_name_petscii), 0, &dir);
     e = vdrive_dir_find_next_slot(&dir);
 
