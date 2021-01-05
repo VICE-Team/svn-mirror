@@ -58,6 +58,7 @@
 #include "driveramwidget.h"
 #include "drivedoswidget.h"
 #include "driveoptionswidget.h"
+#include "drivefixedsizewidget.h"
 
 #include "settings_drive.h"
 
@@ -84,6 +85,7 @@ static GtkWidget *drive_rpm[NUM_DISK_UNITS];
 static GtkWidget *drive_ram[NUM_DISK_UNITS];
 static GtkWidget *drive_dos[NUM_DISK_UNITS];
 static GtkWidget *drive_device_type[NUM_DISK_UNITS];
+static GtkWidget *drive_size[NUM_DISK_UNITS];
 
 
 /** \brief  Callback for changes in the drive type widget
@@ -393,10 +395,19 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
             drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
 
 
+
+
     /*    debug_gtk3("ADDING DRIVE DEVICE TYPE WIDGET"); */
     drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+
+    drive_size[unit - DRIVE_UNIT_MIN] = drive_fixed_size_widget_create(unit);
+    g_object_set(drive_size[unit - DRIVE_UNIT_MIN], "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_size[unit - DRIVE_UNIT_MIN],
+            0, 3, 1, 1);
+
+
 /*
     drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
@@ -463,8 +474,12 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
             drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
     drive_options[unit - DRIVE_UNIT_MIN] = drive_options_widget_create(
             unit, iec_callback);
+
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
+
+
+
     drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);

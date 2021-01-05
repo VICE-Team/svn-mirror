@@ -41,6 +41,7 @@
 #include "resourcecheckbutton.h"
 #include "resourcecombobox.h"
 #include "resourceentry.h"
+#include "resourcenumericstring.h"
 #include "resourceradiogroup.h"
 #include "resourcescale.h"
 #include "resourcespinbutton.h"

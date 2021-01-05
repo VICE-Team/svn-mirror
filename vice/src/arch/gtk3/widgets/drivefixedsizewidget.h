@@ -1,8 +1,5 @@
-/** \file   vice_gtk3.h
- * \brief   GTK3 base widgets/dialogs/settings generic header
- *
- * By including this file, all the base widgets/dialogs and any helper
- * functions and default settings should be included.
+/** \file   drivefixedsizewidget.h
+ * \brief   Drive fixed size widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,20 +22,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_VICE_GTK3_H
-#define VICE_VICE_GTK3_H
+#ifndef VICE_DRIVE_FIXED_SIZE_WIDGET_H
+#define VICE_DRIVE_FIXED_SIZE_WIDGET_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "basedialogs.h"
-#include "csshelpers.h"
-#include "filechooserhelpers.h"
-#include "resourcehelpers.h"
-#include "widgethelpers.h"
+GtkWidget *drive_fixed_size_widget_create(int unit);
 
 #endif

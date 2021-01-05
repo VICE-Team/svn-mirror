@@ -47,6 +47,7 @@ libbasewidgets_a_SOURCES = \
 	resourcecombobox.c \
 	resourceentry.c \
 	resourcehelpers.c \
+	resourcenumericstring.c \
 	resourceradiogroup.c \
 	resourcescale.c \
 	resourcespinbutton.c \
@@ -71,6 +72,7 @@ EXTRA_DIST = \
 	resourcecombobox.h \
 	resourceentry.h \
 	resourcehelpers.h \
+	resourcenumericstring.h \
 	resourceradiogroup.h \
 	resourcescale.h \
 	resourcespinbutton.h \

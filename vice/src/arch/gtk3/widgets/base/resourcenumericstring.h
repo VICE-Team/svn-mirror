@@ -1,8 +1,5 @@
-/** \file   vice_gtk3.h
- * \brief   GTK3 base widgets/dialogs/settings generic header
- *
- * By including this file, all the base widgets/dialogs and any helper
- * functions and default settings should be included.
+/** \file   resourcenumericstring.h
+ * \brief   Numeric string connected to a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,20 +22,19 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_VICE_GTK3_H
-#define VICE_VICE_GTK3_H
+#ifndef VICE_RESOURCE_NUMERIC_STRING_H
+#define VICE_RESOURCE_NUMERIC_STRING_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
+#include <stdint.h>
 
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "basedialogs.h"
-#include "csshelpers.h"
-#include "filechooserhelpers.h"
-#include "resourcehelpers.h"
-#include "widgethelpers.h"
+GtkWidget *vice_gtk3_resource_numeric_string_new(const char *resource);
+
+void vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
+                                                  uint64_t min,
+                                                  uint64_t max);
 
 #endif

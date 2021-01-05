@@ -63,6 +63,7 @@ libwidgets_a_SOURCES = \
 	dqbbwidget.c \
 	drivedoswidget.c \
 	driveextendpolicywidget.c \
+	drivefixedsizewidget.c \
 	drivefsdevicewidget.c \
 	driveidlemethodwidget.c \
 	drivemodelwidget.c \
@@ -221,6 +222,7 @@ EXTRA_DIST = \
 	dqbbwidget.h \
 	drivedoswidget.h \
 	driveextendpolicywidget.h \
+	drivefixedsizewidget.h \
 	drivefsdevicewidget.h \
 	driveidlemethodwidget.h \
 	drivemodelwidget.h \
