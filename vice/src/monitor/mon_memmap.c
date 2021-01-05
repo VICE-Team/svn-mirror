@@ -404,7 +404,8 @@ static void mon_memmap_stub(void)
     mon_out("Disabled. configure with --enable-cpuhistory and recompile.\n");
 }
 
-void mon_cpuhistory(int count)
+void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filter3,
+                    MEMSPACE filter4, MEMSPACE filter5)
 {
     mon_memmap_stub();
 }
