@@ -2822,7 +2822,7 @@ static void monitor_open(void)
         return;
     }
 
-#ifdef FEATURE_CPUHISTORY
+#ifdef FEATURE_CPUMEMHISTORY
     memmap_state |= MEMMAP_STATE_IN_MONITOR;
 #endif
     inside_monitor = true;
@@ -2936,7 +2936,7 @@ static int monitor_process(char *cmd)
 
 static void monitor_close(int check)
 {
-#ifdef FEATURE_CPUHISTORY
+#ifdef FEATURE_CPUMEMHISTORY
     memmap_state &= ~(MEMMAP_STATE_IN_MONITOR);
 #endif
     inside_monitor = false;
