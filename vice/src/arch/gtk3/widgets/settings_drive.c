@@ -450,7 +450,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 }
 
 
-/** \brief  Create layout for xplus4
+/** \brief  Create layout for xplus4, vic20, dtv
  *
  * \param[in]   grid    main widget grid
  * \param[in]   unit    unit number
@@ -478,11 +478,81 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
 
-
-
     drive_device_type[unit - DRIVE_UNIT_MIN] = create_drive_device_type_widget(unit);
     gtk_grid_attach(GTK_GRID(wrapper),
             drive_device_type[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
+
+    /* row 0, column 1 */
+#if 0
+    drive_ram = drive_ram_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_ram, 1, 0, 1, 1);
+
+    /* row 1, column 1 */
+    drive_dos = drive_dos_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
+#endif
+    /* row 0 & 1, column 2 */
+    wrapper = gtk_grid_new();
+    drive_extend[unit - DRIVE_UNIT_MIN] = drive_extend_policy_widget_create(unit);
+    drive_idle[unit - DRIVE_UNIT_MIN]  = drive_idle_method_widget_create(unit);
+
+    /* FIXME: vice.texi mentions parallel support for Plus4, the Gtk2 UI does
+     *        not provide this
+     */
+#if 0
+    drive_parallel = drive_parallel_cable_widget_create(unit);
+#endif
+    gtk_grid_attach(GTK_GRID(wrapper),
+            drive_extend[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper),
+            drive_idle[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
+#if 0
+    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel, 0, 2, 1, 1);
+#endif
+    gtk_widget_show_all(wrapper);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
+
+    /* row 2, column 0 */
+    drive_rpm[unit - DRIVE_UNIT_MIN] = drive_rpm_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_rpm[unit - DRIVE_UNIT_MIN], 0, 2, 1, 1);
+
+    drive_model_widget_add_callback(
+            drive_model[unit - DRIVE_UNIT_MIN],
+            on_model_changed,
+            GINT_TO_POINTER(unit));
+    return grid;
+}
+
+
+/** \brief  Create layout for xcbm2, xcbm5x0, pet
+ *
+ * \param[in]   grid    main widget grid
+ * \param[in]   unit    unit number
+ *
+ * \return  \a grid
+ */
+static GtkWidget *create_pet_layout(GtkWidget *grid, int unit)
+{
+    GtkWidget *wrapper;
+
+    /* row 0 & 1, column 0 */
+
+    wrapper = gtk_grid_new();
+
+    drive_model[unit - DRIVE_UNIT_MIN] = drive_model_widget_create(unit);
+    drive_model_widget_add_callback(
+            drive_model[unit - DRIVE_UNIT_MIN],
+            stack_child_drive_type_callback,
+            (gpointer)(grid));
+    gtk_grid_attach(GTK_GRID(wrapper),
+            drive_model[unit - DRIVE_UNIT_MIN], 0, 0, 1, 1);
+    drive_options[unit - DRIVE_UNIT_MIN] = drive_options_widget_create(
+            unit, iec_callback);
+
+    gtk_grid_attach(GTK_GRID(wrapper),
+            drive_options[unit - DRIVE_UNIT_MIN], 0, 1, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
@@ -557,11 +627,13 @@ static GtkWidget *create_stack_child_widget(int unit)
             create_vic20_layout(grid, unit);
             break;
         case VICE_MACHINE_PLUS4:    /* fall through */
-        case VICE_MACHINE_PET:      /* fall through */
-        case VICE_MACHINE_CBM5x0:   /* fall through */
-        case VICE_MACHINE_CBM6x0:   /* fall through */
         case VICE_MACHINE_C64DTV:
             create_plus4_layout(grid, unit);
+            break;
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            create_pet_layout(grid, unit);
             break;
         default:
             break;
@@ -645,17 +717,25 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), stack, 0, 2, 3, 1);
 
     /* set sensitivity of the filesystem-type comboboxes, depending on the
-     * IECDevice resource
+     * IECDevice resource (not for PET/CBM-II)
      */
-    for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
-        int state = 0;
+    if (machine_class != VICE_MACHINE_PET &&
+            machine_class != VICE_MACHINE_CBM5x0 &&
+            machine_class != VICE_MACHINE_CBM6x0) {
 
-        if (resources_get_int_sprintf("IECDevice%d", &state, unit) < 0) {
-            state = 0;
+        for (unit = DRIVE_UNIT_MIN; unit <= DRIVE_UNIT_MAX; unit++) {
+            int state = 0;
+
+            if (resources_get_int_sprintf("IECDevice%d", &state, unit) < 0) {
+                state = 0;
+            }
+            /* try to set sensitive, regardless of if the widget actually
+             * exists, this helps with debugging since Gtk will print a warning
+             * on the console.
+             */
+            gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN], state);
         }
-        gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN], state);
     }
-
     gtk_widget_show_all(layout);
     return layout;
 }

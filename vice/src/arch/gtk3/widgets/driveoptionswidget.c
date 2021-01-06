@@ -60,18 +60,22 @@
 
 static void on_iec_toggled(GtkWidget *widget, gpointer data)
 {
-    int unit = GPOINTER_TO_INT(data);
+    if (machine_class != VICE_MACHINE_PET &&
+            machine_class != VICE_MACHINE_CBM6x0 &&
+            machine_class != VICE_MACHINE_CBM5x0) {
+        int unit = GPOINTER_TO_INT(data);
 #ifdef HAVE_DEBUG_GTK3UI
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+        int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 #endif
-    void (*callback)(GtkWidget *, int);
+        void (*callback)(GtkWidget *, int);
 
-    debug_gtk3("State: %s, unit: %d",
-            state ? "ON" : "OFF", unit);
-    callback = g_object_get_data(G_OBJECT(widget), "ExtraCallback");
-    if (callback != NULL) {
-        debug_gtk3("Triggering custom callback:");
-        callback(widget, unit);
+        debug_gtk3("State: %s, unit: %d",
+                state ? "ON" : "OFF", unit);
+        callback = g_object_get_data(G_OBJECT(widget), "ExtraCallback");
+        if (callback != NULL) {
+            debug_gtk3("Triggering custom callback:");
+            callback(widget, unit);
+        }
     }
 }
 
