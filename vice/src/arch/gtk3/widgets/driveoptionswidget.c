@@ -5,10 +5,10 @@
  */
 
 /*
- * $VICERES IECDevice8              -vsid
- * $VICERES IECDevice9              -vsid
- * $VICERES IECDevice10             -vsid
- * $VICERES IECDevice11             -vsid
+ * $VICERES IECDevice8              -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES IECDevice9              -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES IECDevice10             -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES IECDevice11             -vsid -xcbm5x0 -xcbm2 -xpet
  * $VICERES AttachDevice8Readonly   -vsid
  * $VICERES AttachDevice9Readonly   -vsid
  * $VICERES AttachDevice10Readonly  -vsid
