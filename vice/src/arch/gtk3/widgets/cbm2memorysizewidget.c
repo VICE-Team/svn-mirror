@@ -33,11 +33,9 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "widgethelpers.h"
 
 #include "cbm2memorysizewidget.h"
 
@@ -82,7 +80,9 @@ GtkWidget *cbm2_memory_size_widget_create(void)
         ram_sizes = ram_sizes_cbm6x0;
     }
 
-    grid = uihelpers_create_grid_with_label("RAM size", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM size", 1);
+    /* FIXME: either CSS or set margin in the above call */
+    g_object_set(grid, "margin-left", 8, NULL);
     radio_group = vice_gtk3_resource_radiogroup_new("RamSize", ram_sizes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);

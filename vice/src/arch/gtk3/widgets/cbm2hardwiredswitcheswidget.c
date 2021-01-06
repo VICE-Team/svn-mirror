@@ -33,12 +33,10 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "widgethelpers.h"
 
 #include "cbm2hardwiredswitcheswidget.h"
 
@@ -71,7 +69,13 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
     GtkWidget *grid;
     GtkWidget *radio_group;
 
-    grid = uihelpers_create_grid_with_label("Hardwired switches", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Hardwired switches", 1);
+    g_object_set(grid,
+            "margin-left",  8,
+            "margin-top",   8,
+            NULL);
+
     radio_group = vice_gtk3_resource_radiogroup_new("ModelLine",
             machine_class == VICE_MACHINE_CBM5x0 ? models_cbm5x0 : models_cbm6x0,
             GTK_ORIENTATION_VERTICAL);
