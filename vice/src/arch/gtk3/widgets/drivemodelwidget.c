@@ -36,7 +36,7 @@
 
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "drive-check.h"
 #include "drive.h"
 #include "driveoptionswidget.h"
@@ -44,7 +44,6 @@
 #include "drivewidgethelpers.h"
 #include "machine-drive.h"
 #include "resources.h"
-#include "widgethelpers.h"
 
 #include "drivemodelwidget.h"
 
@@ -134,7 +133,7 @@ GtkWidget *drive_model_widget_create(int unit)
 
     resources_get_int_sprintf("Drive%dType", &type, unit);
 
-    grid = uihelpers_create_grid_with_label("Drive type", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Drive type", 2);
     /* store unit number as a property in the widget */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 

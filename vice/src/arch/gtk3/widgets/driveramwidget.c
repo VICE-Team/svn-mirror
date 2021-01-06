@@ -59,9 +59,7 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 #include "drive.h"
 #include "drive-check.h"
@@ -114,7 +112,7 @@ GtkWidget *drive_ram_widget_create(int unit)
     unsigned int base;
     int row;
 
-    grid = uihelpers_create_grid_with_label("RAM expansions", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM expansions", 1);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     row = 1;

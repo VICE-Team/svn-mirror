@@ -29,12 +29,10 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "crt.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
 #include "machine.h"
-#include "widgethelpers.h"
 
 #include "crtpreviewwidget.h"
 
@@ -242,9 +240,7 @@ GtkWidget *crt_preview_widget_create(void)
     GtkWidget *scroll;
     int row;
 
-    grid = uihelpers_create_grid_with_label("CRT Header:", 2);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "CRT header", 2);
     row = 1;
 
     label = create_label("ID:");

@@ -90,7 +90,7 @@ GtkWidget *drive_dos_widget_create(int unit)
     GtkWidget *supercard;
     int model = drive_get_disk_drive_type(unit - DRIVE_UNIT_MIN);
 
-    grid = uihelpers_create_grid_with_label("DOS expansions", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "DOS expansions", 1);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     profdos = create_dos_check_button(unit, "ProfDos", "Professional DOS");

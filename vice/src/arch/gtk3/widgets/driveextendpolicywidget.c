@@ -36,13 +36,11 @@
 
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "drive-check.h"
 #include "drive.h"
 #include "drivewidgethelpers.h"
 #include "resources.h"
-#include "widgethelpers.h"
 
 #include "driveextendpolicywidget.h"
 
@@ -68,7 +66,7 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
     GtkWidget *grid;
     GtkWidget *combo;
 
-    grid = uihelpers_create_grid_with_label("40-track policy", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "40-track policy", -1);
     /* store unit number in "UnitNumber" property for later use */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
