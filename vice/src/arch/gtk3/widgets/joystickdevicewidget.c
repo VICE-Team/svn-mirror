@@ -38,14 +38,13 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "joy.h"
 #include "joystick.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "widgethelpers.h"
+
 #include "joystickdevicewidget.h"
 
 
@@ -115,12 +114,12 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
 {
     GtkWidget *grid;
     GtkWidget *combo;
-    int id, i1, i2;
+    int id, i1, i2;     /* really? */
     int current;
 
     resources_get_int_sprintf("JoyDevice%d", &current, device + 1);
 
-    grid = uihelpers_create_grid_with_label(title, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, title, 1);
 
     combo = gtk_combo_box_text_new();
     g_object_set(combo, "margin-left", 16, NULL);

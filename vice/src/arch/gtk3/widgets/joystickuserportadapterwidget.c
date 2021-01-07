@@ -34,14 +34,13 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "joy.h"
 #include "joystick.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "userport_joystick.h"
-#include "widgethelpers.h"
 
 #include "joystickuserportadapterwidget.h"
 
@@ -151,7 +150,7 @@ GtkWidget *joystick_userport_adapter_widget_create(void)
     /* get current value for resource */
     resources_get_int("UserportJoyType", &current);
 
-    grid = uihelpers_create_grid_with_label("Userport adapter", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Userport adapter", 1);
 
     combo = gtk_combo_box_text_new();
     g_object_set(combo, "margin-left", 16, NULL);
