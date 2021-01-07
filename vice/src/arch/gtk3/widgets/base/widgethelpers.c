@@ -43,61 +43,12 @@
 
 #include "lib.h"
 #include "resources.h"
-#include "vsync.h"
 
 #include "vice_gtk3_settings.h"
 #include "debug_gtk3.h"
 
 #include "widgethelpers.h"
 
-
-/** \brief  Size of the buffer used for snprintf() calls to generate labels
- */
-#define LABEL_BUFFER_SIZE   256
-
-
-/** \brief  Create a GtkGrid with a bold GtkLabel as its first widget
- *
- * This creates a GtkGrid with a left-aligned, bold label, optionally spread
- * over multiple columns. If you don't know what pass as the \a columns
- * argument, just pass 1.
- *
- * \note    Deprecated in favour of vice_gtk3_grid_new_spaced_with_label()
- *
- * \param[in]   text    label text
- * \param[in]   columns number of columns in the grid the label should span
- *
- * \return  GtkGrid with a label
- */
-GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
-{
-    GtkWidget *grid;
-    GtkWidget *label;
-    gchar buffer[LABEL_BUFFER_SIZE];
-
-
-    debug_gtk3("Deprecated in favout of vice_gtk3_grid_new_spaced()");
-
-    /* sanitize columns input */
-    if (columns < 1) {
-        columns = 1;
-    }
-
-    /* use HTML-ish markup to make the label bold */
-    g_snprintf(buffer, LABEL_BUFFER_SIZE, "<b>%s</b>", text);
-
-    grid = gtk_grid_new();
-    g_object_set(grid, "margin", 8, NULL);
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), buffer);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);    /* align left */
-    g_object_set(label, "margin-bottom", 8, NULL);  /* add 8 units of margin
-                                                       to the bottom */
-    gtk_widget_show(label);
-
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, columns, 1);
-    return grid;
-}
 
 
 /** \brief  Get index of \a value in \a list
