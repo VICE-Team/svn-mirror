@@ -33,8 +33,7 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 #include "machine.h"
 #include "pet.h"
@@ -111,7 +110,7 @@ GtkWidget * pet_keyboard_type_widget_create(void)
 
     user_callback = NULL;
 
-    grid = uihelpers_create_grid_with_label("Keyboard type", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Keyboard type", 1);
 
     num = get_keyboard_num();
     debug_gtk3("number of keyboards = %d.", num);

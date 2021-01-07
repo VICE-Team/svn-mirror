@@ -32,10 +32,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
-#include "resourceradiogroup.h"
 #include "plus4memhacks.h"
 
 #include "plus4memoryexpansionwidget.h"
@@ -68,7 +66,8 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
 {
     GtkWidget *grid;
 
-    grid = uihelpers_create_grid_with_label("Memory expansion hack", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Memory expansion hack", 1);
     memory_exp_widget = vice_gtk3_resource_radiogroup_new(
             "MemoryHack",
             expansions,

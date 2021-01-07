@@ -34,9 +34,7 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 
 #include "petiosizewidget.h"
@@ -73,7 +71,7 @@ GtkWidget *pet_rama_widget_create(void)
 
     user_callback = NULL;
 
-    grid = uihelpers_create_grid_with_label("$Axxx area type", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "$Axxx area type", 1);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     group = vice_gtk3_resource_radiogroup_new("RamA", area_types,
             GTK_ORIENTATION_VERTICAL);
@@ -85,12 +83,23 @@ GtkWidget *pet_rama_widget_create(void)
     return grid;
 }
 
+
+/** \brief  Set custom callback function for \a widget
+ *
+ * \param[in,out]   widget  PET RAMA widget
+ * \param[in        func    callback function
+ */
 void pet_rama_widget_set_callback(GtkWidget *widget,
                                      void (*func)(int))
 {
     user_callback = func;
 }
 
+
+/** \brief  Synchronize \a widget with its resource
+ *
+ * \param[in,out]   widget  PET RAMA widget
+ */
 void pet_rama_widget_sync(GtkWidget *widget)
 {
     int size;

@@ -34,9 +34,7 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 
 #include "petiosizewidget.h"
@@ -72,8 +70,7 @@ GtkWidget *pet_ram9_widget_create(void)
 
     user_callback = NULL;
 
-    grid = uihelpers_create_grid_with_label("$9xxx area type", 1);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "$9xxx area type", 1);
     group = vice_gtk3_resource_radiogroup_new("Ram9", area_types,
             GTK_ORIENTATION_VERTICAL);
     vice_gtk3_resource_radiogroup_add_callback(group, on_ram9_changed);
@@ -84,17 +81,29 @@ GtkWidget *pet_ram9_widget_create(void)
     return grid;
 }
 
+
+/** \brief  Set custom callback function for \a widget
+ *
+ * \param[in,out]   widget  PET RAM9 widget
+ * \param[in        func    callback function
+ */
 void pet_ram9_widget_set_callback(GtkWidget *widget,
-                                     void (*func)(int))
+                                  void (*func)(int))
 {
     user_callback = func;
 }
 
+
+/** \brief  Synchronize \a widget with its resource
+ *
+ * \param[in,out]   widget  PET RAM9 widget
+ */
 void pet_ram9_widget_sync(GtkWidget *widget)
 {
     int size;
+    GtkWidget *group;
 
     resources_get_int("Ram9", &size);
-    GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     vice_gtk3_resource_radiogroup_set(group, size);
 }

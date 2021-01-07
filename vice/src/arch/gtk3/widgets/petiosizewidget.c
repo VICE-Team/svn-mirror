@@ -33,9 +33,7 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 
 #include "petiosizewidget.h"
@@ -73,7 +71,7 @@ GtkWidget *pet_io_size_widget_create(void)
 
     user_callback = NULL;
 
-    grid = uihelpers_create_grid_with_label("I/O area size", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "I/O area size", 1);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     group = vice_gtk3_resource_radiogroup_new("IOSize", io_sizes,
             GTK_ORIENTATION_VERTICAL);

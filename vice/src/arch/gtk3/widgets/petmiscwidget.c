@@ -34,8 +34,7 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 
 #include "petmiscwidget.h"
@@ -124,7 +123,7 @@ GtkWidget *pet_misc_widget_create(void)
     resources_get_int("Crtc", &crtc);
     resources_get_int("EoiBlank", &blank);
 
-    grid = uihelpers_create_grid_with_label("Miscellaneous", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Miscellaneous", 1);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     crtc_widget = gtk_check_button_new_with_label("CRTC chip enable");
