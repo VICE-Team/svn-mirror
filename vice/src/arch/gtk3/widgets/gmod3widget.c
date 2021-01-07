@@ -32,13 +32,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "carthelpers.h"
-#include "cartimagewidget.h"
+#include "vice_gtk3.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "vice_gtk3.h"
 
 #include "gmod3widget.h"
 
@@ -105,9 +102,8 @@ static GtkWidget *create_cart_image_widget(void)
     GtkWidget *save_button;
     GtkWidget *flush_button;
 
-    grid = uihelpers_create_grid_with_label("GMod3 Cartridge image", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "GMod3 Cartridge image", 3);
 
     write_back = vice_gtk3_resource_check_button_new("GMod3FlashWrite",
                 "Save image when changed");

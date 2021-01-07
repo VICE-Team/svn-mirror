@@ -35,17 +35,12 @@
 
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "carthelpers.h"
-#include "cartimagewidget.h"
+#include "vice_gtk3.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
 #include "machine.h"
 #include "openfiledialog.h"
 #include "resources.h"
 #include "savefiledialog.h"
-#include "widgethelpers.h"
 
 #include "expertwidget.h"
 
@@ -69,8 +64,7 @@ static GtkWidget *create_expert_mode_widget(void)
     GtkWidget *grid;
     GtkWidget *radio_group;
 
-    grid = uihelpers_create_grid_with_label("Cartridge mode", 3);
-
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Cartridge mode", 3);
     radio_group = vice_gtk3_resource_radiogroup_new("ExpertCartridgeMode",
             mode_list, GTK_ORIENTATION_HORIZONTAL);
     g_object_set(radio_group, "margin-left", 16, NULL);

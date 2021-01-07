@@ -34,13 +34,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "carthelpers.h"
-#include "cartimagewidget.h"
+#include "vice_gtk3.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "vice_gtk3.h"
 #include "ui.h"
 
 #include "gmod2widget.h"
@@ -148,9 +145,8 @@ static GtkWidget *create_cart_image_widget(void)
     GtkWidget *save_button;
     GtkWidget *flush_button;
 
-    grid = uihelpers_create_grid_with_label("GMod2 Cartridge image", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "GMod2 Cartridge image", 3);
 
     write_back = vice_gtk3_resource_check_button_new("GMod2FlashWrite",
                 "Save image when changed");
@@ -187,9 +183,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     GtkWidget *browse;
     GtkWidget *write_enable;
 
-    grid = uihelpers_create_grid_with_label("GMod2 EEPROM image", 1);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "GMod2 EEPROM image", 1);
 
     label = gtk_label_new("EEPROM image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
