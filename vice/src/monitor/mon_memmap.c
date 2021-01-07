@@ -179,13 +179,39 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
         count = cpuhistory_lines;
     }
 
-    /* this is a circular buffer; start at last entry */
-    pos = ( cpuhistory_i + 1) % cpuhistory_lines;
     /* 'i' is the actual counter */
     i = 0;
+    /* start looking at last entry */
+    pos = cpuhistory_i;
+
+    /* find out where we need to start */
+    while (i < count) {
+        /* make sure the record matches */
+        if (cpuhistory[pos].origin >= 0
+            && (filter1 - 1 == cpuhistory[pos].origin
+                || filter2 - 1 == cpuhistory[pos].origin
+                || filter3 - 1 == cpuhistory[pos].origin
+                || filter4 - 1 == cpuhistory[pos].origin
+                || filter5 - 1 == cpuhistory[pos].origin)) {
+            i++;
+        }
+        pos--;
+        if (pos < 0) {
+            pos += cpuhistory_lines;
+        }
+        /* stop if we hit the starting point */
+        /* this is totally possible since the emulation runs each CPU in
+            chunks and eventually syncs up. Syncing is more aggressive
+            when talking between devices. */
+        if (pos == cpuhistory_i) {
+            break;
+        }
+    }
 
     /* loop through all entries until we find the number records requested */
-    while (i < count) {
+    while (i > 0) {
+        /* adjust our buffer circular reference */
+        pos = ( pos + 1) % cpuhistory_lines;
         /* make sure the record matches */
         if (cpuhistory[pos].origin >= 0
             && (filter1 - 1 == cpuhistory[pos].origin
@@ -220,17 +246,8 @@ void mon_cpuhistory(int count, MEMSPACE filter1, MEMSPACE filter2, MEMSPACE filt
                 ((cpuhistory[pos].reg_st & (1 << 0)) != 0) ? 'C' : '.',
                 cycle
                 );
-            i++;
+            i--;
         }
-        /* stop if we hit the starting point */
-        /* this is totally possible since the emulation runs each CPU in
-            chunks and eventually syncs up. Syncinc is more aggressive
-            when talking between devices. */
-        if (pos == cpuhistory_i) {
-            break;
-        }
-        /* adjust our buffer circular reference */
-        pos = ( pos + 1) % cpuhistory_lines;
     }
 }
 
