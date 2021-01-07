@@ -39,17 +39,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "basedialogs.h"
-#include "openfiledialog.h"
-#include "savefiledialog.h"
-#include "cartimagewidget.h"
 #include "cartridge.h"
-#include "carthelpers.h"
 #include "ui.h"
 
 #include "mmcrwidget.h"
@@ -230,9 +223,8 @@ static GtkWidget *create_cart_image_widget(void)
     GtkWidget *save_button;
     GtkWidget *flush_button;
 
-    grid = uihelpers_create_grid_with_label("MMC Replay Cartridge image", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "MMC Replay Cartridge image", 3);
 
     write_back = vice_gtk3_resource_check_button_new("MMCRImageWrite",
                 "Save image when changed");
@@ -268,9 +260,8 @@ static GtkWidget *create_eeprom_image_widget(GtkWidget *parent)
     GtkWidget *label;
     GtkWidget *browse;
 
-    grid = uihelpers_create_grid_with_label("MMC Replay EEPROM image", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "MMC Replay EEPROM image", 3);
 
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -315,8 +306,8 @@ static GtkWidget *create_card_image_widget(GtkWidget *parent)
     GtkWidget *browse;
     GtkWidget *card_writes;
 
-    grid = uihelpers_create_grid_with_label("MMC Replay SD/MMC Card image", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "MMC Replay SD/MMC Card image", 3);
 
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);

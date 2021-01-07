@@ -34,12 +34,11 @@
 
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "c64-resources.h"
-#include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
-#include "widgethelpers.h"
 
 #include "kernalrevisionwidget.h"
 
@@ -111,7 +110,7 @@ GtkWidget *kernal_revision_widget_create(void)
     resources_get_int("KernalRev", &rev);
     index = get_revision_index(rev);
 
-    grid = uihelpers_create_grid_with_label("KERNAL revision", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "KERNAL revision", 1);
 
     /* 'unknown' radio button (only used when using a custom KERNAL, cannot
      * be selected through the UI, only set through code */

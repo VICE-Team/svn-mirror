@@ -29,10 +29,9 @@
 
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "widgethelpers.h"
 
 #include "machinemodelwidget.h"
 
@@ -153,7 +152,7 @@ GtkWidget *machine_model_widget_create(void)
     const char **list;
     int i;
 
-    grid = uihelpers_create_grid_with_label("Model", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Model", 1);
 
     /* add 'unknown' model radio */
     group = NULL;

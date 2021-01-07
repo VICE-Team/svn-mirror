@@ -40,18 +40,11 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "carthelpers.h"
-#include "cartimagewidget.h"
+#include "vice_gtk3.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
 #include "machine.h"
-#include "openfiledialog.h"
 #include "resources.h"
-#include "savefiledialog.h"
 #include "ui.h"
-#include "widgethelpers.h"
 
 #include "mmc64widget.h"
 
@@ -340,7 +333,7 @@ static GtkWidget *create_bios_image_widget(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *label;
 
-    grid = uihelpers_create_grid_with_label("MMC64 BIOS image", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "MMC64 BIOS image", 2);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
@@ -380,7 +373,8 @@ static GtkWidget *create_card_image_widget(GtkWidget *parent)
     GtkWidget *browse;
     GtkWidget *card_writes;
 
-    grid = uihelpers_create_grid_with_label("MMC64 SD/MMC Card image", 3);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "MMC64 SD/MMC Card image", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
     label = gtk_label_new("file name");
