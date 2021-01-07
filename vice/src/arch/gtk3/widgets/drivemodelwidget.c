@@ -130,10 +130,13 @@ GtkWidget *drive_model_widget_create(int unit)
     int type;
     size_t num;
     int row;
+    GtkWidget *child;
 
     resources_get_int_sprintf("Drive%dType", &type, unit);
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Drive type", 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, 0, "Drive type", 2);
+    child = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    g_object_set(child, "margin-bottom", 8, NULL);
     /* store unit number as a property in the widget */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
