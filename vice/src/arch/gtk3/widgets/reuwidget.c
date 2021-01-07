@@ -37,17 +37,10 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "basedialogs.h"
-#include "openfiledialog.h"
-#include "savefiledialog.h"
 #include "cartridge.h"
-#include "cartimagewidget.h"
-#include "carthelpers.h"
 
 #include "reuwidget.h"
 
@@ -92,7 +85,7 @@ static GtkWidget *create_reu_size_widget(void)
     GtkWidget *grid;
     GtkWidget *radio_group;
 
-    grid = uihelpers_create_grid_with_label("RAM Size", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM Size", 1);
     radio_group = vice_gtk3_resource_radiogroup_new("REUsize", ram_sizes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);

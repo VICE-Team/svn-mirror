@@ -40,10 +40,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "vice_gtk3.h"
 #include "archdep.h"
-#include "widgethelpers.h"
-#include "resourcehelpers.h"
-#include "debug_gtk3.h"
 #include "resources.h"
 #include "printer.h"
 
@@ -98,7 +96,7 @@ GtkWidget *printer_driver_widget_create(int device)
     const char *driver;
 
     /* build grid */
-    grid = uihelpers_create_grid_with_label("Driver", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Driver", 1);
     /* set DeviceNumber property to allow the update function to work */
     resource_widget_set_int(grid, "DeviceNumber", device);
 
