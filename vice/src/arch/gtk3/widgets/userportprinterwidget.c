@@ -41,9 +41,6 @@
 #include <string.h>
 
 #include "vice_gtk3.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
 #include "resources.h"
 #include "printer.h"
 
@@ -126,7 +123,7 @@ static GtkWidget *create_driver_widget(void)
     const char *driver;
 
     /* build grid */
-    grid = uihelpers_create_grid_with_label("Driver", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Driver", 1);
     /* set DeviceNumber property to allow the update function to work */
 
     /* ASCII */
@@ -176,8 +173,7 @@ static GtkWidget *create_output_mode_widget(void)
     GtkWidget *radio_gfx;
     GSList *group = NULL;
 
-    grid = uihelpers_create_grid_with_label("Output mode", 1);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Output mode", 1);
 
     radio_text = gtk_radio_button_new_with_label(group, "Text");
     g_object_set(radio_text, "margin-left", 16, NULL);
@@ -209,7 +205,7 @@ static GtkWidget *create_text_device_widget(void)
     GtkWidget *grid;
     GtkWidget *group;
 
-    grid = uihelpers_create_grid_with_label("Output device", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Output device", 1);
     group = vice_gtk3_resource_radiogroup_new(
             "PrinterUserPortTextDevice",
             text_devices,
@@ -229,8 +225,8 @@ GtkWidget *userport_printer_widget_create(void)
 {
     GtkWidget *grid;
 
-    grid = uihelpers_create_grid_with_label("Userport printer settings", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Userport printer settings", 3);
 
     gtk_grid_attach(GTK_GRID(grid), create_userport_emulation_widget(),
             0, 1, 3, 1);

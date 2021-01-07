@@ -204,8 +204,7 @@ static GtkWidget *create_printer_widget(int device)
 
     g_snprintf(title, 256, "Printer #%d settings", device);
 
-    grid = uihelpers_create_grid_with_label(title, 4);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, title, 4);
 
     if (device == 4 || device == 5 || device == 6) {
         /* device 4,5,6 are 'normal' printers */
@@ -286,8 +285,8 @@ static GtkWidget *create_printer_text_devices_widget(void)
     GtkWidget *grid;
     int i;
 
-    grid = uihelpers_create_grid_with_label("Printer output devices", 6);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Printer output devices", 6);
     for (i = 0; i < 3; i++) {
         GtkWidget *label;
         GtkWidget *entry;

@@ -38,10 +38,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "basewidgets.h"
-#include "resourcehelpers.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 #include "printer.h"
 
@@ -105,7 +102,7 @@ GtkWidget *printer_output_mode_widget_create(int device)
      * resource is a string with two possible values: "text" and "graphics"
      */
 
-    grid = uihelpers_create_grid_with_label("Output mode", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Output mode", 1);
 
     g_snprintf(resource, 256, "Printer%dOutput", device);
     resource_widget_set_resource_name(grid, resource);

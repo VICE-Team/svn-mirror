@@ -102,8 +102,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     GtkTextBuffer *textview_buffer;
     GtkWidget *scrolled;
 
-    grid = uihelpers_create_grid_with_label("RAM reset pattern", 2);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "RAM reset pattern", 2);
 
     label = gtk_label_new("Value of first byte");
     g_object_set(label, "margin-left", 16, NULL);

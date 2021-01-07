@@ -42,14 +42,10 @@
 
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "aciawidget.h"
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
-#include "openfiledialog.h"
 #include "resources.h"
 #include "ui.h"
-#include "widgethelpers.h"
 
 #include "superpetwidget.h"
 
@@ -192,8 +188,8 @@ static GtkWidget *create_superpet_rom_widget(void)
     GtkWidget *grid;
     int bank;
 
-    grid = uihelpers_create_grid_with_label("6809 ROMs", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(VICE_GTK3_DEFAULT,
+            VICE_GTK3_DEFAULT, "6809 ROMs", 3);
 
     for (bank = 0; bank < SUPERPET_ROM_COUNT; bank++) {
 

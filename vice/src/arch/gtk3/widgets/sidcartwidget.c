@@ -36,14 +36,12 @@
 
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "archdep.h"
-#include "basewidgets.h"
-#include "debug_gtk3.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "sidmodelwidget.h"
-#include "widgethelpers.h"
 
 #include "sidcartwidget.h"
 
@@ -169,8 +167,7 @@ static GtkWidget *create_sidcart_address_widget(void)
             break;
     }
 
-    grid = uihelpers_create_grid_with_label("SID address", 1);
-
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "SID address", 1);
     group = vice_gtk3_resource_radiogroup_new("SidAddress", list,
             GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
@@ -206,8 +203,7 @@ static GtkWidget *create_sidcart_clock_widget(void)
             break;
     }
 
-    grid = uihelpers_create_grid_with_label("SID clock", 1);
-
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "SID clock", 1);
     group = vice_gtk3_resource_radiogroup_new("SidClock", list,
             GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);

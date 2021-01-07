@@ -990,11 +990,7 @@ static GtkWidget *create_c64_misc_widget(void)
     GtkWidget *iec_widget;
     GtkWidget *glue_widget = NULL;
 
-#if 0
-    grid = uihelpers_create_grid_with_label("Miscellaneous", 1);
-#else
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Miscellaneous", 1);
-#endif
     iec_widget = create_reset_with_iec_widget();
     g_object_set(iec_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);

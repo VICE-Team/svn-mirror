@@ -43,7 +43,6 @@
 #include <stdlib.h>
 
 #include "vice_gtk3.h"
-#include "debug_gtk3.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -230,7 +229,7 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
         return NULL;
     }
 
-    grid = uihelpers_create_grid_with_label(title, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, title, 1);
 
     combo = vice_gtk3_resource_combo_box_int_new_sprintf(
             "JoyPort%dDevice",

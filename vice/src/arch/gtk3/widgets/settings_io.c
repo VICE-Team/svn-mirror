@@ -33,12 +33,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "basedialogs.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "uisettings.h"
@@ -243,9 +240,8 @@ GtkWidget *settings_io_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = uihelpers_create_grid_with_label(
-            "Generic I/O extension settings", 3);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            -1, -1, "Generic I/O extension settings", 3);
 
     switch (machine_class) {
 

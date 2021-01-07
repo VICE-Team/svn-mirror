@@ -36,8 +36,7 @@
 
 #include <gtk/gtk.h>
 
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 #include "machine.h"
 #include "log.h"
@@ -145,7 +144,8 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
     int i;
 
     machine_widget = machine;
-    grid = uihelpers_create_grid_with_label(widget_title, 1);
+
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, widget_title, 1);
 
     if (model_list != NULL) {
         for (i = 0; model_list[i].name != NULL; i++) {
