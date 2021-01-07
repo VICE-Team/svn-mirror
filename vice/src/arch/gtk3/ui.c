@@ -106,6 +106,8 @@ static int set_window_ypos(int val, void *param);
 static int set_start_minimized(int val, void *param);
 static int set_native_monitor(int val, void *param);
 static int set_monitor_font(const char *, void *param);
+static int set_monitor_bg(const char *, void *param);
+static int set_monitor_fg(const char *, void *param);
 static int set_fullscreen_state(int val, void *param);
 static void ui_toggle_warp(void);
 static int set_pause_on_settings(int val, void *param);
@@ -145,6 +147,8 @@ typedef struct ui_resources_s {
 
     char *monitor_font;         /**< Pango font description string of the
                                      VTE monitor font */
+    char *monitor_bg;
+    char *monitor_fg;
     int autostart_on_doubleclick;   /**< Use autostart on double-clicking in
                                          file attach dialogs (bool) */
 #if 0
@@ -210,7 +214,6 @@ static kbd_gtk3_hotkey_t default_hotkeys[] = {
         (void *)ui_toggle_keyset_joysticks },
     { GDK_KEY_m, VICE_MOD_MASK,
         (void *)ui_toggle_mouse_grab },
-    
     /* Windows folks expect Alt+Enter to go full screen */
     { GDK_KEY_Return, VICE_MOD_MASK,
         (void *)ui_fullscreen_callback },
@@ -232,6 +235,10 @@ static const resource_string_t resources_string[] = {
     /* VTE-monitor font */
     { "MonitorFont", "monospace 11", RES_EVENT_NO, NULL,
         &ui_resources.monitor_font, set_monitor_font, NULL },
+    { "MonitorFG", "#ffffff", RES_EVENT_NO, NULL,
+        &ui_resources.monitor_fg, set_monitor_fg, NULL },
+    { "MonitorBG", "#000000", RES_EVENT_NO, NULL,
+        &ui_resources.monitor_bg, set_monitor_bg, NULL },
 
     RESOURCE_STRING_LIST_END
 };
@@ -351,6 +358,14 @@ static const cmdline_option_t cmdline_options_common[] =
     { "-monitorfont", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
         set_monitor_font, NULL, "MonitorFont", NULL,
         "font-description", "Set monitor font for the Gtk3 monitor" },
+    { "-monitorbg", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_bg,  NULL, "MonitorBG", NULL,
+        "font-background", "Set monitor font background color" },
+    { "-monitorfg", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+        set_monitor_fg,  NULL, "MonitorFG", NULL,
+        "font-foreground", "Set monitor font foreround color" },
+
+
     { "-autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "AutostartOnDoubleclick", (void*)1,
         NULL, "Autostart files on doubleclick" },
@@ -1019,6 +1034,37 @@ static int set_monitor_font(const char *val, void *param)
     util_string_set(&ui_resources.monitor_font, val);
     return 0;
 }
+
+
+
+/** \brief  Resource handler: set monitor background color for VTE-based monitor
+ *
+ * \param[in]   val     color
+ * \param[in]   param   extra argument (unused)
+ *
+ * \return  0 (success)
+ */
+static int set_monitor_bg(const char *val, void *param)
+{
+    util_string_set(&ui_resources.monitor_bg, val);
+    return 0;
+}
+
+
+/** \brief  Resource handler: set monitor foreground color for VTE-based monitor
+ *
+ * \param[in]   val     color
+ * \param[in]   param   extra argument (unused)
+ *
+ * \return  0 (success)
+ */
+static int set_monitor_fg(const char *val, void *param)
+{
+    util_string_set(&ui_resources.monitor_fg, val);
+    return 0;
+}
+
+
 
 
 

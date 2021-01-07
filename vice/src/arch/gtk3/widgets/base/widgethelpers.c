@@ -192,6 +192,37 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
 }
 
 
+/** \brief  Set margin on \a grid
+ *
+ * Set margins on a GtkGrid. passing a value of <0 means skipping that property.
+ *
+ * \param[in]   top     top margin
+ * \param[in]   bottom  bottom margin
+ * \param[in]   left    left margin
+ * \param[in]   right   right margin
+ *
+ */
+void vice_gtk3_grid_set_margins(GtkWidget *grid,
+                                gint top,
+                                gint bottom,
+                                gint left,
+                                gint right)
+{
+    if (top >= 0) {
+        g_object_set(grid, "margin-top", top, NULL);
+    }
+    if (bottom >= 0) {
+        g_object_set(grid, "margin-bottom", bottom, NULL);
+    }
+    if (left >= 0) {
+        g_object_set(grid, "margin-left", left, NULL);
+    }
+    if (right >= 0) {
+        g_object_set(grid, "margin-right", right, NULL);
+    }
+}
+
+
 /** \brief  Convert petscii encoded string to utf8 string we can show using the CBM font
  *
  * this function handles all characters that may appear in a directory listing,

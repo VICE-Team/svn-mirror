@@ -68,8 +68,38 @@ enum {
     ROW_CHIS_LINES,             /**< row for 'cpu history lines */
     ROW_CHIS_WARNING,           /**< row for warning about clearing chis */
 #endif
-    ROW_FONT                    /**< row for 'monitor font' */
+    ROW_FONT,                    /**< row for 'monitor font' */
+    ROW_COLOR
 };
+
+
+
+
+static void on_bg_color_set(GtkColorButton *button, gpointer data)
+{
+    GdkRGBA color;
+    char *repr;
+
+    gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(button), &color);
+    repr = gdk_rgba_to_string(&color);
+    debug_gtk3("Got color '%s'", repr);
+    resources_set_string("MonitorBG", repr);
+    g_free(repr);
+}
+
+
+static void on_fg_color_set(GtkColorButton *button, gpointer data)
+{
+    GdkRGBA color;
+    char *repr;
+
+    gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(button), &color);
+    repr = gdk_rgba_to_string(&color);
+    debug_gtk3("Got color '%s'", repr);
+    resources_set_string("MonitorFG", repr);
+    g_free(repr);
+}
+
 
 
 /** \brief  Handler for the 'font-set' event of the font chooser
@@ -125,6 +155,12 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 #endif
     GtkWidget *font_label;
     GtkWidget *font_button;
+    GtkWidget *bg_button;
+    GtkWidget *fg_button;
+    GtkWidget *bg_label;
+    GtkWidget *fg_label;
+    GdkRGBA color;
+    const char *color_res;
 
     const char *font_name = NULL;
 
@@ -213,6 +249,27 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     }
     g_signal_connect(font_button, "font-set", G_CALLBACK(on_font_set), NULL);
 
+
+    /* create button for the monitor backbround color */
+    resources_get_string("MonitorBG", &color_res);
+    gdk_rgba_parse(&color, color_res);
+    bg_button = gtk_color_button_new_with_rgba(&color);
+    bg_label = gtk_label_new("Monitor background");
+    g_object_set(bg_label, "margin-left", 8, NULL);
+    gtk_widget_set_halign(bg_label, GTK_ALIGN_START);
+    g_signal_connect(bg_button, "color-set", G_CALLBACK(on_bg_color_set), NULL);
+
+
+    /* create button for the monitor foreground color */
+    resources_get_string("MonitorFG", &color_res);
+    gdk_rgba_parse(&color, color_res);
+    fg_button = gtk_color_button_new_with_rgba(&color);
+    fg_label = gtk_label_new("Monitor foreground");
+    g_object_set(fg_label, "margin-left", 8, NULL);
+    gtk_widget_set_halign(fg_label, GTK_ALIGN_START);
+    g_signal_connect(fg_button, "color-set", G_CALLBACK(on_fg_color_set), NULL);
+
+
     gtk_grid_attach(GTK_GRID(grid), native, 0, ROW_NATIVE, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), keep_open, 0, ROW_KEEP_OPEN, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), refresh_on_break, 0, ROW_REFRESH_ON_BREAK, 2, 1);
@@ -234,6 +291,12 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 #endif
     gtk_grid_attach(GTK_GRID(grid), font_label, 0, ROW_FONT, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), font_button, 1, ROW_FONT, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), bg_label, 0, ROW_COLOR, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bg_button, 1, ROW_COLOR, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), fg_label, 0, ROW_COLOR + 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), fg_button, 1, ROW_COLOR + 1, 1, 1);
+
 
     gtk_widget_show_all(grid);
     return grid;

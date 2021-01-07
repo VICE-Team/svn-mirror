@@ -54,8 +54,6 @@
 #endif
 
 
-GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns);
-
 /* only useful for custom built radio groups, don't use on resourceradiogroup.c
  * generated stuff */
 int vice_gtk3_radiogroup_get_list_index(
@@ -77,6 +75,12 @@ GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
                                                 int row_spacing,
                                                 const char *label,
                                                 int span);
+
+void vice_gtk3_grid_set_margins(GtkWidget *grid,
+                                gint top,
+                                gint bottom,
+                                gint left,
+                                gint right);
 
 unsigned char *vice_gtk3_petscii_to_utf8(unsigned char *s,
                                          bool inverted,

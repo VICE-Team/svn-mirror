@@ -555,7 +555,9 @@ bool uimon_set_font(void)
     const char *monitor_font = NULL;
     GList *widgets;
     GList *box;
-
+    const char *bg;
+    const char *fg;
+    GdkRGBA color;
 
     if (resources_get_string("MonitorFont", &monitor_font) < 0) {
         log_error(LOG_ERR, "Failed to read 'MonitorFont' resource.");
@@ -581,6 +583,31 @@ bool uimon_set_font(void)
     }
     vte_terminal_set_font(VTE_TERMINAL(fixed.term), desc);
     pango_font_description_free(desc);
+
+    /* try background color */
+    if (resources_get_string("MonitorBG", &bg) < 0) {
+        bg = NULL;
+    }
+    debug_gtk3("BG color = '%s'", bg);
+    if (!gdk_rgba_parse(&color, bg)) {
+        debug_gtk3("fuck!");
+    } else {
+        vte_terminal_set_color_background(VTE_TERMINAL(fixed.term), &color);
+    }
+
+    /* try foreground color */
+    if (resources_get_string("MonitorFG", &fg) < 0) {
+        fg = NULL;
+    }
+    debug_gtk3("FG color = '%s'", fg);
+    if (!gdk_rgba_parse(&color, fg)) {
+        debug_gtk3("fuck!");
+    } else {
+        vte_terminal_set_color_foreground(VTE_TERMINAL(fixed.term), &color);
+    }
+
+
+
 
     gtk_widget_set_size_request(GTK_WIDGET(fixed.window), -1, -1);
     gtk_widget_set_size_request(GTK_WIDGET(fixed.term), -1, -1);
