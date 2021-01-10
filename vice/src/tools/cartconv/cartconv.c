@@ -44,7 +44,6 @@
 
 
 #include "version.h"
-
 #ifdef USE_SVN_REVISION
 # include "svnversion.h"
 #endif

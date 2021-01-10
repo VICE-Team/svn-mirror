@@ -82,7 +82,8 @@ SUBDIRS = \
 	arch \
 	lib \
 	hvsc \
-	datasette
+	datasette \
+	tools
 
 endif
 
@@ -135,7 +136,8 @@ DIST_SUBDIRS = \
 	lib \
 	buildtools \
 	hvsc \
-	datasette
+	datasette \
+	tools
 
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
@@ -1031,7 +1033,7 @@ endif
 # workaround for extra exe creation
 
 bin_PROGRAMS = vsid $(x64_bin) x64sc x64dtv xscpu64 x128 xvic xpet xplus4 \
-	       xcbm2 xcbm5x0 c1541 petcat cartconv
+	       xcbm2 xcbm5x0 c1541 petcat
 
 EXTRA_PROGRAMS =
 
@@ -2028,12 +2030,6 @@ petcat-all: \
 	libsocketdrv \
 	petcat$(EXEEXT)
 
-# cartconv
-cartconv_SOURCES = cartconv.c
-
-if WIN32_COMPILE
-cartconv_LDFLAGS = -mconsole
-endif
 
 
 # distclean

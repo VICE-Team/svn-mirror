@@ -3701,6 +3701,8 @@ AC_OUTPUT([Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
            src/tapeport/Makefile
+           src/tools/Makefile
+           src/tools/cartconv/Makefile
            src/userport/Makefile
            src/vdc/Makefile
            src/vdrive/Makefile

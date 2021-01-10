@@ -83,10 +83,12 @@ petcat: $(top_srcdir)/src/petcat.c
 		-o $(top_builddir)/src/$@ $<
 
 
-cartconv: $(top_srcdir)/src/cartconv.c
-	$(CC) @VICE_CFLAGS@ \
-		-I$(top_builddir)/src \
-		-o $(top_builddir)/src/$@ $<
+#cartconv: $(top_srcdir)/src/cartconv.c
+#	$(CC) @VICE_CFLAGS@ \
+#		-I$(top_builddir)/src \
+#		-o $(top_builddir)/src/$@ $<
+cartconv:
+	(cd src/tools/cartconv; $(MAKE) cartconv)
 
 ffmpeglibs:
 	(cd src/lib; $(MAKE) ffmpeglibs)
