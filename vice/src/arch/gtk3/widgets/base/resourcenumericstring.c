@@ -160,9 +160,7 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
     long long result;
     char *endptr;
     const char *text;
-#ifdef HAVE_DEBUG_GTK3UI
     int64_t factor = 1;
-#endif
 
     text = gtk_entry_get_text(GTK_ENTRY(widget));
     if (*text == '\0') {
