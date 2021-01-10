@@ -33,8 +33,15 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 # Sources used cartconv
 cartconv_SOURCES = \
 	cartconv.c \
+	c64-cartridges.c \
+	c64-saver.c \
+	crt.c \
 	$(top_builddir)/src/svnversion.h
 
 # Extra files used for cartconv that should also end up in the `make dist`
-EXTRA_DIST = ~
+EXTRA_DIST = \
+	cartconv.h \
+	c64-cartridges.h \
+	c64-saver.h \
+	crt.h
 
