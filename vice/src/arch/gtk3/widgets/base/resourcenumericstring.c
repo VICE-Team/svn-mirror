@@ -98,6 +98,56 @@ static const gint valid_keys[] = {
 };
 
 
+/** \brief  Check \a value against limits set on \a widget
+ *
+ * \param[in]   widget  resource numeric digits widget
+ * \param[in]   value   64-bit unsigned value to check against limits
+ *
+ * \return  value is valid for the given (or missing) limits
+ */
+static gboolean value_is_valid(GtkWidget *widget, uint64_t value)
+{
+    int has_limits = GPOINTER_TO_INT(
+            g_object_get_data(G_OBJECT(widget), "HasLimits"));
+
+    debug_gtk3("Has-Limits = %s", has_limits ? "True" : "False");
+
+    if (!has_limits) {
+        /* no limits set, must be valid */
+        return TRUE;
+    } else {
+        uint32_t min_lo = GPOINTER_TO_UINT(
+                g_object_get_data(G_OBJECT(widget), "ResourceMinLo"));
+        uint32_t min_hi = GPOINTER_TO_UINT(
+                g_object_get_data(G_OBJECT(widget), "ResourceMinHi"));
+        uint32_t max_lo = GPOINTER_TO_UINT(
+                g_object_get_data(G_OBJECT(widget), "ResourceMaxLo"));
+        uint32_t max_hi = GPOINTER_TO_UINT(
+                g_object_get_data(G_OBJECT(widget), "ResourceMaxHi"));
+        uint64_t min = min_lo + ((uint64_t)min_hi << 32LU);
+        uint64_t max = max_lo + ((uint64_t)max_hi << 32LU);
+
+        int allow_zero = GPOINTER_TO_INT(
+                g_object_get_data(G_OBJECT(widget), "AllowZero"));
+
+        debug_gtk3("Checking against $%" PRIx64 " - $%" PRIx64 ", allow-zero: %s",
+                min, max, allow_zero ? "True" : "False");
+
+        if (allow_zero && value == 0) {
+            return TRUE;
+        }
+
+        if (min == 0 && max == UINT64_MAX) {
+            return TRUE;
+        }
+        return (value >= min && value <= max);
+    }
+
+    return TRUE;
+}
+
+
+
 /** \brief  Validate input
  *
  * \param[in,out]   widget  GtkEntry instance
@@ -110,7 +160,9 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
     long long result;
     char *endptr;
     const char *text;
+#ifdef HAVE_DEBUG_GTK3UI
     int64_t factor = 1;
+#endif
 
     text = gtk_entry_get_text(GTK_ENTRY(widget));
     if (*text == '\0') {
@@ -149,8 +201,7 @@ static gboolean input_is_valid(GtkWidget *widget, gpointer data)
     }
 
     debug_gtk3("result = %lld", result * factor);
-
-    return TRUE;
+    return value_is_valid(widget, result * factor);
 
 }
 
@@ -227,8 +278,9 @@ static gboolean on_key_press_event(
 
     if (keyev->type == GDK_KEY_PRESS) {
         gint keyval = keyev->keyval;
+#if 0
         debug_gtk3("Key Press event, keyval = %d", keyval);
-
+#endif
         if (keyev->keyval == GDK_KEY_Return) {
             /*
              * We handled Enter/Return for Gtk3/GLib, whether or not the
@@ -239,9 +291,9 @@ static gboolean on_key_press_event(
 
             value = gtk_entry_get_text(GTK_ENTRY(entry));
             resource = resource_widget_get_resource_name(GTK_WIDGET(entry));
-
+#if 0
             debug_gtk3("Got '%s' with Enter for '%s;", value, resource);
-
+#endif
             if (resources_set_string(resource, value) < 0) {
                 debug_gtk3("Implement proper error popup");
             }
@@ -251,9 +303,13 @@ static gboolean on_key_press_event(
 
             int i;
             for (i = 0; valid_keys[i] >= 0; i++) {
+#if 0
                 debug_gtk3("Comparing %d against %d", keyval, valid_keys[i]);
+#endif
                 if (valid_keys[i] == keyval) {
+#if 0
                     debug_gtk3("Valid keyval %d", keyval);
+#endif
                     return FALSE;
                 }
             }
@@ -281,11 +337,7 @@ static void on_destroy(GtkWidget *widget, gpointer data)
 
 /** \brief  Create numeric string entry box for \a resource
  *
- * Sets the following properties on the widget:
- *  - ResourceName      resource name
- *  - ResourceOrig      value of resource during construction
- *  - ResourceMin       lower limit (default = NULL, no limit)
- *  - ResourceMax       upper limit (default = NULL, no limit)
+ * Create a widget that accepts numeric strings with suffixes (K, M, G).
  *
  * \param[in]   resource    resource name
  *
@@ -339,29 +391,41 @@ GtkWidget *vice_gtk3_resource_numeric_string_new(const char *resource)
 
 /** \brief  Set limits on the widget's valid values
  *
- * These limits are by default set to 0 to UINT64_MAX
+ * These limits are by default set to 0 to UINT64_MAX. The \a allow_zero argument
+ * is meant to allow using 0 to indicate a special case.
  *
- * \param[in,out]   widget  resource numeric string widget
- * \param[in]       min     minimum value
- * \param[in]       max     maximum value
+ * \param[in,out]   widget      resource numeric string widget
+ * \param[in]       min         minimum value
+ * \param[in]       max         maximum value
+ * \param[in        allow_zero  allow zero as a special (Nul) value
  *
  */
 void vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
                                                   uint64_t min,
-                                                  uint64_t max)
+                                                  uint64_t max,
+                                                  gboolean allow_zero)
 {
-    uint32_t min_lsb;
-    uint32_t min_msb;
-    uint32_t max_lsb;
-    uint32_t max_msb;
+    uint32_t min_lo;
+    uint32_t min_hi;
+    uint32_t max_lo;
+    uint32_t max_hi;
 
-    min_lsb = min & G_MAXUINT32;
-    min_msb = min >> 32U;
-    max_lsb = min & G_MAXUINT32;
-    max_msb = min >> 32U;
+    /* We need this shit since on a 32-bit machine a pointer is 32-bit, so
+     * storing 64-bit values is pretty unlikely to work.
+     */
 
-    g_object_set_data(G_OBJECT(widget), "ResouceMinLSB", GUINT_TO_POINTER(min_lsb));
-    g_object_set_data(G_OBJECT(widget), "ResouceMinMSB", GUINT_TO_POINTER(min_msb));
-    g_object_set_data(G_OBJECT(widget), "ResouceMaxLSB", GUINT_TO_POINTER(max_lsb));
-    g_object_set_data(G_OBJECT(widget), "ResouceMaxMSB", GUINT_TO_POINTER(max_msb));
+    min_lo = min & G_MAXUINT32;
+    min_hi = min >> 32U;
+    max_lo = max & G_MAXUINT32;
+    max_hi = max >> 32U;
+
+    debug_gtk3("min_lo = %" PRIu32 ", min_hi = %" PRIu32, min_lo, min_hi);
+    debug_gtk3("max_lo = %" PRIu32 ", max_hi = %" PRIu32, max_lo, max_hi);
+
+    g_object_set_data(G_OBJECT(widget), "HasLimits", GINT_TO_POINTER(TRUE));
+    g_object_set_data(G_OBJECT(widget), "AllowZero", GINT_TO_POINTER(allow_zero));
+    g_object_set_data(G_OBJECT(widget), "ResourceMinLo", GUINT_TO_POINTER(min_lo));
+    g_object_set_data(G_OBJECT(widget), "ResourceMinHi", GUINT_TO_POINTER(min_hi));
+    g_object_set_data(G_OBJECT(widget), "ResourceMaxLo", GUINT_TO_POINTER(max_lo));
+    g_object_set_data(G_OBJECT(widget), "ResourceMaxHi", GUINT_TO_POINTER(max_hi));
 }

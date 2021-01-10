@@ -35,6 +35,7 @@ GtkWidget *vice_gtk3_resource_numeric_string_new(const char *resource);
 
 void vice_gtk3_resource_numeric_string_set_limits(GtkWidget *widget,
                                                   uint64_t min,
-                                                  uint64_t max);
+                                                  uint64_t max,
+                                                  gboolean allow_zero);
 
 #endif

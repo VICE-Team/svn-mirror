@@ -73,6 +73,10 @@ GtkWidget *drive_fixed_size_widget_create(int unit)
     /* create entry */
     g_snprintf(resource, sizeof(resource), "Drive%dFixedSize", unit);
     entry = vice_gtk3_resource_numeric_string_new(resource);
+    /* set limits */
+    vice_gtk3_resource_numeric_string_set_limits(
+            entry, 75 * 1024, UINT64_MAX, TRUE);
+
     gtk_widget_set_halign(entry, GTK_ALIGN_START);
     gtk_widget_set_hexpand(entry, TRUE);
     g_object_set(entry, "margin-left", 16, "margin-top", 8, NULL);
