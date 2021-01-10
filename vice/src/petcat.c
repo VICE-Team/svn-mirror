@@ -83,7 +83,6 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "machine.h"
-#include "util.h"
 #include "vice-event.h"
 
 #ifdef DEBUG
