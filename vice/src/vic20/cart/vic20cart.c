@@ -359,7 +359,7 @@ static int cartridge_attach_from_resource(int type, const char *filename)
 static int crt_attach(const char *filename, uint8_t *rawcart)
 {
     crt_header_t header;
-    int rc, new_crttype;
+    int ret, new_crttype;
     FILE *fd;
 
     DBG(("crt_attach: %s\n", filename));
@@ -389,38 +389,36 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
     switch (new_crttype) {
         case CARTRIDGE_CRT:
         /* case CARTRIDGE_VIC20_GENERIC: */
-            rc = generic_crt_attach(fd, rawcart);
-            if (rc != CARTRIDGE_NONE) {
-                new_crttype = rc;
+            ret = generic_crt_attach(fd, rawcart);
+            if (ret != CARTRIDGE_NONE) {
+                new_crttype = ret;
             }
             break;
-/* FIXME
-        case CARTRIDGE_VIC20_BEHRBONZ:
-            ret = behrbonz_crt_attach(filename);
+        case CARTRIDGE_VIC20_MEGACART:
+            ret = megacart_crt_attach(fd, rawcart);
             break;
-        case CARTRIDGE_VIC20_UM:
-            ret = vic_um_crt_attach(filename);
+        case CARTRIDGE_VIC20_BEHRBONZ:
+            ret = behrbonz_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_VIC20_FP:
-            ret = vic_fp_crt_attach(filename);
+            ret = vic_fp_crt_attach(fd, rawcart);
             break;
-        case CARTRIDGE_VIC20_MEGACART:
-            ret = megacart_crt_attach(filename);
+        case CARTRIDGE_VIC20_UM:
+            ret = vic_um_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
-            ret = finalexpansion_crt_attach(filename);
+            ret = finalexpansion_crt_attach(fd, rawcart);
             break;
-*/
         default:
             archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
-            rc = -1;
+            ret = -1;
             break;
     }
 
     fclose(fd);
 
-    if (rc == -1) {
-        DBG(("crt_attach error (%d)\n", rc));
+    if (ret == -1) {
+        DBG(("crt_attach error (%d)\n", ret));
         return -1;
     }
     DBG(("crt_attach return ID: %d\n", new_crttype));

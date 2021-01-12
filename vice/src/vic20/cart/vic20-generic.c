@@ -589,6 +589,7 @@ int generic_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int idx = 0;
+    int offset;
 
     if (!cart_ram) {
         cart_ram = lib_malloc(CART_RAM_SIZE);
@@ -611,31 +612,25 @@ int generic_crt_attach(FILE *fd, uint8_t *rawcart)
         }
 
         DBG(("chip %d at %02x len %02x\n", idx, chip.start, chip.size));
-        switch (chip.start) {
-            case 0x2000: /* block 1 */
-                if (crt_read_chip(cart_rom + 0x2000, 0, &chip, fd)) {
-                    goto exiterror;
-                }
-                generic_rom_blocks |= VIC_CART_BLK1;
-                break;
-            case 0x4000: /* block 2 */
-                if (crt_read_chip(cart_rom + 0x4000, 0, &chip, fd)) {
-                    goto exiterror;
-                }
-                generic_rom_blocks |= VIC_CART_BLK2;
-                break;
-            case 0x6000: /* block 3 */
-                if (crt_read_chip(cart_rom + 0x6000, 0, &chip, fd)) {
-                    goto exiterror;
-                }
-                generic_rom_blocks |= VIC_CART_BLK3;
-                break;
-            case 0xa000:  /* block 5 */
-                if (crt_read_chip(cart_rom + 0x0000, 0, &chip, fd)) {
-                    goto exiterror;
-                }
-                generic_rom_blocks |= VIC_CART_BLK5;
-                break;
+        if ((chip.start >= 0x2000) && (chip.start <= 0x3fff)) {     /* block 1 */
+            generic_rom_blocks |= VIC_CART_BLK1;
+            offset = chip.start;
+        } else if ((chip.start >= 0x4000) && (chip.start <= 0x5fff)) {     /* block 2 */
+            generic_rom_blocks |= VIC_CART_BLK2;
+            offset = chip.start;
+        } else if ((chip.start >= 0x6000) && (chip.start <= 0x7fff)) {     /* block 3 */
+            generic_rom_blocks |= VIC_CART_BLK3;
+            offset = chip.start;
+        } else if ((chip.start >= 0xa000) && (chip.start <= 0xbfff)) {     /* block 5 */
+            generic_rom_blocks |= VIC_CART_BLK5;
+            offset = chip.start - 0xa000;
+        } else {
+            log_error(LOG_DEFAULT, "unsupported CHIP load address: $%04x", chip.start);
+            goto exiterror;
+        }
+
+        if (crt_read_chip(cart_rom + offset, 0, &chip, fd)) {
+            goto exiterror;
         }
 
         idx++;

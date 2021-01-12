@@ -28,6 +28,8 @@
  *
  */
 
+#define DEBUGCART
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -38,6 +40,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "export.h"
 #include "flash040.h"
 #include "lib.h"
@@ -55,6 +58,12 @@
 #include "vic20cartmem.h"
 #include "vic20mem.h"
 #include "zfile.h"
+
+#ifdef DEBUGCART
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 /*
    UltiMem by Retro Innovations
@@ -78,8 +87,9 @@ static uint8_t *cart_ram = NULL;
 static size_t cart_rom_size;
 static uint8_t *cart_rom = NULL;
 #define CART_ROM_SIZE_8M (8 << 20)
+#define CART_ROM_SIZE_16M (16 << 20)
 #define CART_ROM_SIZE_512K (512 << 10)
-#define CART_ROM_SIZE_MAX CART_ROM_SIZE_8M
+#define CART_ROM_SIZE_MAX CART_ROM_SIZE_16M
 
 #define ultimem_reg0_regs_disable 0x80
 #define ultimem_reg0_led 1
@@ -602,6 +612,78 @@ void vic_um_config_setup(uint8_t *rawcart)
     memcpy(ultimem, ultimem_reset, sizeof ultimem);
 }
 
+int vic_um_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int idx = 0;
+
+    /* util_string_set(&cartfile, filename); */ /* FIXME */
+
+    if (!cart_ram) {
+        cart_ram = lib_malloc(CART_RAM_SIZE_MAX);
+    }
+
+    if (!cart_rom) {
+        cart_rom = lib_malloc(CART_ROM_SIZE_MAX);
+    }
+
+    cart_rom_size = 0;
+
+    for (idx = 0; idx < 2048; idx++) {
+        if (crt_read_chip_header(&chip, fd)) {
+            break;
+        }
+
+        DBG(("chip %d at %02x len %02x\n", idx, chip.start, chip.size));
+        if (chip.size != 0x2000) {
+            goto exiterror;
+        }
+
+        if (crt_read_chip(&cart_rom[0x2000 * idx], 0, &chip, fd)) {
+            goto exiterror;
+        }
+        cart_rom_size += 0x2000;
+    }
+
+    switch (cart_rom_size) {
+        case CART_ROM_SIZE_16M:
+            /* FIXME: is this correct? */
+            cart_ram_size = CART_RAM_SIZE_1M;
+            break;
+        case CART_ROM_SIZE_8M:
+            cart_ram_size = CART_RAM_SIZE_1M;
+            break;
+        case CART_ROM_SIZE_512K:
+            cart_ram_size = CART_RAM_SIZE_512K;
+            break;
+        default:
+            goto exiterror;
+    }
+
+    if (export_add(&export_res) < 0) {
+        goto exiterror;
+    }
+
+    flash040core_init(&flash_state, maincpu_alarm_context,
+                      (cart_rom_size == CART_ROM_SIZE_512K) ? FLASH040_TYPE_B : FLASH040_TYPE_064,
+                      cart_rom);
+
+    mem_cart_blocks = VIC_CART_RAM123 |
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO2 | VIC_CART_IO3;
+    mem_initialize_memory();
+
+    io2_list_item = io_source_register(&ultimem_io2);
+    io3_list_item = io_source_register(&ultimem_io3);
+
+    return 0;
+
+exiterror:
+    vic_um_detach();
+    return -1;
+}
+
+
 int vic_um_bin_attach(const char *filename)
 {
     FILE *fd = zfile_fopen(filename, MODE_READ);
@@ -615,6 +697,10 @@ int vic_um_bin_attach(const char *filename)
     cart_rom_size = util_file_length(fd);
 
     switch (cart_rom_size) {
+        case CART_ROM_SIZE_16M:
+            /* FIXME: is this correct? */
+            cart_ram_size = CART_RAM_SIZE_1M;
+            break;
         case CART_ROM_SIZE_8M:
             cart_ram_size = CART_RAM_SIZE_1M;
             break;

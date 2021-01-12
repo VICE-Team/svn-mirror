@@ -374,20 +374,24 @@ extern void cartridge_sound_chip_init(void);
 
 #define CARTRIDGE_VIC20_DEBUGCART          -124 /* debugcart.c */
 
-#define CARTRIDGE_VIC20_GENERIC             -2  /* generic.c */
+#define CARTRIDGE_VIC20_GENERIC              -2 /* generic.c */
+
+#define CARTRIDGE_VIC20_SIDCART             -10 /* vic20-sidcart.c */
+#define CARTRIDGE_VIC20_IEEE488             -11 /* vic20-ieee488.c */
+#define CARTRIDGE_VIC20_IO2_RAM             -12 /* ioramcart.c */
+#define CARTRIDGE_VIC20_IO3_RAM             -13 /* ioramcart.c */
 
 /* #define CARTRIDGE_NONE               -1 */
 /* #define CARTRIDGE_CRT                 0 */
 
+/* the following must match the CRT IDs */
 #define CARTRIDGE_VIC20_MEGACART        1   /* megacart.c */
-#define CARTRIDGE_VIC20_FINAL_EXPANSION 2   /* finalexpansion.c */
+#define CARTRIDGE_VIC20_BEHRBONZ        2   /* behrbonz.c */
 #define CARTRIDGE_VIC20_FP              3   /* vic-fp.c */
-#define CARTRIDGE_VIC20_IEEE488         4   /* vic20-ieee488.c */   /* FIXME: no ROM? */
-#define CARTRIDGE_VIC20_SIDCART         5   /* vic20-sidcart.c */   /* FIXME: no ROM? */
-#define CARTRIDGE_VIC20_UM              6   /* ultimem.c */
-#define CARTRIDGE_VIC20_IO2_RAM         7   /* ioramcart.c */   /* FIXME: no ROM? */
-#define CARTRIDGE_VIC20_IO3_RAM         8   /* ioramcart.c */   /* FIXME: no ROM? */
-#define CARTRIDGE_VIC20_BEHRBONZ        9   /* behrbonz.c */
+#define CARTRIDGE_VIC20_UM              4   /* ultimem.c */
+#define CARTRIDGE_VIC20_FINAL_EXPANSION 5   /* finalexpansion.c */
+
+#define CARTRIDGE_VIC20_LAST            5   /* cartconv: last cartridge in list */
 
 /*
  * VIC20 Generic cartridges
@@ -504,8 +508,17 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_SIZE_16384KB 0x01000000
 #define CARTRIDGE_SIZE_MAX     CARTRIDGE_SIZE_16384KB
 
+/* for convenience */
+#define CARTRIDGE_SIZE_1MB      CARTRIDGE_SIZE_1024KB
+#define CARTRIDGE_SIZE_2MB      CARTRIDGE_SIZE_2048KB
+#define CARTRIDGE_SIZE_4MB      CARTRIDGE_SIZE_4096KB
+#define CARTRIDGE_SIZE_8MB      CARTRIDGE_SIZE_8192KB
+#define CARTRIDGE_SIZE_16MB     CARTRIDGE_SIZE_16384KB
+
 #define CARTRIDGE_FILETYPE_BIN  1
 #define CARTRIDGE_FILETYPE_CRT  2
+
+/* FIXME: merge the cartridge list with the one used by cartconv */
 
 /* cartridge info for GUIs */
 typedef struct {

@@ -48,7 +48,7 @@ extern void finalexpansion_reset(void);
 extern void finalexpansion_config_setup(uint8_t *rawcart);
 extern int finalexpansion_bin_attach(const char *filename);
 /* extern int finalexpansion_bin_attach(const char *filename, uint8_t *rawcart); */
-/* extern int finalexpansion_crt_attach(FILE *fd, uint8_t *rawcart); */
+extern int finalexpansion_crt_attach(FILE *fd, uint8_t *rawcart);
 extern void finalexpansion_detach(void);
 
 extern int finalexpansion_resources_init(void);

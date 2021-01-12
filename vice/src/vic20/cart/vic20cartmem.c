@@ -24,6 +24,8 @@
  *
  */
 
+#define DEBUGCART
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -60,6 +62,11 @@
 #include "vic20-midi.h"
 #include "vic-fp.h"
 
+#ifdef DEBUGCART
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -468,6 +475,8 @@ void cartridge_attach(int type, uint8_t *rawcart)
     int cartridge_reset;
 
     mem_cartridge_type = type;
+    
+    DBG(("cartridge_attach type: %d\n", type));
 #if 0
     switch (type) {
         case CARTRIDGE_VIC20_GENERIC:

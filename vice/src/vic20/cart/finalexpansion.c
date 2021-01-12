@@ -24,6 +24,8 @@
  *
  */
 
+#define DEBUGCART
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -34,6 +36,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "export.h"
 #include "lib.h"
 #include "machine.h"
@@ -51,6 +54,12 @@
 #include "vic20cartmem.h"
 #include "vic20mem.h"
 #include "zfile.h"
+
+#ifdef DEBUGCART
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -639,6 +648,59 @@ static int zfile_load(const char *filename, uint8_t *dest)
     log_message(fe_log, "Read image `%s'.",
                 filename);
     return 0;
+}
+
+int finalexpansion_crt_attach(FILE *fd, uint8_t *rawcart)
+{
+    crt_chip_header_t chip;
+    int idx = 0;
+    uint8_t *cart_flash;
+
+    if (!cart_ram) {
+        cart_ram = lib_malloc(CART_RAM_SIZE);
+    }
+
+    cart_flash = lib_malloc(CART_ROM_SIZE);
+    if (cart_flash == NULL) {
+        goto exiterror;
+    }
+
+    /* flash040core_init() does not clear the flash */
+    memset(cart_flash, 0xff, CART_ROM_SIZE);
+
+    flash040core_init(&flash_state, maincpu_alarm_context, FLASH040_TYPE_B, cart_flash);
+
+    for (idx = 0; idx < 64; idx++) {
+        if (crt_read_chip_header(&chip, fd)) {
+            goto exiterror;
+        }
+
+        DBG(("chip %d at %02x len %02x\n", idx, chip.start, chip.size));
+        if (chip.size != 0x2000) {
+            goto exiterror;
+        }
+
+        if (crt_read_chip(&flash_state.flash_data[0x2000 * idx], 0, &chip, fd)) {
+            goto exiterror;
+        }
+    }
+
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    mem_cart_blocks = VIC_CART_RAM123 |
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO3;
+    mem_initialize_memory();
+
+    finalexpansion_list_item = io_source_register(&finalexpansion_device);
+
+    return 0;
+
+exiterror:
+    finalexpansion_detach();
+    return -1;
 }
 
 int finalexpansion_bin_attach(const char *filename)
