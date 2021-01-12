@@ -6,6 +6,9 @@
 #include <unistd.h>
 
 #include "cartridge.h"
+#include "machine.h"
+
+#include "crt.h"
 
 extern unsigned char cart_subtype;
 extern signed char cart_type;
@@ -14,26 +17,85 @@ extern FILE *outfile;
 extern char *output_filename;
 extern unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
 extern int loadfile_offset;
+extern int machine_class;
+
+unsigned char headerbuffer[0x40];
+
+/* FIXME: infile is global */
+int read_crt_header(char *filename)
+{
+    FILE *infile = fopen(filename, "rb");
+    if (infile == NULL) {
+        fprintf(stderr, "Error: Can't open %s\n", filename);
+        return -1;
+    }
+
+    if (fread(headerbuffer, 1, CRT_HEADER_LEN, infile) != CRT_HEADER_LEN) {
+        fprintf(stderr, "Error: Can't read %s\n", filename);
+        fclose(infile);
+        return -1;
+    }
+
+#if 0
+    if (headerbuffer[0x10] != 0 ||
+        headerbuffer[0x11] != 0 ||
+        headerbuffer[0x12] != 0 ||
+        headerbuffer[0x13] != 0x40) {
+        fprintf(stderr, "Error: Illegal header size in %s\n", filename);
+        if (!repair_mode) {
+            fclose(infile);
+            return -1;
+        }
+    }
+#endif
+#if 0
+    if (headerbuffer[0x18] == 1 && headerbuffer[0x19] == 0) {
+        loadfile_is_ultimax = 1;
+    } else {
+        loadfile_is_ultimax = 0;
+    }
+
+    loadfile_cart_type = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
+    if (headerbuffer[0x17] & 0x80) {
+        /* handle our negative test IDs */
+        loadfile_cart_type -= 0x10000;
+    }
+    if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_LAST))) {
+        fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
+        fclose(infile);
+        return -1;
+    }
+#endif
+    fclose(infile);
+    return 0;
+}
 
 int write_crt_header(unsigned char gameline, unsigned char exromline)
 {
-    unsigned char crt_header[0x40] = "C64 CARTRIDGE   ";
+    unsigned char crt_header[CRT_HEADER_LEN] = "C64 CARTRIDGE   ";
     int endofname = 0;
+    int version_hi = 1;
+    int version_lo = 0;
     int i;
+
+    if (machine_class == VICE_MACHINE_C64) {
+        /* crt version low */
+        if (cart_subtype > 0) {
+            version_lo = 1;
+        }
+    } else if (machine_class == VICE_MACHINE_VIC20) {
+        memcpy(crt_header, "VIC20 CARTRIDGE ", CRT_NAME_LEN);
+        version_hi = 2;
+    }
 
     /* header length */
     crt_header[0x10] = 0;
     crt_header[0x11] = 0;
     crt_header[0x12] = 0;
-    crt_header[0x13] = 0x40;
+    crt_header[0x13] = CRT_HEADER_LEN;
 
-    crt_header[0x14] = 1;   /* crt version high */
-    /* crt version low */
-    if (cart_subtype > 0) {
-        crt_header[0x15] = 1;   
-    } else {
-        crt_header[0x15] = 0;   
-    }
+    crt_header[0x14] = version_hi;
+    crt_header[0x15] = version_lo;
 
     crt_header[0x16] = 0;   /* cart type high */
     crt_header[0x17] = (unsigned char)cart_type;
@@ -42,7 +104,7 @@ int write_crt_header(unsigned char gameline, unsigned char exromline)
     crt_header[0x19] = gameline;
 
     crt_header[0x1a] = cart_subtype;
-    
+
     /* unused/reserved */
     crt_header[0x1b] = 0;
     crt_header[0x1c] = 0;

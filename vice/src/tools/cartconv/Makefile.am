@@ -35,6 +35,7 @@ cartconv_SOURCES = \
 	cartconv.c \
 	c64-cartridges.c \
 	c64-saver.c \
+	vic20-cartridges.c \
 	crt.c \
 	$(top_builddir)/src/svnversion.h
 
@@ -43,5 +44,6 @@ EXTRA_DIST = \
 	cartconv.h \
 	c64-cartridges.h \
 	c64-saver.h \
+	vic20-cartridges.h \
 	crt.h
 

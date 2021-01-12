@@ -49,24 +49,24 @@
 #endif
 
 #include "cartridge.h"
+#include "machine.h"
 
 #include "cartconv.h"
 #include "c64-cartridges.h"
 #include "c64-saver.h"
 #include "crt.h"
+#include "vic20-cartridges.h"
 
 unsigned int loadfile_size = 0;
 unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
 FILE *outfile;
 int loadfile_offset = 0;
-int omit_empty_banks = 1;
 char *output_filename = NULL;
 char *input_filename[33];
 unsigned char input_filenames = 0;
 char loadfile_is_crt = 0;
 int load_address = 0;
 char loadfile_is_ultimax = 0;
-int quiet_mode = 0;
 int loadfile_cart_type = 0;
 unsigned char extra_buffer_32kb[0x8000];
 char convert_to_ultimax = 0;
@@ -74,20 +74,18 @@ unsigned char cart_subtype = 0;
 signed char cart_type = -1;
 char *cart_name = NULL;
 
+static unsigned char chipbuffer[16];
 static FILE *infile;
+
+/* options given on commandline */
+int omit_empty_banks = 1;
+int quiet_mode = 0;
 static char convert_to_bin = 0;
 static char convert_to_prg = 0;
-static unsigned char headerbuffer[0x40];
-static unsigned char chipbuffer[16];
 static int repair_mode = 0;
 static int input_padding = 0;
 
-typedef struct sorted_cart_s {
-    char *opt;
-    char *name;
-    int crt_id;
-    int insertion;
-} sorted_cart_t;
+int machine_class = VICE_MACHINE_C64;
 
 /*****************************************************************************/
 
@@ -180,329 +178,11 @@ void cleanup(void)
     }
 }
 
-static unsigned int count_valid_option_elements(void)
-{
-    unsigned int i = 1;
-    unsigned int amount = 0;
-
-    while (cart_info[i].name) {
-        if (cart_info[i].opt) {
-            amount++;
-        }
-        i++;
-    }
-    return amount;
-}
-
-static int compare_elements(const void *op1, const void *op2)
-{
-    const sorted_cart_t *p1 = (const sorted_cart_t *)op1;
-    const sorted_cart_t *p2 = (const sorted_cart_t *)op2;
-
-    return strcmp(p1->opt, p2->opt);
-}
-
-static void usage_types(void)
-{
-    unsigned int i = 1;
-    int n = 0;
-    unsigned int amount;
-    sorted_cart_t *sorted_option_elements;
-
-    cleanup();
-    printf("supported cart types:\n\n");
-
-    printf("bin      Binary .bin file (Default crt->bin)\n");
-    printf("prg      Binary C64 .prg file with load-address\n\n");
-    printf("normal   Generic 8KiB/12KiB/16KiB .crt file (Default bin->crt)\n");
-    printf("ulti     Ultimax mode 4KiB/8KiB/16KiB .crt file\n\n");
-
-    /* get the amount of valid options, excluding crt id 0 */
-    amount = count_valid_option_elements();
-
-    sorted_option_elements = malloc(amount * sizeof(sorted_cart_t));
-
-    /* fill in the array with the information needed */
-    while (cart_info[i].name) {
-        if (cart_info[i].opt) {
-            sorted_option_elements[n].opt = cart_info[i].opt;
-            sorted_option_elements[n].name = cart_info[i].name;
-            sorted_option_elements[n].crt_id = (int)i;
-            switch (i) {
-                case CARTRIDGE_DELA_EP7x8:
-                case CARTRIDGE_DELA_EP64:
-                case CARTRIDGE_REX_EP256:
-                case CARTRIDGE_DELA_EP256:
-                    sorted_option_elements[n].insertion = 1;
-                    break;
-                default:
-                    sorted_option_elements[n].insertion = 0;
-                    break;
-            }
-            n++;
-        }
-        i++;
-    }
-
-    qsort(sorted_option_elements, amount, sizeof(sorted_cart_t), compare_elements);
-
-    /* output the sorted list */
-    for (i = 0; i < amount; i++) {
-        n = sorted_option_elements[i].insertion;
-        printf("%-8s %2d %s .crt file%s\n", 
-               sorted_option_elements[i].opt, 
-               sorted_option_elements[i].crt_id, 
-               sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
-    }
-    free(sorted_option_elements);
-    exit(1);
-}
-
-static void usage(void)
-{
-    cleanup();
-    printf("convert:    cartconv [-r] [-q] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
-    printf("print info: cartconv [-r] -f \"input name\"\n\n");
-    printf("-f <name>    print info on file\n");
-    printf("-r           repair mode (accept broken input files)\n");
-    printf("-p           accept non padded binaries as input\n");
-    printf("-b           output all banks (do not optimize the .crt file)\n");
-    printf("-t <type>    output cart type\n");
-    printf("-s <rev>     output cart revision/subtype\n");
-    printf("-i <name>    input filename\n");
-    printf("-o <name>    output filename\n");
-    printf("-n <name>    crt cart name\n");
-    printf("-l <addr>    load address\n");
-    printf("-q           quiet\n");
-    printf("--types      show the supported cart types\n");
-    printf("--version    print cartconv version\n");
-    exit(1);
-}
-
 
 /** \brief  Dump cartconv version string on stdout
  *
  * Dumps the SVN revision as well, if compiled from SVN
  */
-static void dump_version(void)
-{
-#ifdef USE_SVN_REVISION
-    printf("cartconv (VICE %s SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
-#else
-    printf("cartconv (VICE %s)\n", VERSION);
-#endif
-}
-
-
-static void printbanks(char *name)
-{
-    FILE *f;
-    unsigned char b[0x10];
-    long len, filelen;
-    long pos;
-    unsigned int type, bank, start, size;
-    char *typestr[4] = { "ROM", "RAM", "FLASH", "UNK" };
-    unsigned int numbanks;
-    unsigned long tsize;
-
-    f = fopen(name, "rb");
-    fseek(f, 0, SEEK_END);
-    filelen = ftell(f);
-
-    tsize = 0; numbanks = 0;
-    if (f) {
-        fseek(f, 0x40, SEEK_SET); /* skip crt header */
-        pos = 0x40;
-        printf("\noffset  sig  type  bank start size  chunklen\n");
-        while (!feof(f)) {
-            fseek(f, pos, SEEK_SET);
-            /* get chip header */
-            if (fread(b, 1, 0x10, f) < 0x10) {
-                break;
-            }
-            len = (b[7] + (b[6] * 0x100) + (b[5] * 0x10000) + (b[4] * 0x1000000));
-            type = (unsigned int)((b[8] * 0x100) + b[9]);
-            bank = (unsigned int)((b[10] * 0x100) + b[11]);
-            start = (unsigned int)((b[12] * 0x100) + b[13]);
-            size = (unsigned int)((b[14] * 0x100) + b[15]);
-            if (type > 2) {
-                type = 3; /* invalid */
-            }
-            printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03u $%04x $%04x $%04lx\n",
-                    (unsigned long)pos, b[0], b[1], b[2], b[3],
-                    typestr[type], bank, start, size, (unsigned long)len);
-            if ((size + 0x10) > len) {
-                printf("  Error: data size exceeds chunk length\n");
-            }
-            if (len > (filelen - pos)) {
-                printf("  Error: data size exceeds end of file\n");
-                break;
-            }
-            pos += len;
-            numbanks++;
-            tsize += size;
-        }
-        fclose(f);
-        printf("\ntotal banks: %u size: $%06lx\n", numbanks, tsize);
-    }
-}
-
-static void printinfo(char *name)
-{
-    int crtid;
-    char *idname, *modename;
-    char cartname[0x20 + 1];
-    char *exrom_warning = NULL;
-    char *game_warning = NULL;
-
-    if (load_input_file(name) < 0) {
-        printf("Error: this file seems broken.\n\n");
-    }
-    crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
-    if (headerbuffer[0x17] & 0x80) {
-        /* handle our negative test IDs */
-        crtid -= 0x10000;
-    }
-    if ((crtid >= 0) && (crtid <= CARTRIDGE_LAST)) {
-        idname = cart_info[crtid].name;
-    } else {
-        idname = "unknown";
-    }
-    if ((headerbuffer[0x18] == 1) && (headerbuffer[0x19] == 0)) {
-        modename = "ultimax";
-    } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 0)) {
-        modename = "16k Game";
-    } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 1)) {
-        modename = "8k Game";
-    } else {
-        modename = "?";
-    }
-    if (crtid && headerbuffer[0x18] != cart_info[crtid].exrom) {
-        exrom_warning = "Warning: exrom in crt image set incorrectly.\n";
-    }
-    if (crtid && headerbuffer[0x19] != cart_info[crtid].game) {
-        game_warning = "Warning: game in crt image set incorrectly.\n";
-    }
-    memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
-    printf("CRT Version: %d.%d\n", headerbuffer[0x14], headerbuffer[0x15]);
-    printf("Name: %s\n", cartname);
-    printf("Hardware ID: %d (%s)\n", crtid, idname);
-    printf("Hardware Revision: %d\n", headerbuffer[0x1a]);
-    printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
-    if (exrom_warning) {
-        printf("%s", exrom_warning);
-    }
-    if (game_warning) {
-        printf("%s", game_warning);
-    }
-    printbanks(name);
-    exit (0);
-}
-
-static void checkarg(char *arg)
-{
-    if (arg == NULL) {
-        usage();
-    }
-}
-
-static int checkflag(char *flg, char *arg)
-{
-    int i;
-
-    switch (tolower((int)(flg[1]))) {
-        case 'f':
-            printinfo(arg);
-            return 2;
-        case 'r':
-            repair_mode = 1;
-            return 1;
-        case 'b':
-            omit_empty_banks = 0;
-            return 1;
-        case 'q':
-            quiet_mode = 1;
-            return 1;
-        case 'p':
-            input_padding = 1;
-            return 1;
-        case 'o':
-            checkarg(arg);
-            if (output_filename == NULL) {
-                output_filename = strdup(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        case 'n':
-            checkarg(arg);
-            if (cart_name == NULL) {
-                cart_name = strdup(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        case 'l':
-            checkarg(arg);
-            if (load_address == 0) {
-                load_address = atoi(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        case 's':
-            checkarg(arg);
-            if (cart_subtype == 0) {
-                cart_subtype = atoi(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        case 't':
-            checkarg(arg);
-            if (cart_type != -1 || convert_to_bin != 0 || convert_to_prg != 0 || convert_to_ultimax != 0) {
-                usage();
-            } else {
-                for (i = 0; cart_info[i].name != NULL; i++) {
-                    if (cart_info[i].opt != NULL) {
-                        if (!strcasecmp(cart_info[i].opt, arg)) {
-                            cart_type = (signed char)i;
-                            break;
-                        }
-                    }
-                }
-                if (cart_type == -1) {
-                    if (!strcmp(arg, "bin")) {
-                        convert_to_bin = 1;
-                    } else if (!strcmp(arg, "normal")) {
-                        cart_type = CARTRIDGE_CRT;
-                    } else if (!strcmp(arg, "prg")) {
-                        convert_to_prg = 1;
-                    } else if (!strcmp(arg, "ulti")) {
-                        cart_type = CARTRIDGE_CRT;
-                        convert_to_ultimax = 1;
-                    } else {
-                        usage();
-                    }
-                } else if (cart_type == 61) { /* MAX Basic */
-                    convert_to_ultimax = 1;
-                }
-            }
-            return 2;
-        case 'i':
-            checkarg(arg);
-            if (input_filenames == 33) {
-                usage();
-            }
-            input_filename[input_filenames] = strdup(arg);
-            input_filenames++;
-            return 2;
-        default:
-            usage();
-            break;
-    }
-    return 1;
-}
 
 static void too_many_inputs(void)
 {
@@ -528,7 +208,10 @@ static int load_easyflash_crt(void)
             }
         }
         loadfile_size = 0x100000;
-        if (chipbuffer[0] != 'C' || chipbuffer[1] != 'H' || chipbuffer[2] != 'I' || chipbuffer[3] != 'P') {
+        if (chipbuffer[0] != 'C' ||
+            chipbuffer[1] != 'H' ||
+            chipbuffer[2] != 'I' ||
+            chipbuffer[3] != 'P') {
             return -1;
         }
         if (load_address == 0) {
@@ -559,7 +242,10 @@ static int load_all_banks(void)
                 return 0;
             }
         }
-        if (chipbuffer[0] != 'C' || chipbuffer[1] != 'H' || chipbuffer[2] != 'I' || chipbuffer[3] != 'P') {
+        if (chipbuffer[0] != 'C' ||
+            chipbuffer[1] != 'H' ||
+            chipbuffer[2] != 'I' ||
+            chipbuffer[3] != 'P') {
             fprintf(stderr, "Error: CHIP tag not found.\n");
             return -1;
         }
@@ -639,8 +325,13 @@ void bin2crt_ok(void)
     if (!quiet_mode) {
         printf("Input file : %s\n", input_filename[0]);
         printf("Output file : %s\n", output_filename);
-        printf("Conversion from binary format to %s .crt successful.\n", 
-               cart_info[(unsigned char)cart_type].name);
+        if (machine_class == VICE_MACHINE_C64) {
+            printf("Conversion from binary format to C64 %s .crt successful.\n", 
+                cart_info[(unsigned char)cart_type].name);
+        } else if (machine_class == VICE_MACHINE_VIC20) {
+            printf("Conversion from binary format to VIC20 %s .crt successful.\n", 
+                cart_info_vic20[(unsigned char)cart_type].name);
+        }
     }
 }
 
@@ -648,6 +339,9 @@ void save_regular_crt(unsigned int length, unsigned int banks, unsigned int addr
 {
     unsigned int i;
     unsigned int real_banks = banks;
+    
+    printf("save_regular_crt  loadfile_size: %x cart length:%x banks:%u load@:%02x chiptype:%u\n",
+            loadfile_size, length, banks, address, type);
 
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
@@ -679,8 +373,46 @@ void save_regular_crt(unsigned int length, unsigned int banks, unsigned int addr
     exit(0);
 }
 
+int detect_input_file(char *filename)
+{
+    loadfile_offset = 0;
+    loadfile_is_crt = 0;
+
+    if (read_crt_header(filename) < 0) {
+        /* not a crt file */
+        return 0;
+    } else {
+
+        if (!strncmp("C64 CARTRIDGE   ", (char *)headerbuffer, 16)) {
+            loadfile_is_crt = 1;
+            machine_class = VICE_MACHINE_C64;
+        } else if (!strncmp("C128 CARTRIDGE  ", (char *)headerbuffer, 16)) {
+            loadfile_is_crt = 1;
+            machine_class = VICE_MACHINE_C128;
+        } else if (!strncmp("VIC20 CARTRIDGE ", (char *)headerbuffer, 16)) {
+            loadfile_is_crt = 1;
+            machine_class = VICE_MACHINE_VIC20;
+        } else if (!strncmp("PLUS4 CARTRIDGE ", (char *)headerbuffer, 16)) {
+            loadfile_is_crt = 1;
+            machine_class = VICE_MACHINE_PLUS4;
+        }
+
+    }
+
+    printf("detect_input_file loadfile_is_crt:%d machine_class:%d\n",
+           loadfile_is_crt, machine_class);
+    
+    return 0;
+}
+
 int load_input_file(char *filename)
 {
+    if (detect_input_file(filename) < 0) {
+        return -1;
+    }
+
+    /* FIXME: from the following code remove everything already done by detect_input_file */
+
     loadfile_offset = 0;
     infile = fopen(filename, "rb");
     if (infile == NULL) {
@@ -695,24 +427,32 @@ int load_input_file(char *filename)
         fclose(infile);
         return -1;
     }
-    if (!strncmp("C64 CARTRIDGE   ", (char *)filebuffer, 16)) {
-        loadfile_is_crt = 1;
+
+    if (loadfile_is_crt) {
+
         if (fread(headerbuffer + 0x10, 1, 0x30, infile) != 0x30) {
             fprintf(stderr, "Error: Can't read the full header of %s\n", filename);
             fclose(infile);
             return -1;
         }
-        if (headerbuffer[0x10] != 0 || headerbuffer[0x11] != 0 || headerbuffer[0x12] != 0 || headerbuffer[0x13] != 0x40) {
+
+        if (headerbuffer[0x10] != 0 ||
+            headerbuffer[0x11] != 0 ||
+            headerbuffer[0x12] != 0 ||
+            headerbuffer[0x13] != 0x40) {
             fprintf(stderr, "Error: Illegal header size in %s\n", filename);
             if (!repair_mode) {
                 fclose(infile);
                 return -1;
             }
         }
-        if (headerbuffer[0x18] == 1 && headerbuffer[0x19] == 0) {
-            loadfile_is_ultimax = 1;
-        } else {
-            loadfile_is_ultimax = 0;
+
+        if (machine_class == VICE_MACHINE_C64) {
+            if (headerbuffer[0x18] == 1 && headerbuffer[0x19] == 0) {
+                loadfile_is_ultimax = 1;
+            } else {
+                loadfile_is_ultimax = 0;
+            }
         }
 
         loadfile_cart_type = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
@@ -720,10 +460,13 @@ int load_input_file(char *filename)
             /* handle our negative test IDs */
             loadfile_cart_type -= 0x10000;
         }
-        if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_LAST))) {
-            fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
-            fclose(infile);
-            return -1;
+
+        if (machine_class == VICE_MACHINE_C64) {
+            if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_LAST))) {
+                fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
+                fclose(infile);
+                return -1;
+            }
         }
 
         loadfile_size = 0;
@@ -810,6 +553,397 @@ int load_input_file(char *filename)
     }
 }
 
+/*****************************************************************************/
+
+static void printbanks(char *name)
+{
+    FILE *f;
+    unsigned char b[0x10];
+    long len, filelen;
+    long pos;
+    unsigned int type, bank, start, size;
+    char *typestr[4] = { "ROM", "RAM", "FLASH", "UNK" };
+    unsigned int numbanks;
+    unsigned long tsize;
+
+    f = fopen(name, "rb");
+    fseek(f, 0, SEEK_END);
+    filelen = ftell(f);
+
+    tsize = 0; numbanks = 0;
+    if (f) {
+        fseek(f, 0x40, SEEK_SET); /* skip crt header */
+        pos = 0x40;
+        printf("\noffset  sig  type  bank start size  chunklen\n");
+        while (!feof(f)) {
+            fseek(f, pos, SEEK_SET);
+            /* get chip header */
+            if (fread(b, 1, 0x10, f) < 0x10) {
+                break;
+            }
+            len = (b[7] + (b[6] * 0x100) + (b[5] * 0x10000) + (b[4] * 0x1000000));
+            type = (unsigned int)((b[8] * 0x100) + b[9]);
+            bank = (unsigned int)((b[10] * 0x100) + b[11]);
+            start = (unsigned int)((b[12] * 0x100) + b[13]);
+            size = (unsigned int)((b[14] * 0x100) + b[15]);
+            if (type > 2) {
+                type = 3; /* invalid */
+            }
+            printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03u $%04x $%04x $%04lx\n",
+                    (unsigned long)pos, b[0], b[1], b[2], b[3],
+                    typestr[type], bank, start, size, (unsigned long)len);
+            if ((size + 0x10) > len) {
+                printf("  Error: data size exceeds chunk length\n");
+            }
+            if (len > (filelen - pos)) {
+                printf("  Error: data size exceeds end of file\n");
+                break;
+            }
+            pos += len;
+            numbanks++;
+            tsize += size;
+        }
+        fclose(f);
+        printf("\ntotal banks: %u size: $%06lx\n", numbanks, tsize);
+    }
+}
+
+static void printinfo(char *name)
+{
+    int crtid;
+    char *idname = "unknown";
+    char *modename;
+    char systemname[0x20 + 1];
+    char cartname[0x20 + 1];
+    char *exrom_warning = NULL;
+    char *game_warning = NULL;
+
+    if (detect_input_file(name) < 0) {
+        printf("Error: can not detect file type.\n\n");
+    }
+
+    if (loadfile_is_crt == 1) {
+        crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
+        if (headerbuffer[0x17] & 0x80) {
+            /* handle our negative test IDs */
+            crtid -= 0x10000;
+        }
+
+        if (machine_class == VICE_MACHINE_C64) {
+            if ((crtid >= 0) && (crtid <= CARTRIDGE_LAST)) {
+                idname = cart_info[crtid].name;
+            }
+            if ((headerbuffer[0x18] == 1) && (headerbuffer[0x19] == 0)) {
+                modename = "ultimax";
+            } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 0)) {
+                modename = "16k Game";
+            } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 1)) {
+                modename = "8k Game";
+            } else {
+                modename = "?";
+            }
+            if (crtid && headerbuffer[0x18] != cart_info[crtid].exrom) {
+                exrom_warning = "Warning: exrom in crt image set incorrectly.\n";
+            }
+            if (crtid && headerbuffer[0x19] != cart_info[crtid].game) {
+                game_warning = "Warning: game in crt image set incorrectly.\n";
+            }
+        } else if (machine_class == VICE_MACHINE_VIC20) {
+            if ((crtid >= 0) && (crtid <= CARTRIDGE_VIC20_LAST)) {
+                idname = cart_info_vic20[crtid].name;
+            }
+        }
+
+        memcpy(systemname, &headerbuffer[0], 0x10); systemname[0x10] = 0;
+        if (systemname[0x0f] == 0x20) { systemname[0x0f] = 0; }
+        if (systemname[0x0e] == 0x20) { systemname[0x0e] = 0; }
+        memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
+
+        printf("CRT Version: %d.%d (%s)\n", headerbuffer[0x14], headerbuffer[0x15], systemname);
+        printf("Name: %s\n", cartname);
+        printf("Hardware ID: %d (%s)\n", crtid, idname);
+        printf("Hardware Revision: %d\n", headerbuffer[0x1a]);
+
+        if (machine_class == VICE_MACHINE_C64) {
+            printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
+            if (exrom_warning) {
+                printf("%s", exrom_warning);
+            }
+            if (game_warning) {
+                printf("%s", game_warning);
+            }
+        }
+
+        if (load_input_file(name) < 0) {
+            printf("Error: this file seems broken.\n\n");
+        }
+        printbanks(name);
+    }
+
+    exit (0);
+}
+
+/*****************************************************************************/
+
+typedef struct sorted_cart_s {
+    char *opt;
+    char *name;
+    int crt_id;
+    int insertion;
+} sorted_cart_t;
+
+static unsigned int count_valid_option_elements(const cart_t *info)
+{
+    unsigned int i = 1;
+    unsigned int amount = 0;
+
+    while (info[i].name) {
+        if (info[i].opt) {
+            amount++;
+        }
+        i++;
+    }
+    return amount;
+}
+
+static int compare_elements(const void *op1, const void *op2)
+{
+    const sorted_cart_t *p1 = (const sorted_cart_t *)op1;
+    const sorted_cart_t *p2 = (const sorted_cart_t *)op2;
+
+    return strcmp(p1->opt, p2->opt);
+}
+
+static void print_types(int machine, const cart_t *info)
+{
+    unsigned int i = 1;
+    int n = 0;
+    unsigned int amount;
+    sorted_cart_t *sorted_option_elements;
+
+    /* get the amount of valid options, excluding crt id 0 */
+    amount = count_valid_option_elements(info);
+    sorted_option_elements = malloc(amount * sizeof(sorted_cart_t));
+
+    /* fill in the array with the information needed */
+    while (info[i].name) {
+        if (info[i].opt) {
+            sorted_option_elements[n].opt = info[i].opt;
+            sorted_option_elements[n].name = info[i].name;
+            sorted_option_elements[n].crt_id = (int)i;
+            /* FIXME: put this info into the cartridge list */
+            if (machine == VICE_MACHINE_C64) {
+                switch (i) {
+                    case CARTRIDGE_DELA_EP7x8:
+                    case CARTRIDGE_DELA_EP64:
+                    case CARTRIDGE_REX_EP256:
+                    case CARTRIDGE_DELA_EP256:
+                        sorted_option_elements[n].insertion = 1;
+                        break;
+                    default:
+                        sorted_option_elements[n].insertion = 0;
+                        break;
+                }
+            }
+            n++;
+        }
+        i++;
+    }
+
+    qsort(sorted_option_elements, amount, sizeof(sorted_cart_t), compare_elements);
+
+    /* output the sorted list */
+    for (i = 0; i < amount; i++) {
+        n = sorted_option_elements[i].insertion;
+        printf("%-8s %2d %s .crt file%s\n", 
+               sorted_option_elements[i].opt, 
+               sorted_option_elements[i].crt_id, 
+               sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
+    }
+    free(sorted_option_elements);
+}
+
+static void usage_types(void)
+{
+    cleanup();
+    printf("supported cartridge types:\n\n"
+           "bin      Binary .bin file (Default crt->bin)\n"
+           "prg      Binary C64 .prg file with load-address\n\n"
+           "normal   Generic 8KiB/12KiB/16KiB .crt file (Default bin->crt)\n"
+           "ulti     Ultimax mode 4KiB/8KiB/16KiB .crt file\n\n"
+           "C64 cartridge types:\n\n");
+
+    print_types(VICE_MACHINE_C64, cart_info);
+
+    printf("\nVIC20 cartridge types:\n\n");
+    print_types(VICE_MACHINE_VIC20, cart_info_vic20);
+
+    exit(1);
+}
+
+static void usage(void)
+{
+    cleanup();
+    printf("convert:    cartconv [-r] [-q] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
+    printf("print info: cartconv [-r] -f \"input name\"\n\n");
+    printf("-f <name>    print info on file\n");
+    printf("-r           repair mode (accept broken input files)\n");
+    printf("-p           accept non padded binaries as input\n");
+    printf("-b           output all banks (do not optimize the .crt file)\n");
+    printf("-t <type>    output cart type\n");
+    printf("-s <rev>     output cart revision/subtype\n");
+    printf("-i <name>    input filename\n");
+    printf("-o <name>    output filename\n");
+    printf("-n <name>    crt cart name\n");
+    printf("-l <addr>    load address\n");
+    printf("-q           quiet\n");
+    printf("--types      show the supported cart types\n");
+    printf("--version    print cartconv version\n");
+    exit(1);
+}
+
+/*****************************************************************************/
+
+static void checkarg(char *arg)
+{
+    if (arg == NULL) {
+        usage();
+        exit(-1);
+    }
+}
+
+static int find_crtid_from_type(const cart_t *info, char *type)
+{
+    int i;
+    for (i = 0; info[i].name != NULL; i++) {
+        if (info[i].opt != NULL) {
+            if (!strcasecmp(info[i].opt, type)) {
+                return i; /* found */
+            }
+        }
+    }
+    return -1;
+}
+
+static const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
+{
+    const cart_t *info = cart_info;
+    int i;
+
+    if (machine == VICE_MACHINE_VIC20) {
+        info = cart_info_vic20;
+    }
+
+    for (i = 0; info[i].name != NULL; i++) {
+        if (i == crtid) {
+            return &info[i];
+        }
+    }
+    return NULL;
+}
+
+/* FIXME: document return code / use constant */
+static int checkflag(char *flg, char *arg)
+{
+    switch (tolower((int)(flg[1]))) {
+        case 'f':
+            printinfo(arg);
+            return 2;
+        case 'r':
+            repair_mode = 1;
+            return 1;
+        case 'b':
+            omit_empty_banks = 0;
+            return 1;
+        case 'q':
+            quiet_mode = 1;
+            return 1;
+        case 'p':
+            input_padding = 1;
+            return 1;
+        case 'o':
+            checkarg(arg);
+            if (output_filename == NULL) {
+                output_filename = strdup(arg);
+            } else {
+                usage();
+            }
+            return 2;
+        case 'n':
+            checkarg(arg);
+            if (cart_name == NULL) {
+                cart_name = strdup(arg);
+            } else {
+                usage();
+            }
+            return 2;
+        case 'l':
+            checkarg(arg);
+            if (load_address == 0) {
+                load_address = atoi(arg);
+            } else {
+                usage();
+            }
+            return 2;
+        case 's':
+            checkarg(arg);
+            if (cart_subtype == 0) {
+                cart_subtype = atoi(arg);
+            } else {
+                usage();
+            }
+            return 2;
+        /* set cartridge type (and machine) */
+        case 't':
+            checkarg(arg);
+            if ((cart_type != -1) ||
+                (convert_to_bin != 0) ||
+                (convert_to_prg != 0) ||
+                (convert_to_ultimax != 0)) {
+                usage();
+            } else {
+                cart_type = find_crtid_from_type(cart_info, arg);
+                if (cart_type == -1) {
+                    cart_type = find_crtid_from_type(cart_info_vic20, arg);
+                    if (cart_type != -1) {
+                        /* found vic20 cartridge */
+                        machine_class = VICE_MACHINE_VIC20;
+                    }
+                }
+
+                if (cart_type == -1) {
+                    if (!strcmp(arg, "bin")) {
+                        convert_to_bin = 1;
+                    } else if (!strcmp(arg, "normal")) {
+                        cart_type = CARTRIDGE_CRT;
+                    } else if (!strcmp(arg, "prg")) {
+                        convert_to_prg = 1;
+                    } else if (!strcmp(arg, "ulti")) {
+                        cart_type = CARTRIDGE_CRT;
+                        convert_to_ultimax = 1;
+                    } else {
+                        usage();
+                    }
+                } else if (cart_type == CARTRIDGE_MAX_BASIC) {
+                    convert_to_ultimax = 1;
+                }
+            }
+            printf("-t cart_type: %d machine_class: %d\n", cart_type, machine_class);
+            return 2;
+        case 'i':
+            checkarg(arg);
+            if (input_filenames == 33) {
+                usage();
+            }
+            input_filename[input_filenames] = strdup(arg);
+            input_filenames++;
+            return 2;
+        default:
+            usage();
+            break;
+    }
+    return 1;
+}
 
 int main(int argc, char *argv[])
 {
@@ -822,7 +956,11 @@ int main(int argc, char *argv[])
             usage_types();
             return EXIT_SUCCESS;
         } else if (strcmp(argv[1], "--version") == 0) {
-            dump_version();
+#ifdef USE_SVN_REVISION
+            printf("cartconv (VICE %s SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+#else
+            printf("cartconv (VICE %s)\n", VERSION);
+#endif
             return EXIT_SUCCESS;
         }
     }
@@ -894,6 +1032,9 @@ int main(int argc, char *argv[])
             }
         }
     } else {
+        /* write a .crt file */
+        const cart_t *info;
+
         if (cart_type == -1) {
             fprintf(stderr, "Error: File is already in binary format\n");
             cleanup();
@@ -902,25 +1043,28 @@ int main(int argc, char *argv[])
         /* FIXME: the sizes are used in a bitfield, and also by their absolute values. this
                   check is doomed to fail because of that :)
         */
+
+        info = find_cartinfo_from_crtid(cart_type, machine_class);
+
         if (input_padding) {
-            while ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
+            while ((loadfile_size & info->sizes) != loadfile_size) {
                 loadfile_size++;
             }
         } else {
-            if ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
+            if ((loadfile_size & info->sizes) != loadfile_size) {
                 fprintf(stderr, "Error: Input file size (%u) doesn't match %s requirements\n",
                         loadfile_size, cart_info[(unsigned char)cart_type].name);
                 cleanup();
                 exit(1);
             }
         }
-        if (cart_info[(unsigned char)cart_type].save != NULL) {
-            cart_info[(unsigned char)cart_type].save(cart_info[(unsigned char)cart_type].bank_size,
-                                                     cart_info[(unsigned char)cart_type].banks,
-                                                     cart_info[(unsigned char)cart_type].load_address,
-                                                     cart_info[(unsigned char)cart_type].data_type,
-                                                     cart_info[(unsigned char)cart_type].game,
-                                                     cart_info[(unsigned char)cart_type].exrom);
+        if (info->save != NULL) {
+            info->save(info->bank_size,
+                        info->banks,
+                        info->load_address,
+                        info->data_type,
+                        info->game,
+                        info->exrom);
         }
     }
     return 0;
