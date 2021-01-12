@@ -288,8 +288,11 @@ int fsimage_dxx_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
     long offset;
     fsimage_t *fsimage = image->media.fsimage;
     fdc_err_t rf;
+    int harderror;
 
     sectors = disk_image_check_sector(image, dadr->track, dadr->sector);
+
+    /* printf("%d:%d = %d sectors image->gcr:%p\n", dadr->track, dadr->sector, sectors, image->gcr); */
 
     if (sectors < 0) {
         log_error(fsimage_dxx_log, "Track %u, Sector %u out of bounds.",
@@ -304,25 +307,43 @@ int fsimage_dxx_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
         offset += X64_HEADER_LENGTH;
     }
 #endif
-    if (image->gcr == NULL) {
-        if (util_fpread(fsimage->fd, buf, 256, offset) < 0) {
-            log_error(fsimage_dxx_log,
-                      "Error reading T:%u S:%u from disk image.",
-                      dadr->track, dadr->sector);
-            return -1;
-        } else {
-            rf = fsimage->error_info.map ? fsimage->error_info.map[sectors] : CBMDOS_FDC_ERR_OK;
+
+    /* first check hard errors, if there is such hard error, then skip the
+       reading and do not update the buffer */
+    harderror = 0;
+    if (fsimage->error_info.map) {
+        harderror = 1;
+        rf = fsimage->error_info.map[sectors];
+        /* these are soft errors */
+        if ((rf == 1) || (rf == 5) || (rf == 7) || (rf == 8)) {
+            harderror = 0;
         }
-    } else {
-        rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (uint8_t)dadr->sector);
-        /* HACK: if the image has an error map, and the "FDC" did not detect an 
-           error in the GCR stream, use the error from the error map instead.
-           FIXME: what should really be done is encoding the errors from the
-           error map into the GCR stream. this is a lot more effort and will
-           give the exact same results, so i will leave it to someone else :)
-        */
-        if (fsimage->error_info.map && (rf == CBMDOS_FDC_ERR_OK)) {
-            rf = fsimage->error_info.map[sectors];
+    }
+
+    if (harderror == 0) {
+        if (image->gcr == NULL) {
+            if (util_fpread(fsimage->fd, buf, 256, offset) < 0) {
+                log_error(fsimage_dxx_log,
+                        "Error reading T:%u S:%u from disk image.",
+                        dadr->track, dadr->sector);
+                return -1;
+            } else {
+                rf = fsimage->error_info.map ? fsimage->error_info.map[sectors] : CBMDOS_FDC_ERR_OK;
+            }
+        } else {
+            rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (uint8_t)dadr->sector);
+            /* HACK: if the image has an error map, and the "FDC" did not detect an 
+            error in the GCR stream, use the error from the error map instead.
+            FIXME: what should really be done is encoding the errors from the
+            error map into the GCR stream. this is a lot more effort and will
+            give the exact same results, so i will leave it to someone else :)
+            */
+            /* printf("read sector %d:%d returned: %d", dadr->track, dadr->sector, rf); */
+            if (fsimage->error_info.map && (rf == CBMDOS_FDC_ERR_OK)) {
+                rf = fsimage->error_info.map[sectors];
+                /* printf(" error map: %d", rf); */
+            }
+            /* printf("\n"); */
         }
     }
 
