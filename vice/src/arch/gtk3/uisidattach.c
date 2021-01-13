@@ -117,10 +117,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
     char *text;
-#ifdef HAVE_DEBUG_GTK3UI
-    int index = GPOINTER_TO_INT(user_data);
-#endif
-    debug_gtk3("got response ID %d, index %d.", response_id, index);
 
     switch (response_id) {
 
@@ -256,7 +252,6 @@ gboolean uisidattach_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
 
-    debug_gtk3("called.");
     dialog = create_sid_attach_dialog(widget);
     gtk_widget_show(dialog);
     return TRUE;
