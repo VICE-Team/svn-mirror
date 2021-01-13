@@ -2274,10 +2274,7 @@ static void on_tree_selection_changed(
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
         gtk_tree_model_get(model, &iter, COLUMN_ID, &id, -1);
-#if 0
-        debug_gtk3("node name: %s", name);
-        debug_gtk3("node ID: %s", id);
-#endif
+
         if (callback != NULL) {
             GtkTreeIter parent;
             char *title;
@@ -2504,17 +2501,9 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
 {
     GtkWidget *child;
 
-#if 0
-    debug_gtk3("checking for child");
-    child = gtk_grid_get_child_at(GTK_GRID(settings_grid), 1, 0);
-#else
     child = gtk_paned_get_child2(GTK_PANED(paned_widget));
-#endif
     if (child != NULL) {
         gtk_widget_destroy(child);
-#if 0
-        resource_manager = NULL;
-#endif
     }
     gtk_paned_pack2(GTK_PANED(paned_widget), widget, TRUE, FALSE);
     /* add a little space around the widget */
@@ -2570,13 +2559,8 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     } else {
         /* try to restore the page last shown */
         GtkTreeIter iter;
-#if 0
-        debug_gtk3("Attempting to get previous settings page");
-#endif
-        if (!gtk_tree_model_get_iter(GTK_TREE_MODEL(settings_model), &iter,
+        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(settings_model), &iter,
                     last_node_path)) {
-            debug_gtk3("Oops");
-        } else {
             GtkWidget *(*callback)(GtkWidget *) = NULL;
             gtk_tree_model_get(
                     GTK_TREE_MODEL(settings_model), &iter,
@@ -2665,14 +2649,12 @@ static void response_callback(GtkWidget *widget, gint response_id,
         /* reset resources in current central widget to the state they were
          * in before entering the (sub)dialog */
         case RESPONSE_RESET:
-            debug_gtk3("Resetting widgets to their dialog-entry state"
-                    " temporarily disabled.");
             break;
 
         /* restore resources in (sub)dialog to factory settings */
         case RESPONSE_FACTORY:
-            debug_gtk3("Resetting widgets to their factory value temporarily"
-                    " disabled.");
+            break;
+
         default:
             break;
     }
@@ -2850,33 +2832,21 @@ gboolean ui_settings_dialog_activate_node(const char *path)
     while (part != NULL) {
 
         const gchar *node_id = NULL;
-#if 0
-        debug_gtk3("checking column %d for '%s'.", column, part);
-#endif
 
         /* iterate nodes until either 'part' is found or the nodes in the
          * current 'column' run out */
         while (TRUE) {
             gtk_tree_model_get(GTK_TREE_MODEL(settings_model), &iter,
                     COLUMN_ID, &node_id, -1);
-#if 0
-            debug_gtk3("got id '%s'.", node_id);
-#endif
 
             /* check node ID against currently sought part of the path */
             if (strcmp(node_id, part) == 0) {
                 /* got the requested node */
-#if 0
-                debug_gtk3("FOUND SOMETHING!");
-#endif
                 if (parts[column + 1] == NULL) {
                     /* got final item */
-
                     GtkTreeSelection *selection;
                     GtkTreePath *tree_path;
-#if 0
-                    debug_gtk3("GOT THE ITEM!");
-#endif
+
                     selection = gtk_tree_view_get_selection(
                             GTK_TREE_VIEW(settings_tree));
                     tree_path = gtk_tree_model_get_path(
@@ -2891,9 +2861,6 @@ gboolean ui_settings_dialog_activate_node(const char *path)
                 } else {
                     /* continue searching, dive into the children of the
                      * current node, if there are any */
-#if 0
-                    debug_gtk3("diving into child nodes of %s.", node_id);
-#endif
                     if (gtk_tree_model_iter_has_child(
                                 GTK_TREE_MODEL(settings_model), &iter)) {
                         /* node has children, iterate those now */
@@ -2902,7 +2869,6 @@ gboolean ui_settings_dialog_activate_node(const char *path)
                         if (!gtk_tree_model_iter_nth_child(
                                     GTK_TREE_MODEL(settings_model),
                                     &child, &iter, 0)) {
-                            debug_gtk3("failed to get first child node.");
                             g_strfreev(parts);
                             return FALSE;
                         }
