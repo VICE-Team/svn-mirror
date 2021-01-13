@@ -173,7 +173,7 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
             /* failed (TODO: perhaps a proper error message?) */
             debug_gtk3("smart attach failed.");
         }
-    } else if ((machine_class == VICE_MACHINE_VIC20)) {
+    } else if (machine_class == VICE_MACHINE_VIC20) {
         if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0

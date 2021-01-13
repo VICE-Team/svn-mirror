@@ -134,6 +134,10 @@ void monitor_cpuhistory_store(uint32_t cycle, unsigned int addr, unsigned int op
                               unsigned int reg_st,
                               uint8_t origin)
 {
+    if (machine_is_jammed()) {
+        return;
+    }
+    
     ++cpuhistory_i;
     cpuhistory_i %= cpuhistory_lines;
     cpuhistory[cpuhistory_i].cycle = cycle;
