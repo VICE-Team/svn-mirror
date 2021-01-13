@@ -67,14 +67,12 @@ int uidata_init(void)
 
     /* try directory with VICE's data files */
     dir = archdep_get_vice_datadir();
-    debug_gtk3("trying archdep_get_vice_datadir() %s/common", dir);
     path = archdep_join_paths(dir, "common", "vice.gresource", NULL);
-    debug_gtk3("Loading gresource from '%s'\n", path);
     lib_free(dir);
 
     gresource = g_resource_load(path, &err);
     if (gresource == NULL && err != NULL) {
-        debug_gtk3("failed to load resource data '%s': %s.",
+        log_error(LOG_ERR, "failed to load resource data '%s': %s.",
                 path, err->message);
         g_clear_error(&err);
         lib_free(path);
@@ -108,7 +106,6 @@ int uidata_init(void)
  */
 void uidata_shutdown(void)
 {
-    debug_gtk3("freeing GResource data.");
     if (gresource != NULL) {
         g_free(gresource);
         gresource = NULL;
@@ -129,7 +126,6 @@ GdkPixbuf * uidata_get_pixbuf(const char *name)
     char *path;
 
     path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
-    debug_gtk3("attempting to load resource '%s'.", path);
     buf = gdk_pixbuf_new_from_resource(path, &err);
     lib_free(path);
     if (err) {
@@ -152,7 +148,6 @@ GdkPixbuf * uidata_get_pixbuf_at_scale(const char *name, int width, int height, 
     char *path;
 
     path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
-    debug_gtk3("attempting to load resource '%s'.", path);
     buf = gdk_pixbuf_new_from_resource_at_scale(path, width, height, preserve_aspect_ratio, &err);
     lib_free(path);
     if (err) {
@@ -204,12 +199,10 @@ GBytes * uidata_get_bytes(const char *name)
     char *path;
 
     path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
-    debug_gtk3("attempting to load resource '%s'.", path);
     bytes = g_resource_lookup_data(gresource, path, G_RESOURCE_LOOKUP_FLAGS_NONE, &err);
     lib_free(path);
     if (bytes == NULL) {
-        debug_gtk3("failed: %s.", err->message);
-        /* TODO: log error */
+        log_error(LOG_ERR, "failed: %s.", err->message);
         g_clear_error(&err);
     }
     return bytes;
