@@ -57,10 +57,6 @@
 #include <sys/ioctl.h>
 #endif
 
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#include <sys/stat.h>
-#endif
-
 #include "console.h"
 #include "debug_gtk3.h"
 #include "machine.h"
@@ -109,22 +105,6 @@ static linenoiseCompletions need_filename_lc = {0, NULL};
 /* FIXME: this should perhaps be done using some function from archdep */
 static int is_dir(struct dirent *de)
 {
-#if 0 /* FIXME: mingw */
-
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-    struct stat t;
-
-    stat(de->d_name, &t);
-    if ((t.st_mode & S_IFMT) == S_IFDIR) {
-        return 1;
-    }
-#else
-    if (de->d_type == DT_DIR) {
-        return 1;
-    }
-#endif
-
-#endif
     return 0;
 }
 
@@ -588,10 +568,7 @@ bool uimon_set_font(void)
     if (resources_get_string("MonitorBG", &bg) < 0) {
         bg = NULL;
     }
-    debug_gtk3("BG color = '%s'", bg);
-    if (!gdk_rgba_parse(&color, bg)) {
-        debug_gtk3("fuck!");
-    } else {
+    if (gdk_rgba_parse(&color, bg)) {
         vte_terminal_set_color_background(VTE_TERMINAL(fixed.term), &color);
     }
 
@@ -599,15 +576,9 @@ bool uimon_set_font(void)
     if (resources_get_string("MonitorFG", &fg) < 0) {
         fg = NULL;
     }
-    debug_gtk3("FG color = '%s'", fg);
-    if (!gdk_rgba_parse(&color, fg)) {
-        debug_gtk3("fuck!");
-    } else {
+    if (gdk_rgba_parse(&color, fg)) {
         vte_terminal_set_color_foreground(VTE_TERMINAL(fixed.term), &color);
     }
-
-
-
 
     gtk_widget_set_size_request(GTK_WIDGET(fixed.window), -1, -1);
     gtk_widget_set_size_request(GTK_WIDGET(fixed.term), -1, -1);
@@ -717,13 +688,6 @@ static gboolean uimon_window_resume_impl(gpointer user_data)
      * window. This makes the monitor window show when the emulated machine
      * window is in fullscreen mode. (only tested on Windows 10)
      */
-#if 0
-    active = ui_get_active_window();
-    if (active != GTK_WINDOW(fixed.window)) {
-        debug_gtk3("setting monitor window transient for emulator window.");
-        gtk_window_set_transient_for(GTK_WINDOW(fixed.window), active);
-    }
-#endif
     gtk_window_present(GTK_WINDOW(fixed.window));
 
     return FALSE;
@@ -1069,11 +1033,7 @@ gboolean ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
      * Determine if we use the spawing terminal or the (yet to write) Gtk3
      * base monitor
      */
-    if (resources_get_int("NativeMonitor", &native) < 0) {
-        debug_gtk3("failed to get value of resource 'NativeMonitor'.");
-    }
-    debug_gtk3("called, native monitor = %s.", native ? "true" : "false");
-
+    resources_get_int("NativeMonitor", &native);
     resources_get_int("MonitorServer", &v);
 
     if (v == 0) {

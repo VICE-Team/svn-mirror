@@ -44,6 +44,7 @@
 
 #include "gfxoutput.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "mainlock.h"
 #include "openfiledialog.h"
@@ -610,10 +611,6 @@ static void on_save_video_filename(GtkDialog *dialog,
         resources_get_int("FFMPEGAudioCodec", &ac);
         resources_get_int("FFMPEGAudioBitrate", &ab);
 
-        debug_gtk3("Format = '%s'.", driver);
-        debug_gtk3("Video = %d, bitrate %d.", vc, vb);
-        debug_gtk3("Audio = %d, bitrate %d.", ac, ab);
-
         ui_pause_disable();
 
         filename_locale = file_chooser_convert_to_locale(filename);
@@ -749,7 +746,6 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     /* according to the standard, doing a strcmp() with one or more `NULL`
      * arguments is implementation-defined, so better safe than sorry */
     if (prefix == NULL) {
-        debug_gtk3("some idiot passed NULL.");
         return grid;
     }
 
@@ -1204,7 +1200,7 @@ void ui_media_auto_screenshot(void)
     /* no need for locale bullshit */
     filename = create_proposed_screenshot_name("png");
     if (screenshot_save("PNG", filename, ui_get_active_canvas()) < 0) {
-        debug_gtk3("OOPS");
+        log_error(LOG_ERR, "Failed to autosave screenshot.");
     }
 
     if (!old_pause_state) {

@@ -104,7 +104,7 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
  */
 static void ui_accel_data_delete(gpointer data, GClosure *closure)
 {
-    debug_gtk3("Freeing accelerator data\n");
+    debug_gtk3("Holy Shit, this got triggered!!\n");
 #if 0
     lib_free(data);
 #endif
