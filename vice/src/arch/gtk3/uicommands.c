@@ -72,7 +72,6 @@
  */
 static void confirm_exit_callback(GtkDialog *dialog, gboolean result)
 {
-    debug_gtk3("called: %s", result ? "TRUE" : "FALSE");
     if (result) {
         mainlock_release();
         archdep_vice_exit(0);
@@ -271,8 +270,6 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *grid;
 
-    debug_gtk3("WINDOW DESTROY called on %p.", (void *)widget);
-
     /*
      * This should not be needed, destroying a GtkWindow should trigger
      * destruction of all widgets it contains.
@@ -307,11 +304,8 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
 
         /* attempt to toggle resource */
         if (resources_toggle(res, &new_state) < 0) {
-            debug_gtk3("toggling resource %s failed.", res);
             return FALSE;
         }
-        debug_gtk3("resource %s toggled to %s.",
-                   res, new_state ? "True" : "False");
         return TRUE;
     }
     return FALSE;
@@ -329,6 +323,9 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
  *          (unreliable: gtk_show_uri_on_window() will return TRUE if the
  *           associated application could be openened but not the actual
  *           manual file)
+ *
+ * \note    Keep the debug_gtk3() calls for now, this code hardly works on
+ *          Windows at all and needs work.
  */
 gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -346,9 +343,7 @@ gboolean ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
 
     /* first try opening the pdf */
     uri = archdep_join_paths(path, "vice.pdf", NULL);
-
     debug_gtk3("URI before GTK3: %s", uri);
-
     final_uri = g_filename_to_uri(uri, NULL, &error);
     debug_gtk3("final URI (pdf): %s", final_uri);
     if (final_uri == NULL) {
@@ -427,8 +422,6 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
 {
     GtkWindow *window = ui_get_active_window();
 
-    debug_gtk3("called\n");
-
     if (window != NULL) {
         /* disable fullscreen if active */
         if (ui_is_fullscreen()) {
@@ -441,8 +434,6 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
          * decorations and contents without wasting space
          */
         gtk_window_resize(window, 1, 1);
-    } else {
-        debug_gtk3("ui_get_active_window() returned NULL");
     }
     return TRUE;
 }
@@ -457,7 +448,6 @@ gboolean ui_restore_display(GtkWidget *widget, gpointer data)
  */
 static void restore_default_callback(GtkDialog *dialog, gboolean result)
 {
-    debug_gtk3("Resetting resources to default.");
     if (result) {
         mainlock_obtain();
         resources_set_defaults();
