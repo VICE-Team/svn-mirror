@@ -530,13 +530,15 @@ static void ui_on_drag_data_received(
             files = g_strsplit((const gchar *)text, "\n", -1);
             g_free(text);
 
-#ifdef HAVE_DEBUG_GTK3UI
+#if 0
+# ifdef HAVE_DEBUG_GTK3UI
             for (i = 0; files[i] != NULL; i++) {
                 /* keep this as well */
                 gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
                 debug_gtk3("URI: '%s', filename: '%s'.",
                         files[i], tmp);
             }
+# endif
 #endif
             /* now grab the first file */
             filename = g_filename_from_uri(files[0], NULL, NULL);
@@ -732,7 +734,6 @@ static GdkPixbuf *get_default_icon(void)
         buffer[sizeof(buffer) - 1] = '\0';
     } else {
         g_snprintf(buffer, sizeof(buffer), "%s.svg", machine_name);
-        debug_gtk3("Trying icon '%s'", buffer);
     }
 
 #ifdef MACOSX_SUPPORT
@@ -1222,7 +1223,6 @@ void ui_set_create_controls_widget_func(GtkWidget *(*func)(int))
  */
 static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("destroy triggered on %p.", (void *)widget);
 }
 
 
@@ -1568,7 +1568,7 @@ void ui_create_main_window(video_canvas_t *canvas)
 
         /* Add default hotkeys that don't have a menu item */
         if (!kbd_hotkey_add_list(default_hotkeys)) {
-            debug_gtk3("adding hotkeys failed, see the log for details.");
+            log_error(LOG_ERR, "adding hotkeys failed, see the log for details.");
         }
     }
 
@@ -1591,11 +1591,14 @@ void ui_create_main_window(video_canvas_t *canvas)
         resources_get_int_sprintf("Window%dYpos", &ypos, target_window);
         resources_get_int_sprintf("Window%dwidth", &width, target_window);
         resources_get_int_sprintf("Window%dheight", &height, target_window);
-
+#if 0
         debug_gtk3("X: %d, Y: %d, W: %d, H: %d", xpos, ypos, width, height);
+#endif
         if (xpos < 0 || ypos < 0 || width <= 0 || height <= 0) {
             /* def. not legal */
+#if 0
             debug_gtk3("shit ain't legal!");
+#endif
         } else {
             gtk_window_move(GTK_WINDOW(new_window), xpos, ypos);
             gtk_window_resize(GTK_WINDOW(new_window), width, height);
