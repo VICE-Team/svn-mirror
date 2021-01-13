@@ -431,14 +431,6 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 return TRUE;
             }
 
-#if 0
-            if ((key == GDK_KEY_p || key == GDK_KEY_P)
-                    && (report->key.state & GDK_MOD1_MASK)) {
-                debug_gtk3("Got Alt+P");
-                ui_toggle_pause();
-                return TRUE;
-            }
-#endif
             /* XXX: hack because the hotkeys have to check for Alt so they
              *      don't end up in the emulated machine.
              *
@@ -451,7 +443,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             }
 
 /* only press keys that were not yet pressed */
-            if(addpressedkey(report, &key, &mod)) {
+            if (addpressedkey(report, &key, &mod)) {
 #if 0
                 printf("%2d key press,   %5u %04x %04x. lshift: %d rshift: %d slock: %d mod:  %04x\n",
                     keyspressed,
@@ -565,7 +557,6 @@ void kbd_connect_handlers(GtkWidget *widget, void *data)
  */
 void kbd_hotkey_init(void)
 {
-    debug_gtk3("initializing hotkeys list.");
     hotkeys_list = lib_malloc(HOTKEYS_SIZE_INIT * sizeof *hotkeys_list);
     hotkeys_size = HOTKEYS_SIZE_INIT;
     hotkeys_count = 0;
@@ -577,7 +568,6 @@ void kbd_hotkey_init(void)
  */
 void kbd_hotkey_shutdown(void)
 {
-    debug_gtk3("cleaning up memory used by the hotkeys.");
     lib_free(hotkeys_list);
 }
 
@@ -615,29 +605,13 @@ static gboolean kbd_hotkey_handle(GdkEvent *report)
     int i = 0;
     gint code = report->key.keyval;
 
-#if 0
-    debug_gtk3("got code %d.", code);
-#endif
     if (((GdkEventKey*)(report))->state & VICE_MOD_MASK) {
-
         while (i < hotkeys_count) {
-#if 0
-            debug_gtk3("checking index %d: hotkey %d, mask %d",
-                    i, hotkeys_list[i].code, hotkeys_list[i].mask);
-#endif
             if (hotkeys_list[i].code == code) {
-#if 0
-                debug_gtk3("Got non-modified key %d.", code);
-#endif
                 if (report->key.state & hotkeys_list[i].mask) {
-#if 0
-                        debug_gtk3("got modifers");
-                        debug_gtk3("triggering callback of hotkey with index %d.", i);
-#endif
                         mainlock_obtain();
                         hotkeys_list[i].callback();
                         mainlock_release();
-                    
                         return TRUE;
                     }
             }
@@ -670,7 +644,6 @@ gboolean kbd_hotkey_add(guint code, guint mask, void (*callback)(void))
     /* resize list? */
     if (hotkeys_count == hotkeys_size) {
         int new_size = hotkeys_size * 2;
-        debug_gtk3("Resizing hotkeys list to %d items.", new_size);
         hotkeys_list = lib_realloc(
                 hotkeys_list,
                 (size_t)new_size * sizeof *hotkeys_list);

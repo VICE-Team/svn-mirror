@@ -194,8 +194,6 @@ int c128ui_init(void)
 
     /* push VDC display to front depending on 40/80 key */
     if (resources_get_int("C128ColumnKey", &forty) >= 0) {
-        debug_gtk3("col mode: %d.", forty ? 40 : 80);
-
         if (!forty) {
             GtkWidget *window = ui_get_window_by_index(1); /* VDC */
             if (window != NULL) {
@@ -209,7 +207,6 @@ int c128ui_init(void)
         GtkWidget *window;
 
         if (hide_vdc) {
-            debug_gtk3("Attempting to hide the VDC window according to C128HideVDC");
             window = ui_get_window_by_index(1); /* VDC */
             if (window != NULL) {
                 gtk_widget_hide(window);
