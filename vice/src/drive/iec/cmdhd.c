@@ -1357,7 +1357,7 @@ int cmdhd_attach_image(disk_image_t *image, unsigned int unit)
 
     /* record passed values */
     hd->image = image;
-    hd->imagesize = (disk_image_size(image) >> 9);
+    hd->imagesize = (uint32_t)(disk_image_size(image) >> 9);
 
     /* leave if there is a problem getting the image size */
     if (hd->imagesize == UINT32_MAX) {

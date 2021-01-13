@@ -213,7 +213,7 @@ static int set_drive_fixed(const char *val, void *param)
         /* apply change */
         work = work << shift;
         /* make it terms of 512 byte units */
-        unit->fixed_size = work >> 9;
+        unit->fixed_size = (unsigned int)(work >> 9);
         /* round up if need be */
         if (work & 511) {
             unit->fixed_size++;
