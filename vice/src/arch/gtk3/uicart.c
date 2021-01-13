@@ -352,7 +352,6 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
     gchar *filename;
 
-    debug_gtk3("got response ID %d.", response_id);
     switch (response_id) {
         case GTK_RESPONSE_DELETE_EVENT:
             gtk_widget_destroy(dialog);
@@ -363,7 +362,6 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             if (filename != NULL) {
                 gchar *filename_locale = file_chooser_convert_to_locale(filename);
 
-                debug_gtk3("attaching '%s'.", filename);
 #ifndef SANDBOX_MODE
                 if (!attach_cart_image(get_cart_type(), get_cart_id(),
                             filename_locale)) {
@@ -547,7 +545,6 @@ static int get_cart_id(void)
             gtk_tree_model_get(model, &iter, 1, &crt_id, -1);
         }
     }
-    debug_gtk3("got crt_id: %d (%04x)\n", crt_id, (unsigned int)crt_id);
     return crt_id;
 }
 #endif
@@ -568,7 +565,6 @@ static int attach_cart_image(int type, int id, const char *path)
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_SCPU64:
-            debug_gtk3("attaching cart type %d, cart ID %d.", type, id);
             switch (type) {
                 case UICART_C64_SMART:
                     id = CARTRIDGE_CRT;
@@ -689,7 +685,6 @@ static int attach_cart_image(int type, int id, const char *path)
             break;
     }
 
-    debug_gtk3("attaching cart type %d, cart ID %04x.", type, (unsigned int)id);
     if ((crt_attach_func(id, path) == 0)) {
         /* check 'set default' */
 #ifndef SANDBOX_MODE
@@ -698,7 +693,6 @@ static int attach_cart_image(int type, int id, const char *path)
                         GTK_TOGGLE_BUTTON(cart_set_default_widget)))) {
             /* set cart as default, there's no return value, so let's assume
              * this works */
-            debug_gtk3("setting cart with ID %04x as default.", (unsigned int)id);
             crt_set_default_func();
         }
 #endif
@@ -1028,7 +1022,6 @@ static void  update_preview(GtkFileChooser *file_chooser, gpointer data)
 {
     gchar *path = NULL;
 
-    debug_gtk3("update_preview");
     path = gtk_file_chooser_get_filename(file_chooser);
     if (path != NULL) {
         gchar *path_locale = file_chooser_convert_to_locale(path);
@@ -1123,7 +1116,6 @@ void ui_cart_set_unset_default_func(void (*func)(void))
 gboolean ui_cart_trigger_freeze(void)
 {
     if (crt_freeze_func != NULL) {
-        debug_gtk3("triggering cart freeze.");
         crt_freeze_func();
     }
     return TRUE;
@@ -1178,7 +1170,6 @@ gboolean ui_cart_detach(void)
             }
         }
 
-        debug_gtk3("detaching all cartridges.");
         crt_detach_func(-1);    /* detach all cartridges */
     }
     return TRUE;
