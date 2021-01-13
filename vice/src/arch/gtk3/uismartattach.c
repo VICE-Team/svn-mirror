@@ -170,8 +170,8 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
                 && autostart_snapshot(filename_locale, NULL) < 0
                 && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0
                 && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0) {
-            /* failed (TODO: perhaps a proper error message?) */
-            debug_gtk3("smart attach failed.");
+            /* failed */
+            log_error(LOG_ERR, "smart attach failed for '%s' failed", filename);
         }
     } else if (machine_class == VICE_MACHINE_VIC20) {
         if (file_system_attach_disk(DRIVE_UNIT_DEFAULT, 0, filename_locale) < 0
@@ -179,8 +179,8 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
                 && autostart_snapshot(filename_locale, NULL) < 0
                 /* && autostart_prg(filename_locale, AUTOSTART_MODE_LOAD) < 0 */
                 && cartridge_attach_image(CARTRIDGE_CRT, filename_locale) < 0) {
-            /* failed (TODO: perhaps a proper error message?) */
-            debug_gtk3("smart attach failed.");
+            /* failed */
+            log_error(LOG_ERR, "smart attach failed for '%s' failed", filename);
         }
     } else {
         /* Smart attach for other emulators: don't try to attach a file
@@ -190,7 +190,6 @@ static void do_smart_attach(GtkWidget *widget, gpointer data)
                 && tape_image_attach(1, filename_locale) < 0
                 && autostart_snapshot(filename_locale, NULL) < 0)
         {
-            /* failed (TODO: perhaps a proper error message?) */
             log_error(LOG_ERR, "Failed to smart attach '%s'",
                     filename_locale);
         }
@@ -300,12 +299,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     int index = content_preview_widget_get_index(preview_widget);
     int autostart = 0;
 
-#ifdef HAVE_DEBUG_GTK3UI
-    debug_gtk3("on_response, got response ID %d, index %d\n", response_id, index);
-#endif
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("on_response, AutostartOnDoubleclick = %s\n",
-            autostart ? "True" : "False");
 
     /* first, to make the following logic less funky, map some events to others,
        depending on whether autostart-on-doubleclick is enabled or not, and 
@@ -331,7 +325,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
            'Autostart' button when autostart-on-doubleclick is enabled
            'Open' button when autostart-on-doubleclick is NOT enabled */
         case GTK_RESPONSE_ACCEPT:
-            debug_gtk3("on_response, GTK_RESPONSE_ACCEPT, index %d\n", index);
             if (filename == NULL) {
                 response_id = VICE_RESPONSE_INVALID;   /* drop this event */
             } else if ((index >= 0) && (autostart == 0)) {
@@ -348,13 +341,9 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             break;
     }
 
-#ifdef HAVE_DEBUG_GTK3UI
-    debug_gtk3("on_response, using response ID %d\n", response_id);
-#endif
     switch (response_id) {
         /* 'Open' button clicked when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_CUSTOM_OPEN:
-            debug_gtk3("on_response, VICE_RESPONSE_CUSTOM_OPEN, index %d\n", index);
             do_smart_attach(widget, user_data);
 
             mainlock_release();
@@ -366,7 +355,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case VICE_RESPONSE_AUTOSTART:
         /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_AUTOSTART_INDEX:
-            debug_gtk3("on_response, VICE_RESPONSE_AUTOSTART_INDEX, index %d\n", index);
             do_autostart(widget, index + 1, 1);
 
             mainlock_release();
@@ -376,7 +364,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
         case VICE_RESPONSE_AUTOLOAD_INDEX:
-            debug_gtk3("on_response, VICE_RESPONSE_AUTOLOAD_INDEX, index %d\n", index);
             do_autostart(widget, index + 1, 0);
 
             mainlock_release();
@@ -503,8 +490,6 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     int autostart = 0;
 
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("create_smart_attach_dialog, AutostartOnDoubleclick = %s\n",
-            autostart ? "True" : "False");
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
