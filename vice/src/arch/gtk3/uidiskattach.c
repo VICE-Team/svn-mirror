@@ -38,6 +38,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "drive.h"
+#include "log.h"
 #include "tape.h"
 #include "debug_gtk3.h"
 #include "basedialogs.h"
@@ -142,8 +143,6 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("show hidden files: %s.", state ? "enabled" : "disabled");
-
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
 #endif
@@ -160,8 +159,6 @@ static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("read-only: %s.", state ? "enabled" : "disabled");
-
     resources_set_int_sprintf("AttachDevice%dReadonly", state, unit_number);
 }
 #endif
@@ -183,8 +180,6 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         path = g_file_get_path(file);
         if (path != NULL) {
             gchar *filename_locale = file_chooser_convert_to_locale(path);
-
-            debug_gtk3("called with '%s'.", path);
 
             content_preview_widget_set_image(preview_widget, filename_locale);
             g_free(path);
@@ -212,12 +207,6 @@ static void on_unit_changed(int unit)
 {
     int dual = drive_is_dualdrive_by_devnr(unit);
 
-    debug_gtk3(
-        "Unit #%d: type %d, dual-drive: %s.",
-        unit,
-        drive_get_type_by_devnr(unit),
-        dual ? "TRUE" : "FALSE");
-
     gtk_widget_set_sensitive(driveno_widget, dual);
     drive_no_widget_update(driveno_widget,
                            unit_drive_nums[unit - DRIVE_UNIT_MIN]);
@@ -235,8 +224,6 @@ static void on_unit_changed(int unit)
  */
 static void on_drive_num_changed(int drive)
 {
-    debug_gtk3("Got drive number %d for unit #%d.", drive, unit_number);
-
     unit_drive_nums[unit_number - DRIVE_UNIT_MIN] = drive;
 
 }
@@ -261,7 +248,6 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
     /* convert filename to current locale */
     filename_locale = file_chooser_convert_to_locale(filename);
 
-    debug_gtk3("Autostarting file '%s'.", filename);
     /* if this function exists, why is there no attach_autodetect()
      * or something similar? -- compyx */
     if (autostart_disk(
@@ -274,7 +260,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                            file in an image */
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
         /* oeps */
-        debug_gtk3("autostart disk attach failed.");
+        log_error(LOG_ERR, "autostart disk attach failed.");
     }
     g_free(filename);
     g_free(filename_locale);
@@ -300,15 +286,10 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
     /* convert filename to current locale */
     filename_locale = file_chooser_convert_to_locale(filename);
 
-    /* ui_message("Opening file '%s' ...", filename); */
-    debug_gtk3("Attaching file '%s' to unit #%d.",
-            filename, unit_number);
-
     /* copied from Gtk2: I fail to see how brute-forcing your way
         * through file types is 'smart', but hell, it works */
     if (file_system_attach_disk(unit_number, drive_number, filename_locale) < 0) {
         /* failed */
-        debug_gtk3("disk attach failed.");
         g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
                 unit_number, filename);
     } else {
@@ -369,12 +350,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     int index = content_preview_widget_get_index(preview_widget);
     int autostart = 0;
 
-#ifdef HAVE_DEBUG_GTK3UI
-    debug_gtk3("on_response, got response ID %d, index %d\n", response_id, index);
-#endif
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("on_response, AutostartOnDoubleclick = %s\n",
-            autostart ? "True" : "False");
 
     /* first, to make the following logic less funky, map some events to others,
        depending on whether autostart-on-doubleclick is enabled or not, and 
@@ -400,7 +376,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
            'Autostart' button when autostart-on-doubleclick is enabled
            'Open' button when autostart-on-doubleclick is NOT enabled */
         case GTK_RESPONSE_ACCEPT:
-            debug_gtk3("on_response, GTK_RESPONSE_ACCEPT, index %d\n", index);
             if (filename == NULL) {
                 response_id = VICE_RESPONSE_INVALID;   /* drop this event */
             } else if ((index >= 0) && (autostart == 0)) {
@@ -417,13 +392,9 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             break;
     }
 
-#ifdef HAVE_DEBUG_GTK3UI
-    debug_gtk3("on_response, using response ID %d\n", response_id);
-#endif
     switch (response_id) {
         /* 'Open' button clicked when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_CUSTOM_OPEN:
-            debug_gtk3("on_response, VICE_RESPONSE_CUSTOM_OPEN, index %d\n", index);
             do_attach(widget, user_data);
 
             mainlock_release();
@@ -435,7 +406,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case VICE_RESPONSE_AUTOSTART:
         /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_AUTOSTART_INDEX:
-            debug_gtk3("on_response, VICE_RESPONSE_AUTOSTART_INDEX, index %d\n", index);
             do_autostart(widget, index + 1, 1);
 
             mainlock_release();
@@ -445,7 +415,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
         case VICE_RESPONSE_AUTOLOAD_INDEX:
-            debug_gtk3("on_response, VICE_RESPONSE_AUTOLOAD_INDEX, index %d\n", index);
             do_autostart(widget, index + 1, 0);
 
             mainlock_release();
@@ -478,10 +447,8 @@ static void on_response(GtkWidget *widget, gint response_id,
     gchar buffer[1024];
     GtkFileChooser *chooser = GTK_FILE_CHOOSER(widget);
 
-    debug_gtk3("Reponse-ID: %d", response_id);
 
     filename = gtk_file_chooser_get_filename(chooser);
-    debug_gtk3("FIlename: '%s'", filename);
 
     switch (response_id) {
         case GTK_RESPONSE_ACCEPT:
@@ -491,15 +458,10 @@ static void on_response(GtkWidget *widget, gint response_id,
             /* convert filename to current locale */
             filename_locale = file_chooser_convert_to_locale(filename);
 
-            /* ui_message("Opening file '%s' ...", filename); */
-            debug_gtk3("Attaching file '%s' to unit #%d.",
-                    filename, unit_number);
-
             /* copied from Gtk2: I fail to see how brute-forcing your way
              * through file types is 'smart', but hell, it works */
             if (file_system_attach_disk(unit_number, 0, filename_locale) < 0) {
                 /* failed */
-                debug_gtk3("disk attach failed.");
                 g_snprintf(buffer, 1024, "Unit #%d: failed to attach '%s'",
                         unit_number, filename);
             } else {
@@ -562,10 +524,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 
     /* add drive number widget */
     driveno_widget = drive_no_widget_create(0, &drive_number, on_drive_num_changed);
-#if 0
-    drive_type = drive_get_type_by_devnr(unit);
-    debug_gtk3("Drive type for unit #%d: %d.", unit, drive_type);
-#endif
     gtk_widget_set_sensitive(driveno_widget, drive_is_dualdrive_by_devnr(unit));
 
     gtk_grid_attach(GTK_GRID(grid),
@@ -594,8 +552,6 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     int autostart = 0;
 
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("create_smart_attach_dialog, AutostartOnDoubleclick = %s\n",
-            autostart ? "True" : "False");
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
@@ -742,7 +698,6 @@ gboolean ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
     unit = GPOINTER_TO_INT(user_data) >> 8;
     drive = GPOINTER_TO_INT(user_data) & 0xff;
 
-    debug_gtk3("Detaching unit #%d, drive %d.", unit, drive);
     file_system_detach_disk(unit, drive);
     return TRUE;
 }
