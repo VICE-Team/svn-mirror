@@ -31,6 +31,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "log.h"
 #include "tape.h"
 #include "debug_gtk3.h"
 #include "basedialogs.h"
@@ -94,8 +95,6 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
         if (path != NULL) {
             gchar *path_locale = file_chooser_convert_to_locale(path);
 
-            debug_gtk3("called with '%s'.", path);
-
             content_preview_widget_set_image(preview_widget, path_locale);
             g_free(path);
             g_free(path_locale);
@@ -115,7 +114,6 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
     int state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("show hidden files: %s.", state ? "enabled" : "disabled");
 
     gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(user_data), state);
 }
@@ -135,7 +133,6 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
 
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("Autostarting file '%s'.", filename);
 
     filename_locale = file_chooser_convert_to_locale(filename);
     if (autostart_tape(
@@ -144,7 +141,7 @@ static void do_autostart(GtkWidget *widget, int index, int autostart)
                 index,
                 autostart ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) < 0) {
         /* oeps */
-        debug_gtk3("autostart tape attach failed.");
+        log_error(LOG_ERR, "autostarting tape '%s' failed.", filename_locale);
     }
     g_free(filename_locale);
 }
@@ -165,13 +162,12 @@ static void do_attach(GtkWidget *widget, gpointer user_data)
     lastdir_update(widget, &last_dir, &last_file);
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     /* ui_message("Opening file '%s' ...", filename); */
-    debug_gtk3("Attaching file '%s' to tape unit.", filename);
 
     filename_locale = file_chooser_convert_to_locale(filename);
 
     if (tape_image_attach(1, filename_locale) < 0) {
         /* failed */
-        debug_gtk3("tape attach failed.");
+        log_error(LOG_ERR, "attaching tape '%s' failed.", filename_locale);
     }
     g_free(filename_locale);
 }
@@ -222,12 +218,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
     int index = content_preview_widget_get_index(preview_widget);
     int autostart = 0;
 
-#ifdef HAVE_DEBUG_GTK3UI
-    debug_gtk3("on_response, got response ID %d, index %d\n", response_id, index);
-#endif
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("on_response, AutostartOnDoubleclick = %s\n",
-            autostart ? "True" : "False");
 
     /* first, to make the following logic less funky, map some events to others,
        depending on whether autostart-on-doubleclick is enabled or not, and 
@@ -253,7 +244,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
            'Autostart' button when autostart-on-doubleclick is enabled
            'Open' button when autostart-on-doubleclick is NOT enabled */
         case GTK_RESPONSE_ACCEPT:
-            debug_gtk3("on_response, GTK_RESPONSE_ACCEPT, index %d\n", index);
             if (filename == NULL) {
                 response_id = VICE_RESPONSE_INVALID;   /* drop this event */
             } else if ((index >= 0) && (autostart == 0)) {
@@ -270,13 +260,9 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             break;
     }
 
-#ifdef HAVE_DEBUG_GTK3UI
-    debug_gtk3("on_response, using response ID %d\n", response_id);
-#endif
     switch (response_id) {
         /* 'Open' button clicked when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_CUSTOM_OPEN:
-            debug_gtk3("on_response, VICE_RESPONSE_CUSTOM_OPEN, index %d\n", index);
             do_attach(widget, user_data);
 
             gtk_widget_destroy(widget);
@@ -286,7 +272,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         case VICE_RESPONSE_AUTOSTART:
         /* double-click on file in the preview widget when autostart-on-doubleclick is enabled */
         case VICE_RESPONSE_AUTOSTART_INDEX:
-            debug_gtk3("on_response, VICE_RESPONSE_AUTOSTART_INDEX, index %d\n", index);
             do_autostart(widget, index + 1, 1);
 
             gtk_widget_destroy(widget);
@@ -294,7 +279,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* double-click on file in the preview widget when autostart-on-doubleclick is NOT enabled */
         case VICE_RESPONSE_AUTOLOAD_INDEX:
-            debug_gtk3("on_response, VICE_RESPONSE_AUTOLOAD_INDEX, index %d\n", index);
             do_autostart(widget, index + 1, 0);
 
             gtk_widget_destroy(widget);
@@ -338,8 +322,6 @@ static void on_response_native(GtkFileChooserNative *widget,
 
     index = GPOINTER_TO_INT(user_data);
 
-    debug_gtk3("got response ID %d, index %d.", response_id, index);
-
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
 
     switch (response_id) {
@@ -347,13 +329,10 @@ static void on_response_native(GtkFileChooserNative *widget,
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
             /* ui_message("Opening file '%s' ...", filename); */
-            debug_gtk3("Attaching file '%s' to tape unit.", filename);
-
             filename_locale = file_chooser_convert_to_locale(filename);
-
             if (tape_image_attach(1, filename_locale) < 0) {
                 /* failed */
-                debug_gtk3("tape attach failed.");
+                log_error(LOG_ERR, "attaching tape '%s' failed." filename_locale);
             }
             g_free(filename_locale);
             gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(widget));
@@ -444,8 +423,6 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
     int autostart = 0;
 
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("create_smart_attach_dialog, AutostartOnDoubleclick = %s\n",
-            autostart ? "True" : "False");
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
@@ -574,7 +551,6 @@ gboolean ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
 {
 #ifndef SANDBOX_MODE
     GtkWidget *dialog;
-    debug_gtk3("called.");
     dialog = create_tape_attach_dialog(widget);
     gtk_widget_show(dialog);
 #else

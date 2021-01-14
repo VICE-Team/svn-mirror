@@ -503,8 +503,10 @@ static void on_drive_reset_clicked(GtkWidget *widget, gpointer data)
  *       */
 static void on_drive_reset_config_clicked(GtkWidget *widget, gpointer data)
 {
+#if 0
     debug_gtk3("Resetting drive %d (button=%d)", ((GPOINTER_TO_INT(data)>>4)&15) + 8,
        GPOINTER_TO_INT(data) & 15 );
+#endif
     drive_cpu_trigger_reset_button(((GPOINTER_TO_INT(data)>>4)&15),
        GPOINTER_TO_INT(data) & 15 );
 }
@@ -773,15 +775,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
                 i,
                 diskcontents_filesystem_read,
                 disk_dir_autostart_callback);
-#if 0
-        GtkWidget *dialog;
 
-        debug_gtk3("Got secondary button click event");
-        dialog = ui_statusbar_dir_dialog_create(i);
-        g_signal_connect(dialog, "response",
-                G_CALLBACK(on_response_dir_widget), NULL);
-        gtk_widget_show_all(dialog);
-#endif
         /* show popup for selecting file in currently attached image */
         gtk_menu_popup_at_widget(GTK_MENU(dir_menu),
                                  widget,

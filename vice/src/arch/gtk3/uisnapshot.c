@@ -157,11 +157,7 @@ static void save_snapshot_dialog(void)
     response_id = gtk_dialog_run(GTK_DIALOG(dialog));
     save_roms = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(roms_widget));
     save_disks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(disks_widget));
-#if 0
-    debug_gtk3("response_id = %d.", response_id);
-    debug_gtk3("save disks = %s.", save_disks ? "YES" : "NO");
-    debug_gtk3("save ROMs = %s.", save_roms ? "YES" : "NO");
-#endif
+
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gchar *filename;
 
