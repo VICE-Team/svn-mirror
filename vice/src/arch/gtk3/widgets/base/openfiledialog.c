@@ -30,6 +30,7 @@
 
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
+#include "log.h"
 #include "mainlock.h"
 #include "ui.h"
 
@@ -55,10 +56,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
         case GTK_RESPONSE_ACCEPT:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
-                debug_gtk3("Calling callback with '%s'\n", filename);
                 filename_cb(dialog, filename, data);
             } else {
-                debug_gtk3("Error: filename is NULL");
+                /* should never be reached */
+                log_error(LOG_ERR, "filename is NULL.");
             }
             break;
         default:

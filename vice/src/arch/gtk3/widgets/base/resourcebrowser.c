@@ -127,8 +127,6 @@ static void browse_filename_callback(GtkDialog *dialog,
 {
     resource_browser_state_t *state = data;
 
-    debug_gtk3("Got filename '%s'\n", filename);
-
     if (filename != NULL) {
         if (!vice_gtk3_resource_entry_full_set(state->entry, filename)){
             log_error(LOG_ERR,
@@ -159,8 +157,6 @@ static void save_filename_callback(GtkDialog *dialog,
                                      gpointer data)
 {
     resource_browser_state_t *state = data;
-
-    debug_gtk3("Got filename '%s'\n", filename);
 
     if (filename != NULL) {
         if (!vice_gtk3_resource_entry_full_set(state->entry, filename)){

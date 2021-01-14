@@ -55,7 +55,6 @@ static void (*integer_cb)(GtkDialog *, int, gboolean);
  */
 static void on_response_info(GtkWidget *dialog, gint response_id, gpointer data)
 {
-    debug_gtk3("Called with response_id %d", response_id);
     gtk_widget_destroy(dialog);
 }
 
@@ -68,7 +67,6 @@ static void on_response_info(GtkWidget *dialog, gint response_id, gpointer data)
  */
 static void on_response_confirm(GtkDialog *dialog, gint response_id, gpointer data)
 {
-    debug_gtk3("Called with response_id %d", response_id);
     if (response_id == GTK_RESPONSE_OK) {
         confirm_cb(dialog, TRUE);
     } else {
@@ -86,8 +84,6 @@ static void on_response_confirm(GtkDialog *dialog, gint response_id, gpointer da
  */
 static void on_response_integer(GtkDialog *dialog, gint response_id, gpointer data)
 {
-    debug_gtk3("Called with response_id %d", response_id);
-
     if (response_id == GTK_RESPONSE_ACCEPT) {
         GtkWidget *entry = data;
         int result;
@@ -113,9 +109,6 @@ static void on_response_integer(GtkDialog *dialog, gint response_id, gpointer da
  */
 static void on_response_error(GtkWidget *dialog, gint response_id, gpointer data)
 {
-    debug_gtk3("Called with response_id %d", response_id);
-
-
     gtk_widget_destroy(dialog);
 }
 

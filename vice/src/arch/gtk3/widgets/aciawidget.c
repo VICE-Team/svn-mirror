@@ -155,7 +155,6 @@ static void browse_filename_callback(GtkDialog *dialog,
         int device = GPOINTER_TO_INT(data);
         GtkWidget *entry = acia_entries[device - 1];
 
-        debug_gtk3("Device = %d, filename = '%s'\n", device, filename);
         /* update text entry box, forces an update of the resource */
         gtk_entry_set_text(GTK_ENTRY(entry), filename);
         g_free(filename);
