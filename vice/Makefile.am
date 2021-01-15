@@ -37,6 +37,7 @@ endif
 
 
 .PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0 xscpu64 c1541 petcat cartconv
+
 vsid:
 	(cd src; $(MAKE) vsid-all)
 
@@ -75,18 +76,9 @@ xcbm5x0:
 c1541:
 	(cd src; $(MAKE) c1541-all)
 
-petcat: $(top_srcdir)/src/petcat.c
-	$(CC) @VICE_CFLAGS@ \
-		-I$(top_builddir)/src \
-		-I$(top_srcdir)/src \
-		-I$(top_srcdir)/src/arch/shared \
-		-o $(top_builddir)/src/$@ $<
+petcat:
+	(cd src/tools/petcat; $(MAKE) petcat)
 
-
-#cartconv: $(top_srcdir)/src/cartconv.c
-#	$(CC) @VICE_CFLAGS@ \
-#		-I$(top_builddir)/src \
-#		-o $(top_builddir)/src/$@ $<
 cartconv:
 	(cd src/tools/cartconv; $(MAKE) cartconv)
 

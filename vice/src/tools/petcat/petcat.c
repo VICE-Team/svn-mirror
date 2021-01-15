@@ -79,12 +79,6 @@
 #include <io.h>
 #endif
 
-#include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
-#include "cmdline.h"
-#include "lib.h"
-#include "machine.h"
-#include "vice-event.h"
-
 #ifdef DEBUG
 #define DBG(x)  printf x
 #else

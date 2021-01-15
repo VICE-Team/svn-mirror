@@ -1033,7 +1033,7 @@ endif
 # workaround for extra exe creation
 
 bin_PROGRAMS = vsid $(x64_bin) x64sc x64dtv xscpu64 x128 xvic xpet xplus4 \
-	       xcbm2 xcbm5x0 c1541 petcat
+	       xcbm2 xcbm5x0 c1541
 
 EXTRA_PROGRAMS =
 
@@ -1994,43 +1994,6 @@ c1541-all: \
 	libfileio \
 	libsocketdrv \
 	c1541$(EXEEXT)
-
-# petcat
-petcat_SOURCES = \
-	charset.c \
-	findpath.c \
-	ioutil.c \
-	lib.c \
-	log.c \
-	petcat.c \
-	petcat-stubs.c \
-	rawfile.c \
-	resources.c \
-	util.c \
-	zfile.c \
-	zipcode.c
-
-petcat_LDADD = \
-	$(toolarch_lib) \
-	$(archdep_lib) \
-	$(fileio_lib) \
-	$(socketdrv_lib) \
-	@SDL_EXTRA_LIBS@ \
-	@ZLIB_LIBS@
-
-if WIN32_COMPILE
-petcat_LDFLAGS = -mconsole
-endif
-
-.PHONY: petcat-all
-petcat-all: \
-	$(BUILT_SOURCES) \
-	libtoolarch \
-	libfileio \
-	libsocketdrv \
-	petcat$(EXEEXT)
-
-
 
 # distclean
 DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
