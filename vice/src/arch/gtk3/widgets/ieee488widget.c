@@ -34,20 +34,20 @@
 
 #include <gtk/gtk.h>
 
-#include "basedialogs.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "cartridge.h"
-#include "debug_gtk3.h"
+#include "log.h"
 #include "machine.h"
-#include "openfiledialog.h"
 #include "resources.h"
 #include "ui.h"
-#include "widgethelpers.h"
 
 #include "ieee488widget.h"
 
 
-
+/** \brief  Reference to the entry widget used for the IEEE-488 ROM
+ *
+ * TODO:    Check if we can refactor this code to use a 'base widget'
+ */
 static GtkWidget *entry_widget;
 
 
@@ -83,11 +83,11 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
 
     if (state) {
         if (carthelpers_enable_func(CARTRIDGE_IEEE488) < 0) {
-            debug_gtk3("failed to enable IEEE488 cartridge.");
+            log_error(LOG_ERR, "failed to enable IEEE488 cartridge.");
         }
     } else {
         if (carthelpers_disable_func(CARTRIDGE_IEEE488) < 0) {
-            debug_gtk3("failed to disable IEEE488 cartridge.");
+            log_error(LOG_ERR, "failed to disable IEEE488 cartridge.");
         }
     }
 }

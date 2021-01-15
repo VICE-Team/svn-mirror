@@ -119,11 +119,7 @@ static gboolean userport_joystick_adapter_enabled(void)
 {
     int enabled;
 
-    if (resources_get_int("UserportJoy", &enabled) < 0) {
-        debug_gtk3("failed to get value for resource 'UserportJoy',"
-                " assuming FALSE");
-        enabled = 0;
-    }
+    resources_get_int("UserportJoy", &enabled);
     return (gboolean)enabled;
 }
 

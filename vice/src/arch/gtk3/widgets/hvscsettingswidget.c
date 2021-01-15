@@ -70,7 +70,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
 
     /* handle input */
     if (path != NULL) {
-        debug_gtk3("Got path '%s'.", path);
         vice_gtk3_resource_entry_full_set(hvsc_root_entry, path);
         g_free(path);
     }

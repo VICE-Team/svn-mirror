@@ -180,7 +180,6 @@ void joystick_device_widget_update(GtkWidget *widget, int id)
     /* get combo box widget */
     combo = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     if (combo != NULL && GTK_IS_COMBO_BOX_TEXT(combo)) {
-        debug_gtk3("updating widget to %d.", id);
         gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), id_str);
     }
 }

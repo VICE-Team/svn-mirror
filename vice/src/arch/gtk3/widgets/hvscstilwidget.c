@@ -213,8 +213,6 @@ int hvsc_stil_widget_set_psid(const char *psid)
     GtkTextIter start;
     GtkTextIter end;
 
-
-    debug_gtk3("attempting to load STIL entry for '%s'.", psid);
     if (!hvsc_stil_get(&stil, psid)) {
         debug_gtk3("failed: %d: %s.", hvsc_errno, hvsc_strerror(hvsc_errno));
         /* check hvsc error code to see if either loading the STIL failed or
