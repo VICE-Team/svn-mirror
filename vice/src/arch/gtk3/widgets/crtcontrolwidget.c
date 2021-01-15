@@ -97,6 +97,7 @@
 #include <string.h>
 
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "vice_gtk3.h"
@@ -270,19 +271,17 @@ static void on_reset_clicked(GtkWidget *widget, gpointer user_data)
 
     parent = gtk_widget_get_parent(widget);
     data = g_object_get_data(G_OBJECT(parent), "InternalState");
-
+#if 0
     debug_gtk3("CHIP: %s.", data->chip);
-
+#endif
     for (i = 0; i < RESOURCE_COUNT_MAX; i++) {
         crt_control_t control = data->controls[i];
 
         if (control.scale != NULL) {
+#if 0
             debug_gtk3("Resetting '%s' to factory value.", control.res.label);
-            if (vice_gtk3_resource_scale_int_factory(control.scale)) {
-                debug_gtk3("OK.");
-            } else {
-                debug_gtk3("Failed.");
-            }
+#endif
+            vice_gtk3_resource_scale_int_factory(control.scale);
             /* No need to reset the spin button, that gets triggered via
              * the scale widget
              */
@@ -455,29 +454,21 @@ static void add_sliders(GtkGrid *grid,
     chip = data->chip;
     chip_id = get_chip_id(chip);
     if (chip_id < 0) {
-        debug_gtk3("failed to get chip ID for '%s'.", chip);
+        log_error(LOG_ERR, "failed to get chip ID for '%s'.", chip);
         return;
     }
 
     /* get PAL/NTSC mode */
     if (resources_get_int("MachineVideoStandard", &video_standard) < 0) {
-        debug_gtk3("failed to get 'MachineVideoStandard' resource value.");
+        log_error(LOG_ERR, "failed to get 'MachineVideoStandard' resource value.");
         return;
     }
 
     if (!minimal) {
         for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
             crt_control_t *control = &(data->controls[i]);
-#if 0
-            debug_gtk3("Adding slider '%s' [%d] ... ", control->res.label, (int)i);
-#endif
             label = create_label(control->res.label, minimal);
             gtk_grid_attach(grid, label, 0, row, 1, 1);
-#if 0
-            debug_gtk3(".. resource '%s%s', lo=%d, hi=%d step=%d",
-                    control->res.name, chip, control->res.low, control->res.high,
-                    control->res.step);
-#endif
             control->scale = create_slider(control->res.name, chip,
                     control->res.low, control->res.high, control->res.step,
                     minimal);
@@ -501,16 +492,8 @@ static void add_sliders(GtkGrid *grid,
         for (i = 0; i < RESOURCE_COUNT_MAX; i ++) {
             int col = (i % 2) * 2;
             crt_control_t *control = &(data->controls[i]);
-#if 0
-            debug_gtk3("Adding slider '%s' [%d] ... ", control->res.label, (int)i);
-#endif
             label = create_label(control->res.label, minimal);
             gtk_grid_attach(grid, label, col + 0, row, 1, 1);
-#if 0
-            debug_gtk3(".. resource '%s%s', lo=%d, hi=%d step=%d",
-                    control->res.name, chip, control->res.low, control->res.high,
-                    control->res.step);
-#endif
             control->scale = create_slider(control->res.name, chip,
                     control->res.low, control->res.high, control->res.step,
                     minimal);

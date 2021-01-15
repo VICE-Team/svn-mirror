@@ -28,10 +28,13 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <errno.h>
+#include <string.h>
 
 #include "vice_gtk3.h"
 #include "crt.h"
 #include "cartridge.h"
+#include "log.h"
 #include "machine.h"
 
 #include "crtpreviewwidget.h"
@@ -222,8 +225,6 @@ static void chip_packet_add(uint16_t type,
 {
     GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(chip_tree));
 
-    debug_gtk3("adding row: %u, %u, %u, %u.", type, load, size, bank);
-
     gtk_list_store_insert_with_values(GTK_LIST_STORE(model), NULL, -1,
         0, packet_type[type & 0x03], 1, load, 2, size, 3, bank, -1);
 }
@@ -342,7 +343,6 @@ void crt_preview_widget_update(const gchar *path)
             && machine_class != VICE_MACHINE_C64SC
             && machine_class != VICE_MACHINE_C128)
     {
-        debug_gtk3("Machine class != c64/c128, skipping.");
         return;
     }
 
@@ -381,7 +381,7 @@ void crt_preview_widget_update(const gchar *path)
 
 
     while (1) {
-        long int pos;
+        long pos;
         uint32_t skip;
 #if 0
         debug_gtk3("reading packet #%d.", packets++);
@@ -391,13 +391,13 @@ void crt_preview_widget_update(const gchar *path)
             break;
         }
         skip = chip.size;
-
+#if 0
         debug_gtk3("chip packet contents:");
         debug_gtk3("    skip = %lu", (long unsigned)chip.skip);
         debug_gtk3("    load = %u", chip.start);
         debug_gtk3("    size = %u", chip.size);
         debug_gtk3("    bank = %u", chip.bank);
-
+#endif
         chip_packet_add(chip.type, chip.start, chip.size, chip.bank);
 
         pos = ftell(fd) + skip;
@@ -405,7 +405,9 @@ void crt_preview_widget_update(const gchar *path)
         debug_gtk3("next chip packet offset = %lx", (unsigned long)pos);
 #endif
         if (fseek(fd, pos, SEEK_SET) != 0) {
-            debug_gtk3("OEPS!");
+            log_error(LOG_ERR,
+                    "fseek(%ld) failed: %d: %s",
+                    pos, errno, strerror(errno));
             break;
         }
     }

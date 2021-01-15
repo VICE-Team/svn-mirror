@@ -35,10 +35,12 @@
 #include "debug_gtk3.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "widgethelpers.h"
 
 #include "contentpreviewwidget.h"
+
 
 /** \brief  Function to read image contents
  */
@@ -83,8 +85,6 @@ static void on_row_activated(
     int autostart = 0;
 
     resources_get_int("AutostartOnDoubleclick", &autostart);
-    debug_gtk3("on_row_activated, AutostartOnDoubleclick = %s\n",
-            autostart ? "True" : "False");
 
     model = gtk_tree_view_get_model(view);
     selection = gtk_tree_view_get_selection(view);
@@ -94,7 +94,6 @@ static void on_row_activated(
 
         gtk_tree_model_get(model, &iter, 1, &row, -1);
         if (row < 0) {
-            debug_gtk3("index -1, nope.");
             return;
         }
         /* dirty trick: call the "response" event handler with the
@@ -137,7 +136,7 @@ static GtkListStore *create_model(const char *path)
     }
 
     if (content_func == NULL) {
-        debug_gtk3("no content-get function specified, bailing!");
+        log_error(LOG_ERR, "no content-get function specified, bailing!");
         return model;
     }
 
@@ -322,7 +321,6 @@ gboolean content_preview_widget_set_index(GtkWidget *widget, int index)
     gint row_count;
 
     /* get model and check index */
-    debug_gtk3("Index = %d", index);
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(content_view));
     row_count = gtk_tree_model_iter_n_children(model, NULL);
     /* check for valid index (-1 for "BLOCKS FREE") */
@@ -355,12 +353,13 @@ int content_preview_widget_get_index(GtkWidget *widget)
     row_count = gtk_tree_model_iter_n_children(model, NULL);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(content_view));
-
-
     if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         int row;
+
         gtk_tree_model_get(model, &iter, 1, &row, -1);
-        debug_gtk3("content_preview_widget_get_index. Index = %d/%d\n", row, row_count);
+#if 0
+        debug_gtk3("index = %d/%d\n", row, row_count);
+#endif
         if ((row >= 0) && (row <= row_count)) {
             return row;
         }
