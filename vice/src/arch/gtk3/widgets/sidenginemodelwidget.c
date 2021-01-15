@@ -69,11 +69,6 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
 
     int current_engine;
     int current_model;
-#ifdef HAVE_DEBUG_GTK3UI
-    int value = GPOINTER_TO_INT(data);
-#endif
-    debug_gtk3("Call number %d.", num_calls++);
-    debug_gtk3("Radio button = 0x%p.", (void*)radio);
 
     /* Do not update engine/model when deactivating a radio button, stupid
      * compyx!
@@ -82,25 +77,15 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
         return;
     }
 
-    if (resources_get_int("SidEngine", &current_engine) < 0) {
-        debug_gtk3("Failed to get 'SidEngine' resource value, reverting to 0.");
-    }
-    if (resources_get_int("SidModel", &current_model) < 0) {
-        debug_gtk3("Failed to get 'SidModel' resource value, reverting to 0.");
-    }
-
-    debug_gtk3("data as int = %d.", value);
+    resources_get_int("SidEngine", &current_engine);
+    resources_get_int("SidModel", &current_model);
 
     /* bit 15-8: engine */
     engine = (GPOINTER_TO_INT(data) >> 8) & 0xff;
     /* bit 7-0: model */
     model = GPOINTER_TO_INT(data) & 0xff;
 
-    debug_gtk3("called with engine %02x, model %02x.", engine, model);
-
     if ((int)model != current_model || (int)engine != current_engine) {
-        debug_gtk3("model and/or engine changed.");
-
         /*resources_set_int("SidModel", (int)model);
         resources_set_int("SidEngine", (int)engine);
         */
@@ -108,7 +93,6 @@ static void on_radio_toggled(GtkWidget *radio, gpointer data)
 
         /* user-defined callback? */
         if (extra_callback != NULL) {
-            debug_gtk3("calling user-defined callback.");
             extra_callback(engine, model);
         }
     }
@@ -139,7 +123,6 @@ GtkWidget *sid_engine_model_widget_create(void)
     }
 
     current = (unsigned int)((engine << 8) | model);
-    debug_gtk3("current SID model/engine value = 0x%x.", current);
 
     grid = gtk_grid_new();
 
@@ -160,18 +143,12 @@ GtkWidget *sid_engine_model_widget_create(void)
     for (i = 0; list[i] != NULL; i++) {
         GtkWidget *radio;
 
-        debug_gtk3("Adding item (%s, %d).", list[i]->name, list[i]->value);
         radio = gtk_radio_button_new_with_label(group, list[i]->name);
-        debug_gtk3("Created radio button: 0x%p", (void*)radio);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
 
         g_object_set(radio, "margin-left", 16, NULL);
         if (list[i]->value == current) {
-            debug_gtk3("Setting radio button %d (%x).", i, current);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-            debug_gtk3("Finished setting radio button %d, "
-                    "shouldn't have triggered callback for previous "
-                    "radio buttons in this group.", i);
         }
         g_signal_connect(radio, "toggled",
                 G_CALLBACK(on_radio_toggled),

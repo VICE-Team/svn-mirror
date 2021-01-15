@@ -244,7 +244,6 @@ static void on_sid_count_changed(GtkWidget *widget, gpointer data)
         /* called from an event, use the spin button's value */
         count = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));
     }
-    debug_gtk3("extra SIDs count changed to %d.", count);
 
     if (sid_machine_can_have_multiple_sids()) {
         gtk_widget_set_sensitive(address_widgets[0], count > 0);
@@ -349,7 +348,6 @@ static void on_resid_8580_bias_default_clicked(GtkWidget *widget,
 #ifdef HAVE_RESID
 static void on_spin_value_changed(GtkWidget *spin, gpointer data)
 {
-    debug_gtk3("Callled.");
     vice_gtk3_resource_scale_int_sync(data);
 }
 #endif
@@ -393,8 +391,6 @@ static void engine_model_changed_callback(int engine, int model)
 #ifdef HAVE_RESID
     gboolean is_resid = engine == SID_ENGINE_RESID;
 #endif
-    debug_gtk3("engine: %d, model = %d.", engine, model);
-
     /* Show proper ReSID slider widgets
      *
      * We can't check old model vs new model here, since the resource
@@ -544,27 +540,21 @@ static void on_resid_6581_bias_change(GtkWidget *widget, gpointer data)
 
 static void on_resid_6581_passband_spin_change(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("Callled!");
     double value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-    debug_gtk3("Setting to %lf", value);
     gtk_range_set_value(GTK_RANGE(resid_6581_passband), value);
 }
 
 
 static void on_resid_6581_gain_spin_change(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("Callled!");
     double value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-    debug_gtk3("Setting to %lf", value);
     gtk_range_set_value(GTK_RANGE(resid_6581_gain), value);
 }
 
 
 static void on_resid_6581_bias_spin_change(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("Callled!");
     double value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-    debug_gtk3("Setting to %lf", value);
     gtk_range_set_value(GTK_RANGE(resid_6581_bias), value);
 }
 #endif
@@ -765,9 +755,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(layout), label, 0, 0, 3, 1);
 
-    if (resources_get_int("SidModel", &model) < 0) {
-        debug_gtk3("failed to get SidModel resource");
-    }
+    resources_get_int("SidModel", &model);
 
     engine = sid_engine_model_widget_create();
     sid_engine_model_widget_set_callback(engine, engine_model_changed_callback);
@@ -777,7 +765,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
 #endif
     resources_get_int("SidEngine", &current_engine);
-    debug_gtk3("SidEngine = %d.", current_engine);
 #ifdef HAVE_RESID
     is_resid = current_engine == SID_ENGINE_RESID;
 #endif
@@ -809,7 +796,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
         i = 0;
         while (i < max - 1) {
             while ((c < 4) && (i < max -1)) {
-                debug_gtk3("Adding address widget #%d", i);
                 gtk_grid_attach(GTK_GRID(sid_addresses),
                                 address_widgets[i],
                                 c, ((i + 1) / 4) + 1, 1, 1);
@@ -968,7 +954,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_widget_set_hexpand(resid_6581_gain, TRUE);
     gtk_widget_set_hexpand(resid_8580_gain, TRUE);
 
-    debug_gtk3("Adding 6581/8580 ReSID widgets.");
     gtk_widget_set_hexpand(resid_6581_grid, TRUE);
     gtk_grid_attach(GTK_GRID(layout), resid_6581_grid, 0, row + 1, 3 ,1);
     gtk_grid_attach(GTK_GRID(layout), resid_8580_grid, 0, row + 2, 3, 1);

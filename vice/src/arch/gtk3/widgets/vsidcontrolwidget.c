@@ -99,7 +99,7 @@ static GtkWidget *repeat = NULL;
  */
 static void fake_callback(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("got callback for '%s'.", (const char *)data);
+    debug_gtk3("Unsupported callback for '%s'.", (const char *)data);
 }
 
 
@@ -181,7 +181,6 @@ static void play_callback(GtkWidget *widget, gpointer data)
     ui_pause_disable();
 
     if (tune_current <= 0) {
-        debug_gtk3("restarting with tune #%d.", tune_default);
         tune_current = tune_default;
         vsid_tune_info_widget_set_time(0);
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
@@ -206,26 +205,6 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 {
     ui_pause_toggle();
 }
-
-/* XXX: this doesn't work and even segfaults when pushing play after a tune
- *      has played for some time.
- */
-#if 0
-static void stop_callback(GtkWidget *widget, gpointer data)
-{
-    debug_gtk3("called.");
-
-#if 0
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-#endif
-    machine_reset();
-#if 0
-    psid_init_driver();
-    psid_init_tune(1);
-#endif
-    tune_current = -1;
-}
-#endif
 
 
 static void sid_attach_wrapper(GtkWidget *widget, gpointer data)

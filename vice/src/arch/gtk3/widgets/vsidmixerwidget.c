@@ -267,28 +267,14 @@ GtkWidget *vsid_mixer_widget_create(void)
     GtkWidget *label;
     int model;
 
-    if (resources_get_int("SidModel", &model) < 0) {
-        /* assume 6581 */
-        model = 0;
-    }
-    debug_gtk3("SidModel = %d.", model);
+    resources_get_int("SidModel", &model);
 #endif
 
-    if (resources_get_int("SidEngine", &engine) < 0) {
-        engine = 0;
-    }
+    resources_get_int("SidEngine", &engine);
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
     g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
     gtk_widget_set_hexpand(grid, TRUE);
-
-#if 0
-    label = create_label("Volume");
-    volume = create_volume_widget();
-    gtk_widget_set_hexpand(volume, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), volume, 1, 0, 1, 1);
-#endif
 
 #ifdef HAVE_RESID
 

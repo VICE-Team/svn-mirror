@@ -36,6 +36,7 @@
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "lib.h"
+#include "log.h"
 #include "util.h"
 
 
@@ -757,49 +758,14 @@ void vsid_tune_info_widget_set_data_size(uint16_t size)
 int vsid_tune_info_widget_set_song_lengths(const char *psid)
 {
     int num;
-#if 0
-    int i;
-    char **lstr;
-    char *display;
-#endif
-    debug_gtk3("trying to get song lengths for '%s'.", psid);
 
     num = hvsc_sldb_get_lengths(psid, &song_lengths);
     if (num < 0) {
-        debug_gtk3("failed to get song lengths.");
-#if 0
-        gtk_label_set_text(GTK_LABEL(sldb_widget), "Failed to get SLDB info");
-#endif
+        log_warning(LOG_DEFAULT, "failed to get song lengths.");
         return 0;
     }
     song_lengths_count = num;
     return 1;
-#if 0
-    /* alloc memory for strings */
-    lstr = lib_malloc((size_t)(num + 1) * sizeof *lstr);
-    /* convert each timestamp to string */
-    for (i = 0; i < num; i++) {
-        lstr[i] = lib_msprintf("#%d: %ld:%02ld",
-                i + 1,
-                song_lengths[i] / 60, song_lengths[i] % 60);
-    }
-    lstr[i] = NULL; /* terminate list */
-
-    /* join strings */
-
-    /* Here be dragons: the cast should not be required: */
-    display = util_strjoin((const char **)lstr, ", ");
-    if (sldb_widget != NULL) {
-        gtk_label_set_text(GTK_LABEL(sldb_widget), display);
-    }
-
-    lib_free(display);
-    for (i = 0; i < num; i++) {
-        lib_free(lstr[i]);
-    }
-    lib_free(lstr);
-    return 1;
-#endif
 }
 
 

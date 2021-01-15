@@ -102,8 +102,6 @@ static gboolean on_drag_drop(
     GList *targets;
     GList *t;
 
-    debug_gtk3("called.");
-
     targets = gdk_drag_context_list_targets(context);
     if (targets == NULL) {
         debug_gtk3("No targets");

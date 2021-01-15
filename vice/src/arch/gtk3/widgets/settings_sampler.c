@@ -72,7 +72,6 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
 {
     int index = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 
-    debug_gtk3("setting SamplerDevice to %d.", index);
     resources_set_int("SamplerDevice", index);
 
     /* this assumes the "media file input" is always first in the list */
@@ -90,7 +89,6 @@ static void on_gain_changed(GtkScale *scale, gpointer user_data)
 {
     int value = (int)gtk_range_get_value(GTK_RANGE(scale));
 
-    debug_gtk3("setting SamplerGain to %d.", value);
     resources_set_int("SamplerGain", value);
 }
 
@@ -105,7 +103,6 @@ static void on_entry_changed(GtkEntry *entry, gpointer user_data)
     const char *text;
 
     text = gtk_entry_get_text(entry);
-    debug_gtk3("setting SampleName to '%s'.", text);
     resources_set_string("SampleName", text);
 }
 

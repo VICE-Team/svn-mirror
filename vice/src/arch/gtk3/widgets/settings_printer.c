@@ -96,7 +96,6 @@ static void on_real_device7_toggled(GtkCheckButton *check, gpointer user_data)
     } else {
         state = PRINTER_DEVICE_NONE;
     }
-    debug_gtk3("setting Printer7 to '%s'.", state ? "REAL" : "NONE");
     resources_set_int("Printer7", state);
 }
 
@@ -111,7 +110,6 @@ static void on_text_device_changed(GtkEntry *entry, gpointer user_data)
     int num = GPOINTER_TO_INT(user_data);
     const gchar *text = gtk_entry_get_text(entry);
 
-    debug_gtk3("setting PrinterTextDevice%d to '%s'.", num, text);
     resources_set_string_sprintf("PrinterTextDevice%d", text, num);
 }
 
@@ -166,7 +164,6 @@ static void on_formfeed_clicked(GtkWidget *widget, gpointer data)
 
     device = GPOINTER_TO_INT(data);
 
-    debug_gtk3("Sending formfeed to device %d.", device);
     printer_formfeed((unsigned int)device - 4);
 }
 

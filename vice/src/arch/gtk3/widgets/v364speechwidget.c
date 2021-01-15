@@ -70,9 +70,7 @@ static void on_enable_toggled(GtkToggleButton *button, gpointer data)
 {
     int active = gtk_toggle_button_get_active(button);
 
-    debug_gtk3("v364 widget toggled: %s", active ? "TRUE" : "FALSE");
     if (user_callback != NULL) {
-        debug_gtk3("Triggering v364 user callback");
         user_callback(GTK_WIDGET(button), active);
     }
 }

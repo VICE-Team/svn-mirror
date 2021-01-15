@@ -250,18 +250,7 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_tapecart_flush_clicked(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("Attempting to flush current tapecart image.");
-    if (tapecart_flush_func == NULL) {
-        /* TODO: change into UI error dialog */
-        debug_gtk3("Failed: please set the tapecart flush function with "
-                "tapeport_devices_widget_set_tapecart_flush_func().");
-        return;
-    }
-    if (tapecart_flush_func() == 0) {
-        debug_gtk3("OK.");
-    } else {
-        debug_gtk3("Failed.");
-    }
+    tapecart_flush_func();
 }
 
 

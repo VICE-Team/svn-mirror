@@ -87,7 +87,6 @@ static void on_superpet_rom_changed(GtkWidget *widget, gpointer user_data)
     int rom = GPOINTER_TO_INT(user_data);
     const char *path = gtk_entry_get_text(GTK_ENTRY(widget));
 
-    debug_gtk3("setting H6809Rom%cName to '%s'.", rom, path);
     resources_set_string_sprintf("H6809Rom%cName", path, rom);
 }
 
@@ -103,9 +102,6 @@ static void browse_superpet_rom_filename_callback(GtkDialog *dialog,
                                                   gpointer data)
 {
     int rom_index = GPOINTER_TO_INT(data);
-
-    debug_gtk3("ROM index = %d ($%c000), filename = '%s'",
-            rom_index, rom_index + 'A', filename);
 
     if (filename != NULL) {
         GtkWidget *entry = rom_entry_list[rom_index];

@@ -61,24 +61,6 @@ static const vice_gtk3_radiogroup_entry_t filters[] = {
 };
 
 
-#if 0
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * \param[in]   widget      radio button
- * \param[in]   user_data   new value for render filter (`int1)
- */
-static void on_render_filter_toggled(GtkWidget *widget, gpointer user_data)
-{
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        int value = GPOINTER_TO_INT(user_data);
-
-        debug_gtk3("setting '%sFilter' to %d.", chip_prefix, value);
-        resources_set_int_sprintf("%sFilter", value, chip_prefix);
-    }
-}
-#endif
-
-
 /** \brief  Create widget to control render filter resources
  *
  * \param[in]   chip    video chip prefix

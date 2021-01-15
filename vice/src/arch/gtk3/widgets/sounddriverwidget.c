@@ -64,7 +64,6 @@ static void on_device_changed(GtkWidget *widget, gpointer user_data)
     const char *id;
 
     id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget));
-    debug_gtk3("device ID = '%s'.", id);
     resources_set_string("SoundDeviceName", id);
 }
 
@@ -85,11 +84,7 @@ static GtkWidget *create_device_combobox(void)
     int count = sound_device_num();
     const char *current_device = NULL;
 
-    debug_gtk3("%d sound devices.", count);
-
     resources_get_string("SoundDeviceName", &current_device);
-    debug_gtk3("current device: '%s'.", current_device);
-
     combo = gtk_combo_box_text_new();
     for (i = 0; i < count; i++) {
         const char *device = sound_device_name(i);
@@ -126,8 +121,6 @@ GtkWidget *sound_driver_widget_create(void)
     GtkWidget *grid;
     GtkWidget *device;
     GtkWidget *args;
-
-    debug_gtk3("called.");
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Driver", 2);

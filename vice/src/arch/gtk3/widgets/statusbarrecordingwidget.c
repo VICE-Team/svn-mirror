@@ -290,10 +290,7 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     const char *dev = NULL;
 
     resources_get_string("SoundRecordDeviceName", &dev);
-/*    debug_gtk3("SoundRecordDeviceName = %s", dev); */
-
     time = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
-
     if (total > 0) {
         g_snprintf(buffer, 256, "Time: %02u:%02u / %02u:%02u",
                 current / 60, current % 60, total / 60, total % 60);

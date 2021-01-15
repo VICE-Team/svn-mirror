@@ -67,15 +67,11 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
     char *filename;
     const char *current;
 
-    if (resources_get_string("EventSnapshotDir", &current) < 0) {
-        debug_gtk3("failed to get current history directory, using NULL.");
-        current = NULL;
-    }
+    resources_get_string("EventSnapshotDir", &current);
 
     filename = vice_gtk3_select_directory_dialog(
             "Select history directory", NULL, TRUE, current);
     if (filename != NULL) {
-        debug_gtk3("Setting EventSnapshotDir to '%s'.", filename);
         vice_gtk3_resource_entry_full_set(histdir_entry, filename);
         g_free(filename);
     }

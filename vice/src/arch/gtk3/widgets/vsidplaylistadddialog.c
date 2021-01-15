@@ -66,14 +66,11 @@ static void on_destroy(GtkWidget *widget, gpointer data)
  */
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
-    debug_gtk3("called with response_id %d.", response_id);
-
     if (response_id == GTK_RESPONSE_ACCEPT) {
         GSList *files = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(dialog));
         char *first = files->data;
         gchar *dir = g_path_get_dirname(first);
 
-        debug_gtk3("Setting lastdir to '%s'.", dir);
         lastdir_update_raw(dir, &last_used_dir);
 
         /* do not free dir, that gets freed in lastdir.c */
@@ -126,7 +123,6 @@ static GtkWidget *vsid_playlist_add_dialog_create(void)
         }
     }
 
-    debug_gtk3("Setting last user dir to '%s'.", last_used_dir);
     lastdir_set(dialog, &last_used_dir, &last_used_file);
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);

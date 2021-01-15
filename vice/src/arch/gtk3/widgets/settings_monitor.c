@@ -82,7 +82,6 @@ static void on_bg_color_set(GtkColorButton *button, gpointer data)
 
     gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(button), &color);
     repr = gdk_rgba_to_string(&color);
-    debug_gtk3("Got color '%s'", repr);
     resources_set_string("MonitorBG", repr);
     g_free(repr);
 }
@@ -95,7 +94,6 @@ static void on_fg_color_set(GtkColorButton *button, gpointer data)
 
     gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(button), &color);
     repr = gdk_rgba_to_string(&color);
-    debug_gtk3("Got color '%s'", repr);
     resources_set_string("MonitorFG", repr);
     g_free(repr);
 }
@@ -111,9 +109,7 @@ static void on_font_set(GtkFontButton *button, gpointer user_data)
 {
     gchar *font_desc;
 
-    debug_gtk3("Called.");
     font_desc = gtk_font_chooser_get_font(GTK_FONT_CHOOSER(button));
-    debug_gtk3("font desc = '%s'", font_desc);
     if (font_desc != NULL) {
         if (resources_set_string("MonitorFont", font_desc) == 0) {
             /* try to 'live-update' the monitor font */
@@ -164,9 +160,7 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 
     const char *font_name = NULL;
 
-    debug_gtk3("Getting MonitorFont resource");
     resources_get_string("MonitorFont", &font_name);
-    debug_gtk3("Font name = '%s'", font_name);
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);

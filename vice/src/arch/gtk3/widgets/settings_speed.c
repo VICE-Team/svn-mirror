@@ -67,7 +67,6 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 {
     int pause = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    debug_gtk3("%spausing emulation.", pause ? "" : "un");
     if (pause) {
         ui_pause_enable();
     } else {
