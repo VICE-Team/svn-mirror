@@ -51,12 +51,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
     gchar *filename;
 
-    debug_gtk3("Got response ID %d\n", (int)response_id);
     switch (response_id) {
         case GTK_RESPONSE_ACCEPT:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
-                debug_gtk3("Calling callback with '%s'\n", filename);
                 filename_cb(dialog, filename, data);
             }
             break;
@@ -149,8 +147,6 @@ GtkWidget *vice_gtk3_save_file_dialog(
         gpointer param)
 {
     GtkFileChooserNative *dialog;
-
-    debug_gtk3("Warning: Using the GtkFileChooserNative!");
 
     dialog = gtk_file_chooser_native_new(
             title,
