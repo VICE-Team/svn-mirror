@@ -112,7 +112,6 @@ static void on_item_activate(GtkWidget *item, gpointer data)
     int device = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "DeviceNumber"));
     unsigned int drive = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "DriveNumber"));
 
-    debug_gtk3("Calling response_func(%d, %d, %u)", index, device, drive);
     response_func(autostart_diskimage, index, device, drive);
 }
 
@@ -177,11 +176,8 @@ GtkWidget *dir_menu_popup_create(
     /* TODO: drive 1? */
     unsigned int drive = 0;
 
-    debug_gtk3("DEVICE = %d, DRIVE = %u", dev, drive);
-
     /* create style providers */
     if (!create_css_providers()) {
-        debug_gtk3("failed to create CSS providers, borking");
         return NULL;
     }
 

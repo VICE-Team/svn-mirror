@@ -63,7 +63,9 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
     int number = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
+#if 0
         debug_gtk3("setting drive number to %d.", number);
+#endif
         if (number_target != NULL) {
             *number_target = number;
         }
@@ -150,7 +152,6 @@ GtkWidget *drive_no_widget_create(int number, int *target, void (*callback)(int)
     gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
 
     /* connect signal handlers */
-    debug_gtk3("Connecting event handlers");
 
     /* The limit used to be NUM_DISK_UNITS, but that indicates the number of
      * units, not drives, so we may have to rename a few defines to cope with

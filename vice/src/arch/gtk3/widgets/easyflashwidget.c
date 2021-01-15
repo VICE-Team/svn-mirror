@@ -90,7 +90,6 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    debug_gtk3("flushing EF image.");
     if (carthelpers_flush_func(CARTRIDGE_EASYFLASH) < 0) {
         vice_gtk3_message_error("VICE core",
                 "Failed to flush the EasyFlash image");
