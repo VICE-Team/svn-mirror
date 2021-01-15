@@ -77,7 +77,6 @@ static void save_filename_callback(GtkDialog *dialog,
                                    gpointer data)
 {
     if (filename != NULL) {
-        debug_gtk3("saving MMCR cart image as '%s'.", filename);
         if (carthelpers_save_func(CARTRIDGE_MMC_REPLAY, filename) < 0) {
             vice_gtk3_message_error("Saving failed",
                     "Failed to save cartridge image '%s'",
@@ -111,7 +110,6 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (carthelpers_flush_func(CARTRIDGE_MMC_REPLAY) < 0) {
-        debug_gtk3("Flusing MMCR cart image.");
         vice_gtk3_message_error("Flushing failed",
                     "Failed to fush cartridge image");
     }
@@ -123,7 +121,6 @@ static void eeprom_filename_callback(GtkDialog *dialog,
                                      gpointer data)
 {
     if (filename != NULL) {
-        debug_gtk3("Loading MMCR EEPROM image '%s'.", filename);
         if (resources_set_string("MMCREEPROMImage", filename) < 0) {
             vice_gtk3_message_error("Failed to load EEPROM file",
                     "Failed to load EEPROM image file '%s'",
