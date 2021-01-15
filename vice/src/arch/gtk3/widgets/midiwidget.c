@@ -132,7 +132,6 @@ static void midi_in_filename_callback(GtkDialog *dialog,
                                       gpointer data)
 {
     if (filename != NULL) {
-        debug_gtk3("Setting MIDIInDev to '%s'", filename);
         vice_gtk3_resource_entry_full_set(midi_in_browse, filename);
         g_free(filename);
     }
@@ -163,7 +162,6 @@ static void midi_out_filename_callback(GtkDialog *dialog,
                                        gpointer data)
 {
     if (filename != NULL) {
-        debug_gtk3("Setting MIDIOutDev to '%s'", filename);
         vice_gtk3_resource_entry_full_set(midi_out_browse, filename);
         g_free(filename);
     }

@@ -64,8 +64,6 @@ static void browse_filename_callback(GtkDialog *dialog,
                                      gchar *filename,
                                      gpointer data)
 {
-    debug_gtk3("got filename '%s'.", filename);
-
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
