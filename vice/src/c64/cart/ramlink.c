@@ -1509,7 +1509,7 @@ void ramlink_config_setup(uint8_t *rawcart)
     }
 
     /* setup the cart */
-    cart_config_changed_slotmain(0, 3, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_ULTIMAX, CMODE_READ | CMODE_PHI2_RAM);
 }
 
 /* ---------------------------------------------------------------------*/

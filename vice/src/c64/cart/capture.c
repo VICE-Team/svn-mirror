@@ -213,7 +213,7 @@ void capture_freeze(void)
 {
     DBG(("CAPTURE: freeze\n"));
     if (freeze_pressed == 0) {
-        cart_config_changed_slotmain(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ | CMODE_RELEASE_FREEZE);
         cart_enabled = 1;
         freeze_pressed = 1;
         register_enabled = 1;
@@ -224,7 +224,7 @@ void capture_freeze(void)
 void capture_config_init(void)
 {
     DBG(("CAPTURE: config init\n"));
-    cart_config_changed_slotmain(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
 }
 
 void capture_reset(void)
@@ -233,7 +233,7 @@ void capture_reset(void)
     cart_enabled = 0;
     register_enabled = 0;
     freeze_pressed = 0;
-    cart_config_changed_slotmain(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
 }
 
 void capture_config_setup(uint8_t *rawcart)

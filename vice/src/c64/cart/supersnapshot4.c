@@ -266,12 +266,12 @@ void supersnapshot_v4_roml_store(uint16_t addr, uint8_t value)
 
 void supersnapshot_v4_freeze(void)
 {
-    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+    cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void supersnapshot_v4_config_init(void)
 {
-    cart_config_changed_slotmain(1 | (1 << CMODE_BANK_SHIFT), 1 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+    cart_config_changed_slotmain(CMODE_16KGAME | (1 << CMODE_BANK_SHIFT), CMODE_16KGAME | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 void supersnapshot_v4_config_setup(uint8_t *rawcart)

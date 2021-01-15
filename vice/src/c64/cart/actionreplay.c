@@ -292,14 +292,14 @@ void actionreplay_roml_store(uint16_t addr, uint8_t value)
 void actionreplay_freeze(void)
 {
     ar_active = 1;
-    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+    cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void actionreplay_config_init(void)
 {
     ar_active = 1;
     regvalue = 0;
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
 }
 
 void actionreplay_reset(void)

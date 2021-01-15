@@ -1483,7 +1483,7 @@ void ide64_config_init(void)
     struct drive_s *drive;
 
     debug("IDE64 init");
-    cart_config_changed_slotmain(0, 0, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ | CMODE_PHI2_RAM);
     current_bank = 0;
     current_cfg = 0;
     kill_port = 0;

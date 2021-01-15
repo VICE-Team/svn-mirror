@@ -176,14 +176,14 @@ static const export_resource_t export_res = {
 void freezeframe_freeze(void)
 {
     DBG(("Freeze Frame: freeze\n"));
-    cart_config_changed_slotmain(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ | CMODE_RELEASE_FREEZE);
     freezeframe_rom_8000 = 1;
     freezeframe_rom_e000 = 1;
 }
 
 void freezeframe_config_init(void)
 {
-    cart_config_changed_slotmain(2, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_8KGAME, CMODE_READ);
     freezeframe_rom_8000 = 1;
     freezeframe_rom_e000 = 0;
 }
@@ -192,7 +192,7 @@ void freezeframe_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, FREEZE_FRAME_CART_SIZE);
     memcpy(romh_banks, rawcart, FREEZE_FRAME_CART_SIZE);
-    cart_config_changed_slotmain(2, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_8KGAME, CMODE_READ);
     freezeframe_rom_8000 = 1;
     freezeframe_rom_e000 = 0;
 }

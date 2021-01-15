@@ -190,7 +190,7 @@ void rexramfloppy_config_init(void)
     cart_enabled = 1;
     ram_writeable = 0;
     ram_enabled = 0;
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
 }
 
 void rexramfloppy_reset(void)
@@ -204,7 +204,7 @@ void rexramfloppy_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memset(export_ram0, 0xff, 0x2000 * 32);
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

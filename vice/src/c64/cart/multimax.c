@@ -148,7 +148,7 @@ void multimax_config_init(void)
 {
     currbank = 0;
     reg_enabled = 1;
-    cart_config_changed_slotmain(3, 3, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -160,7 +160,7 @@ void multimax_config_setup(uint8_t *rawcart)
         memcpy(&roml_banks[0x0000 + (i * 0x2000)], &rawcart[0x0000 + (i * 0x4000)], 0x2000);
         memcpy(&romh_banks[0x0000 + (i * 0x2000)], &rawcart[0x2000 + (i * 0x4000)], 0x2000);
     }
-    cart_config_changed_slotmain(3, 3, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

@@ -627,7 +627,7 @@ void isepic_config_init(void)
 void isepic_reset(void)
 {
     if (isepic_state == ISEPIC_STATE_NMI_EXECUTING) {
-        cart_config_changed_slot1(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
+        cart_config_changed_slot1(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_RELEASE_FREEZE);
         isepic_state = ISEPIC_STATE_PROGRAMMING;
     }
 }

@@ -523,7 +523,7 @@ void magicformel_freeze(void)
 
     freeze_flipflop(0 /* reset */, 1 /* freeze */, my6821.CB2);
 
-    cart_config_changed_slotmain(2, (uint8_t)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(CMODE_RAM, (uint8_t)(CMODE_ULTIMAX | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 }
 
 void magicformel_config_init(void)
@@ -539,7 +539,7 @@ void magicformel_config_init(void)
 
     freeze_flipflop(1 /* reset */, 0 /* freeze */, my6821.CB2);
 
-    cart_config_changed_slotmain(2, (uint8_t)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, (uint8_t)(CMODE_ULTIMAX | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 void magicformel_reset(void)

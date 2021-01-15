@@ -299,7 +299,7 @@ void stardos_config_init(void)
 {
     flipflop();
     cap_trigger_access();
-    cart_config_changed_slotmain(2, 3, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -318,7 +318,7 @@ void stardos_config_setup(uint8_t *rawcart)
     memcpy(roml_banks, &rawcart[0], 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
 
-    cart_config_changed_slotmain(2, 3, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

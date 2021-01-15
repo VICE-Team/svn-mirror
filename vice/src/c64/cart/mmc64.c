@@ -345,7 +345,7 @@ void mmc64_reset(void)
         cart_set_port_exrom_slot0(1);
         cart_port_config_changed_slot0();
 #else
-        cart_config_changed_slot0(0, 0, CMODE_READ);
+        cart_config_changed_slot0(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
 #endif
     }
 }
