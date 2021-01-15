@@ -43,6 +43,7 @@
 #include "vice_gtk3.h"
 #include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "network.h"
 #include "resources.h"
 #include "ui.h"
@@ -134,12 +135,13 @@ static void on_server_mask_toggled(GtkWidget *widget, gpointer data)
 
     /* do the actual work: flip a bit */
     newval = value ^ mask;
-
+#if 0
     debug_gtk3("State: %s, Mask: %02x, Value: %02x",
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
             ? "Enabled" : "Disabled",
             mask,
             newval);
+#endif
     if ((unsigned int)value != newval) {
         resources_set_int("NetworkControl", (int)newval);
     }
@@ -155,9 +157,9 @@ static void on_server_mask_toggled(GtkWidget *widget, gpointer data)
 static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
-
+#if 0
     debug_gtk3("Server Enable = %s", state ? "True" : "False");
-
+#endif
     /* connect or disconnect? */
     if (state) {
         /* check if we have a client active */
@@ -166,7 +168,7 @@ static void on_server_enable_toggled(GtkSwitch *widget, gpointer data)
         }
         /* attempt to start server */
         if (network_start_server() != 0) {
-            debug_gtk3("Failed to start netplay server.");
+            log_error(LOG_ERR, "Failed to start netplay server.");
         }
     } else {
         if (network_get_mode() != 0) {
@@ -186,17 +188,15 @@ static void on_client_enable_toggled(GtkSwitch *widget, gpointer data)
 {
     int state = gtk_switch_get_active(widget);
 
-    debug_gtk3("Client Enable = %s", state ? "True" : "False");
-
     if (state) {
         if (gtk_switch_get_active(GTK_SWITCH(server_enable))) {
             gtk_switch_set_active(GTK_SWITCH(server_enable), FALSE);
         }
         if (network_start_server() != 0) {
-            debug_gtk3("Failed to start netplay server.");
+            log_error(LOG_ERR, "Failed to start netplay server.");
         }
         if (network_connect_client() != 0) {
-            debug_gtk3("Failed to start client.");
+            log_error(LOG_ERR, "Failed to start client.");
         }
     } else {
         if (network_get_mode() != 0) {

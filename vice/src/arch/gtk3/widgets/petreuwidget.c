@@ -88,7 +88,6 @@ static void browse_filename_callback(GtkDialog *dialog,
                                      gpointer data)
 {
     if (filename != NULL) {
-        debug_gtk3("setting PETREUfilename to '%s'.", filename);
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }

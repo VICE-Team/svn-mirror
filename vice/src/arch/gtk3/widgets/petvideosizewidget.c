@@ -66,7 +66,6 @@ static void (*user_callback)(int) = NULL;
 static void on_video_size_toggled(GtkWidget *widget, int new_val)
 {
     if (user_callback != NULL) {
-        debug_gtk3("call user_callback with %d.", new_val);
         user_callback(new_val);
     }
 }
