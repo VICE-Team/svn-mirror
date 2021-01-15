@@ -188,7 +188,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
     /* put the drive-unit and drive number into the "format id" */
     *p++ = '"';
     *p++ = ' ';
-    if (vdrive->drive < 10) {
+    if (vdrive->unit < 10) {
         *p++ = ' ';
         *p++ = '#';
         *p++ = '0' + vdrive->unit;
@@ -198,7 +198,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
         *p++ = '0' + (vdrive->unit - 10);
     }
     *p++ = ':';
-    *p++ = '0' + vdrive->drive;
+    *p++ = '0';
     *p++ = 0;
 
     bufinfo[secondary].buflen = (int)(p - bufinfo[secondary].name);
