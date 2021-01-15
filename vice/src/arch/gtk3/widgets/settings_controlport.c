@@ -129,9 +129,7 @@ static gboolean create_combo_list(int port)
     int num;
     int i;
     joyport_desc_t *dev;
-#if 0
-    debug_gtk3("Creating a combo box list for port #%d", port + 1);
-#endif
+
     dev = joyport_devices[port];
     if (dev == NULL) {
         joyport_combo_lists[port] = NULL;
@@ -141,28 +139,18 @@ static gboolean create_combo_list(int port)
     /* calculate size of list to create */
     num = 0;
     while (dev->name != NULL) {
-        debug_gtk3("name: %s, id: %d", dev->name, dev->id);
         dev++;
         num++;
     }
-#if 0
-    debug_gtk3("Got %d entries", num);
-    debug_gtk3("Allocating memory for combo box entries");
-#endif
+
     /* allocate memory for list */
     joyport_combo_lists[port] = lib_malloc((size_t)(num + 1) *
             sizeof *joyport_combo_lists[port]);
 
     /* populate list */
-#if 0
-    debug_gtk3("Populating list");
-#endif
     i = 0;
     dev = joyport_devices[port];
     while (dev->name != NULL) {
-#if 0
-        debug_gtk3("adding '%s' (%d)", dev->name, dev->id);
-#endif
         joyport_combo_lists[port][i].name = dev->name;
         joyport_combo_lists[port][i].id = dev->id;
         dev++;
@@ -185,28 +173,6 @@ static void free_combo_list(int port)
         lib_free(joyport_combo_lists[port]);
     }
 }
-
-
-#if 0
-/** \brief  Handler for the "changed" event of a combo box
- *
- * \param[in]   combo       combo box
- * \param[in]   user_data   port number (0-based)
- */
-static void on_joyport_changed(GtkComboBoxText *combo, gpointer user_data)
-{
-    int port = GPOINTER_TO_INT(user_data);
-    char *endptr;
-    const char *id_str;
-    int id;
-
-    id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
-    id = (int)strtol(id_str, &endptr, 10);
-
-    debug_gtk3("changing JoyPort%dDevice to %d.", port + 1, id);
-    resources_set_int_sprintf("JoyPort%dDevice", id, port + 1);
-}
-#endif
 
 
 /** \brief  Create combo box for joyport \a port
@@ -280,8 +246,6 @@ static void joyport_devices_list_init(void)
 static void joyport_devices_list_shutdown(void)
 {
     int i;
-
-    debug_gtk3("called: free memory used by joyport devices list.");
 
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
         if (joyport_devices[i] != NULL) {

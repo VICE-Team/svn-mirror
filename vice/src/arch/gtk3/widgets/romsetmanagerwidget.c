@@ -150,7 +150,6 @@ static void on_predef_changed(GtkWidget *widget, gpointer data)
 
     id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget));
     if (id != NULL) {
-        debug_gtk3("Setting ROM set to '%s'.", id);
         machine_romset_file_load(id);
 
         /* TODO: use a callback to update the ROM widgets when loading has

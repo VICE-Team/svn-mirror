@@ -64,7 +64,6 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
          * button */
         device = resource_widget_get_int(radio, "DeviceNumber");
         type = (const char *)user_data;
-        debug_gtk3("setting Printer%dDriver to '%s'.", device, type);
         resources_set_string_sprintf("Printer%dDriver", type, device);
     }
 }

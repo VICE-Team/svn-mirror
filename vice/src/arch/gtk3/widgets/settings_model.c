@@ -141,17 +141,7 @@ static GtkWidget *reset_with_iec_widget = NULL;
 
 static void video_model_callback(int model)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    int true_model = -1;
-#endif
-
-    debug_gtk3("got model %d", model);
-
     if (get_model_func != NULL) {
-#ifdef HAVE_DEBUG_GTK3UI
-        true_model = get_model_func();
-#endif
-        debug_gtk3("got true model %d", true_model);
         machine_model_widget_update(machine_widget);
         if (machine_class == VICE_MACHINE_PLUS4) {
             plus4_debug_dump_resources();
@@ -167,7 +157,6 @@ static void video_model_callback(int model)
 
 static void vdc_revision_callback(int revision)
 {
-    debug_gtk3("got VDC revision %d.", revision);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -175,7 +164,7 @@ static void vdc_revision_callback(int revision)
 
 
 static void vdc_ram_callback(int state)
-{    debug_gtk3("Got VDC 64KiB RAM state %d.", state);
+{
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -185,17 +174,7 @@ static void vdc_ram_callback(int state)
 
 static void sid_model_callback(int model)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    int true_model = -1;
-#endif
-
-    debug_gtk3("got model %d", model);
-
     if (get_model_func != NULL) {
-#ifdef HAVE_DEBUG_GTK3UI
-        true_model = get_model_func();
-#endif
-        debug_gtk3("got true model %d", true_model);
         machine_model_widget_update(machine_widget);
     }
 }
@@ -210,22 +189,12 @@ static void sid_model_callback(int model)
  */
 static void kernal_revision_callback(int rev)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    int true_model = -1;
-
-    if (get_model_func != NULL) {
-        true_model = get_model_func();
-        debug_gtk3("Got model ID: %d.", true_model);
-    }
-#endif
-    debug_gtk3("Got revision %d.", rev);
     machine_model_widget_update(machine_widget);
 }
 
 
 static void iec_callback(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("Called.");
     machine_model_widget_update(machine_widget);
 }
 
@@ -238,8 +207,6 @@ static void iec_callback(GtkWidget *widget, gpointer data)
  */
 static void cia_model_callback(int cia_num, int cia_model)
 {
-    debug_gtk3("got CIA %d, model %d", cia_num, cia_model);
-
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -254,7 +221,6 @@ static void cia_model_callback(int cia_num, int cia_model)
  */
 static void pet_ram_size_callback(int size)
 {
-    debug_gtk3("Called with %d RAM.", size);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -263,7 +229,6 @@ static void pet_ram_size_callback(int size)
 
 static void pet_video_size_callback(int size)
 {
-    debug_gtk3("Called with %d video size.", size);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -272,7 +237,6 @@ static void pet_video_size_callback(int size)
 
 static void pet_keyboard_type_callback(int type)
 {
-    debug_gtk3("called with keyboard type %d.", type);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -280,7 +244,6 @@ static void pet_keyboard_type_callback(int type)
 
 static void pet_crtc_callback(int state)
 {
-    debug_gtk3("called with CRTC %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -288,7 +251,6 @@ static void pet_crtc_callback(int state)
 
 static void pet_blank_callback(int state)
 {
-    debug_gtk3("called with EOI-blank %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -297,7 +259,6 @@ static void pet_blank_callback(int state)
 
 static void pet_io_callback(int state)
 {
-    debug_gtk3("called with IO size %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -305,7 +266,6 @@ static void pet_io_callback(int state)
 
 static void pet_ram9_callback(int state)
 {
-    debug_gtk3("called with RAM9 type %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -313,7 +273,6 @@ static void pet_ram9_callback(int state)
 
 static void pet_rama_callback(int state)
 {
-    debug_gtk3("called with RAMA type %d.", state);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -393,13 +352,11 @@ static void plus4_mem_size_callback(GtkWidget *widget, int value)
     int size = 0;
 
     resources_get_int("RamSize", &size);
+#if 0
     debug_gtk3("Got new value: %dKiB, RamSize = %d", value, size);
     debug_gtk3("Calling plus4_memory_expansion_widget_sync(): ");
-    if (plus4_memory_expansion_widget_sync()) {
-        debug_gtk3("OK.");
-    } else {
-        debug_gtk3("failed.");
-    }
+#endif
+    plus4_memory_expansion_widget_sync();
     machine_model_widget_update(machine_widget);
     plus4_debug_dump_resources();
 }
@@ -417,18 +374,10 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
     int size = 0;
 
     resources_get_int("RamSize", &size);
-    debug_gtk3("Got new MemoryHack value: %d, RamSize = %d", value, size);
 
     plus4_memory_size_widget_sync();
-    debug_gtk3("Setting RamSize widget sensitivity to %s",
-            value == MEMORY_HACK_NONE ? "TRUE" : "FALSE");
     gtk_widget_set_sensitive(ram_widget, value == MEMORY_HACK_NONE);
-    debug_gtk3("Calling plus4_memory_size_widget_sync(): ");
-    if (plus4_memory_size_widget_sync()) {
-        debug_gtk3("OK.");
-    } else {
-        debug_gtk3("failed.");
-    }
+    plus4_memory_size_widget_sync();
 
     machine_model_widget_update(machine_widget);
     plus4_debug_dump_resources();
@@ -442,7 +391,6 @@ static void plus4_mem_hack_callback(GtkWidget *widget, int value)
  */
 static void plus4_acia_widget_callback(GtkWidget *widget, int value)
 {
-    debug_gtk3("Called with value %d\n", value);
     machine_model_widget_update(machine_widget);
 }
 
@@ -454,7 +402,6 @@ static void plus4_acia_widget_callback(GtkWidget *widget, int value)
  */
 static void v364_speech_widget_callback(GtkWidget *widget, int value)
 {
-    debug_gtk3("Called with value %d\n", value);
     machine_model_widget_update(machine_widget);
 }
 
@@ -470,8 +417,6 @@ static void c64_misc_widget_sync(void);
 static void machine_model_handler_c64(int model)
 {
     GtkWidget *sid_group;
-
-    debug_gtk3("Got model change for C64: %d", model);
 
     /* synchronize video chip widget */
     video_model_widget_update(video_widget);
@@ -561,7 +506,6 @@ static void machine_model_handler_c128(int model)
  */
 static void dtv_revision_callback(GtkWidget *widget, int revision)
 {
-    debug_gtk3("got revision %d.", revision);
     if (get_model_func != NULL) {
         machine_model_widget_update(machine_widget);
     }
@@ -576,7 +520,6 @@ static void dtv_revision_callback(GtkWidget *widget, int revision)
  */
 static void dtv_video_callback(int model)
 {
-    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
@@ -628,7 +571,6 @@ static void machine_model_handler_c64dtv(int model)
             /* 3: V3 PAL */
             break;
     }
-    debug_gtk3("setting revision to %d", rev);
 
     /* update revision widget */
     group = gtk_grid_get_child_at(GTK_GRID(c64dtv_rev_widget), 0, 1);
@@ -656,7 +598,6 @@ static void machine_model_handler_c64dtv(int model)
  */
 static void vic20_video_callback(int model)
 {
-    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
@@ -695,7 +636,6 @@ static void machine_model_handler_vic20(int model)
  */
 static void plus4_video_callback(int model)
 {
-    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
     plus4_debug_dump_resources();
 }
@@ -721,7 +661,6 @@ static void plus4_memory_callback(int ram, int hack)
  */
 static void machine_model_handler_plus4(int model)
 {
-    debug_gtk3("called with model %d.", model);
     video_model_widget_update(video_widget);
     plus4_memory_size_widget_sync();
     plus4_acia_widget_sync();
@@ -744,7 +683,6 @@ static void machine_model_handler_plus4(int model)
  */
 static void cbm5x0_video_callback(int model)
 {
-    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
@@ -757,21 +695,18 @@ static void cbm5x0_video_callback(int model)
  */
 static void cbm2_video_callback(int model)
 {
-    debug_gtk3("got video model %d.", model);
     machine_model_widget_update(machine_widget);
 }
 
 
 static void cbm2_switches_callback(GtkWidget *widget, int model_line)
 {
-    debug_gtk3("called with model_line %d.", model_line);
     machine_model_widget_update(machine_widget);
 }
 
 
 static void cbm2_memory_size_callback(GtkWidget *widget, int size)
 {
-    debug_gtk3("called with memory size %d.", size);
     machine_model_widget_update(machine_widget);
 }
 
@@ -810,7 +745,6 @@ static void pet_set_ram9a_sensitivity(void)
 
 static void machine_model_handler_pet(int model)
 {
-    debug_gtk3("Called.");
     pet_ram_size_widget_sync(ram_widget);
     pet_video_size_widget_sync(pet_video_size_widget);
     pet_keyboard_type_widget_sync(pet_keyboard_widget);
@@ -829,8 +763,6 @@ static void machine_model_handler_pet(int model)
  */
 static void machine_model_callback(int model)
 {
-    debug_gtk3("got model %d.", model);
-
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -875,8 +807,6 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
     int glue = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("setting GlueLogic to %s.",
-                glue == 0 ? "discrete" : "252535-01");
         resources_set_int("GlueLogic", glue);
         machine_model_widget_update(machine_widget);
     }
@@ -1376,7 +1306,6 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
-    debug_gtk3("Done creating PET model dialog");
     return grid;
 }
 

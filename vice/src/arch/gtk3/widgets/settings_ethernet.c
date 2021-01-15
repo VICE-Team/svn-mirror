@@ -193,7 +193,6 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 #ifdef HAVE_RAWNET
     GtkWidget *combo;
     bool available = archdep_ethernet_available();
-    debug_gtk3("Ethernet available = %s\n", available ? "True" : "False");
 #endif
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);

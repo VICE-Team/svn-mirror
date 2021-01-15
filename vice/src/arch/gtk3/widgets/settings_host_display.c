@@ -205,8 +205,6 @@ GtkWidget *settings_host_display_widget_create(GtkWidget *widget)
         /* check situation regarding fullscreen and minimized */
         if (fullscreen && minimized) {
             /* illegal, clear both widgets */
-            debug_gtk3("Both FullscreenEnable and StartMinimized are set, which"
-                    " is illegal, unsetting both.");
             resources_set_int("FullscreenEnable", 0);
             resources_set_int("StartMinimized", 0);
             vice_gtk3_resource_check_button_sync(fullscreen_widget);

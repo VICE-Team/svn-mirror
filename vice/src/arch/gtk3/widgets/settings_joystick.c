@@ -104,8 +104,6 @@ static void on_swap_joysticks_clicked(GtkWidget *button, gpointer user_data)
         return; /* cannot swap */
     }
 
-    debug_gtk3("swapping joystick #1 and joystick #2.");
-
     /* get current values */
     resources_get_int_sprintf("JoyDevice%d", &joy1, 1);
     resources_get_int_sprintf("JoyDevice%d", &joy2, 2);
@@ -134,8 +132,6 @@ static void on_swap_userport_joysticks_clicked(GtkWidget *button,
             || device_widgets[JOYPORT_4] == NULL) {
         return; /* cannot swap */
     }
-
-    debug_gtk3("swapping userport joystick #1 and userport joystick #2.");
 
     /* get current values */
     resources_get_int_sprintf("JoyDevice%d", &joy3, 3);

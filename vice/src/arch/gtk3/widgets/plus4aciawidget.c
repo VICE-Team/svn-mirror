@@ -67,9 +67,7 @@ static void on_acia_widget_toggled(GtkToggleButton *button,
                                    gpointer         data)
 {
     int active = gtk_toggle_button_get_active(button);
-    debug_gtk3("ACIA widget toggled: %s", active ? "TRUE" : "FALSE");
     if (user_callback != NULL) {
-        debug_gtk3("Triggering ACIA user callback");
         user_callback(GTK_WIDGET(button), active);
     }
 }
