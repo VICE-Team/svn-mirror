@@ -695,9 +695,11 @@ static int disk_image_check_for_dhd(disk_image_t *image)
         return 0;
     }
 
-    /* next make sure the file is a multiple of 512 bytes and greater than
+    /* next make sure the file is a multiple of 256 bytes and greater than
        equal 73728 bytes (which is the smallest possible running DHD image */
-    if ((blk % 512 != 0) || ( blk < 73728 )) {
+    /* we used to look for multiples of 512 bytes, but writes of 256 bytes
+       to expanding images in vdrive might make this fail. */
+    if ((blk % 256 != 0) || ( blk < 73728 )) {
         return 0;
     }
 
