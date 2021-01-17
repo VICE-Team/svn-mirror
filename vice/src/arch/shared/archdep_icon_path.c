@@ -74,7 +74,7 @@ char *archdep_app_icon_path_png(int size)
             icon = "PET";
             break;
         case VICE_MACHINE_VIC20:
-            icon = "VIC";
+            icon = "VIC20";
             break;
         case VICE_MACHINE_CBM5x0:   /* fall through */
         case VICE_MACHINE_CBM6x0:
