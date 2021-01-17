@@ -98,7 +98,7 @@ void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsig
 {
     unsigned int i, j;
 
-    if (write_crt_header(0, 0) < 0) {
+    if (write_crt_header(0, 1) < 0) {
         cleanup();
         exit(1);
     }
