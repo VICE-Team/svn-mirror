@@ -123,7 +123,7 @@ int write_crt_header(unsigned char gameline, unsigned char exromline)
             if (cart_name[i] == 0) {
                 endofname = 1;
             } else {
-                crt_header[0x20 + i] = (unsigned char)toupper((int)cart_name[i]);
+                crt_header[0x20 + i] = cart_name[i];
             }
         }
     }

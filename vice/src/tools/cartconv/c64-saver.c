@@ -125,15 +125,24 @@ void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsig
 void save_ocean_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     unsigned int i;
+    int banks = loadfile_size / 0x2000;
 
-    if (loadfile_size != CARTRIDGE_SIZE_256KB) {
-        save_regular_crt(0x2000, 0, 0x8000, 0, 0, 0);
-    } else {
+    if (loadfile_size == CARTRIDGE_SIZE_512KB) {
+        /* the 512k type (64 banks) starts uses 8k game mode */
         if (write_crt_header(1, 0) < 0) {
             cleanup();
             exit(1);
         }
+    } else {
+        /* the other types use 16k game mode */
+        if (write_crt_header(0, 0) < 0) {
+            cleanup();
+            exit(1);
+        }
+    }
 
+    if (banks == 32) {
+        /* for 256k type write the second half with a000 load address */
         for (i = 0; i < 16; i++) {
             if (write_chip_package(0x2000, i, 0x8000, 0) < 0) {
                 cleanup();
@@ -147,12 +156,19 @@ void save_ocean_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned 
                 exit(1);
             }
         }
-
-        fclose(outfile);
-        bin2crt_ok();
-        cleanup();
-        exit(0);
+    } else {
+        for (i = 0; i < banks; i++) {
+            if (write_chip_package(0x2000, i, 0x8000, 0) < 0) {
+                cleanup();
+                exit(1);
+            }
+        }
     }
+
+    fclose(outfile);
+    bin2crt_ok();
+    cleanup();
+    exit(0);
 }
 
 void save_funplay_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)

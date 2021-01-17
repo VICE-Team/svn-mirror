@@ -84,8 +84,11 @@ static char convert_to_bin = 0;
 static char convert_to_prg = 0;
 static int repair_mode = 0;
 static int input_padding = 0;
+static char *options_filename = NULL;
 
 int machine_class = VICE_MACHINE_C64;
+
+int verbose = 0;
 
 /*****************************************************************************/
 
@@ -167,6 +170,9 @@ void cleanup(void)
 
     if (output_filename != NULL) {
         free(output_filename);
+    }
+    if (options_filename != NULL) {
+        free(options_filename);
     }
     if (cart_name != NULL) {
         free(cart_name);
@@ -287,6 +293,36 @@ static int load_all_banks(void)
     return 0;
 }
 
+void bin2crt_ok(void)
+{
+    if (!quiet_mode) {
+        printf("Input file : %s\n", input_filename[0]);
+        printf("Output file : %s\n", output_filename);
+        if (machine_class == VICE_MACHINE_C64) {
+            printf("Conversion from binary format to C64 %s .crt successful.\n", 
+                cart_info[(unsigned char)cart_type].name);
+        } else if (machine_class == VICE_MACHINE_VIC20) {
+            printf("Conversion from binary format to VIC20 %s .crt successful.\n", 
+                cart_info_vic20[(unsigned char)cart_type].name);
+        }
+    }
+}
+
+void crt2bin_ok(void)
+{
+    if (!quiet_mode) {
+        printf("Input file : %s\n", input_filename[0]);
+        printf("Output file : %s\n", output_filename);
+        if (machine_class == VICE_MACHINE_C64) {
+            printf("Conversion from C64 %s .crt to binary format successful.\n",
+                cart_info[loadfile_cart_type].name);
+        } else if (machine_class == VICE_MACHINE_VIC20) {
+            printf("Conversion from VIC20 %s .crt to binary format successful.\n",
+                cart_info_vic20[loadfile_cart_type].name);
+        }
+    }
+}
+
 static int save_binary_output_file(void)
 {
     unsigned char address_buffer[2];
@@ -311,28 +347,9 @@ static int save_binary_output_file(void)
         return -1;
     }
     fclose(outfile);
-    if (!quiet_mode) {
-        printf("Input file : %s\n", input_filename[0]);
-        printf("Output file : %s\n", output_filename);
-        printf("Conversion from %s .crt to binary format successful.\n", cart_info[loadfile_cart_type].name);
-    }
+
+    crt2bin_ok();
     return 0;
-}
-
-
-void bin2crt_ok(void)
-{
-    if (!quiet_mode) {
-        printf("Input file : %s\n", input_filename[0]);
-        printf("Output file : %s\n", output_filename);
-        if (machine_class == VICE_MACHINE_C64) {
-            printf("Conversion from binary format to C64 %s .crt successful.\n", 
-                cart_info[(unsigned char)cart_type].name);
-        } else if (machine_class == VICE_MACHINE_VIC20) {
-            printf("Conversion from binary format to VIC20 %s .crt successful.\n", 
-                cart_info_vic20[(unsigned char)cart_type].name);
-        }
-    }
 }
 
 void save_regular_crt(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
@@ -467,6 +484,12 @@ int load_input_file(char *filename)
                 fclose(infile);
                 return -1;
             }
+        } else if (machine_class == VICE_MACHINE_VIC20) {
+            if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_VIC20_LAST))) {
+                fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
+                fclose(infile);
+                return -1;
+            }
         }
 
         loadfile_size = 0;
@@ -554,6 +577,35 @@ int load_input_file(char *filename)
 }
 
 /*****************************************************************************/
+static int find_crtid_from_type(const cart_t *info, char *type)
+{
+    int i;
+    for (i = 0; info[i].name != NULL; i++) {
+        if (info[i].opt != NULL) {
+            if (!strcasecmp(info[i].opt, type)) {
+                return i; /* found */
+            }
+        }
+    }
+    return -1;
+}
+
+static const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
+{
+    const cart_t *info = cart_info;
+    int i;
+
+    if (machine == VICE_MACHINE_VIC20) {
+        info = cart_info_vic20;
+    }
+
+    for (i = 0; info[i].name != NULL; i++) {
+        if (i == crtid) {
+            return &info[i];
+        }
+    }
+    return NULL;
+}
 
 static void printbanks(char *name)
 {
@@ -683,6 +735,69 @@ static void printinfo(char *name)
     exit (0);
 }
 
+static void printoptions(char *inputname, char *optionsname)
+{
+    const cart_t *cartinfo;
+    char cartname[0x20 + 1];
+    FILE *f;
+    int crtid;
+    
+    f = fopen(optionsname, "w");
+    
+#if 1
+    if (detect_input_file(inputname) < 0) {
+        printf("Error: can not detect file type.\n\n");
+    }
+#endif
+
+    printf("printoptions '%s' '%s' %d\n", inputname, optionsname, loadfile_is_crt);
+
+    crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
+    if (headerbuffer[0x17] & 0x80) {
+        /* handle our negative test IDs */
+        crtid -= 0x10000;
+    }
+
+    /* cartinfo = find_cartinfo_from_crtid(cart_type, machine_class); */
+    cartinfo = find_cartinfo_from_crtid(crtid, machine_class);
+
+    memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
+
+    printf("crtid: %d exrom: %d game: %d machine: %d name '%s'\n",
+            crtid, headerbuffer[0x18], headerbuffer[0x19], machine_class, inputname);
+    if (loadfile_is_crt == 1) {
+        if (crtid > 0) {
+            if (cartinfo) {
+                fprintf(f, "-t,%s,", cartinfo->opt);
+            }
+        } else {
+            /* generic cartridges */
+            if (machine_class == VICE_MACHINE_C64) {
+                if ((headerbuffer[0x18] == 1) && (headerbuffer[0x19] == 0)) {
+                    fprintf(f,"-t,ulti,");
+                } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 0)) {
+                    fprintf(f,"-t,normal,"); /* 16k */
+                } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 1)) {
+                    fprintf(f,"-t,normal,"); /* 8k */
+                } else {
+                    fprintf(f,"-t,normal,"); /* invalid (off) */
+                }
+            } else if (machine_class == VICE_MACHINE_VIC20) {
+                fprintf(f,"-t,vic20,");
+            }
+        }
+        if (headerbuffer[0x1a]) {
+            /* subtype */
+            fprintf(f, "-s,%d,", headerbuffer[0x1a]);
+        }
+        fprintf(f, "-n,%s,", cartname);
+        fprintf(f, "-i,%s,", output_filename);
+        /* fprintf(f, "-o %s", input_filename); */
+        fprintf(f, "\n");
+    }
+    fclose(f);
+}
+
 /*****************************************************************************/
 
 typedef struct sorted_cart_s {
@@ -690,6 +805,7 @@ typedef struct sorted_cart_s {
     char *name;
     int crt_id;
     int insertion;
+    int exrom, game;
 } sorted_cart_t;
 
 static unsigned int count_valid_option_elements(const cart_t *info)
@@ -730,7 +846,10 @@ static void print_types(int machine, const cart_t *info)
         if (info[i].opt) {
             sorted_option_elements[n].opt = info[i].opt;
             sorted_option_elements[n].name = info[i].name;
+            sorted_option_elements[n].exrom = info[i].exrom;
+            sorted_option_elements[n].game = info[i].game;
             sorted_option_elements[n].crt_id = (int)i;
+            sorted_option_elements[n].insertion = 0;
             /* FIXME: put this info into the cartridge list */
             if (machine == VICE_MACHINE_C64) {
                 switch (i) {
@@ -739,9 +858,6 @@ static void print_types(int machine, const cart_t *info)
                     case CARTRIDGE_REX_EP256:
                     case CARTRIDGE_DELA_EP256:
                         sorted_option_elements[n].insertion = 1;
-                        break;
-                    default:
-                        sorted_option_elements[n].insertion = 0;
                         break;
                 }
             }
@@ -755,10 +871,27 @@ static void print_types(int machine, const cart_t *info)
     /* output the sorted list */
     for (i = 0; i < amount; i++) {
         n = sorted_option_elements[i].insertion;
-        printf("%-8s %2d %s .crt file%s\n", 
+        printf("%-8s %2d ", 
                sorted_option_elements[i].opt, 
-               sorted_option_elements[i].crt_id, 
-               sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
+               sorted_option_elements[i].crt_id);
+        if (verbose) {
+            if (machine == VICE_MACHINE_C64) {
+                if ((sorted_option_elements[i].exrom == 1) && (sorted_option_elements[i].game == 0)) {
+                    printf("  ultimax  ");
+                } else if ((sorted_option_elements[i].exrom == 0) && (sorted_option_elements[i].game == 0)) {
+                    printf(" 16k Game  ");
+                } else if ((sorted_option_elements[i].exrom == 0) && (sorted_option_elements[i].game == 1)) {
+                    printf("  8k Game  ");
+                } else {
+                    printf("      off  ");
+                }
+            } else {
+                    printf("           ");
+            }
+        }
+        printf("%s .crt file%s\n", 
+               sorted_option_elements[i].name,
+               n ? ", extra files can be inserted" : "");
     }
     free(sorted_option_elements);
 }
@@ -768,14 +901,17 @@ static void usage_types(void)
     cleanup();
     printf("supported cartridge types:\n\n"
            "bin      Binary .bin file (Default crt->bin)\n"
-           "prg      Binary C64 .prg file with load-address\n\n"
+           "prg      Binary CBM .prg file with load-address\n\n"
+           "C64 cartridge types:\n\n"
            "normal   Generic 8KiB/12KiB/16KiB .crt file (Default bin->crt)\n"
            "ulti     Ultimax mode 4KiB/8KiB/16KiB .crt file\n\n"
-           "C64 cartridge types:\n\n");
+    );
 
     print_types(VICE_MACHINE_C64, cart_info);
 
-    printf("\nVIC20 cartridge types:\n\n");
+    printf("\nVIC20 cartridge types:\n\n"
+           "vic20    Generic 8KiB/12KiB/16KiB .crt file\n"
+    );
     print_types(VICE_MACHINE_VIC20, cart_info_vic20);
 
     exit(1);
@@ -784,163 +920,178 @@ static void usage_types(void)
 static void usage(void)
 {
     cleanup();
-    printf("convert:    cartconv [-r] [-q] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
-    printf("print info: cartconv [-r] -f \"input name\"\n\n");
-    printf("-f <name>    print info on file\n");
-    printf("-r           repair mode (accept broken input files)\n");
-    printf("-p           accept non padded binaries as input\n");
-    printf("-b           output all banks (do not optimize the .crt file)\n");
-    printf("-t <type>    output cart type\n");
-    printf("-s <rev>     output cart revision/subtype\n");
-    printf("-i <name>    input filename\n");
-    printf("-o <name>    output filename\n");
-    printf("-n <name>    crt cart name\n");
-    printf("-l <addr>    load address\n");
-    printf("-q           quiet\n");
-    printf("--types      show the supported cart types\n");
-    printf("--version    print cartconv version\n");
+    printf("convert:    cartconv [-r] [-q|-v] [-t cart type] [-s cart revision] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
+    printf("print info: cartconv [-r] [-q|-v] -f \"input name\"\n\n");
+    printf("-f <name>                   print info on file\n");
+    printf("-r                          repair mode (accept broken input files)\n");
+    printf("-p                          accept non padded binaries as input\n");
+    printf("-b                          output all banks (do not optimize the .crt file)\n");
+    printf("-t <type>                   output cart type\n");
+    printf("-s <rev>                    output cart revision/subtype\n");
+    printf("-i <name>                   input filename\n");
+    printf("-o <name>                   output filename\n");
+    printf("-n <name>                   crt cart name\n");
+    printf("-l <addr>                   load address\n");
+    printf("-q                          quiet\n");
+    printf("-v --verbose                verbose\n");
+    printf("--types                     show the supported cart types\n");
+    printf("--version                   print cartconv version\n");
+    printf("--options-file <filename>   write options for reverting the conversion into a file (for test script)\n");
     exit(1);
 }
 
 /*****************************************************************************/
 
+static void unknown(char *opt)
+{
+    fprintf(stderr, "unknown option: '%s'\n", opt);
+}
+
 static void checkarg(char *arg)
 {
     if (arg == NULL) {
         usage();
-        exit(-1);
     }
 }
 
-static int find_crtid_from_type(const cart_t *info, char *type)
-{
-    int i;
-    for (i = 0; info[i].name != NULL; i++) {
-        if (info[i].opt != NULL) {
-            if (!strcasecmp(info[i].opt, type)) {
-                return i; /* found */
-            }
-        }
-    }
-    return -1;
-}
-
-static const cart_t *find_cartinfo_from_crtid(int crtid, int machine)
-{
-    const cart_t *info = cart_info;
-    int i;
-
-    if (machine == VICE_MACHINE_VIC20) {
-        info = cart_info_vic20;
-    }
-
-    for (i = 0; info[i].name != NULL; i++) {
-        if (i == crtid) {
-            return &info[i];
-        }
-    }
-    return NULL;
-}
-
-/* FIXME: document return code / use constant */
+/* returns number of arguments to skip */
 static int checkflag(char *flg, char *arg)
 {
-    switch (tolower((int)(flg[1]))) {
-        case 'f':
-            printinfo(arg);
-            return 2;
-        case 'r':
-            repair_mode = 1;
-            return 1;
-        case 'b':
-            omit_empty_banks = 0;
-            return 1;
-        case 'q':
-            quiet_mode = 1;
-            return 1;
-        case 'p':
-            input_padding = 1;
-            return 1;
-        case 'o':
-            checkarg(arg);
-            if (output_filename == NULL) {
-                output_filename = strdup(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        case 'n':
-            checkarg(arg);
-            if (cart_name == NULL) {
-                cart_name = strdup(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        case 'l':
-            checkarg(arg);
-            if (load_address == 0) {
-                load_address = atoi(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        case 's':
-            checkarg(arg);
-            if (cart_subtype == 0) {
-                cart_subtype = atoi(arg);
-            } else {
-                usage();
-            }
-            return 2;
-        /* set cartridge type (and machine) */
-        case 't':
-            checkarg(arg);
-            if ((cart_type != -1) ||
-                (convert_to_bin != 0) ||
-                (convert_to_prg != 0) ||
-                (convert_to_ultimax != 0)) {
-                usage();
-            } else {
-                cart_type = find_crtid_from_type(cart_info, arg);
-                if (cart_type == -1) {
-                    cart_type = find_crtid_from_type(cart_info_vic20, arg);
-                    if (cart_type != -1) {
-                        /* found vic20 cartridge */
-                        machine_class = VICE_MACHINE_VIC20;
-                    }
-                }
+    if (flg[0] == 0) {
+        /* skip empty options */
+        return 1;
+    }
 
-                if (cart_type == -1) {
-                    if (!strcmp(arg, "bin")) {
-                        convert_to_bin = 1;
-                    } else if (!strcmp(arg, "normal")) {
-                        cart_type = CARTRIDGE_CRT;
-                    } else if (!strcmp(arg, "prg")) {
-                        convert_to_prg = 1;
-                    } else if (!strcmp(arg, "ulti")) {
-                        cart_type = CARTRIDGE_CRT;
-                        convert_to_ultimax = 1;
-                    } else {
-                        usage();
-                    }
-                } else if (cart_type == CARTRIDGE_MAX_BASIC) {
-                    convert_to_ultimax = 1;
+    if (flg[0] != '-') {
+        unknown(flg);
+        usage();
+    }
+
+    if (flg[2] == 0) {
+        switch (flg[1]) {
+            case 'f':
+                printinfo(arg);
+                return 2;
+            case 'r':
+                repair_mode = 1;
+                return 1;
+            case 'b':
+                omit_empty_banks = 0;
+                return 1;
+            case 'q':
+                quiet_mode = 1;
+                return 1;
+            case 'p':
+                input_padding = 1;
+                return 1;
+            case 'v':
+                verbose = 1;
+                return 1;
+            case 'o':
+                checkarg(arg);
+                if (output_filename == NULL) {
+                    output_filename = strdup(arg);
+                } else {
+                    usage();
                 }
-            }
-            printf("-t cart_type: %d machine_class: %d\n", cart_type, machine_class);
-            return 2;
-        case 'i':
+                return 2;
+            case 'n':
+                checkarg(arg);
+                if (cart_name == NULL) {
+                    cart_name = strdup(arg);
+                } else {
+                    usage();
+                }
+                return 2;
+            case 'l':
+                checkarg(arg);
+                if (load_address == 0) {
+                    load_address = atoi(arg);
+                } else {
+                    usage();
+                }
+                return 2;
+            case 's':
+                checkarg(arg);
+                if (cart_subtype == 0) {
+                    cart_subtype = atoi(arg);
+                } else {
+                    usage();
+                }
+                return 2;
+            /* set cartridge type (and machine) */
+            case 't':
+                checkarg(arg);
+                if ((cart_type != -1) ||
+                    (convert_to_bin != 0) ||
+                    (convert_to_prg != 0) ||
+                    (convert_to_ultimax != 0)) {
+                    usage();
+                } else {
+                    cart_type = find_crtid_from_type(cart_info, arg);
+                    if (cart_type == -1) {
+                        cart_type = find_crtid_from_type(cart_info_vic20, arg);
+                        if (cart_type != -1) {
+                            /* found vic20 cartridge */
+                            machine_class = VICE_MACHINE_VIC20;
+                        }
+                    }
+
+                    if (cart_type == -1) {
+                        if (!strcmp(arg, "bin")) {
+                            convert_to_bin = 1;
+                        } else if (!strcmp(arg, "normal")) {
+                            cart_type = CARTRIDGE_CRT;
+                        } else if (!strcmp(arg, "prg")) {
+                            convert_to_prg = 1;
+                        } else if (!strcmp(arg, "ulti")) {
+                            cart_type = CARTRIDGE_CRT;
+                            convert_to_ultimax = 1;
+                        } else {
+                            usage();
+                        }
+                    } else if (cart_type == CARTRIDGE_MAX_BASIC) {
+                        convert_to_ultimax = 1;
+                    }
+                }
+                printf("-t cart_type: %d machine_class: %d\n", cart_type, machine_class);
+                return 2;
+            case 'i':
+                checkarg(arg);
+                if (input_filenames == 33) {
+                    usage();
+                }
+                input_filename[input_filenames] = strdup(arg);
+                input_filenames++;
+                return 2;
+            default:
+                unknown(flg);
+                usage();
+                break;
+        }
+    } else {
+        if (!strcmp(flg, "--options-file")) {
             checkarg(arg);
-            if (input_filenames == 33) {
+            if (options_filename == NULL) {
+                options_filename = strdup(arg);
+            } else {
                 usage();
             }
-            input_filename[input_filenames] = strdup(arg);
-            input_filenames++;
             return 2;
-        default:
-            usage();
-            break;
+        } else if(strcmp(flg, "--types") == 0) {
+            usage_types();
+            return 1;
+        } else if(strcmp(flg, "--verbose") == 0) {
+            verbose = 1;
+            return 1;
+        } else if (strcmp(flg, "--version") == 0) {
+#ifdef USE_SVN_REVISION
+            printf("cartconv (VICE %s SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+#else
+            printf("cartconv (VICE %s)\n", VERSION);
+#endif
+            return 1;
+        }
     }
     return 1;
 }
@@ -951,21 +1102,7 @@ int main(int argc, char *argv[])
     int arg_counter = 1;
     char *flag, *argument;
 
-    if (argc > 1) {
-        if(strcmp(argv[1], "--types") == 0) {
-            usage_types();
-            return EXIT_SUCCESS;
-        } else if (strcmp(argv[1], "--version") == 0) {
-#ifdef USE_SVN_REVISION
-            printf("cartconv (VICE %s SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
-#else
-            printf("cartconv (VICE %s)\n", VERSION);
-#endif
-            return EXIT_SUCCESS;
-        }
-    }
-
-    if (argc < 3) {
+    if (argc < 1) {
         usage();
         return EXIT_FAILURE;
     }
@@ -977,12 +1114,10 @@ int main(int argc, char *argv[])
     while (arg_counter < argc) {
         flag = argv[arg_counter];
         argument = (arg_counter + 1 < argc) ? argv[arg_counter + 1] : NULL;
-        if (flag[0] != '-') {
-            usage();
-        } else {
-            arg_counter += checkflag(flag, argument);
-        }
+        arg_counter += checkflag(flag, argument);
     }
+
+    /* check arguments */
 
     if (output_filename == NULL) {
         fprintf(stderr, "Error: no output filename\n");
@@ -999,10 +1134,6 @@ int main(int argc, char *argv[])
         cleanup();
         exit(1);
     }
-    if (load_input_file(input_filename[0]) < 0) {
-        cleanup();
-        exit(1);
-    }
     if (input_filenames > 1 && cart_type != CARTRIDGE_DELA_EP64 && cart_type != CARTRIDGE_DELA_EP256 &&
         cart_type != CARTRIDGE_DELA_EP7x8 && cart_type != CARTRIDGE_REX_EP256 && loadfile_cart_type != CARTRIDGE_DELA_EP64 &&
         loadfile_cart_type != CARTRIDGE_DELA_EP256 && loadfile_cart_type != CARTRIDGE_DELA_EP7x8 &&
@@ -1015,8 +1146,21 @@ int main(int argc, char *argv[])
     if ((cart_type == CARTRIDGE_DELA_EP7x8 || loadfile_cart_type == CARTRIDGE_DELA_EP7x8) && input_filenames > 8) {
         too_many_inputs();
     }
+
+    /* do the conversion */
+    if (options_filename) {
+        printoptions(input_filename[0], options_filename);
+    }
+
+    if (load_input_file(input_filename[0]) < 0) {
+        cleanup();
+        exit(1);
+    }
+
     if (loadfile_is_crt == 1) {
-        if (cart_type == CARTRIDGE_DELA_EP64 || cart_type == CARTRIDGE_DELA_EP256 || cart_type == CARTRIDGE_DELA_EP7x8 ||
+        if (cart_type == CARTRIDGE_DELA_EP64 ||
+            cart_type == CARTRIDGE_DELA_EP256 ||
+            cart_type == CARTRIDGE_DELA_EP7x8 ||
             cart_type == CARTRIDGE_REX_EP256) {
             cart_info[(unsigned char)cart_type].save(0, 0, 0, 0, 0, 0);
         } else {
