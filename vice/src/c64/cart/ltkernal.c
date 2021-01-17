@@ -908,7 +908,7 @@ void ltkernal_freeze(void)
     } else {
         LOG1((LOG, "LTK freeze but no LTK kernal in place; ignoring"));
     }
-    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_ULTIMAX, CMODE_READ |
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ |
         CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
 }
 
@@ -929,7 +929,7 @@ void ltkernal_config_init(void)
 #endif
     if ( machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C64 ) {
-        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_ULTIMAX, CMODE_READ |
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ |
             CMODE_PHI2_RAM);
 #ifdef C128
     } else if (machine_inc64mode == 0) {
@@ -1010,7 +1010,7 @@ void ltkernal_config_setup(uint8_t *rawcart)
         }
     }
 
-    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_ULTIMAX, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ | CMODE_PHI2_RAM);
 }
 
 /* ---------------------------------------------------------------------*/

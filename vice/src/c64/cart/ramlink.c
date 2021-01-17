@@ -1466,7 +1466,7 @@ void ramlink_config_init(void)
     /* future code will have 128 stuff in here too once we have a cart API */
     if ( machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C64 ) {
-        cart_config_changed_slotmain(CMODE_8KGAME, CMODE_ULTIMAX, CMODE_READ |
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ |
             CMODE_PHI2_RAM);
     }
 
@@ -1509,7 +1509,7 @@ void ramlink_config_setup(uint8_t *rawcart)
     }
 
     /* setup the cart */
-    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_ULTIMAX, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ | CMODE_PHI2_RAM);
 }
 
 /* ---------------------------------------------------------------------*/
