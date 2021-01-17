@@ -756,7 +756,7 @@ void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigne
                 save_regular_crt(0x4000, 1, 0x8000, 0, 0, 0);
                 break;
             default:
-                fprintf(stderr, "Error: invalid size for generic cartridge\n");
+                fprintf(stderr, "Error: invalid size for generic C64 cartridge\n");
                 cleanup();
                 exit(1);
                 break;

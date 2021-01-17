@@ -28,7 +28,7 @@ const cart_t cart_info[] = {
     {0, 1, CARTRIDGE_SIZE_4KB |
            CARTRIDGE_SIZE_8KB |
            CARTRIDGE_SIZE_12KB |
-           CARTRIDGE_SIZE_16KB,         0,      0,   0, 0, "Generic Cartridge",                  NULL, save_generic_crt},
+           CARTRIDGE_SIZE_16KB,         0,      0,   0, 0, "Generic C64 Cartridge",              NULL, save_generic_crt},
 
     {0, 1, CARTRIDGE_SIZE_32KB,    0x2000, 0x8000,   4, 0, CARTRIDGE_NAME_ACTION_REPLAY,        "ar5", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_16KB,    0x2000,      0,   2, 0, CARTRIDGE_NAME_KCS_POWER,            "kcs", save_2_blocks_crt},

@@ -326,7 +326,10 @@ void crt2bin_ok(void)
 static int save_binary_output_file(void)
 {
     unsigned char address_buffer[2];
-
+/*
+    printf("save_binary_output_file mode:%s addr:%04x size:%04x\n",
+           convert_to_prg ? "prg" : "bin", load_address, loadfile_size);
+*/
     outfile = fopen(output_filename, "wb");
     if (outfile == NULL) {
         fprintf(stderr, "Error: Can't open output file %s\n", output_filename);
@@ -415,11 +418,46 @@ int detect_input_file(char *filename)
         }
 
     }
-
+/*
     printf("detect_input_file loadfile_is_crt:%d machine_class:%d\n",
            loadfile_is_crt, machine_class);
-    
+*/
     return 0;
+}
+
+static int detect_load_address(char *filename, unsigned int *loadaddress)
+{
+    FILE *f;
+    unsigned char buffer[0x10];
+
+    if (loadfile_is_crt) {
+        f = fopen(filename, "rb");
+        if (f == NULL) {
+            fprintf(stderr, "Error: Can't open %s\n", filename);
+            return -1;
+        }
+        fseek(f, 0x40, SEEK_SET); /* skip header */
+        /* get CHIP header */
+        if (fread(buffer, 1, 16, f) != 16) {
+            fprintf(stderr, "Error: could not read data from file.\n");
+            fclose(f);
+            return -1;
+        }
+        if (buffer[0] != 'C' ||
+            buffer[1] != 'H' ||
+            buffer[2] != 'I' ||
+            buffer[3] != 'P') {
+            fprintf(stderr, "Error: CHIP tag not found.\n");
+            fclose(f);
+            return -1;
+        }
+        /* set load address to the load address of first CHIP in the file. this is not quite
+           correct, but works ok for the few cases when it matters */
+        *loadaddress = (buffer[0xc] << 8) + buffer[0xd];
+        fclose(f);
+        return 0;
+    }
+    return -1;
 }
 
 int load_input_file(char *filename)
@@ -555,9 +593,11 @@ int load_input_file(char *filename)
             case CARTRIDGE_SIZE_16384KB + 2:
                 loadfile_size -= 2;
                 loadfile_offset = 2;
+                load_address = filebuffer[0] + (filebuffer[1] << 8);
                 fclose(infile);
                 return 0;
                 break;
+            /* FIXME: wth is this supposed to be? skip 4 bytes why? */
             case CARTRIDGE_SIZE_32KB + 4:
                 loadfile_size -= 4;
                 loadfile_offset = 4;
@@ -784,6 +824,11 @@ static void printoptions(char *inputname, char *optionsname)
                 }
             } else if (machine_class == VICE_MACHINE_VIC20) {
                 fprintf(f,"-t,vic20,");
+                if (convert_to_bin) {
+                    unsigned int loadaddr;
+                    detect_load_address(inputname, &loadaddr);
+                    fprintf(f,"-l,%u,", loadaddr);
+                }
             }
         }
         if (headerbuffer[0x1a]) {
@@ -1006,7 +1051,8 @@ static int checkflag(char *flg, char *arg)
             case 'l':
                 checkarg(arg);
                 if (load_address == 0) {
-                    load_address = atoi(arg);
+                    /* load_address = atoi(arg); */
+                    load_address = strtoul(arg, NULL, 0);
                 } else {
                     usage();
                 }
@@ -1047,6 +1093,9 @@ static int checkflag(char *flg, char *arg)
                         } else if (!strcmp(arg, "ulti")) {
                             cart_type = CARTRIDGE_CRT;
                             convert_to_ultimax = 1;
+                        } else if (!strcmp(arg, "vic20")) {
+                            cart_type = CARTRIDGE_CRT;
+                            machine_class = VICE_MACHINE_VIC20;
                         } else {
                             usage();
                         }
