@@ -12,20 +12,14 @@
 extern unsigned int loadfile_size;
 extern int load_address;
 extern FILE *outfile;
+extern char *input_filename[33];
+extern unsigned char input_filenames;
+extern char loadfile_is_crt;
 
-static void save_generic_vic20(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
+static int save_generic_vic20_bank(unsigned int length, unsigned int banks, unsigned int address, unsigned int type)
 {
     unsigned int i;
     unsigned int real_banks = banks;
-/*
-    printf("save_generic_vic20  loadfile_size: %x cart length:%x banks:%u load@:%02x chiptype:%u\n",
-            loadfile_size, length, banks, address, type);
-*/
-    if (write_crt_header(0, 0) < 0) {
-        cleanup();
-        exit(1);
-    }
-
     if (real_banks == 0) {
         /* handle the case when a chip of half/4th the regular size
            is used on an otherwise identical hardware (eg 2k/4k
@@ -41,8 +35,7 @@ static void save_generic_vic20(unsigned int length, unsigned int banks, unsigned
 
     for (i = 0; i < real_banks; i++) {
         if (write_chip_package(length, 0, address, 0) < 0) {
-            cleanup();
-            exit(1);
+            return -1;
         }
         address &= ~0x1fff;
         switch (address) {
@@ -57,11 +50,47 @@ static void save_generic_vic20(unsigned int length, unsigned int banks, unsigned
             default:
                 if ((i + 1) < real_banks) {
                     fprintf(stderr, "Error: invalid block address\n");
-                    goto exiterror;
+                    return -1;
                 }
                 break;
         }
     }
+    return 0;
+}
+
+static void save_generic_vic20(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
+{
+    unsigned int i;
+/*
+    printf("save_generic_vic20  loadfile_size: %x cart length:%x banks:%u load@:%02x chiptype:%u\n",
+            loadfile_size, length, banks, address, type);
+*/
+    if (write_crt_header(0, 0) < 0) {
+        cleanup();
+        exit(1);
+    }
+
+    if (save_generic_vic20_bank(length, banks, address, type) < 0) {
+        goto exiterror;
+    }
+
+    /* load and write extra input files */
+    if (input_filenames > 1) {
+        for (i = 1; i < input_filenames; i++) {
+            /* printf("extra input File: %s\n", input_filename[i]); */
+            if (load_input_file(input_filename[i]) < 0) {
+                goto exiterror;
+            }
+            if (loadfile_is_crt == 1) {
+                fprintf(stderr, "Error: extra file must be a binary\n");
+                goto exiterror;
+            }
+            if (save_generic_vic20_bank(length, banks, load_address, type) < 0) {
+                goto exiterror;
+            }
+        }
+    }
+
     bin2crt_ok();
 exiterror:
     fclose(outfile);

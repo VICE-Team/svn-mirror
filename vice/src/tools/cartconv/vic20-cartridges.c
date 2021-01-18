@@ -19,7 +19,7 @@ const cart_t cart_info_vic20[] = {
            CARTRIDGE_SIZE_4KB |
            CARTRIDGE_SIZE_8KB |
            CARTRIDGE_SIZE_12KB |
-           CARTRIDGE_SIZE_16KB,         0,      0,   0, CRT_CHIP_ROM, "Generic VIC20 Cartridge",               NULL, save_generic_vic20_crt},
+           CARTRIDGE_SIZE_16KB,    0x2000, 0xa000,   0, CRT_CHIP_ROM, "Generic VIC20 Cartridge",            "vic20", save_generic_vic20_crt},
     {0, 0, CARTRIDGE_SIZE_2MB,     0x2000, 0xa000, 256, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_MEGACART,         "mega", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_2MB,     0x2000, 0xa000, 256, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_BEHRBONZ,           "bb", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_4MB,     0x2000, 0xa000, 512, CRT_CHIP_ROM, CARTRIDGE_VIC20_NAME_FP,              "vicfp", save_regular_crt},

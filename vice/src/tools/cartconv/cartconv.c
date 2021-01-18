@@ -295,9 +295,12 @@ static int load_all_banks(void)
 
 void bin2crt_ok(void)
 {
+    int i;
     if (!quiet_mode) {
-        printf("Input file : %s\n", input_filename[0]);
-        printf("Output file : %s\n", output_filename);
+        for (i = 0; i < input_filenames; i++) {
+            printf("Input file: %s\n", input_filename[i]);
+        }
+        printf("Output file: %s\n", output_filename);
         if (machine_class == VICE_MACHINE_C64) {
             printf("Conversion from binary format to C64 %s .crt successful.\n", 
                 cart_info[(unsigned char)cart_type].name);
@@ -359,10 +362,10 @@ void save_regular_crt(unsigned int length, unsigned int banks, unsigned int addr
 {
     unsigned int i;
     unsigned int real_banks = banks;
-    
+/*
     printf("save_regular_crt  loadfile_size: %x cart length:%x banks:%u load@:%02x chiptype:%u\n",
             loadfile_size, length, banks, address, type);
-
+*/
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);
@@ -790,7 +793,7 @@ static void printoptions(char *inputname, char *optionsname)
     }
 #endif
 
-    printf("printoptions '%s' '%s' %d\n", inputname, optionsname, loadfile_is_crt);
+    /* printf("printoptions '%s' '%s' %d\n", inputname, optionsname, loadfile_is_crt); */
 
     crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
     if (headerbuffer[0x17] & 0x80) {
@@ -802,9 +805,10 @@ static void printoptions(char *inputname, char *optionsname)
     cartinfo = find_cartinfo_from_crtid(crtid, machine_class);
 
     memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
-
+/*
     printf("crtid: %d exrom: %d game: %d machine: %d name '%s'\n",
             crtid, headerbuffer[0x18], headerbuffer[0x19], machine_class, inputname);
+*/
     if (loadfile_is_crt == 1) {
         if (crtid > 0) {
             if (cartinfo) {
@@ -1103,7 +1107,7 @@ static int checkflag(char *flg, char *arg)
                         convert_to_ultimax = 1;
                     }
                 }
-                printf("-t cart_type: %d machine_class: %d\n", cart_type, machine_class);
+                /* printf("-t cart_type: %d machine_class: %d\n", cart_type, machine_class); */
                 return 2;
             case 'i':
                 checkarg(arg);
@@ -1151,7 +1155,7 @@ int main(int argc, char *argv[])
     int arg_counter = 1;
     char *flag, *argument;
 
-    if (argc < 1) {
+    if (argc < 2) {
         usage();
         return EXIT_FAILURE;
     }
@@ -1183,17 +1187,29 @@ int main(int argc, char *argv[])
         cleanup();
         exit(1);
     }
-    if (input_filenames > 1 && cart_type != CARTRIDGE_DELA_EP64 && cart_type != CARTRIDGE_DELA_EP256 &&
-        cart_type != CARTRIDGE_DELA_EP7x8 && cart_type != CARTRIDGE_REX_EP256 && loadfile_cart_type != CARTRIDGE_DELA_EP64 &&
-        loadfile_cart_type != CARTRIDGE_DELA_EP256 && loadfile_cart_type != CARTRIDGE_DELA_EP7x8 &&
-        loadfile_cart_type != CARTRIDGE_REX_EP256) {
-        too_many_inputs();
+
+    if (machine_class == VICE_MACHINE_C64) {
+        if ((input_filenames > 1) &&
+            (cart_type != CARTRIDGE_DELA_EP64) && (loadfile_cart_type != CARTRIDGE_DELA_EP64) &&
+            (cart_type != CARTRIDGE_DELA_EP256) && (loadfile_cart_type != CARTRIDGE_DELA_EP256) &&
+            (cart_type != CARTRIDGE_DELA_EP7x8) && (loadfile_cart_type != CARTRIDGE_DELA_EP7x8) &&
+            (cart_type != CARTRIDGE_REX_EP256) && (loadfile_cart_type != CARTRIDGE_REX_EP256)
+            ) {
+            too_many_inputs();
+        }
+        if (((cart_type == CARTRIDGE_DELA_EP64) || (loadfile_cart_type == CARTRIDGE_DELA_EP64)) &&
+            (input_filenames > 3)) {
+            too_many_inputs();
+        }
+        if (((cart_type == CARTRIDGE_DELA_EP7x8) || (loadfile_cart_type == CARTRIDGE_DELA_EP7x8)) && 
+            (input_filenames > 8)) {
+            too_many_inputs();
+        }
     }
-    if ((cart_type == CARTRIDGE_DELA_EP64 || loadfile_cart_type == CARTRIDGE_DELA_EP64) && input_filenames > 3) {
-        too_many_inputs();
-    }
-    if ((cart_type == CARTRIDGE_DELA_EP7x8 || loadfile_cart_type == CARTRIDGE_DELA_EP7x8) && input_filenames > 8) {
-        too_many_inputs();
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if ((input_filenames > 1) && (cart_type != CARTRIDGE_CRT)) {
+            too_many_inputs();
+        }
     }
 
     /* do the conversion */
@@ -1207,6 +1223,7 @@ int main(int argc, char *argv[])
     }
 
     if (loadfile_is_crt == 1) {
+        /* load a .crt file */
         if (cart_type == CARTRIDGE_DELA_EP64 ||
             cart_type == CARTRIDGE_DELA_EP256 ||
             cart_type == CARTRIDGE_DELA_EP7x8 ||
@@ -1225,7 +1242,7 @@ int main(int argc, char *argv[])
             }
         }
     } else {
-        /* write a .crt file */
+        /* load binary files */
         const cart_t *info;
 
         if (cart_type == -1) {
