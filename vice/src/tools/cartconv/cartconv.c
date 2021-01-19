@@ -1056,7 +1056,7 @@ static int checkflag(char *flg, char *arg)
                 checkarg(arg);
                 if (load_address == 0) {
                     /* load_address = atoi(arg); */
-                    load_address = strtoul(arg, NULL, 0);
+                    load_address = (int)strtoul(arg, NULL, 0);
                 } else {
                     usage();
                 }
