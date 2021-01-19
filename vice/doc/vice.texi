@@ -5807,12 +5807,12 @@ How generating the pattern works is easily described in three simple steps:
    is inverted every @code{RAMInitValueInvert} bytes. This pattern can be offset
    ("rotated") by @code{RAMInitValueOffset} bytes. This step creates the typical
    00 00 ff ff ff ff 00 00 etc patterns.
-   
+
 2. Every @code{RAMInitPatternInvert} bytes the base pattern is inverted 
    ("xored") by @code{RAMInitPatternInvertValue}. This step creates the inverted
    pattern every $4000 or so bytes that is typical for some boards/ICs. It may
    also create the 0x99, 0x66 based patterns that show up on other setups.
-   
+
 3. Every @code{RAMInitRepeatRandom} bytes @code{RAMInitStartRandom} bytes are
    randomly inverted ("xored"). Additionally every bit is randomly inverted with
    a @code{RAMInitRandomChance} : 4096 chance. This step creates the typical
@@ -18337,10 +18337,6 @@ REL files can be copied by adding @code{,l}. Don't specify the record length,
 @item rename <oldname> <newname>
 Rename @code{oldname} into @code{newname}.  The files must be on the
 same drive.
-
-@item show [copying | warranty]
-Show conditions for redistributing copies of C1541 (`copying') or the
-various kinds of warranty you do not have with C1541 (`warranty').
 
 @item tape <t64name> [<file1> @dots{} <fileN>]
 Extract files from a T64 image.
