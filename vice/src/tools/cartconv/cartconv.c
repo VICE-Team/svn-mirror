@@ -185,11 +185,6 @@ void cleanup(void)
 }
 
 
-/** \brief  Dump cartconv version string on stdout
- *
- * Dumps the SVN revision as well, if compiled from SVN
- */
-
 static void too_many_inputs(void)
 {
     fprintf(stderr, "Error: too many input files\n");
