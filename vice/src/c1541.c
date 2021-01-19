@@ -85,23 +85,19 @@
 #include "fileio.h"
 #include "fsimage-check.h"
 #include "gcr.h"
-#include "info.h"
 #include "imagecontents.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "serial.h"
-#include "snapshot.h"
 #include "tape.h"
 #include "util.h"
-#include "uiapi.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
 #include "vdrive-rel.h"
 #include "vdrive.h"
-#include "vice-event.h"
 #include "zipcode.h"
 #include "p64.h"
 #include "fileio/p00.h"
@@ -194,7 +190,6 @@ static int read_cmd(int nargs, char **args);
 static int read_geos_cmd(int nargs, char **args);
 static int rename_cmd(int nargs, char **args);
 static int silent_cmd(int narg, char **args);
-static int show_cmd(int nargs, char **args);
 static int tape_cmd(int nargs, char **args);
 static int unit_cmd(int nargs, char **args);
 static int unlynx_cmd(int nargs, char **args);
@@ -435,12 +430,6 @@ const command_t command_list[] = {
       "Disable all logging",
       0, 1,
       silent_cmd },
-    { "show",
-      "show [copying | warranty]",
-      "Show conditions for redistributing copies of C1541 (`copying') or the\n"
-      "various kinds of warranty you do not have with C1541 (`warranty').",
-      1, 1,
-      show_cmd },
     { "tape",
       "tape <t64name> [<file1> ... <fileN>]",
       "Extract files from a T64 image into the current drive.",
@@ -4343,6 +4332,7 @@ static int rename_cmd(int nargs, char **args)
 }
 
 
+#if 0
 /** \brief  Show license or warranty information
  *
  * Syntax: show copying|warranty
@@ -4365,6 +4355,7 @@ static int show_cmd(int nargs, char **args)
 
     return FD_OK;
 }
+#endif
 
 /** \brief  Copy files from a tape image to current drive unit
  *
