@@ -379,13 +379,18 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
 
     /* in file mode */
     if ((cmd_parse->mode == 0 || cmd_parse->mode == 2) && p < limit) {
+        if (cmd_parse->mode == 0) {
+            cmd_parse->drive = 0;
+        }
         /* look for a ':' to separate the unit/part-path from name */
         p2 = memchr(p, ':', limit - p);
-        /* it may also start with a non alphanumeric value */
-        special = (*p < 'A');
-        /* but not * or ? */
-        if (*p == '*' || *p == '?') {
-            special = 0;
+        /* check for special commands without : */
+        if (*p == '$' || *p == '#') {
+            special = 1;
+        }
+        /* check for special commands with : */
+        if (p2 && *p == '@') {
+            special = 1;
         }
         if (p2 || special) {
             /* check for anything before unit/partition number (@,&), but not a '/' */
@@ -430,8 +435,6 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
                         }
                         p++;
                     }
-                } else if (cmd_parse->mode == 0) {
-                    cmd_parse->drive = 0;
                 }
                 /* skip any more spaces */
                 while (p < limit && *p == ' ') {
