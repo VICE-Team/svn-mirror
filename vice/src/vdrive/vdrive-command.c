@@ -3307,12 +3307,18 @@ int vdrive_command_format(struct vdrive_s *vdrive, const char *disk_name)
 
     /* create NEW command */
     length = strlen(disk_name);
-    po = p = lib_malloc(length + 3);
-    *p = 'N'; p++;
-    /* add a ':' is none was given in the name */
+    po = p = lib_malloc(length + 5);
+    *p = 'N';
+    p++;
+    /* add a ':' if none was given in the name */
     pc = memchr(disk_name, ':', length);
     if (!pc) {
         *p = ':';
+        p++;
+    }
+    /* pad empty disk names from GUI create menu */
+    if (!length || disk_name[0] == ',') {
+        *p = ' ';
         p++;
     }
     memcpy(p, disk_name, length);
