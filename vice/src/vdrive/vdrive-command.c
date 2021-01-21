@@ -489,7 +489,7 @@ static int vdrive_command_u1a2b(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     int origpart = -1;
 
 #ifdef DEBUG_DRIVE
-    log_debug("vdrive_command_ua1b2 command:%c.", cmd->command);
+    log_debug("vdrive_command_ua1b2 command: %c.", cmd->command[1]);
 #endif
 
     status = CBMDOS_IPE_SYNTAX;
@@ -606,7 +606,7 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     int origpart = -1;
 
 #ifdef DEBUG_DRIVE
-    log_debug("vdrive_command_block command:%c.", cmd->abbrv);
+    log_debug("vdrive_command_block command: %c.", cmd->abbrv[2]);
 #endif
 
     status = CBMDOS_IPE_SYNTAX;
@@ -685,6 +685,7 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                         status = CBMDOS_IPE_NOT_READY;
                         goto out;
                     }
+                    status = rc;
                 }
             } else {
                 log_error(vdrive_command_log, "b-r/w invalid parameter "
@@ -3460,7 +3461,7 @@ int vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
 
 #ifdef DEBUG_DRIVE
     log_debug("Set error channel: code =%d, last_code =%d, track =%u, "
-              "sector =%u.", code, last_code, track, sector);
+              "sector =%u.", code, vdrive->last_code, track, sector);
 #endif
 
 #if 0
