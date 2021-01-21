@@ -1479,6 +1479,8 @@ static int bcopy_cmd(int nargs, char **args)
     src_vdrive = drives[src_unit - DRIVE_UNIT_MIN];
     dst_vdrive = drives[dst_unit - DRIVE_UNIT_MIN];
 
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
     /* check unit(s) for valid track/sector) */
     err = disk_image_check_sector(src_vdrive->image, src_trk, src_sec);
     if (err < 0) {
@@ -1489,6 +1491,7 @@ static int bcopy_cmd(int nargs, char **args)
             return translate_fsimage_error(err);
         }
     }
+#endif
 
     /* finally we can actually do what this command is supposed to do */
     err = vdrive_read_sector(src_vdrive, buffer, src_trk, src_sec);
@@ -1565,10 +1568,14 @@ static int bfill_cmd(int nargs, char **args)
      *      in track 37, so somewhere in vdrive/diskimage/fsimage things go
      *      a little bit wrong.
      * */
+
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
     err = disk_image_check_sector(vdrive->image, track, sector);
     if (err < 0) {
         return translate_fsimage_error(err);
     }
+#endif
 
     /* fill and write the block (vdrive doesn't have a vdrive_fill_sector()
      * function, so this will have to do */
@@ -1639,9 +1646,12 @@ static int block_cmd(int nargs, char **args)
 
     vdrive = drives[drive];
 
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
     if (disk_image_check_sector(vdrive->image, track, sector) < 0) {
         return FD_BAD_TS;
     }
+#endif
 
     /* Read one block */
     if (vdrive_read_sector(vdrive, sector_data, track, sector) != 0) {
@@ -1730,10 +1740,14 @@ static int bpoke_cmd(int nargs, char **args)
     }
 
     vdrive = drives[unit - DRIVE_UNIT_MIN];
+
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
     err = disk_image_check_sector(vdrive->image, track, sector);
     if (err < 0) {
         return err;
     }
+#endif
 
     /* get sector data */
     err = vdrive_read_sector(vdrive, buffer, track, sector);
@@ -1798,11 +1812,14 @@ static int bread_cmd(int nargs, char **args)
 
     vdrive = drives[unit - DRIVE_UNIT_MIN];
 
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
     /* check track,sector */
     result = disk_image_check_sector(vdrive->image, track, sector);
     if (result < 0) {
         return result;
     }
+#endif
 
     /* copy sector to buffer */
     if (vdrive_read_sector(vdrive, buffer, track, sector) != 0) {
@@ -1871,11 +1888,14 @@ static int bwrite_cmd(int nargs, char **args)
 
     vdrive = drives[unit - DRIVE_UNIT_MIN];
 
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
     /* check track,sector */
     result = disk_image_check_sector(vdrive->image, track, sector);
     if (result < 0) {
         return result;
     }
+#endif
 
     /* open file for reading */
     result = FD_OK;
@@ -1944,9 +1964,12 @@ static int chain_cmd(int nargs, char **args)
 
     /* now check if the (track,sector) is valid for the current image */
     vdrive = drives[unit - DRIVE_UNIT_MIN];
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
     if (disk_image_check_sector(vdrive->image, track, sector) < 0) {
         return FD_BAD_TS;
     }
+#endif
 
     /* XXX: needs check for circular pattern, or perhaps some counter that
      *      checks the number of blocks against the maximum block size of the
@@ -2228,12 +2251,15 @@ static void print_side_sector_group(vdrive_t *vdrive,
     while (track != 0 && count++ < SIDE_SECTORS_MAX) {
         uint8_t buffer[256];
 
+/* don't do this as vdrive does the logical to physical sector mapping */
+#if 0
         /* check track,sector */
         int result = disk_image_check_sector(vdrive->image, track, sector);
         if (result < 0) {
             fprintf(stderr, "Invalid track %u sector %u.", track, sector);
             break;
         }
+#endif
 
         /* copy sector to buffer */
         if (vdrive_read_sector(vdrive, buffer, track, sector) != 0) {
