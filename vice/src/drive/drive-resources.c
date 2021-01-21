@@ -44,7 +44,7 @@
 #include "machine-bus.h"
 #include "machine-drive.h"
 #include "resources.h"
-#include "vdrive-bam.h"
+#include "vdrive.h"
 
 
 /* Is true drive emulation switched on?  */
@@ -58,7 +58,6 @@ int drive_sound_emulation_volume;
 static int set_drive_true_emulation(int val, void *param)
 {
     unsigned int dnr;
-    drive_t *drive;
 
     drive_true_emulation = val ? 1 : 0;
 
@@ -68,6 +67,7 @@ static int set_drive_true_emulation(int val, void *param)
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
             diskunit_context_t *unit = diskunit_context[dnr];
 
+            vdrive_flush(dnr + 8);
             if (unit->type != DRIVE_TYPE_NONE) {
                 unit->enable = 1;
                 if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
@@ -83,14 +83,14 @@ static int set_drive_true_emulation(int val, void *param)
         }
     } else {
         for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-            diskunit_context_t *unit = diskunit_context[dnr];
-            drive = unit->drives[0];
-
             drive_disable(diskunit_context[dnr]);
+            vdrive_refresh(dnr + 8);
+#if 0
             if (drive->image != NULL) {
                 /* TODO: drive 1? */
                 vdrive_bam_reread_bam(dnr + 8, 0);
             }
+#endif
         }
     }
     return 0;

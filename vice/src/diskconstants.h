@@ -186,6 +186,13 @@
 #define MAX_TRACKS_4000        51
 #define MAX_BLOCKS_4000        12960
 
+#define DIR_TRACK_NP           1
+#define DIR_SECTOR_NP          34
+#define BAM_TRACK_NP           1
+#define BAM_SECTOR_NP          1
+#define BAM_NAME_NP            4
+#define BAM_ID_NP              22
+
 #define DIR_TRACK_4000         1
 #define DIR_SECTOR_4000        34
 #define BAM_TRACK_4000         1

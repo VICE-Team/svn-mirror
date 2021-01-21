@@ -4,6 +4,9 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *
+ * Multi-drive and DHD enhancements by
+ *  Roberto Muscedere <rmusced@uwindsor.ca>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -83,7 +86,7 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 
     vdrive = lib_calloc(1, sizeof(vdrive_t));
 
-    vdrive_device_setup(vdrive, 100, 0);
+    vdrive_device_setup(vdrive, 100);
     vdrive->image = image;
     ret = vdrive_attach_image(image, 100, 0, vdrive);
 

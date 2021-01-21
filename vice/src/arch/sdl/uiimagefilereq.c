@@ -132,10 +132,9 @@ int sdl_ui_image_file_selection_dialog(const char* filename, ui_menu_filereq_mod
 
     menu_draw = sdl_ui_get_menu_param();
 
-    /* FIXME: it might be a good idea to wrap this into a common imagecontents_read */
     contents = tapecontents_read(filename);
     if (contents == NULL) {
-        contents = diskcontents_read(filename, 0 /* FIXME: unit */, 0 /* FIXME: drive */);
+        contents = diskcontents_filesystem_read(filename);
         if (contents == NULL) {
             return 0;
         }

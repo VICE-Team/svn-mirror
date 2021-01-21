@@ -1005,9 +1005,6 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
         }
     }
 
-    /* TODO: drive 1 */
-    vdrive_bam_reread_bam(dnr + 8, 0);
-
     snapshot_module_close(m);
     m = NULL;
 

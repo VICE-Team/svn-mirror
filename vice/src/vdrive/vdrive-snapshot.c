@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "attach.h"
+#include "diskimage.h"
 #include "log.h"
 #include "snapshot.h"
 #include "vdrive-snapshot.h"
@@ -58,11 +59,13 @@ int vdrive_snapshot_module_write(snapshot_t *s, int start)
     char snap_module_name[SNAP_MODNAME_SIZE];
     snapshot_module_t *m;
     vdrive_t *floppy;
+    disk_image_t *image;
 
     for (i = start; i <= 11; i++) {
+        floppy = file_system_get_vdrive(i);
         for (j = 0; j <= 1; j++) {
-            floppy = file_system_get_vdrive(i, j);
-            if (floppy->image != NULL) {
+            image = vdrive_get_image(floppy, j);
+            if (image != NULL) {
                 snprintf(snap_module_name, SNAP_MODNAME_SIZE, "VDRIVEIMAGE%i", i);
                 m = snapshot_module_create(s, snap_module_name, ((uint8_t)SNAP_MAJOR),
                                         ((uint8_t)SNAP_MINOR));

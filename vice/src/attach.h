@@ -47,7 +47,8 @@ extern const char *file_system_get_disk_name(unsigned int unit, unsigned int dri
 extern int file_system_attach_disk(unsigned int unit, unsigned int drive, const char *filename);
 extern void file_system_detach_disk(unsigned int unit, unsigned int drive);
 extern void file_system_detach_disk_shutdown(void);
-extern struct vdrive_s *file_system_get_vdrive(unsigned int unit, unsigned int drive);
+extern struct vdrive_s *file_system_get_vdrive(unsigned int unit);
+extern struct disk_image_s *file_system_get_image(unsigned int unit, unsigned int drive);
 extern int file_system_bam_get_disk_id(unsigned int unit, unsigned int drive, uint8_t *id);
 extern int file_system_bam_set_disk_id(unsigned int unit, unsigned int drive, uint8_t *id);
 extern void file_system_event_playback(unsigned int unit, unsigned int drive, const char *filename);

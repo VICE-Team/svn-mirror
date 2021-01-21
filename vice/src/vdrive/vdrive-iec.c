@@ -4,6 +4,9 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *
+ * Multi-drive and DHD enhancements by
+ *  Roberto Muscedere <rmusced@uwindsor.ca>
+ *
  * Based on old code by
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Jarkko Sonninen <sonninen@lut.fi>
@@ -60,7 +63,7 @@
 #include "vdrive-iec.h"
 #include "vdrive-rel.h"
 #include "vdrive.h"
-
+#include "diskconstants.h"
 
 static log_t vdrive_iec_log = LOG_ERR;
 
@@ -75,13 +78,50 @@ void vdrive_iec_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+void vdrive_iec_unswitch(vdrive_t *vdrive, bufferinfo_t *p)
+{
+    /* switch to selected 1581 partition */
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581 &&
+        (vdrive->Part_Start != vdrive->cpartstart[vdrive->current_part]
+            || vdrive->Part_End != vdrive->cpartend[vdrive->current_part]) ) {
+        vdrive_set_disk_geometry(vdrive);
+    }
+}
+
+int vdrive_iec_switch(vdrive_t *vdrive, bufferinfo_t *p)
+{
+    int status;
+    status = vdrive_switch(vdrive, p->partition);
+    /* 1581's can have different BAMs per file, so compensate for it */
+    if (!status && vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581 &&
+       (vdrive->Part_Start != p->partstart || vdrive->Part_End != p->partend) ) {
+        /* flush out old BAM */
+        vdrive_bam_write_bam(vdrive);
+        /* change disk parameters for new partition */
+        vdrive->Header_Track = p->partstart;
+        vdrive->Header_Sector = 0;
+        vdrive->Bam_Track = p->partstart;
+        vdrive->Bam_Sector = 0;
+        vdrive->Dir_Track = p->partstart;
+        vdrive->Dir_Sector = DIR_SECTOR_1581;
+        vdrive->Part_Start = p->partstart;
+        vdrive->Part_End = p->partend;
+        /* BAM size is the same, just read in the new one */
+/*        vdrive_bam_read_bam(vdrive); */
+        vdrive_bam_setup_bam(vdrive);
+    }
+    return status;
+}
+
 static int iec_open_read_sequential(vdrive_t *vdrive, unsigned int secondary, unsigned int track, unsigned int sector)
 {
     int status;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
+    /* we should already be in the proper partition at this point */
     vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
     p->bufptr = 2;
+    p->record = 1;
 
     status = vdrive_read_sector(vdrive, p->buffer, track, sector);
     p->length = p->buffer[0] ? 0 : p->buffer[1];
@@ -102,6 +142,7 @@ static int iec_open_read(vdrive_t *vdrive, unsigned int secondary)
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     uint8_t *slot = p->slot;
 
+    /* we should already be in the proper partition at this point */
     if (!slot) {
         vdrive_iec_close(vdrive, secondary);
         vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_FOUND, 0, 0);
@@ -121,18 +162,50 @@ static int iec_open_read(vdrive_t *vdrive, unsigned int secondary)
 }
 
 static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
-                                   cbmdos_cmd_parse_t *cmd_parse)
+                                   cbmdos_cmd_parse_plus_t *cmd_parse)
 {
     int retlen;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
+    /* we should already be in the proper partition at this point */
     if (secondary > 0) {
-        return iec_open_read_sequential(vdrive, secondary, vdrive->Header_Track, vdrive->Header_Sector);
+        return iec_open_read_sequential(vdrive, secondary, vdrive->Header_Track,
+                   vdrive->Header_Sector);
     }
 
     vdrive_alloc_buffer(p, BUFFER_DIRECTORY_READ);
 
-    retlen = vdrive_dir_first_directory(vdrive, cmd_parse->parsecmd, cmd_parse->parselength, CBMDOS_FT_DEL, p);
+    p->timemode = 0;
+    p->small = 0;
+    if (cmd_parse->command && cmd_parse->commandlength > 2
+        && cmd_parse->command[1] == '=') {
+        if (cmd_parse->command[2] == 'T') {
+            /* if this is CMD time listing, pass on information to
+               vdrive_dir_first_directory thru "done" */
+            p->timemode = 1;
+        } else if (cmd_parse->command[2] == 'P' && vdrive->haspt) {
+            /* switch out of whatever partition may have been selected */
+            vdrive_iec_unswitch(vdrive, p);
+            /* switch to system partition */
+            p->partition = 255;
+            /* make sure there is a system partition */
+            if (vdrive_iec_switch(vdrive, p)) {
+                vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 0, 0);
+                return SERIAL_ERROR;
+            }
+            /* for partition lists, we use a different approach entirely */
+            p->mode = BUFFER_PARTITION_READ;
+            retlen = vdrive_dir_part_first_directory(vdrive, cmd_parse->file,
+                         cmd_parse->filelength, p);
+            p->length = (unsigned int)retlen;
+            p->bufptr = 0;
+
+            /* don't unswitch here; caller will do it */
+            return SERIAL_OK;
+        }
+    }
+    retlen = vdrive_dir_first_directory(vdrive, cmd_parse->file,
+                 cmd_parse->filelength, CBMDOS_FT_DEL, p);
 
     p->length = (unsigned int)retlen;
     p->bufptr = 0;
@@ -141,13 +214,15 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
 }
 
 static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
-                          cbmdos_cmd_parse_t *cmd_parse, const uint8_t *name)
+                          cbmdos_cmd_parse_plus_t *cmd_parse)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     unsigned int track, sector;
     uint8_t *slot = p->slot, *e;
+    int retval;
 
-    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
+    /* we should already be in the proper partition at this point */
+    if (vdrive->image->read_only) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
@@ -157,7 +232,8 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
     if (slot) {
         /* file exists */
-        if (*name == '@') {
+        if (cmd_parse->command && cmd_parse->commandlength > 0
+            && cmd_parse->command[0] == '@') {
             /* replace mode: we don't want the dirent updated at all until
                 close */
             /* allocate buffers */
@@ -210,7 +286,8 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                     if (vdrive_read_sector(vdrive, p->buffer, p->track, p->sector)) {
                         /* couldn't read sector, report error and leave */
                         vdrive_free_buffer(p);
-                        vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR, p->track, p->sector);
+                        vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR,
+                            p->track, p->sector);
                         return SERIAL_ERROR;
                     }
                     /* setup next link */
@@ -242,24 +319,56 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
         }
     } else {
         /* new file... */
+
         /* create a slot based on the opening name */
-        vdrive_dir_create_slot(p, cmd_parse->parsecmd, cmd_parse->parselength,
+        vdrive_dir_create_slot(p, cmd_parse->file, cmd_parse->filelength,
                                cmd_parse->filetype);
 
-        /* Write the directory entry to disk as an UNCLOSED file. */
+#if 1
+        if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_NP) {
+        /* real drives allocate block, then added dir entry */
+        /* vice 3.5 and below added dir entry, the allocated block */
+        /* this results in inconsistencies when the drive is low on space or entries */
 
+        /* allocate the first sector */
+        retval = vdrive_bam_alloc_first_free_sector(vdrive, &track, &sector);
+        if (retval < 0) {
+            /* real drives don't return DISK FULL, they say report 67 */
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_SYSTEM_T_OR_S, vdrive->num_tracks + 1, 1);
+/*            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0); */
+            return -1;
+        }
+
+        /* remember track and sector */
+        p->track = track;
+        p->sector = sector;
+        slot = p->slot;
+        slot[SLOT_FIRST_TRACK] = track;
+        slot[SLOT_FIRST_SECTOR] = sector;
+        slot[SLOT_NR_BLOCKS] = 0;
+        slot[SLOT_NR_BLOCKS + 1] = 0;
+        }
+#endif
+
+        /* Write the directory entry to disk as an UNCLOSED file. */
         vdrive_dir_find_first_slot(vdrive, NULL, -1, 0, &p->dir);
         e = vdrive_dir_find_next_slot(&p->dir);
 
-        /* If there is not space for the slot, disk is full */
+        /* If there is not space for the slot, disk is full - 72 */
         if (!e) {
             vdrive_free_buffer(p);
+            /* FIXME: should we unallocate the block we just reserved? */
+            /*        the real drives don't. */
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
             return SERIAL_ERROR;
         }
 
+#if 1
+        if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_NP) {
         /* find a new track and sector when writing */
         p->track = p->sector = 0;
+        }
+#endif
     }
 
     if (!p->needsupdate) {
@@ -286,40 +395,36 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     uint8_t *slot; /* Current directory entry */
     int rc, status = SERIAL_OK;
-    /* FIXME: This should probably be set to zero */
-    cbmdos_cmd_parse_t cmd_parse_stat;
-    cbmdos_cmd_parse_t *cmd_parse;
-    uint8_t name_stat[17];
     unsigned int opentype;
+    cbmdos_cmd_parse_plus_t cmd_parse_stat;
+    cbmdos_cmd_parse_plus_t *cmd_parse = &cmd_parse_stat;
 
-    if (cmd_parse_ext != NULL) {
-        cmd_parse = cmd_parse_ext;
-        memset(name_stat, 0, sizeof(name_stat));
-        strncpy((char *)name_stat, cmd_parse->parsecmd, sizeof(name_stat) - 1);
-        name = name_stat;
-        length = (unsigned int)strlen((const char *)name);
-        secondary = cmd_parse->secondary;
+    if (cmd_parse_ext == NULL) {
+        if ( (!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL) {
+            return SERIAL_NO_DEVICE;
+        }
     } else {
-        cmd_parse = &cmd_parse_stat;
+        if ((!cmd_parse_ext->parsecmd || !cmd_parse_ext->parsecmd[0]) && p->mode != BUFFER_COMMAND_CHANNEL) {
+            return SERIAL_NO_DEVICE;
+        }
     }
 
-    if (cmd_parse_ext == NULL
-        && (!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL) {
-        return SERIAL_NO_DEVICE;
-    }
-
+#if 0
+/* check this all later */
     /* No floppy in drive?   */
     if (vdrive->image == NULL
         && p->mode != BUFFER_COMMAND_CHANNEL
         && secondary != 15
         && *name != '#') {
-        vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 18, 0);
+        vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, vdrive->Header_Track,
+            vdrive->Header_Sector);
         log_message(vdrive_iec_log, "Drive not ready.");
         return SERIAL_ERROR;
     }
+#endif
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE#%u: OPEN: Name '%s' (%u) on ch %u.",
+    log_debug("VDRIVE#%i: OPEN: Name '%s' (%u) on ch %d.",
               vdrive->unit, name, length, secondary);
 #endif
 
@@ -330,6 +435,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     if (p->mode == BUFFER_COMMAND_CHANNEL) {
         unsigned int n;
 
+        /* partition will be handled inside command code */
         for (n = 0; n < length; n++) {
             status = vdrive_iec_write(vdrive, name[n], secondary);
         }
@@ -358,13 +464,16 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
         return SERIAL_ERROR;
     }
 
-    if (cmd_parse_ext == NULL) {
-        cmd_parse->cmd = name;
-        cmd_parse->cmdlength = length;
-        cmd_parse->secondary = secondary;
-        cmd_parse->drive = -1;
+    /* mode 0 without setting drive */
+    cmd_parse->mode = 2;
+    cmd_parse->drive = -1;
 
-        rc = cbmdos_command_parse(cmd_parse);
+    if (cmd_parse_ext == NULL) {
+        cmd_parse->full = (uint8_t *)name;
+        cmd_parse->fulllength = length;
+        cmd_parse->secondary = secondary;
+
+        rc = cbmdos_command_parse_plus(cmd_parse);
 
         if (rc != CBMDOS_IPE_OK) {
             status = SERIAL_ERROR;
@@ -373,52 +482,98 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
 #ifdef DEBUG_DRIVE
         log_debug("Raw file name: `%s', length: %u.", name, length);
         log_debug("Parsed file name: `%s', reallength: %u. drive: %i",
-                  cmd_parse->parsecmd, cmd_parse->parselength, cmd_parse->drive);
+                  cmd_parse->file, cmd_parse->filelength, cmd_parse->drive);
 #endif
-        if (cmd_parse->drive != -1) {
-            /* a drive number was specified in the filename */
-            if ((vdrive->image_format == VDRIVE_IMAGE_FORMAT_8050) ||
-                (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8250) ||
-                (vdrive->image_format == VDRIVE_IMAGE_FORMAT_2040)) {
-                /* FIXME: dual disk drives not supported */
-                if (cmd_parse->drive == 0) {
-                    /* FIXME: use drive 0 */
-                } else if (cmd_parse->drive == 1) {
-                    /* FIXME: use drive 1 */
-                    /*
-                        since some software gets confused when it sees the same disk in
-                        both drives, we bail out with an error instead.
-                    */
-                    log_warning(LOG_DEFAULT, "second drive of dual disk drive is not supported");
-                    vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 18, 0);
-                    status = SERIAL_ERROR;
-                    goto out;
-                } else {
-                    /* FIXME: what exactly does the drive do if drivenumber is > 1, look
-                              up the file on both drives perhaps ?
-                    */
-                }
+    } else {
+        cmd_parse->full = (uint8_t*)cmd_parse_ext->parsecmd;
+        cmd_parse->fulllength = cmd_parse_ext->parselength;
+
+        rc = cbmdos_command_parse_plus(cmd_parse);
+
+        if (rc != CBMDOS_IPE_OK) {
+            status = SERIAL_ERROR;
+            goto out;
+        }
+
+        secondary = cmd_parse_ext->secondary;
+        cmd_parse->readmode = cmd_parse_ext->readmode;
+        cmd_parse->filetype = cmd_parse_ext->filetype;
+        cmd_parse->recordlength = cmd_parse_ext->recordlength;
+    }
+
+    /* handle '$=P' as it can be run on unformatted partitions */
+    if (vdrive->haspt && cmd_parse->command && cmd_parse->commandlength > 2
+        && cmd_parse->command[1] == '=' && cmd_parse->command[2] == 'P') {
+        p->readmode = CBMDOS_FAM_READ;
+        status = iec_open_read_directory(vdrive, secondary, cmd_parse);
+        goto out;
+    }
+
+    /* remember whether the partition was specified or not (for dual dir) */
+    vdrive->dir_count = 1;
+    if (cmd_parse->command && cmd_parse->command[0] == '$') {
+        if (cmd_parse->drive < 0) {
+            if (vdrive->haspt) {
+                /* if no drive # supplied, and CMD HD/FD use 0 */
+                cmd_parse->drive = 0;
             } else {
-                /* single disk drives seem to ignore the drive number, *except* if it
-                   is 1, which will result in an error. */
-                if (cmd_parse->drive == 1) {
-                    vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 18, 0);
-                    status = SERIAL_ERROR;
-                    goto out;
-                }
+                /* setup multi drive list */
+                cmd_parse->drive = vdrive->dir_part;
+                vdrive->dir_count = NUM_DRIVES;
             }
+        } else {
+            /* otherwise remember part for next multi list */
+            vdrive->dir_part = cmd_parse->drive;
+        }
+    } else {
+        if (cmd_parse->drive < 0) {
+            cmd_parse->drive = 0;
         }
     }
 
-    /* Limit file name to 16 chars.  */
-    if (cmd_parse->parselength > 16) {
-        cmd_parse->parselength = 16;
+    /* make sure they can't use the system partition for anything */
+    if (cmd_parse->drive == 255) {
+        status = SERIAL_ERROR;
+        goto out;
     }
+
+#if 0
+    if (cmd_parse->drive != 0) {
+        /* a drive number was specified in the filename */
+        if ((vdrive->image_format == VDRIVE_IMAGE_FORMAT_8050) ||
+            (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8250) ||
+            (vdrive->image_format == VDRIVE_IMAGE_FORMAT_2040)) {
+            /* FIXME: dual disk drives not supported */
+            if (cmd_parse->drive > 0) {
+                /* FIXME: use drive 1 */
+                /*
+                    since some software gets confused when it sees the same disk in
+                    both drives, we bail out with an error instead.
+                */
+                log_warning(LOG_DEFAULT, "second drive of dual disk drive is not supported");
+                vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY,
+                    vdrive->Header_Track, vdrive->Header_Sector);
+                status = SERIAL_ERROR;
+                goto out;
+            }
+        }
+    }
+#endif
+
+    /* check if part is allocated to something */
+    if (!vdrive_ispartvalid(vdrive, cmd_parse->drive)) {
+        vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, vdrive->Header_Track,
+            vdrive->Header_Sector);
+        status = SERIAL_ERROR;
+        goto out;
+    }
+    p->partition = vdrive_realpart(vdrive, cmd_parse->drive);
 
     /*
      * Internal buffer ?
      */
-    if (*name == '#') {
+    if (cmd_parse->command && cmd_parse->command[0] == '#') {
+/* FIXME: "file" has requested buffer */
         vdrive_alloc_buffer(p, BUFFER_MEMORY_BUFFER);
 
         /* the pointer is actually 1 on the real drives. */
@@ -435,29 +590,50 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     /* Clear update flag */
     p->needsupdate = 0;
 
+    /* switch partition and sub directory */
+    status = vdrive_command_switchtraverse(vdrive, cmd_parse);
+    if (status) {
+        status = SERIAL_ERROR;
+        goto out;
+    }
+
+    /* for 1581's */
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) {
+        p->partstart = vdrive->Part_Start;
+        p->partend = vdrive->Part_End;
+    }
+
     /*
      * Directory read
-     * A little-known feature of the 1541: open 1,8,2,"$" (or even 1,8,1).
+     * A little-known feature of the 1541: open 1,8,2,"$" (SA 1 or >)
      * It gives you the BAM+DIR as a sequential file, containing the data
      * just as it appears on disk.  -Olaf Seibert
+     * SA of 1 on CMD-ROMs appears to return a constant stream of $47
      */
 
-    if (*name == '$') {
+    if (cmd_parse->command && cmd_parse->command[0] == '$') {
         p->readmode = CBMDOS_FAM_READ;
         status = iec_open_read_directory(vdrive, secondary, cmd_parse);
         goto out;
     }
 
+    /* Limit file name to 16 chars.  */
+    if (cmd_parse->filelength > 16) {
+        cmd_parse->filelength = 16;
+    }
+
     /*
      * Check that there is room on directory.
      */
-    if (cmd_parse->readmode == CBMDOS_FAM_READ || cmd_parse->readmode == CBMDOS_FAM_APPEND) {
+    if (cmd_parse->readmode == CBMDOS_FAM_READ
+        || cmd_parse->readmode == CBMDOS_FAM_APPEND) {
         opentype = cmd_parse->filetype;
     } else {
         opentype = CBMDOS_FT_DEL;
     }
 
-    vdrive_dir_find_first_slot(vdrive, cmd_parse->parsecmd, cmd_parse->parselength, opentype, &p->dir);
+    vdrive_dir_find_first_slot(vdrive, cmd_parse->file, cmd_parse->filelength,
+        opentype, &p->dir);
 
     /*
      * Find the first non-DEL entry in the directory (if it exists).
@@ -485,18 +661,25 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
         if (slot) {
             cmd_parse->recordlength = slot[SLOT_RECORD_LENGTH];
         }
-        status = vdrive_rel_open(vdrive, secondary, cmd_parse, name);
+        status = vdrive_rel_open(vdrive, secondary, cmd_parse);
         goto out;
     }
 
     if (cmd_parse->readmode == CBMDOS_FAM_READ) {
         status = iec_open_read(vdrive, secondary);
     } else {
-        status = iec_open_write(vdrive, secondary, cmd_parse, name);
+        status = iec_open_write(vdrive, secondary, cmd_parse);
     }
 
 out:
-    lib_free(cmd_parse->parsecmd);
+    vdrive_iec_unswitch(vdrive, p);
+
+    if (cmd_parse_stat.abbrv) lib_free(cmd_parse_stat.abbrv);
+    if (cmd_parse_stat.path) lib_free(cmd_parse_stat.path);
+    if (cmd_parse_stat.file) lib_free(cmd_parse_stat.file);
+    if (cmd_parse_stat.more) lib_free(cmd_parse_stat.more);
+    if (cmd_parse_stat.command) lib_free(cmd_parse_stat.command);
+
     return status;
 }
 
@@ -509,6 +692,8 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
     uint8_t *buf = bi->buffer;
     uint8_t *slot = bi->slot;
 
+    /* we should already be in the proper partition at this point */
+
     /*
      * First block of a file ?
      */
@@ -517,7 +702,10 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
         s_new = 0;
         retval = vdrive_bam_alloc_first_free_sector(vdrive, &t_new, &s_new);
         if (retval < 0) {
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
+            /* real drives don't return DISK FULL, they say report 67 */
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_SYSTEM_T_OR_S,
+                vdrive->num_tracks + 1, 1);
+/*            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0); */
             return -1;
         }
         /* remember track and sector */
@@ -546,7 +734,10 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
         s_new = bi->sector;
         retval = vdrive_bam_alloc_next_free_sector(vdrive, &t_new, &s_new);
         if (retval < 0) {
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
+            /* real drives don't return DISK FULL, they say report 67 */
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_SYSTEM_T_OR_S,
+                vdrive->num_tracks + 1, 1);
+/*            vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0); */
             return -1;
         }
         buf[0] = t_new;
@@ -584,7 +775,7 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
          * Flush bytes and write slot to directory
          */
 
-        if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
+        if (vdrive->image->read_only) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
             return SERIAL_ERROR;
         }
@@ -592,6 +783,8 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
 #ifdef DEBUG_DRIVE
         log_debug("DEBUG: flush.");
 #endif
+        vdrive_iec_switch(vdrive, p);
+
         /* Flush remained of file */
         iec_write_sequential(vdrive, p, p->bufptr);
 
@@ -611,6 +804,11 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
             p->slot[SLOT_REPLACE_SECTOR] = 0;
         }
 
+        /* Update date/time on DHDs */
+        if (vdrive->haspt) {
+            vdrive_dir_updatetime(vdrive, p->slot);
+        }
+
         /* Update the directory entry (block count, closed) */
         vdrive_iec_update_dirent(vdrive, secondary);
 
@@ -622,6 +820,8 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
 
         /* Update BAM */
         vdrive_bam_write_bam(vdrive);
+
+        vdrive_iec_unswitch(vdrive, p);
 
         /* Free up the slot */
         lib_free(p->slot);
@@ -643,6 +843,8 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
 
         case BUFFER_MEMORY_BUFFER:
         case BUFFER_DIRECTORY_READ:
+        case BUFFER_PARTITION_READ:
+        case BUFFER_DIRECTORY_MORE_READ:
             vdrive_free_buffer(p);
             p->slot = NULL;
             break;
@@ -650,6 +852,7 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
             status = iec_close_sequential(vdrive, secondary);
             break;
         case BUFFER_RELATIVE:
+            /* have to switch in rel code */
             status = vdrive_rel_close(vdrive, secondary);
             break;
         case BUFFER_COMMAND_CHANNEL:
@@ -693,10 +896,13 @@ static int iec_read_sequential(vdrive_t *vdrive, uint8_t *data,
     if (p->bufptr) {
         return SERIAL_OK;
     }
-    if (p->length) {
+    /* do not signal EOF when p->small is 0; get new data */
+    if (!p->small && p->length) {
         p->readmode = CBMDOS_FAM_EOF;
         return SERIAL_EOF;
     }
+
+    vdrive_iec_switch(vdrive, p);
 
     switch (p->mode) {
         case BUFFER_SEQUENTIAL:
@@ -718,7 +924,29 @@ static int iec_read_sequential(vdrive_t *vdrive, uint8_t *data,
             p->length = vdrive_dir_next_directory(vdrive, p);
             p->bufptr = 0;
             break;
+        case BUFFER_PARTITION_READ:
+            p->length = vdrive_dir_part_next_directory(vdrive, p);
+            p->bufptr = 0;
+            break;
+        case BUFFER_DIRECTORY_MORE_READ:
+            p->mode = BUFFER_DIRECTORY_READ;
+            /* p->small = 1 by now */
+            p->partition = vdrive->dir_part;
+            /* switch to the other drive if possible */
+            if (!vdrive_iec_switch(vdrive, p)) {
+                p->length = vdrive_dir_first_directory(vdrive, NULL,
+                                0, CBMDOS_FT_DEL, p);
+                p->bufptr = 0;
+            } else {
+                /* if not, the transfer is done */
+                p->readmode = CBMDOS_FAM_EOF;
+                return SERIAL_EOF;
+            }
+            break;
     }
+
+    vdrive_iec_unswitch(vdrive, p);
+
     return SERIAL_OK;
 }
 
@@ -729,8 +957,8 @@ int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
 
     switch (p->mode) {
         case BUFFER_NOT_IN_USE:
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_OPEN, 0, 0);
-            return SERIAL_ERROR;
+            /* real drives just return $42 */
+            return SERIAL_ERROR | SERIAL_EOF;
 
         case BUFFER_MEMORY_BUFFER:
             *data = p->buffer[p->bufptr];
@@ -743,6 +971,8 @@ int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
             break;
 
         case BUFFER_DIRECTORY_READ:
+        case BUFFER_PARTITION_READ:
+        case BUFFER_DIRECTORY_MORE_READ:
         case BUFFER_SEQUENTIAL:
             status = iec_read_sequential(vdrive, data, secondary);
             break;
@@ -772,6 +1002,7 @@ int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
             break;
 
         case BUFFER_RELATIVE:
+            /* have to switch in rel code */
             status = vdrive_rel_read(vdrive, data, secondary);
             break;
 
@@ -793,8 +1024,9 @@ int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
 int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
+    int status;
 
-    if ((vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) && p->mode != BUFFER_COMMAND_CHANNEL) {
+    if ((vdrive->image->read_only) && p->mode != BUFFER_COMMAND_CHANNEL) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
@@ -808,9 +1040,11 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 
     switch (p->mode) {
         case BUFFER_NOT_IN_USE:
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_OPEN, 0, 0);
-            return SERIAL_ERROR;
+            /* real drives return 128 and don't set command error */
+            return SERIAL_DEVICE_NOT_PRESENT;
         case BUFFER_DIRECTORY_READ:
+        case BUFFER_PARTITION_READ:
+        case BUFFER_DIRECTORY_MORE_READ:
             vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_WRITE, 0, 0);
             return SERIAL_ERROR;
         case BUFFER_MEMORY_BUFFER:
@@ -828,7 +1062,10 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 
             if (p->bufptr >= 256) {
                 p->bufptr = 2;
-                if (iec_write_sequential(vdrive, p, WRITE_BLOCK) < 0) {
+                vdrive_iec_switch(vdrive, p);
+                status = iec_write_sequential(vdrive, p, WRITE_BLOCK);
+                vdrive_iec_unswitch(vdrive, p);
+                if (status < 0) {
                     return SERIAL_ERROR;
                 }
             }
@@ -847,6 +1084,7 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
             p->bufptr++;
             break;
         case BUFFER_RELATIVE:
+            /* have to switch in rel code */
             return vdrive_rel_write(vdrive, data, secondary);
             break;
         default:
@@ -909,15 +1147,19 @@ void vdrive_iec_listen(vdrive_t *vdrive, unsigned int secondary)
         we just wrote something) and if this is a REL file. */
     /* All "overflows" are handled in the write routine. */
     if (p->mode == BUFFER_RELATIVE) {
+        /* have to switch in rel code */
         vdrive_rel_listen(vdrive, secondary);
     }
 
     return;
 }
 
+/* called by vdrive-rel */
 int vdrive_iec_update_dirent(vdrive_t *vdrive, unsigned int channel)
 {
     bufferinfo_t *p = &(vdrive->buffers[channel]);
+
+    /* we should already be in the proper partition at this point */
 
     /* Read in the track/sector where the directory entry lies. */
     vdrive_read_sector(vdrive, p->dir.buffer, p->dir.track, p->dir.sector);

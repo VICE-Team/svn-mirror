@@ -66,6 +66,7 @@ struct image_contents_s {
     uint8_t name[IMAGE_CONTENTS_NAME_T64_LEN + 1]; /**< disk/tape name in PETSCII */
     uint8_t id[IMAGE_CONTENTS_ID_LEN + 1];         /**< disk ID */
     int blocks_free;   /**< blocks free: -1: No free space information.  */
+    int partition; /**< partition number, usually 0 */
     image_contents_file_list_t *file_list;  /**< list of directory entries */
 };
 typedef struct image_contents_s image_contents_t;

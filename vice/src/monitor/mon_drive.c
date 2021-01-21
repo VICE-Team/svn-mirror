@@ -32,7 +32,7 @@
 #include <string.h>
 
 #include "attach.h"
-#include "diskcontents.h"
+#include "diskcontents-block.h"
 #include "diskimage.h"
 #include "imagecontents.h"
 #include "lib.h"
@@ -54,13 +54,14 @@
 void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 {
     vdrive_t *vdrive;
+    /* TODO: drive 1? */
+    unsigned int drive = 0;
 
     mon_evaluate_default_addr(&addr);
 
-    /* TODO: other units, drive 1? */
-    vdrive = file_system_get_vdrive(8, 0);
+    vdrive = file_system_get_vdrive(8);
 
-    if (!vdrive || vdrive->image == NULL) {
+    if (!vdrive) {
         mon_out("No disk attached\n");
         return;
     }
@@ -71,7 +72,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
         MEMSPACE dest_mem;
 
         /* We ignore disk error codes here.  */
-        if (vdrive_read_sector(vdrive, readdata, track, sector)
+        if (vdrive_ext_read_sector(vdrive, drive, readdata, track, sector)
             < 0) {
             mon_out("Error reading track %d sector %d\n", track, sector);
             return;
@@ -111,7 +112,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
             writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src + i));
         }
 
-        if (vdrive_write_sector(vdrive, writedata, track, sector)) {
+        if (vdrive_ext_write_sector(vdrive, drive, writedata, track, sector)) {
             mon_out("Error writing track %d sector %d\n", track, sector);
             return;
         }
@@ -127,8 +128,8 @@ void mon_drive_execute_disk_cmd(char *cmd)
     unsigned int len;
     vdrive_t *vdrive;
 
-    /* FIXME */
-    vdrive = file_system_get_vdrive(8, 0);
+    /* Unit? */
+    vdrive = file_system_get_vdrive(8);
 
     len = (unsigned int)strlen(cmd);
 
@@ -167,18 +168,18 @@ const char *mon_drive_get_fsdevice_path(int drive_unit)
 
 void mon_drive_list(int drive_unit)
 {
-    const char *name;
+//    const char *name;
     image_contents_t *listing;
     vdrive_t *vdrive;
     /* TODO: drive 1? */
-    unsigned int drive = 0;
+//    unsigned int drive = 0;
     const char *fspath = NULL;
 
     if ((drive_unit < 8) || (drive_unit > 11)) {
         drive_unit = 8;
     }
 
-    vdrive = file_system_get_vdrive(drive_unit, drive);
+    vdrive = file_system_get_vdrive(drive_unit);
 
     if (vdrive == NULL || vdrive->image == NULL) {
         if ((fspath = mon_drive_get_fsdevice_path(drive_unit))) {
@@ -189,9 +190,10 @@ void mon_drive_list(int drive_unit)
         return;
     }
 
-    name = disk_image_name_get(vdrive->image);
+//    name = disk_image_name_get(vdrive->image);
 
-    listing = diskcontents_read(name, drive_unit, drive);
+//    listing = diskcontents_read(name, drive_unit, drive);
+    listing = diskcontents_block_read(vdrive, 0);
 
     if (listing != NULL) {
         char *string = image_contents_to_string(listing, 1);

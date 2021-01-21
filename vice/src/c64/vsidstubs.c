@@ -478,27 +478,7 @@ image_contents_t *tapecontents_read(const char *file_name)
     return NULL;
 }
 
-image_contents_t *diskcontents_read(const char *file_name, unsigned int unit, unsigned int drive)
-{
-    return NULL;
-}
-
-image_contents_t *diskcontents_read_unit8(const char *file_name)
-{
-    return NULL;
-}
-
-image_contents_t *diskcontents_read_unit9(const char *file_name)
-{
-    return NULL;
-}
-
-image_contents_t *diskcontents_read_unit10(const char *file_name)
-{
-    return NULL;
-}
-
-image_contents_t *diskcontents_read_unit11(const char *file_name)
+image_contents_t *diskcontents_block_read(struct vdrive_s *vdrive, int part)
 {
     return NULL;
 }
@@ -849,7 +829,7 @@ void vdrive_init(void)
 {
 }
 
-int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit, unsigned int drive)
+int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
 {
     return 0;
 }
@@ -916,14 +896,19 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf, unsigned int le
     return 0;
 }
 
-int vdrive_write_sector(vdrive_t *vdrive, const uint8_t *buf, unsigned int track, unsigned int sector)
+int vdrive_ext_write_sector(vdrive_t *vdrive, int drive, const uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return 0;
 }
 
-int vdrive_read_sector(vdrive_t *vdrive, uint8_t *buf, unsigned int track, unsigned int sector)
+int vdrive_ext_read_sector(vdrive_t *vdrive, int drive, uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return 0;
+}
+
+struct disk_image_s *vdrive_get_image(vdrive_t *vdrive, unsigned int drive)
+{
+    return NULL;
 }
 
 /*******************************************************************************

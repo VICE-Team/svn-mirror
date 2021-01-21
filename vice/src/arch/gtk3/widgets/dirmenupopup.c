@@ -49,7 +49,6 @@
 #include "log.h"
 #include "tape.h"
 #include "util.h"
-#include "vdrive/vdrive.h"
 #include "widgethelpers.h"
 
 #include "dirmenupopup.h"
@@ -195,27 +194,20 @@ GtkWidget *dir_menu_popup_create(
          * code is not normal method.
          */
 
-        vdrive_t *vdrive = NULL;
         struct disk_image_s *diskimg = NULL;
         autostart_diskimage = NULL;
 
-        debug_gtk3("Getting vdrive reference for unit #%d.", dev + DRIVE_UNIT_MIN);
-        vdrive = file_system_get_vdrive(dev + DRIVE_UNIT_MIN, drive);
-        if (vdrive == NULL) {
+        debug_gtk3("Getting disk_image reference for unit #%d.", dev + DRIVE_UNIT_MIN);
+        diskimg = file_system_get_image(dev + DRIVE_UNIT_MIN, drive);
+        if (diskimg == NULL) {
             debug_gtk3("failed: got NULL.");
         } else {
-            debug_gtk3("OK, Getting disk image from vdrive instance.");
-            diskimg = vdrive->image;
-            if (diskimg == NULL) {
+            debug_gtk3("OK, Getting fsimage from disk image.");
+            autostart_diskimage = diskimg->media.fsimage->name;
+            if (autostart_diskimage == NULL) {
                 debug_gtk3("failed: got NULL.");
             } else {
-                debug_gtk3("OK, Getting fsimage from disk image.");
-                autostart_diskimage = diskimg->media.fsimage->name;
-                if (autostart_diskimage == NULL) {
-                    debug_gtk3("failed: got NULL.");
-                } else {
-                    debug_gtk3("Got '%s'.", autostart_diskimage);
-                }
+                debug_gtk3("Got '%s'.", autostart_diskimage);
             }
         }
 

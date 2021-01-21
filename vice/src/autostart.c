@@ -1515,7 +1515,6 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
         autostart_disk_cook_name(&name);
         if (!(file_system_attach_disk(unit, drive, file_name) < 0)) {
 #if 1
-            vdrive_t *vdrive;
             struct disk_image_s *diskimg;
 #endif
 
@@ -1530,28 +1529,24 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
             /* shitty code, we really need to extend the drive API to
              * get at these sorts for things without breaking into core code
              */
-            vdrive = file_system_get_vdrive(unit, drive);
-            if (vdrive == NULL) {
-                log_error(LOG_ERR, "Failed to get vdrive reference for unit %d.", unit);
+            diskimg = file_system_get_image(unit, drive);
+
+            if (diskimg == NULL) {
+                log_error(LOG_ERR, "Failed to get disk image for unit %d.", unit);
             } else {
-                diskimg = vdrive->image;
-                if (diskimg == NULL) {
-                    log_error(LOG_ERR, "Failed to get disk image for unit %d.", unit);
-                } else {
-                    int chk = drive_check_image_format(diskimg->type, 0);
-                    log_message(autostart_log, "mounted image is type: %u, %schanging drive.",
-                                diskimg->type, (chk < 0) ? "" : "not ");
-                    /* change drive type only when image does not work in current drive */
-                    if (chk < 0) {
-                        if (resources_set_int_sprintf("Drive%dType", diskimg->type, unit) < 0) {
-                            log_error(LOG_ERR, "Failed to set drive type.");
-                        }
+                int chk = drive_check_image_format(diskimg->type, 0);
+                log_message(autostart_log, "mounted image is type: %u, %schanging drive.",
+                            diskimg->type, (chk < 0) ? "" : "not ");
+                /* change drive type only when image does not work in current drive */
+                if (chk < 0) {
+                    if (resources_set_int_sprintf("Drive%dType", diskimg->type, unit) < 0) {
+                        log_error(LOG_ERR, "Failed to set drive type.");
                     }
-                    if (file_system_attach_disk(unit, drive, file_name) < 0) {
-                        goto exiterror;
-                    }
-                    drive_cpu_trigger_reset(0);
                 }
+                if (file_system_attach_disk(unit, drive, file_name) < 0) {
+                    goto exiterror;
+                }
+                drive_cpu_trigger_reset(0);
             }
 #endif
             setup_for_disk(unit, drive);
@@ -1643,7 +1638,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             mode = AUTOSTART_HASDISK;
             boot_file_name = (const char *)finfo->name;
             /* shorten the filename to 16 chars (if enabled) */
-            vdrive = file_system_get_vdrive(unit, drive);
+            vdrive = file_system_get_vdrive(unit);
             if (vdrive == NULL) {
                 log_error(LOG_ERR, "Failed to get vdrive reference for unit #%d:%d.", unit, drive);
                 return -1;

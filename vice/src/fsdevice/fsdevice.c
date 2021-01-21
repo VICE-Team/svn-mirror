@@ -183,7 +183,7 @@ int fsdevice_attach(unsigned int device, unsigned int drive, const char *name)
 {
     vdrive_t *vdrive;
 
-    vdrive = file_system_get_vdrive(device, drive);
+    vdrive = file_system_get_vdrive(device);
 
     if (machine_bus_device_attach(device, name, fsdevice_read, fsdevice_write,
                                   fsdevice_open, fsdevice_close,

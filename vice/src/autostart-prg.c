@@ -285,8 +285,8 @@ int autostart_prg_with_disk_image(int unit, int drive, const char *file_name,
             break;
         }
 
-        /* get vdrive */
-        vdrive = file_system_get_vdrive((unsigned int)unit, drive);
+        /* get vdrive with current drive from attachement */
+        vdrive = file_system_get_vdrive((unsigned int)unit);
         if (vdrive == NULL) {
             break;
         }

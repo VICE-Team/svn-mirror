@@ -66,8 +66,6 @@ static int mon_file_open(const char *filename,
     const char *s;
     int i;
 
-    /* TODO: drive 1 */
-    unsigned int drive = 0;
     const char *fspath = NULL;
     char *fullpath;
 
@@ -84,8 +82,8 @@ static int mon_file_open(const char *filename,
         case 9:
         case 10:
         case 11:
-            vdrive = file_system_get_vdrive((unsigned int)device, drive);
-            if (vdrive == NULL || vdrive->image == NULL) {
+            vdrive = file_system_get_vdrive((unsigned int)device);
+            if (vdrive == NULL) {
                 /* if vdrive did not succeed, try fsdevice */
                 if ((fspath = mon_drive_get_fsdevice_path(device))) {
                     fullpath = archdep_join_paths(fspath, filename, NULL);

@@ -87,7 +87,7 @@ static uint8_t serialcommand(unsigned int device, uint8_t secondary)
 
     if ((device & 0x0f) >= 8) {
         /* TODO serial devices only have a single drive */
-        vdrive = (void *)file_system_get_vdrive(device & 0x0f, 0);
+        vdrive = (void *)file_system_get_vdrive(device & 0x0f);
     } else {
         vdrive = NULL;
     }
@@ -173,6 +173,8 @@ static uint8_t serialcommand(unsigned int device, uint8_t secondary)
                     }
                 }
 #endif
+            /* open always sets st to 0 even if SERIAL_ERROR is set */
+            st = st & (~2);
             }
             if (p->flushf) {
                 (*(p->flushf))(vdrive, channel);
@@ -233,7 +235,7 @@ void fsdrive_listentalk(unsigned int device, uint8_t secondary, void (*st_func)(
            REL file write buffer. */
         if ((device & 0x0f) >= 8) {
             /* single drive only */
-            vdrive = (void *)file_system_get_vdrive(device & 0x0f, 0);
+            vdrive = (void *)file_system_get_vdrive(device & 0x0f);
             (*(p->listenf))(vdrive, secondary & 0x0f);
         }
     }
@@ -256,8 +258,7 @@ void fsdrive_unlisten(unsigned int device, uint8_t secondary, void (*st_func)(ui
         /* send unlisten to emulated devices for flushing of
            REL file write buffer. */
         if ((device & 0x0f) >= 8) {
-            /* single drive only */
-            vdrive = (void *)file_system_get_vdrive(device & 0x0f, 0);
+            vdrive = (void *)file_system_get_vdrive(device & 0x0f);
             (*(p->listenf))(vdrive, secondary & 0x0f);
         }
     }
@@ -276,7 +277,7 @@ void fsdrive_write(unsigned int device, uint8_t secondary, uint8_t data, void (*
     p = serial_device_get(device & 0x0f);
 
     if ((device & 0x0f) >= 8) {
-        vdrive = (void *)file_system_get_vdrive(device & 0x0f, 0);
+        vdrive = (void *)file_system_get_vdrive(device & 0x0f);
     } else {
         vdrive = NULL;
     }
@@ -308,7 +309,7 @@ uint8_t fsdrive_read(unsigned int device, uint8_t secondary, void (*st_func)(uin
     p = serial_device_get(device & 0x0f);
 
     if ((device & 0x0f) >= 8) {
-        vdrive = (void *)file_system_get_vdrive(device & 0x0f, 0);
+        vdrive = (void *)file_system_get_vdrive(device & 0x0f);
     } else {
         vdrive = NULL;
     }
@@ -347,7 +348,7 @@ void fsdrive_reset(void)
         if (p->inuse) {
             for (j = 0; j < 16; j++) {
                 if (p->isopen[j] != ISOPEN_CLOSED) {
-                    vdrive = (void *)file_system_get_vdrive(i, 0);
+                    vdrive = (void *)file_system_get_vdrive(i);
                     p->isopen[j] = ISOPEN_CLOSED;
                     (*(p->closef))(vdrive, j);
                 }

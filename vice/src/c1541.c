@@ -53,7 +53,7 @@
 
 #include "diskimage.h"
 #include "fsimage.h"
-#include "diskcontents.h"
+#include "diskcontents-block.h"
 #include "machine.h"
 
 #include "version.h"
@@ -855,8 +855,8 @@ static const char *image_format_name(unsigned int type)
             return "8250";
         case VDRIVE_IMAGE_FORMAT_2040:
             return "2040";
-        case VDRIVE_IMAGE_FORMAT_4000:
-            return "4000";
+        case VDRIVE_IMAGE_FORMAT_NP:
+            return "Native Partition";
         default:
             return NULL;
     }
@@ -1012,9 +1012,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
         return -1;
     }
 
-    vdrive_device_setup(vdrive, unit, 0);
-    vdrive->image = image;
-    /* TODO: do we need a drive 1 here? */
+    vdrive_device_setup(vdrive, unit);
     vdrive_attach_image(image, unit, 0, vdrive);
     return 0;
 }
@@ -1031,7 +1029,6 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
 
     image = vdrive->image;
 
-    /* TODO: do we need a drive 1 here? */
     if (image != NULL) {
         vdrive_detach_image(image, (unsigned int)unit, 0, vdrive);
         P64ImageDestroy((PP64Image)image->p64);
@@ -1387,10 +1384,10 @@ static int bam_cmd(int nargs, char **args)
         track_min = 1;
     }
     if (track_max == 0) {
-        track_max = vdrive->image->tracks;
+        track_max = vdrive->num_tracks;
     }
 
-    if (track_min < 1 || track_max > vdrive->image->tracks) {
+    if (track_min < 1 || track_max > vdrive->num_tracks) {
         return FD_BAD_TRKNUM;
     }
     if (track_min > track_max) {
@@ -2952,7 +2949,7 @@ static int info_cmd(int nargs, char **args)
      */
     printf("disk format  : %s\n", format_name);
     /* printf("Sides\t   : %d.\n", hdr.sides);*/
-    printf("track count  : %u\n", vdrive->image->tracks);
+    printf("track count  : %u\n", vdrive->num_tracks);
     if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
         printf("error block  : %s\n",
                 ((vdrive->image->media.fsimage)->error_info.map)
@@ -3145,14 +3142,14 @@ static int list_file_matches_pattern(const char *name,
 static int list_cmd(int nargs, char **args)
 {
     char *pattern;
-    const char *name;
+//    const char *name;
     char *type;
     image_contents_t *listing;
     int dnr = drive_index;
     vdrive_t *vdrive;
     int unit = DRIVE_UNIT_MIN;
 
-    unsigned int drive = 0;
+//    unsigned int drive = 0;
 
     if (nargs > 1) {
         /* use new version call untill all old calls are replaced */
@@ -3180,9 +3177,10 @@ static int list_cmd(int nargs, char **args)
     }
 
     vdrive = drives[dnr];
-    name = disk_image_name_get(vdrive->image);
+//    name = disk_image_name_get(vdrive->image);
 
-    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN), drive);
+    listing = diskcontents_block_read(vdrive, 0);
+//    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN), drive);
 
     if (listing != NULL) {
         char *string = image_contents_to_string(listing, 1);
@@ -4207,7 +4205,7 @@ static int write_geos_cmd(int nargs, char **args)
      * The bam and directory entry must be copied to the disk. the code
      * from the vdrive routines does that thing.
      */
-    vdrive_dir_find_first_slot(drives[dev], dest_name_petscii,
+    vdrive_dir_find_first_slot(drives[dev], (const uint8_t *)dest_name_petscii,
                                (int)strlen(dest_name_petscii), 0, &dir);
     e = vdrive_dir_find_next_slot(&dir);
 
