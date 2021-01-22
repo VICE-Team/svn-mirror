@@ -38,6 +38,7 @@
 
 #include "vice.h"
 
+
 /* #define DEBUG_DRIVE */
 
 #ifdef DEBUG_DRIVE
@@ -1354,7 +1355,16 @@ int vdrive_pack_parts(vdrive_t *vdrive)
     unsigned int old_co, old_if, maxpart;
     int ret = CBMDOS_IPE_OK;
     int lowpos, nearpos, length;
-    int i, j, k, near, block;
+    int i, j, k, block;
+
+    /* Undef shitty windows.h stuff that break proper C */
+#ifdef near
+# undef near
+#endif
+#ifdef far
+# undef far
+#endif
+    int near;
     int src, dest;
     uint8_t *buf = NULL;
 
