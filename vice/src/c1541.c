@@ -5294,14 +5294,11 @@ int main(int argc, char **argv)
         /* TODO: Add completions on Windows, somehow, or perhaps not */
 
         version_cmd(0, NULL);
-        printf("Copyright 1995-2020 The VICE Development Team.\n"
+        printf("Copyright 1995-2021 The VICE Development Team.\n"
                "C1541 is free software, covered by the GNU General Public License,"
                " and you are\n"
                "welcome to change it and/or distribute copies of it under certain"
-               " conditions.\n"
-               "Type `show copying' to see the conditions.\n"
-               "There is absolutely no warranty for C1541.  Type `show warranty'"
-               " for details.\n");
+               " conditions.\n");
 #if 0
         fflush(stdout); /* needs flushing on windows, it seems */
 #endif
