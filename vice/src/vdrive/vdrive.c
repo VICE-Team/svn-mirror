@@ -397,7 +397,8 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         }
         if (vdrive->images[i] && vdrive->images[i]->type != image->type) {
             log_error(vdrive_log, "All images attached to unit %u must be the "
-                "same type. %p %u %u", unit, vdrive->images[i], vdrive->images[i]->type, image->type);
+                "same type. %p %u %u", unit, (void *)(vdrive->images[i]),
+                vdrive->images[i]->type, image->type);
             return -1;
         }
     }
