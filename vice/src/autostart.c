@@ -820,9 +820,9 @@ static void autostart_done(void)
 
 /* This function is called by the `serialreceivebyte()' trap as soon as EOF
    is reached.  */
-static void disk_eof_callback(int device)
+static void disk_eof_callback(void)
 {
-    DBG(("disk_eof_callback(%d)", device));
+    DBG(("disk_eof_callback(%d:%d)", autostart_disk_unit, autostart_disk_drive));
 
     if (handle_drive_true_emulation_overridden) {
         uint8_t id[2], *buffer = NULL;
@@ -831,18 +831,20 @@ static void disk_eof_callback(int device)
         /* FIXME: what exactly is this stuff supposed to do? */
         if (orig_drive_true_emulation_state) {
             /* log_message(autostart_log, "Turning true drive emulation on."); */
-            if (vdrive_bam_get_disk_id(device, 0, id) == 0) {
+            if (vdrive_bam_get_disk_id(autostart_disk_unit, autostart_disk_drive, id) == 0) {
                 vdrive_get_last_read(&track, &sector, &buffer);
             }
         }
         /* set_true_drive_emulation_mode(orig_drive_true_emulation_state); */
         if (orig_drive_true_emulation_state) {
             if (buffer) {
-                log_message(autostart_log, "Restoring true drive state of drive %d.", device);
+                log_message(autostart_log, "Restoring true drive state of drive %d:%d.",
+                            autostart_disk_unit, autostart_disk_drive);
                 drive_set_disk_memory(id, track, sector, diskunit_context[0]);
                 drive_set_last_read(track, sector, buffer, diskunit_context[0]);
             } else {
-                log_message(autostart_log, "No Disk Image in drive %d.", device);
+                log_message(autostart_log, "No Disk Image in drive %d:%d.",
+                            autostart_disk_unit, autostart_disk_drive);
             }
         }
     }
@@ -1928,7 +1930,7 @@ void autostart_reset(void)
         oldmode = autostartmode;
         autostartmode = AUTOSTART_NONE;
         if (oldmode != AUTOSTART_DONE) {
-            disk_eof_callback(8);
+            disk_eof_callback();
         }
         autostartmode = AUTOSTART_NONE;
         trigger_monitor = 0;
