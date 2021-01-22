@@ -38,7 +38,6 @@
 
 #include "vice.h"
 
-
 /* #define DEBUG_DRIVE */
 
 #ifdef DEBUG_DRIVE
@@ -1211,7 +1210,7 @@ int vdrive_change_part(vdrive_t *vdrive, int part)
     unsigned int bamsize[5] = {0, 0x2200, 0x100, 0x200, 0x300};
 
 #ifdef DEBUG_DRIVE
-    log_debug("change part to %d", part);
+    log_debug("VDRIVE: Change part to %d", part);
 #endif
     /* make sure parition/drive is in a valid range */
     if (part < 0
@@ -1269,6 +1268,7 @@ int vdrive_change_part(vdrive_t *vdrive, int part)
     } else {
         if (vdrive->images[part]) {
             vdrive->image = vdrive->images[part];
+            vdrive->current_offset = 0;
             vdrive->current_part = part;
         } else {
             ret = CBMDOS_IPE_NOT_READY;
@@ -1276,7 +1276,7 @@ int vdrive_change_part(vdrive_t *vdrive, int part)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("change part result %d",ret);
+    log_debug("VDRIVE: Change part result is %d",ret);
 #endif
     return ret;
 }
@@ -1354,17 +1354,8 @@ int vdrive_pack_parts(vdrive_t *vdrive)
 {
     unsigned int old_co, old_if, maxpart;
     int ret = CBMDOS_IPE_OK;
-    int lowpos, nearpos, length;
-    int i, j, k, block;
-
-    /* Undef shitty windows.h stuff that break proper C */
-#ifdef near
-# undef near
-#endif
-#ifdef far
-# undef far
-#endif
-    int near;
+    int lowpos, bestpos, length;
+    int i, j, k, best, block;
     int src, dest;
     uint8_t *buf = NULL;
 
@@ -1380,14 +1371,14 @@ int vdrive_pack_parts(vdrive_t *vdrive)
     length = 1;
     while (1) {
         /* scan for closest partition (physically) to the current one */
-        near = 0;
-        nearpos = INT32_MAX;
+        best = 0;
+        bestpos = INT32_MAX;
         block = 0;
         for (i = 1; i <= maxpart; i++) {
             /* skip deleted, foriegn, or anything else */
             if (vdrive->ptype[i] > 0 && vdrive->ptype[i] < 7
                && ( vdrive->poffset[i] >= lowpos + length )
-               && vdrive->poffset[i] < nearpos) {
+               && vdrive->poffset[i] < bestpos) {
                 /* make sure a move won't go into a foriegn partition */
                 for (j = 1; j <= maxpart; j++) {
                     if (vdrive->ptype[j] == 7 &&
@@ -1400,17 +1391,17 @@ int vdrive_pack_parts(vdrive_t *vdrive)
                 }
                 /* if no problems, mark this as the one to use, otherwise, look for a better one */
                 if (!block) {
-                    near = i;
-                    nearpos = vdrive->poffset[i];
+                    best = i;
+                    bestpos = vdrive->poffset[i];
                 } else {
                     break; /* otherwise, stop checking the foriegn conditions */
                 }
             }
         }
         /* if not found, we are done */
-        if (nearpos == INT32_MAX && !block) {
+        if (bestpos == INT32_MAX && !block) {
             break;
-        } else if (nearpos == INT32_MAX && block) {
+        } else if (bestpos == INT32_MAX && block) {
             /* we found something to move, but can't because there isn't enough space before a foriegn partition */
             /* so we will start searching after the foriegn partition */
             lowpos = vdrive->poffset[block];
@@ -1419,13 +1410,13 @@ int vdrive_pack_parts(vdrive_t *vdrive)
             continue;
         } /* else just follows thru */
         /* if it is right beside it, go look for another one */
-        if (lowpos + length == nearpos) {
-            lowpos = nearpos;
-            length = vdrive->psize[near];
+        if (lowpos + length == bestpos) {
+            lowpos = bestpos;
+            length = vdrive->psize[best];
             /* look again */
             continue;
         }
-        /* move it from nearpos to lowpos+length for psize[near] LBAs (512 byte sectors) */      
+        /* move it from bestpos to lowpos+length for psize[best] LBAs (512 byte sectors) */      
         /* moving a lot of data is pretty serious, so we must take care that
             there will be no disk errors. */
         /* we will scan the whole source partition and destiation area to make
@@ -1434,8 +1425,8 @@ int vdrive_pack_parts(vdrive_t *vdrive)
         buf = lib_malloc(MOVE_LBA_CHUNKS * 2 * 256);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_NP;
 
-        src = vdrive->current_offset = vdrive->poffset[near];
-        j = vdrive->psize[near];
+        src = vdrive->current_offset = vdrive->poffset[best];
+        j = vdrive->psize[best];
 
         /* read source and destination areas to ensure there are no errors first */
         /* read source partition area */
@@ -1455,7 +1446,7 @@ int vdrive_pack_parts(vdrive_t *vdrive)
         }
 
         dest = vdrive->current_offset = lowpos + length;
-        j = vdrive->psize[near];
+        j = vdrive->psize[best];
 
         /* read destination partition area */
         while (j) {
@@ -1493,10 +1484,10 @@ int vdrive_pack_parts(vdrive_t *vdrive)
         buf = NULL;
 
         /* update table in RAM */
-        vdrive->poffset[near] = lowpos + length;
+        vdrive->poffset[best] = lowpos + length;
 
-        lowpos = vdrive->poffset[near];
-        length = vdrive->psize[near];
+        lowpos = vdrive->poffset[best];
+        length = vdrive->psize[best];
         /* look again */
     }
 
@@ -1524,6 +1515,9 @@ int vdrive_switch(vdrive_t *vdrive, int part)
         return CBMDOS_IPE_NOT_READY;
     }
 
+#ifdef DEBUG_DRIVE
+    log_debug("VDRIVE: request switch to %d",part);
+#endif
     /* find the real partition/drive */
     part = vdrive_realpart(vdrive, part);
 
@@ -1548,14 +1542,19 @@ int vdrive_switch(vdrive_t *vdrive, int part)
             vdrive_set_disk_geometry(vdrive);
         } else  {
             /* no, not good, make this an unaccessable part */
-            vdrive->image_format = VDRIVE_IMAGE_FORMAT_NONE;
-            vdrive->num_tracks = 0;
-            vdrive->bam_size = 0;
+            if (vdrive->haspt) {
+                vdrive->image_format = VDRIVE_IMAGE_FORMAT_NONE;
+                vdrive->num_tracks = 0;
+                vdrive->bam_size = 0;
+            }
             vdrive->current_offset = UINT32_MAX;
             vdrive->current_part = -1;
         }
     }
 
+#ifdef DEBUG_DRIVE
+    log_debug("VDRIVE: result is %d",ret);
+#endif
     return ret;
 }
 
