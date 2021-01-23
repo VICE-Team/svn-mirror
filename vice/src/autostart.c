@@ -164,6 +164,13 @@ int autostart_ignore_reset = 0; /* FIXME: only used by datasette.c, does it real
 static int autostart_disk_unit = 8; /* set by setup_for_disk */
 static int autostart_disk_drive = 0; /* set by setup_for_disk */
 
+#define AUTOSTART_DISK_IMAGE    0
+#define AUTOSTART_PRG_VFS       1
+#define AUTOSTART_PRG_DISK      2
+#define AUTOSTART_PRG_INJECT    3
+
+static int autostart_type = -1;
+
 /* ------------------------------------------------------------------------- */
 
 int autostart_basic_load = 0;
@@ -692,6 +699,8 @@ static void restore_drive_emulation_state(int unit, int drive)
     autostart_disk_unit = 8;
     autostart_disk_drive = 0;
 
+    autostart_type = -1;
+
     DBG(("restore_drive_emulation_state(unit: %d drive: %d) tde:%d traps:%d warp:%d", unit, drive,
         get_true_drive_emulation_state(), get_device_traps_state(), get_warp_state()
     ));
@@ -1017,7 +1026,7 @@ static void advance_hasdisk(int unit, int drive)
             /* autostartmode = AUTOSTART_LOADINGDISK; */
             /* if TDE is disabled during load, setup the callback that will
                copy the vdrive status into the TDE and complete the autostart */
-            if (!get_true_drive_emulation_state()) {
+            if (!get_true_drive_emulation_state() && (autostart_type != AUTOSTART_PRG_VFS)) {
                 machine_bus_attention_callback_set(disk_attention_callback);
             }
 #endif
@@ -1493,13 +1502,18 @@ static void setup_for_disk(int unit, int drive)
 */
 static void setup_for_disk_ready(int unit, int drive)
 {
+    printf("setup_for_disk_ready\n");
     if (handle_drive_true_emulation_overridden) {
         /* disable TDE if device traps are enabled,
            enable TDE if device traps are disabled */
         if (orig_device_traps_state) {
+#if 0
             if (orig_drive_true_emulation_state) {
+                /* if traps are enabled, and TDE was on before autostart, disable it now */
                 set_true_drive_emulation_mode(0);
             }
+#endif
+            set_true_drive_emulation_mode(0);
         } else {
             if (!orig_drive_true_emulation_state) {
                 set_true_drive_emulation_mode(1);
@@ -1591,6 +1605,7 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                 drive_cpu_trigger_reset(unit - 8);
             }
 #endif
+            autostart_type = AUTOSTART_DISK_IMAGE;
             setup_for_disk(unit, drive);
             reboot_for_autostart(name, AUTOSTART_HASDISK, runmode);
             lib_free(name);
@@ -1610,6 +1625,7 @@ exiterror:
 
 static void setup_for_prg_vfs(void)
 {
+#if 1
     if (handle_drive_true_emulation_overridden) {
         if (orig_drive_true_emulation_state) {
             set_true_drive_emulation_mode(0);
@@ -1618,6 +1634,7 @@ static void setup_for_prg_vfs(void)
     if (get_true_drive_emulation_state()) {
         log_message(LOG_ERR, "True drive emulation is still enabled.");
     }
+#endif
     if (!orig_device_traps_state) {
         set_device_traps_state(1);
     }
@@ -1631,6 +1648,20 @@ static void setup_for_prg_vfs(void)
         handle_drive_true_emulation_overridden ? "yes" : "no"
         ));
 }
+
+#if 0
+static void setup_for_prg_vfs_ready(void)
+{
+    if (handle_drive_true_emulation_overridden) {
+        if (orig_drive_true_emulation_state) {
+            set_true_drive_emulation_mode(0);
+        }
+    }
+    if (get_true_drive_emulation_state()) {
+        log_message(LOG_ERR, "True drive emulation is still enabled.");
+    }
+}
+#endif
 
 /* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file
    or a P00 file */
@@ -1684,12 +1715,14 @@ int autostart_prg(const char *file_name, unsigned int runmode)
                 return -1;
             }
             fsdevice_limit_namelength(vdrive, (uint8_t*)boot_file_name);
+            autostart_type = AUTOSTART_PRG_VFS;
             break;
         case AUTOSTART_PRG_MODE_INJECT:
             log_message(autostart_log, "Loading PRG file `%s' with direct RAM injection.", file_name);
             result = autostart_prg_with_ram_injection(file_name, finfo, autostart_log);
             mode = AUTOSTART_INJECT;
             boot_file_name = NULL;
+            autostart_type = AUTOSTART_PRG_INJECT;
             break;
         case AUTOSTART_PRG_MODE_DISK:
             {
@@ -1722,10 +1755,19 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             tempname[n] = 0;
             boot_file_name = (const char *)tempname;
             }
+            /* enable TDE and reset the drive to prepare the eof callback */
+            if (!get_true_drive_emulation_state()) {
+                log_message(autostart_log, "Turning TDE on to allow drive reset");
+                set_true_drive_emulation_mode(1);
+            }
+            log_message(autostart_log, "Resetting drive %d", unit);
+            drive_cpu_trigger_reset(unit - 8);
+
+            autostart_type = AUTOSTART_PRG_DISK;
             break;
         default:
             log_error(autostart_log, "Invalid PRG autostart mode: %d", AutostartPrgMode);
-            result = -1;
+            mode = result = -1;
             break;
     }
 
