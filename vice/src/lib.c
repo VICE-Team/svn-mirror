@@ -100,9 +100,11 @@ static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
 
+#ifdef DEBUG
 /** \brief  Flag to enable/debug output on exit of emu/tool
  */
 static int lib_debug_enable_output = 1;
+#endif
 
 
 /*----------------------------------------------------------------------------*/
@@ -899,6 +901,8 @@ void lib_init(void)
 
 void lib_debug_set_output(int state)
 {
+#ifdef DEBUG
     lib_debug_enable_output = state;
+#endif
 }
 
