@@ -413,7 +413,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
                         p++;
                     }
                 }
-                cmd_parse->commandlength = p - p1;
+                cmd_parse->commandlength = (unsigned int)(p - p1);
                 cmd_parse->command = lib_calloc(1, cmd_parse->commandlength + 1);
                 memcpy(cmd_parse->command, p1, cmd_parse->commandlength);
                 cmd_parse->command[cmd_parse->commandlength] = 0;
@@ -445,7 +445,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
                 if (p < p2) {
                     p1 = p;
                     p = p2;
-                    cmd_parse->pathlength = p - p1;
+                    cmd_parse->pathlength = (unsigned int)(p - p1);
                     cmd_parse->path = lib_calloc(1, cmd_parse->pathlength + 1);
                     memcpy(cmd_parse->path, p1, cmd_parse->pathlength);
                     cmd_parse->path[cmd_parse->pathlength] = 0;
@@ -468,7 +468,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
         if (!p) {
             p = limit;
         }
-        cmd_parse->filelength = p - p1;
+        cmd_parse->filelength = (unsigned int)(p - p1);
         cmd_parse->file = lib_calloc(1, cmd_parse->filelength + 1);
         memcpy(cmd_parse->file, p1, cmd_parse->filelength);
         cmd_parse->file[cmd_parse->filelength] = 0;
@@ -641,7 +641,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
                 }
             }
 
-            cmd_parse->commandlength = p - p1;
+            cmd_parse->commandlength = (unsigned int)(p - p1);
             cmd_parse->command = lib_calloc(1, cmd_parse->commandlength + 1);
             memcpy(cmd_parse->command, p1, cmd_parse->commandlength);
             cmd_parse->command[cmd_parse->commandlength] = 0;
@@ -681,7 +681,7 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
         if (p < p2) {
             p1 = p;
             p = p2;
-            cmd_parse->pathlength = p - p1;
+            cmd_parse->pathlength = (unsigned int)(p - p1);
             cmd_parse->path = lib_calloc(1, cmd_parse->pathlength + 1);
             memcpy(cmd_parse->path, p1, cmd_parse->pathlength);
             cmd_parse->path[cmd_parse->pathlength] = 0;
@@ -705,13 +705,13 @@ unsigned int cbmdos_command_parse_plus(cbmdos_cmd_parse_plus_t *cmd_parse)
         if (!p) {
             p = limit;
         }
-        cmd_parse->filelength = p - p1;
+        cmd_parse->filelength = (unsigned int)(p - p1);
         cmd_parse->file = lib_calloc(1, cmd_parse->filelength + 1);
         memcpy(cmd_parse->file, p1, cmd_parse->filelength);
         cmd_parse->file[cmd_parse->filelength] = 0;
 
         if (p < limit) {
-            cmd_parse->morelength = limit - p;
+            cmd_parse->morelength = (unsigned int)(limit - p);
             cmd_parse->more = lib_calloc(1, cmd_parse->morelength + 1);
             memcpy(cmd_parse->more, p, cmd_parse->morelength);
             cmd_parse->more[cmd_parse->morelength] = 0;
