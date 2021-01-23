@@ -305,7 +305,10 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
                             status = CBMDOS_IPE_OK; /* Set IEC bus speed */
                             goto out;
                         } else {
-                            status = vdrive_command_initialize(vdrive, NULL);
+                            if (!vdrive_command_initialize(vdrive, NULL)) {
+                                vdrive_close_all_channels(vdrive);
+                                status = CBMDOS_IPE_DOS_VERSION;
+                            }
                         }
                         goto out;
 
@@ -2629,7 +2632,7 @@ static int vdrive_command_initialize(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
     if (vdrive->image != NULL) {
         vdrive_bam_setup_bam(vdrive);
     }
-    status = CBMDOS_IPE_DOS_VERSION;
+    status = CBMDOS_IPE_OK;
 
 out:
     if (cmd) {
