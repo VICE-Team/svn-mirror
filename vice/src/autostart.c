@@ -496,8 +496,12 @@ static CHECKYESNO check(const char *s, unsigned int blink_mode)
 {
     return check2(s, blink_mode, 0);
 }
+
+/* ------------------------------------------------------------------------- */
+
 static void set_true_drive_emulation_mode(int on)
 {
+    log_message(autostart_log, "Turning TDE %s.", on ? "on" : "off");
     resources_set_int("DriveTrueEmulation", on);
 }
 
@@ -514,6 +518,7 @@ static int get_true_drive_emulation_state(void)
 
 static void set_warp_mode(int on)
 {
+    log_message(autostart_log, "Turning Warp mode %s.", on ? "on" : "off");
     resources_set_int("WarpMode", on);
 }
 
@@ -541,6 +546,8 @@ static int get_device_traps_state(void)
 
 static void set_device_traps_state(int on)
 {
+    log_message(autostart_log, "Turning virtual device traps %s.",
+                on ? "on" : "off");
     resources_set_int("VirtualDevices", on);
 }
 
@@ -550,7 +557,6 @@ static void enable_warp_if_requested(void)
     if (AutostartWarp) {
         orig_warp_mode = get_warp_state();
         if (!orig_warp_mode) {
-            log_message(autostart_log, "Turning Warp mode on");
             set_warp_mode(1);
         }
     }
@@ -561,11 +567,12 @@ static void disable_warp_if_was_requested(void)
     /* disable warp mode */
     if (AutostartWarp) {
         if (!orig_warp_mode) {
-            log_message(autostart_log, "Turning Warp mode off");
             set_warp_mode(0);
         }
     }
 }
+
+/* ------------------------------------------------------------------------- */
 
 static void check_rom_area(void)
 {
@@ -651,24 +658,18 @@ static void restore_drive_emulation_state(int unit, int drive)
     if (orig_device_traps_state != -1) {
         /* set device traps to original state */
         if (get_device_traps_state() != orig_device_traps_state) {
-            log_message(autostart_log, "Turning virtual device traps %s.",
-                        orig_device_traps_state ? "on" : "off");
             set_device_traps_state(orig_device_traps_state);
         }
     }
     if (orig_drive_true_emulation_state != -1) {
         /* set TDE to original state */
         if (get_true_drive_emulation_state() != orig_drive_true_emulation_state) {
-            log_message(autostart_log, "Turning TDE %s.",
-                        orig_drive_true_emulation_state ? "on" : "off");
             set_true_drive_emulation_mode(orig_drive_true_emulation_state);
         }
     }
     if (orig_warp_mode != -1) {
         /* set warp to original state */
         if (get_warp_state() != orig_warp_mode) {
-            log_message(autostart_log, "Turning Warp mode %s.",
-                        orig_warp_mode ? "on" : "off");
             set_warp_mode(orig_warp_mode);
         }
     }
@@ -1398,7 +1399,10 @@ int autostart_tape(const char *file_name, const char *program_name,
             }
         }
         if (!tape_tap_attached()) {
-            resources_set_int("VirtualDevices", 1); /* Kludge: for t64 images we need devtraps ON */
+            /* Kludge: for t64 images we need devtraps ON */
+            if (!get_device_traps_state()) {
+                set_device_traps_state(1);
+            }
         }
         reboot_for_autostart(program_name, AUTOSTART_HASTAPE, runmode);
 
@@ -1443,16 +1447,14 @@ static void setup_for_disk(int unit, int drive)
            enable TDE if device traps are disabled */
         if (orig_device_traps_state) {
             if (orig_drive_true_emulation_state) {
-                log_message(autostart_log, "Turning true drive emulation off.");
                 set_true_drive_emulation_mode(0);
             }
         } else {
             if (!orig_drive_true_emulation_state) {
-                log_message(autostart_log, "Turning true drive emulation on.");
                 set_true_drive_emulation_mode(1);
             }
             if (!get_true_drive_emulation_state()) {
-                log_message(LOG_ERR, "True drive emulation is not enabled, Turning virtual device traps on.");
+                log_message(LOG_ERR, "True drive emulation is not enabled.");
                 set_device_traps_state(1);
                 if (!get_device_traps_state()) {
                     log_message(LOG_ERR, "Virtual device traps are not enabled.");
@@ -1465,12 +1467,10 @@ static void setup_for_disk(int unit, int drive)
            enable traps when TDE is disabled. */
         if (orig_drive_true_emulation_state) {
             if (orig_device_traps_state) {
-                log_message(autostart_log, "Turning  virtual device traps off.");
                 set_device_traps_state(0);
             }
         } else {
             if (!orig_device_traps_state) {
-                log_message(autostart_log, "Turning  virtual device traps on.");
                 set_device_traps_state(1);
             }
             if (!get_device_traps_state()) {
@@ -1498,16 +1498,14 @@ static void setup_for_disk_ready(int unit, int drive)
            enable TDE if device traps are disabled */
         if (orig_device_traps_state) {
             if (orig_drive_true_emulation_state) {
-                log_message(autostart_log, "Turning true drive emulation off.");
                 set_true_drive_emulation_mode(0);
             }
         } else {
             if (!orig_drive_true_emulation_state) {
-                log_message(autostart_log, "Turning true drive emulation on.");
                 set_true_drive_emulation_mode(1);
             }
             if (!get_true_drive_emulation_state()) {
-                log_message(LOG_ERR, "True drive emulation is not enabled, Turning virtual device traps on.");
+                log_message(LOG_ERR, "True drive emulation is not enabled.");
                 set_device_traps_state(1);
                 if (!get_device_traps_state()) {
                     log_message(LOG_ERR, "Virtual device traps are not enabled.");
@@ -1614,7 +1612,6 @@ static void setup_for_prg_vfs(void)
 {
     if (handle_drive_true_emulation_overridden) {
         if (orig_drive_true_emulation_state) {
-            log_message(autostart_log, "Turning true drive emulation off.");
             set_true_drive_emulation_mode(0);
         }
     }
@@ -1622,7 +1619,6 @@ static void setup_for_prg_vfs(void)
         log_message(LOG_ERR, "True drive emulation is still enabled.");
     }
     if (!orig_device_traps_state) {
-        log_message(autostart_log, "Turning virtual device traps on.");
         set_device_traps_state(1);
     }
     if (!get_device_traps_state()) {
