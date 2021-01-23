@@ -860,7 +860,6 @@ static void disk_eof_callback(void)
     disable_warp_if_was_requested();
 }
 
-#if 0
 /* This function is called by the `serialattention()' trap before
    returning.  */
 static void disk_attention_callback(void)
@@ -871,7 +870,6 @@ static void disk_attention_callback(void)
        on.  */
     machine_bus_eof_callback_set(disk_eof_callback);
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -943,6 +941,8 @@ static void advance_loadingtape(void)
     }
 }
 
+static void setup_for_disk_ready(int unit, int drive);
+
 static void advance_hasdisk(int unit, int drive)
 {
     char *tmp, *temp_name;
@@ -952,6 +952,8 @@ static void advance_hasdisk(int unit, int drive)
 
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
+            /* complete the drive setup */
+            setup_for_disk_ready(unit, drive);
 
             /* autostart_program_name may be petscii or ascii at this point,
                ANDing the charcodes with 0x7f here is a cheap way to prevent
@@ -1010,9 +1012,13 @@ static void advance_hasdisk(int unit, int drive)
             autostart_finish();
             autostart_done(); /* -> AUTOSTART_DONE */
 #endif
-#if 0
-            autostartmode = AUTOSTART_LOADINGDISK;
-            machine_bus_attention_callback_set(disk_attention_callback);
+#if 1
+            /* autostartmode = AUTOSTART_LOADINGDISK; */
+            /* if TDE is disabled during load, setup the callback that will
+               copy the vdrive status into the TDE and complete the autostart */
+            if (!get_true_drive_emulation_state()) {
+                machine_bus_attention_callback_set(disk_attention_callback);
+            }
 #endif
 
 #if 0
@@ -1432,6 +1438,7 @@ static void autostart_disk_cook_name(char **name)
 static void setup_for_disk(int unit, int drive)
 {
     if (handle_drive_true_emulation_overridden) {
+#if 0
         /* disable TDE if device traps are enabled,
            enable TDE if device traps are disabled */
         if (orig_device_traps_state) {
@@ -1452,6 +1459,7 @@ static void setup_for_disk(int unit, int drive)
                 }
             }
         }
+#endif
     } else {
         /* disable traps when TDE is enabled,
            enable traps when TDE is disabled. */
@@ -1478,6 +1486,35 @@ static void setup_for_disk(int unit, int drive)
         ));
     autostart_disk_unit = unit;
     autostart_disk_drive = drive;
+}
+
+/* once RESET completed and we are at READY, complete the setup. The drive
+   has hopefully completed its reset by now.
+*/
+static void setup_for_disk_ready(int unit, int drive)
+{
+    if (handle_drive_true_emulation_overridden) {
+        /* disable TDE if device traps are enabled,
+           enable TDE if device traps are disabled */
+        if (orig_device_traps_state) {
+            if (orig_drive_true_emulation_state) {
+                log_message(autostart_log, "Turning true drive emulation off.");
+                set_true_drive_emulation_mode(0);
+            }
+        } else {
+            if (!orig_drive_true_emulation_state) {
+                log_message(autostart_log, "Turning true drive emulation on.");
+                set_true_drive_emulation_mode(1);
+            }
+            if (!get_true_drive_emulation_state()) {
+                log_message(LOG_ERR, "True drive emulation is not enabled, Turning virtual device traps on.");
+                set_device_traps_state(1);
+                if (!get_device_traps_state()) {
+                    log_message(LOG_ERR, "Virtual device traps are not enabled.");
+                }
+            }
+        }
+    }
 }
 
 /* Autostart disk image `file_name'.  */
@@ -1548,7 +1585,12 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                 if (file_system_attach_disk(unit, drive, file_name) < 0) {
                     goto exiterror;
                 }
-                drive_cpu_trigger_reset(0);
+                if (!get_true_drive_emulation_state()) {
+                    log_message(autostart_log, "Turning TDE on to allow drive reset");
+                    set_true_drive_emulation_mode(1);
+                }
+                log_message(autostart_log, "Resetting drive %d", unit);
+                drive_cpu_trigger_reset(unit - 8);
             }
 #endif
             setup_for_disk(unit, drive);
