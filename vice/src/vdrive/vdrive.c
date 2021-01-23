@@ -343,14 +343,24 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
     }
 
     disk_image_detach_log(image, vdrive_log, unit, drive);
+
     /* shutdown everything on that drive */
-    vdrive_close_all_channels_partition(vdrive, drive);
-    if (vdrive->current_part == drive) {
+    if (vdrive->haspt) {
+        vdrive_close_all_channels(vdrive);
         lib_free(vdrive->bam);
         vdrive->bam = NULL;
         vdrive->image = NULL;
         vdrive->current_part = -1;
         vdrive->selected_part = -1;
+    } else {
+        vdrive_close_all_channels_partition(vdrive, drive);
+        if (vdrive->current_part == drive) {
+            lib_free(vdrive->bam);
+            vdrive->bam = NULL;
+            vdrive->image = NULL;
+            vdrive->current_part = -1;
+            vdrive->selected_part = -1;
+        }
     }
     vdrive->images[drive] = NULL;
 }
@@ -505,8 +515,10 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
             vdrive->current_offset = UINT32_MAX;
             return -1;
     }
-    DBG(("vdrive_attach_image image type:%u vdrive format:%u num_tracks:%u bam_size:%u",
-         image->type, vdrive->image_format, vdrive->num_tracks, vdrive->bam_size));
+#ifdef DEBUG_DRIVE
+    log_debug("vdrive_attach_image image type:%u vdrive format:%u num_tracks:%u bam_size:%u",
+         image->type, vdrive->image_format, vdrive->num_tracks, vdrive->bam_size);
+#endif
 
     /* commit exist BAM possibly from another drive */
     vdrive_bam_write_bam(vdrive);
@@ -514,7 +526,9 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
     /* Need an image associated for D9090/60 and vdrive_set_disk_geometry */
     vdrive->images[drive] = image;
 
-    DBG(("Image attached to unit %u, drive %u as %u", unit, drive, image->type));
+#ifdef DEBUG_DRIVE
+    log_debug("VDRIVE: Image attached to unit %u, drive %u as %u", unit, drive, image->type);
+#endif
 
     vdrive->haspt = haspt;
     vdrive->dir_part = drive;
@@ -545,6 +559,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
     }
 
     /* Initialise format constants */
+    vdrive->current_part = -1;
     if (vdrive_switch(vdrive, drive)) {
         /* didn't work, set selected part anyways */
         vdrive->selected_part = drive;
@@ -691,9 +706,9 @@ void vdrive_set_disk_geometry(vdrive_t *vdrive)
                     vdrive->Dir_Track = i;
                     vdrive->Dir_Sector = 10;
                 }
-                break;
                 /* drive has track 0 */
                 vdrive->Part_Start = 0;
+                break;
             }
         default:
             log_error(vdrive_log,
@@ -1554,7 +1569,7 @@ int vdrive_switch(vdrive_t *vdrive, int part)
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE: result is %d",ret);
+    log_debug("VDRIVE: result is %d %d %u %u",ret, vdrive->current_part, vdrive->current_offset, vdrive->image_format);
 #endif
     return ret;
 }
