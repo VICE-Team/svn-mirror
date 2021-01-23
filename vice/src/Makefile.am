@@ -986,6 +986,7 @@ p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
+plus4cart_lib = $(top_builddir)/src/plus4/cart/libplus4cart.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
@@ -1707,6 +1708,7 @@ xplus4_libs =  \
 	$(tapeport_lib) \
 	$(datasette_lib) \
 	$(plus4_lib) \
+	$(plus4cart_lib) \
 	$(diag_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
@@ -1764,6 +1766,7 @@ xplus4-all: \
 	libprinterdrv \
 	librs232drv \
 	libplus4 \
+	libplus4cart \
 	libvideo \
 	libsid \
 	libarch \

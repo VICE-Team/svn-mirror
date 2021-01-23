@@ -3690,6 +3690,7 @@ AC_OUTPUT([Makefile
            src/parallel/Makefile
            src/pet/Makefile
            src/plus4/Makefile
+           src/plus4/cart/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
            src/rs232drv/Makefile
