@@ -24,6 +24,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/plus4 \
+	-I$(top_srcdir)/src/plus4/cart \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/samplerdrv \
