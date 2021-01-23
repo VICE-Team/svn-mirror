@@ -14,8 +14,8 @@ extern unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
 extern FILE *outfile;
 extern int loadfile_offset;
 extern int omit_empty_banks;
-extern char *output_filename;
-extern char *input_filename[33];
+extern char *output_filename[MAX_OUTPUT_FILES];
+extern char *input_filename[MAX_INPUT_FILES];
 extern unsigned char input_filenames;
 extern char loadfile_is_crt;
 extern int load_address;
@@ -279,7 +279,7 @@ void save_stardos_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigne
 static void close_output_cleanup(void)
 {
     fclose(outfile);
-    unlink(output_filename);
+    unlink(output_filename[0]);
     cleanup();
     exit(1);
 }

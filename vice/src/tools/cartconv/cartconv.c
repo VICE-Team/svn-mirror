@@ -61,9 +61,10 @@ unsigned int loadfile_size = 0;
 unsigned char filebuffer[CARTRIDGE_SIZE_MAX + 2];
 FILE *outfile;
 int loadfile_offset = 0;
-char *output_filename = NULL;
-char *input_filename[33];
-unsigned char input_filenames = 0;
+char *output_filename[MAX_OUTPUT_FILES];
+int output_filenames = 0;
+char *input_filename[MAX_INPUT_FILES];
+int input_filenames = 0;
 char loadfile_is_crt = 0;
 int load_address = 0;
 char loadfile_is_ultimax = 0;
@@ -168,22 +169,23 @@ void cleanup(void)
 {
     int i;
 
-    if (output_filename != NULL) {
-        free(output_filename);
-    }
     if (options_filename != NULL) {
         free(options_filename);
     }
     if (cart_name != NULL) {
         free(cart_name);
     }
-    for (i = 0; i < 33; i++) {
+    for (i = 0; i < MAX_INPUT_FILES; i++) {
         if (input_filename[i] != NULL) {
             free(input_filename[i]);
         }
     }
+    for (i = 0; i < MAX_OUTPUT_FILES; i++) {
+        if (output_filename[i] != NULL) {
+            free(output_filename[i]);
+        }
+    }
 }
-
 
 static void too_many_inputs(void)
 {
@@ -192,6 +194,12 @@ static void too_many_inputs(void)
     exit(1);
 }
 
+static void too_many_outputs(void)
+{
+    fprintf(stderr, "Error: too many output files\n");
+    cleanup();
+    exit(1);
+}
 
 /* this loads the easyflash cart and puts it as the interleaved way into
    the buffer for easy binary saving */
@@ -295,7 +303,9 @@ void bin2crt_ok(void)
         for (i = 0; i < input_filenames; i++) {
             printf("Input file: %s\n", input_filename[i]);
         }
-        printf("Output file: %s\n", output_filename);
+        for (i = 0; i < output_filenames; i++) {
+            printf("Output file: %s\n", output_filename[i]);
+        }
         if (machine_class == VICE_MACHINE_C64) {
             printf("Conversion from binary format to C64 %s .crt successful.\n", 
                 cart_info[(unsigned char)cart_type].name);
@@ -308,9 +318,14 @@ void bin2crt_ok(void)
 
 void crt2bin_ok(void)
 {
+    int i;
     if (!quiet_mode) {
-        printf("Input file : %s\n", input_filename[0]);
-        printf("Output file : %s\n", output_filename);
+        for (i = 0; i < input_filenames; i++) {
+            printf("Input file: %s\n", input_filename[i]);
+        }
+        for (i = 0; i < output_filenames; i++) {
+            printf("Output file: %s\n", output_filename[i]);
+        }
         if (machine_class == VICE_MACHINE_C64) {
             printf("Conversion from C64 %s .crt to binary format successful.\n",
                 cart_info[loadfile_cart_type].name);
@@ -321,34 +336,54 @@ void crt2bin_ok(void)
     }
 }
 
-static int save_binary_output_file(void)
+static int save_binary(unsigned char *buffer, char *filename, unsigned int address, unsigned int size)
 {
     unsigned char address_buffer[2];
-/*
-    printf("save_binary_output_file mode:%s addr:%04x size:%04x\n",
-           convert_to_prg ? "prg" : "bin", load_address, loadfile_size);
-*/
-    outfile = fopen(output_filename, "wb");
+    outfile = fopen(filename, "wb");
     if (outfile == NULL) {
-        fprintf(stderr, "Error: Can't open output file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't open output file %s\n", filename);
         return -1;
     }
     if (convert_to_prg == 1) {
-        address_buffer[0] = (unsigned char)(load_address & 0xff);
-        address_buffer[1] = (unsigned char)(load_address >> 8);
+        address_buffer[0] = (unsigned char)(address & 0xff);
+        address_buffer[1] = (unsigned char)(address >> 8);
         if (fwrite(address_buffer, 1, 2, outfile) != 2) {
-            fprintf(stderr, "Error: Can't write to file %s\n", output_filename);
+            fprintf(stderr, "Error: Can't write to file %s\n", filename);
             fclose(outfile);
             return -1;
         }
     }
-    if (fwrite(filebuffer, 1, loadfile_size, outfile) != loadfile_size) {
-        fprintf(stderr, "Error: Can't write to file %s\n", output_filename);
+    if (fwrite(buffer, 1, size, outfile) != size) {
+        fprintf(stderr, "Error: Can't write to file %s\n", filename);
         fclose(outfile);
         return -1;
     }
     fclose(outfile);
+    return 0;
+}
 
+static int save_binary_output_file(void)
+{
+/*
+    printf("save_binary_output_file mode:%s addr:%04x size:%04x\n",
+           convert_to_prg ? "prg" : "bin", load_address, loadfile_size);
+*/
+    /* handle vic20 bins that contain a gap between two blocks */
+    if ((machine_class == VICE_MACHINE_VIC20) &&
+        (output_filenames == 2) &&
+        (loadfile_size == 0x4000)) {
+        if (save_binary(filebuffer, output_filename[0], load_address, 0x2000) < 0) {
+            return -1;
+        }
+        /* FIXME: get address for second chunk */
+        if (save_binary(filebuffer + 0x2000, output_filename[1], load_address, 0x2000) < 0) {
+            return -1;
+        }
+    } else {
+        if (save_binary(filebuffer, output_filename[0], load_address, loadfile_size) < 0) {
+            return -1;
+        }
+    }
     crt2bin_ok();
     return 0;
 }
@@ -779,6 +814,7 @@ static void printoptions(char *inputname, char *optionsname)
     char cartname[0x20 + 1];
     FILE *f;
     int crtid;
+    int i;
     
     f = fopen(optionsname, "w");
     
@@ -835,7 +871,9 @@ static void printoptions(char *inputname, char *optionsname)
             fprintf(f, "-s,%d,", headerbuffer[0x1a]);
         }
         fprintf(f, "-n,%s,", cartname);
-        fprintf(f, "-i,%s,", output_filename);
+        for (i = 0; i < output_filenames; i++) {
+            fprintf(f, "-i,%s,", output_filename[i]);
+        }
         /* fprintf(f, "-o %s", input_filename); */
         fprintf(f, "\n");
     }
@@ -1033,11 +1071,11 @@ static int checkflag(char *flg, char *arg)
                 return 1;
             case 'o':
                 checkarg(arg);
-                if (output_filename == NULL) {
-                    output_filename = strdup(arg);
-                } else {
+                if (output_filenames == MAX_OUTPUT_FILES) {
                     usage();
                 }
+                output_filename[output_filenames] = strdup(arg);
+                output_filenames++;
                 return 2;
             case 'n':
                 checkarg(arg);
@@ -1051,7 +1089,7 @@ static int checkflag(char *flg, char *arg)
                 checkarg(arg);
                 if (load_address == 0) {
                     /* load_address = atoi(arg); */
-                    load_address = (int)strtoul(arg, NULL, 0);
+                    load_address = strtoul(arg, NULL, 0);
                 } else {
                     usage();
                 }
@@ -1106,7 +1144,7 @@ static int checkflag(char *flg, char *arg)
                 return 2;
             case 'i':
                 checkarg(arg);
-                if (input_filenames == 33) {
+                if (input_filenames == MAX_INPUT_FILES) {
                     usage();
                 }
                 input_filename[input_filenames] = strdup(arg);
@@ -1155,7 +1193,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    for (i = 0; i < 33; i++) {
+    for (i = 0; i < MAX_INPUT_FILES; i++) {
         input_filename[i] = NULL;
     }
 
@@ -1167,7 +1205,7 @@ int main(int argc, char *argv[])
 
     /* check arguments */
 
-    if (output_filename == NULL) {
+    if (output_filenames == 0) {
         fprintf(stderr, "Error: no output filename\n");
         cleanup();
         exit(1);
@@ -1177,13 +1215,30 @@ int main(int argc, char *argv[])
         cleanup();
         exit(1);
     }
-    if (!strcmp(output_filename, input_filename[0])) {
+    /* FIXME: check any input filename vs any output filename */
+    if (!strcmp(output_filename[0], input_filename[0])) {
         fprintf(stderr, "Error: output filename = input filename\n");
         cleanup();
         exit(1);
     }
 
+    /* if cart type is not given on cmdline and we are loading a crt file, then
+       detect its type */
+    if (cart_type == -1) {
+        if (detect_input_file(input_filename[0]) < 0) {
+            printf("Error: can not detect file type.\n\n");
+        }
+        loadfile_cart_type = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
+        if (headerbuffer[0x17] & 0x80) {
+            /* handle our negative test IDs */
+            loadfile_cart_type -= 0x10000;
+        }
+    }
+
     if (machine_class == VICE_MACHINE_C64) {
+        printf("c64 input_filenames: %d output_filenames: %d\n",
+               input_filenames, output_filenames);
+        /* some formats allow more than one input file */
         if ((input_filenames > 1) &&
             (cart_type != CARTRIDGE_DELA_EP64) && (loadfile_cart_type != CARTRIDGE_DELA_EP64) &&
             (cart_type != CARTRIDGE_DELA_EP256) && (loadfile_cart_type != CARTRIDGE_DELA_EP256) &&
@@ -1200,10 +1255,21 @@ int main(int argc, char *argv[])
             (input_filenames > 8)) {
             too_many_inputs();
         }
+        /* some formats allow more than one output file */
+        if (output_filenames > 1) {
+            too_many_outputs();
+        }
     }
     if (machine_class == VICE_MACHINE_VIC20) {
+        printf("vic20 input_filenames: %d output_filenames: %d cart_type: %d loadfile_cart_type: %d\n",
+               input_filenames, output_filenames, cart_type, loadfile_cart_type);
+        /* some formats allow more than one input file */
         if ((input_filenames > 1) && (cart_type != CARTRIDGE_CRT)) {
             too_many_inputs();
+        }
+        /* some formats allow more than one output file */
+        if ((output_filenames > 1) && (loadfile_cart_type != CARTRIDGE_CRT)) {
+            too_many_outputs();
         }
     }
 

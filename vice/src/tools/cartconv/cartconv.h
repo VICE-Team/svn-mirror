@@ -2,6 +2,9 @@
 #ifndef CARTCONV_H_
 #define CARTCONV_H_
 
+#define MAX_INPUT_FILES     33
+#define MAX_OUTPUT_FILES    2
+
 typedef struct cart_s {
     unsigned char exrom;
     unsigned char game;
