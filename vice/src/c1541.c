@@ -773,6 +773,7 @@ static void print_error_message(int errval)
 }
 
 
+#if 0
 /** \brief  Translate error codes from fsimage-check.c to FD_ error codes
  *
  * \param[in]   err error code from fsimage-check.c
@@ -794,7 +795,7 @@ static int translate_fsimage_error(int err)
             return err;
     }
 }
-
+#endif
 
 /** \brief  Return code for lookup_command(): command not found
  */
@@ -2774,7 +2775,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                     fd = fopen((const char *)name, MODE_WRITE);
                 }
                 if (fd == NULL) {
-                    fprintf(stderr, "cannot create file `%s': %s.",
+                    fprintf(stderr, "cannot create file `%s': %s.\n",
                             name, strerror(errno));
                     vdrive_iec_close(floppy, 0);
                     continue;
