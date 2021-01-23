@@ -18268,6 +18268,10 @@ To copy a REL file, specify the <source> with a @code{,L} file type suffix.
 @item delete <file1> [<file2> @dots{} <fileN>]
 Delete the specified files.
 
+@item disable-libdebug-output
+Disable output of src/lib.c's leak list. This is a debug hook for the c1541
+test bench.
+
 @item exit
 Exit (same as @code{quit}).
 

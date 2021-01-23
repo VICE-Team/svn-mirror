@@ -200,6 +200,9 @@ static int version_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int write_geos_cmd(int nargs, char **args);
 
+static int disable_libdebug_output_cmd(int nargs, char **args);
+
+
 /* other functions */
 static int open_image(int dev, char *name, int create, int disktype);
 
@@ -325,6 +328,11 @@ const command_t command_list[] = {
       "List files matching <pattern> (default is all files).",
       0, 1,
       list_cmd },
+    { "disable-libdebug-output",
+      "disable-libdebug-output",
+      "Disable output of lib.c when compiled with --enable-debug",
+      0, 0,
+      disable_libdebug_output_cmd },
     { "entry",
       "entry [+side] <file1> [<file2> ... <fileN>]",
       "Show detailed directory entry of each <file>.",
@@ -2303,6 +2311,26 @@ static void print_side_sector_group(vdrive_t *vdrive,
         sector = buffer[OFFSET_NEXT_SECTOR];
     }
 }
+
+
+/** \brief  Disable lib.c debug output
+ *
+ * Debug hook: This should only be used when testing c1541's output with the
+ * test bench, so the c1541 test bench can be used on both no-debug and debug
+ * builds when parsing the output of c1541, without the output of lib.c getting
+ * in the way.
+ *
+ * \param[in]   nargs   argument count
+ * \param[in    args    argument list
+ *
+ * \return 0
+ */
+static int disable_libdebug_output_cmd(int nargs, char **args)
+{
+    lib_debug_set_output(0);
+    return 0;
+}
+
 
 /** \brief  Show directory entries of file(s) on disk image(s) in
  * low-level detail.

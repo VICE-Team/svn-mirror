@@ -99,6 +99,12 @@ static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
 #define LIB_DEBUG_UNLOCK() pthread_mutex_unlock(&lib_debug_lock)
 #endif
 
+
+/** \brief  Flag to enable/debug output on exit of emu/tool
+ */
+static int lib_debug_enable_output = 1;
+
+
 /*----------------------------------------------------------------------------*/
 
 #ifdef DEBUG
@@ -478,6 +484,10 @@ static void lib_debug_check(void)
     leakbytes = 0;
     lib_debug_leaklist_num = 0;
 
+    if (!lib_debug_enable_output) {
+        return;
+    }
+
     for (index = 0; index < LIB_DEBUG_SIZE; index++) {
         if (lib_debug_address[index] != NULL) {
             count++;
@@ -821,7 +831,7 @@ char *lib_strdup_trimmed(char *str)
 
     copy = lib_strdup(str);
     trimmed = copy;
-                
+
     /* trim leading whitespace */
     while (*trimmed != '\0') {
         if (*trimmed == ' ' || *trimmed == '\t') {
@@ -839,7 +849,7 @@ char *lib_strdup_trimmed(char *str)
             break;
         }
     }
-    
+
     trimmed = lib_strdup(trimmed);
 
     lib_free(copy);
@@ -886,4 +896,9 @@ void lib_init(void)
 #endif
 }
 
+
+void lib_debug_set_output(int state)
+{
+    lib_debug_enable_output = state;
+}
 

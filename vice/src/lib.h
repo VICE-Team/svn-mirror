@@ -99,4 +99,6 @@ extern void lib_FreeMem(void *ptr, unsigned long size);
 
 extern char *lib_strdup_trimmed(char *str);
 
+extern void lib_debug_set_output(int state);
+
 #endif
