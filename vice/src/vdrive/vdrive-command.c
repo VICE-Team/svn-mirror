@@ -193,6 +193,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
     }
 
     /* process commands which shouldn't have the CR stripped */
+    /* they check the image context internally before proceeding */
     switch (buf[0]) {
         case 'G': /* get partition info */
             status = vdrive_command_getpartinfo(vdrive, buf, length);
@@ -207,6 +208,13 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
             }
             break;
     }
+
+#if 0
+    /* if no image context leave as just about everything after this needs one */
+    if (!vdrive->image) {
+        return vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 0, 0);
+    }
+#endif
 
     status = CBMDOS_IPE_INVAL;
 
@@ -3506,6 +3514,7 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
     unsigned int len = buf[0];
     int i, job;
     int jobs = 0, tracksector = 0, maxjobs = 0;
+    unsigned int type = 0;
 
     /* make sure we have enough data */
     if (len + 1 > length - 5) {
@@ -3527,8 +3536,13 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
         vdrive->ram[(addr + i) & 0x7fff] = buf[1 + i];
     } 
 
+    /* grab a valid image type as there may be no context */
+    if (vdrive->image) {
+        type = vdrive->image->type;
+    }
+
     /* emulate job queue */
-    switch (vdrive->image->type) {
+    switch (type) {
         case DISK_IMAGE_TYPE_P64:
         case DISK_IMAGE_TYPE_G64:
         case DISK_IMAGE_TYPE_D64:

@@ -36,8 +36,8 @@
 #define NUM_DRIVES              2
 
 #define VDRIVE_PART_SUPPORTED(a) (vdrive->ptype[a]>=1 && vdrive->ptype[a]<=4)
-#define VDRIVE_IS_FD(a) (a->image->type == DISK_IMAGE_TYPE_D1M || a->image->type == DISK_IMAGE_TYPE_D2M || a->image->type == DISK_IMAGE_TYPE_D4M )
-#define VDRIVE_IS_HD(a) (a->image->type == DISK_IMAGE_TYPE_DHD)
+#define VDRIVE_IS_FD(a) (a->image && (a->image->type == DISK_IMAGE_TYPE_D1M || a->image->type == DISK_IMAGE_TYPE_D2M || a->image->type == DISK_IMAGE_TYPE_D4M ))
+#define VDRIVE_IS_HD(a) (a->image && (a->image->type == DISK_IMAGE_TYPE_DHD))
 
 /* High level disk formats.
    They can be different than the disk image type.  */

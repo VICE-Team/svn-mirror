@@ -176,7 +176,6 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
     vdrive_alloc_buffer(p, BUFFER_DIRECTORY_READ);
 
     p->timemode = 0;
-    p->small = 0;
     if (cmd_parse->command && cmd_parse->commandlength > 2
         && cmd_parse->command[1] == '=') {
         if (cmd_parse->command[2] == 'T') {
@@ -424,9 +423,11 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
 #endif
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE#%i: OPEN: Name '%s' (%u) on ch %d.",
+    log_debug("VDRIVE#%u: OPEN: Name '%s' (%u) on ch %u.",
               vdrive->unit, name, length, secondary);
 #endif
+
+    p->small = 0;
 
     /*
      * If channel is command channel, name will be used as write. Return only
@@ -896,7 +897,7 @@ static int iec_read_sequential(vdrive_t *vdrive, uint8_t *data,
     if (p->bufptr) {
         return SERIAL_OK;
     }
-    /* do not signal EOF when p->small is 0; get new data */
+    /* do not signal EOF when p->small is 1; get new data */
     if (!p->small && p->length) {
         p->readmode = CBMDOS_FAM_EOF;
         return SERIAL_EOF;
