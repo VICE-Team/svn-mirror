@@ -77,6 +77,12 @@
 
 */
 
+/* character to be used as a marker for long names. this must be a valid character
+   in a petscii filename, but an invalid character in the host filesystem. in
+   practise that means we have to use the forward slash, as this is the only
+   invalid character in filenames on linux. */
+#define LONGNAMEMARKER '/'
+
 /*
     convert real (long) name into shortened representation
 
@@ -131,7 +137,7 @@ static int _limit_longname(struct ioutil_dir_s *ioutil_dir, vdrive_t *vdrive, ch
                 if (!strcmp(newname, longname)) {
                     DBG(("limit_longname found full '%s'\n", longname));
                     longname[14] = dirposmark[dirpos];
-                    longname[15] = '/';     /* FIXME: use macro */
+                    longname[15] = LONGNAMEMARKER;
                     longname[16] = 0;
                     break;
                 }
