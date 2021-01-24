@@ -1027,7 +1027,7 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int status;
 
-    if ((vdrive->image->read_only) && p->mode != BUFFER_COMMAND_CHANNEL) {
+    if ((vdrive->image) && (vdrive->image->read_only) && (p->mode != BUFFER_COMMAND_CHANNEL)) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
@@ -1038,7 +1038,7 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
                   p->mode, 0, 0, data, (isprint(data) ? data : '.'));
     }
 #endif
-
+    /* FIXME: handle the case when no disk is in the drive (no image mounted) */
     switch (p->mode) {
         case BUFFER_NOT_IN_USE:
             /* real drives return 128 and don't set command error */
