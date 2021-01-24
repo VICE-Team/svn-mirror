@@ -1354,8 +1354,8 @@ int vdrive_ispartvalid(vdrive_t *vdrive, int part)
     return 0;
 }
 
-inline int min(int a, int b);
-inline int min(int a, int b) {
+static inline int min(int a, int b);
+static inline int min(int a, int b) {
     if (a > b)
         return b;
     return a;
