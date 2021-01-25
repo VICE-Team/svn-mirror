@@ -126,7 +126,7 @@ mkdir $BINDIST_DIR
 # Copy binaries.  Strip them unless VICE is configured with "--enable-debug".
 for i in $EXECUTABLES; do
   cp $TOPBUILDDIR/src/$i.exe $BINDIST_DIR
-  $STRIP $BINDIST_DIR/$i.exe
+  $STRIP $BINDIST_DIR/$(basename $i).exe
 done
 
 
