@@ -850,8 +850,10 @@ static void disk_eof_callback(void)
             if (buffer) {
                 log_message(autostart_log, "Restoring true drive state of drive %d:%d.",
                             autostart_disk_unit, autostart_disk_drive);
-                drive_set_disk_memory(id, track, sector, diskunit_context[0]);
-                drive_set_last_read(track, sector, buffer, diskunit_context[0]);
+                drive_set_disk_memory(id, track, sector,
+                                    diskunit_context[autostart_disk_unit - DRIVE_UNIT_MIN]);
+                drive_set_last_read(track, sector, buffer,
+                                    diskunit_context[autostart_disk_unit - DRIVE_UNIT_MIN]);
             } else {
                 log_message(autostart_log, "No Disk Image in drive %d:%d.",
                             autostart_disk_unit, autostart_disk_drive);
