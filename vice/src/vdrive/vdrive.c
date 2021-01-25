@@ -138,6 +138,7 @@ int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
     vdrive->sys_offset = UINT32_MAX;
     vdrive->image_format = VDRIVE_IMAGE_FORMAT_NONE;
     vdrive->image = NULL;
+    vdrive->image_mode = -1;
     vdrive->current_part = -1;
 
     for (i = 0; i < NUM_DRIVES; i++ ) {
@@ -197,6 +198,7 @@ log_debug("VDRIVE: refresh unit %u", unit);
     vdrive->current_offset = 0;
     vdrive->sys_offset = UINT32_MAX;
     vdrive->image = NULL;
+    vdrive->image_mode = -1;
     vdrive->current_part = -1;
     vdrive->dir_part = 0;
 
@@ -350,6 +352,7 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
         lib_free(vdrive->bam);
         vdrive->bam = NULL;
         vdrive->image = NULL;
+        vdrive->image_mode = -1;
         vdrive->current_part = -1;
         vdrive->selected_part = -1;
     } else {
@@ -358,6 +361,7 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
             lib_free(vdrive->bam);
             vdrive->bam = NULL;
             vdrive->image = NULL;
+            vdrive->image_mode = -1;
             vdrive->current_part = -1;
             vdrive->selected_part = -1;
         }
@@ -579,6 +583,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
 
 bad:
     vdrive->images[drive] = NULL;
+    vdrive->image_mode = -1;
     vdrive->haspt = 0;
     vdrive->current_part = -1;
 
@@ -791,7 +796,7 @@ static int vdrive_log_to_phy(vdrive_t *vdrive, disk_addr_t *dadr, unsigned int t
     unsigned int offset;
 
     /* if no partition set, return -1, eventually becomes a drive not ready */
-    if (vdrive->current_offset == UINT32_MAX) {
+    if (vdrive->current_offset == UINT32_MAX || !vdrive->image) {
         return -1;
     }
 
@@ -903,8 +908,18 @@ static int vdrive_log_to_phy(vdrive_t *vdrive, disk_addr_t *dadr, unsigned int t
             dadr->track = (offset >> 8) + 1;
             dadr->sector = offset & 255;
         }
-    }
-    else {
+    } else if (vdrive->image->type == DISK_IMAGE_TYPE_G71) {
+        /* can't support extra tracks on G71 */
+        if (track > 70) {
+            return -1;
+        }
+        dadr->track = track;
+        dadr->sector = sector;
+        /* have to map logical track 36+ to 43+ */
+        if (track > 35) {
+            dadr->track += 7;
+        }
+    } else {
         dadr->track = track;
         dadr->sector = sector;
     }
@@ -923,12 +938,25 @@ int vdrive_read_sector(vdrive_t *vdrive, uint8_t *buf, unsigned int track, unsig
     disk_addr_t dadr;
     int ret;
 
+    /* update image mode if disk is attached */
+    if (vdrive->image) {
+        vdrive->image_mode = vdrive->image->read_only;
+    }
+    /* check image mode */
+    if (vdrive->image_mode < 0) {
+        return CBMDOS_IPE_NOT_READY;
+    }
     ret = vdrive_log_to_phy(vdrive, &dadr, track, sector);
     if (ret < 0) {
         return CBMDOS_IPE_NOT_READY;
     }
 
-    return disk_image_read_sector(vdrive->image, buf, &dadr);
+    ret = disk_image_read_sector(vdrive->image, buf, &dadr);
+#ifdef DEBUG_DRIVE
+    log_debug("VDRIVE: read_sector %u %u = %d", dadr.track, dadr.sector, ret);
+#endif
+
+    return ret;
 }
 
 int vdrive_write_sector(vdrive_t *vdrive, const uint8_t *buf, unsigned int track, unsigned int sector)
@@ -936,12 +964,28 @@ int vdrive_write_sector(vdrive_t *vdrive, const uint8_t *buf, unsigned int track
     disk_addr_t dadr;
     int ret;
 
+    /* update image mode if disk is attached */
+    if (vdrive->image) {
+        vdrive->image_mode = vdrive->image->read_only;
+    }
+    /* check image mode */
+    if (vdrive->image_mode > 0) {
+        return CBMDOS_IPE_WRITE_PROTECT_ON;
+    } else if (vdrive->image_mode < 0) {
+        return CBMDOS_IPE_NOT_READY;
+    }
     ret = vdrive_log_to_phy(vdrive, &dadr, track, sector);
     if (ret < 0) {
         return CBMDOS_IPE_NOT_READY;
     }
 
-    return disk_image_write_sector(vdrive->image, buf, &dadr);
+    ret = disk_image_write_sector(vdrive->image, buf, &dadr);
+
+#ifdef DEBUG_DRIVE
+    log_debug("VDRIVE: write_sector %u %u = %d", dadr.track, dadr.sector, ret);
+#endif
+
+    return ret;
 }
 
 int vdrive_read_sector_physical(vdrive_t *vdrive, uint8_t *buf, unsigned int track, unsigned int sector)
@@ -1215,7 +1259,7 @@ int vdrive_write_partition_table(vdrive_t *vdrive)
 }
 
 /* 0 if okay, anything else, dos error */
-int vdrive_change_part(vdrive_t *vdrive, int part)
+static int vdrive_change_part(vdrive_t *vdrive, int part)
 {
     unsigned int old_co, old_if;
     int ret = CBMDOS_IPE_OK;
@@ -1268,6 +1312,7 @@ int vdrive_change_part(vdrive_t *vdrive, int part)
             if (vdrive->ptype[part] == 1) {
                 vdrive->num_tracks = vdrive->psize[part] >> 7;
             }
+            vdrive->image_mode = vdrive->image->read_only;
         /* only allow switches to system partition if part# is 255 and type is 255 */
         } else if (part == 255 && vdrive->ptype[part] == 255) {
             old_if = VDRIVE_IMAGE_FORMAT_SYS;
@@ -1286,6 +1331,7 @@ int vdrive_change_part(vdrive_t *vdrive, int part)
             vdrive->image = vdrive->images[part];
             vdrive->current_offset = 0;
             vdrive->current_part = part;
+            vdrive->image_mode = vdrive->image->read_only;
         } else {
             ret = CBMDOS_IPE_NOT_READY;
         }
@@ -1547,9 +1593,7 @@ int vdrive_switch(vdrive_t *vdrive, int part)
 
     if (ret) {
         /* flush current bam */
-        if (vdrive->bam) {
-            vdrive_bam_write_bam(vdrive);
-        }
+        vdrive_bam_write_bam(vdrive);
         /* try to change to selected partition */
         ret = vdrive_change_part(vdrive, part);
         if (!ret) {
@@ -1566,6 +1610,17 @@ int vdrive_switch(vdrive_t *vdrive, int part)
             vdrive->current_offset = UINT32_MAX;
             vdrive->current_part = -1;
         }
+    }
+
+    /* make sure to restore to "selected" internal 1581 partition regardless if
+        the partition is switched */
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581 &&
+        (vdrive->Part_Start != vdrive->cpartstart[vdrive->current_part]
+            || vdrive->Part_End != vdrive->cpartend[vdrive->current_part]) ) {
+        /* flush current bam */
+        vdrive_bam_write_bam(vdrive);
+        vdrive_bam_setup_bam(vdrive);
+        vdrive_set_disk_geometry(vdrive);
     }
 
 #ifdef DEBUG_DRIVE

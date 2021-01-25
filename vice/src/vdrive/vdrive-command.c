@@ -561,11 +561,16 @@ static int vdrive_command_u1a2b(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
             if (cmd->command[1] == '2' || cmd->command[1] == 'B') {
                 /* For write */
+#if 0
                 if (vdrive->image->read_only) {
                     status = CBMDOS_IPE_WRITE_PROTECT_ON;
                     goto out;
                 }
-                if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer, track, sector) < 0) {
+#endif
+                status = vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
+                if (status > 0) {
+                    goto out;
+                } else if (status < 0) {
                     track = 0;
                     sector = 0;
                     status = CBMDOS_IPE_NOT_READY;
@@ -573,12 +578,10 @@ static int vdrive_command_u1a2b(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 }
             } else if (cmd->command[1] == '1' || cmd->command[1] == 'A') {
                 /* For read */
-                rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
-                if (rc > 0) {
-                    status = rc;
+                status = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
+                if (status > 0) {
                     goto out;
-                }
-                if (rc < 0) {
+                } else if (status < 0) {
                     track = 0;
                     sector = 0;
                     status = CBMDOS_IPE_NOT_READY;
@@ -586,7 +589,6 @@ static int vdrive_command_u1a2b(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 }
             }
             vdrive->buffers[channel].bufptr = 0;
-            status = CBMDOS_IPE_OK;
             track = 0;
             sector = 0;
         } else {
@@ -613,7 +615,7 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     /* set all parameters to 0 by default */
     int channel = 0, drive = 0, track = 0, sector = 0, position = 0;
     int t = 0, s = 0;
-    int l, rc;
+    int l;
     int origpart = -1;
 
 #ifdef DEBUG_DRIVE
@@ -661,42 +663,44 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
                 if (cmd->abbrv[2] == 'W') {
                     /* For write */
+#if 0
                     if (vdrive->image->read_only) {
                         status = CBMDOS_IPE_WRITE_PROTECT_ON;
                         t = track;
                         s = sector;
                         goto out;
                     }
+#endif
                     /* Update length of block based on the buffer pointer. */
                     l = vdrive->buffers[channel].bufptr - 1;
                     vdrive->buffers[channel].buffer[0] = ( l < 1 ? 1 : l );
-                    if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer, track, sector) < 0) {
+                    status = vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
+                    if (status < 0) {
                         status = CBMDOS_IPE_NOT_READY;
+                        goto out;
+                    } else if (status > 0) {
                         goto out;
                     }
                     /* after write, buffer pointer is 1. */
                     vdrive->buffers[channel].bufptr = 1;
                 } else {
                     /* For read */
-                    rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
-                    /* set buffer length base on first value */
-                    vdrive->buffers[channel].length =
-                        vdrive->buffers[channel].buffer[0] + 1;
-                    /* buffer pointer is 1, not 0. */
-                    vdrive->buffers[channel].bufptr = 1;
-                    if (rc > 0) {
+                    status = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
+                    if (status > 0) {
                         t = track;
                         s = sector;
-                        status = rc;
                         goto out;
-                    }
-                    if (rc < 0) {
+                    } else if (status < 0) {
                         t = track;
                         s = sector;
                         status = CBMDOS_IPE_NOT_READY;
                         goto out;
                     }
-                    status = rc;
+                    /* set buffer length base on first value */
+                    vdrive->buffers[channel].length =
+                        vdrive->buffers[channel].buffer[0] + 1;
+                    /* buffer pointer is 1, not 0. */
+                    vdrive->buffers[channel].bufptr = 1;
                 }
             } else {
                 log_error(vdrive_command_log, "b-r/w invalid parameter "
@@ -707,7 +711,7 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
             break;
         case 'A':
         case 'F':
-            if (vdrive->image->read_only) {
+            if (VDRIVE_IS_READONLY(vdrive)) {
                 status = CBMDOS_IPE_WRITE_PROTECT_ON;
                 goto out;
             }
@@ -858,7 +862,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -1311,7 +1315,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -1434,7 +1438,7 @@ static int vdrive_command_renameheader(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -1518,7 +1522,7 @@ static int vdrive_command_renamepart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -1630,7 +1634,7 @@ static int vdrive_command_lockunlock(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -1845,6 +1849,8 @@ void vdrive_command_return(vdrive_t *vdrive, int origpart)
     }
 
     /* reset directory pointers, etc. if the current parition is the one we traversed */
+    /* don't need to flush the bam here as that would apply to 1581 only and they
+        can have their partitions changed in a command */
     if (origpart == vdrive->current_part) {
         vdrive_set_disk_geometry(vdrive);
     }
@@ -1858,7 +1864,6 @@ int vdrive_command_switch(vdrive_t *vdrive, int part)
     if (part == 255) {
         return 1;
     }
-/*    vdrive_set_disk_geometry(vdrive); */
     return vdrive_switch(vdrive, part);
 }     
 
@@ -1877,7 +1882,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -2175,6 +2180,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* if no filename after '/', reset to root paritition */
     if (!cmd->filelength) {
+        vdrive_bam_write_bam(vdrive);
         /* force vdrive_set_disk_geometry to update presistent values */
         vdrive->cheadertrack[vdrive->current_part] = 0;
         vdrive_set_disk_geometry(vdrive);
@@ -2196,7 +2202,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     /* check to see if we are in create mode */
     if (cmd->morelength >= 7 && cmd->more[0] == ',' && cmd->more[5] == ',' && cmd->more[6] == 'C') {
         /* read only mode? */
-        if (vdrive->image->read_only) {
+        if (VDRIVE_IS_READONLY(vdrive)) {
             status = CBMDOS_IPE_WRITE_PROTECT_ON;
             goto out;
         }
@@ -2378,7 +2384,7 @@ static int vdrive_command_mkdir(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -2545,7 +2551,7 @@ static int vdrive_command_rmdir(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* leave if write protected */
     status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         goto out;
     }
 
@@ -2630,10 +2636,14 @@ static int vdrive_command_initialize(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
 
     vdrive_close_all_channels_partition(vdrive, vdrive->current_part);
 
+    /* on 1581s, goto root partition */
     if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) {
+        vdrive_bam_write_bam(vdrive);
         /* force vdrive_set_disk_geometry to update presistent values */
         vdrive->cheadertrack[vdrive->current_part] = 0;
         vdrive_set_disk_geometry(vdrive);
+        /* update the BAM in ram */
+        vdrive_bam_setup_bam(vdrive);
     }
 
     /* Update BAM in memory.  */
@@ -2691,7 +2701,7 @@ static int vdrive_command_validate_internal(vdrive_t *vdrive, cbmdos_cmd_parse_p
 /* backup current partition information */
     int origpart = vdrive->current_part;
 
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         return CBMDOS_IPE_WRITE_PROTECT_ON;
     }
 
@@ -2923,7 +2933,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
     vdrive_command_set_error(vdrive, CBMDOS_IPE_OK, 0, 0);
 
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         status = CBMDOS_IPE_WRITE_PROTECT_ON;
         goto out;
     }
@@ -3065,7 +3075,7 @@ static int vdrive_command_format_internal(vdrive_t *vdrive, cbmdos_cmd_parse_plu
 /* backup current partition information */
     int origpart = vdrive->current_part;
 
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         return CBMDOS_IPE_WRITE_PROTECT_ON;
     }
 
@@ -3306,7 +3316,7 @@ int vdrive_command_format(struct vdrive_s *vdrive, const char *disk_name)
         return CBMDOS_IPE_SYNTAX;
     }
 
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         return CBMDOS_IPE_WRITE_PROTECT_ON;
     }
 
@@ -3315,6 +3325,8 @@ int vdrive_command_format(struct vdrive_s *vdrive, const char *disk_name)
             return CBMDOS_IPE_NOT_READY;
         }
     }
+
+    /* TODO: the cmd structure should just be created and passed to the format function */
 
     /* create NEW command */
     length = strlen(disk_name);
@@ -3344,6 +3356,12 @@ int vdrive_command_format(struct vdrive_s *vdrive, const char *disk_name)
 
     if (status != CBMDOS_IPE_OK) {
         goto out;
+    }
+
+    /* add an ID, if it isn't there, to force a full format */
+    if (!cmd.more) {
+        cmd.more = (uint8_t*)lib_strdup(",  ");
+        cmd.morelength = 3;
     }
 
     status = vdrive_command_format_internal(vdrive, &cmd);
@@ -3606,7 +3624,7 @@ log_warning(LOG_DEFAULT,"job #%d read sector %u %u",i,(unsigned int)vdrive->ram[
 #ifdef DEBUG_DRIVE
 log_warning(LOG_DEFAULT,"job #%d write sector %u %u",i,(unsigned int)vdrive->ram[tracksector + (i << 1)], (unsigned int)vdrive->ram[tracksector + (i << 1) + 1]);
 #endif
-                    if (!vdrive->image->read_only) {
+                    if (!VDRIVE_IS_READONLY(vdrive)) {
                         vdrive_switch(vdrive, vdrive->selected_part);
                         if (vdrive_write_sector(vdrive, &(vdrive->ram[0x300 + (i << 8)]), vdrive->ram[tracksector + (i << 1)], vdrive->ram[tracksector + (i << 1) + 1])) {
                             vdrive->ram[jobs + i] = 7;
@@ -3873,7 +3891,7 @@ static int vdrive_command_getpartinfo(vdrive_t *vdrive, const uint8_t *cmd, int 
 
     /* try to change to system partition */
     if (vdrive_switch(vdrive, 255)) {
-        goto out;
+        goto bad;
     }
 
     /* assume the paritions t/s links are correct, we won't follow them */
@@ -3926,10 +3944,6 @@ static int vdrive_command_getpartinfo(vdrive_t *vdrive, const uint8_t *cmd, int 
     p->readmode = CBMDOS_FAM_READ;
 
     return CBMDOS_IPE_OK;
-
-out:
-    vdrive_set_disk_geometry(vdrive);
-    vdrive_bam_setup_bam(vdrive);
 
 bad:
     vdrive_command_set_error(vdrive, CBMDOS_IPE_INVAL, 0, 0);

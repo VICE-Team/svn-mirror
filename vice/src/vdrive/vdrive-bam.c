@@ -1375,19 +1375,19 @@ static int vdrive_bam_read_bam_block(vdrive_t *vdrive, unsigned int block)
         case VDRIVE_IMAGE_FORMAT_8050:
         case VDRIVE_IMAGE_FORMAT_8250:
             if (!block) {
-                err = vdrive_read_sector(vdrive, vdrive->bam, BAM_TRACK_8050, BAM_SECTOR_8050);
+                err = vdrive_read_sector(vdrive, vdrive->bam, HDR_TRACK_8050, HDR_SECTOR_8050);
             } else if (block == 1) {
-                err = vdrive_read_sector(vdrive, vdrive->bam + 256, BAM_TRACK_8050 - 1, BAM_SECTOR_8050);
+                err = vdrive_read_sector(vdrive, vdrive->bam + 256, BAM_TRACK_8050, BAM_SECTOR_8050);
             } else if (block == 2) {
-                err = vdrive_read_sector(vdrive, vdrive->bam + 512, BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 3);
+                err = vdrive_read_sector(vdrive, vdrive->bam + 512, BAM_TRACK_8050, BAM_SECTOR_8050 + 3);
             }
             if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8050) {
                 break;
             }
             if (block == 3) {
-                err = vdrive_read_sector(vdrive, vdrive->bam + 768, BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 6);
+                err = vdrive_read_sector(vdrive, vdrive->bam + 768, BAM_TRACK_8050, BAM_SECTOR_8050 + 6);
             } else if (block == 4) {
-                err = vdrive_read_sector(vdrive, vdrive->bam + 1024, BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
+                err = vdrive_read_sector(vdrive, vdrive->bam + 1024, BAM_TRACK_8050, BAM_SECTOR_8050 + 9);
             }
             break;
         case VDRIVE_IMAGE_FORMAT_NP:
@@ -1507,21 +1507,21 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
         case VDRIVE_IMAGE_FORMAT_8050:
         case VDRIVE_IMAGE_FORMAT_8250:
             if (vdrive->bam_state[0] > 0) {
-                err = vdrive_write_sector(vdrive, vdrive->bam, BAM_TRACK_8050, BAM_SECTOR_8050);
+                err = vdrive_write_sector(vdrive, vdrive->bam, HDR_TRACK_8050, HDR_SECTOR_8050);
                 if (err != 0) {
                     break;
                 }
                 vdrive->bam_state[0] = 0;
             }
             if (vdrive->bam_state[1] > 0) {
-                err = vdrive_write_sector(vdrive, vdrive->bam + 256, BAM_TRACK_8050 - 1, BAM_SECTOR_8050);
+                err = vdrive_write_sector(vdrive, vdrive->bam + 256, BAM_TRACK_8050, BAM_SECTOR_8050);
                 if (err != 0) {
                     break;
                 }
                 vdrive->bam_state[1] = 0;
             }
             if (vdrive->bam_state[2] > 0) {
-                err = vdrive_write_sector(vdrive, vdrive->bam + 512, BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 3);
+                err = vdrive_write_sector(vdrive, vdrive->bam + 512, BAM_TRACK_8050, BAM_SECTOR_8050 + 3);
                 if (err != 0) {
                     break;
                 }
@@ -1533,14 +1533,14 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
             }
 
             if (vdrive->bam_state[3] > 0) {
-                err = vdrive_write_sector(vdrive, vdrive->bam + 768, BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 6);
+                err = vdrive_write_sector(vdrive, vdrive->bam + 768, BAM_TRACK_8050, BAM_SECTOR_8050 + 6);
                 if (err != 0) {
                     break;
                 }
                 vdrive->bam_state[3] = 0;
             }
             if (vdrive->bam_state[4] > 0) {
-                err = vdrive_write_sector(vdrive, vdrive->bam + 1024, BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
+                err = vdrive_write_sector(vdrive, vdrive->bam + 1024, BAM_TRACK_8050, BAM_SECTOR_8050 + 9);
                 if (err != 0) {
                     break;
                 }

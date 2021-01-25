@@ -78,6 +78,7 @@ void vdrive_iec_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+#if 0
 void vdrive_iec_unswitch(vdrive_t *vdrive, bufferinfo_t *p)
 {
     /* switch to selected 1581 partition */
@@ -87,6 +88,7 @@ void vdrive_iec_unswitch(vdrive_t *vdrive, bufferinfo_t *p)
         vdrive_set_disk_geometry(vdrive);
     }
 }
+#endif
 
 int vdrive_iec_switch(vdrive_t *vdrive, bufferinfo_t *p)
 {
@@ -184,7 +186,9 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
             p->timemode = 1;
         } else if (cmd_parse->command[2] == 'P' && vdrive->haspt) {
             /* switch out of whatever partition may have been selected */
+#if 0
             vdrive_iec_unswitch(vdrive, p);
+#endif
             /* switch to system partition */
             p->partition = 255;
             /* make sure there is a system partition */
@@ -221,7 +225,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
     int retval;
 
     /* we should already be in the proper partition at this point */
-    if (vdrive->image->read_only) {
+    if (VDRIVE_IS_READONLY(vdrive)) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
@@ -673,13 +677,25 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
     }
 
 out:
+#if 0
     vdrive_iec_unswitch(vdrive, p);
+#endif
 
-    if (cmd_parse_stat.abbrv) lib_free(cmd_parse_stat.abbrv);
-    if (cmd_parse_stat.path) lib_free(cmd_parse_stat.path);
-    if (cmd_parse_stat.file) lib_free(cmd_parse_stat.file);
-    if (cmd_parse_stat.more) lib_free(cmd_parse_stat.more);
-    if (cmd_parse_stat.command) lib_free(cmd_parse_stat.command);
+    if (cmd_parse_stat.abbrv) {
+        lib_free(cmd_parse_stat.abbrv);
+    }
+    if (cmd_parse_stat.path) {
+        lib_free(cmd_parse_stat.path);
+    }
+    if (cmd_parse_stat.file) {
+        lib_free(cmd_parse_stat.file);
+    }
+    if (cmd_parse_stat.more) {
+        lib_free(cmd_parse_stat.more);
+    }
+    if (cmd_parse_stat.command) {
+        lib_free(cmd_parse_stat.command);
+    }
 
     return status;
 }
@@ -776,7 +792,7 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
          * Flush bytes and write slot to directory
          */
 
-        if (vdrive->image->read_only) {
+        if (VDRIVE_IS_READONLY(vdrive)) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
             return SERIAL_ERROR;
         }
@@ -822,7 +838,9 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
         /* Update BAM */
         vdrive_bam_write_bam(vdrive);
 
+#if 0
         vdrive_iec_unswitch(vdrive, p);
+#endif
 
         /* Free up the slot */
         lib_free(p->slot);
@@ -946,7 +964,9 @@ static int iec_read_sequential(vdrive_t *vdrive, uint8_t *data,
             break;
     }
 
+#if 0
     vdrive_iec_unswitch(vdrive, p);
+#endif
 
     return SERIAL_OK;
 }
@@ -1027,9 +1047,18 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int status;
 
-    if ((vdrive->image) && (vdrive->image->read_only) && (p->mode != BUFFER_COMMAND_CHANNEL)) {
-        vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
-        return SERIAL_ERROR;
+    if (!vdrive->image) {
+        status = vdrive_iec_switch(vdrive, p);
+        if (!status && VDRIVE_IS_READONLY(vdrive) && p->mode != BUFFER_COMMAND_CHANNEL) {
+            status = CBMDOS_IPE_WRITE_PROTECT_ON;
+        }
+        if (status) {
+            vdrive_command_set_error(vdrive, status, 0, 0);
+#if 0
+            vdrive_iec_unswitch(vdrive, p);
+#endif
+            return SERIAL_ERROR;
+        }
     }
 
 #ifdef DEBUG_DRIVE
@@ -1038,7 +1067,7 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
                   p->mode, 0, 0, data, (isprint(data) ? data : '.'));
     }
 #endif
-    /* FIXME: handle the case when no disk is in the drive (no image mounted) */
+
     switch (p->mode) {
         case BUFFER_NOT_IN_USE:
             /* real drives return 128 and don't set command error */
@@ -1065,7 +1094,9 @@ int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
                 p->bufptr = 2;
                 vdrive_iec_switch(vdrive, p);
                 status = iec_write_sequential(vdrive, p, WRITE_BLOCK);
+#if 0
                 vdrive_iec_unswitch(vdrive, p);
+#endif
                 if (status < 0) {
                     return SERIAL_ERROR;
                 }

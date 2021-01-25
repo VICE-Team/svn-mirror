@@ -870,7 +870,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
             cmd_parse->file, cmd_parse->recordlength, secondary);
 
         /* abort if we are in read only mode */
-        if (vdrive->image->read_only) {
+        if (VDRIVE_IS_READONLY(vdrive)) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
             return SERIAL_ERROR;
         }
@@ -1059,7 +1059,9 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
 
     status = vdrive_rel_position_internal(vdrive, secondary, rec_lo, rec_hi, position);
 
+#if 0
     vdrive_iec_unswitch(vdrive, p);
+#endif
 
     return status;
 }
@@ -1134,8 +1136,10 @@ static int vdrive_rel_position_internal(vdrive_t *vdrive, unsigned int secondary
         if (vdrive_read_sector(vdrive, p->buffer, track, sector) != 0) {
             log_error(vdrive_rel_log, "Cannot read track %u sector %u.",
                     track, sector);
+#if 0
 /* FIXME: don't think we need this unswitch */
             vdrive_iec_unswitch(vdrive, p);
+#endif
             return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
         }
         p->track = track;
@@ -1369,7 +1373,9 @@ int vdrive_rel_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
     ret = SERIAL_OK;
 
 out:
+#if 0
     vdrive_iec_unswitch(vdrive, p);
+#endif
 
     return ret;
 }
@@ -1378,10 +1384,20 @@ int vdrive_rel_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int ret = SERIAL_OK;
+    int status;
 
-    if (vdrive->image->read_only) {
-        vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
-        return SERIAL_ERROR;
+    if (!vdrive->image) {
+        status = vdrive_iec_switch(vdrive, p);
+        if (!status && VDRIVE_IS_READONLY(vdrive) && p->mode != BUFFER_COMMAND_CHANNEL) {
+            status = CBMDOS_IPE_WRITE_PROTECT_ON;
+        }
+        if (status) {
+            vdrive_command_set_error(vdrive, status, 0, 0);
+#if 0
+            vdrive_iec_unswitch(vdrive, p);
+#endif
+            return SERIAL_ERROR;
+        }
     }
 
     /* Check if we need to grow the REL file. */
@@ -1398,8 +1414,8 @@ int vdrive_rel_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
      */
     if (p->buffer[0]) {
         if (p->bufptr >= 256) {
-            int status = 0;
             unsigned int track, sector;
+            status = 0;
 
             track = (unsigned int)p->buffer[0];
             sector = (unsigned int)p->buffer[1];
@@ -1486,7 +1502,9 @@ int vdrive_rel_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
         function. */
 
 out:
+#if 0
     vdrive_iec_unswitch(vdrive, p);
+#endif
 
     return ret;
 }
@@ -1518,7 +1536,9 @@ int vdrive_rel_close(vdrive_t *vdrive, unsigned int secondary)
     /* Free the slot */
     lib_free(p->slot);
 
+#if 0
     vdrive_iec_unswitch(vdrive, p);
+#endif
 
     return SERIAL_OK;
 }
@@ -1580,7 +1600,9 @@ void vdrive_rel_listen(vdrive_t *vdrive, unsigned int secondary)
         log_debug("Forced from write to position %u, 0 on channel %u.",
                 p->record, secondary);
 
+#if 0
         vdrive_iec_unswitch(vdrive, p);
+#endif
     }
 }
 
