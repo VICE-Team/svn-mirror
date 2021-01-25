@@ -161,7 +161,7 @@ static int trigger_monitor = 0;
 
 int autostart_ignore_reset = 0; /* FIXME: only used by datasette.c, does it really have to be global? */
 
-static int autostart_disk_unit = 8; /* set by setup_for_disk */
+static int autostart_disk_unit = DRIVE_UNIT_MIN; /* set by setup_for_disk */
 static int autostart_disk_drive = 0; /* set by setup_for_disk */
 
 #define AUTOSTART_DISK_IMAGE    0
@@ -696,7 +696,7 @@ static void restore_drive_emulation_state(int unit, int drive)
     orig_FileSystemDevice8 = -1;
     orig_FSDevice8ConvertP00 = -1;
 
-    autostart_disk_unit = 8;
+    autostart_disk_unit = DRIVE_UNIT_MIN;
     autostart_disk_drive = 0;
 
     autostart_type = -1;
@@ -1386,7 +1386,7 @@ int autostart_tape(const char *file_name, const char *program_name,
 
     /* make sure to init TDE and traps status before each autostart */
     /* FIXME: this should perhaps be handled differently for tape */
-    init_drive_emulation_state(8, 0);
+    init_drive_emulation_state(DRIVE_UNIT_MIN, 0);
 
     /* reset datasette emulation and remove the tape image. */
     datasette_control(DATASETTE_CONTROL_RESET);
@@ -1424,7 +1424,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
 
-    /* restore_drive_emulation_state(8); */
+    /* restore_drive_emulation_state(DRIVE_UNIT_MIN); */
     return -1;
 }
 
@@ -1604,7 +1604,7 @@ int autostart_disk(int unit, int drive, const char *file_name, const char *progr
                     set_true_drive_emulation_mode(1);
                 }
                 log_message(autostart_log, "Resetting drive %d", unit);
-                drive_cpu_trigger_reset(unit - 8);
+                drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
             }
 #endif
             autostart_type = AUTOSTART_DISK_IMAGE;
@@ -1621,7 +1621,7 @@ exiterror:
     deallocate_program_name();
     lib_free(name);
 
-    /* restore_drive_emulation_state(8); */
+    /* restore_drive_emulation_state(DRIVE_UNIT_MIN); */
     return -1;
 }
 
@@ -1679,7 +1679,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     static char tempname[32];
     int mode;
 
-    const int unit = 8, drive = 0;
+    const int unit = DRIVE_UNIT_MIN, drive = 0;
 
     DBG(("autostart_prg (unit: %d drive: %d file_name:%s)", unit, drive, file_name));
 
@@ -1763,7 +1763,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
                 set_true_drive_emulation_mode(1);
             }
             log_message(autostart_log, "Resetting drive %d", unit);
-            drive_cpu_trigger_reset(unit - 8);
+            drive_cpu_trigger_reset(unit - DRIVE_UNIT_MIN);
 
             autostart_type = AUTOSTART_PRG_DISK;
             break;
@@ -1781,7 +1781,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* close prg file */
     fileio_close(finfo);
 
-    /* restore_drive_emulation_state(8); */
+    /* restore_drive_emulation_state(DRIVE_UNIT_MIN); */
 
     return result;
 }
@@ -1805,7 +1805,7 @@ int autostart_tapecart(const char *file_name, void *unused)
 
     /* make sure to init TDE and traps status before each autostart */
     /* FIXME: this likely needs to be handled differently for tapecart */
-    init_drive_emulation_state(8, 0);
+    init_drive_emulation_state(DRIVE_UNIT_MIN, 0);
 
     /* attach image and trigger autostart */
     if (tapecart_attach_tcrt(file_name, NULL) == 0) {
@@ -1880,7 +1880,7 @@ static void set_tapeport_device(int datasette, int tapecart)
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {
-    int unit = 8, drive = 0;
+    int unit = DRIVE_UNIT_MIN, drive = 0;
 #ifdef HAVE_NATIVE_GTK3
     if (!mainlock_is_vice_thread()) {
         mainlock_assert_lock_obtained();
@@ -1978,12 +1978,12 @@ int autostart_device(int device)
     }
 
     /* make sure to init TDE and traps status before each autostart */
-    if (device >= 8) {
+    if (device >= DRIVE_UNIT_MIN) {
         init_drive_emulation_state(device);
         reboot_for_autostart(NULL, AUTOSTART_HASDISK, AUTOSTART_MODE_RUN);
         return 0;
     } else if (device == 1) {
-        init_drive_emulation_state(8);
+        init_drive_emulation_state(DRIVE_UNIT_MIN);
         reboot_for_autostart(NULL, AUTOSTART_HASTAPE, AUTOSTART_MODE_RUN);
         return 0;
     }
