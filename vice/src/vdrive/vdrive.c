@@ -419,10 +419,11 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
 
     disk_image_attach_log(image, vdrive_log, unit, drive);
 
+    /* fix the number of tracks here as extended tracks aren't supported */
     switch (image->type) {
         case DISK_IMAGE_TYPE_D64:
             vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
-            vdrive->num_tracks = image->tracks;
+            vdrive->num_tracks = NUM_TRACKS_1541;
             vdrive->bam_size = 0x100;
             vdrive->current_offset = 0;
             break;
@@ -434,7 +435,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
             break;
         case DISK_IMAGE_TYPE_D71:
             vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
-            vdrive->num_tracks = image->tracks;
+            vdrive->num_tracks = NUM_TRACKS_1571;
             vdrive->bam_size = 0x200;
             vdrive->current_offset = 0;
             break;
@@ -458,13 +459,13 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
             break;
         case DISK_IMAGE_TYPE_G64:
             vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
-            vdrive->num_tracks = image->tracks;
+            vdrive->num_tracks = NUM_TRACKS_1541;
             vdrive->bam_size = 0x100;
             vdrive->current_offset = 0;
             break;
         case DISK_IMAGE_TYPE_G71:
             vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
-            vdrive->num_tracks = image->tracks;
+            vdrive->num_tracks = NUM_TRACKS_1571;
             vdrive->bam_size = 0x200;
             vdrive->current_offset = 0;
             break;
@@ -472,11 +473,11 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
             /* FIXME: extra checks might be needed for supporting other drives */
             if (image->tracks > 42) {
                 vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
-                vdrive->num_tracks = image->tracks;
+                vdrive->num_tracks = NUM_TRACKS_1571;
                 vdrive->bam_size = 0x200;
             } else {
                 vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
-                vdrive->num_tracks = image->tracks;
+                vdrive->num_tracks = NUM_TRACKS_1541;
                 vdrive->bam_size = 0x100;
             }
             vdrive->current_offset = 0;
