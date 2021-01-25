@@ -181,9 +181,10 @@ int fsimage_close(disk_image_t *image)
         return -1;
     }
 
-/*   if (image->type == DISK_IMAGE_TYPE_P64) {
+    /* flush the image when closed; added by Roberto Muscedere on 20210125 */
+    if (image->type == DISK_IMAGE_TYPE_P64) {
         fsimage_write_p64_image(image);
-    }*/
+    }
 
     if (fsimage->error_info.map) {
         lib_free(fsimage->error_info.map);
