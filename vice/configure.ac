@@ -1739,7 +1739,7 @@ else
   if test x"$with_resid" = "xyes" -o x"$with_resid" = "x"; then
     AC_DEFINE(HAVE_RESID,,[This version provides ReSID support.])
     HAVE_RESID_SUPPORT="yes"
-    AC_CONFIG_SUBDIRS(src/resid)
+    AX_SUBDIRS_CONFIGURE([src/resid], [--disable-option-checking])
     RESID_DIR=resid
     RESID_LIBS="\$(top_builddir)/src/resid/libresid.a"
     RESID_INCLUDES="-I\$(top_builddir)/src/resid"
@@ -1747,7 +1747,7 @@ else
     RESIDSUB=resid
 
     AC_DEFINE(HAVE_RESID_DTV,,[This version provides ReSID-DTV support.])
-    AC_CONFIG_SUBDIRS(src/resid-dtv)
+    AX_SUBDIRS_CONFIGURE([src/resid-dtv], [--disable-option-checking])
     RESID_DTV_DIR=resid-dtv
     RESID_DTV_LIBS="\$(top_builddir)/src/resid-dtv/libresiddtv.a"
     RESID_DTV_INCLUDES="-I\$(top_builddir)/src/resid-dtv"
