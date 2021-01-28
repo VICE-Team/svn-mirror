@@ -869,7 +869,13 @@ int ui_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
-int ui_init(int *argc, char **argv)
+void ui_init_with_args(int *argc, char **argv)
+{
+    DBG(("%s", __func__));
+    return 0;
+}
+
+int ui_init(void)
 {
     DBG(("%s", __func__));
     return 0;

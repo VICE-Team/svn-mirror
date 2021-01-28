@@ -362,7 +362,7 @@ int sdlkbd_hotkeys_load(const char *filename)
         return -1;
     }
 
-    fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
+    fp = sysfile_open(filename, machine_name, &complete_path, MODE_READ_TEXT);
 
     if (fp == NULL) {
         log_warning(sdlkbd_log, "Failed to open `%s'.", filename);

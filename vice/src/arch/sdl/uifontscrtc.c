@@ -107,7 +107,7 @@ int sdl_ui_crtc_font_init(void)
     char *name = get_chargen_name();
     char *path = NULL;
 
-    if (sysfile_locate(name, &path) != 0) {
+    if (sysfile_locate(name, machine_name, &path) != 0) {
            log_error(LOG_DEFAULT, "could not locate menu charset '%s'.\n", name ? name : "(null)");
            return -1;
     }

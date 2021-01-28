@@ -2018,7 +2018,7 @@ int mon_playback_commands(const char *filename)
     fp = fopen(filename, MODE_READ_TEXT);
     
     if (fp == NULL) {
-        fp = sysfile_open(filename, NULL, MODE_READ_TEXT);
+        fp = sysfile_open(filename, NULL, NULL, MODE_READ_TEXT);
     }
     
     if (fp == NULL) {

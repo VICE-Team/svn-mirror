@@ -89,6 +89,9 @@ void sdl_ui_set_window_icon(SDL_Window *window)
 
     path = archdep_app_icon_path_png(256);
 
+    if (!path) {
+        return;
+    }
     IMG_Init(IMG_INIT_PNG);
     surface = IMG_Load(path);
     lib_free(path);

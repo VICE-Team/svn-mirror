@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "archdep_get_vice_datadir.h"
+#include "sysfile.h"
 #include "archdep_join_paths.h"
 #include "machine.h"
 #include "lib.h"
@@ -48,8 +48,7 @@
 char *archdep_app_icon_path_png(int size)
 {
     char buffer[1024];
-    char *datadir = archdep_get_vice_datadir();
-    char *path;
+    char *path = NULL;
     const char *icon;
 
     /*
@@ -91,7 +90,6 @@ char *archdep_app_icon_path_png(int size)
     }
 
     snprintf(buffer, sizeof(buffer), "%s_%d.png", icon, size);
-    path = archdep_join_paths(datadir, "common", buffer, NULL);
-    lib_free(datadir);
+    sysfile_locate(buffer, "common", &path);
     return path;
 }

@@ -185,13 +185,12 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
-    /* Initialize the user interface.  `ui_init()' might need to handle the
+    /* Initialize the user interface.  `ui_init_with_args()' might need to handle the
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently).  */
     DBG(("main:ui_init(argc:%d)\n", argc));
-    if (!console_mode && ui_init(&argc, argv) < 0) {
-        archdep_startup_log_error("Cannot initialize the UI.\n");
-        return -1;
+    if (!console_mode) {
+        ui_init_with_args(&argc, argv);
     }
 
     if ((!ishelp) && (loadconfig)) {
@@ -223,6 +222,13 @@ int main_program(int argc, char **argv)
 
     DBG(("main:initcmdline_check_args(argc:%d)\n", argc));
     if (initcmdline_check_args(argc, argv) < 0) {
+        return -1;
+    }
+
+    /* Initialize the user interface, 2nd part. */
+    DBG(("main:uidata_init(argc:%d)\n", argc));
+    if (!console_mode && ui_init() < 0) {
+        archdep_startup_log_error("Cannot initialize the UI.\n");
         return -1;
     }
 

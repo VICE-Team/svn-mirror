@@ -79,7 +79,7 @@ int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
 
     resources_get_string(resource_name, &rom_name);
 
-    filesize = sysfile_load(rom_name, drive_rom, min, max);
+    filesize = sysfile_load(rom_name, "DRIVES", drive_rom, min, max);
 
     if (filesize < 0) {
         log_error(driverom_log, "%s ROM image not found. "

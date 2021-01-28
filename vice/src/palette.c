@@ -215,7 +215,7 @@ static int palette_load_core(FILE *f, const char *file_name,
     return 0;
 }
 
-int palette_load(const char *file_name, palette_t *palette_return)
+int palette_load(const char *file_name, const char *subpath, palette_t *palette_return)
 {
     palette_t *tmp_palette;
     char *complete_path;
@@ -226,14 +226,14 @@ int palette_load(const char *file_name, palette_t *palette_return)
         return 0;
     }
 
-    f = sysfile_open(file_name, &complete_path, MODE_READ_TEXT);
+    f = sysfile_open(file_name, subpath, &complete_path, MODE_READ_TEXT);
 
     if (f == NULL) {
         /* Try to add the extension.  */
         char *tmp = lib_strdup(file_name);
 
         util_add_extension(&tmp, "vpl");
-        f = sysfile_open(tmp, &complete_path, MODE_READ_TEXT);
+        f = sysfile_open(tmp, subpath, &complete_path, MODE_READ_TEXT);
         lib_free(tmp);
 
         if (f == NULL) {

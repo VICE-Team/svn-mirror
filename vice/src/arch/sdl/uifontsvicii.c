@@ -93,10 +93,10 @@ static int loadchar(char *name)
 int sdl_ui_vicii_font_init(void)
 {
     int i;
-    char *name = (machine_class == VICE_MACHINE_CBM5x0) ? "chargen.500" : "chargen";
+    const char *name = (machine_class == VICE_MACHINE_CBM5x0) ? "chargen.500" : "chargen";
     char *path = NULL;
 
-    if (sysfile_locate(name, &path) != 0) {
+    if (sysfile_locate(name, machine_name, &path) != 0) {
            log_error(LOG_DEFAULT, "could not locate menu charset `%s'.\n", name ? name : "(null)");
            return -1;
     }

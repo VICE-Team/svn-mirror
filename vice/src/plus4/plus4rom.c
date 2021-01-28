@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "machine.h"
 #include "mem.h"
 #include "plus4mem.h"
 #include "plus4memrom.h"
@@ -60,7 +61,7 @@ int plus4rom_load_kernal(const char *rom_name)
     resources_set_int("VirtualDevices", 0);
 
     /* Load Kernal ROM.  */
-    if (sysfile_load(rom_name, plus4memrom_kernal_rom,
+    if (sysfile_load(rom_name, machine_name, plus4memrom_kernal_rom,
                      PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
         log_error(plus4rom_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
@@ -82,7 +83,7 @@ int plus4rom_load_basic(const char *rom_name)
     }
 
     /* Load Basic ROM.  */
-    if (sysfile_load(rom_name, plus4memrom_basic_rom,
+    if (sysfile_load(rom_name, machine_name, plus4memrom_basic_rom,
                      PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
         log_error(plus4rom_log,
                   "Couldn't load basic ROM `%s'.",

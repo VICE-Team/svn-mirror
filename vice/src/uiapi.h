@@ -47,10 +47,11 @@ typedef enum {
 extern int ui_resources_init(void);
 extern void ui_resources_shutdown(void);
 extern int ui_cmdline_options_init(void);
-extern int ui_init(int *argc, char **argv);
+extern void ui_init_with_args(int *argc, char **argv);
 extern int ui_init_finish(void);
 extern int ui_init_finalize(void);
 extern void ui_shutdown(void);
+extern int ui_init(void);
 
 /* Print a message.  */
 extern void ui_message(const char *format, ...);

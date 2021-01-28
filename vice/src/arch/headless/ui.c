@@ -136,9 +136,20 @@ char *ui_get_file(const char *format, ...)
  * \param[in]   argc    pointer to main()'s argc
  * \param[in]   argv    main()'s argv
  *
+ */
+void ui_init_with_args(int *argc, char **argv)
+{
+    printf("Initialising headless ui with args\n");
+
+    return 0;
+}
+
+
+/** \brief  Initialize Gtk3/GLib
+ *
  * \return  0 on success, -1 on failure
  */
-int ui_init(int *argc, char **argv)
+int ui_init(void)
 {
     printf("Initialising headless ui\n");
 

@@ -1126,7 +1126,7 @@ int drv_1520_init(void)
         return -1;
     }
 
-    if (palette_load("1520" FSDEV_EXT_SEP_STR "vpl", palette) < 0) {
+    if (palette_load("1520" FSDEV_EXT_SEP_STR "vpl", "PRINTER", palette) < 0) {
         log_error(drv1520_log, "Cannot load palette file `%s'.",
                   "1520" FSDEV_EXT_SEP_STR "vpl");
         return -1;

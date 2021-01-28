@@ -729,7 +729,7 @@ int joy_arch_mapping_load(const char *filename)
         return -1;
     }
 
-    fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
+    fp = sysfile_open(filename, NULL, &complete_path, MODE_READ_TEXT);
 
     if (fp == NULL) {
         log_warning(sdljoy_log, "Failed to open `%s'.", filename);

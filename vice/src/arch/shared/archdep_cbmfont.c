@@ -27,11 +27,11 @@
 #include "vice.h"
 #include "archdep_boot_path.h"
 #include "archdep_defs.h"
-#include "archdep_get_vice_datadir.h"
 #include "archdep_join_paths.h"
 #include "archdep_stat.h"
 #include "lib.h"
 #include "log.h"
+#include "sysfile.h"
 
 #include "archdep_cbmfont.h"
 
@@ -64,14 +64,9 @@ int archdep_register_cbmfont(void)
     size_t len;
     unsigned int isdir;
 
-    datadir = archdep_get_vice_datadir();
-    fontPath = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
-    lib_free(datadir);
-
-    if (-1 == archdep_stat(fontPath, &len, &isdir)) {
-        lib_free(fontPath);
-
-        log_error(LOG_ERR, "Failed to find CBM.ttf");
+    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &fontPath) < 0) {
+        log_error(LOG_ERR, "failed to find resource data '%s'.",
+                VICE_CBM_FONT_TTF);
         return 0;
     }
 
@@ -105,7 +100,7 @@ int archdep_register_cbmfont(void)
 int archdep_register_cbmfont(void)
 {
     FcConfig *fc_config;
-    char *datadir;
+    int result;
     char *path;
 
     if (!FcInit()) {
@@ -113,20 +108,19 @@ int archdep_register_cbmfont(void)
     }
 
     fc_config = FcConfigGetCurrent();
-    datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
-    lib_free(datadir);
+    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
+        log_error(LOG_ERR, "failed to find resource data '%s'.",
+                VICE_CBM_FONT_TTF);
+        return 0;
+    }
 #if 0
     printf("Path = '%s'\n", path);
 #endif
 
-    if (!FcConfigAppFontAddFile(fc_config, (FcChar8 *)path)) {
-        lib_free(path);
-        return 0;
-    }
+    result = FcConfigAppFontAddFile(fc_config, (FcChar8 *)path) ? 1 : 0;
 
     lib_free(path);
-    return 1;
+    return result;
 }
 
 # else     /* HAVE_FONTCONFIG */
@@ -162,20 +156,20 @@ int archdep_register_cbmfont(void)
 
 int archdep_register_cbmfont(void)
 {
-    char *datadir;
     char *path;
     int result;
 
-    datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
-    lib_free(datadir);
-
-    result = AddFontResourceEx(path, FR_PRIVATE, 0);
-    if (result == 0) {
-        lib_free(path);
+    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
+        log_error(LOG_ERR, "failed to find resource data '%s'.",
+                VICE_CBM_FONT_TTF);
         return 0;
     }
+
+    result = AddFontResourceEx(path, FR_PRIVATE, 0);
     lib_free(path);
+    if (result == 0) {
+        return 0;
+    }
     return 1;
 }
 
@@ -201,9 +195,11 @@ void archdep_unregister_cbmfont(void)
     char *datadir;
     char *path;
 
-    datadir = archdep_get_vice_datadir();
-    path = archdep_join_paths(datadir, "common", VICE_CBM_FONT_TTF, NULL);
-    lib_free(datadir);
+    if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
+        log_error(LOG_ERR, "failed to find resource data '%s'.",
+                VICE_CBM_FONT_TTF);
+        return;
+    }
 
     RemoveFontResourceExA(path, FR_PRIVATE, 0);
     lib_free(path);

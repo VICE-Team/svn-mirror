@@ -2008,7 +2008,7 @@ int drv_nl10_init(void)
         return -1;
     }
 
-    if (palette_load("nl10" FSDEV_EXT_SEP_STR "vpl", palette) < 0) {
+    if (palette_load("nl10" FSDEV_EXT_SEP_STR "vpl", "PRINTER", palette) < 0) {
         log_error(drvnl10_log, "Cannot load palette file `%s'.",
                   "nl10" FSDEV_EXT_SEP_STR "vpl");
         return -1;
@@ -2207,7 +2207,7 @@ static int drv_nl10_init_charset(void)
     memset(drv_nl10_charset_nlq_italic, 0, CHARSET_SIZE * 47);
 
     /* load nl-10 rom file */
-    if (sysfile_load(name, drv_nl10_rom, NL10_ROM_SIZE, NL10_ROM_SIZE) < 0) {
+    if (sysfile_load(name, "PRINTER", drv_nl10_rom, NL10_ROM_SIZE, NL10_ROM_SIZE) < 0) {
         memset(drv_nl10_rom, 0, NL10_ROM_SIZE);
         log_error(drvnl10_log, "Could not load NL-10 ROM file '%s'.", name);
         return -1;

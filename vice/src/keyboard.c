@@ -1469,7 +1469,7 @@ static int keyboard_parse_keymap(const char *filename, int child)
     DBG((">keyboard_parse_keymap(%s)\n", filename));
 
     /* open in binary mode so the newline system doesn't matter */
-    fp = sysfile_open(filename, &complete_path, "rb");
+    fp = sysfile_open(filename, machine_name, &complete_path, "rb");
 
     if (fp == NULL) {
         log_message(keyboard_log, "Error loading keymap `%s'->`%s'.", filename, complete_path ? complete_path : "<empty/null>");
@@ -2058,7 +2058,7 @@ int keyboard_is_keymap_valid(int sympos, int hosttype, int kbdtype)
     int res;
 
     name = keyboard_get_keymap_name(sympos, hosttype, kbdtype);
-    res = sysfile_locate(name, &complete_path);
+    res = sysfile_locate(name, machine_name, &complete_path);
 
     lib_free(name);
     lib_free(complete_path);
@@ -2100,7 +2100,7 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
 
     util_string_set(&machine_keymap_file_list[atidx], name);
     DBG(("try_set_keymap_file calls sysfile_locate(%s)\n", name));
-    if (sysfile_locate(name, &complete_path) != 0) {
+    if (sysfile_locate(name, machine_name, &complete_path) != 0) {
         DBG(("<try_set_keymap_file ERROR locating keymap `%s'.\n", name ? name : "(null)"));
         lib_free(name);
         lib_free(complete_path);

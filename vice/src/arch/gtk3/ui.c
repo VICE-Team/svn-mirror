@@ -1779,9 +1779,12 @@ char *ui_get_file(const char *format, ...)
  *
  * \return  0 on success, -1 on failure
  */
-int ui_init(int *argc, char **argv)
+void ui_init_with_args(int *argc, char **argv)
 {
+    gtk_init(argc, &argv);
+}
 
+int ui_init(void) {
     GSettings *settings;
     GVariant *variant;
     GtkSettings *settings_default;
@@ -1789,7 +1792,6 @@ int ui_init(int *argc, char **argv)
 #if 0
     INCOMPLETE_IMPLEMENTATION();
 #endif
-    gtk_init(argc, &argv);
 
     kbd_hotkey_init();
 

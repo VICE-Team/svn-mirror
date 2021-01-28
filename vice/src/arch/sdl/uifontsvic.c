@@ -32,6 +32,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "sysfile.h"
 #include "uifonts.h"
 #include "uimenu.h"
@@ -95,7 +96,7 @@ int sdl_ui_vic_font_init(void)
     char *name = "chargen";
     char *path = NULL;
 
-    if (sysfile_locate(name, &path) != 0) {
+    if (sysfile_locate(name, machine_name, &path) != 0) {
            log_error(LOG_DEFAULT, "could not locate menu charset '%s'.\n", name ? name : "(null)");
            return -1;
     }

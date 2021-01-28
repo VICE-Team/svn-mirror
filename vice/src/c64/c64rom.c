@@ -132,7 +132,7 @@ int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
             return -1;
         }
 
-        if (sysfile_load(rom_name, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
+        if (sysfile_load(rom_name, machine_name, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
             log_error(c64rom_log, "Couldn't load kernal ROM `%s'.", rom_name);
             if (machine_class != VICE_MACHINE_VSID) {
                 resources_set_int("VirtualDevices", trapfl);
@@ -202,7 +202,7 @@ int c64rom_load_basic(const char *rom_name)
     }
 
     /* Load Basic ROM.  */
-    if (sysfile_load(rom_name, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE) < 0) {
+    if (sysfile_load(rom_name, machine_name, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE) < 0) {
         log_error(c64rom_log, "Couldn't load basic ROM `%s'.", rom_name);
         return -1;
     }
@@ -217,7 +217,7 @@ int c64rom_load_chargen(const char *rom_name)
 
     /* Load chargen ROM.  */
 
-    if (sysfile_load(rom_name, mem_chargen_rom, C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE) < 0) {
+    if (sysfile_load(rom_name, machine_name, mem_chargen_rom, C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE) < 0) {
         log_error(c64rom_log, "Couldn't load character ROM `%s'.", rom_name);
         return -1;
     }
