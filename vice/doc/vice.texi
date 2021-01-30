@@ -18248,6 +18248,9 @@ hexadecimal value (`$ff`)
 The <unit> is optional, and when used must use the CBM DOS notation for the
 unit number, for example `@@9:`.
 
+@item bpeek [@@unit:<unit>] <track> <sector> [<start> [<end>]]
+Print one or more bytes of @code{track,sector}.
+
 @item bread <filename> <track> <sector> [<unit>]
 Read a block from a disk image and write it to the host filesystem as
 @code{filename}.

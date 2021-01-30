@@ -168,6 +168,7 @@ static int bam_cmd(int nargs, char **args);
 static int bcopy_cmd(int nargs, char **args);
 static int bfill_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
+static int bpeek_cmd(int nargs, char **args);
 static int bpoke_cmd(int nargs, char **args);
 static int bread_cmd(int nargs, char **args);
 static int bwrite_cmd(int nargs, char **args);
@@ -290,6 +291,11 @@ const command_t command_list[] = {
       "Show specified disk block in hex form.",
       2, 4,
       block_cmd },
+    { "bpeek",
+      "bpeek [@<unit>:] <track> <sector> [<offset> [<end>]]",
+      "Show data of <track,sector> from <offset> to <end>",
+      2, 5,
+      bpeek_cmd },
     { "bpoke",
       "bpoke [@<unit>:] <track> <sector> <offset> <data ...>",
       "Poke <data> into block at (<track>,<sector>), starting at <offset>",
@@ -1776,6 +1782,95 @@ static int bpoke_cmd(int nargs, char **args)
 
     /* write back block */
     return vdrive_write_sector(vdrive, buffer, track, sector);
+}
+
+
+/** \brief 'peek' some data from a block
+ *
+ * Syntax: bpeek [unit-specifier] track sector [start=0 [end=$ff]]
+ *
+ * For example: `bpoke @11: 18 0 0x90 $af
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK, or < 0 on failure
+ */
+static int bpeek_cmd(int nargs, char **args)
+{
+    vdrive_t *vdrive;
+    uint8_t buffer[RAW_BLOCK_SIZE];
+    int unit;
+    unsigned int track;
+    unsigned int sector;
+    int arg_idx = 1;
+    int err;
+    int start = 0;
+    int end = 0xff;
+    char *endptr;
+
+    /* first check for a unit number (@<unit>:) */
+    unit = extract_unit_from_file_name(args[arg_idx], &endptr);
+    if (unit == 0) {
+        /* use current unit */
+        unit = drive_index + DRIVE_UNIT_MIN;
+    } else {
+        if (unit < 0) {
+            return FD_BADDEV;
+        }
+        arg_idx++;
+    }
+
+    /* check track/sector */
+    err = parse_track_sector(args[arg_idx], args[arg_idx + 1], &track, &sector);
+    if (err < 0) {
+        return err;
+    }
+
+    arg_idx += 2;
+
+    /* get start */
+    if (arg_idx >= nargs) {
+        /* default to 00-ff */
+    } else {
+        if (arg_to_int(args[arg_idx], &start) < 0) {
+            return FD_BADVAL;
+        }
+        if (start < 0 || start > 0xff) {
+            return FD_BADVAL;
+        }
+        arg_idx++;
+
+        if (arg_idx < nargs) {
+            if (arg_to_int(args[arg_idx], &end) < 0) {
+                return FD_BADVAL;
+            }
+            if (end <= start || end > 0xff) {
+                return FD_BADVAL;
+            }
+        }
+    }
+    printf("unit #%d: (%d,%d): $%02x-$%02x\n", unit, track, sector, start, end);
+
+    /* read block */
+    vdrive = drives[unit - DRIVE_UNIT_MIN];
+    if (vdrive_read_sector(vdrive, buffer, track, sector) != 0) {
+        fprintf(stderr, "cannot read track %u sector %u.", track, sector);
+        return FD_RDERR;
+    }
+
+    /* display data */
+    int i = start;
+    while (i <= end) {
+        printf("%02x: ", i);
+        for (int c = 0; c < 16 && i + c <= end; c++) {
+            printf(" %02x", buffer[i + c]);
+        }
+        putchar('\n');
+        i += 16;
+    }
+
+    return 0;
 }
 
 
