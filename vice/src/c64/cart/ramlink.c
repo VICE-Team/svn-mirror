@@ -1425,18 +1425,23 @@ int ramlink_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
     /* read through doesn't work properly with ultimax so we try to
         do everything here */
 
-    if (((~pport.dir | pport.data) & 1) && addr >= 0x8000 && addr <= 0xbfff) {
-        if (rl_enabled && rl_dos) {
-            if (addr >= 0x8000 && addr <= 0xbfff) {
-                *value = roml_banks[rl_rombase | (addr & 0x3fff)];
-                return CART_READ_VALID;
-            }
-        } else if (addr >= 0xa000) {
-            *value = mem_bank_read(2, addr, NULL);
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        if (rl_dos && rl_enabled) {
+            *value = roml_banks[rl_rombase | (addr & 0x3fff)];
             return CART_READ_VALID;
         }
-    }
-    if (((~pport.dir | pport.data) & 2) && addr >= 0xe000) {
+    } else if (addr >= 0xa000 && addr <= 0xbfff) {
+        if (rl_dos && rl_enabled) {
+            *value = roml_banks[rl_rombase | (addr & 0x3fff)];
+            return CART_READ_VALID;
+        } else {
+            /* get from ram based on $1 */
+            if (((~pport.dir | pport.data) & 3) == 3) {
+                *value = mem_bank_read(2, addr, NULL);
+                return CART_READ_VALID;
+            }
+        }
+    } else if (addr >= 0xe000 && ((~pport.dir | pport.data) & 2)) {
         if (rl_enabled) {
             if (rl_on) {
                 *value = roml_banks[rl_kernbase | (addr & 0x1fff)];
