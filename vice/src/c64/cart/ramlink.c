@@ -1404,7 +1404,7 @@ uint8_t ramlink_a000_bfff_read(uint16_t addr)
         val = roml_banks[rl_rombase | 0x2000 | (addr & 0x1fff)];
     } else {
         /* get from ram based on $1 */
-        if ((~pport.dir | pport.data) & 1) {
+        if (((~pport.dir | pport.data) & 3) == 3) {
             val = mem_bank_read(2, 0xa000 | (addr & 0x1fff), NULL);
         } else {
             val = mem_read_without_ultimax(addr);
