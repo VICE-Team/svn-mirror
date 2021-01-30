@@ -30,8 +30,8 @@
  *
  */
 
-/* #define DEBUG_AUTOSTART */
-/* #define DEBUG_AUTOSTARTWAIT */
+#define DEBUG_AUTOSTART
+#define DEBUG_AUTOSTARTWAIT
 
 #include "vice.h"
 
@@ -1116,6 +1116,12 @@ static void advance_waitsearchingfor(void)
                         break;
                     }
                 }
+            }
+            /* HACK: the LOAD(ING) might not be fully printed yet, in that case wait some more */
+            if (check("L", AUTOSTART_NOWAIT_BLINK) == YES) {
+                /* leave autostart and disable warp if ROM area was left */
+                check_rom_area();
+                break;
             }
             log_message(autostart_log, "NO Searching for ...");
             disable_warp_if_was_requested();
