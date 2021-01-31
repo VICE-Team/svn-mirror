@@ -426,7 +426,7 @@ int drive_resources_init(void)
             return -1;
         }
 
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i <= 4; i++) {
             lib_free(res_drive[i].name);
         }
         if (has_iec) {
