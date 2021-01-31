@@ -158,8 +158,11 @@ static int check_drive_index(int index);
 static int check_drive_ready(int index);
 static int parse_track_sector(const char *trk_str, const char *sec_str,
                               unsigned int *trk_num, unsigned int *sec_num);
-static int translate_fsimage_error(int err);
 static const char *image_format_name(unsigned int type);
+
+#if 0
+static int translate_fsimage_error(int err);
+#endif
 
 
 /* command handlers */
