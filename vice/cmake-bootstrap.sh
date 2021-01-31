@@ -353,49 +353,13 @@ function process_source_makefile {
 
 process_source_makefile src
 
-#
-# The src folder also defines all the executables and what they link to.
-#
-
 function external_lib_label {
 	echo -n "LIB_$(echo "$1" | tr '[a-z]' '[A-Z]' | sed -e 's/[^A-Z0-9_]/_/g')"
 }
 
-pushdq src
-
-EXECUTABLES="x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 petcat cartconv vsid"
-
-#
-# Find all the libraries first
-#
-
-echo >> CMakeLists.txt
-
-for executable in $EXECUTABLES
-do	
-	LIB_ARGS="$(extract_make_var LIBS) $(extract_make_var ${executable}_LDADD)"
-
-	for lib in $(extract_external_libs $LIB_ARGS)
-	do
-		label=$(external_lib_label $lib)
-
-		if ! fgrep -q "find_library($label " CMakeLists.txt
-		then
-			cat <<-HEREDOC >> CMakeLists.txt
-				find_library($label $lib)
-			HEREDOC
-		fi
-	done
-done
-
-#
-# Finally, the executable build targets
-#
-
-for executable in $EXECUTABLES
-do
-	echo "Executable: $executable"
-
+function add_executable_target {
+	local executable=$1
+	
 	cat <<-HEREDOC >> CMakeLists.txt
 
 		add_executable($executable)
@@ -435,6 +399,48 @@ do
 		        $(extract_sources ${executable}_SOURCES)
 		    )
 	HEREDOC
+}
+
+#
+# The src folder Makefile also defines all the non-tool executables and what they link to.
+#
+
+EXECUTABLES="x64sc x128 x64dtv xscpu64 xvic xpet xplus4 xcbm2 xcbm5x0 c1541 vsid"
+
+pushdq src
+
+#
+# Find all the libraries first
+#
+
+echo >> CMakeLists.txt
+
+for executable in $EXECUTABLES
+do	
+	LIB_ARGS="$(extract_make_var LIBS) $(extract_make_var ${executable}_LDADD)"
+
+	for lib in $(extract_external_libs $LIB_ARGS)
+	do
+		label=$(external_lib_label $lib)
+
+		if ! fgrep -q "find_library($label " CMakeLists.txt
+		then
+			cat <<-HEREDOC >> CMakeLists.txt
+				find_library($label $lib)
+			HEREDOC
+		fi
+	done
+done
+
+#
+# Executable build targets
+#
+
+for executable in $EXECUTABLES
+do
+	echo "Executable: $executable"
+
+	add_executable_target $executable
 
 	#
 	# Each executable has its own list of external libs to be linked with.
@@ -461,6 +467,23 @@ do
 done
 
 popdq
+
+#
+# Tools, executable targets in src/tools/x with simpler linking
+#
+
+TOOLS="petcat cartconv"
+
+for tool in $TOOLS
+do
+	echo "Tool: $tool"
+	
+	pushdq "src/tools/$tool"
+
+	add_executable_target $tool
+
+	popdq
+done
 
 #
 # Finally, create the top level project CMakeLists.txt
