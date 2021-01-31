@@ -930,6 +930,7 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
             }
         }
     }
+    lib_free(filename);
     return 0;
 }
 
