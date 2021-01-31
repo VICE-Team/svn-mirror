@@ -1853,7 +1853,7 @@ static int bpeek_cmd(int nargs, char **args)
             }
         }
     }
-    printf("unit #%d: (%d,%d): $%02x-$%02x\n", unit, track, sector, start, end);
+    printf("unit #%d: (%u,%u): $%02x-$%02x\n", unit, track, sector, (unsigned int)start, (unsigned int)end);
 
     /* read block */
     vdrive = drives[unit - DRIVE_UNIT_MIN];
@@ -1865,7 +1865,7 @@ static int bpeek_cmd(int nargs, char **args)
     /* display data */
     int i = start;
     while (i <= end) {
-        printf("%02x: ", i);
+        printf("%02x: ", (unsigned int)i);
         for (int c = 0; c < 16 && i + c <= end; c++) {
             printf(" %02x", buffer[i + c]);
         }
