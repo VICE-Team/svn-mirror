@@ -73,6 +73,26 @@ static unsigned char sdlextrachars[8 * 4] = {
     0x60, 0x92, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, /* ~ */
 };
 
+static int loadcharset(FILE *f, unsigned char * dest, int num_chars) {
+    if(fread(dest, 1, num_chars * 8, f) != num_chars * 8) {
+        return -1;
+    }
+    return 0;
+}
+
+static int loadcharset_every_second_char(FILE *f, unsigned char * dest, int num_chars) {
+    int i;
+    int res = 0;
+
+    for(i = 0; i < num_chars; i++) {
+        if(fread(&dest[i * 8], 1, 8, f) != 8) {
+            res = -1;
+        }
+        fseek(f, 8, SEEK_CUR);
+    }
+    return res;
+}
+
 static int loadchar(FILE *f, int initial_offset, int asc_offset, char load_every_second_char)
 {
     unsigned int i;
@@ -86,44 +106,17 @@ static int loadchar(FILE *f, int initial_offset, int asc_offset, char load_every
     memcpy(sdlfontmon, sdlfontasc, SDLFONTSIZE);
 
     fseek(f, initial_offset, SEEK_SET);
-    if (load_every_second_char) {
-       for(i = 0; i < 128; i++) {
-           if(fread(&sdlfontpet[i * 8], 1, 8, f) != 8) {
-                res = -1;
-            }
-            fseek(f, 8, SEEK_CUR);
-        }
-    } else {
-        if(fread(sdlfontpet, 1, 0x400, f) != 0x400) {
-            res = -1;
-        }
-    }
+    res |= load_every_second_char
+        ? loadcharset_every_second_char(f, sdlfontpet, 128)
+        : loadcharset(f, sdlfontpet, 128);
     fseek(f, asc_offset, SEEK_SET);
-    if (load_every_second_char) {
-       for(i = 0; i < 128; i++) {
-           if(fread(&sdlfontmon[i * 8], 1, 8, f) != 8) {
-                res = -1;
-            }
-            fseek(f, 8, SEEK_CUR);
-        }
-    } else {
-        if(fread(sdlfontmon, 1, 0x400, f) != 0x400) {
-            res = -1;
-        }
-    }
+    res |= load_every_second_char
+        ? loadcharset_every_second_char(f, sdlfontmon, 128)
+        : loadcharset(f, sdlfontmon, 128);
     fseek(f, asc_offset, SEEK_SET);
-    if (load_every_second_char) {
-       for(i = 0; i < 128 - 37; i++) {
-           if(fread(&sdlfontasc[i * 8], 1, 8, f) != 8) {
-                res = -1;
-            }
-            fseek(f, 8, SEEK_CUR);
-        }
-    } else {
-        if(fread(sdlfontasc, 1, 0x400 - (8 * 37), f) != (0x400 - (8 * 37))) {
-            res = -1;
-        }
-    }
+    res |= load_every_second_char
+        ? loadcharset_every_second_char(f, sdlfontasc, 128 - 37)
+        : loadcharset(f, sdlfontasc, 128 - 37);
     fclose(f);
 
     /* create inverted second half */
