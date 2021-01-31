@@ -1956,6 +1956,8 @@ int ui_resources_init(void)
 void ui_resources_shutdown(void)
 {
     lib_free(ui_resources.monitor_font);
+    lib_free(ui_resources.monitor_fg);
+    lib_free(ui_resources.monitor_bg);
 }
 
 /** \brief Clean up memory used by the UI system itself
