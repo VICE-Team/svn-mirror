@@ -375,7 +375,7 @@ int cbm2ui_init(void)
 
     sdl_ui_set_menu_params = cbm2ui_set_menu_params;
     sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
-    sdl_ui_cbm2_font_init();
+    sdl_ui_font_init("chargen.600", 0x800, 0, 1);
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
 
@@ -400,7 +400,7 @@ void cbm2ui_shutdown(void)
     uisid_menu_shutdown();
     uijoyport_menu_shutdown();
 
-    sdl_ui_cbm2_font_shutdown();
+    sdl_ui_font_shutdown();
 }
 
 static void cbm5x0ui_set_menu_params(int index, menu_draw_t *menu_draw)
@@ -445,7 +445,7 @@ int cbm5x0ui_init(void)
 
     sdl_ui_set_main_menu(xcbm5x0_main_menu);
     sdl_video_canvas_switch(1);
-    sdl_ui_vicii_font_init();
+    sdl_ui_font_init("chargen.500", 0, 0x800, 0);
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
 

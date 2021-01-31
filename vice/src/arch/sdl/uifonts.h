@@ -33,20 +33,9 @@
 #ifndef VICE_UIFONTS_H
 #define VICE_UIFONTS_H
 
-extern int sdl_ui_crtc_font_init(void);
-extern void sdl_ui_crtc_font_shutdown(void);
+extern int sdl_ui_font_init(const char *name, int initial_offset, int asc_offset, char load_every_second_char);
+extern void sdl_ui_font_shutdown(void);
 
-extern int sdl_ui_cbm2_font_init(void);
-extern void sdl_ui_cbm2_font_shutdown(void);
-
-extern int sdl_ui_ted_font_init(void);
-extern void sdl_ui_ted_font_shutdown(void);
-
-extern int sdl_ui_vic_font_init(void);
-extern void sdl_ui_vic_font_shutdown(void);
-
-extern int sdl_ui_vicii_font_init(void);
-extern void sdl_ui_vicii_font_shutdown(void);
 
 /* first charset:
  * - ascii layout, used by the menus and file browser

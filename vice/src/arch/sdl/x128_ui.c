@@ -262,7 +262,7 @@ int c128ui_init(void)
     uiclockport_ide64_menu_create();
     uimedia_menu_create();
     sdl_ui_set_main_menu(x128_main_menu);
-    sdl_ui_vicii_font_init();
+    sdl_ui_font_init("chargen", 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_c128);
 
 #ifdef HAVE_FFMPEG
@@ -292,5 +292,5 @@ void c128ui_shutdown(void)
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
 #endif
-    sdl_ui_vicii_font_shutdown();
+    sdl_ui_font_shutdown();
 }

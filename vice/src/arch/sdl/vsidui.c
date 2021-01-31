@@ -389,7 +389,7 @@ int vsid_ui_init(void)
     uisid_menu_create();
 
     sdl_ui_set_main_menu(vsid_main_menu);
-    sdl_ui_vicii_font_init();
+    sdl_ui_font_init("chargen", 0, 0x800, 0);
 
     sdl_vsid_draw_init(draw_func);
     sdl_vsid_activate();
@@ -555,5 +555,5 @@ void vsid_ui_close(void)
 {
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
-    sdl_ui_vicii_font_shutdown();
+    sdl_ui_font_shutdown();
 }

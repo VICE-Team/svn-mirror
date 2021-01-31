@@ -239,7 +239,7 @@ int plus4ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xplus4_main_menu);
-    sdl_ui_ted_font_init();
+    sdl_ui_font_init("kernal", 0x1000, 0x1400, 0);
     sdl_vkbd_set_vkbd(&vkbd_plus4);
 
 #ifdef HAVE_FFMPEG
@@ -264,5 +264,5 @@ void plus4ui_shutdown(void)
     sdl_menu_ffmpeg_shutdown();
 #endif
 
-    sdl_ui_ted_font_shutdown();
+    sdl_ui_font_shutdown();
 }

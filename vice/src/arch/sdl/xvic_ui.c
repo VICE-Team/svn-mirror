@@ -262,7 +262,7 @@ int vic20ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xvic_main_menu);
-    sdl_ui_vic_font_init();
+    sdl_ui_font_init("chargen", 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_vic20);
 
 #ifdef HAVE_FFMPEG
@@ -292,5 +292,5 @@ void vic20ui_shutdown(void)
     sdl_menu_ffmpeg_shutdown();
 #endif
 
-    sdl_ui_vic_font_shutdown();
+    sdl_ui_font_shutdown();
 }

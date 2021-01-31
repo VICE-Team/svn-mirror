@@ -240,7 +240,7 @@ int scpu64ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xscpu64_main_menu);
-    sdl_ui_vicii_font_init();
+    sdl_ui_font_init("chargen", 0, 0x800, 0);
     sdl_vkbd_set_vkbd(&vkbd_c64);
 
 #ifdef HAVE_FFMPEG
@@ -270,5 +270,5 @@ void scpu64ui_shutdown(void)
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
 #endif
-    sdl_ui_vicii_font_shutdown();
+    sdl_ui_font_shutdown();
 }

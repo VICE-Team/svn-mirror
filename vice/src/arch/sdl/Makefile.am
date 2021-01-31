@@ -174,11 +174,6 @@ libarch_a_SOURCES = \
 	sdlmain.c \
 	ui.c \
 	ui.h \
-	uifontscbm2.c \
-	uifontscrtc.c \
-	uifontsted.c \
-	uifontsvic.c \
-	uifontsvicii.c \
 	uifonts.c \
 	uifonts.h \
 	uifilereq.c \
