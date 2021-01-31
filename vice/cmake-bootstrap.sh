@@ -123,12 +123,14 @@ function extract_objc_compile_definitions {
 		| sed $'s/ -/\\\n-/g' | grep '^-D' | sed -e 's/^-D//g' | tr "\n" " "
 }
 
-function extract_non_include_non_def_flags {
+function extract_c_cxx_objc_flags {
 	local flags=""
 
 	#
 	# We handling include dirs and definitiions directly, so
 	# we exclude these from the extracted cflags/cxxflags.
+	# Also don't include macos sdk target flags to avoid
+	# lots of warnings when linking to newer deps.
 	#
 
 	while (( "$#" )); do
@@ -148,6 +150,9 @@ function extract_non_include_non_def_flags {
 			-D*)
 				shift
 				;;
+			-mmacosx-version*)
+				shift 
+				;;
 			*)
 				if [ -z "$flags" ]
 				then
@@ -160,24 +165,31 @@ function extract_non_include_non_def_flags {
 		esac
 	done
 
-	echo -n -e "$flags" | tr "\n" " "
+	#
+	# Echo the extracted flags.
+	#
+	# But also don't warn about using deprecated macOS stuff. We are supporting
+	# old versions of macOS so we need to use them.
+	#
+
+	echo -n -e "-Wno-deprecated-declarations $flags" | tr "\n" " "
 }
 
 function extract_cflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
+	extract_c_cxx_objc_flags $(extract_make_var AM_CFLAGS; space; extract_make_var CFLAGS; echo -n " $CFLAGS")
 }
 
 function extract_cxxflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
+	extract_c_cxx_objc_flags $(extract_make_var AM_CXXFLAGS; space; extract_make_var CXXFLAGS; echo -n " $CXXFLAGS")
 }
 
 function extract_objcflags {
-	extract_non_include_non_def_flags $(extract_make_var AM_OBJCFLAGS; space; extract_make_var OBJCFLAGS; echo -n " $OBJCFLAGS")
+	extract_c_cxx_objc_flags $(extract_make_var AM_OBJCFLAGS; space; extract_make_var OBJCFLAGS; echo -n " $OBJCFLAGS")
 }
 
 function extract_ldflags {
 	local executable=$1
-	extract_non_include_non_def_flags \
+	extract_c_cxx_objc_flags \
 		$(extract_make_var \
 			${executable}_LDFLAGS; space; \
 			extract_make_var AM_LDFLAGS; space; \
@@ -498,8 +510,7 @@ HEREDOC
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	cat <<-HEREDOC >> CMakeLists.txt
-		set(CMAKE_OSX_SYSROOT "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/")                       
-		set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment version")
+		set(CMAKE_OSX_SYSROOT "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/")
 		set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS cc;cpp)
 		set(CMAKE_CXX_STANDARD 11)
 
