@@ -55,14 +55,11 @@
 
 int archdep_register_cbmfont(void)
 {
-    char *datadir;
     char *fontPath;
     CFStringRef fontPathStringRef;
     CFURLRef fontUrl;
     CFArrayRef fontUrls;
     CFArrayRef errors;
-    size_t len;
-    unsigned int isdir;
 
     if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &fontPath) < 0) {
         log_error(LOG_ERR, "failed to find resource data '%s'.",
