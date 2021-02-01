@@ -263,6 +263,14 @@ function extract_sources {
 		| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
 }
 
+function extract_headers {
+	extract_make_var $1 \
+		| tr " " "\n" \
+		| grep '\.\(h\|hh\|hpp\)$' \
+		| tr "\n" " " \
+		| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
 function project_relative_folder {
 	local _pwd=$(pwd)
 	echo -n "${_pwd#$ROOT_FOLDER/}"
@@ -327,8 +335,12 @@ function process_source_makefile {
 			    $lib_to_build
 			    PRIVATE
 			        $(extract_sources ${lib_to_build}_a_SOURCES)
+			        $(extract_headers ${lib_to_build}_a_SOURCES)
 			        $(extract_sources EXTRA_${lib_to_build}_a_SOURCES)
+			        $(extract_headers EXTRA_${lib_to_build}_a_SOURCES)
 			        $(extract_sources BUILT_SOURCES)
+			        $(extract_headers BUILT_SOURCES)
+			        $(extract_headers noinst_HEADERS)
 			    )
 
 		HEREDOC
@@ -409,6 +421,12 @@ function add_executable_target {
 		    $executable
 		    PRIVATE
 		        $(extract_sources ${executable}_SOURCES)
+		        $(extract_headers ${executable}_SOURCES)
+		        $(extract_sources EXTRA_${executable}_SOURCES)
+		        $(extract_headers EXTRA_${executable}_SOURCES)
+		        $(extract_sources BUILT_SOURCES)
+		        $(extract_headers BUILT_SOURCES)
+		        $(extract_headers noinst_HEADERS)
 		    )
 	HEREDOC
 }
