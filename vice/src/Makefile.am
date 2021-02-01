@@ -164,7 +164,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/socketdrv \
 	-I$(top_srcdir)/src/hvsc \
-	-I$(top_srcdir)/src/lib/linenoise-ng
+	-I$(top_srcdir)/src/lib/linenoise-ng \
+	-I$(top_srcdir)/src/cart
 
 noinst_HEADERS = \
 	6510core.h \
