@@ -111,6 +111,11 @@ static int set_debugcart_enabled(int value, void *param)
     return 0;
 }
 
+void debugcart_detach(void)
+{
+    set_debugcart_enabled(0, NULL);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_i[] = {

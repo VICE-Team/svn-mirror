@@ -1514,6 +1514,7 @@ int cartridge_disable(int type)
 void cart_detach_all(void)
 {
     DBG(("CART: detach all\n"));
+    debugcart_detach();
     /* "slot 0" */
     tpi_detach();
     magicvoice_detach();
