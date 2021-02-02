@@ -82,7 +82,7 @@ static int set_video_cache_enabled(int val, void *param)
     return 0;
 }
 
-static const char *rname_chip[] = { "VideoCache", NULL };
+static const char * const rname_chip[] = { "VideoCache", NULL };
 
 static resource_int_t resources_chip[] =
 {
