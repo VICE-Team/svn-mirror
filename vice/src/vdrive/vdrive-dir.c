@@ -679,7 +679,7 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
     }
     *l++ = 0;
 
-    p->bufptr = l - p->buffer;
+    p->bufptr = (unsigned int)(l - p->buffer);
 
     p->small = 1;
 
@@ -766,7 +766,7 @@ int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b)
                     for (l+=43;l<(b->buffer + b->bufptr + 63);l++) *l = 1;
                 }
                 *l = 0;
-                return l - (b->buffer + b->bufptr);
+                return (int)(l - (b->buffer + b->bufptr));
             } else {
                 /* standard output */
                 memcpy(l + 18, cbmdos_filetype_get(p[SLOT_TYPE_OFFSET] & 0x07), 3);

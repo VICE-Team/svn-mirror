@@ -1832,7 +1832,7 @@ int vdrive_command_switchtraverse(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
                 status = CBMDOS_IPE_PATH_NOT_FOUND;
                 goto out;
             }
-            i = next - (uint8_t*)cmd->path;
+            i = (int)(next - (uint8_t*)cmd->path);
         } while (i < cmd->pathlength - 1);
     }
      
@@ -3109,7 +3109,7 @@ static int vdrive_command_format_internal(vdrive_t *vdrive, cbmdos_cmd_parse_plu
                 newid[1] = cmd->more[2];
             }
             more++;
-            morelength = cmd->morelength - (more - cmd->more);
+            morelength = (int)(cmd->morelength - (more - cmd->more));
         }
     }
 
@@ -3259,7 +3259,7 @@ static int vdrive_command_format_internal(vdrive_t *vdrive, cbmdos_cmd_parse_plu
         origpart = vdrive->default_part;
 
         if (parts > 1) {
-             i = strlen((char*)name);
+             i = (int)strlen((char*)name);
              longname = lib_malloc(17);
              memset(longname, ' ', 16);
              memcpy(longname, name, i);
@@ -3329,7 +3329,7 @@ int vdrive_command_format(struct vdrive_s *vdrive, const char *disk_name)
     /* TODO: the cmd structure should just be created and passed to the format function */
 
     /* create NEW command */
-    length = strlen(disk_name);
+    length = (int)strlen(disk_name);
     po = p = lib_malloc(length + 5);
     *p = 'N';
     p++;
@@ -3348,7 +3348,7 @@ int vdrive_command_format(struct vdrive_s *vdrive, const char *disk_name)
     p[length] = 0;
 
     cmd.full = po;
-    cmd.fulllength = strlen((char*)po);
+    cmd.fulllength = (unsigned int)strlen((char*)po);
     cmd.secondary = 0;
     cmd.mode = 1;
 
@@ -3807,7 +3807,7 @@ static int vdrive_command_time(vdrive_t *vdrive, uint8_t *cmd, int length)
         if (cmd[3] == 'A') {
             sprintf((char *)p->buffer, "%4s %02d/%02d/%02d %02d:%02d:%02d %cM\015",
                 days[dday], dmon, ddate, dyear, dhour2, dmin, dsec, ampm);
-            p->length = strlen((char *)p->buffer) - 1;
+            p->length = (unsigned int)strlen((char *)p->buffer) - 1;
         } else if (cmd[3] == 'D') {
             p->buffer[0] = dday;
             p->buffer[1] = dyear;

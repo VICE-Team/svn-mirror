@@ -476,7 +476,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive,
 static void vdrive_bam_set(vdrive_t *vdrive, uint8_t *bamp, unsigned int sector)
 {
     uint8_t *t = &(bamp[1 + (sector >> 3)]);
-    int p = (t - vdrive->bam) >> 8;
+    int p = (int)((t - vdrive->bam) >> 8);
 
     /* make sure bam data is loaded */
     vdrive_bam_read_bam_block(vdrive, p);
@@ -494,7 +494,7 @@ static void vdrive_bam_set(vdrive_t *vdrive, uint8_t *bamp, unsigned int sector)
 static void vdrive_bam_clr(vdrive_t *vdrive, uint8_t *bamp, unsigned int sector)
 {
     uint8_t *t = &(bamp[1 + (sector >> 3)]);
-    int p = (t - vdrive->bam) >> 8;
+    int p = (int)((t - vdrive->bam) >> 8);
 
     /* make sure bam data is loaded */
     vdrive_bam_read_bam_block(vdrive, p);
@@ -515,7 +515,7 @@ static void vdrive_bam_clr(vdrive_t *vdrive, uint8_t *bamp, unsigned int sector)
 static int vdrive_bam_isset(vdrive_t *vdrive, uint8_t *bamp, unsigned int sector)
 {
     uint8_t *t = &(bamp[1 + (sector >> 3)]);
-    int p = (t - vdrive->bam) >> 8;
+    int p = (int)((t - vdrive->bam) >> 8);
 
     /* make sure bam data is loaded */
     vdrive_bam_read_bam_block(vdrive, p);
@@ -687,7 +687,7 @@ static uint8_t *vdrive_bam_get_track_entry(vdrive_t *vdrive, unsigned int track,
 static void vdrive_bam_sector_free(vdrive_t *vdrive, uint8_t *bamp,
                                    unsigned int track, int add)
 {
-    int p = (bamp - vdrive->bam) >> 8;
+    int p = (int)((bamp - vdrive->bam) >> 8);
 
     switch (vdrive->image_format) {
         case VDRIVE_IMAGE_FORMAT_1541:
