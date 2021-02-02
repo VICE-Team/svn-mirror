@@ -314,7 +314,7 @@ uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
                 return_slot[SLOT_GEOS_MINUTE] );
             /* time_low is initially 0, and time_high is initially largest,
                 so it should always match for most uses. */
-            if (t >= dir->time_low && t <= dir->time_high) 
+            if (t >= dir->time_low && t <= dir->time_high)
                 return return_slot;
         }
     } while (1);
@@ -492,15 +492,15 @@ static unsigned int asciidate_to_int(const uint8_t *p, unsigned int def) {
         return def;
     }
 
-    if ( p[0]<'0' || p[0]>'9' || 
-         p[1]<'0' || p[1]>'9' || 
-         p[3]<'0' || p[3]>'9' || 
-         p[4]<'0' || p[4]>'9' || 
-         p[6]<'0' || p[6]>'9' || 
-         p[7]<'0' || p[7]>'9' || 
-         p[9]<'0' || p[9]>'9' || 
-         p[10]<'0' || p[10]>'9' || 
-         p[12]<'0' || p[12]>'9' || 
+    if ( p[0]<'0' || p[0]>'9' ||
+         p[1]<'0' || p[1]>'9' ||
+         p[3]<'0' || p[3]>'9' ||
+         p[4]<'0' || p[4]>'9' ||
+         p[6]<'0' || p[6]>'9' ||
+         p[7]<'0' || p[7]>'9' ||
+         p[9]<'0' || p[9]>'9' ||
+         p[10]<'0' || p[10]>'9' ||
+         p[12]<'0' || p[12]>'9' ||
          p[13]<'0' || p[13]>'9' ) {
          return def;
     }
@@ -547,61 +547,61 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
     if (!p->small) {
 
         filetype = CBMDOS_FT_DEL;
-    
+
         if (length < 1) {
             name = (uint8_t*)"*";
             length = 1;
         }
-    
+
         limit = &(name[length]);
-    
+
         c = memchr(name, '=', length);
         newlen = length;
         if (c) {
             newlen = (int) (c - name);
         }
-    
+
         vdrive_dir_find_first_slot(vdrive, name, newlen, filetype, &p->dir);
-    
+
         if (c) {
             while (c < limit) {
                 switch (*c) {
                     case ',':
                     case '=':
                         break;
-    
+
                     case 'L':
                         p->timemode = 2;
                         break;
-    
+
                     case 'N':
                         p->timemode = 0;
                         break;
-    
+
                     case 'S':
                         filetype = CBMDOS_FT_SEQ;
                         break;
-    
+
                     case 'P':
                         filetype = CBMDOS_FT_PRG;
                         break;
-    
+
                     case 'U':
                         filetype = CBMDOS_FT_USR;
                         break;
-    
+
                     case 'R':
                         filetype = CBMDOS_FT_REL;
                         break;
-    
+
                     case 'C':
                         filetype = CBMDOS_FT_CBM;
                         break;
-    
+
                     case 'D':
                         filetype = CBMDOS_FT_DIR;
                         break;
-    
+
                     case '>':
                         if (c + 17 < limit) {
                             p->dir.time_low = asciidate_to_int(c + 1, 0);
@@ -611,7 +611,7 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
                             c = limit;
                         }
                         break;
-    
+
                     case '<':
                         if (c + 17 < limit) {
                             p->dir.time_high = asciidate_to_int(c + 1, 0xffffffff);
@@ -621,14 +621,14 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
                             c = limit;
                         }
                         break;
-    
+
                     default:
                         break;
                 }
                 c++;
             }
         }
-    
+
         p->dir.find_type = filetype;
 
         /* start address */
@@ -640,9 +640,9 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const uint8_t *name,
         p->dir.track = vdrive->Header_Track;
         p->dir.sector = vdrive->Header_Sector;
         p->dir.slot = 7;
-    
+
         vdrive_read_sector(vdrive, p->dir.buffer, p->dir.track, p->dir.sector);
-    
+
         /* old drives may have needed this, but NP's keep their info correct */
         if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_NP) {
             p->dir.buffer[0] = vdrive->Dir_Track;

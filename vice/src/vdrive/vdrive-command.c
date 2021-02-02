@@ -289,7 +289,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
                     case '2': /* U2 */
                         status = vdrive_command_u1a2b(vdrive, &cmd);
                         goto out1;
-    
+
                     case 'C': /* Jumps */
                     case '3':
                     case 'D':
@@ -306,7 +306,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
                             status = CBMDOS_IPE_NOT_READY;
                         }
                         goto out;
-    
+
                     case 'I': /* UI */
                     case '9': /* U9 */
                         if (cmd.commandlength == 3 && (cmd.command[2] == '-' || cmd.command[2] == '+')) {
@@ -321,7 +321,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
                         goto out;
 
                     case 'J': /* UJ */ /* CMDHD/FD2000/F4000 also have UJP to reload partition table */
-                        if (cmd.commandlength > 2 && cmd.command[2] == 'P' && 
+                        if (cmd.commandlength > 2 && cmd.command[2] == 'P' &&
                             vdrive->haspt ) {
                             vdrive_close_all_channels(vdrive); /* Warm/Cold reset */
                             vdrive->sys_offset = UINT32_MAX;
@@ -335,7 +335,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
                                 /* error is dos version regardless of outcome */
                                 status = CBMDOS_IPE_DOS_VERSION;
                                 goto out;
-                            } 
+                            }
                             status = CBMDOS_IPE_NOT_READY;
                             goto out;
                         }
@@ -346,7 +346,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
                         vdrive_close_all_channels(vdrive); /* Warm/Cold reset */
                         status = CBMDOS_IPE_DOS_VERSION;
                         goto out;
-    
+
                     case '0': /* U0 */
                         if (cmd.commandlength == 2 && cmd.command[1] == '0') {
                             status = CBMDOS_IPE_OK;
@@ -968,7 +968,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 (slot[SLOT_TYPE_OFFSET] != (CBMDOS_FT_USR | CBMDOS_FT_CLOSED) ) &&
                 (slot[SLOT_TYPE_OFFSET] != (CBMDOS_FT_REL | CBMDOS_FT_CLOSED) )) {
                 goto out;
-            } 
+            }
             if (i == 0) {
                 newtype = slot[SLOT_TYPE_OFFSET];
                 if (slot[SLOT_TYPE_OFFSET] == (CBMDOS_FT_REL | CBMDOS_FT_CLOSED)) {
@@ -1003,7 +1003,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     /* look for destination entry */
     vdrive_dir_find_first_slot(vdrive, dest.file, dest.filelength,
         CBMDOS_FT_DEL, &dir);
-    
+
     slot = vdrive_dir_find_next_slot(&dir);
 
     /* error out if it exists */
@@ -1035,7 +1035,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
         ws = 0;
         es = 0;
         wp = 2;
-        
+
         /* setup buffers; use larger read ones to avoid switching between
             partitions often */
         wb = lib_malloc(256);
@@ -1327,7 +1327,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 #ifdef DEBUG_DRIVE
     log_debug("RENAME: dest name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
- 
+
     status = CBMDOS_IPE_SYNTAX;
     /* check to make sure there is an '=' in the command */
     if (!(cmd->morelength && cmd->more[0] == '=')) {
@@ -1390,7 +1390,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 #ifdef DEBUG_DRIVE
     log_debug("RENAME: src name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
- 
+
     /* Now we can replace the old file name...  */
     /* We write directly to the Dir_buffer.  */
 
@@ -1451,7 +1451,7 @@ static int vdrive_command_renameheader(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t
 #ifdef DEBUG_DRIVE
     log_debug("RENAMEHEADER: dest name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
- 
+
     status = CBMDOS_IPE_SYNTAX;
     /* check for wildcards anywhere in the new name */
     if (vdrive_haswildcard(cmd->file, cmd->filelength)) {
@@ -1476,7 +1476,7 @@ static int vdrive_command_renameheader(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t
 
     /* copy over new header */
     for (i = 0; i < 16 && i < cmd->filelength; i++) {
-        tmp[vdrive->bam_name + i] = cmd->file[i];    
+        tmp[vdrive->bam_name + i] = cmd->file[i];
     }
     /* pad the rest */
     for (; i < 16; i++) {
@@ -1535,7 +1535,7 @@ static int vdrive_command_renamepart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
 #ifdef DEBUG_DRIVE
     log_debug("RENAMEPART: dest name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
- 
+
     status = CBMDOS_IPE_SYNTAX;
     /* check to make sure there is an '=' in the command */
     if (!(cmd->morelength && cmd->more[0] == '=')) {
@@ -1596,7 +1596,7 @@ static int vdrive_command_renamepart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
 #ifdef DEBUG_DRIVE
     log_debug("RENAMEPART: src name='%s', len=%u", cmd->file, cmd->filelength);
 #endif
- 
+
     /* Now we can replace the old file name...  */
     /* We write directly to the Dir_buffer.  */
 
@@ -1645,7 +1645,7 @@ static int vdrive_command_lockunlock(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
 
 #ifdef DEBUG_DRIVE
     log_debug("LOCK/UNLOCK: dest name='%s', len=%u", cmd->file, cmd->filelength);
-#endif 
+#endif
 
     status = CBMDOS_IPE_SYNTAX;
     /* check for wildcards anywhere in the file name */
@@ -1667,7 +1667,7 @@ static int vdrive_command_lockunlock(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
         status = CBMDOS_IPE_NOT_FOUND;
         goto out;
     }
-     
+
     /* update the directory entry */
 
     slot = &dir.buffer[dir.slot * 32];
@@ -1741,8 +1741,8 @@ int vdrive_command_switchtraverse(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
                         goto out;
                     }
                     vdrive->Header_Track = buffer[34]; /* get parent info */
-                    vdrive->Header_Sector = buffer[35]; 
-    
+                    vdrive->Header_Sector = buffer[35];
+
                     /* read previous header to get dir links */
                     rc = vdrive_read_sector(vdrive, buffer, vdrive->Header_Track,
                                             vdrive->Header_Sector);
@@ -1794,15 +1794,15 @@ int vdrive_command_switchtraverse(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
                     goto out;
                 }
             }
-          
+
             /* skip directory search if "CD//" */
             if (skip) {
                 vdrive_dir_find_first_slot(vdrive, &(cmd->path[i]),
                             (int)(next - &(cmd->path[i])), CBMDOS_FT_DIR, &dir);
-          
+
                 slot = vdrive_dir_find_next_slot(&dir);
             }
-         
+
             if (!skip) {
                 /* just set root folder */
                 vdrive->Dir_Track = DIR_TRACK_NP;
@@ -1821,7 +1821,7 @@ int vdrive_command_switchtraverse(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
                     status = CBMDOS_IPE_NOT_READY;
                     goto out;
                 }
-    
+
                 /* update vdrive settings */
                 vdrive->Header_Track = slot[SLOT_FIRST_TRACK];
                 vdrive->Header_Sector = slot[SLOT_FIRST_SECTOR];
@@ -1835,7 +1835,7 @@ int vdrive_command_switchtraverse(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
             i = (int)(next - (uint8_t*)cmd->path);
         } while (i < cmd->pathlength - 1);
     }
-     
+
 out:
     return status;
 }
@@ -1865,7 +1865,7 @@ int vdrive_command_switch(vdrive_t *vdrive, int part)
         return 1;
     }
     return vdrive_switch(vdrive, part);
-}     
+}
 
 static int vdrive_command_scratch(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 {
@@ -1898,7 +1898,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
         log_debug("remove name='%s', len=%u, type=%u.",
             cmd->file, cmd->filelength, cmd->filetype);
 #endif
-     
+
 /* any =[filetype] is on the 'more' structure */
         if (cmd->morelength && cmd->more[0] == '=') {
             if (cmd->morelength > 1) {
@@ -1921,14 +1921,14 @@ static int vdrive_command_scratch(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
                 cmd->more = newmore;
                 cmd->morelength = rc;
             }
-        } 
+        }
 
         /* check if this is a GEOS formatted partition */
 /* FIXME: 1581 sub-directories? where is the geos signature? */
         geos = vdrive_bam_isgeos(vdrive);
 
         vdrive_dir_find_first_slot(vdrive, cmd->file, cmd->filelength, filetype, &dir);
-     
+
         while ((slot = vdrive_dir_find_next_slot(&dir))) {
             /* skip DIR entries, have to use the RD command for those */
             if ((slot[SLOT_TYPE_OFFSET] & 0x07) == CBMDOS_FT_DIR) {
@@ -1979,7 +1979,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
                 t = slot[SLOT_FIRST_TRACK];
                 s = slot[SLOT_FIRST_SECTOR];
                 l = slot[SLOT_NR_BLOCKS] | (slot[SLOT_NR_BLOCKS + 1] << 8);
-    
+
                 /* cycle through all the sectors; no error detection - just skip anything bad */
                 while (l) {
                     /* stop if we are over track 80 */
@@ -2194,11 +2194,11 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* find entry */
     vdrive_dir_find_first_slot(vdrive, cmd->file, cmd->filelength, CBMDOS_FT_CBM, &dir);
-    
+
     slot = vdrive_dir_find_next_slot(&dir);
 
     status = CBMDOS_IPE_NOT_FOUND;
-    
+
     /* check to see if we are in create mode */
     if (cmd->morelength >= 7 && cmd->more[0] == ',' && cmd->more[5] == ',' && cmd->more[6] == 'C') {
         /* read only mode? */
@@ -2301,7 +2301,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
             /*
             In order to _change to_ a partition as a sub-directory, it  must  adhere  to
             the following four rules:
-    
+
             1. It must start on sector 0
             2. It's size must be in multiples of 40 sectors (which means the
                last sector is 39)
@@ -2311,7 +2311,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
             ts = slot[SLOT_FIRST_TRACK];
             ss = slot[SLOT_FIRST_SECTOR];
             len = slot[SLOT_NR_BLOCKS] | (slot[SLOT_NR_BLOCKS + 1] << 8);
-    
+
             if ((ss == 0) && ((len % 40) == 0) && (len >= 120) && (ts != 40)) {
                 te = ts * 40 + len;
                 ss = ts * 40;
@@ -2325,9 +2325,9 @@ static int vdrive_command_chpart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                     goto out;
                 }
                 te = ts + (len / 40) - 1;
-    
+
                 /* don't need to check the BAM or anything, just proceed */
-    
+
 #ifdef DEBUG_DRIVE
                 log_debug("Partition Trk %d Sec %d - Trk %d len: %d", ts, ss, te, len);
 #endif
@@ -2409,14 +2409,14 @@ static int vdrive_command_mkdir(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     log_debug("mkdir name='%s', len=%u.",
         cmd->file, cmd->filelength);
 #endif
-     
+
     /* find entry */
     vdrive_dir_find_first_slot(vdrive, cmd->file, cmd->filelength, CBMDOS_FT_DIR, &dir);
-    
+
     slot = vdrive_dir_find_next_slot(&dir);
 
     status = CBMDOS_IPE_NOT_FOUND;
-    
+
     /* error out if it exists */
     if (slot) {
         status = CBMDOS_IPE_FILE_EXISTS;
@@ -2587,7 +2587,7 @@ static int vdrive_command_rmdir(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* we are now in it; check if there are any files here */
     vdrive_dir_find_first_slot(vdrive, (uint8_t*)"*", 1, 0, &dir);
-     
+
     while ((slot = vdrive_dir_find_next_slot(&dir))) {
         /* if DIR entrie is not deleted, leave */
         if (slot[SLOT_TYPE_OFFSET] != 0) {
@@ -2601,7 +2601,7 @@ static int vdrive_command_rmdir(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     /* find the entry */
     vdrive_dir_find_first_slot(vdrive, file, filelength, CBMDOS_FT_DIR, &dir);
-    
+
     slot = vdrive_dir_find_next_slot(&dir);
 
     /* it shouldn't be null, but let's be safe anyways */
@@ -3220,10 +3220,10 @@ static int vdrive_command_format_internal(vdrive_t *vdrive, cbmdos_cmd_parse_plu
             memset(&(buf[k | 0x05]), 0xa0, 16);
             memcpy(&(buf[k | 0x05]), "PARTITION ", 10);
             buf[k | 0x0f] = '1' + i;
-            buf[k | 0x16] = (j >> 8) & 255; 
-            buf[k | 0x17] = j & 255; 
-            buf[k | 0x1e] = ((psize/parts) >> 8) & 255; 
-            buf[k | 0x1f] = (psize/parts) & 255; 
+            buf[k | 0x16] = (j >> 8) & 255;
+            buf[k | 0x17] = j & 255;
+            buf[k | 0x1e] = ((psize/parts) >> 8) & 255;
+            buf[k | 0x1f] = (psize/parts) & 255;
             j += (psize/parts);
             k += 0x20;
         }
@@ -3243,7 +3243,7 @@ static int vdrive_command_format_internal(vdrive_t *vdrive, cbmdos_cmd_parse_plu
         buf[0xa9] = 0;
         buf[0xe2] = 1;
         buf[0xe3] = 1;
-        memcpy(&(buf[0xf0]), "CMD FD SERIES   ", 16); 
+        memcpy(&(buf[0xf0]), "CMD FD SERIES   ", 16);
         if (vdrive_write_sector(vdrive, buf, 0, 5)) {
             goto out2;
         }
@@ -3552,7 +3552,7 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t a
     /* commit the data */
     for (i = 0; i < len; i++) {
         vdrive->ram[(addr + i) & 0x7fff] = buf[1 + i];
-    } 
+    }
 
     /* grab a valid image type as there may be no context */
     if (vdrive->image) {
@@ -3659,7 +3659,7 @@ log_warning(LOG_DEFAULT,"job #%d write sector %u %u",i,(unsigned int)vdrive->ram
                 default:
                     log_warning(vdrive_command_log, "Unknown job code: %02x\n", (unsigned int)job);
                     break;
-            } 
+            }
         }
     }
 
@@ -3745,7 +3745,7 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const uint8_t *buf, uint16_t ad
     /* move the data */
     for (i = 0; i < len; i++) {
         p->buffer[i] = vdrive->ram[(addr + i) & 0x7fff];
-    } 
+    }
 
 out:
     p->length = len;
@@ -3903,7 +3903,7 @@ static int vdrive_command_getpartinfo(vdrive_t *vdrive, const uint8_t *cmd, int 
     if (ret >= 0) {
         p->buffer[2] = part;
         if (part <= maxpart) {
-            /* if the entry exists */ 
+            /* if the entry exists */
             p->buffer[0] = buf[j + 2]; /* type */
             memcpy((char*)&(p->buffer[3]), &(buf[j + 5]), 16);
             p->buffer[19] = buf[j + 0x15];

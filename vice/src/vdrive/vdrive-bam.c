@@ -126,7 +126,7 @@ static int vdrive_bam_get_interleave(vdrive_t *vdrive)
 /*
 This function is used by the next 3 to find an available sector in
 a single track. Typically this would be a simple loop, but the D9090/60
-adds another dimension (heads) to the search. 
+adds another dimension (heads) to the search.
 It only updates the sector if it finds something (returns 0).
 returns -1 if nothing found.
 */
@@ -393,7 +393,7 @@ int vdrive_bam_alloc_next_free_sector_interleave(vdrive_t *vdrive,
             }
             /* skip the first 64 sectors of track 1 */
             if (*track == DIR_TRACK_NP && *sector < 64) {
-                *sector = 64; 
+                *sector = 64;
             }
             /* try the sector */
             if (vdrive_bam_allocate_sector(vdrive, *track, *sector)) {
