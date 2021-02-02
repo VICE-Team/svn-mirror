@@ -860,7 +860,7 @@ static void printoptions(char *inputname, char *optionsname)
             } else if (machine_class == VICE_MACHINE_VIC20) {
                 fprintf(f,"-t,vic20,");
                 if (convert_to_bin) {
-                    unsigned int loadaddr;
+                    unsigned int loadaddr = 0;
                     detect_load_address(inputname, &loadaddr);
                     fprintf(f,"-l,%u,", loadaddr);
                 }
@@ -1008,7 +1008,7 @@ static void usage(void)
     printf("-r                          repair mode (accept broken input files)\n");
     printf("-p                          accept non padded binaries as input\n");
     printf("-b                          output all banks (do not optimize the .crt file)\n");
-    printf("-t <type>                   output cart type\n");
+    printf("-t <type> or <crtid>        output cart type\n");
     printf("-s <rev>                    output cart revision/subtype\n");
     printf("-i <name>                   input filename\n");
     printf("-o <name>                   output filename\n");
@@ -1111,12 +1111,17 @@ static int checkflag(char *flg, char *arg)
                     (convert_to_ultimax != 0)) {
                     usage();
                 } else {
-                    cart_type = find_crtid_from_type(cart_info, arg);
-                    if (cart_type == -1) {
-                        cart_type = find_crtid_from_type(cart_info_vic20, arg);
-                        if (cart_type != -1) {
-                            /* found vic20 cartridge */
-                            machine_class = VICE_MACHINE_VIC20;
+                    cart_type = strtoul(arg, NULL, 0);
+                    if ((cart_type > 0) && (cart_type <= CARTRIDGE_LAST)) {
+                        /* accept numeric id for C64 cartridges */
+                    } else {
+                        cart_type = find_crtid_from_type(cart_info, arg);
+                        if (cart_type == -1) {
+                            cart_type = find_crtid_from_type(cart_info_vic20, arg);
+                            if (cart_type != -1) {
+                                /* found vic20 cartridge */
+                                machine_class = VICE_MACHINE_VIC20;
+                            }
                         }
                     }
 
