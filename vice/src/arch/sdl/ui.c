@@ -872,7 +872,6 @@ int ui_cmdline_options_init(void)
 void ui_init_with_args(int *argc, char **argv)
 {
     DBG(("%s", __func__));
-    return 0;
 }
 
 int ui_init(void)
