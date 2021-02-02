@@ -95,6 +95,12 @@ BINDIST_PREFIX=""
 # Bindist VICE version (including SVN revision if applicable)
 BINDIST_VICE_VERSION=""
 
+# Default emulators
+BINDIST_EMUS="x64sc xscpu64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+
+# Tools
+BINDIST_TOOLS="c1541 tools/cartconv/cartconv tools/petcat/petcat"
+
 
 # Set bindist Windows version to either 'win32' or 'win64'
 set_bindist_windows_version()
@@ -268,5 +274,6 @@ set_bindist_vice_version
 # Set bindist dir
 BINDIST_DIR="$BINDIST_PREFIX-$BINDIST_VICE_VERSION-$BINDIST_WINVER"
 # Create bindist dir, optionally deleting the old one
-create_bindist_dir()
+create_bindist_dir
 
+# Now it's time to actually source some stuff depending on UI...
