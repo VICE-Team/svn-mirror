@@ -156,6 +156,25 @@ bindistzip:
 bindist7zip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) @ENABLE_ARCH@ 7zip $(X64_INCLUDED) $(top_srcdir) $(top_builddir) $(host_cpu) $(SDL_VERSION) "$(SDLCONFIG)" $(CROSS) $(objdump) $(CC) $(HTML_DOCS)
 
+
+# New way of creating bindists for Windows (testing):
+bindist-new:
+	$(SHELL) $(top_srcdir)/src/arch/shared/make_bindist_win32.sh \
+		--verbose \
+		--ui sdl2 \
+		--compiler $(CC) \
+		--cross $(CROSS) \
+		--cpu $(host_cpu) \
+		--enable-arch @ENABLE_ARCH@ \
+		--enable-x64 $(X64_INCLUDED) \
+		--html-docs $(HTML_DOCS) \
+		--objdump "$(objdump)" \
+		--sdl-config "$(SDLCONFIG)" \
+		--strip "$(STRIP)" \
+		--topbuilddir $(top_builddir) \
+		--topsrcdir $(top_srcdir) \
+		--vice-version $(VICE_VERSION)
+
 endif
 endif
 endif
