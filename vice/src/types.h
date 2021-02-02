@@ -29,9 +29,10 @@
 #define VICE_TYPES_H
 
 #include "vice.h"
-
+#if 0
 #if defined(USE_SDLUI) || defined(USE_SDLUI2)
 #  include "vice_sdl.h"
+#endif
 #endif
 
 #include <stdbool.h>

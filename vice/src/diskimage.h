@@ -27,6 +27,7 @@
 #ifndef VICE_DISKIMAGE_H
 #define VICE_DISKIMAGE_H
 
+#include <sys/types.h>
 #include "types.h"
 
 #define D64_FILE_SIZE_35   174848        /* D64 image, 35 tracks */

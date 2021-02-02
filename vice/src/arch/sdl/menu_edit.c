@@ -25,7 +25,7 @@
  */
 
 #include "vice.h"
-
+#include "vice_sdl.h"
 #include "machine.h"
 #include "menu_common.h"
 #include "menu_edit.h"
