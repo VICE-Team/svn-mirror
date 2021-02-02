@@ -130,7 +130,7 @@ set_bindist_vice_version()
 
   # If we didn't get an SVN revision, we might be building from a Git Action
   if [ "$svn_suffix" = "" ]; then
-    svn_git_hash=$(git -C "$TOPSRCDIR" log --grep='git-svn-id:' -n 1 --pretty-format:"%H")
+    svn_git_hash=$(git -C "$TOPSRCDIR" log --grep='git-svn-id:' -n 1 --pretty=format:"%H")
     if [[ $? -eq 0 && "$svn_git_hash" != "" ]]; then
       svn_suffix="-r$(git svn find-rev $svn_git_hash)"
     fi
@@ -140,7 +140,27 @@ set_bindist_vice_version()
 }
 
 
-
+# Create bindist dir, remove first if it already exists
+function create_bindist_dir()
+{
+  if [ "$VERBOSE" = "yes" ]; then
+    echo "Creating directory $BINDIST_DIR"
+  fi
+  if [ -e "$BINDIST_DIR" ]; then
+    if [ "$VERBOSE" = "yes" ]; then
+      echo ".. Removing old directory first"
+    fi
+    rm -rfd "$BINDIST_DIR"
+  fi
+  mkdir "$BINDIST_DIR"
+  if [ $? -ne 0 ]; then
+    echo "$(basename $0): error: failed to remove $BINDIST_DIR"
+    exit 1
+  fi
+  if [ "$VERBOSE" = "yes" ]; then
+    echo "OK."
+  fi
+}
 
 
 # Debug hook: show values of the option variables
@@ -247,24 +267,6 @@ set_bindist_vice_version
 
 # Set bindist dir
 BINDIST_DIR="$BINDIST_PREFIX-$BINDIST_VICE_VERSION-$BINDIST_WINVER"
-
-
-# Create bindist dir, remove first if it already exists
-if [ "$VERBOSE" = "yes" ]; then
-  echo "Creating directory $BINDIST_DIR"
-fi
-if [ -e "$BINDIST_DIR" ]; then
-  if [ "$VERBOSE" = "yes" ]; then
-    echo ".. Removing old directory first"
-  fi
-  rm -rfd "$BINDIST_DIR"
-fi
-mkdir "$BINDIST_DIR"
-if [ $? -ne 0 ]; then
-  echo "$(basename $0): error: failed to remove $BINDIST_DIR"
-  exit 1
-fi
-if [ "$VERBOSE" = "yes" ]; then
-  echo "OK."
-fi
+# Create bindist dir, optionally deleting the old one
+create_bindist_dir()
 
