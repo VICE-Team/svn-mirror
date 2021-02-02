@@ -1025,6 +1025,8 @@ if test x"$enable_debug" = "xyes"; then
 
   if test x"$have_backtrace_symbols" = "xyes"; then
     AC_DEFINE(HAVE_BT_SYMBOLS,,[Use backtrace facility of libC or libexecinfo])
+    dnl Required for gcc to get proper backtraces
+    VICE_LDFLAGS="$VICE_LDFLAGS -rdynamic"
   fi
 
 else
