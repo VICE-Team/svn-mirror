@@ -485,7 +485,10 @@ static CHECKYESNO check2(const char *s, unsigned int blink_mode, int lineoffset)
 
     for (i = 0; s[i] != '\0'; i++) {
         int checkbyte = mem_read_screen((uint16_t)(addr + i) & 0xffff);
-        DBGWAIT(("checkbyte: %04x:%02x (expected:%02x)", addr + i, checkbyte, s[i] % 64));
+        DBGWAIT(("checkbyte: %04x:%02x (expected:%02x)",
+                    (unsigned int)(addr + i),
+                    (unsigned int)checkbyte,
+                    (unsigned int)(s[i] % 64)));
         if (checkbyte != s[i] % 64) {
             if (checkbyte != (uint8_t)32) {
                 DBGWAIT(("check2: return NO"));
