@@ -276,4 +276,15 @@ BINDIST_DIR="$BINDIST_PREFIX-$BINDIST_VICE_VERSION-$BINDIST_WINVER"
 # Create bindist dir, optionally deleting the old one
 create_bindist_dir
 
+
+# Add old x64 if requested
+BINDIST_EMUS="x64 $BINDIST_EMUS"
+
 # Now it's time to actually source some stuff depending on UI...
+case "$UI" in
+  sdl1|sdl2) source ../sdl/make_bindist_win32_sdl.sh;;
+  gtk3) source ../gtk3/make_bindist_win32_gtk3.sh;;
+  *) echo "($basename $0): invalid UI, aborting."; exit;;
+esac
+
+
