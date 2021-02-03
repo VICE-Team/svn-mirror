@@ -6,6 +6,8 @@
 # Make sure we use Windows' console mode since this is a command line tool
 if WIN32_COMPILE
 cartconv_LDFLAGS = -mconsole
+else
+cartconv_LD_FLAGS = 
 endif
 
 
@@ -17,18 +19,12 @@ $(top_builddir)/src/svnversion.h:
 # This is the binary we want to create
 bin_PROGRAMS = cartconv
 
-
 AM_CPPFLAGS = \
 	@VICE_CPPFLAGS@ \
 	-I$(top_srcdir)/src \
 	-I$(top_builddir)/src
 
-AM_CFLAGS =  @VICE_CFLAGS@
-
-AM_CXXFLAGS = @VICE_CXXFLAGS@
-
-AM_LDFLAGS = @VICE_LDFLAGS@
-
+LIBS = 
 
 # Sources used cartconv
 cartconv_SOURCES = \
