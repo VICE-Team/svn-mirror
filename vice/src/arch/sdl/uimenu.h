@@ -34,6 +34,7 @@
 
 #include "vice.h"
 #include "types.h"
+#include <stddef.h>
 
 extern int sdl_menu_state;
 extern int sdl_pause_state;

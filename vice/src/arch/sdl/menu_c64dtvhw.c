@@ -26,6 +26,7 @@
 
 #include "vice.h"
 #include "types.h"
+#include <stddef.h>
 
 #include "c64dtv-resources.h"
 #include "c64dtvmodel.h"
