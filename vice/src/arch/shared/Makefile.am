@@ -185,6 +185,7 @@ EXTRA_DIST = \
 	macOS-wrap-ranlib.sh \
 	macOS-util.h \
 	make-bindist_osx.sh \
-	make_bindist_win32.sh
+	make_bindist_win32.sh \
+	README-bindist.txt
 
 # FIXME: the Extra MacOS script stuff should live elsewhere
