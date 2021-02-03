@@ -30,8 +30,8 @@
  *
  */
 
-#define DEBUG_AUTOSTART
-#define DEBUG_AUTOSTARTWAIT
+/* #define DEBUG_AUTOSTART */
+/* #define DEBUG_AUTOSTARTWAIT */
 
 #include "vice.h"
 
