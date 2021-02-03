@@ -55,6 +55,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
@@ -609,6 +610,20 @@ void reu_reset(void)
     rec.address_control_reg = REU_REG_RW_ADDR_CONTROL_UNUSED_MASK;
 }
 
+/* observed values from a 1764 REU with 256k */
+static RAMINITPARAM reuramparam = {
+    .start_value = 255,
+    .value_invert = 2,
+    .value_offset = 1,
+
+    .pattern_invert = 0x20000,
+    .pattern_invert_value = 255,
+
+    .random_start = 0,
+    .random_repeat = 0,
+    .random_chance = 1,
+};
+
 static int reu_activate(void)
 {
     if (!reu_size) {
@@ -618,9 +633,7 @@ static int reu_activate(void)
     reu_ram = lib_realloc(reu_ram, reu_size);
 
     /* Clear newly allocated RAM.  */
-    if (reu_size > old_reu_ram_size) {
-        memset(reu_ram, 0, (size_t)(reu_size - old_reu_ram_size));
-    }
+    ram_init_with_pattern(reu_ram, reu_size, &reuramparam);
 
     old_reu_ram_size = reu_size;
 
@@ -1072,6 +1085,7 @@ inline static uint8_t read_from_reu(unsigned int reu_addr)
         value = reu_ram[reu_addr];
     } else {
         DEBUG_LOG(DEBUG_LEVEL_NO_DRAM, (reu_log, "--> read from REU address %05X, but no DRAM!", reu_addr));
+        /* reading open/floating bus returns 0xff (confirmed by test program) */
     }
 
     return value;
