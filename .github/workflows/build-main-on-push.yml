@@ -5,8 +5,80 @@ on:
     - '*' # any tag name for now
 
 jobs:
+  cleanup_previous_builds: # Delete unfinished draft prereleases, and prereleases older than 30 days (but keep at least 10)
+    name: Cleanup Previous Builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            // Get a list of all releases, sorted newest first
+            let releases =
+              (await github.paginate(
+                github.repos.listReleases,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo
+                }))
+                .sort((a,b) => b.created_at.localeCompare(a.created_at));
+            
+            let releaseCount = 0;
+            let releasesToDelete = [];
+
+            // Initiate deletion of draft prereleases
+            for (const release of releases)
+            {
+              // Only cleanup prereleases
+              if (!release.prerelease)
+                continue;
+
+              // Failed builds leave drafts - delete them
+              if (release.draft)
+              {
+                console.log("Will delete draft prerelease: " + release.tag_name);
+                releasesToDelete.push(release.id);
+                continue;
+              }
+              
+              // Keep at least 10, no matter how old
+              if (++releaseCount <= 10)
+                continue;
+              
+              // We have more than 10 releases - delete those more than 30 days old
+              let daysAgo = Math.floor((new Date() - Date.parse(release.created_at)) / 1000 / 60 / 60 / 24);
+
+              if (daysAgo <= 30)
+                continue;
+              
+              console.log("Will delete old prerelease: " + release.tag_name);
+              releasesToDelete.push(release.id);
+            }
+
+            if (releasesToDelete.length)
+            {
+              let promises = [];
+
+              for (const id of releasesToDelete)
+              {
+                promises.push(
+                  github.repos.deleteRelease(
+                    {
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      release_id: id
+                    }));
+              }
+              
+              console.log("Waiting for deletions to complete");
+              await Promise.all(promises);
+            }
+
+            console.log("Done.");
+
   create_release:
     name: Create Draft Release
+    needs: cleanup_previous_builds
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
