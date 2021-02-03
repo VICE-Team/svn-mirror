@@ -216,6 +216,7 @@ EXTRA_DIST = \
 	make-bindist_beos.sh \
 	make-bindist_osx.sh \
 	make-bindist_win32.sh \
+	make_bindist_win32_sdl.sh \
 	macOS-ui-runtime.sh \
 	Resources/VICE.icns \
 	vice-launcher.sh \

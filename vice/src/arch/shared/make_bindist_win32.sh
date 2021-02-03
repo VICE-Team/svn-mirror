@@ -95,11 +95,17 @@ BINDIST_PREFIX=""
 # Bindist VICE version (including SVN revision if applicable)
 BINDIST_VICE_VERSION=""
 
-# Default emulators
+# Default emulators (x64 gets added when required via --enable-x64)
 BINDIST_EMUS="x64sc xscpu64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 
 # Tools
 BINDIST_TOOLS="c1541 tools/cartconv/cartconv tools/petcat/petcat"
+
+# Emulator data directories (ROMs, ROMSets, keymaps, joymaps)
+BINDIST_EMU_DATA_DIRS="C128 C64 C64DTV CBM-II DRIVES PET PLUS4 PRINTER SCPU64 VIC20"
+
+# Bindist DLLs
+BINDIST_DLLS=""
 
 
 # Set bindist Windows version to either 'win32' or 'win64'
@@ -224,6 +230,100 @@ EOF
 }
 
 
+# Create the directory tree inside the bindist directory
+create_bindist_subdirs()
+{
+  create_dir()
+  {
+    if [[ ! -z "$1" && ! "$1" = "." ]]; then
+      if [ "$VERBOSE" = "yes" ]; then
+        echo ".. creating dir '$BINDIST_DIR/$1'"
+      fi
+      mkdir -p "$BINDIST_DIR/$1"
+    fi
+  }
+
+  create_dir "$BINDIST_EXE_DIR"
+  create_dir "$BINDIST_DLL_DIR"
+  create_dir "$BINDIST_DATA_DIR"
+  create_dir "$BINDIST_DOC_DIR"
+}
+
+
+# Copy emulator executables from the build directory to the bindist directory
+#
+# @param $1: string with emulator names
+#
+copy_emulators()
+{
+  if [ "$VERBOSE" = "yes" ]; then
+    echo "Copying emulators: $1"
+  fi
+  for emu in $1; do
+    if [ "$VERBOSE" = "yes" ]; then
+      echo ".. copying $TOPBUILDDIR/src/${emu}.exe"
+    fi
+    cp "$TOPBUILDDIR/src/$emu" $BINDIST_DIR/$BINDIST_EXE_DIR
+    $STRIP $BINDIST_DIR/$BINDIST_EXE_DIR/${emu}.exe
+  done
+}
+
+
+# Copy tool executables from the build directory to the bindist directory
+#
+# @param $1: string with tool names/paths
+#
+copy_tools()
+{
+  if [ "$VERBOSE" = "yes" ]; then
+    echo "Copying tools: $1"
+  fi
+  for tool in $1; do
+    if [ "$VERBOSE" = "yes" ]; then
+      echo ".. copying $TOPBUILDDIR/src/${tool}.exe"
+    fi
+    cp "$TOPBUILDDIR/src/${tool}.exe" $BINDIST_DIR/$BINDIST_EXE_DIR
+    $STRIP $BINDIST_DIR/$BINDIST_EXE_DIR/$(basename $tool).exe
+  done
+}
+
+
+# Copy required DLLs into the bindist directory
+copy_dlls()
+{
+  if [ "$VERBOSE" = "yes" ]; then
+    echo "Copying DLLs"
+  fi
+  BINDIST_DLLS=""
+  find_dlls
+  for dll in $BINDIST_DLLS; do
+    if [ "$VERBOSE" = "yes" ]; then
+      echo ".. copying $dll"
+    fi
+    cp $dll $BINDIST_DIR/$BINDIST_DLL_DIR
+  done
+}
+
+
+# Copy data directories of the emulators (ROMs, keymaps etc)
+# Also remove unwanted files (Makefile*, other UI's keymaps)
+#
+copy_emu_data_dirs()
+{
+  if [ "$VERBOSE" = "yes" ]; then
+    echo "Copying data directories"
+  fi
+  for datadir in $BINDIST_EMU_DATA_DIRS; do
+    if [ "$VERBOSE" = "yes" ]; then
+      echo ".. copying data from $datadir"
+    fi
+    # Copy all files (including Makefiles and files used for other UIs/ports)
+    cp -R $TOPSRCDIR/data/$datadir $BINDIST_DIR/$BINDIST_DATA_DIR
+    # Clean up
+    clean_emu_data_dir "$BINDIST_DIR/$BINDIST_DATA_DIR/$datadir"
+  done
+}
+
 
 #------------------------------------------------------------------------------
 # Script entry point
@@ -231,7 +331,7 @@ EOF
 
 # Check for no args
 if [ $# -eq 0 ]; then
-  usage
+  usage   # calls exit 0
 fi
 
 
@@ -259,8 +359,9 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-
-echo "Creating $UI bindist"
+if [ "$VERBOSE" = "yes" ]; then
+  echo "Creating $UI bindist"
+fi
 
 if [ "$VERBOSE" = "yes" ]; then
   show_option_values
@@ -276,15 +377,26 @@ BINDIST_DIR="$BINDIST_PREFIX-$BINDIST_VICE_VERSION-$BINDIST_WINVER"
 # Create bindist dir, optionally deleting the old one
 create_bindist_dir
 
-
 # Add old x64 if requested
-BINDIST_EMUS="x64 $BINDIST_EMUS"
+if [ "$ENABLE_X64" = "yes" ]; then
+  BINDIST_EMUS="x64 $BINDIST_EMUS"
+fi
 
 # Now it's time to actually source some stuff depending on UI...
 case "$UI" in
-  sdl1|sdl2) source ../sdl/make_bindist_win32_sdl.sh;;
-  gtk3) source ../gtk3/make_bindist_win32_gtk3.sh;;
+  sdl1|sdl2)
+    echo "[debug] Sourcing make_bindist_win32_sdl.sh"
+    source "$TOPSRCDIR/src/arch/sdl/make_bindist_win32_sdl.sh";;
+  gtk3) source "$TOPSRCDIR/src/arch/gtk3/make_bindist_win32_gtk3.sh";;
   *) echo "($basename $0): invalid UI, aborting."; exit;;
 esac
 
 
+# Create directory structure inside the bindist dir
+create_bindist_subdirs
+
+# Copy files
+copy_emulators "$BINDIST_EMUS"
+copy_tools "$BINDIST_TOOLS"
+copy_dlls
+copy_emu_data_dirs "$BINDIST_DATA_DIRS"
