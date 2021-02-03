@@ -737,7 +737,7 @@ static void printinfo(char *name)
 {
     int crtid;
     char *idname = "unknown";
-    char *modename;
+    char *modename = NULL;  /* initialize to avoid GCC warnings */
     char systemname[0x20 + 1];
     char cartname[0x20 + 1];
     char *exrom_warning = NULL;
