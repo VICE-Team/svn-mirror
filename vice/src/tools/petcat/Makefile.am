@@ -6,8 +6,11 @@
 # Make sure we use Windows' console mode since this is a command line tool
 if WIN32_COMPILE
 petcat_LDFLAGS = -mconsole
+else
+petcat_LDFLAGS = 
 endif
 
+LIBS = 
 
 # Generate svnversion.h if doesn't yet exits (for `make cartconv`)
 $(top_builddir)/src/svnversion.h:
@@ -23,13 +26,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/arch/shared
-
-AM_CFLAGS =  @VICE_CFLAGS@
-
-AM_CXXFLAGS = @VICE_CXXFLAGS@
-
-AM_LDFLAGS = @VICE_LDFLAGS@
-
 
 # Sources used for petcat
 petcat_SOURCES = petcat.c
