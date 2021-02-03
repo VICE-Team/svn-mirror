@@ -77,10 +77,10 @@ c1541:
 	(cd src; $(MAKE) c1541-all)
 
 petcat:
-	(cd src/tools/petcat; $(MAKE) petcat)
+	(cd src/tools/petcat; $(MAKE))
 
 cartconv:
-	(cd src/tools/cartconv; $(MAKE) cartconv)
+	(cd src/tools/cartconv; $(MAKE))
 
 ffmpeglibs:
 	(cd src/lib; $(MAKE) ffmpeglibs)
