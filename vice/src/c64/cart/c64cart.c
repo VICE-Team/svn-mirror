@@ -841,7 +841,7 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             rc = rexramfloppy_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_RGCD:
-            rc = rgcd_crt_attach(fd, rawcart);
+            rc = rgcd_crt_attach(fd, rawcart, header.subtype);
             break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:

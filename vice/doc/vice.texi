@@ -7224,6 +7224,11 @@ time. This option emulates the behavior of the Normal/Direct switch on the unit.
 @item RAMLINKRTCSave
 Boolean specifying whether the RTC data should be saved when changed or not.
 
+@vindex RGCDrevision
+@item RGCDrevision
+Integer specifying the RGCD-cartridge hardware variant.
+(0: RGCD 64k, 1: Hucky's EPROM Cartridge)
+
 @vindex RRrevision
 @item RRrevision
 Integer specifying the RR hardware revision.
@@ -7977,6 +7982,12 @@ Attach raw REX EP256 cartridge image.
 @findex -cartrgcd
 @item -cartrgcd <Name>
 Attach raw 64KiB RGCD cartridge image.
+
+@findex -rgcdrev
+@item -rgcdrev <Revision>
+Set the RGCD-cartridge hardware variant.
+(@code{RGCDrevision}).
+(0: RGCD 64k, 1: Hucky's EPROM Cartridge)
 
 @findex -cartross
 @item -cartross <name>
@@ -28038,6 +28049,11 @@ E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
     bit 0-2   bank number
     bit 3     exrom latch (1 = cart disabled until reset or powercycle)
 @end example
+
+    If the Cartridge Hardware Subtype/Revision (Offset 0x1A in the CRT Header)
+    is 1, then the banks are addressed in reverse order and the emulated
+    cartridge works like the eprom cartridge by "Hucky".
+
 
 @c @node FIXME
 @subsubsection 58 - RR-Net MK3

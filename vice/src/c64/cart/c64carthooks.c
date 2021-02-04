@@ -490,6 +490,7 @@ int cart_cmdline_options_init(void)
         || mmcreplay_cmdline_options_init() < 0
         || ramlink_cmdline_options_init() < 0
         || retroreplay_cmdline_options_init() < 0
+        || rgcd_cmdline_options_init() < 0
 #ifdef HAVE_RAWNET
         || rrnetmk3_cmdline_options_init() < 0
 #endif
@@ -552,6 +553,7 @@ int cart_resources_init(void)
         || mmcreplay_resources_init() < 0
         || ramlink_resources_init() < 0
         || retroreplay_resources_init() < 0
+        || rgcd_resources_init() < 0
 #ifdef HAVE_RAWNET
         || rrnetmk3_resources_init() < 0
 #endif
@@ -601,6 +603,7 @@ void cart_resources_shutdown(void)
     mmcreplay_resources_shutdown();
     ramlink_resources_shutdown();
     retroreplay_resources_shutdown();
+    rgcd_resources_shutdown();
 #ifdef HAVE_RAWNET
     rrnetmk3_resources_shutdown();
 #endif
