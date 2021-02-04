@@ -141,7 +141,7 @@ static const resource_string_t resources_string[] =
     { "DriveSuperCardName", "", RES_EVENT_NO, NULL,
       &supercard_name, set_supercard_name, NULL },
     { "DriveStarDosName", "", RES_EVENT_NO, NULL,
-      &supercard_name, set_stardos_name, NULL },
+      &stardos_name, set_stardos_name, NULL },
     RESOURCE_STRING_LIST_END
 };
 

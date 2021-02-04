@@ -61,6 +61,8 @@
 
     the second rom bank contains a kernal replacement. the necessary select
     signal comes from a clip that has to be installed inside of the c64.
+
+    the original EPROM has D1 and D2 swapped around.
 */
 
 /* #define DBGSTARDOS  */
