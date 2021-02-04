@@ -189,7 +189,6 @@ int archdep_register_cbmfont(void)
 void archdep_unregister_cbmfont(void)
 {
 #ifdef ARCHDEP_OS_WINDOWS
-    char *datadir;
     char *path;
 
     if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
