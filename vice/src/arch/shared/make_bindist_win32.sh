@@ -1,5 +1,5 @@
 #!/bin/sh
-# vim: set et ts=2 sw=2 sts=2 syntax=bash:
+# vim: set et ts=2 sw=2 sts=2 syntax=bash fdm=marker:
 
 #
 # make_bindist_win32.sh -- Make a binary distribution for the Windows ports
@@ -30,9 +30,7 @@
 #  02111-1307  USA.
 #
 
-#
-# Options
-#
+# {{{ Option variables
 
 # --compiler:     The compiler used to build the executables
 COMPILER=""
@@ -80,11 +78,9 @@ VICE_VERSION=""
 
 # --zip-tool:     Compression tool to use
 ZIP_TOOL="nozip"
+# }}}
 
-
-#
-# Other variables
-#
+# {{{ Runtime variables
 
 # Windows version, either win32 or win64
 BINDIST_WINVER=""
@@ -107,6 +103,10 @@ BINDIST_EMU_DATA_DIRS="C128 C64 C64DTV CBM-II DRIVES PET PLUS4 PRINTER SCPU64 VI
 # Bindist DLLs
 BINDIST_DLLS=""
 
+# Documentation
+BINDIST_DOCS="COPYING NEWS README"
+
+# }}}
 
 # Set bindist Windows version to either 'win32' or 'win64'
 set_bindist_windows_version()
@@ -295,7 +295,7 @@ copy_dlls()
     echo "Copying DLLs"
   fi
   BINDIST_DLLS=""
-  find_dlls
+  archdep_find_dlls
   for dll in $BINDIST_DLLS; do
     if [ "$VERBOSE" = "yes" ]; then
       echo ".. copying $dll"
@@ -320,8 +320,29 @@ copy_emu_data_dirs()
     # Copy all files (including Makefiles and files used for other UIs/ports)
     cp -R $TOPSRCDIR/data/$datadir $BINDIST_DIR/$BINDIST_DATA_DIR
     # Clean up
-    clean_emu_data_dir "$BINDIST_DIR/$BINDIST_DATA_DIR/$datadir"
+    archdep_clean_emu_data_dir "$BINDIST_DIR/$BINDIST_DATA_DIR/$datadir"
   done
+}
+
+
+# Copy documentation
+#
+copy_docs()
+{
+  if [ "$VERBOSE" = "yes" ]; then
+    echo "Copying docs"
+  fi
+
+  # Copy docs independent of port
+  for doc in $BINDIST_DOCS; do
+    if [ "$VERBOSE" = "yes" ]; then
+      echo ".. copying $TOPSRCDIR/$doc"
+    fi
+    cp $TOPSRCDIR/$doc $BINDIST_DIR
+  done
+
+  # Copy UI-dependent files
+  archdep_copy_docs
 }
 
 
@@ -400,3 +421,34 @@ copy_emulators "$BINDIST_EMUS"
 copy_tools "$BINDIST_TOOLS"
 copy_dlls
 copy_emu_data_dirs "$BINDIST_DATA_DIRS"
+copy_docs
+
+
+# Create archive, if requested
+echo "[debug] All files copied, do we need to zip?"
+case "$ZIP_TOOL" in
+  zip)
+    BINDIST_ZIP="$BINDIST_DIR.zip"
+    rm -f $BINDIST_ZIP
+    echo "[debug] Creating .zip archive"
+    zip -r -9 -q $BINDIST_ZIP $BINDIST_DIR
+    ;;
+  7zip)
+    BINDIST_ZIP="$BINDIST_DIR.7z"
+    echo "[debug] Creating .7z archive";
+    rm -f $BINDIST_ZIP
+    7z a -t7z -m0=lzma2 -mx=9 -ms=on $BINDIST_ZIP $BINDIST_DIR
+    ;;
+  *)
+    echo "No zip";;
+esac
+
+
+# Report
+if [ ! -z "$BINDIST_ZIP" ]; then
+  echo "Created archive $BINDIST_ZIP"
+fi
+echo "Done"
+
+
+      

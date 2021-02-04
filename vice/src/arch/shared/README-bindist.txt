@@ -87,20 +87,23 @@ The sourced scripts are expected to define a few things:
 
 * functions
 
-    find_dlls()
+    archdep_find_dlls()
 
         This function is expected to determine the DLLs required. It depends
         on $BINDIST_DIR and $CROSS (set by the main script) and sets
         $BINDIST_DLLS. The entries in $BINDIST_DLLS are expected to be
         absolute paths in Unix format.
     
-    clean_emu_data_dir()
+    archdep_clean_emu_data_dir()
 
         This function is used to remove files from an emulator-specific data
         directory after copying the entire data dir (for example ./data/C64).
         It's basically intended to remove non-port related files, for example
         removing GTK3 keymaps from an SDL[2] bindist.
 
+    archdep_copy_docs()
+
+        Copy UI-dependent documentation into the bindist.
         
 
 Compyx, 2020-02-03

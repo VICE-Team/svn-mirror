@@ -10,7 +10,7 @@ BINDIST_DATA_DIR="."
 
 # Find required DLLs (for x64sc.exe)
 #
-find_dlls()
+archdep_find_dlls()
 {
   echo "[debug] SDL2: finding DLLs"
   if [[ "$CROSS" != "yes" && "$CROSS" != "true" ]]; then
@@ -28,7 +28,7 @@ find_dlls()
 #
 # Careful: here be dragons, perhaps!
 #
-clean_emu_data_dir()
+archdep_clean_emu_data_dir()
 {
   # Guard against calling rm on root directory:
   if [[ -z "$1" || "$1" = "/" ]]; then
@@ -41,4 +41,20 @@ clean_emu_data_dir()
     rm $1/Makefile* 2>/dev/null
     rm $1/gtk3*.vkm 2>/dev/null
   fi
+}
+
+# Copy UI-dependent documentation
+#
+archdep_copy_docs()
+{
+  if [ "$UI" = "sdl2" ]; then
+    doc="$TOPSRCDIR/doc/readmes/Readme-SDL2.txt"
+  else
+    doc="$TOPSRCDIR/doc/readmes/Readme-SDL.txt"
+  fi
+
+  if [ "$VERBOSE" = "yes" ]; then
+    echo ".. copying $doc"
+  fi
+  cp $doc $BINDIST_DIR
 }

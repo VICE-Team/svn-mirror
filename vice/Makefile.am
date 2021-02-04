@@ -173,7 +173,8 @@ bindist-new:
 		--strip "$(STRIP)" \
 		--topbuilddir $(top_builddir) \
 		--topsrcdir $(top_srcdir) \
-		--vice-version $(VICE_VERSION)
+		--vice-version $(VICE_VERSION) \
+		--zip-tool 7zip
 
 endif
 endif
