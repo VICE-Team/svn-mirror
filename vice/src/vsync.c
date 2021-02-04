@@ -137,8 +137,8 @@ static int relative_speed;
 
 /* "Warp mode".  If nonzero, attempt to run as fast as possible. */
 static int warp_enabled;
-static unsigned long warp_render_tick_interval;
-static unsigned long warp_next_render_tick;
+static tick_t warp_render_tick_interval;
+static tick_t warp_next_render_tick;
 
 /* Triggers the vice thread to update its priorty */
 static volatile int update_thread_priority = 1;
@@ -231,17 +231,18 @@ static void (*vsync_hook)(void);
 
 /* static guarantees zero values. */
 static double ticks_per_frame;
+static double cycles_per_frame;
 static double emulated_clk_per_second;
 
-static unsigned long last_sync_emulated_tick;
-static unsigned long last_sync_tick;
+static tick_t last_sync_emulated_tick;
+static tick_t last_sync_tick;
 static CLOCK last_sync_clk;
 
-static unsigned long sync_target_tick;
+static tick_t sync_target_tick;
 
 static int timer_speed = 0;
-static int speed_eval_suspended = 1;
-static int sync_reset = 1;
+static bool sync_reset = true;
+static bool metrics_reset = false;
 
 /* Initialize vsync timers and set relative speed of emulation in percent. */
 static int set_timer_speed(int speed)
@@ -259,15 +260,14 @@ static int set_timer_speed(int speed)
 
     if (speed < 0) {
         /* negative speeds are fps targets */
-
         cpu_percent = 100.0 * ((0 - speed) / refresh_frequency);
     } else {
         /* positive speeds are cpu percent targets */
         cpu_percent = speed;
     }
 
-    ticks_per_frame = tick_per_second() * 100 / cpu_percent / refresh_frequency;
-    emulated_clk_per_second = cycles_per_sec * cpu_percent / 100;
+    ticks_per_frame = tick_per_second() * 100.0 / cpu_percent / refresh_frequency;
+    emulated_clk_per_second = cycles_per_sec * cpu_percent / 100.0;
 
     return 0;
 }
@@ -278,6 +278,7 @@ void vsync_set_machine_parameter(double refresh, long cycles)
 {
     refresh_frequency = refresh;
     cycles_per_sec = cycles;
+    cycles_per_frame = (double)cycles / refresh;
     set_timer_speed(relative_speed);
 }
 
@@ -295,14 +296,6 @@ void vsync_init(void (*hook)(void))
     vsync_suspend_speed_eval();
 }
 
-/* FIXME: This function is not needed here anymore, however it is
-   called from sound.c and can only be removed if all other ports are
-   changed to use similar vsync code. */
-int vsync_disable_timer(void)
-{
-    return 0;
-}
-
 /* This should be called whenever something that has nothing to do with the
    emulation happens, so that we don't display bogus speed values. */
 void vsync_suspend_speed_eval(void)
@@ -310,7 +303,7 @@ void vsync_suspend_speed_eval(void)
     /* TODO - Is this needed any more now that late vsync is detected
        in vsync_do_vsync() */
     network_suspend();
-    speed_eval_suspended = 1;
+    sync_reset = true;
 }
 
 void vsync_reset_hook(void)
@@ -331,123 +324,141 @@ void vsyncarch_get_metrics(double *cpu_percent, double *emulated_fps, int *is_wa
     METRIC_UNLOCK();
 }
 
+/*
+ * TODO: Grow measurements array as needed so 5 seconds can be stored.
+ * This will allow warp measurements to be stablise!
+ */
 #define MEASUREMENT_SMOOTH_FACTOR 0.99
 #define MEASUREMENT_FRAME_WINDOW  250
 
-static void update_performance_metrics(unsigned long frame_time)
-{
-    static int oldest_measurement_index;
-    static int next_measurement_index;
-    static int frames_counted;
+static int next_measurement_index;
 
-    /* For knowing the relevant timespan */
-    static unsigned long frame_times[MEASUREMENT_FRAME_WINDOW];
+/* For knowing the relevant timespan */
+static tick_t last_tick;
+static tick_t tick_deltas[MEASUREMENT_FRAME_WINDOW];
+static uint64_t cumulative_tick_delta;
+
+/* For measuring emulator cpu cycles per second */
+static CLOCK last_clock;
+static CLOCK clock_deltas[MEASUREMENT_FRAME_WINDOW];
+static uint64_t cumulative_clock_delta;
+
+static void reset_performance_metrics(tick_t frame_tick)
+{
+    int i;
+
+    /*
+     * The emulator is just starting, or resuming from pause, or entering
+     * warp, or exiting warp. So we reset the fps calculations.
+     */
+
+    last_tick = frame_tick;
+    last_clock = clk_guard_get_absolute_clk(maincpu_clk_guard);
+    next_measurement_index = 0;
+
+    /*
+     * Since our emulation is bursty, it takes measurement over time to
+     * see the overall rate of emulation. We start with fake measurements
+     * showing the ideal result each time sync is reset, otherwise it
+     * fluctuates too much as it builds up enough measurement data.
+     */
     
-    /* For measuring emulator cpu cycles per second */
-    static CLOCK clocks[MEASUREMENT_FRAME_WINDOW];
-    
+    cumulative_tick_delta = 0;
+    cumulative_clock_delta = 0;
+
+    for (i = 1; i <= MEASUREMENT_FRAME_WINDOW; i++) {
+        
+        tick_deltas[MEASUREMENT_FRAME_WINDOW - i]  = ticks_per_frame;
+        clock_deltas[MEASUREMENT_FRAME_WINDOW - i] = cycles_per_frame;
+        
+        cumulative_tick_delta  += ticks_per_frame;
+        cumulative_clock_delta += cycles_per_frame;
+    }
+
+    METRIC_LOCK();
+
+    /* The final smoothing function requires that we initialise the public metrics */
+    if (timer_speed > 0) {
+        vsync_metric_emulated_fps = (double)timer_speed * refresh_frequency / 100.0;
+        vsync_metric_cpu_percent  = timer_speed;
+    } else {
+        vsync_metric_emulated_fps = (0.0 - timer_speed);
+        vsync_metric_cpu_percent  = (0.0 - timer_speed) / refresh_frequency * 100;
+    }
+
+    METRIC_UNLOCK();
+}
+
+static void update_performance_metrics(tick_t frame_tick)
+{
     /* how many seconds of wallclock time the measurement window covers */
     double frame_timespan_seconds;
     
     /* how many emulated seconds of cpu time have been emulated */
     double clock_delta_seconds;
-    
-    METRIC_LOCK();
-    
-    if (sync_reset) {
-        /*
-         * The emulator is just starting, or resuming from pause, or entering
-         * warp, or exiting warp. So we reset the fps calculations. We also
-         * throw away this initial measurement, because the emulator is just
-         * about to skip the timing sleep and immediately produce the next frame.
-         *
-         * TODO: Don't reset numbers on unpause, and account for the gap.
-         */
-        sync_reset = 0;
-        
-        frame_times[0] = frame_time;
-        clocks[0] = maincpu_clk;
-        
-        next_measurement_index = 1;
-        
-        if (warp_enabled) {
-            /* Don't bother with seed measurements when entering warp mode, just reset */
-            oldest_measurement_index = 0;
-            frames_counted = 1;
-        } else {
-            int i;
-            /*
-             * For normal speed changes, exiting warp etc, initialise with a full set
-             * of fake perfect measurements
-             */
-            for (i = 1; i < MEASUREMENT_FRAME_WINDOW; i++) {
-                frame_times[i] = frame_time - ((MEASUREMENT_FRAME_WINDOW - i) * ticks_per_frame);
-                clocks[i] = maincpu_clk - (CLOCK)((MEASUREMENT_FRAME_WINDOW - i) * cycles_per_sec / refresh_frequency);
-            }
-            
-            oldest_measurement_index = 1;
-            frames_counted = MEASUREMENT_FRAME_WINDOW;
-        }
-    
-        /* The final smoothing function requires that we initialise the public metrics */
-        if (timer_speed > 0) {
-            vsync_metric_emulated_fps = (double)timer_speed * refresh_frequency / 100.0;
-            vsync_metric_cpu_percent  = timer_speed;
-        } else {
-            vsync_metric_emulated_fps = (0.0 - timer_speed);
-            vsync_metric_cpu_percent  = (0.0 - timer_speed) / refresh_frequency * 100;
-        }
-        
-        /* printf("INIT frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout); */
 
-        METRIC_UNLOCK();
+    /* Current absolute value of maincpu_clk (correcting for clk guard jumps) */
+    CLOCK main_cpu_clock = clk_guard_get_absolute_clk(maincpu_clk_guard);
         
+    if (metrics_reset) {
+        metrics_reset = false;
+        reset_performance_metrics(frame_tick);
         return;
     }
     
-    /* Capure this frame's measurements */
-    frame_times[next_measurement_index] = frame_time;
-    clocks[next_measurement_index] = maincpu_clk;
+    /* Remove the oldest measurement */
+    cumulative_tick_delta -= tick_deltas[next_measurement_index];
+    cumulative_clock_delta -= clock_deltas[next_measurement_index];
+    
+    /* Add this frame's measurement */
+    tick_deltas[next_measurement_index] = frame_tick - last_tick;
+    clock_deltas[next_measurement_index] = main_cpu_clock - last_clock;
 
-    if(frames_counted == MEASUREMENT_FRAME_WINDOW) {
-        if (++oldest_measurement_index == MEASUREMENT_FRAME_WINDOW) {
-            oldest_measurement_index = 0;
-        }
-    } else {
-        frames_counted++;
-    }
+    cumulative_tick_delta += tick_deltas[next_measurement_index];
+    cumulative_clock_delta += clock_deltas[next_measurement_index];
+    
+    last_tick = frame_tick;
+    last_clock = main_cpu_clock;
     
     /* Calculate our final metrics */
-    frame_timespan_seconds = (double)(frame_time - frame_times[oldest_measurement_index]) / tick_per_second();
-    clock_delta_seconds = (double)(maincpu_clk - clocks[oldest_measurement_index]) / cycles_per_sec;
+    frame_timespan_seconds = (double)cumulative_tick_delta / tick_per_second();
+    clock_delta_seconds = (double)cumulative_clock_delta / cycles_per_sec;
+
+    METRIC_LOCK();
 
     /* smooth and make public */
     vsync_metric_cpu_percent  = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_cpu_percent)  + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * (clock_delta_seconds / frame_timespan_seconds * 100.0);
-    vsync_metric_emulated_fps = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_emulated_fps) + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * ((double)(frames_counted - 1) / frame_timespan_seconds);
+    vsync_metric_emulated_fps = (MEASUREMENT_SMOOTH_FACTOR * vsync_metric_emulated_fps) + (1.0 - MEASUREMENT_SMOOTH_FACTOR) * ((double)MEASUREMENT_FRAME_WINDOW / frame_timespan_seconds);
     vsync_metric_warp_enabled = warp_enabled;
     
-    /* printf("frames_counted %d %.3f seconds - %0.3f%% cpu, %.3f fps\n", frames_counted, frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps); fflush(stdout); */
+    /* printf("%.3f seconds - %0.3f%% cpu, %.3f fps (CLOCK delta: %u)\n", frame_timespan_seconds, vsync_metric_cpu_percent, vsync_metric_emulated_fps, clock_deltas[next_measurement_index]); fflush(stdout); */
+
+    METRIC_UNLOCK();
     
     /* Get ready for next invoke */
     if (++next_measurement_index == MEASUREMENT_FRAME_WINDOW) {
         next_measurement_index = 0;
     }
-    
-    METRIC_UNLOCK();
 }
 
 void vsync_do_end_of_line(void)
 {
     const int microseconds_between_sync = 2 * 1000;
     
-    unsigned long tick_between_sync = tick_per_second() * microseconds_between_sync / 1000000;
-    unsigned long tick_now;
-    unsigned long tick_delta;
+    tick_t tick_between_sync = tick_per_second() / (1000000 / microseconds_between_sync);
+    tick_t tick_now;
+    tick_t tick_delta;
+    tick_t ticks_until_target;
     
     bool tick_based_sync_timing;
 
+    /* Current absolute value of maincpu_clk (correcting for clk guard jumps) */
+    CLOCK main_cpu_clock = clk_guard_get_absolute_clk(maincpu_clk_guard);
     CLOCK sync_clk_delta;
-    unsigned long sync_emulated_ticks;
+    double sync_emulated_ticks;
+    
+    /* used to preserve the fractional ticks betwen calls */
+    static double sync_emulated_ticks_offset;
     
     /*
      * Ideally the vic chip draw alarm wouldn't be triggered
@@ -462,30 +473,18 @@ void vsync_do_end_of_line(void)
     /* deal with any accumulated sound immediately */
     tick_based_sync_timing = sound_flush();
     
-    tick_now = tick_after(last_sync_tick);
+    tick_now = tick_now_after(last_sync_tick);
 
-    /*
-     * If it's been a long time between scanlines, (such as when paused in
-     * debuggeretc) then reset speed eval and sync. Otherwise, the emulator
-     * will warp until it catches up, which is rarely good when this far out
-     * of sync. This means the emulator will run slower overall than hoped.
-     */
-
-    if (!speed_eval_suspended && (tick_now - last_sync_tick) > ticks_per_frame * 5) {
-        if (last_sync_tick != 0) {
-            log_warning(LOG_DEFAULT, "sync is far too late, resetting sync");
-        }
-        vsync_suspend_speed_eval();
-    }
-
-    if (speed_eval_suspended) {
+    if (sync_reset) {
+        log_message(LOG_DEFAULT, "Sync reset");
+        sync_reset = false;
+        metrics_reset = true;
+        
         last_sync_emulated_tick = tick_now;
         last_sync_tick = tick_now;
-        last_sync_clk = maincpu_clk;
+        last_sync_clk = main_cpu_clock;
         sync_target_tick = tick_now;
-
-        speed_eval_suspended = 0;
-        sync_reset = 1;
+        
         return;
     }
 
@@ -502,26 +501,40 @@ void vsync_do_end_of_line(void)
         if (tick_based_sync_timing && !warp_enabled) {
             
             /* add the emulated clock cycles since last sync. */
-            sync_clk_delta = maincpu_clk - last_sync_clk;
+            sync_clk_delta = main_cpu_clock - last_sync_clk;
             
             /* amount of host ticks that represents the emulated duration */
             sync_emulated_ticks = (double)tick_per_second() * sync_clk_delta / emulated_clk_per_second;
-
+            
             /* 
              * We sleep so that our host is blocked for long enough to catch up
              * with how long the emulated machine would have taken.
              */
 
-            sync_target_tick += sync_emulated_ticks;
+            sync_target_tick += sync_emulated_ticks + sync_emulated_ticks_offset;
+            
+            /* Preserve the fractional component for next time */
+            sync_emulated_ticks_offset = sync_emulated_ticks - (tick_t)sync_emulated_ticks;
 
-            /* Some tricky wrap around cases to deal with */
-            if (sync_target_tick - tick_now > 0 && sync_target_tick - tick_now < tick_per_second()) {
-                tick_sleep(sync_target_tick - tick_now);
+            /*
+             * How many host ticks to catch up with emulator?
+             * 
+             * If we are behind the emulator, this will be a giant number
+             */
+
+            ticks_until_target = sync_target_tick - tick_now;
+
+            if (ticks_until_target < tick_per_second()) {
+                tick_sleep(ticks_until_target);
+            } else if (ticks_until_target < (tick_t)0 - tick_per_second()) {
+                /* We are more than a second behind, reset sync */
+                log_warning(LOG_DEFAULT, "Sync is %.3f ms behind", (double)TICK_TO_MICRO((tick_t)0 - ticks_until_target) / 1000);
+                sync_reset = true;
             }
         }
         
         last_sync_tick = tick_now;
-        last_sync_clk = maincpu_clk;        
+        last_sync_clk = main_cpu_clock;        
     }
 
     /* Do we need to update the thread priority? */
@@ -543,10 +556,10 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
     // static unsigned long next_frame_start = 0;
     static int skipped_redraw_count = 0;
-    static unsigned long last_vsync;
+    static tick_t last_vsync;
 
-    unsigned long now;
-    unsigned long network_hook_time = 0;
+    tick_t now;
+    tick_t network_hook_time = 0;
     // long delay;
     int skip_next_frame = 0;
     
@@ -576,9 +589,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     if (network_connected()) {
         /* TODO - re-eval if any of this network stuff makes sense */
-        network_hook_time = tick_delta(network_hook_time);
+        network_hook_time = tick_now_delta(network_hook_time);
 
-        if (network_hook_time > (unsigned long)ticks_per_frame) {
+        if (network_hook_time > (tick_t)ticks_per_frame) {
             // next_frame_start += network_hook_time;
             last_vsync += network_hook_time;
         }
@@ -589,7 +602,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     debug_check_autoplay_mode();
 #endif
 
-    now = tick_after(last_vsync);
+    now = tick_now_after(last_vsync);
     update_performance_metrics(now);
 
     /*

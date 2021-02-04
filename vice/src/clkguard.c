@@ -56,6 +56,7 @@ int clk_guard_init(clk_guard_t *guard, CLOCK *init_clk_ptr,
     }
 
     guard->clk_ptr = init_clk_ptr;
+    guard->clk_absolute_offset = 0;
     guard->clk_base = (CLOCK)0;
     guard->clk_max_value = init_clk_max_value;
 
@@ -133,6 +134,9 @@ CLOCK clk_guard_prevent_overflow(clk_guard_t *guard)
         /* Update clock counter.  */
         *guard->clk_ptr -= sub;
 
+        /* Update the offset used to get absolute clock value */
+        guard->clk_absolute_offset += sub;
+
         /* Execute the callbacks. */
         for (lp = guard->callback_list; lp != NULL; lp = lp->next) {
             lp->function(sub, lp->data);
@@ -140,4 +144,10 @@ CLOCK clk_guard_prevent_overflow(clk_guard_t *guard)
 
         return sub;
     }
+}
+
+CLOCK clk_guard_get_absolute_clk(clk_guard_t *guard)
+{
+    /* Get the CLOCK value as though we'd never subtracted anything from it */
+    return *guard->clk_ptr + guard->clk_absolute_offset;
 }

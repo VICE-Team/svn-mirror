@@ -375,10 +375,6 @@ static int set_playback_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
 
-    if (val) {
-        vsync_disable_timer();
-    }
-
     playback_enabled = val;
     sound_machine_enable(playback_enabled);
     return 0;
@@ -1267,12 +1263,12 @@ bool sound_flush()
     const unsigned long max_block_ms = 5000; /* If sound write blocks this long, assume it's broken */
     const unsigned long block_warn_ms = 500; /* If sound write blocks at least this long before succeeding, log a warning */
     
-    static unsigned long last_restart_tick = 0;
+    static tick_t last_restart_tick = 0;
 
     int c, i, nr, space;
     char *state;
     bool slept = false;
-    unsigned long first_block_tick = 0;
+    tick_t first_block_tick = 0;
     unsigned long total_block_ms;
     
     if (!playback_enabled) {
@@ -1366,7 +1362,7 @@ bool sound_flush()
             }
 
             if (first_block_tick) {
-                total_block_ms = tick_delta(first_block_tick) / (tick_per_second() / 1000);
+                total_block_ms = tick_now_delta(first_block_tick) / (tick_per_second() / 1000);
                 if (total_block_ms >= block_warn_ms) {
                     log_warning(sound_log, "Sound device write was blocked for %lums", total_block_ms);
                 }
@@ -1382,7 +1378,7 @@ bool sound_flush()
         if (!first_block_tick) {
             first_block_tick = tick_now();
         } else {
-            total_block_ms = tick_delta(first_block_tick) / (tick_per_second() / 1000);
+            total_block_ms = tick_now_delta(first_block_tick) / (tick_per_second() / 1000);
 
             if (total_block_ms >= max_block_ms) {
 
@@ -1393,7 +1389,7 @@ bool sound_flush()
                 
                 log_message(sound_log, "Writing to sound device still blocked after %lums", total_block_ms);
                 
-                if (tick_delta(last_restart_tick) / (tick_per_second() / 1000) >= 2 * max_block_ms) {
+                if (tick_now_delta(last_restart_tick) / (tick_per_second() / 1000) >= 2 * max_block_ms) {
                     log_message(sound_log, "Attempting restart");
                     sound_close();
                     last_restart_tick = tick_now();

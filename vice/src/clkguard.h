@@ -49,6 +49,9 @@ typedef struct clk_guard_s {
     /* Pointer to the clock counter to prevent overflows for.  */
     CLOCK *clk_ptr;
 
+    /* How many clocks have been subtracted from *clk_ptr over time. */
+    CLOCK clk_absolute_offset;
+
     /* Only subtract multiples of this value from `*clk_ptr'.  */
     CLOCK clk_base;
 
@@ -73,5 +76,6 @@ extern void clk_guard_add_callback(clk_guard_t *guard,
 extern void clk_guard_destroy(clk_guard_t *guard);
 extern CLOCK clk_guard_clock_sub(clk_guard_t *guard);
 extern CLOCK clk_guard_prevent_overflow(clk_guard_t *guard);
+extern CLOCK clk_guard_get_absolute_clk(clk_guard_t *guard);
 
 #endif

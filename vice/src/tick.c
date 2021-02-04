@@ -51,22 +51,11 @@
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef WIN32_COMPILE
-#   ifdef HAVE_NANOSLEEP
-#       define TICKSPERSECOND  1000000000L  /* Nanoseconds resolution. */
-#       define TICKSPERMSEC    1000000L
-#       define TICKSPERUSEC    1000L
-#       define TICKSPERNSEC    1L
-#   else
-#       define TICKSPERSECOND  1000000L     /* Microseconds resolution. */
-#       define TICKSPERMSEC    1000L
-#       define TICKSPERUSEC    1L
-#   endif
-#endif
-
 #ifdef WIN32_COMPILE
 static LARGE_INTEGER timer_frequency;
 static HANDLE wait_timer;
+#elif defined(MACOSX_SUPPORT)
+static mach_timebase_info_data_t timebase_info;
 #endif
 
 void tick_init(void)
@@ -75,110 +64,97 @@ void tick_init(void)
     QueryPerformanceFrequency(&timer_frequency);
 
     wait_timer = CreateWaitableTimer(NULL, TRUE, NULL);
+
+#elif defined(MACOSX_SUPPORT)
+    mach_timebase_info(&timebase_info);
+
 #endif
 }
 
-unsigned long tick_per_second(void)
+tick_t tick_per_second(void)
 {
-#ifdef WIN32_COMPILE
-    return timer_frequency.QuadPart;
-#else
-    return TICKSPERSECOND;
-#endif
+    return TICK_PER_SECOND;
 }
 
 /* Get time in timer units. */
-unsigned long tick_now(void)
+tick_t tick_now(void)
 {
 #ifdef WIN32_COMPILE
     LARGE_INTEGER time_now;
     
     QueryPerformanceCounter(&time_now);
 
-    return time_now.QuadPart;
+    return (tick_t)(time_now.QuadPart / ((double)timer_frequency.QuadPart / TICK_PER_SECOND));
 
-#elif defined(HAVE_NANOSLEEP)
-#   ifdef MACOSX_SUPPORT
-        static uint64_t factor = 0;
-        uint64_t time = mach_absolute_time();
-        if (!factor) {
-            mach_timebase_info_data_t info;
-            mach_timebase_info(&info);
-            factor = info.numer / info.denom;
-        }
-        return time * factor;
-#   else
-        struct timespec now;
-#       if defined(__linux__)
-            clock_gettime(CLOCK_MONOTONIC_RAW, &now);
-#       elif defined(__FreeBSD__)
-            clock_gettime(CLOCK_MONOTONIC_PRECISE, &now);
-#       else
-            clock_gettime(CLOCK_MONOTONIC, &now);
-#       endif
-        return (TICKSPERSECOND * now.tv_sec) + (TICKSPERNSEC * now.tv_nsec);
-#   endif
+#elif defined(MACOSX_SUPPORT)
+    return NANO_TO_TICK(mach_absolute_time() * timebase_info.numer / timebase_info.denom);
+
 #else
-    /* this is really really bad, we should never use the wallclock
-       see: https://blog.habets.se/2010/09/gettimeofday-should-never-be-used-to-measure-time.html */
-    struct timeval now;
-    gettimeofday(&now, NULL);
-    return (TICKSPERSECOND * now.tv_sec) + (TICKSPERUSEC * now.tv_usec);
+    struct timespec now;
+#   if defined(__linux__)
+        clock_gettime(CLOCK_MONOTONIC_RAW, &now);
+#   elif defined(__FreeBSD__)
+        clock_gettime(CLOCK_MONOTONIC_PRECISE, &now);
+#   else
+        clock_gettime(CLOCK_MONOTONIC, &now);
+#   endif
+
+    return NANO_TO_TICK((NANO_PER_SECOND * now.tv_sec) + now.tv_nsec);
+
 #endif
 }
 
 /* Sleep a number of timer units. */
-void tick_sleep(unsigned long ticks)
+void tick_sleep(tick_t sleep_ticks)
 {
     /* do this asap. */
-    unsigned long before_yield_tick = tick_now();
-    
-    unsigned long target_tick = before_yield_tick + ticks;
-    unsigned long after_yield_tick;
-    unsigned long adjusted_tick;
+    tick_t before_yield_tick = tick_now();
+    tick_t yield_ticks;
 
     /* Since we're about to sleep, give another thread a go of the lock */
     mainlock_yield_once();
 
-    after_yield_tick = tick_after(before_yield_tick);
+    yield_ticks = tick_now_delta(before_yield_tick);
 
-    /* Adjust ticks to account for the yield time */
-    adjusted_tick = target_tick - after_yield_tick;
-
-    /* Since we yielded the lock to the UI, maybe for a while, Check if we still need to sleep */
-    if (adjusted_tick > ticks) {
+    if (yield_ticks >= sleep_ticks) {
+        /* The lock yield took as long as we needed to sleep (or longer) */
         return;
     }
-    
+
+    /* Adjust sleep_ticks to account for the yield time */
+    sleep_ticks -= yield_ticks;
+
 #ifdef WIN32_COMPILE
     LARGE_INTEGER timeout;
 
-    timeout.QuadPart = 0LL - adjusted_tick;
+    timeout.QuadPart = 0LL - (timer_frequency.QuadPart / ((double)TICK_PER_SECOND / sleep_ticks));
 
     SetWaitableTimer(wait_timer, &timeout, 0, NULL, NULL, 0);
     WaitForSingleObject(wait_timer, INFINITE);
 
 #elif defined(HAVE_NANOSLEEP)
     struct timespec ts;
+    uint64_t nanos = TICK_TO_NANO(sleep_ticks);
 
-    if (ticks < TICKSPERSECOND) {
+    if (nanos < NANO_PER_SECOND) {
         ts.tv_sec = 0;
-        ts.tv_nsec = ticks;
+        ts.tv_nsec = nanos;
     } else {
-        ts.tv_sec = ticks / TICKSPERSECOND;
-        ts.tv_nsec = ticks % TICKSPERSECOND;
+        ts.tv_sec = nanos / NANO_PER_SECOND;
+        ts.tv_nsec = nanos % NANO_PER_SECOND;
     }
 
     nanosleep(&ts, NULL);
 
 #else
-    if (usleep(ticks) == -EINVAL) {
-        usleep(999999);
+    if (usleep(TICK_TO_MICRO(sleep_ticks)) == -EINVAL) {
+        usleep(MICRO_PER_SECOND - 1);
     }
+
 #endif
 }
 
-unsigned long tick_after(unsigned long previous_tick)
+tick_t tick_now_after(tick_t previous_tick)
 {
     /*
      * Fark, high performance counters, called from different threads / cpus, can be off by 1 tick.
@@ -193,7 +169,7 @@ unsigned long tick_after(unsigned long previous_tick)
      * https://docs.microsoft.com/en-us/windows/win32/sysinfo/acquiring-high-resolution-time-stamps#guidance-for-acquiring-time-stamps
      */
 
-    unsigned long after = tick_now();
+    tick_t after = tick_now();
 
     if (after == previous_tick - 1) {
         after = previous_tick;
@@ -202,7 +178,7 @@ unsigned long tick_after(unsigned long previous_tick)
     return after;
 }
 
-unsigned long tick_delta(unsigned long previous_tick)
+tick_t tick_now_delta(tick_t previous_tick)
 {
-    return tick_after(previous_tick) - previous_tick;
+    return tick_now_after(previous_tick) - previous_tick;
 }

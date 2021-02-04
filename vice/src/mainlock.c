@@ -159,7 +159,7 @@ void mainlock_yield_once(void)
     pthread_mutex_unlock(&lock);
 
 #ifdef VICE_MAINLOCK_DEBUG
-    yield_tick_delta_ms = tick_delta(yield_tick) / tick_per_ms;
+    yield_tick_delta_ms = tick_now_delta(yield_tick) / tick_per_ms;
     if (yield_tick_delta_ms > 0) {
         printf("Yielded for %lu ms\n", yield_tick_delta_ms);
     }

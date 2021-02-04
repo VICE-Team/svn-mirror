@@ -155,7 +155,7 @@ static log_t mouse_log = LOG_ERR;
 
 static float mouse_move_x = 0.0f;
 static float mouse_move_y = 0.0f;
-static unsigned long mouse_timestamp = 0;
+static tick_t mouse_timestamp = 0;
 static int16_t mouse_x = 0;
 static int16_t mouse_y = 0;
 
@@ -332,7 +332,7 @@ uint8_t neos_mouse_read(void)
  * successive readings. The estimated interval is then converted from
  * vsynchapi units to emulated cpu cycles which in turn are used to
  * clock the quardrature emulation. */
-static unsigned long latest_os_ts = 0; /* in vsynchapi units */
+static tick_t latest_os_ts = 0; /* in vsynchapi units */
 /* The mouse coordinates returned from the latest unique mousedrv
  * reading */
 static int16_t latest_x = 0;
@@ -418,7 +418,7 @@ uint8_t mouse_poll(void)
     int16_t delta_x, delta_y;
 
     int16_t new_x, new_y;
-    unsigned long os_now, os_iv, os_iv2;
+    tick_t os_now, os_iv, os_iv2;
     CLOCK emu_now, emu_iv, emu_iv2;
     int diff_x, diff_y;
 
@@ -529,7 +529,7 @@ uint8_t mouse_poll(void)
 #endif
 
         /* The mouse read is probably old. Do the movement since then */
-        os_iv2 = tick_delta(os_now);
+        os_iv2 = tick_now_delta(os_now);
         /* FIXME: call function only once */
         if (os_iv2 > tick_per_second()) {
             os_iv2 = tick_per_second(); /* more than a second response time?! */
@@ -1357,6 +1357,7 @@ static int read_poll_val_snapshot(snapshot_module_t *m)
     uint32_t tmpc2;
     uint32_t tmpc3;
     uint32_t tmpc4;
+    unsigned long tmp_latest_os_ts;
 
     if (0
         || SMR_B(m, &quadrature_x) < 0
@@ -1369,7 +1370,7 @@ static int read_poll_val_snapshot(snapshot_module_t *m)
         || SMR_DW_INT(m, &sx) < 0
         || SMR_DW_INT(m, &sy) < 0
         || SMR_DW_INT(m, &update_limit) < 0
-        || SMR_DW_UL(m, &latest_os_ts) < 0
+        || SMR_DW_UL(m, &tmp_latest_os_ts) < 0
         || SMR_DB(m, &tmp_db) < 0
         || SMR_DW(m, &tmpc1) < 0
         || SMR_DW(m, &tmpc2) < 0
@@ -1381,6 +1382,7 @@ static int read_poll_val_snapshot(snapshot_module_t *m)
     latest_x = (int16_t)tmp_latest_x;
     latest_y = (int16_t)tmp_latest_y;
     emu_units_per_os_units = (float)tmp_db;
+    latest_os_ts = (tick_t)tmp_latest_os_ts;
     next_update_x_emu_ts = (CLOCK)tmpc1;
     next_update_y_emu_ts = (CLOCK)tmpc2;
     update_x_emu_iv = (CLOCK)tmpc3;
