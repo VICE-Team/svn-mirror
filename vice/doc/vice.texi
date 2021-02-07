@@ -28052,7 +28052,8 @@ E0C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 
     If the Cartridge Hardware Subtype/Revision (Offset 0x1A in the CRT Header)
     is 1, then the banks are addressed in reverse order and the emulated
-    cartridge works like the eprom cartridge by "Hucky".
+    cartridge works like the eprom cartridge by "Hucky". This cartridge can
+    also be equipped with 8Kib, 16Kib, 32Kib EPROMs.
 
 
 @c @node FIXME

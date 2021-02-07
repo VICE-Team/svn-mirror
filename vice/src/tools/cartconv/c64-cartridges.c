@@ -107,7 +107,10 @@ const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_24KB,    0x2000, 0x8000,   3, 0, CARTRIDGE_NAME_KINGSOFT,              "ks", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_128KB,   0x2000, 0x8000,  16, 0, CARTRIDGE_NAME_SILVERROCK_128,    "silver", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_32KB,    0x2000, 0xe000,   4, 0, CARTRIDGE_NAME_FORMEL64,             "f64", save_regular_crt},
-    {0, 1, CARTRIDGE_SIZE_64KB,    0x2000, 0x8000,   8, 0, CARTRIDGE_NAME_RGCD,                "rgcd", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_64KB |
+           CARTRIDGE_SIZE_32KB |
+           CARTRIDGE_SIZE_16KB |
+           CARTRIDGE_SIZE_8KB,     0x2000, 0x8000,   0, 0, CARTRIDGE_NAME_RGCD,                "rgcd", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_8KB,     0x2000, 0x8000,   1, 2, CARTRIDGE_NAME_RRNETMK3,           "rrnet", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_24KB,         0,      0,   3, 0, CARTRIDGE_NAME_EASYCALC,             "ecr", save_easycalc_crt},
     {0, 1, CARTRIDGE_SIZE_512KB,   0x2000, 0x8000,  64, 2, CARTRIDGE_NAME_GMOD2,              "gmod2", save_regular_crt},
