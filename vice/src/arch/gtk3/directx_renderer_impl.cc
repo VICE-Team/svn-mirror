@@ -340,7 +340,7 @@ void vice_directx_impl_log_windows_error(const char *prefix)
         0,
         NULL);
 
-    // log_error(LOG_ERR, "%s: %s", prefix, error_message);
+    log_error(LOG_ERR, "%s: %s", prefix, error_message);
 
     LocalFree(error_message);
 }
