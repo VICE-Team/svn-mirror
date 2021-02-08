@@ -44,6 +44,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "alarm.h"
 #include "archdep.h"
 #include "cartio.h"
 #include "cartridge.h"
@@ -256,6 +257,19 @@ static struct reu_ba_s reu_ba = {
 
 static int reu_write_image = 0;
 
+/* number of cycles that it takes for the floating bus value to fade to 0xff */
+#define REU_FLOATING_BUS_DECAY_CYCLES   400
+static struct alarm_s *reu_floating_bus_alarm;
+static CLOCK reu_floating_bus_alarm_time;
+static int floating_bus_value = 0xff;
+
+static void reu_floating_bus_alarm_handler(CLOCK offset, void *data)
+{
+    /* NOTE: in reality the different bits would fade independ of each other */
+    floating_bus_value = 0xff;
+    alarm_unset(reu_floating_bus_alarm);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
@@ -325,6 +339,7 @@ static int set_reu_enabled(int value, void *param)
         }
         export_remove(&export_res_reu);
         io_source_unregister(reu_list_item);
+        alarm_destroy(reu_floating_bus_alarm);
         reu_list_item = NULL;
         reu_enabled = 0;
     } else if ((val) && (!reu_enabled)) {
@@ -334,6 +349,11 @@ static int set_reu_enabled(int value, void *param)
         if (export_add(&export_res_reu) < 0) {
             return -1;
         }
+
+        reu_floating_bus_alarm =
+            alarm_new(maincpu_alarm_context, "REUFloatingBusAlarm", reu_floating_bus_alarm_handler, NULL);
+        reu_floating_bus_alarm_time = CLOCK_MAX;
+
         reu_list_item = io_source_register(&reu_io2_device);
         reu_enabled = 1;
     }
@@ -1056,6 +1076,11 @@ inline static void store_to_reu(unsigned int reu_addr, uint8_t value)
     } else {
         DEBUG_LOG(DEBUG_LEVEL_NO_DRAM, (reu_log, "--> writing to REU address %05X, but no DRAM!", reu_addr));
     }
+
+    alarm_unset(reu_floating_bus_alarm);
+    reu_floating_bus_alarm_time = maincpu_clk + REU_FLOATING_BUS_DECAY_CYCLES;
+    alarm_set(reu_floating_bus_alarm, reu_floating_bus_alarm_time);
+    floating_bus_value = value;
 }
 
 /*! \brief read a value from the REU
@@ -1086,6 +1111,7 @@ inline static uint8_t read_from_reu(unsigned int reu_addr)
     } else {
         DEBUG_LOG(DEBUG_LEVEL_NO_DRAM, (reu_log, "--> read from REU address %05X, but no DRAM!", reu_addr));
         /* reading open/floating bus returns 0xff (confirmed by test program) */
+        value = floating_bus_value;
     }
 
     return value;
