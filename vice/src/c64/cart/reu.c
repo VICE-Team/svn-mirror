@@ -1102,7 +1102,7 @@ inline static void store_to_reu(unsigned int reu_addr, uint8_t value)
 */
 inline static uint8_t read_from_reu(unsigned int reu_addr)
 {
-    uint8_t value = 0xff; /* dummy value to return if not DRAM is available */
+    uint8_t value;
 
     reu_addr &= rec_options.dram_wrap_around - 1;
     if (reu_addr < rec_options.not_backedup_addresses) {
@@ -1110,7 +1110,6 @@ inline static uint8_t read_from_reu(unsigned int reu_addr)
         value = reu_ram[reu_addr];
     } else {
         DEBUG_LOG(DEBUG_LEVEL_NO_DRAM, (reu_log, "--> read from REU address %05X, but no DRAM!", reu_addr));
-        /* reading open/floating bus returns 0xff (confirmed by test program) */
         value = floating_bus_value;
     }
 
