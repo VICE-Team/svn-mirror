@@ -258,7 +258,11 @@ static struct reu_ba_s reu_ba = {
 static int reu_write_image = 0;
 
 /* number of cycles that it takes for the floating bus value to fade to 0xff */
-#define REU_FLOATING_BUS_DECAY_CYCLES   400
+/* FIXME: on a real REU, under certain conditions, the value seems to be 
+          persistent for a very long time at least, if not "forever".
+          The RAMlink REU size detection stops working > 6000 cycles
+*/
+#define REU_FLOATING_BUS_DECAY_CYCLES   6000
 static struct alarm_s *reu_floating_bus_alarm;
 static CLOCK reu_floating_bus_alarm_time;
 static int floating_bus_value = 0xff;
