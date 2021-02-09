@@ -46,6 +46,22 @@
 static GtkWidget *hvsc_root_entry;
 
 
+/** \brief  Callback for the directory-select dialog
+ *
+ * \param[in]   dialog      directory-select dialog
+ * \param[in]   filename    filename (NULL if canceled)
+ * \param[in]   param       extra data (unused)
+ */
+static void browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
+{
+    if (filename != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(hvsc_root_entry), filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 /** \brief  Handler for the 'clicked' event of the HVSC root "browse" button
  *
  * \param[in]   widget  browse button (ignored)
@@ -53,7 +69,7 @@ static GtkWidget *hvsc_root_entry;
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer data)
 {
-    gchar *path;
+    GtkWidget *dialog;
     const char *current = NULL;
 
     /* try to get the current HVSC root dir */
@@ -62,17 +78,14 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
     }
 
     /* pop up dialog */
-    path = vice_gtk3_select_directory_dialog(
+    dialog = vice_gtk3_select_directory_dialog(
             "Select HVSC root directory",
             current,
             FALSE,
+            NULL,
+            browse_callback,
             NULL);
-
-    /* handle input */
-    if (path != NULL) {
-        vice_gtk3_resource_entry_full_set(hvsc_root_entry, path);
-        g_free(path);
-    }
+    gtk_widget_show(dialog);
 }
 
 

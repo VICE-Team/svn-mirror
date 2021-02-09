@@ -36,30 +36,69 @@
 #include "selectdirectorydialog.h"
 
 
+/** \brief  Function to call in the response hander
+ *
+ * This function is called to pass the result back to the user.
+ *
+ * Three values are passed: the dialog, the resulting filename (or NULL when
+ * the user selected 'Cancel') and an optional gpointer that was passed in
+ * the constructor.
+ */
+static void (*filename_cb)(GtkDialog *, gchar *, gpointer);
+
+
+/** \brief  Response handler for the directory-select dialog
+ *
+ * \param[in]   dialog      directory-select dialog
+ * \param[in]   response_id response ID
+ * \param[in]   data        optional data of callback
+ */
+static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
+{
+    debug_gtk3("Called with response ID %d", response_id);
+
+    if (response_id == GTK_RESPONSE_ACCEPT) {
+        gchar *filename;
+
+        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        filename_cb(dialog, filename, data);
+    } else {
+        /* signal cancel by passing NULL as filename */
+        filename_cb(dialog, NULL, data);
+    }
+}
+
+
+
 /** \brief  Create a 'select directory' dialog
+ *
+ * The \a callback is expected to accept three arguments: the dialog, the
+ * filename returned from the dialog (NULL indicates the user canceled the
+ * dialog) and an optional extra argument passed here as \a param.
  *
  * \param[in]   title           dialog title
  * \param[in]   proposed        proposed directory name (optional)
  * \param[in]   allow_create    allow creating a new directory
  * \param[in]   path            set starting directory (optional)
+ * \param[in]   callback        user function to call on response
+ * \param[in]   param           optional extra param for the callback
  *
- * \return  dircetory name or `NULL` on cancel
- *
- * \note    the directory name returned is allocated by GLib and needs to be
- *          freed after use with g_free()
+ * \return  dialog
  */
-gchar *vice_gtk3_select_directory_dialog(
+GtkWidget *vice_gtk3_select_directory_dialog(
         const char *title,
         const char *proposed,
         gboolean allow_create,
-        const char *path)
+        const char *path,
+        void (*callback)(GtkDialog *, gchar *, gpointer),
+        gpointer param)
 {
     GtkWidget *dialog;
-    gint result;
-    gchar *filename;
     GtkFileFilter *filter;
 
     mainlock_assert_is_not_vice_thread();
+
+    filename_cb = callback;
 
     dialog = gtk_file_chooser_dialog_new(
             title,
@@ -86,12 +125,10 @@ gchar *vice_gtk3_select_directory_dialog(
     gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
     gtk_file_chooser_set_create_folders(GTK_FILE_CHOOSER(dialog), allow_create);
 
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
-    if (result == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    } else {
-        filename = NULL;
-    }
-    gtk_widget_destroy(dialog);
-    return filename;
+    /* set transient and modal */
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
+
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response), param);
+    return dialog;
 }

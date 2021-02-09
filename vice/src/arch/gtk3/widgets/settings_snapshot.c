@@ -57,6 +57,22 @@ static const vice_gtk3_radiogroup_entry_t recstart_modes[] = {
 static GtkWidget *histdir_entry;
 
 
+/** \brief  Callback for the directory-select dialog
+ *
+ * \param[in]   dialog      directory-select dialog
+ * \param[in]   filename    filename (NULL if canceled)
+ * \param[in]   param       extra data (unused)
+ */
+static void histdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
+{
+    if (filename != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(histdir_entry), filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 /** \brief  Handler for the "clicked" event of the "browse" button
  *
  * \param[in]   widget      widget triggering the event
@@ -64,17 +80,19 @@ static GtkWidget *histdir_entry;
  */
 static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    char *filename;
+    GtkWidget *dialog;
     const char *current;
 
     resources_get_string("EventSnapshotDir", &current);
 
-    filename = vice_gtk3_select_directory_dialog(
-            "Select history directory", NULL, TRUE, current);
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(histdir_entry, filename);
-        g_free(filename);
-    }
+    dialog = vice_gtk3_select_directory_dialog(
+            "Select history directory",
+            NULL,
+            TRUE,
+            current,
+            histdir_browse_callback,
+            NULL);
+    gtk_widget_show(dialog);
 }
 
 

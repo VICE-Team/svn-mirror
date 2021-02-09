@@ -66,6 +66,21 @@
  */
 
 
+/** \brief  Callback for the directory-select dialog
+ *
+ * \param[in]   dialog      directory-select dialog
+ * \param[in]   filename    filename (NULL if canceled)
+ * \param[in]   param       entry box for the filename
+ */
+static void fsdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
+{
+    if (filename != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(param), filename);
+        g_free(filename);
+    }
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
 /** \brief  Handler for the "clicked" event of the fs dir browse button
  *
  * \param[in]   widget      fs dir browse button
@@ -73,6 +88,7 @@
  */
 static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
+#if 0
     GtkWidget *entry = GTK_WIDGET(user_data);
     gchar *filename;
 
@@ -82,6 +98,18 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
         vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
+#endif
+
+    GtkWidget *dialog;
+
+    dialog = vice_gtk3_select_directory_dialog(
+            "Select filesystem directory",
+            NULL,
+            TRUE,
+            NULL,
+            fsdir_browse_callback,
+            user_data);
+    gtk_widget_show(dialog);
 }
 
 

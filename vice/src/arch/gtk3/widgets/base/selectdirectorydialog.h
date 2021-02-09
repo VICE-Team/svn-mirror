@@ -30,10 +30,20 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#if 0
 gchar *vice_gtk3_select_directory_dialog(
         const char *title,
         const char *proposed,
         gboolean allow_create,
         const char *path);
+#endif
+
+GtkWidget *vice_gtk3_select_directory_dialog(
+        const char *title,
+        const char *proposed,
+        gboolean allow_create,
+        const char *path,
+        void (*callback)(GtkDialog *, gchar *, gpointer),
+        gpointer param);
 
 #endif
