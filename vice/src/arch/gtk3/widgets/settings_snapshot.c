@@ -66,7 +66,7 @@ static GtkWidget *histdir_entry;
 static void histdir_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
 {
     if (filename != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(histdir_entry), filename);
+        vice_gtk3_resource_entry_full_set(histdir_entry, filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
