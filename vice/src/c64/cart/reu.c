@@ -258,11 +258,7 @@ static struct reu_ba_s reu_ba = {
 static int reu_write_image = 0;
 
 /* number of cycles that it takes for the floating bus value to fade to 0xff */
-/* FIXME: on a real REU, under certain conditions, the value seems to be 
-          persistent for a very long time at least, if not "forever".
-          The RAMlink REU size detection stops working > 6000 cycles
-*/
-#define REU_FLOATING_BUS_DECAY_CYCLES   6000
+#define REU_FLOATING_BUS_DECAY_CYCLES   250
 static struct alarm_s *reu_floating_bus_alarm;
 static CLOCK reu_floating_bus_alarm_time;
 static int floating_bus_value = 0xff;
@@ -441,8 +437,8 @@ static int set_reu_size(int val, void *param)
         case 8192:
         case 16384:
             rec_options.reg_bank_unused = 0;
-            rec_options.wrap_around_mask_when_storing = 0x00ffffff;
-            rec_options.dram_wrap_around = 0x01000000;
+            rec_options.dram_wrap_around = val * 1024;
+            rec_options.wrap_around_mask_when_storing = (val * 1024) - 1;
             break;
         default:
             log_message(reu_log, "Unknown REU size %d.", val);
@@ -1115,8 +1111,12 @@ inline static uint8_t read_from_reu(unsigned int reu_addr)
     } else {
         DEBUG_LOG(DEBUG_LEVEL_NO_DRAM, (reu_log, "--> read from REU address %05X, but no DRAM!", reu_addr));
         value = floating_bus_value;
+        /* a read also seems to "refresh" the floating bus */
+        alarm_unset(reu_floating_bus_alarm);
+        reu_floating_bus_alarm_time = maincpu_clk + REU_FLOATING_BUS_DECAY_CYCLES;
+        alarm_set(reu_floating_bus_alarm, reu_floating_bus_alarm_time);
+        floating_bus_value = value;
     }
-
     return value;
 }
 
