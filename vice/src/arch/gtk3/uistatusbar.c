@@ -1660,7 +1660,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     gtk_grid_attach(GTK_GRID(sb),
                     gtk_separator_new(GTK_ORIENTATION_HORIZONTAL),
                     0, 2, SB_COL_COUNT, 1);
-    gtk_grid_attach(GTK_GRID(sb), message, 0, 3, SB_COL_COUNT, 1);
+    gtk_grid_attach(GTK_GRID(sb), message, 0, 4, SB_COL_COUNT, 1);
 
     /* Recording: third column probably */
     recording = statusbar_recording_widget_create();
