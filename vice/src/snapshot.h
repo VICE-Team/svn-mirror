@@ -62,6 +62,8 @@
 #define SNAPSHOT_CANNOT_WRITE_SNAPSHOT           26
 #define SNAPSHOT_CANNOT_READ_SNAPSHOT            27
 #define SNAPSHOT_MODULE_NOT_IMPLEMENTED          28
+#define SNAPSHOT_ATA_IMAGE_FILENAME_MISMATCH     29
+#define SNAPSHOT_VICII_MODEL_MISMATCH            30
 
 typedef struct snapshot_module_s snapshot_module_t;
 typedef struct snapshot_s snapshot_t;

@@ -1453,16 +1453,24 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
         return -1;
     }
 
-    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+    if (!snapshot_version_is_equal(vmajor, vminor, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR)) {
+        snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         snapshot_module_close(m);
         return -1;
     }
 
     SMR_STR(m, &filename);
     if (!drv->filename || strcmp(filename, drv->filename)) {
+        log_warning(drv->log, "IDE image filename mismatch. expected: %s got: %s\n",
+                    filename, drv->filename);
+    /* FIXME: this is really retarded - we should instead identify the image by
+              making a checksum instead of using the filename */
+#if 1
+        snapshot_set_error(SNAPSHOT_ATA_IMAGE_FILENAME_MISMATCH);
         lib_free(filename);
         snapshot_module_close(m);
         return -1;
+#endif
     }
     lib_free(filename);
     SMR_DW_INT(m, &type);

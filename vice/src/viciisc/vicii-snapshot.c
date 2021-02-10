@@ -176,6 +176,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
                   "Snapshot module version (%d.%d) newer than %d.%d.",
                   major_version, minor_version,
                   SNAP_MAJOR, SNAP_MINOR);
+        snapshot_set_error(SNAPSHOT_MODULE_HIGHER_VERSION);
         goto fail;
     }
 
@@ -189,6 +190,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
         log_error(vicii.log,
                   "Snapshot was made with model %i while the current model is %i.",
                   i, vicii_resources.model);
+        snapshot_set_error(SNAPSHOT_VICII_MODEL_MISMATCH);
         goto fail;
     }
 
