@@ -43,14 +43,6 @@
 #include "sidenginemodelwidget.h"
 
 
-#ifdef HAVE_DEBUG_GTK3UI
-/** \brief  Used for debugging
- *
- * Count calls to the 'toggle' event handler of the radio buttons.
- */
-static int num_calls = 0;
-#endif
-
 
 /** \brief  Optional extra callback for the SID settings glue logic
  */

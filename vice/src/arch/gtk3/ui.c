@@ -470,9 +470,6 @@ static void ui_on_drag_data_received(
     gchar *filename = NULL;
     gchar **files = NULL;
     guchar *text = NULL;
-#ifdef HAVE_DEBUG_GTK3UI
-    int i;
-#endif
 
     switch (info) {
 
