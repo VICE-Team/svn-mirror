@@ -364,8 +364,6 @@ static const cmdline_option_t cmdline_options_common[] =
     { "-monitorfg", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
         set_monitor_fg,  NULL, "MonitorFG", NULL,
         "font-foreground", "Set monitor font foreround color" },
-
-
     { "-autostart-on-doubleclick", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "AutostartOnDoubleclick", (void*)1,
         NULL, "Autostart files on doubleclick" },
