@@ -243,6 +243,15 @@ uint8_t vic_read(uint16_t addr)
 {
     addr &= 0xf;
 
+#ifdef HAVE_MOUSE
+    /* FIXME: in reality the paddle values are sampled every 512 cycles */
+    if ((addr == 8) || (addr == 9)) {
+        if (_mouse_enabled) {
+            mouse_poll();
+        }
+    }
+#endif
+
     switch (addr) {
         case 3:
             return ((vic_read_rasterline() & 1) << 7) | (vic.regs[3] & ~0x80);
