@@ -64,12 +64,6 @@
 #include "clkguard.h"
 #include "ds1202_1302.h"
 
-#ifdef DEBUG_MOUSE
-#define DBG(x) printf x
-#else
-#define DBG(x)
-#endif
-
 /* Control port <--> mouse/paddles/pad connections:
 
    cport | 1351         | I/O
