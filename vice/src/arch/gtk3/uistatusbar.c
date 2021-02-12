@@ -1617,7 +1617,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
     speed = statusbar_speed_widget_create(&allocated_bars[i].speed_state);
     g_object_ref_sink(G_OBJECT(speed));
     g_object_set(speed, "margin-left", 8, NULL);
-    
+
     allocated_bars[i].speed = speed;
     gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
     
