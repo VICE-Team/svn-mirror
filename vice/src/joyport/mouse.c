@@ -64,6 +64,12 @@
 #include "clkguard.h"
 #include "ds1202_1302.h"
 
+#ifdef DEBUG_MOUSE
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 /* Control port <--> mouse/paddles/pad connections:
 
    cport | 1351         | I/O
@@ -378,6 +384,7 @@ void mouse_move(float dx, float dy)
     mouse_move_x += dx;
     mouse_move_y -= dy;
     mouse_timestamp = tick_now();
+    DBG(("mouse_move %f %f\n", dx, dy));
 }
 
 void mouse_get_int16(int16_t *x, int16_t *y)
@@ -421,6 +428,8 @@ uint8_t mouse_poll(void)
     tick_t os_now, os_iv, os_iv2;
     CLOCK emu_now, emu_iv, emu_iv2;
     int diff_x, diff_y;
+
+    DBG(("mouse_poll\n"));
 
     /* Ensure the mouse hasn't moved too far since the last poll */
     mouse_move_apply_limit();
@@ -599,6 +608,7 @@ uint8_t micromys_mouse_read(void)
 /* --------------------------------------------------------- */
 /* Paddle support */
 
+/* FIXME: only paddle_val[2] and paddle_val[3] is actually used by the code */
 static uint8_t paddle_val[] = {
 /*  x     y  */
     0x00, 0xff, /* no port */
@@ -620,12 +630,12 @@ static inline uint8_t mouse_paddle_update(uint8_t paddle_v, int16_t *old_v, int1
     *old_v = new_v;
 
     if (new_paddle > 255) {
-        return 255;
+        new_paddle = 255;
+    } else if (new_paddle < 0) {
+        new_paddle = 0;
     }
-    if (new_paddle < 0) {
-        return 0;
-    }
-
+    DBG(("mouse_paddle_update paddle:%d oldv:%d newv:%d ret:%d\n",
+        paddle_v, *old_v, new_v, new_paddle));
     return (uint8_t)new_paddle;
 }
 
@@ -645,6 +655,8 @@ static inline uint8_t mouse_paddle_update(uint8_t paddle_v, int16_t *old_v, int1
 
 static uint8_t mouse_get_paddle_x(int port)
 {
+    DBG(("mouse_get_paddle_x port:%d mouse enabled:%d mouse_x:%d mouse_y:%d\n",
+         port, _mouse_enabled, mouse_x, mouse_y));
     if (_mouse_enabled) {
         paddle_val[2] = mouse_paddle_update(paddle_val[2], &(paddle_old[2]), (int16_t)mouse_x / PADDLE_DIV);
         return (uint8_t)(0xff - paddle_val[2]);
@@ -988,6 +1000,7 @@ static joyport_t koalapad_joyport_device = {
 
 static int mouse_joyport_register(void)
 {
+    DBG(("mouse_joyport_register\n"));
     if (joyport_device_register(JOYPORT_ID_PADDLES, &paddles_joyport_device) < 0) {
         return -1;
     }
@@ -1076,6 +1089,7 @@ static mouse_func_t mouse_funcs =
 
 int mouse_resources_init(void)
 {
+    DBG(("mouse_resources_init\n"));
     if (mouse_joyport_register() < 0) {
         return -1;
     }

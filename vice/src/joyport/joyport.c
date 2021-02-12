@@ -24,6 +24,8 @@
  *
  */
 
+/* #define DEBUG_JOYPORT */
+
 #include "vice.h"
 
 #include <string.h>
@@ -34,6 +36,12 @@
 #include "resources.h"
 #include "uiapi.h"
 #include "util.h"
+
+#ifdef DEBUG_JOYPORT
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
 static uint8_t joyport_display[6] = { 0, 0, 0, 0, 0, 0};
@@ -252,6 +260,8 @@ uint8_t read_joyport_potx(void)
             ret2 = joyport_device[id2].read_potx(pot_port2);
         }
     }
+
+    DBG(("read_joyport_potx id: %d %d ret: %d %d\n", id1, id2, ret1, ret2));
 
     switch (pot_port_mask) {
         case 1:
