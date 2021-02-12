@@ -278,7 +278,6 @@ typedef struct ui_statusbar_s {
 
     /** \brief PRIMARY_WINDOW, SECONDARY_WINDOW, etc */
     int window_identity;
-    
 } ui_statusbar_t;
 
 
@@ -1620,7 +1619,7 @@ GtkWidget *ui_statusbar_create(int window_identity)
 
     allocated_bars[i].speed = speed;
     gtk_grid_attach(GTK_GRID(sb), speed, SB_COL_SPEED, 0, 1, 2);
-    
+
     /* Second column: separator */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
                     SB_COL_SEP_SPEED, 0, 1, 2);
