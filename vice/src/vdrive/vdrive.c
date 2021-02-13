@@ -68,6 +68,9 @@
 #include "vdrive-rel.h"
 #include "vdrive-snapshot.h"
 #include "vdrive.h"
+#if 0
+#include "uiapi.h"
+#endif
 
 static log_t vdrive_log = LOG_ERR;
 
@@ -448,7 +451,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         case DISK_IMAGE_TYPE_D80:
             vdrive->image_format = VDRIVE_IMAGE_FORMAT_8050;
             vdrive->num_tracks = image->tracks;
-            vdrive->bam_size = 0x500;
+            vdrive->bam_size = 0x300;
             vdrive->current_offset = 0;
             break;
         case DISK_IMAGE_TYPE_D82:
@@ -952,6 +955,9 @@ int vdrive_read_sector(vdrive_t *vdrive, uint8_t *buf, unsigned int track, unsig
         return CBMDOS_IPE_NOT_READY;
     }
 
+#if 0
+    ui_display_drive_track(vdrive->unit - 8, 0, dadr.track * 2);
+#endif
     ret = disk_image_read_sector(vdrive->image, buf, &dadr);
 #ifdef DEBUG_DRIVE
     log_debug("VDRIVE: read_sector %u %u = %d", dadr.track, dadr.sector, ret);
@@ -980,6 +986,9 @@ int vdrive_write_sector(vdrive_t *vdrive, const uint8_t *buf, unsigned int track
         return CBMDOS_IPE_NOT_READY;
     }
 
+#if 0
+    ui_display_drive_track(vdrive->unit - 8, 0, dadr.track * 2);
+#endif
     ret = disk_image_write_sector(vdrive->image, buf, &dadr);
 
 #ifdef DEBUG_DRIVE
@@ -1268,7 +1277,7 @@ static int vdrive_change_part(vdrive_t *vdrive, int part)
                              VDRIVE_IMAGE_FORMAT_1541, VDRIVE_IMAGE_FORMAT_1571,
                              VDRIVE_IMAGE_FORMAT_1581};
     unsigned int tracks[5] = {0, 255, NUM_TRACKS_1541, NUM_TRACKS_1571, NUM_TRACKS_1581};
-    unsigned int bamsize[5] = {0, 0x2200, 0x100, 0x200, 0x300};
+    unsigned int bamsize[5] = {0, 0x2100, 0x100, 0x200, 0x300};
 
 #ifdef DEBUG_DRIVE
     log_debug("VDRIVE: Change part to %d", part);
@@ -1599,8 +1608,8 @@ int vdrive_switch(vdrive_t *vdrive, int part)
         ret = vdrive_change_part(vdrive, part);
         if (!ret) {
             /* it worked */
-            vdrive_bam_setup_bam(vdrive);
             vdrive_set_disk_geometry(vdrive);
+            vdrive_bam_setup_bam(vdrive);
         } else  {
             /* no, not good, make this an unaccessable part */
             if (vdrive->haspt) {
@@ -1620,8 +1629,8 @@ int vdrive_switch(vdrive_t *vdrive, int part)
             || vdrive->Part_End != vdrive->cpartend[vdrive->current_part]) ) {
         /* flush current bam */
         vdrive_bam_write_bam(vdrive);
-        vdrive_bam_setup_bam(vdrive);
         vdrive_set_disk_geometry(vdrive);
+        vdrive_bam_setup_bam(vdrive);
     }
 
 #ifdef DEBUG_DRIVE

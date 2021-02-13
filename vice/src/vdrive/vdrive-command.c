@@ -1862,7 +1862,7 @@ int vdrive_command_switch(vdrive_t *vdrive, int part)
 {
     /* don't allow anything to the system partition */
     if (part == 255) {
-        return 1;
+        return CBMDOS_IPE_NOT_READY;
     }
     return vdrive_switch(vdrive, part);
 }
@@ -3438,7 +3438,6 @@ static int vdrive_command_format_worker(struct vdrive_s *vdrive, uint8_t *disk_n
         goto out;
     }
     vdrive_bam_create_empty_bam(vdrive, (char*)disk_name, disk_id);
-    vdrive_bam_write_bam(vdrive);
 
     /* Validate is called to clear the BAM.  */
     status = vdrive_command_validate(vdrive);

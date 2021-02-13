@@ -147,7 +147,9 @@ typedef struct vdrive_s {
     unsigned int Bam_Sector;
     unsigned int bam_name;     /* Offset from start of BAM to disk name.   */
     unsigned int bam_id;       /* Offset from start of BAM to disk ID.  */
-    int8_t bam_state[VDRIVE_BAM_MAX_STATES];
+    int bam_state[VDRIVE_BAM_MAX_STATES];
+    int bam_tracks[VDRIVE_BAM_MAX_STATES];
+    int bam_sectors[VDRIVE_BAM_MAX_STATES];
                                /* bam cache dirty (1 char per sector)  */
                                /* -1 = not in mem, 0 = in mem, 1 = dirty */
     unsigned int Header_Track; /* Directory header location */
