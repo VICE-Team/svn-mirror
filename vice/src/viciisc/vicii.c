@@ -739,7 +739,7 @@ int vicii_dump(void)
     }
     mon_out("\nPri./MC:");
     bits = vicii.regs[0x1b];
-    bits = vicii.regs[0x1c];
+    bits2 = vicii.regs[0x1c];
     for (i = 0; i < 8; i++) {
         mon_out(" %c/%c", (bits & 1) ? 'b' : 's', (bits2 & 1) ? '*' : ' ');
         bits >>= 1;
