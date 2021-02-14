@@ -120,6 +120,7 @@ crtc_t crtc = {
     0,              /* hjitter */
     0,              /* xoffset */
     0,              /* screen_xoffset */
+    0,              /* screen_hsync */
     0,              /* screen_yoffset */
 
     0,              /* henable */
@@ -631,34 +632,45 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
     /* first the time between two sync pulses */
     new_sync_diff = (crtc.prev_rl_len + 1 - crtc.prev_rl_sync)
                     + crtc.rl_sync;
+    DBG(("rl_len(HTOTAL,R0)=%d, rl_visible(HDISP,R1)=%d, rl_sync(HSYNC,R2)=%d\n",
+            crtc.prev_rl_len, crtc.prev_rl_visible, crtc.prev_rl_sync));
+    DBG(("new_sync_diff=%d\n", new_sync_diff));
 
-    /* compute the horizontal position */
-    /* the original PET displays have quite a variety of sync timings
-       (or I haven't found the scheme yet). Therefore we cannot simply
-       center the part between the syncs. We assume the sync in the
-       first rasterline of the screen to be the default for the next
-       frame. */
+    /* Compute the horizontal position.
+     * the original PET displays have quite a variety of sync timings
+     * (or I haven't found the scheme yet). Therefore we cannot simply
+     * center the part between the syncs. We assume the sync in the
+     * first rasterline of the screen to be the default for the next
+     * frame.
+     *
+     * For now we simply center the displayed characters (HDISP).
+     *
+     * Another strategy is to assume that the default HSYNC position is
+     * 50, and any differences from that shift the line.
+     * This fails for the 50 and 60 Hz 4032 (use 41).
+     * This works for "cbm4032 any hz" (lowers HSYNC to 40 to shift the
+     * line 10*2 chars to the right) but not "cbm4032v2.1 50hz" (uses
+     * 31).
+     *
+     * There was a different, complicated calculation here but it
+     * didn't give a realistic result:
+     * ((screen_width - (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
+     * + ((crtc.prev_rl_len + 1
+     *     - crtc.prev_rl_sync
+     *     - ((crtc.regs[CRTC_REG_SYNCWIDTH] & 0x0f) / 2)
+     *    ) * 8 * crtc.hw_cols);
+     */
 
-    /* FIXME: crtc.regs[CRTC_REG_SYNCWIDTH] & 15 == 0 -> 16 */
     if (crtc.raster.current_line == 0) {
-        crtc.screen_xoffset = ((screen_width
-                                - (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
-                              + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
-                                  - ((crtc.regs[CRTC_REG_SYNCWIDTH] & 0x0f) / 2))
-                                 * 8 * crtc.hw_cols);
+        int width_chars = crtc.prev_rl_visible;
+        int width_pixels = width_chars * 8 * crtc.hw_cols;
+        crtc.screen_xoffset = (screen_width - width_pixels) / 2;
+        crtc.screen_hsync = crtc.rl_sync;
     }
 
-        /* FIXME: The 320 is the pixel width of a window with 40 cols.
-           make that a define - or measure the visible line length?
-           but how to do that reliably? */
-        crtc.xoffset = CRTC_SCREEN_BORDERWIDTH + (CRTC_EXTRA_COLS * 4)
-                       /* ((screen_width - crtc.rl_visible * 8 * crtc.hw_cols)
-                       / 2) */
-                       - crtc.screen_xoffset
-                       + ((screen_width
-                           - (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
-                       + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
-                           - ((crtc.regs[CRTC_REG_SYNCWIDTH] & 0x0f) / 2)) * 8 * crtc.hw_cols);
+    /* Increasing the HSYNC position moves the image left */
+    crtc.xoffset = crtc.screen_xoffset +
+                   (crtc.screen_hsync - crtc.rl_sync) * 8 * crtc.hw_cols;
 
     /* emulate the line */
     if (crtc.raster.current_line >=
@@ -690,10 +702,10 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 /*
     if (crtc.raster.current_line == 10) {
         printf("centering=%d, sync2start=%d -> xoff=%d, jitter=%d\n",
-                ((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2),
+                ((screen_width - (new_sync_diff * crtc.hw_cols * 8)) / 2),
                 (crtc.prev_rl_len + 1 - crtc.prev_rl_sync
                 - ((crtc.regs[CRTC_REG_SYNCWIDTH] & 0x0f) / 2)),
-                ((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2)
+                ((screen_width - (new_sync_diff * crtc.hw_cols * 8)) / 2)
                 + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
                 - ((crtc.regs[CRTC_REG_SYNCWIDTH] & 0x0f) / 2)) * crtc.hw_cols * 8),
                 crtc.hjitter);
@@ -721,7 +733,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (crtc.framelines == crtc.screen_yoffset) {
 */
     vsync_do_end_of_line();
-    
+
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
         crtc.raster.current_line = 0;
         raster_canvas_handle_end_of_frame(&crtc.raster);
@@ -815,7 +827,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
             if (new_vsync && !crtc.vsync) {
                 crtc.retrace_callback(1);
             }
-        } else {
+        } else {        /* PETs without CRTC */
             if (crtc.venable && !new_venable) {
                 crtc.retrace_callback(1);
             } else
@@ -953,6 +965,8 @@ int crtc_dump(void)
     uint8_t *regs = crtc.regs;
     int vsyncw,scanlines;
     int htotal, vtotal;
+    double v;
+
     htotal = regs[CRTC_REG_HTOTAL] + 1;
     vsyncw = ((regs[CRTC_REG_SYNCWIDTH] >> 4) & 0x0f);
     if (vsyncw == 0) vsyncw = 16;
@@ -1000,9 +1014,11 @@ int crtc_dump(void)
             htotal,
             crtc.framelines,
             htotal * crtc.framelines);
-    mon_out(" timing:                   %dHz horizontal, %dHz vertical\n", 
+    v = (double)machine_get_cycles_per_second() /
+                (htotal * crtc.framelines);
+    mon_out(" timing:                   %d Hz horizontal, %d.%04d Hz vertical\n", 
             (int)(machine_get_cycles_per_second() / htotal),
-            (int)(machine_get_cycles_per_second() / (htotal * crtc.framelines))
+            (int)v, (int)(10000 * (v - (int)v))
            );
     if ((regs[CRTC_REG_MODECTRL] & 4) == 0) {
         /* binary mode */
@@ -1025,6 +1041,22 @@ int crtc_dump(void)
                 regs[CRTC_REG_CURSORPOSL], regs[CRTC_REG_CURSORPOSH]);
         mon_out("Lightpen position: %3d x %3d\n", 
                 regs[CRTC_REG_LPENL], regs[CRTC_REG_LPENH]);
+    }
+    mon_out("\nBeam position (to draw next):\n"
+            "charline %d, rasterline %d (ch+%d), %d lines to end of vsync\n",
+            crtc.current_charline,
+            crtc.current_line,
+            crtc.current_line % scanlines,
+            crtc.vsync);
+    mon_out("CLOCK at start of frame %u, + rasterline %u, line length %d\n",
+            crtc.frame_start,
+            crtc.rl_start - crtc.frame_start,
+            crtc.rl_len);
+    
+    if (crtc.raster_draw_alarm) {
+        CLOCK then = crtc.raster_draw_alarm->context->next_pending_alarm_clk;
+        mon_out("next raster line draw alarm: %u (now+%u)\n",
+                then, then - maincpu_clk);
     }
     return 0;
 }
