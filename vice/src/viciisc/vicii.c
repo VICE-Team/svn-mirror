@@ -743,6 +743,7 @@ int vicii_dump(void)
     for (i = 0; i < 8; i++) {
         mon_out(" %c/%c", (bits & 1) ? 'b' : 's', (bits2 & 1) ? '*' : ' ');
         bits >>= 1;
+        bits2 >>= 1;
     }
     mon_out("\nColor:  ");
     for (i = 0; i < 8; i++) {
