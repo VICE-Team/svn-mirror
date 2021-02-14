@@ -47,6 +47,8 @@
 #ifdef HAVE_MOUSE
 #include "lightpen.h"
 #include "mouse.h"
+
+static CLOCK pot_cycle = 0;  /* pot sampling cycle */
 #endif
 
 /* VIC access functions. */
@@ -244,10 +246,18 @@ uint8_t vic_read(uint16_t addr)
     addr &= 0xf;
 
 #ifdef HAVE_MOUSE
-    /* FIXME: in reality the paddle values are sampled every 512 cycles */
     if ((addr == 8) || (addr == 9)) {
         if (_mouse_enabled) {
-            mouse_poll();
+            if ((maincpu_clk ^ pot_cycle) & ~511) {
+                pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
+
+                if (_mouse_enabled) {
+                    mouse_poll();
+                }
+
+                vic.regs[8] = read_joyport_potx();
+                vic.regs[9] = read_joyport_poty();
+            }
         }
     }
 #endif
@@ -261,10 +271,6 @@ uint8_t vic_read(uint16_t addr)
             return vic.light_pen.x;
         case 7:
             return vic.light_pen.y;
-        case 8:
-            return read_joyport_potx();
-        case 9:
-            return read_joyport_poty();
         default:
             return vic.regs[addr];
     }
