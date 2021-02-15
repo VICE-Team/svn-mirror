@@ -55,7 +55,7 @@ static GtkWidget *hvsc_root_entry;
 static void browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
 {
     if (filename != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(hvsc_root_entry), filename);
+        vice_gtk3_resource_entry_full_set(GTK_WIDGET(hvsc_root_entry), filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));

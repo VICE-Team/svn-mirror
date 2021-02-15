@@ -53,7 +53,7 @@
 static void flash_browse_callback(GtkDialog *dialog, gchar *filename, gpointer param)
 {
     if (filename != NULL) {
-        gtk_entry_set_text(GTK_ENTRY(param), filename);
+        vice_gtk3_resource_entry_full_set(GTK_WIDGET(param), filename);
         g_free(filename);
     }
     gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -70,18 +70,6 @@ static void flash_browse_callback(GtkDialog *dialog, gchar *filename, gpointer p
  */
 static void on_flash_dir_browse_clicked(GtkWidget *widget, gpointer data)
 {
-#if 0
-    GtkWidget *entry = GTK_WIDGET(data);
-    gchar *filename;
-
-    filename = vice_gtk3_select_directory_dialog(
-            "Select Flash filesystem directory", NULL, TRUE, NULL);
-    if (filename != NULL) {
-        vice_gtk3_resource_entry_full_set(entry, filename);
-        g_free(filename);
-    }
-#endif
-
     GtkWidget *dialog;
 
     dialog = vice_gtk3_select_directory_dialog(
@@ -92,7 +80,6 @@ static void on_flash_dir_browse_clicked(GtkWidget *widget, gpointer data)
             flash_browse_callback,
             data);  /* entry box */
     gtk_widget_show(dialog);
-
 }
 
 
