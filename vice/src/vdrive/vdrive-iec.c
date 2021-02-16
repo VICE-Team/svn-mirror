@@ -248,7 +248,6 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
             /* Copy the static on to the new one. */
             memcpy(p->slot, slot, 32);
-            slot = p->slot;
 
             /* set flag for replace mode */
             p->needsupdate = 1;
@@ -439,6 +438,11 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
      */
     if (p->mode == BUFFER_COMMAND_CHANNEL) {
         unsigned int n;
+
+        /* make static analysis happy */
+        if ( !name || !*name ) {
+            length = 0;
+        }
 
         /* partition will be handled inside command code */
         for (n = 0; n < length; n++) {

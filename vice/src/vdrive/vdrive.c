@@ -805,7 +805,6 @@ static int vdrive_log_to_phy(vdrive_t *vdrive, disk_addr_t *dadr, unsigned int t
     }
 
     if (vdrive->haspt) {
-        offset = 0;
         if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_SYS && track < 1) {
             return -1;
         }
@@ -1640,7 +1639,7 @@ int vdrive_switch(vdrive_t *vdrive, int part)
 }
 
 /* return the "real" partition when passed a 0 for CMD */
-/* otherwiese return 0 if we exceed he number of drives */
+/* otherwiese return 0 if we exceed the number of drives */
 int vdrive_realpart(vdrive_t *vdrive, int part)
 {
     /* for dual drive systems, parts >= NUM_DRIVES is always 0 */

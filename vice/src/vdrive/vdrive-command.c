@@ -216,7 +216,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
     }
 #endif
 
-    status = CBMDOS_IPE_INVAL;
+    /* status = CBMDOS_IPE_INVAL; */
 
     if (buf[length - 1] == 0x0d) {
         --length; /* chop CR character */
@@ -622,7 +622,7 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     log_debug("vdrive_command_block command: %c.", cmd->abbrv[2]);
 #endif
 
-    status = CBMDOS_IPE_SYNTAX;
+    /* status = CBMDOS_IPE_SYNTAX; */
 
     switch (cmd->abbrv[2]) {
         /* Old-style B-R and B-W */
@@ -785,8 +785,6 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
             goto out;
             break;
         case 'E':
-            l = vdrive_command_get_block_parameters((char*)cmd->file, &channel,
-                                                    &drive, &track, &sector);
             log_warning(vdrive_command_log, "B-E: %d %d %d %d (needs TDE)", channel, drive, track, sector);
             status = CBMDOS_IPE_OK;
             goto out;
@@ -860,12 +858,6 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     /* backup current partition information */
     int origpart = vdrive->current_part;
 
-    /* leave if write protected */
-    status = CBMDOS_IPE_WRITE_PROTECT_ON;
-    if (VDRIVE_IS_READONLY(vdrive)) {
-        goto out;
-    }
-
     /* initialize the source registers */
     for (i = 0; i <COPYMAX; i++) {
         src[i].file = NULL;
@@ -873,6 +865,12 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
         src[i].path = NULL;
         src[i].pathlength = 0;
         src[i].drive = 0;
+    }
+
+    /* leave if write protected */
+    status = CBMDOS_IPE_WRITE_PROTECT_ON;
+    if (VDRIVE_IS_READONLY(vdrive)) {
+        goto out;
     }
 
     status = CBMDOS_IPE_SYNTAX;
@@ -1719,7 +1717,7 @@ int vdrive_command_switchtraverse(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd
         do {
             skip = 0;
             /* if no path, traverse nothing */
-            if (cmd->pathlength == 0) {
+            if (!cmd->path || cmd->pathlength == 0) {
                 break;
             }
 
@@ -2415,7 +2413,7 @@ static int vdrive_command_mkdir(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
 
     slot = vdrive_dir_find_next_slot(&dir);
 
-    status = CBMDOS_IPE_NOT_FOUND;
+    /* status = CBMDOS_IPE_NOT_FOUND; */
 
     /* error out if it exists */
     if (slot) {
