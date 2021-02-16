@@ -490,12 +490,13 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
     file_system_bam_get_disk_id(fnum + 8, drv, disk_id);
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_do_job_: header '%c%c', disk_id '%c%c'",
-	        header[0], header[1], disk_id[0], disk_id[1]);
+        header[0], header[1], disk_id[0], disk_id[1]);
 #endif
 
     switch (job) {
         case 0x80:        /* read */
             if (DOS_IS_90(sysfdc->drive_type)) {
+                rc = FDC_ERR_OK;
                 /* the HD fdc can transfer more than one block */
                 for (i = sysfdc->buffer[0xa0]; i>0; i--) {
                     if (dadr.track > imgfdc->image->tracks) {
@@ -532,26 +533,25 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                         base = &(sysfdc->buffer[(buf + 1) << 8]);
                     }
                 }
-                rc = FDC_ERR_OK;
-                break;
-            }
-            if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
-#ifdef FDC_DEBUG
-		log_message(fdc_log, "do job read: header '%c%c' != disk_id '%c%c'",
-			header[0], header[1], disk_id[0], disk_id[1]);
-#endif
-                rc = FDC_ERR_ID;
-                break;
-            }
-            ret = disk_image_read_sector(imgfdc->image, sector_data, &dadr);
-            if (ret < 0) {
-                log_error(LOG_DEFAULT,
-                          "Cannot read T:%u S:%u from disk image.",
-                          dadr.track, dadr.sector);
-                rc = FDC_ERR_DRIVE;
             } else {
-                memcpy(base, sector_data, 256);
-                rc = FDC_ERR_OK;
+                if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
+#ifdef FDC_DEBUG
+                    log_message(fdc_log, "do job read: header '%c%c' != disk_id '%c%c'",
+                        header[0], header[1], disk_id[0], disk_id[1]);
+#endif
+                    rc = FDC_ERR_ID;
+                    break;
+                }
+                ret = disk_image_read_sector(imgfdc->image, sector_data, &dadr);
+                if (ret < 0) {
+                    log_error(LOG_DEFAULT,
+                              "Cannot read T:%u S:%u from disk image.",
+                              dadr.track, dadr.sector);
+                    rc = FDC_ERR_DRIVE;
+                } else {
+                    memcpy(base, sector_data, 256);
+                    rc = FDC_ERR_OK;
+                }
             }
             break;
         case 0x90:        /* write */
@@ -560,6 +560,7 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                     rc = FDC_ERR_WPROT;
                     break;
                 }
+                rc = FDC_ERR_OK;
                 /* the HD fdc can transfer more than one block */
                 for (i = sysfdc->buffer[0xa0]; i>0; i--) {
                     if (dadr.track > imgfdc->image->tracks) {
@@ -595,30 +596,29 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
                         base = &(sysfdc->buffer[(buf + 1) << 8]);
                     }
                 }
-                rc = FDC_ERR_OK;
-                break;
-            }
-            if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
-#ifdef FDC_DEBUG
-		log_message(fdc_log, "do job write: header '%c%c' != disk_id '%c%c'",
-			header[0], header[1], disk_id[0], disk_id[1]);
-#endif
-                rc = FDC_ERR_ID;
-                break;
-            }
-            if (imgfdc->image->read_only) {
-                rc = FDC_ERR_WPROT;
-                break;
-            }
-            memcpy(sector_data, base, 256);
-            ret = disk_image_write_sector(imgfdc->image, sector_data, &dadr);
-            if (ret < 0) {
-                log_error(LOG_DEFAULT,
-                          "Could not update T:%u S:%u on disk image.",
-                          dadr.track, dadr.sector);
-                rc = FDC_ERR_DRIVE;
             } else {
-                rc = FDC_ERR_OK;
+                if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
+#ifdef FDC_DEBUG
+                    log_message(fdc_log, "do job write: header '%c%c' != disk_id '%c%c'",
+                        header[0], header[1], disk_id[0], disk_id[1]);
+#endif
+                    rc = FDC_ERR_ID;
+                    break;
+                }
+                if (imgfdc->image->read_only) {
+                    rc = FDC_ERR_WPROT;
+                    break;
+                }
+                memcpy(sector_data, base, 256);
+                ret = disk_image_write_sector(imgfdc->image, sector_data, &dadr);
+                if (ret < 0) {
+                    log_error(LOG_DEFAULT,
+                              "Could not update T:%u S:%u on disk image.",
+                              dadr.track, dadr.sector);
+                    rc = FDC_ERR_DRIVE;
+                } else {
+                    rc = FDC_ERR_OK;
+                }
             }
             break;
         case 0xA0:        /* verify */
@@ -629,8 +629,8 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             }
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
 #ifdef FDC_DEBUG
-		log_message(fdc_log, "do job verify: header '%c%c' != disk_id '%c%c'",
-			header[0], header[1], disk_id[0], disk_id[1]);
+                log_message(fdc_log, "do job verify: header '%c%c' != disk_id '%c%c'",
+                    header[0], header[1], disk_id[0], disk_id[1]);
 #endif
                 rc = FDC_ERR_ID;
                 break;
@@ -658,8 +658,8 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
             break;
         case 0xB0:        /* seek - move to track and read ID(?) */
 #ifdef FDC_DEBUG
-		log_message(fdc_log, "do job seek: header was '%c%c' becomes disk_id '%c%c'",
-			header[0], header[1], disk_id[0], disk_id[1]);
+                log_message(fdc_log, "do job seek: header was '%c%c' becomes disk_id '%c%c'",
+                    header[0], header[1], disk_id[0], disk_id[1]);
 #endif
             header[0] = disk_id[0];
             header[1] = disk_id[1];
@@ -722,8 +722,8 @@ static uint8_t fdc_do_job_(unsigned int fnum, int buf,
         case 0xF0:
             if (header[0] != disk_id[0] || header[1] != disk_id[1]) {
 #ifdef FDC_DEBUG
-		log_message(fdc_log, "do job F0: header '%c%c' != disk_id '%c%c'",
-			header[0], header[1], disk_id[0], disk_id[1]);
+                log_message(fdc_log, "do job F0: header '%c%c' != disk_id '%c%c'",
+                    header[0], header[1], disk_id[0], disk_id[1]);
 #endif
                 rc = FDC_ERR_ID;
                 break;
