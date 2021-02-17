@@ -30,6 +30,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "archdep.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -404,6 +405,13 @@ io_source_list_t *io_source_register(io_source_t *device)
             break;
         case 0x9c00:
             current = &vic20io3_head;
+            break;
+        default:
+            log_error(LOG_DEFAULT,
+                    "io_source_register internal error: I/O range 0x%04x "
+                    "does not exist",
+                    device->start_address & 0xff00U);
+            archdep_vice_exit(-1);
             break;
     }
 
