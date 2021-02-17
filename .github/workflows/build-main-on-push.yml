@@ -5,6 +5,47 @@ on:
     - '*' # any tag name for now
 
 jobs:
+  static_analysis:
+      name: Static Analysis
+      runs-on: macos-10.15
+      
+      steps:
+        - name: Install Dependencies
+          shell: bash
+          run: |
+            pip3 install scan-build
+            brew install autoconf automake pkg-config dos2unix
+            brew install sdl2 sdl2_image
+            brew install gtk+3 librsvg adwaita-icon-theme
+            brew install ffmpeg glew libpng xa lame libvorbis flac jpeg-turbo
+
+        - name: Checkout Source
+          uses: actions/checkout@v2
+        
+        - name: Checkout Pages
+          uses: actions/checkout@v2
+          with:
+            ref: 'gh-pages'
+            path: 'gh-pages'
+
+        - name: Analyse GTK3
+          shell: bash
+          run: |
+            ./vice/build/macOS/github-actions-build.sh GTK3 analyse
+        
+        - name: Analyse SDL2
+          shell: bash
+          run: |
+            ./vice/build/macOS/github-actions-build.sh SDL2 analyse
+
+        - name: Publish Results
+          shell: bash
+          run: |
+            cd gh-pages
+            git add .
+            git commit -m "Updated $UI static analysis output"
+            git push
+
   cleanup_previous_builds: # Delete unfinished draft prereleases, and prereleases older than 30 days (but keep at least 10)
     name: Cleanup Previous Builds
     runs-on: ubuntu-latest
