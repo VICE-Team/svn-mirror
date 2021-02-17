@@ -174,6 +174,8 @@ int fsimage_read_dxx_image(const disk_image_t *image)
     bam_id[0] = bam_id[1] = 0xa0;
     if (sectors >= 0) {
         util_fpread(fsimage->fd, buffer, 256, sectors << 8);
+    } else {
+        return -1;
     }
     header.id1 = bam_id[0];
     header.id2 = bam_id[1];
