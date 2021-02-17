@@ -181,7 +181,7 @@ static int set_cia2_model(int val, void *param)
 
 static int set_kernal_revision(int val, void *param)
 {
-    int trapfl;
+    int trapfl = 0;     /* initialize to silence static analyzer warning */
 
     log_verbose("set_kernal_revision (\"KernalRev\") val:%d kernal_revision: %d", val, kernal_revision);
     if(!c64rom_isloaded()) {

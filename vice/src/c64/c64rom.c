@@ -109,9 +109,10 @@ int c64rom_cartkernal_active = 0;
    is used */
 int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
 {
-    int trapfl, rev;
-    uint16_t sum;                   /* ROM checksum */
-    int id;                     /* ROM identification number */
+    int trapfl = 0;     /* initialize to silence static analyzer warning */
+    int rev;
+    uint16_t sum;       /* ROM checksum */
+    int id;             /* ROM identification number */
 
     if (!rom_loaded) {
         return 0;
