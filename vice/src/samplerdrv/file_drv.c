@@ -1295,8 +1295,12 @@ static double float80tofloat64(unsigned char* bytes)
             f = HUGE_VAL;
         } else {
             expon -= 16383;
-            f  = ldexp(U2F(hiMant), expon -= 31);
-            f += ldexp(U2F(loMant), expon -= 32);
+            
+            expon -= 31;            
+            f  = ldexp(U2F(hiMant), expon);
+            
+            expon -= 32;
+            f += ldexp(U2F(loMant), expon);
         }
     }
 
