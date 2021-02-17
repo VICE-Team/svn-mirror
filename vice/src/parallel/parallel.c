@@ -135,13 +135,13 @@ static int par_status = 0;      /* lower 8 bits = PET par_status, upper bits own
 
 /* Transitions */
 
-#define ATN_true        0	/* active low: 0 on the physical bus */
+#define ATN_true        0       /* active low: 0 on the physical bus */
 #define ATN_false       1
-#define DAV_true        2	/* active low: 0 on the physical bus */
+#define DAV_true        2       /* active low: 0 on the physical bus */
 #define DAV_false       3
-#define NDAC_true       4	/* active low: 0 on the physical bus */
+#define NDAC_true       4       /* active low: 0 on the physical bus */
 #define NDAC_false      5
-#define NRFD_true       6	/* active low: 0 on the physical bus */
+#define NRFD_true       6       /* active low: 0 on the physical bus */
 #define NRFD_false      7
 
 typedef struct State_t {
