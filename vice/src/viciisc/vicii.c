@@ -438,6 +438,7 @@ void vicii_update_memory_ptrs_external(void)
    of each line.  */
 void vicii_raster_draw_handler(void)
 {
+#if 0
     int in_visible_area;
 
     in_visible_area = (vicii.raster.current_line
@@ -450,7 +451,7 @@ void vicii_raster_draw_handler(void)
         in_visible_area |= vicii.raster.current_line
                            <= ((unsigned int)vicii.last_displayed_line - vicii.screen_height);
     }
-
+#endif
     raster_line_emulate(&vicii.raster);
 
     vsync_do_end_of_line();
