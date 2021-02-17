@@ -168,11 +168,9 @@ const char *mon_drive_get_fsdevice_path(int drive_unit)
 
 void mon_drive_list(int drive_unit)
 {
-//    const char *name;
     image_contents_t *listing;
     vdrive_t *vdrive;
     /* TODO: drive 1? */
-//    unsigned int drive = 0;
     const char *fspath = NULL;
 
     if ((drive_unit < 8) || (drive_unit > 11)) {
@@ -190,9 +188,6 @@ void mon_drive_list(int drive_unit)
         return;
     }
 
-//    name = disk_image_name_get(vdrive->image);
-
-//    listing = diskcontents_read(name, drive_unit, drive);
     listing = diskcontents_block_read(vdrive, 0);
 
     if (listing != NULL) {
