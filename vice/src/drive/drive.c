@@ -473,9 +473,9 @@ int drive_enable(diskunit_context_t *drv)
 
     /* Recalculate drive geometry.  */
     for (drive = 0; drive < NUM_DRIVES; drive++) {
-	if (drv->drives[drive]->image != NULL) {
-	    drive_image_attach(drv->drives[drive]->image, dnr, drive);
-	}
+        if (drv->drives[drive]->image != NULL) {
+            drive_image_attach(drv->drives[drive]->image, dnr, drive);
+        }
     }
 
     /* resync */
@@ -514,9 +514,9 @@ void drive_disable(diskunit_context_t *drv)
         }
         machine_drive_port_default(drv);
 
-	for (drive = 0; drive < NUM_DRIVES; drive++) {
-	    drive_gcr_data_writeback(drv->drives[drive]);
-	}
+        for (drive = 0; drive < NUM_DRIVES; drive++) {
+            drive_gcr_data_writeback(drv->drives[drive]);
+        }
     }
 
     /* Make sure the UI is updated.  */
@@ -581,13 +581,13 @@ void drive_reset(void)
             drivecpu_reset(diskunit_context[dnr]);
         }
 
-	for (d = 0; d < NUM_DRIVES; d++) {
-	    drive_t *drive = unit->drives[d];
+        for (d = 0; d < NUM_DRIVES; d++) {
+            drive_t *drive = unit->drives[d];
 
-	    drive->led_last_change_clk = *(drive->clk);
-	    drive->led_last_uiupdate_clk = *(drive->clk);
-	    drive->led_active_ticks = 0;
-	}
+            drive->led_last_change_clk = *(drive->clk);
+            drive->led_last_uiupdate_clk = *(drive->clk);
+            drive->led_active_ticks = 0;
+        }
     }
 }
 
