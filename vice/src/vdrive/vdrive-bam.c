@@ -1425,7 +1425,11 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                 break;
             case VDRIVE_IMAGE_FORMAT_1571:
                 if (t != vdrive->Dir_Track && t != vdrive->Dir_Track + 35) {
-                    bamp = vdrive_bam_get_track_entry(vdrive, t, 0);
+                    if (t <= NUM_TRACKS_1571 / 2) {
+                        bamp = vdrive_bam_get_track_entry(vdrive, t, 0);
+                    } else {
+                        bamp = &(vdrive->bam[BAM_EXT_BIT_MAP_1571 + t - NUM_TRACKS_1571 / 2 - 1]);
+                    }
                     blocks += *bamp;
                 }
                 break;
