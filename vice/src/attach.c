@@ -634,7 +634,6 @@ static int attach_disk_image(disk_image_t *oldimage, vdrive_t *vdrive,
 #endif
         disk_image_media_destroy(image);
         disk_image_destroy(image);
-//        *imgptr = NULL;
     }
     return err;
 }
