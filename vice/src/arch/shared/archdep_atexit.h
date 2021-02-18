@@ -29,7 +29,7 @@
 #define ARCHDEP_ATEXIT_H
 
 int     archdep_vice_atexit(void (*function)(void));
-void    archdep_vice_exit(int excode);
+void    archdep_vice_exit(int excode) VICE_ATTR_NORETURN;
 
 #ifdef USE_NATIVE_GTK3
 void    archdep_set_main_thread(void);
