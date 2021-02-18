@@ -192,10 +192,10 @@ AS_IF([test x"$ac_cv_prog_cc_c99" = "xno"],
       [AC_MSG_ERROR([A C99-compliant compiler is required.])])
 AC_PROG_CPP
 dnl C++ check, at least C++11
-AC_PROG_CXX([g++ clang++ cc])
+AC_PROG_CXX([c++ g++ clang++])
 AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
 AC_PROG_CXXCPP
-AC_PROG_OBJC([gcc clang cc])
+AC_PROG_OBJC([cc gcc clang])
 
 dnl Try global compiler warnings
 dnl
