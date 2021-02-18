@@ -3171,8 +3171,8 @@ static int match_sub_pattern(const char *name, int type,
     int n;
     int p;
 
-    p = 0;
 #if 0
+    p = 0;
     printf(".. name = '%s'\n", name);
     printf(".. subpattern = '");
     while (p < plen) {
