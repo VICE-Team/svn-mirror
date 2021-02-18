@@ -154,7 +154,7 @@ static int noop;
 
 /* some attribute defines that are useful mostly for static analysis */
 /* see https://clang.llvm.org/docs/AttributeReference.html */
-#ifdef __clang_analyzer__
+#ifdef __clang__
 #define VICE_ATTR_NORETURN  __attribute__((analyzer_noreturn))
 #else
 #define VICE_ATTR_NORETURN
