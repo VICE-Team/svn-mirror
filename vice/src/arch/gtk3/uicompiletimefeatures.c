@@ -88,10 +88,11 @@ static int sort_symbol_func(GtkTreeModel *model,
 
     if (name_a == NULL || name_b == NULL) {
         if (name_a == NULL && name_b == NULL) {
-            /* no data for some reason */
+            /* no data for either, equal */
             return 0;
         }
-        result =  name_a == NULL ? -1 : 1;
+        /* prefer value over non-value */
+        return name_a == NULL ? -1 : 1;
     }
     result = g_utf8_collate(name_a, name_b);
     g_free(name_a);
