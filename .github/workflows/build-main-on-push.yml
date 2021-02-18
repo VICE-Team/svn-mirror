@@ -8,6 +8,10 @@ jobs:
   static_analysis:
       name: Static Analysis
       runs-on: macos-10.15
+      strategy:
+        fail-fast: false
+        matrix:
+          ui: [ GTK3, SDL2 ]
       
       steps:
         - name: Install Dependencies
@@ -28,23 +32,32 @@ jobs:
             ref: 'gh-pages'
             path: 'gh-pages'
 
-        - name: Analyse GTK3
+        - name: Analyse
           shell: bash
           run: |
-            ./vice/build/macOS/github-actions-build.sh GTK3 analyse
-        
-        - name: Analyse SDL2
-          shell: bash
-          run: |
-            ./vice/build/macOS/github-actions-build.sh SDL2 analyse
+            ./vice/build/macOS/github-actions-build.sh ${{ matrix.ui }} analyse
 
         - name: Publish Results
           shell: bash
           run: |
             cd gh-pages
+            
+            echo "Remotes:"
+            git remote
+
+            echo "Branches:"
+            git branch
+            
             git add .
             git commit -m "Updated $UI static analysis output"
-            git push
+
+            # Try to avoid the race condition between the the two analysis runs
+            for i in $(seq 1 3)
+            do
+              git pull
+              git push && break
+              sleep 15
+            done
 
   cleanup_previous_builds: # Delete unfinished draft prereleases, and prereleases older than 30 days (but keep at least 10)
     name: Cleanup Previous Builds
