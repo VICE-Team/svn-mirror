@@ -86,8 +86,8 @@ typedef void (CALLBACK* WriteToHardSID_t)(BYTE, BYTE, BYTE);
 /* HardSID USB (HardSID 4U) */
 typedef void (CALLBACK* HardSID_Reset_t)(BYTE);
 typedef BOOL (CALLBACK* HardSID_Lock_t) (BYTE);
-typedef void (CALLBACK* HardSID_AbortPlay_t)(BYTE); //hard flush
-typedef void (CALLBACK* HardSID_Flush_t)(BYTE); //soft flush
+typedef void (CALLBACK* HardSID_AbortPlay_t)(BYTE); /* hard flush */
+typedef void (CALLBACK* HardSID_Flush_t)(BYTE); /* soft flush */
 typedef void (CALLBACK* HardSID_Write_t)(BYTE, WORD, BYTE, BYTE);
 typedef void (CALLBACK* HardSID_Delay_t)(BYTE, WORD);
 

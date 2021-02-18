@@ -165,7 +165,7 @@ static void on_widget_realized(GtkWidget *widget, gpointer data)
             return;
         }
 
-        // Make the context available to the windowproc
+        /* Make the context available to the windowproc */
         SetWindowLongPtr(context->window, GWLP_USERDATA, (LONG_PTR)canvas);
 
         ShowWindow(context->window, SW_SHOW);

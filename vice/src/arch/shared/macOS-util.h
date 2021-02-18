@@ -36,7 +36,7 @@ void vice_macos_set_main_thread(void);
 void vice_macos_set_vice_thread_priority(bool warp_enabled);
 void vice_macos_set_render_thread_priority(void);
 
-// void vice_macos_render_log_create(void);
-// void vice_macos_render_log_frame_event(void);
+/* void vice_macos_render_log_create(void); */
+/* void vice_macos_render_log_frame_event(void); */
 
 #endif /* #ifndef VICE_MACOS_UTIL_H */

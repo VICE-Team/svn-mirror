@@ -122,29 +122,29 @@ static int host_delta_origin_y = 0.0;
 static void warp(int x, int y)
 {
 #ifdef MACOSX_SUPPORT
-    
+
     CGWarpMouseCursorPosition(CGPointMake(x, y));
     CGAssociateMouseAndMouseCursorPosition(true);
-    
+
 #elif defined(WIN32_COMPILE)
-    
+
     SetCursorPos(x, y);
-    
+
 #else /* xlib */
-    
+
     GtkWidget *gtk_widget = ui_get_window_by_index(PRIMARY_WINDOW);
     GdkWindow *gdk_window = gtk_widget_get_window(gtk_widget);
     Display *display = GDK_DISPLAY_XDISPLAY(gdk_window_get_display(gdk_window));
-    
+
     XWarpPointer(display, None, GDK_WINDOW_XID(gdk_window), 0, 0, 0, 0, x, y);
-    
+
 #endif
 }
 
 static void mouse_host_capture(int warp_x, int warp_y)
 {
     enable_capture = true;
-    
+
     warp(warp_x, warp_y);
 
     /* future mouse moments will be captured relative from here */
@@ -162,14 +162,14 @@ static void mouse_host_uncapture(void)
 static void mouse_host_moved(float x, float y)
 {
     float delta_x, delta_y;
-    
+
     if (!enable_capture) {
         return;
     }
-    
+
     delta_x = x - host_delta_origin_x;
     delta_y = y - host_delta_origin_y;
-    
+
     if (delta_x || delta_y) {
         mouse_move(delta_x, delta_y);
         warp(host_delta_origin_x, host_delta_origin_y);
@@ -235,7 +235,7 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
     _mouse_still_frames = 0;
-    
+
     if (event->type != GDK_MOTION_NOTIFY) {
         return FALSE;
     }
@@ -251,26 +251,26 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
 
     GdkEventMotion *motion = (GdkEventMotion *)event;
 
-    // printf("mouse move %f, %f  (%f, %f)\n", motion->x, motion->y, motion->x_root, motion->y_root); fflush(stdout);
+    /* printf("mouse move %f, %f  (%f, %f)\n", motion->x, motion->y, motion->x_root, motion->y_root); fflush(stdout); */
 
     if (enable_capture) {
 
         /* mouse movement, translate motion into window coordinates */
         int widget_x, widget_y;
         gtk_widget_translate_coordinates(widget, gtk_widget_get_toplevel(widget), 0, 0, &widget_x, &widget_y);
-        
+
 #ifdef MACOSX_SUPPORT
-        
+
         void    *native_window  = gdk_quartz_window_get_nswindow(gtk_widget_get_window(widget));
         id      content_view    = OBJC_MSGSEND(id, id, SEL)(native_window, sel_getUid("contentView"));
-        
+
         CGRect native_frame, content_rect;
         OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
         OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
-        
+
         /* macOS CoreGraphics coordinates origin is bottom-left of primary display */
         size_t main_display_height = CGDisplayPixelsHigh(CGMainDisplayID());
-        
+
         mouse_host_moved(
                                   native_frame.origin.x + widget_x + motion->x,
             main_display_height - native_frame.origin.y - content_rect.size.height + widget_y + motion->y
@@ -289,21 +289,21 @@ static gboolean event_box_motion_cb(GtkWidget *widget,
             (widget_y + motion->y) * scale);
 
 #endif
-        
+
         return FALSE;
     }
-    
+
     /*
      * Mouse isn't captured, so we update the pen position.
      */
 
     double render_w = canvas->geometry->screen_size.width;
     double render_h = canvas->geometry->last_displayed_line - canvas->geometry->first_displayed_line + 1;
-    
+
     /* There might be some sweet off-by-0.5 bugs here */
     int pen_x = (motion->x - canvas->screen_origin_x) * render_w / canvas->screen_display_w;
     int pen_y = (motion->y - canvas->screen_origin_y) * render_h / canvas->screen_display_h;
-    
+
     if (pen_x < 0 || pen_y < 0 || pen_x >= render_w || pen_y >= render_h) {
         /* Mouse pointer is offscreen, so the light pen is disabled. */
         canvas->pen_x = -1;
@@ -547,7 +547,7 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
          * clicking the canvas altered grab status. */
         return FALSE;
     }
-    
+
     if (crossing->type == GDK_ENTER_NOTIFY) {
         _mouse_still_frames = 0;
         if (canvas->still_frame_callback_id == 0) {
@@ -631,7 +631,7 @@ static void machine_window_create(video_canvas_t *canvas)
 
     g_signal_connect_unlocked(new_event_box, "enter-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect_unlocked(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
-    
+
     /* Important mouse event handling to bypass the lock and be immediately visible to the emulator */
     g_signal_connect_unlocked(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
     g_signal_connect_unlocked(new_event_box, "button-press-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
@@ -680,10 +680,10 @@ void ui_mouse_grab_pointer(void)
      */
         
 #ifdef MACOSX_SUPPORT
-        
+
     void *native_window = gdk_quartz_window_get_nswindow(gtk_widget_get_window(window));
     id   content_view   = OBJC_MSGSEND(id, id, SEL)(native_window, sel_getUid("contentView"));
-    
+
     CGRect native_frame, content_rect;
     OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&native_frame, native_window, sel_getUid("frame"));
     OBJC_MSGSEND_STRET(CGRect *, id, SEL)(&content_rect, content_view,  sel_getUid("frame"));
@@ -693,15 +693,15 @@ void ui_mouse_grab_pointer(void)
 
     warp_x =                       native_frame.origin.x + (int)(content_rect.size.width  / 2.0f);
     warp_y = main_display_height - native_frame.origin.y - (int)(content_rect.size.height / 2.0f);
-        
+
 #else
-        
+
     /* First calculate destination relateive to window */
     int window_width, window_height;
     gtk_window_get_size(GTK_WINDOW(window), &window_width, &window_height);
 
     int scale = gtk_widget_get_scale_factor(window);
-    
+
     warp_x = (float)window_width  / 2.0f * scale;
     warp_y = (float)window_height / 2.0f * scale;
 
@@ -713,7 +713,7 @@ void ui_mouse_grab_pointer(void)
 
     warp_x += window_x * scale;
     warp_y += window_y * scale;
-            
+
 #endif
 #endif
 

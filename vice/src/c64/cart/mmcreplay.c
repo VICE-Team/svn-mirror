@@ -2379,7 +2379,7 @@ void mmcreplay_freeze(void)
 
     /* we don't have a proper hook to release this bit after a while,
      * so we can only set it to 0 and hope for the best */
-    /* freeze_pressed = 1; *//* (r) freeze button pressed.  */
+    /* freeze_pressed = 1; */ /* (r) freeze button pressed.  */
     freeze_pressed = 0;
     /* ^ bit 3: bank address 13 (W) */
     /* ^ bit 4: bank address 14 (W) */

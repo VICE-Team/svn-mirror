@@ -202,7 +202,7 @@ void vsyncarch_sleep(unsigned long delay)
         printf(
             "overslept %.1f ms, set oversleep compensation to %.1f ms\n",
             (double)oversleep * 1000 / vsyncarch_frequency(),
-            //(double)oversleep_compensate * 1000 / vsyncarch_frequency());
+            /*(double)oversleep_compensate * 1000 / vsyncarch_frequency());*/
             smoothed_running_oversleep * 1000 / vsyncarch_frequency());
         fflush(stdout);
 #endif

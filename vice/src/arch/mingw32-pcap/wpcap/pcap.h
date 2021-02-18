@@ -49,9 +49,9 @@
 #include <stdio.h>
 
 #ifdef REMOTE
-	// We have to define the SOCKET here, although it has been defined in sockutils.h
-	// This is to avoid the distribution of the 'sockutils.h' file around
-	// (for example in the WinPcap developer's pack)
+/* We have to define the SOCKET here, although it has been defined in sockutils.h
+   This is to avoid the distribution of the 'sockutils.h' file around
+   (for example in the WinPcap developer's pack) */
 #  ifndef SOCKET
 #    ifdef WIN32
 #      define SOCKET unsigned int

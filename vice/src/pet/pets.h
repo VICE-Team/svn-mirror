@@ -45,7 +45,7 @@
 #define PET_EDITOR2B40NAME  "edit-2-b.901474-01.bin"
 #define PET_EDITOR4G40NAME  "edit-4-40-n-50Hz.901498-01.bin"
 #define PET_EDITOR4B80NAME  "edit-4-80-b-50Hz.901474-04_.bin"
-/* #define PET_EDITOR4B40NAME  "edit-4-b-noCRTC.901474-02.bin" // no CRTC */
+/* #define PET_EDITOR4B40NAME  "edit-4-b-noCRTC.901474-02.bin" */ /* no CRTC */
 #define PET_EDITOR4B40NAME  "edit-4-40-b-50Hz.ts.bin"
 
 #define SUPERPET_6809_A_NAME "waterloo-a000.901898-01.bin"

@@ -554,13 +554,13 @@ void vsync_do_end_of_line(void)
 /* This is called at the end of each screen frame. */
 int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
-    // static unsigned long next_frame_start = 0;
+    /* static unsigned long next_frame_start = 0; */
     static int skipped_redraw_count = 0;
     static tick_t last_vsync;
 
     tick_t now;
     tick_t network_hook_time = 0;
-    // long delay;
+    /* long delay; */
     int skip_next_frame = 0;
 
     /*
@@ -592,7 +592,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         network_hook_time = tick_now_delta(network_hook_time);
 
         if (network_hook_time > (tick_t)ticks_per_frame) {
-            // next_frame_start += network_hook_time;
+            /* next_frame_start += network_hook_time; */
             last_vsync += network_hook_time;
         }
     }

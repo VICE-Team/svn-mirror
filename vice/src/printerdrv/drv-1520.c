@@ -321,7 +321,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
         if (e2 > -dy) {
             err -= dy;
             xo  += sx;
-            /* mps->colour = vice_max(1, (mps->colour+1) % 4); *//* DEBUG */
+            /* mps->colour = vice_max(1, (mps->colour+1) % 4); */ /* DEBUG */
             mps->scribe_state = scribe;
             bresenham(mps, x0 + xo, y0 + yo, x1 + xo, y1 + yo);
             if (wd > 1) {
@@ -332,7 +332,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
         if (e2 < dx) {
             err += dx;
             yo  += sy;
-            /* mps->colour = vice_max(1, (mps->colour+1) % 4); *//* DEBUG */
+            /* mps->colour = vice_max(1, (mps->colour+1) % 4); */ /* DEBUG */
             mps->scribe_state = scribe;
             bresenham(mps, x0 + xo, y0 + yo, x1 + xo, y1 + yo);
             if (wd > 1) {

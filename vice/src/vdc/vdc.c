@@ -109,7 +109,9 @@ static void vdc_set_geometry(void)
     raster = &vdc.raster;
     /* total visible pixels including border(s) - constants defined in vdctypes.h */
     screen_width = VDC_SCREEN_WIDTH;    /* 856 */
-    screen_height = vdc.canvas_height;  /* was 288 - maximum number of raster lines visible on a PAL system. also the same as old winvice    //VDC_SCREEN_HEIGHT;  //312 */
+     /* was 288 - maximum number of raster lines visible on a PAL system. also
+      * the same as old winvice      VDC_SCREEN_HEIGHT;    312 */
+    screen_height = vdc.canvas_height;
 
     screen_xpix = vdc.screen_xpix;
 
@@ -553,22 +555,22 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 vdc_vert_fine_adj = 1;
             }
         }
-        
+
         /* check if we've hit the vsync position and should start vsync */
         if (vdc.row_counter == vdc.regs[7]) {
             vdc.vsync = 1;
             vdc.vsync_counter = 0;
-
-            //printf("vdc.raster.current_line: %03u vdc.canvas_height_old: %03u ", vdc.raster.current_line, vdc.canvas_height_old);
-            //printf("current_line: %03u ", vdc.raster.current_line);
-            //printf("vdc.draw_active: %01u vdc.prime_draw: %01u ", vdc.draw_active, vdc.prime_draw);
-            //printf("vdc.draw_finished: %01u vdc.display_enable: %03u\n", vdc.draw_finished, vdc.display_enable);
-
+/*
+            printf("vdc.raster.current_line: %03u vdc.canvas_height_old: %03u ", vdc.raster.current_line, vdc.canvas_height_old);
+            printf("current_line: %03u ", vdc.raster.current_line);
+            printf("vdc.draw_active: %01u vdc.prime_draw: %01u ", vdc.draw_active, vdc.prime_draw);
+            printf("vdc.draw_finished: %01u vdc.display_enable: %03u\n", vdc.draw_finished, vdc.display_enable);
+*/
             /* Check if the screen size has changed and if it's been stable for enough frames, update the canvas size appropriately */
             if (vdc.raster.current_line != vdc.canvas_height_old) {
                 vdc.canvas_height_old = vdc.raster.current_line;
                 stable_size_count = 0;  /* the size changed again so reset our stable size counter back to 0 */
-                //printf("height changed! current_line: %03u \n", vdc.raster.current_line);
+                /* printf("height changed! current_line: %03u \n", vdc.raster.current_line); */
             } else if (stable_size_count == 10) {   /* we've had a few frames of stable size so lock it in and resize the window */
                 /* For now do a simple check of the frame size at the mid-point between PAL (288) & NTSC (240)
                     to catch NTSC <> PAL changes, until we do a proper dynamic resize.

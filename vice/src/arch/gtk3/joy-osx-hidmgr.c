@@ -56,9 +56,9 @@ static Boolean IOHIDDevice_GetLongProperty( IOHIDDeviceRef inIOHIDDeviceRef, CFS
     if ( inIOHIDDeviceRef ) {
         CFTypeRef tCFTypeRef = IOHIDDeviceGetProperty( inIOHIDDeviceRef, inKey );
         if ( tCFTypeRef ) {
-            // if this is a number
+            /* if this is a number */
             if ( CFNumberGetTypeID() == CFGetTypeID( tCFTypeRef ) ) {
-                // get it's value
+                /* get it's value */
                 result = CFNumberGetValue((CFNumberRef)tCFTypeRef, kCFNumberLongType, outValue);
             }
         }
@@ -71,11 +71,11 @@ static Boolean IOHIDDevice_GetLongProperty( IOHIDDeviceRef inIOHIDDeviceRef, CFS
 int  joy_hidlib_init(void)
 {
     if ( !mgr ) {
-        // create the manager
+        /* create the manager */
         mgr = IOHIDManagerCreate( kCFAllocatorDefault, 0L );
     }
     if ( mgr ) {
-        // open it
+        /* open it */
         IOReturn tIOReturn = IOHIDManagerOpen( mgr, 0L);
         if ( kIOReturnSuccess != tIOReturn ) {
             return -1;

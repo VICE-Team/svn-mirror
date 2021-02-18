@@ -190,18 +190,18 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
             frames_left_in_fragment_2 = frames_in_fragment;
         }
     }
-    
+
     if (needed_frames) {
         /* Underflow */
         underflow_count++;
         *ioNumberDataPackets = 0;
-        
-        //memset(dest, 0, needed_frames * in_frame_byte_size);
+
+        /* memset(dest, 0, needed_frames * in_frame_byte_size); */
     } else {
         /*
         * There was enough data, apply the read.
         */
-        
+
         while(consumed_fragments--) {
             OSAtomicDecrement32(&fragments_in_queue_2);
             read_position_2 = this_read_position;

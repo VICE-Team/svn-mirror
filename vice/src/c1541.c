@@ -1272,9 +1272,11 @@ static void bam_print_sector_header(int sectors)
 
     while (i < sectors && p < BAM_SECTOR_HEADER_MAX_STRLEN) {
         snprintf(tmp, 9, "%3d", i % 1000);
-//        line0[p] = (char)(((i / 100) % 10) + '0');
-//        line1[p] = (char)(((i / 10) % 10) + '0');
-//        line2[p] = (char)((i % 10) + '0');
+        /*
+       line0[p] = (char)(((i / 100) % 10) + '0');
+       line1[p] = (char)(((i / 10) % 10) + '0');
+       line2[p] = (char)((i % 10) + '0');
+        */
         line0[p] = tmp[0];
         line1[p] = tmp[1];
         line2[p] = tmp[2];
@@ -1314,7 +1316,7 @@ static int bam_print_tracks(vdrive_t *vdrive,
 
     for (track = track_min; track <= track_max; track++) {
         unsigned int sectors = (unsigned int)vdrive_get_max_sectors(vdrive, track);
-//        unsigned char *bitmap = vdrive_bam_get_track_entry(vdrive, track, 0);
+/*        unsigned char *bitmap = vdrive_bam_get_track_entry(vdrive, track, 0); */
         unsigned int s = 0;
 
 /*
@@ -3295,14 +3297,14 @@ static int list_file_matches_pattern(const char *name,
 static int list_cmd(int nargs, char **args)
 {
     char *pattern;
-//    const char *name;
+/*    const char *name; */
     char *type;
     image_contents_t *listing;
     int dnr = drive_index;
     vdrive_t *vdrive;
     int unit = DRIVE_UNIT_MIN;
 
-//    unsigned int drive = 0;
+/*    unsigned int drive = 0; */
 
     if (nargs > 1) {
         /* use new version call untill all old calls are replaced */
@@ -3330,10 +3332,10 @@ static int list_cmd(int nargs, char **args)
     }
 
     vdrive = drives[dnr];
-//    name = disk_image_name_get(vdrive->image);
+/*    name = disk_image_name_get(vdrive->image); */
 
     listing = diskcontents_block_read(vdrive, 0);
-//    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN), drive);
+/*    listing = diskcontents_read(name, (unsigned int)(dnr + DRIVE_UNIT_MIN), drive); */
 
     if (listing != NULL) {
         char *string = image_contents_to_string(listing, 1);
