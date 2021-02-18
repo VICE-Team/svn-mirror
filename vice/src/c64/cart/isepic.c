@@ -523,8 +523,8 @@ void isepic_romh_store(uint16_t addr, uint8_t byte)
             case 0xfffb:
                 isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
                 break;
-		}
-	}
+        }
+    }
     mem_store_without_ultimax(addr, byte);
 }
 

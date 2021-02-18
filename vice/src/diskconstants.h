@@ -142,8 +142,8 @@
 #define NUM_BLOCKS_8050        2083     /* 2052 free */
 #define MAX_TRACKS_8050        77
 #define MAX_BLOCKS_8050        2083
-#define HDR_TRACK_8050	       DIR_TRACK_8050	/* block w/disk name */
-#define HDR_SECTOR_8050	       0		/* block w/disk name */
+#define HDR_TRACK_8050         DIR_TRACK_8050   /* block w/disk name */
+#define HDR_SECTOR_8050        0        /* block w/disk name */
 #define BAM_TRACK_8050         38
 #define BAM_SECTOR_8050        0
 #define BAM_NAME_8050          6        /* pos. of disk name in header blk */

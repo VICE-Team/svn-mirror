@@ -1030,10 +1030,10 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
             canvas->real_width = canvas->actual_width;
             canvas->real_height = canvas->actual_height;
         }
-	/* Recreating the video like this sometimes makes us lose the
-	   fact that keys were released or pressed. Reset the keyboard
-	   state. */
-	keyboard_key_clear();
+        /* Recreating the video like this sometimes makes us lose the
+        fact that keys were released or pressed. Reset the keyboard
+        state. */
+        keyboard_key_clear();
     }
 }
 

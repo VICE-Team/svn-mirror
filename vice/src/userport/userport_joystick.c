@@ -157,7 +157,7 @@ C64/C128 | JOY1 | JOY2 | NOTES
 /* ------------------------------------------------------------------------- */
 
 int userport_joystick_enable = 0;
-int userport_joystick_type = USERPORT_JOYSTICK_HUMMER;	/* default for x64dtv */
+int userport_joystick_type = USERPORT_JOYSTICK_HUMMER;  /* default for x64dtv */
 
 static int userport_joystick_cga_select = 0;
 

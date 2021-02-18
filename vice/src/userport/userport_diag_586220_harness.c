@@ -28,7 +28,7 @@
 
 PIN | PIN | NOTES
 -----------------
- 4  |  6  | CNT1 <-> CNT2		
+ 4  |  6  | CNT1 <-> CNT2
  5  |  7  | SP1 <-> SP2
  6  |  4  | CNT2 <-> CNT1
  7  |  5  | SP2 <-> SP1

@@ -87,7 +87,7 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
         /* if stat failed exit early, except in write mode
            (since opening a non existing file creates a new file) */
         if (command != FILEIO_COMMAND_WRITE &&
-	    command != FILEIO_COMMAND_OVERWRITE) {
+            command != FILEIO_COMMAND_OVERWRITE) {
             lib_free(complete);
             return NULL;
         }
@@ -95,8 +95,8 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
         if (command == FILEIO_COMMAND_WRITE) {
         /* A real drive doesn't overwrite an existing file,
            so we should not either.
-	   Use FILEIO_COMMAND_OVERWRITE to go ahead and
-	   overwrite the file anyway. */
+            Use FILEIO_COMMAND_OVERWRITE to go ahead and
+            overwrite the file anyway. */
             lib_free(complete);
             return NULL;
         }

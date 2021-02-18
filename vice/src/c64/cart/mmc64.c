@@ -196,7 +196,7 @@ static io_source_t mmc64_io1_clockport_enable_device = {
 
 /* from http://www.schoenfeld.de/inside/mmc64doc.txt:
  *
- * $DE01 / $DF21(W)(*):	bit 0: 0 = disable clock port, 1 = enable clockport
+ * $DE01 / $DF21(W)(*): bit 0: 0 = disable clock port, 1 = enable clockport
  *
  * (*) location depends on bit 3 of $DF11
  */

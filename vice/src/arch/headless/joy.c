@@ -27,38 +27,38 @@
 
 int joy_arch_cmdline_options_init(void)
 {
-	/* printf("%s\n", __func__); */
+    /* printf("%s\n", __func__); */
 
-	return 0;
+    return 0;
 }
 
 int joy_arch_init(void)
 {
-	/* printf("%s\n", __func__); */
+    /* printf("%s\n", __func__); */
 
-	return 0;
+    return 0;
 }
 
 int joy_arch_resources_init(void)
 {
-	/* printf("%s\n", __func__); */
+    /* printf("%s\n", __func__); */
 
-	return 0;
+    return 0;
 }
 
 int joy_arch_set_device(int port_idx, int new_dev)
 {
-	/* printf("%s\n", __func__); */
+    /* printf("%s\n", __func__); */
 
-	return 0;
+    return 0;
 }
 
 void joystick(void)
 {
-	/* printf("%s\n", __func__); */
+    /* printf("%s\n", __func__); */
 }
 
 void joystick_close(void)
 {
-	/* printf("%s\n", __func__); */
+    /* printf("%s\n", __func__); */
 }

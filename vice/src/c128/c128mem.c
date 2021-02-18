@@ -365,7 +365,7 @@ uint8_t zero_read(uint16_t addr)
 {
     uint8_t retval;
 
-	addr &= 0xff;
+    addr &= 0xff;
 
     switch ((uint8_t)addr) {
         case 0:

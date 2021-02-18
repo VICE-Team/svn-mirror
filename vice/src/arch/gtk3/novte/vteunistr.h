@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * Author(s):
- * 	Behdad Esfahbod
+ *  Behdad Esfahbod
  */
 
 #ifndef novte_vteunistr_h_included

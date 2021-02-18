@@ -588,7 +588,7 @@ static uint8_t read_io(uint16_t addr)
                 case 0xdf00:
                     return cbm2io_df00_read(addr);
             }
-	}
+    }
     return read_unused(addr);
 }
 

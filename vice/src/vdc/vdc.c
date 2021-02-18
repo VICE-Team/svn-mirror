@@ -329,7 +329,7 @@ void vdc_reset(void)
     vdc.regs[5] = 0;
     vdc.regs[6] = 25;
     vdc.regs[8] = 0;
-	vdc.interlaced = 0;
+    vdc.interlaced = 0;
     vdc.regs[9] = vdc.raster_ycounter_max = 7;
     vdc.regs[22] = 0x78;
     vdc.charwidth = 8;

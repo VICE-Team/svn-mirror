@@ -57,7 +57,7 @@
  */
 #define DRIVE_NUMBER_MAX  1
 
-#define NUM_DRIVES	2
+#define NUM_DRIVES  2
 
 /** \brief  Default drive number
  */

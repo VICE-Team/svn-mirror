@@ -264,12 +264,12 @@ void vdc_store(uint16_t addr, uint8_t value)
             break;
 
         case 8:                 /* R08  Interlace and Skew */
-			if ((vdc.regs[8] & 0x03) == 3)  {   /* interlace */
-				vdc.interlaced = 1;
-			} else {
-				vdc.interlaced = 0;
-			}
-			//vdc.update_geometry = 1;
+            if ((vdc.regs[8] & 0x03) == 3)  {   /* interlace */
+                vdc.interlaced = 1;
+            } else {
+                vdc.interlaced = 0;
+            }
+            /* vdc.update_geometry = 1; */
 #ifdef REG_DEBUG
             log_message(vdc.log, "REG 8 Interlace:%02x", vdc.regs[8]);
 #endif

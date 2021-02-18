@@ -55,7 +55,7 @@
 #define SUPERPET_6809_E_NAME "waterloo-e000.901897-01.bin"
 #define SUPERPET_6809_F_NAME "waterloo-f000.901898-05.bin"
 
-#define PET_COLS		80
+#define PET_COLS                80
 #define PET_MAP_LINEAR          0
 #define PET_MAP_8096            1
 #define PET_MAP_8296            2

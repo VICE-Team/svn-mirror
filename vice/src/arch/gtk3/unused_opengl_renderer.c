@@ -279,7 +279,7 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     if (err != NULL) {
         log_error(LOG_ERR, "Could not realize GL context: %d: %s\n",
                 err->code, err->message);
-	    vice_gtk3_message_error(
+        vice_gtk3_message_error(
                 "OpenGL",
                 "Error: %d: %s",
                 err->code, err->message);
