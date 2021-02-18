@@ -324,7 +324,7 @@ void vicii_reset(void)
     vicii.vborder = 1;
     vicii.set_vborder = 1;
     vicii.main_border = 1;
-    
+
 }
 
 /* called at powerup */
@@ -565,41 +565,41 @@ void vicii_screenshot(screenshot_t *screenshot)
 
     /* Set full dimensions regardless of border settings */
     if(video == MACHINE_SYNC_PALN) {
-        screenshot->debug_offset_x = 
+        screenshot->debug_offset_x =
             VICII_SCREEN_PALN_DEBUG_LEFTBORDERWIDTH;
-        screenshot->debug_offset_y = 
+        screenshot->debug_offset_y =
             VICII_NO_BORDER_FIRST_DISPLAYED_LINE - VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE;
-        screenshot->debug_width = 
+        screenshot->debug_width =
             screenshot->debug_offset_x + VICII_SCREEN_XPIX + VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH;
         screenshot->debug_height =
             screenshot->debug_offset_y + VICII_SCREEN_YPIX +
             (VICII_PALN_DEBUG_LAST_DISPLAYED_LINE - VICII_NO_BORDER_LAST_DISPLAYED_LINE);
     } else if(video == MACHINE_SYNC_NTSC) {
-        screenshot->debug_offset_x = 
+        screenshot->debug_offset_x =
             VICII_SCREEN_NTSC_DEBUG_LEFTBORDERWIDTH;
-        screenshot->debug_offset_y = 
+        screenshot->debug_offset_y =
             VICII_NO_BORDER_FIRST_DISPLAYED_LINE - VICII_NTSC_DEBUG_FIRST_DISPLAYED_LINE;
-        screenshot->debug_width = 
+        screenshot->debug_width =
             screenshot->debug_offset_x + VICII_SCREEN_XPIX + VICII_SCREEN_NTSC_DEBUG_RIGHTBORDERWIDTH;
         screenshot->debug_height =
             screenshot->debug_offset_y + VICII_SCREEN_YPIX +
             (VICII_NTSC_DEBUG_LAST_DISPLAYED_LINE - VICII_NO_BORDER_LAST_DISPLAYED_LINE);
     } else if(video == MACHINE_SYNC_NTSCOLD) {
-        screenshot->debug_offset_x = 
+        screenshot->debug_offset_x =
             VICII_SCREEN_NTSCOLD_DEBUG_LEFTBORDERWIDTH;
-        screenshot->debug_offset_y = 
+        screenshot->debug_offset_y =
             VICII_NO_BORDER_FIRST_DISPLAYED_LINE - VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE;
-        screenshot->debug_width = 
+        screenshot->debug_width =
             screenshot->debug_offset_x + VICII_SCREEN_XPIX + VICII_SCREEN_NTSCOLD_DEBUG_RIGHTBORDERWIDTH;
         screenshot->debug_height =
             screenshot->debug_offset_y + VICII_SCREEN_YPIX +
             (VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE - VICII_NO_BORDER_LAST_DISPLAYED_LINE);
     } else {
-        screenshot->debug_offset_x = 
+        screenshot->debug_offset_x =
             VICII_SCREEN_PAL_DEBUG_LEFTBORDERWIDTH;
-        screenshot->debug_offset_y = 
+        screenshot->debug_offset_y =
             VICII_NO_BORDER_FIRST_DISPLAYED_LINE - VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE;
-        screenshot->debug_width = 
+        screenshot->debug_width =
             screenshot->debug_offset_x + VICII_SCREEN_XPIX + VICII_SCREEN_PAL_DEBUG_RIGHTBORDERWIDTH;
         screenshot->debug_height =
             screenshot->debug_offset_y + VICII_SCREEN_YPIX +
