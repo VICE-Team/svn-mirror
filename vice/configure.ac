@@ -184,7 +184,7 @@ AC_CANONICAL_HOST
 dnl Check for the existence of various programs that VICE and its component systems use
 
 dnl Find compiler
-AC_PROG_CC([gcc clang cc])
+AC_PROG_CC([clang gcc cc])
 
 dnl Make sure the compiler supports C99 at a minimum
 AC_PROG_CC_C99
