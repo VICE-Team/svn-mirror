@@ -72,7 +72,40 @@ function checkwhitespace
     rm -f .checkws
 }
 
+function usage
+{
+    echo "checkstyle.sh - find some codestyle issues"
+    echo "usage: ./checkstyle.sh <options>"
+    echo "options:"
+    echo "comments      find dangling c++ comments"
+    echo "tabs          find tabs"
+    echo "whitespace    find trailing whitespace"
+    echo "all           all of the above"
+}
 
-checkcppcomments
-checktabs
-checkwhitespace
+if [ "$#" -eq "0" ]; then
+    usage
+else
+    for thisarg in "$@"
+    do
+        case "$thisarg" in
+            comments)
+                    checkcppcomments
+                ;;
+            tabs)
+                    checktabs
+                ;;
+            whitespace)
+                    checkwhitespace
+                ;;
+            all)
+                    checkcppcomments
+                    checktabs
+                    checkwhitespace
+                ;;
+            *)
+                usage
+                ;;
+        esac
+    done
+fi
