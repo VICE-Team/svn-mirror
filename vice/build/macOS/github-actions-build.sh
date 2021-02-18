@@ -46,6 +46,8 @@ bindist)
 
 analyse)
     OUTPUT="../gh-pages/analysis/$UI"
+    rm -rf $OUTPUT/*
+
     ./autogen.sh
     scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
     scan-build -o $OUTPUT make -j $(sysctl -n hw.ncpu)
