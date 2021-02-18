@@ -340,7 +340,7 @@
 
 /* Stack operations. */
 
-/* CAUTION: use STORE/LOAD macros instead of directly accessing the memory, 
+/* CAUTION: use STORE/LOAD macros instead of directly accessing the memory,
             else checkpoints may not trigger */
 #if 0
 #ifndef PUSH
@@ -529,7 +529,7 @@
      CLK_ADD(CLK, CLK_INT_CYCLE),                                    \
      LOAD((addr) + reg_y_read))
 
-#if 0    
+#if 0
 #define LOAD_IND_X(addr) (CLK_ADD(CLK, 3), LOAD(LOAD_ZERO_ADDR((addr) + reg_x_read)))
 #else
 #define LOAD_IND_X(addr)                                        \
@@ -541,7 +541,7 @@
 
 #endif
 
-#if 0    
+#if 0
 #define LOAD_IND_Y(addr)                                                    \
     (CLK_ADD(CLK, 2), ((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y_read) > 0xff \
      ? (LOAD((LOAD_ZERO_ADDR((addr)) & 0xff00)                              \
@@ -560,8 +560,8 @@
         LOAD(tmpa + reg_y_read)) :                                  \
         LOAD(tmpa + reg_y_read)))
 #endif
-    
-#if 0    
+
+#if 0
 #define LOAD_ZERO_X(addr) (LOAD_ZERO((addr) + reg_x_read))
 #define NOOP_LOAD_ZERO_X(addr) (LOAD_ZERO((addr) + reg_x_read))
 
@@ -674,24 +674,24 @@
     do {                                 \
         STORE_DUMMY(addr, value);        \
     } while (0)
-    
+
 #define DUMMY_STORE_ABS_X_RMW(addr, value)         \
     do {                                           \
         STORE_DUMMY((addr) + reg_x_read, (value)); \
     } while (0)
-    
+
 #define DUMMY_STORE_ABS_Y_RMW(addr, value)         \
     do {                                           \
         STORE_DUMMY((addr) + reg_y_read, (value)); \
     } while (0)
 #else
-    
-/* FIXME: trigger write checkpoints */    
+
+/* FIXME: trigger write checkpoints */
 #define DUMMY_STORE_ABS_RMW(addr, value)
 #define DUMMY_STORE_ABS_X_RMW(addr, value)
 #define DUMMY_STORE_ABS_Y_RMW(addr, value)
-    
-#endif    
+
+#endif
 /* ------------------------------------------------------------------------- */
 
 /* Opcodes.  */
@@ -788,7 +788,7 @@ known occurances of this opcode in actual code are:
 also see here:
 
 https://sourceforge.net/tracker/?func=detail&aid=2110948&group_id=223021&atid=1057617
-  
+
 FIXME: in the unlikely event that other code surfaces that depends on another
 CONST value, it probably has to be made configureable somehow if no value can
 be found that works for both.
@@ -1099,7 +1099,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         store_func(tmp_addr, tmp, (clk_inc));                         \
         RMW_FLAG = 0;                                                 \
     } while (0)
-    
+
 #define INX()                        \
     do {                             \
         reg_x_write(reg_x_read + 1); \
@@ -2171,8 +2171,8 @@ static const uint8_t rewind_fetch_tab[] = {
 
     PROCESS_ALARMS
 
-    /* HACK: when the CPU is jammed, no interrupts are served, the only way 
-       to recover is reset. so we clear the interrupt flags and force 
+    /* HACK: when the CPU is jammed, no interrupts are served, the only way
+       to recover is reset. so we clear the interrupt flags and force
        acknowledging them here in this case. */
     if (cpu_is_jammed) {
         interrupt_ack_irq(CPU_INT_STATUS);
@@ -2181,7 +2181,7 @@ static const uint8_t rewind_fetch_tab[] = {
             cpu_is_jammed = 0;
         }
     }
-    
+
     {
         enum cpu_int pending_interrupt;
 
