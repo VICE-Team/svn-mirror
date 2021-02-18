@@ -48,5 +48,31 @@ function checktabs
     rm -f .checktabs
 }
 
+
+# Find trailing whitespace
+#
+# For now indicate with '~~~~' at the end
+#
+function checkwhitespace
+{
+    echo "finding trailing whitespace:"
+# first make a list of files, omitting those we dont want to check
+    find -name '*.[ch]' | \
+        grep -v '/monitor/mon_parse.c' | \
+        grep -v '/monitor/mon_lex.c' | \
+        grep -v '/arch/android/AnVICE/' | \
+        grep -v '/arch/mingw32-pcap/wpcap/' | \
+        grep -v '/arch/gtk3/novte/box_drawing.h' | \
+        grep -v "/lib/" > .checkws
+# find trailing whitespace
+    while IFS= read -r line
+    do
+        grep -Hn '\s\+$' "$line" | sed 's/\s\+$/~~~~/'
+    done < .checkws
+    rm -f .checkws
+}
+
+
 checkcppcomments
 checktabs
+checkwhitespace
