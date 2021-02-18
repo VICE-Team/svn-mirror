@@ -300,11 +300,9 @@ gboolean uihotkeys_dialog_show(GtkWidget *widget, gpointer data)
     hk_model = create_model();
     hk_view = create_view(hk_model);
 
-    content = gtk_grid_new();
     scrolled = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_size_request(scrolled, 800, 600);
     gtk_container_add(GTK_CONTAINER(scrolled), hk_view);
-
 
     dialog = gtk_dialog_new_with_buttons(
             "Hotkeys list",
