@@ -42,20 +42,15 @@ jobs:
           run: |
             cd gh-pages
             
-            echo "Remotes:"
-            git remote
-
-            echo "Branches:"
-            git branch
-            
+            git pull --rebase
             git add .
             git commit -m "Updated $UI static analysis output"
 
             # Try to avoid the race condition between the the two analysis runs
             for i in $(seq 1 3)
             do
-              git pull
               git push && break
+              git pull --rebase
               sleep 15
             done
 
