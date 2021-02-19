@@ -83,7 +83,7 @@ void        archdep_default_sysfile_pathlist_free(void);
 char *      archdep_extra_title_text(void);
 void        archdep_extra_title_text_free(void);
 
-void        archdep_vice_exit(int excode);
+void        archdep_vice_exit(int excode) VICE_ATTR_NORETURN;
 
 #ifdef USE_NATIVE_GTK3
 void        archdep_thread_init(void);
