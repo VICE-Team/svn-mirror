@@ -976,6 +976,7 @@ int hvsc_stil_parse_entry(hvsc_stil_t *handle)
                 }
                 if (!stil_block_add_field(state.block, state.field)) {
                     hvsc_dbg("failed to add field to block\n");
+                    free(state.field);
                     return 0;
                 }
 
