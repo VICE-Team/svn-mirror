@@ -132,7 +132,6 @@ libtoolarch_a_SOURCES = \
 EXTRA_DIST = \
 	Resources/VICE.icns \
 	archdep.h \
-	unused_cairo_renderer.h \
 	debug_gtk3.h \
 	directx_renderer.h \
 	directx_renderer_impl.h \

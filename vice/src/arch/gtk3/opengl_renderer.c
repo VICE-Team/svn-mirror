@@ -624,7 +624,6 @@ static void render(void *job_data, void *pool_data)
         glBindTexture(GL_TEXTURE_2D, context->texture);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         
-        /* TODO: Figure out if half-pixel correction in unused_opengl_renderer.c still needed */
         u1 = 0.0f;
         u2 = 1.0f;
         v1 = 0.0f;
