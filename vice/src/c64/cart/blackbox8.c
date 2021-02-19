@@ -160,6 +160,9 @@ int blackbox8_crt_attach(FILE *fd, uint8_t *rawcart)
     crt_chip_header_t chip;
     int i, banks = 0;
 
+    /* fix static analysis warning */
+    bb8_rom_banks = 4;
+
     for (i = 0; i <= 4; i++) {
         if (crt_read_chip_header(&chip, fd)) {
             break;
