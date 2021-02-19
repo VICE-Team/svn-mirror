@@ -213,7 +213,7 @@ static hvsc_stil_field_t *stil_field_new(int type,
         field->text = hvsc_strndup(text, tlen);
         if (field->text == NULL) {
             stil_field_free(field);
-            field = NULL;
+            return NULL;
         }
         if (album != NULL && *album != '\0') {
             field->album = hvsc_strndup(album, alen);
