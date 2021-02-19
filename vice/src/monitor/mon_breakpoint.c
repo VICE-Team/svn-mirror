@@ -277,24 +277,26 @@ void mon_breakpoint_switch_checkpoint(int op, int cp_num)
     int i;
     mon_checkpoint_t *cp = NULL;
 
-    cp = mon_breakpoint_find_checkpoint(cp_num);
-
     if (cp_num == -1) {
         mon_out("Set all checkpoints to state: %s\n",
                 (op == e_ON) ? "enabled" : "disabled");
         for (i = 1; i < breakpoint_count; i++) {
-            if ((cp = mon_breakpoint_find_checkpoint(i))) {
-                cp = mon_breakpoint_find_checkpoint(i);
+            cp = mon_breakpoint_find_checkpoint(i);
+            if (cp) {
                 cp->enabled = op;
             }
         }
-    } else if (!(cp = mon_breakpoint_find_checkpoint(cp_num))) {
+        return;
+    }
+    
+    cp = mon_breakpoint_find_checkpoint(cp_num);
+    
+    if (!cp) {
         mon_out("#%d not a valid checkpoint\n", cp_num);
         return;
-    } else {
-        cp = mon_breakpoint_find_checkpoint(cp_num);
-        cp->enabled = op;
     }
+    
+    cp->enabled = op;
 }
 
 void mon_breakpoint_set_ignore_count(int cp_num, int count)
