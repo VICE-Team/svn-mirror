@@ -3,8 +3,9 @@ set -o errexit
 set -o nounset
 cd "$(dirname $0)"/../..
 
-UI="$1"
-BUILD_TYPE="$2"
+BUILD_TYPE="$1"
+UI="$2"
+REVISION_STRING="$3"
 
 ARGS="\
     --disable-arch \
@@ -55,6 +56,13 @@ analyse)
     # scan-build -o still creates a silly folder name
     mv $(dirname $(find $OUTPUT/scan-build-* -name index.html))/* $OUTPUT/
     rm -rf $OUTPUT/scan-build-*
+
+    # Inject the revision number into the page
+    sed \
+        -i '' \
+        -e "s,</title>, ($REVISION_STRING)</title>," \
+        -e "s,</h1>, ($REVISION_STRING)</h1>," \
+        index.html
     ;;
 
 *)

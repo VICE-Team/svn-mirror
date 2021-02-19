@@ -35,7 +35,7 @@ jobs:
         - name: Analyse
           shell: bash
           run: |
-            ./vice/build/macOS/github-actions-build.sh ${{ matrix.ui }} analyse
+            ./vice/build/macOS/github-actions-build.sh analyse ${{ matrix.ui }} ${{ github.ref }}
 
         - name: Publish Results
           shell: bash
