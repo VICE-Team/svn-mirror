@@ -336,11 +336,9 @@ cartridge_info_t *cartridge_get_info_list(void)
 
 static int try_cartridge_attach(int type, const char *filename)
 {
-    int crtid;
-
     if (filename) {
         if (util_file_exists(filename)) {
-            if ((crtid = crt_getid(filename)) > 0) {
+            if (crt_getid(filename) > 0) {
                 cartridge_type = CARTRIDGE_CRT; /* resource value modified */
                 return cartridge_attach_image(CARTRIDGE_CRT, filename);
             } else if ((type != CARTRIDGE_NONE) && (type != CARTRIDGE_CRT)) {
