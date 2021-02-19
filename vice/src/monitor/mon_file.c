@@ -219,7 +219,10 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
     }
 
     do {
-        uint8_t load_byte;
+        /* initialize to avoid false positive with clang static initializer
+         * about using a garbage load_byte in the memset() call
+         */
+        uint8_t load_byte = 0;
 
         if (mon_file_read(&load_byte, 0, device) < 0) {
             break;
