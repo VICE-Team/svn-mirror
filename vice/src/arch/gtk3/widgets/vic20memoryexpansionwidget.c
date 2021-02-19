@@ -117,7 +117,7 @@ static int get_common_config_index(GtkWidget *widget)
     int i;
 
     /* collect current config */
-    for (i = 0; ram_blocks[i].name != NULL; i++) {
+    for (i = 0; i < RAM_BLOCK_COUNT; i++) {
         GtkWidget *toggle = gtk_grid_get_child_at(
                 GTK_GRID(widget), 0, i + 1);
         blocks[i] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(toggle))
