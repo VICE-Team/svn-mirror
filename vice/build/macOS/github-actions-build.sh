@@ -62,7 +62,7 @@ analyse)
         -i '' \
         -e "s,</title>, ($REVISION_STRING)</title>," \
         -e "s,</h1>, ($REVISION_STRING)</h1>," \
-        index.html
+        $OUTPUT/index.html
     ;;
 
 *)
