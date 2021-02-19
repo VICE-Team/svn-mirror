@@ -2113,9 +2113,9 @@ static int chain_cmd(int nargs, char **args)
 static int copy_cmd(int nargs, char **args)
 {
     char *p;
-    char *dest_name_ascii, *dest_name_petscii;
-    int dest_unit = drive_index + DRIVE_UNIT_MIN;
-    int src_unit = drive_index + DRIVE_UNIT_MIN;
+    char *dest_name_ascii;
+    char *dest_name_petscii;
+    int dest_unit;
     int i;
 
     dest_unit = extract_unit_from_file_name(args[nargs - 1], &p);
@@ -2153,11 +2153,14 @@ static int copy_cmd(int nargs, char **args)
     if (check_drive_ready(dest_unit - DRIVE_UNIT_MIN) < 0) {
         return FD_NOTREADY;
     }
-#if 0
-    printf("src unit = %d, dest unit = %d\n", src_unit, dest_unit);
-#endif
+
     for (i = 1; i < nargs - 1; i++) {
-        char *src_name_ascii, *src_name_petscii;
+        char *src_name_ascii;
+        char *src_name_petscii;
+        uint8_t *slot;
+        unsigned int file_type;
+        unsigned int rel_record_length;
+        int src_unit;
 
         src_unit = extract_unit_from_file_name(args[i], &p);
         if (src_unit <= 0) {
@@ -2195,16 +2198,18 @@ static int copy_cmd(int nargs, char **args)
         }
 
         bufferinfo_t *bufferinfo = &drives[src_unit - DRIVE_UNIT_MIN]->buffers[0];        /* 0 = secadr of src */
-        uint8_t *slot = bufferinfo->slot;
-        unsigned int file_type = slot[SLOT_TYPE_OFFSET] & 7;
-        unsigned int rel_record_length = slot[SLOT_RECORD_LENGTH];
+        slot = bufferinfo->slot;
+        file_type = slot[SLOT_TYPE_OFFSET] & 7;
+        rel_record_length = slot[SLOT_RECORD_LENGTH];
 
         /*
          * If we're copying a REL file, create a proper destination file
          * name including the record length.
          */
         if (file_type == CBMDOS_FT_REL) {
-            char *oldname, *newname, *comma;
+            char *oldname;
+            char *newname;
+            char *comma;
 
             if (dest_name_petscii) {
                 oldname = dest_name_petscii;
@@ -2881,7 +2886,12 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                     continue;
                 }
                 if (geos) {
+                    /* FIXME: status is never read */
+#if 0
                     status = internal_read_geos_file(dnr, fd, (char *)name);
+#else
+                    internal_read_geos_file(dnr, fd, (char *)name);
+#endif
                 } else {
                     /* do we have P00save? */
                     if (p00save[dnr]) {
@@ -3297,12 +3307,11 @@ static int list_file_matches_pattern(const char *name,
 static int list_cmd(int nargs, char **args)
 {
     char *pattern;
-/*    const char *name; */
     char *type;
     image_contents_t *listing;
-    int dnr = drive_index;
+    int dnr;
     vdrive_t *vdrive;
-    int unit = DRIVE_UNIT_MIN;
+    int unit;
 
 /*    unsigned int drive = 0; */
 
