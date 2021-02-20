@@ -83,11 +83,11 @@ analyse)
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>VICE $UI Static Analysis (<a href="../$OTHER_UI">Switch to $OTHER_UI</a>)</title>
+            <title>VICE $UI Static Analysis</title>
         </head>
         <body>
             <header>
-                <h1>VICE $UI Static Analysis Results</h1>
+                <h1>VICE $UI Static Analysis  (<a href="../$OTHER_UI">Switch to $OTHER_UI</a>)</h1>
             </header>
             <main>
                 <p>
