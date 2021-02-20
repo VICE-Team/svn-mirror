@@ -72,7 +72,7 @@ analyse)
     # TODO: delete more than x older reports so they don't grow indefinitely
 
     # Now, generate the UI index page linking to each report
-    cat <<- HEREDOC > "$OUTPUT/../index.html"
+    cat <<-HEREDOC > "$OUTPUT/../index.html"
         <!DOCTYPE html>
         <html lang="en">
         <head>
