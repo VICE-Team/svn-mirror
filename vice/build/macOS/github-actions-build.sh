@@ -50,7 +50,7 @@ analyse)
     mkdir "$OUTPUT"
 
     # Delete more than older reports so they don't grow indefinitely
-    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr | tail -n +100)
+    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr | tail -n +2)
     do
         echo "Deleting old report $report"
         rm -rd "$OUTPUT/../$report"
