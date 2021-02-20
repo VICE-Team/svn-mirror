@@ -70,6 +70,9 @@ analyse)
 
     # TODO: delete more than x older reports so they don't grow indefinitely
 
+    ls "$OUTPUT/../" 
+    ls "$OUTPUT/../r"* 
+
     # Now, generate the UI index page linking to each report
     cat << HEREDOC | sed 's/^        //' > "$OUTPUT/../index.html" 
         <!DOCTYPE html>
