@@ -70,9 +70,6 @@ analyse)
 
     # TODO: delete more than x older reports so they don't grow indefinitely
 
-    ls "$OUTPUT/../" 
-    ls "$OUTPUT/../r"* 
-
     # Now, generate the UI index page linking to each report
     cat << HEREDOC | sed 's/^        //' > "$OUTPUT/../index.html" 
         <!DOCTYPE html>
@@ -90,7 +87,7 @@ analyse)
             <main>
                 <ul>
                 $(
-                    for report in $(ls "$OUTPUT/../r"* | sort -vr)
+                    for report in $(ls "$OUTPUT/../r"* | sort -nr)
                     do
                         echo "            <li><a href="$report"><b>$report &rarr;</b></a></li>"
                     done 
