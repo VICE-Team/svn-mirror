@@ -67,7 +67,7 @@ analyse)
     rm -rf "$OUTPUT/scan-build-"*
 
     # Update the page title with SVN rev and link to the other UI
-    TITLE="VICE $UI $REVISION_STRING Static Analysis Result"
+    TITLE="VICE $UI $REVISION_STRING Static Analysis"
     HEADING="$TITLE (<a href=\"../../$OTHER_UI/$REVISION_STRING\">Switch to $OTHER_UI</a>)"
     sed \
         -i '' \
@@ -83,7 +83,7 @@ analyse)
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>VICE $UI Static Analysis Results</title>
+            <title>VICE $UI Static Analysis (<a href="../$OTHER_UI">Switch to $OTHER_UI</a>)</title>
         </head>
         <body>
             <header>
