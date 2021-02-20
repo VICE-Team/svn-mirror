@@ -85,14 +85,14 @@ analyse)
                 <h1>VICE $UI Static Analysis Results</h1>
             </header>
             <main>
-                <ul>
+                <p>
                 $(
-                    for report in $(ls "$OUTPUT/../r"* | sort -nr)
+                    for report in $(ls -d "$OUTPUT/../r"* | sort -nr)
                     do
-                        echo "            <li><a href="$report"><b>$report &rarr;</b></a></li>"
+                        echo "            <a href=\"$report\">$report &rarr;</a><br>"
                     done 
                 )
-                </ul>
+                </p>
             </main>
         </body>
         </html>
