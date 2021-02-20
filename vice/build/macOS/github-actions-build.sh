@@ -46,25 +46,56 @@ bindist)
     ;;
 
 analyse)
-    OUTPUT="../gh-pages/analysis/$UI"
-    rm -rf $OUTPUT/*
+    rm -rf "../gh-pages/analysis/$UI/*"
 
-    ./autogen.sh
-    scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
-    scan-build -o $OUTPUT make -j $(sysctl -n hw.ncpu)
+    OUTPUT="../gh-pages/analysis/$UI/$REVISION_STRING"
+    mkdir "$OUTPUT"
+
+    #./autogen.sh
+    #scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
+    #scan-build -o "$OUTPUT" make -j $(sysctl -n hw.ncpu)
+    
+    echo "$UI/$REVISION_STRING" > "$OUTPUT/index.html"
 
     # scan-build -o still creates a silly folder name
-    mv $(dirname $(find $OUTPUT/scan-build-* -name index.html))/* $OUTPUT/
-    rm -rf $OUTPUT/scan-build-*
+    mv $(dirname $(find "$OUTPUT/scan-build-"* -name index.html))/* "$OUTPUT/"
+    rm -rf "$OUTPUT/scan-build-"*
 
     # Inject the revision number into the page
     sed \
         -i '' \
         -e "s,</title>, ($REVISION_STRING)</title>," \
         -e "s,</h1>, ($REVISION_STRING)</h1>," \
-        $OUTPUT/index.html
+        "$OUTPUT/index.html"
     ;;
 
+    # TODO: delete more than x older reports so they don't grow indefinitely
+
+    # Now, generate the UI index page linking to each report
+    cat > "$OUTPUT/../index.html" <<- HEREDOC
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>VICE $UI Static Analysis Results</title>
+        </head>
+        <body>
+            <header>
+                <h1>VICE $UI Static Analysis Results</h1>
+                <p>
+                $(
+                    for report in $(ls "$OUTPUT/../r"* | sort -vr)
+                    do
+                        echo "    <a href="$report"><b>$report &rarr;</b></a><br>"
+                    done 
+                )
+                </p>
+            </header>
+        </body>
+        </html>
+    HEREDOC
 *)
     echo "Bad Build Type: $BUILD_TYPE"
     exit 1
