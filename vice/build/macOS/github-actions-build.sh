@@ -71,7 +71,7 @@ analyse)
     # TODO: delete more than x older reports so they don't grow indefinitely
 
     # Now, generate the UI index page linking to each report
-    cat << "    HEREDOC" | sed 's/^        //' > "$OUTPUT/../index.html" 
+    cat << HEREDOC | sed 's/^        //' > "$OUTPUT/../index.html" 
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -83,18 +83,20 @@ analyse)
         <body>
             <header>
                 <h1>VICE $UI Static Analysis Results</h1>
-                <p>
+            </header>
+            <main>
+                <ul>
                 $(
                     for report in $(ls "$OUTPUT/../r"* | sort -vr)
                     do
-                        echo "            <a href="$report"><b>$report &rarr;</b></a><br>"
+                        echo "            <li><a href="$report"><b>$report &rarr;</b></a></li>"
                     done 
                 )
-                </p>
-            </header>
+                </ul>
+            </main>
         </body>
         </html>
-    HEREDOC
+HEREDOC
     ;;
 *)
     echo "Bad Build Type: $BUILD_TYPE"
