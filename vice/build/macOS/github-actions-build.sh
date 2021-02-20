@@ -67,12 +67,11 @@ analyse)
         -e "s,</title>, ($REVISION_STRING)</title>," \
         -e "s,</h1>, ($REVISION_STRING)</h1>," \
         "$OUTPUT/index.html"
-    ;;
 
     # TODO: delete more than x older reports so they don't grow indefinitely
 
     # Now, generate the UI index page linking to each report
-    cat > "$OUTPUT/../index.html" <<-HEREDOC
+    cat << "    HEREDOC" | sed 's/^        //' > "$OUTPUT/../index.html" 
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -88,7 +87,7 @@ analyse)
                 $(
                     for report in $(ls "$OUTPUT/../r"* | sort -vr)
                     do
-                        echo "    <a href="$report"><b>$report &rarr;</b></a><br>"
+                        echo "            <a href="$report"><b>$report &rarr;</b></a><br>"
                     done 
                 )
                 </p>
@@ -96,6 +95,7 @@ analyse)
         </body>
         </html>
     HEREDOC
+    ;;
 *)
     echo "Bad Build Type: $BUILD_TYPE"
     exit 1
