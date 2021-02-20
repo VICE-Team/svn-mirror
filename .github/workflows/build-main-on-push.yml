@@ -18,10 +18,10 @@ jobs:
           shell: bash
           run: |
             pip3 install scan-build
-            # brew install autoconf automake pkg-config dos2unix
-            # brew install sdl2 sdl2_image
-            # brew install gtk+3 librsvg adwaita-icon-theme
-            # brew install ffmpeg glew libpng xa lame libvorbis flac jpeg-turbo
+            brew install autoconf automake pkg-config dos2unix
+            brew install sdl2 sdl2_image
+            brew install gtk+3 librsvg adwaita-icon-theme
+            brew install ffmpeg glew libpng xa lame libvorbis flac jpeg-turbo
 
         - name: Checkout Source
           uses: actions/checkout@v2
@@ -53,196 +53,196 @@ jobs:
               sleep 15
             done
 
-  # cleanup_previous_builds: # Delete unfinished draft prereleases, and prereleases older than 30 days (but keep at least 10)
-  #   name: Cleanup Previous Builds
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/github-script@v3
-  #       with:
-  #         github-token: ${{secrets.GITHUB_TOKEN}}
-  #         script: |
-  #           // Get a list of all releases, sorted newest first
-  #           let releases =
-  #             (await github.paginate(
-  #               github.repos.listReleases,
-  #               {
-  #                 owner: context.repo.owner,
-  #                 repo: context.repo.repo
-  #               }))
-  #               .sort((a,b) => b.created_at.localeCompare(a.created_at));
+  cleanup_previous_builds: # Delete unfinished draft prereleases, and prereleases older than 30 days (but keep at least 10)
+    name: Cleanup Previous Builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            // Get a list of all releases, sorted newest first
+            let releases =
+              (await github.paginate(
+                github.repos.listReleases,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo
+                }))
+                .sort((a,b) => b.created_at.localeCompare(a.created_at));
             
-  #           let releaseCount = 0;
-  #           let releasesToDelete = [];
+            let releaseCount = 0;
+            let releasesToDelete = [];
 
-  #           // Initiate deletion of draft prereleases
-  #           for (const release of releases)
-  #           {
-  #             // Only cleanup prereleases
-  #             if (!release.prerelease)
-  #               continue;
+            // Initiate deletion of draft prereleases
+            for (const release of releases)
+            {
+              // Only cleanup prereleases
+              if (!release.prerelease)
+                continue;
 
-  #             // Failed builds leave drafts - delete them
-  #             if (release.draft)
-  #             {
-  #               console.log("Will delete draft prerelease: " + release.tag_name);
-  #               releasesToDelete.push(release.id);
-  #               continue;
-  #             }
+              // Failed builds leave drafts - delete them
+              if (release.draft)
+              {
+                console.log("Will delete draft prerelease: " + release.tag_name);
+                releasesToDelete.push(release.id);
+                continue;
+              }
               
-  #             // Keep at least 10, no matter how old
-  #             if (++releaseCount <= 10)
-  #               continue;
+              // Keep at least 10, no matter how old
+              if (++releaseCount <= 10)
+                continue;
               
-  #             // We have more than 10 releases - delete those more than 30 days old
-  #             let daysAgo = Math.floor((new Date() - Date.parse(release.created_at)) / 1000 / 60 / 60 / 24);
+              // We have more than 10 releases - delete those more than 30 days old
+              let daysAgo = Math.floor((new Date() - Date.parse(release.created_at)) / 1000 / 60 / 60 / 24);
 
-  #             if (daysAgo <= 30)
-  #               continue;
+              if (daysAgo <= 30)
+                continue;
               
-  #             console.log("Will delete old prerelease: " + release.tag_name);
-  #             releasesToDelete.push(release.id);
-  #           }
+              console.log("Will delete old prerelease: " + release.tag_name);
+              releasesToDelete.push(release.id);
+            }
 
-  #           if (releasesToDelete.length)
-  #           {
-  #             let promises = [];
+            if (releasesToDelete.length)
+            {
+              let promises = [];
 
-  #             for (const id of releasesToDelete)
-  #             {
-  #               promises.push(
-  #                 github.repos.deleteRelease(
-  #                   {
-  #                     owner: context.repo.owner,
-  #                     repo: context.repo.repo,
-  #                     release_id: id
-  #                   }));
-  #             }
+              for (const id of releasesToDelete)
+              {
+                promises.push(
+                  github.repos.deleteRelease(
+                    {
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      release_id: id
+                    }));
+              }
               
-  #             console.log("Waiting for deletions to complete");
-  #             await Promise.all(promises);
-  #           }
+              console.log("Waiting for deletions to complete");
+              await Promise.all(promises);
+            }
 
-  #           console.log("Done.");
+            console.log("Done.");
 
-  # create_release:
-  #   name: Create Draft Release
-  #   needs: cleanup_previous_builds
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-  #     release_id: ${{ steps.create_release.outputs.id }}
-  #   steps:
-  #     - name: Create Release
-  #       id: create_release
-  #       uses: actions/create-release@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         tag_name: ${{ github.ref }}
-  #         release_name: ${{ github.ref }} snapshot
-  #         draft: true
-  #         prerelease: true
+  create_release:
+    name: Create Draft Release
+    needs: cleanup_previous_builds
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }} snapshot
+          draft: true
+          prerelease: true
 
-  # build:
-  #   name: Build
-  #   needs: create_release
-  #   runs-on: windows-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       arch:
-  #       - { msystem: MINGW64, arch: x86_64 }
-  #       - { msystem: MINGW32, arch: i686 }
-  #       ui: [ GTK3, SDL2 ]
-  #   steps:
-  #     - run: git config --global core.autocrlf input
-  #       shell: bash
+  build:
+    name: Build
+    needs: create_release
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+        - { msystem: MINGW64, arch: x86_64 }
+        - { msystem: MINGW32, arch: i686 }
+        ui: [ GTK3, SDL2 ]
+    steps:
+      - run: git config --global core.autocrlf input
+        shell: bash
 
-  #     - name: Checkout Source
-  #       uses: actions/checkout@v2
+      - name: Checkout Source
+        uses: actions/checkout@v2
 
-  #     - name: Install GTK3 Dependencies if Applicable
-  #       if: ${{ matrix.ui == 'GTK3' }}
-  #       uses: msys2/setup-msys2@v2
-  #       with:
-  #         msystem: ${{ matrix.arch.msystem }}
-  #         update: true
-  #         install: >-
-  #           git
-  #           base-devel
-  #           mingw-w64-${{ matrix.arch.arch }}-toolchain
-  #           zip
-  #           subversion
-  #           git
-  #           mingw-w64-${{ matrix.arch.arch }}-pkg-config
-  #           mingw-w64-${{ matrix.arch.arch }}-ntldd
-  #           mingw-w64-${{ matrix.arch.arch }}-glew
-  #           mingw-w64-${{ matrix.arch.arch }}-giflib
-  #           mingw-w64-${{ matrix.arch.arch }}-lame
-  #           mingw-w64-${{ matrix.arch.arch }}-libvorbis
-  #           mingw-w64-${{ matrix.arch.arch }}-flac
-  #           mingw-w64-${{ matrix.arch.arch }}-icoutils
-  #           mingw-w64-${{ matrix.arch.arch }}-ffmpeg
-  #           mingw-w64-${{ matrix.arch.arch }}-gtk3
+      - name: Install GTK3 Dependencies if Applicable
+        if: ${{ matrix.ui == 'GTK3' }}
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            git
+            base-devel
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
+            zip
+            subversion
+            git
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-ffmpeg
+            mingw-w64-${{ matrix.arch.arch }}-gtk3
       
-  #     - name: Install SDL2 Dependencies if Applicable
-  #       if: ${{ matrix.ui == 'SDL2' }}
-  #       uses: msys2/setup-msys2@v2
-  #       with:
-  #         msystem: ${{ matrix.arch.msystem }}
-  #         update: true
-  #         install: >-
-  #           git
-  #           base-devel
-  #           mingw-w64-${{ matrix.arch.arch }}-toolchain
-  #           zip
-  #           subversion
-  #           git
-  #           mingw-w64-${{ matrix.arch.arch }}-pkg-config
-  #           mingw-w64-${{ matrix.arch.arch }}-ntldd
-  #           mingw-w64-${{ matrix.arch.arch }}-glew
-  #           mingw-w64-${{ matrix.arch.arch }}-giflib
-  #           mingw-w64-${{ matrix.arch.arch }}-lame
-  #           mingw-w64-${{ matrix.arch.arch }}-libvorbis
-  #           mingw-w64-${{ matrix.arch.arch }}-flac
-  #           mingw-w64-${{ matrix.arch.arch }}-icoutils
-  #           mingw-w64-${{ matrix.arch.arch }}-ffmpeg
-  #           mingw-w64-${{ matrix.arch.arch }}-SDL2
-  #           mingw-w64-${{ matrix.arch.arch }}-SDL2_image
+      - name: Install SDL2 Dependencies if Applicable
+        if: ${{ matrix.ui == 'SDL2' }}
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.arch.msystem }}
+          update: true
+          install: >-
+            git
+            base-devel
+            mingw-w64-${{ matrix.arch.arch }}-toolchain
+            zip
+            subversion
+            git
+            mingw-w64-${{ matrix.arch.arch }}-pkg-config
+            mingw-w64-${{ matrix.arch.arch }}-ntldd
+            mingw-w64-${{ matrix.arch.arch }}-glew
+            mingw-w64-${{ matrix.arch.arch }}-giflib
+            mingw-w64-${{ matrix.arch.arch }}-lame
+            mingw-w64-${{ matrix.arch.arch }}-libvorbis
+            mingw-w64-${{ matrix.arch.arch }}-flac
+            mingw-w64-${{ matrix.arch.arch }}-icoutils
+            mingw-w64-${{ matrix.arch.arch }}-ffmpeg
+            mingw-w64-${{ matrix.arch.arch }}-SDL2
+            mingw-w64-${{ matrix.arch.arch }}-SDL2_image
 
-  #     - name: Build
-  #       id: build
-  #       shell: msys2 {0}
-  #       run: |
-  #         MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }}
-  #         echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
-  #         echo ::set-output name=zip_name::$(basename vice/*.zip)
+      - name: Build
+        id: build
+        shell: msys2 {0}
+        run: |
+          MINGW_INSTALLS=${{ matrix.arch.msystem }} ./vice/build/msys2/github-actions-build.sh ${{ matrix.ui }}
+          echo ::set-output name=zip_path::$(cygpath -w -a vice/*.zip)
+          echo ::set-output name=zip_name::$(basename vice/*.zip)
 
-  #     - name: Upload
-  #       id: upload
-  #       uses: actions/upload-release-asset@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         upload_url: ${{ needs.create_release.outputs.upload_url }}
-  #         asset_path: ${{ steps.build.outputs.zip_path }}
-  #         asset_name: ${{ steps.build.outputs.zip_name }}
-  #         asset_content_type: application/zip
+      - name: Upload
+        id: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build.outputs.zip_path }}
+          asset_name: ${{ steps.build.outputs.zip_name }}
+          asset_content_type: application/zip
 
-  # publish_release:
-  #   name: Publish Release
-  #   needs: [create_release, build]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/github-script@v3
-  #       with:
-  #         github-token: ${{secrets.GITHUB_TOKEN}}
-  #         script: |
-  #           github.repos.updateRelease(
-  #             {
-  #               owner: context.repo.owner,
-  #               repo: context.repo.repo,
-  #               release_id: ${{ needs.create_release.outputs.release_id }},
-  #               draft: false
-  #             });
+  publish_release:
+    name: Publish Release
+    needs: [create_release, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.repos.updateRelease(
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: ${{ needs.create_release.outputs.release_id }},
+                draft: false
+              });
             

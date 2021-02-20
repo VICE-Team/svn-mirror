@@ -50,21 +50,19 @@ analyse)
     mkdir "$OUTPUT"
 
     # Delete more than older reports so they don't grow indefinitely
-    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr | tail -n +2)
+    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr | sed '1,250d')
     do
         echo "Deleting old report $report"
         rm -rd "$OUTPUT/../$report"
     done
 
-    #  ./autogen.sh
-    #  scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
-    #  scan-build -o "$OUTPUT" make -j $(sysctl -n hw.ncpu)
-    
-    echo "$UI/$REVISION_STRING" > "$OUTPUT/index.html"
+    ./autogen.sh
+    scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
+    scan-build -o "$OUTPUT" make -j $(sysctl -n hw.ncpu)
 
     # scan-build -o still creates a silly folder name
-    #  mv $(dirname $(find "$OUTPUT/scan-build-"* -name index.html))/* "$OUTPUT/"
-    #  rm -rf "$OUTPUT/scan-build-"*
+    mv $(dirname $(find "$OUTPUT/scan-build-"* -name index.html))/* "$OUTPUT/"
+    rm -rf "$OUTPUT/scan-build-"*
 
     # Inject the revision number into the page
     sed \
