@@ -46,10 +46,8 @@ bindist)
     ;;
 
 analyse)
-    rm -rf ../gh-pages/analysis/$UI/*
-
-    OUTPUT=../gh-pages/analysis/$UI/$REVISION_STRING
-    mkdir $OUTPUT
+    OUTPUT="../gh-pages/analysis/$UI/$REVISION_STRING"
+    mkdir "$OUTPUT"
 
     #  ./autogen.sh
     #  scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
@@ -75,7 +73,7 @@ analyse)
         <!DOCTYPE html>
         <html lang="en">
         <head>
-            <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>VICE $UI Static Analysis Results</title>
@@ -87,9 +85,9 @@ analyse)
             <main>
                 <p>
                 $(
-                    for report in $(ls -d "$OUTPUT/../r"* | sort -nr)
+                    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr)
                     do
-                        echo "            <a href=\"$report\">$report &rarr;</a><br>"
+                        echo "    <a href=\"$report\">$report &rarr;</a><br>"
                     done 
                 )
                 </p>
