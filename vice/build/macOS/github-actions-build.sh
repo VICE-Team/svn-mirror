@@ -46,20 +46,20 @@ bindist)
     ;;
 
 analyse)
-    rm -rf "../gh-pages/analysis/$UI/*"
+    rm -rf ../gh-pages/analysis/$UI/*
 
-    OUTPUT="../gh-pages/analysis/$UI/$REVISION_STRING"
-    mkdir "$OUTPUT"
+    OUTPUT=../gh-pages/analysis/$UI/$REVISION_STRING
+    mkdir $OUTPUT
 
-    #./autogen.sh
-    #scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
-    #scan-build -o "$OUTPUT" make -j $(sysctl -n hw.ncpu)
+    #  ./autogen.sh
+    #  scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
+    #  scan-build -o "$OUTPUT" make -j $(sysctl -n hw.ncpu)
     
     echo "$UI/$REVISION_STRING" > "$OUTPUT/index.html"
 
     # scan-build -o still creates a silly folder name
-    mv $(dirname $(find "$OUTPUT/scan-build-"* -name index.html))/* "$OUTPUT/"
-    rm -rf "$OUTPUT/scan-build-"*
+    #  mv $(dirname $(find "$OUTPUT/scan-build-"* -name index.html))/* "$OUTPUT/"
+    #  rm -rf "$OUTPUT/scan-build-"*
 
     # Inject the revision number into the page
     sed \
