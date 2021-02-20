@@ -25,10 +25,12 @@ ARGS="\
 case "$UI" in
 GTK3)
     ARGS="--enable-native-gtk3ui $ARGS"
+    OTHER_UI="SDL2"
     ;;
 
 SDL2)
     ARGS="--enable-sdlui2 $ARGS"
+    OTHER_UI="GTK3"
     ;;
 
 *)
@@ -64,11 +66,13 @@ analyse)
     mv $(dirname $(find "$OUTPUT/scan-build-"* -name index.html))/* "$OUTPUT/"
     rm -rf "$OUTPUT/scan-build-"*
 
-    # Inject the revision number into the page
+    # Update the page title with SVN rev and link to the other UI
+    TITLE="VICE $UI $REVISION_STRING Static Analysis Result"
+    HEADING="$TITLE (<a href=\"../../$OTHER_UI/$REVISION_STRING\">Switch to $OTHER_UI</a>)"
     sed \
         -i '' \
-        -e "s,</title>, ($REVISION_STRING)</title>," \
-        -e "s,</h1>, ($REVISION_STRING)</h1>," \
+        -e "s,<title>.*</title>,<title>$TITLE</title>," \
+        -e "s,<h1>.*</h1>,<h1>$HEADING</h1>," \
         "$OUTPUT/index.html"
 
     # Now, generate the UI index page linking to each report
@@ -87,12 +91,12 @@ analyse)
             </header>
             <main>
                 <p>
-                $(
-                    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr)
-                    do
-                        echo "    <a href=\"$report\">$report &rarr;</a><br>"
-                    done 
-                )
+        $(
+            for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr)
+            do
+                echo "            <a href=\"$report\">$report &rarr;</a><br>"
+            done 
+        )
                 </p>
             </main>
         </body>
