@@ -49,6 +49,13 @@ analyse)
     OUTPUT="../gh-pages/analysis/$UI/$REVISION_STRING"
     mkdir "$OUTPUT"
 
+    # Delete more than older reports so they don't grow indefinitely
+    for report in $(ls "$OUTPUT/../" | grep '^r\d\+$' | sort -nr | tail -n +100)
+    do
+        echo "Deleting old report $report"
+        rm -rd "$OUTPUT/../$report"
+    done
+
     #  ./autogen.sh
     #  scan-build ./configure $ARGS || ( echo -e "\n**** CONFIGURE FAILED ****\n" ; cat config.log ; exit 1 )
     #  scan-build -o "$OUTPUT" make -j $(sysctl -n hw.ncpu)
@@ -65,8 +72,6 @@ analyse)
         -e "s,</title>, ($REVISION_STRING)</title>," \
         -e "s,</h1>, ($REVISION_STRING)</h1>," \
         "$OUTPUT/index.html"
-
-    # TODO: delete more than x older reports so they don't grow indefinitely
 
     # Now, generate the UI index page linking to each report
     cat << HEREDOC | sed 's/^        //' > "$OUTPUT/../index.html" 
