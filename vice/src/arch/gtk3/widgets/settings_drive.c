@@ -46,6 +46,7 @@
 #include "attach.h"
 #include "drive.h"
 #include "drive-check.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "drivewidgethelpers.h"
@@ -153,8 +154,14 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
  */
 static void iec_callback(GtkWidget *widget, int unit)
 {
-    gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN],
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+    debug_gtk3("Called with unit #%d.", unit);
+    if (unit >= DRIVE_UNIT_MIN && unit <= DRIVE_UNIT_MAX) {
+        gtk_widget_set_sensitive(drive_device_type[unit - DRIVE_UNIT_MIN],
+                gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+    } else {
+        log_error(LOG_ERR, "%s:%d:%s(): illegal unit number %d.",
+                __FILE__, __LINE__, __func__, unit);
+    }
 }
 
 
