@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cartridge.h"
 #include "cartio.h"
 #include "datasette.h"
 #include "digiblaster.h"
@@ -39,6 +40,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "plus4iec.h"
+#include "plus4cart.h"
 #include "plus4mem.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
@@ -333,7 +335,7 @@ static void mem_config_set(unsigned int config)
     mem_config = config;
 
     mem_update_tab_ptrs(watchpoints_active);
-    
+
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 
@@ -730,32 +732,36 @@ void mem_initialize_memory(void)
         mem_read_base_tab[1][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[3][i] = plus4memrom_extromlo1_read;
         mem_read_base_tab[3][i] = extromlo1 + ((i & 0x3f) << 8);
-        mem_read_tab[5][i] = plus4memrom_extromlo2_read;
-        mem_read_base_tab[5][i] = extromlo2 + ((i & 0x3f) << 8);
+        mem_read_tab[5][i] = plus4cart_c1lo_read;
+        /*mem_read_base_tab[5][i] = extromlo2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[5][i] = NULL;
         mem_read_tab[7][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[7][i] = extromlo3 + ((i & 0x3f) << 8);
         mem_read_tab[9][i] = plus4memrom_basic_read;
         mem_read_base_tab[9][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[11][i] = plus4memrom_extromlo1_read;
         mem_read_base_tab[11][i] = extromlo1 + ((i & 0x3f) << 8);
-        mem_read_tab[13][i] = plus4memrom_extromlo2_read;
-        mem_read_base_tab[13][i] = extromlo2 + ((i & 0x3f) << 8);
+        mem_read_tab[13][i] = plus4cart_c1lo_read;
+        /*mem_read_base_tab[13][i] = extromlo2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[13][i] = NULL;
         mem_read_tab[15][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[15][i] = extromlo3 + ((i & 0x3f) << 8);
         mem_read_tab[17][i] = plus4memrom_basic_read;
         mem_read_base_tab[17][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[19][i] = plus4memrom_extromlo1_read;
         mem_read_base_tab[19][i] = extromlo1 + ((i & 0x3f) << 8);
-        mem_read_tab[21][i] = plus4memrom_extromlo2_read;
-        mem_read_base_tab[21][i] = extromlo2 + ((i & 0x3f) << 8);
+        mem_read_tab[21][i] = plus4cart_c1lo_read;
+        /*mem_read_base_tab[21][i] = extromlo2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[21][i] = NULL;
         mem_read_tab[23][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[23][i] = extromlo3 + ((i & 0x3f) << 8);
         mem_read_tab[25][i] = plus4memrom_basic_read;
         mem_read_base_tab[25][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[27][i] = plus4memrom_extromlo1_read;
         mem_read_base_tab[27][i] = extromlo1 + ((i & 0x3f) << 8);
-        mem_read_tab[29][i] = plus4memrom_extromlo2_read;
-        mem_read_base_tab[29][i] = extromlo2 + ((i & 0x3f) << 8);
+        mem_read_tab[29][i] = plus4cart_c1lo_read;
+        /*mem_read_base_tab[29][i] = extromlo2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[29][i] = NULL;
         mem_read_tab[31][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[31][i] = extromlo3 + ((i & 0x3f) << 8);
     }
@@ -782,14 +788,18 @@ void mem_initialize_memory(void)
         mem_read_base_tab[13][i] = extromhi1 + ((i & 0x3f) << 8);
         mem_read_tab[15][i] = plus4memrom_extromhi1_read;
         mem_read_base_tab[15][i] = extromhi1 + ((i & 0x3f) << 8);
-        mem_read_tab[17][i] = plus4memrom_extromhi2_read;
-        mem_read_base_tab[17][i] = extromhi2 + ((i & 0x3f) << 8);
-        mem_read_tab[19][i] = plus4memrom_extromhi2_read;
-        mem_read_base_tab[19][i] = extromhi2 + ((i & 0x3f) << 8);
-        mem_read_tab[21][i] = plus4memrom_extromhi2_read;
-        mem_read_base_tab[21][i] = extromhi2 + ((i & 0x3f) << 8);
-        mem_read_tab[23][i] = plus4memrom_extromhi2_read;
-        mem_read_base_tab[23][i] = extromhi2 + ((i & 0x3f) << 8);
+        mem_read_tab[17][i] = plus4cart_c1hi_read;
+        /*mem_read_base_tab[17][i] = extromhi2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[17][i] = NULL;
+        mem_read_tab[19][i] = plus4cart_c1hi_read;
+        /*mem_read_base_tab[19][i] = extromhi2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[19][i] = NULL;
+        mem_read_tab[21][i] = plus4cart_c1hi_read;
+        /*mem_read_base_tab[21][i] = extromhi2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[21][i] = NULL;
+        mem_read_tab[23][i] = plus4cart_c1hi_read;
+        /*mem_read_base_tab[23][i] = extromhi2 + ((i & 0x3f) << 8);*/
+        mem_read_base_tab[23][i] = NULL;
         mem_read_tab[25][i] = plus4memrom_extromhi3_read;
         mem_read_base_tab[25][i] = extromhi3 + ((i & 0x3f) << 8);
         mem_read_tab[27][i] = plus4memrom_extromhi3_read;
@@ -885,9 +895,13 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
 {
     uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
 
-    *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
-    *start = addr; /* TODO */
-    *limit = mem_read_limit_tab_ptr[addr >> 8];
+    if (p != NULL && addr > 1) {
+        *base = (p - (addr & 0xff00));
+        *start = addr; /* TODO */
+        *limit = mem_read_limit_tab_ptr[addr >> 8];
+    } else {
+        cartridge_mmu_translate(addr, base, start, limit);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

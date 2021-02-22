@@ -19,4 +19,8 @@ libplus4cart_a_SOURCES = \
 	plus4cart.h \
 	plus4cart.c \
 	debugcart.h \
-	debugcart.c
+	debugcart.c \
+	plus4-generic.h \
+	plus4-generic.c \
+	magiccart.h \
+	magiccart.c

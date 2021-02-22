@@ -460,6 +460,8 @@ extern void cartridge_sound_chip_init(void);
  * plus4 cartridge system
  */
 /* #define CARTRIDGE_NONE               -1 */
+#define CARTRIDGE_PLUS4_MAGIC           1   /* c264 magic cart */
+
 #define CARTRIDGE_V364_SPEECH           0x8100
 
 #define CARTRIDGE_PLUS4_DETECT          0x8200 /* low byte must be 0x00 */
@@ -476,6 +478,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_PLUS4_32KB_C2         0x8230
 
 #define CARTRIDGE_PLUS4_NEWROM          0x8207 /* c0lo,c0hi,c1lo (48k) */
+
+/* list of canonical names for the Plus4 cartridges: */
+#define CARTRIDGE_PLUS4_NAME_MAGIC      "c264 magic cart"
 
 /*
  * cbm2 cartridge system

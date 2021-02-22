@@ -27,6 +27,19 @@
 #ifndef VICE_PLUS4CART_H
 #define VICE_PLUS4CART_H
 
+#include "types.h"
+
+/* Cartridge ROM limit = 2MB */
+#define PLUS4CART_ROM_LIMIT (1024 * 1024 * 2)
+/* Cartridge RAM limit = 32kB */
+#define PLUS4CART_RAM_LIMIT (32 * 1024)
+/* maximum size of a full "all inclusive" cartridge image */
+#define PLUS4CART_IMAGE_LIMIT (PLUS4CART_ROM_LIMIT + PLUS4CART_RAM_LIMIT)
+
+/* expansion port memory read/write hooks */
+extern uint8_t plus4cart_c1lo_read(uint16_t addr);
+extern uint8_t plus4cart_c1hi_read(uint16_t addr);
+
 extern int plus4cart_load_func_lo(const char *rom_name);
 extern int plus4cart_load_func_hi(const char *rom_name);
 extern int plus4cart_load_c1lo(const char *rom_name);

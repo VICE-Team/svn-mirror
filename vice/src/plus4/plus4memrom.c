@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "plus4cart.h"
 #include "plus4mem.h"
 #include "plus4memrom.h"
 #include "types.h"
@@ -89,11 +90,6 @@ uint8_t plus4memrom_extromlo1_read(uint16_t addr)
     return extromlo1[addr & 0x3fff];
 }
 
-uint8_t plus4memrom_extromlo2_read(uint16_t addr)
-{
-    return extromlo2[addr & 0x3fff];
-}
-
 uint8_t plus4memrom_extromlo3_read(uint16_t addr)
 {
     return extromlo3[addr & 0x3fff];
@@ -102,11 +98,6 @@ uint8_t plus4memrom_extromlo3_read(uint16_t addr)
 uint8_t plus4memrom_extromhi1_read(uint16_t addr)
 {
     return extromhi1[addr & 0x3fff];
-}
-
-uint8_t plus4memrom_extromhi2_read(uint16_t addr)
-{
-    return extromhi2[addr & 0x3fff];
 }
 
 uint8_t plus4memrom_extromhi3_read(uint16_t addr)
@@ -121,11 +112,11 @@ uint8_t plus4memrom_rom_read(uint16_t addr)
             switch ((mem_config >> 1) & 3) {
                 case 0:
                     return plus4memrom_basic_read(addr);
-                case 1:
+                case 1: /* c0lo */
                     return plus4memrom_extromlo1_read(addr);
-                case 2:
-                    return plus4memrom_extromlo2_read(addr);
-                case 3:
+                case 2: /* c1lo */
+                    return plus4cart_c1lo_read(addr);
+                case 3: /* c2lo */
                     return plus4memrom_extromlo3_read(addr);
             }
             /* Unreachable */
@@ -137,11 +128,11 @@ uint8_t plus4memrom_rom_read(uint16_t addr)
                 switch ((mem_config >> 3) & 3) {
                     case 0:
                         return plus4memrom_kernal_read(addr);
-                    case 1:
+                    case 1: /* c0hi */
                         return plus4memrom_extromhi1_read(addr);
-                    case 2:
-                        return plus4memrom_extromhi2_read(addr);
-                    case 3:
+                    case 2: /* c1hi */
+                        return plus4cart_c1hi_read(addr);
+                    case 3: /* c2hi */
                         return plus4memrom_extromhi3_read(addr);
                 }
             }
