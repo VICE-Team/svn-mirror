@@ -78,16 +78,19 @@ typedef enum ui_cart_type_e {
 
     /* Plus4 cart types */
     UICART_PLUS4_SMART,
-    UICART_PLUS4_NEWROM,
-    UICART_PLUS4_16KB_C0LO,
-    UICART_PLUS4_16KB_C0HI,
+    /* UICART_PLUS4_NEWROM, */
+    /* UICART_PLUS4_16KB_C0LO, */
+    /* UICART_PLUS4_16KB_C0HI, */
     UICART_PLUS4_16KB_C1LO,
     UICART_PLUS4_16KB_C1HI,
     UICART_PLUS4_16KB_C2LO,
     UICART_PLUS4_16KB_C2HI,
-    UICART_PLUS4_32KB_C0,
+    /* UICART_PLUS4_32KB_C0, */
     UICART_PLUS4_32KB_C1,
     UICART_PLUS4_32KB_C2,
+    UICART_PLUS4_FREEZER,
+    UICART_PLUS4_GAME,
+    UICART_PLUS4_UTIL,
 
     /* CBM2 cart types */
     /*UICART_CBM2_SMART,*/
@@ -156,16 +159,19 @@ static const cart_type_list_t vic20_cart_types[] = {
  */
 static const cart_type_list_t plus4_cart_types[] = {
     { "Smart-attach",               UICART_PLUS4_SMART },
-    { "NewROM",                     UICART_PLUS4_NEWROM },
-    { "16KiB C0 Low",               UICART_PLUS4_16KB_C0LO },
-    { "16KiB C0 High",              UICART_PLUS4_16KB_C0HI },
+    /* { "NewROM",                     UICART_PLUS4_NEWROM }, */
+    /* { "16KiB C0 Low",               UICART_PLUS4_16KB_C0LO }, */
+    /* { "16KiB C0 High",              UICART_PLUS4_16KB_C0HI }, */
     { "16KiB C1 Low",               UICART_PLUS4_16KB_C1LO },
     { "16KiB C1 High",              UICART_PLUS4_16KB_C1HI },
     { "16KiB C2 Low",               UICART_PLUS4_16KB_C2LO },
     { "16KiB C2 High",              UICART_PLUS4_16KB_C2HI },
-    { "32KiB C0",                   UICART_PLUS4_32KB_C0 },
+    /* { "32KiB C0",                   UICART_PLUS4_32KB_C0 }, */
     { "32KiB C1",                   UICART_PLUS4_32KB_C1 },
     { "32KiB C2",                   UICART_PLUS4_32KB_C2 },
+    { "Freezer",                    UICART_PLUS4_FREEZER },
+    { "Games",                      UICART_PLUS4_GAME },
+    { "Utilities",                  UICART_PLUS4_UTIL },
     { NULL, -1 }
 };
 
@@ -433,18 +439,23 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_PLUS4:
             switch (crt_type) {
-                case UICART_C64_SMART:
+                case UICART_C64_SMART:      /* fall through */
+                case UICART_PLUS4_SMART:
                     pattern = UICART_PATTERN_CRT;
                     break;
-                case UICART_C64_FREEZER:
+                case UICART_C64_FREEZER:    /* fall through */
+                case UICART_PLUS4_FREEZER:
                     mask = CARTRIDGE_GROUP_FREEZER;
                     break;
-                case UICART_C64_GAME:
+                case UICART_C64_GAME:       /* fall through */
+                case UICART_PLUS4_GAME:
                     mask = CARTRIDGE_GROUP_GAME;
                     break;
-                case UICART_C64_UTIL:
+                case UICART_C64_UTIL:       /* fall through */
+                case UICART_PLUS4_UTIL:
                     mask = CARTRIDGE_GROUP_UTIL;
                     break;
                 default:
@@ -615,17 +626,18 @@ static int attach_cart_image(int type, int id, const char *path)
         case VICE_MACHINE_PLUS4:
             switch (type) {
                 case UICART_PLUS4_SMART:
+                    /* id = CARTRIDGE_CRT; */
                     id = CARTRIDGE_PLUS4_DETECT;
                     break;
-                case UICART_PLUS4_NEWROM:
+                /* case UICART_PLUS4_NEWROM:
                     id = CARTRIDGE_PLUS4_NEWROM;
-                    break;
-                case UICART_PLUS4_16KB_C0LO:
+                    break; */
+                /* case UICART_PLUS4_16KB_C0LO:
                     id = CARTRIDGE_PLUS4_16KB_C0LO;
-                    break;
-                case UICART_PLUS4_16KB_C0HI:
+                    break; */
+                /* case UICART_PLUS4_16KB_C0HI:
                     id = CARTRIDGE_PLUS4_16KB_C0HI;
-                    break;
+                    break; */
                 case UICART_PLUS4_16KB_C1LO:
                     id = CARTRIDGE_PLUS4_16KB_C1LO;
                     break;
@@ -638,14 +650,19 @@ static int attach_cart_image(int type, int id, const char *path)
                 case UICART_PLUS4_16KB_C2HI:
                     id = CARTRIDGE_PLUS4_16KB_C2HI;
                     break;
-                case UICART_PLUS4_32KB_C0:
+                /* case UICART_PLUS4_32KB_C0:
                     id = CARTRIDGE_PLUS4_32KB_C0;
-                    break;
+                    break; */
                 case UICART_PLUS4_32KB_C1:
                     id = CARTRIDGE_PLUS4_32KB_C1;
                     break;
                 case UICART_PLUS4_32KB_C2:
                     id = CARTRIDGE_PLUS4_32KB_C2;
+                    break;
+                case UICART_PLUS4_FREEZER:    /* fall through */
+                case UICART_PLUS4_GAME:       /* fall through */
+                case UICART_PLUS4_UTIL:
+                    /* id is correct I think */
                     break;
                 default:
                     /* oops */
@@ -854,7 +871,7 @@ static GtkWidget *create_cart_type_combo_box(void)
  *
  * \return  GtkComboBox
  *
- * \note    Only for x64/x64sc/xscp64/x128
+ * \note    Only for x64/x64sc/xscp64/x128/plus4
  */
 static GtkWidget *create_cart_id_combo_box(unsigned int mask)
 {
@@ -933,6 +950,7 @@ static GtkWidget *create_extra_widget(void)
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_PLUS4:    /* fall through */
         case VICE_MACHINE_VIC20:
             cart_set_default_widget = gtk_check_button_new_with_label(
                     "Set cartridge as default");
@@ -946,12 +964,13 @@ static GtkWidget *create_extra_widget(void)
             break;
     }
 
-    /* only for c64/c128 */
+    /* only for c64/c128/plus4 */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_PLUS4:
 
             cart_id_label = gtk_label_new("cartridge ID");
             gtk_widget_set_halign(cart_id_label, GTK_ALIGN_START);
@@ -1223,12 +1242,14 @@ gboolean ui_cart_show_dialog(GtkWidget *widget, gpointer data)
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_PLUS4:
             gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_crt);
             gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_bin);
             gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_all);
             break;
         case VICE_MACHINE_VIC20:
+            gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_crt);
             gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_bin_prg);
             gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_all);
             break;

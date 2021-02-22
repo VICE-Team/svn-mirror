@@ -10538,25 +10538,25 @@ The following cartridge types are valid:
 @item
    - 1: None
 @item
-     1: Generic
+   - 2: Generic
 @item
-     2: Megacart
+     1: Megacart
 @item
-     3: Final Expansion
+     2: Behrbonz
 @item
-     4: Vic Flash Plugin
+     3: Vic Flash Plugin
 @item
-     5: IEEE-4888
+     4: Ultimem
 @item
-     6: SIDCart
+     5: Final Expansion
 @item
-     7: Ultimem
+  - 10: SIDCart
 @item
-     8: IO ram cart (IO2)
+  - 11: IEEE-4888
 @item
-     9: IO ram cart (IO3)
+  - 12: IO ram cart (IO2)
 @item
-    10: BehrBonz
+  - 13: IO ram cart (IO3)
 @item
 0x8000: Auto Detect
 @item
@@ -11437,6 +11437,29 @@ several types of cartridge images:
 @vindex CartridgeReset
 @item CartridgeReset
 Boolean specifying whether the machine should be reset when a cartridge is changed.
+
+@vindex CartridgeType
+@item CartridgeType
+Integer specifying the type of cartridge emulated.
+
+The following cartridge types are valid:
+
+@itemize @bullet
+@item
+   - 1: None
+@item
+   - 2: Generic
+@item
+     1: c264 magic cart
+@item
+     2: Plus4 multi cart
+@item
+     3: 1MB Cartridge
+@end itemize
+
+@vindex CartridgeFile
+@item CartridgeFile
+String specifying the filename of the image for the current cartridge.
 
 @vindex c1loName
 @item c1loName

@@ -459,6 +459,9 @@ extern void cartridge_sound_chip_init(void);
 /*
  * plus4 cartridge system
  */
+
+#define CARTRIDGE_PLUS4_GENERIC         -2 /* plus4-generic.c */
+
 /* #define CARTRIDGE_NONE               -1 */
 #define CARTRIDGE_PLUS4_MAGIC           1   /* c264 magic cart */
 #define CARTRIDGE_PLUS4_MULTI           2   /* plus4 multi cart */
