@@ -67,7 +67,7 @@ static void on_iec_toggled(GtkWidget *widget, gpointer data)
         void (*callback)(GtkWidget *, int);
         int unit = GPOINTER_TO_INT(data);
 
-        callback = g_object_get_data(G_OBJECT(widget), "ExtraCallback");
+        callback = g_object_get_data(G_OBJECT(widget), "UnitCallback");
         if (callback != NULL) {
             callback(widget, unit);
         }
@@ -89,7 +89,7 @@ static GtkWidget *create_iec_check_button(int unit,
     check = vice_gtk3_resource_check_button_new_sprintf(
             "IECDevice%d", "IEC-Device", unit);
 
-    g_object_set_data(G_OBJECT(check), "ExtraCallback", (gpointer)callback);
+    g_object_set_data(G_OBJECT(check), "UnitCallback", (gpointer)callback);
     g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(on_iec_toggled),
             GINT_TO_POINTER(unit));
 

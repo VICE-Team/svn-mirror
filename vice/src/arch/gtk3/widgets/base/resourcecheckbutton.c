@@ -23,6 +23,20 @@
  *  vice_gtk3_resource_check_button_factory(check);
  *
  * \endcode
+ *
+ * Extra GObject data used:
+ * (do not overwrite these unless you know what you're doing)
+ *
+ * Set via resourcehelpers.c:
+ *  - ResourceName:     resource name (string)
+ *  - ResourceOrig:     resource value on construction (int)
+ *  - MethodReset:      reset resource to original value (function)
+ *  - MethodFactory:    set resource to factory value (function)
+ *  - MethodSync:       update widget with current resource value (function)
+ *
+ * Set locally:
+ *
+ *  - ExtraCallback:    user-defined callback to call on state change
  */
 
 /*
