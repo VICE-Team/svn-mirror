@@ -655,10 +655,10 @@ int joystick_resources_init(void)
         case VICE_MACHINE_C64SC:
         case VICE_MACHINE_C128:
         case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_PLUS4:
         case VICE_MACHINE_SCPU64:
             joy2_resources_int[0].factory_value = JOYDEV_DEFAULT;
             break;
-        case VICE_MACHINE_PLUS4:
         case VICE_MACHINE_VIC20:
         case VICE_MACHINE_CBM5x0:
             joy1_resources_int[0].factory_value = JOYDEV_DEFAULT;
